@@ -79,13 +79,17 @@ export class ContextLogger {
     return this;
   }
 
-  public flush() {
+  public flush(stream = false) {
     if (this.stack.length) {
       this.stack.forEach(({level, data}: any) => {
         this.#logger[level](data);
       });
 
       this.#stack = [];
+    }
+
+    if (stream) {
+      this.maxStackSize = 0;
     }
   }
 
