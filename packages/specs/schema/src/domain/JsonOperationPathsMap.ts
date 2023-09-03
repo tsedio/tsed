@@ -2,7 +2,8 @@ import {OperationMethods} from "../constants/httpMethods";
 import {JsonMethodPath} from "./JsonOperation";
 
 export class JsonOperationPathsMap extends Map<string, JsonMethodPath> {
-  kind: string = "operationPaths";
+  $kind: string = "operationPaths";
+  readonly $isJsonDocument = true;
 
   setOperationPath(operationPath: JsonMethodPath) {
     if (operationPath.method !== OperationMethods.CUSTOM) {

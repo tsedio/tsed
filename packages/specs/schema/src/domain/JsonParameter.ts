@@ -8,7 +8,7 @@ import {formatParameterType} from "./JsonParameterTypes";
 import {JsonSchema} from "./JsonSchema";
 
 export class JsonParameter extends JsonMap<OS3Parameter<JsonSchema>> implements NestedGenerics {
-  kind = "operationInParameter";
+  $kind = "operationInParameter";
 
   nestedGenerics: Type<any>[][] = [];
   groups: string[];

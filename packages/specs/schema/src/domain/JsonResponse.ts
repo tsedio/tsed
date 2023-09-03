@@ -9,7 +9,7 @@ import {JsonSchema} from "./JsonSchema";
 export type JsonResponseOptions = OS3Response<JsonSchema, string | JsonHeader>;
 
 export class JsonResponse extends JsonMap<JsonResponseOptions> {
-  kind: string = "operationResponse";
+  $kind: string = "operationResponse";
 
   status: number;
 

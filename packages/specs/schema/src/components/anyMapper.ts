@@ -20,8 +20,8 @@ export function anyMapper(input: any, options: JsonSchemaOptions = {}): any {
     return toRef(enumSchema, enumSchema.toJSON(options), options);
   }
 
-  if (input.kind) {
-    const kind = oneOfMapper(input.kind, "map");
+  if (input.$kind && input.$isJsonDocument) {
+    const kind = oneOfMapper(input.$kind, "map");
     const schema = execMapper(kind, input, mapGenericsOptions(options));
 
     return input.canRef ? toRef(input, schema, options) : schema;

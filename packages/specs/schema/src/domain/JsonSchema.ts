@@ -55,7 +55,7 @@ function mapToJsonSchema(item: any): any {
     return (item as any[]).map(mapToJsonSchema);
   }
 
-  if (item.isStore || item.isJsonSchema || item.isLazyRef) {
+  if (item.isStore || item.$isJsonDocument || item.isLazyRef) {
     return item;
   }
 
@@ -75,9 +75,8 @@ function mapToJsonSchema(item: any): any {
 }
 
 export class JsonSchema extends Map<string, any> implements NestedGenerics {
-  kind: string = "schema";
-
-  readonly isJsonSchema = true;
+  readonly $kind: string = "schema";
+  readonly $isJsonDocument = true;
   readonly $hooks = new Hooks();
   readonly $required: Set<string> = new Set();
   readonly $allow: any[] = [];

@@ -1,12 +1,15 @@
 import {Controller} from "@tsed/di";
 import {BodyParams, PathParams} from "@tsed/platform-params";
+import * as Path from "path";
 import {
   DiscriminatorKey,
   DiscriminatorValue,
+  Enum,
   Get,
   getJsonSchema,
   getSpec,
   JsonEntityStore,
+  Name,
   OneOf,
   Partial,
   Patch,
@@ -1285,6 +1288,53 @@ describe("Discriminator", () => {
     });
     it("should return false when isn't a child discriminator", () => {
       expect(JsonEntityStore.from(Event).isDiscriminatorChild).toEqual(false);
+    });
+  });
+  describe("with kind property", () => {
+    it("should generate the spec", () => {
+      enum Discriminator {
+        ONE = "one",
+        TWO = "two"
+      }
+
+      abstract class BaseModel {
+        @Enum(Discriminator.ONE, Discriminator.TWO)
+        @DiscriminatorKey()
+        public type!: Discriminator.ONE | Discriminator.TWO;
+      }
+
+      @DiscriminatorValue(Discriminator.ONE)
+      class FirstImpl extends BaseModel {
+        public declare type: Discriminator.ONE;
+
+        @Enum("json")
+        public kind!: "json";
+      }
+
+      @DiscriminatorValue(Discriminator.TWO)
+      class SecondImpl extends BaseModel {
+        public declare type: Discriminator.TWO;
+
+        @Property()
+        public prop!: string;
+      }
+
+      class ParentModel {
+        @OneOf(FirstImpl, SecondImpl)
+        public test?: FirstImpl | SecondImpl;
+      }
+
+      @Controller("/test")
+      @Name("Test")
+      class TestController {
+        @Get()
+        @Returns(200, Array).Of(ParentModel)
+        public get(): Promise<ParentModel> {
+          return null as any;
+        }
+      }
+
+      expect(getSpec(TestController)).toMatchSnapshot();
     });
   });
 });
