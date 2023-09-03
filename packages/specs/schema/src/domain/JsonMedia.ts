@@ -3,7 +3,7 @@ import {JsonMap} from "./JsonMap";
 import {JsonSchema} from "./JsonSchema";
 
 export class JsonMedia extends JsonMap<OS3MediaType<JsonSchema>> {
-  kind: string = "operationMedia";
+  $kind: string = "operationMedia";
 
   groups: string[] = [];
   groupsName: string;

@@ -5,7 +5,8 @@ import {execMapper} from "../registries/JsonSchemaMapperContainer";
 export class JsonMap<T> extends Map<string, any> {
   [key: string]: any;
 
-  kind: string = "map";
+  $kind: string = "map";
+  readonly $isJsonDocument = true;
 
   constructor(obj: Partial<T> = {}) {
     super();
