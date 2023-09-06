@@ -1,6 +1,6 @@
 {
   "name": "@tsed/eslint",
-  "version": "7.34.8",
+  "version": "7.35.0-beta.5",
   "description": "Util to compile source",
   "private": true,
   "main": "index.js",
