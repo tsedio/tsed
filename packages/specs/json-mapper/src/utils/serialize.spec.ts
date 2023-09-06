@@ -1,4 +1,3 @@
-import "../components/ArrayMapper";
 import "../components/PrimitiveMapper";
 import {serialize} from "./serialize";
 

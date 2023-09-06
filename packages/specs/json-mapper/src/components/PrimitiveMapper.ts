@@ -1,3 +1,4 @@
+import {nameOf} from "@tsed/core";
 import {JsonMapper} from "../decorators/jsonMapper";
 import {JsonMapperCtx, JsonMapperMethods} from "../interfaces/JsonMapperMethods";
 
@@ -21,37 +22,41 @@ export class CastError extends Error {
 @JsonMapper(String, Number, Boolean, BigInt)
 export class PrimitiveMapper implements JsonMapperMethods {
   deserialize<T>(data: any, ctx: JsonMapperCtx): string | number | boolean | void | null | BigInt {
-    switch (ctx.type) {
-      case String:
-        return data === null ? null : "" + data;
-
-      case BigInt:
-        if (isNullish(data)) return null;
-
-        return BigInt(data);
-
-      case Number:
-        if (isNullish(data)) return null;
-
-        const n = +data;
-
-        if (isNaN(n)) {
-          throw new CastError("Expression value is not a number.");
-        }
-
-        return n;
-
-      case Boolean:
-        if (["true", "1", true].includes(data)) return true;
-        if (["false", "0", false].includes(data)) return false;
-        if (isNullish(data)) return null;
-        if (data === undefined) return undefined;
-
-        return !!data;
-    }
+    return (this as any)[nameOf(ctx.type)] ? (this as any)[nameOf(ctx.type)](data, ctx) : undefined;
   }
 
   serialize(object: string | number | boolean | BigInt): string | number | boolean | BigInt {
     return object;
+  }
+
+  protected String(data: any) {
+    return data === null ? null : "" + data;
+  }
+
+  protected Boolean(data: any) {
+    if (["true", "1", true].includes(data)) return true;
+    if (["false", "0", false].includes(data)) return false;
+    if (isNullish(data)) return null;
+    if (data === undefined) return undefined;
+
+    return !!data;
+  }
+
+  protected Number(data: any) {
+    if (isNullish(data)) return null;
+
+    const n = +data;
+
+    if (isNaN(n)) {
+      throw new CastError("Expression value is not a number.");
+    }
+
+    return n;
+  }
+
+  protected BigInt(data: any) {
+    if (isNullish(data)) return null;
+
+    return BigInt(data);
   }
 }
