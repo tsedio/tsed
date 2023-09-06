@@ -1,4 +1,3 @@
-import {Unique} from "@faker-js/faker/unique";
 import {isBoolean, isObjectID} from "@tsed/core";
 import {
   AdditionalProperties,

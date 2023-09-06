@@ -29,7 +29,7 @@ class ProfilesCtrl {
   @Get("/")
   async getTest(@QueryParams("full") full: boolean) {
     const result = await this.ProfileModel.find();
-    console.log(result);
+
     return full ? this.ProfileModel.find().populate("user") : this.ProfileModel.find();
   }
 }
