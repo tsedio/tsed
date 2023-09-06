@@ -61,7 +61,7 @@ export function VirtualRef(options: string | MongooseVirtualRefOptions, foreignF
 
   return useDecorators(
     StoreMerge(MONGOOSE_SCHEMA, schema),
-    schema.count ? Property(Number) : type && (schema.justOne ? Property(type) : CollectionOf(type))
+    schema.count ? Property(Number) : type && (schema.justOne ? Property(type) : CollectionOf(type, Array))
   );
 }
 

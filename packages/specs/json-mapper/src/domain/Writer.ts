@@ -60,6 +60,10 @@ export class Writer {
     return this.set(key, Writer.mapper(id, key, Writer.options(...options)));
   }
 
+  returnCallMapper(id: string, key: string, ...options: string[]) {
+    return this.return(Writer.mapper(id, key, Writer.options(...options)));
+  }
+
   const(name: string, line: string) {
     this.add(`const ${name} = ${line};`);
     return this;
@@ -79,6 +83,14 @@ export class Writer {
     this.add(writer);
 
     return writer;
+  }
+
+  switch(input: string) {
+    const sw = new SwitchWriter(input);
+
+    this.add(sw);
+
+    return sw;
   }
 
   indent(indent: boolean) {
@@ -135,6 +147,32 @@ class IfWriter extends Writer {
       ...Writer.indent(super.build()),
       "}",
       this.elseWriter ? [`else {`, ...Writer.indent(this.elseWriter.build()), "}"] : []
+    ].flat();
+  }
+}
+
+class SwitchWriter extends Writer {
+  #map = new Map<string, Writer>();
+
+  constructor(private input: string) {
+    super();
+  }
+
+  case(condition: string) {
+    const writer = new Writer();
+    this.#map.set(condition, writer);
+    return writer;
+  }
+
+  build() {
+    return [
+      `switch (${this.input}) {`,
+      ...Writer.indent(
+        Array.from(this.#map.entries()).flatMap(([condition, writer]) => {
+          return [condition === "default" ? `${condition}:` : `case ${condition}:`, ...Writer.indent(writer.build())];
+        })
+      ),
+      "}"
     ].flat();
   }
 }
