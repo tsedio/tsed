@@ -123,7 +123,7 @@ export class JsonSerializer extends JsonMapperCompiler<JsonSerializerOptions> {
   private mapProperty(propertyStore: JsonPropertyStore, id: string, groups: false | string[]) {
     const key = String(propertyStore.propertyKey);
     const aliasKey: string = String(propertyStore.parent.schema.getAliasOf(key) || key);
-    const schemaId = `${id}:${key}`;
+    const schemaId = this.getSchemaId(id, key);
 
     let writer = new Writer().add(`// Map ${key} ${id} ${groups || ""}`);
 
@@ -141,6 +141,7 @@ export class JsonSerializer extends JsonMapperCompiler<JsonSerializerOptions> {
 
     // pre hook
     const hasSerializer = propertyStore.schema?.$hooks?.has("onSerialize");
+
     if (hasSerializer) {
       this.schemes[schemaId] = propertyStore.schema;
       const opts = Writer.options(formatOpts);
@@ -148,23 +149,12 @@ export class JsonSerializer extends JsonMapperCompiler<JsonSerializerOptions> {
       writer.set(key, `alterValue('${schemaId}', ${key}, ${opts})`);
     }
 
-    if (propertyStore.isCollection) {
-      const type = propertyStore.getBestType();
+    const fill = this.getPropertyFiller(propertyStore, key, groups, formatOpts);
 
-      const nestedMapper = this.compile(type, groups);
-
-      writer.callMapper(nameOf(propertyStore.collectionType), key, `id: '${nestedMapper.id}'`, formatOpts);
+    if (hasSerializer) {
+      fill(writer.if(`${key} === input.${key}`));
     } else {
-      const type = propertyStore.getBestType();
-      const nestedMapper = this.compile(type, groups);
-
-      const fill = (writer: Writer) => writer.callMapper(nestedMapper.id, key, formatOpts);
-
-      if (hasSerializer) {
-        fill(writer.if(`${key} === input.${key}`));
-      } else {
-        fill(writer);
-      }
+      fill(writer);
     }
 
     if (aliasKey !== key) {
@@ -174,6 +164,21 @@ export class JsonSerializer extends JsonMapperCompiler<JsonSerializerOptions> {
     }
 
     return writer.root();
+  }
+
+  private getPropertyFiller(propertyStore: JsonPropertyStore, key: string, groups: false | string[], formatOpts: any) {
+    if (propertyStore.isCollection) {
+      const type = propertyStore.getBestType();
+
+      const nestedMapper = this.compile(type, groups);
+
+      return (writer: Writer) => writer.callMapper(nameOf(propertyStore.collectionType), key, `id: '${nestedMapper.id}'`, formatOpts);
+    }
+
+    const type = propertyStore.getBestType();
+    const nestedMapper = this.compile(type, groups);
+
+    return (writer: Writer) => writer.callMapper(nestedMapper.id, key, formatOpts);
   }
 
   private mapPrecondition(id: string) {

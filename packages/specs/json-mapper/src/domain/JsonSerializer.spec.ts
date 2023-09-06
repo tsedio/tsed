@@ -31,7 +31,6 @@ const serialize = (...args: any[]) => (serializer.map as any)(...args);
 function createMap(value: any) {
   return new Map([["test", value]]);
 }
-
 class ObjectId {
   _bsontype = true;
 
@@ -54,6 +53,7 @@ describe("JsonSerializer", () => {
       expect(serialize("")).toEqual("");
       expect(serialize("1")).toEqual("1");
       expect(serialize(0)).toEqual(0);
+      expect(serialize(1)).toEqual(1);
       expect(serialize(1)).toEqual(1);
       expect(serialize(BigInt(1n))).toEqual(BigInt(1));
     });
