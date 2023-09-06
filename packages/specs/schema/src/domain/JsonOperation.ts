@@ -20,7 +20,7 @@ export interface JsonOperationOptions extends OS3Operation<JsonSchema, JsonParam
 }
 
 export class JsonOperation extends JsonMap<JsonOperationOptions> {
-  kind: string = "operation";
+  $kind: string = "operation";
 
   readonly operationPaths: Map<string, JsonMethodPath> = new Map();
   #status: number;

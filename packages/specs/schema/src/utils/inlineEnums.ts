@@ -2,7 +2,7 @@ import {JsonSchema} from "../domain/JsonSchema";
 import {JsonSchemaOptions} from "../interfaces/JsonSchemaOptions";
 
 export function inlineEnums(obj: any, schema: JsonSchema, options: JsonSchemaOptions) {
-  if (options.inlineEnums && obj.enum?.isJsonSchema) {
+  if (options.inlineEnums && obj.enum?.$isJsonDocument) {
     obj.enum = obj.enum.toJSON().enum;
   }
 

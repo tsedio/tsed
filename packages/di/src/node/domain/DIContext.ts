@@ -73,7 +73,7 @@ export class DIContext {
   }
 
   destroy(): Promise<any> {
-    return Promise.all([this.#container?.destroy(), this.#logger?.flush()]);
+    return Promise.all([this.#container?.destroy(), this.#logger?.flush(true)]);
   }
 
   emit(eventName: string, ...args: any[]) {

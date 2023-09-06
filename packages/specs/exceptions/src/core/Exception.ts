@@ -45,6 +45,8 @@ export class Exception extends Error {
     this.name = this.#getStatusConstant();
 
     this.setOrigin(origin);
+
+    Error.captureStackTrace(this);
   }
 
   setHeaders(headers: {[key: string]: any}) {

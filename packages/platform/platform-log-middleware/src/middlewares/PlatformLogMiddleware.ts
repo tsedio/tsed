@@ -81,8 +81,6 @@ export class PlatformLogMiddleware implements MiddlewareMethods {
         }
       }
     }
-
-    ctx.logger.flush();
   }
 
   /**

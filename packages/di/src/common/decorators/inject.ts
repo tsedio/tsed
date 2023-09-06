@@ -3,6 +3,7 @@ import {DI_PARAM_OPTIONS, INJECTABLE_PROP} from "../constants/constants";
 import {InvalidPropertyTokenError} from "../errors/InvalidPropertyTokenError";
 import type {InjectablePropertyOptions} from "../interfaces/InjectableProperties";
 import {TokenProvider} from "../interfaces/TokenProvider";
+import {getConstructorDependencies, setConstructorDependencies} from "../utils/getConstructorDependencies";
 
 export function injectProperty(target: any, propertyKey: string, options: Partial<InjectablePropertyOptions>) {
   Store.from(target).merge(INJECTABLE_PROP, {
@@ -39,18 +40,17 @@ export function Inject(token?: TokenProvider | (() => TokenProvider), onGet = (b
     switch (bindingType) {
       case DecoratorTypes.PARAM_CTOR:
         if (token) {
-          const paramTypes = Metadata.getParamTypes(target, propertyKey);
+          const paramTypes = getConstructorDependencies(target);
           const type = paramTypes[descriptor as number];
 
           paramTypes[descriptor as number] = type === Array ? [token] : token;
 
-          Metadata.setParamTypes(target, propertyKey!, paramTypes);
+          setConstructorDependencies(target, paramTypes);
         }
         break;
 
       case DecoratorTypes.PROP:
         const useType = token || Metadata.getType(target, propertyKey);
-        const originalType = Metadata.getType(target, propertyKey);
 
         if (useType === Object) {
           throw new InvalidPropertyTokenError(target, String(propertyKey));

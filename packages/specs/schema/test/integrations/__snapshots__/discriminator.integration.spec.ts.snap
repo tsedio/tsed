@@ -1,0 +1,97 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Discriminator with kind property should generate the spec 1`] = `
+Object {
+  "components": Object {
+    "schemas": Object {
+      "FirstImpl": Object {
+        "properties": Object {
+          "kind": Object {
+            "enum": Array [
+              "json",
+            ],
+            "type": "string",
+          },
+          "type": Object {
+            "enum": Array [
+              "one",
+              "two",
+            ],
+            "example": "one",
+            "type": "string",
+          },
+        },
+        "type": "object",
+      },
+      "ParentModel": Object {
+        "properties": Object {
+          "test": Object {
+            "discriminator": Object {
+              "propertyName": "type",
+            },
+            "oneOf": Array [
+              Object {
+                "$ref": "#/components/schemas/FirstImpl",
+              },
+              Object {
+                "$ref": "#/components/schemas/SecondImpl",
+              },
+            ],
+            "required": Array [
+              "type",
+            ],
+          },
+        },
+        "type": "object",
+      },
+      "SecondImpl": Object {
+        "properties": Object {
+          "prop": Object {
+            "type": "string",
+          },
+          "type": Object {
+            "enum": Array [
+              "one",
+              "two",
+            ],
+            "example": "two",
+            "type": "string",
+          },
+        },
+        "type": "object",
+      },
+    },
+  },
+  "paths": Object {
+    "/test": Object {
+      "get": Object {
+        "operationId": "testGet",
+        "parameters": Array [],
+        "responses": Object {
+          "200": Object {
+            "content": Object {
+              "application/json": Object {
+                "schema": Object {
+                  "items": Object {
+                    "$ref": "#/components/schemas/ParentModel",
+                  },
+                  "type": "array",
+                },
+              },
+            },
+            "description": "Success",
+          },
+        },
+        "tags": Array [
+          "Test",
+        ],
+      },
+    },
+  },
+  "tags": Array [
+    Object {
+      "name": "Test",
+    },
+  ],
+}
+`;

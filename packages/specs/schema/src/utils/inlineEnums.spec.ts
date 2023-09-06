@@ -5,7 +5,7 @@ describe("inlineEnums()", () => {
     const result = inlineEnums(
       {
         enum: {
-          isJsonSchema: true,
+          $isJsonDocument: true,
           toJSON() {
             return {enum: ["type"]};
           }
@@ -26,7 +26,7 @@ describe("inlineEnums()", () => {
       {
         type: "object",
         enum: {
-          isJsonSchema: true,
+          $isJsonDocument: true,
           toJSON() {
             return {enum: ["type"]};
           }
@@ -46,7 +46,7 @@ describe("inlineEnums()", () => {
       {
         type: "string",
         enum: {
-          isJsonSchema: true,
+          $isJsonDocument: true,
           toJSON() {
             return {enum: ["type"]};
           }

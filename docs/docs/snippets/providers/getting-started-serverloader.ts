@@ -1,9 +1,9 @@
 import {Configuration} from "@tsed/di";
-import {CalendarsCtrl} from "./controllers/CalendarsCtrl";
+import {CalendarsController} from "./controllers/CalendarsController";
 
 @Configuration({
   mount: {
-    "/rest": [CalendarsCtrl]
+    "/rest": [CalendarsController]
   }
 })
 export class Server {}
