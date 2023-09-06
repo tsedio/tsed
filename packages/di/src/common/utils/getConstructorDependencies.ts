@@ -1,7 +1,7 @@
 import {Metadata} from "@tsed/core";
 
-export function getConstructorDependencies(target: any) {
-  return [...(Metadata.get("override:ctor:design:paramtypes", target, undefined) || Metadata.getParamTypes(target) || [])];
+export function getConstructorDependencies(target: any, propertyKey?: string | symbol | undefined) {
+  return Metadata.getOwn("override:ctor:design:paramtypes", target, propertyKey) || [...Metadata.getParamTypes(target, propertyKey)] || [];
 }
 
 export function setConstructorDependencies(target: any, deps: any[]) {

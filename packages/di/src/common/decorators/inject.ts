@@ -40,11 +40,12 @@ export function Inject(token?: TokenProvider | (() => TokenProvider), onGet = (b
     switch (bindingType) {
       case DecoratorTypes.PARAM_CTOR:
         if (token) {
-          const paramTypes = getConstructorDependencies(target);
+          const paramTypes = getConstructorDependencies(target, propertyKey);
           const type = paramTypes[descriptor as number];
 
           paramTypes[descriptor as number] = type === Array ? [token] : token;
 
+          Metadata.setParamTypes(target, propertyKey!, paramTypes);
           setConstructorDependencies(target, paramTypes);
         }
         break;
