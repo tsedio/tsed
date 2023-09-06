@@ -41,6 +41,12 @@ export abstract class JsonMapperCompiler<Options extends Record<string, any> = a
    * @protected
    */
   protected schemes: Record<string, any> = {};
+
+  /**
+   * Cached classes by his id
+   * @protected
+   */
+  protected constructors: Record<string, Type<any>> = {};
   /**
    * Global variables available in the mapper
    * @protected
@@ -63,6 +69,7 @@ export abstract class JsonMapperCompiler<Options extends Record<string, any> = a
     this.addGlobal("alterIgnore", this.alterIgnore.bind(this));
     this.addGlobal("alterValue", this.alterValue.bind(this));
     this.addGlobal("execMapper", this.execMapper.bind(this));
+    this.addGlobal("compileAndMap", this.map.bind(this));
   }
 
   addTypeMapper(model: Type<any> | string, fn: any) {
@@ -101,7 +108,7 @@ export abstract class JsonMapperCompiler<Options extends Record<string, any> = a
   eval(mapper: string, {id, groupsId, model}: {id: string; model: Type<any>; groupsId: string}) {
     this.addGlobal("cache", this.cache);
 
-    const {globals} = this;
+    const {globals, schemes} = this;
 
     const injectGlobals = Object.keys(globals)
       .map((name) => {
@@ -121,7 +128,7 @@ export abstract class JsonMapperCompiler<Options extends Record<string, any> = a
   }
 
   createContext(options: Options) {
-    const {mappers, globals, cache} = this;
+    const {cache} = this;
 
     return {
       ...options,
@@ -225,5 +232,9 @@ export abstract class JsonMapperCompiler<Options extends Record<string, any> = a
 
   protected getId(model: Type<any>, groupsId: string) {
     return `${nameOf(model)}:${getRandomId()}:${groupsId}`;
+  }
+
+  protected getSchemaId(id: string, propertyKey: string) {
+    return `${id}:${propertyKey}`;
   }
 }
