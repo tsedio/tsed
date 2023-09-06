@@ -1,6 +1,6 @@
 {
   "name": "@tsed/jwks",
-  "version": "7.35.0-beta.3",
+  "version": "7.35.0-beta.4",
   "description": "Utils to generate jwks pair keys",
   "source": "./src/index.ts",
   "main": "./lib/cjs/index.js",
@@ -26,8 +26,8 @@
     "tslib": "2.5.0"
   },
   "devDependencies": {
-    "@tsed/eslint": "7.35.0-beta.3",
-    "@tsed/typescript": "7.35.0-beta.3",
+    "@tsed/eslint": "7.35.0-beta.4",
+    "@tsed/typescript": "7.35.0-beta.4",
     "eslint": "^8.12.0"
   },
   "peerDependencies": {}
