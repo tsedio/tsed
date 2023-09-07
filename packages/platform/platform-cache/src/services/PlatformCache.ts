@@ -1,11 +1,15 @@
-import {isClass, isFunction, isString} from "@tsed/core";
-import {Configuration, DIContext, Inject, InjectorService, Module, runInContext} from "@tsed/di";
+import {isClass, isFunction, isString, nameOf, Type} from "@tsed/core";
+import {Configuration, Inject, InjectorService, Module} from "@tsed/di";
 import {deserialize, JsonDeserializerOptions, serialize} from "@tsed/json-mapper";
 import {Logger} from "@tsed/logger";
+import {JsonEntityStore} from "@tsed/schema";
 import {AsyncLocalStorage} from "async_hooks";
 import type {Cache, CachingConfig, MultiCache} from "cache-manager";
+import {prefix} from "concurrently/dist/src/defaults";
 import {PlatformCacheSettings} from "../interfaces/interfaces";
 import {PlatformCachedObject} from "../interfaces/PlatformCachedObject";
+import {getInterceptorOptions} from "../utils/getInterceptorOptions";
+import {getPrefix} from "../utils/getPrefix";
 
 const defaultKeyResolver = (args: any[]) => {
   return args.map((arg: any) => (isClass(arg) ? JSON.stringify(serialize(arg)) : arg)).join(":");
@@ -15,6 +19,7 @@ export type CacheManager = Cache | MultiCache;
 export type Ttl = number | ((result: any) => number);
 
 const storage: AsyncLocalStorage<{forceRefresh: boolean}> = new AsyncLocalStorage();
+
 /**
  * @platform
  */
@@ -43,6 +48,12 @@ export class PlatformCache {
 
       await this.injector.emit("$onCreateCacheManager", this.#cache);
     }
+  }
+
+  getKeysOf(target: Type<any>, propertyKey: string | symbol) {
+    const prefix = getPrefix(target, propertyKey);
+
+    return this.keys(`${prefix.join(":")}:*`);
   }
 
   disabled(): boolean {
@@ -138,6 +149,18 @@ export class PlatformCache {
     return Promise.resolve([]);
   }
 
+  async deleteKeys(patterns: string): Promise<string[]> {
+    const keys = await this.keys(patterns);
+
+    await Promise.all(keys.map((key: string) => this.del(key)));
+
+    return keys;
+  }
+
+  /**
+   * Use micromatch instead native patterns. Use this method if the native store method doesn't support glob patterns
+   * @param patterns
+   */
   async getMatchingKeys(patterns: string): Promise<string[]> {
     const [keys, {default: micromatch}] = await Promise.all([this.keys(), import("micromatch")]);
 
@@ -150,6 +173,14 @@ export class PlatformCache {
     await Promise.all(keys.map((key: string) => this.del(key)));
 
     return keys;
+  }
+
+  refresh(callback: () => Promise<any> | any) {
+    return storage.run({forceRefresh: true}, callback);
+  }
+
+  isForceRefresh() {
+    return !!storage.getStore()?.forceRefresh;
   }
 
   protected async createCacheManager(settings: PlatformCacheSettings) {
@@ -171,13 +202,5 @@ export class PlatformCache {
     }
 
     return store;
-  }
-
-  refresh(callback: () => Promise<any> | any) {
-    return storage.run({forceRefresh: true}, callback);
-  }
-
-  isForceRefresh() {
-    return !!storage.getStore()?.forceRefresh;
   }
 }

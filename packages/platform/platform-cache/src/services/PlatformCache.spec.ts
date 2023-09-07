@@ -1,5 +1,7 @@
 import {PlatformTest} from "@tsed/common";
 import {caching as cacheManager, multiCaching} from "cache-manager";
+import {UseCache} from "../decorators/useCache";
+import {getPrefix} from "../utils/getPrefix";
 import {PlatformCache} from "./PlatformCache";
 
 function createCacheFixture() {
@@ -143,6 +145,38 @@ describe("PlatformCache", () => {
 
       expect(keys1).toEqual(["key", "key2"]);
       expect(keys2).toEqual(["key2"]);
+    });
+    it("should get keys of a given class/method", async () => {
+      const cacheManager = PlatformTest.get<PlatformCache>(PlatformCache);
+
+      class Test {
+        @UseCache({
+          prefix: "TEST"
+        })
+        async test() {}
+      }
+
+      const prefix = getPrefix(Test, "test");
+
+      await cacheManager.set(prefix + ":arg", "value");
+      await cacheManager.set(prefix + ":arg2", "value2");
+
+      const keys = await cacheManager.getKeysOf(Test, "test");
+
+      expect(keys).toEqual(["TEST:arg", "TEST:arg2"]);
+    });
+
+    it("should delete matching keys (native)", async () => {
+      const cacheManager = PlatformTest.get<PlatformCache>(PlatformCache);
+
+      await cacheManager.set("key", "value");
+      await cacheManager.set("key2", "value2");
+
+      const keys1 = await cacheManager.keys("key*");
+      const keys2 = await cacheManager.deleteKeys("key*");
+
+      expect(keys1).toEqual(["key", "key2"]);
+      expect(keys2).toEqual(["key", "key2"]);
     });
 
     it("should delete matching keys", async () => {
