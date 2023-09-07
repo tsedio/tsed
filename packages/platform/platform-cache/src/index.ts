@@ -8,3 +8,6 @@ export * from "./interfaces/PlatformCacheOptions";
 export * from "./interfaces/PlatformCachedObject";
 export * from "./interfaces/interfaces";
 export * from "./services/PlatformCache";
+export * from "./utils/getInterceptorOptions";
+export * from "./utils/getPrefix";
+export * from "./utils/isEndpoint";
