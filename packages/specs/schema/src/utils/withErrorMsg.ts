@@ -2,7 +2,7 @@ import {useDecorators} from "@tsed/core";
 import {ErrorMsg} from "../decorators/common/errorMsg";
 
 export interface ErrorChainedMethods<T> {
-  <T>(target: Object, propertyKey: string | symbol | undefined, descriptor?: TypedPropertyDescriptor<T> | number): any;
+  <T>(target: Object, propertyKey?: string | symbol | undefined, descriptor?: TypedPropertyDescriptor<T> | number): any;
 
   Error(msg: string): this;
 }
