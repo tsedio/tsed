@@ -147,7 +147,7 @@ export class JsonDeserializer extends JsonMapperCompiler<JsonDeserializerOptions
       ...schemaProperties.flatMap((propertyStore) => {
         const key = propertyStore.propertyName;
 
-        properties.add(key as string);
+        // TODO V8 add this line: properties.add(key as string);
         properties.add(String(propertyStore.parent.schema.getAliasOf(key) || key));
 
         if (
@@ -325,7 +325,7 @@ export class JsonDeserializer extends JsonMapperCompiler<JsonDeserializerOptions
     }
 
     // dynamic additional properties options
-    each.if(`options.additionalProperties`).set("obj[key]", "input[key]");
+    each.if(`options.additionalProperties && obj[key] === undefined`).set("obj[key]", "input[key]");
 
     return writer;
   }
