@@ -1,7 +1,9 @@
 import {PlatformTest} from "@tsed/common";
 import {isClass} from "@tsed/core";
 import {serialize} from "@tsed/json-mapper";
+import {UseCache} from "../decorators/useCache";
 import {PlatformCache} from "../services/PlatformCache";
+import {isEndpoint} from "../utils/isEndpoint";
 import {PlatformCacheInterceptor} from "./PlatformCacheInterceptor";
 
 const defaultKeyResolver = (args: any[]) => {
@@ -28,6 +30,8 @@ async function getInterceptorFixture(opts: any = {}) {
   return {cache, interceptor};
 }
 
+jest.mock("../utils/isEndpoint");
+
 describe("PlatformCacheInterceptor", () => {
   beforeEach(() => PlatformTest.create());
   afterEach(() => PlatformTest.reset());
@@ -44,7 +48,7 @@ describe("PlatformCacheInterceptor", () => {
       ]);
       jest.spyOn(interceptor as any, "cacheMethod").mockResolvedValue("test");
       jest.spyOn(interceptor as any, "cacheResponse").mockResolvedValue("test");
-      jest.spyOn(interceptor as any, "isEndpoint").mockReturnValue(true);
+      (isEndpoint as any).mockReturnValue(true);
 
       const context: any = {};
       const next: any = jest.fn();
@@ -65,7 +69,7 @@ describe("PlatformCacheInterceptor", () => {
 
       jest.spyOn(interceptor as any, "cacheMethod").mockResolvedValue("test");
       jest.spyOn(interceptor as any, "cacheResponse").mockResolvedValue("test");
-      jest.spyOn(interceptor as any, "isEndpoint").mockReturnValue(false);
+      (isEndpoint as any).mockReturnValue(false);
 
       const context: any = {};
       const next: any = jest.fn();
@@ -86,7 +90,7 @@ describe("PlatformCacheInterceptor", () => {
 
       jest.spyOn(interceptor as any, "cacheMethod").mockResolvedValue("test");
       jest.spyOn(interceptor as any, "cacheResponse").mockResolvedValue("test");
-      jest.spyOn(interceptor as any, "isEndpoint").mockReturnValue(false);
+      (isEndpoint as any).mockReturnValue(false);
 
       const context: any = {};
       const next: any = jest.fn();
@@ -137,6 +141,10 @@ describe("PlatformCacheInterceptor", () => {
       cache.defaultKeyResolver = () => defaultKeyResolver;
 
       class Test {
+        @UseCache({
+          ttl: 10000,
+          refreshThreshold: 1000
+        })
         test(arg: string) {
           return "";
         }
@@ -175,6 +183,59 @@ describe("PlatformCacheInterceptor", () => {
         }
       );
     });
+    it("should return the cached response (prefix)", async () => {
+      const {cache, interceptor} = await getInterceptorFixture();
+      cache.getCachedObject = jest.fn().mockResolvedValue({
+        data: JSON.stringify({data: "data"})
+      });
+      cache.setCachedObject = jest.fn().mockResolvedValue("test");
+      cache.defaultKeyResolver = () => defaultKeyResolver;
+
+      class Test {
+        @UseCache({
+          prefix: "TEST",
+          ttl: 10000,
+          refreshThreshold: 1000
+        })
+        test(arg: string) {
+          return "";
+        }
+      }
+
+      const next = jest.fn().mockReturnValue({data: "refreshed"});
+      const context: any = {
+        target: Test,
+        propertyKey: "test",
+        args: ["value"],
+        options: {
+          prefix: "TEST",
+          ttl: 10000,
+          refreshThreshold: 1000
+        }
+      };
+
+      jest.spyOn(interceptor, "canRefreshInBackground").mockResolvedValue();
+
+      const result = await interceptor.cacheMethod(context, next);
+
+      expect(cache.getCachedObject).toHaveBeenCalledWith("TEST:value");
+      expect(result).toEqual({
+        data: "data"
+      });
+
+      (interceptor.canRefreshInBackground as any).mock.calls[0][2]();
+
+      await new Promise((resolve) => setTimeout(resolve, 100));
+
+      expect(cache.setCachedObject).toHaveBeenCalledWith(
+        "TEST:value",
+        {data: "refreshed"},
+        {
+          args: ["value"],
+          ttl: 10000
+        }
+      );
+    });
     it("should force the refresh data", async () => {
       const {cache, interceptor} = await getInterceptorFixture({
         forceRefresh: true
@@ -186,6 +247,10 @@ describe("PlatformCacheInterceptor", () => {
       cache.defaultKeyResolver = () => defaultKeyResolver;
 
       class Test {
+        @UseCache({
+          ttl: 10000,
+          refreshThreshold: 1000
+        })
         test(arg: string) {
           return "";
         }
@@ -227,6 +292,10 @@ describe("PlatformCacheInterceptor", () => {
       cache.defaultKeyResolver = () => defaultKeyResolver;
 
       class Test {
+        @UseCache({
+          ttl: 10000,
+          refreshThreshold: 1000
+        })
         test(arg: string) {
           return "";
         }
@@ -272,6 +341,11 @@ describe("PlatformCacheInterceptor", () => {
       cache.defaultKeyResolver = () => defaultKeyResolver;
 
       class Test {
+        @UseCache({
+          ttl: 10000,
+          canCache: "no-nullish",
+          refreshThreshold: 1000
+        })
         test(arg: string) {
           return null;
         }
@@ -307,6 +381,10 @@ describe("PlatformCacheInterceptor", () => {
       cache.defaultKeyResolver = () => defaultKeyResolver;
 
       class Test {
+        @UseCache({
+          ttl: 10000,
+          refreshThreshold: 1000
+        })
         test(arg: string) {
           return "";
         }
@@ -365,6 +443,10 @@ describe("PlatformCacheInterceptor", () => {
       ]);
 
       class Test {
+        @UseCache({
+          ttl: 10000,
+          refreshThreshold: 1000
+        })
         test(arg: string) {
           return "";
         }
@@ -374,6 +456,7 @@ describe("PlatformCacheInterceptor", () => {
       const $ctx = {
         request: {
           method: "GET",
+          url: "/",
           get: jest.fn()
         },
         response: {
@@ -399,7 +482,80 @@ describe("PlatformCacheInterceptor", () => {
 
       const result = await interceptor.cacheResponse(context, next);
 
-      expect(cache.getCachedObject).toHaveBeenCalledWith('GET::value:{"request":{"method":"GET"},"response":{}}');
+      expect(cache.getCachedObject).toHaveBeenCalledWith('Test:test:value:{"request":{"method":"GET","url":"/"},"response":{}}');
+      expect(result).toEqual(undefined);
+      expect((interceptor as any).sendResponse).toHaveBeenCalledWith({data: '{"data":"data"}'}, $ctx);
+      expect($ctx.request.get).toHaveBeenCalledWith("cache-control");
+
+      /*
+            console.log('$ctx.response.onEnd.mock.calls[0]', $ctx.response.onEnd.mock.calls[0])
+      await $ctx.response.onEnd.mock.calls[0][0]()
+
+      expect(cache.setCachedObject).toHaveBeenCalledWith()
+       */
+    });
+    it("should return the cached response (prefix)", async () => {
+      const cache = {
+        get: jest.fn().mockResolvedValue(false),
+        set: jest.fn().mockResolvedValue(false),
+        del: jest.fn().mockResolvedValue(true),
+        calculateTTL: jest.fn().mockReturnValue(10000),
+        getCachedObject: jest.fn().mockResolvedValue({
+          data: JSON.stringify({data: "data"})
+        }),
+        setCachedObject: jest.fn().mockResolvedValue("test"),
+        defaultKeyResolver: () => defaultKeyResolver
+      };
+      const interceptor = await PlatformTest.invoke<PlatformCacheInterceptor>(PlatformCacheInterceptor, [
+        {
+          token: PlatformCache,
+          use: cache
+        }
+      ]);
+
+      class Test {
+        @UseCache({
+          ttl: 10000,
+          prefix: "TEST",
+          refreshThreshold: 1000
+        })
+        test(arg: string) {
+          return "";
+        }
+      }
+
+      const next = jest.fn();
+      const $ctx = {
+        request: {
+          method: "GET",
+          url: "/",
+          get: jest.fn()
+        },
+        response: {
+          getBody: jest.fn().mockReturnValue({
+            data: "data"
+          }),
+          setHeaders: jest.fn(),
+          onEnd: jest.fn()
+        }
+      };
+      const context: any = {
+        target: Test,
+        propertyKey: "test",
+        args: ["value", $ctx],
+        options: {
+          ttl: 10000,
+          prefix: "TEST",
+          refreshThreshold: 1000
+        }
+      };
+
+      jest.spyOn(interceptor, "canRefreshInBackground").mockResolvedValue();
+      jest.spyOn(interceptor as any, "sendResponse").mockResolvedValue(undefined);
+
+      const result = await interceptor.cacheResponse(context, next);
+
+      expect(cache.getCachedObject).toHaveBeenCalledWith('TEST:value:{"request":{"method":"GET","url":"/"},"response":{}}');
       expect(result).toEqual(undefined);
       expect((interceptor as any).sendResponse).toHaveBeenCalledWith({data: '{"data":"data"}'}, $ctx);
       expect($ctx.request.get).toHaveBeenCalledWith("cache-control");
@@ -429,6 +585,10 @@ describe("PlatformCacheInterceptor", () => {
       ]);
 
       class Test {
+        @UseCache({
+          ttl: 10000,
+          refreshThreshold: 1000
+        })
         test(arg: string) {
           return "";
         }
@@ -467,7 +627,7 @@ describe("PlatformCacheInterceptor", () => {
 
       const result = await interceptor.cacheResponse(context, next);
 
-      expect(cache.getCachedObject).toHaveBeenCalledWith('GET:/:value:{"request":{"method":"GET","url":"/"},"response":{}}');
+      expect(cache.getCachedObject).toHaveBeenCalledWith('Test:test:value:{"request":{"method":"GET","url":"/"},"response":{}}');
       expect(result).toEqual(undefined);
       expect($ctx.response.setHeaders).toHaveBeenCalledWith({
         "cache-control": `max-age=10000`
@@ -476,7 +636,7 @@ describe("PlatformCacheInterceptor", () => {
       await $ctx.response.onEnd.mock.calls[0][0]();
 
       expect(cache.setCachedObject).toHaveBeenCalledWith(
-        'GET:/:value:{"request":{"method":"GET","url":"/"},"response":{}}',
+        'Test:test:value:{"request":{"method":"GET","url":"/"},"response":{}}',
         {data: "data"},
         {
           args: ["value", {request: {method: "GET", url: "/"}, response: {}}],

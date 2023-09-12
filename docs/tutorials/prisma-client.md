@@ -25,6 +25,15 @@ npm i -D prisma
 npm i @tsed/prisma @prisma/client
 ```
 
+Or use Ts.ED CLI if you starting a new project:
+
+```
+npm install -g
+tsed init .
+```
+
+Then select `Database` > `Prisma`. The CLI will generate the project with prisma schema configuration.
+
 ## Configuration
 
 After installation, you need to update your `schema.prisma` file and then add a new generator section below the `client` one:
