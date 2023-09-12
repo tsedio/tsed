@@ -1,6 +1,6 @@
 {
   "name": "@tsed/platform-views",
-  "version": "7.35.0-rc.1",
+  "version": "7.36.0-rc.1",
   "description": "Views module for Ts.ED Framework",
   "private": false,
   "source": "./src/index.ts",
@@ -22,27 +22,27 @@
     "lint:fix": "eslint '**/*.{ts,js}' --fix"
   },
   "dependencies": {
-    "@tsed/engines": "7.35.0-rc.1",
+    "@tsed/engines": "7.36.0-rc.1",
     "ejs": "^3.1.5",
     "tslib": "2.5.0"
   },
   "devDependencies": {
-    "@tsed/core": "7.35.0-rc.1",
-    "@tsed/di": "7.35.0-rc.1",
-    "@tsed/engines": "7.35.0-rc.1",
-    "@tsed/eslint": "7.35.0-rc.1",
-    "@tsed/exceptions": "7.35.0-rc.1",
-    "@tsed/schema": "7.35.0-rc.1",
-    "@tsed/typescript": "7.35.0-rc.1",
+    "@tsed/core": "7.36.0-rc.1",
+    "@tsed/di": "7.36.0-rc.1",
+    "@tsed/engines": "7.36.0-rc.1",
+    "@tsed/eslint": "7.36.0-rc.1",
+    "@tsed/exceptions": "7.36.0-rc.1",
+    "@tsed/schema": "7.36.0-rc.1",
+    "@tsed/typescript": "7.36.0-rc.1",
     "@types/ejs": "3.1.1",
     "eslint": "^8.12.0"
   },
   "peerDependencies": {
-    "@tsed/core": "^7.35.0-rc.1",
-    "@tsed/di": "^7.35.0-rc.1",
-    "@tsed/engines": "^7.35.0-rc.1",
-    "@tsed/exceptions": "^7.35.0-rc.1",
-    "@tsed/schema": "^7.35.0-rc.1"
+    "@tsed/core": "^7.36.0-rc.1",
+    "@tsed/di": "^7.36.0-rc.1",
+    "@tsed/engines": "^7.36.0-rc.1",
+    "@tsed/exceptions": "^7.36.0-rc.1",
+    "@tsed/schema": "^7.36.0-rc.1"
   },
   "peerDependenciesMeta": {
     "@tsed/core": {
