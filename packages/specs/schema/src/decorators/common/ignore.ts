@@ -2,11 +2,6 @@ import {IgnoreCallback} from "../../interfaces/IgnoreCallback";
 import {JsonEntityFn} from "./jsonEntityFn";
 
 /**
- * @ignore
- */
-const defaultCB = (value: any, ctx: any) => ctx.mongoose !== true;
-
-/**
  * Ignore the property when JsonMapper serialize the class to a Plain Object JavaScript.
  *
  * ::: warning
@@ -24,7 +19,7 @@ const defaultCB = (value: any, ctx: any) => ctx.mongoose !== true;
  *   @Property()
  *   lastName: string;
  *
- *   @Ignore((value, ctx) => !ctx.mongoose) // don't ignore prop only if mongoose
+ *   @Ignore((value, ctx) => !ctx.endpoint)
  *   password: string;
  * }
  * ```
@@ -63,7 +58,7 @@ const defaultCB = (value: any, ctx: any) => ctx.mongoose !== true;
  * @schema
  * @deprecated Since v7. Use @Groups decorator instead of.
  */
-export function Ignore(cb: boolean | IgnoreCallback = defaultCB) {
+export function Ignore(cb: boolean | IgnoreCallback = true) {
   return JsonEntityFn((store) => {
     store.schema.ignore(cb);
   });

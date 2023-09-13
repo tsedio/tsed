@@ -1,8 +1,10 @@
 import faker from "@faker-js/faker";
 import {QueryParams} from "@tsed/common";
+import {cleanObject, getValue} from "@tsed/core";
 import {
   AdditionalProperties,
   CollectionOf,
+  Default,
   DiscriminatorKey,
   DiscriminatorValue,
   Email,
@@ -24,12 +26,14 @@ import {
   Property,
   Required
 } from "@tsed/schema";
+import {snakeCase} from "change-case";
 import {Post} from "../../test/helpers/Post";
 import {User} from "../../test/helpers/User";
 import "../components/DateMapper";
 import "../components/PrimitiveMapper";
 import "../components/SymbolMapper";
 import {OnDeserialize} from "../decorators/onDeserialize";
+import {OnSerialize} from "../decorators/onSerialize";
 import {JsonDeserializer} from "./JsonDeserializer";
 
 const deserializer = new JsonDeserializer();
@@ -584,6 +588,38 @@ describe("deserialize()", () => {
             test: "test"
           }
         ]
+      });
+    });
+    it("should transform object to class (ignore props)", () => {
+      class AvailableDatesParams {
+        @Ignore()
+        locationId: number;
+
+        @Name("start_date")
+        startDate: string;
+
+        @Name("end_date")
+        endDate: string;
+
+        @Ignore((value, ctx) => {
+          return !ctx.endpoint;
+        })
+        @OnDeserialize((value) => value + 1)
+        careCode: number;
+      }
+
+      const result = deserialize(
+        {
+          locationId: 5427,
+          careCode: 39699,
+          startDate: "20220606",
+          endDate: "20220707"
+        },
+        {type: AvailableDatesParams, useAlias: false}
+      );
+      expect(result).toEqual({
+        startDate: "20220606",
+        endDate: "20220707"
       });
     });
   });

@@ -1,10 +1,8 @@
-import {classOf, getValue, isArray, isClass, isCollection, isEmpty, isNil, isPrimitive, nameOf, objectKeys, Type} from "@tsed/core";
+import {classOf, getValue, isArray, isBoolean, isClass, isEmpty, isNil, nameOf, objectKeys, Type} from "@tsed/core";
 import {getPropertiesStores, JsonClassStore, JsonEntityStore, JsonParameterStore, JsonPropertyStore} from "@tsed/schema";
-import {add} from "husky";
 import {alterAfterDeserialize} from "../hooks/alterAfterDeserialize";
 import {alterBeforeDeserialize} from "../hooks/alterBeforeDeserialize";
 import {alterOnDeserialize} from "../hooks/alterOnDeserialize";
-import {getObjectProperties} from "../utils/getObjectProperties";
 import {JsonDeserializerOptions} from "./JsonDeserializerOptions";
 import {CachedJsonMapper, JsonMapperCompiler} from "./JsonMapperCompiler";
 import {JsonMapperSettings} from "./JsonMapperSettings";
@@ -151,6 +149,7 @@ export class JsonDeserializer extends JsonMapperCompiler<JsonDeserializerOptions
         properties.add(String(propertyStore.parent.schema.getAliasOf(key) || key));
 
         if (
+          (propertyStore.schema?.$ignore && isBoolean(propertyStore.schema?.$ignore)) ||
           propertyStore.isGetterOnly() ||
           (propertyStore.schema?.$hooks?.has("groups") && this.alterGroups(propertyStore.schema, groups))
         ) {
@@ -203,17 +202,25 @@ export class JsonDeserializer extends JsonMapperCompiler<JsonDeserializerOptions
     let writer = new Writer().add(`// Map ${key} ${id} ${groups || ""}`);
     const pick = key !== aliasKey ? `options.useAlias ? '${aliasKey}' : '${key}'` : `'${key}'`;
 
-    const ifWriter = writer.set(`let ${key}`, `input[${pick}]`).if(`${key} !== undefined`);
+    // ignore hook (deprecated)
+    if (propertyStore.schema?.$hooks?.has("ignore")) {
+      this.schemes[schemaId] = propertyStore.schema;
+
+      writer = writer.if(`!alterIgnore('${schemaId}', {...options, self: input})`);
+    }
 
     // pre hook
     const hasDeserializer = propertyStore.schema?.$hooks?.has("onDeserialize");
+    let getter = `input[${pick}]`;
 
     if (hasDeserializer) {
       this.schemes[schemaId] = propertyStore.schema;
       const opts = Writer.options(formatOpts);
 
-      ifWriter.set(key, `alterValue('${schemaId}', ${key}, ${opts})`);
+      getter = `alterValue('${schemaId}', input[${pick}], ${opts})`;
     }
+
+    const ifWriter = writer.set(`let ${key}`, getter).if(`${key} !== undefined`);
 
     const fill = this.getPropertyFiller(propertyStore, id, groups, formatOpts);
 

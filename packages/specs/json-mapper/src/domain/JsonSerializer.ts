@@ -1,6 +1,7 @@
 import {
   classOf,
   hasJsonMethod,
+  isBoolean,
   isClassObject,
   isCollection,
   isDate,
@@ -85,7 +86,10 @@ export class JsonSerializer extends JsonMapperCompiler<JsonSerializerOptions> {
       ...schemaProperties.flatMap((propertyStore) => {
         properties.add(propertyStore.propertyKey as string);
 
-        if (propertyStore.schema?.$hooks?.has("groups") && this.alterGroups(propertyStore.schema, groups)) {
+        if (
+          (propertyStore.schema?.$ignore && isBoolean(propertyStore.schema?.$ignore)) ||
+          (propertyStore.schema?.$hooks?.has("groups") && this.alterGroups(propertyStore.schema, groups))
+        ) {
           return;
         }
 
@@ -124,6 +128,8 @@ export class JsonSerializer extends JsonMapperCompiler<JsonSerializerOptions> {
     const key = String(propertyStore.propertyKey);
     const aliasKey: string = String(propertyStore.parent.schema.getAliasOf(key) || key);
     const schemaId = this.getSchemaId(id, key);
+    const format = propertyStore.itemSchema.get("format");
+    const formatOpts = format && `options: {format: '${format}'}`;
 
     let writer = new Writer().add(`// Map ${key} ${id} ${groups || ""}`);
 
@@ -134,20 +140,18 @@ export class JsonSerializer extends JsonMapperCompiler<JsonSerializerOptions> {
       writer = writer.if(`!alterIgnore('${schemaId}', {...options, self: input})`);
     }
 
-    writer = writer.add(`let ${key} = input.${key};`).if(`${key} !== undefined`);
-
-    const format = propertyStore.itemSchema.get("format");
-    const formatOpts = format && `options: {format: '${format}'}`;
-
     // pre hook
     const hasSerializer = propertyStore.schema?.$hooks?.has("onSerialize");
+    let getter = `input.${key}`;
 
     if (hasSerializer) {
       this.schemes[schemaId] = propertyStore.schema;
       const opts = Writer.options(formatOpts);
 
-      writer.set(key, `alterValue('${schemaId}', ${key}, ${opts})`);
+      getter = `alterValue('${schemaId}', input.${key}, ${opts})`;
     }
+
+    writer = writer.set(`let ${key}`, getter).if(`${key} !== undefined`);
 
     const fill = this.getPropertyFiller(propertyStore, key, groups, formatOpts);
 

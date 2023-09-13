@@ -1,11 +1,15 @@
-import {Hooks} from "@tsed/core";
+import {Hooks, isBoolean} from "@tsed/core";
 
 /**
  * @ignore
  * @param schema
  * @param options
  */
-export function alterIgnore(schema: {$hooks: Hooks}, options: any) {
+export function alterIgnore(schema: {$hooks: Hooks; $ignore: boolean | Function}, options: any) {
+  if (isBoolean(schema.$ignore) && schema.$ignore) {
+    return true;
+  }
+
   let result = schema?.$hooks?.alter("ignore", false, [options]);
 
   if (result) {

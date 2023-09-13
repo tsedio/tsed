@@ -1,9 +1,12 @@
-import {isBoolean, isObjectID} from "@tsed/core";
+import {cleanObject, isBoolean, isNumber, isObjectID, useDecorators} from "@tsed/core";
 import {
   AdditionalProperties,
+  Allow,
   CollectionOf,
+  Default,
   DiscriminatorKey,
   DiscriminatorValue,
+  Email,
   Groups,
   Ignore,
   JsonHookContext,
@@ -11,14 +14,17 @@ import {
   Name,
   Nullable,
   Property,
-  Required
+  Required,
+  Uri
 } from "@tsed/schema";
+import {snakeCase} from "change-case";
 import {parse} from "querystring";
 import {Post} from "../../test/helpers/Post";
 import {User} from "../../test/helpers/User";
 import "../components/DateMapper";
 import "../components/PrimitiveMapper";
 import "../components/SymbolMapper";
+import {OnDeserialize} from "../decorators/onDeserialize";
 import {OnSerialize} from "../decorators/onSerialize";
 import {deserialize} from "../utils/deserialize";
 import {getJsonMapperTypes} from "./JsonMapperTypesContainer";
@@ -31,6 +37,7 @@ const serialize = (...args: any[]) => (serializer.map as any)(...args);
 function createMap(value: any) {
   return new Map([["test", value]]);
 }
+
 class ObjectId {
   _bsontype = true;
 
@@ -798,6 +805,7 @@ describe("JsonSerializer", () => {
         @Groups("creation")
         password: string;
       }
+
       class TestProfile {
         @OnSerialize((value, ctx) => {
           if (isObjectID(value)) {
@@ -976,6 +984,176 @@ describe("JsonSerializer", () => {
       expect(result).toEqual({
         id: "id",
         renamed: "myname"
+      });
+    });
+    it("should serialize model to object (with default value - no assigned)", () => {
+      class SpaCareCategory {
+        @Required()
+        @Groups("!details")
+        id: string;
+
+        @Required()
+        label: string;
+
+        @Required()
+        @OnDeserialize((name: string) => snakeCase(name).toUpperCase())
+        code: string;
+
+        @Required()
+        @Default(0)
+        @OnSerialize((o) => {
+          return o || 0;
+        })
+        weight: number = 0;
+
+        constructor({id, label, code, weight}: Partial<SpaCareCategory> = {}) {
+          Object.assign(
+            this,
+            cleanObject({
+              id,
+              label,
+              code,
+              weight
+            })
+          );
+        }
+      }
+
+      expect(
+        serialize(
+          {
+            label: "categoryLabel",
+            code: "CATEGORY_CODE"
+          },
+          {type: SpaCareCategory}
+        )
+      ).toEqual({
+        code: "CATEGORY_CODE",
+        label: "categoryLabel",
+        weight: 0
+      });
+    });
+    it("should serialize model to object (with default value - no assigned - custom decorator)", () => {
+      function AllowEmpty() {
+        return useDecorators(
+          Default(""),
+          Allow(""),
+          OnDeserialize((o: any) => (o === null || o === undefined ? "" : o)),
+          OnSerialize((o: any) => (o === null || o === undefined ? "" : o))
+        );
+      }
+
+      class SpaInformation {
+        @Required()
+        id: number;
+
+        @Required()
+        @AllowEmpty()
+        label: string = "";
+
+        @Required()
+        @AllowEmpty()
+        description: string = "";
+
+        @AllowEmpty()
+        currency: string = "EUR";
+
+        @Email()
+        @AllowEmpty()
+        email: string;
+
+        @AllowEmpty()
+        phone: string;
+
+        @Required()
+        @Name("are_children_accepted")
+        areChildrenAccepted: boolean = false;
+
+        @AllowEmpty()
+        website: string = "";
+
+        @Uri()
+        @AllowEmpty()
+        logo: string;
+
+        @Uri()
+        @AllowEmpty()
+        image: string;
+
+        @AllowEmpty()
+        location: string = "";
+
+        @Name("cancellation_hours_limit")
+        @Nullable(Number)
+        @OnSerialize((o) => (isNumber(o) ? o : null))
+        cancellationHoursLimit: number | null = null;
+
+        constructor({
+          id,
+          label,
+          description,
+          currency,
+          email,
+          phone,
+          areChildrenAccepted,
+          website,
+          logo,
+          image,
+          location,
+          cancellationHoursLimit = null
+        }: Partial<SpaInformation> = {}) {
+          Object.assign(
+            this,
+            cleanObject({
+              id,
+              label,
+              description,
+              currency,
+              email,
+              phone,
+              areChildrenAccepted,
+              website,
+              logo,
+              image,
+              location,
+              cancellationHoursLimit
+            })
+          );
+        }
+      }
+
+      const result = serialize(
+        {
+          id: 453,
+          address: null,
+          label: null,
+          currency: null,
+          description: null,
+          email: null,
+          phone: undefined,
+          areChildrenAccepted: true,
+          website: "website",
+          logo: undefined,
+          image: null,
+          cares: [],
+          cancellationHoursLimit: undefined
+        },
+        {type: SpaInformation}
+      );
+
+      expect(result).toEqual({
+        are_children_accepted: true,
+        currency: "",
+        description: "",
+        email: "",
+        id: 453,
+        image: "",
+        label: "",
+        location: "",
+        logo: "",
+        phone: "",
+        website: "website",
+        cancellation_hours_limit: null
       });
     });
   });
