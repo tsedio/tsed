@@ -1,6 +1,7 @@
 import {
   classOf,
   hasJsonMethod,
+  isArray,
   isBoolean,
   isClassObject,
   isCollection,
@@ -21,10 +22,14 @@ import {getJsonMapperTypes} from "./JsonMapperTypesContainer";
 import {JsonSerializerOptions} from "./JsonSerializerOptions";
 import {Writer} from "./Writer";
 
+const getCollectionType = (input: any) => {
+  return isArray(input) ? "Array" : input instanceof Set ? "Set" : input instanceof Map ? "Map" : undefined;
+};
+
 function getBestType(type: Type<any>, obj: any) {
   const dataType = classOf(obj);
 
-  if (dataType && !isClassObject(dataType)) {
+  if (dataType && !isClassObject(dataType) && !isCollection(obj)) {
     return dataType;
   }
 
@@ -229,7 +234,7 @@ export class JsonSerializer extends JsonMapperCompiler<JsonSerializerOptions> {
     }
 
     if (input && isCollection(input)) {
-      return this.execMapper(nameOf(classOf(input)), input, options);
+      return this.execMapper(getCollectionType(input)!, input, options);
     }
 
     if (hasJsonMethod(input)) {

@@ -98,6 +98,20 @@ describe("JsonSerializer", () => {
       arrayLike.push(1);
 
       expect(serialize(arrayLike)).toEqual([1]);
+
+      class SetLike extends Set {}
+
+      const setLike = new SetLike();
+      setLike.add(1);
+
+      expect(serialize(setLike)).toEqual([1]);
+
+      class MapLike extends Map {}
+
+      const mapLike = new MapLike();
+      mapLike.set("i", 1);
+
+      expect(serialize(mapLike)).toEqual({i: 1});
     });
   });
   describe("Map<primitive>", () => {
@@ -643,6 +657,52 @@ describe("JsonSerializer", () => {
         prop3: null,
         prop4: null
       });
+    });
+    it("should serialize array model with alias property", () => {
+      class SpaBooking {
+        @Required()
+        @Name("booking_number")
+        bookingNumber: string;
+
+        @Required()
+        status: string;
+
+        @Required()
+        @Name("order_id")
+        orderId: number;
+
+        @Required()
+        @Name("appointment_id")
+        appointmentId: number;
+
+        @Name("customer_id")
+        @Groups("!create", "!read")
+        customerId: number;
+      }
+
+      const appointments = [
+        {
+          bookingNumber: "100566224434",
+          status: "Booked",
+          orderId: 711376505,
+          appointmentId: 566224434,
+          customerId: null
+        }
+      ];
+
+      const serializedResult = serialize(appointments, {
+        type: SpaBooking
+      });
+
+      expect(serializedResult).toEqual([
+        {
+          booking_number: "100566224434",
+          status: "Booked",
+          order_id: 711376505,
+          appointment_id: 566224434,
+          customer_id: null
+        }
+      ]);
     });
   });
   describe("class with toJSON/toClass", () => {
