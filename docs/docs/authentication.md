@@ -40,7 +40,7 @@ To avoid that, we can create a decorator which apply all of these instructions a
 <<< @/docs/snippets/authentication/auth-decorator-example.ts
 
 ::: tip
-Additionally, you can use the Operation decorator to add automatically the `Authorization` header field in the swagger spec:
+Additionally, you can use the `In` decorator to add automatically the `Authorization` header field in the swagger spec:
 
 <<< @/docs/snippets/authentication/auth-decorator-example-2.ts
 
