@@ -91,25 +91,25 @@ export class Server {}
 
 Some options are available to configure Swagger-ui, Ts.ED and the default spec information.
 
-| Key                  | Example                                                       | Description                                                                                                   |
-| -------------------- | ------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------- |
-| path                 | `/api-doc`                                                    | The url subpath to access to the documentation.                                                               |
-| specVersion          | `2.0`, `3.0.1`                                                | The OpenSpec version.                                                                                         |
-| fileName             | `swagger.json`                                                | Swagger file name. By default swagger.json.                                                                   |
-| doc                  | `hidden-doc`                                                  | The documentation key used by `@Docs` decorator to create several swagger documentations.                     |
-| viewPath             | `${rootDir}/../views/swagger.ejs` or `false`                  | The path to the ejs template. Set false to disabled swagger-ui.                                               |
-| cssPath              | `${rootDir}/spec/style.css`                                   | The path to the CSS file.                                                                                     |
-| jsPath               | `${rootDir}/spec/main.js`                                     | The path to the JS file.                                                                                      |
-| viewPath             | `${rootDir}/views/swagger.ejs`                                | The path to the ejs file to create html page.                                                                 |
-| showExplorer         | `true`                                                        | Display the search field in the navbar.                                                                       |
-| spec                 | `{swagger: "2.0"}`                                            | The default information spec.                                                                                 |
-| specPath             | `${rootDir}/spec/swagger.base.json`                           | Load the base spec documentation from the specified path.                                                     |
-| outFile              | `${rootDir}/spec/swagger.json`                                | Write the `swagger.json` spec documentation on the specified path.                                            |
-| hidden               | `true`                                                        | Hide the documentation in the dropdown explorer list.                                                         |
+| Key                  | Example                                                       | Description                                                                                              |
+| -------------------- | ------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------- |
+| path                 | `/api-doc`                                                    | The url subpath to access to the documentation.                                                          |
+| specVersion          | `2.0`, `3.0.1`                                                | The OpenSpec version.                                                                                    |
+| fileName             | `swagger.json`                                                | Swagger file name. By default swagger.json.                                                              |
+| doc                  | `hidden-doc`                                                  | The documentation key used by `@Docs` decorator to create several swagger documentations.                |
+| viewPath             | `${rootDir}/../views/swagger.ejs` or `false`                  | The path to the ejs template. Set false to disabled swagger-ui.                                          |
+| cssPath              | `${rootDir}/spec/style.css`                                   | The path to the CSS file.                                                                                |
+| jsPath               | `${rootDir}/spec/main.js`                                     | The path to the JS file.                                                                                 |
+| viewPath             | `${rootDir}/views/swagger.ejs`                                | The path to the ejs file to create html page.                                                            |
+| showExplorer         | `true`                                                        | Display the search field in the navbar.                                                                  |
+| spec                 | `{swagger: "2.0"}`                                            | The default information spec.                                                                            |
+| specPath             | `${rootDir}/spec/swagger.base.json`                           | Load the base spec documentation from the specified path.                                                |
+| outFile              | `${rootDir}/spec/swagger.json`                                | Write the `swagger.json` spec documentation on the specified path.                                       |
+| hidden               | `true`                                                        | Hide the documentation in the dropdown explorer list.                                                    |
 | options              | Swagger-UI options                                            | SwaggerUI options. See (https://github.com/swagger-api/swagger-ui/blob/HEAD/docs/usage/configuration.md) |
-| operationIdFormatter | `(name: string, propertyKey: string, path: string) => string` | A function to generate the operationId.                                                                       |
-| operationIdPattern   | `%c_%m`                                                       | A pattern to generate the operationId. Format of operationId field (%c: class name, %m: method name).         |
-| pathPatterns         | `[]`                                                          | Include only controllers whose paths match the pattern list provided.                                         |
+| operationIdFormatter | `(name: string, propertyKey: string, path: string) => string` | A function to generate the operationId.                                                                  |
+| operationIdPattern   | `%c_%m`                                                       | A pattern to generate the operationId. Format of operationId field (%c: class name, %m: method name).    |
+| pathPatterns         | `[]`                                                          | Include only controllers whose paths match the pattern list provided.                                    |
 
 ### Multi documentations
 
