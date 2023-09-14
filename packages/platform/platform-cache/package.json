@@ -1,6 +1,6 @@
 {
   "name": "@tsed/platform-cache",
-  "version": "7.36.0-rc.4",
+  "version": "7.36.0-rc.5",
   "description": "Platform cache module for Ts.ED Framework",
   "private": false,
   "source": "./src/index.ts",
@@ -27,20 +27,20 @@
     "tslib": "2.5.0"
   },
   "devDependencies": {
-    "@tsed/core": "7.36.0-rc.4",
-    "@tsed/di": "7.36.0-rc.4",
-    "@tsed/eslint": "7.36.0-rc.4",
-    "@tsed/json-mapper": "7.36.0-rc.4",
-    "@tsed/schema": "7.36.0-rc.4",
-    "@tsed/typescript": "7.36.0-rc.4",
+    "@tsed/core": "7.36.0-rc.5",
+    "@tsed/di": "7.36.0-rc.5",
+    "@tsed/eslint": "7.36.0-rc.5",
+    "@tsed/json-mapper": "7.36.0-rc.5",
+    "@tsed/schema": "7.36.0-rc.5",
+    "@tsed/typescript": "7.36.0-rc.5",
     "@types/micromatch": "^4.0.1",
     "eslint": "^8.12.0"
   },
   "peerDependencies": {
-    "@tsed/core": "^7.36.0-rc.4",
-    "@tsed/di": "^7.36.0-rc.4",
-    "@tsed/json-mapper": "^7.36.0-rc.4",
-    "@tsed/schema": "^7.36.0-rc.4"
+    "@tsed/core": "^7.36.0-rc.5",
+    "@tsed/di": "^7.36.0-rc.5",
+    "@tsed/json-mapper": "^7.36.0-rc.5",
+    "@tsed/schema": "^7.36.0-rc.5"
   },
   "peerDependenciesMeta": {
     "@tsed/core": {

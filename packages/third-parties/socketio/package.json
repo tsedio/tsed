@@ -1,6 +1,6 @@
 {
   "name": "@tsed/socketio",
-  "version": "7.36.0-rc.4",
+  "version": "7.36.0-rc.5",
   "description": "Socket.io package for Ts.ED framework",
   "private": false,
   "keywords": [
@@ -33,27 +33,27 @@
     "tslib": "2.5.0"
   },
   "devDependencies": {
-    "@tsed/common": "7.36.0-rc.4",
-    "@tsed/core": "7.36.0-rc.4",
-    "@tsed/di": "7.36.0-rc.4",
-    "@tsed/eslint": "7.36.0-rc.4",
-    "@tsed/json-mapper": "7.36.0-rc.4",
-    "@tsed/openspec": "7.36.0-rc.4",
-    "@tsed/platform-middlewares": "7.36.0-rc.4",
-    "@tsed/schema": "7.36.0-rc.4",
-    "@tsed/socketio-testing": "7.36.0-rc.4",
-    "@tsed/typescript": "7.36.0-rc.4",
+    "@tsed/common": "7.36.0-rc.5",
+    "@tsed/core": "7.36.0-rc.5",
+    "@tsed/di": "7.36.0-rc.5",
+    "@tsed/eslint": "7.36.0-rc.5",
+    "@tsed/json-mapper": "7.36.0-rc.5",
+    "@tsed/openspec": "7.36.0-rc.5",
+    "@tsed/platform-middlewares": "7.36.0-rc.5",
+    "@tsed/schema": "7.36.0-rc.5",
+    "@tsed/socketio-testing": "7.36.0-rc.5",
+    "@tsed/typescript": "7.36.0-rc.5",
     "eslint": "^8.12.0",
     "express": "^4.17.1",
     "socket.io": "4.7.1",
     "socket.io-client": "^4.7.1"
   },
   "peerDependencies": {
-    "@tsed/di": "^7.36.0-rc.4",
-    "@tsed/json-mapper": "^7.36.0-rc.4",
+    "@tsed/di": "^7.36.0-rc.5",
+    "@tsed/json-mapper": "^7.36.0-rc.5",
     "@tsed/logger": ">=6.2.2",
-    "@tsed/platform-middlewares": "^7.36.0-rc.4",
-    "@tsed/schema": "^7.36.0-rc.4",
+    "@tsed/platform-middlewares": "^7.36.0-rc.5",
+    "@tsed/schema": "^7.36.0-rc.5",
     "socket.io": ">=4.0.0"
   },
   "peerDependenciesMeta": {
