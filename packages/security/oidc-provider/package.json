@@ -40,7 +40,8 @@
     "koa-mount": "^4.0.0",
     "koa-rewrite": "^3.0.1",
     "tslib": "2.5.0",
-    "uuid": "8.3.2"
+    "uuid": "8.3.2",
+    "lodash": "4.17.21"
   },
   "devDependencies": {
     "@tsed/common": "7.36.0-rc.4",

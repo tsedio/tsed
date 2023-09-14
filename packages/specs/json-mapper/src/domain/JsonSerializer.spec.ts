@@ -704,6 +704,24 @@ describe("JsonSerializer", () => {
         }
       ]);
     });
+    it("should serialize model without decorator", () => {
+      class Client {
+        clientId: string;
+        clientSecret: string;
+      }
+
+      const client = new Client();
+      client.clientId = "id";
+      client.clientSecret = "secret";
+
+      const result = serialize(client, {useAlias: false, groups: ["render"]});
+
+      expect(result === client).toBeFalsy();
+      expect(result).toEqual({
+        clientId: "id",
+        clientSecret: "secret"
+      });
+    });
   });
   describe("class with toJSON/toClass", () => {
     it("should serialize model", () => {

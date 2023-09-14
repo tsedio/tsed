@@ -83,7 +83,7 @@ export class JsonSerializer extends JsonMapperCompiler<JsonSerializerOptions> {
     writer.add(this.mapPrecondition(id));
 
     if (!schemaProperties.length) {
-      return writer.return("input").root().toString();
+      return writer.return("isObject(input) ? {...input} : input").root().toString();
     }
 
     // properties
