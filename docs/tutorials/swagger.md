@@ -106,7 +106,7 @@ Some options are available to configure Swagger-ui, Ts.ED and the default spec i
 | specPath             | `${rootDir}/spec/swagger.base.json`                           | Load the base spec documentation from the specified path.                                                     |
 | outFile              | `${rootDir}/spec/swagger.json`                                | Write the `swagger.json` spec documentation on the specified path.                                            |
 | hidden               | `true`                                                        | Hide the documentation in the dropdown explorer list.                                                         |
-| options              | Swagger-UI options                                            | SwaggerUI options. See (https://github.com/swagger-api/swagger-ui/blob/HEAD/docs/usage/docs/configuration.md) |
+| options              | Swagger-UI options                                            | SwaggerUI options. See (https://github.com/swagger-api/swagger-ui/blob/HEAD/docs/usage/configuration.md) |
 | operationIdFormatter | `(name: string, propertyKey: string, path: string) => string` | A function to generate the operationId.                                                                       |
 | operationIdPattern   | `%c_%m`                                                       | A pattern to generate the operationId. Format of operationId field (%c: class name, %m: method name).         |
 | pathPatterns         | `[]`                                                          | Include only controllers whose paths match the pattern list provided.                                         |
