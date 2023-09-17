@@ -1,6 +1,9 @@
 export class Hooks {
   #listeners: Record<string, Function[]> = {};
 
+  has(event: string) {
+    return !!this.#listeners[event];
+  }
   /**
    * Listen a hook event
    * @param event

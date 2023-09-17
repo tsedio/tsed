@@ -108,7 +108,11 @@ It means, if you missed decorating one or more properties on your model, these p
 
 :::
 
-## Ignore properties
+## Ignore properties (deprecated)
+
+::: warn deprecated
+This decorator is deprecated. Use @@Groups@@ decorator instead of.
+:::
 
 ### Usage
 

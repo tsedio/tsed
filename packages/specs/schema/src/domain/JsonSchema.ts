@@ -82,6 +82,7 @@ export class JsonSchema extends Map<string, any> implements NestedGenerics {
   readonly $allow: any[] = [];
   public $selfRequired: boolean;
   public $forwardGroups: boolean = false;
+  public $ignore: boolean | IgnoreCallback = false;
 
   public isDiscriminatorKey = false;
   public isDiscriminator = false;
@@ -255,12 +256,11 @@ export class JsonSchema extends Map<string, any> implements NestedGenerics {
   }
 
   ignore(cb: boolean | IgnoreCallback) {
-    if (typeof cb === "boolean") {
-      const bool = cb;
-      cb = () => bool;
+    if (typeof cb !== "boolean") {
+      this.$hooks.on("ignore", cb);
     }
 
-    this.$hooks.on("ignore", cb);
+    this.$ignore = cb;
 
     return this;
   }

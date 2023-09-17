@@ -52,6 +52,13 @@ export interface OidcSettings extends Configuration {
   connectionName?: string;
 
   plugins?: TsED.OIDCPluginSettings;
+
+  render?: {
+    /**
+     * By default ["clientSecret"] is omitted
+     */
+    omitClientProps?: string[];
+  };
 }
 
 declare global {

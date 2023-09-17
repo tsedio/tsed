@@ -1,6 +1,6 @@
 {
   "name": "@tsed/formio-types",
-  "version": "7.35.1",
+  "version": "7.36.0-rc.5",
   "description": "Formio types definition package for Ts.ED framework",
   "private": false,
   "keywords": [
@@ -36,8 +36,8 @@
     "formiojs": ">=4.0.0"
   },
   "devDependencies": {
-    "@tsed/eslint": "7.35.1",
-    "@tsed/typescript": "7.35.1",
+    "@tsed/eslint": "7.36.0-rc.5",
+    "@tsed/typescript": "7.36.0-rc.5",
     "eslint": "^8.12.0"
   }
 }

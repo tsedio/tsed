@@ -21,11 +21,14 @@ import {OidcInteractionPromptProps} from "../domain/OidcInteractionPromptProps";
 import {debug} from "../utils/debug";
 import {OidcInteractions} from "./OidcInteractions";
 import {OidcProvider} from "./OidcProvider";
-
+import omit from "lodash/omit";
 @Injectable()
 export class OidcInteractionContext {
   @Constant("env")
-  env: Env;
+  protected env: Env;
+
+  @Constant("oidc.render.omitClientProps", [])
+  protected omitClientProps: string[];
 
   @Inject()
   protected oidcProvider: OidcProvider;
@@ -112,13 +115,8 @@ export class OidcInteractionContext {
   async interactionPrompt({client, ...options}: Record<string, any>): Promise<OidcInteractionPromptProps> {
     client = client || (await this.findClient());
 
-    const newClient = serialize(client, {useAlias: false, groups: ["render"]});
-
-    // remove client secret from
-    delete (newClient as any).clientSecret;
-
     return {
-      client: newClient,
+      client: omit(client, ["clientSecret", ...this.omitClientProps]),
       uid: this.uid,
       grantId: this.grantId,
       details: this.prompt.details,

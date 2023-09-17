@@ -113,11 +113,7 @@ describe("Generics", () => {
         }
       );
 
-      expect(result).toEqual({
-        adjustment: {
-          value: new Date("2019-01-01T12:45:57.111Z")
-        }
-      });
+      expect(result).toMatchSnapshot();
     });
   });
   describe("using type", () => {

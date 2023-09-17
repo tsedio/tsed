@@ -86,6 +86,7 @@ export class OidcProvider {
       secureCookies = this.env == Env.PROD,
       Adapter,
       connectionName,
+      render,
       ...options
     } = this.oidc;
 

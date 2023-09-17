@@ -18,8 +18,8 @@ export class UsersRepository {
     return this.collection.groupBy.bind(this.collection);
   }
 
-  deleteMany(args: Prisma.UserDeleteManyArgs) {
-    return this.collection.deleteMany(args);
+  protected deserialize<T>(obj: null | User | User[]): T {
+    return deserialize<T>(obj, {type: UserModel, collectionType: isArray(obj) ? Array : undefined});
   }
 
   async findUnique(args: Prisma.UserFindUniqueArgs): Promise<UserModel | null> {
@@ -57,8 +57,8 @@ export class UsersRepository {
     return this.deserialize<UserModel>(obj);
   }
 
-  protected deserialize<T>(obj: null | User | User[]): T {
-    return deserialize<T>(obj, {type: UserModel, collectionType: isArray(obj) ? Array : undefined});
+  deleteMany(args: Prisma.UserDeleteManyArgs) {
+    return this.collection.deleteMany(args);
   }
 
   updateMany(args: Prisma.UserUpdateManyArgs) {

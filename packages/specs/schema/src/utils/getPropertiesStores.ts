@@ -1,4 +1,4 @@
-import {Type} from "@tsed/core";
+import {isBoolean, Type} from "@tsed/core";
 import type {JsonClassStore} from "../domain/JsonClassStore";
 import type {JsonPropertyStore} from "../domain/JsonPropertyStore";
 import {alterIgnore} from "../hooks/alterIgnore";
