@@ -1,6 +1,6 @@
 {
   "name": "@tsed/typescript",
-  "version": "7.36.0-rc.5",
+  "version": "7.36.0",
   "description": "Util to compile source",
   "private": true,
   "main": "index.js",
