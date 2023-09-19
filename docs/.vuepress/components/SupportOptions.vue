@@ -18,7 +18,7 @@
           title="Become a backer or sponsor on Github sponsor"
           href="https://github.com/sponsors/Romakita">
           <BxIcon name="bxl-github" class="mr-1" />
-          Github sponsor
+          Github sponsors
         </Button>
       </li>
       <li class="p-2">

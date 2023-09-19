@@ -28,7 +28,8 @@ module.exports = {
     "!<rootDir>/packages/third-parties/formio-types",
     "!<rootDir>/packages/third-parties/schema-formio",
     "!<rootDir>/packages/third-parties/components-scan",
-    "!<rootDir>/packages/third-parties/components-scan",
+    "!<rootDir>/packages/third-parties/socketio-testing",
+    "!<rootDir>/packages/engines",
     ...ignores("<rootDir>/packages/specs/ajv/**", ["interfaces"]),
     ...ignores("<rootDir>/packages/specs/schema/**", ["components"]),
     ...ignores("<rootDir>/packages/security/oidc-provider/**", ["constants", "utils"]),
@@ -42,7 +43,8 @@ module.exports = {
     ...ignores("<rootDir>/packages/orm/mongoose/**", ["utils"]),
     ...ignores("<rootDir>/packages/third-parties/stripe/**", ["constants", "middlewares", "services"]),
     "!<rootDir>/packages/platform/platform-test-utils",
-    "!**/node_modules"
+    "!**/node_modules",
+    "!**/__mock__/**"
   ],
   outputDir: "<rootDir>/docs/api",
   baseUrl: "/api",
