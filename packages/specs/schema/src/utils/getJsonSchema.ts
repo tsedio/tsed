@@ -1,4 +1,4 @@
-import {Type} from "@tsed/core";
+import {getValue, Type} from "@tsed/core";
 import "../components/index";
 import type {JsonEntityStore} from "../domain/JsonEntityStore";
 import {SpecTypes} from "../domain/SpecTypes";
@@ -26,10 +26,10 @@ function get(entity: JsonEntityStore, options: any) {
   const key = getKey(options);
 
   if (!cache.has(key)) {
-    const schema = execMapper("schema", entity.schema, options);
+    const schema = execMapper("schema", [entity.schema], options);
 
-    if (Object.keys(options.schemas).length) {
-      schema.definitions = options.schemas;
+    if (Object.keys(getValue(options, "components.schemas", {})).length) {
+      schema.definitions = options.components.schemas;
     }
 
     cache.set(key, schema);
@@ -49,7 +49,9 @@ export function getJsonSchema(model: Type<any> | any, options: JsonSchemaOptions
     inlineEnums: specType === SpecTypes.JSON,
     ...options,
     specType,
-    schemas: {}
+    components: {
+      schemas: {}
+    }
   };
 
   if (entity.decoratorType === "parameter") {

@@ -13,7 +13,11 @@ export interface SpecSerializerOptions extends JsonSchemaOptions {
   /**
    * Paths
    */
-  paths?: any;
+  paths?: Record<string, any>;
+  /**
+   * Channels
+   */
+  channels?: Record<string, any>;
   /**
    * Root path. This paths will be added to all generated paths Object.
    */
@@ -54,7 +58,6 @@ function get(model: Type<any>, options: any, cb: any) {
 function generate(model: Type<any>, options: SpecSerializerOptions) {
   const store = getJsonEntityStore(model);
   const {rootPath = "/"} = options;
-  const specType = SpecTypes.OPENAPI;
 
   options = {
     ...options,
@@ -64,23 +67,10 @@ function generate(model: Type<any>, options: SpecSerializerOptions) {
         name: store.schema.getName(),
         description: store.schema.get("description")
       })
-    ],
-    specType
+    ]
   };
 
-  const specJson: any = {
-    paths: execMapper("paths", model, options)
-  };
-
-  specJson.tags = uniqBy(options.tags, "name");
-
-  if (Object.keys(options.schemas!).length) {
-    specJson.components = {
-      schemas: options.schemas
-    };
-  }
-
-  return specJson;
+  return execMapper("generate", [store], options);
 }
 
 /**
@@ -94,7 +84,8 @@ export function getSpec(model: Type<any> | JsonTokenOptions, options: SpecSerial
     ...options,
     tags: [],
     paths: {},
-    schemas: {},
+    channels: {},
+    components: {},
     operationIdFormatter: options.operationIdFormatter || operationIdFormatter(options.operationIdPattern),
     root: false
   };

@@ -1,9 +1,9 @@
-import {JsonResponse} from "../domain/JsonResponse";
-import {JsonSchemaOptions} from "../interfaces/JsonSchemaOptions";
-import {execMapper, registerJsonSchemaMapper} from "../registries/JsonSchemaMapperContainer";
+import {JsonResponse} from "../../domain/JsonResponse";
+import {JsonSchemaOptions} from "../../interfaces/JsonSchemaOptions";
+import {execMapper, registerJsonSchemaMapper} from "../../registries/JsonSchemaMapperContainer";
 
 export function operationResponseMapper(jsonResponse: JsonResponse, options: JsonSchemaOptions = {}) {
-  const response = execMapper("map", jsonResponse, options);
+  const response = execMapper("map", [jsonResponse], options);
 
   if (jsonResponse.status === 204) {
     delete response.content;

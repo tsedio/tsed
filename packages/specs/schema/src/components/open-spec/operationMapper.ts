@@ -1,9 +1,9 @@
-import {getStatusMessage} from "../constants/httpStatusMessages";
-import {JsonOperation} from "../domain/JsonOperation";
-import {JsonParameter} from "../domain/JsonParameter";
-import {isParameterType, JsonParameterTypes} from "../domain/JsonParameterTypes";
-import {JsonSchemaOptions} from "../interfaces/JsonSchemaOptions";
-import {execMapper, registerJsonSchemaMapper} from "../registries/JsonSchemaMapperContainer";
+import {getStatusMessage} from "../../constants/httpStatusMessages";
+import {JsonOperation} from "../../domain/JsonOperation";
+import {JsonParameter} from "../../domain/JsonParameter";
+import {isParameterType, JsonParameterTypes} from "../../domain/JsonParameterTypes";
+import {JsonSchemaOptions} from "../../interfaces/JsonSchemaOptions";
+import {execMapper, registerJsonSchemaMapper} from "../../registries/JsonSchemaMapperContainer";
 
 function extractParameters(jsonOperation: JsonOperation, options: JsonSchemaOptions) {
   return jsonOperation
@@ -24,7 +24,7 @@ function extractParameters(jsonOperation: JsonOperation, options: JsonSchemaOpti
 }
 
 export function operationMapper(jsonOperation: JsonOperation, {tags = [], defaultTags = [], ...options}: JsonSchemaOptions = {}) {
-  const {consumes, produces, ...operation} = execMapper("map", jsonOperation, {...options, ignore: ["parameters"]});
+  const {consumes, produces, ...operation} = execMapper("map", [jsonOperation], {...options, ignore: ["parameters"]});
 
   if (operation.security) {
     operation.security = [].concat(operation.security);
@@ -45,10 +45,10 @@ export function operationMapper(jsonOperation: JsonOperation, {tags = [], defaul
 
   const [parameters, bodyParameters] = extractParameters(jsonOperation, parametersOptions);
 
-  operation.parameters = execMapper("operationInParameters", parameters, options);
+  operation.parameters = execMapper("operationInParameters", [parameters], options);
 
   if (bodyParameters.length) {
-    operation.requestBody = execMapper("operationRequestBody", bodyParameters, parametersOptions);
+    operation.requestBody = execMapper("operationRequestBody", [bodyParameters], parametersOptions);
   }
 
   const operationTags = operation.tags?.length ? operation.tags : defaultTags;

@@ -1,6 +1,6 @@
-import {mapGenericsOptions} from "../utils/generics";
-import {JsonSchemaOptions} from "../interfaces/JsonSchemaOptions";
-import {execMapper, registerJsonSchemaMapper} from "../registries/JsonSchemaMapperContainer";
+import {mapGenericsOptions} from "../../utils/generics";
+import {JsonSchemaOptions} from "../../interfaces/JsonSchemaOptions";
+import {execMapper, registerJsonSchemaMapper} from "../../registries/JsonSchemaMapperContainer";
 
 /**
  * Serialize class which inherit from Map like JsonMap, JsonOperation, JsonParameter.
@@ -17,7 +17,7 @@ export function mapMapper(input: Map<string, any>, {ignore = [], ...options}: Js
       return obj;
     }
 
-    obj[key] = execMapper("item", value, options);
+    obj[key] = execMapper("item", [value], options);
     return obj;
   }, {});
 }

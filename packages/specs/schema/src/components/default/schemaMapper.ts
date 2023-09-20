@@ -1,14 +1,13 @@
-import {isObject} from "@tsed/core";
-import {options} from "superagent";
-import {mapAliasedProperties} from "../domain/JsonAliasMap";
-import {JsonSchema} from "../domain/JsonSchema";
-import {SpecTypes} from "../domain/SpecTypes";
-import {JsonSchemaOptions} from "../interfaces/JsonSchemaOptions";
-import {execMapper, hasMapper, registerJsonSchemaMapper} from "../registries/JsonSchemaMapperContainer";
-import {getRequiredProperties} from "../utils/getRequiredProperties";
-import {alterOneOf} from "../hooks/alterOneOf";
-import {inlineEnums} from "../utils/inlineEnums";
-import {mapNullableType} from "../utils/mapNullableType";
+import {getValue, isObject} from "@tsed/core";
+import {mapAliasedProperties} from "../../domain/JsonAliasMap";
+import {JsonSchema} from "../../domain/JsonSchema";
+import {SpecTypes} from "../../domain/SpecTypes";
+import {alterOneOf} from "../../hooks/alterOneOf";
+import {JsonSchemaOptions} from "../../interfaces/JsonSchemaOptions";
+import {execMapper, hasMapper, registerJsonSchemaMapper} from "../../registries/JsonSchemaMapperContainer";
+import {getRequiredProperties} from "../../utils/getRequiredProperties";
+import {inlineEnums} from "../../utils/inlineEnums";
+import {mapNullableType} from "../../utils/mapNullableType";
 
 /**
  * @ignore
@@ -45,7 +44,7 @@ function shouldSkipKey(key: string, {specType = SpecTypes.JSON, customKeys = fal
 }
 
 function isExample(key: string, value: any, options: JsonSchemaOptions) {
-  return key === "examples" && isObject(value) && SpecTypes.OPENAPI === options.specType!;
+  return key === "examples" && isObject(value) && [SpecTypes.OPENAPI, SpecTypes.ASYNCAPI].includes(options.specType!)!;
 }
 
 function mapOptions(options: JsonSchemaOptions) {
@@ -53,14 +52,14 @@ function mapOptions(options: JsonSchemaOptions) {
 
   if (!options) {
     addDef = true;
-    options = {schemas: {}, inlineEnums: true};
+    options = {components: {schemas: {}}, inlineEnums: true};
   }
 
-  const {useAlias = true, schemas = {}} = options;
+  const {useAlias = true, components = {schemas: {}}} = options;
   options = {
     ...options,
     useAlias,
-    schemas
+    components
   };
 
   return {
@@ -92,7 +91,7 @@ function mapKeys(schema: JsonSchema, options: JsonSchemaOptions) {
       }
 
       if (value && typeof value === "object" && hasMapper(key)) {
-        value = execMapper(key, value, options, schema);
+        value = execMapper(key, [value], options, schema);
 
         if (isEmptyProperties(key, value)) {
           return item;
@@ -114,14 +113,14 @@ function serializeSchema(schema: JsonSchema, options: JsonSchemaOptions) {
   let obj: any = mapKeys(schema, options);
 
   if (schema.isClass) {
-    obj = execMapper("inheritedClass", obj, {
+    obj = execMapper("inheritedClass", [obj], {
       ...options,
       root: false,
       target: schema.getComputedType()
     });
   }
 
-  obj = execMapper("generics", obj, {
+  obj = execMapper("generics", [obj], {
     ...options,
     root: false
   } as any);
@@ -146,8 +145,8 @@ export function schemaMapper(schema: JsonSchema, opts: JsonSchemaOptions): any {
 
   const obj = serializeSchema(schema, options);
 
-  if (addDef && options.schemas && Object.keys(options.schemas).length) {
-    obj.definitions = options.schemas;
+  if (addDef && Object.keys(getValue(options, "components.schemas", {})).length) {
+    obj.definitions = options.components!.schemas;
   }
 
   return obj;

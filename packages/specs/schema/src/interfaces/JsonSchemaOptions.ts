@@ -1,15 +1,14 @@
-import {OpenSpecHash, OS2Schema, OS3Schema} from "@tsed/openspec";
 import {SpecTypes} from "../domain/SpecTypes";
 
 export interface JsonSchemaOptions {
   /**
-   * Map properties with the alias name. By default: false
+   * Map properties with the alias name. By default, false
    */
   useAlias?: boolean;
   /**
-   * Reference to Schema Object.
+   * Reference to components Object.
    */
-  schemas?: OpenSpecHash<OS3Schema | OS2Schema>;
+  components?: Record<string, any>;
   /**
    * Define Spec types level
    */
