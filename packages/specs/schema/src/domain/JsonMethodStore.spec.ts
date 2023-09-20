@@ -1,6 +1,6 @@
 import {StoreSet} from "@tsed/core";
 import {Use, UseAfter, UseBefore} from "@tsed/platform-middlewares";
-import {OperationMethods} from "../constants/httpMethods";
+import {OperationVerbs} from "../constants/OperationVerbs";
 import {Property} from "../decorators/common/property";
 import {In} from "../decorators/operations/in";
 import {Returns} from "../decorators/operations/returns";
@@ -124,7 +124,7 @@ describe("JsonMethodStore", () => {
 
       expect([...endpoint.operationPaths.values()]).toEqual([
         {
-          method: OperationMethods.GET,
+          method: OperationVerbs.GET,
           path: "/"
         }
       ]);
