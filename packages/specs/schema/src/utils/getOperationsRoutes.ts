@@ -1,14 +1,16 @@
 import {Type} from "@tsed/core";
-import {JsonMethodStore} from "../domain/JsonMethodStore";
-import {getOperationsStores} from "./getOperationsStores";
-import {JsonOperationRoute} from "../domain/JsonOperationRoute";
+import {OperationVerbs} from "../constants/OperationVerbs";
 import {JsonEntityStore} from "../domain/JsonEntityStore";
-import {getJsonEntityStore} from "./getJsonEntityStore";
+import {JsonMethodStore} from "../domain/JsonMethodStore";
+import {JsonOperationRoute} from "../domain/JsonOperationRoute";
 import {concatPath} from "./concatPath";
+import {getJsonEntityStore} from "./getJsonEntityStore";
+import {getOperationsStores} from "./getOperationsStores";
 
 export interface GetOperationsRoutesOptions {
   withChildren?: boolean;
   basePath?: string;
+  allowedVerbs?: OperationVerbs[];
 }
 
 export function getOperationsRoutes<Entity extends JsonMethodStore = JsonMethodStore>(
@@ -36,7 +38,7 @@ export function getOperationsRoutes<Entity extends JsonMethodStore = JsonMethodS
     const {operation} = endpoint;
 
     if (operation) {
-      operation.operationPaths.forEach((operationPath) => {
+      operation.getAllowedOperationPath(options.allowedVerbs).forEach((operationPath) => {
         routes.push(
           new JsonOperationRoute<Entity>({
             basePath,

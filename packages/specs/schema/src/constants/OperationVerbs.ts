@@ -1,37 +1,3 @@
-import {Operation} from "../decorators/operations/operation";
-
-export const ALLOWED_VERBS = [
-  "all",
-  "checkout",
-  "connect",
-  "copy",
-  "delete",
-  "get",
-  "head",
-  "lock",
-  "merge",
-  "mkactivity",
-  "mkcol",
-  "move",
-  "m-search",
-  "notify",
-  "options",
-  "param",
-  "patch",
-  "post",
-  "propfind",
-  "propatch",
-  "purge",
-  "put",
-  "report",
-  "search",
-  "subscribe",
-  "publish",
-  "trace",
-  "unlock",
-  "unsuscribe"
-];
-
 export enum OperationVerbs {
   ALL = "ALL", // special key
   GET = "GET",
@@ -46,6 +12,21 @@ export enum OperationVerbs {
   SUBSCRIBE = "SUBSCRIBE",
   CUSTOM = "CUSTOM"
 }
+
+export const OPERATION_HTTP_VERBS = [
+  OperationVerbs.ALL,
+  OperationVerbs.GET,
+  OperationVerbs.POST,
+  OperationVerbs.PUT,
+  OperationVerbs.PATCH,
+  OperationVerbs.HEAD,
+  OperationVerbs.DELETE,
+  OperationVerbs.OPTIONS,
+  OperationVerbs.TRACE,
+  OperationVerbs.CUSTOM
+];
+
+export const OPERATION_WS_VERBS = [OperationVerbs.PUBLISH, OperationVerbs.SUBSCRIBE];
 
 /**
  * @deprecated Use OperationVerbs instead of OperationMethods
