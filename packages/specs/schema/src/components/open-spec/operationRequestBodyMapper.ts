@@ -1,10 +1,10 @@
-import {JsonOperation} from "../domain/JsonOperation";
-import {JsonParameter} from "../domain/JsonParameter";
-import {isParameterType, JsonParameterTypes} from "../domain/JsonParameterTypes";
-import {JsonRequestBody} from "../domain/JsonRequestBody";
-import {JsonSchema} from "../domain/JsonSchema";
-import {JsonSchemaOptions} from "../interfaces/JsonSchemaOptions";
-import {execMapper, registerJsonSchemaMapper} from "../registries/JsonSchemaMapperContainer";
+import {JsonOperation} from "../../domain/JsonOperation";
+import {JsonParameter} from "../../domain/JsonParameter";
+import {isParameterType, JsonParameterTypes} from "../../domain/JsonParameterTypes";
+import {JsonRequestBody} from "../../domain/JsonRequestBody";
+import {JsonSchema} from "../../domain/JsonSchema";
+import {JsonSchemaOptions} from "../../interfaces/JsonSchemaOptions";
+import {execMapper, registerJsonSchemaMapper} from "../../registries/JsonSchemaMapperContainer";
 
 function buildSchemaFromBodyParameters(parameters: JsonParameter[], options: JsonSchemaOptions) {
   let schema = new JsonSchema();
@@ -23,7 +23,7 @@ function buildSchemaFromBodyParameters(parameters: JsonParameter[], options: Jso
         }
       });
 
-    const jsonParameter = execMapper("operationInParameter", parameter, options);
+    const jsonParameter = execMapper("operationInParameter", [parameter], options);
 
     if (name) {
       schema.addProperty(
@@ -67,7 +67,7 @@ export function operationRequestBodyMapper(bodyParameters: JsonParameter[], {con
     requestBody.addContent(consume, schema, examples);
   });
 
-  return execMapper("map", requestBody, options);
+  return execMapper("map", [requestBody], options);
 }
 
 registerJsonSchemaMapper("operationRequestBody", operationRequestBodyMapper);

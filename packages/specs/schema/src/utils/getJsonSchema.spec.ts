@@ -163,7 +163,7 @@ describe("getJsonSchema", () => {
       }
     });
 
-    const options = {schemas: {}};
+    const options = {components: {schemas: {}}};
     expect(JsonEntityStore.from(Model).schema.clone().toJSON(options)).toEqual({
       type: "object",
       properties: {
@@ -176,17 +176,19 @@ describe("getJsonSchema", () => {
       }
     });
     expect(options).toEqual({
-      schemas: {
-        Nested: {
-          properties: {
-            id: {
-              type: "string"
+      components: {
+        schemas: {
+          Nested: {
+            properties: {
+              id: {
+                type: "string"
+              },
+              prop1: {
+                type: "string"
+              }
             },
-            prop1: {
-              type: "string"
-            }
-          },
-          type: "object"
+            type: "object"
+          }
         }
       }
     });

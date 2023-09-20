@@ -1,9 +1,10 @@
-import {JsonEntityStore} from "../domain/JsonEntityStore";
-import {JsonSchema} from "../domain/JsonSchema";
-import {JsonSchemaOptions} from "../interfaces/JsonSchemaOptions";
-import {execMapper, registerJsonSchemaMapper} from "../registries/JsonSchemaMapperContainer";
-import {mapGenericsOptions, popGenerics} from "../utils/generics";
-import {createRef, createRefName} from "../utils/ref";
+import {getValue, setValue} from "@tsed/core";
+import {JsonEntityStore} from "../../domain/JsonEntityStore";
+import {JsonSchema} from "../../domain/JsonSchema";
+import {JsonSchemaOptions} from "../../interfaces/JsonSchemaOptions";
+import {execMapper, registerJsonSchemaMapper} from "../../registries/JsonSchemaMapperContainer";
+import {mapGenericsOptions, popGenerics} from "../../utils/generics";
+import {createRef, createRefName} from "../../utils/ref";
 
 export function classMapper(value: JsonSchema, options: JsonSchemaOptions) {
   const store = JsonEntityStore.from(value.class);
@@ -13,7 +14,7 @@ export function classMapper(value: JsonSchema, options: JsonSchemaOptions) {
     // Inline generic
     const {type, properties, additionalProperties, items, ...props} = value.toJSON(options);
     const schema = {
-      ...execMapper("any", store.schema, {
+      ...execMapper("any", [store.schema], {
         ...options,
         ...popGenerics(value),
         root: false
@@ -23,7 +24,8 @@ export function classMapper(value: JsonSchema, options: JsonSchemaOptions) {
 
     if (schema.title) {
       const name = createRefName(schema.title, options);
-      options.schemas![name] = schema;
+      setValue(options.components, `schemas.${name}`, schema);
+
       delete schema.title;
 
       return createRef(name, value, options);
@@ -32,11 +34,13 @@ export function classMapper(value: JsonSchema, options: JsonSchemaOptions) {
     return schema;
   }
 
-  if (options.schemas && !options.schemas[name]) {
-    options.schemas[name] = {}; // avoid infinite calls
-    options.schemas[name] = execMapper(
+  if (!getValue(options, `components.schemas.${name}`)) {
+    // avoid infinite calls
+    setValue(options, `components.schemas.${name}`, {});
+
+    options.components!.schemas[name] = execMapper(
       "any",
-      store.schema,
+      [store.schema],
       mapGenericsOptions({
         ...options,
         root: false

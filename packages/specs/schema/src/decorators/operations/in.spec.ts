@@ -14,7 +14,7 @@ describe("In", () => {
 
     const paramSchema = JsonEntityStore.from(Controller, "method", 0);
     const methodSchema = paramSchema.parent;
-    const operation = execMapper("operation", methodSchema.operation, {});
+    const operation = execMapper("operation", [methodSchema.operation], {});
 
     expect(operation).toEqual({
       parameters: [
@@ -48,7 +48,7 @@ describe("In", () => {
 
     const paramSchema = JsonEntityStore.from(Controller, "method", 0);
     const methodSchema = paramSchema.parent;
-    const operation = execMapper("operation", methodSchema.operation, {});
+    const operation = execMapper("operation", [methodSchema.operation], {});
 
     expect(operation).toEqual({
       parameters: [
@@ -91,7 +91,7 @@ describe("In", () => {
 
     const paramSchema = JsonEntityStore.from(Controller, "method", 0);
     const methodSchema = paramSchema.parent;
-    const operation = execMapper("operation", methodSchema.operation, {});
+    const operation = execMapper("operation", [methodSchema.operation], {});
 
     expect(operation).toEqual({
       parameters: [
@@ -141,7 +141,7 @@ describe("In", () => {
 
     const paramSchema = JsonEntityStore.from(Controller, "method", 0);
     const methodSchema = paramSchema.parent;
-    const operation = execMapper("operation", methodSchema.operation!, {
+    const operation = execMapper("operation", [methodSchema.operation!], {
       specType: SpecTypes.OPENAPI
     });
 

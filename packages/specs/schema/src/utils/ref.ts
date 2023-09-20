@@ -1,4 +1,4 @@
-import {cleanObject} from "@tsed/core";
+import {cleanObject, setValue} from "@tsed/core";
 import {pascalCase} from "change-case";
 import type {JsonSchema} from "../domain/JsonSchema";
 import {SpecTypes} from "../domain/SpecTypes";
@@ -9,7 +9,8 @@ import {JsonSchemaOptions} from "../interfaces/JsonSchemaOptions";
  * @param options
  */
 function getHost(options: JsonSchemaOptions) {
-  const {host = `#/${options.specType === "openapi3" ? "components/schemas" : "definitions"}`} = options;
+  const {host = `#/${[SpecTypes.OPENAPI, SpecTypes.ASYNCAPI].includes(options.specType!) ? "components/schemas" : "definitions"}`} =
+    options;
 
   return host;
 }
@@ -65,7 +66,7 @@ export function createRef(name: string, schema: JsonSchema, options: JsonSchemaO
 export function toRef(value: JsonSchema, schema: any, options: JsonSchemaOptions) {
   const name = createRefName(value.getName(), options);
 
-  options.schemas![name] = schema;
+  setValue(options, `components.schemas.${name}`, schema);
 
   return createRef(name, value, options);
 }
