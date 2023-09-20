@@ -1,11 +1,11 @@
-import {HTTP_METHODS} from "../constants/httpMethods";
+import {ALLOWED_VERBS} from "../constants/OperationVerbs";
 
-export function mapRouteOptions(args: any[]) {
+export function mapOperationOptions(args: any[]) {
   let method: string | undefined = undefined;
   let path: string | RegExp | undefined = undefined;
 
   const handlers = args.filter((arg: any) => {
-    if (typeof arg === "string" && HTTP_METHODS.includes(arg.toLowerCase())) {
+    if (typeof arg === "string" && ALLOWED_VERBS.includes(arg.toLowerCase())) {
       method = arg.toLocaleUpperCase();
 
       return false;

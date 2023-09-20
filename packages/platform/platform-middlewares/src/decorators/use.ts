@@ -1,5 +1,5 @@
 import {DecoratorTypes, UnsupportedDecoratorType} from "@tsed/core";
-import {JsonEntityFn, Route} from "@tsed/schema";
+import {JsonEntityFn, Operation} from "@tsed/schema";
 
 /**
  * Mounts the specified middleware function or functions at the specified path: the middleware function is executed when
@@ -26,7 +26,7 @@ export function Use(...args: any[]): Function {
   return JsonEntityFn((entity, parameters) => {
     switch (entity.decoratorType) {
       case DecoratorTypes.METHOD:
-        return Route(...args);
+        return Operation(...args);
 
       case DecoratorTypes.CLASS:
         entity.store.merge("middlewares", {
