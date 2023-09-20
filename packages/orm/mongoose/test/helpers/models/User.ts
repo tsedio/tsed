@@ -83,6 +83,18 @@ export class TestProfile extends BaseModel {
   user: Ref<TestUser>;
 }
 
+@Model({name: "profile_2", schemaOptions: {timestamps: {createdAt: "created", updatedAt: "updated"}}})
+export class TestProfile2 extends BaseModel {
+  @Property()
+  image: string;
+
+  @Property()
+  age: number;
+
+  @Ref(TestUser)
+  users: Ref<TestUser>[];
+}
+
 @Model({schemaOptions: {timestamps: true}})
 export class SelfUser {
   @ObjectID()
