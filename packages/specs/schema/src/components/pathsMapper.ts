@@ -1,4 +1,5 @@
 import {OS3Operation, OS3Paths} from "@tsed/openspec";
+import {OperationVerbs} from "../constants/OperationVerbs";
 import {JsonMethodStore} from "../domain/JsonMethodStore";
 import {JsonSchemaOptions} from "../interfaces/JsonSchemaOptions";
 import {execMapper, registerJsonSchemaMapper} from "../registries/JsonSchemaMapperContainer";
@@ -7,6 +8,18 @@ import {concatParameters} from "../utils/concatParameters";
 import {getJsonEntityStore} from "../utils/getJsonEntityStore";
 import {getJsonPathParameters} from "../utils/getJsonPathParameters";
 import {getOperationsStores} from "../utils/getOperationsStores";
+
+export const OPERATION_HTTP_VERBS = [
+  OperationVerbs.ALL,
+  OperationVerbs.GET,
+  OperationVerbs.POST,
+  OperationVerbs.PUT,
+  OperationVerbs.PATCH,
+  OperationVerbs.HEAD,
+  OperationVerbs.OPTIONS,
+  OperationVerbs.DELETE,
+  OperationVerbs.TRACE
+];
 
 function operationId(path: string, {store, operationIdFormatter}: JsonSchemaOptions) {
   return operationIdFormatter!(store.parent.schema.get("name") || store.parent.targetName, store.propertyName, path);
@@ -46,7 +59,7 @@ function mapOperationPaths({operationStore, operation}: {operationStore: JsonMet
         operation
       };
     })
-    .filter(({method}) => method);
+    .filter(({method}) => method && OPERATION_HTTP_VERBS.includes(method.toUpperCase() as OperationVerbs));
 }
 
 function mapOperationInPathParameters(options: JsonSchemaOptions) {

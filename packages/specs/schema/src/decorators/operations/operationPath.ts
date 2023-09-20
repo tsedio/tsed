@@ -1,6 +1,6 @@
 import {DecoratorTypes, UnsupportedDecoratorType} from "@tsed/core";
 import {JsonEntityFn} from "../common/jsonEntityFn";
-import {OperationMethods} from "../../constants/httpMethods";
+import {OperationVerbs} from "../../constants/OperationVerbs";
 
 /**
  * Declare new Operation with his path and http method.
@@ -21,7 +21,7 @@ import {OperationMethods} from "../../constants/httpMethods";
  * @schema
  * @operation
  */
-export function OperationPath(method: OperationMethods | string, path: string | RegExp = "/") {
+export function OperationPath(method: OperationVerbs | string, path: string | RegExp = "/") {
   return JsonEntityFn((store, args) => {
     if (store.decoratorType !== DecoratorTypes.METHOD) {
       throw new UnsupportedDecoratorType(OperationPath, args);

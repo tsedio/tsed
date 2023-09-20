@@ -1,4 +1,4 @@
-import {OperationMethods} from "../constants/httpMethods";
+import {OperationVerbs} from "../constants/OperationVerbs";
 import {JsonMethodPath} from "./JsonOperation";
 
 export class JsonOperationPathsMap extends Map<string, JsonMethodPath> {
@@ -6,10 +6,10 @@ export class JsonOperationPathsMap extends Map<string, JsonMethodPath> {
   readonly $isJsonDocument = true;
 
   setOperationPath(operationPath: JsonMethodPath) {
-    if (operationPath.method !== OperationMethods.CUSTOM) {
-      const key = this.getKey(operationPath.method, operationPath.path);
-      this.set(key, operationPath);
-    }
+    // if (operationPath.method !== OperationVerbs.CUSTOM) {
+    const key = this.getKey(operationPath.method, operationPath.path);
+    this.set(key, operationPath);
+    // }
   }
 
   protected getKey = (method: string, path: any) => `${method}-${path}`;

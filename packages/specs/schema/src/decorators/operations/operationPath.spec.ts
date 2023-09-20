@@ -1,9 +1,9 @@
-import {getSpec, OperationMethods, OperationPath} from "../../index";
+import {getSpec, OperationVerbs, OperationPath} from "../../index";
 
 describe("OperationPath", () => {
   it("should store metadata", () => {
     class MyController {
-      @OperationPath(OperationMethods.OPTIONS, "/")
+      @OperationPath(OperationVerbs.OPTIONS, "/")
       options() {}
     }
 
