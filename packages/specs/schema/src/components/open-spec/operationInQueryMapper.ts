@@ -1,15 +1,15 @@
 import {cleanObject} from "@tsed/core";
-import {JsonSchemaOptions} from "../interfaces/JsonSchemaOptions";
-import {registerJsonSchemaMapper} from "../registries/JsonSchemaMapperContainer";
-import {createRefName} from "../utils/ref";
+import {JsonSchemaOptions} from "../../interfaces/JsonSchemaOptions";
+import {registerJsonSchemaMapper} from "../../registries/JsonSchemaMapperContainer";
+import {createRefName} from "../../utils/ref";
 import type {JsonParameterOptions} from "./operationInParameterMapper";
 
 function inlineReference(parameter: any, {jsonParameter, ...options}: JsonSchemaOptions) {
   const name = createRefName(jsonParameter.$schema.getName(), options);
-  const schema = options.schemas?.[name];
+  const schema = options.components?.schemas?.[name];
 
   if (schema && !options.oldSchemas?.[name]) {
-    delete options.schemas![jsonParameter.$schema.getName()];
+    delete options.components!.schemas![jsonParameter.$schema.getName()];
   }
 
   return Object.entries(schema?.properties || {}).reduce((params, [key, {description, ...prop}]: [string, any]) => {

@@ -1,8 +1,8 @@
 import {isClass, isPrimitiveClass} from "@tsed/core";
-import {JsonEntityStore} from "../domain/JsonEntityStore";
-import {execMapper, registerJsonSchemaMapper} from "../registries/JsonSchemaMapperContainer";
-import {GenericsContext, popGenerics} from "../utils/generics";
-import {getJsonType} from "../utils/getJsonType";
+import {JsonEntityStore} from "../../domain/JsonEntityStore";
+import {execMapper, registerJsonSchemaMapper} from "../../registries/JsonSchemaMapperContainer";
+import {GenericsContext, popGenerics} from "../../utils/generics";
+import {getJsonType} from "../../utils/getJsonType";
 
 /**
  * @ignore
@@ -46,7 +46,7 @@ export function genericsMapper(obj: any, options: GenericsContext) {
         };
 
         if (options.nestedGenerics.length === 0) {
-          return execMapper("class", model as any, {
+          return execMapper("class", [model as any], {
             ...options,
             generics: undefined
           });
@@ -54,7 +54,7 @@ export function genericsMapper(obj: any, options: GenericsContext) {
 
         const store = JsonEntityStore.from(model.class);
 
-        return execMapper("schema", store.schema, {
+        return execMapper("schema", [store.schema], {
           ...options,
           ...popGenerics(options),
           root: false

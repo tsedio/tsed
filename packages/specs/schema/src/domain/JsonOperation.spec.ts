@@ -15,7 +15,7 @@ describe("JsonOperation", () => {
 
       expect(entity.operation?.getStatus()).toBe(200);
       expect(entity.operation?.status).toBe(200);
-      expect(execMapper("operationResponse", entity.operation?.response, {})).toEqual({
+      expect(execMapper("operationResponse", [entity.operation?.response], {})).toEqual({
         content: {
           "*/*": {
             schema: {
