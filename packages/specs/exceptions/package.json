@@ -1,6 +1,6 @@
 {
   "name": "@tsed/exceptions",
-  "version": "7.36.0",
+  "version": "7.36.1",
   "description": "HTTP exceptions module for Ts.ED Framework and other pure Express application",
   "private": false,
   "source": "./src/index.ts",
@@ -27,12 +27,12 @@
     "tslib": "2.5.0"
   },
   "devDependencies": {
-    "@tsed/eslint": "7.36.0",
-    "@tsed/typescript": "7.36.0",
+    "@tsed/eslint": "7.36.1",
+    "@tsed/typescript": "7.36.1",
     "@types/statuses": "2.0.0",
     "eslint": "^8.12.0"
   },
   "peerDependencies": {
-    "@tsed/core": "^7.36.0"
+    "@tsed/core": "^7.36.1"
   }
 }
