@@ -208,7 +208,11 @@ export class JsonOperation extends JsonMap<JsonOperationOptions> {
     return this;
   }
 
-  getAllowedOperationPath(allowedVerbs: string[]) {
+  getAllowedOperationPath(allowedVerbs?: string[]) {
+    if (!allowedVerbs) {
+      return [...this.operationPaths.values()];
+    }
+
     return [...this.operationPaths.values()].filter(({method}) => method && allowedVerbs.includes(method.toUpperCase()));
   }
 }

@@ -1,11 +1,17 @@
-import {ALLOWED_VERBS} from "../constants/OperationVerbs";
+import {OperationVerbs} from "../constants/OperationVerbs";
+
+const ALLOWED_VERBS = new Set([
+  ...Object.keys(OperationVerbs)
+    .filter((v) => v !== OperationVerbs.CUSTOM)
+    .map((v) => v.toLowerCase())
+]);
 
 export function mapOperationOptions(args: any[]) {
   let method: string | undefined = undefined;
   let path: string | RegExp | undefined = undefined;
 
   const handlers = args.filter((arg: any) => {
-    if (typeof arg === "string" && ALLOWED_VERBS.includes(arg.toLowerCase())) {
+    if (typeof arg === "string" && ALLOWED_VERBS.has(arg.toLowerCase())) {
       method = arg.toLocaleUpperCase();
 
       return false;
