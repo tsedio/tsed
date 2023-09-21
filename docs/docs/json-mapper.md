@@ -234,12 +234,11 @@ export class Person {
 
 `@tsed/json-mapper` use classes to transform an input value to the expected value:
 
-| Type        | Mapper                                             |
-| ----------- | -------------------------------------------------- |
-| Primitives  | @@PrimitiveMapper@@,                               |
-| Symbol      | @@SymbolMapper@@,                                  |
-| Objects     | @@DateMapper@@,                                    |
-| Collections |  @@ArrayMapper@@, @@MapMapper@@ and @@SetMapper@@. |
+| Type       | Mapper               |
+| ---------- | -------------------- |
+| Primitives | @@PrimitiveMapper@@, |
+| Symbol     | @@SymbolMapper@@,    |
+| Objects    | @@DateMapper@@,      |
 
 It's possible to add your own type mapper by using the @@JsonMapper@@ decorator on a class. Just copy a mapper implementation
 and import the mapper in your application.
@@ -362,82 +361,6 @@ export class DateMapper implements JsonMapperMethods {
 ```
 
 :::
-
-### Array
-
-@@ArrayMapper@@ is responsible to map any data to an `Array`.
-
-<Tabs class="-code">
-  <Tab label="ArrayMapper">
-
-<<< @/../packages/specs/json-mapper/src/components/ArrayMapper.ts
-
-  </Tab>
-  <Tab label="Spec">
- 
-<<< @/../packages/specs/json-mapper/src/components/ArrayMapper.spec.ts
-  
-  </Tab>
-</Tabs>
-
-### Map
-
-@@MapMapper@@ is responsible to map an `Object` to a `Map`.
-
-<Tabs class="-code">
-  <Tab label="SetMapper">
-  
-<<< @/../packages/specs/json-mapper/src/components/MapMapper.ts
-
-  </Tab>
-  <Tab label="Example">
-  
-```typescript
-import {CollectionOf} from "@tsed/schema";
-import {Skill} from "./Skill";
- 
-export class Person {
-  @CollectionOf(Skill)
-  skills: Map<string, Skill>;
-}
-```
-  
-  </Tab>
-  <Tab label="Spec">
- 
-<<< @/../packages/specs/json-mapper/src/components/MapMapper.spec.ts
-  
-  </Tab>
-</Tabs>
-
-### Set
-
-@@SetMapper@@ is responsible to map an `Array` to a `Set`.
-
-<Tabs class="-code">
-  <Tab label="SetMapper">
-  
-<<< @/../packages/specs/json-mapper/src/components/SetMapper.ts
-
-  </Tab>
-  <Tab label="Example">
-  
-```typescript
-import {CollectionOf} from "@tsed/schema";
- 
-export class Person {
-  @CollectionOf(String)
-  skills: Set<string>;
-}
-```
-  
-  </Tab>
-  <Tab label="Spec">
- 
-<<< @/../packages/specs/json-mapper/src/components/SetMapper.spec.ts
-  
-  </Tab>
-</Tabs>
 
 ## Create your own type mapper
 
