@@ -1,0 +1,804 @@
+import {PlatformTest} from "@tsed/common";
+import {Store} from "@tsed/core";
+import {InjectorService, ProviderType} from "@tsed/di";
+import {SocketFilters} from "../interfaces/SocketFilters";
+import {SocketReturnsTypes} from "../interfaces/SocketReturnsTypes";
+import {SocketHandlersBuilder} from "./SocketHandlersBuilder";
+import {SocketProviderMetadata} from "./SocketProviderMetadata";
+
+const metadata: any = {
+  handlers: {
+    testHandler: {
+      methodClassName: "testHandler",
+      eventName: "eventName",
+      parameters: ["param"],
+      returns: {
+        eventName: "returnEventName",
+        type: "type"
+      }
+    }
+  }
+};
+
+describe("SocketHandlersBuilder", () => {
+  beforeEach(() => PlatformTest.create());
+  afterEach(() => PlatformTest.reset());
+  describe("build()", () => {
+    function createServiceFixture() {
+      const instance: any = {
+        $onDisconnect: jest.fn(),
+        $onConnection: jest.fn(),
+        $onNamespaceInit: jest.fn()
+      };
+
+      const provider: any = {
+        store: {
+          get: jest.fn()
+        }
+      };
+
+      const builder: any = new SocketHandlersBuilder(provider, {
+        get() {
+          return instance;
+        }
+      } as any);
+      builder.socketProviderMetadata = new SocketProviderMetadata({
+        namespace: "/",
+        injectNamespaces: [{propertyKey: "key1"}, {propertyKey: "key2", nsp: "/test"}],
+        handlers: {
+          $onDisconnect: {} as any
+        }
+      });
+
+      const nsps = new Map();
+      nsps.set("/", "namespace1");
+      nsps.set("/test", "namespace2");
+
+      builder.build(nsps);
+
+      return {builder, nsps, provider, instance};
+    }
+    it("should create metadata when $onDisconnect exists", () => {
+      const {builder} = createServiceFixture();
+      expect(builder.socketProviderMetadata).toEqual(
+        new SocketProviderMetadata({
+          namespace: "/",
+          handlers: {
+            $onConnection: {
+              eventName: "connection",
+              methodClassName: "$onConnection"
+            },
+            $onDisconnect: {
+              eventName: "disconnect",
+              methodClassName: "$onDisconnect"
+            }
+          },
+          injectNamespaces: [
+            {
+              propertyKey: "key1"
+            },
+            {
+              nsp: "/test",
+              propertyKey: "key2"
+            }
+          ]
+        })
+      );
+    });
+    it("should call $onNamespaceInit hook", () => {
+      const {instance} = createServiceFixture();
+      expect(instance.$onNamespaceInit).toBeCalledWith("namespace1");
+    });
+    it("should add namespace1", () => {
+      const {instance} = createServiceFixture();
+      expect(instance.key1).toEqual("namespace1");
+    });
+    it("should add namespace2", () => {
+      const {instance} = createServiceFixture();
+      expect(instance.key2).toEqual("namespace2");
+    });
+
+    it("should add default nsp", () => {
+      const {instance} = createServiceFixture();
+      expect(instance.nsp).toEqual("namespace1");
+    });
+  });
+  describe("onConnection()", () => {
+    it("should build handler and invoke onConnection instance method", async () => {
+      const instance = {
+        $onConnection: jest.fn()
+      };
+      const provider: any = {
+        store: {
+          get: jest.fn().mockReturnValue({
+            injectNamespaces: [{nsp: "/nsp", propertyKey: "key"}],
+            handlers: {
+              $onConnection: {
+                eventName: "onConnection"
+              } as any
+            }
+          })
+        }
+      };
+      const nspStub = {nsp: "nsp"};
+      const socketStub = {
+        on: jest.fn()
+      };
+
+      const builder: any = new SocketHandlersBuilder(provider, {
+        get() {
+          return instance;
+        }
+      } as any);
+
+      const invokeStub = jest.spyOn(builder, "invoke").mockReturnValue(undefined);
+      const buildHandlersStub = jest.spyOn(builder, "buildHandlers").mockReturnValue(undefined);
+
+      await builder.onConnection(socketStub, nspStub);
+
+      expect(buildHandlersStub).toBeCalledWith(socketStub, nspStub);
+      expect(invokeStub).toBeCalledWith(
+        instance,
+        {eventName: "onConnection"},
+        {
+          socket: socketStub,
+          nsp: nspStub
+        }
+      );
+    });
+  });
+  describe("onDisconnect()", () => {
+    it("should create the $onDisconnect method if is missing", async () => {
+      const instance = {
+        $onDisconnect: jest.fn()
+      };
+
+      const provider: any = {
+        store: {
+          get: jest.fn().mockReturnValue({
+            injectNamespace: "nsp",
+            handlers: {
+              $onDisconnect: {
+                eventName: "onDisconnect"
+              }
+            }
+          })
+        }
+      };
+      const nspStub: any = {nsp: "nsp"};
+      const socketStub: any = {
+        on: jest.fn()
+      };
+
+      const builder: any = new SocketHandlersBuilder(provider, {
+        get() {
+          return instance;
+        }
+      } as any);
+      const invokeStub = jest.spyOn(builder, "invoke").mockReturnValue(undefined);
+
+      await builder.onDisconnect(socketStub, nspStub);
+
+      expect(invokeStub).toBeCalledWith(
+        instance,
+        {eventName: "onDisconnect"},
+        {
+          socket: socketStub,
+          nsp: nspStub
+        }
+      );
+    });
+
+    it("should pass the disconnection reason", async () => {
+      const instance = {
+        $onDisconnect: jest.fn()
+      };
+
+      const provider: any = {
+        store: {
+          get: jest.fn().mockReturnValue({
+            injectNamespace: "nsp",
+            handlers: {
+              $onDisconnect: {
+                eventName: "onDisconnect"
+              }
+            }
+          })
+        }
+      };
+      const nspStub: any = {nsp: "nsp"};
+      const reason = "transport error";
+      const socketStub: any = {
+        on: jest.fn()
+      };
+
+      const builder: any = new SocketHandlersBuilder(provider, {
+        get() {
+          return instance;
+        }
+      } as any);
+      const invokeStub = jest.spyOn(builder, "invoke").mockReturnValue(undefined);
+
+      await builder.onDisconnect(socketStub, nspStub, reason);
+
+      expect(invokeStub).toBeCalledWith(
+        instance,
+        {eventName: "onDisconnect"},
+        {
+          reason,
+          socket: socketStub,
+          nsp: nspStub
+        }
+      );
+    });
+  });
+
+  describe("buildHandlers()", () => {
+    it("should call socket.on() method", async () => {
+      const metadata = {
+        handlers: {
+          testHandler: {
+            eventName: "eventName"
+          }
+        }
+      };
+      const provider: any = {
+        store: {
+          get: jest.fn().mockReturnValue(metadata)
+        }
+      };
+      const socketStub = {
+        on: jest.fn()
+      };
+      const builder: any = new SocketHandlersBuilder(provider, {} as any);
+      jest.spyOn(builder, "runQueue").mockResolvedValue(undefined);
+
+      await builder.buildHandlers(socketStub, "ws");
+      socketStub.on.mock.calls[0][1]("arg1");
+
+      expect(socketStub.on).toBeCalledWith("eventName", expect.any(Function));
+      expect(builder.runQueue).toBeCalledWith(metadata.handlers.testHandler, ["arg1"], socketStub, "ws");
+    });
+  });
+  describe("invoke()", () => {
+    it("should call the method instance", () => {
+      const instance = {
+        testHandler: jest.fn().mockReturnValue("response")
+      };
+      const provider: any = {
+        store: {
+          get: jest.fn().mockReturnValue(metadata)
+        }
+      };
+
+      const builder: any = new SocketHandlersBuilder(provider, {
+        get() {
+          return instance;
+        }
+      } as any);
+      const buildParametersStub = jest.spyOn(builder, "buildParameters").mockReturnValue(["argMapped"]);
+
+      builder.invoke(instance, metadata.handlers.testHandler, {scope: "scope"});
+
+      expect(buildParametersStub).toBeCalledWith(["param"], {
+        scope: "scope"
+      });
+
+      expect(instance.testHandler).toBeCalledWith("argMapped");
+    });
+  });
+  describe("buildParameters()", () => {
+    function createFixture() {
+      const instance: any = {
+        testHandler: jest.fn().mockReturnValue("response")
+      };
+      const provider: any = {
+        store: {
+          get: jest.fn().mockReturnValue(metadata)
+        }
+      };
+
+      const builder: any = new SocketHandlersBuilder(provider, {
+        get() {
+          return instance;
+        }
+      } as any);
+
+      return {
+        instance,
+        builder,
+        provider
+      };
+    }
+
+    describe("when ARGS", () => {
+      it("should return a list of parameters", () => {
+        const {builder} = createFixture();
+
+        const result = builder.buildParameters(
+          {
+            0: {
+              filter: SocketFilters.ARGS
+            }
+          },
+          {args: ["mapValue"]}
+        );
+
+        expect(result).toEqual([["mapValue"]]);
+      });
+    });
+
+    describe("when ARGS with mapIndex", () => {
+      it("should return a list of parameters", () => {
+        const {builder} = createFixture();
+
+        const result = builder.buildParameters(
+          {
+            0: {
+              filter: SocketFilters.ARGS,
+              mapIndex: 0
+            }
+          },
+          {args: ["mapValue"]}
+        );
+
+        expect(result).toEqual(["mapValue"]);
+      });
+    });
+
+    describe("when Socket", () => {
+      it("should return a list of parameters", () => {
+        const {builder} = createFixture();
+
+        const result = builder.buildParameters(
+          {
+            0: {
+              filter: SocketFilters.SOCKET
+            }
+          },
+          {socket: "socket"}
+        );
+
+        expect(result).toEqual(["socket"]);
+      });
+    });
+
+    describe("when NSP", () => {
+      it("should return a list of parameters", () => {
+        const {builder} = createFixture();
+
+        const result = builder.buildParameters(
+          {
+            0: {
+              filter: SocketFilters.NSP
+            }
+          },
+          {nsp: "nsp"}
+        );
+
+        expect(result).toEqual(["nsp"]);
+      });
+    });
+
+    describe("when REASON", () => {
+      it("should return a disconnect reason", () => {
+        const {builder} = createFixture();
+
+        const result = builder.buildParameters(
+          {
+            0: {
+              filter: SocketFilters.REASON
+            }
+          },
+          {reason: "transport error"}
+        );
+
+        expect(result).toEqual(["transport error"]);
+      });
+    });
+
+    describe("when ERROR", () => {
+      it("should return a list of parameters", () => {
+        const {builder} = createFixture();
+
+        const result = builder.buildParameters(
+          {
+            0: {
+              filter: SocketFilters.ERR
+            }
+          },
+          {error: "error"}
+        );
+
+        expect(result).toEqual(["error"]);
+      });
+    });
+
+    describe("when EVENT_NAME", () => {
+      it("should return a list of parameters", () => {
+        const {builder} = createFixture();
+        const result = builder.buildParameters(
+          {
+            0: {
+              filter: SocketFilters.EVENT_NAME
+            }
+          },
+          {eventName: "eventName"}
+        );
+
+        expect(result).toEqual(["eventName"]);
+      });
+    });
+
+    describe("when SESSION", () => {
+      it("should return a list of parameters", () => {
+        const data = {id: "id"};
+
+        const {builder} = createFixture();
+
+        const result = builder.buildParameters(
+          {
+            0: {
+              filter: SocketFilters.SESSION
+            }
+          },
+          {socket: {data, id: "id"}}
+        );
+
+        expect(new Map(result[0])).toEqual(new Map(Object.entries(data)));
+      });
+    });
+
+    describe("when RAW_SESSION", () => {
+      it("should return a list of parameters", () => {
+        const data = {id: "id"};
+
+        const {builder} = createFixture();
+
+        const result = builder.buildParameters(
+          {
+            0: {
+              filter: SocketFilters.RAW_SESSION
+            }
+          },
+          {socket: {data, id: "id"}}
+        );
+
+        expect(result[0]).toEqual(data);
+      });
+    });
+
+    describe("when SOCKET_NSP", () => {
+      it("should return a list of parameters", () => {
+        const {builder} = createFixture();
+
+        const result = builder.buildParameters(
+          {
+            0: {
+              filter: SocketFilters.SOCKET_NSP
+            }
+          },
+          {socket: {nsp: "socket_nsp"}}
+        );
+
+        expect(result).toEqual(["socket_nsp"]);
+      });
+    });
+  });
+  describe("bindResponseMiddleware()", () => {
+    describe("when BROADCAST", () => {
+      it("should call the ws.emit method", () => {
+        const nspStub = {
+          emit: jest.fn()
+        };
+
+        (SocketHandlersBuilder as any).bindResponseMiddleware(
+          {
+            returns: {
+              type: SocketReturnsTypes.BROADCAST,
+              eventName: "eventName"
+            }
+          },
+          {nsp: nspStub}
+        )({response: "response"});
+
+        expect(nspStub.emit).toBeCalledWith("eventName", {response: "response"});
+      });
+    });
+    describe("when BROADCAST_OTHERS", () => {
+      it("should call the socket.broadcast.emit method", () => {
+        const socketStub = {
+          broadcast: {
+            emit: jest.fn()
+          }
+        };
+
+        (SocketHandlersBuilder as any).bindResponseMiddleware(
+          {
+            returns: {
+              type: SocketReturnsTypes.BROADCAST_OTHERS,
+              eventName: "eventName"
+            }
+          },
+          {socket: socketStub}
+        )({response: "response"});
+
+        expect(socketStub.broadcast.emit).toBeCalledWith("eventName", {response: "response"});
+      });
+    });
+
+    describe("when EMIT", () => {
+      it("should call the socket.emit method", () => {
+        const socketStub = {
+          emit: jest.fn()
+        };
+
+        (SocketHandlersBuilder as any).bindResponseMiddleware(
+          {
+            returns: {
+              type: SocketReturnsTypes.EMIT,
+              eventName: "eventName"
+            }
+          },
+          {socket: socketStub}
+        )({response: "response"});
+
+        expect(socketStub.emit).toBeCalledWith("eventName", {response: "response"});
+      });
+    });
+  });
+  describe("runQueue()", () => {
+    function createServiceFixture() {
+      const provider = {
+        store: {
+          get: jest.fn().mockReturnValue({
+            useBefore: [{target: "target before global"}],
+            useAfter: [{target: "target after global"}]
+          })
+        }
+      };
+      const instance = {instance: "instance"};
+
+      const handlerMetadata = {
+        eventName: "eventName",
+        useBefore: [{target: "target before"}],
+        useAfter: [{target: "target after"}]
+      };
+
+      jest.spyOn(SocketHandlersBuilder as any, "bindResponseMiddleware").mockResolvedValue(undefined);
+
+      const builder: any = new SocketHandlersBuilder(
+        provider as any,
+        {
+          get() {
+            return instance;
+          }
+        } as any
+      );
+
+      jest.spyOn(builder, "invoke").mockResolvedValue(undefined);
+      jest.spyOn(builder, "bindMiddleware").mockResolvedValue(undefined);
+      jest.spyOn(builder, "deserialize").mockResolvedValue(undefined);
+
+      return {builder, handlerMetadata, provider, instance};
+    }
+
+    it("should call bindMiddleware (handler before global)", async () => {
+      const {builder, handlerMetadata, instance} = createServiceFixture();
+
+      await builder.runQueue(handlerMetadata, ["arg1"], "socket", "nsp");
+
+      expect((builder as any).bindMiddleware).nthCalledWith(
+        1,
+        {target: "target before global"},
+        {
+          eventName: "eventName",
+          args: ["arg1"],
+          socket: "socket",
+          nsp: "nsp"
+        },
+        expect.any(Object)
+      );
+
+      expect((builder as any).bindMiddleware).nthCalledWith(
+        2,
+        {target: "target before"},
+        {
+          eventName: "eventName",
+          args: ["arg1"],
+          socket: "socket",
+          nsp: "nsp"
+        },
+        expect.any(Object)
+      );
+
+      expect(builder.invoke).toBeCalledWith(instance, handlerMetadata, {
+        eventName: "eventName",
+        args: ["arg1"],
+        socket: "socket",
+        nsp: "nsp"
+      });
+
+      expect((SocketHandlersBuilder as any).bindResponseMiddleware).toBeCalledWith(handlerMetadata, {
+        eventName: "eventName",
+        args: ["arg1"],
+        socket: "socket",
+        nsp: "nsp"
+      });
+
+      expect((builder as any).bindMiddleware).nthCalledWith(
+        3,
+        {target: "target after"},
+        {
+          eventName: "eventName",
+          args: ["arg1"],
+          socket: "socket",
+          nsp: "nsp"
+        },
+        expect.any(Object)
+      );
+
+      expect((builder as any).bindMiddleware).nthCalledWith(
+        4,
+        {target: "target after global"},
+        {
+          eventName: "eventName",
+          args: ["arg1"],
+          socket: "socket",
+          nsp: "nsp"
+        },
+        expect.any(Object)
+      );
+
+      expect(builder.deserialize).toBeCalledWith(handlerMetadata, {
+        eventName: "eventName",
+        args: ["arg1"],
+        socket: "socket",
+        nsp: "nsp"
+      });
+    });
+  });
+  describe("bindMiddleware()", () => {
+    describe("middleware is not registered", () => {
+      it("should call Middleware.get", () => {
+        class Test {}
+
+        const injector = PlatformTest.get(InjectorService);
+        const provider: any = {
+          token: Test,
+          store: {
+            get: jest.fn()
+          }
+        };
+
+        Store.from(Test).set("socketIO", {
+          handlers: {
+            use: "use"
+          }
+        });
+
+        jest.spyOn(injector, "getProvider").mockReturnValue(false);
+        jest.spyOn(injector, "get").mockReturnValue(undefined);
+
+        const scope = {scope: "scope"};
+
+        const builder: any = new SocketHandlersBuilder(provider, injector);
+        jest.spyOn(builder, "invoke");
+
+        builder.bindMiddleware({target: "target"}, scope, Promise.resolve());
+
+        expect(injector.get).toBeCalledWith({target: "target"});
+        expect(builder.invoke).not.toBeCalled();
+      });
+    });
+
+    describe("middleware", () => {
+      it("should call build handler from metadata", async () => {
+        // GIVEN
+        class Test {}
+
+        const instance = new Test();
+        const provider = {
+          token: Test,
+          store: {
+            get: jest.fn()
+          }
+        };
+
+        Store.from(Test).set("socketIO", {
+          type: ProviderType.MIDDLEWARE,
+          handlers: {
+            use: "use"
+          }
+        });
+        const scope = {scope: "scope", args: undefined};
+        const injector = PlatformTest.get(InjectorService);
+        const builder: any = new SocketHandlersBuilder(provider as any, injector);
+
+        jest.spyOn(injector, "getProvider").mockReturnValue({type: ProviderType.MIDDLEWARE});
+        jest.spyOn(injector, "get").mockReturnValue(instance);
+        jest.spyOn(builder, "invoke").mockReturnValue({result: "result"});
+
+        // WHEN
+        await builder.bindMiddleware({target: "target"}, scope, Promise.resolve());
+
+        // THEN
+        expect(injector.get).toBeCalledWith({target: "target"});
+        expect(builder.invoke).toBeCalledWith(instance, "use", scope);
+        expect(scope.args).toEqual([{result: "result"}]);
+      });
+    });
+
+    describe("middleware error", () => {
+      it("should call build handler from metadata", async () => {
+        class Test {}
+
+        const injector = PlatformTest.get(InjectorService);
+
+        const instance = new Test();
+        const provider = {
+          store: {
+            get: jest.fn()
+          }
+        };
+
+        Store.from(Test).set("socketIO", {
+          type: ProviderType.MIDDLEWARE,
+          error: true,
+          handlers: {
+            use: "use"
+          }
+        });
+
+        const getProviderStub = jest.spyOn(injector as any, "getProvider");
+        const getStub = jest.spyOn(injector as any, "get");
+        getProviderStub.mockReturnValue({
+          type: ProviderType.MIDDLEWARE
+        });
+        getStub.mockReturnValue(instance);
+
+        const scope = {scope: "scope", args: undefined};
+        const error = new Error("test");
+        const builder: any = new SocketHandlersBuilder(provider as any, injector);
+        jest.spyOn(builder, "invoke").mockReturnValue({result: "result"});
+
+        // WHEN
+        await builder.bindMiddleware({target: "target"}, scope, Promise.reject(error));
+
+        // THEN
+        expect(injector.get).toBeCalledWith({target: "target"});
+        expect(builder.invoke).toBeCalledWith(instance, "use", {error, ...scope});
+      });
+    });
+  });
+  describe("deserialize()", () => {
+    it("should call ConverterService.deserialize", () => {
+      const provider: any = {
+        store: {
+          get: jest.fn()
+        }
+      };
+      const parameters: any[] = [
+        {
+          filter: SocketFilters.ARGS,
+          useMapper: true,
+          mapIndex: 0,
+          type: String,
+          collectionType: Array
+        }
+      ];
+      const scope: any = {
+        args: ["any"]
+      };
+
+      const builder = new SocketHandlersBuilder(provider, PlatformTest.injector);
+
+      // @ts-ignore
+      builder.deserialize({parameters} as any, scope as any);
+
+      expect(scope).toEqual({
+        args: [["any"]]
+      });
+    });
+  });
+});
