@@ -1,4 +1,5 @@
-import {getClassOrSymbol, Type} from "@tsed/core";
+import {getClassOrSymbol, Hooks, Type} from "@tsed/core";
+import {options} from "superagent";
 import type {LocalsContainer} from "../domain/LocalsContainer";
 import {Provider} from "../domain/Provider";
 import {ProviderType} from "../domain/ProviderType";
@@ -10,6 +11,7 @@ import type {InjectorService} from "../services/InjectorService";
 
 export class GlobalProviderRegistry extends Map<TokenProvider, Provider> {
   #settings: Map<string, RegistrySettings> = new Map();
+  #hooks = new Hooks();
 
   /**
    * The get() method returns a specified element from a Map object.
@@ -66,8 +68,12 @@ export class GlobalProviderRegistry extends Map<TokenProvider, Provider> {
     return super.delete(getClassOrSymbol(key));
   }
 
-  createRegistry(type: string, model: Type<Provider>, options: Partial<RegistrySettings> = {}) {
+  createRegistry(type: string, model: Type<Provider>, {onInvoke, ...options}: Partial<RegistrySettings> = {}) {
     const defaultOptions = this.getRegistrySettings(type);
+
+    if (onInvoke) {
+      this.on(type, onInvoke);
+    }
 
     options = Object.assign(defaultOptions, {
       ...options,
@@ -79,12 +85,42 @@ export class GlobalProviderRegistry extends Map<TokenProvider, Provider> {
     return this;
   }
 
-  onInvoke(provider: Provider, locals: LocalsContainer, options: ResolvedInvokeOptions & {injector: InjectorService}) {
-    const settings = this.#settings.get(provider.type);
-
-    if (settings?.onInvoke) {
-      settings.onInvoke(provider, locals, options);
+  /**
+   * @deprecated Use GlobalProviders.emit() instead of.
+   */
+  onInvoke(
+    provider: Provider,
+    locals: LocalsContainer,
+    options: ResolvedInvokeOptions & {
+      injector: InjectorService;
     }
+  ) {
+    return this.emit(provider, locals, options);
+  }
+
+  emit(
+    provider: Provider,
+    locals: LocalsContainer,
+    options: ResolvedInvokeOptions & {
+      injector: InjectorService;
+    }
+  ) {
+    return this.#hooks.emit(provider.type, [provider, locals, options]);
+  }
+
+  on(
+    type: string,
+    cb: (
+      provider: Provider,
+      locals: LocalsContainer,
+      options: ResolvedInvokeOptions & {
+        injector: InjectorService;
+      }
+    ) => void
+  ): this {
+    this.#hooks.on(type, cb);
+
+    return this;
   }
 
   getRegistrySettings(target: string | TokenProvider): RegistrySettings {

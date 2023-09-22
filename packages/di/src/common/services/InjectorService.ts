@@ -603,7 +603,7 @@ export class InjectorService extends Container {
     const {token, deps, construct, imports, provider} = resolvedOpts;
 
     if (provider) {
-      GlobalProviders.onInvoke(provider, locals, {...resolvedOpts, injector: this});
+      GlobalProviders.emit(provider, locals, {...resolvedOpts, injector: this});
     }
 
     let instance: any;

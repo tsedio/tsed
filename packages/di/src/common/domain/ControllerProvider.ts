@@ -4,7 +4,7 @@ import {Provider} from "./Provider";
 import {ProviderType} from "./ProviderType";
 
 export class ControllerProvider<T = any> extends Provider<T> {
-  public tokenRouter: string;
+  public routers: Record<string, string> = {};
 
   constructor(provide: TokenProvider, options: Partial<Provider> = {}) {
     super(provide, options);
