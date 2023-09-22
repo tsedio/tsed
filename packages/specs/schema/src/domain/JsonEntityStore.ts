@@ -213,12 +213,7 @@ export abstract class JsonEntityStore implements JsonEntityStoreOptions {
 
     if (!store.has("JsonEntityStore")) {
       const decoratorType = decoratorTypeOf(args);
-      const entityStore = JsonEntitiesContainer.get(decoratorType);
-
-      // istanbul ignore next
-      if (!entityStore) {
-        throw Error("Unsupported json entity type");
-      }
+      const entityStore = JsonEntitiesContainer.get(decoratorType)!;
 
       const jsonSchemaStore = new entityStore({
         store,
