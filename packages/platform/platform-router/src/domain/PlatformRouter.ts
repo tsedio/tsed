@@ -1,9 +1,5 @@
-import {isString} from "@tsed/core";
-import {Injectable, InjectorService, Provider, ProviderScope, Scope} from "@tsed/di";
-import {concatPath} from "@tsed/schema";
-import {formatMethod} from "../utils/formatMethod";
-import {PlatformHandlerMetadata} from "./PlatformHandlerMetadata";
-import {PlatformLayer, PlatformLayerOptions} from "./PlatformLayer";
+import {Injectable, InjectorService, ProviderScope, Scope} from "@tsed/di";
+import {PlatformBaseRouter} from "./PlatformBaseRouter";
 import {SinglePathType} from "./SinglePathType";
 
 function printHandler(handler: any) {
@@ -12,64 +8,9 @@ function printHandler(handler: any) {
 
 @Injectable()
 @Scope(ProviderScope.INSTANCE)
-export class PlatformRouter {
-  readonly layers: PlatformLayer[] = [];
-  provider: Provider;
-  #isBuilt = false;
-
-  constructor(protected readonly injector: InjectorService) {}
-
-  use(...handlers: any[]) {
-    const layer = handlers.reduce(
-      (layer: PlatformLayer, item) => {
-        if (isString(item) || item instanceof RegExp) {
-          layer.path = item;
-          layer.basePath = item;
-        } else {
-          if (item instanceof PlatformRouter) {
-            layer.router = item;
-            layer.setLayers(item.layers);
-
-            if (!this.provider && item.provider) {
-              layer.path = concatPath(layer.path, item.provider.path);
-            } else {
-              layer.path = layer.path || item.provider.path;
-            }
-          } else {
-            item = PlatformHandlerMetadata.from(this.injector, item);
-          }
-
-          layer.handlers.push(item);
-        }
-
-        return layer;
-      },
-      new PlatformLayer({
-        method: "use",
-        basePath: this.provider?.path || "/",
-        provider: this.provider
-      })
-    );
-
-    this.layers.push(layer);
-
-    return this;
-  }
-
-  addRoute(method: string, path: SinglePathType, handlers: any[], opts: PlatformLayerOptions = {}) {
-    const layer = new PlatformLayer({
-      provider: this.provider,
-      method: formatMethod(method),
-      path,
-      handlers: handlers.map((input) => {
-        return PlatformHandlerMetadata.from(this.injector, input, opts);
-      }),
-      opts
-    });
-
-    this.layers.push(layer);
-
-    return this;
+export class PlatformRouter extends PlatformBaseRouter {
+  constructor(injector: InjectorService) {
+    super(injector);
   }
 
   all(path: SinglePathType, ...handlers: any[]) {
@@ -106,27 +47,5 @@ export class PlatformRouter {
 
   statics(path: string, options: any) {
     return this.addRoute("statics", path, [], options);
-  }
-
-  inspect() {
-    return this.layers.map((layer) => {
-      const obj = layer.inspect();
-
-      return {
-        ...obj,
-        handlers: obj.handlers.map(printHandler),
-        path: concatPath(this.provider?.path, obj.path)
-      };
-    });
-  }
-
-  isBuilt() {
-    if (this.#isBuilt) {
-      return true;
-    }
-
-    this.#isBuilt = true;
-
-    return false;
   }
 }

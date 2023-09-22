@@ -34,7 +34,7 @@ describe("Routers injection", () => {
     const router1 = platformRouters.from(CustomStaticsCtrl);
 
     const provider = injector.getProvider<ControllerProvider>(CustomStaticsCtrl)!;
-    const router2 = injector.get(provider.tokenRouter);
+    const router2 = injector.get(provider.routers["REST"]);
     const controller = injector.invoke<CustomStaticsCtrl>(CustomStaticsCtrl)!;
 
     expect(router).toEqual(router1);

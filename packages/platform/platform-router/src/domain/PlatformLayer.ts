@@ -2,9 +2,9 @@ import {isPrimitive, nameOf, Type} from "@tsed/core";
 import {Provider} from "@tsed/di";
 import type {PlatformParamsCallback} from "@tsed/platform-params";
 import {concatPath} from "@tsed/schema";
+import type {PlatformBaseRouter} from "./PlatformBaseRouter";
 
 import {PlatformHandlerMetadata} from "./PlatformHandlerMetadata";
-import type {PlatformRouter} from "./PlatformRouter";
 import {SinglePathType} from "./SinglePathType";
 
 export interface PlatformLayerOptions extends Record<string, any> {
@@ -18,7 +18,7 @@ export interface PlatformLayerProps {
   basePath: SinglePathType;
   method: string;
   handlers: any[];
-  router: PlatformRouter;
+  router: PlatformBaseRouter;
   opts: PlatformLayerOptions;
 }
 
@@ -27,7 +27,7 @@ export class PlatformLayer {
   public path: SinglePathType = "";
   public method: string;
   public handlers: PlatformHandlerMetadata[] = [];
-  public router?: PlatformRouter;
+  public router?: PlatformBaseRouter;
   public opts: PlatformLayerOptions = {};
 
   public layers: PlatformLayer[] = [];

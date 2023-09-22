@@ -1,53 +1,19 @@
-import { getValue, Hooks, Type } from "@tsed/core";
-import {
-  ControllerProvider,
-  GlobalProviders,
-  Injectable,
-  InjectorService,
-  Provider,
+import {getValue, Hooks, Type} from "@tsed/core";
+import {ControllerProvider, GlobalProviders, Injectable, InjectorService,
   ProviderType,
   TokenProvider
 } from "@tsed/di";
 import { PlatformParamsCallback } from "@tsed/platform-params";
-import { concatPath, getOperationsRoutes, JsonMethodStore, OPERATION_HTTP_VERBS } from "@tsed/schema";
+import { concatPath, getOperationsRoutes, JsonMethodStore,OPERATION_HTTP_VERBS} from "@tsed/schema";
+import {routerTokenFactory} from "../utils/routerTokenFactory";
 import { useContextHandler } from "../utils/useContextHandler";
 import { PlatformHandlerMetadata } from "./PlatformHandlerMetadata";
 import { PlatformLayer } from "./PlatformLayer";
 import { PlatformRouter } from "./PlatformRouter";
 
-let AUTO_INC = 0;
+GlobalProviders.createRegistry(ProviderType.CONTROLLER, ControllerProvider);
 
-function getInjectableRouter(injector: InjectorService, provider: Provider): PlatformRouter {
-  return injector.get(provider.tokenRouter)!;
-}
-
-function createTokenRouter(provider: ControllerProvider) {
-  return (provider.tokenRouter = provider.tokenRouter || `${provider.name}_ROUTER_${AUTO_INC++}`);
-}
-
-function createInjectableRouter(injector: InjectorService, provider: ControllerProvider): PlatformRouter {
-  const tokenRouter = createTokenRouter(provider);
-
-  if (injector.has(tokenRouter)) {
-    return getInjectableRouter(injector, provider);
-  }
-
-  const router = injector.invoke<PlatformRouter>(PlatformRouter);
-  router.provider = provider;
-
-  return injector
-    .add(tokenRouter, {
-      useValue: router
-    })
-    .invoke<PlatformRouter>(tokenRouter);
-}
-
-GlobalProviders.createRegistry(ProviderType.CONTROLLER, ControllerProvider, {
-  onInvoke(provider: ControllerProvider, locals: any, { injector }) {
-    const router = createInjectableRouter(injector, provider);
-    locals.set(PlatformRouter, router);
-  }
-});
+const {createInjectableRouter} = routerTokenFactory("REST", PlatformRouter);
 
 export interface AlterEndpointHandlersArg {
   before: (Type<any> | Function)[];

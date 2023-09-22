@@ -1,0 +1,94 @@
+import {isString} from "@tsed/core";
+import {InjectorService, Provider} from "@tsed/di";
+import {concatPath} from "@tsed/schema";
+import {formatMethod} from "../utils/formatMethod";
+import {PlatformHandlerMetadata} from "./PlatformHandlerMetadata";
+import {PlatformLayer, PlatformLayerOptions} from "./PlatformLayer";
+import {SinglePathType} from "./SinglePathType";
+
+function printHandler(handler: any) {
+  return handler.toString().split("{")[0].trim();
+}
+
+export abstract class PlatformBaseRouter {
+  readonly layers: PlatformLayer[] = [];
+  provider: Provider;
+  #isBuilt = false;
+
+  constructor(protected readonly injector: InjectorService) {}
+
+  use(...handlers: any[]) {
+    const layer = handlers.reduce(
+      (layer: PlatformLayer, item) => {
+        if (isString(item) || item instanceof RegExp) {
+          layer.path = item;
+          layer.basePath = item;
+        } else {
+          if (item instanceof PlatformBaseRouter) {
+            layer.router = item;
+            layer.setLayers(item.layers);
+
+            if (!this.provider && item.provider) {
+              layer.path = concatPath(layer.path, item.provider.path);
+            } else {
+              layer.path = layer.path || item.provider.path;
+            }
+          } else {
+            item = PlatformHandlerMetadata.from(this.injector, item);
+          }
+
+          layer.handlers.push(item);
+        }
+
+        return layer;
+      },
+      new PlatformLayer({
+        method: "use",
+        basePath: this.provider?.path || "/",
+        provider: this.provider
+      })
+    );
+
+    this.layers.push(layer);
+
+    return this;
+  }
+
+  addRoute(method: string, path: SinglePathType, handlers: any[], opts: PlatformLayerOptions = {}) {
+    const layer = new PlatformLayer({
+      provider: this.provider,
+      method: formatMethod(method),
+      path,
+      handlers: handlers.map((input) => {
+        return PlatformHandlerMetadata.from(this.injector, input, opts);
+      }),
+      opts
+    });
+
+    this.layers.push(layer);
+
+    return this;
+  }
+
+  inspect() {
+    return this.layers.map((layer) => {
+      const obj = layer.inspect();
+
+      return {
+        ...obj,
+        handlers: obj.handlers.map(printHandler),
+        path: concatPath(this.provider?.path, obj.path)
+      };
+    });
+  }
+
+  isBuilt() {
+    if (this.#isBuilt) {
+      return true;
+    }
+
+    this.#isBuilt = true;
+
+    return false;
+  }
+}
