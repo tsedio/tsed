@@ -1,11 +1,19 @@
-import {getValue, Hooks, Type} from "@tsed/core";
-import {ControllerProvider, GlobalProviders, Injectable, InjectorService, Provider, ProviderType, TokenProvider} from "@tsed/di";
-import {PlatformParamsCallback} from "@tsed/platform-params";
-import {concatPath, getOperationsRoutes, JsonMethodStore} from "@tsed/schema";
-import {useContextHandler} from "../utils/useContextHandler";
-import {PlatformHandlerMetadata} from "./PlatformHandlerMetadata";
-import {PlatformLayer} from "./PlatformLayer";
-import {PlatformRouter} from "./PlatformRouter";
+import { getValue, Hooks, Type } from "@tsed/core";
+import {
+  ControllerProvider,
+  GlobalProviders,
+  Injectable,
+  InjectorService,
+  Provider,
+  ProviderType,
+  TokenProvider
+} from "@tsed/di";
+import { PlatformParamsCallback } from "@tsed/platform-params";
+import { concatPath, getOperationsRoutes, JsonMethodStore, OPERATION_HTTP_VERBS } from "@tsed/schema";
+import { useContextHandler } from "../utils/useContextHandler";
+import { PlatformHandlerMetadata } from "./PlatformHandlerMetadata";
+import { PlatformLayer } from "./PlatformLayer";
+import { PlatformRouter } from "./PlatformRouter";
 
 let AUTO_INC = 0;
 
@@ -35,7 +43,7 @@ function createInjectableRouter(injector: InjectorService, provider: ControllerP
 }
 
 GlobalProviders.createRegistry(ProviderType.CONTROLLER, ControllerProvider, {
-  onInvoke(provider: ControllerProvider, locals: any, {injector}) {
+  onInvoke(provider: ControllerProvider, locals: any, { injector }) {
     const router = createInjectableRouter(injector, provider);
     locals.set(PlatformRouter, router);
   }
@@ -50,8 +58,10 @@ export interface AlterEndpointHandlersArg {
 @Injectable()
 export class PlatformRouters {
   readonly hooks = new Hooks();
+  readonly allowedVerbs = OPERATION_HTTP_VERBS;
 
-  constructor(protected readonly injector: InjectorService) {}
+  constructor(protected readonly injector: InjectorService) {
+  }
 
   prebuild() {
     this.injector.getProviders(ProviderType.CONTROLLER).forEach((provider: ControllerProvider) => {
@@ -59,21 +69,8 @@ export class PlatformRouters {
     });
   }
 
-  private sortHandlers(handlers: AlterEndpointHandlersArg) {
-    const get = (token: TokenProvider) => {
-      return this.injector.getProvider(token)?.priority || 0;
-    };
-
-    const sort = (p1: TokenProvider, p2: TokenProvider) => (get(p1) < get(p2) ? -1 : get(p1) > get(p2) ? 1 : 0);
-
-    handlers.before = handlers.before.sort(sort);
-    handlers.after = handlers.after.sort(sort);
-
-    return handlers;
-  }
-
   from(token: TokenProvider, parentMiddlewares: any[] = []) {
-    const {injector} = this;
+    const { injector } = this;
     const provider = injector.getProvider<ControllerProvider>(token)!;
 
     if (!provider) {
@@ -88,11 +85,11 @@ export class PlatformRouters {
 
     const useBefore = getValue(provider, "middlewares.useBefore", []);
 
-    const {children} = provider;
+    const { children } = provider;
 
-    getOperationsRoutes(provider.token).forEach((operationRoute) => {
-      const {endpoint} = operationRoute;
-      const {beforeMiddlewares, middlewares: mldwrs, afterMiddlewares} = endpoint;
+    getOperationsRoutes(provider.token, { allowedVerbs: this.allowedVerbs }).forEach((operationRoute) => {
+      const { endpoint } = operationRoute;
+      const { beforeMiddlewares, middlewares: mldwrs, afterMiddlewares } = endpoint;
 
       const useBefore = getValue(provider, "middlewares.useBefore", []);
       const use = getValue(provider, "middlewares.use", []);
@@ -137,6 +134,19 @@ export class PlatformRouters {
 
   getLayers(router: PlatformRouter): PlatformLayer[] {
     return this.flatMapLayers(router.layers);
+  }
+
+  private sortHandlers(handlers: AlterEndpointHandlersArg) {
+    const get = (token: TokenProvider) => {
+      return this.injector.getProvider(token)?.priority || 0;
+    };
+
+    const sort = (p1: TokenProvider, p2: TokenProvider) => (get(p1) < get(p2) ? -1 : get(p1) > get(p2) ? 1 : 0);
+
+    handlers.before = handlers.before.sort(sort);
+    handlers.after = handlers.after.sort(sort);
+
+    return handlers;
   }
 
   private flatMapLayers(layers: PlatformLayer[]): PlatformLayer[] {
