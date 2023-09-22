@@ -87,7 +87,7 @@ export class PlatformRouters {
 
     const { children } = provider;
 
-    getOperationsRoutes(provider.token, { allowedVerbs: this.allowedVerbs }).forEach((operationRoute) => {
+    getOperationsRoutes(provider.token, {allowedVerbs: this.allowedVerbs}).forEach((operationRoute) => {
       const { endpoint } = operationRoute;
       const { beforeMiddlewares, middlewares: mldwrs, afterMiddlewares } = endpoint;
 
