@@ -198,7 +198,6 @@ PlatformTest API provides an `invoke` method to create a new instance of your co
 :::
 
 ## Test your Rest API
-
 ### Installation
 
 To test your API, I recommend you to use the [`supertest`](https://github.com/visionmedia/supertest) module.
@@ -247,6 +246,20 @@ Platform type is not specified. Have you added at least `import @tsed/platform-e
 To solve it, just add the `import @tsed/platform-express` on your `Server.ts`. PlatformTest need this import to know on
 which Platform
 your server must be executed for integration test.
+:::
+
+## Pros / Cons
+
+::: warning
+Use `PlatformTest.boostrap()` is not recommended in Jest environment.  
+This method is practical for carrying out some integration tests but consumes a lot of resources which can lead to a significant slowdown in your tests or even cause timeouts.
+
+It's better to write your tests using Cucumber and test your Rest applications in a container.
+:::
+
+::: tip Note
+There is no performance issue as long as you use `PlatformTest.create()` to perform your tests, 
+But it's not possible with this method to do an integration test with the server (Express or Koa). You can only test your controller and the services injected into it.
 :::
 
 ### Stub a service method
