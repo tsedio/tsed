@@ -1,6 +1,6 @@
 {
   "name": "@tsed/integration",
-  "version": "7.36.2",
+  "version": "7.36.3",
   "source": "src/index.ts",
   "main": "src/index.js",
   "private": true,
@@ -9,16 +9,16 @@
     "build:ts": "tsc --build tsconfig.json && tsc --build tsconfig.esm.json"
   },
   "devDependencies": {
-    "@tsed/common": "7.36.2",
-    "@tsed/di": "7.36.2",
-    "@tsed/exceptions": "7.36.2",
-    "@tsed/json-mapper": "7.36.2",
-    "@tsed/platform-exceptions": "7.36.2",
-    "@tsed/platform-express": "7.36.2",
-    "@tsed/platform-views": "7.36.2",
-    "@tsed/schema": "7.36.2",
-    "@tsed/swagger": "7.36.2",
-    "@tsed/typescript": "7.36.2"
+    "@tsed/common": "7.36.3",
+    "@tsed/di": "7.36.3",
+    "@tsed/exceptions": "7.36.3",
+    "@tsed/json-mapper": "7.36.3",
+    "@tsed/platform-exceptions": "7.36.3",
+    "@tsed/platform-express": "7.36.3",
+    "@tsed/platform-views": "7.36.3",
+    "@tsed/schema": "7.36.3",
+    "@tsed/swagger": "7.36.3",
+    "@tsed/typescript": "7.36.3"
   },
   "dependencies": {},
   "peerDependencies": {}
