@@ -13,7 +13,7 @@ import {Inject} from "@tsed/di";
  * @ignore
  */
 @Module()
-export class SocketIOModule implements AfterListen, OnDestroy {
+export class SocketIOModule {
   @Constant("logger.disableRoutesSummary", false)
   protected disableRoutesSummary: boolean;
 
@@ -23,89 +23,83 @@ export class SocketIOModule implements AfterListen, OnDestroy {
   @Inject()
   protected injector: InjectorService;
 
-  @Inject(Http.Server)
-  protected httpServer: Http.Server | null;
-
-  @Inject(Https.Server)
-  protected httpsServer: Https.Server | null;
-
   @IO()
-  private io: Server;
+  private server: Server;
 
   @Inject()
   private socketIOService: SocketIOService;
 
-  $afterListen() {
-    if (this.httpServer) {
-      this.io.attach(this.httpServer, {...this.settings});
-    }
-
-    if (this.httpsServer) {
-      this.io.attach(this.httpsServer, {...this.settings});
-    }
-
-    if (this.settings.adapter) {
-      this.io.adapter(this.settings.adapter);
-    }
-
-    this.getWebsocketServices().forEach((provider) => this.socketIOService.addSocketProvider(provider));
-
-    if (!this.disableRoutesSummary) {
-      this.printSocketEvents();
-    }
-
-    return this.injector.emit("$afterSocketListen");
+  $onInit() {
+    this.injector.emit("$socketIOInit", this.server);
   }
 
-  $onDestroy() {
-    return this.io?.close && this.io?.engine && new Promise((resolve) => this.io.close(() => resolve(undefined)));
-  }
+  // $afterListen() {
+  //   if (this.httpServer) {
+  //     this.io.attach(this.httpServer, {...this.settings});
+  //   }
+  //
+  //   if (this.httpsServer) {
+  //     this.io.attach(this.httpsServer, {...this.settings});
+  //   }
+  //
+  //   if (this.settings.adapter) {
+  //     this.io.adapter(this.settings.adapter);
+  //   }
+  //
+  //   // this.getWebsocketServices().forEach((provider) => this.socketIOService.addSocketProvider(provider));
+  //
+  //   if (!this.disableRoutesSummary) {
+  //     this.printSocketEvents();
+  //   }
+  //
+  //   return this.injector.emit("$afterSocketListen");
+  // }
 
   /**
    *
    * @returns {Provider<any>[]}
    */
-  protected getWebsocketServices(): Provider<any>[] {
-    return Array.from(this.injector.getProviders(PROVIDER_TYPE_SOCKET_SERVICE));
-  }
+  // protected getWebsocketServices(): Provider<any>[] {
+  //   return Array.from(this.injector.getProviders(PROVIDER_TYPE_SOCKET_SERVICE));
+  // }
 
   /**
    *
    */
-  protected printSocketEvents() {
-    const list = this.getWebsocketServices().reduce((acc: any[], provider) => {
-      const socketProvider = new SocketProviderMetadata(provider.store.get("socketIO"));
-
-      if (socketProvider.namespace) {
-        socketProvider.getHandlers().forEach((handler) => {
-          acc.push({
-            namespace: socketProvider.namespace,
-            inputEvent: handler.eventName,
-            outputEvent: (handler.returns && handler.returns.eventName) || "",
-            outputType: (handler.returns && handler.returns.type) || "",
-            name: `${nameOf(provider.useClass)}.${handler.methodClassName}`
-          });
-        });
-      }
-
-      return acc;
-    }, []);
-
-    this.injector.logger.info("Socket events mounted:");
-
-    const str = $log.drawTable(list, {
-      padding: 1,
-      header: {
-        namespace: "Namespace",
-        inputEvent: "Input event",
-        outputEvent: "Output event",
-        outputType: "Output type",
-        name: "Class method"
-      }
-    });
-
-    this.injector.logger.info("\n" + str.trim());
-
-    this.injector.logger.info("Socket server started...");
-  }
+  // protected printSocketEvents() {
+  //   const list = this.getWebsocketServices().reduce((acc: any[], provider) => {
+  //     const socketProvider = new SocketProviderMetadata(provider.store.get("socketIO"));
+  //
+  //     if (socketProvider.namespace) {
+  //       socketProvider.getHandlers().forEach((handler) => {
+  //         acc.push({
+  //           namespace: socketProvider.namespace,
+  //           inputEvent: handler.eventName,
+  //           outputEvent: (handler.returns && handler.returns.eventName) || "",
+  //           outputType: (handler.returns && handler.returns.type) || "",
+  //           name: `${nameOf(provider.useClass)}.${handler.methodClassName}`
+  //         });
+  //       });
+  //     }
+  //
+  //     return acc;
+  //   }, []);
+  //
+  //   this.injector.logger.info("Socket events mounted:");
+  //
+  //   const str = $log.drawTable(list, {
+  //     padding: 1,
+  //     header: {
+  //       namespace: "Namespace",
+  //       inputEvent: "Input event",
+  //       outputEvent: "Output event",
+  //       outputType: "Output type",
+  //       name: "Class method"
+  //     }
+  //   });
+  //
+  //   this.injector.logger.info("\n" + str.trim());
+  //
+  //   this.injector.logger.info("Socket server started...");
+  // }
 }
