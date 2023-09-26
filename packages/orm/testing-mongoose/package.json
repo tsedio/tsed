@@ -20,7 +20,7 @@
     "lint:fix": "eslint '**/*.{ts,js}' --fix"
   },
   "dependencies": {
-    "mongodb-memory-server": "^8.0.2",
+    "mongodb-memory-server": "^8.15.1",
     "semver": "^7.3.5",
     "tslib": "2.5.0"
   },
