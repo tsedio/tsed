@@ -14,10 +14,10 @@ export class TestMongooseContext extends PlatformTest {
     return global.__MONGOD__;
   }
 
-  static install({replicaSet, ...opts}: {replicaSet?: boolean} & Record<string, any> = {}) {
+  static async install({replicaSet, ...opts}: {replicaSet?: boolean} & Record<string, any> = {}) {
     if (!TestMongooseContext.getMongo()) {
       // @ts-ignore
-      global.__MONGOD__ = (replicaSet ? MongoMemoryReplSet : MongoMemoryServer).create({
+      global.__MONGOD__ = await (replicaSet ? MongoMemoryReplSet : MongoMemoryServer).create({
         ...opts,
         binary: {
           ...(opts.binary || {}),
