@@ -17,6 +17,10 @@ function isDeserializable(obj: any, options: JsonDeserializerOptions) {
   return !(isEmpty(options.type) || (options.type === Object && !options.collectionType));
 }
 
+function varKey(k: string) {
+  return `__${k}`;
+}
+
 function mapParamStoreOptions(store: JsonParameterStore, options: JsonDeserializerOptions) {
   return {
     ...options,
@@ -220,17 +224,17 @@ export class JsonDeserializer extends JsonMapperCompiler<JsonDeserializerOptions
       getter = `alterValue('${schemaId}', input[${pick}], ${opts})`;
     }
 
-    const ifWriter = writer.set(`let ${key}`, getter).if(`${key} !== undefined`);
+    const ifWriter = writer.set(`let ${varKey(key)}`, getter).if(`${varKey(key)} !== undefined`);
 
     const fill = this.getPropertyFiller(propertyStore, id, groups, formatOpts);
 
     if (hasDeserializer) {
-      fill(ifWriter.if(`${key} === input.${key}`));
+      fill(ifWriter.if(`${varKey(key)} === input.${key}`));
     } else {
       fill(ifWriter);
     }
 
-    ifWriter.set(`obj.${key}`, key);
+    ifWriter.set(`obj.${key}`, varKey(key));
 
     if (groups && groups.includes("partial")) {
       ifWriter.else().add(`delete obj.${key}`);
@@ -249,23 +253,25 @@ export class JsonDeserializer extends JsonMapperCompiler<JsonDeserializerOptions
       const index = getGenericIndex(propertyStore);
       const opts = Writer.options(formatOpts, `type: generics[${index}]`);
 
-      return (writer: Writer) => writer.set(key, `compileAndMap(${key}, ${opts})`);
+      return (writer: Writer) => writer.set(varKey(key), `compileAndMap(${varKey(key)}, ${opts})`);
     }
 
     const type = propertyStore.itemSchema.hasDiscriminator ? propertyStore.itemSchema.discriminator().base : propertyStore.getBestType();
     const nestedMapper = this.compile(type, groups);
 
     if (propertyStore.isCollection) {
-      return (writer: Writer) => writer.callMapper(nameOf(propertyStore.collectionType), key, `id: '${nestedMapper.id}'`, formatOpts);
+      return (writer: Writer) =>
+        writer.callMapper(nameOf(propertyStore.collectionType), varKey(key), `id: '${nestedMapper.id}'`, formatOpts);
     }
 
     if (generics?.length) {
       this.schemes[schemaId] = propertyStore.schema;
 
-      return (writer: Writer) => writer.callMapper(nestedMapper.id, key, formatOpts, `generics: schemes['${schemaId}'].nestedGenerics`);
+      return (writer: Writer) =>
+        writer.callMapper(nestedMapper.id, varKey(key), formatOpts, `generics: schemes['${schemaId}'].nestedGenerics`);
     }
 
-    return (writer: Writer) => writer.callMapper(nestedMapper.id, key, formatOpts);
+    return (writer: Writer) => writer.callMapper(nestedMapper.id, varKey(key), formatOpts);
   }
 
   private mapOptions({groups = false, useAlias = true, types, ...options}: JsonDeserializerOptions<any, any>): JsonDeserializerOptions {

@@ -788,6 +788,77 @@ describe("JsonSerializer", () => {
         }
       ]);
     });
+    it("should serialize model (protected keyword)", () => {
+      class Role {
+        @Property()
+        label: string;
+
+        constructor({label}: any = {}) {
+          this.label = label;
+        }
+      }
+
+      class Model {
+        @Property()
+        id: string;
+
+        @Ignore((ignored, ctx: JsonHookContext) => ctx.api)
+        password: string;
+
+        @OnSerialize((value) => String(value) + "test")
+        @Name("mapped_prop")
+        mappedProp: string;
+
+        @Property()
+        enum: string;
+
+        @CollectionOf(Role)
+        roles: Map<string, Role> = new Map();
+      }
+
+      const model = new Model();
+      // @ts-ignore
+      model.$isMongooseModelPrototype = true;
+      // @ts-ignore
+      model["toJSON"] = (options: any) => {
+        const result = deserialize(
+          {
+            id: "id",
+            password: "hellopassword",
+            mappedProp: "hello",
+            enum: "test"
+          },
+          {useAlias: false, type: Model}
+        );
+
+        return serialize(result, options);
+      };
+
+      expect(serialize(model, {type: Model})).toEqual({
+        id: "id",
+        enum: "test",
+        mapped_prop: "hellotest",
+        password: "hellopassword",
+        roles: {}
+      });
+
+      expect(serialize(model, {api: true, useAlias: false})).toEqual({
+        id: "id",
+        enum: "test",
+        mappedProp: "hellotest",
+        roles: {}
+      });
+
+      expect(serialize([model], {type: Model})).toEqual([
+        {
+          id: "id",
+          enum: "test",
+          mapped_prop: "hellotest",
+          password: "hellopassword",
+          roles: {}
+        }
+      ]);
+    });
     it("should serialize model Array", () => {
       class Role {
         @Property()

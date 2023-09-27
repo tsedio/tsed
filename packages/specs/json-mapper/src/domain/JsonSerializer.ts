@@ -36,6 +36,10 @@ function getBestType(type: Type<any>, obj: any) {
   return type || Object;
 }
 
+function varKey(k: string) {
+  return `__${k}`;
+}
+
 export class JsonSerializer extends JsonMapperCompiler<JsonSerializerOptions> {
   constructor() {
     super();
@@ -156,20 +160,20 @@ export class JsonSerializer extends JsonMapperCompiler<JsonSerializerOptions> {
       getter = `alterValue('${schemaId}', input.${key}, ${opts})`;
     }
 
-    writer = writer.set(`let ${key}`, getter).if(`${key} !== undefined`);
+    writer = writer.set(`let ${varKey(key)}`, getter).if(`${varKey(key)} !== undefined`);
 
     const fill = this.getPropertyFiller(propertyStore, key, groups, formatOpts);
 
     if (hasSerializer) {
-      fill(writer.if(`${key} === input.${key}`));
+      fill(writer.if(`${varKey(key)} === input.${key}`));
     } else {
       fill(writer);
     }
 
     if (aliasKey !== key) {
-      writer.set(`obj[options.useAlias ? '${aliasKey}' : '${key}']`, key);
+      writer.set(`obj[options.useAlias ? '${aliasKey}' : '${key}']`, varKey(key));
     } else {
-      writer.set(`obj.${key}`, key);
+      writer.set(`obj.${key}`, varKey(key));
     }
 
     return writer.root();
@@ -181,13 +185,14 @@ export class JsonSerializer extends JsonMapperCompiler<JsonSerializerOptions> {
 
       const nestedMapper = this.compile(type, groups);
 
-      return (writer: Writer) => writer.callMapper(nameOf(propertyStore.collectionType), key, `id: '${nestedMapper.id}'`, formatOpts);
+      return (writer: Writer) =>
+        writer.callMapper(nameOf(propertyStore.collectionType), varKey(key), `id: '${nestedMapper.id}'`, formatOpts);
     }
 
     const type = propertyStore.getBestType();
     const nestedMapper = this.compile(type, groups);
 
-    return (writer: Writer) => writer.callMapper(nestedMapper.id, key, formatOpts);
+    return (writer: Writer) => writer.callMapper(nestedMapper.id, varKey(key), formatOpts);
   }
 
   private mapPrecondition(id: string) {

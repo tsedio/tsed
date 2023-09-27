@@ -1,10 +1,8 @@
 import faker from "@faker-js/faker";
 import {QueryParams} from "@tsed/common";
-import {cleanObject, getValue} from "@tsed/core";
 import {
   AdditionalProperties,
   CollectionOf,
-  Default,
   DiscriminatorKey,
   DiscriminatorValue,
   Email,
@@ -14,7 +12,6 @@ import {
   Groups,
   Ignore,
   In,
-  Integer,
   JsonEntityStore,
   JsonHookContext,
   JsonParameterStore,
@@ -26,14 +23,12 @@ import {
   Property,
   Required
 } from "@tsed/schema";
-import {snakeCase} from "change-case";
 import {Post} from "../../test/helpers/Post";
 import {User} from "../../test/helpers/User";
 import "../components/DateMapper";
 import "../components/PrimitiveMapper";
 import "../components/SymbolMapper";
 import {OnDeserialize} from "../decorators/onDeserialize";
-import {OnSerialize} from "../decorators/onSerialize";
 import {JsonDeserializer} from "./JsonDeserializer";
 
 const deserializer = new JsonDeserializer();
@@ -246,6 +241,54 @@ describe("deserialize()", () => {
       expect(result).toBeInstanceOf(Model);
       expect(result).toEqual({
         prop: [1, 2, 3, 5]
+      });
+    });
+    it("should transform object to class (reserved keyword)", () => {
+      class Role {
+        @Property()
+        enum: string;
+
+        constructor({enum: en}: any = {}) {
+          this.enum = en;
+        }
+      }
+
+      class Model {
+        @Property()
+        id: string;
+
+        @Ignore((ignored, ctx: JsonHookContext) => ctx.api)
+        password: string;
+
+        @OnDeserialize((value) => String(value) + "test")
+        @Name("mapped_prop")
+        mappedProp: string;
+
+        @CollectionOf(Role)
+        roles: Map<string, Role> = new Map();
+      }
+
+      const result = deserialize(
+        {
+          id: "id",
+          password: "string",
+          mapped_prop: "mappedProp",
+          roles: {
+            role1: {
+              enum: "role"
+            }
+          },
+          add: true
+        },
+        {type: Model, additionalProperties: false}
+      );
+
+      expect(result).toBeInstanceOf(Model);
+      expect(result).toEqual({
+        id: "id",
+        mappedProp: "mappedProptest",
+        password: "string",
+        roles: new Map().set("role1", new Role({enum: "role"}))
       });
     });
     it("should transform object to class (additionalProperties = false)", () => {
