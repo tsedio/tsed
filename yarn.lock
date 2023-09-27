@@ -13175,9 +13175,9 @@ get-current-line@^6.5.0:
   integrity sha512-9q/tqdL4+GMb0P28N/oSFruQE/8Sa1l9ew73AWS4j/KEMY32wD8+5QRB8LSTgt9HUZuLplmi8vc5dFFf5OvROA==
 
 get-func-name@^2.0.0:
-  version "2.0.0"
-  resolved "https://registry.yarnpkg.com/get-func-name/-/get-func-name-2.0.0.tgz#ead774abee72e20409433a066366023dd6887a41"
-  integrity sha1-6td0q+5y4gQJQzoGY2YCPdaIekE=
+  version "2.0.2"
+  resolved "https://registry.yarnpkg.com/get-func-name/-/get-func-name-2.0.2.tgz#0d7cf20cd13fda808669ffa88f4ffc7a3943fc41"
+  integrity sha512-8vXOvuE167CtIc3OyItco7N/dpRtBbYOsPsXCz7X/PMnlGjYjSGuZJgM1Y7mmew7BKf9BqvLX2tnOVy1BBUsxQ==
 
 get-intrinsic@^1.0.1, get-intrinsic@^1.1.0, get-intrinsic@^1.1.1:
   version "1.1.1"
