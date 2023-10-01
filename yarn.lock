@@ -6814,10 +6814,10 @@ apollo-server-core@^2.25.3:
     subscriptions-transport-ws "^0.9.19"
     uuid "^8.0.0"
 
-apollo-server-core@^3.12.0, apollo-server-core@^3.4.0, apollo-server-core@^3.6.7:
-  version "3.12.0"
-  resolved "https://registry.yarnpkg.com/apollo-server-core/-/apollo-server-core-3.12.0.tgz#8aa2a7329ce6fe1823290c45168c749db01548df"
-  integrity sha512-hq7iH6Cgldgmnjs9FVSZeKWRpi0/ZR+iJ1arzeD2VXGxxgk1mAm/cz1Tx0TYgegZI+FvvrRl0UhKEx7sLnIxIg==
+apollo-server-core@^3.12.0, apollo-server-core@^3.12.1, apollo-server-core@^3.4.0:
+  version "3.12.1"
+  resolved "https://registry.yarnpkg.com/apollo-server-core/-/apollo-server-core-3.12.1.tgz#ba255c37345db29c48a2e0c064c519a8d62eb5af"
+  integrity sha512-9SF5WAkkV0FZQ2HVUWI9Jada1U0jg7e8NCN9EklbtvaCeUlOLyXyM+KCWuZ7+dqHxjshbtcwylPHutt3uzoNkw==
   dependencies:
     "@apollo/utils.keyvaluecache" "^1.0.1"
     "@apollo/utils.logger" "^1.0.0"
@@ -6886,9 +6886,9 @@ apollo-server-express@^3.4.0:
     parseurl "^1.3.3"
 
 apollo-server-koa@^3.4.0:
-  version "3.6.7"
-  resolved "https://registry.yarnpkg.com/apollo-server-koa/-/apollo-server-koa-3.6.7.tgz#9829e5d8ea21cb6a113be5f1ebd61abd95cc318f"
-  integrity sha512-uVw270BjofEzF4i300xC+TFs45h6E0WfZMKyUAx4ZXvTvAl/jbIZJ+e54clyahcr+XpX10jrxisgTTYC3mZ5wQ==
+  version "3.12.1"
+  resolved "https://registry.yarnpkg.com/apollo-server-koa/-/apollo-server-koa-3.12.1.tgz#0dd86feec5734f69f4dfbd92b2b76bf666f88a03"
+  integrity sha512-YCsWeJNu0eCUknGqGkL8BVbAn77FftbDyVVqYhH6iueOh+B19p3mvXJCSfQkemEHWqJTdGeaA6SdBoCW8JiPTw==
   dependencies:
     "@koa/cors" "^3.1.0"
     "@types/accepts" "^1.3.5"
@@ -6897,8 +6897,8 @@ apollo-server-koa@^3.4.0:
     "@types/koa-compose" "^3.2.5"
     "@types/koa__cors" "^3.0.1"
     accepts "^1.3.7"
-    apollo-server-core "^3.6.7"
-    apollo-server-types "^3.5.2"
+    apollo-server-core "^3.12.1"
+    apollo-server-types "^3.8.0"
     koa-bodyparser "^4.3.0"
     koa-compose "^4.1.0"
 
@@ -6932,7 +6932,7 @@ apollo-server-types@^0.9.0:
     apollo-server-caching "^0.7.0"
     apollo-server-env "^3.1.0"
 
-apollo-server-types@^3.5.2, apollo-server-types@^3.8.0:
+apollo-server-types@^3.8.0:
   version "3.8.0"
   resolved "https://registry.yarnpkg.com/apollo-server-types/-/apollo-server-types-3.8.0.tgz#d976b6967878681f715fe2b9e4dad9ba86b1346f"
   integrity sha512-ZI/8rTE4ww8BHktsVpb91Sdq7Cb71rdSkXELSwdSR0eXu600/sY+1UXhTWdiJvk+Eq5ljqoHLwLbY2+Clq2b9A==
