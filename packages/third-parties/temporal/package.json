@@ -1,0 +1,47 @@
+{
+  "name": "@tsed/temporal",
+  "version": "7.36.5",
+  "description": "Temporal.io package for Ts.ED framework",
+  "source": "./src/index.ts",
+  "main": "./lib/cjs/index.js",
+  "module": "./lib/esm/index.js",
+  "typings": "./lib/types/index.d.ts",
+  "exports": {
+    "types": "./lib/types/index.d.ts",
+    "import": "./lib/esm/index.js",
+    "require": "./lib/cjs/index.js",
+    "default": "./lib/esm/index.js"
+  },
+  "scripts": {
+    "build": "yarn barrels && yarn build:ts",
+    "barrels": "yarn barrelsby --delete -d ./src -e \"\\.spec\\.ts\" -e \"__mock__\" -e \".benchmark.ts\"",
+    "test": "cross-env NODE_ENV=test yarn jest --runInBand && jest-coverage-thresholds-bumper ",
+    "build:ts": "tsc --build tsconfig.json && tsc --build tsconfig.esm.json",
+    "lint": "eslint '**/*.{ts,js}'",
+    "lint:fix": "eslint '**/*.{ts,js}' --fix"
+  },
+  "contributors": [
+    {
+      "name": "Oliver Christen"
+    }
+  ],
+  "dependencies": {
+    "tslib": "2.5.0"
+  },
+  "private": false,
+  "devDependencies": {
+    "@temporalio/client": "^1.8.4",
+    "@temporalio/testing": "^1.8.4",
+    "@temporalio/worker": "^1.8.4",
+    "@tsed/common": "7.36.5",
+    "@tsed/core": "7.36.5",
+    "@tsed/di": "7.36.5",
+    "@tsed/eslint": "7.36.5",
+    "@tsed/typescript": "7.36.5",
+    "eslint": "^8.12.0"
+  },
+  "peerDependencies": {
+    "@temporalio/client": "^1.8.4",
+    "@temporalio/worker": "^1.8.4"
+  }
+}
