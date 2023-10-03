@@ -258,6 +258,10 @@ module.exports = ({title, description, base = "", url, apiRedirectUrl = "", them
                 link: `${base}/tutorials/serverless.html`
               },
               {
+                text: "Temporal",
+                link: `${base}/tutorials/temporal.html`
+              },
+              {
                 text: "Terminus",
                 link: `${base}/tutorials/terminus.html`
               },
