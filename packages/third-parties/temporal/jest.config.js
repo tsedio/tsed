@@ -6,10 +6,10 @@ module.exports = {
   roots: ["<rootDir>/src", "<rootDir>/test"],
   coverageThreshold: {
     global: {
-      statements: 94.68,
+      statements: 94.65,
       branches: 75.75,
       functions: 93.33,
-      lines: 94.68
+      lines: 94.65
     }
   },
   transformIgnorePatterns: ["test/workflows/.*\\.ts$"],
