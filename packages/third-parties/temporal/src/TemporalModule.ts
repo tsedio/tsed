@@ -1,3 +1,4 @@
+import {classOf} from "@tsed/core";
 import {Logger} from "@tsed/common";
 import {Inject, InjectorService, Module, Provider} from "@tsed/di";
 import {PROVIDER_TYPE_TEMPORAL} from "./constants";
@@ -15,17 +16,15 @@ export class TemporalModule {
   @Inject()
   protected client!: TemporalClient;
 
+  constructor(@Inject(PROVIDER_TYPE_TEMPORAL) private temporalServices: any[]) {}
+
   public getActivities(): object {
-    return this.getProviders().reduce((activities, provider) => Object.assign(activities, this.getActivitiesFromProvider(provider)), {});
+    return this.temporalServices.reduce((activities, instance) => Object.assign(activities, this.getActivitiesFromInstance(instance)), {});
   }
 
-  protected getProviders(): Provider<any>[] {
-    return this.injector.getProviders(PROVIDER_TYPE_TEMPORAL);
-  }
-
-  protected getActivitiesFromProvider(provider: Provider) {
+  protected getActivitiesFromInstance(instance: any) {
+    const provider = this.injector.getProvider(classOf(instance));
     const store = provider.store.get<TemporalStore>(TEMPORAL_STORE_KEY, {});
-    const instance = this.injector.get(provider.token);
 
     return Object.entries(store.activities || {}).reduce((activities, [propertyKey, {name}]) => {
       const jobProcessor = instance[propertyKey].bind(instance);
