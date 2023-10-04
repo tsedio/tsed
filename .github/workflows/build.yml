@@ -216,6 +216,8 @@ jobs:
           node-version: ${{ matrix.node-version }}
       - name: Install dependencies
         run: yarn install --frozen-lockfile --network-timeout 500000 --ignore-engines
+      - name: Install Temporal.io CLI tool
+        run: curl -sSf https://temporal.download/cli.sh | sh
       - name: Run build
         run: yarn tsc --build
       - name: Run test
