@@ -1,6 +1,6 @@
 import {Configuration, registerProvider} from "@tsed/di";
 import {Client, Connection} from "@temporalio/client";
-import {$log} from "@tsed/common";
+import {Logger} from "@tsed/common";
 
 export const TemporalConnection = Connection;
 export type TemporalConnection = Connection;
@@ -10,20 +10,20 @@ export type TemporalClient = Client;
 
 registerProvider({
   provide: TemporalConnection,
-  deps: [Configuration],
-  async useAsyncFactory(settings: Configuration) {
+  deps: [Configuration, Logger],
+  async useAsyncFactory(settings: Configuration, logger: Logger) {
     const {temporal} = settings;
     if (!temporal?.enabled) {
       return null;
     }
 
     try {
-      $log.info("Connecting to Temporal Server: ", temporal.connection?.address || "default");
+      logger.info("Connecting to Temporal Server: ", temporal.connection?.address || "default");
       const connection = await Connection.connect(temporal.connection);
-      $log.info("... connected to Temporal Server: ", temporal.connection?.address || "default");
+      logger.info("... connected to Temporal Server: ", temporal.connection?.address || "default");
       return connection;
     } catch (error) {
-      $log.error("Failed to connect to Temporal Server:", error);
+      logger.error("Failed to connect to Temporal Server:", error);
       throw error;
     }
   }
@@ -44,5 +44,12 @@ registerProvider({
     });
 
     return client;
+  },
+  hooks: {
+    $onDestroy: async (client: Client | null) => {
+      if (client) {
+        await client.connection.close();
+      }
+    }
   }
 });
