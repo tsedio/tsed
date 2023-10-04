@@ -172,12 +172,15 @@ frameworks:
   - title: Agenda
     href: /tutorials/agenda.html
     src: /agenda.svg
-  - title: Serveless
+  - title: Serverless
     href: /tutorials/serverless.html
     src: /serverless.svg
   - title: Terminus
     href: /tutorials/terminus.html
     src: /package.svg
+  - title: Temporal
+    href: /tutorials/temporal.html
+    src: /temporal.svg
 ---
 
 ::: slot hero-brand
