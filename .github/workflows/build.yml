@@ -216,8 +216,8 @@ jobs:
           node-version: ${{ matrix.node-version }}
       - name: Install dependencies
         run: yarn install --frozen-lockfile --network-timeout 500000 --ignore-engines
-      - name: Install Temporal.io CLI tool
-        run: curl -sSf https://temporal.download/cli.sh | sh
+      - name: Install Temporal.io test server
+        run: curl -L -o /tmp/temporal-test-server-sdk-typescript-1.8.6.tar.gz https://temporal.download/assets/temporalio/sdk-java/releases/download/v1.17.0/temporal-test-server_1.17.0_linux_amd64.tar.gz
       - name: Run build
         run: yarn tsc --build
       - name: Run test
