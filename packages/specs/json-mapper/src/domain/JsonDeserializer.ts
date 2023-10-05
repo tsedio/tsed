@@ -348,6 +348,10 @@ export class JsonDeserializer extends JsonMapperCompiler<JsonDeserializerOptions
   }
 
   private mapSet(input: any, options: JsonDeserializerOptions): Set<any> {
+    if (isNil(input)) {
+      return input;
+    }
+
     const obj = new Set<any>();
 
     objectKeys(input).forEach((key) => {
@@ -358,12 +362,20 @@ export class JsonDeserializer extends JsonMapperCompiler<JsonDeserializerOptions
   }
 
   private mapArray(input: any, options: JsonDeserializerOptions) {
+    if (isNil(input)) {
+      return input;
+    }
+
     return [].concat(input).map((item: any) => {
       return this.mapItem(item, options);
     });
   }
 
   private mapMap(input: any, options: JsonDeserializerOptions): Map<string, any> {
+    if (isNil(input)) {
+      return input;
+    }
+
     const obj = new Map<string, any>();
 
     objectKeys(input).forEach((key) => {

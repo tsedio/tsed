@@ -542,6 +542,33 @@ describe("deserialize()", () => {
         }
       });
     });
+    it("should transform keep array, map, set without nullable value", () => {
+      class Model {
+        @CollectionOf(String)
+        public bars?: string[];
+
+        @CollectionOf(String)
+        public barsSet?: Set<string>;
+
+        @CollectionOf(String)
+        public barsMap?: Map<string, string>;
+      }
+
+      const payload = {
+        bars: null,
+        barsSet: null,
+        barsMap: null
+      };
+
+      const result = deserialize(payload, {type: Model});
+
+      expect(result).toBeInstanceOf(Model);
+      expect(result).toEqual({
+        bars: null,
+        barsSet: null,
+        barsMap: null
+      });
+    });
     it("should transform object to class (date/nullable)", () => {
       class Product {
         @Nullable(Date)

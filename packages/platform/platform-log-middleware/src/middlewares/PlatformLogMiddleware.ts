@@ -132,7 +132,7 @@ export class PlatformLogMiddleware implements MiddlewareMethods {
     return {
       method: request.method,
       url: request.url,
-      route: request.route,
+      route: request.route || request.url,
       headers: request.headers,
       body: request.body,
       query: request.query,
