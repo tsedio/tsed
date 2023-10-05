@@ -23,7 +23,7 @@ export class TemporalModule {
   }
 
   protected getActivitiesFromInstance(instance: any) {
-    const provider = this.injector.getProvider(classOf(instance));
+    const provider = this.injector.getProvider(classOf(instance))!;
     const store = provider.store.get<TemporalStore>(TEMPORAL_STORE_KEY, {});
 
     return Object.entries(store.activities || {}).reduce((activities, [propertyKey, {name}]) => {

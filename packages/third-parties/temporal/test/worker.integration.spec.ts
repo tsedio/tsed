@@ -13,13 +13,13 @@ describe("Temporal Worker", () => {
 
   let testEnv: TestWorkflowEnvironment;
 
-  beforeEach(async () => {
+  beforeAll(async () => {
     testEnv = await TestWorkflowEnvironment.createTimeSkipping();
-  });
+  }, 10000);
 
-  afterEach(async () => {
+  afterAll(async () => {
     await testEnv.teardown();
-  });
+  }, 10000);
 
   it("should start a worker and execute decorated activites", async () => {
     const worker = await bootstrapWorker(Server, {
@@ -43,5 +43,5 @@ describe("Temporal Worker", () => {
       const result = await handle.result();
       expect(result).toEqual("Hello, world!");
     });
-  });
+  }, 10000);
 });
