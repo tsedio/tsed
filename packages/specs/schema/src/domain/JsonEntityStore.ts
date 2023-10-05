@@ -277,8 +277,8 @@ export abstract class JsonEntityStore implements JsonEntityStoreOptions {
   }
 
   getBestType() {
-    return this.itemSchema.isDiscriminator
-      ? this.itemSchema.discriminator()
+    return this.itemSchema.hasDiscriminator
+      ? this.itemSchema.discriminator().base
       : isClassObject(this.type)
       ? this.itemSchema.getTarget()
       : isArrowFn(this.type)

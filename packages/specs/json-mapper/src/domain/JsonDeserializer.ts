@@ -25,7 +25,7 @@ function mapParamStoreOptions(store: JsonParameterStore, options: JsonDeserializ
   return {
     ...options,
     store: undefined,
-    type: store.itemSchema.hasDiscriminator ? store.itemSchema.discriminator().base : store.getBestType(),
+    type: store.getBestType(),
     collectionType: store.collectionType,
     groups: store.parameter.groups,
     // genericTypes: store.nestedGenerics[0],

@@ -1,8 +1,7 @@
 import {Controller} from "@tsed/di";
 import {BodyParams, PathParams} from "@tsed/platform-params";
 import {DiscriminatorKey, DiscriminatorValue, JsonParameterStore, OneOf, Property, Put, Required, Returns} from "@tsed/schema";
-import {deserialize} from "../../src/utils/deserialize";
-import {serialize} from "../../src/utils/serialize";
+import {deserialize, serialize} from "../../src";
 
 class Event {
   @DiscriminatorKey() // declare this property as discriminator key
@@ -227,6 +226,31 @@ describe("Discriminator", () => {
       );
 
       expect(result).toBeInstanceOf(PageView);
+    });
+    it("should deserialize object according to the discriminator key for specific type (endpoint)", () => {
+      @Controller("/")
+      class Test {
+        @Put("/:id")
+        @Returns(200, Action)
+        put(@PathParams(":id") id: string, @BodyParams() action: Action) {
+          return [];
+        }
+      }
+
+      const param = JsonParameterStore.get(Test, "put", 1);
+
+      const result = deserialize(
+        {
+          type: "action",
+          value: "value",
+          url: "https://url"
+        },
+        {
+          store: param
+        }
+      );
+
+      expect(result).toBeInstanceOf(Action);
     });
     it("should deserialize object according to the discriminator key (endpoint - only base class resolved)", () => {
       class Base {
