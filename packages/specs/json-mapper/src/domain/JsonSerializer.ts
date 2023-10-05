@@ -266,18 +266,29 @@ export class JsonSerializer extends JsonMapperCompiler<JsonSerializerOptions> {
   }
 
   private mapSet(input: any, options: JsonSerializerOptions) {
+    if (isNil(input)) {
+      return input;
+    }
     return [...input.values()].map((item) => {
       return this.mapItem(item, options);
     });
   }
 
   private mapArray(input: any, options: JsonSerializerOptions) {
+    if (isNil(input)) {
+      return input;
+    }
+
     return [].concat(input).map((item: any) => {
       return this.mapItem(item, options);
     });
   }
 
   private mapMap(input: any, options: JsonSerializerOptions) {
+    if (isNil(input)) {
+      return input;
+    }
+
     return [...input.entries()].reduce((obj, [key, item]) => {
       return {
         ...obj,

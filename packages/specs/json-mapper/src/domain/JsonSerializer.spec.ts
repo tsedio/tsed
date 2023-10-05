@@ -658,6 +658,32 @@ describe("JsonSerializer", () => {
         prop4: null
       });
     });
+    it("should transform keep array, map, set without nullable value", () => {
+      class Model {
+        @CollectionOf(String)
+        public bars?: string[];
+
+        @CollectionOf(String)
+        public barsSet?: Set<string>;
+
+        @CollectionOf(String)
+        public barsMap?: Map<string, string>;
+      }
+
+      const payload = {
+        bars: null,
+        barsSet: null,
+        barsMap: null
+      };
+
+      const result = serialize(payload, {type: Model});
+
+      expect(result).toEqual({
+        bars: null,
+        barsSet: null,
+        barsMap: null
+      });
+    });
     it("should serialize array model with alias property", () => {
       class SpaBooking {
         @Required()
