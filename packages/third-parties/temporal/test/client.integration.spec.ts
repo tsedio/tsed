@@ -1,9 +1,8 @@
-import {TestWorkflowEnvironment} from "@temporalio/testing";
-import {Temporal, Activity, bootstrapWorker, TemporalClient} from "../src";
-import {Server} from "./helpers/Server";
-import {Runtime} from "@temporalio/worker";
 import {getEphemeralServerTarget} from "@temporalio/core-bridge";
+import {Runtime} from "@temporalio/worker";
 import {PlatformTest} from "@tsed/common";
+import {TemporalClient} from "../src";
+import {Server} from "./helpers/Server";
 
 describe("Temporal Client", () => {
   let server: any;
