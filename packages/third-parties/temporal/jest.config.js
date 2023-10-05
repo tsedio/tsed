@@ -4,6 +4,7 @@
 module.exports = {
   ...require("@tsed/jest-config"),
   roots: ["<rootDir>/src", "<rootDir>/test"],
+  globalSetup: "<rootDir>/test/global-setup.ts",
   coverageThreshold: {
     global: {
       statements: 94.62,
