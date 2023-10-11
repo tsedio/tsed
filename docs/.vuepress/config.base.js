@@ -260,6 +260,9 @@ module.exports = ({title, description, base = "", url, apiRedirectUrl = "", them
               {
                 text: "Temporal",
                 link: `${base}/tutorials/temporal.html`
+              },     {
+                text: "BullMQ",
+                link: `${base}/tutorials/bullmq.html`
               },
               {
                 text: "Terminus",
@@ -425,6 +428,7 @@ module.exports = ({title, description, base = "", url, apiRedirectUrl = "", them
               {title: "Objection.js", path: base + "/tutorials/objection"},
               {title: "Vite plugin ssr", path: base + "/tutorials/vite-plugin-ssr"},
               {title: "Temporal", path: base + "/tutorials/temporal"}
+              {title: "BullMQ", path: base + "/tutorials/bullmq"}
             ].sort((a, b) => (a.title < b.title ? -1 : 1))
           },
           {

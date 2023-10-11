@@ -181,6 +181,9 @@ frameworks:
   - title: Temporal
     href: /tutorials/temporal.html
     src: /temporal.svg
+  - title: BullMQ
+    href: /tutorials/bullmq.html
+    src: /bullmq.png
 ---
 
 ::: slot hero-brand
