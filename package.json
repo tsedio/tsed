@@ -37,7 +37,7 @@
     "test:graphql": "lerna run test --scope \"@tsed/{apollo,typegraphql}\" --stream",
     "test:security": "lerna run test --scope \"@tsed/{jwks,oidc-provider,passport}\" --stream",
     "test:specs": "lerna run test --scope \"@tsed/{ajv,exceptions,json-mapper,schema,swagger}\" --stream --concurrency 2",
-    "test:third-parties": "lerna run test --scope \"@tsed/{agenda,async-hook-context,components-scan,event-emitter,seq,socketio,stripe,temporal,terminus,vite-ssr-plugin}\" --stream --concurrency 4",
+    "test:third-parties": "lerna run test --scope \"@tsed/{agenda,bullmq,async-hook-context,components-scan,event-emitter,seq,socketio,stripe,temporal,terminus,vite-ssr-plugin}\" --stream --concurrency 4",
     "test:formio": "lerna run test --scope \"@tsed/{schema-formio,formio}\" --stream",
     "coverage": "merge-istanbul --out coverage/coverage-final.json \"**/packages/**/coverage/coverage-final.json\" && nyc report --reporter text --reporter html --reporter lcov -t coverage --report-dir coverage",
     "coveralls": "nyc report --reporter=text-lcov | coveralls",

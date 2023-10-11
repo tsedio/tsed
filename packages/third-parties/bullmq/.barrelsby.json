@@ -1,0 +1,5 @@
+{
+  "directory": ["./src", "./src/decorators", "./src/dispatchers", "./src/contracts"],
+  "exclude": ["__mock__", "__mocks__", ".spec.ts", "test", ".benchmark.ts"],
+  "delete": true
+}
