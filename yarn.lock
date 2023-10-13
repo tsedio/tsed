@@ -9048,7 +9048,7 @@ builtins@^5.0.0:
   dependencies:
     semver "^7.0.0"
 
-bullmq@^4.12.1:
+bullmq@^4.12.3:
   version "4.12.3"
   resolved "https://registry.yarnpkg.com/bullmq/-/bullmq-4.12.3.tgz#0c649b9a5e48227519c526ee9edd96b982eee22d"
   integrity sha512-4uPp4NQTALFF+eFK7g8VJM+rt0aiduQdzBomgiEO1OK4OE+TdgC6cjGXooKI/asuB8iDhSZ+pSnGYy5Xyr6qRA==
