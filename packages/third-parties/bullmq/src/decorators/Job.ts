@@ -10,7 +10,7 @@ export function Job(name: string, queue: string = "default", opts: JobsOptions =
       opts
     }),
     Injectable({
-      provide: `bullmq.job.${name}`,
+      provide: `bullmq.job.${queue}.${name}`,
       type: opts.repeat ? "bullmq:cron" : "bullmq:job"
     })
   );
