@@ -12,7 +12,7 @@ meta:
 
 ## Feature
 
-The [BullMQ](https://bullmq.io) Module for Ts.ED allows you to decorate a class using the `@AsJob` decorator and implement the `Job` interface provided by the module.
+The [BullMQ](https://bullmq.io) Module for Ts.ED allows you to decorate a class using the `@Job` decorator and implement the `Job` interface provided by the module.
 Repeatable Jobs can also be defined using this decorator.
 
 For more information about BullMQ look at the documentation [here](https://docs.bullmq.io/);
@@ -52,13 +52,13 @@ export class Server {}
 
 ## Define a Job
 
-A job is defined as a class decorated with the `@AsJob` decorator and implementing the `Job` interface of the `@tsed/bullmq` package
+A job is defined as a class decorated with the `@Job` decorator and implementing the `Job` interface of the `@tsed/bullmq` package
 
 ```ts
-import {AsJob, Job} from "@tsed/bullmq";
+import {Job, JobMethods} from "@tsed/bullmq";
 
-@AsJob("example")
-class ExampleJob implements Job {
+@Job("example")
+class ExampleJob implements JobMethods {
   public handle(payload: {msg: string}) {
     console.info("New message incoming", payload.msg);
   }
@@ -68,12 +68,12 @@ class ExampleJob implements Job {
 You can also specify a non default queue as the second argument in the decorator and add any other job specific options as a third argument
 
 ```ts
-import {AsJob, Job} from "@tsed/bullmq";
+import {Job, JobMethods} from "@tsed/bullmq";
 
-@AsJob("other-example", "other-queue", {
+@Job("other-example", "other-queue", {
   attempts: 42
 })
-class OtherExampleJob implements Job {
+class OtherExampleJob implements JobMethods {
   public handle(payload: {num: number}) {
     console.info("look at my awesome number: ", payload.num);
   }
@@ -82,17 +82,17 @@ class OtherExampleJob implements Job {
 
 ## Defining a repeating job
 
-Jobs that should be run regularly on a schedule can also easily defined using the `@AsJob` decorator
+Jobs that should be run regularly on a schedule can also easily defined using the `@Job` decorator
 
 ```ts
-import {AsJob, Job} from "@tsed/bullmq";
+import {Job, JobMethods} from "@tsed/bullmq";
 
-@AsJob("my-cron-job", "default", {
+@Job("my-cron-job", "default", {
   repeat: {
     pattern: "* * * * *"
   }
 })
-class MyCronJob implements Job {
+class MyCronJob implements JobMethods {
   public handle() {
     console.info("I run every minute!");
   }
