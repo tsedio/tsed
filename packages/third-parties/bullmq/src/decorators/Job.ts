@@ -8,7 +8,7 @@ export type JobStore = {
   opts: JobsOptions;
 };
 
-export function AsJob(name: string, queue: string = "default", opts: JobsOptions = {}) {
+export function Job(name: string, queue: string = "default", opts: JobsOptions = {}) {
   return useDecorators(
     StoreMerge("bullmq", {
       name,
