@@ -2,7 +2,7 @@ import {PlatformTest} from "@tsed/common";
 import {Queue, Worker} from "bullmq";
 import {instance, mock, verify, when} from "ts-mockito";
 import {type BullMQConfig} from "./config/config";
-import {AsJob} from "./decorators";
+import {Job} from "./decorators";
 import {JobDispatcher} from "./dispatchers";
 import {JobMethods} from "./contracts";
 
@@ -14,7 +14,7 @@ const bullmq = {
   workerQueues: ["default", "foo"]
 } as BullMQConfig;
 
-@AsJob("cron", "default", {
+@Job("cron", "default", {
   repeat: {
     pattern: "* * * * *"
   }
@@ -23,7 +23,7 @@ class CustomCronJob implements JobMethods {
   handle() {}
 }
 
-@AsJob("regular", "default")
+@Job("regular", "default")
 class RegularJob {}
 
 describe("module", () => {

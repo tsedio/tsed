@@ -1,9 +1,9 @@
-import {AsJob} from "./AsJob";
+import {Job} from "./Job";
 import {Store} from "@tsed/core";
 
-describe("AsJob", () => {
+describe("Job", () => {
   it("should set the proper store data", () => {
-    @AsJob("testjob")
+    @Job("testjob")
     class TestJob {}
 
     const store = Store.from(TestJob).get("bullmq");
@@ -14,7 +14,7 @@ describe("AsJob", () => {
   });
 
   it("should allow settings a custom queue", () => {
-    @AsJob("testjob", "custom")
+    @Job("testjob", "custom")
     class CustomQueueJob {}
 
     const store = Store.from(CustomQueueJob).get("bullmq");
@@ -23,7 +23,7 @@ describe("AsJob", () => {
   });
 
   it("should allow custom options to be set", () => {
-    @AsJob("testjob", "default", {
+    @Job("testjob", "default", {
       backoff: 69,
       attempts: 42
     })
@@ -38,7 +38,7 @@ describe("AsJob", () => {
   });
 
   it("should set type for cron jobs", () => {
-    @AsJob("testjob", "default", {
+    @Job("testjob", "default", {
       repeat: {count: 42}
     })
     class CustomCronJob {}
