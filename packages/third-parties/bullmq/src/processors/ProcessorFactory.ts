@@ -1,6 +1,6 @@
 import {InjectorService, Service} from "@tsed/di";
 import {Processor} from "bullmq";
-import {Job} from "../contracts/Job";
+import {JobMethods} from "../contracts/JobMethods";
 
 @Service()
 export default class ProcessorFactory {
@@ -9,7 +9,7 @@ export default class ProcessorFactory {
   public build(): Processor {
     // eslint-disable-next-line require-await
     return async (job) => {
-      const j = this.injector.get<Job>(`bullmq.job.${job.name}`);
+      const j = this.injector.get<JobMethods>(`bullmq.job.${job.name}`);
       if (j === undefined) {
         return;
       }

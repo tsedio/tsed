@@ -1,7 +1,7 @@
 import {Constant, InjectorService, Module} from "@tsed/di";
 import {JobDispatcher} from "./dispatchers";
 import {BeforeInit} from "@tsed/common";
-import {Job} from "./contracts";
+import {JobMethods} from "./contracts";
 import {getComputedType} from "@tsed/schema";
 import {BullMQConfig} from "./config/config";
 import {Queue, Worker} from "bullmq";
@@ -47,6 +47,6 @@ export class BullMQModule implements BeforeInit {
         .invoke<Queue>(`bullmq.queue.${queue}`);
     });
 
-    this.injector.getMany<Job>("bullmq:cron").map((job) => this.dispatcher.dispatch(getComputedType(job)));
+    this.injector.getMany<JobMethods>("bullmq:cron").map((job) => this.dispatcher.dispatch(getComputedType(job)));
   }
 }

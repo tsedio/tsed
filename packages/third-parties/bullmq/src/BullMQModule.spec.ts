@@ -4,7 +4,7 @@ import {instance, mock, verify, when} from "ts-mockito";
 import {type BullMQConfig} from "./config/config";
 import {AsJob} from "./decorators";
 import {JobDispatcher} from "./dispatchers";
-import {Job} from "./contracts";
+import {JobMethods} from "./contracts";
 
 import "./BullMQModule";
 
@@ -19,7 +19,7 @@ const bullmq = {
     pattern: "* * * * *"
   }
 })
-class CustomCronJob implements Job {
+class CustomCronJob implements JobMethods {
   handle() {}
 }
 

@@ -1,6 +1,6 @@
 import {InjectorService} from "@tsed/di";
 import {JobDispatcher} from "./JobDispatcher";
-import {Job} from "../contracts";
+import {JobMethods} from "../contracts";
 import {AsJob} from "../decorators";
 import {Queue} from "bullmq";
 import {instance, mock, verify, when, objectContaining} from "ts-mockito";
@@ -8,12 +8,12 @@ import {instance, mock, verify, when, objectContaining} from "ts-mockito";
 @AsJob("example-job", "default", {
   backoff: 69
 })
-class ExampleTestJob implements Job {
+class ExampleTestJob implements JobMethods {
   handle(payload: {msg: string}) {}
 }
 
 @AsJob("queue-not-configured", "not-configured")
-class NotConfiguredQueueTestJob implements Job {
+class NotConfiguredQueueTestJob implements JobMethods {
   handle() {}
 }
 
