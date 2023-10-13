@@ -3,3 +3,4 @@
  */
 
 export * from "./JobMethods";
+export * from "./JobStore";

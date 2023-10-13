@@ -1,7 +1,6 @@
 import {InjectorService, Service} from "@tsed/di";
-import {JobMethods} from "../contracts";
+import {JobMethods, type JobStore} from "../contracts";
 import {Store, Type} from "@tsed/core";
-import {JobStore} from "../decorators";
 import {Job as BullMQJob, Queue} from "bullmq";
 
 @Service()
