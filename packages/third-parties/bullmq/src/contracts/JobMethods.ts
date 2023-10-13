@@ -1,3 +1,3 @@
-export interface Job {
+export interface JobMethods {
   handle(payload: unknown): unknown;
 }

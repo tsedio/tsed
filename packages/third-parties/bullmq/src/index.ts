@@ -4,7 +4,7 @@
 
 export * from "./BullMQModule";
 export * from "./config/config";
-export * from "./contracts/Job";
+export * from "./contracts/JobMethods";
 export * from "./decorators/AsJob";
 export * from "./dispatchers/JobDispatcher";
 export * from "./processors/ProcessorFactory";
