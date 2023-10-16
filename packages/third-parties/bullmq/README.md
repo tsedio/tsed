@@ -73,9 +73,9 @@ export class Server {}
 A job is defined as a class decorated with the `@AsJob` decorator and implementing the `Job` interface of the `@tsed/bullmq` package
 
 ```ts
-import {Job, JobMethods} from "@tsed/bullmq";
+import {JobController, JobMethods} from "@tsed/bullmq";
 
-@Job("example")
+@JobController("example")
 class ExampleJob implements JobMethods {
   public handle(payload: {msg: string}) {
     console.info("New message incoming", payload.msg);
@@ -86,9 +86,9 @@ class ExampleJob implements JobMethods {
 You can also specify a non default queue as the second argument in the decorator and add any other job specific options as a third argument
 
 ```ts
-import {Job, JobMethods} from "@tsed/bullmq";
+import {JobController, JobMethods} from "@tsed/bullmq";
 
-@Job("other-example", "other-queue", {
+@JobController("other-example", "other-queue", {
   attempts: 42
 })
 class OtherExampleJob implements JobMethods {
@@ -103,9 +103,9 @@ class OtherExampleJob implements JobMethods {
 Jobs that should be run regularly on a schedule can also easily defined using the `@AsJob` decorator
 
 ```ts
-import {Job, JobMethods} from "@tsed/bullmq";
+import {JobController, JobMethods} from "@tsed/bullmq";
 
-@Job("my-cron-job", "default", {
+@JobController("my-cron-job", "default", {
   repeat: {
     pattern: "* * * * *"
   }
