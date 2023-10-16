@@ -1,12 +1,14 @@
 import {PlatformTest} from "@tsed/common";
+import {catchAsyncError} from "@tsed/core";
 import {Queue, Worker} from "bullmq";
 import {instance, mock, verify, when} from "ts-mockito";
-import {type BullMQConfig} from "./config/config";
-import {Job} from "./decorators";
-import {JobDispatcher} from "./dispatchers";
-import {JobMethods} from "./contracts";
 
 import "./BullMQModule";
+import {BullMQModule} from "./BullMQModule";
+import {type BullMQConfig} from "./config/config";
+import {JobMethods} from "./contracts";
+import {Job} from "./decorators";
+import {JobDispatcher} from "./dispatchers";
 
 const bullmq = {
   queues: ["default", "foo", "bar"],
@@ -24,7 +26,9 @@ class CustomCronJob implements JobMethods {
 }
 
 @Job("regular", "default")
-class RegularJob {}
+class RegularJob {
+  handle() {}
+}
 
 describe("module", () => {
   let dispatcher: JobDispatcher;
@@ -92,6 +96,68 @@ describe("module", () => {
 
     it("should not allow direct injection of the worker", () => {
       expect(PlatformTest.get(Worker)).not.toBeInstanceOf(Worker);
+    });
+
+    it("should run worker and execute processor", async () => {
+      const bullMQModule = PlatformTest.get<BullMQModule>(BullMQModule);
+      const worker = PlatformTest.get<JobMethods>("bullmq.job.default.regular");
+      const job = {
+        name: "regular",
+        queueName: "default",
+        data: {test: "test"}
+      };
+
+      jest.spyOn(worker, "handle").mockResolvedValueOnce(undefined as never);
+
+      await (bullMQModule as any).onProcess(job);
+
+      expect(worker.handle).toHaveBeenCalledWith({test: "test"}, job);
+    });
+
+    it("should log warning when the worker doesn't exists", async () => {
+      const bullMQModule = PlatformTest.get<BullMQModule>(BullMQModule);
+
+      jest.spyOn(PlatformTest.injector.logger, "warn");
+
+      const job = {
+        name: "regular",
+        queueName: "toto",
+        data: {test: "test"}
+      };
+
+      await (bullMQModule as any).onProcess(job);
+
+      expect(PlatformTest.injector.logger.warn).toHaveBeenCalledWith({
+        event: "BULLMQ_JOB_NOT_FOUND",
+        message: "Job regular toto not found"
+      });
+    });
+
+    it("should run worker, execute processor and handle error", async () => {
+      const bullMQModule = PlatformTest.get<BullMQModule>(BullMQModule);
+      const worker = PlatformTest.get<JobMethods>("bullmq.job.default.regular");
+      const job = {
+        name: "regular",
+        queueName: "default",
+        data: {test: "test"}
+      };
+
+      jest.spyOn(PlatformTest.injector.logger, "error");
+
+      jest.spyOn(worker, "handle").mockRejectedValue(new Error("error") as never);
+
+      const error = await catchAsyncError(() => (bullMQModule as any).onProcess(job));
+
+      expect(worker.handle).toHaveBeenCalledWith({test: "test"}, job);
+      expect(PlatformTest.injector.logger.error).toHaveBeenCalledWith({
+        duration: expect.any(Number),
+        event: "BULLMQ_JOB_ERROR",
+        message: "error",
+        reqId: expect.any(String),
+        stack: expect.any(String),
+        time: expect.any(Object)
+      });
+      expect(error?.message).toEqual("error");
     });
   });
 });

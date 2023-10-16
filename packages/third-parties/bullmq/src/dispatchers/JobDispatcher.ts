@@ -12,6 +12,7 @@ export class JobDispatcher {
     const store = Store.from(job).get<JobStore>("bullmq");
 
     const queue = this.injector.get<Queue>(`bullmq.queue.${store.queue}`);
+
     if (!queue) {
       throw new Error(`Queue(${store.queue}) not defined`);
     }
