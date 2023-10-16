@@ -7,7 +7,7 @@ import "./BullMQModule";
 import {BullMQModule} from "./BullMQModule";
 import {type BullMQConfig} from "./config/config";
 import {JobMethods} from "./contracts";
-import {Job} from "./decorators";
+import {JobController} from "./decorators";
 import {JobDispatcher} from "./dispatchers";
 
 jest.mock("bullmq", () => {
@@ -37,7 +37,7 @@ const bullmq = {
   workerQueues: ["default", "foo"]
 } as BullMQConfig;
 
-@Job("cron", "default", {
+@JobController("cron", "default", {
   repeat: {
     pattern: "* * * * *"
   }
@@ -46,7 +46,7 @@ class CustomCronJob implements JobMethods {
   handle() {}
 }
 
-@Job("regular", "default")
+@JobController("regular", "default")
 class RegularJob {
   handle() {}
 }
