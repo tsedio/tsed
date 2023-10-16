@@ -25,6 +25,7 @@ export class BullMQModule implements BeforeInit {
     this.bullmq.queues.forEach((queue) => {
       this.injector
         .add(`bullmq.queue.${queue}`, {
+          type: "bullmq:queue",
           useValue: new Queue(queue, {
             connection: this.bullmq.connection,
             defaultJobOptions: this.bullmq.defaultJobOptions

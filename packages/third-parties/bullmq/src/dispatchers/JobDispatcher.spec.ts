@@ -20,18 +20,20 @@ class NotConfiguredQueueTestJob implements JobMethods {
 describe("JobDispatcher", () => {
   it("should throw an exception when a queue is not configured", () => {
     const injector = mock(InjectorService);
-    when(injector.get("bullmq.queue.default")).thenReturn(undefined);
+    when(injector.getMany("bullmq:queue")).thenReturn([]);
 
     const dispatcher = new JobDispatcher(instance(injector));
 
     expect(dispatcher.dispatch(NotConfiguredQueueTestJob)).rejects.toThrow(new Error("Queue(not-configured) not defined"));
+    verify(injector.getMany("bullmq:queue")).once();
   });
 
   it("should dispatch job", async () => {
     const injector = mock(InjectorService);
     const queue = mock(Queue);
+    when(queue.name).thenReturn("default");
 
-    when(injector.get("bullmq.queue.default")).thenReturn(instance(queue));
+    when(injector.getMany("bullmq:queue")).thenReturn([instance(queue)]);
 
     const dispatcher = new JobDispatcher(instance(injector));
 

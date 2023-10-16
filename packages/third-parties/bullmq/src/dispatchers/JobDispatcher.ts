@@ -11,7 +11,7 @@ export class JobDispatcher {
   public async dispatch<T extends JobMethods>(job: Type<JobMethods>, payload: Parameters<T["handle"]>[0] = {}): Promise<BullMQJob> {
     const store = Store.from(job).get<JobStore>("bullmq");
 
-    const queue = this.injector.get<Queue>(`bullmq.queue.${store.queue}`);
+    const queue = this.injector.getMany<Queue>("bullmq:queue").find((queue) => queue.name === store.queue);
 
     if (!queue) {
       throw new Error(`Queue(${store.queue}) not defined`);
