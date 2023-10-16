@@ -10,6 +10,27 @@ import {JobMethods} from "./contracts";
 import {Job} from "./decorators";
 import {JobDispatcher} from "./dispatchers";
 
+jest.mock("bullmq", () => {
+  return {
+    Queue: class {
+      public name: string;
+
+      constructor(name: string) {
+        this.name = name;
+      }
+      close() {}
+    },
+    Worker: class {
+      public name: string;
+
+      constructor(name: string) {
+        this.name = name;
+      }
+      close() {}
+    }
+  };
+});
+
 const bullmq = {
   queues: ["default", "foo", "bar"],
   connection: {},
