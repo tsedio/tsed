@@ -1,9 +1,9 @@
-import {Job} from "./Job";
+import {JobController} from "./JobController";
 import {Store} from "@tsed/core";
 
-describe("Job", () => {
+describe("JobController", () => {
   it("should set the proper store data", () => {
-    @Job("testjob")
+    @JobController("testjob")
     class TestJob {}
 
     const store = Store.from(TestJob).get("bullmq");
@@ -14,7 +14,7 @@ describe("Job", () => {
   });
 
   it("should allow settings a custom queue", () => {
-    @Job("testjob", "custom")
+    @JobController("testjob", "custom")
     class CustomQueueJob {}
 
     const store = Store.from(CustomQueueJob).get("bullmq");
@@ -23,7 +23,7 @@ describe("Job", () => {
   });
 
   it("should allow custom options to be set", () => {
-    @Job("testjob", "default", {
+    @JobController("testjob", "default", {
       backoff: 69,
       attempts: 42
     })
@@ -38,7 +38,7 @@ describe("Job", () => {
   });
 
   it("should set type for cron jobs", () => {
-    @Job("testjob", "default", {
+    @JobController("testjob", "default", {
       repeat: {count: 42}
     })
     class CustomCronJob {}
