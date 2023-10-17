@@ -427,7 +427,7 @@ module.exports = ({title, description, base = "", url, apiRedirectUrl = "", them
               {title: "IORedis", path: base + "/tutorials/ioredis"},
               {title: "Objection.js", path: base + "/tutorials/objection"},
               {title: "Vite plugin ssr", path: base + "/tutorials/vite-plugin-ssr"},
-              {title: "Temporal", path: base + "/tutorials/temporal"}
+              {title: "Temporal", path: base + "/tutorials/temporal"},
               {title: "BullMQ", path: base + "/tutorials/bullmq"}
             ].sort((a, b) => (a.title < b.title ? -1 : 1))
           },
