@@ -8,7 +8,7 @@ export class JobDispatcher {
   constructor(private readonly injector: InjectorService) {}
 
   // eslint-disable-next-line require-await
-  public async dispatch<T extends JobMethods>(job: Type<JobMethods>, payload: Parameters<T["handle"]>[0] = {}): Promise<BullMQJob> {
+  public async dispatch<T extends JobMethods>(job: Type<T>, payload: Parameters<T["handle"]>[0] = {}): Promise<BullMQJob> {
     const store = Store.from(job).get<JobStore>("bullmq");
 
     const queue = this.injector.getMany<Queue>("bullmq:queue").find((queue) => queue.name === store.queue);
