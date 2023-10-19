@@ -1,6 +1,6 @@
 {
   "name": "@tsed/perf",
-  "version": "7.38.1",
+  "version": "7.39.0",
   "description": "Perf module tool",
   "private": false,
   "source": "./src/index.ts",
@@ -20,13 +20,13 @@
     "lint:fix": "eslint '**/*.{ts,js}' --fix"
   },
   "dependencies": {
-    "@tsed/core": "7.38.1",
+    "@tsed/core": "7.39.0",
     "chalk": "^4.1.0",
     "tslib": "2.5.0"
   },
   "devDependencies": {
-    "@tsed/eslint": "7.38.1",
-    "@tsed/typescript": "7.38.1",
+    "@tsed/eslint": "7.39.0",
+    "@tsed/typescript": "7.39.0",
     "eslint": "^8.12.0"
   },
   "peerDependencies": {}

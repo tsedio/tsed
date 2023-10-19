@@ -1,6 +1,6 @@
 {
   "name": "@tsed/temporal",
-  "version": "7.38.1",
+  "version": "7.39.0",
   "description": "Temporal.io package for Ts.ED framework",
   "source": "./src/index.ts",
   "main": "./lib/cjs/index.js",
@@ -33,11 +33,11 @@
     "@temporalio/client": "^1.8.4",
     "@temporalio/testing": "^1.8.4",
     "@temporalio/worker": "^1.8.4",
-    "@tsed/common": "7.38.1",
-    "@tsed/core": "7.38.1",
-    "@tsed/di": "7.38.1",
-    "@tsed/eslint": "7.38.1",
-    "@tsed/typescript": "7.38.1",
+    "@tsed/common": "7.39.0",
+    "@tsed/core": "7.39.0",
+    "@tsed/di": "7.39.0",
+    "@tsed/eslint": "7.39.0",
+    "@tsed/typescript": "7.39.0",
     "eslint": "^8.12.0"
   },
   "peerDependencies": {

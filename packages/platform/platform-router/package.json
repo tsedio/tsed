@@ -1,6 +1,6 @@
 {
   "name": "@tsed/platform-router",
-  "version": "7.38.1",
+  "version": "7.39.0",
   "description": "Router",
   "private": false,
   "source": "./src/index.ts",
@@ -25,23 +25,23 @@
     "tslib": "2.5.0"
   },
   "devDependencies": {
-    "@tsed/core": "7.38.1",
-    "@tsed/di": "7.38.1",
-    "@tsed/eslint": "7.38.1",
-    "@tsed/exceptions": "7.38.1",
-    "@tsed/json-mapper": "7.38.1",
-    "@tsed/platform-params": "7.38.1",
-    "@tsed/schema": "7.38.1",
-    "@tsed/typescript": "7.38.1",
+    "@tsed/core": "7.39.0",
+    "@tsed/di": "7.39.0",
+    "@tsed/eslint": "7.39.0",
+    "@tsed/exceptions": "7.39.0",
+    "@tsed/json-mapper": "7.39.0",
+    "@tsed/platform-params": "7.39.0",
+    "@tsed/schema": "7.39.0",
+    "@tsed/typescript": "7.39.0",
     "eslint": "^8.12.0"
   },
   "peerDependencies": {
-    "@tsed/core": "^7.38.1",
-    "@tsed/di": "^7.38.1",
-    "@tsed/exceptions": "^7.38.1",
-    "@tsed/json-mapper": "^7.38.1",
-    "@tsed/platform-params": "^7.38.1",
-    "@tsed/schema": "^7.38.1"
+    "@tsed/core": "^7.39.0",
+    "@tsed/di": "^7.39.0",
+    "@tsed/exceptions": "^7.39.0",
+    "@tsed/json-mapper": "^7.39.0",
+    "@tsed/platform-params": "^7.39.0",
+    "@tsed/schema": "^7.39.0"
   },
   "peerDependenciesMeta": {
     "@tsed/core": {
