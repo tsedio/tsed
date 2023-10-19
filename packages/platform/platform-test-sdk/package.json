@@ -33,7 +33,7 @@
     "@tsed/core": "7.39.0",
     "@tsed/di": "7.39.0",
     "@tsed/json-mapper": "7.39.0",
-    "@tsed/logger": "6.2.2",
+    "@tsed/logger": "6.6.3",
     "@tsed/platform-cache": "7.39.0",
     "@tsed/platform-params": "7.39.0",
     "@tsed/platform-router": "7.39.0",
