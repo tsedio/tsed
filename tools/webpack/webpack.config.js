@@ -11,7 +11,7 @@ exports.create = ({root, name, entry, externals = {}, resolve = {}}) => {
     output: {
       path: `${root}/lib/browser/`,
       filename: `${name}.umd.min.js`,
-      library: name,
+      library: `@tsed/${name}`,
       libraryTarget: "umd"
     },
     resolve: {
