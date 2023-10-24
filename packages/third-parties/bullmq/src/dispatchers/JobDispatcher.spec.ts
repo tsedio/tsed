@@ -9,7 +9,7 @@ import {instance, mock, verify, when, objectContaining} from "ts-mockito";
   backoff: 69
 })
 class ExampleTestJob implements JobMethods {
-  handle(payload: {msg: string}) {}
+  handle(payload: { msg: string }) {}
 }
 
 @JobController("queue-not-configured", "not-configured")
@@ -45,6 +45,52 @@ describe("JobDispatcher", () => {
         objectContaining({msg: "hello test"}),
         objectContaining({
           backoff: 69
+        })
+      )
+    ).once();
+  });
+
+  it('should overwrite job options defined by the job', async () => {
+    const injector = mock(InjectorService);
+    const queue = mock(Queue);
+    when(queue.name).thenReturn("default");
+
+    when(injector.getMany("bullmq:queue")).thenReturn([instance(queue)]);
+
+    const dispatcher = new JobDispatcher(instance(injector));
+
+    await dispatcher.dispatch(ExampleTestJob, {msg: "hello test"}, {backoff: 42, jobId: 'ffeeaa'});
+
+    verify(
+      queue.add(
+        "example-job",
+        objectContaining({msg: "hello test"}),
+        objectContaining({
+          backoff: 42,
+          jobId: 'ffeeaa'
+        })
+      )
+    ).once();
+  })
+
+  it('should keep existing options and add new ones', async () => {
+    const injector = mock(InjectorService);
+    const queue = mock(Queue);
+    when(queue.name).thenReturn("default");
+
+    when(injector.getMany("bullmq:queue")).thenReturn([instance(queue)]);
+
+    const dispatcher = new JobDispatcher(instance(injector));
+
+    await dispatcher.dispatch(ExampleTestJob, {msg: "hello test"}, {jobId: 'ffeeaa'});
+
+    verify(
+      queue.add(
+        "example-job",
+        objectContaining({msg: "hello test"}),
+        objectContaining({
+          backoff: 69,
+          jobId: 'ffeeaa'
         })
       )
     ).once();
