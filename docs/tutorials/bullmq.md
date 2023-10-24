@@ -133,6 +133,28 @@ class MyService {
 }
 ```
 
+In addition to statically defined job options when declaring the job, custom job options can also be set when dispatching the job.
+This allows to for example delay the job from when it has originally been dispatched.
+
+```ts
+import {Service} from "@tsed/di";
+import {JobDispatcher} from "@tsed/bullmq";
+import {ExampleJob} from "./jobs/ExampleJob";
+
+@Service()
+class MyService {
+  constructor(private readonly dispatcher: JobDispatcher) {}
+
+  public async doingSomething() {
+    await this.dispatcher.dispatch(ExampleJob, {msg: "this message is part of the payload for the job"}, {
+      delay: 600_000 // 10 minutes in milliseconds
+    });
+
+    console.info("I just dispatched a job!");
+  }
+}
+```
+
 ## Authors
 
 <GithubContributors :users="['abenerd']"/>
