@@ -1,4 +1,6 @@
-export const HTTP_METHODS = [
+import {Operation} from "../decorators/operations/operation";
+
+export const ALLOWED_VERBS = [
   "all",
   "checkout",
   "connect",
@@ -24,12 +26,13 @@ export const HTTP_METHODS = [
   "report",
   "search",
   "subscribe",
+  "publish",
   "trace",
   "unlock",
   "unsuscribe"
 ];
 
-export enum OperationMethods {
+export enum OperationVerbs {
   ALL = "ALL", // special key
   GET = "GET",
   POST = "POST",
@@ -38,5 +41,13 @@ export enum OperationMethods {
   HEAD = "HEAD",
   DELETE = "DELETE",
   OPTIONS = "OPTIONS",
+  TRACE = "TRACE",
+  PUBLISH = "PUBLISH",
+  SUBSCRIBE = "SUBSCRIBE",
   CUSTOM = "CUSTOM"
 }
+
+/**
+ * @deprecated Use OperationVerbs instead of OperationMethods
+ */
+export const OperationMethods = OperationVerbs;

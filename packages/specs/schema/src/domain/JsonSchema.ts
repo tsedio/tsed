@@ -931,7 +931,7 @@ export class JsonSchema extends Map<string, any> implements NestedGenerics {
   }
 
   toJSON(options?: JsonSchemaOptions) {
-    return execMapper("schema", this, options);
+    return execMapper("schema", [this], options);
   }
 
   assign(obj: JsonSchema | Partial<JsonSchemaObject> = {}) {

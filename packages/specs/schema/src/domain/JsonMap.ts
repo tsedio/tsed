@@ -27,6 +27,6 @@ export class JsonMap<T> extends Map<string, any> {
   }
 
   toJSON(options?: JsonSchemaOptions) {
-    return execMapper("map", this, options);
+    return execMapper("map", [this], options);
   }
 }

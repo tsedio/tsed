@@ -1,4 +1,5 @@
 import {camelCase} from "change-case";
+import {JsonSchemaOptions} from "../interfaces/JsonSchemaOptions";
 
 const DEFAULT_PATTERN = "%c.%m";
 
@@ -40,4 +41,8 @@ export function operationIdFormatter(pattern: string = "") {
 
     return `${operationId}_${id}`;
   };
+}
+
+export function getOperationId(path: string, {store, operationIdFormatter}: JsonSchemaOptions) {
+  return operationIdFormatter!(store.parent.schema.get("name") || store.parent.targetName, store.propertyName, path);
 }

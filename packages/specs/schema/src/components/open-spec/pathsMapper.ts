@@ -1,16 +1,28 @@
 import {OS3Operation, OS3Paths} from "@tsed/openspec";
-import {JsonMethodStore} from "../domain/JsonMethodStore";
-import {JsonSchemaOptions} from "../interfaces/JsonSchemaOptions";
-import {execMapper, registerJsonSchemaMapper} from "../registries/JsonSchemaMapperContainer";
-import {buildPath} from "../utils/buildPath";
-import {concatParameters} from "../utils/concatParameters";
-import {getJsonEntityStore} from "../utils/getJsonEntityStore";
-import {getJsonPathParameters} from "../utils/getJsonPathParameters";
-import {getOperationsStores} from "../utils/getOperationsStores";
+import {OperationVerbs} from "../../constants/OperationVerbs";
+import {JsonMethodStore} from "../../domain/JsonMethodStore";
+import {JsonMethodPath} from "../../domain/JsonOperation";
+import {JsonSchemaOptions} from "../../interfaces/JsonSchemaOptions";
+import {execMapper, registerJsonSchemaMapper} from "../../registries/JsonSchemaMapperContainer";
+import {buildPath} from "../../utils/buildPath";
+import {concatParameters} from "../../utils/concatParameters";
+import {getJsonEntityStore} from "../../utils/getJsonEntityStore";
+import {getJsonPathParameters} from "../../utils/getJsonPathParameters";
+import {getOperationsStores} from "../../utils/getOperationsStores";
+import {getOperationId} from "../../utils/operationIdFormatter";
+import {removeHiddenOperation} from "../../utils/removeHiddenOperation";
 
-function operationId(path: string, {store, operationIdFormatter}: JsonSchemaOptions) {
-  return operationIdFormatter!(store.parent.schema.get("name") || store.parent.targetName, store.propertyName, path);
-}
+const ALLOWED_VERBS = [
+  OperationVerbs.ALL,
+  OperationVerbs.GET,
+  OperationVerbs.POST,
+  OperationVerbs.PUT,
+  OperationVerbs.PATCH,
+  OperationVerbs.HEAD,
+  OperationVerbs.OPTIONS,
+  OperationVerbs.DELETE,
+  OperationVerbs.TRACE
+];
 
 function pushToPath(
   paths: OS3Paths,
@@ -33,34 +45,18 @@ function pushToPath(
   };
 }
 
-function removeHiddenOperation(operationStore: JsonMethodStore) {
-  return !operationStore.store.get("hidden");
-}
-
-function mapOperationPaths({operationStore, operation}: {operationStore: JsonMethodStore; operation: OS3Operation}) {
-  return [...operationStore.operation!.operationPaths.values()]
-    .map((operationPath) => {
-      return {
-        ...operationPath,
-        operationStore,
-        operation
-      };
-    })
-    .filter(({method}) => method);
-}
-
 function mapOperationInPathParameters(options: JsonSchemaOptions) {
   return ({
-    path,
-    method,
+    operationPath,
     operation,
     operationStore
   }: {
-    path: string;
-    method: string;
+    operationPath: JsonMethodPath;
     operation: OS3Operation;
     operationStore: JsonMethodStore;
   }) => {
+    const {path, method} = operationPath;
+
     return getJsonPathParameters(options.ctrlRootPath, path).map(({path, parameters}) => {
       path = path ? path : "/";
 
@@ -82,7 +78,7 @@ function mapOperationInPathParameters(options: JsonSchemaOptions) {
           parameters,
           operationId:
             operation.operationId ||
-            operationId(path, {
+            getOperationId(path, {
               ...options,
               store: operationStore
             })
@@ -96,12 +92,21 @@ function mapOperationInPathParameters(options: JsonSchemaOptions) {
 
 function mapOperation(options: JsonSchemaOptions) {
   return (operationStore: JsonMethodStore) => {
-    const operation = execMapper("operation", operationStore.operation, options);
+    const operationPaths = operationStore.operation.getAllowedOperationPath(ALLOWED_VERBS);
 
-    return {
-      operation,
-      operationStore
-    };
+    if (operationPaths.length === 0) {
+      return [];
+    }
+
+    const operation = execMapper("operation", [operationStore.operation], options);
+
+    return operationPaths.map((operationPath) => {
+      return {
+        operationPath,
+        operation,
+        operationStore
+      };
+    });
   };
 }
 
@@ -117,8 +122,8 @@ export function pathsMapper(model: any, {paths, rootPath, ...options}: JsonSchem
 
   return [...getOperationsStores(model).values()]
     .filter(removeHiddenOperation)
-    .map(mapOperation(options))
-    .flatMap(mapOperationPaths)
+    .filter((operationStore) => operationStore.operation.getAllowedOperationPath(ALLOWED_VERBS).length > 0)
+    .flatMap(mapOperation(options))
     .flatMap(mapOperationInPathParameters(options))
     .reduce(pushToPath, paths);
 }
