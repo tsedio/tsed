@@ -1,6 +1,6 @@
-import {Exception} from "../core/Exception";
+import {ServerException} from "../core/ServerException";
 
-export class GatewayTimeout extends Exception {
+export class GatewayTimeout extends ServerException {
   static readonly STATUS = 504;
 
   constructor(message: string, origin?: Error | string | any) {

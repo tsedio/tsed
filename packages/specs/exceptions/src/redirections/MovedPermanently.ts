@@ -1,6 +1,6 @@
-import {Exception} from "../core/Exception";
+import {RedirectException} from "../core/RedirectException";
 
-export class MovedPermanently extends Exception {
+export class MovedPermanently extends RedirectException {
   static readonly STATUS = 301;
 
   constructor(message: string, origin?: Error | string | any) {

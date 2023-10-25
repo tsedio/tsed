@@ -1,6 +1,6 @@
-import {Exception} from "../core/Exception";
+import {ServerException} from "../core/ServerException";
 
-export class BadGateway extends Exception {
+export class BadGateway extends ServerException {
   static readonly STATUS = 502;
 
   constructor(message: string, origin?: Error | string | any) {

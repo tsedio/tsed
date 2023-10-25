@@ -1,6 +1,6 @@
-import {Exception} from "../core/Exception";
+import {ClientException} from "../core/ClientException";
 
-export class BadRequest extends Exception {
+export class BadRequest extends ClientException {
   static readonly STATUS = 400;
 
   constructor(message: string, origin?: Error | string | any) {

@@ -1,4 +1,6 @@
 import {Exception, HTTPException} from "./Exception";
+import {StatusFamily} from "./StatusFamily";
+
 describe("Exception", () => {
   it("should use origin", () => {
     const exception = new Exception(undefined, "test", new Error("test"));
@@ -57,5 +59,37 @@ describe("Exception", () => {
     const error = new GatewayUserNotFoundError("test");
 
     expect(error.name).toEqual("GATEWAY_USER_NOT_FOUND_ERROR");
+  });
+
+  it("should throw exception if status code is less than 100", (done) => {
+    try {
+      Exception.validate(90, StatusFamily["4xx"]);
+    } catch (e) {
+      expect(e.message).toContain("between 100 and 599");
+      done();
+    }
+  });
+
+  it("should throw exception if status code is more than 599", (done) => {
+    try {
+      Exception.validate(600, StatusFamily["4xx"]);
+    } catch (e) {
+      expect(e.message).toContain("between 100 and 599");
+      done();
+    }
+  });
+
+  it("should throw exception if status code does not belong to family", (done) => {
+    try {
+      Exception.validate(519, StatusFamily["4xx"]);
+    } catch (e) {
+      expect(e.message).toContain("does not belong to the family");
+      done();
+    }
+  });
+
+  it("should validate the status code", () => {
+    const code = Exception.validate(419, StatusFamily["4xx"]);
+    expect(code).toEqual(419);
   });
 });

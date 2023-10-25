@@ -1,6 +1,6 @@
-import {Exception} from "../core/Exception";
+import {ClientException} from "../core/ClientException";
 
-export class RequestRangeUnsatisfiable extends Exception {
+export class RequestRangeUnsatisfiable extends ClientException {
   static readonly STATUS = 416;
 
   constructor(message: string, origin?: Error | string | any) {

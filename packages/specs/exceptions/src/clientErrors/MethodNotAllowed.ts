@@ -1,6 +1,6 @@
-import {Exception} from "../core/Exception";
+import {ClientException} from "../core/ClientException";
 
-export class MethodNotAllowed extends Exception {
+export class MethodNotAllowed extends ClientException {
   static readonly STATUS = 405;
 
   constructor(message: string, origin?: Error | string | any) {

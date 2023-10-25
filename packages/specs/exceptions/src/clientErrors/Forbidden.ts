@@ -1,6 +1,6 @@
-import {Exception} from "../core/Exception";
+import {ClientException} from "../core/ClientException";
 
-export class Forbidden extends Exception {
+export class Forbidden extends ClientException {
   static readonly STATUS = 403;
 
   constructor(message: string, origin?: Error | string | any) {

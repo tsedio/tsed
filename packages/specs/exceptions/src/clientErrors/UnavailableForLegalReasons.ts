@@ -1,6 +1,6 @@
-import {Exception} from "../core/Exception";
+import {ClientException} from "../core/ClientException";
 
-export class UnavailableForLegalReasons extends Exception {
+export class UnavailableForLegalReasons extends ClientException {
   static readonly STATUS = 451;
 
   constructor(message: string, origin?: Error | string | any) {

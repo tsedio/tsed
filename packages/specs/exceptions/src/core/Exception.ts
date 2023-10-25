@@ -1,6 +1,7 @@
 import {classOf, nameOf} from "@tsed/core";
 import {constantCase} from "change-case";
 import statuses from "statuses";
+import {StatusFamily} from "./StatusFamily";
 
 export class Exception extends Error {
   /**
@@ -36,6 +37,18 @@ export class Exception extends Error {
   public headers: {[key: string]: any} = {};
 
   [key: string]: any;
+
+  public static validate(status: number, family: StatusFamily): number {
+    if (status < 100 || status >= 600) {
+      throw new Error("Status must be between 100 and 599");
+    }
+
+    if (status.toString()[0] !== family.charAt(0)) {
+      throw new Error(`Status ${status} does not belong to the family ${family}`);
+    }
+
+    return status;
+  }
 
   constructor(status: number = 500, message: string = "", origin?: Error | string | any) {
     super(message);

@@ -1,6 +1,6 @@
-import {Exception} from "../core/Exception";
+import {RedirectException} from "../core/RedirectException";
 
-export class MovedTemporarily extends Exception {
+export class MovedTemporarily extends RedirectException {
   static readonly STATUS = 302;
   name: string = "MOVED_TEMPORARILY";
 

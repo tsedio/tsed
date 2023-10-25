@@ -1,6 +1,6 @@
-import {Exception} from "../core/Exception";
+import {ClientException} from "../core/ClientException";
 
-export class PaymentRequired extends Exception {
+export class PaymentRequired extends ClientException {
   static readonly STATUS = 402;
 
   constructor(message: string, origin?: Error | string | any) {
