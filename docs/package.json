@@ -1,6 +1,6 @@
 {
   "name": "@tsed/docs",
-  "version": "6.29.0",
+  "version": "7.40.0",
   "description": "Documentation Ts.ED",
   "private": true,
   "scripts": {
@@ -61,10 +61,10 @@
     "@vuepress/plugin-google-analytics": "1.9.9",
     "@vuepress/plugin-html-redirect": "^0.1.4",
     "@vuepress/plugin-medium-zoom": "1.9.7",
-    "vuepress-plugin-sitemap": "2.3.1",
-    "vue-analytics": "5.22.1",
     "axios": "0.27.2",
+    "vue-analytics": "5.22.1",
     "vuepress": "1.9.7",
+    "vuepress-plugin-sitemap": "2.3.1",
     "vuepress-theme-tsed": "3.20.8"
   },
   "directories": {
