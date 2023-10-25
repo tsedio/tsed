@@ -25,7 +25,7 @@
     "@types/lowdb": "1.0.11",
     "@types/uuid": "8.3.4",
     "change-case": "^4.1.2",
-    "fs-extra": "10.0.1",
+    "fs-extra": "11.1.1",
     "lodash": "^4.17.21",
     "lowdb": "1.0.0",
     "tslib": "2.5.0",
@@ -40,7 +40,7 @@
     "@tsed/json-mapper": "7.41.0",
     "@tsed/schema": "7.41.0",
     "@tsed/typescript": "7.39.1",
-    "@types/fs-extra": "9.0.13",
+    "@types/fs-extra": "11.0.3",
     "eslint": "^8.12.0"
   },
   "peerDependencies": {
