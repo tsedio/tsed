@@ -1,6 +1,6 @@
-import {Exception} from "../core/Exception";
+import {ServerException} from "../core/ServerException";
 
-export class InternalServerError extends Exception {
+export class InternalServerError extends ServerException {
   static readonly STATUS = 500;
 
   constructor(message: string, origin?: Error | string | any) {

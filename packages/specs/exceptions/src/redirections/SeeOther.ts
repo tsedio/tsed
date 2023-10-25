@@ -1,6 +1,6 @@
-import {Exception} from "../core/Exception";
+import {RedirectException} from "../core/RedirectException";
 
-export class SeeOther extends Exception {
+export class SeeOther extends RedirectException {
   static readonly STATUS = 303;
 
   constructor(message: string, origin?: Error | string | any) {

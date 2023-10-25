@@ -1,6 +1,6 @@
-import {Exception} from "../core/Exception";
+import {ServerException} from "../core/ServerException";
 
-export class ProxyError extends Exception {
+export class ProxyError extends ServerException {
   static readonly STATUS = 502;
   name: string = "PROXY_ERROR";
 

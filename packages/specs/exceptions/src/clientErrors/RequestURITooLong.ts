@@ -1,6 +1,6 @@
-import {Exception} from "../core/Exception";
+import {ClientException} from "../core/ClientException";
 
-export class RequestURITooLong extends Exception {
+export class RequestURITooLong extends ClientException {
   static readonly STATUS = 414;
 
   constructor(message: string, origin?: Error | string | any) {

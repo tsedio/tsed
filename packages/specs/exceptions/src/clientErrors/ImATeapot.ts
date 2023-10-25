@@ -1,6 +1,6 @@
-import {Exception} from "../core/Exception";
+import {ClientException} from "../core/ClientException";
 
-export class ImATeapot extends Exception {
+export class ImATeapot extends ClientException {
   static readonly STATUS = 418;
   name: string = "IM_A_TEAPOT";
 

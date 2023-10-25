@@ -1,6 +1,6 @@
-import {Exception} from "../core/Exception";
+import {ServerException} from "../core/ServerException";
 
-export class NotImplemented extends Exception {
+export class NotImplemented extends ServerException {
   static readonly STATUS = 501;
 
   constructor(message: string, origin?: Error | string | any) {

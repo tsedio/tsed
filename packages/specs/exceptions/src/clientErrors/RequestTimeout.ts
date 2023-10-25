@@ -1,6 +1,6 @@
-import {Exception} from "../core/Exception";
+import {ClientException} from "../core/ClientException";
 
-export class RequestTimeout extends Exception {
+export class RequestTimeout extends ClientException {
   static readonly STATUS = 408;
 
   constructor(message: string, origin?: Error | string | any) {

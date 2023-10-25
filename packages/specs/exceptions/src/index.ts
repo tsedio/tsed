@@ -46,5 +46,5 @@ export * from "./serverErrors/NetworkAuthenticationRequired";
 export * from "./serverErrors/NotExtended";
 export * from "./serverErrors/NotImplemented";
 export * from "./serverErrors/ProxyError";
-export * from "./serverErrors/ServiceUnvailable";
+export * from "./serverErrors/ServiceUnavailable";
 export * from "./serverErrors/VariantAlsoNegotiates";
