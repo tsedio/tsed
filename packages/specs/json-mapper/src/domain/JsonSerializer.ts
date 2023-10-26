@@ -180,13 +180,19 @@ export class JsonSerializer extends JsonMapperCompiler<JsonSerializerOptions> {
   }
 
   private getPropertyFiller(propertyStore: JsonPropertyStore, key: string, groups: false | string[], formatOpts: any) {
+    const isGeneric = propertyStore.itemSchema.isGeneric;
+
     if (propertyStore.isCollection) {
       const type = propertyStore.getBestType();
 
-      const nestedMapper = this.compile(type, groups);
+      const nestedMapper = isGeneric ? {id: ""} : this.compile(type, groups);
 
       return (writer: Writer) =>
         writer.callMapper(nameOf(propertyStore.collectionType), varKey(key), `id: '${nestedMapper.id}'`, formatOpts);
+    }
+
+    if (isGeneric) {
+      return (writer: Writer) => writer.set(varKey(key), `compileAndMap(${varKey(key)}, options)`);
     }
 
     const type = propertyStore.getBestType();
