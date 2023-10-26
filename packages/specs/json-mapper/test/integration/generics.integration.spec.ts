@@ -1,5 +1,21 @@
-import {boolean, date, GenericOf, Generics, number, Property, string} from "@tsed/schema";
+import {Controller} from "@tsed/di";
+import {
+  boolean,
+  CollectionOf,
+  date,
+  GenericOf,
+  Generics,
+  Get,
+  Ignore,
+  JsonEntityStore,
+  number,
+  Property,
+  Required,
+  Returns,
+  string
+} from "@tsed/schema";
 import {deserialize} from "../../src/utils/deserialize";
+import {serialize} from "../../src/utils/serialize";
 
 describe("Generics", () => {
   describe("using Functional api", () => {
@@ -265,6 +281,135 @@ describe("Generics", () => {
         adjustment: {
           value: "delay"
         }
+      });
+    });
+  });
+
+  describe("Pagination", () => {
+    it("should serialize correctly the return object from controller (generic array)", () => {
+      @Generics("T")
+      class Pagination<T> {
+        @CollectionOf("T")
+        @Required()
+        items: T[];
+
+        @Required()
+        totalCount: number;
+
+        constructor(partial: Partial<Pagination<T>>) {
+          Object.assign(this, partial);
+        }
+      }
+
+      class TestEntity {
+        @Property("id")
+        public _id: string;
+
+        @Property()
+        name: string;
+
+        @Property()
+        @Ignore()
+        secret: string;
+      }
+
+      @Controller("/hello-world")
+      class HelloWorldController {
+        constructor() {}
+
+        @Get("/")
+        @Returns(200, Pagination).Of(TestEntity)
+        get() {}
+      }
+
+      const endpoint = JsonEntityStore.fromMethod(HelloWorldController, "get");
+
+      const responseOpts = endpoint.getResponseOptions(200, {});
+
+      const item = new TestEntity();
+      item._id = "64f05e452ecc156cff3b58f4";
+      item.name = "Test";
+      item.secret = "top";
+
+      const paginated = new Pagination({items: [item], totalCount: 1});
+
+      const result = serialize(paginated, {
+        useAlias: true,
+        additionalProperties: false,
+        ...responseOpts,
+        endpoint: true
+      });
+
+      expect(result).toEqual({
+        items: [
+          {
+            _id: "64f05e452ecc156cff3b58f4",
+            name: "Test"
+          }
+        ],
+        totalCount: 1
+      });
+    });
+    it("should serialize correctly the return object from controller (generic item)", () => {
+      @Generics("T")
+      class Pagination<T> {
+        @Property("T")
+        @Required()
+        item: T;
+
+        @Required()
+        totalCount: number;
+
+        constructor(partial: Partial<Pagination<T>>) {
+          Object.assign(this, partial);
+        }
+      }
+
+      class TestEntity {
+        @Property("id")
+        public _id: string;
+
+        @Property()
+        name: string;
+
+        @Property()
+        @Ignore()
+        secret: string;
+      }
+
+      @Controller("/hello-world")
+      class HelloWorldController {
+        constructor() {}
+
+        @Get("/")
+        @Returns(200, Pagination).Of(TestEntity)
+        get() {}
+      }
+
+      const endpoint = JsonEntityStore.fromMethod(HelloWorldController, "get");
+
+      const responseOpts = endpoint.getResponseOptions(200, {});
+
+      const item = new TestEntity();
+      item._id = "64f05e452ecc156cff3b58f4";
+      item.name = "Test";
+      item.secret = "top";
+
+      const paginated = new Pagination({item: item, totalCount: 1});
+
+      const result = serialize(paginated, {
+        useAlias: true,
+        additionalProperties: false,
+        ...responseOpts,
+        endpoint: true
+      });
+
+      expect(result).toEqual({
+        item: {
+          _id: "64f05e452ecc156cff3b58f4",
+          name: "Test"
+        },
+        totalCount: 1
       });
     });
   });
