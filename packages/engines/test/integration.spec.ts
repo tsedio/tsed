@@ -46,7 +46,6 @@ describe("integration", () => {
   sharedTest.test("vash");
   sharedHelpersTest.test("vash");
   sharedTest.test("slm");
-  sharedTest.test("marko");
   sharedTest.test("bracket");
   sharedTest.test("velocityjs");
   sharedTest.test("squirrelly");

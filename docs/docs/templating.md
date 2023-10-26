@@ -115,7 +115,6 @@ If `dustjs-helpers` is installed, `dustjs-linkedin` will not be used by consolid
 | [velocityjs](https://github.com/julianshapiro/velocity)   | [BETA](https://www.npmjs.com/package/velocity-animate)                                                                                                                    | [(website)](http://velocityjs.org/)                                   |
 | [walrus](https://github.com/jeremyruppel/walrus)          | [`npm install walrus`](https://www.npmjs.com/package/walrus)                                                                                                              | [(website)](http://documentup.com/jeremyruppel/walrus/)               |
 | [whiskers](https://github.com/gsf/whiskers.js)            | [`npm install whiskers`](https://www.npmjs.com/package/whiskers)                                                                                                          | -                                                                     |
-| [vue](https://github.com/vuejs/vue)                       | `npm install vue vue-pronto`                                                                                                                                              | [(website)](https://vuejs.org/)                                       |
 
 ::: tip Note
 You must still install the engines you wish to use, add them to your package.json dependencies.

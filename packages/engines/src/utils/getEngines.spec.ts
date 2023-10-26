@@ -110,7 +110,6 @@ describe("getEngines", () => {
         "just",
         "liquor",
         "lodash",
-        "marko",
         "mote",
         "mustache",
         "nunjucks",
@@ -128,7 +127,6 @@ describe("getEngines", () => {
         "underscore",
         "vash",
         "velocityjs",
-        "vue",
         "walrus"
       ]);
     });

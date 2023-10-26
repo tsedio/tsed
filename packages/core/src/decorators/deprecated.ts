@@ -1,5 +1,36 @@
-import {deprecate} from "util";
 import {Type} from "../domain/Type";
+
+function deprecate(fn: any, msg: string) {
+  if (typeof process !== "undefined" && (process as any).noDeprecation === true) {
+    return fn;
+  }
+
+  // Allow for deprecating things in the process of starting up.
+  if (typeof process === "undefined") {
+    return function (...args: any[]) {
+      return deprecate(fn, msg).apply(this, args);
+    };
+  }
+
+  let warned = false;
+
+  function deprecated(...args: any[]) {
+    if (!warned) {
+      if ((process as any).throwDeprecation) {
+        throw new Error(msg);
+      } else if (process.traceDeprecation) {
+        console.trace(msg);
+      } else {
+        console.error(msg);
+      }
+      warned = true;
+    }
+    return fn.apply(this, args);
+  }
+
+  return deprecated;
+}
+
 /**
  * The `@Deprecated()` decorators wraps the given method in such a way that it is marked as deprecated.
  *
