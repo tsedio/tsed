@@ -1,6 +1,6 @@
 {
   "name": "@tsed/passport",
-  "version": "7.41.0",
+  "version": "7.41.1",
   "description": "Passport package for Ts.ED framework",
   "source": "./src/index.ts",
   "main": "./lib/cjs/index.js",
@@ -26,11 +26,11 @@
     "tslib": "2.5.0"
   },
   "devDependencies": {
-    "@tsed/common": "7.41.0",
-    "@tsed/core": "7.41.0",
-    "@tsed/di": "7.41.0",
+    "@tsed/common": "7.41.1",
+    "@tsed/core": "7.41.1",
+    "@tsed/di": "7.41.1",
     "@tsed/eslint": "7.39.1",
-    "@tsed/platform-router": "7.41.0",
+    "@tsed/platform-router": "7.41.1",
     "@tsed/typescript": "7.39.1",
     "@types/passport": "1.0.7",
     "@types/passport-http": "0.3.9",
@@ -43,7 +43,7 @@
     "passport-strategy": "1.0.0"
   },
   "peerDependencies": {
-    "@tsed/common": "^7.41.0",
+    "@tsed/common": "^7.41.1",
     "passport": ">=0.4.1"
   },
   "peerDependenciesMeta": {
