@@ -1,4 +1,4 @@
-import {ObjectSchema} from "@hapi/joi";
+import {ObjectSchema} from "joi";
 import {StoreSet} from "@tsed/core";
 import {JoiValidationPipe} from "../pipes/JoiValidationPipe";
 
