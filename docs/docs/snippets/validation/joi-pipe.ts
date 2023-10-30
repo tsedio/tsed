@@ -1,9 +1,9 @@
-import {ObjectSchema} from "@hapi/joi";
+import {ObjectSchema} from "joi";
 import {Injectable} from "@tsed/di";
 import {JsonParameterStore, PipeMethods} from "@tsed/schema";
-import {ValidationError} from "@tsed/platform-params";
+import {ValidationError, ValidationPipe} from "@tsed/platform-params";
 
-@Injectable()
+@OverrideProvider(ValidationPipe)
 export class JoiValidationPipe implements PipeMethods {
   transform(value: any, metadata: JsonParameterStore) {
     const schema = metadata.store.get<ObjectSchema>(JoiValidationPipe);
