@@ -40,8 +40,7 @@ Let's look at a pipe that makes use of Joi-based schemas.
 Start by installing the required package:
 
 ```
-npm install --save @hapi/joi
-npm install --save-dev @types/hapi__joi
+npm install --save joi
 ```
 
 In the code sample below, we create a simple class that takes a schema as a constructor argument.
