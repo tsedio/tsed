@@ -1,15 +1,15 @@
-import {PlatformApplication} from "@tsed/common";
+import {InjectorService, PlatformApplication} from "@tsed/common";
 import {classOf, nameOf, Store} from "@tsed/core";
 import {Constant, Inject, Service} from "@tsed/di";
 import {Logger} from "@tsed/logger";
-import {DataSource} from "apollo-datasource";
 import type {Config} from "apollo-server-core";
 import {
   ApolloServerBase,
   ApolloServerPluginDrainHttpServer,
   ApolloServerPluginLandingPageDisabled,
-  ApolloServerPluginLandingPageGraphQLPlayground
+  ApolloServerPluginLandingPageLocalDefault
 } from "apollo-server-core";
+import {PluginDefinition} from "apollo-server-core/src/types";
 import type {GraphQLSchema} from "graphql";
 import Http from "http";
 import Https from "https";
@@ -47,6 +47,9 @@ export class ApolloService {
   @Inject(Https.Server)
   private httpsServer: Https.Server | null;
 
+  @Inject()
+  private injector: InjectorService;
+
   constructor(@Inject(DATASOURCES_PROVIDERS) protected dataSources: any[]) {}
 
   async createServer(id: string, settings: ApolloSettings): Promise<ApolloServer> {
@@ -57,10 +60,12 @@ export class ApolloService {
         this.logger.info(`Create server with Apollo for: ${id}`);
         this.logger.debug(`options: ${JSON.stringify({path})}`);
 
+        const plugins = await this.getPlugins(settings);
+
         const server = await this.createInstance(
           {
             ...config,
-            plugins: this.getPlugins(settings),
+            plugins,
             dataSources: this.createDataSources(dataSources)
           },
           customServer
@@ -145,7 +150,6 @@ export class ApolloService {
   /**
    * create a new dataSources function to use with apollo server config
    * @param dataSources
-   * @param serverConfigSources
    */
   protected createDataSources(dataSources: Function | undefined) {
     const dataSourcesHash = this.dataSources.reduce((map, instance) => {
@@ -169,20 +173,27 @@ export class ApolloService {
     };
   }
 
-  private getPlugins(serverSettings: ApolloSettings): any[] {
+  private async getPlugins(serverSettings: ApolloSettings): Promise<PluginDefinition[]> {
     const playground = serverSettings.playground || (serverSettings.playground === undefined && process.env.NODE_ENV !== "production");
 
-    return [
-      playground ? ApolloServerPluginLandingPageGraphQLPlayground() : ApolloServerPluginLandingPageDisabled(),
-      this.httpServer &&
-        ApolloServerPluginDrainHttpServer({
-          httpServer: this.httpServer
-        }),
-      this.httpsServer &&
-        ApolloServerPluginDrainHttpServer({
-          httpServer: this.httpsServer
-        }),
-      ...(serverSettings.plugins || [])
-    ].filter(Boolean);
+    const result = await this.injector.alter(
+      "$alterApolloServerPlugins",
+      [
+        this.httpServer &&
+          ApolloServerPluginDrainHttpServer({
+            httpServer: this.httpServer
+          }),
+        this.httpsServer &&
+          ApolloServerPluginDrainHttpServer({
+            httpServer: this.httpsServer
+          }),
+        ...(serverSettings.plugins || [])
+      ].filter(Boolean),
+      serverSettings
+    );
+
+    return result
+      .concat([playground ? ApolloServerPluginLandingPageLocalDefault({embed: true}) : ApolloServerPluginLandingPageDisabled()])
+      .filter(Boolean);
   }
 }
