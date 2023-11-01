@@ -3,10 +3,12 @@ meta:
   - name: description
     content: Use Apollo, Nexus or Type-graphql with Ts.ED framework. GraphQL is a query language for APIs and a runtime for fulfilling those queries with your existing data.
   - name: keywords
-    content: ts.ed express typescript mongoose node.js javascript decorators
+    content: ts.ed express typescript nexus typegraphql apollo graphql-ws node.js javascript decorators
 ---
 
 # GraphQL
+
+<Banner src="/graphql.svg" height="200" />
 
 GraphQL is a query language for APIs and a runtime for fulfilling those queries with your existing data. GraphQL
 provides a complete and understandable description of the data in your API, gives clients the power to ask for exactly
@@ -21,228 +23,36 @@ what they need and nothing more, makes it easier to evolve APIs over time, and e
 
 ## Apollo
 
-### Installation
+<Banner src="/apollo-graphql-compact.svg" height="100" />
 
-<Tabs class="-code">
-<Tab label="Express.js">
+Unlock microservices potential with Apollo GraphQL. Seamlessly integrate APIs, manage data, and enhance performance. Explore Apollo's innovative solutions.
+Ts.ED provides a module to create multiple Apollo server and bind it with Ts.ED server (Express or Koa).
 
-```bash
-npm install --save @tsed/apollo graphql apollo-server-express
-npm install --save-dev apollo-server-testing
-```
-
-</Tab>
-<Tab label="Koa.js">
-
-```bash
-npm install --save @tsed/apollo graphql apollo-server-koa
-npm install --save-dev apollo-server-testing
-```
-
-</Tab>
-</Tabs>
-
-```typescript
-import {Configuration} from "@tsed/common";
-import "@tsed/platform-express";
-import "@tsed/apollo";
-import {join} from "path";
-
-@Configuration({
-  apollo: {
-    server1: {
-      // GraphQL server configuration
-      path: "/",
-      playground: true, // enable playground GraphQL IDE. Set false to use Apollo Studio
-      plugins: [] // Apollo plugins
-      // Give custom server instance
-      // server?: (config: Config) => ApolloServer;
-
-      // ApolloServer options
-      // ...
-      // See options descriptions on https://www.apollographql.com/docs/apollo-server/api/apollo-server.html
-    }
-  }
-})
-export class Server {}
-```
+See [here](/tutorials/graphql-apollo.md) for more details.
 
 ## Nexus
 
-### Installation
+<Banner src="/graphql-nexus.png" height="100" />
 
-<Tabs class="-code">
-<Tab label="Express.js">
+GraphQL Nexus' APIs were designed with type-safety in mind. We auto-generate type-definitions as you develop, and infer them in your code, giving you IDE completion and type error catching out of the box!
 
-```bash
-npm install --save @tsed/apollo
-npm install --save nexus graphql apollo-server-express
-npm install --save-dev apollo-server-testing
-```
-
-</Tab>
-<Tab label="Koa.js">
-
-```bash
-npm install --save @tsed/apollo graphql
-npm install --save nexus graphql apollo-server-koa
-npm install --save-dev apollo-server-testing
-```
-
-</Tab>
-</Tabs>
-
-Now, we can configure the Ts.ED server by importing `@tsed/apollo` in your Server:
-
-```typescript
-import {Configuration} from "@tsed/common";
-import "@tsed/platform-express";
-import "@tsed/apollo";
-import {schema} from "./schema";
-import {join} from "path";
-
-@Configuration({
-  apollo: {
-    server1: {
-      // GraphQL server configuration
-      path: "/",
-      playground: true, // enable playground GraphQL IDE. Set false to use Apollo Studio
-      schema,
-      plugins: [] // Apollo plugins
-
-      // Give custom server instance
-      // server?: (config: Config) => ApolloServer;
-
-      // ApolloServer options
-      // ...
-      // See options descriptions on https://www.apollographql.com/docs/apollo-server/api/apollo-server.html
-    }
-  }
-})
-export class Server {}
-```
-
-Then create `schema/index.ts`:
-
-```typescript
-import {makeSchema} from "nexus";
-import {join} from "path";
-
-export const schema = makeSchema({
-  types: [], // 1
-  outputs: {
-    typegen: join(process.cwd(), "..", "..", "nexus-typegen.ts"), // 2
-    schema: join(process.cwd(), "..", "..", "schema.graphql") // 3
-  }
-});
-```
+See [here](/tutorials/graphql-nexus.md) for more details.
 
 ## TypeGraphQL
 
-### Installation
+<Banner src="/typegraphql.png" height="100" />
 
-To begin, install the `@tsed/typegraphql` package:
+Although TypeGraphQL is data-layer library agnostic, it integrates well with other decorator-based libraries, like TypeORM, sequelize-typescript or Typegoose.
 
-<Tabs class="-code">
-<Tab label="Express.js">
+See [here](/tutorials/graphql-typegraphql.md) for more details.
 
-```bash
-npm install --save @tsed/typegraphql graphql apollo-server-express
-npm install --save type-graphql apollo-datasource apollo-datasource-rest
-npm install --save-dev apollo-server-testing
-```
+## GraphQL WS (subscription)
 
-</Tab>
-<Tab label="Koa.js">
+<Banner src="/graphql-ws.png" height="100" />
 
-```bash
-npm install --save @tsed/typegraphql graphql apollo-server-koa
-npm install --save type-graphql apollo-datasource apollo-datasource-rest
-npm install --save-dev apollo-server-testing
-```
+GraphQL Websocket allows you to use the `subscription` feature of GraphQL using the Websocket transport protocol.
 
-</Tab>
-</Tabs>
-
-Now, we can configure the Ts.ED server by importing `@tsed/typegraphql` in your Server:
-
-<Tabs class="-code">
-  <Tab label="Configuration" icon="bx-code-alt">
-
-<<< @/tutorials/snippets/graphql/server-configuration.ts
-
-  </Tab>
-  <Tab label="CodeSandbox" icon="bxl-codepen">
-
-<iframe src="https://codesandbox.io/embed/tsed-graphql-pgvfz?fontsize=14&hidenavigation=1&theme=dark"
-style="width:100%; height:500px; border:0; border-radius: 4px; overflow:hidden;"
-title="TsED Graphql"
-allow="accelerometer; ambient-light-sensor; camera; encrypted-media; geolocation; gyroscope; hid; microphone; midi;
-payment; usb; vr; xr-spatial-tracking"
-sandbox="allow-forms allow-modals allow-popups allow-presentation allow-same-origin allow-scripts"></iframe>
-
-   </Tab>
-</Tabs>
-
-### Types
-
-We want to get the equivalent of this type described in SDL:
-
-```
-type Recipe {
-  id: ID!
-  title: String!
-  description: String
-  creationDate: Date!
-  ingredients: [String!]!
-}
-```
-
-So we create the Recipe class with all properties and types:
-
-```typescript
-class Recipe {
-  id: string;
-  title: string;
-  description?: string;
-  creationDate: Date;
-  ingredients: string[];
-}
-```
-
-Then we decorate the class and its properties with decorators:
-
-<<< @/tutorials/snippets/graphql/recipe-type.ts
-
-The detailed rules for when to use nullable, array and others are described
-in [fields and types docs](https://typegraphql.com/docs/types-and-fields.html).
-
-### Resolvers
-
-After that we want to create typical crud queries and mutation. To do that we create the resolver (controller) class
-that will have injected RecipeService in the constructor:
-
-<<< @/tutorials/snippets/graphql/resolver-service.ts
-
-### Data Source
-
-Data source is one of the Apollo server features which can be used as option for your Resolver or Query. Ts.ED provides
-a @@DataSourceService@@ decorator to declare a DataSource which will be injected to the Apollo server context.
-
-<<< @/tutorials/snippets/graphql/datasource-service.ts
-
-Then you can retrieve your data source through the context in your resolver like that:
-
-<<< @/tutorials/snippets/graphql/resolver-data-source.ts
-
-## Get Server instance
-
-ApolloService (or TypeGraphQLService) lets you to retrieve an instance of ApolloServer.
-
-<<< @/tutorials/snippets/graphql/get-server-instance.ts
-
-For more information about ApolloServer, look at its
-documentation [here](https://www.apollographql.com/docs/apollo-server/api/apollo-server.html);
+See [here](/tutorials/graphql-ws.md) for more details.
 
 ## Testing
 

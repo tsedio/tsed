@@ -260,7 +260,8 @@ module.exports = ({title, description, base = "", url, apiRedirectUrl = "", them
               {
                 text: "Temporal",
                 link: `${base}/tutorials/temporal.html`
-              },     {
+              },
+              {
                 text: "BullMQ",
                 link: `${base}/tutorials/bullmq.html`
               },
@@ -452,6 +453,10 @@ module.exports = ({title, description, base = "", url, apiRedirectUrl = "", them
           base + "/tutorials/mikroorm",
           base + "/tutorials/mongoose",
           base + "/tutorials/graphql",
+          base + "/tutorials/graphql-ws",
+          base + "/tutorials/graphql-apollo",
+          base + "/tutorials/graphql-typegraphql",
+          base + "/tutorials/graphql-nexus",
           base + "/tutorials/socket-io",
           base + "/tutorials/swagger",
           base + "/tutorials/ajv",
