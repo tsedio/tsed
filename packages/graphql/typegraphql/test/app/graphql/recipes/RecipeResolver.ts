@@ -1,12 +1,18 @@
+import {InjectContext, PlatformContext} from "@tsed/common";
+import {Inject} from "@tsed/di";
 import {ResolverService} from "@tsed/typegraphql";
-import {Arg, Query} from "type-graphql";
+import {Arg, Mutation, Publisher, PubSub, Query, Root, Subscription} from "type-graphql";
 import {RecipeService} from "../../services/RecipeService";
-import {Recipe} from "./Recipe";
+import {Recipe, RecipeNotification} from "./Recipe";
 import {RecipeNotFoundError} from "./RecipeNotFoundError";
 
-@ResolverService(Recipe)
+@ResolverService((_of) => Recipe)
 export class RecipeResolver {
-  constructor(private recipeService: RecipeService) {}
+  @InjectContext()
+  private $ctx: PlatformContext;
+
+  @Inject()
+  private recipeService: RecipeService;
 
   @Query((returns) => Recipe)
   async recipe(@Arg("id") id: string) {
@@ -21,6 +27,26 @@ export class RecipeResolver {
 
   @Query((returns) => [Recipe], {description: "Get all the recipes from around the world "})
   recipes(): Promise<Recipe[]> {
-    return Promise.resolve(this.recipeService.findAll({}));
+    this.$ctx.set("test", "test");
+    return this.recipeService.findAll({});
+  }
+
+  @Mutation((returns) => Recipe)
+  async addRecipe(
+    @Arg("title") title: string,
+    @Arg("description") description: string,
+    @PubSub("NOTIFICATIONS") publish: Publisher<Recipe>
+  ) {
+    const payload = await this.recipeService.create({title, description});
+    await publish(payload);
+
+    return payload;
+  }
+
+  @Subscription(() => RecipeNotification, {
+    topics: "RECIPE_ADDED"
+  })
+  newRecipe(@Root() payload: Recipe): RecipeNotification {
+    return {...payload, date: new Date()};
   }
 }

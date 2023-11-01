@@ -1,4 +1,4 @@
-import {Field, ID, ObjectType} from "type-graphql";
+import {Field, ID, InputType, ObjectType} from "type-graphql";
 
 @ObjectType({description: "Object representing cooking recipe"})
 export class Recipe {
@@ -24,4 +24,10 @@ export class Recipe {
     options.creationDate && (this.creationDate = options.creationDate);
     options.ingredients && (this.ingredients = options.ingredients);
   }
+}
+
+@ObjectType()
+export class RecipeNotification extends Recipe {
+  @Field((_type) => Date)
+  date!: Date;
 }
