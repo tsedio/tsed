@@ -47,7 +47,8 @@ export class TypeGraphQLService {
       try {
         const {dataSources, resolvers: initialResolvers = [], buildSchemaOptions = {}, serverConfig = {}, ...serverOptions} = settings;
 
-        const resolvers: any = [...this.getResolvers(), ...(initialResolvers as any[]), ...(buildSchemaOptions.resolvers || [])];
+        const resolvers: any = this.getResolvers(id, [...(initialResolvers as any[]), ...(buildSchemaOptions.resolvers || [])]);
+
         const schema = await this.createSchema({
           container: this.injector,
           ...buildSchemaOptions,
@@ -98,11 +99,30 @@ export class TypeGraphQLService {
     return this.apolloService.getSchema(getKey(id));
   }
 
-  /**
-   *
-   * @returns {Provider<any>[]}
-   */
-  protected getResolvers(): Type<any>[] {
-    return this.injector.getProviders(RESOLVERS_PROVIDERS).map((provider) => provider.useClass);
+  protected getResolvers(id: string, resolvers: Type<any>[]): Type<any>[] {
+    const globalResolvers = this.injector
+      .getProviders(RESOLVERS_PROVIDERS)
+      .filter((provider) => {
+        const opts = provider.store.get("graphql");
+
+        return !opts?.id || opts?.id === id;
+      })
+      .map((provider) => {
+        return provider.useClass;
+      });
+
+    return resolvers
+      .map((resolver) => {
+        if (!(this.injector.has(resolver) || !isClass(resolver))) {
+          this.injector
+            .addProvider(resolver, {
+              useClass: resolver
+            })
+            .invoke(resolver);
+        }
+
+        return resolver;
+      })
+      .concat(globalResolvers);
   }
 }
