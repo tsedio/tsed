@@ -125,14 +125,17 @@ frameworks:
     href: /tutorials/ioredis.html
     src: /ioredis.svg
   - title: Apollo
-    href: /tutorials/graphql.html#apollo
+    href: /tutorials/graphql-apollo.html
     src: /apollo-graphql-compact.svg
   - title: TypeGraphQL
-    href: /tutorials/graphql.html#typegraphql
+    href: /tutorials/graphql-typegraphql.html
     src: /typegraphql.png
   - title: Nexus
-    href: /tutorials/graphql.html#nexus
+    href: /tutorials/graphql-nexus.html
     src: /nexus.png
+  - title: Nexus
+    href: /tutorials/graphql-ws.html
+    src: /graphql-ws.png
   - title: Socket.io
     href: /tutorials/socket-io.html
     src: /socketio.svg
