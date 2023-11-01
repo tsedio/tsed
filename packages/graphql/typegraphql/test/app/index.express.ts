@@ -5,9 +5,7 @@ import {Server} from "./Server";
 if (process.env.NODE_ENV !== "test") {
   async function bootstrap() {
     try {
-      const platform = await PlatformExpress.bootstrap(Server, {
-        port: 8082
-      });
+      const platform = await PlatformExpress.bootstrap(Server, {});
 
       await platform.listen();
       $log.debug("Server initialized");

@@ -9,6 +9,7 @@ The javascript `Date` as string. Type represents date and time as the ISO Date s
 scalar DateTime
 
 type Mutation {
+  addRecipe(description: String!, title: String!): Recipe!
   login(email: String!, password: String!): User!
 }
 
@@ -27,6 +28,19 @@ type Recipe {
   id: ID!
   ingredients: [String!]!
   title: String!
+}
+
+type RecipeNotification {
+  creationDate: DateTime!
+  date: DateTime!
+  description: String
+  id: ID!
+  ingredients: [String!]!
+  title: String!
+}
+
+type Subscription {
+  newRecipe: RecipeNotification!
 }
 
 """User account"""

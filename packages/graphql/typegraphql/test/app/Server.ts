@@ -1,14 +1,17 @@
 import "@tsed/ajv";
 import {Configuration, Constant, Inject, PlatformApplication} from "@tsed/common";
-import "@tsed/typegraphql";
+import "@tsed/graphql-ws";
 import "@tsed/passport";
+import "@tsed/typegraphql";
 import filedirname from "filedirname";
-import {resolve} from "path";
-import {User} from "./graphql/auth/User";
-import {HelloController} from "./controllers/HelloController";
+import * as fs from "fs";
 import {buildContext} from "graphql-passport";
-import "./protocols/GraphQLProtocol";
+import {resolve} from "path";
+import {HelloController} from "./controllers/HelloController";
+import {User} from "./graphql/auth/User";
 import "./graphql/index";
+import {AuthResolver} from "./graphql/index";
+import "./protocols/GraphQLProtocol";
 import "./services/RecipeService";
 import "./services/UsersRepository";
 
@@ -18,7 +21,11 @@ const [, rootDir] = filedirname();
 @Configuration({
   rootDir,
   port: 8001,
-  httpsPort: false,
+  httpsPort: 8082,
+  httpsOptions: {
+    key: fs.readFileSync("selfsigned.key"),
+    cert: fs.readFileSync("selfsigned.crt")
+  },
   logger: {
     level: "info",
     logRequest: true
@@ -29,16 +36,16 @@ const [, rootDir] = filedirname();
   graphql: {
     default: {
       path: "/api/graphql",
+      resolvers: [AuthResolver],
       buildSchemaOptions: {
         emitSchemaFile: resolve(rootDir, "../resources/schema.gql")
       },
       serverConfig: {
+        csrfPrevention: true,
+        cache: "bounded",
         context({req, res}: any) {
           return buildContext({req, res, User});
         }
-      },
-      middlewareOptions: {
-        cors: true
       }
     }
   },
@@ -64,8 +71,10 @@ export class Server {
       const {default: compress} = await import("compression");
       const {default: cookieParser} = await import("cookie-parser");
       const {default: methodOverride} = await import("method-override");
+      const {default: cors} = await import("cors");
 
       this.app
+        .use(cors())
         .use(bodyParser.json())
         .use(
           bodyParser.urlencoded({
@@ -92,12 +101,14 @@ export class Server {
       const {default: bodyParser} = await import("koa-bodyparser");
       const {default: compress} = await import("koa-compress");
       const {default: session} = await import("koa-session");
+      const {default: cors} = await import("@koa/cors");
       // @ts-ignore
       const {default: methodOverride} = await import("koa-override");
 
       // @ts-ignore
       this.app.getApp().keys = ["some secret hurr"];
       this.app
+        .use(cors())
         .use(compress())
         .use(methodOverride())
         .use(bodyParser())

@@ -1,11 +1,10 @@
-import {ResolverService} from "@tsed/typegraphql";
 import {PassportContext} from "graphql-passport";
-import {Arg, Ctx, Mutation, Query} from "type-graphql";
+import {Arg, Ctx, Mutation, Query, Resolver} from "type-graphql";
 import {User} from "./User";
 
 export interface GQLContext extends PassportContext<User, {email: string; password: string}> {}
 
-@ResolverService((of) => User)
+@Resolver((of) => User)
 export class AuthResolver {
   @Query((returns) => User, {nullable: true})
   currentUser(@Ctx() context: GQLContext) {

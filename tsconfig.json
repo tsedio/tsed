@@ -71,6 +71,9 @@
       "path": "./packages/specs/ajv"
     },
     {
+      "path": "./packages/graphql/graphql-ws"
+    },
+    {
       "path": "./packages/graphql/typegraphql"
     },
     {
