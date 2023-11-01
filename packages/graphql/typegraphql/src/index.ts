@@ -8,4 +8,5 @@ export * from "./constants/constants";
 export * from "./decorators/resolver";
 export * from "./interfaces/TypeGraphQLSettings";
 export * from "./interfaces/interfaces";
+export * from "./middlewares/ContextMiddleware";
 export * from "./services/TypeGraphQLService";
