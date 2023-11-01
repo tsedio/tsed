@@ -1,12 +1,13 @@
-import {ApolloServer, ApolloService} from "@tsed/apollo";
-import {Type} from "@tsed/core";
-import {Inject, Injectable, InjectorService, Provider} from "@tsed/di";
+import {ApolloService} from "@tsed/apollo";
+import {isClass, Type} from "@tsed/core";
+import {Inject, Injectable, InjectorService} from "@tsed/di";
 import {Logger} from "@tsed/logger";
 import {ApolloServerBase} from "apollo-server-core";
 import {GraphQLSchema} from "graphql";
 import {buildSchema, BuildSchemaOptions} from "type-graphql";
 import {RESOLVERS_PROVIDERS} from "../constants/constants";
 import {TypeGraphQLSettings} from "../interfaces/interfaces";
+import {ContextMiddleware} from "../middlewares/ContextMiddleware";
 
 const getKey = (id: string) => `typegraphql-${id}`;
 
@@ -38,10 +39,6 @@ export class TypeGraphQLService {
     return this.apolloService.has(getKey(id));
   }
 
-  /**
-   *
-   * @returns {Promise<ApolloServer>}
-   */
   async createServer(id: string, settings: TypeGraphQLSettings) {
     if (!this.has(id)) {
       try {
@@ -52,7 +49,8 @@ export class TypeGraphQLService {
         const schema = await this.createSchema({
           container: this.injector,
           ...buildSchemaOptions,
-          resolvers
+          resolvers,
+          globalMiddlewares: [ContextMiddleware, ...(buildSchemaOptions.globalMiddlewares || [])]
         });
 
         return await this.apolloService.createServer(getKey(id), {
