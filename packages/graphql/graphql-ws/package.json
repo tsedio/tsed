@@ -1,0 +1,43 @@
+{
+  "name": "@tsed/graphql-ws",
+  "version": "7.41.2",
+  "description": "An extension to allow GraphQL over WebSockets using graphql-ws protocol",
+  "source": "./src/index.ts",
+  "main": "./lib/cjs/index.js",
+  "module": "./lib/esm/index.js",
+  "typings": "./lib/types/index.d.ts",
+  "exports": {
+    "types": "./lib/types/index.d.ts",
+    "import": "./lib/esm/index.js",
+    "require": "./lib/cjs/index.js",
+    "default": "./lib/esm/index.js"
+  },
+  "scripts": {
+    "build": "yarn barrels && yarn build:ts",
+    "barrels": "yarn barrelsby --delete -d ./src -e \"\\.spec\\.ts\" -e \"__mock__\" -e \".benchmark.ts\"",
+    "build:ts": "tsc --build tsconfig.json && tsc --build tsconfig.esm.json",
+    "lint": "eslint '**/*.{ts,js}'",
+    "lint:fix": "eslint '**/*.{ts,js}' --fix"
+  },
+  "dependencies": {
+    "tslib": "2.5.0"
+  },
+  "private": false,
+  "devDependencies": {
+    "@tsed/common": "7.41.2",
+    "@tsed/core": "7.41.2",
+    "@tsed/di": "7.41.2",
+    "@tsed/eslint": "7.39.1",
+    "@tsed/logger": ">=6.2.2",
+    "@tsed/typescript": "7.39.1",
+    "graphql-ws": "^5.14.2",
+    "eslint": "^8.12.0"
+  },
+  "peerDependencies": {
+    "@tsed/common": "^7.41.2",
+    "@tsed/core": "^7.41.2",
+    "@tsed/di": "^7.41.2",
+    "@tsed/logger": ">=6.2.2",
+    "graphql-ws": ">=5.14.2"
+  }
+}
