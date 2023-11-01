@@ -1,6 +1,6 @@
 {
   "name": "@tsed/formio",
-  "version": "7.41.2",
+  "version": "7.42.0",
   "description": "Formio package for Ts.ED framework",
   "private": false,
   "keywords": [
@@ -31,16 +31,16 @@
     "lint:fix": "eslint '**/*.{ts,js}' --fix"
   },
   "dependencies": {
-    "@tsed/formio-types": "7.41.2",
-    "@tsed/normalize-path": "7.41.2",
+    "@tsed/formio-types": "7.42.0",
+    "@tsed/normalize-path": "7.42.0",
     "tslib": "2.5.0"
   },
   "devDependencies": {
-    "@tsed/common": "7.41.2",
-    "@tsed/core": "7.41.2",
-    "@tsed/di": "7.41.2",
+    "@tsed/common": "7.42.0",
+    "@tsed/core": "7.42.0",
+    "@tsed/di": "7.42.0",
     "@tsed/eslint": "7.39.1",
-    "@tsed/mongoose": "7.41.2",
+    "@tsed/mongoose": "7.42.0",
     "@tsed/typescript": "7.39.1",
     "@types/async": "3.2.15",
     "eslint": "^8.12.0",
@@ -50,7 +50,7 @@
     "mongoose": "^6.1.7"
   },
   "peerDependencies": {
-    "@tsed/common": "^7.41.2",
+    "@tsed/common": "^7.42.0",
     "express": "^4.17.1",
     "formio": "^2.0.0",
     "lodash": "^4.17.21",

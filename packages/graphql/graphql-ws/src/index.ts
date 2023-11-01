@@ -3,3 +3,4 @@
  */
 
 export * from "./GraphQLWSModule";
+export * from "./GraphQLWSOptions";
