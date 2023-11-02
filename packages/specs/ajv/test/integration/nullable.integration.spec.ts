@@ -127,10 +127,10 @@ describe("Nullable model", () => {
       const result = await validate(value, JsonParameterStore.get(Ctrl, "get", 0));
 
       expect(result).toEqual({
-        prop1: "",
-        prop2: 0,
-        prop3: "",
-        prop5: [""]
+        prop1: null,
+        prop2: null,
+        prop3: null,
+        prop5: null
       });
     });
   });

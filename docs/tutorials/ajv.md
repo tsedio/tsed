@@ -37,7 +37,9 @@ import {Configuration} from "@tsed/common";
 import "@tsed/ajv"; // import ajv ts.ed module
 
 @Configuration({
-  ajv: {}
+  ajv: {
+    returnsCoercedValues: true // returns coerced value to the next pipe instead of returns original value (See #2355)
+  }
 })
 export class Server {}
 ```
@@ -226,6 +228,10 @@ describe("Product", () => {
   });
 });
 ```
+
+::: warning
+If you planed to create keyword that transform the data, you have to set `returnsCoercedValues` to `true` in your configuration.
+:::
 
 ### With "code" function
 
