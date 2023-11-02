@@ -6,6 +6,7 @@ import {AjvService} from "./AjvService";
 describe("AjvService", () => {
   beforeEach(() => PlatformTest.create());
   afterEach(() => PlatformTest.reset());
+
   it("should use the function api as schema", async () => {
     const ajvService = PlatformTest.get<AjvService>(AjvService);
 
