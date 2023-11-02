@@ -21,6 +21,9 @@ export class AjvService {
   @Constant("ajv.errorFormatter", defaultErrorFormatter)
   protected errorFormatter: ErrorFormatter;
 
+  @Constant("ajv.returnsCoercedValues")
+  protected returnsCoercedValues: boolean;
+
   @Inject()
   protected ajv: Ajv;
 
@@ -30,7 +33,7 @@ export class AjvService {
     const schema = defaultSchema || getJsonSchema(type, {...additionalOptions, customKeys: true});
 
     if (schema) {
-      const localValue = deepClone(value);
+      const localValue = this.returnsCoercedValues ? value : deepClone(value);
       const validate = this.ajv.compile(schema);
 
       const valid = await validate(localValue);
@@ -43,6 +46,10 @@ export class AjvService {
           async: true,
           value: localValue
         });
+      }
+
+      if (this.returnsCoercedValues) {
+        return localValue;
       }
     }
 

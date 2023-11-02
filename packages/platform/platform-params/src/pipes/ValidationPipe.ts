@@ -72,7 +72,7 @@ export class ValidationPipe implements PipeMethods {
       customKeys: true
     });
 
-    await this.validator.validate(value, {
+    value = await this.validator.validate(value, {
       schema,
       type: metadata.isClass ? metadata.type : undefined,
       collectionType: metadata.collectionType
