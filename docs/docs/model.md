@@ -129,6 +129,66 @@ The @@Nullable@@ decorator is used allow a null value on a field while preservin
   </Tab>
 </Tabs>
 
+::: warning
+
+Since the v7.43.0, `ajv.returnsCoercedValues` is available to solve the following issue: [#2355](https://github.com/tsedio/tsed/issues/2355)
+If `returnsCoercedValues` is true, AjvService will return the coerced value instead of the original value. In this case, `@Nullable()` will be mandatory to
+allow the coercion of the value to `null`.
+
+For example if `returnsCoercedValues` is `false` (default behavior), Ts.ED will allow null value on a field without `@Nullable()` decorator:
+
+```typescript
+class NullableModel {
+  @Proprety()
+  propString: string; // null => null
+
+  @Proprety()
+  propNumber: number; // null => null
+
+  @Property()
+  propBool: boolean; // null => null
+}
+```
+
+Ajv won't emit validation error if the value is null due to his coercion behavior. AjvService will return the original value and not the Ajv coerced value.
+Another problem is, the typings of the model doesn't reflect the real coerced value.
+
+Using the `returnsCoercedValues` option, AjvService will return the coerced type. In this case, our previous model will have the following behavior:
+
+```typescript
+class NullableModel {
+  @Proprety()
+  propString: string; // null => ''
+
+  @Proprety()
+  propNumber: number; // null => 0
+
+  @Property()
+  propBool: boolean; // null => false
+}
+```
+
+Now `@Nullable` usage is mandatory to allow `null` value on properties:
+
+```typescript
+class NullableModel {
+  @Nullable(String)
+  propString: string | null; // null => null
+
+  @Nullable(Number)
+  propNumber: number | null; // null => null
+
+  @Nullable(Boolean)
+  propBool: boolean | null; // null => null
+}
+```
+
+:::
+
+::: warning
+`returnsCoercedValue` will become true by default in the next major version of Ts.ED.
+:::
+
 ## Any
 
 The @@Any@@ decorator is used to allow any types:
@@ -677,7 +737,7 @@ So by using the @@deserialize@@ function with the extra groups options, we can m
 <Tab label="Creation">
 
 ```typescript
-import { deserialize } from '@tsed/json-mapper';
+import {deserialize} from "@tsed/json-mapper";
 
 const result = deserialize<User>(
   {
@@ -697,7 +757,7 @@ console.log(result); // User {firstName, lastName, email, password}
 <Tab label="With group">
 
 ```typescript
-import { deserialize } from '@tsed/json-mapper';
+import {deserialize} from "@tsed/json-mapper";
 
 const result = deserialize<User>(
   {
@@ -718,7 +778,7 @@ console.log(result); // User {id, firstName, lastName, email, password}
 <Tab label="With glob pattern">
 
 ```typescript
-import { deserialize } from '@tsed/json-mapper';
+import {deserialize} from "@tsed/json-mapper";
 
 const result = deserialize<User>(
   {
