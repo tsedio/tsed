@@ -57,9 +57,7 @@ export function testHandlers(options: PlatformTestingSdkOpts) {
   beforeAll(
     PlatformTest.bootstrap(options.server, {
       ...options,
-      logger: {
-        leve: "info"
-      },
+      logger: {},
       mount: {
         "/rest": [HandlersCtrl]
       }
