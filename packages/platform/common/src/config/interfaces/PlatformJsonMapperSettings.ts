@@ -8,3 +8,11 @@ export interface PlatformJsonMapperSettings {
    */
   disableUnsecureConstructor?: boolean;
 }
+
+declare global {
+  namespace TsED {
+    interface Configuration extends Record<string, any> {
+      jsonMapper?: PlatformJsonMapperSettings;
+    }
+  }
+}

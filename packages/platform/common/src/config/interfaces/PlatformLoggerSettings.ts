@@ -1,3 +1,6 @@
 import {DILoggerOptions} from "@tsed/di";
 
-export interface PlatformLoggerSettings extends DILoggerOptions {}
+/**
+ * @deprecated Use DILoggerOptions instead
+ */
+export type PlatformLoggerSettings = DILoggerOptions;
