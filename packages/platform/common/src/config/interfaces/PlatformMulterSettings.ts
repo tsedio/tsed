@@ -1,4 +1,3 @@
-import type {Express} from "express";
 import type multer from "multer";
 
 declare global {
