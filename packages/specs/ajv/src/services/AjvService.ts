@@ -110,7 +110,7 @@ export class AjvService {
       if (store) {
         setValue(error, "params.missingProperty", store.name || propertyKey);
 
-        return error.message!.replace(`'${propertyKey}'`, `'${store.name || propertyKey}'`);
+        return error.message?.replace(`'${propertyKey}'`, `'${store.name || propertyKey}'`);
       }
     }
 
