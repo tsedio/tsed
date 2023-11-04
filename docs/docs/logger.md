@@ -45,16 +45,16 @@ Logger can be configured through the @@Configuration@@ decorator:
 
 <div class="table-features">
 
-| Props                         | Description                                                                                                                            |
-| ----------------------------- | -------------------------------------------------------------------------------------------------------------------------------------- |
-| `logger.level`                | Change the default log level displayed in the terminal. Values: `debug`, `info`, `warn` or `error`. By default: `info`.                |
-| `logger.logRequest`           | Log all incoming requests. By default, it's true and prints the configured `logger.requestFields`.                                     |
-| `logger.requestFields`        | Fields displayed when a request is logged. Possible values: `reqId`, `method`, `url`, `headers`, `body`, `query`,`params`, `duration`. |
-| `logger.reqIdBuilder`         | A function called for each incoming request to create a request id.                                                                    |
-| `logger.jsonIndentation`      | The number of space characters to use as white space in JSON output. Default is 2 (0 in production).                                   |
-| `logger.disableRoutesSummary` | Disable routes table displayed in the logger.                                                                                          |
-| `logger.format`               | Specify log format. Example: `%[%d{[yyyy-MM-dd hh:mm:ss,SSS}] %p%] %m`. See [@tsed/logger configuration](https://logger.tsed.io).      |
-| `logger.ignoreUrlPatterns`    | (`String` or `RegExp`) List of patterns to ignore logged request according to the `request.url`.                                       |
+| Props                         | Description                                                                                                                                                                        |
+| ----------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `logger.level`                | Change the default log level displayed in the terminal. Values: `debug`, `info`, `warn` or `error`. By default: `info`.                                                            |
+| `logger.logRequest`           | Log all incoming requests. By default, it's true and prints the configured `logger.requestFields`.                                                                                 |
+| `logger.requestFields`        | Fields displayed when a request is logged. Possible values: `reqId`, `method`, `url`, `headers`, `body`, `query`,`params`, `duration`. This option have only effect on info level. |
+| `logger.reqIdBuilder`         | A function called for each incoming request to create a request id.                                                                                                                |
+| `logger.jsonIndentation`      | The number of space characters to use as white space in JSON output. Default is 2 (0 in production).                                                                               |
+| `logger.disableRoutesSummary` | Disable routes table displayed in the logger.                                                                                                                                      |
+| `logger.format`               | Specify log format. Example: `%[%d{[yyyy-MM-dd hh:mm:ss,SSS}] %p%] %m`. See [@tsed/logger configuration](https://logger.tsed.io).                                                  |
+| `logger.ignoreUrlPatterns`    | (`String` or `RegExp`) List of patterns to ignore logged request according to the `request.url`.                                                                                   |
 
 </div>
 
@@ -219,9 +219,72 @@ or you can override the middleware with @@OverrideProvider@@.
 
 Example:
 
-<<< @/docs/snippets/configuration/override-platform-log-middleware.ts
+```ts
+import {Context, OverrideProvider, PlatformLogMiddleware} from "@tsed/common";
 
-## Shutdown logger
+@OverrideProvider(PlatformLogMiddleware)
+export class CustomPlatformLogMiddleware extends PlatformLogMiddleware {
+  public use(@Context() ctx: Context) {
+    // do something
+
+    return super.use(ctx); // required
+  }
+
+  protected requestToObject(ctx: Context) {
+    const {request} = ctx;
+
+    // NOTE: request => PlatformRequest. To get Express.Request use ctx.getRequest<Express.Request>();
+    return {
+      method: request.method,
+      url: request.url,
+      headers: request.headers,
+      body: request.body,
+      query: request.query,
+      params: request.params
+    };
+  }
+}
+```
+
+Another example to redact some fields:
+
+```typescript
+import {Context} from "@tsed/common";
+import {OverrideProvider} from "@tsed/di";
+import {PlatformLogMiddleware} from "@tsed/platform-log-middleware";
+
+@OverrideProvider(PlatformLogMiddleware)
+export class CustomPlatformLogMiddleware extends PlatformLogMiddleware {
+  attributesToHide = ["password", "client_secret"];
+
+  private redactAttributes(body: any): any {
+    if (body) {
+      for (const attribute of this.attributesToHide) {
+        if (body[attribute]) {
+          body[attribute] = "[REDACTED]";
+        }
+      }
+    }
+    return body;
+  }
+
+  requestToObject(ctx: Context): any {
+    const {request} = ctx;
+
+    return {
+      method: request.method,
+      url: request.url,
+      route: request.route,
+      headers: request.headers,
+      body: this.redactAttributes(request.body),
+      query: request.query,
+      params: request.params
+    };
+  }
+}
+```
+
+# Shutdown logger
 
 Shutdown returns a Promise that will be resolved when @tsed/logger has closed all appenders and finished writing log events.
 Use this when your program exits to make sure all your logs are written to files, sockets are closed, etc.
