@@ -42,3 +42,11 @@ export interface DILoggerOptions {
    */
   maxStackSize?: number;
 }
+
+declare global {
+  namespace TsED {
+    interface Configuration extends Record<string, any> {
+      logger?: DILoggerOptions;
+    }
+  }
+}
