@@ -1,6 +1,6 @@
 {
   "name": "@tsed/oidc-provider",
-  "version": "7.43.2",
+  "version": "7.44.0",
   "description": "OIDC provider package for Ts.ED framework",
   "private": false,
   "contributors": [
@@ -34,7 +34,7 @@
     "lint:fix": "eslint '**/*.{ts,js}' --fix"
   },
   "dependencies": {
-    "@tsed/adapters": "7.43.2",
+    "@tsed/adapters": "7.44.0",
     "express-urlrewrite": "^1.4.0",
     "jose2": "npm:jose@^2.0.4",
     "koa-mount": "^4.0.0",
@@ -44,12 +44,12 @@
     "uuid": "8.3.2"
   },
   "devDependencies": {
-    "@tsed/common": "7.43.2",
-    "@tsed/core": "7.43.2",
-    "@tsed/di": "7.43.2",
+    "@tsed/common": "7.44.0",
+    "@tsed/core": "7.44.0",
+    "@tsed/di": "7.44.0",
     "@tsed/eslint": "7.39.1",
-    "@tsed/exceptions": "7.43.2",
-    "@tsed/jwks": "7.43.2",
+    "@tsed/exceptions": "7.44.0",
+    "@tsed/jwks": "7.44.0",
     "@tsed/typescript": "7.39.1",
     "@types/lowdb": "1.0.11",
     "@types/oidc-provider": "8.1.1",
@@ -59,12 +59,12 @@
     "oidc-provider": "8.1.1"
   },
   "peerDependencies": {
-    "@tsed/ajv": "^7.43.2",
-    "@tsed/common": "^7.43.2",
-    "@tsed/core": "^7.43.2",
-    "@tsed/di": "^7.43.2",
-    "@tsed/json-mapper": "^7.43.2",
-    "@tsed/schema": "^7.43.2",
+    "@tsed/ajv": "^7.44.0",
+    "@tsed/common": "^7.44.0",
+    "@tsed/core": "^7.44.0",
+    "@tsed/di": "^7.44.0",
+    "@tsed/json-mapper": "^7.44.0",
+    "@tsed/schema": "^7.44.0",
     "oidc-provider": ">=8.0.0"
   },
   "peerDependenciesMeta": {
