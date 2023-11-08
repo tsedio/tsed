@@ -1,4 +1,4 @@
-import {isFunction, isString, nameOf, Type} from "@tsed/core";
+import {isClass, isFunction, isString, nameOf, Type} from "@tsed/core";
 import {colors, InjectorService, ProviderOpts, setLoggerConfiguration, TokenProvider} from "@tsed/di";
 import {getMiddlewaresForHook, PlatformMiddlewareLoadingOptions} from "@tsed/platform-middlewares";
 import {PlatformLayer} from "@tsed/platform-router";
@@ -398,6 +398,14 @@ export class PlatformBuilder<App = TsED.Application> {
           const mod = await import(use);
           use = (mod.default || mod)(options);
         }
+      }
+
+      if (isClass(use) && ["$beforeInit", "$onInit", "$afterInit"].includes(middleware.hook!)) {
+        throw new Error(
+          `Ts.ED Middleware "${nameOf(use)}" middleware cannot be added on ${
+            middleware.hook
+          } hook. Use one of this hooks instead: $beforeRoutesInit, $onRoutesInit, $afterRoutesInit, $beforeListen, $afterListen, $onReady`
+        );
       }
 
       return {
