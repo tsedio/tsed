@@ -39,8 +39,7 @@ Then add your middleware on the Server by using the right hook:
 
 <<< @/docs/snippets/middlewares/global-middleware-configuration.ts
 
-::: tip
-Since v6.28.0, it's also possible to register middlewares from `middlewares` options on @@Configuration@@ decorator.
+It's also possible to register middlewares from `middlewares` options on @@Configuration@@ decorator.
 In addition, it's also possible to configure the environment for which the middleware should be loaded.
 
 ```typescript
@@ -62,6 +61,9 @@ export class Server {}
 
 The middlewares added through `middlewares` options will always be registered after the middlewares registered through the hook methods!
 
+::: warn
+Only Express/Koa middlewares can be added on `$beforeInit`, `$onInit` and `$afterInit` hooks. At this step the PlatformContext is not available. Injectable Ts.ED middleware won't work as expected.
+To add Ts.ED middleware, use the `$beforeRoutesInit` hook (it's the default hook value) or leave the `hook` property empty.
 :::
 
 ## Endpoint middleware
