@@ -22,7 +22,7 @@ import {UseParam} from "./useParam";
  *    }
  *
  *    @Post('/') // Example to deserialize use from session
- *    create(@Session({expression: 'user', useConverter: true}) user: User) {
+ *    create(@Session({expression: 'user', useMapper: true}) user: User) {
  *       console.log('user', user);
  *       console.log('instanceOf user', user instanceof User);
  *    }

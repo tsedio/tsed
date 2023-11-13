@@ -86,9 +86,8 @@ export function RawPathParams(options: Partial<ParamOptions>): ParameterDecorato
 export function RawPathParams(): ParameterDecorator;
 export function RawPathParams(...args: any[]): ParameterDecorator {
   const {expression, useType, useMapper = false, useValidation = false} = mapParamsOptions(args);
-  return UseParam({
-    paramType: ParamTypes.PATH,
-    dataPath: "$ctx.request.params",
+
+  return PathParams({
     expression,
     useValidation,
     useMapper,

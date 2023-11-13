@@ -50,12 +50,13 @@ export class ValidationPipe implements PipeMethods {
     return metadata.paramType === ParamTypes.PATH && !metadata.isPrimitive;
   }
 
-  async transform(value: any, metadata: JsonParameterStore): Promise<any> {
+  transform(value: any, metadata: JsonParameterStore): Promise<any> {
     if (!this.validator) {
       this.checkIsRequired(value, metadata);
       return value;
     }
 
+    // FIXME See if it's necessary ?
     if (this.skip(value, metadata)) {
       return value;
     }
@@ -72,13 +73,11 @@ export class ValidationPipe implements PipeMethods {
       customKeys: true
     });
 
-    value = await this.validator.validate(value, {
+    return this.validator.validate(value, {
       schema,
       type: metadata.isClass ? metadata.type : undefined,
       collectionType: metadata.collectionType
     });
-
-    return value;
   }
 
   protected checkIsRequired(value: any, metadata: JsonParameterStore) {

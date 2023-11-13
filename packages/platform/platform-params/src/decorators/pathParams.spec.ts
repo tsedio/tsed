@@ -3,7 +3,7 @@ import {ParamTypes} from "../domain/ParamTypes";
 import {PathParams, RawPathParams} from "./pathParams";
 
 describe("@PathParams", () => {
-  it("should call ParamFilter.useParam method with the correct parameters", () => {
+  it("should declare a path params", () => {
     class Test {}
 
     class Ctrl {
@@ -16,7 +16,7 @@ describe("@PathParams", () => {
     expect(param.type).toEqual(Test);
     expect(param.pipes).toHaveLength(2);
   });
-  it("should call ParamFilter.useParam method with the correct parameters (+options)", () => {
+  it("should declara a path params with options", () => {
     class Test {}
 
     class Ctrl {
@@ -29,7 +29,10 @@ describe("@PathParams", () => {
     expect(param.type).toEqual(Test);
     expect(param.pipes).toHaveLength(1);
   });
-  it("should call ParamFilter.useParam method with the correct parameters (raw)", () => {
+});
+
+describe("@RawPathParams", () => {
+  it("should declare a raw path params", () => {
     class Ctrl {
       test(@RawPathParams("expression") header: string) {}
     }
@@ -40,7 +43,7 @@ describe("@PathParams", () => {
     expect(param.type).toEqual(String);
     expect(param.pipes).toHaveLength(0);
   });
-  it("should call ParamFilter.useParam method with the correct parameters (raw + options)", () => {
+  it("should declare a raw path params with options", () => {
     class Ctrl {
       test(@RawPathParams({expression: "expression", useValidation: true, useType: String}) param: Date) {}
     }

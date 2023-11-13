@@ -17,14 +17,14 @@ function mapPipes(options: Partial<ParamOptions>) {
 }
 
 /**
- * Register a new param. It use the paramType to extract value and give it to the next pipe.
+ * Register a new param. It uses the paramType to extract value and give it to the next pipe.
  *
  * Given options allow to enable or disable following pipes:
  *
  * - useType: Add extra type for the json mapper,
  * - expression: Get property from the returned value by the previous pipe.
  * - useValidation: Apply validation from the returned value by the previous pipe.
- * - useConverter: Apply json mapper from the returned value by the previous pipe.
+ * - useMapper: Apply json mapper from the returned value by the previous pipe.
  *
  * @param options
  * @decorator
