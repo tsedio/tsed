@@ -86,10 +86,16 @@ export function QueryParams(...args: any[]): ParameterDecorator {
  * @operation
  * @input
  */
-export function RawQueryParams(expression: string) {
+export function RawQueryParams(expression: string): ParameterDecorator;
+export function RawQueryParams(options: Partial<ParamOptions>): ParameterDecorator;
+export function RawQueryParams(): ParameterDecorator;
+export function RawQueryParams(...args: any[]) {
+  const {expression, useType, useMapper = false, useValidation = false} = mapParamsOptions(args);
+
   return QueryParams({
     expression,
-    useConverters: false,
-    useValidation: false
+    useType,
+    useMapper,
+    useValidation
   });
 }

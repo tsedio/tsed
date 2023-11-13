@@ -6,10 +6,6 @@ export interface ParamOptions<T = any> {
   expression?: string;
   useType?: Type<T>;
   useMapper?: boolean;
-  /**
-   * @deprecated Since 10-2022. Use ParamOptions.useMapper.
-   */
-  useConverter?: boolean;
   useValidation?: boolean;
 
   [key: string]: any;

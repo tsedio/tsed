@@ -22,7 +22,7 @@ export function mapParamsOptions(args: any[]): Partial<ParamOptions<any>> {
 
     return {
       ...opts,
-      useMapper: opts.useMapper || opts.useConverter
+      useMapper: opts.useMapper
     };
   }
 

@@ -78,10 +78,15 @@ export function BodyParams(...args: any[]): ParameterDecorator {
  * @input
  * @alias BodyParams Example: @BodyParams() payload: Buffer
  */
-export function RawBodyParams(): ParameterDecorator {
+export function RawBodyParams(options: Partial<Omit<ParamOptions, "expression">>): ParameterDecorator;
+export function RawBodyParams(): ParameterDecorator;
+export function RawBodyParams(...args: any[]): ParameterDecorator {
+  const {useType, useMapper = false, useValidation = false} = mapParamsOptions(args);
+
   return UseParam({
     paramType: ParamTypes.RAW_BODY,
-    useMapper: false,
-    useValidation: false
+    useType,
+    useMapper,
+    useValidation
   });
 }
