@@ -1,4 +1,4 @@
-import {Injectable, ProviderType} from "@tsed/di";
+import {Injectable, ProviderOpts, ProviderType} from "@tsed/di";
 
 /**
  * Register a new Middleware class.
@@ -6,8 +6,9 @@ import {Injectable, ProviderType} from "@tsed/di";
  * @decorator
  * @classDecorator
  */
-export function Middleware(): ClassDecorator {
+export function Middleware(opts?: Partial<Omit<ProviderOpts, "type">>): ClassDecorator {
   return Injectable({
+    ...opts,
     type: ProviderType.MIDDLEWARE
   });
 }

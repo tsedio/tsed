@@ -4,7 +4,13 @@ import {$log} from "@tsed/logger";
 import {PlatformExceptions} from "@tsed/platform-exceptions";
 import {PlatformParams, PlatformParamsCallback} from "@tsed/platform-params";
 import {PlatformResponseFilter} from "@tsed/platform-response-filter";
-import {PlatformHandlerMetadata, PlatformHandlerType, PlatformRouters, useResponseHandler} from "@tsed/platform-router";
+import {
+  AlterEndpointHandlersArg,
+  PlatformHandlerMetadata,
+  PlatformHandlerType,
+  PlatformRouters,
+  useResponseHandler
+} from "@tsed/platform-router";
 import {JsonOperationRoute} from "@tsed/schema";
 import {promisify} from "util";
 import {AnyToPromiseWithCtx} from "../domain/AnyToPromiseWithCtx";
@@ -39,10 +45,12 @@ export class PlatformHandler {
   constructor(protected platformRouters: PlatformRouters) {
     // configure the router module
     platformRouters.hooks
-      .on("alterEndpointHandlers", (allMiddlewares: any[], operationRoute: JsonOperationRoute) => {
-        allMiddlewares = this.platformMiddlewaresChain.get(allMiddlewares, operationRoute);
+      .on("alterEndpointHandlers", (handlers: AlterEndpointHandlersArg, operationRoute: JsonOperationRoute) => {
+        handlers = this.platformMiddlewaresChain.get(handlers, operationRoute);
 
-        return [...allMiddlewares, useResponseHandler(this.onFinish.bind(this))];
+        handlers.after.push(useResponseHandler(this.onFinish.bind(this)));
+
+        return handlers;
       })
       .on("alterHandler", (handlerMetadata: PlatformHandlerMetadata) => {
         return this.platformApplication.adapter.mapHandler(this.createHandler(handlerMetadata), handlerMetadata);

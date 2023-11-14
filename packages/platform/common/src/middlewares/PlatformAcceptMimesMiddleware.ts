@@ -8,7 +8,9 @@ import {Context} from "@tsed/platform-params";
  * @middleware
  * @platform
  */
-@Middleware()
+@Middleware({
+  priority: -10
+})
 export class PlatformAcceptMimesMiddleware implements MiddlewareMethods {
   @Constant("acceptMimes", [])
   acceptMimes: string[];

@@ -22,7 +22,9 @@ export class MulterException extends BadRequest {
 /**
  * @middleware
  */
-@Middleware()
+@Middleware({
+  priority: 10
+})
 export class PlatformMulterMiddleware implements MiddlewareMethods {
   @Value("multer", {}) // NOTE: don't use constant to getting multer configuration. See issue #1840
   protected settings: PlatformMulterSettings;

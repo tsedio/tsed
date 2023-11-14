@@ -55,7 +55,7 @@ export class Hooks {
    * @param args
    * @param callThis
    */
-  alter(event: string, value: any, args: any[] = [], callThis: any = null): any {
+  alter<Arg = any, AlteredArg = Arg>(event: string, value: Arg, args: any[] = [], callThis: any = null): AlteredArg {
     const listeners = this.#listeners[event];
 
     if (listeners?.length) {
@@ -64,7 +64,7 @@ export class Hooks {
       }
     }
 
-    return value;
+    return value as unknown as AlteredArg;
   }
 
   /**
@@ -90,7 +90,7 @@ export class Hooks {
    * @param args
    * @param callThis
    */
-  async asyncAlter(event: string, value: any, args: any[] = [], callThis: any = null): Promise<any> {
+  async asyncAlter<Arg = any, AlteredArg = Arg>(event: string, value: Arg, args: any[] = [], callThis: any = null): Promise<AlteredArg> {
     const listeners = this.#listeners[event];
 
     if (listeners?.length) {
@@ -99,7 +99,7 @@ export class Hooks {
       }
     }
 
-    return value;
+    return value as unknown as AlteredArg;
   }
 
   destroy() {

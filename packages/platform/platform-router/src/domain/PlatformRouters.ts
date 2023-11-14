@@ -1,7 +1,9 @@
 import {getValue, Hooks, Type} from "@tsed/core";
 import {ControllerProvider, GlobalProviders, Injectable, InjectorService, Provider, ProviderType, TokenProvider} from "@tsed/di";
-import {concatPath, getOperationsRoutes} from "@tsed/schema";
+import {PlatformParamsCallback} from "@tsed/platform-params";
+import {concatPath, getOperationsRoutes, JsonMethodStore} from "@tsed/schema";
 import {useContextHandler} from "../utils/useContextHandler";
+import {PlatformHandlerMetadata} from "./PlatformHandlerMetadata";
 import {PlatformLayer} from "./PlatformLayer";
 import {PlatformRouter} from "./PlatformRouter";
 
@@ -39,6 +41,12 @@ GlobalProviders.createRegistry(ProviderType.CONTROLLER, ControllerProvider, {
   }
 });
 
+export interface AlterEndpointHandlersArg {
+  before: (Type<any> | Function)[];
+  endpoint: JsonMethodStore;
+  after: (Type<any> | Function)[];
+}
+
 @Injectable()
 export class PlatformRouters {
   readonly hooks = new Hooks();
@@ -49,6 +57,19 @@ export class PlatformRouters {
     this.injector.getProviders(ProviderType.CONTROLLER).forEach((provider: ControllerProvider) => {
       createInjectableRouter(this.injector, provider);
     });
+  }
+
+  private sortHandlers(handlers: AlterEndpointHandlersArg) {
+    const get = (token: TokenProvider) => {
+      return this.injector.getProvider(token)?.priority || 0;
+    };
+
+    const sort = (p1: TokenProvider, p2: TokenProvider) => (get(p1) < get(p2) ? -1 : get(p1) > get(p2) ? 1 : 0);
+
+    handlers.before = handlers.before.sort(sort);
+    handlers.after = handlers.after.sort(sort);
+
+    return handlers;
   }
 
   from(token: TokenProvider, parentMiddlewares: any[] = []) {
@@ -77,21 +98,18 @@ export class PlatformRouters {
       const use = getValue(provider, "middlewares.use", []);
       const useAfter = getValue(provider, "middlewares.useAfter", []);
 
-      const handlers = this.hooks.alter(
+      let handlers = this.hooks.alter<AlterEndpointHandlersArg>(
         "alterEndpointHandlers",
-        [
-          ...parentMiddlewares,
-          ...useBefore,
-          ...beforeMiddlewares,
-          ...use,
-          ...mldwrs,
-          operationRoute.endpoint,
-          ...afterMiddlewares,
-          ...useAfter
-        ],
+        {
+          before: [...parentMiddlewares, ...useBefore, ...beforeMiddlewares, ...use, ...mldwrs],
+          endpoint,
+          after: [...afterMiddlewares, ...useAfter]
+        },
         [operationRoute],
         this
       );
+
+      handlers = this.sortHandlers(handlers);
 
       router.addRoute(
         operationRoute.method,
@@ -100,7 +118,7 @@ export class PlatformRouters {
           useContextHandler(($ctx) => {
             $ctx.endpoint = operationRoute.endpoint;
           }),
-          ...handlers
+          ...[...handlers.before, handlers.endpoint, ...handlers.after]
         ],
         operationRoute
       );
@@ -140,7 +158,7 @@ export class PlatformRouters {
           // set path on handler metadata to retrieve it later in $ctx
           handlerMetadata.path = layer.path;
 
-          return this.hooks.alter("alterHandler", handlerMetadata);
+          return this.hooks.alter<PlatformHandlerMetadata, PlatformParamsCallback>("alterHandler", handlerMetadata);
         });
 
         layer.set(handlers);

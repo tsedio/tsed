@@ -5,7 +5,7 @@ import {UseBefore} from "@tsed/platform-middlewares";
 import {Context, PlatformParams} from "@tsed/platform-params";
 import {Delete, Get, Head, Options, Patch, Post, Put} from "@tsed/schema";
 import {PlatformRouter} from "../src/domain/PlatformRouter";
-import {PlatformRouters} from "../src/domain/PlatformRouters";
+import {AlterEndpointHandlersArg, PlatformRouters} from "../src/domain/PlatformRouters";
 
 @Controller("/nested")
 class NestedController {
@@ -66,13 +66,9 @@ function createAppRouterFixture() {
 
   injector.addProvider(NestedController, {});
 
-  platformRouters.hooks.on("alterEndpointHandlers", (allMiddlewares: any[]) => {
-    return [
-      ...allMiddlewares,
-      useResponseHandler(() => {
-        return "hello";
-      })
-    ];
+  platformRouters.hooks.on("alterEndpointHandlers", (handlers: AlterEndpointHandlersArg) => {
+    handlers.after.push(useResponseHandler(() => "hello"));
+    return handlers;
   });
   platformRouters.hooks.on("alterHandler", (handlerMetadata: PlatformHandlerMetadata) => {
     if (handlerMetadata.isInjectable()) {

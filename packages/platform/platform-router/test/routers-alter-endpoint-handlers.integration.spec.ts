@@ -4,7 +4,7 @@ import {UseBefore} from "@tsed/platform-middlewares";
 import {Context, PlatformParams} from "@tsed/platform-params";
 import {EndpointMetadata, Get, JsonOperationRoute} from "@tsed/schema";
 import {PlatformRouter} from "../src/domain/PlatformRouter";
-import {PlatformRouters} from "../src/domain/PlatformRouters";
+import {AlterEndpointHandlersArg, PlatformRouters} from "../src/domain/PlatformRouters";
 import {useContextHandler} from "../src/index";
 
 @Controller("/controller")
@@ -43,15 +43,16 @@ describe("routers with alter handlers", () => {
   it("should declare router - appRouter", async () => {
     const {appRouter, platformRouters} = createAppRouterFixture();
 
-    platformRouters.hooks.on("alterEndpointHandlers", (allMiddlewares: any[], operationRoute: JsonOperationRoute) => {
+    platformRouters.hooks.on("alterEndpointHandlers", (handlers: AlterEndpointHandlersArg, operationRoute: JsonOperationRoute) => {
       const {endpoint} = operationRoute;
 
-      return [
+      handlers.before.unshift(
         useContextHandler(($ctx: DIContext) => {
           $ctx.set(EndpointMetadata, endpoint);
-        }),
-        ...allMiddlewares
-      ];
+        })
+      );
+
+      return handlers;
     });
 
     const router = platformRouters.from(MyController);
