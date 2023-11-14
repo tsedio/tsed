@@ -8,7 +8,5 @@ contact_links:
     about: Open a discussion that can be followed by the whole community on Github!
   - name: 💬 Community channel (Slack)
     url: https://api.tsed.io/rest/slack/tsedio/tsed
-    about: Join our slack workspace to discuss directly wiht the team!
-  - name: 💬  Community group (Gitter deprecated)
-    url: https://gitter.im/Tsed-io/Community
-    about: You want to ask a question or discuss with other community members
+    about: Join our slack workspace to discuss directly with the team!
+

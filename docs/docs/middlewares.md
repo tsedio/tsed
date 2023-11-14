@@ -100,6 +100,20 @@ Middleware can be used on a class controller or endpoint method with the followi
 
 <<< @/docs/snippets/middlewares/endpoint-use-decorator-usage.ts
 
+::: tip
+If your middleware isn't correctly placed in the call sequence, you can use the `priority` property to change the order.
+
+```ts
+@Middleware({
+  priority: -1
+})
+class MyMiddleware {}
+```
+
+Note: This options is only available for middlewares added with on a controller or endpoint method.
+
+:::
+
 ## Error middleware
 
 Express allows you to handle any error when your middleware have 4 parameters like this:
