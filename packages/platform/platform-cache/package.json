@@ -29,10 +29,10 @@
   "devDependencies": {
     "@tsed/core": "7.44.1",
     "@tsed/di": "7.44.1",
-    "@tsed/eslint": "7.39.1",
+    "@tsed/eslint": "7.44.1",
     "@tsed/json-mapper": "7.44.1",
     "@tsed/schema": "7.44.1",
-    "@tsed/typescript": "7.39.1",
+    "@tsed/typescript": "7.44.1",
     "@types/micromatch": "^4.0.1",
     "eslint": "^8.12.0"
   },

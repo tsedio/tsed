@@ -27,9 +27,9 @@
     "@tsed/common": "7.44.1",
     "@tsed/core": "7.44.1",
     "@tsed/di": "7.44.1",
-    "@tsed/eslint": "7.39.1",
+    "@tsed/eslint": "7.44.1",
     "@tsed/logger": ">=6.2.2",
-    "@tsed/typescript": "7.39.1",
+    "@tsed/typescript": "7.44.1",
     "eslint": "^8.12.0",
     "graphql-ws": "^5.14.2"
   },

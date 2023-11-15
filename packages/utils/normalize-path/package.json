@@ -26,8 +26,8 @@
     "tslib": "2.5.0"
   },
   "devDependencies": {
-    "@tsed/eslint": "7.39.1",
-    "@tsed/typescript": "7.39.1",
+    "@tsed/eslint": "7.44.1",
+    "@tsed/typescript": "7.44.1",
     "@types/normalize-path": "^3.0.0",
     "eslint": "^8.12.0"
   },

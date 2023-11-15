@@ -34,9 +34,9 @@
     "uuid": "^8.3.2"
   },
   "devDependencies": {
-    "@tsed/eslint": "7.39.1",
+    "@tsed/eslint": "7.44.1",
     "@tsed/platform-serverless-testing": "7.44.1",
-    "@tsed/typescript": "7.39.1",
+    "@tsed/typescript": "7.44.1",
     "@types/aws-lambda": "^8.10.83",
     "@types/encodeurl": "^1.0.0",
     "@types/mime": "^3.0.1",
