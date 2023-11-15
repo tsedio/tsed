@@ -1,5 +1,8 @@
 blank_issues_enabled: false
 contact_links:
+  - name: ❤️ Say thank you
+    url: https://github.com/orgs/tsedio/discussions/2117
+    about: Tell us how you use Ts.ED & support our efforts in maintaining it
   - name: 💬 Discussions
     url: https://github.com/tsedio/tsed/discussions
     about: Open a discussion that can be followed by the whole community on Github!
