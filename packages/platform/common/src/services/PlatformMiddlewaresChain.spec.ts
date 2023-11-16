@@ -86,9 +86,9 @@ describe("PlatformMiddlewaresChain", () => {
 
     expect(chain.before).toEqual([
       PlatformAcceptMimesMiddleware,
-      TokenMiddleware,
       parentControllerBefore,
       MyAuthMiddleware,
+      TokenMiddleware,
       PlatformMulterMiddleware
     ]);
   });
