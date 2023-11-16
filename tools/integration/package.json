@@ -1,6 +1,6 @@
 {
   "name": "@tsed/integration",
-  "version": "7.39.1",
+  "version": "7.44.1",
   "source": "src/index.ts",
   "main": "src/index.js",
   "private": true,
@@ -18,7 +18,7 @@
     "@tsed/platform-views": "7.44.1",
     "@tsed/schema": "7.44.1",
     "@tsed/swagger": "7.44.1",
-    "@tsed/typescript": "7.39.1"
+    "@tsed/typescript": "7.44.1"
   },
   "dependencies": {},
   "peerDependencies": {}

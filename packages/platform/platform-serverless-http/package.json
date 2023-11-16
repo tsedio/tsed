@@ -65,9 +65,9 @@
     "@tsed/common": "7.44.1",
     "@tsed/core": "7.44.1",
     "@tsed/di": "7.44.1",
-    "@tsed/eslint": "7.39.1",
+    "@tsed/eslint": "7.44.1",
     "@tsed/platform-serverless-testing": "7.44.1",
-    "@tsed/typescript": "7.39.1",
+    "@tsed/typescript": "7.44.1",
     "aws-lambda": "^1.0.7",
     "eslint": "^8.12.0",
     "serverless-http": "^2.7.0"

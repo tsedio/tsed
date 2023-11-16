@@ -9,7 +9,7 @@ module.exports = require("@tsed/webpack-config").create({
   },
   resolve: {
     alias: {
-      picomatch: require.resolve("picomatch-browser/posix")
+      picomatch: require.resolve("picomatch-browser")
     }
   }
 });

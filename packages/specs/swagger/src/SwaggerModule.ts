@@ -46,6 +46,9 @@ export class SwaggerModule implements OnRoutesInit, OnReady {
   @Constant("env")
   env: Env;
 
+  @Constant("logger.disableRoutesSummary")
+  disableRoutesSummary: boolean;
+
   private loaded = false;
 
   get settings() {
@@ -74,7 +77,7 @@ export class SwaggerModule implements OnRoutesInit, OnReady {
 
   $onReady() {
     // istanbul ignore next
-    if (this.configuration.getBestHost) {
+    if (this.configuration.getBestHost && !this.disableRoutesSummary) {
       const host = this.configuration.getBestHost();
       const url = host.toString();
 
