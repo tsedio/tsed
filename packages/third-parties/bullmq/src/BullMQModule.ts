@@ -15,6 +15,10 @@ export class BullMQModule implements BeforeInit {
   constructor(private readonly injector: InjectorService, private readonly dispatcher: JobDispatcher) {}
 
   $beforeInit() {
+    if (!this.bullmq) {
+      return;
+    }
+
     this.buildWorkers();
     this.buildQueues();
 

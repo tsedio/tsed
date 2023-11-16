@@ -1,7 +1,7 @@
-import {PlatformTest} from "@tsed/common";
+import {InjectorService, PlatformTest} from "@tsed/common";
 import {catchAsyncError} from "@tsed/core";
 import {Queue, Worker} from "bullmq";
-import {instance, mock, verify, when} from "ts-mockito";
+import {anyString, anything, instance, mock, verify, when} from "ts-mockito";
 
 import "./BullMQModule";
 import {BullMQModule} from "./BullMQModule";
@@ -181,4 +181,24 @@ describe("module", () => {
       expect(error?.message).toEqual("error");
     });
   });
+});
+
+it('skips initialization when no config is provided', async () => {
+  const injector = mock(InjectorService)
+  const dispatcher = mock(JobDispatcher);
+  await PlatformTest.create({
+    imports: [
+      {
+        token: InjectorService,
+        use: instance(injector),
+      },
+      {
+        token: JobDispatcher,
+        use: instance(dispatcher)
+      }
+    ]
+  })
+
+  verify(injector.add(anyString(), anything())).never();
+  verify(dispatcher.dispatch(anything())).never()
 });
