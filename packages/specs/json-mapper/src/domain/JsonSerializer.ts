@@ -107,7 +107,7 @@ export class JsonSerializer extends JsonMapperCompiler<JsonSerializerOptions> {
     );
 
     // discriminator
-    writer.add(this.mapDiscriminator(entity));
+    writer.add(this.mapDiscriminatorKeyValue(entity));
 
     // additional properties
     writer.add(this.mapAdditionalProperties(entity, properties));
@@ -181,11 +181,21 @@ export class JsonSerializer extends JsonMapperCompiler<JsonSerializerOptions> {
 
   private getPropertyFiller(propertyStore: JsonPropertyStore, key: string, groups: false | string[], formatOpts: any) {
     const isGeneric = propertyStore.itemSchema.isGeneric;
+    const hasDiscriminator = propertyStore.itemSchema.hasDiscriminator;
 
     if (propertyStore.isCollection) {
       const type = propertyStore.getBestType();
+      let nestedMapper: any;
 
-      const nestedMapper = isGeneric ? {id: ""} : this.compile(type, groups);
+      if (hasDiscriminator) {
+        const targetName = propertyStore.parent.targetName;
+
+        nestedMapper = this.compile(`Discriminator:${targetName}:${key}`, groups, {
+          mapper: () => this.createDiscriminatorMapper(propertyStore, groups)
+        });
+      } else {
+        nestedMapper = isGeneric ? {id: ""} : this.compile(type, groups);
+      }
 
       return (writer: Writer) =>
         writer.callMapper(nameOf(propertyStore.collectionType), varKey(key), `id: '${nestedMapper.id}'`, formatOpts);
@@ -195,10 +205,33 @@ export class JsonSerializer extends JsonMapperCompiler<JsonSerializerOptions> {
       return (writer: Writer) => writer.set(varKey(key), `compileAndMap(${varKey(key)}, options)`);
     }
 
-    const type = propertyStore.getBestType();
-    const nestedMapper = this.compile(type, groups);
+    let nestedMapper: any;
+    if (hasDiscriminator) {
+      const targetName = propertyStore.parent.targetName;
+
+      nestedMapper = this.compile(`Discriminator:${targetName}:${key}`, groups, {
+        mapper: () => this.createDiscriminatorMapper(propertyStore, groups)
+      });
+    } else {
+      nestedMapper = this.compile(propertyStore.getBestType(), groups);
+    }
 
     return (writer: Writer) => writer.callMapper(nestedMapper.id, varKey(key), formatOpts);
+  }
+
+  private createDiscriminatorMapper(propertyStore: JsonPropertyStore, groups: false | string[]) {
+    const discriminator = propertyStore.itemSchema.discriminator();
+    const writer = new Writer().arrow("input", "options");
+
+    const sw = writer.switch(`nameOf(classOf(input))`);
+
+    discriminator.values.forEach((value, kind) => {
+      const nestedMapper = this.compile(value, groups);
+
+      sw.case(`'${nameOf(value)}'`).returnCallMapper(nestedMapper.id, "input");
+    });
+
+    return writer.root().toString();
   }
 
   private mapPrecondition(id: string) {
@@ -211,7 +244,7 @@ export class JsonSerializer extends JsonMapperCompiler<JsonSerializerOptions> {
     return writer;
   }
 
-  private mapDiscriminator(entity: JsonClassStore) {
+  private mapDiscriminatorKeyValue(entity: JsonClassStore) {
     if (entity.discriminatorAncestor) {
       const discriminator = entity.discriminatorAncestor.schema.discriminator();
       const type = discriminator.getDefaultValue(entity.target);

@@ -49,6 +49,16 @@ class TrackingWithArray {
   data: (PageView | Action)[];
 }
 
+class TrackingData {
+  @OneOf(Event)
+  data: OneOfEvents;
+}
+
+class TrackingWithArrayData {
+  @OneOf(Event)
+  data: OneOfEvents[];
+}
+
 describe("Discriminator", () => {
   describe("deserialize()", () => {
     it("should deserialize object according to the discriminator key (model with property discriminator)", () => {
@@ -366,6 +376,38 @@ describe("Discriminator", () => {
           value: "value"
         }
       ]);
+    });
+    it('should serialize object with "OneOf" decorator', () => {
+      const tracking = new TrackingData();
+      tracking.data = new PageView();
+      tracking.data.value = "value";
+      tracking.data.url = "url";
+
+      expect(serialize(tracking)).toEqual({
+        data: {
+          type: "page_view",
+          url: "url",
+          value: "value"
+        }
+      });
+    });
+    it('should serialize object with "OneOf" decorator (collection)', () => {
+      const tracking = new TrackingWithArrayData();
+      const pageView = new PageView();
+      pageView.value = "value";
+      pageView.url = "url";
+
+      tracking.data = [pageView];
+
+      expect(serialize(tracking)).toEqual({
+        data: [
+          {
+            type: "page_view",
+            url: "url",
+            value: "value"
+          }
+        ]
+      });
     });
   });
 });

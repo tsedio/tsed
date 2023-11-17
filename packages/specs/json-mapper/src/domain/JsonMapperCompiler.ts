@@ -11,6 +11,7 @@ import {
   isNil,
   isObject,
   isObjectID,
+  isString,
   nameOf,
   objectKeys,
   Type
@@ -105,7 +106,7 @@ export abstract class JsonMapperCompiler<Options extends Record<string, any> = a
     return this;
   }
 
-  eval(mapper: string, {id, groupsId, model}: {id: string; model: Type<any>; groupsId: string}) {
+  eval(mapper: string, {id, groupsId, model}: {id: string; model: Type<any> | string; groupsId: string}) {
     this.addGlobal("cache", this.cache);
 
     const {globals, schemes} = this;
@@ -136,15 +137,21 @@ export abstract class JsonMapperCompiler<Options extends Record<string, any> = a
     };
   }
 
-  compile(model: Type<any>, groups: false | string[]): CachedJsonMapper<Options> {
-    model = this.getType(model);
+  compile(
+    model: Type<any> | string,
+    groups: false | string[],
+    opts: {
+      mapper?: any;
+    } = {}
+  ): CachedJsonMapper<Options> {
+    const token = isString(model) ? model : this.getType(model);
 
     const groupsId = this.getGroupsId(groups);
-    let storeGroups = this.cache.get(model) || this.cache.get(nameOf(model));
+    let storeGroups = this.cache.get(token) || this.cache.get(nameOf(token));
 
     if (!storeGroups) {
       storeGroups = new Map();
-      this.cache.set(model, storeGroups);
+      this.cache.set(token, storeGroups);
     }
 
     if (storeGroups.has("typeMapper")) {
@@ -153,17 +160,17 @@ export abstract class JsonMapperCompiler<Options extends Record<string, any> = a
 
     // generate mapper for the given groups
     if (!storeGroups.has(groupsId)) {
-      const id = this.getId(model, groupsId);
+      const id = this.getId(token, groupsId);
 
       // prevent circular dependencies
       storeGroups.set(groupsId, {
         id
       } as any);
 
-      const mapper = this.createMapper(model, id, groups);
+      const mapper = opts.mapper ? opts.mapper(id, groups) : this.createMapper(token as Type<any>, id, groups);
 
       try {
-        return this.eval(mapper, {id, model, groupsId});
+        return this.eval(mapper, {id, model: token, groupsId});
       } catch (err) {
         throw new Error(`Fail to compile mapper for ${nameOf(model)}. See the error above: ${err.message}.\n${mapper}`);
       }
@@ -230,8 +237,8 @@ export abstract class JsonMapperCompiler<Options extends Record<string, any> = a
     return groups.join(",");
   }
 
-  protected getId(model: Type<any>, groupsId: string) {
-    return `${nameOf(model)}:${getRandomId()}:${groupsId}`;
+  protected getId(model: Type<any> | string, groupsId: string) {
+    return `${isString(model) ? model : nameOf(model)}:${getRandomId()}:${groupsId}`;
   }
 
   protected getSchemaId(id: string, propertyKey: string) {
