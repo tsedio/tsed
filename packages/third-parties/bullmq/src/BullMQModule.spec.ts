@@ -1,7 +1,7 @@
-import {InjectorService, PlatformTest} from "@tsed/common";
+import {PlatformTest} from "@tsed/common";
 import {catchAsyncError} from "@tsed/core";
 import {Queue, Worker} from "bullmq";
-import {anyString, anything, instance, mock, verify, when} from "ts-mockito";
+import {anything, instance, mock, verify, when} from "ts-mockito";
 
 import "./BullMQModule";
 import {BullMQModule} from "./BullMQModule";
@@ -10,32 +10,25 @@ import {JobMethods} from "./contracts";
 import {JobController} from "./decorators";
 import {JobDispatcher} from "./dispatchers";
 
+const queueConstructorSpy = jest.fn();
+const workerConstructorSpy = jest.fn();
+
 jest.mock("bullmq", () => {
   return {
     Queue: class {
-      public name: string;
-
-      constructor(name: string) {
-        this.name = name;
+      constructor(...args: any[]) {
+        queueConstructorSpy(...args);
       }
       close() {}
     },
     Worker: class {
-      public name: string;
-
-      constructor(name: string) {
-        this.name = name;
+      constructor(...args: any[]) {
+        workerConstructorSpy(...args);
       }
       close() {}
     }
   };
 });
-
-const bullmq = {
-  queues: ["default", "foo", "bar"],
-  connection: {},
-  workerQueues: ["default", "foo"]
-} as BullMQConfig;
 
 @JobController("cron", "default", {
   repeat: {
@@ -51,154 +44,255 @@ class RegularJob {
   handle() {}
 }
 
-describe("module", () => {
+describe("BullMQModule", () => {
   let dispatcher: JobDispatcher;
-  beforeEach(async () => {
+
+  beforeEach(() => {
     dispatcher = mock(JobDispatcher);
     when(dispatcher.dispatch(CustomCronJob)).thenResolve();
-
-    await PlatformTest.create({
-      bullmq,
-      imports: [
-        {
-          token: JobDispatcher,
-          use: instance(dispatcher)
-        }
-      ]
-    });
   });
-  beforeEach(() => {});
+
   afterEach(PlatformTest.reset);
 
-  describe("cronjobs", () => {
-    it("should dispatch cron jobs", () => {
-      verify(dispatcher.dispatch(CustomCronJob)).once();
-    });
-  });
-
-  describe("queues", () => {
-    it("should get default", () => {
-      const instance = PlatformTest.get<Queue>("bullmq.queue.default");
-
-      expect(instance).toBeInstanceOf(Queue);
-      expect(instance.name).toBe("default");
+  describe("configuration", () => {
+    beforeEach(() => {
+      queueConstructorSpy.mockClear();
+      workerConstructorSpy.mockClear();
     });
 
-    it.each(bullmq.queues)("should register queue(%s)", (queue) => {
-      const instance = PlatformTest.get<Queue>(`bullmq.queue.${queue}`);
+    describe("merges config correctly", () => {
+      beforeEach(async () => {
+        await PlatformTest.create({
+          bullmq: {
+            queues: ["default", "special"],
+            connection: {
+              connectionName: "defaultConnectionName"
+            },
+            defaultQueueOptions: {
+              defaultJobOptions: {
+                delay: 100
+              },
+              blockingConnection: true
+            },
+            queueOptions: {
+              special: {
+                connection: {
+                  connectionName: "specialConnectionName"
+                },
+                defaultJobOptions: {
+                  attempts: 9
+                }
+              }
+            },
+            defaultWorkerOptions: {
+              connection: {
+                connectTimeout: 123
+              },
+              concurrency: 50
+            },
+            workerOptions: {
+              special: {
+                concurrency: 1,
+                lockDuration: 2
+              }
+            }
+          },
+          imports: [
+            {
+              token: JobDispatcher,
+              use: instance(dispatcher)
+            }
+          ]
+        });
+      });
 
-      expect(instance).toBeInstanceOf(Queue);
-      expect(instance.name).toBe(queue);
-    });
+      it("queue", () => {
+        expect(queueConstructorSpy).toHaveBeenCalledTimes(2);
 
-    it("should not allow direct injection of the queue", () => {
-      expect(PlatformTest.get(Queue)).not.toBeInstanceOf(Queue);
-    });
-  });
+        expect(queueConstructorSpy).toHaveBeenNthCalledWith(1, "default", {
+          connection: {
+            connectionName: "defaultConnectionName"
+          },
+          defaultJobOptions: {
+            delay: 100
+          },
+          blockingConnection: true
+        });
 
-  describe("workers", () => {
-    it("should get default", () => {
-      const instance = PlatformTest.get<Worker>("bullmq.worker.default");
+        expect(queueConstructorSpy).toHaveBeenNthCalledWith(2, "special", {
+          connection: {
+            connectionName: "specialConnectionName"
+          },
+          defaultJobOptions: {
+            attempts: 9,
+            delay: 100
+          },
+          blockingConnection: true
+        });
+      });
 
-      expect(instance).toBeInstanceOf(Worker);
-      expect(instance.name).toBe("default");
-    });
+      it("worker", () => {
+        expect(workerConstructorSpy).toHaveBeenCalledTimes(2);
 
-    it.each(bullmq.workerQueues)("should register worker(%s)", (queue) => {
-      const instance = PlatformTest.get<Worker>(`bullmq.worker.${queue}`);
+        expect(workerConstructorSpy).toHaveBeenNthCalledWith(1, "default", expect.any(Function), {
+          connection: {
+            connectTimeout: 123
+          },
+          concurrency: 50
+        });
 
-      expect(instance).toBeInstanceOf(Worker);
-      expect(instance.name).toBe(queue);
-    });
-
-    it("should not register unspecified worker queue", () => {
-      expect(PlatformTest.get("bullmq.worker.bar")).toBeUndefined();
-    });
-
-    it("should not allow direct injection of the worker", () => {
-      expect(PlatformTest.get(Worker)).not.toBeInstanceOf(Worker);
-    });
-
-    it("should run worker and execute processor", async () => {
-      const bullMQModule = PlatformTest.get<BullMQModule>(BullMQModule);
-      const worker = PlatformTest.get<JobMethods>("bullmq.job.default.regular");
-      const job = {
-        name: "regular",
-        queueName: "default",
-        data: {test: "test"}
-      };
-
-      jest.spyOn(worker, "handle").mockResolvedValueOnce(undefined as never);
-
-      await (bullMQModule as any).onProcess(job);
-
-      expect(worker.handle).toHaveBeenCalledWith({test: "test"}, job);
-    });
-
-    it("should log warning when the worker doesn't exists", async () => {
-      const bullMQModule = PlatformTest.get<BullMQModule>(BullMQModule);
-
-      jest.spyOn(PlatformTest.injector.logger, "warn");
-
-      const job = {
-        name: "regular",
-        queueName: "toto",
-        data: {test: "test"}
-      };
-
-      await (bullMQModule as any).onProcess(job);
-
-      expect(PlatformTest.injector.logger.warn).toHaveBeenCalledWith({
-        event: "BULLMQ_JOB_NOT_FOUND",
-        message: "Job regular toto not found"
+        expect(workerConstructorSpy).toHaveBeenNthCalledWith(2, "special", expect.any(Function), {
+          connection: {
+            connectTimeout: 123
+          },
+          concurrency: 1,
+          lockDuration: 2
+        });
       });
     });
 
-    it("should run worker, execute processor and handle error", async () => {
-      const bullMQModule = PlatformTest.get<BullMQModule>(BullMQModule);
-      const worker = PlatformTest.get<JobMethods>("bullmq.job.default.regular");
-      const job = {
-        name: "regular",
-        queueName: "default",
-        data: {test: "test"}
-      };
+    describe("without", () => {
+      it("skips initialization", async () => {
+        await PlatformTest.create({
+          imports: [
+            {
+              token: JobDispatcher,
+              use: instance(dispatcher)
+            }
+          ]
+        });
 
-      jest.spyOn(PlatformTest.injector.logger, "error");
-
-      jest.spyOn(worker, "handle").mockRejectedValue(new Error("error") as never);
-
-      const error = await catchAsyncError(() => (bullMQModule as any).onProcess(job));
-
-      expect(worker.handle).toHaveBeenCalledWith({test: "test"}, job);
-      expect(PlatformTest.injector.logger.error).toHaveBeenCalledWith({
-        duration: expect.any(Number),
-        event: "BULLMQ_JOB_ERROR",
-        message: "error",
-        reqId: expect.any(String),
-        stack: expect.any(String),
-        time: expect.any(Object)
+        expect(queueConstructorSpy).not.toHaveBeenCalled();
+        verify(dispatcher.dispatch(anything())).never();
       });
-      expect(error?.message).toEqual("error");
     });
   });
-});
 
-it('skips initialization when no config is provided', async () => {
-  const injector = mock(InjectorService)
-  const dispatcher = mock(JobDispatcher);
-  await PlatformTest.create({
-    imports: [
-      {
-        token: InjectorService,
-        use: instance(injector),
-      },
-      {
-        token: JobDispatcher,
-        use: instance(dispatcher)
-      }
-    ]
-  })
+  describe("functionality", () => {
+    const config = {
+      queues: ["default", "foo", "bar"],
+      connection: {},
+      workerQueues: ["default", "foo"]
+    } as BullMQConfig;
 
-  verify(injector.add(anyString(), anything())).never();
-  verify(dispatcher.dispatch(anything())).never()
+    beforeEach(async () => {
+      await PlatformTest.create({
+        bullmq: config,
+        imports: [
+          {
+            token: JobDispatcher,
+            use: instance(dispatcher)
+          }
+        ]
+      });
+    });
+
+    describe("cronjobs", () => {
+      it("should dispatch cron jobs automatically", () => {
+        verify(dispatcher.dispatch(CustomCronJob)).once();
+      });
+    });
+
+    describe("queues", () => {
+      it("should get default", () => {
+        const instance = PlatformTest.get<Queue>("bullmq.queue.default");
+
+        expect(instance).toBeInstanceOf(Queue);
+      });
+
+      it.each(config.queues)("should register queue(%s)", (queue) => {
+        const instance = PlatformTest.get<Queue>(`bullmq.queue.${queue}`);
+
+        expect(instance).toBeInstanceOf(Queue);
+      });
+
+      it("should not allow direct injection of the queue", () => {
+        expect(PlatformTest.get(Queue)).not.toBeInstanceOf(Queue);
+      });
+    });
+
+    describe("workers", () => {
+      it("should get default", () => {
+        const instance = PlatformTest.get<Worker>("bullmq.worker.default");
+
+        expect(instance).toBeInstanceOf(Worker);
+      });
+
+      it.each(config.workerQueues)("should register worker(%s)", (queue) => {
+        const instance = PlatformTest.get<Worker>(`bullmq.worker.${queue}`);
+
+        expect(instance).toBeInstanceOf(Worker);
+      });
+
+      it("should not register unspecified worker queue", () => {
+        expect(PlatformTest.get("bullmq.worker.bar")).toBeUndefined();
+      });
+
+      it("should not allow direct injection of the worker", () => {
+        expect(PlatformTest.get(Worker)).not.toBeInstanceOf(Worker);
+      });
+
+      it("should run worker and execute processor", async () => {
+        const bullMQModule = PlatformTest.get<BullMQModule>(BullMQModule);
+        const worker = PlatformTest.get<JobMethods>("bullmq.job.default.regular");
+        const job = {
+          name: "regular",
+          queueName: "default",
+          data: {test: "test"}
+        };
+
+        jest.spyOn(worker, "handle").mockResolvedValueOnce(undefined as never);
+
+        await (bullMQModule as any).onProcess(job);
+
+        expect(worker.handle).toHaveBeenCalledWith({test: "test"}, job);
+      });
+
+      it("should log warning when the worker doesn't exists", async () => {
+        const bullMQModule = PlatformTest.get<BullMQModule>(BullMQModule);
+
+        jest.spyOn(PlatformTest.injector.logger, "warn");
+
+        const job = {
+          name: "regular",
+          queueName: "toto",
+          data: {test: "test"}
+        };
+
+        await (bullMQModule as any).onProcess(job);
+
+        expect(PlatformTest.injector.logger.warn).toHaveBeenCalledWith({
+          event: "BULLMQ_JOB_NOT_FOUND",
+          message: "Job regular toto not found"
+        });
+      });
+
+      it("should run worker, execute processor and handle error", async () => {
+        const bullMQModule = PlatformTest.get<BullMQModule>(BullMQModule);
+        const worker = PlatformTest.get<JobMethods>("bullmq.job.default.regular");
+        const job = {
+          name: "regular",
+          queueName: "default",
+          data: {test: "test"}
+        };
+
+        jest.spyOn(PlatformTest.injector.logger, "error");
+
+        jest.spyOn(worker, "handle").mockRejectedValue(new Error("error") as never);
+
+        const error = await catchAsyncError(() => (bullMQModule as any).onProcess(job));
+
+        expect(worker.handle).toHaveBeenCalledWith({test: "test"}, job);
+        expect(PlatformTest.injector.logger.error).toHaveBeenCalledWith({
+          duration: expect.any(Number),
+          event: "BULLMQ_JOB_ERROR",
+          message: "error",
+          reqId: expect.any(String),
+          stack: expect.any(String),
+          time: expect.any(Object)
+        });
+        expect(error?.message).toEqual("error");
+      });
+    });
+  });
 });

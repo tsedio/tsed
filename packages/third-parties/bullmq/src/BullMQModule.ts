@@ -1,7 +1,8 @@
 import {BeforeInit, DIContext, runInContext} from "@tsed/common";
 import {Constant, InjectorService, Module} from "@tsed/di";
+import {deepMerge} from "@tsed/core";
 import {getComputedType} from "@tsed/schema";
-import {Job, Queue, Worker} from "bullmq";
+import {Job, Queue, QueueOptions, Worker, WorkerOptions} from "bullmq";
 import {v4} from "uuid";
 import {BullMQConfig} from "./config/config";
 import {JobMethods} from "./contracts";
@@ -27,13 +28,19 @@ export class BullMQModule implements BeforeInit {
 
   private buildQueues() {
     this.bullmq.queues.forEach((queue) => {
+      const ops = deepMerge<QueueOptions, QueueOptions>(
+        {
+          connection: this.bullmq.connection,
+          defaultJobOptions: this.bullmq.defaultJobOptions,
+          ...this.bullmq.defaultQueueOptions
+        },
+        this.bullmq.queueOptions?.[queue]
+      )!;
+
       this.injector
         .add(`bullmq.queue.${queue}`, {
           type: "bullmq:queue",
-          useValue: new Queue(queue, {
-            connection: this.bullmq.connection,
-            defaultJobOptions: this.bullmq.defaultJobOptions
-          }),
+          useValue: new Queue(queue, ops),
           hooks: {
             $onDestroy: (queue) => queue.close()
           }
@@ -44,12 +51,18 @@ export class BullMQModule implements BeforeInit {
 
   private buildWorkers() {
     (this.bullmq.workerQueues ?? this.bullmq.queues).forEach((queue) => {
+      const ops = deepMerge<WorkerOptions, WorkerOptions>(
+        {
+          connection: this.bullmq.connection,
+          ...this.bullmq.defaultWorkerOptions
+        },
+        this.bullmq.workerOptions?.[queue]
+      )!;
+
       this.injector
         .add(`bullmq.worker.${queue}`, {
           type: "bullmq:worker",
-          useValue: new Worker(queue, this.onProcess.bind(this), {
-            connection: this.bullmq.connection
-          }),
+          useValue: new Worker(queue, this.onProcess.bind(this), ops),
           hooks: {
             $onDestroy: (worker) => worker.close()
           }
@@ -59,7 +72,7 @@ export class BullMQModule implements BeforeInit {
   }
 
   private getJob(name: string, queueName: string) {
-    return this.injector.get(`bullmq.job.${queueName}.${name}`);
+    return this.injector.get<JobMethods>(`bullmq.job.${queueName}.${name}`);
   }
 
   private async onProcess(job: Job) {

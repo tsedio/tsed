@@ -12,7 +12,7 @@ meta:
 
 ## Feature
 
-The [BullMQ](https://bullmq.io) Module for Ts.ED allows you to decorate a class using the `@Job` decorator and implement the `Job` interface provided by the module.
+The [BullMQ](https://bullmq.io) Module for Ts.ED allows you to decorate a class using the `@JobController` decorator and implement the `JobMethods` interface provided by the module.
 Repeatable Jobs can also be defined using this decorator.
 
 For more information about BullMQ look at the documentation [here](https://docs.bullmq.io/);
@@ -35,16 +35,32 @@ import "@tsed/bullmq"; // import bullmq ts.ed module
 
 @Configuration({
   bullmq: {
-    queues: ["default", "special"];
+    // Specify queue name's to create
+    queues: ["default", "special"],
     connection: {
       // redisio connection options
-    };
-    // optional default job options
-    defaultJobOptions: {};
-    disableWorker: false;
-    // optionally specify for which queues to start a worker for
-    // in case not all queues should be worked on
-    workerQueues: ["default"];
+    },
+    defaultQueueOptions: {
+      // Default queue options which are applied to every queue
+      // Can be extended/overridden by `queueOptions`
+    },
+    queueOptions: {
+      special: {
+        // Specify additional queue options by queue name
+      }
+    },
+    // Specify for which queues to start a worker for.
+    // Defaultly for every queue added in the `queues` parameter
+    workerQueues: ["default"],
+    defaultWorkerOptions: {
+      // Default worker options which are applied to every worker
+      // Can be extended/overridden by `workerOptions`
+    },
+    workerOptions: {
+      special: {
+        // Specify additional worker options by queue name
+      }
+    }
   }
 })
 export class Server {}
@@ -52,7 +68,7 @@ export class Server {}
 
 ## Define a Job
 
-A job is defined as a class decorated with the `@Job` decorator and implementing the `Job` interface of the `@tsed/bullmq` package
+A job is defined as a class decorated with the `@JobController` decorator and implementing the `Job` interface of the `@tsed/bullmq` package
 
 ```ts
 import {JobController, JobMethods} from "@tsed/bullmq";
@@ -82,7 +98,8 @@ class OtherExampleJob implements JobMethods {
 
 ## Defining a repeating job
 
-Jobs that should be run regularly on a schedule can also easily defined using the `@Job` decorator
+Jobs that should be run regularly on a schedule can also easily defined using the `@JobController` decorator.
+Doing so will automatically dispatch it without any data.
 
 ```ts
 import {JobController, JobMethods} from "@tsed/bullmq";
@@ -146,9 +163,13 @@ class MyService {
   constructor(private readonly dispatcher: JobDispatcher) {}
 
   public async doingSomething() {
-    await this.dispatcher.dispatch(ExampleJob, {msg: "this message is part of the payload for the job"}, {
-      delay: 600_000 // 10 minutes in milliseconds
-    });
+    await this.dispatcher.dispatch(
+      ExampleJob,
+      {msg: "this message is part of the payload for the job"},
+      {
+        delay: 600_000 // 10 minutes in milliseconds
+      }
+    );
 
     console.info("I just dispatched a job!");
   }
