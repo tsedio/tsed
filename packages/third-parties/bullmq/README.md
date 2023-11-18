@@ -33,7 +33,7 @@ A package of Ts.ED framework. See website: https://tsed.io
 
 ## Feature
 
-The `@tsed/bullmq` package allows you to define jobs using the `@Job` decorator and the `JobMethods` interface and have them picked up by the `BullMQ` worker.
+The `@tsed/bullmq` package allows you to define jobs using the `@JobController` decorator and the `JobMethods` interface and have them picked up by the `BullMQ` worker.
 
 ## Installation
 
@@ -53,16 +53,32 @@ import "@tsed/bullmq"; // import bullmq ts.ed module
 
 @Configuration({
   bullmq: {
-    queues: ["default", "special"];
+    // Specify queue name's to create
+    queues: ["default", "special"],
     connection: {
       // redisio connection options
-    };
-    // optional default job options
-    defaultJobOptions: {};
-    disableWorker: false;
-    // optionally specify for which queues to start a worker for
-    // in case not all queues should be worked on
-    workerQueues: ["default"];
+    },
+    defaultQueueOptions: {
+      // Default queue options which are applied to every queue
+      // Can be extended/overridden by `queueOptions`
+    },
+    queueOptions: {
+      special: {
+        // Specify additional queue options by queue name
+      }
+    },
+    // Specify for which queues to start a worker for.
+    // Defaultly for every queue added in the `queues` parameter
+    workerQueues: ["default"],
+    defaultWorkerOptions: {
+      // Default worker options which are applied to every worker
+      // Can be extended/overridden by `workerOptions`
+    },
+    workerOptions: {
+      special: {
+        // Specify additional worker options by queue name
+      }
+    }
   }
 })
 export class Server {}
@@ -100,7 +116,8 @@ class OtherExampleJob implements JobMethods {
 
 ## Defining a repeating job
 
-Jobs that should be run regularly on a schedule can also easily defined using the `@AsJob` decorator
+Jobs that should be run regularly on a schedule can also easily defined using the `@JobController` decorator.
+Doing so will automatically dispatch it without any data
 
 ```ts
 import {JobController, JobMethods} from "@tsed/bullmq";
