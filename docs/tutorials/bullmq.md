@@ -53,7 +53,7 @@ import "@tsed/bullmq"; // import bullmq ts.ed module
     // All other worker configuration will be ignored
     disableWorker: true,
     // Specify for which queues to start a worker for.
-    // Defaultly for every queue added in the `queues` parameter
+    // When undefined falls back to all queues specified.
     workerQueues: ["default"],
     defaultWorkerOptions: {
       // Default worker options which are applied to every worker
