@@ -2,7 +2,7 @@ import {BeforeInit, DIContext, runInContext} from "@tsed/common";
 import {Constant, InjectorService, Module} from "@tsed/di";
 import {deepMerge} from "@tsed/core";
 import {getComputedType} from "@tsed/schema";
-import {Job, Queue, QueueOptions, Worker, WorkerOptions} from "bullmq";
+import {Job, Queue, type QueueOptions, Worker, type WorkerOptions} from "bullmq";
 import {v4} from "uuid";
 import {BullMQConfig} from "./config/config";
 import {JobMethods} from "./contracts";
