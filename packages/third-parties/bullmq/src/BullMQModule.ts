@@ -20,7 +20,9 @@ export class BullMQModule implements BeforeInit {
       return;
     }
 
-    this.buildWorkers();
+    if (!this.bullmq.disableWorker) {
+      this.buildWorkers();
+    }
     this.buildQueues();
 
     this.injector.getMany<JobMethods>("bullmq:cron").map((job) => this.dispatcher.dispatch(getComputedType(job)));

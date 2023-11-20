@@ -151,6 +151,30 @@ describe("BullMQModule", () => {
       });
     });
 
+    describe("disableWorker", () => {
+      const config = {
+        queues: ["default", "foo", "bar"],
+        connection: {},
+        disableWorker: true
+      } as BullMQConfig;
+
+      beforeEach(async () => {
+        await PlatformTest.create({
+          bullmq: config,
+          imports: [
+            {
+              token: JobDispatcher,
+              use: instance(dispatcher)
+            }
+          ]
+        });
+      });
+
+      it("should not create any workers", () => {
+        expect(workerConstructorSpy).toHaveBeenCalledTimes(0);
+      });
+    });
+
     describe("without", () => {
       it("skips initialization", async () => {
         await PlatformTest.create({

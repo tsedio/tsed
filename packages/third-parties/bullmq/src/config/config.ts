@@ -29,6 +29,13 @@ export type BullMQConfig = {
   queueOptions?: Record<string, QueueOptions>;
 
   /**
+   * Disable the creation of any worker.
+   *
+   * All other worker configuration will be ignored
+   */
+  disableWorker?: boolean;
+
+  /**
    * Specify for which queues to start a worker for.
    *
    * Defaultly for every queue added in the `queues` parameter
