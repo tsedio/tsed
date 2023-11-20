@@ -1,6 +1,6 @@
 {
   "name": "@tsed/bullmq",
-  "version": "7.47.1",
+  "version": "7.48.0",
   "private": false,
   "description": "BullMQ integration for Ts.ED",
   "keywords": [
@@ -29,11 +29,11 @@
     "tslib": "2.5.0"
   },
   "devDependencies": {
-    "@tsed/common": "7.47.1",
-    "@tsed/core": "7.47.1",
-    "@tsed/di": "7.47.1",
+    "@tsed/common": "7.48.0",
+    "@tsed/core": "7.48.0",
+    "@tsed/di": "7.48.0",
     "@tsed/eslint": "7.44.1",
-    "@tsed/schema": "7.47.1",
+    "@tsed/schema": "7.48.0",
     "@tsed/typescript": "7.44.1",
     "bullmq": "^4.12.3",
     "eslint": "^8.12.0",
