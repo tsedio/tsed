@@ -1,7 +1,10 @@
-import {JobController} from "./JobController";
+import {FallbackJobController, JobController} from "./JobController";
 import {Store} from "@tsed/core";
+import {GlobalProviders} from "@tsed/di";
 
 describe("JobController", () => {
+  afterEach(() => GlobalProviders.clear());
+
   it("should set the proper store data", () => {
     @JobController("testjob")
     class TestJob {}
@@ -46,5 +49,45 @@ describe("JobController", () => {
     const store = Store.from(CustomCronJob).get("bullmq");
 
     expect(store);
+  });
+});
+
+describe("FallbackJobController", () => {
+  afterEach(() => GlobalProviders.clear());
+
+  describe("with queue", () => {
+    it("should set the proper store data", () => {
+      @FallbackJobController("default")
+      class FallbackJob {}
+
+      const store = Store.from(FallbackJob).get("bullmq");
+      expect(store.queue).toBe("default");
+
+      const fallbackControllerForQueue = GlobalProviders.get("bullmq.fallback-job.default");
+      expect(fallbackControllerForQueue).not.toBeUndefined();
+      expect(fallbackControllerForQueue.type).toEqual("bullmq:fallback-job");
+      expect(fallbackControllerForQueue.useClass).toEqual(FallbackJob);
+
+      const fallbackController = GlobalProviders.get("bullmq.fallback-job");
+      expect(fallbackController).toBeUndefined();
+    });
+  });
+
+  describe("without queue", () => {
+    it("should set the proper store data", () => {
+      @FallbackJobController()
+      class FallbackJob {}
+
+      const store = Store.from(FallbackJob).get("bullmq");
+      expect(store.queue).toBeUndefined();
+
+      const fallbackController = GlobalProviders.get("bullmq.fallback-job");
+      expect(fallbackController).not.toBeUndefined();
+      expect(fallbackController.type).toEqual("bullmq:fallback-job");
+      expect(fallbackController.useClass).toEqual(FallbackJob);
+
+      const fallbackControllerForQueue = GlobalProviders.get("bullmq.fallback-job.default");
+      expect(fallbackControllerForQueue).toBeUndefined();
+    });
   });
 });
