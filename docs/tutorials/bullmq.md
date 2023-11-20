@@ -244,7 +244,7 @@ class MyService {
 
 ## Maintainers
 
-<GithubContributors :users="['abenerd']"/>
+<GithubContributors :users="['abenerd', 'EinfachHans']"/>
 
 <div class="flex items-center justify-center p-5">
 <Button href="/contributing.html" class="rounded-medium">
