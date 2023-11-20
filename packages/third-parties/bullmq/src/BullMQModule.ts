@@ -74,7 +74,17 @@ export class BullMQModule implements BeforeInit {
   }
 
   private getJob(name: string, queueName: string) {
-    return this.injector.get<JobMethods>(`bullmq.job.${queueName}.${name}`);
+    const job = this.injector.get<JobMethods>(`bullmq.job.${queueName}.${name}`);
+    if (job) {
+      return job;
+    }
+
+    const fallbackJobForQueue = this.injector.get(`bullmq.fallback-job.${queueName}`);
+    if (fallbackJobForQueue) {
+      return fallbackJobForQueue;
+    }
+
+    return this.injector.get("bullmq.fallback-job");
   }
 
   private async onProcess(job: Job) {

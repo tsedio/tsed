@@ -15,3 +15,15 @@ export function JobController(name: string, queue: string = "default", opts: Job
     })
   );
 }
+
+export function FallbackJobController(queue?: string) {
+  return useDecorators(
+    StoreMerge("bullmq", {
+      queue
+    }),
+    Injectable({
+      provide: "bullmq.fallback-job" + (queue ? `.${queue}` : ""),
+      type: "bullmq:fallback-job"
+    })
+  );
+}
