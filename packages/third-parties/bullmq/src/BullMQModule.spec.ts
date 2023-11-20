@@ -7,7 +7,7 @@ import "./BullMQModule";
 import {BullMQModule} from "./BullMQModule";
 import {type BullMQConfig} from "./config/config";
 import {JobMethods} from "./contracts";
-import {JobController} from "./decorators";
+import {FallbackJobController, JobController} from "./decorators";
 import {JobDispatcher} from "./dispatchers";
 
 const queueConstructorSpy = jest.fn();
@@ -317,6 +317,65 @@ describe("BullMQModule", () => {
         });
         expect(error?.message).toEqual("error");
       });
+    });
+  });
+
+  describe("with fallback controller", () => {
+    beforeEach(async () => {
+      @FallbackJobController("foo")
+      class FooFallbackController {
+        handle() {}
+      }
+
+      @FallbackJobController()
+      class FallbackController {
+        handle() {}
+      }
+
+      await PlatformTest.create({
+        bullmq: {
+          queues: ["default", "foo"],
+          connection: {}
+        },
+        imports: [
+          {
+            token: JobDispatcher,
+            use: instance(dispatcher)
+          }
+        ]
+      });
+    });
+
+    it("should run queue specific fallback job controller", async () => {
+      const bullMQModule = PlatformTest.get<BullMQModule>(BullMQModule);
+      const worker = PlatformTest.get<JobMethods>("bullmq.fallback-job.foo");
+      const job = {
+        name: "unknown-name",
+        queueName: "foo",
+        data: {test: "test"}
+      };
+
+      jest.spyOn(worker, "handle").mockResolvedValueOnce(undefined as never);
+
+      await (bullMQModule as any).onProcess(job);
+
+      expect(worker.handle).toHaveBeenCalledWith({test: "test"}, job);
+    });
+
+    it("should run overall fallback job controller", async () => {
+      const bullMQModule = PlatformTest.get<BullMQModule>(BullMQModule);
+      const worker = PlatformTest.get<JobMethods>("bullmq.fallback-job");
+      const job = {
+        name: "unknown-name",
+        queueName: "default",
+        data: {test: "123"}
+      };
+
+      jest.spyOn(worker, "handle").mockResolvedValueOnce(undefined as never);
+
+      await (bullMQModule as any).onProcess(job);
+
+      expect(worker.handle).toHaveBeenCalledWith({test: "123"}, job);
     });
   });
 });

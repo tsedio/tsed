@@ -71,7 +71,7 @@ export class Server {}
 
 ## Define a Job
 
-A job is defined as a class decorated with the `@JobController` decorator and implementing the `Job` interface of the `@tsed/bullmq` package
+A job is defined as a class decorated with the `@JobController` decorator and implementing the `JobMethods` interface of the `@tsed/bullmq` package
 
 ```ts
 import {JobController, JobMethods} from "@tsed/bullmq";
@@ -132,6 +132,42 @@ import "./jobs/MyCronJob";
 export class Server {}
 ```
 
+## Defining a fallback job
+
+Because the `@JobController` requires a name, you can not use it in case you have dynamic job names.
+For this use case there is a `@FallbackJobController`, which allows you to define a fallback method globally or per queue:
+
+```ts
+import {FallbackJobController, JobMethods} from "@tsed/bullmq";
+
+@FallbackJobController("foo")
+class FooFallbackController implements JobMethods {
+  public handle() {
+    console.info(`I run for every job within the "foo" queue, which doesn't has it's own JobController`);
+  }
+}
+
+@FallbackJobController()
+class GlobalFallbackController implements JobMethods {
+  public handle() {
+    console.info(`I run for every job in every other queue, which doesn't has it's own JobController`);
+  }
+}
+```
+
+You also have to register the fallback job in the server:
+
+```ts
+import {Configuration} from "@tsed/common";
+import "@tsed/bullmq"; // import bullmq ts.ed module
+
+import "./jobs/MyFallbackJobs";
+
+@Configuration()
+// server configuration
+export class Server {}
+```
+
 ## Dispatching jobs
 
 Dispatching jobs is done via the `JobDispatcher` service that takes the job to be dispatched and its payload.
@@ -179,13 +215,36 @@ class MyService {
 }
 ```
 
+In case you want to be more flexible, you can also dispatch a job via a name or a queue/name combination.
+
+**Note**: This normally only make sense when you have a [Fallback Job](#defining-a-fallback-job) configured.
+
+```ts
+import {Service} from "@tsed/di";
+import {JobDispatcher} from "@tsed/bullmq";
+import {ExampleJob} from "./jobs/ExampleJob";
+
+@Service()
+class MyService {
+  constructor(private readonly dispatcher: JobDispatcher) {}
+
+  public async doingSomething() {
+    // When passing only a name, the job will be dispatched in a queue named "default"
+    await this.dispatcher.dispatch("some-name", {msg: "this message is part of the payload for the job"});
+
+    // You can also specifiy which queue to use
+    await this.dispatcher.dispatch({queue: "some-queue", name: "some-name"}, {msg: "this message is part of the payload for the job"});
+  }
+}
+```
+
 ## Authors
 
 <GithubContributors :users="['abenerd']"/>
 
 ## Maintainers
 
-<GithubContributors :users="['abenerd']"/>
+<GithubContributors :users="['abenerd', 'EinfachHans']"/>
 
 <div class="flex items-center justify-center p-5">
 <Button href="/contributing.html" class="rounded-medium">
