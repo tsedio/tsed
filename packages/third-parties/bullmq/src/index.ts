@@ -7,5 +7,5 @@ export * from "./config/config";
 export * from "./contracts/JobMethods";
 export * from "./contracts/JobStore";
 export * from "./decorators/JobController";
-export * from "./dispatchers/JobDispatcherOptions";
 export * from "./dispatchers/JobDispatcher";
+export * from "./dispatchers/JobDispatcherOptions";
