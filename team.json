@@ -63,5 +63,15 @@
     "country": "Germany",
     "city": "NoWhere",
     "role": "Contributor"
+  },
+  {
+    "title": "Ralph Khreish",
+    "job": "Developer Fullstack",
+    "src": "https://avatars.githubusercontent.com/u/35776126?v=4",
+    "github": "Crunchyman-ralph",
+    "twitter": "RalphEcom",
+    "country": "France",
+    "city": "Paris",
+    "role": "Contributor"
   }
 ]
