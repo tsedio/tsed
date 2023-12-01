@@ -3,8 +3,8 @@ module.exports = {
   extends: ["prettier", "plugin:@typescript-eslint/recommended"],
   plugins: ["@typescript-eslint", "workspaces"],
   parserOptions: {
-    ecmaVersion: 2018,
-    sourceType: "module"
+    tsconfigRootDir: __dirname + "/../..",
+    project: ["./tsconfig.eslint.json"]
   },
   env: {
     node: true,
