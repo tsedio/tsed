@@ -73,5 +73,23 @@
     "country": "France",
     "city": "Paris",
     "role": "Contributor"
+  },
+  {
+    "title": "Abenet Tamiru",
+    "job": "Developer",
+    "src": "https://avatars.githubusercontent.com/u/7523903?v=4",
+    "github": "abenerd",
+    "country": "",
+    "city": "NoWhere",
+    "role": "Contributor"
+  },
+  {
+    "title": "Abenet Tamiru",
+    "job": "Developer",
+    "src": "https://avatars.githubusercontent.com/u/20899975?v=4",
+    "github": "EinfachHans",
+    "country": "Germany",
+    "city": "Cologne",
+    "role": "Contributor"
   }
 ]
