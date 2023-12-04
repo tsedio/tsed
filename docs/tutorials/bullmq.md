@@ -99,6 +99,34 @@ class OtherExampleJob implements JobMethods {
 }
 ```
 
+## Defining a custom job id within a job
+
+The `JobMethods` interface has an optional method `jobId`, which when implemented instructs the dispatcher to use it when defining the id for the job.
+
+The method will accept the payload of the job and because it is defined within the job class will also have access to all injected services.
+
+```ts
+import {JobController, JobMethods} from "@tsed/bullmq";
+
+@JobController("example-with-custom-id")
+class ExampleJobWithCustomId implements JobMethods {
+  public handle(payload: {num: number}) {
+    console.info("look at my awesome number: ", payload.num);
+  }
+  
+  public jobId(payload: {num: number}): string {
+    return `very realistic job id #${payload.num}`;
+  }
+}
+```
+
+Keep in mind tho, that when defining a job using the dispatcher when dispatching the job, the id defined using the dispatcher will take precedence!
+
+```ts
+this.dispatcher(ExampleJobWithCustomId, { num: 1 }); // id: 'very realistic job id #1'
+this.dispatcher(ExampleJobWithCustomId, { num: 2 }, { jobId: 'I do my own thing!' }) // id: 'I do my own thing!'
+```
+
 ## Defining a repeating job
 
 Jobs that should be run regularly on a schedule can also easily defined using the `@JobController` decorator.

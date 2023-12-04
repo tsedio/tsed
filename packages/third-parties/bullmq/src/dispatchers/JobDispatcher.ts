@@ -14,10 +14,10 @@ export class JobDispatcher {
     payload?: Parameters<T["handle"]>[0],
     options?: JobsOptions
   ): Promise<BullMQJob>;
-  public async dispatch<T = any>(job: JobDispatcherOptions, payload?: T, options?: JobsOptions): Promise<BullMQJob>;
-  public async dispatch<T = any>(job: string, payload?: T, options?: JobsOptions): Promise<BullMQJob>;
-  public async dispatch(job: Type | JobDispatcherOptions | string, payload: any, options: JobsOptions = {}): Promise<BullMQJob> {
-    const {queueName, jobName, defaultJobOptions} = this.resolveDispatchArgs(job);
+  public async dispatch<P = unknown>(job: JobDispatcherOptions, payload?: P, options?: JobsOptions): Promise<BullMQJob>;
+  public async dispatch<P = unknown>(job: string, payload?: P, options?: JobsOptions): Promise<BullMQJob>;
+  public async dispatch(job: Type | JobDispatcherOptions | string, payload: unknown, options: JobsOptions = {}): Promise<BullMQJob> {
+    const {queueName, jobName, defaultJobOptions} = await this.resolveDispatchArgs(job, payload);
 
     const queue = this.injector.get<Queue>(`bullmq.queue.${queueName}`);
 
@@ -31,7 +31,7 @@ export class JobDispatcher {
     });
   }
 
-  private resolveDispatchArgs(job: Type | JobDispatcherOptions | string) {
+  private async resolveDispatchArgs(job: Type | JobDispatcherOptions | string, payload: unknown) {
     let queueName: string;
     let jobName: string;
     let defaultJobOptions: JobsOptions | undefined;
@@ -41,7 +41,7 @@ export class JobDispatcher {
       const store = Store.from(job).get<JobStore>("bullmq");
       queueName = store.queue;
       jobName = store.name;
-      defaultJobOptions = store.opts;
+      defaultJobOptions = await this.retrieveJobOptionsFromClassBasedJob(store, payload);
     } else if (typeof job === "object") {
       // job is passed as JobDispatcherOptions
       queueName = job.queue;
@@ -56,6 +56,23 @@ export class JobDispatcher {
       queueName,
       jobName,
       defaultJobOptions
+    };
+  }
+
+  private async retrieveJobOptionsFromClassBasedJob(store: JobStore, payload: unknown): Promise<JobsOptions> {
+    const job = this.injector.get<JobMethods>(`bullmq.job.${store.name}`);
+    if (!job) {
+      return store.opts;
+    }
+
+    const jobId = await job.jobId?.(payload);
+    if (jobId === undefined) {
+      return store.opts;
+    }
+
+    return {
+      ...store.opts,
+      jobId
     };
   }
 }
