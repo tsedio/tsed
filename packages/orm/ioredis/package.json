@@ -1,6 +1,6 @@
 {
   "name": "@tsed/ioredis",
-  "version": "7.51.0",
+  "version": "7.51.1",
   "description": "IO Redis connection for Ts.ED",
   "private": false,
   "source": "./src/index.ts",
@@ -25,8 +25,8 @@
     "tslib": "2.5.0"
   },
   "devDependencies": {
-    "@tsed/core": "7.51.0",
-    "@tsed/di": "7.51.0",
+    "@tsed/core": "7.51.1",
+    "@tsed/di": "7.51.1",
     "@tsed/eslint": "7.44.1",
     "@tsed/typescript": "7.44.1",
     "@types/ioredis-mock": "^5.6.0",
@@ -35,8 +35,8 @@
     "ioredis-mock": "8.2.2"
   },
   "peerDependencies": {
-    "@tsed/core": "^7.51.0",
-    "@tsed/di": "^7.51.0",
+    "@tsed/core": "^7.51.1",
+    "@tsed/di": "^7.51.1",
     "ioredis": ">=5.2.3",
     "ioredis-mock": ">=8.2.2"
   }
