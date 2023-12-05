@@ -60,7 +60,7 @@ export class JobDispatcher {
   }
 
   private async retrieveJobOptionsFromClassBasedJob(store: JobStore, payload: unknown): Promise<JobsOptions> {
-    const job = this.injector.get<JobMethods>(`bullmq.job.${store.name}`);
+    const job = this.injector.get<JobMethods>(`bullmq.job.${store.queue}.${store.name}`);
     if (!job) {
       return store.opts;
     }
