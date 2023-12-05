@@ -35,7 +35,7 @@ describe("JobDispatcher", () => {
     queue = mock(Queue);
     when(queue.name).thenReturn("default");
     when(injector.get("bullmq.queue.default")).thenReturn(instance(queue));
-    when(injector.get("bullmq.job.example-job")).thenReturn(new ExampleTestJob());
+    when(injector.get("bullmq.job.default.example-job")).thenReturn(new ExampleTestJob());
 
     dispatcher = new JobDispatcher(instance(injector));
   });
@@ -117,7 +117,7 @@ describe("JobDispatcher", () => {
     let job: ExampleJobWithCustomJobIdFromJobMethods;
     beforeEach(() => {
       job = new ExampleJobWithCustomJobIdFromJobMethods();
-      when(injector.get("bullmq.job.example-job-with-custom-id-from-job-methods")).thenReturn(job);
+      when(injector.get("bullmq.job.default.example-job-with-custom-id-from-job-methods")).thenReturn(job);
     });
 
     it("should allow setting the job id from within the job", async () => {
