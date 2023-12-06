@@ -36,6 +36,6 @@
     "@tsed/common": "^7.51.1",
     "@tsed/core": "^7.51.1",
     "@tsed/mongoose": "^7.51.1",
-    "mongoose": "^6.1.7"
+    "mongoose": ">=6.0.0"
   }
 }
