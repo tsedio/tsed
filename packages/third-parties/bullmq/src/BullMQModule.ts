@@ -101,13 +101,26 @@ export class BullMQModule implements BeforeInit {
     const $ctx = new DIContext({
       injector: this.injector,
       logger: this.injector.logger,
-      id: job.id || v4().split("-").join("")
+      id: job.id || v4().split("-").join(""),
+      additionalProps: {
+        logType: "bullmq",
+        name: job.name,
+        queue: job.queueName,
+        attempt: job.attemptsMade
+      }
     });
 
     $ctx.set("BULLMQ_JOB", job);
 
     try {
-      return await runInContext($ctx, () => jobService.handle(job.data, job));
+      return await runInContext($ctx, () => {
+        $ctx.logger.info("Processing job");
+        try {
+          return jobService.handle(job.data, job);
+        } finally {
+          $ctx.logger.info("Finished processing job");
+        }
+      });
     } catch (er) {
       $ctx.logger.error({
         event: "BULLMQ_JOB_ERROR",
