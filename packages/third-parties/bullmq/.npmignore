@@ -18,3 +18,4 @@ jest.config.js
 .gitignore
 .idea
 packages
+.tsbuildinfo
