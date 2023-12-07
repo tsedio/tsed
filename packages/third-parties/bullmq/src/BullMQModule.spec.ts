@@ -297,7 +297,8 @@ describe("BullMQModule", () => {
         const job = {
           name: "regular",
           queueName: "default",
-          data: {test: "test"}
+          data: {test: "test"},
+          attemptsMade: 1
         };
 
         jest.spyOn(PlatformTest.injector.logger, "error");
@@ -308,6 +309,10 @@ describe("BullMQModule", () => {
 
         expect(worker.handle).toHaveBeenCalledWith({test: "test"}, job);
         expect(PlatformTest.injector.logger.error).toHaveBeenCalledWith({
+          attempt: 1,
+          name: "regular",
+          queue: "default",
+          logType: "bullmq",
           duration: expect.any(Number),
           event: "BULLMQ_JOB_ERROR",
           message: "error",
