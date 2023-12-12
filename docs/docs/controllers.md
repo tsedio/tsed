@@ -105,6 +105,13 @@ See the following example:
 
 In order to avoid such side-effects, simply move `findAll()` method above `findOne()`.
 
+### Environment scoped controllers
+
+Sometimes you have controllers that you want to only serve locally for development purposes, for this you can specify the environments in which they should be run.
+These environments are then checked against the `NODE_ENV`
+
+<<< @/docs/snippets/controllers/development-only-controller.ts
+
 ## Request
 
 ### Decorators

@@ -8,7 +8,7 @@ class Test {}
 class Dep {}
 
 describe("@Controller", () => {
-  afterAll(() => {
+  afterEach(() => {
     GlobalProviders.delete(Test);
   });
   it("should register a controller with his path and Dependency", () => {
@@ -39,5 +39,40 @@ describe("@Controller", () => {
     expect(provider.scope).toEqual(ProviderScope.REQUEST);
     expect(provider.path).toEqual("/test");
     expect(provider.children).toEqual([Dep]);
+  });
+
+  describe("environments", () => {
+    it("should not register the controller on an invalid environment", () => {
+      Controller({
+        path: "/test",
+        environments: ["development"]
+      })(Test);
+
+      const provider = GlobalProviders.get(Test);
+
+      expect(provider).toBeUndefined();
+    });
+
+    it("should register the controller for the current environment", () => {
+      Controller({
+        path: "/test",
+        environments: [process.env.NODE_ENV]
+      })(Test);
+
+      const provider = GlobalProviders.get(Test);
+
+      expect(provider).not.toBeUndefined();
+    });
+
+    it("should register the controller when at least one environment matches", () => {
+      Controller({
+        path: "/test",
+        environments: ["development", process.env.NODE_ENV]
+      })(Test);
+
+      const provider = GlobalProviders.get(Test);
+
+      expect(provider).not.toBeUndefined();
+    });
   });
 });

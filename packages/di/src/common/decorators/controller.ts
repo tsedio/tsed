@@ -15,6 +15,7 @@ export interface ControllerOptions extends Partial<ProviderOpts<any>> {
   path?: PathType;
   children?: Type<any>[];
   middlewares?: Partial<ControllerMiddlewares>;
+  environments?: string[];
 }
 
 function mapOptions(options: any): ControllerOptions {
@@ -56,7 +57,13 @@ function mapOptions(options: any): ControllerOptions {
  * @classDecorator
  */
 export function Controller(options: PathType | ControllerOptions): ClassDecorator {
-  const {children = [], path, ...opts} = mapOptions(options);
+  const {children = [], path, environments = [process.env.NODE_ENV as string], ...opts} = mapOptions(options);
+
+  const controllerIsForCurrentEnvironment = environments.includes(process.env.NODE_ENV as string);
+
+  if (!controllerIsForCurrentEnvironment) {
+    return useDecorators();
+  }
 
   return useDecorators(
     (target: Type) => {
