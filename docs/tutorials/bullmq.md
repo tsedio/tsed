@@ -35,7 +35,7 @@ import "@tsed/bullmq"; // import bullmq ts.ed module
 
 @Configuration({
   bullmq: {
-    // Specify queue name's to create
+    // Specify queue's name to create
     queues: ["default", "special"],
     connection: {
       // redisio connection options
@@ -103,7 +103,7 @@ class OtherExampleJob implements JobMethods {
 
 The `JobMethods` interface has an optional method `jobId`, which when implemented instructs the dispatcher to use it when defining the id for the job.
 
-The method will accept the payload of the job and because it is defined within the job class will also have access to all injected services.
+The method will accept the job payload, and since it is defined within the job class, it will also have access to all injected services.
 
 ```ts
 import {JobController, JobMethods} from "@tsed/bullmq";
@@ -120,7 +120,7 @@ class ExampleJobWithCustomId implements JobMethods {
 }
 ```
 
-Keep in mind tho, that when defining a job using the dispatcher when dispatching the job, the id defined using the dispatcher will take precedence!
+Keep in mind, though, that when defining a job using the dispatcher and dispatching the job, the ID defined using the dispatcher will take precedence!
 
 ```ts
 this.dispatcher(ExampleJobWithCustomId, { num: 1 }); // id: 'very realistic job id #1'
@@ -129,7 +129,7 @@ this.dispatcher(ExampleJobWithCustomId, { num: 2 }, { jobId: 'I do my own thing!
 
 ## Defining a repeating job
 
-Jobs that should be run regularly on a schedule can also easily defined using the `@JobController` decorator.
+Jobs that should be run regularly on a schedule can also easily be defined using the `@JobController` decorator.
 Doing so will automatically dispatch it without any data.
 
 ```ts
@@ -147,7 +147,7 @@ class MyCronJob implements JobMethods {
 }
 ```
 
-To register the job you now have to import it in the server so they can be detected.
+To register the job, you now need to import it into the server so that it can be detected.
 
 ```ts
 import {Configuration} from "@tsed/common";
@@ -163,7 +163,7 @@ export class Server {}
 ## Defining a fallback job
 
 Because the `@JobController` requires a name, you can not use it in case you have dynamic job names.
-For this use case there is a `@FallbackJobController`, which allows you to define a fallback method globally or per queue:
+For this usecase there is a `@FallbackJobController`, which allows you to define a fallback method globally or per queue:
 
 ```ts
 import {FallbackJobController, JobMethods} from "@tsed/bullmq";
@@ -171,14 +171,14 @@ import {FallbackJobController, JobMethods} from "@tsed/bullmq";
 @FallbackJobController("foo")
 class FooFallbackController implements JobMethods {
   public handle() {
-    console.info(`I run for every job within the "foo" queue, which doesn't has it's own JobController`);
+    console.info(`I run for every job within the "foo" queue, which doesn't have its own JobController`);
   }
 }
 
 @FallbackJobController()
 class GlobalFallbackController implements JobMethods {
   public handle() {
-    console.info(`I run for every job in every other queue, which doesn't has it's own JobController`);
+    console.info(`I run for every job in every other queue, which doesn't have its own JobController`);
   }
 }
 ```
@@ -218,7 +218,7 @@ class MyService {
 ```
 
 In addition to statically defined job options when declaring the job, custom job options can also be set when dispatching the job.
-This allows to for example delay the job from when it has originally been dispatched.
+This allows, for example, the job to be delayed from its original dispatch time.
 
 ```ts
 import {Service} from "@tsed/di";
@@ -245,7 +245,7 @@ class MyService {
 
 In case you want to be more flexible, you can also dispatch a job via a name or a queue/name combination.
 
-**Note**: This normally only make sense when you have a [Fallback Job](#defining-a-fallback-job) configured.
+**Note**: This normally only makes sense when you have a [Fallback Job](#defining-a-fallback-job) configured.
 
 ```ts
 import {Service} from "@tsed/di";
