@@ -57,7 +57,7 @@
     "url": "git+https://github.com/tsedio/tsed.git"
   },
   "devDependencies": {
-    "@koa/cors": "3.3.0",
+    "@koa/cors": "5.0.0",
     "@tsed/common": "7.53.0",
     "@tsed/core": "7.53.0",
     "@tsed/di": "7.53.0",
