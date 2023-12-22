@@ -1,6 +1,5 @@
 import {Configuration, Inject, PlatformApplication} from "@tsed/common";
 import filedirname from "filedirname";
-import Path from "path";
 import "@tsed/platform-express";
 import "@tsed/agenda";
 import cookieParser from "cookie-parser";

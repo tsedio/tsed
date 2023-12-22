@@ -82,7 +82,7 @@ method name is used as job name.
 Use the `@Define` decorator on methods that you would like to schedule
 programmatically via the AgendaService and Agenda instance access.
 
-```typescript
+```ts
 import {Agenda, Every, Define} from "@tsed/agenda";
 import {Job} from "agenda";
 
@@ -111,6 +111,52 @@ export class EmailJobService {
 }
 ```
 
+## Define a job processor manually
+
+Since Ts.ED 7.53.0, AgendaModule exposes methods to manually define a job processor. It can be useful to define a job processor when you need to fetch data beforehand and dynamically build job name / options.
+
+```typescript
+import {Agenda, AgendaModule, Define} from "@tsed/agenda";
+
+@Agenda({namespace: "email"})
+export class EmailJobService {
+  @Inject()
+  agenda: AgendaModule;
+
+  @Inject()
+  httpClient: HttpClient;
+
+  cache: Map<string, Job[]> = new Map();
+
+  @Define({
+    name: "sendWelcomeEmail",
+    concurrency: 3
+    /*  ... and any option you would normally pass to agenda.define(...) */
+  })
+  async sendWelcomeEmail(job: Job) {
+    // implement something here
+    console.log(job.attrs.data.locale);
+  }
+
+  async $beforeAgendaStart() {
+    const locales = await this.httpClient.get("/locales");
+
+    this.cache.set(
+      "sendWelcomeEmail",
+      locales.map((locale) => {
+        return this.agenda.create("sendWelcomeEmail", {locale});
+      })
+    );
+  }
+
+  async $afterAgendaStart() {
+    const jobs = this.cache.get("sendWelcomeEmail");
+
+    await Promise.all(jobs.map((job) => job.repeatEvery("1 week").save()));
+  }
+}
+```
+
 ## Inject Agenda
 
 Inject the AgendaService instance to interact with it directly, e.g. to schedule
@@ -118,12 +164,12 @@ a job manually.
 
 ```typescript
 import {Service, AfterRoutesInit} from "@tsed/common";
-import {AgendaService} from "@tsed/agenda";
+import {AgendaModule} from "@tsed/agenda";
 
 @Service()
-export class UsersService implements AfterRoutesInit {
+export class UsersService {
   @Inject()
-  private agenda: AgendaService;
+  private agenda: AgendaModule;
 
   async create(user: User): Promise<User> {
     // do something
@@ -133,6 +179,49 @@ export class UsersService implements AfterRoutesInit {
     await this.agenda.schedule("in 2 hours", "email.sendFollowUpEmail", {user});
 
     return user;
+  }
+}
+```
+
+## Using Agendash
+
+[Agendash](https://github.com/agenda/agendash) provides a job overview dashboard that makes it easy to manage, create and
+schedule your jobs.
+
+::: tip Note
+This is an optional feature and is not required to use agenda.
+:::
+
+Install the additional dependency.
+
+```shell
+npm install --save agendash
+```
+
+Afterward create the module `agendash.module.ts` in src/modules so that the dashboard can be exposed using middleware.
+
+```typescript
+import {AfterRoutesInit, Inject, PlatformApplication} from "@tsed/common";
+import {Configuration, Module} from "@tsed/di";
+import {Agenda} from "agenda";
+
+const Agendash = require("agendash");
+
+@Module()
+export class AgendashModule implements AfterRoutesInit {
+  @Configuration()
+  config: Configuration;
+
+  @Inject()
+  agenda: Agenda;
+
+  @Inject()
+  app: PlatformApplication;
+
+  $afterRoutesInit() {
+    if (this.config.agenda?.enabled) {
+      this.app.use("/agendash", Agendash(this.agenda));
+    }
   }
 }
 ```
