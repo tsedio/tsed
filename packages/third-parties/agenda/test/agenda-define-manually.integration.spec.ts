@@ -1,18 +1,35 @@
 import {PlatformTest} from "@tsed/common";
+import {Inject} from "@tsed/di";
 import {TestMongooseContext} from "@tsed/testing-mongoose";
-import {Agenda, AgendaService, Define, Every} from "../src/index";
+import {Job} from "agenda";
+import {AgendaModule, Agenda, AgendaService, Define} from "../src/index";
 import {Server} from "./helpers/Server";
 
 @Agenda({namespace: "test-nsp"})
 class Test {
-  @Every("60 seconds")
-  test() {
-    // test
-  }
+  @Inject()
+  agenda: AgendaModule;
+
+  jobs: Job[];
 
   @Define({name: "customName"})
-  test2() {
+  test2(job: Job) {
     // test
+    expect(job.attrs.data.locale).toBeDefined();
+  }
+
+  $beforeAgendaStart() {
+    const locales = ["fr-FR", "en-US"];
+
+    this.jobs = locales.map((locale) => {
+      return this.agenda.create("customName", {
+        locale
+      });
+    });
+  }
+
+  $afterAgendaStart() {
+    return Promise.all(this.jobs.map((job) => job.repeatEvery("1 week").save()));
   }
 }
 
@@ -50,7 +67,7 @@ describe("Agenda integration", () => {
 
       const job1 = jobs.find((job: any) => job.attrs.name.includes("test-nsp.test"));
 
-      expect(job1?.attrs.repeatInterval).toEqual("60 seconds");
+      expect(job1?.attrs.repeatInterval).toEqual("1 week");
     });
 
     it("should schedule defined job and run it", async () => {
@@ -60,6 +77,7 @@ describe("Agenda integration", () => {
       const runnedJob = await agenda.jobs({_id: job.attrs._id});
       expect(runnedJob[0].attrs._id).toStrictEqual(job.attrs._id);
       expect(runnedJob[0].attrs.lastRunAt).toBeDefined();
+      expect(runnedJob[0].attrs.data.locale).toEqual("fr-FR");
     });
   });
 

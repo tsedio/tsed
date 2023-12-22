@@ -1,6 +1,6 @@
 import {PlatformTest} from "@tsed/common";
 import {TestMongooseContext} from "@tsed/testing-mongoose";
-import {Agenda, AgendaService, Every} from "@tsed/agenda";
+import {Agenda, AgendaService, Every} from "../src/index";
 import {Server} from "./helpers/Server";
 
 @Agenda()
