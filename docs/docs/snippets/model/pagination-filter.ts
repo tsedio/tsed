@@ -6,9 +6,15 @@ import {Pagination} from "../models/Pagination";
 class PaginationFilter implements ResponseFilterMethods {
   transform(data: unknown, ctx: PlatformContext): any {
     if (ctx.data instanceof Pagination) {
-      // get the unserialized data
-      if (ctx.data.isPaginated) {
+      // /!\ don't modify the ctx.data. at this step, the serializer has already been called.
+
+      if (ctx.data.totalCount > (ctx.data.pageable.page + 1) * ctx.data.pageable.size) {
         ctx.response.status(206);
+        data.links.next = `${ctx.request.url}?page=${ctx.data.pageable.page + 1}&size=${ctx.data.pageable.size}`;
+      }
+
+      if (ctx.data.pageable.page > 0) {
+        data.links.prev = `${ctx.request.url}?page=${ctx.data.pageable.page - 1}&size=${ctx.data.pageable.size}`;
       }
     }
 
