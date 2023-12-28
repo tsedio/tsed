@@ -11,6 +11,7 @@ jest.mock("agenda", () => {
     Agenda: class {
       close = jest.fn();
       stop = jest.fn();
+      drain = jest.fn();
       define = jest.fn();
       every = jest.fn();
       schedule = jest.fn();
@@ -131,11 +132,32 @@ describe("AgendaModule", () => {
 
         await agendaModule.$onDestroy();
 
+        expect(agendaModule.agenda.stop).toHaveBeenCalledWith();
         expect(agendaModule.agenda.close).toHaveBeenCalledWith({force: true});
       });
     });
   });
+  describe("when agenda is enabled and drainJobsBeforeClose = true", () => {
+    beforeEach(() =>
+      PlatformTest.create({
+        agenda: {
+          enabled: true,
+          drainJobsBeforeClose: true
+        }
+      })
+    );
+    afterEach(() => PlatformTest.reset());
+    describe("$onDestroy()", () => {
+      it("should close agenda", async () => {
+        const agendaModule = PlatformTest.get<any>(AgendaModule)!;
 
+        await agendaModule.$onDestroy();
+
+        expect(agendaModule.agenda.drain).toHaveBeenCalledWith();
+        expect(agendaModule.agenda.close).toHaveBeenCalledWith({force: true});
+      });
+    });
+  });
   describe("when agenda is enabled but disableJobProcessing = true", () => {
     beforeEach(() =>
       PlatformTest.create({

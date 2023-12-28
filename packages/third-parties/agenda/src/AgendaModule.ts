@@ -20,6 +20,9 @@ export class AgendaModule implements OnDestroy, AfterListen {
   @Constant("agenda.enabled", false)
   private enabled: boolean;
 
+  @Constant("agenda.drainJobsBeforeClose", false)
+  private drainJobsBeforeClose: boolean;
+
   @Constant("agenda.disableJobProcessing", false)
   private disableJobProcessing: boolean;
 
@@ -28,7 +31,10 @@ export class AgendaModule implements OnDestroy, AfterListen {
       const providers = this.getProviders();
 
       if (!this.disableJobProcessing) {
-        this.logger.info("Agenda add definitions...");
+        this.logger.info({
+          event: "AGENDA_ADD_DEFINITIONS",
+          message: "Agenda add definitions"
+        });
         providers.forEach((provider) => this.addAgendaDefinitionsForProvider(provider));
 
         await this.injector.emit("$beforeAgendaStart");
@@ -37,22 +43,36 @@ export class AgendaModule implements OnDestroy, AfterListen {
       await this.agenda.start();
 
       if (!this.disableJobProcessing) {
-        this.logger.info("Agenda add scheduled jobs...");
+        this.logger.info({
+          event: "AGENDA_ADD_JOBS",
+          message: "Agenda add scheduled jobs"
+        });
         await Promise.all(providers.map((provider) => this.scheduleJobsForProvider(provider)));
 
         await this.injector.emit("$afterAgendaStart");
       }
-    } else {
-      this.logger.info("Agenda disabled...");
     }
   }
 
   async $onDestroy(): Promise<any> {
     if (this.enabled) {
-      await this.agenda.stop();
+      if (this.drainJobsBeforeClose) {
+        this.logger.info({
+          event: "AGENDA_DRAIN",
+          message: "Agenda is draining all jobs before close"
+        });
+        await this.agenda.drain();
+      } else {
+        this.logger.info({
+          event: "AGENDA_STOP",
+          message: "Agenda is stopping"
+        });
+        await this.agenda.stop();
+      }
+
       await this.agenda.close({force: true});
 
-      this.logger.info("Agenda stopped...");
+      this.logger.info({event: "AGENDA_STOP", message: "Agenda stopped"});
     }
   }
 

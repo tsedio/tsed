@@ -9,6 +9,7 @@ declare global {
          */
         enabled?: boolean;
         disableJobProcessing?: boolean;
+        drainJobsBeforeClose?: boolean;
       } & AgendaConfig;
     }
   }
