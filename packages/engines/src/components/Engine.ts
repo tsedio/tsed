@@ -1,3 +1,4 @@
+import {Type} from "@tsed/core";
 import {cache, getCachedEngine, importEngine, read, readPartials} from "../utils/cache";
 
 export interface ViewEngineOptions {
