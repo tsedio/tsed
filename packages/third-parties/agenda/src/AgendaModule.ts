@@ -56,7 +56,7 @@ export class AgendaModule implements OnDestroy, AfterListen {
 
   async $onDestroy(): Promise<any> {
     if (this.enabled) {
-      if (this.drainJobsBeforeClose) {
+      if (this.drainJobsBeforeClose && "drain" in this.agenda) {
         this.logger.info({
           event: "AGENDA_DRAIN",
           message: "Agenda is draining all jobs before close"
@@ -120,7 +120,7 @@ export class AgendaModule implements OnDestroy, AfterListen {
     Object.entries(store.define).forEach(([propertyKey, {name, ...options}]) => {
       const instance = this.injector.get(provider.token);
 
-      const jobProcessor: Processor = instance[propertyKey].bind(instance) as Processor;
+      const jobProcessor: Processor<unknown> = instance[propertyKey].bind(instance) as Processor<unknown>;
       const jobName = this.getNameForJob(propertyKey, store.namespace, name);
 
       this.define(jobName, options, jobProcessor);
