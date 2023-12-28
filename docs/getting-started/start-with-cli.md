@@ -69,8 +69,8 @@ You can select different options to generate your first application:
   - OIDC,
   - Testing (Jest/Mocha),
   - Linter (Eslint, prettier),
-  - Bundler (Babel/Webpack),
-- The Package manager: NPM, Yarn or PNPM
+- The runtime: Node.js, Node.js + Babel, Node.js + Webpack, Node.js + SWC, Bun
+- The Package manager: NPM, Yarn, PNPM, Bun
 
 ::: tip
 By default, it's recommended to select the following options: Express, Ts.ED (convention), Swagger, Jest and Eslint + prettier.

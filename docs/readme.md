@@ -79,6 +79,12 @@ sponsors:
           src: /partners/schnell.svg
 showContent: false
 frameworks:
+  - title: Node.js
+    href: https://nodejs.org/
+    src: /nodejs.png
+  - title: Bun
+    href: https://bun.sh/
+    src: /bun.png
   - title: TypeScript
     href: https://www.typescriptlang.org/
     src: /typescript.png
@@ -100,6 +106,9 @@ frameworks:
   - title: Webpack
     href: https://webpack.js.org/
     src: /webpack.svg
+  - title: SWC
+    href: https://swc.rs/
+    src: /swc.png
   - title: AJV
     href: /tutorials/ajv.html
     src: https://ajv.js.org/img/ajv.svg
@@ -133,7 +142,7 @@ frameworks:
   - title: Nexus
     href: /tutorials/graphql-nexus.html
     src: /nexus.png
-  - title: Nexus
+  - title: GraphQL WS
     href: /tutorials/graphql-ws.html
     src: /graphql-ws.png
   - title: Socket.io

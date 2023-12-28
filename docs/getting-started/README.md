@@ -65,6 +65,22 @@ all the right tools to developers so that they are quickly productive.
 Ts.ED tends towards the same objective which is to achieve better productivity while remaining easy to understand.
 To achieve this, Ts.ED provides out-of-the-box an application architecture, highly testable, scalable and maintainable.
 
+## Runtime support
+
+Here are the runtime support provided by Ts.ED:
+
+<div class="table-features">
+
+| Runtime           |                                                       |
+| ----------------- | ----------------------------------------------------- |
+| Node.js           | <img src="../assets/valid.svg" width="15" alt="yes"/> |
+| Node.js + Babel   | <img src="../assets/valid.svg" width="15" alt="yes"/> |
+| Node.js + Webpack | <img src="../assets/valid.svg" width="15" alt="yes"/> |
+| Node.js + SWC     | <img src="../assets/valid.svg" width="15" alt="yes"/> |
+| Bun.js            | <img src="../assets/valid.svg" width="15" alt="yes"/> |
+
+</div>
+
 ## Platform features support
 
 Here are the features list provided by Ts.ED and the compatibility with the different platforms:
@@ -79,8 +95,8 @@ Here are the features list provided by Ts.ED and the compatibility with the diff
 | [JsonMapper](/docs/json-mapper.md)                                                                                                                                                                  | <img src="../assets/valid.svg" width="15" alt="yes"/> | <img src="../assets/valid.svg" width="15" alt="yes"/> | <img src="../assets/valid.svg" width="15" alt="yes"/>  | <img src="../assets/valid.svg" width="15" alt="yes"/>  |
 | [Middlewares](/docs/middlewares.md)                                                                                                                                                                 | <img src="../assets/valid.svg" width="15" alt="yes"/> | <img src="../assets/valid.svg" width="15" alt="yes"/> | <img src="../assets/invalid.svg" width="15" alt="no"/> | <img src="../assets/invalid.svg" width="15" alt="no"/> |
 | [Pipes](/docs/pipes.md)                                                                                                                                                                             | <img src="../assets/valid.svg" width="15" alt="yes"/> | <img src="../assets/valid.svg" width="15" alt="yes"/> | <img src="../assets/valid.svg" width="15" alt="yes"/>  | <img src="../assets/invalid.svg" width="15" alt="no"/> |
-| [Interceptors](/docs/interceptors.md)                                                                                                                                                                  | <img src="../assets/valid.svg" width="15" alt="yes"/> | <img src="../assets/valid.svg" width="15" alt="yes"/> | <img src="../assets/valid.svg" width="15" alt="yes"/>  | <img src="../assets/valid.svg" width="15" alt="yes"/>  |
-| [Authentication](/docs/authentication.md)                                                                                                                                                         | <img src="../assets/valid.svg" width="15" alt="yes"/> | <img src="../assets/valid.svg" width="15" alt="yes"/> | <img src="../assets/invalid.svg" width="15" alt="no"/> | <img src="../assets/invalid.svg" width="15" alt="no"/> |
+| [Interceptors](/docs/interceptors.md)                                                                                                                                                               | <img src="../assets/valid.svg" width="15" alt="yes"/> | <img src="../assets/valid.svg" width="15" alt="yes"/> | <img src="../assets/valid.svg" width="15" alt="yes"/>  | <img src="../assets/valid.svg" width="15" alt="yes"/>  |
+| [Authentication](/docs/authentication.md)                                                                                                                                                           | <img src="../assets/valid.svg" width="15" alt="yes"/> | <img src="../assets/valid.svg" width="15" alt="yes"/> | <img src="../assets/invalid.svg" width="15" alt="no"/> | <img src="../assets/invalid.svg" width="15" alt="no"/> |
 | [Hooks](/docs/hooks.md)                                                                                                                                                                             | <img src="../assets/valid.svg" width="15" alt="yes"/> | <img src="../assets/valid.svg" width="15" alt="yes"/> | <img src="../assets/valid.svg" width="15" alt="yes"/>  | <img src="../assets/valid.svg" width="15" alt="yes"/>  |
 | [Exceptions](/docs/exceptions.md)                                                                                                                                                                   | <img src="../assets/valid.svg" width="15" alt="yes"/> | <img src="../assets/valid.svg" width="15" alt="yes"/> | <img src="../assets/valid.svg" width="15" alt="yes"/>  | <img src="../assets/invalid.svg" width="15" alt="no"/> |
 | [Logger](/docs/logger.md)                                                                                                                                                                           | <img src="../assets/valid.svg" width="15" alt="yes"/> | <img src="../assets/valid.svg" width="15" alt="yes"/> | <img src="../assets/valid.svg" width="15" alt="yes"/>  | <img src="../assets/valid.svg" width="15" alt="yes"/>  |
@@ -142,8 +158,8 @@ By using the CLI, you will be able to choose between different options to genera
   - OIDC,
   - Testing (Jest/Mocha),
   - Linter (Eslint, prettier),
-  - Bundler (Babel/Webpack),
-- The Package manager: NPM, Yarn or PNPM
+- The runtime: Node.js, Node.js + Babel, Node.js + Webpack, Node.js + SWC, Bun
+- The Package manager: NPM, Yarn, PNPM, Bun
 
 ::: tip
 By default, it's recommended to select the following options: Express, Ts.ED (convention), Swagger, Jest and Eslint + prettier.
@@ -173,12 +189,12 @@ To prevent errors, fix the version for each Ts.ED packages:
 ```json
 {
   "dependencies": {
-    "@tsed/common": "6.10.0",
-    "@tsed/di": "6.10.0",
-    "@tsed/core": "6.10.0",
-    "@tsed/exceptions": "6.10.0",
-    "@tsed/plaftorm-express": "6.10.0",
-    "@tsed/swagger": "6.10.0"
+    "@tsed/common": "7.53.0",
+    "@tsed/di": "7.53.0",
+    "@tsed/core": "7.53.0",
+    "@tsed/exceptions": "7.53.0",
+    "@tsed/plaftorm-express": "7.53.0",
+    "@tsed/swagger": "7.53.0"
   }
 }
 ```
