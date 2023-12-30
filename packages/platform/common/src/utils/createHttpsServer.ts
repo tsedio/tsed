@@ -1,30 +1,16 @@
-import {InjectorService, ProviderScope} from "@tsed/di";
-import {getHostInfoFromPort} from "@tsed/core";
-import Https from "https";
+import {InjectorService} from "@tsed/di";
 import Http from "http";
-import {listenServer} from "./listenServer";
+import Https from "https";
+import {createServer} from "./createServer";
 
 export function createHttpsServer(injector: InjectorService, requestListener?: Http.RequestListener) {
   const {settings} = injector;
-  const httpsPort = settings.get("httpsPort");
   const httpsOptions = settings.get("httpsOptions");
 
-  const server = httpsPort !== false ? Https.createServer(httpsOptions, requestListener) : null;
-
-  injector.addProvider(Https.Server, {
-    scope: ProviderScope.SINGLETON,
-    useValue: server
+  return createServer(injector, {
+    type: "https",
+    token: Https.Server,
+    port: settings.get("httpsPort"),
+    server: () => Https.createServer(httpsOptions, requestListener)
   });
-
-  injector.invoke(Https.Server);
-
-  if (server) {
-    const hostInfo = getHostInfoFromPort("https", httpsPort);
-
-    return async () => {
-      const resolvedHostInfo = await listenServer(injector, server as Https.Server, hostInfo);
-      settings.set("httpsPort", `${resolvedHostInfo.address}:${resolvedHostInfo.port}`);
-      return server;
-    };
-  }
 }

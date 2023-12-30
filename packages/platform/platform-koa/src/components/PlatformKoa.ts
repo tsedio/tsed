@@ -1,9 +1,7 @@
 import KoaRouter from "@koa/router";
 import {
   createContext,
-  InjectorService,
   PlatformAdapter,
-  PlatformApplication,
   PlatformBuilder,
   PlatformHandler,
   PlatformMulter,
@@ -56,7 +54,7 @@ KoaRouter.prototype.match = function match(...args: any[]) {
  * @koa
  */
 @PlatformProvider()
-export class PlatformKoa implements PlatformAdapter<Koa> {
+export class PlatformKoa extends PlatformAdapter<Koa> {
   static readonly NAME = "koa";
 
   readonly providers = [
@@ -73,8 +71,6 @@ export class PlatformKoa implements PlatformAdapter<Koa> {
       useClass: PlatformKoaHandler
     }
   ];
-
-  constructor(private injector: InjectorService) {}
 
   /**
    * Create new serverless application. In this mode, the component scan are disabled.
@@ -101,14 +97,12 @@ export class PlatformKoa implements PlatformAdapter<Koa> {
   }
 
   onInit() {
-    const app = this.getPlatformApplication();
-
-    app.getApp().silent = true;
+    this.app.getApp().silent = true;
   }
 
   mapLayers(layers: PlatformLayer[]) {
     const {settings} = this.injector;
-    const app = this.getPlatformApplication();
+    const {app} = this;
     const options = settings.get("koa.router", {});
     const rawRouter = new KoaRouter(options) as any;
 
@@ -140,7 +134,7 @@ export class PlatformKoa implements PlatformAdapter<Koa> {
   }
 
   useContext(): this {
-    const app = this.getPlatformApplication();
+    const {app} = this;
     const invoke = createContext(this.injector);
     const platformExceptions = this.injector.get<PlatformExceptions>(PlatformExceptions);
 
@@ -173,7 +167,7 @@ export class PlatformKoa implements PlatformAdapter<Koa> {
     return this;
   }
 
-  app() {
+  createApp() {
     const app = this.injector.settings.get("koa.app") || new Koa();
     koaQs(app, "extended");
 
@@ -205,9 +199,5 @@ export class PlatformKoa implements PlatformAdapter<Koa> {
     }
 
     return parser({...options, ...additionalOptions});
-  }
-
-  private getPlatformApplication() {
-    return this.injector.get<PlatformApplication<Koa>>(PlatformApplication)!;
   }
 }

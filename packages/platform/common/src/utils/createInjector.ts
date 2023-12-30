@@ -39,6 +39,7 @@ export function createInjector({adapter, settings = {}}: CreateInjectorOptions) 
   }
 
   injector.invoke(PlatformAdapter);
+  injector.alias(PlatformAdapter, "PlatformAdapter");
 
   setLoggerConfiguration(injector);
 

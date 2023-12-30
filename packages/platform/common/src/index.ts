@@ -52,6 +52,7 @@ export * from "./utils/createContext";
 export * from "./utils/createHttpServer";
 export * from "./utils/createHttpsServer";
 export * from "./utils/createInjector";
+export * from "./utils/createServer";
 export * from "./utils/ensureContext";
 export * from "./utils/getStaticsOptions";
 export * from "./utils/listenServer";

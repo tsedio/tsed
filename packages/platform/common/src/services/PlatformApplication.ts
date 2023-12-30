@@ -17,7 +17,8 @@ declare global {
  * @platform
  */
 @Injectable({
-  scope: ProviderScope.SINGLETON
+  scope: ProviderScope.SINGLETON,
+  alias: "PlatformApplication"
 })
 export class PlatformApplication<App = TsED.Application> extends PlatformRouter {
   rawApp: App;
@@ -25,7 +26,7 @@ export class PlatformApplication<App = TsED.Application> extends PlatformRouter 
 
   constructor(public adapter: PlatformAdapter<App>, public injector: InjectorService) {
     super(injector);
-    const {app, callback} = adapter.app();
+    const {app, callback} = adapter.createApp();
 
     this.rawApp = app;
     this.rawCallback = callback;
