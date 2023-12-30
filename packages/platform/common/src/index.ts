@@ -48,6 +48,7 @@ export * from "./services/PlatformMiddlewaresChain";
 export * from "./services/PlatformRequest";
 export * from "./services/PlatformResponse";
 export * from "./services/PlatformTest";
+export * from "./utils/closeServer";
 export * from "./utils/createContext";
 export * from "./utils/createHttpServer";
 export * from "./utils/createHttpsServer";
