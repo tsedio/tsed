@@ -13,6 +13,7 @@ export class Provider<T = any> implements ProviderOpts<T> {
   public type: TokenProvider | ProviderType = ProviderType.PROVIDER;
   public deps: TokenProvider[];
   public imports: any[];
+  public alias?: string;
   public useFactory: Function;
   public useAsyncFactory: Function;
   public useValue: any;

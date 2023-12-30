@@ -74,6 +74,7 @@ describe("InjectorService", () => {
         const provider = new Provider<any>(token);
         provider.scope = ProviderScope.SINGLETON;
         provider.deps = [InjectorService];
+        provider.alias = "alias";
 
         const injector = new InjectorService();
         const container = new Container();
@@ -95,6 +96,7 @@ describe("InjectorService", () => {
         // THEN
         expect(result1 !== result2).toEqual(true);
         expect(injector.getProvider).toBeCalledWith(token);
+        expect(injector.get("alias")).toBeInstanceOf(token);
 
         expect((injector as any).resolve).toBeCalledWith(token, locals, {rebuild: true});
         expect((injector as any).invoke).toBeCalledWith(InjectorService, locals, {

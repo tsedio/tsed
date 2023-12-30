@@ -10,6 +10,10 @@ export interface ProviderOpts<T = any> {
    */
   provide: TokenProvider;
   /**
+   * Create alias token to retrieve the instance provider.
+   */
+  alias?: TokenProvider;
+  /**
    * Provider type
    */
   type?: TokenProvider | ProviderType;
