@@ -155,6 +155,12 @@ export class InjectorService extends Container {
     return this.#cache.get(token) !== undefined;
   }
 
+  alias(token: TokenProvider, alias: TokenProvider) {
+    this.#cache.set(alias, this.#cache.get(token));
+
+    return this;
+  }
+
   /**
    * Invoke the class and inject all services that required by the class constructor.
    *
@@ -199,11 +205,16 @@ export class InjectorService extends Container {
 
     const provider = this.ensureProvider(token);
 
+    const set = (instance: any) => {
+      this.#cache.set(token, instance);
+      provider?.alias && this.alias(token, provider.alias);
+    };
+
     if (!provider || options.rebuild) {
       instance = this.resolve(token, locals, options);
 
       if (this.hasProvider(token)) {
-        this.#cache.set(token, instance);
+        set(instance);
       }
 
       return instance;
@@ -218,15 +229,15 @@ export class InjectorService extends Container {
         }
 
         if (!provider.isAsync() || !isPromise(instance)) {
-          this.#cache.set(token, instance);
+          set(instance);
           return instance;
         }
 
         // store promise to lock token in cache
-        this.#cache.set(token, instance);
+        set(instance);
 
         instance = instance.then((instance: any) => {
-          this.#cache.set(token, instance);
+          set(instance);
 
           return instance;
         });
