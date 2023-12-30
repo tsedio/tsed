@@ -2,7 +2,9 @@ import {isClass, isFunction, isString, nameOf, Type} from "@tsed/core";
 import {colors, InjectorService, ProviderOpts, setLoggerConfiguration, TokenProvider} from "@tsed/di";
 import {getMiddlewaresForHook, PlatformMiddlewareLoadingOptions} from "@tsed/platform-middlewares";
 import {PlatformLayer} from "@tsed/platform-router";
-import type {IncomingMessage, Server, ServerResponse} from "http";
+import type {IncomingMessage, ServerResponse} from "http";
+import Http from "http";
+import Http2 from "http2";
 import type Https from "https";
 import {PlatformStaticsSettings} from "../config/interfaces/PlatformStaticsSettings";
 import {PlatformRouteDetails} from "../domain/PlatformRouteDetails";
@@ -10,9 +12,9 @@ import {Route} from "../interfaces/Route";
 import {Platform} from "../services/Platform";
 import {PlatformAdapter, PlatformBuilderSettings} from "../services/PlatformAdapter";
 import {PlatformApplication} from "../services/PlatformApplication";
-import {createHttpServer} from "../utils/createHttpServer";
-import {createHttpsServer} from "../utils/createHttpsServer";
+import {closeServer} from "../utils/closeServer";
 import {createInjector} from "../utils/createInjector";
+import {CreateServerReturn} from "../utils/createServer";
 import {getConfiguration} from "../utils/getConfiguration";
 import {getStaticsOptions} from "../utils/getStaticsOptions";
 import {printRoutes} from "../utils/printRoutes";
@@ -30,8 +32,8 @@ export class PlatformBuilder<App = TsED.Application> {
   readonly #rootModule: Type<any>;
   readonly #adapter: PlatformAdapter<App>;
   #promise: Promise<this>;
-  #servers: (() => Promise<Server | Https.Server>)[];
-  #listeners: (Server | Https.Server)[] = [];
+  #servers: CreateServerReturn[];
+  #listeners: (Http.Server | Https.Server | Http2.Http2Server)[] = [];
 
   protected constructor(adapter: Type<PlatformAdapter<App>> | undefined, module: Type, settings: Partial<TsED.Configuration>) {
     this.#rootModule = module;
@@ -51,7 +53,7 @@ export class PlatformBuilder<App = TsED.Application> {
 
     this.createHttpServers();
 
-    this.#adapter.onInit && this.#adapter.onInit();
+    this.#adapter.onInit();
 
     this.log("Injector created...");
   }
@@ -131,12 +133,8 @@ export class PlatformBuilder<App = TsED.Application> {
 
   callback(): (req: IncomingMessage, res: ServerResponse) => void;
   callback(req: IncomingMessage, res: ServerResponse): void;
-  callback(req?: IncomingMessage, res?: ServerResponse) {
-    if (req && res) {
-      return this.callback()(req, res);
-    }
-
-    return this.app.callback();
+  callback(...args: [IncomingMessage?, ServerResponse?]) {
+    return (this.adapter.app.callback as any)(...args);
   }
 
   log(...data: any[]) {
@@ -224,9 +222,7 @@ export class PlatformBuilder<App = TsED.Application> {
     await this.callHook("$onDestroy");
     await this.injector.destroy();
 
-    this.#listeners.map((server) => {
-      return new Promise((resolve) => server.close(() => resolve(undefined)));
-    });
+    this.#listeners.map(closeServer);
   }
 
   public async ready() {
@@ -275,7 +271,7 @@ export class PlatformBuilder<App = TsED.Application> {
   }
 
   protected async loadRoutes() {
-    this.#adapter.beforeLoadRoutes && (await this.#adapter.beforeLoadRoutes());
+    await this.#adapter.beforeLoadRoutes();
 
     // istanbul ignore next
     if (this.settings.get("logger.level") !== "off") {
@@ -303,7 +299,7 @@ export class PlatformBuilder<App = TsED.Application> {
 
     await this.callHook("$afterRoutesInit");
 
-    this.#adapter.afterLoadRoutes && (await this.#adapter.afterLoadRoutes());
+    await this.#adapter.afterLoadRoutes();
 
     await this.mapRouters();
   }
@@ -342,9 +338,7 @@ export class PlatformBuilder<App = TsED.Application> {
   }
 
   protected createHttpServers() {
-    this.#servers = [createHttpServer(this.#injector, this.callback()), createHttpsServer(this.#injector, this.callback())].filter(
-      Boolean
-    ) as any[];
+    this.#servers = this.#adapter.getServers();
   }
 
   protected async listenServers(): Promise<void> {

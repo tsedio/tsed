@@ -1,10 +1,14 @@
 import {Type} from "@tsed/core";
 import {InjectorService, ProviderOpts, registerProvider} from "@tsed/di";
-import {PlatformHandlerMetadata, PlatformLayer} from "@tsed/platform-router";
+import {PlatformContextHandler, PlatformHandlerMetadata, PlatformLayer} from "@tsed/platform-router";
 import {IncomingMessage, ServerResponse} from "http";
 import {PlatformMulter, PlatformMulterSettings} from "../config/interfaces/PlatformMulterSettings";
 import {PlatformStaticsOptions} from "../config/interfaces/PlatformStaticsSettings";
-import {FakeAdapter} from "./FakeAdapter";
+import {PlatformContext} from "../domain/PlatformContext";
+import {createHttpServer} from "../utils/createHttpServer";
+import {createHttpsServer} from "../utils/createHttpsServer";
+import {CreateServerReturn} from "../utils/createServer";
+import type {PlatformApplication} from "./PlatformApplication";
 
 export abstract class PlatformAdapter<App = TsED.Application> {
   static readonly NAME: string;
@@ -12,29 +16,51 @@ export abstract class PlatformAdapter<App = TsED.Application> {
    * Load providers in top priority
    */
   providers: ProviderOpts[];
+
+  constructor(protected injector: InjectorService) {}
+
+  get app(): PlatformApplication<App> {
+    return this.injector.get<PlatformApplication<App>>("PlatformApplication")!;
+  }
+
   /**
    * Called after the injector instantiation
    */
-  onInit?: () => any;
-  beforeLoadRoutes?: () => Promise<any>;
-  afterLoadRoutes?: () => Promise<any>;
+  onInit(): any {}
+
+  beforeLoadRoutes(): Promise<any> {
+    return Promise.resolve();
+  }
+
+  afterLoadRoutes(): Promise<any> {
+    return Promise.resolve();
+  }
+
   /**
    * create initial context
    */
-  abstract useContext: () => any;
+  abstract useContext(): any;
+
   /**
    * Map router layer to the targeted framework
    */
-  abstract mapLayers: (layer: PlatformLayer[]) => void;
+  abstract mapLayers(layer: PlatformLayer[]): void;
+
   /**
    * Map handler to the targeted framework
    */
-  abstract mapHandler: (handler: Function, layer: PlatformHandlerMetadata) => Function;
+  abstract mapHandler(handler: Function, layer: PlatformHandlerMetadata): Function;
+
+  getServers(): CreateServerReturn[] {
+    return [createHttpServer(this.injector, this.app.callback()), createHttpsServer(this.injector, this.app.callback())].filter(
+      Boolean
+    ) as any[];
+  }
 
   /**
    * Return the app instance
    */
-  abstract app(): {app: App; callback(): (req: IncomingMessage, res: ServerResponse) => void};
+  abstract createApp(): {app: App; callback(): (req: IncomingMessage, res: ServerResponse) => void};
 
   /**
    * Return the statics middlewares
@@ -59,6 +85,62 @@ export abstract class PlatformAdapter<App = TsED.Application> {
 
 export interface PlatformBuilderSettings<App = TsED.Application> extends Partial<TsED.Configuration> {
   adapter?: Type<PlatformAdapter<App>>;
+}
+
+export class FakeAdapter extends PlatformAdapter<any> {
+  providers: ProviderOpts[] = [];
+
+  static createFakeRawDriver() {
+    // istanbul ignore next
+    function FakeRawDriver() {}
+
+    // istanbul ignore next
+    function use() {
+      return this;
+    }
+
+    FakeRawDriver.use = use;
+    FakeRawDriver.all = use;
+    FakeRawDriver.get = use;
+    FakeRawDriver.patch = use;
+    FakeRawDriver.post = use;
+    FakeRawDriver.put = use;
+    FakeRawDriver.head = use;
+    FakeRawDriver.delete = use;
+    FakeRawDriver.options = use;
+
+    return FakeRawDriver;
+  }
+
+  createApp(): {app: any; callback(): any} {
+    const app = FakeAdapter.createFakeRawDriver();
+    return {
+      app,
+      callback() {
+        return app;
+      }
+    };
+  }
+
+  multipart(options: PlatformMulterSettings): PlatformMulter {
+    return {} as any;
+  }
+
+  statics(endpoint: string, options: PlatformStaticsOptions): any {
+    return {};
+  }
+
+  bodyParser(type: string): any {
+    return () => {};
+  }
+
+  mapLayers(layers: PlatformLayer[]) {}
+
+  mapHandler(handler: PlatformContextHandler<PlatformContext>) {
+    return handler;
+  }
+
+  useContext() {}
 }
 
 registerProvider({

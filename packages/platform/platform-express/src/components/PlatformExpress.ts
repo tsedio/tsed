@@ -1,15 +1,14 @@
 import {
   createContext,
   InjectorService,
-  PlatformProvider,
   PlatformAdapter,
-  PlatformApplication,
   PlatformBuilder,
   PlatformContext,
   PlatformExceptions,
   PlatformHandlerType,
   PlatformMulter,
   PlatformMulterSettings,
+  PlatformProvider,
   PlatformStaticsOptions,
   runInContext
 } from "@tsed/common";
@@ -51,13 +50,15 @@ declare global {
  * @express
  */
 @PlatformProvider()
-export class PlatformExpress implements PlatformAdapter<Express.Application> {
+export class PlatformExpress extends PlatformAdapter<Express.Application> {
   static readonly NAME = "express";
 
   readonly providers = [];
   #multer: typeof multer;
 
-  constructor(protected injector: InjectorService) {
+  constructor(injector: InjectorService) {
+    super(injector);
+
     import("multer").then(({default: multer}) => (this.#multer = multer));
   }
 
@@ -87,7 +88,7 @@ export class PlatformExpress implements PlatformAdapter<Express.Application> {
 
   async beforeLoadRoutes() {
     const injector = this.injector;
-    const app = this.injector.get<PlatformApplication<Express.Application>>(PlatformApplication)!;
+    const {app} = this;
 
     // disable x-powered-by header
     injector.settings.get("env") === Env.PROD && app.getApp().disable("x-powered-by");
@@ -96,7 +97,7 @@ export class PlatformExpress implements PlatformAdapter<Express.Application> {
   }
 
   afterLoadRoutes() {
-    const app = this.injector.get<PlatformApplication<Express.Application>>(PlatformApplication)!;
+    const {app} = this;
     const platformExceptions = this.injector.get<PlatformExceptions>(PlatformExceptions)!;
 
     // NOT FOUND
@@ -115,8 +116,7 @@ export class PlatformExpress implements PlatformAdapter<Express.Application> {
   }
 
   mapLayers(layers: PlatformLayer[]) {
-    const app = this.getPlatformApplication();
-    const rawApp: any = app.getApp();
+    const rawApp: any = this.app.getApp();
 
     layers.forEach((layer) => {
       switch (layer.method) {
@@ -156,7 +156,7 @@ export class PlatformExpress implements PlatformAdapter<Express.Application> {
   }
 
   useContext(): this {
-    const app = this.getPlatformApplication();
+    const {app} = this;
     const invoke = createContext(this.injector);
 
     this.injector.logger.debug("Mount app context");
@@ -173,7 +173,7 @@ export class PlatformExpress implements PlatformAdapter<Express.Application> {
     return this;
   }
 
-  app() {
+  createApp() {
     const app = this.injector.settings.get("express.app") || Express();
 
     return {
@@ -240,13 +240,9 @@ export class PlatformExpress implements PlatformAdapter<Express.Application> {
     return parser({...options, ...additionalOptions});
   }
 
-  private getPlatformApplication() {
-    return this.injector.get<PlatformApplication<Express.Application>>(PlatformApplication)!;
-  }
-
   private async configureViewsEngine() {
     const injector = this.injector;
-    const app = this.injector.get<PlatformApplication<Express.Application>>(PlatformApplication)!;
+    const {app} = this;
 
     try {
       const {exists, disabled} = this.injector.settings.get("views") || {};

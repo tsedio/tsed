@@ -22,10 +22,6 @@ class PlatformCustom extends FakeAdapter {
     }
   ];
 
-  constructor(private platform: PlatformBuilder) {
-    super();
-  }
-
   static create(module: Type<any>, settings: Partial<TsED.Configuration> = {}) {
     return PlatformBuilder.create<any>(module, {
       ...settings,
@@ -310,7 +306,7 @@ describe("PlatformBuilder", () => {
       jest.spyOn(ServerModule.prototype, "$beforeInit").mockReturnValue(undefined);
       jest.spyOn(ServerModule.prototype, "$beforeListen").mockReturnValue(undefined);
       jest.spyOn(ServerModule.prototype, "$onReady").mockReturnValue(undefined);
-      jest.spyOn(PlatformBuilder.prototype, "loadStatics").mockResolvedValue(undefined);
+      jest.spyOn(PlatformBuilder.prototype, "loadStatics").mockResolvedValue(undefined as never);
       // @ts-ignore
       jest.spyOn(PlatformBuilder.prototype, "listenServers");
       jest.spyOn(InjectorService.prototype, "emit").mockResolvedValue(undefined);
@@ -324,6 +320,14 @@ describe("PlatformBuilder", () => {
       expect(platformBuilder.callback()).toBeInstanceOf(Function);
 
       expect(platformBuilder.adapter).toBeInstanceOf(FakeAdapter);
+    });
+
+    it("should listen a custom platform", async () => {
+      const platform = await PlatformBuilder.create(ServerModule, {
+        adapter: FakeAdapter
+      });
+
+      await platform.listen();
     });
   });
 
