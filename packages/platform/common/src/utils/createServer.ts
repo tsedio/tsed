@@ -1,4 +1,4 @@
-import {getHostInfoFromPort} from "@tsed/core";
+import {getHostInfoFromPort, ReturnHostInfoFromPort} from "@tsed/core";
 import {InjectorService, ProviderScope, TokenProvider} from "@tsed/di";
 import Http from "http";
 import Http2 from "http2";
@@ -9,6 +9,7 @@ export interface CreateServerOptions {
   token: TokenProvider;
   type: "http" | "https";
   port: string | false;
+  listen?: (hostInfo: ReturnHostInfoFromPort) => Promise<any>;
   server: () => Http.Server | Https.Server | Http2.Http2Server;
 }
 
@@ -16,7 +17,7 @@ export type CreateServerReturn = () => Promise<Http.Server | Https.Server | Http
 
 export function createServer(
   injector: InjectorService,
-  {token, type, port, server: get}: CreateServerOptions
+  {token, type, port, server: get, listen}: CreateServerOptions
 ): undefined | CreateServerReturn {
   const {settings} = injector;
   const server = port !== false ? get() : null;
@@ -32,8 +33,21 @@ export function createServer(
     const hostInfo = getHostInfoFromPort(type, port);
 
     return async () => {
-      const resolvedHostInfo = await listenServer(injector, server, hostInfo);
-      settings.set(`${type}Port`, `${resolvedHostInfo.address}:${resolvedHostInfo.port}`);
+      const url = `${hostInfo.protocol}://${hostInfo.address}:${port}`;
+      injector.logger.debug(`Start server on ${url}`);
+
+      await (listen ? listen(hostInfo) : listenServer(server, hostInfo));
+
+      const address = server.address();
+
+      if (address && typeof address !== "string") {
+        hostInfo.address = address.address;
+        hostInfo.port = address.port;
+      }
+
+      injector.logger.info(`Listen server on ${hostInfo.toString()}`);
+      settings.set(`${type}Port`, `${hostInfo.address}:${hostInfo.port}`);
+
       return server;
     };
   }

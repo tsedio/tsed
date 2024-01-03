@@ -43,7 +43,7 @@ module.exports = {
     "!<rootDir>/packages/platform/platform-test-sdk",
     "!**/node_modules"
   ],
-  outputDir: "<rootDir>/docs/api",
+  outputDir: "<rootDir>/docs-references/api",
   baseUrl: "/api",
   jsonOutputDir: "<rootDir>/docs/.vuepress/public",
   scope: "@tsed",

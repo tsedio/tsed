@@ -16,3 +16,5 @@ export function getHostInfoFromPort(protocol: string, addressPort: any) {
     }
   };
 }
+
+export type ReturnHostInfoFromPort = ReturnType<typeof getHostInfoFromPort>;

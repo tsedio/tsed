@@ -159,8 +159,6 @@ export class PlatformExpress extends PlatformAdapter<Express.Application> {
     const {app} = this;
     const invoke = createContext(this.injector);
 
-    this.injector.logger.debug("Mount app context");
-
     app.use(async (request: any, response: any, next: any) => {
       const $ctx = invoke({request, response});
       await $ctx.start();

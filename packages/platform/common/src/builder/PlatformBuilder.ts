@@ -49,11 +49,11 @@ export class PlatformBuilder<App = TsED.Application> {
       settings: configuration
     });
 
+    this.log(`Loading ${adapterKlass.NAME.toUpperCase()} platform adapter...`);
+
     this.#adapter = this.#injector.get<PlatformAdapter<App>>(PlatformAdapter)!;
 
     this.createHttpServers();
-
-    this.#adapter.onInit();
 
     this.log("Injector created...");
   }
@@ -178,15 +178,56 @@ export class PlatformBuilder<App = TsED.Application> {
   }
 
   public async runLifecycle() {
+    // init adapter (Express, Koa, etc...)
+    await this.#adapter.onInit();
+
     setLoggerConfiguration(this.injector);
 
+    // create the middleware mapping to be executed to the expected hook
     await this.mapTokenMiddlewares();
 
     await this.loadInjector();
 
+    // add the context middleware to the application
+    this.log("Mount app context");
     this.#adapter.useContext();
 
-    await this.loadRoutes();
+    // init routes (controllers, middlewares, etc...)
+    this.log("Load routes");
+    await this.#adapter.beforeLoadRoutes();
+
+    // istanbul ignore next
+    if (this.settings.get("logger.level") !== "off") {
+      const {PlatformLogMiddleware} = await import("@tsed/platform-log-middleware");
+      this.app.use(PlatformLogMiddleware);
+    }
+
+    if (this.rootModule.$beforeRoutesInit) {
+      await this.rootModule.$beforeRoutesInit();
+      // remove method to avoid multiple call and preserve hook order
+      this.rootModule.$beforeRoutesInit = () => {};
+    }
+
+    // Hooks execution (adding middlewares, controllers, services, etc...)
+    await this.loadStatics("$beforeRoutesInit");
+    await this.callHook("$beforeRoutesInit");
+
+    const routes = this.injector.settings.get<Route[]>("routes");
+
+    this.platform.addRoutes(routes);
+
+    await this.callHook("$onRoutesInit");
+
+    await this.loadStatics("$afterRoutesInit");
+    await this.callHook("$afterRoutesInit");
+
+    await this.#adapter.afterLoadRoutes();
+
+    // map routers are loaded after all hooks because it contains all added middlewares/controllers in the virtual Ts.ED layers
+    // This step will convert all Ts.ED layers to the platform layer (Express or Koa)
+    await this.mapRouters();
+
+    // Server is bootstrapped and ready to listen
 
     return this;
   }
@@ -268,40 +309,6 @@ export class PlatformBuilder<App = TsED.Application> {
     this.#promise = this.#promise || this.runLifecycle();
 
     return this.#promise;
-  }
-
-  protected async loadRoutes() {
-    await this.#adapter.beforeLoadRoutes();
-
-    // istanbul ignore next
-    if (this.settings.get("logger.level") !== "off") {
-      const {PlatformLogMiddleware} = await import("@tsed/platform-log-middleware");
-      this.app.use(PlatformLogMiddleware);
-    }
-
-    this.log("Load routes");
-
-    if (this.rootModule.$beforeRoutesInit) {
-      await this.rootModule.$beforeRoutesInit();
-      this.rootModule.$beforeRoutesInit = () => {};
-    }
-
-    await this.loadStatics("$beforeRoutesInit");
-    await this.callHook("$beforeRoutesInit");
-
-    const routes = this.injector.settings.get<Route[]>("routes");
-
-    this.platform.addRoutes(routes);
-
-    await this.callHook("$onRoutesInit");
-
-    await this.loadStatics("$afterRoutesInit");
-
-    await this.callHook("$afterRoutesInit");
-
-    await this.#adapter.afterLoadRoutes();
-
-    await this.mapRouters();
   }
 
   protected mapRouters() {
@@ -412,6 +419,9 @@ export class PlatformBuilder<App = TsED.Application> {
 
     middlewares = await Promise.all(promises);
 
-    this.injector.settings.set("middlewares", middlewares);
+    this.injector.settings.set(
+      "middlewares",
+      middlewares.filter((middleware) => middleware.use)
+    );
   }
 }
