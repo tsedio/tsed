@@ -23,16 +23,21 @@ export abstract class PlatformAdapter<App = TsED.Application> {
     return this.injector.get<PlatformApplication<App>>("PlatformApplication")!;
   }
 
-  /**
-   * Called after the injector instantiation
-   */
-  onInit(): any {}
+  getServers(): CreateServerReturn[] {
+    return [createHttpServer(this.injector, this.app.callback()), createHttpsServer(this.injector, this.app.callback())].filter(
+      Boolean
+    ) as any[];
+  }
 
-  beforeLoadRoutes(): Promise<any> {
+  onInit(): Promise<void> | void {
     return Promise.resolve();
   }
 
-  afterLoadRoutes(): Promise<any> {
+  beforeLoadRoutes(): Promise<void> | void {
+    return Promise.resolve();
+  }
+
+  afterLoadRoutes(): Promise<void> | void {
     return Promise.resolve();
   }
 
@@ -50,12 +55,6 @@ export abstract class PlatformAdapter<App = TsED.Application> {
    * Map handler to the targeted framework
    */
   abstract mapHandler(handler: Function, layer: PlatformHandlerMetadata): Function;
-
-  getServers(): CreateServerReturn[] {
-    return [createHttpServer(this.injector, this.app.callback()), createHttpsServer(this.injector, this.app.callback())].filter(
-      Boolean
-    ) as any[];
-  }
 
   /**
    * Return the app instance
@@ -89,6 +88,7 @@ export interface PlatformBuilderSettings<App = TsED.Application> extends Partial
 
 export class FakeAdapter extends PlatformAdapter<any> {
   providers: ProviderOpts[] = [];
+  static readonly NAME: string = "FAKE_ADAPTER";
 
   static createFakeRawDriver() {
     // istanbul ignore next

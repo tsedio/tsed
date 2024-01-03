@@ -20,7 +20,7 @@ describe("createHttpsServer", () => {
     jest.spyOn(injector.logger, "info").mockReturnValue(undefined);
     jest.spyOn(injector.logger, "debug").mockReturnValue(undefined);
     jest.spyOn(server, "listen").mockReturnValue(undefined);
-    jest.spyOn(server, "address").mockReturnValue({port: 8089});
+    jest.spyOn(server, "address").mockReturnValue({port: 8089, address: "0.0.0.0"});
     jest.spyOn(server, "on").mockImplementation((event: string, cb: any) => {
       if (event === "listening") {
         cb();

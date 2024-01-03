@@ -138,8 +138,6 @@ export class PlatformKoa extends PlatformAdapter<Koa> {
     const invoke = createContext(this.injector);
     const platformExceptions = this.injector.get<PlatformExceptions>(PlatformExceptions);
 
-    this.injector.logger.debug("Mount app context");
-
     app.use((koaContext: Context, next: Next) => {
       const $ctx = invoke({
         request: koaContext.request as any,
