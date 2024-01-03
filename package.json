@@ -103,7 +103,7 @@
   "dependencies": {
     "@tsed/logger": ">=6.2.2",
     "ajv": "8.11.0",
-    "axios": "0.27.2",
+    "axios": "1.6.3",
     "barrelsby": "^2.3.2",
     "change-case": "4.1.2",
     "globby": "11.0.3",
