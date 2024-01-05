@@ -125,7 +125,7 @@ export class EmailJobService {
     this.cache.set(
       "sendWelcomeEmail",
       locales.map((locale) => {
-        return this.agenda.create("sendWelcomeEmail", {locale});
+        return this.agenda.create("email.sendWelcomeEmail", {locale});
       })
     );
   }
@@ -213,7 +213,7 @@ export class AgendashModule implements AfterRoutesInit {
 
 ## Maintainers
 
-<GithubContributors :users="['ochrstn', 'romakita']"/>
+<GithubContributors :users="['ochrstn', 'Romakita']"/>
 
 <div class="flex items-center justify-center p-5">
 <Button href="/contributing.html" class="rounded-medium">
