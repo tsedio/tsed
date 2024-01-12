@@ -8306,10 +8306,10 @@ builtins@^5.0.0:
   dependencies:
     semver "^7.0.0"
 
-bullmq@^4.12.3:
-  version "4.12.3"
-  resolved "https://registry.yarnpkg.com/bullmq/-/bullmq-4.12.3.tgz#0c649b9a5e48227519c526ee9edd96b982eee22d"
-  integrity sha512-4uPp4NQTALFF+eFK7g8VJM+rt0aiduQdzBomgiEO1OK4OE+TdgC6cjGXooKI/asuB8iDhSZ+pSnGYy5Xyr6qRA==
+"bullmq@^4.12.3 || ^5.1.1":
+  version "5.1.1"
+  resolved "https://registry.yarnpkg.com/bullmq/-/bullmq-5.1.1.tgz#ce07f513fceae580d766fc15e15be4a5ceeb348f"
+  integrity sha512-j3zbNEQWsyHjpqGWiem2XBfmxAjYcArbwsmGlkM1E9MAVcrqB5hQUsXmyy9gEBAdL+PVotMICr7xTquR4Y2sKQ==
   dependencies:
     cron-parser "^4.6.0"
     glob "^8.0.3"
