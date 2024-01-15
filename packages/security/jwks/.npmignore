@@ -4,3 +4,4 @@ tsconfig.compile.json
 tsconfig.json
 __mock__
 *.spec.js
+*.tsbuildinfo
