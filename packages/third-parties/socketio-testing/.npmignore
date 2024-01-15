@@ -2,3 +2,4 @@ src
 test
 tsconfig.compile.json
 tsconfig.json
+*.tsbuildinfo
