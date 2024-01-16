@@ -1,8 +1,7 @@
-import {isClass, isString, nameOf, Store} from "@tsed/core";
-import {BaseContext, DIContext, Inject, Interceptor, InterceptorContext, InterceptorMethods, InterceptorNext} from "@tsed/di";
+import {isClass, isString, nameOf} from "@tsed/core";
+import {BaseContext, Constant, DIContext, Inject, Interceptor, InterceptorContext, InterceptorMethods, InterceptorNext} from "@tsed/di";
 import {deserialize, serialize} from "@tsed/json-mapper";
 import {Logger} from "@tsed/logger";
-import {JsonEntityStore} from "@tsed/schema";
 import {IncomingMessage, ServerResponse} from "http";
 import {PlatformCachedObject} from "../interfaces/PlatformCachedObject";
 import {PlatformCacheOptions} from "../interfaces/PlatformCacheOptions";
@@ -31,6 +30,9 @@ export class PlatformCacheInterceptor implements InterceptorMethods {
 
   @Inject()
   protected logger: Logger;
+
+  @Constant("cache.prefix", "")
+  protected prefix: string;
 
   intercept(context: InterceptorContext<any, PlatformCacheOptions>, next: InterceptorNext) {
     if (this.cache.disabled()) {
@@ -179,7 +181,7 @@ export class PlatformCacheInterceptor implements InterceptorMethods {
     }
 
     return {
-      key: [...getPrefix(context.target, context.propertyKey), keyArgs].join(":"),
+      key: [...[this.prefix, ...getPrefix(context.target, context.propertyKey)].filter(Boolean), keyArgs].join(":"),
       refreshThreshold,
       ttl,
       type,

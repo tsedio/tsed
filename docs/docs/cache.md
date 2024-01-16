@@ -30,7 +30,8 @@ import {Configuration} from "@tsed/common";
 @Configuration({
   cache: {
     ttl: 300, // default TTL
-    store: "memory"
+    store: "memory",
+    prefix: "myPrefix" // to namespace all keys related to the cache
     // options options depending on the choosen storage type
   }
 })
