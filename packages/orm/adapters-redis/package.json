@@ -24,7 +24,7 @@
   "dependencies": {
     "@tsed/adapters": "7.57.0",
     "@tsed/ioredis": "7.57.0",
-    "tslib": "2.5.0"
+    "tslib": "2.6.1"
   },
   "devDependencies": {
     "@tsed/core": "7.57.0",

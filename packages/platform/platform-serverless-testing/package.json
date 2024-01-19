@@ -67,7 +67,7 @@
   },
   "dependencies": {
     "aws-lambda": "^1.0.7",
-    "tslib": "2.5.0"
+    "tslib": "2.6.1"
   },
   "peerDependencies": {
     "@tsed/common": "^7.57.0",

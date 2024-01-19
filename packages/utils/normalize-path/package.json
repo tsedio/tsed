@@ -23,7 +23,7 @@
   },
   "dependencies": {
     "normalize-path": "3.0.0",
-    "tslib": "2.5.0"
+    "tslib": "2.6.1"
   },
   "devDependencies": {
     "@tsed/eslint": "7.44.1",
