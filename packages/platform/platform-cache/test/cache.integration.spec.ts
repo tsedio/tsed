@@ -6,7 +6,7 @@ import {PlatformCache, UseCache} from "../src/index";
 
 let increment = 0;
 
-let request: SuperTest.SuperTest<SuperTest.Test>;
+let request: SuperTest.Agent;
 
 class MyModel {
   @Property()

@@ -11,7 +11,7 @@ const utils = PlatformTestSdk.create({
 });
 
 describe("Passport", () => {
-  let request: SuperTest.SuperTest<SuperTest.Test>;
+  let request: SuperTest.Agent;
 
   beforeEach(utils.bootstrap({}));
   beforeEach(() => {

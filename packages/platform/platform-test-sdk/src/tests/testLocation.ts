@@ -13,7 +13,7 @@ class LocationCtrl {
 }
 
 export function testLocation(options: PlatformTestingSdkOpts) {
-  let request: SuperTest.SuperTest<SuperTest.Test>;
+  let request: SuperTest.Agent;
 
   beforeAll(
     PlatformTest.bootstrap(options.server, {

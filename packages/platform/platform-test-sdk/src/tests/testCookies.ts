@@ -15,7 +15,7 @@ export class CookiesCtrl {
 }
 
 export function testCookies(options: PlatformTestingSdkOpts) {
-  let request: SuperTest.SuperTest<SuperTest.Test>;
+  let request: SuperTest.Agent;
   beforeAll(
     PlatformTest.bootstrap(options.server, {
       ...options,

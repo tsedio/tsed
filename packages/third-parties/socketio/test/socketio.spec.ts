@@ -26,7 +26,7 @@ export class HelloCtrl {
 }
 
 describe("SocketIO", () => {
-  let request: SuperTest.SuperTest<SuperTest.Test>;
+  let request: SuperTest.Agent;
 
   beforeAll(
     PlatformTest.bootstrap(Server, {

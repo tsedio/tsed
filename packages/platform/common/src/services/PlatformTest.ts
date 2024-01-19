@@ -102,7 +102,7 @@ export class PlatformTest extends DITest {
    * Use this callback with SuperTest.
    *
    * ```typescript
-   * let request: SuperTest.SuperTest<SuperTest.Test>;
+   * let request: SuperTest.Agent;
    * beforeEach(PlatformTest.bootstrap(Server, {
    *   mount: {
    *     "/rest": [ProductsController]

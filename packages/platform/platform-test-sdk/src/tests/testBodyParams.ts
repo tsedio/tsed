@@ -137,7 +137,7 @@ class TestBodyParamsCtrl {
 }
 
 export function testBodyParams(options: PlatformTestingSdkOpts) {
-  let request: SuperTest.SuperTest<SuperTest.Test>;
+  let request: SuperTest.Agent;
 
   beforeAll(
     PlatformTest.bootstrap(options.server, {

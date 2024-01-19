@@ -99,7 +99,7 @@ const baseUser2 = {
 
 describe("Mongoose", () => {
   describe("Test Resource", () => {
-    let request: SuperTest.SuperTest<SuperTest.Test>;
+    let request: SuperTest.Agent;
     let currentUser: TestUser;
     let currentUser2: TestUser;
     beforeEach(

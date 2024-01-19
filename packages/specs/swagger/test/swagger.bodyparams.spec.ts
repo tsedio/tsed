@@ -18,7 +18,7 @@ class CustomerController {
 }
 
 describe("Swagger BodyParams()", () => {
-  let request: SuperTest.SuperTest<SuperTest.Test>;
+  let request: SuperTest.Agent;
   beforeEach(
     PlatformTest.bootstrap(Server, {
       platform: PlatformExpress,

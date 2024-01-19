@@ -42,7 +42,7 @@ const utils = PlatformTestSdk.create({
 });
 
 describe("QueryParser", () => {
-  let request: SuperTest.SuperTest<SuperTest.Test>;
+  let request: SuperTest.Agent;
 
   beforeEach(utils.bootstrap());
   beforeEach(() => {

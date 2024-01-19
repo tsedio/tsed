@@ -82,7 +82,8 @@
     "vash": "^0.13.0",
     "velocityjs": "^2.0.1",
     "walrus": "^0.10.1",
-    "whiskers": "^0.4.0"
+    "whiskers": "^0.4.0",
+    "ts-node": "10.9.2"
   },
   "keywords": [
     "TypeScript",

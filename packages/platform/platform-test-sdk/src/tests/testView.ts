@@ -32,7 +32,7 @@ class ViewCtrl {
 }
 
 export function testView(options: PlatformTestingSdkOpts) {
-  let request: SuperTest.SuperTest<SuperTest.Test>;
+  let request: SuperTest.Agent;
 
   beforeAll(
     PlatformTest.bootstrap(options.server, {

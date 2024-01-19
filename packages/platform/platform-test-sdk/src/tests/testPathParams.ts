@@ -49,7 +49,7 @@ class TestPathParamsCtrl {
 }
 
 export function testPathParams(options: PlatformTestingSdkOpts) {
-  let request: SuperTest.SuperTest<SuperTest.Test>;
+  let request: SuperTest.Agent;
 
   beforeAll(
     PlatformTest.bootstrap(options.server, {

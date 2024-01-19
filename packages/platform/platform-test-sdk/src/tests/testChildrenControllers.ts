@@ -3,7 +3,7 @@ import SuperTest from "supertest";
 import {PlatformTestingSdkOpts} from "../interfaces";
 
 export function testChildrenControllers(options: PlatformTestingSdkOpts) {
-  let request: SuperTest.SuperTest<SuperTest.Test>;
+  let request: SuperTest.Agent;
 
   @Controller("/children")
   class TestChildController {

@@ -16,7 +16,7 @@ class CustomStaticsCtrl {
 }
 
 export function testStatics(options: PlatformTestingSdkOpts) {
-  let request: SuperTest.SuperTest<SuperTest.Test>;
+  let request: SuperTest.Agent;
   beforeEach(
     PlatformTest.bootstrap(options.server, {
       ...options,

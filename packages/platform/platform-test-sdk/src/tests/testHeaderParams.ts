@@ -49,7 +49,7 @@ export class HeaderParamsCtrl {
 }
 
 export function testHeaderParams(options: PlatformTestingSdkOpts) {
-  let request: SuperTest.SuperTest<SuperTest.Test>;
+  let request: SuperTest.Agent;
   beforeAll(
     PlatformTest.bootstrap(options.server, {
       ...options,

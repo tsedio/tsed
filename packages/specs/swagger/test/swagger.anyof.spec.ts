@@ -34,7 +34,7 @@ class ListTasksController {
 
 describe("Swagger AnyOf()", () => {
   describe("OpenSpec3", () => {
-    let request: SuperTest.SuperTest<SuperTest.Test>;
+    let request: SuperTest.Agent;
     beforeEach(
       PlatformTest.bootstrap(Server, {
         platform: PlatformExpress,

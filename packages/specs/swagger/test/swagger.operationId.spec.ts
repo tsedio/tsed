@@ -56,7 +56,7 @@ class CalendarsController {
 
 describe("Swagger integration", () => {
   describe("OpenSpec", () => {
-    let request: SuperTest.SuperTest<SuperTest.Test>;
+    let request: SuperTest.Agent;
     beforeEach(
       PlatformTest.bootstrap(Server, {
         platform: PlatformExpress,

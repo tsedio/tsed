@@ -44,7 +44,7 @@ const baseProfile = {
 
 describe("Mongoose", () => {
   describe("Ref", () => {
-    let request: SuperTest.SuperTest<SuperTest.Test>;
+    let request: SuperTest.Agent;
     let currentUser: any;
     let currentProfile: any;
     beforeEach(

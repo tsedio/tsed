@@ -31,7 +31,7 @@ export class TestChildController extends TestBaseController {
 }
 
 export function testCtrlInheritance(options: PlatformTestingSdkOpts) {
-  let request: SuperTest.SuperTest<SuperTest.Test>;
+  let request: SuperTest.Agent;
 
   beforeAll(
     PlatformTest.bootstrap(options.server, {
