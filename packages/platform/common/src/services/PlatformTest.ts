@@ -1,6 +1,7 @@
 import {Type} from "@tsed/core";
 import {DITest, InjectorService} from "@tsed/di";
 import accepts from "accepts";
+import type {IncomingMessage, RequestListener, ServerResponse} from "http";
 import {PlatformBuilder} from "../builder/PlatformBuilder";
 import {PlatformContext, PlatformContextOptions} from "../domain/PlatformContext";
 import {createInjector} from "../utils/createInjector";
@@ -112,8 +113,8 @@ export class PlatformTest extends DITest {
    * });
    * ```
    */
-  static callback() {
-    return DITest.injector.get<PlatformApplication>(PlatformApplication)?.callback();
+  static callback(): RequestListener<typeof IncomingMessage, typeof ServerResponse> {
+    return DITest.injector.get<PlatformApplication>(PlatformApplication)?.callback() as any;
   }
 
   static createRequest(options: any = {}): any {
