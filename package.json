@@ -40,7 +40,6 @@
     "test:third-parties": "lerna run test --scope \"@tsed/{agenda,bullmq,async-hook-context,components-scan,event-emitter,seq,socketio,stripe,temporal,terminus,vite-ssr-plugin}\" --stream --concurrency 4",
     "test:formio": "lerna run test --scope \"@tsed/{schema-formio,formio}\" --stream",
     "coverage": "merge-istanbul --out coverage/coverage-final.json \"**/packages/**/coverage/coverage-final.json\" && nyc report --reporter text --reporter html --reporter lcov -t coverage --report-dir coverage",
-    "coveralls": "nyc report --reporter=text-lcov | coveralls",
     "build": "monorepo build --verbose",
     "build:references": "node ./tools/typescript",
     "build:eslint": "node ./tools/eslint",
@@ -50,8 +49,6 @@
     "docs:serve": "yarn api:build && yarn vuepress:docs:serve",
     "docs:build": "yarn api:build && yarn docs:install && yarn vuepress:build",
     "docs:publish": "CI=1 monorepo publish ghpages",
-    "examples:sync": "monorepo sync examples",
-    "examples:publish": "monorepo publish examples",
     "vuepress:build": "concurrently \"yarn vuepress:docs:build\" \"yarn vuepress:ref:build\"",
     "vuepress:docs:build": "rm -rf ./docs/api && cd ./docs && yarn vuepress:build",
     "vuepress:ref:build": "cd ./docs-references && yarn vuepress:build",
@@ -108,10 +105,7 @@
     "change-case": "4.1.2",
     "globby": "11.0.3",
     "lerna": "8.0.2",
-    "merge-istanbul": "1.1.4",
-    "microbundle": "0.14.2",
     "rxjs": "^7.5.5",
-    "source-map-support": "0.5.21",
     "uuid": "8.3.2"
   },
   "devDependencies": {
@@ -141,7 +135,6 @@
     "chai-as-promised": "7.1.1",
     "chalk": "4.1.0",
     "concurrently": "7.0.0",
-    "coveralls": "3.1.1",
     "cross-env": "7.0.3",
     "eslint": "^8.12.0",
     "eslint-config-prettier": "8.5.0",
@@ -156,6 +149,7 @@
     "jest-coverage-thresholds-bumper": "1.1.0",
     "lint-staged": "^12.3.2",
     "micromatch": "4.0.5",
+    "merge-istanbul": "1.1.4",
     "mocha": "10.2.0",
     "moment": "2.29.4",
     "nyc": "15.1.0",
@@ -223,47 +217,6 @@
         "cname": "api-docs.tsed.io",
         "if": "production"
       }
-    ],
-    "examples": {
-      "dir": "./examples",
-      "repositories": {
-        "getting-started": {
-          "url": "https://github.com/tsedio/tsed-getting-started.git"
-        },
-        "aws": {
-          "url": "https://github.com/tsedio/tsed-example-aws.git"
-        },
-        "mongoose": {
-          "url": "https://github.com/tsedio/tsed-example-mongoose.git"
-        },
-        "multer": {
-          "url": "https://github.com/tsedio/tsed-example-multer.git"
-        },
-        "passportjs": {
-          "url": "https://github.com/tsedio/tsed-example-passportjs.git"
-        },
-        "typeorm": {
-          "url": "https://github.com/tsedio/tsed-example-typeorm.git"
-        },
-        "session": {
-          "url": "https://github.com/tsedio/tsed-example-session.git"
-        },
-        "socketio": {
-          "url": "https://github.com/tsedio/tsed-example-socketio.git"
-        },
-        "vuejs": {
-          "url": "https://github.com/tsedio/tsed-example-vuejs.git"
-        },
-        "react": {
-          "url": "https://github.com/tsedio/tsed-example-react.git"
-        },
-        "graphql": {
-          "url": "https://github.com/tsedio/tsed-example-graphql.git"
-        },
-        "webpack": {
-          "url": "https://github.com/tsedio/tsed-example-webpack.git"
-        }
-      }
-    }
+    ]
   }
 }
