@@ -11,8 +11,6 @@
     "test:coverage": "cross-env NODE_ENV=test nyc mocha",
     "test:lint": "tslint --project tsconfig.json",
     "test:lint:fix": "tslint --project tsconfig.json --fix",
-    "travis:deploy-once": "travis-deploy-once",
-    "travis:coveralls": "nyc report --reporter=text-lcov | coveralls",
     "tsc": "tsc --project tsconfig.json",
     "tsc:w": "tsc --project tsconfig.json -w",
     "start": "nodemon --watch \"src/**/*.ts\" --ignore \"node_modules/**/*\" --exec ts-node src/index.ts",
