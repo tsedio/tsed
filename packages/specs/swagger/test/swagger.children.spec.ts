@@ -20,7 +20,7 @@ export class OrgCtrl {}
 
 describe("Swagger integration", () => {
   describe("OpenSpec2", () => {
-    let request: SuperTest.SuperTest<SuperTest.Test>;
+    let request: SuperTest.Agent;
     beforeEach(
       PlatformTest.bootstrap(Server, {
         platform: PlatformExpress,

@@ -7,7 +7,7 @@ import {PlatformTestingSdkOpts} from "../interfaces";
 let increment = 0;
 
 export function testCache(options: PlatformTestingSdkOpts) {
-  let request: SuperTest.SuperTest<SuperTest.Test>;
+  let request: SuperTest.Agent;
 
   class MyModel {
     @Property()

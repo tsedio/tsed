@@ -22,7 +22,7 @@ class TestFullPayloadCtrl {
 }
 
 describe("Full payload", () => {
-  let request: SuperTest.SuperTest<SuperTest.Test>;
+  let request: SuperTest.Agent;
 
   beforeEach(
     utils.bootstrap({

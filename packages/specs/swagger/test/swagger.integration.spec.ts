@@ -61,7 +61,7 @@ class CalendarsController {
 
 describe("Swagger integration", () => {
   describe("OpenSpec2", () => {
-    let request: SuperTest.SuperTest<SuperTest.Test>;
+    let request: SuperTest.Agent;
     beforeEach(
       PlatformTest.bootstrap(Server, {
         platform: PlatformExpress,
@@ -93,7 +93,7 @@ describe("Swagger integration", () => {
     });
   });
   describe("OpenSpec3", () => {
-    let request: SuperTest.SuperTest<SuperTest.Test>;
+    let request: SuperTest.Agent;
     beforeEach(
       PlatformTest.bootstrap(Server, {
         platform: PlatformExpress,

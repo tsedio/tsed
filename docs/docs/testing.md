@@ -198,6 +198,7 @@ PlatformTest API provides an `invoke` method to create a new instance of your co
 :::
 
 ## Test your Rest API
+
 ### Installation
 
 To test your API, I recommend you to use the [`supertest`](https://github.com/visionmedia/supertest) module.
@@ -226,12 +227,61 @@ $ npm install --save-dev supertest @types/supertest
 <Tabs class="-code">
   <Tab label="Jest">
 
-<<< @/docs/snippets/testing/supertest.jest.ts
+```ts
+import {PlatformTest} from "@tsed/common";
+import * as SuperTest from "supertest";
+import {Server} from "../Server";
+
+describe("Rest", () => {
+  // bootstrap your Server to load all endpoints before run your test
+  let request: SuperTest.Agent;
+
+  beforeAll(PlatformTest.bootstrap(Server));
+  beforeAll(() => {
+    request = SuperTest(PlatformTest.callback());
+  });
+  afterAll(PlatformTest.reset);
+
+  describe("GET /rest/calendars", () => {
+    it("should do something", async () => {
+      const response = await request.get("/rest/calendars").expect(200);
+
+      expect(typeof response.body).toEqual("array");
+    });
+  });
+});
+```
 
   </Tab>
   <Tab label="Mocha">
 
-<<< @/docs/snippets/testing/supertest.mocha.ts
+```ts
+import {PlatformTest} from "@tsed/common";
+import {expect} from "chai";
+import * as SuperTest from "supertest";
+import {Server} from "../Server";
+import TestAgent = require("supertest/lib/agent");
+
+describe("Rest", () => {
+  // bootstrap your Server to load all endpoints before run your test
+  let request: SuperTest.Agent;
+
+  before(PlatformTest.bootstrap(Server));
+  before(() => {
+    request = SuperTest.agent(PlatformTest.callback());
+  });
+
+  after(PlatformTest.reset);
+
+  describe("GET /rest/calendars", () => {
+    it("should do something", async () => {
+      const response = await request.get("/rest/calendars").expect(200);
+
+      expect(response.body).to.be.an("array");
+    });
+  });
+});
+```
 
   </Tab> 
 </Tabs>
@@ -258,7 +308,7 @@ It's better to write your tests using Cucumber and test your Rest applications i
 :::
 
 ::: tip Note
-There is no performance issue as long as you use `PlatformTest.create()` to perform your tests, 
+There is no performance issue as long as you use `PlatformTest.create()` to perform your tests,
 But it's not possible with this method to do an integration test with the server (Express or Koa). You can only test your controller and the services injected into it.
 :::
 
@@ -286,7 +336,7 @@ Object.assign(entity, {
 });
 
 describe("ChapterController", () => {
-  let request: SuperTest.SuperTest<SuperTest.Test>;
+  let request: SuperTest.Agent;
 
   beforeAll(PlatformTest.bootstrap(Server));
   beforeAll(async () => {
@@ -326,7 +376,7 @@ Object.assign(entity, {
 
 const sandbox = Sinon.createSandbox();
 describe("ChapterController", () => {
-  let request: SuperTest.SuperTest<SuperTest.Test>;
+  let request: SuperTest.Agent;
 
   beforeAll(PlatformTest.bootstrap(Server));
   beforeAll(async () => {
@@ -368,7 +418,7 @@ import {Server} from "../../Server";
 import {AuthMiddleware} from "../../middlewares/auth.middleware";
 
 describe("HelloWorldController", () => {
-  let request: SuperTest.SuperTest<SuperTest.Test>;
+  let request: SuperTest.Agent;
 
   beforeAll(TestMongooseContext.bootstrap(Server));
   beforeAll(() => {
@@ -404,7 +454,7 @@ import {AuthMiddleware} from "../../middlewares/auth.middleware";
 const sandbox = Sinon.createSandbox();
 
 describe("HelloWorldController", () => {
-  let request: SuperTest.SuperTest<SuperTest.Test>;
+  let request: SuperTest.Agent;
 
   beforeAll(TestMongooseContext.bootstrap(Server));
   beforeAll(() => {
@@ -492,7 +542,7 @@ import SuperTest from "supertest";
 import {Server} from "../../Server";
 
 describe("SomeIntegrationTestWithDB", () => {
-  let request: SuperTest.SuperTest<SuperTest.Test>;
+  let request: SuperTest.Agent;
 
   beforeAll(
     PlatformTest.bootstrap(Server, {

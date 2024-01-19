@@ -215,7 +215,7 @@ const utils = PlatformTestUtils.create({
 });
 
 describe("Stripe", () => {
-  let request: SuperTest.SuperTest<SuperTest.Test>;
+  let request: SuperTest.Agent;
   beforeEach(
     utils.bootstrap({
       mount: {

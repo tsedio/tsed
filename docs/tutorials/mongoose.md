@@ -360,7 +360,7 @@ import {Server} from "../Server";
 
 describe("Rest", () => {
   // bootstrap your Server to load all endpoints before run your test
-  let request: SuperTest.SuperTest<SuperTest.Test>;
+  let request: SuperTest.Agent;
 
   before(
     TestMongooseContext.bootstrap(Server, {

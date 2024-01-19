@@ -75,7 +75,7 @@ export class TestMulterController {
 }
 
 export function testMulter(options: PlatformTestingSdkOpts) {
-  let request: SuperTest.SuperTest<SuperTest.Test>;
+  let request: SuperTest.Agent;
 
   const buffer = Buffer.from("test content");
 

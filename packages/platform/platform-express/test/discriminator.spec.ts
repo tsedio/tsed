@@ -71,7 +71,7 @@ const utils = PlatformTestSdk.create({
   server: Server
 });
 describe("Discriminator", () => {
-  let request: SuperTest.SuperTest<SuperTest.Test>;
+  let request: SuperTest.Agent;
 
   beforeAll(
     utils.bootstrap({

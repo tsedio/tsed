@@ -76,7 +76,7 @@ import {UsersCtrl} from "./UsersCtrl";
 import {Server} from "../../Server";
 
 describe("UserCtrl", () => {
-  let request: SuperTest.SuperTest<SuperTest.Test>;
+  let request: SuperTest.Agent;
 
   before(
     PlatformTest.bootstrap(Server, {
@@ -177,7 +177,7 @@ import {UsersCtrl} from "./UsersCtrl";
 import {Server} from "../../Server";
 
 describe("UserCtrl", () => {
-  let request: SuperTest.SuperTest<SuperTest.Test>;
+  let request: SuperTest.Agent;
 
   before(
     PlatformTest.bootstrap(Server, {

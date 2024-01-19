@@ -24,7 +24,7 @@ const utils = PlatformTestSdk.create({
 });
 
 describe("OIDC", () => {
-  let request: SuperTest.SuperTest<SuperTest.Test>;
+  let request: SuperTest.Agent;
 
   function followRedirection(response: any, headers: any = {}) {
     if (response.headers.location) {
@@ -114,7 +114,7 @@ describe("OIDC", () => {
 });
 
 describe("OIDC on a different path", () => {
-  let request: SuperTest.SuperTest<SuperTest.Test>;
+  let request: SuperTest.Agent;
 
   function followRedirection(response: any, headers: any = {}) {
     if (response.headers.location) {

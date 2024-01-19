@@ -5,7 +5,7 @@ import SuperTest from "supertest";
 import {Server} from "./app/Server";
 
 describe("GraphQL", () => {
-  let request: SuperTest.SuperTest<SuperTest.Test>;
+  let request: SuperTest.Agent;
   beforeAll(
     PlatformTest.bootstrap(Server, {
       platform: PlatformExpress

@@ -41,7 +41,7 @@ export class PlatformController {
 
 describe("Swagger - nested controllers", () => {
   describe("OpenSpec3", () => {
-    let request: SuperTest.SuperTest<SuperTest.Test>;
+    let request: SuperTest.Agent;
     beforeEach(
       PlatformTest.bootstrap(Server, {
         platform: PlatformExpress,

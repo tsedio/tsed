@@ -24,7 +24,7 @@ class TestEnumsCtrl {
 }
 
 describe("Enums", () => {
-  let request: SuperTest.SuperTest<SuperTest.Test>;
+  let request: SuperTest.Agent;
 
   beforeAll(
     utils.bootstrap({

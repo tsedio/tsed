@@ -33,7 +33,7 @@ class AnyResponseFilter implements ResponseFilterMethods {
 }
 
 export function testResponseFilter(options: PlatformTestingSdkOpts) {
-  let request: SuperTest.SuperTest<SuperTest.Test>;
+  let request: SuperTest.Agent;
 
   beforeAll(
     PlatformTest.bootstrap(options.server, {

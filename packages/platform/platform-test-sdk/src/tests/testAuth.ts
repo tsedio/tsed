@@ -101,7 +101,7 @@ class TestAuthCtrl {
 }
 
 export function testAuth(options: PlatformTestingSdkOpts) {
-  let request: SuperTest.SuperTest<SuperTest.Test>;
+  let request: SuperTest.Agent;
 
   beforeAll(
     PlatformTest.bootstrap(options.server, {

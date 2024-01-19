@@ -5,7 +5,7 @@ import {PlatformTestingSdkOpts} from "../interfaces";
 export function testCustom404(options: PlatformTestingSdkOpts) {
   class CustomServer extends options.server {}
 
-  let request: SuperTest.SuperTest<SuperTest.Test>;
+  let request: SuperTest.Agent;
   beforeAll(
     PlatformTest.bootstrap(CustomServer, {
       ...options,

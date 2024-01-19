@@ -470,7 +470,7 @@ to `false`:
 
 ```typescript
 describe("MyCtrl", () => {
-  let request: SuperTest.SuperTest<SuperTest.Test>;
+  let request: SuperTest.Agent;
   beforeAll(
     TestMongooseContext.bootstrap(Server, {
       cache: false,

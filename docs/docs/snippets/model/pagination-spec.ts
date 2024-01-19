@@ -7,7 +7,7 @@ import {ProductsCtrl} from "./ProductsCtrl";
 import {Server} from "./app/Server";
 
 describe("ProductsCtrl", () => {
-  let request: SuperTest.SuperTest<SuperTest.Test>;
+  let request: SuperTest.Agent;
 
   beforeEach(
     PlatformTest.bootstrap(Server, {

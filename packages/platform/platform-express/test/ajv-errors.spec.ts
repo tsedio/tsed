@@ -59,7 +59,7 @@ class TestAjvErrors {
 }
 
 describe("AJV Errors", () => {
-  let request: SuperTest.SuperTest<SuperTest.Test>;
+  let request: SuperTest.Agent;
 
   beforeAll(
     utils.bootstrap({

@@ -92,7 +92,7 @@ export class FindingsController extends AttachmentController {
 }
 
 export function testInheritanceController(options: PlatformTestingSdkOpts) {
-  let request: SuperTest.SuperTest<SuperTest.Test>;
+  let request: SuperTest.Agent;
 
   beforeAll(
     PlatformTest.bootstrap(options.server, {

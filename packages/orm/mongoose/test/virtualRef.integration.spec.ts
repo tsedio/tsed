@@ -65,7 +65,7 @@ class SpacesController {
 
 describe("Mongoose", () => {
   describe("Ref", () => {
-    let request: SuperTest.SuperTest<SuperTest.Test>;
+    let request: SuperTest.Agent;
 
     beforeEach(
       TestMongooseContext.bootstrap(Server, {
