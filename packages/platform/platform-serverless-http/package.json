@@ -59,7 +59,7 @@
     "url": "git+https://github.com/tsedio/tsed.git"
   },
   "dependencies": {
-    "tslib": "2.5.0"
+    "tslib": "2.6.1"
   },
   "devDependencies": {
     "@tsed/common": "7.57.0",

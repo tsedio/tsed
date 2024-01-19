@@ -22,7 +22,7 @@
   "dependencies": {
     "mongodb-memory-server": "^8.15.1",
     "semver": "^7.3.5",
-    "tslib": "2.5.0"
+    "tslib": "2.6.1"
   },
   "devDependencies": {
     "@tsed/common": "7.57.0",

@@ -24,7 +24,7 @@
   "dependencies": {
     "cache-manager": "^5.1.3",
     "micromatch": "4.0.5",
-    "tslib": "2.5.0"
+    "tslib": "2.6.1"
   },
   "devDependencies": {
     "@tsed/core": "7.57.0",

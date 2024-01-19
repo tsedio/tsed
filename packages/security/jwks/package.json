@@ -23,7 +23,7 @@
   "dependencies": {
     "fs-extra": "^11.1.1",
     "jose2": "npm:jose@^2.0.4",
-    "tslib": "2.5.0"
+    "tslib": "2.6.1"
   },
   "devDependencies": {
     "@tsed/eslint": "7.44.1",

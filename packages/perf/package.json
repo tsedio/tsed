@@ -22,7 +22,7 @@
   "dependencies": {
     "@tsed/core": "7.57.0",
     "chalk": "^4.1.0",
-    "tslib": "2.5.0"
+    "tslib": "2.6.1"
   },
   "devDependencies": {
     "@tsed/eslint": "7.44.1",

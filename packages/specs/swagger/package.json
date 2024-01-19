@@ -30,7 +30,7 @@
     "fs-extra": "11.1.1",
     "micromatch": "4.0.5",
     "swagger-ui-dist": "^4.5.2",
-    "tslib": "2.5.0"
+    "tslib": "2.6.1"
   },
   "devDependencies": {
     "@tsed/common": "7.57.0",
