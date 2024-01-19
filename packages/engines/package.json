@@ -1,6 +1,6 @@
 {
   "name": "@tsed/engines",
-  "version": "7.57.0",
+  "version": "7.57.1",
   "description": "Template engines library. Provide an API to adding custom engines from decorators.",
   "source": "./src/index.ts",
   "main": "./lib/cjs/index.js",
@@ -76,14 +76,14 @@
     "templayed": ">=0.2.3",
     "tinyliquid": "^0.2.34",
     "toffee": "^0.3.6",
+    "ts-node": "10.9.2",
     "twig": "^1.15.2",
     "twing": "^5.0.2",
     "underscore": "^1.11.0",
     "vash": "^0.13.0",
     "velocityjs": "^2.0.1",
     "walrus": "^0.10.1",
-    "whiskers": "^0.4.0",
-    "ts-node": "10.9.2"
+    "whiskers": "^0.4.0"
   },
   "keywords": [
     "TypeScript",
