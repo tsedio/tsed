@@ -21,6 +21,11 @@ export class TestWS {
   scenario1(@SocketSession session: SocketSession) {
     return Promise.resolve("my Message " + session.get("test"));
   }
+
+  @Input("input:scenario1")
+  scenario2() {
+    return Promise.resolve("my Message");
+  }
 }
 
 @SocketService(/test-.+/)
@@ -90,7 +95,7 @@ describe("Socket integration: custom path", () => {
   );
   afterAll(PlatformTest.reset);
 
-  describe("RoomWS: eventName", () => {
+  describe("RoomWS: eventName (scenario 1)", () => {
     it("should return the data", async () => {
       const service = PlatformTest.get<SocketClientService>(SocketClientService);
       const client = await service.get("/test", CUSTOM_WS_PATH);
@@ -102,6 +107,20 @@ describe("Socket integration: custom path", () => {
         });
 
         client.emit("input:scenario1");
+      });
+    });
+  });
+
+  describe("RoomWS: eventName (scenario 2)", () => {
+    it("should return the data without Emit decorator (use callback parameters)", async () => {
+      const service = PlatformTest.get<SocketClientService>(SocketClientService);
+      const client = await service.get("/test", CUSTOM_WS_PATH);
+
+      return new Promise((resolve: any) => {
+        client.emit("input:scenario1", (result) => {
+          expect(result).toEqual("my Message");
+          resolve();
+        });
       });
     });
   });
