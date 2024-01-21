@@ -11,6 +11,6 @@ export class ViteRendererMiddleware {
   async use(@Context() $ctx: Context) {
     const response = await this.viteService.render("*", {$ctx});
 
-    response && $ctx.response.body(response);
+    response && !$ctx.response.isDone() && $ctx.response.body(response);
   }
 }
