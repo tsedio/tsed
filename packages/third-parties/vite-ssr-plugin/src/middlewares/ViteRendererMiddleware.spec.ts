@@ -26,6 +26,7 @@ describe("ViteRenderMiddleware", () => {
       jest.spyOn($ctx.response, "body");
 
       viteService.render.mockResolvedValue("result");
+      jest.spyOn($ctx.response, "isDone").mockReturnValue(false);
 
       const middleware = await PlatformTest.invoke<ViteRendererMiddleware>(ViteRendererMiddleware, [
         {
@@ -38,6 +39,29 @@ describe("ViteRenderMiddleware", () => {
 
       expect(viteService.render).toHaveBeenCalledWith("*", {$ctx});
       expect($ctx.response.body).toHaveBeenCalledWith("result");
+    });
+    it("should not return the response", async () => {
+      const viteService = {
+        render: jest.fn()
+      };
+
+      const $ctx = PlatformTest.createRequestContext();
+      jest.spyOn($ctx.response, "body");
+      jest.spyOn($ctx.response, "isDone").mockReturnValue(true);
+
+      viteService.render.mockResolvedValue("result");
+
+      const middleware = await PlatformTest.invoke<ViteRendererMiddleware>(ViteRendererMiddleware, [
+        {
+          token: ViteService,
+          use: viteService
+        }
+      ]);
+
+      await middleware.use($ctx);
+
+      expect(viteService.render).toHaveBeenCalledWith("*", {$ctx});
+      expect($ctx.response.body).not.toHaveBeenCalled();
     });
   });
 });
