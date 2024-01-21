@@ -10,6 +10,7 @@ export * from "./decorators/authorize";
 export * from "./decorators/protocol";
 export * from "./domain/UserInfo";
 export * from "./errors/PassportException";
+export * from "./errors/PassportMessage";
 export * from "./interfaces/BeforeInstall";
 export * from "./interfaces/OnInstall";
 export * from "./interfaces/OnVerify";

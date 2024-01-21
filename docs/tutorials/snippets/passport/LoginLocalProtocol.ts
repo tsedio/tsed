@@ -37,12 +37,12 @@ export class LoginLocalProtocol implements OnVerify, OnInstall, BeforeInstall {
 
     if (!user) {
       return false;
-      // OR throw new NotAuthorized("Wrong credentials")
+      // OR throw new PassportMessage("Wrong credentials")
     }
 
     if (!user.verifyPassword(password)) {
       return false;
-      // OR throw new NotAuthorized("Wrong credentials")
+      // OR throw new PassportMessage("Wrong credentials")
     }
 
     return user;
