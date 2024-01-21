@@ -6,6 +6,7 @@ import Passport, {Strategy} from "passport";
 import {promisify} from "util";
 import {PROVIDER_TYPE_PROTOCOL} from "../contants/constants";
 import {PassportException} from "../errors/PassportException";
+import {PassportMessage} from "../errors/PassportMessage";
 import type {ProtocolMethods} from "../interfaces/ProtocolMethods";
 import type {ProtocolOptions} from "../interfaces/ProtocolOptions";
 
@@ -152,7 +153,11 @@ export class ProtocolsService {
 
           done(null, ...[].concat(req.$ctx.data));
         } catch (err) {
-          done(err, false, {message: err.message});
+          if (err instanceof PassportMessage) {
+            done(null, false, {...err.opts, message: err.message});
+          } else {
+            done(err, false, {message: err.message});
+          }
         }
       } else {
         done(new Error("Headers already sent"), false, {message: "Headers already sent"});

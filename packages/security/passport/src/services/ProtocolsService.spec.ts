@@ -1,5 +1,6 @@
 import {PlatformTest, Req} from "@tsed/common";
 import Passport from "passport";
+import {PassportMessage} from "../errors/PassportMessage";
 import {Protocol, ProtocolsService} from "../index";
 
 // tslint:disable-next-line:variable-name
@@ -122,6 +123,29 @@ describe("ProtocolsService", () => {
     expect(result.$onVerify).toHaveBeenCalledWith($ctx.getRequest(), $ctx);
     expect(resultDone).toEqual([error, false, {message: "message"}]);
   });
+
+  it("should call metadata and catch PassportMessage", async () => {
+    const protocolService = PlatformTest.get<ProtocolsService>(ProtocolsService);
+    // GIVEN
+    const error = new PassportMessage("message", {type: "allow"});
+    (LocalProtocol.prototype.$onVerify as any).mockRejectedValue(error);
+
+    const provider = PlatformTest.injector.getProvider(LocalProtocol)!;
+    const $ctx = PlatformTest.createRequestContext();
+
+    // WHEN
+    const result = await protocolService.invoke(provider);
+    const resultDone: any = await new Promise((resolve) => {
+      const verify = Strategy.mock.calls[0][1];
+
+      return $ctx.runInContext(() => verify($ctx.getRequest(), "test", (...args: any[]) => resolve(args)));
+    });
+
+    // THEN
+    expect(result.$onVerify).toHaveBeenCalledWith($ctx.getRequest(), $ctx);
+    expect(resultDone).toEqual([null, false, {message: "message", type: "allow"}]);
+  });
+
   it("should call metadata and catch missing $ctx", async () => {
     const protocolService = PlatformTest.get<ProtocolsService>(ProtocolsService);
     // GIVEN
