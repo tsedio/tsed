@@ -81,7 +81,7 @@ export class SocketIOModule implements AfterListen, OnDestroy {
           acc.push({
             namespace: socketProvider.namespace,
             inputEvent: handler.eventName,
-            outputEvent: (handler.returns && handler.returns.eventName) || "",
+            outputEvent: (handler.returns && handler.returns.eventName) || handler.eventName || "",
             outputType: (handler.returns && handler.returns.type) || "",
             name: `${nameOf(provider.useClass)}.${handler.methodClassName}`
           });
