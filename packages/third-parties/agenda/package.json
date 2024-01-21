@@ -1,6 +1,6 @@
 {
   "name": "@tsed/agenda",
-  "version": "7.57.1",
+  "version": "7.58.0",
   "description": "Agenda package for Ts.ED framework",
   "source": "./src/index.ts",
   "main": "./lib/cjs/index.js",
@@ -30,9 +30,9 @@
   },
   "private": false,
   "devDependencies": {
-    "@tsed/common": "7.57.1",
-    "@tsed/core": "7.57.1",
-    "@tsed/di": "7.57.1",
+    "@tsed/common": "7.58.0",
+    "@tsed/core": "7.58.0",
+    "@tsed/di": "7.58.0",
     "@tsed/eslint": "7.44.1",
     "@tsed/typescript": "7.44.1",
     "agenda": "^5.0.0",
