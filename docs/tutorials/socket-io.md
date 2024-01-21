@@ -47,7 +47,7 @@ For more information see [Socket.io documentation](https://socket.io/docs/v4/ser
 > This is a useful feature to minimize the number of resources (TCP connections) and at the same time separate concerns within your application
 > by introducing separation between communication channels. See [namespace documentation](https://socket.io/docs/v4/namespaces/).
 
-All Socket service work under a namespace and you can create one Socket service per namespace.
+All Socket service work under a namespace, and you can create one Socket service per namespace.
 
 Example:
 
@@ -89,7 +89,18 @@ You have many choices to send a response to your client. Ts.ED offers some decor
 
 Example:
 
-<<< @/tutorials/snippets/socketio/socket-send-response.ts
+```ts
+import {Args, Emit, Input, Socket, SocketService} from "@tsed/socketio";
+
+@SocketService("/my-namespace")
+export class MySocketService {
+  @Input("eventName")
+  @Emit("responseEventName") // or Broadcast or BroadcastOthers
+  async myMethod(@Args(0) userName: string, @Socket socket: Socket) {
+    return "Message " + userName;
+  }
+}
+```
 
 ::: tip
 All methods accept a promise as returned value. Ts.ED handles promise before returning a response to your consumer.
@@ -98,6 +109,23 @@ All methods accept a promise as returned value. Ts.ED handles promise before ret
 ::: warning
 Return value is only possible when the method is decorated by @@Emit@@, @@Broadcast@@ and @@BroadcastOthers@@.
 :::
+
+Since v7.58.0, you can omit the `@Emit` decorator. Ts.ED will automatically emit the returned value using the callback function
+given by Socket.io.
+
+Example:
+
+```ts
+import {Args, Emit, Input, Socket, SocketService} from "@tsed/socketio";
+
+@SocketService("/my-namespace")
+export class MySocketService {
+  @Input("eventName")
+  async myMethod(@Args(0) userName: string, @Socket socket: Socket) {
+    return "Message " + userName;
+  }
+}
+```
 
 ### Socket Session
 

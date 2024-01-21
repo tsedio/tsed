@@ -1,7 +1,7 @@
+import {isFunction, Store} from "@tsed/core";
 import {InjectorService, Provider} from "@tsed/di";
-import {Store} from "@tsed/core";
-import {$log} from "@tsed/logger";
 import {deserialize} from "@tsed/json-mapper";
+import {$log} from "@tsed/logger";
 import {Namespace, Socket} from "socket.io";
 import {SocketFilters} from "../interfaces/SocketFilters";
 import {SocketHandlerMetadata} from "../interfaces/SocketHandlerMetadata";
@@ -43,6 +43,11 @@ export class SocketHandlersBuilder {
           case SocketReturnsTypes.EMIT:
             scope.socket.emit(returns.eventName, response);
             break;
+        }
+      } else {
+        const cb = scope.args.at(-1);
+        if (cb && isFunction(cb)) {
+          cb(response);
         }
       }
     };
@@ -147,8 +152,6 @@ export class SocketHandlersBuilder {
     return promise.catch((er: any) => {
       /* istanbul ignore next */
       $log.error(handlerMetadata.eventName, er);
-      /* istanbul ignore next */
-      process.exit(-1);
     });
   }
 
