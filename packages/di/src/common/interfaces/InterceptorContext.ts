@@ -1,7 +1,7 @@
 import type {Type} from "@tsed/core";
 
 export interface InterceptorNext {
-  <T>(err?: Error): T;
+  <T = unknown>(err?: Error): T;
 }
 
 export interface InterceptorContext<Klass = Type, Opts = any> {
