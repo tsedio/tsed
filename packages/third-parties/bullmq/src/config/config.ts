@@ -21,12 +21,12 @@ export type BullMQConfig = {
    *
    * Can be extended/overridden by `queueOptions`
    */
-  defaultQueueOptions?: Omit<QueueOptions, "connection">;
+  defaultQueueOptions?: Partial<QueueOptions>;
 
   /**
    * Specify additional queue options by queue name
    */
-  queueOptions?: Record<string, Omit<QueueOptions, "connection">>;
+  queueOptions?: Record<string, Partial<QueueOptions>>;
 
   /**
    * Disable the creation of any worker.
@@ -47,12 +47,12 @@ export type BullMQConfig = {
    *
    * Can be extended/overridden by `workerOptions`
    */
-  defaultWorkerOptions?: Omit<WorkerOptions, "connection">;
+  defaultWorkerOptions?: Partial<WorkerOptions>;
 
   /**
    * Specify additional worker options by queue name
    */
-  workerOptions?: Record<string, Omit<WorkerOptions, "connection">>;
+  workerOptions?: Record<string, Partial<WorkerOptions>>;
 };
 
 declare global {
