@@ -59,9 +59,11 @@ export class Container extends Map<TokenProvider, Provider> {
    * @param {ProviderType} type Filter the list by the given ProviderType.
    * @returns {[TokenProvider , Provider<any>][]}
    */
-  public getProviders(type?: ProviderType | string): Provider[] {
+  public getProviders(type?: ProviderType | string | string[]): Provider[] {
+    const types = ([] as (string | ProviderType)[]).concat(type as never);
+
     return [...this].reduce((providers, [_, provider]) => {
-      if (provider.type === type || !type) {
+      if (types.includes(provider.type) || !type) {
         return [...providers, provider];
       }
       return providers;
