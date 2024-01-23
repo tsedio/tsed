@@ -1,6 +1,6 @@
 {
   "name": "@tsed/normalize-path",
-  "version": "7.59.1",
+  "version": "7.60.0",
   "description": "Utils to normalize path",
   "private": false,
   "source": "./src/index.ts",
