@@ -475,6 +475,17 @@ describe("InjectorService", () => {
         // THEN
         expect(actualError.message).toContain("Injection failed on Test\nOrigin: Unable to inject dependency.");
       });
+      it("should try to inject string token (optional)", () => {
+        // GIVEN
+
+        const injector = new InjectorService();
+
+        // WHEN
+        const result = injector.invoke("token.not.found");
+
+        // THEN
+        expect(result).toEqual(undefined);
+      });
     });
     describe("when error occur", () => {
       it("should throw InjectionError", () => {

@@ -110,6 +110,18 @@ describe("@Inject()", () => {
       expect(instance.instances[1].type).toEqual("service2");
       expect(instance.instances[2].type).toEqual("async");
     });
+    it("should throw error", () => {
+      try {
+        // GIVEN
+        @Injectable()
+        class Test {
+          @Inject()
+          test: Object;
+        }
+      } catch (er) {
+        expect(er.message).toContain("Object isn't a valid token. Please check the token set on Test.test");
+      }
+    });
   });
 
   describe("@constructorParameters", () => {

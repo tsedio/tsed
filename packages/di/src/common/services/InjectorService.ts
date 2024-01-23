@@ -23,6 +23,7 @@ import {LocalsContainer} from "../domain/LocalsContainer";
 import {Provider} from "../domain/Provider";
 import {ProviderScope} from "../domain/ProviderScope";
 import {InjectionError} from "../errors/InjectionError";
+import {InvalidPropertyTokenError} from "../errors/InvalidPropertyTokenError";
 import {UndefinedTokenError} from "../errors/UndefinedTokenError";
 import {DILogger} from "../interfaces/DILogger";
 import {InjectableProperties, InjectablePropertyOptions, InjectablePropertyValue} from "../interfaces/InjectableProperties";
@@ -611,6 +612,11 @@ export class InjectorService extends Container {
     options: Partial<InvokeOptions<T>> = {}
   ): T | Promise<T> {
     const resolvedOpts = this.mapInvokeOptions(target, locals, options);
+
+    if (!resolvedOpts) {
+      return undefined as T;
+    }
+
     const {token, deps, construct, imports, provider} = resolvedOpts;
 
     if (provider) {
@@ -672,13 +678,17 @@ export class InjectorService extends Container {
    * @param locals
    * @param options
    */
-  private mapInvokeOptions(token: TokenProvider, locals: Map<TokenProvider, any>, options: Partial<InvokeOptions>): ResolvedInvokeOptions {
+  private mapInvokeOptions(
+    token: TokenProvider,
+    locals: Map<TokenProvider, any>,
+    options: Partial<InvokeOptions>
+  ): ResolvedInvokeOptions | false {
     let imports: TokenProvider[] | undefined = options.imports;
     let deps: TokenProvider[] | undefined = options.deps;
     let scope = options.scope;
     let construct;
 
-    if (!token) {
+    if (!token || token === Object) {
       throw new UndefinedTokenError();
     }
 
@@ -711,10 +721,12 @@ export class InjectorService extends Container {
         deps = await Promise.all(deps);
         return provider.useAsyncFactory(...deps);
       };
-    } else {
+    } else if (provider.useClass) {
       // useClass
       deps = deps || getConstructorDependencies(provider.useClass);
       construct = (deps: TokenProvider[]) => new provider.useClass(...deps);
+    } else {
+      return false;
     }
 
     return {
