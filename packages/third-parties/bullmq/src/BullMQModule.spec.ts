@@ -1,4 +1,4 @@
-import {PlatformTest} from "@tsed/common";
+import {Inject, PlatformTest} from "@tsed/common";
 import {catchAsyncError} from "@tsed/core";
 import {Queue, Worker} from "bullmq";
 import {anything, instance, mock, verify, when} from "ts-mockito";
@@ -8,6 +8,8 @@ import {BullMQModule} from "./BullMQModule";
 import {type BullMQConfig} from "./config/config";
 import {JobMethods} from "./contracts";
 import {FallbackJobController, JobController} from "./decorators";
+import {InjectQueue} from "./decorators/InjectQueue";
+import {InjectWorker} from "./decorators/InjectWorker";
 import {JobDispatcher} from "./dispatchers";
 
 const queueConstructorSpy = jest.fn();
@@ -36,6 +38,12 @@ jest.mock("bullmq", () => {
   }
 })
 class CustomCronJob implements JobMethods {
+  @InjectQueue("default")
+  queue: Queue;
+
+  @InjectWorker("default")
+  worker: Worker;
+
   handle() {}
 }
 
