@@ -35,7 +35,8 @@ import "@tsed/bullmq"; // import bullmq ts.ed module
 
 @Configuration({
   bullmq: {
-    // Specify queue's name to create
+    // Define queue names.
+    // Note: Since v7.60.0 this options is not required anymore, excepted if queue is not defined in JobController decorator
     queues: ["default", "special"],
     connection: {
       // redisio connection options
@@ -113,7 +114,7 @@ class ExampleJobWithCustomId implements JobMethods {
   public handle(payload: {num: number}) {
     console.info("look at my awesome number: ", payload.num);
   }
-  
+
   public jobId(payload: {num: number}): string {
     return `very realistic job id #${payload.num}`;
   }
@@ -123,8 +124,8 @@ class ExampleJobWithCustomId implements JobMethods {
 Keep in mind, though, that when defining a job using the dispatcher and dispatching the job, the ID defined using the dispatcher will take precedence!
 
 ```ts
-this.dispatcher(ExampleJobWithCustomId, { num: 1 }); // id: 'very realistic job id #1'
-this.dispatcher(ExampleJobWithCustomId, { num: 2 }, { jobId: 'I do my own thing!' }) // id: 'I do my own thing!'
+this.dispatcher(ExampleJobWithCustomId, {num: 1}); // id: 'very realistic job id #1'
+this.dispatcher(ExampleJobWithCustomId, {num: 2}, {jobId: "I do my own thing!"}); // id: 'I do my own thing!'
 ```
 
 ## Defining a repeating job
@@ -262,6 +263,60 @@ class MyService {
 
     // You can also specifiy which queue to use
     await this.dispatcher.dispatch({queue: "some-queue", name: "some-name"}, {msg: "this message is part of the payload for the job"});
+  }
+}
+```
+
+## Inject a Queue <Badge text="v7.60.0+"/>
+
+While JobDispatcher is the recommended way to dispatch jobs use class token, this can be useful in some cases to manipulate the queue directly.
+You can inject a queue using the `@InjectQueue` decorator.
+
+```ts
+import {InjectQueue, JobController} from "@tsed/bullmq";
+import {Queue} from "bullmq";
+
+@JobController("example")
+class ExampleJob implements JobMethods {
+  @InjectQueue("default")
+  private readonly queue?: Queue;
+
+  $onInit() {
+    if (this.queue) {
+      // do something with the queue
+      this.queue.add("some-job", {msg: "this message is part of the payload for the job"});
+    }
+  }
+
+  public handle(payload: {msg: string}) {
+    console.info("New message incoming", payload.msg);
+  }
+}
+```
+
+## Inject a Worker <Badge text="v7.60.0+"/>
+
+You can also inject a worker using the `@InjectWorker` decorator.
+
+```ts
+import {InjectWorker, JobController} from "@tsed/bullmq";
+
+@JobController("example")
+class ExampleJob implements JobMethods {
+  @InjectWorker("default")
+  private readonly worker?: Worker;
+
+  $onInit() {
+    if (this.worker) {
+      // do something with the worker
+      this.worker.on("completed", (job) => {
+        console.log("Job completed", job);
+      });
+    }
+  }
+
+  public handle(payload: {msg: string}) {
+    console.info("New message incoming", payload.msg);
   }
 }
 ```

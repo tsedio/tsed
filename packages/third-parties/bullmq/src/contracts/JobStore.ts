@@ -1,7 +1,7 @@
 import {JobsOptions} from "bullmq";
 
-export type JobStore = {
+export interface JobStore {
   name: string;
   queue: string;
   opts: JobsOptions;
-};
+}
