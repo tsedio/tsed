@@ -4,7 +4,7 @@ export type BullMQConfig = {
   /**
    * Specify queue name's to create
    */
-  queues: string[];
+  queues?: string[];
 
   /**
    * Default connection to use for queue's and worker's

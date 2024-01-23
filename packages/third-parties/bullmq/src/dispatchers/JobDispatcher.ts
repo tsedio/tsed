@@ -1,11 +1,14 @@
 /* eslint-disable require-await */
-import {InjectorService, Service} from "@tsed/di";
-import {JobMethods, type JobStore} from "../contracts";
 import {Store, Type} from "@tsed/core";
+import {Injectable, InjectorService} from "@tsed/di";
 import {Job as BullMQJob, JobsOptions, Queue} from "bullmq";
+import {BULLMQ} from "../constants/constants";
+import {JobMethods, type JobStore} from "../contracts";
+import {getJobToken} from "../utils/getJobToken";
+import {getQueueToken} from "../utils/getQueueToken";
 import type {JobDispatcherOptions} from "./JobDispatcherOptions";
 
-@Service()
+@Injectable()
 export class JobDispatcher {
   constructor(private readonly injector: InjectorService) {}
 
@@ -19,7 +22,7 @@ export class JobDispatcher {
   public async dispatch(job: Type | JobDispatcherOptions | string, payload: unknown, options: JobsOptions = {}): Promise<BullMQJob> {
     const {queueName, jobName, defaultJobOptions} = await this.resolveDispatchArgs(job, payload);
 
-    const queue = this.injector.get<Queue>(`bullmq.queue.${queueName}`);
+    const queue = this.injector.get<Queue>(getQueueToken(queueName));
 
     if (!queue) {
       throw new Error(`Queue(${queueName}) not defined`);
@@ -38,7 +41,7 @@ export class JobDispatcher {
 
     if (typeof job === "function") {
       // job is passed as a Type
-      const store = Store.from(job).get<JobStore>("bullmq");
+      const store = Store.from(job).get<JobStore>(BULLMQ);
       queueName = store.queue;
       jobName = store.name;
       defaultJobOptions = await this.retrieveJobOptionsFromClassBasedJob(store, payload);
@@ -60,7 +63,8 @@ export class JobDispatcher {
   }
 
   private async retrieveJobOptionsFromClassBasedJob(store: JobStore, payload: unknown): Promise<JobsOptions> {
-    const job = this.injector.get<JobMethods>(`bullmq.job.${store.queue}.${store.name}`);
+    const job = this.injector.get<JobMethods>(getJobToken(store.queue, store.name));
+
     if (!job) {
       return store.opts;
     }

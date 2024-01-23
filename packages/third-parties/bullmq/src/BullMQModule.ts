@@ -1,93 +1,91 @@
 import {BeforeInit, DIContext, runInContext} from "@tsed/common";
-import {Constant, InjectorService, Module} from "@tsed/di";
-import {deepMerge} from "@tsed/core";
+import {InjectorService, Module} from "@tsed/di";
 import {getComputedType} from "@tsed/schema";
-import {Job, Queue, type QueueOptions, Worker, type WorkerOptions} from "bullmq";
+import {Job} from "bullmq";
 import {v4} from "uuid";
 import {BullMQConfig} from "./config/config";
-import {JobMethods} from "./contracts";
+import {BullMQTypes} from "./constants/BullMQTypes";
+import {BULLMQ} from "./constants/constants";
+import {JobMethods, JobStore} from "./contracts";
 import {JobDispatcher} from "./dispatchers";
+import {createQueueProvider} from "./utils/createQueueProvider";
+import {createWorkerProvider} from "./utils/createWorkerProvider";
+import {getFallbackJobToken, getJobToken} from "./utils/getJobToken";
+import {mapQueueOptions} from "./utils/mapQueueOptions";
+import {mapWorkerOptions} from "./utils/mapWorkerOptions";
 
 @Module()
 export class BullMQModule implements BeforeInit {
-  @Constant("bullmq")
-  private readonly bullmq: BullMQConfig;
+  constructor(private readonly injector: InjectorService, private readonly dispatcher: JobDispatcher) {
+    // build providers allow @Inject(queue) usage in JobController instance
+    if (this.isEnabled()) {
+      const queues = [...this.getUniqQueueNames()];
 
-  constructor(private readonly injector: InjectorService, private readonly dispatcher: JobDispatcher) {}
+      this.buildQueues(queues);
+
+      if (!this.isWorkerEnabled()) {
+        const workers = this.config.workerQueues?.length ? this.config.workerQueues : queues;
+
+        this.buildWorkers(workers);
+      }
+    }
+  }
+
+  get config() {
+    return this.injector.settings.get<BullMQConfig>("bullmq");
+  }
 
   $beforeInit() {
-    if (!this.bullmq) {
-      return;
+    if (this.isEnabled()) {
+      this.injector.getMany<JobMethods>(BullMQTypes.CRON).map((job) => this.dispatcher.dispatch(getComputedType(job)));
     }
-
-    if (!this.bullmq.disableWorker) {
-      this.buildWorkers();
-    }
-    this.buildQueues();
-
-    this.injector.getMany<JobMethods>("bullmq:cron").map((job) => this.dispatcher.dispatch(getComputedType(job)));
   }
 
-  private buildQueues() {
-    this.bullmq.queues.forEach((queue) => {
-      const ops = deepMerge<QueueOptions, QueueOptions>(
-        {
-          connection: this.bullmq.connection,
-          defaultJobOptions: this.bullmq.defaultJobOptions,
-          ...this.bullmq.defaultQueueOptions
-        },
-        this.bullmq.queueOptions?.[queue]
-      )!;
+  isEnabled() {
+    return !!this.config;
+  }
 
-      this.injector
-        .add(`bullmq.queue.${queue}`, {
-          type: "bullmq:queue",
-          useValue: new Queue(queue, ops),
-          hooks: {
-            $onDestroy: (queue) => queue.close()
-          }
-        })
-        .invoke<Queue>(`bullmq.queue.${queue}`);
+  isWorkerEnabled() {
+    return this.config.disableWorker;
+  }
+
+  private buildQueues(queues: string[]) {
+    queues.forEach((queue) => {
+      const opts = mapQueueOptions(queue, this.config);
+      createQueueProvider(this.injector, queue, opts);
     });
   }
 
-  private buildWorkers() {
-    (this.bullmq.workerQueues ?? this.bullmq.queues).forEach((queue) => {
-      const ops = deepMerge<WorkerOptions, WorkerOptions>(
-        {
-          connection: this.bullmq.connection,
-          ...this.bullmq.defaultWorkerOptions
-        },
-        this.bullmq.workerOptions?.[queue]
-      )!;
-
-      this.injector
-        .add(`bullmq.worker.${queue}`, {
-          type: "bullmq:worker",
-          useValue: new Worker(queue, this.onProcess.bind(this), ops),
-          hooks: {
-            $onDestroy: (worker) => worker.close()
-          }
-        })
-        .invoke<Worker>(`bullmq.worker.${queue}`);
+  private buildWorkers(workers: string[]) {
+    workers.forEach((worker) => {
+      const opts = mapWorkerOptions(worker, this.config);
+      createWorkerProvider(this.injector, worker, this.onProcess, opts);
     });
+  }
+
+  /**
+   * Auto discover queue names from provider and merge it with queue names from global configuration.
+   * @private
+   */
+  private getUniqQueueNames() {
+    return new Set(
+      this.injector
+        .getProviders([BullMQTypes.JOB, BullMQTypes.CRON, BullMQTypes.FALLBACK_JOB])
+        .map((provider) => provider.store.get<JobStore>(BULLMQ)?.queue)
+        .concat(this.config.queues!)
+        .filter(Boolean)
+    );
   }
 
   private getJob(name: string, queueName: string) {
-    const job = this.injector.get<JobMethods>(`bullmq.job.${queueName}.${name}`);
-    if (job) {
-      return job;
-    }
-
-    const fallbackJobForQueue = this.injector.get(`bullmq.fallback-job.${queueName}`);
-    if (fallbackJobForQueue) {
-      return fallbackJobForQueue;
-    }
-
-    return this.injector.get("bullmq.fallback-job");
+    return (
+      this.injector.get<JobMethods>(getJobToken(queueName, name)) ||
+      this.injector.get(getFallbackJobToken(queueName)) ||
+      this.injector.get(getFallbackJobToken())
+    );
   }
 
-  private async onProcess(job: Job) {
+  private onProcess = async (job: Job) => {
     const jobService = this.getJob(job.name, job.queueName);
 
     if (!jobService) {
@@ -131,5 +129,5 @@ export class BullMQModule implements BeforeInit {
     } finally {
       await $ctx.destroy();
     }
-  }
+  };
 }

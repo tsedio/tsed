@@ -151,6 +151,97 @@ describe("BullMQModule", () => {
       });
     });
 
+    describe("discover queues from decorators", () => {
+      beforeEach(async () => {
+        await PlatformTest.create({
+          bullmq: {
+            queues: ["special"],
+            connection: {
+              connectionName: "defaultConnectionName"
+            },
+            defaultQueueOptions: {
+              defaultJobOptions: {
+                delay: 100
+              },
+              blockingConnection: true
+            },
+            queueOptions: {
+              special: {
+                connection: {
+                  connectionName: "specialConnectionName"
+                },
+                defaultJobOptions: {
+                  attempts: 9
+                }
+              }
+            },
+            defaultWorkerOptions: {
+              connection: {
+                connectTimeout: 123
+              },
+              concurrency: 50
+            },
+            workerOptions: {
+              special: {
+                concurrency: 1,
+                lockDuration: 2
+              }
+            }
+          },
+          imports: [
+            {
+              token: JobDispatcher,
+              use: instance(dispatcher)
+            }
+          ]
+        });
+      });
+
+      it("queue", () => {
+        expect(queueConstructorSpy).toHaveBeenCalledTimes(2);
+
+        expect(queueConstructorSpy).toHaveBeenNthCalledWith(1, "default", {
+          connection: {
+            connectionName: "defaultConnectionName"
+          },
+          defaultJobOptions: {
+            delay: 100
+          },
+          blockingConnection: true
+        });
+
+        expect(queueConstructorSpy).toHaveBeenNthCalledWith(2, "special", {
+          connection: {
+            connectionName: "specialConnectionName"
+          },
+          defaultJobOptions: {
+            attempts: 9,
+            delay: 100
+          },
+          blockingConnection: true
+        });
+      });
+
+      it("worker", () => {
+        expect(workerConstructorSpy).toHaveBeenCalledTimes(2);
+
+        expect(workerConstructorSpy).toHaveBeenNthCalledWith(1, "default", expect.any(Function), {
+          connection: {
+            connectTimeout: 123
+          },
+          concurrency: 50
+        });
+
+        expect(workerConstructorSpy).toHaveBeenNthCalledWith(2, "special", expect.any(Function), {
+          connection: {
+            connectTimeout: 123
+          },
+          concurrency: 1,
+          lockDuration: 2
+        });
+      });
+    });
+
     describe("disableWorker", () => {
       const config = {
         queues: ["default", "foo", "bar"],
