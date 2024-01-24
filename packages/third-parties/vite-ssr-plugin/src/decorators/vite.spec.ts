@@ -3,6 +3,8 @@ import {Store} from "@tsed/core";
 
 import {Vite} from "./vite";
 
+jest.mock("vite");
+
 @Controller("/")
 class ControllerTest {
   @Vite()
