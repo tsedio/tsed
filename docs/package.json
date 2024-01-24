@@ -61,7 +61,7 @@
     "@vuepress/plugin-google-analytics": "1.9.9",
     "@vuepress/plugin-html-redirect": "^0.1.4",
     "@vuepress/plugin-medium-zoom": "1.9.7",
-    "axios": "0.27.2",
+    "axios": "1.6.5",
     "vue-analytics": "5.22.1",
     "vuepress": "1.9.7",
     "vuepress-plugin-sitemap": "2.3.1",
