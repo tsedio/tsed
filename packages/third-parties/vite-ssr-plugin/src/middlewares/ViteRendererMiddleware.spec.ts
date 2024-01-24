@@ -7,6 +7,8 @@ import {ViteRendererMiddleware} from "./ViteRendererMiddleware";
 // FIXME remove when esm is ready
 const [, rootDir] = filedirname();
 
+jest.mock("vite");
+
 describe("ViteRenderMiddleware", () => {
   describe("use()", () => {
     beforeEach(() =>

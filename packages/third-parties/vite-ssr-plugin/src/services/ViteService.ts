@@ -1,7 +1,7 @@
 import {Constant, PlatformContext} from "@tsed/common";
 import {Injectable} from "@tsed/di";
 import {Writable} from "stream";
-import {renderPage} from "vite-plugin-ssr/server";
+
 import {ViteConfig} from "../interfaces/ViteConfig";
 import {ViteRenderContext} from "../interfaces/ViteRenderContext";
 
@@ -39,6 +39,8 @@ export class ViteService {
       session: $ctx.request.session,
       stateSnapshot: this.config.stateSnapshot && this.config.stateSnapshot()
     };
+
+    const {renderPage} = await import("vite-plugin-ssr/server");
 
     const pageContext = await renderPage({
       view,
