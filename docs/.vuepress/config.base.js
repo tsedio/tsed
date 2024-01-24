@@ -270,8 +270,8 @@ module.exports = ({title, description, base = "", url, apiRedirectUrl = "", them
                 link: `${base}/tutorials/terminus.html`
               },
               {
-                text: "Vite plugin ssr",
-                link: `${base}/tutorials/vite-plugin-ssr.html`
+                text: "Vike",
+                link: `${base}/tutorials/vike.html`
               }
             ].sort((a, b) => (a.text < b.text ? -1 : 1))
           },
@@ -427,7 +427,7 @@ module.exports = ({title, description, base = "", url, apiRedirectUrl = "", them
               {title: "Serverless", path: base + "/tutorials/serverless"},
               {title: "IORedis", path: base + "/tutorials/ioredis"},
               {title: "Objection.js", path: base + "/tutorials/objection"},
-              {title: "Vite plugin ssr", path: base + "/tutorials/vite-plugin-ssr"},
+              {title: "Vike", path: base + "/tutorials/vike"},
               {title: "Temporal", path: base + "/tutorials/temporal"},
               {title: "BullMQ", path: base + "/tutorials/bullmq"}
             ].sort((a, b) => (a.title < b.title ? -1 : 1))
