@@ -37,7 +37,7 @@
     "@tsed/exceptions": "7.60.0",
     "@tsed/typescript": "7.44.1",
     "eslint": "^8.12.0",
-    "vite": "4.5.2",
+    "vite": "5.0.12",
     "vike": "0.4.160"
   },
   "peerDependencies": {
