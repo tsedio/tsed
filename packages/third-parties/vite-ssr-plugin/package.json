@@ -1,6 +1,6 @@
 {
   "name": "@tsed/vite-ssr-plugin",
-  "version": "7.60.1",
+  "version": "7.61.0",
   "description": "Vite SSR plugin package for Ts.ED framework",
   "private": false,
   "contributors": [
@@ -25,7 +25,7 @@
     "lint:fix": "eslint '**/*.{ts,js}' --fix"
   },
   "dependencies": {
-    "@tsed/vike": "7.60.1"
+    "@tsed/vike": "7.61.0"
   },
   "peerDependencies": {
     "vite-plugin-ssr": ">=0.4.114"
