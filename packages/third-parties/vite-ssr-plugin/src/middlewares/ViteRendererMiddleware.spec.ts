@@ -7,7 +7,15 @@ import {ViteRendererMiddleware} from "./ViteRendererMiddleware";
 // FIXME remove when esm is ready
 const [, rootDir] = filedirname();
 
-jest.mock("vite");
+jest.mock("vite-plugin-ssr/server", () => ({
+  renderPage: jest.fn()
+}));
+jest.mock("vite", () => ({
+  createServer: jest.fn().mockResolvedValue({
+    middlewares: "middlewares",
+    close: jest.fn()
+  })
+}));
 
 describe("ViteRenderMiddleware", () => {
   describe("use()", () => {

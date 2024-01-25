@@ -3,8 +3,9 @@ import {renderPage} from "vite-plugin-ssr/server";
 
 import {ViteService} from "./ViteService";
 
-jest.mock("vite-plugin-ssr/server");
-jest.mock("vite");
+jest.mock("vite-plugin-ssr/server", () => ({
+  renderPage: jest.fn()
+}));
 
 async function getServiceFixture(httpResponse: any) {
   const $ctx = PlatformTest.createRequestContext();
