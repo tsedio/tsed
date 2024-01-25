@@ -1,31 +1,29 @@
 import {PlatformTest} from "@tsed/common";
 import {Env} from "@tsed/core";
 import sirv from "sirv";
-import {createServer} from "vite";
-
 import {VITE_SERVER} from "./ViteServer";
 
 jest.mock("sirv", () => {
   return jest.fn().mockReturnValue("sirv");
 });
+jest.mock("vite", () => {
+  return {
+    createServer: jest.fn().mockResolvedValue({
+      middlewares: "middlewares",
+      close: jest.fn()
+    })
+  };
+});
 
-jest.mock("vite-plugin-ssr/server", () => ({
-  renderPage: jest.fn()
-}));
-jest.mock("vite", () => ({
-  createServer: jest.fn().mockResolvedValue({
-    middlewares: "middlewares",
-    close: jest.fn()
-  })
-}));
+async function createTestFixture() {
+  const mod = await import("vite");
+
+  return {
+    createServer: mod.createServer
+  };
+}
 
 describe("ViteServer", () => {
-  beforeEach(() => {
-    jest.resetAllMocks();
-    (createServer as jest.Mock).mockResolvedValue({middlewares: "middlewares"});
-    (sirv as jest.Mock).mockReturnValue("sirv");
-  });
-
   describe("with default options - dev mode", () => {
     beforeEach(() =>
       PlatformTest.create({
@@ -34,7 +32,8 @@ describe("ViteServer", () => {
     );
     afterEach(() => PlatformTest.reset());
 
-    it("should load vite dev server", () => {
+    it("should load vite dev server", async () => {
+      const {createServer} = await createTestFixture();
       const viteDevServer = PlatformTest.get<VITE_SERVER>(VITE_SERVER);
 
       expect(viteDevServer.middlewares).toEqual("middlewares");
@@ -46,6 +45,7 @@ describe("ViteServer", () => {
       });
     });
     it("should load and close server", async () => {
+      const {createServer} = await createTestFixture();
       const viteDevServer = PlatformTest.get<VITE_SERVER>(VITE_SERVER);
       viteDevServer.close = jest.fn();
 
@@ -76,7 +76,8 @@ describe("ViteServer", () => {
     );
     afterEach(() => PlatformTest.reset());
 
-    it("should load vite dev server", () => {
+    it("should load vite dev server", async () => {
+      const {createServer} = await createTestFixture();
       const viteDevServer = PlatformTest.get<VITE_SERVER>(VITE_SERVER);
 
       expect(viteDevServer.middlewares).toEqual("middlewares");
@@ -101,7 +102,8 @@ describe("ViteServer", () => {
     );
     afterEach(() => PlatformTest.reset());
 
-    it("should load sirv to expose statics files", () => {
+    it("should load sirv to expose statics files", async () => {
+      await createTestFixture();
       const viteDevServer = PlatformTest.get<VITE_SERVER>(VITE_SERVER);
 
       expect(viteDevServer.middlewares).toEqual("sirv");

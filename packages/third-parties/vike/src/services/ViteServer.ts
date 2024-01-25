@@ -1,9 +1,9 @@
 import {Logger} from "@tsed/common";
 import {Env} from "@tsed/core";
 import {Configuration, registerProvider} from "@tsed/di";
-import sirv from "sirv";
-import type {ViteDevServer} from "vite";
 
+// @ts-ignore
+import type {InlineConfig, ViteDevServer} from "vite";
 import {ViteConfig} from "../interfaces/ViteConfig";
 
 export const VITE_SERVER = Symbol.for("VITE_DEV_SERVER");
@@ -13,11 +13,12 @@ registerProvider({
   provide: VITE_SERVER,
   deps: [Configuration, Logger],
   async useAsyncFactory(settings: Configuration, logger: Logger) {
-    const {enableStream, statics: staticsOpts = {}, ...config} = settings.get<ViteConfig>("vite", {});
+    const {enableStream, statics: staticsOpts = {}, ...config} = settings.get<ViteConfig & InlineConfig>("vite", {});
     const level = settings.logger.level;
 
     if (settings.env !== Env.PROD) {
       logger.info("Start Vite Dev Server 🚀...");
+      // @ts-ignore
       const {createServer} = await import("vite");
 
       return createServer({
@@ -31,6 +32,7 @@ registerProvider({
     }
 
     logger.info("Initialize statics vite application");
+    const {default: sirv} = await import("sirv");
 
     return Promise.resolve({
       middlewares: sirv(`${config.root || ""}/dist/client`, {

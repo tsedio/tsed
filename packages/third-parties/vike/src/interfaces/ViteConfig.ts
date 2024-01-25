@@ -1,8 +1,10 @@
-import type {Options} from "sirv";
+import {Options} from "sirv";
+
+// @ts-ignore
 import type {InlineConfig} from "vite";
 
-export interface ViteConfig extends InlineConfig {
+export type ViteConfig = InlineConfig & {
   enableStream?: boolean;
   statics?: Omit<Options, "dev">;
   stateSnapshot?(): unknown;
-}
+};

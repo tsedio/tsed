@@ -27,6 +27,8 @@ With `vike`, you integrate tools manually and keep `architectural control`.
 ::: tip Note
 Vike replace the `vite-plugin-ssr` package. Ts.ED provides `@tsed/vite-ssr-plugin` and `@tsed/vike` packages.
 All new features will only embed to `@tsed/vike` package.
+
+To migrate `@tsed/vite-ssr-plugin`, just replace `@tsed/vite-ssr-plugin` by `@tsed/vike` in your code and install `vike` dependency instead of `vite-plugin-ssr`.
 :::
 
 ::: tip
@@ -36,7 +38,7 @@ You can read also this article over Ts.ED + Vite-plugin-ssr on Medium:
 
 ## Features
 
-- Use `@Vike` decorator to generate a page using `vike`
+- Use `@Vite` decorator to generate a page using `vite`
 - Render a page using any UI framework (React, Vue, Svelte, Solid, ...)
 
 ## Quick start
@@ -46,7 +48,7 @@ You can read also this article over Ts.ED + Vite-plugin-ssr on Medium:
 ## Installation
 
 ```bash
-npm install vike @tsed/vite-ssr-plugin vite@4 --save
+npm install vike @tsed/vike vite@4 --save
 ```
 
 Then edit your `Server.ts`:
@@ -56,7 +58,7 @@ import {join} from "path";
 import {Configuration, Inject} from "@tsed/di";
 import {PlatformApplication} from "@tsed/common";
 import "@tsed/platform-express"; // /!\ keep this import
-import "@tsed/vite-ssr-plugin"; // add this
+import "@tsed/vike"; // add this
 import "@tsed/ajv";
 import "@tsed/swagger";
 import {config} from "./config";
@@ -88,7 +90,7 @@ The start project is a monorepo (Nx) with 2 projects:
 ```ts
 import {Constant, Controller} from "@tsed/di";
 import {HeaderParams} from "@tsed/platform-params";
-import {Vite} from "@tsed/vite-ssr-plugin";
+import {Vite} from "@tsed/vike";
 import {SwaggerSettings} from "@tsed/swagger";
 import {Get, Hidden, Returns} from "@tsed/schema";
 
@@ -155,7 +157,7 @@ export function Page({docs}: PageContext & HomePageProps) {
 
 Result:
 
-<figure><img src="/vike-tsed.png" style="max-height: 300px; background: white"></figure>
+<figure><img src="/vite-tsed.png" style="max-height: 300px; background: white"></figure>
 
 ## Add a controlled page
 

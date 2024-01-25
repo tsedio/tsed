@@ -1,12 +1,13 @@
 import {Constant, PlatformContext} from "@tsed/common";
 import {Injectable} from "@tsed/di";
 import {Writable} from "stream";
-
 import {ViteConfig} from "../interfaces/ViteConfig";
 import {ViteRenderContext} from "../interfaces/ViteRenderContext";
 
 @Injectable()
 export class ViteService {
+  static moduleName = "vike/server";
+
   @Constant("vite", {})
   protected config: ViteConfig;
 
@@ -40,7 +41,7 @@ export class ViteService {
       stateSnapshot: this.config.stateSnapshot && this.config.stateSnapshot()
     };
 
-    const {renderPage} = await import("vite-plugin-ssr/server");
+    const {renderPage} = await import(ViteService.moduleName);
 
     const pageContext = await renderPage({
       view,

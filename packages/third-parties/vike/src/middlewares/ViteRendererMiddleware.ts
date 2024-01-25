@@ -1,15 +1,15 @@
 import {Context, Middleware} from "@tsed/common";
 import {Inject} from "@tsed/di";
 
-import {VikeService} from "../services/VikeService";
+import {ViteService} from "../services/ViteService";
 
 @Middleware()
-export class VikeRendererMiddleware {
+export class ViteRendererMiddleware {
   @Inject()
-  protected vikeService: VikeService;
+  protected viteService: ViteService;
 
   async use(@Context() $ctx: Context) {
-    const response = await this.vikeService.render("*", {$ctx});
+    const response = await this.viteService.render("*", {$ctx});
 
     response && !$ctx.response.isDone() && $ctx.response.body(response);
   }

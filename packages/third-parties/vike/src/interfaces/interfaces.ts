@@ -1,9 +1,9 @@
-import {VikeConfig} from "./VikeConfig";
+import {ViteConfig} from "./ViteConfig";
 
 declare global {
   namespace TsED {
     interface Configuration {
-      vike: VikeConfig;
+      vite: ViteConfig;
     }
   }
 }
