@@ -1,5 +1,5 @@
 import {PlatformTest} from "@tsed/common";
-import {VikeService} from "./VikeService";
+import {ViteService} from "./ViteService";
 
 jest.mock("vike/server", () => {
   return {
@@ -10,7 +10,7 @@ jest.mock("vike/server", () => {
 async function getServiceFixture(httpResponse: any) {
   const $ctx = PlatformTest.createRequestContext();
 
-  const service = await PlatformTest.invoke<VikeService>(VikeService, []);
+  const service = await PlatformTest.invoke<ViteService>(ViteService, []);
 
   $ctx.request.req.method = "GET";
   $ctx.request.req.url = "/";
@@ -35,13 +35,13 @@ async function getServiceFixture(httpResponse: any) {
   return {renderPage: mod.renderPage, service, $ctx, pageContext, stateSnapshot: PlatformTest.injector.settings.get("stateSnapshot")};
 }
 
-describe("VikeService", () => {
+describe("ViteService", () => {
   describe("render()", () => {
     describe("when the enableStream: false", () => {
       beforeEach(() => {
         jest.resetAllMocks();
         return PlatformTest.create({
-          vike: {root: "./path/to/client", stateSnapshot: jest.fn().mockReturnValue({state: "state"})}
+          vite: {root: "./path/to/client", stateSnapshot: jest.fn().mockReturnValue({state: "state"})}
         });
       });
       afterEach(() => PlatformTest.reset());
@@ -89,7 +89,7 @@ describe("VikeService", () => {
         jest.spyOn($ctx.response, "body").mockReturnThis();
         jest.spyOn($ctx.response, "contentType").mockReturnThis();
 
-        const result = await service.render("vue.vike", {$ctx, valueOpt: "valueOpt"});
+        const result = await service.render("vue.vite", {$ctx, valueOpt: "valueOpt"});
 
         expect(result).toEqual(undefined);
         expect(renderPage).toHaveBeenCalledWith(
@@ -133,7 +133,7 @@ describe("VikeService", () => {
         jest.spyOn($ctx.response, "body").mockReturnThis();
         jest.spyOn($ctx.response, "setHeader").mockReturnThis();
 
-        await service.render("vue.vike", {$ctx});
+        await service.render("vue.vite", {$ctx});
 
         expect($ctx.logger.error).toHaveBeenCalled();
       });
@@ -143,7 +143,7 @@ describe("VikeService", () => {
       beforeEach(() => {
         jest.resetAllMocks();
         return PlatformTest.create({
-          vike: {enableStream: true, root: "./path/to/client", stateSnapshot: jest.fn().mockReturnValue({state: "state"})}
+          vite: {enableStream: true, root: "./path/to/client", stateSnapshot: jest.fn().mockReturnValue({state: "state"})}
         });
       });
       afterEach(() => PlatformTest.reset());

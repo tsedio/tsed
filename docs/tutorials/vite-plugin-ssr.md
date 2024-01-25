@@ -21,6 +21,13 @@ technology, deploy environment, Vite plugin, ...).
 
 With `vite-plugin-ssr`, you integrate tools manually and keep `architectural control`.
 
+::: tip Note
+Vike replace the `vite-plugin-ssr` package. Ts.ED provides `@tsed/vite-ssr-plugin` and `@tsed/vike` packages.
+All new features will only embed to `@tsed/vike` package.
+
+To migrate `@tsed/vite-ssr-plugin`, just replace `@tsed/vite-ssr-plugin` by `@tsed/vike` in your code and install `vike` dependency instead of `vite-plugin-ssr`.
+:::
+
 ::: tip
 You can read also this article over Ts.ED + Vite-plugin-ssr on Medium:
 https://romainlenzotti.medium.com/use-vite-and-ts-ed-to-build-your-website-84fb4c0d8079

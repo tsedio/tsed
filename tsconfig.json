@@ -155,6 +155,9 @@
       "path": "./packages/third-parties/vite-ssr-plugin"
     },
     {
+      "path": "./packages/third-parties/vike"
+    },
+    {
       "path": "./packages/third-parties/terminus"
     },
     {

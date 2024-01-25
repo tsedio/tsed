@@ -19,35 +19,18 @@
     "default": "./lib/esm/index.js"
   },
   "scripts": {
-    "build": "yarn barrels && yarn build:ts",
-    "barrels": "yarn barrelsby --delete -d ./src -e \"\\.spec\\.ts\" -e \"__mock__\" -e \".benchmark.ts\"",
-    "test": "cross-env NODE_ENV=test yarn jest --max-workers=2 && jest-coverage-thresholds-bumper",
+    "build": "yarn build:ts",
     "build:ts": "tsc --build tsconfig.json && tsc --build tsconfig.esm.json",
     "lint": "eslint '**/*.{ts,js}'",
     "lint:fix": "eslint '**/*.{ts,js}' --fix"
   },
   "dependencies": {
-    "sirv": ">=2.0.2"
-  },
-  "devDependencies": {
-    "@tsed/common": "7.60.1",
-    "@tsed/core": "7.60.1",
-    "@tsed/di": "7.60.1",
-    "@tsed/eslint": "7.44.1",
-    "@tsed/exceptions": "7.60.1",
-    "@tsed/typescript": "7.44.1",
-    "eslint": "^8.12.0",
-    "vite": "5.0.12",
-    "vite-plugin-ssr": "0.4.142"
+    "@tsed/vike": "7.60.1"
   },
   "peerDependencies": {
-    "@tsed/common": "^7.60.1",
-    "vite": ">=4",
     "vite-plugin-ssr": ">=0.4.114"
   },
-  "peerDependenciesMeta": {
-    "@tsed/common": {
-      "optional": false
-    }
+  "devDependencies": {
+    "@tsed/typescript": "7.44.1"
   }
 }

@@ -27,16 +27,7 @@
   ],
   "references": [
     {
-      "path": "../../platform/common"
-    },
-    {
-      "path": "../../core"
-    },
-    {
-      "path": "../../di"
-    },
-    {
-      "path": "../../specs/exceptions"
+      "path": "../vike/tsconfig.json"
     }
   ]
 }
