@@ -196,6 +196,9 @@ frameworks:
   - title: BullMQ
     href: /tutorials/bullmq.html
     src: /bullmq.png
+  - title: Vike
+    href: /tutorials/vike.html
+    src: /vike.svg
 ---
 
 ::: slot hero-brand
