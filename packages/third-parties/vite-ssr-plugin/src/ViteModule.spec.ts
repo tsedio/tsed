@@ -6,8 +6,15 @@ import {VITE_SERVER} from "./services/ViteServer";
 import {ViteService} from "./services/ViteService";
 import {ViteModule} from "./ViteModule";
 
-jest.mock("vite-plugin-ssr/server");
-jest.mock("vite");
+jest.mock("vite-plugin-ssr/server", () => ({
+  renderPage: jest.fn()
+}));
+jest.mock("vite", () => ({
+  createServer: jest.fn().mockResolvedValue({
+    middlewares: "middlewares",
+    close: jest.fn()
+  })
+}));
 
 async function getModuleFixture() {
   const platformViews = {

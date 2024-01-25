@@ -5,9 +5,19 @@ import {createServer} from "vite";
 
 import {VITE_SERVER} from "./ViteServer";
 
-jest.mock("vite-plugin-ssr/server");
-jest.mock("vite");
-jest.mock("sirv");
+jest.mock("sirv", () => {
+  return jest.fn().mockReturnValue("sirv");
+});
+
+jest.mock("vite-plugin-ssr/server", () => ({
+  renderPage: jest.fn()
+}));
+jest.mock("vite", () => ({
+  createServer: jest.fn().mockResolvedValue({
+    middlewares: "middlewares",
+    close: jest.fn()
+  })
+}));
 
 describe("ViteServer", () => {
   beforeEach(() => {
