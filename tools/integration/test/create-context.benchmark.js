@@ -1,4 +1,4 @@
-const {PerfLogger} = require("@tsed/perf");
+const {PerfLogger} = require("packages/perf");
 const {PlatformExpress} = require("@tsed/platform-express");
 const {createContext} = require("@tsed/common");
 const {Server} = require("../lib/cjs/Server.js");

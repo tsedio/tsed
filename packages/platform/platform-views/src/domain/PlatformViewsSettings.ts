@@ -36,7 +36,6 @@ export const PLATFORM_VIEWS_EXTENSIONS = {
   swig: "swig",
   teacup: "teacup",
   templayed: "templayed",
-  toffee: "toffee",
   twig: "twig",
   underscore: "underscore",
   vash: "vash",

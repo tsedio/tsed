@@ -27,7 +27,7 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
       - name: Install dependencies
-        run: yarn install --frozen-lockfile --network-timeout 500000 --ignore-engines
+        run: yarn install --immutable --network-timeout 500000
       - name: Run lint
         run: yarn test:lint
 
@@ -37,16 +37,16 @@ jobs:
     strategy:
       matrix:
         os: [ubuntu-latest, macos-latest, windows-latest]
-        node-version: [16.x, 18.x]
+        node-version: [18.x, 20.x]
         exclude:
           - os: macos-latest
             node-version: 20.x
           - os: macos-latest
-            node-version: 16.x
+            node-version: 18.x
           - os: windows-latest
             node-version: 20.x
           - os: windows-latest
-            node-version: 16.x
+            node-version: 18.x
 
     steps:
       - uses: actions/checkout@v3
@@ -57,7 +57,7 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
       - name: Install dependencies
-        run: yarn install --frozen-lockfile --network-timeout 500000 --ignore-engines
+        run: yarn install --immutable --network-timeout 500000
       - name: Run build
         run: yarn tsc --build
         env:
@@ -83,7 +83,7 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
       - name: Install dependencies
-        run: yarn install --frozen-lockfile --network-timeout 500000 --ignore-engines
+        run: yarn install --immutable --network-timeout 500000
       - name: Run build
         run: yarn tsc --build
       - name: Run test
@@ -105,7 +105,7 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
       - name: Install dependencies
-        run: yarn install --frozen-lockfile --network-timeout 500000 --ignore-engines
+        run: yarn install --immutable --network-timeout 500000
       - name: Run build
         run: yarn tsc --build
       - name: Run test
@@ -127,7 +127,7 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
       - name: Install dependencies
-        run: yarn install --frozen-lockfile --network-timeout 500000 --ignore-engines
+        run: yarn install --immutable --network-timeout 500000
       - name: Run build
         run: yarn tsc --build
       - name: Run test
@@ -149,7 +149,7 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
       - name: Install dependencies
-        run: yarn install --frozen-lockfile --network-timeout 500000 --ignore-engines
+        run: yarn install --immutable --network-timeout 500000
       - name: Run build
         run: yarn tsc --build
       - name: Run test
@@ -171,7 +171,7 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
       - name: Install dependencies
-        run: yarn install --frozen-lockfile --network-timeout 500000 --ignore-engines
+        run: yarn install --immutable --network-timeout 500000
       - name: Run build
         run: yarn tsc --build
       - name: Run test
@@ -193,7 +193,7 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
       - name: Install dependencies
-        run: yarn install --frozen-lockfile --network-timeout 500000 --ignore-engines
+        run: yarn install --immutable --network-timeout 500000
       - name: Run build
         run: yarn tsc --build
       - name: Run test
@@ -215,7 +215,7 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
       - name: Install dependencies
-        run: yarn install --frozen-lockfile --network-timeout 500000 --ignore-engines
+        run: yarn install --immutable --network-timeout 500000
       - name: Run build
         run: yarn tsc --build
       - name: Run test
@@ -237,7 +237,7 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
       - name: Install dependencies
-        run: yarn install --frozen-lockfile --network-timeout 500000 --ignore-engines
+        run: yarn install --immutable --network-timeout 500000
       - name: Run build
         run: yarn tsc --build
       - name: Run test
@@ -265,7 +265,7 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
       - name: Install dependencies
-        run: yarn install --frozen-lockfile --ignore-engines --network-timeout 500000
+        run: yarn install --immutable --network-timeout 500000
       - name: Release packages
         env:
           CI: true
@@ -290,7 +290,7 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
       - name: Install dependencies
-        run: yarn install --frozen-lockfile --ignore-engines --network-timeout 500000
+        run: yarn install --immutable --network-timeout 500000
       - name: Build pages
         env:
           CI: true

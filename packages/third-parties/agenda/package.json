@@ -28,15 +28,16 @@
   "dependencies": {
     "tslib": "2.6.1"
   },
-  "private": false,
   "devDependencies": {
-    "@tsed/common": "7.61.0",
-    "@tsed/core": "7.61.0",
-    "@tsed/di": "7.61.0",
-    "@tsed/eslint": "7.44.1",
-    "@tsed/typescript": "7.44.1",
+    "@tsed/common": "workspace:*",
+    "@tsed/core": "workspace:*",
+    "@tsed/di": "workspace:*",
+    "@tsed/eslint": "workspace:*",
+    "@tsed/typescript": "workspace:*",
     "agenda": "^5.0.0",
-    "eslint": "^8.12.0"
+    "barrelsby": "^2.8.1",
+    "eslint": "^8.12.0",
+    "jest": "^29.2.0"
   },
   "peerDependencies": {
     "agenda": ">=4"

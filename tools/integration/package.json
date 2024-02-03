@@ -9,17 +9,15 @@
     "build:ts": "tsc --build tsconfig.json && tsc --build tsconfig.esm.json"
   },
   "devDependencies": {
-    "@tsed/common": "7.61.0",
-    "@tsed/di": "7.61.0",
-    "@tsed/exceptions": "7.61.0",
-    "@tsed/json-mapper": "7.61.0",
-    "@tsed/platform-exceptions": "7.61.0",
-    "@tsed/platform-express": "7.61.0",
-    "@tsed/platform-views": "7.61.0",
-    "@tsed/schema": "7.61.0",
-    "@tsed/swagger": "7.61.0",
-    "@tsed/typescript": "7.44.1"
-  },
-  "dependencies": {},
-  "peerDependencies": {}
+    "@tsed/common": "workspace:*",
+    "@tsed/di": "workspace:*",
+    "@tsed/exceptions": "workspace:*",
+    "@tsed/json-mapper": "workspace:*",
+    "@tsed/platform-exceptions": "workspace:*",
+    "@tsed/platform-express": "workspace:*",
+    "@tsed/platform-views": "workspace:*",
+    "@tsed/schema": "workspace:*",
+    "@tsed/swagger": "workspace:*",
+    "@tsed/typescript": "workspace:*"
+  }
 }

@@ -1,7 +1,7 @@
 import SwaggerParser from "@apidevtools/swagger-parser";
-import filedirname from "filedirname";
-import {unlinkSync, writeJsonSync} from "fs-extra";
 import {SpecTypes} from "@tsed/schema";
+import filedirname from "filedirname";
+import fs from "fs-extra";
 import {v4} from "uuid";
 
 // FIXME remove when esm is ready
@@ -34,7 +34,7 @@ export const validateSpec = async (spec: any, version = SpecTypes.SWAGGER) => {
       version: "1.0.0"
     };
 
-    writeJsonSync(file, spec, {encoding: "utf8"});
+    fs.writeJsonSync(file, spec, {encoding: "utf8"});
     await SwaggerParser.validate(file);
 
     return true;
@@ -42,7 +42,7 @@ export const validateSpec = async (spec: any, version = SpecTypes.SWAGGER) => {
     return er;
   } finally {
     try {
-      unlinkSync(file);
+      fs.unlinkSync(file);
     } catch (er) {}
   }
 };

@@ -1,25 +1,13 @@
 [
-  {"name": "fastify", "version": "3.29.1", "hasRouter": true, "requests": "115654.4", "latency": "8.15", "throughput": "20.62"},
-  {"name": "fastify-injector", "version": "3.29.1", "hasRouter": true, "requests": "73362.9", "latency": "13.13", "throughput": "16.72"},
-  {"name": "express", "version": "4.18.1", "hasRouter": true, "requests": "25898.0", "latency": "38.04", "throughput": "4.62"},
-  {"name": "express-route-prefix", "version": "4.18.1", "hasRouter": true, "requests": "25680.5", "latency": "38.43", "throughput": "9.50"},
-  {
-    "name": "express-with-middlewares",
-    "version": "4.18.1",
-    "hasRouter": true,
-    "requests": "24525.5",
-    "latency": "40.26",
-    "throughput": "9.12"
-  },
-  {"name": "express-injector", "version": "4.18.1", "requests": "23012.7", "latency": "42.88", "throughput": "5.24"},
-  {"name": "express-injector-http-hook", "version": "4.18.1", "requests": "16211.3", "latency": "61.02", "throughput": "3.70"},
-  {"name": "express-injector-async-hook", "version": "4.18.1", "requests": "15442.4", "latency": "64.06", "throughput": "3.52"},
-  {"name": "tsed-express", "version": "6.126.1", "hasRouter": true, "requests": "14232.5", "latency": "69.56", "throughput": "2.61"},
-  {"name": "fastify-big-json", "version": "3.29.1", "hasRouter": true, "requests": "N/A", "latency": "N/A", "throughput": "N/A"},
-  {"name": "koa-isomorphic-router", "version": "1.0.1", "hasRouter": true, "requests": "N/A", "latency": "N/A", "throughput": "N/A"},
-  {"name": "koa-router", "version": "10.1.1", "hasRouter": true, "requests": "N/A", "latency": "N/A", "throughput": "N/A"},
-  {"name": "koa", "version": "2.13.4", "requests": "N/A", "latency": "N/A", "throughput": "N/A"},
-  {"name": "nest-fastify", "version": "8.4.3", "hasRouter": true, "requests": "N/A", "latency": "N/A", "throughput": "N/A"},
-  {"name": "nest", "version": "8.4.3", "hasRouter": true, "requests": "N/A", "latency": "N/A", "throughput": "N/A"},
-  {"name": "tsed-koa", "version": "6.126.1", "hasRouter": true, "requests": "N/A", "latency": "N/A", "throughput": "N/A"}
+  {"name": "fastify", "version": "3.29.4", "hasRouter": true, "requests": "71505.5", "latency": "13.48", "throughput": "12.75"},
+  {"name": "koa", "version": "2.13.4", "requests": "60188.0", "latency": "17.46", "throughput": "10.73"},
+  {"name": "nest-fastify", "version": "8.4.3", "hasRouter": true, "requests": "55904.9", "latency": "20.59", "throughput": "9.97"},
+  {"name": "fastify-injector", "version": "3.29.4", "hasRouter": true, "requests": "55235.2", "latency": "17.60", "throughput": "12.59"},
+  {"name": "express-injector", "version": "4.18.1", "requests": "18922.9", "latency": "52.23", "throughput": "4.31"},
+  {"name": "express", "version": "4.18.1", "hasRouter": true, "requests": "17795.2", "latency": "55.56", "throughput": "3.17"},
+  {"name": "nest", "version": "8.4.3", "hasRouter": true, "requests": "17642.8", "latency": "71.10", "throughput": "4.24"},
+  {"name": "fastify-big-json", "version": "3.29.4", "hasRouter": true, "requests": "15840.7", "latency": "62.44", "throughput": "182.26"},
+  {"name": "express-morgan", "version": "4.18.1", "requests": "13839.4", "latency": "77.28", "throughput": "2.47"},
+  {"name": "tsed-express", "version": "7.61.0", "hasRouter": true, "requests": "N/A", "latency": "N/A", "throughput": "N/A"},
+  {"name": "tsed-koa", "version": "7.61.0", "hasRouter": true, "requests": "N/A", "latency": "N/A", "throughput": "N/A"}
 ]

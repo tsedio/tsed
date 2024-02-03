@@ -28,17 +28,18 @@
   "dependencies": {
     "tslib": "2.6.1"
   },
-  "private": false,
   "devDependencies": {
     "@temporalio/client": "^1.8.4",
     "@temporalio/testing": "^1.8.4",
     "@temporalio/worker": "^1.8.4",
-    "@tsed/common": "7.61.0",
-    "@tsed/core": "7.61.0",
-    "@tsed/di": "7.61.0",
-    "@tsed/eslint": "7.44.1",
-    "@tsed/typescript": "7.44.1",
-    "eslint": "^8.12.0"
+    "@tsed/common": "workspace:*",
+    "@tsed/core": "workspace:*",
+    "@tsed/di": "workspace:*",
+    "@tsed/eslint": "workspace:*",
+    "@tsed/typescript": "workspace:*",
+    "barrelsby": "^2.8.1",
+    "eslint": "^8.12.0",
+    "jest": "^29.2.0"
   },
   "peerDependencies": {
     "@temporalio/client": "^1.8.4",

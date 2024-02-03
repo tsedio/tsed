@@ -1,2 +1,12 @@
 api
 .vuepress/public/api.json
+
+# Yarn
+.pnp.*
+.yarn/*
+!.yarn/patches
+!.yarn/plugins
+!.yarn/releases
+!.yarn/cache
+!.yarn/sdks
+!.yarn/versions

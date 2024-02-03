@@ -31,25 +31,29 @@
 # Benchmarks
 
 - **Machine:** darwin arm64 | 8 vCPUs | 32.0GB Mem
-- **Node:** `v16.13.1`
-- **Run:** Sat Aug 13 2022 18:59:16 GMT+0200 (Central European Summer Time)
-- **Method:** `autocannon -c 100 -d 40 -p 10 localhost:3000` (two rounds; one to warm-up, one to measure)
+- **Node:** `v18.19.0`
+- **Run:** Mon Feb 05 2024 07:39:14 GMT+0100 (Central European Standard Time)
+- **Method:** `autocannon -c 100 -d 10 -p 10 localhost:3000` (two rounds; one to warm-up, one to measure)
 
-|                             | Version | Router | Requests/s | Latency | Throughput/Mb |
-| :-------------------------- | ------: | -----: | :--------: | ------: | ------------: |
-| fastify                     |  3.29.1 |      ✓ |  115654.4  |    8.15 |         20.62 |
-| fastify-injector            |  3.29.1 |      ✓ |  73362.9   |   13.13 |         16.72 |
-| express                     |  4.18.1 |      ✓ |  25898.0   |   38.04 |          4.62 |
-| express-route-prefix        |  4.18.1 |      ✓ |  25680.5   |   38.43 |          9.50 |
-| express-with-middlewares    |  4.18.1 |      ✓ |  24525.5   |   40.26 |          9.12 |
-| express-injector            |  4.18.1 |      ✗ |  23012.7   |   42.88 |          5.24 |
-| express-injector-http-hook  |  4.18.1 |      ✗ |  16211.3   |   61.02 |          3.70 |
-| express-injector-async-hook |  4.18.1 |      ✗ |  15442.4   |   64.06 |          3.52 |
-| tsed-express                | 6.126.1 |      ✓ |  14232.5   |   69.56 |          2.61 |
-| fastify-big-json            |  3.29.1 |      ✓ |    N/A     |     N/A |           N/A |
-| koa-isomorphic-router       |   1.0.1 |      ✓ |    N/A     |     N/A |           N/A |
-| koa-router                  |  10.1.1 |      ✓ |    N/A     |     N/A |           N/A |
-| koa                         |  2.13.4 |      ✗ |    N/A     |     N/A |           N/A |
-| nest-fastify                |   8.4.3 |      ✓ |    N/A     |     N/A |           N/A |
-| nest                        |   8.4.3 |      ✓ |    N/A     |     N/A |           N/A |
-| tsed-koa                    | 6.126.1 |      ✓ |    N/A     |     N/A |           N/A |
+|                  | Version | Router | Requests/s | Latency | Throughput/Mb |
+| :--------------- | ------: | -----: | :--------: | ------: | ------------: |
+| fastify          |  3.29.4 |      ✓ |  71505.5   |   13.48 |         12.75 |
+| koa              |  2.13.4 |      ✗ |  60188.0   |   17.46 |         10.73 |
+| nest-fastify     |   8.4.3 |      ✓ |  55904.9   |   20.59 |          9.97 |
+| fastify-injector |  3.29.4 |      ✓ |  55235.2   |   17.60 |         12.59 |
+| express-injector |  4.18.1 |      ✗ |  18922.9   |   52.23 |          4.31 |
+| express          |  4.18.1 |      ✓ |  17795.2   |   55.56 |          3.17 |
+| nest             |   8.4.3 |      ✓ |  17642.8   |   71.10 |          4.24 |
+| fastify-big-json |  3.29.4 |      ✓ |  15840.7   |   62.44 |        182.26 |
+| express-morgan   |  4.18.1 |      ✗ |  13839.4   |   77.28 |          2.47 |
+| tsed-express     |  7.61.0 |      ✓ |    N/A     |     N/A |           N/A |
+| tsed-koa         |  7.61.0 |      ✓ |    N/A     |     N/A |           N/A |
+
+## Explanation
+
+The benchmark shows a performance difference between the frameworks. We note that Ts.ED is often last. In fact, Ts.ED uses features useful to a production application which reduce its performance.
+
+For example, Ts.ED initializes a sandbox (async_hook) for each request in order to work in an isolated context if necessary.
+It also initializes the elements necessary for monitoring requests in a log manager.
+
+All this at a necessary cost that reflects the reality of a production application ;)

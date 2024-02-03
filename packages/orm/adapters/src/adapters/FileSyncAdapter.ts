@@ -1,6 +1,6 @@
 import {nameOf} from "@tsed/core";
 import {Configuration, Injectable, Opts, ProviderScope, Scope} from "@tsed/di";
-import {ensureDirSync} from "fs-extra";
+import fs from "fs-extra";
 import low from "lowdb";
 import FileSync from "lowdb/adapters/FileSync";
 import {dirname} from "path";
@@ -17,7 +17,7 @@ export class FileSyncAdapter<T extends AdapterModel> extends LowDbAdapter<T> {
   constructor(@Opts options: FileSyncAdapterConstructorOptions, @Configuration() configuration: Configuration) {
     super(options, configuration);
 
-    ensureDirSync(dirname(this.dbFilePath));
+    fs.ensureDirSync(dirname(this.dbFilePath));
 
     const file = new FileSync<{collection: T[]}>(this.dbFilePath);
 

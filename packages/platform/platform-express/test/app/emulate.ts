@@ -1,5 +1,5 @@
 import http from "http";
-import {PlatformExpress} from "@tsed/platform-express";
+import {PlatformExpress} from "../../src/index.js";
 import {Server} from "./Server";
 import {Controller} from "@tsed/di";
 import {Get} from "@tsed/schema";

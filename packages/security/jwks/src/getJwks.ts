@@ -1,6 +1,6 @@
-import {ensureDirSync, existsSync, readFileSync, writeFileSync} from "fs-extra";
+import fs from "fs-extra";
 import {JWK, JWKS, KeyParameters} from "jose2";
-import {dirname} from "path";
+import {dirname} from "node:path";
 
 export interface JwksKeyParameters extends KeyParameters {
   path: string;
@@ -17,7 +17,7 @@ export function generateJwks(options: Partial<JwksOptions> = {}) {
 
   if (certificates) {
     certificates.forEach(({path, ...options}) => {
-      const content = readFileSync(path, {encoding: "utf-8"});
+      const content = fs.readFileSync(path, {encoding: "utf-8"});
       const isPrivate = content.includes("PRIVATE KEY");
 
       if (!isPrivate) {
@@ -34,12 +34,12 @@ export function generateJwks(options: Partial<JwksOptions> = {}) {
 }
 
 export function getJwks(options: JwksOptions) {
-  ensureDirSync(dirname(options.path));
+  fs.ensureDirSync(dirname(options.path));
 
-  if (!existsSync(options.path)) {
+  if (!fs.existsSync(options.path)) {
     const keys = generateJwks(options);
-    writeFileSync(options.path, JSON.stringify(keys, null, 2));
+    fs.writeFileSync(options.path, JSON.stringify(keys, null, 2));
   }
 
-  return JSON.parse(readFileSync(options.path, {encoding: "utf-8"}));
+  return JSON.parse(fs.readFileSync(options.path, {encoding: "utf-8"}));
 }

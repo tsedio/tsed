@@ -1,7 +1,7 @@
 {
   "extends": "@tsed/typescript/tsconfig.node.json",
   "compilerOptions": {
-    "baseUrl": ".",
+    "baseUrl": "./",
     "module": "ES2020",
     "rootDir": "src",
     "outDir": "./lib/esm",
