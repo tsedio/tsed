@@ -2,9 +2,5 @@
   "name": "@tsed/webpack-config",
   "version": "7.44.1",
   "private": true,
-  "main": "webpack.config.js",
-  "scripts": {},
-  "dependencies": {},
-  "devDependencies": {},
-  "peerDependencies": {}
+  "main": "webpack.config.js"
 }

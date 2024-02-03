@@ -2,7 +2,6 @@
   "name": "@tsed/stripe",
   "version": "7.61.0",
   "description": "Stripe package for Ts.ED framework",
-  "private": false,
   "keywords": [
     "Stripe",
     "Ts.ED",
@@ -34,15 +33,17 @@
     "tslib": "2.6.1"
   },
   "devDependencies": {
-    "@tsed/core": "7.61.0",
-    "@tsed/di": "7.61.0",
-    "@tsed/eslint": "7.44.1",
-    "@tsed/exceptions": "7.61.0",
-    "@tsed/platform-middlewares": "7.61.0",
-    "@tsed/platform-params": "7.61.0",
-    "@tsed/schema": "7.61.0",
-    "@tsed/typescript": "7.44.1",
+    "@tsed/core": "workspace:*",
+    "@tsed/di": "workspace:*",
+    "@tsed/eslint": "workspace:*",
+    "@tsed/exceptions": "workspace:*",
+    "@tsed/platform-middlewares": "workspace:*",
+    "@tsed/platform-params": "workspace:*",
+    "@tsed/schema": "workspace:*",
+    "@tsed/typescript": "workspace:*",
+    "barrelsby": "^2.8.1",
     "eslint": "^8.12.0",
+    "jest": "^29.2.0",
     "stripe": "^8.129.0"
   },
   "peerDependencies": {
@@ -55,6 +56,9 @@
     "stripe": "^9.16.0"
   },
   "peerDependenciesMeta": {
+    "@tsed/exceptions": {
+      "optional": false
+    },
     "@tsed/platform-middlewares": {
       "optional": false
     },
@@ -62,9 +66,6 @@
       "optional": false
     },
     "@tsed/schema": {
-      "optional": false
-    },
-    "@tsed/exceptions": {
       "optional": false
     },
     "stripe": {

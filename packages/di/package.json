@@ -2,7 +2,6 @@
   "name": "@tsed/di",
   "version": "7.61.0",
   "description": "DI module for Ts.ED Framework",
-  "private": false,
   "source": "./src/index.ts",
   "main": "lib/cjs/index.js",
   "module": "lib/esm/index.js",
@@ -21,19 +20,21 @@
     "barrels": "yarn barrelsby --config .barrelsby.json",
     "test": "cross-env NODE_ENV=test yarn jest --max-workers=2 && jest-coverage-thresholds-bumper",
     "build:ts": "tsc --build tsconfig.json && tsc --build tsconfig.esm.json",
-    "lint": "node_modules/.bin/eslint '**/*.{ts,js}'",
-    "lint:fix": "node_modules/.bin/eslint '**/*.{ts,js}' --fix"
+    "lint": "eslint '**/*.{ts,js}'",
+    "lint:fix": "eslint '**/*.{ts,js}' --fix"
   },
   "dependencies": {
     "tslib": "2.6.2"
   },
   "devDependencies": {
-    "@tsed/core": "7.61.0",
-    "@tsed/eslint": "7.44.1",
+    "@tsed/core": "workspace:*",
+    "@tsed/eslint": "workspace:*",
     "@tsed/logger": ">=6.2.2",
-    "@tsed/schema": "7.61.0",
-    "@tsed/typescript": "7.44.1",
-    "eslint": "^8.12.0"
+    "@tsed/schema": "workspace:*",
+    "@tsed/typescript": "workspace:*",
+    "barrelsby": "^2.8.1",
+    "eslint": "^8.12.0",
+    "jest": "^29.2.0"
   },
   "peerDependencies": {
     "@tsed/core": "^7.61.0",

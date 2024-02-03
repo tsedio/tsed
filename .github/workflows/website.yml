@@ -19,7 +19,7 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
       - name: Install dependencies
-        run: yarn install --frozen-lockfile --network-timeout 500000
+        run: yarn install --immutable --network-timeout 500000
       - name: Build pages
         env:
           CI: true
@@ -42,7 +42,7 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
       - name: Install dependencies
-        run: yarn install --frozen-lockfile --network-timeout 500000
+        run: yarn install --immutable --network-timeout 500000
       - name: Build pages
         env:
           CI: true

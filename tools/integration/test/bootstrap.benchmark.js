@@ -1,5 +1,5 @@
 const {$log} = require("@tsed/logger");
-const {PerfLogger} = require("@tsed/perf");
+const {PerfLogger} = require("packages/perf");
 const {PlatformExpress} = require("@tsed/platform-express");
 const {Server} = require("../lib/cjs/Server.js");
 

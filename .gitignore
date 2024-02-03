@@ -81,3 +81,14 @@ tools/**/dist
 /docs-references/api
 /docs-references/tutorials
 /docs-references/package.json
+
+
+# Yarn
+.pnp.*
+.yarn/*
+!.yarn/patches
+!.yarn/plugins
+!.yarn/releases
+!.yarn/cache
+!.yarn/sdks
+!.yarn/versions

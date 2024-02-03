@@ -1,5 +1,5 @@
 import filedirname from "filedirname";
-import {removeSync} from "fs-extra";
+import fs from "fs-extra";
 import {join} from "path";
 import {generateJwks, getJwks} from "./getJwks";
 
@@ -9,7 +9,7 @@ const rootDir = join(dir, "__mocks__");
 
 describe("GetJwks", () => {
   beforeEach(() => {
-    removeSync(join(rootDir, "generated", "keys.json"));
+    fs.removeSync(join(rootDir, "generated", "keys.json"));
   });
   describe("generateJwks()", () => {
     it("should generate Jwks keys without certificates", async () => {

@@ -3,7 +3,7 @@ import {BadRequest, Exception} from "@tsed/exceptions";
 import {getJsonSchema, getSpec, OperationPath, Path, Returns, SpecTypes} from "@tsed/schema";
 import Ajv from "ajv";
 import filedirname from "filedirname";
-import {unlinkSync, writeJsonSync} from "fs-extra";
+import fs from "fs-extra";
 import "./ExceptionSchema";
 
 // FIXME remove when esm is ready
@@ -37,9 +37,9 @@ const validateSpec = async (spec: any) => {
       version: "1.0.0"
     };
 
-    writeJsonSync(file, spec, {encoding: "utf8"});
+    fs.writeJsonSync(file, spec, {encoding: "utf8"});
     await SwaggerParser.validate(file);
-    unlinkSync(file);
+    fs.unlinkSync(file);
 
     return true;
   } catch (er) {

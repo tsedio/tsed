@@ -2,9 +2,5 @@
   "name": "@tsed/mocha-config",
   "version": "7.44.1",
   "private": true,
-  "main": "mocha.config.js",
-  "scripts": {},
-  "dependencies": {},
-  "devDependencies": {},
-  "peerDependencies": {}
+  "main": "mocha.config.js"
 }

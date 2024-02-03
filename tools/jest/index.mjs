@@ -1,24 +1,23 @@
-const mono = require("@tsed/monorepo-utils");
-const {dirname, join, relative} = require("path");
-const cloneDeep = require("lodash/cloneDeep.js");
-const {readJson, writeJson, removeSync} = require("fs-extra");
+import {findPackages, MonoRepo} from "@tsed/monorepo-utils";
+import {dirname, relative, join} from "path";
+import fs from "fs-extra";
 
-const scriptDir = __dirname;
+const scriptDir = import.meta.dirname;
 
 async function main() {
-  const monoRepo = new mono.MonoRepo({
+  const monoRepo = new MonoRepo({
     rootDir: process.cwd(),
     verbose: false
   });
 
-  const tsConfigTemplate = await readJson(join(scriptDir, "./tsconfig.template.json"));
-  const tsConfigEsmTemplate = await readJson(join(scriptDir, "./tsconfig.template.esm.json"));
+  const tsConfigTemplate = await fs.readJson(join(scriptDir, "./tsconfig.template.json"));
+  const tsConfigEsmTemplate = await fs.readJson(join(scriptDir, "./tsconfig.template.esm.json"));
 
   const tsConfigRootPath = join(monoRepo.rootDir, "tsconfig.json");
-  const tsConfigRoot = await readJson(tsConfigRootPath);
+  const tsConfigRoot = await fs.readJson(tsConfigRootPath);
   tsConfigRoot.references = [];
 
-  const packages = await mono.findPackages(monoRepo);
+  const packages = await findPackages(monoRepo);
 
   const packagesRefsMap = packages.reduce((map, pkg) => {
     if (pkg.pkg.source && pkg.pkg.source.endsWith(".ts")) {
@@ -53,8 +52,8 @@ async function main() {
           });
         });
 
-      await writeJson(tsConfigPath, tsConfig, {spaces: 2});
-      await writeJson(tsConfigEsmPath, tsConfigEsm, {spaces: 2});
+      await fs.writeJson(tsConfigPath, tsConfig, {spaces: 2});
+      await fs.writeJson(tsConfigEsmPath, tsConfigEsm, {spaces: 2});
 
       tsConfigRoot.references.push({
         path: `./${relative(process.cwd(), path)}`
@@ -68,19 +67,23 @@ async function main() {
 
       pkg.pkg.scripts["build:ts"] = "tsc --build tsconfig.json && tsc --build tsconfig.esm.json";
       pkg.pkg.devDependencies["@tsed/typescript"] = pkg.pkg.version;
+      if (pkg.pkg.devDependencies) {
+        pkg.pkg.devDependencies["jest"] = monoRepo.rootPkg.dependencies["jest"] || monoRepo.rootPkg.devDependencies["jest"];
+      }
 
-      await writeJson(pkg.path, pkg.pkg, {spaces: 2});
+      await fs.writeJson(pkg.path, pkg.pkg, {spaces: 2});
       try {
-        removeSync(join(path, "tsconfig.compile.esm.json"));
-        removeSync(join(path, "tsconfig.compile.json"));
-        removeSync(join(path, "tsconfig.cjs.json"));
-      } catch {}
+        fs.removeSync(join(path, "tsconfig.compile.esm.json"));
+        fs.removeSync(join(path, "tsconfig.compile.json"));
+        fs.removeSync(join(path, "tsconfig.cjs.json"));
+      } catch {
+      }
     }
   });
 
   await Promise.all(promises);
 
-  await writeJson(tsConfigRootPath, tsConfigRoot, {spaces: 2});
+  await fs.writeJson(tsConfigRootPath, tsConfigRoot, {spaces: 2});
 }
 
 main();

@@ -22,9 +22,9 @@ jobs:
 
       - name: Install dependencies
         run: | 
-          yarn install --frozen-lockfile --network-timeout 500000
+          yarn install --network-timeout 500000
           cd benchmarks
-          yarn install --frozen-lockfile --network-timeout 500000
+          yarn install --network-timeout 500000
 
       - name: run benchmarks
         run: yarn benchmarks

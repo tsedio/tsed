@@ -3,13 +3,9 @@
   "version": "7.44.1",
   "description": "Util to compile source",
   "private": true,
-  "main": "index.js",
+  "main": "index.mjs",
   "exports": {
-    ".": "./index.js",
+    ".": "./index.mjs",
     "./node.js": "./node.js"
-  },
-  "scripts": {},
-  "dependencies": {},
-  "devDependencies": {},
-  "peerDependencies": {}
+  }
 }

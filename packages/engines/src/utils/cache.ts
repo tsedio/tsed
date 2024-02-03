@@ -1,5 +1,4 @@
-import fs from "fs-extra";
-import {dirname, extname, isAbsolute, join} from "path";
+import {dirname, extname, isAbsolute, join} from "node:path";
 
 const readCache: Map<string, string> = new Map();
 const cacheStore: Map<string, any> = new Map();
@@ -78,6 +77,7 @@ export function cache(options: any, compiled?: any) {
  * @param {String} options
  */
 export async function read(path: string, options: any): Promise<string> {
+  const fs = await import("fs-extra");
   let str = readCache.get(path);
 
   // cached (only if cached is a string and not a compiled template function)
