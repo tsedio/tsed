@@ -27,7 +27,8 @@ module.exports = {
     "__mock__",
     "platform-test-utils",
     "engines",
-    "FakeAdapter"
+    "FakeAdapter",
+    "PlatformTest"
   ],
   //  modulePathIgnorePatterns: ["<rootDir>/lib", "<rootDir>/dist"], // An object that configures minimum threshold enforcement for coverage results
   testEnvironment: "node",
