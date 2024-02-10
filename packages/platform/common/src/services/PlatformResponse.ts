@@ -1,5 +1,7 @@
 import {isArray, isBoolean, isNumber, isStream, isString} from "@tsed/core";
 import {Injectable, ProviderScope, Scope} from "@tsed/di";
+import {getStatusMessage} from "@tsed/schema";
+import encodeUrl from "encodeurl";
 import {OutgoingHttpHeaders, ServerResponse} from "http";
 import type {PlatformContext} from "../domain/PlatformContext";
 import type {PlatformRequest} from "./PlatformRequest";
@@ -143,7 +145,12 @@ export class PlatformResponse<Res extends Record<string, any> = any> {
 
   setHeader(key: string, item: any) {
     if (key.toLowerCase() === "location") {
-      return this.location(String(item));
+      // "back" is an alias for the referrer
+      if (item === "back") {
+        item = this.request.get("Referrer") || "/";
+      }
+
+      item = encodeUrl(String(item));
     }
 
     this.raw.set(key, item);
@@ -211,19 +218,33 @@ export class PlatformResponse<Res extends Record<string, any> = any> {
    * @param status
    * @param url
    */
-  redirect(status: number, url: string) {
-    this.raw.redirect(status, url);
+  redirect(status: number, url: string): this {
+    status = status || 302;
+
+    this.location(url);
+
+    // Set location header
+    url = this.get("Location");
+
+    const txt = `${getStatusMessage(status)}. Redirecting to ${url}`;
+
+    this.status(status);
+
+    if (this.request.method === "HEAD") {
+      this.end();
+    } else {
+      this.setHeader("Content-Length", Buffer.byteLength(txt)).end(txt);
+    }
 
     return this;
   }
-
   /**
    * Sets the response Location HTTP header to the specified path parameter.
    *
    * @param location
    */
-  location(location: string) {
-    this.raw.location(location);
+  location(location: string): this {
+    this.setHeader("Location", location);
 
     return this;
   }
@@ -267,7 +288,7 @@ export class PlatformResponse<Res extends Record<string, any> = any> {
     this.data = data;
 
     if (data === undefined) {
-      this.raw.send();
+      this.end();
 
       return this;
     }
@@ -279,23 +300,18 @@ export class PlatformResponse<Res extends Record<string, any> = any> {
     }
 
     if (Buffer.isBuffer(data)) {
-      if (!this.getContentType()) {
-        this.contentType("application/octet-stream");
-      }
-
-      this.contentLength(data.length);
-      this.raw.send(data);
+      this.buffer(data);
 
       return this;
     }
 
     if (isBoolean(data) || isNumber(data) || isString(data) || data === null) {
-      this.raw.send(data);
+      this.end(data);
 
       return this;
     }
 
-    this.raw.json(data);
+    this.json(data);
 
     return this;
   }
@@ -345,5 +361,26 @@ export class PlatformResponse<Res extends Record<string, any> = any> {
     }
 
     return this;
+  }
+
+  protected json(data: any) {
+    this.raw.json(data);
+
+    return this;
+  }
+
+  protected buffer(data: any) {
+    if (!this.getContentType()) {
+      this.contentType("application/octet-stream");
+    }
+
+    this.contentLength(data.length);
+    this.end(data);
+  }
+
+  protected end(data?: string | Buffer) {
+    // data = await this.$ctx.injector.alter("$onResponse", data, this.$ctx);
+
+    this.raw.send(data);
   }
 }

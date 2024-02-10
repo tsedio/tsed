@@ -93,6 +93,14 @@ describe("PlatformResponse", () => {
 
       expect(response.getContentLength()).toEqual(5);
     });
+
+    it("should set content Type", () => {
+      const {res, response} = createResponse();
+
+      response.contentLength(" " as any);
+
+      expect(response.getContentLength()).toEqual(0);
+    });
   });
   describe("redirect()", () => {
     it("should set redirect", () => {
@@ -100,7 +108,56 @@ describe("PlatformResponse", () => {
 
       response.redirect(302, "/path");
 
-      expect(res.headers).toEqual({location: "/path", "x-request-id": "id"});
+      expect(res.headers).toEqual({location: "/path", "x-request-id": "id", "content-length": 27});
+      expect(res.statusCode).toEqual(302);
+    });
+
+    it("should set redirect (default status)", () => {
+      const {res, response} = createResponse();
+
+      response.redirect(0, "/path");
+
+      expect(res.headers).toEqual({location: "/path", "x-request-id": "id", "content-length": 27});
+      expect(res.statusCode).toEqual(302);
+    });
+
+    it("should set redirect (301)", () => {
+      const {res, response, ctx} = createResponse();
+      res.headers["location"] = "https://location";
+      ctx.request.getReq().method = "HEAD";
+
+      response.redirect(301, "https://location");
+
+      expect(res.headers).toEqual({
+        location: "https://location",
+        "x-request-id": "id"
+      });
+      expect(res.statusCode).toEqual(301);
+    });
+
+    it("should set redirect (302, back url)", () => {
+      const {res, response, ctx} = createResponse();
+      ctx.request.getReq().method = "HEAD";
+      ctx.request.headers["referrer"] = "https://referrer.com";
+
+      response.redirect(302, "back");
+
+      expect(res.headers).toEqual({
+        location: "https://referrer.com",
+        "x-request-id": "id"
+      });
+      expect(res.statusCode).toEqual(302);
+    });
+    it("should set redirect (302, back url, default)", () => {
+      const {res, response, ctx} = createResponse();
+      ctx.request.getReq().method = "HEAD";
+
+      response.redirect(302, "back");
+
+      expect(res.headers).toEqual({
+        location: "/",
+        "x-request-id": "id"
+      });
       expect(res.statusCode).toEqual(302);
     });
   });
