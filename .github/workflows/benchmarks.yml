@@ -47,7 +47,7 @@ jobs:
 #          email: <>
 
       - uses: actions/github-script@v4
-        if: github.event_name == 'pull_request' && !github.event.pull_request.head.repo.fork
+        if: github.event_name == 'pull_request' && !github.event.pull_request.head.repo.fork && github.actor != 'dependabot[bot]'
         with:
           github-token: ${{secrets.GITHUB_TOKEN}}
           script: |
