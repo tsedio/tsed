@@ -68,7 +68,7 @@ export class SwaggerModule implements OnRoutesInit, OnReady {
     this.settings.forEach((conf: SwaggerSettings) => {
       const {path = "/"} = conf;
 
-      this.app.get(path, useContextHandler(redirectMiddleware(path)));
+      this.app.use(path, useContextHandler(redirectMiddleware(path)));
       this.app.use(path, this.createRouter(conf, urls));
     });
 
