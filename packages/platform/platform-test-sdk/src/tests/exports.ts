@@ -4,8 +4,8 @@ import {testAuth} from "./testAuth";
 import {testBodyParams} from "./testBodyParams";
 import {testChildrenControllers} from "./testChildrenControllers";
 import {testCookies} from "./testCookies";
-import {testCtrlInheritance} from "./testCtrlInheritance";
 import {testCustom404} from "./testCustom404";
+import {testDeepQueryParams} from "./testDeepQueryParams";
 import {testErrors} from "./testErrors";
 import {testHandlers} from "./testHandlers";
 import {testHeaderParams} from "./testHeaderParams";
@@ -25,6 +25,7 @@ import {testRouting} from "./testRouting";
 import {testScopeRequest} from "./testScopeRequest";
 import {testSession} from "./testSession";
 import {testStatics} from "./testStatics";
+import {testStream} from "./testStream";
 import {testView} from "./testView";
 import {testCache} from "./testCache";
 
@@ -43,6 +44,7 @@ specsContainer.set("redirect", testRedirect);
 specsContainer.set("view", testView);
 specsContainer.set("errors", testErrors);
 specsContainer.set("response", testResponse);
+specsContainer.set("stream", testStream);
 specsContainer.set("responseFilter", testResponseFilter);
 specsContainer.set("custom404", testCustom404);
 specsContainer.set("statics", testStatics);
@@ -55,13 +57,13 @@ specsContainer.set("headerParams", testHeaderParams);
 specsContainer.set("bodyParams", testBodyParams);
 specsContainer.set("pathParams", testPathParams);
 specsContainer.set("queryParams", testQueryParams);
+specsContainer.set("deepQueryParams", testDeepQueryParams);
 specsContainer.set("locals", testLocals);
 specsContainer.set("multer", testMulter);
 
 // ROUTING
 specsContainer.set("scopeRequest", testScopeRequest);
 specsContainer.set("routing", testRouting);
-specsContainer.set("inheritance", testCtrlInheritance);
 
 // CODE ORGANIZATION
 specsContainer.set("childrenControllers", testChildrenControllers);

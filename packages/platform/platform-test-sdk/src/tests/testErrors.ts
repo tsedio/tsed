@@ -167,7 +167,7 @@ export function testErrors(options: PlatformTestingSdkOpts) {
   });
 
   it("Scenario 5: POST /rest/errors/scenario-5", async () => {
-    const response: any = await request.post("/rest/errors/scenario-5").expect(400);
+    const response: any = await request.post("/rest/errors/scenario-5").send({}).expect(400);
 
     expect(response.body).toEqual({
       errors: [

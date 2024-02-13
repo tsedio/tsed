@@ -1,4 +1,4 @@
-import {BodyParams, Controller, Get, Middleware, PathParams, PlatformTest, Post, UseAuth} from "@tsed/common";
+import {BodyParams, Controller, Get, Middleware, PathParams, PlatformTest, Post, QueryParams, UseAuth} from "@tsed/common";
 import {NotFound} from "@tsed/exceptions";
 import {Description, MaxLength, MinLength, Property, Returns, Summary} from "@tsed/schema";
 import SuperTest from "supertest";
@@ -91,6 +91,33 @@ export class FindingsController extends AttachmentController {
   }
 }
 
+export abstract class TestBaseController {
+  @Get("/")
+  scenario3(@QueryParams("search") search: string) {
+    return {
+      search
+    };
+  }
+
+  @Get("/override")
+  scenario5(@QueryParams("q") q: string) {
+    return {data: q};
+  }
+}
+
+@Controller("/test")
+export class TestChildController extends TestBaseController {
+  @Get("/:id")
+  scenario4(@PathParams("id") id: string): any {
+    return {id};
+  }
+
+  @Get("/override")
+  scenario5(@QueryParams("s") s: string) {
+    return {data: s};
+  }
+}
+
 export function testInheritanceController(options: PlatformTestingSdkOpts) {
   let request: SuperTest.Agent;
 
@@ -98,7 +125,7 @@ export function testInheritanceController(options: PlatformTestingSdkOpts) {
     PlatformTest.bootstrap(options.server, {
       ...options,
       mount: {
-        "/rest": [ResourcesCtrl, FindingsController]
+        "/rest": [ResourcesCtrl, FindingsController, TestChildController]
       }
     })
   );
@@ -147,10 +174,27 @@ export function testInheritanceController(options: PlatformTestingSdkOpts) {
       expect(text).toEqual("All attachments of 1");
     });
 
-    it("should call /rest/findings/", async () => {
+    it("should call /rest/findings", async () => {
       const {text} = await request.get("/rest/findings").expect(200);
 
       expect(text).toEqual("hello Finding");
     });
+  });
+
+  it("Scenario3: should call inherited method", async () => {
+    const {body} = await request.get("/rest/test?search=test").expect(200);
+    expect(body).toEqual({
+      search: "test"
+    });
+  });
+
+  it("Scenario4: should the Child method", async () => {
+    const {body} = await request.get("/rest/test/1").expect(200);
+    expect(body).toEqual({id: "1"});
+  });
+
+  it("Scenario5: should call the Child method and not the base method", async () => {
+    const {body} = await request.get("/rest/test/1").expect(200);
+    expect(body).toEqual({id: "1"});
   });
 }

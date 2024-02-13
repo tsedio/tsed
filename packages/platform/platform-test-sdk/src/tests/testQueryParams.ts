@@ -1,6 +1,6 @@
 import "@tsed/ajv";
 import {Controller, Get, PlatformTest, QueryParams} from "@tsed/common";
-import {Default, GenericOf, Generics, Maximum, Minimum, Property, Required} from "@tsed/schema";
+import {Maximum, Minimum, Required} from "@tsed/schema";
 import SuperTest from "supertest";
 import {PlatformTestingSdkOpts} from "../interfaces";
 
@@ -9,30 +9,6 @@ export class RandomStringModel {
   @Minimum(1)
   @Required()
   length: number;
-}
-
-class FindQuery {
-  @Property()
-  a?: number;
-
-  @Property()
-  b?: number;
-}
-
-@Generics("T")
-class PaginationQuery<T> {
-  // things about pagination
-  @Minimum(0)
-  @Default(0)
-  offset?: number;
-
-  @Minimum(1)
-  @Maximum(1000)
-  @Default(50)
-  limit?: number;
-
-  @Property("T")
-  where?: T;
 }
 
 @Controller("/query-params")
@@ -63,16 +39,6 @@ class TestQueryParamsCtrl {
   }
 
   @Get("/scenario-6")
-  testScenario6(@QueryParams() @GenericOf(FindQuery) q: PaginationQuery<FindQuery>, @QueryParams() qs: any) {
-    return {q};
-  }
-
-  @Get("/scenario-7")
-  testScenario7(@QueryParams("q") @GenericOf(FindQuery) q: PaginationQuery<FindQuery>) {
-    return {q};
-  }
-
-  @Get("/scenario-8")
   testScenario8(@QueryParams("test", String) value: string[]): any {
     return {value};
   }
@@ -250,65 +216,8 @@ export function testQueryParams(options: PlatformTestingSdkOpts) {
       expect(response.body).toEqual({});
     });
   });
-  describe("Scenario6: DeepObject", () => {
+  describe("Scenario6: String[] value", () => {
     const endpoint = "/rest/query-params/scenario-6";
-    it("should return 0 when query is 0", async () => {
-      const response = await request.get(`${endpoint}?offset=0&limit=10&where[a]=0&where[b]=1`).expect(200);
-
-      expect(response.body).toEqual({
-        q: {
-          limit: 10,
-          offset: 0,
-          where: {
-            a: 0,
-            b: 1
-          }
-        }
-      });
-    });
-  });
-  describe("Scenario7: DeepObject", () => {
-    const endpoint = "/rest/query-params/scenario-7";
-    it("should return the query value", async () => {
-      const response = await request.get(`${endpoint}?q[offset]=0&q[limit]=10&q[where][a]=0&q[where][b]=1`).expect(200);
-
-      expect(response.body).toEqual({
-        q: {
-          limit: 10,
-          offset: 0,
-          where: {
-            a: 0,
-            b: 1
-          }
-        }
-      });
-    });
-    it("should throw a bad request", async () => {
-      const response = await request.get(`${endpoint}?q[offset]=0&q[limit]=10&q[where][a]=ca&q[where][b]=1`).expect(400);
-
-      expect(response.body).toEqual({
-        errors: [
-          {
-            data: "ca",
-            dataPath: ".where.a",
-            instancePath: "/where/a",
-            keyword: "type",
-            message: "must be number",
-            modelName: "PaginationQuery",
-            params: {
-              type: "number"
-            },
-            schemaPath: "#/properties/where/properties/a/type"
-          }
-        ],
-        message: 'Bad request on parameter "request.query.q".\nPaginationQuery.where.a must be number. Given value: "ca"',
-        name: "AJV_VALIDATION_ERROR",
-        status: 400
-      });
-    });
-  });
-  describe("Scenario8: String[] value", () => {
-    const endpoint = "/rest/query-params/scenario-8";
     it("should return 0 when query is 0", async () => {
       const response = await request.get(`${endpoint}?test=0`).expect(200);
 
