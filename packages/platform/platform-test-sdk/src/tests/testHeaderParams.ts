@@ -81,6 +81,7 @@ export function testHeaderParams(options: PlatformTestingSdkOpts) {
     it("should return a response with the extracted contentType from the request headers", async () => {
       const response = await request
         .post("/rest/header-params/scenario-2")
+        .send({})
         .set({
           "Content-Type": "application/json"
         })

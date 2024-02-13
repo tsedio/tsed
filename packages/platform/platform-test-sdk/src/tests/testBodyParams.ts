@@ -134,6 +134,12 @@ class TestBodyParamsCtrl {
   ) {
     return {param1, param2};
   }
+
+  @Post("/scenario-11")
+  @Consumes("application/x-www-form-urlencoded")
+  testScenario11(@Required() @BodyParams("client_id") client_id: string) {
+    return {client_id};
+  }
 }
 
 export function testBodyParams(options: PlatformTestingSdkOpts) {
@@ -201,7 +207,7 @@ export function testBodyParams(options: PlatformTestingSdkOpts) {
       expect(response.body).toEqual({value: ["value"]});
     });
     it("should return an empty array (1)", async () => {
-      const response = await request.post("/rest/body-params/scenario-3").send().expect(200);
+      const response = await request.post("/rest/body-params/scenario-3").send({}).expect(200);
 
       expect(response.body).toEqual({value: [{}]});
     });
@@ -235,7 +241,6 @@ export function testBodyParams(options: PlatformTestingSdkOpts) {
       });
     });
   });
-
   describe("Scenario4b: with expression required String", () => {
     it("should return value", async () => {
       const response = await request.post("/rest/body-params/scenario-4b").send({test: "value"}).expect(200);
@@ -321,7 +326,6 @@ export function testBodyParams(options: PlatformTestingSdkOpts) {
       });
     });
   });
-
   describe("Scenario6: Enum", () => {
     it("should return value", async () => {
       const response = await request.post("/rest/body-params/scenario-6").send({
@@ -333,7 +337,6 @@ export function testBodyParams(options: PlatformTestingSdkOpts) {
       });
     });
   });
-
   describe("Scenario7: payload with Null", () => {
     it("should return value", async () => {
       const response = await request.post("/rest/body-params/scenario-7").send({
@@ -345,7 +348,6 @@ export function testBodyParams(options: PlatformTestingSdkOpts) {
       });
     });
   });
-
   describe("Scenario8: payload with props to null", () => {
     it("should return value with null value", async () => {
       const response = await request.post("/rest/body-params/scenario-8").send({
@@ -365,7 +367,6 @@ export function testBodyParams(options: PlatformTestingSdkOpts) {
       });
     });
   });
-
   describe("Scenario9: payload with Generics", () => {
     it("should return value", async () => {
       const response = await request
@@ -449,6 +450,15 @@ export function testBodyParams(options: PlatformTestingSdkOpts) {
       await request
         .post("/rest/body-params/scenario-10")
         .send({param1: {value1: "value"}, param2: {value2: "value"}})
+        .expect(200);
+    });
+  });
+  describe("Scenario11: validate application/x-www-form-urlencoded body", () => {
+    it("should validate the body params", async () => {
+      await request
+        .post("/rest/body-params/scenario-11")
+        .set("Content-Type", "application/x-www-form-urlencoded")
+        .send("client_id=id&grant_type=grant")
         .expect(200);
     });
   });
