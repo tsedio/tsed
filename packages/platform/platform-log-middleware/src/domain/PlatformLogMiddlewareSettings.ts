@@ -1,5 +1,3 @@
-import {Context} from "@tsed/platform-params";
-
 export type LoggerRequestFields = ("reqId" | "method" | "url" | "headers" | "body" | "query" | "params" | "duration" | string)[];
 
 export interface PlatformLogMiddlewareSettings {

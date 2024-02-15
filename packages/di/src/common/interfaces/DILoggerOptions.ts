@@ -45,8 +45,10 @@ export interface DILoggerOptions {
 
 declare global {
   namespace TsED {
+    interface LoggerConfiguration extends DILoggerOptions {}
+
     interface Configuration extends Record<string, any> {
-      logger?: DILoggerOptions;
+      logger?: LoggerConfiguration;
     }
   }
 }
