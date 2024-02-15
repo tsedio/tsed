@@ -54,7 +54,7 @@ export class PlatformLogMiddleware implements MiddlewareMethods {
           status_code: String(ctx.response.statusCode),
           state: "KO",
           ...cleanObject({
-            error_name: ctx.error?.name,
+            error_name: ctx.error?.name || ctx.error?.code,
             error_message: ctx.error?.message,
             error_errors: ctx.error?.errors,
             error_stack: ctx.error?.stack,

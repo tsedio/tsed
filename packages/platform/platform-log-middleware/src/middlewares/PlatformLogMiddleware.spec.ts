@@ -1,5 +1,6 @@
 import {PlatformHandlerMetadata, PlatformTest} from "@tsed/common";
 import {PlatformLogMiddleware} from "./PlatformLogMiddleware";
+import "../domain/PlatformLogMiddlewareSettings";
 
 async function createMiddlewareFixture({statusCode = 200, error}: {statusCode?: number; error?: any} = {}) {
   const middleware = await PlatformTest.invoke<PlatformLogMiddleware>(PlatformLogMiddleware);
@@ -45,7 +46,10 @@ describe("PlatformLogMiddleware", () => {
     describe("when no debug, logRequest", () => {
       beforeEach(() =>
         PlatformTest.create({
-          logger: {debug: false, logRequest: true}
+          logger: {
+            debug: false,
+            logRequest: true
+          }
         })
       );
       afterEach(() => PlatformTest.reset());
@@ -216,6 +220,37 @@ describe("PlatformLogMiddleware", () => {
             status: 400,
             error_name: "Error",
             error_message: "Test"
+          })
+        );
+      });
+      it("should configure request and create context logger (error.code)", async () => {
+        // GIVEN
+        const error: any = {
+          code: "CODE",
+          message: "message"
+        };
+        const {ctx, middleware} = await createMiddlewareFixture({
+          statusCode: 400,
+          error
+        });
+
+        // WHEN
+        middleware.use(ctx);
+
+        // THEN
+        (ctx.response.getRes().on as jest.Mock).mock.calls[0][1]();
+        //  middleware.onLogEnd(request.$ctx as any);
+
+        // THEN
+        expect(PlatformTest.injector.logger.error).toHaveBeenCalledWith(
+          expect.objectContaining({
+            event: "request.end",
+            method: "GET",
+            reqId: "id",
+            url: "url",
+            status: 400,
+            error_name: "CODE",
+            error_message: "message"
           })
         );
       });
