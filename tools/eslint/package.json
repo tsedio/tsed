@@ -7,8 +7,5 @@
   "exports": {
     ".": "./index.mjs",
     "./node.js": "./node.js"
-  },
-  "dependencies": {},
-  "devDependencies": {},
-  "peerDependencies": {}
+  }
 }
