@@ -24,9 +24,7 @@
     "barrels": "yarn barrelsby --delete -d ./src -e \"\\.spec\\.ts\" -e \"__mock__\" -e \".benchmark.ts\"",
     "start": "ts-node test/app/index.ts",
     "test": "cross-env NODE_ENV=test yarn jest --runInBand --testTimeout 10000 && jest-coverage-thresholds-bumper",
-    "build:ts": "tsc --build tsconfig.json && tsc --build tsconfig.esm.json",
-    "lint": "eslint '**/*.{ts,js}'",
-    "lint:fix": "eslint '**/*.{ts,js}' --fix"
+    "build:ts": "tsc --build tsconfig.json && tsc --build tsconfig.esm.json"
   },
   "dependencies": {
     "tslib": "2.6.1"
@@ -35,7 +33,6 @@
     "@tsed/common": "workspace:*",
     "@tsed/core": "workspace:*",
     "@tsed/di": "workspace:*",
-    "@tsed/eslint": "workspace:*",
     "@tsed/json-mapper": "workspace:*",
     "@tsed/openspec": "workspace:*",
     "@tsed/platform-middlewares": "workspace:*",

@@ -6240,7 +6240,6 @@ __metadata:
   dependencies:
     "@tsed/adapters": "workspace:*"
     "@tsed/core": "workspace:*"
-    "@tsed/eslint": "workspace:*"
     "@tsed/ioredis": "workspace:*"
     "@tsed/typescript": "workspace:*"
     barrelsby: "npm:^2.8.1"
@@ -6266,7 +6265,6 @@ __metadata:
     "@tsed/common": "workspace:*"
     "@tsed/core": "workspace:*"
     "@tsed/di": "workspace:*"
-    "@tsed/eslint": "workspace:*"
     "@tsed/json-mapper": "workspace:*"
     "@tsed/schema": "workspace:*"
     "@tsed/typescript": "workspace:*"
@@ -6312,7 +6310,6 @@ __metadata:
     "@tsed/common": "workspace:*"
     "@tsed/core": "workspace:*"
     "@tsed/di": "workspace:*"
-    "@tsed/eslint": "workspace:*"
     "@tsed/typescript": "workspace:*"
     agenda: "npm:^5.0.0"
     barrelsby: "npm:^2.8.1"
@@ -6330,7 +6327,6 @@ __metadata:
   dependencies:
     "@tsed/core": "workspace:*"
     "@tsed/di": "workspace:*"
-    "@tsed/eslint": "workspace:*"
     "@tsed/exceptions": "workspace:*"
     "@tsed/schema": "workspace:*"
     "@tsed/typescript": "workspace:*"
@@ -6367,7 +6363,6 @@ __metadata:
     "@tsed/common": "workspace:*"
     "@tsed/core": "workspace:*"
     "@tsed/di": "workspace:*"
-    "@tsed/eslint": "workspace:*"
     "@tsed/logger": "npm:>=6.2.2"
     "@tsed/typescript": "workspace:*"
     "@types/graphql": "npm:14.5.0"
@@ -6401,7 +6396,6 @@ __metadata:
     "@tsed/common": "workspace:*"
     "@tsed/core": "workspace:*"
     "@tsed/di": "workspace:*"
-    "@tsed/eslint": "workspace:*"
     "@tsed/schema": "workspace:*"
     "@tsed/typescript": "workspace:*"
     barrelsby: "npm:^2.8.1"
@@ -6422,7 +6416,6 @@ __metadata:
     "@tsed/components-scan": "workspace:*"
     "@tsed/core": "workspace:*"
     "@tsed/di": "workspace:*"
-    "@tsed/eslint": "workspace:*"
     "@tsed/exceptions": "workspace:*"
     "@tsed/json-mapper": "workspace:*"
     "@tsed/logger": "npm:>=6.2.2"
@@ -6461,7 +6454,6 @@ __metadata:
   dependencies:
     "@tsed/core": "workspace:*"
     "@tsed/di": "workspace:*"
-    "@tsed/eslint": "workspace:*"
     "@tsed/normalize-path": "workspace:*"
     "@tsed/typescript": "workspace:*"
     barrelsby: "npm:^2.8.1"
@@ -6481,7 +6473,6 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@tsed/core@workspace:packages/core"
   dependencies:
-    "@tsed/eslint": "workspace:*"
     "@tsed/typescript": "workspace:*"
     barrelsby: "npm:^2.8.1"
     eslint: "npm:^8.12.0"
@@ -6496,7 +6487,6 @@ __metadata:
   resolution: "@tsed/di@workspace:packages/di"
   dependencies:
     "@tsed/core": "workspace:*"
-    "@tsed/eslint": "workspace:*"
     "@tsed/logger": "npm:>=6.2.2"
     "@tsed/schema": "workspace:*"
     "@tsed/typescript": "workspace:*"
@@ -6526,7 +6516,6 @@ __metadata:
     "@babel/plugin-transform-runtime": "npm:7.23.2"
     "@babel/preset-env": "npm:7.23.2"
     "@babel/preset-react": "npm:7.22.15"
-    "@tsed/eslint": "workspace:*"
     "@tsed/typescript": "workspace:*"
     "@types/fs-extra": "npm:^11.0.3"
     "@types/semver": "npm:^7.3.9"
@@ -6587,12 +6576,6 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@tsed/eslint@npm:7.61.1, @tsed/eslint@workspace:*, @tsed/eslint@workspace:tools/eslint":
-  version: 0.0.0-use.local
-  resolution: "@tsed/eslint@workspace:tools/eslint"
-  languageName: unknown
-  linkType: soft
-
 "@tsed/event-emitter@workspace:packages/third-parties/event-emitter":
   version: 0.0.0-use.local
   resolution: "@tsed/event-emitter@workspace:packages/third-parties/event-emitter"
@@ -6600,7 +6583,6 @@ __metadata:
     "@tsed/common": "workspace:*"
     "@tsed/core": "workspace:*"
     "@tsed/di": "workspace:*"
-    "@tsed/eslint": "workspace:*"
     "@tsed/typescript": "workspace:*"
     barrelsby: "npm:^2.8.1"
     eslint: "npm:^8.12.0"
@@ -6616,7 +6598,6 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@tsed/exceptions@workspace:packages/specs/exceptions"
   dependencies:
-    "@tsed/eslint": "workspace:*"
     "@tsed/typescript": "workspace:*"
     "@types/statuses": "npm:2.0.0"
     barrelsby: "npm:^2.8.1"
@@ -6634,7 +6615,6 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@tsed/formio-types@workspace:packages/third-parties/formio-types"
   dependencies:
-    "@tsed/eslint": "workspace:*"
     "@tsed/typescript": "workspace:*"
     barrelsby: "npm:^2.8.1"
     eslint: "npm:^8.12.0"
@@ -6652,7 +6632,6 @@ __metadata:
     "@tsed/common": "workspace:*"
     "@tsed/core": "workspace:*"
     "@tsed/di": "workspace:*"
-    "@tsed/eslint": "workspace:*"
     "@tsed/formio-types": "workspace:*"
     "@tsed/mongoose": "workspace:*"
     "@tsed/normalize-path": "workspace:*"
@@ -6694,7 +6673,6 @@ __metadata:
     "@tsed/common": "workspace:*"
     "@tsed/core": "workspace:*"
     "@tsed/di": "workspace:*"
-    "@tsed/eslint": "workspace:*"
     "@tsed/logger": "npm:>=6.2.2"
     "@tsed/typescript": "workspace:*"
     barrelsby: "npm:^2.8.1"
@@ -6734,7 +6712,6 @@ __metadata:
   dependencies:
     "@tsed/core": "workspace:*"
     "@tsed/di": "workspace:*"
-    "@tsed/eslint": "workspace:*"
     "@tsed/typescript": "workspace:*"
     "@types/ioredis-mock": "npm:^5.6.0"
     barrelsby: "npm:^2.8.1"
@@ -6762,7 +6739,6 @@ __metadata:
   resolution: "@tsed/json-mapper@workspace:packages/specs/json-mapper"
   dependencies:
     "@tsed/core": "workspace:*"
-    "@tsed/eslint": "workspace:*"
     "@tsed/schema": "workspace:*"
     "@tsed/typescript": "workspace:*"
     barrelsby: "npm:^2.8.1"
@@ -6784,7 +6760,6 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@tsed/jwks@workspace:packages/security/jwks"
   dependencies:
-    "@tsed/eslint": "workspace:*"
     "@tsed/typescript": "workspace:*"
     barrelsby: "npm:^2.8.1"
     eslint: "npm:^8.12.0"
@@ -6828,7 +6803,6 @@ __metadata:
     "@tsed/common": "workspace:*"
     "@tsed/core": "workspace:*"
     "@tsed/di": "workspace:*"
-    "@tsed/eslint": "workspace:*"
     "@tsed/json-mapper": "workspace:*"
     "@tsed/logger": "npm:>=6.1.1"
     "@tsed/schema": "workspace:*"
@@ -6861,7 +6835,6 @@ __metadata:
     "@tsed/ajv": "workspace:*"
     "@tsed/core": "workspace:*"
     "@tsed/di": "workspace:*"
-    "@tsed/eslint": "workspace:*"
     "@tsed/json-mapper": "workspace:*"
     "@tsed/logger": "npm:>=6.2.2"
     "@tsed/schema": "workspace:*"
@@ -6920,7 +6893,6 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@tsed/normalize-path@workspace:packages/utils/normalize-path"
   dependencies:
-    "@tsed/eslint": "workspace:*"
     "@tsed/typescript": "workspace:*"
     "@types/normalize-path": "npm:^3.0.0"
     barrelsby: "npm:^2.8.1"
@@ -6938,7 +6910,6 @@ __metadata:
     "@tsed/ajv": "workspace:*"
     "@tsed/core": "workspace:*"
     "@tsed/di": "workspace:*"
-    "@tsed/eslint": "workspace:*"
     "@tsed/json-mapper": "workspace:*"
     "@tsed/schema": "workspace:*"
     "@tsed/typescript": "workspace:*"
@@ -6981,7 +6952,6 @@ __metadata:
   dependencies:
     "@tsed/core": "workspace:*"
     "@tsed/di": "workspace:*"
-    "@tsed/eslint": "workspace:*"
     "@tsed/oidc-provider": "workspace:*"
     "@tsed/typescript": "workspace:*"
     "@types/uuid": "npm:8.3.4"
@@ -7013,7 +6983,6 @@ __metadata:
     "@tsed/common": "workspace:*"
     "@tsed/core": "workspace:*"
     "@tsed/di": "workspace:*"
-    "@tsed/eslint": "workspace:*"
     "@tsed/exceptions": "workspace:*"
     "@tsed/jwks": "workspace:*"
     "@tsed/typescript": "workspace:*"
@@ -7060,7 +7029,6 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@tsed/openspec@workspace:packages/specs/openspec"
   dependencies:
-    "@tsed/eslint": "workspace:*"
     "@tsed/typescript": "workspace:*"
     barrelsby: "npm:^2.8.1"
     eslint: "npm:^8.12.0"
@@ -7075,7 +7043,6 @@ __metadata:
     "@tsed/common": "workspace:*"
     "@tsed/core": "workspace:*"
     "@tsed/di": "workspace:*"
-    "@tsed/eslint": "workspace:*"
     "@tsed/platform-router": "workspace:*"
     "@tsed/typescript": "workspace:*"
     "@types/passport": "npm:1.0.7"
@@ -7104,8 +7071,7 @@ __metadata:
   resolution: "@tsed/perf@workspace:packages/perf"
   dependencies:
     "@tsed/core": "workspace:*"
-    "@tsed/eslint": "npm:7.61.1"
-    "@tsed/typescript": "npm:7.61.1"
+    "@tsed/typescript": "workspace:*"
     chalk: "npm:^4.1.0"
     eslint: "npm:^8.12.0"
     jest: "npm:^29.2.0"
@@ -7119,7 +7085,6 @@ __metadata:
   dependencies:
     "@tsed/core": "workspace:*"
     "@tsed/di": "workspace:*"
-    "@tsed/eslint": "workspace:*"
     "@tsed/json-mapper": "workspace:*"
     "@tsed/schema": "workspace:*"
     "@tsed/typescript": "workspace:*"
@@ -7153,7 +7118,6 @@ __metadata:
   dependencies:
     "@tsed/core": "workspace:*"
     "@tsed/di": "workspace:*"
-    "@tsed/eslint": "workspace:*"
     "@tsed/exceptions": "workspace:*"
     "@tsed/schema": "workspace:*"
     "@tsed/typescript": "workspace:*"
@@ -7185,7 +7149,6 @@ __metadata:
     "@tsed/common": "workspace:*"
     "@tsed/core": "workspace:*"
     "@tsed/di": "workspace:*"
-    "@tsed/eslint": "workspace:*"
     "@tsed/platform-test-sdk": "workspace:*"
     "@tsed/platform-views": "workspace:*"
     "@tsed/typescript": "workspace:*"
@@ -7250,7 +7213,6 @@ __metadata:
     "@tsed/common": "workspace:*"
     "@tsed/core": "workspace:*"
     "@tsed/di": "workspace:*"
-    "@tsed/eslint": "workspace:*"
     "@tsed/platform-test-sdk": "workspace:*"
     "@tsed/typescript": "workspace:*"
     "@types/koa": "npm:2.13.4"
@@ -7316,7 +7278,6 @@ __metadata:
   resolution: "@tsed/platform-log-middleware@workspace:packages/platform/platform-log-middleware"
   dependencies:
     "@tsed/di": "workspace:*"
-    "@tsed/eslint": "workspace:*"
     "@tsed/platform-middlewares": "workspace:*"
     "@tsed/platform-params": "workspace:*"
     "@tsed/typescript": "workspace:*"
@@ -7344,7 +7305,6 @@ __metadata:
   dependencies:
     "@tsed/core": "workspace:*"
     "@tsed/di": "workspace:*"
-    "@tsed/eslint": "workspace:*"
     "@tsed/schema": "workspace:*"
     "@tsed/typescript": "workspace:*"
     barrelsby: "npm:^2.8.1"
@@ -7371,7 +7331,6 @@ __metadata:
   dependencies:
     "@tsed/core": "workspace:*"
     "@tsed/di": "workspace:*"
-    "@tsed/eslint": "workspace:*"
     "@tsed/exceptions": "workspace:*"
     "@tsed/json-mapper": "workspace:*"
     "@tsed/schema": "workspace:*"
@@ -7406,7 +7365,6 @@ __metadata:
   dependencies:
     "@tsed/core": "workspace:*"
     "@tsed/di": "workspace:*"
-    "@tsed/eslint": "workspace:*"
     "@tsed/exceptions": "workspace:*"
     "@tsed/json-mapper": "workspace:*"
     "@tsed/schema": "workspace:*"
@@ -7441,7 +7399,6 @@ __metadata:
   dependencies:
     "@tsed/core": "workspace:*"
     "@tsed/di": "workspace:*"
-    "@tsed/eslint": "workspace:*"
     "@tsed/exceptions": "workspace:*"
     "@tsed/json-mapper": "workspace:*"
     "@tsed/platform-params": "workspace:*"
@@ -7481,7 +7438,6 @@ __metadata:
     "@tsed/common": "workspace:*"
     "@tsed/core": "workspace:*"
     "@tsed/di": "workspace:*"
-    "@tsed/eslint": "workspace:*"
     "@tsed/platform-serverless-testing": "workspace:*"
     "@tsed/typescript": "workspace:*"
     aws-lambda: "npm:^1.0.7"
@@ -7525,7 +7481,6 @@ __metadata:
     "@tsed/common": "workspace:*"
     "@tsed/core": "workspace:*"
     "@tsed/di": "workspace:*"
-    "@tsed/eslint": "workspace:*"
     "@tsed/schema": "workspace:*"
     "@tsed/typescript": "workspace:*"
     aws-lambda: "npm:^1.0.7"
@@ -7549,7 +7504,6 @@ __metadata:
   resolution: "@tsed/platform-serverless@workspace:packages/platform/platform-serverless"
   dependencies:
     "@tsed/core": "workspace:*"
-    "@tsed/eslint": "workspace:*"
     "@tsed/exceptions": "workspace:*"
     "@tsed/json-mapper": "workspace:*"
     "@tsed/platform-exceptions": "workspace:*"
@@ -7589,7 +7543,6 @@ __metadata:
     "@tsed/common": "workspace:*"
     "@tsed/core": "workspace:*"
     "@tsed/di": "workspace:*"
-    "@tsed/eslint": "workspace:*"
     "@tsed/json-mapper": "workspace:*"
     "@tsed/logger": "npm:6.6.3"
     "@tsed/platform-cache": "workspace:*"
@@ -7615,7 +7568,6 @@ __metadata:
     "@tsed/core": "workspace:*"
     "@tsed/di": "workspace:*"
     "@tsed/engines": "workspace:*"
-    "@tsed/eslint": "workspace:*"
     "@tsed/exceptions": "workspace:*"
     "@tsed/schema": "workspace:*"
     "@tsed/typescript": "workspace:*"
@@ -7652,7 +7604,6 @@ __metadata:
     "@prisma/internals": "npm:^4.0.0"
     "@tsed/core": "workspace:*"
     "@tsed/di": "workspace:*"
-    "@tsed/eslint": "workspace:*"
     "@tsed/json-mapper": "workspace:*"
     "@tsed/schema": "workspace:*"
     "@tsed/typescript": "workspace:*"
@@ -7755,7 +7706,6 @@ __metadata:
   resolution: "@tsed/schema-formio@workspace:packages/third-parties/schema-formio"
   dependencies:
     "@tsed/core": "workspace:*"
-    "@tsed/eslint": "workspace:*"
     "@tsed/formio-types": "workspace:*"
     "@tsed/openspec": "workspace:*"
     "@tsed/schema": "workspace:*"
@@ -7794,7 +7744,6 @@ __metadata:
   dependencies:
     "@apidevtools/swagger-parser": "npm:10.0.3"
     "@tsed/core": "workspace:*"
-    "@tsed/eslint": "workspace:*"
     "@tsed/openspec": "workspace:*"
     "@tsed/typescript": "workspace:*"
     "@types/fs-extra": "npm:11.0.3"
@@ -7828,7 +7777,6 @@ __metadata:
   dependencies:
     "@tsed/common": "workspace:*"
     "@tsed/di": "workspace:*"
-    "@tsed/eslint": "workspace:*"
     "@tsed/typescript": "workspace:*"
     barrelsby: "npm:^2.8.1"
     eslint: "npm:^8.12.0"
@@ -7850,7 +7798,6 @@ __metadata:
     "@tsed/common": "workspace:*"
     "@tsed/core": "workspace:*"
     "@tsed/di": "workspace:*"
-    "@tsed/eslint": "workspace:*"
     "@tsed/json-mapper": "workspace:*"
     "@tsed/openspec": "workspace:*"
     "@tsed/platform-middlewares": "workspace:*"
@@ -7889,7 +7836,6 @@ __metadata:
   dependencies:
     "@tsed/core": "workspace:*"
     "@tsed/di": "workspace:*"
-    "@tsed/eslint": "workspace:*"
     "@tsed/exceptions": "workspace:*"
     "@tsed/platform-middlewares": "workspace:*"
     "@tsed/platform-params": "workspace:*"
@@ -7929,7 +7875,6 @@ __metadata:
     "@tsed/common": "workspace:*"
     "@tsed/core": "workspace:*"
     "@tsed/di": "workspace:*"
-    "@tsed/eslint": "workspace:*"
     "@tsed/json-mapper": "workspace:*"
     "@tsed/normalize-path": "workspace:*"
     "@tsed/openspec": "workspace:*"
@@ -7962,7 +7907,6 @@ __metadata:
     "@tsed/common": "workspace:*"
     "@tsed/core": "workspace:*"
     "@tsed/di": "workspace:*"
-    "@tsed/eslint": "workspace:*"
     "@tsed/typescript": "workspace:*"
     barrelsby: "npm:^2.8.1"
     eslint: "npm:^8.12.0"
@@ -7982,7 +7926,6 @@ __metadata:
     "@tsed/common": "workspace:*"
     "@tsed/core": "workspace:*"
     "@tsed/di": "workspace:*"
-    "@tsed/eslint": "workspace:*"
     "@tsed/schema": "workspace:*"
     "@tsed/typescript": "workspace:*"
     barrelsby: "npm:^2.8.1"
@@ -8013,7 +7956,6 @@ __metadata:
   dependencies:
     "@tsed/common": "workspace:*"
     "@tsed/core": "workspace:*"
-    "@tsed/eslint": "workspace:*"
     "@tsed/mongoose": "workspace:*"
     "@tsed/typescript": "workspace:*"
     barrelsby: "npm:^2.8.1"
@@ -8056,7 +7998,6 @@ __metadata:
     "@tsed/apollo": "workspace:*"
     "@tsed/common": "workspace:*"
     "@tsed/core": "workspace:*"
-    "@tsed/eslint": "workspace:*"
     "@tsed/typescript": "workspace:*"
     "@types/graphql": "npm:^14.5.0"
     barrelsby: "npm:^2.8.1"
@@ -8081,7 +8022,6 @@ __metadata:
   dependencies:
     "@tsed/core": "workspace:*"
     "@tsed/di": "workspace:*"
-    "@tsed/eslint": "workspace:*"
     "@tsed/json-mapper": "workspace:*"
     "@tsed/schema": "workspace:*"
     "@tsed/typescript": "workspace:*"
@@ -8099,7 +8039,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@tsed/typescript@npm:7.61.1, @tsed/typescript@workspace:*, @tsed/typescript@workspace:tools/typescript":
+"@tsed/typescript@workspace:*, @tsed/typescript@workspace:tools/typescript":
   version: 0.0.0-use.local
   resolution: "@tsed/typescript@workspace:tools/typescript"
   languageName: unknown
@@ -8112,7 +8052,6 @@ __metadata:
     "@tsed/common": "workspace:*"
     "@tsed/core": "workspace:*"
     "@tsed/di": "workspace:*"
-    "@tsed/eslint": "workspace:*"
     "@tsed/exceptions": "workspace:*"
     "@tsed/typescript": "workspace:*"
     barrelsby: "npm:^2.8.1"

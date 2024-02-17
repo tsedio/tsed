@@ -16,9 +16,7 @@
     "build": "yarn barrels && yarn build:ts",
     "barrels": "yarn barrelsby --delete -d ./src -e \"\\.spec\\.ts\" -e \"__mock__\" -e \".benchmark.ts\"",
     "test": "cross-env NODE_ENV=test jest && jest-coverage-thresholds-bumper",
-    "build:ts": "tsc --build tsconfig.json && tsc --build tsconfig.esm.json",
-    "lint": "eslint '**/*.{ts,js}'",
-    "lint:fix": "eslint '**/*.{ts,js}' --fix"
+    "build:ts": "tsc --build tsconfig.json && tsc --build tsconfig.esm.json"
   },
   "keywords": [
     "aws",
@@ -64,7 +62,6 @@
     "@tsed/common": "workspace:*",
     "@tsed/core": "workspace:*",
     "@tsed/di": "workspace:*",
-    "@tsed/eslint": "workspace:*",
     "@tsed/platform-serverless-testing": "workspace:*",
     "@tsed/typescript": "workspace:*",
     "aws-lambda": "^1.0.7",

@@ -16,9 +16,7 @@
     "build": "yarn barrels && yarn build:ts",
     "barrels": "yarn barrelsby --delete -d ./src -e \"\\.spec\\.ts\" -e \"__mock__\" -e \".benchmark.ts\"",
     "test": "cross-env NODE_ENV=test jest",
-    "build:ts": "tsc --build tsconfig.json && tsc --build tsconfig.esm.json",
-    "lint": "eslint '**/*.{ts,js}'",
-    "lint:fix": "eslint '**/*.{ts,js}' --fix"
+    "build:ts": "tsc --build tsconfig.json && tsc --build tsconfig.esm.json"
   },
   "dependencies": {
     "@tsed/normalize-path": "workspace:*",
@@ -28,7 +26,6 @@
   "devDependencies": {
     "@tsed/core": "workspace:*",
     "@tsed/di": "workspace:*",
-    "@tsed/eslint": "workspace:*",
     "@tsed/typescript": "workspace:*",
     "barrelsby": "^2.8.1",
     "eslint": "^8.12.0",

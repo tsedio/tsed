@@ -20,9 +20,7 @@
     "test": "cross-env NODE_ENV=test yarn jest && jest-coverage-thresholds-bumper",
     "generate:postgres": "cd test/postgres && prisma -v && prisma generate",
     "generate:mongo": "cd test/mongo && prisma -v && prisma generate",
-    "build:ts": "tsc --build tsconfig.json && tsc --build tsconfig.esm.json",
-    "lint": "eslint '**/*.{ts,js}'",
-    "lint:fix": "eslint '**/*.{ts,js}' --fix"
+    "build:ts": "tsc --build tsconfig.json && tsc --build tsconfig.esm.json"
   },
   "dependencies": {
     "@prisma/generator-helper": "^4.0.0",
@@ -37,7 +35,6 @@
     "@prisma/client": "^4.0.0",
     "@tsed/core": "workspace:*",
     "@tsed/di": "workspace:*",
-    "@tsed/eslint": "workspace:*",
     "@tsed/json-mapper": "workspace:*",
     "@tsed/schema": "workspace:*",
     "@tsed/typescript": "workspace:*",

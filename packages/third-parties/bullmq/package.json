@@ -20,9 +20,7 @@
     "build": "yarn barrels && yarn build:ts",
     "barrels": "yarn barrelsby --config .barrelsby.json",
     "test": "cross-env NODE_ENV=test yarn jest --runInBand && jest-coverage-thresholds-bumper",
-    "build:ts": "tsc --build tsconfig.json && tsc --build tsconfig.esm.json",
-    "lint": "eslint '**/*.{ts,js}'",
-    "lint:fix": "eslint '**/*.{ts,js}' --fix"
+    "build:ts": "tsc --build tsconfig.json && tsc --build tsconfig.esm.json"
   },
   "dependencies": {
     "tslib": "2.6.1"
@@ -31,7 +29,6 @@
     "@tsed/common": "workspace:*",
     "@tsed/core": "workspace:*",
     "@tsed/di": "workspace:*",
-    "@tsed/eslint": "workspace:*",
     "@tsed/schema": "workspace:*",
     "@tsed/typescript": "workspace:*",
     "barrelsby": "^2.8.1",

@@ -15,9 +15,7 @@
   },
   "scripts": {
     "build": "yarn build:ts",
-    "build:ts": "tsc --build tsconfig.json && tsc --build tsconfig.esm.json",
-    "lint": "eslint '**/*.{ts,js}'",
-    "lint:fix": "eslint '**/*.{ts,js}' --fix"
+    "build:ts": "tsc --build tsconfig.json && tsc --build tsconfig.esm.json"
   },
   "dependencies": {
     "@tsed/core": "workspace:*",
@@ -25,8 +23,7 @@
     "tslib": "2.6.1"
   },
   "devDependencies": {
-    "@tsed/eslint": "7.61.1",
-    "@tsed/typescript": "7.61.1",
+    "@tsed/typescript": "workspace:*",
     "eslint": "^8.12.0",
     "jest": "^29.2.0"
   }
