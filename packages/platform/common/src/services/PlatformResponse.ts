@@ -144,16 +144,7 @@ export class PlatformResponse<Res extends Record<string, any> = any> {
   }
 
   setHeader(key: string, item: any) {
-    if (key.toLowerCase() === "location") {
-      // "back" is an alias for the referrer
-      if (item === "back") {
-        item = this.request.get("Referrer") || "/";
-      }
-
-      item = encodeUrl(String(item));
-    }
-
-    this.raw.set(key, item);
+    this.raw.set(key, this.formatHeader(key, item));
 
     return this;
   }
@@ -238,6 +229,7 @@ export class PlatformResponse<Res extends Record<string, any> = any> {
 
     return this;
   }
+
   /**
    * Sets the response Location HTTP header to the specified path parameter.
    *
@@ -361,6 +353,18 @@ export class PlatformResponse<Res extends Record<string, any> = any> {
     }
 
     return this;
+  }
+
+  protected formatHeader(key: string, item: any) {
+    if (key.toLowerCase() === "location") {
+      // "back" is an alias for the referrer
+      if (item === "back") {
+        item = this.request.get("Referrer") || "/";
+      }
+
+      item = encodeUrl(String(item));
+    }
+    return item;
   }
 
   protected json(data: any) {
