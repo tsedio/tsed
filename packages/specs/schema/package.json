@@ -1,6 +1,6 @@
 {
   "name": "@tsed/schema",
-  "version": "7.61.0",
+  "version": "7.61.1",
   "description": "JsonSchema module for Ts.ED Framework",
   "source": "./src/index.ts",
   "main": "./lib/cjs/index.js",
@@ -59,8 +59,8 @@
     "picomatch-browser": "^2.2.6"
   },
   "peerDependencies": {
-    "@tsed/core": "^7.61.0",
-    "@tsed/openspec": "^7.61.0"
+    "@tsed/core": "7.61.1",
+    "@tsed/openspec": "7.61.1"
   },
   "peerDependenciesMeta": {
     "@tsed/core": {

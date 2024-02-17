@@ -1,6 +1,6 @@
 {
   "name": "@tsed/di",
-  "version": "7.61.0",
+  "version": "7.61.1",
   "description": "DI module for Ts.ED Framework",
   "source": "./src/index.ts",
   "main": "lib/cjs/index.js",
@@ -37,9 +37,9 @@
     "jest": "^29.2.0"
   },
   "peerDependencies": {
-    "@tsed/core": "^7.61.0",
+    "@tsed/core": "7.61.1",
     "@tsed/logger": ">=6.2.2",
-    "@tsed/schema": "^7.61.0"
+    "@tsed/schema": "7.61.1"
   },
   "peerDependenciesMeta": {
     "@tsed/core": {
