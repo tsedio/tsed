@@ -24,14 +24,14 @@ Add in your package.json the following task:
 }
 ```
 
-Then create a new `jest.config.js` on your root project and the following content:
+Then create a new `jest.config.ts` on your root project and the following content:
 
 ```javascript
 // For a detailed explanation regarding each configuration property, visit:
 // https://jestjs.io/docs/en/configuration.html
 
 // eslint-disable-next-line node/exports-style
-module.exports = {
+export default {
   // Automatically clear mock calls and instances between every test
   clearMocks: true,
 
@@ -233,17 +233,12 @@ import * as SuperTest from "supertest";
 import {Server} from "../Server";
 
 describe("Rest", () => {
-  // bootstrap your Server to load all endpoints before run your test
-  let request: SuperTest.Agent;
-
   beforeAll(PlatformTest.bootstrap(Server));
-  beforeAll(() => {
-    request = SuperTest(PlatformTest.callback());
-  });
   afterAll(PlatformTest.reset);
 
   describe("GET /rest/calendars", () => {
     it("should do something", async () => {
+      const request = SuperTest(PlatformTest.callback());
       const response = await request.get("/rest/calendars").expect(200);
 
       expect(typeof response.body).toEqual("array");
@@ -263,18 +258,13 @@ import {Server} from "../Server";
 import TestAgent = require("supertest/lib/agent");
 
 describe("Rest", () => {
-  // bootstrap your Server to load all endpoints before run your test
-  let request: SuperTest.Agent;
-
   before(PlatformTest.bootstrap(Server));
-  before(() => {
-    request = SuperTest.agent(PlatformTest.callback());
-  });
-
   after(PlatformTest.reset);
 
   describe("GET /rest/calendars", () => {
     it("should do something", async () => {
+      const request = SuperTest.agent(PlatformTest.callback());
+
       const response = await request.get("/rest/calendars").expect(200);
 
       expect(response.body).to.be.an("array");
@@ -339,16 +329,16 @@ describe("ChapterController", () => {
   let request: SuperTest.Agent;
 
   beforeAll(PlatformTest.bootstrap(Server));
-  beforeAll(async () => {
-    const service = PlatformTest.get(ChapterService);
-
-    jest.spyOn(service, "findChapters").mockResolvedValue([entity]);
-    request = SuperTest(PlatformTest.callback());
-  });
   afterAll(PlatformTest.reset);
 
   describe("GET /rest/chapter", () => {
     it("Get All Chapters", async () => {
+      const service = PlatformTest.get(ChapterService);
+
+      jest.spyOn(service, "findChapters").mockResolvedValue([entity]);
+
+      const request = SuperTest(PlatformTest.callback());
+
       const response = await request.get("/rest/chapter").expect(200);
       expect(typeof response.body).toEqual("object");
     });
@@ -376,20 +366,17 @@ Object.assign(entity, {
 
 const sandbox = Sinon.createSandbox();
 describe("ChapterController", () => {
-  let request: SuperTest.Agent;
-
   beforeAll(PlatformTest.bootstrap(Server));
-  beforeAll(async () => {
-    const service = PlatformTest.get(ChapterService);
-
-    sandbox.stub(service, "findChapters").resolves([entity]);
-    request = SuperTest(PlatformTest.callback());
-  });
   afterAll(PlatformTest.reset);
   afterAll(() => sandbox.restore());
 
   describe("GET /rest/chapter", () => {
     it("Get All Chapters", async () => {
+      const service = PlatformTest.get(ChapterService);
+
+      sandbox.stub(service, "findChapters").resolves([entity]);
+      request = SuperTest(PlatformTest.callback());
+
       const response = await request.get("/rest/chapter").expect(200);
       expect(typeof response.body).to.eq("object");
     });

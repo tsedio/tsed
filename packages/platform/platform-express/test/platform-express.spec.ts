@@ -21,6 +21,12 @@ describe("PlatformExpress", () => {
   describe("Inheritance controllers", () => {
     utils.test("inheritanceController");
   });
+  describe("Response", () => {
+    utils.test("response");
+  });
+  describe("Stream", () => {
+    utils.test("stream");
+  });
   describe("Middlewares", () => {
     utils.test("middlewares");
   });
@@ -29,15 +35,6 @@ describe("PlatformExpress", () => {
   });
   describe("Headers", () => {
     utils.test("headers");
-  });
-  describe("Statics files", () => {
-    utils.test("statics");
-  });
-  describe("Cookies", () => {
-    utils.test("cookies");
-  });
-  describe("Session", () => {
-    utils.test("session");
   });
   describe("AcceptMime", () => {
     utils.test("acceptMime");
@@ -54,20 +51,20 @@ describe("PlatformExpress", () => {
   describe("BodyParams", () => {
     utils.test("bodyParams");
   });
+  describe("Cookies", () => {
+    utils.test("cookies");
+  });
+  describe("Session", () => {
+    utils.test("session");
+  });
   describe("Location", () => {
     utils.test("location");
   });
   describe("Redirect", () => {
     utils.test("redirect");
   });
-  describe("View", () => {
-    utils.test("view");
-  });
   describe("Errors", () => {
     utils.test("errors");
-  });
-  describe("Response", () => {
-    utils.test("response");
   });
   describe("ResponseFilters", () => {
     utils.test("responseFilter");
@@ -75,14 +72,8 @@ describe("PlatformExpress", () => {
   describe("Routing", () => {
     utils.test("routing");
   });
-  describe("Controller inheritance", () => {
-    utils.test("inheritance");
-  });
   describe("Locals", () => {
     utils.test("locals");
-  });
-  describe("Multer", () => {
-    utils.test("multer");
   });
   describe("Auth", () => {
     utils.test("auth");
@@ -94,7 +85,19 @@ describe("PlatformExpress", () => {
     utils.test("cache");
   });
   // EXTRA
-  describe("Custom404", () => {
+  describe("Plugin: View", () => {
+    utils.test("view");
+  });
+  describe("Plugin: Statics files", () => {
+    utils.test("statics");
+  });
+  describe("Plugin: Multer", () => {
+    utils.test("multer");
+  });
+  describe("Plugin: DeepQueryParams", () => {
+    utils.test("deepQueryParams");
+  });
+  describe("Plugin: Custom404", () => {
     utils.test("custom404");
   });
 });
