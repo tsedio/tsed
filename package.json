@@ -118,7 +118,7 @@
     "@swc/core": "1.3.41",
     "@swc/helpers": "0.4.14",
     "@swc/jest": "0.2.20",
-    "@tsed/monorepo-utils": "2.0.2",
+    "@tsed/monorepo-utils": "2.0.4",
     "@tsed/ts-doc": "4.0.14",
     "@types/axios": "0.14.0",
     "@types/chai": "4.3.0",

@@ -36,7 +36,7 @@ pageSidebar: false
     data-mode="popup"
     class="w-full sm:w-1/3 md:w-1/6 sm:mx-2 typeform-share"
     rounded="medium"
-    href="mailto:contact@tsed.io">
+    href="mailto:contact.tsed@gmail.com">
      Join us
     </Button>
 </div>
