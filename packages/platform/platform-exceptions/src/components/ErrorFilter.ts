@@ -18,9 +18,9 @@ export class ErrorFilter implements ExceptionFilterMethods {
 
   mapError(error: any, env?: Env) {
     return {
-      name: error.origin?.name || error.name,
+      name: error.origin?.name || error.name || error.code,
       message: error.message,
-      status: error.status || 500,
+      status: error.status || error.statusCode || 500,
       errors: this.getErrors(error),
       stack: env === Env.DEV ? error.stack : undefined
     };
