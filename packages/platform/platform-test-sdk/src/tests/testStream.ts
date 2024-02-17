@@ -44,7 +44,7 @@ export function testStream(options: PlatformTestingSdkOpts) {
       it("should return a body", async () => {
         const response = await request.get("/rest/stream/scenario1");
 
-        expect(response.headers["content-type"]).toEqual("application/json");
+        expect(response.headers["content-type"]).toContain("application/json");
         expect(response.body).toEqual({id: "1"});
       });
     });

@@ -60,7 +60,7 @@ export function testDeepQueryParams(options: PlatformTestingSdkOpts) {
   });
   afterAll(PlatformTest.reset);
   describe("Scenario1: DeepObject", () => {
-    const endpoint = "/rest/deep-query-params/scenario-6";
+    const endpoint = "/rest/deep-query-params/scenario-1";
     it("should return 0 when query is 0", async () => {
       const response = await request.get(`${endpoint}?offset=0&limit=10&where[a]=0&where[b]=1`).expect(200);
 
@@ -77,7 +77,7 @@ export function testDeepQueryParams(options: PlatformTestingSdkOpts) {
     });
   });
   describe("Scenario2: DeepObject", () => {
-    const endpoint = "/rest/deep-query-params/scenario-7";
+    const endpoint = "/rest/deep-query-params/scenario-2";
     it("should return the query value", async () => {
       const response = await request.get(`${endpoint}?q[offset]=0&q[limit]=10&q[where][a]=0&q[where][b]=1`).expect(200);
 
