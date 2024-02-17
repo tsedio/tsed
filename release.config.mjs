@@ -1,6 +1,6 @@
 process.env.SEMANTIC_RELEASE_PACKAGE = "Ts.ED";
 
-module.exports = {
+export default {
   branches: [
     "production",
     {name: "alpha", prerelease: true, channel: "alpha"},
