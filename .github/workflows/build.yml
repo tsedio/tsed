@@ -273,31 +273,9 @@ jobs:
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
           SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
         run: yarn release
-
-  publish-docs:
-    runs-on: ubuntu-latest
-    needs: deploy-packages
-    strategy:
-      matrix:
-        node-version: [18.x]
-
-    steps:
-      - uses: actions/checkout@v3
-        with:
-          ref: "production"
-      - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v3
-        with:
-          node-version: ${{ matrix.node-version }}
-      - name: Install dependencies
-        run: yarn install --immutable --network-timeout 500000
-      - name: Build pages
-        env:
-          CI: true
-        run: yarn api:build && yarn vuepress:docs:build
-      - name: Publish pages
-        env:
-          CI: true
-          GH_TOKEN: ${{ secrets.GH_TOKEN }}
-          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
-        run: yarn docs:publish
+      - name: "Trigger Website workflow"
+        run: |
+          curl -X POST  https://api.github.com/repos/tsedio/tsed/actions/workflows/website.yml/dispatches \
+          -H 'Accept: application/vnd.github.everest-preview+json' \
+          -H 'Authorization: Bearer ${{secrets.GH_TOKEN}}' \
+          --data '{"ref": "production"}'
