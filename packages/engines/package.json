@@ -1,6 +1,6 @@
 {
   "name": "@tsed/engines",
-  "version": "7.61.1",
+  "version": "7.61.2",
   "description": "Template engines library. Provide an API to adding custom engines from decorators.",
   "source": "./src/index.ts",
   "main": "./lib/cjs/index.js",
@@ -86,5 +86,6 @@
     "decorators",
     "engines",
     "view"
-  ]
+  ],
+  "peerDependencies": {}
 }
