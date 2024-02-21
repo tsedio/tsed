@@ -6517,7 +6517,6 @@ __metadata:
     "@babel/preset-env": "npm:7.23.2"
     "@babel/preset-react": "npm:7.22.15"
     "@tsed/typescript": "workspace:*"
-    "@types/fs-extra": "npm:^11.0.3"
     "@types/semver": "npm:^7.3.9"
     atpl: "npm:0.9.3"
     barrelsby: "npm:^2.8.1"
@@ -6533,7 +6532,6 @@ __metadata:
     ejs: "npm:^3.1.6"
     eslint: "npm:^8.12.0"
     filedirname: "npm:^2.7.0"
-    fs-extra: "npm:11.1.1"
     haml: "npm:^0.4.3"
     haml-coffee: "npm:^1.14.1"
     hamlet: "npm:^0.3.3"
@@ -8476,7 +8474,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/fs-extra@npm:11.0.3, @types/fs-extra@npm:^11.0.3":
+"@types/fs-extra@npm:11.0.3":
   version: 11.0.3
   resolution: "@types/fs-extra@npm:11.0.3"
   dependencies:
