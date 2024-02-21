@@ -1,4 +1,6 @@
+import fs from "fs";
 import {dirname, extname, isAbsolute, join} from "node:path";
+import {readFile} from "node:fs/promises";
 
 const readCache: Map<string, string> = new Map();
 const cacheStore: Map<string, any> = new Map();
@@ -77,7 +79,6 @@ export function cache(options: any, compiled?: any) {
  * @param {String} options
  */
 export async function read(path: string, options: any): Promise<string> {
-  const fs = await import("fs-extra");
   let str = readCache.get(path);
 
   // cached (only if cached is a string and not a compiled template function)
@@ -86,7 +87,7 @@ export async function read(path: string, options: any): Promise<string> {
   }
 
   // read
-  str = await fs.readFile(path, "utf8");
+  str = await readFile(path, "utf8");
 
   // remove extraneous utf8 BOM marker
   str = str.replace(/^\uFEFF/, "");
