@@ -8,6 +8,7 @@ export * from "./components/DotEngine";
 export * from "./components/DustEngine";
 export * from "./components/EctEngine";
 export * from "./components/EjsEngine";
+export * from "./components/EtaEngine";
 export * from "./components/Engine";
 export * from "./components/HamlCoffeeEngine";
 export * from "./components/HamlEngine";

@@ -46,7 +46,8 @@ describe("PlatformViews", () => {
         cache: false,
         alter: "alter",
         global: "global",
-        requires: "requires"
+        requires: "requires",
+        root: expect.any(String)
       });
     });
     it("should render a template without extension", async () => {
@@ -63,7 +64,8 @@ describe("PlatformViews", () => {
         global: "global",
         test: "test",
         alter: "alter",
-        requires: "requires"
+        requires: "requires",
+        root: expect.any(String)
       });
     });
     it("should render a template without extension", async () => {

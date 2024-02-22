@@ -7,6 +7,7 @@ export const PLATFORM_VIEWS_EXTENSIONS = {
   dot: "dot",
   dust: "dust",
   ect: "ect",
+  eta: "eta",
   ejs: "ejs",
   haml: "haml",
   "haml-coffee": "haml-coffee",

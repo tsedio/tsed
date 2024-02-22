@@ -129,7 +129,17 @@ export class PlatformViews {
       throw new Error(`Engine not found to render the following "${viewPath}"`);
     }
 
-    const finalOpts = Object.assign({cache: this.cache || this.env === Env.PROD}, engine.options, options, {$ctx});
+    const finalOpts = Object.assign(
+      {
+        cache: this.cache || this.env === Env.PROD
+      },
+      engine.options,
+      options,
+      {
+        $ctx,
+        root: this.root
+      }
+    );
 
     return engine.render(path, finalOpts);
   }

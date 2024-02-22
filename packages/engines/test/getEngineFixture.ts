@@ -12,9 +12,10 @@ interface EngineFixtureOptions {
   token: string | typeof Engine;
   cache?: boolean;
   templateName?: string;
+  useTemplateName?: boolean;
 }
 
-export async function getEngineFixture({token, cache = false, templateName = "user"}: EngineFixtureOptions) {
+export async function getEngineFixture({token, cache = false, useTemplateName = false, templateName = "user"}: EngineFixtureOptions) {
   const engine = engines.get(token)!;
 
   await engine.$onInit();
@@ -54,7 +55,7 @@ export async function getEngineFixture({token, cache = false, templateName = "us
       });
     },
     renderFile(options: any = {}) {
-      return engine.renderFile(path, {
+      return engine.renderFile(useTemplateName ? templateName : path, {
         cache,
         ...locals,
         ...options
