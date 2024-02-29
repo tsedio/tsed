@@ -6,22 +6,25 @@ describe("redirectMiddleware and redirect", () => {
   afterEach(PlatformTest.reset);
   it("should create a middleware", () => {
     const ctx = PlatformTest.createRequestContext();
-    jest.spyOn(ctx.response.raw, "redirect").mockReturnValue(undefined);
+    jest.spyOn(ctx.response, "redirect").mockReturnValue(undefined);
+
     ctx.request.raw.url = "/path";
     ctx.request.raw.originalUrl = "/path";
+    ctx.request.raw.method = "GET";
 
     redirectMiddleware("/path")(ctx);
 
-    expect(ctx.response.raw.redirect).toHaveBeenCalledWith(302, "/path/");
+    expect(ctx.response.redirect).toHaveBeenCalledWith(302, "/path/");
   });
   it("should create a middleware and call next", () => {
     const ctx = PlatformTest.createRequestContext();
-    jest.spyOn(ctx.response.raw, "redirect");
+    jest.spyOn(ctx.response, "redirect");
     ctx.request.raw.url = "/path/";
+    ctx.request.raw.method = "GET";
     ctx.request.raw.originalUrl = "/path/";
 
     redirectMiddleware("/path")(ctx);
 
-    expect(ctx.response.raw.redirect).not.toHaveBeenCalled();
+    expect(ctx.response.redirect).not.toHaveBeenCalled();
   });
 });

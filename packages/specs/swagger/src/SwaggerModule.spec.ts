@@ -32,7 +32,7 @@ describe("SwaggerModule", () => {
       mod.$onRoutesInit();
       mod.$onRoutesInit();
 
-      expect(mod.app.get).toHaveBeenCalledWith("/doc", expect.any(Function));
+      expect(mod.app.use).toHaveBeenCalledWith("/doc", expect.any(Function));
       expect(mod.app.use).toHaveBeenCalledWith("/doc", expect.any(PlatformRouter));
       expect(PlatformRouter.prototype.get).toHaveBeenCalledWith("/swagger.json", expect.any(Function));
       expect(PlatformRouter.prototype.get).toHaveBeenCalledWith("/main.css", expect.any(Function));
