@@ -7045,7 +7045,7 @@ __metadata:
     "@tsed/typescript": "workspace:*"
     "@types/passport": "npm:1.0.7"
     "@types/passport-http": "npm:0.3.9"
-    "@types/passport-local": "npm:1.0.34"
+    "@types/passport-local": "npm:1.0.38"
     "@types/passport-strategy": "npm:0.2.35"
     barrelsby: "npm:^2.8.1"
     eslint: "npm:^8.12.0"
@@ -8925,14 +8925,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/passport-local@npm:1.0.34":
-  version: 1.0.34
-  resolution: "@types/passport-local@npm:1.0.34"
+"@types/passport-local@npm:1.0.38":
+  version: 1.0.38
+  resolution: "@types/passport-local@npm:1.0.38"
   dependencies:
     "@types/express": "npm:*"
     "@types/passport": "npm:*"
     "@types/passport-strategy": "npm:*"
-  checksum: 10/c8e162f571c8685344f4496b1473645eb1244a2ecb1c810854d43ac8897145083ac7412b8d3a3231f72f27a22d57e526fc8421d8208c18cdff8f83266e875f37
+  checksum: 10/d33395669960d47644b7c094c3ef59bba84e7aa4ee9bc820570027b922c1b7ff9b3f45ac8c11226f6861d2ef795c34b9498ab6f8e29693b51dafb64edd8b9879
   languageName: node
   linkType: hard
 
