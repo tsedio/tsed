@@ -7569,7 +7569,7 @@ __metadata:
     "@tsed/exceptions": "workspace:*"
     "@tsed/schema": "workspace:*"
     "@tsed/typescript": "workspace:*"
-    "@types/ejs": "npm:3.1.1"
+    "@types/ejs": "npm:3.1.5"
     barrelsby: "npm:^2.8.1"
     ejs: "npm:^3.1.5"
     eslint: "npm:^8.12.0"
@@ -8349,10 +8349,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/ejs@npm:3.1.1":
-  version: 3.1.1
-  resolution: "@types/ejs@npm:3.1.1"
-  checksum: 10/f8ab0bbaf0167e0e6d41c8937b7af791c0bb25c8004c3b408aafd4edbe54eb847a95507d232a154c67f7017b8212d130ec0cf3632bdfe0df1c84263807ece821
+"@types/ejs@npm:3.1.5":
+  version: 3.1.5
+  resolution: "@types/ejs@npm:3.1.5"
+  checksum: 10/918898fd279108087722c1713e2ddb0c152ab839397946d164db8a18b5bbd732af9746373882a9bcf4843d35c6b191a8f569a7a4e51e90726d24501b39f40367
   languageName: node
   linkType: hard
 
@@ -14253,18 +14253,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"ejs@npm:^3.1.5, ejs@npm:^3.1.6":
-  version: 3.1.8
-  resolution: "ejs@npm:3.1.8"
-  dependencies:
-    jake: "npm:^10.8.5"
-  bin:
-    ejs: bin/cli.js
-  checksum: 10/879f84c8ee56d06dea7b47a8b493e1b398dba578ec7a701660cf77c8a6d565b932c5896639d1dc4a3be29204eccdb70ee4e1bdf634647c2490227f727d5d6a3d
-  languageName: node
-  linkType: hard
-
-"ejs@npm:^3.1.7":
+"ejs@npm:^3.1.5, ejs@npm:^3.1.6, ejs@npm:^3.1.7":
   version: 3.1.9
   resolution: "ejs@npm:3.1.9"
   dependencies:
