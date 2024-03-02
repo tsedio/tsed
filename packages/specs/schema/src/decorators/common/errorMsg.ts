@@ -1,9 +1,7 @@
 import {JsonEntityFn} from "./jsonEntityFn";
 
 /**
- * Create a new custom formats validator
- * @param name
- * @param options
+ * Add an error message to the property.
  * @decorator
  * @ajv
  */

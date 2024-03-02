@@ -7,7 +7,7 @@ import {ErrorMsg} from "./errorMsg";
  * ## Example
  *
  * ```typescript
- * @DefaultMessage("foo should be a string")
+ * @DefaultMsg("foo should be a string")
  * class Model {
  *    property: number;
  * }
