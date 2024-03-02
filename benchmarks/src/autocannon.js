@@ -12,7 +12,7 @@ const resultsDirectory = path.join(process.cwd(), "results");
 
 const run = (opts = {}) =>
   new Promise((resolve, reject) => {
-    opts.url = "http://localhost:3000";
+    opts.url = "http://0.0.0.0:3000";
     autocannon(opts, (err, result) => {
       if (err) {
         reject(err);

@@ -13,7 +13,9 @@ const doBench = async (opts, handler) => {
 
   const abortController = new AbortController();
   const subprocess = execa("node", [modPath], {signal: abortController.signal});
-
+  subprocess.stdout.on("data", (data) => {
+    console.log(data.toString());
+  });
   try {
     spinner.color = "magenta";
     spinner.text = `Warming ${handler}`;
