@@ -1,6 +1,6 @@
 {
   "name": "@tsed/docs",
-  "version": "7.62.1",
+  "version": "7.62.2",
   "description": "Documentation Ts.ED",
   "private": true,
   "scripts": {
