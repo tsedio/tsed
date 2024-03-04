@@ -12,7 +12,7 @@ import {
   PlatformStaticsOptions,
   runInContext
 } from "@tsed/common";
-import {isFunction, Type} from "@tsed/core";
+import {catchAsyncError, isFunction, Type} from "@tsed/core";
 import {PlatformExceptions} from "@tsed/platform-exceptions";
 import {PlatformHandlerMetadata, PlatformLayer} from "@tsed/platform-router";
 import Koa, {Context, Next} from "koa";
@@ -121,10 +121,6 @@ export class PlatformKoa extends PlatformAdapter<Koa> {
   }
 
   mapHandler(handler: Function, metadata: PlatformHandlerMetadata) {
-    if (metadata.isRawMiddleware()) {
-      return handler;
-    }
-
     return async (koaContext: Koa.Context, next: Koa.Next) => {
       const {$ctx} = koaContext.request;
       $ctx.next = next;

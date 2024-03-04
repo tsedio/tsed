@@ -7178,6 +7178,7 @@ __metadata:
     compression: "npm:1.7.4"
     cookie-parser: "npm:1.4.6"
     cors: "npm:2.8.5"
+    cross-env: "npm:7.0.3"
     eslint: "npm:^8.12.0"
     express: "npm:^4.18.2"
     express-session: "npm:1.17.2"
@@ -8016,6 +8017,7 @@ __metadata:
     "@types/graphql": "npm:^14.5.0"
     barrelsby: "npm:^2.8.1"
     class-validator: "npm:~0.14.0"
+    cross-env: "npm:^7.0.3"
     eslint: "npm:^8.12.0"
     graphql-passport: "npm:0.6.3"
     jest: "npm:^29.2.0"
@@ -13295,7 +13297,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"cross-env@npm:7.0.3":
+"cross-env@npm:7.0.3, cross-env@npm:^7.0.3":
   version: 7.0.3
   resolution: "cross-env@npm:7.0.3"
   dependencies:

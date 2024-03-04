@@ -12,7 +12,7 @@ import {
   PlatformStaticsOptions,
   runInContext
 } from "@tsed/common";
-import {Env, isFunction, Type} from "@tsed/core";
+import {catchAsyncError, Env, isFunction, Type} from "@tsed/core";
 import {PlatformHandlerMetadata, PlatformLayer} from "@tsed/platform-router";
 import type {PlatformViews} from "@tsed/platform-views";
 import {OptionsJson, OptionsText, OptionsUrlencoded} from "body-parser";
@@ -147,9 +147,14 @@ export class PlatformExpress extends PlatformAdapter<Express.Application> {
         };
       default:
         return (req: any, res: any, next: any) => {
-          return runInContext(req.$ctx, () => {
-            req.$ctx.next = next;
-            handler(req.$ctx);
+          return runInContext(req.$ctx, async () => {
+            const {$ctx} = req;
+            $ctx.next = next;
+
+            /*$ctx.error =*/
+            await catchAsyncError(() => handler($ctx));
+
+            //$ctx.next && $ctx.error ? $ctx.next($ctx.error) : $ctx.next();
           });
         };
     }

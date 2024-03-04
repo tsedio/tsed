@@ -1,13 +1,20 @@
-import {PlatformContext, PlatformHandler} from "@tsed/common";
+import {PlatformContext, PlatformHandler, PlatformParamsCallback} from "@tsed/common";
 import "./PlatformKoaRequest";
+import {catchAsyncError} from "@tsed/core";
 
 export class PlatformKoaHandler extends PlatformHandler {
-  public flush($ctx: PlatformContext) {
-    if ($ctx.error) {
-      return Promise.reject($ctx.error);
-    }
+  onRequest(handler: PlatformParamsCallback, $ctx: PlatformContext): Promise<any> {
+    return catchAsyncError(() => {
+      if (($ctx.error instanceof Error && !$ctx.handlerMetadata.hasErrorParam) || ($ctx.handlerMetadata.hasErrorParam && !$ctx.error)) {
+        return;
+      }
 
-    if ($ctx.data === undefined && $ctx.getResponse().body) {
+      return super.onRequest(handler, $ctx);
+    });
+  }
+
+  public flush($ctx: PlatformContext) {
+    if (!$ctx.error && $ctx.data === undefined && $ctx.getResponse().body) {
       $ctx.data = $ctx.getResponse().body;
     }
 

@@ -1,19 +1,11 @@
-import { getValue, Hooks, Type } from "@tsed/core";
-import {
-  ControllerProvider,
-  GlobalProviders,
-  Injectable,
-  InjectorService,
-  Provider,
-  ProviderType,
-  TokenProvider
-} from "@tsed/di";
-import { PlatformParamsCallback } from "@tsed/platform-params";
-import { concatPath, getOperationsRoutes, JsonMethodStore, OPERATION_HTTP_VERBS } from "@tsed/schema";
-import { useContextHandler } from "../utils/useContextHandler";
-import { PlatformHandlerMetadata } from "./PlatformHandlerMetadata";
-import { PlatformLayer } from "./PlatformLayer";
-import { PlatformRouter } from "./PlatformRouter";
+import {getValue, Hooks, Type} from "@tsed/core";
+import {ControllerProvider, GlobalProviders, Injectable, InjectorService, Provider, ProviderType, TokenProvider} from "@tsed/di";
+import {PlatformParamsCallback} from "@tsed/platform-params";
+import {concatPath, getOperationsRoutes, JsonMethodStore, OPERATION_HTTP_VERBS} from "@tsed/schema";
+import {useContextHandler} from "../utils/useContextHandler";
+import {PlatformHandlerMetadata} from "./PlatformHandlerMetadata";
+import {PlatformLayer} from "./PlatformLayer";
+import {PlatformRouter} from "./PlatformRouter";
 
 let AUTO_INC = 0;
 
@@ -43,7 +35,7 @@ function createInjectableRouter(injector: InjectorService, provider: ControllerP
 }
 
 GlobalProviders.createRegistry(ProviderType.CONTROLLER, ControllerProvider, {
-  onInvoke(provider: ControllerProvider, locals: any, { injector }) {
+  onInvoke(provider: ControllerProvider, locals: any, {injector}) {
     const router = createInjectableRouter(injector, provider);
     locals.set(PlatformRouter, router);
   }
@@ -60,8 +52,7 @@ export class PlatformRouters {
   readonly hooks = new Hooks();
   readonly allowedVerbs = OPERATION_HTTP_VERBS;
 
-  constructor(protected readonly injector: InjectorService) {
-  }
+  constructor(protected readonly injector: InjectorService) {}
 
   prebuild() {
     this.injector.getProviders(ProviderType.CONTROLLER).forEach((provider: ControllerProvider) => {
@@ -70,7 +61,7 @@ export class PlatformRouters {
   }
 
   from(token: TokenProvider, parentMiddlewares: any[] = []) {
-    const { injector } = this;
+    const {injector} = this;
     const provider = injector.getProvider<ControllerProvider>(token)!;
 
     if (!provider) {
@@ -85,11 +76,11 @@ export class PlatformRouters {
 
     const useBefore = getValue(provider, "middlewares.useBefore", []);
 
-    const { children } = provider;
+    const {children} = provider;
 
-    getOperationsRoutes(provider.token, { allowedVerbs: this.allowedVerbs }).forEach((operationRoute) => {
-      const { endpoint } = operationRoute;
-      const { beforeMiddlewares, middlewares: mldwrs, afterMiddlewares } = endpoint;
+    getOperationsRoutes(provider.token, {allowedVerbs: this.allowedVerbs}).forEach((operationRoute) => {
+      const {endpoint} = operationRoute;
+      const {beforeMiddlewares, middlewares: mldwrs, afterMiddlewares} = endpoint;
 
       const useBefore = getValue(provider, "middlewares.useBefore", []);
       const use = getValue(provider, "middlewares.use", []);
@@ -167,6 +158,10 @@ export class PlatformRouters {
         const handlers = layer.handlers.map((handlerMetadata) => {
           // set path on handler metadata to retrieve it later in $ctx
           handlerMetadata.path = layer.path;
+
+          if (handlerMetadata.isRawFn()) {
+            return handlerMetadata.handler;
+          }
 
           return this.hooks.alter<PlatformHandlerMetadata, PlatformParamsCallback>("alterHandler", handlerMetadata);
         });
