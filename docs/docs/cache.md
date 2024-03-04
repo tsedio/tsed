@@ -234,7 +234,7 @@ Service/Provider.
 
 ```typescript
 import {Injectable} from "@tsed/di";
-import {UseCache} from "@tsed/common";
+import {UseCache} from "@tsed/platform-cache";
 
 @Injectable()
 export class MyService {
@@ -253,7 +253,7 @@ return the expected instance.
 
 ```typescript
 import {Injectable} from "@tsed/di";
-import {UseCache} from "@tsed/common";
+import {UseCache} from "@tsed/platform-cache";
 
 @Injectable()
 export class MyService {
