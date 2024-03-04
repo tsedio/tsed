@@ -4,66 +4,22 @@
 
 ### Installation
 
-Ts.ED support officially two unit test frameworks: Jest and Mocha. It's also possible to use your
-preferred frameworks. Your feedback are welcome
+Ts.ED support officially two unit test frameworks: Jest, Mocha and Vitest. It's also possible to use your
+preferred frameworks. Your feedback are welcome.
 
 <Tabs>
   <Tab label="Jest">
 
-Run these commands to install jest and ts-jest:
-
-```bash
-$ yarn add -D @types/jest jest ts-jest
-```
-
-Add in your package.json the following task:
-
-```json
-{
-  "test:unit": "cross-env NODE_ENV=test jest"
-}
-```
-
-Then create a new `jest.config.ts` on your root project and the following content:
-
-```javascript
-// For a detailed explanation regarding each configuration property, visit:
-// https://jestjs.io/docs/en/configuration.html
-
-// eslint-disable-next-line node/exports-style
-export default {
-  // Automatically clear mock calls and instances between every test
-  clearMocks: true,
-
-  // Indicates whether the coverage information should be collected while executing the test
-  collectCoverage: true,
-
-  // An array of glob patterns indicating a set of files for which coverage information should be collected
-  // collectCoverageFrom: undefined,
-
-  // The directory where Jest should output its coverage files
-  coverageDirectory: "coverage",
-
-  // An array of regexp pattern strings used to skip coverage collection
-  coveragePathIgnorePatterns: ["index.ts", "/node_modules/"],
-
-  // An array of file extensions your modules use
-  moduleFileExtensions: ["js", "json", "jsx", "ts", "tsx", "node"],
-
-  // The test environment that will be used for testing
-  testEnvironment: "node",
-
-  // The glob patterns Jest uses to detect test files
-  testMatch: ["**/src/**/__tests__/**/*.[jt]s?(x)", "**/src/**/?(*.)+(spec|test).[tj]s?(x)"],
-  // A map from regular expressions to paths to transformers
-  transform: {
-    "\\.(ts)$": "ts-jest"
-  }
-};
-```
+See the dedicated guide installation for Jest [here](/tutorials/jest.md).
 
   </Tab>
-  <Tab label="Mocha + chai">
+
+  <Tab label="Vitest">
+
+See the dedicated guide installation for Vitest [here](/tutorials/vitest.md).
+
+  </Tab>
+  <Tab label="Mocha + chai (deprecated)">
 
 Run these commands to install mocha chai and sinon:
 
@@ -147,6 +103,11 @@ Here is an example to test the ParseService:
 <<< @/docs/snippets/testing/parse-service.jest.spec.ts
 
   </Tab>
+  <Tab label="Vitest">
+
+<<< @/docs/snippets/testing/parse-service.vitest.spec.ts
+
+  </Tab>
   <Tab label="Mocha">
 
 <<< @/docs/snippets/testing/parse-service.mocha.spec.ts
@@ -169,6 +130,11 @@ Testing asynchronous method is also possible using `Promises` (`async`/`await`):
 <<< @/docs/snippets/testing/db-service-async-await.jest.ts
 
   </Tab>
+  <Tab label="Vitest">
+
+<<< @/docs/snippets/testing/db-service-async-await.vitest.ts
+
+  </Tab>
   <Tab label="Mocha">
 
 <<< @/docs/snippets/testing/db-service-async-await.mocha.ts
@@ -184,6 +150,11 @@ PlatformTest API provides an `invoke` method to create a new instance of your co
   <Tab label="Jest">
 
 <<< @/docs/snippets/testing/db-service-mock-dependencies.jest.ts
+
+  </Tab>
+  <Tab label="Vitest">
+
+<<< @/docs/snippets/testing/db-service-mock-dependencies.vitest.ts
 
   </Tab>
   <Tab label="Mocha">
@@ -228,6 +199,30 @@ $ npm install --save-dev supertest @types/supertest
   <Tab label="Jest">
 
 ```ts
+import {PlatformTest} from "@tsed/common";
+import * as SuperTest from "supertest";
+import {Server} from "../Server";
+
+describe("Rest", () => {
+  beforeAll(PlatformTest.bootstrap(Server));
+  afterAll(PlatformTest.reset);
+
+  describe("GET /rest/calendars", () => {
+    it("should do something", async () => {
+      const request = SuperTest(PlatformTest.callback());
+      const response = await request.get("/rest/calendars").expect(200);
+
+      expect(typeof response.body).toEqual("array");
+    });
+  });
+});
+```
+
+  </Tab>
+  <Tab label="Vitest">
+
+```ts
+import {it, expect, describe, beforeAll, afterAll} from "vitest";
 import {PlatformTest} from "@tsed/common";
 import * as SuperTest from "supertest";
 import {Server} from "../Server";
@@ -326,8 +321,43 @@ Object.assign(entity, {
 });
 
 describe("ChapterController", () => {
-  let request: SuperTest.Agent;
+  beforeAll(PlatformTest.bootstrap(Server));
+  afterAll(PlatformTest.reset);
 
+  describe("GET /rest/chapter", () => {
+    it("Get All Chapters", async () => {
+      const service = PlatformTest.get(ChapterService);
+
+      jest.spyOn(service, "findChapters").mockResolvedValue([entity]);
+
+      const request = SuperTest(PlatformTest.callback());
+
+      const response = await request.get("/rest/chapter").expect(200);
+      expect(typeof response.body).toEqual("object");
+    });
+  });
+});
+```
+
+  </Tab>
+  <Tab label="Vitest">
+
+```typescript
+import {it, expect, describe, beforeAll, afterAll} from "vitest";
+import {PlatformTest} from "@tsed/common";
+import SuperTest from "supertest";
+import {Server} from "../../Server";
+import {Chapter} from "../../entity/Chapter";
+
+const entity = new Chapter();
+Object.assign(entity, {
+  id: 2,
+  bookId: 4,
+  timestamp: 1650996201,
+  name: "First Day At Work"
+});
+
+describe("ChapterController", () => {
   beforeAll(PlatformTest.bootstrap(Server));
   afterAll(PlatformTest.reset);
 
@@ -405,11 +435,8 @@ import {Server} from "../../Server";
 import {AuthMiddleware} from "../../middlewares/auth.middleware";
 
 describe("HelloWorldController", () => {
-  let request: SuperTest.Agent;
-
-  beforeAll(TestMongooseContext.bootstrap(Server));
-  beforeAll(() => {
-    request = SuperTest(PlatformTest.callback());
+  beforeAll(async () => {
+    await TestMongooseContext.bootstrap(Server)();
 
     const authMiddleware = PlatformTest.get<AuthMiddleware>(AuthMiddleware);
     jest.spyOn(authMiddleware, "use").mockResolvedValue(true);
@@ -420,6 +447,39 @@ describe("HelloWorldController", () => {
   afterAll(TestMongooseContext.reset);
 
   it("should return value", async () => {
+    const request = SuperTest(PlatformTest.callback());
+    const response = await request.get("/rest/hello-world").expect(200);
+    expect(response.text).toEqual("hello");
+  });
+});
+```
+
+</Tab>
+  <Tab label="Vitest">
+
+```typescript
+import {it, expect, describe, beforeAll, afterAll, beforeEach} from "vitest";
+import {PlatformTest} from "@tsed/common";
+import SuperTest from "supertest";
+import {TestMongooseContext} from "@tsed/testing-mongoose";
+import {HelloWorldController} from "./HelloWorldController";
+import {Server} from "../../Server";
+import {AuthMiddleware} from "../../middlewares/auth.middleware";
+
+describe("HelloWorldController", () => {
+  beforeAll(async () => {
+    await TestMongooseContext.bootstrap(Server)();
+
+    const authMiddleware = PlatformTest.get<AuthMiddleware>(AuthMiddleware);
+    jest.spyOn(authMiddleware, "use").mockResolvedValue(true);
+  });
+  beforeEach(() => {
+    jest.clearAllMocks();
+  });
+  afterAll(TestMongooseContext.reset);
+
+  it("should return value", async () => {
+    const request = SuperTest(PlatformTest.callback());
     const response = await request.get("/rest/hello-world").expect(200);
     expect(response.text).toEqual("hello");
   });
@@ -441,12 +501,8 @@ import {AuthMiddleware} from "../../middlewares/auth.middleware";
 const sandbox = Sinon.createSandbox();
 
 describe("HelloWorldController", () => {
-  let request: SuperTest.Agent;
-
   beforeAll(TestMongooseContext.bootstrap(Server));
   beforeAll(() => {
-    request = SuperTest(PlatformTest.callback());
-
     const authMiddleware = PlatformTest.get<AuthMiddleware>(AuthMiddleware);
     sandbox.stub(authMiddleware, "use").resolves(true);
   });
@@ -456,6 +512,7 @@ describe("HelloWorldController", () => {
   afterAll(TestMongooseContext.reset);
 
   it("should return value", async () => {
+    const request = SuperTest(PlatformTest.callback());
     const response = await request.get("/rest/hello-world").expect(200);
     expect(response.text).to.equal("hello");
   });
@@ -473,6 +530,11 @@ To install session with Ts.ED see our [tutorial](/tutorials/session.md).
 <Tab label="Jest">
 
 <<< @/tutorials/snippets/session/example-test.jest.ts
+
+</Tab>
+<Tab label="Vitest">
+
+<<< @/tutorials/snippets/session/example-test.vitest.ts
 
 </Tab>
 <Tab label="Mocha">
@@ -529,8 +591,6 @@ import SuperTest from "supertest";
 import {Server} from "../../Server";
 
 describe("SomeIntegrationTestWithDB", () => {
-  let request: SuperTest.Agent;
-
   beforeAll(
     PlatformTest.bootstrap(Server, {
       imports: [

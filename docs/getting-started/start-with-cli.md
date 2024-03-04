@@ -67,7 +67,7 @@ You can select different options to generate your first application:
   - Socket.io,
   - Swagger,
   - OIDC,
-  - Testing (Jest/Mocha),
+  - Testing (Jest/Vitest/Mocha),
   - Linter (Eslint, prettier),
 - The runtime: Node.js, Node.js + Babel, Node.js + Webpack, Node.js + SWC, Bun
 - The Package manager: NPM, Yarn, PNPM, Bun
