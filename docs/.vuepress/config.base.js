@@ -272,6 +272,14 @@ module.exports = ({title, description, base = "", url, apiRedirectUrl = "", them
               {
                 text: "Vike",
                 link: `${base}/tutorials/vike.html`
+              },
+              {
+                text: "Jest",
+                link: `${base}/tutorials/jest.html`
+              },
+              {
+                text: "Vitest",
+                link: `${base}/tutorials/vitest.html`
               }
             ].sort((a, b) => (a.text < b.text ? -1 : 1))
           },
@@ -428,6 +436,8 @@ module.exports = ({title, description, base = "", url, apiRedirectUrl = "", them
               {title: "IORedis", path: base + "/tutorials/ioredis"},
               {title: "Objection.js", path: base + "/tutorials/objection"},
               {title: "Vike", path: base + "/tutorials/vike"},
+              {title: "Jest", path: base + "/tutorials/jest"},
+              {title: "Vitest", path: base + "/tutorials/vitest"},
               {title: "Temporal", path: base + "/tutorials/temporal"},
               {title: "BullMQ", path: base + "/tutorials/bullmq"}
             ].sort((a, b) => (a.title < b.title ? -1 : 1))
@@ -471,6 +481,9 @@ module.exports = ({title, description, base = "", url, apiRedirectUrl = "", them
           base + "/tutorials/terminus",
           base + "/tutorials/serverless",
           base + "/tutorials/ioredis",
+          base + "/tutorials/vike",
+          base + "/tutorials/jest",
+          base + "/tutorials/vitest",
           base + "/docs/controllers",
           base + "/docs/providers",
           base + "/docs/model",

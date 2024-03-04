@@ -97,6 +97,9 @@ frameworks:
   - title: Jest
     href: https://jestjs.io/
     src: /jest.svg
+  - title: Vitest
+    href: https://vitest.dev/
+    src: /vitest.png
   - title: Mocha
     href: https://mochajs.org/
     src: /mochajs.svg

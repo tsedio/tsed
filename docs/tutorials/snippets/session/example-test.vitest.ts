@@ -1,9 +1,15 @@
+import {it, expect, describe, beforeAll, afterAll} from "vitest";
 import {PlatformTest} from "@tsed/common";
 import * as SuperTest from "supertest";
 import {Server} from "../../../src/Server";
 
 describe("Session", () => {
-  beforeAll(PlatformTest.bootstrap(Server));
+  let request: any;
+
+  beforeAll(() => {
+    PlatformTest.bootstrap(Server);
+    request = SuperTest.agent(PlatformTest.callback());
+  });
   afterAll(PlatformTest.reset);
 
   describe("Login / Logout", () => {

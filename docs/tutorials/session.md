@@ -102,6 +102,11 @@ Here is an example of Rest API test:
 <<< @/tutorials/snippets/session/example-test.jest.ts
 
 </Tab>
+<Tab label="Vitest">
+
+<<< @/tutorials/snippets/session/example-test.vitest.ts
+
+</Tab>
 <Tab label="Mocha">
 
 <<< @/tutorials/snippets/session/example-test.mocha.ts
