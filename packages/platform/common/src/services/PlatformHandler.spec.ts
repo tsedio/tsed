@@ -63,6 +63,7 @@ describe("PlatformHandler", () => {
       });
 
       const $ctx = PlatformTest.createRequestContext();
+      $ctx.endpoint = EndpointMetadata.get(Test, "get");
 
       const result = service.createHandler(metadata);
 
@@ -271,6 +272,7 @@ describe("PlatformHandler", () => {
       expect(handler).toHaveBeenCalled();
       expect(middleware).toHaveBeenCalled();
     });
+
     it("should not call flush when is a stream", async () => {
       @Injectable()
       class TestService {

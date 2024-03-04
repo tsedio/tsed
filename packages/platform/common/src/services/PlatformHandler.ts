@@ -64,7 +64,7 @@ export class PlatformHandler {
       return async ($ctx: PlatformContext) => {
         $ctx.handlerMetadata = handlerMetadata;
 
-        await catchAsyncError(() => this.onRequest(handler, $ctx));
+        await this.onRequest(handler, $ctx);
 
         return this.next($ctx);
       };
@@ -117,7 +117,7 @@ export class PlatformHandler {
       return;
     }
 
-    return $ctx.error ? $ctx.next($ctx.error) : $ctx.next();
+    return $ctx.next && $ctx.error ? $ctx.next($ctx.error) : $ctx.next();
   }
 
   /**
@@ -146,7 +146,6 @@ export class PlatformHandler {
       const resolver = new AnyToPromiseWithCtx($ctx);
 
       const {state, type, data, status, headers} = await resolver.call(handler);
-
       // Note: restore previous handler metadata (for OIDC)
       $ctx.handlerMetadata = handlerMetadata;
 
@@ -183,7 +182,7 @@ export class PlatformHandler {
       }
     } catch (error) {
       $ctx.error = error;
-
+      // TODO on v8, we have to use platformExceptions.catch directly. Error middleware won't be supported anymore
       throw error;
     }
   }
