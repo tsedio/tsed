@@ -1,6 +1,5 @@
-import {AnyToPromiseResponseTypes, AnyToPromiseStatus, catchAsyncError, isFunction, isStream} from "@tsed/core";
+import {AnyToPromiseStatus, catchAsyncError, isFunction, isStream} from "@tsed/core";
 import {Inject, Injectable, Provider, ProviderScope} from "@tsed/di";
-import {$log} from "@tsed/logger";
 import {PlatformExceptions} from "@tsed/platform-exceptions";
 import {PlatformParams, PlatformParamsCallback} from "@tsed/platform-params";
 import {PlatformResponseFilter} from "@tsed/platform-response-filter";
@@ -48,29 +47,27 @@ export class PlatformHandler {
       .on("alterEndpointHandlers", (handlers: AlterEndpointHandlersArg, operationRoute: JsonOperationRoute) => {
         handlers = this.platformMiddlewaresChain.get(handlers, operationRoute);
 
-        handlers.after.push(useResponseHandler(this.onFinish.bind(this)));
+        handlers.after.push(useResponseHandler(this.flush.bind(this)));
 
         return handlers;
       })
       .on("alterHandler", (handlerMetadata: PlatformHandlerMetadata) => {
-        return this.platformApplication.adapter.mapHandler(this.createHandler(handlerMetadata), handlerMetadata);
+        const handler = handlerMetadata.isInjectable() ? this.createHandler(handlerMetadata) : handlerMetadata.handler;
+
+        return this.platformApplication.adapter.mapHandler(handler, handlerMetadata);
       });
   }
 
   createHandler(handlerMetadata: PlatformHandlerMetadata): any {
-    if (handlerMetadata.isInjectable()) {
-      const handler = this.platformParams.compileHandler(handlerMetadata);
+    const handler = this.platformParams.compileHandler(handlerMetadata);
 
-      return async ($ctx: PlatformContext) => {
-        $ctx.handlerMetadata = handlerMetadata;
+    return async ($ctx: PlatformContext) => {
+      $ctx.handlerMetadata = handlerMetadata;
 
-        await this.onRequest(handler, $ctx);
+      await this.onRequest(handler, $ctx);
 
-        return this.next($ctx);
-      };
-    }
-
-    return handlerMetadata.handler;
+      return this.next($ctx);
+    };
   }
 
   /**
@@ -95,47 +92,9 @@ export class PlatformHandler {
   }
 
   /**
-   * Send the response to the consumer.
-   * @protected
-   * @param $ctx
-   */
-  async flush($ctx: PlatformContext) {
-    const {response} = $ctx;
-
-    if (!$ctx.isDone()) {
-      let data = await this.responseFilter.serialize($ctx.data, $ctx as any);
-      data = await this.responseFilter.transform(data, $ctx as any);
-      response.body(data);
-    }
-  }
-
-  /**
-   * @param $ctx
-   */
-  next($ctx: PlatformContext) {
-    if (isStream($ctx.data) || $ctx.isDone()) {
-      return;
-    }
-
-    return $ctx.next && $ctx.error ? $ctx.next($ctx.error) : $ctx.next();
-  }
-
-  /**
    * Call handler when a request his handle
    */
   async onRequest(handler: PlatformParamsCallback, $ctx: PlatformContext): Promise<any> {
-    if ($ctx.isDone()) {
-      $log.error({
-        name: "HEADERS_SENT",
-        message: `An endpoint is called but the response is already send to the client. The call comes from the handler: ${$ctx.handlerMetadata.toString()}`
-      });
-      return;
-    }
-
-    if (($ctx.error instanceof Error && !$ctx.handlerMetadata.hasErrorParam) || ($ctx.handlerMetadata.hasErrorParam && !$ctx.error)) {
-      return;
-    }
-
     try {
       const {handlerMetadata} = $ctx;
 
@@ -149,7 +108,7 @@ export class PlatformHandler {
       // Note: restore previous handler metadata (for OIDC)
       $ctx.handlerMetadata = handlerMetadata;
 
-      if (state === AnyToPromiseStatus.RESOLVED) {
+      if (state === AnyToPromiseStatus.RESOLVED && !$ctx.isDone()) {
         if (status) {
           $ctx.response.status(status);
         }
@@ -162,22 +121,16 @@ export class PlatformHandler {
           $ctx.data = data;
         }
 
-        if (!$ctx.isDone()) {
-          $ctx.error = null;
+        $ctx.error = null;
 
-          // set headers each times that an endpoint is called
-          if (handlerMetadata.isEndpoint()) {
-            setResponseHeaders($ctx);
-          }
+        // set headers each times that an endpoint is called
+        if (handlerMetadata.isEndpoint()) {
+          setResponseHeaders($ctx);
+        }
 
-          // call returned middleware
-          if (isFunction($ctx.data) && !isStream($ctx.data)) {
-            return promisify($ctx.data)($ctx.getRequest(), $ctx.getResponse());
-          }
-
-          if (type === AnyToPromiseResponseTypes.STREAM) {
-            return this.flush($ctx);
-          }
+        // call returned middleware
+        if (isFunction($ctx.data) && !isStream($ctx.data)) {
+          return promisify($ctx.data)($ctx.getRequest(), $ctx.getResponse());
         }
       }
     } catch (error) {
@@ -187,9 +140,33 @@ export class PlatformHandler {
     }
   }
 
-  async onFinish($ctx: PlatformContext) {
-    $ctx.error = await catchAsyncError(() => this.flush($ctx));
+  /**
+   * @param $ctx
+   */
+  next($ctx: PlatformContext) {
+    return $ctx.next && $ctx.error ? $ctx.next($ctx.error) : $ctx.next();
+  }
 
-    return $ctx.error && this.platformExceptions.catch($ctx.error, $ctx);
+  /**
+   * Send the response to the consumer.
+   * @protected
+   * @param $ctx
+   */
+  async flush($ctx: PlatformContext) {
+    if (!$ctx.error) {
+      $ctx.error = await catchAsyncError(async () => {
+        const {response} = $ctx;
+
+        if (!$ctx.isDone()) {
+          let data = await this.responseFilter.serialize($ctx.data, $ctx as any);
+          data = await this.responseFilter.transform(data, $ctx as any);
+          response.body(data);
+        }
+      });
+    }
+
+    if ($ctx.error) {
+      this.platformExceptions.catch($ctx.error, $ctx);
+    }
   }
 }

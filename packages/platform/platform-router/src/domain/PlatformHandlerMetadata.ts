@@ -1,5 +1,5 @@
 import {nameOf} from "@tsed/core";
-import {InjectorService, Provider, ProviderScope, TokenProvider} from "@tsed/di";
+import {DIContext, InjectorService, Provider, ProviderScope, TokenProvider} from "@tsed/di";
 import {ParamTypes} from "@tsed/platform-params";
 import {EndpointMetadata, JsonEntityStore, JsonParameterStore} from "@tsed/schema";
 import {PlatformHandlerType} from "./PlatformHandlerType";
@@ -25,7 +25,7 @@ export class PlatformHandlerMetadata {
   readonly type: PlatformHandlerType = PlatformHandlerType.RAW_FN;
   readonly hasNextFunction: boolean = false;
   readonly opts: PlatformHandlerMetadataOpts = {};
-
+  compiledHandler: ($ctx: DIContext) => any;
   #handler: any;
 
   constructor(props: PlatformHandlerMetadataProps) {
@@ -119,10 +119,10 @@ export class PlatformHandlerMetadata {
   }
 
   public isInjectable() {
-    return !(this.isRawMiddleware() || this.isResponseFn());
+    return !(this.isRawFn() || this.isResponseFn());
   }
 
-  public isRawMiddleware() {
+  public isRawFn() {
     return this.type === PlatformHandlerType.RAW_ERR_FN || this.type === PlatformHandlerType.RAW_FN;
   }
 

@@ -25,7 +25,7 @@ function createAppRouterFixture() {
   injector.addProvider(MyController, {});
 
   platformRouters.hooks.on("alterHandler", (handlerMetadata: PlatformHandlerMetadata) => {
-    if (handlerMetadata.isRawMiddleware() || handlerMetadata.isResponseFn()) {
+    if (handlerMetadata.isRawFn() || handlerMetadata.isResponseFn()) {
       return handlerMetadata.handler;
     }
 

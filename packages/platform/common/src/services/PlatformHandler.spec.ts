@@ -128,47 +128,8 @@ describe("PlatformHandler", () => {
 
       expect($ctx.next).toHaveBeenCalledWith($ctx.error);
     });
-    it("should not call next when the data is a stream", async () => {
-      const {service} = getServiceFixture();
-
-      const $ctx = PlatformTest.createRequestContext();
-      $ctx.next = jest.fn();
-      $ctx.data = createReadStream(join(rootDir, "__mock__/data.txt"));
-
-      await service.next($ctx);
-
-      expect($ctx.next).not.toHaveBeenCalled();
-    });
-    it("should not call next when the request is done", async () => {
-      const {service} = getServiceFixture();
-
-      const $ctx = PlatformTest.createRequestContext();
-      $ctx.next = jest.fn();
-
-      await $ctx.finish();
-
-      await service.next($ctx);
-
-      expect($ctx.next).not.toHaveBeenCalled();
-    });
   });
   describe("onRequest()", () => {
-    it("should do nothing when the handler is not an error handler", async () => {
-      const {service} = getServiceFixture();
-      const handler = jest.fn();
-
-      const $ctx = PlatformTest.createRequestContext();
-      $ctx.next = jest.fn();
-      $ctx.error = new Error("");
-
-      $ctx.handlerMetadata = new PlatformHandlerMetadata({
-        handler
-      });
-
-      await service.onRequest(handler, $ctx);
-
-      expect(handler).not.toHaveBeenCalled();
-    });
     it("should do nothing when the request is done", async () => {
       const {service} = getServiceFixture();
       const handler = jest.fn();
@@ -271,35 +232,6 @@ describe("PlatformHandler", () => {
 
       expect(handler).toHaveBeenCalled();
       expect(middleware).toHaveBeenCalled();
-    });
-
-    it("should not call flush when is a stream", async () => {
-      @Injectable()
-      class TestService {
-        @Get("/")
-        use() {
-          return Promise.resolve("hello");
-        }
-      }
-
-      const {service} = getServiceFixture();
-      const data = createReadStream(join(rootDir, "__mock__/data.txt"));
-      const handler = jest.fn().mockResolvedValue(data);
-
-      const $ctx = PlatformTest.createRequestContext();
-      $ctx.next = jest.fn();
-      $ctx.endpoint = EndpointMetadata.get(TestService, "use");
-
-      $ctx.handlerMetadata = new PlatformHandlerMetadata({
-        handler: TestService.prototype.use
-      });
-
-      jest.spyOn(service, "flush").mockResolvedValue();
-
-      await service.onRequest(handler, $ctx);
-
-      expect(handler).toHaveBeenCalled();
-      expect(service.flush).toHaveBeenCalledWith($ctx);
     });
   });
 });
