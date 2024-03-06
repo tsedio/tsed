@@ -59,8 +59,8 @@ export class ViteService {
 
     if (pageContext.httpResponse) {
       const {httpResponse} = pageContext;
-
-      $ctx.response.contentType(httpResponse.contentType).status(httpResponse.statusCode);
+      httpResponse.headers?.forEach(([name, value]: [string, string]) => $ctx.response.setHeader(name, value));
+      $ctx.response.status(httpResponse.statusCode);
 
       if (this.enableStream) {
         return httpResponse;
