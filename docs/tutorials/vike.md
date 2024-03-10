@@ -6,7 +6,7 @@ meta:
     content: ts.ed express typescript vite ssr plugin node.js javascript decorators
 projects:
   - title: Vike react example
-    href: https://github.com/tsedio/tsed-vike-example
+    href: https://github.com/tsedio/tsed-vite-react-movies-demo.git
     src: /vike.svg
   - title: Vite react example
     href: https://github.com/tsedio/tsed-vite-plugin-ssr-example
