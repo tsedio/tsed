@@ -14,7 +14,7 @@ import {
 } from "@tsed/common";
 import {catchAsyncError, isFunction, Type} from "@tsed/core";
 import {PlatformExceptions} from "@tsed/platform-exceptions";
-import {PlatformHandlerMetadata, PlatformLayer} from "@tsed/platform-router";
+import {PlatformHandlerMetadata, PlatformHandlerType, PlatformLayer} from "@tsed/platform-router";
 import Koa, {Context, Next} from "koa";
 import koaBodyParser, {Options} from "koa-bodyparser";
 // @ts-ignore
@@ -123,9 +123,18 @@ export class PlatformKoa extends PlatformAdapter<Koa> {
   mapHandler(handler: Function, metadata: PlatformHandlerMetadata) {
     return async (koaContext: Koa.Context, next: Koa.Next) => {
       const {$ctx} = koaContext.request;
+
       $ctx.next = next;
 
-      await handler($ctx);
+      const error = await catchAsyncError(() => handler($ctx));
+
+      if (error) {
+        $ctx.error = error;
+      }
+
+      if (metadata.type !== PlatformHandlerType.RESPONSE_FN) {
+        return $ctx.next && $ctx.error ? $ctx.next($ctx.error) : $ctx.next();
+      }
     };
   }
 

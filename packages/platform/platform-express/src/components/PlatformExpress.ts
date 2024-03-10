@@ -32,6 +32,12 @@ declare module "express" {
   }
 }
 
+function callNext(next: any, metadata: PlatformHandlerMetadata, $ctx: PlatformContext) {
+  if (metadata.type !== PlatformHandlerType.RESPONSE_FN) {
+    return next && $ctx.error && !$ctx.isDone() ? next($ctx.error) : next();
+  }
+}
+
 declare global {
   namespace TsED {
     // export interface Router extends Express.Router {}
@@ -137,34 +143,31 @@ export class PlatformExpress extends PlatformAdapter<Express.Application> {
   }
 
   mapHandler(handler: Function, metadata: PlatformHandlerMetadata) {
-    switch (metadata.type) {
-      case PlatformHandlerType.RAW_FN:
-      case PlatformHandlerType.RAW_ERR_FN:
-        return handler;
-      case PlatformHandlerType.ERR_MIDDLEWARE:
-        return (error: unknown, req: any, res: any, next: any) => {
-          return runInContext(req.$ctx, () => {
-            const {$ctx} = req;
+    if (metadata.type == PlatformHandlerType.ERR_MIDDLEWARE) {
+      return (error: unknown, req: any, res: any, next: any) => {
+        return runInContext(req.$ctx, async () => {
+          const {$ctx} = req;
 
-            $ctx.next = next;
-            $ctx.error = error;
+          $ctx.next = next;
+          $ctx.error = error;
 
-            return handler($ctx);
-          });
-        };
-      default:
-        return (req: any, res: any, next: any) => {
-          return runInContext(req.$ctx, async () => {
-            const {$ctx} = req;
-            $ctx.next = next;
+          $ctx.error = await catchAsyncError(() => handler($ctx));
 
-            /*$ctx.error =*/
-            await catchAsyncError(() => handler($ctx));
-
-            //$ctx.next && $ctx.error ? $ctx.next($ctx.error) : $ctx.next();
-          });
-        };
+          return callNext(next, metadata, $ctx);
+        });
+      };
     }
+
+    return (req: any, res: any, next: any) => {
+      return runInContext(req.$ctx, async () => {
+        const {$ctx} = req;
+        $ctx.next = next;
+
+        $ctx.error = await catchAsyncError(() => handler($ctx));
+
+        return callNext(next, metadata, $ctx);
+      });
+    };
   }
 
   useContext(): this {
