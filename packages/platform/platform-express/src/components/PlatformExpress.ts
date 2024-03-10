@@ -5,6 +5,7 @@ import {
   PlatformBuilder,
   PlatformContext,
   PlatformExceptions,
+  PlatformHandler,
   PlatformHandlerType,
   PlatformMulter,
   PlatformMulterSettings,
@@ -22,6 +23,7 @@ import type multer from "multer";
 import {promisify} from "util";
 import {PlatformExpressStaticsOptions} from "../interfaces/PlatformExpressStaticsOptions";
 import {staticsMiddleware} from "../middlewares/staticsMiddleware";
+import {PlatformExpressHandler} from "../services/PlatformExpressHandler";
 
 declare module "express" {
   export interface Request {
@@ -53,7 +55,12 @@ declare global {
 export class PlatformExpress extends PlatformAdapter<Express.Application> {
   static readonly NAME = "express";
 
-  readonly providers = [];
+  readonly providers = [
+    {
+      provide: PlatformHandler,
+      useClass: PlatformExpressHandler
+    }
+  ];
   #multer: typeof multer;
 
   constructor(injector: InjectorService) {

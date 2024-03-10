@@ -1,4 +1,4 @@
-import {AnyToPromiseStatus, catchAsyncError, isFunction, isStream} from "@tsed/core";
+import {AnyPromiseResult, AnyToPromiseStatus, catchAsyncError, isFunction, isStream} from "@tsed/core";
 import {Inject, Injectable, Provider, ProviderScope} from "@tsed/di";
 import {PlatformExceptions} from "@tsed/platform-exceptions";
 import {PlatformParams, PlatformParamsCallback} from "@tsed/platform-params";
@@ -11,7 +11,7 @@ import {
   useResponseHandler
 } from "@tsed/platform-router";
 import {JsonOperationRoute} from "@tsed/schema";
-import {promisify} from "util";
+import {promisify} from "node:util";
 import {AnyToPromiseWithCtx} from "../domain/AnyToPromiseWithCtx";
 import {PlatformContext} from "../domain/PlatformContext";
 import {setResponseHeaders} from "../utils/setResponseHeaders";
@@ -95,48 +95,41 @@ export class PlatformHandler {
    * Call handler when a request his handle
    */
   async onRequest(handler: PlatformParamsCallback, $ctx: PlatformContext): Promise<any> {
-    try {
-      const {handlerMetadata} = $ctx;
+    const {handlerMetadata} = $ctx;
 
-      if (handlerMetadata.type === PlatformHandlerType.CTX_FN) {
-        return await handler({$ctx});
-      }
+    if (handlerMetadata.type === PlatformHandlerType.CTX_FN) {
+      return handler({$ctx});
+    }
 
-      const resolver = new AnyToPromiseWithCtx($ctx);
+    const resolver = new AnyToPromiseWithCtx($ctx);
 
-      const {state, type, data, status, headers} = await resolver.call(handler);
-      // Note: restore previous handler metadata (for OIDC)
-      $ctx.handlerMetadata = handlerMetadata;
+    const response = await resolver.call(handler);
+    // Note: restore previous handler metadata (for OIDC)
+    $ctx.handlerMetadata = handlerMetadata;
 
-      if (state === AnyToPromiseStatus.RESOLVED && !$ctx.isDone()) {
-        if (status) {
-          $ctx.response.status(status);
-        }
+    if (response.state === AnyToPromiseStatus.RESOLVED && !$ctx.isDone()) {
+      return this.onResponse(response, $ctx);
+    }
+  }
 
-        if (headers) {
-          $ctx.response.setHeaders(headers);
-        }
+  onResponse({status, data, headers}: AnyPromiseResult, $ctx: PlatformContext) {
+    if (status) {
+      $ctx.response.status(status);
+    }
 
-        if (data !== undefined) {
-          $ctx.data = data;
-        }
+    if (headers) {
+      $ctx.response.setHeaders(headers);
+    }
 
-        $ctx.error = null;
+    if (data !== undefined) {
+      $ctx.data = data;
+    }
 
-        // set headers each times that an endpoint is called
-        if (handlerMetadata.isEndpoint()) {
-          setResponseHeaders($ctx);
-        }
+    $ctx.error = null;
 
-        // call returned middleware
-        if (isFunction($ctx.data) && !isStream($ctx.data)) {
-          return promisify($ctx.data)($ctx.getRequest(), $ctx.getResponse());
-        }
-      }
-    } catch (error) {
-      $ctx.error = error;
-      // TODO on v8, we have to use platformExceptions.catch directly. Error middleware won't be supported anymore
-      throw error;
+    // set headers each times that an endpoint is called
+    if ($ctx.handlerMetadata.isEndpoint()) {
+      setResponseHeaders($ctx);
     }
   }
 

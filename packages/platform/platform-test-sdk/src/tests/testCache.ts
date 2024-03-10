@@ -117,7 +117,7 @@ export function testCache(options: PlatformTestingSdkOpts) {
         const platformCache = PlatformTest.get<PlatformCache>(PlatformCache);
 
         const response = await request.get("/rest/caches/scenario-1").expect(200);
-        console.log(response.headers);
+
         if (response.headers["etag"]) {
           // platform koa doesn't support Etag
           await request
