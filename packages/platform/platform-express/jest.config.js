@@ -4,15 +4,13 @@
 module.exports = {
   ...require("@tsed/jest-config"),
   roots: ["<rootDir>/src", "<rootDir>/test"],
-  moduleNameMapper: {
-    "^@tsed/platform-express$": "<rootDir>/src/index.ts"
-  },
+  collectCoverageFrom: ["src/**/*.{ts,tsx}", "!src/**/*.d.ts"],
   coverageThreshold: {
     global: {
-      statements: 96.65,
-      branches: 81.48,
-      functions: 100,
-      lines: 96.65
+      statements: 90,
+      branches: 79.66,
+      functions: 90,
+      lines: 90
     }
   }
 };

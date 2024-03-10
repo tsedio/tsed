@@ -1,4 +1,4 @@
-import {AnyPromiseResult, AnyToPromiseStatus, catchAsyncError, isFunction, isStream} from "@tsed/core";
+import {AnyPromiseResult, AnyToPromiseStatus, catchAsyncError} from "@tsed/core";
 import {Inject, Injectable, Provider, ProviderScope} from "@tsed/di";
 import {PlatformExceptions} from "@tsed/platform-exceptions";
 import {PlatformParams, PlatformParamsCallback} from "@tsed/platform-params";
@@ -11,7 +11,6 @@ import {
   useResponseHandler
 } from "@tsed/platform-router";
 import {JsonOperationRoute} from "@tsed/schema";
-import {promisify} from "node:util";
 import {AnyToPromiseWithCtx} from "../domain/AnyToPromiseWithCtx";
 import {PlatformContext} from "../domain/PlatformContext";
 import {setResponseHeaders} from "../utils/setResponseHeaders";
@@ -61,12 +60,10 @@ export class PlatformHandler {
   createHandler(handlerMetadata: PlatformHandlerMetadata): any {
     const handler = this.platformParams.compileHandler(handlerMetadata);
 
-    return async ($ctx: PlatformContext) => {
+    return ($ctx: PlatformContext) => {
       $ctx.handlerMetadata = handlerMetadata;
 
-      await this.onRequest(handler, $ctx);
-
-      return this.next($ctx);
+      return this.onRequest(handler, $ctx);
     };
   }
 
@@ -81,20 +78,13 @@ export class PlatformHandler {
       propertyKey
     });
 
-    const handler = this.platformParams.compileHandler(metadata.store);
-
-    return ($ctx: PlatformContext) => {
-      $ctx.handlerMetadata = metadata;
-
-      // @ts-ignore
-      return this.onRequest(handler, $ctx);
-    };
+    return this.createHandler(metadata);
   }
 
   /**
    * Call handler when a request his handle
    */
-  async onRequest(handler: PlatformParamsCallback, $ctx: PlatformContext): Promise<any> {
+  async onRequest(handler: PlatformParamsCallback, $ctx: PlatformContext) {
     const {handlerMetadata} = $ctx;
 
     if (handlerMetadata.type === PlatformHandlerType.CTX_FN) {
@@ -131,13 +121,6 @@ export class PlatformHandler {
     if ($ctx.handlerMetadata.isEndpoint()) {
       setResponseHeaders($ctx);
     }
-  }
-
-  /**
-   * @param $ctx
-   */
-  next($ctx: PlatformContext) {
-    return $ctx.next && $ctx.error ? $ctx.next($ctx.error) : $ctx.next();
   }
 
   /**

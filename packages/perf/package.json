@@ -26,6 +26,5 @@
     "@tsed/typescript": "workspace:*",
     "eslint": "^8.12.0",
     "jest": "^29.2.0"
-  },
-  "peerDependencies": {}
+  }
 }

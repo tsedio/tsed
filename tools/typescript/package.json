@@ -11,8 +11,5 @@
   },
   "scripts": {
     "build:references": "node ./index.js"
-  },
-  "dependencies": {},
-  "devDependencies": {},
-  "peerDependencies": {}
+  }
 }

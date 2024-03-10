@@ -1,15 +1,8 @@
-import {catchAsyncError} from "@tsed/core";
 import {Injectable} from "@tsed/di";
 import {PlatformHandlerMetadata, PlatformHandlerType} from "@tsed/platform-router";
 import {EndpointMetadata, Get, View} from "@tsed/schema";
-import filedirname from "filedirname";
-import {createReadStream} from "fs";
-import {join} from "path";
 import {PlatformHandler} from "./PlatformHandler";
 import {PlatformTest} from "./PlatformTest";
-
-// FIXME remove when esm is ready
-const [, rootDir] = filedirname();
 
 function getServiceFixture() {
   const service = PlatformTest.get<PlatformHandler>(PlatformHandler);
@@ -35,11 +28,7 @@ describe("PlatformHandler", () => {
 
       expect(typeof result).toEqual("function");
 
-      await new Promise((resolve) => {
-        $ctx.next = resolve;
-
-        result($ctx);
-      });
+      await result($ctx);
 
       expect(handler).toHaveBeenCalledWith($ctx);
     });
@@ -69,11 +58,7 @@ describe("PlatformHandler", () => {
 
       expect(typeof result).toEqual("function");
 
-      await new Promise((resolve) => {
-        $ctx.next = resolve;
-
-        result($ctx);
-      });
+      await result($ctx);
 
       expect($ctx.data).toEqual("test");
     });
@@ -106,29 +91,6 @@ describe("PlatformHandler", () => {
       expect(testService.use).toHaveBeenCalledWith($ctx);
     });
   });
-  describe("next()", () => {
-    it("should call next", async () => {
-      const {service} = getServiceFixture();
-
-      const $ctx = PlatformTest.createRequestContext();
-      $ctx.next = jest.fn();
-
-      await service.next($ctx);
-
-      expect($ctx.next).toHaveBeenCalledWith();
-    });
-    it("should call next with error", async () => {
-      const {service} = getServiceFixture();
-
-      const $ctx = PlatformTest.createRequestContext();
-      $ctx.next = jest.fn();
-      $ctx.error = new Error();
-
-      await service.next($ctx);
-
-      expect($ctx.next).toHaveBeenCalledWith($ctx.error);
-    });
-  });
   describe("onRequest()", () => {
     it("should do nothing when the request is done", async () => {
       const {service} = getServiceFixture();
@@ -146,24 +108,6 @@ describe("PlatformHandler", () => {
       await service.onRequest(handler, $ctx);
 
       expect(handler).not.toHaveBeenCalled();
-    });
-    it("should catch error", async () => {
-      const {service} = getServiceFixture();
-      const error = new Error("message");
-      const handler = jest.fn().mockRejectedValue(error);
-
-      const $ctx = PlatformTest.createRequestContext();
-      $ctx.next = jest.fn();
-
-      $ctx.handlerMetadata = new PlatformHandlerMetadata({
-        handler
-      });
-
-      const err = await catchAsyncError(() => service.onRequest(handler, $ctx));
-
-      expect(handler).toHaveBeenCalled();
-      expect($ctx.error).toEqual(error);
-      expect(err).toEqual(error);
     });
     it("should apply headers and status", async () => {
       @Injectable()
@@ -202,36 +146,6 @@ describe("PlatformHandler", () => {
         test: "test",
         "x-request-id": "id"
       });
-    });
-    it("should call the returned middleware", async () => {
-      @Injectable()
-      class TestService {
-        @Get("/")
-        use() {
-          return Promise.resolve("hello");
-        }
-      }
-
-      const {service} = getServiceFixture();
-      const middleware = jest.fn().mockImplementation((_1, _2, next) => next());
-      const handler = jest.fn().mockResolvedValue(middleware);
-
-      const $ctx = PlatformTest.createRequestContext();
-      $ctx.next = jest.fn();
-      $ctx.data = middleware;
-
-      $ctx.endpoint = EndpointMetadata.get(TestService, "use");
-
-      $ctx.handlerMetadata = new PlatformHandlerMetadata({
-        handler: TestService.prototype.use
-      });
-
-      jest.spyOn(service, "flush").mockResolvedValue();
-
-      await service.onRequest(handler, $ctx);
-
-      expect(handler).toHaveBeenCalled();
-      expect(middleware).toHaveBeenCalled();
     });
   });
 });

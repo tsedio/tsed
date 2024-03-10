@@ -2,17 +2,12 @@ import {PlatformContext, PlatformHandler, PlatformParamsCallback} from "@tsed/co
 import "./PlatformKoaRequest";
 
 export class PlatformKoaHandler extends PlatformHandler {
-  async onRequest(handler: PlatformParamsCallback, $ctx: PlatformContext): Promise<any> {
-    if (($ctx.error instanceof Error && !$ctx.handlerMetadata.hasErrorParam) || ($ctx.handlerMetadata.hasErrorParam && !$ctx.error)) {
-      return;
+  onRequest(handler: PlatformParamsCallback, $ctx: PlatformContext) {
+    if (!(($ctx.error instanceof Error && !$ctx.handlerMetadata.hasErrorParam) || ($ctx.handlerMetadata.hasErrorParam && !$ctx.error))) {
+      return super.onRequest(handler, $ctx);
     }
 
-    try {
-      return await super.onRequest(handler, $ctx);
-    } catch (er) {
-      $ctx.error = er;
-      return er;
-    }
+    return Promise.resolve();
   }
 
   public flush($ctx: PlatformContext) {

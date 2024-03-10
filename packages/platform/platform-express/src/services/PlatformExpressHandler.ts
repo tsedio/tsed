@@ -1,17 +1,8 @@
 import {PlatformContext, PlatformHandler} from "@tsed/common";
-import {AnyPromiseResult, catchAsyncError, isFunction, isStream} from "@tsed/core";
-import {PlatformParamsCallback} from "@tsed/platform-params";
+import {AnyPromiseResult, isFunction, isStream} from "@tsed/core";
 import {promisify} from "util";
 
 export class PlatformExpressHandler extends PlatformHandler {
-  async onRequest(handler: PlatformParamsCallback, $ctx: PlatformContext): Promise<any> {
-    try {
-      await super.onRequest(handler, $ctx);
-    } catch (error) {
-      $ctx.error = error;
-    }
-  }
-
   onResponse(response: AnyPromiseResult, $ctx: PlatformContext): any {
     super.onResponse(response, $ctx);
 
