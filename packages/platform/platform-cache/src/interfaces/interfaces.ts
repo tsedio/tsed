@@ -17,6 +17,10 @@ export type PlatformCacheSettings<Config extends object = any, S extends Store =
   keyResolver?: (args: any[], ctx: BaseContext) => string;
   prefix?: string;
   /**
+   * List of headers to ignore when caching the response. Default: ["content-length", "x-request-id", "cache-control", "vary", "content-encoding"]
+   */
+  ignoreHeaders?: string[];
+  /**
    * You may pass in any other arguments these will be passed on to the `create` method of your store,
    * otherwise they will be ignored.
    */
