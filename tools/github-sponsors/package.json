@@ -1,6 +1,6 @@
 {
   "name": "@tsed/github-sponsors",
-  "version": "7.62.3",
+  "version": "7.63.0",
   "private": true,
   "scripts": {
     "sponsors": "node ./bin/github-sponsors.js"
@@ -11,5 +11,7 @@
   },
   "devDependencies": {
     "yaml": "^2.0.1"
-  }
+  },
+  "dependencies": {},
+  "peerDependencies": {}
 }
