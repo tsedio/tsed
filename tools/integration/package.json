@@ -19,7 +19,5 @@
     "@tsed/schema": "workspace:*",
     "@tsed/swagger": "workspace:*",
     "@tsed/typescript": "workspace:*"
-  },
-  "dependencies": {},
-  "peerDependencies": {}
+  }
 }

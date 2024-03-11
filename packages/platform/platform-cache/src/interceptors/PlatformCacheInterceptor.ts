@@ -8,10 +8,9 @@ import {PlatformCacheOptions} from "../interfaces/PlatformCacheOptions";
 import {PlatformCache} from "../services/PlatformCache";
 import {getPrefix} from "../utils/getPrefix";
 import {isEndpoint} from "../utils/isEndpoint";
-
-const cleanHeaders = (headers: Record<string, unknown>) => {
+const cleanHeaders = (headers: Record<string, unknown>, blacklist: string[]) => {
   return Object.entries(headers)
-    .filter(([key]) => !["content-length", "x-request-id", "cache-control"].includes(key))
+    .filter(([key]) => !blacklist.includes(key.toLowerCase()))
     .reduce((headers, [key, value]) => {
       return {
         ...headers,
@@ -33,6 +32,9 @@ export class PlatformCacheInterceptor implements InterceptorMethods {
 
   @Constant("cache.prefix", "")
   protected prefix: string;
+
+  @Constant("cache.ignoreHeaders", ["content-length", "x-request-id", "cache-control", "vary", "content-encoding"])
+  protected blacklist: string[];
 
   intercept(context: InterceptorContext<any, PlatformCacheOptions>, next: InterceptorNext) {
     if (this.cache.disabled()) {
@@ -145,7 +147,7 @@ export class PlatformCacheInterceptor implements InterceptorMethods {
       this.cache.setCachedObject(key, response.getBody(), {
         ttl: calculatedTTL,
         args,
-        headers: cleanHeaders(response.getHeaders())
+        headers: cleanHeaders(response.getHeaders(), this.blacklist)
       });
     });
 
