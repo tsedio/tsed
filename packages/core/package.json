@@ -1,6 +1,6 @@
 {
   "name": "@tsed/core",
-  "version": "7.63.0",
+  "version": "7.63.1",
   "description": "Core module for Ts.ED Framework",
   "source": "./src/index.ts",
   "main": "./lib/cjs/index.js",

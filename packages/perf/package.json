@@ -1,6 +1,6 @@
 {
   "name": "@tsed/perf",
-  "version": "7.63.0",
+  "version": "7.63.1",
   "private": true,
   "description": "Perf module tool",
   "source": "./src/index.ts",

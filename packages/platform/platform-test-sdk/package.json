@@ -1,6 +1,6 @@
 {
   "name": "@tsed/platform-test-sdk",
-  "version": "7.63.0",
+  "version": "7.63.1",
   "description": "Package to test platform adapter integration with Ts.ED",
   "source": "./src/index.ts",
   "main": "./lib/cjs/index.js",

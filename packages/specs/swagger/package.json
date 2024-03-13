@@ -1,6 +1,6 @@
 {
   "name": "@tsed/swagger",
-  "version": "7.63.0",
+  "version": "7.63.1",
   "description": "Swagger package for Ts.ED framework",
   "source": "./src/index.ts",
   "main": "./lib/cjs/index.js",
@@ -43,7 +43,7 @@
     "jest": "^29.2.0"
   },
   "peerDependencies": {
-    "@tsed/common": "7.63.0"
+    "@tsed/common": "7.63.1"
   },
   "peerDependenciesMeta": {
     "@tsed/common": {
