@@ -54,7 +54,6 @@ export class TestMongooseContext extends PlatformTest {
    * Resets the test injector of the test context, so it won't pollute your next test. Call this in your `tearDown` logic.
    */
   static async reset() {
-    await new Promise((resolve) => setTimeout(resolve, 100));
     await PlatformTest.reset();
     await TestMongooseContext.getMongo().stop();
   }
