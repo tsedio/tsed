@@ -187,6 +187,10 @@ export class UsersCtrl {
 }
 ```
 
+## Repository stats
+
+![Alt](https://repobeats.axiom.co/api/embed/3b7eecbfff39563a071bf63aa527ead7959ef47e.svg "Repobeats analytics image")
+
 ## Contributors
 
 Please read [contributing guidelines here](./CONTRIBUTING.md).
