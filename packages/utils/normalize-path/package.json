@@ -1,6 +1,6 @@
 {
   "name": "@tsed/normalize-path",
-  "version": "7.63.1",
+  "version": "7.63.2",
   "description": "Utils to normalize path",
   "source": "./src/index.ts",
   "main": "./lib/cjs/index.js",
@@ -28,5 +28,6 @@
     "barrelsby": "^2.8.1",
     "eslint": "^8.12.0",
     "jest": "^29.2.0"
-  }
+  },
+  "peerDependencies": {}
 }
