@@ -4,9 +4,20 @@ import {MongoMemoryReplSet, MongoMemoryServer} from "mongodb-memory-server";
 import {resolve} from "path";
 import {version} from "mongoose";
 import semver from "semver";
-import {MongoMemoryServerStates} from "mongodb-memory-server-core/lib/MongoMemoryServer";
+import {type MongoMemoryReplSetOpts} from "mongodb-memory-server-core/lib/MongoMemoryReplSet";
+import {type MongoMemoryServerOpts} from "mongodb-memory-server-core/lib/MongoMemoryServer";
 
 const downloadDir = resolve(`${require.resolve("mongodb-memory-server")}/../../.cache/mongodb-memory-server/mongodb-binaries`);
+
+type ReplSetCreateOpts = {
+  replicaSet: true;
+} & Partial<MongoMemoryReplSetOpts>;
+
+type MemoryServerCreateOpts = {
+  replicaSet?: false;
+} & MongoMemoryServerOpts;
+
+type CreateOpts = ReplSetCreateOpts | MemoryServerCreateOpts;
 
 export class TestMongooseContext extends PlatformTest {
   static getMongo(): MongoMemoryServer | MongoMemoryReplSet {
@@ -14,7 +25,7 @@ export class TestMongooseContext extends PlatformTest {
     return global.__MONGOD__;
   }
 
-  static async install({replicaSet, ...opts}: {replicaSet?: boolean} & Record<string, any> = {}) {
+  static async install({replicaSet, ...opts}: CreateOpts = {}) {
     if (!TestMongooseContext.getMongo()) {
       // @ts-ignore
       global.__MONGOD__ = await (replicaSet ? MongoMemoryReplSet : MongoMemoryServer).create({
@@ -32,7 +43,12 @@ export class TestMongooseContext extends PlatformTest {
   /**
    * Connect to the in-memory database.
    */
-  static bootstrap(mod: any, options: Partial<TsED.Configuration> = {}): () => Promise<void> {
+  static bootstrap(
+    mod: any,
+    options: Partial<TsED.Configuration> & {
+      mongod?: CreateOpts;
+    } = {}
+  ): () => Promise<void> {
     return async function before(): Promise<void> {
       const config = await TestMongooseContext.install(options.mongod);
       const before = PlatformTest.bootstrap(mod, {
@@ -44,7 +60,11 @@ export class TestMongooseContext extends PlatformTest {
     };
   }
 
-  static async create(options: Partial<TsED.Configuration> = {}) {
+  static async create(
+    options: Partial<TsED.Configuration> & {
+      mongod?: CreateOpts;
+    } = {}
+  ) {
     options.mongoose = await TestMongooseContext.install(options.mongod);
 
     return PlatformTest.create(options);
