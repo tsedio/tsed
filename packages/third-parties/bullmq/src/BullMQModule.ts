@@ -1,7 +1,7 @@
-import {BeforeInit, DIContext, runInContext} from "@tsed/common";
+import {BeforeInit, DIContext, OnDestroy, runInContext} from "@tsed/common";
 import {InjectorService, Module} from "@tsed/di";
 import {getComputedType} from "@tsed/schema";
-import {Job} from "bullmq";
+import {Job, Queue, Worker} from "bullmq";
 import {v4} from "uuid";
 import {BullMQConfig} from "./config/config";
 import {BullMQTypes} from "./constants/BullMQTypes";
@@ -15,7 +15,7 @@ import {mapQueueOptions} from "./utils/mapQueueOptions";
 import {mapWorkerOptions} from "./utils/mapWorkerOptions";
 
 @Module()
-export class BullMQModule implements BeforeInit {
+export class BullMQModule implements BeforeInit, OnDestroy {
   constructor(private readonly injector: InjectorService, private readonly dispatcher: JobDispatcher) {
     // build providers allow @Inject(queue) usage in JobController instance
     if (this.isEnabled()) {
@@ -39,6 +39,15 @@ export class BullMQModule implements BeforeInit {
     if (this.isEnabled()) {
       this.injector.getMany<JobMethods>(BullMQTypes.CRON).map((job) => this.dispatcher.dispatch(getComputedType(job)));
     }
+  }
+
+  async $onDestroy() {
+    if (!this.isEnabled()) {
+      return;
+    }
+
+    await Promise.all(this.injector.getMany<Queue>(BullMQTypes.QUEUE).map((queue) => queue.close()));
+    await Promise.all(this.injector.getMany<Worker>(BullMQTypes.WORKER).map((worker) => worker.close()));
   }
 
   isEnabled() {
