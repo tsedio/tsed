@@ -6263,10 +6263,10 @@ __metadata:
     jest: "npm:^29.2.0"
     tslib: "npm:2.6.1"
   peerDependencies:
-    "@tsed/adapters": 7.63.3
-    "@tsed/common": 7.63.3
-    "@tsed/core": 7.63.3
-    "@tsed/di": 7.63.3
+    "@tsed/adapters": 7.64.0
+    "@tsed/common": 7.64.0
+    "@tsed/core": 7.64.0
+    "@tsed/di": 7.64.0
     ioredis: ">=5.2.3"
     ioredis-mock: ">=8.2.2"
     uuid: 8.3.2
@@ -6297,12 +6297,12 @@ __metadata:
     tslib: "npm:2.6.1"
     uuid: "npm:8.3.2"
   peerDependencies:
-    "@tsed/ajv": 7.63.3
-    "@tsed/common": 7.63.3
-    "@tsed/core": 7.63.3
-    "@tsed/di": 7.63.3
-    "@tsed/json-mapper": 7.63.3
-    "@tsed/schema": 7.63.3
+    "@tsed/ajv": 7.64.0
+    "@tsed/common": 7.64.0
+    "@tsed/core": 7.64.0
+    "@tsed/di": 7.64.0
+    "@tsed/json-mapper": 7.64.0
+    "@tsed/schema": 7.64.0
   peerDependenciesMeta:
     "@tsed/ajv":
       optional: false
@@ -6354,10 +6354,10 @@ __metadata:
     jest: "npm:^29.2.0"
     tslib: "npm:2.6.1"
   peerDependencies:
-    "@tsed/core": 7.63.3
-    "@tsed/di": 7.63.3
-    "@tsed/exceptions": 7.63.3
-    "@tsed/schema": 7.63.3
+    "@tsed/core": 7.64.0
+    "@tsed/di": 7.64.0
+    "@tsed/exceptions": 7.64.0
+    "@tsed/schema": 7.64.0
     ajv: ">=8.9.0"
     ajv-errors: ">=3.0.0"
   peerDependenciesMeta:
@@ -6394,9 +6394,9 @@ __metadata:
     jest: "npm:^29.2.0"
     tslib: "npm:2.6.1"
   peerDependencies:
-    "@tsed/common": 7.63.3
-    "@tsed/core": 7.63.3
-    "@tsed/di": 7.63.3
+    "@tsed/common": 7.64.0
+    "@tsed/core": 7.64.0
+    "@tsed/di": 7.64.0
     "@tsed/logger": ">=6.2.2"
     apollo-datasource: ">=3.0.0"
     apollo-datasource-rest: ">=3.0.0"
@@ -6478,7 +6478,7 @@ __metadata:
     jest: "npm:^29.2.0"
     tslib: "npm:2.6.1"
   peerDependencies:
-    "@tsed/core": 7.63.3
+    "@tsed/core": 7.64.0
   peerDependenciesMeta:
     "@tsed/core":
       optional: false
@@ -6511,9 +6511,9 @@ __metadata:
     jest: "npm:^29.2.0"
     tslib: "npm:2.6.2"
   peerDependencies:
-    "@tsed/core": 7.63.3
+    "@tsed/core": 7.64.0
     "@tsed/logger": ">=6.2.2"
-    "@tsed/schema": 7.63.3
+    "@tsed/schema": 7.64.0
   peerDependenciesMeta:
     "@tsed/core":
       optional: false
@@ -6621,7 +6621,7 @@ __metadata:
     statuses: "npm:>=2.0.1"
     tslib: "npm:2.6.1"
   peerDependencies:
-    "@tsed/core": 7.63.3
+    "@tsed/core": 7.64.0
   languageName: unknown
   linkType: soft
 
@@ -6660,7 +6660,7 @@ __metadata:
     mongoose: "npm:^6.1.7"
     tslib: "npm:2.6.1"
   peerDependencies:
-    "@tsed/common": 7.63.3
+    "@tsed/common": 7.64.0
     express: ^4.17.1
     formio: ">=2.0.0"
     lodash: ^4.17.21
@@ -6695,9 +6695,9 @@ __metadata:
     jest: "npm:^29.2.0"
     tslib: "npm:2.6.1"
   peerDependencies:
-    "@tsed/common": 7.63.3
-    "@tsed/core": 7.63.3
-    "@tsed/di": 7.63.3
+    "@tsed/common": 7.64.0
+    "@tsed/core": 7.64.0
+    "@tsed/di": 7.64.0
     "@tsed/logger": ">=6.2.2"
     graphql-ws: ">=5.14.2"
   languageName: unknown
@@ -6735,8 +6735,8 @@ __metadata:
     jest: "npm:^29.2.0"
     tslib: "npm:2.6.1"
   peerDependencies:
-    "@tsed/core": 7.63.3
-    "@tsed/di": 7.63.3
+    "@tsed/core": 7.64.0
+    "@tsed/di": 7.64.0
     ioredis: ">=5.2.3"
     ioredis-mock: ">=8.2.2"
   languageName: unknown
@@ -6760,8 +6760,8 @@ __metadata:
     jest: "npm:^29.2.0"
     tslib: "npm:2.6.1"
   peerDependencies:
-    "@tsed/core": 7.63.3
-    "@tsed/schema": 7.63.3
+    "@tsed/core": 7.64.0
+    "@tsed/schema": 7.64.0
   peerDependenciesMeta:
     "@tsed/core":
       optional: false
@@ -6829,9 +6829,9 @@ __metadata:
     tslib: "npm:2.6.1"
   peerDependencies:
     "@mikro-orm/core": ">=4.5.9"
-    "@tsed/common": 7.63.3
-    "@tsed/core": 7.63.3
-    "@tsed/di": 7.63.3
+    "@tsed/common": 7.64.0
+    "@tsed/core": 7.64.0
+    "@tsed/di": 7.64.0
     "@tsed/logger": ">=6.2.2"
   languageName: unknown
   linkType: soft
@@ -6860,12 +6860,12 @@ __metadata:
     mongoose: "npm:6.11.3"
     tslib: "npm:2.6.1"
   peerDependencies:
-    "@tsed/ajv": 7.63.3
-    "@tsed/core": 7.63.3
-    "@tsed/di": 7.63.3
-    "@tsed/json-mapper": 7.63.3
+    "@tsed/ajv": 7.64.0
+    "@tsed/core": 7.64.0
+    "@tsed/di": 7.64.0
+    "@tsed/json-mapper": 7.64.0
     "@tsed/logger": ">=6.2.2"
-    "@tsed/schema": 7.63.3
+    "@tsed/schema": 7.64.0
     mongoose: ">=6.0.0"
   languageName: unknown
   linkType: soft
@@ -6935,11 +6935,11 @@ __metadata:
     sqlite3: "npm:^5.0.2"
     tslib: "npm:2.6.1"
   peerDependencies:
-    "@tsed/ajv": 7.63.3
-    "@tsed/core": 7.63.3
-    "@tsed/di": 7.63.3
-    "@tsed/json-mapper": 7.63.3
-    "@tsed/schema": 7.63.3
+    "@tsed/ajv": 7.64.0
+    "@tsed/core": 7.64.0
+    "@tsed/di": 7.64.0
+    "@tsed/json-mapper": 7.64.0
+    "@tsed/schema": 7.64.0
     knex: ">=0.94.0"
     objection: ">=2.0.0"
   peerDependenciesMeta:
@@ -6976,10 +6976,10 @@ __metadata:
     psl: "npm:1.9.0"
     wildcard: "npm:2.0.0"
   peerDependencies:
-    "@tsed/core": 7.63.3
-    "@tsed/di": 7.63.3
+    "@tsed/core": 7.64.0
+    "@tsed/di": 7.64.0
     "@tsed/logger": ">=6.2.2"
-    "@tsed/oidc-provider": 7.63.3
+    "@tsed/oidc-provider": 7.64.0
     oidc-provider: ">=8.0.0"
   peerDependenciesMeta:
     "@tsed/core":
@@ -7018,12 +7018,12 @@ __metadata:
     tslib: "npm:2.6.1"
     uuid: "npm:8.3.2"
   peerDependencies:
-    "@tsed/ajv": 7.63.3
-    "@tsed/common": 7.63.3
-    "@tsed/core": 7.63.3
-    "@tsed/di": 7.63.3
-    "@tsed/json-mapper": 7.63.3
-    "@tsed/schema": 7.63.3
+    "@tsed/ajv": 7.64.0
+    "@tsed/common": 7.64.0
+    "@tsed/core": 7.64.0
+    "@tsed/di": 7.64.0
+    "@tsed/json-mapper": 7.64.0
+    "@tsed/schema": 7.64.0
     oidc-provider: ">=8.0.0"
   peerDependenciesMeta:
     "@tsed/ajv":
@@ -7074,7 +7074,7 @@ __metadata:
     passport-strategy: "npm:1.0.0"
     tslib: "npm:2.6.1"
   peerDependencies:
-    "@tsed/common": 7.63.3
+    "@tsed/common": 7.64.0
     passport: ">=0.4.1"
   peerDependenciesMeta:
     "@tsed/common":
@@ -7112,10 +7112,10 @@ __metadata:
     micromatch: "npm:4.0.5"
     tslib: "npm:2.6.1"
   peerDependencies:
-    "@tsed/core": 7.63.3
-    "@tsed/di": 7.63.3
-    "@tsed/json-mapper": 7.63.3
-    "@tsed/schema": 7.63.3
+    "@tsed/core": 7.64.0
+    "@tsed/di": 7.64.0
+    "@tsed/json-mapper": 7.64.0
+    "@tsed/schema": 7.64.0
   peerDependenciesMeta:
     "@tsed/core":
       optional: false
@@ -7142,10 +7142,10 @@ __metadata:
     jest: "npm:^29.2.0"
     tslib: "npm:2.6.1"
   peerDependencies:
-    "@tsed/core": 7.63.3
-    "@tsed/di": 7.63.3
-    "@tsed/exceptions": 7.63.3
-    "@tsed/schema": 7.63.3
+    "@tsed/core": 7.64.0
+    "@tsed/di": 7.64.0
+    "@tsed/exceptions": 7.64.0
+    "@tsed/schema": 7.64.0
   peerDependenciesMeta:
     "@tsed/core":
       optional: false
@@ -7189,14 +7189,14 @@ __metadata:
     multer: "npm:^1.4.5-lts.1"
     tslib: "npm:2.6.1"
   peerDependencies:
-    "@tsed/common": 7.63.3
-    "@tsed/core": 7.63.3
-    "@tsed/di": 7.63.3
-    "@tsed/json-mapper": 7.63.3
+    "@tsed/common": 7.64.0
+    "@tsed/core": 7.64.0
+    "@tsed/di": 7.64.0
+    "@tsed/json-mapper": 7.64.0
     "@tsed/logger": ">=6.2.2"
-    "@tsed/openspec": 7.63.3
-    "@tsed/platform-views": 7.63.3
-    "@tsed/schema": 7.63.3
+    "@tsed/openspec": 7.64.0
+    "@tsed/platform-views": 7.64.0
+    "@tsed/schema": 7.64.0
     "@types/multer": ^1.4.5
     body-parser: ^1.19.0
     cross-env: 7.0.3
@@ -7256,13 +7256,13 @@ __metadata:
     multer: "npm:^1.4.5-lts.1"
     tslib: "npm:2.6.1"
   peerDependencies:
-    "@tsed/common": 7.63.3
-    "@tsed/core": 7.63.3
-    "@tsed/di": 7.63.3
-    "@tsed/json-mapper": 7.63.3
+    "@tsed/common": 7.64.0
+    "@tsed/core": 7.64.0
+    "@tsed/di": 7.64.0
+    "@tsed/json-mapper": 7.64.0
     "@tsed/logger": ">=6.2.2"
-    "@tsed/openspec": 7.63.3
-    "@tsed/schema": 7.63.3
+    "@tsed/openspec": 7.64.0
+    "@tsed/schema": 7.64.0
     koa: ">=2.13.0"
     koa-bodyparser: ">=4.3.0"
     koa-compress: ">=5.0.1"
@@ -7303,9 +7303,9 @@ __metadata:
     jest: "npm:^29.2.0"
     tslib: "npm:2.6.1"
   peerDependencies:
-    "@tsed/di": 7.63.3
-    "@tsed/platform-middlewares": 7.63.3
-    "@tsed/platform-params": 7.63.3
+    "@tsed/di": 7.64.0
+    "@tsed/platform-middlewares": 7.64.0
+    "@tsed/platform-params": 7.64.0
   peerDependenciesMeta:
     "@tsed/di":
       optional: false
@@ -7329,9 +7329,9 @@ __metadata:
     jest: "npm:^29.2.0"
     tslib: "npm:2.6.1"
   peerDependencies:
-    "@tsed/core": 7.63.3
-    "@tsed/di": 7.63.3
-    "@tsed/schema": 7.63.3
+    "@tsed/core": 7.64.0
+    "@tsed/di": 7.64.0
+    "@tsed/schema": 7.64.0
   peerDependenciesMeta:
     "@tsed/core":
       optional: true
@@ -7357,11 +7357,11 @@ __metadata:
     jest: "npm:^29.2.0"
     tslib: "npm:2.6.1"
   peerDependencies:
-    "@tsed/core": 7.63.3
-    "@tsed/di": 7.63.3
-    "@tsed/exceptions": 7.63.3
-    "@tsed/json-mapper": 7.63.3
-    "@tsed/schema": 7.63.3
+    "@tsed/core": 7.64.0
+    "@tsed/di": 7.64.0
+    "@tsed/exceptions": 7.64.0
+    "@tsed/json-mapper": 7.64.0
+    "@tsed/schema": 7.64.0
   peerDependenciesMeta:
     "@tsed/core":
       optional: false
@@ -7391,11 +7391,11 @@ __metadata:
     jest: "npm:^29.2.0"
     tslib: "npm:2.6.1"
   peerDependencies:
-    "@tsed/core": 7.63.3
-    "@tsed/di": 7.63.3
-    "@tsed/exceptions": 7.63.3
-    "@tsed/json-mapper": 7.63.3
-    "@tsed/schema": 7.63.3
+    "@tsed/core": 7.64.0
+    "@tsed/di": 7.64.0
+    "@tsed/exceptions": 7.64.0
+    "@tsed/json-mapper": 7.64.0
+    "@tsed/schema": 7.64.0
   peerDependenciesMeta:
     "@tsed/core":
       optional: false
@@ -7426,12 +7426,12 @@ __metadata:
     jest: "npm:^29.2.0"
     tslib: "npm:2.6.1"
   peerDependencies:
-    "@tsed/core": 7.63.3
-    "@tsed/di": 7.63.3
-    "@tsed/exceptions": 7.63.3
-    "@tsed/json-mapper": 7.63.3
-    "@tsed/platform-params": 7.63.3
-    "@tsed/schema": 7.63.3
+    "@tsed/core": 7.64.0
+    "@tsed/di": 7.64.0
+    "@tsed/exceptions": 7.64.0
+    "@tsed/json-mapper": 7.64.0
+    "@tsed/platform-params": 7.64.0
+    "@tsed/schema": 7.64.0
   peerDependenciesMeta:
     "@tsed/core":
       optional: false
@@ -7464,13 +7464,13 @@ __metadata:
     serverless-http: "npm:^2.7.0"
     tslib: "npm:2.6.1"
   peerDependencies:
-    "@tsed/common": 7.63.3
-    "@tsed/core": 7.63.3
-    "@tsed/di": 7.63.3
-    "@tsed/json-mapper": 7.63.3
+    "@tsed/common": 7.64.0
+    "@tsed/core": 7.64.0
+    "@tsed/di": 7.64.0
+    "@tsed/json-mapper": 7.64.0
     "@tsed/logger": ">=6.2.2"
-    "@tsed/openspec": 7.63.3
-    "@tsed/schema": 7.63.3
+    "@tsed/openspec": 7.64.0
+    "@tsed/schema": 7.64.0
     aws-lambda: ">=1.0.7"
     serverless-http: ">=2.0.0"
   peerDependenciesMeta:
@@ -7506,13 +7506,13 @@ __metadata:
     jest: "npm:^29.2.0"
     tslib: "npm:2.6.1"
   peerDependencies:
-    "@tsed/common": 7.63.3
-    "@tsed/core": 7.63.3
-    "@tsed/di": 7.63.3
-    "@tsed/json-mapper": 7.63.3
+    "@tsed/common": 7.64.0
+    "@tsed/core": 7.64.0
+    "@tsed/di": 7.64.0
+    "@tsed/json-mapper": 7.64.0
     "@tsed/logger": ">=6.2.2"
-    "@tsed/openspec": 7.63.3
-    "@tsed/schema": 7.63.3
+    "@tsed/openspec": 7.64.0
+    "@tsed/schema": 7.64.0
   languageName: unknown
   linkType: soft
 
@@ -7540,7 +7540,7 @@ __metadata:
     tslib: "npm:2.6.1"
     uuid: "npm:^8.3.2"
   peerDependencies:
-    "@tsed/di": 7.63.3
+    "@tsed/di": 7.64.0
     "@tsed/logger": ">=6.2.2"
   peerDependenciesMeta:
     "@tsed/di":
@@ -7595,11 +7595,11 @@ __metadata:
     jest: "npm:^29.2.0"
     tslib: "npm:2.6.1"
   peerDependencies:
-    "@tsed/core": 7.63.3
-    "@tsed/di": 7.63.3
-    "@tsed/engines": 7.63.3
-    "@tsed/exceptions": 7.63.3
-    "@tsed/schema": 7.63.3
+    "@tsed/core": 7.64.0
+    "@tsed/di": 7.64.0
+    "@tsed/engines": 7.64.0
+    "@tsed/exceptions": 7.64.0
+    "@tsed/schema": 7.64.0
   peerDependenciesMeta:
     "@tsed/core":
       optional: false
@@ -7637,10 +7637,10 @@ __metadata:
     tslib: "npm:2.6.1"
   peerDependencies:
     "@prisma/client": ">=4.0.0"
-    "@tsed/core": 7.63.3
-    "@tsed/di": 7.63.3
-    "@tsed/json-mapper": 7.63.3
-    "@tsed/schema": 7.63.3
+    "@tsed/core": 7.64.0
+    "@tsed/di": 7.64.0
+    "@tsed/json-mapper": 7.64.0
+    "@tsed/schema": 7.64.0
   bin:
     tsed-prisma: lib/cjs/generator.js
   languageName: unknown
@@ -7733,9 +7733,9 @@ __metadata:
     jest: "npm:^29.2.0"
     tslib: "npm:2.6.1"
   peerDependencies:
-    "@tsed/core": 7.63.3
-    "@tsed/openspec": 7.63.3
-    "@tsed/schema": 7.63.3
+    "@tsed/core": 7.64.0
+    "@tsed/openspec": 7.64.0
+    "@tsed/schema": 7.64.0
     formiojs: ">=4.0.0"
     lodash: ">=4.0.0"
     moment: ">=2.0.0"
@@ -7778,8 +7778,8 @@ __metadata:
     statuses: "npm:>=2.0.1"
     tslib: "npm:2.6.1"
   peerDependencies:
-    "@tsed/core": 7.63.3
-    "@tsed/openspec": 7.63.3
+    "@tsed/core": 7.64.0
+    "@tsed/openspec": 7.64.0
   peerDependenciesMeta:
     "@tsed/core":
       optional: false
@@ -7801,9 +7801,9 @@ __metadata:
     socket.io-client: "npm:^4.1.2"
     tslib: "npm:2.6.1"
   peerDependencies:
-    "@tsed/common": 7.63.3
-    "@tsed/core": 7.63.3
-    "@tsed/di": 7.63.3
+    "@tsed/common": 7.64.0
+    "@tsed/core": 7.64.0
+    "@tsed/di": 7.64.0
     socket.io-client: ^4.0.1
   languageName: unknown
   linkType: soft
@@ -7829,11 +7829,11 @@ __metadata:
     socket.io-client: "npm:^4.7.1"
     tslib: "npm:2.6.1"
   peerDependencies:
-    "@tsed/di": 7.63.3
-    "@tsed/json-mapper": 7.63.3
+    "@tsed/di": 7.64.0
+    "@tsed/json-mapper": 7.64.0
     "@tsed/logger": ">=6.2.2"
-    "@tsed/platform-middlewares": 7.63.3
-    "@tsed/schema": 7.63.3
+    "@tsed/platform-middlewares": 7.64.0
+    "@tsed/schema": 7.64.0
     socket.io: ">=4.0.0"
   peerDependenciesMeta:
     "@tsed/di":
@@ -7864,10 +7864,10 @@ __metadata:
     stripe: "npm:^8.129.0"
     tslib: "npm:2.6.1"
   peerDependencies:
-    "@tsed/exceptions": 7.63.3
-    "@tsed/platform-middlewares": 7.63.3
-    "@tsed/platform-params": 7.63.3
-    "@tsed/schema": 7.63.3
+    "@tsed/exceptions": 7.64.0
+    "@tsed/platform-middlewares": 7.64.0
+    "@tsed/platform-params": 7.64.0
+    "@tsed/schema": 7.64.0
     "@types/body-parser": ^1.19.0
     body-parser: ^1.19.0
     stripe: ^9.16.0
@@ -7907,7 +7907,7 @@ __metadata:
     swagger-ui-dist: "npm:^4.5.2"
     tslib: "npm:2.6.1"
   peerDependencies:
-    "@tsed/common": 7.63.3
+    "@tsed/common": 7.64.0
   peerDependenciesMeta:
     "@tsed/common":
       optional: false
@@ -7951,10 +7951,10 @@ __metadata:
     tslib: "npm:2.6.1"
   peerDependencies:
     "@godaddy/terminus": ^4.7.1
-    "@tsed/common": 7.63.3
-    "@tsed/core": 7.63.3
-    "@tsed/di": 7.63.3
-    "@tsed/schema": 7.63.3
+    "@tsed/common": 7.64.0
+    "@tsed/core": 7.64.0
+    "@tsed/di": 7.64.0
+    "@tsed/schema": 7.64.0
   peerDependenciesMeta:
     "@godaddy/terminus":
       optional: false
@@ -7982,9 +7982,9 @@ __metadata:
     semver: "npm:^7.3.5"
     tslib: "npm:2.6.1"
   peerDependencies:
-    "@tsed/common": 7.63.3
-    "@tsed/core": 7.63.3
-    "@tsed/mongoose": 7.63.3
+    "@tsed/common": 7.64.0
+    "@tsed/core": 7.64.0
+    "@tsed/mongoose": 7.64.0
     mongoose: ">=6.0.0"
   languageName: unknown
   linkType: soft
@@ -8049,10 +8049,10 @@ __metadata:
     tslib: "npm:2.6.1"
     typeorm: "npm:^0.2.45"
   peerDependencies:
-    "@tsed/core": 7.63.3
-    "@tsed/di": 7.63.3
-    "@tsed/json-mapper": 7.63.3
-    "@tsed/schema": 7.63.3
+    "@tsed/core": 7.64.0
+    "@tsed/di": 7.64.0
+    "@tsed/json-mapper": 7.64.0
+    "@tsed/schema": 7.64.0
     typeorm: ^0.2.26
   languageName: unknown
   linkType: soft
@@ -8079,7 +8079,7 @@ __metadata:
     vike: "npm:0.4.160"
     vite: "npm:5.0.12"
   peerDependencies:
-    "@tsed/common": 7.63.3
+    "@tsed/common": 7.64.0
     vike: ">=0.4.160"
     vite: ">=4"
   peerDependenciesMeta:
