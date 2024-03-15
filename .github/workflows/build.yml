@@ -5,6 +5,7 @@ name: Build & Release
 
 on:
   push:
+    branches: [production, alpha, beta, rc]
   pull_request:
     branches: [production]
     types: [opened, synchronize, closed]
