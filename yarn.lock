@@ -6968,10 +6968,12 @@ __metadata:
     "@tsed/di": "workspace:*"
     "@tsed/oidc-provider": "workspace:*"
     "@tsed/typescript": "workspace:*"
+    "@types/psl": "npm:^1"
     "@types/uuid": "npm:8.3.4"
     barrelsby: "npm:^2.8.1"
     eslint: "npm:^8.12.0"
     jest: "npm:^29.2.0"
+    psl: "npm:1.9.0"
     wildcard: "npm:2.0.0"
   peerDependencies:
     "@tsed/core": 7.63.2
@@ -8991,6 +8993,13 @@ __metadata:
   version: 2.4.4
   resolution: "@types/prettier@npm:2.4.4"
   checksum: 10/5b21f03d658156a0e3ff325fd0c86f54bd34599297fad469f0d2edeb1855fd7ebb367aad61d99b191614f41b54efa364a023659a003862354385ade6eb430f15
+  languageName: node
+  linkType: hard
+
+"@types/psl@npm:^1":
+  version: 1.1.3
+  resolution: "@types/psl@npm:1.1.3"
+  checksum: 10/adc24b5f0a2569563367437cbdcbb63c780e798360a4c21470043acda2adad56e510c9f357be36f297974d68534821febc38652709e5d712ac2cdd62f9a6777a
   languageName: node
   linkType: hard
 
@@ -24686,6 +24695,13 @@ __metadata:
   version: 1.1.0
   resolution: "proxy-from-env@npm:1.1.0"
   checksum: 10/f0bb4a87cfd18f77bc2fba23ae49c3b378fb35143af16cc478171c623eebe181678f09439707ad80081d340d1593cd54a33a0113f3ccb3f4bc9451488780ee23
+  languageName: node
+  linkType: hard
+
+"psl@npm:1.9.0":
+  version: 1.9.0
+  resolution: "psl@npm:1.9.0"
+  checksum: 10/d07879d4bfd0ac74796306a8e5a36a93cfb9c4f4e8ee8e63fbb909066c192fe1008cd8f12abd8ba2f62ca28247949a20c8fb32e1d18831d9e71285a1569720f9
   languageName: node
   linkType: hard
 
