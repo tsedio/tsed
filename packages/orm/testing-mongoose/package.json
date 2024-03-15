@@ -17,7 +17,7 @@
     "build:ts": "tsc --build tsconfig.json && tsc --build tsconfig.esm.json"
   },
   "dependencies": {
-    "mongodb-memory-server": "^8.16.0",
+    "mongodb-memory-server": "^8.16.0 || ^9.1.7",
     "semver": "^7.6.0",
     "tslib": "2.6.1"
   },
