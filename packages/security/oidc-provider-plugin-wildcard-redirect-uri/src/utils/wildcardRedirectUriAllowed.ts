@@ -8,12 +8,13 @@ const hasWildcardHost = (redirectUri: string) => {
 
 const wildcardMatches = (redirectUri: string, wildcardUri: string) => !!wildcard(wildcardUri, redirectUri);
 
-export function wildcardRedirectUriAllowed(originalRedirectUriAllowed: any) {
+export function wildcardRedirectUriAllowed(originalRedirectUriAllowed: any, redirectUriOrPostLogoutRedirectUri: "redirectUris" | "postLogoutRedirectUris") {
   return function (redirectUri: string) {
-    if (this.redirectUris.some(hasWildcardHost)) {
-      const wildcardUris = this.redirectUris.filter(hasWildcardHost);
+    if (this[redirectUriOrPostLogoutRedirectUri].some(hasWildcardHost)) {
+      const wildcardUris = this[redirectUriOrPostLogoutRedirectUri].filter(hasWildcardHost);
       return wildcardUris.some(wildcardMatches.bind(undefined, redirectUri)) || originalRedirectUriAllowed.call(this, redirectUri);
     }
     return originalRedirectUriAllowed.call(this, redirectUri);
   };
 }
+

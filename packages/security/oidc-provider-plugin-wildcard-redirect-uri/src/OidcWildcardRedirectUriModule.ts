@@ -29,8 +29,9 @@ export class OidcWildcardRedirectUriModule {
 
   $onCreateOIDC(provider: Provider) {
     if (this.enabled) {
-      const {redirectUriAllowed} = provider.Client.prototype;
-      provider.Client.prototype.redirectUriAllowed = wildcardRedirectUriAllowed(redirectUriAllowed);
+      const {redirectUriAllowed, postLogoutRedirectUriAllowed} = provider.Client.prototype;
+      provider.Client.prototype.redirectUriAllowed = wildcardRedirectUriAllowed(redirectUriAllowed, "redirectUris");
+      provider.Client.prototype.postLogoutRedirectUriAllowed = wildcardRedirectUriAllowed(postLogoutRedirectUriAllowed, "postLogoutRedirectUris");
 
       this.logger.warn("⚠️⚠️⚠️ OIDC Wildcard Uris plugin is ENABLED ⚠️⚠️⚠️");
     }
@@ -41,7 +42,7 @@ export class OidcWildcardRedirectUriModule {
       const actualProperties = config?.extraClientMetadata?.properties || [];
 
       config.extraClientMetadata = {
-        properties: [...actualProperties, "redirect_uris"],
+        properties: [...actualProperties, "redirect_uris", "post_logout_redirect_uris"],
         validator: this.validator.bind(this)
       };
     }
@@ -66,6 +67,26 @@ export class OidcWildcardRedirectUriModule {
           if (!psl.get(hostname.split("*.")[1])) {
             throw new this.module.errors.InvalidClientMetadata(
               "redirect_uris with a wildcard must not match an eTLD+1 of a known public suffix domain"
+            );
+          }
+        }
+      }
+    } else if (key === "post_logout_redirect_uris") {
+      for (const postLogoutRedirectUri of value) {
+        if (postLogoutRedirectUri.includes("*")) {
+          const {hostname, href} = new URL(postLogoutRedirectUri);
+
+          if (href.split("*").length !== 2) {
+            throw new this.module.errors.InvalidClientMetadata("post_logout_redirect_uris with a wildcard may only contain a single one");
+          }
+
+          if (!hostname.includes("*")) {
+            throw new this.module.errors.InvalidClientMetadata("post_logout_redirect_uris may only have a wildcard in the hostname");
+          }
+
+          if (!psl.get(hostname.split("*.")[1])) {
+            throw new this.module.errors.InvalidClientMetadata(
+              "post_logout_redirect_uris with a wildcard must not match an eTLD+1 of a known public suffix domain"
             );
           }
         }
