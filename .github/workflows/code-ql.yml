@@ -2,6 +2,7 @@ name: "Code scanning - action"
 
 on:
   push:
+    branches: [production]
     paths-ignore:
       - "**.md"
       - "docs"
