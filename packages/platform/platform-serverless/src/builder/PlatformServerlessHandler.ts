@@ -3,7 +3,6 @@ import {BaseContext, Inject, Injectable, InjectorService, LazyInject, ProviderSc
 import {serialize} from "@tsed/json-mapper";
 import type {PlatformExceptions} from "@tsed/platform-exceptions";
 import {DeserializerPipe, PlatformParams, ValidationPipe} from "@tsed/platform-params";
-import {JsonMethodStore} from "@tsed/schema";
 import {ServerlessContext} from "../domain/ServerlessContext";
 import {setResponseHeaders} from "../utils/setResponseHeaders";
 

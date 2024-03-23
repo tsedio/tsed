@@ -166,8 +166,24 @@ const platform = PlatformServerless.bootstrap({
 });
 
 // then export the lambda
-export = platform.callbacks();
+const {getTimeslot} = platform.callbacks(); // build all handlers of TimeslotsLambda
+
+export {getTimeslot};
 ```
+
+::: tip
+Since v7.66.0, you can use the `PlatformServerless.callback(TimeslotsLambda, 'get')` method to build and get the lambda handler.
+
+```typescript
+import {PlatformServerless} from "@tsed/serverless";
+
+export const getTimeslots = PlatformServerless.callback(TimeslotsLambda, "get", {
+  // extra options
+});
+```
+
+This method doesn't use the `find-my-way` router and is faster than the `handler` method.
+:::
 
 Finally, create the `serverless.yml`:
 

@@ -41,6 +41,18 @@ export class PlatformServerless {
     return platform;
   }
 
+  /**
+   * Create a new handler from the given token and propertyKey. No routing is used here.
+   */
+  static callback(token: Type<any>, propertyKey: string, settings: Partial<TsED.Configuration> = {}): Handler {
+    const platform = PlatformServerless.bootstrap({
+      ...settings,
+      lambda: [token]
+    });
+
+    return platform.callback(token, propertyKey);
+  }
+
   public handler(): Handler {
     return async (event, context) => {
       const [router] = await Promise.all([this.initRouter(), this.init()]);
