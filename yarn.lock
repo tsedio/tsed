@@ -6930,7 +6930,7 @@ __metadata:
     barrelsby: "npm:^2.8.1"
     eslint: "npm:^8.12.0"
     jest: "npm:^29.2.0"
-    knex: "npm:^2.4.0"
+    knex: "npm:^3.1.0"
     objection: "npm:^2.2.15"
     sqlite3: "npm:^5.0.2"
     tslib: "npm:2.6.1"
@@ -12615,6 +12615,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"commander@npm:^10.0.0":
+  version: 10.0.1
+  resolution: "commander@npm:10.0.1"
+  checksum: 10/8799faa84a30da985802e661cc9856adfaee324d4b138413013ef7f087e8d7924b144c30a1f1405475f0909f467665cd9e1ce13270a2f41b141dab0b7a58f3fb
+  languageName: node
+  linkType: hard
+
 "commander@npm:^2.20.0, commander@npm:^2.20.3, commander@npm:^2.7.1":
   version: 2.20.3
   resolution: "commander@npm:2.20.3"
@@ -12643,7 +12650,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"commander@npm:^9.1.0, commander@npm:^9.4.1":
+"commander@npm:^9.4.1":
   version: 9.5.0
   resolution: "commander@npm:9.5.0"
   checksum: 10/41c49b3d0f94a1fbeb0463c85b13f15aa15a9e0b4d5e10a49c0a1d58d4489b549d62262b052ae0aa6cfda53299bee487bfe337825df15e342114dde543f82906
@@ -19833,12 +19840,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"knex@npm:^2.4.0":
-  version: 2.4.0
-  resolution: "knex@npm:2.4.0"
+"knex@npm:^3.1.0":
+  version: 3.1.0
+  resolution: "knex@npm:3.1.0"
   dependencies:
     colorette: "npm:2.0.19"
-    commander: "npm:^9.1.0"
+    commander: "npm:^10.0.0"
     debug: "npm:4.3.4"
     escalade: "npm:^3.1.1"
     esm: "npm:^3.2.25"
@@ -19846,7 +19853,7 @@ __metadata:
     getopts: "npm:2.3.0"
     interpret: "npm:^2.2.0"
     lodash: "npm:^4.17.21"
-    pg-connection-string: "npm:2.5.0"
+    pg-connection-string: "npm:2.6.2"
     rechoir: "npm:^0.8.0"
     resolve-from: "npm:^5.0.0"
     tarn: "npm:^3.0.2"
@@ -19868,7 +19875,7 @@ __metadata:
       optional: true
   bin:
     knex: bin/cli.js
-  checksum: 10/6bb1dd2b7e884b21890ba085d3d55854e1a0bcb13a656a58dd78bbe05420982d402f0546214fb13eda7ed5fe3f052ac49cdfacd9c220129a3b58dce005b59ba7
+  checksum: 10/12eb978ebec9944d6d0225d33d31d44feb54046b3a02f9f14dfa33a4e665a54d784290991b17a68fd8141a14a3336b325c7706af35557f845dae9e500f3c8aae
   languageName: node
   linkType: hard
 
@@ -24320,10 +24327,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"pg-connection-string@npm:2.5.0":
-  version: 2.5.0
-  resolution: "pg-connection-string@npm:2.5.0"
-  checksum: 10/a6f3a068f7c9416a5b33a326811caf0dfaaee045c225b7c628b4c9b4e9a2b25bdd12a21e4c48940e1000ea223a4e608ca122d2ff3dd08c8b1db0fc9f5705133a
+"pg-connection-string@npm:2.6.2":
+  version: 2.6.2
+  resolution: "pg-connection-string@npm:2.6.2"
+  checksum: 10/22265882c3b6f2320785378d0760b051294a684989163d5a1cde4009e64e84448d7bf67d9a7b9e7f69440c3ee9e2212f9aa10dd17ad6773f6143c6020cebbcb5
   languageName: node
   linkType: hard
 
