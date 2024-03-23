@@ -1,6 +1,6 @@
 {
   "name": "@tsed/vike",
-  "version": "7.66.0",
+  "version": "7.67.0",
   "description": "Vike package for Ts.ED framework",
   "contributors": [
     {
@@ -39,7 +39,7 @@
     "vite": "5.0.12"
   },
   "peerDependencies": {
-    "@tsed/common": "7.66.0",
+    "@tsed/common": "7.67.0",
     "vike": ">=0.4.160",
     "vite": ">=4"
   },
