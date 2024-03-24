@@ -24,15 +24,15 @@
     "tslib": "2.6.1"
   },
   "devDependencies": {
-    "@godaddy/terminus": "^4.7.1",
+    "@godaddy/terminus": "^4.12.1",
     "@tsed/common": "workspace:*",
     "@tsed/core": "workspace:*",
     "@tsed/di": "workspace:*",
     "@tsed/schema": "workspace:*",
     "@tsed/typescript": "workspace:*",
     "barrelsby": "^2.8.1",
-    "eslint": "^8.12.0",
-    "jest": "^29.2.0"
+    "eslint": "^8.57.0",
+    "jest": "^29.7.0"
   },
   "peerDependencies": {
     "@godaddy/terminus": "^4.7.1",

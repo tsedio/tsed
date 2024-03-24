@@ -35,24 +35,24 @@
   "dependencies": {
     "@tsed/openspec": "workspace:*",
     "change-case": "^4.1.2",
-    "fs-extra": "^11.1.1",
+    "fs-extra": "^11.2.0",
     "json-schema": "0.4.0",
     "picomatch": "2.3.1",
     "statuses": ">=2.0.1",
     "tslib": "2.6.1"
   },
   "devDependencies": {
-    "@apidevtools/swagger-parser": "10.0.3",
+    "@apidevtools/swagger-parser": "10.1.0",
     "@tsed/core": "workspace:*",
     "@tsed/openspec": "workspace:*",
     "@tsed/typescript": "workspace:*",
-    "@types/fs-extra": "11.0.3",
-    "@types/json-schema": "7.0.11",
-    "@types/picomatch": "2.3.0",
-    "@types/statuses": "2.0.0",
+    "@types/fs-extra": "11.0.4",
+    "@types/json-schema": "7.0.15",
+    "@types/picomatch": "2.3.3",
+    "@types/statuses": "2.0.5",
     "barrelsby": "^2.8.1",
-    "eslint": "^8.12.0",
-    "jest": "^29.2.0",
+    "eslint": "^8.57.0",
+    "jest": "^29.7.0",
     "picomatch-browser": "^2.2.6"
   },
   "peerDependencies": {

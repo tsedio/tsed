@@ -1,7 +1,7 @@
-const globby = require("globby");
-const {basename, dirname} = require("path");
-const pkg = require("./package.json");
-const {RuleConfigSeverity} = require("@commitlint/types");
+import globby from "globby";
+import {basename} from "node:path";
+import pkg from "./package.json" assert {type: "json"};
+import {RuleConfigSeverity} from "@commitlint/types";
 
 function findPackages() {
   const patterns = pkg.workspaces.packages.map((pkgPattern) => {
@@ -9,7 +9,7 @@ function findPackages() {
   });
 
   let pkgs = globby.sync(patterns, {
-    cwd: __dirname
+    cwd: process.cwd(),
   });
 
   return pkgs.map((pkg) => {
@@ -17,7 +17,7 @@ function findPackages() {
   });
 }
 
-module.exports = {
+export default {
   extends: ["@commitlint/config-conventional"],
   rules: {
     "scope-enum": [RuleConfigSeverity.Error, "always", findPackages()],

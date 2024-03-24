@@ -47,14 +47,15 @@
     "@tsed/exceptions": "workspace:*",
     "@tsed/jwks": "workspace:*",
     "@tsed/typescript": "workspace:*",
-    "@types/lowdb": "1.0.11",
-    "@types/oidc-provider": "8.1.1",
+    "@types/lowdb": "1.0.15",
+    "@types/oidc-provider": "8.4.4",
     "@types/uuid": "8.3.4",
     "barrelsby": "^2.8.1",
-    "eslint": "^8.12.0",
-    "jest": "^29.2.0",
+    "cross-env": "7.0.3",
+    "eslint": "^8.57.0",
+    "jest": "^29.7.0",
     "lowdb": "3.0.0",
-    "oidc-provider": "8.1.1"
+    "oidc-provider": "8.4.5"
   },
   "peerDependencies": {
     "@tsed/ajv": "7.67.0",
