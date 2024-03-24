@@ -26,16 +26,16 @@
   },
   "devDependencies": {
     "@tsed/core": "workspace:*",
-    "@tsed/logger": ">=6.2.2",
+    "@tsed/logger": ">=6.7.5",
     "@tsed/schema": "workspace:*",
     "@tsed/typescript": "workspace:*",
     "barrelsby": "^2.8.1",
-    "eslint": "^8.12.0",
-    "jest": "^29.2.0"
+    "eslint": "^8.57.0",
+    "jest": "^29.7.0"
   },
   "peerDependencies": {
     "@tsed/core": "7.67.0",
-    "@tsed/logger": ">=6.2.2",
+    "@tsed/logger": ">=6.7.5",
     "@tsed/schema": "7.67.0"
   },
   "peerDependenciesMeta": {

@@ -2,7 +2,7 @@ import {Constant, Inject, InjectorService, Module} from "@tsed/di";
 import {useServer} from "graphql-ws/lib/use/ws";
 import Http from "http";
 import Https from "https";
-import {WebSocketServer} from "ws";
+import {Server} from "ws";
 import {GraphQLWSOptions} from "./GraphQLWSOptions";
 
 @Module()
@@ -20,7 +20,7 @@ export class GraphQLWSModule {
   private injector: InjectorService;
 
   createWSServer(settings: GraphQLWSOptions) {
-    const wsServer = new WebSocketServer({
+    const wsServer = new Server({
       ...(this.settings.wsServerOptions || {}),
       ...settings.wsServerOptions,
       server: this.httpsServer || this.httpServer!,

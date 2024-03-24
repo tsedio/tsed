@@ -23,8 +23,8 @@
   "dependencies": {
     "@tsed/normalize-path": "workspace:*",
     "@tsed/openspec": "workspace:*",
-    "filedirname": "^2.7.0",
-    "fs-extra": "11.1.1",
+    "filedirname": "^2.11.0",
+    "fs-extra": "11.2.0",
     "micromatch": "4.0.5",
     "swagger-ui-dist": "^4.5.2",
     "tslib": "2.6.1"
@@ -37,10 +37,10 @@
     "@tsed/openspec": "workspace:*",
     "@tsed/schema": "workspace:*",
     "@tsed/typescript": "workspace:*",
-    "@types/swagger-ui-dist": ">=3.30.1",
+    "@types/swagger-ui-dist": "^3.30.4",
     "barrelsby": "^2.8.1",
-    "eslint": "^8.12.0",
-    "jest": "^29.2.0"
+    "eslint": "^8.57.0",
+    "jest": "^29.7.0"
   },
   "peerDependencies": {
     "@tsed/common": "7.67.0"

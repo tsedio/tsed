@@ -23,27 +23,27 @@
     "build:ts": "tsc --build tsconfig.json && tsc --build tsconfig.esm.json"
   },
   "dependencies": {
-    "@prisma/generator-helper": "^4.0.0",
-    "@prisma/internals": "^4.0.0",
+    "@prisma/generator-helper": "^4.16.2",
+    "@prisma/internals": "^4.16.2",
     "change-case": "^4.1.2",
-    "fs-extra": "^11.1.1",
+    "fs-extra": "^11.2.0",
     "pluralize": "^8.0.0",
     "ts-morph": "^12.0.0",
     "tslib": "2.6.1"
   },
   "devDependencies": {
-    "@prisma/client": "^4.0.0",
+    "@prisma/client": "^4.16.2",
     "@tsed/core": "workspace:*",
     "@tsed/di": "workspace:*",
     "@tsed/json-mapper": "workspace:*",
     "@tsed/schema": "workspace:*",
     "@tsed/typescript": "workspace:*",
     "@types/change-case": "^2.3.1",
-    "@types/pluralize": "0.0.29",
+    "@types/pluralize": "0.0.33",
     "barrelsby": "^2.8.1",
-    "eslint": "^8.12.0",
-    "jest": "^29.2.0",
-    "prisma": "^4.0.0"
+    "eslint": "^8.57.0",
+    "jest": "^29.7.0",
+    "prisma": "^4.16.2"
   },
   "peerDependencies": {
     "@prisma/client": ">=4.0.0",

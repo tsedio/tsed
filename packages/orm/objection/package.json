@@ -29,11 +29,11 @@
     "@tsed/schema": "workspace:*",
     "@tsed/typescript": "workspace:*",
     "barrelsby": "^2.8.1",
-    "eslint": "^8.12.0",
-    "jest": "^29.2.0",
+    "eslint": "^8.57.0",
+    "jest": "^29.7.0",
     "knex": "^3.1.0",
-    "objection": "^2.2.15",
-    "sqlite3": "^5.0.2"
+    "objection": "^2.2.18",
+    "sqlite3": "^5.1.7"
   },
   "peerDependencies": {
     "@tsed/ajv": "7.67.0",

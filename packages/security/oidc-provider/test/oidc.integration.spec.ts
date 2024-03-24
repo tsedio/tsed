@@ -101,7 +101,7 @@ describe("OIDC", () => {
       headers
     );
 
-    expect(confirmResponse.headers.location).toContain("http://localhost:3000#id_token=");
+    expect(confirmResponse.headers.location).toContain("http://localhost:3000/#id_token=");
   });
 
   it("should display the discovery page on /.well-known/openid-configuration", async () => {
@@ -217,7 +217,7 @@ describe("OIDC on a different path", () => {
       headers
     );
 
-    expect(confirmResponse.headers.location).toContain("http://localhost:3000#id_token=");
+    expect(confirmResponse.headers.location).toContain("http://localhost:3000/#id_token=");
   });
 
   it("should display the discovery page on /.well-known/openid-configuration", async () => {
