@@ -7323,10 +7323,12 @@ __metadata:
     "@tsed/di": "workspace:*"
     "@tsed/platform-test-sdk": "workspace:*"
     "@types/content-disposition": "npm:^0.5.4"
+    barrelsby: "npm:2.8.1"
     content-disposition: "npm:>=0.5.4"
     cross-env: "npm:7.0.3"
     fastify: "npm:4.23.2"
     fastify-raw-body: "npm:>=4.3.0"
+    jest: "npm:^29.2.0"
     ts-node: "npm:10.9.2"
     tslib: "npm:2.6.1"
   peerDependencies:
@@ -11274,7 +11276,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"barrelsby@npm:^2.8.1":
+"barrelsby@npm:2.8.1, barrelsby@npm:^2.8.1":
   version: 2.8.1
   resolution: "barrelsby@npm:2.8.1"
   dependencies:

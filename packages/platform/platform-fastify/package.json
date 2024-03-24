@@ -70,9 +70,11 @@
     "@tsed/di": "workspace:*",
     "@tsed/platform-test-sdk": "workspace:*",
     "@types/content-disposition": "^0.5.4",
+    "barrelsby": "2.8.1",
     "cross-env": "7.0.3",
     "fastify": "4.23.2",
     "fastify-raw-body": ">=4.3.0",
+    "jest": "^29.2.0",
     "ts-node": "10.9.2"
   },
   "peerDependencies": {
