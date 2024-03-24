@@ -23,4 +23,8 @@ export function getContentType(data: any, ctx: BaseContext) {
   if (endpoint.view) {
     return "text/html";
   }
+
+  if (contentType === "" && isObject(data) && !Buffer.isBuffer(data)) {
+    return "application/json";
+  }
 }

@@ -6,7 +6,7 @@ import {PlatformRequest} from "../services/PlatformRequest";
 import {PlatformResponse} from "../services/PlatformResponse";
 
 function defaultReqIdBuilder(req: any) {
-  return req.get("x-request-id") || v4().split("-").join("");
+  return req.get?.("x-request-id") || v4().split("-").join("");
 }
 
 function mapIgnoreUrlPatterns(ignoreUrlPatterns: any[]) {

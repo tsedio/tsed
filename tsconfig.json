@@ -131,6 +131,9 @@
       "path": "./packages/platform/platform-express"
     },
     {
+      "path": "./packages/platform/platform-fastify"
+    },
+    {
       "path": "./packages/orm/objection"
     },
     {

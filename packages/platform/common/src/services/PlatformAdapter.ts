@@ -44,7 +44,7 @@ export abstract class PlatformAdapter<App = TsED.Application> {
   /**
    * create initial context
    */
-  abstract useContext(): any;
+  abstract useContext(): Promise<void> | void;
 
   /**
    * Map router layer to the targeted framework
@@ -66,20 +66,27 @@ export abstract class PlatformAdapter<App = TsED.Application> {
    * @param endpoint
    * @param options
    */
-  abstract statics(endpoint: string, options: PlatformStaticsOptions): any;
+
+  statics(endpoint: string, options: PlatformStaticsOptions): any | null {
+    return null;
+  }
 
   /**
    * Return the multipart middleware
    * @param options
    */
-  abstract multipart(options: PlatformMulterSettings): PlatformMulter;
+  multipart(options: PlatformMulterSettings): PlatformMulter | null {
+    return null;
+  }
 
   /**
    * Return the body parser for the given
    * @param type
    * @param opts
    */
-  abstract bodyParser(type: string, opts?: Record<string, any>): any;
+  bodyParser(type: string, opts?: Record<string, any>): any | null {
+    return null;
+  }
 }
 
 export interface PlatformBuilderSettings<App = TsED.Application> extends Partial<TsED.Configuration> {

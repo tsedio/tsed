@@ -138,6 +138,10 @@ export class PlatformHandlerMetadata {
     return this.type === PlatformHandlerType.RESPONSE_FN;
   }
 
+  public isRawMiddleware() {
+    return !this.isInjectable() && (this.type === PlatformHandlerType.RAW_FN || this.type === PlatformHandlerType.RAW_ERR_FN);
+  }
+
   toString() {
     return [nameOf(this.target), this.propertyKey].filter(Boolean).join(".");
   }

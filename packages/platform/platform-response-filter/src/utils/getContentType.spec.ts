@@ -6,7 +6,7 @@ describe("getContentType", () => {
   beforeEach(() => PlatformTest.create());
   afterEach(() => PlatformTest.reset());
 
-  it("should return the content type (undefined)", () => {
+  it("should return the content type (application/json) if the data is an object", () => {
     class TestController {
       @Get("/")
       get() {}
@@ -21,6 +21,22 @@ describe("getContentType", () => {
       },
       ctx
     );
+
+    expect(result).toEqual("application/json");
+  });
+
+  it("should return the content type (Buffer -> undefined)", () => {
+    class TestController {
+      @Get("/")
+      get(): Buffer {
+        return Buffer.from("test");
+      }
+    }
+
+    const ctx = PlatformTest.createRequestContext();
+    ctx.endpoint = EndpointMetadata.get(TestController, "get");
+
+    const result = getContentType(Buffer.from("test"), ctx);
 
     expect(result).toEqual(undefined);
   });
