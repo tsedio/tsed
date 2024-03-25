@@ -8,14 +8,14 @@ export interface DIContextOptions extends Omit<ContextLoggerOptions, "dateStart"
   logger: any;
 }
 
-export class DIContext {
+export class DIContext<Opts extends DIContextOptions = DIContextOptions> {
   [x: string]: any;
 
   #container?: LocalsContainer;
   #cache?: Map<any, any>;
   #logger?: ContextLogger;
 
-  constructor(public opts: DIContextOptions) {}
+  constructor(readonly opts: Opts) {}
 
   /**
    * Logger attached to the context request.
@@ -80,7 +80,7 @@ export class DIContext {
     return this.injector?.emit(eventName, ...args);
   }
 
-  runInContext(next: Function) {
+  runInContext(next: Function): Promise<any> {
     return runInContext(this, next);
   }
 

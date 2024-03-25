@@ -1,0 +1,59 @@
+{
+  "name": "@tsed/platform-serverless",
+  "version": "7.67.0",
+  "description": "Platform serverless module for Ts.ED Framework",
+  "source": "./src/index.ts",
+  "main": "./lib/cjs/index.js",
+  "module": "./lib/esm/index.js",
+  "typings": "./lib/types/index.d.ts",
+  "exports": {
+    "types": "./lib/types/index.d.ts",
+    "import": "./lib/esm/index.js",
+    "require": "./lib/cjs/index.js",
+    "default": "./lib/esm/index.js"
+  },
+  "scripts": {
+    "build": "yarn barrels && yarn build:ts",
+    "barrels": "yarn barrelsby --delete -d ./src -e \"\\.spec\\.ts\" -e \"__mock__\" -e \".benchmark.ts\"",
+    "test": "cross-env NODE_ENV=test jest && jest-coverage-thresholds-bumper",
+    "build:ts": "tsc --build tsconfig.json && tsc --build tsconfig.esm.json"
+  },
+  "dependencies": {
+    "@tsed/core": "workspace:*",
+    "@tsed/exceptions": "workspace:*",
+    "@tsed/json-mapper": "workspace:*",
+    "@tsed/platform-exceptions": "workspace:*",
+    "@tsed/platform-params": "workspace:*",
+    "@tsed/schema": "workspace:*",
+    "encodeurl": "^1.0.2",
+    "mime": "^3.0.0",
+    "tslib": "2.6.1",
+    "uuid": "^8.3.2"
+  },
+  "devDependencies": {
+    "@tsed/platform-serverless-testing": "workspace:*",
+    "@tsed/typescript": "workspace:*",
+    "@types/aws-lambda": "^8.10.136",
+    "@types/encodeurl": "^1.0.2",
+    "@types/mime": "^3.0.4",
+    "barrelsby": "^2.8.1",
+    "eslint": "^8.57.0",
+    "find-my-way": "^7.7.0",
+    "jest": "^29.7.0"
+  },
+  "peerDependencies": {
+    "@tsed/di": "7.67.0",
+    "@tsed/logger": ">=6.7.5"
+  },
+  "peerDependenciesMeta": {
+    "@tsed/di": {
+      "optional": false
+    },
+    "@tsed/logger": {
+      "optional": false
+    },
+    "find-my-way": {
+      "optional": true
+    }
+  }
+}

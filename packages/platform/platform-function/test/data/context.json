@@ -1,0 +1,11 @@
+{
+  "awsRequestId": "cktrkt4nq0002sezs9tntbqmh",
+  "callbackWaitsForEmptyEventLoop": true,
+  "clientContext": null,
+  "functionName": "aws-basic-dev-timeslots",
+  "functionVersion": "$LATEST",
+  "invokedFunctionArn": "offline_invokedFunctionArn_for_aws-basic-dev-timeslots",
+  "logGroupName": "offline_logGroupName_for_aws-basic-dev-timeslots",
+  "logStreamName": "offline_logStreamName_for_aws-basic-dev-timeslots",
+  "memoryLimitInMB": "1024"
+}
