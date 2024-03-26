@@ -36,7 +36,7 @@
     "cors": "^2.8.5",
     "dns-prefetch-control": "^0.3.0",
     "execa": "^6.1.0",
-    "express": "^4.16.4",
+    "express": "^4.19.2",
     "fastify": "^3.29.4",
     "frameguard": "^4.0.0",
     "hide-powered-by": "^1.0.0",
