@@ -197,6 +197,59 @@ describe("@Returns", () => {
         ]
       });
     });
+    it("should declare a return type with headers (openspec - header)", () => {
+      // WHEN
+      class Controller {
+        @OperationPath("POST", "/")
+        @Returns(200, String).Description("description").Header("x-token").Examples({test: "Examples"}).Schema({
+          minLength: 3
+        })
+        method() {}
+      }
+
+      // THEN
+      const spec = getSpec(Controller, {specType: SpecTypes.OPENAPI});
+
+      expect(spec).toEqual({
+        paths: {
+          "/": {
+            post: {
+              operationId: "controllerMethod",
+              parameters: [],
+              responses: {
+                "200": {
+                  content: {
+                    "*/*": {
+                      examples: {
+                        test: "Examples"
+                      },
+                      schema: {
+                        minLength: 3,
+                        type: "string"
+                      }
+                    }
+                  },
+                  description: "description",
+                  headers: {
+                    "x-token": {
+                      schema: {
+                        type: "string"
+                      }
+                    }
+                  }
+                }
+              },
+              tags: ["Controller"]
+            }
+          }
+        },
+        tags: [
+          {
+            name: "Controller"
+          }
+        ]
+      });
+    });
     it("should declare a return type with content-type", () => {
       // WHEN
       class Controller {

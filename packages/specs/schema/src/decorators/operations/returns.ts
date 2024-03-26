@@ -105,7 +105,7 @@ export interface ReturnsChainedDecorators {
    * @param key
    * @param value
    */
-  Header(key: string, value: number | string | (JsonHeader & {value?: string | number | boolean})): this;
+  Header(key: string, value?: number | string | (JsonHeader & {value?: string | number | boolean})): this;
 
   /**
    * Add headers
@@ -227,8 +227,12 @@ class ReturnDecoratorContext extends DecoratorContext<ReturnsChainedDecorators> 
     return this;
   }
 
-  header(key: string, value: string | JsonHeader) {
-    return this.headers({[key]: value});
+  header(key: string, value?: string | JsonHeader) {
+    if (value === undefined && isString(key)) {
+      return this.headers({[key]: {type: "string"}});
+    }
+
+    return this.headers({[key]: value!});
   }
 
   location(path: string, meta: JsonHeaders = {}) {
