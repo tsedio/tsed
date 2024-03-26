@@ -50,6 +50,52 @@ describe("Header", () => {
         });
       });
     });
+    describe("with one param as string", () => {
+      it("should set Header", () => {
+        class MyController {
+          @Header("x-header")
+          @OperationPath("GET", "/")
+          test() {}
+        }
+
+        const spec = getSpec(MyController, {specType: SpecTypes.OPENAPI});
+
+        expect(spec).toEqual({
+          paths: {
+            "/": {
+              get: {
+                operationId: "myControllerTest",
+                parameters: [],
+                responses: {
+                  "200": {
+                    content: {
+                      "*/*": {
+                        schema: {
+                          type: "object"
+                        }
+                      }
+                    },
+                    headers: {
+                      "x-header": {
+                        schema: {
+                          type: "string"
+                        }
+                      }
+                    }
+                  }
+                },
+                tags: ["MyController"]
+              }
+            }
+          },
+          tags: [
+            {
+              name: "MyController"
+            }
+          ]
+        });
+      });
+    });
     describe("with two params has object", () => {
       it("should set Header", () => {
         class MyController {

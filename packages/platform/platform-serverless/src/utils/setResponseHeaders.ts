@@ -5,10 +5,17 @@ import {HeaderValue} from "../domain/ServerlessResponse";
 function mergeHeaders(specHeaders: Record<string, JsonHeader & {example: string}>, headers: Record<string, HeaderValue>) {
   return Object.entries(specHeaders).reduce((headers, [key, item]) => {
     key = key.toLowerCase();
-    return {
-      ...headers,
-      [key]: headers[key] === undefined ? String(item.example) : headers[key]
-    };
+
+    const value = headers[key] === undefined ? item.example : headers[key];
+
+    if (value !== undefined) {
+      return {
+        ...headers,
+        [key]: String(value)
+      };
+    }
+
+    return headers;
   }, headers);
 }
 

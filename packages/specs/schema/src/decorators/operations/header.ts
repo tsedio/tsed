@@ -1,3 +1,4 @@
+import {isString} from "@tsed/core";
 import {JsonHeader, JsonHeaders} from "../../interfaces/JsonOpenSpec";
 import {Returns} from "./returns";
 
@@ -51,6 +52,9 @@ import {Returns} from "./returns";
 export function Header(headers: string | number | JsonHeaders, value?: string | number | JsonHeader): Function {
   if (value !== undefined) {
     headers = {[headers as string]: value};
+  }
+  if (value === undefined && isString(headers)) {
+    headers = {[headers as string]: {type: "string"}};
   }
 
   return Returns().Headers(headers as JsonHeaders);
