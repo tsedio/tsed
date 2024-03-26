@@ -20,7 +20,7 @@ export function setResponseHeaders(ctx: PlatformContext) {
   const headers = operation.getHeadersOf(statusCode);
 
   Object.entries(headers).forEach(([key, item]: any[]) => {
-    if (!response.get(key)) {
+    if (!response.get(key) && item.example !== undefined) {
       response.setHeader(key, String(item.example));
     }
   });

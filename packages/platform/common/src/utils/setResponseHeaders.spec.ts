@@ -23,6 +23,23 @@ describe("setResponseHeaders", () => {
     expect(ctx.response.getHeaders()).toEqual({"x-request-id": "id", "x-header": "test"});
     expect(ctx.response.statusCode).toEqual(200);
   });
+  it("should not set headers automatically if the value isn't declared", async () => {
+    class Test {
+      @Get("/")
+      @Returns(200).Header("x-header")
+      test() {}
+    }
+
+    const ctx = PlatformTest.createRequestContext();
+    ctx.endpoint = EndpointMetadata.get(Test, "test");
+
+    // WHEN
+    await setResponseHeaders(ctx);
+
+    // THEN
+    expect(ctx.response.getHeaders()).toEqual({"x-request-id": "id"});
+    expect(ctx.response.statusCode).toEqual(200);
+  });
 
   it("should redirect", async () => {
     class Test {

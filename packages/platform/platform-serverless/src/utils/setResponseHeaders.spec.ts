@@ -27,6 +27,26 @@ describe("setResponseHeaders", () => {
     expect(ctx.response.setHeaders).toHaveBeenCalledWith({"x-header": "test"});
     expect(ctx.response.status).toHaveBeenCalledWith(200);
   });
+  it("should not set headers automatically", async () => {
+    class Test {
+      @Get("/")
+      @Returns(200).Header("x-header")
+      test() {}
+    }
+
+    const ctx = createServerlessContext({
+      endpoint: JsonEntityStore.fromMethod(Test, "test")
+    });
+
+    jest.spyOn(ctx.response, "setHeaders");
+    jest.spyOn(ctx.response, "status");
+    // WHEN
+    await setResponseHeaders(ctx);
+
+    // THEN
+    expect(ctx.response.setHeaders).toHaveBeenCalledWith({});
+    expect(ctx.response.status).toHaveBeenCalledWith(200);
+  });
   it("should redirect with 301", async () => {
     class Test {
       @Get("/")
