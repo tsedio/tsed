@@ -319,6 +319,7 @@ and import the mapper in your application.
 </Tabs>
 
 ::: warn
+
 Ts.ED doesn't transform Date to date format or hours format because it depends on each project guidelines.
 
 But you can easily implement a Date mapper for each format with the Date API or moment:
