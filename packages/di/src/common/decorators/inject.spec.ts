@@ -40,6 +40,45 @@ describe("@Inject()", () => {
       expect(instance).toBeInstanceOf(Test);
       expect(instance.test).toBeInstanceOf(InjectorService);
     });
+    it("should inject service w/ async factory", async () => {
+      // GIVEN
+      class Test {
+        constructor(public type: string) {}
+      }
+
+      const TokenAsync = Symbol.for("MyService");
+
+      registerProvider<Test>({
+        provide: TokenAsync,
+        type: "test:async",
+        deps: [],
+        useAsyncFactory() {
+          return Promise.resolve(new Test("async"));
+        }
+      });
+
+      @Injectable()
+      class Parent1 {
+        @Inject(TokenAsync)
+        test: Test;
+      }
+
+      @Injectable()
+      class Parent2 {
+        @Inject(TokenAsync)
+        test: Test;
+      }
+
+      const injector = new InjectorService();
+
+      await injector.load();
+
+      const parent1 = await injector.invoke<Parent1>(Parent1);
+      const parent2 = await injector.invoke<Parent2>(Parent2);
+
+      expect(parent1.test).toBeInstanceOf(Test);
+      expect(parent2.test).toBeInstanceOf(Test);
+    });
     it("should inject service with the given type", async () => {
       // GIVEN
       @Injectable()
