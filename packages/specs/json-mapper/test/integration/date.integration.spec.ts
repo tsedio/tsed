@@ -1,12 +1,12 @@
 import {isBoolean} from "@tsed/core";
 import {DateFormat} from "@tsed/schema";
-import {JsonMapper, JsonMapperContext, JsonMapperMethods, serialize} from "../../src/index";
+import {JsonMapper, JsonMapperCtx, JsonMapperMethods, serialize} from "../../src/index";
 
 @JsonMapper(Date)
 export class DateMapper implements JsonMapperMethods {
-  deserialize(data: string | number, ctx: JsonMapperContext): Date;
-  deserialize(data: boolean | null | undefined, ctx: JsonMapperContext): boolean | null | undefined;
-  deserialize(data: any, ctx: JsonMapperContext): any {
+  deserialize(data: string | number, ctx: JsonMapperCtx): Date;
+  deserialize(data: boolean | null | undefined, ctx: JsonMapperCtx): boolean | null | undefined;
+  deserialize(data: any, ctx: JsonMapperCtx): any {
     // don't convert unexpected data. In normal case, Ajv reject unexpected data.
     // But by default, we have to skip data deserialization and let user to apply
     // the right mapping
@@ -17,7 +17,7 @@ export class DateMapper implements JsonMapperMethods {
     return new Date(data);
   }
 
-  serialize(object: Date, ctx: JsonMapperContext): any {
+  serialize(object: Date, ctx: JsonMapperCtx): any {
     const date = new Date(object);
 
     switch (ctx.options.format) {
