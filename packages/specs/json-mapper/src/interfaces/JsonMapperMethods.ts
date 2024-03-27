@@ -4,6 +4,9 @@ export interface JsonMapperCtx<T = any, C = any> {
   collectionType: Type<C> | undefined;
   type: Type<T> | T;
   next: JsonMapperNext;
+  options: {
+    format?: string;
+  };
 }
 
 export interface JsonMapperNext {

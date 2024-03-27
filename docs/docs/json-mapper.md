@@ -110,7 +110,7 @@ It means, if you missed decorating one or more properties on your model, these p
 
 ## Ignore properties (deprecated)
 
-::: warn deprecated
+::: warning deprecated
 This decorator is deprecated. Use @@Groups@@ decorator instead of.
 :::
 
@@ -318,7 +318,7 @@ and import the mapper in your application.
   </Tab>
 </Tabs>
 
-::: warn
+::: warning
 
 Ts.ED doesn't transform Date to date format or hours format because it depends on each project guidelines.
 
