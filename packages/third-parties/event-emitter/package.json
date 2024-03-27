@@ -1,6 +1,6 @@
 {
   "name": "@tsed/event-emitter",
-  "version": "7.67.2",
+  "version": "7.67.3",
   "description": "EventEmitter package for Ts.ED framework",
   "contributors": [
     {
