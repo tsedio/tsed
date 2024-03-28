@@ -6680,6 +6680,7 @@ __metadata:
     "@tsed/schema": "workspace:*"
     "@tsed/typescript": "workspace:*"
     barrelsby: "npm:^2.8.1"
+    cross-env: "npm:7.0.3"
     eslint: "npm:^8.57.0"
     jest: "npm:^29.7.0"
     tslib: "npm:2.6.2"
