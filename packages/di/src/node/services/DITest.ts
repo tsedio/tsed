@@ -1,4 +1,4 @@
-import {Env, getValue, setValue} from "@tsed/core";
+import {Env, getValue, isClass, isPromise, setValue} from "@tsed/core";
 import {$log} from "@tsed/logger";
 import {createContainer, InjectorService, LocalsContainer, OnInit, TokenProvider, TokenProviderOpts} from "../../common/index";
 import {DIContext} from "../domain/DIContext";
@@ -84,7 +84,7 @@ export class DITest {
    * @param target
    * @param providers
    */
-  static invoke<T = any>(target: TokenProvider, providers: TokenProviderOpts[] = []): T | Promise<T> {
+  static async invoke<T = any>(target: TokenProvider, providers: TokenProviderOpts[] = []): Promise<T> {
     const locals = new LocalsContainer();
     providers.forEach((p) => {
       locals.set(p.token, p.use);
@@ -97,9 +97,14 @@ export class DITest {
     if (instance && instance.$onInit) {
       // await instance.$onInit();
       const result = instance.$onInit();
+
       if (result instanceof Promise) {
         return result.then(() => instance as any);
       }
+    }
+
+    if (isClass(instance)) {
+      await Promise.all(Object.values(instance).filter(isPromise));
     }
 
     return instance as any;
