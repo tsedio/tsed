@@ -1,6 +1,6 @@
 {
   "name": "@tsed/typegraphql",
-  "version": "7.67.3",
+  "version": "7.67.4",
   "description": "TypeGraphQL package for Ts.ED framework, based on Apollo-server-core and Type-graphql",
   "source": "./src/index.ts",
   "main": "./lib/cjs/index.js",
