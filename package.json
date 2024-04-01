@@ -133,7 +133,7 @@
     "@types/supertest": "6.0.2",
     "@typescript-eslint/eslint-plugin": "^5.62.0",
     "@typescript-eslint/parser": "^5.62.0",
-    "chai": "4.4.1",
+    "chai": "5.1.0",
     "chai-as-promised": "7.1.1",
     "concurrently": "8.2.2",
     "cross-env": "7.0.3",
