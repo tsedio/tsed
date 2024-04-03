@@ -162,7 +162,8 @@ export function testQueryParams(options: PlatformTestingSdkOpts) {
         errors: [
           {
             keyword: "type",
-            dataPath: "",
+            requestPath: "query",
+            dataPath: ".test",
             instancePath: "",
             schemaPath: "#/type",
             params: {type: "number"},

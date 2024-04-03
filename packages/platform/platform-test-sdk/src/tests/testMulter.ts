@@ -113,7 +113,8 @@ export function testMulter(options: PlatformTestingSdkOpts) {
         status: 400,
         errors: [
           {
-            dataPath: "",
+            dataPath: ".media.0",
+            requestPath: "files",
             keyword: "required",
             message: "It should have required parameter 'media.0'",
             modelName: "files",

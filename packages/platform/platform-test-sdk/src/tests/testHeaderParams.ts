@@ -107,7 +107,8 @@ export function testHeaderParams(options: PlatformTestingSdkOpts) {
       expect(response.body).toEqual({
         errors: [
           {
-            dataPath: "",
+            requestPath: "header",
+            dataPath: ".x-token",
             keyword: "required",
             message: "It should have required parameter 'x-token'",
             modelName: "header",
@@ -130,7 +131,8 @@ export function testHeaderParams(options: PlatformTestingSdkOpts) {
         errors: [
           {
             data: "invalid",
-            dataPath: "",
+            requestPath: "header",
+            dataPath: ".x-token",
             instancePath: "",
             keyword: "enum",
             message: "must be equal to one of the allowed values",

@@ -84,6 +84,7 @@ describe("AJV Errors", () => {
             data: {
               foo: 1
             },
+            requestPath: "body",
             dataPath: "",
             instancePath: "",
             keyword: "errorMessage",
@@ -121,6 +122,7 @@ describe("AJV Errors", () => {
         errors: [
           {
             data: [],
+            requestPath: "body",
             dataPath: "",
             instancePath: "",
             keyword: "errorMessage",
@@ -161,6 +163,7 @@ describe("AJV Errors", () => {
               foo: "foo",
               test: "hey"
             },
+            requestPath: "body",
             dataPath: "",
             instancePath: "",
             keyword: "errorMessage",
@@ -198,6 +201,7 @@ describe("AJV Errors", () => {
         errors: [
           {
             data: [],
+            requestPath: "body",
             dataPath: "",
             instancePath: "",
             keyword: "errorMessage",

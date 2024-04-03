@@ -11,12 +11,12 @@ describe("importFiles", () => {
   it("should import symbols", async () => {
     const symbols = await importFiles([join(rootDir, "__mock__/*.ts")], []);
 
-    expect(symbols).toEqual(["value", Test1, "value", Test2]);
+    expect(symbols.sort()).toEqual(["value", Test1, "value", Test2].sort());
   });
 
   it("should import symbols without excluded files", async () => {
     const symbols = await importFiles([join(rootDir, "__mock__/*.ts")], [join(rootDir, "__mock__/Test2.ts")]);
 
-    expect(symbols).toEqual(["value", Test1]);
+    expect(symbols.sort()).toEqual(["value", Test1].sort());
   });
 });

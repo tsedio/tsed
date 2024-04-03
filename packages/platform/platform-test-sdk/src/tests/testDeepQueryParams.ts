@@ -98,6 +98,7 @@ export function testDeepQueryParams(options: PlatformTestingSdkOpts) {
       expect(response.body).toEqual({
         errors: [
           {
+            requestPath: "query",
             data: "ca",
             dataPath: ".where.a",
             instancePath: "/where/a",

@@ -14,12 +14,20 @@ export class ParamValidationError extends BadRequest {
         .toLowerCase()
         .replace(/parse|params|filter/gi, "");
       const expression = metadata.expression;
-      const message = `Bad request on parameter "request.${name}${expression ? "." + expression : ""}".\n${origin.message}`.trim();
+      const dataPath = `${name}${expression ? "." + expression : ""}`;
+      const message = `Bad request on parameter "request.${dataPath}".\n${origin.message}`.trim();
 
       const error = new ParamValidationError(message);
       error.dataPath = String(metadata.expression) || "";
       error.requestType = nameOf(metadata.paramType);
       error.origin = origin.origin || origin;
+
+      if (error.origin?.errors) {
+        error.origin?.errors.forEach((error: any) => {
+          error.requestPath = name;
+          error.dataPath = error.dataPath || (expression ? `.${expression}` : "");
+        });
+      }
 
       return error;
     }

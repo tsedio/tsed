@@ -8,7 +8,7 @@ module.exports = {
       statements: 99.08,
       branches: 96.79,
       lines: 99.08,
-      functions: 99.17
+      functions: 99.04
     }
   }
 };

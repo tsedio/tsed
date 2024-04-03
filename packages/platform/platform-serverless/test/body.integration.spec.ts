@@ -83,6 +83,7 @@ describe("Body params", () => {
       expect(JSON.parse(response.body)).toEqual({
         errors: [
           {
+            requestPath: "body",
             data: "T",
             dataPath: ".name",
             instancePath: "/name",

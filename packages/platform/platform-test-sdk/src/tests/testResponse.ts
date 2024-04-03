@@ -348,7 +348,8 @@ export function testResponse(options: PlatformTestingSdkOpts) {
           errors: [
             {
               data: "kkk",
-              dataPath: "",
+              requestPath: "path",
+              dataPath: ".id",
               instancePath: "",
               keyword: "type",
               message: "must be number",

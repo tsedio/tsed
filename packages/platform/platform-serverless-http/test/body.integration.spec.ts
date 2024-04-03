@@ -95,6 +95,7 @@ describe("Body params", () => {
         errors: [
           {
             data: "T",
+            requestPath: "body",
             dataPath: ".name",
             instancePath: "/name",
             keyword: "minLength",
