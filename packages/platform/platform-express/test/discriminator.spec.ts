@@ -129,6 +129,7 @@ describe("Discriminator", () => {
       expect(body).toEqual({
         errors: [
           {
+            requestPath: "body",
             data: {
               type: "test",
               url: "https://url.com",

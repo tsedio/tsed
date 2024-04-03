@@ -95,7 +95,8 @@ export function testPathParams(options: PlatformTestingSdkOpts) {
       errors: [
         {
           data: "1",
-          dataPath: "",
+          requestPath: "path",
+          dataPath: ".scopeId",
           instancePath: "",
           keyword: "pattern",
           message: 'must match pattern "^[0-9a-fA-F]{24}$"',

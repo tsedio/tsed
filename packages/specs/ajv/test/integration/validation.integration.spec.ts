@@ -56,6 +56,7 @@ describe("AjvValidationPipe", () => {
       expect(error?.origin?.errors).toEqual([
         {
           data: [],
+          requestPath: "body",
           dataPath: "",
           instancePath: "",
           keyword: "type",
@@ -162,7 +163,8 @@ describe("AjvValidationPipe", () => {
       expect(error?.origin.errors).toEqual([
         {
           data: {},
-          dataPath: "",
+          dataPath: ".id",
+          requestPath: "body",
           instancePath: "",
           keyword: "required",
           message: "must have required property 'id'",
@@ -254,6 +256,7 @@ describe("AjvValidationPipe", () => {
 
       expect(error?.origin.errors).toEqual([
         {
+          requestPath: "body",
           data: "[REDACTED]",
           dataPath: ".password",
           instancePath: "/password",

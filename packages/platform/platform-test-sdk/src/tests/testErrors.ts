@@ -150,7 +150,8 @@ export function testErrors(options: PlatformTestingSdkOpts) {
     expect(response.body).toEqual({
       errors: [
         {
-          dataPath: "",
+          dataPath: ".name",
+          requestPath: "body",
           keyword: "required",
           message: "It should have required parameter 'name'",
           modelName: "body",
@@ -172,7 +173,8 @@ export function testErrors(options: PlatformTestingSdkOpts) {
     expect(response.body).toEqual({
       errors: [
         {
-          dataPath: "",
+          dataPath: ".name",
+          requestPath: "body",
           instancePath: "",
           keyword: "required",
           message: "must have required property 'name'",
@@ -195,7 +197,8 @@ export function testErrors(options: PlatformTestingSdkOpts) {
     expect(response.body).toEqual({
       errors: [
         {
-          dataPath: "",
+          dataPath: ".role_item",
+          requestPath: "body",
           instancePath: "",
           keyword: "required",
           message: "must have required property 'role_item'",

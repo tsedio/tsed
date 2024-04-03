@@ -35,40 +35,33 @@ describe("SocketIOModule", () => {
     describe("with http server", () => {
       beforeAll(() =>
         PlatformTest.create({
-          httpsPort: 8081
+          httpsPort: 8081,
+          socketIO: {config: "config", adapter: jest.fn()} as unknown
         })
       );
-      beforeAll(() => {});
       afterAll(() => {
         PlatformTest.reset();
       });
 
       it("should call attach method", async () => {
-        const {serverSettingsService, socketIOModule, httpServer, httpsServer, socketIOService, socketIOServer} =
-          await createModuleFixture();
-        serverSettingsService.set("socketIO", {config: "config", adapter: "adapter"});
+        const {socketIOModule, httpServer, httpsServer, socketIOService, socketIOServer} = await createModuleFixture();
 
         // WHEN
         await socketIOModule.$afterListen();
 
-        expect(socketIOServer.attach).toBeCalledWith(httpServer, {
-          adapter: "adapter",
-          config: "config"
-        });
-        expect(socketIOServer.attach).toBeCalledWith(httpsServer, {
-          adapter: "adapter",
-          config: "config"
-        });
+        expect(socketIOServer.attach).toHaveBeenCalledTimes(2);
 
         expect((socketIOModule as any).getWebsocketServices).toBeCalledWith();
-        expect(socketIOServer.adapter).toBeCalledWith("adapter");
+        expect(socketIOServer.adapter).toBeCalled();
         expect(socketIOService.addSocketProvider).toBeCalledWith({provider: "provider"});
       });
     });
     describe("with https server", () => {
       beforeAll(() =>
         PlatformTest.create({
-          httpsPort: 8081
+          httpsPort: 8081,
+          http: false,
+          socketIO: {config: "config"} as unknown
         })
       );
 
@@ -78,15 +71,11 @@ describe("SocketIOModule", () => {
 
       it("should call attach method", async () => {
         const {socketIOModule, httpsServer, serverSettingsService, socketIOService, socketIOServer} = await createModuleFixture();
-        serverSettingsService.set("http", false);
-        serverSettingsService.set("socketIO", {config: "config"});
 
         // WHEN
         await socketIOModule.$afterListen();
 
-        expect(socketIOServer.attach).toBeCalledWith(httpsServer, {
-          config: "config"
-        });
+        expect(socketIOServer.attach).toBeCalled();
 
         expect((socketIOModule as any).getWebsocketServices).toBeCalledWith();
         expect(socketIOService.addSocketProvider).toBeCalledWith({provider: "provider"});

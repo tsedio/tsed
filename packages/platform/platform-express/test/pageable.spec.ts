@@ -357,6 +357,7 @@ describe("Pageable", () => {
       errors: [
         {
           data: -1,
+          requestPath: "query",
           dataPath: ".page",
           instancePath: "/page",
           keyword: "minimum",

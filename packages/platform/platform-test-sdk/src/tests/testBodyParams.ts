@@ -243,7 +243,8 @@ export function testBodyParams(options: PlatformTestingSdkOpts) {
         status: 400,
         errors: [
           {
-            dataPath: "",
+            requestPath: "body",
+            dataPath: ".test",
             keyword: "required",
             message: "It should have required parameter 'test'",
             modelName: "body",
@@ -269,7 +270,8 @@ export function testBodyParams(options: PlatformTestingSdkOpts) {
         status: 400,
         errors: [
           {
-            dataPath: "",
+            requestPath: "body",
+            dataPath: ".test",
             keyword: "required",
             message: "It should have required parameter 'test'",
             modelName: "body",
@@ -288,7 +290,8 @@ export function testBodyParams(options: PlatformTestingSdkOpts) {
         status: 400,
         errors: [
           {
-            dataPath: "",
+            dataPath: ".test",
+            requestPath: "body",
             keyword: "required",
             message: "It should have required parameter 'test'",
             modelName: "body",
@@ -319,7 +322,8 @@ export function testBodyParams(options: PlatformTestingSdkOpts) {
         status: 400,
         errors: [
           {
-            dataPath: "",
+            dataPath: ".test",
+            requestPath: "body",
             keyword: "required",
             message: "It should have required parameter 'test'",
             modelName: "body",
@@ -422,6 +426,7 @@ export function testBodyParams(options: PlatformTestingSdkOpts) {
         errors: [
           {
             data: 0,
+            requestPath: "body",
             dataPath: ".limit",
             instancePath: "/limit",
             keyword: "minimum",

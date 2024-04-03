@@ -57,7 +57,8 @@ describe("ParseExpressionError", () => {
       origin: {
         errors: [
           {
-            dataPath: "",
+            requestPath: "name",
+            dataPath: ".expression",
             keyword: "required",
             message: "It should have required parameter 'expression'",
             modelName: "name",
@@ -101,6 +102,7 @@ describe("ParseExpressionError", () => {
       origin: {
         errors: [
           {
+            requestPath: "name",
             dataPath: "hello"
           }
         ],

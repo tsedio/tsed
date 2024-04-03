@@ -141,6 +141,7 @@ describe("Array Body", () => {
       expect(body).toEqual({
         errors: [
           {
+            requestPath: "body",
             data: [
               {
                 test: "1"
