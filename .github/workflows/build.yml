@@ -154,7 +154,7 @@ jobs:
       - name: Run build
         run: yarn tsc --build
       - name: Run test
-        run: yarn test:orm --since origin/production
+        run: yarn test:orm
 
   test-graphql:
     runs-on: ubuntu-latest
