@@ -17,7 +17,7 @@
   },
   "scripts": {
     "build": "rm -rf lib && yarn build:ts",
-    "test": "cross-env NODE_ENV=test yarn jest && jest-coverage-thresholds-bumper",
+    "test": "jest && jest-coverage-thresholds-bumper",
     "generate:postgres": "cd test/postgres && prisma -v && prisma generate",
     "generate:mongo": "cd test/mongo && prisma -v && prisma generate",
     "build:ts": "tsc --build tsconfig.json && tsc --build tsconfig.esm.json"
