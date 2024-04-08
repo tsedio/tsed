@@ -11,7 +11,7 @@
     "packages/utils/*",
     "docs"
   ],
-  "version": "7.67.4",
+  "version": "7.67.5",
   "command": {
     "bootstrap": {
       "npmClientArgs": [
