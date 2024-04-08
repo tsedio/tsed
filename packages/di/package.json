@@ -18,7 +18,7 @@
     "build": "yarn barrels && yarn build:ts && yarn run build:browser",
     "build:browser": "webpack",
     "barrels": "yarn barrelsby --config .barrelsby.json",
-    "test": "cross-env NODE_ENV=test yarn jest --max-workers=2 && jest-coverage-thresholds-bumper",
+    "test": "jest --max-workers=2 && jest-coverage-thresholds-bumper",
     "build:ts": "tsc --build tsconfig.json && tsc --build tsconfig.esm.json"
   },
   "dependencies": {

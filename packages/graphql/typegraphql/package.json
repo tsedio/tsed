@@ -17,7 +17,7 @@
     "barrels": "yarn barrelsby --delete -d ./src -e \"\\.spec\\.ts\" -e \"__mock__\" -e \".benchmark.ts\"",
     "start:express": "ts-node test/app/index.express.ts",
     "start:koa": "ts-node test/app/index.koa.ts",
-    "test": "cross-env NODE_ENV=test jest && jest-coverage-thresholds-bumper",
+    "test": "jest && jest-coverage-thresholds-bumper",
     "build:ts": "tsc --build tsconfig.json && tsc --build tsconfig.esm.json"
   },
   "dependencies": {

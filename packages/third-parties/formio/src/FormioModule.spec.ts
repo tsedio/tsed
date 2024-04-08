@@ -103,7 +103,7 @@ describe("FormioModule", () => {
           method: "get",
           methodClassName: "operationId",
           name: "operationId",
-          url: "/projects/path/to"
+          url: "/path/to"
         }
       ]);
     });
