@@ -1,6 +1,6 @@
 import {Env, getValue, isClass, isPromise, setValue} from "@tsed/core";
 import {$log} from "@tsed/logger";
-import {createContainer, InjectorService, LocalsContainer, OnInit, TokenProvider, TokenProviderOpts} from "../../common/index";
+import {createContainer, InjectorService, LocalsContainer, OnInit, Provider, TokenProvider, TokenProviderOpts} from "../../common/index";
 import {DIContext} from "../domain/DIContext";
 import {setLoggerConfiguration} from "../utils/setLoggerConfiguration";
 
