@@ -293,7 +293,8 @@ export class InjectorService extends Container {
 
     // allow mocking or changing provider instance before loading injector
     this.settings.imports = this.settings.imports
-      ?.map((meta) => {
+      ?.filter((meta) => meta.token !== InjectorService)
+      .map((meta) => {
         if ("token" in meta && "use" in meta) {
           const {token, use} = meta;
           const provider = this.getProvider(token);
