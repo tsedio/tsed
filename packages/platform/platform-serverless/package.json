@@ -28,7 +28,7 @@
     "encodeurl": "^1.0.2",
     "mime": "^3.0.0",
     "tslib": "2.6.1",
-    "uuid": "^8.3.2"
+    "uuid": "^9.0.1"
   },
   "devDependencies": {
     "@tsed/platform-serverless-testing": "workspace:*",
