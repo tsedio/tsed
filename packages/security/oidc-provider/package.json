@@ -38,7 +38,7 @@
     "koa-rewrite": "^3.0.1",
     "lodash": "4.17.21",
     "tslib": "2.6.1",
-    "uuid": "8.3.2"
+    "uuid": "9.0.1"
   },
   "devDependencies": {
     "@tsed/common": "workspace:*",
@@ -49,7 +49,7 @@
     "@tsed/typescript": "workspace:*",
     "@types/lowdb": "1.0.15",
     "@types/oidc-provider": "8.4.4",
-    "@types/uuid": "8.3.4",
+    "@types/uuid": "9.0.8",
     "barrelsby": "^2.8.1",
     "cross-env": "7.0.3",
     "eslint": "^8.57.0",

@@ -20,13 +20,13 @@
   },
   "dependencies": {
     "@types/lowdb": "1.0.15",
-    "@types/uuid": "8.3.4",
+    "@types/uuid": "9.0.8",
     "change-case": "^4.1.2",
     "fs-extra": "11.2.0",
     "lodash": "^4.17.21",
     "lowdb": "1.0.0",
     "tslib": "2.6.1",
-    "uuid": "8.3.2"
+    "uuid": "9.0.1"
   },
   "devDependencies": {
     "@tsed/ajv": "workspace:*",
