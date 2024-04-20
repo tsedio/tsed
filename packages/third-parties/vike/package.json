@@ -36,7 +36,7 @@
     "eslint": "^8.57.0",
     "jest": "^29.7.0",
     "vike": "0.4.160",
-    "vite": "5.0.12"
+    "vite": "5.0.13"
   },
   "peerDependencies": {
     "@tsed/common": "7.67.6",
