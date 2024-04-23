@@ -10,6 +10,7 @@ import {UnmanagedEventSubscriber1} from "./helpers/services/UnmanagedEventSubscr
 import {UnmanagedEventSubscriber2} from "./helpers/services/UnmanagedEventSubscriber2";
 import {MikroOrmModule, TransactionalInterceptor} from "../src";
 import {Hooks} from "./helpers/services/Hooks";
+import {defineConfig} from "@mikro-orm/mongodb";
 
 describe("MikroOrm integration", () => {
   let spiedLogger!: Logger;
@@ -23,25 +24,21 @@ describe("MikroOrm integration", () => {
       disableComponentScan: true,
       imports: [MikroOrmModule],
       mikroOrm: [
-        {
+        defineConfig({
           clientUrl,
-          type: "mongo",
           entities: [User],
-          // @ts-expect-error mikro-orm supports the class reference starting from v6
           subscribers: [UnmanagedEventSubscriber1, new UnmanagedEventSubscriber2()]
-        },
-        {
+        }),
+        defineConfig({
           clientUrl,
           contextName: "db1",
-          type: "mongo",
           entities: [User]
-        },
-        {
+        }),
+        defineConfig({
           clientUrl,
           contextName: "db2",
-          type: "mongo",
           entities: [User]
-        }
+        })
       ]
     });
 
