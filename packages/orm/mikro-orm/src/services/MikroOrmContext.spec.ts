@@ -56,7 +56,7 @@ describe("MikroOrmContext", () => {
       await context.run([entityManager], task);
 
       // assert
-      verify(spiedRequestContext.createAsync(deepEqual([entityManager]), task)).once();
+      verify(spiedRequestContext.create(deepEqual([entityManager]), task)).once();
     });
 
     it("should return a result of function execution", async () => {
