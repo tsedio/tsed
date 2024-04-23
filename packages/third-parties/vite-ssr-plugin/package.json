@@ -1,6 +1,6 @@
 {
   "name": "@tsed/vite-ssr-plugin",
-  "version": "7.67.6",
+  "version": "7.67.7",
   "description": "Vite SSR plugin package for Ts.ED framework",
   "contributors": [
     {

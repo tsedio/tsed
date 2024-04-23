@@ -1,6 +1,6 @@
 {
   "name": "@tsed/formio",
-  "version": "7.67.6",
+  "version": "7.67.7",
   "description": "Formio package for Ts.ED framework",
   "keywords": [
     "Formio",
@@ -48,7 +48,7 @@
     "mongoose": "^6.12.7"
   },
   "peerDependencies": {
-    "@tsed/common": "7.67.6",
+    "@tsed/common": "7.67.7",
     "express": "^4.17.1",
     "formio": ">=2.0.0",
     "lodash": "^4.17.21",
