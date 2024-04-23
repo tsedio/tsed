@@ -130,7 +130,6 @@
     "@types/sinon": "10.0.20",
     "@types/sinon-chai": "3.2.12",
     "@types/superagent": "4.1.24",
-    "@types/supertest": "6.0.2",
     "@typescript-eslint/eslint-plugin": "^5.62.0",
     "@typescript-eslint/parser": "^5.62.0",
     "chai": "5.1.0",
@@ -158,7 +157,7 @@
     "semantic-release-slack-bot": "4.0.2",
     "sinon": "13.0.2",
     "sinon-chai": "3.7.0",
-    "supertest": "6.2.2",
+    "supertest": "7.0.0",
     "ts-loader": "^9.4.2",
     "tslib": "2.6.1",
     "typescript": "4.9.5",
@@ -185,7 +184,8 @@
     ]
   },
   "resolutions": {
-    "mongoose": "6.5.1"
+    "mongoose": "6.5.1",
+    "formidable": "3.2.4"
   },
   "collective": {
     "type": "opencollective",
