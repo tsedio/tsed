@@ -17,7 +17,7 @@ describe("MikroOrm integration", () => {
   let spiedHooks!: Hooks;
 
   beforeEach(async () => {
-    await TestMongooseContext.install();
+    await TestMongooseContext.install({replicaSet: true});
     const {url: clientUrl} = await TestMongooseContext.getMongooseOptions();
     const bstrp = PlatformTest.bootstrap(Server, {
       disableComponentScan: true,
