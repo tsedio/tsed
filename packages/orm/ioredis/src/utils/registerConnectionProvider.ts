@@ -54,6 +54,7 @@ export function registerConnectionProvider({provide, name = "default"}: CreateCo
 
           setValue(sentinelsOptions, "sentinelRetryStrategy", retryStrategy);
           setValue(sentinelsOptions, "redisOptions.reconnectOnError", reconnectOnError);
+
           connection = new Redis({
             name: sentinelName,
             sentinels,
@@ -62,9 +63,9 @@ export function registerConnectionProvider({provide, name = "default"}: CreateCo
           });
         } else {
           connection = new Redis({
+            reconnectOnError,
             ...redisOptions,
-            lazyConnect: true,
-            reconnectOnError
+            lazyConnect: true
           } as RedisOptions);
         }
 
