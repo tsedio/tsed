@@ -1,30 +1,26 @@
 import {
-  OnRoutesInit,
   Configuration,
   Constant,
   Inject,
   InjectorService,
   Module,
   OnReady,
+  OnRoutesInit,
   PlatformApplication,
   PlatformContext
 } from "@tsed/common";
+import {Env} from "@tsed/core";
+import {normalizePath} from "@tsed/normalize-path";
 import {PlatformRouter, useContextHandler} from "@tsed/platform-router";
 import Fs from "fs";
 import {join} from "path";
-import {Env} from "@tsed/core";
-import {normalizePath} from "@tsed/normalize-path";
-import filedirname from "filedirname";
-import {absolutePath} from "swagger-ui-dist";
+import {ROOT_DIR, SWAGGER_UI_DIST} from "./constants";
 import {SwaggerSettings} from "./interfaces/SwaggerSettings";
 import {cssMiddleware} from "./middlewares/cssMiddleware";
 import {indexMiddleware} from "./middlewares/indexMiddleware";
 import {jsMiddleware} from "./middlewares/jsMiddleware";
 import {redirectMiddleware} from "./middlewares/redirectMiddleware";
 import {SwaggerService} from "./services/SwaggerService";
-
-// FIXME remove when esm is ready
-const [, rootDir] = filedirname();
 
 /**
  * @ignore
@@ -130,7 +126,7 @@ export class SwaggerModule implements OnRoutesInit, OnReady {
    * @param urls
    */
   private createRouter(conf: SwaggerSettings, urls: string[]) {
-    const {disableSpec = false, fileName = "swagger.json", cssPath, jsPath, viewPath = join(rootDir, "../views/index.ejs")} = conf;
+    const {disableSpec = false, fileName = "swagger.json", cssPath, jsPath, viewPath = join(ROOT_DIR, "../views/index.ejs")} = conf;
     const router = new PlatformRouter(this.injector);
 
     if (!disableSpec) {
@@ -147,7 +143,7 @@ export class SwaggerModule implements OnRoutesInit, OnReady {
       }
 
       router.get("/", useContextHandler(indexMiddleware(viewPath, {urls, ...conf})));
-      router.statics("/", {root: absolutePath()});
+      router.statics("/", {root: SWAGGER_UI_DIST});
     }
 
     return router;
