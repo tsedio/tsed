@@ -8048,15 +8048,17 @@ __metadata:
     "@tsed/openspec": "workspace:*"
     "@tsed/schema": "workspace:*"
     "@tsed/typescript": "workspace:*"
-    "@types/swagger-ui-dist": "npm:^3.30.4"
+    "@types/swagger-ui-dist": "npm:3.30.4"
     barrelsby: "npm:^2.8.1"
     eslint: "npm:^8.57.0"
     filedirname: "npm:^2.11.0"
     fs-extra: "npm:11.2.0"
     jest: "npm:^29.7.0"
     micromatch: "npm:4.0.5"
-    swagger-ui-dist: "npm:^4.5.2"
+    swagger-ui-dist: "npm:>=5.17.1"
+    ts-node: "npm:10.9.2"
     tslib: "npm:2.6.1"
+    typescript: "npm:4.9.5"
   peerDependencies:
     "@tsed/common": 7.67.8
   peerDependenciesMeta:
@@ -9407,7 +9409,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/swagger-ui-dist@npm:^3.30.4":
+"@types/swagger-ui-dist@npm:3.30.4":
   version: 3.30.4
   resolution: "@types/swagger-ui-dist@npm:3.30.4"
   checksum: 10/9d122200f3922193a42b2a04442a565542d526320c71784a8cf374a99ac7411d1a0148536d687d079540c7cb8b30ec25878345f22ae962318358da510c712642
@@ -27929,10 +27931,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"swagger-ui-dist@npm:^4.5.2":
-  version: 4.10.3
-  resolution: "swagger-ui-dist@npm:4.10.3"
-  checksum: 10/44bafbaa4f71b0d76f2371e18c36300afaa6cbd44bbb4b21b2a8dfc9621218beb03df4f3f39fa66d4e1e91982aa6060b1d6cd94971998c5a58418aba938f93b8
+"swagger-ui-dist@npm:>=5.17.1":
+  version: 5.17.1
+  resolution: "swagger-ui-dist@npm:5.17.1"
+  checksum: 10/f993c5f6537f7223a122b419204979ba2f29a1c643f541bdd9e46468bb9aa9c7e0b455b8566e2dc4b94c3cfe81958c4d7517d62149775d52aea11638aa8c91f4
   languageName: node
   linkType: hard
 
