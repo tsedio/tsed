@@ -1,4 +1,4 @@
-import {Schema, SchemaOptions} from "mongoose";
+import {type IndexOptions, Schema, SchemaOptions} from "mongoose";
 import {MongooseDocument} from "./MongooseDocument";
 
 export type MongooseNextCB = (err?: Error) => void;
@@ -38,7 +38,7 @@ export interface MongoosePluginOptions {
 
 export interface MongooseIndexOptions {
   fields: Record<any, any>;
-  options?: Record<string, unknown>;
+  options?: IndexOptions;
 }
 
 export interface MongooseSchemaOptions {
