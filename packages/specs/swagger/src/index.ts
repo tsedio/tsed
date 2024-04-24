@@ -3,6 +3,7 @@
  */
 
 export * from "./SwaggerModule";
+export * from "./constants";
 export * from "./decorators/docs";
 export * from "./decorators/hidden";
 export * from "./interfaces/SwaggerSettings";
