@@ -168,12 +168,14 @@ export class SocketHandlersBuilder {
       const {filter, useMapper, mapIndex, type, collectionType} = parameters![index];
       let value = scope.args[mapIndex!];
 
-      if (filter === SocketFilters.ARGS && useMapper) {
-        value = deserialize(value, {
-          type,
-          collectionType,
-          useAlias: true
-        });
+      if (filter === SocketFilters.ARGS) {
+        if (useMapper && typeof value !== "function") {
+          value = deserialize(value, {
+            type,
+            collectionType,
+            useAlias: true
+          });
+        }
         scope.args[mapIndex!] = value;
       }
     });

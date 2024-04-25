@@ -925,7 +925,7 @@ describe("SocketHandlersBuilder", () => {
     });
   });
   describe("deserialize()", () => {
-    it("should call ConverterService.deserialize", () => {
+    it("should call deserialize on args", () => {
       const provider: any = {
         store: {
           get: jest.fn()
@@ -951,6 +951,35 @@ describe("SocketHandlersBuilder", () => {
 
       expect(scope).toEqual({
         args: [["any"]]
+      });
+    });
+
+    it("should map ack callback without deserialization", () => {
+      const provider: any = {
+        store: {
+          get: jest.fn()
+        }
+      };
+      const parameters: any[] = [
+        {
+          filter: SocketFilters.ARGS,
+          useMapper: true,
+          mapIndex: 0,
+          type: Function
+        }
+      ];
+      const ack = () => {};
+      const scope: any = {
+        args: [ack]
+      };
+
+      const builder = new SocketHandlersBuilder(provider, PlatformTest.injector);
+
+      // @ts-ignore
+      builder.deserialize({parameters} as any, scope as any);
+
+      expect(scope).toEqual({
+        args: [ack]
       });
     });
   });
