@@ -1,6 +1,6 @@
 {
   "name": "@tsed/agenda",
-  "version": "7.68.0",
+  "version": "7.68.1",
   "description": "Agenda package for Ts.ED framework",
   "source": "./src/index.ts",
   "main": "./lib/cjs/index.js",

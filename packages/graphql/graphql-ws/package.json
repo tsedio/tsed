@@ -1,6 +1,6 @@
 {
   "name": "@tsed/graphql-ws",
-  "version": "7.68.0",
+  "version": "7.68.1",
   "description": "An extension to allow GraphQL over WebSockets using graphql-ws protocol",
   "source": "./src/index.ts",
   "main": "./lib/cjs/index.js",
@@ -32,9 +32,9 @@
     "jest": "^29.7.0"
   },
   "peerDependencies": {
-    "@tsed/common": "7.68.0",
-    "@tsed/core": "7.68.0",
-    "@tsed/di": "7.68.0",
+    "@tsed/common": "7.68.1",
+    "@tsed/core": "7.68.1",
+    "@tsed/di": "7.68.1",
     "@tsed/logger": ">=6.7.5",
     "graphql-ws": ">=5.14.2"
   }
