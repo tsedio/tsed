@@ -1,5 +1,5 @@
 import {isFunction, Store} from "@tsed/core";
-import {InjectorService, Provider} from "@tsed/di";
+import {DIContext, InjectorService, Provider, runInContext} from "@tsed/di";
 import {deserialize} from "@tsed/json-mapper";
 import {$log} from "@tsed/logger";
 import {Namespace, Socket} from "socket.io";
@@ -11,6 +11,7 @@ import {SocketProviderTypes} from "../interfaces/SocketProviderTypes";
 import {SocketReturnsTypes} from "../interfaces/SocketReturnsTypes";
 import {SocketProviderMetadata} from "./SocketProviderMetadata";
 import {SocketSessionData} from "./SocketSessionData";
+import {v4} from "uuid";
 
 /**
  * @ignore
@@ -18,7 +19,10 @@ import {SocketSessionData} from "./SocketSessionData";
 export class SocketHandlersBuilder {
   private readonly socketProviderMetadata: SocketProviderMetadata;
 
-  constructor(private provider: Provider, private injector: InjectorService) {
+  constructor(
+    private readonly provider: Provider,
+    private readonly injector: InjectorService
+  ) {
     this.socketProviderMetadata = new SocketProviderMetadata(this.provider.store.get("socketIO"));
   }
 
@@ -90,7 +94,8 @@ export class SocketHandlersBuilder {
     this.buildHandlers(socket, nsp);
 
     if (instance.$onConnection) {
-      await this.invoke(instance, socketProviderMetadata.$onConnection, {socket, nsp});
+      const ctx = this.createContext(socket, nsp);
+      await runInContext(ctx, () => this.invoke(instance, socketProviderMetadata.$onConnection, {socket, nsp}), this.injector);
     }
   }
 
@@ -99,7 +104,8 @@ export class SocketHandlersBuilder {
     const {socketProviderMetadata} = this;
 
     if (instance.$onDisconnect) {
-      await this.invoke(instance, socketProviderMetadata.$onDisconnect, {socket, nsp, reason});
+      const ctx = this.createContext(socket, nsp);
+      await runInContext(ctx, () => this.invoke(instance, socketProviderMetadata.$onDisconnect, {socket, nsp, reason}), this.injector);
     }
   }
 
@@ -110,8 +116,9 @@ export class SocketHandlersBuilder {
       const {eventName} = handler;
 
       if (eventName) {
-        socket.on(eventName, (...args) => {
-          this.runQueue(handler, args, socket, nsp);
+        socket.on(eventName, async (...args) => {
+          const ctx = this.createContext(socket, nsp);
+          await runInContext(ctx, () => this.runQueue(handler, args, socket, nsp), this.injector);
         });
       }
     });
@@ -237,6 +244,19 @@ export class SocketHandlersBuilder {
 
         case SocketFilters.REASON:
           return scope.reason;
+      }
+    });
+  }
+
+  private createContext(socket: Socket, nsp: Namespace): DIContext {
+    return new DIContext({
+      injector: this.injector,
+      id: v4().split("-").join(""),
+      logger: this.injector.logger,
+      additionalProps: {
+        module: "socket.io",
+        sid: socket.id,
+        namespace: nsp.name
       }
     });
   }

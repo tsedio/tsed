@@ -1,4 +1,4 @@
-import {PlatformTest} from "@tsed/common";
+import {DIContext, getContext, PlatformTest} from "@tsed/common";
 import {Store} from "@tsed/core";
 import {InjectorService, ProviderType} from "@tsed/di";
 import {SocketFilters} from "../interfaces/SocketFilters";
@@ -38,6 +38,9 @@ describe("SocketHandlersBuilder", () => {
       };
 
       const builder: any = new SocketHandlersBuilder(provider, {
+        alterAsync(_event, fn, _ctx) {
+          return fn;
+        },
         get() {
           return instance;
         }
@@ -114,7 +117,8 @@ describe("SocketHandlersBuilder", () => {
             injectNamespaces: [{nsp: "/nsp", propertyKey: "key"}],
             handlers: {
               $onConnection: {
-                eventName: "onConnection"
+                eventName: "connection",
+                methodClassName: "$onConnection"
               } as any
             }
           })
@@ -126,6 +130,9 @@ describe("SocketHandlersBuilder", () => {
       };
 
       const builder: any = new SocketHandlersBuilder(provider, {
+        alterAsync(_event, fn, _ctx) {
+          return fn;
+        },
         get() {
           return instance;
         }
@@ -139,12 +146,56 @@ describe("SocketHandlersBuilder", () => {
       expect(buildHandlersStub).toBeCalledWith(socketStub, nspStub);
       expect(invokeStub).toBeCalledWith(
         instance,
-        {eventName: "onConnection"},
+        {eventName: "connection", methodClassName: "$onConnection"},
         {
           socket: socketStub,
           nsp: nspStub
         }
       );
+    });
+
+    it("should call the $onConnection in the context", async () => {
+      let ctx!: DIContext;
+
+      const instance = {
+        $onConnection: jest.fn().mockImplementation(() => {
+          ctx = getContext();
+        })
+      };
+
+      const provider: any = {
+        store: {
+          get: jest.fn().mockReturnValue({
+            injectNamespace: "nsp",
+            handlers: {
+              $onConnection: {
+                eventName: "connection",
+                methodClassName: "$onConnection"
+              }
+            }
+          })
+        }
+      };
+      const nspStub: any = {nsp: "nsp", name: "nsp"};
+      const socketStub: any = {
+        id: "id",
+        on: jest.fn()
+      };
+
+      const builder: any = new SocketHandlersBuilder(provider, {
+        alterAsync(_event, fn, _ctx) {
+          return fn;
+        },
+        get() {
+          return instance;
+        }
+      } as any);
+
+      await builder.onConnection(socketStub, nspStub);
+
+      expect(ctx).toMatchObject({
+        id: expect.any(String)
+      });
     });
   });
   describe("onDisconnect()", () => {
@@ -159,7 +210,8 @@ describe("SocketHandlersBuilder", () => {
             injectNamespace: "nsp",
             handlers: {
               $onDisconnect: {
-                eventName: "onDisconnect"
+                eventName: "disconnect",
+                methodClassName: "$onDisconnect"
               }
             }
           })
@@ -171,6 +223,9 @@ describe("SocketHandlersBuilder", () => {
       };
 
       const builder: any = new SocketHandlersBuilder(provider, {
+        alterAsync(_event, fn, _ctx) {
+          return fn;
+        },
         get() {
           return instance;
         }
@@ -181,7 +236,7 @@ describe("SocketHandlersBuilder", () => {
 
       expect(invokeStub).toBeCalledWith(
         instance,
-        {eventName: "onDisconnect"},
+        {eventName: "disconnect", methodClassName: "$onDisconnect"},
         {
           socket: socketStub,
           nsp: nspStub
@@ -200,7 +255,8 @@ describe("SocketHandlersBuilder", () => {
             injectNamespace: "nsp",
             handlers: {
               $onDisconnect: {
-                eventName: "onDisconnect"
+                eventName: "disconnect",
+                methodClassName: "$onDisconnect"
               }
             }
           })
@@ -213,6 +269,9 @@ describe("SocketHandlersBuilder", () => {
       };
 
       const builder: any = new SocketHandlersBuilder(provider, {
+        alterAsync(_event, fn, _ctx) {
+          return fn;
+        },
         get() {
           return instance;
         }
@@ -223,13 +282,57 @@ describe("SocketHandlersBuilder", () => {
 
       expect(invokeStub).toBeCalledWith(
         instance,
-        {eventName: "onDisconnect"},
+        {eventName: "disconnect", methodClassName: "$onDisconnect"},
         {
           reason,
           socket: socketStub,
           nsp: nspStub
         }
       );
+    });
+
+    it("should call the $onDisconnect in the context", async () => {
+      let ctx!: DIContext;
+
+      const instance = {
+        $onDisconnect: jest.fn().mockImplementation(() => {
+          ctx = getContext();
+        })
+      };
+
+      const provider: any = {
+        store: {
+          get: jest.fn().mockReturnValue({
+            injectNamespace: "nsp",
+            handlers: {
+              $onDisconnect: {
+                eventName: "disconnect",
+                methodClassName: "$onDisconnect"
+              }
+            }
+          })
+        }
+      };
+      const nspStub: any = {nsp: "nsp", name: "nsp"};
+      const socketStub: any = {
+        id: "id",
+        on: jest.fn()
+      };
+
+      const builder: any = new SocketHandlersBuilder(provider, {
+        alterAsync(_event, fn, _ctx) {
+          return fn;
+        },
+        get() {
+          return instance;
+        }
+      } as any);
+
+      await builder.onDisconnect(socketStub, nspStub);
+
+      expect(ctx).toMatchObject({
+        id: expect.any(String)
+      });
     });
   });
 
@@ -248,16 +351,60 @@ describe("SocketHandlersBuilder", () => {
         }
       };
       const socketStub = {
-        on: jest.fn()
+        on: jest.fn().mockImplementation((_, fn) => fn("arg1"))
       };
-      const builder: any = new SocketHandlersBuilder(provider, {} as any);
+      const builder: any = new SocketHandlersBuilder(provider, {
+        alterAsync(_event, fn, _ctx) {
+          return fn;
+        }
+      } as any);
       jest.spyOn(builder, "runQueue").mockResolvedValue(undefined);
 
       await builder.buildHandlers(socketStub, "ws");
-      socketStub.on.mock.calls[0][1]("arg1");
 
       expect(socketStub.on).toBeCalledWith("eventName", expect.any(Function));
       expect(builder.runQueue).toBeCalledWith(metadata.handlers.testHandler, ["arg1"], socketStub, "ws");
+    });
+
+    it("should call the method instance in the context", async () => {
+      const metadata = {
+        handlers: {
+          testHandler: {
+            eventName: "eventName",
+            methodClassName: "testHandler"
+          }
+        }
+      };
+      let ctx!: DIContext;
+      const instance = {
+        testHandler: jest.fn().mockImplementation(() => {
+          ctx = getContext();
+        })
+      };
+      const provider: any = {
+        store: {
+          get: jest.fn().mockReturnValue(metadata)
+        }
+      };
+      let promise!: Promise<unknown>;
+      const socketStub = {
+        on: jest.fn().mockImplementation((_, fn) => (promise = fn("arg1")))
+      };
+      const builder: any = new SocketHandlersBuilder(provider, {
+        alterAsync(_event, fn, _ctx) {
+          return fn;
+        },
+        get() {
+          return instance;
+        }
+      } as any);
+
+      await builder.buildHandlers(socketStub, "ws");
+      await promise;
+
+      expect(ctx).toMatchObject({
+        id: expect.any(String)
+      });
     });
   });
   describe("invoke()", () => {
@@ -272,6 +419,9 @@ describe("SocketHandlersBuilder", () => {
       };
 
       const builder: any = new SocketHandlersBuilder(provider, {
+        alterAsync(_event, fn, _ctx) {
+          return fn;
+        },
         get() {
           return instance;
         }
@@ -299,6 +449,9 @@ describe("SocketHandlersBuilder", () => {
       };
 
       const builder: any = new SocketHandlersBuilder(provider, {
+        alterAsync(_event, fn, _ctx) {
+          return fn;
+        },
         get() {
           return instance;
         }
