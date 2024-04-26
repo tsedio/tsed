@@ -121,7 +121,12 @@ export class JsonSerializer extends JsonMapperCompiler<JsonSerializerOptions> {
 
     types.forEach((mapper, model) => {
       if (![Array, Set, Map].includes(model as any)) {
-        this.addTypeMapper(model as any, mapper.serialize.bind(mapper));
+        this.addTypeMapper(model as any, (value: any, options: any) =>
+          mapper.serialize(value, {
+            ...options,
+            type: model
+          })
+        );
       }
     });
 

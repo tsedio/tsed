@@ -81,11 +81,11 @@ describe("Swagger integration", () => {
 
       expect(result.body).toEqual([
         {
-          id: 1,
+          id: "1",
           name: "name"
         },
         {
-          id: 2,
+          id: "2",
           name: "name"
         }
       ]);
@@ -113,11 +113,11 @@ describe("Swagger integration", () => {
 
       expect(result.body).toEqual([
         {
-          id: 1,
+          id: "1",
           name: "name"
         },
         {
-          id: 2,
+          id: "2",
           name: "name"
         }
       ]);

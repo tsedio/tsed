@@ -25,8 +25,8 @@ export class PrimitiveMapper implements JsonMapperMethods {
     return (this as any)[nameOf(ctx.type)] ? (this as any)[nameOf(ctx.type)](data, ctx) : undefined;
   }
 
-  serialize(object: string | number | boolean | BigInt): string | number | boolean | BigInt {
-    return object;
+  serialize(object: string | number | boolean | BigInt, ctx: JsonMapperCtx): string | number | boolean | BigInt {
+    return (this as any)[nameOf(ctx?.type)] && typeof object !== "object" ? (this as any)[nameOf(ctx.type)](object, ctx) : object;
   }
 
   protected String(data: any) {
@@ -44,6 +44,7 @@ export class PrimitiveMapper implements JsonMapperMethods {
 
   protected Number(data: any) {
     if (isNullish(data)) return null;
+    if (data === undefined) return data;
 
     const n = +data;
 
