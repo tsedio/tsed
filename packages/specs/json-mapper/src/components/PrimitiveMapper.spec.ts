@@ -125,7 +125,7 @@ describe("PrimitiveMapper", () => {
     });
     it("should return value (null => boolean)", () => {
       const mapper = new PrimitiveMapper();
-      const ctx = {
+      const ctx: any = {
         type: Boolean,
         collectionType: undefined,
         next: Sinon.stub()
@@ -136,12 +136,44 @@ describe("PrimitiveMapper", () => {
     });
   });
   describe("serialize()", () => {
-    it("should return value", () => {
+    it("should return value (string to string)", () => {
       const mapper = new PrimitiveMapper();
 
-      const value = mapper.serialize("1");
+      const value = mapper.serialize("1", {type: String} as any);
 
       expect(value).toEqual("1");
+    });
+
+    it("should return value (string to number)", () => {
+      const mapper = new PrimitiveMapper();
+
+      const value = mapper.serialize("1", {type: Number} as any);
+
+      expect(value).toEqual(1);
+    });
+
+    it("should return value (object)", () => {
+      const mapper = new PrimitiveMapper();
+
+      // in this case it's probably intended to be an object (or an error but we can decide for the developer and we can broke the code)
+      // TODO: for the major version, we can return undefined or throw an error?
+      const value = mapper.serialize({"1": "1"} as any, {type: Number} as any);
+
+      expect(value).toEqual({"1": "1"});
+    });
+
+    it("should return value (null)", () => {
+      const mapper = new PrimitiveMapper();
+      const value = mapper.serialize(null as any, {type: Number} as any);
+
+      expect(value).toEqual(null);
+    });
+
+    it("should return value (undefined)", () => {
+      const mapper = new PrimitiveMapper();
+      const value = mapper.serialize(undefined as any, {type: Number} as any);
+
+      expect(value).toEqual(undefined);
     });
   });
 });

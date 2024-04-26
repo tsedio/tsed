@@ -1,4 +1,5 @@
 import "../components/PrimitiveMapper";
+import {Property} from "@tsed/schema";
 import {serialize} from "./serialize";
 
 describe("serialize()", () => {
@@ -14,5 +15,21 @@ describe("serialize()", () => {
     expect(serialize(0)).toEqual(0);
     expect(serialize(1)).toEqual(1);
     expect(serialize(BigInt(1n))).toEqual(BigInt(1));
+
+    class Entity {
+      @Property()
+      num: number;
+    }
+
+    expect(
+      serialize(
+        {
+          num: "1"
+        },
+        {type: Entity}
+      )
+    ).toEqual({
+      num: 1
+    });
   });
 });
