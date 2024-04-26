@@ -1,6 +1,6 @@
 {
   "name": "@tsed/openspec",
-  "version": "7.68.1",
+  "version": "7.68.2",
   "description": "OpenSpec2 and OpenSpec3 interfaces declarations for TypeScript application",
   "source": "./src/index.ts",
   "main": "./lib/cjs/index.js",
