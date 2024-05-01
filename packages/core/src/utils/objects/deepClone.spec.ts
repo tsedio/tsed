@@ -1,33 +1,33 @@
 import {deepClone} from "./deepClone";
 
 describe("deepClone", () => {
+  class Base {
+    public test2: string;
+
+    constructor(test: string) {
+      this.test2 = test + "2";
+    }
+
+    get test3(): string {
+      return this.test2;
+    }
+  }
+
+  class Test extends Base {
+    constructor(private _test: string) {
+      super(_test);
+    }
+
+    get test(): string {
+      return this._test;
+    }
+  }
+
   it("should clone object", () => {
     const externalObject = {
       color: "red"
     };
-
-    class Base {
-      public test2: string;
-
-      constructor(test: string) {
-        this.test2 = test + "2";
-      }
-
-      get test3(): string {
-        return this.test2;
-      }
-    }
-
-    class Test extends Base {
-      constructor(private _test: string) {
-        super(_test);
-      }
-
-      get test(): string {
-        return this._test;
-      }
-    }
-
+    const symbol = Symbol("test");
     const original = {
       a: new Date(),
       b: NaN,
@@ -40,7 +40,9 @@ describe("deepClone", () => {
       i: externalObject,
       j: new Test("test"),
       k: [new Test("test"), false, 1, Test],
-      l: new RegExp(/test/i)
+      l: new RegExp(/test/i),
+      m: null,
+      n: symbol
     };
 
     const cloned = deepClone(original);
@@ -61,8 +63,12 @@ describe("deepClone", () => {
     expect(cloned.l.source).toBe("test");
     expect(cloned.l.flags).toBe("i");
 
+    expect(cloned.m).toBeNull();
+    expect(cloned.n).toBe(symbol);
+
     expect(deepClone(new Test("test"))).toBeInstanceOf(Test);
   });
+
   it("should clone object with circular obj", () => {
     const original = {
       posts: [
@@ -82,7 +88,8 @@ describe("deepClone", () => {
 
     expect(deepClone(original)).toEqual(original);
   });
-  it("should not change a buffer", () => {
+
+  it("should clone a buffer", () => {
     class FakeStorage {
       testBuffer: Buffer;
 
@@ -97,5 +104,27 @@ describe("deepClone", () => {
 
     const result = deepClone({storage: new FakeStorage()});
     expect(result.storage.get()).toEqual("Hello");
+  });
+
+  it("should clone Map, Set, and Array", () => {
+    class FakeStorage {
+      set = new Set([new Test("test")]);
+      map = new Map([["test", Test]]);
+      array = [new Test("test"), Test, new Map([["test", new Test("test")]])];
+    }
+
+    const expected = {storage: new FakeStorage()};
+    const result = deepClone(expected);
+
+    expect(result).toEqual(expected);
+    expect(result).not.toBe(expected);
+  });
+
+  it("should clone typed arrays", () => {
+    const original = new Int8Array([1, 2, 3]);
+    const result = deepClone(original);
+
+    expect(result).toEqual(original);
+    expect(result).toBeInstanceOf(Int8Array);
   });
 });
