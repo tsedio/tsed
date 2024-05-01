@@ -1,11 +1,10 @@
-import {isArray} from "./isArray";
 import {isDate} from "./isDate";
 import {isFunction} from "./isFunction";
 import {isNil} from "./isNil";
 import {isPrimitive} from "./isPrimitive";
 import {isSymbol} from "./isSymbol";
-import {isBuffer} from "./isBuffer";
 import {isRegExp} from "./isRegExp";
+import {classOf} from "./classOf";
 
 const isBasicType = (source: any) => isNil(source) || isPrimitive(source) || isSymbol(source) || isFunction(source);
 
@@ -14,17 +13,24 @@ const isBasicType = (source: any) => isNil(source) || isPrimitive(source) || isS
  * @param source
  * @param stack
  */
-export function deepClone(source: any, stack = new WeakMap()): any {
-  let dest: any;
-
+export const deepClone = (source: any, stack = new WeakMap()): any => {
+  // provides an early exit for simple cases
   if (isBasicType(source)) {
     return source;
   }
 
-  if (isBuffer(source)) {
-    const copy = Buffer.alloc(source.length);
-    source.copy(copy);
-    return copy;
+  const stacked = stack.get(source);
+
+  if (stacked) {
+    // See issue #1619
+    return stacked;
+  }
+
+  if (ArrayBuffer.isView(source)) {
+    return Buffer.isBuffer(source)
+      ? Buffer.from(source)
+      : // adds support for all kind of TypedArray such as Int8Array, Uint8Array, etc
+        new (classOf(source))(source.buffer.slice(0), source.byteOffset, source.byteLength);
   }
 
   if (isDate(source)) {
@@ -35,37 +41,45 @@ export function deepClone(source: any, stack = new WeakMap()): any {
     return new RegExp(source);
   }
 
-  const stacked = stack.get(source);
-
-  if (stacked) {
-    // See issue #1619
-    return stacked;
+  if (Array.isArray(source)) {
+    const clone: unknown[] = [];
+    stack.set(source, clone);
+    source.forEach((item, idx) => (clone[idx] = deepClone(item, stack)));
+    return clone;
   }
 
-  if (isArray(source)) {
-    dest = [];
-  } else {
-    dest = {};
-    stack.set(source, dest);
+  if (source instanceof Map) {
+    const clone = new Map();
+    stack.set(source, clone);
+    source.forEach((value, key) => clone.set(deepClone(key, stack), deepClone(value, stack)));
+    return clone;
   }
 
-  for (const key in source) {
-    // Use getOwnPropertyDescriptor instead of source[key] to prevent from triggering setter/getter.
-    const descriptor = Object.getOwnPropertyDescriptor(source, key)!;
+  if (source instanceof Set) {
+    const clone = new Set();
+    stack.set(source, clone);
+    source.forEach((value) => clone.add(deepClone(value, stack)));
+    return clone;
+  }
+
+  const clone = Object.create(Reflect.getPrototypeOf(source));
+  stack.set(source, clone);
+
+  Reflect.ownKeys(source).forEach((key) => {
+    // respects property descriptors and the prototype chain more explicitly, which is important for objects with getter/setter.
+    const descriptor = Object.getOwnPropertyDescriptor(source, key);
 
     if (descriptor) {
       if (!isFunction(descriptor.value)) {
-        dest[key] = deepClone(descriptor.value, stack);
+        Object.defineProperty(clone, key, {
+          ...descriptor,
+          value: deepClone(descriptor.value, stack)
+        });
       } else {
-        Object.defineProperty(dest, key, descriptor);
+        Object.defineProperty(clone, key, descriptor);
       }
     }
-  }
+  });
 
-  if (!isArray(source)) {
-    const prototype = Reflect.getPrototypeOf(source);
-    Reflect.setPrototypeOf(dest, prototype);
-  }
-
-  return dest;
-}
+  return clone;
+};
