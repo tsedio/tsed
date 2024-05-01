@@ -25,7 +25,7 @@
     "@tsed/platform-exceptions": "workspace:*",
     "@tsed/platform-params": "workspace:*",
     "@tsed/schema": "workspace:*",
-    "encodeurl": "^1.0.2",
+    "encodeurl": "^2.0.0",
     "mime": "^3.0.0",
     "tslib": "2.6.1",
     "uuid": "^9.0.1"

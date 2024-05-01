@@ -7395,7 +7395,7 @@ __metadata:
     "@types/koa__router": "npm:12.0.4"
     barrelsby: "npm:^2.8.1"
     cross-env: "npm:7.0.3"
-    encodeurl: "npm:^1.0.2"
+    encodeurl: "npm:^2.0.0"
     eslint: "npm:^8.57.0"
     jest: "npm:^29.7.0"
     koa: "npm:2.15.2"
@@ -7683,7 +7683,7 @@ __metadata:
     "@types/encodeurl": "npm:^1.0.2"
     "@types/mime": "npm:^3.0.4"
     barrelsby: "npm:^2.8.1"
-    encodeurl: "npm:^1.0.2"
+    encodeurl: "npm:^2.0.0"
     eslint: "npm:^8.57.0"
     find-my-way: "npm:^7.7.0"
     jest: "npm:^29.7.0"
@@ -14615,6 +14615,13 @@ __metadata:
   version: 1.0.2
   resolution: "encodeurl@npm:1.0.2"
   checksum: 10/e50e3d508cdd9c4565ba72d2012e65038e5d71bdc9198cb125beb6237b5b1ade6c0d343998da9e170fb2eae52c1bed37d4d6d98a46ea423a0cddbed5ac3f780c
+  languageName: node
+  linkType: hard
+
+"encodeurl@npm:^2.0.0":
+  version: 2.0.0
+  resolution: "encodeurl@npm:2.0.0"
+  checksum: 10/abf5cd51b78082cf8af7be6785813c33b6df2068ce5191a40ca8b1afe6a86f9230af9a9ce694a5ce4665955e5c1120871826df9c128a642e09c58d592e2807fe
   languageName: node
   linkType: hard
 
