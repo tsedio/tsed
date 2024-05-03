@@ -81,6 +81,7 @@ export class PlatformConfiguration extends DIConfiguration {
   }
 
   set jsonMapper(options: Partial<PlatformJsonMapperSettings>) {
+    JsonMapperSettings.strictGroups = Boolean(options.strictGroups);
     JsonMapperSettings.disableUnsecureConstructor = Boolean(options.disableUnsecureConstructor);
     JsonMapperSettings.additionalProperties = Boolean(
       isBoolean(options.additionalProperties) ? options.additionalProperties : options.additionalProperties === "accept"

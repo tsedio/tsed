@@ -30,6 +30,7 @@ import "../components/PrimitiveMapper";
 import "../components/SymbolMapper";
 import {OnDeserialize} from "../decorators/onDeserialize";
 import {JsonDeserializer} from "./JsonDeserializer";
+import {JsonMapperSettings} from "./JsonMapperSettings";
 
 const deserializer = new JsonDeserializer();
 
@@ -388,6 +389,7 @@ describe("deserialize()", () => {
         add: true
       });
     });
+
     it("should transform object to class (additionalProperties = true, with group)", () => {
       class Role {
         @Property()
@@ -690,6 +692,111 @@ describe("deserialize()", () => {
       expect(result).toEqual({
         startDate: "20220606",
         endDate: "20220707"
+      });
+    });
+
+    describe("jsonMapper.strictGroups = false", () => {
+      it("should transform object to class", () => {
+        class AvailableDatesParams {
+          @Groups("summary")
+          locationId: number;
+
+          @Name("start_date")
+          startDate: string;
+
+          @Name("end_date")
+          endDate: string;
+
+          @Groups("!endpoint")
+          @OnDeserialize((value) => value + 1)
+          careCode: number;
+        }
+
+        const result = deserialize(
+          {
+            locationId: 5427,
+            careCode: 39699,
+            startDate: "20220606",
+            endDate: "20220707"
+          },
+          {type: AvailableDatesParams, useAlias: false}
+        );
+        expect(result).toEqual({
+          careCode: 39700,
+          locationId: 5427,
+          startDate: "20220606",
+          endDate: "20220707"
+        });
+      });
+    });
+
+    describe("jsonMapper.strictGroups = true", () => {
+      beforeEach(() => {
+        JsonMapperSettings.strictGroups = true;
+      });
+      afterEach(() => {
+        JsonMapperSettings.strictGroups = false;
+      });
+      it("should transform object to class", () => {
+        class AvailableDatesParams {
+          @Groups("summary")
+          locationId: number;
+
+          @Name("start_date")
+          startDate: string;
+
+          @Name("end_date")
+          endDate: string;
+
+          @Groups("!endpoint")
+          @OnDeserialize((value) => value + 1)
+          careCode: number;
+        }
+
+        const result = deserialize(
+          {
+            locationId: 5427,
+            careCode: 39699,
+            startDate: "20220606",
+            endDate: "20220707"
+          },
+          {type: AvailableDatesParams, useAlias: false}
+        );
+        expect(result).toEqual({
+          careCode: 39700, // not concerned because deserializer options must have a groups list configured
+          startDate: "20220606",
+          endDate: "20220707"
+        });
+      });
+      it("should transform object to class (groups options defined)", () => {
+        class AvailableDatesParams {
+          @Groups("summary")
+          locationId: number;
+
+          @Name("start_date")
+          startDate: string;
+
+          @Name("end_date")
+          endDate: string;
+
+          @Groups("!endpoint")
+          @OnDeserialize((value) => value + 1)
+          careCode: number;
+        }
+
+        const result = deserialize(
+          {
+            locationId: 5427,
+            careCode: 39699,
+            startDate: "20220606",
+            endDate: "20220707"
+          },
+          {type: AvailableDatesParams, useAlias: false, groups: ["endpoint"]}
+        );
+        expect(result).toEqual({
+          startDate: "20220606",
+          endDate: "20220707"
+        });
       });
     });
   });

@@ -13,6 +13,7 @@ export * from "./decorators/onSerialize";
 export * from "./domain/JsonDeserializer";
 export * from "./domain/JsonDeserializerOptions";
 export * from "./domain/JsonMapperCompiler";
+export * from "./domain/JsonMapperGlobalOptions";
 export * from "./domain/JsonMapperSettings";
 export * from "./domain/JsonMapperTypesContainer";
 export * from "./domain/JsonSerializer";

@@ -18,6 +18,7 @@ import {getPropertiesStores, JsonClassStore, JsonEntityStore, JsonPropertyStore}
 import {alterOnSerialize} from "../hooks/alterOnSerialize";
 import {getObjectProperties} from "../utils/getObjectProperties";
 import {JsonMapperCompiler} from "./JsonMapperCompiler";
+import {JsonMapperSettings} from "./JsonMapperSettings";
 import {getJsonMapperTypes} from "./JsonMapperTypesContainer";
 import {JsonSerializerOptions} from "./JsonSerializerOptions";
 import {Writer} from "./Writer";
@@ -115,7 +116,7 @@ export class JsonSerializer extends JsonMapperCompiler<JsonSerializerOptions> {
     return writer.return("obj").root().toString();
   }
 
-  private mapOptions({groups = false, useAlias = true, types, ...options}: JsonSerializerOptions<any, any>): JsonSerializerOptions {
+  private mapOptions({groups, useAlias = true, types, ...options}: JsonSerializerOptions<any, any>): JsonSerializerOptions {
     const customMappers: Record<string, any> = {};
     types = types || getJsonMapperTypes();
 
@@ -130,9 +131,11 @@ export class JsonSerializer extends JsonMapperCompiler<JsonSerializerOptions> {
       }
     });
 
+    const strictGroups = options.strictGroups ?? JsonMapperSettings.strictGroups;
+
     return {
       ...options,
-      groups,
+      groups: groups === undefined ? (strictGroups ? [] : false) : groups || false,
       useAlias,
       customMappers
     };

@@ -152,12 +152,9 @@ describe("PlatformConfiguration", () => {
     it("should return jsonMapper settings", () => {
       expect(settings.jsonMapper).toEqual({
         disableUnsecureConstructor: true,
-        additionalProperties: false
+        additionalProperties: false,
+        strictGroups: false
       });
-    });
-
-    it("should return jsonMapper settings", () => {
-      expect(settings.jsonMapper).toEqual({additionalProperties: false, disableUnsecureConstructor: true});
     });
 
     it("should return controllerScope", () => {

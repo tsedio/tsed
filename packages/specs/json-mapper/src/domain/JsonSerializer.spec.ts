@@ -27,6 +27,7 @@ import "../components/SymbolMapper";
 import {OnDeserialize} from "../decorators/onDeserialize";
 import {OnSerialize} from "../decorators/onSerialize";
 import {deserialize} from "../utils/deserialize";
+import {JsonMapperSettings} from "./JsonMapperSettings";
 import {getJsonMapperTypes} from "./JsonMapperTypesContainer";
 import {JsonSerializer} from "./JsonSerializer";
 
@@ -1329,6 +1330,66 @@ describe("JsonSerializer", () => {
         phone: "",
         website: "website",
         cancellation_hours_limit: null
+      });
+    });
+
+    describe("when jsonMapper.strictGroups = false", () => {
+      it("should serialize props", () => {
+        class Model {
+          @Property()
+          id: string;
+
+          @Groups("summary")
+          ignored: boolean;
+
+          @Name("renamed")
+          name: string;
+        }
+
+        const test = new Model();
+        test.id = "id";
+        test.ignored = true;
+        test.name = "myname";
+
+        const result = serialize(test, {type: Model});
+
+        expect(result).toEqual({
+          id: "id",
+          ignored: true,
+          renamed: "myname"
+        });
+      });
+    });
+    describe("when jsonMapper.strictGroups = true", () => {
+      beforeEach(() => {
+        JsonMapperSettings.strictGroups = true;
+      });
+      afterEach(() => {
+        JsonMapperSettings.strictGroups = false;
+      });
+      it("should serialize props", () => {
+        class Model {
+          @Property()
+          id: string;
+
+          @Groups("summary")
+          ignored: boolean;
+
+          @Name("renamed")
+          name: string;
+        }
+
+        const test = new Model();
+        test.id = "id";
+        test.ignored = true;
+        test.name = "myname";
+
+        const result = serialize(test, {type: Model});
+
+        expect(result).toEqual({
+          id: "id",
+          renamed: "myname"
+        });
       });
     });
   });
