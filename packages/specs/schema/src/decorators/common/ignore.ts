@@ -56,7 +56,7 @@ import {JsonEntityFn} from "./jsonEntityFn";
  * @validation
  * @swagger
  * @schema
- * @deprecated Since v7. Use @Groups decorator instead of.
+ * @deprecated Since v7. Use @Groups decorator instead of and enable `jsonMapper.strictGroups` in your configuration.
  */
 export function Ignore(cb: boolean | IgnoreCallback = true) {
   return JsonEntityFn((store) => {
