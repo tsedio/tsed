@@ -710,6 +710,27 @@ describe("Product", () => {
 });
 ```
 
+## ~~Ignore~~
+
+<Badge text="deprecated" type="warn"/>
+
+The @@Ignore@@ decorator is used to ignore a property in the JsonSchema generation and when you use the json-mapper.
+
+But this decorator is deprecated and will be removed in the next major version of Ts.ED.
+Instead, use Groups decorator to manage your model serialization/deserialization.
+
+::: tip Note
+
+To retrieve the original Ignore decorator behavior, you can use the @@Groups@@ decorator. You have to set `jsonMapper.strictGroups` to `true` also:
+
+```ts
+@Configuration({
+  jsonMapper: {
+    strictGroups: true
+  }
+})
+```
+
 ## Groups
 
 @@Groups@@ decorator allows you to manage your serialized/deserialized fields by using group label. For example, with a
@@ -831,6 +852,87 @@ configuration!
 ::: tip
 You can combine different group labels or use a glob pattern to match multiple group labels. It's also possible
 to use negation by prefixing the group label with `!`.
+:::
+
+## Groups strict mode <Badge text="7.69.0+"/>
+
+The Groups decorator has introduced a big change in the way it manages its models,
+but it can sometimes be complicated to understand its default behavior when the endpoint does not define Groups.
+
+In addition, the documentation generated does not reflect the behavior observed in runtime, which adds confusion.
+
+For example, we have our User model with the following properties and Groups configuration:
+
+```ts
+export class User {
+  @Groups("!creation")
+  id: string;
+
+  @Required()
+  firstName: string;
+
+  @Required()
+  lastName: string;
+
+  @Required()
+  @Groups("group.email", "creation")
+  email: string;
+
+  @Groups("creation")
+  password: string;
+}
+```
+
+Now, we have this controller:
+
+```ts
+class TestController {
+  @Post("/")
+  @Returns(200, User)
+  async post(@BodyParams() user: User) {
+    return user;
+  }
+}
+```
+
+We can see that the @@Returns@@ and the input params doesn't set any group configuration. In this case, Ts.ED will not apply any group configuration to the input params and the output.
+
+So if you send this payload:
+
+```json
+{
+  "id": "id",
+  "firstName": "firstName",
+  "lastName": "lastName",
+  "email": "",
+  "password": "password"
+}
+```
+
+The endpoint will return the same payload without any modification. But here, we expect that the `email` and `password` fields are not returned because they are Groups configuration on these `fields`.
+
+To avoid this behavior, you can set the `strictGroups` option to the `json-mapper`:
+
+```ts
+@Configuration({
+  jsonMapper: {
+    strictGroups: true
+  }
+})
+```
+
+Now, if you send the same payload, the endpoint will return the following payload:
+
+```json
+{
+  "id": "id",
+  "firstName": "firstName",
+  "lastName": "lastName"
+}
+```
+
+::: warning
+The `strictGroups` option is enabled by default in the next major version of Ts.ED.
 :::
 
 ## Groups Name

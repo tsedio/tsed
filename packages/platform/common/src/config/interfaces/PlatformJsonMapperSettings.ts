@@ -1,13 +1,6 @@
-export interface PlatformJsonMapperSettings {
-  /**
-   * JsonMapper additional property policy. (see [JsonMapper](/docs/json-mapper.md))
-   */
-  additionalProperties?: boolean;
-  /**
-   * Disable the unsecure constructor injection when the deserialize function is used (by default: false)
-   */
-  disableUnsecureConstructor?: boolean;
-}
+import {JsonMapperGlobalOptions} from "@tsed/json-mapper";
+
+export interface PlatformJsonMapperSettings extends JsonMapperGlobalOptions {}
 
 declare global {
   namespace TsED {

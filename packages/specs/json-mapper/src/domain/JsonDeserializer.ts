@@ -1,4 +1,4 @@
-import {classOf, getValue, isArray, isBoolean, isClass, isEmpty, isNil, nameOf, objectKeys, Type} from "@tsed/core";
+import {classOf, isArray, isBoolean, isClass, isEmpty, isNil, nameOf, objectKeys, Type} from "@tsed/core";
 import {getPropertiesStores, JsonClassStore, JsonEntityStore, JsonParameterStore, JsonPropertyStore} from "@tsed/schema";
 import {alterAfterDeserialize} from "../hooks/alterAfterDeserialize";
 import {alterBeforeDeserialize} from "../hooks/alterBeforeDeserialize";
@@ -274,7 +274,7 @@ export class JsonDeserializer extends JsonMapperCompiler<JsonDeserializerOptions
     return (writer: Writer) => writer.callMapper(nestedMapper.id, varKey(key), formatOpts);
   }
 
-  private mapOptions({groups = false, useAlias = true, types, ...options}: JsonDeserializerOptions<any, any>): JsonDeserializerOptions {
+  private mapOptions({groups, useAlias = true, types, ...options}: JsonDeserializerOptions<any, any>): JsonDeserializerOptions {
     if (options.store instanceof JsonParameterStore) {
       return this.mapOptions(mapParamStoreOptions(options.store, options));
     }
@@ -299,11 +299,13 @@ export class JsonDeserializer extends JsonMapperCompiler<JsonDeserializerOptions
       }
     });
 
+    const strictGroups = options.strictGroups ?? JsonMapperSettings.strictGroups;
+
     return {
       ...options,
-      additionalProperties: getValue(options, "additionalProperties", JsonMapperSettings.additionalProperties),
-      disableUnsecureConstructor: getValue(options, "disableUnsecureConstructor", JsonMapperSettings.disableUnsecureConstructor),
-      groups,
+      additionalProperties: options.additionalProperties ?? JsonMapperSettings.additionalProperties,
+      disableUnsecureConstructor: options.disableUnsecureConstructor ?? JsonMapperSettings.disableUnsecureConstructor,
+      groups: groups === undefined ? (strictGroups ? [] : false) : groups || false,
       useAlias,
       customMappers,
       generics: options.generics || []
