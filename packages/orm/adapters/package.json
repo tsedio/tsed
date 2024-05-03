@@ -1,6 +1,6 @@
 {
   "name": "@tsed/adapters",
-  "version": "7.68.4",
+  "version": "7.68.5",
   "description": "Database adapters for Ts.ED",
   "source": "./src/index.ts",
   "main": "./lib/cjs/index.js",
@@ -42,12 +42,12 @@
     "jest": "^29.7.0"
   },
   "peerDependencies": {
-    "@tsed/ajv": "7.68.4",
-    "@tsed/common": "7.68.4",
-    "@tsed/core": "7.68.4",
-    "@tsed/di": "7.68.4",
-    "@tsed/json-mapper": "7.68.4",
-    "@tsed/schema": "7.68.4"
+    "@tsed/ajv": "7.68.5",
+    "@tsed/common": "7.68.5",
+    "@tsed/core": "7.68.5",
+    "@tsed/di": "7.68.5",
+    "@tsed/json-mapper": "7.68.5",
+    "@tsed/schema": "7.68.5"
   },
   "peerDependenciesMeta": {
     "@tsed/ajv": {
