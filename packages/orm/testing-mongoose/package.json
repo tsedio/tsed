@@ -1,6 +1,6 @@
 {
   "name": "@tsed/testing-mongoose",
-  "version": "7.68.3",
+  "version": "7.68.4",
   "description": "A TypeScript Framework on top of Express",
   "source": "./src/index.ts",
   "main": "./lib/cjs/index.js",
@@ -31,9 +31,9 @@
     "jest": "^29.7.0"
   },
   "peerDependencies": {
-    "@tsed/common": "7.68.3",
-    "@tsed/core": "7.68.3",
-    "@tsed/mongoose": "7.68.3",
+    "@tsed/common": "7.68.4",
+    "@tsed/core": "7.68.4",
+    "@tsed/mongoose": "7.68.4",
     "mongoose": ">=6.0.0"
   }
 }
