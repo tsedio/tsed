@@ -1,5 +1,8 @@
 src
 test
-tsconfig.compile.json
+tsconfig.esm.json
 tsconfig.json
 *.tsbuildinfo
+scripts
+jest.config.js
+*.spec.js
