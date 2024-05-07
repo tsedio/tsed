@@ -1,3 +1,4 @@
+import {validateModel} from "../../../test/helpers/validateModel";
 import {getJsonSchema} from "../../index";
 import Ajv from "ajv";
 import {JsonEntityStore} from "../../domain/JsonEntityStore";
@@ -44,7 +45,6 @@ describe("@Required", () => {
       type: "object"
     });
   });
-
   it("should declare required field with a model an null", () => {
     // WHEN
     class NestedModel {
@@ -91,7 +91,6 @@ describe("@Required", () => {
     expect(validate({allow: null})).toBe(true);
     expect(validate({})).toBe(false);
   });
-
   it("should declare required field with custom error message", () => {
     // WHEN
     class Model {
@@ -103,16 +102,43 @@ describe("@Required", () => {
     const schema = getJsonSchema(Model, {customKeys: true});
 
     expect(schema).toEqual({
+      errorMessage: {
+        required: {
+          num: "custom message"
+        }
+      },
       properties: {
         num: {
           type: "number"
         }
       },
       required: ["num"],
-      type: "object",
-      errorMessage: {
-        required: "custom message"
-      }
+      type: "object"
     });
+
+    const result = validateModel({}, Model);
+
+    expect(result).toEqual([
+      {
+        instancePath: "",
+        keyword: "errorMessage",
+        message: "custom message",
+        params: {
+          errors: [
+            {
+              emUsed: true,
+              instancePath: "",
+              keyword: "required",
+              message: "must have required property 'num'",
+              params: {
+                missingProperty: "num"
+              },
+              schemaPath: "#/required"
+            }
+          ]
+        },
+        schemaPath: "#/errorMessage"
+      }
+    ]);
   });
 });

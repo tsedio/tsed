@@ -1,4 +1,5 @@
 import "../../index";
+import {validateModel} from "../../../test/helpers/validateModel";
 import {JsonEntityStore} from "../../domain/JsonEntityStore";
 import {getJsonSchema} from "../../utils/getJsonSchema";
 import {CollectionOf} from "../collections/collectionOf";
@@ -87,7 +88,6 @@ describe("@MinLength", () => {
       type: "object"
     });
   });
-
   it("should declare minLength field with custom error message", () => {
     // WHEN
     class Model {
@@ -100,14 +100,14 @@ describe("@MinLength", () => {
     const schema = getJsonSchema(Model, {customKeys: true});
 
     expect(schema).toEqual({
-      errorMessage: {
-        minLength: "Require at least 2 characters"
-      },
       properties: {
         words: {
           items: {
             minLength: 2,
-            type: "string"
+            type: "string",
+            errorMessage: {
+              minLength: "Require at least 2 characters"
+            }
           },
           maxItems: 10,
           minItems: 0,
@@ -116,5 +116,70 @@ describe("@MinLength", () => {
       },
       type: "object"
     });
+
+    const result = validateModel(
+      {
+        words: ["a"]
+      },
+      Model
+    );
+
+    expect(result).toEqual([
+      {
+        instancePath: "/words/0",
+        keyword: "errorMessage",
+        message: "Require at least 2 characters",
+        params: {
+          errors: [
+            {
+              emUsed: true,
+              instancePath: "/words/0",
+              keyword: "minLength",
+              message: "must NOT have fewer than 2 characters",
+              params: {
+                limit: 2
+              },
+              schemaPath: "#/properties/words/items/minLength"
+            }
+          ]
+        },
+        schemaPath: "#/properties/words/items/errorMessage"
+      }
+    ]);
+  });
+
+  it("should throw error with custom error message", () => {
+    // WHEN
+    class Model {
+      @MinLength(10).Error("Title must be at least 10 characters long")
+      word: string;
+    }
+
+    // THEN
+
+    const result = validateModel({word: "test"}, Model);
+
+    expect(result).toEqual([
+      {
+        instancePath: "/word",
+        keyword: "errorMessage",
+        message: "Title must be at least 10 characters long",
+        params: {
+          errors: [
+            {
+              emUsed: true,
+              instancePath: "/word",
+              keyword: "minLength",
+              message: "must NOT have fewer than 10 characters",
+              params: {
+                limit: 10
+              },
+              schemaPath: "#/properties/word/minLength"
+            }
+          ]
+        },
+        schemaPath: "#/properties/word/errorMessage"
+      }
+    ]);
   });
 });
