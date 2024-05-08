@@ -1,6 +1,5 @@
 import {InjectorService} from "@tsed/di";
-import {JobsOptions, Queue, QueueOptions} from "bullmq";
-import {queue} from "rxjs";
+import {Queue, QueueOptions} from "bullmq";
 import {BullMQTypes} from "../constants/BullMQTypes";
 import {getQueueToken} from "./getQueueToken";
 
