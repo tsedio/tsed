@@ -46,7 +46,7 @@ tools/**/dist
 /stderr
 /es6/
 /lib/
-**/esm
+
 **/types
 /dts/
 /dist

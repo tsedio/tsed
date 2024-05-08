@@ -3,7 +3,7 @@
 try {
   require("tsconfig-paths/register");
   require("ts-node/register/transpile-only");
-  require("./generator");
+  require("./generator.ts");
 } catch (er) {
   console.log(er);
   process.exit(-1);

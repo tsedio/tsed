@@ -13,14 +13,18 @@
     "default": "./lib/esm/index.js"
   },
   "bin": {
-    "tsed-prisma": "lib/cjs/generator.js"
+    "tsed-prisma": "lib/cjs/generator.js",
+    "tsed-prisma-esm": "lib/esm/generator.js"
   },
   "scripts": {
-    "build": "rm -rf lib && yarn build:ts",
+    "prebuild": "cd ../../core && yarn build",
+    "build": "rm -rf lib && yarn build:ts && monorepo build-hybrid",
+    "build:ts": "tsc --build tsconfig.json && tsc --build tsconfig.esm.json",
     "test": "jest && jest-coverage-thresholds-bumper",
-    "generate:postgres": "cd test/postgres && prisma -v && prisma generate",
-    "generate:mongo": "cd test/mongo && prisma -v && prisma generate",
-    "build:ts": "tsc --build tsconfig.json && tsc --build tsconfig.esm.json"
+    "generate:postgres": "yarn build && cd test/postgres && prisma -v && prisma generate",
+    "generate:postgres:esm": "yarn build && cd test/postgres-esm && prisma -v && prisma generate",
+    "generate:mongo": "yarn build &&  cd test/mongo && prisma -v && prisma generate",
+    "generate:mongo:esm": "yarn build && cd test/mongo-esm && prisma -v && prisma generate"
   },
   "dependencies": {
     "@prisma/generator-helper": "^4.16.2",
@@ -37,13 +41,15 @@
     "@tsed/core": "workspace:*",
     "@tsed/di": "workspace:*",
     "@tsed/json-mapper": "workspace:*",
+    "@tsed/monorepo-utils": "^2.2.2",
     "@tsed/schema": "workspace:*",
     "@tsed/typescript": "workspace:*",
     "@types/change-case": "^2.3.1",
     "@types/pluralize": "0.0.33",
     "eslint": "^8.57.0",
     "jest": "^29.7.0",
-    "prisma": "^4.16.2"
+    "prisma": "^4.16.2",
+    "typescript": "4.9.5"
   },
   "peerDependencies": {
     "@prisma/client": ">=4.0.0",

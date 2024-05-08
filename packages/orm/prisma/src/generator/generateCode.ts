@@ -8,10 +8,11 @@ import {generateIndex} from "./utils/generateIndex.js";
 import {generatePrismaService} from "./utils/generatePrismaService.js";
 import {generateRepositories} from "./utils/generateRepositories.js";
 import {saveProject} from "./utils/saveProject.js";
+import {isCommonjs} from "./utils/sourceType.js";
 
 const baseCompilerOptions: CompilerOptions = {
   target: ScriptTarget.ES2019,
-  module: ModuleKind.CommonJS,
+  module: isCommonjs() ? ModuleKind.CommonJS : ModuleKind.ES2020,
   emitDecoratorMetadata: true,
   experimentalDecorators: true,
   esModuleInterop: true

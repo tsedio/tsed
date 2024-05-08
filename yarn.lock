@@ -6594,6 +6594,7 @@ __metadata:
   resolution: "@tsed/core@workspace:packages/core"
   dependencies:
     "@tsed/barrels": "workspace:*"
+    "@tsed/monorepo-utils": "npm:^2.2.2"
     "@tsed/typescript": "workspace:*"
     eslint: "npm:^8.57.0"
     jest: "npm:^29.7.0"
@@ -6989,7 +6990,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@tsed/monorepo-utils@npm:2.2.2":
+"@tsed/monorepo-utils@npm:2.2.2, @tsed/monorepo-utils@npm:^2.2.2":
   version: 2.2.2
   resolution: "@tsed/monorepo-utils@npm:2.2.2"
   dependencies:
@@ -7743,6 +7744,7 @@ __metadata:
     "@tsed/core": "workspace:*"
     "@tsed/di": "workspace:*"
     "@tsed/json-mapper": "workspace:*"
+    "@tsed/monorepo-utils": "npm:^2.2.2"
     "@tsed/schema": "workspace:*"
     "@tsed/typescript": "workspace:*"
     "@types/change-case": "npm:^2.3.1"
@@ -7755,6 +7757,7 @@ __metadata:
     prisma: "npm:^4.16.2"
     ts-morph: "npm:^12.0.0"
     tslib: "npm:2.6.1"
+    typescript: "npm:4.9.5"
   peerDependencies:
     "@prisma/client": ">=4.0.0"
     "@tsed/core": 7.70.2
@@ -7763,6 +7766,7 @@ __metadata:
     "@tsed/schema": 7.70.2
   bin:
     tsed-prisma: lib/cjs/generator.js
+    tsed-prisma-esm: lib/esm/generator.js
   languageName: unknown
   linkType: soft
 
