@@ -19,7 +19,7 @@
     "barrels": "barrels",
     "build:browser": "webpack",
     "test": "jest --max-workers=2 && jest-coverage-thresholds-bumper",
-    "build:ts": "tsc --build tsconfig.json && tsc --build tsconfig.esm.json"
+    "build:ts": "tsc --build tsconfig.json && tsc --build tsconfig.esm.json && monorepo build-hybrid"
   },
   "dependencies": {
     "reflect-metadata": "^0.2.1",
@@ -27,6 +27,7 @@
   },
   "devDependencies": {
     "@tsed/barrels": "workspace:*",
+    "@tsed/monorepo-utils": "^2.2.2",
     "@tsed/typescript": "workspace:*",
     "eslint": "^8.57.0",
     "jest": "^29.7.0",

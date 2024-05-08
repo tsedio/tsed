@@ -14,6 +14,8 @@ function createDecorator(name: string, args: string[]): DecoratorStructure {
 }
 
 export function transformFieldToDecorators(field: DmmfField, ctx: TransformContext): DecoratorStructure[] {
+  const hasCircularRef = isCircularRef(field.model.name, field.type, ctx);
+
   const decorators: DecoratorStructure[] = [...(ScalarDecorators[field.type] || [])].map((obj) => {
     field.model.addImportDeclaration("@tsed/schema", obj.name);
 
@@ -41,7 +43,7 @@ export function transformFieldToDecorators(field: DmmfField, ctx: TransformConte
   if (field.isList && field.location !== "enumTypes") {
     let classType = ScalarJsClasses[field.type] || DmmfModel.symbolName(field.type);
 
-    if (isCircularRef(field.model.name, field.type, ctx)) {
+    if (hasCircularRef) {
       classType = `() => ${classType}`;
     }
 
@@ -52,7 +54,7 @@ export function transformFieldToDecorators(field: DmmfField, ctx: TransformConte
   if (field.location !== "enumTypes" && !field.isList) {
     let classType = ScalarJsClasses[field.type] || DmmfModel.symbolName(field.type);
 
-    if (isCircularRef(field.model.name, field.type, ctx)) {
+    if (hasCircularRef) {
       classType = `() => ${classType}`;
     }
 

@@ -12,7 +12,7 @@ generator client {
 }
 
 generator tsed {
-  provider                 = "node ../../lib/cjs/generator.js"
+  provider                 = "node ../../lib/esm/generator.js"
   output                   = "../prisma/generated/tsed"
   emitDMMF                 = true
 }

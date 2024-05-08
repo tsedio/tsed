@@ -10,7 +10,7 @@
     "composite": true,
     "noEmit": false
   },
-  "include": ["src", "src/**/*.json"],
+  "include": ["src/**/*.ts", "src/**/*.mts", "src/**/*.json"],
   "exclude": [
     "node_modules",
     "test",
