@@ -1,6 +1,4 @@
-import {JsonOperation} from "../../domain/JsonOperation";
 import {JsonParameter} from "../../domain/JsonParameter";
-import {isParameterType, JsonParameterTypes} from "../../domain/JsonParameterTypes";
 import {JsonRequestBody} from "../../domain/JsonRequestBody";
 import {JsonSchema} from "../../domain/JsonSchema";
 import {JsonSchemaOptions} from "../../interfaces/JsonSchemaOptions";
@@ -11,6 +9,8 @@ function buildSchemaFromBodyParameters(parameters: JsonParameter[], options: Jso
   const props: any = {};
   const refs: JsonSchema[] = [];
   let propsLength = 0;
+
+  const hasFile = parameters.some((param) => param.get("in") === "files");
 
   parameters.forEach((parameter) => {
     const name = parameter.getName();
@@ -26,12 +26,17 @@ function buildSchemaFromBodyParameters(parameters: JsonParameter[], options: Jso
     const jsonParameter = execMapper("operationInParameter", [parameter], options);
 
     if (name) {
-      schema.addProperty(
-        name,
-        jsonParameter.schema || {
+      const propSchema = {
+        ...(jsonParameter.schema || {
           type: jsonParameter.type
-        }
-      );
+        })
+      };
+
+      if (hasFile && jsonParameter.description) {
+        propSchema.description = jsonParameter.description;
+      }
+
+      schema.addProperty(name, propSchema);
 
       if (parameter.get("required")) {
         schema.addRequired(name);
@@ -50,6 +55,10 @@ function buildSchemaFromBodyParameters(parameters: JsonParameter[], options: Jso
   }
 
   schema.type("object");
+
+  if (props.description && hasFile) {
+    delete props.description;
+  }
 
   return {
     schema: schema.toJSON(options),
