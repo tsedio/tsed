@@ -39,9 +39,6 @@ export function withErrorMsg<Decorator extends (...args: any[]) => any>(
                 })
               );
             } else {
-              // if (store.isCollection) {
-              //
-              // }
               store.itemSchema.customKey(
                 "errorMessage",
                 deepMerge(errorMessage, {
