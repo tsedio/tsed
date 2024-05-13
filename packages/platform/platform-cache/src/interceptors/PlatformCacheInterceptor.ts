@@ -76,7 +76,7 @@ export class PlatformCacheInterceptor implements InterceptorMethods {
   }
 
   async cacheMethod(context: InterceptorContext<any, PlatformCacheOptions>, next: InterceptorNext) {
-    const {key, type, ttl, collectionType, refreshThreshold, keyArgs, args, canCache} = this.getOptions(context);
+    const {key, type, ttl, collectionType, refreshThreshold, args, canCache} = this.getOptions(context);
 
     const set = (result: any) => {
       if (!canCache || (canCache && canCache(result))) {
@@ -176,7 +176,7 @@ export class PlatformCacheInterceptor implements InterceptorMethods {
     let {canCache} = context.options || {};
 
     const args = this.getArgs(context);
-    const keyArgs = isString(k) ? k : k(args);
+    const keyArgs = isString(k) ? k : k(args, $ctx);
 
     if (canCache && canCache === "no-nullish") {
       canCache = (item: any) => ![null, undefined].includes(item);
