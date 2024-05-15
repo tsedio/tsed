@@ -7,7 +7,7 @@ import {BullMQConfig} from "./config/config";
 import {BullMQTypes} from "./constants/BullMQTypes";
 import {BULLMQ} from "./constants/constants";
 import {JobMethods, JobStore} from "./contracts";
-import {JobDispatcher} from "./dispatchers";
+import {JobDispatcher} from "./dispatchers/index";
 import {createQueueProvider} from "./utils/createQueueProvider";
 import {createWorkerProvider} from "./utils/createWorkerProvider";
 import {getFallbackJobToken, getJobToken} from "./utils/getJobToken";
@@ -16,7 +16,10 @@ import {mapWorkerOptions} from "./utils/mapWorkerOptions";
 
 @Module()
 export class BullMQModule implements BeforeInit, OnDestroy {
-  constructor(private readonly injector: InjectorService, private readonly dispatcher: JobDispatcher) {
+  constructor(
+    private readonly injector: InjectorService,
+    private readonly dispatcher: JobDispatcher
+  ) {
     // build providers allow @Inject(queue) usage in JobController instance
     if (this.isEnabled()) {
       const queues = [...this.getUniqQueueNames()];
