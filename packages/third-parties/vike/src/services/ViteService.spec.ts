@@ -22,7 +22,8 @@ async function getServiceFixture(httpResponse: any) {
   $ctx.request.req.protocol = "https";
   $ctx.request.req.headers = {
     host: "host",
-    "x-header": "x-header"
+    "x-header": "x-header",
+    "user-agent": "ua"
   };
 
   const pageContext = {
@@ -73,7 +74,8 @@ describe("ViteService", () => {
           contextProps: {
             headers: {
               host: "host",
-              "x-header": "x-header"
+              "x-header": "x-header",
+              "user-agent": "ua"
             },
             host: "host",
             method: "GET",
@@ -83,7 +85,8 @@ describe("ViteService", () => {
             stateSnapshot: {state: "state"},
             url: "/"
           },
-          urlOriginal: "/"
+          urlOriginal: "/",
+          userAgent: "ua"
         });
         expect($ctx.response.status).toHaveBeenCalledWith(200);
         expect($ctx.response.setHeader).toHaveBeenCalledWith("content-type", "text/html");
@@ -108,7 +111,8 @@ describe("ViteService", () => {
             contextProps: {
               headers: {
                 host: "host",
-                "x-header": "x-header"
+                "x-header": "x-header",
+                "user-agent": "ua"
               },
               host: "host",
               method: "GET",
@@ -118,7 +122,8 @@ describe("ViteService", () => {
               stateSnapshot: {state: "state"},
               url: "/"
             },
-            urlOriginal: "/"
+            urlOriginal: "/",
+            userAgent: "ua"
           })
         );
         expect($ctx.response.status).not.toHaveBeenCalled();
@@ -172,9 +177,7 @@ describe("ViteService", () => {
 
         expect(result).toEqual({
           body: "html",
-          "headers": [
-            ["content-type", "text/html"]
-          ],
+          headers: [["content-type", "text/html"]],
           statusCode: 200
         });
         expect(renderPage).toHaveBeenCalledWith({
@@ -185,7 +188,8 @@ describe("ViteService", () => {
           contextProps: {
             headers: {
               host: "host",
-              "x-header": "x-header"
+              "x-header": "x-header",
+              "user-agent": "ua"
             },
             host: "host",
             method: "GET",
@@ -195,7 +199,8 @@ describe("ViteService", () => {
             stateSnapshot: {state: "state"},
             url: "/"
           },
-          urlOriginal: "/"
+          urlOriginal: "/",
+          userAgent: "ua"
         });
         expect($ctx.response.status).toHaveBeenCalledWith(200);
         expect($ctx.response.setHeader).toHaveBeenCalledWith("content-type", "text/html");

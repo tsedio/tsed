@@ -47,7 +47,8 @@ export class ViteService {
       view,
       urlOriginal,
       pageProps,
-      contextProps
+      contextProps,
+      userAgent: $ctx.request.headers["user-agent"]
     });
 
     if (pageContext.errorWhileRendering) {
