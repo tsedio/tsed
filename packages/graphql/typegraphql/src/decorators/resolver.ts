@@ -38,17 +38,3 @@ export function ResolverController(...args: any[]): ClassDecorator {
     })
   );
 }
-
-/**
- * @deprecated Use ResolverController instead
- */
-export function ResolverService(): ClassDecorator;
-export function ResolverService(options: AbstractClassOptions): ClassDecorator;
-export function ResolverService(typeFunc: ClassTypeResolver, options?: AbstractClassOptions): ClassDecorator;
-export function ResolverService(objectType: ClassType, options?: AbstractClassOptions): ClassDecorator;
-/**
- * @deprecated Use ResolverController instead
- */
-export function ResolverService(...args: any[]): ClassDecorator {
-  return (ResolverController as any)(...args);
-}

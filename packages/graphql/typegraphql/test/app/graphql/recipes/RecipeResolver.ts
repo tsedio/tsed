@@ -1,12 +1,12 @@
 import {InjectContext, PlatformContext} from "@tsed/common";
 import {Inject} from "@tsed/di";
-import {ResolverService} from "@tsed/typegraphql";
+import {ResolverController} from "@tsed/typegraphql";
 import {Arg, Mutation, Publisher, PubSub, Query, Root, Subscription} from "type-graphql";
 import {RecipeService} from "../../services/RecipeService.js";
 import {Recipe, RecipeNotification} from "./Recipe.js";
 import {RecipeNotFoundError} from "./RecipeNotFoundError.js";
 
-@ResolverService((_of) => Recipe)
+@ResolverController((_of) => Recipe)
 export class RecipeResolver {
   @InjectContext()
   private $ctx: PlatformContext;

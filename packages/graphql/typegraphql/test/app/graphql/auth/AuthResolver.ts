@@ -21,6 +21,6 @@ export class AuthResolver {
     // only required if express-session is used
     await context.login(user!);
 
-    return user;
+    return user!;
   }
 }

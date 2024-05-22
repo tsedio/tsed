@@ -20,8 +20,7 @@ To begin, install the `@tsed/typegraphql` package:
 <Tab label="Express.js">
 
 ```bash
-npm install --save @tsed/typegraphql graphql apollo-server-express
-npm install --save type-graphql apollo-datasource apollo-datasource-rest
+npm install --save @tsed/apollo graphql type-graphql @apollo/server @apollo/datasource-rest
 npm install --save-dev apollo-server-testing
 ```
 
@@ -29,8 +28,7 @@ npm install --save-dev apollo-server-testing
 <Tab label="Koa.js">
 
 ```bash
-npm install --save @tsed/typegraphql graphql apollo-server-koa
-npm install --save type-graphql apollo-datasource apollo-datasource-rest
+npm install --save @tsed/apollo graphql type-graphql @apollo/server @as-integration/koa @apollo/datasource-rest
 npm install --save-dev apollo-server-testing
 ```
 
@@ -210,17 +208,35 @@ a @@DataSourceService@@ decorator to declare a DataSource which will be injected
 
 ```typescript
 import {DataSource} from "@tsed/typegraphql";
-import {RESTDataSource} from "apollo-datasource-rest";
+import {RESTDataSource} from "@apollo/datasource-rest";
 import {User} from "../models/User";
+import {DataSource, InjectApolloContext, ApolloContext, InjectApolloContext} from "@tsed/apollo";
+import {Constant, Opts} from "@tsed/di";
+import {RESTDataSource} from "@apollo/datasource-rest";
 
 @DataSource()
 export class UserDataSource extends RESTDataSource {
-  constructor() {
-    super();
-    this.baseURL = "https://myapi.com/api/users";
+  @InjectContext()
+  protected $ctx: PlatformContext;
+
+  @Constant("envs.USERS_URL", "https://myapi.com/api/users")
+  protected baseURL: string;
+
+  @InjectApolloContext()
+  protected context: CustomApolloContext;
+
+  constructor(server: ApolloServer, logger: Logger) {
+    super({
+      logger,
+      cache: server.cache
+    });
   }
 
-  getUserById(id: string): Promise<User> {
+  willSendRequest(path, request) {
+    request.headers["authorization"] = this.context.token;
+  }
+
+  getUserById(id: string) {
     return this.get(`/${id}`);
   }
 }

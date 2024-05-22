@@ -54,6 +54,37 @@ GraphQL Websocket allows you to use the `subscription` feature of GraphQL using 
 
 See [here](/tutorials/graphql-ws.md) for more details.
 
+## ApolloService
+
+ApolloService let you retrieve an instance of ApolloServer:
+
+```typescript
+import {Injectable, AfterRoutesInit} from "@tsed/common";
+import {graphQLService} from "@tsed/apollo";
+import {ApolloServer} from "@apollo/server";
+
+@Injectable()
+export class UsersService implements AfterRoutesInit {
+  @Injec()
+  apolloService: ApolloService;
+
+  private server: ApolloServer;
+
+  $afterRoutesInit() {
+    this.server = this.apolloService.get("server1");
+  }
+}
+```
+
+## DataSources
+
+Apollo Server provides a mechanism to fetch data from a REST API or a database. This mechanism is called DataSources.
+Ts.ED allow you to register your DataSources using the @@DataSource@@ decorator.
+
+```typescript
+
+```
+
 ## Testing
 
 Here is an example to create a test server based on TypeGraphQL and run a query:

@@ -4,7 +4,7 @@ import "@tsed/platform-express";
 import SuperTest from "supertest";
 import {Server} from "./app/Server.js";
 
-describe("GraphQL", () => {
+describe("TypeGraphQL", () => {
   let request: SuperTest.Agent;
   beforeAll(
     PlatformTest.bootstrap(Server, {

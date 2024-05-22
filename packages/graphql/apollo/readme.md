@@ -45,8 +45,7 @@ If you're looking for integration with TypeGraphQL see the [`@tsed/typegraphql`]
 To begin, install the Apollo module for TS.ED:
 
 ```bash
-npm install --save @tsed/apollo graphql@15
-npm install --save apollo-datasource apollo-datasource-rest apollo-server-express
+npm install --save @tsed/apollo graphql@15 @apollo/server apollo/datasource-rest
 npm install --save-dev  apollo-server-testing
 ```
 
@@ -66,28 +65,6 @@ import "@tsed/apollo";
   }
 })
 export class Server {}
-```
-
-## ApolloService
-
-ApolloService let you to retrieve an instance of ApolloServer.
-
-```typescript
-import {Injectable, AfterRoutesInit} from "@tsed/common";
-import {graphQLService} from "@tsed/apollo";
-import {ApolloServer} from "apollo-server-express";
-
-@Injectable()
-export class UsersService implements AfterRoutesInit {
-  @Injec()
-  apolloService: ApolloService;
-
-  private server: ApolloServer;
-
-  $afterRoutesInit() {
-    this.server = this.apolloService.get("server1");
-  }
-}
 ```
 
 For more information about ApolloServer look his documentation [here](https://www.apollographql.com/docs/apollo-server/api/apollo-server.html);

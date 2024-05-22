@@ -175,8 +175,7 @@ Ts.ED provide a `@tsed/graphql-ws` package to support the `subscription` feature
 <Tab label="Express.js">
 
 ```bash
-npm install --save @tsed/apollo
-npm install --save nexus graphql apollo-server-express
+npm install --save @tsed/apollo @apollo/server nexus graphql
 npm install --save-dev apollo-server-testing
 ```
 
@@ -184,8 +183,7 @@ npm install --save-dev apollo-server-testing
 <Tab label="Koa.js">
 
 ```bash
-npm install --save @tsed/apollo graphql
-npm install --save nexus graphql apollo-server-koa
+npm install --save @tsed/apollo graphql nexus @apollo/server @as-integration/koa
 npm install --save-dev apollo-server-testing
 ```
 
@@ -247,8 +245,7 @@ To begin, install the `@tsed/typegraphql` package:
 <Tab label="Express.js">
 
 ```bash
-npm install --save @tsed/typegraphql graphql apollo-server-express
-npm install --save type-graphql apollo-datasource apollo-datasource-rest
+npm install --save @tsed/typegraphql @apollo/server graphql type-graphql @apollo/datasource-rest
 npm install --save-dev apollo-server-testing
 ```
 
@@ -256,8 +253,7 @@ npm install --save-dev apollo-server-testing
 <Tab label="Koa.js">
 
 ```bash
-npm install --save @tsed/typegraphql graphql apollo-server-koa
-npm install --save type-graphql apollo-datasource apollo-datasource-rest
+npm install --save @tsed/typegraphql @apollo/server graphql type-graphql @as-integration/koa @apollo/datasource-rest
 npm install --save-dev apollo-server-testing
 ```
 
