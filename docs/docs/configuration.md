@@ -166,21 +166,6 @@ It is also possible to split the configuration by using the @@Module@@:
   </Tab>    
 </Tabs>
 
-### appendChildrenRoutesFirst
-
-- type: `boolean`
-
-Append children routes before the controller routes itself. Defaults to `false`, but will be deprecated and set to `true` in next major version.
-
-```typescript
-import {Configuration} from "@tsed/di";
-
-@Configuration({
-  appendChildrenRoutesFirst: true
-})
-export class Server {}
-```
-
 ### ~~componentsScan~~ (deprecated)
 
 - type: `string[]`
@@ -367,6 +352,22 @@ on [Response filters](/docs/response-filter.md).
 ### multer
 
 Object configure Multer. See more on [Upload file](/tutorials/serve-static-files.md).
+
+## router
+
+```typescript
+@Configuration({
+  router: {
+    appendChildrenRoutesFirst: true
+  }
+})
+```
+
+### router.appendChildrenRoutesFirst
+
+- type: `boolean`
+
+Append children routes before the controller routes itself. Defaults to `false`, but will be deprecated and set to `true` in next major version.
 
 ## jsonMapper
 

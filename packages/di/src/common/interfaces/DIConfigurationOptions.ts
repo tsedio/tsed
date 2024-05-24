@@ -22,12 +22,6 @@ declare global {
        * Mount controllers
        */
       mount: Record<string, TokenProvider[]>;
-      /**
-       * Append children routes before the controller routes itself
-       *
-       * Will default to true in next major version
-       */
-      appendChildrenRoutesFirst: boolean;
     }
   }
 }
