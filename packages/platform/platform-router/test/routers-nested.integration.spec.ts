@@ -58,6 +58,7 @@ function createAppRouterFixture() {
 describe("routers integration", () => {
   beforeEach(() => PlatformTest.create());
   afterEach(() => PlatformTest.reset());
+
   describe("getLayers()", () => {
     it("should declare router", () => {
       const {platformRouters, appRouter} = createAppRouterFixture();
@@ -97,6 +98,48 @@ describe("routers integration", () => {
         "/rest/platform/:platform",
         "/rest/platform/:platform/comments",
         "/rest/platform/:platform/comments"
+      ]);
+    });
+
+    it('should declare correctly with appendChildrenRoutesFirst', () => {
+      const {injector, platformRouters, appRouter} = createAppRouterFixture();
+      injector.settings.set('appendChildrenRoutesFirst', true);
+
+      platformRouters.prebuild();
+
+      appRouter.use("/rest", platformRouters.from(DomainController));
+      appRouter.use("/rest", platformRouters.from(PlatformController));
+
+      const layers = platformRouters.getLayers(appRouter);
+
+      expect(
+        layers.map((layer) => {
+          return layer.inspect().path;
+        })
+      ).toEqual([
+        "/rest/domain/:contextID/comments/flag",
+        "/rest/domain/:contextID/comments/:commentID/flag",
+        "/rest/domain/:contextID/comments",
+        "/rest/domain/:contextID",
+        "/rest/platform/:platform/comments/flag",
+        "/rest/platform/:platform/comments/:commentID/flag",
+        "/rest/platform/:platform/comments",
+        "/rest/platform/:platform"
+      ]);
+
+      expect(
+        layers.map((layer) => {
+          return layer.getBasePath();
+        })
+      ).toEqual([
+        "/rest/domain/:contextID/comments",
+        "/rest/domain/:contextID/comments",
+        "/rest/domain/:contextID",
+        "/rest",
+        "/rest/platform/:platform/comments",
+        "/rest/platform/:platform/comments",
+        "/rest/platform/:platform",
+        "/rest"
       ]);
     });
   });

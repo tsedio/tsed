@@ -75,8 +75,18 @@ export class PlatformRouters {
     }
 
     const useBefore = getValue(provider, "middlewares.useBefore", []);
-
+    const middlewares: any[] = [...parentMiddlewares, ...useBefore];
     const {children} = provider;
+
+    // Set default to true in next major version
+    const appendChildrenRoutesFirst = this.injector.settings.get<boolean>('appendChildrenRoutesFirst', false)
+
+    if (appendChildrenRoutesFirst) {
+      children.forEach((token: Type<any>) => {
+        const nested = this.from(token, middlewares);
+        router.use(nested);
+      });
+    }
 
     getOperationsRoutes(provider.token, {allowedVerbs: this.allowedVerbs}).forEach((operationRoute) => {
       const {endpoint} = operationRoute;
@@ -112,13 +122,12 @@ export class PlatformRouters {
       );
     });
 
-    const middlewares: any[] = [...parentMiddlewares, ...useBefore];
-
-    children.forEach((token: Type<any>) => {
-      const nested = this.from(token, middlewares);
-
-      router.use(nested);
-    });
+    if (!appendChildrenRoutesFirst) {
+      children.forEach((token: Type<any>) => {
+        const nested = this.from(token, middlewares);
+        router.use(nested);
+      });
+    }
 
     return router;
   }
