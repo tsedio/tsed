@@ -79,7 +79,7 @@ export class PlatformRouters {
     const {children} = provider;
 
     // Set default to true in next major version
-    const appendChildrenRoutesFirst = this.injector.settings.get<boolean>('appendChildrenRoutesFirst', false)
+    const appendChildrenRoutesFirst = this.injector.settings.get<boolean>('router.appendChildrenRoutesFirst', false)
 
     if (appendChildrenRoutesFirst) {
       children.forEach((token: Type<any>) => {

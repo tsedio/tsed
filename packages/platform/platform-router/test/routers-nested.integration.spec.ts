@@ -103,7 +103,7 @@ describe("routers integration", () => {
 
     it('should declare correctly with appendChildrenRoutesFirst', () => {
       const {injector, platformRouters, appRouter} = createAppRouterFixture();
-      injector.settings.set('appendChildrenRoutesFirst', true);
+      injector.settings.set('router.appendChildrenRoutesFirst', true);
 
       platformRouters.prebuild();
 
