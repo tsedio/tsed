@@ -1,13 +1,11 @@
-import {JsonMapperGlobalOptions} from "@tsed/json-mapper";
-
-export interface PlatformJsonMapperSettings extends JsonMapperGlobalOptions {}
+export interface PlatformRouterSettings {
+  appendChildrenRoutesFirst?: boolean;
+}
 
 declare global {
   namespace TsED {
     interface Configuration extends Record<string, any> {
-      router?: {
-        appendChildrenRoutesFirst?: boolean;
-      }
+      router?: PlatformRouterSettings;
     }
   }
 }
