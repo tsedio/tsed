@@ -172,6 +172,15 @@ It is also possible to split the configuration by using the @@Module@@:
 
 Append children routes before the controller routes itself. Defaults to `false`, but will be deprecated and set to `true` in next major version.
 
+```typescript
+import {Configuration} from "@tsed/di";
+
+@Configuration({
+  appendChildrenRoutesFirst: true
+})
+export class Server {}
+```
+
 ### ~~componentsScan~~ (deprecated)
 
 - type: `string[]`
