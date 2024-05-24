@@ -166,6 +166,12 @@ It is also possible to split the configuration by using the @@Module@@:
   </Tab>    
 </Tabs>
 
+### appendChildrenRoutesFirst
+
+- type: `boolean`
+
+Append children routes before the controller routes itself. Defaults to `false`, but will be deprecated and set to `true` in next major version.
+
 ### ~~componentsScan~~ (deprecated)
 
 - type: `string[]`
