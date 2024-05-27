@@ -7,6 +7,7 @@ export * from "./builder/PlatformBuilder";
 export * from "./config/interfaces/PlatformJsonMapperSettings";
 export * from "./config/interfaces/PlatformLoggerSettings";
 export * from "./config/interfaces/PlatformMulterSettings";
+export * from "./config/interfaces/PlatformRouterSettings";
 export * from "./config/interfaces/PlatformStaticsSettings";
 export * from "./config/services/PlatformConfiguration";
 export * from "./constants/routerOptions";

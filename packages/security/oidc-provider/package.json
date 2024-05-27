@@ -1,6 +1,6 @@
 {
   "name": "@tsed/oidc-provider",
-  "version": "7.69.4",
+  "version": "7.70.0",
   "description": "OIDC provider package for Ts.ED framework",
   "contributors": [
     {
@@ -58,12 +58,12 @@
     "oidc-provider": "8.4.5"
   },
   "peerDependencies": {
-    "@tsed/ajv": "7.69.4",
-    "@tsed/common": "7.69.4",
-    "@tsed/core": "7.69.4",
-    "@tsed/di": "7.69.4",
-    "@tsed/json-mapper": "7.69.4",
-    "@tsed/schema": "7.69.4",
+    "@tsed/ajv": "7.70.0",
+    "@tsed/common": "7.70.0",
+    "@tsed/core": "7.70.0",
+    "@tsed/di": "7.70.0",
+    "@tsed/json-mapper": "7.70.0",
+    "@tsed/schema": "7.70.0",
     "oidc-provider": ">=8.0.0"
   },
   "peerDependenciesMeta": {
