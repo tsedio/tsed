@@ -1,14 +1,10 @@
 import {All, Delete, EndpointMetadata, Get, Head, Options, Patch, Post, Put} from "@tsed/common";
 import {OperationMethods} from "@tsed/schema";
-import Sinon from "sinon";
 
-const middleware: any = Sinon.stub();
-const useStub: any = Sinon.stub().returns(middleware);
+const middleware: any = jest.fn();
+const useStub: any = jest.fn().mockReturnValue(middleware);
 
 describe("Route decorators", () => {
-  afterEach(() => {
-    useStub.resetHistory();
-  });
   describe("All", () => {
     it("should register route and middleware (1)", () => {
       // WHEN

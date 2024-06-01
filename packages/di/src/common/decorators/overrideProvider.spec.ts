@@ -1,7 +1,6 @@
-import Sinon from "sinon";
-import {OverrideProvider} from "./overrideProvider.js";
 import {Provider} from "../domain/Provider.js";
 import {GlobalProviders} from "../registries/GlobalProviders.js";
+import {OverrideProvider} from "./overrideProvider.js";
 
 describe("OverrideProvider", () => {
   class Test {}
@@ -9,7 +8,7 @@ describe("OverrideProvider", () => {
   class Test2 {}
 
   beforeAll(() => {
-    Sinon.stub(GlobalProviders, "get");
+    jest.spyOn(GlobalProviders, "get");
   });
   afterAll(() => {
     // @ts-ignore
@@ -19,9 +18,11 @@ describe("OverrideProvider", () => {
     // GIVEN
     const provider = new Provider(Test);
 
-    // @ts-ignore
-    GlobalProviders.get.withArgs(Test).returns(provider);
-
+    jest.mocked(GlobalProviders.get).mockImplementation((token: object) => {
+      if (token === Test) {
+        return provider;
+      }
+    });
     // WHEN
     OverrideProvider(Test)(Test2);
 

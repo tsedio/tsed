@@ -1,11 +1,8 @@
 import {PlatformTest} from "@tsed/common";
-import Sinon from "sinon";
 import "../components/AlterAudit";
 import {AlterAudit} from "../components/AlterAudit.js";
 import {FormioHooksService} from "./FormioHooksService.js";
 import {FormioService} from "./FormioService.js";
-
-const sandbox = Sinon.createSandbox();
 
 async function createFormioFixture(routerOpts: any = {}) {
   const service = await PlatformTest.invoke<FormioService>(FormioService, []);
@@ -49,7 +46,6 @@ async function createFormioFixture(routerOpts: any = {}) {
 describe("FormioService", () => {
   beforeEach(() => PlatformTest.create());
   afterEach(PlatformTest.reset);
-  afterEach(() => sandbox.restore());
 
   it("should create the new service", async () => {
     const {router, service, config} = await createFormioFixture();
