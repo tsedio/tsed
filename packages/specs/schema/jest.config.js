@@ -1,5 +1,6 @@
 // For a detailed explanation regarding each configuration property, visit:
 // https://jestjs.io/docs/en/configuration.html
+const config = require("@tsed/jest-config");
 
 module.exports = {
   ...require("@tsed/jest-config"),
@@ -13,6 +14,7 @@ module.exports = {
     }
   },
   moduleNameMapper: {
+    ...config.moduleNameMapper,
     "@tsed/schema": "<rootDir>/src/index.ts"
   },
   setupFiles: ["./test/helpers/setup.ts"]

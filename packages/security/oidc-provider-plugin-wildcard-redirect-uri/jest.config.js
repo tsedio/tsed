@@ -1,11 +1,12 @@
 // For a detailed explanation regarding each configuration property, visit:
 // https://jestjs.io/docs/en/configuration.html
 
+const config = require("@tsed/jest-config");
+
 module.exports = {
-  ...require("@tsed/jest-config"),
+  ...config,
   coverageProvider: "babel",
   roots: ["<rootDir>/src"],
-  moduleNameMapper: {},
   transformIgnorePatterns: ["^.+\\.module\\.(css|sass|scss)$"],
 
   coverageThreshold: {

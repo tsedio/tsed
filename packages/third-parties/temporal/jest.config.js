@@ -1,8 +1,9 @@
 // For a detailed explanation regarding each configuration property, visit:
 // https://jestjs.io/docs/en/configuration.html
+const config = require("@tsed/jest-config");
 
 module.exports = {
-  ...require("@tsed/jest-config"),
+  ...config,
   roots: ["<rootDir>/src", "<rootDir>/test"],
   coverageThreshold: {
     global: {
@@ -14,6 +15,7 @@ module.exports = {
   },
   transformIgnorePatterns: ["test/workflows/.*\\.ts$"],
   moduleNameMapper: {
+    ...config.moduleNameMapper,
     "@tsed/temporal": "<rootDir>/src/index.ts"
   }
 };
