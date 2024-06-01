@@ -1,7 +1,7 @@
 import {Controller, Get, PlatformTest} from "@tsed/common";
 import SuperTest from "supertest";
 import {Location} from "@tsed/schema";
-import {PlatformTestingSdkOpts} from "../interfaces.js";
+import {PlatformTestingSdkOpts} from "../interfaces/index.js";
 
 @Controller("/location")
 class LocationCtrl {

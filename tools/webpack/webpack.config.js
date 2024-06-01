@@ -16,13 +16,23 @@ exports.create = ({root, name, entry, externals = {}, resolve = {}}) => {
     },
     resolve: {
       ...resolve,
-      extensions: [".tsx", ".ts", ".js"]
+      extensions: [".tsx", ".ts", ".js"],
+      extensionAlias: {
+        ".js": [".ts", ".js"]
+      }
     },
-    externals,
+    externals: {
+      "@tsed/core": "@tsed/core",
+      "@tsed/schema": "@tsed/schema",
+      "@tsed/di": "@tsed/di",
+      "@tsed/json-mapper": "@tsed/json-mapper",
+      "@tsed/event-emitter": "@tsed/event-emitter",
+      ...externals
+    },
     module: {
       rules: [
         {
-          test: /\.ts?$/,
+          test: /\.(ts|js)?$/,
           use: [
             {
               loader: "webpack-remove-code-blocks",

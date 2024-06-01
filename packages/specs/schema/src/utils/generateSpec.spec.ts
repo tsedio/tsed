@@ -13,10 +13,8 @@ import {Path} from "../decorators/operations/path.js";
 import {Returns} from "../decorators/operations/returns.js";
 import {SpecTypes} from "../domain/SpecTypes.js";
 import {generateSpec} from "./generateSpec.js";
-import filedirname from "filedirname";
 
-// FIXME remove when esm is ready
-const [, rootDir] = filedirname();
+const rootDir = __dirname; // automatically replaced by import.meta.dirname on build
 
 describe("generateSpec()", () => {
   describe("OS 3.0.1", () => {

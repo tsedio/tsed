@@ -1,7 +1,7 @@
 import {Context, Controller, Get, PathParams, PlatformTest, Post} from "@tsed/common";
 import {Pattern} from "@tsed/schema";
 import SuperTest from "supertest";
-import {PlatformTestingSdkOpts} from "../interfaces.js";
+import {PlatformTestingSdkOpts} from "../interfaces/index.js";
 
 @Controller("/path-params")
 class TestPathParamsCtrl {

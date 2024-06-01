@@ -2,12 +2,10 @@ import SwaggerParser from "@apidevtools/swagger-parser";
 import {BadRequest, Exception} from "@tsed/exceptions";
 import {getJsonSchema, getSpec, OperationPath, Path, Returns, SpecTypes} from "@tsed/schema";
 import Ajv from "ajv";
-import filedirname from "filedirname";
 import fs from "fs-extra";
 import "./ExceptionSchema";
 
-// FIXME remove when esm is ready
-const [, rootDir] = filedirname();
+const rootDir = __dirname; // automatically replaced by import.meta.dirname on build
 
 function getAjv() {
   return new Ajv({

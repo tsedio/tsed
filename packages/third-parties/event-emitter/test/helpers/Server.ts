@@ -1,16 +1,13 @@
 import {Configuration, Inject, PlatformApplication} from "@tsed/common";
-import filedirname from "filedirname";
-import Path from "path";
+import bodyParser from "body-parser";
+import compress from "compression";
+
+import cookieParser from "cookie-parser";
+import methodOverride from "method-override";
 import "@tsed/platform-express";
 import "../../src/EventEmitterModule";
 
-import cookieParser from "cookie-parser";
-import bodyParser from "body-parser";
-import compress from "compression";
-import methodOverride from "method-override";
-
-// FIXME remove when esm is ready
-const [, rootDir] = filedirname();
+const rootDir = __dirname; // automatically replaced by import.meta.dirname on build
 
 @Configuration({
   rootDir,

@@ -4,7 +4,7 @@ import {Configuration} from "@tsed/di";
 import {PlatformRouter} from "@tsed/platform-router";
 import {readFileSync} from "fs";
 import SuperTest from "supertest";
-import {PlatformTestingSdkOpts} from "../interfaces.js";
+import {PlatformTestingSdkOpts} from "../interfaces/index.js";
 
 @Controller("/statics")
 class CustomStaticsCtrl {

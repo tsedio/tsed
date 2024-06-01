@@ -2,7 +2,7 @@ import {Controller, Get, Locals, Middleware, PlatformTest, UseBefore} from "@tse
 import {EOL} from "os";
 import SuperTest from "supertest";
 import {View} from "@tsed/platform-views";
-import {PlatformTestingSdkOpts} from "../interfaces.js";
+import {PlatformTestingSdkOpts} from "../interfaces/index.js";
 
 @Middleware()
 class LocalsMiddleware {

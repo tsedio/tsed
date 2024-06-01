@@ -3,5 +3,6 @@ module.exports = require("@tsed/webpack-config").create({
   name: "di",
   entry: {
     main: "./src/common/index.ts"
-  }
+  },
+  externals: ["@tsed/core", "@tsed/schema"]
 });

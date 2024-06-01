@@ -6,16 +6,13 @@ import "@tsed/swagger";
 import bodyParser from "body-parser";
 import compress from "compression";
 import cookieParser from "cookie-parser";
-import filedirname from "filedirname";
 import methodOverride from "method-override";
-import Path from "path";
 import {AuthCtrl} from "./controllers/rest/auth/AuthCtrl.js";
 import {Account} from "./models/Account.js";
 import "./protocols/LoginLocalProtocol";
 import session from "express-session";
 
-// FIXME remove when esm is ready
-const [, rootDir] = filedirname();
+const rootDir = __dirname; // automatically replaced by import.meta.dirname on build
 export {rootDir};
 
 @Configuration({

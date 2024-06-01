@@ -1,12 +1,10 @@
 import {PlatformResponse, Res} from "@tsed/common";
 import {Controller} from "@tsed/di";
 import {Get} from "@tsed/schema";
-import filedirname from "filedirname";
 import {createReadStream, ReadStream} from "fs";
 import {Observable, of} from "rxjs";
 
-// FIXME remove when esm is ready
-const [, rootDir] = filedirname();
+const rootDir = __dirname; // automatically replaced by import.meta.dirname on build
 
 @Controller("/")
 export class KindOfResponseCtrl {

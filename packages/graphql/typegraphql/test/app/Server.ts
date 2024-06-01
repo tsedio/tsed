@@ -3,7 +3,6 @@ import {Configuration, Constant, Inject, PlatformApplication} from "@tsed/common
 import "@tsed/graphql-ws";
 import "@tsed/passport";
 import "@tsed/typegraphql";
-import filedirname from "filedirname";
 import * as fs from "fs";
 import {buildContext} from "graphql-passport";
 import {resolve} from "path";
@@ -15,8 +14,7 @@ import "./protocols/GraphQLProtocol";
 import "./services/RecipeService";
 import "./services/UsersRepository";
 
-// FIXME remove when esm is ready
-const [, rootDir] = filedirname();
+const rootDir = __dirname; // automatically replaced by import.meta.dirname on build
 
 @Configuration({
   rootDir,

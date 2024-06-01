@@ -6,7 +6,7 @@ import {v4} from "uuid";
 import {BullMQConfig} from "./config/config.js";
 import {BullMQTypes} from "./constants/BullMQTypes.js";
 import {BULLMQ} from "./constants/constants.js";
-import {JobMethods, JobStore} from "./contracts.js";
+import {JobMethods, JobStore} from "./contracts/index.js";
 import {JobDispatcher} from "./dispatchers/index.js";
 import {createQueueProvider} from "./utils/createQueueProvider.js";
 import {createWorkerProvider} from "./utils/createWorkerProvider.js";

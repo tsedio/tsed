@@ -7,10 +7,8 @@ import cookieParser from "cookie-parser";
 import {Application} from "express";
 import "./services/MongoClient";
 import "./services/RedisClient";
-import filedirname from "filedirname";
 
-// FIXME remove when esm is ready
-const [, rootDir] = filedirname();
+const rootDir = __dirname; // automatically replaced by import.meta.dirname on build
 export {rootDir};
 
 @Configuration({

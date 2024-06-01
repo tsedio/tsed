@@ -2,7 +2,7 @@ import {BodyParams, Controller, Get, Middleware, PathParams, PlatformTest, Post,
 import {NotFound} from "@tsed/exceptions";
 import {Description, MaxLength, MinLength, Property, Returns, Summary} from "@tsed/schema";
 import SuperTest from "supertest";
-import {PlatformTestingSdkOpts} from "../interfaces.js";
+import {PlatformTestingSdkOpts} from "../interfaces/index.js";
 
 export class Resource {
   @Property()

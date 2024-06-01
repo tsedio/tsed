@@ -3,7 +3,7 @@ import {Store, Type} from "@tsed/core";
 import {Injectable, InjectorService} from "@tsed/di";
 import {Job as BullMQJob, JobsOptions, Queue} from "bullmq";
 import {BULLMQ} from "../constants/constants.js";
-import {JobMethods, type JobStore} from "../contracts.js";
+import {JobMethods, type JobStore} from "../contracts/index.js";
 import {getJobToken} from "../utils/getJobToken.js";
 import {getQueueToken} from "../utils/getQueueToken.js";
 import type {JobDispatcherOptions} from "./JobDispatcherOptions.js";

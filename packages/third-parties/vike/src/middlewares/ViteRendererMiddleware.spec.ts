@@ -1,11 +1,8 @@
 import {PlatformTest} from "@tsed/common";
-import filedirname from "filedirname";
-
 import {ViteService} from "../services/ViteService.js";
 import {ViteRendererMiddleware} from "./ViteRendererMiddleware.js";
 
-// FIXME remove when esm is ready
-const [, rootDir] = filedirname();
+const rootDir = __dirname; // automatically replaced by import.meta.dirname on build
 
 describe("ViteRenderMiddleware", () => {
   describe("use()", () => {

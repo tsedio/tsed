@@ -1,14 +1,12 @@
 import {BodyParams, Controller, MulterOptions, MultipartFile, PlatformMulterFile, PlatformTest} from "@tsed/common";
 import {CollectionOf, Post, Property, Required, Status} from "@tsed/schema";
-import filedirname from "filedirname";
 import multer, {FileFilterCallback} from "multer";
 import {dirname, join} from "path";
 import readPkgUp from "read-pkg-up";
 import SuperTest from "supertest";
-import {PlatformTestingSdkOpts} from "../interfaces.js";
+import {PlatformTestingSdkOpts} from "../interfaces/index.js";
 
-// FIXME remove when esm is ready
-const [, rootDir] = filedirname();
+const rootDir = __dirname; // automatically replaced by import.meta.dirname on build
 
 export class Task {
   @Property()

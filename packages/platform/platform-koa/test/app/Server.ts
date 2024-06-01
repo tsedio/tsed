@@ -1,12 +1,10 @@
 import "@tsed/ajv";
 import {PlatformApplication} from "@tsed/common";
 import {Configuration, Inject} from "@tsed/di";
-import filedirname from "filedirname";
 import Application from "koa";
 import session from "koa-session";
 
-// FIXME remove when esm is ready
-const [, rootDir] = filedirname();
+const rootDir = __dirname; // automatically replaced by import.meta.dirname on build
 export {rootDir};
 
 @Configuration({

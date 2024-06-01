@@ -55,7 +55,6 @@ export * from "./utils/createHttpsServer.js";
 export * from "./utils/createInjector.js";
 export * from "./utils/createServer.js";
 export * from "./utils/ensureContext.js";
-export * from "./utils/getConfiguration.js";
 export * from "./utils/getStaticsOptions.js";
 export * from "./utils/listenServer.js";
 export * from "./utils/mapReturnedResponse.js";

@@ -14,7 +14,7 @@ import {
 } from "@tsed/common";
 import {BadRequest, Exception, Unauthorized} from "@tsed/exceptions";
 import SuperTest from "supertest";
-import {PlatformTestingSdkOpts} from "../interfaces.js";
+import {PlatformTestingSdkOpts} from "../interfaces/index.js";
 
 @Middleware()
 class BeforeCustomMiddleware {
