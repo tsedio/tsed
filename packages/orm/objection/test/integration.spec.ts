@@ -1,12 +1,10 @@
 import {PlatformTest} from "@tsed/common";
-import filedirname from "filedirname";
-import {Knex} from "knex";
 import {serialize} from "@tsed/json-mapper";
 import {OBJECTION_CONNECTION} from "@tsed/objection";
+import {Knex} from "knex";
 import {User} from "./helpers/models/User.js";
 
-// FIXME remove when esm is ready
-const [, rootDir] = filedirname();
+const rootDir = __dirname; // automatically replaced by import.meta.dirname on build
 
 describe("Objection integrations", () => {
   beforeAll(() => {

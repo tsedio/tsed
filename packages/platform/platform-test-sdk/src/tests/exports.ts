@@ -1,4 +1,4 @@
-import {PlatformTestingSdkOpts} from "../interfaces.js";
+import {PlatformTestingSdkOpts} from "../interfaces/index.js";
 import {testAcceptMime} from "./testAcceptMime.js";
 import {testAuth} from "./testAuth.js";
 import {testBodyParams} from "./testBodyParams.js";

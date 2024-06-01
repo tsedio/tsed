@@ -1,12 +1,9 @@
 import {engines} from "../../src/index.js";
-import filedirname from "filedirname";
 import fs from "fs";
 import {expect} from "chai";
 import {join} from "path";
 
-// FIXME remove when esm is ready
-const [, dir] = filedirname();
-const rootDir = join(dir, "..");
+const rootDir = join(__dirname, "..");
 
 export function test(name: string) {
   const engine = engines.get(name)!;

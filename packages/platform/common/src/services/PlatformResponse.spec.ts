@@ -1,11 +1,9 @@
 import {PlatformViews} from "@tsed/platform-views";
-import filedirname from "filedirname";
 import {createReadStream} from "fs";
 import {PlatformResponse} from "./PlatformResponse.js";
 import {PlatformTest} from "./PlatformTest.js";
 
-// FIXME remove when esm is ready
-const [, rootDir] = filedirname();
+const rootDir = __dirname; // automatically replaced by import.meta.dirname on build
 
 jest.mock("on-finished");
 

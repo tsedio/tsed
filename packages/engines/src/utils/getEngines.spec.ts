@@ -1,10 +1,8 @@
 import {expect} from "chai";
-import filedirname from "filedirname";
 import {join} from "path";
 import {getEngine, getEngines} from "./getEngines.js";
 
-// FIXME remove when esm is ready
-const [, rootDir] = filedirname();
+const rootDir = __dirname; // automatically replaced by import.meta.dirname on build
 
 describe("getEngines", () => {
   describe("getEngine()", () => {

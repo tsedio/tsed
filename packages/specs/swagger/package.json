@@ -14,9 +14,8 @@
   },
   "scripts": {
     "clean": "rm -rf lib",
-    "build": "yarn clean && yarn barrels &&  yarn build:ts && yarn copy:views && yarn copy:scripts",
+    "build": "yarn clean && yarn barrels &&  yarn build:ts && yarn copy:views && monorepo build-hybrid",
     "copy:views": "cp -r ./views ./lib/views",
-    "copy:scripts": "cp -r ./scripts/constants.js ./lib/esm/constants.js",
     "barrels": "barrels",
     "start": "ts-node test/app/index.ts",
     "test": "jest --max-workers=2 && jest-coverage-thresholds-bumper",
@@ -25,7 +24,6 @@
   "dependencies": {
     "@tsed/normalize-path": "workspace:*",
     "@tsed/openspec": "workspace:*",
-    "filedirname": "^2.11.0",
     "fs-extra": "11.2.0",
     "micromatch": "4.0.5",
     "swagger-ui-dist": ">=5.17.1",
@@ -37,6 +35,7 @@
     "@tsed/core": "workspace:*",
     "@tsed/di": "workspace:*",
     "@tsed/json-mapper": "workspace:*",
+    "@tsed/monorepo-utils": "2.2.2",
     "@tsed/openspec": "workspace:*",
     "@tsed/schema": "workspace:*",
     "@tsed/typescript": "workspace:*",

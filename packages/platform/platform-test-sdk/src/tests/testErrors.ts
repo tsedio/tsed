@@ -6,7 +6,7 @@ import {Description, Name, Required, Returns, Summary} from "@tsed/schema";
 import SuperTest from "supertest";
 import {CustomBadRequest} from "../errors/CustomBadRequest.js";
 import {CustomInternalError} from "../errors/CustomInternalError.js";
-import {PlatformTestingSdkOpts} from "../interfaces.js";
+import {PlatformTestingSdkOpts} from "../interfaces/index.js";
 
 class CustomModel {
   @Required() name: string;

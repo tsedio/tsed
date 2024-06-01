@@ -1,12 +1,11 @@
 import {Controller, Get, PlatformTest} from "@tsed/common";
 import {ContentType} from "@tsed/schema";
-import filedirname from "filedirname";
 import {createReadStream} from "fs";
 import {join} from "path";
 import SuperTest from "supertest";
-import {PlatformTestingSdkOpts} from "../interfaces.js";
-// FIXME remove when esm is ready
-const [, rootDir] = filedirname();
+import {PlatformTestingSdkOpts} from "../interfaces/index.js";
+
+const rootDir = __dirname; // automatically replaced by import.meta.dirname on build
 
 @Controller("/stream")
 class TestStreamCtrl {

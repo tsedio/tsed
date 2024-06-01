@@ -6567,6 +6567,7 @@ __metadata:
     jest: "npm:^29.7.0"
     ts-mockito: "npm:^2.6.1"
     tslib: "npm:2.6.1"
+    typescript: "npm:4.9.5"
   peerDependencies:
     bullmq: ^4.12.3 || ^5.1.1
   languageName: unknown
@@ -6599,6 +6600,7 @@ __metadata:
     eslint: "npm:^8.57.0"
     jest: "npm:^29.7.0"
     tslib: "npm:2.6.1"
+    typescript: "npm:4.9.5"
     uuid: "npm:9.0.1"
   peerDependencies:
     "@tsed/logger": ">=6.7.5"
@@ -6660,6 +6662,8 @@ __metadata:
     eslint: "npm:^8.57.0"
     jest: "npm:^29.7.0"
     tslib: "npm:2.6.2"
+    typescript: "npm:4.9.5"
+    webpack: "npm:^5.75.0"
   peerDependencies:
     "@tsed/core": 7.70.2
     "@tsed/logger": ">=6.7.5"
@@ -6697,7 +6701,6 @@ __metadata:
     ect: "npm:^0.5.9"
     ejs: "npm:^3.1.9"
     eslint: "npm:^8.57.0"
-    filedirname: "npm:^2.11.0"
     haml: "npm:^0.4.3"
     haml-coffee: "npm:^1.14.1"
     hamlet: "npm:^0.3.3"
@@ -6753,6 +6756,8 @@ __metadata:
     eventemitter2: "npm:^6.4.9"
     jest: "npm:^29.7.0"
     tslib: "npm:2.6.1"
+    typescript: "npm:4.9.5"
+    webpack: "npm:^5.75.0"
   peerDependencies:
     eventemitter2: ^6.4.4
   languageName: unknown
@@ -7033,9 +7038,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@tsed/monorepo-utils@npm:2.1.2":
-  version: 2.1.2
-  resolution: "@tsed/monorepo-utils@npm:2.1.2"
+"@tsed/monorepo-utils@npm:2.2.2":
+  version: 2.2.2
+  resolution: "@tsed/monorepo-utils@npm:2.2.2"
   dependencies:
     "@samverschueren/stream-to-observable": "npm:>=0.3.1"
     "@typescript-eslint/typescript-estree": "npm:>=6.20.0"
@@ -7062,7 +7067,7 @@ __metadata:
     semantic-release: ">=19"
   bin:
     monorepo: bin/monorepo.js
-  checksum: 10/839fdd5a50e893a61f2bfdabec82296504bd5b060fe6211ed6e591e473b9979b3a4c4b7eba427e836d54bee0788c89d56fe72e5088d70e5acaa22305958fb21f
+  checksum: 10/854af44cf89137c2586efb2f2c24b965f4da6e14fc0a45f0e46b42451642ee32712d10ccea17fb58e54bdc9a2731d547cd715ec464d94167eaa6c9c9c72669f3
   languageName: node
   linkType: hard
 
@@ -7738,6 +7743,7 @@ __metadata:
     eslint: "npm:^8.57.0"
     jest: "npm:^29.7.0"
     read-pkg-up: "npm:7.0.1"
+    typescript: "npm:4.9.5"
   languageName: unknown
   linkType: soft
 
@@ -7821,7 +7827,7 @@ __metadata:
     "@swc/helpers": "npm:0.4.14"
     "@swc/jest": "npm:0.2.20"
     "@tsed/logger": "npm:>=6.7.5"
-    "@tsed/monorepo-utils": "npm:2.1.2"
+    "@tsed/monorepo-utils": "npm:2.2.2"
     "@tsed/ts-doc": "npm:4.1.0"
     "@types/axios": "npm:0.14.0"
     "@types/chai": "npm:4.3.14"
@@ -8056,13 +8062,13 @@ __metadata:
     "@tsed/core": "workspace:*"
     "@tsed/di": "workspace:*"
     "@tsed/json-mapper": "workspace:*"
+    "@tsed/monorepo-utils": "npm:2.2.2"
     "@tsed/normalize-path": "workspace:*"
     "@tsed/openspec": "workspace:*"
     "@tsed/schema": "workspace:*"
     "@tsed/typescript": "workspace:*"
     "@types/swagger-ui-dist": "npm:3.30.4"
     eslint: "npm:^8.57.0"
-    filedirname: "npm:^2.11.0"
     fs-extra: "npm:11.2.0"
     jest: "npm:^29.7.0"
     micromatch: "npm:4.0.5"
@@ -15567,7 +15573,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"fast-glob@npm:^3.0.0, fast-glob@npm:^3.3.2":
+"fast-glob@npm:^3.0.0, fast-glob@npm:^3.2.12, fast-glob@npm:^3.3.2":
   version: 3.3.2
   resolution: "fast-glob@npm:3.3.2"
   dependencies:
@@ -15590,19 +15596,6 @@ __metadata:
     merge2: "npm:^1.3.0"
     micromatch: "npm:^4.0.4"
   checksum: 10/6b736d92a47f27218a85bf184a4ccab9f707398f86711bf84d730243b10a999a85f79afc526133c044ebebfcb42a68d09f769fdbedcc00680ddd56e56a56483a
-  languageName: node
-  linkType: hard
-
-"fast-glob@npm:^3.2.12":
-  version: 3.2.12
-  resolution: "fast-glob@npm:3.2.12"
-  dependencies:
-    "@nodelib/fs.stat": "npm:^2.0.2"
-    "@nodelib/fs.walk": "npm:^1.2.3"
-    glob-parent: "npm:^5.1.2"
-    merge2: "npm:^1.3.0"
-    micromatch: "npm:^4.0.4"
-  checksum: 10/641e748664ae0fdc4dadd23c812fd7d6c80cd92d451571cb1f81fa87edb750e917f25abf74fc9503c97438b0b67ecf75b738bb8e50a83b16bd2a88b4d64e81fa
   languageName: node
   linkType: hard
 
@@ -15797,15 +15790,6 @@ __metadata:
   version: 1.0.0
   resolution: "file-uri-to-path@npm:1.0.0"
   checksum: 10/b648580bdd893a008c92c7ecc96c3ee57a5e7b6c4c18a9a09b44fb5d36d79146f8e442578bc0e173dc027adf3987e254ba1dfd6e3ec998b7c282873010502144
-  languageName: node
-  linkType: hard
-
-"filedirname@npm:^2.11.0":
-  version: 2.11.0
-  resolution: "filedirname@npm:2.11.0"
-  dependencies:
-    get-current-line: "npm:^6.10.0"
-  checksum: 10/f5e446000555b61c6d89bee58fb7343bbf470a35660c9a16986345eaa0d650e71aab103fdfdb7227dcbfe27b1c467fbb44633ef84d62cd0bfa9580260791bbae
   languageName: node
   linkType: hard
 
@@ -16439,13 +16423,6 @@ __metadata:
   version: 2.0.5
   resolution: "get-caller-file@npm:2.0.5"
   checksum: 10/b9769a836d2a98c3ee734a88ba712e62703f1df31b94b784762c433c27a386dd6029ff55c2a920c392e33657d80191edbf18c61487e198844844516f843496b9
-  languageName: node
-  linkType: hard
-
-"get-current-line@npm:^6.10.0":
-  version: 6.10.0
-  resolution: "get-current-line@npm:6.10.0"
-  checksum: 10/6f8432584dd95ea56327ed1a302dd38a4d2ec295e3ebd41883abded322af4b0b739e1a5ae239c1d5fcf47ab629aedd719aa79f7d2ba614f13f53f2bacff5390d
   languageName: node
   linkType: hard
 
@@ -28739,17 +28716,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"type-fest@npm:^3.0.0":
+"type-fest@npm:^3.0.0, type-fest@npm:^3.2.0":
   version: 3.13.1
   resolution: "type-fest@npm:3.13.1"
   checksum: 10/9a8a2359ada34c9b3affcaf3a8f73ee14c52779e89950db337ce66fb74c3399776c697c99f2532e9b16e10e61cfdba3b1c19daffb93b338b742f0acd0117ce12
-  languageName: node
-  linkType: hard
-
-"type-fest@npm:^3.2.0":
-  version: 3.8.0
-  resolution: "type-fest@npm:3.8.0"
-  checksum: 10/400726a5d49479d1832cfc56747eb2aa2783f182fbadfbc361935840064f5af7223269fccab369937b44557e36b53b51df21428618765f09183369a922e033f5
   languageName: node
   linkType: hard
 
@@ -30358,10 +30328,19 @@ __metadata:
   languageName: node
   linkType: hard
 
-"yaml@npm:^2.0.1, yaml@npm:^2.1.3":
+"yaml@npm:^2.0.1":
   version: 2.3.2
   resolution: "yaml@npm:2.3.2"
   checksum: 10/dba78b314c4b713a7dfa4412c88c1168ffe41fe26cdd4363cb3389194765895415b800f5a2d1a5bdfb0b2e31f1ad689f8e8f9cf78153f24142b68172e72afc95
+  languageName: node
+  linkType: hard
+
+"yaml@npm:^2.1.3":
+  version: 2.4.2
+  resolution: "yaml@npm:2.4.2"
+  bin:
+    yaml: bin.mjs
+  checksum: 10/6eafbcd68dead734035f6f72af21bd820c29214caf7d8e40c595671a3c908535cef8092b9660a1c055c5833aa148aa640e0c5fa4adb5af2dacd6d28296ccd81c
   languageName: node
   linkType: hard
 

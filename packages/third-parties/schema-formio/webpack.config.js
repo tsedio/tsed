@@ -4,6 +4,7 @@ module.exports = require("@tsed/webpack-config").create({
   externals: {
     "@tsed/core": "@tsed/core",
     "@tsed/schema": "@tsed/schema",
+    "@tsed/di": "@tsed/di",
     formiojs: "formiojs",
     lodash: "lodash",
     moment: "moment"

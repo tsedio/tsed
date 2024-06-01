@@ -1,11 +1,9 @@
 import SwaggerParser from "@apidevtools/swagger-parser";
 import {SpecTypes} from "@tsed/schema";
-import filedirname from "filedirname";
 import fs from "fs-extra";
 import {v4} from "uuid";
 
-// FIXME remove when esm is ready
-const [, rootDir] = filedirname();
+const rootDir = __dirname; // automatically replaced by import.meta.dirname on build
 
 export const validateSpec = async (spec: any, version = SpecTypes.SWAGGER) => {
   const file = `${rootDir}/spec-${v4()}.json`;

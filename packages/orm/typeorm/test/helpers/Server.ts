@@ -4,12 +4,10 @@ import "@tsed/typeorm";
 import bodyParser from "body-parser";
 import compress from "compression";
 import cookieParser from "cookie-parser";
-import filedirname from "filedirname";
 import methodOverride from "method-override";
 import "./connections/ConnectionProvider";
 
-// FIXME remove when esm is ready
-const [, rootDir] = filedirname();
+const rootDir = __dirname; // automatically replaced by import.meta.dirname on build
 
 @Configuration({
   rootDir,
