@@ -1,6 +1,5 @@
 import {engines} from "../../src/index.js";
 import fs from "fs";
-import {expect} from "chai";
 import {join} from "path";
 
 const rootDir = join(__dirname, "..");
@@ -24,7 +23,7 @@ export function test(name: string) {
       };
 
       const html = await engine.render(str, locals);
-      expect(html).to.equal("TOBI");
+      expect(html).toEqual("TOBI");
     });
   });
 }

@@ -1,5 +1,4 @@
 import fs from "fs";
-import sinon from "sinon";
 import {Engine} from "../src/components/Engine.js";
 import {engines} from "../src/index.js";
 
@@ -29,8 +28,8 @@ export async function getEngineFixture({token, cache = false, templateName = "us
     // @ts-ignore
     engine.$compileFile.restore();
   } catch (er) {}
-  sinon.spy(engine as any, "$compile");
-  sinon.spy(engine as any, "$compileFile");
+  jest.spyOn(engine as any, "$compile");
+  jest.spyOn(engine as any, "$compileFile");
 
   return {
     name,

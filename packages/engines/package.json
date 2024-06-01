@@ -1,6 +1,7 @@
 {
   "name": "@tsed/engines",
   "version": "7.70.2",
+  "type": "commonjs",
   "description": "Template engines library. Provide an API to adding custom engines from decorators.",
   "source": "./src/index.ts",
   "main": "./lib/cjs/index.js",
@@ -15,7 +16,7 @@
   "scripts": {
     "build": "yarn barrels && yarn build:ts",
     "barrels": "barrels",
-    "test": "nyc mocha --timeout 15000",
+    "test": "jest --max-workers=2 && jest-coverage-thresholds-bumper",
     "build:ts": "tsc --build tsconfig.json && tsc --build tsconfig.esm.json"
   },
   "dependencies": {
@@ -50,6 +51,7 @@
     "htmling": "^0.0.8",
     "jazz": "^0.0.18",
     "jest": "^29.7.0",
+    "jest-coverage-thresholds-bumper": "1.1.0",
     "jqtpl": "^1.1.0",
     "just": "^0.1.8",
     "liquid-node": "^3.0.1",
@@ -58,6 +60,7 @@
     "mote": "^0.2.0",
     "mustache": "^4.2.0",
     "nunjucks": "^3.2.4",
+    "nyc": "15.1.0",
     "plates": "^0.4.11",
     "pug": "^3.0.2",
     "ractive": "^1.4.3",

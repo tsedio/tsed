@@ -26,13 +26,12 @@ module.exports = {
     "exports.ts",
     "__mock__",
     "platform-test-utils",
-    "engines",
     "FakeAdapter",
     "PlatformTest"
   ],
   //  modulePathIgnorePatterns: ["<rootDir>/lib", "<rootDir>/dist"], // An object that configures minimum threshold enforcement for coverage results
   testEnvironment: "node",
-  testPathIgnorePatterns: ["node_modules", "/docs/", "/docs-references/", "/engines/"],
+  testPathIgnorePatterns: ["node_modules", "/docs/", "/docs-references/"],
   // A map from regular expressions to paths to transformers
   transform: {
     "^.+\\.(t|j)sx?$": ["@swc/jest", require("./swc.node.json")]
@@ -40,7 +39,9 @@ module.exports = {
 
   transformIgnorePatterns: ["[/\\\\]node_modules[/\\\\].+\\.(js|jsx|mjs|cjs|ts|tsx)$", "^.+\\.module\\.(css|sass|scss)$"],
   modulePaths: ["<rootDir>/src"],
-  moduleNameMapper: {},
+  moduleNameMapper: {
+    "(\\..*).js$": "$1"
+  },
   moduleFileExtensions: [
     // Place tsx and ts to beginning as suggestion from Jest team
     // https://jestjs.io/docs/configuration#modulefileextensions-arraystring

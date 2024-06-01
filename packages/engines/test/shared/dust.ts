@@ -1,5 +1,4 @@
 import {engines, requires} from "../../src/index.js";
-import {expect} from "chai";
 import fs from "fs";
 import {join} from "path";
 
@@ -31,7 +30,7 @@ export function test(name: string) {
       }
 
       const html = await engines.get(name)!.render(str, locals);
-      expect(html).to.equal("<p>Tobi</p>user_template_name");
+      expect(html).toEqual("<p>Tobi</p>user_template_name");
     });
   });
 }

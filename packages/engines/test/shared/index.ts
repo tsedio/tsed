@@ -1,7 +1,6 @@
-import {engines, requires} from "../../src/index.js";
-import {expect} from "chai";
 import fs from "fs";
 import {join} from "path";
+import {engines, requires} from "../../src/index.js";
 
 const rootDir = join(__dirname, "..");
 
@@ -30,7 +29,7 @@ export function test(name: string) {
       const locals = {user: user};
 
       const html = await engine.renderFile(path, locals);
-      expect(html).to.match(/Tobi/);
+      expect(html).toMatch(/Tobi/);
     });
 
     it("should not cache by default", async () => {
@@ -50,11 +49,11 @@ export function test(name: string) {
       };
       const {engine} = await getEngineFixture(name);
       const html = await engine.renderFile(path, locals);
-      expect(html).to.match(/Tobi/);
+      expect(html).toMatch(/Tobi/);
 
       await engine.renderFile(path, locals);
 
-      expect(html).to.match(/Tobi/);
+      expect(html).toMatch(/Tobi/);
     });
 
     it("should support rendering a string", async () => {
@@ -62,11 +61,11 @@ export function test(name: string) {
       const locals = {user: user};
       const {engine} = await getEngineFixture(name);
       const html = await engine.render(str, locals);
-      html.should.match(/Tobi/);
+      expect(html).toMatch(/Tobi/);
     });
 
     it("should be exposed in the requires object", function () {
-      expect(!!requires.get(name)).to.true;
+      expect(!!requires.get(name)).toBeTruthy();
     });
   });
 }
