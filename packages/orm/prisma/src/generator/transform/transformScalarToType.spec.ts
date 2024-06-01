@@ -73,7 +73,7 @@ describe("transformScalarToType()", () => {
       type: "Role"
     });
     expect(transformScalarToType(field)).toEqual("Role | null");
-    expect(field.model.addImportDeclaration).toHaveBeenCalledWith("../enums", "Role");
+    expect(field.model.addImportDeclaration).toHaveBeenCalledWith("../enums/index", "Role");
   });
 
   it("should transform User to User (self-ref)", () => {

@@ -1,18 +1,18 @@
 import {DMMF} from "@prisma/generator-helper";
 import {CompilerOptions, ModuleKind, Project, ScriptTarget} from "ts-morph";
-import {generateEnums} from "./utils/generateEnums.js";
-import {generateModels} from "./utils/generateModels.js";
 import {generateClientIndex} from "./utils/generateClientIndex.js";
-import {generateInterfaces} from "./utils/generateInterfaces.js";
+import {generateEnums} from "./utils/generateEnums.js";
 import {generateIndex} from "./utils/generateIndex.js";
+import {generateInterfaces} from "./utils/generateInterfaces.js";
+import {generateModels} from "./utils/generateModels.js";
 import {generatePrismaService} from "./utils/generatePrismaService.js";
 import {generateRepositories} from "./utils/generateRepositories.js";
 import {saveProject} from "./utils/saveProject.js";
 import {isCommonjs} from "./utils/sourceType.js";
 
 const baseCompilerOptions: CompilerOptions = {
-  target: ScriptTarget.ES2019,
-  module: isCommonjs() ? ModuleKind.CommonJS : ModuleKind.ES2020,
+  target: isCommonjs() ? ScriptTarget.ES2020 : ScriptTarget.ESNext,
+  module: isCommonjs() ? ModuleKind.CommonJS : ModuleKind.ESNext,
   emitDecoratorMetadata: true,
   experimentalDecorators: true,
   esModuleInterop: true

@@ -1,7 +1,7 @@
-import {User} from "../client.js";
+import {User} from "../client/index";
 import {Integer, Required, Property, Groups, Format, Email, Description, Allow, Enum, CollectionOf} from "@tsed/schema";
-import {Role} from "../enums.js";
-import {PostModel} from "./PostModel.js";
+import {Role} from "../enums/index";
+import {PostModel} from "./PostModel";
 
 export class UserModel implements User {
   @Property(Number)

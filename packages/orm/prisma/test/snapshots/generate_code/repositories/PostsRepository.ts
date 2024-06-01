@@ -1,9 +1,9 @@
 import {isArray} from "@tsed/core";
 import {deserialize} from "@tsed/json-mapper";
 import {Injectable, Inject} from "@tsed/di";
-import {PrismaService} from "../services/PrismaService.js";
-import {Prisma, Post} from "../client.js";
-import {PostModel} from "../models.js";
+import {PrismaService} from "../services/PrismaService";
+import {Prisma, Post} from "../client/index";
+import {PostModel} from "../models/index";
 
 @Injectable()
 export class PostsRepository {

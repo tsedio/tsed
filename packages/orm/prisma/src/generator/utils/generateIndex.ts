@@ -1,5 +1,6 @@
 import {Project} from "ts-morph";
 import path from "path";
+import {resolveExtension} from "./resolveExtension.js";
 
 export function generateIndex(project: Project, baseDirPath: string, hasEnum: boolean) {
   const indexFile = path.resolve(baseDirPath, "index.ts");
@@ -7,19 +8,19 @@ export function generateIndex(project: Project, baseDirPath: string, hasEnum: bo
   project.createSourceFile(indexFile, undefined, {overwrite: true}).addExportDeclarations(
     [
       {
-        moduleSpecifier: "./interfaces"
+        moduleSpecifier: resolveExtension("./interfaces/index")
       },
       hasEnum && {
-        moduleSpecifier: "./enums"
+        moduleSpecifier: resolveExtension("./enums/index")
       },
       {
-        moduleSpecifier: "./models"
+        moduleSpecifier: resolveExtension("./models/index")
       },
       {
-        moduleSpecifier: "./services/PrismaService"
+        moduleSpecifier: resolveExtension("./services/PrismaService")
       },
       {
-        moduleSpecifier: "./repositories"
+        moduleSpecifier: resolveExtension("./repositories/index")
       }
     ].filter(Boolean) as any[]
   );

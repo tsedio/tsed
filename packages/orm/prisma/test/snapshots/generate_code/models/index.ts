@@ -1,2 +1,2 @@
-export {PostModel} from "./PostModel.js";
-export {UserModel} from "./UserModel.js";
+export {PostModel} from "./PostModel";
+export {UserModel} from "./UserModel";

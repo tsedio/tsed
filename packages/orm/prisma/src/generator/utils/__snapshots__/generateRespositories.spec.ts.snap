@@ -5,8 +5,8 @@ exports[`generateRepositories should generate repositories (posts) 1`] = `
 import { deserialize } from \\"@tsed/json-mapper\\";
 import { Injectable, Inject } from \\"@tsed/di\\";
 import { PrismaService } from \\"../services/PrismaService\\";
-import { Prisma, Post } from \\"../client\\";
-import { PostModel } from \\"../models\\";
+import { Prisma, Post } from \\"../client/index\\";
+import { PostModel } from \\"../models/index\\";
 
 @Injectable()
 export class PostsRepository {
@@ -80,8 +80,8 @@ exports[`generateRepositories should generate repositories (user) 1`] = `
 import { deserialize } from \\"@tsed/json-mapper\\";
 import { Injectable, Inject } from \\"@tsed/di\\";
 import { PrismaService } from \\"../services/PrismaService\\";
-import { Prisma, User } from \\"../client\\";
-import { UserModel } from \\"../models\\";
+import { Prisma, User } from \\"../client/index\\";
+import { UserModel } from \\"../models/index\\";
 
 @Injectable()
 export class UsersRepository {

@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`generateModels should generate models (info) 1`] = `
-"import { Info } from \\"../client\\";
+"import { Info } from \\"../client/index\\";
 import { Required, Property } from \\"@tsed/schema\\";
 
 export class InfoModel implements Info {
@@ -18,7 +18,7 @@ export class InfoModel implements Info {
 `;
 
 exports[`generateModels should generate models (post) 1`] = `
-"import { Post } from \\"../client\\";
+"import { Post } from \\"../client/index\\";
 import { Integer, Required, Property, Allow } from \\"@tsed/schema\\";
 import { UserModel } from \\"./UserModel\\";
 
@@ -42,9 +42,9 @@ export class PostModel implements Post {
 `;
 
 exports[`generateModels should generate models (user) 1`] = `
-"import { User } from \\"../client\\";
+"import { User } from \\"../client/index\\";
 import { Integer, Required, Property, Groups, Format, Email, Description, Allow, Enum, CollectionOf } from \\"@tsed/schema\\";
-import { Role } from \\"../enums\\";
+import { Role } from \\"../enums/index\\";
 import { PostModel } from \\"./PostModel\\";
 
 export class UserModel implements User {

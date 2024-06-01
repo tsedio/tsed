@@ -6,6 +6,7 @@ import pluralize from "pluralize";
 import {ClassDeclaration, Project, Scope} from "ts-morph";
 import {DmmfModel} from "../domain/DmmfModel.js";
 import {generateOutputsBarrelFile} from "./generateOutputsBarrelFile.js";
+import {resolveExtension} from "./resolveExtension.js";
 
 interface MethodOptions {
   repository: ClassDeclaration;
@@ -64,15 +65,15 @@ export function generateRepositories(dmmf: DMMF.Document, project: Project, base
         namedImports: ["Injectable", "Inject"]
       },
       {
-        moduleSpecifier: "../services/PrismaService",
+        moduleSpecifier: resolveExtension("../services/PrismaService"),
         namedImports: ["PrismaService"]
       },
       {
-        moduleSpecifier: "../client",
+        moduleSpecifier: resolveExtension("../client/index"),
         namedImports: ["Prisma", model.name]
       },
       {
-        moduleSpecifier: "../models",
+        moduleSpecifier: resolveExtension("../models/index"),
         namedImports: [model.toString()]
       }
     ]);
