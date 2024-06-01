@@ -15,7 +15,7 @@
   "scripts": {
     "clean": "rm -rf lib",
     "build": "yarn clean && yarn barrels && yarn build:ts",
-    "barrels": "yarn barrelsby --delete -d ./src -e \"\\.spec\\.ts\" -e \"__mock__\" -e \".benchmark.ts\"",
+    "barrels": "barrels",
     "test": "jest --max-workers=2 && jest-coverage-thresholds-bumper",
     "start": "ts-node src/index.ts",
     "build:ts": "tsc --build tsconfig.json && tsc --build tsconfig.esm.json"
@@ -24,6 +24,7 @@
     "tslib": "2.6.1"
   },
   "devDependencies": {
+    "@tsed/barrels": "workspace:*",
     "@tsed/common": "workspace:*",
     "@tsed/core": "workspace:*",
     "@tsed/di": "workspace:*",
@@ -33,7 +34,6 @@
     "@types/passport-http": "0.3.11",
     "@types/passport-local": "1.0.38",
     "@types/passport-strategy": "0.2.38",
-    "barrelsby": "^2.8.1",
     "eslint": "^8.57.0",
     "jest": "^29.7.0",
     "passport": "0.7.0",

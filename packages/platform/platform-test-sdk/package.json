@@ -14,7 +14,7 @@
   },
   "scripts": {
     "build": "yarn barrels && yarn build:ts",
-    "barrels": "yarn barrelsby --delete -d ./src -d ./src/interfaces -e \"\\.spec\\.ts\" -e \"__mock__\" -e \".benchmark.ts\"",
+    "barrels": "barrels",
     "build:ts": "tsc --build tsconfig.json && tsc --build tsconfig.esm.json"
   },
   "keywords": [
@@ -42,8 +42,8 @@
     "read-pkg-up": "7.0.1"
   },
   "devDependencies": {
+    "@tsed/barrels": "workspace:*",
     "@tsed/typescript": "workspace:*",
-    "barrelsby": "^2.8.1",
     "eslint": "^8.57.0",
     "jest": "^29.7.0"
   }

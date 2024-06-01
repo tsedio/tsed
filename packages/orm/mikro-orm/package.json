@@ -14,7 +14,7 @@
   },
   "scripts": {
     "build": "yarn barrels && yarn build:ts",
-    "barrels": "yarn barrelsby --delete -d ./src -e \"\\.spec\\.ts\" -e \"__mock__\" -e \".benchmark.ts\"",
+    "barrels": "barrels",
     "test": "jest",
     "build:ts": "tsc --build tsconfig.json && tsc --build tsconfig.esm.json"
   },
@@ -24,6 +24,7 @@
   "devDependencies": {
     "@mikro-orm/core": "6.2.2",
     "@mikro-orm/mongodb": "6.2.2",
+    "@tsed/barrels": "workspace:*",
     "@tsed/common": "workspace:*",
     "@tsed/core": "workspace:*",
     "@tsed/di": "workspace:*",
@@ -32,7 +33,6 @@
     "@tsed/schema": "workspace:*",
     "@tsed/testing-mongoose": "workspace:*",
     "@tsed/typescript": "workspace:*",
-    "barrelsby": "^2.8.1",
     "cross-env": "7.0.3",
     "eslint": "^8.57.0",
     "jest": "^29.7.0",

@@ -54,13 +54,13 @@
     "url": "git+https://github.com/tsedio/tsed.git"
   },
   "devDependencies": {
+    "@tsed/barrels": "workspace:*",
     "@tsed/common": "workspace:*",
     "@tsed/core": "workspace:*",
     "@tsed/di": "workspace:*",
     "@tsed/schema": "workspace:*",
     "@tsed/typescript": "workspace:*",
     "@types/aws-lambda": "^8.10.136",
-    "barrelsby": "^2.8.1",
     "eslint": "^8.57.0",
     "jest": "^29.7.0"
   },

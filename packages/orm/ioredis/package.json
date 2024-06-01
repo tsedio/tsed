@@ -14,7 +14,7 @@
   },
   "scripts": {
     "build": "yarn barrels && yarn build:ts",
-    "barrels": "yarn barrelsby --delete -d ./src -e \"\\.spec\\.ts\" -e \"__mock__\" -e \".benchmark.ts\"",
+    "barrels": "barrels",
     "test": "jest && jest-coverage-thresholds-bumper",
     "build:ts": "tsc --build tsconfig.json && tsc --build tsconfig.esm.json"
   },
@@ -22,11 +22,11 @@
     "tslib": "2.6.1"
   },
   "devDependencies": {
+    "@tsed/barrels": "workspace:*",
     "@tsed/core": "workspace:*",
     "@tsed/di": "workspace:*",
     "@tsed/typescript": "workspace:*",
     "@types/ioredis-mock": "^5.6.0",
-    "barrelsby": "^2.8.1",
     "eslint": "^8.57.0",
     "ioredis": "5.3.2",
     "ioredis-mock": "8.9.0",

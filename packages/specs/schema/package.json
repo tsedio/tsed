@@ -18,7 +18,7 @@
     "clean": "rm -rf lib",
     "build": "yarn clean && yarn barrels && yarn build:ts && yarn run build:browser",
     "build:browser": "webpack",
-    "barrels": "yarn barrelsby --config .barrelsby.json",
+    "barrels": "barrels",
     "test": "jest --max-workers=2 && jest-coverage-thresholds-bumper",
     "build:ts": "tsc --build tsconfig.json && tsc --build tsconfig.esm.json"
   },
@@ -43,6 +43,7 @@
   },
   "devDependencies": {
     "@apidevtools/swagger-parser": "10.1.0",
+    "@tsed/barrels": "workspace:*",
     "@tsed/core": "workspace:*",
     "@tsed/openspec": "workspace:*",
     "@tsed/typescript": "workspace:*",
@@ -50,7 +51,6 @@
     "@types/json-schema": "7.0.15",
     "@types/picomatch": "2.3.3",
     "@types/statuses": "2.0.5",
-    "barrelsby": "^2.8.1",
     "eslint": "^8.57.0",
     "jest": "^29.7.0",
     "picomatch-browser": "^2.2.6"
