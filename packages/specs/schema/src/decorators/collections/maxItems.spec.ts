@@ -1,6 +1,6 @@
-import {getJsonSchema} from "../../utils/getJsonSchema";
-import {CollectionOf} from "./collectionOf";
-import {MaxItems} from "./maxItems";
+import {getJsonSchema} from "../../utils/getJsonSchema.js";
+import {CollectionOf} from "./collectionOf.js";
+import {MaxItems} from "./maxItems.js";
 
 describe("@MaxItems", () => {
   it("should declare a prop", () => {

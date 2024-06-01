@@ -1,7 +1,7 @@
 import {Injectable, ProviderScope, Scope} from "@tsed/di";
 import {IncomingHttpHeaders, IncomingMessage} from "http";
-import type {PlatformContext} from "../domain/PlatformContext";
-import type {PlatformResponse} from "./PlatformResponse";
+import type {PlatformContext} from "../domain/PlatformContext.js";
+import type {PlatformResponse} from "./PlatformResponse.js";
 
 declare global {
   namespace TsED {

@@ -7,9 +7,9 @@ import {
   INTERACTION_PROMPT,
   INTERACTION_SESSION,
   INTERACTION_UID
-} from "../constants/constants";
-import {OidcInteractionContext} from "../services/OidcInteractionContext";
-import {OidcInteractionMiddleware} from "./OidcInteractionMiddleware";
+} from "../constants/constants.js";
+import {OidcInteractionContext} from "../services/OidcInteractionContext.js";
+import {OidcInteractionMiddleware} from "./OidcInteractionMiddleware.js";
 
 describe("OidcInteractionMiddleware", () => {
   beforeEach(() => PlatformTest.create());

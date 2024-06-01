@@ -1,6 +1,6 @@
 import {PlatformTest} from "@tsed/common";
 import Fs from "fs";
-import {cssMiddleware} from "./cssMiddleware";
+import {cssMiddleware} from "./cssMiddleware.js";
 
 describe("cssMiddleware", () => {
   beforeEach(PlatformTest.create);

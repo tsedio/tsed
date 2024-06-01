@@ -1,5 +1,5 @@
-import {JsonHeader} from "../../interfaces/JsonOpenSpec";
-import {Returns} from "./returns";
+import {JsonHeader} from "../../interfaces/JsonOpenSpec.js";
+import {Returns} from "./returns.js";
 
 /**
  * Sets the response Location HTTP header to the specified path parameter.

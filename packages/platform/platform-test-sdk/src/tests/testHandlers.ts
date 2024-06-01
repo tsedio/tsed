@@ -1,7 +1,7 @@
 import {Context, Controller, Get, PathParams, PlatformTest} from "@tsed/common";
 import {Property, Required, Title} from "@tsed/schema";
 import SuperTest from "supertest";
-import {PlatformTestingSdkOpts} from "../interfaces";
+import {PlatformTestingSdkOpts} from "../interfaces.js";
 
 export class MyModel {
   @Title("ID")

@@ -1,5 +1,5 @@
 import {isPromise} from "@tsed/core";
-import {fromNow, now} from "../utils/utils";
+import {fromNow, now} from "../utils/utils.js";
 
 export type CallbackWrapper<T = any> = (...args: any[]) => T;
 

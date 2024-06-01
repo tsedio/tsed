@@ -1,4 +1,4 @@
-import {TransformContext} from "../domain/TransformContext";
+import {TransformContext} from "../domain/TransformContext.js";
 import {DMMF} from "@prisma/generator-helper";
 
 export function isCircularRef(modelName: string, fieldType: string, ctx: TransformContext): boolean {

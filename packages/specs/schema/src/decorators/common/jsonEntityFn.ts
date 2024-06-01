@@ -1,6 +1,6 @@
 import {DecoratorParameters} from "@tsed/core";
-import type {JsonEntityStore} from "../../domain/JsonEntityStore";
-import {getJsonEntityStore} from "../../utils/getJsonEntityStore";
+import type {JsonEntityStore} from "../../domain/JsonEntityStore.js";
+import {getJsonEntityStore} from "../../utils/getJsonEntityStore.js";
 
 /**
  * Decorator util to compose another decorator. See @@Description@@ decorator implementation for more details.

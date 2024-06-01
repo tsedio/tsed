@@ -1,5 +1,5 @@
-import {getJsonSchema} from "../../utils/getJsonSchema";
-import {Any} from "./any";
+import {getJsonSchema} from "../../utils/getJsonSchema.js";
+import {Any} from "./any.js";
 
 describe("@Any", () => {
   it("should declare any prop", () => {

@@ -1,10 +1,10 @@
 import {Inject, Injectable, InjectorService, Provider} from "@tsed/di";
 // @ts-ignore
 import {interactionPolicy} from "oidc-provider";
-import {InteractionMethods} from "../domain/InteractionMethods";
-import {OidcInteractionOptions} from "../domain/OidcInteractionOptions";
-import {OidcInteractions} from "./OidcInteractions";
-import {OIDC_PROVIDER_NODE_MODULE} from "./OidcProviderNodeModule";
+import {InteractionMethods} from "../domain/InteractionMethods.js";
+import {OidcInteractionOptions} from "../domain/OidcInteractionOptions.js";
+import {OidcInteractions} from "./OidcInteractions.js";
+import {OIDC_PROVIDER_NODE_MODULE} from "./OidcProviderNodeModule.js";
 import Prompt = interactionPolicy.Prompt;
 
 @Injectable()

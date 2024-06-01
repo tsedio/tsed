@@ -1,10 +1,10 @@
 import {isClass, Type} from "@tsed/core";
-import {JsonEntityStore} from "../domain/JsonEntityStore";
-import {JsonFormatTypes} from "../domain/JsonFormatTypes";
-import {JsonLazyRef} from "../domain/JsonLazyRef";
-import {JsonSchema} from "../domain/JsonSchema";
-import {enumsRegistry} from "../registries/enumRegistries";
-import {getJsonEntityStore} from "./getJsonEntityStore";
+import {JsonEntityStore} from "../domain/JsonEntityStore.js";
+import {JsonFormatTypes} from "../domain/JsonFormatTypes.js";
+import {JsonLazyRef} from "../domain/JsonLazyRef.js";
+import {JsonSchema} from "../domain/JsonSchema.js";
+import {enumsRegistry} from "../registries/enumRegistries.js";
+import {getJsonEntityStore} from "./getJsonEntityStore.js";
 
 /**
  * Create a new model from the given type.

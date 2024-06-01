@@ -1,13 +1,13 @@
 import {catchError} from "@tsed/core";
-import {JsonEntityStore} from "../../domain/JsonEntityStore";
-import {getJsonSchema} from "../../utils/getJsonSchema";
-import {Property} from "../common/property";
-import {In} from "../operations/in";
-import {OperationPath} from "../operations/operationPath";
-import {CollectionContains} from "./collectionContains";
-import {ArrayOf, CollectionOf, MapOf} from "./collectionOf";
-import {MaxItems} from "./maxItems";
-import {MinItems} from "./minItems";
+import {JsonEntityStore} from "../../domain/JsonEntityStore.js";
+import {getJsonSchema} from "../../utils/getJsonSchema.js";
+import {Property} from "../common/property.js";
+import {In} from "../operations/in.js";
+import {OperationPath} from "../operations/operationPath.js";
+import {CollectionContains} from "./collectionContains.js";
+import {ArrayOf, CollectionOf, MapOf} from "./collectionOf.js";
+import {MaxItems} from "./maxItems.js";
+import {MinItems} from "./minItems.js";
 
 describe("@CollectionOf", () => {
   it("should declare a collection (Array of)", () => {

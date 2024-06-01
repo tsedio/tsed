@@ -1,6 +1,6 @@
-import {classOf} from "./classOf";
-import {ancestorOf} from "./ancestorOf";
-import {nameOf} from "./nameOf";
+import {classOf} from "./classOf.js";
+import {ancestorOf} from "./ancestorOf.js";
+import {nameOf} from "./nameOf.js";
 
 export function isInheritedFrom(target: any, from: any, deep = 5): boolean {
   if (!target || !from) {

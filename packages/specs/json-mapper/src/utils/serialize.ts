@@ -2,8 +2,8 @@ import "../components/DateMapper";
 import "../components/PrimitiveMapper";
 import "../components/SymbolMapper";
 
-import {JsonSerializer} from "../domain/JsonSerializer";
-import {JsonSerializerOptions} from "../domain/JsonSerializerOptions";
+import {JsonSerializer} from "../domain/JsonSerializer.js";
+import {JsonSerializerOptions} from "../domain/JsonSerializerOptions.js";
 
 const serializer = new JsonSerializer();
 

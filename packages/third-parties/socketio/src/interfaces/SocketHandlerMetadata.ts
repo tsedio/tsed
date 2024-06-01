@@ -1,5 +1,5 @@
-import {SocketParamMetadata} from "./SocketParamMetadata";
-import {SocketReturnsTypes} from "./SocketReturnsTypes";
+import {SocketParamMetadata} from "./SocketParamMetadata.js";
+import {SocketReturnsTypes} from "./SocketReturnsTypes.js";
 
 /**
  *

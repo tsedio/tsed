@@ -1,5 +1,5 @@
-import {getJsonSchema, getSpec, OperationPath, Path, Returns, SpecTypes} from "../../index";
-import {WriteOnly} from "./writeOnly";
+import {getJsonSchema, getSpec, OperationPath, Path, Returns, SpecTypes} from "../../index.js";
+import {WriteOnly} from "./writeOnly.js";
 
 describe("@WriteOnly", () => {
   it("should declare writeOnly field (with boolean)", () => {

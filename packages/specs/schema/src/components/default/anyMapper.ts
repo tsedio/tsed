@@ -1,9 +1,9 @@
-import {JsonLazyRef} from "../../domain/JsonLazyRef";
-import {JsonSchema} from "../../domain/JsonSchema";
-import {JsonSchemaOptions} from "../../interfaces/JsonSchemaOptions";
-import {execMapper, oneOfMapper, registerJsonSchemaMapper} from "../../registries/JsonSchemaMapperContainer";
-import {mapGenericsOptions} from "../../utils/generics";
-import {toRef} from "../../utils/ref";
+import {JsonLazyRef} from "../../domain/JsonLazyRef.js";
+import {JsonSchema} from "../../domain/JsonSchema.js";
+import {JsonSchemaOptions} from "../../interfaces/JsonSchemaOptions.js";
+import {execMapper, oneOfMapper, registerJsonSchemaMapper} from "../../registries/JsonSchemaMapperContainer.js";
+import {mapGenericsOptions} from "../../utils/generics.js";
+import {toRef} from "../../utils/ref.js";
 
 export function anyMapper(input: any, options: JsonSchemaOptions = {}): any {
   if (typeof input !== "object" || input === null) {

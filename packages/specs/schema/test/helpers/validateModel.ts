@@ -1,8 +1,8 @@
-import {getJsonSchema} from "../../src";
+import {getJsonSchema} from "../../src/index.js";
 import Ajv, {Options} from "ajv";
 import AjvFormats from "ajv-formats";
 import AjvErrors from "ajv-errors";
-import type {JsonSchemaOptions} from "../../src";
+import type {JsonSchemaOptions} from "../../src/index.js";
 
 export function validateModel(data: any, model: any, options: JsonSchemaOptions & Options = {}) {
   const {errorFormatter, keywords = [], ...props} = options;

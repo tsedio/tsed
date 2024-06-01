@@ -1,5 +1,5 @@
 import {Type} from "@tsed/core";
-import type {ExceptionFilterMethods} from "../interfaces/ExceptionFilterMethods";
+import type {ExceptionFilterMethods} from "../interfaces/ExceptionFilterMethods.js";
 /**
  * @ignore
  */

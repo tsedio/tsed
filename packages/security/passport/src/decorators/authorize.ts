@@ -2,7 +2,7 @@ import {UseAuth} from "@tsed/platform-middlewares";
 import {useDecorators} from "@tsed/core";
 import {Security} from "@tsed/schema";
 import {AuthenticateOptions} from "passport";
-import {PassportMiddleware} from "../middlewares/PassportMiddleware";
+import {PassportMiddleware} from "../middlewares/PassportMiddleware.js";
 
 export interface AuthorizeOptions extends AuthenticateOptions {
   security?: Record<string, string[]>;

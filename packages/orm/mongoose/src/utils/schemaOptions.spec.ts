@@ -1,4 +1,4 @@
-import {applySchemaOptions, schemaOptions} from "../../src/utils/schemaOptions";
+import {applySchemaOptions, schemaOptions} from "../../src/utils/schemaOptions.js";
 
 describe("schemaOptions", () => {
   describe("schemaOptions()", () => {

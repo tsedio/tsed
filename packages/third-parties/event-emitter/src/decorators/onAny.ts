@@ -1,5 +1,5 @@
 import {Store} from "@tsed/core";
-import {EventEmitterStore} from "../interfaces/EventEmitterStore";
+import {EventEmitterStore} from "../interfaces/EventEmitterStore.js";
 
 export function OnAny(): MethodDecorator {
   return (target: any, propertyKey: string) => {

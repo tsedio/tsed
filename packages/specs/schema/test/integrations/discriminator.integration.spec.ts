@@ -18,7 +18,7 @@ import {
   Put,
   Required,
   Returns
-} from "../../src/index";
+} from "../../src/index.js";
 
 class Event {
   @DiscriminatorKey() // declare this property a discriminator key

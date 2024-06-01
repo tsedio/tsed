@@ -1,6 +1,6 @@
 import {classOf, descriptorOf, methodsOf, nameOf} from "@tsed/core";
 import chalk from "chalk";
-import {CallbackWrapper, Perf} from "./Perf";
+import {CallbackWrapper, Perf} from "./Perf.js";
 
 const loggers = new Map();
 
@@ -11,7 +11,10 @@ export class PerfLogger {
   #perf = new Perf();
   #enabled: boolean = false;
 
-  constructor(readonly label: string = "perf", readonly levels: LEVELS = {10: "green", 50: "yellow", 100: "red"}) {
+  constructor(
+    readonly label: string = "perf",
+    readonly levels: LEVELS = {10: "green", 50: "yellow", 100: "red"}
+  ) {
     this.wrap = this.wrap.bind(this);
     this.log = this.log.bind(this);
     this.start = this.start.bind(this);

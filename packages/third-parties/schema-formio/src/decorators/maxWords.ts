@@ -1,4 +1,4 @@
-import {Validate} from "./validate";
+import {Validate} from "./validate.js";
 
 /**
  * Add the minimum amount of words that can be added to this field.

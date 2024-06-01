@@ -1,5 +1,5 @@
-import {getJsonSchema} from "../../utils/getJsonSchema";
-import {MultipleOf} from "./multipleOf";
+import {getJsonSchema} from "../../utils/getJsonSchema.js";
+import {MultipleOf} from "./multipleOf.js";
 
 describe("MultipleOf", () => {
   it("should declare minimum value", () => {

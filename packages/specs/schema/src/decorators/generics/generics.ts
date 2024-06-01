@@ -1,4 +1,4 @@
-import {JsonEntityStore} from "../../domain/JsonEntityStore";
+import {JsonEntityStore} from "../../domain/JsonEntityStore.js";
 
 /**
  * Define generics list. This list is used by @@GenericOf@@ and the @@getJsonSchema@@ function to build the correct JsonSchema.

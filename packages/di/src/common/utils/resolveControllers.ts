@@ -1,9 +1,9 @@
 import {isArray, isClass} from "@tsed/core";
-import {TokenProvider} from "../interfaces/TokenProvider";
-import {GlobalProviders} from "../registries/GlobalProviders";
-import {ProviderType} from "../domain/ProviderType";
-import {Provider} from "../domain/Provider";
-import {TokenRoute} from "../interfaces/TokenRoute";
+import {TokenProvider} from "../interfaces/TokenProvider.js";
+import {GlobalProviders} from "../registries/GlobalProviders.js";
+import {ProviderType} from "../domain/ProviderType.js";
+import {Provider} from "../domain/Provider.js";
+import {TokenRoute} from "../interfaces/TokenRoute.js";
 
 const lookupProperties = ["mount", "imports"];
 

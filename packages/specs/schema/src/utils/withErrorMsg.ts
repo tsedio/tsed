@@ -1,5 +1,5 @@
 import {deepMerge, useDecorators} from "@tsed/core";
-import {JsonEntityFn} from "../decorators/common/jsonEntityFn";
+import {JsonEntityFn} from "../decorators/common/jsonEntityFn.js";
 
 export interface ErrorChainedMethods<T> {
   <T>(target: Object, propertyKey?: string | symbol | undefined, descriptor?: TypedPropertyDescriptor<T> | number): any;

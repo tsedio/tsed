@@ -1,4 +1,4 @@
-import {Configurable, descriptorOf, NotConfigurable} from "../../src";
+import {Configurable, descriptorOf, NotConfigurable} from "../../src/index.js";
 
 class Test {
   test: string;

@@ -1,4 +1,4 @@
-import {isMethodDescriptor} from "./descriptorOf";
+import {isMethodDescriptor} from "./descriptorOf.js";
 
 describe("isMethodDescriptor()", () => {
   it("should return true", () => {

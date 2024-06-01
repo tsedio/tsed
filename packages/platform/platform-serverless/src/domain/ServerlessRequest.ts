@@ -1,5 +1,5 @@
 import {getValue} from "@tsed/core";
-import {ServerlessContext} from "./ServerlessContext";
+import {ServerlessContext} from "./ServerlessContext.js";
 
 /**
  * @platform

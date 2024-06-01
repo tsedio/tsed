@@ -1,4 +1,4 @@
-import {Groups} from "../common/groups";
+import {Groups} from "../common/groups.js";
 
 /**
  * Apply Partial group strategy on the input model

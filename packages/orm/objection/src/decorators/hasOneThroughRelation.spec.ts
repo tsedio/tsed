@@ -1,7 +1,7 @@
 import {Model} from "objection";
-import {Entity} from "./entity";
-import {HasOneThroughRelation} from "./hasOneThroughRelation";
-import {IdColumn} from "./idColumn";
+import {Entity} from "./entity.js";
+import {HasOneThroughRelation} from "./hasOneThroughRelation.js";
+import {IdColumn} from "./idColumn.js";
 
 describe("@HasOneThroughRelation", () => {
   it("should set metadata", () => {

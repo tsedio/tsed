@@ -1,5 +1,5 @@
-import {PlatformTest} from "../services/PlatformTest";
-import {ensureContext} from "./ensureContext";
+import {PlatformTest} from "../services/PlatformTest.js";
+import {ensureContext} from "./ensureContext.js";
 
 describe("ensureContext()", () => {
   beforeEach(() => PlatformTest.create());

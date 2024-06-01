@@ -1,6 +1,6 @@
 import {$log, Controller, Get} from "@tsed/common";
 import {PlatformKoa} from "@tsed/platform-koa";
-import {Server} from "./Server";
+import {Server} from "./Server.js";
 
 if (process.env.NODE_ENV !== "test") {
   @Controller("/hello")

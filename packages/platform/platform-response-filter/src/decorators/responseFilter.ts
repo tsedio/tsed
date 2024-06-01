@@ -1,6 +1,6 @@
 import {Type} from "@tsed/core";
 import {registerProvider} from "@tsed/di";
-import {registerResponseFilter, ResponseFilterKey} from "../domain/ResponseFiltersContainer";
+import {registerResponseFilter, ResponseFilterKey} from "../domain/ResponseFiltersContainer.js";
 
 /**
  * Register a response filter service.

@@ -1,4 +1,4 @@
-import {isPlainObject} from "./isPlainObject";
+import {isPlainObject} from "./isPlainObject.js";
 
 describe("isPlainObject", () => {
   it("should test if the value is a plain object", () => {

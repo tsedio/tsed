@@ -4,8 +4,8 @@ import {PlatformExpress} from "@tsed/platform-express";
 import {ApolloServerTestClient, createTestClient} from "apollo-server-testing";
 import gql from "graphql-tag";
 import "@tsed/graphql-ws";
-import {TypeGraphQLService} from "../src";
-import {Server} from "./app/Server";
+import {TypeGraphQLService} from "../src/index.js";
+import {Server} from "./app/Server.js";
 
 const GET_RECIPES = gql`
   query GetRecipes {

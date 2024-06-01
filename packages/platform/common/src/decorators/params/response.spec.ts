@@ -1,7 +1,7 @@
 import {ParamTypes} from "@tsed/platform-params";
 import {ServerResponse} from "http";
-import {PlatformResponse} from "../../services/PlatformResponse";
-import {Res, Response} from "./response";
+import {PlatformResponse} from "../../services/PlatformResponse.js";
+import {Res, Response} from "./response.js";
 import {JsonParameterStore} from "@tsed/schema";
 
 describe("@Res", () => {

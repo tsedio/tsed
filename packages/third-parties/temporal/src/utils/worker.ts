@@ -2,7 +2,7 @@ import {PlatformBuilderSettings, PlatformTest} from "@tsed/common";
 import {$log} from "@tsed/logger";
 
 import {NativeConnection, NativeConnectionOptions, Worker, WorkerOptions} from "@temporalio/worker";
-import {TemporalModule} from "../TemporalModule";
+import {TemporalModule} from "../TemporalModule.js";
 
 type BootstrapWorkerOptions = {
   platform?: PlatformBuilderSettings;

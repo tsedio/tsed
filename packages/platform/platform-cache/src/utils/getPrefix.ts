@@ -1,5 +1,5 @@
 import {nameOf, Type} from "@tsed/core";
-import {getInterceptorOptions} from "./getInterceptorOptions";
+import {getInterceptorOptions} from "./getInterceptorOptions.js";
 
 export function getPrefix(target: Type<any>, propertyKey: string | symbol) {
   const {prefix} = getInterceptorOptions(target, propertyKey);

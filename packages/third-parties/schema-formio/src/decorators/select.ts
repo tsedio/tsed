@@ -1,4 +1,4 @@
-import {Component} from "./component";
+import {Component} from "./component.js";
 
 export interface SelectOpts extends Record<string, any> {
   idPath?: string;

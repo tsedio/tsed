@@ -1,5 +1,5 @@
-import {Container} from "../domain/Container";
-import {InjectorService} from "../services/InjectorService";
+import {Container} from "../domain/Container.js";
+import {InjectorService} from "../services/InjectorService.js";
 
 describe("DI Resolvers", () => {
   describe("create new injector", () => {

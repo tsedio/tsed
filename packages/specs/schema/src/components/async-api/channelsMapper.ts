@@ -1,13 +1,13 @@
 import {camelCase} from "change-case";
-import {OperationVerbs} from "../../constants/OperationVerbs";
-import {JsonMethodStore} from "../../domain/JsonMethodStore";
-import {JsonMethodPath} from "../../domain/JsonOperation";
-import {JsonSchemaOptions} from "../../interfaces/JsonSchemaOptions";
-import {execMapper, registerJsonSchemaMapper} from "../../registries/JsonSchemaMapperContainer";
-import {buildPath} from "../../utils/buildPath";
-import {getJsonEntityStore} from "../../utils/getJsonEntityStore";
-import {getOperationsStores} from "../../utils/getOperationsStores";
-import {removeHiddenOperation} from "../../utils/removeHiddenOperation";
+import {OperationVerbs} from "../../constants/OperationVerbs.js";
+import {JsonMethodStore} from "../../domain/JsonMethodStore.js";
+import {JsonMethodPath} from "../../domain/JsonOperation.js";
+import {JsonSchemaOptions} from "../../interfaces/JsonSchemaOptions.js";
+import {execMapper, registerJsonSchemaMapper} from "../../registries/JsonSchemaMapperContainer.js";
+import {buildPath} from "../../utils/buildPath.js";
+import {getJsonEntityStore} from "../../utils/getJsonEntityStore.js";
+import {getOperationsStores} from "../../utils/getOperationsStores.js";
+import {removeHiddenOperation} from "../../utils/removeHiddenOperation.js";
 
 const ALLOWED_VERBS = [OperationVerbs.PUBLISH, OperationVerbs.SUBSCRIBE];
 

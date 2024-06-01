@@ -1,6 +1,6 @@
 import {PlatformTest} from "@tsed/common";
-import {PlatformKoaRequest} from "./PlatformKoaRequest";
-import {PlatformKoaResponse} from "./PlatformKoaResponse";
+import {PlatformKoaRequest} from "./PlatformKoaRequest.js";
+import {PlatformKoaResponse} from "./PlatformKoaResponse.js";
 
 function createResponse() {
   const res = PlatformTest.createResponse();

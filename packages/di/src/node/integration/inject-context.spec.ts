@@ -1,8 +1,8 @@
-import {Injectable} from "../../common/index";
-import {InjectContext} from "../decorators/injectContext";
-import {DIContext} from "../domain/DIContext";
-import {DITest} from "../services/DITest";
-import {runInContext} from "../utils/asyncHookContext";
+import {Injectable} from "../../common/index.js";
+import {InjectContext} from "../decorators/injectContext.js";
+import {DIContext} from "../domain/DIContext.js";
+import {DITest} from "../services/DITest.js";
+import {runInContext} from "../utils/asyncHookContext.js";
 
 @Injectable()
 class MyService {

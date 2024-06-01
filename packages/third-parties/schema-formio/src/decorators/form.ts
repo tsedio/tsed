@@ -2,8 +2,8 @@ import {nameOf, StoreSet, useDecorators} from "@tsed/core";
 import {FormioForm} from "@tsed/formio-types";
 import {Name} from "@tsed/schema";
 import {paramCase} from "change-case";
-import {FormsContainer} from "../registries/FormsContainer";
-import {Label} from "./label";
+import {FormsContainer} from "../registries/FormsContainer.js";
+import {Label} from "./label.js";
 
 /**
  * Expose the model as Formio Form.

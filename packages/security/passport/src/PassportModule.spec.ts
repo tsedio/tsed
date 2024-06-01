@@ -1,6 +1,6 @@
 import {PlatformApplication, PlatformTest} from "@tsed/common";
 import "../src/index";
-import {PassportModule} from "./PassportModule";
+import {PassportModule} from "./PassportModule.js";
 import Passport from "passport";
 
 jest.mock("passport");

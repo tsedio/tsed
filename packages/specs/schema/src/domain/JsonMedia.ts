@@ -1,6 +1,6 @@
 import {OS3MediaType} from "@tsed/openspec";
-import {JsonMap} from "./JsonMap";
-import {JsonSchema} from "./JsonSchema";
+import {JsonMap} from "./JsonMap.js";
+import {JsonSchema} from "./JsonSchema.js";
 
 export class JsonMedia extends JsonMap<OS3MediaType<JsonSchema>> {
   $kind: string = "operationMedia";

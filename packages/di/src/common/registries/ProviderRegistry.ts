@@ -1,8 +1,8 @@
-import {Provider} from "../domain/Provider";
-import {ProviderScope} from "../domain/ProviderScope";
-import {ProviderType} from "../domain/ProviderType";
-import type {ProviderOpts} from "../interfaces/ProviderOpts";
-import {GlobalProviders} from "./GlobalProviders";
+import {Provider} from "../domain/Provider.js";
+import {ProviderScope} from "../domain/ProviderScope.js";
+import {ProviderType} from "../domain/ProviderType.js";
+import type {ProviderOpts} from "../interfaces/ProviderOpts.js";
+import {GlobalProviders} from "./GlobalProviders.js";
 
 /**
  *

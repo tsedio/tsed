@@ -3,8 +3,8 @@ import {Controller} from "@tsed/di";
 import {Get, Returns} from "@tsed/schema";
 import {PlatformServerlessTest} from "@tsed/platform-serverless-testing";
 import {PlatformExpress} from "@tsed/platform-express";
-import {PlatformServerlessHttp, ServerlessContext, ServerlessEvent} from "../src";
-import {Server} from "./integration/aws-basic/src/Server";
+import {PlatformServerlessHttp, ServerlessContext, ServerlessEvent} from "../src/index.js";
+import {Server} from "./integration/aws-basic/src/Server.js";
 
 @Controller("/")
 class BodyLambda {

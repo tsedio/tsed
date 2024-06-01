@@ -1,9 +1,9 @@
 import {catchError, Store} from "@tsed/core";
 import {getJsonSchema, Property} from "@tsed/schema";
 import {Schema} from "mongoose";
-import {MONGOOSE_MODEL_NAME, MONGOOSE_SCHEMA} from "../constants/constants";
-import {MongooseModels} from "../registries/MongooseModels";
-import {Ref} from "./ref";
+import {MONGOOSE_MODEL_NAME, MONGOOSE_SCHEMA} from "../constants/constants.js";
+import {MongooseModels} from "../registries/MongooseModels.js";
+import {Ref} from "./ref.js";
 
 describe("@Ref()", () => {
   describe("type is a class", () => {

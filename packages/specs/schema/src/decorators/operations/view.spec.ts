@@ -1,4 +1,4 @@
-import {JsonMethodStore, View} from "../../index";
+import {JsonMethodStore, View} from "../../index.js";
 
 describe("@View", () => {
   it("should set metadata", () => {

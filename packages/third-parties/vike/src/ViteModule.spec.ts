@@ -1,10 +1,10 @@
 import {PlatformApplication, PlatformTest} from "@tsed/common";
 import {PlatformViews} from "@tsed/platform-views";
 
-import {ViteRendererMiddleware} from "./middlewares/ViteRendererMiddleware";
-import {VITE_SERVER} from "./services/ViteServer";
-import {ViteService} from "./services/ViteService";
-import {ViteModule} from "./ViteModule";
+import {ViteRendererMiddleware} from "./middlewares/ViteRendererMiddleware.js";
+import {VITE_SERVER} from "./services/ViteServer.js";
+import {ViteService} from "./services/ViteService.js";
+import {ViteModule} from "./ViteModule.js";
 
 async function getModuleFixture() {
   const platformViews = {

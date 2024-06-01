@@ -1,7 +1,7 @@
 import {Type} from "@tsed/core";
-import type {Provider} from "../domain/Provider";
-import type {InjectorService} from "../services/InjectorService";
-import type {ResolvedInvokeOptions} from "./ResolvedInvokeOptions";
+import type {Provider} from "../domain/Provider.js";
+import type {InjectorService} from "../services/InjectorService.js";
+import type {ResolvedInvokeOptions} from "./ResolvedInvokeOptions.js";
 
 /**
  * @ignore

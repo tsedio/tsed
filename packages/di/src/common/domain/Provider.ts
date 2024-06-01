@@ -1,8 +1,8 @@
 import {classOf, getClassOrSymbol, isClass, Metadata, methodsOf, nameOf, Store, Type} from "@tsed/core";
-import {ProviderOpts} from "../interfaces/ProviderOpts";
-import {TokenProvider} from "../interfaces/TokenProvider";
-import {ProviderScope} from "./ProviderScope";
-import {ProviderType} from "./ProviderType";
+import {ProviderOpts} from "../interfaces/ProviderOpts.js";
+import {TokenProvider} from "../interfaces/TokenProvider.js";
+import {ProviderScope} from "./ProviderScope.js";
+import {ProviderType} from "./ProviderType.js";
 
 export type ProviderHookCallback<T = any> = (instance: T, ...args: any[]) => Promise<void> | void;
 

@@ -1,4 +1,4 @@
-import {getHostInfoFromPort} from "./getHostInfoFromPort";
+import {getHostInfoFromPort} from "./getHostInfoFromPort.js";
 
 describe("buildAddressAndPort()", () => {
   it("should return address and port from a concatened address and port", () => {

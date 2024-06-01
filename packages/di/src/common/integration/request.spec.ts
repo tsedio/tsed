@@ -1,11 +1,11 @@
-import {Scope} from "../decorators/scope";
-import {Service} from "../decorators/service";
-import {Container} from "../domain/Container";
-import {LocalsContainer} from "../domain/LocalsContainer";
-import {ProviderScope} from "../domain/ProviderScope";
-import {OnDestroy} from "../interfaces/OnDestroy";
-import {GlobalProviders} from "../registries/GlobalProviders";
-import {InjectorService} from "../services/InjectorService";
+import {Scope} from "../decorators/scope.js";
+import {Service} from "../decorators/service.js";
+import {Container} from "../domain/Container.js";
+import {LocalsContainer} from "../domain/LocalsContainer.js";
+import {ProviderScope} from "../domain/ProviderScope.js";
+import {OnDestroy} from "../interfaces/OnDestroy.js";
+import {GlobalProviders} from "../registries/GlobalProviders.js";
+import {InjectorService} from "../services/InjectorService.js";
 
 describe("DI Request", () => {
   @Service()
@@ -22,7 +22,10 @@ describe("DI Request", () => {
   @Service()
   @Scope(ProviderScope.REQUEST)
   class ServiceRequest implements OnDestroy {
-    constructor(public serviceSingleton: ServiceSingleton, public serviceInstance: ServiceInstance) {}
+    constructor(
+      public serviceSingleton: ServiceSingleton,
+      public serviceInstance: ServiceInstance
+    ) {}
 
     $onDestroy(): Promise<any> | void {
       return undefined;

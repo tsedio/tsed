@@ -1,7 +1,7 @@
 import {ParamTypes} from "@tsed/platform-params";
 import {IncomingMessage} from "http";
-import {PlatformRequest} from "../../services/PlatformRequest";
-import {Req, Request} from "./request";
+import {PlatformRequest} from "../../services/PlatformRequest.js";
+import {Req, Request} from "./request.js";
 import {JsonParameterStore} from "@tsed/schema";
 
 describe("@Req", () => {

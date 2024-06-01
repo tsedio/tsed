@@ -1,5 +1,5 @@
-import {getJsonSchema} from "../../utils/getJsonSchema";
-import {ErrorMsg} from "./errorMsg";
+import {getJsonSchema} from "../../utils/getJsonSchema.js";
+import {ErrorMsg} from "./errorMsg.js";
 
 describe("@ErrorMsg", () => {
   it("should declare error message", () => {

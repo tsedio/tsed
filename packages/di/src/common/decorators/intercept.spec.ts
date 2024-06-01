@@ -1,9 +1,9 @@
 import {Store} from "@tsed/core";
-import {INJECTABLE_PROP} from "../constants/constants";
-import {InjectablePropertyType} from "../domain/InjectablePropertyType";
-import {InterceptorContext} from "../interfaces/InterceptorContext";
-import {InterceptorMethods} from "../interfaces/InterceptorMethods";
-import {Intercept} from "./intercept";
+import {INJECTABLE_PROP} from "../constants/constants.js";
+import {InjectablePropertyType} from "../domain/InjectablePropertyType.js";
+import {InterceptorContext} from "../interfaces/InterceptorContext.js";
+import {InterceptorMethods} from "../interfaces/InterceptorMethods.js";
+import {Intercept} from "./intercept.js";
 
 describe("@Intercept", () => {
   it("should add interceptor on method", () => {

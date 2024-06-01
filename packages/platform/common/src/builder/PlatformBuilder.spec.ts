@@ -1,15 +1,15 @@
 import {catchAsyncError, Type} from "@tsed/core";
 import {Configuration, Controller, Injectable, InjectorService, Module} from "@tsed/di";
-import {AfterInit} from "../interfaces/AfterInit";
-import {AfterListen} from "../interfaces/AfterListen";
-import {AfterRoutesInit} from "../interfaces/AfterRoutesInit";
-import {BeforeInit} from "../interfaces/BeforeInit";
-import {BeforeListen} from "../interfaces/BeforeListen";
-import {BeforeRoutesInit} from "../interfaces/BeforeRoutesInit";
-import {OnReady} from "../interfaces/OnReady";
-import {FakeAdapter} from "../services/FakeAdapter";
-import {Platform} from "../services/Platform";
-import {PlatformBuilder} from "./PlatformBuilder";
+import {AfterInit} from "../interfaces/AfterInit.js";
+import {AfterListen} from "../interfaces/AfterListen.js";
+import {AfterRoutesInit} from "../interfaces/AfterRoutesInit.js";
+import {BeforeInit} from "../interfaces/BeforeInit.js";
+import {BeforeListen} from "../interfaces/BeforeListen.js";
+import {BeforeRoutesInit} from "../interfaces/BeforeRoutesInit.js";
+import {OnReady} from "../interfaces/OnReady.js";
+import {FakeAdapter} from "../services/FakeAdapter.js";
+import {Platform} from "../services/Platform.js";
+import {PlatformBuilder} from "./PlatformBuilder.js";
 
 @Controller("/")
 class RestCtrl {}

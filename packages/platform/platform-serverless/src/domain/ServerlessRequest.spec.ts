@@ -1,5 +1,5 @@
 import {PlatformServerlessTest} from "@tsed/platform-serverless-testing";
-import {createServerlessContext} from "../../test/utils/createServerlessContext";
+import {createServerlessContext} from "../../test/utils/createServerlessContext.js";
 
 describe("ServerlessRequest", () => {
   beforeEach(() => PlatformServerlessTest.create());

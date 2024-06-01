@@ -1,5 +1,5 @@
 import {NextFunction as ENext, Request as EReq, Response as ERes} from "express";
-import {PlatformExpressSettings} from "./PlatformExpressSettings";
+import {PlatformExpressSettings} from "./PlatformExpressSettings.js";
 
 declare global {
   namespace TsED {

@@ -1,13 +1,13 @@
-import {OpenSpecHash} from "../common/OpenSpecHash";
-import {OS3Callbacks} from "./OS3Callbacks";
-import {OS3Example} from "./OS3Example";
-import {OS3Header} from "./OS3Header";
-import {OS3Link} from "./OS3Link";
-import {OS3Parameter} from "./OS3Parameter";
-import {OS3RequestBody} from "./OS3RequestBody";
-import {OS3Response} from "./OS3Response";
-import {OS3Schema} from "./OS3Schema";
-import {OS3Security} from "./OS3Security";
+import {OpenSpecHash} from "../common/OpenSpecHash.js";
+import {OS3Callbacks} from "./OS3Callbacks.js";
+import {OS3Example} from "./OS3Example.js";
+import {OS3Header} from "./OS3Header.js";
+import {OS3Link} from "./OS3Link.js";
+import {OS3Parameter} from "./OS3Parameter.js";
+import {OS3RequestBody} from "./OS3RequestBody.js";
+import {OS3Response} from "./OS3Response.js";
+import {OS3Schema} from "./OS3Schema.js";
+import {OS3Security} from "./OS3Security.js";
 
 export interface OS3Components<Schema = OS3Schema> {
   /**

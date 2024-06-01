@@ -1,7 +1,7 @@
-import {StoreFn} from "../../decorators/storeFn";
-import {useDecorators} from "./useDecorators";
-import {AnyDecorator} from "../../interfaces/AnyDecorator";
-import {Store} from "../../domain/Store";
+import {StoreFn} from "../../decorators/storeFn.js";
+import {useDecorators} from "./useDecorators.js";
+import {AnyDecorator} from "../../interfaces/AnyDecorator.js";
+import {Store} from "../../domain/Store.js";
 
 describe("useDecorators", () => {
   function decorator1(value: any) {

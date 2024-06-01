@@ -1,6 +1,6 @@
 import {Store} from "@tsed/core";
-import {Value} from "./value";
-import {INJECTABLE_PROP} from "../constants/constants";
+import {Value} from "./value.js";
+import {INJECTABLE_PROP} from "../constants/constants.js";
 
 describe("@Value()", () => {
   it("should store metadata", () => {

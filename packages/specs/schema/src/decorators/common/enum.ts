@@ -1,6 +1,6 @@
 import type {JSONSchema6Type} from "json-schema";
-import {withErrorMsg} from "../../utils/withErrorMsg";
-import {JsonEntityFn} from "./jsonEntityFn";
+import {withErrorMsg} from "../../utils/withErrorMsg.js";
+import {JsonEntityFn} from "./jsonEntityFn.js";
 
 function EnumFn(...enumValues: (JSONSchema6Type | any)[]): Function;
 function EnumFn(enumValue: JSONSchema6Type | any, ...enumValues: JSONSchema6Type[]) {

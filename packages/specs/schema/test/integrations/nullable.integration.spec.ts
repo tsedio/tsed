@@ -1,5 +1,5 @@
-import {Any, getJsonSchema, getSpec, Nullable, OperationPath, Path, Property, Required, Returns, SpecTypes} from "../../src/index";
-import {validateSpec} from "../helpers/validateSpec";
+import {Any, getJsonSchema, getSpec, Nullable, OperationPath, Path, Property, Required, Returns, SpecTypes} from "../../src/index.js";
+import {validateSpec} from "../helpers/validateSpec.js";
 
 class Nested {
   @Property()

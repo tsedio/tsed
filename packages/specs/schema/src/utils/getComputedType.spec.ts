@@ -1,4 +1,4 @@
-import {getComputedType} from "./getComputedType";
+import {getComputedType} from "./getComputedType.js";
 
 describe("getComputedType", () => {
   it("should return the right class (String)", () => {

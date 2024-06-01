@@ -1,6 +1,6 @@
-import {Consumes, getSpec, OperationPath, Path} from "../../index";
-import {getJsonSchema} from "../../utils/getJsonSchema";
-import {Name} from "./name";
+import {Consumes, getSpec, OperationPath, Path} from "../../index.js";
+import {getJsonSchema} from "../../utils/getJsonSchema.js";
+import {Name} from "./name.js";
 
 describe("@Name", () => {
   it("should declare name as alias (props)", () => {

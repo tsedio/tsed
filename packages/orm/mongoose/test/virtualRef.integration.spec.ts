@@ -6,7 +6,7 @@ import {PlatformExpress} from "@tsed/platform-express";
 import {CollectionOf, getJsonSchema, Groups, Integer, Required} from "@tsed/schema";
 import {TestMongooseContext} from "@tsed/testing-mongoose";
 import SuperTest from "supertest";
-import {Server} from "./helpers/Server";
+import {Server} from "./helpers/Server.js";
 
 @Model()
 export class GalaxiesModel {

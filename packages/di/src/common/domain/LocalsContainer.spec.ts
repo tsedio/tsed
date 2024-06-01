@@ -1,4 +1,4 @@
-import {LocalsContainer} from "./LocalsContainer";
+import {LocalsContainer} from "./LocalsContainer.js";
 
 describe("LocalsContainer", () => {
   describe("destroy()", () => {

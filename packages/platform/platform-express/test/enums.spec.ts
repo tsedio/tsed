@@ -4,8 +4,8 @@ import {Env} from "@tsed/core";
 import {PlatformTestSdk} from "@tsed/platform-test-sdk";
 import {Default, Enum, enums, getSpec, SpecTypes} from "@tsed/schema";
 import SuperTest from "supertest";
-import {PlatformExpress} from "../src/index";
-import {rootDir, Server} from "./app/Server";
+import {PlatformExpress} from "../src/index.js";
+import {rootDir, Server} from "./app/Server.js";
 
 enums(Env).label("Env");
 

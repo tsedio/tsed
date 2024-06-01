@@ -1,5 +1,5 @@
-import {withErrorMsg} from "../../utils/withErrorMsg";
-import {JsonEntityFn} from "../common/jsonEntityFn";
+import {withErrorMsg} from "../../utils/withErrorMsg.js";
+import {JsonEntityFn} from "../common/jsonEntityFn.js";
 
 /**
  * An array instance is valid against `minItems` if its size is greater than, or equal to, the value of this keyword.

@@ -3,7 +3,7 @@ import {InjectorService, ProviderScope, TokenProvider} from "@tsed/di";
 import Http from "http";
 import Http2 from "http2";
 import Https from "https";
-import {listenServer} from "./listenServer";
+import {listenServer} from "./listenServer.js";
 
 export interface CreateServerOptions {
   token: TokenProvider;

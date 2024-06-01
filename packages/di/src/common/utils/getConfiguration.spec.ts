@@ -1,5 +1,5 @@
-import {Configuration} from "../decorators/configuration";
-import {getConfiguration} from "./getConfiguration";
+import {Configuration} from "../decorators/configuration.js";
+import {getConfiguration} from "./getConfiguration.js";
 
 class MyController1 {}
 

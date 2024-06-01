@@ -1,6 +1,6 @@
 import {expect} from "chai";
-import {getEngineFixture} from "../../test/getEngineFixture";
-import {PugEngine} from "./PugEngine";
+import {getEngineFixture} from "../../test/getEngineFixture.js";
+import {PugEngine} from "./PugEngine.js";
 
 describe("PugEngine", () => {
   it("should render the given content (by string - no cache)", async () => {

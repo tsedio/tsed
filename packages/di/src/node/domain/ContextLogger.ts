@@ -1,4 +1,4 @@
-import {DILogger} from "../../common/index";
+import {DILogger} from "../../common/index.js";
 import {Hooks} from "@tsed/core";
 import {levels, LogLevel} from "@tsed/logger";
 

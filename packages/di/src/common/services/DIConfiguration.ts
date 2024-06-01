@@ -1,9 +1,9 @@
 import {Env, getValue, proxyDelegation, setValue} from "@tsed/core";
-import type {ProviderScope} from "../domain/ProviderScope";
-import type {DILoggerOptions} from "../interfaces/DILoggerOptions";
-import type {DIResolver} from "../interfaces/DIResolver";
-import type {TokenProvider, TokenProviderOpts} from "../interfaces/TokenProvider";
-import type {TokenRoute} from "../interfaces/TokenRoute";
+import type {ProviderScope} from "../domain/ProviderScope.js";
+import type {DILoggerOptions} from "../interfaces/DILoggerOptions.js";
+import type {DIResolver} from "../interfaces/DIResolver.js";
+import type {TokenProvider, TokenProviderOpts} from "../interfaces/TokenProvider.js";
+import type {TokenRoute} from "../interfaces/TokenRoute.js";
 
 export class DIConfiguration {
   readonly default: Map<string, any> = new Map();

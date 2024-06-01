@@ -1,7 +1,7 @@
 import type {BaseContext} from "@tsed/di";
 import type {Cache, CachingConfig, Store} from "cache-manager";
 import {FactoryStore} from "cache-manager/dist/caching";
-import type {CacheManager} from "../services/PlatformCache";
+import type {CacheManager} from "../services/PlatformCache.js";
 
 /**
  * @deprecated Since 2022-11. Use FactoryStore instead.

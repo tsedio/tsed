@@ -1,4 +1,4 @@
-import {ancestorsOf} from "../objects/ancestorsOf";
+import {ancestorsOf} from "../objects/ancestorsOf.js";
 
 export function inheritedDescriptorOf(target: any, propertyKey: string): PropertyDescriptor | undefined {
   for (const klass of ancestorsOf(target)) {

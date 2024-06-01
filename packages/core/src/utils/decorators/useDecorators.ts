@@ -1,5 +1,5 @@
-import {DecoratorParameters} from "../../interfaces/DecoratorParameters";
-import {AnyDecorator} from "../../interfaces/AnyDecorator";
+import {DecoratorParameters} from "../../interfaces/DecoratorParameters.js";
+import {AnyDecorator} from "../../interfaces/AnyDecorator.js";
 
 export function useDecorators(...decorators: AnyDecorator[]): any {
   return (...args: DecoratorParameters) => {

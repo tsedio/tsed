@@ -1,8 +1,8 @@
-import {createInstance} from "./createInstance";
-import {isFunction} from "./isFunction";
-import {isPrimitive} from "./isPrimitive";
-import {isSymbol} from "./isSymbol";
-import {objectKeys} from "./objectKeys";
+import {createInstance} from "./createInstance.js";
+import {isFunction} from "./isFunction.js";
+import {isPrimitive} from "./isPrimitive.js";
+import {isSymbol} from "./isSymbol.js";
+import {objectKeys} from "./objectKeys.js";
 
 export type DeepMergeReducerCB = (collection: any[], value: any, options?: DeepMergeOptions) => any;
 export type DeepMergeComparatorCB = (item: any, ref: any) => boolean;

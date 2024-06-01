@@ -1,8 +1,8 @@
 import {decorateMethodsOf, DecoratorParameters, decoratorTypeOf, DecoratorTypes, Store, Type} from "@tsed/core";
-import {INJECTABLE_PROP} from "../constants/constants";
-import {InjectablePropertyType} from "../domain/InjectablePropertyType";
-import type {InterceptorMethods} from "../interfaces/InterceptorMethods";
-import type {InjectableProperties} from "../interfaces/InjectableProperties";
+import {INJECTABLE_PROP} from "../constants/constants.js";
+import {InjectablePropertyType} from "../domain/InjectablePropertyType.js";
+import type {InterceptorMethods} from "../interfaces/InterceptorMethods.js";
+import type {InjectableProperties} from "../interfaces/InjectableProperties.js";
 
 /**
  * Attaches interceptor to method call and executes the before and after methods

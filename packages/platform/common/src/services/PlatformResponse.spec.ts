@@ -1,8 +1,8 @@
 import {PlatformViews} from "@tsed/platform-views";
 import filedirname from "filedirname";
 import {createReadStream} from "fs";
-import {PlatformResponse} from "./PlatformResponse";
-import {PlatformTest} from "./PlatformTest";
+import {PlatformResponse} from "./PlatformResponse.js";
+import {PlatformTest} from "./PlatformTest.js";
 
 // FIXME remove when esm is ready
 const [, rootDir] = filedirname();

@@ -1,5 +1,5 @@
-import {getSpec, OperationPath, SpecTypes} from "../../index";
-import {Redirect} from "./redirect";
+import {getSpec, OperationPath, SpecTypes} from "../../index.js";
+import {Redirect} from "./redirect.js";
 
 describe("Redirect", () => {
   it("should set header with path only", () => {

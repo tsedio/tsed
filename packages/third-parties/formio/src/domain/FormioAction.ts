@@ -1,6 +1,6 @@
 import {Request, Response} from "express";
-import {FormioMongooseSchema} from "./FormioBaseModel";
-import {FormioComponent} from "./FormioModels";
+import {FormioMongooseSchema} from "./FormioBaseModel.js";
+import {FormioComponent} from "./FormioModels.js";
 import {FormioAction, FormioActionInfo} from "@tsed/formio-types";
 
 export interface FormioActionModel extends FormioAction {

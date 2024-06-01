@@ -1,5 +1,5 @@
 import {cleanObject} from "@tsed/core";
-import {execMapper, registerFormioMapper} from "../registries/FormioMappersContainer";
+import {execMapper, registerFormioMapper} from "../registries/FormioMappersContainer.js";
 
 export function stringToComponent(schema: any, options: any) {
   if (schema.format) {

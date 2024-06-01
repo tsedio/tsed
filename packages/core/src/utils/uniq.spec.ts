@@ -1,4 +1,4 @@
-import {uniq, uniqBy} from "./uniq";
+import {uniq, uniqBy} from "./uniq.js";
 
 describe("uniq", () => {
   it("should return uniq item", () => {

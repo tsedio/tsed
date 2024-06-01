@@ -1,6 +1,6 @@
 import {Inject, Injectable} from "@tsed/di";
-import {registerConnectionProvider} from "../utils/registerConnectionProvider";
-import {IORedisTest} from "./IORedisTest";
+import {registerConnectionProvider} from "../utils/registerConnectionProvider.js";
+import {IORedisTest} from "./IORedisTest.js";
 import type {Redis} from "ioredis";
 import RedisMock from "ioredis-mock";
 

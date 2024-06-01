@@ -1,12 +1,12 @@
 import {Exception} from "@tsed/exceptions";
 import {MulterError} from "multer";
 import {catchAsyncError} from "@tsed/core";
-import {MulterOptions} from "../decorators/multer/multerOptions";
-import {MultipartFile} from "../decorators/multer/multipartFile";
-import {EndpointMetadata} from "../domain/EndpointMetadata";
-import {PlatformApplication} from "../services/PlatformApplication";
-import {PlatformTest} from "../services/PlatformTest";
-import {PlatformMulterMiddleware} from "./PlatformMulterMiddleware";
+import {MulterOptions} from "../decorators/multer/multerOptions.js";
+import {MultipartFile} from "../decorators/multer/multipartFile.js";
+import {EndpointMetadata} from "../domain/EndpointMetadata.js";
+import {PlatformApplication} from "../services/PlatformApplication.js";
+import {PlatformTest} from "../services/PlatformTest.js";
+import {PlatformMulterMiddleware} from "./PlatformMulterMiddleware.js";
 
 async function build(options = {}) {
   class Test {

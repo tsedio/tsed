@@ -1,5 +1,5 @@
-import {Emit} from "./emit";
-import {Input} from "./input";
+import {Emit} from "./emit.js";
+import {Input} from "./input.js";
 
 /**
  * Attach the decorated method to the socket event and emit the response to the client.

@@ -1,4 +1,4 @@
-import {toStringConstructor} from "./toStringConstructor";
+import {toStringConstructor} from "./toStringConstructor.js";
 
 export function getConstructorArgNames(target: any) {
   return toStringConstructor(target)

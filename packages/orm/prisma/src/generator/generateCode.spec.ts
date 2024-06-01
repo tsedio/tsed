@@ -1,6 +1,6 @@
-import {generateCode} from "./generateCode";
-import {createProjectFixture} from "../__mock__/createProjectFixture";
-import {createDmmfFixture} from "../__mock__/createDmmfFixture";
+import {generateCode} from "./generateCode.js";
+import {createProjectFixture} from "../__mock__/createProjectFixture.js";
+import {createDmmfFixture} from "../__mock__/createDmmfFixture.js";
 
 describe("generateCode", () => {
   it("should generate all codes", async () => {

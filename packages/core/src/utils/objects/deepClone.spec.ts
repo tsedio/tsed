@@ -1,4 +1,4 @@
-import {deepClone} from "./deepClone";
+import {deepClone} from "./deepClone.js";
 
 describe("deepClone", () => {
   class Base {

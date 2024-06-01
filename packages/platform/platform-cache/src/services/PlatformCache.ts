@@ -6,10 +6,10 @@ import {JsonEntityStore} from "@tsed/schema";
 import {AsyncLocalStorage} from "async_hooks";
 import type {Cache, CachingConfig, MultiCache} from "cache-manager";
 import {prefix} from "concurrently/dist/src/defaults";
-import {PlatformCacheSettings} from "../interfaces/interfaces";
-import {PlatformCachedObject} from "../interfaces/PlatformCachedObject";
-import {getInterceptorOptions} from "../utils/getInterceptorOptions";
-import {getPrefix} from "../utils/getPrefix";
+import {PlatformCacheSettings} from "../interfaces/interfaces.js";
+import {PlatformCachedObject} from "../interfaces/PlatformCachedObject.js";
+import {getInterceptorOptions} from "../utils/getInterceptorOptions.js";
+import {getPrefix} from "../utils/getPrefix.js";
 
 const defaultKeyResolver = (args: any[]) => {
   return args.map((arg: any) => (isClass(arg) ? JSON.stringify(serialize(arg)) : arg)).join(":");

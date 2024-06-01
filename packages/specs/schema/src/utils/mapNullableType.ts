@@ -1,7 +1,7 @@
 import {uniq} from "@tsed/core";
-import type {JsonSchema} from "../domain/JsonSchema";
-import {SpecTypes} from "../domain/SpecTypes";
-import type {JsonSchemaOptions} from "../interfaces/JsonSchemaOptions";
+import type {JsonSchema} from "../domain/JsonSchema.js";
+import {SpecTypes} from "../domain/SpecTypes.js";
+import type {JsonSchemaOptions} from "../interfaces/JsonSchemaOptions.js";
 
 function hasNullable(obj: any) {
   return obj.oneOf.find((o: any) => o.type === "null");

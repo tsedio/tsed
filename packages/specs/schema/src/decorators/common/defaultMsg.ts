@@ -1,5 +1,5 @@
 import {useDecorators} from "@tsed/core";
-import {ErrorMsg} from "./errorMsg";
+import {ErrorMsg} from "./errorMsg.js";
 
 /**
  * Set default error message.

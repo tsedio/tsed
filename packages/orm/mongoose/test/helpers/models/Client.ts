@@ -1,6 +1,6 @@
 import {CollectionOf} from "@tsed/schema";
-import {Model, ObjectID, Ref} from "../../../src/index";
-import {SelfUser} from "./User";
+import {Model, ObjectID, Ref} from "../../../src/index.js";
+import {SelfUser} from "./User.js";
 
 @Model({schemaOptions: {timestamps: true}})
 export class TestClient {

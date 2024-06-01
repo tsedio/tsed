@@ -1,6 +1,6 @@
 import {Store, UnsupportedDecoratorType} from "@tsed/core";
 import {EndpointMetadata} from "@tsed/common";
-import {UseAfter} from "./useAfter";
+import {UseAfter} from "./useAfter.js";
 
 class CustomMiddleware {
   use() {}

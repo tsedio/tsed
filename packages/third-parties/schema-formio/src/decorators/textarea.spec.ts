@@ -1,5 +1,5 @@
-import {getFormioSchema} from "../utils/getFormioSchema";
-import {Textarea} from "./textarea";
+import {getFormioSchema} from "../utils/getFormioSchema.js";
+import {Textarea} from "./textarea.js";
 
 describe("Textarea", () => {
   it("should declare a model with Textarea field", async () => {

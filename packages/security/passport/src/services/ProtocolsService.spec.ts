@@ -1,7 +1,7 @@
 import {PlatformTest, Req} from "@tsed/common";
 import Passport from "passport";
-import {PassportMessage} from "../errors/PassportMessage";
-import {Protocol, ProtocolsService} from "../index";
+import {PassportMessage} from "../errors/PassportMessage.js";
+import {Protocol, ProtocolsService} from "../index.js";
 
 // tslint:disable-next-line:variable-name
 const Strategy = jest.fn();

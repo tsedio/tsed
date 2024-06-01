@@ -1,5 +1,5 @@
-import {getJsonSchema} from "../../index";
-import {Schema} from "./schema";
+import {getJsonSchema} from "../../index.js";
+import {Schema} from "./schema.js";
 
 describe("Schema()", () => {
   it("should store data", () => {

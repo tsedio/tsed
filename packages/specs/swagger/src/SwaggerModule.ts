@@ -14,13 +14,13 @@ import {normalizePath} from "@tsed/normalize-path";
 import {PlatformRouter, useContextHandler} from "@tsed/platform-router";
 import Fs from "fs";
 import {join} from "path";
-import {ROOT_DIR, SWAGGER_UI_DIST} from "./constants";
-import {SwaggerSettings} from "./interfaces/SwaggerSettings";
-import {cssMiddleware} from "./middlewares/cssMiddleware";
-import {indexMiddleware} from "./middlewares/indexMiddleware";
-import {jsMiddleware} from "./middlewares/jsMiddleware";
-import {redirectMiddleware} from "./middlewares/redirectMiddleware";
-import {SwaggerService} from "./services/SwaggerService";
+import {ROOT_DIR, SWAGGER_UI_DIST} from "./constants.js";
+import {SwaggerSettings} from "./interfaces/SwaggerSettings.js";
+import {cssMiddleware} from "./middlewares/cssMiddleware.js";
+import {indexMiddleware} from "./middlewares/indexMiddleware.js";
+import {jsMiddleware} from "./middlewares/jsMiddleware.js";
+import {redirectMiddleware} from "./middlewares/redirectMiddleware.js";
+import {SwaggerService} from "./services/SwaggerService.js";
 
 /**
  * @ignore

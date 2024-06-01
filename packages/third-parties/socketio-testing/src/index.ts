@@ -1,1 +1,1 @@
-export * from "./services/SocketClientService";
+export * from "./services/SocketClientService.js";

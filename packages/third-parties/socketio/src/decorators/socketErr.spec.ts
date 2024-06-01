@@ -1,5 +1,5 @@
 import {Store} from "@tsed/core";
-import {SocketErr} from "../index";
+import {SocketErr} from "../index.js";
 
 describe("@SocketErr", () => {
   it("should set metadata", () => {

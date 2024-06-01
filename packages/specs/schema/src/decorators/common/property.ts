@@ -1,5 +1,5 @@
 import {isArrowFn, isClass} from "@tsed/core";
-import {JsonEntityFn} from "./jsonEntityFn";
+import {JsonEntityFn} from "./jsonEntityFn.js";
 
 /**
  * Declare a new property on a model.

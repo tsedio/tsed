@@ -1,10 +1,10 @@
-import {SpecTypes} from "../../domain/SpecTypes";
-import {getJsonSchema} from "../../utils/getJsonSchema";
-import {getSpec} from "../../utils/getSpec";
-import {In} from "../operations/in";
-import {OperationPath} from "../operations/operationPath";
-import {Path} from "../operations/path";
-import {Const} from "./const";
+import {SpecTypes} from "../../domain/SpecTypes.js";
+import {getJsonSchema} from "../../utils/getJsonSchema.js";
+import {getSpec} from "../../utils/getSpec.js";
+import {In} from "../operations/in.js";
+import {OperationPath} from "../operations/operationPath.js";
+import {Path} from "../operations/path.js";
+import {Const} from "./const.js";
 
 describe("@Const", () => {
   it("should declare prop", () => {

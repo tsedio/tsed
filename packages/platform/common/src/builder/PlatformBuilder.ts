@@ -6,18 +6,18 @@ import type {IncomingMessage, ServerResponse} from "http";
 import Http from "http";
 import Http2 from "http2";
 import type Https from "https";
-import {PlatformStaticsSettings} from "../config/interfaces/PlatformStaticsSettings";
-import {PlatformRouteDetails} from "../domain/PlatformRouteDetails";
-import {Route} from "../interfaces/Route";
-import {Platform} from "../services/Platform";
-import {PlatformAdapter, PlatformBuilderSettings} from "../services/PlatformAdapter";
-import {PlatformApplication} from "../services/PlatformApplication";
-import {closeServer} from "../utils/closeServer";
-import {createInjector} from "../utils/createInjector";
-import {CreateServerReturn} from "../utils/createServer";
-import {getConfiguration} from "../utils/getConfiguration";
-import {getStaticsOptions} from "../utils/getStaticsOptions";
-import {printRoutes} from "../utils/printRoutes";
+import {PlatformStaticsSettings} from "../config/interfaces/PlatformStaticsSettings.js";
+import {PlatformRouteDetails} from "../domain/PlatformRouteDetails.js";
+import {Route} from "../interfaces/Route.js";
+import {Platform} from "../services/Platform.js";
+import {PlatformAdapter, PlatformBuilderSettings} from "../services/PlatformAdapter.js";
+import {PlatformApplication} from "../services/PlatformApplication.js";
+import {closeServer} from "../utils/closeServer.js";
+import {createInjector} from "../utils/createInjector.js";
+import {CreateServerReturn} from "../utils/createServer.js";
+import {getConfiguration} from "../utils/getConfiguration.js";
+import {getStaticsOptions} from "../utils/getStaticsOptions.js";
+import {printRoutes} from "../utils/printRoutes.js";
 
 /**
  * @platform

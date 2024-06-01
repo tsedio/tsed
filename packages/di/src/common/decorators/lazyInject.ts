@@ -1,5 +1,5 @@
 import {importPackage} from "@tsed/core";
-import {injectProperty} from "./inject";
+import {injectProperty} from "./inject.js";
 
 /**
  * Lazy load a provider from his package and invoke only when the provider is used

@@ -1,6 +1,6 @@
-import {getJsonSchema} from "../../utils/getJsonSchema";
-import {CollectionOf} from "./collectionOf";
-import {UniqueItems} from "./uniqueItems";
+import {getJsonSchema} from "../../utils/getJsonSchema.js";
+import {CollectionOf} from "./collectionOf.js";
+import {UniqueItems} from "./uniqueItems.js";
 
 describe("@UniqueItems", () => {
   it("should declare a prop", () => {

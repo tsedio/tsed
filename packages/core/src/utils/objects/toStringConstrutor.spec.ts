@@ -1,4 +1,4 @@
-import {toStringConstructor} from "./toStringConstructor";
+import {toStringConstructor} from "./toStringConstructor.js";
 
 describe("toStringConstructor", () => {
   it("should return the constructor signature (empty)", () => {

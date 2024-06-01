@@ -1,13 +1,13 @@
 import {classOf, isArray, isBoolean, isClass, isEmpty, isNil, nameOf, objectKeys, Type} from "@tsed/core";
 import {getPropertiesStores, JsonClassStore, JsonEntityStore, JsonParameterStore, JsonPropertyStore} from "@tsed/schema";
-import {alterAfterDeserialize} from "../hooks/alterAfterDeserialize";
-import {alterBeforeDeserialize} from "../hooks/alterBeforeDeserialize";
-import {alterOnDeserialize} from "../hooks/alterOnDeserialize";
-import {JsonDeserializerOptions} from "./JsonDeserializerOptions";
-import {CachedJsonMapper, JsonMapperCompiler} from "./JsonMapperCompiler";
-import {JsonMapperSettings} from "./JsonMapperSettings";
-import {getJsonMapperTypes} from "./JsonMapperTypesContainer";
-import {Writer} from "./Writer";
+import {alterAfterDeserialize} from "../hooks/alterAfterDeserialize.js";
+import {alterBeforeDeserialize} from "../hooks/alterBeforeDeserialize.js";
+import {alterOnDeserialize} from "../hooks/alterOnDeserialize.js";
+import {JsonDeserializerOptions} from "./JsonDeserializerOptions.js";
+import {CachedJsonMapper, JsonMapperCompiler} from "./JsonMapperCompiler.js";
+import {JsonMapperSettings} from "./JsonMapperSettings.js";
+import {getJsonMapperTypes} from "./JsonMapperTypesContainer.js";
+import {Writer} from "./Writer.js";
 
 function isDeserializable(obj: any, options: JsonDeserializerOptions) {
   if ((!!options.collectionType && isNil(obj)) || obj === undefined) {

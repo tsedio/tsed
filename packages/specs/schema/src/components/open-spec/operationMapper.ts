@@ -1,9 +1,9 @@
-import {getStatusMessage} from "../../constants/httpStatusMessages";
-import {JsonOperation} from "../../domain/JsonOperation";
-import {JsonParameter} from "../../domain/JsonParameter";
-import {isParameterType, JsonParameterTypes} from "../../domain/JsonParameterTypes";
-import {JsonSchemaOptions} from "../../interfaces/JsonSchemaOptions";
-import {execMapper, registerJsonSchemaMapper} from "../../registries/JsonSchemaMapperContainer";
+import {getStatusMessage} from "../../constants/httpStatusMessages.js";
+import {JsonOperation} from "../../domain/JsonOperation.js";
+import {JsonParameter} from "../../domain/JsonParameter.js";
+import {isParameterType, JsonParameterTypes} from "../../domain/JsonParameterTypes.js";
+import {JsonSchemaOptions} from "../../interfaces/JsonSchemaOptions.js";
+import {execMapper, registerJsonSchemaMapper} from "../../registries/JsonSchemaMapperContainer.js";
 
 function extractParameters(jsonOperation: JsonOperation, options: JsonSchemaOptions) {
   return jsonOperation

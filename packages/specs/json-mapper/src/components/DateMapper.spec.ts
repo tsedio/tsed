@@ -1,4 +1,4 @@
-import {DateMapper} from "./DateMapper";
+import {DateMapper} from "./DateMapper.js";
 
 describe("DateMapper", () => {
   describe("deserialize()", () => {

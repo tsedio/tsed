@@ -1,6 +1,6 @@
 import {InjectorService} from "@tsed/di";
 import Http from "http";
-import {createHttpServer} from "./createHttpServer";
+import {createHttpServer} from "./createHttpServer.js";
 
 describe("createHttpServer", () => {
   afterEach(() => jest.resetAllMocks());

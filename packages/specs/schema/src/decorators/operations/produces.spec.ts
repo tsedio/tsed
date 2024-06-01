@@ -1,4 +1,4 @@
-import {getSpec, OperationPath, Produces, SpecTypes} from "../../index";
+import {getSpec, OperationPath, Produces, SpecTypes} from "../../index.js";
 
 describe("Produces", () => {
   it("should store metadata", () => {

@@ -1,5 +1,5 @@
-import {getJsonSchema} from "../../utils/getJsonSchema";
-import {Default} from "./default";
+import {getJsonSchema} from "../../utils/getJsonSchema.js";
+import {Default} from "./default.js";
 
 describe("@Default", () => {
   it("should declare prop", () => {

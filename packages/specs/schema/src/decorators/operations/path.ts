@@ -1,5 +1,5 @@
 import {DecoratorTypes, UnsupportedDecoratorType} from "@tsed/core";
-import {JsonEntityFn} from "../common/jsonEntityFn";
+import {JsonEntityFn} from "../common/jsonEntityFn.js";
 
 /**
  * Set class path to expose all endpoints

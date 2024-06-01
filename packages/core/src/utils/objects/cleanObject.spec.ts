@@ -1,4 +1,4 @@
-import {cleanObject} from "./cleanObject";
+import {cleanObject} from "./cleanObject.js";
 
 describe("cleanObject", () => {
   it("should clean undefined value from object", () => {

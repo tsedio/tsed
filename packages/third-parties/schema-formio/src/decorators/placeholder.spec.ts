@@ -1,5 +1,5 @@
-import {getFormioSchema} from "../utils/getFormioSchema";
-import {Placeholder} from "./placeholder";
+import {getFormioSchema} from "../utils/getFormioSchema.js";
+import {Placeholder} from "./placeholder.js";
 
 describe("@Placeholder", () => {
   it("should add a placeholder on field", async () => {

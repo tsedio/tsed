@@ -192,7 +192,7 @@ Dispatching jobs is done via the `JobDispatcher` service that takes the job to b
 ```ts
 import {Service} from "@tsed/di";
 import {JobDispatcher} from "@tsed/bullmq";
-import {ExampleJob} from "./jobs/ExampleJob";
+import {ExampleJob} from "./jobs/ExampleJob.js";
 
 @Service()
 class MyService {
@@ -212,7 +212,7 @@ This allows to for example delay the job from when it has originally been dispat
 ```ts
 import {Service} from "@tsed/di";
 import {JobDispatcher} from "@tsed/bullmq";
-import {ExampleJob} from "./jobs/ExampleJob";
+import {ExampleJob} from "./jobs/ExampleJob.js";
 
 @Service()
 class MyService {
@@ -239,7 +239,7 @@ In case you want to be more flexible, you can also dispatch a job via a name or 
 ```ts
 import {Service} from "@tsed/di";
 import {JobDispatcher} from "@tsed/bullmq";
-import {ExampleJob} from "./jobs/ExampleJob";
+import {ExampleJob} from "./jobs/ExampleJob.js";
 
 @Service()
 class MyService {

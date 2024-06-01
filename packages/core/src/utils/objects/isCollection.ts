@@ -1,4 +1,4 @@
-import {isArrayOrArrayClass} from "./isArray";
+import {isArrayOrArrayClass} from "./isArray.js";
 
 /**
  * Return true if the target.

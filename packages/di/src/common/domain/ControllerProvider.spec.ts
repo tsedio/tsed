@@ -1,5 +1,5 @@
-import {ControllerProvider} from "./ControllerProvider";
-import {ProviderScope} from "./ProviderScope";
+import {ControllerProvider} from "./ControllerProvider.js";
+import {ProviderScope} from "./ProviderScope.js";
 
 class Test {}
 

@@ -1,5 +1,5 @@
-import {ColumnCtx} from "../utils/getColumnCtx";
-import {ColumnTypesContainer} from "../services/ColumnTypesContainer";
+import {ColumnCtx} from "../utils/getColumnCtx.js";
+import {ColumnTypesContainer} from "../services/ColumnTypesContainer.js";
 import type {Knex} from "knex";
 import {randomUUID} from "crypto";
 

@@ -1,5 +1,5 @@
-import {ParamTypes} from "../domain/ParamTypes";
-import {HeaderParams} from "./headerParams";
+import {ParamTypes} from "../domain/ParamTypes.js";
+import {HeaderParams} from "./headerParams.js";
 import {JsonParameterStore} from "@tsed/schema";
 
 describe("@HeaderParams", () => {

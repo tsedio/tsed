@@ -1,5 +1,5 @@
-import {AnyJsonSchema} from "../../domain/JsonSchema";
-import {JsonEntityFn} from "./jsonEntityFn";
+import {AnyJsonSchema} from "../../domain/JsonSchema.js";
+import {JsonEntityFn} from "./jsonEntityFn.js";
 
 /**
  * Accept unknown properties on the deserialized model.

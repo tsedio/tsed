@@ -4,8 +4,8 @@ import {PlatformExpress} from "@tsed/platform-express";
 import {Consumes, Description, Returns} from "@tsed/schema";
 import {Docs, Hidden} from "@tsed/swagger";
 import SuperTest from "supertest";
-import {Calendar} from "./app/models/Calendar";
-import {Server} from "./app/Server";
+import {Calendar} from "./app/models/Calendar.js";
+import {Server} from "./app/Server.js";
 
 @Controller("/admin")
 @Hidden()

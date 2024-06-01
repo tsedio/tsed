@@ -1,4 +1,4 @@
-import {descriptorOf, Readonly, Writable} from "../../src";
+import {descriptorOf, Readonly, Writable} from "../../src/index.js";
 
 class Test {}
 

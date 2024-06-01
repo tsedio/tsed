@@ -18,11 +18,11 @@ import {
   Store,
   Type
 } from "@tsed/core";
-import type {JsonClassStore} from "./JsonClassStore";
-import type {JsonMethodStore} from "./JsonMethodStore";
-import type {JsonParameterStore} from "./JsonParameterStore";
-import type {JsonPropertyStore} from "./JsonPropertyStore";
-import type {JsonSchema} from "./JsonSchema";
+import type {JsonClassStore} from "./JsonClassStore.js";
+import type {JsonMethodStore} from "./JsonMethodStore.js";
+import type {JsonParameterStore} from "./JsonParameterStore.js";
+import type {JsonPropertyStore} from "./JsonPropertyStore.js";
+import type {JsonSchema} from "./JsonSchema.js";
 
 /**
  * @ignore
@@ -275,9 +275,9 @@ export abstract class JsonEntityStore implements JsonEntityStoreOptions {
     return this.itemSchema.hasDiscriminator
       ? this.itemSchema.discriminator().base
       : isClassObject(this.type)
-      ? this.itemSchema.getTarget()
-      : isArrowFn(this.type)
-      ? this.type()
-      : this.type;
+        ? this.itemSchema.getTarget()
+        : isArrowFn(this.type)
+          ? this.type()
+          : this.type;
   }
 }

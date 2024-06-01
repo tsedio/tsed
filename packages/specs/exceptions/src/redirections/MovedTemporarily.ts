@@ -1,4 +1,4 @@
-import {RedirectException} from "../core/RedirectException";
+import {RedirectException} from "../core/RedirectException.js";
 
 export class MovedTemporarily extends RedirectException {
   static readonly STATUS = 302;

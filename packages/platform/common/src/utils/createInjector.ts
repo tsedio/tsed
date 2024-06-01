@@ -1,13 +1,13 @@
 import {toMap, Type} from "@tsed/core";
 import {InjectorService, ProviderOpts, setLoggerConfiguration} from "@tsed/di";
 import {$log} from "@tsed/logger";
-import {PlatformConfiguration} from "../config/services/PlatformConfiguration";
-import {Platform} from "../services/Platform";
-import {PlatformAdapter} from "../services/PlatformAdapter";
-import {PlatformApplication} from "../services/PlatformApplication";
-import {PlatformHandler} from "../services/PlatformHandler";
-import {PlatformRequest} from "../services/PlatformRequest";
-import {PlatformResponse} from "../services/PlatformResponse";
+import {PlatformConfiguration} from "../config/services/PlatformConfiguration.js";
+import {Platform} from "../services/Platform.js";
+import {PlatformAdapter} from "../services/PlatformAdapter.js";
+import {PlatformApplication} from "../services/PlatformApplication.js";
+import {PlatformHandler} from "../services/PlatformHandler.js";
+import {PlatformRequest} from "../services/PlatformRequest.js";
+import {PlatformResponse} from "../services/PlatformResponse.js";
 
 $log.name = "TSED";
 

@@ -1,5 +1,5 @@
 import {Store} from "@tsed/core";
-import {Agenda} from "./agenda";
+import {Agenda} from "./agenda.js";
 
 describe("@Agenda()", () => {
   it("should set empty metadata", () => {

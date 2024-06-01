@@ -1,4 +1,4 @@
-import {Schema} from "./schema";
+import {Schema} from "./schema.js";
 
 /**
  * Constructs a json schema object type whose property keys are keys and whose property values are type.

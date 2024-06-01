@@ -1,3 +1,3 @@
-import {OpenSpecHash} from "./OpenSpecHash";
+import {OpenSpecHash} from "./OpenSpecHash.js";
 
 export type OpenSpecSecurity = OpenSpecHash<string[]>[];

@@ -13,9 +13,9 @@ import {PluginDefinition} from "apollo-server-core/src/types";
 import type {GraphQLSchema} from "graphql";
 import Http from "http";
 import Https from "https";
-import {DATASOURCES_PROVIDERS} from "../constants/constants";
-import type {ApolloServer, ApolloSettings} from "../interfaces/ApolloSettings";
-import {ApolloCustomServerCB} from "../interfaces/ApolloSettings";
+import {DATASOURCES_PROVIDERS} from "../constants/constants.js";
+import type {ApolloServer, ApolloSettings} from "../interfaces/ApolloSettings.js";
+import {ApolloCustomServerCB} from "../interfaces/ApolloSettings.js";
 
 @Service()
 export class ApolloService {

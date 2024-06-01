@@ -1,8 +1,8 @@
 import {isPlainObject, isString, Store, StoreMerge, useDecorators} from "@tsed/core";
 import {CollectionOf, Property} from "@tsed/schema";
-import {MONGOOSE_MODEL_NAME, MONGOOSE_SCHEMA} from "../constants/constants";
-import {MongooseVirtualRefOptions} from "../interfaces/MongooseVirtualRefOptions";
-import {MongooseModels} from "../registries/MongooseModels";
+import {MONGOOSE_MODEL_NAME, MONGOOSE_SCHEMA} from "../constants/constants.js";
+import {MongooseVirtualRefOptions} from "../interfaces/MongooseVirtualRefOptions.js";
+import {MongooseModels} from "../registries/MongooseModels.js";
 
 function getRef(opts: any) {
   const ref = opts.ref;

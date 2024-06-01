@@ -1,8 +1,8 @@
 import {jest} from "@jest/globals";
 import {PlatformApplication, PlatformTest} from "@tsed/common";
 import {RESTDataSource} from "apollo-datasource-rest";
-import {DataSource} from "../decorators/dataSource";
-import {ApolloService} from "./ApolloService";
+import {DataSource} from "../decorators/dataSource.js";
+import {ApolloService} from "./ApolloService.js";
 
 jest.mock("apollo-server-express", () => {
   return {

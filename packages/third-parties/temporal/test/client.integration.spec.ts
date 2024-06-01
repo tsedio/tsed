@@ -1,8 +1,8 @@
 import {getEphemeralServerTarget} from "@temporalio/core-bridge";
 import {Runtime} from "@temporalio/worker";
 import {PlatformTest} from "@tsed/common";
-import {TemporalClient} from "../src";
-import {Server} from "./helpers/Server";
+import {TemporalClient} from "../src/index.js";
+import {Server} from "./helpers/Server.js";
 
 describe("Temporal Client", () => {
   let server: any;

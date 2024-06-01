@@ -1,4 +1,4 @@
-import {getSpec, In, Name, OperationPath, Path, SpecTypes} from "../../src/index";
+import {getSpec, In, Name, OperationPath, Path, SpecTypes} from "../../src/index.js";
 import {decorateMethodsOf, DecoratorParameters, decoratorTypeOf, DecoratorTypes, StoreMerge, UnsupportedDecoratorType} from "@tsed/core";
 
 function UseAuth(): Function {

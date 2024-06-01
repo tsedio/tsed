@@ -1,5 +1,5 @@
 import {ParamTypes} from "@tsed/common";
-import {Arg, Args} from "./args";
+import {Arg, Args} from "./args.js";
 import {JsonParameterStore} from "@tsed/schema";
 
 describe("@Args", () => {

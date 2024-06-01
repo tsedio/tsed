@@ -1,8 +1,8 @@
 import {classOf} from "@tsed/core";
-import {DI_PARAM_OPTIONS} from "../constants/constants";
-import {ProviderScope} from "../domain/ProviderScope";
-import {Inject} from "./inject";
-import {Scope} from "./scope";
+import {DI_PARAM_OPTIONS} from "../constants/constants.js";
+import {ProviderScope} from "../domain/ProviderScope.js";
+import {Inject} from "./inject.js";
+import {Scope} from "./scope.js";
 
 /**
  * Get instance options. This options depending on his invocation context.

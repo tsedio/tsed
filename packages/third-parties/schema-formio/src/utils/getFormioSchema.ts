@@ -1,8 +1,8 @@
 import {isString, Type} from "@tsed/core";
 import {getJsonSchema, JsonEntityStore, JsonSchemaOptions} from "@tsed/schema";
 import {FormioForm} from "@tsed/formio-types";
-import {execMapper} from "../registries/FormioMappersContainer";
-import {FormsContainer} from "../registries/FormsContainer";
+import {execMapper} from "../registries/FormioMappersContainer.js";
+import {FormsContainer} from "../registries/FormsContainer.js";
 import {paramCase} from "change-case";
 import "../components/anyToComponent";
 import "../components/arrayToComponent";

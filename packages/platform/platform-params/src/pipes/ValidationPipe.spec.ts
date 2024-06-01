@@ -1,10 +1,10 @@
 import {PlatformTest, Post} from "@tsed/common";
 import {catchAsyncError} from "@tsed/core";
 import {CollectionOf, getSpec, JsonParameterStore, Required, SpecTypes} from "@tsed/schema";
-import {BodyParams} from "../decorators/bodyParams";
-import {PathParams} from "../decorators/pathParams";
-import {QueryParams} from "../decorators/queryParams";
-import {ValidationPipe} from "./ValidationPipe";
+import {BodyParams} from "../decorators/bodyParams.js";
+import {PathParams} from "../decorators/pathParams.js";
+import {QueryParams} from "../decorators/queryParams.js";
+import {ValidationPipe} from "./ValidationPipe.js";
 
 describe("ValidationPipe", () => {
   beforeEach(() => PlatformTest.create());

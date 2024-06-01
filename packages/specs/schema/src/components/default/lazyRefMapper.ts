@@ -1,8 +1,8 @@
-import {JsonLazyRef} from "../../domain/JsonLazyRef";
-import {JsonSchemaOptions} from "../../interfaces/JsonSchemaOptions";
-import {execMapper, registerJsonSchemaMapper} from "../../registries/JsonSchemaMapperContainer";
-import {mapGenericsOptions} from "../../utils/generics";
-import {createRef, toRef} from "../../utils/ref";
+import {JsonLazyRef} from "../../domain/JsonLazyRef.js";
+import {JsonSchemaOptions} from "../../interfaces/JsonSchemaOptions.js";
+import {execMapper, registerJsonSchemaMapper} from "../../registries/JsonSchemaMapperContainer.js";
+import {mapGenericsOptions} from "../../utils/generics.js";
+import {createRef, toRef} from "../../utils/ref.js";
 
 export function lazyRefMapper(jsonLazyRef: JsonLazyRef, options: JsonSchemaOptions) {
   const name = jsonLazyRef.name;

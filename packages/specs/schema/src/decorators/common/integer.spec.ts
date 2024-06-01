@@ -1,12 +1,12 @@
 import {BodyParams} from "@tsed/platform-params";
-import {validateSpec} from "../../../test/helpers/validateSpec";
-import {SpecTypes} from "../../domain/SpecTypes";
-import {getJsonSchema} from "../../utils/getJsonSchema";
-import {getSpec} from "../../utils/getSpec";
-import {OperationPath} from "../operations/operationPath";
-import {Path} from "../operations/path";
-import {Returns} from "../operations/returns";
-import {Integer} from "./integer";
+import {validateSpec} from "../../../test/helpers/validateSpec.js";
+import {SpecTypes} from "../../domain/SpecTypes.js";
+import {getJsonSchema} from "../../utils/getJsonSchema.js";
+import {getSpec} from "../../utils/getSpec.js";
+import {OperationPath} from "../operations/operationPath.js";
+import {Path} from "../operations/path.js";
+import {Returns} from "../operations/returns.js";
+import {Integer} from "./integer.js";
 
 describe("@Integer", () => {
   it("should generate the right json schema", () => {

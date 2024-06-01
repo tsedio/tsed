@@ -1,6 +1,6 @@
-import {isBoolean, isBooleanOrBooleanClass} from "./isBoolean";
-import {isNumber, isNumberOrNumberClass} from "./isNumber";
-import {isString, isStringOrStringClass} from "./isString";
+import {isBoolean, isBooleanOrBooleanClass} from "./isBoolean.js";
+import {isNumber, isNumberOrNumberClass} from "./isNumber.js";
+import {isString, isStringOrStringClass} from "./isString.js";
 
 /**
  * Return true if the given obj is a primitive.

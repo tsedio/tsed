@@ -1,6 +1,6 @@
 import {PlatformTestSdk} from "@tsed/platform-test-sdk";
-import {PlatformExpress} from "../src/components/PlatformExpress";
-import {rootDir, Server} from "./app/Server";
+import {PlatformExpress} from "../src/components/PlatformExpress.js";
+import {rootDir, Server} from "./app/Server.js";
 
 const utils = PlatformTestSdk.create({
   rootDir,

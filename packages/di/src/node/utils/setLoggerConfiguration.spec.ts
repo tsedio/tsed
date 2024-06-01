@@ -1,6 +1,6 @@
 import {Logger} from "@tsed/logger";
-import {InjectorService} from "../../common/index";
-import {setLoggerConfiguration} from "./setLoggerConfiguration";
+import {InjectorService} from "../../common/index.js";
+import {setLoggerConfiguration} from "./setLoggerConfiguration.js";
 
 describe("setLoggerConfiguration", () => {
   it("should change the logger level depending on the configuration", () => {

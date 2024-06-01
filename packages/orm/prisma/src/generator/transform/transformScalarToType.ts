@@ -1,7 +1,7 @@
-import {DmmfField} from "../domain/DmmfField";
-import {DmmfModel} from "../domain/DmmfModel";
-import {ScalarTsTypes} from "../domain/ScalarTsTypes";
-import {DmmfEnum} from "../domain/DmmfEnum";
+import {DmmfField} from "../domain/DmmfField.js";
+import {DmmfModel} from "../domain/DmmfModel.js";
+import {ScalarTsTypes} from "../domain/ScalarTsTypes.js";
+import {DmmfEnum} from "../domain/DmmfEnum.js";
 
 export function transformScalarToType(field: DmmfField) {
   const {isRequired, isNullable, type, isList, location, model} = field;

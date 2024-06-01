@@ -1,6 +1,6 @@
 import {Configuration, Inject, InjectorService, Module} from "@tsed/di";
-import {TypeGraphQLSettings} from "./interfaces/interfaces";
-import {TypeGraphQLService} from "./services/TypeGraphQLService";
+import {TypeGraphQLSettings} from "./interfaces/interfaces.js";
+import {TypeGraphQLService} from "./services/TypeGraphQLService.js";
 
 /**
  * @ignore

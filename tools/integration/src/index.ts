@@ -1,6 +1,6 @@
 import {$log} from "@tsed/common";
 import {PlatformExpress} from "@tsed/platform-express";
-import {Server} from "./Server";
+import {Server} from "./Server.js";
 
 async function bootstrap() {
   for (let i = 0; i < 10000; i++) {

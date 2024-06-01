@@ -1,4 +1,4 @@
-import {getRandomId} from "./getRandomId";
+import {getRandomId} from "./getRandomId.js";
 
 describe("getRandomId", () => {
   it("should return random id", () => {

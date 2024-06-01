@@ -1,7 +1,7 @@
 import {nameOf} from "@tsed/core";
 import {resolveControllers} from "@tsed/di";
 import filedirname from "filedirname";
-import {importProviders} from "./importProviders";
+import {importProviders} from "./importProviders.js";
 // FIXME remove when esm is ready
 const [, rootDir] = filedirname();
 

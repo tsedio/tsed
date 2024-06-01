@@ -1,4 +1,4 @@
-import {ClientException} from "../core/ClientException";
+import {ClientException} from "../core/ClientException.js";
 
 export class ProxyAuthentificationRequired extends ClientException {
   static readonly STATUS = 407;

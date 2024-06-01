@@ -1,5 +1,5 @@
-import {getFormioSchema} from "../utils/getFormioSchema";
-import {Suffix} from "./suffix";
+import {getFormioSchema} from "../utils/getFormioSchema.js";
+import {Suffix} from "./suffix.js";
 
 describe("@Suffix", () => {
   it("should add a suffix on field", async () => {

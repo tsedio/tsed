@@ -1,4 +1,4 @@
-import {execMapper, getSpec, In, JsonEntityStore, Name, number, OperationPath, Path, SpecTypes} from "../../index";
+import {execMapper, getSpec, In, JsonEntityStore, Name, number, OperationPath, Path, SpecTypes} from "../../index.js";
 
 describe("In", () => {
   it("should declare all schema correctly (param)", () => {

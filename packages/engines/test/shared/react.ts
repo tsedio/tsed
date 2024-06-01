@@ -1,4 +1,4 @@
-import {engines} from "../../src/index";
+import {engines} from "../../src/index.js";
 import {expect} from "chai";
 import filedirname from "filedirname";
 import fs from "fs";

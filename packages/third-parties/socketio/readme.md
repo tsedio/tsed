@@ -113,7 +113,7 @@ Then, you can inject your socket service into another Service, Controller, etc..
 
 ```typescript
 import {Controller, Get} from "@tsed/common";
-import {MySocketService} from "../services/MySocketService";
+import {MySocketService} from "../services/MySocketService.js";
 
 @Controller("/")
 export class MyCtrl {
@@ -232,7 +232,7 @@ Here an example of a middleware:
 ```typescript
 import {deserialize} from "@tsed/json-mapper";
 import {SocketMiddleware, Args} from "@tsed/socketio";
-import {User} from "../models/User";
+import {User} from "../models/User.js";
 
 @SocketMiddleware()
 export class UserConverterSocketMiddleware {
@@ -282,8 +282,8 @@ Middlewares chain use the `Promise` to run it. If one of this middlewares/method
 
 ```typescript
 import {SocketService, SocketUseAfter, SocketUseBefore, Emit, Input, Args, SocketSession} from "@tsed/socketio";
-import {UserConverterSocketMiddleware, ErrorHandlerSocketMiddleware} from "../middlewares";
-import {User} from "../models/User";
+import {UserConverterSocketMiddleware, ErrorHandlerSocketMiddleware} from "../middlewares.js";
+import {User} from "../models/User.js";
 import {SocketSessionData} from "@tsed/socketio/lib/cjs";
 
 @SocketService("/my-namespace")

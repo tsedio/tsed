@@ -1,7 +1,7 @@
 import {uniq} from "@tsed/core";
-import type {JsonSchema} from "../domain/JsonSchema";
-import {alterRequiredGroups} from "../hooks/alterRequiredGroups";
-import type {JsonSchemaOptions} from "../interfaces/JsonSchemaOptions";
+import type {JsonSchema} from "../domain/JsonSchema.js";
+import {alterRequiredGroups} from "../hooks/alterRequiredGroups.js";
+import type {JsonSchemaOptions} from "../interfaces/JsonSchemaOptions.js";
 
 function applyStringRule(obj: any, propSchema: JsonSchema) {
   if (!propSchema?.$allow.includes("")) {

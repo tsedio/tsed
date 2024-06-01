@@ -1,5 +1,5 @@
-import {cleanGlobPatterns} from "./cleanGlobPatterns";
-import {isTsEnv} from "./isTsEnv";
+import {cleanGlobPatterns} from "./cleanGlobPatterns.js";
+import {isTsEnv} from "./isTsEnv.js";
 
 jest.mock("./isTsEnv");
 

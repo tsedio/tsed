@@ -1,4 +1,4 @@
-import {getProtocolsFromRequest} from "./getProtocolsFromRequest";
+import {getProtocolsFromRequest} from "./getProtocolsFromRequest.js";
 
 describe("getProtocolsFromRequest", () => {
   it("should allow all protocol (from default protocols)", () => {

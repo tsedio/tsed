@@ -1,4 +1,4 @@
-import {Writer} from "./Writer";
+import {Writer} from "./Writer.js";
 
 describe("Writer", () => {
   it("should generate code for if/else condition", () => {

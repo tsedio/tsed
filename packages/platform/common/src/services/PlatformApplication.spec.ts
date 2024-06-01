@@ -1,7 +1,7 @@
-import {createContext} from "../utils/createContext";
-import {PlatformApplication} from "./PlatformApplication";
-import {PlatformHandler} from "./PlatformHandler";
-import {PlatformTest} from "./PlatformTest";
+import {createContext} from "../utils/createContext.js";
+import {PlatformApplication} from "./PlatformApplication.js";
+import {PlatformHandler} from "./PlatformHandler.js";
+import {PlatformTest} from "./PlatformTest.js";
 
 jest.mock("../utils/createContext");
 

@@ -1,7 +1,7 @@
 import {PlatformTest} from "@tsed/common";
 import {catchAsyncError} from "@tsed/core";
 import {object, string} from "@tsed/schema";
-import {AjvService} from "./AjvService";
+import {AjvService} from "./AjvService.js";
 
 describe("AjvService", () => {
   beforeEach(() => PlatformTest.create());

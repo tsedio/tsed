@@ -1,5 +1,5 @@
-import {ParamTypes} from "../domain/ParamTypes";
-import {Locals} from "./locals";
+import {ParamTypes} from "../domain/ParamTypes.js";
+import {Locals} from "./locals.js";
 import {JsonParameterStore} from "@tsed/schema";
 
 describe("@Locals", () => {

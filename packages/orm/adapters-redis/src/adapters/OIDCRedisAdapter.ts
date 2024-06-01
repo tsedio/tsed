@@ -3,7 +3,7 @@ import {Configuration, Inject, Opts} from "@tsed/di";
 import {ChainableCommander} from "ioredis";
 import {IOREDIS_CONNECTIONS, IORedis} from "@tsed/ioredis";
 
-import {RedisAdapter, RedisAdapterConstructorOptions} from "./RedisAdapter";
+import {RedisAdapter, RedisAdapterConstructorOptions} from "./RedisAdapter.js";
 
 const GRANTABLE = new Set(["AccessToken", "AuthorizationCode", "RefreshToken", "DeviceCode", "BackchannelAuthenticationRequest"]);
 const CONSUMABLE = new Set(["AuthorizationCode", "RefreshToken", "DeviceCode", "BackchannelAuthenticationRequest"]);

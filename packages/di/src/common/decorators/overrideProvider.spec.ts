@@ -1,7 +1,7 @@
 import Sinon from "sinon";
-import {OverrideProvider} from "./overrideProvider";
-import {Provider} from "../domain/Provider";
-import {GlobalProviders} from "../registries/GlobalProviders";
+import {OverrideProvider} from "./overrideProvider.js";
+import {Provider} from "../domain/Provider.js";
+import {GlobalProviders} from "../registries/GlobalProviders.js";
 
 describe("OverrideProvider", () => {
   class Test {}

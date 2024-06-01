@@ -1,7 +1,7 @@
-import {In, OperationPath, Property, SpecTypes} from "../../index";
-import {getJsonSchema} from "../../utils/getJsonSchema";
-import {getSpec} from "../../utils/getSpec";
-import {Description} from "./description";
+import {In, OperationPath, Property, SpecTypes} from "../../index.js";
+import {getJsonSchema} from "../../utils/getJsonSchema.js";
+import {getSpec} from "../../utils/getSpec.js";
+import {Description} from "./description.js";
 
 describe("@Description", () => {
   it("should declare description on class", () => {

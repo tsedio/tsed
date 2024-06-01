@@ -1,7 +1,7 @@
 import {Controller} from "@tsed/common";
 import {Store} from "@tsed/core";
 
-import {Vite} from "./vite";
+import {Vite} from "./vite.js";
 
 @Controller("/")
 class ControllerTest {

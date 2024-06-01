@@ -1,5 +1,5 @@
 import {Store} from "@tsed/core";
-import {OnAny} from "./onAny";
+import {OnAny} from "./onAny.js";
 
 describe("@OnAny()", () => {
   it("should set metadata", () => {

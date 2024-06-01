@@ -3,8 +3,8 @@ import expressRewrite from "express-urlrewrite";
 import koaMount from "koa-mount";
 // @ts-ignore
 import koaRewrite from "koa-rewrite";
-import {OidcModule} from "./OidcModule";
-import {OidcProvider} from "./services/OidcProvider";
+import {OidcModule} from "./OidcModule.js";
+import {OidcProvider} from "./services/OidcProvider.js";
 
 jest.mock("express-urlrewrite", () => {
   return jest.fn().mockReturnValue(jest.fn());

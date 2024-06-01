@@ -1,5 +1,5 @@
-import type {JsonSchema} from "../domain/JsonSchema";
-import type {JsonSchemaOptions} from "../interfaces/JsonSchemaOptions";
+import type {JsonSchema} from "../domain/JsonSchema.js";
+import type {JsonSchemaOptions} from "../interfaces/JsonSchemaOptions.js";
 
 export function alterOneOf(obj: any, schema: JsonSchema, options: JsonSchemaOptions) {
   if (obj.oneOf && options.groups !== false) {

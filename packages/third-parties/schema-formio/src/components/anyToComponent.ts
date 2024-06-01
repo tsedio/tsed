@@ -1,5 +1,5 @@
-import {execMapper, registerFormioMapper} from "../registries/FormioMappersContainer";
-import {getRef} from "../utils/getRef";
+import {execMapper, registerFormioMapper} from "../registries/FormioMappersContainer.js";
+import {getRef} from "../utils/getRef.js";
 
 export function anyToComponent(schema: any, options: any) {
   schema = getRef(schema, options);

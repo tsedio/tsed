@@ -1,7 +1,7 @@
 import {Adapter, InjectAdapter} from "@tsed/adapters";
 import {Injectable} from "@tsed/di";
 import {deserialize} from "@tsed/json-mapper";
-import {User} from "../graphql/auth/User";
+import {User} from "../graphql/auth/User.js";
 
 @Injectable()
 export class UsersRepository {

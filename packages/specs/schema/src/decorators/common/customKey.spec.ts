@@ -1,5 +1,5 @@
-import {CustomKeys, getJsonSchema, getSpec, OperationPath, Path, Returns, SpecTypes} from "../../index";
-import {CustomKey} from "./customKey";
+import {CustomKeys, getJsonSchema, getSpec, OperationPath, Path, Returns, SpecTypes} from "../../index.js";
+import {CustomKey} from "./customKey.js";
 
 describe("@CustomKey", () => {
   it("should declare customKey field", () => {

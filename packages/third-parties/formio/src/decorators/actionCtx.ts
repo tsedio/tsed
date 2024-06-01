@@ -1,5 +1,5 @@
 import {Context} from "@tsed/common";
-import {SetActionItemMessage} from "../domain/FormioAction";
+import {SetActionItemMessage} from "../domain/FormioAction.js";
 import {FormioAction} from "@tsed/formio-types";
 
 /**

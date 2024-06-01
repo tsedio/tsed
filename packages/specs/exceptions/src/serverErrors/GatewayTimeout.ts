@@ -1,4 +1,4 @@
-import {ServerException} from "../core/ServerException";
+import {ServerException} from "../core/ServerException.js";
 
 export class GatewayTimeout extends ServerException {
   static readonly STATUS = 504;

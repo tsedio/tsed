@@ -1,6 +1,6 @@
 import {deepMerge, Store} from "@tsed/core";
 import {Schema} from "mongoose";
-import {MONGOOSE_SCHEMA_OPTIONS} from "../constants/constants";
+import {MONGOOSE_SCHEMA_OPTIONS} from "../constants/constants.js";
 import {
   MongooseHookPromised,
   MongooseNextCB,
@@ -8,7 +8,7 @@ import {
   MongoosePreHook,
   MongoosePreHookCB,
   MongooseSchemaOptions
-} from "../interfaces/MongooseSchemaOptions";
+} from "../interfaces/MongooseSchemaOptions.js";
 
 /**
  * @ignore

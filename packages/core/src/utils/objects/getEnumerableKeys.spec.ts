@@ -1,5 +1,5 @@
-import {Enumerable} from "../../decorators/enumerable";
-import {getEnumerableKeys} from "./getEnumerableKeys";
+import {Enumerable} from "../../decorators/enumerable.js";
+import {getEnumerableKeys} from "./getEnumerableKeys.js";
 
 describe("getEnumerableKeys", () => {
   it("should return enumerable keys", () => {

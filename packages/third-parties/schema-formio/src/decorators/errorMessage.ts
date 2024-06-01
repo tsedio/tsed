@@ -1,4 +1,4 @@
-import {Validate} from "./validate";
+import {Validate} from "./validate.js";
 
 /**
  * Add error message when an error occur.

@@ -1,6 +1,6 @@
-import {CollectionOf, getJsonSchema, Property, string} from "../../index";
-import {GenericOf} from "./genericOf";
-import {Generics} from "./generics";
+import {CollectionOf, getJsonSchema, Property, string} from "../../index.js";
+import {GenericOf} from "./genericOf.js";
+import {Generics} from "./generics.js";
 
 describe("@GenericOf", () => {
   it("should generate Generic pagination with nested model (array)", () => {

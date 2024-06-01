@@ -1,4 +1,4 @@
-import {isRedirectionStatus, isSuccessStatus} from "./isSuccessStatus";
+import {isRedirectionStatus, isSuccessStatus} from "./isSuccessStatus.js";
 
 describe("isSuccessStatus", () => {
   it("should be a valid success status", () => {

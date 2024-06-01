@@ -1,12 +1,12 @@
-import {OpenSpecExternalDocs} from "../common/OpenSpecExternalDocs";
-import {OpenSpecHash} from "../common/OpenSpecHash";
-import {OpenSpecSecurity} from "../common/OpenSpecSecurity";
-import {OS3Callbacks} from "./OS3Callbacks";
-import {OS3Parameter} from "./OS3Parameter";
-import {OS3RequestBody} from "./OS3RequestBody";
-import {OS3Response} from "./OS3Response";
-import {OS3Schema} from "./OS3Schema";
-import {OS3Server} from "./OS3Server";
+import {OpenSpecExternalDocs} from "../common/OpenSpecExternalDocs.js";
+import {OpenSpecHash} from "../common/OpenSpecHash.js";
+import {OpenSpecSecurity} from "../common/OpenSpecSecurity.js";
+import {OS3Callbacks} from "./OS3Callbacks.js";
+import {OS3Parameter} from "./OS3Parameter.js";
+import {OS3RequestBody} from "./OS3RequestBody.js";
+import {OS3Response} from "./OS3Response.js";
+import {OS3Schema} from "./OS3Schema.js";
+import {OS3Server} from "./OS3Server.js";
 
 export interface OS3Operation<Schema = OS3Schema, Parameter = OS3Parameter<Schema>, Response = OpenSpecHash<OS3Response<Schema>>> {
   /**

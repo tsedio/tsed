@@ -1,6 +1,6 @@
 import {decoratorTypeOf, DecoratorTypes, StaticMethodDecorator} from "@tsed/core";
-import {MongooseHookOptions, MongoosePostHookCB} from "../interfaces/MongooseSchemaOptions";
-import {schemaOptions} from "../utils/schemaOptions";
+import {MongooseHookOptions, MongoosePostHookCB} from "../interfaces/MongooseSchemaOptions.js";
+import {schemaOptions} from "../utils/schemaOptions.js";
 
 /**
  * We can simply attach a `@PostHook` decorator to your model class and

@@ -1,7 +1,7 @@
-import {OperationVerbs} from "../../constants/OperationVerbs";
-import {DecoratorContext} from "../../domain/DecoratorContext";
-import {JsonMethodStore} from "../../domain/JsonMethodStore";
-import {mapOperationOptions} from "../../utils/mapOperationOptions";
+import {OperationVerbs} from "../../constants/OperationVerbs.js";
+import {DecoratorContext} from "../../domain/DecoratorContext.js";
+import {JsonMethodStore} from "../../domain/JsonMethodStore.js";
+import {mapOperationOptions} from "../../utils/mapOperationOptions.js";
 
 export interface RouteChainedDecorators {
   <T>(target: Object, propertyKey: string | symbol, descriptor: TypedPropertyDescriptor<T>): TypedPropertyDescriptor<T> | void;

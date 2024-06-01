@@ -153,7 +153,7 @@ You can use stripe.webhooks.generateTestHeaderString to mock webhook events that
 ```typescript
 import {Stripe} from "stripe";
 import {PlatformTest} from "@tsed/common";
-import {StripWebhookCtrl} from "./StripWebhookCtrl";
+import {StripWebhookCtrl} from "./StripWebhookCtrl.js";
 
 describe("StripWebhookCtrl", () => {
   beforeEach(() =>
@@ -203,8 +203,8 @@ import {PlatformTestUtils} from "@tsed/platform-test-utils";
 import {expect} from "chai";
 import {Stripe} from "stripe";
 import SuperTest from "supertest";
-import {StripeWebhooksCtrl} from "./StripWebhookCtrl";
-import {Server} from "../Server";
+import {StripeWebhooksCtrl} from "./StripWebhookCtrl.js";
+import {Server} from "../Server.js";
 
 const utils = PlatformTestUtils.create({
   platform: PlatformExpress,

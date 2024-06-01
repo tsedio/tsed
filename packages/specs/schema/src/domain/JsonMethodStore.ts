@@ -1,10 +1,10 @@
 import {DecoratorTypes, deepMerge, descriptorOf, isCollection, isFunction, isPromise, Metadata, prototypeOf, Store, Type} from "@tsed/core";
-import {JsonEntityComponent} from "../decorators/config/jsonEntityComponent";
-import type {JsonClassStore} from "./JsonClassStore";
-import {JsonEntityStore, JsonEntityStoreOptions} from "./JsonEntityStore";
-import {JsonOperation} from "./JsonOperation";
-import type {JsonParameterStore} from "./JsonParameterStore";
-import {JsonSchema} from "./JsonSchema";
+import {JsonEntityComponent} from "../decorators/config/jsonEntityComponent.js";
+import type {JsonClassStore} from "./JsonClassStore.js";
+import {JsonEntityStore, JsonEntityStoreOptions} from "./JsonEntityStore.js";
+import {JsonOperation} from "./JsonOperation.js";
+import type {JsonParameterStore} from "./JsonParameterStore.js";
+import {JsonSchema} from "./JsonSchema.js";
 
 export interface JsonViewOptions {
   path: string;

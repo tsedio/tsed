@@ -4,7 +4,7 @@ import {Constant} from "@tsed/di";
 import {Interaction, InteractionMethods, OidcCtx, OidcSession, Params, Prompt, Uid} from "@tsed/oidc-provider";
 import {View} from "@tsed/platform-views";
 import {Name} from "@tsed/schema";
-import {Accounts} from "../services/Accounts";
+import {Accounts} from "../services/Accounts.js";
 
 @Interaction({
   name: "login",

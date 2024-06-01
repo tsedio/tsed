@@ -5,7 +5,7 @@ import {OIDC_PROVIDER_NODE_MODULE, OidcSettings} from "@tsed/oidc-provider";
 import type {default as Provider, KoaContextWithOIDC} from "oidc-provider";
 // @ts-ignore
 import psl from "psl";
-import {wildcardRedirectUriAllowed} from "./utils/wildcardRedirectUriAllowed";
+import {wildcardRedirectUriAllowed} from "./utils/wildcardRedirectUriAllowed.js";
 
 declare global {
   namespace TsED {
@@ -31,7 +31,10 @@ export class OidcWildcardRedirectUriModule {
     if (this.enabled) {
       const {redirectUriAllowed, postLogoutRedirectUriAllowed} = provider.Client.prototype;
       provider.Client.prototype.redirectUriAllowed = wildcardRedirectUriAllowed(redirectUriAllowed, "redirectUris");
-      provider.Client.prototype.postLogoutRedirectUriAllowed = wildcardRedirectUriAllowed(postLogoutRedirectUriAllowed, "postLogoutRedirectUris");
+      provider.Client.prototype.postLogoutRedirectUriAllowed = wildcardRedirectUriAllowed(
+        postLogoutRedirectUriAllowed,
+        "postLogoutRedirectUris"
+      );
 
       this.logger.warn("⚠️⚠️⚠️ OIDC Wildcard Uris plugin is ENABLED ⚠️⚠️⚠️");
     }

@@ -1,4 +1,4 @@
-import {FormioCtxMapper} from "../domain/FormioCtxMapper";
+import {FormioCtxMapper} from "../domain/FormioCtxMapper.js";
 
 export class FormioMapper {
   constructor(readonly ctxData: FormioCtxMapper) {}

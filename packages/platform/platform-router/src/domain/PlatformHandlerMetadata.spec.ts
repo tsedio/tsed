@@ -2,9 +2,9 @@ import {Err, Next, Req} from "@tsed/common";
 import {Controller, InjectorService} from "@tsed/di";
 import {Middleware} from "@tsed/platform-middlewares";
 import {Get, JsonMethodStore} from "@tsed/schema";
-import {useContextHandler} from "../utils/useContextHandler";
-import {PlatformHandlerMetadata} from "./PlatformHandlerMetadata";
-import {PlatformHandlerType} from "./PlatformHandlerType";
+import {useContextHandler} from "../utils/useContextHandler.js";
+import {PlatformHandlerMetadata} from "./PlatformHandlerMetadata.js";
+import {PlatformHandlerType} from "./PlatformHandlerType.js";
 
 describe("PlatformHandlerMetadata", () => {
   describe("from()", () => {

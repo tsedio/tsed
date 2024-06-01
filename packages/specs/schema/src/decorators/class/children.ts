@@ -1,5 +1,5 @@
 import {Store, Type} from "@tsed/core";
-import {JsonEntityFn} from "../common/jsonEntityFn";
+import {JsonEntityFn} from "../common/jsonEntityFn.js";
 
 /**
  * Add Children class to compose routes

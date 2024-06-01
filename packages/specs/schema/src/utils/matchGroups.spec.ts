@@ -1,4 +1,4 @@
-import {matchGroups} from "./matchGroups";
+import {matchGroups} from "./matchGroups.js";
 
 describe("matchGroups", () => {
   it.each([

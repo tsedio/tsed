@@ -1,7 +1,7 @@
 import {PlatformTest} from "@tsed/common";
 import {Get, JsonEntityStore, Redirect, Returns} from "@tsed/schema";
-import {setResponseHeaders} from "./setResponseHeaders";
-import {createServerlessContext} from "../../test/utils/createServerlessContext";
+import {setResponseHeaders} from "./setResponseHeaders.js";
+import {createServerlessContext} from "../../test/utils/createServerlessContext.js";
 
 describe("setResponseHeaders", () => {
   beforeEach(() => PlatformTest.create());

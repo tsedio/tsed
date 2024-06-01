@@ -1,9 +1,9 @@
 import {isArray} from "@tsed/core";
-import {JsonSchema} from "../../domain/JsonSchema";
-import {alterIgnore} from "../../hooks/alterIgnore";
-import {JsonSchemaOptions} from "../../interfaces/JsonSchemaOptions";
-import {execMapper, registerJsonSchemaMapper} from "../../registries/JsonSchemaMapperContainer";
-import {mapNullableType} from "../../utils/mapNullableType";
+import {JsonSchema} from "../../domain/JsonSchema.js";
+import {alterIgnore} from "../../hooks/alterIgnore.js";
+import {JsonSchemaOptions} from "../../interfaces/JsonSchemaOptions.js";
+import {execMapper, registerJsonSchemaMapper} from "../../registries/JsonSchemaMapperContainer.js";
+import {mapNullableType} from "../../utils/mapNullableType.js";
 
 /**
  * Serialize Any object to a json schema

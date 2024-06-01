@@ -1,5 +1,5 @@
-import {getFormioSchema} from "../utils/getFormioSchema";
-import {MaxWords} from "./maxWords";
+import {getFormioSchema} from "../utils/getFormioSchema.js";
+import {MaxWords} from "./maxWords.js";
 
 describe("@MaxWords", () => {
   it("should set the max words", async () => {

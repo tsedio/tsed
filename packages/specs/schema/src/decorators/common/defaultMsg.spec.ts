@@ -1,5 +1,5 @@
-import {getJsonSchema} from "../../utils/getJsonSchema";
-import {DefaultMsg} from "./defaultMsg";
+import {getJsonSchema} from "../../utils/getJsonSchema.js";
+import {DefaultMsg} from "./defaultMsg.js";
 
 describe("@DefaultMsg", () => {
   it("should declare default message", () => {

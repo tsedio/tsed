@@ -1,4 +1,4 @@
-import {proxyDelegation} from "./proxyDelegation";
+import {proxyDelegation} from "./proxyDelegation.js";
 
 describe("proxyDelegation", () => {
   it("should create proxy delegation with internal map", () => {

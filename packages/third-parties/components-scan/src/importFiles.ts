@@ -1,5 +1,5 @@
 import {importPackage} from "@tsed/core";
-import {cleanGlobPatterns} from "./cleanGlobPatterns";
+import {cleanGlobPatterns} from "./cleanGlobPatterns.js";
 
 export async function importFiles(patterns: string | string[], exclude: string[]): Promise<any[]> {
   const {default: globby} = await import("globby");

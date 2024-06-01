@@ -1,4 +1,4 @@
-import {matchPath} from "./matchPath";
+import {matchPath} from "./matchPath.js";
 
 describe("matchPath", () => {
   it("should match route with the glob pattern", () => {

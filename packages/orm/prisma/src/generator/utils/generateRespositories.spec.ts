@@ -1,6 +1,6 @@
-import {createProjectFixture} from "../../__mock__/createProjectFixture";
-import {createDmmfFixture} from "../../__mock__/createDmmfFixture";
-import {generateRepositories} from "./generateRepositories";
+import {createProjectFixture} from "../../__mock__/createProjectFixture.js";
+import {createDmmfFixture} from "../../__mock__/createDmmfFixture.js";
+import {generateRepositories} from "./generateRepositories.js";
 
 describe("generateRepositories", () => {
   it("should generate repositories (user)", () => {

@@ -1,8 +1,8 @@
 import {DecoratorParameters, Metadata, getClass} from "@tsed/core";
 
 import {RelationType} from "objection";
-import {RelationshipOpts} from "../domain/RelationshipOpts";
-import {createJoinKeys} from "./createJoinKeys";
+import {RelationshipOpts} from "../domain/RelationshipOpts.js";
+import {createJoinKeys} from "./createJoinKeys.js";
 
 /**
  * @ignore

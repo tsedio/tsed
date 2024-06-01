@@ -1,5 +1,5 @@
-import {INTERACTION_SESSION} from "../constants/constants";
-import {OidcSession} from "./oidcSession";
+import {INTERACTION_SESSION} from "../constants/constants.js";
+import {OidcSession} from "./oidcSession.js";
 import {JsonParameterStore} from "@tsed/schema";
 
 describe("@OidcSession", () => {

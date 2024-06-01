@@ -5,8 +5,8 @@ import {MongooseModel} from "@tsed/mongoose";
 import {PlatformExpress} from "@tsed/platform-express";
 import {TestMongooseContext} from "@tsed/testing-mongoose";
 import SuperTest from "supertest";
-import {TestProfile2, TestUser} from "./helpers/models/User";
-import {Server} from "./helpers/Server";
+import {TestProfile2, TestUser} from "./helpers/models/User.js";
+import {Server} from "./helpers/Server.js";
 
 @Controller("/profiles")
 class ProfilesCtrl {

@@ -1,9 +1,9 @@
 import filedirname from "filedirname";
 import {createReadStream} from "fs";
 import {of} from "rxjs";
-import {catchAsyncError} from "../utils/catchError";
-import {isStream} from "../utils/objects/isStream";
-import {AnyToPromise, AnyToPromiseStatus} from "./AnyToPromise";
+import {catchAsyncError} from "../utils/catchError.js";
+import {isStream} from "../utils/objects/isStream.js";
+import {AnyToPromise, AnyToPromiseStatus} from "./AnyToPromise.js";
 
 // FIXME remove when esm is ready
 const [, rootDir] = filedirname();

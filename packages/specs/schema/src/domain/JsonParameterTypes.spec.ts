@@ -1,4 +1,4 @@
-import {isParameterType} from "../index";
+import {isParameterType} from "../index.js";
 
 describe("JsonParameterType", () => {
   describe("isParameterType", () => {

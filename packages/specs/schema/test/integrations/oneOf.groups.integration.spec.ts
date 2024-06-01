@@ -1,4 +1,4 @@
-import {ForwardGroups, getJsonSchema, Groups, OneOf, Property, string} from "../../src/index";
+import {ForwardGroups, getJsonSchema, Groups, OneOf, Property, string} from "../../src/index.js";
 
 // WHEN
 class One1 {

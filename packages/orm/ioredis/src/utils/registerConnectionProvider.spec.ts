@@ -1,13 +1,16 @@
 import {DITest} from "@tsed/di";
 import Redis from "ioredis";
-import {registerConnectionProvider} from "./registerConnectionProvider";
+import {registerConnectionProvider} from "./registerConnectionProvider.js";
 
 jest.mock("ioredis", () => {
   class MockRedis {
     static Cluster = class {
       connector: any = {};
 
-      constructor(public nodes: any, public options: any) {
+      constructor(
+        public nodes: any,
+        public options: any
+      ) {
         this.connector.options = options;
       }
 

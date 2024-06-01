@@ -1,5 +1,5 @@
-import {isCircularRef} from "./isCircularRef";
-import {createContextFixture} from "../../__mock__/createContextFixture";
+import {isCircularRef} from "./isCircularRef.js";
+import {createContextFixture} from "../../__mock__/createContextFixture.js";
 
 const ctx = createContextFixture();
 

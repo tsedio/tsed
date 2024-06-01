@@ -9,9 +9,9 @@ import methodOverride from "method-override";
 import cors from "cors";
 import "@tsed/ajv";
 import "@tsed/swagger";
-import {config} from "./config";
-import * as rest from "./controllers/rest";
-import * as pages from "./controllers/pages";
+import {config} from "./config/index.js";
+import * as rest from "./controllers/rest/index.js";
+import * as pages from "./controllers/pages/index.js";
 
 @Configuration({
   ...config,

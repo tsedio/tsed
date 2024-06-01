@@ -12,12 +12,12 @@ import {
   registerProvider
 } from "@tsed/di";
 import {EventSubscriber, Options} from "@mikro-orm/core";
-import {MikroOrmRegistry} from "./services/MikroOrmRegistry";
-import {RetryStrategy} from "./interfaces/RetryStrategy";
-import {OptimisticLockErrorFilter} from "./filters/OptimisticLockErrorFilter";
-import {MikroOrmContext} from "./services/MikroOrmContext";
+import {MikroOrmRegistry} from "./services/MikroOrmRegistry.js";
+import {RetryStrategy} from "./interfaces/RetryStrategy.js";
+import {OptimisticLockErrorFilter} from "./filters/OptimisticLockErrorFilter.js";
+import {MikroOrmContext} from "./services/MikroOrmContext.js";
 import {classOf, isFunction, Store} from "@tsed/core";
-import {DEFAULT_CONTEXT_NAME, SUBSCRIBER_INJECTION_TYPE} from "./constants";
+import {DEFAULT_CONTEXT_NAME, SUBSCRIBER_INJECTION_TYPE} from "./constants.js";
 
 declare global {
   // eslint-disable-next-line @typescript-eslint/no-namespace

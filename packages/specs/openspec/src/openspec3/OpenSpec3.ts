@@ -1,12 +1,12 @@
-import {OS3Schema} from "./OS3Schema";
-import {OpenSpecExternalDocs} from "../common/OpenSpecExternalDocs";
-import {OpenSpecHash} from "../common/OpenSpecHash";
-import {OpenSpecInfo} from "../common/OpenSpecInfo";
-import {OpenSpecSecurity} from "../common/OpenSpecSecurity";
-import {OpenSpecTag} from "../common/OpenSpecTag";
-import {OS3Components} from "./OS3Components";
-import {OS3Paths} from "./OS3Paths";
-import {OS3Server} from "./OS3Server";
+import {OS3Schema} from "./OS3Schema.js";
+import {OpenSpecExternalDocs} from "../common/OpenSpecExternalDocs.js";
+import {OpenSpecHash} from "../common/OpenSpecHash.js";
+import {OpenSpecInfo} from "../common/OpenSpecInfo.js";
+import {OpenSpecSecurity} from "../common/OpenSpecSecurity.js";
+import {OpenSpecTag} from "../common/OpenSpecTag.js";
+import {OS3Components} from "./OS3Components.js";
+import {OS3Paths} from "./OS3Paths.js";
+import {OS3Server} from "./OS3Server.js";
 
 export interface OpenSpec3<Schema = OS3Schema> {
   /**

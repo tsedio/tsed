@@ -1,7 +1,7 @@
 import Ajv from "ajv";
-import {enums} from "../../utils/from";
-import {getJsonSchema} from "../../utils/getJsonSchema";
-import {Enum} from "./enum";
+import {enums} from "../../utils/from.js";
+import {getJsonSchema} from "../../utils/getJsonSchema.js";
+import {Enum} from "./enum.js";
 
 describe("@Enum", () => {
   describe("when enum is a list of values", () => {

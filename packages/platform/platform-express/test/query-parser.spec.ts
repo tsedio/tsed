@@ -1,6 +1,6 @@
-import {rootDir} from "./app/Server";
+import {rootDir} from "./app/Server.js";
 import {PlatformTestSdk} from "@tsed/platform-test-sdk";
-import {PlatformExpress} from "../src/index";
+import {PlatformExpress} from "../src/index.js";
 import SuperTest from "supertest";
 import {Configuration, Controller, Get, Inject, PlatformApplication, PlatformTest, QueryParams} from "@tsed/common";
 import {parse} from "querystring";

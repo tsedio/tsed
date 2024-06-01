@@ -1,6 +1,6 @@
 import {Project} from "ts-morph";
 import path from "path";
-import {GenerateCodeOptions} from "../generateCode";
+import {GenerateCodeOptions} from "../generateCode.js";
 
 export function generateClientIndex(project: Project, baseDirPath: string, options: GenerateCodeOptions) {
   const directory = project.createDirectory(path.resolve(baseDirPath, "client"));

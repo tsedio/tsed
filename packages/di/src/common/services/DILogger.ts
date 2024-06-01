@@ -1,6 +1,6 @@
-import {DILogger} from "../interfaces/DILogger";
-import {registerProvider} from "../registries/ProviderRegistry";
-import {InjectorService} from "./InjectorService";
+import {DILogger} from "../interfaces/DILogger.js";
+import {registerProvider} from "../registries/ProviderRegistry.js";
+import {InjectorService} from "./InjectorService.js";
 
 export const LOGGER = Symbol.for("LOGGER");
 export type LOGGER = DILogger;

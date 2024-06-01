@@ -1,17 +1,17 @@
 import {QueryParams} from "@tsed/platform-params";
-import {SpecTypes} from "../../domain/SpecTypes";
-import {getJsonSchema} from "../../utils/getJsonSchema";
-import {getSpec} from "../../utils/getSpec";
-import {CollectionOf} from "../collections/collectionOf";
-import {In} from "../operations/in";
-import {OperationPath} from "../operations/operationPath";
-import {Path} from "../operations/path";
-import {Returns} from "../operations/returns";
-import {Groups} from "./groups";
-import {Name} from "./name";
-import {Property} from "./property";
-import {Required} from "./required";
-import {RequiredGroups} from "./requiredGroups";
+import {SpecTypes} from "../../domain/SpecTypes.js";
+import {getJsonSchema} from "../../utils/getJsonSchema.js";
+import {getSpec} from "../../utils/getSpec.js";
+import {CollectionOf} from "../collections/collectionOf.js";
+import {In} from "../operations/in.js";
+import {OperationPath} from "../operations/operationPath.js";
+import {Path} from "../operations/path.js";
+import {Returns} from "../operations/returns.js";
+import {Groups} from "./groups.js";
+import {Name} from "./name.js";
+import {Property} from "./property.js";
+import {Required} from "./required.js";
+import {RequiredGroups} from "./requiredGroups.js";
 
 class ChildModel {
   @Groups("!creation")

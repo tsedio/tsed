@@ -1,5 +1,5 @@
-import {SocketReturnsTypes} from "../interfaces/SocketReturnsTypes";
-import {SocketReturns} from "./socketReturns";
+import {SocketReturnsTypes} from "../interfaces/SocketReturnsTypes.js";
+import {SocketReturns} from "./socketReturns.js";
 
 /**
  * Emit the response to the client.

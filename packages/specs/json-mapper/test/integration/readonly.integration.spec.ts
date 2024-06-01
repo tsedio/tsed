@@ -1,5 +1,5 @@
-import {serialize} from "../../src/utils/serialize";
-import {deserialize} from "../../src/utils/deserialize";
+import {serialize} from "../../src/utils/serialize.js";
+import {deserialize} from "../../src/utils/deserialize.js";
 import {Groups, Property, ReadOnly, Required} from "@tsed/schema";
 
 class DataSourceModel {

@@ -69,7 +69,7 @@ Here is a basic usage to declare an injectable service to another one:
 
 ```typescript
 import {Injectable} from "@tsed/di";
-import {Calendar} from "./models/calendar";
+import {Calendar} from "./models/calendar.js";
 
 @Injectable()
 export class CalendarsService {
@@ -92,8 +92,8 @@ Now we have the service class already done, let's use it inside a controller:
 
 ```typescript
 import {Controller, Post, Body, Get} from "@tsed/common";
-import {CalendarsService} from "./CalendarsService";
-import {Calendar} from "./models/Calendar";
+import {CalendarsService} from "./CalendarsService.js";
+import {Calendar} from "./models/Calendar.js";
 
 @Controller("/calendars")
 export class CalendarCtrl {
@@ -119,7 +119,7 @@ Finally, we can load the injector and use:
 ```typescript
 import {InjectorService, attachLogger} from "@tsed/di";
 import {$log} from "@tsed/logger";
-import {CalendarCtrl} from "./CalendarCtrl";
+import {CalendarCtrl} from "./CalendarCtrl.js";
 
 async function bootstrap() {
   const injector = new InjectorService();

@@ -2,7 +2,7 @@ import {PlatformTest} from "@tsed/common";
 import {Property} from "@tsed/schema";
 import {TestMongooseContext} from "@tsed/testing-mongoose";
 import {Model, MongooseModel, MongooseService, ObjectID} from "@tsed/mongoose";
-import {Server} from "./helpers/Server";
+import {Server} from "./helpers/Server.js";
 
 @Model({
   connection: "customer",

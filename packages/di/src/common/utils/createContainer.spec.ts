@@ -1,6 +1,6 @@
-import {Module} from "../decorators/module";
-import {Container} from "../domain/Container";
-import {createContainer} from "./createContainer";
+import {Module} from "../decorators/module.js";
+import {Container} from "../domain/Container.js";
+import {createContainer} from "./createContainer.js";
 
 describe("createContainer", () => {
   it("should createContainer", () => {

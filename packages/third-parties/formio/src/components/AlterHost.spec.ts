@@ -1,5 +1,5 @@
 import {PlatformTest} from "@tsed/common";
-import {AlterHost} from "./AlterHost";
+import {AlterHost} from "./AlterHost.js";
 
 describe("AlterHost", () => {
   beforeEach(() => PlatformTest.create());

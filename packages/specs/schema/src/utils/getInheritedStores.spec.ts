@@ -1,6 +1,6 @@
 import {StoreSet} from "@tsed/core";
-import {OperationPath} from "../decorators/operations/operationPath";
-import {getInheritedStores} from "./getInheritedStores";
+import {OperationPath} from "../decorators/operations/operationPath.js";
+import {getInheritedStores} from "./getInheritedStores.js";
 
 describe("getInheritedStores", () => {
   it("should return inherited store", () => {

@@ -1,4 +1,4 @@
-import {getSpec, Location, OperationPath, SpecTypes} from "../../index";
+import {getSpec, Location, OperationPath, SpecTypes} from "../../index.js";
 
 describe("Location", () => {
   it("should set Header", () => {

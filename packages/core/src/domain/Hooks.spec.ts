@@ -1,4 +1,4 @@
-import {Hooks} from "./Hooks";
+import {Hooks} from "./Hooks.js";
 
 describe("Hooks", () => {
   describe("emit", () => {

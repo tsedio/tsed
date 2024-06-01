@@ -1,9 +1,9 @@
 import {decoratorTypeOf, DecoratorTypes, isPromise, Metadata, Store, UnsupportedDecoratorType} from "@tsed/core";
-import {DI_PARAM_OPTIONS, INJECTABLE_PROP} from "../constants/constants";
-import {InvalidPropertyTokenError} from "../errors/InvalidPropertyTokenError";
-import type {InjectablePropertyOptions} from "../interfaces/InjectableProperties";
-import {TokenProvider} from "../interfaces/TokenProvider";
-import {getConstructorDependencies, setConstructorDependencies} from "../utils/getConstructorDependencies";
+import {DI_PARAM_OPTIONS, INJECTABLE_PROP} from "../constants/constants.js";
+import {InvalidPropertyTokenError} from "../errors/InvalidPropertyTokenError.js";
+import type {InjectablePropertyOptions} from "../interfaces/InjectableProperties.js";
+import {TokenProvider} from "../interfaces/TokenProvider.js";
+import {getConstructorDependencies, setConstructorDependencies} from "../utils/getConstructorDependencies.js";
 
 export function injectProperty(target: any, propertyKey: string, options: Partial<InjectablePropertyOptions>) {
   Store.from(target).merge(INJECTABLE_PROP, {

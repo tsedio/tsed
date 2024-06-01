@@ -1,5 +1,5 @@
-import {getFormioSchema} from "../utils/getFormioSchema";
-import {ModalEdit} from "./modalEdit";
+import {getFormioSchema} from "../utils/getFormioSchema.js";
+import {ModalEdit} from "./modalEdit.js";
 
 describe("@ModalEdit", () => {
   it("should transform field to editable modal", async () => {

@@ -14,7 +14,7 @@ import {
   SpecTypes,
   string
 } from "@tsed/schema";
-import {OnDeserialize, serialize} from "../../src/index";
+import {OnDeserialize, serialize} from "../../src/index.js";
 
 class Pageable {
   @Integer()

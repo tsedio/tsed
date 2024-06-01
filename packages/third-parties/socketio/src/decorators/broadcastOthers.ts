@@ -1,5 +1,5 @@
-import {SocketReturnsTypes} from "../interfaces/SocketReturnsTypes";
-import {SocketReturns} from "./socketReturns";
+import {SocketReturnsTypes} from "../interfaces/SocketReturnsTypes.js";
+import {SocketReturns} from "./socketReturns.js";
 
 /**
  * Broadcast the response for all client registered in the same namespace except to the current client.

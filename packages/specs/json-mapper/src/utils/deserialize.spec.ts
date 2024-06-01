@@ -1,4 +1,4 @@
-import {deserialize} from "./deserialize";
+import {deserialize} from "./deserialize.js";
 
 describe("deserialize()", () => {
   describe("Primitive", () => {

@@ -5,7 +5,7 @@ import Redis from "ioredis";
 import IORedisMock from "ioredis-mock";
 import moment from "moment";
 
-import {OIDCRedisAdapter} from "./OIDCRedisAdapter";
+import {OIDCRedisAdapter} from "./OIDCRedisAdapter.js";
 
 const REDIS_CONNECTION = Symbol.for("redis_connection");
 

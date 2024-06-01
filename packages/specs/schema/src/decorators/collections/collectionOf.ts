@@ -1,4 +1,4 @@
-import {JsonEntityStore} from "../../domain/JsonEntityStore";
+import {JsonEntityStore} from "../../domain/JsonEntityStore.js";
 
 export interface ArrayOfChainedDecorators {
   (...args: any): any;

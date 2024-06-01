@@ -1,11 +1,11 @@
-import {isArrayOrArrayClass} from "./isArray";
-import {isArrowFn} from "./isArrowFn";
-import {isBuffer} from "./isBuffer";
-import {isDate} from "./isDate";
-import {isClassObject} from "./isPlainObject";
-import {isPrimitiveOrPrimitiveClass} from "./isPrimitive";
-import {isPromise} from "./isPromise";
-import {isSymbol} from "./isSymbol";
+import {isArrayOrArrayClass} from "./isArray.js";
+import {isArrowFn} from "./isArrowFn.js";
+import {isBuffer} from "./isBuffer.js";
+import {isDate} from "./isDate.js";
+import {isClassObject} from "./isPlainObject.js";
+import {isPrimitiveOrPrimitiveClass} from "./isPrimitive.js";
+import {isPromise} from "./isPromise.js";
+import {isSymbol} from "./isSymbol.js";
 
 export function isClass(target: any) {
   if (!target) {

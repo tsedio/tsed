@@ -1,5 +1,5 @@
-import {Exception, HTTPException} from "./Exception";
-import {StatusFamily} from "./StatusFamily";
+import {Exception, HTTPException} from "./Exception.js";
+import {StatusFamily} from "./StatusFamily.js";
 
 describe("Exception", () => {
   it("should use origin", () => {

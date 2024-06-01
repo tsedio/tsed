@@ -1,5 +1,5 @@
-import {Model, ObjectID, Ref} from "../../../src/index";
-import {TestCustomer} from "./Customer";
+import {Model, ObjectID, Ref} from "../../../src/index.js";
+import {TestCustomer} from "./Customer.js";
 
 @Model({name: "testContract", schemaOptions: {timestamps: true}})
 export class TestContract {

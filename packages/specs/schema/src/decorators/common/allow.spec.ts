@@ -1,8 +1,8 @@
-import {getJsonSchema} from "../../index";
+import {getJsonSchema} from "../../index.js";
 import Ajv from "ajv";
-import {Allow} from "./allow";
-import {Property} from "./property";
-import {Required} from "./required";
+import {Allow} from "./allow.js";
+import {Property} from "./property.js";
+import {Required} from "./required.js";
 
 describe("@Allow", () => {
   it("should declare required and allow field (without Allow)", () => {

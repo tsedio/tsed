@@ -1,4 +1,4 @@
-import {FallbackJobController, JobController} from "./JobController";
+import {FallbackJobController, JobController} from "./JobController.js";
 import {Store} from "@tsed/core";
 import {GlobalProviders} from "@tsed/di";
 

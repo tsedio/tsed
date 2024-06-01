@@ -1,4 +1,4 @@
-import {getColumns} from "./createColumns";
+import {getColumns} from "./createColumns.js";
 
 /**
  * @ignore

@@ -1,7 +1,7 @@
 import {BaseContext} from "@tsed/di";
 import {Exception} from "@tsed/exceptions";
-import {Catch} from "../decorators/catch";
-import {ErrorFilter} from "./ErrorFilter";
+import {Catch} from "../decorators/catch.js";
+import {ErrorFilter} from "./ErrorFilter.js";
 
 @Catch(Exception)
 export class ExceptionFilter extends ErrorFilter {

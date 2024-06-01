@@ -1,4 +1,4 @@
-import {withErrorMsg} from "./withErrorMsg";
+import {withErrorMsg} from "./withErrorMsg.js";
 
 // TODO: complete this test
 describe("withErrorMsg", () => {

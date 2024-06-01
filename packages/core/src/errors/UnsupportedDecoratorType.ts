@@ -1,6 +1,6 @@
-import {decoratorTypeOf} from "../utils/decorators/decoratorTypeOf";
-import {classOf} from "../utils/objects/classOf";
-import {nameOf} from "../utils/objects/nameOf";
+import {decoratorTypeOf} from "../utils/decorators/decoratorTypeOf.js";
+import {classOf} from "../utils/objects/classOf.js";
+import {nameOf} from "../utils/objects/nameOf.js";
 
 export class UnsupportedDecoratorType extends Error {
   name: "UNSUPPORTED_DECORATOR_TYPE";

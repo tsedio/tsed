@@ -1,9 +1,9 @@
-import {OS3Schema} from "./OS3Schema";
-import {OpenSpecHash} from "../common/OpenSpecHash";
-import {OpenSpecRef} from "../common/OpenSpecRef";
-import {OS3Header} from "./OS3Header";
-import {OS3Link} from "./OS3Link";
-import {OS3MediaType} from "./OS3MediaType";
+import {OS3Schema} from "./OS3Schema.js";
+import {OpenSpecHash} from "../common/OpenSpecHash.js";
+import {OpenSpecRef} from "../common/OpenSpecRef.js";
+import {OS3Header} from "./OS3Header.js";
+import {OS3Link} from "./OS3Link.js";
+import {OS3MediaType} from "./OS3MediaType.js";
 
 export interface OS3Response<Schema = OS3Schema, Header = OS3Header<Schema>> {
   /**

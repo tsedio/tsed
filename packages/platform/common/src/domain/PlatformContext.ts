@@ -2,10 +2,10 @@ import {DIContext, DIContextOptions} from "@tsed/di";
 import {PlatformHandlerMetadata} from "@tsed/platform-router";
 import {EndpointMetadata} from "@tsed/schema";
 import {IncomingMessage, ServerResponse} from "http";
-import {IncomingEvent} from "../interfaces/IncomingEvent";
-import {PlatformApplication} from "../services/PlatformApplication";
-import {PlatformRequest} from "../services/PlatformRequest";
-import {PlatformResponse} from "../services/PlatformResponse";
+import {IncomingEvent} from "../interfaces/IncomingEvent.js";
+import {PlatformApplication} from "../services/PlatformApplication.js";
+import {PlatformRequest} from "../services/PlatformRequest.js";
+import {PlatformResponse} from "../services/PlatformResponse.js";
 
 declare global {
   namespace TsED {

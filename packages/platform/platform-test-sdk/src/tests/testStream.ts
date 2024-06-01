@@ -4,7 +4,7 @@ import filedirname from "filedirname";
 import {createReadStream} from "fs";
 import {join} from "path";
 import SuperTest from "supertest";
-import {PlatformTestingSdkOpts} from "../interfaces";
+import {PlatformTestingSdkOpts} from "../interfaces.js";
 // FIXME remove when esm is ready
 const [, rootDir] = filedirname();
 

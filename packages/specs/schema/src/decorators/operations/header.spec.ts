@@ -1,5 +1,5 @@
-import {getSpec, OperationPath, SpecTypes} from "../../index";
-import {Header} from "./header";
+import {getSpec, OperationPath, SpecTypes} from "../../index.js";
+import {Header} from "./header.js";
 
 describe("Header", () => {
   describe("when is used as method decorator", () => {

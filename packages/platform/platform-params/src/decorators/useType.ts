@@ -1,6 +1,6 @@
 import {Type} from "@tsed/core";
 import {Any, CollectionOf} from "@tsed/schema";
-import {ParamFn} from "./paramFn";
+import {ParamFn} from "./paramFn.js";
 
 /**
  * Set the type of the item collection.

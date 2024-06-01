@@ -1,5 +1,5 @@
-import {withErrorMsg} from "../../utils/withErrorMsg";
-import {JsonEntityFn} from "../common/jsonEntityFn";
+import {withErrorMsg} from "../../utils/withErrorMsg.js";
+import {JsonEntityFn} from "../common/jsonEntityFn.js";
 
 /**
  * The value `maxItems` MUST be a non-negative integer.

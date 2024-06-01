@@ -1,4 +1,4 @@
-import {getValue} from "./getValue";
+import {getValue} from "./getValue.js";
 
 describe("getValue()", () => {
   it("should return given value when expression is undefined", () => {

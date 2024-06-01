@@ -1,5 +1,5 @@
-import {AnyDecorator} from "../../interfaces/AnyDecorator";
-import {descriptorOf} from "../objects/descriptorOf";
+import {AnyDecorator} from "../../interfaces/AnyDecorator.js";
+import {descriptorOf} from "../objects/descriptorOf.js";
 
 export function useMethodDecorator(decorator: AnyDecorator) {
   return (target: any, propertyKey: string | symbol) => decorator(target, propertyKey, descriptorOf(target, propertyKey));

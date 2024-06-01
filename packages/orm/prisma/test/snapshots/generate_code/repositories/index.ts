@@ -1,2 +1,2 @@
-export { PostsRepository } from "./PostsRepository";
-export { UsersRepository } from "./UsersRepository";
+export {PostsRepository} from "./PostsRepository.js";
+export {UsersRepository} from "./UsersRepository.js";

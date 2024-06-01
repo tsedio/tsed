@@ -1,11 +1,11 @@
-import {TransactionalInterceptor} from "./TransactionalInterceptor";
+import {TransactionalInterceptor} from "./TransactionalInterceptor.js";
 import {anyFunction, anything, deepEqual, instance, mock, objectContaining, reset, verify, when} from "ts-mockito";
 import {InjectorService, InterceptorContext} from "@tsed/di";
 import {Logger} from "@tsed/logger";
 import {EntityManager, IsolationLevel, MikroORM, OptimisticLockError} from "@mikro-orm/core";
-import {MikroOrmRegistry} from "../services/MikroOrmRegistry";
-import {RetryStrategy} from "../interfaces/RetryStrategy";
-import {MikroOrmContext} from "../services/MikroOrmContext";
+import {MikroOrmRegistry} from "../services/MikroOrmRegistry.js";
+import {RetryStrategy} from "../interfaces/RetryStrategy.js";
+import {MikroOrmContext} from "../services/MikroOrmContext.js";
 
 // AHDOC: https://github.com/NagRock/ts-mockito/issues/191
 // TODO: avoid using ts-mockito

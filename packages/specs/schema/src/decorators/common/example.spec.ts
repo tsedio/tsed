@@ -1,7 +1,7 @@
 import {descriptorOf, useDecorators} from "@tsed/core";
-import {Description, getSpec, In, Name, OperationPath, Path, Pattern, SpecTypes} from "../../index";
-import {getJsonSchema} from "../../utils/getJsonSchema";
-import {Example} from "./example";
+import {Description, getSpec, In, Name, OperationPath, Path, Pattern, SpecTypes} from "../../index.js";
+import {getJsonSchema} from "../../utils/getJsonSchema.js";
+import {Example} from "./example.js";
 
 function ObjectID(name?: string) {
   return useDecorators(name && Name(name), Pattern(/^[0-9a-fA-F]{24}$/), Description("An ObjectID"), Example("5ce7ad3028890bd71749d477"));

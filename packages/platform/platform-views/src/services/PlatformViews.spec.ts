@@ -1,6 +1,6 @@
 import {Injectable, PlatformTest} from "@tsed/common";
 import {requires} from "@tsed/engines";
-import {PlatformViews} from "./PlatformViews";
+import {PlatformViews} from "./PlatformViews.js";
 
 @Injectable()
 class AlterOptions {

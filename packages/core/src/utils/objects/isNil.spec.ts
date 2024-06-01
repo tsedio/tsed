@@ -1,4 +1,4 @@
-import {isNil} from "./isNil";
+import {isNil} from "./isNil.js";
 
 describe("isNil", () => {
   it("should return true", () => {

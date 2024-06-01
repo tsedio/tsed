@@ -1,12 +1,12 @@
 import {getClassOrSymbol, Type} from "@tsed/core";
-import type {LocalsContainer} from "../domain/LocalsContainer";
-import {Provider} from "../domain/Provider";
-import {ProviderType} from "../domain/ProviderType";
-import {ProviderOpts} from "../interfaces/ProviderOpts";
-import {RegistrySettings} from "../interfaces/RegistrySettings";
-import {ResolvedInvokeOptions} from "../interfaces/ResolvedInvokeOptions";
-import {TokenProvider} from "../interfaces/TokenProvider";
-import type {InjectorService} from "../services/InjectorService";
+import type {LocalsContainer} from "../domain/LocalsContainer.js";
+import {Provider} from "../domain/Provider.js";
+import {ProviderType} from "../domain/ProviderType.js";
+import {ProviderOpts} from "../interfaces/ProviderOpts.js";
+import {RegistrySettings} from "../interfaces/RegistrySettings.js";
+import {ResolvedInvokeOptions} from "../interfaces/ResolvedInvokeOptions.js";
+import {TokenProvider} from "../interfaces/TokenProvider.js";
+import type {InjectorService} from "../services/InjectorService.js";
 
 export class GlobalProviderRegistry extends Map<TokenProvider, Provider> {
   #settings: Map<string, RegistrySettings> = new Map();

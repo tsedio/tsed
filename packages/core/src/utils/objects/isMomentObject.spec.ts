@@ -1,4 +1,4 @@
-import {isMomentObject} from "./isMomentObject";
+import {isMomentObject} from "./isMomentObject.js";
 
 describe("isMomentObject", () => {
   it("should return true if object is moment object", () => {

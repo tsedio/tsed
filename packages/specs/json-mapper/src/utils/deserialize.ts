@@ -2,8 +2,8 @@ import "../components/DateMapper";
 import "../components/PrimitiveMapper";
 import "../components/SymbolMapper";
 
-import {JsonDeserializer} from "../domain/JsonDeserializer";
-import {JsonDeserializerOptions} from "../domain/JsonDeserializerOptions";
+import {JsonDeserializer} from "../domain/JsonDeserializer.js";
+import {JsonDeserializerOptions} from "../domain/JsonDeserializerOptions.js";
 
 const deserializer = new JsonDeserializer();
 

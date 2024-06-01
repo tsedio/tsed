@@ -1,4 +1,4 @@
-import {Injectable} from "../injectable";
+import {Injectable} from "../injectable.js";
 
 @Injectable()
 export class MyLazyModule {

@@ -1,4 +1,4 @@
-import {Metadata} from "./Metadata";
+import {Metadata} from "./Metadata.js";
 
 function logger(target: any, method?: any, descriptor?: any) {
   return descriptor;

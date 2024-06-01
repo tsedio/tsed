@@ -1,7 +1,7 @@
 import {StoreSet, useDecorators} from "@tsed/core";
 import {Configuration, Injectable} from "@tsed/di";
-import {ProtocolOptions} from "../interfaces/ProtocolOptions";
-import {PROVIDER_TYPE_PROTOCOL} from "../contants/constants";
+import {ProtocolOptions} from "../interfaces/ProtocolOptions.js";
+import {PROVIDER_TYPE_PROTOCOL} from "../contants/constants.js";
 
 /**
  * Declare a new Protocol base on a Passport Strategy

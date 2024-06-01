@@ -1,5 +1,5 @@
 import {PlatformTest} from "@tsed/common";
-import {StringErrorFilter} from "./StringErrorFilter";
+import {StringErrorFilter} from "./StringErrorFilter.js";
 
 describe("StringErrorFilter", () => {
   beforeEach(() => PlatformTest.create());

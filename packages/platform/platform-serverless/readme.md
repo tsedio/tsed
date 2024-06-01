@@ -138,8 +138,8 @@ In the `src/lambda` create a new Lambda class:
 import {Controller, Inject} from "@tsed/di";
 import {Get, Returns, Summary} from "@tsed/schema";
 import {QueryParams} from "@tsed/platform-params"; // /!\ don't import decorators from @tsed/common
-import {TimeslotsService} from "../services/TimeslotsService";
-import {TimeslotModel} from "../models/TimeslotModel";
+import {TimeslotsService} from "../services/TimeslotsService.js";
+import {TimeslotModel} from "../models/TimeslotModel.js";
 
 @Controller("/timeslots")
 export class TimeslotsLambda {
@@ -162,7 +162,7 @@ Create new `handler.ts` to expose your lambda:
 
 ```typescript
 import {PlatformServerless} from "@tsed/platform-serverless";
-import {TimeslotsLambda} from "./lambda/TimeslotsLambda";
+import {TimeslotsLambda} from "./lambda/TimeslotsLambda.js";
 
 const platform = PlatformServerless.bootstrap({
   lambda: [TimeslotsLambda]
@@ -274,7 +274,7 @@ Then, edit the `handler.ts` and change the exported functions:
 
 ```typescript
 import {PlatformServerless} from "@tsed/platform-serverless";
-import {TimeslotsLambda} from "./TimeslotsLambda";
+import {TimeslotsLambda} from "./TimeslotsLambda.js";
 
 const platform = PlatformServerless.bootstrap({
   lambda: [TimeslotsLambda]
@@ -300,8 +300,8 @@ To simplify our workflow, we can add the following npm script command in our `pa
 ```typescript
 import {Injectable} from "@tsed/di";
 import {QueryParams, ServerlessContext} from "@tsed/platform-serverless"; // /!\ don't import decorators from @tsed/common
-import {TimeslotsService} from "../services/TimeslotsService";
-import {ServerlessContext} from "./ServerlessContext";
+import {TimeslotsService} from "../services/TimeslotsService.js";
+import {ServerlessContext} from "./ServerlessContext.js";
 
 @Injectable()
 export class TimeslotsLambda {

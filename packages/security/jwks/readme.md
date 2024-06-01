@@ -40,7 +40,7 @@ npm install --save @tsed/jwks
 ### Generate keys
 
 ```typescript
-import {generateJwks} from "./getJwks";
+import {generateJwks} from "./getJwks.js";
 
 // Generate only jwks
 const jwks = generateJwks();
@@ -73,7 +73,7 @@ Outputs:
 ### Generate keys from certificates
 
 ```typescript
-import {generateJwks} from "./getJwks";
+import {generateJwks} from "./getJwks.js";
 
 // Generate only jwks
 const jwks = generateJwks({

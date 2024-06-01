@@ -1,6 +1,6 @@
 import {descriptorOf, Store} from "@tsed/core";
-import {MONGOOSE_SCHEMA} from "../constants/constants";
-import {Sparse} from "./sparse";
+import {MONGOOSE_SCHEMA} from "../constants/constants.js";
+import {Sparse} from "./sparse.js";
 
 describe("@Sparse()", () => {
   it("should set metadata (default)", () => {

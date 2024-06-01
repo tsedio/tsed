@@ -13,15 +13,15 @@ import {
   Required
 } from "@tsed/schema";
 import {Schema as SchemaMongoose, Types} from "mongoose";
-import {Model} from "../decorators/model";
-import {ObjectID} from "../decorators/objectID";
-import {Ref} from "../decorators/ref";
-import {Schema} from "../decorators/schema";
-import {SchemaIgnore} from "../decorators/schemaIgnore";
-import {VersionKey} from "../decorators/versionKey";
-import {VirtualRef, VirtualRefs} from "../decorators/virtualRef";
-import {getSchema} from "./createSchema";
-import {DiscriminatorKey} from "../decorators/discriminatorKey";
+import {Model} from "../decorators/model.js";
+import {ObjectID} from "../decorators/objectID.js";
+import {Ref} from "../decorators/ref.js";
+import {Schema} from "../decorators/schema.js";
+import {SchemaIgnore} from "../decorators/schemaIgnore.js";
+import {VersionKey} from "../decorators/versionKey.js";
+import {VirtualRef, VirtualRefs} from "../decorators/virtualRef.js";
+import {getSchema} from "./createSchema.js";
+import {DiscriminatorKey} from "../decorators/discriminatorKey.js";
 
 describe("createSchema", () => {
   it("should create schema", () => {

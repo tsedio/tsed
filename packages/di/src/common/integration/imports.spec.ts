@@ -1,7 +1,7 @@
-import {DITest} from "../../node/index";
-import {Inject} from "../decorators/inject";
-import {Injectable} from "../decorators/injectable";
-import {Module} from "../decorators/module";
+import {DITest} from "../../node/index.js";
+import {Inject} from "../decorators/inject.js";
+import {Injectable} from "../decorators/injectable.js";
+import {Module} from "../decorators/module.js";
 
 @Injectable()
 class MyService {

@@ -1,4 +1,4 @@
-import {SwaggerSettings} from "./SwaggerSettings";
+import {SwaggerSettings} from "./SwaggerSettings.js";
 
 declare global {
   namespace TsED {

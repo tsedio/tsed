@@ -4,8 +4,8 @@ import {Controller, InjectorService} from "@tsed/di";
 import {UseBefore} from "@tsed/platform-middlewares";
 import {Context, PlatformParams} from "@tsed/platform-params";
 import {Delete, Get, Head, Options, Patch, Post, Publish, Put, Subscribe} from "@tsed/schema";
-import {PlatformRouter} from "../src/domain/PlatformRouter";
-import {AlterEndpointHandlersArg, PlatformRouters} from "../src/domain/PlatformRouters";
+import {PlatformRouter} from "../src/domain/PlatformRouter.js";
+import {AlterEndpointHandlersArg, PlatformRouters} from "../src/domain/PlatformRouters.js";
 
 @Controller("/nested")
 class NestedController {

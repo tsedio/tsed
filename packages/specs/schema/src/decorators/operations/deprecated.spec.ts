@@ -1,4 +1,4 @@
-import {Deprecated, getSpec, OperationPath, Returns, SpecTypes} from "../../index";
+import {Deprecated, getSpec, OperationPath, Returns, SpecTypes} from "../../index.js";
 import {QueryParams} from "@tsed/platform-params";
 import {catchError} from "@tsed/core";
 

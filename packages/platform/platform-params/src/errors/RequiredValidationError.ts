@@ -1,5 +1,5 @@
 import {nameOf} from "@tsed/core";
-import {ValidationError} from "./ValidationError";
+import {ValidationError} from "./ValidationError.js";
 import {JsonParameterStore} from "@tsed/schema";
 
 export class RequiredValidationError extends ValidationError {

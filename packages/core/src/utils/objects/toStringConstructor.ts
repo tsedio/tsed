@@ -1,4 +1,4 @@
-import {constructorOf} from "./constructorOf";
+import {constructorOf} from "./constructorOf.js";
 
 export function toStringConstructor(target: any): string {
   const ctr = constructorOf(target);

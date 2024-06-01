@@ -1,7 +1,7 @@
-import {classOf} from "./classOf";
-import {ancestorsOf} from "./ancestorsOf";
-import {prototypeOf} from "./prototypeOf";
-import {Type} from "../../domain/Type";
+import {classOf} from "./classOf.js";
+import {ancestorsOf} from "./ancestorsOf.js";
+import {prototypeOf} from "./prototypeOf.js";
+import {Type} from "../../domain/Type.js";
 
 /**
  * Return all methods for a given class.

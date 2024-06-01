@@ -1,5 +1,5 @@
-import {getFormioSchema} from "../utils/getFormioSchema";
-import {Password} from "./password";
+import {getFormioSchema} from "../utils/getFormioSchema.js";
+import {Password} from "./password.js";
 
 describe("Password", () => {
   it("should declare a model with password field", async () => {

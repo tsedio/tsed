@@ -1,6 +1,6 @@
-import {withErrorMsg} from "../../utils/withErrorMsg";
-import {Allow} from "./allow";
-import {Optional} from "./optional";
+import {withErrorMsg} from "../../utils/withErrorMsg.js";
+import {Allow} from "./allow.js";
+import {Optional} from "./optional.js";
 
 /**
  * Add required annotation on Property or Parameter.

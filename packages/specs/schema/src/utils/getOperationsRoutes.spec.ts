@@ -1,10 +1,10 @@
 import {StoreSet} from "@tsed/core";
-import {Children} from "../decorators/class/children";
-import {In} from "../decorators/operations/in";
-import {Path} from "../decorators/operations/path";
-import {All, Get} from "../decorators/operations/route";
-import {JsonOperationRoute} from "../domain/JsonOperationRoute";
-import {getOperationsRoutes} from "./getOperationsRoutes";
+import {Children} from "../decorators/class/children.js";
+import {In} from "../decorators/operations/in.js";
+import {Path} from "../decorators/operations/path.js";
+import {All, Get} from "../decorators/operations/route.js";
+import {JsonOperationRoute} from "../domain/JsonOperationRoute.js";
+import {getOperationsRoutes} from "./getOperationsRoutes.js";
 
 function getData(operationRoute: JsonOperationRoute) {
   return {

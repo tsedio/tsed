@@ -1,8 +1,8 @@
 import {DITest} from "@tsed/di";
 import {APIGatewayEventDefaultAuthorizerContext, APIGatewayProxyEventBase, APIGatewayProxyHandler} from "aws-lambda";
 import {APIGatewayProxyResult} from "aws-lambda/trigger/api-gateway-proxy";
-import {createFakeEvent} from "./createFakeEvent";
-import {createFakeContext} from "./createFakeContext";
+import {createFakeEvent} from "./createFakeEvent.js";
+import {createFakeContext} from "./createFakeContext.js";
 import {nameOf, Type} from "@tsed/core";
 import {PlatformBuilder, PlatformBuilderSettings} from "@tsed/common";
 

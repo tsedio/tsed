@@ -1,5 +1,5 @@
 import {snakeCase} from "change-case";
-import {JsonEntityFn} from "../common/jsonEntityFn";
+import {JsonEntityFn} from "../common/jsonEntityFn.js";
 
 /**
  * Declare a Discriminator value on a child class.

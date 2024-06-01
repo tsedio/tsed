@@ -1,5 +1,5 @@
 import {Module} from "@tsed/di";
-import {M2Ctrl} from "./controllers/M2Ctrl";
+import {M2Ctrl} from "./controllers/M2Ctrl.js";
 
 @Module({
   mount: {

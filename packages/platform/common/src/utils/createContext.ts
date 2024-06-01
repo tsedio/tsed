@@ -1,9 +1,9 @@
 import {InjectorService} from "@tsed/di";
 import {v4} from "uuid";
-import {PlatformContext} from "../domain/PlatformContext";
-import {IncomingEvent} from "../interfaces/IncomingEvent";
-import {PlatformRequest} from "../services/PlatformRequest";
-import {PlatformResponse} from "../services/PlatformResponse";
+import {PlatformContext} from "../domain/PlatformContext.js";
+import {IncomingEvent} from "../interfaces/IncomingEvent.js";
+import {PlatformRequest} from "../services/PlatformRequest.js";
+import {PlatformResponse} from "../services/PlatformResponse.js";
 
 function defaultReqIdBuilder(req: any) {
   return req.get("x-request-id") || v4().split("-").join("");

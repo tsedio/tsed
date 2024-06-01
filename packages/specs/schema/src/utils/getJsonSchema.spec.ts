@@ -1,6 +1,6 @@
 import {ancestorsOf, nameOf, Type} from "@tsed/core";
-import {Post} from "../../test/helpers/Post";
-import {CollectionOf, Email, Format, getJsonSchema, JsonEntityStore, MinLength, Name, Property, Required} from "../index";
+import {Post} from "../../test/helpers/Post.js";
+import {CollectionOf, Email, Format, getJsonSchema, JsonEntityStore, MinLength, Name, Property, Required} from "../index.js";
 
 describe("getJsonSchema", () => {
   it("should declare all schema correctly (basic)", () => {

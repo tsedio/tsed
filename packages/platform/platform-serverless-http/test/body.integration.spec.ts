@@ -4,8 +4,8 @@ import {MinLength, Patch, Post, Property, Put, Returns} from "@tsed/schema";
 import {PlatformServerlessTest} from "@tsed/platform-serverless-testing";
 import {PlatformExpress} from "@tsed/platform-express";
 import {BodyParams} from "@tsed/platform-params";
-import {PlatformServerlessHttp} from "../src";
-import {Server} from "./integration/aws-basic/src/Server";
+import {PlatformServerlessHttp} from "../src/index.js";
+import {Server} from "./integration/aws-basic/src/Server.js";
 
 class Model {
   @Property()

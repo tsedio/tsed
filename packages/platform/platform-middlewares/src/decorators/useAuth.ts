@@ -9,8 +9,8 @@ import {
   UnsupportedDecoratorType,
   useDecorators
 } from "@tsed/core";
-import {AuthOptions} from "./authOptions";
-import {UseBefore} from "./useBefore";
+import {AuthOptions} from "./authOptions.js";
+import {UseBefore} from "./useBefore.js";
 
 /**
  * Use custom authentication strategy on your endpoint.

@@ -1,16 +1,16 @@
 import {Store} from "@tsed/core";
-import {INJECTABLE_PROP} from "../constants/constants";
-import {Configuration} from "../decorators/configuration";
-import {Inject} from "../decorators/inject";
-import {Injectable} from "../decorators/injectable";
-import {Container} from "../domain/Container";
-import {LocalsContainer} from "../domain/LocalsContainer";
-import {Provider} from "../domain/Provider";
-import {ProviderScope} from "../domain/ProviderScope";
-import {ProviderType} from "../domain/ProviderType";
-import {GlobalProviders} from "../registries/GlobalProviders";
-import {registerProvider} from "../registries/ProviderRegistry";
-import {InjectorService} from "./InjectorService";
+import {INJECTABLE_PROP} from "../constants/constants.js";
+import {Configuration} from "../decorators/configuration.js";
+import {Inject} from "../decorators/inject.js";
+import {Injectable} from "../decorators/injectable.js";
+import {Container} from "../domain/Container.js";
+import {LocalsContainer} from "../domain/LocalsContainer.js";
+import {Provider} from "../domain/Provider.js";
+import {ProviderScope} from "../domain/ProviderScope.js";
+import {ProviderType} from "../domain/ProviderType.js";
+import {GlobalProviders} from "../registries/GlobalProviders.js";
+import {registerProvider} from "../registries/ProviderRegistry.js";
+import {InjectorService} from "./InjectorService.js";
 
 class Test {
   @Inject()

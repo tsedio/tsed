@@ -1,5 +1,5 @@
-import {Session} from "./session";
-import {ParamTypes} from "../domain/ParamTypes";
+import {Session} from "./session.js";
+import {ParamTypes} from "../domain/ParamTypes.js";
 import {JsonParameterStore} from "@tsed/schema";
 
 describe("@Session", () => {

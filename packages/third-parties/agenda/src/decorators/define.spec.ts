@@ -1,6 +1,6 @@
 import {Store} from "@tsed/core";
-import {Agenda} from "./agenda";
-import {Define} from "./define";
+import {Agenda} from "./agenda.js";
+import {Define} from "./define.js";
 
 describe("@Define()", () => {
   it("should set empty metadata", () => {

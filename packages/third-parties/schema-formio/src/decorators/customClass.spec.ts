@@ -1,5 +1,5 @@
-import {getFormioSchema} from "../utils/getFormioSchema";
-import {CustomClass} from "./customClass";
+import {getFormioSchema} from "../utils/getFormioSchema.js";
+import {CustomClass} from "./customClass.js";
 
 describe("@CustomClass", () => {
   it("should add a custom css class on field", async () => {

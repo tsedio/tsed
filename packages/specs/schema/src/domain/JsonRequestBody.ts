@@ -1,7 +1,7 @@
 import {OpenSpecHash, OS3MediaType, OS3RequestBody} from "@tsed/openspec";
-import {toJsonMapCollection} from "../utils/toJsonMapCollection";
-import {JsonMap} from "./JsonMap";
-import {JsonSchema} from "./JsonSchema";
+import {toJsonMapCollection} from "../utils/toJsonMapCollection.js";
+import {JsonMap} from "./JsonMap.js";
+import {JsonSchema} from "./JsonSchema.js";
 
 export type JsonRequestBodyOptions = OS3RequestBody<JsonSchema>;
 

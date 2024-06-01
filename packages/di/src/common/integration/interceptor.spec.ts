@@ -1,11 +1,11 @@
-import {Intercept} from "../decorators/intercept";
-import {Interceptor} from "../decorators/interceptor";
-import {Service} from "../decorators/service";
-import {Container} from "../domain/Container";
-import {InterceptorContext} from "../interfaces/InterceptorContext";
-import {InterceptorMethods} from "../interfaces/InterceptorMethods";
-import {GlobalProviders} from "../registries/GlobalProviders";
-import {InjectorService} from "../services/InjectorService";
+import {Intercept} from "../decorators/intercept.js";
+import {Interceptor} from "../decorators/interceptor.js";
+import {Service} from "../decorators/service.js";
+import {Container} from "../domain/Container.js";
+import {InterceptorContext} from "../interfaces/InterceptorContext.js";
+import {InterceptorMethods} from "../interfaces/InterceptorMethods.js";
+import {GlobalProviders} from "../registries/GlobalProviders.js";
+import {InjectorService} from "../services/InjectorService.js";
 
 describe("DI Interceptor", () => {
   @Interceptor()

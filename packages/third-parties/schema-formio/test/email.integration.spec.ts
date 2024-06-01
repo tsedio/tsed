@@ -1,5 +1,5 @@
 import {Email} from "@tsed/schema";
-import {getFormioSchema} from "../src";
+import {getFormioSchema} from "../src/index.js";
 
 describe("Email integration", () => {
   it("should generate email field", async () => {

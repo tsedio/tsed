@@ -1,7 +1,7 @@
-import {ProviderScope} from "../domain/ProviderScope";
-import {ProviderType} from "../domain/ProviderType";
-import {GlobalProviders} from "../registries/GlobalProviders";
-import {Controller} from "./controller";
+import {ProviderScope} from "../domain/ProviderScope.js";
+import {ProviderType} from "../domain/ProviderType.js";
+import {GlobalProviders} from "../registries/GlobalProviders.js";
+import {Controller} from "./controller.js";
 
 class Test {}
 

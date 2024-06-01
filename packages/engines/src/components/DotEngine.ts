@@ -1,5 +1,5 @@
-import {ViewEngine} from "../decorators/viewEngine";
-import {Engine} from "./Engine";
+import {ViewEngine} from "../decorators/viewEngine.js";
+import {Engine} from "./Engine.js";
 
 @ViewEngine("dot")
 export class DotEngine extends Engine {

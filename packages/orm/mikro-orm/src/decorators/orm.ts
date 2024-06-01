@@ -1,4 +1,4 @@
-import {MikroOrmRegistry} from "../services/MikroOrmRegistry";
+import {MikroOrmRegistry} from "../services/MikroOrmRegistry.js";
 import {Inject} from "@tsed/di";
 
 /**

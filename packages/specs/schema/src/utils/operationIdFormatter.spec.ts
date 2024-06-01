@@ -1,4 +1,4 @@
-import {operationIdFormatter} from "./operationIdFormatter";
+import {operationIdFormatter} from "./operationIdFormatter.js";
 
 describe("operationIdFormatter", () => {
   it("should define new OperationId", () => {

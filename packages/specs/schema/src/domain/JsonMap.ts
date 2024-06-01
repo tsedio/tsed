@@ -1,6 +1,6 @@
 import {isFunction} from "@tsed/core";
-import {JsonSchemaOptions} from "../interfaces/JsonSchemaOptions";
-import {execMapper} from "../registries/JsonSchemaMapperContainer";
+import {JsonSchemaOptions} from "../interfaces/JsonSchemaOptions.js";
+import {execMapper} from "../registries/JsonSchemaMapperContainer.js";
 
 export class JsonMap<T> extends Map<string, any> {
   [key: string]: any;

@@ -1,6 +1,6 @@
 import {prototypeOf} from "@tsed/core";
-import {Allow, JsonClassStore, JsonPropertyStore, Required} from "../index";
-import {getJsonEntityStore} from "../utils/getJsonEntityStore";
+import {Allow, JsonClassStore, JsonPropertyStore, Required} from "../index.js";
+import {getJsonEntityStore} from "../utils/getJsonEntityStore.js";
 
 describe("JsonParameterStore", () => {
   it("should create entity with required value", () => {

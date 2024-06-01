@@ -1,8 +1,8 @@
 import {Get} from "@tsed/common";
 import {Description, Example, getSpec, JsonParameterStore, Property, Required, SpecTypes, Title} from "@tsed/schema";
-import {ParamTypes} from "../domain/ParamTypes";
-import {QueryParams} from "./queryParams";
-import {UseParam} from "./useParam";
+import {ParamTypes} from "../domain/ParamTypes.js";
+import {QueryParams} from "./queryParams.js";
+import {UseParam} from "./useParam.js";
 
 export class MyModel {
   @Title("iD")

@@ -1,4 +1,4 @@
-import {normalizePath} from "./normalizePath";
+import {normalizePath} from "./normalizePath.js";
 
 describe("normalizePath", () => {
   it("should normalize path (string)", () => {

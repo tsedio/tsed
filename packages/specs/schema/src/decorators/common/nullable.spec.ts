@@ -1,14 +1,14 @@
 import {BodyParams} from "@tsed/platform-params";
 import Ajv from "ajv";
-import {SpecTypes} from "../../domain/SpecTypes";
-import {getJsonSchema} from "../../utils/getJsonSchema";
-import {getSpec} from "../../utils/getSpec";
-import {In} from "../operations/in";
-import {Path} from "../operations/path";
-import {Post} from "../operations/route";
-import {Nullable} from "./nullable";
-import {Property} from "./property";
-import {Required} from "./required";
+import {SpecTypes} from "../../domain/SpecTypes.js";
+import {getJsonSchema} from "../../utils/getJsonSchema.js";
+import {getSpec} from "../../utils/getSpec.js";
+import {In} from "../operations/in.js";
+import {Path} from "../operations/path.js";
+import {Post} from "../operations/route.js";
+import {Nullable} from "./nullable.js";
+import {Property} from "./property.js";
+import {Required} from "./required.js";
 
 describe("@Nullable", () => {
   it("should declare any prop (Required + Nullable)", () => {

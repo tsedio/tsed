@@ -1,13 +1,13 @@
 import {getValue, isObject} from "@tsed/core";
-import {mapAliasedProperties} from "../../domain/JsonAliasMap";
-import {JsonSchema} from "../../domain/JsonSchema";
-import {SpecTypes} from "../../domain/SpecTypes";
-import {alterOneOf} from "../../hooks/alterOneOf";
-import {JsonSchemaOptions} from "../../interfaces/JsonSchemaOptions";
-import {execMapper, hasMapper, registerJsonSchemaMapper} from "../../registries/JsonSchemaMapperContainer";
-import {getRequiredProperties} from "../../utils/getRequiredProperties";
-import {inlineEnums} from "../../utils/inlineEnums";
-import {mapNullableType} from "../../utils/mapNullableType";
+import {mapAliasedProperties} from "../../domain/JsonAliasMap.js";
+import {JsonSchema} from "../../domain/JsonSchema.js";
+import {SpecTypes} from "../../domain/SpecTypes.js";
+import {alterOneOf} from "../../hooks/alterOneOf.js";
+import {JsonSchemaOptions} from "../../interfaces/JsonSchemaOptions.js";
+import {execMapper, hasMapper, registerJsonSchemaMapper} from "../../registries/JsonSchemaMapperContainer.js";
+import {getRequiredProperties} from "../../utils/getRequiredProperties.js";
+import {inlineEnums} from "../../utils/inlineEnums.js";
+import {mapNullableType} from "../../utils/mapNullableType.js";
 
 /**
  * @ignore

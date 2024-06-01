@@ -1,4 +1,4 @@
-import {catchAsyncError, catchError} from "./catchError";
+import {catchAsyncError, catchError} from "./catchError.js";
 
 describe("catchError", () => {
   it("should catch error", () => {

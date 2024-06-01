@@ -1,5 +1,5 @@
-import {Component} from "./component";
-import {FormioDataResolver, FormioDataResolverCtx} from "../domain/FormioDataResolver";
+import {Component} from "./component.js";
+import {FormioDataResolver, FormioDataResolverCtx} from "../domain/FormioDataResolver.js";
 import {isFunction} from "@tsed/core";
 
 const wrap = (resolver: FormioDataResolver) => async (opts: FormioDataResolverCtx) => {

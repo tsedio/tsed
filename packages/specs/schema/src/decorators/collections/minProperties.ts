@@ -1,5 +1,5 @@
-import {withErrorMsg} from "../../utils/withErrorMsg";
-import {JsonEntityFn} from "../common/jsonEntityFn";
+import {withErrorMsg} from "../../utils/withErrorMsg.js";
+import {JsonEntityFn} from "../common/jsonEntityFn.js";
 
 /**
  * An object instance is valid against `minProperties` if its number of properties is less than, or equal to, the value of this keyword.

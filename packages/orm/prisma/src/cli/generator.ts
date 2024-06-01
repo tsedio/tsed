@@ -1,5 +1,5 @@
 import {generatorHandler} from "@prisma/generator-helper";
-import {generate, defaultOutput} from "./prismaGenerator";
+import {generate, defaultOutput} from "./prismaGenerator.js";
 
 generatorHandler({
   onManifest: () => ({

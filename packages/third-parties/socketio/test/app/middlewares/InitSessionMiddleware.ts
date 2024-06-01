@@ -1,5 +1,5 @@
 import {Middleware, Request} from "@tsed/common";
-import {IUser} from "../models/User";
+import {IUser} from "../models/User.js";
 
 declare global {
   namespace Express {

@@ -1,7 +1,7 @@
 import {DIContext, Inject, Injectable, InjectorService, ProviderScope, TokenProvider} from "@tsed/di";
 import {JsonMethodStore, JsonParameterStore, PipeMethods} from "@tsed/schema";
-import {ParamValidationError} from "../errors/ParamValidationError";
-import {ParseExpressionPipe} from "../pipes/ParseExpressionPipe";
+import {ParamValidationError} from "../errors/ParamValidationError.js";
+import {ParseExpressionPipe} from "../pipes/ParseExpressionPipe.js";
 
 export type PlatformParamsScope<Context extends DIContext = DIContext> = {$ctx: Context} & Record<string, any>;
 export type PlatformParamsCallback<Context extends DIContext = DIContext> = (scope: PlatformParamsScope) => Promise<any>;

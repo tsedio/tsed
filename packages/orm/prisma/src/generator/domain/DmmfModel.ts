@@ -1,7 +1,7 @@
 import {DMMF} from "@prisma/generator-helper";
 import {toMap} from "@tsed/core";
 import {ImportDeclarationStructure, StructureKind} from "ts-morph";
-import {DmmfField} from "./DmmfField";
+import {DmmfField} from "./DmmfField.js";
 import {pascalCase} from "change-case";
 
 export class DmmfModel {

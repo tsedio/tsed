@@ -1,6 +1,6 @@
 import {expect} from "chai";
-import {getEngineFixture} from "../../test/getEngineFixture";
-import {TwingEngine} from "./TwingEngine";
+import {getEngineFixture} from "../../test/getEngineFixture.js";
+import {TwingEngine} from "./TwingEngine.js";
 
 describe("TwingEngine", () => {
   it("should render the given content (by string - no cache)", async () => {

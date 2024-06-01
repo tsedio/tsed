@@ -1,5 +1,5 @@
 import {Intercept} from "@tsed/di";
-import {TransactionalInterceptor, TransactionOptions} from "../interceptors/TransactionalInterceptor";
+import {TransactionalInterceptor, TransactionOptions} from "../interceptors/TransactionalInterceptor.js";
 
 /**
  * Register a new request context for your method and execute it inside the context.

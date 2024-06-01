@@ -1,7 +1,7 @@
 import {InjectorService} from "@tsed/di";
-import {JobDispatcher} from "./JobDispatcher";
-import {JobMethods} from "../contracts";
-import {JobController} from "../decorators";
+import {JobDispatcher} from "./JobDispatcher.js";
+import {JobMethods} from "../contracts.js";
+import {JobController} from "../decorators.js";
 import {Queue} from "bullmq";
 import {instance, mock, verify, when, objectContaining, capture, anything, spy} from "ts-mockito";
 

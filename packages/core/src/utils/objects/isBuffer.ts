@@ -1,4 +1,4 @@
-import {nameOf} from "./nameOf";
+import {nameOf} from "./nameOf.js";
 
 /**
  * Tests to see if the object is Buffer

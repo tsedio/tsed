@@ -1,6 +1,6 @@
 import {Logger} from "@tsed/logger";
-import {Inject, Injectable, InjectorService, registerProvider, Service} from "../../index";
-import {DITest} from "../services/DITest";
+import {Inject, Injectable, InjectorService, registerProvider, Service} from "../../index.js";
+import {DITest} from "../services/DITest.js";
 
 class Model {}
 

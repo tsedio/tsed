@@ -1,5 +1,5 @@
-import {MongooseIndex} from "../../src/decorators/mongooseIndex";
-import {schemaOptions} from "../../src/utils/schemaOptions";
+import {MongooseIndex} from "../../src/decorators/mongooseIndex.js";
+import {schemaOptions} from "../../src/utils/schemaOptions.js";
 
 describe("@MongooseIndex()", () => {
   class Test {}

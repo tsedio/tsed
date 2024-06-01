@@ -1,5 +1,5 @@
-import {Exception} from "./Exception";
-import {StatusFamily} from "./StatusFamily";
+import {Exception} from "./Exception.js";
+import {StatusFamily} from "./StatusFamily.js";
 
 export class ClientException extends Exception {
   constructor(status: number, message: string, origin?: Error | string | any) {

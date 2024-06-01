@@ -1,5 +1,5 @@
 import {IndexOptions} from "mongoose";
-import {MongooseSchema} from "./schema";
+import {MongooseSchema} from "./schema.js";
 
 /**
  * Tell Mongoose whether to define an index for the property.

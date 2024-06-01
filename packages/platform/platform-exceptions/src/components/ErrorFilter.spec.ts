@@ -1,4 +1,4 @@
-import {ErrorFilter} from "./ErrorFilter";
+import {ErrorFilter} from "./ErrorFilter.js";
 
 describe("ErrorFilter", () => {
   it("should map error if error.errors is an object", () => {

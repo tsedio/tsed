@@ -1,5 +1,5 @@
 import {PlatformTest} from "@tsed/common";
-import {ViteService} from "./ViteService";
+import {ViteService} from "./ViteService.js";
 
 jest.mock("vike/server", () => {
   return {

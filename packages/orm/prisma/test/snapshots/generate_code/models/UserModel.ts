@@ -1,7 +1,7 @@
-import { User } from "../client";
-import { Integer, Required, Property, Groups, Format, Email, Description, Allow, Enum, CollectionOf } from "@tsed/schema";
-import { Role } from "../enums";
-import { PostModel } from "./PostModel";
+import {User} from "../client.js";
+import {Integer, Required, Property, Groups, Format, Email, Description, Allow, Enum, CollectionOf} from "@tsed/schema";
+import {Role} from "../enums.js";
+import {PostModel} from "./PostModel.js";
 
 export class UserModel implements User {
   @Property(Number)
@@ -62,4 +62,3 @@ export class UserModel implements User {
   @Required()
   biography: any;
 }
-

@@ -1,6 +1,6 @@
-import {isFunction} from "./isFunction";
-import {isObject} from "./isObject";
-import {isString} from "./isString";
+import {isFunction} from "./isFunction.js";
+import {isObject} from "./isObject.js";
+import {isString} from "./isString.js";
 
 const mapOptions = (args: any[]) => {
   const [expression, scope, defaultValue, separator = "."] = args;

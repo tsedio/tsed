@@ -1,5 +1,5 @@
-import {ProviderScope} from "../domain/ProviderScope";
-import {TokenProvider} from "./TokenProvider";
+import {ProviderScope} from "../domain/ProviderScope.js";
+import {TokenProvider} from "./TokenProvider.js";
 
 export interface InvokeOptions<T = any> {
   deps: any[];

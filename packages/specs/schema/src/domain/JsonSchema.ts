@@ -13,20 +13,20 @@ import {
   ValueOf
 } from "@tsed/core";
 import type {JSONSchema6, JSONSchema6Definition, JSONSchema6Type, JSONSchema6TypeName, JSONSchema6Version} from "json-schema";
-import {IgnoreCallback} from "../interfaces/IgnoreCallback";
-import {JsonSchemaOptions} from "../interfaces/JsonSchemaOptions";
-import {enumsRegistry} from "../registries/enumRegistries";
-import {execMapper} from "../registries/JsonSchemaMapperContainer";
-import {NestedGenerics} from "../utils/generics";
-import {getComputedType} from "../utils/getComputedType";
-import {getJsonType} from "../utils/getJsonType";
-import {serializeEnumValues} from "../utils/serializeEnumValues";
-import {toJsonRegex} from "../utils/toJsonRegex";
-import {AliasMap, AliasType} from "./JsonAliasMap";
-import {Discriminator} from "./JsonDiscriminator";
-import {JsonEntityStore} from "./JsonEntityStore";
-import {JsonFormatTypes} from "./JsonFormatTypes";
-import {JsonLazyRef} from "./JsonLazyRef";
+import {IgnoreCallback} from "../interfaces/IgnoreCallback.js";
+import {JsonSchemaOptions} from "../interfaces/JsonSchemaOptions.js";
+import {enumsRegistry} from "../registries/enumRegistries.js";
+import {execMapper} from "../registries/JsonSchemaMapperContainer.js";
+import {NestedGenerics} from "../utils/generics.js";
+import {getComputedType} from "../utils/getComputedType.js";
+import {getJsonType} from "../utils/getJsonType.js";
+import {serializeEnumValues} from "../utils/serializeEnumValues.js";
+import {toJsonRegex} from "../utils/toJsonRegex.js";
+import {AliasMap, AliasType} from "./JsonAliasMap.js";
+import {Discriminator} from "./JsonDiscriminator.js";
+import {JsonEntityStore} from "./JsonEntityStore.js";
+import {JsonFormatTypes} from "./JsonFormatTypes.js";
+import {JsonLazyRef} from "./JsonLazyRef.js";
 
 export interface JsonSchemaObject extends JSONSchema6, Record<string, any> {
   type: (any | JSONSchema6TypeName) | (any | JSONSchema6TypeName)[];

@@ -1,6 +1,6 @@
 import {promisify} from "util";
-import {ViewEngine} from "../decorators/viewEngine";
-import {Engine} from "./Engine";
+import {ViewEngine} from "../decorators/viewEngine.js";
+import {Engine} from "./Engine.js";
 
 @ViewEngine("nunjucks")
 export class NunjucksEngine extends Engine {

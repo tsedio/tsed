@@ -1,4 +1,4 @@
-import {Engine, ViewEngineOptions} from "../components/Engine";
+import {Engine, ViewEngineOptions} from "../components/Engine.js";
 
 export interface EngineProvider {
   name: string;

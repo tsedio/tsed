@@ -1,4 +1,4 @@
-import {FormioForm} from "./FormioForm";
+import {FormioForm} from "./FormioForm.js";
 import type {ExtendedComponentSchema} from "formiojs";
 
 export interface FormioComponent extends ExtendedComponentSchema {

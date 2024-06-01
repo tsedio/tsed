@@ -1,12 +1,12 @@
 import {Context, PlatformContext, PlatformTest} from "@tsed/common";
 import {BadRequest} from "@tsed/exceptions";
 import {FormioActionInfo, FormioComponent} from "@tsed/formio-types";
-import {Action} from "../decorators/action";
-import {ActionCtx} from "../decorators/actionCtx";
-import {ActionMethods} from "../domain/FormioAction";
-import {FormioActions} from "../domain/FormioActionsIndex";
-import {FormioService} from "../services/FormioService";
-import {AlterActions} from "./AlterActions";
+import {Action} from "../decorators/action.js";
+import {ActionCtx} from "../decorators/actionCtx.js";
+import {ActionMethods} from "../domain/FormioAction.js";
+import {FormioActions} from "../domain/FormioActionsIndex.js";
+import {FormioService} from "../services/FormioService.js";
+import {AlterActions} from "./AlterActions.js";
 
 async function getActionsFixture(formio: any) {
   const ctx = PlatformTest.createRequestContext();

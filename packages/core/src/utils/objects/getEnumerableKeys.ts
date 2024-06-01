@@ -1,5 +1,5 @@
-import {isEnumerable} from "./isEnumerable";
-import {isProtectedKey} from "./isProtectedKey";
+import {isEnumerable} from "./isEnumerable.js";
+import {isProtectedKey} from "./isProtectedKey.js";
 
 /**
  * Return all enumerable keys of the given object

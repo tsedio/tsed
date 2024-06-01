@@ -1,6 +1,6 @@
 import {classOf, descriptorOf, isClass, isString, Type} from "@tsed/core";
 import {Inject} from "@tsed/di";
-import {AdapterInvokeOptions, Adapters} from "../services/Adapters";
+import {AdapterInvokeOptions, Adapters} from "../services/Adapters.js";
 
 function mapOptions(args: any[]): AdapterInvokeOptions {
   return args.reduce((options: AdapterInvokeOptions, item, index) => {

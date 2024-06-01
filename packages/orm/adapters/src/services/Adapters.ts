@@ -1,7 +1,7 @@
 import {Type} from "@tsed/core";
 import {Constant, DI_PARAM_OPTIONS, Inject, Injectable, InjectorService} from "@tsed/di";
-import {MemoryAdapter} from "../adapters/MemoryAdapter";
-import {Adapter, AdapterConstructorOptions} from "../domain/Adapter";
+import {MemoryAdapter} from "../adapters/MemoryAdapter.js";
+import {Adapter, AdapterConstructorOptions} from "../domain/Adapter.js";
 
 export interface AdapterInvokeOptions<T = any> extends AdapterConstructorOptions<T> {
   adapter?: Type<Adapter<T>>;

@@ -1,6 +1,6 @@
-import {JsonSchema, JsonSchemaObject} from "../../domain/JsonSchema";
-import {SpecTypes} from "../../domain/SpecTypes";
-import {JsonEntityFn} from "./jsonEntityFn";
+import {JsonSchema, JsonSchemaObject} from "../../domain/JsonSchema.js";
+import {SpecTypes} from "../../domain/SpecTypes.js";
+import {JsonEntityFn} from "./jsonEntityFn.js";
 
 /**
  * Write data formatted to JsonSchema.

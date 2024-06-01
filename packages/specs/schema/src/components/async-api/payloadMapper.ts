@@ -1,14 +1,14 @@
 import {setValue} from "@tsed/core";
 import {pascalCase} from "change-case";
-import {JsonMethodStore} from "../../domain/JsonMethodStore";
-import {JsonMethodPath, JsonOperation} from "../../domain/JsonOperation";
-import {JsonParameter} from "../../domain/JsonParameter";
-import {isParameterType, JsonParameterTypes} from "../../domain/JsonParameterTypes";
-import {SpecTypes} from "../../domain/SpecTypes";
-import {JsonSchemaOptions} from "../../interfaces/JsonSchemaOptions";
-import {execMapper, registerJsonSchemaMapper} from "../../registries/JsonSchemaMapperContainer";
-import {popGenerics} from "../../utils/generics";
-import {makeOf} from "../../utils/somethingOf";
+import {JsonMethodStore} from "../../domain/JsonMethodStore.js";
+import {JsonMethodPath, JsonOperation} from "../../domain/JsonOperation.js";
+import {JsonParameter} from "../../domain/JsonParameter.js";
+import {isParameterType, JsonParameterTypes} from "../../domain/JsonParameterTypes.js";
+import {SpecTypes} from "../../domain/SpecTypes.js";
+import {JsonSchemaOptions} from "../../interfaces/JsonSchemaOptions.js";
+import {execMapper, registerJsonSchemaMapper} from "../../registries/JsonSchemaMapperContainer.js";
+import {popGenerics} from "../../utils/generics.js";
+import {makeOf} from "../../utils/somethingOf.js";
 
 function mapOptions(parameter: JsonParameter, options: JsonSchemaOptions = {}) {
   return {

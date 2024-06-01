@@ -1,5 +1,5 @@
-import {Get, getSpec, JsonMethodStore, SpecTypes} from "../../index";
-import {AcceptMime} from "./acceptMime";
+import {Get, getSpec, JsonMethodStore, SpecTypes} from "../../index.js";
+import {AcceptMime} from "./acceptMime.js";
 
 describe("AcceptMime", () => {
   it("should set metadata", () => {

@@ -1,4 +1,4 @@
-import {getJsonType} from "./getJsonType";
+import {getJsonType} from "./getJsonType.js";
 
 describe("getJsonType", () => {
   it("should return file", () => {

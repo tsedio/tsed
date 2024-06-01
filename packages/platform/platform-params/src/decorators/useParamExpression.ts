@@ -1,4 +1,4 @@
-import {ParamFn} from "./paramFn";
+import {ParamFn} from "./paramFn.js";
 
 /**
  * Get data from a path inside the given object

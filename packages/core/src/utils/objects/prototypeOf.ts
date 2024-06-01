@@ -1,4 +1,4 @@
-import {classOf} from "./classOf";
+import {classOf} from "./classOf.js";
 
 /**
  * Return the prototype of the given class.

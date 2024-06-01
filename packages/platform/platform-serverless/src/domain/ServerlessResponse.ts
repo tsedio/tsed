@@ -2,7 +2,7 @@ import {getValue} from "@tsed/core";
 import {getStatusMessage} from "@tsed/schema";
 import encodeUrl from "encodeurl";
 import * as mime from "mime";
-import {ServerlessContext} from "./ServerlessContext";
+import {ServerlessContext} from "./ServerlessContext.js";
 
 export type HeaderValue = boolean | number | string;
 

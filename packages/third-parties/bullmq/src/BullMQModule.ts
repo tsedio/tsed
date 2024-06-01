@@ -3,16 +3,16 @@ import {InjectorService, Module} from "@tsed/di";
 import {getComputedType} from "@tsed/schema";
 import {Job, Queue, Worker} from "bullmq";
 import {v4} from "uuid";
-import {BullMQConfig} from "./config/config";
-import {BullMQTypes} from "./constants/BullMQTypes";
-import {BULLMQ} from "./constants/constants";
-import {JobMethods, JobStore} from "./contracts";
-import {JobDispatcher} from "./dispatchers/index";
-import {createQueueProvider} from "./utils/createQueueProvider";
-import {createWorkerProvider} from "./utils/createWorkerProvider";
-import {getFallbackJobToken, getJobToken} from "./utils/getJobToken";
-import {mapQueueOptions} from "./utils/mapQueueOptions";
-import {mapWorkerOptions} from "./utils/mapWorkerOptions";
+import {BullMQConfig} from "./config/config.js";
+import {BullMQTypes} from "./constants/BullMQTypes.js";
+import {BULLMQ} from "./constants/constants.js";
+import {JobMethods, JobStore} from "./contracts.js";
+import {JobDispatcher} from "./dispatchers/index.js";
+import {createQueueProvider} from "./utils/createQueueProvider.js";
+import {createWorkerProvider} from "./utils/createWorkerProvider.js";
+import {getFallbackJobToken, getJobToken} from "./utils/getJobToken.js";
+import {mapQueueOptions} from "./utils/mapQueueOptions.js";
+import {mapWorkerOptions} from "./utils/mapWorkerOptions.js";
 
 @Module()
 export class BullMQModule implements BeforeInit, OnDestroy {

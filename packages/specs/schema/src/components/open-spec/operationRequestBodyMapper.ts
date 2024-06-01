@@ -1,8 +1,8 @@
-import {JsonParameter} from "../../domain/JsonParameter";
-import {JsonRequestBody} from "../../domain/JsonRequestBody";
-import {JsonSchema} from "../../domain/JsonSchema";
-import {JsonSchemaOptions} from "../../interfaces/JsonSchemaOptions";
-import {execMapper, registerJsonSchemaMapper} from "../../registries/JsonSchemaMapperContainer";
+import {JsonParameter} from "../../domain/JsonParameter.js";
+import {JsonRequestBody} from "../../domain/JsonRequestBody.js";
+import {JsonSchema} from "../../domain/JsonSchema.js";
+import {JsonSchemaOptions} from "../../interfaces/JsonSchemaOptions.js";
+import {execMapper, registerJsonSchemaMapper} from "../../registries/JsonSchemaMapperContainer.js";
 
 function buildSchemaFromBodyParameters(parameters: JsonParameter[], options: JsonSchemaOptions) {
   let schema = new JsonSchema();

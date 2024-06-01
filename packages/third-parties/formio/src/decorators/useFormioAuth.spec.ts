@@ -1,6 +1,6 @@
 import {EndpointMetadata} from "@tsed/common";
-import {FormioAuthMiddleware} from "../middlewares/FormioAuthMiddleware";
-import {UseFormioAuth} from "./useFormioAuth";
+import {FormioAuthMiddleware} from "../middlewares/FormioAuthMiddleware.js";
+import {UseFormioAuth} from "./useFormioAuth.js";
 
 describe("UseFormioAuth", () => {
   it("should add auth on method", () => {

@@ -1,8 +1,8 @@
 import filedirname from "filedirname";
 import {join} from "path";
-import {importFiles} from "./importFiles";
-import {Test1} from "./__mock__/Test1";
-import {Test2} from "./__mock__/Test2";
+import {importFiles} from "./importFiles.js";
+import {Test1} from "./__mock__/Test1.js";
+import {Test2} from "./__mock__/Test2.js";
 
 // FIXME remove when esm is ready
 const [, rootDir] = filedirname();

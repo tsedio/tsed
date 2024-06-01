@@ -1,6 +1,6 @@
 import {expect} from "chai";
-import {getEngineFixture} from "../../test/getEngineFixture";
-import {HoganEngine} from "./HoganEngine";
+import {getEngineFixture} from "../../test/getEngineFixture.js";
+import {HoganEngine} from "./HoganEngine.js";
 import {join} from "path";
 
 describe("HoganEngine", () => {

@@ -2,7 +2,7 @@ import {Context} from "@tsed/common";
 import {useDecorators} from "@tsed/core";
 // @ts-ignore
 import type {default as Provider} from "oidc-provider";
-import {INTERACTION_SESSION} from "../constants/constants";
+import {INTERACTION_SESSION} from "../constants/constants.js";
 
 /**
  * @decorator

@@ -2,7 +2,7 @@ import {$log, BodyParams, Controller, Get, PathParams, Post, Put, QueryParams} f
 import {PlatformExpress} from "@tsed/platform-express";
 import {DiscriminatorKey, DiscriminatorValue, OneOf, Property, Required, Returns} from "@tsed/schema";
 import {Hidden} from "@tsed/swagger";
-import {Server} from "./Server";
+import {Server} from "./Server.js";
 
 if (process.env.NODE_ENV !== "test") {
   class QueryModel {

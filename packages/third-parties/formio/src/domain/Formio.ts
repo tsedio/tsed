@@ -2,16 +2,16 @@ import {EventEmitter} from "events";
 import {NextFunction, Request, Response} from "express";
 import {Db} from "mongodb";
 import {Mongoose, Schema} from "mongoose";
-import {FormioActionModelCtor} from "./FormioAction";
-import {FormioActionsIndex} from "./FormioActionsIndex";
-import {FormioAuth} from "./FormioAuth";
-import {FormioBaseModel} from "./FormioBaseModel";
-import {FormioConfig} from "./FormioConfig";
-import {FormioHook, FormioHooks} from "./FormioHooks";
-import {FormioModels, FormioSchemas} from "./FormioModels";
-import {FormioTemplateUtil} from "./FormioTemplateUtil";
-import {FormioUpdate} from "./FormioUpdate";
-import {FormioUtil} from "./FormioUtils";
+import {FormioActionModelCtor} from "./FormioAction.js";
+import {FormioActionsIndex} from "./FormioActionsIndex.js";
+import {FormioAuth} from "./FormioAuth.js";
+import {FormioBaseModel} from "./FormioBaseModel.js";
+import {FormioConfig} from "./FormioConfig.js";
+import {FormioHook, FormioHooks} from "./FormioHooks.js";
+import {FormioModels, FormioSchemas} from "./FormioModels.js";
+import {FormioTemplateUtil} from "./FormioTemplateUtil.js";
+import {FormioUpdate} from "./FormioUpdate.js";
+import {FormioUtil} from "./FormioUtils.js";
 
 export interface FormioBase {
   /**

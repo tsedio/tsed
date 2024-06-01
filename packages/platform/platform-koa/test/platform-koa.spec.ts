@@ -1,6 +1,6 @@
 import {PlatformTestSdk} from "@tsed/platform-test-sdk";
 import {PlatformKoa} from "@tsed/platform-koa";
-import {rootDir, Server} from "./app/Server";
+import {rootDir, Server} from "./app/Server.js";
 
 const utils = PlatformTestSdk.create({
   rootDir,

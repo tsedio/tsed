@@ -4,13 +4,13 @@ import {Queue, Worker} from "bullmq";
 import {anything, instance, mock, verify, when} from "ts-mockito";
 
 import "./BullMQModule";
-import {BullMQModule} from "./BullMQModule";
-import {type BullMQConfig} from "./config/config";
-import {JobMethods} from "./contracts";
-import {FallbackJobController, JobController} from "./decorators";
-import {InjectQueue} from "./decorators/InjectQueue";
-import {InjectWorker} from "./decorators/InjectWorker";
-import {JobDispatcher} from "./dispatchers";
+import {BullMQModule} from "./BullMQModule.js";
+import {type BullMQConfig} from "./config/config.js";
+import {JobMethods} from "./contracts.js";
+import {FallbackJobController, JobController} from "./decorators.js";
+import {InjectQueue} from "./decorators/InjectQueue.js";
+import {InjectWorker} from "./decorators/InjectWorker.js";
+import {JobDispatcher} from "./dispatchers.js";
 
 const queueConstructorSpy = jest.fn();
 const workerConstructorSpy = jest.fn();

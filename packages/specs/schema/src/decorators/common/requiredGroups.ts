@@ -1,5 +1,5 @@
-import {matchGroups} from "../../utils/matchGroups";
-import {JsonEntityFn} from "./jsonEntityFn";
+import {matchGroups} from "../../utils/matchGroups.js";
+import {JsonEntityFn} from "./jsonEntityFn.js";
 
 /**
  * Apply groups validation strategy for required property.

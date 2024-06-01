@@ -1,4 +1,4 @@
-import {PlatformKoa} from "./PlatformKoa";
+import {PlatformKoa} from "./PlatformKoa.js";
 
 class Server {}
 

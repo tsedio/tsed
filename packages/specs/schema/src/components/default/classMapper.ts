@@ -1,10 +1,10 @@
 import {getValue, setValue} from "@tsed/core";
-import {JsonEntityStore} from "../../domain/JsonEntityStore";
-import {JsonSchema} from "../../domain/JsonSchema";
-import {JsonSchemaOptions} from "../../interfaces/JsonSchemaOptions";
-import {execMapper, registerJsonSchemaMapper} from "../../registries/JsonSchemaMapperContainer";
-import {mapGenericsOptions, popGenerics} from "../../utils/generics";
-import {createRef, createRefName} from "../../utils/ref";
+import {JsonEntityStore} from "../../domain/JsonEntityStore.js";
+import {JsonSchema} from "../../domain/JsonSchema.js";
+import {JsonSchemaOptions} from "../../interfaces/JsonSchemaOptions.js";
+import {execMapper, registerJsonSchemaMapper} from "../../registries/JsonSchemaMapperContainer.js";
+import {mapGenericsOptions, popGenerics} from "../../utils/generics.js";
+import {createRef, createRefName} from "../../utils/ref.js";
 
 export function classMapper(value: JsonSchema, options: JsonSchemaOptions) {
   const store = JsonEntityStore.from(value.class);

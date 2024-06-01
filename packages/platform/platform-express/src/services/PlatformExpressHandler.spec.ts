@@ -1,4 +1,4 @@
-import {PlatformExpressHandler} from "./PlatformExpressHandler";
+import {PlatformExpressHandler} from "./PlatformExpressHandler.js";
 
 jest.mock("@tsed/common");
 

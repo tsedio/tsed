@@ -1,11 +1,11 @@
 import {deepMerge, uniq, uniqBy} from "@tsed/core";
 import {OpenSpecSecurity, OpenSpecTag, OS3Operation} from "@tsed/openspec";
-import {JsonHeader} from "../interfaces/JsonOpenSpec";
-import {isRedirectionStatus, isSuccessStatus} from "../utils/isSuccessStatus";
-import {JsonMap} from "./JsonMap";
-import {JsonParameter} from "./JsonParameter";
-import {JsonResponse} from "./JsonResponse";
-import {JsonSchema} from "./JsonSchema";
+import {JsonHeader} from "../interfaces/JsonOpenSpec.js";
+import {isRedirectionStatus, isSuccessStatus} from "../utils/isSuccessStatus.js";
+import {JsonMap} from "./JsonMap.js";
+import {JsonParameter} from "./JsonParameter.js";
+import {JsonResponse} from "./JsonResponse.js";
+import {JsonSchema} from "./JsonSchema.js";
 
 export interface JsonMethodPath {
   path: string | RegExp;

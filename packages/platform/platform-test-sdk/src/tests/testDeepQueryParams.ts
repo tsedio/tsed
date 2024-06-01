@@ -2,7 +2,7 @@ import "@tsed/ajv";
 import {Controller, Get, PlatformTest, QueryParams} from "@tsed/common";
 import {Default, GenericOf, Generics, Maximum, Minimum, Property, Required} from "@tsed/schema";
 import SuperTest from "supertest";
-import {PlatformTestingSdkOpts} from "../interfaces";
+import {PlatformTestingSdkOpts} from "../interfaces.js";
 
 class FindQuery {
   @Property()

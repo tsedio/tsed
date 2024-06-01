@@ -1,4 +1,4 @@
-import {Returns} from "./returns";
+import {Returns} from "./returns.js";
 
 /**
  * Sets the Content-Type HTTP header to the MIME type as determined by mime.lookup() for the specified type.

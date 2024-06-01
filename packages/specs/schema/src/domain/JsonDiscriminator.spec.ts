@@ -1,8 +1,8 @@
-import {DiscriminatorValue} from "../decorators/class/discriminatorValue";
-import {DiscriminatorKey} from "../decorators/common/discriminatorKey";
-import {Property} from "../decorators/common/property";
-import {Required} from "../decorators/common/required";
-import {JsonEntityStore} from "./JsonEntityStore";
+import {DiscriminatorValue} from "../decorators/class/discriminatorValue.js";
+import {DiscriminatorKey} from "../decorators/common/discriminatorKey.js";
+import {Property} from "../decorators/common/property.js";
+import {Required} from "../decorators/common/required.js";
+import {JsonEntityStore} from "./JsonEntityStore.js";
 
 class Event {
   @DiscriminatorKey() // declare this property a discriminator key

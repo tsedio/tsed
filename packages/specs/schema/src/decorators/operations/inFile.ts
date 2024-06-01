@@ -1,9 +1,9 @@
 import {DecoratorParameters, Metadata, useDecorators, useMethodDecorators} from "@tsed/core";
-import {In} from "./in";
-import {JsonParameterTypes} from "../../domain/JsonParameterTypes";
-import {Returns} from "./returns";
-import {Name} from "../common/name";
-import {Consumes} from "./consumes";
+import {In} from "./in.js";
+import {JsonParameterTypes} from "../../domain/JsonParameterTypes.js";
+import {Returns} from "./returns.js";
+import {Name} from "../common/name.js";
+import {Consumes} from "./consumes.js";
 
 /**
  * Add a input file parameter.

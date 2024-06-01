@@ -1,5 +1,5 @@
-import {JsonEntityStore, OperationVerbs} from "../../index";
-import {All, Delete, Get, Head, Options, Patch, Post, Put} from "./route";
+import {JsonEntityStore, OperationVerbs} from "../../index.js";
+import {All, Delete, Get, Head, Options, Patch, Post, Put} from "./route.js";
 import Sinon from "sinon";
 
 const middleware: any = Sinon.stub();

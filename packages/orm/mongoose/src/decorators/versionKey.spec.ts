@@ -1,7 +1,7 @@
 import {Store} from "@tsed/core";
-import {MONGOOSE_SCHEMA_OPTIONS} from "../constants/constants";
-import {Model} from "./model";
-import {VersionKey} from "./versionKey";
+import {MONGOOSE_SCHEMA_OPTIONS} from "../constants/constants.js";
+import {Model} from "./model.js";
+import {VersionKey} from "./versionKey.js";
 
 describe("@VersionKey()", () => {
   it("should set metadata", () => {

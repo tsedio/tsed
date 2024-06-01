@@ -1,6 +1,6 @@
 import {PlatformTest, View} from "@tsed/common";
 import {EndpointMetadata, Get, Returns} from "@tsed/schema";
-import {getContentType} from "./getContentType";
+import {getContentType} from "./getContentType.js";
 
 describe("getContentType", () => {
   beforeEach(() => PlatformTest.create());

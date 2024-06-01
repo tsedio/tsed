@@ -2,19 +2,19 @@ import {Constant, Inject, InjectorService, OnReady, OnRoutesInit, PlatformApplic
 import {deepClone} from "@tsed/core";
 import {Module} from "@tsed/di";
 import {normalizePath} from "@tsed/normalize-path";
-import {AlterActions} from "./components/AlterActions";
-import {AlterAudit} from "./components/AlterAudit";
-import {AlterHost} from "./components/AlterHost";
-import {AlterLog} from "./components/AlterLog";
-import {AlterSkip} from "./components/AlterSkip";
-import {AlterTemplateExportSteps} from "./components/AlterTemplateExportSteps";
-import {AlterTemplateImportSteps} from "./components/AlterTemplateImportSteps";
-import {FormioConfig} from "./domain/FormioConfig";
-import {FormioTemplate} from "./domain/FormioTemplate";
-import {FormioAuthService} from "./services/FormioAuthService";
-import {FormioHooksService} from "./services/FormioHooksService";
-import {FormioInstaller} from "./services/FormioInstaller";
-import {FormioService} from "./services/FormioService";
+import {AlterActions} from "./components/AlterActions.js";
+import {AlterAudit} from "./components/AlterAudit.js";
+import {AlterHost} from "./components/AlterHost.js";
+import {AlterLog} from "./components/AlterLog.js";
+import {AlterSkip} from "./components/AlterSkip.js";
+import {AlterTemplateExportSteps} from "./components/AlterTemplateExportSteps.js";
+import {AlterTemplateImportSteps} from "./components/AlterTemplateImportSteps.js";
+import {FormioConfig} from "./domain/FormioConfig.js";
+import {FormioTemplate} from "./domain/FormioTemplate.js";
+import {FormioAuthService} from "./services/FormioAuthService.js";
+import {FormioHooksService} from "./services/FormioHooksService.js";
+import {FormioInstaller} from "./services/FormioInstaller.js";
+import {FormioService} from "./services/FormioService.js";
 
 @Module({
   imports: [

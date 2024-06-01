@@ -20,11 +20,11 @@ import koaBodyParser, {Options} from "koa-bodyparser";
 // @ts-ignore
 import koaQs from "koa-qs";
 import send from "koa-send";
-import {staticsMiddleware} from "../middlewares/staticsMiddleware";
-import {PlatformKoaHandler} from "../services/PlatformKoaHandler";
-import {PlatformKoaRequest} from "../services/PlatformKoaRequest";
-import {PlatformKoaResponse} from "../services/PlatformKoaResponse";
-import {getMulter} from "../utils/multer";
+import {staticsMiddleware} from "../middlewares/staticsMiddleware.js";
+import {PlatformKoaHandler} from "../services/PlatformKoaHandler.js";
+import {PlatformKoaRequest} from "../services/PlatformKoaRequest.js";
+import {PlatformKoaResponse} from "../services/PlatformKoaResponse.js";
+import {getMulter} from "../utils/multer.js";
 
 declare global {
   namespace TsED {

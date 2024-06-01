@@ -66,7 +66,7 @@ import {Strategy} from "passport-local";
 import {Unauthorized} from "@tsed/exceptions";
 import {Protocol, OnInstall, OnVerify} from "@tsed/passport";
 import {Inject} from "@tsed/di";
-import {UserService} from "../services/UserService";
+import {UserService} from "../services/UserService.js";
 
 export class Credentials {
   @Required()

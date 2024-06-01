@@ -1,6 +1,6 @@
 import {OpenSpecHash, OpenSpecRef, OS3Example} from "@tsed/openspec";
-import {JsonParameterStore} from "../../domain/JsonParameterStore";
-import {JsonEntityFn} from "./jsonEntityFn";
+import {JsonParameterStore} from "../../domain/JsonParameterStore.js";
+import {JsonEntityFn} from "./jsonEntityFn.js";
 
 /**
  * Add a examples metadata on the decorated element.

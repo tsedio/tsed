@@ -1,4 +1,4 @@
-import {OperationVerbs} from "../constants/OperationVerbs";
+import {OperationVerbs} from "../constants/OperationVerbs.js";
 
 const ALLOWED_VERBS = new Set([
   ...Object.keys(OperationVerbs)

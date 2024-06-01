@@ -1,5 +1,5 @@
-import {ParamTypes} from "../domain/ParamTypes";
-import {Context} from "./context";
+import {ParamTypes} from "../domain/ParamTypes.js";
+import {Context} from "./context.js";
 import {JsonParameterStore} from "@tsed/schema";
 
 describe("@Context ", () => {

@@ -1,5 +1,5 @@
-import {JsonMap} from "../domain/JsonMap";
-import {toJsonMapCollection} from "./toJsonMapCollection";
+import {JsonMap} from "../domain/JsonMap.js";
+import {toJsonMapCollection} from "./toJsonMapCollection.js";
 
 describe("toJsonMapCollection", () => {
   it("should transform object to JsonMapCollection", () => {

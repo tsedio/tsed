@@ -4,9 +4,9 @@ import {$log, Logger} from "@tsed/logger";
 import {getOperationsRoutes, JsonEntityStore} from "@tsed/schema";
 import type {APIGatewayProxyResult, Handler} from "aws-lambda";
 import type {HTTPMethod, Instance} from "find-my-way";
-import {ServerlessContext} from "../domain/ServerlessContext";
-import {getRequestId} from "../utils/getRequestId";
-import {PlatformServerlessHandler} from "./PlatformServerlessHandler";
+import {ServerlessContext} from "../domain/ServerlessContext.js";
+import {getRequestId} from "../utils/getRequestId.js";
+import {PlatformServerlessHandler} from "./PlatformServerlessHandler.js";
 
 export interface PlatformServerlessSettings extends Partial<TsED.Configuration> {
   lambda?: Type[];

@@ -3,11 +3,11 @@ import {deserialize, serialize} from "@tsed/json-mapper";
 import {getProperties, JsonEntityStore, JsonSchema} from "@tsed/schema";
 import {pascalCase} from "change-case";
 import mongoose, {Schema, SchemaDefinition, SchemaOptions, SchemaTypeOptions} from "mongoose";
-import {MONGOOSE_SCHEMA, MONGOOSE_SCHEMA_OPTIONS} from "../constants/constants";
-import {MongooseSchemaOptions} from "../interfaces/MongooseSchemaOptions";
-import {MongooseVirtualRefOptions} from "../interfaces/MongooseVirtualRefOptions";
-import {resolveRefType} from "./resolveRefType";
-import {schemaOptions} from "./schemaOptions";
+import {MONGOOSE_SCHEMA, MONGOOSE_SCHEMA_OPTIONS} from "../constants/constants.js";
+import {MongooseSchemaOptions} from "../interfaces/MongooseSchemaOptions.js";
+import {MongooseVirtualRefOptions} from "../interfaces/MongooseVirtualRefOptions.js";
+import {resolveRefType} from "./resolveRefType.js";
+import {schemaOptions} from "./schemaOptions.js";
 
 export interface MongooseSchemaMetadata {
   schema: SchemaDefinition;

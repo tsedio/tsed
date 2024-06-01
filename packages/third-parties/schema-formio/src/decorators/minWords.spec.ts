@@ -1,5 +1,5 @@
-import {getFormioSchema} from "../utils/getFormioSchema";
-import {MinWords} from "./minWords";
+import {getFormioSchema} from "../utils/getFormioSchema.js";
+import {MinWords} from "./minWords.js";
 
 describe("@MinWords", () => {
   it("should set the min words", async () => {

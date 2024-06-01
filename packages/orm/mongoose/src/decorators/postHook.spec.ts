@@ -1,5 +1,5 @@
-import {schemaOptions} from "../utils/schemaOptions";
-import {PostHook} from "./postHook";
+import {schemaOptions} from "../utils/schemaOptions.js";
+import {PostHook} from "./postHook.js";
 
 describe("@PostHook()", () => {
   describe("when decorator is used as class decorator", () => {

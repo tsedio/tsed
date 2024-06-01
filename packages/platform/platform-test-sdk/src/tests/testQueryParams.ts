@@ -2,7 +2,7 @@ import "@tsed/ajv";
 import {Controller, Get, PlatformTest, QueryParams} from "@tsed/common";
 import {Maximum, Minimum, Required} from "@tsed/schema";
 import SuperTest from "supertest";
-import {PlatformTestingSdkOpts} from "../interfaces";
+import {PlatformTestingSdkOpts} from "../interfaces.js";
 
 export class RandomStringModel {
   @Maximum(250)

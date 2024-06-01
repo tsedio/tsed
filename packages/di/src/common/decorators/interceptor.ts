@@ -1,5 +1,5 @@
-import {ProviderType} from "../domain/ProviderType";
-import {Injectable} from "./injectable";
+import {ProviderType} from "../domain/ProviderType.js";
+import {Injectable} from "./injectable.js";
 
 /**
  * The decorators `@Service()` declare a new service can be injected in other service or controller on there `constructor`.
