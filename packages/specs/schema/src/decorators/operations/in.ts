@@ -47,7 +47,7 @@ export interface InChainedDecorators {
    * Add custom schema.
    * @param schema
    */
-  Schema(schema: Partial<JsonSchemaObject>): this;
+  Schema(schema: Partial<JsonSchemaObject | JsonSchema>): this;
 }
 
 /**
@@ -131,7 +131,7 @@ export function In(inType: JsonParameterTypes | string): InChainedDecorators {
   };
 
   decorator.Schema = (_schema: any) => {
-    Object.assign(schema, _schema);
+    Object.assign(schema, _schema.toJSON ? _schema.toJSON() : _schema);
 
     return decorator;
   };
