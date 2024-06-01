@@ -13,7 +13,7 @@ export function transformScalarToType(field: DmmfField) {
       break;
     case "enumTypes":
       TSType = DmmfEnum.symbolName(type);
-      field.model.addImportDeclaration(`../enums`, DmmfEnum.symbolName(field.type));
+      field.model.addImportDeclaration(`../enums/index`, DmmfEnum.symbolName(field.type));
       break;
     case "inputObjectTypes":
       TSType = DmmfModel.symbolName(type);

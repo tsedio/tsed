@@ -4,7 +4,7 @@ import {TransformContext} from "../domain/TransformContext.js";
 import {transformFieldToProperty} from "./transformFieldToProperty.js";
 
 export function transformModelToClass(model: DmmfModel, ctx: TransformContext): StatementStructures {
-  model.addImportDeclaration("../client", model.name);
+  model.addImportDeclaration("../client/index", model.name);
 
   return {
     kind: StructureKind.Class,

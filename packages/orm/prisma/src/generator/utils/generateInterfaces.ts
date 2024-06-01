@@ -1,5 +1,6 @@
 import {ModuleDeclarationKind, Project, StructureKind} from "ts-morph";
 import path from "path";
+import {resolveExtension} from "./resolveExtension.js";
 
 export function generateInterfaces(project: Project, baseDirPath: string) {
   const directory = project.createDirectory(path.resolve(baseDirPath, "interfaces"));
@@ -7,7 +8,7 @@ export function generateInterfaces(project: Project, baseDirPath: string) {
 
   indexFile.addImportDeclaration({
     kind: StructureKind.ImportDeclaration,
-    moduleSpecifier: "../client",
+    moduleSpecifier: resolveExtension("../client/index"),
     namedImports: ["Prisma"]
   });
 

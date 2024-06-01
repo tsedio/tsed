@@ -1,9 +1,9 @@
 import {DMMF} from "@prisma/generator-helper";
 import {toMap} from "@tsed/core";
-import {ImportDeclarationStructure, StructureKind} from "ts-morph";
-import {isEsm} from "../utils/sourceType.js";
-import {DmmfField} from "./DmmfField.js";
 import {pascalCase} from "change-case";
+import {ImportDeclarationStructure, StructureKind} from "ts-morph";
+import {resolveExtension} from "../utils/resolveExtension.js";
+import {DmmfField} from "./DmmfField.js";
 
 export class DmmfModel {
   readonly isInputType: boolean;
@@ -67,11 +67,7 @@ export class DmmfModel {
 
   addImportDeclaration(moduleSpecifier: string, name: string, isDefault = false) {
     if (!this.#imports.has(moduleSpecifier)) {
-      console.log("===moduleSpecifier", moduleSpecifier);
-
-      if (isEsm() && moduleSpecifier.startsWith(".")) {
-        moduleSpecifier = `${moduleSpecifier}.js`;
-      }
+      moduleSpecifier = resolveExtension(moduleSpecifier);
 
       this.#imports.set(moduleSpecifier, {
         kind: StructureKind.ImportDeclaration,
