@@ -1,14 +1,7 @@
 import {JsonEntityStore, OperationVerbs} from "../../index.js";
 import {All, Delete, Get, Head, Options, Patch, Post, Put} from "./route.js";
-import Sinon from "sinon";
-
-const middleware: any = Sinon.stub();
-const useStub: any = Sinon.stub().returns(middleware);
 
 describe("Route decorators", () => {
-  afterEach(() => {
-    useStub.resetHistory();
-  });
   describe("All", () => {
     it("should register route and middleware (1)", () => {
       // WHEN

@@ -1,5 +1,4 @@
 import {catchError} from "@tsed/core";
-import Sinon from "sinon";
 import {PrimitiveMapper} from "./PrimitiveMapper.js";
 
 describe("PrimitiveMapper", () => {
@@ -10,7 +9,7 @@ describe("PrimitiveMapper", () => {
       const ctx = {
         type: String,
         collectionType: undefined,
-        next: Sinon.stub()
+        next: jest.fn()
       };
 
       const value = mapper.deserialize(data, ctx);
@@ -23,7 +22,7 @@ describe("PrimitiveMapper", () => {
       const ctx = {
         type: String,
         collectionType: undefined,
-        next: Sinon.stub()
+        next: jest.fn()
       };
 
       const value = mapper.deserialize(data, ctx);
@@ -36,7 +35,7 @@ describe("PrimitiveMapper", () => {
       const ctx = {
         type: Number,
         collectionType: undefined,
-        next: Sinon.stub()
+        next: jest.fn()
       };
 
       const value = mapper.deserialize(data, ctx);
@@ -49,7 +48,7 @@ describe("PrimitiveMapper", () => {
       const ctx = {
         type: Number,
         collectionType: undefined,
-        next: Sinon.stub()
+        next: jest.fn()
       };
 
       const value = mapper.deserialize(data, ctx);
@@ -62,7 +61,7 @@ describe("PrimitiveMapper", () => {
       const ctx = {
         type: Number,
         collectionType: undefined,
-        next: Sinon.stub()
+        next: jest.fn()
       };
 
       const value = mapper.deserialize(data, ctx);
@@ -75,7 +74,7 @@ describe("PrimitiveMapper", () => {
       const ctx = {
         type: Number,
         collectionType: undefined,
-        next: Sinon.stub()
+        next: jest.fn()
       };
 
       const value = mapper.deserialize(data, ctx);
@@ -88,7 +87,7 @@ describe("PrimitiveMapper", () => {
       const ctx = {
         type: Number,
         collectionType: undefined,
-        next: Sinon.stub()
+        next: jest.fn()
       };
 
       let actualError: any = catchError(() => mapper.deserialize(data, ctx));
@@ -100,7 +99,7 @@ describe("PrimitiveMapper", () => {
       const ctx = {
         type: Boolean,
         collectionType: undefined,
-        next: Sinon.stub()
+        next: jest.fn()
       };
 
       expect(mapper.deserialize(1, ctx)).toEqual(true);
@@ -113,7 +112,7 @@ describe("PrimitiveMapper", () => {
       const ctx = {
         type: Boolean,
         collectionType: undefined,
-        next: Sinon.stub()
+        next: jest.fn()
       };
 
       expect(mapper.deserialize(0, ctx)).toEqual(false);
@@ -128,7 +127,7 @@ describe("PrimitiveMapper", () => {
       const ctx: any = {
         type: Boolean,
         collectionType: undefined,
-        next: Sinon.stub()
+        next: jest.fn()
       };
 
       expect(mapper.deserialize(null, ctx)).toEqual(null);

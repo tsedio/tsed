@@ -1,10 +1,9 @@
-import Sinon from "sinon";
 import {Injectable, PlatformTest} from "@tsed/common";
-import {Server} from "./helpers/Server.js";
-import {OnEvent} from "../src/decorators/onEvent.js";
-import {EventEmitterService} from "../src/services/EventEmitterFactory.js";
 import {OnAny} from "../src/decorators/onAny.js";
+import {OnEvent} from "../src/decorators/onEvent.js";
 import {EventEmitterModule} from "../src/EventEmitterModule.js";
+import {EventEmitterService} from "../src/services/EventEmitterFactory.js";
+import {Server} from "./helpers/Server.js";
 
 @Injectable()
 class Test {
@@ -34,20 +33,12 @@ class TestTwo {
 
 describe("EventEmitter integration", () => {
   describe("enabled", () => {
-    let testTestSpy: Sinon.SinonSpy;
-    let testTest2Spy: Sinon.SinonSpy;
-    let testTwoTest3Spy: Sinon.SinonSpy;
-    let testTwoTest4Spy: Sinon.SinonSpy;
-
-    let printEventsSpy: Sinon.SinonSpy;
-
     beforeEach(async () => {
-      testTestSpy = Sinon.spy(Test.prototype, "test");
-      testTest2Spy = Sinon.spy(Test.prototype, "test2");
-      testTwoTest3Spy = Sinon.spy(TestTwo.prototype, "test3");
-      testTwoTest4Spy = Sinon.spy(TestTwo.prototype, "test4");
-
-      printEventsSpy = Sinon.spy(EventEmitterModule.prototype, "printEvents");
+      jest.spyOn(Test.prototype, "test").mockReturnValue();
+      jest.spyOn(Test.prototype, "test2").mockReturnValue();
+      jest.spyOn(TestTwo.prototype, "test3").mockReturnValue();
+      jest.spyOn(TestTwo.prototype, "test4").mockReturnValue();
+      jest.spyOn(EventEmitterModule.prototype, "printEvents").mockReturnValue();
 
       const bstrp = PlatformTest.bootstrap(Server, {
         eventEmitter: {
@@ -56,13 +47,6 @@ describe("EventEmitter integration", () => {
       });
 
       await bstrp();
-    });
-    afterEach(() => {
-      testTestSpy.restore();
-      testTest2Spy.restore();
-      testTwoTest3Spy.restore();
-      testTwoTest4Spy.restore();
-      printEventsSpy.restore();
     });
     afterEach(PlatformTest.reset);
 
@@ -75,16 +59,16 @@ describe("EventEmitter integration", () => {
     it("should call methods with event data", () => {
       const eventEmitterService = PlatformTest.injector.get<EventEmitterService>(EventEmitterService)!;
       expect(eventEmitterService.emit("test1", "test-data")).toBe(true);
-
-      expect(testTestSpy.calledOnceWith("test-data")).toBe(true);
-      expect(testTest2Spy.notCalled).toBe(true);
-      expect(testTwoTest3Spy.calledOnceWith("test-data")).toBe(true);
-      expect(testTwoTest4Spy.calledOnceWith("test1", "test-data")).toBe(true);
+      expect(Test.prototype.test).toHaveBeenCalledWith("test-data");
+      expect(Test.prototype.test2).not.toHaveBeenCalled();
+      expect(TestTwo.prototype.test3).toHaveBeenCalledWith("test-data");
+      expect(TestTwo.prototype.test4).toHaveBeenCalledWith("test1", "test-data");
     });
 
     it("should call async methods and return values", async () => {
       const eventEmitterService = PlatformTest.injector.get<EventEmitterService>(EventEmitterService)!;
       const result = await eventEmitterService.emitAsync("test2");
+
       expect(result).toHaveLength(2);
     });
   });

@@ -1,5 +1,4 @@
 import {JsonEntityFn} from "../../index.js";
-import Sinon from "sinon";
 
 describe("JsonSchemaStoreFn", () => {
   it("should decorate property", () => {
