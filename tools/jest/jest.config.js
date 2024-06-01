@@ -1,6 +1,7 @@
 // For a detailed explanation regarding each configuration property, visit:
 // https://jestjs.io/docs/en/configuration.html
 
+const {join} = require("node:path");
 module.exports = {
   roots: ["<rootDir>/src"],
   // Automatically clear mock calls and instances between every test
@@ -40,8 +41,9 @@ module.exports = {
   transformIgnorePatterns: ["[/\\\\]node_modules[/\\\\].+\\.(js|jsx|mjs|cjs|ts|tsx)$", "^.+\\.module\\.(css|sass|scss)$"],
   modulePaths: ["<rootDir>/src"],
   moduleNameMapper: {
-    "(\\..*).js$": "$1"
+    //"(\\./.*).js$": "$1"
   },
+  resolver: join(__dirname, "/jest.resolver.js"),
   moduleFileExtensions: [
     // Place tsx and ts to beginning as suggestion from Jest team
     // https://jestjs.io/docs/configuration#modulefileextensions-arraystring

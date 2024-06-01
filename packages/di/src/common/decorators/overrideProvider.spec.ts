@@ -10,10 +10,6 @@ describe("OverrideProvider", () => {
   beforeAll(() => {
     jest.spyOn(GlobalProviders, "get");
   });
-  afterAll(() => {
-    // @ts-ignore
-    GlobalProviders.get.restore();
-  });
   it("should use OverrideProvider", () => {
     // GIVEN
     const provider = new Provider(Test);
