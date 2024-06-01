@@ -40,6 +40,7 @@
     "test:third-parties": "lerna run test --scope '@tsed/{agenda,bullmq,async-hook-context,components-scan,event-emitter,seq,socketio,stripe,temporal,terminus,vite-ssr-plugin}' --stream --concurrency 4",
     "test:formio": "lerna run test --scope '@tsed/{schema-formio,formio}' --stream",
     "coverage": "merge-istanbul --out coverage/coverage-final.json \"**/packages/**/coverage/coverage-final.json\" && nyc report --reporter text --reporter html --reporter lcov -t coverage --report-dir coverage",
+    "barrels": "lerna run barrels",
     "build": "monorepo build --verbose",
     "build:references": "node ./tools/typescript",
     "build:eslint": "node ./tools/eslint",
