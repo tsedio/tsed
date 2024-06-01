@@ -1,4 +1,4 @@
-import {JsonEntityFn} from "./jsonEntityFn";
+import {JsonEntityFn} from "./jsonEntityFn.js";
 
 /**
  * There are no restrictions placed on the value of this keyword.

@@ -1,6 +1,6 @@
 import {Type} from "@tsed/core";
 import type {JSONSchema6TypeName} from "json-schema";
-import {JsonEntityFn} from "./jsonEntityFn";
+import {JsonEntityFn} from "./jsonEntityFn.js";
 
 /**
  * Set the type of the array items.

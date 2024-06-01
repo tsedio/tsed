@@ -1,4 +1,4 @@
-import type {Type} from "../../domain/Type";
+import type {Type} from "../../domain/Type.js";
 
 /**
  * Get the class constructor

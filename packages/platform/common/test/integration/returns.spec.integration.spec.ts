@@ -1,5 +1,5 @@
 import {getSpec, Returns, SpecTypes} from "@tsed/schema";
-import {Get} from "../../src";
+import {Get} from "../../src/index.js";
 
 describe("@Returns", () => {
   it("should declare a return type (text/plain)", () => {

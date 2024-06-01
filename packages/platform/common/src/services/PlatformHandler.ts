@@ -11,11 +11,11 @@ import {
   useResponseHandler
 } from "@tsed/platform-router";
 import {JsonOperationRoute} from "@tsed/schema";
-import {AnyToPromiseWithCtx} from "../domain/AnyToPromiseWithCtx";
-import {PlatformContext} from "../domain/PlatformContext";
-import {setResponseHeaders} from "../utils/setResponseHeaders";
-import {PlatformApplication} from "./PlatformApplication";
-import {PlatformMiddlewaresChain} from "./PlatformMiddlewaresChain";
+import {AnyToPromiseWithCtx} from "../domain/AnyToPromiseWithCtx.js";
+import {PlatformContext} from "../domain/PlatformContext.js";
+import {setResponseHeaders} from "../utils/setResponseHeaders.js";
+import {PlatformApplication} from "./PlatformApplication.js";
+import {PlatformMiddlewaresChain} from "./PlatformMiddlewaresChain.js";
 
 /**
  * Platform Handler abstraction layer. Wrap original class method to a pure platform handler (Express, Koa, etc...).

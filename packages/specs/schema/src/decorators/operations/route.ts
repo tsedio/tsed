@@ -1,5 +1,5 @@
-import {OperationVerbs} from "../../constants/OperationVerbs";
-import {Operation} from "./operation";
+import {OperationVerbs} from "../../constants/OperationVerbs.js";
+import {Operation} from "./operation.js";
 
 /**
  * @deprecated Use Operation instead of Route

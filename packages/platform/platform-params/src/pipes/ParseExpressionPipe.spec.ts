@@ -1,5 +1,5 @@
 import {ParamTypes, PlatformTest} from "@tsed/common";
-import {ParseExpressionPipe} from "./ParseExpressionPipe";
+import {ParseExpressionPipe} from "./ParseExpressionPipe.js";
 import {JsonParameterStore} from "@tsed/schema";
 import {DecoratorTypes} from "@tsed/core";
 

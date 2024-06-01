@@ -1,4 +1,4 @@
-import {mapReturnedResponse} from "../index";
+import {mapReturnedResponse} from "../index.js";
 
 describe("mapReturnedResponse", () => {
   it("should map the response (1)", () => {

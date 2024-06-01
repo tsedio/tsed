@@ -1,6 +1,6 @@
 import {Logger} from "@tsed/logger";
-import {InjectorService} from "../../common/index";
-import {attachLogger} from "./attachLogger";
+import {InjectorService} from "../../common/index.js";
+import {attachLogger} from "./attachLogger.js";
 
 describe("attachLogger", () => {
   it("should attach logger", () => {

@@ -2,9 +2,9 @@ import {isArrowFn, isCollection, isObject, isObjectID, isString, StoreMerge, Typ
 import {deserialize, OnDeserialize, OnSerialize, serialize} from "@tsed/json-mapper";
 import {ForwardGroups, JsonEntityFn, lazyRef, matchGroups, OneOf, Property, string} from "@tsed/schema";
 import {Schema as MongooseSchema} from "mongoose";
-import {MONGOOSE_SCHEMA} from "../constants/constants";
-import {MongooseSchemaTypes} from "../interfaces/MongooseSchemaTypes";
-import {MongooseModels} from "../registries/MongooseModels";
+import {MONGOOSE_SCHEMA} from "../constants/constants.js";
+import {MongooseSchemaTypes} from "../interfaces/MongooseSchemaTypes.js";
+import {MongooseModels} from "../registries/MongooseModels.js";
 
 interface RefOptions {
   type?: MongooseSchemaTypes;

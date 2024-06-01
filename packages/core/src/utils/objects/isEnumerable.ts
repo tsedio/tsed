@@ -1,5 +1,5 @@
-import {inheritedDescriptorOf} from "../decorators/inheritedDescriptorOf";
-import {classOf} from "./classOf";
+import {inheritedDescriptorOf} from "../decorators/inheritedDescriptorOf.js";
+import {classOf} from "./classOf.js";
 
 /**
  *

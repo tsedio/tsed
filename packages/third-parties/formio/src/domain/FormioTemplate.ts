@@ -1,4 +1,4 @@
-import {FormioActionItem, FormioForm, FormioRole, FormioSubmission} from "./FormioModels";
+import {FormioActionItem, FormioForm, FormioRole, FormioSubmission} from "./FormioModels.js";
 
 export interface FormioTemplate {
   roles?: Record<string, FormioRole>;

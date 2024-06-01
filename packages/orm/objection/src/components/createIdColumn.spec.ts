@@ -1,7 +1,7 @@
-import {Entity} from "../decorators/entity";
-import {IdColumn} from "../decorators/idColumn";
-import {createColumns} from "../utils/createColumns";
-import {createTableStub} from "../../test/helpers/knex/table";
+import {Entity} from "../decorators/entity.js";
+import {IdColumn} from "../decorators/idColumn.js";
+import {createColumns} from "../utils/createColumns.js";
+import {createTableStub} from "../../test/helpers/knex/table.js";
 
 describe("createIdColumn", () => {
   it("should create table from a given class (bigIncrements)", () => {

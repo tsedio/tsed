@@ -1,7 +1,7 @@
-import {JsonEntityStore} from "../../domain/JsonEntityStore";
-import {getJsonSchema} from "../../utils/getJsonSchema";
-import {CollectionOf} from "../collections/collectionOf";
-import {MaxLength} from "./maxLength";
+import {JsonEntityStore} from "../../domain/JsonEntityStore.js";
+import {getJsonSchema} from "../../utils/getJsonSchema.js";
+import {CollectionOf} from "../collections/collectionOf.js";
+import {MaxLength} from "./maxLength.js";
 
 describe("@MaxLength", () => {
   it("should declare minimum value", () => {

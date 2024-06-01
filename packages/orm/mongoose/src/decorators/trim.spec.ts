@@ -1,6 +1,6 @@
 import {descriptorOf, Store} from "@tsed/core";
-import {MONGOOSE_SCHEMA} from "../constants/constants";
-import {Trim} from "./trim";
+import {MONGOOSE_SCHEMA} from "../constants/constants.js";
+import {Trim} from "./trim.js";
 
 describe("@Trim()", () => {
   it("should set metadata", () => {

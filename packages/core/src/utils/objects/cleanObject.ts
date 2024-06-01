@@ -1,4 +1,4 @@
-import {isProtectedKey} from "./isProtectedKey";
+import {isProtectedKey} from "./isProtectedKey.js";
 /**
  * Remove undefined value
  * @param obj

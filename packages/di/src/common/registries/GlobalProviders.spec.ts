@@ -1,9 +1,9 @@
-import {LocalsContainer} from "../domain/LocalsContainer";
-import {Provider} from "../domain/Provider";
-import {ProviderType} from "../domain/ProviderType";
-import {InjectorService} from "../services/InjectorService";
-import {GlobalProviderRegistry, GlobalProviders} from "./GlobalProviders";
-import {registerProvider} from "./ProviderRegistry";
+import {LocalsContainer} from "../domain/LocalsContainer.js";
+import {Provider} from "../domain/Provider.js";
+import {ProviderType} from "../domain/ProviderType.js";
+import {InjectorService} from "../services/InjectorService.js";
+import {GlobalProviderRegistry, GlobalProviders} from "./GlobalProviders.js";
+import {registerProvider} from "./ProviderRegistry.js";
 
 describe("GlobalProviderRegistry", () => {
   describe("createRegistry()", () => {

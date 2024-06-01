@@ -1,5 +1,5 @@
 import {decorateMethodsOf, DecoratorTypes, UnsupportedDecoratorType} from "@tsed/core";
-import {JsonEntityFn} from "../common/jsonEntityFn";
+import {JsonEntityFn} from "../common/jsonEntityFn.js";
 
 /**
  * Add consumes metadata on the decorated element.

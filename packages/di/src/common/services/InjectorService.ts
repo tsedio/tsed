@@ -14,29 +14,29 @@ import {
   nameOf,
   Store
 } from "@tsed/core";
-import {DI_PARAM_OPTIONS, INJECTABLE_PROP} from "../constants/constants";
-import {Configuration} from "../decorators/configuration";
-import {Injectable} from "../decorators/injectable";
-import {Container} from "../domain/Container";
-import {InjectablePropertyType} from "../domain/InjectablePropertyType";
-import {LocalsContainer} from "../domain/LocalsContainer";
-import {Provider} from "../domain/Provider";
-import {ProviderScope} from "../domain/ProviderScope";
-import {InjectionError} from "../errors/InjectionError";
-import {InvalidPropertyTokenError} from "../errors/InvalidPropertyTokenError";
-import {UndefinedTokenError} from "../errors/UndefinedTokenError";
-import {DILogger} from "../interfaces/DILogger";
-import {InjectableProperties, InjectablePropertyOptions, InjectablePropertyValue} from "../interfaces/InjectableProperties";
-import {InterceptorContext} from "../interfaces/InterceptorContext";
-import {InterceptorMethods} from "../interfaces/InterceptorMethods";
-import {InvokeOptions} from "../interfaces/InvokeOptions";
-import {ResolvedInvokeOptions} from "../interfaces/ResolvedInvokeOptions";
-import {TokenProvider} from "../interfaces/TokenProvider";
-import {GlobalProviders} from "../registries/GlobalProviders";
-import {createContainer} from "../utils/createContainer";
-import {getConstructorDependencies} from "../utils/getConstructorDependencies";
-import {resolveControllers} from "../utils/resolveControllers";
-import {DIConfiguration} from "./DIConfiguration";
+import {DI_PARAM_OPTIONS, INJECTABLE_PROP} from "../constants/constants.js";
+import {Configuration} from "../decorators/configuration.js";
+import {Injectable} from "../decorators/injectable.js";
+import {Container} from "../domain/Container.js";
+import {InjectablePropertyType} from "../domain/InjectablePropertyType.js";
+import {LocalsContainer} from "../domain/LocalsContainer.js";
+import {Provider} from "../domain/Provider.js";
+import {ProviderScope} from "../domain/ProviderScope.js";
+import {InjectionError} from "../errors/InjectionError.js";
+import {InvalidPropertyTokenError} from "../errors/InvalidPropertyTokenError.js";
+import {UndefinedTokenError} from "../errors/UndefinedTokenError.js";
+import {DILogger} from "../interfaces/DILogger.js";
+import {InjectableProperties, InjectablePropertyOptions, InjectablePropertyValue} from "../interfaces/InjectableProperties.js";
+import {InterceptorContext} from "../interfaces/InterceptorContext.js";
+import {InterceptorMethods} from "../interfaces/InterceptorMethods.js";
+import {InvokeOptions} from "../interfaces/InvokeOptions.js";
+import {ResolvedInvokeOptions} from "../interfaces/ResolvedInvokeOptions.js";
+import {TokenProvider} from "../interfaces/TokenProvider.js";
+import {GlobalProviders} from "../registries/GlobalProviders.js";
+import {createContainer} from "../utils/createContainer.js";
+import {getConstructorDependencies} from "../utils/getConstructorDependencies.js";
+import {resolveControllers} from "../utils/resolveControllers.js";
+import {DIConfiguration} from "./DIConfiguration.js";
 
 /**
  * This service contain all services collected by `@Service` or services declared manually with `InjectorService.factory()` or `InjectorService.service()`.
@@ -47,9 +47,9 @@ import {DIConfiguration} from "./DIConfiguration";
  * import {InjectorService} from "@tsed/di";
  *
  * // Import the services (all services are decorated with @Service()";
- * import MyService1 from "./services/service1";
- * import MyService2 from "./services/service2";
- * import MyService3 from "./services/service3";
+ * import MyService1 from "./services/service1.js";
+ * import MyService2 from "./services/service2.js";
+ * import MyService3 from "./services/service3.js";
  *
  * // When all services are imported, you can load InjectorService.
  * const injector = new InjectorService()
@@ -106,7 +106,7 @@ export class InjectorService extends Container {
    *
    * ```typescript
    * import {InjectorService} from "@tsed/di";
-   * import MyService from "./services";
+   * import MyService from "./services.js";
    *
    * class OtherService {
    *      constructor(injectorService: InjectorService) {
@@ -169,7 +169,7 @@ export class InjectorService extends Container {
    *
    * ```typescript
    * import {InjectorService} from "@tsed/di";
-   * import MyService from "./services";
+   * import MyService from "./services.js";
    *
    * class OtherService {
    *     constructor(injectorService: InjectorService) {

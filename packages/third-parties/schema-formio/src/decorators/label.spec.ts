@@ -1,5 +1,5 @@
-import {getFormioSchema} from "../utils/getFormioSchema";
-import {Label} from "./label";
+import {getFormioSchema} from "../utils/getFormioSchema.js";
+import {Label} from "./label.js";
 
 describe("@Label", () => {
   it("should add a tooltip on field", async () => {

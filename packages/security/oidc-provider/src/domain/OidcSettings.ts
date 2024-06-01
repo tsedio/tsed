@@ -3,7 +3,7 @@ import type {JwksKeyParameters} from "@tsed/jwks";
 // @ts-ignore
 import type {Configuration} from "oidc-provider";
 import type {Adapter} from "@tsed/adapters";
-import type {OidcAccountsMethods} from "./OidcAccountsMethods";
+import type {OidcAccountsMethods} from "./OidcAccountsMethods.js";
 
 export interface OidcSettings extends Configuration {
   /**

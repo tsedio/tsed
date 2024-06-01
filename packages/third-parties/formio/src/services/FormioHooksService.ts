@@ -1,7 +1,7 @@
 import {Inject, Injectable, InjectorService} from "@tsed/common";
 import {promisify} from "util";
-import {FormioHooks} from "../domain/FormioHooks";
-import {FormioService} from "./FormioService";
+import {FormioHooks} from "../domain/FormioHooks.js";
+import {FormioService} from "./FormioService.js";
 import {Request} from "express";
 
 @Injectable()

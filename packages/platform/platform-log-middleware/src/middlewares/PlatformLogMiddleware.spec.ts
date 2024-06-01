@@ -1,5 +1,5 @@
 import {PlatformHandlerMetadata, PlatformTest} from "@tsed/common";
-import {PlatformLogMiddleware} from "./PlatformLogMiddleware";
+import {PlatformLogMiddleware} from "./PlatformLogMiddleware.js";
 import "../domain/PlatformLogMiddlewareSettings";
 
 async function createMiddlewareFixture({statusCode = 200, error}: {statusCode?: number; error?: any} = {}) {

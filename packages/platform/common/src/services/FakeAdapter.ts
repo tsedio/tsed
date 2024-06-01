@@ -1,1 +1,1 @@
-export {FakeAdapter} from "./PlatformAdapter";
+export {FakeAdapter} from "./PlatformAdapter.js";

@@ -1,9 +1,9 @@
 import "../src/index";
-import * as sharedTest from "./shared/index";
-import * as sharedFiltersTest from "./shared/filters";
-import * as sharedIncludesTest from "./shared/includes";
-import * as sharedPartialsTest from "./shared/partials";
-import * as sharedHelpersTest from "./shared/helpers";
+import * as sharedTest from "./shared/index.js";
+import * as sharedFiltersTest from "./shared/filters.js";
+import * as sharedIncludesTest from "./shared/includes.js";
+import * as sharedPartialsTest from "./shared/partials.js";
+import * as sharedHelpersTest from "./shared/helpers.js";
 
 describe("integration", () => {
   sharedTest.test("pug");

@@ -1,4 +1,4 @@
-import {printRoutes} from "./printRoutes";
+import {printRoutes} from "./printRoutes.js";
 
 describe("printRoutes()", () => {
   it("should return routes", () => {

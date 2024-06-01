@@ -1,4 +1,4 @@
-import {getStaticsOptions} from "./getStaticsOptions";
+import {getStaticsOptions} from "./getStaticsOptions.js";
 
 describe("getStaticsOptions()", () => {
   it("should return the statics files options", () => {

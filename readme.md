@@ -95,7 +95,7 @@ platform like Express.
 ```typescript
 import {$log} from "@tsed/common";
 import {PlatformExpress} from "@tsed/platform-express";
-import {Server} from "./Server";
+import {Server} from "./Server.js";
 
 async function bootstrap() {
   try {
@@ -136,8 +136,8 @@ import {
   ReturnsArray
 } from "@tsed/common";
 import {BadRequest} from "@tsed/exceptions";
-import {UsersService} from "../services/UsersService";
-import {User} from "../models/User";
+import {UsersService} from "../services/UsersService.js";
+import {User} from "../models/User.js";
 
 @Controller("/users")
 export class UsersCtrl {

@@ -1,8 +1,8 @@
 import {Inject, Injectable} from "@tsed/di";
 import {deserialize} from "@tsed/json-mapper";
 import {getJsonSchema, JsonParameterStore, PipeMethods} from "@tsed/schema";
-import {ParamTypes} from "../domain/ParamTypes";
-import {RequiredValidationError} from "../errors/RequiredValidationError";
+import {ParamTypes} from "../domain/ParamTypes.js";
+import {RequiredValidationError} from "../errors/RequiredValidationError.js";
 
 function cast(value: any, metadata: JsonParameterStore) {
   try {

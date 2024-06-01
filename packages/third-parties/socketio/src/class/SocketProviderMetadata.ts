@@ -1,6 +1,6 @@
-import {SocketHandlerMetadata} from "../interfaces/SocketHandlerMetadata";
-import {SocketInjectableNsp} from "../interfaces/SocketInjectableNsp";
-import {SocketProviderTypes} from "../interfaces/SocketProviderTypes";
+import {SocketHandlerMetadata} from "../interfaces/SocketHandlerMetadata.js";
+import {SocketInjectableNsp} from "../interfaces/SocketInjectableNsp.js";
+import {SocketProviderTypes} from "../interfaces/SocketProviderTypes.js";
 
 export class SocketProviderMetadata {
   public type: SocketProviderTypes;

@@ -4,7 +4,7 @@ import axios from "axios";
 import {of} from "rxjs";
 import {agent, SuperAgentStatic} from "superagent";
 import SuperTest from "supertest";
-import {PlatformTestingSdkOpts} from "../interfaces";
+import {PlatformTestingSdkOpts} from "../interfaces.js";
 
 // FIXME remove when esm is ready
 

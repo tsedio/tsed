@@ -3,13 +3,13 @@ import {MongooseConnectionOptions} from "@tsed/mongoose";
 import {Db} from "mongodb";
 import {Mongoose} from "mongoose";
 import {promisify} from "util";
-import {Formio} from "../domain/Formio";
-import {FormioConfig} from "../domain/FormioConfig";
-import {FormioHook, FormioHooks} from "../domain/FormioHooks";
-import {FormioSchemas} from "../domain/FormioModels";
-import {FormioRouter} from "../domain/FormioRouter";
-import {FormioTemplate} from "../domain/FormioTemplate";
-import {FormioExportOptions} from "../domain/FormioTemplateUtil";
+import {Formio} from "../domain/Formio.js";
+import {FormioConfig} from "../domain/FormioConfig.js";
+import {FormioHook, FormioHooks} from "../domain/FormioHooks.js";
+import {FormioSchemas} from "../domain/FormioModels.js";
+import {FormioRouter} from "../domain/FormioRouter.js";
+import {FormioTemplate} from "../domain/FormioTemplate.js";
+import {FormioExportOptions} from "../domain/FormioTemplateUtil.js";
 // @ts-ignore
 import createRouter from "formio";
 // @ts-ignore

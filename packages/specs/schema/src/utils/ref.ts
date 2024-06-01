@@ -1,8 +1,8 @@
 import {cleanObject, setValue} from "@tsed/core";
 import {pascalCase} from "change-case";
-import type {JsonSchema} from "../domain/JsonSchema";
-import {SpecTypes} from "../domain/SpecTypes";
-import {JsonSchemaOptions} from "../interfaces/JsonSchemaOptions";
+import type {JsonSchema} from "../domain/JsonSchema.js";
+import {SpecTypes} from "../domain/SpecTypes.js";
+import {JsonSchemaOptions} from "../interfaces/JsonSchemaOptions.js";
 
 /**
  * ignore

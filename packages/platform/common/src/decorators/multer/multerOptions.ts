@@ -1,6 +1,6 @@
 import {StoreMerge} from "@tsed/core";
-import {PlatformMulterSettings} from "../../config/interfaces/PlatformMulterSettings";
-import {PlatformMulterMiddleware} from "../../middlewares/PlatformMulterMiddleware";
+import {PlatformMulterSettings} from "../../config/interfaces/PlatformMulterSettings.js";
+import {PlatformMulterMiddleware} from "../../middlewares/PlatformMulterMiddleware.js";
 
 /**
  * Define multer option for all MultipartFile

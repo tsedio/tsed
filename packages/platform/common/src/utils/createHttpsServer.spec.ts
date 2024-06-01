@@ -1,5 +1,5 @@
 import {InjectorService} from "@tsed/di";
-import {createHttpsServer} from "./createHttpsServer";
+import {createHttpsServer} from "./createHttpsServer.js";
 import Https from "https";
 
 describe("createHttpsServer", () => {

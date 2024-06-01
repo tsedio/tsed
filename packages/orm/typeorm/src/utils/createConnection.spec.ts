@@ -1,6 +1,6 @@
 import {ConnectionManager, getConnectionManager} from "typeorm";
 import * as Connection from "typeorm/connection/Connection";
-import {createConnection} from "./createConnection";
+import {createConnection} from "./createConnection.js";
 
 jest.mock("typeorm", () => {
   return {

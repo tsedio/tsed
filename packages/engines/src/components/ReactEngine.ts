@@ -1,8 +1,8 @@
 import {resolve} from "path";
 import {readFileSync} from "fs";
-import {ViewEngine} from "../decorators/viewEngine";
-import {Engine, EngineOptions, ViewEngineOptions} from "./Engine";
-import {getCachedEngine, getFromCache, importEngine, setToCache} from "../utils/cache";
+import {ViewEngine} from "../decorators/viewEngine.js";
+import {Engine, EngineOptions, ViewEngineOptions} from "./Engine.js";
+import {getCachedEngine, getFromCache, importEngine, setToCache} from "../utils/cache.js";
 
 @ViewEngine("react", {
   requires: ["react"]

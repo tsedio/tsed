@@ -1,7 +1,7 @@
 import {ValueOf} from "@tsed/core";
-import {JsonFormatTypes} from "../../domain/JsonFormatTypes";
-import {withErrorMsg} from "../../utils/withErrorMsg";
-import {JsonEntityFn} from "./jsonEntityFn";
+import {JsonFormatTypes} from "../../domain/JsonFormatTypes.js";
+import {withErrorMsg} from "../../utils/withErrorMsg.js";
+import {JsonEntityFn} from "./jsonEntityFn.js";
 
 /**
  * The following formats are supported for string validation with `format` keyword:

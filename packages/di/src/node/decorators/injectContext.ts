@@ -1,5 +1,5 @@
-import {injectProperty} from "../../common/index";
-import {getContext} from "../utils/asyncHookContext";
+import {injectProperty} from "../../common/index.js";
+import {getContext} from "../utils/asyncHookContext.js";
 
 /**
  * Inject a context like PlatformContext or any BaseContext.

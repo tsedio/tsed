@@ -1,6 +1,6 @@
 import {descriptorOf, Store} from "@tsed/core";
-import {MONGOOSE_SCHEMA} from "../constants/constants";
-import {Uppercase} from "./uppercase";
+import {MONGOOSE_SCHEMA} from "../constants/constants.js";
+import {Uppercase} from "./uppercase.js";
 
 describe("@Uppercase()", () => {
   it("should set metadata (default)", () => {

@@ -5,11 +5,11 @@ import {FormioActionInfo} from "@tsed/formio-types";
 import {PlatformParams} from "@tsed/platform-params";
 import {PlatformResponseFilter} from "@tsed/platform-response-filter";
 import {EndpointMetadata} from "@tsed/schema";
-import {Alter} from "../decorators/alter";
-import {AlterHook} from "../domain/AlterHook";
-import {SetActionItemMessage} from "../domain/FormioAction";
-import {FormioActions} from "../domain/FormioActionsIndex";
-import {FormioService} from "../services/FormioService";
+import {Alter} from "../decorators/alter.js";
+import {AlterHook} from "../domain/AlterHook.js";
+import {SetActionItemMessage} from "../domain/FormioAction.js";
+import {FormioActions} from "../domain/FormioActionsIndex.js";
+import {FormioService} from "../services/FormioService.js";
 
 @Alter("actions")
 export class AlterActions implements AlterHook {

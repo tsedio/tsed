@@ -1,8 +1,8 @@
 import {catchError} from "@tsed/core";
 import {EndpointMetadata, Get} from "@tsed/schema";
-import {AcceptMime} from "../exports";
-import {PlatformTest} from "../services/PlatformTest";
-import {PlatformAcceptMimesMiddleware} from "./PlatformAcceptMimesMiddleware";
+import {AcceptMime} from "../exports.js";
+import {PlatformTest} from "../services/PlatformTest.js";
+import {PlatformAcceptMimesMiddleware} from "./PlatformAcceptMimesMiddleware.js";
 
 describe("PlatformMimesMiddleware", () => {
   describe("when server has configuration", () => {

@@ -1,6 +1,6 @@
-import {PlatformResponse} from "../services/PlatformResponse";
-import {PlatformTest} from "../services/PlatformTest";
-import {createContext} from "./createContext";
+import {PlatformResponse} from "../services/PlatformResponse.js";
+import {PlatformTest} from "../services/PlatformTest.js";
+import {createContext} from "./createContext.js";
 
 async function createContextFixture(reqOpts?: any) {
   const injector = PlatformTest.injector;

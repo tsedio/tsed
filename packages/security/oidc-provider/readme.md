@@ -61,8 +61,8 @@ Then import `@tsed/oidc-provider` in your Server:
 ```typescript
 import {Configuration} from "@tsed/common";
 import "@tsed/oidc-provider"; // import typeorm ts.ed module
-import {Accounts} from "../services/Accounts";
-import {MemoryAdapter} from "../adapters/MemoryAdapter";
+import {Accounts} from "../services/Accounts.js";
+import {MemoryAdapter} from "../adapters/MemoryAdapter.js";
 
 @Configuration({
   oidc: {

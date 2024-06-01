@@ -1,4 +1,4 @@
-import {DmmfField} from "../generator/domain/DmmfField";
+import {DmmfField} from "../generator/domain/DmmfField.js";
 
 export interface FieldFixtureOptions {
   kind: string;

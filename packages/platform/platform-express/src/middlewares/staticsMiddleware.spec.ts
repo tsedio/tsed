@@ -1,5 +1,5 @@
 import Express from "express";
-import {staticsMiddleware} from "./staticsMiddleware";
+import {staticsMiddleware} from "./staticsMiddleware.js";
 
 describe("staticsMiddleware", () => {
   beforeEach(() => {

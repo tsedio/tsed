@@ -1,4 +1,4 @@
-import {mapParamsOptions} from "./mapParamsOptions";
+import {mapParamsOptions} from "./mapParamsOptions.js";
 
 class Test {}
 

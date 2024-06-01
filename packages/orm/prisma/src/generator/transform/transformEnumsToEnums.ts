@@ -1,5 +1,5 @@
 import {EnumMemberStructure, OptionalKind, StatementStructures, StructureKind} from "ts-morph";
-import {DmmfEnum} from "../domain/DmmfEnum";
+import {DmmfEnum} from "../domain/DmmfEnum.js";
 
 export function transformEnumsToEnums(enumModel: DmmfEnum): StatementStructures {
   const members: OptionalKind<EnumMemberStructure>[] = enumModel.values.map((value) => {

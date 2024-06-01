@@ -1,5 +1,5 @@
 import {Store} from "@tsed/core";
-import {Authenticate, PassportMiddleware} from "../index";
+import {Authenticate, PassportMiddleware} from "../index.js";
 import {Security} from "@tsed/schema";
 
 describe("@Authenticate", () => {

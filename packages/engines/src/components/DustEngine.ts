@@ -1,7 +1,7 @@
-import {read} from "../utils/cache";
+import {read} from "../utils/cache.js";
 import {extname} from "path";
-import {ViewEngine} from "../decorators/viewEngine";
-import {Engine} from "./Engine";
+import {ViewEngine} from "../decorators/viewEngine.js";
+import {Engine} from "./Engine.js";
 import {promisify} from "util";
 
 @ViewEngine("dust", {

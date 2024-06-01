@@ -1,9 +1,9 @@
 import {DecoratorStructure, StructureKind} from "ts-morph";
-import {DmmfField} from "../domain/DmmfField";
-import {DmmfModel} from "../domain/DmmfModel";
-import {ScalarDecorators, ScalarJsClasses} from "../domain/ScalarTsTypes";
-import {TransformContext} from "../domain/TransformContext";
-import {isCircularRef} from "../utils/isCircularRef";
+import {DmmfField} from "../domain/DmmfField.js";
+import {DmmfModel} from "../domain/DmmfModel.js";
+import {ScalarDecorators, ScalarJsClasses} from "../domain/ScalarTsTypes.js";
+import {TransformContext} from "../domain/TransformContext.js";
+import {isCircularRef} from "../utils/isCircularRef.js";
 
 function createDecorator(name: string, args: string[]): DecoratorStructure {
   return {

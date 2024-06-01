@@ -1,4 +1,4 @@
-import {Component} from "./component";
+import {Component} from "./component.js";
 
 /**
  * An input mask helps the user with input by ensuring a predefined format.

@@ -1,6 +1,6 @@
-import {Namespace} from "./nsp";
-import {SocketFilters} from "../interfaces/SocketFilters";
-import {SocketFilter} from "./socketFilter";
+import {Namespace} from "./nsp.js";
+import {SocketFilters} from "../interfaces/SocketFilters.js";
+import {SocketFilter} from "./socketFilter.js";
 
 export type SocketNsp = Namespace;
 

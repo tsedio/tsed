@@ -1,6 +1,6 @@
 import {Controller, CookiesParams, Get, PlatformTest} from "@tsed/common";
 import SuperTest from "supertest";
-import {PlatformTestingSdkOpts} from "../interfaces";
+import {PlatformTestingSdkOpts} from "../interfaces.js";
 
 @Controller("/cookies")
 export class CookiesCtrl {

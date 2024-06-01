@@ -1,6 +1,6 @@
 import {expect} from "chai";
-import {getEngineFixture} from "../../test/getEngineFixture";
-import {RactiveEngine} from "./RactiveEngine";
+import {getEngineFixture} from "../../test/getEngineFixture.js";
+import {RactiveEngine} from "./RactiveEngine.js";
 
 describe("RactiveEngine", () => {
   it("should render the given content (by string - no cache)", async () => {

@@ -1,6 +1,6 @@
-import {transformScalarToType} from "./transformScalarToType";
-import {createDmmfFieldFixture} from "../../__mock__/createDmmfFieldFixture";
-import {PrismaScalars} from "../domain/ScalarTsTypes";
+import {transformScalarToType} from "./transformScalarToType.js";
+import {createDmmfFieldFixture} from "../../__mock__/createDmmfFieldFixture.js";
+import {PrismaScalars} from "../domain/ScalarTsTypes.js";
 
 describe("transformScalarToType()", () => {
   it("should transform String to string", () => {

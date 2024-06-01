@@ -1,6 +1,6 @@
-import {ColumnOptions} from "./columnOptions";
+import {ColumnOptions} from "./columnOptions.js";
 import {Property} from "@tsed/schema";
-import {defineStaticGetter} from "../utils/defineStaticGetter";
+import {defineStaticGetter} from "../utils/defineStaticGetter.js";
 import {useDecorators} from "@tsed/core";
 
 /**

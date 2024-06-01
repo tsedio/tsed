@@ -4,8 +4,8 @@ import {PlatformTestSdk} from "@tsed/platform-test-sdk";
 import {DiscriminatorKey, DiscriminatorValue, OneOf, Partial, Property, Required, Returns} from "@tsed/schema";
 import "@tsed/swagger";
 import SuperTest from "supertest";
-import {PlatformExpress} from "../src/index";
-import {rootDir, Server} from "./app/Server";
+import {PlatformExpress} from "../src/index.js";
+import {rootDir, Server} from "./app/Server.js";
 
 class Event {
   @DiscriminatorKey() // declare this property as discriminator key

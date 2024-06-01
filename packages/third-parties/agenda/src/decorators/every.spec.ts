@@ -1,6 +1,6 @@
 import {descriptorOf, Store} from "@tsed/core";
-import {Agenda} from "./agenda";
-import {Every} from "./every";
+import {Agenda} from "./agenda.js";
+import {Every} from "./every.js";
 
 describe("@Every()", () => {
   it("should set metadata", () => {

@@ -1,4 +1,4 @@
-import {MongooseSchema} from "./schema";
+import {MongooseSchema} from "./schema.js";
 
 /**
  * Tell Mongoose to ensure a unique index is created for this path.

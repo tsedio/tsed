@@ -1,6 +1,6 @@
-import {Container} from "./Container";
-import {Provider} from "./Provider";
-import {ProviderType} from "./ProviderType";
+import {Container} from "./Container.js";
+import {Provider} from "./Provider.js";
+import {ProviderType} from "./ProviderType.js";
 
 describe("Container", () => {
   describe("getProvider()", () => {

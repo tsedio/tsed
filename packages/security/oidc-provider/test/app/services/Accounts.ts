@@ -3,7 +3,7 @@ import {PlatformContext} from "@tsed/common";
 import {Injectable} from "@tsed/di";
 import {deserialize} from "@tsed/json-mapper";
 import {AccessToken, AuthorizationCode, DeviceCode, OidcAccountsMethods} from "@tsed/oidc-provider";
-import {Account} from "../models/Account";
+import {Account} from "../models/Account.js";
 
 @Injectable()
 export class Accounts implements OidcAccountsMethods {

@@ -1,4 +1,4 @@
-import {getJsonSchema, Title} from "../../index";
+import {getJsonSchema, Title} from "../../index.js";
 
 describe("Title()", () => {
   it("should store data", () => {

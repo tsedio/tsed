@@ -1,4 +1,4 @@
-import {Component} from "./component";
+import {Component} from "./component.js";
 
 /**
  * Change the multiple value on the decorated property.

@@ -1,8 +1,8 @@
 import {Controller, Get, Head, Inject, PathParams, PlatformTest, Post, QueryParams} from "@tsed/common";
 import {Property} from "@tsed/schema";
 import SuperTest from "supertest";
-import {Server} from "../../platform-express/test/app/Server";
-import {PlatformCache, UseCache} from "../src/index";
+import {Server} from "../../platform-express/test/app/Server.js";
+import {PlatformCache, UseCache} from "../src/index.js";
 
 let increment = 0;
 

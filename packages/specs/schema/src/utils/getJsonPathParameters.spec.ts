@@ -1,4 +1,4 @@
-import {getJsonPathParameters} from "./getJsonPathParameters";
+import {getJsonPathParameters} from "./getJsonPathParameters.js";
 
 describe("getJsonPathParameters", () => {
   it("should return params and path(1)", () => {

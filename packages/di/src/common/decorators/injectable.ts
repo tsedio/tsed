@@ -1,5 +1,5 @@
-import type {ProviderOpts} from "../interfaces/ProviderOpts";
-import {registerProvider} from "../registries/ProviderRegistry";
+import type {ProviderOpts} from "../interfaces/ProviderOpts.js";
+import {registerProvider} from "../registries/ProviderRegistry.js";
 
 /**
  * The decorators `@Injectable()` declare a new service can be injected in other service, controller, interceptor, etc.. on there `constructor`.

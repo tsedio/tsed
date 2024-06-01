@@ -1,5 +1,5 @@
 import {Store} from "@tsed/core";
-import {Emit} from "../index";
+import {Emit} from "../index.js";
 
 describe("Emit", () => {
   it("should set metadata", () => {

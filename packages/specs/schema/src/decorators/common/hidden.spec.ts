@@ -1,6 +1,6 @@
-import {getJsonSchema} from "../../utils/getJsonSchema";
-import {Hidden} from "./hidden";
-import {Get, getSpec, Path, SpecTypes} from "../../index";
+import {getJsonSchema} from "../../utils/getJsonSchema.js";
+import {Hidden} from "./hidden.js";
+import {Get, getSpec, Path, SpecTypes} from "../../index.js";
 
 describe("@Hidden", () => {
   it("should generate the right json schema", () => {

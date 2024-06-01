@@ -1,4 +1,4 @@
-import {inlineEnums} from "./inlineEnums";
+import {inlineEnums} from "./inlineEnums.js";
 
 describe("inlineEnums()", () => {
   it("should inline enums", () => {

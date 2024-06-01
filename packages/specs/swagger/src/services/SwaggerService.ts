@@ -1,8 +1,8 @@
 import {Configuration, Injectable, InjectorService, Platform} from "@tsed/common";
 import {OpenSpec2, OpenSpec3} from "@tsed/openspec";
 import {generateSpec} from "@tsed/schema";
-import {SwaggerOS2Settings, SwaggerOS3Settings, SwaggerSettings} from "../interfaces/SwaggerSettings";
-import {includeRoute} from "../utils/includeRoute";
+import {SwaggerOS2Settings, SwaggerOS3Settings, SwaggerSettings} from "../interfaces/SwaggerSettings.js";
+import {includeRoute} from "../utils/includeRoute.js";
 
 @Injectable()
 export class SwaggerService {

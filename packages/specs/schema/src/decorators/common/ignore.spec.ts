@@ -1,6 +1,6 @@
-import {getJsonSchema} from "../../utils/getJsonSchema";
-import {Ignore} from "./ignore";
-import {Property} from "./property";
+import {getJsonSchema} from "../../utils/getJsonSchema.js";
+import {Ignore} from "./ignore.js";
+import {Property} from "./property.js";
 
 describe("@Ignore", () => {
   it("should declare prop", () => {

@@ -1,4 +1,4 @@
-import {defaultErrorFormatter} from "./defaultErrorFormatter";
+import {defaultErrorFormatter} from "./defaultErrorFormatter.js";
 
 describe("defaultErrorFormatter", () => {
   it("should extract data and format error (data = undefined)", () => {

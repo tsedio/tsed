@@ -1,4 +1,4 @@
-import {JsonEntityFn} from "../../index";
+import {JsonEntityFn} from "../../index.js";
 import Sinon from "sinon";
 
 describe("JsonSchemaStoreFn", () => {

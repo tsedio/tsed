@@ -1,5 +1,5 @@
 import {RequiredValidationError, ValidationError} from "@tsed/common";
-import {ParamValidationError} from "./ParamValidationError";
+import {ParamValidationError} from "./ParamValidationError.js";
 
 describe("ParseExpressionError", () => {
   it("should return error without transformation", () => {

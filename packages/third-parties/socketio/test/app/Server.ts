@@ -7,7 +7,7 @@ import compress from "compression";
 import cookieParser from "cookie-parser";
 import filedirname from "filedirname";
 import methodOverride from "method-override";
-import {SocketPageCtrl} from "./controllers/pages/SocketPageCtrl";
+import {SocketPageCtrl} from "./controllers/pages/SocketPageCtrl.js";
 
 // FIXME remove when esm is ready
 const [, rootDir] = filedirname();

@@ -1,4 +1,4 @@
-import {cache, getCachedEngine, importEngine, read, readPartials} from "../utils/cache";
+import {cache, getCachedEngine, importEngine, read, readPartials} from "../utils/cache.js";
 
 export interface ViewEngineOptions {
   requires?: string | string[];
@@ -13,7 +13,10 @@ export interface EngineOptions {
 export class Engine {
   protected driverName: string;
 
-  constructor(readonly name: string, readonly options: ViewEngineOptions) {}
+  constructor(
+    readonly name: string,
+    readonly options: ViewEngineOptions
+  ) {}
 
   get engine(): any {
     return getCachedEngine(this.name);

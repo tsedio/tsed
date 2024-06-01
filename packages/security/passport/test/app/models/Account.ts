@@ -1,5 +1,5 @@
 import {Groups, Name} from "@tsed/schema";
-import {Credentials} from "./Credentials";
+import {Credentials} from "./Credentials.js";
 
 export class Account extends Credentials {
   @Name("id")

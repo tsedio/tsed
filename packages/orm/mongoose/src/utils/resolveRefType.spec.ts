@@ -1,6 +1,6 @@
 import {Store} from "@tsed/core";
-import {MONGOOSE_MODEL_NAME} from "../constants/constants";
-import {resolveRefType} from "./resolveRefType";
+import {MONGOOSE_MODEL_NAME} from "../constants/constants.js";
+import {resolveRefType} from "./resolveRefType.js";
 
 describe("resolveRefType", () => {
   it("should return type as string (from string)", () => {

@@ -9,8 +9,8 @@ import cookieParser from "cookie-parser";
 import filedirname from "filedirname";
 import methodOverride from "method-override";
 import Path from "path";
-import {AuthCtrl} from "./controllers/rest/auth/AuthCtrl";
-import {Account} from "./models/Account";
+import {AuthCtrl} from "./controllers/rest/auth/AuthCtrl.js";
+import {Account} from "./models/Account.js";
 import "./protocols/LoginLocalProtocol";
 import session from "express-session";
 

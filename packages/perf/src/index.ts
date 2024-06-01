@@ -1,2 +1,2 @@
-export * from "./domain/PerfLogger";
-export * from "./domain/Perf";
+export * from "./domain/PerfLogger.js";
+export * from "./domain/Perf.js";

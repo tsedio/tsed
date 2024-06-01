@@ -1,6 +1,6 @@
-import {ParamTypes} from "../domain/ParamTypes";
-import {mapParamsOptions} from "../utils/mapParamsOptions";
-import {UseParam} from "./useParam";
+import {ParamTypes} from "../domain/ParamTypes.js";
+import {mapParamsOptions} from "../utils/mapParamsOptions.js";
+import {UseParam} from "./useParam.js";
 
 /**
  * Locals return the value from [response.locals](http://expressjs.com/en/4x/api.html#res.locals) object.

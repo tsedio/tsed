@@ -1,4 +1,4 @@
-import {descriptorOf} from "../utils/objects/descriptorOf";
+import {descriptorOf} from "../utils/objects/descriptorOf.js";
 
 export function Enumerable(value: boolean = true): Function {
   return (target: any, propertyKey: string) => {

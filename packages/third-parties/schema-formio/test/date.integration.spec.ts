@@ -1,5 +1,5 @@
 import {DateFormat, DateTime} from "@tsed/schema";
-import {Component, getFormioSchema} from "../src";
+import {Component, getFormioSchema} from "../src/index.js";
 
 describe("Date integration", () => {
   it("should generate date-time field", async () => {

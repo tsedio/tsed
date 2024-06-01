@@ -1,4 +1,4 @@
-import {isEmpty} from "./isEmpty";
+import {isEmpty} from "./isEmpty.js";
 
 describe("isEmpty", () => {
   it("should return true", () => {

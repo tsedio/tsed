@@ -1,7 +1,7 @@
 import {PlatformTest} from "@tsed/common";
 import {catchError} from "@tsed/core";
 import {errors, KoaContextWithOIDC} from "oidc-provider";
-import {OidcWildcardRedirectUriModule} from "./OidcWildcardRedirectUriModule";
+import {OidcWildcardRedirectUriModule} from "./OidcWildcardRedirectUriModule.js";
 import InvalidClientMetadata = errors.InvalidClientMetadata;
 
 describe("WildcardRedirectUriAllowed", () => {
@@ -50,7 +50,7 @@ describe("WildcardRedirectUriAllowed", () => {
     });
   });
   describe("validator()", () => {
-    describe("for redirect_uris",()=> {
+    describe("for redirect_uris", () => {
       it("should do nothing if key is not redirect_uris", () => {
         const service = PlatformTest.get<OidcWildcardRedirectUriModule>(OidcWildcardRedirectUriModule);
         service.validator({} as KoaContextWithOIDC, "key", "value");
@@ -58,7 +58,9 @@ describe("WildcardRedirectUriAllowed", () => {
       it("should throw an error if one of client redirect_uri contains more than one '*' ", () => {
         const service = PlatformTest.get<OidcWildcardRedirectUriModule>(OidcWildcardRedirectUriModule);
 
-        const error = catchError<any>(() => service.validator({} as KoaContextWithOIDC, "redirect_uris", ["https://*.test.com/callback/*"]));
+        const error = catchError<any>(() =>
+          service.validator({} as KoaContextWithOIDC, "redirect_uris", ["https://*.test.com/callback/*"])
+        );
 
         expect(error).toBeInstanceOf(InvalidClientMetadata);
         expect(error.message).toEqual("invalid_redirect_uri");
@@ -84,8 +86,8 @@ describe("WildcardRedirectUriAllowed", () => {
         expect(error.message).toEqual("invalid_redirect_uri");
         expect(error.error_description).toEqual("redirect_uris with a wildcard must not match an eTLD+1 of a known public suffix domain");
       });
-    })
-    describe("for post_logout_redirect_uris",()=> {
+    });
+    describe("for post_logout_redirect_uris", () => {
       it("should do nothing if key is not redirect_uris", () => {
         const service = PlatformTest.get<OidcWildcardRedirectUriModule>(OidcWildcardRedirectUriModule);
         service.validator({} as KoaContextWithOIDC, "key", "value");
@@ -93,7 +95,9 @@ describe("WildcardRedirectUriAllowed", () => {
       it("should throw an error if one of client post_logout_redirect_uris contains more than one '*' ", () => {
         const service = PlatformTest.get<OidcWildcardRedirectUriModule>(OidcWildcardRedirectUriModule);
 
-        const error = catchError<any>(() => service.validator({} as KoaContextWithOIDC, "post_logout_redirect_uris", ["https://*.test.com/callback/*"]));
+        const error = catchError<any>(() =>
+          service.validator({} as KoaContextWithOIDC, "post_logout_redirect_uris", ["https://*.test.com/callback/*"])
+        );
 
         expect(error).toBeInstanceOf(InvalidClientMetadata);
         expect(error.message).toEqual("invalid_client_metadata");
@@ -113,12 +117,16 @@ describe("WildcardRedirectUriAllowed", () => {
       it("should throw an error if one of client post_logout_redirect_uris contains one '*' as hostname prefix", () => {
         const service = PlatformTest.get<OidcWildcardRedirectUriModule>(OidcWildcardRedirectUriModule);
 
-        const error = catchError<any>(() => service.validator({} as KoaContextWithOIDC, "post_logout_redirect_uris", ["https://prefix.*/callback"]));
+        const error = catchError<any>(() =>
+          service.validator({} as KoaContextWithOIDC, "post_logout_redirect_uris", ["https://prefix.*/callback"])
+        );
 
         expect(error).toBeInstanceOf(InvalidClientMetadata);
         expect(error.message).toEqual("invalid_client_metadata");
-        expect(error.error_description).toEqual("post_logout_redirect_uris with a wildcard must not match an eTLD+1 of a known public suffix domain");
+        expect(error.error_description).toEqual(
+          "post_logout_redirect_uris with a wildcard must not match an eTLD+1 of a known public suffix domain"
+        );
       });
-    })
+    });
   });
 });

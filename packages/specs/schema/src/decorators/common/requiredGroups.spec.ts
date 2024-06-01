@@ -1,6 +1,6 @@
-import {getJsonSchema, Required} from "../../index";
-import {Groups} from "./groups";
-import {RequiredGroups} from "./requiredGroups";
+import {getJsonSchema, Required} from "../../index.js";
+import {Groups} from "./groups.js";
+import {RequiredGroups} from "./requiredGroups.js";
 
 class MyModel {
   @Groups("!creation")

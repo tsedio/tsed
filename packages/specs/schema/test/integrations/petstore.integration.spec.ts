@@ -19,7 +19,7 @@ import {
   Returns,
   SpecTypes,
   Subscribe
-} from "../../src/index";
+} from "../../src/index.js";
 
 class PetCategory {
   @Required()

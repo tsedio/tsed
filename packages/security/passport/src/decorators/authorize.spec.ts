@@ -1,5 +1,5 @@
 import {Store} from "@tsed/core";
-import {Authorize, PassportMiddleware} from "../index";
+import {Authorize, PassportMiddleware} from "../index.js";
 
 describe("@Authorize", () => {
   it("should store data", () => {

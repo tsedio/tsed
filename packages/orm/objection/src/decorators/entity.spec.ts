@@ -1,4 +1,4 @@
-import {Entity} from "./entity";
+import {Entity} from "./entity.js";
 
 describe("@Entity", () => {
   it("should set metadata", () => {

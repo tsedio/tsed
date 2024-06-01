@@ -1,6 +1,6 @@
 import {Store} from "@tsed/core";
-import {MONGOOSE_SCHEMA} from "../constants/constants";
-import {SchemaIgnore} from "./schemaIgnore";
+import {MONGOOSE_SCHEMA} from "../constants/constants.js";
+import {SchemaIgnore} from "./schemaIgnore.js";
 
 describe("@SchemaIgnore()", () => {
   it("should set metadata", () => {

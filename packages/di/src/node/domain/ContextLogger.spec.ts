@@ -1,5 +1,5 @@
-import {InjectorService} from "../../common/index";
-import {ContextLogger} from "./ContextLogger";
+import {InjectorService} from "../../common/index.js";
+import {ContextLogger} from "./ContextLogger.js";
 
 function getIgnoreLogFixture(ignore: string[], url: string) {
   const ignoreReg = ignore.map((pattern: string | RegExp) => (typeof pattern === "string" ? new RegExp(pattern, "gi") : pattern));

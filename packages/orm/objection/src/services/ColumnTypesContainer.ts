@@ -1,5 +1,5 @@
 import type {Knex} from "knex";
-import {ColumnCtx} from "../utils/getColumnCtx";
+import {ColumnCtx} from "../utils/getColumnCtx.js";
 
 /**
  * @ignore

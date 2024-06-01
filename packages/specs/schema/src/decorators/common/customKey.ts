@@ -1,5 +1,5 @@
-import {JsonEntityStore} from "../../domain/JsonEntityStore";
-import {JsonEntityFn} from "./jsonEntityFn";
+import {JsonEntityStore} from "../../domain/JsonEntityStore.js";
+import {JsonEntityFn} from "./jsonEntityFn.js";
 
 /**
  * Set a custom key on JsonSchema that is not a part of the official spec.

@@ -1,9 +1,9 @@
 import {DecoratorTypes, Type} from "@tsed/core";
-import {JsonEntitiesContainer, JsonEntityStore} from "../domain/JsonEntityStore";
-import {JsonClassStore} from "../domain/JsonClassStore";
-import {JsonPropertyStore} from "../domain/JsonPropertyStore";
-import {JsonParameterStore} from "../domain/JsonParameterStore";
-import {JsonMethodStore} from "../domain/JsonMethodStore";
+import {JsonEntitiesContainer, JsonEntityStore} from "../domain/JsonEntityStore.js";
+import {JsonClassStore} from "../domain/JsonClassStore.js";
+import {JsonPropertyStore} from "../domain/JsonPropertyStore.js";
+import {JsonParameterStore} from "../domain/JsonParameterStore.js";
+import {JsonMethodStore} from "../domain/JsonMethodStore.js";
 
 JsonEntitiesContainer.set(DecoratorTypes.CLASS, JsonClassStore);
 JsonEntitiesContainer.set(DecoratorTypes.PROP, JsonPropertyStore);

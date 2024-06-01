@@ -1,7 +1,7 @@
-import {createDmmfFieldFixture} from "../../__mock__/createDmmfFieldFixture";
-import {PrismaScalars} from "../domain/ScalarTsTypes";
-import {createContextFixture} from "../../__mock__/createContextFixture";
-import {transformFieldToDecorators} from "./transformFieldToDecorators";
+import {createDmmfFieldFixture} from "../../__mock__/createDmmfFieldFixture.js";
+import {PrismaScalars} from "../domain/ScalarTsTypes.js";
+import {createContextFixture} from "../../__mock__/createContextFixture.js";
+import {transformFieldToDecorators} from "./transformFieldToDecorators.js";
 
 describe("transformFieldToDecorators()", () => {
   it("should transform String to decorator", () => {

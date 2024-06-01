@@ -1,6 +1,6 @@
 import {EndpointMetadata} from "@tsed/common";
 import {UnsupportedDecoratorType} from "@tsed/core";
-import {UseBeforeEach} from "./useBeforeEach";
+import {UseBeforeEach} from "./useBeforeEach.js";
 
 class CustomMiddleware {
   use() {}

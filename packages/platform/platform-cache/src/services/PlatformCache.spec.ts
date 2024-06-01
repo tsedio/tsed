@@ -1,8 +1,8 @@
 import {PlatformTest} from "@tsed/common";
 import {caching as cacheManager, multiCaching} from "cache-manager";
-import {UseCache} from "../decorators/useCache";
-import {getPrefix} from "../utils/getPrefix";
-import {PlatformCache} from "./PlatformCache";
+import {UseCache} from "../decorators/useCache.js";
+import {getPrefix} from "../utils/getPrefix.js";
+import {PlatformCache} from "./PlatformCache.js";
 
 function createCacheFixture() {
   const map = new Map();

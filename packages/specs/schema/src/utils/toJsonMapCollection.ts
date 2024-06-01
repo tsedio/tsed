@@ -1,4 +1,4 @@
-import {JsonMap} from "../domain/JsonMap";
+import {JsonMap} from "../domain/JsonMap.js";
 
 /**
  * @ignore

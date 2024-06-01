@@ -1,4 +1,4 @@
-import {MongooseNextCB, PreHook, schemaOptions} from "../../src";
+import {MongooseNextCB, PreHook, schemaOptions} from "../../src/index.js";
 
 describe("@PreHook()", () => {
   describe("when decorator is used as class decorator", () => {

@@ -1,5 +1,5 @@
 import {expect} from "chai";
-import {clearCache, getFromCache, setToCache} from "./cache";
+import {clearCache, getFromCache, setToCache} from "./cache.js";
 
 describe("cache", () => {
   describe("setToCache()", () => {

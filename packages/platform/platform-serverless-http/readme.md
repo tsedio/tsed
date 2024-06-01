@@ -57,8 +57,8 @@ In the `src/lambda` create a new Lambda class:
 import {Controller, Inject} from "@tsed/di";
 import {Get, Returns, Summary} from "@tsed/schema";
 import {QueryParams} from "@tsed/platform-params";
-import {TimeslotsService} from "../services/TimeslotsService";
-import {TimeslotModel} from "../models/TimeslotModel";
+import {TimeslotsService} from "../services/TimeslotsService.js";
+import {TimeslotModel} from "../models/TimeslotModel.js";
 
 @Controller("/timeslots")
 export class TimeslotsController {
@@ -88,7 +88,7 @@ import cookieParser from "cookie-parser";
 import methodOverride from "method-override";
 import "@tsed/ajv";
 import "@tsed/swagger";
-import {TimeslotsController} from "./controllers/TimeslotsController";
+import {TimeslotsController} from "./controllers/TimeslotsController.js";
 
 @Configuration({
   acceptMimes: ["application/json"],
@@ -117,7 +117,7 @@ Create new `handler.ts` to expose your lambda:
 ```typescript
 import {PlatformServerless} from "@tsed/platform-serverless-http";
 import {PlatformExpress} from "@tsed/platform-express";
-import {Server} from "./Server";
+import {Server} from "./Server.js";
 
 const platform = PlatformServerless.bootstrap(Server, {
   adapter: PlatformExpress
@@ -130,7 +130,7 @@ Create also `index.ts` to expose run Ts.ED on you local machine:
 
 ```typescript
 import {PlatformExpress} from "@tsed/platform-express";
-import {Server} from "./Server";
+import {Server} from "./Server.js";
 
 async function bootstrap() {
   const platform = await PlatformExpress.bootstrap(Server, {
@@ -245,7 +245,7 @@ Here an example to test a Lambda controller:
 import {PlatformServerless} from "@tsed/platform-serverless-http";
 import {PlatformServerlessTest} from "@tsed/platform-serverless-testing";
 import {PlatformExpress} from "@tsed/platform-express";
-import {Server} from "./Server";
+import {Server} from "./Server.js";
 
 @Controller("/timeslots")
 class TimeslotsController {

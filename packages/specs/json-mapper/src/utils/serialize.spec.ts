@@ -1,6 +1,6 @@
 import "../components/PrimitiveMapper";
 import {Property} from "@tsed/schema";
-import {serialize} from "./serialize";
+import {serialize} from "./serialize.js";
 
 describe("serialize()", () => {
   it("should serialize values", () => {

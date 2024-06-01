@@ -1,4 +1,4 @@
-import {Component} from "./component";
+import {Component} from "./component.js";
 
 /**
  * Force the output of this field to be sanitized in a specific format.

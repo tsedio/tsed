@@ -4,8 +4,8 @@ import "../components/createBooleanColumn";
 import "../components/createIdColumn";
 import "../components/createNumberColumn";
 import "../components/createStringColumn";
-import {ColumnTypesContainer} from "../services/ColumnTypesContainer";
-import {getColumnCtx} from "./getColumnCtx";
+import {ColumnTypesContainer} from "../services/ColumnTypesContainer.js";
+import {getColumnCtx} from "./getColumnCtx.js";
 
 /**
  * @ignore

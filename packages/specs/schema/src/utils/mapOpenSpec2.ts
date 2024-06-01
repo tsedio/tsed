@@ -1,6 +1,6 @@
 import {getValue, uniq} from "@tsed/core";
 import {OpenSpec2} from "@tsed/openspec";
-import {mapOpenSpecInfo} from "./mapOpenSpecInfo";
+import {mapOpenSpecInfo} from "./mapOpenSpecInfo.js";
 
 /**
  * @ignore

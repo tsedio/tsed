@@ -1,6 +1,6 @@
 import {Store} from "@tsed/core";
-import {OnHook} from "../domain/OnHook";
-import {On} from "./on";
+import {OnHook} from "../domain/OnHook.js";
+import {On} from "./on.js";
 
 describe("@On", () => {
   it("should register a hook listener", () => {

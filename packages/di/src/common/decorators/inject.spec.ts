@@ -1,8 +1,8 @@
 import {descriptorOf} from "@tsed/core";
-import {registerProvider} from "../registries/ProviderRegistry";
-import {InjectorService} from "../services/InjectorService";
-import {Inject} from "./inject";
-import {Injectable} from "./injectable";
+import {registerProvider} from "../registries/ProviderRegistry.js";
+import {InjectorService} from "../services/InjectorService.js";
+import {Inject} from "./inject.js";
+import {Injectable} from "./injectable.js";
 
 describe("@Inject()", () => {
   describe("used on unsupported decorator type", () => {

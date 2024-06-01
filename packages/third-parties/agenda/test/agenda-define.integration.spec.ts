@@ -1,7 +1,7 @@
 import {PlatformTest} from "@tsed/common";
 import {TestMongooseContext} from "@tsed/testing-mongoose";
-import {Agenda, AgendaService, Define, Every} from "../src/index";
-import {Server} from "./helpers/Server";
+import {Agenda, AgendaService, Define, Every} from "../src/index.js";
+import {Server} from "./helpers/Server.js";
 
 @Agenda({namespace: "test-nsp"})
 class Test {

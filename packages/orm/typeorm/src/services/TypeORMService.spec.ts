@@ -1,6 +1,6 @@
 import {PlatformTest} from "@tsed/common";
 import {getConnectionManager} from "typeorm";
-import {TypeORMService} from "../index";
+import {TypeORMService} from "../index.js";
 
 jest.mock("typeorm");
 

@@ -1,4 +1,4 @@
-import {UnsupportedDecoratorType} from "./UnsupportedDecoratorType";
+import {UnsupportedDecoratorType} from "./UnsupportedDecoratorType.js";
 
 class Test {}
 

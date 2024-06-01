@@ -1,8 +1,8 @@
 import {BodyParams, Controller, Post, ProviderScope, Req, Scope} from "@tsed/common";
 import {Authenticate} from "@tsed/passport";
 import {Returns} from "@tsed/schema";
-import {Account} from "../../../models/Account";
-import {Credentials} from "../../../models/Credentials";
+import {Account} from "../../../models/Account.js";
+import {Credentials} from "../../../models/Credentials.js";
 
 @Controller("/auth")
 @Scope(ProviderScope.SINGLETON)

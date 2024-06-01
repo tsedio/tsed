@@ -1,12 +1,12 @@
 import {getValue} from "@tsed/core";
 import {Inject} from "@tsed/di";
 import {MongooseDocument} from "@tsed/mongoose";
-import {FormioMapper} from "../builder/FormioMapper";
-import {Alter} from "../decorators/alter";
-import {AlterHook} from "../domain/AlterHook";
-import {FormioSubmission} from "../domain/FormioModels";
-import {FormioTemplate} from "../domain/FormioTemplate";
-import {FormioDatabase} from "../services/FormioDatabase";
+import {FormioMapper} from "../builder/FormioMapper.js";
+import {Alter} from "../decorators/alter.js";
+import {AlterHook} from "../domain/AlterHook.js";
+import {FormioSubmission} from "../domain/FormioModels.js";
+import {FormioTemplate} from "../domain/FormioTemplate.js";
+import {FormioDatabase} from "../services/FormioDatabase.js";
 import async from "async";
 
 @Alter("templateExportSteps")

@@ -3,7 +3,7 @@ import filedirname from "filedirname";
 import {Knex} from "knex";
 import {serialize} from "@tsed/json-mapper";
 import {OBJECTION_CONNECTION} from "@tsed/objection";
-import {User} from "./helpers/models/User";
+import {User} from "./helpers/models/User.js";
 
 // FIXME remove when esm is ready
 const [, rootDir] = filedirname();

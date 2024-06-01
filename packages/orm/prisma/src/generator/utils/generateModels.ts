@@ -2,10 +2,10 @@ import {DMMF} from "@prisma/generator-helper";
 import {getValue, toMap} from "@tsed/core";
 import path from "path";
 import {Project} from "ts-morph";
-import {DmmfModel} from "../domain/DmmfModel";
-import {transformModelToClass} from "../transform/transformModelToClass";
-import {generateDocuments} from "./generateDocuments";
-import {generateOutputsBarrelFile} from "./generateOutputsBarrelFile";
+import {DmmfModel} from "../domain/DmmfModel.js";
+import {transformModelToClass} from "../transform/transformModelToClass.js";
+import {generateDocuments} from "./generateDocuments.js";
+import {generateOutputsBarrelFile} from "./generateOutputsBarrelFile.js";
 
 export function generateModels(dmmf: DMMF.Document, project: Project, baseDirPath: string) {
   const modelsMap = toMap<string, DMMF.Model>(getValue(dmmf, "datamodel.models", []), "name");

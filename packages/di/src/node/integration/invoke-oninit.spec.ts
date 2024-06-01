@@ -1,4 +1,4 @@
-import {Inject, Injectable, registerProvider, DITest} from "../../index";
+import {Inject, Injectable, registerProvider, DITest} from "../../index.js";
 
 @Injectable()
 export class MyService {

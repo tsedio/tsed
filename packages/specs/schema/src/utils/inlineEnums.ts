@@ -1,5 +1,5 @@
-import {JsonSchema} from "../domain/JsonSchema";
-import {JsonSchemaOptions} from "../interfaces/JsonSchemaOptions";
+import {JsonSchema} from "../domain/JsonSchema.js";
+import {JsonSchemaOptions} from "../interfaces/JsonSchemaOptions.js";
 
 export function inlineEnums(obj: any, schema: JsonSchema, options: JsonSchemaOptions) {
   if (options.inlineEnums && obj.enum?.$isJsonDocument) {

@@ -1,5 +1,5 @@
 import {PlatformContext} from "@tsed/common";
-import {SwaggerSettings} from "../interfaces/SwaggerSettings";
+import {SwaggerSettings} from "../interfaces/SwaggerSettings.js";
 
 /**
  * @ignore

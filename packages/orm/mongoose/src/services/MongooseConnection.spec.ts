@@ -1,7 +1,7 @@
 import {PlatformTest} from "@tsed/common";
 import {Configuration} from "@tsed/di";
-import {MongooseService} from "../../src";
-import {MONGOOSE_CONNECTIONS} from "../../src/services/MongooseConnections";
+import {MongooseService} from "../../src/index.js";
+import {MONGOOSE_CONNECTIONS} from "../../src/services/MongooseConnections.js";
 
 describe("MongooseConnections", () => {
   beforeEach(PlatformTest.create);

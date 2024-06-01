@@ -1,13 +1,13 @@
 import {DMMF} from "@prisma/generator-helper";
 import {CompilerOptions, ModuleKind, Project, ScriptTarget} from "ts-morph";
-import {generateEnums} from "./utils/generateEnums";
-import {generateModels} from "./utils/generateModels";
-import {generateClientIndex} from "./utils/generateClientIndex";
-import {generateInterfaces} from "./utils/generateInterfaces";
-import {generateIndex} from "./utils/generateIndex";
-import {generatePrismaService} from "./utils/generatePrismaService";
-import {generateRepositories} from "./utils/generateRepositories";
-import {saveProject} from "./utils/saveProject";
+import {generateEnums} from "./utils/generateEnums.js";
+import {generateModels} from "./utils/generateModels.js";
+import {generateClientIndex} from "./utils/generateClientIndex.js";
+import {generateInterfaces} from "./utils/generateInterfaces.js";
+import {generateIndex} from "./utils/generateIndex.js";
+import {generatePrismaService} from "./utils/generatePrismaService.js";
+import {generateRepositories} from "./utils/generateRepositories.js";
+import {saveProject} from "./utils/saveProject.js";
 
 const baseCompilerOptions: CompilerOptions = {
   target: ScriptTarget.ES2019,

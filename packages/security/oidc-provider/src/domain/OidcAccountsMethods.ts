@@ -1,6 +1,6 @@
 // @ts-ignore
 import type {default as Provider, Account} from "oidc-provider";
-import {AccessToken, AuthorizationCode, BackchannelAuthenticationRequest, DeviceCode} from "./interfaces";
+import {AccessToken, AuthorizationCode, BackchannelAuthenticationRequest, DeviceCode} from "./interfaces.js";
 
 export interface OidcAccountsMethods {
   findAccount(

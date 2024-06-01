@@ -1,6 +1,6 @@
 import {getConstructorArgNames, isClass, isString, nameOf} from "@tsed/core";
-import {TokenProvider} from "../interfaces/TokenProvider";
-import {colors} from "../utils/colors";
+import {TokenProvider} from "../interfaces/TokenProvider.js";
+import {colors} from "../utils/colors.js";
 
 export class InjectionError extends Error {
   name = "INJECTION_ERROR";

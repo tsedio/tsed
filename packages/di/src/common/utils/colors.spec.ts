@@ -1,4 +1,4 @@
-import {colors} from "./colors";
+import {colors} from "./colors.js";
 
 describe("colors", () => {
   it("should call colors", () => {

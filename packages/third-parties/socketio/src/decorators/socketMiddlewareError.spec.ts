@@ -1,5 +1,5 @@
 import {Store} from "@tsed/core";
-import {SocketMiddlewareError, SocketProviderTypes} from "../index";
+import {SocketMiddlewareError, SocketProviderTypes} from "../index.js";
 
 describe("@SocketMiddlewareError", () => {
   it("should register the metadata and middleware", () => {

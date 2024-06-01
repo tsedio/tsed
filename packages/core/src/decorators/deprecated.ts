@@ -1,4 +1,4 @@
-import {Type} from "../domain/Type";
+import {Type} from "../domain/Type.js";
 
 function deprecate(fn: any, msg: string) {
   if (typeof process !== "undefined" && (process as any).noDeprecation === true) {

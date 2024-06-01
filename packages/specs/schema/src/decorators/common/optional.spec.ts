@@ -1,5 +1,5 @@
-import {getSpec, In, Name, OperationPath, Optional, SpecTypes} from "../../index";
-import {Path} from "../operations/path";
+import {getSpec, In, Name, OperationPath, Optional, SpecTypes} from "../../index.js";
+import {Path} from "../operations/path.js";
 
 describe("Optional", () => {
   it("should set metadata when optional is used on param", () => {

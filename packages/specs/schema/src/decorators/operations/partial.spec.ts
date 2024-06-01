@@ -12,8 +12,8 @@ import {
   RequiredGroups,
   Returns,
   SpecTypes
-} from "../../index";
-import {Partial} from "./partial";
+} from "../../index.js";
+import {Partial} from "./partial.js";
 
 class ChildModel {
   @Groups("!creation")

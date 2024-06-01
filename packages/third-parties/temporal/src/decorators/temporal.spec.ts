@@ -1,5 +1,5 @@
 import {GlobalProviders} from "@tsed/di";
-import {Temporal} from "./temporal";
+import {Temporal} from "./temporal.js";
 
 describe("@Activity()", () => {
   it("should set metadata", () => {

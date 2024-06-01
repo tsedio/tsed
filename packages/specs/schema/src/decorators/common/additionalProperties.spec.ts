@@ -1,4 +1,4 @@
-import {AdditionalProperties, CollectionOf, getJsonSchema, Property, string} from "../../index";
+import {AdditionalProperties, CollectionOf, getJsonSchema, Property, string} from "../../index.js";
 
 describe("AdditionalProperties", () => {
   it("should declare additional properties", () => {

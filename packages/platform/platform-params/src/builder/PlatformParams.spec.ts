@@ -1,9 +1,9 @@
 import {PlatformTest, ProviderScope} from "@tsed/common";
 import {Injectable} from "@tsed/di";
-import {buildPlatformParams, invokePlatformParams} from "../../../../../test/helper/buildPlatformParams";
-import {PathParams} from "../decorators/pathParams";
-import {QueryParams} from "../decorators/queryParams";
-import {ParamTypes} from "../domain/ParamTypes";
+import {buildPlatformParams, invokePlatformParams} from "../../../../../test/helper/buildPlatformParams.js";
+import {PathParams} from "../decorators/pathParams.js";
+import {QueryParams} from "../decorators/queryParams.js";
+import {ParamTypes} from "../domain/ParamTypes.js";
 
 describe("PlatformParams", () => {
   beforeEach(() => PlatformTest.create());

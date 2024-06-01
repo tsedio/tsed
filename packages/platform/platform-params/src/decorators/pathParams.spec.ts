@@ -1,6 +1,6 @@
 import {JsonParameterStore} from "@tsed/schema";
-import {ParamTypes} from "../domain/ParamTypes";
-import {PathParams, RawPathParams} from "./pathParams";
+import {ParamTypes} from "../domain/ParamTypes.js";
+import {PathParams, RawPathParams} from "./pathParams.js";
 
 describe("@PathParams", () => {
   it("should declare a path params", () => {

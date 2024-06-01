@@ -1,6 +1,6 @@
 import {ancestorsOf, Type} from "@tsed/core";
-import type {JsonClassStore} from "../domain/JsonClassStore";
-import {getJsonEntityStore} from "./getJsonEntityStore";
+import type {JsonClassStore} from "../domain/JsonClassStore.js";
+import {getJsonEntityStore} from "./getJsonEntityStore.js";
 
 /**
  * Return store and his inherited stores

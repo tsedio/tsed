@@ -1,4 +1,4 @@
-import {Component} from "./component";
+import {Component} from "./component.js";
 
 /**
  * Change the visibility of the current property on a table.

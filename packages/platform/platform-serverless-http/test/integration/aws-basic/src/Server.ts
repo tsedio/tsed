@@ -1,5 +1,5 @@
 import {Configuration, Inject} from "@tsed/di";
-import {TimeslotsController} from "./TimeslotsController";
+import {TimeslotsController} from "./TimeslotsController.js";
 import {PlatformApplication} from "@tsed/common";
 import bodyParser from "body-parser";
 import cookieParser from "cookie-parser";

@@ -1,6 +1,6 @@
 import {expect} from "chai";
-import {getEngineFixture} from "../../test/getEngineFixture";
-import {VelocityEngine} from "./VelocityEngine";
+import {getEngineFixture} from "../../test/getEngineFixture.js";
+import {VelocityEngine} from "./VelocityEngine.js";
 
 describe("VelocityEngine", () => {
   it("should render the given content (by string - no cache)", async () => {

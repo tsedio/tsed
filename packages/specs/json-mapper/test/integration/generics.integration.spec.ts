@@ -14,8 +14,8 @@ import {
   Returns,
   string
 } from "@tsed/schema";
-import {deserialize} from "../../src/utils/deserialize";
-import {serialize} from "../../src/utils/serialize";
+import {deserialize} from "../../src/utils/deserialize.js";
+import {serialize} from "../../src/utils/serialize.js";
 
 describe("Generics", () => {
   describe("using Functional api", () => {

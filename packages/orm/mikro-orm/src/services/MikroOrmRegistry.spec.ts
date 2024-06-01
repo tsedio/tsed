@@ -1,8 +1,8 @@
 import {anything, instance, mock, reset, verify, when} from "ts-mockito";
 import {Logger} from "@tsed/logger";
 import {MikroORM, Options} from "@mikro-orm/core";
-import {MikroOrmFactory} from "./MikroOrmFactory";
-import {MikroOrmRegistry} from "./MikroOrmRegistry";
+import {MikroOrmFactory} from "./MikroOrmFactory.js";
+import {MikroOrmRegistry} from "./MikroOrmRegistry.js";
 
 const fixtures: {mydb2: Options; none: Options; mydb: Options} = {
   mydb: {

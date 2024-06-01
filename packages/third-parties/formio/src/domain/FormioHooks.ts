@@ -1,14 +1,14 @@
 import {MongooseDocument} from "@tsed/mongoose";
 import {Request, Response} from "express";
 import {FilterQuery, Schema, SchemaDefinition} from "mongoose";
-import {Formio} from "./Formio";
-import {FormioActions} from "./FormioActionsIndex";
-import {FormioConfig} from "./FormioConfig";
-import {FormioDecodedToken} from "./FormioDecodedToken";
-import {FormioJs} from "./FormioJs";
-import {FormioActionItem, FormioForm, FormioModelsModels, FormioSubmission} from "./FormioModels";
-import {FormioSettings} from "./FormioSettings";
-import {ResourceRestOptions} from "./Resource";
+import {Formio} from "./Formio.js";
+import {FormioActions} from "./FormioActionsIndex.js";
+import {FormioConfig} from "./FormioConfig.js";
+import {FormioDecodedToken} from "./FormioDecodedToken.js";
+import {FormioJs} from "./FormioJs.js";
+import {FormioActionItem, FormioForm, FormioModelsModels, FormioSubmission} from "./FormioModels.js";
+import {FormioSettings} from "./FormioSettings.js";
+import {ResourceRestOptions} from "./Resource.js";
 
 export type FormioInitEvent = "alias" | "params" | "token" | "getTempToken" | "logout" | "current" | "access" | "perms";
 

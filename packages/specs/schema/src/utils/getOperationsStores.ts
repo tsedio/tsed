@@ -1,9 +1,9 @@
 import {Type} from "@tsed/core";
-import {JsonMethodStore} from "../domain/JsonMethodStore";
-import type {JsonClassStore} from "../domain/JsonClassStore";
-import {JsonOperationPathsMap} from "../domain/JsonOperationPathsMap";
-import {getInheritedStores} from "./getInheritedStores";
-import {getJsonEntityStore} from "./getJsonEntityStore";
+import {JsonMethodStore} from "../domain/JsonMethodStore.js";
+import type {JsonClassStore} from "../domain/JsonClassStore.js";
+import {JsonOperationPathsMap} from "../domain/JsonOperationPathsMap.js";
+import {getInheritedStores} from "./getInheritedStores.js";
+import {getJsonEntityStore} from "./getJsonEntityStore.js";
 
 /**
  * @ignore

@@ -1,4 +1,4 @@
-import {execMapper, registerFormioMapper} from "../registries/FormioMappersContainer";
+import {execMapper, registerFormioMapper} from "../registries/FormioMappersContainer.js";
 
 export function mapToComponent(schema: any, options: any) {
   return {

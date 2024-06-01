@@ -1,4 +1,4 @@
-import {MulterOptions} from "./multerOptions";
+import {MulterOptions} from "./multerOptions.js";
 
 /**
  * Define file size limit.

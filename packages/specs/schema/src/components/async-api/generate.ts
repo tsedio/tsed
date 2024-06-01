@@ -1,7 +1,7 @@
 import {getValue, Type, uniqBy} from "@tsed/core";
-import {SpecTypes} from "../../domain/SpecTypes";
-import {execMapper, registerJsonSchemaMapper} from "../../registries/JsonSchemaMapperContainer";
-import {SpecSerializerOptions} from "../../utils/getSpec";
+import {SpecTypes} from "../../domain/SpecTypes.js";
+import {execMapper, registerJsonSchemaMapper} from "../../registries/JsonSchemaMapperContainer.js";
+import {SpecSerializerOptions} from "../../utils/getSpec.js";
 
 function generate(model: Type<any>, options: SpecSerializerOptions) {
   const specJson: any = {

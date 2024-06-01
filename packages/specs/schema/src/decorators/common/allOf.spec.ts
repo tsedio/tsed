@@ -1,13 +1,13 @@
-import {JsonEntityStore} from "../../domain/JsonEntityStore";
-import {SpecTypes} from "../../domain/SpecTypes";
-import {number, string} from "../../utils/from";
-import {getJsonSchema} from "../../utils/getJsonSchema";
-import {getSpec} from "../../utils/getSpec";
-import {In} from "../operations/in";
-import {OperationPath} from "../operations/operationPath";
-import {Path} from "../operations/path";
-import {AllOf} from "./allOf";
-import {Property} from "./property";
+import {JsonEntityStore} from "../../domain/JsonEntityStore.js";
+import {SpecTypes} from "../../domain/SpecTypes.js";
+import {number, string} from "../../utils/from.js";
+import {getJsonSchema} from "../../utils/getJsonSchema.js";
+import {getSpec} from "../../utils/getSpec.js";
+import {In} from "../operations/in.js";
+import {OperationPath} from "../operations/operationPath.js";
+import {Path} from "../operations/path.js";
+import {AllOf} from "./allOf.js";
+import {Property} from "./property.js";
 
 describe("@AllOf", () => {
   it("should declare return schema", () => {

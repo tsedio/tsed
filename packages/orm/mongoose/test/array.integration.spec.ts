@@ -1,7 +1,7 @@
 import {serialize} from "@tsed/json-mapper";
 import {TestMongooseContext} from "@tsed/testing-mongoose";
-import {MyWorkspace, UserModel, UserWorkspace, Workspace, WorkspaceModel} from "./helpers/models/UserWorkspace";
-import {Server} from "./helpers/Server";
+import {MyWorkspace, UserModel, UserWorkspace, Workspace, WorkspaceModel} from "./helpers/models/UserWorkspace.js";
+import {Server} from "./helpers/Server.js";
 
 describe("Mongoose", () => {
   describe("Array models", () => {

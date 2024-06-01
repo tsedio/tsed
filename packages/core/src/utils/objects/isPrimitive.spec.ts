@@ -1,4 +1,4 @@
-import {isPrimitive, isPrimitiveClass} from "./isPrimitive";
+import {isPrimitive, isPrimitiveClass} from "./isPrimitive.js";
 
 describe("isPrimitive", () => {
   it("should test if an variable content is a primitive", () => {

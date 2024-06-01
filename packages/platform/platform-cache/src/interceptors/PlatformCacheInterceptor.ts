@@ -3,11 +3,11 @@ import {BaseContext, Constant, DIContext, Inject, Interceptor, InterceptorContex
 import {deserialize, serialize} from "@tsed/json-mapper";
 import {Logger} from "@tsed/logger";
 import {IncomingMessage, ServerResponse} from "http";
-import {PlatformCachedObject} from "../interfaces/PlatformCachedObject";
-import {PlatformCacheOptions} from "../interfaces/PlatformCacheOptions";
-import {PlatformCache} from "../services/PlatformCache";
-import {getPrefix} from "../utils/getPrefix";
-import {isEndpoint} from "../utils/isEndpoint";
+import {PlatformCachedObject} from "../interfaces/PlatformCachedObject.js";
+import {PlatformCacheOptions} from "../interfaces/PlatformCacheOptions.js";
+import {PlatformCache} from "../services/PlatformCache.js";
+import {getPrefix} from "../utils/getPrefix.js";
+import {isEndpoint} from "../utils/isEndpoint.js";
 const cleanHeaders = (headers: Record<string, unknown>, blacklist: string[]) => {
   return Object.entries(headers)
     .filter(([key]) => !blacklist.includes(key.toLowerCase()))

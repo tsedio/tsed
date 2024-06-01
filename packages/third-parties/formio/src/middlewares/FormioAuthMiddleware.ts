@@ -2,7 +2,7 @@ import {Context, Inject, Middleware} from "@tsed/common";
 import {getValue} from "@tsed/core";
 import {Unauthorized} from "@tsed/exceptions";
 import {promisify} from "util";
-import {FormioService} from "../services/FormioService";
+import {FormioService} from "../services/FormioService.js";
 
 /**
  * @middleware

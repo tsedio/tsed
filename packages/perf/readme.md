@@ -38,7 +38,7 @@ npm install --save @tsed/perf
 ## Usage
 
 ```typescript
-import {PerfLogger} from "./index";
+import {PerfLogger} from "./index.js";
 
 const {wrap, start, end, bind, log} = PerfLogger.get("mylogger");
 

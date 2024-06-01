@@ -172,7 +172,7 @@ export class MyModel {
 ```typescript
 import {Service, Inject} from "@tsed/common";
 import {MongooseModel} from "@tsed/mongoose";
-import {MyModel} from "./models/MyModel";
+import {MyModel} from "./models/MyModel.js";
 
 @Service()
 export class MyService {

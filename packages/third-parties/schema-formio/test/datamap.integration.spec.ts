@@ -1,5 +1,5 @@
 import {CollectionOf} from "@tsed/schema";
-import {getFormioSchema} from "../src";
+import {getFormioSchema} from "../src/index.js";
 
 describe("DataMap integration", () => {
   it("should generate form (string)", async () => {

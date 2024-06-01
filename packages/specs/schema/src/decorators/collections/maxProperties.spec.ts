@@ -1,9 +1,9 @@
-import {SpecTypes} from "../../domain/SpecTypes";
-import {getJsonSchema} from "../../utils/getJsonSchema";
-import {getSpec} from "../../utils/getSpec";
-import {In} from "../operations/in";
-import {OperationPath} from "../operations/operationPath";
-import {MaxProperties} from "./maxProperties";
+import {SpecTypes} from "../../domain/SpecTypes.js";
+import {getJsonSchema} from "../../utils/getJsonSchema.js";
+import {getSpec} from "../../utils/getSpec.js";
+import {In} from "../operations/in.js";
+import {OperationPath} from "../operations/operationPath.js";
+import {MaxProperties} from "./maxProperties.js";
 
 describe("@MaxProperties", () => {
   it("should declare max value (any)", () => {

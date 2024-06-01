@@ -1,6 +1,6 @@
 import {catchError} from "@tsed/core";
 import Sinon from "sinon";
-import {PrimitiveMapper} from "./PrimitiveMapper";
+import {PrimitiveMapper} from "./PrimitiveMapper.js";
 
 describe("PrimitiveMapper", () => {
   describe("deserialize()", () => {

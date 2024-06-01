@@ -1,5 +1,5 @@
-import {Metadata} from "./Metadata";
-import {CLASS_STORE, METHOD_STORE, PARAM_STORE, PROPERTY_STORE, Store} from "./Store";
+import {Metadata} from "./Metadata.js";
+import {CLASS_STORE, METHOD_STORE, PARAM_STORE, PROPERTY_STORE, Store} from "./Store.js";
 
 class FakeMetadata {
   attr1: any;

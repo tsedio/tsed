@@ -1,4 +1,4 @@
-import {MongooseSchema} from "./schema";
+import {MongooseSchema} from "./schema.js";
 
 /**
  * Tell Mongoose to make the property trimmable.

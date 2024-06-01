@@ -1,8 +1,8 @@
-import {Email} from "../decorators/common/format";
-import {Ignore} from "../decorators/common/ignore";
-import {Property} from "../decorators/common/property";
-import {Required} from "../decorators/common/required";
-import {getProperties, getPropertiesStores} from "./getPropertiesStores";
+import {Email} from "../decorators/common/format.js";
+import {Ignore} from "../decorators/common/ignore.js";
+import {Property} from "../decorators/common/property.js";
+import {Required} from "../decorators/common/required.js";
+import {getProperties, getPropertiesStores} from "./getPropertiesStores.js";
 
 class Base {
   @Property()

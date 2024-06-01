@@ -1,5 +1,5 @@
 import {Enum, Property, Required} from "@tsed/schema";
-import {serialize} from "../../src/utils/serialize";
+import {serialize} from "../../src/utils/serialize.js";
 
 export enum EnumValue {
   One = "one",

@@ -1,9 +1,9 @@
-import {Scope} from "../decorators/scope";
-import {Service} from "../decorators/service";
-import {Container} from "../domain/Container";
-import {ProviderScope} from "../domain/ProviderScope";
-import {GlobalProviders} from "../registries/GlobalProviders";
-import {InjectorService} from "../services/InjectorService";
+import {Scope} from "../decorators/scope.js";
+import {Service} from "../decorators/service.js";
+import {Container} from "../domain/Container.js";
+import {ProviderScope} from "../domain/ProviderScope.js";
+import {GlobalProviders} from "../registries/GlobalProviders.js";
+import {InjectorService} from "../services/InjectorService.js";
 
 describe("DI Singleton", () => {
   @Service()
@@ -25,12 +25,18 @@ describe("DI Singleton", () => {
 
   @Service()
   class ServiceSingletonWithRequestDep {
-    constructor(public serviceRequest: ServiceRequest, public serviceRequest2: ServiceRequest) {}
+    constructor(
+      public serviceRequest: ServiceRequest,
+      public serviceRequest2: ServiceRequest
+    ) {}
   }
 
   @Service()
   class ServiceSingletonWithInstanceDep {
-    constructor(public serviceInstance: ServiceInstance, public serviceInstance2: ServiceInstance) {}
+    constructor(
+      public serviceInstance: ServiceInstance,
+      public serviceInstance2: ServiceInstance
+    ) {}
   }
 
   afterAll(() => {

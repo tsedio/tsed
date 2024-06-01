@@ -5,9 +5,9 @@ import {Logger} from "@tsed/logger";
 import {ApolloServerBase} from "apollo-server-core";
 import {GraphQLSchema} from "graphql";
 import {buildSchema, BuildSchemaOptions} from "type-graphql";
-import {RESOLVERS_PROVIDERS} from "../constants/constants";
-import {TypeGraphQLSettings} from "../interfaces/interfaces";
-import {ContextMiddleware} from "../middlewares/ContextMiddleware";
+import {RESOLVERS_PROVIDERS} from "../constants/constants.js";
+import {TypeGraphQLSettings} from "../interfaces/interfaces.js";
+import {ContextMiddleware} from "../middlewares/ContextMiddleware.js";
 
 const getKey = (id: string) => `typegraphql-${id}`;
 

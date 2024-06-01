@@ -1,5 +1,5 @@
-import {EngineOptions} from "../components/Engine";
-import {engines} from "../registries/EnginesContainer";
+import {EngineOptions} from "../components/Engine.js";
+import {engines} from "../registries/EnginesContainer.js";
 
 export type RenderCallback = (err: Error | null, str?: string | any) => any;
 export interface EngineFunction {

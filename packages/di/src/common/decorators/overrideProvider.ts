@@ -1,5 +1,5 @@
 import {Type} from "@tsed/core";
-import {GlobalProviders} from "../registries/GlobalProviders";
+import {GlobalProviders} from "../registries/GlobalProviders.js";
 
 /**
  * Override a provider which is already registered in ProviderRegistry.

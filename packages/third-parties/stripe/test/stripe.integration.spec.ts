@@ -3,8 +3,8 @@ import {PlatformExpress} from "@tsed/platform-express";
 import {PlatformTestSdk} from "@tsed/platform-test-sdk";
 import {Stripe} from "stripe";
 import SuperTest from "supertest";
-import {StripeWebhooksCtrl} from "./app/controllers/rest/StripeWebhooksCtrl";
-import {rootDir, Server} from "./app/Server";
+import {StripeWebhooksCtrl} from "./app/controllers/rest/StripeWebhooksCtrl.js";
+import {rootDir, Server} from "./app/Server.js";
 
 const utils = PlatformTestSdk.create({
   rootDir,

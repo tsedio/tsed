@@ -1,7 +1,7 @@
 import {Controller} from "@tsed/di";
 import {getSpec, JsonParameterStore, Post, SpecTypes} from "@tsed/schema";
-import {ParamTypes} from "../domain/ParamTypes";
-import {BodyParams, RawBodyParams} from "./bodyParams";
+import {ParamTypes} from "../domain/ParamTypes.js";
+import {BodyParams, RawBodyParams} from "./bodyParams.js";
 
 describe("@BodyParams", () => {
   it("should call useParam method with the correct parameters", () => {

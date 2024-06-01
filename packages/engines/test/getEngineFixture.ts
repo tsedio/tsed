@@ -2,8 +2,8 @@ import filedirname from "filedirname";
 import fs from "fs";
 import sinon from "sinon";
 
-import {Engine} from "../src/components/Engine";
-import {engines} from "../src/index";
+import {Engine} from "../src/components/Engine.js";
+import {engines} from "../src/index.js";
 
 // FIXME remove when esm is ready
 const [, rootDir] = filedirname();

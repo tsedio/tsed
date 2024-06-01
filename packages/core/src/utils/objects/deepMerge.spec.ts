@@ -1,4 +1,4 @@
-import {deepMerge} from "./deepMerge";
+import {deepMerge} from "./deepMerge.js";
 
 describe("deepMerge", () => {
   describe("without reducers", () => {

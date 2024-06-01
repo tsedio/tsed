@@ -1,6 +1,6 @@
 import {Controller} from "@tsed/di";
 import {EndpointMetadata, Get, Groups, Property, Returns} from "@tsed/schema";
-import {serialize} from "../../src/utils/serialize";
+import {serialize} from "../../src/utils/serialize.js";
 
 class MyModel {
   @Property()

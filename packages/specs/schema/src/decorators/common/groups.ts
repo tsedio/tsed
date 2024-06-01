@@ -1,8 +1,8 @@
 import {DecoratorTypes, isArray} from "@tsed/core";
-import type {JsonClassStore} from "../../domain/JsonClassStore";
-import type {JsonParameterStore} from "../../domain/JsonParameterStore";
-import {matchGroups} from "../../utils/matchGroups";
-import {JsonEntityFn} from "./jsonEntityFn";
+import type {JsonClassStore} from "../../domain/JsonClassStore.js";
+import type {JsonParameterStore} from "../../domain/JsonParameterStore.js";
+import {matchGroups} from "../../utils/matchGroups.js";
+import {JsonEntityFn} from "./jsonEntityFn.js";
 
 /**
  * @ignore

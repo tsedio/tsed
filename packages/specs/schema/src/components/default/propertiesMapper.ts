@@ -1,6 +1,6 @@
-import {execMapper, registerJsonSchemaMapper} from "../../registries/JsonSchemaMapperContainer";
-import type {JsonSchema} from "../../domain/JsonSchema";
-import type {JsonSchemaOptions} from "../../interfaces/JsonSchemaOptions";
+import {execMapper, registerJsonSchemaMapper} from "../../registries/JsonSchemaMapperContainer.js";
+import type {JsonSchema} from "../../domain/JsonSchema.js";
+import type {JsonSchemaOptions} from "../../interfaces/JsonSchemaOptions.js";
 
 export function propertiesMapper(input: any | JsonSchema, options: JsonSchemaOptions, parent: JsonSchema) {
   if (input.isClass) {

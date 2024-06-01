@@ -1,4 +1,4 @@
-import {objectKeys} from "./objectKeys";
+import {objectKeys} from "./objectKeys.js";
 
 describe("objectKeys", () => {
   it("should return only authorized keys", () => {

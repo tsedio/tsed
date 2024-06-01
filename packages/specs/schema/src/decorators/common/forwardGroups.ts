@@ -1,4 +1,4 @@
-import {JsonEntityFn} from "./jsonEntityFn";
+import {JsonEntityFn} from "./jsonEntityFn.js";
 
 /**
  * Allow to forward group on specific property.

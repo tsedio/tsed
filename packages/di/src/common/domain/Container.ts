@@ -1,8 +1,8 @@
-import type {ProviderOpts} from "../interfaces/ProviderOpts";
-import type {ProviderType} from "./ProviderType";
-import type {TokenProvider} from "../interfaces/TokenProvider";
-import {GlobalProviders} from "../registries/GlobalProviders";
-import {Provider} from "./Provider";
+import type {ProviderOpts} from "../interfaces/ProviderOpts.js";
+import type {ProviderType} from "./ProviderType.js";
+import type {TokenProvider} from "../interfaces/TokenProvider.js";
+import {GlobalProviders} from "../registries/GlobalProviders.js";
+import {Provider} from "./Provider.js";
 
 export class Container extends Map<TokenProvider, Provider> {
   /**

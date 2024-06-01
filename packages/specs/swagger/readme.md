@@ -152,7 +152,7 @@ export class CalendarModel {
 ```typescript
 import {BodyParams, Controller, Get, Post, QueryParams, Returns, ReturnsArray, Description} from "@tsed/common";
 import {Summary, Deprecated, Security} from "@tsed/swagger";
-import {CalendarModel} from "../models/CalendarModel";
+import {CalendarModel} from "../models/CalendarModel.js";
 
 @Controller("/calendars")
 export class Calendar {

@@ -1,5 +1,5 @@
-import {INTERACTION_UID} from "../constants/constants";
-import {Uid} from "./uid";
+import {INTERACTION_UID} from "../constants/constants.js";
+import {Uid} from "./uid.js";
 import {JsonParameterStore} from "@tsed/schema";
 
 describe("@Uid", () => {

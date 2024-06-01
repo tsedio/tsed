@@ -2,13 +2,13 @@ import {Type} from "@tsed/core";
 import {InjectorService, ProviderOpts, registerProvider} from "@tsed/di";
 import {PlatformContextHandler, PlatformHandlerMetadata, PlatformLayer} from "@tsed/platform-router";
 import {IncomingMessage, ServerResponse} from "http";
-import {PlatformMulter, PlatformMulterSettings} from "../config/interfaces/PlatformMulterSettings";
-import {PlatformStaticsOptions} from "../config/interfaces/PlatformStaticsSettings";
-import {PlatformContext} from "../domain/PlatformContext";
-import {createHttpServer} from "../utils/createHttpServer";
-import {createHttpsServer} from "../utils/createHttpsServer";
-import {CreateServerReturn} from "../utils/createServer";
-import type {PlatformApplication} from "./PlatformApplication";
+import {PlatformMulter, PlatformMulterSettings} from "../config/interfaces/PlatformMulterSettings.js";
+import {PlatformStaticsOptions} from "../config/interfaces/PlatformStaticsSettings.js";
+import {PlatformContext} from "../domain/PlatformContext.js";
+import {createHttpServer} from "../utils/createHttpServer.js";
+import {createHttpsServer} from "../utils/createHttpsServer.js";
+import {CreateServerReturn} from "../utils/createServer.js";
+import type {PlatformApplication} from "./PlatformApplication.js";
 
 export abstract class PlatformAdapter<App = TsED.Application> {
   static readonly NAME: string;

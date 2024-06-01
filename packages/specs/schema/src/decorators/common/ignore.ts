@@ -1,5 +1,5 @@
-import {IgnoreCallback} from "../../interfaces/IgnoreCallback";
-import {JsonEntityFn} from "./jsonEntityFn";
+import {IgnoreCallback} from "../../interfaces/IgnoreCallback.js";
+import {JsonEntityFn} from "./jsonEntityFn.js";
 
 /**
  * Ignore the property when JsonMapper serialize the class to a Plain Object JavaScript.
@@ -27,7 +27,7 @@ import {JsonEntityFn} from "./jsonEntityFn";
  * The controller:
  * ```typescript
  * import {Post, Controller, BodyParams} from "@tsed/common";
- * import {Person} from "../models/Person";
+ * import {Person} from "../models/Person.js";
  *
  * @Controller("/")
  * export class UsersCtrl {

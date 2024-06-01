@@ -3,8 +3,8 @@ import {ObjectID} from "@tsed/mongoose";
 import {PlatformExpress} from "@tsed/platform-express";
 import {Consumes, Returns} from "@tsed/schema";
 import SuperTest from "supertest";
-import {Calendar} from "./app/models/Calendar";
-import {Server} from "./app/Server";
+import {Calendar} from "./app/models/Calendar.js";
+import {Server} from "./app/Server.js";
 
 @Controller("/admin")
 class AdminCtrl {

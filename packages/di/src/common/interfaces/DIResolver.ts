@@ -1,4 +1,4 @@
-import type {TokenProvider} from "./TokenProvider";
+import type {TokenProvider} from "./TokenProvider.js";
 
 export interface DIResolver {
   deps?: TokenProvider[];

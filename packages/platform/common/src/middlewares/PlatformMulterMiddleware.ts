@@ -3,9 +3,9 @@ import {BadRequest} from "@tsed/exceptions";
 import {Middleware, MiddlewareMethods} from "@tsed/platform-middlewares";
 import {Context} from "@tsed/platform-params";
 import type {MulterError} from "multer";
-import {PlatformMulterField, PlatformMulterSettings} from "../config/interfaces/PlatformMulterSettings";
-import {PlatformContext} from "../domain/PlatformContext";
-import {PlatformApplication} from "../services/PlatformApplication";
+import {PlatformMulterField, PlatformMulterSettings} from "../config/interfaces/PlatformMulterSettings.js";
+import {PlatformContext} from "../domain/PlatformContext.js";
+import {PlatformApplication} from "../services/PlatformApplication.js";
 
 export interface MulterInputOptions {
   fields: PlatformMulterField[];

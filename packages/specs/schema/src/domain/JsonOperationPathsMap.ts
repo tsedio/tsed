@@ -1,5 +1,5 @@
-import {OperationVerbs} from "../constants/OperationVerbs";
-import {JsonMethodPath} from "./JsonOperation";
+import {OperationVerbs} from "../constants/OperationVerbs.js";
+import {JsonMethodPath} from "./JsonOperation.js";
 
 export class JsonOperationPathsMap extends Map<string, JsonMethodPath> {
   $kind: string = "operationPaths";

@@ -1,7 +1,7 @@
 import {EndpointMetadata, Get, PlatformTest} from "@tsed/common";
 import {Ignore, Property, Returns} from "@tsed/schema";
 import {View} from "@tsed/platform-views";
-import {renderView} from "./renderView";
+import {renderView} from "./renderView.js";
 
 describe("renderView", () => {
   beforeEach(() => PlatformTest.create());

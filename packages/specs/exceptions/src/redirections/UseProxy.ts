@@ -1,4 +1,4 @@
-import {RedirectException} from "../core/RedirectException";
+import {RedirectException} from "../core/RedirectException.js";
 
 export class UseProxy extends RedirectException {
   static readonly STATUS = 305;

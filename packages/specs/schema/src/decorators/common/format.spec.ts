@@ -1,5 +1,5 @@
-import {getJsonSchema} from "../../utils/getJsonSchema";
-import {DateFormat, DateTime, Email, Format, TimeFormat, Uri, Url} from "./format";
+import {getJsonSchema} from "../../utils/getJsonSchema.js";
+import {DateFormat, DateTime, Email, Format, TimeFormat, Uri, Url} from "./format.js";
 
 describe("@Format", () => {
   it("should declare prop", () => {

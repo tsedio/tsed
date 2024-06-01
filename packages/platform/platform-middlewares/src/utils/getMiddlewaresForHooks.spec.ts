@@ -1,5 +1,5 @@
 import {DIConfiguration} from "@tsed/di";
-import {getMiddlewaresForHook} from "./getMiddlewaresForHook";
+import {getMiddlewaresForHook} from "./getMiddlewaresForHook.js";
 
 describe("getMiddlewaresForHooks", () => {
   it("should return the middlewares for given hook (without default hook)", () => {

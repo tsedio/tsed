@@ -49,7 +49,7 @@ import {PlatformExpress} from "@tsed/platform-express";
 import {TestMongooseContext} from "@tsed/testing-mongoose";
 import {expect} from "chai";
 import * as SuperTest from "supertest";
-import {Server} from "../Server";
+import {Server} from "../Server.js";
 
 describe("Rest", () => {
   // bootstrap your Server to load all endpoints before run your test
@@ -87,7 +87,7 @@ import {PlatformExpress} from "@tsed/platform-express";
 import {TestMongooseContext} from "@tsed/testing-mongoose";
 import {expect} from "chai";
 import * as SuperTest from "supertest";
-import {Server} from "../Server";
+import {Server} from "../Server.js";
 
 describe("Rest", () => {
   // bootstrap your Server to load all endpoints before run your test

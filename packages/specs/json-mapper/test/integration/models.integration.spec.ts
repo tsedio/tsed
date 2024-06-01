@@ -1,5 +1,5 @@
 import {Property, Required} from "@tsed/schema";
-import {serialize} from "../../src/utils/serialize";
+import {serialize} from "../../src/utils/serialize.js";
 
 export class Menu {
   @Property()

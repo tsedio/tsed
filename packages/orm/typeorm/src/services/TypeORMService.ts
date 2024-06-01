@@ -1,6 +1,6 @@
 import {Inject, InjectorService, Service} from "@tsed/di";
 import {Connection, ConnectionManager, ConnectionOptions, getConnectionManager} from "typeorm";
-import {createConnection} from "../utils/createConnection";
+import {createConnection} from "../utils/createConnection.js";
 
 @Service()
 export class TypeORMService {

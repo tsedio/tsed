@@ -1,4 +1,4 @@
-import {MongooseSchema} from "./schema";
+import {MongooseSchema} from "./schema.js";
 
 /**
  * If truthy, Mongoose will add a custom setter that uppercases this string using JavaScript's built-in String#toUpperCase().

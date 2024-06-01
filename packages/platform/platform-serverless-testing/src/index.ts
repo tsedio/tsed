@@ -1,3 +1,3 @@
-export * from "./createFakeEvent";
-export * from "./createFakeContext";
-export * from "./PlatformServerlessTest";
+export * from "./createFakeEvent.js";
+export * from "./createFakeContext.js";
+export * from "./PlatformServerlessTest.js";

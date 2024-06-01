@@ -1,7 +1,7 @@
 import {isArrayOrArrayClass, Type, useDecorators} from "@tsed/core";
 import {Children, Path} from "@tsed/schema";
-import {ProviderOpts} from "../interfaces/ProviderOpts";
-import {registerController} from "../registries/ProviderRegistry";
+import {ProviderOpts} from "../interfaces/ProviderOpts.js";
+import {registerController} from "../registries/ProviderRegistry.js";
 
 export type PathType = string | RegExp | (string | RegExp)[];
 

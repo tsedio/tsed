@@ -1,4 +1,4 @@
-import type {InjectorService} from "../../common/index";
+import type {InjectorService} from "../../common/index.js";
 
 /**
  * @ignore

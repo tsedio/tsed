@@ -1,6 +1,6 @@
-import {getFormioSchema} from "../utils/getFormioSchema";
-import {DataSourceUrl} from "./dataSourceUrl";
-import {Select} from "./select";
+import {getFormioSchema} from "../utils/getFormioSchema.js";
+import {DataSourceUrl} from "./dataSourceUrl.js";
+import {Select} from "./select.js";
 
 describe("@DataSourceUrl", () => {
   it("should declare datasource url", async () => {

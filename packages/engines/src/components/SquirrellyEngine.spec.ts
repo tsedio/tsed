@@ -1,7 +1,7 @@
 import {expect} from "chai";
-import {getEngineFixture} from "../../test/getEngineFixture";
-import {requires} from "../utils/cache";
-import {SquirrellyEngine} from "./SquirrellyEngine";
+import {getEngineFixture} from "../../test/getEngineFixture.js";
+import {requires} from "../utils/cache.js";
+import {SquirrellyEngine} from "./SquirrellyEngine.js";
 import {join} from "path";
 
 describe("SquirrellyEngine", () => {

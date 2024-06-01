@@ -1,5 +1,5 @@
-import {JsonEntityStore} from "../../domain/JsonEntityStore";
-import {JsonEntityFn} from "./jsonEntityFn";
+import {JsonEntityStore} from "../../domain/JsonEntityStore.js";
+import {JsonEntityFn} from "./jsonEntityFn.js";
 
 /**
  * Add an example metadata on the decorated element.

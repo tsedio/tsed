@@ -7,8 +7,8 @@ import {TestMongooseContext} from "@tsed/testing-mongoose";
 import faker from "@faker-js/faker";
 import SuperTest from "supertest";
 import {isArray} from "@tsed/core";
-import {TestRole, TestUser, TestUserNew} from "./helpers/models/User";
-import {Server} from "./helpers/Server";
+import {TestRole, TestUser, TestUserNew} from "./helpers/models/User.js";
+import {Server} from "./helpers/Server.js";
 
 @Injectable()
 class ResourcesRepository {

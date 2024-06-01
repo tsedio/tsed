@@ -2,8 +2,8 @@ import {PlatformTest} from "@tsed/common";
 import {Controller, InjectorService} from "@tsed/di";
 import {PlatformParams} from "@tsed/platform-params";
 import {Get, Post} from "@tsed/schema";
-import {PlatformRouter} from "../src/domain/PlatformRouter";
-import {PlatformRouters} from "../src/domain/PlatformRouters";
+import {PlatformRouter} from "../src/domain/PlatformRouter.js";
+import {PlatformRouters} from "../src/domain/PlatformRouters.js";
 
 @Controller("/")
 export class FlaggedCommentController {
@@ -101,9 +101,9 @@ describe("routers integration", () => {
       ]);
     });
 
-    it('should declare correctly with appendChildrenRoutesFirst', () => {
+    it("should declare correctly with appendChildrenRoutesFirst", () => {
       const {injector, platformRouters, appRouter} = createAppRouterFixture();
-      injector.settings.set('router.appendChildrenRoutesFirst', true);
+      injector.settings.set("router.appendChildrenRoutesFirst", true);
 
       platformRouters.prebuild();
 

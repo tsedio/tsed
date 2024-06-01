@@ -1,6 +1,6 @@
 import {DIContext} from "@tsed/di";
-import {Alter} from "../decorators/alter";
-import {AlterHook} from "../domain/AlterHook";
+import {Alter} from "../decorators/alter.js";
+import {AlterHook} from "../domain/AlterHook.js";
 
 @Alter("audit")
 export class AlterAudit implements AlterHook {

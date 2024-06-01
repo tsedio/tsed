@@ -1,5 +1,5 @@
 import {PlatformTest} from "@tsed/common";
-import {SwaggerService} from "../index";
+import {SwaggerService} from "../index.js";
 
 describe("SwaggerService", () => {
   beforeEach(() => PlatformTest.create());

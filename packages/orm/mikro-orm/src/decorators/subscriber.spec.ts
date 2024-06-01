@@ -1,7 +1,7 @@
 import {Store} from "@tsed/core";
 import {EventSubscriber} from "@mikro-orm/core";
-import {Subscriber} from "./subscriber";
-import {DEFAULT_CONTEXT_NAME, SUBSCRIBER_INJECTION_TYPE} from "../constants";
+import {Subscriber} from "./subscriber.js";
+import {DEFAULT_CONTEXT_NAME, SUBSCRIBER_INJECTION_TYPE} from "../constants.js";
 
 @Subscriber()
 export class Subscriber1 implements EventSubscriber {}

@@ -1,5 +1,5 @@
-import {DILogger, InjectorService} from "../../common/index";
-import {setLoggerConfiguration} from "./setLoggerConfiguration";
+import {DILogger, InjectorService} from "../../common/index.js";
+import {setLoggerConfiguration} from "./setLoggerConfiguration.js";
 
 export function attachLogger(injector: InjectorService, $log: DILogger) {
   injector.logger = $log;

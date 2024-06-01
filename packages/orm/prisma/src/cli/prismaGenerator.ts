@@ -1,8 +1,8 @@
 import {GeneratorOptions} from "@prisma/generator-helper";
 import {parseEnvValue} from "@prisma/internals";
 import fs from "fs-extra";
-import {generateCode} from "../generator/generateCode";
-import removeDir from "../generator/utils/removeDir";
+import {generateCode} from "../generator/generateCode.js";
+import removeDir from "../generator/utils/removeDir.js";
 import path, {join} from "path";
 
 const rootDir = __dirname;

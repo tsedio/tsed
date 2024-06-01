@@ -1,4 +1,4 @@
-import {TemplateRenderError} from "./TemplateRenderError";
+import {TemplateRenderError} from "./TemplateRenderError.js";
 
 describe("TemplateRenderingError", () => {
   it("should have a message", () => {

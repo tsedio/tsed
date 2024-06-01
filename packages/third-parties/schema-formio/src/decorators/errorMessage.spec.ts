@@ -1,5 +1,5 @@
-import {getFormioSchema} from "../utils/getFormioSchema";
-import {ErrorMessage} from "./errorMessage";
+import {getFormioSchema} from "../utils/getFormioSchema.js";
+import {ErrorMessage} from "./errorMessage.js";
 
 describe("@ErrorMessage", () => {
   it("should set a custom error message", async () => {

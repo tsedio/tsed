@@ -1,5 +1,5 @@
-import {MongoosePlugin} from "../../src/decorators/mongoosePlugin";
-import {schemaOptions} from "../../src/utils/schemaOptions";
+import {MongoosePlugin} from "../../src/decorators/mongoosePlugin.js";
+import {schemaOptions} from "../../src/utils/schemaOptions.js";
 
 describe("@MongoosePlugin()", () => {
   it("should store options", () => {

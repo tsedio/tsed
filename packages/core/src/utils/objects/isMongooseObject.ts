@@ -1,4 +1,4 @@
-import {hasJsonMethod} from "./hasJsonMethod";
+import {hasJsonMethod} from "./hasJsonMethod.js";
 
 export function isObjectID(obj: any) {
   return obj && obj._bsontype;

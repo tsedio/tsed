@@ -4,8 +4,8 @@ import {camelCase, pascalCase} from "change-case";
 import path from "path";
 import pluralize from "pluralize";
 import {ClassDeclaration, Project, Scope} from "ts-morph";
-import {DmmfModel} from "../domain/DmmfModel";
-import {generateOutputsBarrelFile} from "./generateOutputsBarrelFile";
+import {DmmfModel} from "../domain/DmmfModel.js";
+import {generateOutputsBarrelFile} from "./generateOutputsBarrelFile.js";
 
 interface MethodOptions {
   repository: ClassDeclaration;

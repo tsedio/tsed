@@ -1,5 +1,5 @@
 import type {JSONSchema6Type} from "json-schema";
-import {JsonEntityFn} from "./jsonEntityFn";
+import {JsonEntityFn} from "./jsonEntityFn.js";
 
 /**
  * The const keyword is used to restrict a value to a fixed value.

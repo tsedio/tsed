@@ -1,4 +1,4 @@
-import {TypeGraphQLSettings} from "./TypeGraphQLSettings";
+import {TypeGraphQLSettings} from "./TypeGraphQLSettings.js";
 
 declare global {
   namespace TsED {
@@ -9,4 +9,4 @@ declare global {
   }
 }
 
-export * from "./TypeGraphQLSettings";
+export * from "./TypeGraphQLSettings.js";

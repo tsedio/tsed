@@ -1,9 +1,9 @@
 import "../../index";
-import {validateModel} from "../../../test/helpers/validateModel";
-import {JsonEntityStore} from "../../domain/JsonEntityStore";
-import {getJsonSchema} from "../../utils/getJsonSchema";
-import {CollectionOf} from "../collections/collectionOf";
-import {MinLength} from "./minLength";
+import {validateModel} from "../../../test/helpers/validateModel.js";
+import {JsonEntityStore} from "../../domain/JsonEntityStore.js";
+import {getJsonSchema} from "../../utils/getJsonSchema.js";
+import {CollectionOf} from "../collections/collectionOf.js";
+import {MinLength} from "./minLength.js";
 
 describe("@MinLength", () => {
   it("should declare minimum value", () => {

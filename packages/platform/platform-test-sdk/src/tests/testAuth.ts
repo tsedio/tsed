@@ -3,8 +3,8 @@ import {useDecorators} from "@tsed/core";
 import {BadRequest, Forbidden, Unauthorized} from "@tsed/exceptions";
 import {In, Returns, Security} from "@tsed/schema";
 import SuperTest from "supertest";
-import baseSpec from "../data/swagger.json";
-import {PlatformTestingSdkOpts} from "../interfaces";
+import baseSpec from "../data/swagger.json.js";
+import {PlatformTestingSdkOpts} from "../interfaces.js";
 
 @Injectable()
 export class TokenService {

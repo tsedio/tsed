@@ -2,7 +2,7 @@ import {cleanObject} from "@tsed/core";
 import isMatch from "lodash/isMatch";
 import low from "lowdb";
 import {v4 as uuid} from "uuid";
-import {Adapter} from "../domain/Adapter";
+import {Adapter} from "../domain/Adapter.js";
 
 export interface AdapterModel {
   _id: string;

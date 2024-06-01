@@ -1,6 +1,6 @@
 import {descriptorOf, Store} from "@tsed/core";
-import {MONGOOSE_SCHEMA} from "../constants/constants";
-import {Text} from "./text";
+import {MONGOOSE_SCHEMA} from "../constants/constants.js";
+import {Text} from "./text.js";
 
 describe("@Text()", () => {
   it("should set metadata (default)", () => {

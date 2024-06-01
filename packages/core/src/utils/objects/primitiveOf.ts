@@ -1,6 +1,6 @@
-import {isBoolean, isBooleanOrBooleanClass} from "./isBoolean";
-import {isNumber, isNumberOrNumberClass} from "./isNumber";
-import {isString, isStringOrStringClass} from "./isString";
+import {isBooleanOrBooleanClass} from "./isBoolean.js";
+import {isNumberOrNumberClass} from "./isNumber.js";
+import {isStringOrStringClass} from "./isString.js";
 
 export function primitiveOf(target: any): "string" | "number" | "boolean" | "any" {
   if (isStringOrStringClass(target)) {

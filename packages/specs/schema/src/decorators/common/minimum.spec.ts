@@ -1,6 +1,6 @@
-import {JsonEntityStore} from "../../domain/JsonEntityStore";
-import {CollectionOf} from "../collections/collectionOf";
-import {Min} from "./minimum";
+import {JsonEntityStore} from "../../domain/JsonEntityStore.js";
+import {CollectionOf} from "../collections/collectionOf.js";
+import {Min} from "./minimum.js";
 import "../../index";
 
 describe("@Minimum", () => {

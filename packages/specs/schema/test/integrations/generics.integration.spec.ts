@@ -18,8 +18,8 @@ import {
   Returns,
   SpecTypes,
   string
-} from "../../src/index";
-import {validateSpec} from "../helpers/validateSpec";
+} from "../../src/index.js";
+import {validateSpec} from "../helpers/validateSpec.js";
 
 describe("Generics", () => {
   describe("JsonSchema", () => {

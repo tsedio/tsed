@@ -81,7 +81,7 @@ To create a readiness / liveliness checks use the `@Health` decorator.
 import {Health} from "@tsed/terminus";
 import {Injectable, Inject} from "@tsed/di";
 import {HealthCheckError} from "@godaddy/terminus";
-import {REDIS_CONNECTION} from "./RedisConnection";
+import {REDIS_CONNECTION} from "./RedisConnection.js";
 
 @Injectable()
 class RedisClient {
@@ -108,7 +108,7 @@ You can also create an `HealthCheckError` when an error appear during your check
 import {Health} from "@tsed/terminus";
 import {Injectable, Inject} from "@tsed/di";
 import {HealthCheckError} from "@godaddy/terminus";
-import {REDIS_CONNECTION} from "./RedisConnection";
+import {REDIS_CONNECTION} from "./RedisConnection.js";
 
 @Injectable()
 class RedisClient {

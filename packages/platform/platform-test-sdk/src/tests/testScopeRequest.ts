@@ -1,6 +1,6 @@
 import {Controller, Get, PathParams, PlatformTest, ProviderScope, Scope, Service} from "@tsed/common";
 import SuperTest from "supertest";
-import {PlatformTestingSdkOpts} from "../interfaces";
+import {PlatformTestingSdkOpts} from "../interfaces.js";
 
 @Service()
 @Scope(ProviderScope.REQUEST)

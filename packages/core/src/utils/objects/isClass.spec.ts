@@ -1,4 +1,4 @@
-import {isClass} from "./isClass";
+import {isClass} from "./isClass.js";
 
 describe("isClass", () => {
   it("should test if a value is a class", () => {

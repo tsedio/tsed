@@ -1,8 +1,8 @@
-import {OpenSpecHash} from "../common/OpenSpecHash";
-import {OpenSpecRef} from "../common/OpenSpecRef";
-import {OS3Example} from "./OS3Example";
-import {OS3MediaType} from "./OS3MediaType";
-import {OS3Schema} from "./OS3Schema";
+import {OpenSpecHash} from "../common/OpenSpecHash.js";
+import {OpenSpecRef} from "../common/OpenSpecRef.js";
+import {OS3Example} from "./OS3Example.js";
+import {OS3MediaType} from "./OS3MediaType.js";
+import {OS3Schema} from "./OS3Schema.js";
 
 export type OS3StyleParameter = "matrix" | "label" | "form" | "simple" | "spaceDelimited" | "pipeDelimited" | "deepObject";
 

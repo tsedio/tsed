@@ -1,5 +1,5 @@
 import {descriptorOf} from "@tsed/core";
-import {execMapper, Get, getSpec, In, JsonEntityStore, OperationPath, Path, Redirect, Returns, SpecTypes} from "../index";
+import {execMapper, Get, getSpec, In, JsonEntityStore, OperationPath, Path, Redirect, Returns, SpecTypes} from "../index.js";
 
 describe("JsonOperation", () => {
   describe("getStatus()", () => {

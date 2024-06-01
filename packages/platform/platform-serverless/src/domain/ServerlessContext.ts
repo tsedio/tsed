@@ -1,8 +1,8 @@
 import {DIContext, DIContextOptions} from "@tsed/di";
 import {JsonEntityStore} from "@tsed/schema";
 import {APIGatewayEventDefaultAuthorizerContext, APIGatewayProxyEventBase, Context} from "aws-lambda";
-import {ServerlessRequest} from "./ServerlessRequest";
-import {ServerlessResponse} from "./ServerlessResponse";
+import {ServerlessRequest} from "./ServerlessRequest.js";
+import {ServerlessResponse} from "./ServerlessResponse.js";
 
 export interface ServerlessContextOptions extends DIContextOptions {
   event: APIGatewayProxyEventBase<APIGatewayEventDefaultAuthorizerContext>;

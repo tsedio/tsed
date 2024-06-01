@@ -1,4 +1,4 @@
-import {SymbolMapper} from "./SymbolMapper";
+import {SymbolMapper} from "./SymbolMapper.js";
 
 describe("SymbolMapper", () => {
   describe("deserialize()", () => {

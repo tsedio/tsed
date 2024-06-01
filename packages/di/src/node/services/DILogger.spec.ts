@@ -1,5 +1,5 @@
 import {Logger} from "@tsed/logger";
-import {Container, Inject, Injectable, InjectorService} from "../../common/index";
+import {Container, Inject, Injectable, InjectorService} from "../../common/index.js";
 
 describe("DILogger", () => {
   it("should inject logger in another service", async () => {

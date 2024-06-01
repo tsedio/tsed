@@ -1,8 +1,8 @@
 import {PlatformTest} from "@tsed/common";
 import filedirname from "filedirname";
 
-import {ViteService} from "../services/ViteService";
-import {ViteRendererMiddleware} from "./ViteRendererMiddleware";
+import {ViteService} from "../services/ViteService.js";
+import {ViteRendererMiddleware} from "./ViteRendererMiddleware.js";
 
 // FIXME remove when esm is ready
 const [, rootDir] = filedirname();

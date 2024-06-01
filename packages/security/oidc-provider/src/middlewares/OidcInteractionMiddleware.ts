@@ -1,5 +1,5 @@
 import {Inject, Middleware} from "@tsed/common";
-import {OidcInteractionContext} from "../services/OidcInteractionContext";
+import {OidcInteractionContext} from "../services/OidcInteractionContext.js";
 
 @Middleware()
 export class OidcInteractionMiddleware {

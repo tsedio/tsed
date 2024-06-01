@@ -1,6 +1,6 @@
 import {EndpointMetadata} from "@tsed/common";
 import {decoratorArgs, prototypeOf, Store, UnsupportedDecoratorType} from "@tsed/core";
-import {UseAuth} from "./useAuth";
+import {UseAuth} from "./useAuth.js";
 
 class Guard {
   use() {}

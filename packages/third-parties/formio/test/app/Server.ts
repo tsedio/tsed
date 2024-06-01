@@ -11,7 +11,7 @@ import session from "express-session";
 import filedirname from "filedirname";
 import methodOverride from "method-override";
 import "../../src";
-import template from "../template/project.json";
+import template from "../template/project.json.js";
 
 // FIXME remove when esm is ready
 const [, rootDir] = filedirname();

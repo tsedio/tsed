@@ -1,5 +1,5 @@
 import {Store} from "@tsed/core";
-import {Args} from "../index";
+import {Args} from "../index.js";
 
 describe("Args", () => {
   describe("without parameters", () => {

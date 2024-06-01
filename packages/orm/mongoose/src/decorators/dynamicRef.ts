@@ -1,9 +1,9 @@
 import {classOf, isArrowFn, isString, StoreMerge, Type, useDecorators} from "@tsed/core";
 import {Description, Example, JsonHookContext, OneOf, Property, string} from "@tsed/schema";
 import {Schema as MongooseSchema} from "mongoose";
-import {MONGOOSE_SCHEMA} from "../constants/constants";
+import {MONGOOSE_SCHEMA} from "../constants/constants.js";
 import {deserialize, OnDeserialize, OnSerialize, serialize} from "@tsed/json-mapper";
-import {MongooseModels} from "../registries/MongooseModels";
+import {MongooseModels} from "../registries/MongooseModels.js";
 
 function isRef(value: undefined | string | any) {
   return (value && value._bsontype) || isString(value);

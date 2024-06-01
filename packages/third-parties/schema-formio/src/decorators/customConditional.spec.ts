@@ -1,5 +1,5 @@
-import {getFormioSchema} from "../utils/getFormioSchema";
-import {CustomConditional} from "./customConditional";
+import {getFormioSchema} from "../utils/getFormioSchema.js";
+import {CustomConditional} from "./customConditional.js";
 
 describe("@CustomConditional", () => {
   it("should add a custom conditional rule on field (1)", async () => {

@@ -1,6 +1,6 @@
 import {descriptorOf, Store} from "@tsed/core";
-import {MONGOOSE_SCHEMA} from "../constants/constants";
-import {Expires} from "./expires";
+import {MONGOOSE_SCHEMA} from "../constants/constants.js";
+import {Expires} from "./expires.js";
 
 describe("@Expires()", () => {
   it("should set metadata", () => {

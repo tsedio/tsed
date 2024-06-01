@@ -1,10 +1,10 @@
 import {PlatformTest} from "@tsed/common";
 import {isClass} from "@tsed/core";
 import {serialize} from "@tsed/json-mapper";
-import {UseCache} from "../decorators/useCache";
-import {PlatformCache} from "../services/PlatformCache";
-import {isEndpoint} from "../utils/isEndpoint";
-import {PlatformCacheInterceptor} from "./PlatformCacheInterceptor";
+import {UseCache} from "../decorators/useCache.js";
+import {PlatformCache} from "../services/PlatformCache.js";
+import {isEndpoint} from "../utils/isEndpoint.js";
+import {PlatformCacheInterceptor} from "./PlatformCacheInterceptor.js";
 
 const defaultKeyResolver = (args: any[]) => {
   return args.map((arg: any) => (isClass(arg) ? JSON.stringify(serialize(arg)) : arg)).join(":");

@@ -1,7 +1,7 @@
 import {BodyParams, Controller, Get, PlatformResponse, PlatformTest, Res} from "@tsed/common";
 import {Returns} from "@tsed/schema";
 import SuperTest from "supertest";
-import {PlatformTestingSdkOpts} from "../interfaces";
+import {PlatformTestingSdkOpts} from "../interfaces.js";
 
 @Controller("/headers")
 export class HeadersCtrl {

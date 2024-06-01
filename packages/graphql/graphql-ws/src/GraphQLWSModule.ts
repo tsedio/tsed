@@ -3,7 +3,7 @@ import {useServer} from "graphql-ws/lib/use/ws";
 import Http from "http";
 import Https from "https";
 import {Server} from "ws";
-import {GraphQLWSOptions} from "./GraphQLWSOptions";
+import {GraphQLWSOptions} from "./GraphQLWSOptions.js";
 
 @Module()
 export class GraphQLWSModule {

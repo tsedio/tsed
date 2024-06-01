@@ -1,5 +1,5 @@
 import {PlatformTest} from "@tsed/common";
-import {redirectMiddleware} from "./redirectMiddleware";
+import {redirectMiddleware} from "./redirectMiddleware.js";
 
 describe("redirectMiddleware and redirect", () => {
   beforeEach(PlatformTest.create);

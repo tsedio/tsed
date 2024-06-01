@@ -1,1 +1,1 @@
-export * from "./TestMongooseContext";
+export * from "./TestMongooseContext.js";

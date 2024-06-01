@@ -1,6 +1,6 @@
-import {CollectionOf, getJsonSchema, getSpec, In, Name, OperationPath, Path, Property, Required, Returns, SpecTypes} from "../../index";
-import {ForwardGroups} from "./forwardGroups";
-import {Groups} from "./groups";
+import {CollectionOf, getJsonSchema, getSpec, In, Name, OperationPath, Path, Property, Required, Returns, SpecTypes} from "../../index.js";
+import {ForwardGroups} from "./forwardGroups.js";
+import {Groups} from "./groups.js";
 
 class ChildModel {
   @Groups("!creation")

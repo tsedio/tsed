@@ -1,7 +1,7 @@
 import {Controller, Get, PlatformTest} from "@tsed/common";
 import SuperTest from "supertest";
-import {PlatformTestingSdkOpts} from "../interfaces";
-import {FeatureModule} from "../modules/feature/FeatureModule";
+import {PlatformTestingSdkOpts} from "../interfaces.js";
+import {FeatureModule} from "../modules/feature/FeatureModule.js";
 
 @Controller("/root")
 class TestRootCtrl {

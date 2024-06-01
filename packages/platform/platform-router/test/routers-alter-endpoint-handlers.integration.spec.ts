@@ -3,9 +3,9 @@ import {Controller, DIContext, InjectorService} from "@tsed/di";
 import {UseBefore} from "@tsed/platform-middlewares";
 import {Context, PlatformParams} from "@tsed/platform-params";
 import {EndpointMetadata, Get, JsonOperationRoute} from "@tsed/schema";
-import {PlatformRouter} from "../src/domain/PlatformRouter";
-import {AlterEndpointHandlersArg, PlatformRouters} from "../src/domain/PlatformRouters";
-import {useContextHandler} from "../src/index";
+import {PlatformRouter} from "../src/domain/PlatformRouter.js";
+import {AlterEndpointHandlersArg, PlatformRouters} from "../src/domain/PlatformRouters.js";
+import {useContextHandler} from "../src/index.js";
 
 @Controller("/controller")
 @UseBefore(function useBefore() {})

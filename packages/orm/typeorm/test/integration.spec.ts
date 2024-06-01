@@ -1,9 +1,9 @@
 import {PlatformTest} from "@tsed/common";
 import {TestMongooseContext} from "@tsed/testing-mongoose";
-import {User} from "./helpers/entity/User";
-import {UserRepository} from "./helpers/repository/UserRepository";
-import {Server} from "./helpers/Server";
-import {UserService} from "./helpers/services/UserService";
+import {User} from "./helpers/entity/User.js";
+import {UserRepository} from "./helpers/repository/UserRepository.js";
+import {Server} from "./helpers/Server.js";
+import {UserService} from "./helpers/services/UserService.js";
 
 describe("TypeORM integration", () => {
   beforeEach(async () => {

@@ -1,5 +1,5 @@
-import {JsonEntityStore} from "../../domain/JsonEntityStore";
-import {ExclusiveMinimum} from "./exclusiveMinimum";
+import {JsonEntityStore} from "../../domain/JsonEntityStore.js";
+import {ExclusiveMinimum} from "./exclusiveMinimum.js";
 import "../../index";
 
 describe("@ExclusiveMinimum", () => {

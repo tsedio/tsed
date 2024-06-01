@@ -1,11 +1,11 @@
 import {descriptorOf} from "@tsed/core";
-import {DITest} from "../../node/index";
-import {ProviderScope} from "../domain/ProviderScope";
-import {Inject} from "./inject";
-import {Injectable} from "./injectable";
-import {Opts} from "./opts";
-import {Scope} from "./scope";
-import {UseOpts} from "./useOpts";
+import {DITest} from "../../node/index.js";
+import {ProviderScope} from "../domain/ProviderScope.js";
+import {Inject} from "./inject.js";
+import {Injectable} from "./injectable.js";
+import {Opts} from "./opts.js";
+import {Scope} from "./scope.js";
+import {UseOpts} from "./useOpts.js";
 
 describe("UseOpts", () => {
   let testContext: any;

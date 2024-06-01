@@ -1,6 +1,6 @@
 import {QueryParams} from "@tsed/platform-params";
-import {getSpec, OperationPath, Path, Property, Returns, SpecTypes} from "../../src/index";
-import {validateSpec} from "../helpers/validateSpec";
+import {getSpec, OperationPath, Path, Property, Returns, SpecTypes} from "../../src/index.js";
+import {validateSpec} from "../helpers/validateSpec.js";
 
 class Product {
   @Property()

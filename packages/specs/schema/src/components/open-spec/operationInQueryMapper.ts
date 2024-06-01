@@ -1,9 +1,9 @@
 import {cleanObject} from "@tsed/core";
 import {OS3Example} from "@tsed/openspec";
-import {JsonSchemaOptions} from "../../interfaces/JsonSchemaOptions";
-import {registerJsonSchemaMapper} from "../../registries/JsonSchemaMapperContainer";
-import {createRefName} from "../../utils/ref";
-import type {JsonParameterOptions} from "./operationInParameterMapper";
+import {JsonSchemaOptions} from "../../interfaces/JsonSchemaOptions.js";
+import {registerJsonSchemaMapper} from "../../registries/JsonSchemaMapperContainer.js";
+import {createRefName} from "../../utils/ref.js";
+import type {JsonParameterOptions} from "./operationInParameterMapper.js";
 
 function buildExamples(property: string, examples?: Record<string, OS3Example>) {
   if (!examples) {

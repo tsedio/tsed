@@ -1,4 +1,4 @@
-import {engines} from "../../src/index";
+import {engines} from "../../src/index.js";
 import filedirname from "filedirname";
 import handlebars from "handlebars";
 import fs from "fs";

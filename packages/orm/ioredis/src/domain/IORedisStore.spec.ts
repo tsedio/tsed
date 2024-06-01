@@ -2,7 +2,7 @@ import {catchAsyncError, Hooks} from "@tsed/core";
 import {Cache, caching} from "cache-manager";
 import Redis from "ioredis";
 
-import {IORedisStore, ioRedisStore} from "./IORedisStore";
+import {IORedisStore, ioRedisStore} from "./IORedisStore.js";
 
 jest.mock("ioredis", () => {
   return class Redis {

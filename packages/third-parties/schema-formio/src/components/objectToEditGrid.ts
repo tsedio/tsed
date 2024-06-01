@@ -1,4 +1,4 @@
-import {execMapper, registerFormioMapper} from "../registries/FormioMappersContainer";
+import {execMapper, registerFormioMapper} from "../registries/FormioMappersContainer.js";
 
 export function objectToEditGrid(schema: any, options: any) {
   return {

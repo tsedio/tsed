@@ -3,15 +3,15 @@ import {Env, setValue} from "@tsed/core";
 import {Constant, Inject, Injectable, InjectorService} from "@tsed/di";
 // @ts-ignore
 import type {Configuration, default as OIDCProvider, KoaContextWithOIDC} from "oidc-provider";
-import {INTERACTIONS} from "../constants/constants";
-import {OidcAccountsMethods} from "../domain/OidcAccountsMethods";
-import {OidcSettings} from "../domain/OidcSettings";
-import {OIDC_ERROR_EVENTS} from "../utils/events";
-import {OidcAdapters} from "./OidcAdapters";
-import {OidcInteractions} from "./OidcInteractions";
-import {OidcJwks} from "./OidcJwks";
-import {OidcPolicy} from "./OidcPolicy";
-import {OIDC_PROVIDER_NODE_MODULE, Provider} from "./OidcProviderNodeModule";
+import {INTERACTIONS} from "../constants/constants.js";
+import {OidcAccountsMethods} from "../domain/OidcAccountsMethods.js";
+import {OidcSettings} from "../domain/OidcSettings.js";
+import {OIDC_ERROR_EVENTS} from "../utils/events.js";
+import {OidcAdapters} from "./OidcAdapters.js";
+import {OidcInteractions} from "./OidcInteractions.js";
+import {OidcJwks} from "./OidcJwks.js";
+import {OidcPolicy} from "./OidcPolicy.js";
+import {OIDC_PROVIDER_NODE_MODULE, Provider} from "./OidcProviderNodeModule.js";
 
 function mapError(error: any) {
   return Object.getOwnPropertyNames(error).reduce((obj: any, key) => {

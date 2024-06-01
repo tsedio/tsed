@@ -1,8 +1,8 @@
 import {getValue} from "@tsed/core";
 import {Injectable} from "@tsed/di";
 import {JsonParameterStore, PipeMethods} from "@tsed/schema";
-import {PlatformParamsScope} from "../builder/PlatformParams";
-import {ParamTypes} from "../domain/ParamTypes";
+import {PlatformParamsScope} from "../builder/PlatformParams.js";
+import {ParamTypes} from "../domain/ParamTypes.js";
 
 @Injectable({
   priority: -1000

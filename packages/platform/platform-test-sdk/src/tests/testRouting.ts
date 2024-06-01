@@ -1,6 +1,6 @@
 import {Controller, Get, PlatformTest, Put} from "@tsed/common";
 import SuperTest from "supertest";
-import {PlatformTestingSdkOpts} from "../interfaces";
+import {PlatformTestingSdkOpts} from "../interfaces.js";
 
 const stub = jest.fn();
 

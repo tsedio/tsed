@@ -1,15 +1,15 @@
 import {PlatformTest} from "@tsed/common";
 import {Logger} from "@tsed/logger";
 import {TestMongooseContext} from "@tsed/testing-mongoose";
-import {User} from "./helpers/entity/User";
-import {Server} from "./helpers/Server";
-import {UserService} from "./helpers/services/UserService";
+import {User} from "./helpers/entity/User.js";
+import {Server} from "./helpers/Server.js";
+import {UserService} from "./helpers/services/UserService.js";
 import {EntityManager, MikroORM} from "@mikro-orm/core";
 import {anyOfClass, anything, reset, spy, verify} from "ts-mockito";
-import {UnmanagedEventSubscriber1} from "./helpers/services/UnmanagedEventSubscriber1";
-import {UnmanagedEventSubscriber2} from "./helpers/services/UnmanagedEventSubscriber2";
-import {MikroOrmModule, TransactionalInterceptor} from "../src";
-import {Hooks} from "./helpers/services/Hooks";
+import {UnmanagedEventSubscriber1} from "./helpers/services/UnmanagedEventSubscriber1.js";
+import {UnmanagedEventSubscriber2} from "./helpers/services/UnmanagedEventSubscriber2.js";
+import {MikroOrmModule, TransactionalInterceptor} from "../src/index.js";
+import {Hooks} from "./helpers/services/Hooks.js";
 import {defineConfig} from "@mikro-orm/mongodb";
 
 describe("MikroOrm integration", () => {

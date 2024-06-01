@@ -1,6 +1,6 @@
 import {TestWorkflowEnvironment} from "@temporalio/testing";
-import {Temporal, Activity, bootstrapWorker} from "../src";
-import {Server} from "./helpers/Server";
+import {Temporal, Activity, bootstrapWorker} from "../src/index.js";
+import {Server} from "./helpers/Server.js";
 
 describe("Temporal Worker", () => {
   @Temporal()

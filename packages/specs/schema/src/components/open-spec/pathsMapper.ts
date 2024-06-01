@@ -1,16 +1,16 @@
 import {OS3Operation, OS3Paths} from "@tsed/openspec";
-import {OperationVerbs} from "../../constants/OperationVerbs";
-import {JsonMethodStore} from "../../domain/JsonMethodStore";
-import {JsonMethodPath} from "../../domain/JsonOperation";
-import {JsonSchemaOptions} from "../../interfaces/JsonSchemaOptions";
-import {execMapper, registerJsonSchemaMapper} from "../../registries/JsonSchemaMapperContainer";
-import {buildPath} from "../../utils/buildPath";
-import {concatParameters} from "../../utils/concatParameters";
-import {getJsonEntityStore} from "../../utils/getJsonEntityStore";
-import {getJsonPathParameters} from "../../utils/getJsonPathParameters";
-import {getOperationsStores} from "../../utils/getOperationsStores";
-import {getOperationId} from "../../utils/operationIdFormatter";
-import {removeHiddenOperation} from "../../utils/removeHiddenOperation";
+import {OperationVerbs} from "../../constants/OperationVerbs.js";
+import {JsonMethodStore} from "../../domain/JsonMethodStore.js";
+import {JsonMethodPath} from "../../domain/JsonOperation.js";
+import {JsonSchemaOptions} from "../../interfaces/JsonSchemaOptions.js";
+import {execMapper, registerJsonSchemaMapper} from "../../registries/JsonSchemaMapperContainer.js";
+import {buildPath} from "../../utils/buildPath.js";
+import {concatParameters} from "../../utils/concatParameters.js";
+import {getJsonEntityStore} from "../../utils/getJsonEntityStore.js";
+import {getJsonPathParameters} from "../../utils/getJsonPathParameters.js";
+import {getOperationsStores} from "../../utils/getOperationsStores.js";
+import {getOperationId} from "../../utils/operationIdFormatter.js";
+import {removeHiddenOperation} from "../../utils/removeHiddenOperation.js";
 
 const ALLOWED_VERBS = [
   OperationVerbs.ALL,

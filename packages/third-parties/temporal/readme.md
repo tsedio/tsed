@@ -83,7 +83,10 @@ import {Temporal, Activity} from "@tsed/temporal";
 
 @Temporal()
 export class UserOnboardingActivities {
-  constructor(private userService: UserService, private emailService: EmailService) {}
+  constructor(
+    private userService: UserService,
+    private emailService: EmailService
+  ) {}
 
   @Activity()
   async sendVerificationEmail(email: string) {
@@ -136,7 +139,7 @@ Do not import any non temporal packages here. The workflows are bundled internal
 
 ```ts
 import {proxyActivities, defineSignal, setHandler, condition, sleep} from "@temporalio/workflow";
-import {Activities} from "../activities";
+import {Activities} from "../activities.js";
 
 export const isVerifiedSignal = defineSignal("verificationSignal");
 
@@ -177,7 +180,7 @@ Inject the TemporalClient instance to interact with it directly, e.g. to start a
 ```typescript
 import {Service, AfterRoutesInit} from "@tsed/common";
 import {TemporalClient} from "@tsed/temporal";
-import {onboardUser} from "../workflows";
+import {onboardUser} from "../workflows.js";
 
 @Service()
 export class UsersService implements AfterRoutesInit {
@@ -205,7 +208,7 @@ Read more about it [here](https://docs.temporal.io/typescript/troubleshooting/#w
 
 ```ts
 import {bootstrapWorker} from "@tsed/temporal";
-import {Server} from "./app/Server";
+import {Server} from "./app/Server.js";
 
 const worker = await bootstrapWorker(Server, {
   worker: {

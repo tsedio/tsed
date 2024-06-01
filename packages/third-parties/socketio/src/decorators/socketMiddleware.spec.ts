@@ -1,5 +1,5 @@
 import {Store} from "@tsed/core";
-import {SocketMiddleware, SocketProviderTypes} from "../index";
+import {SocketMiddleware, SocketProviderTypes} from "../index.js";
 
 describe("@SocketMiddleware", () => {
   it("should register the middleware", () => {

@@ -5,7 +5,7 @@ import multer, {FileFilterCallback} from "multer";
 import {dirname, join} from "path";
 import readPkgUp from "read-pkg-up";
 import SuperTest from "supertest";
-import {PlatformTestingSdkOpts} from "../interfaces";
+import {PlatformTestingSdkOpts} from "../interfaces.js";
 
 // FIXME remove when esm is ready
 const [, rootDir] = filedirname();

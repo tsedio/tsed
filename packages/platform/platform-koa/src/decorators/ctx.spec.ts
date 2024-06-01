@@ -1,4 +1,4 @@
-import {Ctx} from "./ctx";
+import {Ctx} from "./ctx.js";
 import {JsonParameterStore} from "@tsed/schema";
 
 describe("@Ctx", () => {

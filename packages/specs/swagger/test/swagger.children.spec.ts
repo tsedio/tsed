@@ -1,7 +1,7 @@
 import {Controller, Get, PlatformTest} from "@tsed/common";
 import {PlatformExpress} from "@tsed/platform-express";
 import SuperTest from "supertest";
-import {Server} from "./app/Server";
+import {Server} from "./app/Server.js";
 
 @Controller("/:campaignID/polls")
 export class PollCtrl {

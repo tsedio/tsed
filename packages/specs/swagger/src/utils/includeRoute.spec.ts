@@ -1,7 +1,7 @@
 import {ControllerProvider} from "@tsed/common";
 import {Hidden} from "@tsed/schema";
-import {Docs} from "../decorators/docs";
-import {includeRoute} from "./includeRoute";
+import {Docs} from "../decorators/docs.js";
+import {includeRoute} from "./includeRoute.js";
 
 @Hidden()
 class HiddenCtrl {}

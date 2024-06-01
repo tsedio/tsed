@@ -1,7 +1,7 @@
 import Koa from "koa";
-import {PlatformKoaSettings} from "./PlatformKoaSettings";
+import {PlatformKoaSettings} from "./PlatformKoaSettings.js";
 
-export * from "./PlatformKoaSettings";
+export * from "./PlatformKoaSettings.js";
 
 declare global {
   namespace TsED {

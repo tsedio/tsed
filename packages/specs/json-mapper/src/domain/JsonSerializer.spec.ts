@@ -19,17 +19,17 @@ import {
 } from "@tsed/schema";
 import {snakeCase} from "change-case";
 import {parse} from "querystring";
-import {Post} from "../../test/helpers/Post";
-import {User} from "../../test/helpers/User";
+import {Post} from "../../test/helpers/Post.js";
+import {User} from "../../test/helpers/User.js";
 import "../components/DateMapper";
 import "../components/PrimitiveMapper";
 import "../components/SymbolMapper";
-import {OnDeserialize} from "../decorators/onDeserialize";
-import {OnSerialize} from "../decorators/onSerialize";
-import {deserialize} from "../utils/deserialize";
-import {JsonMapperSettings} from "./JsonMapperSettings";
-import {getJsonMapperTypes} from "./JsonMapperTypesContainer";
-import {JsonSerializer} from "./JsonSerializer";
+import {OnDeserialize} from "../decorators/onDeserialize.js";
+import {OnSerialize} from "../decorators/onSerialize.js";
+import {deserialize} from "../utils/deserialize.js";
+import {JsonMapperSettings} from "./JsonMapperSettings.js";
+import {getJsonMapperTypes} from "./JsonMapperTypesContainer.js";
+import {JsonSerializer} from "./JsonSerializer.js";
 
 const serializer = new JsonSerializer();
 

@@ -1,4 +1,4 @@
-import {MongooseSchema} from "./schema";
+import {MongooseSchema} from "./schema.js";
 
 /**
  * Defines a TTL index on this path. Only allowed for dates.

@@ -1,8 +1,8 @@
 import {Property} from "@tsed/schema";
-import {createTableStub} from "../../test/helpers/knex/table";
-import {Decimal} from "../decorators/decimal";
-import {Entity} from "../decorators/entity";
-import {createColumns} from "../utils/createColumns";
+import {createTableStub} from "../../test/helpers/knex/table.js";
+import {Decimal} from "../decorators/decimal.js";
+import {Entity} from "../decorators/entity.js";
+import {createColumns} from "../utils/createColumns.js";
 
 describe("createNumberColumn", () => {
   it("should create table from a given class (default)", async () => {

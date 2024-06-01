@@ -1,5 +1,5 @@
-import {getJsonSchema} from "../../utils/getJsonSchema";
-import {TypeError} from "./typeError";
+import {getJsonSchema} from "../../utils/getJsonSchema.js";
+import {TypeError} from "./typeError.js";
 
 describe("@TypeError", () => {
   it("should declare type error message", () => {

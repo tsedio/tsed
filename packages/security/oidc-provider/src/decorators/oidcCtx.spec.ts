@@ -1,5 +1,5 @@
-import {INTERACTION_CONTEXT} from "../constants/constants";
-import {OidcCtx} from "./oidcCtx";
+import {INTERACTION_CONTEXT} from "../constants/constants.js";
+import {OidcCtx} from "./oidcCtx.js";
 import {JsonParameterStore} from "@tsed/schema";
 
 describe("@OidcCtx", () => {

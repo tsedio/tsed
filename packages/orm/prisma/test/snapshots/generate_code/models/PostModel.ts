@@ -1,6 +1,6 @@
-import { Post } from "../client";
-import { Integer, Required, Property, Allow } from "@tsed/schema";
-import { UserModel } from "./UserModel";
+import {Post} from "../client.js";
+import {Integer, Required, Property, Allow} from "@tsed/schema";
+import {UserModel} from "./UserModel.js";
 
 export class PostModel implements Post {
   @Property(Number)
@@ -17,4 +17,3 @@ export class PostModel implements Post {
   @Allow(null)
   userId: number | null;
 }
-

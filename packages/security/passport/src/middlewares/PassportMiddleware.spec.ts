@@ -1,8 +1,8 @@
 import {PlatformTest} from "@tsed/common";
 import {Unauthorized} from "@tsed/exceptions";
-import {PassportException} from "../errors/PassportException";
+import {PassportException} from "../errors/PassportException.js";
 import Passport from "passport";
-import {PassportMiddleware} from "./PassportMiddleware";
+import {PassportMiddleware} from "./PassportMiddleware.js";
 
 function createContextFixture(options = {}) {
   return PlatformTest.createRequestContext({

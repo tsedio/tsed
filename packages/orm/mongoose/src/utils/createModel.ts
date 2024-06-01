@@ -1,9 +1,9 @@
 import {nameOf, Store, Type} from "@tsed/core";
 import {JsonEntityStore} from "@tsed/schema";
 import mongoose, {Connection} from "mongoose";
-import {MONGOOSE_MODEL, MONGOOSE_MODEL_NAME} from "../constants/constants";
-import {MongooseModels} from "../registries/MongooseModels";
-import {getSchemaToken} from "./createSchema";
+import {MONGOOSE_MODEL, MONGOOSE_MODEL_NAME} from "../constants/constants.js";
+import {MongooseModels} from "../registries/MongooseModels.js";
+import {getSchemaToken} from "./createSchema.js";
 
 export function getModelToken(target: Type<any>, options: any) {
   const {collectionName, token} = getSchemaToken(target, options);

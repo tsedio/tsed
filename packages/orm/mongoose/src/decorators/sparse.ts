@@ -1,4 +1,4 @@
-import {MongooseSchema} from "./schema";
+import {MongooseSchema} from "./schema.js";
 
 /**
  * If [truthy](https://masteringjs.io/tutorials/fundamentals/truthy), Mongoose will

@@ -11,7 +11,7 @@ import {
   Path,
   Property,
   SpecTypes
-} from "../../src/index";
+} from "../../src/index.js";
 import {QueryParams} from "@tsed/platform-params";
 
 class QueryParamModel {

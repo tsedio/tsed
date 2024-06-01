@@ -1,5 +1,5 @@
 import {Module} from "@tsed/di";
-import {FeatureController} from "./controllers/FeatureController";
+import {FeatureController} from "./controllers/FeatureController.js";
 
 @Module({
   mount: {

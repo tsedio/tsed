@@ -1,11 +1,11 @@
 import {getValue} from "@tsed/core";
 import {OpenSpec2, OpenSpec3} from "@tsed/openspec";
-import {SpecTypes} from "../domain/SpecTypes";
-import {getSpec, JsonTokenOptions, SpecSerializerOptions} from "./getSpec";
-import {getSpecTypeFromSpec} from "./getSpecType";
-import {mapOpenSpec} from "./mapOpenSpec";
-import {mergeSpec} from "./mergeSpec";
-import {transformToOS2} from "./transformToOS2";
+import {SpecTypes} from "../domain/SpecTypes.js";
+import {getSpec, JsonTokenOptions, SpecSerializerOptions} from "./getSpec.js";
+import {getSpecTypeFromSpec} from "./getSpecType.js";
+import {mapOpenSpec} from "./mapOpenSpec.js";
+import {mergeSpec} from "./mergeSpec.js";
+import {transformToOS2} from "./transformToOS2.js";
 
 export interface GenerateSpecOptions extends Omit<SpecSerializerOptions, "specType"> {
   tokens: JsonTokenOptions;

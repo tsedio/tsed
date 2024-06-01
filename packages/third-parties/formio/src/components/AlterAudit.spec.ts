@@ -1,5 +1,5 @@
 import {PlatformTest} from "@tsed/common";
-import {AlterAudit} from "./AlterAudit";
+import {AlterAudit} from "./AlterAudit.js";
 
 describe("AlterAudit", () => {
   beforeEach(() => PlatformTest.create());

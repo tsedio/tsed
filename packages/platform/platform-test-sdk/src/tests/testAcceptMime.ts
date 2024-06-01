@@ -1,7 +1,7 @@
 import {AcceptMime, Controller, Get, HeaderParams, PlatformTest, Post} from "@tsed/common";
 import {ContentType} from "@tsed/schema";
 import SuperTest from "supertest";
-import {PlatformTestingSdkOpts} from "../interfaces";
+import {PlatformTestingSdkOpts} from "../interfaces.js";
 
 @Controller("/accept-mime")
 class TestAcceptMimeCtrl {

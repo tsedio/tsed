@@ -1,5 +1,5 @@
 import {ParamTypes} from "@tsed/platform-params";
-import {Err} from "./error";
+import {Err} from "./error.js";
 import {JsonParameterStore} from "@tsed/schema";
 
 describe("@Err", () => {

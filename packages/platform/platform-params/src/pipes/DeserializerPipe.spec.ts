@@ -1,7 +1,7 @@
 import {PlatformTest} from "@tsed/common";
-import {BodyParams} from "../decorators/bodyParams";
-import {QueryParams} from "../decorators/queryParams";
-import {DeserializerPipe} from "./DeserializerPipe";
+import {BodyParams} from "../decorators/bodyParams.js";
+import {QueryParams} from "../decorators/queryParams.js";
+import {DeserializerPipe} from "./DeserializerPipe.js";
 import {JsonParameterStore} from "@tsed/schema";
 
 describe("DeserializerPipe", () => {

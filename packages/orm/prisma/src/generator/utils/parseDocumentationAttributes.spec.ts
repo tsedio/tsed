@@ -1,4 +1,4 @@
-import {parseDocumentationAttributes} from "./parseDocumentationAttributes";
+import {parseDocumentationAttributes} from "./parseDocumentationAttributes.js";
 
 describe("parseDocumentationAttributes", () => {
   it("should parse @TsED.Email()", () => {

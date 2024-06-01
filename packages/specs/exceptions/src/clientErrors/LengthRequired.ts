@@ -1,4 +1,4 @@
-import {ClientException} from "../core/ClientException";
+import {ClientException} from "../core/ClientException.js";
 
 export class LengthRequired extends ClientException {
   static readonly STATUS = 411;

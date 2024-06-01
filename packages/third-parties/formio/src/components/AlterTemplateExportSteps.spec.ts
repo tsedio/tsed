@@ -1,7 +1,7 @@
 import {PlatformTest} from "@tsed/common";
 import Sinon from "sinon";
-import {FormioDatabase} from "../services/FormioDatabase";
-import {AlterTemplateExportSteps} from "./AlterTemplateExportSteps";
+import {FormioDatabase} from "../services/FormioDatabase.js";
+import {AlterTemplateExportSteps} from "./AlterTemplateExportSteps.js";
 
 async function createServiceFixture() {
   const mapper = {

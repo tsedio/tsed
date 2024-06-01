@@ -1,4 +1,4 @@
-import {isSymbol, isSymbolOrSymbolClass} from "./isSymbol";
+import {isSymbol, isSymbolOrSymbolClass} from "./isSymbol.js";
 
 describe("isSymbol()", () => {
   it("should validate value", () => {

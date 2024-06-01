@@ -1,5 +1,5 @@
 import {decorateMethodsOf, DecoratorParameters, decoratorTypeOf, DecoratorTypes, UnsupportedDecoratorType} from "@tsed/core";
-import {UseBefore} from "./useBefore";
+import {UseBefore} from "./useBefore.js";
 
 /**
  * Mounts the specified middleware function or functions at the specified path: the middleware function is executed when

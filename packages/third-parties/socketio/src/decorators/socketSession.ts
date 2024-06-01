@@ -1,5 +1,5 @@
-import {SocketFilters} from "../interfaces/SocketFilters";
-import {SocketFilter} from "./socketFilter";
+import {SocketFilters} from "../interfaces/SocketFilters.js";
+import {SocketFilter} from "./socketFilter.js";
 
 export type SocketSession = Map<string, any>;
 

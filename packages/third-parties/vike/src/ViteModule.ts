@@ -3,9 +3,9 @@ import {Inject, Module} from "@tsed/di";
 import {PlatformRenderOptions, PlatformViews} from "@tsed/platform-views";
 import compress from "compression";
 
-import {ViteRendererMiddleware} from "./middlewares/ViteRendererMiddleware";
-import {VITE_SERVER} from "./services/ViteServer";
-import {ViteService} from "./services/ViteService";
+import {ViteRendererMiddleware} from "./middlewares/ViteRendererMiddleware.js";
+import {VITE_SERVER} from "./services/ViteServer.js";
+import {ViteService} from "./services/ViteService.js";
 
 @Module({
   imports: []

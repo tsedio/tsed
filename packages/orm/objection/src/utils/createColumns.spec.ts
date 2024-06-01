@@ -1,10 +1,10 @@
 import {catchError} from "@tsed/core";
 import {MaxLength, Property} from "@tsed/schema";
-import {createTableStub} from "../../test/helpers/knex/table";
-import {Decimal} from "../decorators/decimal";
-import {Entity} from "../decorators/entity";
-import {IdColumn} from "../decorators/idColumn";
-import {createColumns} from "./createColumns";
+import {createTableStub} from "../../test/helpers/knex/table.js";
+import {Decimal} from "../decorators/decimal.js";
+import {Entity} from "../decorators/entity.js";
+import {IdColumn} from "../decorators/idColumn.js";
+import {createColumns} from "./createColumns.js";
 
 describe("createTable", () => {
   it("should create table from a given class (columns doesn't exists)", () => {

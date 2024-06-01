@@ -1,4 +1,4 @@
-import {concatPath} from "./concatPath";
+import {concatPath} from "./concatPath.js";
 
 describe("concatPath", () => {
   it("should return path", () => {

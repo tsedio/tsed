@@ -1,7 +1,7 @@
 import {InjectorService} from "@tsed/di";
 import {Job, Worker, WorkerOptions} from "bullmq";
-import {BullMQTypes} from "../constants/BullMQTypes";
-import {getWorkerToken} from "./getWorkerToken";
+import {BullMQTypes} from "../constants/BullMQTypes.js";
+import {getWorkerToken} from "./getWorkerToken.js";
 
 export function createWorkerProvider(injector: InjectorService, worker: string, process: (job: Job) => any, opts: WorkerOptions) {
   const token = getWorkerToken(worker);

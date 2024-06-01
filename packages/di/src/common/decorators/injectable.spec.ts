@@ -1,6 +1,6 @@
-import {Injectable} from "./injectable";
-import {GlobalProviders} from "../registries/GlobalProviders";
-import * as ProviderRegistry from "../registries/ProviderRegistry";
+import {Injectable} from "./injectable.js";
+import {GlobalProviders} from "../registries/GlobalProviders.js";
+import * as ProviderRegistry from "../registries/ProviderRegistry.js";
 
 describe("@Injectable()", () => {
   afterEach(() => jest.resetAllMocks());

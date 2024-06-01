@@ -4,9 +4,9 @@ import {MongooseDocument, MongooseModel} from "@tsed/mongoose";
 import type {FilterQuery} from "mongoose";
 import omit from "lodash/omit";
 import {FormioAction, FormioActionItem, FormioForm, FormioRole, FormioSubmission, FormioToken} from "@tsed/formio-types";
-import {FormioMapper} from "../builder/FormioMapper";
-import {isMongoId} from "../utils/isMongoId";
-import {FormioService} from "./FormioService";
+import {FormioMapper} from "../builder/FormioMapper.js";
+import {isMongoId} from "../utils/isMongoId.js";
+import {FormioService} from "./FormioService.js";
 
 function toMap<T>(list: any[]) {
   return tMap<string, MongooseDocument<T>>(list, (o: any) => [o._id.toString(), `$machineName:${o.name || o.machineName}`]);

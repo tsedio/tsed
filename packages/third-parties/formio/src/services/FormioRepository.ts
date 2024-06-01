@@ -1,8 +1,8 @@
 import type {FilterQuery} from "mongoose";
 import {Inject} from "@tsed/di";
 import {MongooseDocument, MongooseModel} from "@tsed/mongoose";
-import {FormioSubmission} from "../domain/FormioModels";
-import {FormioDatabase} from "./FormioDatabase";
+import {FormioSubmission} from "../domain/FormioModels.js";
+import {FormioDatabase} from "./FormioDatabase.js";
 
 export abstract class FormioRepository<SubmissionData = any> {
   @Inject()

@@ -3,8 +3,8 @@ import {PlatformTestSdk} from "@tsed/platform-test-sdk";
 import {Returns} from "@tsed/schema";
 import {ServerResponse} from "http";
 import SuperTest from "supertest";
-import {PlatformExpress} from "../src/index";
-import {rootDir, Server} from "./app/Server";
+import {PlatformExpress} from "../src/index.js";
+import {rootDir, Server} from "./app/Server.js";
 
 @ResponseFilter("plain/text")
 class PlainTextFilter {

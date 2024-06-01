@@ -1,5 +1,5 @@
 import {getJsonSchema} from "@tsed/schema";
-import {ObjectID} from "./objectID";
+import {ObjectID} from "./objectID.js";
 
 describe("ObjectID", () => {
   it("should declare an ObjectID field", () => {

@@ -1,4 +1,4 @@
-import {Container, Inject, Injectable, InjectorService, LOGGER} from "../../common/index";
+import {Container, Inject, Injectable, InjectorService, LOGGER} from "../../common/index.js";
 
 describe("DILogger", () => {
   it("should inject logger in another service", async () => {

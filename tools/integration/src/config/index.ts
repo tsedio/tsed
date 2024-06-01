@@ -1,5 +1,5 @@
-import {envs} from "./envs";
-import loggerConfig from "./logger";
+import {envs} from "./envs/index.js";
+import loggerConfig from "./logger/index.js";
 
 export const config: Partial<TsED.Configuration> = {
   envs,

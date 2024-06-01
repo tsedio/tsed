@@ -170,8 +170,8 @@ Here is a class that consume a redis connection:
 import {v4} from "uuid";
 import {Injectable} from "@tsed/di";
 import {serialize, deserialize} from "@tsed/json-mapper";
-import {REDIS_CONNECTION} from "./RedisConnection";
-import {ClientModel} from "./ClientModel";
+import {REDIS_CONNECTION} from "./RedisConnection.js";
+import {ClientModel} from "./ClientModel.js";
 
 @Injectable()
 export class ClientRepository {
@@ -215,9 +215,9 @@ export class ClientModel {
 And his test:
 
 ```typescript
-import {ClientRepository} from "./ClientRepository";
-import {REDIS_CONNECTION} from "./RedisConnection";
-import {ClientModel} from "./ClientModel";
+import {ClientRepository} from "./ClientRepository.js";
+import {REDIS_CONNECTION} from "./RedisConnection.js";
+import {ClientModel} from "./ClientModel.js";
 
 describe("IORedisTest", () => {
   beforeEach(() => IORedisTest.create()); // create a new sandbox with ioredis-mock connection

@@ -1,10 +1,10 @@
 import Sinon from "sinon";
 import {Injectable, PlatformTest} from "@tsed/common";
-import {Server} from "./helpers/Server";
-import {OnEvent} from "../src/decorators/onEvent";
-import {EventEmitterService} from "../src/services/EventEmitterFactory";
-import {OnAny} from "../src/decorators/onAny";
-import {EventEmitterModule} from "../src/EventEmitterModule";
+import {Server} from "./helpers/Server.js";
+import {OnEvent} from "../src/decorators/onEvent.js";
+import {EventEmitterService} from "../src/services/EventEmitterFactory.js";
+import {OnAny} from "../src/decorators/onAny.js";
+import {EventEmitterModule} from "../src/EventEmitterModule.js";
 
 @Injectable()
 class Test {

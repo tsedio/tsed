@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import {schemaOptions} from "../utils/schemaOptions";
+import {schemaOptions} from "../utils/schemaOptions.js";
 
 /**
  *

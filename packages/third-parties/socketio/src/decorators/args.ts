@@ -1,5 +1,5 @@
 import {isCollection, Metadata, Store} from "@tsed/core";
-import {SocketFilters} from "../interfaces/SocketFilters";
+import {SocketFilters} from "../interfaces/SocketFilters.js";
 
 /**
  * Inject the list of arguments in the decorated parameter.

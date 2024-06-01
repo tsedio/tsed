@@ -1,6 +1,6 @@
 import {expect} from "chai";
-import {getEngineFixture} from "../../test/getEngineFixture";
-import {TwigEngine} from "./TwigEngine";
+import {getEngineFixture} from "../../test/getEngineFixture.js";
+import {TwigEngine} from "./TwigEngine.js";
 
 describe("TwigEngine", () => {
   it("should render the given content (by string - no cache)", async () => {

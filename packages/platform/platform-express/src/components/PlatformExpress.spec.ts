@@ -1,4 +1,4 @@
-import {PlatformExpress} from "./PlatformExpress";
+import {PlatformExpress} from "./PlatformExpress.js";
 
 class Server {}
 

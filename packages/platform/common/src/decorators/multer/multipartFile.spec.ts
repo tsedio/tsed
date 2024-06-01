@@ -2,8 +2,8 @@ import {descriptorOf, Metadata, Store} from "@tsed/core";
 import {ParamTypes} from "@tsed/platform-params";
 import {getSpec, JsonParameterStore, Post, SpecTypes} from "@tsed/schema";
 import "../../index";
-import {PlatformMulterMiddleware} from "../../middlewares/PlatformMulterMiddleware";
-import {MultipartFile} from "./multipartFile";
+import {PlatformMulterMiddleware} from "../../middlewares/PlatformMulterMiddleware.js";
+import {MultipartFile} from "./multipartFile.js";
 
 class Test {
   test() {}

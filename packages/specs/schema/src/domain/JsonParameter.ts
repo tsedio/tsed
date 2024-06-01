@@ -1,11 +1,11 @@
 import {Type} from "@tsed/core";
 import {OpenSpecHash, OpenSpecRef, OS3Example, OS3Parameter} from "@tsed/openspec";
-import {JsonSchemaOptions} from "../interfaces/JsonSchemaOptions";
-import {execMapper} from "../registries/JsonSchemaMapperContainer";
-import {NestedGenerics} from "../utils/generics";
-import {JsonMap} from "./JsonMap";
-import {formatParameterType} from "./JsonParameterTypes";
-import {JsonSchema} from "./JsonSchema";
+import {JsonSchemaOptions} from "../interfaces/JsonSchemaOptions.js";
+import {execMapper} from "../registries/JsonSchemaMapperContainer.js";
+import {NestedGenerics} from "../utils/generics.js";
+import {JsonMap} from "./JsonMap.js";
+import {formatParameterType} from "./JsonParameterTypes.js";
+import {JsonSchema} from "./JsonSchema.js";
 
 export class JsonParameter extends JsonMap<OS3Parameter<JsonSchema>> implements NestedGenerics {
   $kind = "operationInParameter";

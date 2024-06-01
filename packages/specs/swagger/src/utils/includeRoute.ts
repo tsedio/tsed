@@ -1,6 +1,6 @@
 import {Provider} from "@tsed/di";
-import {SwaggerSettings} from "../interfaces/SwaggerSettings";
-import {matchPath} from "./matchPath";
+import {SwaggerSettings} from "../interfaces/SwaggerSettings.js";
+import {matchPath} from "./matchPath.js";
 
 export function includeRoute(route: string, provider: Provider, conf: SwaggerSettings): boolean {
   const hidden = provider.store.get("hidden");

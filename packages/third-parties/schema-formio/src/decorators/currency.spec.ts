@@ -1,5 +1,5 @@
-import {getFormioSchema} from "../utils/getFormioSchema";
-import {Currency} from "./currency";
+import {getFormioSchema} from "../utils/getFormioSchema.js";
+import {Currency} from "./currency.js";
 
 describe("Currency", () => {
   it("should declare currency", async () => {

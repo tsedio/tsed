@@ -1,4 +1,4 @@
-import {JsonEntityFn} from "./jsonEntityFn";
+import {JsonEntityFn} from "./jsonEntityFn.js";
 
 /**
  * Add title metadata on the decorated element.

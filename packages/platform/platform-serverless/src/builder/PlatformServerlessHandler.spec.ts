@@ -1,8 +1,8 @@
 import {DITest, Inject, Injectable} from "@tsed/di";
 import {QueryParams} from "@tsed/platform-params";
 import {JsonEntityStore} from "@tsed/schema";
-import {ServerlessContext} from "../domain/ServerlessContext";
-import {PlatformServerlessHandler} from "./PlatformServerlessHandler";
+import {ServerlessContext} from "../domain/ServerlessContext.js";
+import {PlatformServerlessHandler} from "./PlatformServerlessHandler.js";
 
 async function getPlatformServerlessHandlerFixture() {
   const service = await DITest.invoke<PlatformServerlessHandler>(PlatformServerlessHandler);

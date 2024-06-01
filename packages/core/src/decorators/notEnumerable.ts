@@ -1,4 +1,4 @@
-import {Enumerable} from "./enumerable";
+import {Enumerable} from "./enumerable.js";
 
 export function NotEnumerable(): Function {
   return Enumerable(false);

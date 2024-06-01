@@ -1,5 +1,5 @@
 import {PlatformTest} from "@tsed/common";
-import {OidcNoCacheMiddleware} from "./OidcNoCacheMiddleware";
+import {OidcNoCacheMiddleware} from "./OidcNoCacheMiddleware.js";
 
 describe("OidcNoCacheMiddleware", () => {
   beforeEach(() => PlatformTest.create());

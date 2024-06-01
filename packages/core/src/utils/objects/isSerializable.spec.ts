@@ -1,4 +1,4 @@
-import {isSerializable} from "./isSerializable";
+import {isSerializable} from "./isSerializable.js";
 
 describe("isSerializable()", () => {
   it("should return the expected value", () => {

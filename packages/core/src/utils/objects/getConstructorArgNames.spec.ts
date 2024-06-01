@@ -1,4 +1,4 @@
-import {getConstructorArgNames} from "./getConstructorArgNames";
+import {getConstructorArgNames} from "./getConstructorArgNames.js";
 
 describe("getConstructorArgNames", () => {
   it("should return the constructor args names", () => {

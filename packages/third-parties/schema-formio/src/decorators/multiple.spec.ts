@@ -1,5 +1,5 @@
-import {getFormioSchema} from "../utils/getFormioSchema";
-import {Multiple} from "./multiple";
+import {getFormioSchema} from "../utils/getFormioSchema.js";
+import {Multiple} from "./multiple.js";
 
 describe("Multiple", () => {
   it("should declare a model with multiple field", async () => {

@@ -1,7 +1,7 @@
-import {ControllerMiddlewares} from "../decorators/controller";
-import {TokenProvider} from "../interfaces/TokenProvider";
-import {Provider} from "./Provider";
-import {ProviderType} from "./ProviderType";
+import {ControllerMiddlewares} from "../decorators/controller.js";
+import {TokenProvider} from "../interfaces/TokenProvider.js";
+import {Provider} from "./Provider.js";
+import {ProviderType} from "./ProviderType.js";
 
 export class ControllerProvider<T = any> extends Provider<T> {
   public tokenRouter: string;

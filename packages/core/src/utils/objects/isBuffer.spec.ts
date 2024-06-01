@@ -1,4 +1,4 @@
-import {isBuffer, isUint8Array} from "./isBuffer";
+import {isBuffer, isUint8Array} from "./isBuffer.js";
 
 describe("isBuffer", () => {
   it("should return true", () => {

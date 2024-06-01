@@ -1,8 +1,8 @@
-import type {InjectablePropertyType} from "../domain/InjectablePropertyType";
-import type {LocalsContainer} from "../domain/LocalsContainer";
-import type {TokenProvider} from "./TokenProvider";
-import type {InjectorService} from "../services/InjectorService";
-import type {InvokeOptions} from "./InvokeOptions";
+import type {InjectablePropertyType} from "../domain/InjectablePropertyType.js";
+import type {LocalsContainer} from "../domain/LocalsContainer.js";
+import type {TokenProvider} from "./TokenProvider.js";
+import type {InjectorService} from "../services/InjectorService.js";
+import type {InvokeOptions} from "./InvokeOptions.js";
 
 export interface InjectableProperty {
   propertyKey: string;

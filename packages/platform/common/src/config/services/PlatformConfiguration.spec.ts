@@ -1,6 +1,6 @@
 import {Env} from "@tsed/core";
 import {ProviderScope, ProviderType} from "@tsed/di";
-import {PlatformConfiguration} from "./PlatformConfiguration";
+import {PlatformConfiguration} from "./PlatformConfiguration.js";
 
 describe("PlatformConfiguration", () => {
   let settings: any;

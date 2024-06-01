@@ -1,4 +1,4 @@
-import {getRequestId} from "./getRequestId";
+import {getRequestId} from "./getRequestId.js";
 
 describe("getRequestId", () => {
   it("should return request id (uuid)", () => {

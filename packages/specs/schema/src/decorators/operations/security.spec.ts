@@ -1,5 +1,5 @@
-import {getSpec, OperationPath, SpecTypes} from "../../index";
-import {Security} from "./security";
+import {getSpec, OperationPath, SpecTypes} from "../../index.js";
+import {Security} from "./security.js";
 
 describe("Security", () => {
   it("should store metadata (method)", () => {

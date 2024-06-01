@@ -4,9 +4,9 @@ import {Env} from "@tsed/core";
 import {BadRequest, InternalServerError} from "@tsed/exceptions";
 import {Description, Name, Required, Returns, Summary} from "@tsed/schema";
 import SuperTest from "supertest";
-import {CustomBadRequest} from "../errors/CustomBadRequest";
-import {CustomInternalError} from "../errors/CustomInternalError";
-import {PlatformTestingSdkOpts} from "../interfaces";
+import {CustomBadRequest} from "../errors/CustomBadRequest.js";
+import {CustomInternalError} from "../errors/CustomInternalError.js";
+import {PlatformTestingSdkOpts} from "../interfaces.js";
 
 class CustomModel {
   @Required() name: string;

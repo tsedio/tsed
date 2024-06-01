@@ -1,5 +1,5 @@
-import {AllOf, getJsonSchema, getSpec, In, OneOf, OperationPath, Path, Property, SpecTypes} from "../../index";
-import {number, string} from "../../utils/from";
+import {AllOf, getJsonSchema, getSpec, In, OneOf, OperationPath, Path, Property, SpecTypes} from "../../index.js";
+import {number, string} from "../../utils/from.js";
 
 describe("@OneOf", () => {
   it("should declare return schema", () => {

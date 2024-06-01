@@ -1,6 +1,6 @@
 import {Type} from "@tsed/core";
 import {registerProvider} from "@tsed/di";
-import {registerExceptionType} from "../domain/ExceptionFiltersContainer";
+import {registerExceptionType} from "../domain/ExceptionFiltersContainer.js";
 
 /**
  * Register a new class to handle an specific exception.

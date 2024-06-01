@@ -1,4 +1,4 @@
-import {schemaOptions} from "../utils/schemaOptions";
+import {schemaOptions} from "../utils/schemaOptions.js";
 
 /**
  * Calls schema.index() to define multiple indexes (most likely compound) for the schema.

@@ -1,8 +1,8 @@
-import {StoreMerge} from "../../decorators/storeMerge";
-import {StoreSet} from "../../decorators/storeSet";
-import {Store} from "../../domain/Store";
-import {descriptorOf} from "../objects/descriptorOf";
-import {decorateMethodsOf} from "./decorateMethodsOf";
+import {StoreMerge} from "../../decorators/storeMerge.js";
+import {StoreSet} from "../../decorators/storeSet.js";
+import {Store} from "../../domain/Store.js";
+import {descriptorOf} from "../objects/descriptorOf.js";
+import {decorateMethodsOf} from "./decorateMethodsOf.js";
 
 describe("decorateMethodsOf", () => {
   it("should decorate all methods", () => {

@@ -1,6 +1,6 @@
 import {Store} from "@tsed/core";
-import {MONGOOSE_SCHEMA} from "../constants/constants";
-import {Indexed} from "./indexed";
+import {MONGOOSE_SCHEMA} from "../constants/constants.js";
+import {Indexed} from "./indexed.js";
 
 describe("@Indexed()", () => {
   it("should set metadata", () => {

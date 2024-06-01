@@ -9,7 +9,7 @@ import {
   PlatformViewsEngineOptions,
   PlatformViewsExtensionsTypes,
   PlatformViewWritableStream
-} from "../domain/PlatformViewsSettings";
+} from "../domain/PlatformViewsSettings.js";
 
 async function patchEJS(ejs: any) {
   if (!ejs) {

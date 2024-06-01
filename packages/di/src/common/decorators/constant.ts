@@ -1,7 +1,7 @@
 import {Store} from "@tsed/core";
-import {INJECTABLE_PROP} from "../constants/constants";
-import type {InjectableProperties} from "../interfaces/InjectableProperties";
-import {InjectablePropertyType} from "../domain/InjectablePropertyType";
+import {INJECTABLE_PROP} from "../constants/constants.js";
+import type {InjectableProperties} from "../interfaces/InjectableProperties.js";
+import {InjectablePropertyType} from "../domain/InjectablePropertyType.js";
 
 /**
  * Return value from Configuration.

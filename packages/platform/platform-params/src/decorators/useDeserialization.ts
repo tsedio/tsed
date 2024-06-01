@@ -1,5 +1,5 @@
-import {DeserializerPipe} from "../pipes/DeserializerPipe";
-import {UsePipe} from "./usePipe";
+import {DeserializerPipe} from "../pipes/DeserializerPipe.js";
+import {UsePipe} from "./usePipe.js";
 
 /**
  * Use JsonMapper to deserialize the data.

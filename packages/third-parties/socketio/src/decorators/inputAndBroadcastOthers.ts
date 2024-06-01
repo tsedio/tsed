@@ -1,5 +1,5 @@
-import {BroadcastOthers} from "./broadcastOthers";
-import {Input} from "./input";
+import {BroadcastOthers} from "./broadcastOthers.js";
+import {Input} from "./input.js";
 
 /**
  * Attach the decorated method to the socket event and broadcast the response to all clients with the exception of the connected customer.

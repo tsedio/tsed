@@ -1,4 +1,4 @@
-import {Component} from "./component";
+import {Component} from "./component.js";
 
 /**
  * Adds a tooltip to the side of this field.

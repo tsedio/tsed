@@ -1,7 +1,7 @@
-import {OperationVerbs} from "../../constants/OperationVerbs";
-import {JsonEntityStore} from "../../domain/JsonEntityStore";
-import {Publish} from "./publish";
-import {Get} from "./route";
+import {OperationVerbs} from "../../constants/OperationVerbs.js";
+import {JsonEntityStore} from "../../domain/JsonEntityStore.js";
+import {Publish} from "./publish.js";
+import {Get} from "./route.js";
 
 describe("Publish", () => {
   it("should register operation with Publish verb", () => {

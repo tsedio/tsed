@@ -1,4 +1,4 @@
-import type {JsonMapperGlobalOptions} from "./JsonMapperGlobalOptions";
+import type {JsonMapperGlobalOptions} from "./JsonMapperGlobalOptions.js";
 
 export const JsonMapperSettings: JsonMapperGlobalOptions = {
   disableUnsecureConstructor: true,

@@ -1,10 +1,10 @@
 import {PlatformTest} from "@tsed/common";
 import {Inject} from "@tsed/di";
 import {Job} from "agenda";
-import {AgendaModule} from "./AgendaModule";
-import {Agenda} from "./decorators/agenda";
-import {Define} from "./decorators/define";
-import {Every} from "./decorators/every";
+import {AgendaModule} from "./AgendaModule.js";
+import {Agenda} from "./decorators/agenda.js";
+import {Define} from "./decorators/define.js";
+import {Every} from "./decorators/every.js";
 
 jest.mock("agenda", () => {
   return {

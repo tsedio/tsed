@@ -1,8 +1,8 @@
 import {Inject, Injectable} from "@tsed/di";
 import {Logger} from "@tsed/logger";
-import {FormioSubmission} from "../domain/FormioModels";
-import {FormioTemplate} from "../domain/FormioTemplate";
-import {FormioDatabase} from "./FormioDatabase";
+import {FormioSubmission} from "../domain/FormioModels.js";
+import {FormioTemplate} from "../domain/FormioTemplate.js";
+import {FormioDatabase} from "./FormioDatabase.js";
 
 @Injectable()
 export class FormioInstaller extends FormioDatabase {

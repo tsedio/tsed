@@ -1,7 +1,7 @@
 import {PlatformTest} from "@tsed/common";
 import {Env} from "@tsed/core";
 import sirv from "sirv";
-import {VITE_SERVER} from "./ViteServer";
+import {VITE_SERVER} from "./ViteServer.js";
 
 jest.mock("sirv", () => {
   return jest.fn().mockReturnValue("sirv");

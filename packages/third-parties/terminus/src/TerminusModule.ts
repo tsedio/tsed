@@ -4,7 +4,7 @@ import {Constant, Inject, InjectorService, Module, OnInit, Provider} from "@tsed
 import {concatPath} from "@tsed/schema";
 import Http from "http";
 import Https from "https";
-import {TerminusSettings} from "./interfaces/TerminusSettings";
+import {TerminusSettings} from "./interfaces/TerminusSettings.js";
 
 @Module()
 export class TerminusModule implements OnInit {
@@ -101,21 +101,24 @@ export class TerminusModule implements OnInit {
   }
 
   private getHealths() {
-    const subHealths = this.getAll<{name: string}>("health").reduce((healths, {provider, propertyKey, options: {name}}) => {
-      const instance = this.injector.get<any>(provider.token)!;
-      const callback = async (...args: any[]) => {
-        const result = await instance[propertyKey](...args);
+    const subHealths = this.getAll<{name: string}>("health").reduce(
+      (healths, {provider, propertyKey, options: {name}}) => {
+        const instance = this.injector.get<any>(provider.token)!;
+        const callback = async (...args: any[]) => {
+          const result = await instance[propertyKey](...args);
 
-        return {[name]: result};
-      };
+          return {[name]: result};
+        };
 
-      let path = this.getPath(provider, name);
+        let path = this.getPath(provider, name);
 
-      return {
-        ...healths,
-        [path]: callback
-      };
-    }, {} as Record<string, (state: any) => Promise<any>>);
+        return {
+          ...healths,
+          [path]: callback
+        };
+      },
+      {} as Record<string, (state: any) => Promise<any>>
+    );
 
     const healths: Record<string, any> = {
       ...subHealths,

@@ -1,6 +1,6 @@
-import {JsonResponse} from "../../domain/JsonResponse";
-import {JsonSchemaOptions} from "../../interfaces/JsonSchemaOptions";
-import {execMapper, registerJsonSchemaMapper} from "../../registries/JsonSchemaMapperContainer";
+import {JsonResponse} from "../../domain/JsonResponse.js";
+import {JsonSchemaOptions} from "../../interfaces/JsonSchemaOptions.js";
+import {execMapper, registerJsonSchemaMapper} from "../../registries/JsonSchemaMapperContainer.js";
 
 export function operationResponseMapper(jsonResponse: JsonResponse, options: JsonSchemaOptions = {}) {
   const response = execMapper("map", [jsonResponse], options);

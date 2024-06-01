@@ -1,5 +1,5 @@
 import path from "path";
-export * from "./.schema";
+export * from "./.schema.js";
 
 /**
  * Annotation for ncc/zeit

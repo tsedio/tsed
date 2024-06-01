@@ -1,5 +1,5 @@
-import {CollectionOf} from "../decorators/collections/collectionOf";
-import {Property} from "../decorators/common/property";
+import {CollectionOf} from "../decorators/collections/collectionOf.js";
+import {Property} from "../decorators/common/property.js";
 import {
   allOf,
   any,
@@ -20,7 +20,7 @@ import {
   time,
   uri,
   url
-} from "./from";
+} from "./from.js";
 
 describe("from", () => {
   it("should declare a model", () => {

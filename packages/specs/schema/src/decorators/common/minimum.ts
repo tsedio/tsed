@@ -1,5 +1,5 @@
-import {withErrorMsg} from "../../utils/withErrorMsg";
-import {JsonEntityFn} from "./jsonEntityFn";
+import {withErrorMsg} from "../../utils/withErrorMsg.js";
+import {JsonEntityFn} from "./jsonEntityFn.js";
 
 /**
  * The value of `minimum` MUST be a number, representing an inclusive upper limit for a numeric instance.

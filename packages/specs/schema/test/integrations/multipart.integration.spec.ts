@@ -2,8 +2,8 @@ import {MultipartFile, PlatformMulterFile} from "@tsed/common";
 import {Controller} from "@tsed/di";
 import {BodyParams} from "@tsed/platform-params";
 import {SpecTypes} from "@tsed/schema";
-import {Description, getSpec, Post} from "../../src/index";
-import {validateSpec} from "../helpers/validateSpec";
+import {Description, getSpec, Post} from "../../src/index.js";
+import {validateSpec} from "../helpers/validateSpec.js";
 
 @Controller("/controllers")
 class MyController {

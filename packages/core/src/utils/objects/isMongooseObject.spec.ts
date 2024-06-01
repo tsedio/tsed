@@ -1,4 +1,4 @@
-import {isMongooseObject} from "./isMongooseObject";
+import {isMongooseObject} from "./isMongooseObject.js";
 
 describe("isMongooseObject", () => {
   it("should return true if object is mongoose object", () => {

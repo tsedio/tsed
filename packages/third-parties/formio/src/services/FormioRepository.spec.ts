@@ -1,6 +1,6 @@
 import {Injectable, PlatformTest} from "@tsed/common";
-import {FormioDatabase} from "./FormioDatabase";
-import {FormioRepository} from "./FormioRepository";
+import {FormioDatabase} from "./FormioDatabase.js";
+import {FormioRepository} from "./FormioRepository.js";
 
 @Injectable()
 class PackagesRepository extends FormioRepository {

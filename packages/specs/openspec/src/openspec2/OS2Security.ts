@@ -1,4 +1,4 @@
-import {OpenSpecHash} from "../common/OpenSpecHash";
+import {OpenSpecHash} from "../common/OpenSpecHash.js";
 
 export interface OS2SecurityBase {
   /**

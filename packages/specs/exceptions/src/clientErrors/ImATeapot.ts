@@ -1,4 +1,4 @@
-import {ClientException} from "../core/ClientException";
+import {ClientException} from "../core/ClientException.js";
 
 export class ImATeapot extends ClientException {
   static readonly STATUS = 418;

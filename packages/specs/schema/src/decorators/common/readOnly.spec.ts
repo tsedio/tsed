@@ -1,5 +1,5 @@
-import {Format, getJsonSchema, getSpec, In, Path, Post, Property, Returns, SpecTypes} from "../../index";
-import {ReadOnly} from "./readOnly";
+import {Format, getJsonSchema, getSpec, In, Path, Post, Property, Returns, SpecTypes} from "../../index.js";
+import {ReadOnly} from "./readOnly.js";
 
 describe("@ReadOnly", () => {
   it("should declare readOnly field", () => {

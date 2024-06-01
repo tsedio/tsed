@@ -1,5 +1,5 @@
-import {ParamTypes} from "../domain/ParamTypes";
-import {Cookies} from "./cookies";
+import {ParamTypes} from "../domain/ParamTypes.js";
+import {Cookies} from "./cookies.js";
 import {JsonParameterStore} from "@tsed/schema";
 
 describe("@Cookies", () => {

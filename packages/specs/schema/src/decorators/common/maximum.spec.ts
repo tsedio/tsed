@@ -1,7 +1,7 @@
-import {JsonEntityStore} from "../../domain/JsonEntityStore";
-import {CollectionOf} from "../collections/collectionOf";
+import {JsonEntityStore} from "../../domain/JsonEntityStore.js";
+import {CollectionOf} from "../collections/collectionOf.js";
 import "../../index";
-import {Max} from "./maximum";
+import {Max} from "./maximum.js";
 
 describe("@Maximum", () => {
   it("should declare maximum value", () => {

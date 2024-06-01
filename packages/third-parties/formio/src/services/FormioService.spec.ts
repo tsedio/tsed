@@ -1,9 +1,9 @@
 import {PlatformTest} from "@tsed/common";
 import Sinon from "sinon";
 import "../components/AlterAudit";
-import {AlterAudit} from "../components/AlterAudit";
-import {FormioHooksService} from "./FormioHooksService";
-import {FormioService} from "./FormioService";
+import {AlterAudit} from "../components/AlterAudit.js";
+import {FormioHooksService} from "./FormioHooksService.js";
+import {FormioService} from "./FormioService.js";
 
 const sandbox = Sinon.createSandbox();
 

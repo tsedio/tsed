@@ -1,8 +1,8 @@
 import {TestMongooseContext} from "@tsed/testing-mongoose";
-import {Server} from "./helpers/Server";
-import {MongooseModel} from "../src/interfaces/MongooseModel";
+import {Server} from "./helpers/Server.js";
+import {MongooseModel} from "../src/interfaces/MongooseModel.js";
 import {Required} from "@tsed/schema";
-import {ObjectID, DiscriminatorKey, Model} from "../src/index";
+import {ObjectID, DiscriminatorKey, Model} from "../src/index.js";
 
 describe("Mongoose", () => {
   describe("Discriminators", () => {

@@ -1,4 +1,4 @@
-import {MongooseSchema} from "./schema";
+import {MongooseSchema} from "./schema.js";
 
 /**
  * If true, uses Mongoose's default _id settings. Only allowed for ObjectIds

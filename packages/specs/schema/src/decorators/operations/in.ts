@@ -1,10 +1,10 @@
 import {decorateMethodsOf, DecoratorTypes, Type, UnsupportedDecoratorType} from "@tsed/core";
-import {JsonEntityStore} from "../../domain/JsonEntityStore";
-import {JsonMethodStore} from "../../domain/JsonMethodStore";
-import {JsonParameter} from "../../domain/JsonParameter";
-import {JsonParameterStore} from "../../domain/JsonParameterStore";
-import {JsonParameterTypes} from "../../domain/JsonParameterTypes";
-import {JsonSchema, JsonSchemaObject} from "../../domain/JsonSchema";
+import {JsonEntityStore} from "../../domain/JsonEntityStore.js";
+import {JsonMethodStore} from "../../domain/JsonMethodStore.js";
+import {JsonParameter} from "../../domain/JsonParameter.js";
+import {JsonParameterStore} from "../../domain/JsonParameterStore.js";
+import {JsonParameterTypes} from "../../domain/JsonParameterTypes.js";
+import {JsonSchema, JsonSchemaObject} from "../../domain/JsonSchema.js";
 
 export interface InChainedDecorators {
   <T>(target: Object, propertyKey: string | symbol, descriptor: TypedPropertyDescriptor<T>): TypedPropertyDescriptor<T> | void;

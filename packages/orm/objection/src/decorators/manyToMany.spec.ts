@@ -1,7 +1,7 @@
 import {Model} from "objection";
-import {Entity} from "./entity";
-import {IdColumn} from "./idColumn";
-import {ManyToMany} from "./manyToMany";
+import {Entity} from "./entity.js";
+import {IdColumn} from "./idColumn.js";
+import {ManyToMany} from "./manyToMany.js";
 
 describe("@ManyToMany", () => {
   it("should set metadata", () => {

@@ -1,5 +1,5 @@
-import {getFormioSchema} from "../utils/getFormioSchema";
-import {Mask, Masks} from "./mask";
+import {getFormioSchema} from "../utils/getFormioSchema.js";
+import {Mask, Masks} from "./mask.js";
 
 describe("@Mask", () => {
   it("should add a mask on field (1)", async () => {

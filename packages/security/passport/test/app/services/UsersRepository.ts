@@ -1,7 +1,7 @@
 import {Adapter, InjectAdapter} from "@tsed/adapters";
 import {Injectable} from "@tsed/di";
 import {deserialize} from "@tsed/json-mapper";
-import {Account} from "../models/Account";
+import {Account} from "../models/Account.js";
 
 @Injectable()
 export class UsersRepository {

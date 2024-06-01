@@ -164,7 +164,7 @@ console.log("Express server listening on port 3000");
 `@tsed/engines` can be used with Koa as following:
 
 ```typescript
-import {getEngines} from "./getEngines";
+import {getEngines} from "./getEngines.js";
 
 var views = require("koa-views");
 

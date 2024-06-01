@@ -1,7 +1,7 @@
-import {ProviderScope} from "../domain/ProviderScope";
-import {ProviderType} from "../domain/ProviderType";
-import {GlobalProviders} from "./GlobalProviders";
-import {registerProvider, registerValue} from "./ProviderRegistry";
+import {ProviderScope} from "../domain/ProviderScope.js";
+import {ProviderType} from "../domain/ProviderType.js";
+import {GlobalProviders} from "./GlobalProviders.js";
+import {registerProvider, registerValue} from "./ProviderRegistry.js";
 
 describe("ProviderRegistry", () => {
   describe("registerProvider()", () => {

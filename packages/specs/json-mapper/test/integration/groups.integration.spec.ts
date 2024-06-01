@@ -1,6 +1,6 @@
 import {CollectionOf, Groups, Property} from "@tsed/schema";
-import {deserialize} from "../../src/utils/deserialize";
-import {serialize} from "../../src/utils/serialize";
+import {deserialize} from "../../src/utils/deserialize.js";
+import {serialize} from "../../src/utils/serialize.js";
 
 class Product {
   @Groups("!creation")

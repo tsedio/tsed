@@ -1,4 +1,4 @@
-import {SocketSessionData} from "./SocketSessionData";
+import {SocketSessionData} from "./SocketSessionData.js";
 
 describe("SocketSessionData", () => {
   let socketSessionData!: SocketSessionData;

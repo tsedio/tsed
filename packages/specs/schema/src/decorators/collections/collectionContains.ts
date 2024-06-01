@@ -1,4 +1,4 @@
-import {CollectionOf} from "./collectionOf";
+import {CollectionOf} from "./collectionOf.js";
 
 /**
  * Set the type of the item collection. The possible value is String, Boolean, Number, Date, Object, Class, etc...

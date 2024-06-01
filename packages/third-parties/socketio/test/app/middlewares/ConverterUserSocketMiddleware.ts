@@ -1,5 +1,5 @@
 import {Args, SocketMiddleware, SocketSession} from "@tsed/socketio";
-import {User} from "../models/User";
+import {User} from "../models/User.js";
 import {deserialize} from "@tsed/json-mapper";
 
 @SocketMiddleware()

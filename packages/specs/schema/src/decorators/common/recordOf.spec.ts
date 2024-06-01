@@ -1,5 +1,5 @@
-import {getJsonSchema} from "../../index";
-import {RecordOf} from "./recordOf";
+import {getJsonSchema} from "../../index.js";
+import {RecordOf} from "./recordOf.js";
 
 describe("RecordOf()", () => {
   it("should store data", () => {

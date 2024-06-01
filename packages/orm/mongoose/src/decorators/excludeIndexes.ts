@@ -1,4 +1,4 @@
-import {MongooseSchema} from "./schema";
+import {MongooseSchema} from "./schema.js";
 
 /**
  * If true, Mongoose will skip gathering indexes on subpaths. Only allowed for subdocuments and subdocument arrays.

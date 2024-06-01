@@ -1,4 +1,4 @@
-import {decoratorTypeOf} from "./decoratorTypeOf";
+import {decoratorTypeOf} from "./decoratorTypeOf.js";
 
 class Test {}
 

@@ -1,5 +1,5 @@
-import {ViewEngine} from "../decorators/viewEngine";
-import {Engine, EngineOptions} from "./Engine";
+import {ViewEngine} from "../decorators/viewEngine.js";
+import {Engine, EngineOptions} from "./Engine.js";
 
 @ViewEngine("squirrelly")
 export class SquirrellyEngine extends Engine {

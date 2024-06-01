@@ -1,4 +1,4 @@
-import {toMap} from "./toMap";
+import {toMap} from "./toMap.js";
 
 describe("toMap", () => {
   describe("from Object", () => {

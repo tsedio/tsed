@@ -1,4 +1,4 @@
-import {MikroOrmFactory} from "./MikroOrmFactory";
+import {MikroOrmFactory} from "./MikroOrmFactory.js";
 import {Inject, Injectable} from "@tsed/di";
 import {IDatabaseDriver as DatabaseDriver, MikroORM, Options} from "@mikro-orm/core";
 import {catchAsyncError, getValue} from "@tsed/core";
@@ -9,7 +9,10 @@ export class MikroOrmRegistry {
   private readonly DEFAULT_CONTEXT_NAME = "default";
   private readonly instances = new Map<string, MikroORM>();
 
-  constructor(@Inject() private readonly logger: Logger, @Inject() private readonly mikroOrmFactory: MikroOrmFactory) {}
+  constructor(
+    @Inject() private readonly logger: Logger,
+    @Inject() private readonly mikroOrmFactory: MikroOrmFactory
+  ) {}
 
   public async register<T extends DatabaseDriver>(options: Options<T>): Promise<MikroORM> {
     const contextName = getValue<string>(options, "contextName", this.DEFAULT_CONTEXT_NAME);

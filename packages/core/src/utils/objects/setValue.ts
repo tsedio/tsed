@@ -1,4 +1,4 @@
-import {isProtectedKey} from "./isProtectedKey";
+import {isProtectedKey} from "./isProtectedKey.js";
 
 export function setValue(scope: any, expression: string, value: any, separator = ".") {
   const keys: string[] = expression.split(separator);

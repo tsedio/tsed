@@ -1,6 +1,6 @@
 import {descriptorOf, Store} from "@tsed/core";
-import {MONGOOSE_SCHEMA} from "../constants/constants";
-import {Lowercase} from "./lowercase";
+import {MONGOOSE_SCHEMA} from "../constants/constants.js";
+import {Lowercase} from "./lowercase.js";
 
 describe("@Lowercase()", () => {
   it("should set metadata (default)", () => {

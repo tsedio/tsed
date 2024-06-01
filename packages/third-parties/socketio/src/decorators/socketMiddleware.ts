@@ -1,6 +1,6 @@
 import {Middleware} from "@tsed/platform-middlewares";
 import {Store, Type} from "@tsed/core";
-import {SocketProviderTypes} from "../interfaces/SocketProviderTypes";
+import {SocketProviderTypes} from "../interfaces/SocketProviderTypes.js";
 
 /**
  * Declare a new SocketMiddleware.
@@ -32,8 +32,8 @@ import {SocketProviderTypes} from "../interfaces/SocketProviderTypes";
  *
  * ```typescript
  * import {SocketService, SocketUseAfter, SocketUseBefore, Emit, Input, Args} from "@tsed/socketio";
- * import {UserConverterSocketMiddleware} from "../middlewares";
- * import {User} from "../models/User";
+ * import {UserConverterSocketMiddleware} from "../middlewares.js";
+ * import {User} from "../models/User.js";
  *
  * @SocketService("/my-namespace")
  * @SocketUseBefore(UserConverterSocketMiddleware) // global version

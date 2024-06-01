@@ -1,6 +1,6 @@
-import {getJsonSchema} from "../../utils/getJsonSchema";
-import {CollectionOf} from "./collectionOf";
-import {MinItems} from "./minItems";
+import {getJsonSchema} from "../../utils/getJsonSchema.js";
+import {CollectionOf} from "./collectionOf.js";
+import {MinItems} from "./minItems.js";
 
 describe("@MinItems", () => {
   it("should declare a prop", () => {

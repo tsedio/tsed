@@ -1,7 +1,7 @@
 import {PlatformTest, ValidationError} from "@tsed/common";
 import {Env} from "@tsed/core";
 import {BadRequest} from "@tsed/exceptions";
-import {PlatformExceptions} from "./PlatformExceptions";
+import {PlatformExceptions} from "./PlatformExceptions.js";
 
 describe("PlatformExceptions", () => {
   describe("Env.TEST", () => {

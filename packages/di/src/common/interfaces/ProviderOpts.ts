@@ -1,8 +1,8 @@
 import type {Type} from "@tsed/core";
-import type {ProviderType} from "../domain/ProviderType";
-import type {DIResolver} from "./DIResolver";
-import type {ProviderScope} from "../domain/ProviderScope";
-import type {TokenProvider} from "./TokenProvider";
+import type {ProviderType} from "../domain/ProviderType.js";
+import type {DIResolver} from "./DIResolver.js";
+import type {ProviderScope} from "../domain/ProviderScope.js";
+import type {TokenProvider} from "./TokenProvider.js";
 
 export interface ProviderOpts<T = any> {
   /**

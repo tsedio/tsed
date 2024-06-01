@@ -1,5 +1,5 @@
-import {JsonMapper} from "../decorators/jsonMapper";
-import {JsonMapperMethods} from "../interfaces/JsonMapperMethods";
+import {JsonMapper} from "../decorators/jsonMapper.js";
+import {JsonMapperMethods} from "../interfaces/JsonMapperMethods.js";
 
 /**
  * Mapper for the `Symbol` type.

@@ -1,5 +1,5 @@
-import {getFormioSchema} from "../utils/getFormioSchema";
-import {ErrorLabel} from "./errorLabel";
+import {getFormioSchema} from "../utils/getFormioSchema.js";
+import {ErrorLabel} from "./errorLabel.js";
 
 describe("@ErrorLabel", () => {
   it("should set the error label", async () => {

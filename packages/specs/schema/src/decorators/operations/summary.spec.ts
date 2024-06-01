@@ -1,5 +1,5 @@
-import {getSpec, OperationPath} from "../../index";
-import {Summary} from "./summary";
+import {getSpec, OperationPath} from "../../index.js";
+import {Summary} from "./summary.js";
 
 describe("Summary", () => {
   it("should store metadata", () => {

@@ -1,4 +1,4 @@
-import {mapHeaders} from "./mapHeaders";
+import {mapHeaders} from "./mapHeaders.js";
 
 describe("mapHeaders", () => {
   it("should map headers", () => {

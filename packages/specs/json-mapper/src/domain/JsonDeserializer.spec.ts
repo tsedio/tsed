@@ -23,14 +23,14 @@ import {
   Property,
   Required
 } from "@tsed/schema";
-import {Post} from "../../test/helpers/Post";
-import {User} from "../../test/helpers/User";
+import {Post} from "../../test/helpers/Post.js";
+import {User} from "../../test/helpers/User.js";
 import "../components/DateMapper";
 import "../components/PrimitiveMapper";
 import "../components/SymbolMapper";
-import {OnDeserialize} from "../decorators/onDeserialize";
-import {JsonDeserializer} from "./JsonDeserializer";
-import {JsonMapperSettings} from "./JsonMapperSettings";
+import {OnDeserialize} from "../decorators/onDeserialize.js";
+import {JsonDeserializer} from "./JsonDeserializer.js";
+import {JsonMapperSettings} from "./JsonMapperSettings.js";
 
 const deserializer = new JsonDeserializer();
 

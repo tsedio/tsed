@@ -1,5 +1,5 @@
 import {Store} from "@tsed/core";
-import {SocketNsp} from "../index";
+import {SocketNsp} from "../index.js";
 
 describe("SocketNsp", () => {
   it("should set metadata", () => {

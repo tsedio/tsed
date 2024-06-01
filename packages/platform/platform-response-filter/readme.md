@@ -46,7 +46,7 @@ Define a class that return data:
 ```typescript
 import {Injectable} from "@tsed/di";
 import {Returns} from "@tsed/schema";
-import {MyModel} from "../models/MyModel";
+import {MyModel} from "../models/MyModel.js";
 
 @Injectable()
 class MyService {

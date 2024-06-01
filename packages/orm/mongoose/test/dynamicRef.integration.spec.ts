@@ -1,9 +1,9 @@
 import {deserialize, serialize} from "@tsed/json-mapper";
 import {Enum, getJsonSchema, Required} from "@tsed/schema";
 import {TestMongooseContext} from "@tsed/testing-mongoose";
-import {Model} from "../src/decorators/model";
-import {DynamicRef, MongooseModel, ObjectID} from "../src/index";
-import {Server} from "./helpers/Server";
+import {Model} from "../src/decorators/model.js";
+import {DynamicRef, MongooseModel, ObjectID} from "../src/index.js";
+import {Server} from "./helpers/Server.js";
 
 describe("DynamicRef Integration", () => {
   @Model()

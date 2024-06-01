@@ -1,5 +1,5 @@
-import {JsonEntityStore} from "../../domain/JsonEntityStore";
-import {Pattern} from "./pattern";
+import {JsonEntityStore} from "../../domain/JsonEntityStore.js";
+import {Pattern} from "./pattern.js";
 import "../../index";
 
 describe("@Pattern", () => {

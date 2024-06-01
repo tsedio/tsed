@@ -1,5 +1,5 @@
-import {getFormioSchema} from "../utils/getFormioSchema";
-import {TextCase} from "./textCase";
+import {getFormioSchema} from "../utils/getFormioSchema.js";
+import {TextCase} from "./textCase.js";
 
 describe("@TextCase", () => {
   it("should change the case", async () => {

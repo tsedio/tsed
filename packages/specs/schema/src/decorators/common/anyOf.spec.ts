@@ -1,7 +1,7 @@
-import {AllOf, getJsonSchema, getSpec, In, OneOf, OperationPath, Path, Property, SpecTypes} from "../../index";
-import {JsonEntityStore} from "../../domain/JsonEntityStore";
-import {number, string} from "../../utils/from";
-import {AnyOf} from "./anyOf";
+import {AllOf, getJsonSchema, getSpec, In, OneOf, OperationPath, Path, Property, SpecTypes} from "../../index.js";
+import {JsonEntityStore} from "../../domain/JsonEntityStore.js";
+import {number, string} from "../../utils/from.js";
+import {AnyOf} from "./anyOf.js";
 
 describe("@AnyOf", () => {
   it("should declare return schema", () => {

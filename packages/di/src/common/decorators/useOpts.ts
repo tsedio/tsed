@@ -1,5 +1,5 @@
 import {decoratorTypeOf, DecoratorTypes, Store, UnsupportedDecoratorType} from "@tsed/core";
-import {DI_PARAM_OPTIONS, INJECTABLE_PROP} from "../constants/constants";
+import {DI_PARAM_OPTIONS, INJECTABLE_PROP} from "../constants/constants.js";
 
 /**
  * Add options to invoke the Service.

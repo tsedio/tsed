@@ -1,7 +1,7 @@
 import {expect} from "chai";
 import filedirname from "filedirname";
 import {join} from "path";
-import {getEngine, getEngines} from "./getEngines";
+import {getEngine, getEngines} from "./getEngines.js";
 
 // FIXME remove when esm is ready
 const [, rootDir] = filedirname();

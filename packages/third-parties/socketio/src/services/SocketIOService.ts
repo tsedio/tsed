@@ -1,8 +1,8 @@
 import {InjectorService, Provider, Service} from "@tsed/common";
 import * as SocketIO from "socket.io"; // tslint:disable-line: no-unused-variable
-import {SocketHandlersBuilder} from "../class/SocketHandlersBuilder";
-import {SocketProviderMetadata} from "../class/SocketProviderMetadata";
-import {IO} from "../decorators/io";
+import {SocketHandlersBuilder} from "../class/SocketHandlersBuilder.js";
+import {SocketProviderMetadata} from "../class/SocketProviderMetadata.js";
+import {IO} from "../decorators/io.js";
 
 /**
  *
@@ -15,7 +15,10 @@ export class SocketIOService {
    */
   private namespaces: Map<string | RegExp, {nsp: SocketIO.Namespace; instances: any}> = new Map();
 
-  constructor(private injector: InjectorService, @IO private io: SocketIO.Server) {}
+  constructor(
+    private injector: InjectorService,
+    @IO private io: SocketIO.Server
+  ) {}
 
   /**
    *

@@ -1,8 +1,8 @@
 import {Type} from "@tsed/core";
-import {ParamOptions} from "../domain/ParamOptions";
-import {ParamTypes} from "../domain/ParamTypes";
-import {mapParamsOptions} from "../utils/mapParamsOptions";
-import {UseParam} from "./useParam";
+import {ParamOptions} from "../domain/ParamOptions.js";
+import {ParamTypes} from "../domain/ParamTypes.js";
+import {mapParamsOptions} from "../utils/mapParamsOptions.js";
+import {UseParam} from "./useParam.js";
 
 /**
  * QueryParams return the value from [request.query](http://expressjs.com/en/4x/api.html#req.query) object.

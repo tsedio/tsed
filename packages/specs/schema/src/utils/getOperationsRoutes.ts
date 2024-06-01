@@ -1,11 +1,11 @@
 import {Type} from "@tsed/core";
-import {OperationVerbs} from "../constants/OperationVerbs";
-import {JsonEntityStore} from "../domain/JsonEntityStore";
-import {JsonMethodStore} from "../domain/JsonMethodStore";
-import {JsonOperationRoute} from "../domain/JsonOperationRoute";
-import {concatPath} from "./concatPath";
-import {getJsonEntityStore} from "./getJsonEntityStore";
-import {getOperationsStores} from "./getOperationsStores";
+import {OperationVerbs} from "../constants/OperationVerbs.js";
+import {JsonEntityStore} from "../domain/JsonEntityStore.js";
+import {JsonMethodStore} from "../domain/JsonMethodStore.js";
+import {JsonOperationRoute} from "../domain/JsonOperationRoute.js";
+import {concatPath} from "./concatPath.js";
+import {getJsonEntityStore} from "./getJsonEntityStore.js";
+import {getOperationsStores} from "./getOperationsStores.js";
 
 export interface GetOperationsRoutesOptions {
   withChildren?: boolean;

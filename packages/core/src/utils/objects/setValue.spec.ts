@@ -1,4 +1,4 @@
-import {setValue} from "./setValue";
+import {setValue} from "./setValue.js";
 
 describe("setValue()", () => {
   describe("when map", () => {

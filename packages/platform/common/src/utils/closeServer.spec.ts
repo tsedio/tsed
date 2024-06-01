@@ -1,4 +1,4 @@
-import {closeServer} from "./closeServer";
+import {closeServer} from "./closeServer.js";
 
 describe("closeServer", () => {
   it("should close the server", async () => {

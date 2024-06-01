@@ -2,7 +2,7 @@ import {Controller, Inject, Injectable} from "@tsed/di";
 import {BodyParams, PathParams, QueryParams} from "@tsed/platform-params";
 import {PlatformServerlessTest} from "@tsed/platform-serverless-testing";
 import {Delete, Get, Patch, Post, Put} from "@tsed/schema";
-import {PlatformServerless} from "./PlatformServerless";
+import {PlatformServerless} from "./PlatformServerless.js";
 
 @Injectable()
 class TimeslotsService {

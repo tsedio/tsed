@@ -1,7 +1,7 @@
 import {ApolloService} from "@tsed/apollo";
 import {PlatformTest} from "@tsed/common";
-import {AuthResolver, RecipeResolver} from "../../test/app/graphql/index";
-import {TypeGraphQLService} from "./TypeGraphQLService";
+import {AuthResolver, RecipeResolver} from "../../test/app/graphql/index.js";
+import {TypeGraphQLService} from "./TypeGraphQLService.js";
 
 async function createApolloServiceFixture() {
   const server = {

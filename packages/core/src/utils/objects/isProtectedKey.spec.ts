@@ -1,4 +1,4 @@
-import {isProtectedKey} from "./isProtectedKey";
+import {isProtectedKey} from "./isProtectedKey.js";
 
 describe("isProtectedKey", () => {
   it("should return true", () => {

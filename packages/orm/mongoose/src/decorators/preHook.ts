@@ -1,6 +1,6 @@
 import {decoratorTypeOf, DecoratorTypes} from "@tsed/core";
-import {MongooseHookOptions, MongoosePreHookCB} from "../interfaces/MongooseSchemaOptions";
-import {schemaOptions} from "../utils/schemaOptions";
+import {MongooseHookOptions, MongoosePreHookCB} from "../interfaces/MongooseSchemaOptions.js";
+import {schemaOptions} from "../utils/schemaOptions.js";
 
 /**
  *

@@ -1,10 +1,10 @@
 import {Inject, PlatformTest} from "@tsed/common";
 import {PlatformExpress} from "@tsed/platform-express";
-import {Emit, Input, Nsp, SocketNsp, SocketIOServer, SocketService, SocketSession, SocketUseBefore} from "../src";
+import {Emit, Input, Nsp, SocketNsp, SocketIOServer, SocketService, SocketSession, SocketUseBefore} from "../src/index.js";
 import {SocketClientService} from "@tsed/socketio-testing";
 import {Namespace, Socket as IOSocket} from "socket.io";
-import {ConverterUserSocketMiddleware} from "./app/middlewares/ConverterUserSocketMiddleware";
-import {Server} from "./app/Server";
+import {ConverterUserSocketMiddleware} from "./app/middlewares/ConverterUserSocketMiddleware.js";
+import {Server} from "./app/Server.js";
 
 @SocketService("/test")
 export class TestWS {

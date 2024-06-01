@@ -1,5 +1,5 @@
-import {isArray} from "./isArray";
-import {isString} from "./isString";
+import {isArray} from "./isArray.js";
+import {isString} from "./isString.js";
 
 export type ToMapIdentityCB<V> = (item: V, index: string | number) => string | string[];
 export type ToMapIdentity<V> = string | ToMapIdentityCB<V>;

@@ -1,4 +1,4 @@
-import {hasJsonMethod} from "./hasJsonMethod";
+import {hasJsonMethod} from "./hasJsonMethod.js";
 
 describe("hasJsonMethod", () => {
   it("should return true if object has toJSON method", () => {

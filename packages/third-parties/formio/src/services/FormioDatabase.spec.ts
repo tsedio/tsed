@@ -1,6 +1,6 @@
 import {PlatformTest} from "@tsed/common";
-import {FormioDatabase} from "./FormioDatabase";
-import {FormioService} from "./FormioService";
+import {FormioDatabase} from "./FormioDatabase.js";
+import {FormioService} from "./FormioService.js";
 
 async function createServiceFixture() {
   const formioService = {

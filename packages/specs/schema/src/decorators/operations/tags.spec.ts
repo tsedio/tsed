@@ -1,5 +1,5 @@
-import {getSpec, OperationPath} from "../../index";
-import {Tags} from "./tags";
+import {getSpec, OperationPath} from "../../index.js";
+import {Tags} from "./tags.js";
 
 describe("Tags", () => {
   it("should store metadata (method)", () => {

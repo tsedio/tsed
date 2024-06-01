@@ -1,7 +1,7 @@
 import {Model} from "objection";
-import {Entity} from "./entity";
-import {HasMany} from "./hasMany";
-import {IdColumn} from "./idColumn";
+import {Entity} from "./entity.js";
+import {HasMany} from "./hasMany.js";
+import {IdColumn} from "./idColumn.js";
 
 describe("@HasMany", () => {
   it("should set metadata", () => {

@@ -1,5 +1,5 @@
 import {Store} from "@tsed/core";
-import {TemporalStore, ActivityOptions, TEMPORAL_STORE_KEY} from "../interfaces/TemporalStore";
+import {TemporalStore, ActivityOptions, TEMPORAL_STORE_KEY} from "../interfaces/TemporalStore.js";
 
 export function Activity(options: ActivityOptions = {}): MethodDecorator {
   return (target: any, propertyKey: string | symbol) => {

@@ -15,7 +15,7 @@ import {
   Consumes
 } from "@tsed/schema";
 import SuperTest from "supertest";
-import {PlatformTestingSdkOpts} from "../interfaces";
+import {PlatformTestingSdkOpts} from "../interfaces.js";
 
 enum MyEnum {
   TITLE,

@@ -2,7 +2,7 @@ import {Controller, Get, Head, Inject, PathParams, PlatformTest, Post, QueryPara
 import {UseCache, PlatformCache} from "@tsed/platform-cache";
 import {Property} from "@tsed/schema";
 import SuperTest from "supertest";
-import {PlatformTestingSdkOpts} from "../interfaces";
+import {PlatformTestingSdkOpts} from "../interfaces.js";
 
 let increment = 0;
 

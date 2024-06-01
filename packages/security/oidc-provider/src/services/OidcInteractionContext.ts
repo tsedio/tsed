@@ -13,14 +13,14 @@ import {
   INTERACTION_PROMPT,
   INTERACTION_SESSION,
   INTERACTION_UID
-} from "../constants/constants";
-import {OidcSession} from "../decorators/oidcSession";
-import {OidcClient, OidcInteraction} from "../domain/interfaces";
-import {OidcBadInteractionName} from "../domain/OidcBadInteractionName";
-import {OidcInteractionPromptProps} from "../domain/OidcInteractionPromptProps";
-import {debug} from "../utils/debug";
-import {OidcInteractions} from "./OidcInteractions";
-import {OidcProvider} from "./OidcProvider";
+} from "../constants/constants.js";
+import {OidcSession} from "../decorators/oidcSession.js";
+import {OidcClient, OidcInteraction} from "../domain/interfaces.js";
+import {OidcBadInteractionName} from "../domain/OidcBadInteractionName.js";
+import {OidcInteractionPromptProps} from "../domain/OidcInteractionPromptProps.js";
+import {debug} from "../utils/debug.js";
+import {OidcInteractions} from "./OidcInteractions.js";
+import {OidcProvider} from "./OidcProvider.js";
 import omit from "lodash/omit";
 @Injectable()
 export class OidcInteractionContext {

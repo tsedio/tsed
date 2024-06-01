@@ -9,7 +9,7 @@ import {
   Property,
   Required,
   Allow
-} from "../index";
+} from "../index.js";
 
 describe("JsonEntityStore", () => {
   it("should create JsonEntityStore", () => {

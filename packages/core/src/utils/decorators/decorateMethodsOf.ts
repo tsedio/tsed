@@ -1,8 +1,8 @@
-import {Store} from "../../domain/Store";
-import {classOf} from "../objects/classOf";
-import {descriptorOf} from "../objects/descriptorOf";
-import {methodsOf} from "../objects/methodsOf";
-import {prototypeOf} from "../objects/prototypeOf";
+import {Store} from "../../domain/Store.js";
+import {classOf} from "../objects/classOf.js";
+import {descriptorOf} from "../objects/descriptorOf.js";
+import {methodsOf} from "../objects/methodsOf.js";
+import {prototypeOf} from "../objects/prototypeOf.js";
 
 export function decorateMethodsOf(klass: any, decorator: any) {
   methodsOf(klass).forEach(({target, propertyKey}) => {

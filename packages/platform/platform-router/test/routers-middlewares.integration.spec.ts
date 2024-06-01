@@ -3,8 +3,8 @@ import {Controller, InjectorService} from "@tsed/di";
 import {Middleware} from "@tsed/platform-middlewares";
 import {Context, PlatformParams} from "@tsed/platform-params";
 import {Get} from "@tsed/schema";
-import {PlatformRouter} from "../src/domain/PlatformRouter";
-import {PlatformRouters} from "../src/domain/PlatformRouters";
+import {PlatformRouter} from "../src/domain/PlatformRouter.js";
+import {PlatformRouters} from "../src/domain/PlatformRouters.js";
 
 @Middleware()
 class MyMiddleware {

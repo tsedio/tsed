@@ -1,14 +1,17 @@
 import {ancestorsOf, isClass, Type} from "@tsed/core";
 import {Configuration, InjectorService, OnDestroy, registerProvider} from "@tsed/di";
 import {AbstractRepository, ConnectionOptions, ContainedType, getCustomRepository, Repository, useContainer} from "typeorm";
-import {TypeORMService} from "./services/TypeORMService";
+import {TypeORMService} from "./services/TypeORMService.js";
 
 const WHITELIST = [Repository, AbstractRepository];
 
 export class TypeORMModule implements OnDestroy {
   private settings: ConnectionOptions[];
 
-  constructor(configuration: Configuration, private typeORMService: TypeORMService) {
+  constructor(
+    configuration: Configuration,
+    private typeORMService: TypeORMService
+  ) {
     this.settings = configuration.get<ConnectionOptions[]>("typeorm", []);
   }
 
