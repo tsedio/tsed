@@ -4874,6 +4874,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@prisma/debug@npm:5.14.0":
+  version: 5.14.0
+  resolution: "@prisma/debug@npm:5.14.0"
+  checksum: 10/d1afd73075a4753b49cce8b1dfc8c2a20d88624d2570abd4baf24a1353e24dad3c0b55db7b4055c70e76545c6f172dfd0a54d58d2dc827a93b1bde04c2f3b5aa
+  languageName: node
+  linkType: hard
+
 "@prisma/engines-version@npm:4.16.1-1.4bc8b6e1b66cb932731fb1bdbbc550d1e010de81":
   version: 4.16.1-1.4bc8b6e1b66cb932731fb1bdbbc550d1e010de81
   resolution: "@prisma/engines-version@npm:4.16.1-1.4bc8b6e1b66cb932731fb1bdbbc550d1e010de81"
@@ -4913,7 +4920,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@prisma/generator-helper@npm:4.16.2, @prisma/generator-helper@npm:^4.16.2":
+"@prisma/generator-helper@npm:4.16.2":
   version: 4.16.2
   resolution: "@prisma/generator-helper@npm:4.16.2"
   dependencies:
@@ -4922,6 +4929,15 @@ __metadata:
     cross-spawn: "npm:7.0.3"
     kleur: "npm:4.1.5"
   checksum: 10/34b355a2a6cf04759460e79752e8133dee34352cdf1fcb79507140d202435ba6e80211a238a49ceb04b7ec88bb2cc03e74e7328f525679bedbcd8bd5b7d3dd96
+  languageName: node
+  linkType: hard
+
+"@prisma/generator-helper@npm:^5.14.0":
+  version: 5.14.0
+  resolution: "@prisma/generator-helper@npm:5.14.0"
+  dependencies:
+    "@prisma/debug": "npm:5.14.0"
+  checksum: 10/1aef5b0a0225b23f73d074e91185e6a0a570b4a6457b94a9c2cc834648c239b9266f49a759eb88ff240f52292928c63d6a05d0a56fc2be52c8dbc9bda1e78c42
   languageName: node
   linkType: hard
 
@@ -7768,7 +7784,7 @@ __metadata:
   resolution: "@tsed/prisma@workspace:packages/orm/prisma"
   dependencies:
     "@prisma/client": "npm:^4.16.2"
-    "@prisma/generator-helper": "npm:^4.16.2"
+    "@prisma/generator-helper": "npm:^5.14.0"
     "@prisma/internals": "npm:^4.16.2"
     "@tsed/core": "workspace:*"
     "@tsed/di": "workspace:*"
