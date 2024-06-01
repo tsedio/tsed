@@ -6392,10 +6392,10 @@ __metadata:
   resolution: "@tsed/adapters-redis@workspace:packages/orm/adapters-redis"
   dependencies:
     "@tsed/adapters": "workspace:*"
+    "@tsed/barrels": "workspace:*"
     "@tsed/core": "workspace:*"
     "@tsed/ioredis": "workspace:*"
     "@tsed/typescript": "workspace:*"
-    barrelsby: "npm:^2.8.1"
     eslint: "npm:^8.57.0"
     jest: "npm:^29.7.0"
     tslib: "npm:2.6.1"
@@ -6415,6 +6415,7 @@ __metadata:
   resolution: "@tsed/adapters@workspace:packages/orm/adapters"
   dependencies:
     "@tsed/ajv": "workspace:*"
+    "@tsed/barrels": "workspace:*"
     "@tsed/common": "workspace:*"
     "@tsed/core": "workspace:*"
     "@tsed/di": "workspace:*"
@@ -6424,7 +6425,6 @@ __metadata:
     "@types/fs-extra": "npm:11.0.4"
     "@types/lowdb": "npm:1.0.15"
     "@types/uuid": "npm:9.0.8"
-    barrelsby: "npm:^2.8.1"
     change-case: "npm:^4.1.2"
     eslint: "npm:^8.57.0"
     fs-extra: "npm:11.2.0"
@@ -6460,12 +6460,12 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@tsed/agenda@workspace:packages/third-parties/agenda"
   dependencies:
+    "@tsed/barrels": "workspace:*"
     "@tsed/common": "workspace:*"
     "@tsed/core": "workspace:*"
     "@tsed/di": "workspace:*"
     "@tsed/typescript": "workspace:*"
     agenda: "npm:^5.0.0"
-    barrelsby: "npm:^2.8.1"
     eslint: "npm:^8.57.0"
     jest: "npm:^29.7.0"
     tslib: "npm:2.6.1"
@@ -6478,6 +6478,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@tsed/ajv@workspace:packages/specs/ajv"
   dependencies:
+    "@tsed/barrels": "workspace:*"
     "@tsed/core": "workspace:*"
     "@tsed/di": "workspace:*"
     "@tsed/exceptions": "workspace:*"
@@ -6486,7 +6487,6 @@ __metadata:
     ajv: "npm:8.12.0"
     ajv-errors: "npm:3.0.0"
     ajv-formats: "npm:2.1.1"
-    barrelsby: "npm:^2.8.1"
     eslint: "npm:^8.57.0"
     jest: "npm:^29.7.0"
     tslib: "npm:2.6.1"
@@ -6513,6 +6513,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@tsed/apollo@workspace:packages/graphql/apollo"
   dependencies:
+    "@tsed/barrels": "workspace:*"
     "@tsed/common": "workspace:*"
     "@tsed/core": "workspace:*"
     "@tsed/di": "workspace:*"
@@ -6525,7 +6526,6 @@ __metadata:
     apollo-server-express: "npm:^3.13.0"
     apollo-server-koa: "npm:^3.13.0"
     apollo-server-testing: "npm:^2.26.2"
-    barrelsby: "npm:^2.8.1"
     eslint: "npm:^8.57.0"
     graphql: "npm:15.8.0"
     jest: "npm:^29.7.0"
@@ -6542,16 +6542,26 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@tsed/barrels@workspace:*, @tsed/barrels@workspace:tools/barrels":
+  version: 0.0.0-use.local
+  resolution: "@tsed/barrels@workspace:tools/barrels"
+  dependencies:
+    commander: "npm:12.1.0"
+  bin:
+    barrels: ./index.mjs
+  languageName: unknown
+  linkType: soft
+
 "@tsed/bullmq@workspace:packages/third-parties/bullmq":
   version: 0.0.0-use.local
   resolution: "@tsed/bullmq@workspace:packages/third-parties/bullmq"
   dependencies:
+    "@tsed/barrels": "workspace:*"
     "@tsed/common": "workspace:*"
     "@tsed/core": "workspace:*"
     "@tsed/di": "workspace:*"
     "@tsed/schema": "workspace:*"
     "@tsed/typescript": "workspace:*"
-    barrelsby: "npm:^2.8.1"
     bullmq: "npm:^4.12.3 || ^5.1.1"
     eslint: "npm:^8.57.0"
     jest: "npm:^29.7.0"
@@ -6566,6 +6576,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@tsed/common@workspace:packages/platform/common"
   dependencies:
+    "@tsed/barrels": "workspace:*"
     "@tsed/components-scan": "workspace:*"
     "@tsed/core": "workspace:*"
     "@tsed/di": "workspace:*"
@@ -6584,7 +6595,6 @@ __metadata:
     "@tsed/typescript": "workspace:*"
     "@types/json-schema": "npm:7.0.15"
     accepts: "npm:^1.3.8"
-    barrelsby: "npm:^2.8.1"
     cross-env: "npm:7.0.3"
     eslint: "npm:^8.57.0"
     jest: "npm:^29.7.0"
@@ -6605,11 +6615,11 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@tsed/components-scan@workspace:packages/third-parties/components-scan"
   dependencies:
+    "@tsed/barrels": "workspace:*"
     "@tsed/core": "workspace:*"
     "@tsed/di": "workspace:*"
     "@tsed/normalize-path": "workspace:*"
     "@tsed/typescript": "workspace:*"
-    barrelsby: "npm:^2.8.1"
     eslint: "npm:^8.57.0"
     globby: "npm:11.1.0"
     jest: "npm:^29.7.0"
@@ -6626,12 +6636,14 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@tsed/core@workspace:packages/core"
   dependencies:
+    "@tsed/barrels": "workspace:*"
     "@tsed/typescript": "workspace:*"
-    barrelsby: "npm:^2.8.1"
     eslint: "npm:^8.57.0"
     jest: "npm:^29.7.0"
     reflect-metadata: "npm:^0.2.1"
     tslib: "npm:2.6.1"
+    typescript: "npm:4.9.5"
+    webpack: "npm:^5.75.0"
   languageName: unknown
   linkType: soft
 
@@ -6639,11 +6651,11 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@tsed/di@workspace:packages/di"
   dependencies:
+    "@tsed/barrels": "workspace:*"
     "@tsed/core": "workspace:*"
     "@tsed/logger": "npm:>=6.7.5"
     "@tsed/schema": "workspace:*"
     "@tsed/typescript": "workspace:*"
-    barrelsby: "npm:^2.8.1"
     cross-env: "npm:7.0.3"
     eslint: "npm:^8.57.0"
     jest: "npm:^29.7.0"
@@ -6670,10 +6682,10 @@ __metadata:
     "@babel/plugin-transform-runtime": "npm:7.24.3"
     "@babel/preset-env": "npm:7.24.3"
     "@babel/preset-react": "npm:7.24.1"
+    "@tsed/barrels": "workspace:*"
     "@tsed/typescript": "workspace:*"
     "@types/semver": "npm:^7.5.8"
     atpl: "npm:0.9.3"
-    barrelsby: "npm:^2.8.1"
     bracket-template: "npm:^1.1.5"
     coffee-script: "npm:^1.12.7"
     cross-env: "npm:7.0.3"
@@ -6732,11 +6744,11 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@tsed/event-emitter@workspace:packages/third-parties/event-emitter"
   dependencies:
+    "@tsed/barrels": "workspace:*"
     "@tsed/common": "workspace:*"
     "@tsed/core": "workspace:*"
     "@tsed/di": "workspace:*"
     "@tsed/typescript": "workspace:*"
-    barrelsby: "npm:^2.8.1"
     eslint: "npm:^8.57.0"
     eventemitter2: "npm:^6.4.9"
     jest: "npm:^29.7.0"
@@ -6750,9 +6762,9 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@tsed/exceptions@workspace:packages/specs/exceptions"
   dependencies:
+    "@tsed/barrels": "workspace:*"
     "@tsed/typescript": "workspace:*"
     "@types/statuses": "npm:2.0.5"
-    barrelsby: "npm:^2.8.1"
     change-case: "npm:4.1.2"
     eslint: "npm:^8.57.0"
     jest: "npm:^29.7.0"
@@ -6767,8 +6779,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@tsed/formio-types@workspace:packages/third-parties/formio-types"
   dependencies:
+    "@tsed/barrels": "workspace:*"
     "@tsed/typescript": "workspace:*"
-    barrelsby: "npm:^2.8.1"
     eslint: "npm:^8.57.0"
     jest: "npm:^29.7.0"
     tslib: "npm:2.6.1"
@@ -6781,6 +6793,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@tsed/formio@workspace:packages/third-parties/formio"
   dependencies:
+    "@tsed/barrels": "workspace:*"
     "@tsed/common": "workspace:*"
     "@tsed/core": "workspace:*"
     "@tsed/di": "workspace:*"
@@ -6789,7 +6802,6 @@ __metadata:
     "@tsed/normalize-path": "workspace:*"
     "@tsed/typescript": "workspace:*"
     "@types/async": "npm:3.2.24"
-    barrelsby: "npm:^2.8.1"
     eslint: "npm:^8.57.0"
     express: "npm:^4.19.1"
     formio: "npm:3.5.0"
@@ -6822,12 +6834,12 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@tsed/graphql-ws@workspace:packages/graphql/graphql-ws"
   dependencies:
+    "@tsed/barrels": "workspace:*"
     "@tsed/common": "workspace:*"
     "@tsed/core": "workspace:*"
     "@tsed/di": "workspace:*"
     "@tsed/logger": "npm:>=6.7.5"
     "@tsed/typescript": "workspace:*"
-    barrelsby: "npm:^2.8.1"
     eslint: "npm:^8.57.0"
     graphql-ws: "npm:^5.15.0"
     jest: "npm:^29.7.0"
@@ -6862,11 +6874,11 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@tsed/ioredis@workspace:packages/orm/ioredis"
   dependencies:
+    "@tsed/barrels": "workspace:*"
     "@tsed/core": "workspace:*"
     "@tsed/di": "workspace:*"
     "@tsed/typescript": "workspace:*"
     "@types/ioredis-mock": "npm:^5.6.0"
-    barrelsby: "npm:^2.8.1"
     eslint: "npm:^8.57.0"
     ioredis: "npm:5.3.2"
     ioredis-mock: "npm:8.9.0"
@@ -6890,10 +6902,10 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@tsed/json-mapper@workspace:packages/specs/json-mapper"
   dependencies:
+    "@tsed/barrels": "workspace:*"
     "@tsed/core": "workspace:*"
     "@tsed/schema": "workspace:*"
     "@tsed/typescript": "workspace:*"
-    barrelsby: "npm:^2.8.1"
     eslint: "npm:^8.57.0"
     jest: "npm:^29.7.0"
     tslib: "npm:2.6.1"
@@ -6912,8 +6924,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@tsed/jwks@workspace:packages/security/jwks"
   dependencies:
+    "@tsed/barrels": "workspace:*"
     "@tsed/typescript": "workspace:*"
-    barrelsby: "npm:^2.8.1"
     eslint: "npm:^8.57.0"
     fs-extra: "npm:^11.2.0"
     jest: "npm:^29.7.0"
@@ -6964,6 +6976,7 @@ __metadata:
   dependencies:
     "@mikro-orm/core": "npm:6.2.2"
     "@mikro-orm/mongodb": "npm:6.2.2"
+    "@tsed/barrels": "workspace:*"
     "@tsed/common": "workspace:*"
     "@tsed/core": "workspace:*"
     "@tsed/di": "workspace:*"
@@ -6972,7 +6985,6 @@ __metadata:
     "@tsed/schema": "workspace:*"
     "@tsed/testing-mongoose": "workspace:*"
     "@tsed/typescript": "workspace:*"
-    barrelsby: "npm:^2.8.1"
     cross-env: "npm:7.0.3"
     eslint: "npm:^8.57.0"
     jest: "npm:^29.7.0"
@@ -6998,13 +7010,13 @@ __metadata:
   resolution: "@tsed/mongoose@workspace:packages/orm/mongoose"
   dependencies:
     "@tsed/ajv": "workspace:*"
+    "@tsed/barrels": "workspace:*"
     "@tsed/core": "workspace:*"
     "@tsed/di": "workspace:*"
     "@tsed/json-mapper": "workspace:*"
     "@tsed/logger": "npm:>=6.7.5"
     "@tsed/schema": "workspace:*"
     "@tsed/typescript": "workspace:*"
-    barrelsby: "npm:^2.8.1"
     change-case: "npm:4.1.2"
     eslint: "npm:^8.57.0"
     jest: "npm:^29.7.0"
@@ -7058,9 +7070,9 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@tsed/normalize-path@workspace:packages/utils/normalize-path"
   dependencies:
+    "@tsed/barrels": "workspace:*"
     "@tsed/typescript": "workspace:*"
     "@types/normalize-path": "npm:^3.0.2"
-    barrelsby: "npm:^2.8.1"
     eslint: "npm:^8.57.0"
     jest: "npm:^29.7.0"
     normalize-path: "npm:3.0.0"
@@ -7073,12 +7085,12 @@ __metadata:
   resolution: "@tsed/objection@workspace:packages/orm/objection"
   dependencies:
     "@tsed/ajv": "workspace:*"
+    "@tsed/barrels": "workspace:*"
     "@tsed/core": "workspace:*"
     "@tsed/di": "workspace:*"
     "@tsed/json-mapper": "workspace:*"
     "@tsed/schema": "workspace:*"
     "@tsed/typescript": "workspace:*"
-    barrelsby: "npm:^2.8.1"
     eslint: "npm:^8.57.0"
     jest: "npm:^29.7.0"
     knex: "npm:^3.1.0"
@@ -7115,13 +7127,13 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@tsed/oidc-provider-plugin-wildcard-redirect-uri@workspace:packages/security/oidc-provider-plugin-wildcard-redirect-uri"
   dependencies:
+    "@tsed/barrels": "workspace:*"
     "@tsed/core": "workspace:*"
     "@tsed/di": "workspace:*"
     "@tsed/oidc-provider": "workspace:*"
     "@tsed/typescript": "workspace:*"
     "@types/psl": "npm:^1.1.3"
     "@types/uuid": "npm:9.0.8"
-    barrelsby: "npm:^2.8.1"
     eslint: "npm:^8.57.0"
     jest: "npm:^29.7.0"
     psl: "npm:1.9.0"
@@ -7147,6 +7159,7 @@ __metadata:
   resolution: "@tsed/oidc-provider@workspace:packages/security/oidc-provider"
   dependencies:
     "@tsed/adapters": "workspace:*"
+    "@tsed/barrels": "workspace:*"
     "@tsed/common": "workspace:*"
     "@tsed/core": "workspace:*"
     "@tsed/di": "workspace:*"
@@ -7156,7 +7169,6 @@ __metadata:
     "@types/lowdb": "npm:1.0.15"
     "@types/oidc-provider": "npm:8.4.4"
     "@types/uuid": "npm:9.0.8"
-    barrelsby: "npm:^2.8.1"
     cross-env: "npm:7.0.3"
     eslint: "npm:^8.57.0"
     express-urlrewrite: "npm:^1.4.0"
@@ -7197,8 +7209,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@tsed/openspec@workspace:packages/specs/openspec"
   dependencies:
+    "@tsed/barrels": "workspace:*"
     "@tsed/typescript": "workspace:*"
-    barrelsby: "npm:^2.8.1"
     eslint: "npm:^8.57.0"
     jest: "npm:^29.7.0"
   languageName: unknown
@@ -7208,6 +7220,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@tsed/passport@workspace:packages/security/passport"
   dependencies:
+    "@tsed/barrels": "workspace:*"
     "@tsed/common": "workspace:*"
     "@tsed/core": "workspace:*"
     "@tsed/di": "workspace:*"
@@ -7217,7 +7230,6 @@ __metadata:
     "@types/passport-http": "npm:0.3.11"
     "@types/passport-local": "npm:1.0.38"
     "@types/passport-strategy": "npm:0.2.38"
-    barrelsby: "npm:^2.8.1"
     eslint: "npm:^8.57.0"
     jest: "npm:^29.7.0"
     passport: "npm:0.7.0"
@@ -7251,13 +7263,13 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@tsed/platform-cache@workspace:packages/platform/platform-cache"
   dependencies:
+    "@tsed/barrels": "workspace:*"
     "@tsed/core": "workspace:*"
     "@tsed/di": "workspace:*"
     "@tsed/json-mapper": "workspace:*"
     "@tsed/schema": "workspace:*"
     "@tsed/typescript": "workspace:*"
     "@types/micromatch": "npm:^4.0.6"
-    barrelsby: "npm:^2.8.1"
     cache-manager: "npm:^5.4.0"
     eslint: "npm:^8.57.0"
     jest: "npm:^29.7.0"
@@ -7284,12 +7296,12 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@tsed/platform-exceptions@workspace:packages/platform/platform-exceptions"
   dependencies:
+    "@tsed/barrels": "workspace:*"
     "@tsed/core": "workspace:*"
     "@tsed/di": "workspace:*"
     "@tsed/exceptions": "workspace:*"
     "@tsed/schema": "workspace:*"
     "@tsed/typescript": "workspace:*"
-    barrelsby: "npm:^2.8.1"
     eslint: "npm:^8.57.0"
     jest: "npm:^29.7.0"
     tslib: "npm:2.6.1"
@@ -7314,6 +7326,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@tsed/platform-express@workspace:packages/platform/platform-express"
   dependencies:
+    "@tsed/barrels": "workspace:*"
     "@tsed/common": "workspace:*"
     "@tsed/core": "workspace:*"
     "@tsed/di": "workspace:*"
@@ -7327,7 +7340,6 @@ __metadata:
     "@types/express-session": "npm:1.18.0"
     "@types/method-override": "npm:0.0.35"
     "@types/multer": "npm:^1.4.11"
-    barrelsby: "npm:^2.8.1"
     body-parser: "npm:1.20.2"
     compression: "npm:1.7.4"
     cookie-parser: "npm:1.4.6"
@@ -7379,6 +7391,7 @@ __metadata:
   dependencies:
     "@koa/cors": "npm:5.0.0"
     "@koa/router": "npm:^12.0.1"
+    "@tsed/barrels": "workspace:*"
     "@tsed/common": "workspace:*"
     "@tsed/core": "workspace:*"
     "@tsed/di": "workspace:*"
@@ -7393,7 +7406,6 @@ __metadata:
     "@types/koa-send": "npm:4.1.6"
     "@types/koa-session": "npm:6.4.5"
     "@types/koa__router": "npm:12.0.4"
-    barrelsby: "npm:^2.8.1"
     cross-env: "npm:7.0.3"
     encodeurl: "npm:^2.0.0"
     eslint: "npm:^8.57.0"
@@ -7446,11 +7458,11 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@tsed/platform-log-middleware@workspace:packages/platform/platform-log-middleware"
   dependencies:
+    "@tsed/barrels": "workspace:*"
     "@tsed/di": "workspace:*"
     "@tsed/platform-middlewares": "workspace:*"
     "@tsed/platform-params": "workspace:*"
     "@tsed/typescript": "workspace:*"
-    barrelsby: "npm:^2.8.1"
     eslint: "npm:^8.57.0"
     jest: "npm:^29.7.0"
     tslib: "npm:2.6.1"
@@ -7472,11 +7484,11 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@tsed/platform-middlewares@workspace:packages/platform/platform-middlewares"
   dependencies:
+    "@tsed/barrels": "workspace:*"
     "@tsed/core": "workspace:*"
     "@tsed/di": "workspace:*"
     "@tsed/schema": "workspace:*"
     "@tsed/typescript": "workspace:*"
-    barrelsby: "npm:^2.8.1"
     eslint: "npm:^8.57.0"
     jest: "npm:^29.7.0"
     tslib: "npm:2.6.1"
@@ -7498,13 +7510,13 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@tsed/platform-params@workspace:packages/platform/platform-params"
   dependencies:
+    "@tsed/barrels": "workspace:*"
     "@tsed/core": "workspace:*"
     "@tsed/di": "workspace:*"
     "@tsed/exceptions": "workspace:*"
     "@tsed/json-mapper": "workspace:*"
     "@tsed/schema": "workspace:*"
     "@tsed/typescript": "workspace:*"
-    barrelsby: "npm:^2.8.1"
     eslint: "npm:^8.57.0"
     jest: "npm:^29.7.0"
     tslib: "npm:2.6.1"
@@ -7532,13 +7544,13 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@tsed/platform-response-filter@workspace:packages/platform/platform-response-filter"
   dependencies:
+    "@tsed/barrels": "workspace:*"
     "@tsed/core": "workspace:*"
     "@tsed/di": "workspace:*"
     "@tsed/exceptions": "workspace:*"
     "@tsed/json-mapper": "workspace:*"
     "@tsed/schema": "workspace:*"
     "@tsed/typescript": "workspace:*"
-    barrelsby: "npm:^2.8.1"
     eslint: "npm:^8.57.0"
     jest: "npm:^29.7.0"
     tslib: "npm:2.6.1"
@@ -7566,6 +7578,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@tsed/platform-router@workspace:packages/platform/platform-router"
   dependencies:
+    "@tsed/barrels": "workspace:*"
     "@tsed/core": "workspace:*"
     "@tsed/di": "workspace:*"
     "@tsed/exceptions": "workspace:*"
@@ -7573,7 +7586,6 @@ __metadata:
     "@tsed/platform-params": "workspace:*"
     "@tsed/schema": "workspace:*"
     "@tsed/typescript": "workspace:*"
-    barrelsby: "npm:^2.8.1"
     eslint: "npm:^8.57.0"
     jest: "npm:^29.7.0"
     tslib: "npm:2.6.1"
@@ -7604,13 +7616,13 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@tsed/platform-serverless-http@workspace:packages/platform/platform-serverless-http"
   dependencies:
+    "@tsed/barrels": "workspace:*"
     "@tsed/common": "workspace:*"
     "@tsed/core": "workspace:*"
     "@tsed/di": "workspace:*"
     "@tsed/platform-serverless-testing": "workspace:*"
     "@tsed/typescript": "workspace:*"
     "@types/aws-lambda": "npm:^8.10.136"
-    barrelsby: "npm:^2.8.1"
     eslint: "npm:^8.57.0"
     jest: "npm:^29.7.0"
     serverless-http: "npm:^3.2.0"
@@ -7646,13 +7658,13 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@tsed/platform-serverless-testing@workspace:packages/platform/platform-serverless-testing"
   dependencies:
+    "@tsed/barrels": "workspace:*"
     "@tsed/common": "workspace:*"
     "@tsed/core": "workspace:*"
     "@tsed/di": "workspace:*"
     "@tsed/schema": "workspace:*"
     "@tsed/typescript": "workspace:*"
     "@types/aws-lambda": "npm:^8.10.136"
-    barrelsby: "npm:^2.8.1"
     eslint: "npm:^8.57.0"
     jest: "npm:^29.7.0"
     tslib: "npm:2.6.1"
@@ -7671,6 +7683,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@tsed/platform-serverless@workspace:packages/platform/platform-serverless"
   dependencies:
+    "@tsed/barrels": "workspace:*"
     "@tsed/core": "workspace:*"
     "@tsed/exceptions": "workspace:*"
     "@tsed/json-mapper": "workspace:*"
@@ -7682,7 +7695,6 @@ __metadata:
     "@types/aws-lambda": "npm:^8.10.136"
     "@types/encodeurl": "npm:^1.0.2"
     "@types/mime": "npm:^3.0.4"
-    barrelsby: "npm:^2.8.1"
     encodeurl: "npm:^2.0.0"
     eslint: "npm:^8.57.0"
     find-my-way: "npm:^7.7.0"
@@ -7708,6 +7720,7 @@ __metadata:
   resolution: "@tsed/platform-test-sdk@workspace:packages/platform/platform-test-sdk"
   dependencies:
     "@tsed/ajv": "workspace:*"
+    "@tsed/barrels": "workspace:*"
     "@tsed/common": "workspace:*"
     "@tsed/core": "workspace:*"
     "@tsed/di": "workspace:*"
@@ -7722,7 +7735,6 @@ __metadata:
     "@tsed/typescript": "workspace:*"
     ajv: "npm:^8.12.0"
     axios: "npm:1.6.8"
-    barrelsby: "npm:^2.8.1"
     eslint: "npm:^8.57.0"
     jest: "npm:^29.7.0"
     read-pkg-up: "npm:7.0.1"
@@ -7733,6 +7745,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@tsed/platform-views@workspace:packages/platform/platform-views"
   dependencies:
+    "@tsed/barrels": "workspace:*"
     "@tsed/core": "workspace:*"
     "@tsed/di": "workspace:*"
     "@tsed/engines": "workspace:*"
@@ -7740,7 +7753,6 @@ __metadata:
     "@tsed/schema": "workspace:*"
     "@tsed/typescript": "workspace:*"
     "@types/ejs": "npm:3.1.5"
-    barrelsby: "npm:^2.8.1"
     ejs: "npm:^3.1.9"
     eslint: "npm:^8.57.0"
     jest: "npm:^29.7.0"
@@ -7770,6 +7782,7 @@ __metadata:
     "@prisma/client": "npm:^4.16.2"
     "@prisma/generator-helper": "npm:^4.16.2"
     "@prisma/internals": "npm:^4.16.2"
+    "@tsed/barrels": "workspace:*"
     "@tsed/core": "workspace:*"
     "@tsed/di": "workspace:*"
     "@tsed/json-mapper": "workspace:*"
@@ -7777,7 +7790,6 @@ __metadata:
     "@tsed/typescript": "workspace:*"
     "@types/change-case": "npm:^2.3.1"
     "@types/pluralize": "npm:0.0.33"
-    barrelsby: "npm:^2.8.1"
     change-case: "npm:^4.1.2"
     eslint: "npm:^8.57.0"
     fs-extra: "npm:^11.2.0"
@@ -7826,7 +7838,6 @@ __metadata:
     "@typescript-eslint/parser": "npm:^5.62.0"
     ajv: "npm:8.12.0"
     axios: "npm:1.6.8"
-    barrelsby: "npm:^2.8.1"
     chai: "npm:5.1.0"
     chai-as-promised: "npm:7.1.1"
     change-case: "npm:4.1.2"
@@ -7873,12 +7884,12 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@tsed/schema-formio@workspace:packages/third-parties/schema-formio"
   dependencies:
+    "@tsed/barrels": "workspace:*"
     "@tsed/core": "workspace:*"
     "@tsed/formio-types": "workspace:*"
     "@tsed/openspec": "workspace:*"
     "@tsed/schema": "workspace:*"
     "@tsed/typescript": "workspace:*"
-    barrelsby: "npm:^2.8.1"
     change-case: "npm:4.1.2"
     eslint: "npm:^8.57.0"
     jest: "npm:^29.7.0"
@@ -7911,6 +7922,7 @@ __metadata:
   resolution: "@tsed/schema@workspace:packages/specs/schema"
   dependencies:
     "@apidevtools/swagger-parser": "npm:10.1.0"
+    "@tsed/barrels": "workspace:*"
     "@tsed/core": "workspace:*"
     "@tsed/openspec": "workspace:*"
     "@tsed/typescript": "workspace:*"
@@ -7918,7 +7930,6 @@ __metadata:
     "@types/json-schema": "npm:7.0.15"
     "@types/picomatch": "npm:2.3.3"
     "@types/statuses": "npm:2.0.5"
-    barrelsby: "npm:^2.8.1"
     change-case: "npm:^4.1.2"
     eslint: "npm:^8.57.0"
     fs-extra: "npm:^11.2.0"
@@ -7943,10 +7954,10 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@tsed/socketio-testing@workspace:packages/third-parties/socketio-testing"
   dependencies:
+    "@tsed/barrels": "workspace:*"
     "@tsed/common": "workspace:*"
     "@tsed/di": "workspace:*"
     "@tsed/typescript": "workspace:*"
-    barrelsby: "npm:^2.8.1"
     eslint: "npm:^8.57.0"
     jest: "npm:^29.7.0"
     socket.io-client: "npm:^4.7.5"
@@ -7963,6 +7974,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@tsed/socketio@workspace:packages/third-parties/socketio"
   dependencies:
+    "@tsed/barrels": "workspace:*"
     "@tsed/common": "workspace:*"
     "@tsed/core": "workspace:*"
     "@tsed/di": "workspace:*"
@@ -7972,7 +7984,6 @@ __metadata:
     "@tsed/schema": "workspace:*"
     "@tsed/socketio-testing": "workspace:*"
     "@tsed/typescript": "workspace:*"
-    barrelsby: "npm:^2.8.1"
     eslint: "npm:^8.57.0"
     express: "npm:^4.19.1"
     jest: "npm:^29.7.0"
@@ -8002,6 +8013,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@tsed/stripe@workspace:packages/third-parties/stripe"
   dependencies:
+    "@tsed/barrels": "workspace:*"
     "@tsed/core": "workspace:*"
     "@tsed/di": "workspace:*"
     "@tsed/exceptions": "workspace:*"
@@ -8009,7 +8021,6 @@ __metadata:
     "@tsed/platform-params": "workspace:*"
     "@tsed/schema": "workspace:*"
     "@tsed/typescript": "workspace:*"
-    barrelsby: "npm:^2.8.1"
     eslint: "npm:^8.57.0"
     jest: "npm:^29.7.0"
     stripe: "npm:^8.129.0"
@@ -8040,6 +8051,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@tsed/swagger@workspace:packages/specs/swagger"
   dependencies:
+    "@tsed/barrels": "workspace:*"
     "@tsed/common": "workspace:*"
     "@tsed/core": "workspace:*"
     "@tsed/di": "workspace:*"
@@ -8049,7 +8061,6 @@ __metadata:
     "@tsed/schema": "workspace:*"
     "@tsed/typescript": "workspace:*"
     "@types/swagger-ui-dist": "npm:3.30.4"
-    barrelsby: "npm:^2.8.1"
     eslint: "npm:^8.57.0"
     filedirname: "npm:^2.11.0"
     fs-extra: "npm:11.2.0"
@@ -8074,11 +8085,11 @@ __metadata:
     "@temporalio/client": "npm:1.8.4"
     "@temporalio/testing": "npm:1.8.4"
     "@temporalio/worker": "npm:1.8.4"
+    "@tsed/barrels": "workspace:*"
     "@tsed/common": "workspace:*"
     "@tsed/core": "workspace:*"
     "@tsed/di": "workspace:*"
     "@tsed/typescript": "workspace:*"
-    barrelsby: "npm:^2.8.1"
     cross-env: "npm:7.0.3"
     eslint: "npm:^8.57.0"
     jest: "npm:^29.7.0"
@@ -8094,12 +8105,12 @@ __metadata:
   resolution: "@tsed/terminus@workspace:packages/third-parties/terminus"
   dependencies:
     "@godaddy/terminus": "npm:^4.12.1"
+    "@tsed/barrels": "workspace:*"
     "@tsed/common": "workspace:*"
     "@tsed/core": "workspace:*"
     "@tsed/di": "workspace:*"
     "@tsed/schema": "workspace:*"
     "@tsed/typescript": "workspace:*"
-    barrelsby: "npm:^2.8.1"
     eslint: "npm:^8.57.0"
     jest: "npm:^29.7.0"
     tslib: "npm:2.6.1"
@@ -8125,11 +8136,11 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@tsed/testing-mongoose@workspace:packages/orm/testing-mongoose"
   dependencies:
+    "@tsed/barrels": "workspace:*"
     "@tsed/common": "workspace:*"
     "@tsed/core": "workspace:*"
     "@tsed/mongoose": "workspace:*"
     "@tsed/typescript": "workspace:*"
-    barrelsby: "npm:^2.8.1"
     eslint: "npm:^8.57.0"
     jest: "npm:^29.7.0"
     mongodb-memory-server: "npm:^8.16.0"
@@ -8167,11 +8178,11 @@ __metadata:
   resolution: "@tsed/typegraphql@workspace:packages/graphql/typegraphql"
   dependencies:
     "@tsed/apollo": "workspace:*"
+    "@tsed/barrels": "workspace:*"
     "@tsed/common": "workspace:*"
     "@tsed/core": "workspace:*"
     "@tsed/typescript": "workspace:*"
     "@types/graphql": "npm:^14.5.0"
-    barrelsby: "npm:^2.8.1"
     class-validator: "npm:~0.14.1"
     cross-env: "npm:^7.0.3"
     eslint: "npm:^8.57.0"
@@ -8192,12 +8203,12 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@tsed/typeorm@workspace:packages/orm/typeorm"
   dependencies:
+    "@tsed/barrels": "workspace:*"
     "@tsed/core": "workspace:*"
     "@tsed/di": "workspace:*"
     "@tsed/json-mapper": "workspace:*"
     "@tsed/schema": "workspace:*"
     "@tsed/typescript": "workspace:*"
-    barrelsby: "npm:^2.8.1"
     eslint: "npm:^8.57.0"
     jest: "npm:^29.7.0"
     tslib: "npm:2.6.1"
@@ -8221,12 +8232,12 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@tsed/vike@workspace:packages/third-parties/vike"
   dependencies:
+    "@tsed/barrels": "workspace:*"
     "@tsed/common": "workspace:*"
     "@tsed/core": "workspace:*"
     "@tsed/di": "workspace:*"
     "@tsed/exceptions": "workspace:*"
     "@tsed/typescript": "workspace:*"
-    barrelsby: "npm:^2.8.1"
     eslint: "npm:^8.57.0"
     jest: "npm:^29.7.0"
     sirv: "npm:^2.0.4"
@@ -8248,9 +8259,9 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@tsed/vite-ssr-plugin@workspace:packages/third-parties/vite-ssr-plugin"
   dependencies:
+    "@tsed/barrels": "workspace:*"
     "@tsed/typescript": "workspace:*"
     "@tsed/vike": "workspace:*"
-    barrelsby: "npm:^2.8.1"
     jest: "npm:^29.7.0"
   peerDependencies:
     vite-plugin-ssr: ">=0.4.114"
@@ -9494,15 +9505,6 @@ __metadata:
   dependencies:
     "@types/yargs-parser": "npm:*"
   checksum: 10/8f31cbfcd5c3ac67c27e26026d8b9af0c37770fb2421b661939ba06d136f5a4fa61528a5d0f495d5802fbf1d9244b499e664d8d884e3eb3c36d556fb7c278f18
-  languageName: node
-  linkType: hard
-
-"@types/yargs@npm:^17.0.10":
-  version: 17.0.32
-  resolution: "@types/yargs@npm:17.0.32"
-  dependencies:
-    "@types/yargs-parser": "npm:*"
-  checksum: 10/1e2b2673847011ce43607df690d392f137d95a2d6ea85aa319403eadda2ef4277365efd4982354d8843f2611ef3846c88599660aaeb537fa9ccddae83c2a89de
   languageName: node
   linkType: hard
 
@@ -11294,19 +11296,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"barrelsby@npm:^2.8.1":
-  version: 2.8.1
-  resolution: "barrelsby@npm:2.8.1"
-  dependencies:
-    "@types/yargs": "npm:^17.0.10"
-    signale: "npm:^1.4.0"
-    yargs: "npm:^17.4.1"
-  bin:
-    barrelsby: bin/cli.js
-  checksum: 10/9b4f93e2e9e4552148a9a71689b1b16f0edb96d8deda597844928171cbf0818f5b6767e5c5f12cb3afe7e2feb3798fe6dc50eee771b5054f2ac67403245aaeae
-  languageName: node
-  linkType: hard
-
 "base64-js@npm:^1.3.1":
   version: 1.5.1
   resolution: "base64-js@npm:1.5.1"
@@ -12827,6 +12816,13 @@ __metadata:
   dependencies:
     delayed-stream: "npm:~1.0.0"
   checksum: 10/2e969e637d05d09fa50b02d74c83a1186f6914aae89e6653b62595cc75a221464f884f55f231b8f4df7a49537fba60bdc0427acd2bf324c09a1dbb84837e36e4
+  languageName: node
+  linkType: hard
+
+"commander@npm:12.1.0":
+  version: 12.1.0
+  resolution: "commander@npm:12.1.0"
+  checksum: 10/cdaeb672d979816853a4eed7f1310a9319e8b976172485c2a6b437ed0db0a389a44cfb222bfbde772781efa9f215bdd1b936f80d6b249485b465c6cb906e1f93
   languageName: node
   linkType: hard
 
@@ -26674,7 +26670,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"signale@npm:^1.2.1, signale@npm:^1.4.0":
+"signale@npm:^1.2.1":
   version: 1.4.0
   resolution: "signale@npm:1.4.0"
   dependencies:

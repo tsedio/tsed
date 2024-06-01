@@ -14,7 +14,7 @@
   },
   "scripts": {
     "build": "yarn barrels && yarn build:ts",
-    "barrels": "yarn barrelsby --delete -d ./src -e \"\\.spec\\.ts\" -e \"__mock__\" -e \".benchmark.ts\"",
+    "barrels": "barrels",
     "start:express": "ts-node test/app/index.express.ts",
     "start:koa": "ts-node test/app/index.koa.ts",
     "test": "jest && jest-coverage-thresholds-bumper",
@@ -25,11 +25,11 @@
     "tslib": "2.6.1"
   },
   "devDependencies": {
+    "@tsed/barrels": "workspace:*",
     "@tsed/common": "workspace:*",
     "@tsed/core": "workspace:*",
     "@tsed/typescript": "workspace:*",
     "@types/graphql": "^14.5.0",
-    "barrelsby": "^2.8.1",
     "class-validator": "~0.14.1",
     "cross-env": "^7.0.3",
     "eslint": "^8.57.0",

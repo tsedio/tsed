@@ -28,8 +28,8 @@
     "vite-plugin-ssr": ">=0.4.114"
   },
   "devDependencies": {
+    "@tsed/barrels": "workspace:*",
     "@tsed/typescript": "workspace:*",
-    "barrelsby": "^2.8.1",
     "jest": "^29.7.0"
   }
 }

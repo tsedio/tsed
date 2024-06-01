@@ -33,6 +33,7 @@
   },
   "devDependencies": {
     "@prisma/client": "^4.16.2",
+    "@tsed/barrels": "workspace:*",
     "@tsed/core": "workspace:*",
     "@tsed/di": "workspace:*",
     "@tsed/json-mapper": "workspace:*",
@@ -40,7 +41,6 @@
     "@tsed/typescript": "workspace:*",
     "@types/change-case": "^2.3.1",
     "@types/pluralize": "0.0.33",
-    "barrelsby": "^2.8.1",
     "eslint": "^8.57.0",
     "jest": "^29.7.0",
     "prisma": "^4.16.2"
