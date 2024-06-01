@@ -150,7 +150,7 @@
     "lint-staged": "^12.5.0",
     "merge-istanbul": "1.1.4",
     "micromatch": "4.0.5",
-    "mocha": "10.3.0",
+    "mocha": "10.4.0",
     "moment": "2.30.1",
     "nyc": "15.1.0",
     "prettier": "3.2.5",
