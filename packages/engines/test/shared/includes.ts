@@ -1,7 +1,6 @@
-import {engines} from "../../src/index.js";
 import fs from "fs";
-import {expect} from "chai";
 import {join} from "path";
+import {engines} from "../../src/index.js";
 
 const rootDir = join(__dirname, "..");
 
@@ -22,9 +21,9 @@ export function test(name: string) {
       const html = await engine.render(str, locals);
 
       if (name === "liquid") {
-        expect(html).to.equal("<p>Tobi</p><section></section><footer></footer>");
+        expect(html).toEqual("<p>Tobi</p><section></section><footer></footer>");
       } else {
-        expect(html).to.equal("<p>Tobi</p>");
+        expect(html).toEqual("<p>Tobi</p>");
       }
     });
 
@@ -34,7 +33,7 @@ export function test(name: string) {
         const locals = {user: user, settings: {views: `${rootDir}/fixtures/${name}`}};
 
         const html = await engine.render(str, locals);
-        expect(html).to.equal("<header></header><p>Tobi</p><footer></footer>");
+        expect(html).toEqual("<header></header><p>Tobi</p><footer></footer>");
       });
     }
   });

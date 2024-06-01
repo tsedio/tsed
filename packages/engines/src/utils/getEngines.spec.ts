@@ -1,6 +1,6 @@
-import {expect} from "chai";
 import {join} from "path";
 import {getEngine, getEngines} from "./getEngines.js";
+import "../index.js";
 
 const rootDir = __dirname; // automatically replaced by import.meta.dirname on build
 
@@ -24,7 +24,7 @@ describe("getEngines", () => {
           );
         });
 
-        expect(result).to.equal("<p>Tobi</p>");
+        expect(result).toEqual("<p>Tobi</p>");
       });
       it("should catch error", async () => {
         const render = getEngine("ejs");
@@ -43,7 +43,7 @@ describe("getEngines", () => {
           );
         });
 
-        expect(error.message).to.contains("ENOENT: no such file or directory");
+        expect(error.message).toContain("ENOENT: no such file or directory");
       });
     });
     describe("render template", () => {
@@ -64,7 +64,7 @@ describe("getEngines", () => {
           );
         });
 
-        expect(result).to.equal("<p>Tobi</p>");
+        expect(result).toEqual("<p>Tobi</p>");
       });
       it("should catch error", async () => {
         const {render} = getEngine("ejs");
@@ -83,14 +83,14 @@ describe("getEngines", () => {
           );
         });
 
-        expect(error.message).to.contains('Could not find matching close tag for "<%=".');
+        expect(error.message).toContain('Could not find matching close tag for "<%=".');
       });
     });
   });
   describe("getEngines()", () => {
     it("should return engines", () => {
       const engines = getEngines();
-      expect(Object.keys(engines)).to.deep.eq([
+      expect(Object.keys(engines)).toEqual([
         "atpl",
         "bracket",
         "dot",

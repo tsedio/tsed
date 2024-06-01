@@ -84,6 +84,7 @@ export class ReactEngine extends Engine {
     delete require.cache[path];
 
     const ReactDOM = await importEngine("react-dom/server", "ReactDOM");
+
     const {default: Code} = await import(path);
     const Factory = this.engine.createFactory(Code);
 

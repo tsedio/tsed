@@ -1,11 +1,8 @@
-import {engines} from "../../src/index.js";
-import {expect} from "chai";
 import fs from "fs";
-import sinon from "sinon";
 import {join} from "path";
+import {engines} from "../../src/index.js";
 
 const rootDir = join(__dirname, "..");
-const sandbox = sinon.createSandbox();
 
 const readFile = fs.readFile;
 const readFileSync = fs.readFileSync;
@@ -25,9 +22,6 @@ export function test(name: string) {
       fs.readFile = readFile;
       fs.readFileSync = readFileSync;
     });
-    afterEach(() => {
-      sandbox.restore();
-    });
 
     it("should support locals", async () => {
       const path = `${rootDir}/fixtures/${name}/user.${name}`;
@@ -35,7 +29,7 @@ export function test(name: string) {
       const {engine} = await getEngineFixture(name);
       const html = await engine.renderFile(path, locals);
 
-      expect(html).to.equal("<p>Tobi</p>");
+      expect(html).toEqual("<p>Tobi</p>");
     });
 
     it("should support promises", async () => {
@@ -44,7 +38,7 @@ export function test(name: string) {
       const {engine} = await getEngineFixture(name);
       const html = await engine.renderFile(path, locals);
 
-      expect(html).to.equal("<p>Tobi</p>");
+      expect(html).toEqual("<p>Tobi</p>");
     });
 
     it("should support rendering a string", async () => {
@@ -52,7 +46,7 @@ export function test(name: string) {
       const locals = {user: user};
       const {engine} = await getEngineFixture(name);
       const html = await engine.render(str, locals);
-      expect(html).to.equal("<p>Tobi</p>");
+      expect(html).toEqual("<p>Tobi</p>");
     });
 
     it("should support rendering into a base template", async () => {
@@ -64,7 +58,7 @@ export function test(name: string) {
       };
       const {engine} = await getEngineFixture(name);
       const html = await engine.renderFile(path, locals);
-      expect(html).to.equal("<html><head><title>My Title</title></head><body><p>Tobi</p></body></html>");
+      expect(html).toEqual("<html><head><title>My Title</title></head><body><p>Tobi</p></body></html>");
     });
   });
 }

@@ -1,7 +1,6 @@
 import {engines} from "../../src/index.js";
 import handlebars from "handlebars";
 import fs from "fs";
-import {expect} from "chai";
 import {join} from "path";
 
 const Sqrl = require("squirrelly");
@@ -39,7 +38,7 @@ export function test(name: string) {
         };
 
         const html = await engine.render(str, locals);
-        expect(html).to.equal("<strong>Tobi</strong>");
+        expect(html).toEqual("<strong>Tobi</strong>");
       });
     } else if (name === "squirrelly") {
       user = {name: "<strong>Tobi</strong>"};
@@ -55,7 +54,7 @@ export function test(name: string) {
         const options = {user: user};
 
         const html = await engine.render(str, options);
-        expect(html).to.equal("strong>Tobi</strong");
+        expect(html).toEqual("strong>Tobi</strong");
       });
     }
 
@@ -63,7 +62,7 @@ export function test(name: string) {
       user = {name: "Tobi"};
 
       // See this for Vash helper system : https://github.com/kirbysayshi/vash#helper-system
-      // Use case: return as as lower case
+      // Use case: return as lower case
       it("should support helpers", async () => {
         const str = fs.readFileSync(`${rootDir}/fixtures/${name}/helpers.${name}`).toString();
         const locals = {
@@ -76,7 +75,7 @@ export function test(name: string) {
         };
 
         const html = await engine.render(str, locals);
-        expect(html).to.equal("<strong>tobi</strong>");
+        expect(html).toEqual("<strong>tobi</strong>");
       });
     }
   });
