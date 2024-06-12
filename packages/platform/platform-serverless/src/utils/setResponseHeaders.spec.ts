@@ -1,7 +1,7 @@
 import {PlatformTest} from "@tsed/common";
 import {Get, JsonEntityStore, Redirect, Returns} from "@tsed/schema";
-import {setResponseHeaders} from "./setResponseHeaders.js";
 import {createServerlessContext} from "../../test/utils/createServerlessContext.js";
+import {setResponseHeaders} from "./setResponseHeaders.js";
 
 describe("setResponseHeaders", () => {
   beforeEach(() => PlatformTest.create());
@@ -125,5 +125,31 @@ describe("setResponseHeaders", () => {
 
     // THEN
     return expect(ctx.response.isDone).toHaveBeenCalled();
+  });
+  it("should do nothing if the endpoint isn't an operation", async () => {
+    class Test {
+      test() {}
+    }
+
+    const endpoint = JsonEntityStore.fromMethod(Test, "test");
+
+    const ctx = createServerlessContext({
+      endpoint: {}
+    });
+
+    jest.spyOn(ctx.response, "setHeaders");
+    jest.spyOn(ctx.response, "isDone");
+    jest.spyOn(ctx.logger, "debug");
+
+    // WHEN
+    await setResponseHeaders(ctx);
+
+    // THEN
+    expect(ctx.response.isDone).toHaveBeenCalled();
+    expect(ctx.logger.debug).toHaveBeenCalledWith({
+      event: "MISSING_OPERATION_METADATA",
+      message: "No operation found on the endpoint. The response headers are not set.",
+      endpoint: {}
+    });
   });
 });

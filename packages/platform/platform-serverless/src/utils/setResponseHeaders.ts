@@ -24,9 +24,18 @@ function mergeHeaders(specHeaders: Record<string, JsonHeader & {example: string}
  */
 export function setResponseHeaders(ctx: ServerlessContext) {
   const {response, endpoint} = ctx;
-  const operation = endpoint.operation!;
+  const operation = endpoint.operation;
 
   if (ctx.isDone()) {
+    return;
+  }
+
+  if (!operation) {
+    ctx.logger.debug({
+      event: "MISSING_OPERATION_METADATA",
+      message: "No operation found on the endpoint. The response headers are not set.",
+      endpoint: endpoint
+    });
     return;
   }
 
