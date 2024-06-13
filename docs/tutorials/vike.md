@@ -17,7 +17,7 @@ projects:
 
 <Banner src="/vike.svg" href="https://vite-plugin-ssr.com/" height="200" />
 
-> Like Next.js/Nuxt but as do-one-thing-do-it-well Vite plugin.
+> Like Next.js/Nuxt but as a do-one-thing-do-it-well Vite plugin.
 
 Use **any UI framework** (React, Vue, Svelte, Solid, ...) and **any tool** you want (any frontend library, web
 technology, deploy environment, Vite plugin, ...).
@@ -25,14 +25,14 @@ technology, deploy environment, Vite plugin, ...).
 With `vike`, you integrate tools manually and keep `architectural control`.
 
 ::: tip Note
-Vike replace the `vite-plugin-ssr` package. Ts.ED provides `@tsed/vite-ssr-plugin` and `@tsed/vike` packages.
-All new features will only embed to `@tsed/vike` package.
+Vike replaces the `vite-plugin-ssr` package. Ts.ED provides `@tsed/vite-ssr-plugin` and `@tsed/vike` packages.
+All new features will only be included in the `@tsed/vike` package.
 
-To migrate `@tsed/vite-ssr-plugin`, just replace `@tsed/vite-ssr-plugin` by `@tsed/vike` in your code and install `vike` dependency instead of `vite-plugin-ssr`.
+To migrate `@tsed/vite-ssr-plugin`, simply replace `@tsed/vite-ssr-plugin` by `@tsed/vike` in your code and install `vike` dependency instead of `vite-plugin-ssr`.
 :::
 
 ::: tip
-You can read also this article over Ts.ED + Vite-plugin-ssr on Medium:
+You can also read this article over Ts.ED + Vite-plugin-ssr on Medium:
 [https://romainlenzotti.medium.com/use-vite-and-ts-ed-to-build-your-website-84fb4c0d8079](https://romainlenzotti.medium.com/use-vite-and-ts-ed-to-build-your-website-84fb4c0d8079)
 :::
 
@@ -76,11 +76,11 @@ export class Server {}
 We recommend you to start your project with
 the [starter project](https://github.com/tsedio/tsed-vike-example).
 
-The start project is a monorepo (Nx) with 2 projects:
+The starter project is a monorepo (Nx) with 2 projects:
 
 - `packages/server`: the backend project
   - `packages/server/controllers/pages`: the controllers pages directory
-  - `packages/server/controllers/rest`: the controllers Rest directory
+  - `packages/server/controllers/rest`: the controllers REST directory
 - `packages/app`: the frontend project
   - `packages/app/pages`: the pages directory
   - `packages/app/renderer`: the app shell directory (header, footer, layout, etc...)
@@ -118,7 +118,7 @@ export class IndexController {
 }
 ```
 
-And his React component:
+And its React component:
 
 ```tsx
 import React from "react";
@@ -171,7 +171,7 @@ pages/faq/index.page.js           /faq
 pages/movies/@id/index.page.js    /movies/1, /movies/2, /movies/3, ...
 ```
 
-So if you want to expose a movies page with the following url `/movies` url, create a new
+So if you want to expose a movies page with the url `/movies`, create a new
 file `packages/app/pages/movies/index.page.tsx`:
 
 ```tsx
@@ -190,7 +190,7 @@ export interface MoviesPageProps {
 export function Page({movies}: PageContext & MoviesPageProps) {
   return (
     <>
-      <h1>Movies,</h1>
+      <h1>Movies</h1>
 
       <ul>
         {movies.map((doc) => {
@@ -223,7 +223,7 @@ export default "/movies/@movieId";
 :::
 
 Then create a new Ts.ED controller `MoviesController` under `packages/server/src/controllers/pages` to handle all
-request that match the "/movies" route:
+requests that match the "/movies" route:
 
 ```ts
 import {Controller, Get} from "@tsed/common";
