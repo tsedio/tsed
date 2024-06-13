@@ -205,6 +205,49 @@ describe("ViteService", () => {
         expect($ctx.response.status).toHaveBeenCalledWith(200);
         expect($ctx.response.setHeader).toHaveBeenCalledWith("content-type", "text/html");
       });
+
+      it("should render the page with statusCode from context.response if superior to httpResponse.statusCode", async () => {
+        const {$ctx, service, renderPage} = await getServiceFixture({
+          statusCode: 200,
+          headers: [["content-type", "text/html"]],
+          body: "html"
+        });
+
+        $ctx.response.status(404);
+        jest.spyOn($ctx.response, "status").mockReturnThis();
+        jest.spyOn($ctx.response, "setHeader").mockReturnThis();
+        const result = await service.render("*", {$ctx});
+
+        expect(result).toEqual({
+          body: "html",
+          headers: [["content-type", "text/html"]],
+          statusCode: 200
+        });
+        expect(renderPage).toHaveBeenCalledWith({
+          view: "*",
+          pageProps: {
+            view: "*"
+          },
+          contextProps: {
+            headers: {
+              host: "host",
+              "x-header": "x-header",
+              "user-agent": "ua"
+            },
+            host: "host",
+            method: "GET",
+            protocol: "https",
+            secure: true,
+            session: {},
+            stateSnapshot: {state: "state"},
+            url: "/"
+          },
+          urlOriginal: "/",
+          userAgent: "ua"
+        });
+        expect($ctx.response.status).toHaveBeenCalledWith(404);
+        expect($ctx.response.setHeader).toHaveBeenCalledWith("content-type", "text/html");
+      });
     });
   });
 });

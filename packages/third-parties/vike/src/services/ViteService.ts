@@ -61,7 +61,7 @@ export class ViteService {
     if (pageContext.httpResponse) {
       const {httpResponse} = pageContext;
       httpResponse.headers?.forEach(([name, value]: [string, string]) => $ctx.response.setHeader(name, value));
-      $ctx.response.status(httpResponse.statusCode);
+      $ctx.response.status(Math.max(httpResponse.statusCode, $ctx.response.statusCode));
 
       if (this.enableStream) {
         return httpResponse;
