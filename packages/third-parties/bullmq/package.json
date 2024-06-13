@@ -1,6 +1,6 @@
 {
   "name": "@tsed/bullmq",
-  "version": "7.71.2",
+  "version": "7.72.0",
   "description": "BullMQ integration for Ts.ED",
   "keywords": [
     "Ts.ED",

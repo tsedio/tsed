@@ -1,6 +1,6 @@
 {
   "name": "@tsed/platform-serverless-testing",
-  "version": "7.71.2",
+  "version": "7.72.0",
   "description": "Module to test Serverless function with Ts.ED",
   "source": "./src/index.ts",
   "main": "./lib/cjs/index.js",
@@ -68,12 +68,12 @@
     "tslib": "2.6.1"
   },
   "peerDependencies": {
-    "@tsed/common": "7.71.2",
-    "@tsed/core": "7.71.2",
-    "@tsed/di": "7.71.2",
-    "@tsed/json-mapper": "7.71.2",
+    "@tsed/common": "7.72.0",
+    "@tsed/core": "7.72.0",
+    "@tsed/di": "7.72.0",
+    "@tsed/json-mapper": "7.72.0",
     "@tsed/logger": ">=6.7.5",
-    "@tsed/openspec": "7.71.2",
-    "@tsed/schema": "7.71.2"
+    "@tsed/openspec": "7.72.0",
+    "@tsed/schema": "7.72.0"
   }
 }
