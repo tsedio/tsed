@@ -10,7 +10,7 @@ export type PlatformCacheLegacyStoreFactory = {
   create(...args: any[]): Promise<Store | any> | Store | any;
 };
 
-export type PlatformCacheSettings<Config extends object = any, S extends Store = any> = CachingConfig<Config> & {
+export type PlatformCacheSettings<Config extends Record<string, any> = any, S extends Store = any> = CachingConfig<Config> & {
   caches?: Cache[];
   store?: "memory" | Store | PlatformCacheLegacyStoreFactory | FactoryStore<S, Config>;
   max?: number;
