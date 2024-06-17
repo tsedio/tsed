@@ -84,7 +84,7 @@ export class ApolloService {
 
               this.app.use(
                 path,
-                expressMiddleware(server, {
+                expressMiddleware(server as any, {
                   ...middlewareOptions,
                   context: contextHandler
                 })
@@ -96,7 +96,7 @@ export class ApolloService {
 
               this.app.use(
                 path,
-                koaMiddleware(server, {
+                koaMiddleware(server as any, {
                   ...middlewareOptions,
                   context: contextHandler
                 })

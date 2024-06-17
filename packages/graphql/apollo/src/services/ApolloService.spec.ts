@@ -13,16 +13,16 @@ import type {ApolloContext} from "../interfaces/ApolloContext.js";
 import type {ApolloSettings} from "../interfaces/ApolloSettings.js";
 import {ApolloService} from "./ApolloService.js";
 
-jest.mock("@apollo/server/express4", () => {
+vi.mock("@apollo/server/express4", () => {
   return {
     __esModule: true,
-    expressMiddleware: jest.fn().mockReturnValue("expressMiddleware")
+    expressMiddleware: vi.fn().mockReturnValue("expressMiddleware")
   };
 });
-jest.mock("@as-integrations/koa", () => {
+vi.mock("@as-integrations/koa", () => {
   return {
     __esModule: true,
-    koaMiddleware: jest.fn().mockReturnValue("koaMiddleware")
+    koaMiddleware: vi.fn().mockReturnValue("koaMiddleware")
   };
 });
 
@@ -55,7 +55,7 @@ export class MyDataSource extends RESTDataSource {
   $ctx: PlatformContext;
 
   @Constant("envs.MY_BACK_URL", "http://localhost:8001")
-  baseURL: string;
+  declare baseURL: string;
 
   @InjectApolloContext()
   protected context: CustomApolloContext;
@@ -67,7 +67,7 @@ export class MyDataSource extends RESTDataSource {
     });
   }
 
-  willSendRequest(path, request) {
+  willSendRequest(path: string, request: any) {
     request.headers["authorization"] = this.context.token;
   }
 
@@ -120,11 +120,11 @@ function getFixture() {
   const app = PlatformTest.get(PlatformApplication);
 
   const serverMockInstance = {
-    start: jest.fn()
+    start: vi.fn()
   };
-  const serverMock = jest.fn().mockReturnValue(serverMockInstance);
+  const serverMock = vi.fn().mockReturnValue(serverMockInstance);
 
-  jest.spyOn(app, "use").mockReturnThis();
+  vi.spyOn(app, "use").mockReturnThis();
 
   return {
     service,
@@ -193,7 +193,7 @@ describe("ApolloService", () => {
           server: serverMock
         } as never;
 
-        jest.spyOn(logger, "error");
+        vi.spyOn(logger, "error");
 
         serverMockInstance.start.mockRejectedValue(new Error("test"));
 
@@ -291,7 +291,7 @@ describe("ApolloService", () => {
         // GIVEN
         const {serverMock, logger, service} = getFixture();
 
-        jest.spyOn(logger, "warn");
+        vi.spyOn(logger, "warn");
         // WHEN
         const opts = {
           path: "/path",

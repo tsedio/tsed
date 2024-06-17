@@ -1,6 +1,5 @@
-import type {ApolloServer, ApolloServerOptions} from "@apollo/server";
+import type {ApolloServer, ApolloServerOptions, ApolloServerOptionsWithSchema} from "@apollo/server";
 import type {GatewayInterface} from "@apollo/server-gateway-interface";
-import {ApolloServerOptionsWithSchema} from "@apollo/server/src/externalTypes/constructor";
 import type {IExecutableSchemaDefinition} from "@graphql-tools/schema";
 import type {GraphQLSchema} from "graphql/index";
 import {ApolloContext} from "./ApolloContext";

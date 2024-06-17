@@ -7,13 +7,14 @@ import "@tsed/typegraphql";
 import * as fs from "fs";
 import {buildContext} from "graphql-passport";
 import {resolve} from "path";
-import {HelloController} from "./controllers/HelloController.js";
-import {User} from "./graphql/auth/User.js";
+import {HelloController} from "./controllers/HelloController";
+import {User} from "./graphql/auth/User";
 import "./graphql/index";
-import {AuthResolver} from "./graphql/index.js";
+import {AuthResolver} from "./graphql/index";
 import "./protocols/GraphQLProtocol";
 import "./services/RecipeService";
 import "./services/UsersRepository";
+import {pubSub} from "./graphql/pubsub/pubsub";
 
 const rootDir = __dirname; // automatically replaced by import.meta.dirname on build
 
@@ -37,7 +38,8 @@ const rootDir = __dirname; // automatically replaced by import.meta.dirname on b
       path: "/api/graphql",
       resolvers: [AuthResolver],
       buildSchemaOptions: {
-        emitSchemaFile: resolve(rootDir, "../resources/schema.gql")
+        emitSchemaFile: resolve(rootDir, "../resources/schema.gql"),
+        pubSub
       }
     }
   },

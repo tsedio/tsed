@@ -47,22 +47,18 @@ import "@tsed/typegraphql";
 import "./resolvers/index"; // barrel file with all resolvers
 
 @Configuration({
-  typegraphql: {
+  apollo: {
     server1: {
       // GraphQL server configuration
+      // See options descriptions on https://www.apollographql.com/docs/apollo-server/api/apollo-server.html
       path: "/",
-      playground: true, // enable playground GraphQL IDE. Set false to use Apollo Studio
+      playground: true // enable playground GraphQL IDE. Set false to use Apollo Studio
 
       // resolvers?: (Function | string)[];
       // dataSources?: Function;
       // server?: (config: Config) => ApolloServer;
 
-      // Apollo Server options
-      // See options descriptions on https://www.apollographql.com/docs/apollo-server/api/apollo-server.html
-      serverConfig: {
-        plugins: []
-      }
-
+      // plugins: []
       // middlewareOptions?: ServerRegistration;
 
       // type-graphql

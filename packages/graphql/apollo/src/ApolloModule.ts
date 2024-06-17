@@ -41,7 +41,7 @@ export class ApolloModule implements OnRoutesInit, AfterListen {
     const displayLog = (key: string, path: string) => {
       const url = typeof host.port === "number" ? `${host.protocol}://${host.address}:${host.port}` : "";
 
-      this.logger.info(`[${key}] Apollo server is available on ${url}${path.replace(/^\//, "")}`);
+      this.logger.info(`[${key}] Apollo server is available on ${url}/${path.replace(/^\//, "")}`);
     };
 
     const {settings} = this;
