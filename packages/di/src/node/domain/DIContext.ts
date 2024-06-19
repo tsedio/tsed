@@ -6,16 +6,19 @@ export interface DIContextOptions extends Omit<ContextLoggerOptions, "dateStart"
   id: string;
   injector: InjectorService;
   logger: any;
+  platform?: string;
 }
 
 export class DIContext {
   [x: string]: any;
-
+  readonly PLATFORM: string = "DI";
   #container?: LocalsContainer;
   #cache?: Map<any, any>;
   #logger?: ContextLogger;
 
-  constructor(public opts: DIContextOptions) {}
+  constructor(public opts: DIContextOptions) {
+    this.PLATFORM = opts.platform || this.PLATFORM;
+  }
 
   /**
    * Logger attached to the context request.

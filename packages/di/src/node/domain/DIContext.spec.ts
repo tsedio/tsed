@@ -27,6 +27,7 @@ describe("DIContext", () => {
       expect(context.dateStart).toBeInstanceOf(Date);
       expect(context.container).toBeInstanceOf(Map);
       expect(context.env).toEqual("test");
+      expect(context.PLATFORM).toEqual("DI");
 
       context.logger.info("test");
 
@@ -47,7 +48,8 @@ describe("DIContext", () => {
         },
         logger,
         injector: DITest.injector,
-        maxStackSize: 0
+        maxStackSize: 0,
+        platform: "OTHER"
       });
 
       context.next = jest.fn();
@@ -56,6 +58,7 @@ describe("DIContext", () => {
       expect(context.dateStart).toBeInstanceOf(Date);
       expect(context.container).toBeInstanceOf(Map);
       expect(context.env).toEqual("test");
+      expect(context.PLATFORM).toEqual("OTHER");
 
       context.next();
       context.logger.info("test");

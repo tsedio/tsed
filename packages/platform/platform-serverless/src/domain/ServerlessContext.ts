@@ -16,6 +16,7 @@ export class ServerlessContext extends DIContext {
   readonly context: Context;
   readonly event: APIGatewayProxyEventBase<APIGatewayEventDefaultAuthorizerContext>;
   readonly endpoint: JsonEntityStore;
+  readonly PLATFORM = "SERVERLESS";
 
   constructor({event, context, endpoint, ...options}: ServerlessContextOptions) {
     super({
