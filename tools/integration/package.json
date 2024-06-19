@@ -1,6 +1,6 @@
 {
   "name": "@tsed/integration",
-  "version": "7.72.0",
+  "version": "7.73.0",
   "source": "src/index.ts",
   "main": "src/index.js",
   "private": true,
