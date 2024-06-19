@@ -4,7 +4,7 @@ import {ParamValidationError} from "../errors/ParamValidationError.js";
 import {ParseExpressionPipe} from "../pipes/ParseExpressionPipe.js";
 
 export type PlatformParamsScope<Context extends DIContext = DIContext> = {$ctx: Context} & Record<string, any>;
-export type PlatformParamsCallback<Context extends DIContext = DIContext> = (scope: PlatformParamsScope) => Promise<any>;
+export type PlatformParamsCallback<Context extends DIContext = DIContext> = (scope: PlatformParamsScope<Context>) => Promise<any>;
 
 /**
  * Platform Params abstraction layer.
@@ -43,14 +43,14 @@ export class PlatformParams {
     handler?: any;
   }): PlatformParamsCallback<Context> {
     if (!token || !propertyKey) {
-      return (scope: PlatformParamsScope) => handler(scope.$ctx);
+      return (scope: PlatformParamsScope<Context>) => handler(scope.$ctx);
     }
 
     const store = JsonMethodStore.fromMethod(token, propertyKey);
     const getArguments = this.compile<Context>(store);
     const provider = this.injector.getProvider(token)!;
 
-    return async (scope: PlatformParamsScope) => {
+    return async (scope: PlatformParamsScope<Context>) => {
       const container = provider.scope === ProviderScope.REQUEST ? scope.$ctx.container : undefined;
       const [instance, args] = await Promise.all([this.injector.invoke<any>(token, container), getArguments(scope)]);
 

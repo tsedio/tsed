@@ -23,6 +23,7 @@ export class PlatformContext<
   PReq extends PlatformRequest = PlatformRequest,
   PRes extends PlatformResponse = PlatformResponse
 > extends DIContext {
+  readonly PLATFORM: string = "WWW";
   public event: IncomingEvent;
   /**
    * The data return by the previous endpoint if you use multiple handler on the same route. By default data is empty.
