@@ -188,6 +188,8 @@ class ReturnDecoratorContext extends DecoratorContext<ReturnsChainedDecorators> 
     "location"
   ];
 
+  private hasOfTypes: boolean;
+
   constructor({status, model}: any) {
     super();
 
@@ -344,7 +346,7 @@ class ReturnDecoratorContext extends DecoratorContext<ReturnsChainedDecorators> 
     const model = this.get("model");
     let contentType = this.get("contentType");
 
-    if (model && !isPlainObject(model) && !isPrimitiveOrPrimitiveClass(model)) {
+    if ((model && !isPlainObject(model) && !isPrimitiveOrPrimitiveClass(model)) || this.hasOfTypes) {
       contentType = contentType || "application/json";
     }
 
@@ -461,6 +463,7 @@ class ReturnDecoratorContext extends DecoratorContext<ReturnsChainedDecorators> 
 
   private manyOf(kind: string, types: any[]) {
     const model = this.get("model");
+    this.hasOfTypes = true;
 
     this.addAction(() => {
       const schema = this.get("schema") as JsonSchema;

@@ -843,7 +843,7 @@ describe("Discriminator", () => {
               responses: {
                 "200": {
                   content: {
-                    "*/*": {
+                    "application/json": {
                       schema: {
                         discriminator: {
                           propertyName: "type"
@@ -1049,7 +1049,7 @@ describe("Discriminator", () => {
               responses: {
                 "200": {
                   content: {
-                    "*/*": {
+                    "application/json": {
                       schema: {
                         discriminator: {
                           propertyName: "type"
@@ -1176,7 +1176,7 @@ describe("Discriminator", () => {
               responses: {
                 "200": {
                   content: {
-                    "*/*": {
+                    "application/json": {
                       schema: {
                         discriminator: {
                           propertyName: "type"
@@ -1261,7 +1261,7 @@ describe("Discriminator", () => {
               responses: {
                 "200": {
                   content: {
-                    "*/*": {
+                    "application/json": {
                       schema: {
                         $ref: "#/components/schemas/Base"
                       }
