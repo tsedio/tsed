@@ -1,4 +1,4 @@
-import {cleanObject, deepMerge, mergeReducerBuilder} from "@tsed/core";
+import {deepMerge, mergeReducerBuilder} from "@tsed/core";
 import {OpenSpec2, OpenSpec3} from "@tsed/openspec";
 
 /**
