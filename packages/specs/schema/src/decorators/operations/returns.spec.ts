@@ -1053,6 +1053,83 @@ describe("@Returns", () => {
         ]
       });
     });
+    it("should apply application/json content type if OneOf/AnyOf/AllOf is used without base model", () => {
+      class Model {
+        @Property()
+        id: string;
+      }
+
+      class Model2 {
+        @Property()
+        id: string;
+      }
+
+      class Controller {
+        @OperationPath("POST", "/")
+        @Returns(200).OneOf(Model, Model2).Description("description")
+        method() {
+          return {};
+        }
+      }
+
+      const result = getSpec(Controller, {specType: SpecTypes.OPENAPI});
+
+      expect(result).toEqual({
+        components: {
+          schemas: {
+            Model: {
+              properties: {
+                id: {
+                  type: "string"
+                }
+              },
+              type: "object"
+            },
+            Model2: {
+              properties: {
+                id: {
+                  type: "string"
+                }
+              },
+              type: "object"
+            }
+          }
+        },
+        paths: {
+          "/": {
+            post: {
+              operationId: "controllerMethod",
+              parameters: [],
+              responses: {
+                "200": {
+                  content: {
+                    "application/json": {
+                      schema: {
+                        oneOf: [
+                          {
+                            $ref: "#/components/schemas/Model"
+                          },
+                          {
+                            $ref: "#/components/schemas/Model2"
+                          }
+                        ]
+                      }
+                    }
+                  },
+                  description: "description"
+                }
+              },
+              tags: ["Controller"]
+            }
+          }
+        },
+        tags: [
+          {
+            name: "Controller"
+          }
+        ]
+      });
+    });
   });
   describe("Multiple contentType", () => {
     it("should manage multiple content and model", () => {

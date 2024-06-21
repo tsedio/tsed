@@ -161,7 +161,7 @@ Object {
         "responses": Object {
           "200": Object {
             "content": Object {
-              "*/*": Object {
+              "application/json": Object {
                 "schema": Object {
                   "discriminator": Object {
                     "propertyName": "type",
@@ -294,7 +294,7 @@ Object {
         "responses": Object {
           "200": Object {
             "content": Object {
-              "*/*": Object {
+              "application/json": Object {
                 "schema": Object {
                   "discriminator": Object {
                     "propertyName": "type",
