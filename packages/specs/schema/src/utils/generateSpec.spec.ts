@@ -13,6 +13,9 @@ import {Path} from "../decorators/operations/path.js";
 import {Returns} from "../decorators/operations/returns.js";
 import {SpecTypes} from "../domain/SpecTypes.js";
 import {generateSpec} from "./generateSpec.js";
+import {AnyOf} from "../decorators/common/anyOf";
+import {Post} from "../decorators/operations/route";
+import {BodyParams} from "@tsed/platform-params";
 
 const rootDir = __dirname; // automatically replaced by import.meta.dirname on build
 
@@ -133,6 +136,130 @@ describe("generateSpec()", () => {
             name: "Controller2"
           }
         ]
+      });
+    });
+
+    it("should generate spec and correctly merge shared model with custom schema", async () => {
+      class Model {
+        @AnyOf(
+          Number,
+          Boolean,
+          String,
+          { type: 'array', items: { type: 'number' } },
+          { type: 'array', items: { type: 'string' } },
+        )
+        test: number | boolean | string | number[] | string[];
+      }
+
+      @Path("/controller1")
+      class Controller1 {
+        @Post("/post")
+        method(@BodyParams() body: Model) {}
+      }
+
+      @Path("/controller2")
+      class Controller2 {
+        @Post("/post")
+        method(@BodyParams() body: Model) {}
+      }
+
+      const result = await generateSpec({
+        tokens: [
+          {token: Controller1, rootPath: "/rest"},
+          {token: Controller2, rootPath: "/rest"},
+        ],
+        specVersion: "3.0.1",
+        specPath: join(rootDir, "__mock__", "spec.json")
+      });
+
+      expect(result).toEqual({
+        info: {
+          contact: {
+            email: "apiteam@swagger.io"
+          },
+          description:
+            "This is a sample server Petstore server.  You can find out more about     Swagger at [http://swagger.io](http://swagger.io) or on [irc.freenode.net, #swagger](http://swagger.io/irc/).      For this sample, you can use the api key `special-key` to test the authorization     filters.",
+          license: {
+            name: "Apache 2.0",
+            url: "http://www.apache.org/licenses/LICENSE-2.0.html"
+          },
+          termsOfService: "http://swagger.io/terms/",
+          title: "Swagger Petstore",
+          version: "1.0.0"
+        },
+        openapi: "3.0.1",
+        paths: {
+          "/rest/controller1/post": {
+            post: {
+              operationId: "controller1Method",
+              parameters: [],
+              requestBody: {
+                content: {
+                  'application/json': {
+                    schema: {
+                      $ref: '#/components/schemas/Model'
+                    }
+                  }
+                },
+                required: false,
+              },
+              responses: {
+                "200": {
+                  description: "Success"
+                }
+              },
+              tags: ["Controller1"]
+            },
+          },
+          "/rest/controller2/post": {
+            post: {
+              operationId: "controller2Method",
+              parameters: [],
+              requestBody: {
+                content: {
+                  'application/json': {
+                    schema: {
+                      $ref: '#/components/schemas/Model'
+                    }
+                  }
+                },
+                required: false,
+              },
+              responses: {
+                "200": {
+                  description: "Success"
+                }
+              },
+              tags: ["Controller2"]
+            },
+          }
+        },
+        tags: [
+          {
+            name: "Controller1"
+          },
+          {
+            name: "Controller2"
+          },
+        ],
+        components: {
+          schemas: {
+            Model: {
+              type: 'object',
+              properties: {
+                test: {
+                  anyOf: [
+                    { type: 'number' },
+                    { type: 'boolean' },
+                    { type: 'string' },
+                    { type: 'array', items: { type: 'number' } },
+                    { type: 'array', items: { type: 'string' } },
+                  ]
+                }
+              }
+            }
+          }
+        }
       });
     });
   });
