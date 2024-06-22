@@ -1,6 +1,6 @@
 {
   "name": "@tsed/jwks",
-  "version": "7.73.2",
+  "version": "7.73.3",
   "description": "Utils to generate jwks pair keys",
   "source": "./src/index.ts",
   "main": "./lib/cjs/index.js",
