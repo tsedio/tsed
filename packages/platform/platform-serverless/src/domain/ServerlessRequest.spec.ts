@@ -105,6 +105,16 @@ describe("ServerlessRequest", () => {
 
       expect(context.request.params).toEqual({});
     });
+
+    it("should return expected value (undefined params)", () => {
+      const context = createServerlessContext({
+        endpoint: {} as any
+      });
+
+      delete context.event.pathParameters;
+
+      expect(context.request.params).toEqual({});
+    });
   });
 
   describe("query()", () => {

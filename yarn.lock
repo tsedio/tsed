@@ -7654,7 +7654,7 @@ __metadata:
     "@types/mime": "npm:^3.0.4"
     encodeurl: "npm:^2.0.0"
     eslint: "npm:^8.57.0"
-    find-my-way: "npm:^7.7.0"
+    find-my-way: "npm:^8.2.0"
     jest: "npm:^29.7.0"
     mime: "npm:^3.0.0"
     tslib: "npm:2.6.1"
@@ -7662,6 +7662,7 @@ __metadata:
   peerDependencies:
     "@tsed/di": 7.73.2
     "@tsed/logger": ">=6.7.5"
+    find-my-way: ">=7.0.0"
   peerDependenciesMeta:
     "@tsed/di":
       optional: false
@@ -15695,14 +15696,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"find-my-way@npm:^7.7.0":
-  version: 7.7.0
-  resolution: "find-my-way@npm:7.7.0"
+"find-my-way@npm:^8.2.0":
+  version: 8.2.0
+  resolution: "find-my-way@npm:8.2.0"
   dependencies:
     fast-deep-equal: "npm:^3.1.3"
     fast-querystring: "npm:^1.0.0"
-    safe-regex2: "npm:^2.0.0"
-  checksum: 10/0b634bce3374de9f3ae660231a963f858cc271bd95c914b941ba1a5fb53d3f978cf71708de6d454ead72c99745a147dd621616645b3d4bf39e4395efe6b42d91
+    safe-regex2: "npm:^3.1.0"
+  checksum: 10/07e46c94c594f7f3f3bf3acb5839753c4d02dca83ecd0d3e966b11effc741d212d15050c365ab104e5ea3312f44d08a68fa7939bb759b851d6c874e0cf106523
   languageName: node
   linkType: hard
 
@@ -25802,10 +25803,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"ret@npm:~0.2.0":
-  version: 0.2.2
-  resolution: "ret@npm:0.2.2"
-  checksum: 10/9f16517f77a3b508c529bc22187c132cd7907cd9270601d6794e1c8a58f6990872b4697b4edfdebb4f87017f9f0a285007b740a9ffb8236805b923fd1bc84eb1
+"ret@npm:~0.4.0":
+  version: 0.4.3
+  resolution: "ret@npm:0.4.3"
+  checksum: 10/d6a00f0920400b78b6aa96ce1c953d2f783f4fd5d56b5e842a744c40e33545e7955fb132386ada406361881353292fe7282f4e6e82b2c1e61f6c96a6ea4bb2d7
   languageName: node
   linkType: hard
 
@@ -26018,12 +26019,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"safe-regex2@npm:^2.0.0":
-  version: 2.0.0
-  resolution: "safe-regex2@npm:2.0.0"
+"safe-regex2@npm:^3.1.0":
+  version: 3.1.0
+  resolution: "safe-regex2@npm:3.1.0"
   dependencies:
-    ret: "npm:~0.2.0"
-  checksum: 10/af1f0b367d0c769eccca7a5aa93d222e542fb494940849c7bbbbe8942c0026cf207f15ba3aacdd4f3e4f6b5a31fa7a775f7cdd8e6670b893fd16e96247fdbd02
+    ret: "npm:~0.4.0"
+  checksum: 10/4f9f7172662763619052a45599e515efc5dd10a932690f610c8ab808a4baa41be3feafefa444f7532651d721d12871a1c9a85330626cdd013b804e8f4240dff1
   languageName: node
   linkType: hard
 

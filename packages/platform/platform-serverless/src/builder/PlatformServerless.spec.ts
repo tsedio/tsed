@@ -1,6 +1,6 @@
 import {Controller, Inject, Injectable} from "@tsed/di";
 import {BodyParams, PathParams, QueryParams} from "@tsed/platform-params";
-import {PlatformServerlessTest} from "@tsed/platform-serverless-testing";
+import {PlatformServerlessTest, createFakeEvent, createFakeContext} from "@tsed/platform-serverless-testing";
 import {Delete, Get, Patch, Post, Put} from "@tsed/schema";
 import {PlatformServerless} from "./PlatformServerless.js";
 
@@ -193,6 +193,17 @@ describe("PlatformServerless", () => {
       expect(JSON.parse(response.body)).toEqual({
         label: "label"
       });
+    });
+    it("should call lambda from handler() but returns a 404 if controller doesn't match and endpoint", async () => {
+      const event = createFakeEvent();
+      event.httpMethod = "GET";
+      event.path = "/test/other";
+      const context = createFakeContext();
+      const response = await PlatformServerlessTest.instance.handler()(event, context);
+
+      expect(response.statusCode).toEqual(404);
+      expect(response.headers).toEqual({"x-request-id": "requestId"});
+      expect(response.body).toEqual("Not found");
     });
   });
   describe("callback()", () => {
