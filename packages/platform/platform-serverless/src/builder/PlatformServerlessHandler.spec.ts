@@ -41,7 +41,11 @@ describe("PlatformServerlessHandler", () => {
 
     const endpoint = JsonEntityStore.fromMethod(TimeslotsLambdaController, "get");
     const $ctx = new ServerlessContext({
-      event: {} as any,
+      event: {
+        headers: {
+          "Content-Type": "application/json"
+        }
+      } as any,
       context: {} as any,
       endpoint
     } as any);

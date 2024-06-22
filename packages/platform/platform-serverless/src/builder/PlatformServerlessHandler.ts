@@ -67,6 +67,7 @@ export class PlatformServerlessHandler {
 
     await this.injector.emit("$onResponse", $ctx);
 
+    $ctx.logger.flush();
     $ctx.destroy();
 
     return response;
