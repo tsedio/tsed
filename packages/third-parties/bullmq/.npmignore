@@ -20,4 +20,3 @@ jest.config.js
 packages
 .tsbuildinfo
 *.tsbuildinfo
-*.js.map

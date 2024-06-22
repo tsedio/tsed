@@ -6,4 +6,3 @@ tsconfig.json
 scripts
 jest.config.js
 *.spec.js
-*.js.map

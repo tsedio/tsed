@@ -1,9 +1,0 @@
-src
-test
-tsconfig.esm.json
-tsconfig.json
-*.tsbuildinfo
-scripts
-jest.config.js
-*.spec.js
-*.js.map
