@@ -153,7 +153,10 @@ export class PlatformServerless {
     if (!this._router) {
       const {default: FindMyMay} = await import("find-my-way");
 
-      this._router = FindMyMay({caseSensitive: false, ignoreTrailingSlash: true});
+      this._router = FindMyMay({
+        caseSensitive: false,
+        ignoreTrailingSlash: true
+      });
 
       this.callbacks();
     }

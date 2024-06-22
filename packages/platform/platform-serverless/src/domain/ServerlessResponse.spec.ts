@@ -36,12 +36,20 @@ describe("ServerlessResponse", () => {
     });
   });
   describe("contentLength()", () => {
-    it("should return the locals", () => {
+    it("should return the content length", () => {
       const context = createServerlessContext({
         endpoint: {} as any
       });
       context.response.contentLength(300);
       expect(context.response.getContentLength()).toEqual(300);
+    });
+
+    it("should return the default content length", () => {
+      const context = createServerlessContext({
+        endpoint: {} as any
+      });
+      context.response.contentLength(" " as any);
+      expect(context.response.getContentLength()).toEqual(0);
     });
   });
   describe("location()", () => {
@@ -101,6 +109,30 @@ describe("ServerlessResponse", () => {
       expect(context.response.getContentLength()).toEqual(54);
       expect(context.response.getContentType()).toEqual("");
       expect(context.response.getBody()).toEqual("Moved Permanently. Redirecting to https://referrer.com");
+    });
+  });
+  describe("setHeader()", () => {
+    it("should set location", () => {
+      const context = createServerlessContext({
+        endpoint: {} as any
+      });
+
+      context.event.headers["Referrer"] = "https://referrer.com";
+      context.response.set("location", "back");
+      expect(context.response.getHeaders()).toEqual({
+        location: "https://referrer.com"
+      });
+    });
+    it("should set location back with default value", () => {
+      const context = createServerlessContext({
+        endpoint: {} as any
+      });
+
+      context.event.headers["Referrer"] = "";
+      context.response.set("location", "back");
+      expect(context.response.getHeaders()).toEqual({
+        location: "/"
+      });
     });
   });
 });
