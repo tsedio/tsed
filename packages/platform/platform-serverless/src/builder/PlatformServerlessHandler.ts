@@ -23,8 +23,8 @@ export class PlatformServerlessHandler {
   createHandler(token: TokenProvider, propertyKey: string | symbol) {
     const promisedHandler = this.params.compileHandler({token, propertyKey});
 
-    return async ($ctx: ServerlessContext) => {
-      await $ctx.runInContext(async () => {
+    return ($ctx: ServerlessContext) => {
+      return $ctx.runInContext(async () => {
         await this.injector.emit("$onRequest", $ctx);
 
         try {
@@ -40,14 +40,12 @@ export class PlatformServerlessHandler {
           await exceptions.catch(er, $ctx as unknown as BaseContext);
         }
 
-        await this.injector.emit("$onResponse", $ctx);
+        return this.flush($ctx);
       });
-
-      return this.flush($ctx);
     };
   }
 
-  private flush($ctx: ServerlessContext) {
+  private async flush($ctx: ServerlessContext) {
     setResponseHeaders($ctx);
 
     let body: any = $ctx.response.getBody();
@@ -66,6 +64,8 @@ export class PlatformServerlessHandler {
       },
       isBase64Encoded: false
     };
+
+    await this.injector.emit("$onResponse", $ctx);
 
     $ctx.destroy();
 
