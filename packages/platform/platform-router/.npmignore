@@ -5,3 +5,4 @@ tsconfig.json
 __mock__
 *.spec.js
 *.tsbuildinfo
+*.js.map

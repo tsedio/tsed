@@ -6,3 +6,4 @@ jest.config.js
 __mock__
 *.spec.js
 *.tsbuildinfo
+*.js.map
