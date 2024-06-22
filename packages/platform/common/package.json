@@ -1,6 +1,6 @@
 {
   "name": "@tsed/common",
-  "version": "7.73.5",
+  "version": "7.73.6",
   "description": "A TypeScript Framework on top of Express",
   "source": "./src/index.ts",
   "main": "./lib/cjs/index.js",

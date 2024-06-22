@@ -1,6 +1,6 @@
 {
   "name": "@tsed/barrels",
-  "version": "7.73.5",
+  "version": "7.73.6",
   "bin": "./index.mjs",
   "type": "module",
   "dependencies": {
