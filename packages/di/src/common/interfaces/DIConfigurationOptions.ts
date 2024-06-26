@@ -1,7 +1,7 @@
 import type {ProviderScope} from "../domain/ProviderScope.js";
 import type {DIResolver} from "./DIResolver.js";
+import type {ImportTokenProviderOpts} from "./ImportTokenProviderOpts.js";
 import type {TokenProvider} from "./TokenProvider.js";
-import {TokenProviderOpts} from "./TokenProvider.js";
 
 declare global {
   namespace TsED {
@@ -17,7 +17,7 @@ declare global {
       /**
        * Define dependencies to build the provider
        */
-      imports: (TokenProvider | TokenProviderOpts)[];
+      imports: (TokenProvider | ImportTokenProviderOpts)[];
       /**
        * Mount controllers
        */

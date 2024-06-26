@@ -31,6 +31,7 @@ export * from "./interfaces/DIConfigurationOptions.js";
 export * from "./interfaces/DILogger.js";
 export * from "./interfaces/DILoggerOptions.js";
 export * from "./interfaces/DIResolver.js";
+export * from "./interfaces/ImportTokenProviderOpts.js";
 export * from "./interfaces/InjectableProperties.js";
 export * from "./interfaces/InterceptorContext.js";
 export * from "./interfaces/InterceptorMethods.js";

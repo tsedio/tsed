@@ -571,7 +571,7 @@ describe("InjectorService", () => {
     });
   });
   describe("loadModule()", () => {
-    it("should load DI with a rootModule", async () => {
+    it("should load DI with a rootModule (SINGLETON + deps)", async () => {
       // GIVEN
       @Injectable()
       class RootModule {}
@@ -588,8 +588,7 @@ describe("InjectorService", () => {
 
       expect(injector.get(RootModule)).toBeInstanceOf(RootModule);
     });
-  });
-  describe("loadModule()", () => {
+
     it("should load DI with a rootModule", async () => {
       // GIVEN
       @Injectable()
@@ -951,6 +950,114 @@ describe("InjectorService", () => {
 
       expect(service.$alterValue).toBeCalledWith("value");
       expect(value).toEqual("alteredValue");
+    });
+  });
+
+  describe("imports", () => {
+    it("should load all provider and override by configuration a provider (use)", async () => {
+      const injector = new InjectorService();
+      @Injectable()
+      class TestService {
+        get() {
+          return "hello";
+        }
+      }
+
+      injector.settings.set("imports", [
+        {
+          token: TestService,
+          use: {
+            get: jest.fn().mockReturnValue("world")
+          }
+        }
+      ]);
+
+      await injector.load();
+
+      const result = injector.get<TestService>(TestService).get();
+      expect(result).toEqual("world");
+    });
+    it("should load all provider and override by configuration a provider (useClass)", async () => {
+      const injector = new InjectorService();
+      @Injectable()
+      class TestService {
+        get() {
+          return "hello";
+        }
+      }
+
+      @Injectable()
+      class FsTestService {
+        get() {
+          return "fs";
+        }
+      }
+
+      injector.settings.set("imports", [
+        {
+          token: TestService,
+          useClass: FsTestService
+        }
+      ]);
+
+      await injector.load();
+
+      const result = injector.get<TestService>(TestService).get();
+      expect(result).toEqual("fs");
+    });
+    it("should load all provider and override by configuration a provider (useFactory)", async () => {
+      const injector = new InjectorService();
+      @Injectable()
+      class TestService {
+        get() {
+          return "hello";
+        }
+      }
+
+      injector.settings.set("imports", [
+        {
+          token: TestService,
+          useFactory: () => {
+            return {
+              get() {
+                return "world";
+              }
+            };
+          }
+        }
+      ]);
+
+      await injector.load();
+
+      const result = injector.get<TestService>(TestService).get();
+      expect(result).toEqual("world");
+    });
+    it("should load all provider and override by configuration a provider (useAsyncFactory)", async () => {
+      const injector = new InjectorService();
+      @Injectable()
+      class TestService {
+        get() {
+          return "hello";
+        }
+      }
+
+      injector.settings.set("imports", [
+        {
+          token: TestService,
+          useAsyncFactory: () => {
+            return Promise.resolve({
+              get() {
+                return "world";
+              }
+            });
+          }
+        }
+      ]);
+
+      await injector.load();
+
+      const result = injector.get<TestService>(TestService).get();
+      expect(result).toEqual("world");
     });
   });
 });
