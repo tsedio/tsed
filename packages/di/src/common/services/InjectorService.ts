@@ -557,8 +557,11 @@ export class InjectorService extends Container {
     return this.emit("$onDestroy");
   }
 
-  protected ensureProvider(token: TokenProvider): Provider | undefined {
-    if (!this.hasProvider(token) && GlobalProviders.has(token)) {
+  protected ensureProvider(token: TokenProvider, force: true): Provider;
+  protected ensureProvider(token: TokenProvider, force: false): Provider | undefined;
+  protected ensureProvider(token: TokenProvider): Provider | undefined;
+  protected ensureProvider(token: TokenProvider, force = false): Provider | undefined {
+    if (!this.hasProvider(token) && (GlobalProviders.has(token) || force)) {
       this.addProvider(token);
     }
 
@@ -658,7 +661,8 @@ export class InjectorService extends Container {
       .map((meta) => {
         if ("token" in meta) {
           const {token, ...props} = meta;
-          const provider = this.getProvider(token);
+
+          const provider = this.ensureProvider(token, true);
 
           if (provider) {
             provider.useValue = undefined;
