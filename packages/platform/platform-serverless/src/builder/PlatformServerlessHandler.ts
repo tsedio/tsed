@@ -34,6 +34,7 @@ export class PlatformServerlessHandler {
 
           this.processResult(result, $ctx);
         } catch (er) {
+          $ctx.error = er;
           $ctx.response.status(500).body(er);
           const exceptions = await this.exceptionsManager;
 
