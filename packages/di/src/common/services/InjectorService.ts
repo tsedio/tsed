@@ -10,10 +10,10 @@ import {
   isFunction,
   isInheritedFrom,
   isPromise,
-  Metadata,
   nameOf,
   Store
 } from "@tsed/core";
+import {filter} from "rxjs";
 import {DI_PARAM_OPTIONS, INJECTABLE_PROP} from "../constants/constants.js";
 import {Configuration} from "../decorators/configuration.js";
 import {Injectable} from "../decorators/injectable.js";
@@ -23,15 +23,14 @@ import {LocalsContainer} from "../domain/LocalsContainer.js";
 import {Provider} from "../domain/Provider.js";
 import {ProviderScope} from "../domain/ProviderScope.js";
 import {InjectionError} from "../errors/InjectionError.js";
-import {InvalidPropertyTokenError} from "../errors/InvalidPropertyTokenError.js";
 import {UndefinedTokenError} from "../errors/UndefinedTokenError.js";
-import {DILogger} from "../interfaces/DILogger.js";
+import type {DILogger} from "../interfaces/DILogger.js";
 import {InjectableProperties, InjectablePropertyOptions, InjectablePropertyValue} from "../interfaces/InjectableProperties.js";
-import {InterceptorContext} from "../interfaces/InterceptorContext.js";
-import {InterceptorMethods} from "../interfaces/InterceptorMethods.js";
-import {InvokeOptions} from "../interfaces/InvokeOptions.js";
-import {ResolvedInvokeOptions} from "../interfaces/ResolvedInvokeOptions.js";
-import {TokenProvider} from "../interfaces/TokenProvider.js";
+import type {InterceptorContext} from "../interfaces/InterceptorContext.js";
+import type {InterceptorMethods} from "../interfaces/InterceptorMethods.js";
+import type {InvokeOptions} from "../interfaces/InvokeOptions.js";
+import type {ResolvedInvokeOptions} from "../interfaces/ResolvedInvokeOptions.js";
+import type {TokenProvider} from "../interfaces/TokenProvider.js";
 import {GlobalProviders} from "../registries/GlobalProviders.js";
 import {createContainer} from "../utils/createContainer.js";
 import {getConstructorDependencies} from "../utils/getConstructorDependencies.js";
@@ -292,27 +291,7 @@ export class InjectorService extends Container {
     this.resolveConfiguration();
 
     // allow mocking or changing provider instance before loading injector
-    this.settings.imports = this.settings.imports
-      ?.filter((meta) => meta.token !== InjectorService)
-      .map((meta) => {
-        if ("token" in meta && "use" in meta) {
-          const {token, use} = meta;
-          const provider = this.getProvider(token);
-
-          if (provider) {
-            provider.useValue = use;
-            // @ts-ignore
-            provider.useFactory = undefined;
-            // @ts-ignore
-            provider.useAsyncFactory = undefined;
-            // @ts-ignore
-            provider.useClass = undefined;
-            return;
-          }
-        }
-        return meta;
-      })
-      .filter(Boolean);
+    this.resolveImportsProviders();
 
     return this;
   }
@@ -673,6 +652,46 @@ export class InjectorService extends Container {
     return instance;
   }
 
+  private resolveImportsProviders() {
+    this.settings.imports = this.settings.imports
+      ?.filter((meta) => meta.token !== InjectorService)
+      .map((meta) => {
+        if ("token" in meta) {
+          const {token, ...props} = meta;
+          const provider = this.getProvider(token);
+
+          if (provider) {
+            provider.useValue = undefined;
+            provider.useAsyncFactory = undefined;
+            provider.useFactory = undefined;
+
+            if ("useClass" in props) {
+              provider.useClass = props.useClass;
+              return;
+            }
+
+            if ("useFactory" in props) {
+              provider.useFactory = props.useFactory;
+              return;
+            }
+
+            if ("useAsyncFactory" in props) {
+              provider.useAsyncFactory = props.useAsyncFactory;
+              return;
+            }
+
+            if ("use" in props) {
+              provider.useValue = props.use;
+              return;
+            }
+          }
+        }
+
+        return meta;
+      })
+      .filter(Boolean);
+  }
+
   /**
    * Create options to invoke a provider or class.
    * @param token
@@ -716,11 +735,11 @@ export class InjectorService extends Container {
     if (provider.useValue !== undefined) {
       construct = () => (isFunction(provider.useValue) ? provider.useValue() : provider.useValue);
     } else if (provider.useFactory) {
-      construct = (deps: any[]) => provider.useFactory(...deps);
+      construct = (deps: any[]) => provider.useFactory!(...deps);
     } else if (provider.useAsyncFactory) {
       construct = async (deps: any[]) => {
         deps = await Promise.all(deps);
-        return provider.useAsyncFactory(...deps);
+        return provider.useAsyncFactory!(...deps);
       };
     } else if (provider.useClass) {
       // useClass

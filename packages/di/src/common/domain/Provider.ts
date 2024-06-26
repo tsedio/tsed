@@ -1,10 +1,10 @@
-import {classOf, getClassOrSymbol, isClass, Metadata, methodsOf, nameOf, Store, Type} from "@tsed/core";
-import {ProviderOpts} from "../interfaces/ProviderOpts.js";
-import {TokenProvider} from "../interfaces/TokenProvider.js";
+import {classOf, getClassOrSymbol, isClass, methodsOf, nameOf, Store, Type} from "@tsed/core";
+import type {ProviderOpts} from "../interfaces/ProviderOpts.js";
+import type {TokenProvider} from "../interfaces/TokenProvider.js";
 import {ProviderScope} from "./ProviderScope.js";
 import {ProviderType} from "./ProviderType.js";
 
-export type ProviderHookCallback<T = any> = (instance: T, ...args: any[]) => Promise<void> | void;
+export type ProviderHookCallback<T = any> = (instance: T, ...args: unknown[]) => Promise<void> | void;
 
 export class Provider<T = any> implements ProviderOpts<T> {
   /**
@@ -12,11 +12,11 @@ export class Provider<T = any> implements ProviderOpts<T> {
    */
   public type: TokenProvider | ProviderType = ProviderType.PROVIDER;
   public deps: TokenProvider[];
-  public imports: any[];
+  public imports: (TokenProvider | [TokenProvider])[];
   public alias?: string;
-  public useFactory: Function;
-  public useAsyncFactory: Function;
-  public useValue: any;
+  public useFactory?: Function;
+  public useAsyncFactory?: Function;
+  public useValue?: unknown;
   public hooks?: Record<string, ProviderHookCallback<T>>;
   private _useClass: Type<T>;
   private _provide: TokenProvider;

@@ -1,6 +1,14 @@
 import {Env, getValue, isClass, isPromise, setValue} from "@tsed/core";
 import {$log} from "@tsed/logger";
-import {createContainer, InjectorService, LocalsContainer, OnInit, Provider, TokenProvider, TokenProviderOpts} from "../../common/index.js";
+import {
+  createContainer,
+  type ImportTokenProviderOpts,
+  InjectorService,
+  LocalsContainer,
+  OnInit,
+  TokenProvider,
+  type UseImportTokenProviderOpts
+} from "../../common/index.js";
 import {DIContext} from "../domain/DIContext.js";
 import {setLoggerConfiguration} from "../utils/setLoggerConfiguration.js";
 
@@ -84,7 +92,7 @@ export class DITest {
    * @param target
    * @param providers
    */
-  static async invoke<T = any>(target: TokenProvider, providers: TokenProviderOpts[] = []): Promise<T> {
+  static async invoke<T = any>(target: TokenProvider, providers: UseImportTokenProviderOpts[] = []): Promise<T> {
     const locals = new LocalsContainer();
     providers.forEach((p) => {
       locals.set(p.token, p.use);
