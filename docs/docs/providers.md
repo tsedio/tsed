@@ -209,6 +209,46 @@ An injection token may be either a string, a symbol, a class constructor.
 
 > Just don't forget to import your provider in your project !
 
+## Import a provider from configuration <Badge text="7.74.0+" />
+
+Sometimes you need to import a provider depending on the environment or depending on a runtime context.
+
+This is possible using the DI configuration `imports` option that let you fine-tune the provider registration.
+
+Here is an example of how to import a provider from a configuration:
+
+```ts
+import {Configuration} from "@tsed/di";
+
+const TimeslotsRepository = Symbol.for("TimeslotsRepository");
+
+interface TimeslotsRepository {
+  findTimeslots(): Promise<any[]>;
+}
+
+class DevTimeslotsRepository implements TimeslotsRepository {
+  findTimeslots(): Promise<any[]> {
+    return ["hello dev"];
+  }
+}
+
+class ProdTimeslotsRepository implements TimeslotsRepository {
+  findTimeslots(): Promise<any[]> {
+    return ["hello prod"];
+  }
+}
+
+@Configuration({
+  imports: [
+    {
+      token: "TimeslotsRepository",
+      useClass: process.env.NODE_ENV === "production" ? ProdTimeslotsRepository : DevTimeslotsRepository
+    }
+  ]
+})
+export class Server {}
+```
+
 ## Lazy load provider <Badge text="6.81.0+"/>
 
 By default, modules are eagerly loaded, which means that as soon as the application loads, so do all the modules,
