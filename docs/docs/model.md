@@ -139,10 +139,10 @@ For example if `returnsCoercedValues` is `false` (default behavior), Ts.ED will 
 
 ```typescript
 class NullableModel {
-  @Proprety()
+  @Property()
   propString: string; // null => null
 
-  @Proprety()
+  @Property()
   propNumber: number; // null => null
 
   @Property()
@@ -157,10 +157,10 @@ Using the `returnsCoercedValues` option, AjvService will return the coerced type
 
 ```typescript
 class NullableModel {
-  @Proprety()
+  @Property()
   propString: string; // null => ''
 
-  @Proprety()
+  @Property()
   propNumber: number; // null => 0
 
   @Property()
