@@ -1,4 +1,5 @@
 import {QueryParams} from "@tsed/platform-params";
+import {type} from "node:os";
 import {SpecTypes} from "../../domain/SpecTypes.js";
 import {getJsonSchema} from "../../utils/getJsonSchema.js";
 import {getSpec} from "../../utils/getSpec.js";
@@ -73,6 +74,59 @@ describe("@Groups", () => {
             type: "string"
           },
           prop2: {
+            minLength: 1,
+            type: "string"
+          },
+          prop3: {
+            minLength: 1,
+            type: "string"
+          },
+          prop4: {
+            items: {
+              $ref: "#/definitions/ChildModel"
+            },
+            type: "array"
+          }
+        },
+        required: ["prop1", "prop2", "prop3"],
+        type: "object"
+      });
+    });
+    it("should show fields with group annotation (with x-groups custom key)", () => {
+      const spec = getJsonSchema(MyModel, {
+        groups: false,
+        customKeys: true
+      });
+
+      expect(spec).toEqual({
+        definitions: {
+          ChildModel: {
+            properties: {
+              id: {
+                "x-groups": ["!creation"],
+                type: "string"
+              },
+              prop1: {
+                minLength: 1,
+                type: "string"
+              }
+            },
+            required: ["prop1"],
+            type: "object"
+          }
+        },
+        properties: {
+          id: {
+            "x-groups": ["!creation"],
+            type: "string"
+          },
+          prop1: {
+            "x-groups": ["group.summary"],
+            minLength: 1,
+            type: "string"
+          },
+          prop2: {
+            "x-groups": ["group.extended"],
             minLength: 1,
             type: "string"
           },
