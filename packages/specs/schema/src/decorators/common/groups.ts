@@ -2,6 +2,7 @@ import {DecoratorTypes, isArray} from "@tsed/core";
 import type {JsonClassStore} from "../../domain/JsonClassStore.js";
 import type {JsonParameterStore} from "../../domain/JsonParameterStore.js";
 import {matchGroups} from "../../utils/matchGroups.js";
+import {CustomKey} from "./customKey.js";
 import {JsonEntityFn} from "./jsonEntityFn.js";
 
 /**
@@ -37,6 +38,7 @@ export function Groups(...groups: any): any {
         groupsClass(groups, entity as JsonClassStore);
         break;
       case DecoratorTypes.PROP:
+        CustomKey("x-groups", groups)(entity.target, entity.propertyKey);
         entity.schema.$hooks.on("groups", (prev: boolean, givenGroups: string[]) => {
           if (!prev) {
             if (matchGroups(groups, givenGroups)) {
