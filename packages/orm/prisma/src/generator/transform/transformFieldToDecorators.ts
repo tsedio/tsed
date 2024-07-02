@@ -4,6 +4,7 @@ import {DmmfModel} from "../domain/DmmfModel.js";
 import {ScalarDecorators, ScalarJsClasses} from "../domain/ScalarTsTypes.js";
 import {TransformContext} from "../domain/TransformContext.js";
 import {isCircularRef} from "../utils/isCircularRef.js";
+import {isEsm} from "../utils/sourceType.js";
 
 function createDecorator(name: string, args: string[]): DecoratorStructure {
   return {
@@ -15,7 +16,9 @@ function createDecorator(name: string, args: string[]): DecoratorStructure {
 
 export function transformFieldToDecorators(field: DmmfField, ctx: TransformContext): DecoratorStructure[] {
   const hasCircularRef = isCircularRef(field.model.name, field.type, ctx);
-
+  if (isEsm() && hasCircularRef) {
+    return [];
+  }
   const decorators: DecoratorStructure[] = [...(ScalarDecorators[field.type] || [])].map((obj) => {
     field.model.addImportDeclaration("@tsed/schema", obj.name);
 
