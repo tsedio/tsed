@@ -45,6 +45,9 @@ export function generate({defaultOutput, packageDir}: GenerateOptions) {
         await fs.copy(join(packageDir, "scripts", "backup-index.d.cts"), join(packageDir, "lib", "types", "index.d.ts"));
       } else {
         await fs.copy(join(packageDir, "scripts", "backup-index.d.mts"), join(packageDir, "lib", "types", "index.d.ts"));
+        await fs.writeJson(`${outputDir}/package.json`, {
+          type: "module"
+        });
       }
     }
 
