@@ -5,7 +5,7 @@ import {generate} from "./cli/prismaGenerator";
 
 const rootDir = __dirname; // automatically replaced by tsed tools on build
 export const defaultOutput = join(rootDir, "..", ".schema");
-export const packageDir = join(rootDir, "..", "..", "..");
+export const packageDir = join(rootDir, "..", "..");
 
 generatorHandler({
   onManifest: () => ({
