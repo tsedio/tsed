@@ -1,6 +1,20 @@
 import {parseDocumentationAttributes} from "./parseDocumentationAttributes.js";
 
 describe("parseDocumentationAttributes", () => {
+  it('should parse @TsED.Groups(type: "test", fix: "other")', () => {
+    expect(parseDocumentationAttributes('/// @TsED.Groups(type: "test", fix: "other")')).toEqual([
+      {
+        arguments: [
+          {
+            type: "test",
+            fix: "other"
+          }
+        ],
+        content: '@TsED.Groups(type: "test", fix: "other")',
+        name: "Groups"
+      }
+    ]);
+  });
   it("should ignore undefined comment", () => {
     expect(parseDocumentationAttributes(undefined)).toEqual([]);
   });
