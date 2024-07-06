@@ -16,9 +16,7 @@ function createDecorator(name: string, args: string[]): DecoratorStructure {
 
 export function transformFieldToDecorators(field: DmmfField, ctx: TransformContext): DecoratorStructure[] {
   const hasCircularRef = isCircularRef(field.model.name, field.type, ctx);
-  if (isEsm() && hasCircularRef) {
-    return [];
-  }
+
   const decorators: DecoratorStructure[] = [...(ScalarDecorators[field.type] || [])].map((obj) => {
     field.model.addImportDeclaration("@tsed/schema", obj.name);
 

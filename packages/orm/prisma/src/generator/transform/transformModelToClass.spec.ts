@@ -407,7 +407,7 @@ describe("transformModelToClass()", () => {
           kind: 30,
           name: "role",
           trailingTrivia: "\n",
-          type: "Role"
+          type: "Relation<Role>"
         }
       ],
       trailingTrivia: "\n"
