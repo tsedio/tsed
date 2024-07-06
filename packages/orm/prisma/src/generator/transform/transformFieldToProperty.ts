@@ -9,7 +9,7 @@ export function transformFieldToProperty(field: DmmfField, ctx: TransformContext
     kind: StructureKind.Property,
     name: field.name,
     trailingTrivia: "\n",
-    type: transformScalarToType(field),
+    type: transformScalarToType(field, ctx),
     decorators: transformFieldToDecorators(field, ctx)
   };
 }

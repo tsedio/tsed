@@ -2,10 +2,13 @@ import {DmmfField} from "../domain/DmmfField.js";
 import {DmmfModel} from "../domain/DmmfModel.js";
 import {ScalarTsTypes} from "../domain/ScalarTsTypes.js";
 import {DmmfEnum} from "../domain/DmmfEnum.js";
+import type {TransformContext} from "../domain/TransformContext.js";
+import {isCircularRef} from "../utils/isCircularRef.js";
 
-export function transformScalarToType(field: DmmfField) {
+export function transformScalarToType(field: DmmfField, ctx: TransformContext): string {
   const {isRequired, isNullable, type, isList, location, model} = field;
   let TSType: string = type;
+  const hasCircularRef = isCircularRef(field.model.name, field.type, ctx);
 
   switch (location) {
     case "scalar":
@@ -21,7 +24,6 @@ export function transformScalarToType(field: DmmfField) {
       if (field.model.name !== field.type) {
         field.model.addImportDeclaration(`./${DmmfModel.symbolName(field.type)}`, DmmfModel.symbolName(field.type));
       }
-
       break;
   }
 
@@ -37,6 +39,11 @@ export function transformScalarToType(field: DmmfField) {
     }
   } else if (isNullable && !isList) {
     TSType += " | null";
+  }
+
+  if (isRequired && !isList && !isNullable && hasCircularRef && ["inputObjectTypes", "enumTypes"].includes(location)) {
+    hasCircularRef && !isList && field.model.addImportDeclaration("@tsed/core", "Relation", true);
+    TSType = `Relation<${TSType}>`;
   }
 
   return TSType;

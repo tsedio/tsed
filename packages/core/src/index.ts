@@ -23,6 +23,7 @@ export * from "./interfaces/AnyDecorator.js";
 export * from "./interfaces/DecoratorParameters.js";
 export * from "./interfaces/MetadataTypes.js";
 export * from "./interfaces/ValueOf.js";
+export * from "./interfaces/Relation.js";
 export * from "./utils/catchError.js";
 export * from "./utils/decorators/decorateMethodsOf.js";
 export * from "./utils/decorators/decoratorArgs.js";

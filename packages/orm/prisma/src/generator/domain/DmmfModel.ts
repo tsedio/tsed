@@ -65,26 +65,23 @@ export class DmmfModel {
     return pascalCase(`${name}Model`);
   }
 
-  addImportDeclaration(moduleSpecifier: string, name: string, isDefault = false) {
+  addImportDeclaration(moduleSpecifier: string, name: string, isTypeOnly = false) {
     if (!this.#imports.has(moduleSpecifier)) {
       moduleSpecifier = resolveExtension(moduleSpecifier);
 
       this.#imports.set(moduleSpecifier, {
         kind: StructureKind.ImportDeclaration,
         moduleSpecifier: moduleSpecifier,
-        namedImports: []
+        namedImports: [],
+        isTypeOnly
       });
     }
 
     const moduleDeclaration = this.#imports.get(moduleSpecifier)!;
+    const nameImports = moduleDeclaration.namedImports as any[];
 
-    if (isDefault) {
-      moduleDeclaration.defaultImport = name;
-    } else {
-      const nameImports = moduleDeclaration.namedImports as any[];
-      if (!nameImports.includes(name)) {
-        nameImports.push(name);
-      }
+    if (!nameImports.includes(name)) {
+      nameImports.push(name);
     }
 
     return this;

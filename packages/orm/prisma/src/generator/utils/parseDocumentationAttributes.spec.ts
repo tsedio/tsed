@@ -1,6 +1,9 @@
 import {parseDocumentationAttributes} from "./parseDocumentationAttributes.js";
 
 describe("parseDocumentationAttributes", () => {
+  it("should ignore undefined comment", () => {
+    expect(parseDocumentationAttributes(undefined)).toEqual([]);
+  });
   it("should parse @TsED.Email()", () => {
     expect(parseDocumentationAttributes("/// @TsED.Email()")).toEqual([
       {
@@ -10,7 +13,6 @@ describe("parseDocumentationAttributes", () => {
       }
     ]);
   });
-
   it("should parse @TsED.Ignore(endpoint = true)", () => {
     expect(parseDocumentationAttributes("/// @TsED.Ignore(ctx.endpoint === true)")).toEqual([
       {
@@ -20,7 +22,6 @@ describe("parseDocumentationAttributes", () => {
       }
     ]);
   });
-
   it("should parse @TsED.Ignore()", () => {
     expect(parseDocumentationAttributes("/// @TsED.Ignore()")).toEqual([
       {
@@ -30,7 +31,6 @@ describe("parseDocumentationAttributes", () => {
       }
     ]);
   });
-
   it('should parse @TsED.Groups("!creation")', () => {
     expect(parseDocumentationAttributes('/// @TsED.Groups("!creation")')).toEqual([
       {
@@ -55,9 +55,5 @@ describe("parseDocumentationAttributes", () => {
   });
   it("should ignore other comments", () => {
     expect(parseDocumentationAttributes("/// comments")).toEqual([]);
-  });
-
-  it("should ignore undefined comment", () => {
-    expect(parseDocumentationAttributes(undefined)).toEqual([]);
   });
 });
