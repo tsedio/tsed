@@ -1,6 +1,6 @@
 {
   "name": "@tsed/platform-serverless",
-  "version": "7.75.0",
+  "version": "7.75.1",
   "description": "Platform serverless module for Ts.ED Framework",
   "source": "./src/index.ts",
   "main": "./lib/cjs/index.js",
@@ -42,7 +42,7 @@
     "jest": "^29.7.0"
   },
   "peerDependencies": {
-    "@tsed/di": "7.75.0",
+    "@tsed/di": "7.75.1",
     "@tsed/logger": ">=6.7.5",
     "find-my-way": ">=7.0.0"
   },
