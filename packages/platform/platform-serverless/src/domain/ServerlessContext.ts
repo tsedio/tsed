@@ -26,7 +26,7 @@ export class ServerlessContext extends DIContext {
     this.context = context;
     this.event = {
       ...event,
-      headers: Object.fromEntries(Object.entries(event.headers).map(([key, value]) => [key.toLowerCase(), value]))
+      headers: Object.fromEntries(Object.entries(event.headers || {}).map(([key, value]) => [key.toLowerCase(), value]))
     };
     this.request = new ServerlessRequest(this);
     this.response = new ServerlessResponse(this);
