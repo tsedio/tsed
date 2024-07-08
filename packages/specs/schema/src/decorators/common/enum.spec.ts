@@ -1,4 +1,3 @@
-import Ajv from "ajv";
 import {enums} from "../../utils/from.js";
 import {getJsonSchema} from "../../utils/getJsonSchema.js";
 import {Enum} from "./enum.js";
@@ -32,8 +31,16 @@ describe("@Enum", () => {
       expect(getJsonSchema(Model)).toEqual({
         properties: {
           num: {
-            enum: ["0", "1", 10],
-            type: ["string", "number"]
+            anyOf: [
+              {
+                enum: ["0", "1"],
+                type: "string"
+              },
+              {
+                enum: [10],
+                type: "number"
+              }
+            ]
           }
         },
         type: "object"
@@ -49,8 +56,47 @@ describe("@Enum", () => {
       expect(getJsonSchema(Model)).toEqual({
         properties: {
           num: {
-            enum: ["0", "1", 10, null],
-            type: ["null", "string", "number"]
+            anyOf: [
+              {
+                type: "null"
+              },
+              {
+                enum: ["0", "1"],
+                type: "string"
+              },
+              {
+                enum: [10],
+                type: "number"
+              }
+            ]
+          }
+        },
+        type: "object"
+      });
+    });
+    it("should declare prop (mixed type, object, and null)", () => {
+      // WHEN
+      class Model {
+        @Enum("0", "1", 10, {test: "test"}, null)
+        num: string | number;
+      }
+
+      expect(getJsonSchema(Model)).toEqual({
+        properties: {
+          num: {
+            anyOf: [
+              {
+                type: "null"
+              },
+              {
+                enum: ["0", "1", "test"],
+                type: "string"
+              },
+              {
+                enum: [10],
+                type: "number"
+              }
+            ]
           }
         },
         type: "object"
@@ -125,8 +171,16 @@ describe("@Enum", () => {
       expect(getJsonSchema(Model)).toEqual({
         properties: {
           num: {
-            enum: [0, "test", "test2"],
-            type: ["number", "string"]
+            anyOf: [
+              {
+                enum: [0],
+                type: "number"
+              },
+              {
+                enum: ["test", "test2"],
+                type: "string"
+              }
+            ]
           }
         },
         type: "object"
@@ -152,8 +206,16 @@ describe("@Enum", () => {
       expect(getJsonSchema(Model)).toEqual({
         definitions: {
           SomeEnum: {
-            enum: [0, "test", "test2"],
-            type: ["number", "string"]
+            anyOf: [
+              {
+                enum: [0],
+                type: "number"
+              },
+              {
+                enum: ["test", "test2"],
+                type: "string"
+              }
+            ]
           }
         },
         properties: {
@@ -184,8 +246,16 @@ describe("@Enum", () => {
       expect(getJsonSchema(Model)).toEqual({
         definitions: {
           SomeEnum: {
-            enum: [0, "test", "test2"],
-            type: ["number", "string"]
+            anyOf: [
+              {
+                enum: [0],
+                type: "number"
+              },
+              {
+                enum: ["test", "test2"],
+                type: "string"
+              }
+            ]
           }
         },
         properties: {
@@ -197,7 +267,6 @@ describe("@Enum", () => {
       });
     });
   });
-
   describe("when is a typescript enum schema without label (set enum)", () => {
     it("should inline enum", () => {
       enum SomeEnum {
@@ -217,8 +286,16 @@ describe("@Enum", () => {
       expect(getJsonSchema(Model)).toEqual({
         properties: {
           num: {
-            enum: [0, "test", "test2"],
-            type: ["number", "string"]
+            anyOf: [
+              {
+                enum: [0],
+                type: "number"
+              },
+              {
+                enum: ["test", "test2"],
+                type: "string"
+              }
+            ]
           }
         },
         type: "object"

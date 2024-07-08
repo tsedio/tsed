@@ -358,8 +358,8 @@ describe("JsonSchema", () => {
         expect(schema).toEqual({
           type: "object",
           properties: {
-            name: {type: "string", minLength: 1},
-            email: {type: "string", minLength: 1},
+            name: {type: "string"},
+            email: {type: "string"},
             address: {type: "string"},
             telephone: {type: "string"}
           },
@@ -392,7 +392,7 @@ describe("JsonSchema", () => {
         const schema = JsonSchema.from({
           type: "object",
           properties: {
-            name: {type: "string"}
+            name: {type: "string", minLength: 1}
           },
           required: ["name"]
         }).toObject();
@@ -540,15 +540,12 @@ describe("JsonSchema", () => {
         it("should create a valid jsonchema", () => {
           const schema = JsonSchema.from({
             type: "object",
-
             properties: {
               name: {type: "string"},
               credit_card: {type: "number"},
               billing_address: {type: "string"}
             },
-
             required: ["name"],
-
             dependencies: {
               credit_card: ["billing_address"]
             }
@@ -558,7 +555,7 @@ describe("JsonSchema", () => {
             type: "object",
 
             properties: {
-              name: {type: "string", minLength: 1},
+              name: {type: "string"},
               credit_card: {type: "number"},
               billing_address: {type: "string"}
             },
@@ -1068,8 +1065,19 @@ describe("JsonSchema", () => {
         }).toObject();
 
         expect(schema).toEqual({
-          enum: ["red", "amber", "green", null, 42],
-          type: ["null", "string", "number"]
+          anyOf: [
+            {
+              type: "null"
+            },
+            {
+              enum: ["red", "amber", "green"],
+              type: "string"
+            },
+            {
+              enum: [42],
+              type: "number"
+            }
+          ]
         });
 
         const validate = new Ajv({allowUnionTypes: true}).compile(schema);
@@ -1370,13 +1378,12 @@ describe("JsonSchema", () => {
       const jsonSchema = schema.toObject();
 
       expect(schema.getAliasOf("prop")).toBe("aliasProp");
-      expect(schema.getTarget()).toBeUndefined();
+      expect(schema.getTarget()).toBe("object");
       expect(jsonSchema).toEqual({
         type: "object",
         properties: {
           aliasProp: {
-            type: "string",
-            minLength: 1
+            type: "string"
           }
         },
         required: ["aliasProp"]
@@ -1401,8 +1408,7 @@ describe("JsonSchema", () => {
         type: "object",
         properties: {
           prop: {
-            type: "string",
-            minLength: 1
+            type: "string"
           }
         },
         required: ["prop"]
@@ -1431,7 +1437,30 @@ describe("JsonSchema", () => {
       const result = JsonSchema.from({type: Object}).any().toObject();
 
       expect(result).toEqual({
-        type: ["null", "integer", "number", "string", "boolean", "array", "object"]
+        anyOf: [
+          {
+            type: "null"
+          },
+          {
+            multipleOf: 1,
+            type: "integer"
+          },
+          {
+            type: "number"
+          },
+          {
+            type: "string"
+          },
+          {
+            type: "boolean"
+          },
+          {
+            type: "array"
+          },
+          {
+            type: "object"
+          }
+        ]
       });
     });
   });

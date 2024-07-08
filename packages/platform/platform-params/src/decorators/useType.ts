@@ -1,6 +1,14 @@
 import {Type} from "@tsed/core";
-import {Any, CollectionOf} from "@tsed/schema";
+import {Any, CollectionOf, type JsonParameterStore} from "@tsed/schema";
 import {ParamFn} from "./paramFn.js";
+
+function shouldFallBackToAny(entity: JsonParameterStore) {
+  if (entity.itemSchema.has("allOf") || entity.itemSchema.has("anyOf") || entity.itemSchema.has("oneOf")) {
+    return false;
+  }
+
+  return entity.isCollection && entity.type === Object && [undefined, "object"].includes(entity.itemSchema.get("type"));
+}
 
 /**
  * Set the type of the item collection.
@@ -19,7 +27,7 @@ export function UseType(useType: undefined | any | Type<any>) {
       return CollectionOf(useType);
     }
 
-    if (entity.isCollection && entity.type === Object && [undefined, "object"].includes(entity.itemSchema.get("type"))) {
+    if (shouldFallBackToAny(entity)) {
       Any()(...parameters);
     }
   });

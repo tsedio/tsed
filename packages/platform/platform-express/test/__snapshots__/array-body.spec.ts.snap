@@ -29,9 +29,9 @@ Object {
             "application/json": Object {
               "schema": Object {
                 "items": Object {
-                  "nullable": true,
-                  "oneOf": Array [
+                  "anyOf": Array [
                     Object {
+                      "multipleOf": 1,
                       "type": "integer",
                     },
                     Object {
@@ -50,6 +50,7 @@ Object {
                       "type": "object",
                     },
                   ],
+                  "nullable": true,
                 },
                 "type": "array",
               },
@@ -76,9 +77,9 @@ Object {
             "application/json": Object {
               "schema": Object {
                 "items": Object {
-                  "nullable": true,
-                  "oneOf": Array [
+                  "anyOf": Array [
                     Object {
+                      "multipleOf": 1,
                       "type": "integer",
                     },
                     Object {
@@ -97,6 +98,7 @@ Object {
                       "type": "object",
                     },
                   ],
+                  "nullable": true,
                 },
                 "type": "array",
               },
@@ -200,9 +202,9 @@ Object {
           "content": Object {
             "application/json": Object {
               "schema": Object {
-                "nullable": true,
-                "oneOf": Array [
+                "anyOf": Array [
                   Object {
+                    "multipleOf": 1,
                     "type": "integer",
                   },
                   Object {
@@ -221,6 +223,7 @@ Object {
                     "type": "object",
                   },
                 ],
+                "nullable": true,
               },
             },
           },

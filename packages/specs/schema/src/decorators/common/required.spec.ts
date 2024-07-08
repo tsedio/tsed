@@ -1,5 +1,5 @@
 import {validateModel} from "../../../test/helpers/validateModel.js";
-import {getJsonSchema} from "../../index.js";
+import {getJsonSchema, MinLength} from "../../index.js";
 import Ajv from "ajv";
 import {JsonEntityStore} from "../../domain/JsonEntityStore.js";
 import {Required} from "./required.js";
@@ -45,6 +45,49 @@ describe("@Required", () => {
       type: "object"
     });
   });
+  it("should declare required field on string property", () => {
+    // WHEN
+    class Model {
+      @Required()
+      prop: string;
+    }
+
+    // THEN
+    const classSchema = JsonEntityStore.from(Model);
+
+    expect(classSchema.schema.toJSON()).toEqual({
+      properties: {
+        prop: {
+          minLength: 1,
+          type: "string"
+        }
+      },
+      required: ["prop"],
+      type: "object"
+    });
+  });
+  it("should declare required field on string property (minLength 3)", () => {
+    // WHEN
+    class Model {
+      @Required()
+      @MinLength(3)
+      prop: string;
+    }
+
+    // THEN
+    const classSchema = JsonEntityStore.from(Model);
+
+    expect(classSchema.schema.toJSON()).toEqual({
+      properties: {
+        prop: {
+          minLength: 3,
+          type: "string"
+        }
+      },
+      required: ["prop"],
+      type: "object"
+    });
+  });
   it("should declare required field with a model an null", () => {
     // WHEN
     class NestedModel {
@@ -73,7 +116,7 @@ describe("@Required", () => {
       },
       properties: {
         allow: {
-          oneOf: [
+          anyOf: [
             {
               type: "null"
             },

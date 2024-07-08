@@ -68,8 +68,15 @@ describe("@Allow", () => {
     expect(classSchema).toEqual({
       properties: {
         allow: {
-          minLength: 1,
-          type: ["null", "string"]
+          anyOf: [
+            {
+              type: "null"
+            },
+            {
+              minLength: 1,
+              type: "string"
+            }
+          ]
         }
       },
       required: ["allow"],
@@ -108,7 +115,7 @@ describe("@Allow", () => {
       },
       properties: {
         allow: {
-          oneOf: [
+          anyOf: [
             {
               type: "null"
             },

@@ -1,46 +1,68 @@
-import {uniq} from "@tsed/core";
+import {cleanObject} from "@tsed/core";
+import {MANY_OF_PROPERTIES} from "../constants/jsonSchemaProperties.js";
 import type {JsonSchema} from "../domain/JsonSchema.js";
 import {SpecTypes} from "../domain/SpecTypes.js";
 import type {JsonSchemaOptions} from "../interfaces/JsonSchemaOptions.js";
-
-function hasNullable(obj: any) {
-  return obj.oneOf.find((o: any) => o.type === "null");
-}
 
 export function mapNullableType(obj: any, schema: JsonSchema | null, options: JsonSchemaOptions) {
   if (!schema?.isNullable) {
     return obj;
   }
-  let types: string[] = [].concat(obj.type).filter(Boolean);
 
   switch (options.specType) {
     default:
     case SpecTypes.JSON:
       if (!obj.discriminator) {
-        if (obj.oneOf) {
-          if (!hasNullable(obj)) {
-            obj.oneOf.unshift({
-              type: "null"
-            });
-          }
+        if (obj.$ref) {
+          obj = cleanObject({
+            ...obj,
+            $ref: undefined,
+            anyOf: [
+              {type: "null"},
+              {
+                $ref: obj.$ref
+              }
+            ]
+          });
         } else {
-          obj.type = uniq(["null", ...types]);
+          MANY_OF_PROPERTIES.some((keyword) => {
+            if (obj[keyword]) {
+              obj[keyword] = [{type: "null"}].concat(obj[keyword].filter((item: any) => item.type !== "null"));
+            }
+          });
+          delete obj.type;
         }
       }
       break;
 
     case SpecTypes.OPENAPI:
-      obj.nullable = true;
-
-      if (!obj.oneOf) {
-        if (types.length > 1) {
-          obj.oneOf = types.map((type) => ({type}));
-          delete obj.type;
-        } else {
-          obj.type = types[0];
-        }
+      if (obj.$ref) {
+        return cleanObject({
+          ...obj,
+          ...(obj.$ref && {
+            anyOf: [
+              {
+                $ref: obj.$ref
+              }
+            ],
+            type: undefined
+          }),
+          nullable: true,
+          $ref: undefined
+        });
       }
-      break;
+      return cleanObject({
+        ...obj,
+        ...(obj.anyOf?.length === 1
+          ? {
+              ...obj.anyOf[0],
+              anyOf: undefined
+            }
+          : {
+              type: obj.anyOf?.length > 1 ? undefined : obj.type
+            }),
+        nullable: true
+      });
   }
 
   return obj;

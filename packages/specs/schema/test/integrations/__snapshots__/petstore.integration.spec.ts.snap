@@ -370,6 +370,7 @@ Object {
           },
           "name": Object {
             "example": "doggie",
+            "minLength": 1,
             "type": "string",
           },
           "status": Object {
@@ -557,6 +558,7 @@ Object {
           },
           "name": Object {
             "example": "doggie",
+            "minLength": 1,
             "type": "string",
           },
           "status": Object {

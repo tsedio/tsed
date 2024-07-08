@@ -3,23 +3,6 @@ import type {JsonSchema} from "../domain/JsonSchema.js";
 import {alterRequiredGroups} from "../hooks/alterRequiredGroups.js";
 import type {JsonSchemaOptions} from "../interfaces/JsonSchemaOptions.js";
 
-function applyStringRule(obj: any, propSchema: JsonSchema) {
-  if (!propSchema?.$allow.includes("")) {
-    if (([] as string[]).concat(propSchema?.get("type")).includes("string")) {
-      const minLength = obj?.minLength;
-      // Disallow empty string
-      if (minLength === undefined) {
-        return {
-          ...obj,
-          minLength: 1
-        };
-      }
-    }
-  }
-
-  return obj;
-}
-
 function mapRequiredProps(obj: any, schema: JsonSchema, options: JsonSchemaOptions = {}) {
   const {useAlias} = options;
   const props = Object.keys(obj.properties || {});
@@ -28,11 +11,6 @@ function mapRequiredProps(obj: any, schema: JsonSchema, options: JsonSchemaOptio
     const aliasedKey = useAlias ? (schema.alias.get(key) as string) || key : key;
 
     if (props.includes(aliasedKey)) {
-      const propSchema = schema.get("properties")[key];
-      const serializeSchema = obj.properties[aliasedKey];
-
-      obj.properties[aliasedKey] = applyStringRule(serializeSchema, propSchema);
-
       return keys.concat(aliasedKey);
     }
 

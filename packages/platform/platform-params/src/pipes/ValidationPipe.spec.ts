@@ -1,6 +1,6 @@
 import {PlatformTest, Post} from "@tsed/common";
 import {catchAsyncError} from "@tsed/core";
-import {CollectionOf, getSpec, JsonParameterStore, Required, SpecTypes} from "@tsed/schema";
+import {AllOf, AnyOf, CollectionOf, getSpec, JsonParameterStore, OneOf, Property, Required, SpecTypes} from "@tsed/schema";
 import {BodyParams} from "../decorators/bodyParams.js";
 import {PathParams} from "../decorators/pathParams.js";
 import {QueryParams} from "../decorators/queryParams.js";
@@ -37,6 +37,342 @@ describe("ValidationPipe", () => {
                   schema: {
                     items: {
                       type: "string"
+                    },
+                    type: "array"
+                  }
+                }
+              },
+              required: false
+            },
+            responses: {
+              "200": {
+                description: "Success"
+              }
+            },
+            tags: ["Test"]
+          }
+        }
+      },
+      tags: [
+        {
+          name: "Test"
+        }
+      ]
+    });
+    expect(result).toEqual("value");
+  });
+  it("should return value (Body with array param)", async () => {
+    const validator = await PlatformTest.invoke<ValidationPipe>(ValidationPipe);
+    // @ts-ignore
+    validator.validator = undefined;
+
+    class Test {
+      @Post("/")
+      test(@BodyParams() type: any[]) {}
+    }
+
+    // WHEN
+    const param = JsonParameterStore.get(Test, "test", 0);
+    const result = await validator.transform("value", param);
+
+    // THEN
+    expect(getSpec(Test, {specType: SpecTypes.OPENAPI})).toEqual({
+      paths: {
+        "/": {
+          post: {
+            operationId: "testTest",
+            parameters: [],
+            requestBody: {
+              content: {
+                "application/json": {
+                  schema: {
+                    items: {
+                      anyOf: [
+                        {
+                          multipleOf: 1,
+                          type: "integer"
+                        },
+                        {
+                          type: "number"
+                        },
+                        {
+                          type: "string"
+                        },
+                        {
+                          type: "boolean"
+                        },
+                        {
+                          type: "array"
+                        },
+                        {
+                          type: "object"
+                        }
+                      ],
+                      nullable: true
+                    },
+                    type: "array"
+                  }
+                }
+              },
+              required: false
+            },
+            responses: {
+              "200": {
+                description: "Success"
+              }
+            },
+            tags: ["Test"]
+          }
+        }
+      },
+      tags: [
+        {
+          name: "Test"
+        }
+      ]
+    });
+    expect(result).toEqual("value");
+  });
+  it("should return value (Body with array oneOf)", async () => {
+    const validator = await PlatformTest.invoke<ValidationPipe>(ValidationPipe);
+    // @ts-ignore
+    validator.validator = undefined;
+
+    class Model {
+      @Property()
+      id: string;
+    }
+
+    class Model2 {
+      @Property()
+      id: string;
+    }
+
+    class Test {
+      @Post("/")
+      test(@BodyParams() @OneOf(Model, Model2) type: any[]) {}
+    }
+
+    // WHEN
+    const param = JsonParameterStore.get(Test, "test", 0);
+    const result = await validator.transform("value", param);
+
+    // THEN
+    expect(getSpec(Test, {specType: SpecTypes.OPENAPI})).toEqual({
+      components: {
+        schemas: {
+          Model: {
+            properties: {
+              id: {
+                type: "string"
+              }
+            },
+            type: "object"
+          },
+          Model2: {
+            properties: {
+              id: {
+                type: "string"
+              }
+            },
+            type: "object"
+          }
+        }
+      },
+      paths: {
+        "/": {
+          post: {
+            operationId: "testTest",
+            parameters: [],
+            requestBody: {
+              content: {
+                "application/json": {
+                  schema: {
+                    items: {
+                      oneOf: [
+                        {
+                          $ref: "#/components/schemas/Model"
+                        },
+                        {
+                          $ref: "#/components/schemas/Model2"
+                        }
+                      ]
+                    },
+                    type: "array"
+                  }
+                }
+              },
+              required: false
+            },
+            responses: {
+              "200": {
+                description: "Success"
+              }
+            },
+            tags: ["Test"]
+          }
+        }
+      },
+      tags: [
+        {
+          name: "Test"
+        }
+      ]
+    });
+    expect(result).toEqual("value");
+  });
+  it("should return value (Body with array anyOf)", async () => {
+    const validator = await PlatformTest.invoke<ValidationPipe>(ValidationPipe);
+    // @ts-ignore
+    validator.validator = undefined;
+
+    class Model {
+      @Property()
+      id: string;
+    }
+
+    class Model2 {
+      @Property()
+      id: string;
+    }
+
+    class Test {
+      @Post("/")
+      test(@BodyParams() @AnyOf(Model, Model2) type: any[]) {}
+    }
+
+    // WHEN
+    const param = JsonParameterStore.get(Test, "test", 0);
+    const result = await validator.transform("value", param);
+
+    // THEN
+    expect(getSpec(Test, {specType: SpecTypes.OPENAPI})).toEqual({
+      components: {
+        schemas: {
+          Model: {
+            properties: {
+              id: {
+                type: "string"
+              }
+            },
+            type: "object"
+          },
+          Model2: {
+            properties: {
+              id: {
+                type: "string"
+              }
+            },
+            type: "object"
+          }
+        }
+      },
+      paths: {
+        "/": {
+          post: {
+            operationId: "testTest",
+            parameters: [],
+            requestBody: {
+              content: {
+                "application/json": {
+                  schema: {
+                    items: {
+                      anyOf: [
+                        {
+                          $ref: "#/components/schemas/Model"
+                        },
+                        {
+                          $ref: "#/components/schemas/Model2"
+                        }
+                      ]
+                    },
+                    type: "array"
+                  }
+                }
+              },
+              required: false
+            },
+            responses: {
+              "200": {
+                description: "Success"
+              }
+            },
+            tags: ["Test"]
+          }
+        }
+      },
+      tags: [
+        {
+          name: "Test"
+        }
+      ]
+    });
+    expect(result).toEqual("value");
+  });
+  it("should return value (Body with array allOf)", async () => {
+    const validator = await PlatformTest.invoke<ValidationPipe>(ValidationPipe);
+    // @ts-ignore
+    validator.validator = undefined;
+
+    class Model {
+      @Property()
+      id: string;
+    }
+
+    class Model2 {
+      @Property()
+      id: string;
+    }
+
+    class Test {
+      @Post("/")
+      test(@BodyParams() @AllOf(Model, Model2) type: any[]) {}
+    }
+
+    // WHEN
+    const param = JsonParameterStore.get(Test, "test", 0);
+    const result = await validator.transform("value", param);
+
+    // THEN
+    expect(getSpec(Test, {specType: SpecTypes.OPENAPI})).toEqual({
+      components: {
+        schemas: {
+          Model: {
+            properties: {
+              id: {
+                type: "string"
+              }
+            },
+            type: "object"
+          },
+          Model2: {
+            properties: {
+              id: {
+                type: "string"
+              }
+            },
+            type: "object"
+          }
+        }
+      },
+      paths: {
+        "/": {
+          post: {
+            operationId: "testTest",
+            parameters: [],
+            requestBody: {
+              content: {
+                "application/json": {
+                  schema: {
+                    items: {
+                      allOf: [
+                        {
+                          $ref: "#/components/schemas/Model"
+                        },
+                        {
+                          $ref: "#/components/schemas/Model2"
+                        }
+                      ]
                     },
                     type: "array"
                   }
@@ -206,7 +542,11 @@ describe("ValidationPipe", () => {
     // THEN
     expect(result).toEqual("1");
     // @ts-ignore
-    expect(validator.validator.validate).toHaveBeenCalledWith("1", {collectionType: undefined, schema: {type: "string"}, type: undefined});
+    expect(validator.validator.validate).toHaveBeenCalledWith("1", {
+      collectionType: undefined,
+      schema: {type: "string", minLength: 1},
+      type: undefined
+    });
   });
   it("should cast string to array", async () => {
     const validator = await PlatformTest.invoke<ValidationPipe>(ValidationPipe);

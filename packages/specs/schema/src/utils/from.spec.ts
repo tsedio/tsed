@@ -1,3 +1,4 @@
+import {type} from "node:os";
 import {CollectionOf} from "../decorators/collections/collectionOf.js";
 import {Property} from "../decorators/common/property.js";
 import {
@@ -70,7 +71,30 @@ describe("from", () => {
     });
     expect(array().toJSON()).toEqual({type: "array"});
     expect(any().toJSON()).toEqual({
-      type: ["null", "integer", "number", "string", "boolean", "array", "object"]
+      anyOf: [
+        {
+          type: "null"
+        },
+        {
+          multipleOf: 1,
+          type: "integer"
+        },
+        {
+          type: "number"
+        },
+        {
+          type: "string"
+        },
+        {
+          type: "boolean"
+        },
+        {
+          type: "array"
+        },
+        {
+          type: "object"
+        }
+      ]
     });
 
     expect(anyOf(string(), number()).toJSON()).toEqual({

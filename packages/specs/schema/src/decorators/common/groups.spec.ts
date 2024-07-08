@@ -405,6 +405,7 @@ describe("@Groups", () => {
             type: "string"
           },
           password: {
+            minLength: 1,
             type: "string"
           }
         },
@@ -419,9 +420,11 @@ describe("@Groups", () => {
       expect(spec2).toEqual({
         properties: {
           email: {
+            minLength: 1,
             type: "string"
           },
           firstName: {
+            minLength: 1,
             type: "string"
           },
           id: {
@@ -429,6 +432,7 @@ describe("@Groups", () => {
             type: "string"
           },
           lastName: {
+            minLength: 1,
             type: "string"
           }
         },

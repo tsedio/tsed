@@ -47,8 +47,7 @@ describe("Enums integration", () => {
         ResponseTimeThreshold: {
           properties: {
             status: {
-              $ref: "#/definitions/ComponentStatuses",
-              minLength: 1
+              $ref: "#/definitions/ComponentStatuses"
             }
           },
           required: ["status"],
