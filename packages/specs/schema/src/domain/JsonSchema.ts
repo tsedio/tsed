@@ -17,6 +17,7 @@ import {IgnoreCallback} from "../interfaces/IgnoreCallback.js";
 import {JsonSchemaOptions} from "../interfaces/JsonSchemaOptions.js";
 import {enumsRegistry} from "../registries/enumRegistries.js";
 import {execMapper} from "../registries/JsonSchemaMapperContainer.js";
+import {string} from "../utils/from.js";
 import {NestedGenerics} from "../utils/generics.js";
 import {getComputedType} from "../utils/getComputedType.js";
 import {getJsonType} from "../utils/getJsonType.js";
@@ -170,7 +171,7 @@ export class JsonSchema extends Map<string, any> implements NestedGenerics {
   }
 
   get isNullable(): boolean {
-    return this.#nullable || this.$allow.includes(null);
+    return this.#nullable;
   }
 
   get isReadOnly() {
@@ -455,7 +456,28 @@ export class JsonSchema extends Map<string, any> implements NestedGenerics {
   }
 
   allow(...allow: any[]) {
+    if (([] as string[]).concat(this.getJsonType()).includes("string") && !this.has("minLength")) {
+      this.minLength(1);
+    }
+
+    allow.forEach((value) => {
+      switch (value) {
+        case "":
+          this.set("minLength", undefined);
+          break;
+        case null:
+          this.any(
+            ...["null"].concat(
+              this.getJsonType(),
+              this.$allow.map((v) => typeof v)
+            )
+          );
+          break;
+      }
+    });
+
     this.$allow.push(...allow);
+
     return this;
   }
 
@@ -474,6 +496,11 @@ export class JsonSchema extends Map<string, any> implements NestedGenerics {
     } else {
       const schema = this.clone();
       schema.$selfRequired = required;
+
+      if (([] as string[]).concat(schema.getJsonType()).includes("string")) {
+        schema.minLength(1);
+      }
+
       return schema;
     }
 
@@ -604,7 +631,7 @@ export class JsonSchema extends Map<string, any> implements NestedGenerics {
       if (enumValue.getName()) {
         super.set("enum", enumValue);
       } else {
-        super.set("enum", enumValue.get("enum")).any(...enumValue.getJsonType());
+        super.set("enum", enumValue.get("enum")).any(...enumValue.get("enum").map((value: any) => typeof value));
       }
     } else {
       const {values, types} = serializeEnumValues([enumValue, enumValues].flat());
@@ -628,7 +655,7 @@ export class JsonSchema extends Map<string, any> implements NestedGenerics {
    * @see https://tools.ietf.org/html/draft-wright-json-schema-validation-01#section-6.26
    */
   allOf(allOf: AnyJsonSchema[]) {
-    super.set("allOf", allOf.map(mapToJsonSchema));
+    this.setManyOf("allOf", allOf);
 
     return this;
   }
@@ -637,7 +664,7 @@ export class JsonSchema extends Map<string, any> implements NestedGenerics {
    * @see https://tools.ietf.org/html/draft-wright-json-schema-validation-01#section-6.27
    */
   anyOf(anyOf: AnyJsonSchema[]) {
-    super.set("anyOf", anyOf.map(mapToJsonSchema));
+    this.setManyOf("anyOf", anyOf);
 
     return this;
   }
@@ -646,33 +673,7 @@ export class JsonSchema extends Map<string, any> implements NestedGenerics {
    * @see https://tools.ietf.org/html/draft-wright-json-schema-validation-01#section-6.28
    */
   oneOf(oneOf: AnyJsonSchema[]) {
-    let resolvedOneOf = oneOf.map(mapToJsonSchema);
-
-    if (resolvedOneOf.length === 1 && !(oneOf[0] instanceof JsonSchema)) {
-      if (!resolvedOneOf[0].hasDiscriminator) {
-        return this.type(oneOf[0]);
-      }
-
-      const children = resolvedOneOf[0].discriminator().children();
-
-      if (!children.length) {
-        return this.type(oneOf[0]);
-      }
-
-      resolvedOneOf = children.map(mapToJsonSchema);
-    }
-
-    super.set("oneOf", resolvedOneOf);
-
-    const jsonSchema: JsonSchema = resolvedOneOf[0];
-
-    if (jsonSchema.isDiscriminator) {
-      const discriminator = jsonSchema.discriminatorAncestor.discriminator();
-      const {propertyName} = discriminator;
-      super.set("discriminator", {propertyName});
-      this.isDiscriminator = true;
-      this.#discriminator = discriminator;
-    }
+    this.setManyOf("oneOf", oneOf);
 
     return this;
   }
@@ -789,6 +790,7 @@ export class JsonSchema extends Map<string, any> implements NestedGenerics {
    */
   type(type: any | JSONSchema6TypeName | JSONSchema6TypeName[]): this {
     switch (type) {
+      case "map":
       case Map:
         super.set("type", getJsonType(type));
         this.#target = type;
@@ -798,6 +800,7 @@ export class JsonSchema extends Map<string, any> implements NestedGenerics {
         }
         break;
 
+      case "array":
       case Array:
         super.set("type", getJsonType(type));
         this.#target = type;
@@ -808,6 +811,7 @@ export class JsonSchema extends Map<string, any> implements NestedGenerics {
         }
         break;
 
+      case "set":
       case Set:
         super.set("type", getJsonType(type));
         this.#target = type;
@@ -824,6 +828,10 @@ export class JsonSchema extends Map<string, any> implements NestedGenerics {
         this.integer();
         break;
 
+      case "number":
+      case "string":
+      case "boolean":
+      case "object":
       case Object:
       case Date:
       case Boolean:
@@ -859,32 +867,16 @@ export class JsonSchema extends Map<string, any> implements NestedGenerics {
   }
 
   any(...types: any[]) {
-    const hasClasses = types.filter((type) => isClass(type));
+    types = types.length ? types : ["integer", "number", "string", "boolean", "array", "object", "null"];
 
-    if (hasClasses.length >= 2) {
-      this.oneOf(
-        types.filter((value) => {
-          if (value !== null) {
-            this.nullable(true);
-            return true;
-          }
-          return false;
-        })
-      );
+    types = uniq(types).map((o) => {
+      return isClass(o) ? o : {type: getJsonType(o)};
+    });
+
+    if (types.length > 1) {
+      this.anyOf(types);
     } else {
-      if (types.length) {
-        types = uniq(types).map(getJsonType);
-
-        if (types.includes("null")) {
-          this.nullable(true);
-          types = types.filter((o) => o !== "null");
-        }
-      } else {
-        types = ["integer", "number", "string", "boolean", "array", "object"];
-        this.nullable(true);
-      }
-
-      this.type(types.length === 1 ? types[0] : types);
+      this.type(types[0]?.type || types[0]);
     }
 
     return this;
@@ -951,8 +943,8 @@ export class JsonSchema extends Map<string, any> implements NestedGenerics {
       this.#discriminator = this.#discriminator ? new Discriminator(this.#discriminator) : null;
       this.isDiscriminator = obj.isDiscriminator;
       this.isDiscriminatorKey = obj.isDiscriminatorKey;
-
       this.#ref = obj.#ref;
+
       this.#alias = new Map(this.#alias.entries());
       obj.#genericLabels && (this.#genericLabels = [...obj.#genericLabels]);
       this.#nestedGenerics = obj.#nestedGenerics.map((item) => [...item]);
@@ -960,6 +952,7 @@ export class JsonSchema extends Map<string, any> implements NestedGenerics {
       this.#isGeneric = obj.#isGeneric;
       this.#isCollection = obj.#isCollection;
       this.#ref = obj.#ref;
+      this.#nullable = obj.#nullable;
 
       super.set("type", obj.get("type"));
     }
@@ -994,6 +987,12 @@ export class JsonSchema extends Map<string, any> implements NestedGenerics {
    * Return the Json type as string
    */
   getJsonType(): string | string[] {
+    if (this.get("anyOf")) {
+      return this.get("anyOf").map((o: JsonSchema) => {
+        return o.getJsonType();
+      });
+    }
+
     return this.get("type") || getJsonType(this.getComputedType());
   }
 
@@ -1010,5 +1009,43 @@ export class JsonSchema extends Map<string, any> implements NestedGenerics {
 
   clone() {
     return new JsonSchema(this);
+  }
+
+  protected setManyOf(keyword: "oneOf" | "anyOf" | "allOf", value: AnyJsonSchema[]) {
+    let resolved = value
+      .filter((o) => {
+        if (o?.type === "null") {
+          this.nullable(true);
+          return false;
+        }
+        return true;
+      })
+      .map(mapToJsonSchema);
+
+    if (resolved.length === 1 && !(value[0] instanceof JsonSchema) && !this.isNullable) {
+      if (!resolved[0].hasDiscriminator) {
+        return this.type(value[0]);
+      }
+
+      const children = resolved[0].discriminator().children();
+
+      if (!children.length) {
+        return this.type(value[0]);
+      }
+
+      resolved = children.map(mapToJsonSchema);
+    }
+
+    super.set(keyword, resolved);
+
+    const jsonSchema: JsonSchema = resolved[0];
+
+    if (jsonSchema.isDiscriminator) {
+      const discriminator = jsonSchema.discriminatorAncestor.discriminator();
+      const {propertyName} = discriminator;
+      super.set("discriminator", {propertyName});
+      this.isDiscriminator = true;
+      this.#discriminator = discriminator;
+    }
   }
 }

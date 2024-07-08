@@ -3,6 +3,7 @@ import {pascalCase} from "change-case";
 import type {JsonSchema} from "../domain/JsonSchema.js";
 import {SpecTypes} from "../domain/SpecTypes.js";
 import {JsonSchemaOptions} from "../interfaces/JsonSchemaOptions.js";
+import {anyOf} from "./from.js";
 
 /**
  * ignore
@@ -35,29 +36,18 @@ export function createRef(name: string, schema: JsonSchema, options: JsonSchemaO
     $ref: `${host}/${name}`
   };
 
-  const nullable = schema.isNullable;
   const readOnly = schema.isReadOnly;
   const writeOnly = schema.isWriteOnly;
 
-  if (nullable || readOnly || writeOnly) {
-    switch (options.specType) {
-      case SpecTypes.OPENAPI:
-        return cleanObject({
-          nullable: nullable ? true : undefined,
-          readOnly: readOnly ? true : undefined,
-          writeOnly: writeOnly ? true : undefined,
-          oneOf: [ref]
-        });
-      case SpecTypes.JSON:
-        return cleanObject({
-          readOnly,
-          writeOnly,
-          oneOf: [ref]
-        });
-    }
-  }
-
-  return ref;
+  return cleanObject({
+    readOnly: readOnly ? true : undefined,
+    writeOnly: writeOnly ? true : undefined,
+    ...(readOnly || writeOnly
+      ? {
+          anyOf: [ref]
+        }
+      : ref)
+  });
 }
 
 /**

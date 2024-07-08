@@ -65,6 +65,7 @@ describe("@RequiredGroups", () => {
           type: "string"
         },
         prop3: {
+          minLength: 1,
           type: "string"
         }
       },
@@ -87,6 +88,7 @@ describe("@RequiredGroups", () => {
           type: "string"
         },
         prop2: {
+          minLength: 1,
           type: "string"
         },
         prop3: {
@@ -114,6 +116,7 @@ describe("@RequiredGroups", () => {
           type: "string"
         },
         prop3: {
+          minLength: 1,
           type: "string"
         }
       },

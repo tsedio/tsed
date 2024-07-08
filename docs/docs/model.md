@@ -112,6 +112,131 @@ json type or when you use a mixed TypeScript types.
   </Tab>
 </Tabs>
 
+You can also use @@Any@@ decorator to allow all types:
+
+<Tabs class="-code">
+  <Tab label="Model">
+
+```typescript
+import {Any} from "@tsed/schema";
+
+export class Model {
+  @Any()
+  prop: any;
+}
+```
+
+  </Tab>
+  <Tab label="Json schema">
+
+```json
+{
+  "properties": {
+    "prop": {
+      "anyOf": [
+        {
+          "type": "null"
+        },
+        {
+          "type": "integer",
+          "multipleOf": 1
+        },
+        {
+          "type": "number"
+        },
+        {
+          "type": "string"
+        },
+        {
+          "type": "boolean"
+        },
+        {
+          "type": "array"
+        },
+        {
+          "type": "object"
+        }
+      ]
+    }
+  },
+  "type": "object"
+}
+```
+
+  </Tab>
+  <Tab label="OS3">
+
+```json
+{
+  "properties": {
+    "prop": {
+      "nullable": true,
+      "anyOf": [
+        {
+          "type": "integer",
+          "multipleOf": 1
+        },
+        {
+          "type": "number"
+        },
+        {
+          "type": "string"
+        },
+        {
+          "type": "boolean"
+        },
+        {
+          "type": "array"
+        },
+        {
+          "type": "object"
+        }
+      ]
+    }
+  },
+  "type": "object"
+}
+```
+
+  </Tab>
+</Tabs>
+
+Since v7.75.0, when you use @@Any@@ decorator combined with other decorators like @@MinLength@@, @@Minimum@@, etc. metadata will be automatically assigned to the right
+type. For example, if you add a @@Minimum@@ decorator, it will be assigned to the number type.
+
+```ts
+import {Any} from "@tsed/schema";
+
+class Model {
+  @Any(String, Number)
+  @Minimum(0)
+  @MaxLength(100)
+  prop: string | number;
+}
+```
+
+Produce a json-schema as follows:
+
+```json
+{
+  "properties": {
+    "prop": {
+      "allOf": [
+        {
+          "type": "string",
+          "maxLength": 100
+        },
+        {
+          "type": "number",
+          "minimum": 0
+        }
+      ]
+    }
+  },
+  "type": "object"
+}
+```
+
 ## Nullable
 
 The @@Nullable@@ decorator is used allow a null value on a field while preserving the original Typescript type.
@@ -189,62 +314,50 @@ class NullableModel {
 `returnsCoercedValue` will become true by default in the next major version of Ts.ED.
 :::
 
-## Any
+## Nullable and mixed types <Badge text="7.75.0+"/>
 
-The @@Any@@ decorator is used to allow any types:
+The @@Nullable@@ decorator can be used with Tuple types:
 
-<Tabs class="-code">
-  <Tab label="Model">
+```ts
+import {Nullable} from "@tsed/schema";
 
-```typescript
-import {Any} from "@tsed/schema";
-
-export class Model {
-  @Any()
-  prop: any;
+class Model {
+  @Nullable(String, Number)
+  prop: string | number | null;
 }
 ```
 
-  </Tab>
-  <Tab label="Json schema">
+Since v7.75.0, when you use @@Nullable@@ decorator combined with other decorators like @@MinLength@@, @@Minimum@@, etc. metadata will be automatically assigned to the right
+type. For example, if you add a @@Minimum@@ decorator, it will be assigned to the number type.
+
+```ts
+import {Nullable} from "@tsed/schema";
+
+class Model {
+  @Nullable(String, Number)
+  @Minimum(0)
+  @MaxLength(100)
+  prop: string | number | null;
+}
+```
+
+Produce a json-schema as follows:
 
 ```json
 {
   "properties": {
     "prop": {
-      "type": ["integer", "number", "string", "boolean", "array", "object", "null"]
-    }
-  },
-  "type": "object"
-}
-```
-
-  </Tab>
-  <Tab label="OS3">
-
-```json
-{
-  "properties": {
-    "prop": {
-      "nullable": true,
-      "oneOf": [
+      "anyOf": [
         {
-          "type": "integer"
+          "type": "null"
         },
         {
-          "type": "number"
+          "type": "string",
+          "maxLength": 100
         },
         {
-          "type": "string"
-        },
-        {
-          "type": "boolean"
-        },
-        {
-          "type": "array"
-        },
-        {
-          "type": "object"
+          "type": "number",
+          "minimum": 0
         }
       ]
     }
@@ -252,9 +365,6 @@ export class Model {
   "type": "object"
 }
 ```
-
-  </Tab>
-</Tabs>
 
 ## Regular expressions
 

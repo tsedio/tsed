@@ -503,6 +503,7 @@ describe("getSpec()", () => {
                       name: "hello",
                       required: true,
                       schema: {
+                        minLength: 1,
                         type: "string"
                       }
                     }

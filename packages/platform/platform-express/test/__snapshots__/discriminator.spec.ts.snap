@@ -30,6 +30,7 @@ Object {
       "ActionPartial": Object {
         "properties": Object {
           "event": Object {
+            "minLength": 1,
             "type": "string",
           },
           "type": Object {
@@ -71,6 +72,7 @@ Object {
       "CustomActionPartial": Object {
         "properties": Object {
           "event": Object {
+            "minLength": 1,
             "type": "string",
           },
           "meta": Object {
@@ -112,6 +114,7 @@ Object {
             "type": "string",
           },
           "url": Object {
+            "minLength": 1,
             "type": "string",
           },
           "value": Object {
@@ -203,7 +206,6 @@ Object {
                   "discriminator": Object {
                     "propertyName": "type",
                   },
-                  "nullable": true,
                   "oneOf": Array [
                     Object {
                       "$ref": "#/components/schemas/PageView",

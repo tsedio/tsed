@@ -47,26 +47,50 @@ describe("Spec: Nullable", () => {
         }
       },
       properties: {
+        description: {
+          anyOf: [
+            {
+              type: "null"
+            },
+            {
+              minLength: 1,
+              type: "string"
+            }
+          ]
+        },
         id: {
           type: "string"
         },
-        price: {
-          type: ["null", "number"]
-        },
-        priceDetails: {
-          type: ["null", "string", "number"]
-        },
-        description: {
-          minLength: 1,
-          type: ["null", "string"]
-        },
         nested: {
-          oneOf: [
+          anyOf: [
             {
               type: "null"
             },
             {
               $ref: "#/definitions/Nested"
+            }
+          ]
+        },
+        price: {
+          anyOf: [
+            {
+              type: "null"
+            },
+            {
+              type: "number"
+            }
+          ]
+        },
+        priceDetails: {
+          anyOf: [
+            {
+              type: "null"
+            },
+            {
+              type: "string"
+            },
+            {
+              type: "number"
             }
           ]
         }
@@ -91,33 +115,33 @@ describe("Spec: Nullable", () => {
           },
           Product: {
             properties: {
+              description: {
+                minLength: 1,
+                nullable: true,
+                type: "string"
+              },
               id: {
                 type: "string"
               },
-              price: {
-                type: "number",
+              nested: {
+                anyOf: [
+                  {
+                    $ref: "#/components/schemas/Nested"
+                  }
+                ],
                 nullable: true
               },
-              priceDetails: {
+              price: {
                 nullable: true,
-                oneOf: [
+                type: "number"
+              },
+              priceDetails: {
+                anyOf: [
                   {
                     type: "string"
                   },
                   {
                     type: "number"
-                  }
-                ]
-              },
-              description: {
-                type: "string",
-                minLength: 1,
-                nullable: true
-              },
-              nested: {
-                oneOf: [
-                  {
-                    $ref: "#/components/schemas/Nested"
                   }
                 ],
                 nullable: true

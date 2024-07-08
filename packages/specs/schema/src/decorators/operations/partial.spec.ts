@@ -1,15 +1,14 @@
+import Ajv from "ajv";
 import {
   CollectionOf,
   getJsonSchema,
   getSpec,
   Groups,
   In,
-  Name,
   OperationPath,
   Path,
   Property,
   Required,
-  RequiredGroups,
   Returns,
   SpecTypes
 } from "../../index.js";
@@ -79,6 +78,7 @@ describe("@Partial", () => {
                   type: "string"
                 },
                 prop3: {
+                  minLength: 1,
                   type: "string"
                 },
                 prop4: {
@@ -156,6 +156,93 @@ describe("@Partial", () => {
           }
         ]
       });
+    });
+    it("should return a valid json-schema", () => {
+      const schema = getJsonSchema(MyModel, {});
+
+      expect(schema).toEqual({
+        definitions: {
+          ChildModel: {
+            properties: {
+              id: {
+                type: "string"
+              },
+              prop1: {
+                minLength: 1,
+                type: "string"
+              }
+            },
+            required: ["prop1"],
+            type: "object"
+          }
+        },
+        properties: {
+          id: {
+            type: "string"
+          },
+          prop3: {
+            minLength: 1,
+            type: "string"
+          },
+          prop4: {
+            items: {
+              $ref: "#/definitions/ChildModel"
+            },
+            type: "array"
+          }
+        },
+        required: ["prop3"],
+        type: "object"
+      });
+
+      const ajv = new Ajv({strict: true});
+
+      expect(ajv.validate(schema, {})).toBe(false);
+      expect(ajv.validate(schema, {prop3: "test"})).toBe(true);
+    });
+    it("should return a valid json-schema (partial)", () => {
+      const schema = getJsonSchema(MyModel, {
+        groups: ["partial"]
+      });
+
+      expect(schema).toEqual({
+        definitions: {
+          ChildModel: {
+            properties: {
+              id: {
+                type: "string"
+              },
+              prop1: {
+                minLength: 1,
+                type: "string"
+              }
+            },
+            required: ["prop1"],
+            type: "object"
+          }
+        },
+        properties: {
+          id: {
+            type: "string"
+          },
+          prop3: {
+            minLength: 1,
+            type: "string"
+          },
+          prop4: {
+            items: {
+              $ref: "#/definitions/ChildModel"
+            },
+            type: "array"
+          }
+        },
+        type: "object"
+      });
+
+      const ajv = new Ajv({strict: true});
+
+      expect(ajv.validate(schema, {})).toBe(true);
+      expect(ajv.validate(schema, {prop3: "test"})).toBe(true);
     });
   });
 });

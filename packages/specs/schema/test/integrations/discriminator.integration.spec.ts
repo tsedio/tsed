@@ -1,6 +1,5 @@
 import {Controller} from "@tsed/di";
 import {BodyParams, PathParams} from "@tsed/platform-params";
-import * as Path from "path";
 import {
   DiscriminatorKey,
   DiscriminatorValue,
@@ -448,6 +447,7 @@ describe("Discriminator", () => {
           ActionPartial: {
             properties: {
               event: {
+                minLength: 1,
                 type: "string"
               },
               meta: {
@@ -467,6 +467,7 @@ describe("Discriminator", () => {
           CustomActionPartial: {
             properties: {
               event: {
+                minLength: 1,
                 type: "string"
               },
               meta: {
@@ -494,6 +495,7 @@ describe("Discriminator", () => {
                 type: "string"
               },
               url: {
+                minLength: 1,
                 type: "string"
               },
               value: {
@@ -506,7 +508,6 @@ describe("Discriminator", () => {
         discriminator: {
           propertyName: "type"
         },
-        required: ["type"],
         oneOf: [
           {
             $ref: "#/definitions/PageViewPartial"
@@ -517,7 +518,8 @@ describe("Discriminator", () => {
           {
             $ref: "#/definitions/CustomActionPartial"
           }
-        ]
+        ],
+        required: ["type"]
       });
     });
   });
@@ -559,6 +561,7 @@ describe("Discriminator", () => {
             ActionPartial: {
               properties: {
                 event: {
+                  minLength: 1,
                   type: "string"
                 },
                 meta: {
@@ -598,6 +601,7 @@ describe("Discriminator", () => {
             CustomActionPartial: {
               properties: {
                 event: {
+                  minLength: 1,
                   type: "string"
                 },
                 meta: {
@@ -643,6 +647,7 @@ describe("Discriminator", () => {
                   type: "string"
                 },
                 url: {
+                  minLength: 1,
                   type: "string"
                 },
                 value: {
@@ -666,7 +671,6 @@ describe("Discriminator", () => {
                         discriminator: {
                           propertyName: "type"
                         },
-                        nullable: true,
                         oneOf: [
                           {
                             $ref: "#/components/schemas/PageViewPartial"
@@ -914,6 +918,7 @@ describe("Discriminator", () => {
             ActionPartial: {
               properties: {
                 event: {
+                  minLength: 1,
                   type: "string"
                 },
                 meta: {
@@ -953,6 +958,7 @@ describe("Discriminator", () => {
             CustomActionPartial: {
               properties: {
                 event: {
+                  minLength: 1,
                   type: "string"
                 },
                 meta: {
@@ -998,6 +1004,7 @@ describe("Discriminator", () => {
                   type: "string"
                 },
                 url: {
+                  minLength: 1,
                   type: "string"
                 },
                 value: {

@@ -35,8 +35,6 @@ export function Allow(...values: any[]) {
   return useDecorators(
     model && Property(model),
     JsonEntityFn((store, args) => {
-      store.schema.allow(...values);
-
       if (store.decoratorType === DecoratorTypes.PARAM) {
         (store as JsonParameterStore).required = true;
       }
@@ -44,6 +42,8 @@ export function Allow(...values: any[]) {
       if (store.decoratorType === DecoratorTypes.PROP) {
         store.parentSchema.addRequired(store.propertyName);
       }
+
+      store.schema.allow(...values);
     })
   );
 }

@@ -13,7 +13,30 @@ describe("@Any", () => {
     expect(getJsonSchema(Model)).toEqual({
       properties: {
         prop: {
-          type: ["null", "integer", "number", "string", "boolean", "array", "object"]
+          anyOf: [
+            {
+              type: "null"
+            },
+            {
+              multipleOf: 1,
+              type: "integer"
+            },
+            {
+              type: "number"
+            },
+            {
+              type: "string"
+            },
+            {
+              type: "boolean"
+            },
+            {
+              type: "array"
+            },
+            {
+              type: "object"
+            }
+          ]
         }
       },
       type: "object"
@@ -47,7 +70,20 @@ describe("@Any", () => {
     expect(getJsonSchema(Model)).toEqual({
       properties: {
         prop: {
-          type: ["null", "string", "number", "boolean"]
+          anyOf: [
+            {
+              type: "null"
+            },
+            {
+              type: "string"
+            },
+            {
+              type: "number"
+            },
+            {
+              type: "boolean"
+            }
+          ]
         }
       },
       type: "object"
@@ -64,7 +100,14 @@ describe("@Any", () => {
     expect(getJsonSchema(Model)).toEqual({
       properties: {
         prop: {
-          type: ["null", "string"]
+          anyOf: [
+            {
+              type: "null"
+            },
+            {
+              type: "string"
+            }
+          ]
         }
       },
       type: "object"

@@ -29,6 +29,7 @@ export * from "./components/open-spec/operationRequestBodyMapper.js";
 export * from "./components/open-spec/operationResponseMapper.js";
 export * from "./components/open-spec/pathsMapper.js";
 export * from "./constants/httpStatusMessages.js";
+export * from "./constants/jsonSchemaProperties.js";
 export * from "./constants/OperationVerbs.js";
 export * from "./decorators/class/children.js";
 export * from "./decorators/class/discriminatorValue.js";

@@ -36,6 +36,7 @@ Object {
             "type": "array",
           },
           "title": Object {
+            "minLength": 1,
             "type": "string",
           },
         },
