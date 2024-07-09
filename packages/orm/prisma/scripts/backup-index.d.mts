@@ -1,1 +1,1 @@
-export * from "../esm/.schema";
+export * from "../.schema";
