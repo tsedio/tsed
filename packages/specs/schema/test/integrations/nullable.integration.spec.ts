@@ -1,4 +1,16 @@
-import {Any, getJsonSchema, getSpec, Nullable, OperationPath, Path, Property, Required, Returns, SpecTypes} from "../../src/index.js";
+import {
+  Any,
+  getJsonSchema,
+  getSpec,
+  Nullable,
+  OperationPath,
+  Path,
+  Property,
+  Required,
+  Returns,
+  SpecTypes,
+  string
+} from "../../src/index.js";
 import {validateSpec} from "../helpers/validateSpec.js";
 
 class Nested {
@@ -48,15 +60,8 @@ describe("Spec: Nullable", () => {
       },
       properties: {
         description: {
-          anyOf: [
-            {
-              type: "null"
-            },
-            {
-              minLength: 1,
-              type: "string"
-            }
-          ]
+          minLength: 1,
+          type: ["null", "string"]
         },
         id: {
           type: "string"
@@ -72,14 +77,7 @@ describe("Spec: Nullable", () => {
           ]
         },
         price: {
-          anyOf: [
-            {
-              type: "null"
-            },
-            {
-              type: "number"
-            }
-          ]
+          type: ["null", "number"]
         },
         priceDetails: {
           anyOf: [

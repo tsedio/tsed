@@ -1,4 +1,5 @@
 import {cleanObject} from "@tsed/core";
+import {type} from "node:os";
 import {MANY_OF_PROPERTIES} from "../constants/jsonSchemaProperties.js";
 import type {JsonSchema} from "../domain/JsonSchema.js";
 import {SpecTypes} from "../domain/SpecTypes.js";
@@ -27,10 +28,23 @@ export function mapNullableType(obj: any, schema: JsonSchema | null, options: Js
         } else {
           MANY_OF_PROPERTIES.some((keyword) => {
             if (obj[keyword]) {
-              obj[keyword] = [{type: "null"}].concat(obj[keyword].filter((item: any) => item.type !== "null"));
+              obj[keyword] = obj[keyword].filter((item: any) => item.type !== "null");
+
+              if (obj[keyword].length === 1) {
+                const base = obj[keyword];
+
+                obj = cleanObject({
+                  ...obj,
+                  ...base[0],
+                  [keyword]: undefined,
+                  type: ["null", base[0].type]
+                });
+              } else {
+                obj[keyword] = [{type: "null"}].concat(obj[keyword]);
+                delete obj.type;
+              }
             }
           });
-          delete obj.type;
         }
       }
       break;
