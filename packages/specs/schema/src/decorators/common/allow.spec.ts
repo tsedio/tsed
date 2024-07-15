@@ -1,5 +1,5 @@
-import {getJsonSchema} from "../../index.js";
 import Ajv from "ajv";
+import {getJsonSchema} from "../../index.js";
 import {Allow} from "./allow.js";
 import {Property} from "./property.js";
 import {Required} from "./required.js";
@@ -68,15 +68,8 @@ describe("@Allow", () => {
     expect(classSchema).toEqual({
       properties: {
         allow: {
-          anyOf: [
-            {
-              type: "null"
-            },
-            {
-              minLength: 1,
-              type: "string"
-            }
-          ]
+          minLength: 1,
+          type: ["null", "string"]
         }
       },
       required: ["allow"],

@@ -1,5 +1,6 @@
 import {BodyParams} from "@tsed/platform-params";
 import Ajv from "ajv";
+import {type} from "node:os";
 import {SpecTypes} from "../../domain/SpecTypes.js";
 import {getJsonSchema} from "../../utils/getJsonSchema.js";
 import {getSpec} from "../../utils/getSpec.js";
@@ -28,15 +29,8 @@ describe("@Nullable", () => {
     expect(schema).toEqual({
       properties: {
         prop2: {
-          anyOf: [
-            {
-              type: "null"
-            },
-            {
-              type: "string",
-              minLength: 1
-            }
-          ]
+          type: ["null", "string"],
+          minLength: 1
         }
       },
       required: ["prop2"],
@@ -120,14 +114,7 @@ describe("@Nullable", () => {
     expect(schema).toEqual({
       properties: {
         prop2: {
-          anyOf: [
-            {
-              type: "null"
-            },
-            {
-              type: "string"
-            }
-          ]
+          type: ["null", "string"]
         }
       },
       required: ["prop2"],
@@ -183,14 +170,7 @@ describe("@Nullable", () => {
     expect(getJsonSchema(Model)).toEqual({
       properties: {
         prop2: {
-          anyOf: [
-            {
-              type: "null"
-            },
-            {
-              type: "string"
-            }
-          ]
+          type: ["null", "string"]
         }
       },
       type: "object"
@@ -276,15 +256,8 @@ describe("@Nullable", () => {
     expect(getJsonSchema(Model)).toEqual({
       properties: {
         prop2: {
-          anyOf: [
-            {
-              type: "null"
-            },
-            {
-              format: "date-time",
-              type: "string"
-            }
-          ]
+          format: "date-time",
+          type: ["null", "string"]
         }
       },
       type: "object"

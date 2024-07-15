@@ -100,14 +100,7 @@ describe("@Any", () => {
     expect(getJsonSchema(Model)).toEqual({
       properties: {
         prop: {
-          anyOf: [
-            {
-              type: "null"
-            },
-            {
-              type: "string"
-            }
-          ]
+          type: ["null", "string"]
         }
       },
       type: "object"
