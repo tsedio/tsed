@@ -1,6 +1,6 @@
 {
   "name": "@tsed/apollo",
-  "version": "7.75.4",
+  "version": "7.75.5",
   "description": "Apollo package for Ts.ED framework",
   "source": "./src/index.ts",
   "main": "./lib/cjs/index.js",
@@ -40,9 +40,9 @@
     "jest": "^29.7.0"
   },
   "peerDependencies": {
-    "@tsed/common": "7.75.4",
-    "@tsed/core": "7.75.4",
-    "@tsed/di": "7.75.4",
+    "@tsed/common": "7.75.5",
+    "@tsed/core": "7.75.5",
+    "@tsed/di": "7.75.5",
     "@tsed/logger": ">=6.7.5",
     "apollo-datasource": ">=3.0.0",
     "apollo-datasource-rest": ">=3.0.0",
