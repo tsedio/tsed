@@ -1,14 +1,15 @@
 import {getValue} from "@tsed/core";
+import type {APIGatewayProxyEvent} from "aws-lambda";
 import {ServerlessContext} from "./ServerlessContext.js";
 
 /**
  * @platform
  */
-export class ServerlessRequest {
-  constructor(protected $ctx: ServerlessContext) {}
+export class ServerlessRequest<Event = APIGatewayProxyEvent> {
+  constructor(protected $ctx: ServerlessContext<Event>) {}
 
   get event() {
-    return this.$ctx.event;
+    return this.getEvent();
   }
 
   get raw() {
@@ -37,15 +38,15 @@ export class ServerlessRequest {
    * Is equivalent of `express.response.originalUrl || express.response.url`.
    */
   get url(): string {
-    return this.event.path;
+    return this.getEvent<APIGatewayProxyEvent>().path;
   }
 
   get headers() {
-    return this.event.headers;
+    return this.getEvent<APIGatewayProxyEvent>().headers;
   }
 
   get method(): string {
-    return this.event.httpMethod;
+    return this.getEvent<APIGatewayProxyEvent>().httpMethod;
   }
 
   /**
@@ -54,14 +55,14 @@ export class ServerlessRequest {
    */
   get body(): any {
     try {
-      return this.event.body ? JSON.parse(this.event.body) : {};
+      return this.getEvent<APIGatewayProxyEvent>().body ? JSON.parse(this.getEvent<APIGatewayProxyEvent>().body!) : {};
     } catch (er) {
-      return this.event.body;
+      return this.getEvent<APIGatewayProxyEvent>().body;
     }
   }
 
   get rawBody(): any {
-    return this.event.body;
+    return this.getEvent<APIGatewayProxyEvent>().body;
   }
 
   /**
@@ -70,7 +71,7 @@ export class ServerlessRequest {
    * This object defaults to `{}`.
    */
   get params(): {[key: string]: any} {
-    return this.event.pathParameters || {};
+    return this.getEvent<APIGatewayProxyEvent>().pathParameters || {};
   }
 
   /**
@@ -78,7 +79,11 @@ export class ServerlessRequest {
    * When query parser is set to disabled, it is an empty object `{}`, otherwise it is the result of the configured query parser.
    */
   get query(): {[key: string]: any} {
-    return this.event.queryStringParameters || {};
+    return this.getEvent<APIGatewayProxyEvent>().queryStringParameters || {};
+  }
+
+  getEvent<E = Event>(): E {
+    return this.$ctx.event as unknown as E;
   }
 
   /**
@@ -91,6 +96,6 @@ export class ServerlessRequest {
    * @param name
    */
   get(name: string) {
-    return getValue(this.event.headers, name);
+    return getValue(this.getEvent<APIGatewayProxyEvent>().headers, name);
   }
 }

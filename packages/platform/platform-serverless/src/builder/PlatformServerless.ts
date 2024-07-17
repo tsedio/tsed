@@ -5,6 +5,7 @@ import {getOperationsRoutes, JsonEntityStore} from "@tsed/schema";
 import type {APIGatewayProxyResult, Handler} from "aws-lambda";
 import type {HTTPMethod, Instance} from "find-my-way";
 import {ServerlessContext} from "../domain/ServerlessContext.js";
+import type {ServerlessEvent} from "../domain/ServerlessEvent";
 import {getRequestId} from "../utils/getRequestId.js";
 import {PlatformServerlessHandler} from "./PlatformServerlessHandler.js";
 
@@ -124,11 +125,11 @@ export class PlatformServerless {
     return this._promise;
   }
 
-  protected callback(token: Type<any>, propertyKey: string): Handler {
+  protected callback(token: Type<any>, propertyKey: string): Handler<ServerlessEvent> {
     const entity = JsonEntityStore.fromMethod(token, propertyKey);
     let handler: ($ctx: ServerlessContext) => Promise<APIGatewayProxyResult>;
 
-    return async (event, context) => {
+    return async (event: ServerlessEvent, context) => {
       await this.init();
 
       if (!handler) {
