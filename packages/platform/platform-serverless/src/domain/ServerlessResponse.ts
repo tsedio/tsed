@@ -1,5 +1,6 @@
 import {getValue} from "@tsed/core";
 import {getStatusMessage} from "@tsed/schema";
+import type {APIGatewayProxyEvent} from "aws-lambda";
 import encodeUrl from "encodeurl";
 import mime from "mime";
 import {ServerlessContext} from "./ServerlessContext.js";
@@ -9,14 +10,14 @@ export type HeaderValue = boolean | number | string;
 /**
  * @platform
  */
-export class ServerlessResponse {
+export class ServerlessResponse<Event = APIGatewayProxyEvent> {
   #status: number = 200;
   #body: any = undefined;
   #headers: Record<string, HeaderValue> = {};
   #locals: Record<string, any> = {};
   #isHeadersSent = false;
 
-  constructor(protected $ctx: ServerlessContext) {}
+  constructor(protected $ctx: ServerlessContext<Event>) {}
 
   get event() {
     return this.$ctx.event;

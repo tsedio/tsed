@@ -48,14 +48,29 @@ export class PlatformServerlessHandler {
   private async flush($ctx: ServerlessContext) {
     setResponseHeaders($ctx);
 
-    let body: any = $ctx.response.getBody();
+    const body: any = $ctx.isHttpEvent() ? this.mapHttpResponse($ctx) : $ctx.response.getBody();
+
+    await this.injector.emit("$onResponse", $ctx);
+
+    $ctx.logger.flush();
+    $ctx.destroy();
+
+    if (!$ctx.isHttpEvent() && $ctx.response.statusCode >= 400 && body) {
+      throw new Error(body.message);
+    }
+
+    return body;
+  }
+
+  private mapHttpResponse($ctx: ServerlessContext) {
+    let body = $ctx.response.getBody();
 
     if (isSerializable(body)) {
       $ctx.response.set("content-type", "application/json");
       body = JSON.stringify(body);
     }
 
-    const response = {
+    return {
       statusCode: $ctx.response.getStatus(),
       body: body === undefined ? "" : body,
       headers: {
@@ -64,13 +79,6 @@ export class PlatformServerlessHandler {
       },
       isBase64Encoded: false
     };
-
-    await this.injector.emit("$onResponse", $ctx);
-
-    $ctx.logger.flush();
-    $ctx.destroy();
-
-    return response;
   }
 
   private processResult({status, headers, data}: AnyPromiseResult, $ctx: ServerlessContext) {

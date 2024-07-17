@@ -1,10 +1,15 @@
-import {APIGatewayEventDefaultAuthorizerContext, APIGatewayProxyEventBase, Context} from "aws-lambda";
+import {Context} from "aws-lambda";
 import {v4} from "uuid";
+import type {ServerlessEvent} from "../domain/ServerlessEvent";
 
-export function getRequestId(event: APIGatewayProxyEventBase<APIGatewayEventDefaultAuthorizerContext>, context: Context) {
-  if (event?.headers && event.headers["x-request-id"]) {
+export function getRequestId(event: ServerlessEvent, context: Context) {
+  if ("headers" in event && event.headers["x-request-id"]) {
     return event.headers["x-request-id"];
   }
 
-  return event?.requestContext?.requestId || context?.awsRequestId || v4().replace(/-/gi, "");
+  if ("requestContext" in event) {
+    return event?.requestContext?.requestId;
+  }
+
+  return context?.awsRequestId || v4().replace(/-/gi, "");
 }
