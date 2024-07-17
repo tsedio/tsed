@@ -4,6 +4,7 @@
 export * from "./builder/PlatformServerless.js";
 export * from "./builder/PlatformServerlessHandler.js";
 export * from "./domain/ServerlessContext.js";
+export * from "./domain/ServerlessEvent.js";
 export * from "./domain/ServerlessRequest.js";
 export * from "./domain/ServerlessResponse.js";
 export * from "./exports.js";
