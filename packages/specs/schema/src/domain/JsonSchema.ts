@@ -17,7 +17,6 @@ import {IgnoreCallback} from "../interfaces/IgnoreCallback.js";
 import {JsonSchemaOptions} from "../interfaces/JsonSchemaOptions.js";
 import {enumsRegistry} from "../registries/enumRegistries.js";
 import {execMapper} from "../registries/JsonSchemaMapperContainer.js";
-import {string} from "../utils/from.js";
 import {NestedGenerics} from "../utils/generics.js";
 import {getComputedType} from "../utils/getComputedType.js";
 import {getJsonType} from "../utils/getJsonType.js";
@@ -824,7 +823,6 @@ export class JsonSchema extends Map<string, any> implements NestedGenerics {
         break;
 
       case "integer":
-        super.set("type", getJsonType(type));
         this.integer();
         break;
 

@@ -1,3 +1,4 @@
+import type {JSONSchema6} from "json-schema";
 import {JsonEntityFn} from "./jsonEntityFn.js";
 
 /**

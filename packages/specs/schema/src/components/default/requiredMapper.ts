@@ -1,7 +1,8 @@
 import {uniq} from "@tsed/core";
-import type {JsonSchema} from "../domain/JsonSchema.js";
-import {alterRequiredGroups} from "../hooks/alterRequiredGroups.js";
-import type {JsonSchemaOptions} from "../interfaces/JsonSchemaOptions.js";
+import type {JsonSchema} from "../../domain/JsonSchema";
+import {alterRequiredGroups} from "../../hooks/alterRequiredGroups";
+import type {JsonSchemaOptions} from "../../interfaces/JsonSchemaOptions";
+import {registerJsonSchemaMapper} from "../../registries/JsonSchemaMapperContainer";
 
 function mapRequiredProps(obj: any, schema: JsonSchema, options: JsonSchemaOptions = {}) {
   const {useAlias} = options;
@@ -36,10 +37,7 @@ function extractRequiredProps(obj: any, schema: JsonSchema, options: JsonSchemaO
   return alterRequiredGroups(uniq(required), schema, options);
 }
 
-/**
- * @ignore
- */
-export function getRequiredProperties(obj: any, schema: JsonSchema, options: JsonSchemaOptions) {
+export function requiredMapper(obj: any, schema: JsonSchema, options: JsonSchemaOptions) {
   if (options.groups && options.groups.includes("partial")) {
     if (obj.discriminator) {
       return {
@@ -68,3 +66,5 @@ export function getRequiredProperties(obj: any, schema: JsonSchema, options: Jso
 
   return obj;
 }
+
+registerJsonSchemaMapper("required", requiredMapper);
