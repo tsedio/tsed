@@ -3,7 +3,6 @@ import {JsonSchema} from "../../domain/JsonSchema.js";
 import {alterIgnore} from "../../hooks/alterIgnore.js";
 import {JsonSchemaOptions} from "../../interfaces/JsonSchemaOptions.js";
 import {execMapper, registerJsonSchemaMapper} from "../../registries/JsonSchemaMapperContainer.js";
-import {mapNullableType} from "../../utils/mapNullableType.js";
 
 /**
  * Serialize Any object to a json schema
@@ -24,7 +23,7 @@ export function objectMapper(input: any, options: JsonSchemaOptions) {
 
         // remove groups to avoid bad schema generation over children models
         obj[key] = execMapper("item", [value], opts);
-        obj[key] = mapNullableType(obj[key], value, opts);
+        obj[key] = execMapper("nullable", [obj[key], value], opts);
       }
 
       return obj;

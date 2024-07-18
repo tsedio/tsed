@@ -1,6 +1,5 @@
 import {BodyParams} from "@tsed/platform-params";
 import Ajv from "ajv";
-import {type} from "node:os";
 import {SpecTypes} from "../../domain/SpecTypes.js";
 import {getJsonSchema} from "../../utils/getJsonSchema.js";
 import {getSpec} from "../../utils/getSpec.js";
@@ -8,6 +7,7 @@ import {In} from "../operations/in.js";
 import {Path} from "../operations/path.js";
 import {Post} from "../operations/route.js";
 import {Format} from "./format.js";
+import {Integer} from "./integer";
 import {MaxLength} from "./maxLength.js";
 import {Minimum} from "./minimum.js";
 import {Nullable} from "./nullable.js";
@@ -174,6 +174,118 @@ describe("@Nullable", () => {
         }
       },
       type: "object"
+    });
+  });
+  it("should declare any prop (Integer + Nullable)", () => {
+    // WHEN
+    class Model {
+      @Integer()
+      prop1: number;
+
+      @Nullable(Number)
+      @Integer()
+      prop2: number | null;
+
+      @Nullable(Number, String)
+      @Integer()
+      prop3: number | string | null;
+    }
+
+    @Path("/")
+    class MyController {
+      @Post("/")
+      body(@BodyParams() model: Model) {}
+    }
+
+    // THEN
+    expect(getJsonSchema(Model)).toEqual({
+      properties: {
+        prop1: {
+          multipleOf: 1,
+          type: "integer"
+        },
+        prop2: {
+          multipleOf: 1,
+          type: ["null", "integer"]
+        },
+        prop3: {
+          anyOf: [
+            {
+              type: "null"
+            },
+            {
+              multipleOf: 1,
+              type: "integer"
+            },
+            {
+              type: "string"
+            }
+          ]
+        }
+      },
+      type: "object"
+    });
+
+    expect(getSpec(MyController, {specType: SpecTypes.OPENAPI})).toEqual({
+      components: {
+        schemas: {
+          Model: {
+            properties: {
+              prop1: {
+                multipleOf: 1,
+                type: "integer"
+              },
+              prop2: {
+                multipleOf: 1,
+                nullable: true,
+                type: "integer"
+              },
+              prop3: {
+                anyOf: [
+                  {
+                    multipleOf: 1,
+                    type: "integer"
+                  },
+                  {
+                    type: "string"
+                  }
+                ],
+                nullable: true
+              }
+            },
+            type: "object"
+          }
+        }
+      },
+      paths: {
+        "/": {
+          post: {
+            operationId: "myControllerBody",
+            parameters: [],
+            requestBody: {
+              content: {
+                "application/json": {
+                  schema: {
+                    $ref: "#/components/schemas/Model"
+                  }
+                }
+              },
+              required: false
+            },
+            responses: {
+              "200": {
+                description: "Success"
+              }
+            },
+            tags: ["MyController"]
+          }
+        }
+      },
+      tags: [
+        {
+          name: "MyController"
+        }
+      ]
     });
   });
   it("should declare any prop (String & Number + Nullable)", () => {

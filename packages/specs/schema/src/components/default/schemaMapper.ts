@@ -5,9 +5,6 @@ import {SpecTypes} from "../../domain/SpecTypes.js";
 import {alterOneOf} from "../../hooks/alterOneOf.js";
 import {JsonSchemaOptions} from "../../interfaces/JsonSchemaOptions.js";
 import {execMapper, hasMapper, registerJsonSchemaMapper} from "../../registries/JsonSchemaMapperContainer.js";
-import {getRequiredProperties} from "../../utils/getRequiredProperties.js";
-import {inlineEnums} from "../../utils/inlineEnums.js";
-import {mapNullableType} from "../../utils/mapNullableType.js";
 
 /**
  * @ignore
@@ -132,10 +129,10 @@ function serializeSchema(schema: JsonSchema, options: JsonSchemaOptions) {
     };
   }
 
-  obj = getRequiredProperties(obj, schema, options);
-  obj = mapNullableType(obj, schema, options);
+  obj = execMapper("required", [obj, schema], options);
+  obj = execMapper("nullable", [obj, schema], options);
   obj = alterOneOf(obj, schema, options);
-  obj = inlineEnums(obj, schema, options);
+  obj = execMapper("inlineEnums", [obj, schema], options);
 
   return obj;
 }
