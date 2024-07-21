@@ -1,5 +1,6 @@
 import {JsonHeader} from "@tsed/schema";
 import {ServerlessContext} from "../domain/ServerlessContext.js";
+import type {ServerlessEvent} from "../domain/ServerlessEvent";
 import {HeaderValue} from "../domain/ServerlessResponse.js";
 
 function mergeHeaders(specHeaders: Record<string, JsonHeader & {example: string}>, headers: Record<string, HeaderValue>) {
@@ -22,7 +23,7 @@ function mergeHeaders(specHeaders: Record<string, JsonHeader & {example: string}
 /**
  * @ignore
  */
-export function setResponseHeaders(ctx: ServerlessContext) {
+export function setResponseHeaders(ctx: ServerlessContext<ServerlessEvent>) {
   const {response, endpoint} = ctx;
   const operation = endpoint.operation;
 
