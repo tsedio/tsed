@@ -1,25 +1,24 @@
 import {DIContext, DIContextOptions} from "@tsed/di";
 import {JsonEntityStore} from "@tsed/schema";
 import {type APIGatewayProxyEvent, Context} from "aws-lambda";
-import type {ServerlessEvent} from "./ServerlessEvent";
 import {ServerlessRequest} from "./ServerlessRequest.js";
 import {ServerlessResponse} from "./ServerlessResponse.js";
 
-export interface ServerlessContextOptions extends DIContextOptions {
-  event: ServerlessEvent;
+export interface ServerlessContextOptions<Event = APIGatewayProxyEvent> extends DIContextOptions {
+  event: Event;
   context: Context;
   endpoint: JsonEntityStore;
 }
 
-export class ServerlessContext<Event = APIGatewayProxyEvent> extends DIContext {
+export class ServerlessContext<Event extends object = APIGatewayProxyEvent> extends DIContext {
   readonly response: ServerlessResponse<Event>;
   readonly request: ServerlessRequest<Event>;
   readonly context: Context;
-  readonly event: ServerlessEvent;
+  readonly event: Event;
   readonly endpoint: JsonEntityStore;
   readonly PLATFORM = "SERVERLESS";
 
-  constructor({event, context, endpoint, ...options}: ServerlessContextOptions) {
+  constructor({event, context, endpoint, ...options}: ServerlessContextOptions<Event>) {
     super({
       ...options,
       maxStackSize: 0

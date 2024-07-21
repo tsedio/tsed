@@ -10,7 +10,7 @@ export type HeaderValue = boolean | number | string;
 /**
  * @platform
  */
-export class ServerlessResponse<Event = APIGatewayProxyEvent> {
+export class ServerlessResponse<Event extends object = APIGatewayProxyEvent> {
   #status: number = 200;
   #body: any = undefined;
   #headers: Record<string, HeaderValue> = {};

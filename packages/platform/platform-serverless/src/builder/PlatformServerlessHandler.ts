@@ -4,6 +4,7 @@ import {serialize} from "@tsed/json-mapper";
 import type {PlatformExceptions} from "@tsed/platform-exceptions";
 import {DeserializerPipe, PlatformParams, ValidationPipe} from "@tsed/platform-params";
 import {ServerlessContext} from "../domain/ServerlessContext.js";
+import type {ServerlessEvent} from "../domain/ServerlessEvent";
 import {setResponseHeaders} from "../utils/setResponseHeaders.js";
 
 @Injectable({
@@ -23,7 +24,7 @@ export class PlatformServerlessHandler {
   createHandler(token: TokenProvider, propertyKey: string | symbol) {
     const promisedHandler = this.params.compileHandler({token, propertyKey});
 
-    return ($ctx: ServerlessContext) => {
+    return ($ctx: ServerlessContext<ServerlessEvent>) => {
       return $ctx.runInContext(async () => {
         await this.injector.emit("$onRequest", $ctx);
 
@@ -45,7 +46,7 @@ export class PlatformServerlessHandler {
     };
   }
 
-  private async flush($ctx: ServerlessContext) {
+  private async flush($ctx: ServerlessContext<ServerlessEvent>) {
     setResponseHeaders($ctx);
 
     const body: any = $ctx.isHttpEvent() ? this.mapHttpResponse($ctx) : $ctx.response.getBody();
@@ -62,7 +63,7 @@ export class PlatformServerlessHandler {
     return body;
   }
 
-  private mapHttpResponse($ctx: ServerlessContext) {
+  private mapHttpResponse($ctx: ServerlessContext<ServerlessEvent>) {
     let body = $ctx.response.getBody();
 
     if (isSerializable(body)) {
@@ -81,7 +82,7 @@ export class PlatformServerlessHandler {
     };
   }
 
-  private processResult({status, headers, data}: AnyPromiseResult, $ctx: ServerlessContext) {
+  private processResult({status, headers, data}: AnyPromiseResult, $ctx: ServerlessContext<ServerlessEvent>) {
     if (status) {
       $ctx.response.status(status);
     }
