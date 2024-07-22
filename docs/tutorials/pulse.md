@@ -168,7 +168,7 @@ export class UsersService {
 
 ## Authors
 
-<GithubContributors :users="['ochrstn', 'xCryzed']"/>
+<GithubContributors :users="['ochrstn', 'xCryzed', 'IvaDey']"/>
 
 ## Maintainers
 
