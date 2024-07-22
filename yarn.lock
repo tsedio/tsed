@@ -5074,6 +5074,20 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@pulsecron/pulse@npm:^1.6.1":
+  version: 1.6.1
+  resolution: "@pulsecron/pulse@npm:1.6.1"
+  dependencies:
+    cron-parser: "npm:^4.9.0"
+    date.js: "npm:~0.3.3"
+    debug: "npm:~4.3.4"
+    human-interval: "npm:~2.0.1"
+    moment-timezone: "npm:^0.5.45"
+    mongodb: "npm:^6.5.0"
+  checksum: 10/79f7548cf6ac552dbd085e293df3cc8638cfc7f7408a74b3a345dc3a7318b3b8c7a560ddcba0433f61fed10a1c7a245d9772df54207a9c5934c9735899ec7ab3
+  languageName: node
+  linkType: hard
+
 "@rollup/rollup-android-arm-eabi@npm:4.9.6":
   version: 4.9.6
   resolution: "@rollup/rollup-android-arm-eabi@npm:4.9.6"
@@ -7768,6 +7782,24 @@ __metadata:
   bin:
     tsed-prisma: lib/cjs/generator.js
     tsed-prisma-esm: lib/esm/generator.js
+  languageName: unknown
+  linkType: soft
+
+"@tsed/pulse@workspace:packages/third-parties/pulse":
+  version: 0.0.0-use.local
+  resolution: "@tsed/pulse@workspace:packages/third-parties/pulse"
+  dependencies:
+    "@pulsecron/pulse": "npm:^1.6.1"
+    "@tsed/barrels": "workspace:*"
+    "@tsed/common": "workspace:*"
+    "@tsed/core": "workspace:*"
+    "@tsed/di": "workspace:*"
+    "@tsed/typescript": "workspace:*"
+    eslint: "npm:^8.57.0"
+    jest: "npm:^29.7.0"
+    tslib: "npm:2.6.1"
+  peerDependencies:
+    "@pulsecron/pulse": ">=1"
   languageName: unknown
   linkType: soft
 
@@ -11498,6 +11530,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"bson@npm:^6.7.0":
+  version: 6.8.0
+  resolution: "bson@npm:6.8.0"
+  checksum: 10/e73784ae891a30388e69e6f7a5b5962c34c180e0c1dc570c1e13815cdb1076d2253362f6e20e24a419bd1aa2aaf9f388a51049a1fcd19e8b947faec90edd2979
+  languageName: node
+  linkType: hard
+
 "buffer-crc32@npm:^0.2.1, buffer-crc32@npm:^0.2.13, buffer-crc32@npm:~0.2.3":
   version: 0.2.13
   resolution: "buffer-crc32@npm:0.2.13"
@@ -13389,7 +13428,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"cron-parser@npm:^4.6.0":
+"cron-parser@npm:^4.6.0, cron-parser@npm:^4.9.0":
   version: 4.9.0
   resolution: "cron-parser@npm:4.9.0"
   dependencies:
@@ -22093,6 +22132,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"moment-timezone@npm:^0.5.45":
+  version: 0.5.45
+  resolution: "moment-timezone@npm:0.5.45"
+  dependencies:
+    moment: "npm:^2.29.4"
+  checksum: 10/45e3793d44bea8e826c934a335ebf0b92c6d6dae562fdb59d8c45a16d5c11de4d6692b5fa7eebca969881f06b81b55f8535883bfbc727b597d601709fa5a2bb2
+  languageName: node
+  linkType: hard
+
 "moment-timezone@npm:~0.5.37":
   version: 0.5.43
   resolution: "moment-timezone@npm:0.5.43"
@@ -22252,6 +22300,40 @@ __metadata:
     "@mongodb-js/saslprep":
       optional: true
   checksum: 10/2ce62912ab36885e927c109a699568174cc61025bc03e2d5c22e6070aaec967b2364d4b9d42c9131531c2547416b57d14952c50235d43fa66e76a6fbe4c96c37
+  languageName: node
+  linkType: hard
+
+"mongodb@npm:^6.5.0":
+  version: 6.8.0
+  resolution: "mongodb@npm:6.8.0"
+  dependencies:
+    "@mongodb-js/saslprep": "npm:^1.1.5"
+    bson: "npm:^6.7.0"
+    mongodb-connection-string-url: "npm:^3.0.0"
+  peerDependencies:
+    "@aws-sdk/credential-providers": ^3.188.0
+    "@mongodb-js/zstd": ^1.1.0
+    gcp-metadata: ^5.2.0
+    kerberos: ^2.0.1
+    mongodb-client-encryption: ">=6.0.0 <7"
+    snappy: ^7.2.2
+    socks: ^2.7.1
+  peerDependenciesMeta:
+    "@aws-sdk/credential-providers":
+      optional: true
+    "@mongodb-js/zstd":
+      optional: true
+    gcp-metadata:
+      optional: true
+    kerberos:
+      optional: true
+    mongodb-client-encryption:
+      optional: true
+    snappy:
+      optional: true
+    socks:
+      optional: true
+  checksum: 10/c9adf8b694e8e510421c8e6e44c337fe6d58e7d33374dc28b355095df92a807fb5a3c691eaf376a87ae693f6ec0779e8aae41a32bbdc63f2961289c616bcbb9a
   languageName: node
   linkType: hard
 
