@@ -280,6 +280,10 @@ module.exports = ({title, description, base = "", url, apiRedirectUrl = "", them
               {
                 text: "Vitest",
                 link: `${base}/tutorials/vitest.html`
+              },
+              {
+                text: "Pulse",
+                link: `${base}/tutorials/pulse.html`
               }
             ].sort((a, b) => (a.text < b.text ? -1 : 1))
           },
@@ -439,7 +443,8 @@ module.exports = ({title, description, base = "", url, apiRedirectUrl = "", them
               {title: "Jest", path: base + "/tutorials/jest"},
               {title: "Vitest", path: base + "/tutorials/vitest"},
               {title: "Temporal", path: base + "/tutorials/temporal"},
-              {title: "BullMQ", path: base + "/tutorials/bullmq"}
+              {title: "BullMQ", path: base + "/tutorials/bullmq"},
+              {title: "Pulse", path: base + "/tutorials/pulse"}
             ].sort((a, b) => (a.title < b.title ? -1 : 1))
           },
           {

@@ -202,6 +202,9 @@ frameworks:
   - title: Vike
     href: /tutorials/vike.html
     src: /vike.svg
+  - title: Pulse
+    href: /tutorials/pulse.html
+    src: /pulse.png
 ---
 
 ::: slot hero-brand
