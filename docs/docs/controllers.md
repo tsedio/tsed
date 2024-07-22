@@ -488,6 +488,47 @@ This example will produce a response with status code 400 and "Not a number" mes
 See our guide on [HttpExceptions to throw customer HttpExceptions](/docs/throw-http-exceptions.md)
 :::
 
+## Server-side events
+
+::: warning
+`compression` middleware should be disabled for correct SSE work
+:::
+
+### Example
+
+```typescript
+import { Controller } from '@tsed/di';
+import { Res } from '@tsed/common';
+import { Get } from '@tsed/schema';
+
+@Controller('/sse')
+export class Ctrl {
+  @Get('/events')
+  events(@Res() response: Res) {
+    let intervalId: ReturnType<typeof setInterval>;
+
+    response.on('close', () => {
+      console.log('connection closed');
+      clearInterval(intervalId);
+    });
+    response.on('end', () => {
+      console.log('connection ended');
+      clearInterval(intervalId);
+    });
+
+    response.writeHead(200, {
+      'Content-Type': 'text/event-stream',
+      'Cache-Control': 'no-cache',
+      Connection: 'keep-alive',
+    });
+
+    intervalId = setInterval(() => {
+      response.write(`data: Current timestamp: ${Date.now()}\n\n`);
+    }, 1000);
+  }
+}
+```
+
 ## Inject Request and Response
 
 You can use a decorator to inject the Request in order to retrieve information from the request that you cannot get
