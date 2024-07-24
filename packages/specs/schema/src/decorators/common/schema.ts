@@ -42,9 +42,7 @@ import {JsonEntityFn} from "./jsonEntityFn.js";
  */
 export function Schema(partialSchema: Partial<JsonSchemaObject> | JsonSchema) {
   return JsonEntityFn((entity) => {
-    Object.entries(partialSchema).forEach(([key, value]) => {
-      entity.schema.set(key, value);
-    });
+    entity.schema.assign(partialSchema);
   });
 }
 

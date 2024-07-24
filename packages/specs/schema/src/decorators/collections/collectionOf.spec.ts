@@ -8,6 +8,8 @@ import {CollectionContains} from "./collectionContains.js";
 import {ArrayOf, CollectionOf, MapOf} from "./collectionOf.js";
 import {MaxItems} from "./maxItems.js";
 import {MinItems} from "./minItems.js";
+import {Schema} from "../common/schema.js";
+import {map, array, string} from "../../utils/from.js";
 
 describe("@CollectionOf", () => {
   it("should declare a collection (Array of)", () => {
@@ -22,6 +24,30 @@ describe("@CollectionOf", () => {
     expect(error?.message).toEqual(
       "A type is required on `@CollectionOf(type)` decorator. Please give a type or wrap it inside an arrow function if you have a circular reference."
     );
+  });
+  it("should declare an array of map of string", () => {
+    const schema = array().items(map().additionalProperties(string()));
+
+    class Test {
+      @Schema(schema)
+      @CollectionOf(Map)
+      fields: Map<string, string>[] = [];
+    }
+
+    expect(getJsonSchema(Test)).toEqual({
+      properties: {
+        fields: {
+          items: {
+            additionalProperties: {
+              type: "string"
+            },
+            type: "object"
+          },
+          type: "array"
+        }
+      },
+      type: "object"
+    });
   });
   it("should declare a collection (Array of)", () => {
     // WHEN
