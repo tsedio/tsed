@@ -10,13 +10,12 @@ function createResponse() {
     response: {}
   };
 
-  const koaResponse: any = {
-    ...res,
+  const koaResponse: any = Object.assign(res, {
     res,
     get ctx() {
       return koaContext;
     }
-  };
+  });
 
   const koaRequest: any = {
     ...req,

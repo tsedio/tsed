@@ -254,6 +254,10 @@ module.exports = ({title, description, base = "", url, apiRedirectUrl = "", them
                 link: `${base}/tutorials/stripe.html`
               },
               {
+                text: "Server-sent events",
+                link: `${base}/tutorials/server-sent events.html`
+              },
+              {
                 text: "Agenda",
                 link: `${base}/tutorials/agenda.html`
               },
@@ -441,6 +445,7 @@ module.exports = ({title, description, base = "", url, apiRedirectUrl = "", them
               {title: "Stripe", path: base + "/tutorials/stripe"},
               {title: "Agenda", path: base + "/tutorials/agenda"},
               {title: "Terminus", path: base + "/tutorials/terminus"},
+              {title: "Server-sent events", path: base + "/tutorials/server-sent-events"},
               {title: "Serverless", path: base + "/tutorials/serverless"},
               {title: "IORedis", path: base + "/tutorials/ioredis"},
               {title: "Objection.js", path: base + "/tutorials/objection"},
@@ -490,6 +495,7 @@ module.exports = ({title, description, base = "", url, apiRedirectUrl = "", them
           base + "/tutorials/agenda",
           base + "/tutorials/terminus",
           base + "/tutorials/serverless",
+          base + "/tutorials/server-sent-events",
           base + "/tutorials/ioredis",
           base + "/tutorials/vike",
           base + "/tutorials/jest",

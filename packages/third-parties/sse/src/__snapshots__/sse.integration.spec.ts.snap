@@ -1,0 +1,171 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`SSE integration should generate the swagger spec 1`] = `
+Object {
+  "components": Object {
+    "schemas": Object {
+      "Model": Object {
+        "properties": Object {
+          "id": Object {
+            "type": "string",
+          },
+        },
+        "type": "object",
+      },
+    },
+  },
+  "paths": Object {
+    "/sse/scenario1": Object {
+      "get": Object {
+        "operationId": "myCtrlScenario1",
+        "parameters": Array [],
+        "responses": Object {
+          "200": Object {
+            "content": Object {
+              "*/*": Object {
+                "schema": Object {
+                  "type": "object",
+                },
+              },
+            },
+            "headers": Object {
+              "Content-Type": Object {
+                "example": "text/event-stream",
+                "schema": Object {
+                  "type": "string",
+                },
+              },
+            },
+          },
+        },
+        "tags": Array [
+          "MyCtrl",
+        ],
+      },
+    },
+    "/sse/scenario2": Object {
+      "get": Object {
+        "operationId": "myCtrlScenario2",
+        "parameters": Array [],
+        "responses": Object {
+          "200": Object {
+            "content": Object {
+              "*/*": Object {
+                "schema": Object {
+                  "type": "object",
+                },
+              },
+            },
+            "headers": Object {
+              "Content-Type": Object {
+                "example": "text/event-stream",
+                "schema": Object {
+                  "type": "string",
+                },
+              },
+            },
+          },
+        },
+        "tags": Array [
+          "MyCtrl",
+        ],
+      },
+    },
+    "/sse/scenario3": Object {
+      "get": Object {
+        "operationId": "myCtrlScenario3",
+        "parameters": Array [],
+        "responses": Object {
+          "200": Object {
+            "content": Object {
+              "*/*": Object {
+                "schema": Object {
+                  "type": "object",
+                },
+              },
+            },
+            "headers": Object {
+              "Content-Type": Object {
+                "example": "text/event-stream",
+                "schema": Object {
+                  "type": "string",
+                },
+              },
+            },
+          },
+        },
+        "tags": Array [
+          "MyCtrl",
+        ],
+      },
+    },
+    "/sse/scenario4": Object {
+      "get": Object {
+        "operationId": "myCtrlScenario4",
+        "parameters": Array [],
+        "responses": Object {
+          "200": Object {
+            "content": Object {
+              "*/*": Object {
+                "schema": Object {
+                  "type": "object",
+                },
+              },
+            },
+            "headers": Object {
+              "Content-Type": Object {
+                "example": "text/event-stream",
+                "schema": Object {
+                  "type": "string",
+                },
+              },
+            },
+          },
+        },
+        "tags": Array [
+          "MyCtrl",
+        ],
+      },
+    },
+    "/sse/scenario5": Object {
+      "get": Object {
+        "operationId": "myCtrlScenario5",
+        "parameters": Array [],
+        "responses": Object {
+          "200": Object {
+            "content": Object {
+              "*/*": Object {
+                "schema": Object {
+                  "type": "object",
+                },
+              },
+              "application/json": Object {
+                "schema": Object {
+                  "$ref": "#/components/schemas/Model",
+                },
+              },
+            },
+            "description": "Success",
+            "headers": Object {
+              "Content-Type": Object {
+                "example": "text/event-stream",
+                "schema": Object {
+                  "type": "string",
+                },
+              },
+            },
+          },
+        },
+        "tags": Array [
+          "MyCtrl",
+        ],
+      },
+    },
+  },
+  "tags": Array [
+    Object {
+      "name": "MyCtrl",
+    },
+  ],
+}
+`;

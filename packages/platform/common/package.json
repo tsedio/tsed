@@ -15,7 +15,7 @@
   "scripts": {
     "build": "yarn barrels && yarn build:ts",
     "barrels": "barrels -e \"getConfiguration\"",
-    "test": "jest --max-workers=2 && jest-coverage-thresholds-bumper",
+    "test": "jest --max-workers=2 --no-cache && jest-coverage-thresholds-bumper",
     "build:ts": "tsc --build tsconfig.json && tsc --build tsconfig.esm.json"
   },
   "keywords": [
