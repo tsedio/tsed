@@ -149,6 +149,9 @@
       "path": "./packages/third-parties/formio"
     },
     {
+      "path": "./packages/third-parties/sse"
+    },
+    {
       "path": "./packages/third-parties/socketio"
     },
     {
