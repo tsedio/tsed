@@ -311,7 +311,7 @@ class ReturnDecoratorContext extends DecoratorContext<ReturnsChainedDecorators> 
     return this.manyOf("anyOf", types);
   }
 
-  schema(partial: Partial<JsonSchemaObject>) {
+  schema(partial: Partial<JsonSchemaObject> | JsonSchema) {
     this.addAction(() => {
       const schema = this.get("schema") as JsonSchema;
 
