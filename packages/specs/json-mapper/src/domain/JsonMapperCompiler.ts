@@ -184,7 +184,7 @@ export abstract class JsonMapperCompiler<Options extends Record<string, any> = a
       return value.toString();
     }
 
-    return this.mappers[id](value, options);
+    return this.mappers[id || nameOf(classOf(value))](value, options);
   }
 
   protected abstract map(input: any, options: Options): any;
