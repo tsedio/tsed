@@ -56,4 +56,8 @@ export class JsonResponse extends JsonMap<JsonResponseOptions> {
 
     return this;
   }
+
+  isBinary() {
+    return this.getContent().has("application/octet-stream");
+  }
 }
