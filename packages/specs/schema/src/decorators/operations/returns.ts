@@ -144,6 +144,11 @@ export interface ReturnsChainedDecorators {
    */
   AllowedGroups(...allowedGroups: string[]): this;
 
+  /**
+   * Apply the application/octet-stream and binary format on Open API documentation
+   */
+  Binary(): this;
+
   [key: string]: any;
 }
 
@@ -185,7 +190,8 @@ class ReturnDecoratorContext extends DecoratorContext<ReturnsChainedDecorators> 
     "title",
     "groups",
     "allowedGroups",
-    "location"
+    "location",
+    "binary"
   ];
 
   private hasOfTypes: boolean;
@@ -328,6 +334,14 @@ class ReturnDecoratorContext extends DecoratorContext<ReturnsChainedDecorators> 
 
   title(title: string) {
     return this.schema({title});
+  }
+
+  binary() {
+    this.type(String);
+    this.set("contentType", "application/octet-stream");
+    this.schema({format: "binary"});
+
+    return this;
   }
 
   protected checkPrimitive(model: any) {
