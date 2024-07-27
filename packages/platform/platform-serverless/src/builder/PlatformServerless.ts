@@ -2,10 +2,12 @@ import {Env, Type} from "@tsed/core";
 import {createContainer, InjectorService, setLoggerConfiguration} from "@tsed/di";
 import {$log, Logger} from "@tsed/logger";
 import {getOperationsRoutes, JsonEntityStore} from "@tsed/schema";
-import type {APIGatewayProxyResult, Handler} from "aws-lambda";
+import type {Handler} from "aws-lambda";
+import type {Context} from "aws-lambda/handler";
 import type {HTTPMethod, Instance} from "find-my-way";
 import {ServerlessContext} from "../domain/ServerlessContext.js";
 import type {ServerlessEvent} from "../domain/ServerlessEvent";
+import {type RequestHandler, ServerlessResponseStream} from "../domain/ServerlessResponseStream";
 import {getRequestId} from "../utils/getRequestId.js";
 import {PlatformServerlessHandler} from "./PlatformServerlessHandler.js";
 
@@ -45,7 +47,11 @@ export class PlatformServerless {
   /**
    * Create a new handler from the given token and propertyKey. No routing is used here.
    */
-  static callback(token: Type<any>, propertyKey: string, settings: Partial<TsED.Configuration> = {}): Handler {
+  static callback(
+    token: Type<any>,
+    propertyKey: string,
+    settings: Partial<TsED.Configuration> = {}
+  ): Handler<ServerlessEvent> | RequestHandler {
     const platform = PlatformServerless.bootstrap({
       ...settings,
       lambda: [token]
@@ -125,21 +131,22 @@ export class PlatformServerless {
     return this._promise;
   }
 
-  protected callback(token: Type<any>, propertyKey: string): Handler<ServerlessEvent> {
+  protected callback(token: Type<any>, propertyKey: string): Handler<ServerlessEvent> | RequestHandler {
     const entity = JsonEntityStore.fromMethod(token, propertyKey);
     let handler: ($ctx: ServerlessContext<ServerlessEvent>) => Promise<unknown>;
 
-    return async (event: ServerlessEvent, context) => {
+    const wrappedHandler = async (event: ServerlessEvent, responseStream: ServerlessResponseStream | undefined, context: Context) => {
       await this.init();
 
       if (!handler) {
         const platformHandler = this.injector.get<PlatformServerlessHandler>(PlatformServerlessHandler)!;
-        handler = await platformHandler.createHandler(token, propertyKey);
+        handler = platformHandler.createHandler(token, propertyKey);
       }
 
       const $ctx = new ServerlessContext<ServerlessEvent>({
         event,
         context,
+        responseStream,
         id: getRequestId(event, context),
         logger: this.injector.logger as Logger,
         injector: this.injector,
@@ -147,6 +154,16 @@ export class PlatformServerless {
       });
 
       return handler($ctx);
+    };
+
+    const isBinary = entity.operation.response?.isBinary();
+
+    if (isBinary) {
+      return ServerlessResponseStream.streamifyResponse(wrappedHandler);
+    }
+
+    return (event: ServerlessEvent, context: Context) => {
+      return wrappedHandler(event, undefined, context);
     };
   }
 

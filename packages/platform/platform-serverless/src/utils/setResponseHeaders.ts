@@ -1,4 +1,4 @@
-import {JsonHeader} from "@tsed/schema";
+import {JsonHeader, JsonOperation} from "@tsed/schema";
 import {ServerlessContext} from "../domain/ServerlessContext.js";
 import type {ServerlessEvent} from "../domain/ServerlessEvent";
 import {HeaderValue} from "../domain/ServerlessResponse.js";
@@ -25,11 +25,11 @@ function mergeHeaders(specHeaders: Record<string, JsonHeader & {example: string}
  */
 export function setResponseHeaders(ctx: ServerlessContext<ServerlessEvent>) {
   const {response, endpoint} = ctx;
-  const operation = endpoint.operation;
-
   if (ctx.isDone()) {
     return;
   }
+
+  const operation = endpoint.operation as JsonOperation | undefined;
 
   if (!operation) {
     ctx.logger.debug({
@@ -41,7 +41,7 @@ export function setResponseHeaders(ctx: ServerlessContext<ServerlessEvent>) {
   }
 
   if (!response.hasStatus()) {
-    // apply status only if the isn't already modified
+    // apply status only if isn't already modified
     response.status(operation.getStatus());
   }
 
