@@ -485,7 +485,11 @@ and configure your controller method to tell Ts.ED to generate handler for strea
 Here an example to stream a response:
 
 ```typescript
-@Injectable()
+import {Controller} from "@tsed/di";
+import {BodyParams} from "@tsed/platform-params";
+import {ServerlessContext} from "@tsed/platform-serverless";
+
+@Controller()
 class StreamLambda {
   @Post("/scenario-1/:id")
   @Returns(200, String).Binary()
