@@ -1,5 +1,6 @@
 import type {
   APIGatewayProxyEvent,
+  APIGatewayProxyEventV2,
   APIGatewayTokenAuthorizerEvent,
   CloudWatchLogsEvent,
   DynamoDBStreamEvent,
@@ -12,6 +13,7 @@ import type {
 
 export type ServerlessEvent =
   | APIGatewayProxyEvent
+  | APIGatewayProxyEventV2
   | S3Event
   | SQSEvent
   | SNSEvent

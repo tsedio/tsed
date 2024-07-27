@@ -7,6 +7,8 @@ export * from "./domain/ServerlessContext.js";
 export * from "./domain/ServerlessEvent.js";
 export * from "./domain/ServerlessRequest.js";
 export * from "./domain/ServerlessResponse.js";
+export * from "./domain/ServerlessResponseStream.js";
 export * from "./exports.js";
 export * from "./utils/getRequestId.js";
+export * from "./utils/isInAWS.js";
 export * from "./utils/setResponseHeaders.js";

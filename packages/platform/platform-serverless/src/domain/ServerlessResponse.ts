@@ -1,4 +1,4 @@
-import {getValue} from "@tsed/core";
+import {getValue, isStream} from "@tsed/core";
 import {getStatusMessage} from "@tsed/schema";
 import type {APIGatewayProxyEvent} from "aws-lambda";
 import encodeUrl from "encodeurl";

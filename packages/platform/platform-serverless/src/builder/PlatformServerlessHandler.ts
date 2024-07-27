@@ -1,10 +1,12 @@
-import {AnyPromiseResult, AnyToPromise, isSerializable} from "@tsed/core";
+import {AnyPromiseResult, AnyToPromise, isSerializable, isStream} from "@tsed/core";
 import {BaseContext, Inject, Injectable, InjectorService, LazyInject, ProviderScope, TokenProvider} from "@tsed/di";
 import {serialize} from "@tsed/json-mapper";
 import type {PlatformExceptions} from "@tsed/platform-exceptions";
 import {DeserializerPipe, PlatformParams, ValidationPipe} from "@tsed/platform-params";
+import {pipeline} from "node:stream/promises";
 import {ServerlessContext} from "../domain/ServerlessContext.js";
 import type {ServerlessEvent} from "../domain/ServerlessEvent";
+import {ServerlessResponseStream} from "../domain/ServerlessResponseStream";
 import {setResponseHeaders} from "../utils/setResponseHeaders.js";
 
 @Injectable({
@@ -47,9 +49,7 @@ export class PlatformServerlessHandler {
   }
 
   private async flush($ctx: ServerlessContext<ServerlessEvent>) {
-    setResponseHeaders($ctx);
-
-    const body: any = $ctx.isHttpEvent() ? this.mapHttpResponse($ctx) : $ctx.response.getBody();
+    const body: unknown = $ctx.isHttpEvent() ? await this.makeHttpResponse($ctx) : $ctx.response.getBody();
 
     await this.injector.emit("$onResponse", $ctx);
 
@@ -57,13 +57,15 @@ export class PlatformServerlessHandler {
     $ctx.destroy();
 
     if (!$ctx.isHttpEvent() && $ctx.response.statusCode >= 400 && body) {
-      throw new Error(body.message);
+      throw new Error((body as Error).message);
     }
 
     return body;
   }
 
-  private mapHttpResponse($ctx: ServerlessContext<ServerlessEvent>) {
+  private async makeHttpResponse($ctx: ServerlessContext<ServerlessEvent>) {
+    setResponseHeaders($ctx);
+
     let body = $ctx.response.getBody();
 
     if (isSerializable(body)) {
@@ -71,13 +73,31 @@ export class PlatformServerlessHandler {
       body = JSON.stringify(body);
     }
 
-    return {
+    const meta = {
       statusCode: $ctx.response.getStatus(),
-      body: body === undefined ? "" : body,
       headers: {
         ...$ctx.response.getHeaders(),
         "x-request-id": $ctx.id
-      },
+      }
+    };
+
+    if (isStream(body) && $ctx.responseStream) {
+      const resStream = ServerlessResponseStream.setMeta($ctx.responseStream, {
+        ...meta,
+        headers: {
+          "content-type": "application/octet-stream",
+          ...meta.headers
+        }
+      });
+
+      await pipeline(body, resStream);
+
+      return undefined;
+    }
+
+    return {
+      ...meta,
+      body: body === undefined ? "" : body,
       isBase64Encoded: false
     };
   }

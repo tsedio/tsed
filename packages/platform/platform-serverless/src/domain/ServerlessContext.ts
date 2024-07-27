@@ -3,10 +3,12 @@ import {JsonEntityStore} from "@tsed/schema";
 import {type APIGatewayProxyEvent, Context} from "aws-lambda";
 import {ServerlessRequest} from "./ServerlessRequest.js";
 import {ServerlessResponse} from "./ServerlessResponse.js";
+import type {ServerlessResponseStream} from "./ServerlessResponseStream";
 
 export interface ServerlessContextOptions<Event = APIGatewayProxyEvent> extends DIContextOptions {
   event: Event;
   context: Context;
+  responseStream?: ServerlessResponseStream;
   endpoint: JsonEntityStore;
 }
 
@@ -15,15 +17,17 @@ export class ServerlessContext<Event extends object = APIGatewayProxyEvent> exte
   readonly request: ServerlessRequest<Event>;
   readonly context: Context;
   readonly event: Event;
+  readonly responseStream: ServerlessResponseStream | undefined;
   readonly endpoint: JsonEntityStore;
   readonly PLATFORM = "SERVERLESS";
 
-  constructor({event, context, endpoint, ...options}: ServerlessContextOptions<Event>) {
+  constructor({event, context, endpoint, responseStream, ...options}: ServerlessContextOptions<Event>) {
     super({
       ...options,
       maxStackSize: 0
     });
     this.context = context;
+    this.responseStream = responseStream;
     this.event = {
       ...event,
       headers:
