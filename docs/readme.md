@@ -190,6 +190,9 @@ frameworks:
   - title: Serverless
     href: /tutorials/serverless.html
     src: /serverless.svg
+  - title: Terraform
+    href: /docs/platform-serverless.html
+    src: /terraform.png
   - title: Terminus
     href: /tutorials/terminus.html
     src: /package.svg

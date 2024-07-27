@@ -154,6 +154,10 @@ module.exports = ({title, description, base = "", url, apiRedirectUrl = "", them
                 link: `${base}/docs/platform-api.html`
               },
               {
+                text: "Platform Serverless",
+                link: `${base}/docs/platform-serverless.html`
+              },
+              {
                 text: "Command",
                 link: `${base}/docs/command.html`
               },
@@ -396,6 +400,7 @@ module.exports = ({title, description, base = "", url, apiRedirectUrl = "", them
               {title: "Context", path: base + "/docs/request-context"},
               {title: "Cache", path: base + "/docs/cache"},
               {title: "Platform API", path: base + "/docs/platform-api"},
+              {title: "Platform Serverless", path: base + "/docs/platform-serverless"},
               {title: "Command", path: base + "/docs/command"},
               {title: "Templating", path: base + "/docs/templating"},
               {title: "Validation", path: base + "/docs/validation"},
