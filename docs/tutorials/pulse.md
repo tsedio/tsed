@@ -12,7 +12,7 @@ meta:
 
 ## Feature
 
-@pulsecron/pulse is maintained fork of the Agenda.
+`@pulsecron/pulse` is maintained fork of the Agenda.
 
 Currently, `@tsed/pulse` allows you to decorate classes with `@Pulse` and
 corresponding methods to have them picked up by the @pulsecron/pulse library to be

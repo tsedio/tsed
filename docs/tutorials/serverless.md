@@ -4,11 +4,13 @@ meta:
     content: Guide to deploy your Ts.ED application on Serveless.
   - name: keywords
     content: ts.ed express typescript aws node.js javascript decorators
+projects:
+  - title: Kit Serverless
+    href: https://github.com/tsedio/tsed-example-aws
+    src: /serverless.png
 ---
 
 # Serverless
-
-<Badge text="Contributors are welcome" />
 
 <Banner src="/serverless.png" href="https://www.serverless.com" :height="180" />
 
@@ -16,117 +18,12 @@ meta:
 the first framework developed for building applications on AWS Lambda, a serverless computing platform provided by
 Amazon as a part of Amazon Web Services. This tutorial will show you how to install and use Serverless with Ts.ED.
 
-## Features
-
-This package allows the creation of pure Lambda AWS without mounting an Express.js/Koa.js server.
-
-It supports:
-
-- Creating multiple lambda in one file,
-- Support routing,
-- DI injection with `@tsed/di`,
-- Models mapping using `@tsed/schema` and `@tsed/json-mapper`,
-- Params decorators can be used from `@tsed/platform-params` to get Query, Body, etc...
-- Response can be modified by using `@tsed/platform-response-filter`,
-- All error can be handled by using `@tsed/platform-exceptions`,
-- Operation descriptions like `@Returns`,
-- `@tsed/async-hook-context` to inject Context anywhere in your class!
-- All ORM already available for other Ts.ED platform.
-
-## Unsupported features
-
-::: warning
-
-Some features that you can use with the Express.js or Koa.js platforms are not available with the Serverless
-platform.
-(See also our [table feature capabilities](/getting-started/#platform-features-support)).
-:::
-
-### Middlewares
-
-This mechanism is specific to Koa.js / Express.js and doesn't exist with the Serverless approach.
-
-Serverless provides a number of features such as Cors management via the configuration of `serverless.yml` and doesn't
-need to use middleware. In addition, serverless [plugins](https://www.serverless.com/plugins/) are also available and
-allow you to manage advanced scenarios without having to develop anything!
-
-If you can't find what you are looking for on the Serverless side, you can use `@tsed/di`'
-s [Interceptors](/docs/interceptors.md) to decorate the methods and add shareable features.
-
-### Passport/OIDC/GraphQL etc...
-
-Because middlewares aren't supported Passport.js, OIDC, GraphQL won't be usable in this platform either.
-
-### Upload files
-
-File upload isn't covered at this time. Any help is welcome to improve this platform :).
-
-### Statics files
-
-The goal of lambda isn't to expose static files. We do not plan to support this use in the near future.
-
-## Rule
-
-::: warning
-
-By convention, try to not import something from `@tsed/common`. `@tsed/common` embed a lot of codes designed
-for the Full server platform which are not necessary in the Serverless context and aren't optimized for it.
-
-The recent version of Ts.ED expose all necessary decorators from `@tsed/schema`, `@tsed/platform-params` or `@tsed/di`.
-For example, @@Get@@ or @@Post@@ are commonly imported like this:
-
-```typescript
-import {Get} from "@tsed/common";
-```
-
-Now, you have to import the decorator from `@tsed/schema`.
-
-```typescript
-import {Get} from "@tsed/schema";
-```
-
-:::
-
 ## Installation
 
-Generate a new project with the CLI (you can also start from an existing project):
+See the [Platform Serverless](/docs/platform-serverless.md) to install the required packages
+to develop your AWS Lambda functions.
 
-```bash
-tsed init .
-? Choose the target platform: Express.js
-? Choose the architecture for your project: Ts.ED
-? Choose the convention file styling: Ts.ED
-? Check the features needed for your project Swagger, Testing, Linter
-? Choose unit framework Jest
-? Choose linter tools framework EsLint
-? Choose extra linter tools Prettier, Lint on commit
-? Choose the package manager: Yarn
-```
-
-::: tip
-This tutorial works also with NPM package manager!
-:::
-
-<Tabs class="-code">
-  <Tab label="Yarn">
-
-```bash
-yarn add @tsed/platform-serverless serverless serverless-offline
-yarn add -D @types/aws-lambda
-```
-
-  </Tab>
-  <Tab label="NPM">
-
-```bash
-npm install --save @tsed/platform-serverless serverless serverless-offline
-npm install --save-dev @types/aws-lambda
-```
-
-  </Tab>
-</Tabs>
-
-## Configuration
+## Create your first lambda
 
 In the `src/lambda` create a new Lambda class:
 
@@ -305,115 +202,6 @@ To simplify our workflow, we can add the following npm script command in our `pa
     "invoke:any": "yarn serverless invoke local -f any --data '{\"path\":\"/timeslots\", \"httpMethod\": \"GET\"}'"
   }
 }
-```
-
-## Get AwsContext and AwsEvent
-
-```typescript
-import {Injectable} from "@tsed/di";
-import {QueryParams, ServerlessContext} from "@tsed/platform-serverless"; // /!\ don't import decorators from @tsed/common
-import {TimeslotsService} from "../services/TimeslotsService";
-import {ServerlessContext} from "./ServerlessContext";
-
-@Injectable()
-export class TimeslotsLambda {
-  get(@Context() $ctx: ServerlessContext) {
-    console.log($ctx.context); // AWS Context
-    console.log($ctx.event); // AWS Event
-    console.log($ctx.response); // Response Platform abstraction layer
-    console.log($ctx.request); // Request Platform abstraction layer
-
-    $ctx.response.setHeader("x-test", "test");
-
-    return {};
-  }
-}
-```
-
-## Testing
-
-Ts.ED provide a way to test you lambda with mocked Aws event and context by using the @@PlatformServerlessTest@@ util.
-
-Here an example to test a Lambda controller:
-
-```typescript
-import {PlatformServerlessTest} from "@tsed/platform-serverless-testing";
-import {PlatformServerless} from "@tsed/platform-serverless";
-
-@Controller("/")
-class TimeslotsLambdaController {
-  @Get("/")
-  getAll() {
-    return [];
-  }
-
-  @Get("/:id")
-  getById(@PathParams("id") id: string, @QueryParams("start_date") startDate: Date, @QueryParams("end_date") endDate: Date) {
-    return {
-      id,
-      startDate,
-      endDate
-    };
-  }
-}
-
-describe("TimeslotsLambdaController", () => {
-  beforeEach(
-    PlatformServerlessTest.bootstrap(PlatformServerless, {
-      lambda: [TimeslotsLambdaController]
-    })
-  );
-  afterEach(() => PlatformServerlessTest.reset());
-
-  describe("Invoke by lambda name", () => {
-    it("should call getAll Lambda", async () => {
-      const response = await PlatformServerlessTest.request.call("getAll");
-
-      expect(response.statusCode).toEqual(200);
-      expect(response.headers).toEqual({
-        "x-request-id": "requestId",
-        "content-type": "application/json"
-      });
-      expect(JSON.parse(response.body)).toEqual([]);
-    });
-
-    it("should call getById Lambda", async () => {
-      const response = await PlatformServerlessTest.request
-        .call("getById")
-        .params({
-          id: "1"
-        })
-        .query({
-          start_date: new Date("2020-01-01"),
-          end_date: new Date("2020-01-10")
-        });
-
-      expect(response.statusCode).toEqual(200);
-      expect(response.headers).toEqual({
-        "x-request-id": "requestId",
-        "content-type": "application/json"
-      });
-      expect(JSON.parse(response.body)).toEqual({
-        id: "1",
-        endDate: "2020-01-10T00:00:00.000Z",
-        startDate: "2020-01-01T00:00:00.000Z"
-      });
-    });
-  });
-
-  describe("invoke using the router", () => {
-    it("should call getAll Lambda", async () => {
-      const response = await PlatformServerlessTest.request.get("/");
-
-      expect(response.statusCode).toEqual(200);
-      expect(response.headers).toEqual({
-        "x-request-id": "requestId",
-        "content-type": "application/json"
-      });
-      expect(JSON.parse(response.body)).toEqual([]);
-    });
-  });
-});
 ```
 
 ## Author
