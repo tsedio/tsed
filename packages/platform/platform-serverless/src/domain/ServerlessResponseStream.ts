@@ -15,7 +15,7 @@ declare global {
 
 export type RequestHandler = (
   ev: APIGatewayProxyEventV2,
-  streamResponse: ServerlessResponseStream,
+  streamResponse?: ServerlessResponseStream,
   ctx?: Context,
   callback?: Callback
 ) => unknown | Promise<unknown>;
@@ -44,7 +44,28 @@ export class ServerlessResponseStream extends Stream.Writable {
     // Check for global awslambda
     if (isInAWS()) {
       // @ts-ignore
-      return awslambda.streamifyResponse(handler);
+      return awslambda.streamifyResponse(
+        async (event: APIGatewayProxyEventV2, responseStream: ServerlessResponseStream | Context | undefined, context?: Context) => {
+          const isFallbackMode = context === undefined;
+
+          if (context === undefined) {
+            context = responseStream as Context;
+            responseStream = new ServerlessResponseStream();
+
+            console.warn({
+              event: "WRONG_AWS_STREAM_CONFIGURATION",
+              message:
+                "The lambda didn't receive a ResponseStream from AWS. Ts.ED therefore generated a ServerlessResponseStream as a fallback. This mode is not optimized for use in PRODUCTION. Please check the AWS configuration of your lambda."
+            });
+          }
+
+          await handler(event, responseStream as ServerlessResponseStream, context);
+
+          if (isFallbackMode) {
+            return ServerlessResponseStream.buildResponse(responseStream as ServerlessResponseStream);
+          }
+        }
+      );
     } else {
       return async (event, response, context) => {
         const args: any[] = patchArgs([event, response, context]);
@@ -52,12 +73,16 @@ export class ServerlessResponseStream extends Stream.Writable {
 
         await (handler as any)(...args);
 
-        return {
-          ...responseStream._meta,
-          body: responseStream.getBufferedData().toString()
-        };
+        return ServerlessResponseStream.buildResponse(responseStream);
       };
     }
+  }
+
+  private static buildResponse(responseStream: ServerlessResponseStream) {
+    return {
+      ...responseStream._meta,
+      body: responseStream.getBufferedData().toString()
+    };
   }
 
   // streams, `chunk` may be any JavaScript value.
