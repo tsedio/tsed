@@ -77,3 +77,9 @@ For multiple files, just use `PlatformMulterFile[]` annotation type. Ts.ED will 
 ::: warning
 Swagger spec (v2.0) doesn't support multiple files. Enable OAS 3 to support multipart files in swagger-ui.
 :::
+
+### Use with Middleware
+
+The @@PlatformMulterMiddleware@@ will convert FormData key/value pairs into @@BodyParams@@. If you need access to @@BodyParams@@ in a custom Middleware, make sure to set the `priority` on the Middleware to something greater than 10 so it is executed after the @@PlatformMulterMiddleware@@.
+
+<<< @/tutorials/snippets/multer/middleware.ts
