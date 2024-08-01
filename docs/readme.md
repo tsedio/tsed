@@ -60,20 +60,23 @@ sponsors:
       style:
         maxHeight: 150px
       items:
-        - title: Zenika
-          href: https://www.zenika.com
-          src: https://zenika-website.cdn.prismic.io/zenika-website/4e73b102-9045-4cff-b098-a0625f7d10f8_logo_light.svg
+        - title: eGain
+          href: https://www.egain.com/
+          src: /partners/egain.webp
+        - title: PXR-tech
+          href: https://pxr.homerun.co/
+          src: https://cdn.homerun.co/52878/logo-donker1665669278logo.png
         - title: Weseek
           href: https://weseek.co.jp/
           src: https://avatars.githubusercontent.com/u/6468105?v=4
-        - title: Underscore tech
-          href: https://pxr.homerun.co/
-          src: https://images.opencollective.com/pxr/fe09820/logo/256.png
     - title: Partners
       class: w-1/3 sm:w-1/6 px-5 py-3
       style:
         maxHeight: 90px
       items:
+        - title: Zenika
+          href: https://www.zenika.com
+          src: https://zenika-website.cdn.prismic.io/zenika-website/4e73b102-9045-4cff-b098-a0625f7d10f8_logo_light.svg
         - title: schnell.digital
           href: https://schnell.digital/
           src: /partners/schnell.svg
