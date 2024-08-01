@@ -29687,13 +29687,13 @@ __metadata:
   linkType: hard
 
 "webpack-remove-code-blocks@npm:^0.1.5":
-  version: 0.1.5
-  resolution: "webpack-remove-code-blocks@npm:0.1.5"
+  version: 0.1.6
+  resolution: "webpack-remove-code-blocks@npm:0.1.6"
   dependencies:
     loader-utils: "npm:^1.1.0"
   peerDependencies:
     webpack: ">=3.0.0"
-  checksum: 10/fed7c3a01318f098db68ab2f582e0059fcf64b9155e5592569b8466e5fe50cc186c38376ed1049957bc78e7858b80be8c29f7199ec3248234f44e9569f1650bc
+  checksum: 10/022f0f1ace56fbc25af8ff47b46d0841c0651c98f0d7c21230c7691152a3da8c4c5050e05afec39bad07a2835e647f2fd204b33c5764f3e43056a6de9f31c6ef
   languageName: node
   linkType: hard
 
