@@ -40,6 +40,7 @@ export * from "./interfaces/Route.js";
 export * from "./middlewares/PlatformAcceptMimesMiddleware.js";
 export * from "./middlewares/PlatformMulterMiddleware.js";
 export * from "./services/FakeAdapter.js";
+export * from "./services/FakeResponse.js";
 export * from "./services/Platform.js";
 export * from "./services/PlatformAdapter.js";
 export * from "./services/PlatformApplication.js";
