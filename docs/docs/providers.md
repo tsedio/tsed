@@ -32,7 +32,7 @@ Let's start by creating a simple CalendarService provider.
 @@Service@@ and @@Injectable@@ have the same effect. @@Injectable@@ accepts options, @@Service@@ does not.
 A Service is always configured as `singleton`.
 
-Example with @@Injectable@:
+Example with @@Injectable@@:
 
 <<< @/docs/snippets/providers/getting-started-injectable.ts
 
