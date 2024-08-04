@@ -2,12 +2,12 @@
   "extends": "@tsed/typescript/tsconfig.node.json",
   "compilerOptions": {
     "baseUrl": ".",
-    "module": "ESNext",
-    "moduleResolution": "nodenext",
+    "module": "commonjs",
+    "moduleResolution": "Node16",
     "rootDir": "src",
-    "outDir": "./lib/esm",
-    "declarationDir": "./lib/types-esm",
+    "outDir": "./lib/cjs",
     "declaration": true,
+    "declarationDir": "./lib/types",
     "composite": true,
     "noEmit": false
   },
