@@ -1,7 +1,8 @@
 {
   "name": "@tsed/socketio",
-  "version": "7.79.4",
   "description": "Socket.io package for Ts.ED framework",
+  "type": "commonjs",
+  "version": "7.79.3",
   "keywords": [
     "tsed",
     "socket.io",
@@ -10,21 +11,22 @@
     "realtime"
   ],
   "source": "./src/index.ts",
-  "main": "./lib/cjs/index.js",
+  "main": "./lib/esm/index.js",
   "module": "./lib/esm/index.js",
   "typings": "./lib/types/index.d.ts",
   "exports": {
-    "types": "./lib/types/index.d.ts",
-    "import": "./lib/esm/index.js",
-    "require": "./lib/cjs/index.js",
-    "default": "./lib/esm/index.js"
+    ".": {
+      "types": "./lib/types/index.d.ts",
+      "import": "./lib/esm/index.js",
+      "default": "./lib/esm/index.js"
+    }
   },
   "scripts": {
     "build": "yarn barrels && yarn build:ts",
     "barrels": "barrels",
     "start": "ts-node test/app/index.ts",
     "test": "jest --runInBand --testTimeout 10000 && jest-coverage-thresholds-bumper",
-    "build:ts": "tsc --build tsconfig.json && tsc --build tsconfig.esm.json"
+    "build:ts": "tsc --build tsconfig.json"
   },
   "dependencies": {
     "tslib": "2.6.1"
@@ -44,14 +46,15 @@
     "express": "^4.19.1",
     "jest": "^29.7.0",
     "socket.io": "4.7.5",
-    "socket.io-client": "^4.7.5"
+    "socket.io-client": "^4.7.5",
+    "typescript": "4.9.5"
   },
   "peerDependencies": {
-    "@tsed/di": "7.79.4",
-    "@tsed/json-mapper": "7.79.4",
+    "@tsed/di": "7.79.3",
+    "@tsed/json-mapper": "7.79.3",
     "@tsed/logger": ">=6.7.5",
-    "@tsed/platform-middlewares": "7.79.4",
-    "@tsed/schema": "7.79.4",
+    "@tsed/platform-middlewares": "7.79.3",
+    "@tsed/schema": "7.79.3",
     "socket.io": ">=4.0.0"
   },
   "peerDependenciesMeta": {

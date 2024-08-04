@@ -73,13 +73,14 @@ async function getControllerFixture(scenario: string) {
   const controller = await PlatformTest.invoke<MyCtrl>(MyCtrl);
 
   const endpoint = JsonEntityStore.fromMethod(MyCtrl, scenario);
+  const $ctx = PlatformTest.createRequestContext({
+    endpoint
+  });
   const eventStream = new EventStreamContext({
-    $ctx: PlatformTest.createRequestContext({
-      endpoint
-    })
+    $ctx
   });
 
-  return {controller, endpoint, eventStream};
+  return {controller, endpoint, eventStream, $ctx};
 }
 
 describe("SSE integration", () => {
@@ -179,9 +180,9 @@ describe("SSE integration", () => {
 
   describe("Scenario5 - Model", () => {
     it("should pass the new EventStreamContext to function and process message", async () => {
-      const {controller, eventStream} = await getControllerFixture("scenario5");
+      const {controller, eventStream, $ctx} = await getControllerFixture("scenario5");
 
-      controller.scenario5(eventStream);
+      controller.scenario5(eventStream, $ctx);
 
       // Wait for the first message
       const result = await new Promise((resolve) => {

@@ -17,7 +17,7 @@ describe("MikroOrmModule", () => {
     entities: [],
     clientUrl: "mongo://localhost",
     subscribers: [new Subscriber1()]
-  };
+  } as never;
   const mockedMikroOrmRegistry = mock<MikroOrmRegistry>();
   const mockedMikroOrmContext = mock<MikroOrmContext>();
   const mockedMikroORM = mock<MikroORM>();

@@ -1,22 +1,24 @@
 {
   "name": "@tsed/common",
-  "version": "7.79.4",
   "description": "A TypeScript Framework on top of Express",
+  "type": "commonjs",
+  "version": "7.79.3",
   "source": "./src/index.ts",
-  "main": "./lib/cjs/index.js",
+  "main": "./lib/esm/index.js",
   "module": "./lib/esm/index.js",
   "typings": "./lib/types/index.d.ts",
   "exports": {
-    "types": "./lib/types/index.d.ts",
-    "import": "./lib/esm/index.js",
-    "require": "./lib/cjs/index.js",
-    "default": "./lib/esm/index.js"
+    ".": {
+      "types": "./lib/types/index.d.ts",
+      "import": "./lib/esm/index.js",
+      "default": "./lib/esm/index.js"
+    }
   },
   "scripts": {
     "build": "yarn barrels && yarn build:ts",
     "barrels": "barrels -e \"getConfiguration\"",
     "test": "jest --max-workers=2 --no-cache && jest-coverage-thresholds-bumper",
-    "build:ts": "tsc --build tsconfig.json && tsc --build tsconfig.esm.json"
+    "build:ts": "tsc --build tsconfig.json"
   },
   "keywords": [
     "Express",
@@ -88,6 +90,7 @@
     "@tsed/barrels": "workspace:*",
     "@tsed/components-scan": "workspace:*",
     "@tsed/typescript": "workspace:*",
+    "@tsed/engines": "workspace:*",
     "cross-env": "7.0.3",
     "eslint": "^8.57.0",
     "jest": "^29.7.0",

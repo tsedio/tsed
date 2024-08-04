@@ -511,7 +511,7 @@ describe("@Status", () => {
       @OperationPath("POST", "/")
       @Status(200, Pagination).Of(Submission).Nested(Product).Description("description")
       method(): Promise<Pagination<Submission<Product>> | null> {
-        return null;
+        return null as never;
       }
     }
 

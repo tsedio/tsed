@@ -1,4 +1,4 @@
-import {Property} from "@tsed/schema";
+import {Property} from "../../src/index.js";
 import {User} from "./User.js";
 
 export class Post {

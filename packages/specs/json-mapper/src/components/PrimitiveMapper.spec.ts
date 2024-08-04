@@ -12,7 +12,7 @@ describe("PrimitiveMapper", () => {
         next: jest.fn()
       };
 
-      const value = mapper.deserialize(data, ctx);
+      const value = mapper.deserialize(data, ctx as never);
 
       expect(value).toEqual("1");
     });
@@ -25,7 +25,7 @@ describe("PrimitiveMapper", () => {
         next: jest.fn()
       };
 
-      const value = mapper.deserialize(data, ctx);
+      const value = mapper.deserialize(data, ctx as never);
 
       expect(value).toEqual("1");
     });
@@ -38,7 +38,7 @@ describe("PrimitiveMapper", () => {
         next: jest.fn()
       };
 
-      const value = mapper.deserialize(data, ctx);
+      const value = mapper.deserialize(data, ctx as never);
 
       expect(value).toEqual(null);
     });
@@ -51,7 +51,7 @@ describe("PrimitiveMapper", () => {
         next: jest.fn()
       };
 
-      const value = mapper.deserialize(data, ctx);
+      const value = mapper.deserialize(data, ctx as never);
 
       expect(value).toEqual(null);
     });
@@ -64,7 +64,7 @@ describe("PrimitiveMapper", () => {
         next: jest.fn()
       };
 
-      const value = mapper.deserialize(data, ctx);
+      const value = mapper.deserialize(data, ctx as never);
 
       expect(value).toEqual(1);
     });
@@ -77,7 +77,7 @@ describe("PrimitiveMapper", () => {
         next: jest.fn()
       };
 
-      const value = mapper.deserialize(data, ctx);
+      const value = mapper.deserialize(data, ctx as never);
 
       expect(value).toEqual(1);
     });
@@ -90,13 +90,13 @@ describe("PrimitiveMapper", () => {
         next: jest.fn()
       };
 
-      let actualError: any = catchError(() => mapper.deserialize(data, ctx));
+      let actualError: any = catchError(() => mapper.deserialize(data, ctx as never));
 
       expect(actualError.message).toEqual("Cast error. Expression value is not a number.");
     });
     it("should return value (truthy => boolean)", () => {
       const mapper = new PrimitiveMapper();
-      const ctx = {
+      const ctx: any = {
         type: Boolean,
         collectionType: undefined,
         next: jest.fn()
@@ -109,7 +109,7 @@ describe("PrimitiveMapper", () => {
     });
     it("should return value (falsy => boolean)", () => {
       const mapper = new PrimitiveMapper();
-      const ctx = {
+      const ctx: any = {
         type: Boolean,
         collectionType: undefined,
         next: jest.fn()

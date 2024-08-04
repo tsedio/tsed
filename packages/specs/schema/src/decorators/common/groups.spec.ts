@@ -1,5 +1,4 @@
-import {QueryParams} from "@tsed/platform-params";
-import {type} from "node:os";
+import {QueryParams} from "@tsed/platform-params/src/index";
 import {SpecTypes} from "../../domain/SpecTypes.js";
 import {getJsonSchema} from "../../utils/getJsonSchema.js";
 import {getSpec} from "../../utils/getSpec.js";
@@ -670,7 +669,7 @@ describe("@Groups", () => {
 
         @OperationPath("GET", "/all")
         @Returns(201, MyModel).Groups("group.*")
-        getWithout(@QueryParams() payload: MyModel) {
+        getWithout(@In("query") payload: MyModel) {
           return new MyModel();
         }
       }

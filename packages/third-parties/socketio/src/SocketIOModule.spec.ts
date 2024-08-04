@@ -36,7 +36,7 @@ describe("SocketIOModule", () => {
       beforeAll(() =>
         PlatformTest.create({
           httpsPort: 8081,
-          socketIO: {config: "config", adapter: jest.fn()} as unknown
+          socketIO: {config: "config", adapter: jest.fn()} as never
         })
       );
       afterAll(() => {
@@ -61,7 +61,7 @@ describe("SocketIOModule", () => {
         PlatformTest.create({
           httpsPort: 8081,
           http: false,
-          socketIO: {config: "config"} as unknown
+          socketIO: {config: "config"} as never
         })
       );
 

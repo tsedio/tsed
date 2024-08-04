@@ -1,5 +1,5 @@
 import SwaggerParser from "@apidevtools/swagger-parser";
-import {SpecTypes} from "@tsed/schema";
+import {SpecTypes} from "../../src/index.js";
 import fs from "fs-extra";
 import {v4} from "uuid";
 

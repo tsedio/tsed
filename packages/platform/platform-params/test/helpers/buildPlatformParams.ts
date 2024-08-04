@@ -8,7 +8,7 @@ export interface TestPlatformParamsOptions extends ParamOptions {
 }
 
 export function invokePlatformParams<T extends PlatformParams>(): T {
-  return PlatformTest.invoke<T>(PlatformParams) as T;
+  return PlatformTest.invoke<T>(PlatformParams) as unknown as T;
 }
 
 export async function buildPlatformParams({expression, required, ...options}: TestPlatformParamsOptions) {

@@ -1,6 +1,6 @@
 import {PlatformTest, ProviderScope} from "@tsed/common";
 import {Injectable} from "@tsed/di";
-import {buildPlatformParams, invokePlatformParams} from "../../../../../test/helper/buildPlatformParams.js";
+import {buildPlatformParams, invokePlatformParams} from "../../test/helpers/buildPlatformParams.js";
 import {PathParams} from "../decorators/pathParams.js";
 import {QueryParams} from "../decorators/queryParams.js";
 import {ParamTypes} from "../domain/ParamTypes.js";

@@ -134,7 +134,7 @@ describe("setResponseHeaders", () => {
     const endpoint = JsonEntityStore.fromMethod(Test, "test");
 
     const ctx = createServerlessContext({
-      endpoint: {}
+      endpoint: {} as never
     });
 
     jest.spyOn(ctx.response, "setHeaders");

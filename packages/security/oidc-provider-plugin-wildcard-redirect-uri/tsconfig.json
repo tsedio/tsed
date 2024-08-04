@@ -2,53 +2,27 @@
   "extends": "@tsed/typescript/tsconfig.node.json",
   "compilerOptions": {
     "baseUrl": ".",
-    "module": "commonjs",
-    "rootDir": "src",
-    "outDir": "./lib/cjs",
-    "declaration": true,
-    "declarationDir": "./lib/types",
-    "composite": true,
-    "noEmit": false
+    "noEmit": true
   },
-  "include": ["src", "src/**/*.json"],
-  "exclude": [
-    "node_modules",
-    "test",
-    "lib",
-    "benchmark",
-    "coverage",
-    "spec",
-    "**/*.benchmark.ts",
-    "**/*.spec.ts",
-    "keys",
-    "jest.config.js",
-    "**/__mock__/**",
-    "webpack.config.js"
-  ],
+  "include": [],
   "references": [
     {
-      "path": "../../specs/ajv"
+      "path": "../../core/tsconfig.json"
     },
     {
-      "path": "../../platform/common"
+      "path": "../../di/tsconfig.json"
     },
     {
-      "path": "../../core"
+      "path": "../oidc-provider/tsconfig.json"
     },
     {
-      "path": "../../di"
+      "path": "./tsconfig.cjs.json"
     },
     {
-      "path": "../../specs/json-mapper"
+      "path": "./tsconfig.esm.json"
     },
     {
-      "path": "../../specs/schema"
-    },
-    {
-      "path": "../oidc-provider"
-    },
-    {
-      "path": "../../specs/exceptions"
+      "path": "./tsconfig.spec.json"
     }
   ]
 }

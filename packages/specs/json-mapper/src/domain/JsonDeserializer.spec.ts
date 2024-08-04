@@ -1,5 +1,5 @@
 import faker from "@faker-js/faker";
-import {QueryParams} from "@tsed/common";
+import {QueryParams} from "@tsed/platform-params";
 import {
   AdditionalProperties,
   CollectionOf,

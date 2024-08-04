@@ -65,8 +65,8 @@ describe("FallbackJobController", () => {
 
       const fallbackControllerForQueue = GlobalProviders.get("bullmq.fallback-job.default");
       expect(fallbackControllerForQueue).not.toBeUndefined();
-      expect(fallbackControllerForQueue.type).toEqual("bullmq:fallback-job");
-      expect(fallbackControllerForQueue.useClass).toEqual(FallbackJob);
+      expect(fallbackControllerForQueue?.type).toEqual("bullmq:fallback-job");
+      expect(fallbackControllerForQueue?.useClass).toEqual(FallbackJob);
 
       const fallbackController = GlobalProviders.get("bullmq.fallback-job");
       expect(fallbackController).toBeUndefined();
@@ -83,8 +83,8 @@ describe("FallbackJobController", () => {
 
       const fallbackController = GlobalProviders.get("bullmq.fallback-job");
       expect(fallbackController).not.toBeUndefined();
-      expect(fallbackController.type).toEqual("bullmq:fallback-job");
-      expect(fallbackController.useClass).toEqual(FallbackJob);
+      expect(fallbackController?.type).toEqual("bullmq:fallback-job");
+      expect(fallbackController?.useClass).toEqual(FallbackJob);
 
       const fallbackControllerForQueue = GlobalProviders.get("bullmq.fallback-job.default");
       expect(fallbackControllerForQueue).toBeUndefined();

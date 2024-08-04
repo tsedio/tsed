@@ -3,7 +3,7 @@
   "version": "6.115.0",
   "description": "Benchmarks for Ts.ED",
   "main": "index.js",
-  "type": "module",
+  "type": "commonjs",
   "scripts": {
     "start": "node bin/benchmark.js",
     "compare": "node bin/benchmark.js compare --",

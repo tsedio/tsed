@@ -12,14 +12,14 @@ export class AuthResolver {
   }
 
   @Mutation((returns) => User)
-  async login(@Arg("email") email: string, @Arg("password") password: string, @Ctx() context: GQLContext): Promise<User> {
+  async login(@Arg("email") email: string, @Arg("password") password: string, @Ctx() context: GQLContext): Promise<User | undefined> {
     const {user} = await context.authenticate("graphql-local", {
       email,
       password
     });
 
     // only required if express-session is used
-    await context.login(user);
+    await context.login(user!);
 
     return user;
   }

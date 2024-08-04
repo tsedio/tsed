@@ -1,5 +1,5 @@
 import {Inject} from "@tsed/common";
-import {Interaction, OidcCtx, OidcProvider, InteractionMethods} from "@tsed/oidc-provider";
+import {Interaction, OidcCtx, OidcProvider, InteractionMethods} from "../../../src/index.js";
 import {View} from "@tsed/platform-views";
 import {Name} from "@tsed/schema";
 

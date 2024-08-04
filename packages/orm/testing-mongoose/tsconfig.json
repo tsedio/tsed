@@ -2,38 +2,24 @@
   "extends": "@tsed/typescript/tsconfig.node.json",
   "compilerOptions": {
     "baseUrl": ".",
-    "module": "commonjs",
-    "rootDir": "src",
-    "outDir": "./lib/cjs",
-    "declaration": true,
-    "declarationDir": "./lib/types",
-    "composite": true,
-    "noEmit": false
+    "noEmit": true
   },
-  "include": ["src", "src/**/*.json"],
-  "exclude": [
-    "node_modules",
-    "test",
-    "lib",
-    "benchmark",
-    "coverage",
-    "spec",
-    "**/*.benchmark.ts",
-    "**/*.spec.ts",
-    "keys",
-    "jest.config.js",
-    "**/__mock__/**",
-    "webpack.config.js"
-  ],
+  "include": [],
   "references": [
     {
-      "path": "../../platform/common"
+      "path": "../../platform/common/tsconfig.json"
     },
     {
-      "path": "../../core"
+      "path": "../../core/tsconfig.json"
     },
     {
-      "path": "../mongoose"
+      "path": "../mongoose/tsconfig.json"
+    },
+    {
+      "path": "./tsconfig.cjs.json"
+    },
+    {
+      "path": "./tsconfig.esm.json"
     }
   ]
 }

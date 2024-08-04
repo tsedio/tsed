@@ -1,8 +1,8 @@
 import {uniq} from "@tsed/core";
-import type {JsonSchema} from "../../domain/JsonSchema";
-import {alterRequiredGroups} from "../../hooks/alterRequiredGroups";
-import type {JsonSchemaOptions} from "../../interfaces/JsonSchemaOptions";
-import {registerJsonSchemaMapper} from "../../registries/JsonSchemaMapperContainer";
+import type {JsonSchema} from "../../domain/JsonSchema.js";
+import {alterRequiredGroups} from "../../hooks/alterRequiredGroups.js";
+import type {JsonSchemaOptions} from "../../interfaces/JsonSchemaOptions.js";
+import {registerJsonSchemaMapper} from "../../registries/JsonSchemaMapperContainer.js";
 
 function mapRequiredProps(obj: any, schema: JsonSchema, options: JsonSchemaOptions = {}) {
   const {useAlias} = options;

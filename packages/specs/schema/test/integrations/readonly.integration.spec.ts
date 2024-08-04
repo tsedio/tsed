@@ -1,4 +1,4 @@
-import {getJsonSchema, Groups, Name, Property, ReadOnly, Required} from "@tsed/schema";
+import {getJsonSchema, Groups, Name, Property, ReadOnly, Required} from "../../src/index.js";
 
 class BaseModel {
   @Required()

@@ -1,22 +1,24 @@
 {
   "name": "@tsed/mikro-orm",
-  "version": "7.79.4",
   "description": "MikroORM package for Ts.ED framework",
+  "type": "commonjs",
+  "version": "7.79.3",
   "source": "./src/index.ts",
-  "main": "./lib/cjs/index.js",
+  "main": "./lib/esm/index.js",
   "module": "./lib/esm/index.js",
   "typings": "./lib/types/index.d.ts",
   "exports": {
-    "types": "./lib/types/index.d.ts",
-    "import": "./lib/esm/index.js",
-    "require": "./lib/cjs/index.js",
-    "default": "./lib/esm/index.js"
+    ".": {
+      "types": "./lib/types/index.d.ts",
+      "import": "./lib/esm/index.js",
+      "default": "./lib/esm/index.js"
+    }
   },
   "scripts": {
     "build": "yarn barrels && yarn build:ts",
     "barrels": "barrels",
     "test": "jest",
-    "build:ts": "tsc --build tsconfig.json && tsc --build tsconfig.esm.json"
+    "build:ts": "tsc --build tsconfig.json"
   },
   "dependencies": {
     "tslib": "2.6.1"
@@ -36,13 +38,14 @@
     "cross-env": "7.0.3",
     "eslint": "^8.57.0",
     "jest": "^29.7.0",
-    "ts-mockito": "^2.6.1"
+    "ts-mockito": "^2.6.1",
+    "typescript": "4.9.5"
   },
   "peerDependencies": {
     "@mikro-orm/core": ">=4.5.9",
-    "@tsed/common": "7.79.4",
-    "@tsed/core": "7.79.4",
-    "@tsed/di": "7.79.4",
+    "@tsed/common": "7.79.3",
+    "@tsed/core": "7.79.3",
+    "@tsed/di": "7.79.3",
     "@tsed/logger": ">=6.7.5"
   }
 }

@@ -1,1 +1,1 @@
-import "@tsed/schema";
+import "../../src/index.js";

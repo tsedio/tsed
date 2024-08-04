@@ -1,16 +1,18 @@
 {
   "name": "@tsed/passport",
-  "version": "7.79.4",
   "description": "Passport package for Ts.ED framework",
+  "type": "commonjs",
+  "version": "7.79.3",
   "source": "./src/index.ts",
-  "main": "./lib/cjs/index.js",
+  "main": "./lib/esm/index.js",
   "module": "./lib/esm/index.js",
   "typings": "./lib/types/index.d.ts",
   "exports": {
-    "types": "./lib/types/index.d.ts",
-    "import": "./lib/esm/index.js",
-    "require": "./lib/cjs/index.js",
-    "default": "./lib/esm/index.js"
+    ".": {
+      "types": "./lib/types/index.d.ts",
+      "import": "./lib/esm/index.js",
+      "default": "./lib/esm/index.js"
+    }
   },
   "scripts": {
     "clean": "rm -rf lib",
@@ -18,7 +20,7 @@
     "barrels": "barrels",
     "test": "jest --max-workers=2 && jest-coverage-thresholds-bumper",
     "start": "ts-node src/index.ts",
-    "build:ts": "tsc --build tsconfig.json && tsc --build tsconfig.esm.json"
+    "build:ts": "tsc --build tsconfig.json"
   },
   "dependencies": {
     "tslib": "2.6.1"
@@ -39,10 +41,11 @@
     "passport": "0.7.0",
     "passport-http": "0.3.0",
     "passport-local": "1.0.0",
-    "passport-strategy": "1.0.0"
+    "passport-strategy": "1.0.0",
+    "typescript": "4.9.5"
   },
   "peerDependencies": {
-    "@tsed/common": "7.79.4",
+    "@tsed/common": "7.79.3",
     "passport": ">=0.4.1"
   },
   "peerDependenciesMeta": {

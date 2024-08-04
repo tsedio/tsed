@@ -1,30 +1,32 @@
 {
   "name": "@tsed/event-emitter",
-  "version": "7.79.4",
   "description": "EventEmitter package for Ts.ED framework",
+  "type": "commonjs",
+  "version": "7.79.3",
   "contributors": [
     {
       "name": "Oliver Christen"
     }
   ],
   "source": "./src/index.ts",
-  "main": "./lib/cjs/index.js",
+  "main": "./lib/esm/index.js",
   "module": "./lib/esm/index.js",
   "typings": "./lib/types/index.d.ts",
   "browser": "./lib/browser/event-emitter.umd.min.js",
   "exports": {
-    "types": "./lib/types/index.d.ts",
-    "browser": "./lib/browser/event-emitter.umd.min.js",
-    "import": "./lib/esm/index.js",
-    "require": "./lib/cjs/index.js",
-    "default": "./lib/esm/index.js"
+    ".": {
+      "types": "./lib/types/index.d.ts",
+      "browser": "./lib/browser/event-emitter.umd.min.js",
+      "import": "./lib/esm/index.js",
+      "default": "./lib/esm/index.js"
+    }
   },
   "scripts": {
     "build": "yarn barrels && yarn build:ts && yarn run build:browser",
     "build:browser": "webpack",
     "barrels": "barrels",
     "test": "jest --max-workers=2 && jest-coverage-thresholds-bumper",
-    "build:ts": "tsc --build tsconfig.json && tsc --build tsconfig.esm.json"
+    "build:ts": "tsc --build tsconfig.json"
   },
   "dependencies": {
     "tslib": "2.6.1"

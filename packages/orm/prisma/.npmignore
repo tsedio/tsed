@@ -1,8 +1,8 @@
 src
 test
-tsconfig.compile.json
+coverage
 tsconfig.json
-jest.config.js
+tsconfig.*.json
 __mock__
 *.spec.js
 *.tsbuildinfo

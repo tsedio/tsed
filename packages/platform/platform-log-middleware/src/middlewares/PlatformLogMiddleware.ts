@@ -48,18 +48,19 @@ export class PlatformLogMiddleware implements MiddlewareMethods {
 
     if (logEnd && started) {
       if (ctx.response.statusCode >= 400) {
+        const error = ctx.error as any | undefined;
         ctx.logger.error({
           event: "request.end",
           status: ctx.response.statusCode,
           status_code: String(ctx.response.statusCode),
           state: "KO",
           ...cleanObject({
-            error_name: ctx.error?.name || ctx.error?.code,
-            error_message: ctx.error?.message,
-            error_errors: ctx.error?.errors,
-            error_stack: ctx.error?.stack,
-            error_body: ctx.error?.body,
-            error_headers: ctx.error?.headers
+            error_name: error?.name || error?.code,
+            error_message: error?.message,
+            error_errors: error?.errors,
+            error_stack: error?.stack,
+            error_body: error?.body,
+            error_headers: error?.headers
           })
         });
       } else {

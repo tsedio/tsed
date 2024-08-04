@@ -1,23 +1,25 @@
 {
   "name": "@tsed/platform-koa",
-  "version": "7.79.4",
   "description": "Koa package for Ts.ED framework",
+  "type": "commonjs",
+  "version": "7.79.3",
   "source": "./src/index.ts",
-  "main": "./lib/cjs/index.js",
+  "main": "./lib/esm/index.js",
   "module": "./lib/esm/index.js",
   "typings": "./lib/types/index.d.ts",
   "exports": {
-    "types": "./lib/types/index.d.ts",
-    "import": "./lib/esm/index.js",
-    "require": "./lib/cjs/index.js",
-    "default": "./lib/esm/index.js"
+    ".": {
+      "types": "./lib/types/index.d.ts",
+      "import": "./lib/esm/index.js",
+      "default": "./lib/esm/index.js"
+    }
   },
   "scripts": {
     "build": "yarn barrels && yarn build:ts",
     "barrels": "barrels",
     "start": "ts-node test/app/index.ts",
     "test": "jest --max-workers=2 --testTimeout 10000 && jest-coverage-thresholds-bumper",
-    "build:ts": "tsc --build tsconfig.json && tsc --build tsconfig.esm.json"
+    "build:ts": "tsc --build tsconfig.json"
   },
   "keywords": [
     "Koa",
@@ -77,7 +79,8 @@
     "koa-compress": "5.1.1",
     "koa-override": "3.0.0",
     "koa-qs": "^3.0.0",
-    "koa-session": "6.4.0"
+    "koa-session": "6.4.0",
+    "typescript": "4.9.5"
   },
   "dependencies": {
     "@koa/router": "^12.0.1",
@@ -88,13 +91,13 @@
     "tslib": "2.6.1"
   },
   "peerDependencies": {
-    "@tsed/common": "7.79.4",
-    "@tsed/core": "7.79.4",
-    "@tsed/di": "7.79.4",
-    "@tsed/json-mapper": "7.79.4",
+    "@tsed/common": "7.79.3",
+    "@tsed/core": "7.79.3",
+    "@tsed/di": "7.79.3",
+    "@tsed/json-mapper": "7.79.3",
     "@tsed/logger": ">=6.7.5",
-    "@tsed/openspec": "7.79.4",
-    "@tsed/schema": "7.79.4",
+    "@tsed/openspec": "7.79.3",
+    "@tsed/schema": "7.79.3",
     "koa": ">=2.13.0",
     "koa-bodyparser": ">=4.3.0",
     "koa-compress": ">=5.0.1",

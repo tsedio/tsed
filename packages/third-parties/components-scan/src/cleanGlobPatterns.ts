@@ -1,5 +1,6 @@
 import {resolve} from "path";
 import {isTsEnv} from "./isTsEnv.js";
+// @ts-ignore
 import {normalizePath} from "@tsed/normalize-path";
 
 function mapExcludes(excludes: string[]) {

@@ -2,13 +2,13 @@
   "extends": "@tsed/typescript/tsconfig.node.json",
   "compilerOptions": {
     "baseUrl": ".",
+    "rootDir": ".",
     "module": "commonjs",
-    "rootDir": "src",
     "outDir": "./lib/cjs",
     "declaration": false,
     "composite": false,
     "noEmit": true
   },
-  "include": ["**/*.spec.ts"],
+  "include": ["src/**/*.spec.ts", "test/**/*.spec.ts"],
   "exclude": ["node_modules", "test", "lib", "benchmark", "coverage"]
 }

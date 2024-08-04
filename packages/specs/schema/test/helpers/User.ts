@@ -1,4 +1,4 @@
-import {CollectionOf, Property} from "@tsed/schema";
+import {CollectionOf, Property} from "../../src/index.js";
 import {Post} from "./Post.js";
 
 export class User {

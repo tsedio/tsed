@@ -640,7 +640,7 @@ describe("Generics", () => {
           @OperationPath("POST", "/")
           @Returns(200, Pagination).Of(Submission).Nested(Product).Description("description")
           method(): Promise<Pagination<Submission<Product>> | null> {
-            return null;
+            return null as never;
           }
         }
 
@@ -737,7 +737,7 @@ describe("Generics", () => {
         @OperationPath("POST", "/")
         @Returns(200, Pagination).Of(Submission).Nested(Product).Description("description")
         method(): Promise<Pagination<Submission<Product>> | null> {
-          return null;
+          return null as never;
         }
       }
 
@@ -836,7 +836,7 @@ describe("Generics", () => {
           @OperationPath("POST", "/")
           @Returns(200, Pagination).Of(Submission).Nested(Product).Description("description")
           method(): Promise<Pagination<Submission<Product>> | null> {
-            return null;
+            return null as never;
           }
         }
 

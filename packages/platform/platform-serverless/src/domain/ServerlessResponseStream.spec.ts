@@ -4,11 +4,13 @@ describe("ServerlessResponseStream", () => {
   describe("streamifyResponse", () => {
     describe("when isInAWS", () => {
       beforeEach(() => {
+        // @ts-ignore
         globalThis.awslambda = {
           streamifyResponse: jest.fn().mockImplementation((handler) => handler)
         };
       });
       afterEach(() => {
+        // @ts-ignore
         delete globalThis.awslambda;
       });
 

@@ -19,7 +19,7 @@ const fixtures: {mydb2: Options; none: Options; mydb: Options} = {
     type: "postgresql",
     clientUrl: "postgresql://localhost:5432"
   }
-};
+} as never;
 
 describe("MikroOrmRegistry", () => {
   const loggerMock = mock<Logger>();

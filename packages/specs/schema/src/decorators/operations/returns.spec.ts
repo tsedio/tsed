@@ -788,7 +788,7 @@ describe("@Returns", () => {
             }
           })
         method(): Promise<Pagination<Submission<Product>> | null> {
-          return null;
+          return null as never;
         }
       }
 
@@ -982,7 +982,7 @@ describe("@Returns", () => {
             }
           })
         method(): Promise<Pagination<Submission<MyEnum>> | null> {
-          return null;
+          return null as never;
         }
       }
 
@@ -1231,7 +1231,7 @@ describe("@Returns", () => {
         @OperationPath("POST", "/")
         @Returns(200, Pagination).Of(Submission).Nested(Product).Title("PaginatedSubmissionProduct").Description("description")
         method(): Promise<Pagination<Submission<Product>> | null> {
-          return null;
+          return null as never;
         }
       }
 
