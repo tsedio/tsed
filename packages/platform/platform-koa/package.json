@@ -1,6 +1,6 @@
 {
   "name": "@tsed/platform-koa",
-  "version": "7.79.2",
+  "version": "7.79.3",
   "description": "Koa package for Ts.ED framework",
   "source": "./src/index.ts",
   "main": "./lib/cjs/index.js",
@@ -88,13 +88,13 @@
     "tslib": "2.6.1"
   },
   "peerDependencies": {
-    "@tsed/common": "7.79.2",
-    "@tsed/core": "7.79.2",
-    "@tsed/di": "7.79.2",
-    "@tsed/json-mapper": "7.79.2",
+    "@tsed/common": "7.79.3",
+    "@tsed/core": "7.79.3",
+    "@tsed/di": "7.79.3",
+    "@tsed/json-mapper": "7.79.3",
     "@tsed/logger": ">=6.7.5",
-    "@tsed/openspec": "7.79.2",
-    "@tsed/schema": "7.79.2",
+    "@tsed/openspec": "7.79.3",
+    "@tsed/schema": "7.79.3",
     "koa": ">=2.13.0",
     "koa-bodyparser": ">=4.3.0",
     "koa-compress": ">=5.0.1",

@@ -1,6 +1,6 @@
 {
   "name": "@tsed/core",
-  "version": "7.79.2",
+  "version": "7.79.3",
   "description": "Core module for Ts.ED Framework",
   "source": "./src/index.ts",
   "main": "./lib/cjs/index.js",
@@ -27,7 +27,7 @@
   },
   "devDependencies": {
     "@tsed/barrels": "workspace:*",
-    "@tsed/monorepo-utils": "^2.2.2",
+    "@tsed/monorepo-utils": "2.3.2",
     "@tsed/typescript": "workspace:*",
     "eslint": "^8.57.0",
     "jest": "^29.7.0",

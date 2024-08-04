@@ -1,6 +1,6 @@
 {
   "name": "@tsed/socketio",
-  "version": "7.79.2",
+  "version": "7.79.3",
   "description": "Socket.io package for Ts.ED framework",
   "keywords": [
     "tsed",
@@ -47,11 +47,11 @@
     "socket.io-client": "^4.7.5"
   },
   "peerDependencies": {
-    "@tsed/di": "7.79.2",
-    "@tsed/json-mapper": "7.79.2",
+    "@tsed/di": "7.79.3",
+    "@tsed/json-mapper": "7.79.3",
     "@tsed/logger": ">=6.7.5",
-    "@tsed/platform-middlewares": "7.79.2",
-    "@tsed/schema": "7.79.2",
+    "@tsed/platform-middlewares": "7.79.3",
+    "@tsed/schema": "7.79.3",
     "socket.io": ">=4.0.0"
   },
   "peerDependenciesMeta": {
