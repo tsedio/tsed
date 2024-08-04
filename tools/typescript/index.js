@@ -3,6 +3,7 @@ import {dirname, join, relative} from "node:path";
 import cloneDeep from "lodash/cloneDeep.js";
 import omit from "lodash/omit.js";
 import fs from "fs-extra";
+import globby from "globby";
 
 const scriptDir = import.meta.dirname;
 
@@ -13,12 +14,14 @@ async function main() {
   });
 
   const pkgRoot = fs.readJsonSync(join(monoRepo.rootDir, "package.json"));
+  const packagesRootDir = join(monoRepo.rootDir, "packages");
 
   const tsConfigRootPath = join(monoRepo.rootDir, "tsconfig.json");
   const tsConfigTemplate = await fs.readJson(join(scriptDir, "./tsconfig.template.json"));
   const tsConfigTemplateCjsPath = join(scriptDir, "./tsconfig.template.cjs.json");
   const tsConfigTemplateEsmPath = join(scriptDir, "./tsconfig.template.esm.json");
   const tsConfigTemplateSpecPath = join(scriptDir, "./tsconfig.template.spec.json");
+  const tsConfigTemplateSpec = await fs.readJson(tsConfigTemplateSpecPath);
   const npmIgnoreTemplatePath = join(scriptDir, "./.npmignore.template");
   //const viteConfig = fs.readFileSync(join(scriptDir, "./vite.config.mts"), {encoding: "utf8"});
 
@@ -34,7 +37,7 @@ async function main() {
     return map;
   }, new Map());
 
-  const promises = packages.map(async (pkg) => {
+  for (const pkg of packages) {
     const path = dirname(pkg.path);
 
     if (pkg.pkg.source && pkg.pkg.source.endsWith(".ts")) {
@@ -44,8 +47,14 @@ async function main() {
       const tsConfigBuildCjsPath = join(path, "tsconfig.cjs.json");
       const tsConfigBuildSpecPath = join(path, "tsconfig.spec.json");
       const npmignore = join(path, ".npmignore");
+
+      const hasFiles = await globby(["{src,test}/**/*.spec.ts", "!node_modules"], {
+        cwd: path
+      });
+
       // const viteConfigPath = join(path, "vite.config.ts");
       tsConfig.references = [];
+      const deps = new Set();
 
       Object.keys({
         ...(pkg.pkg.peerDependencies || {}),
@@ -56,6 +65,7 @@ async function main() {
           return packagesRefsMap.has(peer);
         })
         .map((peer) => {
+          deps.add(peer);
           tsConfig.references.push({
             path: join(relative(dirname(pkg.path), packagesRefsMap.get(peer)), "tsconfig.json")
           });
@@ -67,26 +77,52 @@ async function main() {
         },
         {
           path: "./tsconfig.esm.json"
-        },
-        {
-          path: "./tsconfig.spec.json"
         }
       );
+
+      if (hasFiles.length) {
+        tsConfig.references.push({
+          path: "./tsconfig.spec.json"
+        });
+
+        const paths = {};
+
+        packages
+          .filter((dep) => {
+            return (
+              ((dep.path.includes("/platform") && !dep.path.includes("serverless")) ||
+                dep.path.includes("/components-scan") ||
+                dep.path.includes("/spec") ||
+                dep.path.includes("/di")) &&
+              !deps.has(dep.name) &&
+              pkg.name !== dep.name
+            );
+          })
+          .forEach((dep) => {
+            paths["@tsed/" + dep.name] = [relative(dirname(pkg.path), dirname(dep.path)) + "/src"];
+          });
+        tsConfigTemplateSpec.compilerOptions.paths = paths;
+        tsConfigTemplateSpec.compilerOptions.rootDir = relative(dirname(tsConfigBuildSpecPath), packagesRootDir);
+
+        await fs.writeJSON(tsConfigBuildSpecPath, tsConfigTemplateSpec, {spaces: 2});
+      }
 
       await fs.writeJson(tsConfigPath, tsConfig, {spaces: 2});
       await fs.copy(tsConfigTemplateEsmPath, tsConfigBuildEsmPath);
       await fs.copy(tsConfigTemplateCjsPath, tsConfigBuildCjsPath);
-      await fs.copy(tsConfigTemplateSpecPath, tsConfigBuildSpecPath);
       await fs.copy(npmIgnoreTemplatePath, npmignore);
 
-      tsConfigRoot.references.push(
-        {
-          path: `./${relative(process.cwd(), path)}/tsconfig.cjs.json`
-        },
-        {
-          path: `./${relative(process.cwd(), path)}/tsconfig.spec.json`
-        }
-      );
+      tsConfigRoot.references.push({
+        path: `./${relative(process.cwd(), path)}/tsconfig.json`
+      });
+
+      // if (hasFiles.length) {
+      //   tsConfigRoot.references.push(
+      //     {
+      //       path: `./${relative(process.cwd(), path)}/tsconfig.spec.json`
+      //     }
+      //   );
+      // }
 
       pkg.pkg = {
         name: pkg.pkg.name,
@@ -143,9 +179,7 @@ async function main() {
       // } catch {
       // }
     }
-  });
-
-  await Promise.all(promises);
+  }
 
   await fs.writeJson(tsConfigRootPath, tsConfigRoot, {spaces: 2});
 }

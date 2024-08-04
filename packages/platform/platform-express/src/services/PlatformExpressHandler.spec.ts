@@ -15,7 +15,7 @@ describe("PlatformExpressHandler", () => {
       getRequest: jest.fn().mockReturnThis(),
       getResponse: jest.fn().mockReturnThis()
     };
-    $ctx.data = (req, res, cb) => {
+    $ctx.data = (req: any, res: any, cb: any) => {
       cb();
     };
 

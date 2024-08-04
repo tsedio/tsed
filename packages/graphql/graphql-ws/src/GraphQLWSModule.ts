@@ -1,4 +1,5 @@
 import {Constant, Inject, InjectorService, Module} from "@tsed/di";
+import type {Disposable} from "graphql-ws";
 import {useServer} from "graphql-ws/lib/use/ws";
 import Http from "http";
 import Https from "https";
@@ -19,7 +20,7 @@ export class GraphQLWSModule {
   @Inject()
   private injector: InjectorService;
 
-  createWSServer(settings: GraphQLWSOptions) {
+  createWSServer(settings: GraphQLWSOptions): Disposable {
     const wsServer = new Server({
       ...(this.settings.wsServerOptions || {}),
       ...settings.wsServerOptions,

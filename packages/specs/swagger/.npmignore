@@ -1,8 +1,8 @@
 src
 test
-tsconfig.esm.json
+coverage
 tsconfig.json
-*.tsbuildinfo
-scripts
-jest.config.js
+tsconfig.*.json
+__mock__
 *.spec.js
+*.tsbuildinfo

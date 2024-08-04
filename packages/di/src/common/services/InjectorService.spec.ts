@@ -974,7 +974,7 @@ describe("InjectorService", () => {
 
       await injector.load();
 
-      const result = injector.get<TestService>(TestService).get();
+      const result = injector.get<TestService>(TestService)!.get();
       expect(result).toEqual("world");
     });
     it("should load all provider and override by configuration a provider (useClass)", async () => {
@@ -1002,7 +1002,7 @@ describe("InjectorService", () => {
 
       await injector.load();
 
-      const result = injector.get<TestService>(TestService).get();
+      const result = injector.get<TestService>(TestService)!.get();
       expect(result).toEqual("fs");
     });
     it("should load all provider and override by configuration a provider (useFactory)", async () => {
@@ -1029,7 +1029,7 @@ describe("InjectorService", () => {
 
       await injector.load();
 
-      const result = injector.get<TestService>(TestService).get();
+      const result = injector.get<TestService>(TestService)!.get();
       expect(result).toEqual("world");
     });
     it("should load all provider and override by configuration a provider (useAsyncFactory)", async () => {
@@ -1056,7 +1056,7 @@ describe("InjectorService", () => {
 
       await injector.load();
 
-      const result = injector.get<TestService>(TestService).get();
+      const result = injector.get<TestService>(TestService)!.get();
       expect(result).toEqual("world");
     });
   });

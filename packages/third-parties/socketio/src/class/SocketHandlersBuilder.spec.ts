@@ -38,7 +38,7 @@ describe("SocketHandlersBuilder", () => {
       };
 
       const builder: any = new SocketHandlersBuilder(provider, {
-        alterAsync(_event, fn, _ctx) {
+        alterAsync(_event: any, fn: any, _ctx: any) {
           return fn;
         },
         get() {
@@ -61,6 +61,7 @@ describe("SocketHandlersBuilder", () => {
 
       return {builder, nsps, provider, instance};
     }
+
     it("should create metadata when $onDisconnect exists", () => {
       const {builder} = createServiceFixture();
       expect(builder.socketProviderMetadata).toEqual(
@@ -130,7 +131,7 @@ describe("SocketHandlersBuilder", () => {
       };
 
       const builder: any = new SocketHandlersBuilder(provider, {
-        alterAsync(_event, fn, _ctx) {
+        alterAsync(_event: any, fn: any, _ctx: any) {
           return fn;
         },
         get() {
@@ -159,7 +160,7 @@ describe("SocketHandlersBuilder", () => {
 
       const instance = {
         $onConnection: jest.fn().mockImplementation(() => {
-          ctx = getContext();
+          ctx = getContext()!;
         })
       };
 
@@ -183,7 +184,7 @@ describe("SocketHandlersBuilder", () => {
       };
 
       const builder: any = new SocketHandlersBuilder(provider, {
-        alterAsync(_event, fn, _ctx) {
+        alterAsync(_event: any, fn: any, _ctx: any) {
           return fn;
         },
         get() {
@@ -223,7 +224,7 @@ describe("SocketHandlersBuilder", () => {
       };
 
       const builder: any = new SocketHandlersBuilder(provider, {
-        alterAsync(_event, fn, _ctx) {
+        alterAsync(_event: any, fn: any, _ctx: any) {
           return fn;
         },
         get() {
@@ -269,7 +270,7 @@ describe("SocketHandlersBuilder", () => {
       };
 
       const builder: any = new SocketHandlersBuilder(provider, {
-        alterAsync(_event, fn, _ctx) {
+        alterAsync(_event: any, fn: any, _ctx: any) {
           return fn;
         },
         get() {
@@ -296,7 +297,7 @@ describe("SocketHandlersBuilder", () => {
 
       const instance = {
         $onDisconnect: jest.fn().mockImplementation(() => {
-          ctx = getContext();
+          ctx = getContext()!;
         })
       };
 
@@ -320,7 +321,7 @@ describe("SocketHandlersBuilder", () => {
       };
 
       const builder: any = new SocketHandlersBuilder(provider, {
-        alterAsync(_event, fn, _ctx) {
+        alterAsync(_event: any, fn: any, _ctx: any) {
           return fn;
         },
         get() {
@@ -354,7 +355,7 @@ describe("SocketHandlersBuilder", () => {
         on: jest.fn().mockImplementation((_, fn) => fn("arg1"))
       };
       const builder: any = new SocketHandlersBuilder(provider, {
-        alterAsync(_event, fn, _ctx) {
+        alterAsync(_event: any, fn: any, _ctx: any) {
           return fn;
         }
       } as any);
@@ -378,7 +379,7 @@ describe("SocketHandlersBuilder", () => {
       let ctx!: DIContext;
       const instance = {
         testHandler: jest.fn().mockImplementation(() => {
-          ctx = getContext();
+          ctx = getContext()!;
         })
       };
       const provider: any = {
@@ -391,7 +392,7 @@ describe("SocketHandlersBuilder", () => {
         on: jest.fn().mockImplementation((_, fn) => (promise = fn("arg1")))
       };
       const builder: any = new SocketHandlersBuilder(provider, {
-        alterAsync(_event, fn, _ctx) {
+        alterAsync(_event: any, fn: any, _ctx: any) {
           return fn;
         },
         get() {
@@ -419,7 +420,7 @@ describe("SocketHandlersBuilder", () => {
       };
 
       const builder: any = new SocketHandlersBuilder(provider, {
-        alterAsync(_event, fn, _ctx) {
+        alterAsync(_event: any, fn: any, _ctx: any) {
           return fn;
         },
         get() {
@@ -449,7 +450,7 @@ describe("SocketHandlersBuilder", () => {
       };
 
       const builder: any = new SocketHandlersBuilder(provider, {
-        alterAsync(_event, fn, _ctx) {
+        alterAsync(_event: any, fn: any, _ctx: any) {
           return fn;
         },
         get() {

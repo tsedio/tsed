@@ -6,7 +6,7 @@ describe("redirectMiddleware and redirect", () => {
   afterEach(PlatformTest.reset);
   it("should create a middleware", () => {
     const ctx = PlatformTest.createRequestContext();
-    jest.spyOn(ctx.response, "redirect").mockReturnValue(undefined);
+    jest.spyOn(ctx.response, "redirect").mockReturnValue(undefined as never);
 
     ctx.request.raw.url = "/path";
     ctx.request.raw.originalUrl = "/path";

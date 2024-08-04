@@ -1,25 +1,27 @@
 {
   "name": "@tsed/di",
-  "version": "7.79.4",
   "description": "DI module for Ts.ED Framework",
+  "type": "commonjs",
+  "version": "7.79.3",
   "source": "./src/index.ts",
-  "main": "lib/cjs/index.js",
+  "main": "lib/esm/index.js",
   "module": "lib/esm/index.js",
   "typings": "./lib/types/index.d.ts",
   "browser": "./lib/browser/di.umd.min.js",
   "exports": {
-    "types": "./lib/types/index.d.ts",
-    "browser": "./lib/browser/di.umd.min.js",
-    "import": "./lib/esm/index.js",
-    "require": "./lib/cjs/index.js",
-    "default": "./lib/esm/index.js"
+    ".": {
+      "types": "./lib/types/index.d.ts",
+      "browser": "./lib/browser/di.umd.min.js",
+      "import": "./lib/esm/index.js",
+      "default": "./lib/esm/index.js"
+    }
   },
   "scripts": {
     "build": "yarn barrels && yarn build:ts && yarn run build:browser",
     "build:browser": "webpack",
     "barrels": "barrels",
     "test": "jest --max-workers=2 && jest-coverage-thresholds-bumper",
-    "build:ts": "tsc --build tsconfig.json && tsc --build tsconfig.esm.json"
+    "build:ts": "tsc --build tsconfig.json"
   },
   "dependencies": {
     "tslib": "2.6.2"
@@ -37,9 +39,9 @@
     "webpack": "^5.75.0"
   },
   "peerDependencies": {
-    "@tsed/core": "7.79.4",
+    "@tsed/core": "7.79.3",
     "@tsed/logger": ">=6.7.5",
-    "@tsed/schema": "7.79.4"
+    "@tsed/schema": "7.79.3"
   },
   "peerDependenciesMeta": {
     "@tsed/core": {

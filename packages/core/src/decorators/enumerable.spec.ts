@@ -4,7 +4,7 @@ class Test1 {
   test: string = "test";
 
   @Enumerable()
-  name: string = undefined;
+  name?: string = undefined;
 
   get first() {
     return this.test + " " + this.name;

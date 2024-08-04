@@ -2,56 +2,42 @@
   "extends": "@tsed/typescript/tsconfig.node.json",
   "compilerOptions": {
     "baseUrl": ".",
-    "module": "commonjs",
-    "rootDir": "src",
-    "outDir": "./lib/cjs",
-    "declaration": true,
-    "declarationDir": "./lib/types",
-    "composite": true,
-    "noEmit": false
+    "noEmit": true
   },
-  "include": ["src", "src/**/*.json"],
-  "exclude": [
-    "node_modules",
-    "test",
-    "lib",
-    "benchmark",
-    "coverage",
-    "spec",
-    "**/*.benchmark.ts",
-    "**/*.spec.ts",
-    "keys",
-    "jest.config.js",
-    "**/__mock__/**",
-    "webpack.config.js"
-  ],
+  "include": [],
   "references": [
     {
-      "path": "../../packages/platform/common"
+      "path": "../../packages/platform/common/tsconfig.json"
     },
     {
-      "path": "../../packages/di"
+      "path": "../../packages/di/tsconfig.json"
     },
     {
-      "path": "../../packages/specs/exceptions"
+      "path": "../../packages/specs/exceptions/tsconfig.json"
     },
     {
-      "path": "../../packages/specs/json-mapper"
+      "path": "../../packages/specs/json-mapper/tsconfig.json"
     },
     {
-      "path": "../../packages/platform/platform-exceptions"
+      "path": "../../packages/platform/platform-exceptions/tsconfig.json"
     },
     {
-      "path": "../../packages/platform/platform-express"
+      "path": "../../packages/platform/platform-express/tsconfig.json"
     },
     {
-      "path": "../../packages/platform/platform-views"
+      "path": "../../packages/platform/platform-views/tsconfig.json"
     },
     {
-      "path": "../../packages/specs/schema"
+      "path": "../../packages/specs/schema/tsconfig.json"
     },
     {
-      "path": "../../packages/specs/swagger"
+      "path": "../../packages/specs/swagger/tsconfig.json"
+    },
+    {
+      "path": "./tsconfig.cjs.json"
+    },
+    {
+      "path": "./tsconfig.esm.json"
     }
   ]
 }

@@ -6,11 +6,11 @@ import {anything, instance, mock, verify, when} from "ts-mockito";
 import "./BullMQModule";
 import {BullMQModule} from "./BullMQModule.js";
 import {type BullMQConfig} from "./config/config.js";
-import {JobMethods} from "./contracts.js";
-import {FallbackJobController, JobController} from "./decorators.js";
+import {JobMethods} from "./contracts/index.js";
+import {FallbackJobController, JobController} from "./decorators/index.js";
 import {InjectQueue} from "./decorators/InjectQueue.js";
 import {InjectWorker} from "./decorators/InjectWorker.js";
-import {JobDispatcher} from "./dispatchers.js";
+import {JobDispatcher} from "./dispatchers/index.js";
 
 const queueConstructorSpy = jest.fn();
 const workerConstructorSpy = jest.fn();
@@ -323,7 +323,7 @@ describe("BullMQModule", () => {
         expect(instance).toBeInstanceOf(Queue);
       });
 
-      it.each(config.queues)("should register queue(%s)", (queue) => {
+      it.each(config.queues!)("should register queue(%s)", (queue) => {
         const instance = PlatformTest.get<Queue>(`bullmq.queue.${queue}`);
 
         expect(instance).toBeInstanceOf(Queue);
@@ -341,7 +341,7 @@ describe("BullMQModule", () => {
         expect(instance).toBeInstanceOf(Worker);
       });
 
-      it.each(config.workerQueues)("should register worker(%s)", (queue) => {
+      it.each(config.workerQueues!)("should register worker(%s)", (queue) => {
         const instance = PlatformTest.get<Worker>(`bullmq.worker.${queue}`);
 
         expect(instance).toBeInstanceOf(Worker);

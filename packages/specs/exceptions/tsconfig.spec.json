@@ -1,0 +1,35 @@
+{
+  "extends": "@tsed/typescript/tsconfig.node.json",
+  "compilerOptions": {
+    "baseUrl": ".",
+    "rootDir": "../..",
+    "module": "commonjs",
+    "outDir": "./lib/cjs",
+    "declaration": false,
+    "composite": false,
+    "noEmit": true,
+    "paths": {
+      "@tsed/openspec": ["../openspec/src"],
+      "@tsed/schema": ["../schema/src"],
+      "@tsed/di": ["../../di/src"],
+      "@tsed/json-mapper": ["../json-mapper/src"],
+      "@tsed/platform-exceptions": ["../../platform/platform-exceptions/src"],
+      "@tsed/platform-middlewares": ["../../platform/platform-middlewares/src"],
+      "@tsed/platform-params": ["../../platform/platform-params/src"],
+      "@tsed/platform-log-middleware": ["../../platform/platform-log-middleware/src"],
+      "@tsed/platform-response-filter": ["../../platform/platform-response-filter/src"],
+      "@tsed/platform-router": ["../../platform/platform-router/src"],
+      "@tsed/platform-views": ["../../platform/platform-views/src"],
+      "@tsed/components-scan": ["../../third-parties/components-scan/src"],
+      "@tsed/common": ["../../platform/common/src"],
+      "@tsed/ajv": ["../ajv/src"],
+      "@tsed/platform-cache": ["../../platform/platform-cache/src"],
+      "@tsed/swagger": ["../swagger/src"],
+      "@tsed/platform-test-sdk": ["../../platform/platform-test-sdk/src"],
+      "@tsed/platform-koa": ["../../platform/platform-koa/src"],
+      "@tsed/platform-express": ["../../platform/platform-express/src"]
+    }
+  },
+  "include": ["src/**/*.spec.ts", "test/**/*.spec.ts"],
+  "exclude": ["node_modules", "test", "lib", "benchmark", "coverage"]
+}

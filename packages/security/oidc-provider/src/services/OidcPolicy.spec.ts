@@ -101,7 +101,7 @@ describe("OidcPolicy", () => {
 
         const policy = oidcProvider.getPolicy();
 
-        expect(policy.map(({name}) => name)).toEqual(["test2", "login", "consent", "test"]);
+        expect(policy.map(({name}: {name: string}) => name)).toEqual(["test2", "login", "consent", "test"]);
       });
       it("should load policy (with priority)", async () => {
         const oidcInteractions = {
@@ -125,7 +125,7 @@ describe("OidcPolicy", () => {
 
         const policy = oidcProvider.getPolicy();
 
-        expect(policy.map(({name}) => name)).toEqual(["test3", "login", "consent", "test2", "test"]);
+        expect(policy.map(({name}: {name: string}) => name)).toEqual(["test3", "login", "consent", "test2", "test"]);
       });
     });
     describe("when there is no interactions without usePriority", () => {
@@ -148,7 +148,7 @@ describe("OidcPolicy", () => {
 
         const policy = oidcPolicy.getPolicy();
 
-        expect(policy.map(({name}) => name)).toEqual(["login", "consent"]);
+        expect(policy.map(({name}: {name: string}) => name)).toEqual(["login", "consent"]);
       });
     });
   });

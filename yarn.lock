@@ -6368,6 +6368,7 @@ __metadata:
     eslint: "npm:^8.57.0"
     jest: "npm:^29.7.0"
     tslib: "npm:2.6.1"
+    typescript: "npm:4.9.5"
   peerDependencies:
     "@tsed/adapters": 7.79.4
     "@tsed/common": 7.79.4
@@ -6401,6 +6402,7 @@ __metadata:
     lodash: "npm:^4.17.21"
     lowdb: "npm:1.0.0"
     tslib: "npm:2.6.1"
+    typescript: "npm:4.9.5"
     uuid: "npm:9.0.1"
   peerDependencies:
     "@tsed/ajv": 7.79.4
@@ -6438,6 +6440,7 @@ __metadata:
     eslint: "npm:^8.57.0"
     jest: "npm:^29.7.0"
     tslib: "npm:2.6.1"
+    typescript: "npm:4.9.5"
   peerDependencies:
     agenda: ">=4"
   languageName: unknown
@@ -6459,6 +6462,7 @@ __metadata:
     eslint: "npm:^8.57.0"
     jest: "npm:^29.7.0"
     tslib: "npm:2.6.1"
+    typescript: "npm:4.9.5"
   peerDependencies:
     "@tsed/core": 7.79.4
     "@tsed/di": 7.79.4
@@ -6499,6 +6503,7 @@ __metadata:
     graphql: "npm:15.8.0"
     jest: "npm:^29.7.0"
     tslib: "npm:2.6.1"
+    typescript: "npm:4.9.5"
   peerDependencies:
     "@tsed/common": 7.79.4
     "@tsed/core": 7.79.4
@@ -6595,6 +6600,7 @@ __metadata:
     globby: "npm:11.1.0"
     jest: "npm:^29.7.0"
     tslib: "npm:2.6.1"
+    typescript: "npm:4.9.5"
   peerDependencies:
     "@tsed/core": 7.79.4
   peerDependenciesMeta:
@@ -6608,7 +6614,7 @@ __metadata:
   resolution: "@tsed/core@workspace:packages/core"
   dependencies:
     "@tsed/barrels": "workspace:*"
-    "@tsed/monorepo-utils": "npm:2.3.2"
+    "@tsed/monorepo-utils": "npm:^2.3.2"
     "@tsed/typescript": "workspace:*"
     eslint: "npm:^8.57.0"
     jest: "npm:^29.7.0"
@@ -6707,6 +6713,7 @@ __metadata:
     tslib: "npm:2.6.1"
     twig: "npm:^1.15.2"
     twing: "npm:^5.0.2"
+    typescript: "npm:4.9.5"
     underscore: "npm:^1.11.0"
     vash: "npm:^0.13.0"
     velocityjs: "npm:^2.0.1"
@@ -6747,6 +6754,7 @@ __metadata:
     jest: "npm:^29.7.0"
     statuses: "npm:>=2.0.1"
     tslib: "npm:2.6.1"
+    typescript: "npm:4.9.5"
   peerDependencies:
     "@tsed/core": 7.79.4
   languageName: unknown
@@ -6761,6 +6769,7 @@ __metadata:
     eslint: "npm:^8.57.0"
     jest: "npm:^29.7.0"
     tslib: "npm:2.6.1"
+    typescript: "npm:4.9.5"
   peerDependencies:
     formiojs: ">=4.0.0"
   languageName: unknown
@@ -6786,6 +6795,7 @@ __metadata:
     mongodb: "npm:*"
     mongoose: "npm:^6.12.7"
     tslib: "npm:2.6.1"
+    typescript: "npm:4.9.5"
   peerDependencies:
     "@tsed/common": 7.79.4
     express: ^4.17.1
@@ -6821,6 +6831,7 @@ __metadata:
     graphql-ws: "npm:^5.15.0"
     jest: "npm:^29.7.0"
     tslib: "npm:2.6.1"
+    typescript: "npm:4.9.5"
   peerDependencies:
     "@tsed/common": 7.79.4
     "@tsed/core": 7.79.4
@@ -6844,6 +6855,7 @@ __metadata:
     "@tsed/schema": "workspace:*"
     "@tsed/swagger": "workspace:*"
     "@tsed/typescript": "workspace:*"
+    typescript: "npm:4.9.5"
   languageName: unknown
   linkType: soft
 
@@ -6861,6 +6873,7 @@ __metadata:
     ioredis-mock: "npm:8.9.0"
     jest: "npm:^29.7.0"
     tslib: "npm:2.6.1"
+    typescript: "npm:4.9.5"
   peerDependencies:
     "@tsed/core": 7.79.4
     "@tsed/di": 7.79.4
@@ -6886,6 +6899,7 @@ __metadata:
     eslint: "npm:^8.57.0"
     jest: "npm:^29.7.0"
     tslib: "npm:2.6.1"
+    typescript: "npm:4.9.5"
   peerDependencies:
     "@tsed/core": 7.79.4
     "@tsed/schema": 7.79.4
@@ -6908,6 +6922,7 @@ __metadata:
     jest: "npm:^29.7.0"
     jose2: "npm:jose@^2.0.4"
     tslib: "npm:2.6.1"
+    typescript: "npm:4.9.5"
   languageName: unknown
   linkType: soft
 
@@ -6967,6 +6982,7 @@ __metadata:
     jest: "npm:^29.7.0"
     ts-mockito: "npm:^2.6.1"
     tslib: "npm:2.6.1"
+    typescript: "npm:4.9.5"
   peerDependencies:
     "@mikro-orm/core": ">=4.5.9"
     "@tsed/common": 7.79.4
@@ -6993,6 +7009,7 @@ __metadata:
     jest: "npm:^29.7.0"
     mongoose: "npm:6.12.7"
     tslib: "npm:2.6.1"
+    typescript: "npm:4.9.5"
   peerDependencies:
     "@tsed/ajv": 7.79.4
     "@tsed/core": 7.79.4
@@ -7004,7 +7021,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@tsed/monorepo-utils@npm:2.3.2":
+"@tsed/monorepo-utils@npm:2.3.2, @tsed/monorepo-utils@npm:^2.3.2":
   version: 2.3.2
   resolution: "@tsed/monorepo-utils@npm:2.3.2"
   dependencies:
@@ -7048,6 +7065,7 @@ __metadata:
     jest: "npm:^29.7.0"
     normalize-path: "npm:3.0.0"
     tslib: "npm:2.6.1"
+    typescript: "npm:4.9.5"
   languageName: unknown
   linkType: soft
 
@@ -7068,6 +7086,7 @@ __metadata:
     objection: "npm:^2.2.18"
     sqlite3: "npm:^5.1.7"
     tslib: "npm:2.6.1"
+    typescript: "npm:4.9.5"
   peerDependencies:
     "@tsed/ajv": 7.79.4
     "@tsed/core": 7.79.4
@@ -7108,6 +7127,7 @@ __metadata:
     eslint: "npm:^8.57.0"
     jest: "npm:^29.7.0"
     psl: "npm:1.9.0"
+    typescript: "npm:4.9.5"
     wildcard: "npm:2.0.0"
   peerDependencies:
     "@tsed/core": 7.79.4
@@ -7151,6 +7171,7 @@ __metadata:
     lowdb: "npm:3.0.0"
     oidc-provider: "npm:8.4.5"
     tslib: "npm:2.6.1"
+    typescript: "npm:4.9.5"
     uuid: "npm:9.0.1"
   peerDependencies:
     "@tsed/ajv": 7.79.4
@@ -7184,6 +7205,7 @@ __metadata:
     "@tsed/typescript": "workspace:*"
     eslint: "npm:^8.57.0"
     jest: "npm:^29.7.0"
+    typescript: "npm:4.9.5"
   languageName: unknown
   linkType: soft
 
@@ -7208,6 +7230,7 @@ __metadata:
     passport-local: "npm:1.0.0"
     passport-strategy: "npm:1.0.0"
     tslib: "npm:2.6.1"
+    typescript: "npm:4.9.5"
   peerDependencies:
     "@tsed/common": 7.79.4
     passport: ">=0.4.1"
@@ -7227,6 +7250,7 @@ __metadata:
     eslint: "npm:^8.57.0"
     jest: "npm:^29.7.0"
     tslib: "npm:2.6.1"
+    typescript: "npm:4.9.5"
   languageName: unknown
   linkType: soft
 
@@ -7246,6 +7270,7 @@ __metadata:
     jest: "npm:^29.7.0"
     micromatch: "npm:4.0.5"
     tslib: "npm:2.6.1"
+    typescript: "npm:4.9.5"
   peerDependencies:
     "@tsed/core": 7.79.4
     "@tsed/di": 7.79.4
@@ -7276,6 +7301,7 @@ __metadata:
     eslint: "npm:^8.57.0"
     jest: "npm:^29.7.0"
     tslib: "npm:2.6.1"
+    typescript: "npm:4.9.5"
   peerDependencies:
     "@tsed/core": 7.79.4
     "@tsed/di": 7.79.4
@@ -7323,6 +7349,7 @@ __metadata:
     method-override: "npm:3.0.0"
     multer: "npm:^1.4.5-lts.1"
     tslib: "npm:2.6.1"
+    typescript: "npm:4.9.5"
   peerDependencies:
     "@tsed/common": 7.79.4
     "@tsed/core": 7.79.4
@@ -7390,6 +7417,7 @@ __metadata:
     koa-session: "npm:6.4.0"
     multer: "npm:^1.4.5-lts.1"
     tslib: "npm:2.6.1"
+    typescript: "npm:4.9.5"
   peerDependencies:
     "@tsed/common": 7.79.4
     "@tsed/core": 7.79.4
@@ -7437,6 +7465,7 @@ __metadata:
     eslint: "npm:^8.57.0"
     jest: "npm:^29.7.0"
     tslib: "npm:2.6.1"
+    typescript: "npm:4.9.5"
   peerDependencies:
     "@tsed/di": 7.79.4
     "@tsed/platform-middlewares": 7.79.4
@@ -7463,6 +7492,7 @@ __metadata:
     eslint: "npm:^8.57.0"
     jest: "npm:^29.7.0"
     tslib: "npm:2.6.1"
+    typescript: "npm:4.9.5"
   peerDependencies:
     "@tsed/core": 7.79.4
     "@tsed/di": 7.79.4
@@ -7491,6 +7521,7 @@ __metadata:
     eslint: "npm:^8.57.0"
     jest: "npm:^29.7.0"
     tslib: "npm:2.6.1"
+    typescript: "npm:4.9.5"
   peerDependencies:
     "@tsed/core": 7.79.4
     "@tsed/di": 7.79.4
@@ -7526,6 +7557,7 @@ __metadata:
     jest: "npm:^29.7.0"
     jest-coverage-thresholds-bumper: "npm:^1.1.0"
     tslib: "npm:2.6.1"
+    typescript: "npm:4.9.5"
   peerDependencies:
     "@tsed/core": 7.79.4
     "@tsed/di": 7.79.4
@@ -7561,6 +7593,7 @@ __metadata:
     eslint: "npm:^8.57.0"
     jest: "npm:^29.7.0"
     tslib: "npm:2.6.1"
+    typescript: "npm:4.9.5"
   peerDependencies:
     "@tsed/core": 7.79.4
     "@tsed/di": 7.79.4
@@ -7599,6 +7632,7 @@ __metadata:
     jest: "npm:^29.7.0"
     serverless-http: "npm:^3.2.0"
     tslib: "npm:2.6.1"
+    typescript: "npm:4.9.5"
   peerDependencies:
     "@tsed/common": 7.79.4
     "@tsed/core": 7.79.4
@@ -7640,6 +7674,7 @@ __metadata:
     eslint: "npm:^8.57.0"
     jest: "npm:^29.7.0"
     tslib: "npm:2.6.1"
+    typescript: "npm:4.9.5"
   peerDependencies:
     "@tsed/common": 7.79.4
     "@tsed/core": 7.79.4
@@ -7673,6 +7708,7 @@ __metadata:
     jest: "npm:^29.7.0"
     mime: "npm:^3.0.0"
     tslib: "npm:2.6.1"
+    typescript: "npm:4.9.5"
     uuid: "npm:^9.0.1"
   peerDependencies:
     "@tsed/di": 7.79.4
@@ -7731,6 +7767,7 @@ __metadata:
     eslint: "npm:^8.57.0"
     jest: "npm:^29.7.0"
     tslib: "npm:2.6.1"
+    typescript: "npm:4.9.5"
   peerDependencies:
     "@tsed/core": 7.79.4
     "@tsed/di": 7.79.4
@@ -7760,7 +7797,7 @@ __metadata:
     "@tsed/core": "workspace:*"
     "@tsed/di": "workspace:*"
     "@tsed/json-mapper": "workspace:*"
-    "@tsed/monorepo-utils": "npm:2.3.2"
+    "@tsed/monorepo-utils": "npm:^2.3.2"
     "@tsed/schema": "workspace:*"
     "@tsed/typescript": "workspace:*"
     "@types/change-case": "npm:^2.3.1"
@@ -7799,6 +7836,7 @@ __metadata:
     eslint: "npm:^8.57.0"
     jest: "npm:^29.7.0"
     tslib: "npm:2.6.1"
+    typescript: "npm:4.9.5"
   peerDependencies:
     "@pulsecron/pulse": ">=1"
   languageName: unknown
@@ -7880,6 +7918,7 @@ __metadata:
     eslint: "npm:^8.57.0"
     jest: "npm:^29.7.0"
     tslib: "npm:2.6.1"
+    typescript: "npm:4.9.5"
   peerDependencies:
     "@tsed/core": 7.79.4
     "@tsed/openspec": 7.79.4
@@ -7925,6 +7964,7 @@ __metadata:
     picomatch-browser: "npm:^2.2.6"
     statuses: "npm:>=2.0.1"
     tslib: "npm:2.6.1"
+    typescript: "npm:4.9.5"
   peerDependencies:
     "@tsed/core": 7.79.4
     "@tsed/openspec": 7.79.4
@@ -7948,6 +7988,7 @@ __metadata:
     jest: "npm:^29.7.0"
     socket.io-client: "npm:^4.7.5"
     tslib: "npm:2.6.1"
+    typescript: "npm:4.9.5"
   peerDependencies:
     "@tsed/common": 7.79.4
     "@tsed/core": 7.79.4
@@ -7976,6 +8017,7 @@ __metadata:
     socket.io: "npm:4.7.5"
     socket.io-client: "npm:^4.7.5"
     tslib: "npm:2.6.1"
+    typescript: "npm:4.9.5"
   peerDependencies:
     "@tsed/di": 7.79.4
     "@tsed/json-mapper": 7.79.4
@@ -8048,6 +8090,7 @@ __metadata:
     jest: "npm:^29.7.0"
     stripe: "npm:^8.129.0"
     tslib: "npm:2.6.1"
+    typescript: "npm:4.9.5"
   peerDependencies:
     "@tsed/exceptions": 7.79.4
     "@tsed/platform-middlewares": 7.79.4
@@ -8117,6 +8160,7 @@ __metadata:
     eslint: "npm:^8.57.0"
     jest: "npm:^29.7.0"
     tslib: "npm:2.6.1"
+    typescript: "npm:4.9.5"
   peerDependencies:
     "@temporalio/client": ^1.8.4
     "@temporalio/worker": ^1.8.4
@@ -8137,6 +8181,7 @@ __metadata:
     eslint: "npm:^8.57.0"
     jest: "npm:^29.7.0"
     tslib: "npm:2.6.1"
+    typescript: "npm:4.9.5"
   peerDependencies:
     "@godaddy/terminus": ^4.7.1
     "@tsed/common": 7.79.4
@@ -8169,6 +8214,7 @@ __metadata:
     mongodb-memory-server: "npm:^8.16.0"
     semver: "npm:^7.6.0"
     tslib: "npm:2.6.1"
+    typescript: "npm:4.9.5"
   peerDependencies:
     "@tsed/common": 7.79.4
     "@tsed/core": 7.79.4
@@ -8213,6 +8259,7 @@ __metadata:
     jest: "npm:^29.7.0"
     tslib: "npm:2.6.1"
     type-graphql: "npm:^1.1.1"
+    typescript: "npm:4.9.5"
   peerDependencies:
     apollo-datasource: ">=3.0.0"
     apollo-datasource-rest: ">=3.0.0"
@@ -8236,6 +8283,7 @@ __metadata:
     jest: "npm:^29.7.0"
     tslib: "npm:2.6.1"
     typeorm: "npm:^0.2.45"
+    typescript: "npm:4.9.5"
   peerDependencies:
     "@tsed/core": 7.79.4
     "@tsed/di": 7.79.4
@@ -8264,6 +8312,7 @@ __metadata:
     eslint: "npm:^8.57.0"
     jest: "npm:^29.7.0"
     sirv: "npm:^2.0.4"
+    typescript: "npm:4.9.5"
     vike: "npm:0.4.160"
     vite: "npm:5.0.13"
   peerDependencies:
@@ -8286,6 +8335,7 @@ __metadata:
     "@tsed/typescript": "workspace:*"
     "@tsed/vike": "workspace:*"
     jest: "npm:^29.7.0"
+    typescript: "npm:4.9.5"
   peerDependencies:
     vite-plugin-ssr: ">=0.4.114"
   languageName: unknown

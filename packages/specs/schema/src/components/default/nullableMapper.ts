@@ -1,7 +1,7 @@
 import {cleanObject} from "@tsed/core";
-import {MANY_OF_PROPERTIES} from "../../constants/jsonSchemaProperties";
-import type {JsonSchema} from "../../domain/JsonSchema";
-import {registerJsonSchemaMapper} from "../../registries/JsonSchemaMapperContainer";
+import {MANY_OF_PROPERTIES} from "../../constants/jsonSchemaProperties.js";
+import type {JsonSchema} from "../../domain/JsonSchema.js";
+import {registerJsonSchemaMapper} from "../../registries/JsonSchemaMapperContainer.js";
 
 export function nullableMapper(obj: any, schema: JsonSchema | null) {
   if (!schema?.isNullable) {
@@ -21,7 +21,7 @@ export function nullableMapper(obj: any, schema: JsonSchema | null) {
         ]
       });
     } else {
-      MANY_OF_PROPERTIES.some((keyword) => {
+      MANY_OF_PROPERTIES.some((keyword: string) => {
         if (obj[keyword]) {
           obj[keyword] = obj[keyword].filter((item: any) => item.type !== "null");
 

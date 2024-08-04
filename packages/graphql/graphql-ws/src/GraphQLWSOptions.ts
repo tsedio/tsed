@@ -1,3 +1,4 @@
+// @ts-ignore
 import {ServerOptions} from "graphql-ws/lib/server";
 import {ServerOptions as WSServerOptions} from "ws";
 

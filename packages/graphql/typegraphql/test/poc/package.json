@@ -1,5 +1,5 @@
 {
-  "type": "module",
+  "type": "commonjs",
   "scripts": {
     "start:koa": "node koa.js"
   }

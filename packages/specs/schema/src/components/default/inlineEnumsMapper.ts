@@ -1,6 +1,6 @@
-import {JsonSchema} from "../../domain/JsonSchema";
-import {JsonSchemaOptions} from "../../interfaces/JsonSchemaOptions";
-import {registerJsonSchemaMapper} from "../../registries/JsonSchemaMapperContainer";
+import {JsonSchema} from "../../domain/JsonSchema.js";
+import {JsonSchemaOptions} from "../../interfaces/JsonSchemaOptions.js";
+import {registerJsonSchemaMapper} from "../../registries/JsonSchemaMapperContainer.js";
 
 export function inlineEnumsMapper(obj: any, schema: JsonSchema, options: JsonSchemaOptions) {
   if (options.inlineEnums && obj.enum?.$isJsonDocument) {

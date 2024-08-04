@@ -2,11 +2,12 @@
   "extends": "@tsed/typescript/tsconfig.node.json",
   "compilerOptions": {
     "baseUrl": ".",
-    "module": "ES2020",
+    "module": "ESNext",
+    "moduleResolution": "nodenext",
     "rootDir": "src",
     "outDir": "./lib/esm",
+    "declarationDir": "./lib/types-esm",
     "declaration": true,
-    "declarationDir": "./lib/types",
     "composite": true,
     "noEmit": false
   },
@@ -24,46 +25,5 @@
     "jest.config.js",
     "**/__mock__/**",
     "webpack.config.js"
-  ],
-  "references": [
-    {
-      "path": "../../third-parties/components-scan"
-    },
-    {
-      "path": "../../core"
-    },
-    {
-      "path": "../../di"
-    },
-    {
-      "path": "../../specs/exceptions"
-    },
-    {
-      "path": "../../specs/json-mapper"
-    },
-    {
-      "path": "../platform-exceptions"
-    },
-    {
-      "path": "../platform-log-middleware"
-    },
-    {
-      "path": "../platform-middlewares"
-    },
-    {
-      "path": "../platform-params"
-    },
-    {
-      "path": "../platform-response-filter"
-    },
-    {
-      "path": "../platform-router"
-    },
-    {
-      "path": "../platform-views"
-    },
-    {
-      "path": "../../specs/schema"
-    }
   ]
 }
