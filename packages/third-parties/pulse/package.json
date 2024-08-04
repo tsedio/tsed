@@ -1,6 +1,6 @@
 {
   "name": "@tsed/pulse",
-  "version": "7.79.1",
+  "version": "7.79.2",
   "description": "@pulsecron/pulse package for Ts.ED framework",
   "source": "./src/index.ts",
   "main": "./lib/cjs/index.js",
