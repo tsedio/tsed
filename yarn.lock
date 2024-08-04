@@ -7037,9 +7037,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@tsed/monorepo-utils@npm:2.3.1":
-  version: 2.3.1
-  resolution: "@tsed/monorepo-utils@npm:2.3.1"
+"@tsed/monorepo-utils@npm:2.3.2":
+  version: 2.3.2
+  resolution: "@tsed/monorepo-utils@npm:2.3.2"
   dependencies:
     "@samverschueren/stream-to-observable": "npm:>=0.3.1"
     "@typescript-eslint/typescript-estree": "npm:>=6.20.0"
@@ -7066,7 +7066,7 @@ __metadata:
     semantic-release: ">=19"
   bin:
     monorepo: bin/monorepo.js
-  checksum: 10/338da8f1928b067835cfdcaee1675bdc65185167000ef74997397ebcdc7dddcb1801de3d1c322f749205d4782c1a7a73fb7206fae15b6ff1e3643f2b2c1ff38f
+  checksum: 10/5ee5c69fd65bcbd409b3f257765644e4f37ebca1c72c9aef900b815684ecbbe622f71d23b233db4b3a01ac575cb9e17db05262d31e89f2e323b2e36e631528dd
   languageName: node
   linkType: hard
 
@@ -7849,7 +7849,7 @@ __metadata:
     "@swc/helpers": "npm:0.4.14"
     "@swc/jest": "npm:0.2.20"
     "@tsed/logger": "npm:>=6.7.5"
-    "@tsed/monorepo-utils": "npm:2.3.1"
+    "@tsed/monorepo-utils": "npm:2.3.2"
     "@tsed/ts-doc": "npm:4.1.0"
     "@types/axios": "npm:0.14.0"
     "@types/globby": "npm:9.1.0"
