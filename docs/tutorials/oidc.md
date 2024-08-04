@@ -12,7 +12,7 @@ projects:
 
 # OIDC
 
-<Badge text="beta" /> <Badge text="Contributors are welcome" />
+<Badge text="Contributors are welcome" />
 
 <Banner src="https://oauth.net/images/oauth-logo-square.png" height="100" href="https://github.com/panva/node-oidc-provider"></Banner>
 
