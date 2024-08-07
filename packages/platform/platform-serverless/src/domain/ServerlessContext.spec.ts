@@ -40,6 +40,8 @@ describe("ServerlessContext", () => {
       expect(ctx.request.event).toEqual(ctx.response.event);
       expect(ctx.request.response).toEqual(ctx.response);
       expect(ctx.response.request).toEqual(ctx.request);
+      expect(ctx.isHttpEvent()).toBeTruthy();
+      expect(ctx.isAuthorizerEvent()).toBeFalsy();
     });
     it("should push callback with event headers", () => {
       const ctx = createServerlessContext({
@@ -78,6 +80,26 @@ describe("ServerlessContext", () => {
       expect(ctx.request.event).toEqual(ctx.response.event);
       expect(ctx.request.response).toEqual(ctx.response);
       expect(ctx.response.request).toEqual(ctx.request);
+    });
+    it("should accept auth event (request)", () => {
+      const ctx = createServerlessContext({
+        event: {
+          type: "REQUEST",
+          httpMethod: "GET"
+        } as never,
+        endpoint: {} as any
+      });
+      expect(ctx.isHttpEvent()).toBeTruthy();
+      expect(ctx.isAuthorizerEvent()).toBeTruthy();
+    });
+    it("should accept auth event (token)", () => {
+      const ctx = createServerlessContext({
+        event: {
+          type: "TOKEN"
+        } as never,
+        endpoint: {} as any
+      });
+      expect(ctx.isAuthorizerEvent()).toBeTruthy();
     });
   });
 });
