@@ -1,6 +1,6 @@
 {
   "name": "@tsed/temporal",
-  "version": "7.79.3",
+  "version": "7.79.4",
   "description": "Temporal.io package for Ts.ED framework",
   "source": "./src/index.ts",
   "main": "./lib/cjs/index.js",
