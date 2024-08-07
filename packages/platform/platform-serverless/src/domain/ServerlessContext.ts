@@ -1,6 +1,6 @@
 import {DIContext, DIContextOptions} from "@tsed/di";
 import {JsonEntityStore} from "@tsed/schema";
-import {type APIGatewayProxyEvent, Context} from "aws-lambda";
+import {type APIGatewayProxyEvent, APIGatewayTokenAuthorizerEvent, Context} from "aws-lambda";
 import {ServerlessRequest} from "./ServerlessRequest.js";
 import {ServerlessResponse} from "./ServerlessResponse.js";
 import type {ServerlessResponseStream} from "./ServerlessResponseStream";
@@ -42,6 +42,10 @@ export class ServerlessContext<Event extends object = APIGatewayProxyEvent> exte
 
   isHttpEvent() {
     return "httpMethod" in this.event;
+  }
+
+  isAuthorizerEvent() {
+    return "type" in this.event && ["TOKEN", "REQUEST"].includes(this.event.type as string);
   }
 
   async destroy() {

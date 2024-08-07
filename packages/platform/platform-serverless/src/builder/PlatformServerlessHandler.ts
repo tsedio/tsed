@@ -49,7 +49,7 @@ export class PlatformServerlessHandler {
   }
 
   private async flush($ctx: ServerlessContext<ServerlessEvent>) {
-    const body: unknown = $ctx.isHttpEvent() ? await this.makeHttpResponse($ctx) : $ctx.response.getBody();
+    const body: unknown = $ctx.isHttpEvent() && !$ctx.isAuthorizerEvent() ? await this.makeHttpResponse($ctx) : $ctx.response.getBody();
 
     await this.injector.emit("$onResponse", $ctx);
 
