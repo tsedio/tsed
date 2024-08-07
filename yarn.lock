@@ -6784,7 +6784,7 @@ __metadata:
     formio: "npm:3.5.0"
     jest: "npm:^29.7.0"
     mongodb: "npm:*"
-    mongoose: "npm:^6.12.7"
+    mongoose: "npm:^8.5.2"
     tslib: "npm:2.6.1"
   peerDependencies:
     "@tsed/common": 7.79.4
@@ -6991,7 +6991,7 @@ __metadata:
     change-case: "npm:4.1.2"
     eslint: "npm:^8.57.0"
     jest: "npm:^29.7.0"
-    mongoose: "npm:6.12.7"
+    mongoose: "npm:8.5.2"
     tslib: "npm:2.6.1"
   peerDependencies:
     "@tsed/ajv": 7.79.4
