@@ -136,11 +136,13 @@ export class PlatformCacheInterceptor implements InterceptorMethods {
 
     const result = await next();
 
-    const calculatedTTL = this.cache.calculateTTL(result, ttl);
+    if (!this.blacklist.includes('cache-control')) {
+      const calculatedTTL = this.cache.calculateTTL(result, ttl);
 
-    $ctx.response.setHeaders({
-      "cache-control": `max-age=${calculatedTTL}`
-    });
+      $ctx.response.setHeaders({
+        "cache-control": `max-age=${calculatedTTL}`
+      });
+    }
 
     // cache final response with his headers and body
     response.onEnd(() => {
