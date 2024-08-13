@@ -21,6 +21,12 @@ export type PlatformCacheSettings<Config extends Record<string, any> = any, S ex
    */
   ignoreHeaders?: string[];
   /**
+   * Boolean to control the "cache-control" header on the cache response. 
+   * In some cases (when the client has a different caching strategy as the server), 
+   * the client should not be caching the response. Default: false.
+   */
+  disableCacheControl: boolean;
+  /**
    * You may pass in any other arguments these will be passed on to the `create` method of your store,
    * otherwise they will be ignored.
    */

@@ -36,6 +36,9 @@ export class PlatformCacheInterceptor implements InterceptorMethods {
   @Constant("cache.ignoreHeaders", ["content-length", "x-request-id", "cache-control", "vary", "content-encoding"])
   protected blacklist: string[];
 
+  @Constant("cache.disableCacheControl", false)
+  protected disableCacheControl: boolean;
+
   intercept(context: InterceptorContext<any, PlatformCacheOptions>, next: InterceptorNext) {
     if (this.cache.disabled()) {
       return next();
@@ -136,7 +139,7 @@ export class PlatformCacheInterceptor implements InterceptorMethods {
 
     const result = await next();
 
-    if (!this.blacklist.includes('cache-control')) {
+    if (!this.disableCacheControl) {
       const calculatedTTL = this.cache.calculateTTL(result, ttl);
 
       $ctx.response.setHeaders({
