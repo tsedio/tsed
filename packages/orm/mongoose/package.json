@@ -43,7 +43,7 @@
     "@tsed/typescript": "workspace:*",
     "eslint": "^8.57.0",
     "jest": "^29.7.0",
-    "mongoose": "6.12.7",
+    "mongoose": "8.5.3",
     "typescript": "4.9.5"
   },
   "peerDependencies": {
