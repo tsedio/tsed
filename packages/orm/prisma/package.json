@@ -22,11 +22,12 @@
     "prebuild": "cd ../../core && yarn build",
     "build": "rm -rf lib && yarn build:ts && monorepo build-hybrid",
     "build:ts": "tsc --build tsconfig.json",
-    "test": "jest && jest-coverage-thresholds-bumper",
+    "test": "jest --max-workers=4",
     "generate:postgres": "yarn build && cd test/postgres && prisma -v && prisma generate",
     "generate:postgres:esm": "yarn build && cd test/postgres-esm && prisma -v && prisma generate",
     "generate:mongo": "yarn build &&  cd test/mongo && prisma -v && prisma generate",
-    "generate:mongo:esm": "yarn build && cd test/mongo-esm && prisma -v && prisma generate"
+    "generate:mongo:esm": "yarn build && cd test/mongo-esm && prisma -v && prisma generate",
+    "test:ci": "jest --max-workers=2 && jest-coverage-thresholds-bumper"
   },
   "dependencies": {
     "@prisma/generator-helper": "^4.16.2",

@@ -2,7 +2,7 @@
   "name": "@tsed/formio",
   "description": "Formio package for Ts.ED framework",
   "type": "commonjs",
-  "version": "7.79.3",
+  "version": "7.79.4",
   "keywords": [
     "Formio",
     "Ts.ED",
@@ -26,8 +26,9 @@
     "build": "yarn barrels && yarn build:ts",
     "barrels": "barrels",
     "start": "ts-node test/app/index.ts",
-    "test": "jest --max-workers=2 && jest-coverage-thresholds-bumper",
-    "build:ts": "tsc --build tsconfig.json"
+    "test": "jest --max-workers=4",
+    "build:ts": "tsc --build tsconfig.json",
+    "test:ci": "jest --max-workers=2 && jest-coverage-thresholds-bumper"
   },
   "dependencies": {
     "@tsed/formio-types": "workspace:*",
@@ -51,7 +52,7 @@
     "typescript": "4.9.5"
   },
   "peerDependencies": {
-    "@tsed/common": "7.79.3",
+    "@tsed/common": "7.79.4",
     "express": "^4.17.1",
     "formio": ">=2.0.0",
     "lodash": "^4.17.21",

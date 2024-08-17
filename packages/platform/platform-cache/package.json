@@ -16,9 +16,10 @@
   },
   "scripts": {
     "build": "yarn barrels && yarn build:ts",
-    "test": "jest --max-workers=2 && jest-coverage-thresholds-bumper",
+    "test": "jest --max-workers=4",
     "barrels": "barrels",
-    "build:ts": "tsc --build tsconfig.json"
+    "build:ts": "tsc --build tsconfig.json",
+    "test:ci": "jest --max-workers=2 && jest-coverage-thresholds-bumper"
   },
   "dependencies": {
     "cache-manager": "^5.4.0",

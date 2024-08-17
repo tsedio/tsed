@@ -2,7 +2,7 @@
   "name": "@tsed/di",
   "description": "DI module for Ts.ED Framework",
   "type": "commonjs",
-  "version": "7.79.3",
+  "version": "7.79.4",
   "source": "./src/index.ts",
   "main": "lib/esm/index.js",
   "module": "lib/esm/index.js",
@@ -20,8 +20,9 @@
     "build": "yarn barrels && yarn build:ts && yarn run build:browser",
     "build:browser": "webpack",
     "barrels": "barrels",
-    "test": "jest --max-workers=2 && jest-coverage-thresholds-bumper",
-    "build:ts": "tsc --build tsconfig.json"
+    "test": "jest --max-workers=4",
+    "build:ts": "tsc --build tsconfig.json",
+    "test:ci": "jest --max-workers=2 && jest-coverage-thresholds-bumper"
   },
   "dependencies": {
     "tslib": "2.6.2"
@@ -39,9 +40,9 @@
     "webpack": "^5.75.0"
   },
   "peerDependencies": {
-    "@tsed/core": "7.79.3",
+    "@tsed/core": "7.79.4",
     "@tsed/logger": ">=6.7.5",
-    "@tsed/schema": "7.79.3"
+    "@tsed/schema": "7.79.4"
   },
   "peerDependenciesMeta": {
     "@tsed/core": {

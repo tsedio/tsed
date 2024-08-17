@@ -21,8 +21,9 @@
     "build": "yarn clean && yarn barrels && yarn build:ts && yarn run build:browser",
     "build:browser": "webpack",
     "barrels": "barrels",
-    "test": "jest --max-workers=2 && jest-coverage-thresholds-bumper",
-    "build:ts": "tsc --build tsconfig.json"
+    "test": "jest --max-workers=4",
+    "build:ts": "tsc --build tsconfig.json",
+    "test:ci": "jest --max-workers=2 && jest-coverage-thresholds-bumper"
   },
   "keywords": [
     "TypeScript",

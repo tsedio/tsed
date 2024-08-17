@@ -2,7 +2,7 @@
   "name": "@tsed/vike",
   "description": "Vike package for Ts.ED framework",
   "type": "commonjs",
-  "version": "7.79.3",
+  "version": "7.79.4",
   "contributors": [
     {
       "name": "romakita"
@@ -22,8 +22,9 @@
   "scripts": {
     "build": "yarn barrels && yarn build:ts",
     "barrels": "barrels",
-    "test": "jest --max-workers=2 && jest-coverage-thresholds-bumper",
-    "build:ts": "tsc --build tsconfig.json"
+    "test": "jest --max-workers=4",
+    "build:ts": "tsc --build tsconfig.json",
+    "test:ci": "jest --max-workers=2 && jest-coverage-thresholds-bumper"
   },
   "dependencies": {
     "sirv": "^2.0.4"
@@ -42,7 +43,7 @@
     "vite": "5.0.13"
   },
   "peerDependencies": {
-    "@tsed/common": "7.79.3",
+    "@tsed/common": "7.79.4",
     "vike": ">=0.4.160",
     "vite": ">=4"
   },
