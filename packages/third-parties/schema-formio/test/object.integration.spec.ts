@@ -1,5 +1,5 @@
-import {CollectionOf, Property} from "@tsed/schema";
-import {getFormioSchema} from "@tsed/schema-formio";
+import {Property} from "@tsed/schema";
+import {getFormioSchema} from "../src/index.js";
 
 describe("Object", () => {
   it("should declare object", async () => {
