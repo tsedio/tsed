@@ -1,7 +1,7 @@
 name: Benchmarks
 on:
   workflow_dispatch:
-  pull_request:
+#  pull_request:
   schedule:
     # * is a special character in YAML so you have to quote this string
     - cron:  '0 0 * * 1'
@@ -46,17 +46,17 @@ jobs:
 #          name: Github Actions
 #          email: <>
 
-      - uses: actions/github-script@v4
-        if: github.event_name == 'pull_request' && !github.event.pull_request.head.repo.fork && github.actor != 'dependabot[bot]'
-        with:
-          github-token: ${{secrets.GITHUB_TOKEN}}
-          script: |
-            context.issue.number && github.issues.createComment({
-              issue_number: context.issue.number,
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              body: require('fs').readFileSync('./benchmarks/ISSUE_COMMENT.md', {encoding: 'utf8'})
-            })
+#      - uses: actions/github-script@v4
+#        if: github.event_name == 'pull_request' && !github.event.pull_request.head.repo.fork && github.actor != 'dependabot[bot]'
+#        with:
+#          github-token: ${{secrets.GITHUB_TOKEN}}
+#          script: |
+#            context.issue.number && github.issues.createComment({
+#              issue_number: context.issue.number,
+#              owner: context.repo.owner,
+#              repo: context.repo.repo,
+#              body: require('fs').readFileSync('./benchmarks/ISSUE_COMMENT.md', {encoding: 'utf8'})
+#            })
       - uses: actions/upload-artifact@v2
         with:
           name: benchmarks

@@ -1,6 +1,7 @@
 import {PlatformRouter, PlatformTest} from "@tsed/common";
 import Fs from "fs";
 import {SwaggerModule} from "./SwaggerModule.js";
+import {absolutePath} from "swagger-ui-dist";
 
 describe("SwaggerModule", () => {
   beforeEach(() =>
@@ -38,7 +39,7 @@ describe("SwaggerModule", () => {
       expect(PlatformRouter.prototype.get).toHaveBeenCalledWith("/main.css", expect.any(Function));
       expect(PlatformRouter.prototype.get).toHaveBeenCalledWith("/", expect.any(Function));
       expect(PlatformRouter.prototype.statics).toHaveBeenCalledWith("/", {
-        root: require("swagger-ui-dist").absolutePath()
+        root: absolutePath()
       });
     });
   });

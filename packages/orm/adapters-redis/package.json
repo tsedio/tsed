@@ -17,8 +17,9 @@
   "scripts": {
     "build": "yarn barrels && yarn build:ts",
     "barrels": "barrels",
-    "test": "jest && jest-coverage-thresholds-bumper",
-    "build:ts": "tsc --build tsconfig.json"
+    "test": "jest --max-workers=4",
+    "build:ts": "tsc --build tsconfig.json",
+    "test:ci": "jest --max-workers=2 && jest-coverage-thresholds-bumper"
   },
   "dependencies": {
     "@tsed/adapters": "workspace:*",
