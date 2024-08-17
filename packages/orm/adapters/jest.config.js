@@ -5,10 +5,6 @@ const config = require("@tsed/jest-config");
 module.exports = {
   ...config,
   roots: ["<rootDir>/src", "<rootDir>/test"],
-  moduleNameMapper: {
-    ...config.moduleNameMapper,
-    "@tsed/adapters": "<rootDir>/src/index.ts"
-  },
   coverageThreshold: {
     global: {
       branches: 88.6,

@@ -4,10 +4,6 @@ const config = require("@tsed/jest-config");
 
 module.exports = {
   ...config,
-  moduleNameMapper: {
-    ...config.moduleNameMapper,
-    "@tsed/formio": "<rootDir>/src/index.ts"
-  },
   coverageThreshold: {
     global: {
       statements: 0,

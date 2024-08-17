@@ -13,9 +13,5 @@ module.exports = {
       lines: 0
     }
   },
-  transformIgnorePatterns: ["test/workflows/.*\\.ts$"],
-  moduleNameMapper: {
-    ...config.moduleNameMapper,
-    "@tsed/temporal": "<rootDir>/src/index.ts"
-  }
+  transformIgnorePatterns: ["test/workflows/.*\\.ts$"]
 };
