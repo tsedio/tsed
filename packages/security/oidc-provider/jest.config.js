@@ -6,10 +6,6 @@ module.exports = {
   ...config,
   coverageProvider: "babel",
   roots: ["<rootDir>/src", "<rootDir>/test"],
-  moduleNameMapper: {
-    ...config.moduleNameMapper,
-    "@tsed/oidc-provider": "<rootDir>/src/index.ts"
-  },
   transformIgnorePatterns: ["^.+\\.module\\.(css|sass|scss)$"],
 
   coverageThreshold: {
