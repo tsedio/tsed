@@ -1,5 +1,5 @@
 import {CollectionOf} from "@tsed/schema";
-import {getFormioSchema} from "@tsed/schema-formio";
+import {getFormioSchema} from "../src/index.js";
 
 describe("Array", () => {
   it("should declare array string", async () => {
