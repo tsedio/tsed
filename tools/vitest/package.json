@@ -1,0 +1,14 @@
+{
+  "name": "@tsed/vitest",
+  "type": "module",
+  "version": "1.0.0",
+  "private": true,
+  "exports": {
+    ".": "./index.js",
+    "./plugins/*": "./plugins/*",
+    "./presets": "./presets/index.js"
+  },
+  "devDependencies": {
+    "vitest": "2.0.5"
+  }
+}
