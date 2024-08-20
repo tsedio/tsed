@@ -19,7 +19,7 @@ describe("Store", () => {
     describe("when metadata should be store on class", () => {
       let spyGet: any, store: any, store2: any, store3: any;
       beforeEach(() => {
-        spyGet = jest.spyOn(Metadata, "getOwn");
+        spyGet = vi.spyOn(Metadata, "getOwn");
         store = Store.from(FakeMetadata);
         store2 = Store.from(FakeMetadata);
         store3 = Store.from(class {});
@@ -42,7 +42,7 @@ describe("Store", () => {
 
     describe("when metadata should be store on method", () => {
       it("should have been called the Metadata.get()", () => {
-        const spyGet = jest.spyOn(Metadata, "getOwn");
+        const spyGet = vi.spyOn(Metadata, "getOwn");
         Store.from(FakeMetadata, "get", {
           value: () => {}
         });
@@ -53,7 +53,7 @@ describe("Store", () => {
 
     describe("when metadata should be store on property (1)", () => {
       it("should have been called the Metadata.get()", () => {
-        const spyGet = jest.spyOn(Metadata, "getOwn");
+        const spyGet = vi.spyOn(Metadata, "getOwn");
         const store = Store.from(FakeMetadata, "get");
         expect(spyGet).toHaveBeenCalledWith(PROPERTY_STORE, FakeMetadata, "get");
       });
@@ -61,7 +61,7 @@ describe("Store", () => {
 
     describe("when metadata should be store on property (2)", () => {
       it("should have been called the Metadata.get()", () => {
-        const spyGet = jest.spyOn(Metadata, "getOwn");
+        const spyGet = vi.spyOn(Metadata, "getOwn");
         Store.from(FakeMetadata, "get", {
           set: () => {}
         });
@@ -72,7 +72,7 @@ describe("Store", () => {
 
     describe("when metadata should be store on property (3)", () => {
       it("should have been called the Metadata.get()", () => {
-        const spyGet = jest.spyOn(Metadata, "getOwn");
+        const spyGet = vi.spyOn(Metadata, "getOwn");
         Store.from(FakeMetadata, "get", {
           get: () => {}
         });
@@ -83,7 +83,7 @@ describe("Store", () => {
 
     describe("when metadata should be store on parameters", () => {
       it("should have been called the Metadata.get()", () => {
-        const spyGet = jest.spyOn(Metadata, "getOwn");
+        const spyGet = vi.spyOn(Metadata, "getOwn");
         Store.from(FakeMetadata, "get", 0);
 
         expect(spyGet).toHaveBeenCalledWith(PARAM_STORE, FakeMetadata, "get");

@@ -4,7 +4,7 @@ describe("Hooks", () => {
   describe("emit", () => {
     it("should listen a hook and calls listener", () => {
       const hooks = new Hooks();
-      const fn = jest.fn();
+      const fn = vi.fn();
 
       hooks.on("event", fn);
 
@@ -16,7 +16,7 @@ describe("Hooks", () => {
     });
     it("should async listen a hook and calls listener", async () => {
       const hooks = new Hooks();
-      const fn = jest.fn();
+      const fn = vi.fn();
 
       hooks.on("event", fn);
 
@@ -30,7 +30,7 @@ describe("Hooks", () => {
   describe("alter", () => {
     it("should listen a hook and calls listener", () => {
       const hooks = new Hooks();
-      const fn = jest.fn().mockReturnValue("valueAltered");
+      const fn = vi.fn().mockReturnValue("valueAltered");
 
       hooks.on("event", fn);
 
@@ -43,7 +43,7 @@ describe("Hooks", () => {
     });
     it("should async listen a hook and calls listener", async () => {
       const hooks = new Hooks();
-      const fn = jest.fn().mockReturnValue("valueAltered");
+      const fn = vi.fn().mockReturnValue("valueAltered");
 
       hooks.on("event", fn);
 

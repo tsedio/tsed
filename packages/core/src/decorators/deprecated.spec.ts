@@ -2,8 +2,8 @@ import {Deprecated} from "./deprecated.js";
 
 describe("Deprecated", () => {
   beforeEach(() => {
-    jest.spyOn(console, "error").mockReturnValue();
-    jest.spyOn(console, "warn").mockReturnValue();
+    vi.spyOn(console, "error").mockReturnValue();
+    vi.spyOn(console, "warn").mockReturnValue();
   });
   it("should wrap method as deprecated", () => {
     class Test {

@@ -17,7 +17,7 @@ describe("importPackage", () => {
   it("should throw error", async () => {
     const error = await catchAsyncError(() => importPackage("@tsed/nowhere"));
 
-    expect(error?.message).toContain("Cannot find module");
+    expect(error?.message).toContain("Failed to load url @tsed/nowhere (resolved id: @tsed/nowhere). Does the file exist?");
   });
 
   it("should ignore missing package", async () => {
