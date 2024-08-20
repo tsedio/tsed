@@ -11,12 +11,12 @@ function getIgnoreLogFixture(ignore: string[], url: string) {
 describe("ContextLogger", () => {
   it("should create a new Context and log all", () => {
     const logger = {
-      info: jest.fn(),
-      debug: jest.fn(),
-      warn: jest.fn(),
-      error: jest.fn(),
-      fatal: jest.fn(),
-      trace: jest.fn()
+      info: vi.fn(),
+      debug: vi.fn(),
+      warn: vi.fn(),
+      error: vi.fn(),
+      fatal: vi.fn(),
+      trace: vi.fn()
     };
 
     const contextLogger = new ContextLogger({
@@ -40,7 +40,7 @@ describe("ContextLogger", () => {
       }
     });
 
-    jest.spyOn(contextLogger as any, "getDuration").mockReturnValue(1);
+    vi.spyOn(contextLogger as any, "getDuration").mockReturnValue(1);
 
     // WHEN
     contextLogger.debug({test: "test"});
@@ -106,11 +106,11 @@ describe("ContextLogger", () => {
   });
   it("should create a new Context and log all (with minimalRequestPicker)", () => {
     const logger = {
-      info: jest.fn(),
-      debug: jest.fn(),
-      warn: jest.fn(),
-      error: jest.fn(),
-      trace: jest.fn()
+      info: vi.fn(),
+      debug: vi.fn(),
+      warn: vi.fn(),
+      error: vi.fn(),
+      trace: vi.fn()
     };
 
     const contextLogger = new ContextLogger({
@@ -126,7 +126,7 @@ describe("ContextLogger", () => {
 
     contextLogger.alterIgnoreLog(getIgnoreLogFixture(["/admin"], "/url"));
 
-    jest.spyOn(contextLogger as any, "getDuration").mockReturnValue(1);
+    vi.spyOn(contextLogger as any, "getDuration").mockReturnValue(1);
 
     // WHEN
     contextLogger.debug({test: "test"});
@@ -178,11 +178,11 @@ describe("ContextLogger", () => {
   });
   it("should create a new Context and log nothing when pattern match with url", () => {
     const logger = {
-      info: jest.fn(),
-      debug: jest.fn(),
-      warn: jest.fn(),
-      error: jest.fn(),
-      trace: jest.fn()
+      info: vi.fn(),
+      debug: vi.fn(),
+      warn: vi.fn(),
+      error: vi.fn(),
+      trace: vi.fn()
     };
 
     const contextLogger = new ContextLogger({
@@ -201,7 +201,7 @@ describe("ContextLogger", () => {
 
     contextLogger.alterIgnoreLog(getIgnoreLogFixture(["/admin"], "/admin"));
 
-    jest.spyOn(contextLogger as any, "getDuration").mockReturnValue(1);
+    vi.spyOn(contextLogger as any, "getDuration").mockReturnValue(1);
 
     // WHEN
     contextLogger.info({test: "test"});
@@ -212,11 +212,11 @@ describe("ContextLogger", () => {
   });
   it("should create a new Context and flush log when maxStackSize is reached", () => {
     const logger = {
-      info: jest.fn(),
-      debug: jest.fn(),
-      warn: jest.fn(),
-      error: jest.fn(),
-      trace: jest.fn()
+      info: vi.fn(),
+      debug: vi.fn(),
+      warn: vi.fn(),
+      error: vi.fn(),
+      trace: vi.fn()
     };
 
     const contextLogger = new ContextLogger({
@@ -233,7 +233,7 @@ describe("ContextLogger", () => {
 
     contextLogger.maxStackSize = 2;
 
-    jest.spyOn(contextLogger as any, "getDuration").mockReturnValue(1);
+    vi.spyOn(contextLogger as any, "getDuration").mockReturnValue(1);
 
     // WHEN
     contextLogger.info({test: "test"});
@@ -246,11 +246,11 @@ describe("ContextLogger", () => {
   });
   it("should do nothing when the log level is off", () => {
     const logger = {
-      info: jest.fn(),
-      debug: jest.fn(),
-      warn: jest.fn(),
-      error: jest.fn(),
-      trace: jest.fn()
+      info: vi.fn(),
+      debug: vi.fn(),
+      warn: vi.fn(),
+      error: vi.fn(),
+      trace: vi.fn()
     };
 
     const contextLogger = new ContextLogger({
@@ -265,7 +265,7 @@ describe("ContextLogger", () => {
       level: "off"
     });
 
-    jest.spyOn(contextLogger as any, "getDuration").mockReturnValue(1);
+    vi.spyOn(contextLogger as any, "getDuration").mockReturnValue(1);
 
     // WHEN
     contextLogger.debug({test: "test"});

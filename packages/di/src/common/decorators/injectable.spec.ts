@@ -3,7 +3,7 @@ import {GlobalProviders} from "../registries/GlobalProviders.js";
 import * as ProviderRegistry from "../registries/ProviderRegistry.js";
 
 describe("@Injectable()", () => {
-  afterEach(() => jest.resetAllMocks());
+  afterEach(() => vi.resetAllMocks());
 
   it("should call `registerProvider` setting `provide` according to the target class", () => {
     // GIVEN

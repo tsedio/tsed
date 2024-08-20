@@ -48,7 +48,7 @@ describe("LazyInject", () => {
     const service = await injector.invoke<MyInjectable>(MyInjectable);
     const error = await catchAsyncError(() => service.lazy);
 
-    expect(error?.message).toContain("Cannot find module");
+    expect(error?.message).toContain("Failed to load url lazy-module");
   });
 
   it("should lazy load optionally a module", async () => {

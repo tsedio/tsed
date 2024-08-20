@@ -6,11 +6,11 @@ import {registerProvider, registerValue} from "./ProviderRegistry.js";
 describe("ProviderRegistry", () => {
   describe("registerProvider()", () => {
     beforeEach(() => {
-      jest.spyOn(GlobalProviders, "merge");
-      jest.spyOn(GlobalProviders, "has").mockReturnValue(false);
+      vi.spyOn(GlobalProviders, "merge");
+      vi.spyOn(GlobalProviders, "has").mockReturnValue(false);
     });
     afterEach(() => {
-      jest.resetAllMocks();
+      vi.resetAllMocks();
     });
 
     it("should throw an error when provide field is not given ", () => {
@@ -37,11 +37,11 @@ describe("ProviderRegistry", () => {
   });
   describe("registerValue()", () => {
     beforeEach(() => {
-      jest.spyOn(GlobalProviders, "merge");
-      jest.spyOn(GlobalProviders, "has").mockReturnValue(false);
+      vi.spyOn(GlobalProviders, "merge");
+      vi.spyOn(GlobalProviders, "has").mockReturnValue(false);
     });
     afterEach(() => {
-      jest.resetAllMocks();
+      vi.resetAllMocks();
     });
 
     it("should add provider (1)", () => {

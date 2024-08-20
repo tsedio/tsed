@@ -5,7 +5,7 @@ describe("LocalsContainer", () => {
     it("should destroy container", async () => {
       // GIVEN
       const instance = {
-        $onDestroy: jest.fn().mockResolvedValue(undefined)
+        $onDestroy: vi.fn().mockResolvedValue(undefined)
       };
       const container = new LocalsContainer();
       container.set("TOKEN", instance);

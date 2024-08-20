@@ -8,13 +8,13 @@ describe("OverrideProvider", () => {
   class Test2 {}
 
   beforeAll(() => {
-    jest.spyOn(GlobalProviders, "get");
+    vi.spyOn(GlobalProviders, "get");
   });
   it("should use OverrideProvider", () => {
     // GIVEN
     const provider = new Provider(Test);
 
-    jest.mocked(GlobalProviders.get).mockImplementation((token: object) => {
+    vi.mocked(GlobalProviders.get).mockImplementation((token: object) => {
       if (token === Test) {
         return provider;
       }

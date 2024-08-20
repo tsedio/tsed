@@ -59,7 +59,7 @@ describe("DI Request", () => {
       const serviceSingleton1: any = injector.invoke(ServiceSingleton, locals);
       const serviceSingleton2: any = injector.get(ServiceSingleton);
 
-      jest.spyOn(result1, "$onDestroy").mockResolvedValue(undefined);
+      vi.spyOn(result1, "$onDestroy").mockResolvedValue(undefined);
 
       await locals.destroy();
       // THEN

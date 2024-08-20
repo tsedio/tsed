@@ -8,7 +8,7 @@ describe("DIContext", () => {
   describe("constructor", () => {
     it("should create a new Context and skip log", () => {
       const logger = {
-        info: jest.fn()
+        info: vi.fn()
       };
       const context = new DIContext({
         event: {
@@ -37,7 +37,7 @@ describe("DIContext", () => {
     });
     it("should create a new Context and log event", () => {
       const logger = {
-        info: jest.fn()
+        info: vi.fn()
       };
 
       const context = new DIContext({
@@ -52,7 +52,7 @@ describe("DIContext", () => {
         platform: "OTHER"
       });
 
-      context.next = jest.fn();
+      context.next = vi.fn();
 
       expect(context.id).toEqual("id");
       expect(context.dateStart).toBeInstanceOf(Date);
@@ -76,13 +76,13 @@ describe("DIContext", () => {
         },
         id: "id",
         logger: {
-          info: jest.fn()
+          info: vi.fn()
         },
         maxStackSize: 0,
-        injector: {emit: jest.fn()} as any,
+        injector: {emit: vi.fn()} as any,
         ignoreUrlPatterns: ["/admin", /\/admin2/]
       });
-      const resolver = jest.fn().mockReturnValue("test");
+      const resolver = vi.fn().mockReturnValue("test");
 
       const result = context.cache("key", resolver);
       const result2 = context.cache("key", resolver);
@@ -101,13 +101,13 @@ describe("DIContext", () => {
         },
         id: "id",
         logger: {
-          info: jest.fn()
+          info: vi.fn()
         },
         maxStackSize: 0,
-        injector: {emit: jest.fn()} as any,
+        injector: {emit: vi.fn()} as any,
         ignoreUrlPatterns: ["/admin", /\/admin2/]
       });
-      const resolver = jest.fn().mockResolvedValue("test");
+      const resolver = vi.fn().mockResolvedValue("test");
 
       const result = await context.cacheAsync("key", resolver);
       const result2 = await context.cacheAsync("key", resolver);
@@ -125,10 +125,10 @@ describe("DIContext", () => {
         },
         id: "id",
         logger: {
-          info: jest.fn()
+          info: vi.fn()
         },
         maxStackSize: 0,
-        injector: {emit: jest.fn()} as any,
+        injector: {emit: vi.fn()} as any,
         ignoreUrlPatterns: ["/admin", /\/admin2/]
       });
 
@@ -146,18 +146,18 @@ describe("DIContext", () => {
         },
         id: "id",
         logger: {
-          info: jest.fn()
+          info: vi.fn()
         },
         maxStackSize: 0,
         injector: {
-          alterAsync: jest.fn().mockImplementation((event, fn, $ctx) => {
+          alterAsync: vi.fn().mockImplementation((event, fn, $ctx) => {
             return fn;
           })
         } as any,
         ignoreUrlPatterns: ["/admin", /\/admin2/]
       });
 
-      const stub = jest.fn();
+      const stub = vi.fn();
 
       await context.runInContext(stub);
 
@@ -172,18 +172,18 @@ describe("DIContext", () => {
         },
         id: "id",
         logger: {
-          info: jest.fn()
+          info: vi.fn()
         },
         maxStackSize: 0,
         injector: {
-          alterAsync: jest.fn().mockImplementation((event, fn, $ctx) => {
+          alterAsync: vi.fn().mockImplementation((event, fn, $ctx) => {
             return fn;
           })
         } as any,
         ignoreUrlPatterns: ["/admin", /\/admin2/]
       });
 
-      const stub = jest.fn();
+      const stub = vi.fn();
 
       await context.runInContext(() => {
         bindContext(stub)();
@@ -201,18 +201,18 @@ describe("DIContext", () => {
         },
         id: "id",
         logger: {
-          info: jest.fn()
+          info: vi.fn()
         },
         maxStackSize: 0,
         injector: {
-          alterAsync: jest.fn().mockImplementation((event, fn, $ctx) => {
+          alterAsync: vi.fn().mockImplementation((event, fn, $ctx) => {
             return null;
           })
         } as any,
         ignoreUrlPatterns: ["/admin", /\/admin2/]
       });
 
-      const stub = jest.fn();
+      const stub = vi.fn();
 
       await context.runInContext(stub);
 

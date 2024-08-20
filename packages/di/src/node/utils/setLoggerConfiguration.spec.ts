@@ -16,7 +16,7 @@ describe("setLoggerConfiguration", () => {
     const injector = new InjectorService();
     injector.logger = new Logger();
 
-    jest.spyOn(injector.logger.appenders, "set").mockResolvedValue(undefined);
+    vi.spyOn(injector.logger.appenders, "set").mockResolvedValue(undefined);
 
     injector.settings.set("logger.format", "format");
 

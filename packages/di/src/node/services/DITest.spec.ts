@@ -47,8 +47,8 @@ describe("DITest", () => {
           {
             token: SQLITE_DATA_SOURCE,
             use: {
-              initialize: jest.fn(),
-              getRepository: jest.fn().mockReturnValue({
+              initialize: vi.fn(),
+              getRepository: vi.fn().mockReturnValue({
                 repository: true
               })
             }
@@ -94,8 +94,8 @@ describe("DITest", () => {
         {
           token: SQLITE_DATA_SOURCE,
           use: {
-            initialize: jest.fn(),
-            getRepository: jest.fn().mockReturnValue({
+            initialize: vi.fn(),
+            getRepository: vi.fn().mockReturnValue({
               repository: false
             })
           }
