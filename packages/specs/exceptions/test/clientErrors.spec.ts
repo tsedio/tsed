@@ -27,7 +27,7 @@ import {
   UnsupportedMediaType,
   UpgradeRequired,
   ExpectationFailed
-} from "@tsed/exceptions";
+} from "../src/index.js";
 
 describe("ClientErrors", () => {
   describe("BadMapping", () => {

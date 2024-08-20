@@ -8,7 +8,7 @@ import {
   TemporaryRedirect,
   UseProxy,
   NotModified
-} from "@tsed/exceptions";
+} from "../src/index.js";
 
 describe("Redirections", () => {
   describe("MovedPermanently", () => {
