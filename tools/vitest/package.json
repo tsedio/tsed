@@ -10,5 +10,8 @@
   },
   "devDependencies": {
     "vitest": "2.0.5"
+  },
+  "scripts": {
+    "generate": "node index.js"
   }
 }
