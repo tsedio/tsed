@@ -1,53 +1,53 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`PetStore AsyncAPI should generate the spec 1`] = `
-Object {
-  "channels": Object {
-    "/": Object {
-      "publish": Object {
-        "message": Object {
-          "oneOf": Array [
-            Object {
+exports[`PetStore > AsyncAPI > should generate the spec 1`] = `
+{
+  "channels": {
+    "/": {
+      "publish": {
+        "message": {
+          "oneOf": [
+            {
               "$ref": "#/components/messages/pet.get",
             },
-            Object {
+            {
               "$ref": "#/components/messages/pet.getAll",
             },
-            Object {
+            {
               "$ref": "#/components/messages/pet.patch",
             },
-            Object {
+            {
               "$ref": "#/components/messages/pet.update",
             },
-            Object {
+            {
               "$ref": "#/components/messages/pet.create",
             },
-            Object {
+            {
               "$ref": "#/components/messages/pet.delete",
             },
           ],
         },
         "operationId": "publishPetStore",
       },
-      "subscribe": Object {
-        "message": Object {
-          "oneOf": Array [
-            Object {
+      "subscribe": {
+        "message": {
+          "oneOf": [
+            {
               "$ref": "#/components/messages/pet.get",
             },
-            Object {
+            {
               "$ref": "#/components/messages/pet.getAll",
             },
-            Object {
+            {
               "$ref": "#/components/messages/pet.updated",
             },
-            Object {
+            {
               "$ref": "#/components/messages/pet.created",
             },
-            Object {
+            {
               "$ref": "#/components/messages/pet.updated",
             },
-            Object {
+            {
               "$ref": "#/components/messages/pet.deleted",
             },
           ],
@@ -56,333 +56,333 @@ Object {
       },
     },
   },
-  "components": Object {
-    "messages": Object {
-      "pet.create": Object {
+  "components": {
+    "messages": {
+      "pet.create": {
         "description": "Create a pet",
-        "payload": Object {
+        "payload": {
           "$ref": "#/components/schemas/PetCreate",
         },
-        "x-response": Object {
+        "x-response": {
           "$ref": "#/components/messages/pet.updated",
         },
       },
-      "pet.created": Object {
+      "pet.created": {
         "description": "Update a pet",
-        "x-response": Object {
+        "x-response": {
           "$ref": "#/components/schemas/PetCreatedSubscribeResponse",
         },
       },
-      "pet.delete": Object {
+      "pet.delete": {
         "description": "Delete a pet",
-        "payload": Object {
-          "properties": Object {
-            "id": Object {
+        "payload": {
+          "properties": {
+            "id": {
               "type": "string",
             },
           },
           "type": "object",
         },
-        "x-response": Object {
+        "x-response": {
           "$ref": "#/components/messages/pet.deleted",
         },
       },
-      "pet.deleted": Object {
+      "pet.deleted": {
         "description": "Delete a pet",
-        "x-response": Object {
+        "x-response": {
           "$ref": "#/components/schemas/PetDeletedSubscribeResponse",
         },
       },
-      "pet.get": Object {
-        "payload": Object {
-          "properties": Object {
-            "id": Object {
+      "pet.get": {
+        "payload": {
+          "properties": {
+            "id": {
               "type": "string",
             },
           },
           "type": "object",
         },
-        "x-response": Object {
+        "x-response": {
           "$ref": "#/components/messages/pet.get",
         },
       },
-      "pet.getAll": Object {
-        "x-response": Object {
+      "pet.getAll": {
+        "x-response": {
           "$ref": "#/components/messages/pet.getAll",
         },
       },
-      "pet.patch": Object {
+      "pet.patch": {
         "description": "Patch a pet",
-        "payload": Object {
-          "allOf": Array [
-            Object {
-              "properties": Object {
-                "id": Object {
+        "payload": {
+          "allOf": [
+            {
+              "properties": {
+                "id": {
                   "type": "string",
                 },
               },
               "type": "object",
             },
-            Object {
+            {
               "$ref": "#/components/schemas/PetPartial",
             },
           ],
         },
-        "x-response": Object {
+        "x-response": {
           "$ref": "#/components/messages/pet.updated",
         },
       },
-      "pet.update": Object {
+      "pet.update": {
         "description": "Update a pet",
-        "payload": Object {
+        "payload": {
           "$ref": "#/components/schemas/PetUpdate",
         },
-        "x-response": Object {
+        "x-response": {
           "$ref": "#/components/messages/pet.created",
         },
       },
-      "pet.updated": Object {
+      "pet.updated": {
         "description": "Create a pet",
-        "x-response": Object {
+        "x-response": {
           "$ref": "#/components/schemas/PetUpdatedSubscribeResponse",
         },
       },
     },
-    "schemas": Object {
-      "Pet": Object {
-        "properties": Object {
-          "category": Object {
+    "schemas": {
+      "Pet": {
+        "properties": {
+          "category": {
             "$ref": "#/components/schemas/PetCategory",
           },
-          "id": Object {
+          "id": {
             "minLength": 1,
             "type": "string",
           },
-          "name": Object {
+          "name": {
             "example": "doggie",
             "minLength": 1,
             "type": "string",
           },
-          "status": Object {
-            "enum": Array [
+          "status": {
+            "enum": [
               "available",
               "pending",
               "sold",
             ],
             "type": "string",
           },
-          "tags": Object {
-            "items": Object {
+          "tags": {
+            "items": {
               "type": "string",
             },
             "type": "array",
           },
         },
-        "required": Array [
+        "required": [
           "id",
           "name",
         ],
         "type": "object",
       },
-      "PetCategory": Object {
-        "properties": Object {
-          "id": Object {
+      "PetCategory": {
+        "properties": {
+          "id": {
             "minLength": 1,
             "type": "string",
           },
-          "name": Object {
+          "name": {
             "example": "doggie",
             "minLength": 1,
             "type": "string",
           },
         },
-        "required": Array [
+        "required": [
           "id",
           "name",
         ],
         "type": "object",
       },
-      "PetCreate": Object {
-        "properties": Object {
-          "category": Object {
+      "PetCreate": {
+        "properties": {
+          "category": {
             "$ref": "#/components/schemas/PetCategory",
           },
-          "name": Object {
+          "name": {
             "example": "doggie",
             "minLength": 1,
             "type": "string",
           },
-          "status": Object {
-            "enum": Array [
+          "status": {
+            "enum": [
               "available",
               "pending",
               "sold",
             ],
             "type": "string",
           },
-          "tags": Object {
-            "items": Object {
+          "tags": {
+            "items": {
               "type": "string",
             },
             "type": "array",
           },
         },
-        "required": Array [
+        "required": [
           "name",
         ],
         "type": "object",
       },
-      "PetCreatePublishPayload": Object {},
-      "PetCreatedSubscribeResponse": Object {
-        "properties": Object {
-          "data": Object {
-            "oneOf": Array [
-              Object {
-                "schema": Object {
+      "PetCreatePublishPayload": {},
+      "PetCreatedSubscribeResponse": {
+        "properties": {
+          "data": {
+            "oneOf": [
+              {
+                "schema": {
                   "type": "object",
                 },
               },
-              Object {
-                "schema": Object {
+              {
+                "schema": {
                   "$ref": "#/components/schemas/Pet",
                 },
               },
             ],
           },
-          "status": Object {
-            "enum": Array [
+          "status": {
+            "enum": [
               404,
               200,
             ],
             "type": "number",
           },
-          "statusText": Object {
-            "enum": Array [
+          "statusText": {
+            "enum": [
               "Not Found",
               "Returns a pet",
             ],
             "type": "string",
           },
         },
-        "required": Array [
+        "required": [
           "status",
         ],
         "type": "object",
       },
-      "PetDeletePublishPayload": Object {},
-      "PetDeletedSubscribeResponse": Object {
-        "properties": Object {
-          "data": Object {
-            "schema": Object {
+      "PetDeletePublishPayload": {},
+      "PetDeletedSubscribeResponse": {
+        "properties": {
+          "data": {
+            "schema": {
               "type": "object",
             },
           },
-          "status": Object {
-            "enum": Array [
+          "status": {
+            "enum": [
               404,
               204,
             ],
             "type": "number",
           },
-          "statusText": Object {
-            "enum": Array [
+          "statusText": {
+            "enum": [
               "Not Found",
               "No Content",
             ],
             "type": "string",
           },
         },
-        "required": Array [
+        "required": [
           "status",
         ],
         "type": "object",
       },
-      "PetGetAllPublishPayload": Object {},
-      "PetGetAllSubscribeResponse": Object {
-        "properties": Object {
-          "data": Object {
-            "schema": Object {
-              "items": Object {
+      "PetGetAllPublishPayload": {},
+      "PetGetAllSubscribeResponse": {
+        "properties": {
+          "data": {
+            "schema": {
+              "items": {
                 "$ref": "#/components/schemas/Pet",
               },
               "type": "array",
             },
           },
-          "status": Object {
-            "enum": Array [
+          "status": {
+            "enum": [
               200,
             ],
             "type": "number",
           },
-          "statusText": Object {
-            "enum": Array [
+          "statusText": {
+            "enum": [
               "Returns all pets",
             ],
             "type": "string",
           },
         },
-        "required": Array [
+        "required": [
           "status",
         ],
         "type": "object",
       },
-      "PetGetPublishPayload": Object {},
-      "PetGetSubscribeResponse": Object {
-        "properties": Object {
-          "data": Object {
-            "oneOf": Array [
-              Object {
-                "schema": Object {
+      "PetGetPublishPayload": {},
+      "PetGetSubscribeResponse": {
+        "properties": {
+          "data": {
+            "oneOf": [
+              {
+                "schema": {
                   "type": "object",
                 },
               },
-              Object {
-                "schema": Object {
+              {
+                "schema": {
                   "$ref": "#/components/schemas/Pet",
                 },
               },
             ],
           },
-          "status": Object {
-            "enum": Array [
+          "status": {
+            "enum": [
               404,
               200,
             ],
             "type": "number",
           },
-          "statusText": Object {
-            "enum": Array [
+          "statusText": {
+            "enum": [
               "Not Found",
               "Returns a pet",
             ],
             "type": "string",
           },
         },
-        "required": Array [
+        "required": [
           "status",
         ],
         "type": "object",
       },
-      "PetPartial": Object {
-        "properties": Object {
-          "category": Object {
+      "PetPartial": {
+        "properties": {
+          "category": {
             "$ref": "#/components/schemas/PetCategory",
           },
-          "name": Object {
+          "name": {
             "example": "doggie",
             "minLength": 1,
             "type": "string",
           },
-          "status": Object {
-            "enum": Array [
+          "status": {
+            "enum": [
               "available",
               "pending",
               "sold",
             ],
             "type": "string",
           },
-          "tags": Object {
-            "items": Object {
+          "tags": {
+            "items": {
               "type": "string",
             },
             "type": "array",
@@ -390,187 +390,187 @@ Object {
         },
         "type": "object",
       },
-      "PetPatchPublishPayload": Object {},
-      "PetUpdate": Object {
-        "properties": Object {
-          "category": Object {
+      "PetPatchPublishPayload": {},
+      "PetUpdate": {
+        "properties": {
+          "category": {
             "$ref": "#/components/schemas/PetCategory",
           },
-          "name": Object {
+          "name": {
             "example": "doggie",
             "minLength": 1,
             "type": "string",
           },
-          "status": Object {
-            "enum": Array [
+          "status": {
+            "enum": [
               "available",
               "pending",
               "sold",
             ],
             "type": "string",
           },
-          "tags": Object {
-            "items": Object {
+          "tags": {
+            "items": {
               "type": "string",
             },
             "type": "array",
           },
         },
-        "required": Array [
+        "required": [
           "name",
         ],
         "type": "object",
       },
-      "PetUpdatePublishPayload": Object {},
-      "PetUpdatedSubscribeResponse": Object {
-        "properties": Object {
-          "data": Object {
-            "oneOf": Array [
-              Object {
-                "schema": Object {
+      "PetUpdatePublishPayload": {},
+      "PetUpdatedSubscribeResponse": {
+        "properties": {
+          "data": {
+            "oneOf": [
+              {
+                "schema": {
                   "type": "object",
                 },
               },
-              Object {
-                "schema": Object {
+              {
+                "schema": {
                   "$ref": "#/components/schemas/Pet",
                 },
               },
             ],
           },
-          "status": Object {
-            "enum": Array [
+          "status": {
+            "enum": [
               404,
               201,
             ],
             "type": "number",
           },
-          "statusText": Object {
-            "enum": Array [
+          "statusText": {
+            "enum": [
               "Not Found",
               "Created",
             ],
             "type": "string",
           },
         },
-        "required": Array [
+        "required": [
           "status",
         ],
         "type": "object",
       },
     },
   },
-  "tags": Array [],
+  "tags": [],
 }
 `;
 
-exports[`PetStore OpenSpec should generate the spec 1`] = `
-Object {
-  "components": Object {
-    "schemas": Object {
-      "Pet": Object {
-        "properties": Object {
-          "category": Object {
+exports[`PetStore > OpenSpec > should generate the spec 1`] = `
+{
+  "components": {
+    "schemas": {
+      "Pet": {
+        "properties": {
+          "category": {
             "$ref": "#/components/schemas/PetCategory",
           },
-          "id": Object {
+          "id": {
             "minLength": 1,
             "type": "string",
           },
-          "name": Object {
+          "name": {
             "example": "doggie",
             "minLength": 1,
             "type": "string",
           },
-          "status": Object {
-            "enum": Array [
+          "status": {
+            "enum": [
               "available",
               "pending",
               "sold",
             ],
             "type": "string",
           },
-          "tags": Object {
-            "items": Object {
+          "tags": {
+            "items": {
               "type": "string",
             },
             "type": "array",
           },
         },
-        "required": Array [
+        "required": [
           "id",
           "name",
         ],
         "type": "object",
       },
-      "PetCategory": Object {
-        "properties": Object {
-          "id": Object {
+      "PetCategory": {
+        "properties": {
+          "id": {
             "minLength": 1,
             "type": "string",
           },
-          "name": Object {
+          "name": {
             "example": "doggie",
             "minLength": 1,
             "type": "string",
           },
         },
-        "required": Array [
+        "required": [
           "id",
           "name",
         ],
         "type": "object",
       },
-      "PetCreate": Object {
-        "properties": Object {
-          "category": Object {
+      "PetCreate": {
+        "properties": {
+          "category": {
             "$ref": "#/components/schemas/PetCategory",
           },
-          "name": Object {
+          "name": {
             "example": "doggie",
             "minLength": 1,
             "type": "string",
           },
-          "status": Object {
-            "enum": Array [
+          "status": {
+            "enum": [
               "available",
               "pending",
               "sold",
             ],
             "type": "string",
           },
-          "tags": Object {
-            "items": Object {
+          "tags": {
+            "items": {
               "type": "string",
             },
             "type": "array",
           },
         },
-        "required": Array [
+        "required": [
           "name",
         ],
         "type": "object",
       },
-      "PetPartial": Object {
-        "properties": Object {
-          "category": Object {
+      "PetPartial": {
+        "properties": {
+          "category": {
             "$ref": "#/components/schemas/PetCategory",
           },
-          "name": Object {
+          "name": {
             "example": "doggie",
             "minLength": 1,
             "type": "string",
           },
-          "status": Object {
-            "enum": Array [
+          "status": {
+            "enum": [
               "available",
               "pending",
               "sold",
             ],
             "type": "string",
           },
-          "tags": Object {
-            "items": Object {
+          "tags": {
+            "items": {
               "type": "string",
             },
             "type": "array",
@@ -578,49 +578,49 @@ Object {
         },
         "type": "object",
       },
-      "PetUpdate": Object {
-        "properties": Object {
-          "category": Object {
+      "PetUpdate": {
+        "properties": {
+          "category": {
             "$ref": "#/components/schemas/PetCategory",
           },
-          "name": Object {
+          "name": {
             "example": "doggie",
             "minLength": 1,
             "type": "string",
           },
-          "status": Object {
-            "enum": Array [
+          "status": {
+            "enum": [
               "available",
               "pending",
               "sold",
             ],
             "type": "string",
           },
-          "tags": Object {
-            "items": Object {
+          "tags": {
+            "items": {
               "type": "string",
             },
             "type": "array",
           },
         },
-        "required": Array [
+        "required": [
           "name",
         ],
         "type": "object",
       },
     },
   },
-  "paths": Object {
-    "/": Object {
-      "get": Object {
+  "paths": {
+    "/": {
+      "get": {
         "operationId": "petStoreGetAll",
-        "parameters": Array [],
-        "responses": Object {
-          "200": Object {
-            "content": Object {
-              "application/json": Object {
-                "schema": Object {
-                  "items": Object {
+        "parameters": [],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
                     "$ref": "#/components/schemas/Pet",
                   },
                   "type": "array",
@@ -630,39 +630,39 @@ Object {
             "description": "Returns all pets",
           },
         },
-        "tags": Array [
+        "tags": [
           "PetStore",
         ],
       },
-      "put": Object {
+      "put": {
         "description": "Create a pet",
         "operationId": "petStorePut",
-        "parameters": Array [],
-        "requestBody": Object {
-          "content": Object {
-            "application/json": Object {
-              "schema": Object {
+        "parameters": [],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
                 "$ref": "#/components/schemas/PetCreate",
               },
             },
           },
           "required": false,
         },
-        "responses": Object {
-          "201": Object {
-            "content": Object {
-              "application/json": Object {
-                "schema": Object {
+        "responses": {
+          "201": {
+            "content": {
+              "application/json": {
+                "schema": {
                   "$ref": "#/components/schemas/Pet",
                 },
               },
             },
             "description": "Created",
           },
-          "404": Object {
-            "content": Object {
-              "*/*": Object {
-                "schema": Object {
+          "404": {
+            "content": {
+              "*/*": {
+                "schema": {
                   "type": "object",
                 },
               },
@@ -670,33 +670,33 @@ Object {
             "description": "Not Found",
           },
         },
-        "tags": Array [
+        "tags": [
           "PetStore",
         ],
       },
     },
-    "/{id}": Object {
-      "delete": Object {
+    "/{id}": {
+      "delete": {
         "description": "Delete a pet",
         "operationId": "petStoreDelete",
-        "parameters": Array [
-          Object {
+        "parameters": [
+          {
             "in": "path",
             "name": "id",
             "required": true,
-            "schema": Object {
+            "schema": {
               "type": "string",
             },
           },
         ],
-        "responses": Object {
-          "204": Object {
+        "responses": {
+          "204": {
             "description": "No Content",
           },
-          "404": Object {
-            "content": Object {
-              "*/*": Object {
-                "schema": Object {
+          "404": {
+            "content": {
+              "*/*": {
+                "schema": {
                   "type": "object",
                 },
               },
@@ -704,37 +704,37 @@ Object {
             "description": "Not Found",
           },
         },
-        "tags": Array [
+        "tags": [
           "PetStore",
         ],
       },
-      "get": Object {
+      "get": {
         "operationId": "petStoreGet",
-        "parameters": Array [
-          Object {
+        "parameters": [
+          {
             "in": "path",
             "name": "id",
             "required": true,
-            "schema": Object {
+            "schema": {
               "type": "string",
             },
           },
         ],
-        "responses": Object {
-          "200": Object {
-            "content": Object {
-              "application/json": Object {
-                "schema": Object {
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
                   "$ref": "#/components/schemas/Pet",
                 },
               },
             },
             "description": "Returns a pet",
           },
-          "404": Object {
-            "content": Object {
-              "*/*": Object {
-                "schema": Object {
+          "404": {
+            "content": {
+              "*/*": {
+                "schema": {
                   "type": "object",
                 },
               },
@@ -742,48 +742,48 @@ Object {
             "description": "Not Found",
           },
         },
-        "tags": Array [
+        "tags": [
           "PetStore",
         ],
       },
-      "patch": Object {
+      "patch": {
         "description": "Patch a pet",
         "operationId": "petStorePatch",
-        "parameters": Array [
-          Object {
+        "parameters": [
+          {
             "in": "path",
             "name": "id",
             "required": true,
-            "schema": Object {
+            "schema": {
               "type": "string",
             },
           },
         ],
-        "requestBody": Object {
-          "content": Object {
-            "application/json": Object {
-              "schema": Object {
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
                 "$ref": "#/components/schemas/PetPartial",
               },
             },
           },
           "required": false,
         },
-        "responses": Object {
-          "200": Object {
-            "content": Object {
-              "application/json": Object {
-                "schema": Object {
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
                   "$ref": "#/components/schemas/Pet",
                 },
               },
             },
             "description": "Returns a pet",
           },
-          "404": Object {
-            "content": Object {
-              "*/*": Object {
-                "schema": Object {
+          "404": {
+            "content": {
+              "*/*": {
+                "schema": {
                   "type": "object",
                 },
               },
@@ -791,48 +791,48 @@ Object {
             "description": "Not Found",
           },
         },
-        "tags": Array [
+        "tags": [
           "PetStore",
         ],
       },
-      "post": Object {
+      "post": {
         "description": "Update a pet",
         "operationId": "petStorePost",
-        "parameters": Array [
-          Object {
+        "parameters": [
+          {
             "in": "path",
             "name": "id",
             "required": true,
-            "schema": Object {
+            "schema": {
               "type": "string",
             },
           },
         ],
-        "requestBody": Object {
-          "content": Object {
-            "application/json": Object {
-              "schema": Object {
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
                 "$ref": "#/components/schemas/PetUpdate",
               },
             },
           },
           "required": false,
         },
-        "responses": Object {
-          "200": Object {
-            "content": Object {
-              "application/json": Object {
-                "schema": Object {
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
                   "$ref": "#/components/schemas/Pet",
                 },
               },
             },
             "description": "Returns a pet",
           },
-          "404": Object {
-            "content": Object {
-              "*/*": Object {
-                "schema": Object {
+          "404": {
+            "content": {
+              "*/*": {
+                "schema": {
                   "type": "object",
                 },
               },
@@ -840,14 +840,14 @@ Object {
             "description": "Not Found",
           },
         },
-        "tags": Array [
+        "tags": [
           "PetStore",
         ],
       },
     },
   },
-  "tags": Array [
-    Object {
+  "tags": [
+    {
       "name": "PetStore",
     },
   ],

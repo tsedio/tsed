@@ -1,5 +1,6 @@
 import Ajv from "ajv";
 import {JsonSchema} from "./JsonSchema.js";
+import "../index.js";
 
 describe("JsonSchema", () => {
   describe("extra Props", () => {

@@ -1,19 +1,19 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`Discriminator with kind property should generate the spec 1`] = `
-Object {
-  "components": Object {
-    "schemas": Object {
-      "FirstImpl": Object {
-        "properties": Object {
-          "kind": Object {
-            "enum": Array [
+exports[`Discriminator > with kind property > should generate the spec 1`] = `
+{
+  "components": {
+    "schemas": {
+      "FirstImpl": {
+        "properties": {
+          "kind": {
+            "enum": [
               "json",
             ],
             "type": "string",
           },
-          "type": Object {
-            "enum": Array [
+          "type": {
+            "enum": [
               "one",
               "two",
             ],
@@ -23,34 +23,34 @@ Object {
         },
         "type": "object",
       },
-      "ParentModel": Object {
-        "properties": Object {
-          "test": Object {
-            "discriminator": Object {
+      "ParentModel": {
+        "properties": {
+          "test": {
+            "discriminator": {
               "propertyName": "type",
             },
-            "oneOf": Array [
-              Object {
+            "oneOf": [
+              {
                 "$ref": "#/components/schemas/FirstImpl",
               },
-              Object {
+              {
                 "$ref": "#/components/schemas/SecondImpl",
               },
             ],
-            "required": Array [
+            "required": [
               "type",
             ],
           },
         },
         "type": "object",
       },
-      "SecondImpl": Object {
-        "properties": Object {
-          "prop": Object {
+      "SecondImpl": {
+        "properties": {
+          "prop": {
             "type": "string",
           },
-          "type": Object {
-            "enum": Array [
+          "type": {
+            "enum": [
               "one",
               "two",
             ],
@@ -62,17 +62,17 @@ Object {
       },
     },
   },
-  "paths": Object {
-    "/test": Object {
-      "get": Object {
+  "paths": {
+    "/test": {
+      "get": {
         "operationId": "testGet",
-        "parameters": Array [],
-        "responses": Object {
-          "200": Object {
-            "content": Object {
-              "application/json": Object {
-                "schema": Object {
-                  "items": Object {
+        "parameters": [],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
                     "$ref": "#/components/schemas/ParentModel",
                   },
                   "type": "array",
@@ -82,14 +82,14 @@ Object {
             "description": "Success",
           },
         },
-        "tags": Array [
+        "tags": [
           "Test",
         ],
       },
     },
   },
-  "tags": Array [
-    Object {
+  "tags": [
+    {
       "name": "Test",
     },
   ],

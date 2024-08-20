@@ -22,6 +22,7 @@ import {
   SpecTypes,
   Subscribe
 } from "../../src/index.js";
+import "@tsed/schema";
 
 class PetCategory {
   @Required()

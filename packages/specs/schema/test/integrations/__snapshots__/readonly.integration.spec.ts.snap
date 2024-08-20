@@ -1,18 +1,18 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`schema: ReadOnly should generate json schema 1`] = `
-Object {
-  "properties": Object {
-    "test": Object {
+exports[`schema: ReadOnly > should generate json schema 1`] = `
+{
+  "properties": {
+    "test": {
       "readOnly": true,
       "type": "object",
     },
-    "updated_at": Object {
+    "updated_at": {
       "readOnly": true,
       "type": "number",
     },
   },
-  "required": Array [
+  "required": [
     "updated_at",
   ],
   "type": "object",
