@@ -8,9 +8,9 @@ import {
   NotExtended,
   NotImplemented,
   ProxyError,
-  ServiceUnvailable,
+  ServiceUnavailable,
   VariantAlsoNegotiates
-} from "@tsed/exceptions";
+} from "../src/index.js";
 
 describe("ServerErrors", () => {
   describe("BadGateway", () => {
@@ -117,9 +117,9 @@ describe("ServerErrors", () => {
     });
   });
 
-  describe("ServiceUnvailable", () => {
+  describe("ServiceUnavailable", () => {
     it("should emit an exception", () => {
-      const err = new ServiceUnvailable("message");
+      const err = new ServiceUnavailable("message");
 
       catchError(() => {
         throw err;
