@@ -17,7 +17,7 @@
   "scripts": {
     "build": "yarn barrels && yarn build:ts",
     "barrels": "barrels",
-    "test": "vitest",
+    "test": "vitest run",
     "build:ts": "tsc --build tsconfig.json",
     "test:ci": "vitest run --coverage.thresholds.autoUpdate=true"
   },
