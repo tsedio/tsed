@@ -8,6 +8,7 @@
     "declaration": false,
     "composite": false,
     "noEmit": true,
+    "types": ["vite/client", "vitest/globals"],
     "paths": {
       "@tsed/openspec": ["../specs/openspec/src"],
       "@tsed/schema": ["../specs/schema/src"],
@@ -31,6 +32,6 @@
       "@tsed/platform-express": ["../platform/platform-express/src"]
     }
   },
-  "include": ["src/**/*.spec.ts", "test/**/*.spec.ts"],
+  "include": ["src/**/*.spec.ts", "test/**/*.spec.ts", "vitest.config.mts", "vite.config.mts"],
   "exclude": ["node_modules", "test", "lib", "benchmark", "coverage"]
 }
