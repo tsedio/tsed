@@ -9,7 +9,7 @@ describe("PrimitiveMapper", () => {
       const ctx = {
         type: String,
         collectionType: undefined,
-        next: jest.fn()
+        next: vi.fn()
       };
 
       const value = mapper.deserialize(data, ctx as never);
@@ -22,7 +22,7 @@ describe("PrimitiveMapper", () => {
       const ctx = {
         type: String,
         collectionType: undefined,
-        next: jest.fn()
+        next: vi.fn()
       };
 
       const value = mapper.deserialize(data, ctx as never);
@@ -35,7 +35,7 @@ describe("PrimitiveMapper", () => {
       const ctx = {
         type: Number,
         collectionType: undefined,
-        next: jest.fn()
+        next: vi.fn()
       };
 
       const value = mapper.deserialize(data, ctx as never);
@@ -48,7 +48,7 @@ describe("PrimitiveMapper", () => {
       const ctx = {
         type: Number,
         collectionType: undefined,
-        next: jest.fn()
+        next: vi.fn()
       };
 
       const value = mapper.deserialize(data, ctx as never);
@@ -61,7 +61,7 @@ describe("PrimitiveMapper", () => {
       const ctx = {
         type: Number,
         collectionType: undefined,
-        next: jest.fn()
+        next: vi.fn()
       };
 
       const value = mapper.deserialize(data, ctx as never);
@@ -74,7 +74,7 @@ describe("PrimitiveMapper", () => {
       const ctx = {
         type: Number,
         collectionType: undefined,
-        next: jest.fn()
+        next: vi.fn()
       };
 
       const value = mapper.deserialize(data, ctx as never);
@@ -87,7 +87,7 @@ describe("PrimitiveMapper", () => {
       const ctx = {
         type: Number,
         collectionType: undefined,
-        next: jest.fn()
+        next: vi.fn()
       };
 
       let actualError: any = catchError(() => mapper.deserialize(data, ctx as never));
@@ -99,7 +99,7 @@ describe("PrimitiveMapper", () => {
       const ctx: any = {
         type: Boolean,
         collectionType: undefined,
-        next: jest.fn()
+        next: vi.fn()
       };
 
       expect(mapper.deserialize(1, ctx)).toEqual(true);
@@ -112,7 +112,7 @@ describe("PrimitiveMapper", () => {
       const ctx: any = {
         type: Boolean,
         collectionType: undefined,
-        next: jest.fn()
+        next: vi.fn()
       };
 
       expect(mapper.deserialize(0, ctx)).toEqual(false);
@@ -127,7 +127,7 @@ describe("PrimitiveMapper", () => {
       const ctx: any = {
         type: Boolean,
         collectionType: undefined,
-        next: jest.fn()
+        next: vi.fn()
       };
 
       expect(mapper.deserialize(null, ctx)).toEqual(null);

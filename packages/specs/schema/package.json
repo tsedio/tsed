@@ -21,7 +21,7 @@
     "build": "yarn clean && yarn barrels && yarn build:ts && yarn run build:browser",
     "build:browser": "webpack",
     "barrels": "barrels",
-    "test": "vitest",
+    "test": "vitest run",
     "build:ts": "tsc --build tsconfig.json",
     "test:ci": "vitest run --coverage.thresholds.autoUpdate=true"
   },

@@ -1,4 +1,13 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`Writer > should generate code for if/else condition 1`] = `
+"if (condition) {
+	return true;
+}
+else {
+	return false;
+}"
+`;
 
 exports[`Writer should generate code for if/else condition 1`] = `
 "if (condition) {
