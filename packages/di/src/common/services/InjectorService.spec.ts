@@ -82,9 +82,9 @@ describe("InjectorService", () => {
 
         await injector.load(container);
 
-        jest.spyOn(injector as any, "resolve");
-        jest.spyOn(injector as any, "invoke");
-        jest.spyOn(injector, "getProvider");
+        vi.spyOn(injector as any, "resolve");
+        vi.spyOn(injector as any, "invoke");
+        vi.spyOn(injector, "getProvider");
 
         const locals = new LocalsContainer();
 
@@ -118,8 +118,8 @@ describe("InjectorService", () => {
 
         await injector.load(container);
 
-        jest.spyOn(injector as any, "resolve");
-        jest.spyOn(injector, "getProvider");
+        vi.spyOn(injector as any, "resolve");
+        vi.spyOn(injector, "getProvider");
 
         const locals = new LocalsContainer();
 
@@ -148,9 +148,9 @@ describe("InjectorService", () => {
 
         await injector.load(container);
 
-        jest.spyOn(injector as any, "resolve");
-        jest.spyOn(injector, "get");
-        jest.spyOn(injector, "getProvider");
+        vi.spyOn(injector as any, "resolve");
+        vi.spyOn(injector, "get");
+        vi.spyOn(injector, "getProvider");
 
         const locals = new LocalsContainer(); // LocalContainer for the first request
         const locals2 = new LocalsContainer(); // LocalContainer for the second request
@@ -188,9 +188,9 @@ describe("InjectorService", () => {
 
         await injector.load(container);
 
-        jest.spyOn(injector as any, "resolve");
-        jest.spyOn(injector, "get");
-        jest.spyOn(injector, "getProvider");
+        vi.spyOn(injector as any, "resolve");
+        vi.spyOn(injector, "get");
+        vi.spyOn(injector, "getProvider");
 
         const locals = new LocalsContainer(); // LocalContainer for the first request
 
@@ -210,10 +210,10 @@ describe("InjectorService", () => {
     });
     describe("when provider is a SINGLETON", () => {
       beforeAll(() => {
-        jest.spyOn(GlobalProviders, "onInvoke").mockReturnValue(undefined);
+        vi.spyOn(GlobalProviders, "onInvoke").mockReturnValue(undefined);
       });
       afterAll(() => {
-        jest.resetAllMocks();
+        vi.resetAllMocks();
       });
       it("should invoke the provider from container", () => {
         // GIVEN
@@ -336,7 +336,7 @@ describe("InjectorService", () => {
         const tokenSync = Symbol.for("TokenSyncFactory");
         const providerSync = new Provider<any>(tokenSync);
         providerSync.deps = [token];
-        providerSync.hooks = {$onDestroy: jest.fn(), $onInit: jest.fn()};
+        providerSync.hooks = {$onDestroy: vi.fn(), $onInit: vi.fn()};
         providerSync.useFactory = (asyncInstance: any) => asyncInstance.factory;
 
         const injector = new InjectorService();
@@ -610,10 +610,10 @@ describe("InjectorService", () => {
       const injector = new InjectorService();
       const instance = new TestBind();
 
-      jest.spyOn(injector as any, "bindProperty").mockReturnValue(undefined);
-      jest.spyOn(injector as any, "bindConstant").mockReturnValue(undefined);
-      jest.spyOn(injector as any, "bindValue").mockReturnValue(undefined);
-      jest.spyOn(injector as any, "bindInterceptor").mockReturnValue(undefined);
+      vi.spyOn(injector as any, "bindProperty").mockReturnValue(undefined);
+      vi.spyOn(injector as any, "bindConstant").mockReturnValue(undefined);
+      vi.spyOn(injector as any, "bindValue").mockReturnValue(undefined);
+      vi.spyOn(injector as any, "bindInterceptor").mockReturnValue(undefined);
 
       const injectableProperties = {
         testMethod: {
@@ -751,7 +751,7 @@ describe("InjectorService", () => {
 
       const instance = new Test();
 
-      jest.spyOn(injector, "get");
+      vi.spyOn(injector, "get");
 
       // WHEN
       injector.bindInterceptor(instance, {
@@ -835,7 +835,7 @@ describe("InjectorService", () => {
             provider_custom: ProviderScope.SINGLETON
           }
         },
-        resolvers: [jest.fn() as any]
+        resolvers: [vi.fn() as any]
       });
 
       injector.add(Symbol.for("TOKEN2"), {
@@ -893,7 +893,7 @@ describe("InjectorService", () => {
         }
       }
 
-      jest.spyOn(Test.prototype, "$alterValue");
+      vi.spyOn(Test.prototype, "$alterValue");
 
       // GIVEN
       const injector = new InjectorService();
@@ -938,7 +938,7 @@ describe("InjectorService", () => {
         }
       }
 
-      jest.spyOn(Test.prototype, "$alterValue");
+      vi.spyOn(Test.prototype, "$alterValue");
 
       // GIVEN
       const injector = new InjectorService();
@@ -967,7 +967,7 @@ describe("InjectorService", () => {
         {
           token: TestService,
           use: {
-            get: jest.fn().mockReturnValue("world")
+            get: vi.fn().mockReturnValue("world")
           }
         }
       ]);

@@ -94,7 +94,7 @@ describe("GlobalProviderRegistry", () => {
   describe("onInvoke()", () => {
     it("should call the onInvoke hook", () => {
       const opts = {
-        onInvoke: jest.fn()
+        onInvoke: vi.fn()
       };
       const provider = new Provider(class {}, {type: "type:test"});
       const locals = new LocalsContainer();

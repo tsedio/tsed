@@ -25,7 +25,7 @@ describe("DITest", () => {
         {
           token: MyService,
           use: {
-            createConnection: jest.fn()
+            createConnection: vi.fn()
           }
         }
       ]
