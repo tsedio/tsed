@@ -1,59 +1,59 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`Partial should generate spec 1`] = `
-Object {
-  "components": Object {
-    "schemas": Object {
-      "Model": Object {
-        "properties": Object {
-          "id": Object {
+exports[`Partial > should generate spec 1`] = `
+{
+  "components": {
+    "schemas": {
+      "Model": {
+        "properties": {
+          "id": {
             "minLength": 1,
             "type": "string",
           },
-          "items": Object {
-            "items": Object {
+          "items": {
+            "items": {
               "$ref": "#/components/schemas/Product",
             },
             "type": "array",
           },
-          "title": Object {
+          "title": {
             "minLength": 1,
             "type": "string",
           },
         },
-        "required": Array [
+        "required": [
           "id",
           "title",
         ],
         "type": "object",
       },
-      "ModelPartial": Object {
-        "properties": Object {
-          "items": Object {
-            "items": Object {
+      "ModelPartial": {
+        "properties": {
+          "items": {
+            "items": {
               "$ref": "#/components/schemas/Product",
             },
             "type": "array",
           },
-          "title": Object {
+          "title": {
             "minLength": 1,
             "type": "string",
           },
         },
         "type": "object",
       },
-      "Product": Object {
-        "properties": Object {
-          "id": Object {
+      "Product": {
+        "properties": {
+          "id": {
             "minLength": 1,
             "type": "string",
           },
-          "title": Object {
+          "title": {
             "minLength": 1,
             "type": "string",
           },
         },
-        "required": Array [
+        "required": [
           "id",
           "title",
         ],
@@ -61,74 +61,74 @@ Object {
       },
     },
   },
-  "paths": Object {
-    "/{id}": Object {
-      "patch": Object {
+  "paths": {
+    "/{id}": {
+      "patch": {
         "operationId": "myControllerPatch",
-        "parameters": Array [
-          Object {
+        "parameters": [
+          {
             "in": "path",
             "name": "id",
             "required": true,
-            "schema": Object {
+            "schema": {
               "type": "string",
             },
           },
         ],
-        "requestBody": Object {
-          "content": Object {
-            "application/json": Object {
-              "schema": Object {
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
                 "$ref": "#/components/schemas/ModelPartial",
               },
             },
           },
           "required": false,
         },
-        "responses": Object {
-          "200": Object {
+        "responses": {
+          "200": {
             "description": "Success",
           },
         },
-        "tags": Array [
+        "tags": [
           "MyController",
         ],
       },
-      "post": Object {
+      "post": {
         "operationId": "myControllerPost",
-        "parameters": Array [
-          Object {
+        "parameters": [
+          {
             "in": "path",
             "name": "id",
             "required": true,
-            "schema": Object {
+            "schema": {
               "type": "string",
             },
           },
         ],
-        "requestBody": Object {
-          "content": Object {
-            "application/json": Object {
-              "schema": Object {
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
                 "$ref": "#/components/schemas/Model",
               },
             },
           },
           "required": false,
         },
-        "responses": Object {
-          "200": Object {
+        "responses": {
+          "200": {
             "description": "Success",
           },
         },
-        "tags": Array [
+        "tags": [
           "MyController",
         ],
       },
     },
   },
-  "tags": Array [
-    Object {
+  "tags": [
+    {
       "name": "MyController",
     },
   ],

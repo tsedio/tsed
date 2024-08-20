@@ -21,7 +21,7 @@
     "barrels": "barrels",
     "build:browser": "webpack",
     "build:ts": "tsc --build tsconfig.json",
-    "test": "vitest",
+    "test": "vitest run",
     "test:ci": "vitest run --coverage.thresholds.autoUpdate=true"
   },
   "dependencies": {

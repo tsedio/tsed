@@ -1,4 +1,5 @@
 import {JsonMap} from "./JsonMap.js";
+import "../index.js";
 
 describe("JsonMap", () => {
   it("should serialize a JsonMap", () => {

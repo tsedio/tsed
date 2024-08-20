@@ -1,4 +1,3 @@
-import {type} from "node:os";
 import {CollectionOf} from "../decorators/collections/collectionOf.js";
 import {Property} from "../decorators/common/property.js";
 import {
@@ -22,6 +21,7 @@ import {
   uri,
   url
 } from "./from.js";
+import "../index.js";
 
 describe("from", () => {
   it("should declare a model", () => {

@@ -1,5 +1,6 @@
 import {JsonEntityStore} from "../../domain/JsonEntityStore.js";
 import {ExclusiveMaximum} from "./exclusiveMaximum.js";
+import "../../index.js";
 
 describe("@ExclusiveMaximum", () => {
   it("should declare exclusiveMaximum value", () => {

@@ -1,15 +1,15 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`@AllowedGroups should generate the expected schema without group 1`] = `
-Object {
-  "components": Object {
-    "schemas": Object {
-      "MyModel": Object {
-        "properties": Object {
-          "description": Object {
+exports[`@AllowedGroups > should generate the expected schema without group 1`] = `
+{
+  "components": {
+    "schemas": {
+      "MyModel": {
+        "properties": {
+          "description": {
             "type": "string",
           },
-          "id": Object {
+          "id": {
             "type": "string",
           },
         },
@@ -17,26 +17,26 @@ Object {
       },
     },
   },
-  "paths": Object {
-    "/controllers/{id}": Object {
-      "get": Object {
+  "paths": {
+    "/controllers/{id}": {
+      "get": {
         "operationId": "myControllerGet",
-        "parameters": Array [
-          Object {
+        "parameters": [
+          {
             "in": "path",
             "name": "id",
             "required": true,
-            "schema": Object {
+            "schema": {
               "type": "string",
             },
           },
-          Object {
+          {
             "in": "query",
             "name": "includes",
             "required": false,
-            "schema": Object {
-              "items": Object {
-                "enum": Array [
+            "schema": {
+              "items": {
+                "enum": [
                   "summary",
                   "details",
                 ],
@@ -46,11 +46,11 @@ Object {
             },
           },
         ],
-        "responses": Object {
-          "200": Object {
-            "content": Object {
-              "application/json": Object {
-                "schema": Object {
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
                   "$ref": "#/components/schemas/MyModel",
                 },
               },
@@ -58,30 +58,30 @@ Object {
             "description": "Success",
           },
         },
-        "tags": Array [
+        "tags": [
           "MyController",
         ],
       },
     },
   },
-  "tags": Array [
-    Object {
+  "tags": [
+    {
       "name": "MyController",
     },
   ],
 }
 `;
 
-exports[`@AllowedGroups should generate the schema with allowed group and filter unexpected group 1`] = `
-Object {
-  "components": Object {
-    "schemas": Object {
-      "MyModel": Object {
-        "properties": Object {
-          "description": Object {
+exports[`@AllowedGroups > should generate the schema with allowed group and filter unexpected group 1`] = `
+{
+  "components": {
+    "schemas": {
+      "MyModel": {
+        "properties": {
+          "description": {
             "type": "string",
           },
-          "id": Object {
+          "id": {
             "type": "string",
           },
         },
@@ -89,26 +89,26 @@ Object {
       },
     },
   },
-  "paths": Object {
-    "/controllers/{id}": Object {
-      "get": Object {
+  "paths": {
+    "/controllers/{id}": {
+      "get": {
         "operationId": "myControllerGet",
-        "parameters": Array [
-          Object {
+        "parameters": [
+          {
             "in": "path",
             "name": "id",
             "required": true,
-            "schema": Object {
+            "schema": {
               "type": "string",
             },
           },
-          Object {
+          {
             "in": "query",
             "name": "includes",
             "required": false,
-            "schema": Object {
-              "items": Object {
-                "enum": Array [
+            "schema": {
+              "items": {
+                "enum": [
                   "summary",
                   "details",
                 ],
@@ -118,11 +118,11 @@ Object {
             },
           },
         ],
-        "responses": Object {
-          "200": Object {
-            "content": Object {
-              "application/json": Object {
-                "schema": Object {
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
                   "$ref": "#/components/schemas/MyModel",
                 },
               },
@@ -130,14 +130,14 @@ Object {
             "description": "Success",
           },
         },
-        "tags": Array [
+        "tags": [
           "MyController",
         ],
       },
     },
   },
-  "tags": Array [
-    Object {
+  "tags": [
+    {
       "name": "MyController",
     },
   ],
