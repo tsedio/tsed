@@ -3,7 +3,7 @@ import {PlatformBuilder} from "@tsed/common";
 import serverless from "serverless-http";
 import {PlatformServerlessHttp} from "./PlatformServerlessHttp.js";
 
-jest.mock("serverless-http");
+vi.mock("serverless-http");
 
 class Server {}
 
@@ -12,14 +12,14 @@ describe("PlatformServerlessHttp", () => {
   it("should create a new serverless http app", async () => {
     const event = {};
     const context = {};
-    const callback = jest.fn();
+    const callback = vi.fn();
     const platform = {
-      callback: jest.fn().mockReturnValue(callback),
-      listen: jest.fn().mockResolvedValue(undefined)
+      callback: vi.fn().mockReturnValue(callback),
+      listen: vi.fn().mockResolvedValue(undefined)
     };
-    jest.spyOn(PlatformBuilder, "create").mockReturnValue(platform as any);
+    vi.spyOn(PlatformBuilder, "create").mockReturnValue(platform as any);
 
-    const handler = jest.fn();
+    const handler = vi.fn();
 
     (serverless as any).mockReturnValue(handler);
 
