@@ -16,14 +16,14 @@ describe("ViteRenderMiddleware", () => {
     afterEach(() => PlatformTest.reset());
     it("should return the response", async () => {
       const viteService = {
-        render: jest.fn()
+        render: vi.fn()
       };
 
       const $ctx = PlatformTest.createRequestContext();
-      jest.spyOn($ctx.response, "body");
+      vi.spyOn($ctx.response, "body");
 
       viteService.render.mockResolvedValue("result");
-      jest.spyOn($ctx.response, "isDone").mockReturnValue(false);
+      vi.spyOn($ctx.response, "isDone").mockReturnValue(false);
 
       const middleware = await PlatformTest.invoke<ViteRendererMiddleware>(ViteRendererMiddleware, [
         {
@@ -39,12 +39,12 @@ describe("ViteRenderMiddleware", () => {
     });
     it("should not return the response", async () => {
       const viteService = {
-        render: jest.fn()
+        render: vi.fn()
       };
 
       const $ctx = PlatformTest.createRequestContext();
-      jest.spyOn($ctx.response, "body");
-      jest.spyOn($ctx.response, "isDone").mockReturnValue(true);
+      vi.spyOn($ctx.response, "body");
+      vi.spyOn($ctx.response, "isDone").mockReturnValue(true);
 
       viteService.render.mockResolvedValue("result");
 
