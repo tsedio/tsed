@@ -55,12 +55,12 @@ describe("ResponseFilter", () => {
     })
   );
   beforeEach(() => {
-    jest.spyOn(PlainTextFilter.prototype, "transform").mockReturnValue(undefined);
+    vi.spyOn(PlainTextFilter.prototype, "transform").mockReturnValue(undefined);
     request = SuperTest(PlatformTest.callback());
   });
 
   afterEach(utils.reset);
-  afterEach(() => jest.resetAllMocks());
+  afterEach(() => vi.resetAllMocks());
 
   it("should return png (scenario-1)", async () => {
     const {headers} = await request.get("/rest/response-filter/scenario-1").expect(200);

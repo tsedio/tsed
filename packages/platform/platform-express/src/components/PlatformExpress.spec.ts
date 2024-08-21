@@ -19,9 +19,9 @@ describe("PlatformExpress", () => {
   });
 
   describe("bodyParser()", () => {
-    beforeEach(() => jest.resetAllMocks());
+    beforeEach(() => vi.resetAllMocks());
     it("should return the body parser (json) ", () => {
-      const stub = jest.fn().mockReturnValue("body");
+      const stub = vi.fn().mockReturnValue("body");
 
       const platform = PlatformExpress.create(Server, {
         express: {
@@ -37,7 +37,7 @@ describe("PlatformExpress", () => {
       expect(stub).toBeCalledWith({strict: true, verify: expect.any(Function)});
     });
     it("should return the body parser (urlencoded) ", () => {
-      const stub = jest.fn().mockReturnValue("body");
+      const stub = vi.fn().mockReturnValue("body");
 
       const platform = PlatformExpress.create(Server, {
         express: {

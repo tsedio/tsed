@@ -1,4 +1,339 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`Discriminator > os3 > should generate the spec 1`] = `
+{
+  "components": {
+    "schemas": {
+      "Action": {
+        "properties": {
+          "event": {
+            "minLength": 1,
+            "type": "string",
+          },
+          "type": {
+            "enum": [
+              "action",
+              "click_action",
+            ],
+            "example": "action",
+            "type": "string",
+          },
+          "value": {
+            "type": "string",
+          },
+        },
+        "required": [
+          "event",
+        ],
+        "type": "object",
+      },
+      "ActionPartial": {
+        "properties": {
+          "event": {
+            "minLength": 1,
+            "type": "string",
+          },
+          "type": {
+            "enum": [
+              "action",
+              "click_action",
+            ],
+            "example": "action",
+            "type": "string",
+          },
+          "value": {
+            "type": "string",
+          },
+        },
+        "type": "object",
+      },
+      "CustomAction": {
+        "properties": {
+          "event": {
+            "minLength": 1,
+            "type": "string",
+          },
+          "meta": {
+            "type": "string",
+          },
+          "type": {
+            "example": "custom_action",
+            "type": "string",
+          },
+          "value": {
+            "type": "string",
+          },
+        },
+        "required": [
+          "event",
+        ],
+        "type": "object",
+      },
+      "CustomActionPartial": {
+        "properties": {
+          "event": {
+            "minLength": 1,
+            "type": "string",
+          },
+          "meta": {
+            "type": "string",
+          },
+          "type": {
+            "example": "custom_action",
+            "type": "string",
+          },
+          "value": {
+            "type": "string",
+          },
+        },
+        "type": "object",
+      },
+      "PageView": {
+        "properties": {
+          "type": {
+            "example": "page_view",
+            "type": "string",
+          },
+          "url": {
+            "minLength": 1,
+            "type": "string",
+          },
+          "value": {
+            "type": "string",
+          },
+        },
+        "required": [
+          "url",
+        ],
+        "type": "object",
+      },
+      "PageViewPartial": {
+        "properties": {
+          "type": {
+            "example": "page_view",
+            "type": "string",
+          },
+          "url": {
+            "minLength": 1,
+            "type": "string",
+          },
+          "value": {
+            "type": "string",
+          },
+        },
+        "type": "object",
+      },
+    },
+  },
+  "info": {
+    "title": "Api documentation",
+    "version": "1.0.0",
+  },
+  "openapi": "3.0.1",
+  "paths": {
+    "/rest/discriminator/scenario-1": {
+      "post": {
+        "operationId": "testDiscriminatorScenario1",
+        "parameters": [],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "discriminator": {
+                  "propertyName": "type",
+                },
+                "oneOf": [
+                  {
+                    "$ref": "#/components/schemas/PageView",
+                  },
+                  {
+                    "$ref": "#/components/schemas/Action",
+                  },
+                  {
+                    "$ref": "#/components/schemas/CustomAction",
+                  },
+                ],
+                "required": [
+                  "type",
+                ],
+              },
+            },
+          },
+          "required": false,
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "discriminator": {
+                    "propertyName": "type",
+                  },
+                  "oneOf": [
+                    {
+                      "$ref": "#/components/schemas/PageView",
+                    },
+                    {
+                      "$ref": "#/components/schemas/Action",
+                    },
+                    {
+                      "$ref": "#/components/schemas/CustomAction",
+                    },
+                  ],
+                  "required": [
+                    "type",
+                  ],
+                },
+              },
+            },
+            "description": "Success",
+          },
+        },
+        "tags": [
+          "TestDiscriminator",
+        ],
+      },
+    },
+    "/rest/discriminator/scenario-2": {
+      "post": {
+        "operationId": "testDiscriminatorScenario2",
+        "parameters": [],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "items": {
+                  "discriminator": {
+                    "propertyName": "type",
+                  },
+                  "oneOf": [
+                    {
+                      "$ref": "#/components/schemas/PageView",
+                    },
+                    {
+                      "$ref": "#/components/schemas/Action",
+                    },
+                    {
+                      "$ref": "#/components/schemas/CustomAction",
+                    },
+                  ],
+                  "required": [
+                    "type",
+                  ],
+                },
+                "type": "array",
+              },
+            },
+          },
+          "required": false,
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "discriminator": {
+                      "propertyName": "type",
+                    },
+                    "oneOf": [
+                      {
+                        "$ref": "#/components/schemas/PageView",
+                      },
+                      {
+                        "$ref": "#/components/schemas/Action",
+                      },
+                      {
+                        "$ref": "#/components/schemas/CustomAction",
+                      },
+                    ],
+                    "required": [
+                      "type",
+                    ],
+                  },
+                  "type": "array",
+                },
+              },
+            },
+            "description": "Success",
+          },
+        },
+        "tags": [
+          "TestDiscriminator",
+        ],
+      },
+    },
+    "/rest/discriminator/scenario-3": {
+      "patch": {
+        "operationId": "testDiscriminatorScenario3",
+        "parameters": [],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "discriminator": {
+                  "propertyName": "type",
+                },
+                "oneOf": [
+                  {
+                    "$ref": "#/components/schemas/PageViewPartial",
+                  },
+                  {
+                    "$ref": "#/components/schemas/ActionPartial",
+                  },
+                  {
+                    "$ref": "#/components/schemas/CustomActionPartial",
+                  },
+                ],
+                "required": [
+                  "type",
+                ],
+              },
+            },
+          },
+          "required": false,
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "discriminator": {
+                    "propertyName": "type",
+                  },
+                  "oneOf": [
+                    {
+                      "$ref": "#/components/schemas/PageView",
+                    },
+                    {
+                      "$ref": "#/components/schemas/Action",
+                    },
+                    {
+                      "$ref": "#/components/schemas/CustomAction",
+                    },
+                  ],
+                  "required": [
+                    "type",
+                  ],
+                },
+              },
+            },
+            "description": "Success",
+          },
+        },
+        "tags": [
+          "TestDiscriminator",
+        ],
+      },
+    },
+  },
+  "tags": [
+    {
+      "name": "TestDiscriminator",
+    },
+  ],
+}
+`;
 
 exports[`Discriminator os3 should generate the spec 1`] = `
 Object {
