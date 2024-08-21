@@ -7,11 +7,11 @@ import {FormioService} from "./FormioService.js";
 
 function createSubmissionModelFixture(): any {
   return class {
-    static findOne = jest.fn().mockReturnThis();
-    static updateOne = jest.fn().mockResolvedValue({});
-    static lean = jest.fn().mockReturnThis();
-    static exec = jest.fn().mockReturnThis();
-    save = jest.fn().mockReturnThis();
+    static findOne = vi.fn().mockReturnThis();
+    static updateOne = vi.fn().mockResolvedValue({});
+    static lean = vi.fn().mockReturnThis();
+    static exec = vi.fn().mockReturnThis();
+    save = vi.fn().mockReturnThis();
 
     constructor(public ctrOptions: any) {}
 
@@ -31,29 +31,29 @@ function createSubmissionModelFixture(): any {
 
 function createFormModelFixture(): any {
   return class {
-    static findOne = jest.fn().mockReturnThis();
-    static lean = jest.fn().mockReturnThis();
-    static exec = jest.fn();
+    static findOne = vi.fn().mockReturnThis();
+    static lean = vi.fn().mockReturnThis();
+    static exec = vi.fn();
   };
 }
 
 function createRoleModelFixture(): any {
   return class {
-    static find = jest.fn().mockReturnThis();
-    static sort = jest.fn().mockReturnThis();
-    static lean = jest.fn().mockReturnThis();
-    static exec = jest.fn().mockResolvedValue({});
+    static find = vi.fn().mockReturnThis();
+    static sort = vi.fn().mockReturnThis();
+    static lean = vi.fn().mockReturnThis();
+    static exec = vi.fn().mockResolvedValue({});
   };
 }
 
 async function createServiceFixture() {
   const formioService = {
-    audit: jest.fn(),
+    audit: vi.fn(),
     auth: {
-      tempToken: jest.fn(),
-      logout: jest.fn(),
-      currentUser: jest.fn().mockImplementation((req, res, next) => next()),
-      getToken: jest.fn().mockReturnValue("auth_token")
+      tempToken: vi.fn(),
+      logout: vi.fn(),
+      currentUser: vi.fn().mockImplementation((req, res, next) => next()),
+      getToken: vi.fn().mockReturnValue("auth_token")
     },
     mongoose: {
       models: {
@@ -63,7 +63,7 @@ async function createServiceFixture() {
       }
     },
     util: {
-      idToBson: jest.fn().mockImplementation((f) => f),
+      idToBson: vi.fn().mockImplementation((f) => f),
       errorCodes: {
         role: {EROLESLOAD: "EROLESLOAD"}
       }
@@ -71,8 +71,8 @@ async function createServiceFixture() {
   };
 
   const formioHooksService = {
-    alter: jest.fn().mockImplementation((event: string, value: any) => value),
-    alterAsync: jest.fn().mockImplementation((event: string, value: any) => Promise.resolve(value))
+    alter: vi.fn().mockImplementation((event: string, value: any) => value),
+    alterAsync: vi.fn().mockImplementation((event: string, value: any) => Promise.resolve(value))
   };
 
   const service = await PlatformTest.invoke<FormioAuthService>(FormioAuthService, [
@@ -152,7 +152,7 @@ describe("FormioAuthService", () => {
     it("should throw an error", async () => {
       const {service, formioService} = await createServiceFixture();
 
-      (formioService.mongoose.models.role.exec as jest.Mock).mockRejectedValue(new Error("test"));
+      (formioService.mongoose.models.role.exec as vi.Mock).mockRejectedValue(new Error("test"));
 
       const error = await catchAsyncError(() => service.getRoles({} as any));
       expect(error).toBeInstanceOf(BadRequest);
@@ -164,10 +164,10 @@ describe("FormioAuthService", () => {
       const {service, formioService, formioHooksService} = await createServiceFixture();
       const submission = {
         _id: "submissionId",
-        save: jest.fn()
+        save: vi.fn()
       };
 
-      formioService.mongoose.models.submission.exec = jest.fn().mockResolvedValue(submission);
+      formioService.mongoose.models.submission.exec = vi.fn().mockResolvedValue(submission);
 
       const user = await service.updateUserRole("submissionId", "roleId", {} as any);
 
@@ -183,7 +183,7 @@ describe("FormioAuthService", () => {
         _id: "submissionId"
       };
 
-      formioService.mongoose.models.submission.exec = jest.fn().mockResolvedValue(submission);
+      formioService.mongoose.models.submission.exec = vi.fn().mockResolvedValue(submission);
 
       const user = await service.updateUserRole("submissionId", "roleId", {} as any);
 
@@ -194,7 +194,7 @@ describe("FormioAuthService", () => {
     it("should throw an error when submission doesn't exists", async () => {
       const {service, formioService} = await createServiceFixture();
 
-      formioService.mongoose.models.submission.exec = jest.fn().mockResolvedValue(null);
+      formioService.mongoose.models.submission.exec = vi.fn().mockResolvedValue(null);
 
       const error = await catchAsyncError(() => service.updateUserRole("submissionId", "roleId", {} as any));
 
@@ -336,8 +336,8 @@ describe("FormioAuthService", () => {
         data: {}
       };
 
-      jest.spyOn(service, "setCurrentUser").mockReturnValue(undefined as any);
-      jest.spyOn(service, "generatePayloadToken").mockResolvedValue({
+      vi.spyOn(service, "setCurrentUser").mockReturnValue(undefined as any);
+      vi.spyOn(service, "generatePayloadToken").mockResolvedValue({
         user,
         token: {
           token: "token"
@@ -371,8 +371,8 @@ describe("FormioAuthService", () => {
         data: {}
       };
 
-      jest.spyOn(service, "setCurrentUser").mockReturnValue(undefined as any);
-      jest.spyOn(service, "generatePayloadToken").mockRejectedValue(new Error("Not found"));
+      vi.spyOn(service, "setCurrentUser").mockReturnValue(undefined as any);
+      vi.spyOn(service, "generatePayloadToken").mockRejectedValue(new Error("Not found"));
 
       const error = await catchAsyncError(() => service.generateSession(user as any, ctx));
       expect(error?.message).toEqual("Not found");

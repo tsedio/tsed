@@ -11,7 +11,7 @@ describe("FormioAuthMiddleware", () => {
   it("should authorize user", async () => {
     const formio = {
       middleware: {
-        tokenHandler: jest.fn().mockImplementation((request: any, response: any, next: any) => {
+        tokenHandler: vi.fn().mockImplementation((request: any, response: any, next: any) => {
           request.token = {
             user: {
               _id: "id"
@@ -38,7 +38,7 @@ describe("FormioAuthMiddleware", () => {
   it("should throw error", async () => {
     const formio = {
       middleware: {
-        tokenHandler: jest.fn().mockImplementation((request: any, response: any, next: any) => {
+        tokenHandler: vi.fn().mockImplementation((request: any, response: any, next: any) => {
           next();
         })
       }

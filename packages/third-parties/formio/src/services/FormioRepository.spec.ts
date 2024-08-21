@@ -15,11 +15,11 @@ describe("FormioRepository", () => {
     it("should create submission", async () => {
       const database = {
         formModel: {
-          findOne: jest.fn().mockResolvedValue({
+          findOne: vi.fn().mockResolvedValue({
             _id: "id"
           })
         },
-        saveSubmission: jest.fn().mockImplementation((o) => o)
+        saveSubmission: vi.fn().mockImplementation((o) => o)
       };
 
       const service = await PlatformTest.invoke<PackagesRepository>(PackagesRepository, [
@@ -53,11 +53,11 @@ describe("FormioRepository", () => {
     it("should get all saved submissions", async () => {
       const database = {
         formModel: {
-          findOne: jest.fn().mockResolvedValue({
+          findOne: vi.fn().mockResolvedValue({
             _id: "id"
           })
         },
-        getSubmissions: jest.fn().mockResolvedValue([])
+        getSubmissions: vi.fn().mockResolvedValue([])
       };
 
       const service = await PlatformTest.invoke<PackagesRepository>(PackagesRepository, [
@@ -82,12 +82,12 @@ describe("FormioRepository", () => {
     it("should find on submission", async () => {
       const database = {
         formModel: {
-          findOne: jest.fn().mockResolvedValue({
+          findOne: vi.fn().mockResolvedValue({
             _id: "id"
           })
         },
         submissionModel: {
-          findOne: jest.fn().mockResolvedValue({_id: "id"})
+          findOne: vi.fn().mockResolvedValue({_id: "id"})
         }
       };
 

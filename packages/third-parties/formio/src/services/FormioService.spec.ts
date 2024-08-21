@@ -7,13 +7,13 @@ import {FormioService} from "./FormioService.js";
 async function createFormioFixture(routerOpts: any = {}) {
   const service = await PlatformTest.invoke<FormioService>(FormioService, []);
   const router = {
-    init: jest.fn().mockReturnThis(),
+    init: vi.fn().mockReturnThis(),
     ...routerOpts,
     formio: {
       ...(routerOpts.formio || {}),
       util: {
-        log: jest.fn(),
-        error: jest.fn()
+        log: vi.fn(),
+        error: vi.fn()
       }
     }
   };
@@ -38,7 +38,7 @@ async function createFormioFixture(routerOpts: any = {}) {
     }
   ]);
 
-  jest.spyOn(service, "createRouter").mockReturnValue(router);
+  vi.spyOn(service, "createRouter").mockReturnValue(router);
 
   return {router, config, service};
 }
@@ -66,7 +66,7 @@ describe("FormioService", () => {
     const ctx = PlatformTest.createRequestContext();
     const hooks = router.init.mock.calls[0][0];
 
-    jest.spyOn(AlterAudit.prototype, "transform").mockReturnValue(false);
+    vi.spyOn(AlterAudit.prototype, "transform").mockReturnValue(false);
 
     hooks.alter.audit({$ctx: ctx}, "test");
 
@@ -93,7 +93,7 @@ describe("FormioService", () => {
     it("should encrypt password", async () => {
       const routeOpts = {
         formio: {
-          encrypt: jest.fn().mockImplementation((text, cb) => {
+          encrypt: vi.fn().mockImplementation((text, cb) => {
             cb(null, "hash");
           })
         }
@@ -109,7 +109,7 @@ describe("FormioService", () => {
     it("should throw error", async () => {
       const routeOpts = {
         formio: {
-          encrypt: jest.fn().mockImplementation((text, cb) => {
+          encrypt: vi.fn().mockImplementation((text, cb) => {
             cb(new Error("error"));
           })
         }

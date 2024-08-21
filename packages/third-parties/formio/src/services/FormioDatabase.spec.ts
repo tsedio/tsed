@@ -7,16 +7,16 @@ async function createServiceFixture() {
     mongoose: {
       models: {
         role: {
-          find: jest.fn().mockResolvedValue([{_id: "role_id", machineName: "role_machine"}])
+          find: vi.fn().mockResolvedValue([{_id: "role_id", machineName: "role_machine"}])
         },
         form: class {
-          static countDocuments = jest.fn();
-          static find = jest.fn().mockResolvedValue([{_id: "form_id", machineName: "form_machine"}]);
-          static findOne = jest.fn().mockReturnThis();
-          static findOneAndUpdate = jest.fn();
-          static updateOne = jest.fn().mockReturnThis();
-          static lean = jest.fn().mockReturnThis();
-          static exec = jest.fn();
+          static countDocuments = vi.fn();
+          static find = vi.fn().mockResolvedValue([{_id: "form_id", machineName: "form_machine"}]);
+          static findOne = vi.fn().mockReturnThis();
+          static findOneAndUpdate = vi.fn();
+          static updateOne = vi.fn().mockReturnThis();
+          static lean = vi.fn().mockReturnThis();
+          static exec = vi.fn();
 
           constructor(public ctrOpts: any) {
             Object.assign(this, ctrOpts);
@@ -29,11 +29,11 @@ async function createServiceFixture() {
           }
         },
         action: {
-          find: jest.fn().mockResolvedValue([{_id: "action_id", machineName: "action_machine"}])
+          find: vi.fn().mockResolvedValue([{_id: "action_id", machineName: "action_machine"}])
         },
         submission: class {
-          static find = jest.fn().mockResolvedValue([]);
-          static findOneAndUpdate = jest.fn().mockImplementation((o, o1) => ({...o, ...o1}));
+          static find = vi.fn().mockResolvedValue([]);
+          static findOneAndUpdate = vi.fn().mockImplementation((o, o1) => ({...o, ...o1}));
 
           constructor(o: any) {
             Object.assign(this, {
@@ -47,7 +47,7 @@ async function createServiceFixture() {
       }
     },
     util: {
-      idToBson: jest.fn()
+      idToBson: vi.fn()
     }
   };
   const service = await PlatformTest.invoke<FormioDatabase>(FormioDatabase, [
@@ -166,7 +166,7 @@ describe("FormioDatabase", () => {
   describe("importFormIfNotExists()", () => {
     it("should return create the form if not exists", async () => {
       const {service, formioService} = await createServiceFixture();
-      const onCreate = jest.fn();
+      const onCreate = vi.fn();
       const form: any = {
         name: "name"
       };
@@ -187,7 +187,7 @@ describe("FormioDatabase", () => {
     });
     it("should not create form is exists", async () => {
       const {service, formioService} = await createServiceFixture();
-      const onCreate = jest.fn();
+      const onCreate = vi.fn();
       const form: any = {
         name: "name"
       };
@@ -273,7 +273,7 @@ describe("FormioDatabase", () => {
     it("should import submission", async () => {
       const {service} = await createServiceFixture();
 
-      jest.spyOn(service, "saveSubmission").mockResolvedValue({} as any);
+      vi.spyOn(service, "saveSubmission").mockResolvedValue({} as any);
 
       const result = await service.importSubmission({
         _id: "id",
