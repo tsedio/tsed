@@ -3,14 +3,14 @@ import {Env} from "@tsed/core";
 import sirv from "sirv";
 import {VITE_SERVER} from "./ViteServer.js";
 
-jest.mock("sirv", () => {
-  return jest.fn().mockReturnValue("sirv");
+vi.mock("sirv", () => {
+  return {default: vi.fn().mockReturnValue("sirv")};
 });
-jest.mock("vite", () => {
+vi.mock("vite", () => {
   return {
-    createServer: jest.fn().mockResolvedValue({
+    createServer: vi.fn().mockResolvedValue({
       middlewares: "middlewares",
-      close: jest.fn()
+      close: vi.fn()
     })
   };
 });
@@ -47,7 +47,7 @@ describe("ViteServer", () => {
     it("should load and close server", async () => {
       const {createServer} = await createTestFixture();
       const viteDevServer = PlatformTest.get<VITE_SERVER>(VITE_SERVER);
-      viteDevServer.close = jest.fn();
+      viteDevServer.close = vi.fn();
 
       expect(viteDevServer.middlewares).toEqual("middlewares");
       expect(createServer).toHaveBeenCalledWith({

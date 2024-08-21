@@ -8,14 +8,14 @@ import {ViteModule} from "./ViteModule.js";
 
 async function getModuleFixture() {
   const platformViews = {
-    registerEngine: jest.fn()
+    registerEngine: vi.fn()
   };
   const viteService = {
-    render: jest.fn()
+    render: vi.fn()
   };
   const platformApplication = {
-    use: jest.fn(),
-    get: jest.fn()
+    use: vi.fn(),
+    get: vi.fn()
   };
   const viteServer = {
     middlewares: "middlewares"
@@ -49,7 +49,7 @@ describe("ViteModule", () => {
         {
           token: VITE_SERVER,
           use: {
-            middlewares: jest.fn()
+            middlewares: vi.fn()
           }
         }
       ]

@@ -1,9 +1,9 @@
 import {PlatformTest} from "@tsed/common";
 import {ViteService} from "./ViteService.js";
 
-jest.mock("vike/server", () => {
+vi.mock("vike/server", () => {
   return {
-    renderPage: jest.fn()
+    renderPage: vi.fn()
   };
 });
 
@@ -31,7 +31,7 @@ async function getServiceFixture(httpResponse: any) {
   };
   const mod = await import("vike/server");
 
-  (mod.renderPage as jest.Mock).mockResolvedValue(pageContext);
+  (mod.renderPage as vi.Mock).mockResolvedValue(pageContext);
 
   return {
     renderPage: mod.renderPage,
@@ -46,9 +46,9 @@ describe("ViteService", () => {
   describe("render()", () => {
     describe("when the enableStream: false", () => {
       beforeEach(() => {
-        jest.resetAllMocks();
+        vi.resetAllMocks();
         return PlatformTest.create({
-          vite: {root: "./path/to/client", stateSnapshot: jest.fn().mockReturnValue({state: "state"})}
+          vite: {root: "./path/to/client", stateSnapshot: vi.fn().mockReturnValue({state: "state"})}
         });
       });
       afterEach(() => PlatformTest.reset());
@@ -60,8 +60,8 @@ describe("ViteService", () => {
           body: "html"
         });
 
-        jest.spyOn($ctx.response, "status").mockReturnThis();
-        jest.spyOn($ctx.response, "setHeader").mockReturnThis();
+        vi.spyOn($ctx.response, "status").mockReturnThis();
+        vi.spyOn($ctx.response, "setHeader").mockReturnThis();
 
         const result = await service.render("*", {$ctx});
 
@@ -94,9 +94,9 @@ describe("ViteService", () => {
       it("should return empty content if the page doesn't contains jsx content", async () => {
         const {$ctx, service, renderPage} = await getServiceFixture(null);
 
-        jest.spyOn($ctx.response, "status").mockReturnThis();
-        jest.spyOn($ctx.response, "body").mockReturnThis();
-        jest.spyOn($ctx.response, "contentType").mockReturnThis();
+        vi.spyOn($ctx.response, "status").mockReturnThis();
+        vi.spyOn($ctx.response, "body").mockReturnThis();
+        vi.spyOn($ctx.response, "contentType").mockReturnThis();
 
         const result = await service.render("vue.vite", {$ctx, valueOpt: "valueOpt"});
 
@@ -133,16 +133,16 @@ describe("ViteService", () => {
       it("should log render error", async () => {
         const {$ctx, service, renderPage} = await getServiceFixture(null);
 
-        jest.spyOn($ctx.logger, "error").mockReturnThis();
+        vi.spyOn($ctx.logger, "error").mockReturnThis();
 
         (renderPage as any).mockResolvedValue({
           httpResponse: {},
           errorWhileRendering: new Error("")
         });
 
-        jest.spyOn($ctx.response, "status").mockReturnThis();
-        jest.spyOn($ctx.response, "body").mockReturnThis();
-        jest.spyOn($ctx.response, "setHeader").mockReturnThis();
+        vi.spyOn($ctx.response, "status").mockReturnThis();
+        vi.spyOn($ctx.response, "body").mockReturnThis();
+        vi.spyOn($ctx.response, "setHeader").mockReturnThis();
 
         await service.render("vue.vite", {$ctx});
 
@@ -152,12 +152,12 @@ describe("ViteService", () => {
 
     describe("when the enableStream: true", () => {
       beforeEach(() => {
-        jest.resetAllMocks();
+        vi.resetAllMocks();
         return PlatformTest.create({
           vite: {
             enableStream: true,
             root: "./path/to/client",
-            stateSnapshot: jest.fn().mockReturnValue({state: "state"})
+            stateSnapshot: vi.fn().mockReturnValue({state: "state"})
           }
         });
       });
@@ -170,8 +170,8 @@ describe("ViteService", () => {
           body: "html"
         });
 
-        jest.spyOn($ctx.response, "status").mockReturnThis();
-        jest.spyOn($ctx.response, "setHeader").mockReturnThis();
+        vi.spyOn($ctx.response, "status").mockReturnThis();
+        vi.spyOn($ctx.response, "setHeader").mockReturnThis();
 
         const result = await service.render("*", {$ctx});
 
@@ -214,8 +214,8 @@ describe("ViteService", () => {
         });
 
         $ctx.response.status(404);
-        jest.spyOn($ctx.response, "status").mockReturnThis();
-        jest.spyOn($ctx.response, "setHeader").mockReturnThis();
+        vi.spyOn($ctx.response, "status").mockReturnThis();
+        vi.spyOn($ctx.response, "setHeader").mockReturnThis();
         const result = await service.render("*", {$ctx});
 
         expect(result).toEqual({
