@@ -21,25 +21,25 @@ async function createOidcInteractionContextFixture(grantId: any = "grantId") {
       client_id: "client_id",
       email: "email@email.com"
     },
-    save: jest.fn()
+    save: vi.fn()
   };
 
   const oidcProvider = {
-    interactionDetails: jest.fn().mockResolvedValue(interactionDetails),
-    interactionFinished: jest.fn().mockResolvedValue(undefined),
-    interactionResult: jest.fn().mockResolvedValue(undefined),
-    setProviderSession: jest.fn().mockResolvedValue(undefined),
-    find: jest.fn().mockResolvedValue("grant"),
+    interactionDetails: vi.fn().mockResolvedValue(interactionDetails),
+    interactionFinished: vi.fn().mockResolvedValue(undefined),
+    interactionResult: vi.fn().mockResolvedValue(undefined),
+    setProviderSession: vi.fn().mockResolvedValue(undefined),
+    find: vi.fn().mockResolvedValue("grant"),
     Grant: class {
-      static find = jest.fn().mockResolvedValue("grant");
+      static find = vi.fn().mockResolvedValue("grant");
     },
     Client: {
-      find: jest.fn().mockResolvedValue({
+      find: vi.fn().mockResolvedValue({
         client_id: "client_id"
       })
     },
     Account: {
-      findAccount: jest.fn().mockResolvedValue({
+      findAccount: vi.fn().mockResolvedValue({
         accountId: "accountId"
       })
     }
@@ -188,7 +188,7 @@ describe("OidcInteractionContext", () => {
     it("should return call render", async () => {
       const {$ctx, oidcCtx} = await createOidcInteractionContextFixture();
       await $ctx.runInContext(async () => {
-        jest.spyOn($ctx.response, "render").mockResolvedValue("");
+        vi.spyOn($ctx.response, "render").mockResolvedValue("");
 
         await oidcCtx.render("login", {});
 

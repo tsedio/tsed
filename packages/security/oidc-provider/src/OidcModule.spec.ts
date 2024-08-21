@@ -6,14 +6,14 @@ import koaRewrite from "koa-rewrite";
 import {OidcModule} from "./OidcModule.js";
 import {OidcProvider} from "./services/OidcProvider.js";
 
-jest.mock("express-urlrewrite", () => {
-  return jest.fn().mockReturnValue(jest.fn());
+vi.mock("express-urlrewrite", () => {
+  return {default: vi.fn().mockReturnValue(vi.fn())};
 });
-jest.mock("koa-rewrite", () => {
-  return jest.fn().mockReturnValue(jest.fn());
+vi.mock("koa-rewrite", () => {
+  return {default: vi.fn().mockReturnValue(vi.fn())};
 });
-jest.mock("koa-mount", () => {
-  return jest.fn().mockReturnValue(jest.fn());
+vi.mock("koa-mount", () => {
+  return {default: vi.fn().mockReturnValue(vi.fn())};
 });
 
 describe("OidcModule", () => {
@@ -32,7 +32,7 @@ describe("OidcModule", () => {
       it("should register the appropriate rewrite middleware", async () => {
         const mdl = await PlatformTest.invoke(OidcModule);
 
-        jest.spyOn(mdl.app, "use").mockReturnValue(undefined);
+        vi.spyOn(mdl.app, "use").mockReturnValue(undefined);
 
         await mdl.$onRoutesInit();
 
@@ -42,12 +42,12 @@ describe("OidcModule", () => {
       it("should mount the oidc provider server to application", async () => {
         const provider = {
           app: "app",
-          callback: jest.fn().mockReturnValue("callback")
+          callback: vi.fn().mockReturnValue("callback")
         };
         const oidcProvider = {
-          hasConfiguration: jest.fn().mockReturnValue(true),
-          get: jest.fn().mockReturnValue(provider),
-          create: jest.fn()
+          hasConfiguration: vi.fn().mockReturnValue(true),
+          get: vi.fn().mockReturnValue(provider),
+          create: vi.fn()
         };
         const mdl = await PlatformTest.invoke(OidcModule, [
           {
@@ -56,7 +56,7 @@ describe("OidcModule", () => {
           }
         ]);
 
-        jest.spyOn(mdl.app, "use").mockReturnValue(undefined);
+        vi.spyOn(mdl.app, "use").mockReturnValue(undefined);
 
         await mdl.$afterRoutesInit();
 
@@ -79,7 +79,7 @@ describe("OidcModule", () => {
       it("should register the appropriate rewrite middleware", async () => {
         const mdl = await PlatformTest.invoke(OidcModule);
 
-        jest.spyOn(mdl.app, "use").mockReturnValue(undefined);
+        vi.spyOn(mdl.app, "use").mockReturnValue(undefined);
 
         await mdl.$onRoutesInit();
 
@@ -89,12 +89,12 @@ describe("OidcModule", () => {
       it("should mount the oidc provider server to application", async () => {
         const provider = {
           app: "app",
-          callback: jest.fn().mockReturnValue("callback")
+          callback: vi.fn().mockReturnValue("callback")
         };
         const oidcProvider = {
-          hasConfiguration: jest.fn().mockReturnValue(true),
-          get: jest.fn().mockReturnValue(provider),
-          create: jest.fn()
+          hasConfiguration: vi.fn().mockReturnValue(true),
+          get: vi.fn().mockReturnValue(provider),
+          create: vi.fn()
         };
         const mdl = await PlatformTest.invoke(OidcModule, [
           {
@@ -103,7 +103,7 @@ describe("OidcModule", () => {
           }
         ]);
 
-        jest.spyOn(mdl.app, "use").mockReturnValue(undefined);
+        vi.spyOn(mdl.app, "use").mockReturnValue(undefined);
 
         await mdl.$afterRoutesInit();
 

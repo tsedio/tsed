@@ -7,7 +7,7 @@ describe("OidcNoCacheMiddleware", () => {
   it("should add headers", () => {
     const middleware = PlatformTest.get<OidcNoCacheMiddleware>(OidcNoCacheMiddleware);
     const ctx = PlatformTest.createRequestContext();
-    jest.spyOn(ctx.response, "setHeader").mockReturnThis();
+    vi.spyOn(ctx.response, "setHeader").mockReturnThis();
 
     middleware.use(ctx);
 
