@@ -20,8 +20,8 @@ describe("WildcardRedirectUriAllowed", () => {
 
   describe("$onCreateOIDC()", () => {
     it("should configure the oidc provider", async () => {
-      const originalRedirectUriAllowed = jest.fn();
-      const originalPostLogoutRedirectUriAllowed = jest.fn();
+      const originalRedirectUriAllowed = vi.fn();
+      const originalPostLogoutRedirectUriAllowed = vi.fn();
       const service = PlatformTest.get<OidcWildcardRedirectUriModule>(OidcWildcardRedirectUriModule);
       const provider: any = {
         Client: {
