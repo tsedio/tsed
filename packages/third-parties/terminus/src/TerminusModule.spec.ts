@@ -78,7 +78,7 @@ describe("TerminusModule", () => {
     const terminusModule = PlatformTest.get<TerminusModule>(TerminusModule);
     const service = PlatformTest.get<MyService>(MyService);
 
-    jest.spyOn(service, "$beforeShutdown");
+    vi.spyOn(service, "$beforeShutdown");
 
     const {beforeShutdown} = terminusModule.getConfiguration();
 
