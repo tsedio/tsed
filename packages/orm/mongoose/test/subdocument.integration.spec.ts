@@ -1,6 +1,6 @@
 import {Property} from "@tsed/schema";
-import {TestMongooseContext} from "@tsed/testing-mongoose";
 import {getSchema, Model, MongooseSchema, ObjectID} from "../src/index.js";
+import {TestContainersMongo} from "@tsed/testcontainers-mongo";
 
 @MongooseSchema()
 export class TestSubDocument {
@@ -19,8 +19,8 @@ export class TestModelDocument {
 
 describe("Mongoose", () => {
   describe("SubDocument", () => {
-    beforeEach(TestMongooseContext.create);
-    afterEach(TestMongooseContext.reset);
+    beforeEach(() => TestContainersMongo.create());
+    afterEach(() => TestContainersMongo.reset());
 
     it("should create model with sub document", () => {
       const documentSchema: any = getSchema(TestModelDocument);

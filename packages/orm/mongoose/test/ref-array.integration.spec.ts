@@ -3,7 +3,7 @@ import {BodyParams, Controller, Get, Inject, PlatformTest, Post, QueryParams} fr
 import {deserialize, serialize} from "@tsed/json-mapper";
 import {MongooseModel} from "@tsed/mongoose";
 import {PlatformExpress} from "@tsed/platform-express";
-import {TestMongooseContext} from "@tsed/testing-mongoose";
+import {TestContainersMongo} from "@tsed/testcontainers-mongo";
 import SuperTest from "supertest";
 import {TestProfile2, TestUser} from "./helpers/models/User.js";
 import {Server} from "./helpers/Server.js";
@@ -32,51 +32,49 @@ class ProfilesCtrl {
   }
 }
 
-const baseUser = {
-  email: faker.internet.email(),
-  password: faker.internet.password(12)
-};
+async function getServiceFixture() {
+  const baseUser = {
+    email: faker.internet.email(),
+    password: faker.internet.password(12)
+  };
 
-const baseProfile = {
-  image: faker.image.avatar(),
-  age: faker.datatype.number(2)
-};
+  const baseProfile = {
+    image: faker.image.avatar(),
+    age: faker.datatype.number(2)
+  };
+
+  const repository = PlatformTest.get<ProfilesCtrl>(ProfilesCtrl)!;
+
+  const currentUser = await repository.createUser(deserialize<TestUser>(baseUser, {type: TestUser}));
+  const currentProfile = await repository.createProfile(
+    deserialize<TestProfile2>(
+      {
+        ...baseProfile,
+        users: [currentUser._id]
+      },
+      {
+        type: TestProfile2
+      }
+    )
+  );
+
+  const request = SuperTest(PlatformTest.callback());
+
+  return {request, currentUser, currentProfile, baseProfile, baseUser};
+}
 
 describe("Mongoose", () => {
-  describe("Ref", () => {
-    let request: SuperTest.Agent;
-    let currentUser: any;
-    let currentProfile: any;
+  describe("RefArray", () => {
     beforeEach(
-      TestMongooseContext.bootstrap(Server, {
+      TestContainersMongo.bootstrap(Server, {
         platform: PlatformExpress,
         mount: {
           "/rest": [ProfilesCtrl]
         }
       })
     );
-    beforeEach(async () => {
-      const repository = PlatformTest.get<ProfilesCtrl>(ProfilesCtrl)!;
 
-      currentUser = await repository.createUser(deserialize<TestUser>(baseUser, {type: TestUser}));
-
-      currentProfile = await repository.createProfile(
-        deserialize<TestProfile2>(
-          {
-            ...baseProfile,
-            users: [currentUser._id]
-          },
-          {
-            type: TestProfile2
-          }
-        )
-      );
-    });
-    beforeEach(() => {
-      request = SuperTest(PlatformTest.callback());
-    });
-
-    afterEach(TestMongooseContext.reset);
+    afterEach(() => TestContainersMongo.reset("testusers"));
 
     it("should deserialize class with ref", () => {
       const result = deserialize(
@@ -107,7 +105,9 @@ describe("Mongoose", () => {
       expect(result.users[0]).toBeInstanceOf(TestUser);
     });
 
-    it("should transform mongoose instance to class", () => {
+    it("should transform mongoose instance to class", async () => {
+      const {currentUser} = await getServiceFixture();
+
       const result = currentUser.toClass();
 
       expect(result).toBeInstanceOf(TestUser);
@@ -121,7 +121,9 @@ describe("Mongoose", () => {
       expect(Date.parse(result.updated)).not.toBeNaN();
     });
 
-    it("should transform mongoose instance to object", () => {
+    it("should transform mongoose instance to object", async () => {
+      const {currentUser} = await getServiceFixture();
+
       const result = serialize(currentUser, {type: TestUser, endpoint: true});
 
       expect(result).toBeInstanceOf(Object);
@@ -136,6 +138,8 @@ describe("Mongoose", () => {
     });
 
     it("GET /profiles full=true", async () => {
+      const {request, baseUser, baseProfile} = await getServiceFixture();
+
       const {body: list} = await request.get(`/rest/profiles?full=true`);
 
       expect(list).toEqual([
@@ -160,6 +164,8 @@ describe("Mongoose", () => {
     });
 
     it("GET /profiles full=false", async () => {
+      const {request, baseProfile} = await getServiceFixture();
+
       const {body: list} = await request.get(`/rest/profiles?full=false`);
 
       expect(list).toEqual([

@@ -3,15 +3,17 @@ import axios from "axios";
 import faker from "@faker-js/faker";
 import {MongooseModel} from "../src/interfaces/MongooseModel.js";
 import {TestAvatar} from "./helpers/models/Avatar.js";
+import {TestContainersMongo} from "@tsed/testcontainers-mongo";
+import {PlatformTest} from "@tsed/common";
 
 describe("Mongoose", () => {
   describe("Models with Buffer", () => {
-    beforeEach(TestMongooseContext.create);
-    afterEach(TestMongooseContext.reset);
+    beforeEach(() => TestContainersMongo.create());
+    afterEach(() => TestContainersMongo.reset());
 
     it(
       "Should save and load buffer",
-      TestMongooseContext.inject([TestAvatar], async (avatarModel: MongooseModel<TestAvatar>) => {
+      PlatformTest.inject([TestAvatar], async (avatarModel: MongooseModel<TestAvatar>) => {
         const imageBuffer = await axios
           .get(faker.image.people(256, 256), {
             responseType: "arraybuffer"

@@ -1,31 +1,31 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`Mongoose: ReadOnly should generate json schema 1`] = `
-Object {
-  "properties": Object {
-    "created_at": Object {
+exports[`Mongoose: ReadOnly > should generate json schema 1`] = `
+{
+  "properties": {
+    "created_at": {
       "readOnly": true,
       "type": "number",
     },
-    "id": Object {
+    "id": {
       "description": "An ObjectID",
-      "examples": Array [
+      "examples": [
         "5ce7ad3028890bd71749d477",
       ],
       "minLength": 1,
       "pattern": "^[0-9a-fA-F]{24}$",
       "type": "string",
     },
-    "test": Object {
+    "test": {
       "readOnly": true,
       "type": "object",
     },
-    "updated_at": Object {
+    "updated_at": {
       "readOnly": true,
       "type": "number",
     },
   },
-  "required": Array [
+  "required": [
     "id",
     "created_at",
     "updated_at",

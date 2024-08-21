@@ -1,9 +1,9 @@
+import {PlatformTest} from "@tsed/common";
 import {deserialize, serialize} from "@tsed/json-mapper";
 import {Enum, getJsonSchema, Required} from "@tsed/schema";
-import {TestMongooseContext} from "@tsed/testing-mongoose";
 import {Model} from "../src/decorators/model.js";
 import {DynamicRef, MongooseModel, ObjectID} from "../src/index.js";
-import {Server} from "./helpers/Server.js";
+import {TestContainersMongo} from "@tsed/testcontainers-mongo";
 
 describe("DynamicRef Integration", () => {
   @Model()
@@ -36,9 +36,8 @@ describe("DynamicRef Integration", () => {
     eventType: "ClickedLinkEventModel" | "SignedUpEventModel";
   }
 
-  beforeEach(TestMongooseContext.bootstrap(Server));
-  afterEach(TestMongooseContext.clearDatabase);
-  afterEach(TestMongooseContext.reset);
+  beforeEach(() => TestContainersMongo.create());
+  afterEach(() => TestContainersMongo.reset());
 
   describe("JsonSchema", () => {
     it("should return the json schema", () => {
@@ -113,8 +112,8 @@ describe("DynamicRef Integration", () => {
 
   describe("serialize()", () => {
     it("should serialize (clickedEvent)", async () => {
-      const EventRepository = TestMongooseContext.get<MongooseModel<EventModel>>(EventModel);
-      const ClickedEventRepository = TestMongooseContext.get<MongooseModel<ClickedLinkEventModel>>(ClickedLinkEventModel);
+      const EventRepository = PlatformTest.get<MongooseModel<EventModel>>(EventModel);
+      const ClickedEventRepository = PlatformTest.get<MongooseModel<ClickedLinkEventModel>>(ClickedLinkEventModel);
 
       const clickedEvent = await new ClickedEventRepository({url: "https://www.tsed.io"}).save();
       const event1 = await new EventRepository({eventType: "ClickedLinkEventModel", event: clickedEvent}).save();
@@ -128,8 +127,8 @@ describe("DynamicRef Integration", () => {
       });
     });
     it("should serialize (SignedUpEventModel)", async () => {
-      const EventRepository = TestMongooseContext.get<MongooseModel<EventModel>>(EventModel);
-      const SignedUpEventRepository = TestMongooseContext.get<MongooseModel<SignedUpEventModel>>(SignedUpEventModel);
+      const EventRepository = PlatformTest.get<MongooseModel<EventModel>>(EventModel);
+      const SignedUpEventRepository = PlatformTest.get<MongooseModel<SignedUpEventModel>>(SignedUpEventModel);
 
       const signedUpEvent = await new SignedUpEventRepository({user: "test"}).save();
       const event = await new EventRepository({eventType: "SignedUpEventModel", event: signedUpEvent}).save();

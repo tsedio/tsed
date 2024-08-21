@@ -1,6 +1,6 @@
 import {Model} from "@tsed/mongoose";
 import {CollectionOf, Default, Description, Enum, enums, getJsonSchema, MaxLength, MinLength, Required} from "@tsed/schema";
-import {TestMongooseContext} from "@tsed/testing-mongoose";
+import {TestContainersMongo} from "@tsed/testcontainers-mongo";
 
 export enum ComponentStatuses {
   UNDER_MAINTENANCE = "UNDER_MAINTENANCE",
@@ -33,9 +33,8 @@ export class ComponentStatusSettings {
 }
 
 describe("Enums integration", () => {
-  beforeEach(TestMongooseContext.create);
-  afterEach(TestMongooseContext.clearDatabase);
-  afterEach(TestMongooseContext.reset);
+  beforeEach(() => TestContainersMongo.create());
+  afterEach(() => TestContainersMongo.reset());
 
   it("should not fail when the enum is used with enums() utils", () => {
     expect(getJsonSchema(ComponentStatusSettings)).toEqual({

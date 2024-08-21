@@ -6,6 +6,7 @@ import {TestMongooseContext} from "@tsed/testing-mongoose";
 import {TestContract} from "./helpers/models/Contract.js";
 import {TestCustomer} from "./helpers/models/Customer.js";
 import {SelfUser} from "./helpers/models/User.js";
+import {TestContainersMongo} from "@tsed/testcontainers-mongo";
 
 @Injectable()
 class MyService {
@@ -20,8 +21,9 @@ class MyService {
 }
 
 describe("Circular Ref", () => {
-  beforeEach(TestMongooseContext.create);
-  afterEach(TestMongooseContext.reset);
+  beforeEach(() => TestContainersMongo.create());
+  afterEach(() => TestContainersMongo.reset());
+
   it("should load models with his schema", async () => {
     const service = await PlatformTest.invoke<MyService>(MyService);
 

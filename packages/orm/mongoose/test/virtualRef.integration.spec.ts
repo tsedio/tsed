@@ -4,7 +4,7 @@ import {serialize} from "@tsed/json-mapper";
 import {Model, MongooseModel, ObjectID, VirtualRef} from "@tsed/mongoose";
 import {PlatformExpress} from "@tsed/platform-express";
 import {CollectionOf, getJsonSchema, Groups, Integer, Required} from "@tsed/schema";
-import {TestMongooseContext} from "@tsed/testing-mongoose";
+import {TestContainersMongo} from "@tsed/testcontainers-mongo";
 import SuperTest from "supertest";
 import {Server} from "./helpers/Server.js";
 
@@ -63,39 +63,42 @@ class SpacesController {
   }
 }
 
-describe("Mongoose", () => {
-  describe("Ref", () => {
-    let request: SuperTest.Agent;
+export async function getServiceFixture() {
+  const controller = PlatformTest.get<SpacesController>(SpacesController)!;
 
+  const space1 = new controller.spaces({name: "Space1"});
+  await space1.save();
+
+  const galaxy1 = new controller.galaxies({name: "galaxy1", spaceId: space1._id});
+  await galaxy1.save();
+
+  const request = SuperTest(PlatformTest.callback());
+
+  return {
+    space1,
+    galaxy1,
+    controller,
+    request
+  };
+}
+
+describe("Mongoose", () => {
+  describe("VirtualRef", () => {
     beforeEach(
-      TestMongooseContext.bootstrap(Server, {
+      TestContainersMongo.bootstrap(Server, {
         platform: PlatformExpress,
         mount: {
           "/rest": [SpacesController]
         }
       })
     );
-    beforeEach(async () => {
-      const controller = PlatformTest.get<SpacesController>(SpacesController)!;
-
-      const space1 = new controller.spaces({name: "Space1"});
-      await space1.save();
-
-      const galaxy1 = new controller.galaxies({name: "galaxy1", spaceId: space1._id});
-      await galaxy1.save();
-    });
-    beforeEach(() => {
-      request = SuperTest(PlatformTest.callback());
-    });
-
-    afterEach(TestMongooseContext.reset);
+    afterEach(() => TestContainersMongo.reset());
 
     it("should return the json-schema of the given model", () => {
       expect(getJsonSchema(SpacesModel)).toMatchSnapshot();
     });
-
     it("should map the document to POO", async () => {
-      const controller = PlatformTest.get<SpacesController>(SpacesController)!;
+      const {controller} = await getServiceFixture();
       const result = await controller.getSpaces();
 
       expect(getValue(result, "0.galaxies.0.name")).toEqual("galaxy1");
@@ -111,21 +114,22 @@ describe("Mongoose", () => {
         }
       ]);
     });
-
     it("GET /spaces", async () => {
+      const {request} = await getServiceFixture();
       const {body: list} = await request.get(`/rest/spaces`);
 
-      expect(list).toMatchObject([
-        {
-          name: "Space1",
-          galaxyCount: 1,
-          galaxies: [
-            {
-              name: "galaxy1"
-            }
-          ]
-        }
-      ]);
+      expect(list[0]).toMatchObject({
+        id: expect.any(String),
+        name: "Space1",
+        galaxyCount: 1,
+        galaxies: [
+          {
+            id: expect.any(String),
+            name: "galaxy1",
+            spaceId: expect.any(String)
+          }
+        ]
+      });
     });
   });
 });

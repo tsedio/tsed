@@ -152,7 +152,7 @@ describe("@NumberDecimal()", () => {
     const fakePrice = new Decimal("1234.56");
 
     const obj = {Decimal};
-    jest.spyOn(obj, "Decimal").mockReturnValue(fakePrice);
+    vi.spyOn(obj, "Decimal").mockReturnValue(fakePrice);
 
     // WHEN
     class Model {
@@ -213,7 +213,7 @@ describe("@NumberDecimal()", () => {
     const fakePrice = new Decimal("1234.56");
 
     const obj = {Decimal};
-    jest.spyOn(obj, "Decimal").mockReturnValue(fakePrice);
+    vi.spyOn(obj, "Decimal").mockReturnValue(fakePrice);
 
     // WHEN
     class Model {
@@ -244,7 +244,7 @@ describe("@NumberDecimal()", () => {
     const fakePrice = new Decimal("1234.56");
 
     const obj = {Decimal};
-    jest.spyOn(obj, "Decimal").mockReturnValue(fakePrice);
+    vi.spyOn(obj, "Decimal").mockReturnValue(fakePrice);
 
     // WHEN
     class Model {

@@ -1,8 +1,7 @@
-import {TestMongooseContext} from "@tsed/testing-mongoose";
-import {Server} from "./helpers/Server.js";
-import {MongooseModel} from "../src/interfaces/MongooseModel.js";
 import {Required} from "@tsed/schema";
-import {ObjectID, DiscriminatorKey, Model} from "../src/index.js";
+import {PlatformTest} from "@tsed/common";
+import {TestContainersMongo} from "@tsed/testcontainers-mongo";
+import {DiscriminatorKey, Model, ObjectID, MongooseModel} from "../src/index.js";
 
 describe("Mongoose", () => {
   describe("Discriminators", () => {
@@ -30,19 +29,19 @@ describe("Mongoose", () => {
       user: string;
     }
 
-    beforeEach(TestMongooseContext.bootstrap(Server));
-    afterEach(TestMongooseContext.clearDatabase);
-    afterEach(TestMongooseContext.reset);
+    beforeEach(() => TestContainersMongo.create());
+    afterEach(() => TestContainersMongo.reset());
 
     it("should save and retrieve models correctly", async () => {
-      const eventModel = TestMongooseContext.get<MongooseModel<EventModel>>(EventModel);
-      const clickedLinkEventModel = TestMongooseContext.get<MongooseModel<ClickedLinkEventModel>>(ClickedLinkEventModel);
-      const signedUpEventModel = TestMongooseContext.get<MongooseModel<SignedUpEventModel>>(SignedUpEventModel);
+      const eventModel = PlatformTest.get<MongooseModel<EventModel>>(EventModel);
+      const clickedLinkEventModel = PlatformTest.get<MongooseModel<ClickedLinkEventModel>>(ClickedLinkEventModel);
+      const signedUpEventModel = PlatformTest.get<MongooseModel<SignedUpEventModel>>(SignedUpEventModel);
 
       const date = new Date();
       const savedEventModel = await eventModel.create({time: date});
       const savedClickedLinkEventModel = await clickedLinkEventModel.create({time: date, url: "https://www.tsed.io"});
       const savedSignedUpEventModel = await signedUpEventModel.create({time: date, user: "usario"});
+
       expect(savedEventModel.time).toBe(date);
       expect(savedEventModel.type).toBeUndefined();
       expect(savedClickedLinkEventModel.time).toBe(date);
@@ -55,6 +54,7 @@ describe("Mongoose", () => {
       const retrievedEventModel = await eventModel.findById(savedEventModel.id);
       const retrievedClickedLinkEventModel = await eventModel.findById(savedClickedLinkEventModel.id);
       const retrievedSignedUpEventModel = await eventModel.findById(savedSignedUpEventModel.id);
+
       expect(retrievedEventModel?.toClass()).toBeInstanceOf(EventModel);
       expect(retrievedClickedLinkEventModel?.toClass()).toBeInstanceOf(ClickedLinkEventModel);
       expect(retrievedSignedUpEventModel?.toClass()).toBeInstanceOf(SignedUpEventModel);

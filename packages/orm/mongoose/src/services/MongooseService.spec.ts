@@ -21,10 +21,10 @@ describe("Mongoose", () => {
       // GIVEN
       const instance = {
         readyState: 1,
-        close: jest.fn()
+        close: vi.fn()
       };
 
-      (Mongoose.createConnection as any) = jest.fn().mockResolvedValue(instance);
+      (Mongoose.createConnection as any) = vi.fn().mockResolvedValue(instance);
 
       // WHEN
       await mongooseService.connect("key", "mongodb://test", {options: "options"} as any);
@@ -42,9 +42,9 @@ describe("Mongoose", () => {
       const mongooseService = PlatformTest.get<MongooseService>(MongooseService);
       // GIVEN
       const instance = {
-        close: jest.fn()
+        close: vi.fn()
       };
-      (Mongoose.createConnection as any) = jest.fn().mockResolvedValue(instance);
+      (Mongoose.createConnection as any) = vi.fn().mockResolvedValue(instance);
 
       // WHEN
       await mongooseService.connect("key1", "mongodb://test", {options: "options"} as any);
@@ -57,9 +57,9 @@ describe("Mongoose", () => {
       const mongooseService = PlatformTest.get<MongooseService>(MongooseService);
       // GIVEN
       const instance = {
-        close: jest.fn()
+        close: vi.fn()
       };
-      (Mongoose.createConnection as any) = jest.fn().mockResolvedValue(instance);
+      (Mongoose.createConnection as any) = vi.fn().mockResolvedValue(instance);
 
       // WHEN
       await mongooseService.connect("key2", "mongodb://test", {options: "options"} as any);
