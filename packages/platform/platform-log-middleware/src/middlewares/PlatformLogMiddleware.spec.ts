@@ -27,16 +27,16 @@ async function createMiddlewareFixture({statusCode = 200, error}: {statusCode?: 
     handler: () => {}
   });
 
-  jest.spyOn(PlatformTest.injector.logger, "info").mockResolvedValue(undefined);
-  jest.spyOn(PlatformTest.injector.logger, "warn").mockResolvedValue(undefined);
-  jest.spyOn(PlatformTest.injector.logger, "trace").mockResolvedValue(undefined);
-  jest.spyOn(PlatformTest.injector.logger, "debug").mockResolvedValue(undefined);
-  jest.spyOn(PlatformTest.injector.logger, "error").mockResolvedValue(undefined);
+  vi.spyOn(PlatformTest.injector.logger, "info").mockResolvedValue(undefined);
+  vi.spyOn(PlatformTest.injector.logger, "warn").mockResolvedValue(undefined);
+  vi.spyOn(PlatformTest.injector.logger, "trace").mockResolvedValue(undefined);
+  vi.spyOn(PlatformTest.injector.logger, "debug").mockResolvedValue(undefined);
+  vi.spyOn(PlatformTest.injector.logger, "error").mockResolvedValue(undefined);
 
   ctx.logger.maxStackSize = 0;
   ctx.data = "test";
 
-  ctx.response.getRes().on = jest.fn();
+  ctx.response.getRes().on = vi.fn();
 
   return {request: ctx.request.raw, ctx, middleware};
 }
@@ -182,7 +182,7 @@ describe("PlatformLogMiddleware", () => {
         middleware.use(ctx);
 
         // THEN
-        (ctx.response.getRes().on as jest.Mock).mock.calls[0][1]();
+        (ctx.response.getRes().on as vi.Mock).mock.calls[0][1]();
         //  middleware.onLogEnd(request.$ctx as any);
 
         // THEN
@@ -207,7 +207,7 @@ describe("PlatformLogMiddleware", () => {
         middleware.use(ctx);
 
         // THEN
-        (ctx.response.getRes().on as jest.Mock).mock.calls[0][1]();
+        (ctx.response.getRes().on as vi.Mock).mock.calls[0][1]();
         //  middleware.onLogEnd(request.$ctx as any);
 
         // THEN
@@ -238,7 +238,7 @@ describe("PlatformLogMiddleware", () => {
         middleware.use(ctx);
 
         // THEN
-        (ctx.response.getRes().on as jest.Mock).mock.calls[0][1]();
+        (ctx.response.getRes().on as vi.Mock).mock.calls[0][1]();
         //  middleware.onLogEnd(request.$ctx as any);
 
         // THEN
