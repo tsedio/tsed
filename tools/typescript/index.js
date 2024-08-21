@@ -47,6 +47,8 @@ async function main() {
       const tsConfigBuildCjsPath = join(path, "tsconfig.cjs.json");
       const tsConfigBuildSpecPath = join(path, "tsconfig.spec.json");
       const npmignore = join(path, ".npmignore");
+      const vitestPath = join(path, "vitest.config.mts");
+      const vitePath = join(path, "vite.config.mts");
 
       const hasFiles = await globby(["{src,test}/**/*.spec.ts", "!node_modules"], {
         cwd: path
@@ -101,10 +103,20 @@ async function main() {
           .forEach((dep) => {
             paths["@tsed/" + dep.name] = [relative(dirname(pkg.path), dirname(dep.path)) + "/src"];
           });
-        tsConfigTemplateSpec.compilerOptions.paths = paths;
-        tsConfigTemplateSpec.compilerOptions.rootDir = relative(dirname(tsConfigBuildSpecPath), packagesRootDir);
+        const tsCopy = cloneDeep(tsConfigTemplateSpec);
+        tsCopy.compilerOptions.paths = paths;
+        tsCopy.compilerOptions.rootDir = relative(dirname(tsConfigBuildSpecPath), packagesRootDir);
 
-        await fs.writeJSON(tsConfigBuildSpecPath, tsConfigTemplateSpec, {spaces: 2});
+        if (fs.existsSync(vitestPath)) {
+          tsCopy.include.push("vitest.config.mts");
+          tsCopy.compilerOptions.types = ["vite/client", "vitest/globals"];
+        }
+
+        if (fs.existsSync(vitePath)) {
+          tsCopy.include.push("vite.config.mts");
+        }
+
+        await fs.writeJSON(tsConfigBuildSpecPath, tsCopy, {spaces: 2});
       }
 
       await fs.writeJson(tsConfigPath, tsConfig, {spaces: 2});

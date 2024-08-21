@@ -2,7 +2,7 @@ import {sync} from "globby";
 import {readFileSync} from "node:fs";
 import {basename, dirname, join} from "node:path";
 
-const root = join(import.meta.dirname, "../..");
+const root = join(import.meta.dirname, "../../..");
 
 function deps(pkg, pkgs, set = new Set()) {
   Object.keys({

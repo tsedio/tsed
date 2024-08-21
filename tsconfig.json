@@ -12,12 +12,13 @@
     "moduleResolution": "node",
     "skipLibCheck": true
   },
+  "include": ["vite.workspace.mts"],
   "references": [
     {
-      "path": "./packages/core/tsconfig.json"
+      "path": "./packages/engines/tsconfig.json"
     },
     {
-      "path": "./packages/engines/tsconfig.json"
+      "path": "./packages/core/tsconfig.json"
     },
     {
       "path": "./packages/specs/openspec/tsconfig.json"
@@ -71,10 +72,10 @@
       "path": "./packages/graphql/apollo/tsconfig.json"
     },
     {
-      "path": "./packages/graphql/typegraphql/tsconfig.json"
+      "path": "./packages/graphql/graphql-ws/tsconfig.json"
     },
     {
-      "path": "./packages/graphql/graphql-ws/tsconfig.json"
+      "path": "./packages/graphql/typegraphql/tsconfig.json"
     },
     {
       "path": "./packages/specs/ajv/tsconfig.json"
@@ -89,6 +90,9 @@
       "path": "./packages/orm/adapters-redis/tsconfig.json"
     },
     {
+      "path": "./packages/orm/objection/tsconfig.json"
+    },
+    {
       "path": "./packages/orm/mongoose/tsconfig.json"
     },
     {
@@ -96,9 +100,6 @@
     },
     {
       "path": "./packages/orm/mikro-orm/tsconfig.json"
-    },
-    {
-      "path": "./packages/orm/objection/tsconfig.json"
     },
     {
       "path": "./packages/orm/prisma/tsconfig.json"
@@ -116,10 +117,10 @@
       "path": "./packages/platform/platform-test-sdk/tsconfig.json"
     },
     {
-      "path": "./packages/platform/platform-koa/tsconfig.json"
+      "path": "./packages/platform/platform-express/tsconfig.json"
     },
     {
-      "path": "./packages/platform/platform-express/tsconfig.json"
+      "path": "./packages/platform/platform-koa/tsconfig.json"
     },
     {
       "path": "./packages/platform/platform-serverless-testing/tsconfig.json"
@@ -137,16 +138,16 @@
       "path": "./packages/security/oidc-provider/tsconfig.json"
     },
     {
-      "path": "./packages/security/passport/tsconfig.json"
-    },
-    {
       "path": "./packages/security/oidc-provider-plugin-wildcard-redirect-uri/tsconfig.json"
     },
     {
-      "path": "./packages/third-parties/bullmq/tsconfig.json"
+      "path": "./packages/security/passport/tsconfig.json"
     },
     {
       "path": "./packages/third-parties/agenda/tsconfig.json"
+    },
+    {
+      "path": "./packages/third-parties/bullmq/tsconfig.json"
     },
     {
       "path": "./packages/third-parties/event-emitter/tsconfig.json"
@@ -158,10 +159,10 @@
       "path": "./packages/third-parties/formio/tsconfig.json"
     },
     {
-      "path": "./packages/third-parties/schema-formio/tsconfig.json"
+      "path": "./packages/third-parties/pulse/tsconfig.json"
     },
     {
-      "path": "./packages/third-parties/pulse/tsconfig.json"
+      "path": "./packages/third-parties/schema-formio/tsconfig.json"
     },
     {
       "path": "./packages/third-parties/socketio-testing/tsconfig.json"
@@ -176,16 +177,16 @@
       "path": "./packages/third-parties/stripe/tsconfig.json"
     },
     {
-      "path": "./packages/third-parties/vike/tsconfig.json"
-    },
-    {
-      "path": "./packages/third-parties/vite-ssr-plugin/tsconfig.json"
+      "path": "./packages/third-parties/temporal/tsconfig.json"
     },
     {
       "path": "./packages/third-parties/terminus/tsconfig.json"
     },
     {
-      "path": "./packages/third-parties/temporal/tsconfig.json"
+      "path": "./packages/third-parties/vike/tsconfig.json"
+    },
+    {
+      "path": "./packages/third-parties/vite-ssr-plugin/tsconfig.json"
     },
     {
       "path": "./tools/integration/tsconfig.json"
