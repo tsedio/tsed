@@ -23,7 +23,7 @@ describe("OidcPolicy", () => {
       const options = {
         name: "name",
         requestable: true,
-        details: jest.fn(),
+        details: vi.fn(),
         checks: []
       };
 
@@ -37,8 +37,8 @@ describe("OidcPolicy", () => {
     it("should bind methods from instance to prompt instance", async () => {
       const oidcProvider = PlatformTest.get<OidcPolicy>(OidcPolicy);
       const instance = {
-        details: jest.fn(),
-        checks: jest.fn().mockReturnValue([])
+        details: vi.fn(),
+        checks: vi.fn().mockReturnValue([])
       };
       const options = {
         name: "name",
@@ -82,7 +82,7 @@ describe("OidcPolicy", () => {
 
       it("should load policy (without priority)", async () => {
         const oidcInteractions = {
-          getInteractions: jest
+          getInteractions: vi
             .fn()
             .mockReturnValue([
               PlatformTest.injector.getProvider(Test2Interaction),
@@ -105,7 +105,7 @@ describe("OidcPolicy", () => {
       });
       it("should load policy (with priority)", async () => {
         const oidcInteractions = {
-          getInteractions: jest
+          getInteractions: vi
             .fn()
             .mockReturnValue([
               PlatformTest.injector.getProvider(Test2Interaction),
@@ -131,7 +131,7 @@ describe("OidcPolicy", () => {
     describe("when there is no interactions without usePriority", () => {
       it("should load policy", async () => {
         const oidcInteractions = {
-          getInteractions: jest.fn().mockReturnValue([])
+          getInteractions: vi.fn().mockReturnValue([])
         };
 
         const oidcPolicy = await PlatformTest.invoke<OidcPolicy>(OidcPolicy, [
@@ -141,7 +141,7 @@ describe("OidcPolicy", () => {
           }
         ]);
 
-        jest.spyOn(oidcPolicy as any, "getInteractions").mockReturnValue({
+        vi.spyOn(oidcPolicy as any, "getInteractions").mockReturnValue({
           usePriority: false,
           interactions: new Map([["login", {name: "login", instance: {}} as any]])
         });

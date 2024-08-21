@@ -22,7 +22,7 @@ describe("OidcInteractionMiddleware", () => {
       session: {}
     };
     const oidcInteractionContext = {
-      interactionDetails: jest.fn().mockReturnValue(interactionDetails)
+      interactionDetails: vi.fn().mockReturnValue(interactionDetails)
     };
 
     const middleware = await PlatformTest.invoke<OidcInteractionMiddleware>(OidcInteractionMiddleware, [

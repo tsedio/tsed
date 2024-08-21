@@ -37,7 +37,7 @@ describe("OidcProvider", () => {
 
     it("should intercept all oidc errors", () => {
       const oidcProvider = PlatformTest.get<OidcProvider>(OidcProvider);
-      jest.spyOn((oidcProvider as any).injector.logger, "error");
+      vi.spyOn((oidcProvider as any).injector.logger, "error");
 
       const fn = (oidcProvider as any).createErrorHandler("event");
       fn(
@@ -72,7 +72,7 @@ describe("OidcProvider", () => {
       const oidcProvider = PlatformTest.get<OidcProvider>(OidcProvider);
       const ctx = PlatformTest.createRequestContext();
 
-      jest.spyOn(ctx.logger, "error");
+      vi.spyOn(ctx.logger, "error");
 
       const fn = (oidcProvider as any).createErrorHandler("event");
 

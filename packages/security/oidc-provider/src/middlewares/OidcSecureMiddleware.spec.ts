@@ -21,7 +21,7 @@ describe("OidcSecureMiddleware", () => {
         request
       }
     });
-    jest.spyOn(ctx.response, "redirect").mockReturnValue(undefined as any);
+    vi.spyOn(ctx.response, "redirect").mockReturnValue(undefined as any);
 
     middleware.use(ctx);
 
@@ -43,7 +43,7 @@ describe("OidcSecureMiddleware", () => {
       }
     });
 
-    jest.spyOn(ctx.response, "redirect").mockReturnValue(undefined as any);
+    vi.spyOn(ctx.response, "redirect").mockReturnValue(undefined as any);
 
     middleware.use(ctx);
 
@@ -96,7 +96,7 @@ describe("OidcSecureMiddleware", () => {
       }
     });
 
-    jest.spyOn(ctx.response, "redirect").mockReturnValue(undefined as any);
+    vi.spyOn(ctx.response, "redirect").mockReturnValue(undefined as any);
 
     middleware.use(ctx);
 
