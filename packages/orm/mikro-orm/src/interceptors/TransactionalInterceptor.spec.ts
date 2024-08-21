@@ -28,7 +28,7 @@ describe("TransactionalInterceptor", () => {
   const mockedLogger = mock<Logger>();
   const mockedRetryStrategy = mock<RetryStrategy>();
   const mockedMikroOrmContext = mock<MikroOrmContext>();
-  const next = jest.fn();
+  const next = vi.fn();
 
   let entityManger!: EntityManager;
   let mikroOrm!: MikroORM;

@@ -44,7 +44,7 @@ describe("MikroOrmModule", () => {
   });
 
   afterEach(() => {
-    jest.resetAllMocks();
+    vi.resetAllMocks();
 
     reset<MikroOrmRegistry | EntityManager | MikroORM | MikroOrmContext>(
       mockedMikroOrmRegistry,
@@ -81,7 +81,7 @@ describe("MikroOrmModule", () => {
   describe("$alterRunInContext", () => {
     it("should return a function", () => {
       // arrange
-      const next = jest.fn();
+      const next = vi.fn();
 
       // act
       const result = mikroOrmModule.$alterRunInContext(next);
@@ -92,7 +92,7 @@ describe("MikroOrmModule", () => {
 
     it("should make a function create a context", () => {
       // arrange
-      const next = jest.fn();
+      const next = vi.fn();
       const manager = instance(mockedEntityManager);
 
       when(mockedMikroOrmRegistry.values()).thenReturn([instance(mockedMikroORM)] as unknown as IterableIterator<MikroORM>);
