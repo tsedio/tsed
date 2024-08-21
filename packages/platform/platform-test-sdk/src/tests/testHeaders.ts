@@ -57,35 +57,17 @@ export function testHeaders(options: PlatformTestingSdkOpts) {
     expect(response.header["test"]).toEqual("x-token");
   });
 
-  it("Scenario2: GET /rest/headers/scenario-2", (done: Function) => {
-    request
-      .get("/rest/headers/scenario-2")
-      .expect(200)
-      .end((err: any, response: any) => {
-        if (err) {
-          throw err;
-        }
+  it("Scenario2: GET /rest/headers/scenario-2", async () => {
+    const response = await request.get("/rest/headers/scenario-2").expect(200);
 
-        expect(response.headers["x-token-test"]).toEqual("test");
-        expect(response.headers["x-token-test-2"]).toEqual("test2");
-        expect(response.headers["content-type"]).toContain("application/xml");
-
-        done();
-      });
+    expect(response.headers["x-token-test"]).toEqual("test");
+    expect(response.headers["x-token-test-2"]).toEqual("test2");
+    expect(response.headers["content-type"]).toContain("application/xml");
   });
 
-  it("Scenario3: GET /rest/headers/scenario-3", (done: Function) => {
-    request
-      .get("/rest/headers/scenario-3")
-      .expect(200)
-      .end((err: any, response: any) => {
-        if (err) {
-          throw err;
-        }
+  it("Scenario3: GET /rest/headers/scenario-3", async () => {
+    const response = await request.get("/rest/headers/scenario-3").expect(200);
 
-        expect(response.headers["location"]).toEqual("/v1/location");
-
-        done();
-      });
+    expect(response.headers["location"]).toEqual("/v1/location");
   });
 }

@@ -2,7 +2,7 @@ import {Controller, Get, PlatformTest, Put} from "@tsed/common";
 import SuperTest from "supertest";
 import {PlatformTestingSdkOpts} from "../interfaces/index.js";
 
-const stub = jest.fn();
+const stub = vi.fn();
 
 @Controller("/routing")
 export class TestRoutingController {
@@ -43,7 +43,7 @@ export function testRouting(options: PlatformTestingSdkOpts) {
     request = SuperTest(PlatformTest.callback());
   });
   afterAll(PlatformTest.reset);
-  afterEach(() => jest.resetAllMocks());
+  afterEach(() => vi.resetAllMocks());
 
   it("Scenario1: should call scenario1 only", async () => {
     const {text} = await request.get("/rest/routing/1").expect(200);
