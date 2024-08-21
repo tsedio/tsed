@@ -8,17 +8,17 @@ describe("PlatformExceptions", () => {
     beforeEach(() => PlatformTest.create());
     afterEach(() => PlatformTest.reset());
     beforeEach(() => {
-      jest.spyOn(PlatformTest.injector.logger, "error").mockReturnValue(undefined);
+      vi.spyOn(PlatformTest.injector.logger, "error").mockReturnValue(undefined);
     });
 
     it("should map string error", () => {
       const platformExceptions = PlatformTest.get<PlatformExceptions>(PlatformExceptions);
 
       const ctx = PlatformTest.createRequestContext();
-      jest.spyOn(ctx.response, "body").mockReturnThis();
-      jest.spyOn(ctx.response, "setHeaders").mockReturnThis();
-      jest.spyOn(ctx.response, "status").mockReturnThis();
-      jest.spyOn(ctx.response, "contentType").mockReturnThis();
+      vi.spyOn(ctx.response, "body").mockReturnThis();
+      vi.spyOn(ctx.response, "setHeaders").mockReturnThis();
+      vi.spyOn(ctx.response, "status").mockReturnThis();
+      vi.spyOn(ctx.response, "contentType").mockReturnThis();
 
       const error = "MyError";
 
@@ -30,10 +30,10 @@ describe("PlatformExceptions", () => {
       const middleware = PlatformTest.get<PlatformExceptions>(PlatformExceptions);
 
       const ctx = PlatformTest.createRequestContext();
-      jest.spyOn(ctx.response, "body").mockReturnThis();
-      jest.spyOn(ctx.response, "setHeaders").mockReturnThis();
-      jest.spyOn(ctx.response, "status").mockReturnThis();
-      jest.spyOn(ctx.response, "contentType").mockReturnThis();
+      vi.spyOn(ctx.response, "body").mockReturnThis();
+      vi.spyOn(ctx.response, "setHeaders").mockReturnThis();
+      vi.spyOn(ctx.response, "status").mockReturnThis();
+      vi.spyOn(ctx.response, "contentType").mockReturnThis();
 
       const origin = new ValidationError("wrong ID", [
         {
@@ -67,10 +67,10 @@ describe("PlatformExceptions", () => {
       const middleware = PlatformTest.get<PlatformExceptions>(PlatformExceptions);
 
       const ctx = PlatformTest.createRequestContext();
-      jest.spyOn(ctx.response, "body").mockReturnThis();
-      jest.spyOn(ctx.response, "setHeaders").mockReturnThis();
-      jest.spyOn(ctx.response, "status").mockReturnThis();
-      jest.spyOn(ctx.response, "contentType").mockReturnThis();
+      vi.spyOn(ctx.response, "body").mockReturnThis();
+      vi.spyOn(ctx.response, "setHeaders").mockReturnThis();
+      vi.spyOn(ctx.response, "status").mockReturnThis();
+      vi.spyOn(ctx.response, "contentType").mockReturnThis();
 
       class Custom extends Error {}
 
@@ -91,10 +91,10 @@ describe("PlatformExceptions", () => {
       const middleware = PlatformTest.get<PlatformExceptions>(PlatformExceptions);
 
       const ctx = PlatformTest.createRequestContext();
-      jest.spyOn(ctx.response, "body").mockReturnThis();
-      jest.spyOn(ctx.response, "setHeaders").mockReturnThis();
-      jest.spyOn(ctx.response, "status").mockReturnThis();
-      jest.spyOn(ctx.response, "contentType").mockReturnThis();
+      vi.spyOn(ctx.response, "body").mockReturnThis();
+      vi.spyOn(ctx.response, "setHeaders").mockReturnThis();
+      vi.spyOn(ctx.response, "status").mockReturnThis();
+      vi.spyOn(ctx.response, "contentType").mockReturnThis();
 
       class MongooseError extends Error {}
 
@@ -115,10 +115,10 @@ describe("PlatformExceptions", () => {
       const platformExceptions = PlatformTest.get<PlatformExceptions>(PlatformExceptions);
 
       const ctx = PlatformTest.createRequestContext();
-      jest.spyOn(ctx.response, "body").mockReturnThis();
-      jest.spyOn(ctx.response, "setHeaders").mockReturnThis();
-      jest.spyOn(ctx.response, "status").mockReturnThis();
-      jest.spyOn(ctx.response, "contentType").mockReturnThis();
+      vi.spyOn(ctx.response, "body").mockReturnThis();
+      vi.spyOn(ctx.response, "setHeaders").mockReturnThis();
+      vi.spyOn(ctx.response, "status").mockReturnThis();
+      vi.spyOn(ctx.response, "contentType").mockReturnThis();
 
       const error = {
         status: 413,
@@ -149,10 +149,10 @@ describe("PlatformExceptions", () => {
       const middleware = PlatformTest.get<PlatformExceptions>(PlatformExceptions);
 
       const ctx = PlatformTest.createRequestContext();
-      jest.spyOn(ctx.response, "body").mockReturnThis();
-      jest.spyOn(ctx.response, "setHeaders").mockReturnThis();
-      jest.spyOn(ctx.response, "status").mockReturnThis();
-      jest.spyOn(ctx.response, "contentType").mockReturnThis();
+      vi.spyOn(ctx.response, "body").mockReturnThis();
+      vi.spyOn(ctx.response, "setHeaders").mockReturnThis();
+      vi.spyOn(ctx.response, "status").mockReturnThis();
+      vi.spyOn(ctx.response, "contentType").mockReturnThis();
 
       const error = new Error("My message");
 
@@ -175,10 +175,10 @@ describe("PlatformExceptions", () => {
       const ctx = PlatformTest.createRequestContext();
       ctx.request.raw.url = "url";
 
-      jest.spyOn(ctx.response, "body").mockReturnThis();
-      jest.spyOn(ctx.response, "setHeaders").mockReturnThis();
-      jest.spyOn(ctx.response, "status").mockReturnThis();
-      jest.spyOn(ctx.response, "contentType").mockReturnThis();
+      vi.spyOn(ctx.response, "body").mockReturnThis();
+      vi.spyOn(ctx.response, "setHeaders").mockReturnThis();
+      vi.spyOn(ctx.response, "status").mockReturnThis();
+      vi.spyOn(ctx.response, "contentType").mockReturnThis();
 
       middleware.resourceNotFound(ctx);
 
