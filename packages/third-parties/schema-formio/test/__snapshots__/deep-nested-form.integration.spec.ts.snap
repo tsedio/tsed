@@ -1,4 +1,191 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`Deep Nested form integration > should generate form and nested form 1`] = `
+{
+  "access": [],
+  "components": [
+    {
+      "components": [
+        {
+          "collapsible": false,
+          "components": [
+            {
+              "components": [
+                {
+                  "collapsible": false,
+                  "components": [
+                    {
+                      "defaultValue": true,
+                      "disabled": false,
+                      "input": true,
+                      "key": "deliverNotifications",
+                      "label": "Remind subscribers",
+                      "type": "checkbox",
+                      "validate": {
+                        "required": false,
+                      },
+                    },
+                  ],
+                  "disabled": false,
+                  "input": false,
+                  "key": "panel",
+                  "label": "One hour before this maintenance",
+                  "tableView": false,
+                },
+              ],
+              "disabled": false,
+              "display": "form",
+              "input": true,
+              "key": "oneHourBefore",
+              "tableView": false,
+              "type": "form",
+              "validate": {
+                "required": false,
+              },
+            },
+            {
+              "components": [
+                {
+                  "collapsible": false,
+                  "components": [
+                    {
+                      "defaultValue": true,
+                      "disabled": false,
+                      "input": true,
+                      "key": "updateStatus",
+                      "label": "Set status to 'In Progress'",
+                      "type": "checkbox",
+                      "validate": {
+                        "required": false,
+                      },
+                    },
+                    {
+                      "defaultValue": true,
+                      "disabled": false,
+                      "input": true,
+                      "key": "setComponentStatus",
+                      "label": "Set affected components' status to 'Under Maintenance'",
+                      "type": "checkbox",
+                      "validate": {
+                        "required": false,
+                      },
+                    },
+                    {
+                      "defaultValue": true,
+                      "disabled": false,
+                      "input": true,
+                      "key": "deliverNotifications",
+                      "label": "Notify subscribers",
+                      "type": "checkbox",
+                      "validate": {
+                        "required": false,
+                      },
+                    },
+                  ],
+                  "disabled": false,
+                  "input": false,
+                  "key": "panel",
+                  "label": "At the start time for this maintenance",
+                  "tableView": false,
+                },
+              ],
+              "disabled": false,
+              "display": "form",
+              "input": true,
+              "key": "atStartTime",
+              "tableView": false,
+              "type": "form",
+              "validate": {
+                "required": false,
+              },
+            },
+            {
+              "components": [
+                {
+                  "collapsible": false,
+                  "components": [
+                    {
+                      "defaultValue": true,
+                      "disabled": false,
+                      "input": true,
+                      "key": "updateStatus",
+                      "label": "Set status to 'Completed'",
+                      "type": "checkbox",
+                      "validate": {
+                        "required": false,
+                      },
+                    },
+                    {
+                      "defaultValue": true,
+                      "disabled": false,
+                      "input": true,
+                      "key": "setComponentStatus",
+                      "label": "Set affected components' status to 'Under Maintenance'",
+                      "type": "checkbox",
+                      "validate": {
+                        "required": false,
+                      },
+                    },
+                    {
+                      "defaultValue": true,
+                      "disabled": false,
+                      "input": true,
+                      "key": "deliverNotifications",
+                      "label": "Notify subscribers",
+                      "type": "checkbox",
+                      "validate": {
+                        "required": false,
+                      },
+                    },
+                  ],
+                  "disabled": false,
+                  "input": false,
+                  "key": "panel",
+                  "label": "At the end of time for this maintenance",
+                  "tableView": false,
+                },
+              ],
+              "disabled": false,
+              "display": "form",
+              "input": true,
+              "key": "atEndTime",
+              "tableView": false,
+              "type": "form",
+              "validate": {
+                "required": false,
+              },
+            },
+          ],
+          "disabled": false,
+          "input": false,
+          "key": "panel",
+          "label": "Automation options test",
+          "tableView": false,
+        },
+      ],
+      "disabled": false,
+      "display": "form",
+      "input": true,
+      "key": "automationOptions",
+      "tableView": false,
+      "type": "form",
+      "validate": {
+        "required": false,
+      },
+    },
+  ],
+  "display": "form",
+  "included": {
+    "components": "/components",
+  },
+  "machineName": "scheduled-maintenance",
+  "name": "scheduled-maintenance",
+  "submissionAccess": [],
+  "tags": [],
+  "title": "ScheduledMaintenance",
+  "type": "form",
+}
+`;
 
 exports[`Deep Nested form integration should generate form and nested form 1`] = `
 Object {

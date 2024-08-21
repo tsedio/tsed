@@ -1,4 +1,44 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`EditGrid integration > should generate form with minItems/maxItems 1`] = `
+{
+  "access": [],
+  "components": [
+    {
+      "components": [
+        {
+          "disabled": false,
+          "input": true,
+          "key": "id",
+          "label": "Id",
+          "type": "textfield",
+          "validate": {
+            "required": false,
+          },
+        },
+      ],
+      "disabled": false,
+      "input": true,
+      "key": "test",
+      "label": "Test",
+      "rowDrafts": false,
+      "type": "editgrid",
+      "validate": {
+        "max": 10,
+        "min": 1,
+        "required": false,
+      },
+    },
+  ],
+  "display": "form",
+  "machineName": "model",
+  "name": "model",
+  "submissionAccess": [],
+  "tags": [],
+  "title": "Model",
+  "type": "form",
+}
+`;
 
 exports[`EditGrid integration should generate form with minItems/maxItems 1`] = `
 Object {
