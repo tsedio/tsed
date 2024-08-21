@@ -12,10 +12,10 @@ import {InjectQueue} from "./decorators/InjectQueue.js";
 import {InjectWorker} from "./decorators/InjectWorker.js";
 import {JobDispatcher} from "./dispatchers/index.js";
 
-const queueConstructorSpy = jest.fn();
-const workerConstructorSpy = jest.fn();
+const queueConstructorSpy = vi.fn();
+const workerConstructorSpy = vi.fn();
 
-jest.mock("bullmq", () => {
+vi.mock("bullmq", () => {
   return {
     Queue: class {
       constructor(...args: any[]) {
@@ -364,7 +364,7 @@ describe("BullMQModule", () => {
           data: {test: "test"}
         };
 
-        jest.spyOn(worker, "handle").mockResolvedValueOnce(undefined as never);
+        vi.spyOn(worker, "handle").mockResolvedValueOnce(undefined as never);
 
         await (bullMQModule as any).onProcess(job);
 
@@ -374,7 +374,7 @@ describe("BullMQModule", () => {
       it("should log warning when the worker doesn't exists", async () => {
         const bullMQModule = PlatformTest.get<BullMQModule>(BullMQModule);
 
-        jest.spyOn(PlatformTest.injector.logger, "warn");
+        vi.spyOn(PlatformTest.injector.logger, "warn");
 
         const job = {
           name: "regular",
@@ -400,9 +400,9 @@ describe("BullMQModule", () => {
           attemptsMade: 1
         };
 
-        jest.spyOn(PlatformTest.injector.logger, "error");
+        vi.spyOn(PlatformTest.injector.logger, "error");
 
-        jest.spyOn(worker, "handle").mockRejectedValue(new Error("error") as never);
+        vi.spyOn(worker, "handle").mockRejectedValue(new Error("error") as never);
 
         const error = await catchAsyncError(() => (bullMQModule as any).onProcess(job));
 
@@ -459,7 +459,7 @@ describe("BullMQModule", () => {
         data: {test: "test"}
       };
 
-      jest.spyOn(worker, "handle").mockResolvedValueOnce(undefined as never);
+      vi.spyOn(worker, "handle").mockResolvedValueOnce(undefined as never);
 
       await (bullMQModule as any).onProcess(job);
 
@@ -475,7 +475,7 @@ describe("BullMQModule", () => {
         data: {test: "123"}
       };
 
-      jest.spyOn(worker, "handle").mockResolvedValueOnce(undefined as never);
+      vi.spyOn(worker, "handle").mockResolvedValueOnce(undefined as never);
 
       await (bullMQModule as any).onProcess(job);
 
