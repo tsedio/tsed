@@ -37,7 +37,7 @@ describe("PlatformViews", () => {
       const platformViews = PlatformTest.get<PlatformViews>(PlatformViews);
       const engine = platformViews.getEngine("ejs")!;
 
-      jest.spyOn(engine, "render").mockResolvedValue("HTML");
+      vi.spyOn(engine, "render").mockResolvedValue("HTML");
 
       const result = await platformViews.render("views.ejs");
 
@@ -53,7 +53,7 @@ describe("PlatformViews", () => {
       const platformViews = PlatformTest.get<PlatformViews>(PlatformViews);
       const engine = platformViews.getEngine("ejs")!;
 
-      jest.spyOn(engine, "render").mockResolvedValue("HTML");
+      vi.spyOn(engine, "render").mockResolvedValue("HTML");
 
       const result = await platformViews.render("views", {test: "test"});
 
@@ -70,7 +70,7 @@ describe("PlatformViews", () => {
       const platformViews = PlatformTest.get<PlatformViews>(PlatformViews);
       const engine = platformViews.getEngine("ejs")!;
 
-      jest.spyOn(engine, "render").mockResolvedValue("HTML");
+      vi.spyOn(engine, "render").mockResolvedValue("HTML");
 
       let error: any;
 
