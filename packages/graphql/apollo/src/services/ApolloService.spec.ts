@@ -4,21 +4,21 @@ import {RESTDataSource} from "apollo-datasource-rest";
 import {DataSource} from "../decorators/dataSource.js";
 import {ApolloService} from "./ApolloService.js";
 
-jest.mock("apollo-server-express", () => {
+vi.mock("apollo-server-express", () => {
   return {
     ApolloServer: class {
-      start = jest.fn();
-      getMiddleware = jest.fn();
+      start = vi.fn();
+      getMiddleware = vi.fn();
 
       constructor(public opts: any) {}
     }
   };
 });
-jest.mock("apollo-server-koa", () => {
+vi.mock("apollo-server-koa", () => {
   return {
     ApolloServer: class {
-      start = jest.fn();
-      getMiddleware = jest.fn();
+      start = vi.fn();
+      getMiddleware = vi.fn();
 
       constructor(public opts: any) {}
     }
@@ -75,7 +75,7 @@ describe("ApolloService", () => {
           const service = PlatformTest.get<ApolloService>(ApolloService);
           const app = PlatformTest.get(PlatformApplication);
 
-          jest.spyOn(app, "use").mockReturnThis();
+          vi.spyOn(app, "use").mockReturnThis();
 
           // WHEN
           const result1 = await service.createServer("key", {
@@ -113,7 +113,7 @@ describe("ApolloService", () => {
           const service = PlatformTest.get<ApolloService>(ApolloService);
           const app = PlatformTest.get(PlatformApplication);
 
-          jest.spyOn(app, "use").mockReturnThis();
+          vi.spyOn(app, "use").mockReturnThis();
 
           // WHEN
           const result1 = await service.createServer("key", {
@@ -149,7 +149,7 @@ describe("ApolloService", () => {
           const service = PlatformTest.get<ApolloService>(ApolloService);
           const app = PlatformTest.get(PlatformApplication);
 
-          jest.spyOn(app, "use").mockReturnThis();
+          vi.spyOn(app, "use").mockReturnThis();
 
           // WHEN
           const result1 = await service.createServer("key", {
@@ -185,11 +185,11 @@ describe("ApolloService", () => {
           const service = PlatformTest.get<ApolloService>(ApolloService);
           const app = PlatformTest.get(PlatformApplication);
 
-          jest.spyOn(app, "use").mockReturnThis();
+          vi.spyOn(app, "use").mockReturnThis();
 
           class ApolloServer {
-            start = jest.fn();
-            getMiddleware = jest.fn();
+            start = vi.fn();
+            getMiddleware = vi.fn();
 
             constructor(opts: any) {}
           }
