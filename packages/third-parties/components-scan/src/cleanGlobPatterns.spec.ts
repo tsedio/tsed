@@ -1,7 +1,7 @@
 import {cleanGlobPatterns} from "./cleanGlobPatterns.js";
 import {isTsEnv} from "./isTsEnv.js";
 
-jest.mock("./isTsEnv");
+vi.mock("./isTsEnv");
 
 describe("cleanGlobPatterns()", () => {
   describe("when haven't typescript compiler", () => {

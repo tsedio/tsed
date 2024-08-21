@@ -26,10 +26,11 @@
       "@tsed/platform-cache": ["../../platform/platform-cache/src"],
       "@tsed/swagger": ["../../specs/swagger/src"],
       "@tsed/platform-test-sdk": ["../../platform/platform-test-sdk/src"],
-      "@tsed/platform-koa": ["../../platform/platform-koa/src"],
-      "@tsed/platform-express": ["../../platform/platform-express/src"]
-    }
+      "@tsed/platform-express": ["../../platform/platform-express/src"],
+      "@tsed/platform-koa": ["../../platform/platform-koa/src"]
+    },
+    "types": ["vite/client", "vitest/globals"]
   },
-  "include": ["src/**/*.spec.ts", "test/**/*.spec.ts"],
+  "include": ["src/**/*.spec.ts", "test/**/*.spec.ts", "vitest.config.mts"],
   "exclude": ["node_modules", "test", "lib", "benchmark", "coverage"]
 }
