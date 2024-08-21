@@ -3,14 +3,14 @@ import {staticsMiddleware} from "./staticsMiddleware.js";
 
 describe("staticsMiddleware", () => {
   beforeEach(() => {
-    jest.restoreAllMocks();
+    vi.restoreAllMocks();
   });
   it("should call middleware", () => {
-    const middlewareServeStatic = jest.fn();
-    jest.spyOn(Express, "static").mockReturnValue(middlewareServeStatic);
+    const middlewareServeStatic = vi.fn();
+    vi.spyOn(Express, "static").mockReturnValue(middlewareServeStatic);
     const req = {};
     const res = {};
-    const next = jest.fn();
+    const next = vi.fn();
 
     const middleware = staticsMiddleware("/path", {root: "/publics", test: "test"});
     middleware(req, res, next);
@@ -18,13 +18,13 @@ describe("staticsMiddleware", () => {
     expect(middlewareServeStatic).toBeCalledWith(req, res, next);
   });
   it("should call next when headers is sent", () => {
-    const middlewareServeStatic = jest.fn();
-    jest.spyOn(Express, "static").mockReturnValue(middlewareServeStatic);
+    const middlewareServeStatic = vi.fn();
+    vi.spyOn(Express, "static").mockReturnValue(middlewareServeStatic);
     const req = {};
     const res = {
       headersSent: true
     };
-    const next = jest.fn();
+    const next = vi.fn();
 
     const middleware = staticsMiddleware("/path", {root: "/publics", test: "test"});
     middleware(req, res, next);

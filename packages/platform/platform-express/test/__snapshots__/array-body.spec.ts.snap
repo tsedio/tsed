@@ -1,4 +1,252 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`Array Body > swagger > should return the swagger (OS3) 1`] = `
+{
+  "components": {
+    "schemas": {
+      "MyModel": {
+        "properties": {
+          "test": {
+            "type": "string",
+          },
+        },
+        "type": "object",
+      },
+    },
+  },
+  "info": {
+    "title": "Api documentation",
+    "version": "1.0.0",
+  },
+  "openapi": "3.0.1",
+  "paths": {
+    "/rest/array/1": {
+      "post": {
+        "operationId": "testArrayBodyCtrlScenario1",
+        "parameters": [],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "items": {
+                  "anyOf": [
+                    {
+                      "multipleOf": 1,
+                      "type": "integer",
+                    },
+                    {
+                      "type": "number",
+                    },
+                    {
+                      "type": "string",
+                    },
+                    {
+                      "type": "boolean",
+                    },
+                    {
+                      "type": "array",
+                    },
+                    {
+                      "type": "object",
+                    },
+                  ],
+                  "nullable": true,
+                },
+                "type": "array",
+              },
+            },
+          },
+          "required": false,
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+          },
+        },
+        "tags": [
+          "TestArrayBodyCtrl",
+        ],
+      },
+    },
+    "/rest/array/2": {
+      "post": {
+        "operationId": "testArrayBodyCtrlScenario2",
+        "parameters": [],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "items": {
+                  "anyOf": [
+                    {
+                      "multipleOf": 1,
+                      "type": "integer",
+                    },
+                    {
+                      "type": "number",
+                    },
+                    {
+                      "type": "string",
+                    },
+                    {
+                      "type": "boolean",
+                    },
+                    {
+                      "type": "array",
+                    },
+                    {
+                      "type": "object",
+                    },
+                  ],
+                  "nullable": true,
+                },
+                "type": "array",
+              },
+            },
+          },
+          "required": false,
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+          },
+        },
+        "tags": [
+          "TestArrayBodyCtrl",
+        ],
+      },
+    },
+    "/rest/array/3": {
+      "post": {
+        "operationId": "testArrayBodyCtrlScenario3",
+        "parameters": [],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "items": {
+                  "type": "number",
+                },
+                "type": "array",
+              },
+            },
+          },
+          "required": false,
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+          },
+        },
+        "tags": [
+          "TestArrayBodyCtrl",
+        ],
+      },
+    },
+    "/rest/array/4": {
+      "post": {
+        "operationId": "testArrayBodyCtrlScenario4",
+        "parameters": [],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "items": {
+                  "$ref": "#/components/schemas/MyModel",
+                },
+                "type": "array",
+              },
+            },
+          },
+          "required": false,
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+          },
+        },
+        "tags": [
+          "TestArrayBodyCtrl",
+        ],
+      },
+    },
+    "/rest/array/5": {
+      "post": {
+        "operationId": "testArrayBodyCtrlScenario5",
+        "parameters": [],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+              },
+            },
+          },
+          "required": false,
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+          },
+        },
+        "tags": [
+          "TestArrayBodyCtrl",
+        ],
+      },
+    },
+    "/rest/array/6": {
+      "post": {
+        "operationId": "testArrayBodyCtrlScenario6",
+        "parameters": [],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "anyOf": [
+                  {
+                    "multipleOf": 1,
+                    "type": "integer",
+                  },
+                  {
+                    "type": "number",
+                  },
+                  {
+                    "type": "string",
+                  },
+                  {
+                    "type": "boolean",
+                  },
+                  {
+                    "type": "array",
+                  },
+                  {
+                    "type": "object",
+                  },
+                ],
+                "nullable": true,
+              },
+            },
+          },
+          "required": false,
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+          },
+        },
+        "tags": [
+          "TestArrayBodyCtrl",
+        ],
+      },
+    },
+  },
+  "tags": [
+    {
+      "name": "TestArrayBodyCtrl",
+    },
+  ],
+}
+`;
 
 exports[`Array Body swagger should return the swagger (OS3) 1`] = `
 Object {

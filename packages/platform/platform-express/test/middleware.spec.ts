@@ -35,7 +35,7 @@ describe("Middleware", () => {
     })
   );
   afterEach(utils.reset);
-  afterEach(() => jest.resetAllMocks());
+  afterEach(() => vi.resetAllMocks());
 
   it("should chain middleware", async () => {
     const response = await SuperTest(PlatformTest.callback()).get("/rest/middlewares/scenario-1").expect(200);
