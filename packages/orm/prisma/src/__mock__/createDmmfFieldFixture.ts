@@ -25,7 +25,7 @@ export function createDmmfFieldFixture(options: Partial<FieldFixtureOptions> = {
     },
     model: {
       isInputType: options.isInputType,
-      addImportDeclaration: jest.fn()
+      addImportDeclaration: vi.fn()
     }
   });
 }
