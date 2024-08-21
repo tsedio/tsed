@@ -17,11 +17,19 @@ async function main() {
   const promises = packages.map(async (pkg) => {
     if (pkg.pkg.scripts && pkg.pkg.scripts["test"]) {
       pkg.pkg.scripts["test"] = "vitest run";
-      pkg.pkg.scripts["test:ci"] = "vitest run --coverage.autoUpdate=true";
+      pkg.pkg.scripts["test:ci"] = "vitest run --coverage.thresholds.autoUpdate=true";
       pkg.pkg.devDependencies["vitest"] = monoRepo.rootPkg.devDependencies["vitest"];
+      pkg.pkg.devDependencies["jest"] = undefined;
+      pkg.pkg.devDependencies["jest-coverage-thresholds-bumper"] = undefined;
 
       await fs.writeJson(pkg.path, pkg.pkg, {spaces: 2});
       await fs.writeFile(join(dirname(pkg.path), "vitest.config.mts"), vitestTemplate);
+
+      const jestFile = join(dirname(pkg.path), "jest.config.js");
+
+      if (fs.existsSync(jestFile)) {
+        await fs.removeSync(jestFile);
+      }
     }
   });
 
