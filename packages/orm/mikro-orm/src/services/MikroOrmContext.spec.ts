@@ -50,7 +50,7 @@ describe("MikroOrmContext", () => {
   describe("wrap", () => {
     it("should run a function within a mikro-orm context", async () => {
       // arrange
-      const task = jest.fn();
+      const task = vi.fn();
 
       // act
       await context.run([entityManager], task);
@@ -61,7 +61,7 @@ describe("MikroOrmContext", () => {
 
     it("should return a result of function execution", async () => {
       // arrange
-      const task = jest.fn().mockResolvedValue("string");
+      const task = vi.fn().mockResolvedValue("string");
 
       // act
       const result = await context.run([entityManager], task);
