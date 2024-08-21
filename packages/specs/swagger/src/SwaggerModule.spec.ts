@@ -25,10 +25,10 @@ describe("SwaggerModule", () => {
     it("should add middlewares", async () => {
       const mod = await PlatformTest.invoke<SwaggerModule>(SwaggerModule);
 
-      jest.spyOn(mod.app as any, "get").mockReturnValue(undefined);
-      jest.spyOn(mod.app as any, "use").mockReturnValue(undefined);
-      jest.spyOn(PlatformRouter.prototype as any, "get").mockReturnValue(undefined);
-      jest.spyOn(PlatformRouter.prototype as any, "statics").mockReturnValue(undefined);
+      vi.spyOn(mod.app as any, "get").mockReturnValue(undefined);
+      vi.spyOn(mod.app as any, "use").mockReturnValue(undefined);
+      vi.spyOn(PlatformRouter.prototype as any, "get").mockReturnValue(undefined);
+      vi.spyOn(PlatformRouter.prototype as any, "statics").mockReturnValue(undefined);
 
       mod.$onRoutesInit();
       mod.$onRoutesInit();
@@ -48,8 +48,8 @@ describe("SwaggerModule", () => {
     it("should display the right log", async () => {
       const mod = await PlatformTest.invoke<SwaggerModule>(SwaggerModule);
 
-      jest.spyOn(Fs, "writeFile");
-      jest.spyOn(mod.injector.logger, "info");
+      vi.spyOn(Fs, "writeFile");
+      vi.spyOn(mod.injector.logger, "info");
 
       mod.$onReady();
 
