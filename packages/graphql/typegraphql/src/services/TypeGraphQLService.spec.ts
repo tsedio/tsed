@@ -11,7 +11,7 @@ async function createApolloServiceFixture() {
   const map = new Map();
 
   const apolloService = {
-    createServer: jest.fn((key: string, options: any) => {
+    createServer: vi.fn((key: string, options: any) => {
       map.set(key, {
         instance: server,
         options
@@ -48,7 +48,7 @@ describe("TypeGraphQLService", () => {
       it("should create a server", async () => {
         const {service, apolloService} = await createApolloServiceFixture();
 
-        jest.spyOn(service as any, "createSchema").mockReturnValue({schema: "schema"});
+        vi.spyOn(service as any, "createSchema").mockReturnValue({schema: "schema"});
 
         const result1 = await service.createServer("key", {
           path: "/path",
