@@ -2,7 +2,7 @@ import {DITest} from "@tsed/di";
 import Redis from "ioredis";
 import {registerConnectionProvider} from "./registerConnectionProvider.js";
 
-jest.mock("ioredis", () => {
+vi.mock("ioredis", () => {
   class MockRedis {
     static Cluster = class {
       connector: any = {};
@@ -37,7 +37,7 @@ jest.mock("ioredis", () => {
     }
   }
 
-  return MockRedis;
+  return {default: MockRedis};
 });
 
 const REDIS_CONNECTION = Symbol.for("REDIS_CONNECTION");

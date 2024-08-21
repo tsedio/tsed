@@ -4,8 +4,8 @@ import Redis from "ioredis";
 
 import {IORedisStore, ioRedisStore} from "./IORedisStore.js";
 
-jest.mock("ioredis", () => {
-  return class Redis {
+vi.mock("ioredis", () => {
+  class Redis {
     static Cluster = class {
       hooks = new Hooks();
       connector: any = {};
@@ -114,6 +114,10 @@ jest.mock("ioredis", () => {
     disconnect() {
       return undefined;
     }
+  }
+
+  return {
+    default: Redis
   };
 });
 
@@ -200,11 +204,11 @@ describe("RedisStore", () => {
   });
   describe("mset", () => {
     beforeEach(() => {
-      jest.spyOn(redisCache.store.client, "setex");
-      jest.spyOn(redisCache.store.client, "mset");
+      vi.spyOn(redisCache.store.client, "setex");
+      vi.spyOn(redisCache.store.client, "mset");
     });
     afterEach(() => {
-      jest.resetAllMocks();
+      vi.resetAllMocks();
     });
     it("should return a promise", () => {
       expect(redisCache.set("foo", "bar")).toBeInstanceOf(Promise);
