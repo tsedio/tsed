@@ -19,7 +19,7 @@ describe("PlatformKoa", () => {
   });
   describe("bodyParser()", () => {
     it("should return the body parser (json) ", () => {
-      const stub = jest.fn().mockReturnValue("body");
+      const stub = vi.fn().mockReturnValue("body");
 
       const platform = PlatformKoa.create(Server, {
         koa: {
@@ -33,7 +33,7 @@ describe("PlatformKoa", () => {
       expect(stub).toBeCalledWith({strict: true});
     });
     it("should return the body parser (raw) ", () => {
-      const stub = jest.fn().mockReturnValue("body");
+      const stub = vi.fn().mockReturnValue("body");
 
       const platform = PlatformKoa.create(Server, {
         koa: {
@@ -47,7 +47,7 @@ describe("PlatformKoa", () => {
       expect(stub).toBeCalledWith({strict: true});
     });
     it("should return the body parser (urlencoded) ", () => {
-      const stub = jest.fn().mockReturnValue("body");
+      const stub = vi.fn().mockReturnValue("body");
 
       const platform = PlatformKoa.create(Server, {
         koa: {
