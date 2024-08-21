@@ -6,7 +6,7 @@ describe("cssMiddleware", () => {
   beforeEach(PlatformTest.create);
   afterEach(PlatformTest.reset);
   beforeEach(() => {
-    jest.spyOn(Fs, "readFileSync").mockReturnValue(".css{}");
+    vi.spyOn(Fs, "readFileSync").mockReturnValue(".css{}");
   });
   it("should create a middleware", () => {
     const ctx = PlatformTest.createRequestContext();

@@ -6,7 +6,7 @@ describe("indexMiddleware and redirect", () => {
   afterEach(PlatformTest.reset);
   it("should create a middleware", async () => {
     const ctx = PlatformTest.createRequestContext();
-    jest.spyOn(ctx.response, "render").mockResolvedValue("");
+    vi.spyOn(ctx.response, "render").mockResolvedValue("");
 
     const viewPath = "/swagger.ejs";
     const conf = {

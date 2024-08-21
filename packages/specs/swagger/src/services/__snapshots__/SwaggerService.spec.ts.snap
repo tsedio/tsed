@@ -1,4 +1,14 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`SwaggerService > getOpenAPISpec() > should compile spec only once time 1`] = `
+{
+  "info": {
+    "title": "Api documentation",
+    "version": "1.0.0",
+  },
+  "openapi": "3.0.1",
+}
+`;
 
 exports[`SwaggerService getOpenAPISpec() should compile spec only once time 1`] = `
 Object {
