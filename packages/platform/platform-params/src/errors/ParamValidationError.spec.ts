@@ -49,7 +49,14 @@ describe("ParseExpressionError", () => {
     expect(error.dataPath).toEqual("expression");
     expect(error.requestType).toEqual("name");
 
-    expect(JSON.parse(JSON.stringify(error))).toEqual({
+    expect({
+      ...error,
+      message: error.message,
+      origin: {
+        ...error.origin,
+        message: error.origin.message
+      }
+    }).toEqual({
       dataPath: "expression",
       headers: {},
       name: "PARAM_VALIDATION_ERROR",
@@ -95,7 +102,14 @@ describe("ParseExpressionError", () => {
     expect(error.dataPath).toEqual("expression");
     expect(error.requestType).toEqual("name");
 
-    expect(JSON.parse(JSON.stringify(error))).toEqual({
+    expect({
+      ...error,
+      message: error.message,
+      origin: {
+        ...error.origin,
+        message: error.origin.message
+      }
+    }).toEqual({
       dataPath: "expression",
       headers: {},
       name: "PARAM_VALIDATION_ERROR",
