@@ -34,7 +34,7 @@ describe("getContentType", () => {
     const ctx = PlatformTest.createRequestContext();
     ctx.endpoint = EndpointMetadata.get(TestController, "get");
     ctx.response.getRes().statusCode = 200;
-    jest.spyOn(ctx.response, "getContentType").mockReturnValue("application/json");
+    vi.spyOn(ctx.response, "getContentType").mockReturnValue("application/json");
 
     const result = getContentType(
       {
@@ -55,7 +55,7 @@ describe("getContentType", () => {
     const ctx = PlatformTest.createRequestContext();
     ctx.endpoint = EndpointMetadata.get(TestController, "get");
     ctx.response.getRes().statusCode = 200;
-    jest.spyOn(ctx.response, "getContentType").mockReturnValue("application/json");
+    vi.spyOn(ctx.response, "getContentType").mockReturnValue("application/json");
 
     const result = getContentType(
       {
@@ -76,7 +76,7 @@ describe("getContentType", () => {
     const ctx = PlatformTest.createRequestContext();
     ctx.endpoint = EndpointMetadata.get(TestController, "get");
     ctx.response.getRes().statusCode = 200;
-    jest.spyOn(ctx.response, "getContentType").mockReturnValue("text/html");
+    vi.spyOn(ctx.response, "getContentType").mockReturnValue("text/html");
 
     const result = getContentType(
       {

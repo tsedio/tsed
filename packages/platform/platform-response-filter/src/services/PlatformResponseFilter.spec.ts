@@ -33,10 +33,10 @@ describe("PlatformResponseFilter", () => {
       ctx.endpoint = EndpointMetadata.get(Test, "test");
       const data = {text: "test"};
 
-      jest.spyOn(ctx.response, "contentType").mockReturnThis();
-      jest.spyOn(ctx.response, "get").mockReturnValue(undefined);
-      jest.spyOn(ctx.request, "get").mockReturnValue("custom/json");
-      jest.spyOn(ctx.request, "accepts").mockReturnValue(["custom/json"]);
+      vi.spyOn(ctx.response, "contentType").mockReturnThis();
+      vi.spyOn(ctx.response, "get").mockReturnValue(undefined);
+      vi.spyOn(ctx.request, "get").mockReturnValue("custom/json");
+      vi.spyOn(ctx.request, "accepts").mockReturnValue(["custom/json"]);
 
       const result = await platformResponseFilter.transform(data, ctx);
 
@@ -58,10 +58,10 @@ describe("PlatformResponseFilter", () => {
       ctx.endpoint = EndpointMetadata.get(Test, "test");
       const data = {text: "test"};
 
-      jest.spyOn(ctx.response, "contentType").mockReturnThis();
-      jest.spyOn(ctx.response, "get").mockReturnValue(undefined);
-      jest.spyOn(ctx.request, "get").mockReturnValue("application/json");
-      jest.spyOn(ctx.request, "accepts").mockReturnValue(["application/json"]);
+      vi.spyOn(ctx.response, "contentType").mockReturnThis();
+      vi.spyOn(ctx.response, "get").mockReturnValue(undefined);
+      vi.spyOn(ctx.request, "get").mockReturnValue("application/json");
+      vi.spyOn(ctx.request, "accepts").mockReturnValue(["application/json"]);
 
       const result = await platformResponseFilter.transform(data, ctx);
 
@@ -81,10 +81,10 @@ describe("PlatformResponseFilter", () => {
       ctx.endpoint = EndpointMetadata.get(Test, "test");
       const data = {text: "test"};
 
-      jest.spyOn(ctx.response, "contentType").mockReturnThis();
-      jest.spyOn(ctx.response, "get").mockReturnValue("text/json; charset: utf-8");
-      jest.spyOn(ctx.request, "get").mockReturnValue("application/json");
-      jest.spyOn(ctx.request, "accepts").mockReturnValue(["application/json"]);
+      vi.spyOn(ctx.response, "contentType").mockReturnThis();
+      vi.spyOn(ctx.response, "get").mockReturnValue("text/json; charset: utf-8");
+      vi.spyOn(ctx.request, "get").mockReturnValue("application/json");
+      vi.spyOn(ctx.request, "accepts").mockReturnValue(["application/json"]);
 
       const result = await platformResponseFilter.transform(data, ctx);
 
@@ -104,10 +104,10 @@ describe("PlatformResponseFilter", () => {
       const data = {text: "test"};
       ctx.endpoint = EndpointMetadata.get(Test, "test");
 
-      jest.spyOn(ctx.response, "contentType").mockReturnThis();
-      jest.spyOn(ctx.response, "get").mockReturnValue(undefined);
-      jest.spyOn(ctx.request, "get").mockReturnValue("application/json");
-      jest.spyOn(ctx.request, "accepts").mockReturnValue(["application/json"]);
+      vi.spyOn(ctx.response, "contentType").mockReturnThis();
+      vi.spyOn(ctx.response, "get").mockReturnValue(undefined);
+      vi.spyOn(ctx.request, "get").mockReturnValue("application/json");
+      vi.spyOn(ctx.request, "accepts").mockReturnValue(["application/json"]);
 
       // @ts-ignore
       platformResponseFilter.types.set("*/*", {
@@ -137,10 +137,10 @@ describe("PlatformResponseFilter", () => {
       const data = {text: "test"};
       ctx.endpoint = EndpointMetadata.get(Test, "test");
 
-      jest.spyOn(ctx.response, "contentType").mockReturnThis();
-      jest.spyOn(ctx.response, "get").mockReturnValue(undefined);
-      jest.spyOn(ctx.request, "get").mockReturnValue(undefined);
-      jest.spyOn(ctx.request, "accepts").mockReturnValue(false);
+      vi.spyOn(ctx.response, "contentType").mockReturnThis();
+      vi.spyOn(ctx.response, "get").mockReturnValue(undefined);
+      vi.spyOn(ctx.request, "get").mockReturnValue(undefined);
+      vi.spyOn(ctx.request, "accepts").mockReturnValue(false);
 
       const result = await platformResponseFilter.transform(data, ctx);
 
@@ -168,10 +168,10 @@ describe("PlatformResponseFilter", () => {
         }
       });
 
-      jest.spyOn(ctx.response, "contentType").mockReturnThis();
-      jest.spyOn(ctx.response, "get").mockReturnValue(undefined);
-      jest.spyOn(ctx.request, "get").mockReturnValue(undefined);
-      jest.spyOn(ctx.request, "accepts").mockReturnValue(false);
+      vi.spyOn(ctx.response, "contentType").mockReturnThis();
+      vi.spyOn(ctx.response, "get").mockReturnValue(undefined);
+      vi.spyOn(ctx.request, "get").mockReturnValue(undefined);
+      vi.spyOn(ctx.request, "accepts").mockReturnValue(false);
 
       const result = await platformResponseFilter.transform(data, ctx);
 
@@ -201,7 +201,7 @@ describe("PlatformResponseFilter", () => {
       const ctx = PlatformTest.createRequestContext();
       ctx.endpoint = EndpointMetadata.get(Test, "test");
 
-      jest.spyOn(ctx.endpoint, "getResponseOptions");
+      vi.spyOn(ctx.endpoint, "getResponseOptions");
 
       const result = await platformResponseFilter.serialize({test: "test"}, ctx);
 
@@ -218,7 +218,7 @@ describe("PlatformResponseFilter", () => {
       const ctx = PlatformTest.createRequestContext();
       ctx.endpoint = EndpointMetadata.get(Test, "test");
 
-      jest.spyOn(ctx.endpoint, "getResponseOptions");
+      vi.spyOn(ctx.endpoint, "getResponseOptions");
 
       ctx.request.query.includes = [];
 
@@ -237,7 +237,7 @@ describe("PlatformResponseFilter", () => {
       const ctx = PlatformTest.createRequestContext();
       ctx.endpoint = EndpointMetadata.get(Test, "test");
 
-      jest.spyOn(ctx.endpoint, "getResponseOptions");
+      vi.spyOn(ctx.endpoint, "getResponseOptions");
 
       ctx.request.query.includes = ["test,test2"];
 
@@ -258,7 +258,7 @@ describe("PlatformResponseFilter", () => {
       const platformResponseFilter = PlatformTest.get<PlatformResponseFilter>(PlatformResponseFilter);
       const ctx = PlatformTest.createRequestContext();
       ctx.endpoint = EndpointMetadata.get(Test, "test");
-      jest.spyOn(ctx.response, "render").mockResolvedValue("template");
+      vi.spyOn(ctx.response, "render").mockResolvedValue("template");
 
       const result = await platformResponseFilter.serialize({test: "test"}, ctx);
 
@@ -274,7 +274,7 @@ describe("PlatformResponseFilter", () => {
       const platformResponseFilter = PlatformTest.get<PlatformResponseFilter>(PlatformResponseFilter);
       const ctx = PlatformTest.createRequestContext();
       ctx.endpoint = EndpointMetadata.get(Test, "test");
-      jest.spyOn(ctx.response, "render").mockRejectedValue(new Error("parsing error"));
+      vi.spyOn(ctx.response, "render").mockRejectedValue(new Error("parsing error"));
 
       const result = await catchAsyncError(() => platformResponseFilter.serialize({test: "test"}, ctx));
 

@@ -26,7 +26,7 @@ describe("renderView", () => {
     const ctx = PlatformTest.createRequestContext();
     ctx.endpoint = EndpointMetadata.get(Test, "test");
 
-    jest.spyOn(ctx.response, "render").mockResolvedValue("HTML");
+    vi.spyOn(ctx.response, "render").mockResolvedValue("HTML");
 
     ctx.data = {data: "data"};
 
@@ -48,7 +48,7 @@ describe("renderView", () => {
     const ctx = PlatformTest.createRequestContext();
     ctx.endpoint = EndpointMetadata.get(Test, "test");
 
-    jest.spyOn(ctx.response, "render").mockRejectedValue(new Error("parser error"));
+    vi.spyOn(ctx.response, "render").mockRejectedValue(new Error("parser error"));
 
     ctx.data = {data: "data"};
 
