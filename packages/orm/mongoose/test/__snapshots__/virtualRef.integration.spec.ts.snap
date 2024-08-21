@@ -1,57 +1,57 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`Mongoose Ref should return the json-schema of the given model 1`] = `
-Object {
-  "definitions": Object {
-    "GalaxiesModel": Object {
-      "properties": Object {
-        "id": Object {
+exports[`Mongoose > VirtualRef > should return the json-schema of the given model 1`] = `
+{
+  "definitions": {
+    "GalaxiesModel": {
+      "properties": {
+        "id": {
           "description": "An ObjectID",
-          "examples": Array [
+          "examples": [
             "5ce7ad3028890bd71749d477",
           ],
           "pattern": "^[0-9a-fA-F]{24}$",
           "type": "string",
         },
-        "name": Object {
+        "name": {
           "minLength": 1,
           "type": "string",
         },
-        "spaceId": Object {
+        "spaceId": {
           "type": "string",
         },
       },
-      "required": Array [
+      "required": [
         "name",
       ],
       "type": "object",
     },
   },
-  "properties": Object {
-    "galaxies": Object {
-      "items": Object {
+  "properties": {
+    "galaxies": {
+      "items": {
         "$ref": "#/definitions/GalaxiesModel",
       },
       "type": "array",
     },
-    "galaxyCount": Object {
+    "galaxyCount": {
       "multipleOf": 1,
       "type": "number",
     },
-    "id": Object {
+    "id": {
       "description": "An ObjectID",
-      "examples": Array [
+      "examples": [
         "5ce7ad3028890bd71749d477",
       ],
       "pattern": "^[0-9a-fA-F]{24}$",
       "type": "string",
     },
-    "name": Object {
+    "name": {
       "minLength": 1,
       "type": "string",
     },
   },
-  "required": Array [
+  "required": [
     "name",
   ],
   "type": "object",

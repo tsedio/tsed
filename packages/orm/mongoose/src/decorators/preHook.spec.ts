@@ -4,7 +4,7 @@ describe("@PreHook()", () => {
   describe("when decorator is used as class decorator", () => {
     it("should call applySchemaOptions", () => {
       // GIVEN
-      const fn = jest.fn();
+      const fn = vi.fn();
 
       // WHEN
       @PreHook("method", fn, {query: true})
@@ -27,7 +27,7 @@ describe("@PreHook()", () => {
     });
     it("should call applySchemaOptions with more options", () => {
       // GIVEN
-      const fn: any = jest.fn((instance: any, next: MongooseNextCB, options: any) => {
+      const fn: any = vi.fn((instance: any, next: MongooseNextCB, options: any) => {
         return instance;
       });
 

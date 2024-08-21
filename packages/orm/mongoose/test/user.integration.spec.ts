@@ -1,17 +1,17 @@
-import {TestMongooseContext} from "@tsed/testing-mongoose";
 import faker from "@faker-js/faker";
+import {PlatformTest} from "@tsed/common";
 import {MongooseModel} from "../src/interfaces/MongooseModel.js";
 import {TestUser} from "./helpers/models/User.js";
-import {Server} from "./helpers/Server.js";
+import {TestContainersMongo} from "@tsed/testcontainers-mongo";
 
 describe("Mongoose", () => {
   describe("UserModel (di)", () => {
-    beforeEach(TestMongooseContext.create);
-    afterEach(TestMongooseContext.reset);
+    beforeEach(() => TestContainersMongo.create());
+    afterEach(() => TestContainersMongo.reset());
 
     it(
       "should run pre and post hook",
-      TestMongooseContext.inject([TestUser], async (userModel: MongooseModel<TestUser>) => {
+      PlatformTest.inject([TestUser], async (userModel: MongooseModel<TestUser>) => {
         // GIVEN
         const user = new userModel({
           email: "test@test.fr",
@@ -32,13 +32,12 @@ describe("Mongoose", () => {
   });
 
   describe("UserModel", () => {
-    beforeEach(TestMongooseContext.bootstrap(Server));
-    afterEach(TestMongooseContext.clearDatabase);
-    afterEach(TestMongooseContext.reset);
+    beforeEach(() => TestContainersMongo.create());
+    afterEach(() => TestContainersMongo.reset());
 
     it(
       "should run pre and post hook",
-      TestMongooseContext.inject([TestUser], async (userModel: MongooseModel<TestUser>) => {
+      PlatformTest.inject([TestUser], async (userModel: MongooseModel<TestUser>) => {
         // GIVEN
         const user = new userModel({
           email: "test@test.fr",

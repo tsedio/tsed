@@ -5,7 +5,7 @@ describe("@PostHook()", () => {
   describe("when decorator is used as class decorator", () => {
     it("should call applySchemaOptions", () => {
       // GIVEN
-      const fn = jest.fn();
+      const fn = vi.fn();
 
       // WHEN
       @PostHook("method", fn)

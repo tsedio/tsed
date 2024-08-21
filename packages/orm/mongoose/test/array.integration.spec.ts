@@ -1,13 +1,12 @@
 import {serialize} from "@tsed/json-mapper";
 import {TestMongooseContext} from "@tsed/testing-mongoose";
 import {MyWorkspace, UserModel, UserWorkspace, Workspace, WorkspaceModel} from "./helpers/models/UserWorkspace.js";
-import {Server} from "./helpers/Server.js";
+import {TestContainersMongo} from "@tsed/testcontainers-mongo";
 
 describe("Mongoose", () => {
   describe("Array models", () => {
-    beforeEach(TestMongooseContext.bootstrap(Server));
-    afterEach(TestMongooseContext.clearDatabase);
-    afterEach(TestMongooseContext.reset);
+    beforeEach(() => TestContainersMongo.create());
+    afterEach(() => TestContainersMongo.reset());
 
     it("should run pre and post hook", async () => {
       const userModel = TestMongooseContext.get<UserModel>(UserWorkspace);

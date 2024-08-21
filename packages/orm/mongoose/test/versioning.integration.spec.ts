@@ -1,9 +1,9 @@
 import {serialize} from "@tsed/json-mapper";
-import {TestMongooseContext} from "@tsed/testing-mongoose";
-import {Server} from "./helpers/Server.js";
 import {MongooseModel} from "../src/interfaces/MongooseModel.js";
 import {Integer, Required} from "@tsed/schema";
 import {Model, ObjectID, VersionKey} from "../src/index.js";
+import {TestContainersMongo} from "@tsed/testcontainers-mongo";
+import {PlatformTest} from "@tsed/common";
 
 describe("Mongoose", () => {
   describe("Versioning", () => {
@@ -29,12 +29,11 @@ describe("Mongoose", () => {
       tags: Array<string>;
     }
 
-    beforeEach(TestMongooseContext.bootstrap(Server));
-    afterEach(TestMongooseContext.clearDatabase);
-    afterEach(TestMongooseContext.reset);
+    beforeEach(() => TestContainersMongo.create());
+    afterEach(() => TestContainersMongo.reset());
 
     it("should save and retrieve version key field", async () => {
-      const versionModel = TestMongooseContext.get<MongooseModel<ModelWithCustomVersion>>(ModelWithCustomVersion);
+      const versionModel = PlatformTest.get<MongooseModel<ModelWithCustomVersion>>(ModelWithCustomVersion);
 
       const testObject = await versionModel.create({tags: []});
       expect(testObject.tags.length).toBe(0);
@@ -57,7 +56,7 @@ describe("Mongoose", () => {
     });
 
     it("should not serialize __v field by default", async () => {
-      const dataModel = TestMongooseContext.get<MongooseModel<ModelWithoutVersion>>(ModelWithoutVersion);
+      const dataModel = PlatformTest.get<MongooseModel<ModelWithoutVersion>>(ModelWithoutVersion);
 
       const testObject = await dataModel.create({prop: "Test"});
       const deserializedObject = testObject.toClass();

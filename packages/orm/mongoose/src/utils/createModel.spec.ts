@@ -3,7 +3,7 @@ import {createModel} from "../../src/index.js";
 
 describe("createModel()", () => {
   let schema: any;
-  mongoose.model = jest.fn();
+  mongoose.model = vi.fn();
   describe("when the model name is given", () => {
     class Test {}
 

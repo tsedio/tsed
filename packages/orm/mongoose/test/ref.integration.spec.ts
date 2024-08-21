@@ -3,7 +3,7 @@ import {BodyParams, Controller, Get, Inject, PlatformTest, Post, QueryParams} fr
 import {deserialize, serialize} from "@tsed/json-mapper";
 import {MongooseModel} from "@tsed/mongoose";
 import {PlatformExpress} from "@tsed/platform-express";
-import {TestMongooseContext} from "@tsed/testing-mongoose";
+import {TestContainersMongo} from "@tsed/testcontainers-mongo";
 import SuperTest from "supertest";
 import {TestProfile, TestUser} from "./helpers/models/User.js";
 import {Server} from "./helpers/Server.js";
@@ -42,40 +42,43 @@ const baseProfile = {
   age: faker.datatype.number(2)
 };
 
+async function getServiceFixture() {
+  const repository = PlatformTest.get<ProfilesCtrl>(ProfilesCtrl)!;
+
+  const currentUser = await repository.createUser(deserialize<TestUser>(baseUser, {type: TestUser}));
+  const currentProfile = await repository.createProfile(
+    deserialize<TestProfile>(
+      {
+        ...baseProfile,
+        user: currentUser._id
+      },
+      {
+        type: TestProfile
+      }
+    )
+  );
+
+  const request = SuperTest(PlatformTest.callback());
+
+  return {
+    currentUser,
+    currentProfile,
+    request
+  };
+}
+
 describe("Mongoose", () => {
   describe("Ref", () => {
-    let request: SuperTest.Agent;
-    let currentUser: any;
-    let currentProfile: any;
     beforeEach(
-      TestMongooseContext.bootstrap(Server, {
+      TestContainersMongo.bootstrap(Server, {
         platform: PlatformExpress,
         mount: {
           "/rest": [ProfilesCtrl]
         }
       })
     );
-    beforeEach(async () => {
-      const repository = PlatformTest.get<ProfilesCtrl>(ProfilesCtrl)!;
 
-      currentUser = await repository.createUser(deserialize<TestUser>(baseUser, {type: TestUser}));
-      currentProfile = await repository.createProfile(
-        deserialize<TestProfile>(
-          {
-            ...baseProfile,
-            user: currentUser._id
-          },
-          {
-            type: TestProfile
-          }
-        )
-      );
-    });
-    beforeEach(() => {
-      request = SuperTest(PlatformTest.callback());
-    });
-
-    afterEach(TestMongooseContext.reset);
+    afterEach(() => TestContainersMongo.reset("testusers"));
 
     it("should deserialize class with ref", () => {
       const result = deserialize(
@@ -102,21 +105,25 @@ describe("Mongoose", () => {
       expect(result.user).toBeInstanceOf(TestUser);
     });
 
-    it("should transform mongoose instance to class", () => {
+    it("should transform mongoose instance to class", async () => {
+      const {currentUser} = await getServiceFixture();
+
       const result = currentUser.toClass();
 
       expect(result).toBeInstanceOf(TestUser);
       expect(typeof result._id).toBe("string");
       expect(result.alwaysIgnored).toBe("hello ignore");
-      expect(Date.parse(result.created)).not.toBeNaN();
+      expect(Date.parse(result.created as string)).not.toBeNaN();
       expect(result.email).toBe(currentUser.email);
       expect(result.password).toBe(currentUser.password);
       expect(result.post).toBe("hello post");
       expect(result.pre).toBe("hello pre");
-      expect(Date.parse(result.updated)).not.toBeNaN();
+      expect(Date.parse(result.updated as string)).not.toBeNaN();
     });
 
-    it("should transform mongoose instance to object", () => {
+    it("should transform mongoose instance to object", async () => {
+      const {currentUser} = await getServiceFixture();
+
       const result = serialize(currentUser, {type: TestUser, endpoint: true});
 
       expect(result).toBeInstanceOf(Object);
@@ -131,6 +138,8 @@ describe("Mongoose", () => {
     });
 
     it("GET /profiles full=true", async () => {
+      const {request} = await getServiceFixture();
+
       const {body: list} = await request.get(`/rest/profiles?full=true`);
 
       expect(list).toEqual([
@@ -153,6 +162,8 @@ describe("Mongoose", () => {
     });
 
     it("GET /profiles full=false", async () => {
+      const {request} = await getServiceFixture();
+
       const {body: list} = await request.get(`/rest/profiles?full=false`);
 
       expect(list).toEqual([

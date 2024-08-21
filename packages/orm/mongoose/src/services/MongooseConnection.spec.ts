@@ -9,7 +9,7 @@ describe("MongooseConnections", () => {
 
   it("should init connection with url", async () => {
     // GIVEN
-    const connectStub = jest.fn().mockResolvedValue("test");
+    const connectStub = vi.fn().mockResolvedValue("test");
 
     // WHEN
     await PlatformTest.invoke(MONGOOSE_CONNECTIONS, [
@@ -37,7 +37,7 @@ describe("MongooseConnections", () => {
   });
   it("should init with a list of connection", async () => {
     // GIVEN
-    const connectStub = jest.fn().mockResolvedValue("test");
+    const connectStub = vi.fn().mockResolvedValue("test");
 
     // WHEN
     await PlatformTest.invoke(MONGOOSE_CONNECTIONS, [

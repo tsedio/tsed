@@ -4,7 +4,7 @@ import {schemaOptions} from "../../src/utils/schemaOptions.js";
 describe("@MongoosePlugin()", () => {
   it("should store options", () => {
     // GIVEN
-    const fn = jest.fn();
+    const fn = vi.fn();
 
     // WHEN
     @MongoosePlugin(fn, {})

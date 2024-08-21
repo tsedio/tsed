@@ -1,12 +1,12 @@
+import faker from "@faker-js/faker";
 import {BodyParams, Controller, Get, Inject, Injectable, PathParams, PlatformTest, Post} from "@tsed/common";
+import {isArray} from "@tsed/core";
 import {deserialize} from "@tsed/json-mapper";
 import {MongooseModel} from "@tsed/mongoose";
 import {PlatformExpress} from "@tsed/platform-express";
 import {Groups, Returns} from "@tsed/schema";
-import {TestMongooseContext} from "@tsed/testing-mongoose";
-import faker from "@faker-js/faker";
+import {TestContainersMongo} from "@tsed/testcontainers-mongo";
 import SuperTest from "supertest";
-import {isArray} from "@tsed/core";
 import {TestRole, TestUser, TestUserNew} from "./helpers/models/User.js";
 import {Server} from "./helpers/Server.js";
 
@@ -87,61 +87,57 @@ class ResourcesCtrl {
   }
 }
 
-const baseUser = {
-  email: faker.internet.email(),
-  password: faker.internet.password(12)
-};
+async function getServiceFixture() {
+  const repository = PlatformTest.get<ResourcesRepository>(ResourcesRepository)!;
 
-const baseUser2 = {
-  email: faker.internet.email(),
-  password: faker.internet.password(12)
-};
+  const baseUser = {
+    email: faker.internet.email(),
+    password: faker.internet.password(12)
+  };
+
+  const baseUser2 = {
+    email: faker.internet.email(),
+    password: faker.internet.password(12)
+  };
+
+  const currentUser2 = await repository.create(baseUser2);
+
+  const dataScope = new Map();
+  dataScope.set("scope1", currentUser2._id);
+
+  const currentUser = await repository.create({
+    ...baseUser,
+    dataScope
+  });
+
+  const request = SuperTest(PlatformTest.callback());
+
+  return {currentUser, currentUser2, baseUser, baseUser2, request};
+}
 
 describe("Mongoose", () => {
-  describe("Test Resource", () => {
-    let request: SuperTest.Agent;
-    let currentUser: TestUser;
-    let currentUser2: TestUser;
-    beforeEach(
-      TestMongooseContext.bootstrap(Server, {
-        platform: PlatformExpress,
-        mount: {
-          "/rest": [ResourcesCtrl]
-        }
-      })
-    );
-    beforeEach(async () => {
-      const repository = PlatformTest.get<ResourcesRepository>(ResourcesRepository)!;
+  beforeEach(
+    TestContainersMongo.bootstrap(Server, {
+      platform: PlatformExpress,
+      mount: {
+        "/rest": [ResourcesCtrl]
+      }
+    })
+  );
+  afterEach(() => TestContainersMongo.reset("testusers"));
 
-      currentUser2 = await repository.create(baseUser2);
+  describe("Resources", () => {
+    it("should return an array of roles", async () => {
+      const {request} = await getServiceFixture();
 
-      const dataScope = new Map();
-      dataScope.set("scope1", currentUser2._id);
+      const {body} = await request.post("/rest/resources/scenario-1");
 
-      currentUser = await repository.create({
-        ...baseUser,
-        dataScope
-      });
-    });
-    beforeEach(() => {
-      request = SuperTest(PlatformTest.callback());
-    });
-
-    afterEach(TestMongooseContext.reset);
-
-    it("should get a user", async () => {
-      const {body} = await request.get(`/rest/resources/${currentUser._id}`);
-
-      expect(body).toEqual({
-        email: baseUser.email,
-        id: currentUser._id.toString(),
-        pre: "hello pre",
-        created: String(body.created),
-        updated: String(body.updated)
-      });
+      expect(isArray(body.roles)).toBe(true);
     });
 
     it("should get a user without typing", async () => {
+      const {request, baseUser, currentUser} = await getServiceFixture();
+
       const {body} = await request.get(`/rest/resources/without/${currentUser._id}`);
 
       expect(body).toEqual({
@@ -153,7 +149,22 @@ describe("Mongoose", () => {
       });
     });
 
+    it("should get a user", async () => {
+      const {request, baseUser, currentUser} = await getServiceFixture();
+
+      const {body} = await request.get(`/rest/resources/${currentUser._id}`);
+
+      expect(body).toEqual({
+        email: baseUser.email,
+        id: currentUser._id.toString(),
+        pre: "hello pre",
+        created: String(body.created),
+        updated: String(body.updated)
+      });
+    });
+
     it("should get users", async () => {
+      const {request, baseUser, currentUser, baseUser2, currentUser2} = await getServiceFixture();
       const {body} = await request.get(`/rest/resources`);
 
       expect(body).toEqual([
@@ -175,6 +186,7 @@ describe("Mongoose", () => {
     });
 
     it("should create a user", async () => {
+      const {request} = await getServiceFixture();
       const user = {
         email: faker.internet.email(),
         password: faker.internet.password(),
@@ -227,11 +239,6 @@ describe("Mongoose", () => {
         created: String(body.created),
         updated: String(body.updated)
       });
-    });
-
-    it("should return an array of roles", async () => {
-      const {body} = await request.post("/rest/resources/scenario-1");
-      expect(isArray(body.roles)).toBe(true);
     });
   });
 });

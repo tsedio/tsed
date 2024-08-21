@@ -23,10 +23,10 @@ describe("schemaOptions", () => {
   });
   describe("applySchemaOptions()", () => {
     const schema: any = {
-      pre: jest.fn(),
-      post: jest.fn(),
-      plugin: jest.fn(),
-      index: jest.fn()
+      pre: vi.fn(),
+      post: vi.fn(),
+      plugin: vi.fn(),
+      index: vi.fn()
     };
 
     beforeEach(() => {
