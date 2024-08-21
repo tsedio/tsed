@@ -18,8 +18,8 @@ describe("setResponseHeaders", () => {
       endpoint: JsonEntityStore.fromMethod(Test, "test")
     });
 
-    jest.spyOn(ctx.response, "setHeaders");
-    jest.spyOn(ctx.response, "status");
+    vi.spyOn(ctx.response, "setHeaders");
+    vi.spyOn(ctx.response, "status");
     // WHEN
     await setResponseHeaders(ctx);
 
@@ -38,8 +38,8 @@ describe("setResponseHeaders", () => {
       endpoint: JsonEntityStore.fromMethod(Test, "test")
     });
 
-    jest.spyOn(ctx.response, "setHeaders");
-    jest.spyOn(ctx.response, "status");
+    vi.spyOn(ctx.response, "setHeaders");
+    vi.spyOn(ctx.response, "status");
     // WHEN
     await setResponseHeaders(ctx);
 
@@ -58,7 +58,7 @@ describe("setResponseHeaders", () => {
       endpoint: JsonEntityStore.fromMethod(Test, "test")
     });
 
-    jest.spyOn(ctx.response, "redirect");
+    vi.spyOn(ctx.response, "redirect");
 
     // WHEN
     await setResponseHeaders(ctx as any);
@@ -76,7 +76,7 @@ describe("setResponseHeaders", () => {
     const ctx = createServerlessContext({
       endpoint: JsonEntityStore.fromMethod(Test, "test")
     });
-    jest.spyOn(ctx.response, "redirect");
+    vi.spyOn(ctx.response, "redirect");
 
     // WHEN
     await setResponseHeaders(ctx as any);
@@ -94,7 +94,7 @@ describe("setResponseHeaders", () => {
     const ctx = createServerlessContext({
       endpoint: JsonEntityStore.fromMethod(Test, "test")
     });
-    jest.spyOn(ctx.response, "redirect");
+    vi.spyOn(ctx.response, "redirect");
 
     ctx.response.setHeaders({Location: "/path/other"});
 
@@ -117,8 +117,8 @@ describe("setResponseHeaders", () => {
 
     await ctx.destroy();
 
-    jest.spyOn(ctx.response, "setHeaders");
-    jest.spyOn(ctx.response, "isDone");
+    vi.spyOn(ctx.response, "setHeaders");
+    vi.spyOn(ctx.response, "isDone");
 
     // WHEN
     await setResponseHeaders(ctx);
@@ -137,9 +137,9 @@ describe("setResponseHeaders", () => {
       endpoint: {} as never
     });
 
-    jest.spyOn(ctx.response, "setHeaders");
-    jest.spyOn(ctx.response, "isDone");
-    jest.spyOn(ctx.logger, "debug");
+    vi.spyOn(ctx.response, "setHeaders");
+    vi.spyOn(ctx.response, "isDone");
+    vi.spyOn(ctx.logger, "debug");
 
     // WHEN
     await setResponseHeaders(ctx);
