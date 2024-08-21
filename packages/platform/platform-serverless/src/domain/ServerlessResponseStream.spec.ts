@@ -6,7 +6,7 @@ describe("ServerlessResponseStream", () => {
       beforeEach(() => {
         // @ts-ignore
         globalThis.awslambda = {
-          streamifyResponse: jest.fn().mockImplementation((handler) => handler)
+          streamifyResponse: vi.fn().mockImplementation((handler) => handler)
         };
       });
       afterEach(() => {
@@ -15,12 +15,12 @@ describe("ServerlessResponseStream", () => {
       });
 
       it("should wrap then handler without fallback responseStream", async () => {
-        const handler = jest.fn();
+        const handler = vi.fn();
         const event = {};
         const context = {};
         const responseStream = new ServerlessResponseStream();
 
-        jest.spyOn(ServerlessResponseStream as any, "buildResponse").mockReturnValue({});
+        vi.spyOn(ServerlessResponseStream as any, "buildResponse").mockReturnValue({});
 
         const wrapped = ServerlessResponseStream.streamifyResponse(handler);
 
@@ -32,14 +32,14 @@ describe("ServerlessResponseStream", () => {
         expect(ServerlessResponseStream.buildResponse).not.toHaveBeenCalled();
       });
       it("should wrap then handler with fallback responseStream", async () => {
-        const handler = jest.fn();
+        const handler = vi.fn();
         const event = {};
         const context = {};
 
-        jest.spyOn(ServerlessResponseStream as any, "buildResponse").mockReturnValue({
+        vi.spyOn(ServerlessResponseStream as any, "buildResponse").mockReturnValue({
           statusCode: 200
         });
-        jest.spyOn(console, "warn").mockReturnValue(undefined);
+        vi.spyOn(console, "warn").mockReturnValue(undefined);
 
         const wrapped = ServerlessResponseStream.streamifyResponse(handler);
 
