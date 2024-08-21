@@ -2,7 +2,7 @@ import {PlatformTest} from "@tsed/common";
 import {getConnectionManager} from "typeorm";
 import {TypeORMService} from "../index.js";
 
-jest.mock("typeorm");
+vi.mock("typeorm");
 
 function getConnectionFixture() {
   const service = PlatformTest.get<TypeORMService>(TypeORMService);
@@ -20,10 +20,10 @@ class FakeConnectionManager extends Map<string, any> {
   create(connectionOptions: any) {
     connectionOptions = {
       ...connectionOptions,
-      connect: jest.fn().mockImplementation(() => {
+      connect: vi.fn().mockImplementation(() => {
         connectionOptions.isConnected = true;
       }),
-      close: jest.fn().mockImplementation(() => {
+      close: vi.fn().mockImplementation(() => {
         connectionOptions.isConnected = false;
       }),
       isConnected: false
@@ -35,7 +35,7 @@ class FakeConnectionManager extends Map<string, any> {
 describe("TypeORMService", () => {
   const connectionManager = new FakeConnectionManager();
   beforeEach(() => {
-    (getConnectionManager as jest.Mock).mockReturnValue(connectionManager);
+    (getConnectionManager as vi.Mock).mockReturnValue(connectionManager);
   });
   beforeEach(() => PlatformTest.create());
   afterEach(() => PlatformTest.reset());
