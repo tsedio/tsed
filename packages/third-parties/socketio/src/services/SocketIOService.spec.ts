@@ -4,18 +4,18 @@ import {Server} from "./SocketIOServer.js";
 
 async function createServiceFixture() {
   const namespace = {
-    on: jest.fn()
+    on: vi.fn()
   };
   const ioStub = {
-    of: jest.fn().mockReturnValue(namespace)
+    of: vi.fn().mockReturnValue(namespace)
   };
   const instance = {
-    onConnection: jest.fn(),
-    onDisconnect: jest.fn()
+    onConnection: vi.fn(),
+    onDisconnect: vi.fn()
   };
 
   const socket = {
-    on: jest.fn()
+    on: vi.fn()
   };
 
   const service = await PlatformTest.invoke(SocketIOService, [

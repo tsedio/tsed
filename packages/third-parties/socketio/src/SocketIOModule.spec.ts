@@ -6,10 +6,10 @@ import {SocketIOModule, SocketIOServer, SocketIOService} from "./index.js";
 async function createModuleFixture() {
   const serverSettingsService = PlatformTest.get<PlatformConfiguration>(PlatformConfiguration);
   // GIVEN
-  const socketIOServer = {attach: jest.fn(), adapter: jest.fn()};
-  const httpServer = {type: "http", get: jest.fn().mockReturnValue("httpServer")};
-  const httpsServer = {type: "https", get: jest.fn().mockReturnValue("httpsServer")};
-  const socketIOService = {addSocketProvider: jest.fn()};
+  const socketIOServer = {attach: vi.fn(), adapter: vi.fn()};
+  const httpServer = {type: "http", get: vi.fn().mockReturnValue("httpServer")};
+  const httpsServer = {type: "https", get: vi.fn().mockReturnValue("httpsServer")};
+  const socketIOService = {addSocketProvider: vi.fn()};
   const socketIOModule = await PlatformTest.invoke<SocketIOModule>(SocketIOModule, [
     {token: Http.Server, use: httpServer},
     {token: Https.Server, use: httpsServer},
@@ -17,8 +17,8 @@ async function createModuleFixture() {
     {token: SocketIOService, use: socketIOService}
   ]);
 
-  jest.spyOn(socketIOModule as any, "getWebsocketServices").mockReturnValue([{provider: "provider"}]);
-  jest.spyOn(socketIOModule as any, "printSocketEvents").mockReturnValue(undefined);
+  vi.spyOn(socketIOModule as any, "getWebsocketServices").mockReturnValue([{provider: "provider"}]);
+  vi.spyOn(socketIOModule as any, "printSocketEvents").mockReturnValue(undefined);
 
   return {
     socketIOModule,
@@ -36,7 +36,7 @@ describe("SocketIOModule", () => {
       beforeAll(() =>
         PlatformTest.create({
           httpsPort: 8081,
-          socketIO: {config: "config", adapter: jest.fn()} as never
+          socketIO: {config: "config", adapter: vi.fn()} as never
         })
       );
       afterAll(() => {

@@ -132,7 +132,7 @@ describe("SocketSessionData", () => {
   describe("forEach", () => {
     it("should call the callback function for each key-value pair", () => {
       // arrange
-      const callbackFn = jest.fn();
+      const callbackFn = vi.fn();
 
       // act
       socketSessionData.forEach(callbackFn);
@@ -146,7 +146,7 @@ describe("SocketSessionData", () => {
     it("should call the callback function with the specified thisArg", () => {
       // arrange
       const thisArg = {customProp: "customValue"};
-      const callbackFn = jest.fn(function () {
+      const callbackFn = vi.fn(function () {
         expect(this).toBe(thisArg);
       });
 
