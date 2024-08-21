@@ -1,5 +1,6 @@
 import {TestWorkflowEnvironment} from "@temporalio/testing";
-import {Temporal, Activity, bootstrapWorker} from "../src/index.js";
+import {join} from "node:path";
+import {Activity, bootstrapWorker, Temporal} from "../src/index.js";
 import {Server} from "./helpers/Server.js";
 
 describe("Temporal Worker", () => {
@@ -21,10 +22,10 @@ describe("Temporal Worker", () => {
     await testEnv.teardown();
   }, 10000);
 
-  it("should start a worker and execute decorated activites", async () => {
+  it("should start a worker and execute decorated activities", async () => {
     const worker = await bootstrapWorker(Server, {
       worker: {
-        workflowsPath: require.resolve("./workflows"),
+        workflowsPath: join(__dirname, "workflows"),
         taskQueue: "test"
       },
       connection: testEnv.nativeConnection
