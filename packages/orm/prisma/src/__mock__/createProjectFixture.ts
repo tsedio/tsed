@@ -32,7 +32,11 @@ export function createProjectFixture(dir = "/") {
       const actualValue = sourceFile.getFullText();
 
       return {
-        ...expect(actualValue),
+        not: {
+          toContain(value: string) {
+            expect(actualValue).not.toContain(value);
+          }
+        },
         toMatchSnapshot() {
           expect(actualValue).toMatchSnapshot();
         }
