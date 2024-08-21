@@ -17,9 +17,9 @@
   "scripts": {
     "build": "yarn barrels && yarn build:ts",
     "barrels": "barrels",
-    "test": "jest --max-workers=4",
+    "test": "vitest run",
     "build:ts": "tsc --build tsconfig.json",
-    "test:ci": "jest --max-workers=2 && jest-coverage-thresholds-bumper"
+    "test:ci": "vitest run --coverage.thresholds.autoUpdate=true"
   },
   "dependencies": {
     "@tsed/adapters": "workspace:*",
@@ -31,8 +31,8 @@
     "@tsed/core": "workspace:*",
     "@tsed/typescript": "workspace:*",
     "eslint": "^8.57.0",
-    "jest": "^29.7.0",
-    "typescript": "4.9.5"
+    "typescript": "4.9.5",
+    "vitest": "2.0.4"
   },
   "peerDependencies": {
     "@tsed/adapters": "7.79.3",
