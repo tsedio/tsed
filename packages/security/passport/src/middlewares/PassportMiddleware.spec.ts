@@ -15,10 +15,10 @@ function createContextFixture(options = {}) {
 describe("PassportMiddleware", () => {
   beforeEach(() => {
     PlatformTest.create();
-    jest.spyOn(Passport, "authenticate").mockImplementation(() => (req: any, res: any, next: any) => {
+    vi.spyOn(Passport, "authenticate").mockImplementation(() => (req: any, res: any, next: any) => {
       return next();
     });
-    jest.spyOn(Passport, "authorize").mockImplementation(() => (req: any, res: any, next: any) => {
+    vi.spyOn(Passport, "authorize").mockImplementation(() => (req: any, res: any, next: any) => {
       return next();
     });
   });
@@ -30,11 +30,11 @@ describe("PassportMiddleware", () => {
     const middleware = await PlatformTest.invoke<PassportMiddleware>(PassportMiddleware);
     const context = createContextFixture();
 
-    jest.spyOn(middleware.protocolsService, "getProtocolsNames").mockReturnValue(["local"]);
+    vi.spyOn(middleware.protocolsService, "getProtocolsNames").mockReturnValue(["local"]);
 
     context.endpoint = {
       store: {
-        get: jest.fn().mockReturnValue({
+        get: vi.fn().mockReturnValue({
           options: {},
           protocol: "local",
           method: "authenticate"
@@ -53,7 +53,7 @@ describe("PassportMiddleware", () => {
     const middleware = await PlatformTest.invoke<PassportMiddleware>(PassportMiddleware);
     const context = createContextFixture();
 
-    jest.spyOn(middleware.protocolsService, "getProtocolsNames").mockReturnValue(["local"]);
+    vi.spyOn(middleware.protocolsService, "getProtocolsNames").mockReturnValue(["local"]);
 
     context.getRequest().user = {};
     context.getRequest().isAuthenticated = () => {
@@ -62,7 +62,7 @@ describe("PassportMiddleware", () => {
 
     context.endpoint = {
       store: {
-        get: jest.fn().mockReturnValue({
+        get: vi.fn().mockReturnValue({
           options: {},
           protocol: "local",
           method: "authenticate"
@@ -80,13 +80,13 @@ describe("PassportMiddleware", () => {
   it("should call passport with defaults protocols", async () => {
     // GIVEN
     const middleware = await PlatformTest.invoke<PassportMiddleware>(PassportMiddleware);
-    jest.spyOn(middleware.protocolsService, "getProtocolsNames").mockReturnValue(["local", "basic"]);
+    vi.spyOn(middleware.protocolsService, "getProtocolsNames").mockReturnValue(["local", "basic"]);
 
     const context = createContextFixture();
 
     context.endpoint = {
       store: {
-        get: jest.fn().mockReturnValue({
+        get: vi.fn().mockReturnValue({
           options: {},
           protocol: "*",
           method: "authenticate"
@@ -103,7 +103,7 @@ describe("PassportMiddleware", () => {
   it("should call passport with :protocol", async () => {
     // GIVEN
     const middleware = await PlatformTest.invoke<PassportMiddleware>(PassportMiddleware);
-    jest.spyOn(middleware.protocolsService, "getProtocolsNames").mockReturnValue(["local", "basic"]);
+    vi.spyOn(middleware.protocolsService, "getProtocolsNames").mockReturnValue(["local", "basic"]);
 
     const context = createContextFixture({
       url: "/",
@@ -115,7 +115,7 @@ describe("PassportMiddleware", () => {
 
     context.endpoint = {
       store: {
-        get: jest.fn().mockReturnValue({
+        get: vi.fn().mockReturnValue({
           options: {},
           protocol: ":protocol",
           method: "authenticate"
@@ -133,7 +133,7 @@ describe("PassportMiddleware", () => {
   it("should call passport with authorize", async () => {
     // GIVEN
     const middleware = await PlatformTest.invoke<PassportMiddleware>(PassportMiddleware);
-    jest.spyOn(middleware.protocolsService, "getProtocolsNames").mockReturnValue(["local", "basic"]);
+    vi.spyOn(middleware.protocolsService, "getProtocolsNames").mockReturnValue(["local", "basic"]);
 
     const context = createContextFixture({
       url: "/",
@@ -145,7 +145,7 @@ describe("PassportMiddleware", () => {
 
     context.endpoint = {
       store: {
-        get: jest.fn().mockReturnValue({
+        get: vi.fn().mockReturnValue({
           options: {},
           protocol: ":protocol",
           method: "authorize"
@@ -163,12 +163,12 @@ describe("PassportMiddleware", () => {
   it("should throw errors", async () => {
     // GIVEN
     const middleware = await PlatformTest.invoke<PassportMiddleware>(PassportMiddleware);
-    jest.spyOn(middleware.protocolsService, "getProtocolsNames").mockReturnValue(["local", "basic"]);
+    vi.spyOn(middleware.protocolsService, "getProtocolsNames").mockReturnValue(["local", "basic"]);
 
     const context = createContextFixture();
     context.endpoint = {
       store: {
-        get: jest.fn().mockReturnValue({
+        get: vi.fn().mockReturnValue({
           options: {},
           protocol: ":protocol",
           method: "authenticate"
@@ -190,7 +190,7 @@ describe("PassportMiddleware", () => {
   it("should throw errors from passport (AuthenticationError)", async () => {
     // GIVEN
     const middleware = await PlatformTest.invoke<PassportMiddleware>(PassportMiddleware);
-    jest.spyOn(middleware.protocolsService, "getProtocolsNames").mockReturnValue(["local", "basic"]);
+    vi.spyOn(middleware.protocolsService, "getProtocolsNames").mockReturnValue(["local", "basic"]);
 
     (Passport.authenticate as any).mockImplementation(() => (req: any, res: any, next: any) => {
       const error: any = {message: "message"};
@@ -204,7 +204,7 @@ describe("PassportMiddleware", () => {
 
     context.endpoint = {
       store: {
-        get: jest.fn().mockReturnValue({
+        get: vi.fn().mockReturnValue({
           options: {},
           protocol: "*",
           method: "authenticate"
@@ -228,7 +228,7 @@ describe("PassportMiddleware", () => {
   it("should throw errors from passport (AnyError)", async () => {
     // GIVEN
     const middleware = await PlatformTest.invoke<PassportMiddleware>(PassportMiddleware);
-    jest.spyOn(middleware.protocolsService, "getProtocolsNames").mockReturnValue(["local", "basic"]);
+    vi.spyOn(middleware.protocolsService, "getProtocolsNames").mockReturnValue(["local", "basic"]);
 
     (Passport.authenticate as any).mockImplementation(() => (req: any, res: any, next: any) => {
       const error: any = {message: "message"};
@@ -241,7 +241,7 @@ describe("PassportMiddleware", () => {
 
     context.endpoint = {
       store: {
-        get: jest.fn().mockReturnValue({
+        get: vi.fn().mockReturnValue({
           options: {},
           protocol: "*",
           method: "authenticate"
@@ -265,7 +265,7 @@ describe("PassportMiddleware", () => {
   it("should throw errors from passport (Error)", async () => {
     // GIVEN
     const middleware = await PlatformTest.invoke<PassportMiddleware>(PassportMiddleware);
-    jest.spyOn(middleware.protocolsService, "getProtocolsNames").mockReturnValue(["local", "basic"]);
+    vi.spyOn(middleware.protocolsService, "getProtocolsNames").mockReturnValue(["local", "basic"]);
 
     (Passport.authenticate as any).mockImplementation(() => (req: any, res: any, next: any) => {
       const error: any = new Error("message");
@@ -277,7 +277,7 @@ describe("PassportMiddleware", () => {
 
     context.endpoint = {
       store: {
-        get: jest.fn().mockReturnValue({
+        get: vi.fn().mockReturnValue({
           options: {},
           protocol: "*",
           method: "authenticate"

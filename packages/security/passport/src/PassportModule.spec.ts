@@ -3,7 +3,7 @@ import "../src/index";
 import {PassportModule} from "./PassportModule.js";
 import Passport from "passport";
 
-jest.mock("passport");
+vi.mock("passport");
 
 beforeEach(() => {
   (Passport.initialize as any).mockReturnValue("initializeMiddleware");
@@ -22,7 +22,7 @@ describe("PassportModule", () => {
     afterEach(PlatformTest.reset);
     it("should not add the passport.session to the express application", async () => {
       const app = {
-        use: jest.fn()
+        use: vi.fn()
       };
       const passportModule = await PlatformTest.invoke<PassportModule>(PassportModule, [
         {
@@ -52,7 +52,7 @@ describe("PassportModule", () => {
 
     it("should add the passport.session to the express application", async () => {
       const app = {
-        use: jest.fn()
+        use: vi.fn()
       };
       const passportModule = await PlatformTest.invoke<PassportModule>(PassportModule, [
         {
