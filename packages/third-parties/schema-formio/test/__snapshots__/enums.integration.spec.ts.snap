@@ -1,4 +1,108 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`Enum > should generate the correct schema with enum 1`] = `
+{
+  "access": [],
+  "components": [
+    {
+      "disabled": false,
+      "key": "test",
+      "label": "Test",
+      "type": "radio",
+      "validate": {
+        "required": false,
+      },
+      "values": [
+        {
+          "label": "VALUE1",
+          "shortcut": "",
+          "value": "VALUE1",
+        },
+        {
+          "label": "VALUE2",
+          "shortcut": "",
+          "value": "VALUE2",
+        },
+      ],
+    },
+  ],
+  "display": "form",
+  "machineName": "test",
+  "name": "test",
+  "submissionAccess": [],
+  "tags": [],
+  "title": "Test",
+  "type": "form",
+}
+`;
+
+exports[`Enum > should generate the correct schema with select 1`] = `
+{
+  "access": [],
+  "components": [
+    {
+      "data": {
+        "json": "[{"label":"VALUE1","value":"VALUE1"},{"label":"VALUE2","value":"VALUE2"}]",
+      },
+      "dataSrc": "json",
+      "disabled": false,
+      "idPath": "value",
+      "input": true,
+      "key": "test",
+      "label": "Test",
+      "selectThreshold": 0.3,
+      "template": "<span>{{ item.label }}</span>",
+      "type": "select",
+      "validate": {
+        "required": false,
+      },
+      "valueProperty": "value",
+      "widget": "choicesjs",
+    },
+  ],
+  "display": "form",
+  "machineName": "test",
+  "name": "test",
+  "submissionAccess": [],
+  "tags": [],
+  "title": "Test",
+  "type": "form",
+}
+`;
+
+exports[`Enum > should generate the correct schema with select custom value 1`] = `
+{
+  "access": [],
+  "components": [
+    {
+      "data": {
+        "json": "[{"label":"label VALUE1","value":"VALUE1"},{"label":"label VALUE2","value":"VALUE2"}]",
+      },
+      "dataSrc": "json",
+      "disabled": false,
+      "idPath": "value",
+      "input": true,
+      "key": "test",
+      "label": "Test",
+      "selectThreshold": 0.3,
+      "template": "<span>{{ item.label }}</span>",
+      "type": "select",
+      "validate": {
+        "required": false,
+      },
+      "valueProperty": "value",
+      "widget": "choicesjs",
+    },
+  ],
+  "display": "form",
+  "machineName": "test",
+  "name": "test",
+  "submissionAccess": [],
+  "tags": [],
+  "title": "Test",
+  "type": "form",
+}
+`;
 
 exports[`Enum should generate the correct schema with enum 1`] = `
 Object {

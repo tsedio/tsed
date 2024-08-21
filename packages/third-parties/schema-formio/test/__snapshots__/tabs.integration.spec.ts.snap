@@ -1,4 +1,430 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`Tabs integration > should generate the correct schema 1`] = `
+{
+  "access": [],
+  "components": [
+    {
+      "datePicker": {
+        "disableWeekdays": false,
+        "disableWeekends": false,
+      },
+      "disabled": true,
+      "enableMaxDateInput": false,
+      "enableMinDateInput": false,
+      "input": true,
+      "key": "created",
+      "label": "Created",
+      "timePicker": {
+        "showMeridian": false,
+      },
+      "type": "datetime",
+      "validate": {
+        "required": false,
+      },
+      "widget": {
+        "allowInput": true,
+        "disableWeekdays": false,
+        "disableWeekends": false,
+        "displayInTimezone": "viewer",
+        "enableTime": true,
+        "hourIncrement": 1,
+        "locale": "en",
+        "maxDate": null,
+        "minDate": null,
+        "minuteIncrement": 1,
+        "mode": "single",
+        "noCalendar": false,
+        "time_24hr": true,
+        "type": "calendar",
+        "useLocaleSettings": false,
+      },
+    },
+    {
+      "datePicker": {
+        "disableWeekdays": false,
+        "disableWeekends": false,
+      },
+      "disabled": true,
+      "enableMaxDateInput": false,
+      "enableMinDateInput": false,
+      "input": true,
+      "key": "modified",
+      "label": "Modified",
+      "timePicker": {
+        "showMeridian": false,
+      },
+      "type": "datetime",
+      "validate": {
+        "required": false,
+      },
+      "widget": {
+        "allowInput": true,
+        "disableWeekdays": false,
+        "disableWeekends": false,
+        "displayInTimezone": "viewer",
+        "enableTime": true,
+        "hourIncrement": 1,
+        "locale": "en",
+        "maxDate": null,
+        "minDate": null,
+        "minuteIncrement": 1,
+        "mode": "single",
+        "noCalendar": false,
+        "time_24hr": true,
+        "type": "calendar",
+        "useLocaleSettings": false,
+      },
+    },
+    {
+      "components": [
+        {
+          "components": [
+            {
+              "disabled": false,
+              "input": true,
+              "key": "clientName",
+              "label": "Client name",
+              "tableView": true,
+              "type": "textfield",
+              "validate": {
+                "required": true,
+              },
+            },
+            {
+              "disabled": true,
+              "input": true,
+              "key": "clientId",
+              "label": "Client id",
+              "tableView": true,
+              "type": "textfield",
+              "validate": {
+                "required": true,
+              },
+            },
+            {
+              "disabled": true,
+              "input": true,
+              "key": "clientSecret",
+              "label": "Client secret",
+              "type": "textfield",
+              "validate": {
+                "required": true,
+              },
+            },
+            {
+              "defaultValue": false,
+              "disabled": false,
+              "input": true,
+              "key": "trusted",
+              "label": "Trusted",
+              "type": "checkbox",
+              "validate": {
+                "required": false,
+              },
+            },
+            {
+              "disabled": false,
+              "input": true,
+              "key": "clientUri",
+              "label": "Client uri",
+              "type": "url",
+              "validate": {
+                "required": false,
+              },
+            },
+            {
+              "disabled": false,
+              "input": true,
+              "key": "logoUri",
+              "label": "Logo uri",
+              "tableView": true,
+              "type": "url",
+              "validate": {
+                "required": false,
+              },
+            },
+            {
+              "defaultValue": "web",
+              "disabled": false,
+              "key": "applicationType",
+              "label": "Application type",
+              "type": "radio",
+              "validate": {
+                "required": true,
+              },
+              "values": [
+                {
+                  "label": "web",
+                  "shortcut": "",
+                  "value": "web",
+                },
+                {
+                  "label": "native",
+                  "shortcut": "",
+                  "value": "native",
+                },
+                {
+                  "label": "service",
+                  "shortcut": "",
+                  "value": "service",
+                },
+              ],
+            },
+            {
+              "disabled": false,
+              "inline": false,
+              "key": "responseTypes",
+              "label": "Response types:",
+              "type": "selectboxes",
+              "validate": {
+                "required": false,
+              },
+              "values": [
+                {
+                  "label": "code",
+                  "shortcut": "",
+                  "value": "code",
+                },
+                {
+                  "label": "id_token token",
+                  "shortcut": "",
+                  "value": "id_token token",
+                },
+                {
+                  "label": "code id_token token",
+                  "shortcut": "",
+                  "value": "code id_token token",
+                },
+                {
+                  "label": "token",
+                  "shortcut": "",
+                  "value": "token",
+                },
+                {
+                  "label": "none",
+                  "shortcut": "",
+                  "value": "none",
+                },
+              ],
+            },
+            {
+              "disabled": false,
+              "inline": false,
+              "key": "grantTypes",
+              "label": "Grant Types:",
+              "type": "selectboxes",
+              "validate": {
+                "required": false,
+              },
+              "values": [
+                {
+                  "label": "authorization_code",
+                  "shortcut": "",
+                  "value": "authorization_code",
+                },
+                {
+                  "label": "implicit",
+                  "shortcut": "",
+                  "value": "implicit",
+                },
+                {
+                  "label": "refresh_token",
+                  "shortcut": "",
+                  "value": "refresh_token",
+                },
+                {
+                  "label": "client_credentials",
+                  "shortcut": "",
+                  "value": "client_credentials",
+                },
+              ],
+            },
+            {
+              "defaultValue": "client_secret_basic",
+              "disabled": false,
+              "key": "tokenEndpointAuthMethod",
+              "label": "Token endpoint auth method",
+              "type": "radio",
+              "validate": {
+                "required": false,
+              },
+              "values": [
+                {
+                  "label": "client_secret_post",
+                  "shortcut": "",
+                  "value": "client_secret_post",
+                },
+                {
+                  "label": "client_secret_basic",
+                  "shortcut": "",
+                  "value": "client_secret_basic",
+                },
+                {
+                  "label": "client_secret_jwt",
+                  "shortcut": "",
+                  "value": "client_secret_jwt",
+                },
+                {
+                  "label": "private_key_jwt",
+                  "shortcut": "",
+                  "value": "private_key_jwt",
+                },
+                {
+                  "label": "none",
+                  "shortcut": "",
+                  "value": "none",
+                },
+              ],
+            },
+            {
+              "defaultValue": 3600,
+              "delimiter": false,
+              "disabled": false,
+              "input": true,
+              "inputFormat": "plain",
+              "key": "defaultMaxAge",
+              "label": "Default max age",
+              "mask": false,
+              "requireDecimal": false,
+              "type": "number",
+              "validate": {
+                "required": false,
+              },
+            },
+          ],
+          "key": "parameters",
+          "label": "Parameters",
+        },
+        {
+          "components": [
+            {
+              "disabled": false,
+              "input": true,
+              "key": "redirectUris",
+              "label": "Redirect uris",
+              "multiple": true,
+              "type": "url",
+              "validate": {
+                "required": false,
+              },
+            },
+            {
+              "disabled": false,
+              "input": true,
+              "key": "postLogoutRedirectUris",
+              "label": "Post logout redirect uris",
+              "multiple": true,
+              "type": "url",
+              "validate": {
+                "required": false,
+              },
+            },
+          ],
+          "key": "redirectUris",
+          "label": "Redirect Uris",
+        },
+        {
+          "components": [
+            {
+              "disabled": false,
+              "input": true,
+              "key": "scopes",
+              "label": "Scopes",
+              "storeas": "array",
+              "tableView": true,
+              "type": "tags",
+              "validate": {
+                "required": false,
+              },
+            },
+          ],
+          "key": "scopes",
+          "label": "Scopes",
+        },
+        {
+          "components": [
+            {
+              "defaultValue": "clubmed",
+              "description": "Change the template display on OIDC group1",
+              "disabled": false,
+              "key": "theme",
+              "label": "Theme",
+              "type": "radio",
+              "validate": {
+                "required": false,
+              },
+              "values": [
+                {
+                  "label": "clubmed",
+                  "shortcut": "",
+                  "value": "clubmed",
+                },
+                {
+                  "label": "myclubmed",
+                  "shortcut": "",
+                  "value": "myclubmed",
+                },
+              ],
+            },
+            {
+              "defaultValue": true,
+              "description": "Import Google tags scripts for this client on OIDC group1 Login page",
+              "disabled": false,
+              "input": true,
+              "key": "enableGoogleAd",
+              "label": "Enable Google Tags",
+              "type": "checkbox",
+              "validate": {
+                "required": false,
+              },
+            },
+            {
+              "defaultValue": true,
+              "description": "Display socials login buttons for this client on OIDC group1 Login page",
+              "disabled": false,
+              "input": true,
+              "key": "enableConnectionProvider",
+              "label": "Enable Social Login",
+              "type": "checkbox",
+              "validate": {
+                "required": false,
+              },
+            },
+            {
+              "defaultValue": false,
+              "description": "Disable the account creation link on OIDC group1",
+              "disabled": false,
+              "input": true,
+              "key": "hideAccountCreation",
+              "label": "Hide account creation link",
+              "type": "checkbox",
+              "validate": {
+                "required": false,
+              },
+            },
+          ],
+          "key": "themes",
+          "label": "Themes",
+        },
+      ],
+      "input": false,
+      "key": "tabs",
+      "label": "Tabs",
+      "pushed": true,
+      "tableView": false,
+      "type": "tabs",
+    },
+  ],
+  "display": "form",
+  "machineName": "oidc-client",
+  "name": "oidc-client",
+  "submissionAccess": [],
+  "tags": [],
+  "title": "OIDCClient",
+  "type": "form",
+}
+`;
 
 exports[`Tabs integration should generate the correct schema 1`] = `
 Object {
