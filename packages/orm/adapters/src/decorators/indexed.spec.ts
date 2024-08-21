@@ -15,7 +15,7 @@ describe("Indexed", () => {
       prop: string;
     }
 
-    const stub = jest.fn();
+    const stub = vi.fn();
     @Injectable()
     class Clients {
       @InjectAdapter("client", Client)
@@ -45,7 +45,7 @@ describe("Indexed", () => {
       prop: string;
     }
 
-    const stub = jest.fn();
+    const stub = vi.fn();
 
     @Injectable()
     class Clients {

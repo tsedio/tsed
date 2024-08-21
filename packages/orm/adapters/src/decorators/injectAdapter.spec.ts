@@ -17,7 +17,7 @@ describe("InjectAdapter", () => {
       clientId: string;
     }
 
-    const stub = jest.fn();
+    const stub = vi.fn();
 
     @Injectable()
     class Clients {
@@ -58,7 +58,7 @@ describe("InjectAdapter", () => {
       clientId: string;
     }
 
-    const stub = jest.fn();
+    const stub = vi.fn();
 
     @Injectable()
     class Clients {
