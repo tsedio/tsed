@@ -30,7 +30,7 @@ describe("PlatformMimesMiddleware", () => {
         endpoint
       });
 
-      jest.spyOn(request, "accepts");
+      vi.spyOn(request, "accepts");
 
       const middleware = await PlatformTest.invoke<PlatformAcceptMimesMiddleware>(PlatformAcceptMimesMiddleware);
 
@@ -56,7 +56,7 @@ describe("PlatformMimesMiddleware", () => {
         endpoint
       });
 
-      jest.spyOn(request, "accepts");
+      vi.spyOn(request, "accepts");
 
       const middleware = await PlatformTest.invoke<PlatformAcceptMimesMiddleware>(PlatformAcceptMimesMiddleware);
       middleware.use(ctx);
@@ -78,7 +78,7 @@ describe("PlatformMimesMiddleware", () => {
       const ctx = PlatformTest.createRequestContext({
         event: {request}
       });
-      jest.spyOn(request, "accepts");
+      vi.spyOn(request, "accepts");
 
       const middleware = await PlatformTest.invoke<PlatformAcceptMimesMiddleware>(PlatformAcceptMimesMiddleware);
       middleware.use(ctx);
@@ -128,7 +128,7 @@ describe("PlatformMimesMiddleware", () => {
         event: {request},
         endpoint
       });
-      jest.spyOn(request, "accepts");
+      vi.spyOn(request, "accepts");
 
       const middleware = await PlatformTest.invoke<PlatformAcceptMimesMiddleware>(PlatformAcceptMimesMiddleware);
       middleware.use(ctx);
@@ -152,7 +152,7 @@ describe("PlatformMimesMiddleware", () => {
         event: {request},
         endpoint
       });
-      jest.spyOn(request, "accepts");
+      vi.spyOn(request, "accepts");
 
       const middleware = await PlatformTest.invoke<PlatformAcceptMimesMiddleware>(PlatformAcceptMimesMiddleware);
       middleware.use(ctx);
@@ -178,7 +178,7 @@ describe("PlatformMimesMiddleware", () => {
         },
         endpoint
       });
-      jest.spyOn(request, "accepts");
+      vi.spyOn(request, "accepts");
 
       const middleware = await PlatformTest.invoke<PlatformAcceptMimesMiddleware>(PlatformAcceptMimesMiddleware);
       middleware.use(ctx);
@@ -203,7 +203,7 @@ describe("PlatformMimesMiddleware", () => {
         endpoint
       });
 
-      jest.spyOn(request, "accepts");
+      vi.spyOn(request, "accepts");
 
       const middleware = await PlatformTest.invoke<PlatformAcceptMimesMiddleware>(PlatformAcceptMimesMiddleware);
 

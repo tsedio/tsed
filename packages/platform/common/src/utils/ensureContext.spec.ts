@@ -7,7 +7,7 @@ describe("ensureContext()", () => {
 
   it("should return context (no async_hook)", async () => {
     const $ctx = PlatformTest.createRequestContext();
-    const stub = jest.fn();
+    const stub = vi.fn();
     const req = {
       $ctx
     };
@@ -19,7 +19,7 @@ describe("ensureContext()", () => {
 
   it("should return context (with async_hook)", async () => {
     const $ctx = PlatformTest.createRequestContext();
-    const stub = jest.fn();
+    const stub = vi.fn();
     const req = {};
 
     await $ctx.runInContext(() => ensureContext(req, stub));
@@ -28,8 +28,8 @@ describe("ensureContext()", () => {
   });
 
   it("should return context (no async_hook, no context)", async () => {
-    const stub = jest.fn();
-    const fallback = jest.fn();
+    const stub = vi.fn();
+    const fallback = vi.fn();
     const req = {};
 
     await ensureContext(req, stub, fallback);

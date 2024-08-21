@@ -16,7 +16,7 @@ describe("PlatformHandler", () => {
   describe("createHandler()", () => {
     it("should create handler", async () => {
       const {service} = getServiceFixture();
-      const handler = jest.fn();
+      const handler = vi.fn();
       const metadata = new PlatformHandlerMetadata({
         handler,
         type: PlatformHandlerType.CTX_FN
@@ -79,7 +79,7 @@ describe("PlatformHandler", () => {
       const testService = await PlatformTest.invoke<TestService>(TestService)!;
       const provider = PlatformTest.injector.getProvider(TestService)!;
 
-      jest.spyOn(testService, "use").mockResolvedValue("hello");
+      vi.spyOn(testService, "use").mockResolvedValue("hello");
 
       const result = service.createCustomHandler(provider, "use");
 
@@ -94,10 +94,10 @@ describe("PlatformHandler", () => {
   describe("onRequest()", () => {
     it("should do nothing when the request is done", async () => {
       const {service} = getServiceFixture();
-      const handler = jest.fn();
+      const handler = vi.fn();
 
       const $ctx = PlatformTest.createRequestContext();
-      $ctx.next = jest.fn();
+      $ctx.next = vi.fn();
 
       await $ctx.finish();
 
@@ -119,7 +119,7 @@ describe("PlatformHandler", () => {
       }
 
       const {service} = getServiceFixture();
-      const handler = jest.fn().mockResolvedValue({
+      const handler = vi.fn().mockResolvedValue({
         status: 201,
         statusText: "CREATED",
         headers: {
@@ -129,14 +129,14 @@ describe("PlatformHandler", () => {
       });
 
       const $ctx = PlatformTest.createRequestContext();
-      $ctx.next = jest.fn();
+      $ctx.next = vi.fn();
       $ctx.endpoint = EndpointMetadata.get(TestService, "use");
 
       $ctx.handlerMetadata = new PlatformHandlerMetadata({
         handler: TestService.prototype.use
       });
 
-      jest.spyOn(service, "flush").mockResolvedValue();
+      vi.spyOn(service, "flush").mockResolvedValue();
 
       await service.onRequest(handler, $ctx);
 

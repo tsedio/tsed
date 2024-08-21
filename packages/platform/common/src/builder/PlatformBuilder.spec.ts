@@ -115,7 +115,7 @@ describe("PlatformBuilder", () => {
         }
       });
 
-      jest.spyOn(platform.app, "statics").mockReturnValue(undefined as any);
+      vi.spyOn(platform.app, "statics").mockReturnValue(undefined as any);
 
       await platform.loadStatics("$beforeRoutesInit");
 
@@ -131,13 +131,13 @@ describe("PlatformBuilder", () => {
       const middlewares: any[] = [
         {
           hook: "$beforeRoutesInit",
-          use: jest.fn()
+          use: vi.fn()
         },
         {
           hook: "$afterRoutesInit",
-          use: jest.fn()
+          use: vi.fn()
         },
-        jest.fn()
+        vi.fn()
       ];
       // WHEN
       const platform = await PlatformCustom.bootstrap(ServerModule, {
@@ -146,7 +146,7 @@ describe("PlatformBuilder", () => {
         middlewares
       });
 
-      jest.spyOn(platform.app, "use").mockReturnValue(undefined as any);
+      vi.spyOn(platform.app, "use").mockReturnValue(undefined as any);
 
       // @ts-ignore
       platform.loadMiddlewaresFor("$beforeRoutesInit");
@@ -217,18 +217,18 @@ describe("PlatformBuilder", () => {
   });
   describe("static boostrap()", () => {
     beforeAll(() => {
-      jest.spyOn(ServerModule.prototype, "$beforeRoutesInit").mockReturnValue(undefined);
-      jest.spyOn(ServerModule.prototype, "$afterRoutesInit").mockReturnValue(undefined);
-      jest.spyOn(ServerModule.prototype, "$afterInit").mockReturnValue(undefined);
-      jest.spyOn(ServerModule.prototype, "$afterListen").mockReturnValue(undefined);
-      jest.spyOn(ServerModule.prototype, "$beforeInit").mockReturnValue(undefined);
-      jest.spyOn(ServerModule.prototype, "$beforeListen").mockReturnValue(undefined);
-      jest.spyOn(ServerModule.prototype, "$onReady").mockReturnValue(undefined);
-      jest.spyOn(PlatformBuilder.prototype, "loadStatics");
+      vi.spyOn(ServerModule.prototype, "$beforeRoutesInit").mockReturnValue(undefined);
+      vi.spyOn(ServerModule.prototype, "$afterRoutesInit").mockReturnValue(undefined);
+      vi.spyOn(ServerModule.prototype, "$afterInit").mockReturnValue(undefined);
+      vi.spyOn(ServerModule.prototype, "$afterListen").mockReturnValue(undefined);
+      vi.spyOn(ServerModule.prototype, "$beforeInit").mockReturnValue(undefined);
+      vi.spyOn(ServerModule.prototype, "$beforeListen").mockReturnValue(undefined);
+      vi.spyOn(ServerModule.prototype, "$onReady").mockReturnValue(undefined);
+      vi.spyOn(PlatformBuilder.prototype, "loadStatics");
       // @ts-ignore
-      jest.spyOn(PlatformBuilder.prototype, "listenServers");
-      jest.spyOn(InjectorService.prototype, "emit").mockResolvedValue(undefined);
-      jest.spyOn(Platform.prototype, "addRoutes").mockReturnValue(undefined);
+      vi.spyOn(PlatformBuilder.prototype, "listenServers");
+      vi.spyOn(InjectorService.prototype, "emit").mockResolvedValue(undefined);
+      vi.spyOn(Platform.prototype, "addRoutes").mockReturnValue(undefined);
     });
     it("should boostrap a custom platform", async () => {
       const result = await PlatformBuilder.bootstrap(ServerModule, {
@@ -240,20 +240,20 @@ describe("PlatformBuilder", () => {
   });
   describe("static create()", () => {
     beforeEach(() => {
-      jest.spyOn(ServerModule.prototype, "$beforeRoutesInit").mockReturnValue(undefined);
-      jest.spyOn(ServerModule.prototype, "$afterRoutesInit").mockReturnValue(undefined);
-      jest.spyOn(ServerModule.prototype, "$afterInit").mockReturnValue(undefined);
-      jest.spyOn(ServerModule.prototype, "$afterListen").mockReturnValue(undefined);
-      jest.spyOn(ServerModule.prototype, "$beforeInit").mockReturnValue(undefined);
-      jest.spyOn(ServerModule.prototype, "$beforeListen").mockReturnValue(undefined);
-      jest.spyOn(ServerModule.prototype, "$onReady").mockReturnValue(undefined);
-      jest.spyOn(PlatformBuilder.prototype, "loadStatics");
+      vi.spyOn(ServerModule.prototype, "$beforeRoutesInit").mockReturnValue(undefined);
+      vi.spyOn(ServerModule.prototype, "$afterRoutesInit").mockReturnValue(undefined);
+      vi.spyOn(ServerModule.prototype, "$afterInit").mockReturnValue(undefined);
+      vi.spyOn(ServerModule.prototype, "$afterListen").mockReturnValue(undefined);
+      vi.spyOn(ServerModule.prototype, "$beforeInit").mockReturnValue(undefined);
+      vi.spyOn(ServerModule.prototype, "$beforeListen").mockReturnValue(undefined);
+      vi.spyOn(ServerModule.prototype, "$onReady").mockReturnValue(undefined);
+      vi.spyOn(PlatformBuilder.prototype, "loadStatics");
       // @ts-ignore
-      jest.spyOn(PlatformBuilder.prototype, "listenServers");
-      jest.spyOn(InjectorService.prototype, "emit").mockResolvedValue(undefined);
-      jest.spyOn(Platform.prototype, "addRoutes").mockReturnValue(undefined);
+      vi.spyOn(PlatformBuilder.prototype, "listenServers");
+      vi.spyOn(InjectorService.prototype, "emit").mockResolvedValue(undefined);
+      vi.spyOn(Platform.prototype, "addRoutes").mockReturnValue(undefined);
     });
-    afterAll(() => jest.resetAllMocks());
+    afterAll(() => vi.resetAllMocks());
     it("should boostrap a custom platform", () => {
       const platform = PlatformBuilder.create(ServerModule, {
         adapter: FakeAdapter
@@ -299,18 +299,18 @@ describe("PlatformBuilder", () => {
   });
   describe("adapter()", () => {
     beforeAll(() => {
-      jest.spyOn(ServerModule.prototype, "$beforeRoutesInit").mockReturnValue(undefined);
-      jest.spyOn(ServerModule.prototype, "$afterRoutesInit").mockReturnValue(undefined);
-      jest.spyOn(ServerModule.prototype, "$afterInit").mockReturnValue(undefined);
-      jest.spyOn(ServerModule.prototype, "$afterListen").mockReturnValue(undefined);
-      jest.spyOn(ServerModule.prototype, "$beforeInit").mockReturnValue(undefined);
-      jest.spyOn(ServerModule.prototype, "$beforeListen").mockReturnValue(undefined);
-      jest.spyOn(ServerModule.prototype, "$onReady").mockReturnValue(undefined);
-      jest.spyOn(PlatformBuilder.prototype, "loadStatics").mockResolvedValue(undefined as never);
+      vi.spyOn(ServerModule.prototype, "$beforeRoutesInit").mockReturnValue(undefined);
+      vi.spyOn(ServerModule.prototype, "$afterRoutesInit").mockReturnValue(undefined);
+      vi.spyOn(ServerModule.prototype, "$afterInit").mockReturnValue(undefined);
+      vi.spyOn(ServerModule.prototype, "$afterListen").mockReturnValue(undefined);
+      vi.spyOn(ServerModule.prototype, "$beforeInit").mockReturnValue(undefined);
+      vi.spyOn(ServerModule.prototype, "$beforeListen").mockReturnValue(undefined);
+      vi.spyOn(ServerModule.prototype, "$onReady").mockReturnValue(undefined);
+      vi.spyOn(PlatformBuilder.prototype, "loadStatics").mockResolvedValue(undefined as never);
       // @ts-ignore
-      jest.spyOn(PlatformBuilder.prototype, "listenServers");
-      jest.spyOn(InjectorService.prototype, "emit").mockResolvedValue(undefined);
-      jest.spyOn(Platform.prototype, "addRoutes").mockReturnValue(undefined);
+      vi.spyOn(PlatformBuilder.prototype, "listenServers");
+      vi.spyOn(InjectorService.prototype, "emit").mockResolvedValue(undefined);
+      vi.spyOn(Platform.prototype, "addRoutes").mockReturnValue(undefined);
     });
     it("should boostrap a custom platform", async () => {
       const platformBuilder = await PlatformBuilder.bootstrap(ServerModule, {

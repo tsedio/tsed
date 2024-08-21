@@ -63,14 +63,14 @@ export class PlatformController {
 describe("Platform", () => {
   beforeEach(PlatformTest.create);
   afterEach(PlatformTest.reset);
-  afterEach(() => jest.resetAllMocks());
+  afterEach(() => vi.resetAllMocks());
 
   describe("addRoute", () => {
     it("should add a route", async () => {
       // GIVEN
       const platform = await PlatformTest.get<Platform>(Platform);
 
-      jest.spyOn(platform.app, "use");
+      vi.spyOn(platform.app, "use");
 
       // WHEN
       platform.addRoutes([{route: "/test", token: MyCtrl}]);
@@ -79,7 +79,7 @@ describe("Platform", () => {
       // GIVEN
       const platform = await PlatformTest.get<Platform>(Platform);
 
-      jest.spyOn(platform.app, "use");
+      vi.spyOn(platform.app, "use");
 
       // WHEN
       platform.addRoutes([{route: "/rest", token: MyNestedCtrl}]);
@@ -97,7 +97,7 @@ describe("Platform", () => {
       // GIVEN
       const platform = await PlatformTest.get<Platform>(Platform);
 
-      jest.spyOn(platform.app, "use");
+      vi.spyOn(platform.app, "use");
 
       // WHEN
       platform.addRoutes([{route: "/rest", token: DomainController}]);
