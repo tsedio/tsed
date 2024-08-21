@@ -401,7 +401,7 @@ describe("ValidationPipe", () => {
     const validator = await PlatformTest.invoke<ValidationPipe>(ValidationPipe);
     // @ts-ignore
     validator.validator = {
-      validate: jest.fn().mockImplementation((o) => o)
+      validate: vi.fn().mockImplementation((o) => o)
     };
 
     class Test {
@@ -526,7 +526,7 @@ describe("ValidationPipe", () => {
     const validator = await PlatformTest.invoke<ValidationPipe>(ValidationPipe);
     // @ts-ignore
     validator.validator = {
-      validate: jest.fn().mockResolvedValue("1")
+      validate: vi.fn().mockResolvedValue("1")
     };
 
     class Test {
@@ -552,7 +552,7 @@ describe("ValidationPipe", () => {
     const validator = await PlatformTest.invoke<ValidationPipe>(ValidationPipe);
     // @ts-ignore
     validator.validator = {
-      validate: jest.fn().mockImplementation((o) => o)
+      validate: vi.fn().mockImplementation((o) => o)
     };
 
     class Test {
@@ -574,7 +574,7 @@ describe("ValidationPipe", () => {
     const validator = await PlatformTest.invoke<ValidationPipe>(ValidationPipe);
     // @ts-ignore
     validator.validator = {
-      validate: jest.fn().mockImplementation((o) => o)
+      validate: vi.fn().mockImplementation((o) => o)
     };
 
     class Test {
@@ -596,7 +596,7 @@ describe("ValidationPipe", () => {
     const validator = await PlatformTest.invoke<ValidationPipe>(ValidationPipe);
     // @ts-ignore
     validator.validator = {
-      validate: jest.fn().mockImplementation((o) => o)
+      validate: vi.fn().mockImplementation((o) => o)
     };
 
     class Test {
@@ -618,7 +618,7 @@ describe("ValidationPipe", () => {
     const validator = await PlatformTest.invoke<ValidationPipe>(ValidationPipe);
     // @ts-ignore
     validator.validator = {
-      validate: jest.fn().mockResolvedValue("1")
+      validate: vi.fn().mockResolvedValue("1")
     };
 
     class Test {
