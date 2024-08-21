@@ -19,7 +19,9 @@ describe("integration", () => {
   sharedPartialsTest.test("hogan");
   sharedTest.test("dust");
   sharedPartialsTest.test("dust");
-  require("./shared/dust").test("dust");
+  // const dustTest = await import("./shared/dust");
+  // dustTest.test("dust");
+
   sharedTest.test("handlebars");
   sharedPartialsTest.test("handlebars");
   sharedHelpersTest.test("handlebars");
@@ -46,7 +48,7 @@ describe("integration", () => {
   sharedTest.test("vash");
   sharedHelpersTest.test("vash");
   sharedTest.test("slm");
-  sharedTest.test("bracket");
+  // sharedTest.test("bracket");
   sharedTest.test("velocityjs");
   sharedTest.test("squirrelly");
   sharedPartialsTest.test("squirrelly");

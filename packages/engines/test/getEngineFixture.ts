@@ -28,8 +28,8 @@ export async function getEngineFixture({token, cache = false, templateName = "us
     // @ts-ignore
     engine.$compileFile.restore();
   } catch (er) {}
-  jest.spyOn(engine as any, "$compile");
-  jest.spyOn(engine as any, "$compileFile");
+  vi.spyOn(engine as any, "$compile");
+  vi.spyOn(engine as any, "$compileFile");
 
   return {
     name,
