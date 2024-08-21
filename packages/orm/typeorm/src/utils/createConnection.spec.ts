@@ -2,10 +2,11 @@ import {ConnectionManager, getConnectionManager} from "typeorm";
 import * as Connection from "typeorm/connection/Connection";
 import {createConnection} from "./createConnection.js";
 
-jest.mock("typeorm", () => {
+vi.mock("typeorm", async (importOriginal) => {
+  const mod = await importOriginal<any>();
   return {
-    ...jest.requireActual("typeorm"),
-    getConnectionManager: jest.fn()
+    ...mod,
+    getConnectionManager: vi.fn()
   };
 });
 
@@ -13,24 +14,24 @@ function getConnectionFixture() {
   const defaultConnection: any = {
     name: "default",
     isConnected: true,
-    connect: jest.fn().mockResolvedValue(undefined),
-    close: jest.fn()
+    connect: vi.fn().mockResolvedValue(undefined),
+    close: vi.fn()
   };
   const customConnection: any = {
     isConnected: true,
-    connect: jest.fn().mockResolvedValue(undefined),
-    close: jest.fn()
+    connect: vi.fn().mockResolvedValue(undefined),
+    close: vi.fn()
   };
 
   // create ConnectionManager
   const connectionManager = new ConnectionManager();
-  const connectionManagerCreateSpy = jest.spyOn(connectionManager, "create");
+  const connectionManagerCreateSpy = vi.spyOn(connectionManager, "create");
 
   // replace
   (getConnectionManager as any).mockReturnValue(connectionManager);
 
   // replace Connection constructor
-  const connectionStub = jest.spyOn(Connection, "Connection").mockImplementation((opts) => {
+  const connectionStub = vi.spyOn(Connection, "Connection").mockImplementation((opts) => {
     if (opts.name == null || opts.name === "default") {
       return defaultConnection;
     } else {
