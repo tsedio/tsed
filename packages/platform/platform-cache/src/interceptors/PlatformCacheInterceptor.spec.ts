@@ -12,12 +12,12 @@ const defaultKeyResolver = (args: any[]) => {
 
 async function getInterceptorFixture(opts: any = {}) {
   const cache: any = {
-    get: jest.fn().mockResolvedValue(false),
-    set: jest.fn().mockResolvedValue(false),
-    del: jest.fn().mockResolvedValue(true),
-    ttl: jest.fn().mockResolvedValue(opts.ttl || 6999),
-    calculateTTL: jest.fn().mockImplementation((result: any, ttl: any) => ttl),
-    isForceRefresh: jest.fn().mockReturnValue(opts.forceRefresh)
+    get: vi.fn().mockResolvedValue(false),
+    set: vi.fn().mockResolvedValue(false),
+    del: vi.fn().mockResolvedValue(true),
+    ttl: vi.fn().mockResolvedValue(opts.ttl || 6999),
+    calculateTTL: vi.fn().mockImplementation((result: any, ttl: any) => ttl),
+    isForceRefresh: vi.fn().mockReturnValue(opts.forceRefresh)
   };
 
   const interceptor = await PlatformTest.invoke<PlatformCacheInterceptor>(PlatformCacheInterceptor, [
@@ -30,7 +30,7 @@ async function getInterceptorFixture(opts: any = {}) {
   return {cache, interceptor};
 }
 
-jest.mock("../utils/isEndpoint");
+vi.mock("../utils/isEndpoint");
 
 describe("PlatformCacheInterceptor", () => {
   beforeEach(() => PlatformTest.create());
@@ -42,16 +42,16 @@ describe("PlatformCacheInterceptor", () => {
         {
           token: PlatformCache,
           use: {
-            disabled: jest.fn().mockReturnValue(false)
+            disabled: vi.fn().mockReturnValue(false)
           }
         }
       ]);
-      jest.spyOn(interceptor as any, "cacheMethod").mockResolvedValue("test");
-      jest.spyOn(interceptor as any, "cacheResponse").mockResolvedValue("test");
+      vi.spyOn(interceptor as any, "cacheMethod").mockResolvedValue("test");
+      vi.spyOn(interceptor as any, "cacheResponse").mockResolvedValue("test");
       (isEndpoint as any).mockReturnValue(true);
 
       const context: any = {};
-      const next: any = jest.fn();
+      const next: any = vi.fn();
 
       await interceptor.intercept(context, next);
 
@@ -62,17 +62,17 @@ describe("PlatformCacheInterceptor", () => {
         {
           token: PlatformCache,
           use: {
-            disabled: jest.fn().mockReturnValue(false)
+            disabled: vi.fn().mockReturnValue(false)
           }
         }
       ]);
 
-      jest.spyOn(interceptor as any, "cacheMethod").mockResolvedValue("test");
-      jest.spyOn(interceptor as any, "cacheResponse").mockResolvedValue("test");
+      vi.spyOn(interceptor as any, "cacheMethod").mockResolvedValue("test");
+      vi.spyOn(interceptor as any, "cacheResponse").mockResolvedValue("test");
       (isEndpoint as any).mockReturnValue(false);
 
       const context: any = {};
-      const next: any = jest.fn();
+      const next: any = vi.fn();
 
       await interceptor.intercept(context, next);
 
@@ -83,17 +83,17 @@ describe("PlatformCacheInterceptor", () => {
         {
           token: PlatformCache,
           use: {
-            disabled: jest.fn().mockReturnValue(true)
+            disabled: vi.fn().mockReturnValue(true)
           }
         }
       ]);
 
-      jest.spyOn(interceptor as any, "cacheMethod").mockResolvedValue("test");
-      jest.spyOn(interceptor as any, "cacheResponse").mockResolvedValue("test");
+      vi.spyOn(interceptor as any, "cacheMethod").mockResolvedValue("test");
+      vi.spyOn(interceptor as any, "cacheResponse").mockResolvedValue("test");
       (isEndpoint as any).mockReturnValue(false);
 
       const context: any = {};
-      const next: any = jest.fn();
+      const next: any = vi.fn();
 
       await interceptor.intercept(context, next);
 
@@ -105,7 +105,7 @@ describe("PlatformCacheInterceptor", () => {
     it("should refresh key in background", async () => {
       const {cache, interceptor} = await getInterceptorFixture();
 
-      const next = jest.fn();
+      const next = vi.fn();
 
       await interceptor.canRefreshInBackground("key", {refreshThreshold: 300, ttl: 10000}, next);
 
@@ -120,7 +120,7 @@ describe("PlatformCacheInterceptor", () => {
         ttl: 9700
       });
 
-      const next = jest.fn();
+      const next = vi.fn();
 
       await interceptor.canRefreshInBackground("key", {refreshThreshold: 300, ttl: 10000}, next);
 
@@ -134,10 +134,10 @@ describe("PlatformCacheInterceptor", () => {
   describe("cacheMethod()", () => {
     it("should return the cached response", async () => {
       const {cache, interceptor} = await getInterceptorFixture();
-      cache.getCachedObject = jest.fn().mockResolvedValue({
+      cache.getCachedObject = vi.fn().mockResolvedValue({
         data: JSON.stringify({data: "data"})
       });
-      cache.setCachedObject = jest.fn().mockResolvedValue("test");
+      cache.setCachedObject = vi.fn().mockResolvedValue("test");
       cache.defaultKeyResolver = () => defaultKeyResolver;
 
       class Test {
@@ -150,7 +150,7 @@ describe("PlatformCacheInterceptor", () => {
         }
       }
 
-      const next = jest.fn().mockReturnValue({data: "refreshed"});
+      const next = vi.fn().mockReturnValue({data: "refreshed"});
       const context: any = {
         target: Test,
         propertyKey: "test",
@@ -161,7 +161,7 @@ describe("PlatformCacheInterceptor", () => {
         }
       };
 
-      jest.spyOn(interceptor, "canRefreshInBackground").mockResolvedValue();
+      vi.spyOn(interceptor, "canRefreshInBackground").mockResolvedValue();
 
       const result = await interceptor.cacheMethod(context, next);
 
@@ -185,10 +185,10 @@ describe("PlatformCacheInterceptor", () => {
     });
     it("should return the cached response (prefix)", async () => {
       const {cache, interceptor} = await getInterceptorFixture();
-      cache.getCachedObject = jest.fn().mockResolvedValue({
+      cache.getCachedObject = vi.fn().mockResolvedValue({
         data: JSON.stringify({data: "data"})
       });
-      cache.setCachedObject = jest.fn().mockResolvedValue("test");
+      cache.setCachedObject = vi.fn().mockResolvedValue("test");
       cache.defaultKeyResolver = () => defaultKeyResolver;
 
       class Test {
@@ -202,7 +202,7 @@ describe("PlatformCacheInterceptor", () => {
         }
       }
 
-      const next = jest.fn().mockReturnValue({data: "refreshed"});
+      const next = vi.fn().mockReturnValue({data: "refreshed"});
       const context: any = {
         target: Test,
         propertyKey: "test",
@@ -214,7 +214,7 @@ describe("PlatformCacheInterceptor", () => {
         }
       };
 
-      jest.spyOn(interceptor, "canRefreshInBackground").mockResolvedValue();
+      vi.spyOn(interceptor, "canRefreshInBackground").mockResolvedValue();
 
       const result = await interceptor.cacheMethod(context, next);
 
@@ -240,10 +240,10 @@ describe("PlatformCacheInterceptor", () => {
       const {cache, interceptor} = await getInterceptorFixture({
         forceRefresh: true
       });
-      cache.getCachedObject = jest.fn().mockResolvedValue({
+      cache.getCachedObject = vi.fn().mockResolvedValue({
         data: JSON.stringify({data: "data"})
       });
-      cache.setCachedObject = jest.fn().mockResolvedValue("test");
+      cache.setCachedObject = vi.fn().mockResolvedValue("test");
       cache.defaultKeyResolver = () => defaultKeyResolver;
 
       class Test {
@@ -256,7 +256,7 @@ describe("PlatformCacheInterceptor", () => {
         }
       }
 
-      const next = jest.fn().mockReturnValue({data: "refreshed"});
+      const next = vi.fn().mockReturnValue({data: "refreshed"});
       const context: any = {
         target: Test,
         propertyKey: "test",
@@ -267,7 +267,7 @@ describe("PlatformCacheInterceptor", () => {
         }
       };
 
-      jest.spyOn(interceptor, "canRefreshInBackground").mockResolvedValue();
+      vi.spyOn(interceptor, "canRefreshInBackground").mockResolvedValue();
 
       const result = await interceptor.cacheMethod(context, next);
 
@@ -287,8 +287,8 @@ describe("PlatformCacheInterceptor", () => {
     });
     it("should call the endpoint and cache the response", async () => {
       const {cache, interceptor} = await getInterceptorFixture();
-      cache.getCachedObject = jest.fn().mockResolvedValue(undefined);
-      cache.setCachedObject = jest.fn().mockResolvedValue("test");
+      cache.getCachedObject = vi.fn().mockResolvedValue(undefined);
+      cache.setCachedObject = vi.fn().mockResolvedValue("test");
       cache.defaultKeyResolver = () => defaultKeyResolver;
 
       class Test {
@@ -301,7 +301,7 @@ describe("PlatformCacheInterceptor", () => {
         }
       }
 
-      const next = jest.fn().mockResolvedValue({
+      const next = vi.fn().mockResolvedValue({
         data: "data"
       });
       const context: any = {
@@ -314,7 +314,7 @@ describe("PlatformCacheInterceptor", () => {
         }
       };
 
-      jest.spyOn(interceptor, "canRefreshInBackground").mockResolvedValue();
+      vi.spyOn(interceptor, "canRefreshInBackground").mockResolvedValue();
 
       const result = await interceptor.cacheMethod(context, next);
 
@@ -336,8 +336,8 @@ describe("PlatformCacheInterceptor", () => {
     });
     it("should doesn't cache nullish result", async () => {
       const {cache, interceptor} = await getInterceptorFixture();
-      cache.getCachedObject = jest.fn().mockResolvedValue(undefined);
-      cache.setCachedObject = jest.fn().mockResolvedValue("test");
+      cache.getCachedObject = vi.fn().mockResolvedValue(undefined);
+      cache.setCachedObject = vi.fn().mockResolvedValue("test");
       cache.defaultKeyResolver = () => defaultKeyResolver;
 
       class Test {
@@ -351,7 +351,7 @@ describe("PlatformCacheInterceptor", () => {
         }
       }
 
-      const next = jest.fn().mockResolvedValue(null);
+      const next = vi.fn().mockResolvedValue(null);
       const context: any = {
         target: Test,
         propertyKey: "test",
@@ -363,7 +363,7 @@ describe("PlatformCacheInterceptor", () => {
         }
       };
 
-      jest.spyOn(interceptor, "canRefreshInBackground").mockResolvedValue();
+      vi.spyOn(interceptor, "canRefreshInBackground").mockResolvedValue();
 
       const result = await interceptor.cacheMethod(context, next);
 
@@ -376,8 +376,8 @@ describe("PlatformCacheInterceptor", () => {
     });
     it("should catch and log error", async () => {
       const {cache, interceptor} = await getInterceptorFixture();
-      cache.getCachedObject = jest.fn().mockResolvedValue({data: JSON.stringify({})});
-      cache.setCachedObject = jest.fn().mockResolvedValue("test");
+      cache.getCachedObject = vi.fn().mockResolvedValue({data: JSON.stringify({})});
+      cache.setCachedObject = vi.fn().mockResolvedValue("test");
       cache.defaultKeyResolver = () => defaultKeyResolver;
 
       class Test {
@@ -390,7 +390,7 @@ describe("PlatformCacheInterceptor", () => {
         }
       }
 
-      const next = jest.fn().mockResolvedValue({
+      const next = vi.fn().mockResolvedValue({
         data: "data"
       });
       const context: any = {
@@ -404,8 +404,8 @@ describe("PlatformCacheInterceptor", () => {
       };
 
       const error = new Error("error");
-      jest.spyOn(interceptor, "canRefreshInBackground").mockRejectedValue(error);
-      jest.spyOn((interceptor as any).logger, "error");
+      vi.spyOn(interceptor, "canRefreshInBackground").mockRejectedValue(error);
+      vi.spyOn((interceptor as any).logger, "error");
 
       await interceptor.cacheMethod(context, next);
 
@@ -425,14 +425,14 @@ describe("PlatformCacheInterceptor", () => {
   describe("cacheResponse()", () => {
     it("should return the cached response", async () => {
       const cache = {
-        get: jest.fn().mockResolvedValue(false),
-        set: jest.fn().mockResolvedValue(false),
-        del: jest.fn().mockResolvedValue(true),
-        calculateTTL: jest.fn().mockReturnValue(10000),
-        getCachedObject: jest.fn().mockResolvedValue({
+        get: vi.fn().mockResolvedValue(false),
+        set: vi.fn().mockResolvedValue(false),
+        del: vi.fn().mockResolvedValue(true),
+        calculateTTL: vi.fn().mockReturnValue(10000),
+        getCachedObject: vi.fn().mockResolvedValue({
           data: JSON.stringify({data: "data"})
         }),
-        setCachedObject: jest.fn().mockResolvedValue("test"),
+        setCachedObject: vi.fn().mockResolvedValue("test"),
         defaultKeyResolver: () => defaultKeyResolver
       };
       const interceptor = await PlatformTest.invoke<PlatformCacheInterceptor>(PlatformCacheInterceptor, [
@@ -452,19 +452,19 @@ describe("PlatformCacheInterceptor", () => {
         }
       }
 
-      const next = jest.fn();
+      const next = vi.fn();
       const $ctx = {
         request: {
           method: "GET",
           url: "/",
-          get: jest.fn()
+          get: vi.fn()
         },
         response: {
-          getBody: jest.fn().mockReturnValue({
+          getBody: vi.fn().mockReturnValue({
             data: "data"
           }),
-          setHeaders: jest.fn(),
-          onEnd: jest.fn()
+          setHeaders: vi.fn(),
+          onEnd: vi.fn()
         }
       };
       const context: any = {
@@ -477,8 +477,8 @@ describe("PlatformCacheInterceptor", () => {
         }
       };
 
-      jest.spyOn(interceptor, "canRefreshInBackground").mockResolvedValue();
-      jest.spyOn(interceptor as any, "sendResponse").mockResolvedValue(undefined);
+      vi.spyOn(interceptor, "canRefreshInBackground").mockResolvedValue();
+      vi.spyOn(interceptor as any, "sendResponse").mockResolvedValue(undefined);
 
       const result = await interceptor.cacheResponse(context, next);
 
@@ -496,14 +496,14 @@ describe("PlatformCacheInterceptor", () => {
     });
     it("should return the cached response (prefix)", async () => {
       const cache = {
-        get: jest.fn().mockResolvedValue(false),
-        set: jest.fn().mockResolvedValue(false),
-        del: jest.fn().mockResolvedValue(true),
-        calculateTTL: jest.fn().mockReturnValue(10000),
-        getCachedObject: jest.fn().mockResolvedValue({
+        get: vi.fn().mockResolvedValue(false),
+        set: vi.fn().mockResolvedValue(false),
+        del: vi.fn().mockResolvedValue(true),
+        calculateTTL: vi.fn().mockReturnValue(10000),
+        getCachedObject: vi.fn().mockResolvedValue({
           data: JSON.stringify({data: "data"})
         }),
-        setCachedObject: jest.fn().mockResolvedValue("test"),
+        setCachedObject: vi.fn().mockResolvedValue("test"),
         defaultKeyResolver: () => defaultKeyResolver
       };
       const interceptor = await PlatformTest.invoke<PlatformCacheInterceptor>(PlatformCacheInterceptor, [
@@ -524,19 +524,19 @@ describe("PlatformCacheInterceptor", () => {
         }
       }
 
-      const next = jest.fn();
+      const next = vi.fn();
       const $ctx = {
         request: {
           method: "GET",
           url: "/",
-          get: jest.fn()
+          get: vi.fn()
         },
         response: {
-          getBody: jest.fn().mockReturnValue({
+          getBody: vi.fn().mockReturnValue({
             data: "data"
           }),
-          setHeaders: jest.fn(),
-          onEnd: jest.fn()
+          setHeaders: vi.fn(),
+          onEnd: vi.fn()
         }
       };
       const context: any = {
@@ -550,8 +550,8 @@ describe("PlatformCacheInterceptor", () => {
         }
       };
 
-      jest.spyOn(interceptor, "canRefreshInBackground").mockResolvedValue();
-      jest.spyOn(interceptor as any, "sendResponse").mockResolvedValue(undefined);
+      vi.spyOn(interceptor, "canRefreshInBackground").mockResolvedValue();
+      vi.spyOn(interceptor as any, "sendResponse").mockResolvedValue(undefined);
 
       const result = await interceptor.cacheResponse(context, next);
 
@@ -569,12 +569,12 @@ describe("PlatformCacheInterceptor", () => {
     });
     it("should call the method and set the cache", async () => {
       const cache = {
-        get: jest.fn().mockResolvedValue(false),
-        set: jest.fn().mockResolvedValue(false),
-        del: jest.fn().mockResolvedValue(true),
-        calculateTTL: jest.fn().mockReturnValue(10000),
-        getCachedObject: jest.fn().mockResolvedValue(undefined),
-        setCachedObject: jest.fn().mockResolvedValue("test"),
+        get: vi.fn().mockResolvedValue(false),
+        set: vi.fn().mockResolvedValue(false),
+        del: vi.fn().mockResolvedValue(true),
+        calculateTTL: vi.fn().mockReturnValue(10000),
+        getCachedObject: vi.fn().mockResolvedValue(undefined),
+        setCachedObject: vi.fn().mockResolvedValue("test"),
         defaultKeyResolver: () => defaultKeyResolver
       };
       const interceptor = await PlatformTest.invoke<PlatformCacheInterceptor>(PlatformCacheInterceptor, [
@@ -594,22 +594,22 @@ describe("PlatformCacheInterceptor", () => {
         }
       }
 
-      const next = jest.fn();
+      const next = vi.fn();
       const $ctx = {
         request: {
           method: "GET",
           url: "/",
-          get: jest.fn()
+          get: vi.fn()
         },
         response: {
-          getBody: jest.fn().mockReturnValue({
+          getBody: vi.fn().mockReturnValue({
             data: "data"
           }),
-          getHeaders: jest.fn().mockReturnValue({
+          getHeaders: vi.fn().mockReturnValue({
             "x-key": "key"
           }),
-          setHeaders: jest.fn(),
-          onEnd: jest.fn()
+          setHeaders: vi.fn(),
+          onEnd: vi.fn()
         }
       };
       const context: any = {
@@ -622,8 +622,8 @@ describe("PlatformCacheInterceptor", () => {
         }
       };
 
-      jest.spyOn(interceptor, "canRefreshInBackground").mockResolvedValue();
-      jest.spyOn(interceptor as any, "sendResponse").mockResolvedValue(undefined);
+      vi.spyOn(interceptor, "canRefreshInBackground").mockResolvedValue();
+      vi.spyOn(interceptor as any, "sendResponse").mockResolvedValue(undefined);
 
       const result = await interceptor.cacheResponse(context, next);
 

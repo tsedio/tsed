@@ -7,32 +7,32 @@ import {PlatformCache} from "./PlatformCache.js";
 function createCacheFixture() {
   const map = new Map();
   return {
-    get: jest.fn().mockImplementation((key) => {
+    get: vi.fn().mockImplementation((key) => {
       return Promise.resolve(map.get(key));
     }),
-    set: jest.fn().mockImplementation((key, value) => {
+    set: vi.fn().mockImplementation((key, value) => {
       return Promise.resolve(map.set(key, value));
     }),
-    wrap: jest.fn().mockImplementation((key, fn) => {
+    wrap: vi.fn().mockImplementation((key, fn) => {
       return fn();
     }),
-    reset: jest.fn().mockImplementation(() => {
+    reset: vi.fn().mockImplementation(() => {
       map.clear();
     }),
-    del: jest.fn().mockImplementation((key) => {
+    del: vi.fn().mockImplementation((key) => {
       map.delete(key);
     }),
 
     store: {
-      keys: jest.fn().mockImplementation(() => {
+      keys: vi.fn().mockImplementation(() => {
         return [...map.keys()];
       }),
-      ttl: jest.fn()
+      ttl: vi.fn()
     }
   };
 }
 
-jest.mock("cache-manager");
+vi.mock("cache-manager");
 
 describe("PlatformCache", () => {
   describe("with legacy single cache", () => {
@@ -41,7 +41,7 @@ describe("PlatformCache", () => {
     beforeEach(async () => {
       caching = createCacheFixture();
 
-      (cacheManager as jest.Mock).mockReturnValue(caching as any);
+      (cacheManager as vi.Mock).mockReturnValue(caching as any);
 
       await PlatformTest.create({
         cache: {
@@ -86,7 +86,7 @@ describe("PlatformCache", () => {
     beforeEach(async () => {
       caching = createCacheFixture();
 
-      (cacheManager as jest.Mock).mockReturnValue(caching as any);
+      (cacheManager as vi.Mock).mockReturnValue(caching as any);
 
       await PlatformTest.create({
         cache: {
@@ -239,8 +239,8 @@ describe("PlatformCache", () => {
       it("should catch and log error", async () => {
         const cacheManager: any = PlatformTest.get<PlatformCache>(PlatformCache);
 
-        jest.spyOn(cacheManager, "get").mockRejectedValue(new Error("message"));
-        jest.spyOn(cacheManager.logger, "error");
+        vi.spyOn(cacheManager, "get").mockRejectedValue(new Error("message"));
+        vi.spyOn(cacheManager.logger, "error");
 
         await cacheManager.getCachedObject("key");
 
@@ -256,8 +256,8 @@ describe("PlatformCache", () => {
       it("should catch and log error", async () => {
         const cacheManager: any = PlatformTest.get<PlatformCache>(PlatformCache);
 
-        jest.spyOn(cacheManager, "set").mockRejectedValue(new Error("message"));
-        jest.spyOn(cacheManager.logger, "error");
+        vi.spyOn(cacheManager, "set").mockRejectedValue(new Error("message"));
+        vi.spyOn(cacheManager.logger, "error");
 
         await cacheManager.setCachedObject("key", {data: "data"}, {ttl: 10});
 
@@ -288,7 +288,7 @@ describe("PlatformCache", () => {
     beforeEach(() => {
       caching = createCacheFixture();
 
-      (multiCaching as jest.Mock).mockReturnValue(caching as any);
+      (multiCaching as vi.Mock).mockReturnValue(caching as any);
 
       return PlatformTest.create({
         cache: {
