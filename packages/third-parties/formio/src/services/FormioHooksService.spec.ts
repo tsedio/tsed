@@ -25,7 +25,7 @@ describe("FormioHooksService", () => {
     Store.from(Alter1).set("formio:alter:name", "hookName");
     Store.from(Alter2).set("formio:alter:name", "hookName");
 
-    jest.spyOn(service as any, "getProviders").mockReturnValue([new Provider(Alter1), new Provider(Alter2)]);
+    vi.spyOn(service as any, "getProviders").mockReturnValue([new Provider(Alter1), new Provider(Alter2)]);
 
     const hooks: any = service.getHooks();
 
@@ -51,7 +51,7 @@ describe("FormioHooksService", () => {
     Store.from(Alter1).set("formio:alter:name", "hookName");
     Store.from(Alter2).set("formio:alter:name", "hookName");
 
-    jest.spyOn(service as any, "getProviders").mockReturnValue([new Provider(Alter1), new Provider(Alter2)]);
+    vi.spyOn(service as any, "getProviders").mockReturnValue([new Provider(Alter1), new Provider(Alter2)]);
 
     const hooks: any = service.getHooks();
 
@@ -77,7 +77,7 @@ describe("FormioHooksService", () => {
     Store.from(On1).set("formio:on:name", "hookName");
     Store.from(On2).set("formio:on:name", "hookName");
 
-    jest.spyOn(service as any, "getProviders").mockReturnValue([new Provider(On1), new Provider(On2)]);
+    vi.spyOn(service as any, "getProviders").mockReturnValue([new Provider(On1), new Provider(On2)]);
 
     const hooks: any = service.getHooks();
 
@@ -87,7 +87,7 @@ describe("FormioHooksService", () => {
   it("should return settings method", async () => {
     const formio = {
       hook: {
-        settings: jest.fn()
+        settings: vi.fn()
       }
     };
 
@@ -104,7 +104,7 @@ describe("FormioHooksService", () => {
   it("should return invoke method", async () => {
     const formio = {
       hook: {
-        invoke: jest.fn()
+        invoke: vi.fn()
       }
     };
 
@@ -121,7 +121,7 @@ describe("FormioHooksService", () => {
   it("should return alter method", async () => {
     const formio = {
       hook: {
-        alter: jest.fn()
+        alter: vi.fn()
       }
     };
 
@@ -138,7 +138,7 @@ describe("FormioHooksService", () => {
   it("should return alterAsync method", async () => {
     const formio = {
       hook: {
-        alter: jest.fn()
+        alter: vi.fn()
       }
     };
 

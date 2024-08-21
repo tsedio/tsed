@@ -4,7 +4,7 @@ import {AlterTemplateImportSteps} from "./AlterTemplateImportSteps.js";
 
 async function createServiceFixture() {
   const mapper = {
-    mapToImport: jest.fn().mockImplementation((data) => {
+    mapToImport: vi.fn().mockImplementation((data) => {
       if (data && data.data) {
         return {
           form: "form_id",
@@ -18,10 +18,10 @@ async function createServiceFixture() {
 
   const database = {
     submissionModel: {
-      deleteMany: jest.fn(),
-      create: jest.fn()
+      deleteMany: vi.fn(),
+      create: vi.fn()
     },
-    getFormioMapper: jest.fn().mockResolvedValue(mapper)
+    getFormioMapper: vi.fn().mockResolvedValue(mapper)
   };
 
   const service = await PlatformTest.invoke<AlterTemplateImportSteps>(AlterTemplateImportSteps, [
@@ -53,7 +53,7 @@ describe("AlterTemplateImportSteps", () => {
       }
     };
 
-    queue = service.transform(queue, jest.fn(), template);
+    queue = service.transform(queue, vi.fn(), template);
 
     expect(queue.length).toEqual(1);
 

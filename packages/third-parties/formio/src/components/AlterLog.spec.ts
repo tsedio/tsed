@@ -8,7 +8,7 @@ describe("AlterLog", () => {
   it("should log data", async () => {
     const ctx = PlatformTest.createRequestContext();
 
-    jest.spyOn(ctx.logger, "debug");
+    vi.spyOn(ctx.logger, "debug");
 
     const alterLog = await PlatformTest.invoke<AlterLog>(AlterLog);
 

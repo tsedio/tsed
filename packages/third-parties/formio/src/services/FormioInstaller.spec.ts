@@ -15,26 +15,26 @@ async function createFormioInstallerFixture(options: any = {}) {
   } = options;
 
   const collections = {
-    estimatedDocumentCount: jest.fn().mockImplementation((cb) => {
+    estimatedDocumentCount: vi.fn().mockImplementation((cb) => {
       cb(errorCount, count);
     })
   };
   const formioService = {
     db: {
-      collection: jest.fn().mockReturnValue(collections)
+      collection: vi.fn().mockReturnValue(collections)
     },
     formio: {},
-    encrypt: jest.fn().mockResolvedValue("hash"),
+    encrypt: vi.fn().mockResolvedValue("hash"),
     resources: {
       submission: {
         model: {
-          create: jest.fn().mockImplementation((_, cb) => {
+          create: vi.fn().mockImplementation((_, cb) => {
             cb(errorSubmission, submission);
           })
         }
       }
     },
-    importTemplate: jest.fn().mockImplementation((o) => o)
+    importTemplate: vi.fn().mockImplementation((o) => o)
   };
   const service = await PlatformTest.invoke<FormioInstaller>(FormioInstaller, [
     {
@@ -134,7 +134,7 @@ describe("FormioImporter", () => {
         password: faker.internet.password(12)
       };
 
-      jest.spyOn(service, "createRootUser");
+      vi.spyOn(service, "createRootUser");
 
       await service.install(template as any, user);
 

@@ -4,7 +4,7 @@ import {AlterTemplateExportSteps} from "./AlterTemplateExportSteps.js";
 
 async function createServiceFixture() {
   const mapper = {
-    mapToExport: jest.fn().mockImplementation((data) => {
+    mapToExport: vi.fn().mockImplementation((data) => {
       if (data === "form_id") {
         return "machineName";
       }
@@ -14,11 +14,11 @@ async function createServiceFixture() {
 
   const database = {
     submissionModel: {
-      deleteMany: jest.fn(),
-      create: jest.fn(),
-      find: jest.fn()
+      deleteMany: vi.fn(),
+      create: vi.fn(),
+      find: vi.fn()
     },
-    getFormioMapper: jest.fn().mockResolvedValue(mapper)
+    getFormioMapper: vi.fn().mockResolvedValue(mapper)
   };
 
   const service = await PlatformTest.invoke<AlterTemplateExportSteps>(AlterTemplateExportSteps, [

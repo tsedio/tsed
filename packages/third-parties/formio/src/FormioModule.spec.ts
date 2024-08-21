@@ -6,23 +6,23 @@ import {FormioService} from "./services/FormioService.js";
 
 async function createFormioModuleFixture() {
   const formio = {
-    swagger: jest.fn(),
-    router: jest.fn(),
+    swagger: vi.fn(),
+    router: vi.fn(),
     middleware: {
-      restrictRequestTypes: jest.fn()
+      restrictRequestTypes: vi.fn()
     },
-    isInit: jest.fn().mockReturnValue(true),
-    init: jest.fn()
+    isInit: vi.fn().mockReturnValue(true),
+    init: vi.fn()
   };
 
   const installer = {
-    hasForms: jest.fn().mockReturnValue(false),
-    install: jest.fn()
+    hasForms: vi.fn().mockReturnValue(false),
+    install: vi.fn()
   };
 
   const app = {
-    use: jest.fn(),
-    getRouter: jest.fn().mockReturnThis()
+    use: vi.fn(),
+    getRouter: vi.fn().mockReturnThis()
   };
 
   const service = await PlatformTest.invoke<FormioModule>(FormioModule, [
