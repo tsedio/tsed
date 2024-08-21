@@ -91,7 +91,7 @@ describe("routers integration", () => {
       const {injector, platformRouters} = createAppRouterFixture();
       injector.addProvider(MyController, {});
 
-      const hookStub = jest.fn().mockImplementation((o) => o);
+      const hookStub = vi.fn().mockImplementation((o) => o);
 
       platformRouters.hooks.on("alterEndpointHandlers", hookStub);
 

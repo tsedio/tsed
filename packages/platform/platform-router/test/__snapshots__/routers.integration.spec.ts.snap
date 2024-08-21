@@ -1,4 +1,401 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`routers integration > getLayers() > should declare router - appRouter 1`] = `
+[
+  {
+    "basePath": "/rest",
+    "handlers": [
+      "",
+      "useBefore",
+      "MyController.get",
+      "",
+    ],
+    "method": "get",
+    "opts": {
+      "basePath": "/controller",
+      "endpoint": "MyController:get",
+      "operationPath": "[object Object]",
+      "paramsTypes": "[object Object]",
+      "token": "MyController",
+    },
+    "path": "/rest/controller",
+  },
+  {
+    "basePath": "/rest",
+    "handlers": [
+      "",
+      "useBefore",
+      "MyController.post",
+      "",
+    ],
+    "method": "post",
+    "opts": {
+      "basePath": "/controller",
+      "endpoint": "MyController:post",
+      "operationPath": "[object Object]",
+      "paramsTypes": "[object Object]",
+      "token": "MyController",
+    },
+    "path": "/rest/controller",
+  },
+  {
+    "basePath": "/rest",
+    "handlers": [
+      "",
+      "useBefore",
+      "MyController.put",
+      "",
+    ],
+    "method": "put",
+    "opts": {
+      "basePath": "/controller",
+      "endpoint": "MyController:put",
+      "operationPath": "[object Object]",
+      "paramsTypes": "[object Object]",
+      "token": "MyController",
+    },
+    "path": "/rest/controller/:id",
+  },
+  {
+    "basePath": "/rest",
+    "handlers": [
+      "",
+      "useBefore",
+      "MyController.delete",
+      "",
+    ],
+    "method": "delete",
+    "opts": {
+      "basePath": "/controller",
+      "endpoint": "MyController:delete",
+      "operationPath": "[object Object]",
+      "paramsTypes": "[object Object]",
+      "token": "MyController",
+    },
+    "path": "/rest/controller/:id",
+  },
+  {
+    "basePath": "/rest",
+    "handlers": [
+      "",
+      "useBefore",
+      "MyController.head",
+      "",
+    ],
+    "method": "head",
+    "opts": {
+      "basePath": "/controller",
+      "endpoint": "MyController:head",
+      "operationPath": "[object Object]",
+      "paramsTypes": "[object Object]",
+      "token": "MyController",
+    },
+    "path": "/rest/controller/:id",
+  },
+  {
+    "basePath": "/rest",
+    "handlers": [
+      "",
+      "useBefore",
+      "MyController.option",
+      "",
+    ],
+    "method": "options",
+    "opts": {
+      "basePath": "/controller",
+      "endpoint": "MyController:option",
+      "operationPath": "[object Object]",
+      "paramsTypes": "[object Object]",
+      "token": "MyController",
+    },
+    "path": "/rest/controller/:id",
+  },
+  {
+    "basePath": "/rest",
+    "handlers": [
+      "",
+      "useBefore",
+      "MyController.patch",
+      "",
+    ],
+    "method": "patch",
+    "opts": {
+      "basePath": "/controller",
+      "endpoint": "MyController:patch",
+      "operationPath": "[object Object]",
+      "paramsTypes": "[object Object]",
+      "token": "MyController",
+    },
+    "path": "/rest/controller/:id",
+  },
+  {
+    "basePath": "/rest/controller",
+    "handlers": [
+      "",
+      "useBefore",
+      "NestedController.get",
+      "",
+    ],
+    "method": "get",
+    "opts": {
+      "basePath": "/nested",
+      "endpoint": "NestedController:get",
+      "operationPath": "[object Object]",
+      "paramsTypes": "[object Object]",
+      "token": "NestedController",
+    },
+    "path": "/rest/controller/nested",
+  },
+  {
+    "basePath": "/rest/controller",
+    "handlers": [
+      "",
+      "useBefore",
+      "NestedController.post",
+      "",
+    ],
+    "method": "post",
+    "opts": {
+      "basePath": "/nested",
+      "endpoint": "NestedController:post",
+      "operationPath": "[object Object]",
+      "paramsTypes": "[object Object]",
+      "token": "NestedController",
+    },
+    "path": "/rest/controller/nested",
+  },
+  {
+    "basePath": "/rest/controller",
+    "handlers": [
+      "",
+      "useBefore",
+      "NestedController.put",
+      "",
+    ],
+    "method": "put",
+    "opts": {
+      "basePath": "/nested",
+      "endpoint": "NestedController:put",
+      "operationPath": "[object Object]",
+      "paramsTypes": "[object Object]",
+      "token": "NestedController",
+    },
+    "path": "/rest/controller/nested/:id",
+  },
+  {
+    "basePath": "/rest/controller",
+    "handlers": [
+      "",
+      "useBefore",
+      "NestedController.delete",
+      "",
+    ],
+    "method": "delete",
+    "opts": {
+      "basePath": "/nested",
+      "endpoint": "NestedController:delete",
+      "operationPath": "[object Object]",
+      "paramsTypes": "[object Object]",
+      "token": "NestedController",
+    },
+    "path": "/rest/controller/nested/:id",
+  },
+  {
+    "basePath": "/rest/controller",
+    "handlers": [
+      "",
+      "useBefore",
+      "NestedController.head",
+      "",
+    ],
+    "method": "head",
+    "opts": {
+      "basePath": "/nested",
+      "endpoint": "NestedController:head",
+      "operationPath": "[object Object]",
+      "paramsTypes": "[object Object]",
+      "token": "NestedController",
+    },
+    "path": "/rest/controller/nested/:id",
+  },
+  {
+    "basePath": "/rest/controller",
+    "handlers": [
+      "",
+      "useBefore",
+      "NestedController.option",
+      "",
+    ],
+    "method": "options",
+    "opts": {
+      "basePath": "/nested",
+      "endpoint": "NestedController:option",
+      "operationPath": "[object Object]",
+      "paramsTypes": "[object Object]",
+      "token": "NestedController",
+    },
+    "path": "/rest/controller/nested/:id",
+  },
+  {
+    "basePath": "/rest/controller",
+    "handlers": [
+      "",
+      "useBefore",
+      "NestedController.patch",
+      "",
+    ],
+    "method": "patch",
+    "opts": {
+      "basePath": "/nested",
+      "endpoint": "NestedController:patch",
+      "operationPath": "[object Object]",
+      "paramsTypes": "[object Object]",
+      "token": "NestedController",
+    },
+    "path": "/rest/controller/nested/:id",
+  },
+]
+`;
+
+exports[`routers integration > getLayers() > should declare router 1`] = `
+[
+  {
+    "basePath": "",
+    "handlers": [
+      "",
+      "useBefore",
+      "MyController.get",
+      "",
+    ],
+    "method": "get",
+    "opts": {
+      "basePath": "/controller",
+      "endpoint": "MyController:get",
+      "operationPath": "[object Object]",
+      "paramsTypes": "[object Object]",
+      "token": "MyController",
+    },
+    "path": "/controller",
+  },
+  {
+    "basePath": "",
+    "handlers": [
+      "",
+      "useBefore",
+      "MyController.post",
+      "",
+    ],
+    "method": "post",
+    "opts": {
+      "basePath": "/controller",
+      "endpoint": "MyController:post",
+      "operationPath": "[object Object]",
+      "paramsTypes": "[object Object]",
+      "token": "MyController",
+    },
+    "path": "/controller",
+  },
+  {
+    "basePath": "",
+    "handlers": [
+      "",
+      "useBefore",
+      "MyController.put",
+      "",
+    ],
+    "method": "put",
+    "opts": {
+      "basePath": "/controller",
+      "endpoint": "MyController:put",
+      "operationPath": "[object Object]",
+      "paramsTypes": "[object Object]",
+      "token": "MyController",
+    },
+    "path": "/controller/:id",
+  },
+  {
+    "basePath": "",
+    "handlers": [
+      "",
+      "useBefore",
+      "MyController.delete",
+      "",
+    ],
+    "method": "delete",
+    "opts": {
+      "basePath": "/controller",
+      "endpoint": "MyController:delete",
+      "operationPath": "[object Object]",
+      "paramsTypes": "[object Object]",
+      "token": "MyController",
+    },
+    "path": "/controller/:id",
+  },
+  {
+    "basePath": "",
+    "handlers": [
+      "",
+      "useBefore",
+      "MyController.head",
+      "",
+    ],
+    "method": "head",
+    "opts": {
+      "basePath": "/controller",
+      "endpoint": "MyController:head",
+      "operationPath": "[object Object]",
+      "paramsTypes": "[object Object]",
+      "token": "MyController",
+    },
+    "path": "/controller/:id",
+  },
+  {
+    "basePath": "",
+    "handlers": [
+      "",
+      "useBefore",
+      "MyController.option",
+      "",
+    ],
+    "method": "options",
+    "opts": {
+      "basePath": "/controller",
+      "endpoint": "MyController:option",
+      "operationPath": "[object Object]",
+      "paramsTypes": "[object Object]",
+      "token": "MyController",
+    },
+    "path": "/controller/:id",
+  },
+  {
+    "basePath": "",
+    "handlers": [
+      "",
+      "useBefore",
+      "MyController.patch",
+      "",
+    ],
+    "method": "patch",
+    "opts": {
+      "basePath": "/controller",
+      "endpoint": "MyController:patch",
+      "operationPath": "[object Object]",
+      "paramsTypes": "[object Object]",
+      "token": "MyController",
+    },
+    "path": "/controller/:id",
+  },
+  {
+    "basePath": "/controller",
+    "handlers": [
+      "[object Object]",
+    ],
+    "method": "use",
+    "opts": {},
+    "path": "/controller/nested",
+  },
+]
+`;
 
 exports[`routers integration getLayers() should declare router - appRouter 1`] = `
 Array [
