@@ -26,14 +26,14 @@ describe("SocketHandlersBuilder", () => {
   describe("build()", () => {
     function createServiceFixture() {
       const instance: any = {
-        $onDisconnect: jest.fn(),
-        $onConnection: jest.fn(),
-        $onNamespaceInit: jest.fn()
+        $onDisconnect: vi.fn(),
+        $onConnection: vi.fn(),
+        $onNamespaceInit: vi.fn()
       };
 
       const provider: any = {
         store: {
-          get: jest.fn()
+          get: vi.fn()
         }
       };
 
@@ -110,11 +110,11 @@ describe("SocketHandlersBuilder", () => {
   describe("onConnection()", () => {
     it("should build handler and invoke onConnection instance method", async () => {
       const instance = {
-        $onConnection: jest.fn()
+        $onConnection: vi.fn()
       };
       const provider: any = {
         store: {
-          get: jest.fn().mockReturnValue({
+          get: vi.fn().mockReturnValue({
             injectNamespaces: [{nsp: "/nsp", propertyKey: "key"}],
             handlers: {
               $onConnection: {
@@ -127,7 +127,7 @@ describe("SocketHandlersBuilder", () => {
       };
       const nspStub = {nsp: "nsp"};
       const socketStub = {
-        on: jest.fn()
+        on: vi.fn()
       };
 
       const builder: any = new SocketHandlersBuilder(provider, {
@@ -139,8 +139,8 @@ describe("SocketHandlersBuilder", () => {
         }
       } as any);
 
-      const invokeStub = jest.spyOn(builder, "invoke").mockReturnValue(undefined);
-      const buildHandlersStub = jest.spyOn(builder, "buildHandlers").mockReturnValue(undefined);
+      const invokeStub = vi.spyOn(builder, "invoke").mockReturnValue(undefined);
+      const buildHandlersStub = vi.spyOn(builder, "buildHandlers").mockReturnValue(undefined);
 
       await builder.onConnection(socketStub, nspStub);
 
@@ -159,14 +159,14 @@ describe("SocketHandlersBuilder", () => {
       let ctx!: DIContext;
 
       const instance = {
-        $onConnection: jest.fn().mockImplementation(() => {
+        $onConnection: vi.fn().mockImplementation(() => {
           ctx = getContext()!;
         })
       };
 
       const provider: any = {
         store: {
-          get: jest.fn().mockReturnValue({
+          get: vi.fn().mockReturnValue({
             injectNamespace: "nsp",
             handlers: {
               $onConnection: {
@@ -180,7 +180,7 @@ describe("SocketHandlersBuilder", () => {
       const nspStub: any = {nsp: "nsp", name: "nsp"};
       const socketStub: any = {
         id: "id",
-        on: jest.fn()
+        on: vi.fn()
       };
 
       const builder: any = new SocketHandlersBuilder(provider, {
@@ -202,12 +202,12 @@ describe("SocketHandlersBuilder", () => {
   describe("onDisconnect()", () => {
     it("should create the $onDisconnect method if is missing", async () => {
       const instance = {
-        $onDisconnect: jest.fn()
+        $onDisconnect: vi.fn()
       };
 
       const provider: any = {
         store: {
-          get: jest.fn().mockReturnValue({
+          get: vi.fn().mockReturnValue({
             injectNamespace: "nsp",
             handlers: {
               $onDisconnect: {
@@ -220,7 +220,7 @@ describe("SocketHandlersBuilder", () => {
       };
       const nspStub: any = {nsp: "nsp"};
       const socketStub: any = {
-        on: jest.fn()
+        on: vi.fn()
       };
 
       const builder: any = new SocketHandlersBuilder(provider, {
@@ -231,7 +231,7 @@ describe("SocketHandlersBuilder", () => {
           return instance;
         }
       } as any);
-      const invokeStub = jest.spyOn(builder, "invoke").mockReturnValue(undefined);
+      const invokeStub = vi.spyOn(builder, "invoke").mockReturnValue(undefined);
 
       await builder.onDisconnect(socketStub, nspStub);
 
@@ -247,12 +247,12 @@ describe("SocketHandlersBuilder", () => {
 
     it("should pass the disconnection reason", async () => {
       const instance = {
-        $onDisconnect: jest.fn()
+        $onDisconnect: vi.fn()
       };
 
       const provider: any = {
         store: {
-          get: jest.fn().mockReturnValue({
+          get: vi.fn().mockReturnValue({
             injectNamespace: "nsp",
             handlers: {
               $onDisconnect: {
@@ -266,7 +266,7 @@ describe("SocketHandlersBuilder", () => {
       const nspStub: any = {nsp: "nsp"};
       const reason = "transport error";
       const socketStub: any = {
-        on: jest.fn()
+        on: vi.fn()
       };
 
       const builder: any = new SocketHandlersBuilder(provider, {
@@ -277,7 +277,7 @@ describe("SocketHandlersBuilder", () => {
           return instance;
         }
       } as any);
-      const invokeStub = jest.spyOn(builder, "invoke").mockReturnValue(undefined);
+      const invokeStub = vi.spyOn(builder, "invoke").mockReturnValue(undefined);
 
       await builder.onDisconnect(socketStub, nspStub, reason);
 
@@ -296,14 +296,14 @@ describe("SocketHandlersBuilder", () => {
       let ctx!: DIContext;
 
       const instance = {
-        $onDisconnect: jest.fn().mockImplementation(() => {
+        $onDisconnect: vi.fn().mockImplementation(() => {
           ctx = getContext()!;
         })
       };
 
       const provider: any = {
         store: {
-          get: jest.fn().mockReturnValue({
+          get: vi.fn().mockReturnValue({
             injectNamespace: "nsp",
             handlers: {
               $onDisconnect: {
@@ -317,7 +317,7 @@ describe("SocketHandlersBuilder", () => {
       const nspStub: any = {nsp: "nsp", name: "nsp"};
       const socketStub: any = {
         id: "id",
-        on: jest.fn()
+        on: vi.fn()
       };
 
       const builder: any = new SocketHandlersBuilder(provider, {
@@ -348,18 +348,18 @@ describe("SocketHandlersBuilder", () => {
       };
       const provider: any = {
         store: {
-          get: jest.fn().mockReturnValue(metadata)
+          get: vi.fn().mockReturnValue(metadata)
         }
       };
       const socketStub = {
-        on: jest.fn().mockImplementation((_, fn) => fn("arg1"))
+        on: vi.fn().mockImplementation((_, fn) => fn("arg1"))
       };
       const builder: any = new SocketHandlersBuilder(provider, {
         alterAsync(_event: any, fn: any, _ctx: any) {
           return fn;
         }
       } as any);
-      jest.spyOn(builder, "runQueue").mockResolvedValue(undefined);
+      vi.spyOn(builder, "runQueue").mockResolvedValue(undefined);
 
       await builder.buildHandlers(socketStub, "ws");
 
@@ -378,18 +378,18 @@ describe("SocketHandlersBuilder", () => {
       };
       let ctx!: DIContext;
       const instance = {
-        testHandler: jest.fn().mockImplementation(() => {
+        testHandler: vi.fn().mockImplementation(() => {
           ctx = getContext()!;
         })
       };
       const provider: any = {
         store: {
-          get: jest.fn().mockReturnValue(metadata)
+          get: vi.fn().mockReturnValue(metadata)
         }
       };
       let promise!: Promise<unknown>;
       const socketStub = {
-        on: jest.fn().mockImplementation((_, fn) => (promise = fn("arg1")))
+        on: vi.fn().mockImplementation((_, fn) => (promise = fn("arg1")))
       };
       const builder: any = new SocketHandlersBuilder(provider, {
         alterAsync(_event: any, fn: any, _ctx: any) {
@@ -411,11 +411,11 @@ describe("SocketHandlersBuilder", () => {
   describe("invoke()", () => {
     it("should call the method instance", () => {
       const instance = {
-        testHandler: jest.fn().mockReturnValue("response")
+        testHandler: vi.fn().mockReturnValue("response")
       };
       const provider: any = {
         store: {
-          get: jest.fn().mockReturnValue(metadata)
+          get: vi.fn().mockReturnValue(metadata)
         }
       };
 
@@ -427,7 +427,7 @@ describe("SocketHandlersBuilder", () => {
           return instance;
         }
       } as any);
-      const buildParametersStub = jest.spyOn(builder, "buildParameters").mockReturnValue(["argMapped"]);
+      const buildParametersStub = vi.spyOn(builder, "buildParameters").mockReturnValue(["argMapped"]);
 
       builder.invoke(instance, metadata.handlers.testHandler, {scope: "scope"});
 
@@ -441,11 +441,11 @@ describe("SocketHandlersBuilder", () => {
   describe("buildParameters()", () => {
     function createFixture() {
       const instance: any = {
-        testHandler: jest.fn().mockReturnValue("response")
+        testHandler: vi.fn().mockReturnValue("response")
       };
       const provider: any = {
         store: {
-          get: jest.fn().mockReturnValue(metadata)
+          get: vi.fn().mockReturnValue(metadata)
         }
       };
 
@@ -643,7 +643,7 @@ describe("SocketHandlersBuilder", () => {
     describe("when BROADCAST", () => {
       it("should call the ws.emit method", () => {
         const nspStub = {
-          emit: jest.fn()
+          emit: vi.fn()
         };
 
         (SocketHandlersBuilder as any).bindResponseMiddleware(
@@ -663,7 +663,7 @@ describe("SocketHandlersBuilder", () => {
       it("should call the socket.broadcast.emit method", () => {
         const socketStub = {
           broadcast: {
-            emit: jest.fn()
+            emit: vi.fn()
           }
         };
 
@@ -684,7 +684,7 @@ describe("SocketHandlersBuilder", () => {
     describe("when EMIT", () => {
       it("should call the socket.emit method", () => {
         const socketStub = {
-          emit: jest.fn()
+          emit: vi.fn()
         };
 
         (SocketHandlersBuilder as any).bindResponseMiddleware(
@@ -705,7 +705,7 @@ describe("SocketHandlersBuilder", () => {
     function createServiceFixture() {
       const provider = {
         store: {
-          get: jest.fn().mockReturnValue({
+          get: vi.fn().mockReturnValue({
             useBefore: [{target: "target before global"}],
             useAfter: [{target: "target after global"}]
           })
@@ -719,7 +719,7 @@ describe("SocketHandlersBuilder", () => {
         useAfter: [{target: "target after"}]
       };
 
-      jest.spyOn(SocketHandlersBuilder as any, "bindResponseMiddleware").mockResolvedValue(undefined);
+      vi.spyOn(SocketHandlersBuilder as any, "bindResponseMiddleware").mockResolvedValue(undefined);
 
       const builder: any = new SocketHandlersBuilder(
         provider as any,
@@ -730,9 +730,9 @@ describe("SocketHandlersBuilder", () => {
         } as any
       );
 
-      jest.spyOn(builder, "invoke").mockResolvedValue(undefined);
-      jest.spyOn(builder, "bindMiddleware").mockResolvedValue(undefined);
-      jest.spyOn(builder, "deserialize").mockResolvedValue(undefined);
+      vi.spyOn(builder, "invoke").mockResolvedValue(undefined);
+      vi.spyOn(builder, "bindMiddleware").mockResolvedValue(undefined);
+      vi.spyOn(builder, "deserialize").mockResolvedValue(undefined);
 
       return {builder, handlerMetadata, provider, instance};
     }
@@ -821,7 +821,7 @@ describe("SocketHandlersBuilder", () => {
         const provider: any = {
           token: Test,
           store: {
-            get: jest.fn()
+            get: vi.fn()
           }
         };
 
@@ -831,13 +831,13 @@ describe("SocketHandlersBuilder", () => {
           }
         });
 
-        jest.spyOn(injector, "getProvider").mockReturnValue(false);
-        jest.spyOn(injector, "get").mockReturnValue(undefined);
+        vi.spyOn(injector, "getProvider").mockReturnValue(false);
+        vi.spyOn(injector, "get").mockReturnValue(undefined);
 
         const scope = {scope: "scope"};
 
         const builder: any = new SocketHandlersBuilder(provider, injector);
-        jest.spyOn(builder, "invoke");
+        vi.spyOn(builder, "invoke");
 
         builder.bindMiddleware({target: "target"}, scope, Promise.resolve());
 
@@ -855,7 +855,7 @@ describe("SocketHandlersBuilder", () => {
         const provider = {
           token: Test,
           store: {
-            get: jest.fn()
+            get: vi.fn()
           }
         };
 
@@ -869,9 +869,9 @@ describe("SocketHandlersBuilder", () => {
         const injector = PlatformTest.get(InjectorService);
         const builder: any = new SocketHandlersBuilder(provider as any, injector);
 
-        jest.spyOn(injector, "getProvider").mockReturnValue({type: ProviderType.MIDDLEWARE});
-        jest.spyOn(injector, "get").mockReturnValue(instance);
-        jest.spyOn(builder, "invoke").mockReturnValue({result: "result"});
+        vi.spyOn(injector, "getProvider").mockReturnValue({type: ProviderType.MIDDLEWARE});
+        vi.spyOn(injector, "get").mockReturnValue(instance);
+        vi.spyOn(builder, "invoke").mockReturnValue({result: "result"});
 
         // WHEN
         await builder.bindMiddleware({target: "target"}, scope, Promise.resolve());
@@ -892,7 +892,7 @@ describe("SocketHandlersBuilder", () => {
         const instance = new Test();
         const provider = {
           store: {
-            get: jest.fn()
+            get: vi.fn()
           }
         };
 
@@ -904,8 +904,8 @@ describe("SocketHandlersBuilder", () => {
           }
         });
 
-        const getProviderStub = jest.spyOn(injector as any, "getProvider");
-        const getStub = jest.spyOn(injector as any, "get");
+        const getProviderStub = vi.spyOn(injector as any, "getProvider");
+        const getStub = vi.spyOn(injector as any, "get");
         getProviderStub.mockReturnValue({
           type: ProviderType.MIDDLEWARE
         });
@@ -914,7 +914,7 @@ describe("SocketHandlersBuilder", () => {
         const scope = {scope: "scope", args: undefined};
         const error = new Error("test");
         const builder: any = new SocketHandlersBuilder(provider as any, injector);
-        jest.spyOn(builder, "invoke").mockReturnValue({result: "result"});
+        vi.spyOn(builder, "invoke").mockReturnValue({result: "result"});
 
         // WHEN
         await builder.bindMiddleware({target: "target"}, scope, Promise.reject(error));
@@ -929,7 +929,7 @@ describe("SocketHandlersBuilder", () => {
     it("should call deserialize on args", () => {
       const provider: any = {
         store: {
-          get: jest.fn()
+          get: vi.fn()
         }
       };
       const parameters: any[] = [
@@ -958,7 +958,7 @@ describe("SocketHandlersBuilder", () => {
     it("should map ack callback without deserialization", () => {
       const provider: any = {
         store: {
-          get: jest.fn()
+          get: vi.fn()
         }
       };
       const parameters: any[] = [
