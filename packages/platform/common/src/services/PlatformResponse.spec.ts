@@ -5,7 +5,7 @@ import {PlatformTest} from "./PlatformTest.js";
 
 const rootDir = __dirname; // automatically replaced by import.meta.dirname on build
 
-jest.mock("on-finished");
+vi.mock("on-finished");
 
 function createResponse() {
   const ctx = PlatformTest.createRequestContext();
@@ -35,7 +35,7 @@ describe("PlatformResponse", () => {
   describe("status()", () => {
     it("should set status code", () => {
       const {res, response} = createResponse();
-      jest.spyOn(res, "status").mockReturnValue(undefined);
+      vi.spyOn(res, "status").mockReturnValue(undefined);
       response.status(204);
 
       expect(res.status).toBeCalledWith(204);
@@ -164,7 +164,7 @@ describe("PlatformResponse", () => {
       const {response, platformViews} = createResponse();
 
       response.locals.locale = "fr-FR";
-      jest.spyOn(platformViews, "render").mockResolvedValue("HTML");
+      vi.spyOn(platformViews, "render").mockResolvedValue("HTML");
 
       const result = await response.render("view", {
         test: "test"
@@ -208,7 +208,7 @@ describe("PlatformResponse", () => {
     it("should call body with stream", () => {
       const {res, response} = createResponse();
       const stream = createReadStream(rootDir + "/__mock__/data.txt");
-      jest.spyOn(stream, "pipe").mockReturnValue(undefined as any);
+      vi.spyOn(stream, "pipe").mockReturnValue(undefined as any);
 
       response.body(stream);
 
@@ -283,7 +283,7 @@ describe("PlatformResponse", () => {
     it("should set attachment", () => {
       const {res, response} = createResponse();
 
-      res.attachment = jest.fn();
+      res.attachment = vi.fn();
 
       response.attachment("filename");
 
@@ -293,9 +293,9 @@ describe("PlatformResponse", () => {
   describe("onEnd()", () => {
     it("should listen onEnd event", () => {
       const {res, response} = createResponse();
-      const cb = jest.fn();
+      const cb = vi.fn();
 
-      res.on = jest.fn();
+      res.on = vi.fn();
 
       response.onEnd(cb);
 

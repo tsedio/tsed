@@ -1,8 +1,8 @@
 import {All, Delete, EndpointMetadata, Get, Head, Options, Patch, Post, Put} from "@tsed/common";
 import {OperationMethods} from "@tsed/schema";
 
-const middleware: any = jest.fn();
-const useStub: any = jest.fn().mockReturnValue(middleware);
+const middleware: any = vi.fn();
+const useStub: any = vi.fn().mockReturnValue(middleware);
 
 describe("Route decorators", () => {
   describe("All", () => {

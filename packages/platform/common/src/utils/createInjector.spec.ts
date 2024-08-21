@@ -7,10 +7,10 @@ import {createInjector} from "./createInjector.js";
 
 describe("createInjector", () => {
   beforeEach(() => {
-    jest.spyOn($log, "stop").mockReturnValue(undefined as any);
+    vi.spyOn($log, "stop").mockReturnValue(undefined as any);
   });
   afterEach(() => {
-    jest.resetAllMocks();
+    vi.resetAllMocks();
   });
   it("should create injector and stop logger in env Test", () => {
     const settings = {

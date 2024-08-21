@@ -51,7 +51,7 @@ describe("setResponseHeaders", () => {
     const ctx = PlatformTest.createRequestContext();
     ctx.endpoint = EndpointMetadata.get(Test, "test");
 
-    jest.spyOn(ctx.response, "redirect").mockReturnValue(undefined as any);
+    vi.spyOn(ctx.response, "redirect").mockReturnValue(undefined as any);
 
     // WHEN
     await setResponseHeaders(ctx);
@@ -72,7 +72,7 @@ describe("setResponseHeaders", () => {
 
     ctx.endpoint = EndpointMetadata.get(Test, "test");
 
-    jest.spyOn(ctx.response.raw, "set");
+    vi.spyOn(ctx.response.raw, "set");
 
     // WHEN
     await setResponseHeaders(ctx);

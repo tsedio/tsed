@@ -226,7 +226,7 @@ describe("@MultipartFile()", () => {
 
   describe("multiple files", () => {
     afterAll(() => {
-      jest.clearAllMocks();
+      vi.clearAllMocks();
     });
 
     it("should set params metadata", () => {
@@ -235,8 +235,8 @@ describe("@MultipartFile()", () => {
 
       // @ts-ignore
       store.delete(PlatformMulterMiddleware);
-      jest.spyOn(Store, "fromMethod").mockReturnValue(store);
-      jest.spyOn(Metadata, "getParamTypes").mockReturnValue([Array]);
+      vi.spyOn(Store, "fromMethod").mockReturnValue(store);
+      vi.spyOn(Metadata, "getParamTypes").mockReturnValue([Array]);
 
       MultipartFile("file1", 8)(Test.prototype, "test", 0);
 

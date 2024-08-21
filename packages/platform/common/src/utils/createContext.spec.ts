@@ -12,7 +12,7 @@ async function createContextFixture(reqOpts?: any) {
 
   const invoke = createContext(injector);
   const ctx = await invoke({request, response});
-  ctx.response.getRes().on = jest.fn();
+  ctx.response.getRes().on = vi.fn();
 
   ctx.response.onEnd(() => ctx.finish());
 
@@ -29,13 +29,13 @@ async function createContextFixture(reqOpts?: any) {
 describe("createContext", () => {
   beforeEach(() => PlatformTest.create());
   afterEach(() => PlatformTest.reset());
-  afterEach(() => jest.resetAllMocks());
+  afterEach(() => vi.resetAllMocks());
   it("should create context and attach it to the request", async () => {
     // GIVEN
     const {injector, ctx, call} = await createContextFixture();
 
-    jest.spyOn(injector, "emit").mockResolvedValue(undefined);
-    jest.spyOn(injector.logger, "info").mockReturnValue(undefined);
+    vi.spyOn(injector, "emit").mockResolvedValue(undefined);
+    vi.spyOn(injector.logger, "info").mockReturnValue(undefined);
 
     // WHEN
     await call();
@@ -43,7 +43,7 @@ describe("createContext", () => {
     // THEN
     expect(injector.emit).toBeCalledWith("$onRequest", ctx);
 
-    await (ctx.response.getRes().on as jest.Mock).mock.calls[0][1](ctx);
+    await (ctx.response.getRes().on as vi.Mock).mock.calls[0][1](ctx);
 
     expect(injector.emit).toBeCalledWith("$onResponse", ctx);
   });
@@ -55,8 +55,8 @@ describe("createContext", () => {
       originalUrl: "/admin"
     });
 
-    jest.spyOn(injector, "emit").mockResolvedValue(undefined);
-    jest.spyOn(injector.logger, "info").mockReturnValue(undefined);
+    vi.spyOn(injector, "emit").mockResolvedValue(undefined);
+    vi.spyOn(injector.logger, "info").mockReturnValue(undefined);
 
     // WHEN
     await call();
@@ -67,7 +67,7 @@ describe("createContext", () => {
 
   it("should add a x-request-id header to the response", async () => {
     // GIVEN
-    jest.spyOn(PlatformResponse.prototype, "setHeader");
+    vi.spyOn(PlatformResponse.prototype, "setHeader");
 
     const {ctx, response, request, call} = await createContextFixture();
     response.req = request;
@@ -81,14 +81,14 @@ describe("createContext", () => {
 
   it("should use an existing x-request-id request header for the response x-request-id header", async () => {
     // GIVEN
+    vi.spyOn(PlatformResponse.prototype, "setHeader");
+
     const {ctx, response, request, call} = await createContextFixture({
       headers: {
         "x-request-id": "test-id"
       }
     });
     response.req = request;
-
-    jest.spyOn(PlatformResponse.prototype, "setHeader");
 
     // WHEN
     await call();

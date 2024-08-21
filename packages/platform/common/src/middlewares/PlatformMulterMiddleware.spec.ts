@@ -14,12 +14,12 @@ async function build(options = {}) {
     upload(@MultipartFile("file1") file1: any) {}
   }
 
-  const multerMiddleware = jest.fn();
+  const multerMiddleware = vi.fn();
   const multer = {
-    fields: jest.fn().mockReturnValue(multerMiddleware)
+    fields: vi.fn().mockReturnValue(multerMiddleware)
   };
   const app = {
-    multer: jest.fn().mockReturnValue(multer)
+    multer: vi.fn().mockReturnValue(multer)
   };
 
   const middleware = await PlatformTest.invoke<PlatformMulterMiddleware>(PlatformMulterMiddleware, [

@@ -8,7 +8,7 @@ describe("PlatformContext", () => {
   afterEach(() => PlatformTest.reset());
   it("should create a new Context and skip log", () => {
     const logger = {
-      info: jest.fn()
+      info: vi.fn()
     };
     const context = new PlatformContext({
       event: {
@@ -45,7 +45,7 @@ describe("PlatformContext", () => {
   });
   it("should create a new Context and log event", () => {
     const logger = {
-      info: jest.fn()
+      info: vi.fn()
     };
 
     const context = new PlatformContext({
@@ -81,7 +81,7 @@ describe("PlatformContext", () => {
         })
       },
       logger: {
-        info: jest.fn()
+        info: vi.fn()
       },
       injector: PlatformTest.injector,
       maxStackSize: 0,
@@ -105,7 +105,7 @@ describe("PlatformContext", () => {
         })
       },
       logger: {
-        info: jest.fn()
+        info: vi.fn()
       },
       injector: PlatformTest.injector,
       maxStackSize: 0,

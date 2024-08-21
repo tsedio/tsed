@@ -3,12 +3,12 @@ import Http from "http";
 import {createHttpServer} from "./createHttpServer.js";
 
 describe("createHttpServer", () => {
-  afterEach(() => jest.resetAllMocks());
+  afterEach(() => vi.resetAllMocks());
   it("should create an instance of Http (http port true)", async () => {
     const injector = new InjectorService();
     injector.settings.set("httpPort", true);
 
-    const fn: any = jest.fn();
+    const fn: any = vi.fn();
 
     const listener: any = createHttpServer(injector, fn);
 
@@ -18,11 +18,11 @@ describe("createHttpServer", () => {
 
     const server = injector.get(Http.Server);
 
-    jest.spyOn(injector.logger, "info").mockReturnValue(undefined);
-    jest.spyOn(injector.logger, "debug").mockReturnValue(undefined);
-    jest.spyOn(server, "listen").mockReturnValue(undefined);
-    jest.spyOn(server, "address").mockReturnValue({port: 8089, address: "0.0.0.0"});
-    jest.spyOn(server, "on").mockImplementation((event: string, cb: any) => {
+    vi.spyOn(injector.logger, "info").mockReturnValue(undefined);
+    vi.spyOn(injector.logger, "debug").mockReturnValue(undefined);
+    vi.spyOn(server, "listen").mockReturnValue(undefined);
+    vi.spyOn(server, "address").mockReturnValue({port: 8089, address: "0.0.0.0"});
+    vi.spyOn(server, "on").mockImplementation((event: string, cb: any) => {
       if (event === "listening") {
         cb();
       }
@@ -38,7 +38,7 @@ describe("createHttpServer", () => {
     const injector = new InjectorService();
     injector.settings.set("httpPort", false);
 
-    const fn: any = jest.fn();
+    const fn: any = vi.fn();
 
     const listener = createHttpServer(injector, fn);
 
@@ -51,7 +51,7 @@ describe("createHttpServer", () => {
     const injector = new InjectorService();
     injector.settings.set("httpPort", 0);
 
-    const fn: any = jest.fn();
+    const fn: any = vi.fn();
 
     const listener = createHttpServer(injector, fn);
 
@@ -63,7 +63,7 @@ describe("createHttpServer", () => {
     const injector = new InjectorService();
     injector.settings.set("httpPort", "0.0.0.0:8080");
 
-    const fn: any = jest.fn();
+    const fn: any = vi.fn();
 
     const listener = createHttpServer(injector, fn);
 

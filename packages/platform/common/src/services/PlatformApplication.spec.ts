@@ -3,25 +3,25 @@ import {PlatformApplication} from "./PlatformApplication.js";
 import {PlatformHandler} from "./PlatformHandler.js";
 import {PlatformTest} from "./PlatformTest.js";
 
-jest.mock("../utils/createContext");
+vi.mock("../utils/createContext");
 
 function createDriver() {
   return {
-    use: jest.fn(),
-    all: jest.fn(),
-    get: jest.fn(),
-    post: jest.fn(),
-    put: jest.fn(),
-    delete: jest.fn(),
-    patch: jest.fn(),
-    head: jest.fn(),
-    options: jest.fn()
+    use: vi.fn(),
+    all: vi.fn(),
+    get: vi.fn(),
+    post: vi.fn(),
+    put: vi.fn(),
+    delete: vi.fn(),
+    patch: vi.fn(),
+    head: vi.fn(),
+    options: vi.fn()
   };
 }
 
 async function getPlatformApp() {
   const platformHandler = {
-    createHandler: jest.fn().mockImplementation((o) => o)
+    createHandler: vi.fn().mockImplementation((o) => o)
   };
   const platformApp = await PlatformTest.invoke<PlatformApplication<any>>(PlatformApplication, [
     {
@@ -54,7 +54,7 @@ describe("PlatformApplication", () => {
       // GIVEN
       const {platformApp} = await getPlatformApp();
 
-      jest.spyOn(console, "warn");
+      vi.spyOn(console, "warn");
 
       // WHEN
       platformApp.statics("/", {root: "/root"});
@@ -65,7 +65,7 @@ describe("PlatformApplication", () => {
       // GIVEN
       const {platformApp} = await getPlatformApp();
 
-      jest.spyOn(console, "warn");
+      vi.spyOn(console, "warn");
 
       // WHEN
       platformApp.multer({});
@@ -75,7 +75,7 @@ describe("PlatformApplication", () => {
   describe("callback()", () => {
     it("should return the callback", async () => {
       const $ctx = {
-        runInContext: jest.fn().mockImplementation((cb) => {
+        runInContext: vi.fn().mockImplementation((cb) => {
           cb();
         })
       };
@@ -85,9 +85,9 @@ describe("PlatformApplication", () => {
       (createContext as any).mockReturnValue(() => Promise.resolve($ctx));
 
       // WHEN
-      const callback = jest.fn();
+      const callback = vi.fn();
 
-      jest.spyOn(platformApp, "rawCallback").mockReturnValue(callback);
+      vi.spyOn(platformApp, "rawCallback").mockReturnValue(callback);
 
       await platformApp.callback({} as any, {} as any);
 

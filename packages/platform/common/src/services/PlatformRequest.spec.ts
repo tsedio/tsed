@@ -88,7 +88,7 @@ describe("PlatformRequest", () => {
     it("should set the accepts header", () => {
       const {req, request} = createRequest();
 
-      jest.spyOn(req, "accepts");
+      vi.spyOn(req, "accepts");
 
       request.accepts("application/json");
 
