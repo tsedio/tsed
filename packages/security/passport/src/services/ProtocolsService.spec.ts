@@ -4,7 +4,7 @@ import {PassportMessage} from "../errors/PassportMessage.js";
 import {Protocol, ProtocolsService} from "../index.js";
 
 // tslint:disable-next-line:variable-name
-const Strategy = jest.fn();
+const Strategy = vi.fn();
 
 describe("ProtocolsService", () => {
   @Protocol({
@@ -44,10 +44,10 @@ describe("ProtocolsService", () => {
   afterEach(PlatformTest.reset);
 
   beforeEach(() => {
-    jest.spyOn(LocalProtocol.prototype, "$onInstall");
-    jest.spyOn(LocalProtocol.prototype, "$onVerify");
-    jest.spyOn(LocalProtocol.prototype, "$beforeInstall");
-    jest.spyOn(Passport, "use").mockReturnValue(undefined as any);
+    vi.spyOn(LocalProtocol.prototype, "$onInstall");
+    vi.spyOn(LocalProtocol.prototype, "$onVerify");
+    vi.spyOn(LocalProtocol.prototype, "$beforeInstall");
+    vi.spyOn(Passport, "use").mockReturnValue(undefined as any);
     Strategy.mockReset();
   });
 
