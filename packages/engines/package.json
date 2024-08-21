@@ -17,9 +17,9 @@
   "scripts": {
     "build": "yarn barrels && yarn build:ts",
     "barrels": "barrels",
-    "test": "jest --max-workers=4",
+    "test": "vitest run",
     "build:ts": "tsc --build tsconfig.json",
-    "test:ci": "jest --max-workers=2 && jest-coverage-thresholds-bumper"
+    "test:ci": "vitest run --coverage.thresholds.autoUpdate=true"
   },
   "dependencies": {
     "tslib": "2.6.1"
@@ -52,8 +52,6 @@
     "hogan.js": "^3.0.2",
     "htmling": "^0.0.8",
     "jazz": "^0.0.18",
-    "jest": "^29.7.0",
-    "jest-coverage-thresholds-bumper": "1.1.0",
     "jqtpl": "^1.1.0",
     "just": "^0.1.8",
     "liquid-node": "^3.0.1",
@@ -83,6 +81,7 @@
     "underscore": "^1.11.0",
     "vash": "^0.13.0",
     "velocityjs": "^2.0.1",
+    "vitest": "2.0.4",
     "walrus": "^0.10.1",
     "whiskers": "^0.4.0"
   },
