@@ -31,7 +31,7 @@ async function getServiceFixture(httpResponse: any) {
   };
   const mod = await import("vike/server");
 
-  (mod.renderPage as vi.Mock).mockResolvedValue(pageContext);
+  vi.mocked(mod.renderPage).mockResolvedValue(pageContext as never);
 
   return {
     renderPage: mod.renderPage,

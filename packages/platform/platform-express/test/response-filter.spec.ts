@@ -60,7 +60,9 @@ describe("ResponseFilter", () => {
   });
 
   afterEach(utils.reset);
-  afterEach(() => vi.resetAllMocks());
+  afterEach(() => {
+    vi.resetAllMocks();
+  });
 
   it("should return png (scenario-1)", async () => {
     const {headers} = await request.get("/rest/response-filter/scenario-1").expect(200);

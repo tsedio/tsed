@@ -19,7 +19,9 @@ describe("PlatformExpress", () => {
   });
 
   describe("bodyParser()", () => {
-    beforeEach(() => vi.resetAllMocks());
+    beforeEach(() => {
+      vi.resetAllMocks();
+    });
     it("should return the body parser (json) ", () => {
       const stub = vi.fn().mockReturnValue("body");
 

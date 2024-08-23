@@ -43,7 +43,9 @@ export function testRouting(options: PlatformTestingSdkOpts) {
     request = SuperTest(PlatformTest.callback());
   });
   afterAll(PlatformTest.reset);
-  afterEach(() => vi.resetAllMocks());
+  afterEach(() => {
+    vi.resetAllMocks();
+  });
 
   it("Scenario1: should call scenario1 only", async () => {
     const {text} = await request.get("/rest/routing/1").expect(200);

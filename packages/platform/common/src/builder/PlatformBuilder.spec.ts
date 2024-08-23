@@ -253,7 +253,9 @@ describe("PlatformBuilder", () => {
       vi.spyOn(InjectorService.prototype, "emit").mockResolvedValue(undefined);
       vi.spyOn(Platform.prototype, "addRoutes").mockReturnValue(undefined);
     });
-    afterAll(() => vi.resetAllMocks());
+    afterAll(() => {
+      vi.resetAllMocks();
+    });
     it("should boostrap a custom platform", () => {
       const platform = PlatformBuilder.create(ServerModule, {
         adapter: FakeAdapter

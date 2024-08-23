@@ -41,7 +41,7 @@ describe("PlatformCache", () => {
     beforeEach(async () => {
       caching = createCacheFixture();
 
-      (cacheManager as vi.Mock).mockReturnValue(caching as any);
+      vi.mocked(cacheManager).mockReturnValue(caching as any);
 
       await PlatformTest.create({
         cache: {
@@ -86,7 +86,7 @@ describe("PlatformCache", () => {
     beforeEach(async () => {
       caching = createCacheFixture();
 
-      (cacheManager as vi.Mock).mockReturnValue(caching as any);
+      vi.mocked(cacheManager).mockReturnValue(caching as any);
 
       await PlatformTest.create({
         cache: {
@@ -288,7 +288,7 @@ describe("PlatformCache", () => {
     beforeEach(() => {
       caching = createCacheFixture();
 
-      (multiCaching as vi.Mock).mockReturnValue(caching as any);
+      vi.mocked(multiCaching).mockReturnValue(caching as any);
 
       return PlatformTest.create({
         cache: {

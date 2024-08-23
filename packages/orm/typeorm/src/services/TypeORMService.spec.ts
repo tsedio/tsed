@@ -35,7 +35,7 @@ class FakeConnectionManager extends Map<string, any> {
 describe("TypeORMService", () => {
   const connectionManager = new FakeConnectionManager();
   beforeEach(() => {
-    (getConnectionManager as vi.Mock).mockReturnValue(connectionManager);
+    vi.mocked(getConnectionManager).mockReturnValue(connectionManager as never);
   });
   beforeEach(() => PlatformTest.create());
   afterEach(() => PlatformTest.reset());

@@ -182,7 +182,7 @@ describe("PlatformLogMiddleware", () => {
         middleware.use(ctx);
 
         // THEN
-        (ctx.response.getRes().on as vi.Mock).mock.calls[0][1]();
+        vi.mocked(ctx.response.getRes().on).mock.calls[0][1]();
         //  middleware.onLogEnd(request.$ctx as any);
 
         // THEN
@@ -207,7 +207,7 @@ describe("PlatformLogMiddleware", () => {
         middleware.use(ctx);
 
         // THEN
-        (ctx.response.getRes().on as vi.Mock).mock.calls[0][1]();
+        vi.mocked(ctx.response.getRes().on).mock.calls[0][1]();
         //  middleware.onLogEnd(request.$ctx as any);
 
         // THEN
@@ -238,7 +238,7 @@ describe("PlatformLogMiddleware", () => {
         middleware.use(ctx);
 
         // THEN
-        (ctx.response.getRes().on as vi.Mock).mock.calls[0][1]();
+        vi.mocked(ctx.response.getRes().on).mock.calls[0][1]();
         //  middleware.onLogEnd(request.$ctx as any);
 
         // THEN
