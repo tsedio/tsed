@@ -145,6 +145,7 @@ export class AgendaModule implements OnDestroy, AfterListen {
 
   protected getNameForJob(propertyKey: string, namespace?: string, customName?: string): string {
     const name = customName || propertyKey;
+
     return namespace ? `${namespace}.${name}` : name;
   }
 }

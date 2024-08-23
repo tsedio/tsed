@@ -1,26 +1,26 @@
 import {PlatformTest} from "@tsed/common";
 import {Inject} from "@tsed/di";
-import {Job} from "agenda";
+import type {Job} from "agenda";
 import {AgendaModule} from "./AgendaModule.js";
 import {Agenda} from "./decorators/agenda.js";
 import {Define} from "./decorators/define.js";
 import {Every} from "./decorators/every.js";
 
-jest.mock("agenda", () => {
+vi.mock("agenda", () => {
   return {
     Agenda: class {
-      close = jest.fn();
-      stop = jest.fn();
-      drain = jest.fn();
-      define = jest.fn();
-      every = jest.fn();
-      schedule = jest.fn();
-      now = jest.fn();
-      create = jest.fn().mockReturnValue({
-        repeatEvery: jest.fn().mockReturnThis(),
-        save: jest.fn()
+      close = vi.fn();
+      stop = vi.fn();
+      drain = vi.fn();
+      define = vi.fn();
+      every = vi.fn();
+      schedule = vi.fn();
+      now = vi.fn();
+      create = vi.fn().mockReturnValue({
+        repeatEvery: vi.fn().mockReturnThis(),
+        save: vi.fn()
       });
-      start = jest.fn();
+      start = vi.fn();
     }
   };
 });

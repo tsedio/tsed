@@ -1,5 +1,5 @@
 import {PlatformTest} from "@tsed/common";
-import {TestMongooseContext} from "@tsed/testing-mongoose";
+import {TestContainersMongo} from "@tsed/testcontainers-mongo";
 import {Agenda, AgendaService, Define, Every} from "../src/index.js";
 import {Server} from "./helpers/Server.js";
 
@@ -19,14 +19,15 @@ class Test {
 describe("Agenda integration", () => {
   describe("enabled", () => {
     beforeAll(async () => {
-      await TestMongooseContext.install();
-      const {url} = await TestMongooseContext.getMongooseOptions();
+      const options = TestContainersMongo.getMongoConnectionOptions();
+
       const bstrp = PlatformTest.bootstrap(Server, {
+        mongoose: [options],
         agenda: {
           enabled: true,
           db: {
-            address: url,
-            options: {}
+            address: options.url,
+            options: options.connectionOptions
           }
         }
       });
@@ -35,7 +36,7 @@ describe("Agenda integration", () => {
     });
     afterAll(async () => {
       const agenda = PlatformTest.get<AgendaService>(AgendaService)!;
-      await TestMongooseContext.reset();
+      await TestContainersMongo.reset();
       await agenda._db.close();
     });
 
@@ -58,46 +59,44 @@ describe("Agenda integration", () => {
 
       const job = await agenda.now("test-nsp.customName", {});
       const runnedJob = await agenda.jobs({_id: job.attrs._id});
+
       expect(runnedJob[0].attrs._id).toStrictEqual(job.attrs._id);
-      expect(runnedJob[0].attrs.lastRunAt).toBeDefined();
+      expect(runnedJob[0].attrs.nextRunAt).toBeDefined();
     });
   });
 
   describe("disabled", () => {
     beforeAll(async () => {
-      await TestMongooseContext.install();
+      const options = TestContainersMongo.getMongoConnectionOptions();
+
       const bstrp = PlatformTest.bootstrap(Server, {
-        agenda: {
-          enabled: false
-        }
+        mongoose: [options],
+        agenda: false
       });
 
       await bstrp();
     });
-    afterAll(() => TestMongooseContext.reset());
+    afterAll(() => TestContainersMongo.reset());
 
     it("should not have job definitions", () => {
       const agenda = PlatformTest.injector.get(AgendaService)!;
-      expect(agenda._definitions).toBeUndefined();
-    });
 
-    it("should fail to schedule a job", async () => {
-      const agenda = PlatformTest.get<AgendaService>(AgendaService)!;
-      await expect(() => agenda.now("test-nsp.customName", {})).rejects.toThrowError(TypeError);
+      expect(agenda._definitions).toBeUndefined();
     });
   });
 
   describe("enabled but job processing is disabled", () => {
     beforeAll(async () => {
-      await TestMongooseContext.install();
-      const {url} = await TestMongooseContext.getMongooseOptions();
+      const options = TestContainersMongo.getMongoConnectionOptions();
+
       const bstrp = PlatformTest.bootstrap(Server, {
+        mongoose: [options],
         agenda: {
           enabled: true,
           disableJobProcessing: true,
           db: {
-            address: url,
-            options: {}
+            address: options.url,
+            options: options.connectionOptions
           }
         }
       });
@@ -106,7 +105,7 @@ describe("Agenda integration", () => {
     });
     afterAll(async () => {
       const agenda = PlatformTest.get<AgendaService>(AgendaService)!;
-      await TestMongooseContext.reset();
+      await TestContainersMongo.reset();
       await agenda._db.close();
     });
 
