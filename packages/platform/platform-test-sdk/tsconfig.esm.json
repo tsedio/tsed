@@ -9,7 +9,8 @@
     "declarationDir": "./lib/types-esm",
     "declaration": true,
     "composite": true,
-    "noEmit": false
+    "noEmit": false,
+    "types": ["vite/client", "vitest/globals"]
   },
   "include": ["src", "src/**/*.json"],
   "exclude": [
