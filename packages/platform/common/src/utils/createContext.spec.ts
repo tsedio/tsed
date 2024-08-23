@@ -29,7 +29,9 @@ async function createContextFixture(reqOpts?: any) {
 describe("createContext", () => {
   beforeEach(() => PlatformTest.create());
   afterEach(() => PlatformTest.reset());
-  afterEach(() => vi.resetAllMocks());
+  afterEach(() => {
+    vi.resetAllMocks();
+  });
   it("should create context and attach it to the request", async () => {
     // GIVEN
     const {injector, ctx, call} = await createContextFixture();
@@ -43,7 +45,7 @@ describe("createContext", () => {
     // THEN
     expect(injector.emit).toBeCalledWith("$onRequest", ctx);
 
-    await (ctx.response.getRes().on as vi.Mock).mock.calls[0][1](ctx);
+    await vi.mocked(ctx.response.getRes().on).mock.calls[0][1](ctx);
 
     expect(injector.emit).toBeCalledWith("$onResponse", ctx);
   });

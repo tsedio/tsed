@@ -94,7 +94,9 @@ export function testMulter(options: PlatformTestingSdkOpts) {
     request = SuperTest(PlatformTest.callback());
   });
   afterAll(PlatformTest.reset);
-  beforeAll(() => vi.resetAllMocks());
+  beforeAll(() => {
+    vi.resetAllMocks();
+  });
   describe("Scenario 1: POST /rest/multer/scenario-1", () => {
     it("should upload file with multer", async () => {
       const result = await request.post("/rest/multer/scenario-1").attach("media", `${rootDir}/data/file.txt`).expect(201);

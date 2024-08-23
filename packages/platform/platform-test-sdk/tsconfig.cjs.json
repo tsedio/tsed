@@ -9,7 +9,8 @@
     "declaration": true,
     "declarationDir": "./lib/types",
     "composite": true,
-    "noEmit": false
+    "noEmit": false,
+    "types": ["vite/client", "vitest/globals"]
   },
   "include": ["src", "src/**/*.json"],
   "exclude": [

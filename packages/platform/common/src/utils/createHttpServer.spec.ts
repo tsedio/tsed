@@ -3,7 +3,9 @@ import Http from "http";
 import {createHttpServer} from "./createHttpServer.js";
 
 describe("createHttpServer", () => {
-  afterEach(() => vi.resetAllMocks());
+  afterEach(() => {
+    vi.resetAllMocks();
+  });
   it("should create an instance of Http (http port true)", async () => {
     const injector = new InjectorService();
     injector.settings.set("httpPort", true);

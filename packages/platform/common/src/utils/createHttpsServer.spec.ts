@@ -1,9 +1,11 @@
 import {InjectorService} from "@tsed/di";
-import {createHttpsServer} from "./createHttpsServer.js";
 import Https from "https";
+import {createHttpsServer} from "./createHttpsServer.js";
 
 describe("createHttpsServer", () => {
-  afterEach(() => vi.resetAllMocks());
+  afterEach(() => {
+    vi.resetAllMocks();
+  });
   it("should create an instance of Https (Https port true)", async () => {
     const injector = new InjectorService();
     injector.settings.set("httpsPort", true);

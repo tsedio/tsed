@@ -152,7 +152,7 @@ describe("FormioAuthService", () => {
     it("should throw an error", async () => {
       const {service, formioService} = await createServiceFixture();
 
-      (formioService.mongoose.models.role.exec as vi.Mock).mockRejectedValue(new Error("test"));
+      vi.mocked(formioService.mongoose.models.role.exec).mockRejectedValue(new Error("test"));
 
       const error = await catchAsyncError(() => service.getRoles({} as any));
       expect(error).toBeInstanceOf(BadRequest);

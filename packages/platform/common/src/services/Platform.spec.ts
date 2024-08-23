@@ -51,6 +51,7 @@ export class DomainController {
   @Get("/all")
   get() {}
 }
+
 @Controller({
   path: "/platform/:platform",
   children: [CommentController]
@@ -63,7 +64,9 @@ export class PlatformController {
 describe("Platform", () => {
   beforeEach(PlatformTest.create);
   afterEach(PlatformTest.reset);
-  afterEach(() => vi.resetAllMocks());
+  afterEach(() => {
+    vi.resetAllMocks();
+  });
 
   describe("addRoute", () => {
     it("should add a route", async () => {
