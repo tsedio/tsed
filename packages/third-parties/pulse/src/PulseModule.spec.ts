@@ -1,26 +1,26 @@
 import {PlatformTest} from "@tsed/common";
 import {Inject} from "@tsed/di";
-import {Job} from "@pulsecron/pulse";
+import type {Job} from "@pulsecron/pulse";
 import {PulseModule} from "./PulseModule";
 import {Pulse} from "./decorators/pulse";
 import {Define} from "./decorators/define.js";
 import {Every} from "./decorators/every.js";
 
-jest.mock("@pulsecron/pulse", () => {
+vi.mock("@pulsecron/pulse", () => {
   return {
     Pulse: class {
-      close = jest.fn();
-      stop = jest.fn();
-      drain = jest.fn();
-      define = jest.fn();
-      every = jest.fn();
-      schedule = jest.fn();
-      now = jest.fn();
-      create = jest.fn().mockReturnValue({
-        repeatEvery: jest.fn().mockReturnThis(),
-        save: jest.fn()
+      close = vi.fn();
+      stop = vi.fn();
+      drain = vi.fn();
+      define = vi.fn();
+      every = vi.fn();
+      schedule = vi.fn();
+      now = vi.fn();
+      create = vi.fn().mockReturnValue({
+        repeatEvery: vi.fn().mockReturnThis(),
+        save: vi.fn()
       });
-      start = jest.fn();
+      start = vi.fn();
     }
   };
 });

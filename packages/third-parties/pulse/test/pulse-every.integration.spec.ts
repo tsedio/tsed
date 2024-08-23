@@ -1,5 +1,5 @@
 import {PlatformTest} from "@tsed/common";
-import {TestMongooseContext} from "@tsed/testing-mongoose";
+import {TestContainersMongo} from "@tsed/testcontainers-mongo";
 import {Pulse, PulseService, Every} from "../src/index.js";
 import {Server} from "./helpers/Server.js";
 
@@ -14,14 +14,15 @@ class TestTwo {
 describe("Pulse integration", () => {
   describe("enabled", () => {
     beforeAll(async () => {
-      await TestMongooseContext.install();
-      const {url} = await TestMongooseContext.getMongooseOptions();
+      const options = TestContainersMongo.getMongoConnectionOptions();
+
       const bstrp = PlatformTest.bootstrap(Server, {
+        mongoose: [options],
         pulse: {
           enabled: true,
           db: {
-            address: url,
-            options: {}
+            address: options.url,
+            options: options.connectionOptions
           }
         }
       });
@@ -30,7 +31,7 @@ describe("Pulse integration", () => {
     });
     afterAll(async () => {
       const pulse = PlatformTest.get<PulseService>(PulseService)!;
-      await TestMongooseContext.reset();
+      await TestContainersMongo.reset();
       await pulse._db.close();
     });
 
@@ -51,8 +52,9 @@ describe("Pulse integration", () => {
 
   describe("disabled", () => {
     beforeAll(async () => {
-      await TestMongooseContext.install();
+      const options = TestContainersMongo.getMongoConnectionOptions();
       const bstrp = PlatformTest.bootstrap(Server, {
+        mongoose: [options],
         pulse: {
           enabled: false
         }
@@ -60,7 +62,7 @@ describe("Pulse integration", () => {
 
       await bstrp();
     });
-    afterAll(() => TestMongooseContext.reset());
+    afterAll(() => TestContainersMongo.reset());
 
     it("should not have job definitions", () => {
       const pulse = PlatformTest.injector.get(PulseService)!;
