@@ -1,5 +1,5 @@
 import {PlatformTest} from "@tsed/common";
-import {TestMongooseContext} from "@tsed/testing-mongoose";
+import {TestContainersMongo} from "@tsed/testcontainers-mongo";
 import {Agenda, AgendaService, Every} from "../src/index.js";
 import {Server} from "./helpers/Server.js";
 
@@ -14,14 +14,15 @@ class TestTwo {
 describe("Agenda integration", () => {
   describe("enabled", () => {
     beforeAll(async () => {
-      await TestMongooseContext.install();
-      const {url} = await TestMongooseContext.getMongooseOptions();
+      const options = TestContainersMongo.getMongoConnectionOptions();
+
       const bstrp = PlatformTest.bootstrap(Server, {
+        mongoose: [options],
         agenda: {
           enabled: true,
           db: {
-            address: url,
-            options: {}
+            address: options.url,
+            options: options.connectionOptions
           }
         }
       });
@@ -30,7 +31,7 @@ describe("Agenda integration", () => {
     });
     afterAll(async () => {
       const agenda = PlatformTest.get<AgendaService>(AgendaService)!;
-      await TestMongooseContext.reset();
+      await TestContainersMongo.reset();
       await agenda._db.close();
     });
 
@@ -51,8 +52,9 @@ describe("Agenda integration", () => {
 
   describe("disabled", () => {
     beforeAll(async () => {
-      await TestMongooseContext.install();
+      const options = TestContainersMongo.getMongoConnectionOptions();
       const bstrp = PlatformTest.bootstrap(Server, {
+        mongoose: [options],
         agenda: {
           enabled: false
         }
@@ -60,7 +62,7 @@ describe("Agenda integration", () => {
 
       await bstrp();
     });
-    afterAll(() => TestMongooseContext.reset());
+    afterAll(() => TestContainersMongo.reset());
 
     it("should not have job definitions", () => {
       const agenda = PlatformTest.injector.get(AgendaService)!;

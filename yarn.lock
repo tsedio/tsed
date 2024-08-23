@@ -6769,7 +6769,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@testcontainers/mongodb@npm:10.11.0":
+"@testcontainers/mongodb@npm:>=10.11.0":
   version: 10.11.0
   resolution: "@testcontainers/mongodb@npm:10.11.0"
   dependencies:
@@ -7475,7 +7475,6 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@tsed/mongoose@workspace:packages/orm/mongoose"
   dependencies:
-    "@testcontainers/mongodb": "npm:10.11.0"
     "@tsed/ajv": "workspace:*"
     "@tsed/barrels": "workspace:*"
     "@tsed/core": "workspace:*"
@@ -7487,7 +7486,6 @@ __metadata:
     change-case: "npm:4.1.2"
     eslint: "npm:^8.57.0"
     mongoose: "npm:6.12.7"
-    testcontainers: "npm:10.11.0"
     tslib: "npm:2.6.1"
     typescript: "npm:4.9.5"
     vitest: "npm:2.0.4"
@@ -8537,9 +8535,9 @@ __metadata:
     "@tsed/typescript": "workspace:*"
     eslint: "npm:^8.57.0"
     express: "npm:^4.19.1"
+    jest: "npm:^29.7.0"
     tslib: "npm:2.6.1"
     typescript: "npm:4.9.5"
-    vitest: "npm:2.0.4"
   peerDependencies:
     "@tsed/di": 7.79.4
     "@tsed/json-mapper": 7.79.4
@@ -8684,6 +8682,32 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@tsed/testcontainers-mongo@workspace:packages/orm/testcontainers-mongo":
+  version: 0.0.0-use.local
+  resolution: "@tsed/testcontainers-mongo@workspace:packages/orm/testcontainers-mongo"
+  dependencies:
+    "@testcontainers/mongodb": "npm:>=10.11.0"
+    "@tsed/barrels": "workspace:*"
+    "@tsed/common": "workspace:*"
+    "@tsed/core": "workspace:*"
+    "@tsed/di": "workspace:*"
+    "@tsed/mongoose": "workspace:*"
+    "@tsed/typescript": "workspace:*"
+    eslint: "npm:^8.57.0"
+    semver: "npm:^7.6.0"
+    testcontainers: "npm:>=10.11.0"
+    tslib: "npm:2.6.1"
+    typescript: "npm:4.9.5"
+  peerDependencies:
+    "@testcontainers/mongodb": ">=10.11.0"
+    "@tsed/common": "workspace:*"
+    "@tsed/core": 7.79.3
+    "@tsed/di": "workspace:*"
+    "@tsed/mongoose": "workspace:*"
+    testcontainers: ">=10.11.0"
+  languageName: unknown
+  linkType: soft
+
 "@tsed/testing-mongoose@workspace:*, @tsed/testing-mongoose@workspace:packages/orm/testing-mongoose":
   version: 0.0.0-use.local
   resolution: "@tsed/testing-mongoose@workspace:packages/orm/testing-mongoose"
@@ -8694,7 +8718,6 @@ __metadata:
     "@tsed/mongoose": "workspace:*"
     "@tsed/typescript": "workspace:*"
     eslint: "npm:^8.57.0"
-    jest: "npm:^29.7.0"
     mongodb-memory-server: "npm:^8.16.0"
     semver: "npm:^7.6.0"
     tslib: "npm:2.6.1"
@@ -29863,7 +29886,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"testcontainers@npm:10.11.0, testcontainers@npm:^10.11.0":
+"testcontainers@npm:>=10.11.0, testcontainers@npm:^10.11.0":
   version: 10.11.0
   resolution: "testcontainers@npm:10.11.0"
   dependencies:
