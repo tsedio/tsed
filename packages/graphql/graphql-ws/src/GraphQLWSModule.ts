@@ -3,7 +3,7 @@ import type {Disposable} from "graphql-ws";
 import {useServer} from "graphql-ws/lib/use/ws";
 import Http from "http";
 import Https from "https";
-import {WebSocketServer} from "ws";
+
 import {GraphQLWSOptions} from "./GraphQLWSOptions.js";
 
 @Module()
@@ -20,7 +20,10 @@ export class GraphQLWSModule {
   @Inject()
   private injector: InjectorService;
 
-  createWSServer(settings: GraphQLWSOptions): Disposable {
+  async createWSServer(settings: GraphQLWSOptions) {
+    // @ts-ignore
+    const {WebSocketServer} = await import("ws");
+
     const wsServer = new WebSocketServer({
       ...(this.settings.wsServerOptions || {}),
       ...settings.wsServerOptions,
