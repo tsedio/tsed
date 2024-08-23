@@ -4,7 +4,7 @@
   "type": "commonjs",
   "version": "7.79.4",
   "source": "./src/index.ts",
-  "main": "./lib/esm/index.js",
+  "main": "./lib/cjs/index.js",
   "module": "./lib/esm/index.js",
   "typings": "./lib/types/index.d.ts",
   "browser": "./lib/browser/schema-formio.umd.min.js",
@@ -13,7 +13,7 @@
       "types": "./lib/types/index.d.ts",
       "browser": "./lib/browser/schema-formio.umd.min.js",
       "import": "./lib/esm/index.js",
-      "default": "./lib/esm/index.js"
+      "default": "./lib/cjs/index.js"
     }
   },
   "scripts": {

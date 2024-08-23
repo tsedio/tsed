@@ -171,7 +171,7 @@ async function main() {
 
       // prepare exports
 
-      pkg.pkg.main = pkg.pkg.main.replace("cjs/", "esm/");
+      // pkg.pkg.main = pkg.pkg.main.replace("cjs/", "esm/");
 
       if (pkg.pkg.exports && !pkg.pkg.exports["."]) {
         pkg.pkg.exports = {

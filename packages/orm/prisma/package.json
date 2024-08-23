@@ -4,14 +4,14 @@
   "type": "commonjs",
   "version": "7.79.3",
   "source": "./src/index.ts",
-  "main": "./lib/esm/index.js",
+  "main": "./lib/cjs/index.js",
   "module": "./lib/esm/index.js",
   "typings": "./lib/types/index.d.ts",
   "exports": {
     ".": {
       "types": "./lib/types/index.d.ts",
       "import": "./lib/esm/index.js",
-      "default": "./lib/esm/index.js"
+      "default": "./lib/cjs/index.js"
     }
   },
   "bin": {
