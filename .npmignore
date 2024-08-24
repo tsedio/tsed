@@ -13,7 +13,6 @@ tsconfig.compile.json
 tslint.json
 .eslintignore
 .eslintrc.js
-jest.config.js
 .travis.yml
 .gitignore
 .idea

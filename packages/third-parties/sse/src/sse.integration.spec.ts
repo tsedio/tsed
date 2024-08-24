@@ -87,13 +87,13 @@ describe("SSE integration", () => {
   beforeEach(() => PlatformTest.create());
   afterEach(() => PlatformTest.reset());
   beforeEach(() => {
-    jest.useFakeTimers({
-      advanceTimers: true,
+    vi.useFakeTimers({
+      toFake: ["Date"],
       now: new Date("2025-01-01T00:00:00Z").getTime()
     });
   });
   afterEach(() => {
-    jest.useRealTimers();
+    vi.useRealTimers();
   });
   it("should generate the swagger spec", () => {
     expect(getSpec(MyCtrl)).toMatchSnapshot();
@@ -167,7 +167,7 @@ describe("SSE integration", () => {
       expect(result).toEqual(
         "event: event\ndata: " +
           JSON.stringify({
-            date: "2025-01-01T00:00:00.200Z",
+            date: "2025-01-01T00:00:00.000Z",
             message: "Hello"
           }) +
           "\n\n"
@@ -192,7 +192,7 @@ describe("SSE integration", () => {
       expect(result).toEqual(
         "event: event\ndata: " +
           JSON.stringify({
-            id: "2025-01-01T00:00:00.200Z"
+            id: "2025-01-01T00:00:00.000Z"
           }) +
           "\n\n"
       );

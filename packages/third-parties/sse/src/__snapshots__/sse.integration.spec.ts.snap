@@ -1,12 +1,12 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`SSE integration should generate the swagger spec 1`] = `
-Object {
-  "components": Object {
-    "schemas": Object {
-      "Model": Object {
-        "properties": Object {
-          "id": Object {
+exports[`SSE integration > should generate the swagger spec 1`] = `
+{
+  "components": {
+    "schemas": {
+      "Model": {
+        "properties": {
+          "id": {
             "type": "string",
           },
         },
@@ -14,156 +14,156 @@ Object {
       },
     },
   },
-  "paths": Object {
-    "/sse/scenario1": Object {
-      "get": Object {
+  "paths": {
+    "/sse/scenario1": {
+      "get": {
         "operationId": "myCtrlScenario1",
-        "parameters": Array [],
-        "responses": Object {
-          "200": Object {
-            "content": Object {
-              "*/*": Object {
-                "schema": Object {
+        "parameters": [],
+        "responses": {
+          "200": {
+            "content": {
+              "*/*": {
+                "schema": {
                   "type": "object",
                 },
               },
             },
-            "headers": Object {
-              "Content-Type": Object {
+            "headers": {
+              "Content-Type": {
                 "example": "text/event-stream",
-                "schema": Object {
+                "schema": {
                   "type": "string",
                 },
               },
             },
           },
         },
-        "tags": Array [
+        "tags": [
           "MyCtrl",
         ],
       },
     },
-    "/sse/scenario2": Object {
-      "get": Object {
+    "/sse/scenario2": {
+      "get": {
         "operationId": "myCtrlScenario2",
-        "parameters": Array [],
-        "responses": Object {
-          "200": Object {
-            "content": Object {
-              "*/*": Object {
-                "schema": Object {
+        "parameters": [],
+        "responses": {
+          "200": {
+            "content": {
+              "*/*": {
+                "schema": {
                   "type": "object",
                 },
               },
             },
-            "headers": Object {
-              "Content-Type": Object {
+            "headers": {
+              "Content-Type": {
                 "example": "text/event-stream",
-                "schema": Object {
+                "schema": {
                   "type": "string",
                 },
               },
             },
           },
         },
-        "tags": Array [
+        "tags": [
           "MyCtrl",
         ],
       },
     },
-    "/sse/scenario3": Object {
-      "get": Object {
+    "/sse/scenario3": {
+      "get": {
         "operationId": "myCtrlScenario3",
-        "parameters": Array [],
-        "responses": Object {
-          "200": Object {
-            "content": Object {
-              "*/*": Object {
-                "schema": Object {
+        "parameters": [],
+        "responses": {
+          "200": {
+            "content": {
+              "*/*": {
+                "schema": {
                   "type": "object",
                 },
               },
             },
-            "headers": Object {
-              "Content-Type": Object {
+            "headers": {
+              "Content-Type": {
                 "example": "text/event-stream",
-                "schema": Object {
+                "schema": {
                   "type": "string",
                 },
               },
             },
           },
         },
-        "tags": Array [
+        "tags": [
           "MyCtrl",
         ],
       },
     },
-    "/sse/scenario4": Object {
-      "get": Object {
+    "/sse/scenario4": {
+      "get": {
         "operationId": "myCtrlScenario4",
-        "parameters": Array [],
-        "responses": Object {
-          "200": Object {
-            "content": Object {
-              "*/*": Object {
-                "schema": Object {
+        "parameters": [],
+        "responses": {
+          "200": {
+            "content": {
+              "*/*": {
+                "schema": {
                   "type": "object",
                 },
               },
             },
-            "headers": Object {
-              "Content-Type": Object {
+            "headers": {
+              "Content-Type": {
                 "example": "text/event-stream",
-                "schema": Object {
+                "schema": {
                   "type": "string",
                 },
               },
             },
           },
         },
-        "tags": Array [
+        "tags": [
           "MyCtrl",
         ],
       },
     },
-    "/sse/scenario5": Object {
-      "get": Object {
+    "/sse/scenario5": {
+      "get": {
         "operationId": "myCtrlScenario5",
-        "parameters": Array [],
-        "responses": Object {
-          "200": Object {
-            "content": Object {
-              "*/*": Object {
-                "schema": Object {
+        "parameters": [],
+        "responses": {
+          "200": {
+            "content": {
+              "*/*": {
+                "schema": {
                   "type": "object",
                 },
               },
-              "application/json": Object {
-                "schema": Object {
+              "application/json": {
+                "schema": {
                   "$ref": "#/components/schemas/Model",
                 },
               },
             },
             "description": "Success",
-            "headers": Object {
-              "Content-Type": Object {
+            "headers": {
+              "Content-Type": {
                 "example": "text/event-stream",
-                "schema": Object {
+                "schema": {
                   "type": "string",
                 },
               },
             },
           },
         },
-        "tags": Array [
+        "tags": [
           "MyCtrl",
         ],
       },
     },
   },
-  "tags": Array [
-    Object {
+  "tags": [
+    {
       "name": "MyCtrl",
     },
   ],
