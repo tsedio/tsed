@@ -23,7 +23,7 @@
   },
   "dependencies": {
     "cache-manager": "^5.4.0",
-    "micromatch": "4.0.5",
+    "micromatch": "4.0.8",
     "tslib": "2.6.1"
   },
   "devDependencies": {

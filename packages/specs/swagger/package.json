@@ -28,7 +28,7 @@
     "@tsed/normalize-path": "workspace:*",
     "@tsed/openspec": "workspace:*",
     "fs-extra": "11.2.0",
-    "micromatch": "4.0.5",
+    "micromatch": "4.0.8",
     "swagger-ui-dist": ">=5.17.1",
     "tslib": "2.6.1"
   },
