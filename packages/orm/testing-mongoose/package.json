@@ -2,7 +2,7 @@
   "name": "@tsed/testing-mongoose",
   "description": "A module to test Ts.ED code that use MongoDB as database",
   "type": "commonjs",
-  "version": "7.79.3",
+  "version": "7.80.0",
   "source": "./src/index.ts",
   "main": "./lib/cjs/index.js",
   "module": "./lib/esm/index.js",
@@ -33,9 +33,9 @@
     "typescript": "4.9.5"
   },
   "peerDependencies": {
-    "@tsed/common": "7.79.3",
-    "@tsed/core": "7.79.3",
-    "@tsed/mongoose": "7.79.3",
+    "@tsed/common": "7.80.0",
+    "@tsed/core": "7.80.0",
+    "@tsed/mongoose": "7.80.0",
     "mongoose": ">=6.0.0"
   },
   "publishConfig": {

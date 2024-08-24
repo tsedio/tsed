@@ -2,7 +2,7 @@
   "name": "@tsed/schema-formio",
   "description": "Transform Ts.ED Schema & JsonSchema to a valid Formio schema",
   "type": "commonjs",
-  "version": "7.79.4",
+  "version": "7.80.0",
   "source": "./src/index.ts",
   "main": "./lib/cjs/index.js",
   "module": "./lib/esm/index.js",
@@ -53,9 +53,9 @@
     "vitest": "2.0.4"
   },
   "peerDependencies": {
-    "@tsed/core": "7.79.4",
-    "@tsed/openspec": "7.79.4",
-    "@tsed/schema": "7.79.4",
+    "@tsed/core": "7.80.0",
+    "@tsed/openspec": "7.80.0",
+    "@tsed/schema": "7.80.0",
     "formiojs": ">=4.0.0",
     "lodash": ">=4.0.0",
     "moment": ">=2.0.0"
