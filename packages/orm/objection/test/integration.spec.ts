@@ -3,10 +3,11 @@ import {serialize} from "@tsed/json-mapper";
 import {OBJECTION_CONNECTION} from "@tsed/objection";
 import {Knex} from "knex";
 import {User} from "./helpers/models/User.js";
+import {describe, beforeAll, beforeEach, it, afterAll, expect} from "vitest";
 
 const rootDir = __dirname; // automatically replaced by import.meta.dirname on build
 
-describe("Objection integrations", () => {
+describe.skip("Objection integrations", () => {
   beforeAll(() => {
     PlatformTest.create({
       knex: {

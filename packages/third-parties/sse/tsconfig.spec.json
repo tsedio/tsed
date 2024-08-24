@@ -29,7 +29,8 @@
       "@tsed/platform-test-sdk": ["../../platform/platform-test-sdk/src"],
       "@tsed/platform-koa": ["../../platform/platform-koa/src"],
       "@tsed/platform-express": ["../../platform/platform-express/src"]
-    }
+    },
+    "types": ["vite/client", "vitest/globals"]
   },
   "include": ["src/**/*.spec.ts", "test/**/*.spec.ts"],
   "exclude": ["node_modules", "test", "lib", "benchmark", "coverage"]
