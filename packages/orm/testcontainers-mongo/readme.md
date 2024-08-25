@@ -3,7 +3,7 @@
 </p>
 
 <div align="center">
-   <h1>Mongoose testing</h1>
+   <h1>TestContainers Mongo</h1>
 
 [![Build & Release](https://github.com/tsedio/tsed/workflows/Build%20&%20Release/badge.svg)](https://github.com/tsedio/tsed/actions?query=workflow%3A%22Build+%26+Release%22)
 [![PR Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](https://github.com/tsedio/tsed/blob/master/CONTRIBUTING.md)
@@ -29,111 +29,123 @@
 
 A package of Ts.ED framework. See website: https://tsed.io/
 
-This package is an helper to create unit test base on `@tsed/mongoose` package.
+This package allows you to test your code using the [TestContainers](https://node.testcontainers.org/) library.
 
 # Installation
 
-```bash
-npm install --save @tsed/testing-mongoose
+To use the `@tsed/testcontainers-mongo` package, you need to install the package:
+
+```sh [npm]
+npm install --save-dev @tsed/testcontainers-mongo
 ```
 
-## Example usage
+```sh [yarn]
+yarn add --dev @tsed/testcontainers-mongo
+```
 
-### Testing server
+```sh [pnpm]
+pnpm add --dev @tsed/testcontainers-mongo
+```
 
-Here an example to your server with a mocked database:
+```sh [bun]
+bun add --dev @tsed/testcontainers-mongo
+```
 
-```typescript
-import {PlatformTest} from "@tsed/common";
-import {PlatformExpress} from "@tsed/platform-express";
-import {TestMongooseContext} from "@tsed/testing-mongoose";
-import {expect} from "chai";
-import * as SuperTest from "supertest";
-import {Server} from "../Server.js";
+### Configuration
 
-describe("Rest", () => {
-  // bootstrap your Server to load all endpoints before run your test
-  let request: SuperTest.Agent;
+Add or update your jest or vitest configuration file to add a global setup file:
 
-  before(TestMongooseContext.bootstrap(Server, {platform: PlatformExpress})); // Create a server with mocked database
-  before((done) => {
-    request = SuperTest(PlatformTest.callback());
-    done();
-  });
+#### Jest
 
-  after(TestMongooseContext.reset); // reset database and injector
+```ts
+// jest.config.js
+module.exports = {
+  globalSetup: ["jest.setup.js"],
+  globalTeardown: ["jest.teardown.js"]
+};
 
-  describe("GET /rest/calendars", () => {
-    it("should do something", async () => {
-      const response = await request.get("/rest/calendars").expect(200);
+// jest.setup.js
+const {TestContainersMongo} = require("@tsed/testcontainers-mongo");
+module.exports = async () => {
+  await TestContainersMongo.startMongoServer();
+};
 
-      expect(response.body).to.be.an("array");
-    });
-  });
+// jest.teardown.js
+const {TestContainersMongo} = require("@tsed/testcontainers-mongo");
+module.exports = async () => {
+  await TestContainersMongo.stopMongoServer();
+};
+```
+
+### Vitest
+
+```ts
+import {defineConfig} from "vitest/config";
+
+export default defineConfig({
+  test: {
+    globalSetup: [import.meta.resolve("@tsed/testcontainers-mongo/vitest/setup")]
+  }
 });
 ```
 
-::: tip
-To increase mocha timeout from 2000ms to 10000ms use option `--timeout 10000`.
 :::
 
-### Testing server with Replica set
+### Usage
 
-A [ReplicaSet](https://github.com/nodkz/mongodb-memory-server#replica-set-start) can be easily started with:
-
-```typescript
+```ts
 import {PlatformTest} from "@tsed/common";
-import {PlatformExpress} from "@tsed/platform-express";
-import {TestMongooseContext} from "@tsed/testing-mongoose";
-import {expect} from "chai";
-import * as SuperTest from "supertest";
-import {Server} from "../Server.js";
+import {Property, Required} from "@tsed/schema";
+import {Model, MongooseModel, ObjectID, PostHook, PreHook, Unique} from "@tsed/mongoose";
+import {TestContainersMongo} from "@tsed/testcontainers-mongo";
 
-describe("Rest", () => {
-  // bootstrap your Server to load all endpoints before run your test
-  let request: SuperTest.Agent;
+@Model({schemaOptions: {timestamps: true}})
+@PreHook("save", (user: UserModel, next: any) => {
+  user.pre = "hello pre";
 
-  before(
-    TestMongooseContext.bootstrap(Server, {
-      platform: PlatformExpress,
-      mongod: {
-        replicaSet: true
-      }
-    })
-  ); // Create a server with mocked database
-  before((done) => {
-    request = SuperTest(PlatformTest.callback());
-    done();
-  });
+  next();
+})
+@PostHook("save", (user: UserModel, next: any) => {
+  user.post = "hello post";
 
-  after(TestMongooseContext.reset); // reset database and injector
+  next();
+})
+export class UserModel {
+  @ObjectID("id")
+  _id: string;
 
-  describe("GET /rest/calendars", () => {
-    it("should do something", async () => {
-      const response = await request.get("/rest/calendars").expect(200);
+  @Property()
+  @Required()
+  @Unique()
+  email: string;
 
-      expect(response.body).to.be.an("array");
+  @Property()
+  pre: string;
+
+  @Property()
+  post: string;
+}
+
+describe("UserModel", () => {
+  beforeEach(() => TestContainersMongo.create());
+  afterEach(() => TestContainersMongo.reset("users")); // clean users collection after each test
+
+  it("should run pre and post hook", async () => {
+    const userModel = PlatformTest.get<MongooseModel<UserModel>>(UserModel);
+
+    // GIVEN
+    const user = new userModel({
+      email: "test@test.fr"
     });
+
+    // WHEN
+    await user.save();
+
+    // THEN
+    expect(user.pre).toEqual("hello pre");
+    expect(user.post).toEqual("hello post");
   });
 });
-```
-
-## Jest additional setup
-
-Add a script to close connection after all unit test. In your jest configuration file add the following line:
-
-```json
-{
-  "globalTeardown": "./scripts/jest/teardown.js"
-}
-```
-
-And create the script with the following content:
-
-```js
-module.exports = async () => {
-  await global.__MONGOD__.stop();
-};
 ```
 
 ## Contributors
