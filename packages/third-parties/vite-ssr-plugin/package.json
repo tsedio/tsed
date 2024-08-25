@@ -2,7 +2,7 @@
   "name": "@tsed/vite-ssr-plugin",
   "description": "Vite SSR plugin package for Ts.ED framework",
   "type": "commonjs",
-  "version": "7.80.0",
+  "version": "7.80.1",
   "contributors": [
     {
       "name": "romakita"
