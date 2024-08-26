@@ -1,4 +1,3 @@
-import {jest} from "@jest/globals";
 import {PlatformApplication, PlatformTest} from "@tsed/common";
 import {RESTDataSource} from "apollo-datasource-rest";
 import {DataSource} from "../decorators/dataSource.js";

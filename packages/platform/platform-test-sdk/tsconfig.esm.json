@@ -23,7 +23,6 @@
     "**/*.benchmark.ts",
     "**/*.spec.ts",
     "keys",
-    "jest.config.js",
     "**/__mock__/**",
     "webpack.config.js"
   ]
