@@ -176,8 +176,7 @@ async function main() {
       if (pkg.pkg.exports && !pkg.pkg.exports["."]) {
         pkg.pkg.exports = {
           ".": {
-            ...pkg.pkg.exports,
-            require: undefined
+            ...pkg.pkg.exports
           }
         };
       }
