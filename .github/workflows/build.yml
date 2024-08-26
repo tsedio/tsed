@@ -297,7 +297,7 @@ jobs:
         run: yarn install --network-timeout 500000
 
       - name: Download Core vitest config files
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           path: .
           pattern: vitest-config-*
