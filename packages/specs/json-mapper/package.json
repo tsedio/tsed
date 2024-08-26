@@ -13,6 +13,7 @@
       "types": "./lib/types/index.d.ts",
       "browser": "./lib/browser/json-mapper.umd.min.js",
       "import": "./lib/esm/index.js",
+      "require": "./lib/cjs/index.js",
       "default": "./lib/cjs/index.js"
     }
   },

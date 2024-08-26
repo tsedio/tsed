@@ -7198,12 +7198,6 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@tsed/jest-config@workspace:tools/jest":
-  version: 0.0.0-use.local
-  resolution: "@tsed/jest-config@workspace:tools/jest"
-  languageName: unknown
-  linkType: soft
-
 "@tsed/json-mapper@workspace:*, @tsed/json-mapper@workspace:packages/specs/json-mapper":
   version: 0.0.0-use.local
   resolution: "@tsed/json-mapper@workspace:packages/specs/json-mapper"
@@ -7367,6 +7361,39 @@ __metadata:
   bin:
     monorepo: bin/monorepo.js
   checksum: 10/5ee5c69fd65bcbd409b3f257765644e4f37ebca1c72c9aef900b815684ecbbe622f71d23b233db4b3a01ac575cb9e17db05262d31e89f2e323b2e36e631528dd
+  languageName: node
+  linkType: hard
+
+"@tsed/monorepo-utils@npm:2.3.5":
+  version: 2.3.5
+  resolution: "@tsed/monorepo-utils@npm:2.3.5"
+  dependencies:
+    "@samverschueren/stream-to-observable": "npm:>=0.3.1"
+    "@typescript-eslint/typescript-estree": "npm:>=6.20.0"
+    any-observable: "npm:>=0.5.1"
+    axios: "npm:>=1.6.7"
+    chalk: "npm:>=5.3.0"
+    commander: "npm:>=12.0.0"
+    execa: "npm:>=8.0.1"
+    fancy-log: "npm:>=1.3.3"
+    figures: "npm:>=3.2.0"
+    fs-extra: "npm:>=11.2.0"
+    globby: "npm:>=14.0.0"
+    has-yarn: "npm:>=3.0.0"
+    inquirer: "npm:>=9.2.13"
+    jsonfile: "npm:>=6.1.0"
+    listr2: "npm:>=8.0.2"
+    lodash: "npm:>=4.17.21"
+    normalize-path: "npm:>=3.0.0"
+    rxjs: "npm:>=7.8.1"
+    semver: "npm:>=7.5.4"
+    split: "npm:>=1.0.1"
+    typescript: "npm:>=5.3.3"
+  peerDependencies:
+    semantic-release: ">=19"
+  bin:
+    monorepo: bin/monorepo.js
+  checksum: 10/9336adfbf603e688d391595b9849a144d413da21132dece44ffa41f602e3547fc566b7b338e8c907562d73dfe74c9e809dda0b140f2ed5cbb0b3c5279fd1835e
   languageName: node
   linkType: hard
 
@@ -8168,7 +8195,7 @@ __metadata:
     "@swc/core": "npm:1.3.41"
     "@swc/helpers": "npm:0.4.14"
     "@tsed/logger": "npm:>=6.7.5"
-    "@tsed/monorepo-utils": "npm:2.3.2"
+    "@tsed/monorepo-utils": "npm:2.3.5"
     "@tsed/ts-doc": "npm:4.1.0"
     "@types/axios": "npm:0.14.0"
     "@types/globby": "npm:9.1.0"
