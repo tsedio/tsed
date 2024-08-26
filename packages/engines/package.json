@@ -2,7 +2,7 @@
   "name": "@tsed/engines",
   "description": "Template engines library. Provide an API to adding custom engines from decorators.",
   "type": "commonjs",
-  "version": "7.80.1",
+  "version": "7.80.2",
   "source": "./src/index.ts",
   "main": "./lib/cjs/index.js",
   "module": "./lib/esm/index.js",

@@ -2,7 +2,7 @@
   "name": "@tsed/core",
   "description": "Core module for Ts.ED Framework",
   "type": "commonjs",
-  "version": "7.80.1",
+  "version": "7.80.2",
   "source": "./src/index.ts",
   "main": "./lib/cjs/index.js",
   "module": "./lib/esm/index.js",
@@ -31,7 +31,7 @@
   },
   "devDependencies": {
     "@tsed/barrels": "workspace:*",
-    "@tsed/monorepo-utils": "^2.3.2",
+    "@tsed/monorepo-utils": "2.3.5",
     "@tsed/typescript": "workspace:*",
     "@tsed/vitest": "workspace:*",
     "@vitest/coverage-v8": "^2.0.5",
