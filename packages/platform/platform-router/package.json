@@ -2,7 +2,7 @@
   "name": "@tsed/platform-router",
   "description": "Router",
   "type": "commonjs",
-  "version": "7.80.2",
+  "version": "7.80.3",
   "source": "./src/index.ts",
   "main": "./lib/cjs/index.js",
   "module": "./lib/esm/index.js",
@@ -39,12 +39,12 @@
     "vitest": "2.0.4"
   },
   "peerDependencies": {
-    "@tsed/core": "7.80.2",
-    "@tsed/di": "7.80.2",
-    "@tsed/exceptions": "7.80.2",
-    "@tsed/json-mapper": "7.80.2",
-    "@tsed/platform-params": "7.80.2",
-    "@tsed/schema": "7.80.2"
+    "@tsed/core": "7.80.3",
+    "@tsed/di": "7.80.3",
+    "@tsed/exceptions": "7.80.3",
+    "@tsed/json-mapper": "7.80.3",
+    "@tsed/platform-params": "7.80.3",
+    "@tsed/schema": "7.80.3"
   },
   "peerDependenciesMeta": {
     "@tsed/core": {

@@ -1,7 +1,7 @@
 {
   "name": "@tsed/vitest",
   "type": "module",
-  "version": "7.80.2",
+  "version": "7.80.3",
   "private": true,
   "exports": {
     ".": "./index.js",
