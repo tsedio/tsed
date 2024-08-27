@@ -7,7 +7,7 @@ export interface JsonDeserializerOptions<T = any, C = any> extends MetadataTypes
   /**
    * Types used to map complex types (Symbol, Array, Set, Map)
    */
-  types?: Map<Type<any> | Symbol | string, JsonMapperMethods>;
+  types?: Map<Type | Symbol | string, JsonMapperMethods>;
   /**
    * useAlias mapping
    */
@@ -21,6 +21,10 @@ export interface JsonDeserializerOptions<T = any, C = any> extends MetadataTypes
    *
    */
   groups?: string[] | false;
+  /**
+   * Add types to deserialize a module using generics feature.
+   */
+  generics?: Type[][];
 
   [key: string]: any;
 }

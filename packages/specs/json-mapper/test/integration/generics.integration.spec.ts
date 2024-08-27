@@ -1,12 +1,15 @@
 import {Controller} from "@tsed/di";
+import {expect, describe, it} from "vitest";
 import {
   boolean,
   CollectionOf,
   date,
+  ForwardGroups,
   GenericOf,
   Generics,
   Get,
   Ignore,
+  Integer,
   JsonEntityStore,
   number,
   Property,
@@ -76,6 +79,38 @@ describe("Generics", () => {
           value: 10
         }
       });
+    });
+    it("should transform model with given generic explicitly", () => {
+      @Generics("T")
+      class Envelope<T> {
+        @CollectionOf("T")
+        @ForwardGroups()
+        data: T[];
+      }
+
+      class Match {
+        @Integer()
+        id: number;
+      }
+
+      const result = deserialize(
+        {
+          data: [{id: 1}, {id: 2}]
+        },
+        {type: Envelope, generics: [[Match]]}
+      );
+
+      expect(result).toEqual({
+        data: [
+          {
+            id: 1
+          },
+          {
+            id: 2
+          }
+        ]
+      });
+      expect(result.data[0]).toBeInstanceOf(Match);
     });
     it("should transform boolean from generic object", () => {
       @Generics("T")
