@@ -2,7 +2,7 @@
   "name": "@tsed/platform-log-middleware",
   "description": "Log request middleware module for Ts.ED Framework",
   "type": "commonjs",
-  "version": "7.80.3",
+  "version": "7.81.0",
   "source": "./src/index.ts",
   "main": "./lib/cjs/index.js",
   "module": "./lib/esm/index.js",
@@ -36,9 +36,9 @@
     "vitest": "2.0.4"
   },
   "peerDependencies": {
-    "@tsed/di": "7.80.3",
-    "@tsed/platform-middlewares": "7.80.3",
-    "@tsed/platform-params": "7.80.3"
+    "@tsed/di": "7.81.0",
+    "@tsed/platform-middlewares": "7.81.0",
+    "@tsed/platform-params": "7.81.0"
   },
   "peerDependenciesMeta": {
     "@tsed/di": {

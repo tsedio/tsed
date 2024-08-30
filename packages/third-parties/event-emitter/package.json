@@ -2,7 +2,7 @@
   "name": "@tsed/event-emitter",
   "description": "EventEmitter package for Ts.ED framework",
   "type": "commonjs",
-  "version": "7.80.3",
+  "version": "7.81.0",
   "contributors": [
     {
       "name": "Oliver Christen"
