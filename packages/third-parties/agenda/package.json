@@ -2,7 +2,7 @@
   "name": "@tsed/agenda",
   "description": "Agenda package for Ts.ED framework",
   "type": "commonjs",
-  "version": "7.81.0",
+  "version": "7.81.1",
   "source": "./src/index.ts",
   "main": "./lib/cjs/index.js",
   "module": "./lib/esm/index.js",

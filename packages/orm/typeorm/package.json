@@ -2,7 +2,7 @@
   "name": "@tsed/typeorm",
   "description": "TypeORM package for Ts.ED framework",
   "type": "commonjs",
-  "version": "7.81.0",
+  "version": "7.81.1",
   "source": "./src/index.ts",
   "main": "./lib/cjs/index.js",
   "module": "./lib/esm/index.js",
@@ -38,10 +38,10 @@
     "vitest": "2.0.4"
   },
   "peerDependencies": {
-    "@tsed/core": "7.81.0",
-    "@tsed/di": "7.81.0",
-    "@tsed/json-mapper": "7.81.0",
-    "@tsed/schema": "7.81.0",
+    "@tsed/core": "7.81.1",
+    "@tsed/di": "7.81.1",
+    "@tsed/json-mapper": "7.81.1",
+    "@tsed/schema": "7.81.1",
     "typeorm": "^0.2.26"
   },
   "publishConfig": {

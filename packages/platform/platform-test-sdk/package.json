@@ -2,7 +2,7 @@
   "name": "@tsed/platform-test-sdk",
   "description": "Package to test platform adapter integration with Ts.ED",
   "type": "commonjs",
-  "version": "7.81.0",
+  "version": "7.81.1",
   "source": "./src/index.ts",
   "main": "./lib/cjs/index.js",
   "module": "./lib/esm/index.js",
