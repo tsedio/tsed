@@ -11,9 +11,9 @@ import {
   isInheritedFrom,
   isPromise,
   nameOf,
-  Store
+  Store,
+  type Type
 } from "@tsed/core";
-import {filter} from "rxjs";
 import {DI_PARAM_OPTIONS, INJECTABLE_PROP} from "../constants/constants.js";
 import {Configuration} from "../decorators/configuration.js";
 import {Injectable} from "../decorators/injectable.js";
@@ -37,6 +37,7 @@ import {getConstructorDependencies} from "../utils/getConstructorDependencies.js
 import {resolveControllers} from "../utils/resolveControllers.js";
 import {DIConfiguration} from "./DIConfiguration.js";
 
+let globalInjector: InjectorService | undefined;
 /**
  * This service contain all services collected by `@Service` or services declared manually with `InjectorService.factory()` or `InjectorService.service()`.
  *
@@ -59,20 +60,19 @@ import {DIConfiguration} from "./DIConfiguration.js";
  * ```
  */
 @Injectable({
-  scope: ProviderScope.SINGLETON,
-  global: true
+  scope: ProviderScope.SINGLETON
 })
 export class InjectorService extends Container {
   public settings: DIConfiguration = new DIConfiguration();
   public logger: DILogger = console;
   private resolvedConfiguration: boolean = false;
-
   #cache = new LocalsContainer();
   #hooks = new Hooks();
 
   constructor() {
     super();
     this.#cache.set(InjectorService, this);
+    globalInjector = this;
   }
 
   get resolvers() {
@@ -81,6 +81,36 @@ export class InjectorService extends Container {
 
   get scopes() {
     return this.settings.scopes || {};
+  }
+
+  static resolveAutoInjectableArgs(token: Type, locals: LocalsContainer, args: unknown[]) {
+    if (!globalInjector) {
+      throw new Error("InjectorService instance is not created yet.");
+    }
+
+    const deps: unknown[] = getConstructorDependencies(token);
+    const list: any[] = [];
+    const length = Math.max(deps.length, args.length);
+
+    for (let i = 0; i < length; i++) {
+      if (args[i] !== undefined) {
+        list.push(args);
+      } else {
+        const value = deps[i];
+
+        const instance = isArray(value)
+          ? globalInjector!.getMany(value[0], locals, {parent: token})
+          : globalInjector!.invoke(value, locals, {parent: token});
+
+        list.push(instance);
+      }
+    }
+
+    return list;
+  }
+
+  static bind(instance: any, locals: LocalsContainer) {
+    globalInjector!.bindInjectableProperties(instance, locals, {});
   }
 
   /**
@@ -142,7 +172,7 @@ export class InjectorService extends Container {
    * @param locals
    * @param options
    */
-  getMany<Type = any>(type: any, locals?: LocalsContainer, options?: Partial<InvokeOptions<Type>>): Type[] {
+  getMany<Type = any>(type: any, locals?: LocalsContainer, options?: Partial<InvokeOptions>): Type[] {
     return this.getProviders(type).map((provider) => this.invoke(provider.token, locals, options)!);
   }
 
@@ -180,9 +210,9 @@ export class InjectorService extends Container {
    * @param token The injectable class to invoke. Class parameters are injected according constructor signature.
    * @param locals  Optional object. If preset then any argument Class are read from this object first, before the `InjectorService` is consulted.
    * @param options
-   * @returns {T} The class constructed.
+   * @returns {Type} The class constructed.
    */
-  public invoke<T = any>(token: TokenProvider, locals?: LocalsContainer, options: Partial<InvokeOptions<T>> = {}): T {
+  public invoke<Type = any>(token: TokenProvider, locals?: LocalsContainer, options: Partial<InvokeOptions> = {}): Type {
     let instance: any = locals ? locals.get(token) : undefined;
 
     if (instance !== undefined) {
@@ -190,7 +220,7 @@ export class InjectorService extends Container {
     }
 
     if (token === Configuration) {
-      return this.settings as unknown as T;
+      return this.settings as unknown as Type;
     }
 
     instance = !options.rebuild ? this.getInstance(token) : undefined;
@@ -200,7 +230,7 @@ export class InjectorService extends Container {
     }
 
     if (token === DI_PARAM_OPTIONS) {
-      return {} as T;
+      return {} as Type;
     }
 
     const provider = this.ensureProvider(token);
@@ -553,13 +583,17 @@ export class InjectorService extends Container {
     return this.#hooks.asyncAlter(eventName, value, args);
   }
 
-  destroy() {
-    return this.emit("$onDestroy");
+  async destroy() {
+    await this.emit("$onDestroy");
+    globalInjector = undefined;
   }
 
   protected ensureProvider(token: TokenProvider, force: true): Provider;
+
   protected ensureProvider(token: TokenProvider, force: false): Provider | undefined;
+
   protected ensureProvider(token: TokenProvider): Provider | undefined;
+
   protected ensureProvider(token: TokenProvider, force = false): Provider | undefined {
     if (!this.hasProvider(token) && (GlobalProviders.has(token) || force)) {
       this.addProvider(token);
@@ -592,7 +626,7 @@ export class InjectorService extends Container {
   protected resolve<T>(
     target: TokenProvider,
     locals: LocalsContainer = new LocalsContainer(),
-    options: Partial<InvokeOptions<T>> = {}
+    options: Partial<InvokeOptions> = {}
   ): T | Promise<T> {
     const resolvedOpts = this.mapInvokeOptions(target, locals, options);
 
