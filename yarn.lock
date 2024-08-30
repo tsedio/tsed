@@ -8131,10 +8131,10 @@ __metadata:
     typescript: "npm:4.9.5"
   peerDependencies:
     "@testcontainers/mongodb": ">=10.11.0"
-    "@tsed/common": "workspace:*"
+    "@tsed/common": 7.81.0
     "@tsed/core": 7.81.0
-    "@tsed/di": "workspace:*"
-    "@tsed/mongoose": "workspace:*"
+    "@tsed/di": 7.81.0
+    "@tsed/mongoose": 7.81.0
     testcontainers: ">=10.11.0"
   languageName: unknown
   linkType: soft
