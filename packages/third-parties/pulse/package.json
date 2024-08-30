@@ -2,7 +2,7 @@
   "name": "@tsed/pulse",
   "description": "@pulsecron/pulse package for Ts.ED framework",
   "type": "commonjs",
-  "version": "7.81.1",
+  "version": "7.81.2",
   "source": "./src/index.ts",
   "main": "./lib/cjs/index.js",
   "module": "./lib/esm/index.js",
