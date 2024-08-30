@@ -54,6 +54,44 @@ describe("Security", () => {
       }
     });
   });
+  it("should store multiple security schemes (method)", () => {
+    class MyController {
+      @OperationPath("POST", "/")
+      @Security([{ "A": ["scope-1"] }, { "B": [], "C": ["scope-2", "scope-3"]}])
+      post() {}
+    }
+
+    expect(getSpec(MyController)).toEqual({
+      tags: [
+        {
+          name: "MyController"
+        }
+      ],
+      paths: {
+        "/": {
+          post: {
+            operationId: "myControllerPost",
+            parameters: [],
+            responses: {
+              "200": {
+                description: "Success"
+              }
+            },
+            security: [
+              {
+                A: ["scope-1"]
+              },
+              {
+                B: [],
+                C: ["scope-2", "scope-3"]
+              }
+            ],
+            tags: ["MyController"]
+          }
+        }
+      }
+    })
+  });
   it("should store metadata (class)", () => {
     @Security("oauth", "user")
     class MyController {
