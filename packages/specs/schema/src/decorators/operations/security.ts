@@ -1,5 +1,6 @@
 import {decorateMethodsOf, DecoratorTypes, UnsupportedDecoratorType} from "@tsed/core";
 import {JsonEntityFn} from "../common/jsonEntityFn.js";
+import {OpenSpecSecurity} from "@tsed/openspec";
 
 /**
  * Add security metadata on the decorated method.
@@ -23,14 +24,55 @@ import {JsonEntityFn} from "../common/jsonEntityFn.js";
  * @classDecorator
  * @operation
  */
-export function Security(name: string, ...scopes: string[]) {
+export function Security(name: string, ...scopes: string[]): Function;
+/**
+ * Add security metadata on the decorated method.
+ *
+ * You can use it to add multiple authentication types.
+ * See <https://swagger.io/docs/specification/authentication/#multiple>.
+ *
+ * ## Examples
+ * ### On method
+ *
+ * ```typescript
+ * @Controller("/")
+ * class ModelCtrl {
+ *    @Security([{ "A": ["scope-1"] }, { "B": [], "C": ["scope-2", "scope-3"]}])
+ *    async method() {}
+ * }
+ * ```
+ * this will add the following security metadata
+ * ```yaml
+ * security: # A OR (B AND C)
+ *   - A: ["scope-1"]
+ *   - B: []
+ *     C: ["scope-2", "scope-3"]
+ * ```
+ *
+ * @param security
+ * @decorator
+ * @swagger
+ * @schema
+ * @classDecorator
+ * @operation
+ */
+export function Security(security: OpenSpecSecurity): Function;
+export function Security(nameOrSecurity: string | OpenSpecSecurity, ...scopes: string[]): Function {
   return JsonEntityFn((store, args) => {
     switch (store.decoratorType) {
       case DecoratorTypes.METHOD:
-        store.operation!.addSecurityScopes(name, scopes);
+        if (Array.isArray(nameOrSecurity)) {
+          store.operation!.security(nameOrSecurity);
+        } else {
+          store.operation!.addSecurityScopes(nameOrSecurity, scopes);
+        }
         break;
       case DecoratorTypes.CLASS:
-        decorateMethodsOf(args[0], Security(name, ...scopes));
+        if (Array.isArray(nameOrSecurity)) {
+          decorateMethodsOf(args[0], Security(nameOrSecurity));
+        } else {
+          decorateMethodsOf(args[0], Security(nameOrSecurity, ...scopes));
+        }
         break;
 
       default:
