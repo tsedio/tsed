@@ -310,7 +310,8 @@ jobs:
           path: .
           pattern: vitest-config-*
           merge-multiple: true
-
+      - name: "Git status"
+        run: git status
       - name: Release packages
         env:
           CI: true
