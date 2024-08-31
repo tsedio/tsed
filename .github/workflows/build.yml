@@ -307,9 +307,7 @@ jobs:
       - name: Download Core vitest config files
         uses: actions/download-artifact@v4
         with:
-          path: .
           pattern: vitest-config-*
-          merge-multiple: true
       - name: "Git status"
         run: git status
       - name: Release packages
