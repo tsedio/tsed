@@ -2,7 +2,7 @@
   "name": "@tsed/platform-views",
   "description": "Views module for Ts.ED Framework",
   "type": "commonjs",
-  "version": "7.81.2",
+  "version": "7.82.0",
   "source": "./src/index.ts",
   "main": "./lib/cjs/index.js",
   "module": "./lib/esm/index.js",
@@ -41,11 +41,11 @@
     "vitest": "2.0.4"
   },
   "peerDependencies": {
-    "@tsed/core": "7.81.2",
-    "@tsed/di": "7.81.2",
-    "@tsed/engines": "7.81.2",
-    "@tsed/exceptions": "7.81.2",
-    "@tsed/schema": "7.81.2"
+    "@tsed/core": "7.82.0",
+    "@tsed/di": "7.82.0",
+    "@tsed/engines": "7.82.0",
+    "@tsed/exceptions": "7.82.0",
+    "@tsed/schema": "7.82.0"
   },
   "peerDependenciesMeta": {
     "@tsed/core": {
