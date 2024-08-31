@@ -1,0 +1,95 @@
+[
+  {
+    "title": "Romain Lenzotti",
+    "job": "Tech Lead Fullstack",
+    "src": "https://avatars3.githubusercontent.com/u/1763311?v=4",
+    "github": "Romakita",
+    "twitter": "RomainLenzotti",
+    "website": "https://tsed.io",
+    "country": "France",
+    "city": "Paris",
+    "role": "Framework Author"
+  },
+  {
+    "title": "Loriane Eymann",
+    "job": "Developer Fullstack",
+    "src": "https://avatars.githubusercontent.com/u/34451946?v=4",
+    "github": "LorianeE",
+    "country": "France",
+    "city": "Paris",
+    "role": "Framework"
+  },
+  {
+    "title": "Camfou",
+    "job": "Tech lead Fullstack",
+    "src": "https://avatars.githubusercontent.com/u/282491?v=4",
+    "github": "Camfou",
+    "country": "France",
+    "city": "Paris",
+    "role": "Framework - OIDC expert"
+  },
+  {
+    "title": "Artem Derevnjuk",
+    "job": "Developer",
+    "src": "https://avatars.githubusercontent.com/u/38690835?v=4",
+    "github": "derevnjuk",
+    "country": "USA",
+    "city": "NoWhere",
+    "role": "Framework - Mikro ORM expert"
+  },
+  {
+    "title": "Nino Bergen",
+    "job": "Developer Fullstack",
+    "src": "https://avatars.githubusercontent.com/u/39458340?v=4",
+    "github": "xCryzed",
+    "country": "Germany",
+    "city": "Aachen",
+    "role": "Framework - Keycloak expert"
+  },
+  {
+    "title": "Emilien Leroy",
+    "job": "Developer Fullstack",
+    "src": "https://avatars.githubusercontent.com/u/31723722?v=4",
+    "github": "EmilienLeroy",
+    "country": "France",
+    "city": "NoWhere",
+    "role": "Contributor"
+  },
+  {
+    "title": "Oliver Christen",
+    "job": "Developer",
+    "src": "https://avatars.githubusercontent.com/u/25102041?v=4",
+    "github": "ochrstn",
+    "country": "Germany",
+    "city": "NoWhere",
+    "role": "Contributor"
+  },
+  {
+    "title": "Ralph Khreish",
+    "job": "Developer Fullstack",
+    "src": "https://avatars.githubusercontent.com/u/35776126?v=4",
+    "github": "Crunchyman-ralph",
+    "twitter": "RalphEcom",
+    "country": "France",
+    "city": "Paris",
+    "role": "Contributor"
+  },
+  {
+    "title": "Abenet Tamiru",
+    "job": "Developer",
+    "src": "https://avatars.githubusercontent.com/u/7523903?v=4",
+    "github": "abenerd",
+    "country": "",
+    "city": "NoWhere",
+    "role": "Contributor"
+  },
+  {
+    "title": "Abenet Tamiru",
+    "job": "Developer",
+    "src": "https://avatars.githubusercontent.com/u/20899975?v=4",
+    "github": "EinfachHans",
+    "country": "Germany",
+    "city": "Cologne",
+    "role": "Contributor"
+  }
+]

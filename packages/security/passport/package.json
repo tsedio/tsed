@@ -2,7 +2,7 @@
   "name": "@tsed/passport",
   "description": "Passport package for Ts.ED framework",
   "type": "commonjs",
-  "version": "7.82.0",
+  "version": "7.82.1",
   "source": "./src/index.ts",
   "main": "./lib/cjs/index.js",
   "module": "./lib/esm/index.js",
@@ -47,7 +47,7 @@
     "vitest": "2.0.4"
   },
   "peerDependencies": {
-    "@tsed/common": "7.82.0",
+    "@tsed/common": "7.82.1",
     "passport": ">=0.4.1"
   },
   "peerDependenciesMeta": {
