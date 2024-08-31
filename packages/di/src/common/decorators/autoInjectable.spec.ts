@@ -115,6 +115,22 @@ describe("AutoInjectable", () => {
 
       new Test("test");
     });
+    it("should return a class that extends the original class (with 3 arguments)", () => {
+      @AutoInjectable()
+      class Test {
+        constructor(
+          public items: string[],
+          public group: string,
+          @Inject() logger?: Logger
+        ) {
+          expect(items).toEqual(["item1", "item2", "item3"]);
+          expect(group).toBe("group");
+          expect(logger).toBeInstanceOf(Logger);
+        }
+      }
+
+      new Test(["item1", "item2", "item3"], "group");
+    });
   });
   describe("when the instance is created outside of an injection context", () => {
     it("should throw an error", () => {

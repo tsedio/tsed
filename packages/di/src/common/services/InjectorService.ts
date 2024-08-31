@@ -94,7 +94,7 @@ export class InjectorService extends Container {
 
     for (let i = 0; i < length; i++) {
       if (args[i] !== undefined) {
-        list.push(args);
+        list.push(args[i]);
       } else {
         const value = deps[i];
 
