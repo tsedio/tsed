@@ -7,7 +7,7 @@ export interface ResolvedInvokeOptions {
   parent?: TokenProvider;
   scope: ProviderScope;
   deps: TokenProvider[];
-  imports: TokenProvider[];
+  imports: (TokenProvider | [TokenProvider])[];
   provider: Provider;
 
   construct(deps: TokenProvider[]): any;

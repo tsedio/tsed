@@ -1,5 +1,5 @@
 import {Store} from "@tsed/core";
-import {INJECTABLE_PROP} from "../constants/constants.js";
+import {DI_USE_OPTIONS} from "../constants/constants.js";
 import {Configuration} from "../decorators/configuration.js";
 import {Inject} from "../decorators/inject.js";
 import {Injectable} from "../decorators/injectable.js";
@@ -423,7 +423,7 @@ describe("InjectorService", () => {
 
         const provider3 = new Provider<any>(token3);
         provider3.scope = ProviderScope.SINGLETON;
-        provider3.deps = [undefined];
+        provider3.deps = [undefined] as never;
 
         const injector = new InjectorService();
         injector.set(token2, provider2);
@@ -439,7 +439,7 @@ describe("InjectorService", () => {
 
         // THEN
         expect(actualError.message).toContain(
-          "Injection failed on Test\nOrigin: Unable to inject dependency. Given token is undefined. Have you enabled emitDecoratorMetadata in your tsconfig.json or decorated your class with @Injectable, @Service, ... decorator ?"
+          "Injection failed on Test\nOrigin: Unable to inject dependency. Given token is undefined. Could mean a circular dependency problem. Try to use @Inject(() => Token) to solve it."
         );
       });
       it("should throw InjectionError > Object", () => {
@@ -599,173 +599,6 @@ describe("InjectorService", () => {
       await injector.loadModule(RootModule);
 
       expect(injector.get(RootModule)).toBeInstanceOf(RootModule);
-    });
-  });
-
-  describe("bindInjectableProperties()", () => {
-    class TestBind {}
-
-    it("should bind all properties", () => {
-      // GIVEN
-      const injector = new InjectorService();
-      const instance = new TestBind();
-
-      vi.spyOn(injector as any, "bindProperty").mockReturnValue(undefined);
-      vi.spyOn(injector as any, "bindConstant").mockReturnValue(undefined);
-      vi.spyOn(injector as any, "bindValue").mockReturnValue(undefined);
-      vi.spyOn(injector as any, "bindInterceptor").mockReturnValue(undefined);
-
-      const injectableProperties = {
-        testMethod: {
-          bindingType: "method"
-        },
-        testProp: {
-          bindingType: "property"
-        },
-        testConst: {
-          bindingType: "constant"
-        },
-        testValue: {
-          bindingType: "value"
-        },
-        testInterceptor: {
-          bindingType: "interceptor"
-        }
-      };
-
-      Store.from(TestBind).set(INJECTABLE_PROP, injectableProperties);
-
-      // WHEN
-      injector.bindInjectableProperties(instance, new LocalsContainer(), {});
-
-      // THEN
-      expect(injector.bindProperty).toBeCalledWith(instance, injectableProperties.testProp, new LocalsContainer(), {});
-      expect(injector.bindConstant).toBeCalledWith(instance, injectableProperties.testConst);
-      expect(injector.bindValue).toBeCalledWith(instance, injectableProperties.testValue);
-      expect(injector.bindInterceptor).toBeCalledWith(instance, injectableProperties.testInterceptor);
-    });
-  });
-
-  describe("bindProperty()", () => {
-    it("should bind the method", () => {
-      // GIVEN
-      const injector = new InjectorService();
-      const instance = new Test();
-
-      // WHEN
-      injector.bindProperty(
-        instance,
-        {
-          bindingType: "property",
-          propertyKey: "prop",
-          resolver: (injector: InjectorService) => () => injector.get(InjectorService)
-        } as any,
-        new LocalsContainer(),
-        {}
-      );
-
-      // THEN
-      expect(instance.prop).toEqual(injector);
-    });
-  });
-
-  describe("bindValue()", () => {
-    it("should bind a property with a value (1)", () => {
-      // GIVEN
-      const injector = new InjectorService();
-      const instance = new Test();
-
-      // WHEN
-      injector.bindValue(instance, {propertyKey: "value", expression: "expression"} as any);
-
-      instance.value = "test";
-      // THEN
-      expect(instance.value).toEqual("test");
-    });
-
-    it("should bind a property with a value (2)", () => {
-      // GIVEN
-      const injector = new InjectorService();
-      const instance = new Test();
-
-      // WHEN
-      injector.bindValue(instance, {propertyKey: "value", expression: "UNKNOW", defaultValue: "test2"} as any);
-
-      // THEN
-      expect(instance.value).toEqual("test2");
-    });
-  });
-
-  describe("bindConstant()", () => {
-    it("should bind a property with a value (1)", () => {
-      // GIVEN
-      const injector = new InjectorService();
-      const instance = new Test();
-
-      injector.settings.set("expression", "constant");
-
-      // WHEN
-      injector.bindConstant(instance, {propertyKey: "constant", expression: "expression"} as any);
-
-      // THEN
-      expect(instance.constant).toEqual("constant");
-      // should be the same
-      expect(instance.constant).toEqual("constant");
-
-      let actualError: any;
-      try {
-        instance.constant = "test";
-      } catch (er) {
-        actualError = er;
-      }
-      expect(!!actualError).toEqual(true);
-    });
-
-    it("should bind a property with a value (2)", () => {
-      // GIVEN
-      const injector = new InjectorService();
-      const instance = new Test();
-
-      // WHEN
-      injector.bindConstant(instance, {propertyKey: "constant", expression: "UNKNOW", defaultValue: "test"} as any);
-
-      // THEN
-      expect(instance.constant).toEqual("test");
-    });
-  });
-
-  describe("bindInterceptor()", () => {
-    it("should bind the method with intercept", async () => {
-      // GIVEN
-      class InterceptorTest {
-        intercept(ctx: any) {
-          return ctx.next() + " intercepted";
-        }
-      }
-
-      const injector = new InjectorService();
-      const container = new Container();
-      container.addProvider(InterceptorTest);
-
-      await injector.load(container);
-
-      const instance = new Test();
-
-      vi.spyOn(injector, "get");
-
-      // WHEN
-      injector.bindInterceptor(instance, {
-        bindingType: "interceptor",
-        propertyKey: "test3",
-        useType: InterceptorTest
-      } as any);
-
-      const result = (instance as any).test3("test");
-
-      // THEN
-      expect(injector.get).toBeCalledWith(InterceptorTest);
-
-      expect(result).toEqual("test called  intercepted");
     });
   });
 

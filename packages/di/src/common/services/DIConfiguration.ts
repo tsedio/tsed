@@ -30,7 +30,7 @@ export class DIConfiguration {
   }
 
   get version() {
-    return this.get("version");
+    return this.get("version")!;
   }
 
   set version(v: string) {
@@ -38,7 +38,7 @@ export class DIConfiguration {
   }
 
   get rootDir() {
-    return this.get("rootDir");
+    return this.get("rootDir")!;
   }
 
   set rootDir(value: string) {
@@ -70,7 +70,7 @@ export class DIConfiguration {
   }
 
   get imports(): (TokenProvider | ImportTokenProviderOpts)[] {
-    return this.get("imports");
+    return this.get("imports")!;
   }
 
   set imports(imports: (TokenProvider | ImportTokenProviderOpts)[]) {
@@ -78,7 +78,7 @@ export class DIConfiguration {
   }
 
   get routes(): TokenRoute[] {
-    return this.get("routes");
+    return this.get("routes")!;
   }
 
   set routes(routes: TokenRoute[]) {
@@ -86,7 +86,7 @@ export class DIConfiguration {
   }
 
   get logger(): Partial<DILoggerOptions> {
-    return this.get("logger");
+    return this.get("logger")!;
   }
 
   set logger(value: Partial<DILoggerOptions>) {

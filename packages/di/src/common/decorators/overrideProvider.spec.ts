@@ -1,4 +1,5 @@
 import {Provider} from "../domain/Provider.js";
+import type {TokenProvider} from "../interfaces/TokenProvider.js";
 import {GlobalProviders} from "../registries/GlobalProviders.js";
 import {OverrideProvider} from "./overrideProvider.js";
 
@@ -14,7 +15,7 @@ describe("OverrideProvider", () => {
     // GIVEN
     const provider = new Provider(Test);
 
-    vi.mocked(GlobalProviders.get).mockImplementation((token: object) => {
+    vi.mocked(GlobalProviders.get).mockImplementation((token: TokenProvider) => {
       if (token === Test) {
         return provider;
       }
