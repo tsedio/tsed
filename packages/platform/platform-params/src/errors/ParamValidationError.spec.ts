@@ -19,7 +19,23 @@ describe("ParseExpressionError", () => {
     expect(error.name).toEqual("PARAM_VALIDATION_ERROR");
     expect(error.dataPath).toEqual("expression");
     expect(error.requestType).toEqual("name");
-    expect(JSON.parse(JSON.stringify(error))).toEqual({
+    expect({
+      name: error.name,
+      status: error.status,
+      headers: error.headers,
+      type: error.type,
+      message: error.message,
+      dataPath: error.dataPath,
+      requestType: error.requestType,
+      origin: {
+        name: error.origin.name,
+        status: error.origin.status,
+        headers: error.origin.headers,
+        type: error.origin.type,
+        message: error.origin.message,
+        errors: error.origin.errors
+      }
+    }).toEqual({
       dataPath: "expression",
       headers: {},
       name: "PARAM_VALIDATION_ERROR",

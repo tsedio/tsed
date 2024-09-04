@@ -3,7 +3,8 @@ import {Configuration, Constant, Inject, PlatformApplication} from "@tsed/common
 import "@tsed/graphql-ws";
 import "@tsed/passport";
 import "@tsed/typegraphql";
-import * as fs from "fs";
+import * as fs from "node:fs";
+import {join} from "node:path";
 import {buildContext} from "graphql-passport";
 import {resolve} from "path";
 import {HelloController} from "./controllers/HelloController.js";
@@ -15,14 +16,14 @@ import "./services/RecipeService";
 import "./services/UsersRepository";
 
 const rootDir = __dirname; // automatically replaced by import.meta.dirname on build
-
+const rootCert = join(rootDir, "../..");
 @Configuration({
   rootDir,
   port: 8001,
   httpsPort: 8082,
   httpsOptions: {
-    key: fs.readFileSync("selfsigned.key"),
-    cert: fs.readFileSync("selfsigned.crt")
+    key: fs.readFileSync(join(rootCert, "selfsigned.key")),
+    cert: fs.readFileSync(join(rootCert, "selfsigned.crt"))
   },
   logger: {
     level: "info",

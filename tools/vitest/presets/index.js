@@ -32,7 +32,12 @@ export const presets = defineConfig({
     swc.vite({
       //tsconfigFile: "./tsconfig.spec.json",
       // Explicitly set the module type to avoid inheriting this value from a `.swcrc` config file
-      module: {type: "es6"}
+      module: {type: "es6"},
+      jsc: {
+        transform: {
+          useDefineForClassFields: false
+        }
+      }
     })
   ]
 });

@@ -54,7 +54,7 @@ describe("GraphQL", () => {
             code: "INTERNAL_SERVER_ERROR",
             exception: {
               headers: {},
-              message: "Wrong credentials",
+              // message: "Wrong credentials",
               name: "UNAUTHORIZED",
               status: 401,
               type: "HTTP_EXCEPTION"

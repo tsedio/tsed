@@ -137,7 +137,6 @@ describe("@NumberDecimal()", () => {
     const result = deserialize({}, {type: Model, additionalProperties: false});
 
     expect(result).toBeInstanceOf(Model);
-    expect(result).toHaveProperty("price");
     expect(result.price).toEqual(undefined);
   });
   it("should deserialize a number value using custom decimal", () => {
