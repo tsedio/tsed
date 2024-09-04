@@ -6568,6 +6568,7 @@ __metadata:
     eslint: "npm:^8.57.0"
     tslib: "npm:2.6.2"
     typescript: "npm:4.9.5"
+    uuid: "npm:9.0.1"
     vitest: "npm:2.0.4"
     webpack: "npm:^5.75.0"
   peerDependencies:

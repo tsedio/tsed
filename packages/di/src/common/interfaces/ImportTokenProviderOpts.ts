@@ -1,4 +1,4 @@
-import type {Type} from "@tsed/core";
+import type {AbstractType, Type} from "@tsed/core";
 import type {TokenProvider} from "./TokenProvider.js";
 
 export type UseImportTokenProviderOpts = {
@@ -8,7 +8,7 @@ export type UseImportTokenProviderOpts = {
 
 export type UseClassImportTokenProviderOpts = {
   token: TokenProvider;
-  useClass: Type | Function;
+  useClass: Type | AbstractType<any>;
 };
 
 export type UseFactoryImportTokenProviderOpts = {

@@ -1,51 +1,106 @@
-import {Store} from "@tsed/core";
-import {INJECTABLE_PROP} from "../constants/constants.js";
-import {InjectablePropertyType} from "../domain/InjectablePropertyType.js";
+import {catchError} from "@tsed/core";
+import {DITest} from "../../node/index.js";
 import {InterceptorContext} from "../interfaces/InterceptorContext.js";
 import {InterceptorMethods} from "../interfaces/InterceptorMethods.js";
-import {Intercept} from "./intercept.js";
+import {InjectorService} from "../services/InjectorService.js";
+import {getInterceptorOptions, Intercept} from "./intercept.js";
+import {Interceptor} from "./interceptor.js";
+import {Service} from "./service.js";
+
+@Interceptor()
+class MyInterceptor implements InterceptorMethods {
+  constructor(injSrv: InjectorService) {
+    // do some logic
+  }
+
+  intercept(context: InterceptorContext<any>) {
+    const r = typeof context.args[0] === "string" ? undefined : new Error(`Error message`);
+    const retValue = context.next(r);
+
+    return `${retValue} - ${context.options || ""} - intercepted`;
+  }
+}
+
+@Service()
+class ServiceTest {
+  @Intercept(MyInterceptor, "options data")
+  exec(param: string) {
+    return `Original data - ${param}`;
+  }
+}
+
+@Service()
+@Intercept(MyInterceptor, "options data")
+class ServiceTest2 {
+  exec(param: string) {
+    return `Original data - ${param}`;
+  }
+}
 
 describe("@Intercept", () => {
-  it("should add interceptor on method", () => {
-    // GIVEN
-    class TestInterceptor implements InterceptorMethods {
-      intercept(ctx: InterceptorContext<any>) {
-        return "";
-      }
-    }
+  beforeEach(() => DITest.create());
+  afterEach(() => DITest.reset());
 
-    // WHEN
-    class TestService {
-      @Intercept(TestInterceptor, {options: "options"})
-      test() {}
-    }
+  describe("when the decorator is used on a method", () => {
+    it("should intercept the method", async () => {
+      // GIVEN
+      const serviceTest = await DITest.invoke<ServiceTest>(ServiceTest)!;
 
-    // THEN
-    const injectableProperties = Store.from(TestService).get(INJECTABLE_PROP);
-    expect(injectableProperties.test.bindingType).toEqual(InjectablePropertyType.INTERCEPTOR);
-    expect(injectableProperties.test.useType).toEqual(TestInterceptor);
-    expect(injectableProperties.test.options).toEqual({options: "options"});
-    expect(injectableProperties.test.propertyKey).toEqual("test");
+      // WHEN
+      const result = serviceTest.exec("param data");
+
+      expect(getInterceptorOptions(ServiceTest, "exec")).toEqual("options data");
+
+      // THEN
+      expect(result).toEqual("Original data - param data - options data - intercepted");
+    });
+    it("should intercept the method and mock interceptor", async () => {
+      // GIVEN
+      const serviceTest = await DITest.invoke<ServiceTest>(ServiceTest, [
+        {
+          token: MyInterceptor,
+          use: {
+            intercept: vi.fn().mockReturnValue("intercepted")
+          }
+        }
+      ]);
+
+      // WHEN
+      const result = serviceTest.exec("param data");
+
+      // THEN
+      expect(result).toEqual("intercepted");
+    });
+    it("should intercept the method and throw error", async () => {
+      // GIVEN
+      const serviceTest = await DITest.invoke<ServiceTest>(ServiceTest)!;
+
+      // WHEN
+      let actualError = catchError(() => serviceTest.exec({} as any));
+
+      // THEN
+      expect(actualError?.message).toEqual("Error message");
+    });
   });
-  it("should add interceptor on class and decorate all methods", () => {
-    // GIVEN
-    class TestInterceptor implements InterceptorMethods {
-      intercept(ctx: InterceptorContext<any>) {
-        return "";
-      }
-    }
+  describe("when the decorator is used on a class", () => {
+    it("should intercept the method", async () => {
+      // GIVEN
+      const serviceTest = await DITest.invoke<ServiceTest2>(ServiceTest2)!;
 
-    // WHEN
-    @Intercept(TestInterceptor, {options: "options"})
-    class TestService {
-      test2() {}
-    }
+      // WHEN
+      const result = serviceTest.exec("param data");
 
-    // THEN
-    const injectableProperties = Store.from(TestService).get(INJECTABLE_PROP);
-    expect(injectableProperties.test2.bindingType).toEqual(InjectablePropertyType.INTERCEPTOR);
-    expect(injectableProperties.test2.useType).toEqual(TestInterceptor);
-    expect(injectableProperties.test2.options).toEqual({options: "options"});
-    expect(injectableProperties.test2.propertyKey).toEqual("test2");
+      // THEN
+      expect(result).toEqual("Original data - param data - options data - intercepted");
+    });
+    it("should intercept the method and throw error", async () => {
+      // GIVEN
+      const serviceTest = await DITest.invoke<ServiceTest2>(ServiceTest2)!;
+
+      // WHEN
+      let actualError = catchError(() => serviceTest.exec({} as any));
+      // THEN
+      expect(actualError?.message).toEqual("Error message");
+    });
   });
 });

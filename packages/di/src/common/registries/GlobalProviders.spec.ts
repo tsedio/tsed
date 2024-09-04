@@ -1,3 +1,5 @@
+import {s} from "vite/dist/node/types.d-aGj9QkWt.js";
+import {a} from "vitest/dist/suite-CRLAhsm0.js";
 import {LocalsContainer} from "../domain/LocalsContainer.js";
 import {Provider} from "../domain/Provider.js";
 import {ProviderType} from "../domain/ProviderType.js";
@@ -45,7 +47,7 @@ describe("GlobalProviderRegistry", () => {
       const provider = new Provider("token");
       provider.type = ProviderType.PROVIDER;
       // WHEN
-      const settings = providers.getRegistrySettings(provider);
+      const settings = providers.getRegistrySettings(provider as never);
 
       // THEN
       expect(settings).toEqual({

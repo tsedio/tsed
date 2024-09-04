@@ -6,7 +6,7 @@ export interface InterceptorNext {
 
 export interface InterceptorContext<Klass = Type, Opts = any> {
   target: Klass;
-  propertyKey: string;
+  propertyKey: string | symbol;
   args: any[];
   next: InterceptorNext;
   options?: Opts;

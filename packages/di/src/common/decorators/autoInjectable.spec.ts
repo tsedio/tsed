@@ -106,14 +106,15 @@ describe("AutoInjectable", () => {
         logger: Logger;
 
         private value: string;
+        instances?: InterfaceGroup[];
 
         constructor(initialValue: string, @Inject(TOKEN_GROUPS) instances?: InterfaceGroup[]) {
           this.value = initialValue;
-          expect(instances).toHaveLength(3);
+          this.instances = instances;
         }
       }
 
-      new Test("test");
+      expect(new Test("test").instances).toHaveLength(3);
     });
     it("should return a class that extends the original class (with 3 arguments)", () => {
       @AutoInjectable()
