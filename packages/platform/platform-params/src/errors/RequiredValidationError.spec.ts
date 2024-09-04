@@ -8,7 +8,25 @@ describe("RequiredValidationError", () => {
     } as any);
     expect(error.message).toEqual("It should have required parameter 'expression'");
     expect(error.name).toEqual("REQUIRED_VALIDATION_ERROR");
-    expect(JSON.parse(JSON.stringify(error))).toEqual({
+    expect({
+      name: error.name,
+      status: error.status,
+      headers: error.headers,
+      type: error.type,
+      message: error.message,
+      errors: [
+        {
+          dataPath: error.errors[0].dataPath,
+          keyword: error.errors[0].keyword,
+          message: error.errors[0].message,
+          modelName: error.errors[0].modelName,
+          params: {
+            missingProperty: error.errors[0].params.missingProperty
+          },
+          schemaPath: error.errors[0].schemaPath
+        }
+      ]
+    }).toEqual({
       name: "REQUIRED_VALIDATION_ERROR",
       status: 400,
       headers: {},

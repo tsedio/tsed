@@ -448,9 +448,12 @@ export class InjectorService extends Container {
 
     get = resolver(this, locals, {...invokeOptions, options});
 
+    catchError(() => Reflect.deleteProperty(instance, propertyKey));
     catchError(() =>
-      Object.defineProperty(instance, propertyKey, {
-        get
+      Reflect.defineProperty(instance, propertyKey, {
+        get,
+        enumerable: true,
+        configurable: true
       })
     );
   }
@@ -469,7 +472,8 @@ export class InjectorService extends Container {
       configurable: true
     };
 
-    catchError(() => Object.defineProperty(instance, propertyKey, descriptor));
+    catchError(() => Reflect.deleteProperty(instance, propertyKey));
+    catchError(() => Reflect.defineProperty(instance, propertyKey, descriptor));
   }
 
   /**
@@ -498,6 +502,7 @@ export class InjectorService extends Container {
       configurable: true
     };
 
+    catchError(() => Reflect.deleteProperty(instance, propertyKey));
     catchError(() => Object.defineProperty(instance, propertyKey, descriptor));
   }
 

@@ -2,7 +2,6 @@ import {Env, getValue, isClass, isPromise, setValue} from "@tsed/core";
 import {$log} from "@tsed/logger";
 import {
   createContainer,
-  type ImportTokenProviderOpts,
   InjectorService,
   LocalsContainer,
   OnInit,
@@ -103,11 +102,14 @@ export class DITest {
     const instance: OnInit = DITest.injector.invoke(target, locals, {rebuild: true});
 
     if (instance && instance.$onInit) {
-      // await instance.$onInit();
       const result = instance.$onInit();
 
       if (result instanceof Promise) {
-        return result.then(() => instance as any);
+        return result
+          .then(() => {
+            return;
+          })
+          .then(() => instance as any);
       }
     }
 

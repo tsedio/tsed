@@ -30,6 +30,7 @@ describe("AsyncFactory", () => {
     const service = DITest.get<MyService>(MyService);
 
     const result = service.me();
+
     expect(result).toEqual("id");
   });
 
@@ -44,6 +45,7 @@ describe("AsyncFactory", () => {
     const service = await DITest.invoke<MyService>(MyService, []);
 
     const result = service.me();
+
     expect(result).toEqual("id");
   });
 
