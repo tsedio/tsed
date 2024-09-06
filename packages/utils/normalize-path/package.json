@@ -2,7 +2,7 @@
   "name": "@tsed/normalize-path",
   "description": "Utils to normalize path",
   "type": "commonjs",
-  "version": "7.82.2",
+  "version": "7.82.3",
   "source": "./src/index.ts",
   "main": "./lib/cjs/index.js",
   "module": "./lib/esm/index.js",
