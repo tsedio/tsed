@@ -281,6 +281,30 @@ jobs:
             team.json
             packages/third-parties/*/vitest.config.mts
 
+  test-download-artifacts:
+    runs-on: ubuntu-latest
+    needs: [lint, test-core, test-specs, test-platform, test-integration, test-orm, test-security, test-graphql, test-third-parties]
+    if: github.event_name == 'pull_request'
+    strategy:
+      matrix:
+        node-version: [20.x]
+    steps:
+      - uses: actions/checkout@v3
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
+      - name: Download Core vitest config files
+        uses: actions/download-artifact@v4
+        with:
+          path: .
+          pattern: vitest-config-*
+          merge-multiple: true
+      - name: git status
+        run: git status
+      - name: ls
+        run: ls -la
+
   deploy-packages:
     runs-on: ubuntu-latest
     needs: [lint, test-core, test-specs, test-platform, test-integration, test-orm, test-security, test-graphql, test-third-parties]
