@@ -7118,8 +7118,6 @@ __metadata:
     typescript: "npm:4.9.5"
     vitest: "npm:2.0.4"
   peerDependencies:
-    "@apollo/datasource-http": ""
-    "@apollo/datasource-rest": ">=6.2.2"
     "@apollo/server": ">=4.10.4"
     "@tsed/common": 7.81.0-rc.1
     "@tsed/core": 7.81.0-rc.1
