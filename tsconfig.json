@@ -108,9 +108,6 @@
       "path": "./packages/orm/testcontainers-mongo/tsconfig.json"
     },
     {
-      "path": "./packages/orm/typeorm/tsconfig.json"
-    },
-    {
       "path": "./packages/platform/platform-cache/tsconfig.json"
     },
     {
@@ -184,9 +181,6 @@
     },
     {
       "path": "./packages/third-parties/vike/tsconfig.json"
-    },
-    {
-      "path": "./packages/third-parties/vite-ssr-plugin/tsconfig.json"
     },
     {
       "path": "./packages/third-parties/terminus/tsconfig.json"
