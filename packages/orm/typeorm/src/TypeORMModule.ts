@@ -44,9 +44,9 @@ registerProvider({
     {
       deps: [TypeORMModule],
       get(type, options: any) {
-        if (isRepository(type)) {
+        if (isRepository(type as any)) {
           try {
-            return getCustomRepository(type, options.connection || "default");
+            return getCustomRepository(type as any, options.connection || "default");
           } catch (er) {
             if (process.env.NODE_ENV !== "test") {
               throw er;

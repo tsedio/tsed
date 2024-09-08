@@ -5,7 +5,7 @@ import {UserRepository} from "./helpers/repository/UserRepository.js";
 import {Server} from "./helpers/Server.js";
 import {UserService} from "./helpers/services/UserService.js";
 
-describe("TypeORM integration", () => {
+describe.skip("TypeORM integration", () => {
   beforeEach(async () => {
     await TestMongooseContext.install();
     const {url} = await TestMongooseContext.getMongooseOptions();

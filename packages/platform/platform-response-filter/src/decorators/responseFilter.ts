@@ -8,7 +8,7 @@ import {registerResponseFilter, ResponseFilterKey} from "../domain/ResponseFilte
  * @decorator
  */
 export function ResponseFilter(...contentTypes: ResponseFilterKey[]): ClassDecorator {
-  return <T = any>(target: T): void | T => {
+  return (target: any) => {
     contentTypes.forEach((contentType) => {
       registerResponseFilter(contentType, target as any);
     });

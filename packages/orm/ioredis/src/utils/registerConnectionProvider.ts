@@ -56,7 +56,7 @@ export function registerConnectionProvider({provide, name = "default"}: CreateCo
           setValue(sentinelsOptions, "redisOptions.reconnectOnError", reconnectOnError);
 
           connection = new Redis({
-            name: sentinelName,
+            name: String(sentinelName),
             sentinels,
             ...sentinelsOptions,
             lazyConnect: true
