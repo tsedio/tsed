@@ -24,7 +24,7 @@
     "url": "https://github.com/tsedio/tsed.git"
   },
   "scripts": {
-    "postinstall": "node tools/yarn/postinstall.js && cd docs && yarn install && cd .. && node ./tools/github-sponsors/bin/github-sponsors.js",
+    "postinstall": "cd docs && yarn install && cd .. && node ./tools/github-sponsors/bin/github-sponsors.js",
     "configure": "monorepo ci configure",
     "clean": "monorepo clean workspace",
     "test": "vitest run",

@@ -99,9 +99,6 @@
       "path": "./packages/orm/prisma/tsconfig.json"
     },
     {
-      "path": "./packages/orm/testing-mongoose/tsconfig.json"
-    },
-    {
       "path": "./packages/orm/mikro-orm/tsconfig.json"
     },
     {
