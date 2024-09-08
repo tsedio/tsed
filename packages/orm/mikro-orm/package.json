@@ -2,7 +2,7 @@
   "name": "@tsed/mikro-orm",
   "description": "MikroORM package for Ts.ED framework",
   "type": "commonjs",
-  "version": "7.82.3",
+  "version": "8.0.0-alpha.1",
   "source": "./src/index.ts",
   "main": "./lib/cjs/index.js",
   "module": "./lib/esm/index.js",
@@ -45,9 +45,9 @@
   },
   "peerDependencies": {
     "@mikro-orm/core": ">=4.5.9",
-    "@tsed/common": "7.82.3",
-    "@tsed/core": "7.82.3",
-    "@tsed/di": "7.82.3",
+    "@tsed/common": "8.0.0-alpha.1",
+    "@tsed/core": "8.0.0-alpha.1",
+    "@tsed/di": "8.0.0-alpha.1",
     "@tsed/logger": ">=6.7.5"
   }
 }
