@@ -51,14 +51,7 @@ describe("TypeGraphQL", () => {
       errors: [
         {
           extensions: {
-            code: "INTERNAL_SERVER_ERROR",
-            exception: {
-              headers: {},
-              // message: "Wrong credentials",
-              name: "UNAUTHORIZED",
-              status: 401,
-              type: "HTTP_EXCEPTION"
-            }
+            code: "INTERNAL_SERVER_ERROR"
           },
           locations: [
             {

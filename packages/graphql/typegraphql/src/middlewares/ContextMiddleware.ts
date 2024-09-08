@@ -1,6 +1,7 @@
-import {getContext, PlatformContext, runInContext} from "@tsed/common";
+import {type DIContext, runInContext, useContext} from "@tsed/di";
 import {MiddlewareFn} from "type-graphql";
 
-export const ContextMiddleware: MiddlewareFn<{req: {$ctx: PlatformContext}}> = (_, next) => {
-  return runInContext(getContext(), next);
+export const ContextMiddleware: MiddlewareFn<{req: {$ctx: DIContext}}> = (action, next) => {
+  const $ctx = useContext(action.context?.req?.$ctx);
+  return runInContext($ctx, next);
 };

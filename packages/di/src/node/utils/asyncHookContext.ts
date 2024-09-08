@@ -12,9 +12,11 @@ export function useContextRef() {
   return getAsyncStore().getStore();
 }
 
-export function getContext<Context = DIContext>(): Context | undefined {
-  return useContextRef()?.current as any;
+export function useContext<Context = DIContext>(initialValue?: DIContext): Context | undefined {
+  return initialValue || (useContextRef()?.current as any);
 }
+
+export const getContext = useContext;
 
 export async function runInContext<Result = unknown>(
   ctx: DIContext | undefined,

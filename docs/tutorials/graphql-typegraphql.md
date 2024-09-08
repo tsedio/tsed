@@ -20,7 +20,7 @@ To begin, install the `@tsed/typegraphql` package:
 <Tab label="Express.js">
 
 ```bash
-npm install --save @tsed/apollo graphql type-graphql @apollo/server @apollo/datasource-rest
+npm install --save @tsed/apollo graphql type-graphql @apollo/server @apollo/datasource-rest graphql-scalars
 npm install --save-dev apollo-server-testing
 ```
 
@@ -28,7 +28,7 @@ npm install --save-dev apollo-server-testing
 <Tab label="Koa.js">
 
 ```bash
-npm install --save @tsed/apollo graphql type-graphql @apollo/server @as-integration/koa @apollo/datasource-rest
+npm install --save @tsed/apollo graphql type-graphql @apollo/server @as-integration/koa @apollo/datasource-rest graphql-scalars
 npm install --save-dev apollo-server-testing
 ```
 
@@ -37,8 +37,8 @@ npm install --save-dev apollo-server-testing
 
 Now, we can configure the Ts.ED server by importing `@tsed/typegraphql` in your Server:
 
-<Tabs class="-code">
-  <Tab label="Configuration" icon="bx-code-alt">
+[//]: # '<Tabs class="-code">'
+[//]: # '  <Tab label="Configuration" icon="bx-code-alt">'
 
 ```ts
 import {Configuration} from "@tsed/di";
@@ -70,18 +70,19 @@ import "./resolvers/index"; // barrel file with all resolvers
 export class Server {}
 ```
 
-  </Tab>
-  <Tab label="CodeSandbox" icon="bxl-codepen">
-
-<iframe src="https://codesandbox.io/embed/tsed-graphql-pgvfz?fontsize=14&hidenavigation=1&theme=dark"
-style="width:100%; height:500px; border:0; border-radius: 4px; overflow:hidden;"
-title="TsED Graphql"
-allow="accelerometer; ambient-light-sensor; camera; encrypted-media; geolocation; gyroscope; hid; microphone; midi;
-payment; usb; vr; xr-spatial-tracking"
-sandbox="allow-forms allow-modals allow-popups allow-presentation allow-same-origin allow-scripts"></iframe>
-
-   </Tab>
-</Tabs>
+[//]: #
+[//]: # "  </Tab>"
+[//]: # '  <Tab label="CodeSandbox" icon="bxl-codepen">'
+[//]: #
+[//]: # '<iframe src="https://codesandbox.io/embed/tsed-graphql-pgvfz?fontsize=14&hidenavigation=1&theme=dark"'
+[//]: # 'style="width:100%; height:500px; border:0; border-radius: 4px; overflow:hidden;"'
+[//]: # 'title="TsED Graphql"'
+[//]: # 'allow="accelerometer; ambient-light-sensor; camera; encrypted-media; geolocation; gyroscope; hid; microphone; midi;'
+[//]: # 'payment; usb; vr; xr-spatial-tracking"'
+[//]: # 'sandbox="allow-forms allow-modals allow-popups allow-presentation allow-same-origin allow-scripts"></iframe>'
+[//]: #
+[//]: # "   </Tab>"
+[//]: # "</Tabs>"
 
 ## Types
 

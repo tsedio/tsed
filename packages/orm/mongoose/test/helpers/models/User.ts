@@ -1,7 +1,5 @@
 import {Model, MongooseNextCB, ObjectID, PostHook, PreHook, Ref, Schema, Unique} from "@tsed/mongoose";
 import {CollectionOf, Groups, Ignore, MinLength, Property, Required} from "@tsed/schema";
-import next from "ajv/dist/vocabularies/next";
-import {options} from "superagent";
 
 export class BaseModel {
   @ObjectID("id")
