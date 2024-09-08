@@ -1,5 +1,5 @@
 import {AfterListen, Logger, OnRoutesInit} from "@tsed/common";
-import {Configuration, Inject, Module} from "@tsed/di";
+import {Configuration, Inject, Module, InjectorService} from "@tsed/di";
 import {ApolloSettings} from "./interfaces/ApolloSettings.js";
 import {ApolloService} from "./services/ApolloService.js";
 
@@ -14,19 +14,24 @@ export class ApolloModule implements OnRoutesInit, AfterListen {
   @Configuration()
   protected configuration: Configuration;
 
+  @Inject(InjectorService)
+  protected injector: InjectorService;
+
   get settings(): {[key: string]: ApolloSettings} | undefined {
-    return this.configuration.get("apollo");
+    return this.configuration.get("apollo", this.configuration.get("graphql", this.configuration.get("typegraphql")));
   }
 
-  $onRoutesInit(): Promise<any> | void {
-    const {settings} = this;
+  async $onRoutesInit(): Promise<void> {
+    const {settings, injector} = this;
 
     if (settings) {
-      const promises = Object.entries(settings).map(([key, options]) => {
-        return this.service.createServer(key, options);
+      const promises = Object.entries(settings).map(async ([id, options]) => {
+        options = await injector.alterAsync("$alterApolloSettings", {id, ...options});
+
+        return this.service.createServer(id, options);
       });
 
-      return Promise.all(promises);
+      await Promise.all(promises);
     }
   }
 
@@ -36,7 +41,7 @@ export class ApolloModule implements OnRoutesInit, AfterListen {
     const displayLog = (key: string, path: string) => {
       const url = typeof host.port === "number" ? `${host.protocol}://${host.address}:${host.port}` : "";
 
-      this.logger.info(`[${key}] Apollo server is available on ${url}${path.replace(/^\//, "")}`);
+      this.logger.info(`[${key}] Apollo server is available on ${url}/${path.replace(/^\//, "")}`);
     };
 
     const {settings} = this;

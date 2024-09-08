@@ -43,7 +43,7 @@ yarn add @tsed/graphql-ws graphql-ws
 import {Configuration} from "@tsed/common";
 import "@tsed/platform-express";
 import "@tsed/apollo";
-import "@tsed/graphql-ws";
+import "@tsed/graphql-ws"; // auto import plugin for @tsed/apollo
 import {join} from "path";
 
 @Configuration({
@@ -82,124 +82,49 @@ import {join} from "path";
 export class Server {}
 ```
 
-## Register plugins
+## The PubSub class
 
-You can register plugins with the `plugins` property. The plugins are executed in the order of declaration.
-
-```typescript
-import {Configuration} from "@tsed/common";
-import "@tsed/platform-express";
-import "@tsed/apollo";
-import {join} from "path";
-
-@Configuration({
-  apollo: {
-    server1: {
-      plugins: [] // Apollo plugins
-    }
-  }
-})
-export class Server {}
-```
-
-But if you need to register and access to the injector, you can use the `$alterApolloServerPlugins` hook. For example,
-you can register the `graphql-ws` necessary to support the `subscription` feature of GraphQL like this:
-
-```typescript
-import {Constant, Inject, InjectorService, Module} from "@tsed/di";
-import {useServer} from "graphql-ws/lib/use/ws";
-import Http from "http";
-import Https from "https";
-import {WebSocketServer} from "ws";
-import {GraphQLWSOptions} from "./GraphQLWSOptions";
-
-@Module()
-export class GraphQLWSModule {
-  @Constant("graphqlWs", {})
-  private settings: GraphQLWSOptions;
-
-  @Inject(Http.Server)
-  private httpServer: Http.Server | null;
-
-  @Inject(Https.Server)
-  private httpsServer: Https.Server | null;
-
-  @Inject()
-  private injector: InjectorService;
-
-  createWSServer(settings: GraphQLWSOptions) {
-    const wsServer = new WebSocketServer({
-      ...(this.settings.wsServerOptions || {}),
-      ...settings.wsServerOptions,
-      server: this.httpsServer || this.httpServer!,
-      path: settings.path
-    });
-
-    return useServer(
-      {
-        ...(this.settings.wsUseServerOptions || {}),
-        ...settings.wsUseServerOptions,
-        schema: settings.schema
-      },
-      wsServer
-    );
-  }
-
-  async $alterApolloServerPlugins(plugins: any[], settings: GraphQLWSOptions) {
-    const wsServer = await this.createWSServer(settings);
-
-    this.injector.logger.info(`Create GraphQL WS server on: ${settings.path}`);
-
-    return plugins.concat({
-      serverWillStart() {
-        return {
-          async drainServer() {
-            await wsServer.dispose();
-          }
-        };
-      }
-    } as any);
-  }
-}
-```
-
-::: tip Note
-Ts.ED provide a `@tsed/graphql-ws` package to support the `subscription` feature of GraphQL. See [here](https://tsed.io/api/graphql-ws.html) for more details.
+::: warning
+The PubSub class is not recommended for production environments, because it's an in-memory event system that only supports a single server instance. After you get subscriptions working in development, we strongly recommend switching it out for a different subclass of the abstract [PubSubEngine](https://github.com/apollographql/graphql-subscriptions/blob/master/src/pubsub-engine.ts)
+class. Recommended subclasses are listed in [Production PubSub libraries](https://www.apollographql.com/docs/apollo-server/data/subscriptions/#production-pubsub-libraries).
 :::
 
-## Nexus
+You can use the publish-subscribe (pub/sub) model to track events that update active subscriptions.
+The graphql-subscriptions library provides the PubSub class as a basic in-memory event bus to help you get started:
 
-### Installation
+To use the graphql-subscriptions package, first install it like so:
 
-<Tabs class="-code">
-<Tab label="Express.js">
-
-```bash
-npm install --save @tsed/apollo
-npm install --save nexus graphql apollo-server-express
-npm install --save-dev apollo-server-testing
+```shell
+npm install graphql-subscriptions
 ```
 
-</Tab>
-<Tab label="Koa.js">
+A `PubSub` instance enables your server code to both `publish` events to a particular label and listen for events associated with a particular label.
+We can create a `PubSub` instance like so:
 
-```bash
-npm install --save @tsed/apollo graphql
-npm install --save nexus graphql apollo-server-koa
-npm install --save-dev apollo-server-testing
+```typescript
+import {PubSub} from "graphql-subscriptions";
+import {registerProvider} from "@tsed/di";
+
+export const pubsub = new PubSub();
+export const PubSubProvider = Symbol.for("PubSubProvider");
+export type PubSubProvider = PubSub;
+
+registerProvider({provide: PubSub, useValue: pubsub});
 ```
 
-</Tab>
-</Tabs>
+Depending on the schema resolver (nexus, type-graphql, etc.), you can use the `pubsub` instance to publish events and subscribe to them in your resolvers.
 
-Now, we can configure the Ts.ED server by importing `@tsed/apollo` in your Server:
+::: warning
+To use the subscription feature with TypeGraphQL, you have to give pubsub instance to the buildSchemaOptions:
 
 ```typescript
 import {Configuration} from "@tsed/common";
 import "@tsed/platform-express";
 import "@tsed/apollo";
-import {schema} from "./schema";
+import "@tsed/typegraphql";
+import "@tsed/graphql-ws"; // auto import plugin for @tsed/apollo
 import {join} from "path";
+import {pubsub} from "./pubsub/pubsub";
 
 @Configuration({
   apollo: {
@@ -207,211 +132,83 @@ import {join} from "path";
       // GraphQL server configuration
       path: "/",
       playground: true, // enable playground GraphQL IDE. Set false to use Apollo Studio
-      schema,
-      plugins: [] // Apollo plugins
-
-      // Give custom server instance
-      // server?: (config: Config) => ApolloServer;
-
-      // ApolloServer options
-      // ...
-      // See options descriptions on https://www.apollographql.com/docs/apollo-server/api/apollo-server.html
+      plugins: [], // Apollo plugins
+      buildSchemaOptions: {
+        pubsub
+      }
+    }
+  },
+  graphqlWs: {
+    // global options
+    wsServerOptions: {
+      // See options descriptions on
+    },
+    wsUseServerOptions: {
+      // See options descriptions on
     }
   }
 })
 export class Server {}
 ```
 
-Then create `schema/index.ts`:
+Here is a simple example of how to use the `pubsub` instance in a resolver using the `type-graphql` library:
 
 ```typescript
-import {makeSchema} from "nexus";
-import {join} from "path";
+import {InjectContext, PlatformContext} from "@tsed/common";
+import {Inject} from "@tsed/di";
+import {ResolverController} from "@tsed/typegraphql";
+import {Arg, Mutation, Query, Root, Subscription} from "type-graphql";
+import {RecipeService} from "../../services/RecipeService";
+import {PubSubProvider} from "../pubsub/pubsub.js";
+import {Recipe, RecipeNotification} from "./Recipe";
+import {RecipeNotFoundError} from "./RecipeNotFoundError";
 
-export const schema = makeSchema({
-  types: [], // 1
-  outputs: {
-    typegen: join(process.cwd(), "..", "..", "nexus-typegen.ts"), // 2
-    schema: join(process.cwd(), "..", "..", "schema.graphql") // 3
-  }
-});
-```
+@ResolverController((_of) => Recipe)
+export class RecipeResolver {
+  @InjectContext()
+  private $ctx: PlatformContext;
 
-## TypeGraphQL
+  @Inject()
+  private recipeService: RecipeService;
 
-### Installation
+  @Inject(PubSubProvider)
+  private pubSub: PubSubProvider;
 
-To begin, install the `@tsed/typegraphql` package:
+  @Query((returns) => Recipe)
+  async recipe(@Arg("id") id: string) {
+    const recipe = await this.recipeService.findById(id);
 
-<Tabs class="-code">
-<Tab label="Express.js">
-
-```bash
-npm install --save @tsed/typegraphql graphql apollo-server-express
-npm install --save type-graphql apollo-datasource apollo-datasource-rest
-npm install --save-dev apollo-server-testing
-```
-
-</Tab>
-<Tab label="Koa.js">
-
-```bash
-npm install --save @tsed/typegraphql graphql apollo-server-koa
-npm install --save type-graphql apollo-datasource apollo-datasource-rest
-npm install --save-dev apollo-server-testing
-```
-
-</Tab>
-</Tabs>
-
-Now, we can configure the Ts.ED server by importing `@tsed/typegraphql` in your Server:
-
-<Tabs class="-code">
-  <Tab label="Configuration" icon="bx-code-alt">
-
-<<< @/tutorials/snippets/graphql/server-configuration.ts
-
-  </Tab>
-  <Tab label="CodeSandbox" icon="bxl-codepen">
-
-<iframe src="https://codesandbox.io/embed/tsed-graphql-pgvfz?fontsize=14&hidenavigation=1&theme=dark"
-style="width:100%; height:500px; border:0; border-radius: 4px; overflow:hidden;"
-title="TsED Graphql"
-allow="accelerometer; ambient-light-sensor; camera; encrypted-media; geolocation; gyroscope; hid; microphone; midi;
-payment; usb; vr; xr-spatial-tracking"
-sandbox="allow-forms allow-modals allow-popups allow-presentation allow-same-origin allow-scripts"></iframe>
-
-   </Tab>
-</Tabs>
-
-### Types
-
-We want to get the equivalent of this type described in SDL:
-
-```
-type Recipe {
-  id: ID!
-  title: String!
-  description: String
-  creationDate: Date!
-  ingredients: [String!]!
-}
-```
-
-So we create the Recipe class with all properties and types:
-
-```typescript
-class Recipe {
-  id: string;
-  title: string;
-  description?: string;
-  creationDate: Date;
-  ingredients: string[];
-}
-```
-
-Then we decorate the class and its properties with decorators:
-
-<<< @/tutorials/snippets/graphql/recipe-type.ts
-
-The detailed rules for when to use nullable, array and others are described
-in [fields and types docs](https://typegraphql.com/docs/types-and-fields.html).
-
-### Resolvers
-
-After that we want to create typical crud queries and mutation. To do that we create the resolver (controller) class
-that will have injected RecipeService in the constructor:
-
-<<< @/tutorials/snippets/graphql/resolver-service.ts
-
-#### Multiple GraphQL server
-
-If you register multiple GraphQL servers, you must specify the server id in the `@ResolverController` decorator.
-
-```typescript
-@ResolverController(Recipe, {id: "server1"})
-```
-
-Another solution is to not use `@ResolverController` (use `@Resolver` from TypeGraphQL), and declare explicitly the resolver in the server configuration:
-
-```typescript
-@Configuration({
-  graphql: {
-    server1: {
-      resolvers: {
-        RecipeResolver
-      }
-    },
-    server2: {
-      resolvers: {
-        OtherResolver
-      }
+    if (recipe === undefined) {
+      throw new RecipeNotFoundError(id);
     }
+
+    return recipe;
   }
-})
+
+  @Query((returns) => [Recipe], {description: "Get all the recipes from around the world "})
+  recipes(): Promise<Recipe[]> {
+    this.$ctx.set("test", "test");
+    return this.recipeService.findAll({});
+  }
+
+  @Mutation((returns) => Recipe)
+  async addRecipe(@Arg("title") title: string, @Arg("description") description: string) {
+    const payload = await this.recipeService.create({title, description});
+    const notification = new RecipeNotification(payload);
+
+    this.pubSub.publish("NOTIFICATIONS", notification);
+
+    return payload;
+  }
+
+  @Subscription(() => RecipeNotification, {
+    topics: "RECIPE_ADDED"
+  })
+  newRecipe(@Root() payload: Recipe): RecipeNotification {
+    return {...payload, date: new Date()};
+  }
+}
 ```
-
-### Data Source
-
-Data source is one of the Apollo server features which can be used as option for your Resolver or Query. Ts.ED provides
-a @@DataSourceService@@ decorator to declare a DataSource which will be injected to the Apollo server context.
-
-<<< @/tutorials/snippets/graphql/datasource-service.ts
-
-Then you can retrieve your data source through the context in your resolver like that:
-
-<<< @/tutorials/snippets/graphql/resolver-data-source.ts
-
-## Get Server instance
-
-ApolloService (or TypeGraphQLService) lets you to retrieve an instance of ApolloServer.
-
-<<< @/tutorials/snippets/graphql/get-server-instance.ts
-
-For more information about ApolloServer, look at its
-documentation [here](https://www.apollographql.com/docs/apollo-server/api/apollo-server.html);
-
-## Testing
-
-Here is an example to create a test server based on TypeGraphQL and run a query:
-
-::: tip
-
-The unit example is also available to test any Apollo Server!
-:::
-
-<Tabs class="-code">
-  <Tab label="Jest">
-
-<<< @/tutorials/snippets/graphql/testing.jest.ts
-
-  </Tab>
-  <Tab label="Mocha">
-
-<<< @/tutorials/snippets/graphql/testing.mocha.ts
-
-  </Tab>  
-  <Tab label="RecipeResolver.ts">
-
-<<< @/tutorials/snippets/graphql/resolver-service.ts
-
-  </Tab>   
-  <Tab label="RecipesService.ts">
-
-<<< @/tutorials/snippets/graphql/recipes-service.ts
-
-  </Tab>
-  <Tab label="Recipe.ts">
-
-<<< @/tutorials/snippets/graphql/recipe-type.ts
-
-  </Tab>  
-  <Tab label="RecipeArgs.ts">
-
-<<< @/tutorials/snippets/graphql/recipe-args.ts
-
-  </Tab>      
-</Tabs>
 
 ## Author
 
