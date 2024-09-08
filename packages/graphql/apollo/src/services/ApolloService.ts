@@ -3,7 +3,7 @@ import {ApolloServerPluginLandingPageDisabled} from "@apollo/server/plugin/disab
 import {ApolloServerPluginDrainHttpServer} from "@apollo/server/plugin/drainHttpServer";
 import {ApolloServerPluginLandingPageLocalDefault} from "@apollo/server/plugin/landingPage/default";
 import type {IExecutableSchemaDefinition} from "@graphql-tools/schema";
-import {getContext, InjectorService, LocalsContainer, PlatformApplication, PlatformContext, Provider} from "@tsed/common";
+import {useContext, InjectorService, LocalsContainer, PlatformApplication, PlatformContext, Provider} from "@tsed/common";
 import {Constant, Inject, Service} from "@tsed/di";
 import {Logger} from "@tsed/logger";
 import type {GraphQLSchema} from "graphql";
@@ -176,7 +176,7 @@ export class ApolloService {
     }, new Map<string, Provider>());
 
     return async () => {
-      const $ctx = getContext() as PlatformContext;
+      const $ctx = useContext<PlatformContext>();
       const context: ApolloContext = {
         dataSources: {
           ...(settings.dataSources?.() || {})
@@ -184,7 +184,8 @@ export class ApolloService {
       };
 
       const alteredContext = await this.injector.alterAsync("$alterApolloContext", context, $ctx);
-      $ctx.set(APOLLO_CONTEXT, alteredContext);
+
+      $ctx!.set(APOLLO_CONTEXT, alteredContext);
 
       const locals = new LocalsContainer();
       locals.set(APOLLO_CONTEXT, alteredContext);

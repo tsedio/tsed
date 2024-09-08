@@ -40,50 +40,51 @@ for the decorators.
 
 To begin, install the TypeGraphQL module for TS.ED:
 
+Express.js:
+
 ```bash
-npm install --save @tsed/typegraphql type-graphql graphql@15 @apollo/server @apollo/datasource-rest
+npm install --save @tsed/apollo graphql type-graphql @apollo/server @apollo/datasource-rest graphql-scalars
+npm install --save-dev apollo-server-testing
+```
+
+Koa.js
+
+```bash
+npm install --save @tsed/apollo graphql type-graphql @apollo/server @as-integration/koa @apollo/datasource-rest graphql-scalars
 npm install --save-dev apollo-server-testing
 ```
 
 Now, we can configure the Ts.ED server by importing `@tsed/typegraphql` in your Server:
 
 ```typescript
-import {Configuration} from "@tsed/common";
+import {Configuration} from "@tsed/di";
+import "@tsed/platform-express";
 import "@tsed/typegraphql";
+import "./resolvers/index"; // barrel file with all resolvers
 
 @Configuration({
-  graphql: {
+  apollo: {
     server1: {
-      resolvers: []
+      // GraphQL server configuration
+      // See options descriptions on https://www.apollographql.com/docs/apollo-server/api/apollo-server.html
+      path: "/",
+      playground: true // enable playground GraphQL IDE. Set false to use Apollo Studio
+
+      // resolvers?: (Function | string)[];
+      // dataSources?: Function;
+      // server?: (config: Config) => ApolloServer;
+
+      // plugins: []
+      // middlewareOptions?: ServerRegistration;
+
+      // type-graphql
+      // See options descriptions on https://19majkel94.github.io/type-graphql/
+      // buildSchemaOptions?: Partial<BuildSchemaOptions>;
     }
   }
 })
 export class Server {}
 ```
-
-## TypeGraphQlService
-
-TypeGraphQlService let you retrieve an instance of ApolloServer.
-
-```typescript
-import {Service, AfterRoutesInit} from "@tsed/common";
-import {TypeGraphQLService} from "@tsed/typegraphql";
-import {ApolloServer} from "apollo-server-express";
-
-@Service()
-export class UsersService implements AfterRoutesInit {
-  private server: ApolloServer;
-
-  @Inject()
-  typeGraphQLService: TypeGraphQLService;
-
-  $afterRoutesInit() {
-    this.server = this.typeGraphQLService.get("server1");
-  }
-}
-```
-
-For more information about ApolloServer look his documentation [here](https://www.apollographql.com/);
 
 ## Type-graphql
 
