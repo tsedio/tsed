@@ -16,7 +16,11 @@ export function getContext<Context = DIContext>(): Context | undefined {
   return useContextRef()?.current as any;
 }
 
-export async function runInContext(ctx: DIContext | undefined, cb: any, injector?: InjectorService) {
+export async function runInContext<Result = unknown>(
+  ctx: DIContext | undefined,
+  cb: (...args: unknown[]) => Result,
+  injector?: InjectorService
+): Promise<Result> {
   const ref = useContextRef();
 
   if (ref) {

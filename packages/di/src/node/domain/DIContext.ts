@@ -83,8 +83,8 @@ export class DIContext {
     return this.injector?.emit(eventName, ...args);
   }
 
-  runInContext(next: Function) {
-    return runInContext(this, next);
+  runInContext<Result = unknown>(next: (...args: unknown[]) => Result): Promise<Result> {
+    return runInContext<Result>(this, next);
   }
 
   cache<Value = any>(key: string, cb: () => Value): Value {

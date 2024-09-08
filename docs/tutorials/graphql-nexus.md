@@ -21,8 +21,7 @@ This example need to be used with `@tsed/apollo` module. So, you must install it
 <Tab label="Express.js">
 
 ```bash
-npm install --save @tsed/apollo
-npm install --save nexus graphql apollo-server-express
+npm install --save @tsed/apollo nexus graphql @apollo/server
 npm install --save-dev apollo-server-testing
 ```
 
@@ -30,8 +29,7 @@ npm install --save-dev apollo-server-testing
 <Tab label="Koa.js">
 
 ```bash
-npm install --save @tsed/apollo graphql
-npm install --save nexus graphql apollo-server-koa
+npm install --save @tsed/apollo nexus graphql @apollo/server @as-integration/koa
 npm install --save-dev apollo-server-testing
 ```
 
@@ -90,7 +88,7 @@ a @@DataSourceService@@ decorator to declare a DataSource which will be injected
 
 ```typescript
 import {DataSource} from "@tsed/typegraphql";
-import {RESTDataSource} from "apollo-datasource-rest";
+import {RESTDataSource} from "@apollo/datasource-rest";
 import {User} from "../models/User";
 @DataSource()
 export class UserDataSource extends RESTDataSource {

@@ -60,12 +60,12 @@ export class Server {}
 
 ## ApolloService
 
-ApolloService let you to retrieve an instance of ApolloServer.
+ApolloService let you retrieve an instance of ApolloServer.
 
 ```typescript
 import {Injectable, AfterRoutesInit} from "@tsed/common";
 import {graphQLService} from "@tsed/apollo";
-import {ApolloServer} from "apollo-server-express";
+import {ApolloServer} from "@apollo/server";
 
 @Injectable()
 export class UsersService implements AfterRoutesInit {

@@ -31,7 +31,7 @@
     "@tsed/logger": ">=6.7.5",
     "@tsed/typescript": "workspace:*",
     "eslint": "^8.57.0",
-    "graphql-ws": "^5.15.0",
+    "graphql-ws": "5.16.0",
     "typescript": "4.9.5"
   },
   "peerDependencies": {

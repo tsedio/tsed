@@ -1,21 +1,17 @@
-import {InjectorService, PlatformApplication} from "@tsed/common";
-import {classOf, nameOf, Store} from "@tsed/core";
+import {ApolloServer, ApolloServerOptions, ApolloServerPlugin} from "@apollo/server";
+import {ApolloServerPluginLandingPageDisabled} from "@apollo/server/plugin/disabled";
+import {ApolloServerPluginDrainHttpServer} from "@apollo/server/plugin/drainHttpServer";
+import {ApolloServerPluginLandingPageLocalDefault} from "@apollo/server/plugin/landingPage/default";
+import type {IExecutableSchemaDefinition} from "@graphql-tools/schema";
+import {getContext, InjectorService, LocalsContainer, PlatformApplication, PlatformContext, Provider} from "@tsed/common";
 import {Constant, Inject, Service} from "@tsed/di";
 import {Logger} from "@tsed/logger";
-import type {Config} from "apollo-server-core";
-import {
-  ApolloServerBase,
-  ApolloServerPluginDrainHttpServer,
-  ApolloServerPluginLandingPageDisabled,
-  ApolloServerPluginLandingPageLocalDefault
-} from "apollo-server-core";
-import {PluginDefinition} from "apollo-server-core/src/types";
 import type {GraphQLSchema} from "graphql";
 import Http from "http";
 import Https from "https";
-import {DATASOURCES_PROVIDERS} from "../constants/constants.js";
-import type {ApolloServer, ApolloSettings} from "../interfaces/ApolloSettings.js";
-import {ApolloCustomServerCB} from "../interfaces/ApolloSettings.js";
+import {APOLLO_CONTEXT, DATASOURCES_PROVIDERS} from "../constants/constants.js";
+import {ApolloContext} from "../interfaces/ApolloContext.js";
+import type {ApolloCustomServerCB, ApolloSettings} from "../interfaces/ApolloSettings.js";
 
 @Service()
 export class ApolloService {
@@ -33,8 +29,10 @@ export class ApolloService {
   protected servers: Map<
     string,
     {
-      instance: ApolloServerBase;
-      schema: GraphQLSchema | undefined;
+      instance: ApolloServer<ApolloContext>;
+      schema?: GraphQLSchema;
+      typeDefs?: IExecutableSchemaDefinition<ApolloContext>["typeDefs"];
+      resolvers?: IExecutableSchemaDefinition<ApolloContext>["resolvers"];
     }
   > = new Map();
 
@@ -50,9 +48,7 @@ export class ApolloService {
   @Inject()
   private injector: InjectorService;
 
-  constructor(@Inject(DATASOURCES_PROVIDERS) protected dataSources: any[]) {}
-
-  async createServer(id: string, settings: ApolloSettings): Promise<ApolloServer> {
+  async createServer(id: string, settings: ApolloSettings) {
     if (!this.has(id)) {
       try {
         const {dataSources, path, middlewareOptions = {}, server: customServer, ...config} = settings;
@@ -62,29 +58,56 @@ export class ApolloService {
 
         const plugins = await this.getPlugins(settings);
 
-        const server = await this.createInstance(
+        const server = this.createInstance(
           {
             ...config,
-            plugins,
-            dataSources: this.createDataSources(dataSources)
-          },
+            plugins
+          } as never,
           customServer
         );
 
         if (server) {
           this.servers.set(id || "default", {
             instance: server,
-            schema: settings.schema
+            schema: settings.schema,
+            typeDefs: settings.typeDefs,
+            resolvers: settings.resolvers
           });
 
           await server.start();
 
-          const middleware = server.getMiddleware({
-            path: settings.path,
-            ...middlewareOptions
-          });
+          const contextHandler = this.createContextHandler(server, settings);
 
-          this.app.use(middleware);
+          switch (this.platformName) {
+            case "express":
+              const {expressMiddleware} = await import("@apollo/server/express4");
+
+              this.app.use(
+                path,
+                expressMiddleware(server as any, {
+                  ...middlewareOptions,
+                  context: contextHandler
+                })
+              );
+              break;
+
+            case "koa":
+              const {koaMiddleware} = await import("@as-integrations/koa");
+
+              this.app.use(
+                path,
+                koaMiddleware(server as any, {
+                  ...middlewareOptions,
+                  context: contextHandler
+                })
+              );
+              break;
+            default:
+              this.logger.warn({
+                event: "APOLLO_UNKNOWN_PLATFORM",
+                message: "Platform not supported. Please use Ts.ED platform (express, koa)"
+              });
+          }
         }
       } catch (er) {
         this.logger.error({
@@ -93,28 +116,38 @@ export class ApolloService {
           message: er.message,
           stack: er.stack
         });
-        /* istanbul ignore next */
-        process.exit(-1);
+        throw er;
       }
     }
 
-    return this.get(id) as ApolloServer;
+    return this.get(id)!;
   }
 
   /**
    * Get an instance of ApolloServer from his id
    * @returns ApolloServer
    */
-  get(id: string = "default"): ApolloServerBase | undefined {
+  get(id: string = "default"): ApolloServer<ApolloContext> | undefined {
     return this.servers.get(id)?.instance;
   }
 
   /**
-   * Get an instance of GraphQL schema from his id
+   * Get schema of the ApolloServer from his id
    * @returns GraphQLSchema
    */
-  getSchema(id: string = "default"): GraphQLSchema | undefined {
+  getSchema(id: string = "default") {
     return this.servers.get(id)?.schema;
+  }
+
+  /**
+   * Get TypeDefs of the ApolloServer from his id
+   */
+  getTypeDefs(id: string = "default") {
+    return this.servers.get(id)?.typeDefs;
+  }
+
+  getResolvers(id: string = "default") {
+    return this.servers.get(id)?.resolvers;
   }
 
   /**
@@ -126,57 +159,53 @@ export class ApolloService {
     return this.servers.has(id);
   }
 
-  protected async createInstance(options: Config, server?: ApolloCustomServerCB): Promise<ApolloServer | undefined> {
-    if (server) {
-      return server(options);
-    }
-
-    const importServer = async () => {
-      switch (this.platformName) {
-        default:
-          this.logger.error(`Platform "${this.platformName}" not supported by @tsed/apollo`);
-        case "express":
-          return (await import("apollo-server-express")).ApolloServer;
-        case "koa":
-          return (await import("apollo-server-koa")).ApolloServer;
-      }
-    };
-
-    const Server = await importServer();
-
-    return new Server(options);
-  }
-
   /**
    * create a new dataSources function to use with apollo server config
-   * @param dataSources
    */
-  protected createDataSources(dataSources: Function | undefined) {
-    const dataSourcesHash = this.dataSources.reduce((map, instance) => {
-      const klass = classOf(instance);
-      const store = Store.from(klass);
-      let {name} = store.get(DATASOURCES_PROVIDERS);
+  createContextHandler(server: ApolloServer<ApolloContext>, settings: ApolloSettings) {
+    const {injector} = this;
+    const dataSourcesContainer = injector.getProviders(DATASOURCES_PROVIDERS).reduce((map, provider) => {
+      let {name} = provider.store.get(DATASOURCES_PROVIDERS);
 
-      name = name || nameOf(klass);
+      name = name || provider.className;
 
       const sourceName = `${name[0].toLowerCase()}${name.slice(1)}`;
-      map[sourceName] = instance;
+      map.set(sourceName, provider);
 
       return map;
-    }, {});
+    }, new Map<string, Provider>());
 
-    return () => {
-      return {
-        ...dataSourcesHash,
-        ...(dataSources ? dataSources() : {})
+    return async () => {
+      const $ctx = getContext() as PlatformContext;
+      const context: ApolloContext = {
+        dataSources: {
+          ...(settings.dataSources?.() || {})
+        }
       };
+
+      const alteredContext = await this.injector.alterAsync("$alterApolloContext", context, $ctx);
+      $ctx.set(APOLLO_CONTEXT, alteredContext);
+
+      const locals = new LocalsContainer();
+      locals.set(APOLLO_CONTEXT, alteredContext);
+      locals.set(ApolloServer, server);
+
+      dataSourcesContainer.forEach((provider, key) => {
+        alteredContext.dataSources[key] = injector.invoke(provider.token, locals);
+      });
+
+      return alteredContext;
     };
   }
 
-  private async getPlugins(serverSettings: ApolloSettings): Promise<PluginDefinition[]> {
+  protected createInstance(options: ApolloServerOptions<ApolloContext>, server?: ApolloCustomServerCB<ApolloContext>) {
+    return server ? server(options) : new ApolloServer(options);
+  }
+
+  private async getPlugins(serverSettings: ApolloSettings): Promise<ApolloServerPlugin[]> {
     const playground = serverSettings.playground || (serverSettings.playground === undefined && process.env.NODE_ENV !== "production");
 
-    const result = await this.injector.alter(
+    const result = await this.injector.alterAsync(
       "$alterApolloServerPlugins",
       [
         this.httpServer &&
