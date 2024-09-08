@@ -22,7 +22,7 @@
       "path": "../../specs/schema/tsconfig.json"
     },
     {
-      "path": "../testing-mongoose/tsconfig.json"
+      "path": "../testcontainers-mongo/tsconfig.json"
     },
     {
       "path": "./tsconfig.cjs.json"

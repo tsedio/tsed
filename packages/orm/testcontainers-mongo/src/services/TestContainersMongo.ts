@@ -1,5 +1,5 @@
 import {PlatformTest} from "@tsed/common";
-import {MongooseService} from "@tsed/mongoose";
+import {MongoClient} from "mongodb";
 import {getMongoConnectionOptions, getMongoConnectionsOptions, startMongoServer, stopMongoServer} from "./ContainerUtils.js";
 
 export class TestContainersMongo {
@@ -8,19 +8,25 @@ export class TestContainersMongo {
   static getMongoConnectionsOptions = getMongoConnectionsOptions;
   static getMongoConnectionOptions = getMongoConnectionOptions;
 
+  private static configuration: ReturnType<typeof getMongoConnectionsOptions>;
+
   static create(options: Partial<TsED.Configuration> = {}) {
+    TestContainersMongo.configuration = getMongoConnectionsOptions();
+
     return PlatformTest.create({
       ...options,
-      mongoose: getMongoConnectionsOptions()
+      mongoose: TestContainersMongo.configuration
     });
   }
 
   static bootstrap(mod: unknown, opts: Partial<TsED.Configuration> = {}) {
-    return () =>
-      PlatformTest.bootstrap(mod, {
-        mongoose: getMongoConnectionsOptions(),
+    return () => {
+      TestContainersMongo.configuration = getMongoConnectionsOptions();
+      return PlatformTest.bootstrap(mod, {
+        mongoose: TestContainersMongo.configuration,
         ...opts
       })();
+    };
   }
 
   static async reset(collectionName?: string) {
@@ -31,16 +37,18 @@ export class TestContainersMongo {
     return PlatformTest.reset();
   }
 
-  static async cleanCollection(collectionName: string) {
-    const service = PlatformTest.injector.get<MongooseService>(MongooseService)!;
+  static async cleanCollection(collectionName: string, mongoSettings = TestContainersMongo.configuration) {
+    try {
+      const client = new MongoClient(mongoSettings[0].url, {
+        directConnection: true
+      });
 
-    const {collections} = service.get("default")!;
-
-    if (!collections[collectionName]) {
-      console.error(`Collection ${collectionName} not found. Here available collection names: ${Object.keys(collections)}`);
-      return;
+      await client.connect();
+      const db = client.db();
+      await db.collection(collectionName).deleteMany({});
+      await client.close();
+    } catch (er) {
+      console.error(`Collection ${collectionName} not found. ${er.message} ${er.stack}`);
     }
-
-    await collections[collectionName].deleteMany({});
   }
 }

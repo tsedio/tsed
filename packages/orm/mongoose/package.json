@@ -41,6 +41,7 @@
     "@tsed/json-mapper": "workspace:*",
     "@tsed/logger": ">=6.7.5",
     "@tsed/schema": "workspace:*",
+    "@tsed/testcontainers-mongo": "workspace:*",
     "@tsed/typescript": "workspace:*",
     "eslint": "^8.57.0",
     "mongoose": "6.12.7",
