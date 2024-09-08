@@ -2,7 +2,6 @@ import {Injectable, PlatformTest} from "@tsed/common";
 import {Inject} from "@tsed/di";
 import {MongooseModel} from "@tsed/mongoose";
 import {getJsonSchema} from "@tsed/schema";
-import {TestMongooseContext} from "@tsed/testing-mongoose";
 import {TestContract} from "./helpers/models/Contract.js";
 import {TestCustomer} from "./helpers/models/Customer.js";
 import {SelfUser} from "./helpers/models/User.js";
