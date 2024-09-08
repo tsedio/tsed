@@ -47,7 +47,7 @@ export class TypeGraphQLService {
         const resolvers: any = this.getResolvers(id, [...(initialResolvers as any[]), ...(buildSchemaOptions.resolvers || [])]);
 
         const schema = await this.createSchema({
-          container: this.injector,
+          container: this.injector as never,
           ...buildSchemaOptions,
           resolvers,
           globalMiddlewares: [ContextMiddleware, ...(buildSchemaOptions.globalMiddlewares || [])]
