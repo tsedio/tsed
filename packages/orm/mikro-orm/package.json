@@ -35,7 +35,6 @@
     "@tsed/json-mapper": "workspace:*",
     "@tsed/logger": ">=6.7.5",
     "@tsed/schema": "workspace:*",
-    "@tsed/testing-mongoose": "workspace:*",
     "@tsed/typescript": "workspace:*",
     "cross-env": "7.0.3",
     "eslint": "^8.57.0",
