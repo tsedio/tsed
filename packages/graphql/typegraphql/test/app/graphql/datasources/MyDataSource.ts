@@ -1,8 +1,13 @@
+import {InjectContext} from "@tsed/common";
 import {DataSource} from "@tsed/typegraphql";
-import {RESTDataSource} from "apollo-datasource-rest";
+import {ApolloContext} from "@tsed/apollo";
+import {RESTDataSource} from "@apollo/datasource-rest";
 
 @DataSource()
 export class MyDataSource extends RESTDataSource {
+  @InjectContext()
+  context: ApolloContext & {token: string};
+
   constructor() {
     super();
     this.baseURL = "http://localhost:8001";

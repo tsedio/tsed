@@ -1,5 +1,6 @@
 import "@tsed/ajv";
-import {Configuration, Constant, Inject, PlatformApplication} from "@tsed/common";
+import {ApolloContext} from "@tsed/apollo";
+import {Configuration, Constant, Inject, PlatformApplication, PlatformContext} from "@tsed/common";
 import "@tsed/graphql-ws";
 import "@tsed/passport";
 import "@tsed/typegraphql";
@@ -7,13 +8,14 @@ import * as fs from "node:fs";
 import {join} from "node:path";
 import {buildContext} from "graphql-passport";
 import {resolve} from "path";
-import {HelloController} from "./controllers/HelloController.js";
-import {User} from "./graphql/auth/User.js";
+import {HelloController} from "./controllers/HelloController";
+import {User} from "./graphql/auth/User";
 import "./graphql/index";
-import {AuthResolver} from "./graphql/index.js";
+import {AuthResolver} from "./graphql/index";
 import "./protocols/GraphQLProtocol";
 import "./services/RecipeService";
 import "./services/UsersRepository";
+import {pubSub} from "./graphql/pubsub/pubsub";
 
 const rootDir = __dirname; // automatically replaced by import.meta.dirname on build
 const rootCert = join(rootDir, "../..");
@@ -32,19 +34,13 @@ const rootCert = join(rootDir, "../..");
   mount: {
     "/rest": [HelloController]
   },
-  graphql: {
+  apollo: {
     default: {
       path: "/api/graphql",
       resolvers: [AuthResolver],
       buildSchemaOptions: {
-        emitSchemaFile: resolve(rootDir, "../resources/schema.gql")
-      },
-      serverConfig: {
-        csrfPrevention: true,
-        cache: "bounded",
-        context({req, res}: any) {
-          return buildContext({req, res, User});
-        }
+        emitSchemaFile: resolve(rootDir, "../resources/schema.gql"),
+        pubSub
       }
     }
   },
@@ -59,11 +55,21 @@ export class Server {
   @Constant("PLATFORM_NAME")
   platformName: string;
 
+  $alterApolloContext(context: ApolloContext, $ctx: PlatformContext) {
+    return buildContext({
+      ...context,
+      req: $ctx.getRequest(),
+      res: $ctx.getResponse(),
+      User
+    });
+  }
+
   /**
    * This method let you configure the middleware required by your application to works.
    * @returns {Server}
    */
   public async $beforeRoutesInit() {
+    // @ts-ignore
     if (this.platformName === "express") {
       const {default: bodyParser} = await import("body-parser");
       const {default: session} = await import("express-session");
@@ -100,6 +106,7 @@ export class Server {
       const {default: bodyParser} = await import("koa-bodyparser");
       const {default: compress} = await import("koa-compress");
       const {default: session} = await import("koa-session");
+      // @ts-ignore
       const {default: cors} = await import("@koa/cors");
       // @ts-ignore
       const {default: methodOverride} = await import("koa-override");

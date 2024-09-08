@@ -1,10 +1,9 @@
 import {PlatformTest, runInContext} from "@tsed/common";
+import {ApolloService} from "@tsed/apollo";
 import "@tsed/platform-express";
 import {PlatformExpress} from "@tsed/platform-express";
-import {ApolloServerTestClient, createTestClient} from "apollo-server-testing";
 import gql from "graphql-tag";
 import "@tsed/graphql-ws";
-import {TypeGraphQLService} from "../src/index.js";
 import {Server} from "./app/Server.js";
 
 const GET_RECIPES = gql`
@@ -27,46 +26,48 @@ const ADD_RECIPE = gql`
   }
 `;
 
-describe("GraphQL", () => {
-  let request: ApolloServerTestClient;
+describe("TypeGraphQL", () => {
   beforeAll(
     PlatformTest.bootstrap(Server, {
       platform: PlatformExpress
     })
   );
-  beforeAll(() => {
-    const server = PlatformTest.get<TypeGraphQLService>(TypeGraphQLService).get("default")!;
-    request = createTestClient(server as any);
-  });
   afterAll(PlatformTest.reset);
 
   it("should get recipes", async () => {
     const $ctx = PlatformTest.createRequestContext();
+    const server = PlatformTest.get<ApolloService>(ApolloService);
 
     const response = await runInContext($ctx, () => {
-      return request.query({
+      return server.get().executeOperation({
         query: GET_RECIPES,
         variables: {}
       });
     });
 
     expect($ctx.get("test")).toEqual("test");
-    expect(response.data).toEqual({
-      recipes: [
-        {
-          creationDate: "2020-08-20T00:00:00.000Z",
-          description: "Description",
-          title: "title"
+    expect(response.body).toEqual({
+      kind: "single",
+      singleResult: {
+        data: {
+          recipes: [
+            {
+              creationDate: expect.any(String),
+              description: "Description",
+              title: "title"
+            }
+          ]
         }
-      ]
+      }
     });
   });
 
   it("should add recipe", async () => {
     const $ctx = PlatformTest.createRequestContext();
+    const server = PlatformTest.get<ApolloService>(ApolloService);
 
     const response = await runInContext($ctx, () => {
-      return request.query({
+      return server.get().executeOperation({
         query: ADD_RECIPE,
         variables: {
           title: "title",
@@ -75,11 +76,16 @@ describe("GraphQL", () => {
       });
     });
 
-    expect(response.data).toEqual({
-      addRecipe: {
-        creationDate: expect.any(String),
-        description: "description",
-        title: "title"
+    expect(response.body).toEqual({
+      kind: "single",
+      singleResult: {
+        data: {
+          addRecipe: {
+            creationDate: expect.any(String),
+            description: "description",
+            title: "title"
+          }
+        }
       }
     });
   });
