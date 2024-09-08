@@ -7,5 +7,4 @@ export * from "./exports.js";
 export * from "./interfaces/interfaces.js";
 export * from "./interfaces/TypeGraphQLSettings.js";
 export * from "./middlewares/ContextMiddleware.js";
-export * from "./services/TypeGraphQLService.js";
 export * from "./TypeGraphQLModule.js";

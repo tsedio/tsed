@@ -33,7 +33,7 @@ GraphQL is a query language for APIs and a runtime for fulfilling those queries 
 ## Feature
 
 Currently, `@tsed/typegraphql` allows you to configure a graphql server in your project.
-This package use [`apollo-server-express`](https://www.apollographql.com/docs/apollo-server/api/apollo-server.html) to create GraphQL server and [`type-graphql`](https://19majkel94.github.io/type-graphql/)
+This package use [`@apollo/server`](https://www.apollographql.com/) to create GraphQL server and [`type-graphql`](https://19majkel94.github.io/type-graphql/)
 for the decorators.
 
 ## Installation
@@ -41,9 +41,8 @@ for the decorators.
 To begin, install the TypeGraphQL module for TS.ED:
 
 ```bash
-npm install --save @tsed/typegraphql type-graphql graphql@15
-npm install --save apollo-datasource apollo-datasource-rest apollo-server-express
-npm install --save-dev  apollo-server-testing
+npm install --save @tsed/typegraphql type-graphql graphql@15 @apollo/server @apollo/datasource-rest
+npm install --save-dev apollo-server-testing
 ```
 
 Now, we can configure the Ts.ED server by importing `@tsed/typegraphql` in your Server:
@@ -64,7 +63,7 @@ export class Server {}
 
 ## TypeGraphQlService
 
-TypeGraphQlService let you to retrieve an instance of ApolloServer.
+TypeGraphQlService let you retrieve an instance of ApolloServer.
 
 ```typescript
 import {Service, AfterRoutesInit} from "@tsed/common";
@@ -84,7 +83,7 @@ export class UsersService implements AfterRoutesInit {
 }
 ```
 
-For more information about ApolloServer look his documentation [here](https://www.apollographql.com/docs/apollo-server/api/apollo-server.html);
+For more information about ApolloServer look his documentation [here](https://www.apollographql.com/);
 
 ## Type-graphql
 
