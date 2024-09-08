@@ -30,7 +30,7 @@ describe("OidcModule", () => {
     afterEach(() => PlatformTest.reset());
     describe('when path "/oidc"', () => {
       it("should register the appropriate rewrite middleware", async () => {
-        const mdl = await PlatformTest.invoke(OidcModule);
+        const mdl = await PlatformTest.invoke<any>(OidcModule);
 
         vi.spyOn(mdl.app, "use").mockReturnValue(undefined);
 
@@ -49,7 +49,7 @@ describe("OidcModule", () => {
           get: vi.fn().mockReturnValue(provider),
           create: vi.fn()
         };
-        const mdl = await PlatformTest.invoke(OidcModule, [
+        const mdl = await PlatformTest.invoke<any>(OidcModule, [
           {
             token: OidcProvider,
             use: oidcProvider
@@ -77,7 +77,7 @@ describe("OidcModule", () => {
     afterEach(() => PlatformTest.reset());
     describe('when path "/oidc"', () => {
       it("should register the appropriate rewrite middleware", async () => {
-        const mdl = await PlatformTest.invoke(OidcModule);
+        const mdl = await PlatformTest.invoke<any>(OidcModule);
 
         vi.spyOn(mdl.app, "use").mockReturnValue(undefined);
 
@@ -96,7 +96,7 @@ describe("OidcModule", () => {
           get: vi.fn().mockReturnValue(provider),
           create: vi.fn()
         };
-        const mdl = await PlatformTest.invoke(OidcModule, [
+        const mdl = await PlatformTest.invoke<any>(OidcModule, [
           {
             token: OidcProvider,
             use: oidcProvider

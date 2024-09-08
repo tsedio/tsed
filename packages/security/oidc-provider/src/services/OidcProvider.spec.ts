@@ -57,6 +57,8 @@ describe("OidcProvider", () => {
       );
 
       expect((oidcProvider as any).injector.logger.error).toHaveBeenCalledWith({
+        duration: 0,
+        reqId: "",
         account_id: "account_id",
         error: {error_description: "error_description", error_detail: "error_detail", error: "error"},
         event: "OIDC_ERROR",
@@ -65,7 +67,8 @@ describe("OidcProvider", () => {
         },
         params: {client_id: "client_id"},
         sid: "sid",
-        type: "event"
+        type: "event",
+        time: expect.any(Date)
       });
     });
     it("should intercept all oidc errors (in request context)", async () => {
