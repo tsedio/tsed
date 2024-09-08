@@ -351,20 +351,6 @@ describe("PlatformBuilder", () => {
       expect(server.injector.get(Token)).toBeInstanceOf(Token);
     });
   });
-  describe("addComponents", () => {
-    it("should add components", async () => {
-      // GIVEN
-      const server = await PlatformCustom.bootstrap(ServerModule, {});
-
-      class MyClass {}
-
-      // WHEN
-      server.addComponents(MyClass);
-
-      // THEN
-      expect(server.injector.settings.get("imports")).toEqual([HealthModule, MyClass]);
-    });
-  });
   describe("addControllers", () => {
     it("should add controllers", async () => {
       // GIVEN

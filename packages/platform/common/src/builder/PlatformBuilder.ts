@@ -142,16 +142,6 @@ export class PlatformBuilder<App = TsED.Application> {
   }
 
   /**
-   * Add classes to the components list
-   * @param classes
-   */
-  public addComponents(classes: Type | Type[]) {
-    this.settings.set("imports", this.settings.get<any[]>("imports", []).concat(classes));
-
-    return this;
-  }
-
-  /**
    * Add classes decorated by @@Controller@@ to components container.
    *
    * ### Example
@@ -172,7 +162,7 @@ export class PlatformBuilder<App = TsED.Application> {
    * @param {any[]} controllers
    */
   public addControllers(endpoint: string, controllers: TokenProvider | TokenProvider[]) {
-    [].concat(controllers).forEach((token) => {
+    [].concat(controllers as never[]).forEach((token: TokenProvider) => {
       this.settings.routes.push({token, route: endpoint});
     });
   }

@@ -18,17 +18,17 @@ describe("createHttpServer", () => {
 
     expect(listener).toBeInstanceOf(Function);
 
-    const server = injector.get(Http.Server);
+    const server = injector.get(Http.Server)!;
 
     vi.spyOn(injector.logger, "info").mockReturnValue(undefined);
     vi.spyOn(injector.logger, "debug").mockReturnValue(undefined);
-    vi.spyOn(server, "listen").mockReturnValue(undefined);
-    vi.spyOn(server, "address").mockReturnValue({port: 8089, address: "0.0.0.0"});
-    vi.spyOn(server, "on").mockImplementation((event: string, cb: any) => {
+    vi.spyOn(server, "listen").mockReturnValue(undefined as never);
+    vi.spyOn(server, "address").mockReturnValue({port: 8089, address: "0.0.0.0"} as never);
+    vi.spyOn(server, "on").mockImplementation(((event: string, cb: any) => {
       if (event === "listening") {
         cb();
       }
-    });
+    }) as never);
 
     await listener();
 
