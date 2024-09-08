@@ -10,33 +10,36 @@ import {Hooks} from "./helpers/services/Hooks.js";
 import {UnmanagedEventSubscriber1} from "./helpers/services/UnmanagedEventSubscriber1.js";
 import {UnmanagedEventSubscriber2} from "./helpers/services/UnmanagedEventSubscriber2.js";
 import {UserService} from "./helpers/services/UserService.js";
+import {TestContainersMongo} from "@tsed/testcontainers-mongo";
 
-describe.skip("MikroOrm integration", () => {
+describe("MikroOrm integration", () => {
   let spiedLogger!: Logger;
   let spiedTransactionalInterceptor!: TransactionalInterceptor;
   let spiedHooks!: Hooks;
 
   beforeEach(async () => {
-//    await TestMongooseContext.install({replicaSet: true});
-    // const {url: clientUrl} = await TestMongooseContext.getMongooseOptions();
+    const mongoSettings = TestContainersMongo.getMongoConnectionOptions();
     const bstrp = PlatformTest.bootstrap(Server, {
       disableComponentScan: true,
       imports: [MikroOrmModule],
       mikroOrm: [
         defineConfig({
-          clientUrl,
+          clientUrl: mongoSettings.url,
           entities: [User],
-          subscribers: [UnmanagedEventSubscriber1, new UnmanagedEventSubscriber2()]
+          subscribers: [UnmanagedEventSubscriber1, new UnmanagedEventSubscriber2()],
+          driverOptions: mongoSettings.connectionOptions
         }),
         defineConfig({
-          clientUrl,
+          clientUrl: mongoSettings.url,
           contextName: "db1",
-          entities: [User]
+          entities: [User],
+          driverOptions: mongoSettings.connectionOptions
         }),
         defineConfig({
-          clientUrl,
+          clientUrl: mongoSettings.url,
           contextName: "db2",
-          entities: [User]
+          entities: [User],
+          driverOptions: mongoSettings.connectionOptions
         })
       ]
     });
@@ -51,7 +54,7 @@ describe.skip("MikroOrm integration", () => {
   afterEach(async () => {
     reset<Hooks | TransactionalInterceptor | Logger>(spiedLogger, spiedTransactionalInterceptor, spiedHooks);
 
-    // await TestMongooseContext.reset();
+    await TestContainersMongo.reset();
   });
 
   it("should return repository", () => {

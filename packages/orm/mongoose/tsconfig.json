@@ -22,6 +22,9 @@
       "path": "../../specs/schema/tsconfig.json"
     },
     {
+      "path": "../testcontainers-mongo/tsconfig.json"
+    },
+    {
       "path": "./tsconfig.cjs.json"
     },
     {
