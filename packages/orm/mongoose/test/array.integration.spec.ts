@@ -1,5 +1,4 @@
 import {serialize} from "@tsed/json-mapper";
-import {TestMongooseContext} from "@tsed/testing-mongoose";
 import {MyWorkspace, UserModel, UserWorkspace, Workspace, WorkspaceModel} from "./helpers/models/UserWorkspace.js";
 import {TestContainersMongo} from "@tsed/testcontainers-mongo";
 
@@ -9,8 +8,8 @@ describe("Mongoose", () => {
     afterEach(() => TestContainersMongo.reset());
 
     it("should run pre and post hook", async () => {
-      const userModel = TestMongooseContext.get<UserModel>(UserWorkspace);
-      const workspaceModel = TestMongooseContext.get<WorkspaceModel>(Workspace);
+      const userModel = PlatformTest.get<UserModel>(UserWorkspace);
+      const workspaceModel = PlatformTest.get<WorkspaceModel>(Workspace);
 
       // GIVEN
       const user = new userModel();
