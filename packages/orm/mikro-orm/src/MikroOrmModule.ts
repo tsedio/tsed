@@ -78,8 +78,6 @@ export class MikroOrmModule implements OnDestroy, OnInit, AlterRunInContext {
         return this.injector.invoke(subscriber, container, diOpts);
       }
 
-      this.injector.bindInjectableProperties(subscriber, container, diOpts);
-
       return subscriber;
     });
   }
