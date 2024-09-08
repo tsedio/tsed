@@ -16,9 +16,6 @@
       "path": "../../di/tsconfig.json"
     },
     {
-      "path": "../mongoose/tsconfig.json"
-    },
-    {
       "path": "./tsconfig.cjs.json"
     },
     {

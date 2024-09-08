@@ -91,7 +91,13 @@ export default defineConfig({
 
 :::
 
-### Usage
+## Usage
+
+### @tsed/mongoose
+
+#### Unit test
+
+Use the `TestContainersMongo.create` method to start the mongo server before your test:
 
 ```ts
 import {PlatformTest} from "@tsed/common";
@@ -144,6 +150,41 @@ describe("UserModel", () => {
     // THEN
     expect(user.pre).toEqual("hello pre");
     expect(user.post).toEqual("hello post");
+  });
+});
+```
+
+#### Integration test
+
+Just use the `TestContainersMongo.bootstrap` method to start the mongo server before your test:
+
+```ts
+beforeEach(() => TestContainersMongo.bootstrap(Server, {}));
+```
+
+### Mikro ORM
+
+TestContainersMongo provides a method to get the connection options for MikroORM:
+
+```ts
+import {EntityManager, MikroORM} from "@mikro-orm/core";
+import {defineConfig} from "@mikro-orm/mongodb";
+import {PlatformTest} from "@tsed/common";
+import {TestContainersMongo} from "@tsed/testcontainers-mongo";
+
+beforeEach(async () => {
+  const mongoSettings = TestContainersMongo.getMongoConnectionOptions();
+  const bstrp = PlatformTest.bootstrap(Server, {
+    disableComponentScan: true,
+    imports: [MikroOrmModule],
+    mikroOrm: [
+      defineConfig({
+        clientUrl: mongoSettings.url,
+        driverOptions: mongoSettings.connectionOptions,
+        entities: [User],
+        subscribers: [UnmanagedEventSubscriber1, new UnmanagedEventSubscriber2()]
+      })
+    ]
   });
 });
 ```

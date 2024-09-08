@@ -6897,7 +6897,7 @@ __metadata:
     "@tsed/json-mapper": "workspace:*"
     "@tsed/logger": "npm:>=6.7.5"
     "@tsed/schema": "workspace:*"
-    "@tsed/testing-mongoose": "workspace:*"
+    "@tsed/testcontainers-mongo": "workspace:*"
     "@tsed/typescript": "workspace:*"
     cross-env: "npm:7.0.3"
     eslint: "npm:^8.57.0"
@@ -6925,6 +6925,7 @@ __metadata:
     "@tsed/json-mapper": "workspace:*"
     "@tsed/logger": "npm:>=6.7.5"
     "@tsed/schema": "workspace:*"
+    "@tsed/testcontainers-mongo": "workspace:*"
     "@tsed/typescript": "workspace:*"
     change-case: "npm:4.1.2"
     eslint: "npm:^8.57.0"
@@ -8114,7 +8115,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@tsed/testcontainers-mongo@workspace:packages/orm/testcontainers-mongo":
+"@tsed/testcontainers-mongo@workspace:*, @tsed/testcontainers-mongo@workspace:packages/orm/testcontainers-mongo":
   version: 0.0.0-use.local
   resolution: "@tsed/testcontainers-mongo@workspace:packages/orm/testcontainers-mongo"
   dependencies:
@@ -8123,9 +8124,9 @@ __metadata:
     "@tsed/common": "workspace:*"
     "@tsed/core": "workspace:*"
     "@tsed/di": "workspace:*"
-    "@tsed/mongoose": "workspace:*"
     "@tsed/typescript": "workspace:*"
     eslint: "npm:^8.57.0"
+    mongodb: "npm:6.8.0"
     semver: "npm:^7.6.0"
     testcontainers: "npm:>=10.11.0"
     tslib: "npm:2.6.1"
@@ -8135,12 +8136,12 @@ __metadata:
     "@tsed/common": 8.0.0-alpha.1
     "@tsed/core": 8.0.0-alpha.1
     "@tsed/di": 8.0.0-alpha.1
-    "@tsed/mongoose": 8.0.0-alpha.1
+    mongodb: ">=6"
     testcontainers: ">=10.11.0"
   languageName: unknown
   linkType: soft
 
-"@tsed/testing-mongoose@workspace:*, @tsed/testing-mongoose@workspace:packages/orm/testing-mongoose":
+"@tsed/testing-mongoose@workspace:packages/orm/testing-mongoose":
   version: 0.0.0-use.local
   resolution: "@tsed/testing-mongoose@workspace:packages/orm/testing-mongoose"
   dependencies:
@@ -22375,25 +22376,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"mongodb@npm:^4.16.0":
-  version: 4.17.1
-  resolution: "mongodb@npm:4.17.1"
-  dependencies:
-    "@aws-sdk/credential-providers": "npm:^3.186.0"
-    "@mongodb-js/saslprep": "npm:^1.1.0"
-    bson: "npm:^4.7.2"
-    mongodb-connection-string-url: "npm:^2.6.0"
-    socks: "npm:^2.7.1"
-  dependenciesMeta:
-    "@aws-sdk/credential-providers":
-      optional: true
-    "@mongodb-js/saslprep":
-      optional: true
-  checksum: 10/2ce62912ab36885e927c109a699568174cc61025bc03e2d5c22e6070aaec967b2364d4b9d42c9131531c2547416b57d14952c50235d43fa66e76a6fbe4c96c37
-  languageName: node
-  linkType: hard
-
-"mongodb@npm:^6.5.0":
+"mongodb@npm:6.8.0, mongodb@npm:^6.5.0":
   version: 6.8.0
   resolution: "mongodb@npm:6.8.0"
   dependencies:
@@ -22424,6 +22407,24 @@ __metadata:
     socks:
       optional: true
   checksum: 10/c9adf8b694e8e510421c8e6e44c337fe6d58e7d33374dc28b355095df92a807fb5a3c691eaf376a87ae693f6ec0779e8aae41a32bbdc63f2961289c616bcbb9a
+  languageName: node
+  linkType: hard
+
+"mongodb@npm:^4.16.0":
+  version: 4.17.1
+  resolution: "mongodb@npm:4.17.1"
+  dependencies:
+    "@aws-sdk/credential-providers": "npm:^3.186.0"
+    "@mongodb-js/saslprep": "npm:^1.1.0"
+    bson: "npm:^4.7.2"
+    mongodb-connection-string-url: "npm:^2.6.0"
+    socks: "npm:^2.7.1"
+  dependenciesMeta:
+    "@aws-sdk/credential-providers":
+      optional: true
+    "@mongodb-js/saslprep":
+      optional: true
+  checksum: 10/2ce62912ab36885e927c109a699568174cc61025bc03e2d5c22e6070aaec967b2364d4b9d42c9131531c2547416b57d14952c50235d43fa66e76a6fbe4c96c37
   languageName: node
   linkType: hard
 

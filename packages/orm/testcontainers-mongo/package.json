@@ -34,9 +34,9 @@
     "@tsed/common": "workspace:*",
     "@tsed/core": "workspace:*",
     "@tsed/di": "workspace:*",
-    "@tsed/mongoose": "workspace:*",
     "@tsed/typescript": "workspace:*",
     "eslint": "^8.57.0",
+    "mongodb": "6.8.0",
     "testcontainers": ">=10.11.0",
     "typescript": "4.9.5"
   },
@@ -45,7 +45,7 @@
     "@tsed/common": "8.0.0-alpha.1",
     "@tsed/core": "8.0.0-alpha.1",
     "@tsed/di": "8.0.0-alpha.1",
-    "@tsed/mongoose": "8.0.0-alpha.1",
+    "mongodb": ">=6",
     "testcontainers": ">=10.11.0"
   }
 }
