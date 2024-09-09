@@ -1,7 +1,7 @@
 {
   "name": "@tsed/integration",
   "type": "commonjs",
-  "version": "8.0.0-alpha.1",
+  "version": "8.0.0-alpha.2",
   "source": "src/index.ts",
   "main": "src/index.js",
   "private": true,

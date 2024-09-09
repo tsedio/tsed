@@ -1,6 +1,6 @@
 {
   "name": "@tsed/formio-types",
-  "version": "8.0.0-alpha.1",
+  "version": "8.0.0-alpha.2",
   "description": "Formio types definition package for Ts.ED framework",
   "type": "commonjs",
   "keywords": [

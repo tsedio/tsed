@@ -2,7 +2,7 @@
   "name": "@tsed/bullmq",
   "description": "BullMQ integration for Ts.ED",
   "type": "commonjs",
-  "version": "8.0.0-alpha.1",
+  "version": "8.0.0-alpha.2",
   "keywords": [
     "Ts.ED",
     "BullMQ"
