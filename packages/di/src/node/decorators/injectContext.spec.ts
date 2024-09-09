@@ -33,4 +33,27 @@ describe("InjectContext", () => {
     expect(myService.ctx).toBeInstanceOf(DIContext);
     expect(myService.ctx).not.toEqual($ctx);
   });
+  it("should inject a context and get value", async () => {
+    @Injectable()
+    class MyService {
+      @InjectContext((o) => o.get("test"))
+      test: string;
+    }
+
+    const $ctx = new DIContext({
+      id: "test",
+      logger: DITest.injector.logger,
+      injector: DITest.injector,
+      maxStackSize: 0
+    });
+    $ctx.set("test", "value");
+
+    const myService = await DITest.invoke(MyService);
+
+    await runInContext($ctx, () => {
+      expect(myService.test).toEqual("value");
+    });
+
+    expect(myService.test).toEqual(undefined);
+  });
 });

@@ -17,19 +17,19 @@ import {getContext} from "../utils/asyncHookContext.js";
  * @returns {Function}
  * @decorator
  */
-export function InjectContext(): PropertyDecorator {
+export function InjectContext(transform: ($ctx: DIContext) => unknown = (o) => o): PropertyDecorator {
   return (target: any, propertyKey: string): any | void => {
     catchError(() => Reflect.deleteProperty(target, propertyKey));
     Reflect.defineProperty(target, propertyKey, {
       get() {
-        return (
+        return transform(
           getContext() ||
-          new DIContext({
-            id: "",
-            logger: InjectorService.getInstance().logger,
-            injector: InjectorService.getInstance(),
-            maxStackSize: 0
-          })
+            new DIContext({
+              id: "",
+              logger: InjectorService.getInstance().logger,
+              injector: InjectorService.getInstance(),
+              maxStackSize: 0
+            })
         );
       }
     });
