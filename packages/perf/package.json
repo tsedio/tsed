@@ -2,7 +2,7 @@
   "name": "@tsed/perf",
   "description": "Perf module tool",
   "type": "commonjs",
-  "version": "7.82.3",
+  "version": "7.83.0",
   "private": true,
   "source": "./src/index.ts",
   "main": "lib/esm/index.js",

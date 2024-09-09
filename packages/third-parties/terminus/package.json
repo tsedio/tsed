@@ -2,7 +2,7 @@
   "name": "@tsed/terminus",
   "description": "Adds graceful shutdown and Kubernetes readiness / liveness checks for any HTTP applications.",
   "type": "commonjs",
-  "version": "7.82.3",
+  "version": "7.83.0",
   "author": "Emilien Leroy <emilien1005@hotmail.fr>",
   "source": "./src/index.ts",
   "main": "./lib/cjs/index.js",
@@ -41,10 +41,10 @@
   },
   "peerDependencies": {
     "@godaddy/terminus": "^4.7.1",
-    "@tsed/common": "7.82.3",
-    "@tsed/core": "7.82.3",
-    "@tsed/di": "7.82.3",
-    "@tsed/schema": "7.82.3"
+    "@tsed/common": "7.83.0",
+    "@tsed/core": "7.83.0",
+    "@tsed/di": "7.83.0",
+    "@tsed/schema": "7.83.0"
   },
   "peerDependenciesMeta": {
     "@godaddy/terminus": {
