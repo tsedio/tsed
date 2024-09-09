@@ -3,7 +3,6 @@
  */
 export * from "./builder/PlatformBuilder.js";
 export * from "./config/interfaces/PlatformJsonMapperSettings.js";
-export * from "./config/interfaces/PlatformLoggerSettings.js";
 export * from "./config/interfaces/PlatformMulterSettings.js";
 export * from "./config/interfaces/PlatformRouterSettings.js";
 export * from "./config/interfaces/PlatformStaticsSettings.js";
