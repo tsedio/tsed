@@ -12,11 +12,6 @@ export type BullMQConfig = {
   connection: ConnectionOptions;
 
   /**
-   * @deprecated Use defaultQueueOptions instead. Will be removed in the next major release
-   */
-  defaultJobOptions?: DefaultJobOptions;
-
-  /**
    * Default queue options which are applied to every queue
    *
    * Can be extended/overridden by `queueOptions`

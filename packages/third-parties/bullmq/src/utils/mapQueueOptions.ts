@@ -6,7 +6,6 @@ export function mapQueueOptions(queue: string, bullMQConfig: BullMQConfig): Queu
   return deepMerge<QueueOptions, QueueOptions>(
     {
       connection: bullMQConfig.connection,
-      defaultJobOptions: bullMQConfig.defaultJobOptions,
       ...bullMQConfig.defaultQueueOptions
     },
     bullMQConfig.queueOptions?.[queue]
