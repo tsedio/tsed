@@ -49,8 +49,6 @@ export function Model(options: MongooseModelOptions = {}) {
   return useDecorators((target: any) => {
     const {token, collectionName} = getModelToken(target, options);
 
-    options.discriminatorValue && DiscriminatorValue(options.discriminatorValue)(target);
-
     registerProvider({
       provide: token,
       deps: [],
