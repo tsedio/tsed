@@ -7,7 +7,7 @@ on:
   push:
     branches: [production, alpha, beta, rc]
   pull_request:
-    branches: [production]
+    branches: [production, alpha, beta, rc]
     types: [opened, synchronize, closed]
 
 concurrency:
