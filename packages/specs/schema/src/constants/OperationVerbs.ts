@@ -27,8 +27,3 @@ export const OPERATION_HTTP_VERBS = [
 ];
 
 export const OPERATION_WS_VERBS = [OperationVerbs.PUBLISH, OperationVerbs.SUBSCRIBE];
-
-/**
- * @deprecated Use OperationVerbs instead of OperationMethods
- */
-export const OperationMethods = OperationVerbs;
