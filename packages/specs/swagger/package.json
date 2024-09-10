@@ -2,7 +2,7 @@
   "name": "@tsed/swagger",
   "description": "Swagger package for Ts.ED framework",
   "type": "commonjs",
-  "version": "8.0.0-alpha.2",
+  "version": "8.0.0-alpha.3",
   "source": "./src/index.ts",
   "main": "./lib/cjs/index.js",
   "module": "./lib/esm/index.js",
@@ -50,7 +50,7 @@
     "vitest": "2.0.4"
   },
   "peerDependencies": {
-    "@tsed/common": "8.0.0-alpha.2"
+    "@tsed/common": "8.0.0-alpha.3"
   },
   "peerDependenciesMeta": {
     "@tsed/common": {

@@ -2,7 +2,7 @@
   "name": "@tsed/di",
   "description": "DI module for Ts.ED Framework",
   "type": "commonjs",
-  "version": "8.0.0-alpha.2",
+  "version": "8.0.0-alpha.3",
   "source": "./src/index.ts",
   "main": "lib/esm/index.js",
   "module": "lib/esm/index.js",
@@ -42,9 +42,9 @@
     "webpack": "^5.75.0"
   },
   "peerDependencies": {
-    "@tsed/core": "8.0.0-alpha.2",
+    "@tsed/core": "8.0.0-alpha.3",
     "@tsed/logger": ">=6.7.5",
-    "@tsed/schema": "8.0.0-alpha.2"
+    "@tsed/schema": "8.0.0-alpha.3"
   },
   "peerDependenciesMeta": {
     "@tsed/core": {
