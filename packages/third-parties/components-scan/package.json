@@ -2,7 +2,7 @@
   "name": "@tsed/components-scan",
   "description": "Components scan utilities for Ts.ED Framework",
   "type": "commonjs",
-  "version": "8.0.0-alpha.3",
+  "version": "8.0.0-alpha.4",
   "source": "./src/index.ts",
   "main": "./lib/cjs/index.js",
   "module": "./lib/esm/index.js",
@@ -37,7 +37,7 @@
     "vitest": "2.0.4"
   },
   "peerDependencies": {
-    "@tsed/core": "8.0.0-alpha.3"
+    "@tsed/core": "8.0.0-alpha.4"
   },
   "peerDependenciesMeta": {
     "@tsed/core": {
