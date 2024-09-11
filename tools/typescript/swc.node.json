@@ -1,7 +1,7 @@
 {
   "sourceMaps": "inline",
   "jsc": {
-    "target": "es2021",
+    "target": "es2023",
     "externalHelpers": true,
     "keepClassNames": true,
     "parser": {
@@ -23,7 +23,7 @@
     }
   },
   "module": {
-    "type": "commonjs",
+    "type": "es6",
     "strict": false,
     "strictMode": true,
     "lazy": false,
