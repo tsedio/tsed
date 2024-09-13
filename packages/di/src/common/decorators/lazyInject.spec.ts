@@ -65,4 +65,28 @@ describe("LazyInject", () => {
 
     expect(lazyService).toEqual({});
   });
+
+  it("should not return undefined if the package is imported but the bean has not been assigned yet", async () => {
+    @Injectable()
+    class MyInjectable {
+      @LazyInject("MyLazyModule", () => import("./__mock__/lazy.import.module"))
+      lazy: Promise<MyLazyModule>;
+    }
+
+    const injector = new InjectorService();
+    const service = await injector.invoke<MyInjectable>(MyInjectable);
+    const originalLazyInvoke = injector.lazyInvoke.bind(injector);
+    const promise1 = service.lazy;
+    let promise2: Promise<MyLazyModule> | undefined;
+    vi.spyOn(injector, "lazyInvoke").mockImplementationOnce((token) => {
+      promise2 = service.lazy;
+      return originalLazyInvoke(token);
+    });
+
+    const lazyService1 = await promise1;
+    const lazyService2 = await promise2;
+
+    expect(lazyService1).not.toBeUndefined();
+    expect(lazyService2).not.toBeUndefined();
+  });
 });
