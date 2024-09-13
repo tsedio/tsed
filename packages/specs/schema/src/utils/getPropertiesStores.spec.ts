@@ -1,5 +1,5 @@
+import {Groups} from "../..";
 import {Email} from "../decorators/common/format.js";
-import {Ignore} from "../decorators/common/ignore.js";
 import {Property} from "../decorators/common/property.js";
 import {Required} from "../decorators/common/required.js";
 import {getProperties, getPropertiesStores} from "./getPropertiesStores.js";
@@ -30,7 +30,7 @@ describe("getProperties()", () => {
 
   describe("getProperties()", () => {
     class Parent {
-      @Ignore()
+      @Groups("ignored")
       _id: string;
 
       @Property()
@@ -50,7 +50,7 @@ describe("getProperties()", () => {
       @Property()
       test: string;
 
-      @Ignore()
+      @Groups("ignored")
       declare categoryId: string;
     }
 

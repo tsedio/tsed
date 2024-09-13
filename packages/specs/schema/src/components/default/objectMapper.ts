@@ -1,6 +1,6 @@
 import {isArray} from "@tsed/core";
 import {JsonSchema} from "../../domain/JsonSchema.js";
-import {alterIgnore} from "../../hooks/alterIgnore.js";
+import {alterGroups} from "../../hooks/alterGroups.js";
 import {JsonSchemaOptions} from "../../interfaces/JsonSchemaOptions.js";
 import {execMapper, registerJsonSchemaMapper} from "../../registries/JsonSchemaMapperContainer.js";
 
@@ -15,7 +15,7 @@ export function objectMapper(input: any, options: JsonSchemaOptions) {
 
   return Object.entries(input).reduce<any>(
     (obj, [key, value]: [string, any | JsonSchema]) => {
-      if (options.withIgnoredProps !== false && !alterIgnore(value, ctx)) {
+      if (!alterGroups(value, ctx)) {
         const opts = {
           ...options,
           groups: input?.$forwardGroups || value?.$forwardGroups ? options.groups : undefined

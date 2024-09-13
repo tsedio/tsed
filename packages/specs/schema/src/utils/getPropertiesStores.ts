@@ -1,7 +1,7 @@
-import {isBoolean, Type} from "@tsed/core";
+import {Type} from "@tsed/core";
 import type {JsonClassStore} from "../domain/JsonClassStore.js";
 import type {JsonPropertyStore} from "../domain/JsonPropertyStore.js";
-import {alterIgnore} from "../hooks/alterIgnore.js";
+import {alterGroups} from "../hooks/alterGroups.js";
 import {getInheritedStores} from "./getInheritedStores.js";
 import {getJsonEntityStore} from "./getJsonEntityStore.js";
 
@@ -35,7 +35,6 @@ export function getPropertiesStores<T extends JsonPropertyStore = JsonPropertySt
  * @ignore
  */
 export interface GetPropertiesOptions {
-  withIgnoredProps?: boolean;
   groups?: string[] | false;
 
   [type: string]: any;
@@ -52,10 +51,8 @@ export function getProperties<T extends JsonPropertyStore = JsonPropertyStore>(
   const map: Map<string | symbol | number, T> = new Map();
 
   stores.forEach((store, key) => {
-    if (!options.withIgnoredProps) {
-      if (alterIgnore(store.itemSchema, options)) {
-        return;
-      }
+    if (alterGroups(store.itemSchema, options)) {
+      return;
     }
 
     map.set(key, store);
