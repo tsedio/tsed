@@ -153,7 +153,7 @@ describe("PlatformConfiguration", () => {
       expect(settings.jsonMapper).toEqual({
         disableUnsecureConstructor: true,
         additionalProperties: false,
-        strictGroups: false
+        strictGroups: true
       });
     });
 
