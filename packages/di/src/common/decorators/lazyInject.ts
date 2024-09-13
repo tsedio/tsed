@@ -31,7 +31,7 @@ export function LazyInject(
     injectProperty(target, propertyKey, {
       resolver(injector) {
         return async () => {
-          if (!token) {
+          if (!token || !bean) {
             const exports = await importPackage(packageName, resolver, optional);
             token = exports[key];
 
