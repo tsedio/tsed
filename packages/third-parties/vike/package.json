@@ -2,7 +2,7 @@
   "name": "@tsed/vike",
   "description": "Vike package for Ts.ED framework",
   "type": "commonjs",
-  "version": "8.0.0-alpha.4",
+  "version": "8.0.0-alpha.5",
   "contributors": [
     {
       "name": "romakita"
@@ -44,7 +44,7 @@
     "vitest": "2.0.4"
   },
   "peerDependencies": {
-    "@tsed/common": "8.0.0-alpha.4",
+    "@tsed/common": "8.0.0-alpha.5",
     "vike": ">=0.4.160",
     "vite": ">=4"
   },
