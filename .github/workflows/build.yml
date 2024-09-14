@@ -33,7 +33,7 @@ jobs:
         run: yarn test:lint
 
   test-integration:
-    runs-on: ${{ matrix.os }}
+    runs-on: ubuntu-latest
 
     strategy:
       matrix:
