@@ -3,6 +3,7 @@
   "version": "7.83.1",
   "bin": "./index.mjs",
   "type": "module",
+  "private": true,
   "dependencies": {
     "commander": "12.1.0"
   }
