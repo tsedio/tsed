@@ -1,4 +1,4 @@
-import "../../index";
+import "../../index.js";
 import {validateModel} from "../../../test/helpers/validateModel.js";
 import {JsonEntityStore} from "../../domain/JsonEntityStore.js";
 import {getJsonSchema} from "../../utils/getJsonSchema.js";

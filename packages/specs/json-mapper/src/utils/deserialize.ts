@@ -1,6 +1,6 @@
-import "../components/DateMapper";
-import "../components/PrimitiveMapper";
-import "../components/SymbolMapper";
+import "../components/DateMapper.js";
+import "../components/PrimitiveMapper.js";
+import "../components/SymbolMapper.js";
 
 import {JsonDeserializer} from "../domain/JsonDeserializer.js";
 import {JsonDeserializerOptions} from "../domain/JsonDeserializerOptions.js";

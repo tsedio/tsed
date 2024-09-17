@@ -4,7 +4,7 @@ import {Constant, Inject} from "@tsed/di";
 import {BadRequest, InternalServerError} from "@tsed/exceptions";
 import {Stripe} from "stripe";
 import {STRIPE_WEBHOOK_EVENT, STRIPE_WEBHOOK_SIGNATURE} from "../constants/constants.js";
-import "../services/StripeFactory";
+import "../services/StripeFactory.js";
 
 export interface WebhookEventOptions {
   secret: string;

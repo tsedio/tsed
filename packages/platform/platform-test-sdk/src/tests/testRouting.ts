@@ -1,3 +1,4 @@
+import {expect, beforeAll, afterAll, afterEach, it, vi} from "vitest";
 import {Controller, Get, PlatformTest, Put} from "@tsed/common";
 import SuperTest from "supertest";
 import {PlatformTestingSdkOpts} from "../interfaces/index.js";

@@ -9,7 +9,7 @@ import cookieParser from "cookie-parser";
 import methodOverride from "method-override";
 import {AuthCtrl} from "./controllers/rest/auth/AuthCtrl.js";
 import {Account} from "./models/Account.js";
-import "./protocols/LoginLocalProtocol";
+import "./protocols/LoginLocalProtocol.js";
 import session from "express-session";
 
 const rootDir = __dirname; // automatically replaced by import.meta.dirname on build

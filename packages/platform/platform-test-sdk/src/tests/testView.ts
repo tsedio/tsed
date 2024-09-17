@@ -1,3 +1,4 @@
+import {expect, beforeAll, afterAll, describe, it} from "vitest";
 import {Controller, Get, Locals, Middleware, PlatformTest, UseBefore} from "@tsed/common";
 import {EOL} from "os";
 import SuperTest from "supertest";

@@ -1,5 +1,5 @@
 import {TokenProvider} from "@tsed/di";
-import Redis, {Cluster, ClusterOptions, RedisOptions} from "ioredis";
+import {Redis, Cluster, ClusterOptions, RedisOptions} from "ioredis";
 
 export type ClusterConfiguration = {nodes: string[]} & ClusterOptions;
 

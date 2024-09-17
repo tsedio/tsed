@@ -1,7 +1,7 @@
 import {JsonEntityStore} from "../../domain/JsonEntityStore.js";
 import {CollectionOf} from "../collections/collectionOf.js";
 import {Min} from "./minimum.js";
-import "../../index";
+import "../../index.js";
 
 describe("@Minimum", () => {
   it("should declare minimum value", () => {

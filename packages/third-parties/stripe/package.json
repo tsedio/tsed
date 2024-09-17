@@ -1,7 +1,7 @@
 {
   "name": "@tsed/stripe",
   "description": "Stripe package for Ts.ED framework",
-  "type": "commonjs",
+  "type": "module",
   "version": "8.0.0-alpha.5",
   "keywords": [
     "Stripe",
@@ -13,14 +13,13 @@
     "koa"
   ],
   "source": "./src/index.ts",
-  "main": "./lib/cjs/index.js",
+  "main": "./lib/esm/index.js",
   "module": "./lib/esm/index.js",
   "typings": "./lib/types/index.d.ts",
   "exports": {
     ".": {
       "types": "./lib/types/index.d.ts",
       "import": "./lib/esm/index.js",
-      "require": "./lib/cjs/index.js",
       "default": "./lib/cjs/index.js"
     }
   },

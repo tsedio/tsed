@@ -8,12 +8,3 @@ export enum Role {
 }
 "
 `;
-
-exports[`generateEnums should generate filese 1`] = `
-"
-export enum Role {
-  USER = \\"USER\\",
-  ADMIN = \\"ADMIN\\"
-}
-"
-`;

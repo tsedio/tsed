@@ -1,3 +1,4 @@
+import {expect, beforeAll, afterAll, describe, it} from "vitest";
 import {Controller, Get, PlatformTest} from "@tsed/common";
 import {ContentType} from "@tsed/schema";
 import {createReadStream} from "fs";

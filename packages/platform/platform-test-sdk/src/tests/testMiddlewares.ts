@@ -1,3 +1,4 @@
+import {expect, beforeAll, afterAll, describe, it} from "vitest";
 import "@tsed/ajv";
 import {
   Context,

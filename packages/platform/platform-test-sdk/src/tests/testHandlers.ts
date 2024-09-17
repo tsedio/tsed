@@ -1,3 +1,4 @@
+import {expect, beforeAll, afterAll, it} from "vitest";
 import {Context, Controller, Get, PathParams, PlatformTest} from "@tsed/common";
 import {Property, Required, Title} from "@tsed/schema";
 import SuperTest from "supertest";

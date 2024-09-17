@@ -1,4 +1,5 @@
 import "@tsed/ajv";
+import {expect, beforeAll, afterAll, describe, it} from "vitest";
 import {BodyParams, Context, Controller, HeaderParams, PlatformTest, RawBodyParams} from "@tsed/common";
 import {
   Post,

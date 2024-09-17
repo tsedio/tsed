@@ -1,4 +1,5 @@
 import "@tsed/ajv";
+import {expect, beforeAll, afterAll, it} from "vitest";
 import {BodyParams, Controller, Err, Get, Middleware, PlatformTest, Post, UseAfter} from "@tsed/common";
 import {Env} from "@tsed/core";
 import {BadRequest, InternalServerError} from "@tsed/exceptions";

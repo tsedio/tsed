@@ -2,8 +2,7 @@
   "extends": "@tsed/typescript/tsconfig.node.json",
   "compilerOptions": {
     "baseUrl": ".",
-    "noEmit": true,
-    "types": ["vite/client", "vitest/globals"]
+    "noEmit": true
   },
   "include": [],
   "references": [
@@ -39,9 +38,6 @@
     },
     {
       "path": "../../specs/swagger/tsconfig.json"
-    },
-    {
-      "path": "./tsconfig.cjs.json"
     },
     {
       "path": "./tsconfig.esm.json"

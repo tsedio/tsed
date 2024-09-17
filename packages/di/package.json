@@ -1,11 +1,11 @@
 {
   "name": "@tsed/di",
   "description": "DI module for Ts.ED Framework",
-  "type": "commonjs",
+  "type": "module",
   "version": "8.0.0-alpha.5",
   "source": "./src/index.ts",
-  "main": "lib/esm/index.js",
-  "module": "lib/esm/index.js",
+  "main": "./lib/esm/index.js",
+  "module": "./lib/esm/index.js",
   "typings": "./lib/types/index.d.ts",
   "browser": "./lib/browser/di.umd.min.js",
   "exports": {
@@ -13,7 +13,6 @@
       "types": "./lib/types/index.d.ts",
       "browser": "./lib/browser/di.umd.min.js",
       "import": "./lib/esm/index.js",
-      "require": "./lib/cjs/index.js",
       "default": "./lib/cjs/index.js"
     }
   },

@@ -1,3 +1,4 @@
+import {expect, beforeAll, afterAll, describe, it, vi} from "vitest";
 import {BodyParams, Controller, MulterOptions, MultipartFile, PlatformMulterFile, PlatformTest} from "@tsed/common";
 import {CollectionOf, Post, Property, Required, Status} from "@tsed/schema";
 import multer, {FileFilterCallback} from "multer";

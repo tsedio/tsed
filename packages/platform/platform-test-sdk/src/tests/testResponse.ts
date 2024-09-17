@@ -1,3 +1,4 @@
+import {expect, beforeAll, afterAll, describe, it} from "vitest";
 import {Context, Controller, Get, getContext, PathParams, PlatformResponse, PlatformTest, Post, Res} from "@tsed/common";
 import {CollectionOf, Enum, ForwardGroups, Groups, Ignore, Name, Property, Required, Returns, Status} from "@tsed/schema";
 import axios from "axios";

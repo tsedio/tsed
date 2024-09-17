@@ -21,7 +21,8 @@ import {OidcInteractionPromptProps} from "../domain/OidcInteractionPromptProps.j
 import {debug} from "../utils/debug.js";
 import {OidcInteractions} from "./OidcInteractions.js";
 import {OidcProvider} from "./OidcProvider.js";
-import omit from "lodash/omit";
+import omit from "lodash/omit.js";
+
 @Injectable()
 export class OidcInteractionContext {
   @Constant("env")

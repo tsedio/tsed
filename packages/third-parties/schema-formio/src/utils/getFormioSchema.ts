@@ -4,19 +4,19 @@ import {FormioForm} from "@tsed/formio-types";
 import {execMapper} from "../registries/FormioMappersContainer.js";
 import {FormsContainer} from "../registries/FormsContainer.js";
 import {paramCase} from "change-case";
-import "../components/anyToComponent";
-import "../components/arrayToComponent";
-import "../components/booleanToComponent";
-import "../components/dateToComponent";
-import "../components/defaultToComponent";
-import "../components/enumToComponent";
-import "../components/mapToComponent";
-import "../components/nestedToComponent";
-import "../components/numberToComponent";
-import "../components/objectToEditGrid";
-import "../components/panelToComponent";
-import "../components/propertiesToComponents";
-import "../components/stringToComponent";
+import "../components/anyToComponent.js";
+import "../components/arrayToComponent.js";
+import "../components/booleanToComponent.js";
+import "../components/dateToComponent.js";
+import "../components/defaultToComponent.js";
+import "../components/enumToComponent.js";
+import "../components/mapToComponent.js";
+import "../components/nestedToComponent.js";
+import "../components/numberToComponent.js";
+import "../components/objectToEditGrid.js";
+import "../components/panelToComponent.js";
+import "../components/propertiesToComponents.js";
+import "../components/stringToComponent.js";
 
 export async function getFormioSchema(
   model: string | any | undefined,

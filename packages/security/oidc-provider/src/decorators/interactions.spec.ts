@@ -1,5 +1,5 @@
 import {PlatformTest} from "@tsed/common";
-import "../../test/app/controllers/oidc/InteractionsCtrl";
+import "../../test/app/controllers/oidc/InteractionsCtrl.js";
 
 describe("@Interactions", () => {
   beforeEach(() =>

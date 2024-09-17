@@ -1,6 +1,6 @@
 import {JsonEntityStore} from "../../domain/JsonEntityStore.js";
 import {CollectionOf} from "../collections/collectionOf.js";
-import "../../index";
+import "../../index.js";
 import {Max} from "./maximum.js";
 
 describe("@Maximum", () => {

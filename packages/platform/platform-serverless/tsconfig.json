@@ -31,9 +31,6 @@
       "path": "../../specs/schema/tsconfig.json"
     },
     {
-      "path": "./tsconfig.cjs.json"
-    },
-    {
       "path": "./tsconfig.esm.json"
     },
     {

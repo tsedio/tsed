@@ -1,3 +1,4 @@
+import {expect, beforeAll, afterAll, it} from "vitest";
 import {Context, Controller, Get, PathParams, PlatformTest, Post} from "@tsed/common";
 import {Pattern} from "@tsed/schema";
 import SuperTest from "supertest";

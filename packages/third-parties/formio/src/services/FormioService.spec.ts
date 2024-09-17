@@ -1,5 +1,5 @@
 import {PlatformTest} from "@tsed/common";
-import "../components/AlterAudit";
+import "../components/AlterAudit.js";
 import {AlterAudit} from "../components/AlterAudit.js";
 import {FormioHooksService} from "./FormioHooksService.js";
 import {FormioService} from "./FormioService.js";

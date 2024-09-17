@@ -1,3 +1,4 @@
+import {expect, beforeEach, afterEach, it} from "vitest";
 import {Controller, PlatformTest} from "@tsed/common";
 import {getValue} from "@tsed/core";
 import {Configuration} from "@tsed/di";

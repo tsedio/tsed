@@ -1,5 +1,5 @@
 import {GlobalProviders, TokenProvider} from "@tsed/di";
-import Redis from "ioredis";
+import type {Redis} from "ioredis";
 
 import {IOREDIS_CONNECTIONS} from "./registerConnectionProvider.js";
 

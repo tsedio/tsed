@@ -1,3 +1,4 @@
+import {expect, beforeAll, afterAll, describe, it} from "vitest";
 import {Context, Controller, Get, Inject, Injectable, Middleware, PlatformTest, Post, Req, UseAuth} from "@tsed/common";
 import {useDecorators} from "@tsed/core";
 import {BadRequest, Forbidden, Unauthorized} from "@tsed/exceptions";

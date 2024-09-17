@@ -5,7 +5,7 @@ import compress from "compression";
 import cookieParser from "cookie-parser";
 import methodOverride from "method-override";
 import "@tsed/platform-express";
-import "../../src/EventEmitterModule";
+import "../../src/EventEmitterModule.js";
 
 const rootDir = __dirname; // automatically replaced by import.meta.dirname on build
 

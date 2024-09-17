@@ -1,5 +1,5 @@
 import {PlatformApplication, PlatformTest} from "@tsed/common";
-import "../src/index";
+import "../src/index.js";
 import {PassportModule} from "./PassportModule.js";
 import Passport from "passport";
 

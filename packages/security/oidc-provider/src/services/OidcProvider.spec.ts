@@ -1,6 +1,6 @@
 import {PlatformTest, runInContext} from "@tsed/common";
 import {Env} from "@tsed/core";
-import "../../test/app/controllers/oidc/InteractionsCtrl";
+import "../../test/app/controllers/oidc/InteractionsCtrl.js";
 import {OidcProvider} from "./OidcProvider.js";
 
 describe("OidcProvider", () => {
