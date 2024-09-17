@@ -6,11 +6,10 @@
     "moduleResolution": "nodenext",
     "rootDir": "src",
     "outDir": "./lib/esm",
-    "declarationDir": "./lib/types-esm",
+    "declarationDir": "./lib/types",
     "declaration": true,
     "composite": true,
-    "noEmit": false,
-    "types": ["vite/client", "vitest/globals"]
+    "noEmit": false
   },
   "include": ["src", "src/**/*.json"],
   "exclude": [

@@ -4,7 +4,7 @@ import {isStream, isObservable} from "@tsed/core";
 import type {InterceptorContext, InterceptorMethods} from "@tsed/di";
 import {Injectable} from "@tsed/di";
 import type {Observable} from "rxjs";
-import {EventStreamContext} from "../domain/EventStreamContext";
+import {EventStreamContext} from "../domain/EventStreamContext.js";
 
 @Injectable()
 export class EventStreamInterceptor implements InterceptorMethods {

@@ -1,3 +1,4 @@
+import {expect, beforeAll, afterAll, it} from "vitest";
 import {Controller, Get, PlatformTest} from "@tsed/common";
 import SuperTest from "supertest";
 import {Location} from "@tsed/schema";

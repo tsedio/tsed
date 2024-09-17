@@ -1,23 +1,22 @@
 {
   "name": "@tsed/testcontainers-mongo",
   "description": "A module to test Ts.ED code that use MongoDB as database using Test Containers",
-  "type": "commonjs",
+  "type": "module",
   "version": "8.0.0-alpha.5",
   "source": "./src/index.ts",
-  "main": "./lib/cjs/index.js",
+  "main": "./lib/esm/index.js",
   "module": "./lib/esm/index.js",
   "typings": "./lib/types/index.d.ts",
   "exports": {
     ".": {
       "types": "./lib/types/index.d.ts",
       "import": "./lib/esm/index.js",
-      "require": "./lib/cjs/index.js",
       "default": "./lib/cjs/index.js"
     },
     "./vitest/setup": {
       "types": "./lib/types/setup/vi.setup.d.ts",
       "import": "./lib/esm/setup/vi.setup.js",
-      "default": "./lib/cjs/setup/vi.setup.js"
+      "default": "./lib/esm/setup/vi.setup.js"
     }
   },
   "scripts": {

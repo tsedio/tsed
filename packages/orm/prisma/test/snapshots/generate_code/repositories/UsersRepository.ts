@@ -1,9 +1,9 @@
 import {isArray} from "@tsed/core";
 import {deserialize} from "@tsed/json-mapper";
 import {Injectable, Inject} from "@tsed/di";
-import {PrismaService} from "../services/PrismaService";
-import {Prisma, User} from "../client/index";
-import {UserModel} from "../models/index";
+import {PrismaService} from "../services/PrismaService.js";
+import {Prisma, User} from "../client/index.js";
+import {UserModel} from "../models/index.js";
 
 @Injectable()
 export class UsersRepository {

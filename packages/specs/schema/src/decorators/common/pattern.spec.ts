@@ -1,6 +1,6 @@
 import {JsonEntityStore} from "../../domain/JsonEntityStore.js";
 import {Pattern} from "./pattern.js";
-import "../../index";
+import "../../index.js";
 
 describe("@Pattern", () => {
   it("should declare pattern value", () => {

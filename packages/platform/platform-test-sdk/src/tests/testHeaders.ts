@@ -1,3 +1,4 @@
+import {expect, beforeAll, afterAll, it} from "vitest";
 import {BodyParams, Controller, Get, PlatformResponse, PlatformTest, Res} from "@tsed/common";
 import {Returns} from "@tsed/schema";
 import SuperTest from "supertest";

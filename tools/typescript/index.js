@@ -172,12 +172,7 @@ async function main() {
       pkg.pkg.module = "./lib/esm/index.js";
       pkg.pkg.typings = "./lib/types/index.d.ts";
       pkg.pkg.exports = {
-        ".": {
-          ...omit(get(pkg, 'pkg.exports["."]', {}), ["require"])
-          // typings: "./lib/types/index.d.ts",
-          // default: "./lib/esm/index.js",
-          // import: "./lib/esm/index.js"
-        }
+        ".": omit(get(pkg, 'pkg.exports["."]', {}), ["require"])
       };
 
       await fs.writeJson(pkg.path, pkg.pkg, {spaces: 2});

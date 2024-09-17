@@ -1,6 +1,6 @@
 import {JsonEntityStore} from "../../domain/JsonEntityStore.js";
 import {ExclusiveMinimum} from "./exclusiveMinimum.js";
-import "../../index";
+import "../../index.js";
 
 describe("@ExclusiveMinimum", () => {
   it("should declare exclusiveMinimum value", () => {

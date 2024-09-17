@@ -1,3 +1,4 @@
+import {expect, beforeAll, afterAll, describe, it} from "vitest";
 import {BodyParams, Controller, Get, Middleware, PathParams, PlatformTest, Post, QueryParams, UseAuth} from "@tsed/common";
 import {NotFound} from "@tsed/exceptions";
 import {Description, MaxLength, MinLength, Property, Returns, Summary} from "@tsed/schema";

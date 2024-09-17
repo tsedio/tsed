@@ -3,8 +3,8 @@ import {Constant, Inject, InjectorService, Module, Provider} from "@tsed/di";
 import {Job, Processor, DefineOptions, JobAttributesData} from "@pulsecron/pulse";
 import {v4 as uuid} from "uuid";
 import {PROVIDER_TYPE_PULSE} from "./constants/constants.js";
-import {PulseStore} from "./interfaces/PulseStore";
-import {PulseService} from "./services/PulseFactory";
+import {PulseStore} from "./interfaces/PulseStore.js";
+import {PulseService} from "./services/PulseFactory.js";
 
 @Module()
 export class PulseModule implements OnDestroy, AfterListen {
@@ -77,17 +77,21 @@ export class PulseModule implements OnDestroy, AfterListen {
   }
 
   define<T extends JobAttributesData>(name: string, processor: Processor<T>, options?: DefineOptions) {
-    return this.pulse.define(name, (job: Job<T>, ...rest) => {
-      const $ctx = new DIContext({
-        injector: this.injector,
-        id: uuid(),
-        logger: this.injector.logger
-      });
+    return this.pulse.define(
+      name,
+      (job: Job<T>, ...rest) => {
+        const $ctx = new DIContext({
+          injector: this.injector,
+          id: uuid(),
+          logger: this.injector.logger
+        });
 
-      $ctx.set("job", job);
+        $ctx.set("job", job);
 
-      return runInContext($ctx, () => processor(job, ...rest));
-    }, options);
+        return runInContext($ctx, () => processor(job, ...rest));
+      },
+      options
+    );
   }
 
   every(interval: string, name: string, data?: any, options?: any) {

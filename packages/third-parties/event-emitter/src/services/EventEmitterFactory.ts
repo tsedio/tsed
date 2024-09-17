@@ -1,6 +1,6 @@
 import {Configuration, registerProvider} from "@tsed/di";
 import type {ConstructorOptions} from "eventemitter2";
-import EventEmitter2 from "eventemitter2";
+import {EventEmitter2} from "eventemitter2";
 
 export const EventEmitterService = EventEmitter2;
 export type EventEmitterService = EventEmitter2;

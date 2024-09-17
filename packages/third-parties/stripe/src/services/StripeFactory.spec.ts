@@ -1,5 +1,5 @@
 import {PlatformTest} from "@tsed/common";
-import "../index";
+import "../index.js";
 import {Stripe} from "stripe";
 
 describe("StripeFactory", () => {

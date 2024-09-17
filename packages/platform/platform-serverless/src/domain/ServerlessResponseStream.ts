@@ -1,6 +1,6 @@
 import type {APIGatewayProxyEventV2, Callback, Context, Handler} from "aws-lambda";
 import {Stream} from "node:stream";
-import {isInAWS} from "../utils/isInAWS";
+import {isInAWS} from "../utils/isInAWS.js";
 
 export type ServerlessResponseMeta = {statusCode: number; headers: Record<string, string>};
 

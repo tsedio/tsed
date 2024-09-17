@@ -13,10 +13,10 @@
       "path": "../../core/tsconfig.json"
     },
     {
-      "path": "../apollo/tsconfig.json"
+      "path": "../../platform/platform-express/tsconfig.json"
     },
     {
-      "path": "./tsconfig.cjs.json"
+      "path": "../apollo/tsconfig.json"
     },
     {
       "path": "./tsconfig.esm.json"

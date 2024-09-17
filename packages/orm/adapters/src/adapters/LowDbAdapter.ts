@@ -1,5 +1,5 @@
 import {cleanObject} from "@tsed/core";
-import isMatch from "lodash/isMatch";
+import isMatch from "lodash/isMatch.js";
 import low from "lowdb";
 import {v4 as uuid} from "uuid";
 import {Adapter} from "../domain/Adapter.js";

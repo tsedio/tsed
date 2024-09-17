@@ -34,9 +34,6 @@
       "path": "../../packages/specs/swagger/tsconfig.json"
     },
     {
-      "path": "./tsconfig.cjs.json"
-    },
-    {
       "path": "./tsconfig.esm.json"
     }
   ]

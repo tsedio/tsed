@@ -1,6 +1,6 @@
 import {DecoratorParameters, decoratorTypeOf, DecoratorTypes} from "@tsed/core";
 import {Inject, InjectContext} from "@tsed/di";
-import {APOLLO_CONTEXT} from "../constants/constants";
+import {APOLLO_CONTEXT} from "../constants/constants.js";
 
 /**
  * Inject the Apollo context in the decorated property.

@@ -1,7 +1,7 @@
 #!/usr/bin/env ts-node
 import {generatorHandler} from "@prisma/generator-helper";
 import {join} from "path";
-import {generate} from "./cli/prismaGenerator";
+import {generate} from "./cli/prismaGenerator.js";
 
 const rootDir = __dirname; // automatically replaced by tsed tools on build
 export const defaultOutput = join(rootDir, "..", ".schema");

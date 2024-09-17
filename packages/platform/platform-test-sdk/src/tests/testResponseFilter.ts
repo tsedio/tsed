@@ -1,3 +1,4 @@
+import {expect, beforeAll, afterAll, describe, it} from "vitest";
 import {Controller, Get, PlatformContext, PlatformTest, ResponseFilter, ResponseFilterMethods} from "@tsed/common";
 import {Property, Returns} from "@tsed/schema";
 import SuperTest from "supertest";

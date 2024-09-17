@@ -25,9 +25,9 @@ import {
 } from "@tsed/schema";
 import {Post} from "../../test/helpers/Post.js";
 import {User} from "../../test/helpers/User.js";
-import "../components/DateMapper";
-import "../components/PrimitiveMapper";
-import "../components/SymbolMapper";
+import "../components/DateMapper.js";
+import "../components/PrimitiveMapper.js";
+import "../components/SymbolMapper.js";
 import {OnDeserialize} from "../decorators/onDeserialize.js";
 import {JsonDeserializer} from "./JsonDeserializer.js";
 import {JsonMapperSettings} from "./JsonMapperSettings.js";

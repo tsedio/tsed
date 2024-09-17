@@ -1,10 +1,10 @@
 {
   "name": "@tsed/schema-formio",
   "description": "Transform Ts.ED Schema & JsonSchema to a valid Formio schema",
-  "type": "commonjs",
+  "type": "module",
   "version": "8.0.0-alpha.5",
   "source": "./src/index.ts",
-  "main": "./lib/cjs/index.js",
+  "main": "./lib/esm/index.js",
   "module": "./lib/esm/index.js",
   "typings": "./lib/types/index.d.ts",
   "browser": "./lib/browser/schema-formio.umd.min.js",
@@ -13,7 +13,6 @@
       "types": "./lib/types/index.d.ts",
       "browser": "./lib/browser/schema-formio.umd.min.js",
       "import": "./lib/esm/index.js",
-      "require": "./lib/cjs/index.js",
       "default": "./lib/cjs/index.js"
     }
   },

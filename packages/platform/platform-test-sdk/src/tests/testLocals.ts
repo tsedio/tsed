@@ -1,4 +1,5 @@
-import {Context, Controller, Get, Locals, Middleware, Next, PlatformContext, PlatformTest, Req, Request, Res, Use} from "@tsed/common";
+import {expect, beforeAll, afterAll, describe, it} from "vitest";
+import {Context, Controller, Get, Locals, Middleware, PlatformContext, PlatformTest, Req, Use} from "@tsed/common";
 import SuperTest from "supertest";
 import {PlatformTestingSdkOpts} from "../interfaces/index.js";
 

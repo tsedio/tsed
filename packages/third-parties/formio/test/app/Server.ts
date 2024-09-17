@@ -9,7 +9,7 @@ import compress from "compression";
 import cookieParser from "cookie-parser";
 import session from "express-session";
 import methodOverride from "method-override";
-import "../../src";
+import "../../src/index.js";
 import template from "../template/project.json";
 
 const rootDir = __dirname; // automatically replaced by import.meta.dirname on build
