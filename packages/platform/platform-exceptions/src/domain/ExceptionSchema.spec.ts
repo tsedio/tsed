@@ -5,7 +5,7 @@ import Ajv from "ajv";
 import fs from "fs-extra";
 import "./ExceptionSchema";
 
-const rootDir = __dirname; // automatically replaced by import.meta.dirname on build
+const rootDir = import.meta.dirname;
 
 function getAjv() {
   return new Ajv({

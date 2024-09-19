@@ -10,7 +10,7 @@ import {Server} from "./app/Server.js";
 import {join} from "path";
 import {Accounts} from "./app/services/Accounts.js";
 
-const testDir = __dirname;
+const testDir = import.meta.dirname;
 
 const utils = PlatformTestSdk.create({
   rootDir,

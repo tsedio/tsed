@@ -2,7 +2,7 @@ import {$log} from "@tsed/common";
 import {PlatformExpress} from "@tsed/platform-express";
 import {Server} from "./server";
 
-const rootDir = __dirname; // automatically replaced by import.meta.dirname on build
+const rootDir = import.meta.dirname; // automatically replaced by import.meta.dirname on build
 
 // /!\ configuration file must be outside of your src directory
 process.env["NODE_CONFIG_DIR"] = `${rootDir}/../config`;

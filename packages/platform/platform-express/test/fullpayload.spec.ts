@@ -6,7 +6,7 @@ import SuperTest from "supertest";
 import {PlatformExpress} from "../src/index.js";
 import {rootDir, Server} from "./app/Server.js";
 
-const root = __dirname;
+const root = import.meta.dirname;
 
 const utils = PlatformTestSdk.create({
   rootDir,

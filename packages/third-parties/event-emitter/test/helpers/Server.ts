@@ -7,7 +7,7 @@ import methodOverride from "method-override";
 import "@tsed/platform-express";
 import "../../src/EventEmitterModule.js";
 
-const rootDir = __dirname; // automatically replaced by import.meta.dirname on build
+const rootDir = import.meta.dirname;
 
 @Configuration({
   rootDir,

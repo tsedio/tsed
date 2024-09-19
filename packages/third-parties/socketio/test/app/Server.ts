@@ -8,7 +8,7 @@ import cookieParser from "cookie-parser";
 import methodOverride from "method-override";
 import {SocketPageCtrl} from "./controllers/pages/SocketPageCtrl.js";
 
-const rootDir = __dirname; // automatically replaced by import.meta.dirname on build
+const rootDir = import.meta.dirname;
 
 export {rootDir};
 

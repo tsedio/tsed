@@ -7,7 +7,7 @@ import cookieParser from "cookie-parser";
 import methodOverride from "method-override";
 import "./services/ManagedEventSubscriber.js";
 
-const rootDir = __dirname; // automatically replaced by import.meta.dirname on build
+const rootDir = import.meta.dirname;
 
 @Configuration({
   rootDir,

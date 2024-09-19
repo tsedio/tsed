@@ -12,7 +12,7 @@ import methodOverride from "method-override";
 import "../../src/index.js";
 import template from "../template/project.json";
 
-const rootDir = __dirname; // automatically replaced by import.meta.dirname on build
+const rootDir = import.meta.dirname;
 export {rootDir};
 
 @Configuration({

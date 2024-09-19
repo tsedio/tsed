@@ -5,7 +5,7 @@ import {join} from "path";
 
 const Sqrl = require("squirrelly");
 
-const rootDir = join(__dirname, "..");
+const rootDir = join(import.meta.dirname, "..");
 
 const readFile = fs.readFile;
 const readFileSync = fs.readFileSync;

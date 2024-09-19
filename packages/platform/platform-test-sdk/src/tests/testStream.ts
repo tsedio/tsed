@@ -6,7 +6,7 @@ import {join} from "path";
 import SuperTest from "supertest";
 import {PlatformTestingSdkOpts} from "../interfaces/index.js";
 
-const rootDir = __dirname; // automatically replaced by import.meta.dirname on build
+const rootDir = import.meta.dirname;
 
 @Controller("/stream")
 class TestStreamCtrl {

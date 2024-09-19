@@ -5,7 +5,7 @@ import {Knex} from "knex";
 import {User} from "./helpers/models/User.js";
 import {describe, beforeAll, beforeEach, it, afterAll, expect} from "vitest";
 
-const rootDir = __dirname; // automatically replaced by import.meta.dirname on build
+const rootDir = import.meta.dirname;
 
 describe.skip("Objection integrations", () => {
   beforeAll(() => {

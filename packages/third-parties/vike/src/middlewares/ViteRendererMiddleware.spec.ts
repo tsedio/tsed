@@ -2,7 +2,7 @@ import {PlatformTest} from "@tsed/common";
 import {ViteService} from "../services/ViteService.js";
 import {ViteRendererMiddleware} from "./ViteRendererMiddleware.js";
 
-const rootDir = __dirname; // automatically replaced by import.meta.dirname on build
+const rootDir = import.meta.dirname;
 
 describe("ViteRenderMiddleware", () => {
   describe("use()", () => {

@@ -17,7 +17,7 @@ import {AnyOf} from "../decorators/common/anyOf";
 import {Post} from "../decorators/operations/route";
 import {BodyParams} from "@tsed/platform-params";
 
-const rootDir = __dirname; // automatically replaced by import.meta.dirname on build
+const rootDir = import.meta.dirname;
 
 describe("generateSpec()", () => {
   describe("OS 3.0.1", () => {
@@ -141,13 +141,7 @@ describe("generateSpec()", () => {
 
     it("should generate spec and correctly merge shared model with custom schema", async () => {
       class Model {
-        @AnyOf(
-          Number,
-          Boolean,
-          String,
-          { type: 'array', items: { type: 'number' } },
-          { type: 'array', items: { type: 'string' } },
-        )
+        @AnyOf(Number, Boolean, String, {type: "array", items: {type: "number"}}, {type: "array", items: {type: "string"}})
         test: number | boolean | string | number[] | string[];
       }
 
@@ -166,7 +160,7 @@ describe("generateSpec()", () => {
       const result = await generateSpec({
         tokens: [
           {token: Controller1, rootPath: "/rest"},
-          {token: Controller2, rootPath: "/rest"},
+          {token: Controller2, rootPath: "/rest"}
         ],
         specVersion: "3.0.1",
         specPath: join(rootDir, "__mock__", "spec.json")
@@ -195,13 +189,13 @@ describe("generateSpec()", () => {
               parameters: [],
               requestBody: {
                 content: {
-                  'application/json': {
+                  "application/json": {
                     schema: {
-                      $ref: '#/components/schemas/Model'
+                      $ref: "#/components/schemas/Model"
                     }
                   }
                 },
-                required: false,
+                required: false
               },
               responses: {
                 "200": {
@@ -209,7 +203,7 @@ describe("generateSpec()", () => {
                 }
               },
               tags: ["Controller1"]
-            },
+            }
           },
           "/rest/controller2/post": {
             post: {
@@ -217,13 +211,13 @@ describe("generateSpec()", () => {
               parameters: [],
               requestBody: {
                 content: {
-                  'application/json': {
+                  "application/json": {
                     schema: {
-                      $ref: '#/components/schemas/Model'
+                      $ref: "#/components/schemas/Model"
                     }
                   }
                 },
-                required: false,
+                required: false
               },
               responses: {
                 "200": {
@@ -231,7 +225,7 @@ describe("generateSpec()", () => {
                 }
               },
               tags: ["Controller2"]
-            },
+            }
           }
         },
         tags: [
@@ -240,20 +234,20 @@ describe("generateSpec()", () => {
           },
           {
             name: "Controller2"
-          },
+          }
         ],
         components: {
           schemas: {
             Model: {
-              type: 'object',
+              type: "object",
               properties: {
                 test: {
                   anyOf: [
-                    { type: 'number' },
-                    { type: 'boolean' },
-                    { type: 'string' },
-                    { type: 'array', items: { type: 'number' } },
-                    { type: 'array', items: { type: 'string' } },
+                    {type: "number"},
+                    {type: "boolean"},
+                    {type: "string"},
+                    {type: "array", items: {type: "number"}},
+                    {type: "array", items: {type: "string"}}
                   ]
                 }
               }

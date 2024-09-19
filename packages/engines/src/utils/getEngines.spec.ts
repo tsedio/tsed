@@ -2,7 +2,7 @@ import {join} from "path";
 import {getEngine, getEngines} from "./getEngines.js";
 import "../index.js";
 
-const rootDir = __dirname; // automatically replaced by import.meta.dirname on build
+const rootDir = import.meta.dirname;
 
 describe("getEngines", () => {
   describe("getEngine()", () => {

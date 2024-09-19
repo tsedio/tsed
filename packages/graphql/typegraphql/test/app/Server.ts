@@ -17,7 +17,7 @@ import "./services/RecipeService.js";
 import "./services/UsersRepository.js";
 import {pubSub} from "./graphql/pubsub/pubsub.js";
 
-const rootDir = __dirname; // automatically replaced by import.meta.dirname on build
+const rootDir = import.meta.dirname; // automatically replaced by import.meta.dirname on build
 const rootCert = join(rootDir, "../..");
 @Configuration({
   rootDir,

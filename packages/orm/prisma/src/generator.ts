@@ -3,7 +3,7 @@ import {generatorHandler} from "@prisma/generator-helper";
 import {join} from "path";
 import {generate} from "./cli/prismaGenerator.js";
 
-const rootDir = __dirname; // automatically replaced by tsed tools on build
+const rootDir = import.meta.dirname;
 export const defaultOutput = join(rootDir, "..", ".schema");
 export const packageDir = join(rootDir, "..", "..");
 

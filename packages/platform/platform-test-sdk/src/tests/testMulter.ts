@@ -7,7 +7,7 @@ import readPkgUp from "read-pkg-up";
 import SuperTest from "supertest";
 import {PlatformTestingSdkOpts} from "../interfaces/index.js";
 
-const rootDir = __dirname; // automatically replaced by import.meta.dirname on build
+const rootDir = import.meta.dirname;
 
 export class Task {
   @Property()
@@ -79,7 +79,7 @@ export function testMulter(options: PlatformTestingSdkOpts) {
   const buffer = Buffer.from("test content");
 
   const pkg = readPkgUp.sync({
-    cwd: __dirname
+    cwd: import.meta.dirname
   });
   const rootDir = join(dirname(pkg?.path || ""), "src");
 

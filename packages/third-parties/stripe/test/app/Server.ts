@@ -4,7 +4,7 @@ import {Configuration} from "@tsed/di";
 import "@tsed/stripe";
 import "@tsed/swagger";
 
-const rootDir = __dirname; // automatically replaced by import.meta.dirname on build
+const rootDir = import.meta.dirname;
 export {rootDir};
 
 @Configuration({

@@ -6,7 +6,7 @@ import bodyParser from "body-parser";
 import compress from "compression";
 import methodOverride from "method-override";
 
-const rootDir = __dirname; // automatically replaced by import.meta.dirname on build
+const rootDir = import.meta.dirname;
 
 @Configuration({
   rootDir,

@@ -12,7 +12,7 @@ import {Account} from "./models/Account.js";
 import "./protocols/LoginLocalProtocol.js";
 import session from "express-session";
 
-const rootDir = __dirname; // automatically replaced by import.meta.dirname on build
+const rootDir = import.meta.dirname;
 export {rootDir};
 
 @Configuration({

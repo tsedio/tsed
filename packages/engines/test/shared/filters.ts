@@ -2,7 +2,7 @@ import {engines} from "../../src/index.js";
 import fs from "fs";
 import {join} from "path";
 
-const rootDir = join(__dirname, "..");
+const rootDir = join(import.meta.dirname, "..");
 
 export function test(name: string) {
   const engine = engines.get(name)!;

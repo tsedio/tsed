@@ -8,7 +8,7 @@ import {Application} from "express";
 import "./services/MongoClient.js";
 import "./services/RedisClient.js";
 
-const rootDir = __dirname; // automatically replaced by import.meta.dirname on build
+const rootDir = import.meta.dirname;
 export {rootDir};
 
 @Configuration({

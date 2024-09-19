@@ -13,7 +13,7 @@ import methodOverride from "method-override";
 import {join} from "path";
 import {Accounts} from "./services/Accounts.js";
 
-const rootDir = __dirname; // automatically replaced by import.meta.dirname on build
+const rootDir = import.meta.dirname;
 export {rootDir};
 
 @Configuration({

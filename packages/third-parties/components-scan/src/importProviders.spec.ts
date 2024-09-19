@@ -2,7 +2,7 @@ import {nameOf} from "@tsed/core";
 import {resolveControllers} from "@tsed/di";
 import {importProviders} from "./importProviders.js";
 
-const rootDir = __dirname; // automatically replaced by import.meta.dirname on build
+const rootDir = import.meta.dirname;
 
 describe("importProviders", () => {
   it("should load providers and merge configuration", async () => {
