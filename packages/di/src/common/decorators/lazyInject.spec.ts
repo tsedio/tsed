@@ -1,4 +1,5 @@
 import {catchAsyncError, classOf, nameOf} from "@tsed/core";
+
 import {InjectorService} from "../services/InjectorService.js";
 import type {MyLazyModule} from "./__mock__/lazy.module.js";
 import {Injectable} from "./injectable.js";
@@ -8,7 +9,7 @@ describe("LazyInject", () => {
   it("should lazy load module (import)", async () => {
     @Injectable()
     class MyInjectable {
-      @LazyInject("MyLazyModule", () => import("./__mock__/lazy.import.module"))
+      @LazyInject("MyLazyModule", () => import("./__mock__/lazy.import.module.js"))
       lazy: Promise<MyLazyModule>;
     }
 
@@ -25,7 +26,7 @@ describe("LazyInject", () => {
   it("should throw an error when token isn't a valid provider", async () => {
     @Injectable()
     class MyInjectable {
-      @LazyInject("TKO", () => import("./__mock__/lazy.nodefault.module"))
+      @LazyInject("TKO", () => import("./__mock__/lazy.nodefault.module.js"))
       lazy?: Promise<MyLazyModule>;
     }
 

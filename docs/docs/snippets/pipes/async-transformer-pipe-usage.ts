@@ -1,6 +1,7 @@
+import {Controller} from "@tsed/di";
 import {RawPathParams, UsePipe} from "@tsed/platform-params";
 import {Put} from "@tsed/schema";
-import {Controller} from "@tsed/di";
+
 import {PersonModel} from "../models/PersonModel";
 import {PersonPipe} from "../services/PersonPipe";
 

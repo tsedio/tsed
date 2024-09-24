@@ -1,4 +1,5 @@
 import {Configuration} from "@tsed/di";
+
 import {MyController} from "./controllers/manual/MyController";
 
 @Configuration({

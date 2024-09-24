@@ -54,49 +54,49 @@ describe("ContextLogger", () => {
     contextLogger.flush();
 
     // THEN
-    expect(logger.info).toBeCalledWith({
+    expect(logger.info).toHaveBeenCalledWith({
       minimal: "minimal",
       duration: 1,
       reqId: "id",
       test: "test",
       time: expect.any(Date)
     });
-    expect(logger.info).toBeCalledWith({
+    expect(logger.info).toHaveBeenCalledWith({
       minimal: "minimal",
       duration: 1,
       reqId: "id",
       message: "message",
       time: expect.any(Date)
     });
-    expect(logger.debug).toBeCalledWith({
+    expect(logger.debug).toHaveBeenCalledWith({
       complete: "complete",
       duration: 1,
       reqId: "id",
       test: "test",
       time: expect.any(Date)
     });
-    expect(logger.warn).toBeCalledWith({
+    expect(logger.warn).toHaveBeenCalledWith({
       complete: "complete",
       duration: 1,
       reqId: "id",
       test: "test",
       time: expect.any(Date)
     });
-    expect(logger.error).toBeCalledWith({
+    expect(logger.error).toHaveBeenCalledWith({
       complete: "complete",
       duration: 1,
       reqId: "id",
       test: "test",
       time: expect.any(Date)
     });
-    expect(logger.fatal).toBeCalledWith({
+    expect(logger.fatal).toHaveBeenCalledWith({
       complete: "complete",
       duration: 1,
       reqId: "id",
       test: "test",
       time: expect.any(Date)
     });
-    expect(logger.trace).toBeCalledWith({
+    expect(logger.trace).toHaveBeenCalledWith({
       complete: "complete",
       duration: 1,
       reqId: "id",
@@ -139,37 +139,37 @@ describe("ContextLogger", () => {
     contextLogger.flush();
 
     // THEN
-    expect(logger.info).toBeCalledWith({
+    expect(logger.info).toHaveBeenCalledWith({
       duration: 1,
       reqId: "id",
       test: "test",
       time: expect.any(Date)
     });
-    expect(logger.info).toBeCalledWith({
+    expect(logger.info).toHaveBeenCalledWith({
       duration: 1,
       reqId: "id",
       message: "message",
       time: expect.any(Date)
     });
-    expect(logger.debug).toBeCalledWith({
+    expect(logger.debug).toHaveBeenCalledWith({
       duration: 1,
       reqId: "id",
       test: "test",
       time: expect.any(Date)
     });
-    expect(logger.warn).toBeCalledWith({
+    expect(logger.warn).toHaveBeenCalledWith({
       duration: 1,
       reqId: "id",
       test: "test",
       time: expect.any(Date)
     });
-    expect(logger.error).toBeCalledWith({
+    expect(logger.error).toHaveBeenCalledWith({
       duration: 1,
       reqId: "id",
       test: "test",
       time: expect.any(Date)
     });
-    expect(logger.trace).toBeCalledWith({
+    expect(logger.trace).toHaveBeenCalledWith({
       duration: 1,
       reqId: "id",
       test: "test",
@@ -208,7 +208,7 @@ describe("ContextLogger", () => {
     contextLogger.flush();
 
     // THEN
-    return expect(logger.info).not.toBeCalled();
+    return expect(logger.info).not.toHaveBeenCalled();
   });
   it("should create a new Context and flush log when maxStackSize is reached", () => {
     const logger = {
@@ -242,7 +242,7 @@ describe("ContextLogger", () => {
     contextLogger.info({test: "test"});
 
     // THEN
-    return expect(logger.info).toBeCalledTimes(3);
+    return expect(logger.info).toHaveBeenCalledTimes(3);
   });
   it("should do nothing when the log level is off", () => {
     const logger = {
@@ -278,6 +278,6 @@ describe("ContextLogger", () => {
     contextLogger.flush();
 
     // THEN
-    expect(logger.info).not.toBeCalled();
+    expect(logger.info).not.toHaveBeenCalled();
   });
 });

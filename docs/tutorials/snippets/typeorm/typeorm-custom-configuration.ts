@@ -1,6 +1,7 @@
-import {Configuration} from "@tsed/di";
 import "@tsed/platform-express";
 import "./connections/CONNECTION";
+
+import {Configuration} from "@tsed/di";
 
 @Configuration({
   customConnection: {

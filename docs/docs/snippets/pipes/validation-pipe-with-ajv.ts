@@ -1,6 +1,6 @@
+import {Injectable} from "@tsed/di";
 import {ValidationError} from "@tsed/platform-params";
 import {getJsonSchema, JsonParameterStore, PipeMethods} from "@tsed/schema";
-import {Injectable} from "@tsed/di";
 import * as Ajv from "ajv";
 
 @Injectable()

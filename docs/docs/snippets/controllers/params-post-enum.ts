@@ -1,6 +1,6 @@
+import {Controller} from "@tsed/di";
 import {QueryParams} from "@tsed/platform-params";
 import {Post} from "@tsed/schema";
-import {Controller} from "@tsed/di";
 import {Enum} from "@tsed/schema";
 
 export enum SearchType {

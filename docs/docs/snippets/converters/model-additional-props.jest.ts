@@ -1,4 +1,5 @@
 import {deserialize} from "@tsed/json-mapper";
+
 import {Person} from "./Person";
 
 describe("Person", () => {

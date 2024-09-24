@@ -1,6 +1,7 @@
+import {faker} from "@faker-js/faker";
 import {PlatformTest} from "@tsed/common";
 import {Property} from "@tsed/schema";
-import faker from "@faker-js/faker";
+
 import {Adapter} from "../domain/Adapter.js";
 import {Adapters} from "../services/Adapters.js";
 import {FileSyncAdapter} from "./FileSyncAdapter.js";

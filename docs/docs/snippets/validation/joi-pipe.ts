@@ -1,7 +1,7 @@
-import {ObjectSchema} from "joi";
 import {Injectable} from "@tsed/di";
-import {JsonParameterStore, PipeMethods} from "@tsed/schema";
 import {ValidationError, ValidationPipe} from "@tsed/platform-params";
+import {JsonParameterStore, PipeMethods} from "@tsed/schema";
+import {ObjectSchema} from "joi";
 
 @OverrideProvider(ValidationPipe)
 export class JoiValidationPipe implements PipeMethods {

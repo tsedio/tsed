@@ -1,6 +1,6 @@
+import {Unauthorized} from "@tsed/exceptions";
 import {Middleware} from "@tsed/platform-middlewares";
 import {Context} from "@tsed/platform-params";
-import {Unauthorized} from "@tsed/exceptions";
 
 @Middleware()
 export class AcceptRolesMiddleware {

@@ -1,5 +1,6 @@
 import {deserialize, serialize} from "@tsed/json-mapper";
 import {expect} from "chai";
+
 import {Person} from "./Person";
 
 describe("Person", () => {

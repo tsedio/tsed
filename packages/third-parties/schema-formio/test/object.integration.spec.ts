@@ -1,4 +1,5 @@
 import {Property} from "@tsed/schema";
+
 import {getFormioSchema} from "../src/index.js";
 
 describe("Object", () => {

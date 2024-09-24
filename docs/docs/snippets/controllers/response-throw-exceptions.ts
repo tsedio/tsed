@@ -1,7 +1,7 @@
-import {PathParams} from "@tsed/platform-params";
-import {Get} from "@tsed/schema";
 import {Controller} from "@tsed/di";
 import {BadRequest} from "@tsed/exceptions";
+import {PathParams} from "@tsed/platform-params";
+import {Get} from "@tsed/schema";
 
 @Controller("/calendars")
 export class CalendarCtrl {

@@ -1,6 +1,6 @@
+import {OverrideProvider} from "@tsed/di";
 import {ValidationError, ValidationPipe} from "@tsed/platform-params";
 import {JsonParameterStore, PipeMethods} from "@tsed/schema";
-import {OverrideProvider} from "@tsed/di";
 import {plainToClass} from "class-transformer";
 import {validate} from "class-validator";
 

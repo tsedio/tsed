@@ -1,6 +1,7 @@
-import {expect, beforeAll, afterAll, describe, it} from "vitest";
 import {Context, Controller, Get, Locals, Middleware, PlatformContext, PlatformTest, Req, Use} from "@tsed/common";
 import SuperTest from "supertest";
+import {afterAll, beforeAll, describe, expect, it} from "vitest";
+
 import {PlatformTestingSdkOpts} from "../interfaces/index.js";
 
 @Middleware()

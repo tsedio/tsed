@@ -1,12 +1,13 @@
-import faker from "@faker-js/faker";
+import {faker} from "@faker-js/faker";
 import {BodyParams, Controller, Get, Inject, Injectable, PathParams, PlatformTest, Post} from "@tsed/common";
 import {isArray} from "@tsed/core";
 import {deserialize} from "@tsed/json-mapper";
-import {MongooseModel} from "@tsed/mongoose";
 import {PlatformExpress} from "@tsed/platform-express";
 import {Groups, Returns} from "@tsed/schema";
 import {TestContainersMongo} from "@tsed/testcontainers-mongo";
 import SuperTest from "supertest";
+
+import {MongooseModel} from "..";
 import {TestRole, TestUser, TestUserNew} from "./helpers/models/User.js";
 import {Server} from "./helpers/Server.js";
 
@@ -42,25 +43,25 @@ class ResourcesCtrl {
   TestRole: MongooseModel<TestRole>;
 
   @Get("/without/:id")
-  @Returns(200, TestUser).Groups("!creation")
+  @(Returns(200, TestUser).Groups("!creation"))
   getWithoutType(@PathParams("id") id: string) {
     return this.repository.findById(id);
   }
 
   @Get("/:id")
-  @Returns(200, TestUser).Groups("!creation")
+  @(Returns(200, TestUser).Groups("!creation"))
   get(@PathParams("id") id: string) {
     return this.repository.findById(id);
   }
 
   @Get("/")
-  @Returns(200, Array).Of(TestUser).Groups("!creation")
+  @(Returns(200, Array).Of(TestUser).Groups("!creation"))
   getAll() {
     return this.repository.findAll();
   }
 
   @Post("/")
-  @Returns(201, TestUser).Groups("!creation")
+  @(Returns(201, TestUser).Groups("!creation"))
   create(@BodyParams() @Groups("creation") user: TestUser) {
     return this.repository.create(user);
   }

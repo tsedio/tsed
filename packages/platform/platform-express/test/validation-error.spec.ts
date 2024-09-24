@@ -1,7 +1,8 @@
 import {BodyParams, Controller, PlatformTest, Post, QueryParams} from "@tsed/common";
 import {PlatformTestSdk} from "@tsed/platform-test-sdk";
-import {email, Email, Required} from "@tsed/schema";
+import {Email, email, Required} from "@tsed/schema";
 import SuperTest from "supertest";
+
 import {PlatformExpress} from "../src/index.js";
 import {rootDir, Server} from "./app/Server.js";
 

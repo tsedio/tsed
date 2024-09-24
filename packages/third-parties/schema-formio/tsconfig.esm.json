@@ -2,8 +2,7 @@
   "extends": "@tsed/typescript/tsconfig.node.json",
   "compilerOptions": {
     "baseUrl": ".",
-    "module": "ESNext",
-    "moduleResolution": "nodenext",
+
     "rootDir": "src",
     "outDir": "./lib/esm",
     "declarationDir": "./lib/types",
@@ -11,7 +10,7 @@
     "composite": true,
     "noEmit": false
   },
-  "include": ["src", "src/**/*.json"],
+  "include": ["src/**/*.ts", "src/**/*.json"],
   "exclude": [
     "node_modules",
     "test",

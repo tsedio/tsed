@@ -1,4 +1,5 @@
 import {CollectionOf} from "@tsed/schema";
+
 import {Model, ObjectID, Ref} from "../../../src/index.js";
 import {SelfUser} from "./User.js";
 

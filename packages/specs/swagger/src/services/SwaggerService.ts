@@ -2,6 +2,7 @@ import {Configuration, Injectable, InjectorService, Platform} from "@tsed/common
 import type {Type} from "@tsed/core";
 import {OpenSpec2, OpenSpec3} from "@tsed/openspec";
 import {generateSpec} from "@tsed/schema";
+
 import {SwaggerOS2Settings, SwaggerOS3Settings, SwaggerSettings} from "../interfaces/SwaggerSettings.js";
 import {includeRoute} from "../utils/includeRoute.js";
 

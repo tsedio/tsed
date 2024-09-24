@@ -1,5 +1,6 @@
 import {PlatformTest, View} from "@tsed/common";
 import {EndpointMetadata, Get, Returns} from "@tsed/schema";
+
 import {getContentType} from "./getContentType.js";
 
 describe("getContentType", () => {
@@ -27,7 +28,7 @@ describe("getContentType", () => {
   it("should return the content type (object - application/json)", () => {
     class TestController {
       @Get("/")
-      @Returns(200).ContentType("application/json")
+      @(Returns(200).ContentType("application/json"))
       get() {}
     }
 
@@ -48,7 +49,7 @@ describe("getContentType", () => {
   it("should return the content type (string - application/json)", () => {
     class TestController {
       @Get("/")
-      @Returns(200).ContentType("application/json")
+      @(Returns(200).ContentType("application/json"))
       get() {}
     }
 
@@ -69,7 +70,7 @@ describe("getContentType", () => {
   it("should return the content type (string - text/html)", () => {
     class TestController {
       @Get("/")
-      @Returns(200).ContentType("text/html")
+      @(Returns(200).ContentType("text/html"))
       get() {}
     }
 

@@ -1,5 +1,6 @@
+import {StoreSet, useDecorators} from "@tsed/core";
 import {UseBefore} from "@tsed/platform-middlewares";
-import {useDecorators, StoreSet} from "@tsed/core";
+
 import {AcceptRolesMiddleware} from "./AcceptRolesMiddleware";
 
 export function AcceptRoles(...roles: string[]) {

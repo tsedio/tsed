@@ -2,6 +2,7 @@
 import {Inject, Injectable} from "@tsed/di";
 import {Model, MongooseModel, MongoosePlugin} from "@tsed/mongoose";
 import * as findOrCreate from "mongoose-findorcreate";
+
 import {User} from "./User";
 
 @Model()

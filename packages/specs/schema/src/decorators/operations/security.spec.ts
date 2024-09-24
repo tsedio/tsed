@@ -57,7 +57,7 @@ describe("Security", () => {
   it("should store multiple security schemes (method)", () => {
     class MyController {
       @OperationPath("POST", "/")
-      @Security([{ "A": ["scope-1"] }, { "B": [], "C": ["scope-2", "scope-3"]}])
+      @Security([{A: ["scope-1"]}, {B: [], C: ["scope-2", "scope-3"]}])
       post() {}
     }
 
@@ -90,7 +90,7 @@ describe("Security", () => {
           }
         }
       }
-    })
+    });
   });
   it("should store metadata (class)", () => {
     @Security("oauth", "user")

@@ -1,16 +1,18 @@
-import {FileSyncAdapter} from "@tsed/adapters";
 import "@tsed/ajv";
 import "../../src/index.js";
+import "../..";
+import "@tsed/swagger";
+
+import {FileSyncAdapter} from "@tsed/adapters";
 import {Constant, PlatformApplication} from "@tsed/common";
 import {Configuration, Inject} from "@tsed/di";
-import "@tsed/oidc-provider";
-import "@tsed/swagger";
 import bodyParser from "body-parser";
 import compress from "compression";
 import cookieParser from "cookie-parser";
 import session from "express-session";
 import methodOverride from "method-override";
 import {join} from "path";
+
 import {Accounts} from "./services/Accounts.js";
 
 const rootDir = import.meta.dirname;

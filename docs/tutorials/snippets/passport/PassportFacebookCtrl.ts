@@ -1,7 +1,7 @@
 import {Req} from "@tsed/common";
-import {Get} from "@tsed/schema";
 import {Controller} from "@tsed/di";
 import {Authenticate} from "@tsed/passport";
+import {Get} from "@tsed/schema";
 
 @Controller("/auth")
 export class AuthCtrl {

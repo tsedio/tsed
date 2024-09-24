@@ -1,5 +1,5 @@
-import {ProviderScope} from "./ProviderScope.js";
 import {Provider} from "./Provider.js";
+import {ProviderScope} from "./ProviderScope.js";
 
 class T1 {}
 

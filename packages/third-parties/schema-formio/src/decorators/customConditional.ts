@@ -1,9 +1,10 @@
-import {FormioComponent, FormioForm, FormioSubmission} from "@tsed/formio-types";
-import type {Moment} from "moment";
-import type {LoDashStatic} from "lodash";
-import type {Utils} from "formiojs";
-import {Component} from "./component.js";
 import {isArrowFn} from "@tsed/core";
+import {FormioComponent, FormioForm, FormioSubmission} from "@tsed/formio-types";
+import type {Utils} from "formiojs";
+import type {LoDashStatic} from "lodash";
+import type {Moment} from "moment";
+
+import {Component} from "./component.js";
 
 export interface CustomConditionalCtx<Value = any, Data = any, Row = any> {
   /**

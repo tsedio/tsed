@@ -1,9 +1,10 @@
-import {rootDir} from "./app/Server.js";
-import {PlatformTestSdk} from "@tsed/platform-test-sdk";
-import {PlatformExpress} from "../src/index.js";
-import SuperTest from "supertest";
 import {Configuration, Controller, Get, Inject, PlatformApplication, PlatformTest, QueryParams} from "@tsed/common";
+import {PlatformTestSdk} from "@tsed/platform-test-sdk";
 import {parse} from "querystring";
+import SuperTest from "supertest";
+
+import {PlatformExpress} from "../src/index.js";
+import {rootDir} from "./app/Server.js";
 
 @Configuration({
   port: 8081

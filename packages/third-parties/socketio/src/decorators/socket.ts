@@ -1,4 +1,5 @@
 import {Socket as SocketType} from "socket.io";
+
 import {SocketFilters} from "../interfaces/SocketFilters.js";
 import {SocketFilter} from "./socketFilter.js";
 

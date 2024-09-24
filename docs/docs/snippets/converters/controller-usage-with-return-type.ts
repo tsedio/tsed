@@ -1,6 +1,7 @@
+import {Controller} from "@tsed/di";
 import {BodyParams} from "@tsed/platform-params";
 import {Get, Post, Returns} from "@tsed/schema";
-import {Controller} from "@tsed/di";
+
 import {Person} from "../models/Person";
 
 @Controller("/")
@@ -14,7 +15,7 @@ export class PersonsCtrl {
   }
 
   @Get("/")
-  @Returns(200, Array).Of(Person)
+  @(Returns(200, Array).Of(Person))
   async getPersons(): Promise<Person[]> {
     return [new Person()];
   }

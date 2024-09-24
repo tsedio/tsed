@@ -1,5 +1,6 @@
 import {RESTDataSource} from "@apollo/datasource-rest";
 import {DataSource} from "@tsed/typegraphql";
+
 import {User} from "../models/User";
 
 @DataSource()

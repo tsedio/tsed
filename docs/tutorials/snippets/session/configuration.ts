@@ -1,6 +1,7 @@
+import "@tsed/platform-express";
+
 import {PlatformApplication} from "@tsed/common";
 import {Configuration, Inject} from "@tsed/di";
-import "@tsed/platform-express";
 import compress from "compression";
 import cookieParser from "cookie-parser";
 import session from "express-session";

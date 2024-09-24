@@ -1,4 +1,5 @@
 import {Store} from "@tsed/core";
+
 import {Broadcast} from "../index.js";
 
 describe("Broadcast", () => {

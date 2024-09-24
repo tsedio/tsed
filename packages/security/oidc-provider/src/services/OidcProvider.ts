@@ -3,6 +3,7 @@ import {Env, setValue} from "@tsed/core";
 import {Constant, Inject, Injectable, InjectorService} from "@tsed/di";
 // @ts-ignore
 import type {Configuration, default as OIDCProvider, KoaContextWithOIDC} from "oidc-provider";
+
 import {INTERACTIONS} from "../constants/constants.js";
 import {OidcAccountsMethods} from "../domain/OidcAccountsMethods.js";
 import {OidcSettings} from "../domain/OidcSettings.js";
@@ -205,7 +206,6 @@ export class OidcProvider {
 
     if (provider) {
       return (ctx: any, interaction: any) => {
-        // eslint-disable-line no-unused-vars
         return provider.path.replace(/:uid/, interaction.uid);
       };
     }

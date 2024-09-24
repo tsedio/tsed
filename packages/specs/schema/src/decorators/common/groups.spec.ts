@@ -1,4 +1,3 @@
-import {QueryParams} from "@tsed/platform-params/src/index";
 import {SpecTypes} from "../../domain/SpecTypes.js";
 import {getJsonSchema} from "../../utils/getJsonSchema.js";
 import {getSpec} from "../../utils/getSpec.js";
@@ -468,7 +467,7 @@ describe("@Groups", () => {
       @Path("/")
       class MyController {
         @OperationPath("POST", "/")
-        @Returns(201, MyModel).Groups("group.*")
+        @(Returns(201, MyModel).Groups("group.*"))
         create(@In("body") @Groups("creation") payload: MyModel) {
           return new MyModel();
         }
@@ -642,7 +641,7 @@ describe("@Groups", () => {
       @Path("/")
       class MyController {
         @OperationPath("POST", "/")
-        @Returns(201, MyModel).Groups("group.*")
+        @(Returns(201, MyModel).Groups("group.*"))
         create(@In("body") @Groups("CreatePayload", ["creation"]) payload: MyModel) {
           return new MyModel();
         }
@@ -662,13 +661,13 @@ describe("@Groups", () => {
       @Path("/")
       class MyController {
         @OperationPath("GET", "/")
-        @Returns(201, MyModel).Groups("group.*")
+        @(Returns(201, MyModel).Groups("group.*"))
         get(@In("query") @Groups("creation") payload: MyModel) {
           return new MyModel();
         }
 
         @OperationPath("GET", "/all")
-        @Returns(201, MyModel).Groups("group.*")
+        @(Returns(201, MyModel).Groups("group.*"))
         getWithout(@In("query") payload: MyModel) {
           return new MyModel();
         }
@@ -838,7 +837,7 @@ describe("@Groups", () => {
       @Path("/")
       class MyController {
         @OperationPath("POST", "/")
-        @Returns(201, Array).Of(MyModel).Groups("group.*")
+        @(Returns(201, Array).Of(MyModel).Groups("group.*"))
         createWithArray(@In("body") @Groups("creation") @CollectionOf(MyModel) payload: MyModel[]) {
           return [new MyModel()];
         }
@@ -955,7 +954,7 @@ describe("@Groups", () => {
       @Path("/")
       class MyController {
         @OperationPath("POST", "/")
-        @Returns(201, Array).Of(MyModel).Groups("Details", ["group.*"])
+        @(Returns(201, Array).Of(MyModel).Groups("Details", ["group.*"]))
         createWithArray(@In("body") @Groups("Create", ["creation"]) @CollectionOf(MyModel) payload: MyModel[]) {
           return [new MyModel()];
         }

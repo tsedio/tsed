@@ -1,6 +1,7 @@
+import {dirname, join} from "node:path";
+
 import {findPackages, MonoRepo} from "@tsed/monorepo-utils";
 import fs from "fs-extra";
-import {dirname, join} from "node:path";
 
 const rootDir = import.meta.dirname;
 const workspaceDir = join(rootDir, "../..");

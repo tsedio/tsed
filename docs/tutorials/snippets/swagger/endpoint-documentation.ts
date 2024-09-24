@@ -1,6 +1,7 @@
+import {Controller} from "@tsed/di";
 import {BodyParams, QueryParams} from "@tsed/platform-params";
 import {Deprecated, Description, Get, Post, Returns, Security, Summary} from "@tsed/schema";
-import {Controller} from "@tsed/di";
+
 import {CalendarModel} from "./models/Calendar";
 
 @Controller("/calendars")
@@ -9,7 +10,7 @@ export class CalendarCtrl {
   @Summary("Summary of this route")
   @Description("Return a calendar from the given id")
   @Returns(200, CalendarModel)
-  @Returns(404).Description("Not found")
+  @(Returns(404).Description("Not found"))
   async getCalendar(
     @Description("A calendar Id")
     @QueryParams()

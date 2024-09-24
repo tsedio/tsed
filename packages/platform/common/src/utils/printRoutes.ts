@@ -1,4 +1,5 @@
 import {$log, colorize} from "@tsed/logger";
+
 import {PlatformRouteDetails} from "../domain/PlatformRouteDetails.js";
 
 export function printRoutes(routes: PlatformRouteDetails[]) {

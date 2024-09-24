@@ -1,7 +1,9 @@
+import "@tsed/platform-express";
+
 import {PlatformTest} from "@tsed/common";
 import {PlatformExpress} from "@tsed/platform-express";
-import "@tsed/platform-express";
 import SuperTest from "supertest";
+
 import {Server} from "./app/Server.js";
 
 describe("TypeGraphQL", () => {

@@ -1,5 +1,5 @@
-import {Description, Example, Name} from "@tsed/schema";
 import {ObjectID} from "@tsed/mongoose";
+import {Description, Example, Name} from "@tsed/schema";
 
 export class Model {
   @Name("id")

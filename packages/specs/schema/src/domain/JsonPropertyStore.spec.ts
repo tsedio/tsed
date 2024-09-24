@@ -1,4 +1,5 @@
 import {prototypeOf} from "@tsed/core";
+
 import {Allow, JsonClassStore, JsonPropertyStore, Required} from "../index.js";
 import {getJsonEntityStore} from "../utils/getJsonEntityStore.js";
 

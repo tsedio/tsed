@@ -1,5 +1,6 @@
 import {serialize} from "@tsed/json-mapper";
 import {expect} from "chai";
+
 import {User} from "./User";
 
 describe("User", () => {

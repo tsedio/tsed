@@ -1,4 +1,5 @@
 import {UseAuth} from "@tsed/common";
+
 import {FormioAuthMiddleware} from "../middlewares/FormioAuthMiddleware.js";
 
 /**

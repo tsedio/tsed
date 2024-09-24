@@ -1,5 +1,5 @@
-import {Required} from "@tsed/schema";
 import {Model, ObjectID, Ref} from "@tsed/mongoose";
+import {Required} from "@tsed/schema";
 
 @Model()
 export class User {

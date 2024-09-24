@@ -1,5 +1,5 @@
-import {Default, Enum, Format, Ignore, Maximum, MaxLength, Minimum, MinLength, Pattern, Required} from "@tsed/schema";
 import {Indexed, Model, ObjectID, Unique} from "@tsed/mongoose";
+import {Default, Enum, Format, Ignore, Maximum, MaxLength, Minimum, MinLength, Pattern, Required} from "@tsed/schema";
 
 enum Categories {
   CAT1 = "cat1",

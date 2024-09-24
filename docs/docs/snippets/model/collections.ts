@@ -1,4 +1,5 @@
 import {CollectionOf, getJsonSchema} from "@tsed/schema";
+
 import {Model} from "./primitives";
 import {Role} from "./Role";
 import {Security} from "./Security";

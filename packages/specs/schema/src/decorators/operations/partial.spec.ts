@@ -1,4 +1,5 @@
 import Ajv from "ajv";
+
 import {
   CollectionOf,
   getJsonSchema,
@@ -48,7 +49,7 @@ describe("@Partial", () => {
       @Path("/")
       class MyController {
         @OperationPath("PATCH", "/")
-        @Returns(200, MyModel).Groups("group.*")
+        @(Returns(200, MyModel).Groups("group.*"))
         patch(@In("body") @Partial() payload: MyModel) {
           return new MyModel();
         }
@@ -195,6 +196,7 @@ describe("@Partial", () => {
         type: "object"
       });
 
+      // @ts-ignore
       const ajv = new Ajv({strict: true});
 
       expect(ajv.validate(schema, {})).toBe(false);
@@ -239,6 +241,7 @@ describe("@Partial", () => {
         type: "object"
       });
 
+      // @ts-ignore
       const ajv = new Ajv({strict: true});
 
       expect(ajv.validate(schema, {})).toBe(true);

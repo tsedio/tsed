@@ -1,4 +1,5 @@
 import {CollectionOf, Default, Generics, Integer, MinLength} from "@tsed/schema";
+
 import {Pageable} from "./Pageable";
 
 export class PaginationLink {

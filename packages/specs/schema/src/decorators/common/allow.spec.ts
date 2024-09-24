@@ -1,4 +1,5 @@
 import Ajv from "ajv";
+
 import {getJsonSchema} from "../../index.js";
 import {Allow} from "./allow.js";
 import {Property} from "./property.js";
@@ -26,6 +27,7 @@ describe("@Allow", () => {
       type: "object"
     });
 
+    // @ts-ignore
     const validate = new Ajv().compile(classSchema);
     expect(validate({allow: ""})).toBe(false);
     expect(validate({allow: 0})).toBe(false);
@@ -51,6 +53,7 @@ describe("@Allow", () => {
       type: "object"
     });
 
+    // @ts-ignore
     const validate = new Ajv().compile(classSchema);
     expect(validate({allow: ""})).toBe(true);
     expect(validate({})).toBe(false);
@@ -76,6 +79,7 @@ describe("@Allow", () => {
       type: "object"
     });
 
+    // @ts-ignore
     const validate = new Ajv().compile(classSchema);
     expect(validate({allow: null})).toBe(true);
     expect(validate({})).toBe(false);
@@ -122,6 +126,7 @@ describe("@Allow", () => {
       type: "object"
     });
 
+    // @ts-ignore
     const validate = new Ajv().compile(spec);
     expect(validate({allow: null})).toBe(true);
     expect(validate({})).toBe(false);

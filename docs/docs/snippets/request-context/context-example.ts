@@ -1,8 +1,9 @@
-import {Context} from "@tsed/platform-params";
-import {Middleware, UseBefore} from "@tsed/platform-middlewares";
-import {Get} from "@tsed/schema";
 import {Controller} from "@tsed/di";
 import {Forbidden} from "@tsed/exceptions";
+import {Middleware, UseBefore} from "@tsed/platform-middlewares";
+import {Context} from "@tsed/platform-params";
+import {Get} from "@tsed/schema";
+
 import {AuthToken} from "../domain/auth/AuthToken";
 
 @Middleware()

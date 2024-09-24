@@ -1,6 +1,6 @@
+import {Controller} from "@tsed/di";
 import {RawBodyParams} from "@tsed/platform-params";
 import {Post} from "@tsed/schema";
-import {Controller} from "@tsed/di";
 
 @Controller("/calendars")
 export class CalendarCtrl {

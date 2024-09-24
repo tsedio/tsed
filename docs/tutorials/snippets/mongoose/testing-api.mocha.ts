@@ -3,6 +3,7 @@ import {PlatformExpress} from "@tsed/platform-express";
 import {TestMongooseContext} from "@tsed/testing-mongoose";
 import {expect} from "chai";
 import * as SuperTest from "supertest";
+
 import {Server} from "../Server";
 
 describe("Rest", () => {

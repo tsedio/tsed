@@ -1,6 +1,7 @@
 import {Controller} from "@tsed/di";
 import {BodyParams} from "@tsed/platform-params";
-import {CollectionOf, Groups, Partial, Patch, Required, Post, getSpec} from "../../src/index.js";
+
+import {CollectionOf, getSpec, Groups, Partial, Patch, Post, Required} from "../../src/index.js";
 
 class Product {
   @Required()

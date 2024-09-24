@@ -1,6 +1,7 @@
 import {Context} from "@tsed/common";
-import {SetActionItemMessage} from "../domain/FormioAction.js";
 import {FormioAction} from "@tsed/formio-types";
+
+import {SetActionItemMessage} from "../domain/FormioAction.js";
 
 /**
  * Return the current action context with the following data:

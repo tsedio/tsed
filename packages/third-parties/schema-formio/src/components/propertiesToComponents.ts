@@ -1,6 +1,7 @@
 import {cleanObject, isFunction} from "@tsed/core";
 import {FormioComponent, FormioForm} from "@tsed/formio-types";
 import {sentenceCase} from "change-case";
+
 import {execMapper, registerFormioMapper} from "../registries/FormioMappersContainer.js";
 
 function bindResolvers(component: FormioComponent, options: any) {

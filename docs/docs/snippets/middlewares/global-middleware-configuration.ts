@@ -1,5 +1,6 @@
 import {PlatformApplication} from "@tsed/common";
 import {Configuration, Inject} from "@tsed/di";
+
 import {GlobalAcceptMimeMiddleware} from "./GlobalAcceptMimeMiddleware";
 
 @Configuration({

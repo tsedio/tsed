@@ -7,10 +7,13 @@ import {registerProvider} from "@tsed/di";
  * @constructor
  */
 export function Alter(name: string): ClassDecorator {
-  return useDecorators((target: any) => {
-    registerProvider({
-      provide: target,
-      type: "formio:alter"
-    });
-  }, StoreSet("formio:alter:name", name));
+  return useDecorators(
+    (target: any) => {
+      registerProvider({
+        provide: target,
+        type: "formio:alter"
+      });
+    },
+    StoreSet("formio:alter:name", name)
+  );
 }

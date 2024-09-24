@@ -1,4 +1,6 @@
 import Ajv from "ajv";
+import {describe, expect, it} from "vitest";
+
 import {AdditionalProperties, AnyOf, array, Enum, getJsonSchema, string} from "../../src/index.js";
 
 describe("Union on model", () => {
@@ -39,6 +41,7 @@ describe("Union on model", () => {
       type: "object"
     });
 
+    // @ts-ignore
     const ajv = new Ajv({});
 
     expect(
@@ -81,6 +84,7 @@ describe("Union on model", () => {
       type: "object"
     });
 
+    // @ts-ignore
     const ajv = new Ajv({
       coerceTypes: "array"
     });

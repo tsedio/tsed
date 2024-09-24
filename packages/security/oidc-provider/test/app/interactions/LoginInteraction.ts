@@ -1,9 +1,10 @@
 import {BodyParams, Inject, Post} from "@tsed/common";
 import {Env} from "@tsed/core";
 import {Constant} from "@tsed/di";
-import {Interaction, InteractionMethods, OidcCtx, OidcSession, Params, Prompt, Uid} from "../../../src/index.js";
 import {View} from "@tsed/platform-views";
 import {Name} from "@tsed/schema";
+
+import {Interaction, InteractionMethods, OidcCtx, OidcSession, Params, Prompt, Uid} from "../../../src/index.js";
 import {Accounts} from "../services/Accounts.js";
 
 @Interaction({

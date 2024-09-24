@@ -1,6 +1,9 @@
+import {BodyParams} from "@tsed/platform-params";
 import {join} from "path";
+
 import {validateSpec} from "../../test/helpers/validateSpec.js";
 import {CollectionOf} from "../decorators/collections/collectionOf.js";
+import {AnyOf} from "../decorators/common/anyOf.js";
 import {Description} from "../decorators/common/description.js";
 import {Min} from "../decorators/common/minimum.js";
 import {Name} from "../decorators/common/name.js";
@@ -11,11 +14,9 @@ import {In} from "../decorators/operations/in.js";
 import {OperationPath} from "../decorators/operations/operationPath.js";
 import {Path} from "../decorators/operations/path.js";
 import {Returns} from "../decorators/operations/returns.js";
+import {Post} from "../decorators/operations/route.js";
 import {SpecTypes} from "../domain/SpecTypes.js";
 import {generateSpec} from "./generateSpec.js";
-import {AnyOf} from "../decorators/common/anyOf";
-import {Post} from "../decorators/operations/route";
-import {BodyParams} from "@tsed/platform-params";
 
 const rootDir = import.meta.dirname;
 
@@ -1072,7 +1073,7 @@ describe("generateSpec()", () => {
       @Description("Class description")
       class Controller {
         @OperationPath("POST", "/")
-        @Returns(200, String).Description("description")
+        @(Returns(200, String).Description("description"))
         method() {}
       }
 
@@ -1117,7 +1118,7 @@ describe("generateSpec()", () => {
       // WHEN
       class Controller {
         @OperationPath("POST", "/")
-        @Returns(200, Array).Of(String).Description("description")
+        @(Returns(200, Array).Of(String).Description("description"))
         method() {}
       }
 
@@ -1165,7 +1166,7 @@ describe("generateSpec()", () => {
       // WHEN
       class Controller {
         @OperationPath("POST", "/")
-        @Returns(200, String)
+        @(Returns(200, String)
           .Description("description")
           .Header("x-token", "token")
           .Header("x-header", {
@@ -1174,7 +1175,7 @@ describe("generateSpec()", () => {
           .Examples({test: "Examples"})
           .Schema({
             minLength: 3
-          })
+          }))
         method() {}
       }
 

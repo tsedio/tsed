@@ -1,6 +1,6 @@
-import {BodyParams} from "@tsed/platform-params";
-import {Returns, Put} from "@tsed/schema";
 import {Controller} from "@tsed/di";
+import {BodyParams} from "@tsed/platform-params";
+import {Put, Returns} from "@tsed/schema";
 
 interface Calendar {
   id: string;

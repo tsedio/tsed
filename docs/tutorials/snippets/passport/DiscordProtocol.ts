@@ -2,6 +2,7 @@ import {Req} from "@tsed/common";
 import {Args, OnInstall, OnVerify, Protocol} from "@tsed/passport";
 import {Strategy, StrategyOptions} from "passport-discord";
 import * as refresh from "passport-oauth2-refresh";
+
 import {AuthService} from "../services/auth/AuthService";
 
 @Protocol<StrategyOptions>({

@@ -1,5 +1,5 @@
-import {Get, Post} from "@tsed/schema";
 import {Controller} from "@tsed/di";
+import {Get, Post} from "@tsed/schema";
 
 @Controller("/calendars")
 export class CalendarCtrl {

@@ -13,7 +13,7 @@ describe("ProviderRegistry", () => {
       vi.resetAllMocks();
     });
 
-    it("should throw an error when provide field is not given ", () => {
+    it("should throw an error when provide field is not given", () => {
       // GIVEN
       let actualError;
       try {
@@ -30,7 +30,7 @@ describe("ProviderRegistry", () => {
 
       registerProvider({provide: Test});
 
-      expect(GlobalProviders.merge).toBeCalledWith(Test, {
+      expect(GlobalProviders.merge).toHaveBeenCalledWith(Test, {
         provide: Test
       });
     });
@@ -49,7 +49,7 @@ describe("ProviderRegistry", () => {
 
       registerValue(token, "myValue");
 
-      expect(GlobalProviders.merge).toBeCalledWith(token, {
+      expect(GlobalProviders.merge).toHaveBeenCalledWith(token, {
         provide: token,
         useValue: "myValue",
         scope: ProviderScope.SINGLETON,
@@ -62,7 +62,7 @@ describe("ProviderRegistry", () => {
 
       registerValue({provide: token, useValue: "myValue", scope: ProviderScope.REQUEST});
 
-      expect(GlobalProviders.merge).toBeCalledWith(token, {
+      expect(GlobalProviders.merge).toHaveBeenCalledWith(token, {
         provide: token,
         useValue: "myValue",
         scope: ProviderScope.REQUEST,
@@ -75,7 +75,7 @@ describe("ProviderRegistry", () => {
 
       registerValue(token, "myValue");
 
-      expect(GlobalProviders.merge).toBeCalledWith(token, {
+      expect(GlobalProviders.merge).toHaveBeenCalledWith(token, {
         provide: token,
         useValue: "myValue",
         scope: ProviderScope.SINGLETON,

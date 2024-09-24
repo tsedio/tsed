@@ -1,9 +1,10 @@
 import {Store} from "@tsed/core";
 import {deserialize, serialize} from "@tsed/json-mapper";
 import {getJsonSchema} from "@tsed/schema";
-import {Types, Schema} from "mongoose";
+import {Schema, Types} from "mongoose";
+
 import {MONGOOSE_SCHEMA} from "../constants/constants.js";
-import {NumberDecimal, Decimal128, DecimalFormat} from "./numberDecimal.js";
+import {Decimal128, DecimalFormat, NumberDecimal} from "./numberDecimal.js";
 
 describe("@NumberDecimal()", () => {
   it("should declare a Decimal128 field", () => {

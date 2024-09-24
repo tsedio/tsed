@@ -18,6 +18,7 @@ import {
   Store,
   Type
 } from "@tsed/core";
+
 import type {JsonClassStore} from "./JsonClassStore.js";
 import type {JsonMethodStore} from "./JsonMethodStore.js";
 import type {JsonParameterStore} from "./JsonParameterStore.js";

@@ -2,8 +2,9 @@
 import {execa} from "execa";
 import ora from "ora";
 import path from "path";
-import {fire} from "./autocannon.js";
 import {fileURLToPath} from "url";
+
+import {fire} from "./autocannon.js";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 

@@ -1,5 +1,5 @@
-import {Post} from "@tsed/schema";
 import {BodyParams} from "@tsed/platform-params";
+import {Post} from "@tsed/schema";
 
 class MyController {
   @Post()

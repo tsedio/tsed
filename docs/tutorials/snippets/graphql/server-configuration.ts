@@ -1,7 +1,8 @@
-import {Configuration} from "@tsed/di";
 import "@tsed/platform-express";
 import "@tsed/typegraphql";
 import "./resolvers/index.js"; // barrel file with all resolvers
+
+import {Configuration} from "@tsed/di";
 
 @Configuration({
   typegraphql: {

@@ -1,5 +1,7 @@
-import {PlatformTest} from "@tsed/common";
 import "../components/AlterAudit.js";
+
+import {PlatformTest} from "@tsed/common";
+
 import {AlterAudit} from "../components/AlterAudit.js";
 import {FormioHooksService} from "./FormioHooksService.js";
 import {FormioService} from "./FormioService.js";
@@ -81,7 +83,7 @@ describe("FormioService", () => {
       expect(service.isInit()).toEqual(true);
     });
 
-    it("should return true", async () => {
+    it("should return false", async () => {
       const {service} = await createFormioFixture();
 
       await service.init({} as any);

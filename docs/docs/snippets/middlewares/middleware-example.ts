@@ -1,5 +1,5 @@
-import {Context} from "@tsed/platform-params";
 import {Middleware} from "@tsed/platform-middlewares";
+import {Context} from "@tsed/platform-params";
 
 @Middleware()
 export class CustomMiddleware {

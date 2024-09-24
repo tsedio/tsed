@@ -1,8 +1,8 @@
-import { BodyParams, Middleware, MiddlewareMethods } from '@tsed/common';
+import {BodyParams, Middleware, MiddlewareMethods} from "@tsed/common";
 
-@Middleware({ priority: 11 })
+@Middleware({priority: 11})
 export class CustomMiddleware implements MiddlewareMethods {
-  public use(@BodyParams('data') data: any) {
+  public use(@BodyParams("data") data: any) {
     // data will now be available
   }
 }

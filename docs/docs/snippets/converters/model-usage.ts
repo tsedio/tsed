@@ -1,4 +1,4 @@
-import {CollectionOf, Minimum, Property, Description} from "@tsed/schema";
+import {CollectionOf, Description, Minimum, Property} from "@tsed/schema";
 
 export class Person {
   @Property()

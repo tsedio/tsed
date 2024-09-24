@@ -1,7 +1,7 @@
 import {Next} from "@tsed/common";
+import {Controller} from "@tsed/di";
 import {Use, UseAfter, UseBefore, UseBeforeEach} from "@tsed/platform-middlewares";
 import {Get} from "@tsed/schema";
-import {Controller} from "@tsed/di";
 
 @Controller("/")
 @UseAfter(MdlwCtrlAfter)

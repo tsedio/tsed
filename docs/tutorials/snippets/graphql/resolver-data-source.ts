@@ -1,5 +1,6 @@
 import {ResolverController} from "@tsed/typegraphql";
 import {Arg, Authorized, Ctx, Query} from "type-graphql";
+
 import {UserDataSource} from "../datasources/UserDataSource";
 import {User} from "../models/User";
 

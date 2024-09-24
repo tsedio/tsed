@@ -1,5 +1,6 @@
 import {BodyParams} from "@tsed/platform-params";
 import Ajv from "ajv";
+
 import {SpecTypes} from "../../domain/SpecTypes.js";
 import {getJsonSchema} from "../../utils/getJsonSchema.js";
 import {getSpec} from "../../utils/getSpec.js";
@@ -7,7 +8,7 @@ import {In} from "../operations/in.js";
 import {Path} from "../operations/path.js";
 import {Post} from "../operations/route.js";
 import {Format} from "./format.js";
-import {Integer} from "./integer";
+import {Integer} from "./integer.js";
 import {MaxLength} from "./maxLength.js";
 import {Minimum} from "./minimum.js";
 import {Nullable} from "./nullable.js";
@@ -37,6 +38,7 @@ describe("@Nullable", () => {
       type: "object"
     });
 
+    // @ts-ignore
     const ajv = new Ajv({strict: true});
 
     expect(ajv.validate(schema, {prop2: null})).toBeTruthy();
@@ -107,6 +109,7 @@ describe("@Nullable", () => {
 
     // THEN
     const schema = getJsonSchema(Model);
+    // @ts-ignore
     const ajv = new Ajv();
 
     ajv.compile(schema);
@@ -315,7 +318,7 @@ describe("@Nullable", () => {
       },
       type: "object"
     });
-
+    // @ts-ignore
     const ajv = new Ajv({strict: true});
 
     expect(ajv.validate(schema, {prop2: null})).toBeTruthy();
@@ -476,7 +479,7 @@ describe("@Nullable", () => {
       },
       type: "object"
     });
-
+    // @ts-ignore
     const ajv = new Ajv({strict: true});
 
     expect(ajv.validate(schema, {prop2: null})).toBeTruthy();
@@ -550,6 +553,7 @@ describe("@Nullable", () => {
       type: "object"
     });
 
+    // @ts-ignore
     const ajv = new Ajv({strict: true});
 
     ajv.validate(schema, {prop2: null});
@@ -705,6 +709,7 @@ describe("@Nullable", () => {
       type: "object"
     });
 
+    // @ts-ignore
     const ajv = new Ajv({strict: true});
 
     expect(ajv.validate(schema, {prop2: null})).toBeTruthy();

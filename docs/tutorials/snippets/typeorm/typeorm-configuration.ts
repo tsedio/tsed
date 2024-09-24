@@ -1,6 +1,7 @@
-import {Configuration} from "@tsed/di";
 import "@tsed/platform-express";
 import "@tsed/typeorm"; // !!! IMPORTANT TO ADD THIS !!!
+
+import {Configuration} from "@tsed/di";
 
 @Configuration({
   typeorm: [

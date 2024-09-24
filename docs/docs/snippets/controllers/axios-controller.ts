@@ -1,7 +1,7 @@
 import {Res} from "@tsed/common";
+import {Controller} from "@tsed/di";
 import {QueryParams} from "@tsed/platform-params";
 import {Get} from "@tsed/schema";
-import {Controller} from "@tsed/di";
 import Axios from "axios";
 import {IncomingMessage} from "http";
 

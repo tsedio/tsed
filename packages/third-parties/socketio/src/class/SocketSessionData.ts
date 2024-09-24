@@ -21,7 +21,7 @@ export class SocketSessionData extends Map<string, unknown> {
     this.#data = data;
   }
 
-  public *[Symbol.iterator](): IterableIterator<[string, unknown]> {
+  public *[Symbol.iterator](): MapIterator<[string, unknown]> {
     for (const key in this.#data) {
       yield [key, this.#data[key]];
     }
@@ -42,7 +42,7 @@ export class SocketSessionData extends Map<string, unknown> {
     return false;
   }
 
-  public *entries(): IterableIterator<[string, unknown]> {
+  public *entries(): MapIterator<[string, unknown]> {
     for (const key in this.#data) {
       yield [key, this.#data[key]];
     }
@@ -62,7 +62,7 @@ export class SocketSessionData extends Map<string, unknown> {
     return key in this.#data;
   }
 
-  public *keys(): IterableIterator<string> {
+  public *keys(): MapIterator<string> {
     for (const key in this.#data) {
       yield key;
     }
@@ -73,7 +73,7 @@ export class SocketSessionData extends Map<string, unknown> {
     return this;
   }
 
-  public *values(): IterableIterator<unknown> {
+  public *values(): MapIterator<unknown> {
     for (const key in this.#data) {
       yield this.#data[key];
     }

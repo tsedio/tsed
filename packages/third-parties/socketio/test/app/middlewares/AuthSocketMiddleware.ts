@@ -1,4 +1,4 @@
-import {Args, SocketMiddleware, SocketSession} from "@tsed/socketio";
+import {Args, SocketMiddleware, SocketSession} from "../../..";
 
 @SocketMiddleware()
 export class AuthSocketMiddleware {

@@ -1,4 +1,5 @@
 import {Store} from "@tsed/core";
+
 import {SocketUseAfter} from "../index.js";
 
 describe("@SocketUseAfter", () => {

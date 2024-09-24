@@ -1,5 +1,6 @@
-import {Get} from "@tsed/schema";
 import {Controller} from "@tsed/di";
+import {Get} from "@tsed/schema";
+
 import {MySocketService} from "../services/MySocketService";
 
 @Controller("/")

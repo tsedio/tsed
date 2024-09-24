@@ -1,5 +1,6 @@
 import {InjectorService} from "@tsed/di";
 import Http from "http";
+
 import {createHttpServer} from "./createHttpServer.js";
 
 describe("createHttpServer", () => {
@@ -32,8 +33,8 @@ describe("createHttpServer", () => {
 
     await listener();
 
-    expect(server.listen).toBeCalledWith(true, "0.0.0.0");
-    expect(injector.logger.info).toBeCalledWith("Listen server on http://0.0.0.0:8089");
+    expect(server.listen).toHaveBeenCalledWith(true, "0.0.0.0");
+    expect(injector.logger.info).toHaveBeenCalledWith("Listen server on http://0.0.0.0:8089");
   });
 
   it("should create a raw object (http port false)", () => {

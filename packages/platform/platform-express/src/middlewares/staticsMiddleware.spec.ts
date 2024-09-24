@@ -1,4 +1,5 @@
 import Express from "express";
+
 import {staticsMiddleware} from "./staticsMiddleware.js";
 
 describe("staticsMiddleware", () => {
@@ -15,7 +16,7 @@ describe("staticsMiddleware", () => {
     const middleware = staticsMiddleware("/path", {root: "/publics", test: "test"});
     middleware(req, res, next);
 
-    expect(middlewareServeStatic).toBeCalledWith(req, res, next);
+    expect(middlewareServeStatic).toHaveBeenCalledWith(req, res, next);
   });
   it("should call next when headers is sent", () => {
     const middlewareServeStatic = vi.fn();
@@ -29,6 +30,6 @@ describe("staticsMiddleware", () => {
     const middleware = staticsMiddleware("/path", {root: "/publics", test: "test"});
     middleware(req, res, next);
 
-    expect(next).toBeCalled();
+    expect(next).toHaveBeenCalled();
   });
 });

@@ -1,5 +1,5 @@
-import {Required} from "@tsed/schema";
 import {Model, ObjectID, PostHook} from "@tsed/mongoose";
+import {Required} from "@tsed/schema";
 
 @Model()
 @PostHook("save", (car: CarModel) => {

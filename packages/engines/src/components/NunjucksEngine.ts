@@ -1,4 +1,5 @@
 import {promisify} from "util";
+
 import {ViewEngine} from "../decorators/viewEngine.js";
 import {Engine} from "./Engine.js";
 
@@ -14,7 +15,6 @@ export class NunjucksEngine extends Engine {
     if (options.settings && options.settings.views) {
       env = engine.configure(options.settings.views);
     } else if (options.nunjucks && options.nunjucks.configure) {
-      // eslint-disable-next-line prefer-spread
       env = engine.configure.apply(engine, options.nunjucks.configure);
     }
 

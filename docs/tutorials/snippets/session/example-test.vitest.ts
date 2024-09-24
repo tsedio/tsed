@@ -1,6 +1,7 @@
-import {it, expect, describe, beforeAll, afterAll} from "vitest";
 import {PlatformTest} from "@tsed/common";
 import * as SuperTest from "supertest";
+import {afterAll, beforeAll, describe, expect, it} from "vitest";
+
 import {Server} from "../../../src/Server";
 
 describe("Session", () => {

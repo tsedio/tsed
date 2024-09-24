@@ -2,6 +2,7 @@ import {AfterListen, DIContext, Logger, OnDestroy, runInContext} from "@tsed/com
 import {Constant, Inject, InjectorService, Module, Provider} from "@tsed/di";
 import {Job, Processor} from "agenda";
 import {v4 as uuid} from "uuid";
+
 import {PROVIDER_TYPE_AGENDA} from "./constants/constants.js";
 import {AgendaStore} from "./interfaces/AgendaStore.js";
 import {AgendaService} from "./services/AgendaFactory.js";

@@ -1,4 +1,5 @@
 import {Store} from "@tsed/core";
+
 import {SocketReturnsTypes} from "../interfaces/SocketReturnsTypes.js";
 
 /**

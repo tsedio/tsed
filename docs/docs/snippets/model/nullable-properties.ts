@@ -1,4 +1,5 @@
 import {Nullable, Required} from "@tsed/schema";
+
 import {MyModel, MyModel2} from "./MyModel";
 
 export class Model {

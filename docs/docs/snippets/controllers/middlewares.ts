@@ -1,7 +1,8 @@
+import {Controller} from "@tsed/di";
 import {Use, UseAfter, UseBefore} from "@tsed/platform-middlewares";
 import {PathParams} from "@tsed/platform-params";
 import {Get} from "@tsed/schema";
-import {Controller} from "@tsed/di";
+
 import {CustomBeforeMdlw, CustomMiddleware} from "../middlewares/middlewares";
 
 @Controller("/calendars")

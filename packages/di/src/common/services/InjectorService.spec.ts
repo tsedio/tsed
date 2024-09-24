@@ -1,4 +1,5 @@
 import {Store} from "@tsed/core";
+
 import {DI_USE_OPTIONS} from "../constants/constants.js";
 import {Configuration} from "../decorators/configuration.js";
 import {Inject} from "../decorators/inject.js";
@@ -95,43 +96,13 @@ describe("InjectorService", () => {
 
         // THEN
         expect(result1 !== result2).toEqual(true);
-        expect(injector.getProvider).toBeCalledWith(token);
+        expect(injector.getProvider).toHaveBeenCalledWith(token);
         expect(injector.get("alias")).toBeInstanceOf(token);
 
-        expect((injector as any).resolve).toBeCalledWith(token, locals, {rebuild: true});
-        expect((injector as any).invoke).toBeCalledWith(InjectorService, locals, {
+        expect((injector as any).resolve).toHaveBeenCalledWith(token, locals, {rebuild: true});
+        expect((injector as any).invoke).toHaveBeenCalledWith(InjectorService, locals, {
           parent: token
         });
-      });
-    });
-    describe("when provider is a SINGLETON", () => {
-      it("should invoke the provider from container", async () => {
-        // GIVEN
-        const token = class Test {};
-
-        const provider = new Provider<any>(token);
-        provider.scope = ProviderScope.SINGLETON;
-
-        const injector = new InjectorService();
-        const container = new Container();
-        container.set(token, provider);
-
-        await injector.load(container);
-
-        vi.spyOn(injector as any, "resolve");
-        vi.spyOn(injector, "getProvider");
-
-        const locals = new LocalsContainer();
-
-        // WHEN
-
-        const result1: any = injector.invoke(token, locals);
-        const result2: any = injector.invoke(token, locals);
-
-        // THEN
-        expect(result1).toEqual(result2);
-
-        return expect((injector as any).resolve).not.toBeCalled();
       });
     });
     describe("when provider is a REQUEST", () => {
@@ -166,12 +137,12 @@ describe("InjectorService", () => {
         expect(result1).toEqual(result2);
         expect(result2 !== result3).toEqual(true);
 
-        expect(injector.getProvider).toBeCalledWith(token);
-        expect((injector as any).resolve).toBeCalledWith(token, locals, {});
+        expect(injector.getProvider).toHaveBeenCalledWith(token);
+        expect((injector as any).resolve).toHaveBeenCalledWith(token, locals, {});
         expect(locals.get(token)).toEqual(result1);
         expect(locals2.get(token)).toEqual(result3);
 
-        return expect(injector.get).not.toBeCalled();
+        return expect(injector.get).not.toHaveBeenCalled();
       });
     });
     describe("when provider is a INSTANCE", () => {
@@ -201,11 +172,11 @@ describe("InjectorService", () => {
         // THEN
         expect(result1 !== result2).toEqual(true);
 
-        expect(injector.getProvider).toBeCalledWith(token);
-        expect((injector as any).resolve).toBeCalledWith(token, locals, {});
+        expect(injector.getProvider).toHaveBeenCalledWith(token);
+        expect((injector as any).resolve).toHaveBeenCalledWith(token, locals, {});
         expect(locals.has(token)).toEqual(false);
 
-        return expect(injector.get).not.toBeCalled();
+        return expect(injector.get).not.toHaveBeenCalled();
       });
     });
     describe("when provider is a SINGLETON", () => {
@@ -229,7 +200,35 @@ describe("InjectorService", () => {
 
         // THEN
         expect(result).toBeInstanceOf(token);
-        expect(GlobalProviders.onInvoke).toBeCalledWith(provider, expect.any(LocalsContainer), expect.anything());
+        expect(GlobalProviders.onInvoke).toHaveBeenCalledWith(provider, expect.any(LocalsContainer), expect.anything());
+      });
+      it("should invoke the provider from container (2)", async () => {
+        // GIVEN
+        const token = class Test {};
+
+        const provider = new Provider<any>(token);
+        provider.scope = ProviderScope.SINGLETON;
+
+        const injector = new InjectorService();
+        const container = new Container();
+        container.set(token, provider);
+
+        await injector.load(container);
+
+        vi.spyOn(injector as any, "resolve");
+        vi.spyOn(injector, "getProvider");
+
+        const locals = new LocalsContainer();
+
+        // WHEN
+
+        const result1: any = injector.invoke(token, locals);
+        const result2: any = injector.invoke(token, locals);
+
+        // THEN
+        expect(result1).toEqual(result2);
+
+        return expect((injector as any).resolve).not.toHaveBeenCalled();
       });
     });
     describe("when provider is a Value (useValue)", () => {
@@ -736,7 +735,7 @@ describe("InjectorService", () => {
 
       const value = injector.alter("$alterValue", "value");
 
-      expect(service.$alterValue).toBeCalledWith("value");
+      expect(service.$alterValue).toHaveBeenCalledWith("value");
       expect(value).toEqual("alteredValue");
     });
     it("should alter value (factory)", () => {
@@ -781,7 +780,7 @@ describe("InjectorService", () => {
 
       const value = await injector.alterAsync("$alterValue", "value");
 
-      expect(service.$alterValue).toBeCalledWith("value");
+      expect(service.$alterValue).toHaveBeenCalledWith("value");
       expect(value).toEqual("alteredValue");
     });
   });

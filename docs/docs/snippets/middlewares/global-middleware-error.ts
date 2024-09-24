@@ -1,7 +1,7 @@
 import {Err, Req, Res} from "@tsed/common";
-import {Middleware} from "@tsed/platform-middlewares";
 import {Exception} from "@tsed/exceptions";
 import {$log} from "@tsed/logger";
+import {Middleware} from "@tsed/platform-middlewares";
 
 @Middleware()
 export class GlobalErrorHandlerMiddleware {

@@ -1,5 +1,5 @@
-import {Required} from "@tsed/schema";
 import {Model, ObjectID, VersionKey} from "@tsed/mongoose";
+import {Required} from "@tsed/schema";
 
 @Model()
 class PostModel {

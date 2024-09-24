@@ -1,4 +1,5 @@
 import {Module} from "@tsed/di";
+
 import {myContainer} from "./inversify.config";
 
 @Module({

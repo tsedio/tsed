@@ -1,14 +1,14 @@
-import {Configuration, Inject} from "@tsed/di";
-import {PlatformApplication} from "@tsed/common";
 import "@tsed/passport";
 import "@tsed/platform-express";
+// import your protocol. Ts.ED will discover it automatically
+import "./protocols/LoginLocalProtocol.js";
+
+import {PlatformApplication} from "@tsed/common";
+import {Configuration, Inject} from "@tsed/di";
 import bodyParser from "body-parser";
 import cookieParser from "cookie-parser";
 import session from "express-session";
 import methodOverride from "method-override";
-
-// import your protocol. Ts.ED will discover it automatically
-import "./protocols/LoginLocalProtocol.js";
 
 @Configuration({
   passport: {

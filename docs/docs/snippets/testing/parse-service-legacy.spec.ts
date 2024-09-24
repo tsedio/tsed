@@ -1,5 +1,6 @@
-import {expect} from "chai";
 import {inject, TestContext} from "@tsed/testing";
+import {expect} from "chai";
+
 import {ParseService} from "./ParseService";
 
 describe("ParseService", () => {

@@ -1,4 +1,5 @@
 import {Request, Response} from "express";
+
 import {FormioErrors} from "./FormioErrors.js";
 import {FormioJs} from "./FormioJs.js";
 
@@ -97,7 +98,7 @@ export interface FormioUtil {
    * @returns {Promise<Response>} The promise with the node-fetch response object.
    */
   fetch: any;
-  /* eslint-disable new-cap */
+
   base64: {
     /**
      * Base64 encode the given data.
@@ -302,8 +303,6 @@ export interface FormioUtil {
    *   The mongo string id.
    */
   idToString(_id: string | any): string;
-
-  /* eslint-enable new-cap */
 
   /**
    * Ensures that a submission data has MongoDB ObjectID's for all "id" fields.

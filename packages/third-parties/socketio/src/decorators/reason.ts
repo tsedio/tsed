@@ -1,5 +1,5 @@
-import {SocketFilter} from "./socketFilter.js";
 import {SocketFilters} from "../interfaces/SocketFilters.js";
+import {SocketFilter} from "./socketFilter.js";
 
 /**
  * Inject the disconnection reason into the decorated parameter.

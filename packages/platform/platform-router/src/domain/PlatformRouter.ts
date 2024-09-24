@@ -1,6 +1,7 @@
 import {isString} from "@tsed/core";
 import {Injectable, InjectorService, Provider, ProviderScope, Scope} from "@tsed/di";
 import {concatPath} from "@tsed/schema";
+
 import {formatMethod} from "../utils/formatMethod.js";
 import {PlatformHandlerMetadata} from "./PlatformHandlerMetadata.js";
 import {PlatformLayer, PlatformLayerOptions} from "./PlatformLayer.js";

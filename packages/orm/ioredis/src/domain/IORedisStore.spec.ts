@@ -234,11 +234,6 @@ describe("RedisStore", () => {
       const result = await redisCache.store.mset([["foo", "bar"]], 300);
       expect(result).toEqual(undefined);
     });
-
-    it("should set multiple value with ttl", async () => {
-      const result = await redisCache.store.mset([["foo", "bar"]], 300);
-      expect(result).toEqual(undefined);
-    });
   });
 
   describe("set", () => {

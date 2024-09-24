@@ -1,4 +1,5 @@
 import {Inject, Injectable} from "@tsed/di";
+
 import {CONNECTION} from "./connection";
 
 @Injectable()

@@ -1,6 +1,7 @@
 import {PlatformTest, ValidationError} from "@tsed/common";
 import {Env} from "@tsed/core";
 import {BadRequest} from "@tsed/exceptions";
+
 import {PlatformExceptions} from "./PlatformExceptions.js";
 
 describe("PlatformExceptions", () => {
@@ -24,7 +25,7 @@ describe("PlatformExceptions", () => {
 
       platformExceptions.catch(error, ctx);
 
-      expect(ctx.response.body).toBeCalledWith("MyError");
+      expect(ctx.response.body).toHaveBeenCalledWith("MyError");
     });
     it("should map exception", () => {
       const middleware = PlatformTest.get<PlatformExceptions>(PlatformExceptions);
@@ -49,8 +50,8 @@ describe("PlatformExceptions", () => {
 
       middleware.catch(error, ctx);
 
-      expect(ctx.response.setHeaders).toBeCalledWith({"x-path": "id"});
-      expect(ctx.response.body).toBeCalledWith({
+      expect(ctx.response.setHeaders).toHaveBeenCalledWith({"x-path": "id"});
+      expect(ctx.response.body).toHaveBeenCalledWith({
         errors: [
           {
             error: "format",
@@ -78,8 +79,8 @@ describe("PlatformExceptions", () => {
 
       middleware.catch(error, ctx);
 
-      expect(ctx.response.setHeaders).toBeCalledWith({});
-      expect(ctx.response.body).toBeCalledWith({
+      expect(ctx.response.setHeaders).toHaveBeenCalledWith({});
+      expect(ctx.response.body).toHaveBeenCalledWith({
         errors: [],
         message: "My message",
         name: "Error",
@@ -102,8 +103,8 @@ describe("PlatformExceptions", () => {
 
       middleware.catch(error, ctx);
 
-      expect(ctx.response.setHeaders).toBeCalledWith({});
-      expect(ctx.response.body).toBeCalledWith({
+      expect(ctx.response.setHeaders).toHaveBeenCalledWith({});
+      expect(ctx.response.body).toHaveBeenCalledWith({
         errors: [],
         message: "My message, innerException: My message",
         name: "Error",
@@ -128,7 +129,7 @@ describe("PlatformExceptions", () => {
 
       platformExceptions.catch(error, ctx);
 
-      expect(ctx.response.body).toBeCalledWith({
+      expect(ctx.response.body).toHaveBeenCalledWith({
         errors: [],
         message: "request entity too large",
         name: "PayloadTooLargeError",
@@ -158,8 +159,8 @@ describe("PlatformExceptions", () => {
 
       middleware.catch(error, ctx);
 
-      expect(ctx.response.setHeaders).toBeCalledWith({});
-      expect(ctx.response.body).toBeCalledWith("InternalServerError");
+      expect(ctx.response.setHeaders).toHaveBeenCalledWith({});
+      expect(ctx.response.body).toHaveBeenCalledWith("InternalServerError");
     });
   });
   describe("resourceNotFound()", () => {
@@ -182,8 +183,8 @@ describe("PlatformExceptions", () => {
 
       middleware.resourceNotFound(ctx);
 
-      expect(ctx.response.setHeaders).toBeCalledWith({});
-      expect(ctx.response.body).toBeCalledWith({
+      expect(ctx.response.setHeaders).toHaveBeenCalledWith({});
+      expect(ctx.response.body).toHaveBeenCalledWith({
         errors: [],
         message: 'Resource "url" not found',
         name: "NOT_FOUND",

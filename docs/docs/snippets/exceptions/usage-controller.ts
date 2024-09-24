@@ -1,7 +1,8 @@
-import {PathParams} from "@tsed/platform-params";
-import {Get} from "@tsed/schema";
 import {Controller, Inject} from "@tsed/di";
 import {BadRequest, NotFound} from "@tsed/exceptions";
+import {PathParams} from "@tsed/platform-params";
+import {Get} from "@tsed/schema";
+
 import {CalendarsService} from "../services/CalendarsService";
 
 @Controller("/calendars")

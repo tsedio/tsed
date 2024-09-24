@@ -1,4 +1,5 @@
 import {Type} from "@tsed/core";
+
 import {JsonSchema} from "../domain/JsonSchema.js";
 
 export type GenericValue = Type<any> | JsonSchema | any;

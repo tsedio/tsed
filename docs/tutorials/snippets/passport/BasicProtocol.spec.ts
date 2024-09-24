@@ -1,8 +1,9 @@
+import {PlatformTest} from "@tsed/common";
 import * as Sinon from "sinon";
+
 import {User} from "../models/User";
 import {UsersService} from "../services/users/UsersService";
 import {BasicProtocol} from "./BasicProtocol";
-import {PlatformTest} from "@tsed/common";
 
 describe("BasicProtocol", () => {
   beforeEach(() => PlatformTest.create());

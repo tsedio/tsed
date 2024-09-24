@@ -1,6 +1,7 @@
 import {Type} from "@tsed/core";
 import {Constant, Service} from "@tsed/di";
 import {deserialize, serialize} from "@tsed/json-mapper";
+
 import {UserInfo} from "../domain/UserInfo.js";
 
 /**

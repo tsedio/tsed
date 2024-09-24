@@ -128,7 +128,10 @@ export class Writer {
 class IfWriter extends Writer {
   protected elseWriter?: Writer;
 
-  constructor(protected condition: string, root: Writer) {
+  constructor(
+    protected condition: string,
+    root: Writer
+  ) {
     super();
     this._root = root;
   }

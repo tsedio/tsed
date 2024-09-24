@@ -1,4 +1,5 @@
 import {PlatformHandlerMetadata} from "@tsed/platform-router";
+
 import {PlatformRequest} from "./PlatformRequest.js";
 import {PlatformTest} from "./PlatformTest.js";
 
@@ -92,7 +93,7 @@ describe("PlatformRequest", () => {
 
       request.accepts("application/json");
 
-      expect(req.accepts).toBeCalledWith("application/json");
+      expect(req.accepts).toHaveBeenCalledWith("application/json");
     });
   });
 

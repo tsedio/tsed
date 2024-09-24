@@ -1,5 +1,6 @@
-import {SocketService, SocketUseAfter, SocketUseBefore, Emit, Input, Args} from "@tsed/socketio";
-import {UserConverterSocketMiddleware, ErrorHandlerSocketMiddleware} from "../middlewares";
+import {Args, Emit, Input, SocketService, SocketUseAfter, SocketUseBefore} from "@tsed/socketio";
+
+import {ErrorHandlerSocketMiddleware, UserConverterSocketMiddleware} from "../middlewares";
 import {User} from "../models/User";
 
 @SocketService("/my-namespace")

@@ -1,6 +1,7 @@
-import {expect, beforeAll, afterAll, it} from "vitest";
 import {Context, Controller, Get, Location, PlatformTest, Redirect} from "@tsed/common";
 import SuperTest from "supertest";
+import {afterAll, beforeAll, expect, it} from "vitest";
+
 import {PlatformTestingSdkOpts} from "../interfaces/index.js";
 
 @Controller("/redirect")
@@ -38,7 +39,7 @@ class RedirectCtrl {
   }
 
   @Get("/scenario-6")
-  @Location("/path/to").Status(301)
+  @(Location("/path/to").Status(301))
   testScenario6(@Context() ctx: Context) {
     return "Hello";
   }

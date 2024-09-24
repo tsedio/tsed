@@ -1,4 +1,5 @@
 import {Module} from "@tsed/di";
+
 import {MyController} from "./controllers/MyController";
 import {MyService} from "./services/MyService";
 

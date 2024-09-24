@@ -1,5 +1,6 @@
 import {Env} from "@tsed/core";
 import {ProviderScope, ProviderType} from "@tsed/di";
+
 import {PlatformConfiguration} from "./PlatformConfiguration.js";
 
 describe("PlatformConfiguration", () => {
@@ -54,9 +55,6 @@ describe("PlatformConfiguration", () => {
     it("should return rootDir", () => {
       expect(settings.rootDir).toEqual(process.cwd());
     });
-    it("should return rootDir", () => {
-      expect(settings.rootDir).toEqual(process.cwd());
-    });
 
     it("should return custom keys", () => {
       expect(settings.get("ownConfig")).toEqual("test");
@@ -78,7 +76,7 @@ describe("PlatformConfiguration", () => {
       expect(settings.httpPort).toEqual("address:8081");
     });
 
-    it("should return httpsPort", () => {
+    it("should return the best host", () => {
       const info = settings.getHttpsPort();
       expect(info).toEqual({
         protocol: "https",
@@ -89,7 +87,7 @@ describe("PlatformConfiguration", () => {
       expect(settings.getBestHost().toString()).toEqual("https://address:8080");
     });
 
-    it("should return httpPort", () => {
+    it("should return httpPort multiple usecase", () => {
       const info = settings.getHttpPort();
       expect(info).toEqual({
         protocol: "http",
@@ -127,10 +125,6 @@ describe("PlatformConfiguration", () => {
         settings.debug = false;
         expect(settings.debug).toEqual(false);
       });
-    });
-
-    it("should return env", () => {
-      expect(settings.env).toEqual("test");
     });
 
     it("should return additionalProperties", () => {

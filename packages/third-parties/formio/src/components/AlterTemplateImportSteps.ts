@@ -1,11 +1,12 @@
 import {Inject} from "@tsed/di";
+import async from "async";
+
 import {FormioMapper} from "../builder/FormioMapper.js";
 import {Alter} from "../decorators/alter.js";
 import {AlterHook} from "../domain/AlterHook.js";
 import {FormioSubmission} from "../domain/FormioModels.js";
 import {FormioTemplate} from "../domain/FormioTemplate.js";
 import {FormioDatabase} from "../services/FormioDatabase.js";
-import async from "async";
 
 @Alter("templateImportSteps")
 export class AlterTemplateImportSteps implements AlterHook {

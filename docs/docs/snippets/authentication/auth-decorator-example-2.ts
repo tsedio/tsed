@@ -1,6 +1,7 @@
-import {In, Returns, Security} from "@tsed/schema";
-import {UseAuth} from "@tsed/platform-middlewares";
 import {useDecorators} from "@tsed/core";
+import {UseAuth} from "@tsed/platform-middlewares";
+import {In, Returns, Security} from "@tsed/schema";
+
 import {CustomAuthMiddleware} from "../guards/CustomAuthMiddleware";
 
 export interface CustomAuthOptions extends Record<string, unknown> {

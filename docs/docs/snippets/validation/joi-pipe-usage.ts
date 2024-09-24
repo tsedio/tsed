@@ -1,6 +1,7 @@
+import {Controller} from "@tsed/di";
 import {BodyParams} from "@tsed/platform-params";
 import {Get} from "@tsed/schema";
-import {Controller} from "@tsed/di";
+
 import {UseJoiSchema} from "../decorators/UseJoiSchema";
 import {joiPersonModel, PersonModel} from "../models/PersonModel";
 

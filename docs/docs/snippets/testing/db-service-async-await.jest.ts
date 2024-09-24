@@ -1,4 +1,5 @@
 import {PlatformTest} from "@tsed/common";
+
 import {DbService} from "../services/db";
 
 describe("DbService", () => {

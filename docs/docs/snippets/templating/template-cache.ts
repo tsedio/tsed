@@ -1,6 +1,6 @@
+import {Controller} from "@tsed/di";
 import {View} from "@tsed/platform-views";
 import {Get} from "@tsed/schema";
-import {Controller} from "@tsed/di";
 
 @Controller("/events")
 export class EventCtrl {

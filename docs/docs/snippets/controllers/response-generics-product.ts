@@ -1,4 +1,5 @@
 import {CollectionOf, Generics} from "@tsed/schema";
+
 import {DocumentLink} from "./DocumentLink";
 
 @Generics("T")

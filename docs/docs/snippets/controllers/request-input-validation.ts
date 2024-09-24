@@ -1,6 +1,6 @@
+import {Controller} from "@tsed/di";
 import {PathParams} from "@tsed/platform-params";
 import {Get} from "@tsed/schema";
-import {Controller} from "@tsed/di";
 import {MinLength} from "@tsed/schema";
 
 @Controller("/calendars")

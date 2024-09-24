@@ -3,7 +3,6 @@
   "compilerOptions": {
     "baseUrl": ".",
     "rootDir": ".",
-    "module": "commonjs",
     "outDir": "./lib/cjs",
     "declaration": false,
     "composite": false,

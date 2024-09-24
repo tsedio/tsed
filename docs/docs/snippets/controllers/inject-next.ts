@@ -1,6 +1,6 @@
 import {Next, Req, Res} from "@tsed/common";
-import {Get} from "@tsed/schema";
 import {Controller} from "@tsed/di";
+import {Get} from "@tsed/schema";
 import * as Express from "express";
 import {promisify} from "util";
 

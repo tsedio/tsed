@@ -1,7 +1,7 @@
 import {Req} from "@tsed/common";
-import {Context} from "@tsed/platform-params";
-import {Middleware, MiddlewareMethods} from "@tsed/platform-middlewares";
 import {Forbidden, Unauthorized} from "@tsed/exceptions";
+import {Middleware, MiddlewareMethods} from "@tsed/platform-middlewares";
+import {Context} from "@tsed/platform-params";
 
 @Middleware()
 export class CustomAuthMiddleware implements MiddlewareMethods {

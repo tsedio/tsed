@@ -2,9 +2,10 @@ import {PlatformTest} from "@tsed/common";
 import {getSpec, SpecTypes} from "@tsed/schema";
 import * as qs from "querystring";
 import * as SuperTest from "supertest";
+
 import {PaginationFilter} from "../filters/PaginationFilter";
-import {ProductsCtrl} from "./ProductsCtrl";
 import {Server} from "./app/Server";
+import {ProductsCtrl} from "./ProductsCtrl";
 
 describe("ProductsCtrl", () => {
   let request: SuperTest.Agent;

@@ -1,5 +1,5 @@
-import {Constant, Value} from "@tsed/di";
 import {Env} from "@tsed/core";
+import {Constant, Value} from "@tsed/di";
 
 export class MyClass {
   @Constant("env")

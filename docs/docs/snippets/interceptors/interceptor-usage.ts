@@ -1,4 +1,5 @@
-import {Intercept, Injectable} from "@tsed/di";
+import {Injectable, Intercept} from "@tsed/di";
+
 import {MyInterceptor} from "../interceptors/MyInterceptor";
 
 @Injectable()

@@ -1,6 +1,6 @@
 import {PlatformTest} from "@tsed/common";
-import {Property, Required} from "@tsed/schema";
 import {Model, MongooseModel, ObjectID, PostHook, PreHook, Unique} from "@tsed/mongoose";
+import {Property, Required} from "@tsed/schema";
 import {TestContainersMongo} from "@tsed/testcontainers-mongo";
 
 @Model({schemaOptions: {timestamps: true}})

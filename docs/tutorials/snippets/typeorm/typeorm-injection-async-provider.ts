@@ -1,4 +1,5 @@
 import {Inject, Injectable} from "@tsed/di";
+
 import {CONNECTION} from "./typeorm-async-provider";
 
 @Injectable()

@@ -1,6 +1,6 @@
 import {Controller} from "@tsed/di";
+import {BodyParams, PathParams, QueryParams} from "@tsed/platform-params";
 import {Delete, Get, Post, Put} from "@tsed/schema";
-import {PathParams, QueryParams, BodyParams} from "@tsed/platform-params";
 import {Description, Groups, Returns, Summary} from "@tsed/schema";
 
 @Controller("/timeslots")

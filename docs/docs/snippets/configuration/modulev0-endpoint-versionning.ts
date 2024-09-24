@@ -1,4 +1,5 @@
 import {Module} from "@tsed/di";
+
 import {UserController} from "./users/UserController";
 
 @Module({

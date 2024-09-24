@@ -1,5 +1,5 @@
-import {ParamOptions, UseDeserialization, UseParamType, UseType, UseValidation} from "@tsed/platform-params";
 import {useDecorators} from "@tsed/core";
+import {ParamOptions, UseDeserialization, UseParamType, UseType, UseValidation} from "@tsed/platform-params";
 
 export function UseParam(options: ParamOptions<any>): ParameterDecorator {
   return useDecorators(

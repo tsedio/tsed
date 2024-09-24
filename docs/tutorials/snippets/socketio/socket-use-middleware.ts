@@ -1,5 +1,6 @@
-import {Args, SocketMiddleware} from "@tsed/socketio";
 import {deserialize} from "@tsed/json-mapper";
+import {Args, SocketMiddleware} from "@tsed/socketio";
+
 import {User} from "../models/User";
 
 @SocketMiddleware()

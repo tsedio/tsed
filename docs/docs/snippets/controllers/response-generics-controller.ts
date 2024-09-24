@@ -1,7 +1,8 @@
-import {PathParams} from "@tsed/platform-params";
-import {Get, Name, Returns, Summary} from "@tsed/schema";
 import {Controller} from "@tsed/di";
 import {NotFound} from "@tsed/exceptions";
+import {PathParams} from "@tsed/platform-params";
+import {Get, Name, Returns, Summary} from "@tsed/schema";
+
 import {Document} from "../../domain/document/Documents";
 import {Product} from "../../domain/product/Product";
 import {ProductTypes} from "../../domain/product/ProductTypes";
@@ -10,8 +11,8 @@ import {ProductTypes} from "../../domain/product/ProductTypes";
 @Name("Products")
 export class ProductsCtrl {
   @Get("/:id")
-  @Returns(200, Document).Of(Product).Description("A product")
-  @Returns(404, NotFound).Description("Product not found")
+  @(Returns(200, Document).Of(Product).Description("A product"))
+  @(Returns(404, NotFound).Description("Product not found"))
   @Summary("Return a product from the given Id")
   async geProduct(@PathParams("id") id: string): Promise<Document<Product>> {
     if (id === "AGAC") {

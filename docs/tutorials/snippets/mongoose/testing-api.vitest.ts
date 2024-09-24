@@ -1,6 +1,7 @@
 import {PlatformTest} from "@tsed/common";
 import {TestContainersMongo} from "@tsed/testcontainers-mongo";
 import * as SuperTest from "supertest";
+
 import {Server} from "../Server";
 
 describe("Rest", () => {

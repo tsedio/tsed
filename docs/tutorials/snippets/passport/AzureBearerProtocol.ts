@@ -1,6 +1,7 @@
-import {Context} from "@tsed/platform-params";
 import {Arg, OnVerify, PassportMiddleware, Protocol} from "@tsed/passport";
+import {Context} from "@tsed/platform-params";
 import {BearerStrategy, ITokenPayload} from "passport-azure-ad";
+
 import {AuthService} from "../services/auth/AuthService";
 
 @Protocol({

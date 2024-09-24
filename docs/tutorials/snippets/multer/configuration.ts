@@ -1,5 +1,6 @@
-import {Configuration} from "@tsed/di";
 import "@tsed/platform-express";
+
+import {Configuration} from "@tsed/di";
 
 @Configuration({
   multer: {

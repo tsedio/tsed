@@ -1,6 +1,7 @@
+import {JsonParameterStore} from "@tsed/schema";
+
 import {INTERACTION_PROMPT} from "../constants/constants.js";
 import {Prompt} from "./prompt.js";
-import {JsonParameterStore} from "@tsed/schema";
 
 describe("@Prompt", () => {
   it("should inject uid", () => {

@@ -1,6 +1,7 @@
 import {PlatformTest} from "@tsed/common";
 import {expect} from "chai";
 import * as SuperTest from "supertest";
+
 import {Server} from "../../../src/Server";
 
 describe("Session", () => {

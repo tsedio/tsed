@@ -1,6 +1,8 @@
-import {join} from "path";
-import {getEngine, getEngines} from "./getEngines.js";
 import "../index.js";
+
+import {join} from "path";
+
+import {getEngine, getEngines} from "./getEngines.js";
 
 const rootDir = import.meta.dirname;
 

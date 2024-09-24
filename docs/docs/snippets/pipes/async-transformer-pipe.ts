@@ -1,6 +1,7 @@
-import {JsonParameterStore, PipeMethods} from "@tsed/schema";
 import {Inject, Injectable} from "@tsed/di";
 import {NotFound} from "@tsed/exceptions";
+import {JsonParameterStore, PipeMethods} from "@tsed/schema";
+
 import {PersonModel} from "../models/PersonModel";
 import {PersonsService} from "../models/PersonsService";
 

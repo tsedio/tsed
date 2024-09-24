@@ -1,6 +1,6 @@
+import {Controller} from "@tsed/di";
 import {BodyParams} from "@tsed/platform-params";
 import {Post} from "@tsed/schema";
-import {Controller} from "@tsed/di";
 import {array, number, object, Returns, Schema, string} from "@tsed/schema";
 
 const ProductSchema = object({
@@ -14,7 +14,7 @@ const ProductSchema = object({
 @Controller("/")
 class MyController {
   @Post("/")
-  @Returns(200).Description("description").Schema(ProductSchema)
+  @(Returns(200).Description("description").Schema(ProductSchema))
   async method(@BodyParams() @Schema(ProductSchema) product: any): Promise<null> {
     return null;
   }

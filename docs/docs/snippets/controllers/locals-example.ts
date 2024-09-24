@@ -1,8 +1,8 @@
-import {Locals} from "@tsed/platform-params";
+import {Controller} from "@tsed/di";
 import {Middleware, UseBefore} from "@tsed/platform-middlewares";
+import {Locals} from "@tsed/platform-params";
 import {View} from "@tsed/platform-views";
 import {Get} from "@tsed/schema";
-import {Controller} from "@tsed/di";
 
 @Middleware()
 class LocalsMiddleware {

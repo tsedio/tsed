@@ -1,4 +1,5 @@
 import {getJsonSchema} from "@tsed/schema";
+
 import {ObjectID} from "./objectID.js";
 
 describe("ObjectID", () => {

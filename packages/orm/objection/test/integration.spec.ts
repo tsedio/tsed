@@ -1,9 +1,10 @@
 import {PlatformTest} from "@tsed/common";
 import {serialize} from "@tsed/json-mapper";
-import {OBJECTION_CONNECTION} from "@tsed/objection";
 import {Knex} from "knex";
+import {afterAll, beforeAll, beforeEach, describe, expect, it} from "vitest";
+
+import {OBJECTION_CONNECTION} from "..";
 import {User} from "./helpers/models/User.js";
-import {describe, beforeAll, beforeEach, it, afterAll, expect} from "vitest";
 
 const rootDir = import.meta.dirname;
 

@@ -1,9 +1,10 @@
 import {isBuffer, useDecorators} from "@tsed/core";
 import {isParameterType, Name} from "@tsed/schema";
-import {ParamFn} from "./paramFn.js";
+
 import {ParamOptions} from "../domain/ParamOptions.js";
-import {UseParamExpression} from "./useParamExpression.js";
 import {PARAM_TYPES_DATA_PATH, ParamTypes} from "../domain/ParamTypes.js";
+import {ParamFn} from "./paramFn.js";
+import {UseParamExpression} from "./useParamExpression.js";
 
 /**
  * Get the object from request (like body, params, query, etc...).

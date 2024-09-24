@@ -1,4 +1,5 @@
 import {PlatformTest} from "@tsed/common";
+
 import {AlterLog} from "./AlterLog.js";
 
 describe("AlterLog", () => {

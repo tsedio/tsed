@@ -1,5 +1,5 @@
-import {BuildSchemaOptions} from "type-graphql";
 import type {ApolloSettings as AS} from "@tsed/apollo";
+import {BuildSchemaOptions} from "type-graphql";
 
 declare global {
   namespace TsED {

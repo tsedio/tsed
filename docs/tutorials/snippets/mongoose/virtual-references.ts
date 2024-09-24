@@ -1,5 +1,5 @@
-import {Property} from "@tsed/schema";
 import {Model, Ref, VirtualRef, VirtualRefs} from "@tsed/mongoose";
+import {Property} from "@tsed/schema";
 
 @Model()
 class Person {

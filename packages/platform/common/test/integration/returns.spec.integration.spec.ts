@@ -1,4 +1,5 @@
 import {getSpec, Returns, SpecTypes} from "@tsed/schema";
+
 import {Get} from "../../src/index.js";
 
 describe("@Returns", () => {
@@ -6,7 +7,7 @@ describe("@Returns", () => {
     // WHEN
     class Controller {
       @Get("/")
-      @Returns(200, String).ContentType("text/plain")
+      @(Returns(200, String).ContentType("text/plain"))
       method() {}
     }
 

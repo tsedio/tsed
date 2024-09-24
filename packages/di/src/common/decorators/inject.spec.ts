@@ -1,8 +1,9 @@
 import {catchAsyncError, catchError} from "@tsed/core";
+
 import {DITest} from "../../node/index.js";
 import {registerProvider} from "../registries/ProviderRegistry.js";
 import {InjectorService} from "../services/InjectorService.js";
-import {inject, Inject} from "./inject.js";
+import {Inject, inject} from "./inject.js";
 import {Injectable} from "./injectable.js";
 
 describe("inject", () => {

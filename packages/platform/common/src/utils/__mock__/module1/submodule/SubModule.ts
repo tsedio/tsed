@@ -1,4 +1,5 @@
 import {Module} from "@tsed/di";
+
 import {SubService} from "./SubService.js";
 
 @Module({

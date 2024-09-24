@@ -2,6 +2,7 @@ import {AfterRoutesInit} from "@tsed/common";
 import {Injectable} from "@tsed/di";
 import {TypeORMService} from "@tsed/typeorm";
 import {Connection} from "typeorm";
+
 import {User} from "../models/User";
 
 @Injectable()

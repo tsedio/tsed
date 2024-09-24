@@ -1,5 +1,5 @@
-import {Get} from "@tsed/schema";
 import {Controller, Injectable, ProviderScope, Scope} from "@tsed/di";
+import {Get} from "@tsed/schema";
 
 @Injectable()
 @Scope(ProviderScope.INSTANCE)

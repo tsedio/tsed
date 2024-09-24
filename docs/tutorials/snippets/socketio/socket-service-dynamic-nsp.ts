@@ -1,4 +1,4 @@
-import {Nsp, SocketNsp, Input, SocketService} from "@tsed/socketio";
+import {Input, Nsp, SocketNsp, SocketService} from "@tsed/socketio";
 import * as SocketIO from "socket.io";
 
 @SocketService(/my-namespace-.+/)

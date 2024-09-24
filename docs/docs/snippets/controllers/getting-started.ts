@@ -1,7 +1,7 @@
-import {Get, Post, Required, Delete} from "@tsed/schema";
 import {Controller} from "@tsed/di";
-import {View} from "@tsed/platform-views";
 import {BodyParams} from "@tsed/platform-params";
+import {View} from "@tsed/platform-views";
+import {Delete, Get, Post, Required} from "@tsed/schema";
 
 export interface Calendar {
   id: string;

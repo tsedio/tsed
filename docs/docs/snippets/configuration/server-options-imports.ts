@@ -1,4 +1,5 @@
 import {Configuration} from "@tsed/di";
+
 import {MyModule} from "./module/MyModule";
 
 @Configuration({

@@ -1,4 +1,5 @@
 import {descriptorOf, Store} from "@tsed/core";
+
 import {MONGOOSE_SCHEMA} from "../constants/constants.js";
 import {Auto} from "./auto.js";
 

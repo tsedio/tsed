@@ -1,10 +1,10 @@
+import {classOf} from "./classOf.js";
 import {isDate} from "./isDate.js";
 import {isFunction} from "./isFunction.js";
 import {isNil} from "./isNil.js";
 import {isPrimitive} from "./isPrimitive.js";
-import {isSymbol} from "./isSymbol.js";
 import {isRegExp} from "./isRegExp.js";
-import {classOf} from "./classOf.js";
+import {isSymbol} from "./isSymbol.js";
 
 const isBasicType = (source: any) => isNil(source) || isPrimitive(source) || isSymbol(source) || isFunction(source);
 

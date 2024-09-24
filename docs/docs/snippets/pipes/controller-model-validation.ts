@@ -1,7 +1,8 @@
-import {Post} from "@tsed/schema";
 import {Controller} from "@tsed/di";
-import {BodyParams} from "./body-params";
+import {Post} from "@tsed/schema";
+
 import {PersonModel} from "../models/PersonModel";
+import {BodyParams} from "./body-params";
 
 @Controller("/persons")
 export class PersonsController {

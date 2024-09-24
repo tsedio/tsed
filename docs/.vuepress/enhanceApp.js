@@ -1,7 +1,8 @@
 import "./window-boot.js";
-import VueTsED from "vuepress-theme-tsed/src/install";
 import "./styles/style.css";
 import "prismjs/components/prism-groovy";
+
+import VueTsED from "vuepress-theme-tsed/src/install";
 
 export default ({
   Vue, // the version of Vue being used in the VuePress app

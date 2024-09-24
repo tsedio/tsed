@@ -1,6 +1,7 @@
-import {Post} from "@tsed/schema";
 import {Controller} from "@tsed/di";
 import {Authorize} from "@tsed/passport";
+import {Post} from "@tsed/schema";
+
 import {AcceptRoles} from "../decorators/acceptRoles";
 
 @Controller("/calendars")

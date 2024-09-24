@@ -1,4 +1,5 @@
 import {Injectable} from "@tsed/di";
+
 import {SubService} from "../submodule/SubService.js";
 
 @Injectable()

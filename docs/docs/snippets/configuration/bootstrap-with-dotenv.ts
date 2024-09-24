@@ -1,5 +1,6 @@
 import {$log} from "@tsed/common";
 import {PlatformExpress} from "@tsed/platform-express";
+
 import {Server} from "./server";
 
 const config = require("dotenv").config({path: "/full/custom/path/to/your/env/vars"});

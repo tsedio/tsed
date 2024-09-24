@@ -1,5 +1,5 @@
-import {UseAfter} from "@tsed/platform-middlewares";
 import {useDecorators} from "@tsed/core";
+import {UseAfter} from "@tsed/platform-middlewares";
 
 export function CustomStatus(code: number) {
   return useDecorators(

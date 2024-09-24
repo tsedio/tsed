@@ -2,8 +2,9 @@ import {BodyParams, Controller, Get, PathParams, PlatformTest, Post} from "@tsed
 import {ObjectID} from "@tsed/mongoose";
 import {PlatformExpress} from "@tsed/platform-express";
 import {Consumes, Description, Returns} from "@tsed/schema";
-import {Docs, Hidden} from "@tsed/swagger";
 import SuperTest from "supertest";
+
+import {Docs, Hidden} from "..";
 import {Calendar} from "./app/models/Calendar.js";
 import {Server} from "./app/Server.js";
 
@@ -41,14 +42,14 @@ class CalendarsController {
   }
 
   @Get("/")
-  @Returns(200, Array).Of(Calendar)
+  @(Returns(200, Array).Of(Calendar))
   getAll(): Promise<Calendar[]> {
     return Promise.resolve([new Calendar({id: 1, name: "name"}), new Calendar({id: 2, name: "name"})]);
   }
 
   @Post("/csv")
   @Consumes("text/plain")
-  @Returns(200, String).ContentType("text/plain")
+  @(Returns(200, String).ContentType("text/plain"))
   csv(@BodyParams() csvLines: string): Promise<string> {
     return Promise.resolve("");
   }

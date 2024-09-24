@@ -1,5 +1,5 @@
 import "@tsed/ajv";
-import {Configuration, Controller, Get, PlatformTest} from "@tsed/common";
+
 import {PlatformExpress} from "@tsed/platform-express";
 import {PlatformTestSdk} from "@tsed/platform-test-sdk";
 import bodyParser from "body-parser";
@@ -7,6 +7,8 @@ import compress from "compression";
 import cookieParser from "cookie-parser";
 import methodOverride from "method-override";
 import SuperTest from "supertest";
+
+import {Configuration, Controller, Get, PlatformTest} from "../..";
 
 const rootDir = import.meta.dirname;
 

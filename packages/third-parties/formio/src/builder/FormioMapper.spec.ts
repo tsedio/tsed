@@ -1,5 +1,6 @@
 import {toMap as tMap} from "@tsed/core";
 import {MongooseDocument} from "@tsed/mongoose";
+
 import {FormioMapper} from "./FormioMapper.js";
 
 function toMap<T>(list: any[]) {

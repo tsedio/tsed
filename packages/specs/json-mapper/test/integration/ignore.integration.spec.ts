@@ -1,4 +1,5 @@
 import {Ignore, Property} from "@tsed/schema";
+
 import {serialize} from "../../src/utils/serialize.js";
 
 describe("Mapping @Ignore", () => {

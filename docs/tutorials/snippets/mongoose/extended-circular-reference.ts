@@ -1,5 +1,5 @@
-import {Required, CollectionOf} from "@tsed/schema";
 import {Model, ObjectID} from "@tsed/mongoose";
+import {CollectionOf, Required} from "@tsed/schema";
 
 @Model()
 export class Customer {

@@ -1,5 +1,6 @@
 import {Inject, Injectable} from "@tsed/di";
 import {MongooseModel} from "@tsed/mongoose";
+
 import {MyModel} from "./models/MyModel";
 
 @Injectable()

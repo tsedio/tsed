@@ -1,4 +1,5 @@
 import {DIConfiguration} from "@tsed/di";
+
 import {getMiddlewaresForHook} from "./getMiddlewaresForHook.js";
 
 describe("getMiddlewaresForHooks", () => {

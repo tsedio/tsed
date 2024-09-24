@@ -1,5 +1,5 @@
-import {DiscriminatorValue, DiscriminatorKey, Required} from "@tsed/schema";
 import {Model, ObjectID} from "@tsed/mongoose";
+import {DiscriminatorKey, DiscriminatorValue, Required} from "@tsed/schema";
 
 @Model()
 class EventModel {

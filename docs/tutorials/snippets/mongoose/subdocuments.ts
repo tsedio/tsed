@@ -1,5 +1,5 @@
-import {CollectionOf, Property} from "@tsed/schema";
 import {Model, ObjectID, Schema} from "@tsed/mongoose";
+import {CollectionOf, Property} from "@tsed/schema";
 
 @Schema()
 export class MySchema {

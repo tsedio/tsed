@@ -1,5 +1,6 @@
 import {Controller} from "@tsed/di";
 import {EndpointMetadata, Get, Groups, Property, Returns} from "@tsed/schema";
+
 import {serialize} from "../../src/utils/serialize.js";
 
 class MyModel {
@@ -22,7 +23,7 @@ class MyModel {
 @Controller("/controllers")
 class MyController {
   @Get("/:id")
-  @Returns(200, MyModel).AllowedGroups("summary", "details")
+  @(Returns(200, MyModel).AllowedGroups("summary", "details"))
   get() {
     return {
       id: "id",
@@ -34,7 +35,7 @@ class MyController {
   }
 
   @Get("/:id")
-  @Returns(200, MyModel).Groups("!admin").AllowedGroups("summary", "details")
+  @(Returns(200, MyModel).Groups("!admin").AllowedGroups("summary", "details"))
   get2() {
     return {
       id: "id",

@@ -1,6 +1,7 @@
 import {catchError} from "@tsed/core";
 import {Logger} from "@tsed/logger";
 import {beforeEach} from "vitest";
+
 import {DITest} from "../../node/index.js";
 import {registerProvider} from "../registries/ProviderRegistry.js";
 import {InjectorService} from "../services/InjectorService.js";

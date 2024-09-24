@@ -120,7 +120,7 @@ describe("getProperties()", () => {
         expect(result.get("id")!.targetName).toBe("Parent");
       });
 
-      it("should have a property name metadata from Parent class", () => {
+      it("should have a property name metadata from Parent class (2)", () => {
         const result = getProperties(Parent);
         expect(result.get("name")!.targetName).toBe("Parent");
       });

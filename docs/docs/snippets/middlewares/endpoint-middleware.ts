@@ -1,6 +1,6 @@
-import {Context} from "@tsed/platform-params";
-import {MiddlewareMethods, Middleware} from "@tsed/platform-middlewares";
 import {NotAcceptable} from "@tsed/exceptions";
+import {Middleware, MiddlewareMethods} from "@tsed/platform-middlewares";
+import {Context} from "@tsed/platform-params";
 
 @Middleware()
 export class AcceptMimesMiddleware implements MiddlewareMethods {

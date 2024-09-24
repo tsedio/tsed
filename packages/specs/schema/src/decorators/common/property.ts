@@ -1,4 +1,5 @@
 import {isArrowFn, isClass} from "@tsed/core";
+
 import {JsonEntityFn} from "./jsonEntityFn.js";
 
 /**

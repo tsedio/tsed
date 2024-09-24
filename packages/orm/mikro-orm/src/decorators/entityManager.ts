@@ -1,4 +1,5 @@
 import {Inject} from "@tsed/di";
+
 import {MikroOrmRegistry} from "../services/MikroOrmRegistry.js";
 import {orm} from "./orm.js";
 

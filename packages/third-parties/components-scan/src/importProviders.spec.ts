@@ -1,5 +1,6 @@
 import {nameOf} from "@tsed/core";
 import {resolveControllers} from "@tsed/di";
+
 import {importProviders} from "./importProviders.js";
 
 const rootDir = import.meta.dirname;

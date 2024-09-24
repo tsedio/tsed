@@ -1,5 +1,6 @@
-import * as Sinon from "sinon";
 import {PlatformTest} from "@tsed/common";
+import * as Sinon from "sinon";
+
 import {User} from "../models/User";
 import {UsersService} from "../services/users/UsersService";
 import {LoginLocalProtocol} from "./LoginLocalProtocol";

@@ -1,5 +1,5 @@
-import {Required} from "@tsed/schema";
 import {Model, ObjectID, PreHook} from "@tsed/mongoose";
+import {Required} from "@tsed/schema";
 
 @Model()
 @PreHook("save", (car: CarModel, next: any) => {

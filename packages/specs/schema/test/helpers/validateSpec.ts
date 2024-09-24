@@ -1,7 +1,8 @@
 import SwaggerParser from "@apidevtools/swagger-parser";
-import {SpecTypes} from "../../src/index.js";
 import fs from "fs-extra";
 import {v4} from "uuid";
+
+import {SpecTypes} from "../../src/index.js";
 
 const rootDir = import.meta.dirname;
 
