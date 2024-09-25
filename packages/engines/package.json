@@ -81,7 +81,7 @@
     "underscore": "^1.11.0",
     "vash": "^0.13.0",
     "velocityjs": "^2.0.1",
-    "vitest": "2.0.4",
+    "vitest": "2.1.1",
     "walrus": "^0.10.1",
     "whiskers": "^0.4.0"
   },

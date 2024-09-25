@@ -37,7 +37,7 @@
     "objection": "^2.2.18",
     "sqlite3": "^5.1.7",
     "typescript": "5.6.2",
-    "vitest": "2.0.4"
+    "vitest": "2.1.1"
   },
   "peerDependencies": {
     "@tsed/ajv": "8.0.0-alpha.5",

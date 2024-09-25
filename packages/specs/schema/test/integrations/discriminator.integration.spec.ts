@@ -1,4 +1,5 @@
 import {Controller} from "@tsed/di";
+// @ts-ignore
 import {BodyParams, PathParams} from "@tsed/platform-params";
 
 import {

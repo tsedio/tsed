@@ -3,6 +3,7 @@ import "../components/PrimitiveMapper.js";
 import "../components/SymbolMapper.js";
 
 import {faker} from "@faker-js/faker";
+// @ts-ignore
 import {QueryParams} from "@tsed/platform-params";
 import {
   AdditionalProperties,

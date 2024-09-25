@@ -1,4 +1,5 @@
 import {catchError} from "@tsed/core";
+// @ts-ignore
 import {QueryParams} from "@tsed/platform-params";
 
 import {Deprecated, getSpec, OperationPath, Returns, SpecTypes} from "../../index.js";

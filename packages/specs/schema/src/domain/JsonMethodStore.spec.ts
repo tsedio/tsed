@@ -1,4 +1,5 @@
 import {StoreSet} from "@tsed/core";
+// @ts-ignore
 import {Use, UseAfter, UseBefore} from "@tsed/platform-middlewares";
 
 import {OperationVerbs} from "../constants/OperationVerbs.js";

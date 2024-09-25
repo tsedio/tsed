@@ -1,4 +1,5 @@
 import {Controller} from "@tsed/di";
+// @ts-ignore
 import {BodyParams} from "@tsed/platform-params";
 
 import {CollectionOf, getSpec, Groups, Partial, Patch, Post, Required} from "../../src/index.js";

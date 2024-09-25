@@ -1,3 +1,4 @@
+// @ts-ignore
 import {BodyParams, RawBodyParams} from "@tsed/platform-params";
 
 import {getSpec, OperationPath, Path, SpecTypes} from "../../src/index.js";

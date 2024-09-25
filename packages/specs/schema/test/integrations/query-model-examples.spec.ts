@@ -1,3 +1,4 @@
+// @ts-ignore
 import {QueryParams} from "@tsed/platform-params";
 
 import {

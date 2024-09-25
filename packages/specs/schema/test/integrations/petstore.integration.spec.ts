@@ -1,7 +1,8 @@
-import "../..";
+import "../../src/index.js";
 
 import {Controller} from "@tsed/di";
 import {Use} from "@tsed/platform-middlewares";
+// @ts-ignore
 import {BodyParams, PathParams} from "@tsed/platform-params";
 
 import {

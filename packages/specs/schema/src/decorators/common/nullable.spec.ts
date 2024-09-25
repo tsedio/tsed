@@ -1,3 +1,4 @@
+// @ts-ignore
 import {BodyParams} from "@tsed/platform-params";
 import Ajv from "ajv";
 

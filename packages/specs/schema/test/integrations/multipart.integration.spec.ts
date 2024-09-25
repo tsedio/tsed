@@ -1,5 +1,6 @@
 import {MultipartFile, PlatformMulterFile} from "@tsed/common";
 import {Controller} from "@tsed/di";
+// @ts-ignore
 import {BodyParams} from "@tsed/platform-params";
 
 import {SpecTypes} from "../../src/index.js";

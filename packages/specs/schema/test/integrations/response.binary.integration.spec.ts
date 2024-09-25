@@ -1,3 +1,4 @@
+// @ts-ignore
 import {QueryParams} from "@tsed/platform-params";
 
 import {getSpec, OperationPath, Path, Property, Returns, SpecTypes} from "../../src/index.js";

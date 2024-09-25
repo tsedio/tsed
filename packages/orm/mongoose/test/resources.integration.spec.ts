@@ -6,6 +6,7 @@ import {PlatformExpress} from "@tsed/platform-express";
 import {Groups, Returns} from "@tsed/schema";
 import {TestContainersMongo} from "@tsed/testcontainers-mongo";
 import SuperTest from "supertest";
+import {describe, expect, it} from "vitest";
 
 import {MongooseModel} from "..";
 import {TestRole, TestUser, TestUserNew} from "./helpers/models/User.js";
@@ -75,7 +76,7 @@ class ResourcesCtrl {
 
     await role.save();
 
-    user.name = faker.name.firstName();
+    user.name = faker.person.firstName();
 
     user.roles = [role._id];
 
@@ -93,12 +94,12 @@ async function getServiceFixture() {
 
   const baseUser = {
     email: faker.internet.email(),
-    password: faker.internet.password(12)
+    password: faker.internet.password({length: 12})
   };
 
   const baseUser2 = {
     email: faker.internet.email(),
-    password: faker.internet.password(12)
+    password: faker.internet.password({length: 12})
   };
 
   const currentUser2 = await repository.create(baseUser2);

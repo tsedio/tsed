@@ -2,7 +2,7 @@ import {Context, Controller, Get, getContext, PathParams, PlatformResponse, Plat
 import {CollectionOf, Enum, ForwardGroups, Groups, Ignore, Name, Property, Required, Returns, Status} from "@tsed/schema";
 import axios from "axios";
 import {of} from "rxjs";
-import {agent, SuperAgentStatic} from "superagent";
+import {agent} from "superagent";
 import SuperTest from "supertest";
 import {afterAll, beforeAll, describe, expect, it} from "vitest";
 

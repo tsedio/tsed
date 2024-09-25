@@ -9,8 +9,9 @@ import compress from "compression";
 import cookieParser from "cookie-parser";
 import methodOverride from "method-override";
 import SuperTest from "supertest";
+import {afterEach, beforeEach, describe, expect, it} from "vitest";
 
-import {BodyParams, Configuration, Controller, Get, PlatformTest} from "../..";
+import {BodyParams, Configuration, Controller, Get, PlatformTest} from "../../src/index.js";
 
 const rootDir = import.meta.dirname;
 

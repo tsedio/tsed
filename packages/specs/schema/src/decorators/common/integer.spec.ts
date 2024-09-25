@@ -1,3 +1,4 @@
+// @ts-ignore
 import {BodyParams} from "@tsed/platform-params";
 
 import {validateSpec} from "../../../test/helpers/validateSpec.js";
