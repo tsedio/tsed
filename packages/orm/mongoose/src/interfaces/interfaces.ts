@@ -1,4 +1,4 @@
-import {MongooseConnectionOptions} from "./MongooseConnectionOptions.js";
+import type {MongooseConnectionOptions} from "./MongooseConnectionOptions.js";
 
 declare global {
   namespace TsED {

@@ -1,6 +1,7 @@
 import {PlatformTest} from "@tsed/common";
 import {catchError} from "@tsed/core";
-import {errors, KoaContextWithOIDC} from "oidc-provider";
+import type {KoaContextWithOIDC} from "oidc-provider";
+import {errors} from "oidc-provider";
 
 import {OidcWildcardRedirectUriModule} from "./OidcWildcardRedirectUriModule.js";
 import InvalidClientMetadata = errors.InvalidClientMetadata;

@@ -1,4 +1,4 @@
-import {Directory, SourceFile, StatementStructures} from "ts-morph";
+import type {Directory, SourceFile, StatementStructures} from "ts-morph";
 
 export function generateDocuments<T = any>(
   documents: any[],

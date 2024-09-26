@@ -1,11 +1,11 @@
 import {createTerminus} from "@godaddy/terminus";
 import type {PlatformRouteDetails} from "@tsed/common";
-import {Constant, Inject, InjectorService, Module, OnInit, Provider} from "@tsed/di";
+import {Constant, Inject, InjectorService, Module, type OnInit, type Provider} from "@tsed/di";
 import {concatPath} from "@tsed/schema";
 import Http from "http";
 import Https from "https";
 
-import {TerminusSettings} from "./interfaces/TerminusSettings.js";
+import type {TerminusSettings} from "./interfaces/TerminusSettings.js";
 
 @Module()
 export class TerminusModule implements OnInit {
@@ -15,7 +15,7 @@ export class TerminusModule implements OnInit {
   @Constant("terminus.path", "/health")
   private basePath: string;
 
-  @Inject()
+  @Inject(InjectorService)
   private injector: InjectorService;
 
   @Inject(Http.Server)

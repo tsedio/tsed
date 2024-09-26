@@ -1,28 +1,25 @@
+import type {InjectorService, PlatformContext, PlatformMulter, PlatformMulterSettings, PlatformStaticsOptions} from "@tsed/common";
 import {
   createContext,
-  InjectorService,
   PlatformAdapter,
   PlatformBuilder,
-  PlatformContext,
   PlatformExceptions,
   PlatformHandler,
   PlatformHandlerType,
-  PlatformMulter,
-  PlatformMulterSettings,
   PlatformProvider,
-  PlatformStaticsOptions,
   runInContext
 } from "@tsed/common";
-import {catchAsyncError, Env, isFunction, Type} from "@tsed/core";
-import {PlatformHandlerMetadata, PlatformLayer} from "@tsed/platform-router";
+import type {Type} from "@tsed/core";
+import {catchAsyncError, Env, isFunction} from "@tsed/core";
+import type {PlatformHandlerMetadata, PlatformLayer} from "@tsed/platform-router";
 import type {PlatformViews} from "@tsed/platform-views";
-import {OptionsJson, OptionsText, OptionsUrlencoded} from "body-parser";
+import type {OptionsJson, OptionsText, OptionsUrlencoded} from "body-parser";
 import Express from "express";
-import {IncomingMessage, ServerResponse} from "http";
+import type {IncomingMessage, ServerResponse} from "http";
 import type multer from "multer";
 import {promisify} from "util";
 
-import {PlatformExpressStaticsOptions} from "../interfaces/PlatformExpressStaticsOptions.js";
+import type {PlatformExpressStaticsOptions} from "../interfaces/PlatformExpressStaticsOptions.js";
 import {staticsMiddleware} from "../middlewares/staticsMiddleware.js";
 import {PlatformExpressHandler} from "../services/PlatformExpressHandler.js";
 

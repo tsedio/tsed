@@ -1,7 +1,8 @@
 import {uniq} from "@tsed/core";
 import {Constant} from "@tsed/di";
 import {NotAcceptable} from "@tsed/exceptions";
-import {Middleware, MiddlewareMethods} from "@tsed/platform-middlewares";
+import type {MiddlewareMethods} from "@tsed/platform-middlewares";
+import {Middleware} from "@tsed/platform-middlewares";
 import {Context} from "@tsed/platform-params";
 
 /**

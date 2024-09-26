@@ -9,7 +9,7 @@ import {afterAll, beforeAll, expect, it} from "vitest";
 
 import {CustomBadRequest} from "../errors/CustomBadRequest.js";
 import {CustomInternalError} from "../errors/CustomInternalError.js";
-import {PlatformTestingSdkOpts} from "../interfaces/index.js";
+import type {PlatformTestingSdkOpts} from "../interfaces/index.js";
 
 class CustomModel {
   @Required() name: string;

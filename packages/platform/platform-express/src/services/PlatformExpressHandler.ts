@@ -1,5 +1,7 @@
-import {PlatformContext, PlatformHandler} from "@tsed/common";
-import {AnyPromiseResult, isFunction, isStream} from "@tsed/core";
+import type {PlatformContext} from "@tsed/common";
+import {PlatformHandler} from "@tsed/common";
+import type {AnyPromiseResult} from "@tsed/core";
+import {isFunction, isStream} from "@tsed/core";
 import {promisify} from "util";
 
 export class PlatformExpressHandler extends PlatformHandler {

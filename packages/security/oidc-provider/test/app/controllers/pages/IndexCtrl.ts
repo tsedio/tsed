@@ -1,7 +1,8 @@
 import {Constant, Controller, Get, HeaderParams} from "@tsed/common";
 import {View} from "@tsed/platform-views";
 import {Returns} from "@tsed/schema";
-import {Hidden, SwaggerSettings} from "@tsed/swagger";
+import type {SwaggerSettings} from "@tsed/swagger";
+import {Hidden} from "@tsed/swagger";
 
 @Hidden()
 @Controller("/")

@@ -4,7 +4,7 @@ import {EOL} from "os";
 import SuperTest from "supertest";
 import {afterAll, beforeAll, describe, expect, it} from "vitest";
 
-import {PlatformTestingSdkOpts} from "../interfaces/index.js";
+import type {PlatformTestingSdkOpts} from "../interfaces/index.js";
 
 @Middleware()
 class LocalsMiddleware {

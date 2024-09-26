@@ -1,6 +1,6 @@
 import type {Knex} from "knex";
 
-import {ColumnCtx} from "../utils/getColumnCtx.js";
+import type {ColumnCtx} from "../utils/getColumnCtx.js";
 
 /**
  * @ignore

@@ -1,4 +1,4 @@
-import {OpenSpecHash} from "../common/OpenSpecHash.js";
+import type {OpenSpecHash} from "../common/OpenSpecHash.js";
 
 export interface OpenSpecServerVariable {
   /**

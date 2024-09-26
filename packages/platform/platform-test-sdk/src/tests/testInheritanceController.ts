@@ -5,7 +5,7 @@ import SuperTest from "supertest";
 import {v4} from "uuid";
 import {afterAll, beforeAll, describe, expect, it} from "vitest";
 
-import {PlatformTestingSdkOpts} from "../interfaces/index.js";
+import type {PlatformTestingSdkOpts} from "../interfaces/index.js";
 
 export class Resource {
   @Property()

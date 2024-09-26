@@ -1,16 +1,17 @@
 import {catchError} from "@tsed/core";
 
 import {DITest} from "../../node/index.js";
-import {InterceptorContext} from "../interfaces/InterceptorContext.js";
-import {InterceptorMethods} from "../interfaces/InterceptorMethods.js";
+import type {InterceptorContext} from "../interfaces/InterceptorContext.js";
+import type {InterceptorMethods} from "../interfaces/InterceptorMethods.js";
 import {InjectorService} from "../services/InjectorService.js";
+import {Inject} from "./inject.js";
 import {getInterceptorOptions, Intercept} from "./intercept.js";
 import {Interceptor} from "./interceptor.js";
 import {Service} from "./service.js";
 
 @Interceptor()
 class MyInterceptor implements InterceptorMethods {
-  constructor(injSrv: InjectorService) {
+  constructor(@Inject(InjectorService) injSrv: InjectorService) {
     // do some logic
   }
 

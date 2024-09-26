@@ -1,4 +1,4 @@
-import {TerminusSettings} from "./TerminusSettings.js";
+import type {TerminusSettings} from "./TerminusSettings.js";
 
 declare global {
   namespace TsED {

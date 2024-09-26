@@ -1,5 +1,6 @@
 import {ViewEngine} from "../decorators/viewEngine.js";
-import {Engine, EngineOptions} from "./Engine.js";
+import type {EngineOptions} from "./Engine.js";
+import {Engine} from "./Engine.js";
 
 @ViewEngine("ractive")
 export class RactiveEngine extends Engine {

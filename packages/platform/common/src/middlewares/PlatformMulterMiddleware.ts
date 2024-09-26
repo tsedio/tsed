@@ -1,11 +1,12 @@
 import {Inject, Value} from "@tsed/di";
 import {BadRequest} from "@tsed/exceptions";
-import {Middleware, MiddlewareMethods} from "@tsed/platform-middlewares";
+import type {MiddlewareMethods} from "@tsed/platform-middlewares";
+import {Middleware} from "@tsed/platform-middlewares";
 import {Context} from "@tsed/platform-params";
 import type {MulterError} from "multer";
 
-import {PlatformMulterField, PlatformMulterSettings} from "../config/interfaces/PlatformMulterSettings.js";
-import {PlatformContext} from "../domain/PlatformContext.js";
+import type {PlatformMulterField, PlatformMulterSettings} from "../config/interfaces/PlatformMulterSettings.js";
+import type {PlatformContext} from "../domain/PlatformContext.js";
 import {PlatformApplication} from "../services/PlatformApplication.js";
 
 export interface MulterInputOptions {
@@ -30,7 +31,7 @@ export class PlatformMulterMiddleware implements MiddlewareMethods {
   @Value("multer", {}) // NOTE: don't use constant to getting multer configuration. See issue #1840
   protected settings: PlatformMulterSettings;
 
-  @Inject()
+  @Inject(PlatformApplication)
   protected app: PlatformApplication;
 
   async use(@Context() ctx: PlatformContext) {

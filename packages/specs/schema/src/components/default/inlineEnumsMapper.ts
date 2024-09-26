@@ -1,5 +1,5 @@
-import {JsonSchema} from "../../domain/JsonSchema.js";
-import {JsonSchemaOptions} from "../../interfaces/JsonSchemaOptions.js";
+import type {JsonSchema} from "../../domain/JsonSchema.js";
+import type {JsonSchemaOptions} from "../../interfaces/JsonSchemaOptions.js";
 import {registerJsonSchemaMapper} from "../../registries/JsonSchemaMapperContainer.js";
 
 export function inlineEnumsMapper(obj: any, schema: JsonSchema, options: JsonSchemaOptions) {

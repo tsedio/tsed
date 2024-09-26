@@ -1,6 +1,8 @@
-import {InjectorService, LocalsContainer} from "../../common/index.js";
+import type {InjectorService} from "../../common/index.js";
+import {LocalsContainer} from "../../common/index.js";
 import {runInContext} from "../utils/asyncHookContext.js";
-import {ContextLogger, ContextLoggerOptions} from "./ContextLogger.js";
+import type {ContextLoggerOptions} from "./ContextLogger.js";
+import {ContextLogger} from "./ContextLogger.js";
 
 export interface DIContextOptions extends Omit<ContextLoggerOptions, "dateStart"> {
   id: string;

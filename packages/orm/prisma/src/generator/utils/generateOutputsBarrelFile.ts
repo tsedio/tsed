@@ -1,4 +1,4 @@
-import {ExportDeclarationStructure, OptionalKind, SourceFile} from "ts-morph";
+import type {ExportDeclarationStructure, OptionalKind, SourceFile} from "ts-morph";
 
 import {resolveExtension} from "./resolveExtension.js";
 

@@ -1,19 +1,21 @@
-import {AnyPromiseResult, AnyToPromiseStatus, catchAsyncError} from "@tsed/core";
-import {Inject, Injectable, Provider, ProviderScope} from "@tsed/di";
+import type {AnyPromiseResult} from "@tsed/core";
+import {AnyToPromiseStatus, catchAsyncError} from "@tsed/core";
+import type {Provider} from "@tsed/di";
+import {Inject, Injectable, ProviderScope} from "@tsed/di";
 import {PlatformExceptions} from "@tsed/platform-exceptions";
-import {PlatformParams, PlatformParamsCallback} from "@tsed/platform-params";
+import {PlatformParams, type PlatformParamsCallback} from "@tsed/platform-params";
 import {PlatformResponseFilter} from "@tsed/platform-response-filter";
 import {
-  AlterEndpointHandlersArg,
+  type AlterEndpointHandlersArg,
   PlatformHandlerMetadata,
   PlatformHandlerType,
   PlatformRouters,
   useResponseHandler
 } from "@tsed/platform-router";
-import {JsonOperationRoute} from "@tsed/schema";
+import type {JsonOperationRoute} from "@tsed/schema";
 
 import {AnyToPromiseWithCtx} from "../domain/AnyToPromiseWithCtx.js";
-import {PlatformContext} from "../domain/PlatformContext.js";
+import type {PlatformContext} from "../domain/PlatformContext.js";
 import {setResponseHeaders} from "../utils/setResponseHeaders.js";
 import {PlatformApplication} from "./PlatformApplication.js";
 import {PlatformMiddlewaresChain} from "./PlatformMiddlewaresChain.js";
@@ -26,22 +28,22 @@ import {PlatformMiddlewaresChain} from "./PlatformMiddlewaresChain.js";
   scope: ProviderScope.SINGLETON
 })
 export class PlatformHandler {
-  @Inject()
+  @Inject(PlatformResponseFilter)
   protected responseFilter: PlatformResponseFilter;
 
-  @Inject()
+  @Inject(PlatformParams)
   protected platformParams: PlatformParams;
 
-  @Inject()
+  @Inject(PlatformExceptions)
   protected platformExceptions: PlatformExceptions;
 
-  @Inject()
+  @Inject(PlatformApplication)
   protected platformApplication: PlatformApplication;
 
-  @Inject()
+  @Inject(PlatformMiddlewaresChain)
   protected platformMiddlewaresChain: PlatformMiddlewaresChain;
 
-  constructor(protected platformRouters: PlatformRouters) {
+  constructor(@Inject(PlatformRouters) protected platformRouters: PlatformRouters) {
     // configure the router module
     platformRouters.hooks
       .on("alterEndpointHandlers", (handlers: AlterEndpointHandlersArg, operationRoute: JsonOperationRoute) => {

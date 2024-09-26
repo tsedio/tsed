@@ -1,13 +1,15 @@
-import {Inject, Logger, OnDestroy} from "@tsed/common";
-import {Configuration, Injectable} from "@tsed/di";
-import {io, Socket} from "socket.io-client";
+import {Inject} from "@tsed/common";
+import {Configuration, Injectable, type OnDestroy} from "@tsed/di";
+import {Logger} from "@tsed/logger";
+import type {Socket} from "socket.io-client";
+import {io} from "socket.io-client";
 
 @Injectable()
 export class SocketClientService implements OnDestroy {
   @Configuration()
   private settings: Configuration;
 
-  @Inject()
+  @Inject(Logger)
   private logger: Logger;
 
   private clients: Map<string, Socket> = new Map();

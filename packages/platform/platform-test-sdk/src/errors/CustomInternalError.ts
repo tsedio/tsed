@@ -1,4 +1,4 @@
-import {ResponseErrorObject} from "@tsed/common";
+import type {ResponseErrorObject} from "@tsed/common";
 import {InternalServerError} from "@tsed/exceptions";
 
 export class CustomInternalError extends InternalServerError implements ResponseErrorObject {

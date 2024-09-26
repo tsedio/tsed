@@ -1,5 +1,5 @@
-import {Type} from "@tsed/core";
-import {PathType} from "@tsed/di";
+import type {Type} from "@tsed/core";
+import type {PathType} from "@tsed/di";
 
 /**
  * @ignore

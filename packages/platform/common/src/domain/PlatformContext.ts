@@ -1,9 +1,10 @@
-import {DIContext, DIContextOptions} from "@tsed/di";
-import {PlatformHandlerMetadata} from "@tsed/platform-router";
-import {EndpointMetadata} from "@tsed/schema";
-import {IncomingMessage, ServerResponse} from "http";
+import type {DIContextOptions} from "@tsed/di";
+import {DIContext} from "@tsed/di";
+import type {PlatformHandlerMetadata} from "@tsed/platform-router";
+import type {EndpointMetadata} from "@tsed/schema";
+import type {IncomingMessage, ServerResponse} from "http";
 
-import {IncomingEvent} from "../interfaces/IncomingEvent.js";
+import type {IncomingEvent} from "../interfaces/IncomingEvent.js";
 import {PlatformApplication} from "../services/PlatformApplication.js";
 import {PlatformRequest} from "../services/PlatformRequest.js";
 import {PlatformResponse} from "../services/PlatformResponse.js";

@@ -1,12 +1,14 @@
-import {BodyParams, Controller, MulterOptions, MultipartFile, PlatformMulterFile, PlatformTest} from "@tsed/common";
+import type {PlatformMulterFile} from "@tsed/common";
+import {BodyParams, Controller, MulterOptions, MultipartFile, PlatformTest} from "@tsed/common";
 import {CollectionOf, Post, Property, Required, Status} from "@tsed/schema";
-import multer, {FileFilterCallback} from "multer";
+import type {FileFilterCallback} from "multer";
+import multer from "multer";
 import {dirname, join} from "path";
 import readPkgUp from "read-pkg-up";
 import SuperTest from "supertest";
 import {afterAll, beforeAll, describe, expect, it, vi} from "vitest";
 
-import {PlatformTestingSdkOpts} from "../interfaces/index.js";
+import type {PlatformTestingSdkOpts} from "../interfaces/index.js";
 
 const rootDir = import.meta.dirname;
 

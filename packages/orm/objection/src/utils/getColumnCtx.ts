@@ -1,6 +1,6 @@
-import {JsonEntityStore} from "@tsed/schema";
+import type {JsonEntityStore} from "@tsed/schema";
 
-import {ColumnOpts} from "../domain/ColumnOpts.js";
+import type {ColumnOpts} from "../domain/ColumnOpts.js";
 
 /**
  * @ignore

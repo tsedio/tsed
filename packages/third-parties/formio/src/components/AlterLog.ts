@@ -1,7 +1,7 @@
-import {PlatformContext} from "@tsed/common";
+import type {PlatformContext} from "@tsed/common";
 
 import {Alter} from "../decorators/alter.js";
-import {AlterHook} from "../domain/AlterHook.js";
+import type {AlterHook} from "../domain/AlterHook.js";
 
 @Alter("log")
 export class AlterLog implements AlterHook {

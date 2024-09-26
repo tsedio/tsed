@@ -1,5 +1,5 @@
 import "@tsed/platform-express";
-import "../..";
+import "../../index.ts";
 
 import {Configuration, Inject, PlatformApplication} from "@tsed/common";
 import bodyParser from "body-parser";
@@ -16,7 +16,7 @@ const rootDir = import.meta.dirname;
   httpsPort: false
 })
 export class Server {
-  @Inject()
+  @Inject(PlatformApplication)
   app: PlatformApplication;
 
   public $beforeRoutesInit(): void {

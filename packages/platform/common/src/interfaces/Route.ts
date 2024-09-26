@@ -1,4 +1,4 @@
-import {Provider, TokenProvider} from "@tsed/di";
+import type {Provider, TokenProvider} from "@tsed/di";
 
 export interface Route extends Record<string, any> {
   route: string;

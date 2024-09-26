@@ -1,4 +1,5 @@
-import {DecoratorStructure, StructureKind} from "ts-morph";
+import type {DecoratorStructure} from "ts-morph";
+import {StructureKind} from "ts-morph";
 
 export enum PrismaScalars {
   String = "String",

@@ -1,4 +1,4 @@
-import {AnyJsonSchema} from "../../domain/JsonSchema.js";
+import type {AnyJsonSchema} from "../../domain/JsonSchema.js";
 import {JsonEntityFn} from "./jsonEntityFn.js";
 
 /**

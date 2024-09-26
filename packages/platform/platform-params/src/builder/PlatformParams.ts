@@ -1,5 +1,6 @@
-import {DIContext, Inject, Injectable, InjectorService, ProviderScope, TokenProvider} from "@tsed/di";
-import {JsonMethodStore, JsonParameterStore, PipeMethods} from "@tsed/schema";
+import {type DIContext, Inject, Injectable, InjectorService, ProviderScope, type TokenProvider} from "@tsed/di";
+import type {PipeMethods} from "@tsed/schema";
+import {JsonMethodStore, JsonParameterStore} from "@tsed/schema";
 
 import {ParamValidationError} from "../errors/ParamValidationError.js";
 import {ParseExpressionPipe} from "../pipes/ParseExpressionPipe.js";
@@ -16,7 +17,7 @@ export type PlatformParamsCallback<Context extends DIContext = DIContext> = (sco
   imports: [ParseExpressionPipe]
 })
 export class PlatformParams {
-  @Inject()
+  @Inject(InjectorService)
   protected injector: InjectorService;
 
   getPipes(param: JsonParameterStore) {

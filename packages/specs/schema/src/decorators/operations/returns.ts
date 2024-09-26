@@ -1,3 +1,4 @@
+import type {Type} from "@tsed/core";
 import {
   decorateMethodsOf,
   decoratorTypeOf,
@@ -7,21 +8,21 @@ import {
   isObject,
   isPlainObject,
   isPrimitiveOrPrimitiveClass,
-  isString,
-  Type
+  isString
 } from "@tsed/core";
-import {OS3Example} from "@tsed/openspec";
+import type {OS3Example} from "@tsed/openspec";
 
 import {getStatusMessage} from "../../constants/httpStatusMessages.js";
 import {DecoratorContext} from "../../domain/DecoratorContext.js";
 import {JsonEntityStore} from "../../domain/JsonEntityStore.js";
 import {JsonParameter} from "../../domain/JsonParameter.js";
-import {JsonResponse} from "../../domain/JsonResponse.js";
-import {JsonSchema, JsonSchemaObject} from "../../domain/JsonSchema.js";
-import {JsonHeader, JsonHeaders} from "../../interfaces/JsonOpenSpec.js";
+import type {JsonResponse} from "../../domain/JsonResponse.js";
+import type {JsonSchemaObject} from "../../domain/JsonSchema.js";
+import {JsonSchema} from "../../domain/JsonSchema.js";
+import type {JsonHeader, JsonHeaders} from "../../interfaces/JsonOpenSpec.js";
 import {getStatusModel} from "../../utils/defineStatusModel.js";
 import {string} from "../../utils/from.js";
-import {GenericValue} from "../../utils/generics.js";
+import type {GenericValue} from "../../utils/generics.js";
 import {isSuccessStatus} from "../../utils/isSuccessStatus.js";
 import {mapHeaders} from "../../utils/mapHeaders.js";
 

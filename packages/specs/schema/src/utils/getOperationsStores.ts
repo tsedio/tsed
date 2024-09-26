@@ -1,4 +1,4 @@
-import {Type} from "@tsed/core";
+import type {Type} from "@tsed/core";
 
 import type {JsonClassStore} from "../domain/JsonClassStore.js";
 import {JsonMethodStore} from "../domain/JsonMethodStore.js";

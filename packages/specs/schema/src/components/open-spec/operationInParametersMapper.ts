@@ -1,5 +1,5 @@
-import {JsonParameter} from "../../domain/JsonParameter.js";
-import {JsonSchemaOptions} from "../../interfaces/JsonSchemaOptions.js";
+import type {JsonParameter} from "../../domain/JsonParameter.js";
+import type {JsonSchemaOptions} from "../../interfaces/JsonSchemaOptions.js";
 import {execMapper, registerJsonSchemaMapper} from "../../registries/JsonSchemaMapperContainer.js";
 
 export function operationInParametersMapper(parameters: JsonParameter[], options: JsonSchemaOptions) {

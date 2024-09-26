@@ -2,7 +2,7 @@ import {InjectorService} from "@tsed/di";
 import {Queue} from "bullmq";
 import {anything, capture, instance, mock, objectContaining, spy, verify, when} from "ts-mockito";
 
-import {JobMethods} from "../contracts/index.js";
+import type {JobMethods} from "../contracts/index.js";
 import {JobController} from "../decorators/index.js";
 import {JobDispatcher} from "./JobDispatcher.js";
 
@@ -32,6 +32,9 @@ describe("JobDispatcher", () => {
   let queue: Queue;
   let dispatcher: JobDispatcher;
   beforeEach(() => {
+    // TODO rewrite all test to avoid mockito usage. Isn't easy to maintain it!
+    // Also mock injector service isn't a good idea. We should use a PlatformTest.invoke to create test context correctly.
+
     injector = mock(InjectorService);
     queue = mock(Queue);
     when(queue.name).thenReturn("default");

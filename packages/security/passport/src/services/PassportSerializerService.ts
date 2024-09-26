@@ -1,4 +1,4 @@
-import {Type} from "@tsed/core";
+import type {Type} from "@tsed/core";
 import {Constant, Service} from "@tsed/di";
 import {deserialize, serialize} from "@tsed/json-mapper";
 

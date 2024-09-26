@@ -1,5 +1,6 @@
 import type {Config, FactoryConfig, Store} from "cache-manager";
-import {Cluster, ClusterNode, ClusterOptions, Redis, RedisOptions} from "ioredis";
+import type {Cluster, ClusterNode, ClusterOptions, RedisOptions} from "ioredis";
+import {Redis} from "ioredis";
 
 export interface RedisClusterConfig {
   nodes: ClusterNode[];

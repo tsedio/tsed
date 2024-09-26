@@ -1,5 +1,5 @@
-import {JsonSchema, JsonSchemaObject} from "../../domain/JsonSchema.js";
-import {SpecTypes} from "../../domain/SpecTypes.js";
+import type {JsonSchema, JsonSchemaObject} from "../../domain/JsonSchema.js";
+import type {SpecTypes} from "../../domain/SpecTypes.js";
 import {JsonEntityFn} from "./jsonEntityFn.js";
 
 /**

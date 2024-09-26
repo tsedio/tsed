@@ -1,4 +1,4 @@
-import {EntityManager, EventSubscriber, MikroORM, Options} from "@mikro-orm/core";
+import type {EntityManager, EventSubscriber, MikroORM, Options} from "@mikro-orm/core";
 import {PlatformTest} from "@tsed/common";
 import {anyOfClass, anything, deepEqual, instance, mock, reset, verify, when} from "ts-mockito";
 

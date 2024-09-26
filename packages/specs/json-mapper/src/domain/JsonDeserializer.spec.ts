@@ -5,6 +5,7 @@ import "../components/SymbolMapper.js";
 import {faker} from "@faker-js/faker";
 // @ts-ignore
 import {QueryParams} from "@tsed/platform-params";
+import type {JsonHookContext} from "@tsed/schema";
 import {
   AdditionalProperties,
   CollectionOf,
@@ -18,7 +19,6 @@ import {
   Ignore,
   In,
   JsonEntityStore,
-  JsonHookContext,
   JsonParameterStore,
   MinLength,
   Name,

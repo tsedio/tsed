@@ -1,12 +1,12 @@
 import {setValue} from "@tsed/core";
 import {pascalCase} from "change-case";
 
-import {JsonMethodStore} from "../../domain/JsonMethodStore.js";
-import {JsonMethodPath, JsonOperation} from "../../domain/JsonOperation.js";
-import {JsonParameter} from "../../domain/JsonParameter.js";
+import type {JsonMethodStore} from "../../domain/JsonMethodStore.js";
+import type {JsonMethodPath, JsonOperation} from "../../domain/JsonOperation.js";
+import type {JsonParameter} from "../../domain/JsonParameter.js";
 import {isParameterType, JsonParameterTypes} from "../../domain/JsonParameterTypes.js";
 import {SpecTypes} from "../../domain/SpecTypes.js";
-import {JsonSchemaOptions} from "../../interfaces/JsonSchemaOptions.js";
+import type {JsonSchemaOptions} from "../../interfaces/JsonSchemaOptions.js";
 import {execMapper, registerJsonSchemaMapper} from "../../registries/JsonSchemaMapperContainer.js";
 import {popGenerics} from "../../utils/generics.js";
 import {makeOf} from "../../utils/somethingOf.js";

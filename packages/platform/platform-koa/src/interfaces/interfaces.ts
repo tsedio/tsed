@@ -1,6 +1,6 @@
-import Koa from "koa";
+import type Koa from "koa";
 
-import {PlatformKoaSettings} from "./PlatformKoaSettings.js";
+import type {PlatformKoaSettings} from "./PlatformKoaSettings.js";
 
 export * from "./PlatformKoaSettings.js";
 

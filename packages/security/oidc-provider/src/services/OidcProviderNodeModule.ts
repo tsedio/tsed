@@ -1,4 +1,4 @@
-import {Type} from "@tsed/core";
+import type {Type} from "@tsed/core";
 import {registerProvider} from "@tsed/di";
 // @ts-ignore
 import type Provider from "oidc-provider";
@@ -7,7 +7,7 @@ export const OIDC_PROVIDER_NODE_MODULE = Symbol.for("oidc:provider:node:module")
 // @ts-ignore
 export type OIDC_PROVIDER_NODE_MODULE = {Provider: Type<Provider>} & typeof import("oidc-provider");
 
-export {Provider};
+export {type Provider};
 
 registerProvider({
   provide: OIDC_PROVIDER_NODE_MODULE,

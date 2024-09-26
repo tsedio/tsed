@@ -1,4 +1,4 @@
-import {OS3Header} from "@tsed/openspec";
+import type {OS3Header} from "@tsed/openspec";
 
 export interface JsonHeader extends OS3Header {}
 

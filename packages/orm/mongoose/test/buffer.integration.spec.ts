@@ -3,7 +3,7 @@ import {PlatformTest} from "@tsed/common";
 import {TestContainersMongo} from "@tsed/testcontainers-mongo";
 import axios from "axios";
 
-import {MongooseModel} from "../src/interfaces/MongooseModel.js";
+import type {MongooseModel} from "../src/interfaces/MongooseModel.js";
 import {TestAvatar} from "./helpers/models/Avatar.js";
 
 describe("Mongoose", () => {

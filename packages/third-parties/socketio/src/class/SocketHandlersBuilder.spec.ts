@@ -1,4 +1,5 @@
-import {DIContext, getContext, PlatformTest} from "@tsed/common";
+import type {DIContext} from "@tsed/common";
+import {getContext, PlatformTest} from "@tsed/common";
 import {Store} from "@tsed/core";
 import {InjectorService, ProviderType} from "@tsed/di";
 

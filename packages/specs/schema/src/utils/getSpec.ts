@@ -1,8 +1,9 @@
-import {cleanObject, isArray, Type, uniqBy} from "@tsed/core";
-import {OpenSpec3} from "@tsed/openspec";
+import type {Type} from "@tsed/core";
+import {cleanObject, isArray, uniqBy} from "@tsed/core";
+import type {OpenSpec3} from "@tsed/openspec";
 
 import {SpecTypes} from "../domain/SpecTypes.js";
-import {JsonSchemaOptions} from "../interfaces/JsonSchemaOptions.js";
+import type {JsonSchemaOptions} from "../interfaces/JsonSchemaOptions.js";
 import {execMapper} from "../registries/JsonSchemaMapperContainer.js";
 import {getJsonEntityStore} from "./getJsonEntityStore.js";
 import {mergeSpec} from "./mergeSpec.js";

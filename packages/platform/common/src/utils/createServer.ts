@@ -1,8 +1,10 @@
-import {getHostInfoFromPort, ReturnHostInfoFromPort} from "@tsed/core";
-import {InjectorService, ProviderScope, TokenProvider} from "@tsed/di";
-import Http from "http";
-import Http2 from "http2";
-import Https from "https";
+import type {ReturnHostInfoFromPort} from "@tsed/core";
+import {getHostInfoFromPort} from "@tsed/core";
+import type {InjectorService, TokenProvider} from "@tsed/di";
+import {ProviderScope} from "@tsed/di";
+import type Http from "http";
+import type Http2 from "http2";
+import type Https from "https";
 
 import {listenServer} from "./listenServer.js";
 

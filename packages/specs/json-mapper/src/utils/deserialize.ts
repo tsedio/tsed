@@ -3,7 +3,7 @@ import "../components/PrimitiveMapper.js";
 import "../components/SymbolMapper.js";
 
 import {JsonDeserializer} from "../domain/JsonDeserializer.js";
-import {JsonDeserializerOptions} from "../domain/JsonDeserializerOptions.js";
+import type {JsonDeserializerOptions} from "../domain/JsonDeserializerOptions.js";
 
 const deserializer = new JsonDeserializer();
 

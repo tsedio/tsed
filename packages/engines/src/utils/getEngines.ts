@@ -1,4 +1,4 @@
-import {EngineOptions} from "../components/Engine.js";
+import type {EngineOptions} from "../components/Engine.js";
 import {engines} from "../registries/EnginesContainer.js";
 
 export type RenderCallback = (err: Error | null, str?: string | any) => any;

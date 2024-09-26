@@ -5,7 +5,7 @@ import {Format, getJsonSchema, getSpec, Post, Property, ReadOnly, Returns, SpecT
 
 import {MONGOOSE_SCHEMA} from "../constants/constants.js";
 import {Model} from "./model.js";
-import {VirtualRef, VirtualRefs} from "./virtualRef.js";
+import {VirtualRef} from "./virtualRef.js";
 
 describe("@VirtualRef()", () => {
   describe("when type and foreign value are given", () => {

@@ -3,7 +3,7 @@ import {Injectable} from "@tsed/di";
 import {Name, Property} from "@tsed/schema";
 
 import {MemoryAdapter} from "../adapters/MemoryAdapter.js";
-import {Adapter} from "../domain/Adapter.js";
+import type {Adapter} from "../domain/Adapter.js";
 import {adapter, InjectAdapter} from "./injectAdapter.js";
 
 describe("InjectAdapter", () => {

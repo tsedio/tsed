@@ -1,4 +1,4 @@
-import {InjectorService} from "@tsed/di";
+import type {InjectorService} from "@tsed/di";
 import Http from "http";
 
 import {createServer} from "./createServer.js";

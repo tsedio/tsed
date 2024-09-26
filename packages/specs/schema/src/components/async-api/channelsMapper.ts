@@ -1,9 +1,9 @@
 import {camelCase} from "change-case";
 
 import {OperationVerbs} from "../../constants/OperationVerbs.js";
-import {JsonMethodStore} from "../../domain/JsonMethodStore.js";
-import {JsonMethodPath} from "../../domain/JsonOperation.js";
-import {JsonSchemaOptions} from "../../interfaces/JsonSchemaOptions.js";
+import type {JsonMethodStore} from "../../domain/JsonMethodStore.js";
+import type {JsonMethodPath} from "../../domain/JsonOperation.js";
+import type {JsonSchemaOptions} from "../../interfaces/JsonSchemaOptions.js";
 import {execMapper, registerJsonSchemaMapper} from "../../registries/JsonSchemaMapperContainer.js";
 import {buildPath} from "../../utils/buildPath.js";
 import {getJsonEntityStore} from "../../utils/getJsonEntityStore.js";

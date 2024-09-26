@@ -8,7 +8,7 @@ import {TestContainersMongo} from "@tsed/testcontainers-mongo";
 import SuperTest from "supertest";
 import {describe, expect, it} from "vitest";
 
-import {MongooseModel} from "..";
+import type {MongooseModel} from "..";
 import {TestRole, TestUser, TestUserNew} from "./helpers/models/User.js";
 import {Server} from "./helpers/Server.js";
 

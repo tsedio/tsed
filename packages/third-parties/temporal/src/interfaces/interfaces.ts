@@ -1,4 +1,4 @@
-import {ClientOptions, ConnectionOptions} from "@temporalio/client";
+import type {ClientOptions, ConnectionOptions} from "@temporalio/client";
 
 declare global {
   namespace TsED {

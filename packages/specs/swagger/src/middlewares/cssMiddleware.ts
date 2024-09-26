@@ -1,4 +1,4 @@
-import {PlatformContext} from "@tsed/common";
+import type {PlatformContext} from "@tsed/common";
 import Fs from "fs";
 import {resolve} from "path";
 

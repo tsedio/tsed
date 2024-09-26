@@ -1,6 +1,6 @@
 import {Store, useDecorators} from "@tsed/core";
 
-import {EveryOptions, PulseStore} from "../interfaces/PulseStore.js";
+import type {EveryOptions, PulseStore} from "../interfaces/PulseStore.js";
 import {Define} from "./define.js";
 
 export function Every(interval: string, options: EveryOptions = {}): MethodDecorator {

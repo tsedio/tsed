@@ -1,4 +1,4 @@
-import {TransformContext} from "../generator/domain/TransformContext.js";
+import type {TransformContext} from "../generator/domain/TransformContext.js";
 
 export function createContextFixture(): TransformContext {
   return {

@@ -1,14 +1,15 @@
 import {isFunction, Store} from "@tsed/core";
-import {DIContext, InjectorService, Provider, runInContext} from "@tsed/di";
+import type {InjectorService, Provider} from "@tsed/di";
+import {DIContext, runInContext} from "@tsed/di";
 import {deserialize} from "@tsed/json-mapper";
 import {$log} from "@tsed/logger";
-import {Namespace, Socket} from "socket.io";
+import type {Namespace, Socket} from "socket.io";
 import {v4} from "uuid";
 
 import {SocketFilters} from "../interfaces/SocketFilters.js";
-import {SocketHandlerMetadata} from "../interfaces/SocketHandlerMetadata.js";
-import {SocketInjectableNsp} from "../interfaces/SocketInjectableNsp.js";
-import {SocketParamMetadata} from "../interfaces/SocketParamMetadata.js";
+import type {SocketHandlerMetadata} from "../interfaces/SocketHandlerMetadata.js";
+import type {SocketInjectableNsp} from "../interfaces/SocketInjectableNsp.js";
+import type {SocketParamMetadata} from "../interfaces/SocketParamMetadata.js";
 import {SocketProviderTypes} from "../interfaces/SocketProviderTypes.js";
 import {SocketReturnsTypes} from "../interfaces/SocketReturnsTypes.js";
 import {SocketProviderMetadata} from "./SocketProviderMetadata.js";

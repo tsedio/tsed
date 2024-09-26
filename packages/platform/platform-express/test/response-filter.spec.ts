@@ -1,7 +1,8 @@
-import {Context, Controller, Get, PlatformTest, Res, ResponseFilter} from "@tsed/common";
+import type {Context} from "@tsed/common";
+import {Controller, Get, PlatformTest, Res, ResponseFilter} from "@tsed/common";
 import {PlatformTestSdk} from "@tsed/platform-test-sdk";
 import {Returns} from "@tsed/schema";
-import {ServerResponse} from "http";
+import type {ServerResponse} from "http";
 import SuperTest from "supertest";
 
 import {PlatformExpress} from "../src/index.js";

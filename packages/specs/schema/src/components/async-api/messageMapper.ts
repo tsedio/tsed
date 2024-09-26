@@ -1,10 +1,10 @@
 import {cleanObject, getValue} from "@tsed/core";
 
 import {OperationVerbs} from "../../constants/OperationVerbs.js";
-import {JsonMethodStore} from "../../domain/JsonMethodStore.js";
-import {JsonMethodPath} from "../../domain/JsonOperation.js";
+import type {JsonMethodStore} from "../../domain/JsonMethodStore.js";
+import type {JsonMethodPath} from "../../domain/JsonOperation.js";
 import {SpecTypes} from "../../domain/SpecTypes.js";
-import {JsonSchemaOptions} from "../../interfaces/JsonSchemaOptions.js";
+import type {JsonSchemaOptions} from "../../interfaces/JsonSchemaOptions.js";
 import {execMapper, registerJsonSchemaMapper} from "../../registries/JsonSchemaMapperContainer.js";
 import {makeOf} from "../../utils/somethingOf.js";
 

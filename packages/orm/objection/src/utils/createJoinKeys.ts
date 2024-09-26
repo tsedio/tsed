@@ -1,7 +1,9 @@
 import {Metadata} from "@tsed/core";
-import {Model, RelationType} from "objection";
+import type {RelationType} from "objection";
+import {Model} from "objection";
 
-import {isRelationshipOptsWithThrough, RelationshipOpts} from "../domain/RelationshipOpts.js";
+import type {RelationshipOpts} from "../domain/RelationshipOpts.js";
+import {isRelationshipOptsWithThrough} from "../domain/RelationshipOpts.js";
 
 /**
  * @ignore

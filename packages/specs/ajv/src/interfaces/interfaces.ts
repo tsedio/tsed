@@ -1,4 +1,4 @@
-import {IAjvSettings} from "./IAjvSettings.js";
+import type {IAjvSettings} from "./IAjvSettings.js";
 
 declare global {
   namespace TsED {

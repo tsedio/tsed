@@ -1,5 +1,6 @@
-import {PlatformBuilder, PlatformBuilderSettings} from "@tsed/common";
-import {Type} from "@tsed/core";
+import type {PlatformBuilderSettings} from "@tsed/common";
+import {PlatformBuilder} from "@tsed/common";
+import type {Type} from "@tsed/core";
 import type {Handler} from "aws-lambda";
 import serverless from "serverless-http";
 

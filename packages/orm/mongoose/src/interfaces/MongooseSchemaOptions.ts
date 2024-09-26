@@ -1,6 +1,7 @@
-import {type IndexOptions, Schema, SchemaOptions} from "mongoose";
+import type {Schema, SchemaOptions} from "mongoose";
+import {type IndexOptions} from "mongoose";
 
-import {MongooseDocument} from "./MongooseDocument.js";
+import type {MongooseDocument} from "./MongooseDocument.js";
 
 export type MongooseNextCB = (err?: Error) => void;
 

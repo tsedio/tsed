@@ -1,8 +1,8 @@
-import {MetadataTypes, Type} from "@tsed/core";
-import {JsonEntityStore} from "@tsed/schema";
+import type {MetadataTypes, Type} from "@tsed/core";
+import type {JsonEntityStore} from "@tsed/schema";
 
-import {JsonMapperMethods} from "../interfaces/JsonMapperMethods.js";
-import {JsonMapperGlobalOptions} from "./JsonMapperGlobalOptions.js";
+import type {JsonMapperMethods} from "../interfaces/JsonMapperMethods.js";
+import type {JsonMapperGlobalOptions} from "./JsonMapperGlobalOptions.js";
 
 export interface JsonDeserializerOptions<T = any, C = any> extends MetadataTypes<T, C>, JsonMapperGlobalOptions {
   /**

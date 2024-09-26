@@ -1,6 +1,6 @@
 import "@tsed/platform-exceptions";
 
-import {OpenSpec3} from "@tsed/openspec";
+import type {OpenSpec3} from "@tsed/openspec";
 
 import {SpecTypes} from "../../domain/SpecTypes.js";
 import {getSpec} from "../../utils/getSpec.js";

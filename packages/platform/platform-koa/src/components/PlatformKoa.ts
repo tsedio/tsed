@@ -1,25 +1,27 @@
 import KoaRouter from "@koa/router";
+import type {PlatformMulter, PlatformMulterSettings, PlatformStaticsOptions} from "@tsed/common";
 import {
   createContext,
   PlatformAdapter,
   PlatformBuilder,
   PlatformHandler,
-  PlatformMulter,
-  PlatformMulterSettings,
   PlatformProvider,
   PlatformRequest,
   PlatformResponse,
-  PlatformStaticsOptions,
   runInContext
 } from "@tsed/common";
-import {catchAsyncError, isFunction, Type} from "@tsed/core";
+import type {Type} from "@tsed/core";
+import {catchAsyncError, isFunction} from "@tsed/core";
 import {PlatformExceptions} from "@tsed/platform-exceptions";
-import {PlatformHandlerMetadata, PlatformHandlerType, PlatformLayer} from "@tsed/platform-router";
-import Koa, {Context, Next} from "koa";
-import koaBodyParser, {Options} from "koa-bodyparser";
+import type {PlatformHandlerMetadata, PlatformLayer} from "@tsed/platform-router";
+import {PlatformHandlerType} from "@tsed/platform-router";
+import type {Context, Next} from "koa";
+import Koa from "koa";
+import type {Options} from "koa-bodyparser";
+import koaBodyParser from "koa-bodyparser";
 // @ts-ignore
 import koaQs from "koa-qs";
-import send from "koa-send";
+import type send from "koa-send";
 
 import {staticsMiddleware} from "../middlewares/staticsMiddleware.js";
 import {PlatformKoaHandler} from "../services/PlatformKoaHandler.js";

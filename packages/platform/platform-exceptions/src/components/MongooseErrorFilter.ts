@@ -1,4 +1,4 @@
-import {BaseContext} from "@tsed/di";
+import type {BaseContext} from "@tsed/di";
 import {BadRequest} from "@tsed/exceptions";
 
 import {Catch} from "../decorators/catch.js";

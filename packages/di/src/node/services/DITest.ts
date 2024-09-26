@@ -1,14 +1,8 @@
 import {Env, getValue, isClass, isObject, isPromise, setValue} from "@tsed/core";
 import {$log} from "@tsed/logger";
 
-import {
-  createContainer,
-  DI_INJECTABLE_PROPS,
-  InjectorService,
-  type OnInit,
-  TokenProvider,
-  type UseImportTokenProviderOpts
-} from "../../common/index.js";
+import type {TokenProvider} from "../../common/index.js";
+import {createContainer, DI_INJECTABLE_PROPS, InjectorService, type OnInit, type UseImportTokenProviderOpts} from "../../common/index.js";
 import {DIContext} from "../domain/DIContext.js";
 import {setLoggerConfiguration} from "../utils/setLoggerConfiguration.js";
 

@@ -1,4 +1,5 @@
-import {isArrowFn, isCollection, isObject, isObjectID, isString, StoreMerge, Type, useDecorators} from "@tsed/core";
+import type {Type} from "@tsed/core";
+import {isArrowFn, isCollection, isObject, isObjectID, isString, StoreMerge, useDecorators} from "@tsed/core";
 import {deserialize, OnDeserialize, OnSerialize, serialize} from "@tsed/json-mapper";
 import {ForwardGroups, JsonEntityFn, lazyRef, matchGroups, OneOf, Property, string} from "@tsed/schema";
 import {Schema as MongooseSchema} from "mongoose";

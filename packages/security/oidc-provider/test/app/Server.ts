@@ -67,7 +67,7 @@ export {rootDir};
   ]
 })
 export class Server {
-  @Inject()
+  @Inject(PlatformApplication)
   app: PlatformApplication;
 
   @Constant("viewsDir")

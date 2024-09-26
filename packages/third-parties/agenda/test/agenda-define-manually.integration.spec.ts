@@ -3,12 +3,12 @@ import {Inject} from "@tsed/di";
 import {TestContainersMongo} from "@tsed/testcontainers-mongo";
 import type {Job} from "agenda";
 
-import {Agenda, AgendaModule, AgendaService, Define} from "..";
+import {Agenda, AgendaModule, AgendaService, Define} from "../src/index.js";
 import {Server} from "./helpers/Server.js";
 
 @Agenda({namespace: "test-nsp"})
 class Test {
-  @Inject()
+  @Inject(AgendaModule)
   agenda: AgendaModule;
 
   jobs: Job[];

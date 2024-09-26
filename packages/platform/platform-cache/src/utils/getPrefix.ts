@@ -1,4 +1,5 @@
-import {nameOf, Type} from "@tsed/core";
+import type {Type} from "@tsed/core";
+import {nameOf} from "@tsed/core";
 import {getInterceptorOptions} from "@tsed/di";
 
 import type {PlatformCacheOptions} from "../interfaces/PlatformCacheOptions.js";

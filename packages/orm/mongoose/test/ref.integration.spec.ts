@@ -5,7 +5,7 @@ import {PlatformExpress} from "@tsed/platform-express";
 import {TestContainersMongo} from "@tsed/testcontainers-mongo";
 import SuperTest from "supertest";
 
-import {MongooseModel} from "..";
+import type {MongooseModel} from "..";
 import {TestProfile, TestUser} from "./helpers/models/User.js";
 import {Server} from "./helpers/Server.js";
 
@@ -35,12 +35,12 @@ class ProfilesCtrl {
 
 const baseUser = {
   email: faker.internet.email(),
-  password: faker.internet.password(12)
+  password: faker.internet.password({length: 12})
 };
 
 const baseProfile = {
   image: faker.image.avatar(),
-  age: faker.datatype.number(2)
+  age: faker.number.int(2)
 };
 
 async function getServiceFixture() {

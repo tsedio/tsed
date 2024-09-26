@@ -1,4 +1,4 @@
-import {Type} from "../../domain/Type.js";
+import type {Type} from "../../domain/Type.js";
 import {ancestorsOf} from "./ancestorsOf.js";
 import {classOf} from "./classOf.js";
 import {prototypeOf} from "./prototypeOf.js";

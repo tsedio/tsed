@@ -1,4 +1,5 @@
-import {Context, Controller, Get, getContext, PathParams, PlatformResponse, PlatformTest, Post, Res} from "@tsed/common";
+import type {PlatformResponse} from "@tsed/common";
+import {Context, Controller, Get, getContext, PathParams, PlatformTest, Post, Res} from "@tsed/common";
 import {CollectionOf, Enum, ForwardGroups, Groups, Ignore, Name, Property, Required, Returns, Status} from "@tsed/schema";
 import axios from "axios";
 import {of} from "rxjs";
@@ -6,7 +7,7 @@ import {agent} from "superagent";
 import SuperTest from "supertest";
 import {afterAll, beforeAll, describe, expect, it} from "vitest";
 
-import {PlatformTestingSdkOpts} from "../interfaces/index.js";
+import type {PlatformTestingSdkOpts} from "../interfaces/index.js";
 
 class Base {
   @Ignore()

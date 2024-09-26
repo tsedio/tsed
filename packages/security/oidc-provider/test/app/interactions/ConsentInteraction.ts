@@ -2,7 +2,7 @@ import {Inject, Post} from "@tsed/common";
 import {View} from "@tsed/platform-views";
 import {Name} from "@tsed/schema";
 
-import {Interaction, InteractionMethods, OidcCtx, OidcProvider, Prompt} from "../../../src/index.js";
+import {Interaction, type InteractionMethods, OidcCtx, OidcProvider, Prompt} from "../../../src/index.js";
 
 @Interaction({
   name: "consent",
@@ -10,7 +10,7 @@ import {Interaction, InteractionMethods, OidcCtx, OidcProvider, Prompt} from "..
 })
 @Name("Oidc")
 export class ConsentInteraction implements InteractionMethods {
-  @Inject()
+  @Inject(OidcProvider)
   oidc: OidcProvider;
 
   @View("interaction")

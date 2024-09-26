@@ -13,7 +13,7 @@
       "types": "./lib/types/index.d.ts",
       "browser": "./lib/browser/di.umd.min.js",
       "import": "./lib/esm/index.js",
-      "default": "./lib/cjs/index.js"
+      "default": "./lib/esm/index.js"
     }
   },
   "scripts": {
@@ -37,7 +37,7 @@
     "cross-env": "7.0.3",
     "eslint": "^8.57.0",
     "typescript": "5.6.2",
-    "vitest": "2.0.4",
+    "vitest": "2.1.1",
     "webpack": "^5.75.0"
   },
   "peerDependencies": {

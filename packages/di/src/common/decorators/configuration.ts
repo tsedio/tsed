@@ -1,6 +1,7 @@
-import {DecoratorParameters, decoratorTypeOf, DecoratorTypes, StoreSet} from "@tsed/core";
+import type {DecoratorParameters} from "@tsed/core";
+import {decoratorTypeOf, DecoratorTypes, StoreSet} from "@tsed/core";
 
-import {DIConfiguration} from "../services/DIConfiguration.js";
+import type {DIConfiguration} from "../services/DIConfiguration.js";
 import {Inject} from "./inject.js";
 
 /**

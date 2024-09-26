@@ -1,12 +1,15 @@
-import {isClass, isFunction, isString, Type} from "@tsed/core";
-import {Configuration, Inject, InjectorService, Module} from "@tsed/di";
-import {deserialize, JsonDeserializerOptions, serialize} from "@tsed/json-mapper";
+import type {Type} from "@tsed/core";
+import {isClass, isFunction, isString} from "@tsed/core";
+import {InjectorService} from "@tsed/di";
+import {Configuration, Inject, Module} from "@tsed/di";
+import type {JsonDeserializerOptions} from "@tsed/json-mapper";
+import {deserialize, serialize} from "@tsed/json-mapper";
 import {Logger} from "@tsed/logger";
 import {AsyncLocalStorage} from "async_hooks";
 import type {Cache, CachingConfig, MultiCache} from "cache-manager";
 
-import {PlatformCacheSettings} from "../interfaces/interfaces.js";
-import {PlatformCachedObject} from "../interfaces/PlatformCachedObject.js";
+import type {PlatformCacheSettings} from "../interfaces/interfaces.js";
+import type {PlatformCachedObject} from "../interfaces/PlatformCachedObject.js";
 import {getPrefix} from "../utils/getPrefix.js";
 
 const defaultKeyResolver = (args: any[]) => {
@@ -26,10 +29,10 @@ export class PlatformCache {
   @Configuration()
   protected settings: Configuration;
 
-  @Inject()
+  @Inject(InjectorService)
   protected injector: InjectorService;
 
-  @Inject()
+  @Inject(Logger)
   protected logger: Logger;
 
   #cache: CacheManager | undefined;

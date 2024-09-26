@@ -1,7 +1,7 @@
-import {Constant, Inject, InjectorService, LOGGER, Module, Provider} from "@tsed/di";
-import {ListenerFn} from "eventemitter2";
+import {Constant, Inject, InjectorService, LOGGER, Module, type Provider} from "@tsed/di";
+import type {ListenerFn} from "eventemitter2";
 
-import {EventEmitterStore} from "./interfaces/EventEmitterStore.js";
+import type {EventEmitterStore} from "./interfaces/EventEmitterStore.js";
 import {EventEmitterService} from "./services/EventEmitterFactory.js";
 
 @Module()
@@ -9,10 +9,10 @@ export class EventEmitterModule {
   @Inject(LOGGER)
   protected logger: LOGGER;
 
-  @Inject()
+  @Inject(InjectorService)
   protected injector: InjectorService;
 
-  @Inject()
+  @Inject(EventEmitterService)
   protected eventEmitter: EventEmitterService;
 
   @Constant("eventEmitter.disableSummary", false)

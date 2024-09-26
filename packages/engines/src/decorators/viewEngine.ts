@@ -1,4 +1,4 @@
-import {ViewEngineOptions} from "../components/Engine.js";
+import type {ViewEngineOptions} from "../components/Engine.js";
 import {engines} from "../registries/EnginesContainer.js";
 
 export function ViewEngine(name: string, options: ViewEngineOptions = {}): ClassDecorator {

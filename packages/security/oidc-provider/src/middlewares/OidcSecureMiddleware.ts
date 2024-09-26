@@ -1,4 +1,5 @@
-import {Context, Middleware, MiddlewareMethods} from "@tsed/common";
+import type {MiddlewareMethods} from "@tsed/common";
+import {Context, Middleware} from "@tsed/common";
 import {BadRequest} from "@tsed/exceptions";
 import url from "url";
 

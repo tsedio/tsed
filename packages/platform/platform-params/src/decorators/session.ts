@@ -1,4 +1,4 @@
-import {ParamOptions} from "../domain/ParamOptions.js";
+import type {ParamOptions} from "../domain/ParamOptions.js";
 import {ParamTypes} from "../domain/ParamTypes.js";
 import {mapParamsOptions} from "../utils/mapParamsOptions.js";
 import {UseParam} from "./useParam.js";

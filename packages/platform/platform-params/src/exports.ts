@@ -1,1 +1,1 @@
-export {PipeMethods} from "@tsed/schema";
+export {type PipeMethods} from "@tsed/schema";

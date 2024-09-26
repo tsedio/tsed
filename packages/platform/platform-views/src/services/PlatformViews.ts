@@ -1,16 +1,17 @@
 import {Env, getValue} from "@tsed/core";
-import {Constant, Inject, InjectorService, Module} from "@tsed/di";
+import {InjectorService} from "@tsed/di";
+import {Constant, Inject, Module} from "@tsed/di";
 import {engines, getEngine, requires} from "@tsed/engines";
 import Fs from "fs";
 import {extname, join, resolve} from "path";
 
-import {
-  PLATFORM_VIEWS_EXTENSIONS,
+import type {
   PlatformViewEngine,
   PlatformViewsEngineOptions,
   PlatformViewsExtensionsTypes,
   PlatformViewWritableStream
 } from "../domain/PlatformViewsSettings.js";
+import {PLATFORM_VIEWS_EXTENSIONS} from "../domain/PlatformViewsSettings.js";
 
 async function patchEJS(ejs: any) {
   if (!ejs) {
@@ -55,7 +56,7 @@ export class PlatformViews {
   @Constant("views.options", {})
   protected engineOptions: Record<string, PlatformViewsEngineOptions>;
 
-  @Inject()
+  @Inject(InjectorService)
   protected injector: InjectorService;
 
   #extensions: Map<string, string>;

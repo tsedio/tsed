@@ -1,6 +1,6 @@
-import {PlatformContext, PlatformHandler} from "@tsed/common";
+import {type PlatformContext, PlatformHandler} from "@tsed/common";
 import {ancestorsOf} from "@tsed/core";
-import {Inject, Injectable, InjectorService, Provider} from "@tsed/di";
+import {Inject, Injectable, InjectorService, type Provider} from "@tsed/di";
 import {Unauthorized} from "@tsed/exceptions";
 import Passport, {Strategy} from "passport";
 import {promisify} from "util";
@@ -18,10 +18,10 @@ import type {ProtocolOptions} from "../interfaces/ProtocolOptions.js";
 export class ProtocolsService {
   readonly strategies: Map<string, Strategy> = new Map();
 
-  @Inject()
+  @Inject(PlatformHandler)
   protected platformHandler: PlatformHandler;
 
-  @Inject()
+  @Inject(InjectorService)
   private injector: InjectorService;
 
   public getProtocols(): Provider[] {

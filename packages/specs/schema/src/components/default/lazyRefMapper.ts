@@ -1,5 +1,5 @@
-import {JsonLazyRef} from "../../domain/JsonLazyRef.js";
-import {JsonSchemaOptions} from "../../interfaces/JsonSchemaOptions.js";
+import type {JsonLazyRef} from "../../domain/JsonLazyRef.js";
+import type {JsonSchemaOptions} from "../../interfaces/JsonSchemaOptions.js";
 import {execMapper, registerJsonSchemaMapper} from "../../registries/JsonSchemaMapperContainer.js";
 import {mapGenericsOptions} from "../../utils/generics.js";
 import {createRef, toRef} from "../../utils/ref.js";

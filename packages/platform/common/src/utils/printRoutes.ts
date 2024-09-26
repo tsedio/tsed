@@ -1,6 +1,6 @@
 import {$log, colorize} from "@tsed/logger";
 
-import {PlatformRouteDetails} from "../domain/PlatformRouteDetails.js";
+import type {PlatformRouteDetails} from "../domain/PlatformRouteDetails.js";
 
 export function printRoutes(routes: PlatformRouteDetails[]) {
   const mapColor: {[key: string]: string} = {

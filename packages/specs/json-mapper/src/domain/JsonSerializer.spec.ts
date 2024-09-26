@@ -3,6 +3,7 @@ import "../components/PrimitiveMapper.js";
 import "../components/SymbolMapper.js";
 
 import {cleanObject, isBoolean, isNumber, isObjectID, useDecorators} from "@tsed/core";
+import type {JsonHookContext} from "@tsed/schema";
 import {
   AdditionalProperties,
   Allow,
@@ -13,7 +14,6 @@ import {
   Email,
   Groups,
   Ignore,
-  JsonHookContext,
   MinLength,
   Name,
   Nullable,

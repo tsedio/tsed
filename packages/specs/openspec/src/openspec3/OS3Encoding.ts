@@ -1,5 +1,5 @@
-import {OpenSpecHash} from "../common/OpenSpecHash.js";
-import {OS3Header} from "./OS3Header.js";
+import type {OpenSpecHash} from "../common/OpenSpecHash.js";
+import type {OS3Header} from "./OS3Header.js";
 
 export interface OS3Encoding {
   /**

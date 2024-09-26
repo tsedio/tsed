@@ -1,11 +1,11 @@
 import {getClass, nameOf} from "@tsed/core";
-import {Namespace, Server, Socket as IOSocket} from "socket.io";
+import type {Namespace, Server, Socket as IOSocket} from "socket.io";
 
 import {Args, Emit, Input, IO, Nsp, Socket, SocketService, SocketSession, SocketUseAfter, SocketUseBefore} from "../../..";
 import {AuthSocketMiddleware} from "../middlewares/AuthSocketMiddleware.js";
 import {ConverterUserSocketMiddleware} from "../middlewares/ConverterUserSocketMiddleware.js";
 import {ErrorHandlerSocketMiddleware} from "../middlewares/ErrorHandlerSocketMiddleware.js";
-import {User} from "../models/User.js";
+import type {User} from "../models/User.js";
 
 @SocketService("/room")
 @SocketUseBefore(AuthSocketMiddleware)

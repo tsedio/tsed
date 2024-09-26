@@ -1,4 +1,4 @@
-import {Type} from "@tsed/core";
+import type {Type} from "@tsed/core";
 
 export interface MongooseVirtualRefOptions {
   ref?: string | Type<any> | (() => Type<any>);

@@ -4,7 +4,7 @@ import {Integer, Required} from "@tsed/schema";
 import {TestContainersMongo} from "@tsed/testcontainers-mongo";
 
 import {Model, ObjectID, VersionKey} from "../src/index.js";
-import {MongooseModel} from "../src/interfaces/MongooseModel.js";
+import type {MongooseModel} from "../src/interfaces/MongooseModel.js";
 
 describe("Mongoose", () => {
   describe("Versioning", () => {

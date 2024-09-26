@@ -1,4 +1,4 @@
-import {GeneratorOptions} from "@prisma/generator-helper";
+import type {GeneratorOptions} from "@prisma/generator-helper";
 import {parseEnvValue} from "@prisma/internals";
 import fs from "fs-extra";
 import path, {join} from "path";

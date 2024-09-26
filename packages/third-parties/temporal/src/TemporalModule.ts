@@ -1,20 +1,21 @@
-import {Logger} from "@tsed/common";
 import {classOf} from "@tsed/core";
-import {Inject, InjectorService, Module, Provider} from "@tsed/di";
+import {Inject, InjectorService, Module} from "@tsed/di";
+import {Logger} from "@tsed/logger";
 
 import {PROVIDER_TYPE_TEMPORAL} from "./constants.js";
-import {TEMPORAL_STORE_KEY, TemporalStore} from "./interfaces/TemporalStore.js";
+import type {TemporalStore} from "./interfaces/TemporalStore.js";
+import {TEMPORAL_STORE_KEY} from "./interfaces/TemporalStore.js";
 import {TemporalClient} from "./services/TemporalFactory.js";
 
 @Module()
 export class TemporalModule {
-  @Inject()
+  @Inject(Logger)
   protected logger!: Logger;
 
-  @Inject()
+  @Inject(InjectorService)
   protected injector!: InjectorService;
 
-  @Inject()
+  @Inject(TemporalClient)
   protected client!: TemporalClient;
 
   constructor(@Inject(PROVIDER_TYPE_TEMPORAL) private temporalServices: any[]) {}

@@ -1,6 +1,8 @@
-import {nameOf, Store, Type} from "@tsed/core";
+import type {Type} from "@tsed/core";
+import {nameOf, Store} from "@tsed/core";
 import {JsonEntityStore} from "@tsed/schema";
-import mongoose, {Connection} from "mongoose";
+import type {Connection} from "mongoose";
+import mongoose from "mongoose";
 
 import {MONGOOSE_MODEL, MONGOOSE_MODEL_NAME} from "../constants/constants.js";
 import {MongooseModels} from "../registries/MongooseModels.js";

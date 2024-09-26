@@ -1,5 +1,5 @@
-import {Type} from "@tsed/core";
-import {PipeMethods} from "@tsed/schema";
+import type {Type} from "@tsed/core";
+import type {PipeMethods} from "@tsed/schema";
 
 import {ParamFn} from "./paramFn.js";
 

@@ -1,6 +1,6 @@
 import {StoreSet, useDecorators} from "@tsed/core";
 import {Injectable} from "@tsed/di";
-import {AsyncFormatDefinition, FormatDefinition} from "ajv";
+import type {AsyncFormatDefinition, FormatDefinition} from "ajv";
 
 export type FormatsOptions = Omit<FormatDefinition<any>, "validate" | "compare"> | Omit<AsyncFormatDefinition<any>, "validate" | "compare">;
 

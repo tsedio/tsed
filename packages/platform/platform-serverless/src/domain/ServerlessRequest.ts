@@ -1,7 +1,7 @@
 import {getValue} from "@tsed/core";
 import type {APIGatewayProxyEvent} from "aws-lambda";
 
-import {ServerlessContext} from "./ServerlessContext.js";
+import type {ServerlessContext} from "./ServerlessContext.js";
 
 /**
  * @platform

@@ -1,4 +1,5 @@
-import {cleanObject, Type} from "@tsed/core";
+import type {Type} from "@tsed/core";
+import {cleanObject} from "@tsed/core";
 
 export class Discriminator {
   propertyName: string;

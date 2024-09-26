@@ -1,5 +1,6 @@
 import {catchAsyncError, Hooks} from "@tsed/core";
-import {Cache, caching} from "cache-manager";
+import type {Cache} from "cache-manager";
+import {caching} from "cache-manager";
 import {Redis} from "ioredis";
 
 import {IORedisStore, ioRedisStore} from "./IORedisStore.js";

@@ -1,5 +1,5 @@
-import {MikroORM} from "@mikro-orm/core";
-import {MongoEntityManager} from "@mikro-orm/mongodb";
+import type {MikroORM} from "@mikro-orm/core";
+import type {MongoEntityManager} from "@mikro-orm/mongodb";
 import {DITest, Injectable} from "@tsed/di";
 import {afterEach, beforeEach} from "vitest";
 

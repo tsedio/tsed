@@ -6,7 +6,8 @@ import {CollectionOf, getJsonSchema, Groups, Integer, Required} from "@tsed/sche
 import {TestContainersMongo} from "@tsed/testcontainers-mongo";
 import SuperTest from "supertest";
 
-import {Model, MongooseModel, ObjectID, VirtualRef} from "..";
+import type {MongooseModel} from "../src/index.js";
+import {Model, ObjectID, VirtualRef} from "../src/index.js";
 import {Server} from "./helpers/Server.js";
 
 @Model()

@@ -1,15 +1,15 @@
 import {Inject, PlatformTest} from "@tsed/common";
 import {PlatformExpress} from "@tsed/platform-express";
 import {SocketClientService} from "@tsed/socketio-testing";
-import {Namespace, Socket as IOSocket} from "socket.io";
+import type {Namespace, Socket as IOSocket} from "socket.io";
 
-import {Emit, Input, Nsp, SocketIOServer, SocketNsp, SocketService, SocketSession, SocketUseBefore} from "../src/index.js";
+import {Emit, Input, Nsp, SocketNsp, SocketService, SocketSession, SocketUseBefore} from "../src/index.js";
 import {ConverterUserSocketMiddleware} from "./app/middlewares/ConverterUserSocketMiddleware.js";
 import {Server} from "./app/Server.js";
 
 @SocketService("/test")
 export class TestWS {
-  @Inject()
+  @Inject(SocketIOServer)
   private io: SocketIOServer;
 
   $onConnection(socket: IOSocket, nsp: Namespace) {}
@@ -31,7 +31,7 @@ export class TestWS {
 
 @SocketService(/test-.+/)
 export class TestWS2 {
-  @Inject()
+  @Inject(SocketIOServer)
   private io: SocketIOServer;
 
   @Nsp nsp: Namespace;

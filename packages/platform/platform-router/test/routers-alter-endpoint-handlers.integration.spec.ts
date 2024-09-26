@@ -1,11 +1,15 @@
-import {PlatformHandlerMetadata, PlatformParamsScope, PlatformTest} from "@tsed/common";
-import {Controller, DIContext, InjectorService} from "@tsed/di";
+import type {PlatformHandlerMetadata, PlatformParamsScope} from "@tsed/common";
+import {PlatformTest} from "@tsed/common";
+import type {DIContext} from "@tsed/di";
+import {Controller, InjectorService} from "@tsed/di";
 import {UseBefore} from "@tsed/platform-middlewares";
 import {Context, PlatformParams} from "@tsed/platform-params";
-import {EndpointMetadata, Get, JsonOperationRoute} from "@tsed/schema";
+import type {JsonOperationRoute} from "@tsed/schema";
+import {EndpointMetadata, Get} from "@tsed/schema";
 
 import {PlatformRouter} from "../src/domain/PlatformRouter.js";
-import {AlterEndpointHandlersArg, PlatformRouters} from "../src/domain/PlatformRouters.js";
+import type {AlterEndpointHandlersArg} from "../src/domain/PlatformRouters.js";
+import {PlatformRouters} from "../src/domain/PlatformRouters.js";
 import {useContextHandler} from "../src/index.js";
 
 @Controller("/controller")

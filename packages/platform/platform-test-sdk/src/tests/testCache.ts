@@ -4,7 +4,7 @@ import {Property} from "@tsed/schema";
 import SuperTest from "supertest";
 import {afterEach, beforeEach, describe, expect, it} from "vitest";
 
-import {PlatformTestingSdkOpts} from "../interfaces/index.js";
+import type {PlatformTestingSdkOpts} from "../interfaces/index.js";
 
 let increment = 0;
 

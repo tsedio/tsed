@@ -1,5 +1,4 @@
-import {Configuration, OnInit} from "@tsed/di";
-import {Module, OnDestroy} from "@tsed/di";
+import {Configuration, Inject, Module, type OnDestroy, type OnInit} from "@tsed/di";
 
 import {MONGOOSE_CONNECTIONS} from "./services/MongooseConnections.js";
 import {MongooseService} from "./services/MongooseService.js";
@@ -12,7 +11,7 @@ import {MongooseService} from "./services/MongooseService.js";
 })
 export class MongooseModule implements OnDestroy, OnInit {
   constructor(
-    private mongooseService: MongooseService,
+    @Inject(MongooseService) private mongooseService: MongooseService,
     @Configuration() private settings: Configuration
   ) {
     // auto configure the cache manager when mongoose is used with @tsed/mongoose

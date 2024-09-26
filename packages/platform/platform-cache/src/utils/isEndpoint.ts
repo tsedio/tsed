@@ -1,4 +1,5 @@
-import {Store, Type} from "@tsed/core";
+import type {Type} from "@tsed/core";
+import {Store} from "@tsed/core";
 import {JsonEntityStore} from "@tsed/schema";
 
 export function isEndpoint(target: Type<any>, propertyKey: string | symbol) {

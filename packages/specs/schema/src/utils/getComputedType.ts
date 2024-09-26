@@ -1,3 +1,4 @@
+import type {Type} from "@tsed/core";
 import {
   classOf,
   isArrowFn,
@@ -8,8 +9,7 @@ import {
   isFunction,
   isPrimitiveOrPrimitiveClass,
   isPromise,
-  isSymbol,
-  Type
+  isSymbol
 } from "@tsed/core";
 
 /**

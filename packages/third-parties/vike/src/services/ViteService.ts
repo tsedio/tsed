@@ -1,9 +1,10 @@
-import {Constant, PlatformContext} from "@tsed/common";
+import type {PlatformContext} from "@tsed/common";
+import {Constant} from "@tsed/common";
 import {Injectable} from "@tsed/di";
-import {Writable} from "stream";
+import type {Writable} from "stream";
 
-import {ViteConfig} from "../interfaces/ViteConfig.js";
-import {ViteRenderContext} from "../interfaces/ViteRenderContext.js";
+import type {ViteConfig} from "../interfaces/ViteConfig.js";
+import type {ViteRenderContext} from "../interfaces/ViteRenderContext.js";
 
 @Injectable()
 export class ViteService {

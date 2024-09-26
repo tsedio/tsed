@@ -1,7 +1,7 @@
-import {NextFunction, Request, Response} from "express";
-import {Db} from "mongodb";
+import type {NextFunction, Request, Response} from "express";
+import type {Db} from "mongodb";
 
-import {Formio} from "./Formio.js";
+import type {Formio} from "./Formio.js";
 
 export interface FormioUpdate {
   db: Db;

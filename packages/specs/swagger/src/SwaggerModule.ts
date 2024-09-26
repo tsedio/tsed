@@ -1,22 +1,13 @@
-import {
-  Configuration,
-  Constant,
-  Inject,
-  InjectorService,
-  Module,
-  OnReady,
-  OnRoutesInit,
-  PlatformApplication,
-  PlatformContext
-} from "@tsed/common";
+import {Configuration, Constant, Inject, Module, type OnReady, type OnRoutesInit, PlatformApplication, PlatformContext} from "@tsed/common";
 import {Env} from "@tsed/core";
+import {InjectorService} from "@tsed/di";
 import {normalizePath} from "@tsed/normalize-path";
 import {PlatformRouter, useContextHandler} from "@tsed/platform-router";
 import Fs from "fs";
 import {join} from "path";
 
 import {ROOT_DIR, SWAGGER_UI_DIST} from "./constants.js";
-import {SwaggerSettings} from "./interfaces/SwaggerSettings.js";
+import type {SwaggerSettings} from "./interfaces/SwaggerSettings.js";
 import {cssMiddleware} from "./middlewares/cssMiddleware.js";
 import {indexMiddleware} from "./middlewares/indexMiddleware.js";
 import {jsMiddleware} from "./middlewares/jsMiddleware.js";
@@ -28,16 +19,16 @@ import {SwaggerService} from "./services/SwaggerService.js";
  */
 @Module()
 export class SwaggerModule implements OnRoutesInit, OnReady {
-  @Inject()
+  @Inject(InjectorService)
   injector: InjectorService;
 
-  @Inject()
+  @Inject(PlatformApplication)
   app: PlatformApplication;
 
   @Configuration()
   configuration: Configuration;
 
-  @Inject()
+  @Inject(SwaggerService)
   swaggerService: SwaggerService;
 
   @Constant("env")

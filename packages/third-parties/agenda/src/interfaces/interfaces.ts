@@ -1,4 +1,4 @@
-import {AgendaConfig} from "agenda";
+import type {AgendaConfig} from "agenda";
 
 declare global {
   namespace TsED {

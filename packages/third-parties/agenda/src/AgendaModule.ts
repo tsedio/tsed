@@ -1,21 +1,22 @@
-import {AfterListen, DIContext, Logger, OnDestroy, runInContext} from "@tsed/common";
-import {Constant, Inject, InjectorService, Module, Provider} from "@tsed/di";
-import {Job, Processor} from "agenda";
+import type {AfterListen} from "@tsed/common";
+import {Constant, DIContext, Inject, InjectorService, Module, type OnDestroy, type Provider, runInContext} from "@tsed/di";
+import {Logger} from "@tsed/logger";
+import type {Job, Processor} from "agenda";
 import {v4 as uuid} from "uuid";
 
 import {PROVIDER_TYPE_AGENDA} from "./constants/constants.js";
-import {AgendaStore} from "./interfaces/AgendaStore.js";
+import type {AgendaStore} from "./interfaces/AgendaStore.js";
 import {AgendaService} from "./services/AgendaFactory.js";
 
 @Module()
 export class AgendaModule implements OnDestroy, AfterListen {
-  @Inject()
+  @Inject(Logger)
   protected logger: Logger;
 
-  @Inject()
+  @Inject(InjectorService)
   protected injector: InjectorService;
 
-  @Inject()
+  @Inject(AgendaService)
   protected agenda: AgendaService;
 
   @Constant("agenda.enabled", false)

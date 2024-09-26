@@ -1,4 +1,5 @@
-import {Controller, ControllerProvider, InjectorService} from "@tsed/di";
+import type {ControllerProvider} from "@tsed/di";
+import {Controller, InjectorService} from "@tsed/di";
 import {PlatformParams} from "@tsed/platform-params";
 
 import {PlatformRouter} from "../src/domain/PlatformRouter.js";

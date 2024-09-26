@@ -5,7 +5,7 @@ import {PlatformExpress} from "@tsed/platform-express";
 import {TestContainersMongo} from "@tsed/testcontainers-mongo";
 import SuperTest from "supertest";
 
-import {MongooseModel} from "../src/index.js";
+import type {MongooseModel} from "../src/index.js";
 import {TestProfile2, TestUser} from "./helpers/models/User.js";
 import {Server} from "./helpers/Server.js";
 

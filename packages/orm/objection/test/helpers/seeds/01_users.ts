@@ -1,4 +1,4 @@
-import {Knex} from "knex";
+import type {Knex} from "knex";
 
 export function seed(knex: Knex): Promise<any> {
   const userData = [

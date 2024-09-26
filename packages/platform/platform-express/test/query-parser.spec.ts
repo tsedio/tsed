@@ -1,5 +1,7 @@
-import {Configuration, Controller, Get, Inject, PlatformApplication, PlatformTest, QueryParams} from "@tsed/common";
+import {Controller, PlatformApplication, PlatformTest, QueryParams} from "@tsed/common";
+import {Configuration, Inject} from "@tsed/di";
 import {PlatformTestSdk} from "@tsed/platform-test-sdk";
+import {Get} from "@tsed/schema";
 import {parse} from "querystring";
 import SuperTest from "supertest";
 
@@ -10,7 +12,7 @@ import {rootDir} from "./app/Server.js";
   port: 8081
 })
 class CustomServer {
-  @Inject()
+  @Inject(PlatformApplication)
   app: PlatformApplication;
 
   $onInit() {

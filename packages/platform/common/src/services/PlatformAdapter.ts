@@ -1,14 +1,15 @@
-import {Type} from "@tsed/core";
-import {InjectorService, ProviderOpts, registerProvider} from "@tsed/di";
-import {PlatformContextHandler, PlatformHandlerMetadata, PlatformLayer} from "@tsed/platform-router";
-import {IncomingMessage, ServerResponse} from "http";
+import type {Type} from "@tsed/core";
+import type {ProviderOpts} from "@tsed/di";
+import {Inject, InjectorService, registerProvider} from "@tsed/di";
+import type {PlatformContextHandler, PlatformHandlerMetadata, PlatformLayer} from "@tsed/platform-router";
+import type {IncomingMessage, ServerResponse} from "http";
 
-import {PlatformMulter, PlatformMulterSettings} from "../config/interfaces/PlatformMulterSettings.js";
-import {PlatformStaticsOptions} from "../config/interfaces/PlatformStaticsSettings.js";
-import {PlatformContext} from "../domain/PlatformContext.js";
+import type {PlatformMulter, PlatformMulterSettings} from "../config/interfaces/PlatformMulterSettings.js";
+import type {PlatformStaticsOptions} from "../config/interfaces/PlatformStaticsSettings.js";
+import type {PlatformContext} from "../domain/PlatformContext.js";
 import {createHttpServer} from "../utils/createHttpServer.js";
 import {createHttpsServer} from "../utils/createHttpsServer.js";
-import {CreateServerReturn} from "../utils/createServer.js";
+import type {CreateServerReturn} from "../utils/createServer.js";
 import type {PlatformApplication} from "./PlatformApplication.js";
 
 export abstract class PlatformAdapter<App = TsED.Application> {
@@ -18,7 +19,7 @@ export abstract class PlatformAdapter<App = TsED.Application> {
    */
   providers: ProviderOpts[];
 
-  constructor(protected injector: InjectorService) {}
+  constructor(@Inject(InjectorService) protected injector: InjectorService) {}
 
   get app(): PlatformApplication<App> {
     return this.injector.get<PlatformApplication<App>>("PlatformApplication")!;

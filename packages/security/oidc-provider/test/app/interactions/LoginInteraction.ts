@@ -1,10 +1,11 @@
 import {BodyParams, Inject, Post} from "@tsed/common";
-import {Env} from "@tsed/core";
+import type {Env} from "@tsed/core";
 import {Constant} from "@tsed/di";
 import {View} from "@tsed/platform-views";
 import {Name} from "@tsed/schema";
 
-import {Interaction, InteractionMethods, OidcCtx, OidcSession, Params, Prompt, Uid} from "../../../src/index.js";
+import type {InteractionMethods} from "../../../src/index.js";
+import {Interaction, OidcCtx, OidcSession, Params, Prompt, Uid} from "../../../src/index.js";
 import {Accounts} from "../services/Accounts.js";
 
 @Interaction({
@@ -16,7 +17,7 @@ export class LoginInteraction implements InteractionMethods {
   @Constant("env")
   env: Env;
 
-  @Inject()
+  @Inject(Accounts)
   accounts: Accounts;
 
   $onCreate() {}

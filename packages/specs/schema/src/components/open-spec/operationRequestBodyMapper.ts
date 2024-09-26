@@ -1,7 +1,7 @@
-import {JsonParameter} from "../../domain/JsonParameter.js";
+import type {JsonParameter} from "../../domain/JsonParameter.js";
 import {JsonRequestBody} from "../../domain/JsonRequestBody.js";
 import {JsonSchema} from "../../domain/JsonSchema.js";
-import {JsonSchemaOptions} from "../../interfaces/JsonSchemaOptions.js";
+import type {JsonSchemaOptions} from "../../interfaces/JsonSchemaOptions.js";
 import {execMapper, registerJsonSchemaMapper} from "../../registries/JsonSchemaMapperContainer.js";
 
 function buildSchemaFromBodyParameters(parameters: JsonParameter[], options: JsonSchemaOptions) {

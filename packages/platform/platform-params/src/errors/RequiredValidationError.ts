@@ -1,5 +1,5 @@
 import {nameOf} from "@tsed/core";
-import {JsonParameterStore} from "@tsed/schema";
+import type {JsonParameterStore} from "@tsed/schema";
 
 import {ValidationError} from "./ValidationError.js";
 

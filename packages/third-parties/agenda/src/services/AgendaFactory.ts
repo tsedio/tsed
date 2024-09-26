@@ -1,5 +1,6 @@
 import {Configuration, registerProvider} from "@tsed/di";
-import {Agenda, AgendaConfig} from "agenda";
+import type {AgendaConfig} from "agenda";
+import {Agenda} from "agenda";
 
 // create Alias to avoid confusing import between Agenda from "agenda" and Agenda decorator
 export const AgendaService = Agenda;

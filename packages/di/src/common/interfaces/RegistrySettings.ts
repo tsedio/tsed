@@ -1,4 +1,4 @@
-import {Type} from "@tsed/core";
+import type {Type} from "@tsed/core";
 
 import type {LocalsContainer} from "../domain/LocalsContainer.js";
 import type {Provider} from "../domain/Provider.js";

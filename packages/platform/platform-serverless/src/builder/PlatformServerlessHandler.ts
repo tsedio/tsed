@@ -1,12 +1,13 @@
 import {pipeline} from "node:stream/promises";
 
-import {AnyPromiseResult, AnyToPromise, isSerializable, isStream} from "@tsed/core";
-import {BaseContext, Inject, Injectable, InjectorService, LazyInject, ProviderScope, TokenProvider} from "@tsed/di";
+import type {AnyPromiseResult} from "@tsed/core";
+import {AnyToPromise, isSerializable, isStream} from "@tsed/core";
+import {type BaseContext, Inject, Injectable, InjectorService, LazyInject, ProviderScope, type TokenProvider} from "@tsed/di";
 import {serialize} from "@tsed/json-mapper";
 import type {PlatformExceptions} from "@tsed/platform-exceptions";
 import {DeserializerPipe, PlatformParams, ValidationPipe} from "@tsed/platform-params";
 
-import {ServerlessContext} from "../domain/ServerlessContext.js";
+import type {ServerlessContext} from "../domain/ServerlessContext.js";
 import type {ServerlessEvent} from "../domain/ServerlessEvent.js";
 import {ServerlessResponseStream} from "../domain/ServerlessResponseStream.js";
 import {setResponseHeaders} from "../utils/setResponseHeaders.js";
@@ -16,10 +17,10 @@ import {setResponseHeaders} from "../utils/setResponseHeaders.js";
   imports: [DeserializerPipe, ValidationPipe]
 })
 export class PlatformServerlessHandler {
-  @Inject()
+  @Inject(InjectorService)
   protected injector: InjectorService;
 
-  @Inject()
+  @Inject(PlatformParams)
   protected params: PlatformParams;
 
   @LazyInject("PlatformExceptions", () => import("@tsed/platform-exceptions"))

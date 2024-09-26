@@ -1,7 +1,8 @@
 import "@koa/router";
 
-import {PlatformContext, PlatformRequest} from "@tsed/common";
-import Koa from "koa";
+import type {PlatformContext} from "@tsed/common";
+import {PlatformRequest} from "@tsed/common";
+import type Koa from "koa";
 
 declare module "koa" {
   export interface Request {

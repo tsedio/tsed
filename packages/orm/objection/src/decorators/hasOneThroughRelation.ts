@@ -1,6 +1,6 @@
 import {Model} from "objection";
 
-import {RelationshipOptsWithoutThrough, RelationshipOptsWithThrough} from "../domain/RelationshipOpts.js";
+import type {RelationshipOptsWithThrough} from "../domain/RelationshipOpts.js";
 import {RelatesTo} from "./relatesTo.js";
 
 /**

@@ -1,8 +1,10 @@
-import {Formats, FormatsMethods} from "@tsed/ajv";
+import type {FormatsMethods} from "@tsed/ajv";
+import {Formats} from "@tsed/ajv";
 import {isNumber, isString, StoreMerge, useDecorators} from "@tsed/core";
 import {OnDeserialize, OnSerialize} from "@tsed/json-mapper";
 import {Example, Format, Property} from "@tsed/schema";
-import {Schema as MongooseSchema, SchemaTypeOptions, Types} from "mongoose";
+import type {SchemaTypeOptions} from "mongoose";
+import {Schema as MongooseSchema, Types} from "mongoose";
 
 import {MONGOOSE_SCHEMA} from "../constants/constants.js";
 

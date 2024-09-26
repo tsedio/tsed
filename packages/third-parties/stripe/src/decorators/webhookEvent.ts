@@ -4,7 +4,8 @@ import {Context} from "@tsed/platform-params";
 import {In} from "@tsed/schema";
 
 import {STRIPE_WEBHOOK_EVENT} from "../constants/constants.js";
-import {WebhookEventMiddleware, WebhookEventOptions} from "../middlewares/WebhookEventMiddleware.js";
+import type {WebhookEventOptions} from "../middlewares/WebhookEventMiddleware.js";
+import {WebhookEventMiddleware} from "../middlewares/WebhookEventMiddleware.js";
 
 /**
  * Get the stripe webhook event.

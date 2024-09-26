@@ -1,9 +1,10 @@
-import {Configuration, Injectable, InjectorService, Platform} from "@tsed/common";
+import {Platform} from "@tsed/common";
+import {Configuration, Inject, Injectable, InjectorService} from "@tsed/common";
 import type {Type} from "@tsed/core";
-import {OpenSpec2, OpenSpec3} from "@tsed/openspec";
+import type {OpenSpec2, OpenSpec3} from "@tsed/openspec";
 import {generateSpec} from "@tsed/schema";
 
-import {SwaggerOS2Settings, SwaggerOS3Settings, SwaggerSettings} from "../interfaces/SwaggerSettings.js";
+import type {SwaggerOS2Settings, SwaggerOS3Settings, SwaggerSettings} from "../interfaces/SwaggerSettings.js";
 import {includeRoute} from "../utils/includeRoute.js";
 
 @Injectable()
@@ -11,8 +12,8 @@ export class SwaggerService {
   #specs: Map<string, OpenSpec3 | OpenSpec2> = new Map();
 
   constructor(
-    private injectorService: InjectorService,
-    private platform: Platform,
+    @Inject(InjectorService) private injectorService: InjectorService,
+    @Inject(Platform) private platform: Platform,
     @Configuration() private configuration: Configuration
   ) {}
 

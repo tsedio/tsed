@@ -4,7 +4,8 @@ import "@tsed/swagger";
 import "../../src/index.js";
 
 import {FileSyncAdapter} from "@tsed/adapters";
-import {Constant, PlatformApplication} from "@tsed/common";
+import {PlatformApplication} from "@tsed/common";
+import {Constant} from "@tsed/common";
 import {Configuration, Inject} from "@tsed/di";
 import bodyParser from "body-parser";
 import compress from "compression";
@@ -62,7 +63,7 @@ export {rootDir};
   ]
 })
 export class Server {
-  @Inject()
+  @Inject(PlatformApplication)
   app: PlatformApplication;
 
   @Constant("viewsDir")

@@ -1,6 +1,6 @@
-import {OpenSpecHash} from "../common/OpenSpecHash.js";
-import {OS2Header} from "./OS2Header.js";
-import {OS2Schema} from "./OS2Schema.js";
+import type {OpenSpecHash} from "../common/OpenSpecHash.js";
+import type {OS2Header} from "./OS2Header.js";
+import type {OS2Schema} from "./OS2Schema.js";
 
 export interface OS2Response {
   /**

@@ -1,10 +1,21 @@
-import {getValue, Hooks, Type} from "@tsed/core";
-import {ControllerProvider, GlobalProviders, Injectable, InjectorService, Provider, ProviderType, TokenProvider} from "@tsed/di";
-import {PlatformParamsCallback} from "@tsed/platform-params";
-import {concatPath, getOperationsRoutes, JsonMethodStore, OPERATION_HTTP_VERBS} from "@tsed/schema";
+import type {Type} from "@tsed/core";
+import {getValue, Hooks} from "@tsed/core";
+import {
+  ControllerProvider,
+  GlobalProviders,
+  Inject,
+  Injectable,
+  InjectorService,
+  type Provider,
+  ProviderType,
+  type TokenProvider
+} from "@tsed/di";
+import type {PlatformParamsCallback} from "@tsed/platform-params";
+import type {JsonMethodStore} from "@tsed/schema";
+import {concatPath, getOperationsRoutes, OPERATION_HTTP_VERBS} from "@tsed/schema";
 
 import {useContextHandler} from "../utils/useContextHandler.js";
-import {PlatformHandlerMetadata} from "./PlatformHandlerMetadata.js";
+import type {PlatformHandlerMetadata} from "./PlatformHandlerMetadata.js";
 import {PlatformLayer} from "./PlatformLayer.js";
 import {PlatformRouter} from "./PlatformRouter.js";
 
@@ -53,7 +64,7 @@ export class PlatformRouters {
   readonly hooks = new Hooks();
   readonly allowedVerbs = OPERATION_HTTP_VERBS;
 
-  constructor(protected readonly injector: InjectorService) {}
+  constructor(@Inject(InjectorService) protected readonly injector: InjectorService) {}
 
   prebuild() {
     this.injector.getProviders(ProviderType.CONTROLLER).forEach((provider: ControllerProvider) => {

@@ -1,4 +1,4 @@
-import {Type} from "@tsed/core";
+import type {Type} from "@tsed/core";
 import type {BaseContext} from "@tsed/di";
 
 declare global {

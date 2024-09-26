@@ -1,5 +1,5 @@
 import {isFunction, isString} from "@tsed/core";
-import {ModelClassFactory, ModelClassSpecifier, RelationJoin, RelationMapping} from "objection";
+import type {ModelClassFactory, ModelClassSpecifier, RelationJoin, RelationMapping} from "objection";
 
 export type RelationshipOptsWithThrough = Partial<RelationJoin> & Omit<RelationMapping<any>, "relation" | "join" | "modelClass">;
 

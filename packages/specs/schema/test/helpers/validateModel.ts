@@ -1,4 +1,5 @@
-import Ajv, {Options} from "ajv";
+import type {Options} from "ajv";
+import Ajv from "ajv";
 import AjvErrors from "ajv-errors";
 import AjvFormats from "ajv-formats";
 

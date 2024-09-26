@@ -1,10 +1,11 @@
 import "../components/index.js";
 
-import {getValue, Type} from "@tsed/core";
+import type {Type} from "@tsed/core";
+import {getValue} from "@tsed/core";
 
 import type {JsonEntityStore} from "../domain/JsonEntityStore.js";
 import {SpecTypes} from "../domain/SpecTypes.js";
-import {JsonSchemaOptions} from "../interfaces/JsonSchemaOptions.js";
+import type {JsonSchemaOptions} from "../interfaces/JsonSchemaOptions.js";
 import {execMapper} from "../registries/JsonSchemaMapperContainer.js";
 import {getJsonEntityStore} from "./getJsonEntityStore.js";
 

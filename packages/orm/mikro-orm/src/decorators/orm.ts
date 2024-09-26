@@ -1,4 +1,4 @@
-import {MikroORM} from "@mikro-orm/core";
+import type {MikroORM} from "@mikro-orm/core";
 import {Inject, inject} from "@tsed/di";
 
 import {MikroOrmRegistry} from "../services/MikroOrmRegistry.js";

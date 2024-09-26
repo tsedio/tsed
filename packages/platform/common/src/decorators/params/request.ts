@@ -1,5 +1,7 @@
-import {isClass, Metadata, nameOf, Type} from "@tsed/core";
-import {mapParamsOptions, ParamOptions, ParamTypes, UseParam} from "@tsed/platform-params";
+import type {Type} from "@tsed/core";
+import {isClass, Metadata, nameOf} from "@tsed/core";
+import type {ParamOptions} from "@tsed/platform-params";
+import {mapParamsOptions, ParamTypes, UseParam} from "@tsed/platform-params";
 import {IncomingMessage} from "http";
 
 function getParamType(target: Object, propertyKey: string | symbol | undefined, parameterIndex: number) {

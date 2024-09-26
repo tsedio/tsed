@@ -1,6 +1,6 @@
 import {Adapters} from "@tsed/adapters";
 import {IORedisTest, registerConnectionProvider} from "@tsed/ioredis";
-import {Redis} from "ioredis";
+import type {Redis} from "ioredis";
 import moment from "moment";
 
 import {OIDCRedisAdapter} from "./OIDCRedisAdapter.js";

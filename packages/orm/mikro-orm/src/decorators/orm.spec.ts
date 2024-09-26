@@ -1,4 +1,4 @@
-import {MikroORM} from "@mikro-orm/core";
+import type {MikroORM} from "@mikro-orm/core";
 import {DITest, Injectable} from "@tsed/di";
 import {afterEach, beforeEach} from "vitest";
 

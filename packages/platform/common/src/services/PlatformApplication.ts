@@ -1,8 +1,8 @@
-import {Injectable, InjectorService, ProviderScope} from "@tsed/di";
+import {Inject, Injectable, InjectorService, ProviderScope} from "@tsed/di";
 import {PlatformRouter} from "@tsed/platform-router";
-import {IncomingMessage, ServerResponse} from "http";
+import type {IncomingMessage, ServerResponse} from "http";
 
-import {PlatformMulterSettings} from "../config/interfaces/PlatformMulterSettings.js";
+import type {PlatformMulterSettings} from "../config/interfaces/PlatformMulterSettings.js";
 import {PlatformAdapter} from "./PlatformAdapter.js";
 
 declare global {
@@ -26,8 +26,8 @@ export class PlatformApplication<App = TsED.Application> extends PlatformRouter 
   rawCallback: () => any;
 
   constructor(
-    public adapter: PlatformAdapter<App>,
-    public injector: InjectorService
+    @Inject(PlatformAdapter) public adapter: PlatformAdapter<App>,
+    @Inject(InjectorService) public injector: InjectorService
   ) {
     super(injector);
     const {app, callback} = adapter.createApp();

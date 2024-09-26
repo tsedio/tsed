@@ -1,4 +1,4 @@
-import {BaseContext} from "@tsed/di";
+import type {BaseContext} from "@tsed/di";
 
 import {ParamTypes} from "../domain/ParamTypes.js";
 import {mapParamsOptions} from "../utils/mapParamsOptions.js";

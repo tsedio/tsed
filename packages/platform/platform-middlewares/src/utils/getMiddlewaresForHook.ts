@@ -1,6 +1,6 @@
-import {DIConfiguration} from "@tsed/di";
+import type {DIConfiguration} from "@tsed/di";
 
-import {PlatformMiddlewareLoadingOptions} from "../domain/PlatformMiddlewareSettings.js";
+import type {PlatformMiddlewareLoadingOptions} from "../domain/PlatformMiddlewareSettings.js";
 
 export function getMiddlewaresForHook(hook: string, settings: DIConfiguration, defaultHook = "") {
   const env = settings.env;

@@ -3,7 +3,7 @@ import {Pattern} from "@tsed/schema";
 import SuperTest from "supertest";
 import {afterAll, beforeAll, expect, it} from "vitest";
 
-import {PlatformTestingSdkOpts} from "../interfaces/index.js";
+import type {PlatformTestingSdkOpts} from "../interfaces/index.js";
 
 @Controller("/path-params")
 class TestPathParamsCtrl {

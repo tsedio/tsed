@@ -1,4 +1,4 @@
-import {OS2BaseSchema} from "./OS2Schema.js";
+import type {OS2BaseSchema} from "./OS2Schema.js";
 
 export interface OS2Header extends OS2BaseSchema {
   /**

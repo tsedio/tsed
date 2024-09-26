@@ -1,4 +1,5 @@
-import {Store, Type} from "@tsed/core";
+import type {Type} from "@tsed/core";
+import {Store} from "@tsed/core";
 
 /**
  * Attach a Socket Middleware to a method or a class.

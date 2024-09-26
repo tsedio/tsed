@@ -21,7 +21,8 @@ import {Ref} from "../decorators/ref.js";
 import {Schema} from "../decorators/schema.js";
 import {SchemaIgnore} from "../decorators/schemaIgnore.js";
 import {VersionKey} from "../decorators/versionKey.js";
-import {VirtualRef, VirtualRefs} from "../decorators/virtualRef.js";
+import type {VirtualRefs} from "../decorators/virtualRef.js";
+import {VirtualRef} from "../decorators/virtualRef.js";
 import {getSchema} from "./createSchema.js";
 
 describe("createSchema", () => {

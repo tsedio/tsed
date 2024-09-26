@@ -1,14 +1,16 @@
-import {Type} from "@tsed/core";
-import {DITest, InjectorService} from "@tsed/di";
+import type {Type} from "@tsed/core";
+import type {InjectorService} from "@tsed/di";
+import {DITest} from "@tsed/di";
 import accepts from "accepts";
 import type {IncomingMessage, RequestListener, ServerResponse} from "http";
 
 import {PlatformBuilder} from "../builder/PlatformBuilder.js";
-import {PlatformContext, PlatformContextOptions} from "../domain/PlatformContext.js";
+import type {PlatformContextOptions} from "../domain/PlatformContext.js";
+import {PlatformContext} from "../domain/PlatformContext.js";
 import {createInjector} from "../utils/createInjector.js";
 import {getConfiguration} from "../utils/getConfiguration.js";
 import {FakeResponse} from "./FakeResponse.js";
-import {PlatformAdapter, PlatformBuilderSettings} from "./PlatformAdapter.js";
+import type {PlatformAdapter, PlatformBuilderSettings} from "./PlatformAdapter.js";
 import {PlatformApplication} from "./PlatformApplication.js";
 
 /**
@@ -56,12 +58,12 @@ export class PlatformTest extends DITest {
       settings.adapter = adapter as any;
 
       const configuration = getConfiguration(settings, mod);
-      const disableComponentsScan = configuration.disableComponentsScan || !!process.env.WEBPACK;
+      // const disableComponentsScan = configuration.disableComponentsScan || !!process.env.WEBPACK;
 
-      if (!disableComponentsScan) {
-        const {importProviders} = await import("@tsed/components-scan");
-        await importProviders(configuration);
-      }
+      // if (!disableComponentsScan) {
+      //   const {importProviders} = await import("@tsed/components-scan");
+      //   await importProviders(configuration);
+      // }
 
       instance = await PlatformBuilder.build(mod, configuration).bootstrap();
       await instance.listen(!!listen);

@@ -2,7 +2,8 @@ import {DITest} from "@tsed/di";
 import {serialize} from "@tsed/json-mapper";
 import {TestContainersMongo} from "@tsed/testcontainers-mongo";
 
-import {MyWorkspace, UserModel, UserWorkspace, Workspace, WorkspaceModel} from "./helpers/models/UserWorkspace.js";
+import type {UserModel, WorkspaceModel} from "./helpers/models/UserWorkspace.js";
+import {MyWorkspace, UserWorkspace, Workspace} from "./helpers/models/UserWorkspace.js";
 
 describe("Mongoose", () => {
   describe("Array models", () => {

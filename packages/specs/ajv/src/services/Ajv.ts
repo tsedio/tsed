@@ -1,11 +1,12 @@
 import {cleanObject} from "@tsed/core";
 import {Configuration, InjectorService, ProviderScope, registerProvider} from "@tsed/di";
-import {Ajv, Format, KeywordDefinition, Options, Vocabulary} from "ajv";
+import type {Format, KeywordDefinition, Options, Vocabulary} from "ajv";
+import {Ajv} from "ajv";
 import AjvErrors from "ajv-errors";
 import AjvFormats from "ajv-formats";
 
-import {FormatsMethods} from "../interfaces/FormatsMethods.js";
-import {IAjvSettings} from "../interfaces/IAjvSettings.js";
+import type {FormatsMethods} from "../interfaces/FormatsMethods.js";
+import type {IAjvSettings} from "../interfaces/IAjvSettings.js";
 
 function getHandler(key: string, service: any) {
   if (service[key]) {

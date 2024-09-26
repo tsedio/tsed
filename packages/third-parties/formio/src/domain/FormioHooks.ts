@@ -1,15 +1,15 @@
-import {MongooseDocument} from "@tsed/mongoose";
-import {Request, Response} from "express";
-import {FilterQuery, Schema, SchemaDefinition} from "mongoose";
+import type {MongooseDocument} from "@tsed/mongoose";
+import type {Request, Response} from "express";
+import type {FilterQuery, Schema, SchemaDefinition} from "mongoose";
 
-import {Formio} from "./Formio.js";
-import {FormioActions} from "./FormioActionsIndex.js";
-import {FormioConfig} from "./FormioConfig.js";
-import {FormioDecodedToken} from "./FormioDecodedToken.js";
-import {FormioJs} from "./FormioJs.js";
-import {FormioActionItem, FormioForm, FormioModelsModels, FormioSubmission} from "./FormioModels.js";
-import {FormioSettings} from "./FormioSettings.js";
-import {ResourceRestOptions} from "./Resource.js";
+import type {Formio} from "./Formio.js";
+import type {FormioActions} from "./FormioActionsIndex.js";
+import type {FormioConfig} from "./FormioConfig.js";
+import type {FormioDecodedToken} from "./FormioDecodedToken.js";
+import type {FormioJs} from "./FormioJs.js";
+import type {FormioActionItem, FormioForm, FormioModelsModels, FormioSubmission} from "./FormioModels.js";
+import type {FormioSettings} from "./FormioSettings.js";
+import type {ResourceRestOptions} from "./Resource.js";
 
 export type FormioInitEvent = "alias" | "params" | "token" | "getTempToken" | "logout" | "current" | "access" | "perms";
 

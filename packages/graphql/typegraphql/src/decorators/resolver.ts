@@ -1,6 +1,7 @@
 import {StoreSet, useDecorators} from "@tsed/core";
 import {Injectable} from "@tsed/di";
-import {ClassType, Resolver} from "type-graphql";
+import type {ClassType} from "type-graphql";
+import {Resolver} from "type-graphql";
 
 import {RESOLVERS_PROVIDERS} from "../constants/constants.js";
 

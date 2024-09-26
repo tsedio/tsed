@@ -2,10 +2,11 @@ import "../..";
 
 import {PlatformTest} from "@tsed/common";
 import {array, CustomKey, getJsonSchema, number} from "@tsed/schema";
-import Ajv, {_, KeywordCxt} from "ajv";
+import type {KeywordCxt} from "ajv";
+import Ajv, {_} from "ajv";
 
 import {Keyword} from "../../src/decorators/keyword.js";
-import {KeywordMethods} from "../../src/interfaces/KeywordMethods.js";
+import type {KeywordMethods} from "../../src/interfaces/KeywordMethods.js";
 
 @Keyword({
   keyword: "range",

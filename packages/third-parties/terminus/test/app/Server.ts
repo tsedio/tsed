@@ -7,7 +7,7 @@ import {PlatformApplication} from "@tsed/common";
 import {Configuration, Inject} from "@tsed/di";
 import bodyParser from "body-parser";
 import cookieParser from "cookie-parser";
-import {Application} from "express";
+import type {Application} from "express";
 
 const rootDir = import.meta.dirname;
 export {rootDir};
@@ -28,6 +28,6 @@ export {rootDir};
   ]
 })
 export class Server {
-  @Inject()
+  @Inject(PlatformApplication)
   app: PlatformApplication<Application>;
 }

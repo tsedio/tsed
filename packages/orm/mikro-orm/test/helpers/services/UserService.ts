@@ -1,4 +1,4 @@
-import {EntityManager, MikroORM} from "@mikro-orm/core";
+import type {EntityManager, MikroORM} from "@mikro-orm/core";
 import {Injectable} from "@tsed/di";
 
 import {Em, Orm, Transactional} from "../../../src/index.js";

@@ -1,4 +1,4 @@
-import {DILogger} from "../interfaces/DILogger.js";
+import type {DILogger} from "../interfaces/DILogger.js";
 import {registerProvider} from "../registries/ProviderRegistry.js";
 import {InjectorService} from "./InjectorService.js";
 

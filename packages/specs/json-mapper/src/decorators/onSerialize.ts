@@ -1,4 +1,5 @@
-import {JsonEntityFn, JsonHookContext} from "@tsed/schema";
+import type {JsonHookContext} from "@tsed/schema";
+import {JsonEntityFn} from "@tsed/schema";
 
 export interface OnSerializeCallback {
   (value: any, ctx: JsonHookContext): any;

@@ -1,8 +1,8 @@
-import {Type} from "@tsed/core";
+import type {Type} from "@tsed/core";
 import {Inject, Injectable, InjectorService} from "@tsed/di";
 
 import {MemoryAdapter} from "../adapters/MemoryAdapter.js";
-import {Adapter, AdapterConstructorOptions} from "../domain/Adapter.js";
+import type {Adapter, AdapterConstructorOptions} from "../domain/Adapter.js";
 
 export interface AdapterInvokeOptions<Model = any> extends AdapterConstructorOptions<Model> {
   adapter?: Type<Adapter<Model>>;
@@ -10,7 +10,7 @@ export interface AdapterInvokeOptions<Model = any> extends AdapterConstructorOpt
 
 @Injectable()
 export class Adapters {
-  @Inject()
+  @Inject(InjectorService)
   injector: InjectorService;
 
   invokeAdapter<T = any>(options: AdapterInvokeOptions): Adapter<T> {

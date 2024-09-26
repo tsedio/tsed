@@ -1,4 +1,4 @@
-import {JobsOptions} from "bullmq";
+import type {JobsOptions} from "bullmq";
 
 export interface JobStore {
   name: string;

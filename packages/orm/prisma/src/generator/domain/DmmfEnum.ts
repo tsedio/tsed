@@ -1,5 +1,6 @@
-import {DMMF} from "@prisma/generator-helper";
-import {ImportDeclarationStructure, StructureKind} from "ts-morph";
+import type {DMMF} from "@prisma/generator-helper";
+import type {ImportDeclarationStructure} from "ts-morph";
+import {StructureKind} from "ts-morph";
 
 export class DmmfEnum {
   readonly model: DMMF.DatamodelEnum;

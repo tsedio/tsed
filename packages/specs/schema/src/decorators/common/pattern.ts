@@ -1,4 +1,4 @@
-import {JsonEntityStore} from "../../domain/JsonEntityStore.js";
+import type {JsonEntityStore} from "../../domain/JsonEntityStore.js";
 import {withErrorMsg} from "../../utils/withErrorMsg.js";
 import {JsonEntityFn} from "./jsonEntityFn.js";
 

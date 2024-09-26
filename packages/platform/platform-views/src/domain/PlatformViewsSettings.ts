@@ -1,5 +1,5 @@
-import {BaseContext} from "@tsed/di";
-import {Writable} from "stream";
+import type {BaseContext} from "@tsed/di";
+import type {Writable} from "stream";
 
 export const PLATFORM_VIEWS_EXTENSIONS = {
   atpl: "atpl",

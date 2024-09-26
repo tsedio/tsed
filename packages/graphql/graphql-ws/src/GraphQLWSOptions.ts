@@ -1,6 +1,6 @@
 // @ts-ignore
-import {ServerOptions} from "graphql-ws/lib/server";
-import {ServerOptions as WSServerOptions} from "ws";
+import type {ServerOptions} from "graphql-ws/lib/server";
+import type {ServerOptions as WSServerOptions} from "ws";
 
 export interface GraphQLWSOptions {
   path: string;

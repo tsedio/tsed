@@ -1,21 +1,22 @@
-import {DefineOptions, Job, JobAttributesData, Processor} from "@pulsecron/pulse";
-import {AfterListen, DIContext, Logger, OnDestroy, runInContext} from "@tsed/common";
-import {Constant, Inject, InjectorService, Module, Provider} from "@tsed/di";
+import type {DefineOptions, Job, JobAttributesData, Processor} from "@pulsecron/pulse";
+import type {AfterListen} from "@tsed/common";
+import {Constant, DIContext, Inject, InjectorService, Module, type OnDestroy, type Provider, runInContext} from "@tsed/di";
+import {Logger} from "@tsed/logger";
 import {v4 as uuid} from "uuid";
 
 import {PROVIDER_TYPE_PULSE} from "./constants/constants.js";
-import {PulseStore} from "./interfaces/PulseStore.js";
+import type {PulseStore} from "./interfaces/PulseStore.js";
 import {PulseService} from "./services/PulseFactory.js";
 
 @Module()
 export class PulseModule implements OnDestroy, AfterListen {
-  @Inject()
+  @Inject(Logger)
   protected logger: Logger;
 
-  @Inject()
+  @Inject(InjectorService)
   protected injector: InjectorService;
 
-  @Inject()
+  @Inject(PulseService)
   protected pulse: PulseService;
 
   @Constant("pulse.enabled", false)

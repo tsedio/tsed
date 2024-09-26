@@ -1,10 +1,11 @@
 import "@tsed/ajv";
 import "../../src/index.js";
 
-import {Constant, PlatformApplication} from "@tsed/common";
+import {PlatformApplication} from "@tsed/common";
+import {Constant} from "@tsed/common";
 import {Configuration, Inject} from "@tsed/di";
 import compress from "compression";
-import {Application} from "express";
+import type {Application} from "express";
 import session from "express-session";
 
 const rootDir = import.meta.dirname;
@@ -50,7 +51,7 @@ export {rootDir};
   ]
 })
 export class Server {
-  @Inject()
+  @Inject(PlatformApplication)
   app: PlatformApplication<Application>;
 
   @Constant("viewsDir")

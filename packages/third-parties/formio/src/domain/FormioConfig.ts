@@ -1,5 +1,5 @@
-import {FormioSettings} from "./FormioSettings.js";
-import {FormioTemplate} from "./FormioTemplate.js";
+import type {FormioSettings} from "./FormioSettings.js";
+import type {FormioTemplate} from "./FormioTemplate.js";
 
 export interface FormioJwtConfig {
   secret: string;

@@ -1,8 +1,8 @@
-import {JsonHeader, JsonOperation} from "@tsed/schema";
+import type {JsonHeader, JsonOperation} from "@tsed/schema";
 
-import {ServerlessContext} from "../domain/ServerlessContext.js";
+import type {ServerlessContext} from "../domain/ServerlessContext.js";
 import type {ServerlessEvent} from "../domain/ServerlessEvent.js";
-import {HeaderValue} from "../domain/ServerlessResponse.js";
+import type {HeaderValue} from "../domain/ServerlessResponse.js";
 
 function mergeHeaders(specHeaders: Record<string, JsonHeader & {example: string}>, headers: Record<string, HeaderValue>) {
   return Object.entries(specHeaders).reduce((headers, [key, item]) => {

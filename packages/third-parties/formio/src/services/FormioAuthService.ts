@@ -1,24 +1,24 @@
-import {PlatformContext, Req} from "@tsed/common";
+import type {PlatformContext, Req} from "@tsed/common";
 import {isFunction} from "@tsed/core";
 import {Inject, Injectable} from "@tsed/di";
 import {BadRequest, NotFound, Unauthorized} from "@tsed/exceptions";
 import {promisify} from "util";
 
-import {FormioPayloadToken} from "../domain/FormioDecodedToken.js";
-import {FormioForm, FormioSubmission, WithID} from "../domain/FormioModels.js";
+import type {FormioPayloadToken} from "../domain/FormioDecodedToken.js";
+import type {FormioForm, FormioSubmission, WithID} from "../domain/FormioModels.js";
 import {FormioDatabase} from "./FormioDatabase.js";
 import {FormioHooksService} from "./FormioHooksService.js";
 import {FormioService} from "./FormioService.js";
 
 @Injectable()
 export class FormioAuthService {
-  @Inject()
+  @Inject(FormioService)
   formio: FormioService;
 
-  @Inject()
+  @Inject(FormioHooksService)
   hooks: FormioHooksService;
 
-  @Inject()
+  @Inject(FormioDatabase)
   db: FormioDatabase;
 
   get currentUser() {

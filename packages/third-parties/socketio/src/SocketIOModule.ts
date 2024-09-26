@@ -1,9 +1,10 @@
-import {$log, AfterListen, Constant, InjectorService, Module, OnDestroy, Provider} from "@tsed/common";
+import type {AfterListen} from "@tsed/common";
 import {nameOf} from "@tsed/core";
-import {Inject} from "@tsed/di";
+import {Constant, Inject, InjectorService, Module, type OnDestroy, type Provider} from "@tsed/di";
+import {$log} from "@tsed/logger";
 import Http from "http";
 import Https from "https";
-import {Server, ServerOptions} from "socket.io";
+import type {Server, ServerOptions} from "socket.io";
 
 import {SocketProviderMetadata} from "./class/SocketProviderMetadata.js"; // tslint:disable-line: no-unused-variable
 import {PROVIDER_TYPE_SOCKET_SERVICE} from "./constants/constants.js";
@@ -21,7 +22,7 @@ export class SocketIOModule implements AfterListen, OnDestroy {
   @Constant("socketIO", {})
   protected settings: Partial<ServerOptions>;
 
-  @Inject()
+  @Inject(InjectorService)
   protected injector: InjectorService;
 
   @Inject(Http.Server)
@@ -33,7 +34,7 @@ export class SocketIOModule implements AfterListen, OnDestroy {
   @IO()
   private io: Server;
 
-  @Inject()
+  @Inject(SocketIOService)
   private socketIOService: SocketIOService;
 
   $afterListen() {

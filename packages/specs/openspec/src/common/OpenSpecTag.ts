@@ -1,4 +1,4 @@
-import {OpenSpecExternalDocs} from "./OpenSpecExternalDocs.js";
+import type {OpenSpecExternalDocs} from "./OpenSpecExternalDocs.js";
 
 export interface OpenSpecTag {
   name: string;

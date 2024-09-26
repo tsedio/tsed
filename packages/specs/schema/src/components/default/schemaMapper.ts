@@ -1,10 +1,10 @@
 import {getValue, isObject} from "@tsed/core";
 
 import {mapAliasedProperties} from "../../domain/JsonAliasMap.js";
-import {JsonSchema} from "../../domain/JsonSchema.js";
+import type {JsonSchema} from "../../domain/JsonSchema.js";
 import {SpecTypes} from "../../domain/SpecTypes.js";
 import {alterOneOf} from "../../hooks/alterOneOf.js";
-import {JsonSchemaOptions} from "../../interfaces/JsonSchemaOptions.js";
+import type {JsonSchemaOptions} from "../../interfaces/JsonSchemaOptions.js";
 import {execMapper, hasMapper, registerJsonSchemaMapper} from "../../registries/JsonSchemaMapperContainer.js";
 
 /**

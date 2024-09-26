@@ -1,7 +1,8 @@
-import {PropertyDeclarationStructure, StructureKind} from "ts-morph";
+import type {PropertyDeclarationStructure} from "ts-morph";
+import {StructureKind} from "ts-morph";
 
-import {DmmfField} from "../domain/DmmfField.js";
-import {TransformContext} from "../domain/TransformContext.js";
+import type {DmmfField} from "../domain/DmmfField.js";
+import type {TransformContext} from "../domain/TransformContext.js";
 import {transformFieldToDecorators} from "./transformFieldToDecorators.js";
 import {transformScalarToType} from "./transformScalarToType.js";
 

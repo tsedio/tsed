@@ -1,6 +1,6 @@
-import {Type} from "@tsed/core";
+import type {Type} from "@tsed/core";
 
-import {PlatformAdapter} from "../services/PlatformAdapter.js";
+import type {PlatformAdapter} from "../services/PlatformAdapter.js";
 import {registerPlatformAdapter} from "../utils/registerPlatformAdapter.js";
 
 export function PlatformProvider() {

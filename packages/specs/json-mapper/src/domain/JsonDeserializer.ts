@@ -1,11 +1,14 @@
-import {classOf, isArray, isBoolean, isClass, isEmpty, isNil, nameOf, objectKeys, Type} from "@tsed/core";
-import {getPropertiesStores, JsonClassStore, JsonEntityStore, JsonParameterStore, JsonPropertyStore} from "@tsed/schema";
+import type {Type} from "@tsed/core";
+import {classOf, isArray, isBoolean, isClass, isEmpty, isNil, nameOf, objectKeys} from "@tsed/core";
+import type {JsonClassStore, JsonPropertyStore} from "@tsed/schema";
+import {getPropertiesStores, JsonEntityStore, JsonParameterStore} from "@tsed/schema";
 
 import {alterAfterDeserialize} from "../hooks/alterAfterDeserialize.js";
 import {alterBeforeDeserialize} from "../hooks/alterBeforeDeserialize.js";
 import {alterOnDeserialize} from "../hooks/alterOnDeserialize.js";
-import {JsonDeserializerOptions} from "./JsonDeserializerOptions.js";
-import {CachedJsonMapper, JsonMapperCompiler} from "./JsonMapperCompiler.js";
+import type {JsonDeserializerOptions} from "./JsonDeserializerOptions.js";
+import type {CachedJsonMapper} from "./JsonMapperCompiler.js";
+import {JsonMapperCompiler} from "./JsonMapperCompiler.js";
 import {JsonMapperSettings} from "./JsonMapperSettings.js";
 import {getJsonMapperTypes} from "./JsonMapperTypesContainer.js";
 import {Writer} from "./Writer.js";

@@ -1,4 +1,4 @@
-import {AnySchemaObject, KeywordCxt, SchemaObjCxt, ValidateFunction} from "ajv";
+import type {AnySchemaObject, KeywordCxt, SchemaObjCxt, ValidateFunction} from "ajv";
 
 export interface AjvDataValidationCtx<T extends string | number = string | number> {
   dataPath: string;

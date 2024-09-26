@@ -1,7 +1,7 @@
 import {isBuffer, useDecorators} from "@tsed/core";
 import {isParameterType, Name} from "@tsed/schema";
 
-import {ParamOptions} from "../domain/ParamOptions.js";
+import type {ParamOptions} from "../domain/ParamOptions.js";
 import {PARAM_TYPES_DATA_PATH, ParamTypes} from "../domain/ParamTypes.js";
 import {ParamFn} from "./paramFn.js";
 import {UseParamExpression} from "./useParamExpression.js";

@@ -1,6 +1,7 @@
-import {Model, ModelClassSpecifier} from "objection";
+import type {ModelClassSpecifier} from "objection";
+import {Model} from "objection";
 
-import {RelationshipOptsWithThrough} from "../domain/RelationshipOpts.js";
+import type {RelationshipOptsWithThrough} from "../domain/RelationshipOpts.js";
 import {RelatesTo} from "./relatesTo.js";
 
 /**

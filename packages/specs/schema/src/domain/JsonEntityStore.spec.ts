@@ -1,15 +1,5 @@
-import {
-  Allow,
-  In,
-  JsonEntityStore,
-  JsonMethodStore,
-  JsonOperation,
-  JsonParameter,
-  JsonParameterStore,
-  JsonPropertyStore,
-  Property,
-  Required
-} from "../index.js";
+import type {JsonMethodStore, JsonParameterStore, JsonPropertyStore} from "../index.js";
+import {Allow, In, JsonEntityStore, JsonOperation, JsonParameter, Property, Required} from "../index.js";
 
 describe("JsonEntityStore", () => {
   it("should create JsonEntityStore", () => {

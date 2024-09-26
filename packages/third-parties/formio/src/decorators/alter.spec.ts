@@ -1,6 +1,6 @@
 import {Store} from "@tsed/core";
 
-import {AlterHook} from "../domain/AlterHook.js";
+import type {AlterHook} from "../domain/AlterHook.js";
 import {Alter} from "./alter.js";
 
 describe("@Alter", () => {

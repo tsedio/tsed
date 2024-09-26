@@ -1,8 +1,9 @@
-import {Context, Controller, Get, Locals, Middleware, PlatformContext, PlatformTest, Req, Use} from "@tsed/common";
+import type {PlatformContext} from "@tsed/common";
+import {Context, Controller, Get, Locals, Middleware, PlatformTest, Req, Use} from "@tsed/common";
 import SuperTest from "supertest";
 import {afterAll, beforeAll, describe, expect, it} from "vitest";
 
-import {PlatformTestingSdkOpts} from "../interfaces/index.js";
+import type {PlatformTestingSdkOpts} from "../interfaces/index.js";
 
 @Middleware()
 class LocalsMiddleware {

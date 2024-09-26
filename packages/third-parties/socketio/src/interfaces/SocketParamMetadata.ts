@@ -1,6 +1,6 @@
-import {MetadataTypes} from "@tsed/core";
+import type {MetadataTypes} from "@tsed/core";
 
-import {SocketFilters} from "./SocketFilters.js";
+import type {SocketFilters} from "./SocketFilters.js";
 
 export interface SocketParamMetadata extends Partial<MetadataTypes> {
   filter: SocketFilters;

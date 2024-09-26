@@ -1,7 +1,7 @@
-import {MetadataTypes, Type} from "@tsed/core";
+import type {MetadataTypes, Type} from "@tsed/core";
 
-import {JsonMapperMethods} from "../interfaces/JsonMapperMethods.js";
-import {JsonMapperGlobalOptions} from "./JsonMapperGlobalOptions.js";
+import type {JsonMapperMethods} from "../interfaces/JsonMapperMethods.js";
+import type {JsonMapperGlobalOptions} from "./JsonMapperGlobalOptions.js";
 
 export interface JsonSerializerOptions<T = any, C = any> extends MetadataTypes<T, C>, Pick<JsonMapperGlobalOptions, "strictGroups"> {
   /**

@@ -1,29 +1,30 @@
-import {PlatformContext, setResponseHeaders} from "@tsed/common";
+import type {PlatformContext} from "@tsed/common";
+import {setResponseHeaders} from "@tsed/common";
 import {AnyToPromise, AnyToPromiseStatus} from "@tsed/core";
-import {Inject, InjectorService, Provider} from "@tsed/di";
-import {FormioActionInfo} from "@tsed/formio-types";
+import {Inject, InjectorService, type Provider} from "@tsed/di";
+import type {FormioActionInfo} from "@tsed/formio-types";
 import {PlatformParams} from "@tsed/platform-params";
 import {PlatformResponseFilter} from "@tsed/platform-response-filter";
 import {EndpointMetadata} from "@tsed/schema";
 
 import {Alter} from "../decorators/alter.js";
-import {AlterHook} from "../domain/AlterHook.js";
-import {SetActionItemMessage} from "../domain/FormioAction.js";
-import {FormioActions} from "../domain/FormioActionsIndex.js";
+import type {AlterHook} from "../domain/AlterHook.js";
+import type {SetActionItemMessage} from "../domain/FormioAction.js";
+import type {FormioActions} from "../domain/FormioActionsIndex.js";
 import {FormioService} from "../services/FormioService.js";
 
 @Alter("actions")
 export class AlterActions implements AlterHook {
-  @Inject()
+  @Inject(InjectorService)
   protected injector: InjectorService;
 
-  @Inject()
+  @Inject(FormioService)
   protected formio: FormioService;
 
-  @Inject()
+  @Inject(PlatformParams)
   protected params: PlatformParams;
 
-  @Inject()
+  @Inject(PlatformResponseFilter)
   protected responseFilter: PlatformResponseFilter;
 
   transform(actions: FormioActions): FormioActions {

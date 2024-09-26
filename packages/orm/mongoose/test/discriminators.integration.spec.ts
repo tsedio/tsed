@@ -2,7 +2,8 @@ import {PlatformTest} from "@tsed/common";
 import {DiscriminatorValue, Required} from "@tsed/schema";
 import {TestContainersMongo} from "@tsed/testcontainers-mongo";
 
-import {DiscriminatorKey, Model, MongooseModel, ObjectID} from "../src/index.js";
+import type {MongooseModel} from "../src/index.js";
+import {DiscriminatorKey, Model, ObjectID} from "../src/index.js";
 
 describe("Mongoose", () => {
   describe("Discriminators", () => {

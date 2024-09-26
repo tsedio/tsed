@@ -1,8 +1,9 @@
-import {PlatformBuilder, PlatformBuilderSettings} from "@tsed/common";
-import {nameOf, Type} from "@tsed/core";
+import type {PlatformBuilder, PlatformBuilderSettings} from "@tsed/common";
+import type {Type} from "@tsed/core";
+import {nameOf} from "@tsed/core";
 import {DITest} from "@tsed/di";
-import {APIGatewayEventDefaultAuthorizerContext, APIGatewayProxyEventBase, APIGatewayProxyHandler} from "aws-lambda";
-import {APIGatewayProxyResult} from "aws-lambda/trigger/api-gateway-proxy.js";
+import type {APIGatewayEventDefaultAuthorizerContext, APIGatewayProxyEventBase, APIGatewayProxyHandler} from "aws-lambda";
+import type {APIGatewayProxyResult} from "aws-lambda/trigger/api-gateway-proxy.js";
 
 import {createFakeContext} from "./createFakeContext.js";
 import {createFakeEvent} from "./createFakeEvent.js";

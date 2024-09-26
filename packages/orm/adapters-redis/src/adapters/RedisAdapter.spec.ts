@@ -1,4 +1,5 @@
-import {AdapterModel, Adapters, Indexed} from "@tsed/adapters";
+import type {AdapterModel} from "@tsed/adapters";
+import {Adapters, Indexed} from "@tsed/adapters";
 import {IORedisTest, registerConnectionProvider} from "@tsed/ioredis";
 import {deserialize} from "@tsed/json-mapper";
 import {Property, Required} from "@tsed/schema";

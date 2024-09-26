@@ -1,4 +1,5 @@
-import {isArrowFn, Type, useDecorators} from "@tsed/core";
+import type {Type} from "@tsed/core";
+import {isArrowFn, useDecorators} from "@tsed/core";
 
 import {getJsonSchema, JsonEntityFn, lazyRef, Property, string} from "../../src/index.js";
 

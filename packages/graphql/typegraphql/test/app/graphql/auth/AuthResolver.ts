@@ -1,4 +1,4 @@
-import {PassportContext} from "graphql-passport";
+import type {PassportContext} from "graphql-passport";
 import {Arg, Ctx, Mutation, Query, Resolver} from "type-graphql";
 
 import {User} from "./User";

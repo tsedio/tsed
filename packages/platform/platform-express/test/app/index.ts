@@ -1,6 +1,8 @@
-import {$log, BodyParams, Controller, Get, PlatformResponse, Post, QueryParams, Res} from "@tsed/common";
+import type {PlatformResponse} from "@tsed/common";
+import {$log, BodyParams, Controller, Get, Post, QueryParams, Res} from "@tsed/common";
 import {Returns} from "@tsed/schema";
-import {agent, SuperAgentStatic} from "superagent";
+import type {SuperAgentStatic} from "superagent";
+import {agent} from "superagent";
 import {promisify} from "util";
 
 import {PlatformExpress} from "../../src/index.js";

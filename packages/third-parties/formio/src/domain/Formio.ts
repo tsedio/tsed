@@ -1,18 +1,18 @@
-import {EventEmitter} from "events";
-import {NextFunction, Request, Response} from "express";
-import {Db} from "mongodb";
-import {Mongoose, Schema} from "mongoose";
+import type {EventEmitter} from "events";
+import type {NextFunction, Request, Response} from "express";
+import type {Db} from "mongodb";
+import type {Mongoose, Schema} from "mongoose";
 
-import {FormioActionModelCtor} from "./FormioAction.js";
-import {FormioActionsIndex} from "./FormioActionsIndex.js";
-import {FormioAuth} from "./FormioAuth.js";
-import {FormioBaseModel} from "./FormioBaseModel.js";
-import {FormioConfig} from "./FormioConfig.js";
-import {FormioHook, FormioHooks} from "./FormioHooks.js";
-import {FormioModels, FormioSchemas} from "./FormioModels.js";
-import {FormioTemplateUtil} from "./FormioTemplateUtil.js";
-import {FormioUpdate} from "./FormioUpdate.js";
-import {FormioUtil} from "./FormioUtils.js";
+import type {FormioActionModelCtor} from "./FormioAction.js";
+import type {FormioActionsIndex} from "./FormioActionsIndex.js";
+import type {FormioAuth} from "./FormioAuth.js";
+import type {FormioBaseModel} from "./FormioBaseModel.js";
+import type {FormioConfig} from "./FormioConfig.js";
+import type {FormioHook, FormioHooks} from "./FormioHooks.js";
+import type {FormioModels, FormioSchemas} from "./FormioModels.js";
+import type {FormioTemplateUtil} from "./FormioTemplateUtil.js";
+import type {FormioUpdate} from "./FormioUpdate.js";
+import type {FormioUtil} from "./FormioUtils.js";
 
 export interface FormioBase {
   /**

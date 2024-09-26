@@ -1,4 +1,5 @@
-import {EntityManager, RequestContext} from "@mikro-orm/core";
+import type {EntityManager} from "@mikro-orm/core";
+import {RequestContext} from "@mikro-orm/core";
 import {isFunction} from "@tsed/core";
 import {Injectable} from "@tsed/di";
 

@@ -1,8 +1,8 @@
 import {isArray} from "@tsed/core";
 
-import {JsonSchema} from "../../domain/JsonSchema.js";
+import type {JsonSchema} from "../../domain/JsonSchema.js";
 import {alterIgnore} from "../../hooks/alterIgnore.js";
-import {JsonSchemaOptions} from "../../interfaces/JsonSchemaOptions.js";
+import type {JsonSchemaOptions} from "../../interfaces/JsonSchemaOptions.js";
 import {execMapper, registerJsonSchemaMapper} from "../../registries/JsonSchemaMapperContainer.js";
 
 /**

@@ -1,4 +1,4 @@
-import {Env, Type} from "@tsed/core";
+import type {Env, Type} from "@tsed/core";
 
 export type PlatformMiddlewareLoadingOptions = {env?: Env; use: Function | Type<any> | string; hook?: string; options?: any};
 export type PlatformMiddlewareSettings = Function | Type<any> | PlatformMiddlewareLoadingOptions | string | any;

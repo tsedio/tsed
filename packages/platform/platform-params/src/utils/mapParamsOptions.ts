@@ -1,6 +1,6 @@
 import {isObject} from "@tsed/core";
 
-import {ParamOptions} from "../domain/ParamOptions.js";
+import type {ParamOptions} from "../domain/ParamOptions.js";
 
 /**
  * @ignore

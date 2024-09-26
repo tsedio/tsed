@@ -1,7 +1,7 @@
-import {Request, Response} from "express";
+import type {Request, Response} from "express";
 
-import {FormioErrors} from "./FormioErrors.js";
-import {FormioJs} from "./FormioJs.js";
+import type {FormioErrors} from "./FormioErrors.js";
+import type {FormioJs} from "./FormioJs.js";
 
 export interface FormioUtil {
   Formio: FormioJs;

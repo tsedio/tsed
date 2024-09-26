@@ -1,6 +1,7 @@
 import type {ConnectionOptions} from "node:tls";
 
-import {MongoDBContainer, StartedMongoDBContainer} from "@testcontainers/mongodb";
+import type {StartedMongoDBContainer} from "@testcontainers/mongodb";
+import {MongoDBContainer} from "@testcontainers/mongodb";
 import type {ConnectOptions} from "mongoose";
 
 declare global {

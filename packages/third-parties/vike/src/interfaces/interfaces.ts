@@ -1,4 +1,4 @@
-import {ViteConfig} from "./ViteConfig.js";
+import type {ViteConfig} from "./ViteConfig.js";
 
 declare global {
   namespace TsED {

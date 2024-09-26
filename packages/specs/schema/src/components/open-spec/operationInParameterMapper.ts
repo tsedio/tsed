@@ -1,10 +1,10 @@
-import {OS3Schema} from "@tsed/openspec";
+import type {OS3Schema} from "@tsed/openspec";
 import {camelCase} from "change-case";
 import type {JSONSchema6} from "json-schema";
 
-import {JsonParameter} from "../../domain/JsonParameter.js";
+import type {JsonParameter} from "../../domain/JsonParameter.js";
 import {JsonParameterTypes} from "../../domain/JsonParameterTypes.js";
-import {JsonSchemaOptions} from "../../interfaces/JsonSchemaOptions.js";
+import type {JsonSchemaOptions} from "../../interfaces/JsonSchemaOptions.js";
 import {execMapper, hasMapper, registerJsonSchemaMapper} from "../../registries/JsonSchemaMapperContainer.js";
 import {popGenerics} from "../../utils/generics.js";
 

@@ -1,9 +1,11 @@
-import {DecoratorParameters, Metadata, StoreMerge, useDecorators, useMethodDecorators} from "@tsed/core";
+import type {DecoratorParameters} from "@tsed/core";
+import {Metadata, StoreMerge, useDecorators, useMethodDecorators} from "@tsed/core";
 import {ParamTypes, UseParam} from "@tsed/platform-params";
 import {InFile} from "@tsed/schema";
 
-import {PlatformMulterFile} from "../../config/interfaces/PlatformMulterSettings.js";
-import {MulterInputOptions, PlatformMulterMiddleware} from "../../middlewares/PlatformMulterMiddleware.js";
+import type {PlatformMulterFile} from "../../config/interfaces/PlatformMulterSettings.js";
+import type {MulterInputOptions} from "../../middlewares/PlatformMulterMiddleware.js";
+import {PlatformMulterMiddleware} from "../../middlewares/PlatformMulterMiddleware.js";
 
 function mapOptions(name: string, maxCount: number | undefined): MulterInputOptions {
   return {

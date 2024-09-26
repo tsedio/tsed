@@ -1,5 +1,5 @@
 import {decorateMethodsOf, DecoratorTypes, UnsupportedDecoratorType} from "@tsed/core";
-import {OpenSpecSecurity} from "@tsed/openspec";
+import type {OpenSpecSecurity} from "@tsed/openspec";
 
 import {JsonEntityFn} from "../common/jsonEntityFn.js";
 

@@ -2,7 +2,8 @@ import "../services/StripeFactory.js";
 
 import {Constant, Inject} from "@tsed/di";
 import {BadRequest, InternalServerError} from "@tsed/exceptions";
-import {Middleware, MiddlewareMethods} from "@tsed/platform-middlewares";
+import type {MiddlewareMethods} from "@tsed/platform-middlewares";
+import {Middleware} from "@tsed/platform-middlewares";
 import {Context, HeaderParams, RawBodyParams} from "@tsed/platform-params";
 import {Stripe} from "stripe";
 
@@ -15,7 +16,7 @@ export interface WebhookEventOptions {
 
 @Middleware()
 export class WebhookEventMiddleware implements MiddlewareMethods {
-  @Inject()
+  @Inject(Stripe)
   protected stripe: Stripe;
 
   @Constant("stripe.webhooks")

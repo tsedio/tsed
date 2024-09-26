@@ -1,6 +1,6 @@
 import {DecoratorTypes, UnsupportedDecoratorType} from "@tsed/core";
 
-import {OperationVerbs} from "../../constants/OperationVerbs.js";
+import type {OperationVerbs} from "../../constants/OperationVerbs.js";
 import {JsonEntityFn} from "../common/jsonEntityFn.js";
 
 /**

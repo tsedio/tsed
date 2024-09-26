@@ -11,7 +11,7 @@
     ".": {
       "types": "./lib/types/index.d.ts",
       "import": "./lib/esm/index.js",
-      "default": "./lib/cjs/index.js"
+      "default": "./lib/esm/index.js"
     }
   },
   "bin": {
@@ -20,7 +20,7 @@
   },
   "scripts": {
     "prebuild": "cd ../../core && yarn build",
-    "build": "rm -rf lib && yarn build:ts && monorepo build-hybrid",
+    "build": "rm -rf lib tsconfig.spec.buildinfo && yarn build:ts && monorepo build-hybrid",
     "build:ts": "tsc --build tsconfig.json",
     "test": "vitest run",
     "generate:postgres": "yarn build && cd test/postgres && prisma -v && prisma generate",

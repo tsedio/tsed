@@ -1,7 +1,8 @@
-import "../..";
+import "../../src/index.js";
 import "@tsed/platform-express";
 
-import {Configuration, Inject, PlatformApplication} from "@tsed/common";
+import {PlatformApplication} from "@tsed/common";
+import {Configuration, Inject} from "@tsed/di";
 import bodyParser from "body-parser";
 import compress from "compression";
 import cookieParser from "cookie-parser";
@@ -20,7 +21,7 @@ const rootDir = import.meta.dirname;
   }
 })
 export class Server {
-  @Inject()
+  @Inject(PlatformApplication)
   app: PlatformApplication;
 
   public $beforeRoutesInit(): void {

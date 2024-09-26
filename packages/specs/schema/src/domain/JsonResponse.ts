@@ -1,11 +1,11 @@
-import {OS3MediaType, OS3Response} from "@tsed/openspec";
+import type {OS3MediaType, OS3Response} from "@tsed/openspec";
 
-import {JsonHeader} from "../interfaces/JsonOpenSpec.js";
+import type {JsonHeader} from "../interfaces/JsonOpenSpec.js";
 import {mapHeaders} from "../utils/mapHeaders.js";
 import {toJsonMapCollection} from "../utils/toJsonMapCollection.js";
 import {JsonMap} from "./JsonMap.js";
 import {JsonMedia} from "./JsonMedia.js";
-import {JsonSchema} from "./JsonSchema.js";
+import type {JsonSchema} from "./JsonSchema.js";
 
 export type JsonResponseOptions = OS3Response<JsonSchema, string | JsonHeader>;
 

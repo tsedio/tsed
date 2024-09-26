@@ -1,8 +1,9 @@
-import {Adapter, InjectAdapter} from "@tsed/adapters";
+import type {Adapter} from "@tsed/adapters";
+import {InjectAdapter} from "@tsed/adapters";
 import {Injectable} from "@tsed/di";
 import {deserialize} from "@tsed/json-mapper";
 
-import {AccessToken, AuthorizationCode, DeviceCode, OidcAccountsMethods} from "../../../src/index.js";
+import type {AccessToken, AuthorizationCode, DeviceCode, OidcAccountsMethods} from "../../../src/index.js";
 import {Account} from "../models/Account.js";
 
 @Injectable()

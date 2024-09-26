@@ -1,4 +1,4 @@
-import {FormioTemplate} from "./FormioTemplate.js";
+import type {FormioTemplate} from "./FormioTemplate.js";
 
 export interface FormioExportOptions {
   title: string;

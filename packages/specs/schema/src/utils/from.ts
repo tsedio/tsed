@@ -1,4 +1,5 @@
-import {isClass, Type} from "@tsed/core";
+import type {Type} from "@tsed/core";
+import {isClass} from "@tsed/core";
 
 import {JsonEntityStore} from "../domain/JsonEntityStore.js";
 import {JsonFormatTypes} from "../domain/JsonFormatTypes.js";

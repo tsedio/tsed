@@ -1,4 +1,4 @@
-import {APIGatewayEventDefaultAuthorizerContext, APIGatewayProxyEventBase} from "aws-lambda";
+import type {APIGatewayEventDefaultAuthorizerContext, APIGatewayProxyEventBase} from "aws-lambda";
 
 export function createFakeEvent(event: Partial<APIGatewayProxyEventBase<APIGatewayEventDefaultAuthorizerContext>> = {}) {
   return {

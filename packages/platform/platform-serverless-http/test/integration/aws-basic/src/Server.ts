@@ -16,7 +16,7 @@ import {TimeslotsController} from "./TimeslotsController.js";
   }
 })
 export class Server {
-  @Inject()
+  @Inject(PlatformApplication)
   app: PlatformApplication;
 
   public $beforeRoutesInit(): void {

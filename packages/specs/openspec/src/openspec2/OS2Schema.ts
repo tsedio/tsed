@@ -1,7 +1,7 @@
-import {OpenSpecExternalDocs} from "../common/OpenSpecExternalDocs.js";
-import {OpenSpecBaseJsonSchema, OpenSpecJsonSchema} from "../common/OpenSpecJsonSchema.js";
-import {OpenSpecRef} from "../common/OpenSpecRef.js";
-import {OpenSpecXML} from "../common/OpenSpecXML.js";
+import type {OpenSpecExternalDocs} from "../common/OpenSpecExternalDocs.js";
+import type {OpenSpecBaseJsonSchema, OpenSpecJsonSchema} from "../common/OpenSpecJsonSchema.js";
+import type {OpenSpecRef} from "../common/OpenSpecRef.js";
+import type {OpenSpecXML} from "../common/OpenSpecXML.js";
 
 export interface OS2XML {
   name?: string;

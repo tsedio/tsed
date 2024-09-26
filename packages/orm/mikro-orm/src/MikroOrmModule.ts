@@ -1,19 +1,9 @@
 import "./services/MikroOrmFactory";
 
-import {EventSubscriber, Options} from "@mikro-orm/core";
+import type {EventSubscriber, Options} from "@mikro-orm/core";
 import {classOf, isFunction, Store} from "@tsed/core";
-import {
-  AlterRunInContext,
-  Constant,
-  Inject,
-  InjectorService,
-  LocalsContainer,
-  Module,
-  OnDestroy,
-  OnInit,
-  ProviderScope,
-  registerProvider
-} from "@tsed/di";
+import type {AlterRunInContext, OnDestroy, OnInit} from "@tsed/di";
+import {Constant, Inject, InjectorService, LocalsContainer, Module, ProviderScope, registerProvider} from "@tsed/di";
 
 import {DEFAULT_CONTEXT_NAME, SUBSCRIBER_INJECTION_TYPE} from "./constants.js";
 import {OptimisticLockErrorFilter} from "./filters/OptimisticLockErrorFilter.js";
@@ -40,13 +30,13 @@ export class MikroOrmModule implements OnDestroy, OnInit, AlterRunInContext {
   @Constant("mikroOrm", [])
   private readonly settings!: Options[];
 
-  @Inject()
+  @Inject(MikroOrmRegistry)
   private readonly registry!: MikroOrmRegistry;
 
-  @Inject()
+  @Inject(MikroOrmContext)
   private readonly context!: MikroOrmContext;
 
-  @Inject()
+  @Inject(InjectorService)
   private readonly injector!: InjectorService;
 
   constructor(@Inject(SUBSCRIBER_INJECTION_TYPE) private subscribers: EventSubscriber[]) {}

@@ -2,14 +2,14 @@ import {Inject} from "@tsed/common";
 import {View} from "@tsed/platform-views";
 import {Name} from "@tsed/schema";
 
-import {Interaction, InteractionMethods, OidcCtx, OidcProvider} from "../../../src/index.js";
+import {Interaction, type InteractionMethods, OidcCtx, OidcProvider} from "../../../src/index.js";
 
 @Interaction({
   name: "abort"
 })
 @Name("Oidc")
 export class AbortInteraction implements InteractionMethods {
-  @Inject()
+  @Inject(OidcProvider)
   oidc: OidcProvider;
 
   @View("interaction")

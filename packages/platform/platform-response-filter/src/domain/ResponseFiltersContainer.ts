@@ -1,6 +1,6 @@
-import {Type} from "@tsed/core";
+import type {Type} from "@tsed/core";
 
-import {ResponseFilterMethods} from "../interfaces/ResponseFilterMethods.js";
+import type {ResponseFilterMethods} from "../interfaces/ResponseFilterMethods.js";
 /**
  * @ignore
  */

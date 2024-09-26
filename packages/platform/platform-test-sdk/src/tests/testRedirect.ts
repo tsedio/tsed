@@ -2,7 +2,7 @@ import {Context, Controller, Get, Location, PlatformTest, Redirect} from "@tsed/
 import SuperTest from "supertest";
 import {afterAll, beforeAll, expect, it} from "vitest";
 
-import {PlatformTestingSdkOpts} from "../interfaces/index.js";
+import type {PlatformTestingSdkOpts} from "../interfaces/index.js";
 
 @Controller("/redirect")
 class RedirectCtrl {

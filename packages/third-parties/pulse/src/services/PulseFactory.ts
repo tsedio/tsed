@@ -1,4 +1,5 @@
-import {Pulse, PulseConfig} from "@pulsecron/pulse";
+import type {PulseConfig} from "@pulsecron/pulse";
+import {Pulse} from "@pulsecron/pulse";
 import {Configuration, registerProvider} from "@tsed/di";
 
 // create Alias to avoid confusing import between Pulse from "@pulsecron/pulse" and Pulse decorator

@@ -1,6 +1,8 @@
-import {Env, Type} from "@tsed/core";
+import type {Type} from "@tsed/core";
+import {Env} from "@tsed/core";
 import {createContainer, InjectorService, setLoggerConfiguration} from "@tsed/di";
-import {$log, Logger} from "@tsed/logger";
+import type {Logger} from "@tsed/logger";
+import {$log} from "@tsed/logger";
 import {getOperationsRoutes, JsonEntityStore} from "@tsed/schema";
 import type {Handler} from "aws-lambda";
 import type {Context} from "aws-lambda/handler.js";

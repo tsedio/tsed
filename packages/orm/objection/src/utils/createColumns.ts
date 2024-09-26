@@ -3,8 +3,9 @@ import "../components/createIdColumn.js";
 import "../components/createNumberColumn.js";
 import "../components/createStringColumn.js";
 
-import {getProperties, JsonEntityStore} from "@tsed/schema";
-import {Knex} from "knex";
+import type {JsonEntityStore} from "@tsed/schema";
+import {getProperties} from "@tsed/schema";
+import type {Knex} from "knex";
 
 import {ColumnTypesContainer} from "../services/ColumnTypesContainer.js";
 import {getColumnCtx} from "./getColumnCtx.js";

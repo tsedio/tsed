@@ -1,7 +1,7 @@
 import {isArray, isObject, isString, toMap as tMap} from "@tsed/core";
 import {Inject, Injectable} from "@tsed/di";
-import {FormioAction, FormioActionItem, FormioForm, FormioRole, FormioSubmission, FormioToken} from "@tsed/formio-types";
-import {MongooseDocument, MongooseModel} from "@tsed/mongoose";
+import type {FormioAction, FormioActionItem, FormioForm, FormioRole, FormioSubmission, FormioToken} from "@tsed/formio-types";
+import type {MongooseDocument, MongooseModel} from "@tsed/mongoose";
 import omit from "lodash/omit.js";
 import type {FilterQuery} from "mongoose";
 
@@ -15,7 +15,7 @@ function toMap<T>(list: any[]) {
 
 @Injectable()
 export class FormioDatabase {
-  @Inject()
+  @Inject(FormioService)
   protected formio: FormioService;
 
   get models() {

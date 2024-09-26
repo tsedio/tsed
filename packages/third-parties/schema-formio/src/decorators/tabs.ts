@@ -1,4 +1,5 @@
-import {JsonEntityFn, JsonEntityStore} from "@tsed/schema";
+import type {JsonEntityStore} from "@tsed/schema";
+import {JsonEntityFn} from "@tsed/schema";
 import {camelCase} from "change-case";
 
 /**

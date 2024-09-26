@@ -3,7 +3,7 @@ import {Returns} from "@tsed/schema";
 
 import {Authenticate} from "../../../../..";
 import {Account} from "../../../models/Account.js";
-import {Credentials} from "../../../models/Credentials.js";
+import type {Credentials} from "../../../models/Credentials.js";
 
 @Controller("/auth")
 @Scope(ProviderScope.SINGLETON)

@@ -1,6 +1,6 @@
 import fs from "fs";
 
-import {Engine} from "../src/components/Engine.js";
+import type {Engine} from "../src/components/Engine.js";
 import {engines} from "../src/index.js";
 
 const rootDir = import.meta.dirname; // automatically replaced by import.meta.dirname on build

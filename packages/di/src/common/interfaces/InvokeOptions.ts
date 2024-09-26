@@ -1,6 +1,6 @@
 import type {LocalsContainer} from "../domain/LocalsContainer.js";
-import {ProviderScope} from "../domain/ProviderScope.js";
-import {TokenProvider} from "./TokenProvider.js";
+import type {ProviderScope} from "../domain/ProviderScope.js";
+import type {TokenProvider} from "./TokenProvider.js";
 
 export interface InvokeOptions {
   /**

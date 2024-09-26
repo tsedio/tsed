@@ -1,4 +1,5 @@
-import {nameOf, Type} from "@tsed/core";
+import type {Type} from "@tsed/core";
+import {nameOf} from "@tsed/core";
 import {InternalServerError} from "@tsed/exceptions";
 
 /**

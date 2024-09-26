@@ -1,14 +1,15 @@
-import {Job} from "@pulsecron/pulse";
+import type {Job} from "@pulsecron/pulse";
 import {PlatformTest} from "@tsed/common";
 import {Inject} from "@tsed/di";
 import {TestContainersMongo} from "@tsed/testcontainers-mongo";
 
-import {Define, Pulse, PulseModule, PulseService} from "../src/index.js";
+import {PulseModule} from "../src/index.js";
+import {Define, Pulse, PulseService} from "../src/index.js";
 import {Server} from "./helpers/Server.js";
 
 @Pulse({namespace: "test-nsp"})
 class Test {
-  @Inject()
+  @Inject(PulseModule)
   pulse: PulseModule;
 
   jobs: Job[];

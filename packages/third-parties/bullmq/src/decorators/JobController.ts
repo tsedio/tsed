@@ -1,6 +1,6 @@
 import {StoreMerge, useDecorators} from "@tsed/core";
 import {Injectable} from "@tsed/di";
-import {JobsOptions} from "bullmq";
+import type {JobsOptions} from "bullmq";
 
 import {BullMQTypes} from "../constants/BullMQTypes.js";
 import {BULLMQ} from "../constants/constants.js";

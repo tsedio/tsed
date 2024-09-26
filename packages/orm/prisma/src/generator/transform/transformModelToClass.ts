@@ -1,7 +1,8 @@
-import {StatementStructures, StructureKind} from "ts-morph";
+import type {StatementStructures} from "ts-morph";
+import {StructureKind} from "ts-morph";
 
-import {DmmfModel} from "../domain/DmmfModel.js";
-import {TransformContext} from "../domain/TransformContext.js";
+import type {DmmfModel} from "../domain/DmmfModel.js";
+import type {TransformContext} from "../domain/TransformContext.js";
 import {transformFieldToProperty} from "./transformFieldToProperty.js";
 
 export function transformModelToClass(model: DmmfModel, ctx: TransformContext): StatementStructures {

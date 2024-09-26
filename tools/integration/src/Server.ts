@@ -50,7 +50,7 @@ import * as rest from "./controllers/rest/index.js";
   exclude: ["**/*.spec.ts"]
 })
 export class Server {
-  @Inject()
+  @Inject(PlatformApplication)
   protected app: PlatformApplication;
 
   @Configuration()

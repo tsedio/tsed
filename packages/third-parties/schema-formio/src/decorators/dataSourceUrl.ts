@@ -1,4 +1,4 @@
-import {FormioDataResolver} from "../domain/FormioDataResolver.js";
+import type {FormioDataResolver} from "../domain/FormioDataResolver.js";
 import {Component} from "./component.js";
 
 /**

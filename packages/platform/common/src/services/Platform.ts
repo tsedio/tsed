@@ -1,7 +1,7 @@
-import {ControllerProvider, Injectable, InjectorService, ProviderScope, TokenProvider} from "@tsed/di";
-import {PlatformLayer, PlatformRouters} from "@tsed/platform-router";
+import {type ControllerProvider, Inject, Injectable, InjectorService, ProviderScope, type TokenProvider} from "@tsed/di";
+import {type PlatformLayer, PlatformRouters} from "@tsed/platform-router";
 
-import {Route, RouteController} from "../interfaces/Route.js";
+import type {Route, RouteController} from "../interfaces/Route.js";
 import {PlatformApplication} from "./PlatformApplication.js";
 import {PlatformHandler} from "./PlatformHandler.js";
 
@@ -18,9 +18,9 @@ export class Platform {
   #layers: PlatformLayer[];
 
   constructor(
-    readonly injector: InjectorService,
-    readonly platformApplication: PlatformApplication,
-    readonly platformRouters: PlatformRouters
+    @Inject(InjectorService) readonly injector: InjectorService,
+    @Inject(PlatformApplication) readonly platformApplication: PlatformApplication,
+    @Inject(PlatformRouters) readonly platformRouters: PlatformRouters
   ) {
     platformRouters.prebuild();
   }

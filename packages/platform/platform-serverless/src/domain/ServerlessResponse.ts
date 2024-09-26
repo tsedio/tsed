@@ -4,7 +4,7 @@ import type {APIGatewayProxyEvent} from "aws-lambda";
 import encodeUrl from "encodeurl";
 import mime from "mime";
 
-import {ServerlessContext} from "./ServerlessContext.js";
+import type {ServerlessContext} from "./ServerlessContext.js";
 
 export type HeaderValue = boolean | number | string;
 

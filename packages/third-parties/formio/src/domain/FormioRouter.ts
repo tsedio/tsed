@@ -1,7 +1,7 @@
-import {Router} from "express";
+import type {Router} from "express";
 
-import {Formio, FormioBase} from "./Formio.js";
-import {FormioHooks} from "./FormioHooks.js";
+import type {Formio, FormioBase} from "./Formio.js";
+import type {FormioHooks} from "./FormioHooks.js";
 
 export interface FormioRouter extends Router {
   formio: FormioBase;

@@ -1,6 +1,7 @@
-import {AnyPromiseResult, AnyToPromise} from "@tsed/core";
+import type {AnyPromiseResult} from "@tsed/core";
+import {AnyToPromise} from "@tsed/core";
 
-import {PlatformContext} from "./PlatformContext.js";
+import type {PlatformContext} from "./PlatformContext.js";
 
 export class AnyToPromiseWithCtx extends AnyToPromise {
   public $ctx: PlatformContext;

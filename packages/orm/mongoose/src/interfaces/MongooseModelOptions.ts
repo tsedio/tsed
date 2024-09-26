@@ -1,4 +1,4 @@
-import {MongooseSchemaOptions} from "./MongooseSchemaOptions.js";
+import type {MongooseSchemaOptions} from "./MongooseSchemaOptions.js";
 
 export interface MongooseModelOptions extends MongooseSchemaOptions {
   name?: string;

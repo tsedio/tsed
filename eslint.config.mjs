@@ -13,6 +13,7 @@ export default [
   },
   {
     files: ["**/*.{js,mjs,cjs,jsx,mjsx,ts,tsx,mtsx}"],
+    ignores: ["**/lib/**", "**/dist/**", "**/coverage/**", "**/docs/**", "**/docs-references/**"],
     languageOptions: {
       ecmaVersion: "latest",
       sourceType: "module",

@@ -1,5 +1,6 @@
-import {EntityManager, FlushMode, IsolationLevel} from "@mikro-orm/core";
-import {Inject, InjectorService, Interceptor, InterceptorContext, InterceptorMethods, InterceptorNext} from "@tsed/di";
+import type {EntityManager, FlushMode, IsolationLevel} from "@mikro-orm/core";
+import type {InterceptorContext, InterceptorMethods, InterceptorNext} from "@tsed/di";
+import {Inject, InjectorService, Interceptor} from "@tsed/di";
 import {Logger} from "@tsed/logger";
 
 import {DEFAULT_CONTEXT_NAME} from "../constants.js";
@@ -20,10 +21,10 @@ type TransactionSettings = Omit<TransactionOptions, "contextName"> & Required<Pi
 @Interceptor()
 export class TransactionalInterceptor implements InterceptorMethods {
   constructor(
-    @Inject() private readonly injector: InjectorService,
-    @Inject() private readonly registry: MikroOrmRegistry,
-    @Inject() private readonly context: MikroOrmContext,
-    @Inject() private readonly logger: Logger,
+    @Inject(InjectorService) private readonly injector: InjectorService,
+    @Inject(MikroOrmRegistry) private readonly registry: MikroOrmRegistry,
+    @Inject(MikroOrmContext) private readonly context: MikroOrmContext,
+    @Inject(Logger) private readonly logger: Logger,
     @Inject(RetryStrategy)
     private readonly retryStrategy?: RetryStrategy
   ) {}

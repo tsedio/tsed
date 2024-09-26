@@ -1,4 +1,4 @@
-import {ErrorObject, Options} from "ajv";
+import type {ErrorObject, Options} from "ajv";
 
 /**
  *

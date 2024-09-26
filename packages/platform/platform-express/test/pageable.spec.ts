@@ -1,4 +1,5 @@
-import {Controller, Get, PlatformContext, PlatformTest, QueryParams, ResponseFilter, ResponseFilterMethods} from "@tsed/common";
+import type {PlatformContext, ResponseFilterMethods} from "@tsed/common";
+import {Controller, Get, PlatformTest, QueryParams, ResponseFilter} from "@tsed/common";
 import {isString} from "@tsed/core";
 import {OnDeserialize} from "@tsed/json-mapper";
 import {PlatformTestSdk} from "@tsed/platform-test-sdk";

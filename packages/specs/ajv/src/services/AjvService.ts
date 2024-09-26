@@ -1,12 +1,14 @@
 import "./Ajv.js";
 
-import {deepClone, getValue, nameOf, prototypeOf, setValue, Type} from "@tsed/core";
+import type {Type} from "@tsed/core";
+import {deepClone, getValue, nameOf, prototypeOf, setValue} from "@tsed/core";
 import {Constant, Inject, Injectable} from "@tsed/di";
-import {getJsonSchema, JsonEntityStore, JsonSchema, JsonSchemaObject} from "@tsed/schema";
+import type {JsonSchemaObject} from "@tsed/schema";
+import {getJsonSchema, JsonEntityStore, JsonSchema} from "@tsed/schema";
 import {Ajv, type ErrorObject} from "ajv";
 
 import {AjvValidationError} from "../errors/AjvValidationError.js";
-import {AjvErrorObject, ErrorFormatter} from "../interfaces/IAjvSettings.js";
+import type {AjvErrorObject, ErrorFormatter} from "../interfaces/IAjvSettings.js";
 import {defaultErrorFormatter} from "../utils/defaultErrorFormatter.js";
 import {getPath} from "../utils/getPath.js";
 

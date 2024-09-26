@@ -1,6 +1,6 @@
 import {PlatformResponse} from "@tsed/common";
-import {ServerResponse} from "http";
-import Koa from "koa";
+import type {ServerResponse} from "http";
+import type Koa from "koa";
 
 declare global {
   namespace TsED {

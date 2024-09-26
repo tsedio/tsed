@@ -1,5 +1,6 @@
 import path from "path";
-import {ModuleDeclarationKind, Project, StructureKind} from "ts-morph";
+import type {Project} from "ts-morph";
+import {ModuleDeclarationKind, StructureKind} from "ts-morph";
 
 import {resolveExtension} from "./resolveExtension.js";
 

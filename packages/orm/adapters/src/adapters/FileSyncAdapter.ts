@@ -5,8 +5,9 @@ import low from "lowdb";
 import FileSync from "lowdb/adapters/FileSync.js";
 import {dirname} from "path";
 
-import {AdapterConstructorOptions} from "../domain/Adapter.js";
-import {AdapterModel, LowDbAdapter} from "./LowDbAdapter.js";
+import type {AdapterConstructorOptions} from "../domain/Adapter.js";
+import type {AdapterModel} from "./LowDbAdapter.js";
+import {LowDbAdapter} from "./LowDbAdapter.js";
 
 export interface FileSyncAdapterConstructorOptions extends AdapterConstructorOptions {
   readOnly: true;

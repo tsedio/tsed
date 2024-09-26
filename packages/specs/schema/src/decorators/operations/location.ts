@@ -1,4 +1,4 @@
-import {JsonHeader} from "../../interfaces/JsonOpenSpec.js";
+import type {JsonHeader} from "../../interfaces/JsonOpenSpec.js";
 import {Returns} from "./returns.js";
 
 /**

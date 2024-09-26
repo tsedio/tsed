@@ -1,4 +1,5 @@
-import {type AbstractType, classOf, getClassOrSymbol, isClass, methodsOf, nameOf, Store, Type} from "@tsed/core";
+import type {Type} from "@tsed/core";
+import {type AbstractType, classOf, getClassOrSymbol, isClass, methodsOf, nameOf, Store} from "@tsed/core";
 
 import type {ProviderOpts} from "../interfaces/ProviderOpts.js";
 import type {TokenProvider} from "../interfaces/TokenProvider.js";

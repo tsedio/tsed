@@ -1,4 +1,4 @@
-import {ConstructorOptions} from "eventemitter2";
+import type {ConstructorOptions} from "eventemitter2";
 
 declare global {
   namespace TsED {

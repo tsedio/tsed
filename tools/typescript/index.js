@@ -90,13 +90,14 @@ async function main() {
               ((dep.path.includes("/platform") && !dep.path.includes("serverless")) ||
                 dep.path.includes("/components-scan") ||
                 dep.path.includes("/spec") ||
+                dep.path.includes("/normalize-path") ||
                 dep.path.includes("/di")) &&
               !deps.has(dep.name) &&
               pkg.name !== dep.name
             );
           })
           .forEach((dep) => {
-            paths["@tsed/" + dep.name] = [relative(dirname(pkg.path), dirname(dep.path)) + "/src"];
+            paths["@tsed/" + dep.name] = [relative(dirname(pkg.path), dirname(dep.path)) + "/src/index.ts"];
           });
         const tsCopy = cloneDeep(tsConfigTemplateSpec);
         tsCopy.compilerOptions.paths = paths;

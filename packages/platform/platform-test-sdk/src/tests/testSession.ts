@@ -5,7 +5,7 @@ import SuperTest from "supertest";
 import {promisify} from "util";
 import {afterAll, beforeAll, describe, expect, it} from "vitest";
 
-import {PlatformTestingSdkOpts} from "../interfaces/index.js";
+import type {PlatformTestingSdkOpts} from "../interfaces/index.js";
 
 export class UserCreation {
   @Property()

@@ -1,6 +1,6 @@
 import {isNumber, isString, useDecorators} from "@tsed/core";
 
-import {JsonHeader} from "../../interfaces/JsonOpenSpec.js";
+import type {JsonHeader} from "../../interfaces/JsonOpenSpec.js";
 import {JsonEntityFn} from "../common/jsonEntityFn.js";
 import {Returns} from "./returns.js";
 

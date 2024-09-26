@@ -1,9 +1,11 @@
 import {setValue} from "@tsed/core";
-import {Configuration, registerProvider, TokenProvider} from "@tsed/di";
+import type {TokenProvider} from "@tsed/di";
+import {Configuration, registerProvider} from "@tsed/di";
 import {Logger} from "@tsed/logger";
-import {Cluster, Redis, RedisOptions} from "ioredis";
+import type {Cluster, RedisOptions} from "ioredis";
+import {Redis} from "ioredis";
 
-import {IORedisConfiguration} from "../domain/IORedisConfiguration.js";
+import type {IORedisConfiguration} from "../domain/IORedisConfiguration.js";
 import {ioRedisStore} from "../domain/IORedisStore.js";
 
 export interface CreateConnectionProviderProps {

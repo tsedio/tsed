@@ -1,4 +1,4 @@
-import {ResponseErrorObject} from "@tsed/common";
+import type {ResponseErrorObject} from "@tsed/common";
 import {BadRequest} from "@tsed/exceptions";
 
 export class CustomBadRequest extends BadRequest implements ResponseErrorObject {

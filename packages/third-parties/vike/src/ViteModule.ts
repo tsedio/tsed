@@ -1,6 +1,6 @@
 import {PlatformApplication} from "@tsed/common";
 import {Inject, Module} from "@tsed/di";
-import {PlatformRenderOptions, PlatformViews} from "@tsed/platform-views";
+import {type PlatformRenderOptions, PlatformViews} from "@tsed/platform-views";
 import compress from "compression";
 
 import {ViteRendererMiddleware} from "./middlewares/ViteRendererMiddleware.js";
@@ -11,13 +11,13 @@ import {ViteService} from "./services/ViteService.js";
   imports: []
 })
 export class ViteModule {
-  @Inject()
+  @Inject(PlatformApplication)
   protected app: PlatformApplication;
 
-  @Inject()
+  @Inject(PlatformViews)
   protected platformView: PlatformViews;
 
-  @Inject()
+  @Inject(ViteService)
   protected viteService: ViteService;
 
   @Inject(VITE_SERVER)

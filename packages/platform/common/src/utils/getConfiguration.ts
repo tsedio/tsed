@@ -1,4 +1,5 @@
-import {Env, Store, Type} from "@tsed/core";
+import type {Type} from "@tsed/core";
+import {Env, Store} from "@tsed/core";
 import {mergeMount, ProviderScope, ProviderType} from "@tsed/di";
 
 export function getConfiguration(configuration: any = {}, module: Type<any> | null = null) {

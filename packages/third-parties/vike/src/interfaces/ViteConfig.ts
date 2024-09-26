@@ -1,4 +1,4 @@
-import {Options} from "sirv";
+import type {Options} from "sirv";
 // @ts-ignore
 import type {InlineConfig} from "vite";
 

@@ -1,4 +1,4 @@
-import {PlatformContext} from "@tsed/common";
+import type {PlatformContext} from "@tsed/common";
 import {isBoolean, isDate, isNumber, isString} from "@tsed/core";
 import {PlatformResponseFilter} from "@tsed/platform-response-filter";
 import type {EventEmitter} from "events";

@@ -1,4 +1,5 @@
-import {ancestorsOf, nameOf, Type} from "@tsed/core";
+import type {Type} from "@tsed/core";
+import {ancestorsOf, nameOf} from "@tsed/core";
 
 import {Post} from "../../test/helpers/Post.js";
 import {CollectionOf, Email, Format, getJsonSchema, JsonEntityStore, MinLength, Name, Property, Required} from "../index.js";

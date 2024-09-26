@@ -4,7 +4,8 @@ import {Enum, getJsonSchema, Required} from "@tsed/schema";
 import {TestContainersMongo} from "@tsed/testcontainers-mongo";
 
 import {Model} from "../src/decorators/model.js";
-import {DynamicRef, MongooseModel, ObjectID} from "../src/index.js";
+import type {MongooseModel} from "../src/index.js";
+import {DynamicRef, ObjectID} from "../src/index.js";
 
 describe("DynamicRef Integration", () => {
   @Model()

@@ -1,4 +1,5 @@
-import {Context, PlatformContext, PlatformTest} from "@tsed/common";
+import type {PlatformContext} from "@tsed/common";
+import {Context, PlatformTest} from "@tsed/common";
 import {Controller} from "@tsed/di";
 import {Get, getSpec, JsonEntityStore, Name, Returns} from "@tsed/schema";
 

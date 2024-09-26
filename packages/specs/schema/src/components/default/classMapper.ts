@@ -1,8 +1,8 @@
 import {getValue, setValue} from "@tsed/core";
 
 import {JsonEntityStore} from "../../domain/JsonEntityStore.js";
-import {JsonSchema} from "../../domain/JsonSchema.js";
-import {JsonSchemaOptions} from "../../interfaces/JsonSchemaOptions.js";
+import type {JsonSchema} from "../../domain/JsonSchema.js";
+import type {JsonSchemaOptions} from "../../interfaces/JsonSchemaOptions.js";
 import {execMapper, registerJsonSchemaMapper} from "../../registries/JsonSchemaMapperContainer.js";
 import {mapGenericsOptions, popGenerics} from "../../utils/generics.js";
 import {createRef, createRefName} from "../../utils/ref.js";

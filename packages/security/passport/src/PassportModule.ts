@@ -1,4 +1,14 @@
-import {BeforeRoutesInit, Constant, Inject, Logger, Module, OnInit, PlatformApplication, Provider, ProviderScope} from "@tsed/common";
+import {
+  type BeforeRoutesInit,
+  Constant,
+  Inject,
+  Logger,
+  Module,
+  type OnInit,
+  PlatformApplication,
+  type Provider,
+  ProviderScope
+} from "@tsed/common";
 import Passport from "passport";
 
 import {PassportSerializerService} from "./services/PassportSerializerService.js";
@@ -23,14 +33,17 @@ export class PassportModule implements OnInit, BeforeRoutesInit {
   @Constant("PLATFORM_NAME")
   platformName: string;
 
-  @Inject()
+  @Inject(Logger)
   logger: Logger;
 
-  constructor(
-    private app: PlatformApplication,
-    private protocolsService: ProtocolsService,
-    private passportSerializer: PassportSerializerService
-  ) {}
+  @Inject(PlatformApplication)
+  private app: PlatformApplication;
+
+  @Inject(ProtocolsService)
+  private protocolsService: ProtocolsService;
+
+  @Inject(PassportSerializerService)
+  private passportSerializer: PassportSerializerService;
 
   async $onInit(): Promise<any> {
     Passport.serializeUser(this.passportSerializer.serialize.bind(this.passportSerializer));

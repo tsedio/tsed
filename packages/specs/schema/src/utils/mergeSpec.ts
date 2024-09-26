@@ -1,5 +1,5 @@
 import {deepMerge, mergeReducerBuilder} from "@tsed/core";
-import {OpenSpec2, OpenSpec3} from "@tsed/openspec";
+import type {OpenSpec2, OpenSpec3} from "@tsed/openspec";
 
 /**
  * @ignore

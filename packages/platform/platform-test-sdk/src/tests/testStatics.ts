@@ -1,16 +1,16 @@
 import {Controller, PlatformTest} from "@tsed/common";
 import {getValue} from "@tsed/core";
-import {Configuration} from "@tsed/di";
+import {Configuration, Inject} from "@tsed/di";
 import {PlatformRouter} from "@tsed/platform-router";
 import {readFileSync} from "fs";
 import SuperTest from "supertest";
 import {afterEach, beforeEach, expect, it} from "vitest";
 
-import {PlatformTestingSdkOpts} from "../interfaces/index.js";
+import type {PlatformTestingSdkOpts} from "../interfaces/index.js";
 
 @Controller("/statics")
 class CustomStaticsCtrl {
-  constructor(router: PlatformRouter, @Configuration() config: Configuration) {
+  constructor(@Inject(PlatformRouter) router: PlatformRouter, @Configuration() config: Configuration) {
     router.statics("/", {
       root: String(getValue(config, "statics./"))
     });

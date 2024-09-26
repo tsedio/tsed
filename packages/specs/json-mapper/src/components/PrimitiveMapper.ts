@@ -1,7 +1,7 @@
 import {nameOf} from "@tsed/core";
 
 import {JsonMapper} from "../decorators/jsonMapper.js";
-import {JsonMapperCtx, JsonMapperMethods} from "../interfaces/JsonMapperMethods.js";
+import type {JsonMapperCtx, JsonMapperMethods} from "../interfaces/JsonMapperMethods.js";
 
 function isNullish(data: any) {
   return [null, "null"].includes(data);

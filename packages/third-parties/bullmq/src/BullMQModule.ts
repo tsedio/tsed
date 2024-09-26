@@ -1,13 +1,13 @@
-import {BeforeInit, DIContext, OnDestroy, runInContext} from "@tsed/common";
-import {InjectorService, Module} from "@tsed/di";
+import type {BeforeInit} from "@tsed/common";
+import {DIContext, Inject, InjectorService, Module, type OnDestroy, runInContext} from "@tsed/di";
 import {getComputedType} from "@tsed/schema";
-import {Job, Queue, Worker} from "bullmq";
+import type {Job, Queue, Worker} from "bullmq";
 import {v4} from "uuid";
 
-import {BullMQConfig} from "./config/config.js";
+import type {BullMQConfig} from "./config/config.js";
 import {BullMQTypes} from "./constants/BullMQTypes.js";
 import {BULLMQ} from "./constants/constants.js";
-import {JobMethods, JobStore} from "./contracts/index.js";
+import type {JobMethods, JobStore} from "./contracts/index.js";
 import {JobDispatcher} from "./dispatchers/index.js";
 import {createQueueProvider} from "./utils/createQueueProvider.js";
 import {createWorkerProvider} from "./utils/createWorkerProvider.js";
@@ -17,10 +17,13 @@ import {mapWorkerOptions} from "./utils/mapWorkerOptions.js";
 
 @Module()
 export class BullMQModule implements BeforeInit, OnDestroy {
-  constructor(
-    private readonly injector: InjectorService,
-    private readonly dispatcher: JobDispatcher
-  ) {
+  @Inject(InjectorService)
+  private readonly injector: InjectorService;
+
+  @Inject(JobDispatcher)
+  private readonly dispatcher: JobDispatcher;
+
+  constructor() {
     // build providers allow @Inject(queue) usage in JobController instance
     if (this.isEnabled()) {
       const queues = [...this.getUniqQueueNames()];

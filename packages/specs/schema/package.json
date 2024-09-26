@@ -13,11 +13,11 @@
       "types": "./lib/types/index.d.ts",
       "browser": "./lib/browser/schema.umd.min.js",
       "import": "./lib/esm/index.js",
-      "default": "./lib/cjs/index.js"
+      "default": "./lib/esm/index.js"
     }
   },
   "scripts": {
-    "clean": "rm -rf lib",
+    "clean": "rm -rf lib tsconfig.spec.buildinfo",
     "build": "yarn clean && yarn barrels && yarn build:ts && yarn run build:browser",
     "build:browser": "webpack",
     "barrels": "barrels",

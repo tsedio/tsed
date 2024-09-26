@@ -1,5 +1,5 @@
 import {DITest} from "@tsed/di";
-import {Redis} from "ioredis";
+import type {Redis} from "ioredis";
 
 import {registerConnectionProvider} from "./registerConnectionProvider.js";
 

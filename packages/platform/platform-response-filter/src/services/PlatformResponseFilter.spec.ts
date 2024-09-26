@@ -1,9 +1,10 @@
-import {Context, EndpointMetadata, Get, PlatformContext, PlatformTest, View} from "@tsed/common";
+import type {Context, PlatformContext} from "@tsed/common";
+import {EndpointMetadata, Get, PlatformTest, View} from "@tsed/common";
 import {catchAsyncError} from "@tsed/core";
 import {Returns} from "@tsed/schema";
 
 import {ResponseFilter} from "../decorators/responseFilter.js";
-import {ResponseFilterMethods} from "../interfaces/ResponseFilterMethods.js";
+import type {ResponseFilterMethods} from "../interfaces/ResponseFilterMethods.js";
 import {PlatformResponseFilter} from "./PlatformResponseFilter.js";
 
 @ResponseFilter("custom/json")

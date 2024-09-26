@@ -3,7 +3,7 @@ import {catchError, decoratorTypeOf, DecoratorTypes, isPromise, Metadata, Store,
 import {DI_INJECTABLE_PROPS, DI_INVOKE_OPTIONS, DI_USE_OPTIONS} from "../constants/constants.js";
 import {InvalidPropertyTokenError} from "../errors/InvalidPropertyTokenError.js";
 import type {InvokeOptions} from "../interfaces/InvokeOptions.js";
-import {TokenProvider} from "../interfaces/TokenProvider.js";
+import type {TokenProvider} from "../interfaces/TokenProvider.js";
 import {InjectorService} from "../services/InjectorService.js";
 import {getConstructorDependencies, setConstructorDependencies} from "../utils/getConstructorDependencies.js";
 

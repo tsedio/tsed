@@ -1,11 +1,12 @@
 import {isClass, isString, nameOf} from "@tsed/core";
-import {BaseContext, Constant, DIContext, Inject, Interceptor, InterceptorContext, InterceptorMethods, InterceptorNext} from "@tsed/di";
+import type {BaseContext, InterceptorContext, InterceptorMethods, InterceptorNext} from "@tsed/di";
+import {Constant, DIContext, Inject, Interceptor} from "@tsed/di";
 import {deserialize, serialize} from "@tsed/json-mapper";
 import {Logger} from "@tsed/logger";
 import {IncomingMessage, ServerResponse} from "http";
 
-import {PlatformCachedObject} from "../interfaces/PlatformCachedObject.js";
-import {PlatformCacheOptions} from "../interfaces/PlatformCacheOptions.js";
+import type {PlatformCachedObject} from "../interfaces/PlatformCachedObject.js";
+import type {PlatformCacheOptions} from "../interfaces/PlatformCacheOptions.js";
 import {PlatformCache} from "../services/PlatformCache.js";
 import {getPrefix} from "../utils/getPrefix.js";
 import {isEndpoint} from "../utils/isEndpoint.js";
@@ -25,10 +26,10 @@ const cleanHeaders = (headers: Record<string, unknown>, blacklist: string[]) => 
  */
 @Interceptor()
 export class PlatformCacheInterceptor implements InterceptorMethods {
-  @Inject()
+  @Inject(PlatformCache)
   protected cache: PlatformCache;
 
-  @Inject()
+  @Inject(Logger)
   protected logger: Logger;
 
   @Constant("cache.prefix", "")

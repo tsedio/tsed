@@ -1,7 +1,7 @@
 import {Context, Middleware} from "@tsed/common";
 import {Inject} from "@tsed/di";
 
-import {ViteService} from "../services/ViteService.js";
+import type {ViteService} from "../services/ViteService.js";
 
 @Middleware()
 export class ViteRendererMiddleware {

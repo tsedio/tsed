@@ -1,16 +1,16 @@
 import {Inject} from "@tsed/di";
 import async from "async";
 
-import {FormioMapper} from "../builder/FormioMapper.js";
+import type {FormioMapper} from "../builder/FormioMapper.js";
 import {Alter} from "../decorators/alter.js";
-import {AlterHook} from "../domain/AlterHook.js";
-import {FormioSubmission} from "../domain/FormioModels.js";
-import {FormioTemplate} from "../domain/FormioTemplate.js";
+import type {AlterHook} from "../domain/AlterHook.js";
+import type {FormioSubmission} from "../domain/FormioModels.js";
+import type {FormioTemplate} from "../domain/FormioTemplate.js";
 import {FormioDatabase} from "../services/FormioDatabase.js";
 
 @Alter("templateImportSteps")
 export class AlterTemplateImportSteps implements AlterHook {
-  @Inject()
+  @Inject(FormioDatabase)
   protected database: FormioDatabase;
 
   transform(queue: any[], install: Function, template: Partial<FormioTemplate>): any {

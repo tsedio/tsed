@@ -5,7 +5,7 @@ import {Default, GenericOf, Generics, Maximum, Minimum, Property} from "@tsed/sc
 import SuperTest from "supertest";
 import {afterAll, beforeAll, describe, expect, it} from "vitest";
 
-import {PlatformTestingSdkOpts} from "../interfaces/index.js";
+import type {PlatformTestingSdkOpts} from "../interfaces/index.js";
 
 class FindQuery {
   @Property()

@@ -1,6 +1,6 @@
 import {AsyncLocalStorage, AsyncResource} from "async_hooks";
 
-import {InjectorService} from "../../common/index.js";
+import type {InjectorService} from "../../common/index.js";
 import type {DIContext} from "../domain/DIContext.js";
 
 const storage: AsyncLocalStorage<{current: DIContext | undefined}> = new AsyncLocalStorage();

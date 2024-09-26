@@ -1,9 +1,11 @@
 import {BodyParams, Inject, Req} from "@tsed/common";
 import {Unauthorized} from "@tsed/exceptions";
-import {IStrategyOptions, Strategy} from "passport-local";
+import type {IStrategyOptions} from "passport-local";
+import {Strategy} from "passport-local";
 
-import {OnInstall, OnVerify, Protocol} from "../../..";
-import {Credentials} from "../models/Credentials.js";
+import type {OnInstall, OnVerify} from "../../../src/index.js";
+import {Protocol} from "../../../src/index.js";
+import type {Credentials} from "../models/Credentials.js";
 import {UsersRepository} from "../services/UsersRepository.js";
 
 @Protocol<IStrategyOptions>({
@@ -15,7 +17,7 @@ import {UsersRepository} from "../services/UsersRepository.js";
   }
 })
 export class LoginLocalProtocol implements OnVerify, OnInstall {
-  @Inject()
+  @Inject(UsersRepository)
   private usersService: UsersRepository;
 
   async $onVerify(@Req() request: Req, @BodyParams() credentials: Credentials) {

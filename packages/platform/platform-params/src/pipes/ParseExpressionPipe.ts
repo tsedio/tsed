@@ -1,8 +1,8 @@
 import {getValue} from "@tsed/core";
 import {Injectable} from "@tsed/di";
-import {JsonParameterStore, PipeMethods} from "@tsed/schema";
+import type {JsonParameterStore, PipeMethods} from "@tsed/schema";
 
-import {PlatformParamsScope} from "../builder/PlatformParams.js";
+import type {PlatformParamsScope} from "../builder/PlatformParams.js";
 import {ParamTypes} from "../domain/ParamTypes.js";
 
 @Injectable({

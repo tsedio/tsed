@@ -10,8 +10,9 @@ import "./services/UsersRepository.js";
 import * as fs from "node:fs";
 import {join} from "node:path";
 
-import {ApolloContext} from "@tsed/apollo";
-import {Configuration, Constant, Inject, PlatformApplication, PlatformContext} from "@tsed/common";
+import type {ApolloContext} from "@tsed/apollo";
+import {PlatformApplication, type PlatformContext} from "@tsed/common";
+import {Configuration, Constant, Inject} from "@tsed/common";
 import {buildContext} from "graphql-passport";
 import {resolve} from "path";
 
@@ -52,7 +53,7 @@ const rootCert = join(rootDir, "../..");
   }
 })
 export class Server {
-  @Inject()
+  @Inject(PlatformApplication)
   app: PlatformApplication;
 
   @Constant("PLATFORM_NAME")

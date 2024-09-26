@@ -1,4 +1,4 @@
-import {Type} from "@tsed/core";
+import type {Type} from "@tsed/core";
 import {registerProvider} from "@tsed/di";
 
 import {registerExceptionType} from "../domain/ExceptionFiltersContainer.js";

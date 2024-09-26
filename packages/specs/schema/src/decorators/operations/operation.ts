@@ -1,6 +1,6 @@
 import {OperationVerbs} from "../../constants/OperationVerbs.js";
 import {DecoratorContext} from "../../domain/DecoratorContext.js";
-import {JsonMethodStore} from "../../domain/JsonMethodStore.js";
+import type {JsonMethodStore} from "../../domain/JsonMethodStore.js";
 import {mapOperationOptions} from "../../utils/mapOperationOptions.js";
 
 export interface RouteChainedDecorators {

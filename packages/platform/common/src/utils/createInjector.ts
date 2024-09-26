@@ -1,5 +1,7 @@
-import {toMap, Type} from "@tsed/core";
-import {InjectorService, ProviderOpts, setLoggerConfiguration} from "@tsed/di";
+import type {Type} from "@tsed/core";
+import {toMap} from "@tsed/core";
+import type {ProviderOpts} from "@tsed/di";
+import {InjectorService, setLoggerConfiguration} from "@tsed/di";
 import {$log} from "@tsed/logger";
 
 import {PlatformConfiguration} from "../config/services/PlatformConfiguration.js";

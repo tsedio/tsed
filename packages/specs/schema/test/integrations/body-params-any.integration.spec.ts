@@ -1,4 +1,5 @@
-import {MultipartFile, PlatformMulterFile} from "@tsed/common";
+import type {PlatformMulterFile} from "@tsed/common";
+import {MultipartFile} from "@tsed/common";
 import {Controller} from "@tsed/di";
 // @ts-ignore
 import {BodyParams} from "@tsed/platform-params";

@@ -5,7 +5,7 @@ import {Service} from "../decorators/service.js";
 import {Container} from "../domain/Container.js";
 import {LocalsContainer} from "../domain/LocalsContainer.js";
 import {ProviderScope} from "../domain/ProviderScope.js";
-import {OnDestroy} from "../interfaces/OnDestroy.js";
+import type {OnDestroy} from "../interfaces/OnDestroy.js";
 import {GlobalProviders} from "../registries/GlobalProviders.js";
 import {InjectorService} from "../services/InjectorService.js";
 

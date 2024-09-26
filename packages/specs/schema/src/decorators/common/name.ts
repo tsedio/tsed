@@ -1,6 +1,7 @@
-import {DecoratorParameters, decoratorTypeOf, DecoratorTypes} from "@tsed/core";
+import type {DecoratorParameters} from "@tsed/core";
+import {decoratorTypeOf, DecoratorTypes} from "@tsed/core";
 
-import {JsonEntityStore} from "../../domain/JsonEntityStore.js";
+import type {JsonEntityStore} from "../../domain/JsonEntityStore.js";
 import {JsonEntityFn} from "../common/jsonEntityFn.js";
 
 /**

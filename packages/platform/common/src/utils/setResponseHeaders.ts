@@ -1,4 +1,4 @@
-import {PlatformContext} from "../domain/PlatformContext.js";
+import type {PlatformContext} from "../domain/PlatformContext.js";
 
 /**
  * @ignore

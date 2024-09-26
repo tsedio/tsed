@@ -1,4 +1,4 @@
-import {Project} from "ts-morph";
+import type {Project} from "ts-morph";
 
 export async function saveProject(project: Project) {
   for (const file of project.getSourceFiles()) {

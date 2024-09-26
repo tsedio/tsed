@@ -1,19 +1,20 @@
-import {InjectContext, PlatformContext} from "@tsed/common";
+import type {PlatformContext} from "@tsed/common";
+import {InjectContext} from "@tsed/common";
 import {Inject} from "@tsed/di";
 import {Arg, Mutation, Query, Root, Subscription} from "type-graphql";
 
-import {ResolverController} from "../../../..";
-import {RecipeService} from "../../services/RecipeService";
+import {ResolverController} from "../../../../src/index.js";
+import {RecipeService} from "../../services/RecipeService.js";
 import {PubSubProvider} from "../pubsub/pubsub.js";
-import {Recipe, RecipeNotification} from "./Recipe";
-import {RecipeNotFoundError} from "./RecipeNotFoundError";
+import {Recipe, RecipeNotification} from "./Recipe.js";
+import {RecipeNotFoundError} from "./RecipeNotFoundError.js";
 
 @ResolverController((_of) => Recipe)
 export class RecipeResolver {
   @InjectContext()
   private $ctx: PlatformContext;
 
-  @Inject()
+  @Inject(RecipeService)
   private recipeService: RecipeService;
 
   @Inject(PubSubProvider)

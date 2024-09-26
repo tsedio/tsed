@@ -1,6 +1,8 @@
-import {classOf, isArrowFn, isString, StoreMerge, Type, useDecorators} from "@tsed/core";
+import type {Type} from "@tsed/core";
+import {classOf, isArrowFn, isString, StoreMerge, useDecorators} from "@tsed/core";
 import {deserialize, OnDeserialize, OnSerialize, serialize} from "@tsed/json-mapper";
-import {Description, Example, JsonHookContext, OneOf, Property, string} from "@tsed/schema";
+import type {JsonHookContext} from "@tsed/schema";
+import {Description, Example, OneOf, Property, string} from "@tsed/schema";
 import {Schema as MongooseSchema} from "mongoose";
 
 import {MONGOOSE_SCHEMA} from "../constants/constants.js";

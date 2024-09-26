@@ -1,7 +1,8 @@
 import "./interfaces/interfaces.js";
 
-import {AlterApolloSettings, ApolloSettingsWithID} from "@tsed/apollo";
-import {isClass, Type} from "@tsed/core";
+import type {AlterApolloSettings, ApolloSettingsWithID} from "@tsed/apollo";
+import type {Type} from "@tsed/core";
+import {isClass} from "@tsed/core";
 import {Configuration, Inject, InjectorService, Module} from "@tsed/di";
 import {buildSchema} from "type-graphql";
 
@@ -13,7 +14,7 @@ import {ContextMiddleware} from "./middlewares/ContextMiddleware.js";
  */
 @Module()
 export class TypeGraphQLModule implements AlterApolloSettings {
-  @Inject()
+  @Inject(InjectorService)
   protected injector: InjectorService;
 
   @Configuration()

@@ -1,7 +1,7 @@
 import {Inject, Injectable} from "@tsed/di";
 import {Logger} from "@tsed/logger";
+import type {ConnectOptions} from "mongoose";
 import Mongoose from "mongoose";
-import {ConnectOptions} from "mongoose";
 
 // istanbul ignore next
 function asPromise(c: any) {
@@ -13,7 +13,7 @@ export class MongooseService {
   readonly connections: Map<string, Mongoose.Connection> = new Map();
   private defaultConnection: string = "default";
 
-  @Inject()
+  @Inject(Logger)
   logger: Logger;
 
   /**

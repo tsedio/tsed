@@ -4,7 +4,8 @@ import {getJsonSchema} from "@tsed/schema";
 import {Schema, Types} from "mongoose";
 
 import {MONGOOSE_SCHEMA} from "../constants/constants.js";
-import {Decimal128, DecimalFormat, NumberDecimal} from "./numberDecimal.js";
+import type {Decimal128} from "./numberDecimal.js";
+import {DecimalFormat, NumberDecimal} from "./numberDecimal.js";
 
 describe("@NumberDecimal()", () => {
   it("should declare a Decimal128 field", () => {

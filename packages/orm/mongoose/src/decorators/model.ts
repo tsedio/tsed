@@ -1,9 +1,9 @@
 import {nameOf, useDecorators} from "@tsed/core";
 import {registerProvider} from "@tsed/di";
 import {DiscriminatorValue} from "@tsed/schema";
-import {Schema} from "mongoose";
+import type {Schema} from "mongoose";
 
-import {MongooseModelOptions} from "../interfaces/MongooseModelOptions.js";
+import type {MongooseModelOptions} from "../interfaces/MongooseModelOptions.js";
 import {MONGOOSE_CONNECTIONS} from "../services/MongooseConnections.js";
 import {createModel, getModelToken} from "../utils/createModel.js";
 import {getSchema} from "../utils/createSchema.js";

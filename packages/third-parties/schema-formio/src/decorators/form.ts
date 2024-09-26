@@ -1,5 +1,5 @@
 import {nameOf, StoreSet, useDecorators} from "@tsed/core";
-import {FormioForm} from "@tsed/formio-types";
+import type {FormioForm} from "@tsed/formio-types";
 import {Name} from "@tsed/schema";
 import {paramCase} from "change-case";
 

@@ -7,7 +7,7 @@ import {anything, instance, mock, verify, when} from "ts-mockito";
 
 import {BullMQModule} from "./BullMQModule.js";
 import {type BullMQConfig} from "./config/config.js";
-import {JobMethods} from "./contracts/index.js";
+import type {JobMethods} from "./contracts/index.js";
 import {FallbackJobController, JobController} from "./decorators/index.js";
 import {InjectQueue} from "./decorators/InjectQueue.js";
 import {InjectWorker} from "./decorators/InjectWorker.js";

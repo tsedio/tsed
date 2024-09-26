@@ -1,6 +1,6 @@
-import {NextFunction as ENext, Request as EReq, Response as ERes} from "express";
+import type {NextFunction as ENext, Request as EReq, Response as ERes} from "express";
 
-import {PlatformExpressSettings} from "./PlatformExpressSettings.js";
+import type {PlatformExpressSettings} from "./PlatformExpressSettings.js";
 
 declare global {
   namespace TsED {

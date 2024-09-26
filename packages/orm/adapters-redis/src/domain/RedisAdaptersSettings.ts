@@ -1,5 +1,5 @@
-import {AdaptersSettings} from "@tsed/adapters";
-import {RedisOptions} from "ioredis";
+import type {AdaptersSettings} from "@tsed/adapters";
+import type {RedisOptions} from "ioredis";
 
 declare global {
   namespace TsED {

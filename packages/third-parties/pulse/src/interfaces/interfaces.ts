@@ -1,4 +1,4 @@
-import {PulseConfig} from "@pulsecron/pulse";
+import type {PulseConfig} from "@pulsecron/pulse";
 
 declare global {
   namespace TsED {

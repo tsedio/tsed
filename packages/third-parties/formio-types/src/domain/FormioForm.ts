@@ -1,5 +1,5 @@
-import {FormioComponent} from "./FormioComponent.js";
-import {FormioPermission} from "./FormioPermission.js";
+import type {FormioComponent} from "./FormioComponent.js";
+import type {FormioPermission} from "./FormioPermission.js";
 
 export interface FormioForm extends Record<string, any> {
   _id: string | undefined;

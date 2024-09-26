@@ -1,4 +1,4 @@
-import {SpecTypes} from "../domain/SpecTypes.js";
+import type {SpecTypes} from "../domain/SpecTypes.js";
 
 export interface JsonSchemaOptions {
   /**

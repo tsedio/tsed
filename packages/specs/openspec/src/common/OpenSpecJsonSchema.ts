@@ -1,6 +1,6 @@
-import {OpenSpecHash} from "./OpenSpecHash.js";
-import {OpenSpecRef} from "./OpenSpecRef.js";
-import {OpenSpecTypes} from "./OpenSpecTypes.js";
+import type {OpenSpecHash} from "./OpenSpecHash.js";
+import type {OpenSpecRef} from "./OpenSpecRef.js";
+import type {OpenSpecTypes} from "./OpenSpecTypes.js";
 
 export interface OpenSpecBaseJsonSchema {
   $ref?: string;

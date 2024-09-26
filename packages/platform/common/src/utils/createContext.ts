@@ -1,8 +1,8 @@
-import {InjectorService} from "@tsed/di";
+import type {InjectorService} from "@tsed/di";
 import {v4} from "uuid";
 
 import {PlatformContext} from "../domain/PlatformContext.js";
-import {IncomingEvent} from "../interfaces/IncomingEvent.js";
+import type {IncomingEvent} from "../interfaces/IncomingEvent.js";
 import {PlatformRequest} from "../services/PlatformRequest.js";
 import {PlatformResponse} from "../services/PlatformResponse.js";
 

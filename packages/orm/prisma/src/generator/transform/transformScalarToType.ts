@@ -1,5 +1,5 @@
 import {DmmfEnum} from "../domain/DmmfEnum.js";
-import {DmmfField} from "../domain/DmmfField.js";
+import type {DmmfField} from "../domain/DmmfField.js";
 import {DmmfModel} from "../domain/DmmfModel.js";
 import {ScalarTsTypes} from "../domain/ScalarTsTypes.js";
 import type {TransformContext} from "../domain/TransformContext.js";

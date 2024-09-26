@@ -1,9 +1,9 @@
-import {OpenSpecPath} from "../common/OpenSpecPath.js";
-import {OpenSpecRef} from "../common/OpenSpecRef.js";
-import {OS3Operation} from "./OS3Operation.js";
-import {OS3Parameter} from "./OS3Parameter.js";
-import {OS3Schema} from "./OS3Schema.js";
-import {OS3Server} from "./OS3Server.js";
+import type {OpenSpecPath} from "../common/OpenSpecPath.js";
+import type {OpenSpecRef} from "../common/OpenSpecRef.js";
+import type {OS3Operation} from "./OS3Operation.js";
+import type {OS3Parameter} from "./OS3Parameter.js";
+import type {OS3Schema} from "./OS3Schema.js";
+import type {OS3Server} from "./OS3Server.js";
 
 export interface OS3Paths<Schema = OS3Schema> extends OpenSpecPath<OS3Operation<Schema>> {
   /**

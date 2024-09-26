@@ -12,9 +12,11 @@ import "../components/panelToComponent.js";
 import "../components/propertiesToComponents.js";
 import "../components/stringToComponent.js";
 
-import {isString, Type} from "@tsed/core";
-import {FormioForm} from "@tsed/formio-types";
-import {getJsonSchema, JsonEntityStore, JsonSchemaOptions} from "@tsed/schema";
+import type {Type} from "@tsed/core";
+import {isString} from "@tsed/core";
+import type {FormioForm} from "@tsed/formio-types";
+import type {JsonSchemaOptions} from "@tsed/schema";
+import {getJsonSchema, JsonEntityStore} from "@tsed/schema";
 import {paramCase} from "change-case";
 
 import {execMapper} from "../registries/FormioMappersContainer.js";

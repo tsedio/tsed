@@ -1,4 +1,4 @@
-import {OS3Flows} from "./OS3Flows.js";
+import type {OS3Flows} from "./OS3Flows.js";
 
 export interface OS3SecurityBase {
   /**

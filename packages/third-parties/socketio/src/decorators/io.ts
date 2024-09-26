@@ -1,4 +1,4 @@
-import {Type} from "@tsed/core";
+import type {Type} from "@tsed/core";
 import {Inject} from "@tsed/di";
 
 import {Server} from "../services/SocketIOServer.js";

@@ -1,4 +1,4 @@
-import {FormioAccess} from "./FormioAccess.js";
+import type {FormioAccess} from "./FormioAccess.js";
 
 export interface FormioSubmission<Data = any> extends Record<string, any> {
   _id: string | undefined;

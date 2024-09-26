@@ -1,8 +1,8 @@
-import {AfterListen, Logger, OnRoutesInit} from "@tsed/common";
+import type {AfterListen, Logger, OnRoutesInit} from "@tsed/common";
 import {Configuration, Inject, InjectorService, Module} from "@tsed/di";
 
-import {ApolloSettings} from "./interfaces/ApolloSettings.js";
-import {ApolloService} from "./services/ApolloService.js";
+import type {ApolloSettings} from "./interfaces/ApolloSettings.js";
+import type {ApolloService} from "./services/ApolloService.js";
 
 @Module()
 export class ApolloModule implements OnRoutesInit, AfterListen {

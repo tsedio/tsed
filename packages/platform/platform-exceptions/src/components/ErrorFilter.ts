@@ -1,5 +1,5 @@
 import {Env} from "@tsed/core";
-import {BaseContext} from "@tsed/di";
+import type {BaseContext} from "@tsed/di";
 
 import {Catch} from "../decorators/catch.js";
 import type {ExceptionFilterMethods} from "../interfaces/ExceptionFilterMethods.js";

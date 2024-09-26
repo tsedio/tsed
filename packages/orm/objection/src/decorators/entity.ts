@@ -1,4 +1,4 @@
-import {Type} from "@tsed/core";
+import type {Type} from "@tsed/core";
 import {getJsonSchema} from "@tsed/schema";
 
 import {defineStaticGetter} from "../utils/defineStaticGetter.js";

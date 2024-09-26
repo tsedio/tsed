@@ -1,9 +1,10 @@
-import {DMMF} from "@prisma/generator-helper";
+import type {DMMF} from "@prisma/generator-helper";
 import {toMap} from "@tsed/core";
 import {camelCase, pascalCase} from "change-case";
 import path from "path";
 import pluralize from "pluralize";
-import {ClassDeclaration, Project, Scope} from "ts-morph";
+import type {ClassDeclaration, Project} from "ts-morph";
+import {Scope} from "ts-morph";
 
 import {DmmfModel} from "../domain/DmmfModel.js";
 import {generateOutputsBarrelFile} from "./generateOutputsBarrelFile.js";

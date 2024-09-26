@@ -1,4 +1,5 @@
-import {DecoratorTypes, Type} from "@tsed/core";
+import type {Type} from "@tsed/core";
+import {DecoratorTypes} from "@tsed/core";
 
 import {JsonClassStore} from "../domain/JsonClassStore.js";
 import {JsonEntitiesContainer, JsonEntityStore} from "../domain/JsonEntityStore.js";

@@ -1,4 +1,4 @@
-import {JsonEntityStore} from "../../domain/JsonEntityStore.js";
+import type {JsonEntityStore} from "../../domain/JsonEntityStore.js";
 import {JsonEntityFn} from "./jsonEntityFn.js";
 /**
  * Set the property as WriteOnly.

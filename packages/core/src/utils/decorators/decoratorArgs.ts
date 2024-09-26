@@ -1,4 +1,4 @@
-import {DecoratorParameters} from "../../interfaces/DecoratorParameters.js";
+import type {DecoratorParameters} from "../../interfaces/DecoratorParameters.js";
 import {descriptorOf} from "../objects/descriptorOf.js";
 
 export function decoratorArgs(target: any, propertyKey: string): DecoratorParameters {

@@ -1,7 +1,8 @@
 import "../..";
 import "@tsed/platform-express";
 
-import {Configuration, Inject, PlatformApplication} from "@tsed/common";
+import type {PlatformApplication} from "@tsed/common";
+import {Configuration, Inject} from "@tsed/common";
 import bodyParser from "body-parser";
 import compress from "compression";
 import cookieParser from "cookie-parser";

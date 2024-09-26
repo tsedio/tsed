@@ -2,7 +2,7 @@ import {dirname} from "node:path";
 
 import fs from "fs-extra";
 // @ts-ignore
-import {JWK, JWKS, KeyParameters} from "jose2";
+import {JWK, JWKS, type KeyParameters} from "jose2";
 
 export interface JwksKeyParameters extends KeyParameters {
   path: string;

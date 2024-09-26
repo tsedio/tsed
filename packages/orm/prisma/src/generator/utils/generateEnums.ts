@@ -1,7 +1,7 @@
-import {DMMF} from "@prisma/generator-helper";
+import type {DMMF} from "@prisma/generator-helper";
 import {toMap} from "@tsed/core";
 import path from "path";
-import {Project} from "ts-morph";
+import type {Project} from "ts-morph";
 
 import {DmmfEnum} from "../domain/DmmfEnum.js";
 import {transformEnumsToEnums} from "../transform/transformEnumsToEnums.js";

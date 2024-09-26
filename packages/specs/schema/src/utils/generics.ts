@@ -1,6 +1,6 @@
-import {Type} from "@tsed/core";
+import type {Type} from "@tsed/core";
 
-import {JsonSchema} from "../domain/JsonSchema.js";
+import type {JsonSchema} from "../domain/JsonSchema.js";
 
 export type GenericValue = Type<any> | JsonSchema | any;
 

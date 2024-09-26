@@ -1,5 +1,5 @@
-import {Inject, InjectorService, PlatformApplication} from "@tsed/common";
-import {Constant, Module} from "@tsed/di";
+import {PlatformApplication} from "@tsed/common";
+import {Constant, Inject, InjectorService, Module} from "@tsed/di";
 import koaMount from "koa-mount";
 
 import {OidcAdapters} from "./services/OidcAdapters.js";
@@ -10,19 +10,19 @@ import {OidcProvider} from "./services/OidcProvider.js";
   imports: [OidcProvider, OidcAdapters, OidcJwks]
 })
 export class OidcModule {
-  @Inject()
-  protected app: PlatformApplication;
-
   @Constant("PLATFORM_NAME")
   protected platformName: string;
 
   @Constant("oidc.path", "/oidc")
   protected basePath: string;
 
-  @Inject()
+  @Inject(PlatformApplication)
+  protected app: PlatformApplication;
+
+  @Inject(OidcProvider)
   protected oidcProvider: OidcProvider;
 
-  @Inject()
+  @Inject(InjectorService)
   protected injector: InjectorService;
 
   async $onInit() {

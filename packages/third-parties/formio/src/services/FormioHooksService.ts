@@ -1,13 +1,13 @@
-import {Inject, Injectable, InjectorService} from "@tsed/common";
-import {Request} from "express";
+import {Inject, Injectable, InjectorService} from "@tsed/di";
+import type {Request} from "express";
 import {promisify} from "util";
 
-import {FormioHooks} from "../domain/FormioHooks.js";
+import type {FormioHooks} from "../domain/FormioHooks.js";
 import {FormioService} from "./FormioService.js";
 
 @Injectable()
 export class FormioHooksService {
-  @Inject()
+  @Inject(InjectorService)
   protected injector: InjectorService;
 
   @Inject(FormioService)

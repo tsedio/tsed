@@ -1,8 +1,8 @@
+import type {DecoratorTypes, Type} from "@tsed/core";
 import {
   ancestorsOf,
   classOf,
   decoratorTypeOf,
-  DecoratorTypes,
   descriptorOf,
   isArrayOrArrayClass,
   isArrowFn,
@@ -15,8 +15,7 @@ import {
   isPrimitiveOrPrimitiveClass,
   nameOf,
   prototypeOf,
-  Store,
-  Type
+  Store
 } from "@tsed/core";
 
 import type {JsonClassStore} from "./JsonClassStore.js";

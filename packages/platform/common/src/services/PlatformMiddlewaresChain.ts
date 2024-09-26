@@ -1,8 +1,9 @@
 import {isClass} from "@tsed/core";
-import {Constant, Inject, Injectable, InjectorService, TokenProvider} from "@tsed/di";
+import {Constant, Inject, Injectable, InjectorService} from "@tsed/di";
 import {ParamTypes} from "@tsed/platform-params";
-import {AlterEndpointHandlersArg} from "@tsed/platform-router";
-import {JsonEntityStore, JsonOperationRoute} from "@tsed/schema";
+import type {AlterEndpointHandlersArg} from "@tsed/platform-router";
+import type {JsonOperationRoute} from "@tsed/schema";
+import {JsonEntityStore} from "@tsed/schema";
 
 import {PlatformAcceptMimesMiddleware} from "../middlewares/PlatformAcceptMimesMiddleware.js";
 import {PlatformMulterMiddleware} from "../middlewares/PlatformMulterMiddleware.js";

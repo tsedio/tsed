@@ -1,3 +1,4 @@
+import type {Type} from "@tsed/core";
 import {
   ancestorsOf,
   classOf,
@@ -13,10 +14,9 @@ import {
   isObjectID,
   isString,
   nameOf,
-  objectKeys,
-  Type
+  objectKeys
 } from "@tsed/core";
-import {JsonSchema} from "@tsed/schema";
+import type {JsonSchema} from "@tsed/schema";
 
 export type JsonMapperCallback<Options> = (input: any, options?: Options) => any;
 export type CachedJsonMapper<Options> = {

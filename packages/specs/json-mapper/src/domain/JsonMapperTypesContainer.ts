@@ -1,6 +1,6 @@
-import {Type} from "@tsed/core";
+import type {Type} from "@tsed/core";
 
-import {JsonMapperMethods} from "../interfaces/JsonMapperMethods.js";
+import type {JsonMapperMethods} from "../interfaces/JsonMapperMethods.js";
 /**
  * @ignore
  */

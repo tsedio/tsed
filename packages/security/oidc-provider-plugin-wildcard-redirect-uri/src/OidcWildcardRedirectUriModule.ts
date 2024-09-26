@@ -1,6 +1,7 @@
 import {Constant, Inject, Module} from "@tsed/di";
 import {Logger} from "@tsed/logger";
-import {OIDC_PROVIDER_NODE_MODULE, OidcSettings} from "@tsed/oidc-provider";
+import type {OidcSettings} from "@tsed/oidc-provider";
+import {OIDC_PROVIDER_NODE_MODULE} from "@tsed/oidc-provider";
 // @ts-ignore
 import type {default as Provider, KoaContextWithOIDC} from "oidc-provider";
 // @ts-ignore

@@ -1,4 +1,4 @@
-import SocketIO from "socket.io";
+import type SocketIO from "socket.io";
 
 declare global {
   namespace TsED {

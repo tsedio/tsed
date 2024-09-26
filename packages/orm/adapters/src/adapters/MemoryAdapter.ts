@@ -2,7 +2,8 @@ import {Configuration, Injectable, Opts, ProviderScope, Scope} from "@tsed/di";
 import low from "lowdb";
 import Memory from "lowdb/adapters/Memory.js";
 
-import {AdapterModel, LowDbAdapter} from "./LowDbAdapter.js";
+import type {AdapterModel} from "./LowDbAdapter.js";
+import {LowDbAdapter} from "./LowDbAdapter.js";
 
 @Injectable()
 @Scope(ProviderScope.INSTANCE)

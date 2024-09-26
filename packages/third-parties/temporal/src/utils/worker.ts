@@ -1,5 +1,7 @@
-import {NativeConnection, NativeConnectionOptions, Worker, WorkerOptions} from "@temporalio/worker";
-import {PlatformBuilderSettings, PlatformTest} from "@tsed/common";
+import type {NativeConnectionOptions, WorkerOptions} from "@temporalio/worker";
+import {NativeConnection, Worker} from "@temporalio/worker";
+import type {PlatformBuilderSettings} from "@tsed/common";
+import {PlatformTest} from "@tsed/common";
 import {$log} from "@tsed/logger";
 
 import {TemporalModule} from "../TemporalModule.js";

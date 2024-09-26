@@ -1,7 +1,7 @@
 import path from "path";
-import {Project} from "ts-morph";
+import type {Project} from "ts-morph";
 
-import {GenerateCodeOptions} from "../generateCode.js";
+import type {GenerateCodeOptions} from "../generateCode.js";
 import {resolveExtension} from "./resolveExtension.js";
 
 export function generateClientIndex(project: Project, baseDirPath: string, options: GenerateCodeOptions) {

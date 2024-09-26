@@ -6,7 +6,7 @@ import SuperTest from "supertest";
 import {afterAll, beforeAll, describe, expect, it} from "vitest";
 
 import baseSpec from "../data/swagger.json";
-import {PlatformTestingSdkOpts} from "../interfaces/index.js";
+import type {PlatformTestingSdkOpts} from "../interfaces/index.js";
 
 @Injectable()
 export class TokenService {

@@ -18,7 +18,7 @@
       "types": "./lib/types/index.d.ts",
       "browser": "./lib/browser/event-emitter.umd.min.js",
       "import": "./lib/esm/index.js",
-      "default": "./lib/cjs/index.js"
+      "default": "./lib/esm/index.js"
     }
   },
   "scripts": {

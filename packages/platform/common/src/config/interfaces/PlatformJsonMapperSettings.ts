@@ -1,4 +1,4 @@
-import {JsonMapperGlobalOptions} from "@tsed/json-mapper";
+import type {JsonMapperGlobalOptions} from "@tsed/json-mapper";
 
 export interface PlatformJsonMapperSettings extends JsonMapperGlobalOptions {}
 

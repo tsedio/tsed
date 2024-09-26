@@ -1,10 +1,12 @@
 import {View} from "@tsed/common";
-import {Env} from "@tsed/core";
+import type {Env} from "@tsed/core";
 import {Constant} from "@tsed/di";
 import {Name} from "@tsed/schema";
-import {interactionPolicy, KoaContextWithOIDC} from "oidc-provider";
+import type {KoaContextWithOIDC} from "oidc-provider";
+import {interactionPolicy} from "oidc-provider";
 
-import {Interaction, InteractionMethods, OidcCtx, OidcSession, Params, Prompt, Uid} from "../../../src/index.js";
+import type {InteractionMethods} from "../../../src/index.js";
+import {Interaction, OidcCtx, OidcSession, Params, Prompt, Uid} from "../../../src/index.js";
 import Check = interactionPolicy.Check;
 
 @Interaction({

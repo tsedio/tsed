@@ -1,8 +1,8 @@
-import {Type} from "@tsed/core";
+import type {Type} from "@tsed/core";
 
-import {OperationVerbs} from "../constants/OperationVerbs.js";
-import {JsonEntityStore} from "../domain/JsonEntityStore.js";
-import {JsonMethodStore} from "../domain/JsonMethodStore.js";
+import type {OperationVerbs} from "../constants/OperationVerbs.js";
+import type {JsonEntityStore} from "../domain/JsonEntityStore.js";
+import type {JsonMethodStore} from "../domain/JsonMethodStore.js";
 import {JsonOperationRoute} from "../domain/JsonOperationRoute.js";
 import {concatPath} from "./concatPath.js";
 import {getJsonEntityStore} from "./getJsonEntityStore.js";

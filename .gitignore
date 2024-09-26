@@ -65,6 +65,7 @@ tools/**/dist
 .db
 **/keys/jwks.json
 /packages/prisma/test/prisma/generated
+tsconfig.*.tsbuildinfo
 
 # Website
 /docs/api

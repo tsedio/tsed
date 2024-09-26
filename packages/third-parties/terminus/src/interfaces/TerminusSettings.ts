@@ -1,4 +1,4 @@
-import {TerminusOptions} from "@godaddy/terminus";
+import type {TerminusOptions} from "@godaddy/terminus";
 
 export type TerminusSettings = Omit<
   TerminusOptions,

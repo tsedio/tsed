@@ -1,5 +1,5 @@
-import {ControllerMiddlewares} from "../decorators/controller.js";
-import {TokenProvider} from "../interfaces/TokenProvider.js";
+import type {ControllerMiddlewares} from "../decorators/controller.js";
+import type {TokenProvider} from "../interfaces/TokenProvider.js";
 import {Provider} from "./Provider.js";
 import {ProviderType} from "./ProviderType.js";
 

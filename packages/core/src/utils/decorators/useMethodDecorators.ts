@@ -1,4 +1,4 @@
-import {AnyDecorator} from "../../interfaces/AnyDecorator.js";
+import type {AnyDecorator} from "../../interfaces/AnyDecorator.js";
 import {descriptorOf} from "../objects/descriptorOf.js";
 
 export function useMethodDecorator(decorator: AnyDecorator) {

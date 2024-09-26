@@ -1,6 +1,6 @@
-import {OpenSpecExternalDocs} from "../common/OpenSpecExternalDocs.js";
-import {OpenSpecRef} from "../common/OpenSpecRef.js";
-import {OS3Schema} from "./OS3Schema.js";
+import type {OpenSpecExternalDocs} from "../common/OpenSpecExternalDocs.js";
+import type {OpenSpecRef} from "../common/OpenSpecRef.js";
+import type {OS3Schema} from "./OS3Schema.js";
 
 export interface OS3Header<Schema = OS3Schema> {
   /**

@@ -5,6 +5,5 @@ export * from "./constants/constants.js";
 export * from "./decorators/resolver.js";
 export * from "./exports.js";
 export * from "./interfaces/interfaces.js";
-export * from "./interfaces/TypeGraphQLSettings.js";
 export * from "./middlewares/ContextMiddleware.js";
 export * from "./TypeGraphQLModule.js";

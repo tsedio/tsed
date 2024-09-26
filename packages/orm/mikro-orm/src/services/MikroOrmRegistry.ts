@@ -1,4 +1,4 @@
-import {IDatabaseDriver as DatabaseDriver, MikroORM, Options} from "@mikro-orm/core";
+import type {IDatabaseDriver as DatabaseDriver, MikroORM, Options} from "@mikro-orm/core";
 import {catchAsyncError, getValue} from "@tsed/core";
 import {Inject, Injectable} from "@tsed/di";
 import {Logger} from "@tsed/logger";
@@ -11,8 +11,8 @@ export class MikroOrmRegistry {
   private readonly instances = new Map<string, MikroORM>();
 
   constructor(
-    @Inject() private readonly logger: Logger,
-    @Inject() private readonly mikroOrmFactory: MikroOrmFactory
+    @Inject(Logger) private readonly logger: Logger,
+    @Inject(MikroOrmFactory) private readonly mikroOrmFactory: MikroOrmFactory
   ) {}
 
   public async register<T extends DatabaseDriver>(options: Options<T>): Promise<MikroORM> {

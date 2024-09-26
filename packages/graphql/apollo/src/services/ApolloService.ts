@@ -1,17 +1,19 @@
-import {ApolloServer, ApolloServerOptions, ApolloServerPlugin} from "@apollo/server";
+import type {ApolloServerOptions, ApolloServerPlugin} from "@apollo/server";
+import {ApolloServer} from "@apollo/server";
 import {ApolloServerPluginLandingPageDisabled} from "@apollo/server/plugin/disabled";
 import {ApolloServerPluginDrainHttpServer} from "@apollo/server/plugin/drainHttpServer";
 import {ApolloServerPluginLandingPageLocalDefault} from "@apollo/server/plugin/landingPage/default";
 import type {IExecutableSchemaDefinition} from "@graphql-tools/schema";
-import {InjectorService, LocalsContainer, PlatformApplication, PlatformContext, Provider, useContext} from "@tsed/common";
+import {InjectorService, PlatformApplication, type PlatformContext, type Provider} from "@tsed/common";
+import {LocalsContainer, useContext} from "@tsed/common";
 import {Constant, Inject, Service} from "@tsed/di";
-import {Logger} from "@tsed/logger";
+import type {Logger} from "@tsed/logger";
 import type {GraphQLSchema} from "graphql";
 import Http from "http";
 import Https from "https";
 
 import {APOLLO_CONTEXT, DATASOURCES_PROVIDERS} from "../constants/constants.js";
-import {ApolloContext} from "../interfaces/ApolloContext.js";
+import type {ApolloContext} from "../interfaces/ApolloContext.js";
 import type {ApolloCustomServerCB, ApolloSettings} from "../interfaces/ApolloSettings.js";
 
 @Service()
@@ -37,7 +39,7 @@ export class ApolloService {
     }
   > = new Map();
 
-  @Inject()
+  @Inject(PlatformApplication)
   private app: PlatformApplication<any>;
 
   @Inject(Http.Server)
@@ -46,7 +48,7 @@ export class ApolloService {
   @Inject(Https.Server)
   private httpsServer: Https.Server | null;
 
-  @Inject()
+  @Inject(InjectorService)
   private injector: InjectorService;
 
   async createServer(id: string, settings: ApolloSettings) {

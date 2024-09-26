@@ -2,7 +2,7 @@ import "@tsed/ajv";
 
 import {PlatformApplication} from "@tsed/common";
 import {Configuration, Inject} from "@tsed/di";
-import Application from "koa";
+import type Application from "koa";
 import session from "koa-session";
 
 const rootDir = import.meta.dirname;
@@ -22,7 +22,7 @@ export {rootDir};
   middlewares: ["koa-compress", "koa-override", "koa-bodyparser"]
 })
 export class Server {
-  @Inject()
+  @Inject(PlatformApplication)
   app: PlatformApplication<Application>;
 
   $beforeRoutesInit() {

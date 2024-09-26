@@ -1,6 +1,7 @@
 import {Inject, Req} from "@tsed/common";
 import {Unauthorized} from "@tsed/exceptions";
-import {Arg, OnVerify, Protocol} from "@tsed/passport";
+import type {OnVerify} from "@tsed/passport";
+import {Arg, Protocol} from "@tsed/passport";
 import {GraphQLLocalStrategy} from "graphql-passport";
 
 import {UsersRepository} from "../services/UsersRepository";
@@ -11,7 +12,7 @@ import {UsersRepository} from "../services/UsersRepository";
   settings: {}
 })
 export class GraphQLProtocol implements OnVerify {
-  @Inject()
+  @Inject(UsersRepository)
   protected repository: UsersRepository;
 
   async $onVerify(@Req() request: Req, @Arg(0) email: string, @Arg(1) password: string) {

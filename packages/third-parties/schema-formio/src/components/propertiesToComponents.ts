@@ -1,5 +1,5 @@
 import {cleanObject, isFunction} from "@tsed/core";
-import {FormioComponent, FormioForm} from "@tsed/formio-types";
+import type {FormioComponent, FormioForm} from "@tsed/formio-types";
 import {sentenceCase} from "change-case";
 
 import {execMapper, registerFormioMapper} from "../registries/FormioMappersContainer.js";

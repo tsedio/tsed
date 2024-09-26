@@ -1,6 +1,6 @@
 import {PlatformTest} from "@tsed/common";
 import {serialize} from "@tsed/json-mapper";
-import {Knex} from "knex";
+import type {Knex} from "knex";
 import {afterAll, beforeAll, beforeEach, describe, expect, it} from "vitest";
 
 import {OBJECTION_CONNECTION} from "..";

@@ -1,4 +1,4 @@
-import {BaseContext} from "@tsed/di";
+import type {BaseContext} from "@tsed/di";
 
 import {TemplateRenderError} from "../errors/TemplateRenderError.js";
 

@@ -1,9 +1,11 @@
-import {isSerializable, Type} from "@tsed/core";
-import {BaseContext, Constant, Inject, Injectable, InjectorService} from "@tsed/di";
+import type {Type} from "@tsed/core";
+import {isSerializable} from "@tsed/core";
+import {type BaseContext, Constant, Inject, Injectable, InjectorService} from "@tsed/di";
 import {serialize} from "@tsed/json-mapper";
 
-import {ResponseFilterKey, ResponseFiltersContainer} from "../domain/ResponseFiltersContainer.js";
-import {ResponseFilterMethods} from "../interfaces/ResponseFilterMethods.js";
+import type {ResponseFilterKey} from "../domain/ResponseFiltersContainer.js";
+import {ResponseFiltersContainer} from "../domain/ResponseFiltersContainer.js";
+import type {ResponseFilterMethods} from "../interfaces/ResponseFilterMethods.js";
 import {ANY_CONTENT_TYPE, getContentType} from "../utils/getContentType.js";
 import {renderView} from "../utils/renderView.js";
 
@@ -14,7 +16,7 @@ import {renderView} from "../utils/renderView.js";
 export class PlatformResponseFilter {
   protected types: Map<ResponseFilterKey, ResponseFilterMethods> = new Map();
 
-  @Inject()
+  @Inject(InjectorService)
   protected injector: InjectorService;
 
   @Constant("responseFilters", [])

@@ -1,5 +1,5 @@
-import {PlatformAdapter} from "@tsed/common";
-import {Type} from "@tsed/core";
+import type {PlatformAdapter} from "@tsed/common";
+import type {Type} from "@tsed/core";
 
 export interface PlatformTestingSdkOpts {
   rootDir: string;

@@ -1,7 +1,7 @@
-import {Next, Req, Res} from "@tsed/common";
+import type {Next, Req, Res} from "@tsed/common";
 
-import {FormioDecodedToken, FormioPayloadToken} from "./FormioDecodedToken.js";
-import {FormioForm} from "./FormioModels.js";
+import type {FormioDecodedToken, FormioPayloadToken} from "./FormioDecodedToken.js";
+import type {FormioForm} from "./FormioModels.js";
 
 export interface FormioAuth {
   /**

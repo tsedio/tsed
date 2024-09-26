@@ -1,16 +1,21 @@
-import {Store, Type} from "@tsed/core";
-import {Injectable, InjectorService} from "@tsed/di";
-import {Job as BullMQJob, JobsOptions, Queue} from "bullmq";
+import type {Type} from "@tsed/core";
+import {Store} from "@tsed/core";
+import {Inject, Injectable, InjectorService} from "@tsed/di";
+import type {Job as BullMQJob, JobsOptions, Queue} from "bullmq";
 
 import {BULLMQ} from "../constants/constants.js";
-import {JobMethods, type JobStore} from "../contracts/index.js";
+import type {JobMethods} from "../contracts/index.js";
+import {type JobStore} from "../contracts/index.js";
 import {getJobToken} from "../utils/getJobToken.js";
 import {getQueueToken} from "../utils/getQueueToken.js";
 import type {JobDispatcherOptions} from "./JobDispatcherOptions.js";
 
 @Injectable()
 export class JobDispatcher {
-  constructor(private readonly injector: InjectorService) {}
+  constructor(
+    @Inject(InjectorService)
+    private readonly injector: InjectorService
+  ) {}
 
   public async dispatch<T extends JobMethods>(
     job: Type<T>,

@@ -1,4 +1,5 @@
-import {DecoratorParameters, Metadata, useDecorators, useMethodDecorators} from "@tsed/core";
+import type {DecoratorParameters} from "@tsed/core";
+import {Metadata, useDecorators, useMethodDecorators} from "@tsed/core";
 
 import {JsonParameterTypes} from "../../domain/JsonParameterTypes.js";
 import {Name} from "../common/name.js";

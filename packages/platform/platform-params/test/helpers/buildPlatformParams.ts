@@ -1,4 +1,5 @@
-import {ParamOptions, PlatformParams, PlatformTest} from "@tsed/common";
+import type {ParamOptions} from "@tsed/common";
+import {PlatformParams, PlatformTest} from "@tsed/common";
 import {DecoratorTypes} from "@tsed/core";
 import {JsonParameterStore} from "@tsed/schema";
 

@@ -1,8 +1,8 @@
-import {Type} from "@tsed/core";
+import type {Type} from "@tsed/core";
 
 import {concatPath} from "../utils/concatPath.js";
-import {JsonMethodStore} from "./JsonMethodStore.js";
-import {JsonMethodPath, JsonOperation} from "./JsonOperation.js";
+import type {JsonMethodStore} from "./JsonMethodStore.js";
+import type {JsonMethodPath, JsonOperation} from "./JsonOperation.js";
 
 export class JsonOperationRoute<Entity extends JsonMethodStore = JsonMethodStore> {
   readonly token: Type<any>;

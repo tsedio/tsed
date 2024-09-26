@@ -2,7 +2,7 @@ import {faker} from "@faker-js/faker";
 import {PlatformTest} from "@tsed/common";
 import {TestContainersMongo} from "@tsed/testcontainers-mongo";
 
-import {MongooseModel} from "../src/interfaces/MongooseModel.js";
+import type {MongooseModel} from "../src/interfaces/MongooseModel.js";
 import {TestUser} from "./helpers/models/User.js";
 
 describe("Mongoose", () => {

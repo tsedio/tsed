@@ -1,4 +1,4 @@
-import {Store} from "../domain/Store.js";
+import type {Store} from "../domain/Store.js";
 import {StoreFn} from "./storeFn.js";
 
 export function StoreSet(key: any, value: any): Function {

@@ -1,4 +1,4 @@
-import {AjvErrorObject} from "../interfaces/IAjvSettings.js";
+import type {AjvErrorObject} from "../interfaces/IAjvSettings.js";
 import {getInstancePath, getPath} from "./getPath.js";
 
 export function defaultErrorFormatter(error: AjvErrorObject & {dataPath: string}) {

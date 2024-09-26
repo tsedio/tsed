@@ -1,4 +1,4 @@
-import {getHostInfoFromPort} from "@tsed/core";
+import type {getHostInfoFromPort} from "@tsed/core";
 import type Http from "http";
 import type Http2 from "http2";
 import type Https from "https";

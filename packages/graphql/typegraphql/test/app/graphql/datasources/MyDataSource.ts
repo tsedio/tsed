@@ -1,8 +1,8 @@
 import {RESTDataSource} from "@apollo/datasource-rest";
-import {ApolloContext} from "@tsed/apollo";
+import type {ApolloContext} from "@tsed/apollo";
 import {InjectContext} from "@tsed/common";
 
-import {DataSource} from "../../../..";
+import {DataSource} from "../../../../src/index.js";
 
 @DataSource()
 export class MyDataSource extends RESTDataSource {

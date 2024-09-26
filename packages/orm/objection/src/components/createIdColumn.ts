@@ -2,7 +2,7 @@ import {randomUUID} from "crypto";
 import type {Knex} from "knex";
 
 import {ColumnTypesContainer} from "../services/ColumnTypesContainer.js";
-import {ColumnCtx} from "../utils/getColumnCtx.js";
+import type {ColumnCtx} from "../utils/getColumnCtx.js";
 
 /**
  * @ignore

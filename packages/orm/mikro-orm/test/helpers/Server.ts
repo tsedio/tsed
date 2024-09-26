@@ -21,7 +21,7 @@ const rootDir = import.meta.dirname;
   }
 })
 export class Server {
-  @Inject()
+  @Inject(PlatformApplication)
   app!: PlatformApplication;
 
   public $beforeRoutesInit(): void {

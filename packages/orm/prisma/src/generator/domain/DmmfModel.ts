@@ -1,7 +1,8 @@
-import {DMMF} from "@prisma/generator-helper";
+import type {DMMF} from "@prisma/generator-helper";
 import {toMap} from "@tsed/core";
 import {pascalCase} from "change-case";
-import {ImportDeclarationStructure, StructureKind} from "ts-morph";
+import type {ImportDeclarationStructure} from "ts-morph";
+import {StructureKind} from "ts-morph";
 
 import {resolveExtension} from "../utils/resolveExtension.js";
 import {DmmfField} from "./DmmfField.js";

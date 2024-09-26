@@ -1,4 +1,4 @@
-import {DIContext} from "@tsed/di";
+import type {DIContext} from "@tsed/di";
 
 import {PlatformHandlerType} from "../domain/PlatformHandlerType.js";
 

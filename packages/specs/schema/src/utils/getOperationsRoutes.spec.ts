@@ -4,7 +4,7 @@ import {Children} from "../decorators/class/children.js";
 import {In} from "../decorators/operations/in.js";
 import {Path} from "../decorators/operations/path.js";
 import {All, Get} from "../decorators/operations/route.js";
-import {JsonOperationRoute} from "../domain/JsonOperationRoute.js";
+import type {JsonOperationRoute} from "../domain/JsonOperationRoute.js";
 import {getOperationsRoutes} from "./getOperationsRoutes.js";
 
 function getData(operationRoute: JsonOperationRoute) {

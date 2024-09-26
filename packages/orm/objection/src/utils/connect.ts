@@ -1,4 +1,5 @@
-import knex, {Knex} from "knex";
+import type {Knex} from "knex";
+import knex from "knex";
 import {Model} from "objection";
 
 export function createConnection(connectionOptions: Knex.Config): Knex {

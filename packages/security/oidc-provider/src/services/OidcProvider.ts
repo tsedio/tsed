@@ -1,18 +1,18 @@
-import {InjectContext, PlatformApplication, PlatformContext} from "@tsed/common";
+import {PlatformApplication, type PlatformContext} from "@tsed/common";
 import {Env, setValue} from "@tsed/core";
-import {Constant, Inject, Injectable, InjectorService} from "@tsed/di";
-// @ts-ignore
-import type {Configuration, default as OIDCProvider, KoaContextWithOIDC} from "oidc-provider";
+import {Constant, Inject, Injectable, InjectContext, InjectorService} from "@tsed/di";
+import type {Configuration, KoaContextWithOIDC} from "oidc-provider";
 
 import {INTERACTIONS} from "../constants/constants.js";
-import {OidcAccountsMethods} from "../domain/OidcAccountsMethods.js";
-import {OidcSettings} from "../domain/OidcSettings.js";
+import type {OidcAccountsMethods} from "../domain/OidcAccountsMethods.js";
+import type {OidcSettings} from "../domain/OidcSettings.js";
 import {OIDC_ERROR_EVENTS} from "../utils/events.js";
 import {OidcAdapters} from "./OidcAdapters.js";
 import {OidcInteractions} from "./OidcInteractions.js";
 import {OidcJwks} from "./OidcJwks.js";
 import {OidcPolicy} from "./OidcPolicy.js";
-import {OIDC_PROVIDER_NODE_MODULE, Provider} from "./OidcProviderNodeModule.js";
+import type {Provider} from "./OidcProviderNodeModule.js";
+import {OIDC_PROVIDER_NODE_MODULE} from "./OidcProviderNodeModule.js";
 
 function mapError(error: any) {
   return Object.getOwnPropertyNames(error).reduce((obj: any, key) => {
@@ -45,22 +45,22 @@ export class OidcProvider {
   @Constant("PLATFORM_NAME")
   protected platformName: string;
 
-  @Inject()
+  @Inject(OidcJwks)
   protected oidcJwks: OidcJwks;
 
-  @Inject()
+  @Inject(OidcInteractions)
   protected oidcInteractions: OidcInteractions;
 
-  @Inject()
+  @Inject(OidcPolicy)
   protected oidcPolicy: OidcPolicy;
 
-  @Inject()
+  @Inject(OidcAdapters)
   protected adapters: OidcAdapters;
 
-  @Inject()
+  @Inject(InjectorService)
   protected injector: InjectorService;
 
-  @Inject()
+  @Inject(PlatformApplication)
   protected app: PlatformApplication;
 
   @InjectContext()

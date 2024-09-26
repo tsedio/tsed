@@ -1,13 +1,13 @@
-import {OpenSpecExternalDocs} from "../common/OpenSpecExternalDocs.js";
-import {OpenSpecHash} from "../common/OpenSpecHash.js";
-import {OpenSpecInfo} from "../common/OpenSpecInfo.js";
-import {OpenSpecSecurity} from "../common/OpenSpecSecurity.js";
-import {OpenSpecTag} from "../common/OpenSpecTag.js";
-import {OS2BodyParameter, OS2QueryParameter} from "./OS2Parameter.js";
-import {OS2Paths} from "./OS2Paths.js";
-import {OS2Response} from "./OS2Response.js";
-import {OS2Schema} from "./OS2Schema.js";
-import {OS2Security} from "./OS2Security.js";
+import type {OpenSpecExternalDocs} from "../common/OpenSpecExternalDocs.js";
+import type {OpenSpecHash} from "../common/OpenSpecHash.js";
+import type {OpenSpecInfo} from "../common/OpenSpecInfo.js";
+import type {OpenSpecSecurity} from "../common/OpenSpecSecurity.js";
+import type {OpenSpecTag} from "../common/OpenSpecTag.js";
+import type {OS2BodyParameter, OS2QueryParameter} from "./OS2Parameter.js";
+import type {OS2Paths} from "./OS2Paths.js";
+import type {OS2Response} from "./OS2Response.js";
+import type {OS2Schema} from "./OS2Schema.js";
+import type {OS2Security} from "./OS2Security.js";
 
 export interface OpenSpec2 {
   /**

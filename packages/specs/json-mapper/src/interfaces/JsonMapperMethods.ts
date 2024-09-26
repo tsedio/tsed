@@ -1,4 +1,4 @@
-import {Type} from "@tsed/core";
+import type {Type} from "@tsed/core";
 
 export interface JsonMapperCtx<T = any, C = any> {
   collectionType: Type<C> | undefined;

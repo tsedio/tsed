@@ -1,6 +1,6 @@
-import {OpenSpecHash, OpenSpecRef, OS3Example} from "@tsed/openspec";
+import type {OpenSpecHash, OpenSpecRef, OS3Example} from "@tsed/openspec";
 
-import {JsonParameterStore} from "../../domain/JsonParameterStore.js";
+import type {JsonParameterStore} from "../../domain/JsonParameterStore.js";
 import {JsonEntityFn} from "./jsonEntityFn.js";
 
 /**

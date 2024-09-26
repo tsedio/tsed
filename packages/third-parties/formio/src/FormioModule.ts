@@ -1,6 +1,6 @@
-import {Constant, Inject, InjectorService, OnReady, OnRoutesInit, PlatformApplication, PlatformRouteDetails} from "@tsed/common";
+import {type OnReady, type OnRoutesInit, PlatformApplication, type PlatformRouteDetails} from "@tsed/common";
 import {deepClone} from "@tsed/core";
-import {Module} from "@tsed/di";
+import {Constant, Inject, InjectorService, Module} from "@tsed/di";
 import {normalizePath} from "@tsed/normalize-path";
 
 import {AlterActions} from "./components/AlterActions.js";
@@ -10,8 +10,8 @@ import {AlterLog} from "./components/AlterLog.js";
 import {AlterSkip} from "./components/AlterSkip.js";
 import {AlterTemplateExportSteps} from "./components/AlterTemplateExportSteps.js";
 import {AlterTemplateImportSteps} from "./components/AlterTemplateImportSteps.js";
-import {FormioConfig} from "./domain/FormioConfig.js";
-import {FormioTemplate} from "./domain/FormioTemplate.js";
+import type {FormioConfig} from "./domain/FormioConfig.js";
+import type {FormioTemplate} from "./domain/FormioTemplate.js";
 import {FormioAuthService} from "./services/FormioAuthService.js";
 import {FormioHooksService} from "./services/FormioHooksService.js";
 import {FormioInstaller} from "./services/FormioInstaller.js";
@@ -32,19 +32,19 @@ import {FormioService} from "./services/FormioService.js";
   ]
 })
 export class FormioModule implements OnRoutesInit, OnReady {
-  @Inject()
+  @Inject(FormioService)
   protected formio: FormioService;
 
-  @Inject()
+  @Inject(FormioHooksService)
   protected hooks: FormioHooksService;
 
-  @Inject()
+  @Inject(FormioInstaller)
   protected installer: FormioInstaller;
 
-  @Inject()
+  @Inject(PlatformApplication)
   protected app: PlatformApplication;
 
-  @Inject()
+  @Inject(InjectorService)
   protected injector: InjectorService;
 
   @Constant("formio", {})

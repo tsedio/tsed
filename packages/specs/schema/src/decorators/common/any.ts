@@ -1,4 +1,4 @@
-import {Type} from "@tsed/core";
+import type {Type} from "@tsed/core";
 import type {JSONSchema6TypeName} from "json-schema";
 
 import {JsonEntityFn} from "./jsonEntityFn.js";

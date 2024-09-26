@@ -1,7 +1,7 @@
 import {StoreSet, useDecorators} from "@tsed/core";
 import {Injectable} from "@tsed/di";
-import {JsonSchema} from "@tsed/schema";
-import {AnySchemaObject, KeywordDefinition} from "ajv";
+import type {JsonSchema} from "@tsed/schema";
+import type {AnySchemaObject, KeywordDefinition} from "ajv";
 
 export type KeywordOptions = Partial<Omit<KeywordDefinition, "metaSchema">> & {
   metaSchema?: AnySchemaObject | JsonSchema;

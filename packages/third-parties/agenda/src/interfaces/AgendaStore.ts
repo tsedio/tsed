@@ -1,4 +1,4 @@
-import {DefineOptions as AgendaDefineOptions, JobOptions} from "agenda";
+import type {DefineOptions as AgendaDefineOptions, JobOptions} from "agenda";
 
 export interface DefineOptions extends AgendaDefineOptions {
   name?: string;

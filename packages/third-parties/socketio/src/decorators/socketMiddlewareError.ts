@@ -1,4 +1,5 @@
-import {Store, Type} from "@tsed/core";
+import type {Type} from "@tsed/core";
+import {Store} from "@tsed/core";
 import {Middleware} from "@tsed/platform-middlewares";
 
 import {SocketProviderTypes} from "../interfaces/SocketProviderTypes.js";
