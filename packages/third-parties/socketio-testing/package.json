@@ -2,7 +2,7 @@
   "name": "@tsed/socketio-testing",
   "description": "Socket.io testing package for Ts.ED framework",
   "type": "commonjs",
-  "version": "7.83.1",
+  "version": "7.83.2",
   "source": "./src/index.ts",
   "main": "./lib/cjs/index.js",
   "module": "./lib/esm/index.js",
@@ -33,9 +33,9 @@
     "typescript": "4.9.5"
   },
   "peerDependencies": {
-    "@tsed/common": "7.83.1",
-    "@tsed/core": "7.83.1",
-    "@tsed/di": "7.83.1",
+    "@tsed/common": "7.83.2",
+    "@tsed/core": "7.83.2",
+    "@tsed/di": "7.83.2",
     "socket.io-client": "^4.0.1"
   }
 }

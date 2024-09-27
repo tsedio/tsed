@@ -2,7 +2,7 @@
   "name": "@tsed/openspec",
   "description": "OpenSpec2 and OpenSpec3 interfaces declarations for TypeScript application",
   "type": "commonjs",
-  "version": "7.83.1",
+  "version": "7.83.2",
   "source": "./src/index.ts",
   "main": "./lib/cjs/index.js",
   "module": "./lib/esm/index.js",

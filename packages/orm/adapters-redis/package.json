@@ -2,7 +2,7 @@
   "name": "@tsed/adapters-redis",
   "description": "Redis adapter for Ts.ED",
   "type": "commonjs",
-  "version": "7.83.1",
+  "version": "7.83.2",
   "source": "./src/index.ts",
   "main": "./lib/cjs/index.js",
   "module": "./lib/esm/index.js",
@@ -36,10 +36,10 @@
     "vitest": "2.0.4"
   },
   "peerDependencies": {
-    "@tsed/adapters": "7.83.1",
-    "@tsed/common": "7.83.1",
-    "@tsed/core": "7.83.1",
-    "@tsed/di": "7.83.1",
+    "@tsed/adapters": "7.83.2",
+    "@tsed/common": "7.83.2",
+    "@tsed/core": "7.83.2",
+    "@tsed/di": "7.83.2",
     "ioredis": ">=5.2.3",
     "ioredis-mock": ">=8.2.2",
     "uuid": "^9.0.1"
