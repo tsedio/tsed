@@ -9,11 +9,10 @@ import {join} from "node:path";
 
 export default [
   {
-    ignores: ["coverage", "dist", "processes.config.js", "**/templates"]
+    ignores: ["**/coverage", "**/lib", "**/dist", "processes.config.js", "**/templates", "**/docs/**", "**/docs-references/**"]
   },
   {
     files: ["**/*.{js,mjs,cjs,jsx,mjsx,ts,tsx,mtsx}"],
-    ignores: ["**/lib/**", "**/dist/**", "**/coverage/**", "**/docs/**", "**/docs-references/**"],
     languageOptions: {
       ecmaVersion: "latest",
       sourceType: "module",
