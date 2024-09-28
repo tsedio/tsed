@@ -1,6 +1,6 @@
 import {CollectionOf} from "@tsed/schema";
 
-import {Model, ObjectID, Ref} from "../../..";
+import {Model, ObjectID, Ref} from "../../../src/index.js";
 import {TestClient} from "./Client.js";
 import {TestContract} from "./Contract.js";
 

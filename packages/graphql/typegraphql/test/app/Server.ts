@@ -1,7 +1,7 @@
 import "@tsed/ajv";
 import "@tsed/graphql-ws";
 import "@tsed/passport";
-import "../..";
+import "../../src/index.js";
 import "./graphql/index.js";
 import "./protocols/GraphQLProtocol.js";
 import "./services/RecipeService.js";

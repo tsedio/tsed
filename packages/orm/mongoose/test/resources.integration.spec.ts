@@ -1,4 +1,4 @@
-import faker from "@faker-js/faker";
+import {faker} from "@faker-js/faker";
 import {BodyParams, Controller, Get, Inject, Injectable, PathParams, PlatformTest, Post} from "@tsed/common";
 import {isArray} from "@tsed/core";
 import {deserialize} from "@tsed/json-mapper";
@@ -75,7 +75,7 @@ class ResourcesCtrl {
 
     await role.save();
 
-    user.name = faker.name.firstName();
+    user.name = faker.person.firstName();
 
     user.roles = [role._id];
 
@@ -93,12 +93,12 @@ async function getServiceFixture() {
 
   const baseUser = {
     email: faker.internet.email(),
-    password: faker.internet.password(12)
+    password: faker.internet.password({length: 12})
   };
 
   const baseUser2 = {
     email: faker.internet.email(),
-    password: faker.internet.password(12)
+    password: faker.internet.password({length: 12})
   };
 
   const currentUser2 = await repository.create(baseUser2);

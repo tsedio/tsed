@@ -40,6 +40,7 @@
     "@types/aws-lambda": "^8.10.136",
     "@types/encodeurl": "^1.0.2",
     "@types/mime": "^3.0.4",
+    "aws-lambda": "1.0.7",
     "eslint": "^8.57.0",
     "find-my-way": "^8.2.0",
     "typescript": "4.9.5",

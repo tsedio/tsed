@@ -1,7 +1,7 @@
 import {Controller} from "@tsed/di";
 import {Description, Groups, Returns, Summary} from "@tsed/schema";
 
-import {BodyParams, Delete, Get, PathParams, Post, Put, QueryParams} from "../../../..";
+import {BodyParams, Delete, Get, PathParams, Post, Put, QueryParams} from "../../../../src/index.js";
 
 @Controller("/timeslots")
 export class TimeslotsLambda {

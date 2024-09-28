@@ -2,7 +2,7 @@ import {InjectContext, PlatformContext} from "@tsed/common";
 import {Inject} from "@tsed/di";
 import {Arg, Mutation, Query, Root, Subscription} from "type-graphql";
 
-import {ResolverController} from "../../../..";
+import {ResolverController} from "../../../../src/index.js";
 import {RecipeService} from "../../services/RecipeService";
 import {PubSubProvider} from "../pubsub/pubsub.js";
 import {Recipe, RecipeNotification} from "./Recipe";

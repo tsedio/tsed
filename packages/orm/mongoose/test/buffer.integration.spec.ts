@@ -1,4 +1,4 @@
-import faker from "@faker-js/faker";
+import {faker} from "@faker-js/faker";
 import {PlatformTest} from "@tsed/common";
 import {TestContainersMongo} from "@tsed/testcontainers-mongo";
 import axios from "axios";
@@ -15,7 +15,7 @@ describe("Mongoose", () => {
       "Should save and load buffer",
       PlatformTest.inject([TestAvatar], async (avatarModel: MongooseModel<TestAvatar>) => {
         const imageBuffer = await axios
-          .get(faker.image.people(256, 256), {
+          .get(faker.image.avatarGitHub(), {
             responseType: "arraybuffer"
           })
           .then((response) => Buffer.from(response.data, "binary"));

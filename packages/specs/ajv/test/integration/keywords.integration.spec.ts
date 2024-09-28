@@ -1,4 +1,4 @@
-import "../..";
+import "../../src/index.js";
 
 import {PlatformTest} from "@tsed/common";
 import {array, CustomKey, getJsonSchema, number} from "@tsed/schema";
