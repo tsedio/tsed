@@ -2,7 +2,7 @@
   "name": "@tsed/formio",
   "description": "Formio package for Ts.ED framework",
   "type": "commonjs",
-  "version": "7.83.2",
+  "version": "7.83.3",
   "keywords": [
     "Formio",
     "Ts.ED",
@@ -53,7 +53,7 @@
     "vitest": "2.0.4"
   },
   "peerDependencies": {
-    "@tsed/common": "7.83.2",
+    "@tsed/common": "7.83.3",
     "express": "^4.17.1",
     "formio": ">=2.0.0",
     "lodash": "^4.17.21",

@@ -2,7 +2,7 @@
   "name": "@tsed/exceptions",
   "description": "HTTP exceptions module for Ts.ED Framework and other pure Express application",
   "type": "commonjs",
-  "version": "7.83.2",
+  "version": "7.83.3",
   "source": "./src/index.ts",
   "main": "./lib/cjs/index.js",
   "module": "./lib/esm/index.js",
@@ -36,6 +36,6 @@
     "vitest": "2.0.4"
   },
   "peerDependencies": {
-    "@tsed/core": "7.83.2"
+    "@tsed/core": "7.83.3"
   }
 }

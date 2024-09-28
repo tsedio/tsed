@@ -2,7 +2,7 @@
   "name": "@tsed/stripe",
   "description": "Stripe package for Ts.ED framework",
   "type": "commonjs",
-  "version": "7.83.2",
+  "version": "7.83.3",
   "keywords": [
     "Stripe",
     "Ts.ED",
@@ -49,10 +49,10 @@
     "vitest": "2.0.4"
   },
   "peerDependencies": {
-    "@tsed/exceptions": "7.83.2",
-    "@tsed/platform-middlewares": "7.83.2",
-    "@tsed/platform-params": "7.83.2",
-    "@tsed/schema": "7.83.2",
+    "@tsed/exceptions": "7.83.3",
+    "@tsed/platform-middlewares": "7.83.3",
+    "@tsed/platform-params": "7.83.3",
+    "@tsed/schema": "7.83.3",
     "@types/body-parser": "^1.19.0",
     "body-parser": "^1.19.0",
     "stripe": "^9.16.0"
