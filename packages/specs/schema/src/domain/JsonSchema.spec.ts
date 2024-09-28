@@ -1,6 +1,6 @@
 import "../index.js";
 
-import Ajv from "ajv";
+import {Ajv} from "ajv";
 
 import {JsonSchema} from "./JsonSchema.js";
 

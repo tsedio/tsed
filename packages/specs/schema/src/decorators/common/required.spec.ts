@@ -1,4 +1,4 @@
-import Ajv from "ajv";
+import {Ajv} from "ajv";
 
 import {validateModel} from "../../../test/helpers/validateModel.js";
 import {JsonEntityStore} from "../../domain/JsonEntityStore.js";

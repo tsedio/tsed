@@ -9,13 +9,3 @@ exports[`SwaggerService > getOpenAPISpec() > should compile spec only once time 
   "openapi": "3.0.1",
 }
 `;
-
-exports[`SwaggerService getOpenAPISpec() should compile spec only once time 1`] = `
-Object {
-  "info": Object {
-    "title": "Api documentation",
-    "version": "1.0.0",
-  },
-  "openapi": "3.0.1",
-}
-`;
