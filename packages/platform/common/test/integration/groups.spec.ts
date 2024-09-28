@@ -12,7 +12,7 @@ import SuperTest from "supertest";
 
 import {BodyParams, Configuration, Controller, Get, PlatformTest} from "../../src/index.ts";
 
-const rootDir = __dirname; // automatically replaced by import.meta.dirname on build
+const rootDir = import.meta.dirname; // automatically replaced by import.meta.dirname on build
 
 class MyModel {
   @Groups("!creation")

@@ -3,7 +3,7 @@ import {join} from "path";
 
 import {engines} from "../../src/index.js";
 
-const rootDir = join(__dirname, "..");
+const rootDir = join(import.meta.dirname, "..");
 
 const readFile = fs.readFile;
 const readFileSync = fs.readFileSync;
@@ -38,7 +38,7 @@ export function test(name: string) {
       });
       it("should support absolute path partial", async () => {
         const path = `${rootDir}/fixtures/${name}/partials.${name}`;
-        const locals = {user: user, partials: {partial: join(__dirname, "/../../test/fixtures/", name, "/user")}};
+        const locals = {user: user, partials: {partial: join(import.meta.dirname, "/../../test/fixtures/", name, "/user")}};
         const html = await engine.renderFile(path, locals);
         expect(html).toEqual("<p>Tobi</p>");
       });

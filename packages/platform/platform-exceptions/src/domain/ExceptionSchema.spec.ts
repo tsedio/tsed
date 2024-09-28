@@ -6,7 +6,7 @@ import {getJsonSchema, getSpec, OperationPath, Path, Returns, SpecTypes} from "@
 import {Ajv} from "ajv";
 import fs from "fs-extra";
 
-const rootDir = __dirname; // automatically replaced by import.meta.dirname on build
+const rootDir = import.meta.dirname; // automatically replaced by import.meta.dirname on build
 
 function getAjv() {
   return new Ajv({

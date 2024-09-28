@@ -4,7 +4,7 @@ import {createReadStream} from "fs";
 import {PlatformResponse} from "./PlatformResponse.js";
 import {PlatformTest} from "./PlatformTest.js";
 
-const rootDir = __dirname; // automatically replaced by import.meta.dirname on build
+const rootDir = import.meta.dirname; // automatically replaced by import.meta.dirname on build
 
 vi.mock("on-finished");
 

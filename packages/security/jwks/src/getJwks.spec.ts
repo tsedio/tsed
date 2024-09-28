@@ -3,7 +3,7 @@ import {join} from "path";
 
 import {generateJwks, getJwks} from "./getJwks.js";
 
-const rootDir = join(__dirname, "__mocks__");
+const rootDir = join(import.meta.dirname, "__mocks__");
 
 describe("GetJwks", () => {
   beforeEach(() => {

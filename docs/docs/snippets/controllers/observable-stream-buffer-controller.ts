@@ -4,7 +4,7 @@ import {Get} from "@tsed/schema";
 import {createReadStream, ReadStream} from "fs";
 import {Observable, of} from "rxjs";
 
-const rootDir = __dirname; // automatically replaced by import.meta.dirname on build
+const rootDir = import.meta.dirname;
 
 @Controller("/")
 export class KindOfResponseCtrl {

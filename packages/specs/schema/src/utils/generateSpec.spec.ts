@@ -18,7 +18,7 @@ import {Post} from "../decorators/operations/route.js";
 import {SpecTypes} from "../domain/SpecTypes.js";
 import {generateSpec} from "./generateSpec.js";
 
-const rootDir = __dirname; // automatically replaced by import.meta.dirname on build
+const rootDir = import.meta.dirname; // automatically replaced by import.meta.dirname on build
 
 describe("generateSpec()", () => {
   describe("OS 3.0.1", () => {

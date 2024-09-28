@@ -20,7 +20,7 @@ import {User} from "./graphql/auth/User.js";
 import {AuthResolver} from "./graphql/index.js";
 import {pubSub} from "./graphql/pubsub/pubsub.js";
 
-const rootDir = __dirname; // automatically replaced by import.meta.dirname on build
+const rootDir = import.meta.dirname; // automatically replaced by import.meta.dirname on build
 const rootCert = join(rootDir, "../..");
 @Configuration({
   rootDir,

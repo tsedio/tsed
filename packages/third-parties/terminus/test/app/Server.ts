@@ -9,7 +9,7 @@ import bodyParser from "body-parser";
 import cookieParser from "cookie-parser";
 import {Application} from "express";
 
-const rootDir = __dirname; // automatically replaced by import.meta.dirname on build
+const rootDir = import.meta.dirname; // automatically replaced by import.meta.dirname on build
 export {rootDir};
 
 @Configuration({
