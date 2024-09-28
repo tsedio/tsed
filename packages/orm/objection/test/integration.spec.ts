@@ -6,7 +6,7 @@ import {afterAll, beforeAll, beforeEach, describe, expect, it} from "vitest";
 import {OBJECTION_CONNECTION} from "..";
 import {User} from "./helpers/models/User.js";
 
-const rootDir = __dirname; // automatically replaced by import.meta.dirname on build
+const rootDir = import.meta.dirname; // automatically replaced by import.meta.dirname on build
 
 describe.skip("Objection integrations", () => {
   beforeAll(() => {

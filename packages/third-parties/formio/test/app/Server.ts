@@ -14,7 +14,7 @@ import methodOverride from "method-override";
 
 import template from "../template/project.json";
 
-const rootDir = __dirname; // automatically replaced by import.meta.dirname on build
+const rootDir = import.meta.dirname; // automatically replaced by import.meta.dirname on build
 export {rootDir};
 
 @Configuration({

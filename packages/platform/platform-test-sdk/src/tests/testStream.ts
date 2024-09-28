@@ -7,7 +7,7 @@ import {afterAll, beforeAll, describe, expect, it} from "vitest";
 
 import {PlatformTestingSdkOpts} from "../interfaces/index.js";
 
-const rootDir = __dirname; // automatically replaced by import.meta.dirname on build
+const rootDir = import.meta.dirname; // automatically replaced by import.meta.dirname on build
 
 @Controller("/stream")
 class TestStreamCtrl {

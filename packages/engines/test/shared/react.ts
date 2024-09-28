@@ -3,7 +3,7 @@ import {join} from "path";
 
 import {engines} from "../../src/index.js";
 
-const rootDir = join(__dirname, "..");
+const rootDir = join(import.meta.dirname, "..");
 
 const readFile = fs.readFile;
 const readFileSync = fs.readFileSync;

@@ -14,7 +14,7 @@ import methodOverride from "method-override";
 import {AuthCtrl} from "./controllers/rest/auth/AuthCtrl.js";
 import {Account} from "./models/Account.js";
 
-const rootDir = __dirname; // automatically replaced by import.meta.dirname on build
+const rootDir = import.meta.dirname; // automatically replaced by import.meta.dirname on build
 export {rootDir};
 
 @Configuration({

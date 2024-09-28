@@ -1,7 +1,7 @@
 import {join} from "path";
 import {ModuleKind, Project, ScriptTarget} from "ts-morph";
 
-const rootDir = __dirname; // automatically replaced by import.meta.dirname on build
+const rootDir = import.meta.dirname; // automatically replaced by import.meta.dirname on build
 
 const SNAPSHOT_DIR = `${rootDir}/../../test/snapshots`;
 

@@ -10,7 +10,7 @@ import {InteractionsCtrl} from "./app/controllers/oidc/InteractionsCtrl.js";
 import {Server} from "./app/Server.js";
 import {Accounts} from "./app/services/Accounts.js";
 
-const testDir = __dirname;
+const testDir = import.meta.dirname;
 
 const utils = PlatformTestSdk.create({
   rootDir,

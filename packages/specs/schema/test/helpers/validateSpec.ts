@@ -4,7 +4,7 @@ import {v4} from "uuid";
 
 import {SpecTypes} from "../../src/index.js";
 
-const rootDir = __dirname; // automatically replaced by import.meta.dirname on build
+const rootDir = import.meta.dirname; // automatically replaced by import.meta.dirname on build
 
 export const validateSpec = async (spec: any, version = SpecTypes.SWAGGER) => {
   const file = `${rootDir}/spec-${v4()}.json`;

@@ -10,7 +10,7 @@ import SuperTest from "supertest";
 
 import {Configuration, Controller, Get, PlatformTest} from "../../src/index.js";
 
-const rootDir = __dirname; // automatically replaced by import.meta.dirname on build
+const rootDir = import.meta.dirname; // automatically replaced by import.meta.dirname on build
 
 @Controller("/hello")
 class TestHelloWorld {

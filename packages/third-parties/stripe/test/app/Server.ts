@@ -5,7 +5,7 @@ import "@tsed/swagger";
 import {FileSyncAdapter} from "@tsed/adapters";
 import {Configuration} from "@tsed/di";
 
-const rootDir = __dirname; // automatically replaced by import.meta.dirname on build
+const rootDir = import.meta.dirname; // automatically replaced by import.meta.dirname on build
 export {rootDir};
 
 @Configuration({
