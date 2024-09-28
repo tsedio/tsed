@@ -1,8 +1,10 @@
-import {BodyParams, Controller, PlatformTest, Post} from "@tsed/common";
-import {PlatformTestSdk} from "@tsed/platform-test-sdk";
 import fs from "node:fs/promises";
 import {join} from "node:path";
+
+import {BodyParams, Controller, PlatformTest, Post} from "@tsed/common";
+import {PlatformTestSdk} from "@tsed/platform-test-sdk";
 import SuperTest from "supertest";
+
 import {PlatformExpress} from "../src/index.js";
 import {rootDir, Server} from "./app/Server.js";
 

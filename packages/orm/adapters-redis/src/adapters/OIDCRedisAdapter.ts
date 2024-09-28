@@ -1,7 +1,7 @@
 import {AdapterModel} from "@tsed/adapters";
 import {Configuration, Inject, Opts} from "@tsed/di";
+import {IORedis, IOREDIS_CONNECTIONS} from "@tsed/ioredis";
 import {ChainableCommander} from "ioredis";
-import {IOREDIS_CONNECTIONS, IORedis} from "@tsed/ioredis";
 
 import {RedisAdapter, RedisAdapterConstructorOptions} from "./RedisAdapter.js";
 
@@ -87,7 +87,6 @@ export class OIDCRedisAdapter<T extends AdapterModel> extends RedisAdapter<T> {
   }
 
   async revokeByGrantId(grantId: string) {
-    // eslint-disable-line class-methods-use-this
     const multi = this.db.multi();
     const key = grantKeyFor(grantId);
     const tokens = await this.db.lrange(key, 0, -1);

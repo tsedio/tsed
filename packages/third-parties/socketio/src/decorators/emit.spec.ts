@@ -1,4 +1,5 @@
 import {Store} from "@tsed/core";
+
 import {Emit} from "../index.js";
 
 describe("Emit", () => {

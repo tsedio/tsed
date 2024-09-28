@@ -1,4 +1,5 @@
 import {catchError} from "@tsed/core";
+
 import {DITest} from "../../node/index.js";
 import {InterceptorContext} from "../interfaces/InterceptorContext.js";
 import {InterceptorMethods} from "../interfaces/InterceptorMethods.js";

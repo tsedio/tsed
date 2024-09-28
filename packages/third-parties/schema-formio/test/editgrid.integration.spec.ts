@@ -1,6 +1,7 @@
 import {CollectionOf, MaxItems, MinItems, Property} from "@tsed/schema";
-import {getFormioSchema} from "../src/index.js";
+
 import {OpenWhenEmpty} from "../src/decorators/openWhenEmpty.js";
+import {getFormioSchema} from "../src/index.js";
 
 describe("EditGrid integration", () => {
   it("should generate form", async () => {

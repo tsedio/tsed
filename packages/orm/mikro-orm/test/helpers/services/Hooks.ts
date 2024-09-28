@@ -1,6 +1,7 @@
-import {AfterTransactionCommit, BeforeTransactionCommit} from "../../../src/index.js";
 import {EntityManager} from "@mikro-orm/core";
 import {Injectable} from "@tsed/di";
+
+import {AfterTransactionCommit, BeforeTransactionCommit} from "../../../src/index.js";
 
 @Injectable()
 export class Hooks implements AfterTransactionCommit, BeforeTransactionCommit {

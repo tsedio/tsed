@@ -4,6 +4,7 @@ import {deserialize, JsonDeserializerOptions, serialize} from "@tsed/json-mapper
 import {Logger} from "@tsed/logger";
 import {AsyncLocalStorage} from "async_hooks";
 import type {Cache, CachingConfig, MultiCache} from "cache-manager";
+
 import {PlatformCacheSettings} from "../interfaces/interfaces.js";
 import {PlatformCachedObject} from "../interfaces/PlatformCachedObject.js";
 import {getPrefix} from "../utils/getPrefix.js";
@@ -182,7 +183,7 @@ export class PlatformCache {
 
   protected async createCacheManager(settings: PlatformCacheSettings) {
     const {caches, store = "memory", ttl, ...props} = settings;
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+
     const {multiCaching, caching} = await import("cache-manager");
 
     return caches?.length

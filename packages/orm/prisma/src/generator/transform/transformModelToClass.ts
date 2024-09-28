@@ -1,4 +1,5 @@
 import {StatementStructures, StructureKind} from "ts-morph";
+
 import {DmmfModel} from "../domain/DmmfModel.js";
 import {TransformContext} from "../domain/TransformContext.js";
 import {transformFieldToProperty} from "./transformFieldToProperty.js";

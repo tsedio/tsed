@@ -1,4 +1,5 @@
 import {Provider} from "@tsed/di";
+
 import {SwaggerSettings} from "../interfaces/SwaggerSettings.js";
 import {matchPath} from "./matchPath.js";
 

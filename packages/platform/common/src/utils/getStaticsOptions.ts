@@ -1,4 +1,5 @@
 import {getValue} from "@tsed/core";
+
 import {PlatformStaticsOptions, PlatformStaticsSettings} from "../config/interfaces/PlatformStaticsSettings.js";
 
 function mapOptions(options: any): any {

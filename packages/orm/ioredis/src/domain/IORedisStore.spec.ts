@@ -1,6 +1,6 @@
 import {catchAsyncError, Hooks} from "@tsed/core";
-import {Cache, caching} from "cache-manager";
-import Redis from "ioredis";
+import {type Cache, caching} from "cache-manager";
+import {Redis} from "ioredis";
 
 import {IORedisStore, ioRedisStore} from "./IORedisStore.js";
 
@@ -117,7 +117,7 @@ vi.mock("ioredis", () => {
   }
 
   return {
-    default: Redis
+    Redis
   };
 });
 
@@ -228,11 +228,6 @@ describe("RedisStore", () => {
 
       expect(result2).toEqual(undefined);
       expect(redisCache.store.client.mset).toHaveBeenCalledWith(["foo", '"bar"']);
-    });
-
-    it("should set multiple value with ttl", async () => {
-      const result = await redisCache.store.mset([["foo", "bar"]], 300);
-      expect(result).toEqual(undefined);
     });
 
     it("should set multiple value with ttl", async () => {

@@ -1,6 +1,7 @@
-import {serialize} from "../../src/utils/serialize.js";
-import {deserialize} from "../../src/utils/deserialize.js";
 import {Groups, Property, ReadOnly, Required} from "@tsed/schema";
+
+import {deserialize} from "../../src/utils/deserialize.js";
+import {serialize} from "../../src/utils/serialize.js";
 
 class DataSourceModel {
   @Required()

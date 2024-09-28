@@ -1,5 +1,6 @@
 import {PlatformTest} from "@tsed/common";
 import {catchAsyncError, catchError} from "@tsed/core";
+
 import {OidcInteractionContext} from "./OidcInteractionContext.js";
 import {OidcProvider} from "./OidcProvider.js";
 
@@ -145,7 +146,7 @@ describe("OidcInteractionContext", () => {
       await $ctx.runInContext(async () => {
         await oidcCtx.interactionFinished({login: {accountId: "string"}}, {mergeWithLastSubmission: false});
 
-        expect(oidcProvider.interactionFinished).toBeCalledWith(
+        expect(oidcProvider.interactionFinished).toHaveBeenCalledWith(
           $ctx.getReq(),
           $ctx.getRes(),
           {login: {accountId: "string"}},
@@ -161,7 +162,7 @@ describe("OidcInteractionContext", () => {
       await $ctx.runInContext(async () => {
         await oidcCtx.interactionResult({login: {accountId: "string"}}, {mergeWithLastSubmission: false});
 
-        expect(oidcProvider.interactionResult).toBeCalledWith(
+        expect(oidcProvider.interactionResult).toHaveBeenCalledWith(
           $ctx.getReq(),
           $ctx.getRes(),
           {login: {accountId: "string"}},
@@ -174,7 +175,7 @@ describe("OidcInteractionContext", () => {
       await $ctx.runInContext(async () => {
         await oidcCtx.interactionResult({login: {accountId: "string"}});
 
-        expect(oidcProvider.interactionResult).toBeCalledWith(
+        expect(oidcProvider.interactionResult).toHaveBeenCalledWith(
           $ctx.getReq(),
           $ctx.getRes(),
           {login: {accountId: "string"}},
@@ -192,7 +193,7 @@ describe("OidcInteractionContext", () => {
 
         await oidcCtx.render("login", {});
 
-        expect($ctx.response.render).toBeCalledWith("login", {});
+        expect($ctx.response.render).toHaveBeenCalledWith("login", {});
       });
     });
   });
@@ -203,7 +204,7 @@ describe("OidcInteractionContext", () => {
       await $ctx.runInContext(async () => {
         await oidcCtx.save(2000);
 
-        expect(interactionDetails.save).toBeCalledWith(2000);
+        expect(interactionDetails.save).toHaveBeenCalledWith(2000);
       });
     });
 
@@ -212,7 +213,7 @@ describe("OidcInteractionContext", () => {
       await $ctx.runInContext(async () => {
         await oidcCtx.save(100);
 
-        expect(interactionDetails.save).toBeCalledWith(100);
+        expect(interactionDetails.save).toHaveBeenCalledWith(100);
       });
     });
   });
@@ -226,7 +227,7 @@ describe("OidcInteractionContext", () => {
         expect(result).toEqual({
           client_id: "client_id"
         });
-        expect(oidcProvider.Client.find).toBeCalledWith("client_id");
+        expect(oidcProvider.Client.find).toHaveBeenCalledWith("client_id");
       });
     });
 
@@ -239,7 +240,7 @@ describe("OidcInteractionContext", () => {
         expect(result).toEqual({
           client_id: "client_id"
         });
-        expect(oidcProvider.Client.find).toBeCalledWith("client_id");
+        expect(oidcProvider.Client.find).toHaveBeenCalledWith("client_id");
       });
     });
   });
@@ -250,7 +251,7 @@ describe("OidcInteractionContext", () => {
       await $ctx.runInContext(async () => {
         const result = await oidcCtx.findAccount(undefined, "token");
 
-        expect(oidcProvider.Account.findAccount).toBeCalledWith(undefined, "accountId", "token");
+        expect(oidcProvider.Account.findAccount).toHaveBeenCalledWith(undefined, "accountId", "token");
         expect(result).toEqual({
           accountId: "accountId"
         });
@@ -262,7 +263,7 @@ describe("OidcInteractionContext", () => {
       await $ctx.runInContext(async () => {
         const result = await oidcCtx.findAccount("accountId", "token");
 
-        expect(oidcProvider.Account.findAccount).toBeCalledWith(undefined, "accountId", "token");
+        expect(oidcProvider.Account.findAccount).toHaveBeenCalledWith(undefined, "accountId", "token");
         expect(result).toEqual({
           accountId: "accountId"
         });

@@ -13,6 +13,7 @@ import {
   ValueOf
 } from "@tsed/core";
 import type {JSONSchema6, JSONSchema6Definition, JSONSchema6Type, JSONSchema6TypeName, JSONSchema6Version} from "json-schema";
+
 import {IgnoreCallback} from "../interfaces/IgnoreCallback.js";
 import {JsonSchemaOptions} from "../interfaces/JsonSchemaOptions.js";
 import {enumsRegistry} from "../registries/enumRegistries.js";

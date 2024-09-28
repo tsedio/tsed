@@ -3,6 +3,8 @@ import {DIContext, InjectorService, Provider, runInContext} from "@tsed/di";
 import {deserialize} from "@tsed/json-mapper";
 import {$log} from "@tsed/logger";
 import {Namespace, Socket} from "socket.io";
+import {v4} from "uuid";
+
 import {SocketFilters} from "../interfaces/SocketFilters.js";
 import {SocketHandlerMetadata} from "../interfaces/SocketHandlerMetadata.js";
 import {SocketInjectableNsp} from "../interfaces/SocketInjectableNsp.js";
@@ -11,7 +13,6 @@ import {SocketProviderTypes} from "../interfaces/SocketProviderTypes.js";
 import {SocketReturnsTypes} from "../interfaces/SocketReturnsTypes.js";
 import {SocketProviderMetadata} from "./SocketProviderMetadata.js";
 import {SocketSessionData} from "./SocketSessionData.js";
-import {v4} from "uuid";
 
 /**
  * @ignore

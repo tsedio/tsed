@@ -1,4 +1,5 @@
 import {PlatformTest} from "@tsed/common";
+
 import {AlterAudit} from "./AlterAudit.js";
 
 describe("AlterAudit", () => {

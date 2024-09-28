@@ -43,11 +43,11 @@ describe("createContext", () => {
     await call();
 
     // THEN
-    expect(injector.emit).toBeCalledWith("$onRequest", ctx);
+    expect(injector.emit).toHaveBeenCalledWith("$onRequest", ctx);
 
     await vi.mocked(ctx.response.getRes().on).mock.calls[0][1](ctx);
 
-    expect(injector.emit).toBeCalledWith("$onResponse", ctx);
+    expect(injector.emit).toHaveBeenCalledWith("$onResponse", ctx);
   });
 
   it("should ignore logs", async () => {
@@ -78,7 +78,7 @@ describe("createContext", () => {
     await call();
 
     // THEN
-    expect(ctx.response.setHeader).toBeCalledWith("x-request-id", expect.any(String));
+    expect(ctx.response.setHeader).toHaveBeenCalledWith("x-request-id", expect.any(String));
   });
 
   it("should use an existing x-request-id request header for the response x-request-id header", async () => {
@@ -96,6 +96,6 @@ describe("createContext", () => {
     await call();
 
     // THEN
-    expect(ctx.response.setHeader).toBeCalledWith("x-request-id", "test-id");
+    expect(ctx.response.setHeader).toHaveBeenCalledWith("x-request-id", "test-id");
   });
 });

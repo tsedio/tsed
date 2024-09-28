@@ -1,6 +1,7 @@
 import {Controller} from "@tsed/di";
 import {BodyParams, PathParams} from "@tsed/platform-params";
 import {DiscriminatorKey, DiscriminatorValue, JsonParameterStore, OneOf, Property, Put, Required, Returns} from "@tsed/schema";
+
 import {deserialize, serialize} from "../../src/index.js";
 
 class Event {
@@ -216,7 +217,7 @@ describe("Discriminator", () => {
       @Controller("/")
       class Test {
         @Put("/:id")
-        @Returns(200).OneOf(Event)
+        @(Returns(200).OneOf(Event))
         put(@PathParams(":id") id: string, @BodyParams() @OneOf(Event) event: OneOfEvents) {
           return [];
         }
@@ -274,7 +275,7 @@ describe("Discriminator", () => {
       @Controller("/")
       class Test {
         @Put("/:id")
-        @Returns(200).OneOf(Event)
+        @(Returns(200).OneOf(Event))
         put(@PathParams(":id") id: string, @BodyParams() @OneOf(Base) Base: any) {
           return [];
         }
@@ -299,7 +300,7 @@ describe("Discriminator", () => {
       @Controller("/")
       class Test {
         @Put("/:id")
-        @Returns(200).OneOf(Event)
+        @(Returns(200).OneOf(Event))
         put(@PathParams(":id") id: string, @BodyParams() @OneOf(Event) event: OneOfEvents[]) {
           return [];
         }

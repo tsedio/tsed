@@ -1,5 +1,6 @@
-import {__decorate} from "tslib";
 import common_1 from "@nestjs/common";
+import {__decorate} from "tslib";
+
 import {AppController} from "./app.controller.js";
 
 class AppModule {}

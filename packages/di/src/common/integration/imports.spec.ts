@@ -34,6 +34,6 @@ describe("DITest", () => {
 
   it("should create container with stubbed service", () => {
     const service = DITest.get(MyService);
-    expect(service.createConnection).toBeCalledWith();
+    expect(service.createConnection).toHaveBeenCalledWith();
   });
 });

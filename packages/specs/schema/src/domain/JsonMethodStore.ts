@@ -1,4 +1,5 @@
 import {DecoratorTypes, deepMerge, descriptorOf, isCollection, isFunction, isPromise, Metadata, prototypeOf, Store, Type} from "@tsed/core";
+
 import {JsonEntityComponent} from "../decorators/config/jsonEntityComponent.js";
 import type {JsonClassStore} from "./JsonClassStore.js";
 import {JsonEntityStore, JsonEntityStoreOptions} from "./JsonEntityStore.js";

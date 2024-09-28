@@ -1,6 +1,7 @@
 import {ParamTypes} from "@tsed/common";
-import {State} from "./state.js";
 import {JsonParameterStore} from "@tsed/schema";
+
+import {State} from "./state.js";
 
 describe("@State", () => {
   it("should call ParamFilter.useParam method with the correct parameters", () => {

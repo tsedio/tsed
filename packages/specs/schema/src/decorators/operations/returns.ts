@@ -11,6 +11,7 @@ import {
   Type
 } from "@tsed/core";
 import {OS3Example} from "@tsed/openspec";
+
 import {getStatusMessage} from "../../constants/httpStatusMessages.js";
 import {DecoratorContext} from "../../domain/DecoratorContext.js";
 import {JsonEntityStore} from "../../domain/JsonEntityStore.js";

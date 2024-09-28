@@ -1,5 +1,6 @@
 import {PlatformTest} from "@tsed/common";
 import {caching as cacheManager, multiCaching} from "cache-manager";
+
 import {UseCache} from "../decorators/useCache.js";
 import {getPrefix} from "../utils/getPrefix.js";
 import {PlatformCache} from "./PlatformCache.js";

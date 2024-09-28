@@ -1,4 +1,5 @@
 import "@tsed/ajv";
+
 import {PlatformApplication} from "@tsed/common";
 import {Configuration, Inject} from "@tsed/di";
 import Application from "koa";

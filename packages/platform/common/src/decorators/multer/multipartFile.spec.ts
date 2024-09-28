@@ -1,7 +1,9 @@
+import "../../index.js";
+
 import {descriptorOf, Metadata, Store} from "@tsed/core";
 import {ParamTypes} from "@tsed/platform-params";
 import {getSpec, JsonParameterStore, Post, SpecTypes} from "@tsed/schema";
-import "../../index.js";
+
 import {PlatformMulterMiddleware} from "../../middlewares/PlatformMulterMiddleware.js";
 import {MultipartFile} from "./multipartFile.js";
 

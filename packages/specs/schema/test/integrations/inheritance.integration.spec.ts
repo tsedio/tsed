@@ -1,5 +1,6 @@
-import {getSpec, In, Name, OperationPath, Path, SpecTypes} from "../../src/index.js";
 import {decorateMethodsOf, DecoratorParameters, decoratorTypeOf, DecoratorTypes, StoreMerge, UnsupportedDecoratorType} from "@tsed/core";
+
+import {getSpec, In, Name, OperationPath, Path, SpecTypes} from "../../src/index.js";
 
 function UseAuth(): Function {
   return <T>(...args: DecoratorParameters): TypedPropertyDescriptor<T> | void => {

@@ -1,6 +1,7 @@
 import {PlatformTest} from "@tsed/common";
 import {TestContainersMongo} from "@tsed/testcontainers-mongo";
-import {Pulse, PulseService, Every} from "../src/index.js";
+
+import {Every, Pulse, PulseService} from "../src/index.js";
 import {Server} from "./helpers/Server.js";
 
 @Pulse()

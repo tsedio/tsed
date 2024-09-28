@@ -1,6 +1,7 @@
 import {PlatformTest, Post} from "@tsed/common";
 import {catchAsyncError} from "@tsed/core";
 import {AllOf, AnyOf, CollectionOf, getSpec, JsonParameterStore, OneOf, Property, Required, SpecTypes} from "@tsed/schema";
+
 import {BodyParams} from "../decorators/bodyParams.js";
 import {PathParams} from "../decorators/pathParams.js";
 import {QueryParams} from "../decorators/queryParams.js";

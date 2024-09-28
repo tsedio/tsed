@@ -1,4 +1,5 @@
 import {OS3Operation, OS3Paths} from "@tsed/openspec";
+
 import {OperationVerbs} from "../../constants/OperationVerbs.js";
 import {JsonMethodStore} from "../../domain/JsonMethodStore.js";
 import {JsonMethodPath} from "../../domain/JsonOperation.js";

@@ -1,10 +1,11 @@
-import {Configuration, Inject} from "@tsed/di";
-import {TimeslotsController} from "./TimeslotsController.js";
 import {PlatformApplication} from "@tsed/common";
+import {Configuration, Inject} from "@tsed/di";
 import bodyParser from "body-parser";
-import cookieParser from "cookie-parser";
 import compress from "compression";
+import cookieParser from "cookie-parser";
 import methodOverride from "method-override";
+
+import {TimeslotsController} from "./TimeslotsController.js";
 
 @Configuration({
   logger: {

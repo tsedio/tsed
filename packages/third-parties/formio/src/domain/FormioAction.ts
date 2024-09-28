@@ -1,7 +1,8 @@
+import {FormioAction, FormioActionInfo} from "@tsed/formio-types";
 import {Request, Response} from "express";
+
 import {FormioMongooseSchema} from "./FormioBaseModel.js";
 import {FormioComponent} from "./FormioModels.js";
-import {FormioAction, FormioActionInfo} from "@tsed/formio-types";
 
 export interface FormioActionModel extends FormioAction {
   resolve(handler: string, method: string, req: Request, res: Response, next: Function, setActionItemMessage: SetActionItemMessage): void;

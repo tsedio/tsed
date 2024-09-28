@@ -2,7 +2,9 @@ import {EntityManager, MikroORM} from "@mikro-orm/core";
 import {defineConfig} from "@mikro-orm/mongodb";
 import {PlatformTest} from "@tsed/common";
 import {Logger} from "@tsed/logger";
+import {TestContainersMongo} from "@tsed/testcontainers-mongo";
 import {anyOfClass, anything, reset, spy, verify} from "ts-mockito";
+
 import {MikroOrmModule, TransactionalInterceptor} from "../src/index.js";
 import {User} from "./helpers/entity/User.js";
 import {Server} from "./helpers/Server.js";
@@ -10,7 +12,6 @@ import {Hooks} from "./helpers/services/Hooks.js";
 import {UnmanagedEventSubscriber1} from "./helpers/services/UnmanagedEventSubscriber1.js";
 import {UnmanagedEventSubscriber2} from "./helpers/services/UnmanagedEventSubscriber2.js";
 import {UserService} from "./helpers/services/UserService.js";
-import {TestContainersMongo} from "@tsed/testcontainers-mongo";
 
 describe("MikroOrm integration", () => {
   let spiedLogger!: Logger;

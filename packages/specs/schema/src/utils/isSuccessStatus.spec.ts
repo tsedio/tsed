@@ -13,7 +13,7 @@ describe("isSuccessStatus", () => {
 });
 
 describe("isRedirectionStatus", () => {
-  it("should return the expected value for ", () => {
+  it("should return the expected value for", () => {
     expect(isRedirectionStatus("300")).toBe(true);
     expect(isRedirectionStatus(301)).toBe(true);
     expect(isRedirectionStatus(200)).toBe(false);

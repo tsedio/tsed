@@ -1,6 +1,7 @@
-import {sync} from "globby";
 import {readFileSync} from "node:fs";
 import {basename, dirname, join} from "node:path";
+
+import {sync} from "globby";
 
 const root = join(import.meta.dirname, "../../..");
 

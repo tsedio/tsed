@@ -1,9 +1,10 @@
 import {ancestorsOf, DecoratorTypes, isClass, isCollection, isMethodDescriptor, Metadata, prototypeOf, Type} from "@tsed/core";
+
+import {JsonEntityComponent} from "../decorators/config/jsonEntityComponent.js";
 import {JsonEntityStore, JsonEntityStoreOptions} from "./JsonEntityStore.js";
 import type {JsonMethodStore} from "./JsonMethodStore.js";
 import {JsonParameter} from "./JsonParameter.js";
 import {JsonSchema} from "./JsonSchema.js";
-import {JsonEntityComponent} from "../decorators/config/jsonEntityComponent.js";
 
 export interface JsonParameterStoreOptions extends JsonEntityStoreOptions {
   dataPath?: string;

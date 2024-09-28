@@ -1,5 +1,6 @@
 import {ControllerProvider, Injectable, InjectorService, ProviderScope, TokenProvider} from "@tsed/di";
 import {PlatformLayer, PlatformRouters} from "@tsed/platform-router";
+
 import {Route, RouteController} from "../interfaces/Route.js";
 import {PlatformApplication} from "./PlatformApplication.js";
 import {PlatformHandler} from "./PlatformHandler.js";

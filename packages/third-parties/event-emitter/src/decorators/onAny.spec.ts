@@ -1,4 +1,5 @@
 import {Store} from "@tsed/core";
+
 import {OnAny} from "./onAny.js";
 
 describe("@OnAny()", () => {

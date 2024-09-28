@@ -1,5 +1,6 @@
 import {Type, useDecorators} from "@tsed/core";
 import type {JSONSchema6TypeName} from "json-schema";
+
 import {Any} from "./any.js";
 import {Property} from "./property.js";
 

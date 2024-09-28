@@ -1,5 +1,6 @@
 import {Injectable, PlatformTest} from "@tsed/common";
 import {requires} from "@tsed/engines";
+
 import {PlatformViews} from "./PlatformViews.js";
 
 @Injectable()
@@ -42,7 +43,7 @@ describe("PlatformViews", () => {
       const result = await platformViews.render("views.ejs");
 
       expect(result).toEqual("HTML");
-      expect(engine.render).toBeCalledWith("views.ejs", {
+      expect(engine.render).toHaveBeenCalledWith("views.ejs", {
         cache: false,
         alter: "alter",
         global: "global",
@@ -58,7 +59,7 @@ describe("PlatformViews", () => {
       const result = await platformViews.render("views", {test: "test"});
 
       expect(result).toEqual("HTML");
-      expect(engine.render).toBeCalledWith("views.ejs", {
+      expect(engine.render).toHaveBeenCalledWith("views.ejs", {
         cache: false,
         global: "global",
         test: "test",
@@ -66,7 +67,7 @@ describe("PlatformViews", () => {
         requires: "requires"
       });
     });
-    it("should render a template without extension", async () => {
+    it("should render a template without extension and catch error", async () => {
       const platformViews = PlatformTest.get<PlatformViews>(PlatformViews);
       const engine = platformViews.getEngine("ejs")!;
 

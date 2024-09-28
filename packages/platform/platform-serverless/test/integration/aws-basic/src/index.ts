@@ -1,4 +1,4 @@
-import {PlatformServerless} from "@tsed/platform-serverless";
+import {PlatformServerless} from "../../../..";
 import {TimeslotsLambda} from "./TimeslotsLambda.js";
 
 const platform = PlatformServerless.bootstrap({

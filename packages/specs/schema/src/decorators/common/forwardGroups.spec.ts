@@ -73,7 +73,7 @@ describe("@ForwardGroups", () => {
       @Path("/")
       class MyController {
         @OperationPath("POST", "/")
-        @Returns(201, MyModel).Groups("group.*")
+        @(Returns(201, MyModel).Groups("group.*"))
         create(@In("body") @Groups("creation") payload: MyModel) {
           return Promise.resolve(new MyModel());
         }

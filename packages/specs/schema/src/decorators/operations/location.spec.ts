@@ -3,7 +3,7 @@ import {getSpec, Location, OperationPath, SpecTypes} from "../../index.js";
 describe("Location", () => {
   it("should set Header", () => {
     class MyController {
-      @Location("/path/to/test", {description: "Path to next step"}).Status(301)
+      @(Location("/path/to/test", {description: "Path to next step"}).Status(301))
       @OperationPath("GET", "/")
       test() {}
     }

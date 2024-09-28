@@ -1,4 +1,5 @@
 import {descriptorOf, Store} from "@tsed/core";
+
 import {Agenda} from "./agenda.js";
 import {Every} from "./every.js";
 

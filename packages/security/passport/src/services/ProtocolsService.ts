@@ -4,6 +4,7 @@ import {Inject, Injectable, InjectorService, Provider} from "@tsed/di";
 import {Unauthorized} from "@tsed/exceptions";
 import Passport, {Strategy} from "passport";
 import {promisify} from "util";
+
 import {PROVIDER_TYPE_PROTOCOL} from "../contants/constants.js";
 import {PassportException} from "../errors/PassportException.js";
 import {PassportMessage} from "../errors/PassportMessage.js";

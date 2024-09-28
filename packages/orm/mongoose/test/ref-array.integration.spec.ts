@@ -1,10 +1,11 @@
 import faker from "@faker-js/faker";
 import {BodyParams, Controller, Get, Inject, PlatformTest, Post, QueryParams} from "@tsed/common";
 import {deserialize, serialize} from "@tsed/json-mapper";
-import {MongooseModel} from "@tsed/mongoose";
 import {PlatformExpress} from "@tsed/platform-express";
 import {TestContainersMongo} from "@tsed/testcontainers-mongo";
 import SuperTest from "supertest";
+
+import {MongooseModel} from "..";
 import {TestProfile2, TestUser} from "./helpers/models/User.js";
 import {Server} from "./helpers/Server.js";
 

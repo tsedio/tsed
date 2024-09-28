@@ -1,5 +1,6 @@
 import fs from "fs-extra";
 import {join} from "path";
+
 import {generateJwks, getJwks} from "./getJwks.js";
 
 const rootDir = join(__dirname, "__mocks__");

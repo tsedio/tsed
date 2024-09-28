@@ -21,6 +21,7 @@ import {
 } from "@tsed/schema";
 import qs from "querystring";
 import SuperTest from "supertest";
+
 import {PlatformExpress} from "../src/index.js";
 import {rootDir, Server} from "./app/Server.js";
 
@@ -100,8 +101,8 @@ const utils = PlatformTestSdk.create({
 @Controller("/pageable")
 class TestPageableCtrl {
   @Get("/")
-  @Returns(206, Pagination).Of(Product).Title("PaginatedProduct")
-  @Returns(200, Pagination).Of(Product).Title("PaginatedProduct")
+  @(Returns(206, Pagination).Of(Product).Title("PaginatedProduct"))
+  @(Returns(200, Pagination).Of(Product).Title("PaginatedProduct"))
   get(@QueryParams() pageableOptions: Pageable, @QueryParams("all") all: boolean) {
     return new Pagination<Product>({
       data: [

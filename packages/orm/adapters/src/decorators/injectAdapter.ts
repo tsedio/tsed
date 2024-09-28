@@ -1,5 +1,6 @@
 import {classOf, isClass, isString, Type} from "@tsed/core";
-import {inject, Inject} from "@tsed/di";
+import {Inject, inject} from "@tsed/di";
+
 import type {Adapter} from "../domain/Adapter.js";
 import {AdapterInvokeOptions, Adapters} from "../services/Adapters.js";
 

@@ -1,4 +1,5 @@
 import {MaxLength, MinLength, Pattern, Property} from "@tsed/schema";
+
 import {getFormioSchema} from "../src/index.js";
 
 describe("String", () => {

@@ -1,6 +1,6 @@
-import express from "express";
-import {InjectorService} from "@tsed/di";
 import {PlatformContext, PlatformRequest, PlatformResponse} from "@tsed/common";
+import {InjectorService} from "@tsed/di";
+import express from "express";
 import {v4} from "uuid";
 
 const app = express();

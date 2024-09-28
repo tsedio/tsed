@@ -4,6 +4,7 @@ import fs from "fs-extra";
 import low from "lowdb";
 import FileSync from "lowdb/adapters/FileSync.js";
 import {dirname} from "path";
+
 import {AdapterConstructorOptions} from "../domain/Adapter.js";
 import {AdapterModel, LowDbAdapter} from "./LowDbAdapter.js";
 

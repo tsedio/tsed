@@ -110,7 +110,7 @@ describe("getProperties()", () => {
     });
 
     describe("when is the Parent class", () => {
-      it("should have a property name metadata from Parent class", () => {
+      it("should have a property test metadata from Parent class", () => {
         const result = getProperties(Parent);
         expect(result.has("test")).toBe(false);
       });

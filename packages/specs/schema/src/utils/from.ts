@@ -1,4 +1,5 @@
 import {isClass, Type} from "@tsed/core";
+
 import {JsonEntityStore} from "../domain/JsonEntityStore.js";
 import {JsonFormatTypes} from "../domain/JsonFormatTypes.js";
 import {JsonLazyRef} from "../domain/JsonLazyRef.js";

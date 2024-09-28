@@ -18,7 +18,7 @@ describe("PlatformKoa", () => {
     });
   });
   describe("bodyParser()", () => {
-    it("should return the body parser (json) ", () => {
+    it("should return the body parser (json)", () => {
       const stub = vi.fn().mockReturnValue("body");
 
       const platform = PlatformKoa.create(Server, {
@@ -30,9 +30,9 @@ describe("PlatformKoa", () => {
       const result = platform.adapter.bodyParser("json", {strict: true});
 
       expect(result).toEqual("body");
-      expect(stub).toBeCalledWith({strict: true});
+      expect(stub).toHaveBeenCalledWith({strict: true});
     });
-    it("should return the body parser (raw) ", () => {
+    it("should return the body parser (raw)", () => {
       const stub = vi.fn().mockReturnValue("body");
 
       const platform = PlatformKoa.create(Server, {
@@ -44,9 +44,9 @@ describe("PlatformKoa", () => {
       const result = platform.adapter.bodyParser("raw", {strict: true});
 
       expect(result).toEqual("body");
-      expect(stub).toBeCalledWith({strict: true});
+      expect(stub).toHaveBeenCalledWith({strict: true});
     });
-    it("should return the body parser (urlencoded) ", () => {
+    it("should return the body parser (urlencoded)", () => {
       const stub = vi.fn().mockReturnValue("body");
 
       const platform = PlatformKoa.create(Server, {
@@ -58,7 +58,7 @@ describe("PlatformKoa", () => {
       const result = platform.adapter.bodyParser("urlencoded", {strict: true});
 
       expect(result).toEqual("body");
-      expect(stub).toBeCalledWith({strict: true});
+      expect(stub).toHaveBeenCalledWith({strict: true});
     });
   });
 });

@@ -2,6 +2,7 @@ import {GeneratorOptions} from "@prisma/generator-helper";
 import {parseEnvValue} from "@prisma/internals";
 import fs from "fs-extra";
 import path, {join} from "path";
+
 import {generateCode} from "../generator/generateCode.js";
 import removeDir from "../generator/utils/removeDir.js";
 

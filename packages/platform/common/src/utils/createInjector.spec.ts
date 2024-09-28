@@ -1,5 +1,6 @@
 import {Env} from "@tsed/core";
 import {$log} from "@tsed/logger";
+
 import {PlatformConfiguration} from "../config/services/PlatformConfiguration.js";
 import {FakeAdapter} from "../services/FakeAdapter.js";
 import {PlatformAdapter} from "../services/PlatformAdapter.js";
@@ -34,6 +35,6 @@ describe("createInjector", () => {
 
     const injector = createInjector({settings, adapter: FakeAdapter});
 
-    expect(injector.logger.stop).not.toBeCalled();
+    expect(injector.logger.stop).not.toHaveBeenCalled();
   });
 });

@@ -1,3 +1,5 @@
+import {QueryParams} from "@tsed/platform-params";
+
 import {
   Default,
   Examples,
@@ -12,7 +14,6 @@ import {
   Property,
   SpecTypes
 } from "../../src/index.js";
-import {QueryParams} from "@tsed/platform-params";
 
 class QueryParamModel {
   @Property()

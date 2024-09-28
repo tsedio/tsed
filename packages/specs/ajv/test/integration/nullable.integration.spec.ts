@@ -1,4 +1,5 @@
 import "../../src/index.js";
+
 import {BodyParams, ParamValidationError, PlatformTest, ValidationPipe} from "@tsed/common";
 import {BadRequest} from "@tsed/exceptions";
 import {CollectionOf, JsonParameterStore, Nullable, Property} from "@tsed/schema";

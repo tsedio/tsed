@@ -1,6 +1,7 @@
 import {Controller, ControllerProvider} from "@tsed/di";
 import {Middleware, Use, UseAuth} from "@tsed/platform-middlewares";
 import {AcceptMime, All, EndpointMetadata, Get, getOperationsRoutes, Post} from "@tsed/schema";
+
 import {MultipartFile} from "../decorators/multer/multipartFile.js";
 import {PlatformAcceptMimesMiddleware} from "../middlewares/PlatformAcceptMimesMiddleware.js";
 import {PlatformMulterMiddleware} from "../middlewares/PlatformMulterMiddleware.js";

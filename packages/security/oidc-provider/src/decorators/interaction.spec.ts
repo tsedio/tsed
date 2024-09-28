@@ -1,5 +1,6 @@
 import {Store} from "@tsed/core";
 import {GlobalProviders} from "@tsed/di";
+
 import {INTERACTION_OPTIONS} from "../constants/constants.js";
 import {OidcInteractionMethods} from "../domain/OidcInteractionMethods.js";
 import {Interaction} from "./interaction.js";

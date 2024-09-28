@@ -1,4 +1,4 @@
-import {JsonHookContext, JsonEntityFn} from "@tsed/schema";
+import {JsonEntityFn, JsonHookContext} from "@tsed/schema";
 
 export interface OnDeserializeCallback {
   (value: any, ctx: JsonHookContext): any;

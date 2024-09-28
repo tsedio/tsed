@@ -1,4 +1,5 @@
 import {decoratorArgs, prototypeOf, Store, UnsupportedDecoratorType} from "@tsed/core";
+
 import {AuthOptions} from "./authOptions.js";
 
 class Guard {

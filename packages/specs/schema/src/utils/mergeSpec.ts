@@ -4,15 +4,13 @@ import {OpenSpec2, OpenSpec3} from "@tsed/openspec";
 /**
  * @ignore
  */
-export const schemesReducer = mergeReducerBuilder(
-  (current, value) => {
-    if (current.type && current.type && current.type === value.type && value.type === 'array') {
-      return JSON.stringify(current.items) === JSON.stringify(value.items);
-    }
-
-    return (current.type && current.type === value.type) || (current.$ref && current.$ref === value.$ref)
+export const schemesReducer = mergeReducerBuilder((current, value) => {
+  if (current.type && current.type && current.type === value.type && value.type === "array") {
+    return JSON.stringify(current.items) === JSON.stringify(value.items);
   }
-);
+
+  return (current.type && current.type === value.type) || (current.$ref && current.$ref === value.$ref);
+});
 
 /**
  * @ignore

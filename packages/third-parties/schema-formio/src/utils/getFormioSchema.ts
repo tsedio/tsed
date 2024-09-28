@@ -1,9 +1,3 @@
-import {isString, Type} from "@tsed/core";
-import {getJsonSchema, JsonEntityStore, JsonSchemaOptions} from "@tsed/schema";
-import {FormioForm} from "@tsed/formio-types";
-import {execMapper} from "../registries/FormioMappersContainer.js";
-import {FormsContainer} from "../registries/FormsContainer.js";
-import {paramCase} from "change-case";
 import "../components/anyToComponent.js";
 import "../components/arrayToComponent.js";
 import "../components/booleanToComponent.js";
@@ -17,6 +11,14 @@ import "../components/objectToEditGrid.js";
 import "../components/panelToComponent.js";
 import "../components/propertiesToComponents.js";
 import "../components/stringToComponent.js";
+
+import {isString, Type} from "@tsed/core";
+import {FormioForm} from "@tsed/formio-types";
+import {getJsonSchema, JsonEntityStore, JsonSchemaOptions} from "@tsed/schema";
+import {paramCase} from "change-case";
+
+import {execMapper} from "../registries/FormioMappersContainer.js";
+import {FormsContainer} from "../registries/FormsContainer.js";
 
 export async function getFormioSchema(
   model: string | any | undefined,

@@ -1,5 +1,6 @@
 import path from "path";
 import {Project} from "ts-morph";
+
 import {GenerateCodeOptions} from "../generateCode.js";
 import {resolveExtension} from "./resolveExtension.js";
 

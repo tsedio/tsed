@@ -1,4 +1,5 @@
 import {isBoolean, Type} from "@tsed/core";
+
 import type {JsonClassStore} from "../domain/JsonClassStore.js";
 import type {JsonPropertyStore} from "../domain/JsonPropertyStore.js";
 import {alterIgnore} from "../hooks/alterIgnore.js";

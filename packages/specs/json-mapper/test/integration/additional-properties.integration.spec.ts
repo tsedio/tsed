@@ -1,6 +1,7 @@
 import {useDecorators} from "@tsed/core";
 import {AdditionalProperties, Groups, Hidden, JsonEntityStore, Name, ReadOnly, Title} from "@tsed/schema";
 import {sentenceCase, snakeCase} from "change-case";
+
 import {deserialize, serialize} from "../../src/index.js";
 
 describe("AdditionalProperties", () => {

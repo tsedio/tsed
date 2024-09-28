@@ -1,4 +1,5 @@
 import {nameOf} from "@tsed/core";
+
 import {PlatformApplication} from "../services/PlatformApplication.js";
 import {PlatformTest} from "../services/PlatformTest.js";
 import {PlatformContext} from "./PlatformContext.js";
@@ -94,7 +95,7 @@ describe("PlatformContext", () => {
 
     expect(context.isDone()).toEqual(true);
   });
-  it("should return done when the response is empty", async () => {
+  it("should return done when the response is empty (start context before)", async () => {
     // @ts-ignore
     const context = new PlatformContext({
       id: "id",

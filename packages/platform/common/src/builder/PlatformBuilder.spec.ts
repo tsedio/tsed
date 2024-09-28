@@ -1,5 +1,6 @@
 import {catchAsyncError, Type} from "@tsed/core";
 import {Configuration, Controller, Injectable, InjectorService, Module} from "@tsed/di";
+
 import {AfterInit} from "../interfaces/AfterInit.js";
 import {AfterListen} from "../interfaces/AfterListen.js";
 import {AfterRoutesInit} from "../interfaces/AfterRoutesInit.js";
@@ -279,16 +280,16 @@ describe("PlatformBuilder", () => {
 
       // THEN
       // @ts-ignore
-      expect(server.listenServers).toBeCalledWith();
-      expect(server.loadStatics).toBeCalledWith("$beforeRoutesInit");
-      expect(server.loadStatics).toBeCalledWith("$afterRoutesInit");
-      expect(server.injector.emit).toBeCalledWith("$afterInit");
-      expect(server.injector.emit).toBeCalledWith("$beforeRoutesInit");
-      expect(server.injector.emit).toBeCalledWith("$afterRoutesInit");
-      expect(server.injector.emit).toBeCalledWith("$afterListen");
-      expect(server.injector.emit).toBeCalledWith("$beforeListen");
-      expect(server.injector.emit).toBeCalledWith("$onServerReady");
-      expect(server.injector.emit).toBeCalledWith("$onReady");
+      expect(server.listenServers).toHaveBeenCalledWith();
+      expect(server.loadStatics).toHaveBeenCalledWith("$beforeRoutesInit");
+      expect(server.loadStatics).toHaveBeenCalledWith("$afterRoutesInit");
+      expect(server.injector.emit).toHaveBeenCalledWith("$afterInit");
+      expect(server.injector.emit).toHaveBeenCalledWith("$beforeRoutesInit");
+      expect(server.injector.emit).toHaveBeenCalledWith("$afterRoutesInit");
+      expect(server.injector.emit).toHaveBeenCalledWith("$afterListen");
+      expect(server.injector.emit).toHaveBeenCalledWith("$beforeListen");
+      expect(server.injector.emit).toHaveBeenCalledWith("$onServerReady");
+      expect(server.injector.emit).toHaveBeenCalledWith("$onReady");
 
       // THEN
       expect(server.rootModule).toBeInstanceOf(ServerModule);
@@ -296,7 +297,7 @@ describe("PlatformBuilder", () => {
       expect(server.name).toEqual("custom");
 
       await server.stop();
-      expect(server.injector.emit).toBeCalledWith("$onDestroy");
+      expect(server.injector.emit).toHaveBeenCalledWith("$onDestroy");
     });
   });
   describe("adapter()", () => {

@@ -1,6 +1,7 @@
 import {DIContext, getContext, PlatformTest} from "@tsed/common";
 import {Store} from "@tsed/core";
 import {InjectorService, ProviderType} from "@tsed/di";
+
 import {SocketFilters} from "../interfaces/SocketFilters.js";
 import {SocketReturnsTypes} from "../interfaces/SocketReturnsTypes.js";
 import {SocketHandlersBuilder} from "./SocketHandlersBuilder.js";
@@ -91,7 +92,7 @@ describe("SocketHandlersBuilder", () => {
     });
     it("should call $onNamespaceInit hook", () => {
       const {instance} = createServiceFixture();
-      expect(instance.$onNamespaceInit).toBeCalledWith("namespace1");
+      expect(instance.$onNamespaceInit).toHaveBeenCalledWith("namespace1");
     });
     it("should add namespace1", () => {
       const {instance} = createServiceFixture();
@@ -144,8 +145,8 @@ describe("SocketHandlersBuilder", () => {
 
       await builder.onConnection(socketStub, nspStub);
 
-      expect(buildHandlersStub).toBeCalledWith(socketStub, nspStub);
-      expect(invokeStub).toBeCalledWith(
+      expect(buildHandlersStub).toHaveBeenCalledWith(socketStub, nspStub);
+      expect(invokeStub).toHaveBeenCalledWith(
         instance,
         {eventName: "connection", methodClassName: "$onConnection"},
         {
@@ -235,7 +236,7 @@ describe("SocketHandlersBuilder", () => {
 
       await builder.onDisconnect(socketStub, nspStub);
 
-      expect(invokeStub).toBeCalledWith(
+      expect(invokeStub).toHaveBeenCalledWith(
         instance,
         {eventName: "disconnect", methodClassName: "$onDisconnect"},
         {
@@ -281,7 +282,7 @@ describe("SocketHandlersBuilder", () => {
 
       await builder.onDisconnect(socketStub, nspStub, reason);
 
-      expect(invokeStub).toBeCalledWith(
+      expect(invokeStub).toHaveBeenCalledWith(
         instance,
         {eventName: "disconnect", methodClassName: "$onDisconnect"},
         {
@@ -363,8 +364,8 @@ describe("SocketHandlersBuilder", () => {
 
       await builder.buildHandlers(socketStub, "ws");
 
-      expect(socketStub.on).toBeCalledWith("eventName", expect.any(Function));
-      expect(builder.runQueue).toBeCalledWith(metadata.handlers.testHandler, ["arg1"], socketStub, "ws");
+      expect(socketStub.on).toHaveBeenCalledWith("eventName", expect.any(Function));
+      expect(builder.runQueue).toHaveBeenCalledWith(metadata.handlers.testHandler, ["arg1"], socketStub, "ws");
     });
 
     it("should call the method instance in the context", async () => {
@@ -431,11 +432,11 @@ describe("SocketHandlersBuilder", () => {
 
       builder.invoke(instance, metadata.handlers.testHandler, {scope: "scope"});
 
-      expect(buildParametersStub).toBeCalledWith(["param"], {
+      expect(buildParametersStub).toHaveBeenCalledWith(["param"], {
         scope: "scope"
       });
 
-      expect(instance.testHandler).toBeCalledWith("argMapped");
+      expect(instance.testHandler).toHaveBeenCalledWith("argMapped");
     });
   });
   describe("buildParameters()", () => {
@@ -656,7 +657,7 @@ describe("SocketHandlersBuilder", () => {
           {nsp: nspStub}
         )({response: "response"});
 
-        expect(nspStub.emit).toBeCalledWith("eventName", {response: "response"});
+        expect(nspStub.emit).toHaveBeenCalledWith("eventName", {response: "response"});
       });
     });
     describe("when BROADCAST_OTHERS", () => {
@@ -677,7 +678,7 @@ describe("SocketHandlersBuilder", () => {
           {socket: socketStub}
         )({response: "response"});
 
-        expect(socketStub.broadcast.emit).toBeCalledWith("eventName", {response: "response"});
+        expect(socketStub.broadcast.emit).toHaveBeenCalledWith("eventName", {response: "response"});
       });
     });
 
@@ -697,7 +698,7 @@ describe("SocketHandlersBuilder", () => {
           {socket: socketStub}
         )({response: "response"});
 
-        expect(socketStub.emit).toBeCalledWith("eventName", {response: "response"});
+        expect(socketStub.emit).toHaveBeenCalledWith("eventName", {response: "response"});
       });
     });
   });
@@ -742,7 +743,7 @@ describe("SocketHandlersBuilder", () => {
 
       await builder.runQueue(handlerMetadata, ["arg1"], "socket", "nsp");
 
-      expect((builder as any).bindMiddleware).nthCalledWith(
+      expect((builder as any).bindMiddleware).toHaveBeenNthCalledWith(
         1,
         {target: "target before global"},
         {
@@ -754,7 +755,7 @@ describe("SocketHandlersBuilder", () => {
         expect.any(Object)
       );
 
-      expect((builder as any).bindMiddleware).nthCalledWith(
+      expect((builder as any).bindMiddleware).toHaveBeenNthCalledWith(
         2,
         {target: "target before"},
         {
@@ -766,21 +767,21 @@ describe("SocketHandlersBuilder", () => {
         expect.any(Object)
       );
 
-      expect(builder.invoke).toBeCalledWith(instance, handlerMetadata, {
+      expect(builder.invoke).toHaveBeenCalledWith(instance, handlerMetadata, {
         eventName: "eventName",
         args: ["arg1"],
         socket: "socket",
         nsp: "nsp"
       });
 
-      expect((SocketHandlersBuilder as any).bindResponseMiddleware).toBeCalledWith(handlerMetadata, {
+      expect((SocketHandlersBuilder as any).bindResponseMiddleware).toHaveBeenCalledWith(handlerMetadata, {
         eventName: "eventName",
         args: ["arg1"],
         socket: "socket",
         nsp: "nsp"
       });
 
-      expect((builder as any).bindMiddleware).nthCalledWith(
+      expect((builder as any).bindMiddleware).toHaveBeenNthCalledWith(
         3,
         {target: "target after"},
         {
@@ -792,7 +793,7 @@ describe("SocketHandlersBuilder", () => {
         expect.any(Object)
       );
 
-      expect((builder as any).bindMiddleware).nthCalledWith(
+      expect((builder as any).bindMiddleware).toHaveBeenNthCalledWith(
         4,
         {target: "target after global"},
         {
@@ -804,7 +805,7 @@ describe("SocketHandlersBuilder", () => {
         expect.any(Object)
       );
 
-      expect(builder.deserialize).toBeCalledWith(handlerMetadata, {
+      expect(builder.deserialize).toHaveBeenCalledWith(handlerMetadata, {
         eventName: "eventName",
         args: ["arg1"],
         socket: "socket",
@@ -841,8 +842,8 @@ describe("SocketHandlersBuilder", () => {
 
         builder.bindMiddleware({target: "target"}, scope, Promise.resolve());
 
-        expect(injector.get).toBeCalledWith({target: "target"});
-        expect(builder.invoke).not.toBeCalled();
+        expect(injector.get).toHaveBeenCalledWith({target: "target"});
+        expect(builder.invoke).not.toHaveBeenCalled();
       });
     });
 
@@ -877,8 +878,8 @@ describe("SocketHandlersBuilder", () => {
         await builder.bindMiddleware({target: "target"}, scope, Promise.resolve());
 
         // THEN
-        expect(injector.get).toBeCalledWith({target: "target"});
-        expect(builder.invoke).toBeCalledWith(instance, "use", scope);
+        expect(injector.get).toHaveBeenCalledWith({target: "target"});
+        expect(builder.invoke).toHaveBeenCalledWith(instance, "use", scope);
         expect(scope.args).toEqual([{result: "result"}]);
       });
     });
@@ -920,8 +921,8 @@ describe("SocketHandlersBuilder", () => {
         await builder.bindMiddleware({target: "target"}, scope, Promise.reject(error));
 
         // THEN
-        expect(injector.get).toBeCalledWith({target: "target"});
-        expect(builder.invoke).toBeCalledWith(instance, "use", {error, ...scope});
+        expect(injector.get).toHaveBeenCalledWith({target: "target"});
+        expect(builder.invoke).toHaveBeenCalledWith(instance, "use", {error, ...scope});
       });
     });
   });

@@ -7,10 +7,13 @@ import {registerProvider} from "@tsed/di";
  * @constructor
  */
 export function On(name: string): ClassDecorator {
-  return useDecorators((target: any) => {
-    registerProvider({
-      provide: target,
-      type: "formio:on"
-    });
-  }, StoreSet("formio:on:name", name));
+  return useDecorators(
+    (target: any) => {
+      registerProvider({
+        provide: target,
+        type: "formio:on"
+      });
+    },
+    StoreSet("formio:on:name", name)
+  );
 }

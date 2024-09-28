@@ -1,4 +1,5 @@
 import {decoratorTypeOf, DecoratorTypes, StaticMethodDecorator} from "@tsed/core";
+
 import {MongooseHookOptions, MongoosePostHookCB} from "../interfaces/MongooseSchemaOptions.js";
 import {schemaOptions} from "../utils/schemaOptions.js";
 

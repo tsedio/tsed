@@ -5,6 +5,7 @@ import {getOperationsRoutes, JsonEntityStore} from "@tsed/schema";
 import type {Handler} from "aws-lambda";
 import type {Context} from "aws-lambda/handler.js";
 import type {HTTPMethod, Instance} from "find-my-way";
+
 import {ServerlessContext} from "../domain/ServerlessContext.js";
 import type {ServerlessEvent} from "../domain/ServerlessEvent.js";
 import {type RequestHandler, ServerlessResponseStream} from "../domain/ServerlessResponseStream.js";

@@ -128,8 +128,7 @@ describe("deepMerge", () => {
           security: ["o", "o1"]
         });
       });
-
-      it("should merge data", () => {
+      it("should merge data (2)", () => {
         expect(
           deepMerge(
             {
@@ -182,8 +181,7 @@ describe("deepMerge", () => {
       it("should merge data", () => {
         expect(deepMerge(["1", "2", "4"], ["1", "2", "3"])).toEqual(["1", "2", "4", "3"]);
       });
-
-      it("should merge data", () => {
+      it("should merge data (2)", () => {
         expect(deepMerge([{"1": "1"}, {"2": "2"}, {"4": "4"}], [{"1": "1"}, {"2": "2"}, {"3": "3"}])).toEqual([
           {"1": "1"},
           {"2": "2"},

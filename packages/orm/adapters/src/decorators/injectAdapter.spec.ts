@@ -1,6 +1,7 @@
 import {PlatformTest} from "@tsed/common";
 import {Injectable} from "@tsed/di";
 import {Name, Property} from "@tsed/schema";
+
 import {MemoryAdapter} from "../adapters/MemoryAdapter.js";
 import {Adapter} from "../domain/Adapter.js";
 import {adapter, InjectAdapter} from "./injectAdapter.js";

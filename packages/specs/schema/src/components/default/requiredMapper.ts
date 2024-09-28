@@ -1,4 +1,5 @@
 import {uniq} from "@tsed/core";
+
 import type {JsonSchema} from "../../domain/JsonSchema.js";
 import {alterRequiredGroups} from "../../hooks/alterRequiredGroups.js";
 import type {JsonSchemaOptions} from "../../interfaces/JsonSchemaOptions.js";

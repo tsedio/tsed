@@ -1,4 +1,5 @@
 import {snakeCase} from "change-case";
+
 import {JsonEntityFn} from "../common/jsonEntityFn.js";
 
 /**

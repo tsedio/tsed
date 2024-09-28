@@ -1,5 +1,5 @@
-import {createProjectFixture} from "../../__mock__/createProjectFixture.js";
 import {createDmmfFixture} from "../../__mock__/createDmmfFixture.js";
+import {createProjectFixture} from "../../__mock__/createProjectFixture.js";
 import {generateRepositories} from "./generateRepositories.js";
 
 describe("generateRepositories", () => {

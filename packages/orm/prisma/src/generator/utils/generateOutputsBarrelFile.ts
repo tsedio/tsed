@@ -1,4 +1,5 @@
 import {ExportDeclarationStructure, OptionalKind, SourceFile} from "ts-morph";
+
 import {resolveExtension} from "./resolveExtension.js";
 
 export function generateOutputsBarrelFile(sourceFile: SourceFile, outputTypeNames: string[]) {

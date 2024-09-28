@@ -1,4 +1,5 @@
 import {getClassOrSymbol, Type} from "@tsed/core";
+
 import type {LocalsContainer} from "../domain/LocalsContainer.js";
 import {Provider} from "../domain/Provider.js";
 import {ProviderType} from "../domain/ProviderType.js";

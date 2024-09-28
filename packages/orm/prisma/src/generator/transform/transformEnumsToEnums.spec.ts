@@ -1,5 +1,5 @@
-import {transformEnumsToEnums} from "./transformEnumsToEnums.js";
 import {DmmfEnum} from "../domain/DmmfEnum.js";
+import {transformEnumsToEnums} from "./transformEnumsToEnums.js";
 
 describe("transformEnumsToEnums()", () => {
   it("should transform Prisma Enum to a TS Enum", () => {

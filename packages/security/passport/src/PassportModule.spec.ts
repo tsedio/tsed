@@ -1,7 +1,9 @@
-import {PlatformApplication, PlatformTest} from "@tsed/common";
 import "../src/index.js";
-import {PassportModule} from "./PassportModule.js";
+
+import {PlatformApplication, PlatformTest} from "@tsed/common";
 import Passport from "passport";
+
+import {PassportModule} from "./PassportModule.js";
 
 vi.mock("passport");
 

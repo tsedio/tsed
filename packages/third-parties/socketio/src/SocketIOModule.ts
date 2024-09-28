@@ -1,13 +1,14 @@
 import {$log, AfterListen, Constant, InjectorService, Module, OnDestroy, Provider} from "@tsed/common";
 import {nameOf} from "@tsed/core";
+import {Inject} from "@tsed/di";
+import Http from "http";
+import Https from "https";
 import {Server, ServerOptions} from "socket.io";
+
 import {SocketProviderMetadata} from "./class/SocketProviderMetadata.js"; // tslint:disable-line: no-unused-variable
 import {PROVIDER_TYPE_SOCKET_SERVICE} from "./constants/constants.js";
 import {IO} from "./decorators/io.js";
 import {SocketIOService} from "./services/SocketIOService.js";
-import Http from "http";
-import Https from "https";
-import {Inject} from "@tsed/di";
 
 /**
  * @ignore

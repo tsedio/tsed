@@ -1,6 +1,7 @@
 import {decorateMethodsOf, DecoratorTypes, UnsupportedDecoratorType} from "@tsed/core";
-import {JsonEntityFn} from "../common/jsonEntityFn.js";
 import {OpenSpecSecurity} from "@tsed/openspec";
+
+import {JsonEntityFn} from "../common/jsonEntityFn.js";
 
 /**
  * Add security metadata on the decorated method.

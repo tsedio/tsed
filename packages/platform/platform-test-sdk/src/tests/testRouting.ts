@@ -1,6 +1,7 @@
-import {expect, beforeAll, afterAll, afterEach, it, vi} from "vitest";
 import {Controller, Get, PlatformTest, Put} from "@tsed/common";
 import SuperTest from "supertest";
+import {afterAll, afterEach, beforeAll, expect, it, vi} from "vitest";
+
 import {PlatformTestingSdkOpts} from "../interfaces/index.js";
 
 const stub = vi.fn();

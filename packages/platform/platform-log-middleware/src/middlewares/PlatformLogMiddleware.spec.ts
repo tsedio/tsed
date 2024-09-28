@@ -1,6 +1,8 @@
-import {PlatformHandlerMetadata, PlatformTest} from "@tsed/common";
-import {PlatformLogMiddleware} from "./PlatformLogMiddleware.js";
 import "../domain/PlatformLogMiddlewareSettings.js";
+
+import {PlatformHandlerMetadata, PlatformTest} from "@tsed/common";
+
+import {PlatformLogMiddleware} from "./PlatformLogMiddleware.js";
 
 async function createMiddlewareFixture({statusCode = 200, error}: {statusCode?: number; error?: any} = {}) {
   const middleware = await PlatformTest.invoke<PlatformLogMiddleware>(PlatformLogMiddleware);
@@ -163,7 +165,7 @@ describe("PlatformLogMiddleware", () => {
         );
       });
     });
-    describe("when no debug, logRequest, logEnd", () => {
+    describe("when no debug, logRequest, logStart", () => {
       beforeEach(() =>
         PlatformTest.create({
           logger: {

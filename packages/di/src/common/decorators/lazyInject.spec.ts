@@ -1,4 +1,5 @@
 import {catchAsyncError, classOf, nameOf} from "@tsed/core";
+
 import {InjectorService} from "../services/InjectorService.js";
 import type {MyLazyModule} from "./__mock__/lazy.module.js";
 import {Injectable} from "./injectable.js";

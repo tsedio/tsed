@@ -1,4 +1,5 @@
 import {PlatformTest} from "@tsed/common";
+
 import {SwaggerService} from "../index.js";
 
 describe("SwaggerService", () => {

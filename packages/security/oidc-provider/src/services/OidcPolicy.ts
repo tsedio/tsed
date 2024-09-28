@@ -1,6 +1,7 @@
 import {Inject, Injectable, InjectorService, Provider} from "@tsed/di";
 // @ts-ignore
 import {interactionPolicy} from "oidc-provider";
+
 import {InteractionMethods} from "../domain/InteractionMethods.js";
 import {OidcInteractionOptions} from "../domain/OidcInteractionOptions.js";
 import {OidcInteractions} from "./OidcInteractions.js";

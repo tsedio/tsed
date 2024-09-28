@@ -1,5 +1,6 @@
 import {cleanObject} from "@tsed/core";
 import {OS3Example} from "@tsed/openspec";
+
 import {JsonSchemaOptions} from "../../interfaces/JsonSchemaOptions.js";
 import {registerJsonSchemaMapper} from "../../registries/JsonSchemaMapperContainer.js";
 import {createRefName} from "../../utils/ref.js";
