@@ -1,8 +1,8 @@
-import {ApolloServer, gql} from "apollo-server-koa";
-import {ApolloServerPluginDrainHttpServer} from "apollo-server-core";
-import Koa from "koa";
 import KoaRouter from "@koa/router";
+import {ApolloServerPluginDrainHttpServer} from "apollo-server-core";
+import {ApolloServer, gql} from "apollo-server-koa";
 import http from "http";
+import Koa from "koa";
 
 const app = new Koa();
 const mainRouter = new KoaRouter();

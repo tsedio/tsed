@@ -1,5 +1,7 @@
 import {StoreSet} from "@tsed/core";
+// @ts-ignore
 import {Use, UseAfter, UseBefore} from "@tsed/platform-middlewares";
+
 import {OperationVerbs} from "../constants/OperationVerbs.js";
 import {Property} from "../decorators/common/property.js";
 import {In} from "../decorators/operations/in.js";
@@ -20,7 +22,7 @@ describe("JsonMethodStore", () => {
 
       class Test {
         @StoreSet("test", "value")
-        @Get("/").Use(middleware3).UseAfter(middleware1).UseBefore(middleware2)
+        @(Get("/").Use(middleware3).UseAfter(middleware1).UseBefore(middleware2))
         method(): any {}
       }
 
@@ -70,7 +72,7 @@ describe("JsonMethodStore", () => {
       expect(endpoint.acceptMimes).toEqual([]);
     });
   });
-  describe("endpoint declaration", () => {
+  describe("endpoint declaration (2)", () => {
     it("should return an endpoint metadata", () => {
       // GIVEN
       const middleware1 = () => {};
@@ -197,7 +199,7 @@ describe("JsonMethodStore", () => {
     it("should return the response options (200 + includes)", () => {
       class MyController {
         @Get("/")
-        @Returns(200, Object).AllowedGroups("summary")
+        @(Returns(200, Object).AllowedGroups("summary"))
         method(@In("path") param: string) {}
       }
 

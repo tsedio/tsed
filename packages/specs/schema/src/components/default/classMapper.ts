@@ -1,4 +1,5 @@
 import {getValue, setValue} from "@tsed/core";
+
 import {JsonEntityStore} from "../../domain/JsonEntityStore.js";
 import {JsonSchema} from "../../domain/JsonSchema.js";
 import {JsonSchemaOptions} from "../../interfaces/JsonSchemaOptions.js";

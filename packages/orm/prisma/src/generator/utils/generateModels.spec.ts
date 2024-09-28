@@ -1,6 +1,6 @@
+import {createDmmfFixture, createDmmfWithTypesFixture} from "../../__mock__/createDmmfFixture.js";
 import {createProjectFixture} from "../../__mock__/createProjectFixture.js";
 import {generateModels} from "./generateModels.js";
-import {createDmmfFixture, createDmmfWithTypesFixture} from "../../__mock__/createDmmfFixture.js";
 
 describe("generateModels", () => {
   it("should generate models (post)", () => {

@@ -1,11 +1,12 @@
 import {QueryParams} from "@tsed/platform-params";
+
 import {getSpec, OperationPath, Path, Property, Returns, SpecTypes} from "../../src/index.js";
 import {validateSpec} from "../helpers/validateSpec.js";
 
 @Path("/responses")
 class TestResponseCtrl {
   @OperationPath("GET", "/:id")
-  @Returns(200).Binary()
+  @(Returns(200).Binary())
   async scenario1(@QueryParams("id") id: string) {}
 }
 

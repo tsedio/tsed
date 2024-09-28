@@ -1,5 +1,6 @@
 import {Type} from "@tsed/core";
 import {Any, CollectionOf, type JsonParameterStore} from "@tsed/schema";
+
 import {ParamFn} from "./paramFn.js";
 
 function shouldFallBackToAny(entity: JsonParameterStore) {

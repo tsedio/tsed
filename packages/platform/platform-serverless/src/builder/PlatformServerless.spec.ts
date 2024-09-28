@@ -1,7 +1,8 @@
 import {Controller, Inject, Injectable} from "@tsed/di";
 import {BodyParams, PathParams, QueryParams} from "@tsed/platform-params";
-import {PlatformServerlessTest, createFakeEvent, createFakeContext} from "@tsed/platform-serverless-testing";
+import {createFakeContext, createFakeEvent, PlatformServerlessTest} from "@tsed/platform-serverless-testing";
 import {Delete, Get, Patch, Post, Put} from "@tsed/schema";
+
 import {PlatformServerless} from "./PlatformServerless.js";
 
 @Injectable()
@@ -16,7 +17,7 @@ class TimeslotsLambdaController {
   @Inject()
   protected timeslotsService: TimeslotsService;
 
-  @Get("/:id").Name("byID")
+  @(Get("/:id").Name("byID"))
   getByID(@PathParams("id") id: string) {
     return {
       id

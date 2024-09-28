@@ -1,6 +1,7 @@
+import {JsonParameterStore} from "@tsed/schema";
+
 import {ParamTypes} from "../domain/ParamTypes.js";
 import {Cookies} from "./cookies.js";
-import {JsonParameterStore} from "@tsed/schema";
 
 describe("@Cookies", () => {
   it("should call ParamFilter.useParam method with the correct parameters", () => {

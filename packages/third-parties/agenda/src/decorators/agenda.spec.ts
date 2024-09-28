@@ -1,4 +1,5 @@
 import {Store} from "@tsed/core";
+
 import {Agenda} from "./agenda.js";
 
 describe("@Agenda()", () => {

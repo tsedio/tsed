@@ -13,6 +13,8 @@ import {
   Required
 } from "@tsed/schema";
 import {Schema as SchemaMongoose, Types} from "mongoose";
+
+import {DiscriminatorKey} from "../decorators/discriminatorKey.js";
 import {Model} from "../decorators/model.js";
 import {ObjectID} from "../decorators/objectID.js";
 import {Ref} from "../decorators/ref.js";
@@ -21,7 +23,6 @@ import {SchemaIgnore} from "../decorators/schemaIgnore.js";
 import {VersionKey} from "../decorators/versionKey.js";
 import {VirtualRef, VirtualRefs} from "../decorators/virtualRef.js";
 import {getSchema} from "./createSchema.js";
-import {DiscriminatorKey} from "../decorators/discriminatorKey.js";
 
 describe("createSchema", () => {
   it("should create schema", () => {

@@ -1,5 +1,6 @@
-import {INTERACTION_GRANT_ID} from "../constants/constants.js";
 import {JsonParameterStore} from "@tsed/schema";
+
+import {INTERACTION_GRANT_ID} from "../constants/constants.js";
 import {GrantId} from "./grantId.js";
 
 describe("@GrandId", () => {

@@ -1,4 +1,4 @@
-import {Example, Any, CollectionOf, Description, Name, Property, Required, Title} from "@tsed/schema";
+import {Any, CollectionOf, Description, Example, Name, Property, Required, Title} from "@tsed/schema";
 
 export class SwaNoDecoModel {
   public prop: string;

@@ -2,6 +2,7 @@ import type {ApolloServer, ApolloServerOptions, ApolloServerOptionsWithSchema} f
 import type {GatewayInterface} from "@apollo/server-gateway-interface";
 import type {IExecutableSchemaDefinition} from "@graphql-tools/schema";
 import type {GraphQLSchema} from "graphql/index.js";
+
 import type {ApolloContext} from "./ApolloContext.js";
 
 export type ApolloMiddlewareOptions = Record<string, any>;

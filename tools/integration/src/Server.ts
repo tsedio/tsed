@@ -1,17 +1,19 @@
-import {join} from "path";
-import {Configuration, Inject} from "@tsed/di";
-import {PlatformApplication} from "@tsed/common";
 import "@tsed/platform-express"; // /!\ keep this import
+import "@tsed/ajv";
+import "@tsed/swagger";
+
+import {PlatformApplication} from "@tsed/common";
+import {Configuration, Inject} from "@tsed/di";
 import bodyParser from "body-parser";
 import compress from "compression";
 import cookieParser from "cookie-parser";
-import methodOverride from "method-override";
 import cors from "cors";
-import "@tsed/ajv";
-import "@tsed/swagger";
+import methodOverride from "method-override";
+import {join} from "path";
+
 import {config} from "./config/index.js";
-import * as rest from "./controllers/rest/index.js";
 import * as pages from "./controllers/pages/index.js";
+import * as rest from "./controllers/rest/index.js";
 
 @Configuration({
   ...config,

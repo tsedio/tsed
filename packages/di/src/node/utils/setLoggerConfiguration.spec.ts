@@ -1,4 +1,5 @@
 import {Logger} from "@tsed/logger";
+
 import {InjectorService} from "../../common/index.js";
 import {setLoggerConfiguration} from "./setLoggerConfiguration.js";
 
@@ -22,7 +23,7 @@ describe("setLoggerConfiguration", () => {
 
     setLoggerConfiguration(injector);
 
-    expect(injector.logger.appenders.set).toBeCalledWith("stdout", {
+    expect(injector.logger.appenders.set).toHaveBeenCalledWith("stdout", {
       type: "stdout",
       levels: ["info", "debug"],
       layout: {
@@ -31,7 +32,7 @@ describe("setLoggerConfiguration", () => {
       }
     });
 
-    expect(injector.logger.appenders.set).toBeCalledWith("stderr", {
+    expect(injector.logger.appenders.set).toHaveBeenCalledWith("stderr", {
       levels: ["trace", "fatal", "error", "warn"],
       type: "stderr",
       layout: {

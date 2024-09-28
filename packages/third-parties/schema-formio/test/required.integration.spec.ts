@@ -1,4 +1,5 @@
 import {MinLength, Required} from "@tsed/schema";
+
 import {getFormioSchema} from "../src/index.js";
 
 describe("Required", () => {

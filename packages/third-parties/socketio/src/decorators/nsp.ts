@@ -1,5 +1,6 @@
-import {decoratorTypeOf, DecoratorTypes, Store, isRegExp} from "@tsed/core";
+import {decoratorTypeOf, DecoratorTypes, isRegExp, Store} from "@tsed/core";
 import {Namespace as NamespaceType} from "socket.io";
+
 import {SocketFilters} from "../interfaces/SocketFilters.js";
 import {SocketFilter} from "./socketFilter.js";
 

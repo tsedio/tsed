@@ -1,12 +1,13 @@
 import "@tsed/ajv";
+import "../..";
+import "./services/MongoClient.js";
+import "./services/RedisClient.js";
+
 import {PlatformApplication} from "@tsed/common";
 import {Configuration, Inject} from "@tsed/di";
-import "@tsed/terminus";
 import bodyParser from "body-parser";
 import cookieParser from "cookie-parser";
 import {Application} from "express";
-import "./services/MongoClient.js";
-import "./services/RedisClient.js";
 
 const rootDir = __dirname; // automatically replaced by import.meta.dirname on build
 export {rootDir};

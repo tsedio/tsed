@@ -1,4 +1,5 @@
 import {PlatformTest} from "@tsed/common";
+
 import {PassportSerializerService, UserInfo} from "../index.js";
 
 describe("PassportSerializerService", () => {

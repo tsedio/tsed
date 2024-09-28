@@ -1,4 +1,5 @@
 import {isClass, isPrimitiveClass} from "@tsed/core";
+
 import {JsonEntityStore} from "../../domain/JsonEntityStore.js";
 import {execMapper, registerJsonSchemaMapper} from "../../registries/JsonSchemaMapperContainer.js";
 import {GenericsContext, popGenerics} from "../../utils/generics.js";

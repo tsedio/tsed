@@ -1,6 +1,7 @@
-import {Deprecated, getSpec, OperationPath, Returns, SpecTypes} from "../../index.js";
-import {QueryParams} from "@tsed/platform-params";
 import {catchError} from "@tsed/core";
+import {QueryParams} from "@tsed/platform-params";
+
+import {Deprecated, getSpec, OperationPath, Returns, SpecTypes} from "../../index.js";
 
 describe("Deprecated", () => {
   it("should store metadata (swagger)", () => {

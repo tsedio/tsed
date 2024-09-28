@@ -1,15 +1,17 @@
-import {FileSyncAdapter} from "@tsed/adapters";
 import "@tsed/ajv";
-import {Constant, PlatformApplication} from "@tsed/common";
-import {Configuration, Inject} from "@tsed/di";
 import "@tsed/mongoose";
 import "@tsed/swagger";
+import "../../src/index.js";
+
+import {FileSyncAdapter} from "@tsed/adapters";
+import {Constant, PlatformApplication} from "@tsed/common";
+import {Configuration, Inject} from "@tsed/di";
 import bodyParser from "body-parser";
 import compress from "compression";
 import cookieParser from "cookie-parser";
 import session from "express-session";
 import methodOverride from "method-override";
-import "../../src/index.js";
+
 import template from "../template/project.json";
 
 const rootDir = __dirname; // automatically replaced by import.meta.dirname on build

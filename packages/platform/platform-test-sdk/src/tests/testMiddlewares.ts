@@ -1,5 +1,5 @@
-import {expect, beforeAll, afterAll, describe, it} from "vitest";
 import "@tsed/ajv";
+
 import {
   Context,
   Controller,
@@ -15,6 +15,8 @@ import {
 } from "@tsed/common";
 import {BadRequest, Exception, Unauthorized} from "@tsed/exceptions";
 import SuperTest from "supertest";
+import {afterAll, beforeAll, describe, expect, it} from "vitest";
+
 import {PlatformTestingSdkOpts} from "../interfaces/index.js";
 
 @Middleware()

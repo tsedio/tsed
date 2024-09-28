@@ -1,4 +1,5 @@
 import {isArray, type Type} from "@tsed/core";
+
 import {LocalsContainer} from "../domain/LocalsContainer.js";
 import type {TokenProvider} from "../interfaces/TokenProvider.js";
 import {InjectorService} from "../services/InjectorService.js";

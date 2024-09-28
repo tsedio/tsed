@@ -125,7 +125,7 @@ describe("@GenericOf", () => {
     }
 
     class Content {
-      @GenericOf(Submission).Nested(Product)
+      @(GenericOf(Submission).Nested(Product))
       submissions: Paginated<Submission<Product>>;
     }
 

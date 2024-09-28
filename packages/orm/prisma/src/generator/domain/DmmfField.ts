@@ -1,4 +1,5 @@
 import {DMMF} from "@prisma/generator-helper";
+
 import {parseDocumentationAttributes} from "../utils/parseDocumentationAttributes.js";
 import type {DmmfModel} from "./DmmfModel.js";
 

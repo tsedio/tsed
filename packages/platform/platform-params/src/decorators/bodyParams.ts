@@ -1,8 +1,9 @@
 import {Type} from "@tsed/core";
+
 import {ParamOptions} from "../domain/ParamOptions.js";
 import {ParamTypes} from "../domain/ParamTypes.js";
-import {UseParam} from "./useParam.js";
 import {mapParamsOptions} from "../utils/mapParamsOptions.js";
+import {UseParam} from "./useParam.js";
 
 /**
  * BodyParams return the value from [request.body](http://expressjs.com/en/4x/api.html#req.body) object.

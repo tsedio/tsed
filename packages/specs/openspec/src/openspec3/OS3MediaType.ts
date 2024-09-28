@@ -1,8 +1,8 @@
-import {OS3Schema} from "./OS3Schema.js";
 import {OpenSpecHash} from "../common/OpenSpecHash.js";
 import {OpenSpecRef} from "../common/OpenSpecRef.js";
 import {OS3Encoding} from "./OS3Encoding.js";
 import {OS3Example} from "./OS3Example.js";
+import {OS3Schema} from "./OS3Schema.js";
 
 export interface OS3MediaType<Schema = OS3Schema> {
   /**

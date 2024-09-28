@@ -1,5 +1,6 @@
 import faker from "@faker-js/faker";
 import {PlatformTest} from "@tsed/common";
+
 import {
   INTERACTION_CONTEXT,
   INTERACTION_DETAILS,
@@ -34,6 +35,6 @@ describe("OidcInteractionMiddleware", () => {
 
     await middleware.use();
 
-    expect(oidcInteractionContext.interactionDetails).toBeCalledWith();
+    expect(oidcInteractionContext.interactionDetails).toHaveBeenCalledWith();
   });
 });

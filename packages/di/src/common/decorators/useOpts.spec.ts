@@ -1,4 +1,5 @@
 import {descriptorOf} from "@tsed/core";
+
 import {DITest} from "../../node/index.js";
 import {ProviderScope} from "../domain/ProviderScope.js";
 import {Inject} from "./inject.js";

@@ -1,5 +1,6 @@
 import {EntityManager, RequestContext} from "@mikro-orm/core";
 import {deepEqual, instance as originalInstance, mock, reset, spy, verify, when} from "ts-mockito";
+
 import {MikroOrmContext} from "./MikroOrmContext.js";
 
 const instance = <T extends object>(m: T): T =>

@@ -1,4 +1,5 @@
 import {PlatformTest} from "@tsed/common";
+
 import {SocketIOService} from "../index.js";
 import {Server} from "./SocketIOServer.js";
 
@@ -43,11 +44,11 @@ describe("SocketIOService", () => {
       namespace.on.mock.calls[0][1](socket);
       socket.on.mock.calls[0][1](reason);
 
-      expect(ioStub.of).toBeCalledWith(input);
-      expect(namespace.on).toBeCalledWith("connection", expect.any(Function));
-      expect(instance.onConnection).toBeCalledWith(socket, namespace);
-      expect(socket.on).toBeCalledWith("disconnect", expect.any(Function));
-      expect(instance.onDisconnect).toBeCalledWith(socket, namespace, reason);
+      expect(ioStub.of).toHaveBeenCalledWith(input);
+      expect(namespace.on).toHaveBeenCalledWith("connection", expect.any(Function));
+      expect(instance.onConnection).toHaveBeenCalledWith(socket, namespace);
+      expect(socket.on).toHaveBeenCalledWith("disconnect", expect.any(Function));
+      expect(instance.onDisconnect).toHaveBeenCalledWith(socket, namespace, reason);
     });
   });
 });

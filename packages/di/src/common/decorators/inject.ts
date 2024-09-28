@@ -1,5 +1,6 @@
 import {catchError, decoratorTypeOf, DecoratorTypes, isPromise, Metadata, Store, type Type} from "@tsed/core";
-import {DI_USE_OPTIONS, DI_INJECTABLE_PROPS, DI_INVOKE_OPTIONS} from "../constants/constants.js";
+
+import {DI_INJECTABLE_PROPS, DI_INVOKE_OPTIONS, DI_USE_OPTIONS} from "../constants/constants.js";
 import {InvalidPropertyTokenError} from "../errors/InvalidPropertyTokenError.js";
 import type {InvokeOptions} from "../interfaces/InvokeOptions.js";
 import {TokenProvider} from "../interfaces/TokenProvider.js";

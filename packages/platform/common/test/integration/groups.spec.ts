@@ -1,5 +1,5 @@
 import "@tsed/ajv";
-import {BodyParams, Configuration, Controller, Get, PlatformTest} from "@tsed/common";
+
 import {JsonMapperSettings} from "@tsed/json-mapper";
 import {PlatformExpress} from "@tsed/platform-express";
 import {PlatformTestSdk} from "@tsed/platform-test-sdk";
@@ -9,6 +9,8 @@ import compress from "compression";
 import cookieParser from "cookie-parser";
 import methodOverride from "method-override";
 import SuperTest from "supertest";
+
+import {BodyParams, Configuration, Controller, Get, PlatformTest} from "../..";
 
 const rootDir = __dirname; // automatically replaced by import.meta.dirname on build
 
@@ -47,7 +49,7 @@ class GroupsIntegrationController {
   }
 
   @Get("/scenario-2")
-  @Returns(200, MyModel).Groups("summary")
+  @(Returns(200, MyModel).Groups("summary"))
   scenario2() {
     return new MyModel({
       id: "id",
@@ -58,7 +60,7 @@ class GroupsIntegrationController {
   }
 
   @Get("/scenario-3")
-  @Returns(200, MyModel).Groups("creation")
+  @(Returns(200, MyModel).Groups("creation"))
   scenario3() {
     return new MyModel({
       id: "id",

@@ -1,6 +1,7 @@
 import type {BaseContext} from "@tsed/di";
 import type {Cache, CachingConfig, Store} from "cache-manager";
 import type {FactoryStore} from "cache-manager/dist/caching.js";
+
 import type {CacheManager} from "../services/PlatformCache.js";
 
 export type PlatformCacheSettings<Config extends Record<string, any> = any, S extends Store = any> = CachingConfig<Config> & {
@@ -21,7 +22,6 @@ export type PlatformCacheSettings<Config extends Record<string, any> = any, S ex
 };
 
 declare global {
-  // eslint-disable-next-line @typescript-eslint/no-namespace
   namespace TsED {
     interface Configuration {
       cache?: PlatformCacheSettings | false;

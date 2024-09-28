@@ -1,13 +1,14 @@
 import {catchError} from "@tsed/core";
+
 import {
   MovedPermanently,
   MovedTemporarily,
   MultipleChoices,
+  NotModified,
   PermanentRedirect,
   SeeOther,
   TemporaryRedirect,
-  UseProxy,
-  NotModified
+  UseProxy
 } from "../src/index.js";
 
 describe("Redirections", () => {

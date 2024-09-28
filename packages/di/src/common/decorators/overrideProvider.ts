@@ -1,4 +1,5 @@
 import {Type} from "@tsed/core";
+
 import {GlobalProviders} from "../registries/GlobalProviders.js";
 
 /**

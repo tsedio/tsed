@@ -1,7 +1,7 @@
 import {createContextFixture} from "../../__mock__/createContextFixture.js";
-import {transformScalarToType} from "./transformScalarToType.js";
 import {createDmmfFieldFixture} from "../../__mock__/createDmmfFieldFixture.js";
 import {PrismaScalars} from "../domain/ScalarTsTypes.js";
+import {transformScalarToType} from "./transformScalarToType.js";
 
 describe("transformScalarToType()", () => {
   it("should transform User to User (not null + circular ref)", () => {

@@ -1,4 +1,5 @@
 import {Controller} from "@tsed/di";
+
 import {Get, getSpec, Groups, Property, Returns} from "../../src/index.js";
 
 class MyModel {
@@ -21,7 +22,7 @@ class MyModel {
 @Controller("/controllers")
 class MyController {
   @Get("/:id")
-  @Returns(200, MyModel).AllowedGroups("summary", "details")
+  @(Returns(200, MyModel).AllowedGroups("summary", "details"))
   get() {
     return {
       id: "id",

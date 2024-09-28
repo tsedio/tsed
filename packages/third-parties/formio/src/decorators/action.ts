@@ -8,10 +8,13 @@ import {FormioActionInfo} from "@tsed/formio-types";
  * @decorator
  */
 export function Action(options: FormioActionInfo): ClassDecorator {
-  return useDecorators((target: any) => {
-    registerProvider({
-      provide: target,
-      type: "formio:action"
-    });
-  }, StoreSet("formio:action", options));
+  return useDecorators(
+    (target: any) => {
+      registerProvider({
+        provide: target,
+        type: "formio:action"
+      });
+    },
+    StoreSet("formio:action", options)
+  );
 }

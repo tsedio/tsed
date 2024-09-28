@@ -15,6 +15,7 @@ import {
   Type
 } from "@tsed/core";
 import {getPropertiesStores, JsonClassStore, JsonEntityStore, JsonPropertyStore} from "@tsed/schema";
+
 import {alterOnSerialize} from "../hooks/alterOnSerialize.js";
 import {getObjectProperties} from "../utils/getObjectProperties.js";
 import {JsonMapperCompiler} from "./JsonMapperCompiler.js";

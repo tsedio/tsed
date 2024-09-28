@@ -1,4 +1,5 @@
 import {join} from "path";
+
 import {getEngineFixture} from "../../test/getEngineFixture.js";
 import {requires} from "../utils/cache.js";
 import {SquirrellyEngine} from "./SquirrellyEngine.js";

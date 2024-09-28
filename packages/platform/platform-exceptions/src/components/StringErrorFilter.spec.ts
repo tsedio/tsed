@@ -1,4 +1,5 @@
 import {PlatformTest} from "@tsed/common";
+
 import {StringErrorFilter} from "./StringErrorFilter.js";
 
 describe("StringErrorFilter", () => {

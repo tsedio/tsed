@@ -1,6 +1,7 @@
 import {ParamTypes} from "@tsed/common";
-import {Arg, Args} from "./args.js";
 import {JsonParameterStore} from "@tsed/schema";
+
+import {Arg, Args} from "./args.js";
 
 describe("@Args", () => {
   it("should register a new parameter instance with the correct property", () => {

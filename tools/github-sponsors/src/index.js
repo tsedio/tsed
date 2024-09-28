@@ -1,5 +1,3 @@
-/* eslint-disable no-console */
-
 const {parseFundingFile} = require("./utils/parse");
 const {printDonationMessage} = require("./utils/print");
 const {shouldHideMessage} = require("./utils/misc");

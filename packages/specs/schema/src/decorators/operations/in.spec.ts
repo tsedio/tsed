@@ -37,7 +37,7 @@ describe("In", () => {
   it("should declare all schema correctly (method)", () => {
     // WHEN
     class Controller {
-      @In("header").Type(String).Name("Authorization").Required().Description("description")
+      @(In("header").Type(String).Name("Authorization").Required().Description("description"))
       method(@In("path") @Name("basic") basic: string) {}
     }
 
@@ -80,7 +80,7 @@ describe("In", () => {
   it("should declare all schema correctly (class)", () => {
     // WHEN
     class Controller {
-      @In("header").Type(String).Name("Authorization").Required().Description("description")
+      @(In("header").Type(String).Name("Authorization").Required().Description("description"))
       method(@In("path") @Name("basic") basic: string) {}
     }
 
@@ -123,12 +123,12 @@ describe("In", () => {
   it("should declare a pattern", () => {
     // WHEN
     @Path("/:parentId")
-    @In("path")
+    @(In("path")
       .Type(String)
       .Name("parentId")
       .Required()
       .Description("description")
-      .Pattern(/^[0-9a-fA-F]{24}$/)
+      .Pattern(/^[0-9a-fA-F]{24}$/))
     class Controller {
       @OperationPath("GET", "/:path")
       method(@In("path") @Name("basic") basic: string) {}
@@ -216,7 +216,7 @@ describe("In", () => {
   it("should declare schema", () => {
     // WHEN
     @Path("/:parentId")
-    @In("path").Name("parentId").Required().Description("description").Schema(number().integer().minimum(2))
+    @(In("path").Name("parentId").Required().Description("description").Schema(number().integer().minimum(2)))
     class Controller {
       @OperationPath("GET", "/:path")
       method(@In("path") @Name("basic") basic: string) {}

@@ -1,5 +1,6 @@
 import {Injectable} from "@tsed/di";
-import {Health} from "@tsed/terminus";
+
+import {Health} from "../../..";
 
 @Injectable()
 class RedisClient {

@@ -1,4 +1,5 @@
 import {DecoratorStructure, StructureKind} from "ts-morph";
+
 import {DmmfField} from "../domain/DmmfField.js";
 import {DmmfModel} from "../domain/DmmfModel.js";
 import {ScalarDecorators, ScalarJsClasses} from "../domain/ScalarTsTypes.js";

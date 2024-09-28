@@ -2,6 +2,7 @@ import {PlatformTest} from "@tsed/common";
 import {Controller, InjectorService} from "@tsed/di";
 import {PlatformParams} from "@tsed/platform-params";
 import {Get, Post} from "@tsed/schema";
+
 import {PlatformRouter} from "../src/domain/PlatformRouter.js";
 import {PlatformRouters} from "../src/domain/PlatformRouters.js";
 

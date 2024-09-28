@@ -1,5 +1,4 @@
 import {Controller} from "@tsed/di";
-import {expect, describe, it} from "vitest";
 import {
   boolean,
   CollectionOf,
@@ -17,6 +16,8 @@ import {
   Returns,
   string
 } from "@tsed/schema";
+import {describe, expect, it} from "vitest";
+
 import {deserialize} from "../../src/utils/deserialize.js";
 import {serialize} from "../../src/utils/serialize.js";
 
@@ -353,7 +354,7 @@ describe("Generics", () => {
         constructor() {}
 
         @Get("/")
-        @Returns(200, Pagination).Of(TestEntity)
+        @(Returns(200, Pagination).Of(TestEntity))
         get() {}
       }
 
@@ -417,7 +418,7 @@ describe("Generics", () => {
         constructor() {}
 
         @Get("/")
-        @Returns(200, Pagination).Of(TestEntity)
+        @(Returns(200, Pagination).Of(TestEntity))
         get() {}
       }
 

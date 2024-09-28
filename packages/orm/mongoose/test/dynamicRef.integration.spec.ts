@@ -1,9 +1,10 @@
 import {PlatformTest} from "@tsed/common";
 import {deserialize, serialize} from "@tsed/json-mapper";
 import {Enum, getJsonSchema, Required} from "@tsed/schema";
+import {TestContainersMongo} from "@tsed/testcontainers-mongo";
+
 import {Model} from "../src/decorators/model.js";
 import {DynamicRef, MongooseModel, ObjectID} from "../src/index.js";
-import {TestContainersMongo} from "@tsed/testcontainers-mongo";
 
 describe("DynamicRef Integration", () => {
   @Model()

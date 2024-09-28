@@ -1,5 +1,6 @@
 import {Constant, PlatformContext} from "@tsed/common";
 import {normalizePath} from "@tsed/normalize-path";
+
 import {Alter} from "../decorators/alter.js";
 import {AlterHook} from "../domain/AlterHook.js";
 

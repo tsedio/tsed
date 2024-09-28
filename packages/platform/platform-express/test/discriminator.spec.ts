@@ -1,9 +1,11 @@
 import "@tsed/ajv";
+import "@tsed/swagger";
+
 import {BodyParams, Controller, Patch, PlatformTest, Post} from "@tsed/common";
 import {PlatformTestSdk} from "@tsed/platform-test-sdk";
 import {DiscriminatorKey, DiscriminatorValue, OneOf, Partial, Property, Required, Returns} from "@tsed/schema";
-import "@tsed/swagger";
 import SuperTest from "supertest";
+
 import {PlatformExpress} from "../src/index.js";
 import {rootDir, Server} from "./app/Server.js";
 
@@ -41,14 +43,14 @@ type EventTypes = PageView | Action | CustomAction;
 @Controller("/discriminator")
 class TestDiscriminator {
   @Post("/scenario-1")
-  @Returns(200).OneOf(Event)
+  @(Returns(200).OneOf(Event))
   scenario1(@BodyParams() @OneOf(Event) event: EventTypes) {
     expect(event).toBeInstanceOf(PageView);
     return event;
   }
 
   @Post("/scenario-2")
-  @Returns(200, Array).OneOf(Event)
+  @(Returns(200, Array).OneOf(Event))
   scenario2(@BodyParams() @OneOf(Event) events: EventTypes[]) {
     expect(events[0]).toBeInstanceOf(PageView);
     expect(events[1]).toBeInstanceOf(Action);
@@ -58,7 +60,7 @@ class TestDiscriminator {
   }
 
   @Patch("/scenario-3")
-  @Returns(200).OneOf(Event)
+  @(Returns(200).OneOf(Event))
   scenario3(@BodyParams() @OneOf(Event) @Partial() event: EventTypes) {
     expect(event).toBeInstanceOf(PageView);
     return event;

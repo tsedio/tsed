@@ -1,9 +1,10 @@
-import axios from "axios";
 import faker from "@faker-js/faker";
+import {PlatformTest} from "@tsed/common";
+import {TestContainersMongo} from "@tsed/testcontainers-mongo";
+import axios from "axios";
+
 import {MongooseModel} from "../src/interfaces/MongooseModel.js";
 import {TestAvatar} from "./helpers/models/Avatar.js";
-import {TestContainersMongo} from "@tsed/testcontainers-mongo";
-import {PlatformTest} from "@tsed/common";
 
 describe("Mongoose", () => {
   describe("Models with Buffer", () => {

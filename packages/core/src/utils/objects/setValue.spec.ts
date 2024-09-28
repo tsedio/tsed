@@ -39,7 +39,7 @@ describe("setValue()", () => {
     });
   });
 
-  describe("when object with dep (without defined value)", () => {
+  describe("when object with dep (with object defined value)", () => {
     it("should set value", () => {
       const obj = {};
       setValue(obj, "__proto__", "vulnerable");

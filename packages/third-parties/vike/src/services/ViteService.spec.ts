@@ -1,4 +1,5 @@
 import {PlatformTest} from "@tsed/common";
+
 import {ViteService} from "./ViteService.js";
 
 vi.mock("vike/server", () => {

@@ -1,4 +1,5 @@
 import {Intercept} from "@tsed/di";
+
 import {TransactionalInterceptor, TransactionOptions} from "../interceptors/TransactionalInterceptor.js";
 
 /**

@@ -1,7 +1,8 @@
 import {Inject, Injectable, PlatformTest} from "@tsed/common";
 import {getJsonSchema, Groups, Name, Property, ReadOnly, Required} from "@tsed/schema";
-import {Immutable, Model, MongooseModel, ObjectID, SchemaIgnore} from "../src/index.js";
 import {TestContainersMongo} from "@tsed/testcontainers-mongo";
+
+import {Immutable, Model, MongooseModel, ObjectID, SchemaIgnore} from "../src/index.js";
 
 class BaseModel {
   @ObjectID("id")

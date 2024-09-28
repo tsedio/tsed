@@ -1,4 +1,5 @@
 import {Model} from "objection";
+
 import {BelongsToOne} from "./belongsToOne.js";
 import {Entity} from "./entity.js";
 import {IdColumn} from "./idColumn.js";

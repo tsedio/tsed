@@ -1,4 +1,5 @@
 import {Injectable, PlatformTest} from "@tsed/common";
+
 import {OnAny} from "../src/decorators/onAny.js";
 import {OnEvent} from "../src/decorators/onEvent.js";
 import {EventEmitterModule} from "../src/EventEmitterModule.js";

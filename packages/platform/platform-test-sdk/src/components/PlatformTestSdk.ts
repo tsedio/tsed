@@ -1,4 +1,5 @@
 import {PlatformTest} from "@tsed/common";
+
 import {PlatformTestingSdkOpts} from "../interfaces/index.js";
 import {specsContainer} from "../tests/exports.js";
 

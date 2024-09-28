@@ -1,6 +1,6 @@
-import {Injectable} from "@tsed/di";
 import {EntityManager, RequestContext} from "@mikro-orm/core";
 import {isFunction} from "@tsed/core";
+import {Injectable} from "@tsed/di";
 
 /**
  * @internal Since 2022-06-20.

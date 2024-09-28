@@ -1,9 +1,10 @@
+import "./BullMQModule.js";
+
 import {Inject, PlatformTest} from "@tsed/common";
 import {catchAsyncError} from "@tsed/core";
 import {Queue, Worker} from "bullmq";
 import {anything, instance, mock, verify, when} from "ts-mockito";
 
-import "./BullMQModule.js";
 import {BullMQModule} from "./BullMQModule.js";
 import {type BullMQConfig} from "./config/config.js";
 import {JobMethods} from "./contracts/index.js";

@@ -1,9 +1,10 @@
 import {InjectorService} from "@tsed/di";
-import {JobDispatcher} from "./JobDispatcher.js";
+import {Queue} from "bullmq";
+import {anything, capture, instance, mock, objectContaining, spy, verify, when} from "ts-mockito";
+
 import {JobMethods} from "../contracts/index.js";
 import {JobController} from "../decorators/index.js";
-import {Queue} from "bullmq";
-import {instance, mock, verify, when, objectContaining, capture, anything, spy} from "ts-mockito";
+import {JobDispatcher} from "./JobDispatcher.js";
 
 @JobController("example-job-with-custom-id-from-job-methods")
 class ExampleJobWithCustomJobIdFromJobMethods implements JobMethods {

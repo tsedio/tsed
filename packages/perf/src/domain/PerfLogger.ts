@@ -1,5 +1,6 @@
 import {classOf, descriptorOf, methodsOf, nameOf} from "@tsed/core";
 import chalk from "chalk";
+
 import {CallbackWrapper, Perf} from "./Perf.js";
 
 const loggers = new Map();

@@ -1,5 +1,6 @@
 import {EndpointMetadata} from "@tsed/common";
 import {Store} from "@tsed/core";
+
 import {Use} from "./use.js";
 
 describe("Use()", () => {

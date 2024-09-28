@@ -1,6 +1,7 @@
 import {PlatformTest} from "@tsed/common";
 import {Env} from "@tsed/core";
 import sirv from "sirv";
+
 import {VITE_SERVER} from "./ViteServer.js";
 
 vi.mock("sirv", () => {

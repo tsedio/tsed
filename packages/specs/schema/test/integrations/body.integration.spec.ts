@@ -1,5 +1,6 @@
-import {OperationPath, Path, getSpec, SpecTypes} from "../../src/index.js";
 import {BodyParams, RawBodyParams} from "@tsed/platform-params";
+
+import {getSpec, OperationPath, Path, SpecTypes} from "../../src/index.js";
 import {validateSpec} from "../helpers/validateSpec.js";
 
 @Path("/body")

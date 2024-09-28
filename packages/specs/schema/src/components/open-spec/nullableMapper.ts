@@ -1,4 +1,5 @@
 import {cleanObject} from "@tsed/core";
+
 import type {JsonSchema} from "../../domain/JsonSchema.js";
 import {SpecTypes} from "../../domain/SpecTypes.js";
 import {registerJsonSchemaMapper} from "../../registries/JsonSchemaMapperContainer.js";

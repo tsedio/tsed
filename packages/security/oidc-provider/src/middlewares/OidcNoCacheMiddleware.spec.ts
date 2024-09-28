@@ -1,4 +1,5 @@
 import {PlatformTest} from "@tsed/common";
+
 import {OidcNoCacheMiddleware} from "./OidcNoCacheMiddleware.js";
 
 describe("OidcNoCacheMiddleware", () => {
@@ -11,7 +12,7 @@ describe("OidcNoCacheMiddleware", () => {
 
     middleware.use(ctx);
 
-    expect(ctx.response.setHeader).toBeCalledWith("Pragma", "no-cache");
-    expect(ctx.response.setHeader).toBeCalledWith("Cache-Control", "no-cache, no-store");
+    expect(ctx.response.setHeader).toHaveBeenCalledWith("Pragma", "no-cache");
+    expect(ctx.response.setHeader).toHaveBeenCalledWith("Cache-Control", "no-cache, no-store");
   });
 });

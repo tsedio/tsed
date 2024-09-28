@@ -1,4 +1,5 @@
 import {descriptorOf, useDecorators} from "@tsed/core";
+
 import {Description, getSpec, In, Name, OperationPath, Path, Pattern, SpecTypes} from "../../index.js";
 import {getJsonSchema} from "../../utils/getJsonSchema.js";
 import {Example} from "./example.js";

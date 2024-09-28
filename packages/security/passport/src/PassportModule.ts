@@ -1,5 +1,6 @@
-import {BeforeRoutesInit, Constant, Inject, Module, OnInit, PlatformApplication, Provider, ProviderScope, Logger} from "@tsed/common";
+import {BeforeRoutesInit, Constant, Inject, Logger, Module, OnInit, PlatformApplication, Provider, ProviderScope} from "@tsed/common";
 import Passport from "passport";
+
 import {PassportSerializerService} from "./services/PassportSerializerService.js";
 import {ProtocolsService} from "./services/ProtocolsService.js";
 

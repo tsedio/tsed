@@ -2,6 +2,7 @@ import {PlatformTestingSdkOpts} from "../interfaces/index.js";
 import {testAcceptMime} from "./testAcceptMime.js";
 import {testAuth} from "./testAuth.js";
 import {testBodyParams} from "./testBodyParams.js";
+import {testCache} from "./testCache.js";
 import {testChildrenControllers} from "./testChildrenControllers.js";
 import {testCookies} from "./testCookies.js";
 import {testCustom404} from "./testCustom404.js";
@@ -27,7 +28,6 @@ import {testSession} from "./testSession.js";
 import {testStatics} from "./testStatics.js";
 import {testStream} from "./testStream.js";
 import {testView} from "./testView.js";
-import {testCache} from "./testCache.js";
 
 export const specsContainer = new Map<string, (options: PlatformTestingSdkOpts) => void>();
 

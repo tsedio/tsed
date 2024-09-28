@@ -1,5 +1,6 @@
 import {Configuration, registerProvider} from "@tsed/di";
 import type {Knex} from "knex";
+
 import {createConnection} from "../utils/connect.js";
 
 export const OBJECTION_CONNECTION = Symbol.for("DEFAULT_CONNECTION");
