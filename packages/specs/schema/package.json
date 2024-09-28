@@ -54,6 +54,7 @@
     "@types/json-schema": "7.0.15",
     "@types/picomatch": "2.3.3",
     "@types/statuses": "2.0.5",
+    "ajv": "^8.17.1",
     "eslint": "^8.57.0",
     "picomatch-browser": "^2.2.6",
     "typescript": "4.9.5",

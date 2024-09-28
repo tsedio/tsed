@@ -10,7 +10,7 @@ import cookieParser from "cookie-parser";
 import methodOverride from "method-override";
 import SuperTest from "supertest";
 
-import {BodyParams, Configuration, Controller, Get, PlatformTest} from "../..";
+import {BodyParams, Configuration, Controller, Get, PlatformTest} from "../../src/index.ts";
 
 const rootDir = __dirname; // automatically replaced by import.meta.dirname on build
 

@@ -1,4 +1,4 @@
-import faker from "@faker-js/faker";
+import {faker} from "@faker-js/faker";
 import {PlatformApplication, PlatformRouteDetails, PlatformTest} from "@tsed/common";
 
 import {FormioModule} from "./FormioModule.js";

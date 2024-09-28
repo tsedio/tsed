@@ -9,7 +9,7 @@ import {join} from "node:path";
 
 export default [
   {
-    ignores: ["**/coverage", "**/lib", "**/dist", "processes.config.js", "**/templates", "**/docs/**", "**/docs-references/**"]
+    ignores: ["**/coverage", "**/lib", "**/dist", "processes.config.js", "**/snapshots", "**/templates", "**/docs/**", "**/docs-references/**"]
   },
   {
     files: ["**/*.{js,mjs,cjs,jsx,mjsx,ts,tsx,mtsx}"],

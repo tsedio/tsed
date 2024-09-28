@@ -1,7 +1,7 @@
 import {Controller, Post} from "@tsed/common";
 import Stripe from "stripe";
 
-import {WebhookEvent} from "../../../..";
+import {WebhookEvent} from "../../../../src/index.js";
 
 @Controller("/webhooks")
 export class StripeWebhooksCtrl {

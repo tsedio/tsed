@@ -1,5 +1,5 @@
-import {Args} from "../../..";
-import {SocketMiddleware} from "../../..";
+import {Args} from "../../../src/index.js";
+import {SocketMiddleware} from "../../../src/index.js";
 
 @SocketMiddleware()
 export class ThrowErrorSocketMiddleware {

@@ -1,4 +1,4 @@
-import faker from "@faker-js/faker";
+import {faker} from "@faker-js/faker";
 import {PlatformTest} from "@tsed/common";
 import {deserialize} from "@tsed/json-mapper";
 import {Format, getJsonSchema, Name, Property} from "@tsed/schema";
@@ -134,7 +134,7 @@ describe("MemoryAdapter", () => {
         name: faker.name.jobTitle()
       };
 
-      const client = await adapter.updateOne({_id: faker.datatype.uuid()}, base);
+      const client = await adapter.updateOne({_id: faker.string.uuid()}, base);
 
       expect(client).toBeUndefined();
     });

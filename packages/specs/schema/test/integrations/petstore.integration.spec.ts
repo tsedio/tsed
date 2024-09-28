@@ -1,4 +1,4 @@
-import "../..";
+import "../../src/index.js";
 
 import {Controller} from "@tsed/di";
 import {Use} from "@tsed/platform-middlewares";

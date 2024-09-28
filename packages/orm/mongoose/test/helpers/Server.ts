@@ -1,4 +1,4 @@
-import "../..";
+import "../../src/index.js";
 import "@tsed/platform-express";
 
 import {Configuration, Inject, PlatformApplication} from "@tsed/common";

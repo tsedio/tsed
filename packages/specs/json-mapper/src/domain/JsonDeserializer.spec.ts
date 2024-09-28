@@ -2,7 +2,7 @@ import "../components/DateMapper.js";
 import "../components/PrimitiveMapper.js";
 import "../components/SymbolMapper.js";
 
-import faker from "@faker-js/faker";
+import {faker} from "@faker-js/faker";
 import {QueryParams} from "@tsed/platform-params";
 import {
   AdditionalProperties,

@@ -4,7 +4,7 @@ import {Constant} from "@tsed/di";
 import {Name} from "@tsed/schema";
 import {interactionPolicy, KoaContextWithOIDC} from "oidc-provider";
 
-import {Interaction, InteractionMethods, OidcCtx, OidcSession, Params, Prompt, Uid} from "../../..";
+import {Interaction, InteractionMethods, OidcCtx, OidcSession, Params, Prompt, Uid} from "../../../src/index.js";
 import Check = interactionPolicy.Check;
 
 @Interaction({

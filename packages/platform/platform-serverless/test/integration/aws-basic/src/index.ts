@@ -1,4 +1,4 @@
-import {PlatformServerless} from "../../../..";
+import {PlatformServerless} from "../../../../src/index.js";
 import {TimeslotsLambda} from "./TimeslotsLambda.js";
 
 const platform = PlatformServerless.bootstrap({

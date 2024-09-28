@@ -1,4 +1,4 @@
-import faker from "@faker-js/faker";
+import {faker} from "@faker-js/faker";
 import {PlatformTest} from "@tsed/common";
 
 import {FormioInstaller} from "./FormioInstaller.js";
@@ -57,19 +57,19 @@ describe("FormioImporter", () => {
       const template = {
         resources: {
           admin: {
-            _id: faker.datatype.uuid()
+            _id: faker.string.uuid()
           }
         },
         roles: {
           administrator: {
-            _id: faker.datatype.uuid()
+            _id: faker.string.uuid()
           }
         }
       };
 
       const user = {
         email: faker.internet.email(),
-        password: faker.internet.password(12)
+        password: faker.internet.password({length: 12})
       };
 
       expect(await service.createRootUser(user, template as any)).toEqual({
@@ -90,19 +90,19 @@ describe("FormioImporter", () => {
       const template = {
         resources: {
           admin: {
-            _id: faker.datatype.uuid()
+            _id: faker.string.uuid()
           }
         },
         roles: {
           administrator: {
-            _id: faker.datatype.uuid()
+            _id: faker.string.uuid()
           }
         }
       };
 
       const user = {
         email: faker.internet.email(),
-        password: faker.internet.password(12)
+        password: faker.internet.password({length: 12})
       };
 
       let actualError: any;
@@ -120,19 +120,19 @@ describe("FormioImporter", () => {
       const template = {
         resources: {
           admin: {
-            _id: faker.datatype.uuid()
+            _id: faker.string.uuid()
           }
         },
         roles: {
           administrator: {
-            _id: faker.datatype.uuid()
+            _id: faker.string.uuid()
           }
         }
       };
 
       const user = {
         email: faker.internet.email(),
-        password: faker.internet.password(12)
+        password: faker.internet.password({length: 12})
       };
 
       vi.spyOn(service, "createRootUser");

@@ -1,5 +1,5 @@
 import "@tsed/ajv";
-import "../..";
+import "../../src/index.js";
 import "./services/MongoClient.js";
 import "./services/RedisClient.js";
 

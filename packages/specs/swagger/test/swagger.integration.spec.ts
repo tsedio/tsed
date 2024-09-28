@@ -4,7 +4,7 @@ import {PlatformExpress} from "@tsed/platform-express";
 import {Consumes, Description, Returns} from "@tsed/schema";
 import SuperTest from "supertest";
 
-import {Docs, Hidden} from "..";
+import {Docs, Hidden} from "../src/index.js";
 import {Calendar} from "./app/models/Calendar.js";
 import {Server} from "./app/Server.js";
 

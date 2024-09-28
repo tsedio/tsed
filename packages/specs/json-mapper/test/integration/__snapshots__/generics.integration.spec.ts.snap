@@ -7,11 +7,3 @@ Adjustment {
   },
 }
 `;
-
-exports[`Generics using Functional api should transform date from generic object 1`] = `
-Adjustment {
-  "adjustment": UserProperty {
-    "value": "2019-01-01T12:45:57.111Z",
-  },
-}
-`;

@@ -1,6 +1,6 @@
 import {CollectionOf, Groups, Ignore, MinLength, Property, Required} from "@tsed/schema";
 
-import {Model, MongooseNextCB, ObjectID, PostHook, PreHook, Ref, Schema, Unique} from "../../..";
+import {Model, MongooseNextCB, ObjectID, PostHook, PreHook, Ref, Schema, Unique} from "../../../src/index.js";
 
 export class BaseModel {
   @ObjectID("id")
