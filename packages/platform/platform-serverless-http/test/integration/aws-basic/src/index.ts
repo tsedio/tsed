@@ -1,6 +1,6 @@
 import {PlatformExpress} from "@tsed/platform-express";
 
-import {PlatformServerlessHttp} from "../../../..";
+import {PlatformServerlessHttp} from "../../../../src/index.js";
 import {Server} from "./Server.js";
 
 const platform = PlatformServerlessHttp.bootstrap(Server, {

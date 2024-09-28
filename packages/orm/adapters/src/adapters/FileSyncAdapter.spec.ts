@@ -1,4 +1,4 @@
-import faker from "@faker-js/faker";
+import {faker} from "@faker-js/faker";
 import {PlatformTest} from "@tsed/common";
 import {Property} from "@tsed/schema";
 

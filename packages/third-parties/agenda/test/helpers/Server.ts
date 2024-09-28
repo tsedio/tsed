@@ -1,5 +1,5 @@
 import "@tsed/platform-express";
-import "../..";
+import "../../src/index.js";
 
 import {Configuration, Inject, PlatformApplication} from "@tsed/common";
 import bodyParser from "body-parser";

@@ -1,6 +1,6 @@
 import {deserialize} from "@tsed/json-mapper";
 
-import {Args, SocketMiddleware, SocketSession} from "../../..";
+import {Args, SocketMiddleware, SocketSession} from "../../../src/index.js";
 import {User} from "../models/User.js";
 
 @SocketMiddleware()

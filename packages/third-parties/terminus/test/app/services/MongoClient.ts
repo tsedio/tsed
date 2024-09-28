@@ -1,6 +1,6 @@
 import {Injectable} from "@tsed/di";
 
-import {Health} from "../../..";
+import {Health} from "../../../src/index.js";
 
 @Injectable()
 class MongoClient {

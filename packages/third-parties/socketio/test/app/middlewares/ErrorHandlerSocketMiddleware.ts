@@ -1,4 +1,4 @@
-import {Socket, SocketErr, SocketMiddlewareError} from "../../..";
+import {Socket, SocketErr, SocketMiddlewareError} from "../../../src/index.js";
 
 @SocketMiddlewareError()
 export class ErrorHandlerSocketMiddleware {

@@ -1,5 +1,5 @@
 import "@tsed/ajv";
-import "../..";
+import "../../src/index.js";
 import "@tsed/swagger";
 
 import {FileSyncAdapter} from "@tsed/adapters";

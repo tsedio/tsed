@@ -1,4 +1,4 @@
-import faker from "@faker-js/faker";
+import {faker} from "@faker-js/faker";
 import {BodyParams, Controller, Get, Inject, PlatformTest, Post, QueryParams} from "@tsed/common";
 import {deserialize, serialize} from "@tsed/json-mapper";
 import {PlatformExpress} from "@tsed/platform-express";
@@ -35,12 +35,12 @@ class ProfilesCtrl {
 
 const baseUser = {
   email: faker.internet.email(),
-  password: faker.internet.password(12)
+  password: faker.internet.password({length: 12})
 };
 
 const baseProfile = {
   image: faker.image.avatar(),
-  age: faker.datatype.number(2)
+  age: faker.number.int(2)
 };
 
 async function getServiceFixture() {
