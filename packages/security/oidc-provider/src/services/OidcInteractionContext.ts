@@ -2,7 +2,7 @@ import {Constant, InjectContext, PlatformContext} from "@tsed/common";
 import {Env} from "@tsed/core";
 import {Inject, Injectable} from "@tsed/di";
 import {Unauthorized} from "@tsed/exceptions";
-import {serialize} from "@tsed/json-mapper";
+
 // @ts-ignore
 import type {Account, InteractionResults, PromptDetail, default as Provider} from "oidc-provider";
 import {
@@ -21,7 +21,8 @@ import {OidcInteractionPromptProps} from "../domain/OidcInteractionPromptProps.j
 import {debug} from "../utils/debug.js";
 import {OidcInteractions} from "./OidcInteractions.js";
 import {OidcProvider} from "./OidcProvider.js";
-import omit from "lodash/omit";
+import omit from "lodash/omit.js";
+
 @Injectable()
 export class OidcInteractionContext {
   @Constant("env")
