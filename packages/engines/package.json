@@ -2,7 +2,7 @@
   "name": "@tsed/engines",
   "description": "Template engines library. Provide an API to adding custom engines from decorators.",
   "type": "module",
-  "version": "8.0.0-alpha.6",
+  "version": "8.0.0-alpha.7",
   "source": "./src/index.ts",
   "main": "./lib/esm/index.js",
   "module": "./lib/esm/index.js",
@@ -22,7 +22,7 @@
     "test:ci": "vitest run --coverage.thresholds.autoUpdate=true"
   },
   "dependencies": {
-    "tslib": "2.6.1"
+    "tslib": "2.7.0"
   },
   "devDependencies": {
     "@babel/core": "7.24.3",
@@ -43,7 +43,7 @@
     "eco": "^1.1.0-rc-3",
     "ect": "^0.5.9",
     "ejs": "^3.1.9",
-    "eslint": "^8.57.0",
+    "eslint": "9.11.1",
     "haml": "^0.4.3",
     "haml-coffee": "^1.14.1",
     "hamlet": "^0.3.3",

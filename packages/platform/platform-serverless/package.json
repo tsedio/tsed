@@ -2,7 +2,7 @@
   "name": "@tsed/platform-serverless",
   "description": "Platform serverless module for Ts.ED Framework",
   "type": "module",
-  "version": "8.0.0-alpha.6",
+  "version": "8.0.0-alpha.7",
   "source": "./src/index.ts",
   "main": "./lib/esm/index.js",
   "module": "./lib/esm/index.js",
@@ -30,7 +30,7 @@
     "@tsed/schema": "workspace:*",
     "encodeurl": "^2.0.0",
     "mime": "^3.0.0",
-    "tslib": "2.6.1",
+    "tslib": "2.7.0",
     "uuid": "^9.0.1"
   },
   "devDependencies": {
@@ -41,13 +41,13 @@
     "@types/encodeurl": "^1.0.2",
     "@types/mime": "^3.0.4",
     "aws-lambda": "1.0.7",
-    "eslint": "^8.57.0",
+    "eslint": "9.11.1",
     "find-my-way": "^8.2.0",
     "typescript": "5.4.5",
     "vitest": "2.0.4"
   },
   "peerDependencies": {
-    "@tsed/di": "8.0.0-alpha.6",
+    "@tsed/di": "8.0.0-alpha.7",
     "@tsed/logger": ">=6.7.5",
     "find-my-way": ">=7.0.0"
   },

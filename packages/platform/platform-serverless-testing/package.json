@@ -2,7 +2,7 @@
   "name": "@tsed/platform-serverless-testing",
   "description": "Module to test Serverless function with Ts.ED",
   "type": "module",
-  "version": "8.0.0-alpha.6",
+  "version": "8.0.0-alpha.7",
   "source": "./src/index.ts",
   "main": "./lib/esm/index.js",
   "module": "./lib/esm/index.js",
@@ -63,19 +63,19 @@
     "@tsed/schema": "workspace:*",
     "@tsed/typescript": "workspace:*",
     "@types/aws-lambda": "^8.10.136",
-    "eslint": "^8.57.0",
+    "eslint": "9.11.1",
     "typescript": "5.4.5"
   },
   "dependencies": {
-    "tslib": "2.6.1"
+    "tslib": "2.7.0"
   },
   "peerDependencies": {
-    "@tsed/common": "8.0.0-alpha.6",
-    "@tsed/core": "8.0.0-alpha.6",
-    "@tsed/di": "8.0.0-alpha.6",
-    "@tsed/json-mapper": "8.0.0-alpha.6",
+    "@tsed/common": "8.0.0-alpha.7",
+    "@tsed/core": "8.0.0-alpha.7",
+    "@tsed/di": "8.0.0-alpha.7",
+    "@tsed/json-mapper": "8.0.0-alpha.7",
     "@tsed/logger": ">=6.7.5",
-    "@tsed/openspec": "8.0.0-alpha.6",
-    "@tsed/schema": "8.0.0-alpha.6"
+    "@tsed/openspec": "8.0.0-alpha.7",
+    "@tsed/schema": "8.0.0-alpha.7"
   }
 }

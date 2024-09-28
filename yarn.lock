@@ -3400,13 +3400,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@eslint-community/regexpp@npm:^4.6.1":
-  version: 4.10.0
-  resolution: "@eslint-community/regexpp@npm:4.10.0"
-  checksum: 10/8c36169c815fc5d726078e8c71a5b592957ee60d08c6470f9ce0187c8046af1a00afbda0a065cc40ff18d5d83f82aed9793c6818f7304a74a7488dc9f3ecbd42
-  languageName: node
-  linkType: hard
-
 "@eslint/config-array@npm:^0.18.0":
   version: 0.18.0
   resolution: "@eslint/config-array@npm:0.18.0"
@@ -3425,23 +3418,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@eslint/eslintrc@npm:^2.1.4":
-  version: 2.1.4
-  resolution: "@eslint/eslintrc@npm:2.1.4"
-  dependencies:
-    ajv: "npm:^6.12.4"
-    debug: "npm:^4.3.2"
-    espree: "npm:^9.6.0"
-    globals: "npm:^13.19.0"
-    ignore: "npm:^5.2.0"
-    import-fresh: "npm:^3.2.1"
-    js-yaml: "npm:^4.1.0"
-    minimatch: "npm:^3.1.2"
-    strip-json-comments: "npm:^3.1.1"
-  checksum: 10/7a3b14f4b40fc1a22624c3f84d9f467a3d9ea1ca6e9a372116cb92507e485260359465b58e25bcb6c9981b155416b98c9973ad9b796053fd7b3f776a6946bce8
-  languageName: node
-  linkType: hard
-
 "@eslint/eslintrc@npm:^3.1.0":
   version: 3.1.0
   resolution: "@eslint/eslintrc@npm:3.1.0"
@@ -3456,13 +3432,6 @@ __metadata:
     minimatch: "npm:^3.1.2"
     strip-json-comments: "npm:^3.1.1"
   checksum: 10/02bf892d1397e1029209dea685e9f4f87baf643315df2a632b5f121ec7e8548a3b34f428a007234fa82772218fa8a3ac2d10328637b9ce63b7f8344035b74db3
-  languageName: node
-  linkType: hard
-
-"@eslint/js@npm:8.57.0":
-  version: 8.57.0
-  resolution: "@eslint/js@npm:8.57.0"
-  checksum: 10/3c501ce8a997cf6cbbaf4ed358af5492875e3550c19b9621413b82caa9ae5382c584b0efa79835639e6e0ddaa568caf3499318e5bdab68643ef4199dce5eb0a0
   languageName: node
   linkType: hard
 
@@ -3677,28 +3646,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@humanwhocodes/config-array@npm:^0.11.14":
-  version: 0.11.14
-  resolution: "@humanwhocodes/config-array@npm:0.11.14"
-  dependencies:
-    "@humanwhocodes/object-schema": "npm:^2.0.2"
-    debug: "npm:^4.3.1"
-    minimatch: "npm:^3.0.5"
-  checksum: 10/3ffb24ecdfab64014a230e127118d50a1a04d11080cbb748bc21629393d100850496456bbcb4e8c438957fe0934430d731042f1264d6a167b62d32fc2863580a
-  languageName: node
-  linkType: hard
-
 "@humanwhocodes/module-importer@npm:^1.0.1":
   version: 1.0.1
   resolution: "@humanwhocodes/module-importer@npm:1.0.1"
   checksum: 10/e993950e346331e5a32eefb27948ecdee2a2c4ab3f072b8f566cd213ef485dd50a3ca497050608db91006f5479e43f91a439aef68d2a313bd3ded06909c7c5b3
-  languageName: node
-  linkType: hard
-
-"@humanwhocodes/object-schema@npm:^2.0.2":
-  version: 2.0.2
-  resolution: "@humanwhocodes/object-schema@npm:2.0.2"
-  checksum: 10/ef915e3e2f34652f3d383b28a9a99cfea476fa991482370889ab14aac8ecd2b38d47cc21932526c6d949da0daf4a4a6bf629d30f41b0caca25e146819cbfa70e
   languageName: node
   linkType: hard
 
@@ -6624,15 +6575,15 @@ __metadata:
     "@tsed/core": "workspace:*"
     "@tsed/ioredis": "workspace:*"
     "@tsed/typescript": "workspace:*"
-    eslint: "npm:^8.57.0"
-    tslib: "npm:2.6.1"
+    eslint: "npm:9.11.1"
+    tslib: "npm:2.7.0"
     typescript: "npm:5.4.5"
     vitest: "npm:2.0.4"
   peerDependencies:
-    "@tsed/adapters": 8.0.0-alpha.6
-    "@tsed/common": 8.0.0-alpha.6
-    "@tsed/core": 8.0.0-alpha.6
-    "@tsed/di": 8.0.0-alpha.6
+    "@tsed/adapters": 8.0.0-alpha.7
+    "@tsed/common": 8.0.0-alpha.7
+    "@tsed/core": 8.0.0-alpha.7
+    "@tsed/di": 8.0.0-alpha.7
     ioredis: ">=5.2.3"
     ioredis-mock: ">=8.2.2"
     uuid: ^9.0.1
@@ -6655,21 +6606,21 @@ __metadata:
     "@types/lowdb": "npm:1.0.15"
     "@types/uuid": "npm:9.0.8"
     change-case: "npm:^4.1.2"
-    eslint: "npm:^8.57.0"
+    eslint: "npm:9.11.1"
     fs-extra: "npm:11.2.0"
     lodash: "npm:^4.17.21"
     lowdb: "npm:1.0.0"
-    tslib: "npm:2.6.1"
+    tslib: "npm:2.7.0"
     typescript: "npm:5.4.5"
     uuid: "npm:9.0.1"
     vitest: "npm:2.0.4"
   peerDependencies:
-    "@tsed/ajv": 8.0.0-alpha.6
-    "@tsed/common": 8.0.0-alpha.6
-    "@tsed/core": 8.0.0-alpha.6
-    "@tsed/di": 8.0.0-alpha.6
-    "@tsed/json-mapper": 8.0.0-alpha.6
-    "@tsed/schema": 8.0.0-alpha.6
+    "@tsed/ajv": 8.0.0-alpha.7
+    "@tsed/common": 8.0.0-alpha.7
+    "@tsed/core": 8.0.0-alpha.7
+    "@tsed/di": 8.0.0-alpha.7
+    "@tsed/json-mapper": 8.0.0-alpha.7
+    "@tsed/schema": 8.0.0-alpha.7
   peerDependenciesMeta:
     "@tsed/ajv":
       optional: false
@@ -6696,8 +6647,8 @@ __metadata:
     "@tsed/di": "workspace:*"
     "@tsed/typescript": "workspace:*"
     agenda: "npm:^5.0.0"
-    eslint: "npm:^8.57.0"
-    tslib: "npm:2.6.1"
+    eslint: "npm:9.11.1"
+    tslib: "npm:2.7.0"
     typescript: "npm:5.4.5"
     vitest: "npm:2.0.4"
   peerDependencies:
@@ -6718,15 +6669,15 @@ __metadata:
     ajv: "npm:^8.17.1"
     ajv-errors: "npm:3.0.0"
     ajv-formats: "npm:2.1.1"
-    eslint: "npm:^8.57.0"
-    tslib: "npm:2.6.1"
+    eslint: "npm:9.11.1"
+    tslib: "npm:2.7.0"
     typescript: "npm:5.4.5"
     vitest: "npm:2.0.4"
   peerDependencies:
-    "@tsed/core": 8.0.0-alpha.6
-    "@tsed/di": 8.0.0-alpha.6
-    "@tsed/exceptions": 8.0.0-alpha.6
-    "@tsed/schema": 8.0.0-alpha.6
+    "@tsed/core": 8.0.0-alpha.7
+    "@tsed/di": 8.0.0-alpha.7
+    "@tsed/exceptions": 8.0.0-alpha.7
+    "@tsed/schema": 8.0.0-alpha.7
     ajv: ">=8.9.0"
     ajv-errors: ">=3.0.0"
   peerDependenciesMeta:
@@ -6756,16 +6707,16 @@ __metadata:
     "@tsed/typescript": "workspace:*"
     apollo-datasource-http: "npm:0.21.0"
     apollo-server-testing: "npm:2.25.3"
-    eslint: "npm:^8.57.0"
+    eslint: "npm:9.11.1"
     graphql: "npm:16.8.2"
-    tslib: "npm:2.6.1"
+    tslib: "npm:2.7.0"
     typescript: "npm:5.4.5"
     vitest: "npm:2.0.4"
   peerDependencies:
     "@apollo/server": ">=4.10.4"
-    "@tsed/common": 8.0.0-alpha.6
-    "@tsed/core": 8.0.0-alpha.6
-    "@tsed/di": 8.0.0-alpha.6
+    "@tsed/common": 8.0.0-alpha.7
+    "@tsed/core": 8.0.0-alpha.7
+    "@tsed/di": 8.0.0-alpha.7
     "@tsed/logger": ">=6.7.5"
     graphql: ">16.0.0"
   languageName: unknown
@@ -6792,9 +6743,9 @@ __metadata:
     "@tsed/schema": "workspace:*"
     "@tsed/typescript": "workspace:*"
     bullmq: "npm:^4.12.3 || ^5.1.1"
-    eslint: "npm:^8.57.0"
+    eslint: "npm:9.11.1"
     ts-mockito: "npm:^2.6.1"
-    tslib: "npm:2.6.1"
+    tslib: "npm:2.7.0"
     typescript: "npm:5.4.5"
     vitest: "npm:2.0.4"
   peerDependencies:
@@ -6827,8 +6778,8 @@ __metadata:
     "@types/json-schema": "npm:7.0.15"
     accepts: "npm:^1.3.8"
     cross-env: "npm:7.0.3"
-    eslint: "npm:^8.57.0"
-    tslib: "npm:2.6.1"
+    eslint: "npm:9.11.1"
+    tslib: "npm:2.7.0"
     typescript: "npm:5.4.5"
     uuid: "npm:9.0.1"
     vitest: "npm:2.0.4"
@@ -6852,13 +6803,13 @@ __metadata:
     "@tsed/di": "workspace:*"
     "@tsed/normalize-path": "workspace:*"
     "@tsed/typescript": "workspace:*"
-    eslint: "npm:^8.57.0"
+    eslint: "npm:9.11.1"
     globby: "npm:11.1.0"
-    tslib: "npm:2.6.1"
+    tslib: "npm:2.7.0"
     typescript: "npm:5.4.5"
     vitest: "npm:2.0.4"
   peerDependencies:
-    "@tsed/core": 8.0.0-alpha.6
+    "@tsed/core": 8.0.0-alpha.7
   peerDependenciesMeta:
     "@tsed/core":
       optional: false
@@ -6874,9 +6825,9 @@ __metadata:
     "@tsed/typescript": "workspace:*"
     "@tsed/vitest": "workspace:*"
     "@vitest/coverage-v8": "npm:^2.0.5"
-    eslint: "npm:^8.57.0"
+    eslint: "npm:9.11.1"
     reflect-metadata: "npm:^0.2.1"
-    tslib: "npm:2.6.1"
+    tslib: "npm:2.7.0"
     typescript: "npm:5.4.5"
     vite: "npm:^5.4.1"
     vitest: "npm:2.0.4"
@@ -6894,16 +6845,16 @@ __metadata:
     "@tsed/schema": "workspace:*"
     "@tsed/typescript": "workspace:*"
     cross-env: "npm:7.0.3"
-    eslint: "npm:^8.57.0"
-    tslib: "npm:2.6.2"
+    eslint: "npm:9.11.1"
+    tslib: "npm:2.7.0"
     typescript: "npm:5.4.5"
     uuid: "npm:9.0.1"
     vitest: "npm:2.0.4"
     webpack: "npm:^5.75.0"
   peerDependencies:
-    "@tsed/core": 8.0.0-alpha.6
+    "@tsed/core": 8.0.0-alpha.7
     "@tsed/logger": ">=6.7.5"
-    "@tsed/schema": 8.0.0-alpha.6
+    "@tsed/schema": 8.0.0-alpha.7
   peerDependenciesMeta:
     "@tsed/core":
       optional: false
@@ -6936,7 +6887,7 @@ __metadata:
     eco: "npm:^1.1.0-rc-3"
     ect: "npm:^0.5.9"
     ejs: "npm:^3.1.9"
-    eslint: "npm:^8.57.0"
+    eslint: "npm:9.11.1"
     haml: "npm:^0.4.3"
     haml-coffee: "npm:^1.14.1"
     hamlet: "npm:^0.3.3"
@@ -6968,7 +6919,7 @@ __metadata:
     templayed: "npm:>=0.2.3"
     tinyliquid: "npm:^0.2.34"
     ts-node: "npm:10.9.2"
-    tslib: "npm:2.6.1"
+    tslib: "npm:2.7.0"
     twig: "npm:^1.15.2"
     twing: "npm:^5.0.2"
     typescript: "npm:5.4.5"
@@ -6990,9 +6941,9 @@ __metadata:
     "@tsed/core": "workspace:*"
     "@tsed/di": "workspace:*"
     "@tsed/typescript": "workspace:*"
-    eslint: "npm:^8.57.0"
+    eslint: "npm:9.11.1"
     eventemitter2: "npm:^6.4.9"
-    tslib: "npm:2.6.1"
+    tslib: "npm:2.7.0"
     typescript: "npm:5.4.5"
     vitest: "npm:2.0.4"
     webpack: "npm:^5.75.0"
@@ -7009,13 +6960,13 @@ __metadata:
     "@tsed/typescript": "workspace:*"
     "@types/statuses": "npm:2.0.5"
     change-case: "npm:4.1.2"
-    eslint: "npm:^8.57.0"
+    eslint: "npm:9.11.1"
     statuses: "npm:>=2.0.1"
-    tslib: "npm:2.6.1"
+    tslib: "npm:2.7.0"
     typescript: "npm:5.4.5"
     vitest: "npm:2.0.4"
   peerDependencies:
-    "@tsed/core": 8.0.0-alpha.6
+    "@tsed/core": 8.0.0-alpha.7
   languageName: unknown
   linkType: soft
 
@@ -7025,8 +6976,8 @@ __metadata:
   dependencies:
     "@tsed/barrels": "workspace:*"
     "@tsed/typescript": "workspace:*"
-    eslint: "npm:^8.57.0"
-    tslib: "npm:2.6.1"
+    eslint: "npm:9.11.1"
+    tslib: "npm:2.7.0"
     typescript: "npm:5.4.5"
   peerDependencies:
     formiojs: ">=4.0.0"
@@ -7046,16 +6997,16 @@ __metadata:
     "@tsed/normalize-path": "workspace:*"
     "@tsed/typescript": "workspace:*"
     "@types/async": "npm:3.2.24"
-    eslint: "npm:^8.57.0"
+    eslint: "npm:9.11.1"
     express: "npm:^4.19.1"
     formio: "npm:3.5.0"
     mongodb: "npm:*"
     mongoose: "npm:^6.12.7"
-    tslib: "npm:2.6.1"
+    tslib: "npm:2.7.0"
     typescript: "npm:5.4.5"
     vitest: "npm:2.0.4"
   peerDependencies:
-    "@tsed/common": 8.0.0-alpha.6
+    "@tsed/common": 8.0.0-alpha.7
     express: ^4.17.1
     formio: ">=2.0.0"
     lodash: ^4.17.21
@@ -7085,14 +7036,14 @@ __metadata:
     "@tsed/di": "workspace:*"
     "@tsed/logger": "npm:>=6.7.5"
     "@tsed/typescript": "workspace:*"
-    eslint: "npm:^8.57.0"
+    eslint: "npm:9.11.1"
     graphql-ws: "npm:5.16.0"
-    tslib: "npm:2.6.1"
+    tslib: "npm:2.7.0"
     typescript: "npm:5.4.5"
   peerDependencies:
-    "@tsed/common": 8.0.0-alpha.6
-    "@tsed/core": 8.0.0-alpha.6
-    "@tsed/di": 8.0.0-alpha.6
+    "@tsed/common": 8.0.0-alpha.7
+    "@tsed/core": 8.0.0-alpha.7
+    "@tsed/di": 8.0.0-alpha.7
     "@tsed/logger": ">=6.7.5"
     graphql-ws: ">=5.14.2"
   languageName: unknown
@@ -7125,15 +7076,15 @@ __metadata:
     "@tsed/di": "workspace:*"
     "@tsed/typescript": "workspace:*"
     "@types/ioredis-mock": "npm:^5.6.0"
-    eslint: "npm:^8.57.0"
+    eslint: "npm:9.11.1"
     ioredis: "npm:5.3.2"
     ioredis-mock: "npm:8.9.0"
-    tslib: "npm:2.6.1"
+    tslib: "npm:2.7.0"
     typescript: "npm:5.4.5"
     vitest: "npm:2.0.4"
   peerDependencies:
-    "@tsed/core": 8.0.0-alpha.6
-    "@tsed/di": 8.0.0-alpha.6
+    "@tsed/core": 8.0.0-alpha.7
+    "@tsed/di": 8.0.0-alpha.7
     ioredis: ">=5.2.3"
     ioredis-mock: ">=8.2.2"
   languageName: unknown
@@ -7147,14 +7098,14 @@ __metadata:
     "@tsed/core": "workspace:*"
     "@tsed/schema": "workspace:*"
     "@tsed/typescript": "workspace:*"
-    eslint: "npm:^8.57.0"
-    tslib: "npm:2.6.1"
+    eslint: "npm:9.11.1"
+    tslib: "npm:2.7.0"
     typescript: "npm:5.4.5"
     vitest: "npm:2.0.4"
     webpack: "npm:^5.75.0"
   peerDependencies:
-    "@tsed/core": 8.0.0-alpha.6
-    "@tsed/schema": 8.0.0-alpha.6
+    "@tsed/core": 8.0.0-alpha.7
+    "@tsed/schema": 8.0.0-alpha.7
   peerDependenciesMeta:
     "@tsed/core":
       optional: false
@@ -7169,10 +7120,10 @@ __metadata:
   dependencies:
     "@tsed/barrels": "workspace:*"
     "@tsed/typescript": "workspace:*"
-    eslint: "npm:^8.57.0"
+    eslint: "npm:9.11.1"
     fs-extra: "npm:^11.2.0"
     jose2: "npm:jose@^2.0.4"
-    tslib: "npm:2.6.1"
+    tslib: "npm:2.7.0"
     typescript: "npm:5.4.5"
     vitest: "npm:2.0.4"
   languageName: unknown
@@ -7230,16 +7181,16 @@ __metadata:
     "@tsed/testcontainers-mongo": "workspace:*"
     "@tsed/typescript": "workspace:*"
     cross-env: "npm:7.0.3"
-    eslint: "npm:^8.57.0"
+    eslint: "npm:9.11.1"
     ts-mockito: "npm:^2.6.1"
-    tslib: "npm:2.6.1"
+    tslib: "npm:2.7.0"
     typescript: "npm:5.4.5"
     vitest: "npm:2.0.4"
   peerDependencies:
     "@mikro-orm/core": ">=4.5.9"
-    "@tsed/common": 8.0.0-alpha.6
-    "@tsed/core": 8.0.0-alpha.6
-    "@tsed/di": 8.0.0-alpha.6
+    "@tsed/common": 8.0.0-alpha.7
+    "@tsed/core": 8.0.0-alpha.7
+    "@tsed/di": 8.0.0-alpha.7
     "@tsed/logger": ">=6.7.5"
   languageName: unknown
   linkType: soft
@@ -7258,18 +7209,18 @@ __metadata:
     "@tsed/testcontainers-mongo": "workspace:*"
     "@tsed/typescript": "workspace:*"
     change-case: "npm:4.1.2"
-    eslint: "npm:^8.57.0"
+    eslint: "npm:9.11.1"
     mongoose: "npm:6.12.7"
-    tslib: "npm:2.6.1"
+    tslib: "npm:2.7.0"
     typescript: "npm:5.4.5"
     vitest: "npm:2.0.4"
   peerDependencies:
-    "@tsed/ajv": 8.0.0-alpha.6
-    "@tsed/core": 8.0.0-alpha.6
-    "@tsed/di": 8.0.0-alpha.6
-    "@tsed/json-mapper": 8.0.0-alpha.6
+    "@tsed/ajv": 8.0.0-alpha.7
+    "@tsed/core": 8.0.0-alpha.7
+    "@tsed/di": 8.0.0-alpha.7
+    "@tsed/json-mapper": 8.0.0-alpha.7
     "@tsed/logger": ">=6.7.5"
-    "@tsed/schema": 8.0.0-alpha.6
+    "@tsed/schema": 8.0.0-alpha.7
     mongoose: ">=6.0.0"
   languageName: unknown
   linkType: soft
@@ -7314,9 +7265,9 @@ __metadata:
     "@tsed/barrels": "workspace:*"
     "@tsed/typescript": "workspace:*"
     "@types/normalize-path": "npm:^3.0.2"
-    eslint: "npm:^8.57.0"
+    eslint: "npm:9.11.1"
     normalize-path: "npm:3.0.0"
-    tslib: "npm:2.6.1"
+    tslib: "npm:2.7.0"
     typescript: "npm:5.4.5"
     vitest: "npm:2.0.4"
   languageName: unknown
@@ -7333,19 +7284,19 @@ __metadata:
     "@tsed/json-mapper": "workspace:*"
     "@tsed/schema": "workspace:*"
     "@tsed/typescript": "workspace:*"
-    eslint: "npm:^8.57.0"
+    eslint: "npm:9.11.1"
     knex: "npm:^3.1.0"
     objection: "npm:^2.2.18"
     sqlite3: "npm:^5.1.7"
-    tslib: "npm:2.6.1"
+    tslib: "npm:2.7.0"
     typescript: "npm:5.4.5"
     vitest: "npm:2.0.4"
   peerDependencies:
-    "@tsed/ajv": 8.0.0-alpha.6
-    "@tsed/core": 8.0.0-alpha.6
-    "@tsed/di": 8.0.0-alpha.6
-    "@tsed/json-mapper": 8.0.0-alpha.6
-    "@tsed/schema": 8.0.0-alpha.6
+    "@tsed/ajv": 8.0.0-alpha.7
+    "@tsed/core": 8.0.0-alpha.7
+    "@tsed/di": 8.0.0-alpha.7
+    "@tsed/json-mapper": 8.0.0-alpha.7
+    "@tsed/schema": 8.0.0-alpha.7
     knex: ">=0.94.0"
     objection: ">=2.0.0"
   peerDependenciesMeta:
@@ -7377,16 +7328,16 @@ __metadata:
     "@tsed/typescript": "workspace:*"
     "@types/psl": "npm:^1.1.3"
     "@types/uuid": "npm:9.0.8"
-    eslint: "npm:^8.57.0"
+    eslint: "npm:9.11.1"
     psl: "npm:1.9.0"
     typescript: "npm:5.4.5"
     vitest: "npm:2.0.4"
     wildcard: "npm:2.0.0"
   peerDependencies:
-    "@tsed/core": 8.0.0-alpha.6
-    "@tsed/di": 8.0.0-alpha.6
+    "@tsed/core": 8.0.0-alpha.7
+    "@tsed/di": 8.0.0-alpha.7
     "@tsed/logger": ">=6.7.5"
-    "@tsed/oidc-provider": 8.0.0-alpha.6
+    "@tsed/oidc-provider": 8.0.0-alpha.7
     oidc-provider: ">=8.0.0"
   peerDependenciesMeta:
     "@tsed/core":
@@ -7414,7 +7365,7 @@ __metadata:
     "@types/oidc-provider": "npm:8.4.4"
     "@types/uuid": "npm:9.0.8"
     cross-env: "npm:7.0.3"
-    eslint: "npm:^8.57.0"
+    eslint: "npm:9.11.1"
     express-urlrewrite: "npm:^1.4.0"
     jose2: "npm:jose@^2.0.4"
     koa-mount: "npm:^4.0.0"
@@ -7422,17 +7373,17 @@ __metadata:
     lodash: "npm:4.17.21"
     lowdb: "npm:3.0.0"
     oidc-provider: "npm:8.4.5"
-    tslib: "npm:2.6.1"
+    tslib: "npm:2.7.0"
     typescript: "npm:5.4.5"
     uuid: "npm:9.0.1"
     vitest: "npm:2.0.4"
   peerDependencies:
-    "@tsed/ajv": 8.0.0-alpha.6
-    "@tsed/common": 8.0.0-alpha.6
-    "@tsed/core": 8.0.0-alpha.6
-    "@tsed/di": 8.0.0-alpha.6
-    "@tsed/json-mapper": 8.0.0-alpha.6
-    "@tsed/schema": 8.0.0-alpha.6
+    "@tsed/ajv": 8.0.0-alpha.7
+    "@tsed/common": 8.0.0-alpha.7
+    "@tsed/core": 8.0.0-alpha.7
+    "@tsed/di": 8.0.0-alpha.7
+    "@tsed/json-mapper": 8.0.0-alpha.7
+    "@tsed/schema": 8.0.0-alpha.7
     oidc-provider: ">=8.0.0"
   peerDependenciesMeta:
     "@tsed/ajv":
@@ -7456,7 +7407,7 @@ __metadata:
   dependencies:
     "@tsed/barrels": "workspace:*"
     "@tsed/typescript": "workspace:*"
-    eslint: "npm:^8.57.0"
+    eslint: "npm:9.11.1"
     typescript: "npm:5.4.5"
   languageName: unknown
   linkType: soft
@@ -7475,16 +7426,16 @@ __metadata:
     "@types/passport-http": "npm:0.3.11"
     "@types/passport-local": "npm:1.0.38"
     "@types/passport-strategy": "npm:0.2.38"
-    eslint: "npm:^8.57.0"
+    eslint: "npm:9.11.1"
     passport: "npm:0.7.0"
     passport-http: "npm:0.3.0"
     passport-local: "npm:1.0.0"
     passport-strategy: "npm:1.0.0"
-    tslib: "npm:2.6.1"
+    tslib: "npm:2.7.0"
     typescript: "npm:5.4.5"
     vitest: "npm:2.0.4"
   peerDependencies:
-    "@tsed/common": 8.0.0-alpha.6
+    "@tsed/common": 8.0.0-alpha.7
     passport: ">=0.4.1"
   peerDependenciesMeta:
     "@tsed/common":
@@ -7499,8 +7450,8 @@ __metadata:
     "@tsed/core": "workspace:*"
     "@tsed/typescript": "workspace:*"
     chalk: "npm:^4.1.2"
-    eslint: "npm:^8.57.0"
-    tslib: "npm:2.6.1"
+    eslint: "npm:9.11.1"
+    tslib: "npm:2.7.0"
     typescript: "npm:5.4.5"
   languageName: unknown
   linkType: soft
@@ -7517,16 +7468,16 @@ __metadata:
     "@tsed/typescript": "workspace:*"
     "@types/micromatch": "npm:^4.0.6"
     cache-manager: "npm:^5.4.0"
-    eslint: "npm:^8.57.0"
+    eslint: "npm:9.11.1"
     micromatch: "npm:4.0.8"
-    tslib: "npm:2.6.1"
+    tslib: "npm:2.7.0"
     typescript: "npm:5.4.5"
     vitest: "npm:2.0.4"
   peerDependencies:
-    "@tsed/core": 8.0.0-alpha.6
-    "@tsed/di": 8.0.0-alpha.6
-    "@tsed/json-mapper": 8.0.0-alpha.6
-    "@tsed/schema": 8.0.0-alpha.6
+    "@tsed/core": 8.0.0-alpha.7
+    "@tsed/di": 8.0.0-alpha.7
+    "@tsed/json-mapper": 8.0.0-alpha.7
+    "@tsed/schema": 8.0.0-alpha.7
   peerDependenciesMeta:
     "@tsed/core":
       optional: false
@@ -7550,15 +7501,15 @@ __metadata:
     "@tsed/schema": "workspace:*"
     "@tsed/typescript": "workspace:*"
     ajv: "npm:^8.17.1"
-    eslint: "npm:^8.57.0"
-    tslib: "npm:2.6.1"
+    eslint: "npm:9.11.1"
+    tslib: "npm:2.7.0"
     typescript: "npm:5.4.5"
     vitest: "npm:2.0.4"
   peerDependencies:
-    "@tsed/core": 8.0.0-alpha.6
-    "@tsed/di": 8.0.0-alpha.6
-    "@tsed/exceptions": 8.0.0-alpha.6
-    "@tsed/schema": 8.0.0-alpha.6
+    "@tsed/core": 8.0.0-alpha.7
+    "@tsed/di": 8.0.0-alpha.7
+    "@tsed/exceptions": 8.0.0-alpha.7
+    "@tsed/schema": 8.0.0-alpha.7
   peerDependenciesMeta:
     "@tsed/core":
       optional: false
@@ -7594,23 +7545,23 @@ __metadata:
     cookie-parser: "npm:1.4.6"
     cors: "npm:2.8.5"
     cross-env: "npm:7.0.3"
-    eslint: "npm:^8.57.0"
+    eslint: "npm:9.11.1"
     express: "npm:^4.19.1"
     express-session: "npm:1.18.0"
     method-override: "npm:3.0.0"
     multer: "npm:^1.4.5-lts.1"
-    tslib: "npm:2.6.1"
+    tslib: "npm:2.7.0"
     typescript: "npm:5.4.5"
     vitest: "npm:2.0.4"
   peerDependencies:
-    "@tsed/common": 8.0.0-alpha.6
-    "@tsed/core": 8.0.0-alpha.6
-    "@tsed/di": 8.0.0-alpha.6
-    "@tsed/json-mapper": 8.0.0-alpha.6
+    "@tsed/common": 8.0.0-alpha.7
+    "@tsed/core": 8.0.0-alpha.7
+    "@tsed/di": 8.0.0-alpha.7
+    "@tsed/json-mapper": 8.0.0-alpha.7
     "@tsed/logger": ">=6.7.5"
-    "@tsed/openspec": 8.0.0-alpha.6
-    "@tsed/platform-views": 8.0.0-alpha.6
-    "@tsed/schema": 8.0.0-alpha.6
+    "@tsed/openspec": 8.0.0-alpha.7
+    "@tsed/platform-views": 8.0.0-alpha.7
+    "@tsed/schema": 8.0.0-alpha.7
     "@types/multer": ^1.4.5
     body-parser: ^1.19.0
     cross-env: 7.0.3
@@ -7658,7 +7609,7 @@ __metadata:
     "@types/koa__router": "npm:12.0.4"
     cross-env: "npm:7.0.3"
     encodeurl: "npm:^2.0.0"
-    eslint: "npm:^8.57.0"
+    eslint: "npm:9.11.1"
     koa: "npm:2.15.3"
     koa-bodyparser: "npm:4.4.1"
     koa-compress: "npm:5.1.1"
@@ -7667,17 +7618,17 @@ __metadata:
     koa-send: "npm:5.0.1"
     koa-session: "npm:6.4.0"
     multer: "npm:^1.4.5-lts.1"
-    tslib: "npm:2.6.1"
+    tslib: "npm:2.7.0"
     typescript: "npm:5.4.5"
     vitest: "npm:2.0.4"
   peerDependencies:
-    "@tsed/common": 8.0.0-alpha.6
-    "@tsed/core": 8.0.0-alpha.6
-    "@tsed/di": 8.0.0-alpha.6
-    "@tsed/json-mapper": 8.0.0-alpha.6
+    "@tsed/common": 8.0.0-alpha.7
+    "@tsed/core": 8.0.0-alpha.7
+    "@tsed/di": 8.0.0-alpha.7
+    "@tsed/json-mapper": 8.0.0-alpha.7
     "@tsed/logger": ">=6.7.5"
-    "@tsed/openspec": 8.0.0-alpha.6
-    "@tsed/schema": 8.0.0-alpha.6
+    "@tsed/openspec": 8.0.0-alpha.7
+    "@tsed/schema": 8.0.0-alpha.7
     koa: ">=2.13.0"
     koa-bodyparser: ">=4.3.0"
     koa-compress: ">=5.0.1"
@@ -7714,14 +7665,14 @@ __metadata:
     "@tsed/platform-middlewares": "workspace:*"
     "@tsed/platform-params": "workspace:*"
     "@tsed/typescript": "workspace:*"
-    eslint: "npm:^8.57.0"
-    tslib: "npm:2.6.1"
+    eslint: "npm:9.11.1"
+    tslib: "npm:2.7.0"
     typescript: "npm:5.4.5"
     vitest: "npm:2.0.4"
   peerDependencies:
-    "@tsed/di": 8.0.0-alpha.6
-    "@tsed/platform-middlewares": 8.0.0-alpha.6
-    "@tsed/platform-params": 8.0.0-alpha.6
+    "@tsed/di": 8.0.0-alpha.7
+    "@tsed/platform-middlewares": 8.0.0-alpha.7
+    "@tsed/platform-params": 8.0.0-alpha.7
   peerDependenciesMeta:
     "@tsed/di":
       optional: false
@@ -7741,14 +7692,14 @@ __metadata:
     "@tsed/di": "workspace:*"
     "@tsed/schema": "workspace:*"
     "@tsed/typescript": "workspace:*"
-    eslint: "npm:^8.57.0"
-    tslib: "npm:2.6.1"
+    eslint: "npm:9.11.1"
+    tslib: "npm:2.7.0"
     typescript: "npm:5.4.5"
     vitest: "npm:2.0.4"
   peerDependencies:
-    "@tsed/core": 8.0.0-alpha.6
-    "@tsed/di": 8.0.0-alpha.6
-    "@tsed/schema": 8.0.0-alpha.6
+    "@tsed/core": 8.0.0-alpha.7
+    "@tsed/di": 8.0.0-alpha.7
+    "@tsed/schema": 8.0.0-alpha.7
   peerDependenciesMeta:
     "@tsed/core":
       optional: true
@@ -7770,16 +7721,16 @@ __metadata:
     "@tsed/json-mapper": "workspace:*"
     "@tsed/schema": "workspace:*"
     "@tsed/typescript": "workspace:*"
-    eslint: "npm:^8.57.0"
-    tslib: "npm:2.6.1"
+    eslint: "npm:9.11.1"
+    tslib: "npm:2.7.0"
     typescript: "npm:5.4.5"
     vitest: "npm:2.0.4"
   peerDependencies:
-    "@tsed/core": 8.0.0-alpha.6
-    "@tsed/di": 8.0.0-alpha.6
-    "@tsed/exceptions": 8.0.0-alpha.6
-    "@tsed/json-mapper": 8.0.0-alpha.6
-    "@tsed/schema": 8.0.0-alpha.6
+    "@tsed/core": 8.0.0-alpha.7
+    "@tsed/di": 8.0.0-alpha.7
+    "@tsed/exceptions": 8.0.0-alpha.7
+    "@tsed/json-mapper": 8.0.0-alpha.7
+    "@tsed/schema": 8.0.0-alpha.7
   peerDependenciesMeta:
     "@tsed/core":
       optional: false
@@ -7805,16 +7756,16 @@ __metadata:
     "@tsed/json-mapper": "workspace:*"
     "@tsed/schema": "workspace:*"
     "@tsed/typescript": "workspace:*"
-    eslint: "npm:^8.57.0"
-    tslib: "npm:2.6.1"
+    eslint: "npm:9.11.1"
+    tslib: "npm:2.7.0"
     typescript: "npm:5.4.5"
     vitest: "npm:2.0.4"
   peerDependencies:
-    "@tsed/core": 8.0.0-alpha.6
-    "@tsed/di": 8.0.0-alpha.6
-    "@tsed/exceptions": 8.0.0-alpha.6
-    "@tsed/json-mapper": 8.0.0-alpha.6
-    "@tsed/schema": 8.0.0-alpha.6
+    "@tsed/core": 8.0.0-alpha.7
+    "@tsed/di": 8.0.0-alpha.7
+    "@tsed/exceptions": 8.0.0-alpha.7
+    "@tsed/json-mapper": 8.0.0-alpha.7
+    "@tsed/schema": 8.0.0-alpha.7
   peerDependenciesMeta:
     "@tsed/core":
       optional: false
@@ -7841,17 +7792,17 @@ __metadata:
     "@tsed/platform-params": "workspace:*"
     "@tsed/schema": "workspace:*"
     "@tsed/typescript": "workspace:*"
-    eslint: "npm:^8.57.0"
-    tslib: "npm:2.6.1"
+    eslint: "npm:9.11.1"
+    tslib: "npm:2.7.0"
     typescript: "npm:5.4.5"
     vitest: "npm:2.0.4"
   peerDependencies:
-    "@tsed/core": 8.0.0-alpha.6
-    "@tsed/di": 8.0.0-alpha.6
-    "@tsed/exceptions": 8.0.0-alpha.6
-    "@tsed/json-mapper": 8.0.0-alpha.6
-    "@tsed/platform-params": 8.0.0-alpha.6
-    "@tsed/schema": 8.0.0-alpha.6
+    "@tsed/core": 8.0.0-alpha.7
+    "@tsed/di": 8.0.0-alpha.7
+    "@tsed/exceptions": 8.0.0-alpha.7
+    "@tsed/json-mapper": 8.0.0-alpha.7
+    "@tsed/platform-params": 8.0.0-alpha.7
+    "@tsed/schema": 8.0.0-alpha.7
   peerDependenciesMeta:
     "@tsed/core":
       optional: false
@@ -7879,19 +7830,19 @@ __metadata:
     "@tsed/platform-serverless-testing": "workspace:*"
     "@tsed/typescript": "workspace:*"
     "@types/aws-lambda": "npm:^8.10.136"
-    eslint: "npm:^8.57.0"
+    eslint: "npm:9.11.1"
     serverless-http: "npm:^3.2.0"
-    tslib: "npm:2.6.1"
+    tslib: "npm:2.7.0"
     typescript: "npm:5.4.5"
     vitest: "npm:2.0.4"
   peerDependencies:
-    "@tsed/common": 8.0.0-alpha.6
-    "@tsed/core": 8.0.0-alpha.6
-    "@tsed/di": 8.0.0-alpha.6
-    "@tsed/json-mapper": 8.0.0-alpha.6
+    "@tsed/common": 8.0.0-alpha.7
+    "@tsed/core": 8.0.0-alpha.7
+    "@tsed/di": 8.0.0-alpha.7
+    "@tsed/json-mapper": 8.0.0-alpha.7
     "@tsed/logger": ">=6.7.5"
-    "@tsed/openspec": 8.0.0-alpha.6
-    "@tsed/schema": 8.0.0-alpha.6
+    "@tsed/openspec": 8.0.0-alpha.7
+    "@tsed/schema": 8.0.0-alpha.7
     serverless-http: ">=2.0.0"
   peerDependenciesMeta:
     "@tsed/common":
@@ -7922,17 +7873,17 @@ __metadata:
     "@tsed/schema": "workspace:*"
     "@tsed/typescript": "workspace:*"
     "@types/aws-lambda": "npm:^8.10.136"
-    eslint: "npm:^8.57.0"
-    tslib: "npm:2.6.1"
+    eslint: "npm:9.11.1"
+    tslib: "npm:2.7.0"
     typescript: "npm:5.4.5"
   peerDependencies:
-    "@tsed/common": 8.0.0-alpha.6
-    "@tsed/core": 8.0.0-alpha.6
-    "@tsed/di": 8.0.0-alpha.6
-    "@tsed/json-mapper": 8.0.0-alpha.6
+    "@tsed/common": 8.0.0-alpha.7
+    "@tsed/core": 8.0.0-alpha.7
+    "@tsed/di": 8.0.0-alpha.7
+    "@tsed/json-mapper": 8.0.0-alpha.7
     "@tsed/logger": ">=6.7.5"
-    "@tsed/openspec": 8.0.0-alpha.6
-    "@tsed/schema": 8.0.0-alpha.6
+    "@tsed/openspec": 8.0.0-alpha.7
+    "@tsed/schema": 8.0.0-alpha.7
   languageName: unknown
   linkType: soft
 
@@ -7954,15 +7905,15 @@ __metadata:
     "@types/mime": "npm:^3.0.4"
     aws-lambda: "npm:1.0.7"
     encodeurl: "npm:^2.0.0"
-    eslint: "npm:^8.57.0"
+    eslint: "npm:9.11.1"
     find-my-way: "npm:^8.2.0"
     mime: "npm:^3.0.0"
-    tslib: "npm:2.6.1"
+    tslib: "npm:2.7.0"
     typescript: "npm:5.4.5"
     uuid: "npm:^9.0.1"
     vitest: "npm:2.0.4"
   peerDependencies:
-    "@tsed/di": 8.0.0-alpha.6
+    "@tsed/di": 8.0.0-alpha.7
     "@tsed/logger": ">=6.7.5"
     find-my-way: ">=7.0.0"
   peerDependenciesMeta:
@@ -7995,7 +7946,7 @@ __metadata:
     "@tsed/typescript": "workspace:*"
     ajv: "npm:^8.17.1"
     axios: "npm:1.7.4"
-    eslint: "npm:^8.57.0"
+    eslint: "npm:9.11.1"
     read-pkg-up: "npm:7.0.1"
     typescript: "npm:5.4.5"
   languageName: unknown
@@ -8014,16 +7965,16 @@ __metadata:
     "@tsed/typescript": "workspace:*"
     "@types/ejs": "npm:3.1.5"
     ejs: "npm:^3.1.9"
-    eslint: "npm:^8.57.0"
-    tslib: "npm:2.6.1"
+    eslint: "npm:9.11.1"
+    tslib: "npm:2.7.0"
     typescript: "npm:5.4.5"
     vitest: "npm:2.0.4"
   peerDependencies:
-    "@tsed/core": 8.0.0-alpha.6
-    "@tsed/di": 8.0.0-alpha.6
-    "@tsed/engines": 8.0.0-alpha.6
-    "@tsed/exceptions": 8.0.0-alpha.6
-    "@tsed/schema": 8.0.0-alpha.6
+    "@tsed/core": 8.0.0-alpha.7
+    "@tsed/di": 8.0.0-alpha.7
+    "@tsed/engines": 8.0.0-alpha.7
+    "@tsed/exceptions": 8.0.0-alpha.7
+    "@tsed/schema": 8.0.0-alpha.7
   peerDependenciesMeta:
     "@tsed/core":
       optional: false
@@ -8053,20 +8004,20 @@ __metadata:
     "@types/change-case": "npm:^2.3.1"
     "@types/pluralize": "npm:0.0.33"
     change-case: "npm:^4.1.2"
-    eslint: "npm:^8.57.0"
+    eslint: "npm:9.11.1"
     fs-extra: "npm:^11.2.0"
     pluralize: "npm:^8.0.0"
     prisma: "npm:^4.16.2"
     ts-morph: "npm:^12.0.0"
-    tslib: "npm:2.6.1"
+    tslib: "npm:2.7.0"
     typescript: "npm:5.4.5"
     vitest: "npm:2.0.4"
   peerDependencies:
     "@prisma/client": ">=4.0.0"
-    "@tsed/core": 8.0.0-alpha.6
-    "@tsed/di": 8.0.0-alpha.6
-    "@tsed/json-mapper": 8.0.0-alpha.6
-    "@tsed/schema": 8.0.0-alpha.6
+    "@tsed/core": 8.0.0-alpha.7
+    "@tsed/di": 8.0.0-alpha.7
+    "@tsed/json-mapper": 8.0.0-alpha.7
+    "@tsed/schema": 8.0.0-alpha.7
   bin:
     tsed-prisma: lib/cjs/generator.js
     tsed-prisma-esm: lib/esm/generator.js
@@ -8083,8 +8034,8 @@ __metadata:
     "@tsed/core": "workspace:*"
     "@tsed/di": "workspace:*"
     "@tsed/typescript": "workspace:*"
-    eslint: "npm:^8.57.0"
-    tslib: "npm:2.6.1"
+    eslint: "npm:9.11.1"
+    tslib: "npm:2.7.0"
     typescript: "npm:5.4.5"
     vitest: "npm:2.0.4"
   peerDependencies:
@@ -8164,14 +8115,14 @@ __metadata:
     "@tsed/schema": "workspace:*"
     "@tsed/typescript": "workspace:*"
     change-case: "npm:4.1.2"
-    eslint: "npm:^8.57.0"
-    tslib: "npm:2.6.1"
+    eslint: "npm:9.11.1"
+    tslib: "npm:2.7.0"
     typescript: "npm:5.4.5"
     vitest: "npm:2.0.4"
   peerDependencies:
-    "@tsed/core": 8.0.0-alpha.6
-    "@tsed/openspec": 8.0.0-alpha.6
-    "@tsed/schema": 8.0.0-alpha.6
+    "@tsed/core": 8.0.0-alpha.7
+    "@tsed/openspec": 8.0.0-alpha.7
+    "@tsed/schema": 8.0.0-alpha.7
     formiojs: ">=4.0.0"
     lodash: ">=4.0.0"
     moment: ">=2.0.0"
@@ -8206,19 +8157,19 @@ __metadata:
     "@types/statuses": "npm:2.0.5"
     ajv: "npm:^8.17.1"
     change-case: "npm:^4.1.2"
-    eslint: "npm:^8.57.0"
+    eslint: "npm:9.11.1"
     fs-extra: "npm:^11.2.0"
     json-schema: "npm:0.4.0"
     picomatch: "npm:2.3.1"
     picomatch-browser: "npm:^2.2.6"
     statuses: "npm:>=2.0.1"
-    tslib: "npm:2.6.1"
+    tslib: "npm:2.7.0"
     typescript: "npm:5.4.5"
     vitest: "npm:2.0.4"
     webpack: "npm:^5.75.0"
   peerDependencies:
-    "@tsed/core": 8.0.0-alpha.6
-    "@tsed/openspec": 8.0.0-alpha.6
+    "@tsed/core": 8.0.0-alpha.7
+    "@tsed/openspec": 8.0.0-alpha.7
   peerDependenciesMeta:
     "@tsed/core":
       optional: false
@@ -8235,14 +8186,14 @@ __metadata:
     "@tsed/common": "workspace:*"
     "@tsed/di": "workspace:*"
     "@tsed/typescript": "workspace:*"
-    eslint: "npm:^8.57.0"
+    eslint: "npm:9.11.1"
     socket.io-client: "npm:^4.7.5"
-    tslib: "npm:2.6.1"
+    tslib: "npm:2.7.0"
     typescript: "npm:5.4.5"
   peerDependencies:
-    "@tsed/common": 8.0.0-alpha.6
-    "@tsed/core": 8.0.0-alpha.6
-    "@tsed/di": 8.0.0-alpha.6
+    "@tsed/common": 8.0.0-alpha.7
+    "@tsed/core": 8.0.0-alpha.7
+    "@tsed/di": 8.0.0-alpha.7
     socket.io-client: ^4.0.1
   languageName: unknown
   linkType: soft
@@ -8261,19 +8212,19 @@ __metadata:
     "@tsed/schema": "workspace:*"
     "@tsed/socketio-testing": "workspace:*"
     "@tsed/typescript": "workspace:*"
-    eslint: "npm:^8.57.0"
+    eslint: "npm:9.11.1"
     express: "npm:^4.19.1"
     socket.io: "npm:4.7.5"
     socket.io-client: "npm:^4.7.5"
-    tslib: "npm:2.6.1"
+    tslib: "npm:2.7.0"
     typescript: "npm:5.4.5"
     vitest: "npm:2.0.4"
   peerDependencies:
-    "@tsed/di": 8.0.0-alpha.6
-    "@tsed/json-mapper": 8.0.0-alpha.6
+    "@tsed/di": 8.0.0-alpha.7
+    "@tsed/json-mapper": 8.0.0-alpha.7
     "@tsed/logger": ">=6.7.5"
-    "@tsed/platform-middlewares": 8.0.0-alpha.6
-    "@tsed/schema": 8.0.0-alpha.6
+    "@tsed/platform-middlewares": 8.0.0-alpha.7
+    "@tsed/schema": 8.0.0-alpha.7
     socket.io: ">=4.0.0"
   peerDependenciesMeta:
     "@tsed/di":
@@ -8301,17 +8252,17 @@ __metadata:
     "@tsed/schema": "workspace:*"
     "@tsed/socketio-testing": "workspace:*"
     "@tsed/typescript": "workspace:*"
-    eslint: "npm:^8.57.0"
+    eslint: "npm:9.11.1"
     express: "npm:^4.19.1"
-    tslib: "npm:2.6.1"
+    tslib: "npm:2.7.0"
     typescript: "npm:5.4.5"
     vitest: "npm:2.0.4"
   peerDependencies:
-    "@tsed/di": 8.0.0-alpha.6
-    "@tsed/json-mapper": 8.0.0-alpha.6
+    "@tsed/di": 8.0.0-alpha.7
+    "@tsed/json-mapper": 8.0.0-alpha.7
     "@tsed/logger": ">=6.7.5"
-    "@tsed/platform-middlewares": 8.0.0-alpha.6
-    "@tsed/schema": 8.0.0-alpha.6
+    "@tsed/platform-middlewares": 8.0.0-alpha.7
+    "@tsed/schema": 8.0.0-alpha.7
   peerDependenciesMeta:
     "@tsed/di":
       optional: false
@@ -8336,16 +8287,16 @@ __metadata:
     "@tsed/platform-params": "workspace:*"
     "@tsed/schema": "workspace:*"
     "@tsed/typescript": "workspace:*"
-    eslint: "npm:^8.57.0"
+    eslint: "npm:9.11.1"
     stripe: "npm:^8.129.0"
-    tslib: "npm:2.6.1"
+    tslib: "npm:2.7.0"
     typescript: "npm:5.4.5"
     vitest: "npm:2.0.4"
   peerDependencies:
-    "@tsed/exceptions": 8.0.0-alpha.6
-    "@tsed/platform-middlewares": 8.0.0-alpha.6
-    "@tsed/platform-params": 8.0.0-alpha.6
-    "@tsed/schema": 8.0.0-alpha.6
+    "@tsed/exceptions": 8.0.0-alpha.7
+    "@tsed/platform-middlewares": 8.0.0-alpha.7
+    "@tsed/platform-params": 8.0.0-alpha.7
+    "@tsed/schema": 8.0.0-alpha.7
     "@types/body-parser": ^1.19.0
     body-parser: ^1.19.0
     stripe: ^9.16.0
@@ -8378,16 +8329,16 @@ __metadata:
     "@tsed/schema": "workspace:*"
     "@tsed/typescript": "workspace:*"
     "@types/swagger-ui-dist": "npm:3.30.4"
-    eslint: "npm:^8.57.0"
+    eslint: "npm:9.11.1"
     fs-extra: "npm:11.2.0"
     micromatch: "npm:4.0.8"
     swagger-ui-dist: "npm:>=5.17.1"
     ts-node: "npm:10.9.2"
-    tslib: "npm:2.6.1"
+    tslib: "npm:2.7.0"
     typescript: "npm:5.4.5"
     vitest: "npm:2.0.4"
   peerDependencies:
-    "@tsed/common": 8.0.0-alpha.6
+    "@tsed/common": 8.0.0-alpha.7
   peerDependenciesMeta:
     "@tsed/common":
       optional: false
@@ -8407,8 +8358,8 @@ __metadata:
     "@tsed/di": "workspace:*"
     "@tsed/typescript": "workspace:*"
     cross-env: "npm:7.0.3"
-    eslint: "npm:^8.57.0"
-    tslib: "npm:2.6.1"
+    eslint: "npm:9.11.1"
+    tslib: "npm:2.7.0"
     typescript: "npm:5.4.5"
     vitest: "npm:2.0.4"
   peerDependencies:
@@ -8428,16 +8379,16 @@ __metadata:
     "@tsed/di": "workspace:*"
     "@tsed/schema": "workspace:*"
     "@tsed/typescript": "workspace:*"
-    eslint: "npm:^8.57.0"
-    tslib: "npm:2.6.1"
+    eslint: "npm:9.11.1"
+    tslib: "npm:2.7.0"
     typescript: "npm:5.4.5"
     vitest: "npm:2.0.4"
   peerDependencies:
     "@godaddy/terminus": ^4.7.1
-    "@tsed/common": 8.0.0-alpha.6
-    "@tsed/core": 8.0.0-alpha.6
-    "@tsed/di": 8.0.0-alpha.6
-    "@tsed/schema": 8.0.0-alpha.6
+    "@tsed/common": 8.0.0-alpha.7
+    "@tsed/core": 8.0.0-alpha.7
+    "@tsed/di": 8.0.0-alpha.7
+    "@tsed/schema": 8.0.0-alpha.7
   peerDependenciesMeta:
     "@godaddy/terminus":
       optional: false
@@ -8460,17 +8411,17 @@ __metadata:
     "@tsed/core": "workspace:*"
     "@tsed/di": "workspace:*"
     "@tsed/typescript": "workspace:*"
-    eslint: "npm:^8.57.0"
+    eslint: "npm:9.11.1"
     mongodb: "npm:6.8.0"
     semver: "npm:^7.6.0"
     testcontainers: "npm:>=10.11.0"
-    tslib: "npm:2.6.1"
+    tslib: "npm:2.7.0"
     typescript: "npm:5.4.5"
   peerDependencies:
     "@testcontainers/mongodb": ">=10.11.0"
-    "@tsed/common": 8.0.0-alpha.6
-    "@tsed/core": 8.0.0-alpha.6
-    "@tsed/di": 8.0.0-alpha.6
+    "@tsed/common": 8.0.0-alpha.7
+    "@tsed/core": 8.0.0-alpha.7
+    "@tsed/di": 8.0.0-alpha.7
     mongodb: ">=6"
     testcontainers: ">=10.11.0"
   languageName: unknown
@@ -8509,12 +8460,12 @@ __metadata:
     "@types/graphql": "npm:^14.5.0"
     class-validator: "npm:~0.14.1"
     cross-env: "npm:^7.0.3"
-    eslint: "npm:^8.57.0"
+    eslint: "npm:9.11.1"
     graphql: "npm:16.8.2"
     graphql-passport: "npm:^0.6.8"
     graphql-scalars: "npm:1.23.0"
     ts-node: "npm:10.9.2"
-    tslib: "npm:2.6.1"
+    tslib: "npm:2.7.0"
     type-graphql: "npm:>=2.0.0-rc.2"
     typescript: "npm:5.4.5"
     vitest: "npm:2.0.4"
@@ -8543,14 +8494,14 @@ __metadata:
     "@tsed/di": "workspace:*"
     "@tsed/exceptions": "workspace:*"
     "@tsed/typescript": "workspace:*"
-    eslint: "npm:^8.57.0"
+    eslint: "npm:9.11.1"
     sirv: "npm:^2.0.4"
     typescript: "npm:5.4.5"
     vike: "npm:0.4.160"
     vite: "npm:5.4.1"
     vitest: "npm:2.0.4"
   peerDependencies:
-    "@tsed/common": 8.0.0-alpha.6
+    "@tsed/common": 8.0.0-alpha.7
     vike: ">=0.4.160"
     vite: ">=4"
   peerDependenciesMeta:
@@ -9891,13 +9842,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@ungap/structured-clone@npm:^1.2.0":
-  version: 1.2.0
-  resolution: "@ungap/structured-clone@npm:1.2.0"
-  checksum: 10/c6fe89a505e513a7592e1438280db1c075764793a2397877ff1351721fe8792a966a5359769e30242b3cd023f2efb9e63ca2ca88019d73b564488cc20e3eab12
-  languageName: node
-  linkType: hard
-
 "@vendia/serverless-express@npm:^3.4.0":
   version: 3.4.0
   resolution: "@vendia/serverless-express@npm:3.4.0"
@@ -10400,7 +10344,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"acorn@npm:^8.0.0, acorn@npm:^8.9.0":
+"acorn@npm:^8.0.0":
   version: 8.11.3
   resolution: "acorn@npm:8.11.3"
   bin:
@@ -14680,15 +14624,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"doctrine@npm:^3.0.0":
-  version: 3.0.0
-  resolution: "doctrine@npm:3.0.0"
-  dependencies:
-    esutils: "npm:^2.0.2"
-  checksum: 10/b4b28f1df5c563f7d876e7461254a4597b8cabe915abe94d7c5d1633fed263fcf9a85e8d3836591fc2d040108e822b0d32758e5ec1fe31c590dc7e08086e3e48
-  languageName: node
-  linkType: hard
-
 "doctypes@npm:^1.1.0":
   version: 1.1.0
   resolution: "doctypes@npm:1.1.0"
@@ -15585,16 +15520,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint-scope@npm:^7.2.2":
-  version: 7.2.2
-  resolution: "eslint-scope@npm:7.2.2"
-  dependencies:
-    esrecurse: "npm:^4.3.0"
-    estraverse: "npm:^5.2.0"
-  checksum: 10/5c660fb905d5883ad018a6fea2b49f3cb5b1cbf2cd4bd08e98646e9864f9bc2c74c0839bed2d292e90a4a328833accc197c8f0baed89cbe8d605d6f918465491
-  languageName: node
-  linkType: hard
-
 "eslint-scope@npm:^8.0.2":
   version: 8.1.0
   resolution: "eslint-scope@npm:8.1.0"
@@ -15678,54 +15603,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint@npm:^8.57.0":
-  version: 8.57.0
-  resolution: "eslint@npm:8.57.0"
-  dependencies:
-    "@eslint-community/eslint-utils": "npm:^4.2.0"
-    "@eslint-community/regexpp": "npm:^4.6.1"
-    "@eslint/eslintrc": "npm:^2.1.4"
-    "@eslint/js": "npm:8.57.0"
-    "@humanwhocodes/config-array": "npm:^0.11.14"
-    "@humanwhocodes/module-importer": "npm:^1.0.1"
-    "@nodelib/fs.walk": "npm:^1.2.8"
-    "@ungap/structured-clone": "npm:^1.2.0"
-    ajv: "npm:^6.12.4"
-    chalk: "npm:^4.0.0"
-    cross-spawn: "npm:^7.0.2"
-    debug: "npm:^4.3.2"
-    doctrine: "npm:^3.0.0"
-    escape-string-regexp: "npm:^4.0.0"
-    eslint-scope: "npm:^7.2.2"
-    eslint-visitor-keys: "npm:^3.4.3"
-    espree: "npm:^9.6.1"
-    esquery: "npm:^1.4.2"
-    esutils: "npm:^2.0.2"
-    fast-deep-equal: "npm:^3.1.3"
-    file-entry-cache: "npm:^6.0.1"
-    find-up: "npm:^5.0.0"
-    glob-parent: "npm:^6.0.2"
-    globals: "npm:^13.19.0"
-    graphemer: "npm:^1.4.0"
-    ignore: "npm:^5.2.0"
-    imurmurhash: "npm:^0.1.4"
-    is-glob: "npm:^4.0.0"
-    is-path-inside: "npm:^3.0.3"
-    js-yaml: "npm:^4.1.0"
-    json-stable-stringify-without-jsonify: "npm:^1.0.1"
-    levn: "npm:^0.4.1"
-    lodash.merge: "npm:^4.6.2"
-    minimatch: "npm:^3.1.2"
-    natural-compare: "npm:^1.4.0"
-    optionator: "npm:^0.9.3"
-    strip-ansi: "npm:^6.0.1"
-    text-table: "npm:^0.2.0"
-  bin:
-    eslint: bin/eslint.js
-  checksum: 10/00496e218b23747a7a9817bf58b522276d0dc1f2e546dceb4eea49f9871574088f72f1f069a6b560ef537efa3a75261b8ef70e51ef19033da1cc4c86a755ef15
-  languageName: node
-  linkType: hard
-
 "esm@npm:^3.2.25":
   version: 3.2.25
   resolution: "esm@npm:3.2.25"
@@ -15741,17 +15618,6 @@ __metadata:
     acorn-jsx: "npm:^5.3.2"
     eslint-visitor-keys: "npm:^4.1.0"
   checksum: 10/365076a963ca84244c1e2d36e4f812362d21cfa7e7df10d67f7b82b759467796df81184721d153c4e235d9ef5eb5b4d044167dd66be3be00f53a21a515b1bfb1
-  languageName: node
-  linkType: hard
-
-"espree@npm:^9.6.0, espree@npm:^9.6.1":
-  version: 9.6.1
-  resolution: "espree@npm:9.6.1"
-  dependencies:
-    acorn: "npm:^8.9.0"
-    acorn-jsx: "npm:^5.3.2"
-    eslint-visitor-keys: "npm:^3.4.1"
-  checksum: 10/255ab260f0d711a54096bdeda93adff0eadf02a6f9b92f02b323e83a2b7fc258797919437ad331efec3930475feb0142c5ecaaf3cdab4befebd336d47d3f3134
   languageName: node
   linkType: hard
 
@@ -15782,15 +15648,6 @@ __metadata:
     esparse: ./bin/esparse.js
     esvalidate: ./bin/esvalidate.js
   checksum: 10/839aad5916d05d3a82ccf3adaf67c2b5df69278fd7168347346e7af298dc7fbfbfd7bc5e27e38031a584d50d28e37da35d711b2f5d5376794f84b1bd8e559665
-  languageName: node
-  linkType: hard
-
-"esquery@npm:^1.4.2":
-  version: 1.5.0
-  resolution: "esquery@npm:1.5.0"
-  dependencies:
-    estraverse: "npm:^5.1.0"
-  checksum: 10/e65fcdfc1e0ff5effbf50fb4f31ea20143ae5df92bb2e4953653d8d40aa4bc148e0d06117a592ce4ea53eeab1dafdfded7ea7e22a5be87e82d73757329a1b01d
   languageName: node
   linkType: hard
 
@@ -16449,15 +16306,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"file-entry-cache@npm:^6.0.1":
-  version: 6.0.1
-  resolution: "file-entry-cache@npm:6.0.1"
-  dependencies:
-    flat-cache: "npm:^3.0.4"
-  checksum: 10/099bb9d4ab332cb93c48b14807a6918a1da87c45dce91d4b61fd40e6505d56d0697da060cb901c729c90487067d93c9243f5da3dc9c41f0358483bfdebca736b
-  languageName: node
-  linkType: hard
-
 "file-entry-cache@npm:^8.0.0":
   version: 8.0.0
   resolution: "file-entry-cache@npm:8.0.0"
@@ -16618,16 +16466,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"flat-cache@npm:^3.0.4":
-  version: 3.0.4
-  resolution: "flat-cache@npm:3.0.4"
-  dependencies:
-    flatted: "npm:^3.1.0"
-    rimraf: "npm:^3.0.2"
-  checksum: 10/9fe5d0cb97c988e3b25242e71346965fae22757674db3fca14206850af2efa3ca3b04a3ba0eba8d5e20fd8a3be80a2e14b1c2917e70ffe1acb98a8c3327e4c9f
-  languageName: node
-  linkType: hard
-
 "flat-cache@npm:^4.0.0":
   version: 4.0.1
   resolution: "flat-cache@npm:4.0.1"
@@ -16644,13 +16482,6 @@ __metadata:
   bin:
     flat: cli.js
   checksum: 10/72479e651c15eab53e25ce04c31bab18cfaac0556505cac19221dbbe85bbb9686bc76e4d397e89e5bf516ce667dcf818f8b07e585568edba55abc2bf1f698fb5
-  languageName: node
-  linkType: hard
-
-"flatted@npm:^3.1.0":
-  version: 3.2.5
-  resolution: "flatted@npm:3.2.5"
-  checksum: 10/eed01f72ad0317561e4d6187f7408dc391f7849d9cd6700520ce06155d1859539b6899afdfefc815ce51ec48f97d1015350287c541b5302a49581cf25cec1cd2
   languageName: node
   linkType: hard
 
@@ -17563,15 +17394,6 @@ __metadata:
   version: 11.12.0
   resolution: "globals@npm:11.12.0"
   checksum: 10/9f054fa38ff8de8fa356502eb9d2dae0c928217b8b5c8de1f09f5c9b6c8a96d8b9bd3afc49acbcd384a98a81fea713c859e1b09e214c60509517bb8fc2bc13c2
-  languageName: node
-  linkType: hard
-
-"globals@npm:^13.19.0":
-  version: 13.24.0
-  resolution: "globals@npm:13.24.0"
-  dependencies:
-    type-fest: "npm:^0.20.2"
-  checksum: 10/62c5b1997d06674fc7191d3e01e324d3eda4d65ac9cc4e78329fa3b5c4fd42a0e1c8722822497a6964eee075255ce21ccf1eec2d83f92ef3f06653af4d0ee28e
   languageName: node
   linkType: hard
 
@@ -22389,7 +22211,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"minimatch@npm:^3.0.4, minimatch@npm:^3.0.5, minimatch@npm:^3.1.1, minimatch@npm:^3.1.2":
+"minimatch@npm:^3.0.4, minimatch@npm:^3.1.1, minimatch@npm:^3.1.2":
   version: 3.1.2
   resolution: "minimatch@npm:3.1.2"
   dependencies:
@@ -29304,13 +29126,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"tslib@npm:2.6.1":
-  version: 2.6.1
-  resolution: "tslib@npm:2.6.1"
-  checksum: 10/5cf1aa7ea4ca7ee9b8aa3d80eb7ee86634b307fbefcb948a831c2b13728e21e156ef7fb9edcbe21f05c08f65e4cf4480587086f31133491ba1a49c9e0b28fc75
-  languageName: node
-  linkType: hard
-
 "tslib@npm:2.6.2, tslib@npm:^2.0.0, tslib@npm:^2.0.3, tslib@npm:^2.1.0, tslib@npm:^2.3.0, tslib@npm:^2.3.1, tslib@npm:^2.4.0, tslib@npm:^2.5.0, tslib@npm:^2.6.2":
   version: 2.6.2
   resolution: "tslib@npm:2.6.2"
@@ -29453,13 +29268,6 @@ __metadata:
   version: 0.18.1
   resolution: "type-fest@npm:0.18.1"
   checksum: 10/08844377058435c2b0e633ba01bab6102dba0ed63d85417d8e18feff265eed6f5c9f8f9a25d405ea9db88a41a569be73a3c4c0d4e29150bf89fb145bb23114a2
-  languageName: node
-  linkType: hard
-
-"type-fest@npm:^0.20.2":
-  version: 0.20.2
-  resolution: "type-fest@npm:0.20.2"
-  checksum: 10/8907e16284b2d6cfa4f4817e93520121941baba36b39219ea36acfe64c86b9dbc10c9941af450bd60832c8f43464974d51c0957f9858bc66b952b66b6914cbb9
   languageName: node
   linkType: hard
 

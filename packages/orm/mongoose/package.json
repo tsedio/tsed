@@ -2,7 +2,7 @@
   "name": "@tsed/mongoose",
   "description": "Mongoose package for Ts.ED framework",
   "type": "module",
-  "version": "8.0.0-alpha.6",
+  "version": "8.0.0-alpha.7",
   "keywords": [
     "tsed",
     "mongoose",
@@ -30,7 +30,7 @@
   },
   "dependencies": {
     "change-case": "4.1.2",
-    "tslib": "2.6.1"
+    "tslib": "2.7.0"
   },
   "devDependencies": {
     "@tsed/ajv": "workspace:*",
@@ -42,18 +42,18 @@
     "@tsed/schema": "workspace:*",
     "@tsed/testcontainers-mongo": "workspace:*",
     "@tsed/typescript": "workspace:*",
-    "eslint": "^8.57.0",
+    "eslint": "9.11.1",
     "mongoose": "6.12.7",
     "typescript": "5.4.5",
     "vitest": "2.0.4"
   },
   "peerDependencies": {
-    "@tsed/ajv": "8.0.0-alpha.6",
-    "@tsed/core": "8.0.0-alpha.6",
-    "@tsed/di": "8.0.0-alpha.6",
-    "@tsed/json-mapper": "8.0.0-alpha.6",
+    "@tsed/ajv": "8.0.0-alpha.7",
+    "@tsed/core": "8.0.0-alpha.7",
+    "@tsed/di": "8.0.0-alpha.7",
+    "@tsed/json-mapper": "8.0.0-alpha.7",
     "@tsed/logger": ">=6.7.5",
-    "@tsed/schema": "8.0.0-alpha.6",
+    "@tsed/schema": "8.0.0-alpha.7",
     "mongoose": ">=6.0.0"
   }
 }

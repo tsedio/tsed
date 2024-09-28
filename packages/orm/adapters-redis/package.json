@@ -2,7 +2,7 @@
   "name": "@tsed/adapters-redis",
   "description": "Redis adapter for Ts.ED",
   "type": "module",
-  "version": "8.0.0-alpha.6",
+  "version": "8.0.0-alpha.7",
   "source": "./src/index.ts",
   "main": "./lib/esm/index.js",
   "module": "./lib/esm/index.js",
@@ -24,21 +24,21 @@
   "dependencies": {
     "@tsed/adapters": "workspace:*",
     "@tsed/ioredis": "workspace:*",
-    "tslib": "2.6.1"
+    "tslib": "2.7.0"
   },
   "devDependencies": {
     "@tsed/barrels": "workspace:*",
     "@tsed/core": "workspace:*",
     "@tsed/typescript": "workspace:*",
-    "eslint": "^8.57.0",
+    "eslint": "9.11.1",
     "typescript": "5.4.5",
     "vitest": "2.0.4"
   },
   "peerDependencies": {
-    "@tsed/adapters": "8.0.0-alpha.6",
-    "@tsed/common": "8.0.0-alpha.6",
-    "@tsed/core": "8.0.0-alpha.6",
-    "@tsed/di": "8.0.0-alpha.6",
+    "@tsed/adapters": "8.0.0-alpha.7",
+    "@tsed/common": "8.0.0-alpha.7",
+    "@tsed/core": "8.0.0-alpha.7",
+    "@tsed/di": "8.0.0-alpha.7",
     "ioredis": ">=5.2.3",
     "ioredis-mock": ">=8.2.2",
     "uuid": "^9.0.1"

@@ -2,7 +2,7 @@
   "name": "@tsed/adapters",
   "description": "Database adapters for Ts.ED",
   "type": "module",
-  "version": "8.0.0-alpha.6",
+  "version": "8.0.0-alpha.7",
   "source": "./src/index.ts",
   "main": "./lib/esm/index.js",
   "module": "./lib/esm/index.js",
@@ -28,7 +28,7 @@
     "fs-extra": "11.2.0",
     "lodash": "^4.17.21",
     "lowdb": "1.0.0",
-    "tslib": "2.6.1",
+    "tslib": "2.7.0",
     "uuid": "9.0.1"
   },
   "devDependencies": {
@@ -41,17 +41,17 @@
     "@tsed/schema": "workspace:*",
     "@tsed/typescript": "workspace:*",
     "@types/fs-extra": "11.0.4",
-    "eslint": "^8.57.0",
+    "eslint": "9.11.1",
     "typescript": "5.4.5",
     "vitest": "2.0.4"
   },
   "peerDependencies": {
-    "@tsed/ajv": "8.0.0-alpha.6",
-    "@tsed/common": "8.0.0-alpha.6",
-    "@tsed/core": "8.0.0-alpha.6",
-    "@tsed/di": "8.0.0-alpha.6",
-    "@tsed/json-mapper": "8.0.0-alpha.6",
-    "@tsed/schema": "8.0.0-alpha.6"
+    "@tsed/ajv": "8.0.0-alpha.7",
+    "@tsed/common": "8.0.0-alpha.7",
+    "@tsed/core": "8.0.0-alpha.7",
+    "@tsed/di": "8.0.0-alpha.7",
+    "@tsed/json-mapper": "8.0.0-alpha.7",
+    "@tsed/schema": "8.0.0-alpha.7"
   },
   "peerDependenciesMeta": {
     "@tsed/ajv": {

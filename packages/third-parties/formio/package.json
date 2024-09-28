@@ -2,7 +2,7 @@
   "name": "@tsed/formio",
   "description": "Formio package for Ts.ED framework",
   "type": "module",
-  "version": "8.0.0-alpha.6",
+  "version": "8.0.0-alpha.7",
   "keywords": [
     "Formio",
     "Ts.ED",
@@ -33,7 +33,7 @@
   "dependencies": {
     "@tsed/formio-types": "workspace:*",
     "@tsed/normalize-path": "workspace:*",
-    "tslib": "2.6.1"
+    "tslib": "2.7.0"
   },
   "devDependencies": {
     "@tsed/barrels": "workspace:*",
@@ -43,7 +43,7 @@
     "@tsed/mongoose": "workspace:*",
     "@tsed/typescript": "workspace:*",
     "@types/async": "3.2.24",
-    "eslint": "^8.57.0",
+    "eslint": "9.11.1",
     "express": "^4.19.1",
     "formio": "3.5.0",
     "mongodb": "*",
@@ -52,7 +52,7 @@
     "vitest": "2.0.4"
   },
   "peerDependencies": {
-    "@tsed/common": "8.0.0-alpha.6",
+    "@tsed/common": "8.0.0-alpha.7",
     "express": "^4.17.1",
     "formio": ">=2.0.0",
     "lodash": "^4.17.21",

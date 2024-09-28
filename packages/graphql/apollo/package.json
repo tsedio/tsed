@@ -2,7 +2,7 @@
   "name": "@tsed/apollo",
   "description": "Apollo package for Ts.ED framework",
   "type": "module",
-  "version": "8.0.0-alpha.6",
+  "version": "8.0.0-alpha.7",
   "source": "./src/index.ts",
   "main": "./lib/esm/index.js",
   "module": "./lib/esm/index.js",
@@ -22,7 +22,7 @@
     "test:ci": "vitest run --coverage.thresholds.autoUpdate=true"
   },
   "dependencies": {
-    "tslib": "2.6.1"
+    "tslib": "2.7.0"
   },
   "devDependencies": {
     "@apollo/datasource-rest": "6.2.2",
@@ -36,16 +36,16 @@
     "@tsed/typescript": "workspace:*",
     "apollo-datasource-http": "0.21.0",
     "apollo-server-testing": "2.25.3",
-    "eslint": "^8.57.0",
+    "eslint": "9.11.1",
     "graphql": "16.8.2",
     "typescript": "5.4.5",
     "vitest": "2.0.4"
   },
   "peerDependencies": {
     "@apollo/server": ">=4.10.4",
-    "@tsed/common": "8.0.0-alpha.6",
-    "@tsed/core": "8.0.0-alpha.6",
-    "@tsed/di": "8.0.0-alpha.6",
+    "@tsed/common": "8.0.0-alpha.7",
+    "@tsed/core": "8.0.0-alpha.7",
+    "@tsed/di": "8.0.0-alpha.7",
     "@tsed/logger": ">=6.7.5",
     "graphql": ">16.0.0"
   }

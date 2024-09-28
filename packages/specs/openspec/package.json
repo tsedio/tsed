@@ -2,7 +2,7 @@
   "name": "@tsed/openspec",
   "description": "OpenSpec2 and OpenSpec3 interfaces declarations for TypeScript application",
   "type": "module",
-  "version": "8.0.0-alpha.6",
+  "version": "8.0.0-alpha.7",
   "source": "./src/index.ts",
   "main": "./lib/esm/index.js",
   "module": "./lib/esm/index.js",
@@ -32,7 +32,7 @@
   "devDependencies": {
     "@tsed/barrels": "workspace:*",
     "@tsed/typescript": "workspace:*",
-    "eslint": "^8.57.0",
+    "eslint": "9.11.1",
     "typescript": "5.4.5"
   }
 }

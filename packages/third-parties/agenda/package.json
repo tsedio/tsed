@@ -2,7 +2,7 @@
   "name": "@tsed/agenda",
   "description": "Agenda package for Ts.ED framework",
   "type": "module",
-  "version": "8.0.0-alpha.6",
+  "version": "8.0.0-alpha.7",
   "source": "./src/index.ts",
   "main": "./lib/esm/index.js",
   "module": "./lib/esm/index.js",
@@ -27,7 +27,7 @@
     }
   ],
   "dependencies": {
-    "tslib": "2.6.1"
+    "tslib": "2.7.0"
   },
   "devDependencies": {
     "@tsed/barrels": "workspace:*",
@@ -36,7 +36,7 @@
     "@tsed/di": "workspace:*",
     "@tsed/typescript": "workspace:*",
     "agenda": "^5.0.0",
-    "eslint": "^8.57.0",
+    "eslint": "9.11.1",
     "typescript": "5.4.5",
     "vitest": "2.0.4"
   },

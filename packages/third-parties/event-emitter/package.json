@@ -2,7 +2,7 @@
   "name": "@tsed/event-emitter",
   "description": "EventEmitter package for Ts.ED framework",
   "type": "module",
-  "version": "8.0.0-alpha.6",
+  "version": "8.0.0-alpha.7",
   "contributors": [
     {
       "name": "Oliver Christen"
@@ -30,7 +30,7 @@
     "test:ci": "vitest run --coverage.thresholds.autoUpdate=true"
   },
   "dependencies": {
-    "tslib": "2.6.1"
+    "tslib": "2.7.0"
   },
   "devDependencies": {
     "@tsed/barrels": "workspace:*",
@@ -38,7 +38,7 @@
     "@tsed/core": "workspace:*",
     "@tsed/di": "workspace:*",
     "@tsed/typescript": "workspace:*",
-    "eslint": "^8.57.0",
+    "eslint": "9.11.1",
     "eventemitter2": "^6.4.9",
     "typescript": "5.4.5",
     "vitest": "2.0.4",

@@ -2,7 +2,7 @@
   "name": "@tsed/oidc-provider",
   "description": "OIDC provider package for Ts.ED framework",
   "type": "module",
-  "version": "8.0.0-alpha.6",
+  "version": "8.0.0-alpha.7",
   "contributors": [
     {
       "name": "romakita"
@@ -40,7 +40,7 @@
     "koa-mount": "^4.0.0",
     "koa-rewrite": "^3.0.1",
     "lodash": "4.17.21",
-    "tslib": "2.6.1",
+    "tslib": "2.7.0",
     "uuid": "9.0.1"
   },
   "devDependencies": {
@@ -55,19 +55,19 @@
     "@types/oidc-provider": "8.4.4",
     "@types/uuid": "9.0.8",
     "cross-env": "7.0.3",
-    "eslint": "^8.57.0",
+    "eslint": "9.11.1",
     "lowdb": "3.0.0",
     "oidc-provider": "8.4.5",
     "typescript": "5.4.5",
     "vitest": "2.0.4"
   },
   "peerDependencies": {
-    "@tsed/ajv": "8.0.0-alpha.6",
-    "@tsed/common": "8.0.0-alpha.6",
-    "@tsed/core": "8.0.0-alpha.6",
-    "@tsed/di": "8.0.0-alpha.6",
-    "@tsed/json-mapper": "8.0.0-alpha.6",
-    "@tsed/schema": "8.0.0-alpha.6",
+    "@tsed/ajv": "8.0.0-alpha.7",
+    "@tsed/common": "8.0.0-alpha.7",
+    "@tsed/core": "8.0.0-alpha.7",
+    "@tsed/di": "8.0.0-alpha.7",
+    "@tsed/json-mapper": "8.0.0-alpha.7",
+    "@tsed/schema": "8.0.0-alpha.7",
     "oidc-provider": ">=8.0.0"
   },
   "peerDependenciesMeta": {

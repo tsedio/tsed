@@ -2,7 +2,7 @@
   "name": "@tsed/swagger",
   "description": "Swagger package for Ts.ED framework",
   "type": "module",
-  "version": "8.0.0-alpha.6",
+  "version": "8.0.0-alpha.7",
   "source": "./src/index.ts",
   "main": "./lib/esm/index.js",
   "module": "./lib/esm/index.js",
@@ -30,7 +30,7 @@
     "fs-extra": "11.2.0",
     "micromatch": "4.0.8",
     "swagger-ui-dist": ">=5.17.1",
-    "tslib": "2.6.1"
+    "tslib": "2.7.0"
   },
   "devDependencies": {
     "@tsed/barrels": "workspace:*",
@@ -43,13 +43,13 @@
     "@tsed/schema": "workspace:*",
     "@tsed/typescript": "workspace:*",
     "@types/swagger-ui-dist": "3.30.4",
-    "eslint": "^8.57.0",
+    "eslint": "9.11.1",
     "ts-node": "10.9.2",
     "typescript": "5.4.5",
     "vitest": "2.0.4"
   },
   "peerDependencies": {
-    "@tsed/common": "8.0.0-alpha.6"
+    "@tsed/common": "8.0.0-alpha.7"
   },
   "peerDependenciesMeta": {
     "@tsed/common": {

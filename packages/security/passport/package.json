@@ -2,7 +2,7 @@
   "name": "@tsed/passport",
   "description": "Passport package for Ts.ED framework",
   "type": "module",
-  "version": "8.0.0-alpha.6",
+  "version": "8.0.0-alpha.7",
   "source": "./src/index.ts",
   "main": "./lib/esm/index.js",
   "module": "./lib/esm/index.js",
@@ -24,7 +24,7 @@
     "test:ci": "vitest run --coverage.thresholds.autoUpdate=true"
   },
   "dependencies": {
-    "tslib": "2.6.1"
+    "tslib": "2.7.0"
   },
   "devDependencies": {
     "@tsed/barrels": "workspace:*",
@@ -37,7 +37,7 @@
     "@types/passport-http": "0.3.11",
     "@types/passport-local": "1.0.38",
     "@types/passport-strategy": "0.2.38",
-    "eslint": "^8.57.0",
+    "eslint": "9.11.1",
     "passport": "0.7.0",
     "passport-http": "0.3.0",
     "passport-local": "1.0.0",
@@ -46,7 +46,7 @@
     "vitest": "2.0.4"
   },
   "peerDependencies": {
-    "@tsed/common": "8.0.0-alpha.6",
+    "@tsed/common": "8.0.0-alpha.7",
     "passport": ">=0.4.1"
   },
   "peerDependenciesMeta": {

@@ -2,7 +2,7 @@
   "name": "@tsed/objection",
   "description": "Objection.js package for Ts.ED framework",
   "type": "module",
-  "version": "8.0.0-alpha.6",
+  "version": "8.0.0-alpha.7",
   "source": "./src/index.ts",
   "main": "./lib/esm/index.js",
   "module": "./lib/esm/index.js",
@@ -22,7 +22,7 @@
     "test:ci": "vitest run --coverage.thresholds.autoUpdate=true"
   },
   "dependencies": {
-    "tslib": "2.6.1"
+    "tslib": "2.7.0"
   },
   "devDependencies": {
     "@tsed/ajv": "workspace:*",
@@ -32,7 +32,7 @@
     "@tsed/json-mapper": "workspace:*",
     "@tsed/schema": "workspace:*",
     "@tsed/typescript": "workspace:*",
-    "eslint": "^8.57.0",
+    "eslint": "9.11.1",
     "knex": "^3.1.0",
     "objection": "^2.2.18",
     "sqlite3": "^5.1.7",
@@ -40,11 +40,11 @@
     "vitest": "2.0.4"
   },
   "peerDependencies": {
-    "@tsed/ajv": "8.0.0-alpha.6",
-    "@tsed/core": "8.0.0-alpha.6",
-    "@tsed/di": "8.0.0-alpha.6",
-    "@tsed/json-mapper": "8.0.0-alpha.6",
-    "@tsed/schema": "8.0.0-alpha.6",
+    "@tsed/ajv": "8.0.0-alpha.7",
+    "@tsed/core": "8.0.0-alpha.7",
+    "@tsed/di": "8.0.0-alpha.7",
+    "@tsed/json-mapper": "8.0.0-alpha.7",
+    "@tsed/schema": "8.0.0-alpha.7",
     "knex": ">=0.94.0",
     "objection": ">=2.0.0"
   },

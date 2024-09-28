@@ -2,7 +2,7 @@
   "name": "@tsed/formio-types",
   "description": "Formio types definition package for Ts.ED framework",
   "type": "module",
-  "version": "8.0.0-alpha.6",
+  "version": "8.0.0-alpha.7",
   "keywords": [
     "Formio",
     "Ts.ED",
@@ -29,7 +29,7 @@
     "build:ts": "tsc --build tsconfig.json"
   },
   "dependencies": {
-    "tslib": "2.6.1"
+    "tslib": "2.7.0"
   },
   "peerDependencies": {
     "formiojs": ">=4.0.0"
@@ -37,7 +37,7 @@
   "devDependencies": {
     "@tsed/barrels": "workspace:*",
     "@tsed/typescript": "workspace:*",
-    "eslint": "^8.57.0",
+    "eslint": "9.11.1",
     "typescript": "5.4.5"
   }
 }
