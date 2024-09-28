@@ -1,5 +1,6 @@
 import {PlatformTest} from "@tsed/common";
 import {Get, JsonEntityStore, Redirect, Returns} from "@tsed/schema";
+
 import {createServerlessContext} from "../../test/utils/createServerlessContext.js";
 import {setResponseHeaders} from "./setResponseHeaders.js";
 
@@ -10,7 +11,7 @@ describe("setResponseHeaders", () => {
   it("should set headers, status and contentType", async () => {
     class Test {
       @Get("/")
-      @Returns(200).Header("x-header", "test")
+      @(Returns(200).Header("x-header", "test"))
       test() {}
     }
 
@@ -30,7 +31,7 @@ describe("setResponseHeaders", () => {
   it("should not set headers automatically", async () => {
     class Test {
       @Get("/")
-      @Returns(200).Header("x-header")
+      @(Returns(200).Header("x-header"))
       test() {}
     }
 
@@ -107,7 +108,7 @@ describe("setResponseHeaders", () => {
   it("should do nothing when headers is already sent", async () => {
     class Test {
       @Get("/")
-      @Returns(200).Header("x-header", "test")
+      @(Returns(200).Header("x-header", "test"))
       test() {}
     }
 

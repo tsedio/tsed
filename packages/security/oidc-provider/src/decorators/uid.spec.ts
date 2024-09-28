@@ -1,6 +1,7 @@
+import {JsonParameterStore} from "@tsed/schema";
+
 import {INTERACTION_UID} from "../constants/constants.js";
 import {Uid} from "./uid.js";
-import {JsonParameterStore} from "@tsed/schema";
 
 describe("@Uid", () => {
   it("should inject uid", () => {

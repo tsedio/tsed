@@ -1,4 +1,5 @@
 import {Store} from "@tsed/core";
+
 import {SocketMiddleware, SocketProviderTypes} from "../index.js";
 
 describe("@SocketMiddleware", () => {

@@ -14,6 +14,7 @@ import {normalizePath} from "@tsed/normalize-path";
 import {PlatformRouter, useContextHandler} from "@tsed/platform-router";
 import Fs from "fs";
 import {join} from "path";
+
 import {ROOT_DIR, SWAGGER_UI_DIST} from "./constants.js";
 import {SwaggerSettings} from "./interfaces/SwaggerSettings.js";
 import {cssMiddleware} from "./middlewares/cssMiddleware.js";

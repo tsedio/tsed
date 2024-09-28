@@ -83,10 +83,6 @@ describe("ObjectUtils", () => {
       expect(isArrayOrArrayClass(Array)).toBe(true);
     });
 
-    it("should return true when Array is given", () => {
-      expect(isArrayOrArrayClass([])).toBe(true);
-    });
-
     it("should return true when [] is given", () => {
       expect(isArrayOrArrayClass([])).toBe(true);
     });
@@ -99,10 +95,6 @@ describe("ObjectUtils", () => {
   describe("isCollection()", () => {
     it("should return true when Array is given", () => {
       expect(isCollection(Array)).toBe(true);
-    });
-
-    it("should return true when Array is given", () => {
-      expect(isCollection([])).toBe(true);
     });
 
     it("should return true when [] is given", () => {
@@ -138,7 +130,7 @@ describe("ObjectUtils", () => {
       expect(isEmpty(null)).toBe(true);
     });
 
-    it("should return true when empty string is given", () => {
+    it("should return true when undefined is given", () => {
       expect(isEmpty(undefined)).toBe(true);
     });
     it("should return false when {} is given", () => {
@@ -154,11 +146,11 @@ describe("ObjectUtils", () => {
   });
 
   describe("isClass()", () => {
-    it("should return true", () => {
+    it("should return true when is a class", () => {
       expect(isClass(class {})).toBe(true);
     });
 
-    it("should return true", () => {
+    it("should return true when is a function", () => {
       expect(isClass(function t() {})).toBe(true);
     });
 
@@ -188,31 +180,31 @@ describe("ObjectUtils", () => {
       expect(isPromise(Promise)).toBe(true);
     });
 
-    it("should return true", () => {
+    it("should return true when its promise resolved", () => {
       expect(isPromise(Promise.resolve())).toBe(true);
     });
   });
 
   describe("nameOf", () => {
-    it("should return name when class is given", () => {
+    it("should return 'Test' when class is given", () => {
       expect(nameOf(Test)).toBe("Test");
     });
-    it("should return name when symbol is given", () => {
+    it("should return 'test2' when symbol is given", () => {
       expect(nameOf(sym)).toBe("test2");
     });
-    it("should return name when string is given", () => {
+    it("should return 'test' when string is given", () => {
       expect(nameOf("test")).toBe("test");
     });
-    it("should return name when string is given", () => {
+    it("should return '1' when string is given", () => {
       expect(nameOf(1)).toBe("1");
     });
-    it("should return name when string is given", () => {
+    it("should return 'true' when boolean is given", () => {
       expect(nameOf(true)).toBe("true");
     });
-    it("should return name when null is given", () => {
+    it("should return 'null' when null is given", () => {
       expect(nameOf(null)).toBe("null");
     });
-    it("should return name when undefined is given", () => {
+    it("should return 'undefined' when undefined is given", () => {
       expect(nameOf(undefined)).toBe("undefined");
     });
   });

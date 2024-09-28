@@ -1,6 +1,7 @@
 import {DecoratorParameters, decoratorTypeOf, DecoratorTypes, StoreSet} from "@tsed/core";
-import {Inject} from "./inject.js";
+
 import {DIConfiguration} from "../services/DIConfiguration.js";
+import {Inject} from "./inject.js";
 
 /**
  * Get or set Configuration on a class.

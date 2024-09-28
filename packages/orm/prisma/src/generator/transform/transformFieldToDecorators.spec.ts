@@ -1,6 +1,6 @@
+import {createContextFixture} from "../../__mock__/createContextFixture.js";
 import {createDmmfFieldFixture} from "../../__mock__/createDmmfFieldFixture.js";
 import {PrismaScalars} from "../domain/ScalarTsTypes.js";
-import {createContextFixture} from "../../__mock__/createContextFixture.js";
 import {transformFieldToDecorators} from "./transformFieldToDecorators.js";
 
 describe("transformFieldToDecorators()", () => {

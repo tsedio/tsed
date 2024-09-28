@@ -1,13 +1,14 @@
 #!/usr/bin/env node
-import os from "os";
-import {Command} from "commander";
-import inquirer from "inquirer";
-import Table from "cli-table";
 import chalk from "chalk";
-import {join} from "path";
+import Table from "cli-table";
+import {Command} from "commander";
 import {readdirSync, readFileSync, writeFileSync} from "fs";
-import {info} from "../src/packages.js";
+import inquirer from "inquirer";
+import os from "os";
+import {join} from "path";
+
 import {compare} from "../src/autocannon.js";
+import {info} from "../src/packages.js";
 
 const commander = new Command();
 

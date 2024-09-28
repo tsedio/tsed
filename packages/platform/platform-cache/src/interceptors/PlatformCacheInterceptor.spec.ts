@@ -1,6 +1,7 @@
 import {PlatformTest} from "@tsed/common";
 import {isClass} from "@tsed/core";
 import {serialize} from "@tsed/json-mapper";
+
 import {UseCache} from "../decorators/useCache.js";
 import {PlatformCache} from "../services/PlatformCache.js";
 import {isEndpoint} from "../utils/isEndpoint.js";
@@ -275,7 +276,7 @@ describe("PlatformCacheInterceptor", () => {
       expect(result).toEqual({
         data: "refreshed"
       });
-      expect(interceptor.canRefreshInBackground).not.toBeCalled();
+      expect(interceptor.canRefreshInBackground).not.toHaveBeenCalled();
       expect(cache.setCachedObject).toHaveBeenCalledWith(
         "Test:test:value",
         {data: "refreshed"},

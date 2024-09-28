@@ -1,5 +1,6 @@
-import {Inject, Injectable, Configuration, OnInit, OnDestroy} from "@tsed/di";
+import {Configuration, Inject, Injectable, OnDestroy, OnInit} from "@tsed/di";
 import {Logger} from "@tsed/logger";
+
 import {PrismaClient} from "../client/index.js";
 
 @Injectable()

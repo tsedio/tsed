@@ -1,6 +1,7 @@
 import {nameOf} from "@tsed/core";
 import {Controller} from "@tsed/di";
 import {Get, Post} from "@tsed/schema";
+
 import {Platform} from "./Platform.js";
 import {PlatformTest} from "./PlatformTest.js";
 

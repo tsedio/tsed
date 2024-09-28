@@ -1,4 +1,5 @@
 import type {Knex} from "knex";
+
 import {createColumns} from "../../../src/index.js";
 import {User} from "../models/User.js";
 

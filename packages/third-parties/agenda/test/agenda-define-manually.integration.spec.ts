@@ -1,9 +1,9 @@
 import {PlatformTest} from "@tsed/common";
 import {Inject} from "@tsed/di";
 import {TestContainersMongo} from "@tsed/testcontainers-mongo";
-
 import type {Job} from "agenda";
-import {AgendaModule, Agenda, AgendaService, Define} from "@tsed/agenda";
+
+import {Agenda, AgendaModule, AgendaService, Define} from "..";
 import {Server} from "./helpers/Server.js";
 
 @Agenda({namespace: "test-nsp"})

@@ -1,5 +1,6 @@
-import {Project} from "ts-morph";
 import path from "path";
+import {Project} from "ts-morph";
+
 import {resolveExtension} from "./resolveExtension.js";
 
 export function generateIndex(project: Project, baseDirPath: string, hasEnum: boolean) {

@@ -1,4 +1,5 @@
 import {isClass, isString, nameOf, Store, Type} from "@tsed/core";
+
 import {MONGOOSE_MODEL_NAME} from "../constants/constants.js";
 
 /**

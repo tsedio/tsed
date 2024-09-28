@@ -1,6 +1,7 @@
 import {MultipartFile, PlatformMulterFile} from "@tsed/common";
 import {Controller} from "@tsed/di";
 import {BodyParams} from "@tsed/platform-params";
+
 import {SpecTypes} from "../../src/index.js";
 import {Description, getSpec, Post} from "../../src/index.js";
 import {validateSpec} from "../helpers/validateSpec.js";

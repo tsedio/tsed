@@ -1,4 +1,5 @@
 import {OpenSpec2, OpenSpec3} from "@tsed/openspec";
+
 import {mergeSpec} from "./mergeSpec.js";
 
 describe("mergeSpec", () => {

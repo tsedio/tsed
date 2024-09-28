@@ -1,4 +1,5 @@
 import {PlatformTest} from "@tsed/common";
+
 import {OidcSecureMiddleware} from "./OidcSecureMiddleware.js";
 
 describe("OidcSecureMiddleware", () => {
@@ -25,7 +26,7 @@ describe("OidcSecureMiddleware", () => {
 
     middleware.use(ctx);
 
-    expect(ctx.response.redirect).toBeCalledWith(302, "https://host/path");
+    expect(ctx.response.redirect).toHaveBeenCalledWith(302, "https://host/path");
   });
 
   it("should check if the request is not secure on HEAD verb", async () => {
@@ -47,7 +48,7 @@ describe("OidcSecureMiddleware", () => {
 
     middleware.use(ctx);
 
-    expect(ctx.response.redirect).toBeCalledWith(302, "https://host/path");
+    expect(ctx.response.redirect).toHaveBeenCalledWith(302, "https://host/path");
   });
 
   it("should check if the request is not secure on POST verb", async () => {
@@ -100,6 +101,6 @@ describe("OidcSecureMiddleware", () => {
 
     middleware.use(ctx);
 
-    expect(ctx.response.redirect).not.toBeCalled();
+    expect(ctx.response.redirect).not.toHaveBeenCalled();
   });
 });

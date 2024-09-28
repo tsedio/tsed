@@ -1,6 +1,6 @@
 import fs from "fs";
-import {dirname, join} from "path";
 import {createRequire} from "module";
+import {dirname, join} from "path";
 
 const require = createRequire(import.meta.url);
 

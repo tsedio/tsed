@@ -1,6 +1,7 @@
 import {PlatformTest} from "@tsed/common";
 import {Inject} from "@tsed/di";
 import type {Job} from "agenda";
+
 import {AgendaModule} from "./AgendaModule.js";
 import {Agenda} from "./decorators/agenda.js";
 import {Define} from "./decorators/define.js";

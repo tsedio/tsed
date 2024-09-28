@@ -1,4 +1,5 @@
 import {DIConfiguration} from "@tsed/di";
+
 import {PlatformMiddlewareLoadingOptions} from "../domain/PlatformMiddlewareSettings.js";
 
 export function getMiddlewaresForHook(hook: string, settings: DIConfiguration, defaultHook = "") {

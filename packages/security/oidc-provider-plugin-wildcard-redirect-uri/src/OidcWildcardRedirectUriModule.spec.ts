@@ -1,6 +1,7 @@
 import {PlatformTest} from "@tsed/common";
 import {catchError} from "@tsed/core";
 import {errors, KoaContextWithOIDC} from "oidc-provider";
+
 import {OidcWildcardRedirectUriModule} from "./OidcWildcardRedirectUriModule.js";
 import InvalidClientMetadata = errors.InvalidClientMetadata;
 
@@ -55,7 +56,7 @@ describe("WildcardRedirectUriAllowed", () => {
         const service = PlatformTest.get<OidcWildcardRedirectUriModule>(OidcWildcardRedirectUriModule);
         service.validator({} as KoaContextWithOIDC, "key", "value");
       });
-      it("should throw an error if one of client redirect_uri contains more than one '*' ", () => {
+      it("should throw an error if one of client redirect_uri contains more than one '*'", () => {
         const service = PlatformTest.get<OidcWildcardRedirectUriModule>(OidcWildcardRedirectUriModule);
 
         const error = catchError<any>(() =>
@@ -92,7 +93,7 @@ describe("WildcardRedirectUriAllowed", () => {
         const service = PlatformTest.get<OidcWildcardRedirectUriModule>(OidcWildcardRedirectUriModule);
         service.validator({} as KoaContextWithOIDC, "key", "value");
       });
-      it("should throw an error if one of client post_logout_redirect_uris contains more than one '*' ", () => {
+      it("should throw an error if one of client post_logout_redirect_uris contains more than one '*'", () => {
         const service = PlatformTest.get<OidcWildcardRedirectUriModule>(OidcWildcardRedirectUriModule);
 
         const error = catchError<any>(() =>

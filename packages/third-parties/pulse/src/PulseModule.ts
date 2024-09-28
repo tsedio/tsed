@@ -1,7 +1,8 @@
+import {DefineOptions, Job, JobAttributesData, Processor} from "@pulsecron/pulse";
 import {AfterListen, DIContext, Logger, OnDestroy, runInContext} from "@tsed/common";
 import {Constant, Inject, InjectorService, Module, Provider} from "@tsed/di";
-import {Job, Processor, DefineOptions, JobAttributesData} from "@pulsecron/pulse";
 import {v4 as uuid} from "uuid";
+
 import {PROVIDER_TYPE_PULSE} from "./constants/constants.js";
 import {PulseStore} from "./interfaces/PulseStore.js";
 import {PulseService} from "./services/PulseFactory.js";

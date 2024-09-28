@@ -1,5 +1,6 @@
+import {Allow, CollectionOf, Description, Email, Enum, Format, Groups, Integer, Property, Required} from "@tsed/schema";
+
 import {User} from "../client/index.js";
-import {Integer, Required, Property, Groups, Format, Email, Description, Allow, Enum, CollectionOf} from "@tsed/schema";
 import {Role} from "../enums/index.js";
 import {PostModel} from "./PostModel.js";
 

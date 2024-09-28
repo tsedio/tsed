@@ -1,11 +1,12 @@
+import "@tsed/platform-express";
+import "./services/ManagedEventSubscriber.js";
+
 import {PlatformApplication} from "@tsed/common";
 import {Configuration, Inject} from "@tsed/di";
-import "@tsed/platform-express";
 import bodyParser from "body-parser";
 import compress from "compression";
 import cookieParser from "cookie-parser";
 import methodOverride from "method-override";
-import "./services/ManagedEventSubscriber.js";
 
 const rootDir = __dirname; // automatically replaced by import.meta.dirname on build
 

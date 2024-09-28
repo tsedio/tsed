@@ -1,4 +1,5 @@
 import {ancestorsOf, Type} from "@tsed/core";
+
 import type {JsonClassStore} from "../domain/JsonClassStore.js";
 import {getJsonEntityStore} from "./getJsonEntityStore.js";
 

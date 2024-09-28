@@ -1,4 +1,5 @@
 import {isPromise} from "@tsed/core";
+
 import {Inject} from "../decorators/inject.js";
 import {Injectable} from "../decorators/injectable.js";
 import {Container} from "../domain/Container.js";
@@ -12,7 +13,7 @@ describe("DI", () => {
 
     registerProvider({
       provide: ASYNC_FACTORY,
-      // eslint-disable-next-line require-await
+
       useAsyncFactory() {
         return {
           connection: true,

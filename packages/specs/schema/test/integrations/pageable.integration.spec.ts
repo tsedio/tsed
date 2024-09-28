@@ -9,9 +9,9 @@ import {
   getSpec,
   In,
   Integer,
-  Name,
   Min,
   MinLength,
+  Name,
   oneOf,
   OperationPath,
   Path,
@@ -92,8 +92,8 @@ class Product {
 @Path("/pageable")
 class TestPageableCtrl {
   @OperationPath("GET", "/")
-  @Returns(206, Pagination).Of(Product).Title("PaginatedProduct")
-  @Returns(200, Pagination).Of(Product).Title("PaginatedProduct")
+  @(Returns(206, Pagination).Of(Product).Title("PaginatedProduct"))
+  @(Returns(200, Pagination).Of(Product).Title("PaginatedProduct"))
   get(@In("query") pageableOptions: Pageable, @In("query") @Name("all") all: boolean) {
     return new Pagination<Product>({
       data: [

@@ -1,5 +1,5 @@
 import {DITest} from "../../node/index.js";
-import {constant, Constant} from "./constant.js";
+import {Constant, constant} from "./constant.js";
 
 describe("@Constant()", () => {
   beforeEach(() =>

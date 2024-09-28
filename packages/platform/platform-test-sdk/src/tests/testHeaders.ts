@@ -1,31 +1,32 @@
-import {expect, beforeAll, afterAll, it} from "vitest";
 import {BodyParams, Controller, Get, PlatformResponse, PlatformTest, Res} from "@tsed/common";
 import {Returns} from "@tsed/schema";
 import SuperTest from "supertest";
+import {afterAll, beforeAll, expect, it} from "vitest";
+
 import {PlatformTestingSdkOpts} from "../interfaces/index.js";
 
 @Controller("/headers")
 export class HeadersCtrl {
   @Get("/scenario-1")
-  @Returns(200, String).Header("test", "x-token")
+  @(Returns(200, String).Header("test", "x-token"))
   testScenario1(@BodyParams("test") value: string[]): any {
     return "hello";
   }
 
   @Get("/scenario-2")
-  @Returns(200, String).Header("x-token-test", "test").Header("x-token-test-2", "test2").ContentType("application/xml")
+  @(Returns(200, String).Header("x-token-test", "test").Header("x-token-test-2", "test2").ContentType("application/xml"))
   testScenario2() {
     return "<xml></xml>";
   }
 
   @Get("/scenario-3")
-  @Returns(200, String).Headers({
+  @(Returns(200, String).Headers({
     Location: {
       description: "URL to the new xxx",
       type: "string",
       value: "/v1/location/header"
     }
-  })
+  }))
   testScenario3(@Res() response: PlatformResponse) {
     response.setHeader("Location", `/v1/location`);
     return "Hello";

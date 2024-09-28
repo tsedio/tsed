@@ -1,8 +1,9 @@
 import {catchAsyncError} from "@tsed/core";
 import {BadRequest} from "@tsed/exceptions";
 import {Enum, Property} from "@tsed/schema";
-import {deserialize} from "../../src/utils/deserialize.js";
+
 import {AfterDeserialize} from "../../src/decorators/afterDeserialize.js";
+import {deserialize} from "../../src/utils/deserialize.js";
 import {FoodStatus} from "../helpers/FoodStatus.js";
 
 @AfterDeserialize((data: Food) => {

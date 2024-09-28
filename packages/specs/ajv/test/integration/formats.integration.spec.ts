@@ -1,8 +1,9 @@
 import {PlatformTest} from "@tsed/common";
 import {Format, getJsonSchema} from "@tsed/schema";
-import {AjvService} from "../../src/services/AjvService.js";
+
 import {Formats} from "../../src/decorators/formats.js";
 import {FormatsMethods} from "../../src/interfaces/FormatsMethods.js";
+import {AjvService} from "../../src/services/AjvService.js";
 
 const NOT_URI_FRAGMENT = /\/|:/;
 const URI =

@@ -1,7 +1,8 @@
-import {InjectContext} from "@tsed/common";
-import {DataSource} from "@tsed/typegraphql";
-import {ApolloContext} from "@tsed/apollo";
 import {RESTDataSource} from "@apollo/datasource-rest";
+import {ApolloContext} from "@tsed/apollo";
+import {InjectContext} from "@tsed/common";
+
+import {DataSource} from "../../../..";
 
 @DataSource()
 export class MyDataSource extends RESTDataSource {

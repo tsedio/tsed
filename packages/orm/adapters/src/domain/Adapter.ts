@@ -46,7 +46,10 @@ export abstract class Adapter<Model = any> {
   @Inject()
   protected ajvService: AjvService;
 
-  constructor(@Opts options: AdapterConstructorOptions, @Configuration() protected configuration: Configuration) {
+  constructor(
+    @Opts options: AdapterConstructorOptions,
+    @Configuration() protected configuration: Configuration
+  ) {
     this.model = options.model;
     this.collectionName = options.collectionName || pluralize(nameOf(options.model));
 

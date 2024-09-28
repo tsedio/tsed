@@ -1,6 +1,3 @@
-/* eslint-disable no-console */
-/* eslint-disable no-control-regex */
-
 const {execSync} = require("child_process");
 const chalk = require("chalk");
 const path = require("path");

@@ -1,5 +1,5 @@
-import {Component} from "./component.js";
 import {FormioDataResolver} from "../domain/FormioDataResolver.js";
+import {Component} from "./component.js";
 
 /**
  * Set URL data on the current component.

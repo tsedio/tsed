@@ -1,9 +1,10 @@
-import {expect, beforeAll, afterAll, describe, it} from "vitest";
 import {BodyParams, Constant, Controller, Get, PlatformTest, Post, Req, Session} from "@tsed/common";
 import {NotFound} from "@tsed/exceptions";
 import {Allow, Email, Ignore, MinLength, Property, Required, Returns} from "@tsed/schema";
 import SuperTest from "supertest";
 import {promisify} from "util";
+import {afterAll, beforeAll, describe, expect, it} from "vitest";
+
 import {PlatformTestingSdkOpts} from "../interfaces/index.js";
 
 export class UserCreation {

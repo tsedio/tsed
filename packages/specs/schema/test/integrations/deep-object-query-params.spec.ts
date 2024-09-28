@@ -1,5 +1,6 @@
-import {Default, GenericOf, Generics, getSpec, In, Maximum, Minimum, OperationPath, Path, Property, SpecTypes} from "../../src/index.js";
 import {QueryParams} from "@tsed/platform-params";
+
+import {Default, GenericOf, Generics, getSpec, In, Maximum, Minimum, OperationPath, Path, Property, SpecTypes} from "../../src/index.js";
 
 describe("Deep Object QueryParams", () => {
   it("should generate the spec for deep object", () => {

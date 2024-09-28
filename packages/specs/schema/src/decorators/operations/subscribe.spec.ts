@@ -1,8 +1,9 @@
+import "../../index.js";
+
 import {OperationVerbs} from "../../constants/OperationVerbs.js";
 import {JsonEntityStore} from "../../domain/JsonEntityStore.js";
 import {Publish} from "./publish.js";
 import {Subscribe} from "./subscribe.js";
-import "../../index.js";
 
 describe("Subscribe", () => {
   it("should register operation with Subscribe verb", () => {

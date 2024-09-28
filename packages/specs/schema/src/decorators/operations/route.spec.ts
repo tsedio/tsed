@@ -69,7 +69,7 @@ describe("Route decorators", () => {
 
       // WHEN
       class Test {
-        @Get("/").UseBefore(beforeMiddleware).Use(middleware).UseAfter(afterMiddleware)
+        @(Get("/").UseBefore(beforeMiddleware).Use(middleware).UseAfter(afterMiddleware))
         test() {}
       }
 
@@ -105,7 +105,7 @@ describe("Route decorators", () => {
     it("should register route and middleware", () => {
       // WHEN
       class Test {
-        @Put("/").Id("operationId").Summary("Summary").Description("Description")
+        @(Put("/").Id("operationId").Summary("Summary").Description("Description"))
         test() {}
       }
 

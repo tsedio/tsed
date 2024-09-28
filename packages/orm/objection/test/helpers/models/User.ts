@@ -1,6 +1,7 @@
-import {Entity} from "@tsed/objection";
 import {Groups, MaxLength, MinLength, Required} from "@tsed/schema";
 import {Model} from "objection";
+
+import {Entity} from "../../..";
 import {IdColumn} from "../../../src/index.js";
 
 @Entity("users")

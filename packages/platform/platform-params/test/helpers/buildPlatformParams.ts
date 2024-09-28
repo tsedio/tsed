@@ -1,7 +1,8 @@
 import {ParamOptions, PlatformParams, PlatformTest} from "@tsed/common";
-import {JsonParameterStore} from "@tsed/schema";
-import {createFakeHandlerContext} from "./createFakeHandlerContext.js";
 import {DecoratorTypes} from "@tsed/core";
+import {JsonParameterStore} from "@tsed/schema";
+
+import {createFakeHandlerContext} from "./createFakeHandlerContext.js";
 
 export interface TestPlatformParamsOptions extends ParamOptions {
   required?: boolean;

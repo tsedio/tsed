@@ -1,5 +1,6 @@
-import {ModuleDeclarationKind, Project, StructureKind} from "ts-morph";
 import path from "path";
+import {ModuleDeclarationKind, Project, StructureKind} from "ts-morph";
+
 import {resolveExtension} from "./resolveExtension.js";
 
 export function generateInterfaces(project: Project, baseDirPath: string) {

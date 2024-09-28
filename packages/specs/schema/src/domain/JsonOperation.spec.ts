@@ -1,4 +1,5 @@
 import {descriptorOf} from "@tsed/core";
+
 import {execMapper, Get, getSpec, In, JsonEntityStore, OperationPath, Path, Redirect, Returns, SpecTypes} from "../index.js";
 
 describe("JsonOperation", () => {
@@ -6,8 +7,8 @@ describe("JsonOperation", () => {
     it("should return the status", () => {
       class MyController {
         @OperationPath("GET", "/")
-        @Returns(200).Header("x-token", "token")
-        @Returns(200).Header("x-token2", "token2")
+        @(Returns(200).Header("x-token", "token"))
+        @(Returns(200).Header("x-token2", "token2"))
         method() {}
       }
 
@@ -72,7 +73,7 @@ describe("JsonOperation", () => {
       @Path("/")
       class MyController {
         @Get("/")
-        @Returns(200, String).ContentType("text/html")
+        @(Returns(200, String).ContentType("text/html"))
         test() {}
       }
 

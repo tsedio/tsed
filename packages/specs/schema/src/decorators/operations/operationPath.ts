@@ -1,6 +1,7 @@
 import {DecoratorTypes, UnsupportedDecoratorType} from "@tsed/core";
-import {JsonEntityFn} from "../common/jsonEntityFn.js";
+
 import {OperationVerbs} from "../../constants/OperationVerbs.js";
+import {JsonEntityFn} from "../common/jsonEntityFn.js";
 
 /**
  * Declare new Operation with his path and http method.

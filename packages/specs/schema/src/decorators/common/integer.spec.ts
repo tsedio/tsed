@@ -1,4 +1,5 @@
 import {BodyParams} from "@tsed/platform-params";
+
 import {validateSpec} from "../../../test/helpers/validateSpec.js";
 import {SpecTypes} from "../../domain/SpecTypes.js";
 import {getJsonSchema} from "../../utils/getJsonSchema.js";
@@ -52,7 +53,7 @@ describe("@Integer", () => {
     @Path("/")
     class TestIntegerCtrl {
       @OperationPath("GET", "/")
-      @Returns(200, Array).OfInteger()
+      @(Returns(200, Array).OfInteger())
       async get(@BodyParams() @Integer() number: number[]) {}
     }
 

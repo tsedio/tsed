@@ -1,4 +1,5 @@
 import {isObject, Type} from "@tsed/core";
+
 import {JsonEntityStore} from "../../domain/JsonEntityStore.js";
 import {string} from "../../utils/from.js";
 import {GenericValue} from "../../utils/generics.js";

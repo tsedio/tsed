@@ -1,5 +1,6 @@
 import {PlatformTest} from "@tsed/common";
 import {Env} from "@tsed/core";
+
 import {ConsentInteraction} from "../../test/app/interactions/ConsentInteraction.js";
 import {Interaction} from "../decorators/interaction.js";
 import {OidcInteractions} from "./OidcInteractions.js";

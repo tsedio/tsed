@@ -1,4 +1,5 @@
 import {isArrowFn, Type, useDecorators} from "@tsed/core";
+
 import {getJsonSchema, JsonEntityFn, lazyRef, Property, string} from "../../src/index.js";
 
 function Ref(model: string | (() => Type) | any): PropertyDecorator {

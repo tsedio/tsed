@@ -1,6 +1,7 @@
-import {FallbackJobController, JobController} from "./JobController.js";
 import {Store} from "@tsed/core";
 import {GlobalProviders} from "@tsed/di";
+
+import {FallbackJobController, JobController} from "./JobController.js";
 
 describe("JobController", () => {
   afterEach(() => GlobalProviders.clear());
@@ -48,7 +49,7 @@ describe("JobController", () => {
 
     const store = Store.from(CustomCronJob).get("bullmq");
 
-    expect(store);
+    expect(store).toBeDefined();
   });
 });
 

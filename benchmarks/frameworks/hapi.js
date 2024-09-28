@@ -1,4 +1,5 @@
 import "make-promises-safe";
+
 import Hapi from "@hapi/hapi";
 
 async function start() {

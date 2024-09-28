@@ -14,7 +14,7 @@ describe("Exception", () => {
     expect(exception.toString()).toEqual("INTERNAL_SERVER_ERROR(500): test, innerException: test");
   });
 
-  it("should use origin", () => {
+  it("should use origin (inner)", () => {
     const exception = new Exception(203, "test", new Error("test"));
     exception.setHeaders({key: "value"});
 
@@ -25,7 +25,7 @@ describe("Exception", () => {
     expect(exception.toString()).toEqual("NON_AUTHORITATIVE_INFORMATION(203): test, innerException: test");
   });
 
-  it("should use origin as string", () => {
+  it("should use origin as string (inner)", () => {
     const exception = new Exception(203, "test", "test");
 
     expect(exception.status).toEqual(203);

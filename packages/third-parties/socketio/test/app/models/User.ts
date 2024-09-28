@@ -1,6 +1,6 @@
+import {Indexed, Model, ObjectID, Unique} from "@tsed/mongoose";
 import {Allow, Email, Ignore, MinLength, Property, Required} from "@tsed/schema";
 import {Hidden} from "@tsed/swagger";
-import {Indexed, Model, ObjectID, Unique} from "@tsed/mongoose";
 
 export interface IUser {
   name: string;

@@ -1,5 +1,6 @@
 import {Store} from "@tsed/core";
 import {event, eventNS, OnOptions} from "eventemitter2";
+
 import {EventEmitterStore} from "../interfaces/EventEmitterStore.js";
 
 export function OnEvent(event: event | eventNS, options?: boolean | OnOptions): MethodDecorator {

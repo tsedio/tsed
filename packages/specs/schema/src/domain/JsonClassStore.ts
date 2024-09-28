@@ -1,9 +1,10 @@
 import {DecoratorTypes} from "@tsed/core";
+
+import {JsonEntityComponent} from "../decorators/config/jsonEntityComponent.js";
+import {JsonEntityStore, JsonEntityStoreOptions} from "./JsonEntityStore.js";
 import type {JsonMethodStore} from "./JsonMethodStore.js";
 import type {JsonPropertyStore} from "./JsonPropertyStore.js";
-import {JsonEntityStore, JsonEntityStoreOptions} from "./JsonEntityStore.js";
 import {JsonSchema} from "./JsonSchema.js";
-import {JsonEntityComponent} from "../decorators/config/jsonEntityComponent.js";
 
 @JsonEntityComponent(DecoratorTypes.CLASS)
 export class JsonClassStore extends JsonEntityStore {

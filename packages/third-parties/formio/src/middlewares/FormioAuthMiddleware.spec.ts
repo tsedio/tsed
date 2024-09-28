@@ -1,6 +1,7 @@
 import {PlatformTest} from "@tsed/common";
 import {catchAsyncError} from "@tsed/core";
 import {Unauthorized} from "@tsed/exceptions";
+
 import {FormioService} from "../services/FormioService.js";
 import {FormioAuthMiddleware} from "./FormioAuthMiddleware.js";
 

@@ -1,4 +1,5 @@
 import {Store} from "@tsed/core";
+
 import {Socket} from "../index.js";
 
 describe("Socket", () => {

@@ -1,6 +1,7 @@
 import {Store} from "@tsed/core";
 import {getJsonSchema} from "@tsed/schema";
 import {Model} from "objection";
+
 import {IdColumn} from "./idColumn.js";
 
 describe("@IdColumn", () => {

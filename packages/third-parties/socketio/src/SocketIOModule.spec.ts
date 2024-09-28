@@ -1,6 +1,7 @@
 import {PlatformConfiguration, PlatformTest} from "@tsed/common";
 import Http from "http";
 import Https from "https";
+
 import {SocketIOModule, SocketIOServer, SocketIOService} from "./index.js";
 
 async function createModuleFixture() {
@@ -51,9 +52,9 @@ describe("SocketIOModule", () => {
 
         expect(socketIOServer.attach).toHaveBeenCalledTimes(2);
 
-        expect((socketIOModule as any).getWebsocketServices).toBeCalledWith();
-        expect(socketIOServer.adapter).toBeCalled();
-        expect(socketIOService.addSocketProvider).toBeCalledWith({provider: "provider"});
+        expect((socketIOModule as any).getWebsocketServices).toHaveBeenCalledWith();
+        expect(socketIOServer.adapter).toHaveBeenCalled();
+        expect(socketIOService.addSocketProvider).toHaveBeenCalledWith({provider: "provider"});
       });
     });
     describe("with https server", () => {
@@ -75,10 +76,10 @@ describe("SocketIOModule", () => {
         // WHEN
         await socketIOModule.$afterListen();
 
-        expect(socketIOServer.attach).toBeCalled();
+        expect(socketIOServer.attach).toHaveBeenCalled();
 
-        expect((socketIOModule as any).getWebsocketServices).toBeCalledWith();
-        expect(socketIOService.addSocketProvider).toBeCalledWith({provider: "provider"});
+        expect((socketIOModule as any).getWebsocketServices).toHaveBeenCalledWith();
+        expect(socketIOService.addSocketProvider).toHaveBeenCalledWith({provider: "provider"});
       });
     });
   });

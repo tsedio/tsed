@@ -1,6 +1,7 @@
 import {Post} from "@tsed/common";
 import {Controller, DITest} from "@tsed/di";
 import {afterEach, beforeEach} from "vitest";
+
 import {TransactionalInterceptor} from "../interceptors/TransactionalInterceptor.js";
 import {Transactional} from "./transactional.js";
 

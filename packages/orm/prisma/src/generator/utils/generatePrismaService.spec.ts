@@ -1,5 +1,5 @@
-import {generatePrismaService} from "./generatePrismaService.js";
 import {createProjectFixture} from "../../__mock__/createProjectFixture.js";
+import {generatePrismaService} from "./generatePrismaService.js";
 
 describe("generatePrismaService", () => {
   it("should generate prisma service", () => {

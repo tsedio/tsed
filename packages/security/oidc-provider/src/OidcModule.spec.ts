@@ -3,6 +3,7 @@ import expressRewrite from "express-urlrewrite";
 import koaMount from "koa-mount";
 // @ts-ignore
 import koaRewrite from "koa-rewrite";
+
 import {OidcModule} from "./OidcModule.js";
 import {OidcProvider} from "./services/OidcProvider.js";
 
@@ -36,8 +37,8 @@ describe("OidcModule", () => {
 
         await mdl.$onRoutesInit();
 
-        expect(expressRewrite).toBeCalledWith("/.well-known/*", "/oidc/.well-known/$1");
-        expect(mdl.app.use).toBeCalledWith(expect.any(Function));
+        expect(expressRewrite).toHaveBeenCalledWith("/.well-known/*", "/oidc/.well-known/$1");
+        expect(mdl.app.use).toHaveBeenCalledWith(expect.any(Function));
       });
       it("should mount the oidc provider server to application", async () => {
         const provider = {
@@ -60,7 +61,7 @@ describe("OidcModule", () => {
 
         await mdl.$afterRoutesInit();
 
-        expect(mdl.app.use).toBeCalledWith("/oidc", "callback");
+        expect(mdl.app.use).toHaveBeenCalledWith("/oidc", "callback");
       });
     });
   });
@@ -83,8 +84,8 @@ describe("OidcModule", () => {
 
         await mdl.$onRoutesInit();
 
-        expect(koaRewrite).toBeCalledWith("/.well-known/(.*)", "/oidc/.well-known/$1");
-        expect(mdl.app.use).toBeCalledWith(expect.any(Function));
+        expect(koaRewrite).toHaveBeenCalledWith("/.well-known/(.*)", "/oidc/.well-known/$1");
+        expect(mdl.app.use).toHaveBeenCalledWith(expect.any(Function));
       });
       it("should mount the oidc provider server to application", async () => {
         const provider = {
@@ -107,8 +108,8 @@ describe("OidcModule", () => {
 
         await mdl.$afterRoutesInit();
 
-        expect(koaMount).toBeCalledWith("/oidc", "app");
-        expect(mdl.app.use).toBeCalledWith(expect.any(Function));
+        expect(koaMount).toHaveBeenCalledWith("/oidc", "app");
+        expect(mdl.app.use).toHaveBeenCalledWith(expect.any(Function));
       });
     });
   });

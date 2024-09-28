@@ -1,5 +1,6 @@
-import {All, Delete, EndpointMetadata, Get, Head, Options, Patch, Post, Put} from "@tsed/common";
 import {OperationVerbs} from "@tsed/schema";
+
+import {All, Delete, EndpointMetadata, Get, Head, Options, Patch, Post, Put} from "../..";
 
 const middleware: any = vi.fn();
 const useStub: any = vi.fn().mockReturnValue(middleware);

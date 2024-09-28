@@ -24,7 +24,7 @@ describe("getValue()", () => {
     expect(getValue("users.0", {users: [{user: {name: "name"}}]})).toEqual({user: {name: "name"}});
     expect(getValue({users: [{user: {name: "name"}}]}, "users.0")).toEqual({user: {name: "name"}});
   });
-  it("should return given value when expression is given but scope have value (3)", () => {
+  it("should return given value when expression is given but scope have value (4)", () => {
     const map = new Map([["user", "name"]]);
     expect(getValue("user", map)).toEqual("name");
     expect(getValue(map, "user")).toEqual("name");

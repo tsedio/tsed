@@ -1,6 +1,6 @@
-import {mapGenericsOptions} from "../../utils/generics.js";
 import {JsonSchemaOptions} from "../../interfaces/JsonSchemaOptions.js";
 import {execMapper, registerJsonSchemaMapper} from "../../registries/JsonSchemaMapperContainer.js";
+import {mapGenericsOptions} from "../../utils/generics.js";
 
 /**
  * Serialize class which inherit from Map like JsonMap, JsonOperation, JsonParameter.

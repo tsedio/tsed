@@ -1,4 +1,4 @@
-import {Request, Response, NextFunction} from "express";
+import {NextFunction, Request, Response} from "express";
 
 export type ResourceHttpHandler = (req: Request, res: Response, next: NextFunction) => void;
 

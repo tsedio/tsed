@@ -1,9 +1,11 @@
-import {PlatformTest, runInContext} from "@tsed/common";
-import {ApolloService} from "@tsed/apollo";
 import "@tsed/platform-express";
+import "@tsed/graphql-ws";
+
+import {ApolloService} from "@tsed/apollo";
+import {PlatformTest, runInContext} from "@tsed/common";
 import {PlatformExpress} from "@tsed/platform-express";
 import gql from "graphql-tag";
-import "@tsed/graphql-ws";
+
 import {Server} from "./app/Server.js";
 
 const GET_RECIPES = gql`

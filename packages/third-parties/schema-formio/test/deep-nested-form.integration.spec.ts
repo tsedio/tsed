@@ -1,4 +1,5 @@
 import {Default, Property} from "@tsed/schema";
+
 import {Form, getFormioSchema, Label} from "../src/index.js";
 
 @Form({label: "One hour before this maintenance"})

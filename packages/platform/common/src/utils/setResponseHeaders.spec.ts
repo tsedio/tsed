@@ -1,4 +1,5 @@
 import {EndpointMetadata, Get, Redirect, Returns} from "@tsed/schema";
+
 import {PlatformTest} from "../services/PlatformTest.js";
 import {setResponseHeaders} from "./setResponseHeaders.js";
 
@@ -9,7 +10,7 @@ describe("setResponseHeaders", () => {
   it("should set headers, status and contentType", async () => {
     class Test {
       @Get("/")
-      @Returns(200).Header("x-header", "test")
+      @(Returns(200).Header("x-header", "test"))
       test() {}
     }
 
@@ -26,7 +27,7 @@ describe("setResponseHeaders", () => {
   it("should not set headers automatically if the value isn't declared", async () => {
     class Test {
       @Get("/")
-      @Returns(200).Header("x-header")
+      @(Returns(200).Header("x-header"))
       test() {}
     }
 
@@ -57,13 +58,13 @@ describe("setResponseHeaders", () => {
     await setResponseHeaders(ctx);
 
     // THEN
-    expect(ctx.response.redirect).toBeCalledWith(301, "/path");
+    expect(ctx.response.redirect).toHaveBeenCalledWith(301, "/path");
   });
 
   it("should do nothing when headers is already sent", async () => {
     class Test {
       @Get("/")
-      @Returns(200).Header("x-header", "test")
+      @(Returns(200).Header("x-header", "test"))
       test() {}
     }
 
@@ -78,6 +79,6 @@ describe("setResponseHeaders", () => {
     await setResponseHeaders(ctx);
 
     // THEN
-    return expect(ctx.response.raw.set).not.toBeCalled();
+    return expect(ctx.response.raw.set).not.toHaveBeenCalled();
   });
 });

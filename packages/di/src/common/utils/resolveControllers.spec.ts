@@ -1,9 +1,10 @@
 import {nameOf} from "@tsed/core";
+
 import {Controller} from "../decorators/controller.js";
-import {Module1} from "./__mock__/module1/Module1.js";
-import {Module2} from "./__mock__/module2/Module2.js";
 import {M1Ctrl1} from "./__mock__/module1/controllers/M1Ctrl1.js";
+import {Module1} from "./__mock__/module1/Module1.js";
 import {M2Ctrl} from "./__mock__/module2/controllers/M2Ctrl.js";
+import {Module2} from "./__mock__/module2/Module2.js";
 import {resolveControllers} from "./resolveControllers.js";
 
 @Controller("/root")

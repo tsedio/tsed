@@ -1,7 +1,8 @@
 import {Inject, Post} from "@tsed/common";
-import {Interaction, InteractionMethods, OidcCtx, OidcProvider, Prompt} from "../../../src/index.js";
-import {Name} from "@tsed/schema";
 import {View} from "@tsed/platform-views";
+import {Name} from "@tsed/schema";
+
+import {Interaction, InteractionMethods, OidcCtx, OidcProvider, Prompt} from "../../../src/index.js";
 
 @Interaction({
   name: "consent",
@@ -45,7 +46,6 @@ export class ConsentInteraction implements InteractionMethods {
     }
 
     if (missingResourceScopes) {
-      // eslint-disable-next-line no-restricted-syntax
       for (const [indicator, scopes] of Object.entries(missingResourceScopes)) {
         grant.addResourceScope(indicator, scopes.join(" "));
         // use grant.rejectResourceScope to reject a subset or the whole thing

@@ -1,4 +1,5 @@
 import {RequiredValidationError, ValidationError} from "@tsed/common";
+
 import {ParamValidationError} from "./ParamValidationError.js";
 
 describe("ParseExpressionError", () => {

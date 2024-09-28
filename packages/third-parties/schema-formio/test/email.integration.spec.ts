@@ -1,4 +1,5 @@
 import {Email} from "@tsed/schema";
+
 import {getFormioSchema} from "../src/index.js";
 
 describe("Email integration", () => {

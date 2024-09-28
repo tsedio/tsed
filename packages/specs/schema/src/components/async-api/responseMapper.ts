@@ -1,5 +1,6 @@
 import {setValue} from "@tsed/core";
 import {pascalCase} from "change-case";
+
 import {JsonMethodStore} from "../../domain/JsonMethodStore.js";
 import {JsonMethodPath} from "../../domain/JsonOperation.js";
 import {SpecTypes} from "../../domain/SpecTypes.js";

@@ -1,4 +1,5 @@
 import type {JSONSchema6Type} from "json-schema";
+
 import {withErrorMsg} from "../../utils/withErrorMsg.js";
 import {JsonEntityFn} from "./jsonEntityFn.js";
 

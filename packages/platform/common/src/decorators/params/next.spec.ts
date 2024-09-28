@@ -1,5 +1,6 @@
 import {ParamTypes} from "@tsed/platform-params";
 import {JsonParameterStore} from "@tsed/schema";
+
 import {Next} from "./next.js";
 
 describe("@Next", () => {

@@ -1,4 +1,5 @@
 import {Store} from "@tsed/core";
+
 import {OnHook} from "../domain/OnHook.js";
 import {On} from "./on.js";
 

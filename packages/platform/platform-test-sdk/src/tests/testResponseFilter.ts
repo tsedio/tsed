@@ -1,7 +1,8 @@
-import {expect, beforeAll, afterAll, describe, it} from "vitest";
 import {Controller, Get, PlatformContext, PlatformTest, ResponseFilter, ResponseFilterMethods} from "@tsed/common";
 import {Property, Returns} from "@tsed/schema";
 import SuperTest from "supertest";
+import {afterAll, beforeAll, describe, expect, it} from "vitest";
+
 import {PlatformTestingSdkOpts} from "../interfaces/index.js";
 
 class ResponseFilterModel {
@@ -12,8 +13,8 @@ class ResponseFilterModel {
 @Controller("/response-filter")
 class TestResponseFilterCtrl {
   @Get("/scenario1/:id")
-  @Returns(200, ResponseFilterModel).Description("description")
-  @Returns(200, String).ContentType("text/xml")
+  @(Returns(200, ResponseFilterModel).Description("description"))
+  @(Returns(200, String).ContentType("text/xml"))
   public testScenario1() {
     return {id: "id"};
   }

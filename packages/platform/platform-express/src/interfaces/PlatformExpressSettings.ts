@@ -1,6 +1,6 @@
-import type {RouterOptions} from "express";
-import type {OptionsJson, OptionsText, Options, OptionsUrlencoded} from "body-parser";
+import type {Options, OptionsJson, OptionsText, OptionsUrlencoded} from "body-parser";
 import type {NextHandleFunction} from "connect";
+import type {RouterOptions} from "express";
 
 export interface PlatformExpressSettings {
   /**

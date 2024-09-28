@@ -1,5 +1,5 @@
-import {__decorate, __metadata} from "tslib";
 import common from "@nestjs/common";
+import {__decorate, __metadata} from "tslib";
 
 class AppController {
   root() {

@@ -1,8 +1,9 @@
-import {MikroOrmFactory} from "./MikroOrmFactory.js";
-import {Inject, Injectable} from "@tsed/di";
 import {IDatabaseDriver as DatabaseDriver, MikroORM, Options} from "@mikro-orm/core";
 import {catchAsyncError, getValue} from "@tsed/core";
+import {Inject, Injectable} from "@tsed/di";
 import {Logger} from "@tsed/logger";
+
+import {MikroOrmFactory} from "./MikroOrmFactory.js";
 
 @Injectable()
 export class MikroOrmRegistry {
