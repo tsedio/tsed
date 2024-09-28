@@ -2,8 +2,9 @@ import {PlatformTest} from "@tsed/common";
 import {Inject} from "@tsed/di";
 import {TestContainersMongo} from "@tsed/testcontainers-mongo";
 import type {Job} from "agenda";
+import {afterAll, beforeAll, describe, expect, it} from "vitest";
 
-import {Agenda, AgendaModule, AgendaService, Define} from "..";
+import {Agenda, AgendaModule, AgendaService, Define} from "../src/index.js";
 import {Server} from "./helpers/Server.js";
 
 @Agenda({namespace: "test-nsp"})
@@ -45,7 +46,7 @@ describe("Agenda integration", () => {
           enabled: true,
           db: {
             address: options.url,
-            options: options.connectionOptions
+            options: options.connectionOptions as never
           }
         }
       });
@@ -55,7 +56,7 @@ describe("Agenda integration", () => {
     afterAll(async () => {
       const agenda = PlatformTest.get<AgendaService>(AgendaService)!;
       await TestContainersMongo.reset();
-      await agenda._db.close();
+      await agenda._db?.close();
     });
 
     it("should have job definitions", () => {
@@ -108,7 +109,7 @@ describe("Agenda integration", () => {
           disableJobProcessing: true,
           db: {
             address: options.url,
-            options: options.connectionOptions
+            options: options.connectionOptions as never
           }
         }
       });
