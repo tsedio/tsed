@@ -1,5 +1,5 @@
 import {PlatformTest} from "@tsed/common";
-import Ajv from "ajv";
+import {Ajv} from "ajv";
 
 describe("Ajv", () => {
   beforeEach(() => PlatformTest.create());

@@ -3,7 +3,7 @@ import {join} from "path";
 
 import {validateSpec} from "../../test/helpers/validateSpec.js";
 import {CollectionOf} from "../decorators/collections/collectionOf.js";
-import {AnyOf} from "../decorators/common/anyOf";
+import {AnyOf} from "../decorators/common/anyOf.js";
 import {Description} from "../decorators/common/description.js";
 import {Min} from "../decorators/common/minimum.js";
 import {Name} from "../decorators/common/name.js";
@@ -14,7 +14,7 @@ import {In} from "../decorators/operations/in.js";
 import {OperationPath} from "../decorators/operations/operationPath.js";
 import {Path} from "../decorators/operations/path.js";
 import {Returns} from "../decorators/operations/returns.js";
-import {Post} from "../decorators/operations/route";
+import {Post} from "../decorators/operations/route.js";
 import {SpecTypes} from "../domain/SpecTypes.js";
 import {generateSpec} from "./generateSpec.js";
 

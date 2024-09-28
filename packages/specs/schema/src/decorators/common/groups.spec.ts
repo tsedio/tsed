@@ -1,5 +1,3 @@
-import {QueryParams} from "@tsed/platform-params/src/index";
-
 import {SpecTypes} from "../../domain/SpecTypes.js";
 import {getJsonSchema} from "../../utils/getJsonSchema.js";
 import {getSpec} from "../../utils/getSpec.js";

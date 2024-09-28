@@ -2,7 +2,7 @@ import {Context, Controller, Get, getContext, PathParams, PlatformResponse, Plat
 import {CollectionOf, Enum, ForwardGroups, Groups, Ignore, Name, Property, Required, Returns, Status} from "@tsed/schema";
 import axios from "axios";
 import {of} from "rxjs";
-import {agent, SuperAgentStatic} from "superagent";
+import {agent} from "superagent";
 import SuperTest from "supertest";
 import {afterAll, beforeAll, describe, expect, it} from "vitest";
 
@@ -169,7 +169,7 @@ class TestResponseParamsCtrl {
 
   @Get("/scenario13")
   async testScenario13(@Res() res: PlatformResponse) {
-    const http: SuperAgentStatic = agent();
+    const http = agent();
 
     const image_res = await http.get("https://www.google.com/images/branding/googlelogo/1x/googlelogo_color_272x92dp.png");
 

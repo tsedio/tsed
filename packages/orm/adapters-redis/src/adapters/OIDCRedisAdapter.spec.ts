@@ -1,6 +1,6 @@
 import {Adapters} from "@tsed/adapters";
 import {IORedisTest, registerConnectionProvider} from "@tsed/ioredis";
-import Redis from "ioredis";
+import {Redis} from "ioredis";
 // @ts-ignore
 import IORedisMock from "ioredis-mock";
 import moment from "moment";

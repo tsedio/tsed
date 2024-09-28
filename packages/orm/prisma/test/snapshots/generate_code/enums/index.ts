@@ -1,1 +1,1 @@
-export {Role} from "./Role.js";
+export { Role } from "./Role.js";
