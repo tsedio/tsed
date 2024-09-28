@@ -2,9 +2,9 @@ import {Context, PlatformContext, PlatformTest} from "@tsed/common";
 import {Controller} from "@tsed/di";
 import {Get, getSpec, JsonEntityStore, Name, Returns} from "@tsed/schema";
 
-import {EventStream} from "./decorators/eventStream";
-import {EventStreamCtx} from "./decorators/eventStreamCtx";
-import {EventStreamContext} from "./domain/EventStreamContext";
+import {EventStream} from "./decorators/eventStream.js";
+import {EventStreamCtx} from "./decorators/eventStreamCtx.js";
+import {EventStreamContext} from "./domain/EventStreamContext.js";
 
 function make(eventStream: EventStreamCtx, cb: () => any) {
   let intervalId: ReturnType<typeof setInterval>;

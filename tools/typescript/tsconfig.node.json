@@ -1,10 +1,10 @@
 {
   "compilerOptions": {
-    "module": "commonjs",
     "target": "esnext",
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
-    "moduleResolution": "node",
     "downlevelIteration": false,
     "isolatedModules": false,
     "suppressImplicitAnyIndexErrors": false,
@@ -19,7 +19,6 @@
     "resolveJsonModule": true,
     "newLine": "LF",
     "skipLibCheck": true,
-    "lib": ["ESNext", "esnext.asynciterable"],
     "declaration": false,
     "noResolve": false,
     "preserveConstEnums": true,

@@ -1,4 +1,4 @@
-import {inlineEnumsMapper} from "./inlineEnumsMapper";
+import {inlineEnumsMapper} from "./inlineEnumsMapper.js";
 
 describe("inlineEnumsMapper()", () => {
   it("should inline enums", () => {

@@ -1,4 +1,4 @@
-import {JsonResponse} from "./JsonResponse";
+import {JsonResponse} from "./JsonResponse.js";
 
 describe("JsonResponse", () => {
   describe("isBinary()", () => {

@@ -1,4 +1,4 @@
-import {ServerlessResponseStream} from "./ServerlessResponseStream";
+import {ServerlessResponseStream} from "./ServerlessResponseStream.js";
 
 describe("ServerlessResponseStream", () => {
   describe("streamifyResponse", () => {
@@ -28,7 +28,7 @@ describe("ServerlessResponseStream", () => {
 
         expect(result).toEqual(undefined);
         expect(handler).toHaveBeenCalledWith(event, responseStream, context);
-        // @ts-expect-error
+        // @ts-ignore
         expect(ServerlessResponseStream.buildResponse).not.toHaveBeenCalled();
       });
       it("should wrap then handler with fallback responseStream", async () => {
@@ -50,7 +50,7 @@ describe("ServerlessResponseStream", () => {
         expect(result).toEqual({
           statusCode: 200
         });
-        // @ts-expect-error
+        // @ts-ignore
         expect(ServerlessResponseStream.buildResponse).toHaveBeenCalledWith(expect.any(ServerlessResponseStream));
         expect(console.warn).toHaveBeenCalledWith({
           event: "WRONG_AWS_STREAM_CONFIGURATION",

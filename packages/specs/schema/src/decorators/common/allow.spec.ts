@@ -1,4 +1,4 @@
-import Ajv from "ajv";
+import {Ajv} from "ajv";
 
 import {getJsonSchema} from "../../index.js";
 import {Allow} from "./allow.js";
