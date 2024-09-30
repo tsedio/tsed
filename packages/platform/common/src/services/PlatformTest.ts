@@ -39,7 +39,17 @@ export class PlatformTest extends DITest {
    * @param settings
    * @returns {Promise<void>}
    */
-  static bootstrap(mod: any, {listen, ...settings}: Partial<PlatformBuilderSettings & {listen: boolean}> = {}): () => Promise<void> {
+  static bootstrap(
+    mod: any,
+    {
+      listen,
+      ...settings
+    }: Partial<
+      PlatformBuilderSettings & {
+        listen: boolean;
+      }
+    > = {}
+  ): () => Promise<void> {
     return async function before(): Promise<void> {
       let instance: PlatformBuilder;
       const adapter: Type<PlatformAdapter> = settings.platform || settings.adapter || PlatformTest.adapter;
@@ -56,12 +66,6 @@ export class PlatformTest extends DITest {
       settings.adapter = adapter as any;
 
       const configuration = getConfiguration(settings, mod);
-      const disableComponentsScan = configuration.disableComponentsScan || !!process.env.WEBPACK;
-
-      if (!disableComponentsScan) {
-        const {importProviders} = await import("@tsed/components-scan");
-        await importProviders(configuration);
-      }
 
       instance = await PlatformBuilder.build(mod, configuration).bootstrap();
       await instance.listen(!!listen);
