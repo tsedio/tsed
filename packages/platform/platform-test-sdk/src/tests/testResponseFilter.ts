@@ -1,5 +1,5 @@
-import {Controller, Get, PlatformContext, PlatformTest, ResponseFilter, ResponseFilterMethods} from "@tsed/common";
-import {Property, Returns} from "@tsed/schema";
+import {Controller, PlatformContext, PlatformTest, ResponseFilter} from "@tsed/common";
+import {Get, Property, Returns} from "@tsed/schema";
 import SuperTest from "supertest";
 import {afterAll, beforeAll, describe, expect, it} from "vitest";
 
@@ -21,14 +21,14 @@ class TestResponseFilterCtrl {
 }
 
 @ResponseFilter("text/xml")
-class XmlResponseFilter implements ResponseFilterMethods {
+class XmlResponseFilter {
   transform(data: unknown, ctx: PlatformContext) {
     return "<xml>test</xml>";
   }
 }
 
 @ResponseFilter("*/*")
-class AnyResponseFilter implements ResponseFilterMethods {
+class AnyResponseFilter {
   transform(data: unknown, ctx: PlatformContext) {
     return {data, errors: []};
   }
@@ -43,7 +43,7 @@ export function testResponseFilter(options: PlatformTestingSdkOpts) {
       mount: {
         "/rest": [TestResponseFilterCtrl]
       },
-      responseFilters: [XmlResponseFilter, AnyResponseFilter]
+      responseFilters: [XmlResponseFilter, AnyResponseFilter] as never[]
     })
   );
   beforeAll(() => {

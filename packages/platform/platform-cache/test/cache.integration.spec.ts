@@ -1,5 +1,6 @@
-import {Controller, Get, Head, Inject, PathParams, PlatformTest, Post, QueryParams} from "@tsed/common";
-import {Property} from "@tsed/schema";
+import {PathParams, PlatformTest, QueryParams} from "@tsed/common";
+import {Controller, Inject} from "@tsed/di";
+import {Get, Head, Post, Property} from "@tsed/schema";
 import SuperTest from "supertest";
 
 import {Server} from "../../platform-express/test/app/Server.js";

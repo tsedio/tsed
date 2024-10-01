@@ -1,6 +1,6 @@
-import {Context, EndpointMetadata, Get, PlatformContext, PlatformTest, View} from "@tsed/common";
+import {Context, PlatformContext, PlatformTest} from "@tsed/common";
 import {catchAsyncError} from "@tsed/core";
-import {Returns} from "@tsed/schema";
+import {EndpointMetadata, Get, Returns, View} from "@tsed/schema";
 
 import {ResponseFilter} from "../decorators/responseFilter.js";
 import {ResponseFilterMethods} from "../interfaces/ResponseFilterMethods.js";

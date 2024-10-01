@@ -6,6 +6,7 @@ import "./graphql/index.js";
 import "./protocols/GraphQLProtocol.js";
 import "./services/RecipeService.js";
 import "./services/UsersRepository.js";
+import "@tsed/platform-log-request";
 
 import * as fs from "node:fs";
 import {join} from "node:path";
@@ -15,13 +16,14 @@ import {Configuration, Constant, Inject, PlatformApplication, PlatformContext} f
 import {buildContext} from "graphql-passport";
 import {resolve} from "path";
 
-import {HelloController} from "./controllers/HelloController";
+import {HelloController} from "./controllers/HelloController.js";
 import {User} from "./graphql/auth/User.js";
 import {AuthResolver} from "./graphql/index.js";
 import {pubSub} from "./graphql/pubsub/pubsub.js";
 
 const rootDir = import.meta.dirname; // automatically replaced by import.meta.dirname on build
 const rootCert = join(rootDir, "../..");
+
 @Configuration({
   rootDir,
   port: 8001,
@@ -31,8 +33,7 @@ const rootCert = join(rootDir, "../..");
     cert: fs.readFileSync(join(rootCert, "selfsigned.crt"))
   },
   logger: {
-    level: "info",
-    logRequest: true
+    level: "info"
   },
   mount: {
     "/rest": [HelloController]

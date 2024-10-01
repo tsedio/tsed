@@ -1,4 +1,5 @@
 import "@tsed/platform-express";
+import "@tsed/platform-log-request";
 import "./services/ManagedEventSubscriber.js";
 
 import {PlatformApplication} from "@tsed/common";
@@ -16,8 +17,7 @@ const rootDir = import.meta.dirname; // automatically replaced by import.meta.di
   httpsPort: false,
   disableComponentScan: true,
   logger: {
-    level: "info",
-    logRequest: true
+    level: "info"
   }
 })
 export class Server {

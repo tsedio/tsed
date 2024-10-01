@@ -1,6 +1,5 @@
-import {EndpointMetadata, Get, PlatformTest} from "@tsed/common";
-import {View} from "@tsed/platform-views";
-import {Ignore, Property, Returns} from "@tsed/schema";
+import {PlatformTest} from "@tsed/common";
+import {EndpointMetadata, Get, Ignore, Property, Returns, View} from "@tsed/schema";
 
 import {renderView} from "./renderView.js";
 

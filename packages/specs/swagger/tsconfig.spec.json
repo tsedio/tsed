@@ -66,6 +66,9 @@
       ],
       "@tsed/platform-koa": [
         "../../platform/platform-koa/src/index.ts"
+      ],
+      "@tsed/mongoose": [
+        "../../orm/mongoose/src/index.ts"
       ]
     },
     "types": [
@@ -80,7 +83,6 @@
   ],
   "exclude": [
     "node_modules",
-    "test",
     "lib",
     "benchmark",
     "coverage"

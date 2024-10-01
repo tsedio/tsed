@@ -1,9 +1,9 @@
 import "@tsed/ajv";
 
-import {BodyParams, Controller, Err, Get, Middleware, PlatformTest, Post, UseAfter} from "@tsed/common";
+import {BodyParams, Controller, Err, Middleware, PlatformTest, UseAfter} from "@tsed/common";
 import {Env} from "@tsed/core";
 import {BadRequest, InternalServerError} from "@tsed/exceptions";
-import {Description, Name, Required, Returns, Summary} from "@tsed/schema";
+import {Description, Get, Name, Post, Required, Returns, Summary} from "@tsed/schema";
 import SuperTest from "supertest";
 import {afterAll, beforeAll, expect, it} from "vitest";
 

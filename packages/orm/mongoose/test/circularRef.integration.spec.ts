@@ -3,7 +3,7 @@ import {Inject} from "@tsed/di";
 import {getJsonSchema} from "@tsed/schema";
 import {TestContainersMongo} from "@tsed/testcontainers-mongo";
 
-import {MongooseModel} from "..";
+import {MongooseModel} from "../src/index.js";
 import {TestContract} from "./helpers/models/Contract.js";
 import {TestCustomer} from "./helpers/models/Customer.js";
 import {SelfUser} from "./helpers/models/User.js";

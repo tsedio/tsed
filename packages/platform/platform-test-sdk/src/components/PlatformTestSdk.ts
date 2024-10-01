@@ -25,6 +25,6 @@ export class PlatformTestSdk {
   }
 
   reset() {
-    return PlatformTest.reset;
+    return PlatformTest.reset();
   }
 }

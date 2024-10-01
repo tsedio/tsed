@@ -1,13 +1,14 @@
 import {faker} from "@faker-js/faker";
-import {BodyParams, Controller, Get, Inject, Injectable, PathParams, PlatformTest, Post} from "@tsed/common";
+import {BodyParams, PathParams, PlatformTest} from "@tsed/common";
 import {isArray} from "@tsed/core";
+import {Controller, Inject, Injectable} from "@tsed/di";
 import {deserialize} from "@tsed/json-mapper";
 import {PlatformExpress} from "@tsed/platform-express";
-import {Groups, Returns} from "@tsed/schema";
+import {Get, Groups, Post, Returns} from "@tsed/schema";
 import {TestContainersMongo} from "@tsed/testcontainers-mongo";
 import SuperTest from "supertest";
 
-import {MongooseModel} from "..";
+import {MongooseModel} from "../src/index.js";
 import {TestRole, TestUser, TestUserNew} from "./helpers/models/User.js";
 import {Server} from "./helpers/Server.js";
 

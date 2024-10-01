@@ -20,7 +20,7 @@
     ".": {
       "types": "./lib/types/index.d.ts",
       "import": "./lib/esm/index.js",
-      "default": "./lib/cjs/index.js"
+      "default": "./lib/esm/index.js"
     }
   },
   "scripts": {
@@ -34,6 +34,7 @@
     "tslib": "2.7.0"
   },
   "devDependencies": {
+    "@tsed/adapters": "workspace:*",
     "@tsed/barrels": "workspace:*",
     "@tsed/core": "workspace:*",
     "@tsed/di": "workspace:*",

@@ -1,6 +1,6 @@
-import {BodyParams, Controller, PlatformTest, Post, QueryParams} from "@tsed/common";
+import {BodyParams, Controller, PlatformTest, QueryParams} from "@tsed/common";
 import {PlatformTestSdk} from "@tsed/platform-test-sdk";
-import {Email, email, Required} from "@tsed/schema";
+import {Email, Post, Required} from "@tsed/schema";
 import SuperTest from "supertest";
 
 import {PlatformExpress} from "../src/index.js";
@@ -49,7 +49,7 @@ describe("QueryParamValidation", () => {
   beforeEach(() => {
     request = SuperTest(PlatformTest.callback());
   });
-  afterEach(utils.reset);
+  afterEach(() => utils.reset());
 
   describe("scenario 1", () => {
     it("should validate the email", async () => {

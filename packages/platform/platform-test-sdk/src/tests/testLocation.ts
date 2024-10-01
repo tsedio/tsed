@@ -1,5 +1,5 @@
-import {Controller, Get, PlatformTest} from "@tsed/common";
-import {Location} from "@tsed/schema";
+import {Controller, PlatformTest} from "@tsed/common";
+import {Get, Location} from "@tsed/schema";
 import SuperTest from "supertest";
 import {afterAll, beforeAll, expect, it} from "vitest";
 

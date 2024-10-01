@@ -11,7 +11,7 @@
     ".": {
       "types": "./lib/types/index.d.ts",
       "import": "./lib/esm/index.js",
-      "default": "./lib/cjs/index.js"
+      "default": "./lib/esm/index.js"
     },
     "./vitest/setup": {
       "types": "./lib/types/setup/vi.setup.d.ts",

@@ -1,5 +1,6 @@
 import "@tsed/ajv";
 import "@tsed/platform-express";
+import "@tsed/platform-log-request";
 import "../../src/index.js";
 
 import {Configuration, Inject, PlatformApplication} from "@tsed/common";
@@ -19,8 +20,7 @@ export {rootDir};
   httpPort: 8001,
   httpsPort: false,
   logger: {
-    level: "info",
-    logRequest: true
+    level: "info"
   },
   mount: {
     "/": [SocketPageCtrl]

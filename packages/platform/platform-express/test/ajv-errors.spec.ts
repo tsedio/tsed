@@ -1,8 +1,8 @@
 import "@tsed/ajv";
 
-import {BodyParams, Controller, PlatformTest, Post} from "@tsed/common";
+import {BodyParams, Controller, PlatformTest} from "@tsed/common";
 import {PlatformTestSdk} from "@tsed/platform-test-sdk";
-import {DefaultMsg, ErrorMsg, Integer, Property, Required, TypeError} from "@tsed/schema";
+import {DefaultMsg, ErrorMsg, Integer, Post, Property, Required, TypeError} from "@tsed/schema";
 import SuperTest from "supertest";
 
 import {PlatformExpress} from "../src/index.js";

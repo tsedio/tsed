@@ -4,7 +4,7 @@ import "@tsed/graphql-ws";
 import {ApolloService} from "@tsed/apollo";
 import {PlatformTest, runInContext} from "@tsed/common";
 import {PlatformExpress} from "@tsed/platform-express";
-import gql from "graphql-tag";
+import {gql} from "graphql-tag";
 
 import {Server} from "./app/Server.js";
 
@@ -41,7 +41,7 @@ describe("TypeGraphQL", () => {
     const server = PlatformTest.get<ApolloService>(ApolloService);
 
     const response = await runInContext($ctx, () => {
-      return server.get().executeOperation({
+      return server.get()!.executeOperation({
         query: GET_RECIPES,
         variables: {}
       });
@@ -69,7 +69,7 @@ describe("TypeGraphQL", () => {
     const server = PlatformTest.get<ApolloService>(ApolloService);
 
     const response = await runInContext($ctx, () => {
-      return server.get().executeOperation({
+      return server.get()!.executeOperation({
         query: ADD_RECIPE,
         variables: {
           title: "title",

@@ -118,7 +118,7 @@ describe("Socket integration: custom path", () => {
       const client = await service.get("/test", CUSTOM_WS_PATH);
 
       return new Promise((resolve: any) => {
-        client.emit("input:scenario1", (result) => {
+        client.emit("input:scenario1", (result: any) => {
           expect(result).toEqual("my Message");
           resolve();
         });

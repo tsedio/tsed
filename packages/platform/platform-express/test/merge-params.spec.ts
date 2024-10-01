@@ -1,5 +1,6 @@
-import {Controller, Get, PathParams, PlatformTest} from "@tsed/common";
+import {Controller, PathParams, PlatformTest} from "@tsed/common";
 import {PlatformTestSdk} from "@tsed/platform-test-sdk";
+import {Get} from "@tsed/schema";
 import SuperTest from "supertest";
 
 import {PlatformExpress} from "../src/index.js";
@@ -32,7 +33,7 @@ describe("MergeParams", () => {
       }
     })
   );
-  afterAll(utils.reset);
+  afterAll(() => utils.reset());
 
   beforeAll(() => {
     request = SuperTest(PlatformTest.callback());

@@ -1,4 +1,4 @@
-import {Controller, Get, PlatformContext, PlatformTest, QueryParams, ResponseFilter, ResponseFilterMethods} from "@tsed/common";
+import {Controller, PlatformContext, PlatformTest, QueryParams, ResponseFilter, ResponseFilterMethods} from "@tsed/common";
 import {isString} from "@tsed/core";
 import {OnDeserialize} from "@tsed/json-mapper";
 import {PlatformTestSdk} from "@tsed/platform-test-sdk";
@@ -9,6 +9,7 @@ import {
   Description,
   For,
   Generics,
+  Get,
   getSpec,
   Integer,
   Min,
@@ -152,7 +153,7 @@ describe("Pageable", () => {
       ]
     })
   );
-  afterAll(utils.reset);
+  afterAll(() => utils.reset());
 
   beforeAll(() => {
     request = SuperTest(PlatformTest.callback());

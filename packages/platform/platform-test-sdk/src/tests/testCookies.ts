@@ -1,4 +1,5 @@
-import {Controller, CookiesParams, Get, PlatformTest} from "@tsed/common";
+import {Controller, CookiesParams, PlatformTest} from "@tsed/common";
+import {Get} from "@tsed/schema";
 import SuperTest from "supertest";
 import {afterAll, beforeAll, expect, it} from "vitest";
 

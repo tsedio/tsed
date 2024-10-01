@@ -23,7 +23,7 @@ describe("Agenda integration", () => {
           enabled: true,
           db: {
             address: options.url,
-            options: options.connectionOptions
+            options: options.connectionOptions as never
           }
         }
       });

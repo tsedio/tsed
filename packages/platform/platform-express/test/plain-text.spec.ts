@@ -1,6 +1,6 @@
-import {Controller, Get, PlatformTest} from "@tsed/common";
+import {Controller, PlatformTest} from "@tsed/common";
 import {PlatformTestSdk} from "@tsed/platform-test-sdk";
-import {Returns} from "@tsed/schema";
+import {Get, Returns} from "@tsed/schema";
 import SuperTest from "supertest";
 
 import {PlatformExpress} from "../src/index.js";
@@ -47,7 +47,7 @@ describe("PlainText", () => {
     request = SuperTest(PlatformTest.callback());
   });
 
-  afterEach(utils.reset);
+  afterEach(() => utils.reset());
   describe("scenario 1", () => {
     it("should return a plain text", async () => {
       const response = await request.get("/rest/plain-text/scenario-1");

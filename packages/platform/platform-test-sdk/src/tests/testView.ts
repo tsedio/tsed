@@ -1,5 +1,6 @@
-import {Controller, Get, Locals, Middleware, PlatformTest, UseBefore} from "@tsed/common";
+import {Controller, Locals, Middleware, PlatformTest, UseBefore} from "@tsed/common";
 import {View} from "@tsed/platform-views";
+import {Get} from "@tsed/schema";
 import {EOL} from "os";
 import SuperTest from "supertest";
 import {afterAll, beforeAll, describe, expect, it} from "vitest";

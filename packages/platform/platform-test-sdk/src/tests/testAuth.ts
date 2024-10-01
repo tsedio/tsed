@@ -1,7 +1,7 @@
-import {Context, Controller, Get, Inject, Injectable, Middleware, PlatformTest, Post, Req, UseAuth} from "@tsed/common";
+import {Context, Controller, Inject, Injectable, Middleware, PlatformTest, Req, UseAuth} from "@tsed/common";
 import {useDecorators} from "@tsed/core";
 import {BadRequest, Forbidden, Unauthorized} from "@tsed/exceptions";
-import {In, Returns, Security} from "@tsed/schema";
+import {Get, In, Post, Returns, Security} from "@tsed/schema";
 import SuperTest from "supertest";
 import {afterAll, beforeAll, describe, expect, it} from "vitest";
 

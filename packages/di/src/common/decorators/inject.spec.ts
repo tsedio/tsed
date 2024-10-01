@@ -1,4 +1,4 @@
-import {catchAsyncError, catchError} from "@tsed/core";
+import {catchAsyncError} from "@tsed/core";
 
 import {DITest} from "../../node/index.js";
 import {registerProvider} from "../registries/ProviderRegistry.js";

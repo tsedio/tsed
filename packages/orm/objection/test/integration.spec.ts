@@ -3,7 +3,7 @@ import {serialize} from "@tsed/json-mapper";
 import {Knex} from "knex";
 import {afterAll, beforeAll, beforeEach, describe, expect, it} from "vitest";
 
-import {OBJECTION_CONNECTION} from "..";
+import {OBJECTION_CONNECTION} from "../src/index.js";
 import {User} from "./helpers/models/User.js";
 
 const rootDir = import.meta.dirname; // automatically replaced by import.meta.dirname on build

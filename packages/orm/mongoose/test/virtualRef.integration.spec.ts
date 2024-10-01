@@ -1,12 +1,13 @@
-import {Controller, Get, Inject, PlatformTest} from "@tsed/common";
+import {PlatformTest} from "@tsed/common";
 import {getValue} from "@tsed/core";
+import {Controller, Inject} from "@tsed/di";
 import {serialize} from "@tsed/json-mapper";
 import {PlatformExpress} from "@tsed/platform-express";
-import {CollectionOf, getJsonSchema, Groups, Integer, Required} from "@tsed/schema";
+import {CollectionOf, Get, getJsonSchema, Groups, Integer, Required} from "@tsed/schema";
 import {TestContainersMongo} from "@tsed/testcontainers-mongo";
 import SuperTest from "supertest";
 
-import {Model, MongooseModel, ObjectID, VirtualRef} from "..";
+import {Model, MongooseModel, ObjectID, VirtualRef} from "../src/index.js";
 import {Server} from "./helpers/Server.js";
 
 @Model()

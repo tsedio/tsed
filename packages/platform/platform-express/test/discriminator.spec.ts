@@ -1,9 +1,9 @@
 import "@tsed/ajv";
 import "@tsed/swagger";
 
-import {BodyParams, Controller, Patch, PlatformTest, Post} from "@tsed/common";
+import {BodyParams, Controller, PlatformTest} from "@tsed/common";
 import {PlatformTestSdk} from "@tsed/platform-test-sdk";
-import {DiscriminatorKey, DiscriminatorValue, OneOf, Partial, Property, Required, Returns} from "@tsed/schema";
+import {DiscriminatorKey, DiscriminatorValue, OneOf, Partial, Patch, Post, Property, Required, Returns} from "@tsed/schema";
 import SuperTest from "supertest";
 
 import {PlatformExpress} from "../src/index.js";
@@ -88,7 +88,7 @@ describe("Discriminator", () => {
       ]
     })
   );
-  afterAll(utils.reset);
+  afterAll(() => utils.reset());
 
   beforeAll(() => {
     request = SuperTest(PlatformTest.callback());

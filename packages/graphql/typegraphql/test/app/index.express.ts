@@ -1,7 +1,7 @@
 import {$log} from "@tsed/common";
 import {PlatformExpress} from "@tsed/platform-express";
 
-import {Server} from "./Server";
+import {Server} from "./Server.js";
 
 if (process.env.NODE_ENV !== "test") {
   async function bootstrap() {

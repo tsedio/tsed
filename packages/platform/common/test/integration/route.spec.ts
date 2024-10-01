@@ -1,6 +1,4 @@
-import {OperationVerbs} from "@tsed/schema";
-
-import {All, Delete, EndpointMetadata, Get, Head, Options, Patch, Post, Put} from "../../src/index.js";
+import {All, Delete, EndpointMetadata, Get, Head, OperationVerbs, Options, Patch, Post, Put} from "@tsed/schema";
 
 describe("Route decorators", () => {
   describe("All", () => {

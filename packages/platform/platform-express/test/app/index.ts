@@ -1,5 +1,5 @@
-import {$log, BodyParams, Controller, Get, PlatformResponse, Post, QueryParams, Res} from "@tsed/common";
-import {Returns} from "@tsed/schema";
+import {$log, BodyParams, Controller, PlatformResponse, QueryParams, Res} from "@tsed/common";
+import {Get, Post, Returns} from "@tsed/schema";
 import {agent, SuperAgentStatic} from "superagent";
 import {promisify} from "util";
 

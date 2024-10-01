@@ -1,4 +1,5 @@
-import {Controller, Get} from "@tsed/common";
+import {Controller} from "@tsed/di";
+import {Get} from "@tsed/schema";
 
 @Controller("/")
 export class HelloController {
