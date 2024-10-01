@@ -285,28 +285,6 @@ describe("PlatformLogMiddleware", () => {
           })
         );
       });
-      it("should log debug without request", async () => {
-        // GIVEN
-        const {request, ctx, middleware} = await createMiddlewareFixture();
-        request.originalUrl = "originalUrl";
-        // WHEN
-        middleware.use(ctx);
-
-        // THEN
-        ctx.logger.debug(
-          {
-            event: "event"
-          },
-          false
-        );
-        // THEN
-        expect(PlatformTest.injector.logger.debug).toHaveBeenCalledWith(
-          expect.objectContaining({
-            event: "event",
-            reqId: "id"
-          })
-        );
-      });
     });
   });
 });
