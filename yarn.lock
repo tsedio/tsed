@@ -7683,6 +7683,33 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@tsed/platform-log-request@workspace:packages/platform/platform-log-request":
+  version: 0.0.0-use.local
+  resolution: "@tsed/platform-log-request@workspace:packages/platform/platform-log-request"
+  dependencies:
+    "@tsed/barrels": "workspace:*"
+    "@tsed/di": "workspace:*"
+    "@tsed/platform-middlewares": "workspace:*"
+    "@tsed/platform-params": "workspace:*"
+    "@tsed/typescript": "workspace:*"
+    eslint: "npm:9.11.1"
+    tslib: "npm:2.7.0"
+    typescript: "npm:5.4.5"
+    vitest: "npm:2.0.4"
+  peerDependencies:
+    "@tsed/di": 8.0.0-alpha.7
+    "@tsed/platform-middlewares": 8.0.0-alpha.7
+    "@tsed/platform-params": 8.0.0-alpha.7
+  peerDependenciesMeta:
+    "@tsed/di":
+      optional: false
+    "@tsed/platform-middlewares":
+      optional: false
+    "@tsed/platform-params":
+      optional: false
+  languageName: unknown
+  linkType: soft
+
 "@tsed/platform-middlewares@workspace:*, @tsed/platform-middlewares@workspace:packages/platform/platform-middlewares":
   version: 0.0.0-use.local
   resolution: "@tsed/platform-middlewares@workspace:packages/platform/platform-middlewares"

@@ -12,9 +12,7 @@
     "moduleResolution": "node",
     "skipLibCheck": true
   },
-  "include": [
-    "vite.workspace.mts"
-  ],
+  "include": ["vite.workspace.mts"],
   "references": [
     {
       "path": "./packages/core/tsconfig.json"
@@ -51,6 +49,9 @@
     },
     {
       "path": "./packages/platform/platform-log-middleware/tsconfig.json"
+    },
+    {
+      "path": "./packages/platform/platform-log-request/tsconfig.json"
     },
     {
       "path": "./packages/platform/platform-response-filter/tsconfig.json"
@@ -188,9 +189,5 @@
       "path": "./tools/integration/tsconfig.json"
     }
   ],
-  "exclude": [
-    "**/node_modules/**",
-    "docs",
-    "docs-references"
-  ]
+  "exclude": ["**/node_modules/**", "docs", "docs-references"]
 }
