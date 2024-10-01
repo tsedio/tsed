@@ -1,0 +1,8 @@
+src
+test
+coverage
+tsconfig.json
+tsconfig.*.json
+__mock__
+*.spec.js
+*.tsbuildinfo
