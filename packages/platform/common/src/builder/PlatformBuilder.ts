@@ -187,12 +187,6 @@ export class PlatformBuilder<App = TsED.Application> {
     this.log("Load routes");
     await this.#adapter.beforeLoadRoutes();
 
-    // istanbul ignore next
-    if (this.settings.get("logger.level") !== "off") {
-      const {PlatformLogMiddleware} = await import("@tsed/platform-log-middleware");
-      this.app.use(PlatformLogMiddleware);
-    }
-
     if (this.rootModule.$beforeRoutesInit) {
       await this.rootModule.$beforeRoutesInit();
       // remove method to avoid multiple call and preserve hook order
