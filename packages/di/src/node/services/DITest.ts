@@ -104,7 +104,7 @@ export class DITest {
 
     const instance: T & OnInit = DITest.injector.invoke<T & OnInit>(target, locals, {rebuild: true});
 
-    if (isObject(instance) && "$onInit" in instance) {
+    if (instance && isObject(instance) && "$onInit" in instance) {
       const result = instance.$onInit();
 
       if (result instanceof Promise) {
