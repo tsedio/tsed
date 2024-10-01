@@ -3,7 +3,7 @@
 </p>
 
 <div align="center">
-   <h1>@tsed/platform-log-request</h1>
+   <h1>@tsed/platform-log-middleware</h1>
 
 [![Build & Release](https://github.com/tsedio/tsed/workflows/Build%20&%20Release/badge.svg)](https://github.com/tsedio/tsed/actions?query=workflow%3A%22Build+%26+Release%22)
 [![PR Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](https://github.com/tsedio/tsed/blob/master/CONTRIBUTING.md)
@@ -29,10 +29,61 @@
 
 A package of Ts.ED framework. See website: https://tsed.io/
 
+# Important
+
+This module is deprecated. Please use @tsed/platform-log-request instead.
+
 # Installation
 
 ```bash
-npm install --save @tsed/platform-params
+npm install --save @tsed/platform-log-middleware
+```
+
+## Configuration (Ts.ED v8 only)
+
+```ts
+import {Configuration} from "@tsed/di";
+import {PlatformLogMiddleware} from "@tsed/platform-log-middleware";
+
+@Configuration({
+  logger: {
+    /**
+     * Fields displayed when a request is logged. Possible values: `reqId`, `method`, `url`, `headers`, `body`, `query`,`params`, `duration`.
+     */
+    requestFields: ["reqId", "method", "url", "duration", "route"],
+    /**
+     * Log all incoming request. By default, is true and print the configured `logger.requestFields`.
+     */
+    logRequest: true,
+    /**
+     * Log start of all incoming request. By default, is false
+     */
+    logStart: false,
+    /**
+     * Log end of all incoming request. By default, is true
+     */
+    logEnd: true
+  },
+  middlewares: [
+    "cors",
+    "cookie-parser",
+    {
+      use: "compression",
+      options: {
+        brotli: {
+          enabled: true,
+          zlib: {}
+        }
+      }
+    },
+    "method-override",
+    "json-parser",
+    {use: "urlencoded-parser", options: {extended: true}},
+    /// add the platform log middleware here
+    PlatformLogMiddleware
+  ]
+})
+class Server {}
 ```
 
 ## Contributors

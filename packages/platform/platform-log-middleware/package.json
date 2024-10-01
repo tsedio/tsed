@@ -1,6 +1,6 @@
 {
   "name": "@tsed/platform-log-middleware",
-  "description": "Log request middleware module for Ts.ED Framework",
+  "description": "Log request middleware module for Ts.ED Framework (deprecated)",
   "type": "module",
   "version": "8.0.0-alpha.7",
   "source": "./src/index.ts",
@@ -49,5 +49,8 @@
     "@tsed/platform-params": {
       "optional": false
     }
+  },
+  "publishConfig": {
+    "distTag": "deprecated"
   }
 }
