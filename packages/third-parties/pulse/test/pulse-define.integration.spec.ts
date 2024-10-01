@@ -28,7 +28,7 @@ describe("Pulse integration", () => {
           enabled: true,
           db: {
             address: options.url,
-            options: options.connectionOptions
+            options: options.connectionOptions as never
           }
         }
       });
@@ -97,7 +97,7 @@ describe("Pulse integration", () => {
           disableJobProcessing: true,
           db: {
             address: options.url,
-            options: options.connectionOptions
+            options: options.connectionOptions as never
           }
         }
       });

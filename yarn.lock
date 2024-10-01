@@ -8046,7 +8046,7 @@ __metadata:
     "@tsed/json-mapper": 8.0.0-alpha.8
     "@tsed/schema": 8.0.0-alpha.8
   bin:
-    tsed-prisma: lib/cjs/generator.js
+    tsed-prisma: lib/esm/generator.js
     tsed-prisma-esm: lib/esm/generator.js
   languageName: unknown
   linkType: soft

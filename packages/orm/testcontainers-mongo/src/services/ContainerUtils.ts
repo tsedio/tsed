@@ -58,7 +58,7 @@ export function getMongoUrl(): string {
 }
 
 export function getMongoConnectionOptions(
-  id: string,
+  id: string = "",
   opts: ConnectOptions = {}
 ): {
   id: string;

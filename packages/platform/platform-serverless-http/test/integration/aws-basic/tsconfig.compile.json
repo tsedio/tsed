@@ -1,8 +1,7 @@
 {
-  "extends": "../../../../../../tsconfig.compile.json",
+  "extends": "@tsed/typescript/tsconfig.node.json",
   "compilerOptions": {
     "baseUrl": ".",
-    "module": "commonjs",
     "rootDir": "src",
     "outDir": "dist"
   },

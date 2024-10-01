@@ -28,7 +28,7 @@ describe("Agenda integration", () => {
           enabled: true,
           db: {
             address: options.url,
-            options: options.connectionOptions
+            options: options.connectionOptions as never
           }
         }
       });
@@ -72,7 +72,7 @@ describe("Agenda integration", () => {
 
       const bstrp = PlatformTest.bootstrap(Server, {
         mongoose: [options],
-        agenda: false
+        agenda: false as never
       });
 
       await bstrp();
@@ -97,7 +97,7 @@ describe("Agenda integration", () => {
           disableJobProcessing: true,
           db: {
             address: options.url,
-            options: options.connectionOptions
+            options: options.connectionOptions as never
           }
         }
       });

@@ -1,7 +1,6 @@
 import {catchError} from "@tsed/core";
-import {EndpointMetadata, Get} from "@tsed/schema";
+import {AcceptMime, EndpointMetadata, Get} from "@tsed/schema";
 
-import {AcceptMime} from "../exports.js";
 import {PlatformTest} from "../services/PlatformTest.js";
 import {PlatformAcceptMimesMiddleware} from "./PlatformAcceptMimesMiddleware.js";
 
@@ -35,7 +34,7 @@ describe("PlatformMimesMiddleware", () => {
 
       const middleware = await PlatformTest.invoke<PlatformAcceptMimesMiddleware>(PlatformAcceptMimesMiddleware);
 
-      middleware.use(ctx);
+      middleware.use(ctx as never);
 
       expect(request.accepts).toHaveBeenCalledWith(["application/json", "text"]);
     });
@@ -60,7 +59,7 @@ describe("PlatformMimesMiddleware", () => {
       vi.spyOn(request, "accepts");
 
       const middleware = await PlatformTest.invoke<PlatformAcceptMimesMiddleware>(PlatformAcceptMimesMiddleware);
-      middleware.use(ctx);
+      middleware.use(ctx as never);
 
       expect(request.accepts).toHaveBeenCalledWith(["text", "application/json"]);
     });
@@ -82,7 +81,7 @@ describe("PlatformMimesMiddleware", () => {
       vi.spyOn(request, "accepts");
 
       const middleware = await PlatformTest.invoke<PlatformAcceptMimesMiddleware>(PlatformAcceptMimesMiddleware);
-      middleware.use(ctx);
+      middleware.use(ctx as never);
 
       expect(request.accepts).toHaveBeenCalledWith(["application/json", "text"]);
     });
@@ -105,7 +104,7 @@ describe("PlatformMimesMiddleware", () => {
       });
       const middleware = await PlatformTest.invoke<PlatformAcceptMimesMiddleware>(PlatformAcceptMimesMiddleware);
 
-      const error: any = catchError(() => middleware.use(ctx));
+      const error: any = catchError(() => middleware.use(ctx as never));
 
       expect(error.message).toEqual("You must accept content-type application/json, text");
     });
@@ -132,7 +131,7 @@ describe("PlatformMimesMiddleware", () => {
       vi.spyOn(request, "accepts");
 
       const middleware = await PlatformTest.invoke<PlatformAcceptMimesMiddleware>(PlatformAcceptMimesMiddleware);
-      middleware.use(ctx);
+      middleware.use(ctx as never);
 
       return expect(request.accepts).not.toHaveBeenCalled();
     });
@@ -156,7 +155,7 @@ describe("PlatformMimesMiddleware", () => {
       vi.spyOn(request, "accepts");
 
       const middleware = await PlatformTest.invoke<PlatformAcceptMimesMiddleware>(PlatformAcceptMimesMiddleware);
-      middleware.use(ctx);
+      middleware.use(ctx as never);
 
       expect(request.accepts).toHaveBeenCalledWith(["application/json"]);
     });
@@ -182,7 +181,7 @@ describe("PlatformMimesMiddleware", () => {
       vi.spyOn(request, "accepts");
 
       const middleware = await PlatformTest.invoke<PlatformAcceptMimesMiddleware>(PlatformAcceptMimesMiddleware);
-      middleware.use(ctx);
+      middleware.use(ctx as never);
 
       expect(request.accepts).toHaveBeenCalledWith(["text"]);
     });
@@ -208,7 +207,7 @@ describe("PlatformMimesMiddleware", () => {
 
       const middleware = await PlatformTest.invoke<PlatformAcceptMimesMiddleware>(PlatformAcceptMimesMiddleware);
 
-      const error: any = catchError(() => middleware.use(ctx));
+      const error: any = catchError(() => middleware.use(ctx as never));
 
       expect(error.message).toEqual("You must accept content-type application/json");
     });

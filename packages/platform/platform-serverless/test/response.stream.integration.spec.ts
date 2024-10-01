@@ -4,7 +4,7 @@ import {Injectable} from "@tsed/di";
 import {PlatformServerlessTest} from "@tsed/platform-serverless-testing";
 import {Post, Returns} from "@tsed/schema";
 
-import {BodyParams, PlatformServerless} from "..";
+import {BodyParams, PlatformServerless} from "../src/index.js";
 
 @Injectable()
 class StreamLambda {

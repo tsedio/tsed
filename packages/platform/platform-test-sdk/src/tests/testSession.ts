@@ -1,6 +1,6 @@
-import {BodyParams, Constant, Controller, Get, PlatformTest, Post, Req, Session} from "@tsed/common";
+import {BodyParams, Constant, Controller, PlatformTest, Req, Session} from "@tsed/common";
 import {NotFound} from "@tsed/exceptions";
-import {Allow, Email, Ignore, MinLength, Property, Required, Returns} from "@tsed/schema";
+import {Allow, Email, Get, Ignore, MinLength, Post, Property, Required, Returns} from "@tsed/schema";
 import SuperTest from "supertest";
 import {promisify} from "util";
 import {afterAll, beforeAll, describe, expect, it} from "vitest";

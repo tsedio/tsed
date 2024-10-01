@@ -1,4 +1,4 @@
-import Ajv from "ajv";
+import {Ajv} from "ajv";
 
 import {AdditionalProperties, AnyOf, array, Enum, getJsonSchema, string} from "../../src/index.js";
 

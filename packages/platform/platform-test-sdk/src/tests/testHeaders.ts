@@ -1,5 +1,5 @@
-import {BodyParams, Controller, Get, PlatformResponse, PlatformTest, Res} from "@tsed/common";
-import {Returns} from "@tsed/schema";
+import {BodyParams, Controller, PlatformResponse, PlatformTest, Res} from "@tsed/common";
+import {Get, Returns} from "@tsed/schema";
 import SuperTest from "supertest";
 import {afterAll, beforeAll, expect, it} from "vitest";
 

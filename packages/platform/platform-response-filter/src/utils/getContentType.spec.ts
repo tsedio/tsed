@@ -1,5 +1,5 @@
-import {PlatformTest, View} from "@tsed/common";
-import {EndpointMetadata, Get, Returns} from "@tsed/schema";
+import {PlatformTest} from "@tsed/common";
+import {EndpointMetadata, Get, Returns, View} from "@tsed/schema";
 
 import {getContentType} from "./getContentType.js";
 

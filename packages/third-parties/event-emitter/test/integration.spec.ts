@@ -36,7 +36,7 @@ describe("EventEmitter integration", () => {
   describe("enabled", () => {
     beforeEach(async () => {
       vi.spyOn(Test.prototype, "test").mockReturnValue();
-      vi.spyOn(Test.prototype, "test2").mockReturnValue();
+      vi.spyOn(Test.prototype, "test2").mockResolvedValue(23);
       vi.spyOn(TestTwo.prototype, "test3").mockReturnValue();
       vi.spyOn(TestTwo.prototype, "test4").mockReturnValue();
       vi.spyOn(EventEmitterModule.prototype, "printEvents").mockReturnValue();

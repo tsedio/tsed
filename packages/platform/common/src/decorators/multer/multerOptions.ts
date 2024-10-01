@@ -7,7 +7,8 @@ import {PlatformMulterMiddleware} from "../../middlewares/PlatformMulterMiddlewa
  * Define multer option for all MultipartFile
  *
  * ```typescript
- * import {Controller, Post, PlatformMulterFile, MultipartFile, MulterOptions} from "@tsed/common";
+ * import {Controller, PlatformMulterFile, MultipartFile, MulterOptions} from "@tsed/common";
+ * import {Post} from "@tsed/schema";
  *
  * @Controller('/')
  * class MyCtrl {

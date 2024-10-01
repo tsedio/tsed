@@ -1,7 +1,7 @@
-import {BodyParams, Controller, Get, PathParams, PlatformTest, Post} from "@tsed/common";
+import {BodyParams, Controller, PathParams, PlatformTest} from "@tsed/common";
 import {ObjectID} from "@tsed/mongoose";
 import {PlatformExpress} from "@tsed/platform-express";
-import {Consumes, Returns} from "@tsed/schema";
+import {Consumes, Get, Post, Returns} from "@tsed/schema";
 import SuperTest from "supertest";
 
 import {Calendar} from "./app/models/Calendar.js";

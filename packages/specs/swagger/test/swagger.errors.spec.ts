@@ -1,6 +1,6 @@
-import {Controller, Get, PlatformTest} from "@tsed/common";
+import {Controller, PlatformTest} from "@tsed/common";
 import {PlatformExpress} from "@tsed/platform-express";
-import {Required, Returns} from "@tsed/schema";
+import {Get, Required, Returns} from "@tsed/schema";
 import SuperTest from "supertest";
 
 import {Server} from "./app/Server.js";

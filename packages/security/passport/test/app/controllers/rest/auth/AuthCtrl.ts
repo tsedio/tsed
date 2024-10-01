@@ -1,5 +1,5 @@
-import {BodyParams, Controller, Post, ProviderScope, Req, Scope} from "@tsed/common";
-import {Returns} from "@tsed/schema";
+import {BodyParams, Controller, ProviderScope, Req, Scope} from "@tsed/common";
+import {Post, Returns} from "@tsed/schema";
 
 import {Authenticate} from "../../../../../src/index.js";
 import {Account} from "../../../models/Account.js";

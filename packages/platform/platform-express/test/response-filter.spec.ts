@@ -1,6 +1,6 @@
-import {Context, Controller, Get, PlatformTest, Res, ResponseFilter} from "@tsed/common";
+import {Context, Controller, PlatformTest, Res, ResponseFilter} from "@tsed/common";
 import {PlatformTestSdk} from "@tsed/platform-test-sdk";
-import {Returns} from "@tsed/schema";
+import {Get, Returns} from "@tsed/schema";
 import {ServerResponse} from "http";
 import SuperTest from "supertest";
 
@@ -60,7 +60,7 @@ describe("ResponseFilter", () => {
     request = SuperTest(PlatformTest.callback());
   });
 
-  afterEach(utils.reset);
+  afterEach(() => utils.reset());
   afterEach(() => {
     vi.resetAllMocks();
   });

@@ -69,6 +69,12 @@
       ],
       "@tsed/platform-koa": [
         "../../platform/platform-koa/src/index.ts"
+      ],
+      "@tsed/adapters": [
+        "../../orm/adapters/src/index.ts"
+      ],
+      "@tsed/passport": [
+        "../../security/passport/src/index.ts"
       ]
     },
     "types": [
@@ -83,7 +89,6 @@
   ],
   "exclude": [
     "node_modules",
-    "test",
     "lib",
     "benchmark",
     "coverage"

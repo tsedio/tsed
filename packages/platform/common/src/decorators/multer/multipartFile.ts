@@ -20,8 +20,8 @@ function mapOptions(name: string, maxCount: number | undefined): MulterInputOpti
  * Define a parameter as Multipart file.
  *
  * ```typescript
- * import {Controller, Post} from "@tsed/common";
- * import {MulterOptions, MultipartFile} from "@tsed/common";
+ * import {Post} from "@tsed/schema";
+ * import {Controller, MulterOptions, MultipartFile} from "@tsed/common";
  * import {Multer} from "@types/multer";
  *
  * type MulterFile = Express.Multer.File;

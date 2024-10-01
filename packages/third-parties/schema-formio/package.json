@@ -13,7 +13,7 @@
       "types": "./lib/types/index.d.ts",
       "browser": "./lib/browser/schema-formio.umd.min.js",
       "import": "./lib/esm/index.js",
-      "default": "./lib/cjs/index.js"
+      "default": "./lib/esm/index.js"
     }
   },
   "scripts": {

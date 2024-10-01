@@ -1,5 +1,6 @@
 import "../../src/index.js";
 import "@tsed/platform-express";
+import "@tsed/platform-log-request";
 
 import {Configuration, Inject, PlatformApplication} from "@tsed/common";
 import bodyParser from "body-parser";
@@ -15,8 +16,7 @@ const rootDir = import.meta.dirname; // automatically replaced by import.meta.di
   disableComponentScan: true,
   httpsPort: false,
   logger: {
-    level: "info",
-    logRequest: true
+    level: "info"
   }
 })
 export class Server {

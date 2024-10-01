@@ -1,5 +1,6 @@
-import {Configuration, Controller, Get, Inject, PlatformApplication, PlatformTest, QueryParams} from "@tsed/common";
+import {Configuration, Controller, Inject, PlatformApplication, PlatformTest, QueryParams} from "@tsed/common";
 import {PlatformTestSdk} from "@tsed/platform-test-sdk";
+import {Get} from "@tsed/schema";
 import {parse} from "querystring";
 import SuperTest from "supertest";
 
@@ -51,7 +52,7 @@ describe("QueryParser", () => {
     request = SuperTest(PlatformTest.callback());
   });
 
-  afterEach(utils.reset);
+  afterEach(() => utils.reset());
   describe("Scenario1: DeepObject should not be parsed", () => {
     const endpoint = "/rest/query-params/scenario-1";
     it("should return the query value", async () => {

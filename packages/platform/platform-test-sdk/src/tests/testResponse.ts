@@ -1,5 +1,5 @@
-import {Context, Controller, Get, getContext, PathParams, PlatformResponse, PlatformTest, Post, Res} from "@tsed/common";
-import {CollectionOf, Enum, ForwardGroups, Groups, Ignore, Name, Property, Required, Returns, Status} from "@tsed/schema";
+import {Context, Controller, getContext, PathParams, PlatformResponse, PlatformTest, Res} from "@tsed/common";
+import {CollectionOf, Enum, ForwardGroups, Get, Groups, Ignore, Name, Post, Property, Required, Returns, Status} from "@tsed/schema";
 import axios from "axios";
 import {of} from "rxjs";
 import {agent} from "superagent";

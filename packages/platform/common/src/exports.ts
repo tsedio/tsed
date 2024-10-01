@@ -8,4 +8,3 @@ export * from "@tsed/platform-middlewares";
 export * from "@tsed/platform-params";
 export * from "@tsed/platform-response-filter";
 export * from "@tsed/platform-router";
-export {AcceptMime, All, Delete, Get, Head, Location, Options, Patch, Post, Put, Redirect, View} from "@tsed/schema";

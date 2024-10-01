@@ -1,9 +1,9 @@
 import "@tsed/ajv";
 
-import {Controller, Get, PlatformTest, QueryParams} from "@tsed/common";
+import {Controller, PlatformTest, QueryParams} from "@tsed/common";
 import {Env} from "@tsed/core";
 import {PlatformTestSdk} from "@tsed/platform-test-sdk";
-import {Default, Enum, enums, getSpec, SpecTypes} from "@tsed/schema";
+import {Default, Enum, enums, Get, getSpec, SpecTypes} from "@tsed/schema";
 import SuperTest from "supertest";
 
 import {PlatformExpress} from "../src/index.js";
@@ -41,7 +41,7 @@ describe("Enums", () => {
       ]
     })
   );
-  afterAll(utils.reset);
+  afterAll(() => utils.reset());
 
   beforeAll(() => {
     request = SuperTest(PlatformTest.callback());

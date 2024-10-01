@@ -1,11 +1,13 @@
 import {faker} from "@faker-js/faker";
-import {BodyParams, Controller, Get, Inject, PlatformTest, Post, QueryParams} from "@tsed/common";
+import {BodyParams, PlatformTest, QueryParams} from "@tsed/common";
+import {Controller, Inject} from "@tsed/di";
 import {deserialize, serialize} from "@tsed/json-mapper";
 import {PlatformExpress} from "@tsed/platform-express";
+import {Get, Post} from "@tsed/schema";
 import {TestContainersMongo} from "@tsed/testcontainers-mongo";
 import SuperTest from "supertest";
 
-import {MongooseModel} from "..";
+import {MongooseModel} from "../src/index.js";
 import {TestProfile, TestUser} from "./helpers/models/User.js";
 import {Server} from "./helpers/Server.js";
 
@@ -114,12 +116,12 @@ describe("Mongoose", () => {
       expect(result).toBeInstanceOf(TestUser);
       expect(typeof result._id).toBe("string");
       expect(result.alwaysIgnored).toBe("hello ignore");
-      expect(Date.parse(result.created as string)).not.toBeNaN();
+      expect(Date.parse(result.created as unknown as string)).not.toBeNaN();
       expect(result.email).toBe(currentUser.email);
       expect(result.password).toBe(currentUser.password);
       expect(result.post).toBe("hello post");
       expect(result.pre).toBe("hello pre");
-      expect(Date.parse(result.updated as string)).not.toBeNaN();
+      expect(Date.parse(result.updated as unknown as string)).not.toBeNaN();
     });
 
     it("should transform mongoose instance to object", async () => {

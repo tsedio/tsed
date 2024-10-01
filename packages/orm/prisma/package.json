@@ -11,11 +11,11 @@
     ".": {
       "types": "./lib/types/index.d.ts",
       "import": "./lib/esm/index.js",
-      "default": "./lib/cjs/index.js"
+      "default": "./lib/esm/index.js"
     }
   },
   "bin": {
-    "tsed-prisma": "lib/cjs/generator.js",
+    "tsed-prisma": "lib/esm/generator.js",
     "tsed-prisma-esm": "lib/esm/generator.js"
   },
   "scripts": {

@@ -1,4 +1,5 @@
-import {Context, Controller, Get, Location, PlatformTest, Redirect} from "@tsed/common";
+import {Context, Controller, PlatformTest} from "@tsed/common";
+import {Get, Location, Redirect} from "@tsed/schema";
 import SuperTest from "supertest";
 import {afterAll, beforeAll, expect, it} from "vitest";
 

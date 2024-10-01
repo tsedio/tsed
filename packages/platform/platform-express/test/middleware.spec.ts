@@ -1,5 +1,6 @@
-import {Controller, Get, PlatformTest} from "@tsed/common";
+import {Controller, PlatformTest} from "@tsed/common";
 import {PlatformTestSdk} from "@tsed/platform-test-sdk";
+import {Get} from "@tsed/schema";
 import {Returns} from "@tsed/schema";
 import SuperTest from "supertest";
 
@@ -35,7 +36,7 @@ describe("Middleware", () => {
       responseFilters: [TestMiddleware]
     })
   );
-  afterEach(utils.reset);
+  afterEach(() => utils.reset());
   afterEach(() => {
     vi.resetAllMocks();
   });

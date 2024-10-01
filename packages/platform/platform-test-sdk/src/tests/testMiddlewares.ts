@@ -1,19 +1,8 @@
 import "@tsed/ajv";
 
-import {
-  Context,
-  Controller,
-  Err,
-  Get,
-  Middleware,
-  MiddlewareMethods,
-  PlatformTest,
-  QueryParams,
-  Use,
-  UseAfter,
-  UseBefore
-} from "@tsed/common";
+import {Context, Controller, Err, Middleware, MiddlewareMethods, PlatformTest, QueryParams, Use, UseAfter, UseBefore} from "@tsed/common";
 import {BadRequest, Exception, Unauthorized} from "@tsed/exceptions";
+import {Get} from "@tsed/schema";
 import SuperTest from "supertest";
 import {afterAll, beforeAll, describe, expect, it} from "vitest";
 
