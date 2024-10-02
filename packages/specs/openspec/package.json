@@ -2,7 +2,7 @@
   "name": "@tsed/openspec",
   "description": "OpenSpec2 and OpenSpec3 interfaces declarations for TypeScript application",
   "type": "module",
-  "version": "8.0.0-alpha.8",
+  "version": "8.0.0-alpha.9",
   "source": "./src/index.ts",
   "main": "./lib/esm/index.js",
   "module": "./lib/esm/index.js",

@@ -2,7 +2,7 @@
   "name": "@tsed/mongoose",
   "description": "Mongoose package for Ts.ED framework",
   "type": "module",
-  "version": "8.0.0-alpha.8",
+  "version": "8.0.0-alpha.9",
   "keywords": [
     "tsed",
     "mongoose",
@@ -48,12 +48,12 @@
     "vitest": "2.0.4"
   },
   "peerDependencies": {
-    "@tsed/ajv": "8.0.0-alpha.8",
-    "@tsed/core": "8.0.0-alpha.8",
-    "@tsed/di": "8.0.0-alpha.8",
-    "@tsed/json-mapper": "8.0.0-alpha.8",
+    "@tsed/ajv": "8.0.0-alpha.9",
+    "@tsed/core": "8.0.0-alpha.9",
+    "@tsed/di": "8.0.0-alpha.9",
+    "@tsed/json-mapper": "8.0.0-alpha.9",
     "@tsed/logger": ">=6.7.5",
-    "@tsed/schema": "8.0.0-alpha.8",
+    "@tsed/schema": "8.0.0-alpha.9",
     "mongoose": ">=6.0.0"
   }
 }
