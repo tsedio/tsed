@@ -2,7 +2,7 @@
   "name": "@tsed/platform-test-sdk",
   "description": "Package to test platform adapter integration with Ts.ED",
   "type": "module",
-  "version": "8.0.0-alpha.7",
+  "version": "8.0.0-alpha.8",
   "source": "./src/index.ts",
   "main": "./lib/esm/index.js",
   "module": "./lib/esm/index.js",

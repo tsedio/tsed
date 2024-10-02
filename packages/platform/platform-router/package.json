@@ -2,7 +2,7 @@
   "name": "@tsed/platform-router",
   "description": "Router",
   "type": "module",
-  "version": "8.0.0-alpha.7",
+  "version": "8.0.0-alpha.8",
   "source": "./src/index.ts",
   "main": "./lib/esm/index.js",
   "module": "./lib/esm/index.js",
@@ -38,12 +38,12 @@
     "vitest": "2.0.4"
   },
   "peerDependencies": {
-    "@tsed/core": "8.0.0-alpha.7",
-    "@tsed/di": "8.0.0-alpha.7",
-    "@tsed/exceptions": "8.0.0-alpha.7",
-    "@tsed/json-mapper": "8.0.0-alpha.7",
-    "@tsed/platform-params": "8.0.0-alpha.7",
-    "@tsed/schema": "8.0.0-alpha.7"
+    "@tsed/core": "8.0.0-alpha.8",
+    "@tsed/di": "8.0.0-alpha.8",
+    "@tsed/exceptions": "8.0.0-alpha.8",
+    "@tsed/json-mapper": "8.0.0-alpha.8",
+    "@tsed/platform-params": "8.0.0-alpha.8",
+    "@tsed/schema": "8.0.0-alpha.8"
   },
   "peerDependenciesMeta": {
     "@tsed/core": {
