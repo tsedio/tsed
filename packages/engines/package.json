@@ -80,7 +80,7 @@
     "typescript": "5.4.5",
     "underscore": "^1.13.7",
     "vash": "^0.13.0",
-    "velocityjs": "^2.0.1",
+    "velocityjs": "^2.0.6",
     "vitest": "2.1.2",
     "walrus": "^0.10.1",
     "whiskers": "^0.4.0"

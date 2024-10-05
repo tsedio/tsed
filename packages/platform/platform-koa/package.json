@@ -77,7 +77,7 @@
     "koa": "2.15.3",
     "koa-bodyparser": "4.4.1",
     "koa-compress": "5.1.1",
-    "koa-override": "3.0.0",
+    "koa-override": "4.0.0",
     "koa-qs": "^3.0.0",
     "koa-session": "6.4.0",
     "typescript": "5.4.5",
