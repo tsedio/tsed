@@ -6,7 +6,7 @@ import path, {join} from "path";
 import {generateCode} from "../generator/generateCode.js";
 import removeDir from "../generator/utils/removeDir.js";
 
-function parseStringBoolean(stringBoolean: string | undefined) {
+function parseStringBoolean(stringBoolean: string | string[] | undefined) {
   return Boolean(stringBoolean ? stringBoolean === "true" : undefined);
 }
 

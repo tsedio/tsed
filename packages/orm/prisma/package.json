@@ -23,9 +23,7 @@
     "build": "rm -rf lib && yarn build:ts && monorepo build-hybrid",
     "build:ts": "tsc --build tsconfig.json",
     "test": "vitest run",
-    "generate:postgres": "yarn build && cd test/postgres && prisma -v && prisma generate",
     "generate:postgres:esm": "yarn build && cd test/postgres-esm && prisma -v && prisma generate",
-    "generate:mongo": "yarn build &&  cd test/mongo && prisma -v && prisma generate",
     "generate:mongo:esm": "yarn build && cd test/mongo-esm && prisma -v && prisma generate",
     "test:ci": "vitest run --coverage.thresholds.autoUpdate=true"
   },
@@ -55,7 +53,7 @@
     "vitest": "2.1.2"
   },
   "peerDependencies": {
-    "@prisma/client": ">=4.0.0",
+    "@prisma/client": ">=5.0.0",
     "@tsed/core": "8.0.0-alpha.9",
     "@tsed/di": "8.0.0-alpha.9",
     "@tsed/json-mapper": "8.0.0-alpha.9",
