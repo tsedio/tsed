@@ -7234,7 +7234,7 @@ __metadata:
     "@tsed/core": "workspace:*"
     "@tsed/di": "workspace:*"
     "@tsed/typescript": "workspace:*"
-    "@types/ioredis-mock": "npm:^5.6.0"
+    "@types/ioredis-mock": "npm:^8.2.5"
     eslint: "npm:9.12.0"
     ioredis: "npm:5.4.1"
     ioredis-mock: "npm:8.9.0"
@@ -8076,7 +8076,7 @@ __metadata:
     "@tsed/typescript": "workspace:*"
     "@types/aws-lambda": "npm:^8.10.145"
     "@types/encodeurl": "npm:^1.0.2"
-    "@types/mime": "npm:^3.0.4"
+    "@types/mime": "npm:^4.0.0"
     aws-lambda: "npm:1.0.7"
     encodeurl: "npm:^2.0.0"
     eslint: "npm:9.12.0"
@@ -8327,7 +8327,7 @@ __metadata:
     "@tsed/typescript": "workspace:*"
     "@types/fs-extra": "npm:11.0.4"
     "@types/json-schema": "npm:7.0.15"
-    "@types/picomatch": "npm:2.3.4"
+    "@types/picomatch": "npm:3.0.1"
     "@types/statuses": "npm:2.0.5"
     ajv: "npm:^8.17.1"
     change-case: "npm:^5.4.4"
@@ -9108,21 +9108,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/ioredis-mock@npm:^5.6.0":
-  version: 5.6.0
-  resolution: "@types/ioredis-mock@npm:5.6.0"
-  dependencies:
-    "@types/ioredis": "npm:*"
-  checksum: 10/df430006c5a90d5fe9d23145b37dc324f9d21bc4c8a1763f70b3ff6ca70ea5a8dadb6e5cd1c170e8ddb7669f459b5b0843550da9fdc028419ab2addea84a0c41
-  languageName: node
-  linkType: hard
-
-"@types/ioredis@npm:*":
-  version: 4.28.10
-  resolution: "@types/ioredis@npm:4.28.10"
+"@types/ioredis-mock@npm:^8.2.5":
+  version: 8.2.5
+  resolution: "@types/ioredis-mock@npm:8.2.5"
   dependencies:
     "@types/node": "npm:*"
-  checksum: 10/c160dccab11b9bdc49e753a8fb4c18ccd0dd97c9b5aa966514cdc3f3fb6cd007e421f1de6044565446acd59059b18c8d8f6ae878c013d623a24ed196adead6f3
+    ioredis: "npm:>=5"
+  checksum: 10/c32a20e02f8c777780b8663ba83bc7be4a5098fe44c390dd28cb69c9b60fc6dcfa1cbc7e5f8dca3579e85b3be1a08b5b8201a5a2d6d1195e5e5840b13538caab
   languageName: node
   linkType: hard
 
@@ -9342,10 +9334,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/mime@npm:^3.0.4":
-  version: 3.0.4
-  resolution: "@types/mime@npm:3.0.4"
-  checksum: 10/a6139c8e1f705ef2b064d072f6edc01f3c099023ad7c4fce2afc6c2bf0231888202adadbdb48643e8e20da0ce409481a49922e737eca52871b3dc08017455843
+"@types/mime@npm:^4.0.0":
+  version: 4.0.0
+  resolution: "@types/mime@npm:4.0.0"
+  dependencies:
+    mime: "npm:*"
+  checksum: 10/e19258adf39badcfa1ed1deecc081f5d4fbbbd655bb6ae23fc6f0101309c61e95feb66f6a839dfe908d4c7b82e9ef39717d2de0212eebffa5cdabdc3f5cefcc1
   languageName: node
   linkType: hard
 
@@ -9520,10 +9514,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/picomatch@npm:2.3.4":
-  version: 2.3.4
-  resolution: "@types/picomatch@npm:2.3.4"
-  checksum: 10/12f67f2425fb134cb24edfeeeebee1a18b4464e7767690780ca9e1edc8e3573bfb851febba5ee079ff1ee87bc0a9525bed0f3b724581f6e8051ff48529078f17
+"@types/picomatch@npm:3.0.1":
+  version: 3.0.1
+  resolution: "@types/picomatch@npm:3.0.1"
+  checksum: 10/0fadfbd35d80c203d9c7979bc2291b10d3fe859e63a7e96da0b9e45e6d568e8d0b4e79bbf5bb775a478ef9f6b1db76228703b73fa0e242f19c35be8a939c3603
   languageName: node
   linkType: hard
 
@@ -18681,7 +18675,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"ioredis@npm:5.4.1":
+"ioredis@npm:5.4.1, ioredis@npm:>=5":
   version: 5.4.1
   resolution: "ioredis@npm:5.4.1"
   dependencies:
@@ -21936,6 +21930,15 @@ __metadata:
   dependencies:
     mime-db: "npm:1.52.0"
   checksum: 10/89aa9651b67644035de2784a6e665fc685d79aba61857e02b9c8758da874a754aed4a9aced9265f5ed1171fd934331e5516b84a7f0218031b6fa0270eca1e51a
+  languageName: node
+  linkType: hard
+
+"mime@npm:*":
+  version: 4.0.4
+  resolution: "mime@npm:4.0.4"
+  bin:
+    mime: bin/cli.js
+  checksum: 10/28e41053ae09cbf4186c551d7cc3cdda10c04fdf447cfdb66db096d83279889a0e0589805b15e36c37ca8b0eedfa6317f25d0514462525271f0cffa5cb0514b4
   languageName: node
   linkType: hard
 

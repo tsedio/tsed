@@ -52,7 +52,7 @@
     "@tsed/typescript": "workspace:*",
     "@types/fs-extra": "11.0.4",
     "@types/json-schema": "7.0.15",
-    "@types/picomatch": "2.3.4",
+    "@types/picomatch": "3.0.1",
     "@types/statuses": "2.0.5",
     "ajv": "^8.17.1",
     "eslint": "9.12.0",
