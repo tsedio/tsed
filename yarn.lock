@@ -3978,16 +3978,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@koa/router@npm:^12.0.2":
-  version: 12.0.2
-  resolution: "@koa/router@npm:12.0.2"
+"@koa/router@npm:^13.1.0":
+  version: 13.1.0
+  resolution: "@koa/router@npm:13.1.0"
   dependencies:
-    debug: "npm:^4.3.4"
     http-errors: "npm:^2.0.0"
     koa-compose: "npm:^4.1.0"
-    methods: "npm:^1.1.2"
     path-to-regexp: "npm:^6.3.0"
-  checksum: 10/6a3b50e2f31b32954716891834041322951b3b21aadf852e33ee05578148b118cac70427f1d0fe836e5ca98770802b93fc2d687adcfd9acf13aa4aea66f1af8c
+  checksum: 10/b5de0745b266dd8cda5873ace9594ca4b020ef6fe0e94e1de81f11a7498d0fcc106c8d972513ad52493b196b5e111ed1d07b318cf4ca4156b85a99ea5d3a3f98
   languageName: node
   linkType: hard
 
@@ -7740,7 +7738,7 @@ __metadata:
   resolution: "@tsed/platform-koa@workspace:packages/platform/platform-koa"
   dependencies:
     "@koa/cors": "npm:5.0.0"
-    "@koa/router": "npm:^12.0.2"
+    "@koa/router": "npm:^13.1.0"
     "@tsed/barrels": "workspace:*"
     "@tsed/common": "workspace:*"
     "@tsed/core": "workspace:*"
@@ -7756,7 +7754,6 @@ __metadata:
     "@types/koa-send": "npm:4.1.6"
     "@types/koa-session": "npm:6.4.5"
     "@types/koa__router": "npm:12.0.4"
-    cross-env: "npm:7.0.3"
     encodeurl: "npm:^2.0.0"
     eslint: "npm:9.12.0"
     koa: "npm:2.15.3"
@@ -7778,6 +7775,7 @@ __metadata:
     "@tsed/logger": ">=6.7.5"
     "@tsed/openspec": 8.0.0-alpha.9
     "@tsed/schema": 8.0.0-alpha.9
+    cross-env: 7.0.3
     koa: ">=2.13.0"
     koa-bodyparser: ">=4.3.0"
     koa-compress: ">=5.0.1"
@@ -8189,7 +8187,7 @@ __metadata:
     typescript: "npm:5.4.5"
     vitest: "npm:2.1.2"
   peerDependencies:
-    "@prisma/client": ">=4.0.0"
+    "@prisma/client": ">=5.0.0"
     "@tsed/core": 8.0.0-alpha.9
     "@tsed/di": 8.0.0-alpha.9
     "@tsed/json-mapper": 8.0.0-alpha.9
