@@ -1,6 +1,6 @@
 import {cleanObject, nameOf, Store, Type} from "@tsed/core";
 import {deserialize, serialize} from "@tsed/json-mapper";
-import {getProperties, JsonEntityStore, JsonSchema} from "@tsed/schema";
+import {getProperties, JsonEntityStore} from "@tsed/schema";
 import {pascalCase} from "change-case";
 import mongoose, {Schema, SchemaDefinition, SchemaOptions, SchemaTypeOptions} from "mongoose";
 
@@ -19,7 +19,7 @@ export interface MongooseSchemaMetadata {
  * @ignore
  */
 function setUpSchema({schema, virtuals}: MongooseSchemaMetadata, options?: SchemaOptions) {
-  const mongooseSchema = new mongoose.Schema(schema, options);
+  const mongooseSchema = new mongoose.Schema(schema, options as never);
 
   for (const [key, options] of virtuals.entries()) {
     mongooseSchema.virtual(key, options);
