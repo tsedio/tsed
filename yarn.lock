@@ -6565,7 +6565,7 @@ __metadata:
     eslint: "npm:9.12.0"
     fs-extra: "npm:11.2.0"
     lodash: "npm:^4.17.21"
-    lowdb: "npm:1.0.0"
+    lowdb: "npm:7.0.1"
     tslib: "npm:2.7.0"
     typescript: "npm:5.4.5"
     uuid: "npm:^10.0.0"
@@ -7314,7 +7314,7 @@ __metadata:
     koa-mount: "npm:^4.0.0"
     koa-rewrite: "npm:^3.0.1"
     lodash: "npm:4.17.21"
-    lowdb: "npm:3.0.0"
+    lowdb: "npm:7.0.1"
     oidc-provider: "npm:8.5.1"
     tslib: "npm:2.7.0"
     typescript: "npm:5.4.5"
@@ -17132,7 +17132,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"graceful-fs@npm:4.2.11, graceful-fs@npm:^4.1.11, graceful-fs@npm:^4.1.15, graceful-fs@npm:^4.1.2, graceful-fs@npm:^4.1.3, graceful-fs@npm:^4.1.6, graceful-fs@npm:^4.2.0, graceful-fs@npm:^4.2.11, graceful-fs@npm:^4.2.4, graceful-fs@npm:^4.2.6, graceful-fs@npm:^4.2.9":
+"graceful-fs@npm:4.2.11, graceful-fs@npm:^4.1.11, graceful-fs@npm:^4.1.15, graceful-fs@npm:^4.1.2, graceful-fs@npm:^4.1.6, graceful-fs@npm:^4.2.0, graceful-fs@npm:^4.2.11, graceful-fs@npm:^4.2.4, graceful-fs@npm:^4.2.6, graceful-fs@npm:^4.2.9":
   version: 4.2.11
   resolution: "graceful-fs@npm:4.2.11"
   checksum: 10/bf152d0ed1dc159239db1ba1f74fdbc40cb02f626770dcd5815c427ce0688c2635a06ed69af364396da4636d0408fcf7d4afdf7881724c3307e46aff30ca49e2
@@ -20737,7 +20737,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"lodash@npm:4, lodash@npm:4.17.21, lodash@npm:>=4.17.21, lodash@npm:^4.17.10, lodash@npm:^4.17.15, lodash@npm:^4.17.20, lodash@npm:^4.17.21, lodash@npm:^4.17.5":
+"lodash@npm:4.17.21, lodash@npm:>=4.17.21, lodash@npm:^4.17.10, lodash@npm:^4.17.15, lodash@npm:^4.17.20, lodash@npm:^4.17.21, lodash@npm:^4.17.5":
   version: 4.17.21
   resolution: "lodash@npm:4.17.21"
   checksum: 10/c08619c038846ea6ac754abd6dd29d2568aa705feb69339e836dfa8d8b09abbb2f859371e86863eda41848221f9af43714491467b5b0299122431e202bb0c532
@@ -20864,25 +20864,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"lowdb@npm:1.0.0":
-  version: 1.0.0
-  resolution: "lowdb@npm:1.0.0"
+"lowdb@npm:7.0.1":
+  version: 7.0.1
+  resolution: "lowdb@npm:7.0.1"
   dependencies:
-    graceful-fs: "npm:^4.1.3"
-    is-promise: "npm:^2.1.0"
-    lodash: "npm:4"
-    pify: "npm:^3.0.0"
-    steno: "npm:^0.4.1"
-  checksum: 10/0c94d2d2fc407424606cd30df903abbac7c403d0cd5a6b55b77c2604a366a6c37d26401d2b7889c53dcd8992031728637b26f01a55c2aa297127b2b4fa30143e
-  languageName: node
-  linkType: hard
-
-"lowdb@npm:3.0.0":
-  version: 3.0.0
-  resolution: "lowdb@npm:3.0.0"
-  dependencies:
-    steno: "npm:^2.1.0"
-  checksum: 10/c519dc6e1ccd9b245acde12a0449b5e47059b0435a1d830360704d5b1dc8bc477c173709cf84915a4c80f5c8c49f3c8a436030eba5dfe97af0e4d9057a3f13f1
+    steno: "npm:^4.0.2"
+  checksum: 10/089cb878515b3b4634980c77b1697991571832a440f0fbc8cabe410ff9bb22b377387fc6cf6ebd9a6430707a835ebd69561f89d30aae7def43c93410b6f82b58
   languageName: node
   linkType: hard
 
@@ -27189,19 +27176,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"steno@npm:^0.4.1":
-  version: 0.4.4
-  resolution: "steno@npm:0.4.4"
-  dependencies:
-    graceful-fs: "npm:^4.1.3"
-  checksum: 10/02e23c2703140db5ddeee2f353830b7c628705fd63337c4d25bd400828cc2a86bb7a56760ae5aafd4a6db60c49d84e0405f3e18ce24bb0821a054c5fcd07bfc8
-  languageName: node
-  linkType: hard
-
-"steno@npm:^2.1.0":
-  version: 2.1.0
-  resolution: "steno@npm:2.1.0"
-  checksum: 10/10fc583480c62b783cd9eb906b8c65d11d19f328fa2e7a9353b1421c505048525d667ed81e16abc9658a4e03aa26bf5f964fa513a0d979d130c965ccb336c8e6
+"steno@npm:^4.0.2":
+  version: 4.0.2
+  resolution: "steno@npm:4.0.2"
+  checksum: 10/cb8beb6b6da410f6a307261da813e57569ff3c85b11695437259f49f081fc6b0eeb26c059f0ec661c4098a09f361057fe834b04d3f94ece885e96a9e0eeba697
   languageName: node
   linkType: hard
 

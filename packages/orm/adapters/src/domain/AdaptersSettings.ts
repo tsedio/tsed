@@ -22,6 +22,7 @@ export interface AdaptersSettings {
 declare global {
   namespace TsED {
     interface Configuration {
+      // @ts-ignore
       adapters: AdaptersSettings;
     }
   }

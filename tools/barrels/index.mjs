@@ -1,6 +1,6 @@
 #!/usr/bin/env ts-node
 import fs from "fs-extra";
-import globby from "globby";
+import {globby} from "globby";
 import {join} from "node:path";
 
 function resolveConfig() {
