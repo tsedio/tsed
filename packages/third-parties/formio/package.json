@@ -43,13 +43,13 @@
     "@tsed/mongoose": "workspace:*",
     "@tsed/typescript": "workspace:*",
     "@types/async": "3.2.24",
-    "eslint": "9.11.1",
-    "express": "^4.19.1",
-    "formio": "3.5.0",
-    "mongodb": "*",
-    "mongoose": "^6.12.7",
+    "eslint": "9.12.0",
+    "express": "^4.21.0",
+    "formio": "3.5.5",
+    "mongodb": "^6.9.0",
+    "mongoose": "^6.13.3",
     "typescript": "5.4.5",
-    "vitest": "2.0.4"
+    "vitest": "2.1.2"
   },
   "peerDependencies": {
     "@tsed/common": "8.0.0-alpha.9",

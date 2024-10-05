@@ -25,22 +25,22 @@
     "tslib": "2.7.0"
   },
   "devDependencies": {
-    "@mikro-orm/core": "6.2.2",
-    "@mikro-orm/mongodb": "6.2.2",
+    "@mikro-orm/core": "6.3.12",
+    "@mikro-orm/mongodb": "6.3.12",
     "@tsed/barrels": "workspace:*",
     "@tsed/common": "workspace:*",
     "@tsed/core": "workspace:*",
     "@tsed/di": "workspace:*",
     "@tsed/json-mapper": "workspace:*",
-    "@tsed/logger": ">=6.7.5",
+    "@tsed/logger": "^6.7.8",
     "@tsed/schema": "workspace:*",
     "@tsed/testcontainers-mongo": "workspace:*",
     "@tsed/typescript": "workspace:*",
     "cross-env": "7.0.3",
-    "eslint": "9.11.1",
+    "eslint": "9.12.0",
     "ts-mockito": "^2.6.1",
     "typescript": "5.4.5",
-    "vitest": "2.0.4"
+    "vitest": "2.1.2"
   },
   "peerDependencies": {
     "@mikro-orm/core": ">=4.5.9",

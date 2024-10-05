@@ -1,15 +1,13 @@
-const {parseFundingFile} = require("./utils/parse");
-const {printDonationMessage} = require("./utils/print");
-const {shouldHideMessage} = require("./utils/misc");
+import {shouldHideMessage} from "./utils/misc.js";
+import {parseFundingFile} from "./utils/parse.js";
+import {printDonationMessage} from "./utils/print.js";
 
-async function init(path = process.cwd(), hideMessage = shouldHideMessage()) {
+export async function init(path = process.cwd(), hideMessage = shouldHideMessage()) {
   if (hideMessage) return;
   try {
     const fundingConfig = await parseFundingFile(path);
-    printDonationMessage(fundingConfig, path);
+    await printDonationMessage(fundingConfig, path);
   } catch (e) {
     console.error(e);
   }
 }
-
-exports.init = init;

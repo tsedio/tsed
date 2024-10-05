@@ -1,4 +1,4 @@
-exports.shouldHideMessage = (env = process.env) => {
+export function shouldHideMessage(env = process.env) {
   // Show message if it is forced
   if (env.GITHUB_SPONSORS_FORCE) {
     return false;
@@ -16,4 +16,4 @@ exports.shouldHideMessage = (env = process.env) => {
 
   // Only show in dev environment
   return Boolean(env.NODE_ENV) && !["dev", "development"].includes(env.NODE_ENV);
-};
+}

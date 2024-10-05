@@ -32,7 +32,7 @@
     "@tsed/core": "workspace:*",
     "@tsed/di": "workspace:*",
     "@tsed/json-mapper": "workspace:*",
-    "@tsed/logger": "6.6.3",
+    "@tsed/logger": "6.7.8",
     "@tsed/platform-cache": "workspace:*",
     "@tsed/platform-params": "workspace:*",
     "@tsed/platform-router": "workspace:*",
@@ -40,13 +40,13 @@
     "@tsed/schema": "workspace:*",
     "@tsed/swagger": "workspace:*",
     "ajv": "^8.17.1",
-    "axios": "1.7.4",
+    "axios": "1.7.7",
     "read-pkg-up": "7.0.1"
   },
   "devDependencies": {
     "@tsed/barrels": "workspace:*",
     "@tsed/typescript": "workspace:*",
-    "eslint": "9.11.1",
+    "eslint": "9.12.0",
     "typescript": "5.4.5"
   }
 }

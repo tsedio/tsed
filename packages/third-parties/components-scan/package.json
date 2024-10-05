@@ -23,7 +23,7 @@
   },
   "dependencies": {
     "@tsed/normalize-path": "workspace:*",
-    "globby": "11.1.0",
+    "globby": "^14.0.2",
     "tslib": "2.7.0"
   },
   "devDependencies": {
@@ -31,9 +31,9 @@
     "@tsed/core": "workspace:*",
     "@tsed/di": "workspace:*",
     "@tsed/typescript": "workspace:*",
-    "eslint": "9.11.1",
+    "eslint": "9.12.0",
     "typescript": "5.4.5",
-    "vitest": "2.0.4"
+    "vitest": "2.1.2"
   },
   "peerDependencies": {
     "@tsed/core": "8.0.0-alpha.9"

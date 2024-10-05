@@ -29,7 +29,7 @@
   },
   "dependencies": {
     "psl": "1.9.0",
-    "wildcard": "2.0.0"
+    "wildcard": "2.0.1"
   },
   "devDependencies": {
     "@tsed/barrels": "workspace:*",
@@ -38,10 +38,10 @@
     "@tsed/oidc-provider": "workspace:*",
     "@tsed/typescript": "workspace:*",
     "@types/psl": "^1.1.3",
-    "@types/uuid": "9.0.8",
-    "eslint": "9.11.1",
+    "@types/uuid": "10.0.0",
+    "eslint": "9.12.0",
     "typescript": "5.4.5",
-    "vitest": "2.0.4"
+    "vitest": "2.1.2"
   },
   "peerDependencies": {
     "@tsed/core": "8.0.0-alpha.9",
