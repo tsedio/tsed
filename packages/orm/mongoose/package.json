@@ -29,7 +29,7 @@
     "test:ci": "vitest run --coverage.thresholds.autoUpdate=true"
   },
   "dependencies": {
-    "change-case": "4.1.2",
+    "change-case": "5.4.4",
     "tslib": "2.7.0"
   },
   "devDependencies": {
@@ -38,14 +38,14 @@
     "@tsed/core": "workspace:*",
     "@tsed/di": "workspace:*",
     "@tsed/json-mapper": "workspace:*",
-    "@tsed/logger": ">=6.7.5",
+    "@tsed/logger": "^6.7.8",
     "@tsed/schema": "workspace:*",
     "@tsed/testcontainers-mongo": "workspace:*",
     "@tsed/typescript": "workspace:*",
-    "eslint": "9.11.1",
-    "mongoose": "6.12.7",
+    "eslint": "9.12.0",
+    "mongoose": "6.13.3",
     "typescript": "5.4.5",
-    "vitest": "2.0.4"
+    "vitest": "2.1.2"
   },
   "peerDependencies": {
     "@tsed/ajv": "8.0.0-alpha.9",

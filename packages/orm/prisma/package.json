@@ -32,10 +32,10 @@
   "dependencies": {
     "@prisma/generator-helper": "^4.16.2",
     "@prisma/internals": "^4.16.2",
-    "change-case": "^4.1.2",
+    "change-case": "^5.4.4",
     "fs-extra": "^11.2.0",
     "pluralize": "^8.0.0",
-    "ts-morph": "^12.0.0",
+    "ts-morph": "^12.2.0",
     "tslib": "2.7.0"
   },
   "devDependencies": {
@@ -49,10 +49,10 @@
     "@tsed/typescript": "workspace:*",
     "@types/change-case": "^2.3.1",
     "@types/pluralize": "0.0.33",
-    "eslint": "9.11.1",
+    "eslint": "9.12.0",
     "prisma": "^4.16.2",
     "typescript": "5.4.5",
-    "vitest": "2.0.4"
+    "vitest": "2.1.2"
   },
   "peerDependencies": {
     "@prisma/client": ">=4.0.0",

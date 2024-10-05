@@ -22,7 +22,7 @@
     "test:ci": "vitest run --coverage.thresholds.autoUpdate=true"
   },
   "dependencies": {
-    "cache-manager": "^5.4.0",
+    "cache-manager": "^5.7.6",
     "micromatch": "4.0.8",
     "tslib": "2.7.0"
   },
@@ -34,9 +34,9 @@
     "@tsed/schema": "workspace:*",
     "@tsed/typescript": "workspace:*",
     "@types/micromatch": "^4.0.6",
-    "eslint": "9.11.1",
+    "eslint": "9.12.0",
     "typescript": "5.4.5",
-    "vitest": "2.0.4"
+    "vitest": "2.1.2"
   },
   "peerDependencies": {
     "@tsed/core": "8.0.0-alpha.9",

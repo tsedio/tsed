@@ -26,18 +26,18 @@
   },
   "dependencies": {
     "tslib": "2.7.0",
-    "uuid": "9.0.1"
+    "uuid": "^10.0.0"
   },
   "devDependencies": {
     "@tsed/barrels": "workspace:*",
     "@tsed/core": "workspace:*",
-    "@tsed/logger": ">=6.7.5",
+    "@tsed/logger": "^6.7.8",
     "@tsed/schema": "workspace:*",
     "@tsed/typescript": "workspace:*",
     "cross-env": "7.0.3",
-    "eslint": "9.11.1",
+    "eslint": "9.12.0",
     "typescript": "5.4.5",
-    "vitest": "2.0.4",
+    "vitest": "2.1.2",
     "webpack": "^5.75.0"
   },
   "peerDependencies": {

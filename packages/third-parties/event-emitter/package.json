@@ -38,10 +38,10 @@
     "@tsed/core": "workspace:*",
     "@tsed/di": "workspace:*",
     "@tsed/typescript": "workspace:*",
-    "eslint": "9.11.1",
+    "eslint": "9.12.0",
     "eventemitter2": "^6.4.9",
     "typescript": "5.4.5",
-    "vitest": "2.0.4",
+    "vitest": "2.1.2",
     "webpack": "^5.75.0"
   },
   "peerDependencies": {
