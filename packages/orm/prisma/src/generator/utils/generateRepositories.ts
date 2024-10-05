@@ -41,7 +41,7 @@ function addDelegatedMethod({name, hasQuestionToken, repository, model, returnTy
 }
 
 export function generateRepositories(dmmf: DMMF.Document, project: Project, baseDirPath: string) {
-  const modelsMap = toMap<string, DMMF.Model>(dmmf.datamodel.models, "name");
+  const modelsMap = toMap<string, DMMF.Model>(dmmf.datamodel.models as any, "name");
   const models = DmmfModel.getModels(dmmf, modelsMap);
   const repoDirPath = path.resolve(baseDirPath, "repositories");
   const repoDirectory = project.createDirectory(repoDirPath);
