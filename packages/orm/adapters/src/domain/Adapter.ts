@@ -2,7 +2,7 @@ import {AjvService} from "@tsed/ajv";
 import {classOf, isArray, isPlainObject, nameOf, Type} from "@tsed/core";
 import {Configuration, Inject, Opts} from "@tsed/di";
 import {deserialize, JsonDeserializerOptions, JsonSerializerOptions, serialize} from "@tsed/json-mapper";
-import {getPropertiesStores, JsonEntityStore} from "@tsed/schema";
+import {getPropertiesStores} from "@tsed/schema";
 
 export interface AdapterConstructorOptions<T = any> extends Record<string, any> {
   model: Type<T> | Object;

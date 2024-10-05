@@ -43,7 +43,7 @@ describe("InjectAdapter", () => {
 
       await clients.adapter.create(client);
 
-      const items = (clients.adapter as MemoryAdapter<Client>).collection.value();
+      const items = (clients.adapter as MemoryAdapter<Client>).collection;
       expect(items).toEqual([
         {
           _id: expect.any(String),
@@ -85,7 +85,7 @@ describe("InjectAdapter", () => {
 
       await clients.adapter.create(client);
 
-      const items = (clients.adapter as MemoryAdapter<Client>).collection.value();
+      const items = (clients.adapter as MemoryAdapter<Client>).collection;
       expect(items).toEqual([
         {
           _id: expect.any(String),
@@ -185,7 +185,7 @@ describe("InjectAdapter", () => {
 
       await clients.adapter.create(client);
 
-      const items = (clients.adapter as MemoryAdapter<Client>).collection.value();
+      const items = (clients.adapter as MemoryAdapter<Client>).collection;
       expect(items).toEqual([
         {
           _id: expect.any(String),
@@ -226,7 +226,7 @@ describe("InjectAdapter", () => {
 
       await clients.adapter.create(client);
 
-      const items = (clients.adapter as MemoryAdapter<Client>).collection.value();
+      const items = (clients.adapter as MemoryAdapter<Client>).collection;
       expect(items).toEqual([
         {
           _id: expect.any(String),
