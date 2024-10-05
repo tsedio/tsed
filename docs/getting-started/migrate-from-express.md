@@ -30,7 +30,7 @@ $ yarn add express@4 @tsed/core @tsed/di @tsed/common @tsed/schema @tsed/json-ma
 $ npm install --save-dev typescript @types/express
 $ npm install --save express@4 @tsed/core @tsed/di @tsed/common @tsed/schema @tsed/json-mapper @tsed/exceptions @tsed/platform-express
 ```
-     
+
   </Tab>
 </Tabs>
 
