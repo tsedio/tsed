@@ -30,8 +30,8 @@
     "test:ci": "vitest run --coverage.thresholds.autoUpdate=true"
   },
   "dependencies": {
-    "@prisma/generator-helper": "^4.16.2",
-    "@prisma/internals": "^4.16.2",
+    "@prisma/generator-helper": "^5.20.0",
+    "@prisma/internals": "^5.20.0",
     "change-case": "^5.4.4",
     "fs-extra": "^11.2.0",
     "pluralize": "^8.0.0",
@@ -39,7 +39,7 @@
     "tslib": "2.7.0"
   },
   "devDependencies": {
-    "@prisma/client": "^4.16.2",
+    "@prisma/client": "^5.20.0",
     "@tsed/barrels": "workspace:*",
     "@tsed/core": "workspace:*",
     "@tsed/di": "workspace:*",

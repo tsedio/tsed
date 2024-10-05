@@ -9,7 +9,7 @@ import {generateDocuments} from "./generateDocuments.js";
 import {generateOutputsBarrelFile} from "./generateOutputsBarrelFile.js";
 
 export function generateEnums(dmmf: DMMF.Document, project: Project, baseDirPath: string): boolean {
-  const enumsMap = toMap<string, DMMF.DatamodelEnum>(dmmf.datamodel.enums, "name");
+  const enumsMap = toMap<string, DMMF.DatamodelEnum>(dmmf.datamodel.enums as any, "name");
   const enums = DmmfEnum.getEnums(dmmf, enumsMap);
   const enumsDirPath = path.resolve(baseDirPath, "enums");
   const enumsDirectory = project.createDirectory(enumsDirPath);
