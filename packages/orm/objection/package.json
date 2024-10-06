@@ -2,7 +2,7 @@
   "name": "@tsed/objection",
   "description": "Objection.js package for Ts.ED framework",
   "type": "module",
-  "version": "8.0.0-alpha.9",
+  "version": "8.0.0-alpha.10",
   "source": "./src/index.ts",
   "main": "./lib/esm/index.js",
   "module": "./lib/esm/index.js",
@@ -40,11 +40,11 @@
     "vitest": "2.1.2"
   },
   "peerDependencies": {
-    "@tsed/ajv": "8.0.0-alpha.9",
-    "@tsed/core": "8.0.0-alpha.9",
-    "@tsed/di": "8.0.0-alpha.9",
-    "@tsed/json-mapper": "8.0.0-alpha.9",
-    "@tsed/schema": "8.0.0-alpha.9",
+    "@tsed/ajv": "8.0.0-alpha.10",
+    "@tsed/core": "8.0.0-alpha.10",
+    "@tsed/di": "8.0.0-alpha.10",
+    "@tsed/json-mapper": "8.0.0-alpha.10",
+    "@tsed/schema": "8.0.0-alpha.10",
     "knex": ">=0.94.0",
     "objection": ">=2.0.0"
   },

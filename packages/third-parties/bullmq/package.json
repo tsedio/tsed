@@ -2,7 +2,7 @@
   "name": "@tsed/bullmq",
   "description": "BullMQ integration for Ts.ED",
   "type": "module",
-  "version": "8.0.0-alpha.9",
+  "version": "8.0.0-alpha.10",
   "keywords": [
     "Ts.ED",
     "BullMQ"
