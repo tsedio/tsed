@@ -1,4 +1,3 @@
-// @ts-ignore
 import type {UnknownObject} from "oidc-provider";
 
 import {OidcClient} from "./interfaces.js";

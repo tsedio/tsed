@@ -1,8 +1,7 @@
 import {InjectContext, PlatformApplication, PlatformContext} from "@tsed/common";
 import {Env, setValue} from "@tsed/core";
 import {Constant, Inject, Injectable, InjectorService} from "@tsed/di";
-// @ts-ignore
-import type {Configuration, default as OIDCProvider, KoaContextWithOIDC} from "oidc-provider";
+import Provider, {type Configuration, type KoaContextWithOIDC} from "oidc-provider";
 
 import {INTERACTIONS} from "../constants/constants.js";
 import {OidcAccountsMethods} from "../domain/OidcAccountsMethods.js";
@@ -12,7 +11,6 @@ import {OidcAdapters} from "./OidcAdapters.js";
 import {OidcInteractions} from "./OidcInteractions.js";
 import {OidcJwks} from "./OidcJwks.js";
 import {OidcPolicy} from "./OidcPolicy.js";
-import {OIDC_PROVIDER_NODE_MODULE, Provider} from "./OidcProviderNodeModule.js";
 
 function mapError(error: any) {
   return Object.getOwnPropertyNames(error).reduce((obj: any, key) => {
@@ -65,8 +63,6 @@ export class OidcProvider {
 
   @InjectContext()
   protected $ctx?: PlatformContext;
-
-  constructor(@Inject(OIDC_PROVIDER_NODE_MODULE) protected module: OIDC_PROVIDER_NODE_MODULE) {}
 
   get logger() {
     return this.$ctx?.logger || this.injector.logger;
@@ -150,7 +146,7 @@ export class OidcProvider {
 
     await this.injector.alterAsync("$alterOidcConfiguration", configuration);
 
-    const oidcProvider = new this.module.Provider(this.getIssuer(), configuration);
+    const oidcProvider = new Provider(this.getIssuer(), configuration);
 
     if (proxy) {
       // istanbul ignore next

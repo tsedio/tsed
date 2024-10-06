@@ -1,4 +1,3 @@
-// @ts-ignore
 import type {default as Provider, interactionPolicy} from "oidc-provider";
 
 export type OIDCContext = InstanceType<Provider["OIDCContext"]>;

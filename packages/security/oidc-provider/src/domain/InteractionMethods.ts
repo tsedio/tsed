@@ -1,4 +1,3 @@
-// @ts-ignore
 import type {CanBePromise, interactionPolicy, KoaContextWithOIDC, UnknownObject} from "oidc-provider";
 
 export interface InteractionMethods {
