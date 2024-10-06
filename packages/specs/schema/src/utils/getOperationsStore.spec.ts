@@ -1,4 +1,5 @@
 import {StoreSet} from "@tsed/core";
+
 import {getOperationsStores, OperationPath} from "../index.js";
 
 describe("getOperationsStore", () => {

@@ -1,8 +1,9 @@
 import {cleanObject} from "@tsed/core";
 import {Configuration, InjectorService, ProviderScope, registerProvider} from "@tsed/di";
-import Ajv, {Format, KeywordDefinition, Options, Vocabulary} from "ajv";
+import {Ajv, Format, KeywordDefinition, Options, Vocabulary} from "ajv";
 import AjvErrors from "ajv-errors";
 import AjvFormats from "ajv-formats";
+
 import {FormatsMethods} from "../interfaces/FormatsMethods.js";
 import {IAjvSettings} from "../interfaces/IAjvSettings.js";
 
@@ -53,6 +54,7 @@ function getFormats(injector: InjectorService): {name: string; options: Format}[
 }
 
 registerProvider({
+  // @ts-ignore
   provide: Ajv,
   deps: [Configuration, InjectorService],
   scope: ProviderScope.SINGLETON,
@@ -68,11 +70,13 @@ registerProvider({
       ...props
     };
 
+    // @ts-ignore
     const ajv = new Ajv(options);
 
     // add support for custom error messages
+    // @ts-ignore
     AjvErrors(ajv);
-
+    // @ts-ignore
     AjvFormats(ajv as any);
 
     getFormats(injector).forEach(({name, options}) => {

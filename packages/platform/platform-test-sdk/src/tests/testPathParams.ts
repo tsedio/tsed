@@ -1,6 +1,8 @@
-import {Context, Controller, Get, PathParams, PlatformTest, Post} from "@tsed/common";
-import {Pattern} from "@tsed/schema";
+import {Context, Controller, PathParams, PlatformTest} from "@tsed/common";
+import {Get, Pattern, Post} from "@tsed/schema";
 import SuperTest from "supertest";
+import {afterAll, beforeAll, expect, it} from "vitest";
+
 import {PlatformTestingSdkOpts} from "../interfaces/index.js";
 
 @Controller("/path-params")

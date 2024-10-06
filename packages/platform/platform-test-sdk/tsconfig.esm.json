@@ -2,17 +2,14 @@
   "extends": "@tsed/typescript/tsconfig.node.json",
   "compilerOptions": {
     "baseUrl": ".",
-    "module": "ESNext",
-    "moduleResolution": "nodenext",
     "rootDir": "src",
     "outDir": "./lib/esm",
-    "declarationDir": "./lib/types-esm",
+    "declarationDir": "./lib/types",
     "declaration": true,
     "composite": true,
-    "noEmit": false,
-    "types": ["vite/client", "vitest/globals"]
+    "noEmit": false
   },
-  "include": ["src", "src/**/*.json"],
+  "include": ["src/**/*.ts", "src/**/*.json"],
   "exclude": [
     "node_modules",
     "test",

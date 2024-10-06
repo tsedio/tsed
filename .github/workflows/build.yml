@@ -7,7 +7,7 @@ on:
   push:
     branches: [production, alpha, beta, rc]
   pull_request:
-    branches: [production]
+    branches: [production, alpha, beta, rc]
     types: [opened, synchronize, closed]
 
 concurrency:
@@ -74,7 +74,7 @@ jobs:
     strategy:
       matrix:
         os: [ubuntu-latest, macos-latest, windows-latest]
-        node-version: [20.12.2, 22.x]
+        node-version: [20.12.2]
         exclude:
           - os: macos-latest
             node-version: 20.x

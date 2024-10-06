@@ -1,0 +1,14 @@
+{
+  "extends": "@tsed/typescript/tsconfig.node.json",
+  "compilerOptions": {
+    "baseUrl": ".",
+    "noEmit": true,
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
+    "resolveJsonModule": true,
+    "esModuleInterop": true,
+    "allowJs": true,
+    "skipLibCheck": true
+  },
+  "include": ["**/*"]
+}

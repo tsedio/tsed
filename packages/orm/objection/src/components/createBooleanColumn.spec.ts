@@ -1,4 +1,5 @@
 import {Property} from "@tsed/schema";
+
 import {createTableStub} from "../../test/helpers/knex/table.js";
 import {Entity} from "../decorators/entity.js";
 import {createColumns} from "../utils/createColumns.js";

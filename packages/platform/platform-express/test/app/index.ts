@@ -1,7 +1,8 @@
-import {$log, BodyParams, Controller, Get, PlatformResponse, Post, QueryParams, Res} from "@tsed/common";
-import {Returns} from "@tsed/schema";
-import {promisify} from "util";
+import {$log, BodyParams, Controller, PlatformResponse, QueryParams, Res} from "@tsed/common";
+import {Get, Post, Returns} from "@tsed/schema";
 import {agent, SuperAgentStatic} from "superagent";
+import {promisify} from "util";
+
 import {PlatformExpress} from "../../src/index.js";
 import {Server} from "./Server.js";
 
@@ -20,7 +21,7 @@ if (process.env.NODE_ENV !== "test") {
     }
 
     @Get("/image")
-    @Returns(200).Header("X-Content-Type-Options", "nosniff")
+    @(Returns(200).Header("X-Content-Type-Options", "nosniff"))
     async getGoogle(@Res() res: PlatformResponse) {
       const http: SuperAgentStatic = agent();
 

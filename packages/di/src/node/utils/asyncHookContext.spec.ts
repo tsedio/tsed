@@ -1,5 +1,5 @@
 import {DITest} from "../services/DITest.js";
-import {runInContext, setContext, getContext} from "./asyncHookContext.js";
+import {getContext, runInContext, setContext, useContext} from "./asyncHookContext.js";
 
 describe("asyncHookContext", () => {
   beforeEach(() => DITest.create());
@@ -9,7 +9,7 @@ describe("asyncHookContext", () => {
     const res = {type: "res"};
 
     function next(res: any, req: any) {
-      return Promise.resolve(getContext());
+      return Promise.resolve(useContext());
     }
 
     function nextContext(res: any, req: any, next: any) {
@@ -45,7 +45,7 @@ describe("asyncHookContext", () => {
     const res = {type: "res"};
 
     function next(res: any, req: any) {
-      return Promise.resolve(getContext());
+      return Promise.resolve(useContext());
     }
 
     function nextContext(res: any, req: any, next: any) {
@@ -72,6 +72,36 @@ describe("asyncHookContext", () => {
       res: {
         type: "req"
       }
+    });
+  });
+  it("should initiate the async hook context - promise (initialValue)", async () => {
+    const req = {type: "req"};
+    const res = {type: "res"};
+
+    function next(res: any, req: any) {
+      return Promise.resolve(useContext({id: "id2"} as never));
+    }
+
+    function nextContext(res: any, req: any, next: any) {
+      const $ctx: any = {
+        id: "id",
+        req,
+        res
+      };
+
+      setContext($ctx);
+
+      return next();
+    }
+
+    function app(req: any, res: any) {
+      return runInContext(undefined, () => nextContext(req, res, () => next(req, res)), DITest.injector);
+    }
+
+    const result = await app(req, res);
+
+    expect(result).toEqual({
+      id: "id2"
     });
   });
   it("should initiate the async hook context - promise + setTimeout", async () => {

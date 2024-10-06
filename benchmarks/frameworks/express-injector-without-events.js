@@ -1,8 +1,8 @@
-import express from "express";
-import {InjectorService, runInContext, setContext} from "@tsed/di";
 import {PlatformContext, PlatformRequest, PlatformResponse} from "@tsed/common";
-import {v4} from "uuid";
+import {InjectorService, runInContext, setContext} from "@tsed/di";
+import express from "express";
 import http from "http";
+import {v4} from "uuid";
 
 const injector = new InjectorService();
 const app = express();

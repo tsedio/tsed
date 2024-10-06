@@ -1,4 +1,4 @@
-import {Prisma} from "../client/index";
+import { Prisma } from "../client/index.js";
 
 declare global {
   namespace TsED {

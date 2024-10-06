@@ -1,18 +1,17 @@
 {
   "name": "@tsed/mikro-orm",
   "description": "MikroORM package for Ts.ED framework",
-  "type": "commonjs",
-  "version": "7.83.3",
+  "type": "module",
+  "version": "8.0.0-alpha.11",
   "source": "./src/index.ts",
-  "main": "./lib/cjs/index.js",
+  "main": "./lib/esm/index.js",
   "module": "./lib/esm/index.js",
   "typings": "./lib/types/index.d.ts",
   "exports": {
     ".": {
       "types": "./lib/types/index.d.ts",
       "import": "./lib/esm/index.js",
-      "require": "./lib/cjs/index.js",
-      "default": "./lib/cjs/index.js"
+      "default": "./lib/esm/index.js"
     }
   },
   "scripts": {
@@ -23,31 +22,31 @@
     "test:ci": "vitest run --coverage.thresholds.autoUpdate=true"
   },
   "dependencies": {
-    "tslib": "2.6.1"
+    "tslib": "2.7.0"
   },
   "devDependencies": {
-    "@mikro-orm/core": "6.2.2",
-    "@mikro-orm/mongodb": "6.2.2",
+    "@mikro-orm/core": "6.3.12",
+    "@mikro-orm/mongodb": "6.3.12",
     "@tsed/barrels": "workspace:*",
     "@tsed/common": "workspace:*",
     "@tsed/core": "workspace:*",
     "@tsed/di": "workspace:*",
     "@tsed/json-mapper": "workspace:*",
-    "@tsed/logger": ">=6.7.5",
+    "@tsed/logger": "^6.7.8",
     "@tsed/schema": "workspace:*",
     "@tsed/testcontainers-mongo": "workspace:*",
     "@tsed/typescript": "workspace:*",
     "cross-env": "7.0.3",
-    "eslint": "^8.57.0",
+    "eslint": "9.12.0",
     "ts-mockito": "^2.6.1",
-    "typescript": "4.9.5",
-    "vitest": "2.0.4"
+    "typescript": "5.4.5",
+    "vitest": "2.1.2"
   },
   "peerDependencies": {
     "@mikro-orm/core": ">=4.5.9",
-    "@tsed/common": "7.83.3",
-    "@tsed/core": "7.83.3",
-    "@tsed/di": "7.83.3",
+    "@tsed/common": "8.0.0-alpha.11",
+    "@tsed/core": "8.0.0-alpha.11",
+    "@tsed/di": "8.0.0-alpha.11",
     "@tsed/logger": ">=6.7.5"
   }
 }

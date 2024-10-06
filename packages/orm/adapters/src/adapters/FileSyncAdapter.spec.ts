@@ -1,6 +1,7 @@
+import {faker} from "@faker-js/faker";
 import {PlatformTest} from "@tsed/common";
 import {Property} from "@tsed/schema";
-import faker from "@faker-js/faker";
+
 import {Adapter} from "../domain/Adapter.js";
 import {Adapters} from "../services/Adapters.js";
 import {FileSyncAdapter} from "./FileSyncAdapter.js";
@@ -33,7 +34,7 @@ describe("FileSyncAdapter", () => {
     describe("create()", () => {
       it("should create a new instance", async () => {
         const base = {
-          name: faker.name.jobTitle()
+          name: faker.person.jobTitle()
         };
 
         const client = await adapter.create(base);
@@ -47,7 +48,7 @@ describe("FileSyncAdapter", () => {
     describe("findById()", () => {
       it("should create a new instance", async () => {
         const base = {
-          name: faker.name.jobTitle()
+          name: faker.person.jobTitle()
         };
 
         const client = await adapter.create(base);
@@ -62,7 +63,7 @@ describe("FileSyncAdapter", () => {
     describe("findOne()", () => {
       it("should create a new instance", async () => {
         const base = {
-          name: faker.name.jobTitle()
+          name: faker.person.jobTitle()
         };
 
         const client = await adapter.create(base);
@@ -79,7 +80,7 @@ describe("FileSyncAdapter", () => {
     describe("deleteOne()", () => {
       it("should delete instance", async () => {
         const base = {
-          name: faker.name.jobTitle()
+          name: faker.person.jobTitle()
         };
 
         const client = await adapter.create(base);
@@ -119,7 +120,7 @@ describe("FileSyncAdapter", () => {
     describe("create()", () => {
       it("should create a new instance", async () => {
         const base = {
-          name: faker.name.jobTitle()
+          name: faker.person.jobTitle()
         };
 
         const client = await adapter.create(base);
@@ -133,7 +134,7 @@ describe("FileSyncAdapter", () => {
     describe("findById()", () => {
       it("should create a new instance", async () => {
         const base = {
-          name: faker.name.jobTitle()
+          name: faker.person.jobTitle()
         };
 
         const client = await adapter.create(base);
@@ -148,7 +149,7 @@ describe("FileSyncAdapter", () => {
     describe("findOne()", () => {
       it("should create a new instance", async () => {
         const base = {
-          name: faker.name.jobTitle()
+          name: faker.person.jobTitle()
         };
 
         const client = await adapter.create(base);

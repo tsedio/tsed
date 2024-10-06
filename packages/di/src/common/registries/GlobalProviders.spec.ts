@@ -45,7 +45,7 @@ describe("GlobalProviderRegistry", () => {
       const provider = new Provider("token");
       provider.type = ProviderType.PROVIDER;
       // WHEN
-      const settings = providers.getRegistrySettings(provider);
+      const settings = providers.getRegistrySettings(provider as never);
 
       // THEN
       expect(settings).toEqual({

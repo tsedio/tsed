@@ -1,6 +1,8 @@
-import Ajv from "ajv";
-import {JsonSchema} from "./JsonSchema.js";
 import "../index.js";
+
+import {Ajv} from "ajv";
+
+import {JsonSchema} from "./JsonSchema.js";
 
 describe("JsonSchema", () => {
   describe("extra Props", () => {
@@ -1361,7 +1363,7 @@ describe("JsonSchema", () => {
             ]
           }
         })
-      );
+      ).toBeDefined();
     });
   });
   describe("Alias", () => {

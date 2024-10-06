@@ -1,6 +1,7 @@
 import {EventSubscriber, TransactionEventArgs} from "@mikro-orm/core";
 import {Inject} from "@tsed/di";
 import {Logger} from "@tsed/logger";
+
 import {Subscriber} from "../../../src/index.js";
 
 @Subscriber()

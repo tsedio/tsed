@@ -1,6 +1,8 @@
+import "../../test/app/controllers/oidc/InteractionsCtrl.js";
+
 import {PlatformTest, runInContext} from "@tsed/common";
 import {Env} from "@tsed/core";
-import "../../test/app/controllers/oidc/InteractionsCtrl";
+
 import {OidcProvider} from "./OidcProvider.js";
 
 describe("OidcProvider", () => {
@@ -57,6 +59,8 @@ describe("OidcProvider", () => {
       );
 
       expect((oidcProvider as any).injector.logger.error).toHaveBeenCalledWith({
+        duration: expect.any(Number),
+        reqId: "",
         account_id: "account_id",
         error: {error_description: "error_description", error_detail: "error_detail", error: "error"},
         event: "OIDC_ERROR",
@@ -65,7 +69,8 @@ describe("OidcProvider", () => {
         },
         params: {client_id: "client_id"},
         sid: "sid",
-        type: "event"
+        type: "event",
+        time: expect.any(Date)
       });
     });
     it("should intercept all oidc errors (in request context)", async () => {

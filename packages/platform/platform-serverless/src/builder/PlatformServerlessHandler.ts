@@ -1,12 +1,14 @@
+import {pipeline} from "node:stream/promises";
+
 import {AnyPromiseResult, AnyToPromise, isSerializable, isStream} from "@tsed/core";
 import {BaseContext, Inject, Injectable, InjectorService, LazyInject, ProviderScope, TokenProvider} from "@tsed/di";
 import {serialize} from "@tsed/json-mapper";
 import type {PlatformExceptions} from "@tsed/platform-exceptions";
 import {DeserializerPipe, PlatformParams, ValidationPipe} from "@tsed/platform-params";
-import {pipeline} from "node:stream/promises";
+
 import {ServerlessContext} from "../domain/ServerlessContext.js";
-import type {ServerlessEvent} from "../domain/ServerlessEvent";
-import {ServerlessResponseStream} from "../domain/ServerlessResponseStream";
+import type {ServerlessEvent} from "../domain/ServerlessEvent.js";
+import {ServerlessResponseStream} from "../domain/ServerlessResponseStream.js";
 import {setResponseHeaders} from "../utils/setResponseHeaders.js";
 
 @Injectable({

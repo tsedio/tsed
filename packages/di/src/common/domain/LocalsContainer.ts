@@ -1,4 +1,5 @@
 import {Hooks} from "@tsed/core";
+
 import type {TokenProvider} from "../interfaces/TokenProvider.js";
 
 export class LocalsContainer extends Map<TokenProvider, any> {

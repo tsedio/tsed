@@ -1,7 +1,8 @@
-import {BodyParams, Controller, PlatformTest, Post} from "@tsed/common";
+import {BodyParams, Controller, PlatformTest} from "@tsed/common";
 import {PlatformExpress} from "@tsed/platform-express";
-import {MaxLength, MinLength} from "@tsed/schema";
+import {MaxLength, MinLength, Post} from "@tsed/schema";
 import SuperTest from "supertest";
+
 import {Server} from "./app/Server.js";
 
 @Controller({

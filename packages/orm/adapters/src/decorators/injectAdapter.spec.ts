@@ -1,152 +1,292 @@
 import {PlatformTest} from "@tsed/common";
 import {Injectable} from "@tsed/di";
 import {Name, Property} from "@tsed/schema";
+
 import {MemoryAdapter} from "../adapters/MemoryAdapter.js";
 import {Adapter} from "../domain/Adapter.js";
-import {InjectAdapter} from "./injectAdapter.js";
+import {adapter, InjectAdapter} from "./injectAdapter.js";
 
 describe("InjectAdapter", () => {
   beforeEach(() => PlatformTest.create());
   afterEach(() => PlatformTest.create());
-  it("should inject adapter (model and collectionName)", async () => {
-    class Client {
-      @Property()
-      _id: string;
+  describe("using decorator @InjectAdapter()", () => {
+    it("should inject adapter (model and collectionName)", async () => {
+      class Client {
+        @Property()
+        _id: string;
 
-      @Name("client_id")
-      clientId: string;
-    }
-
-    const stub = vi.fn();
-
-    @Injectable()
-    class Clients {
-      @InjectAdapter("client", Client)
-      adapter: Adapter<Client>;
-
-      $onInit() {
-        stub();
+        @Name("client_id")
+        clientId: string;
       }
-    }
 
-    const clients = await PlatformTest.invoke<Clients>(Clients);
+      const stub = vi.fn();
 
-    expect(clients.adapter).toBeInstanceOf(MemoryAdapter);
-    expect(stub).toHaveBeenCalledWith();
-    expect(clients.adapter.collectionName).toBe("client");
-    expect(clients.adapter.model).toBe(Client);
+      @Injectable()
+      class Clients {
+        @InjectAdapter("client", Client)
+        adapter: Adapter<Client>;
 
-    const client = new Client();
-    client.clientId = "test";
-
-    await clients.adapter.create(client);
-
-    const items = (clients.adapter as MemoryAdapter<Client>).collection.value();
-    expect(items).toEqual([
-      {
-        _id: expect.any(String),
-        clientId: "test"
+        $onInit() {
+          stub();
+        }
       }
-    ]);
-  });
-  it("should inject adapter (model, collectionName and useAlias true)", async () => {
-    class Client {
-      @Property()
-      _id: string;
 
-      @Name("client_id")
-      clientId: string;
-    }
+      const clients = await PlatformTest.invoke<Clients>(Clients);
 
-    const stub = vi.fn();
+      expect(clients.adapter).toBeInstanceOf(MemoryAdapter);
+      expect(stub).toHaveBeenCalledWith();
+      expect(clients.adapter.collectionName).toBe("client");
+      expect(clients.adapter.model).toBe(Client);
 
-    @Injectable()
-    class Clients {
-      @InjectAdapter("client", Client, {useAlias: true})
-      adapter: Adapter<Client>;
+      const client = new Client();
+      client.clientId = "test";
 
-      $onInit() {
-        stub();
+      await clients.adapter.create(client);
+
+      const items = (clients.adapter as MemoryAdapter<Client>).collection;
+      expect(items).toEqual([
+        {
+          _id: expect.any(String),
+          clientId: "test"
+        }
+      ]);
+    });
+    it("should inject adapter (model, collectionName and useAlias true)", async () => {
+      class Client {
+        @Property()
+        _id: string;
+
+        @Name("client_id")
+        clientId: string;
       }
-    }
 
-    const clients = await PlatformTest.invoke<Clients>(Clients);
+      const stub = vi.fn();
 
-    expect(clients.adapter).toBeInstanceOf(MemoryAdapter);
-    expect(stub).toHaveBeenCalledWith();
-    expect(clients.adapter.collectionName).toBe("client");
-    expect(clients.adapter.model).toBe(Client);
-    expect(clients.adapter.useAlias).toEqual(true);
+      @Injectable()
+      class Clients {
+        @InjectAdapter("client", Client, {useAlias: true})
+        adapter: Adapter<Client>;
 
-    const client = new Client();
-    client.clientId = "test";
-
-    await clients.adapter.create(client);
-
-    const items = (clients.adapter as MemoryAdapter<Client>).collection.value();
-    expect(items).toEqual([
-      {
-        _id: expect.any(String),
-        client_id: "test"
+        $onInit() {
+          stub();
+        }
       }
-    ]);
+
+      const clients = await PlatformTest.invoke<Clients>(Clients);
+
+      expect(clients.adapter).toBeInstanceOf(MemoryAdapter);
+      expect(stub).toHaveBeenCalledWith();
+      expect(clients.adapter.collectionName).toBe("client");
+      expect(clients.adapter.model).toBe(Client);
+      expect(clients.adapter.useAlias).toEqual(true);
+
+      const client = new Client();
+      client.clientId = "test";
+
+      await clients.adapter.create(client);
+
+      const items = (clients.adapter as MemoryAdapter<Client>).collection;
+      expect(items).toEqual([
+        {
+          _id: expect.any(String),
+          client_id: "test"
+        }
+      ]);
+    });
+    it("should inject adapter (model only)", async () => {
+      class Client {}
+
+      @Injectable()
+      class Clients {
+        @InjectAdapter(Client)
+        adapter: Adapter<Client>;
+      }
+
+      const clients = await PlatformTest.invoke<Clients>(Clients);
+
+      expect(clients.adapter).toBeInstanceOf(MemoryAdapter);
+      expect(clients.adapter.collectionName).toBe("Clients");
+      expect(clients.adapter.model).toBe(Client);
+    });
+    it("should inject adapter (model only 2)", async () => {
+      class Entity {}
+
+      @Injectable()
+      class Clients {
+        @InjectAdapter(Entity)
+        adapter: Adapter<Entity>;
+      }
+
+      const clients = await PlatformTest.invoke<Clients>(Clients);
+
+      expect(clients.adapter).toBeInstanceOf(MemoryAdapter);
+      expect(clients.adapter.collectionName).toBe("Entities");
+      expect(clients.adapter.model).toBe(Entity);
+    });
+    it("should inject adapter (object)", async () => {
+      class Client {}
+
+      @Injectable()
+      class Clients {
+        @InjectAdapter({model: Client, indexes: {}})
+        adapter: Adapter<Client>;
+      }
+
+      const clients = await PlatformTest.invoke<Clients>(Clients);
+
+      expect(clients.adapter).toBeInstanceOf(MemoryAdapter);
+      expect(clients.adapter.collectionName).toBe("Clients");
+      expect(clients.adapter.model).toBe(Client);
+    });
+    it("should inject adapter (without $onInit)", async () => {
+      class Client {}
+
+      @Injectable()
+      class Clients {
+        @InjectAdapter("client", Client)
+        adapter: Adapter<Client>;
+      }
+
+      const clients = await PlatformTest.invoke<Clients>(Clients);
+
+      expect(clients.adapter).toBeInstanceOf(MemoryAdapter);
+    });
   });
-  it("should inject adapter (model only)", async () => {
-    class Client {}
+  describe("using function adapter()", () => {
+    it("should inject adapter (model and collectionName)", async () => {
+      class Client {
+        @Property()
+        _id: string;
 
-    @Injectable()
-    class Clients {
-      @InjectAdapter(Client)
-      adapter: Adapter<Client>;
-    }
+        @Name("client_id")
+        clientId: string;
+      }
 
-    const clients = await PlatformTest.invoke<Clients>(Clients);
+      const stub = vi.fn();
 
-    expect(clients.adapter).toBeInstanceOf(MemoryAdapter);
-    expect(clients.adapter.collectionName).toBe("Clients");
-    expect(clients.adapter.model).toBe(Client);
-  });
-  it("should inject adapter (model only 2)", async () => {
-    class Entity {}
+      @Injectable()
+      class Clients {
+        adapter = adapter("client", Client);
 
-    @Injectable()
-    class Clients {
-      @InjectAdapter(Entity)
-      adapter: Adapter<Entity>;
-    }
+        $onInit() {
+          stub();
+        }
+      }
 
-    const clients = await PlatformTest.invoke<Clients>(Clients);
+      const clients = await PlatformTest.invoke<Clients>(Clients);
 
-    expect(clients.adapter).toBeInstanceOf(MemoryAdapter);
-    expect(clients.adapter.collectionName).toBe("Entities");
-    expect(clients.adapter.model).toBe(Entity);
-  });
-  it("should inject adapter (object)", async () => {
-    class Client {}
+      expect(clients.adapter).toBeInstanceOf(MemoryAdapter);
+      expect(stub).toHaveBeenCalledWith();
+      expect(clients.adapter.collectionName).toBe("client");
+      expect(clients.adapter.model).toBe(Client);
 
-    @Injectable()
-    class Clients {
-      @InjectAdapter({model: Client, indexes: {}})
-      adapter: Adapter<Client>;
-    }
+      const client = new Client();
+      client.clientId = "test";
 
-    const clients = await PlatformTest.invoke<Clients>(Clients);
+      await clients.adapter.create(client);
 
-    expect(clients.adapter).toBeInstanceOf(MemoryAdapter);
-    expect(clients.adapter.collectionName).toBe("Clients");
-    expect(clients.adapter.model).toBe(Client);
-  });
-  it("should inject adapter (without $onInit)", async () => {
-    class Client {}
+      const items = (clients.adapter as MemoryAdapter<Client>).collection;
+      expect(items).toEqual([
+        {
+          _id: expect.any(String),
+          clientId: "test"
+        }
+      ]);
+    });
+    it("should inject adapter (model, collectionName and useAlias true)", async () => {
+      class Client {
+        @Property()
+        _id: string;
 
-    @Injectable()
-    class Clients {
-      @InjectAdapter("client", Client)
-      adapter: Adapter<Client>;
-    }
+        @Name("client_id")
+        clientId: string;
+      }
 
-    const clients = await PlatformTest.invoke<Clients>(Clients);
+      const stub = vi.fn();
 
-    expect(clients.adapter).toBeInstanceOf(MemoryAdapter);
+      @Injectable()
+      class Clients {
+        adapter = adapter("client", Client, {useAlias: true});
+
+        $onInit() {
+          stub();
+        }
+      }
+
+      const clients = await PlatformTest.invoke<Clients>(Clients);
+
+      expect(clients.adapter).toBeInstanceOf(MemoryAdapter);
+      expect(stub).toHaveBeenCalledWith();
+      expect(clients.adapter.collectionName).toBe("client");
+      expect(clients.adapter.model).toBe(Client);
+      expect(clients.adapter.useAlias).toEqual(true);
+
+      const client = new Client();
+      client.clientId = "test";
+
+      await clients.adapter.create(client);
+
+      const items = (clients.adapter as MemoryAdapter<Client>).collection;
+      expect(items).toEqual([
+        {
+          _id: expect.any(String),
+          client_id: "test"
+        }
+      ]);
+    });
+    it("should inject adapter (model only)", async () => {
+      class Client {}
+
+      @Injectable()
+      class Clients {
+        adapter = adapter(Client);
+      }
+
+      const clients = await PlatformTest.invoke<Clients>(Clients);
+
+      expect(clients.adapter).toBeInstanceOf(MemoryAdapter);
+      expect(clients.adapter.collectionName).toBe("Clients");
+      expect(clients.adapter.model).toBe(Client);
+    });
+    it("should inject adapter (model only 2)", async () => {
+      class Entity {}
+
+      @Injectable()
+      class Clients {
+        adapter: Adapter<Entity> = adapter(Entity);
+      }
+
+      const clients = await PlatformTest.invoke<Clients>(Clients);
+
+      expect(clients.adapter).toBeInstanceOf(MemoryAdapter);
+      expect(clients.adapter.collectionName).toBe("Entities");
+      expect(clients.adapter.model).toBe(Entity);
+    });
+    it("should inject adapter (object)", async () => {
+      class Client {}
+
+      @Injectable()
+      class Clients {
+        adapter = adapter({model: Client, indexes: {}});
+      }
+
+      const clients = await PlatformTest.invoke<Clients>(Clients);
+
+      expect(clients.adapter).toBeInstanceOf(MemoryAdapter);
+      expect(clients.adapter.collectionName).toBe("Clients");
+      expect(clients.adapter.model).toBe(Client);
+    });
+    it("should inject adapter (without $onInit)", async () => {
+      class Client {}
+
+      @Injectable()
+      class Clients {
+        adapter = adapter("client", Client);
+      }
+
+      const clients = await PlatformTest.invoke<Clients>(Clients);
+
+      expect(clients.adapter).toBeInstanceOf(MemoryAdapter);
+    });
   });
 });

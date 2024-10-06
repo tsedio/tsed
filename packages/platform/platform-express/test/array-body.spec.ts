@@ -1,8 +1,10 @@
 import "@tsed/ajv";
-import {BodyParams, Controller, PlatformTest, Post} from "@tsed/common";
+
+import {BodyParams, Controller, PlatformTest} from "@tsed/common";
 import {PlatformTestSdk} from "@tsed/platform-test-sdk";
-import {CollectionOf, Property, Any} from "@tsed/schema";
+import {Any, CollectionOf, Post, Property} from "@tsed/schema";
 import SuperTest from "supertest";
+
 import {PlatformExpress} from "../src/index.js";
 import {rootDir, Server} from "./app/Server.js";
 
@@ -66,7 +68,7 @@ describe("Array Body", () => {
       ]
     })
   );
-  afterAll(utils.reset);
+  afterAll(() => utils.reset());
 
   beforeAll(() => {
     request = SuperTest(PlatformTest.callback());

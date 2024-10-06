@@ -1,5 +1,8 @@
-import {Controller, Get, PathParams, PlatformTest, ProviderScope, Scope, Service} from "@tsed/common";
+import {Controller, PathParams, PlatformTest, ProviderScope, Scope, Service} from "@tsed/common";
+import {Get} from "@tsed/schema";
 import SuperTest from "supertest";
+import {afterAll, beforeAll, describe, expect, it} from "vitest";
+
 import {PlatformTestingSdkOpts} from "../interfaces/index.js";
 
 @Service()

@@ -1,9 +1,9 @@
-import {MongoDBContainer, StartedMongoDBContainer} from "@testcontainers/mongodb";
-import type {ConnectOptions} from "mongoose";
 import type {ConnectionOptions} from "node:tls";
 
+import {MongoDBContainer, StartedMongoDBContainer} from "@testcontainers/mongodb";
+import type {ConnectOptions} from "mongoose";
+
 declare global {
-  // eslint-disable-next-line @typescript-eslint/no-namespace
   namespace NodeJS {
     interface Global {
       TEST_CONTAINER_MONGO: StartedMongoDBContainer | null;
@@ -13,18 +13,15 @@ declare global {
 
 const KEY = "TEST_CONTAINER_MONGO";
 
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
 global[KEY] = null;
 
 function getEnvironment<T>(key: string): T | null {
-  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-ignore
   return global[key];
 }
 
 function setEnvironment(key: string, environment: unknown) {
-  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-ignore
   global[key] = environment;
 }
@@ -61,7 +58,7 @@ export function getMongoUrl(): string {
 }
 
 export function getMongoConnectionOptions(
-  id: string,
+  id: string = "",
   opts: ConnectOptions = {}
 ): {
   id: string;

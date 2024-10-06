@@ -1,7 +1,8 @@
 import {nameOf, StoreSet, useDecorators} from "@tsed/core";
 import {FormioForm} from "@tsed/formio-types";
 import {Name} from "@tsed/schema";
-import {paramCase} from "change-case";
+import {kebabCase} from "change-case";
+
 import {FormsContainer} from "../registries/FormsContainer.js";
 import {Label} from "./label.js";
 
@@ -13,7 +14,7 @@ export function Form(form: Partial<Omit<FormioForm, "components" | "_id">> = {})
   return useDecorators(
     (target: any) => {
       const name = form.name || nameOf(target);
-      const machineName = paramCase(name);
+      const machineName = kebabCase(name);
       FormsContainer.set(name, target as any);
       FormsContainer.set(machineName, target as any);
     },

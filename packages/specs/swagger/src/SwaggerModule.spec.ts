@@ -1,7 +1,8 @@
 import {PlatformRouter, PlatformTest} from "@tsed/common";
 import Fs from "fs";
-import {SwaggerModule} from "./SwaggerModule.js";
 import {absolutePath} from "swagger-ui-dist";
+
+import {SwaggerModule} from "./SwaggerModule.js";
 
 describe("SwaggerModule", () => {
   beforeEach(() =>

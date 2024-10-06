@@ -11,6 +11,7 @@ import {
   Type
 } from "@tsed/core";
 import {OS3Example} from "@tsed/openspec";
+
 import {getStatusMessage} from "../../constants/httpStatusMessages.js";
 import {DecoratorContext} from "../../domain/DecoratorContext.js";
 import {JsonEntityStore} from "../../domain/JsonEntityStore.js";
@@ -617,8 +618,7 @@ class ReturnDecoratorContext extends DecoratorContext<ReturnsChainedDecorators> 
  * It's also possible to declare a nested generics models in order to have this type `Pagination<Submission<Product>>`:
  *
  * ```typescript
- * import {Generics, Property, Returns} from "@tsed/schema";
- * import {Post} from "@tsed/common";
+ * import {Post, Generics, Property, Returns} from "@tsed/schema";
  *
  * class Controller {
  *   @Post("/")

@@ -1,18 +1,17 @@
 {
   "name": "@tsed/typegraphql",
   "description": "TypeGraphQL package for Ts.ED framework, based on Apollo-server-core and Type-graphql",
-  "type": "commonjs",
-  "version": "7.83.3",
+  "type": "module",
+  "version": "8.0.0-alpha.11",
   "source": "./src/index.ts",
-  "main": "./lib/cjs/index.js",
+  "main": "./lib/esm/index.js",
   "module": "./lib/esm/index.js",
   "typings": "./lib/types/index.d.ts",
   "exports": {
     ".": {
       "types": "./lib/types/index.d.ts",
       "import": "./lib/esm/index.js",
-      "require": "./lib/cjs/index.js",
-      "default": "./lib/cjs/index.js"
+      "default": "./lib/esm/index.js"
     }
   },
   "scripts": {
@@ -26,27 +25,32 @@
   },
   "dependencies": {
     "@tsed/apollo": "workspace:*",
-    "tslib": "2.6.1"
+    "tslib": "2.7.0"
   },
   "devDependencies": {
+    "@graphql-yoga/subscription": "5.0.1",
     "@tsed/barrels": "workspace:*",
     "@tsed/common": "workspace:*",
     "@tsed/core": "workspace:*",
+    "@tsed/platform-express": "workspace:*",
     "@tsed/typescript": "workspace:*",
     "@types/graphql": "^14.5.0",
     "class-validator": "~0.14.1",
     "cross-env": "^7.0.3",
-    "eslint": "^8.57.0",
-    "graphql-passport": "0.6.8",
-    "type-graphql": "^1.1.1",
-    "typescript": "4.9.5",
-    "vitest": "2.0.4"
+    "eslint": "9.12.0",
+    "graphql": "16.9.0",
+    "graphql-passport": "^0.6.8",
+    "graphql-scalars": "1.23.0",
+    "ts-node": "10.9.2",
+    "type-graphql": ">=2.0.0-rc.2",
+    "typescript": "5.4.5",
+    "vitest": "2.1.2"
   },
   "peerDependencies": {
-    "apollo-datasource": ">=3.0.0",
-    "apollo-datasource-rest": ">=3.0.0",
+    "@apollo/datasource-rest": ">=6.2.2",
     "class-validator": ">=0.13.1",
-    "graphql": ">=15.0.0",
-    "type-graphql": ">=1.0.0"
+    "graphql": ">=16.0.0",
+    "graphql-scalars": ">=1.23.0",
+    "type-graphql": ">=2.0.0-rc.2"
   }
 }

@@ -1,8 +1,10 @@
-import {BodyParams, Controller, Get, Middleware, PathParams, PlatformTest, Post, QueryParams, UseAuth} from "@tsed/common";
+import {BodyParams, Controller, Middleware, PathParams, PlatformTest, QueryParams, UseAuth} from "@tsed/common";
 import {NotFound} from "@tsed/exceptions";
-import {Description, MaxLength, MinLength, Property, Returns, Summary} from "@tsed/schema";
+import {Description, Get, MaxLength, MinLength, Post, Property, Returns, Summary} from "@tsed/schema";
 import SuperTest from "supertest";
 import {v4} from "uuid";
+import {afterAll, beforeAll, describe, expect, it} from "vitest";
+
 import {PlatformTestingSdkOpts} from "../interfaces/index.js";
 
 export class Resource {
@@ -60,7 +62,7 @@ export class ResourcesCtrl extends BaseController<Resource> {
   }
 
   @Post("/")
-  @Returns(201).Type(Resource)
+  @(Returns(201).Type(Resource))
   post(@BodyParams() resource: Resource) {
     resource.id = v4();
     this.resources.push(resource);

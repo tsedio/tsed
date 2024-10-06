@@ -1,10 +1,10 @@
-import {Get} from "@tsed/schema";
 import {Controller} from "@tsed/di";
-import {AcceptMime} from "@tsed/common";
+import {AcceptMime, Get} from "@tsed/schema";
 
 @Controller("/mypath")
 export class MyCtrl {
   @Get("/")
   @AcceptMime("application/json")
-  public getResource() {}
+  public getResource() {
+  }
 }

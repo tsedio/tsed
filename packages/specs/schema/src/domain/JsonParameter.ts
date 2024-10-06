@@ -1,5 +1,6 @@
 import {Type} from "@tsed/core";
 import {OpenSpecHash, OpenSpecRef, OS3Example, OS3Parameter} from "@tsed/openspec";
+
 import {JsonSchemaOptions} from "../interfaces/JsonSchemaOptions.js";
 import {execMapper} from "../registries/JsonSchemaMapperContainer.js";
 import {NestedGenerics} from "../utils/generics.js";

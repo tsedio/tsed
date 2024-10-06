@@ -1,5 +1,6 @@
 import {classOf} from "@tsed/core";
-import {DI_PARAM_OPTIONS} from "../constants/constants.js";
+
+import {DI_USE_PARAM_OPTIONS} from "../constants/constants.js";
 import {ProviderScope} from "../domain/ProviderScope.js";
 import {Inject} from "./inject.js";
 import {Scope} from "./scope.js";
@@ -46,5 +47,5 @@ import {Scope} from "./scope.js";
  */
 export function Opts(target: any, propertyKey: string | symbol | undefined, index: number) {
   Scope(ProviderScope.INSTANCE)(classOf(target));
-  Inject(DI_PARAM_OPTIONS)(target, propertyKey, index);
+  Inject(DI_USE_PARAM_OPTIONS)(target, propertyKey, index);
 }

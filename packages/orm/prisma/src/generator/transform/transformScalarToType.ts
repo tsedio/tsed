@@ -1,7 +1,7 @@
+import {DmmfEnum} from "../domain/DmmfEnum.js";
 import {DmmfField} from "../domain/DmmfField.js";
 import {DmmfModel} from "../domain/DmmfModel.js";
 import {ScalarTsTypes} from "../domain/ScalarTsTypes.js";
-import {DmmfEnum} from "../domain/DmmfEnum.js";
 import type {TransformContext} from "../domain/TransformContext.js";
 import {isCircularRef} from "../utils/isCircularRef.js";
 

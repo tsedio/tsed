@@ -1,5 +1,6 @@
 import {InjectorService} from "@tsed/di";
 import Http from "http";
+
 import {createHttpServer} from "./createHttpServer.js";
 
 describe("createHttpServer", () => {
@@ -18,22 +19,22 @@ describe("createHttpServer", () => {
 
     expect(listener).toBeInstanceOf(Function);
 
-    const server = injector.get(Http.Server);
+    const server = injector.get(Http.Server)!;
 
     vi.spyOn(injector.logger, "info").mockReturnValue(undefined);
     vi.spyOn(injector.logger, "debug").mockReturnValue(undefined);
-    vi.spyOn(server, "listen").mockReturnValue(undefined);
-    vi.spyOn(server, "address").mockReturnValue({port: 8089, address: "0.0.0.0"});
-    vi.spyOn(server, "on").mockImplementation((event: string, cb: any) => {
+    vi.spyOn(server, "listen").mockReturnValue(undefined as never);
+    vi.spyOn(server, "address").mockReturnValue({port: 8089, address: "0.0.0.0"} as never);
+    vi.spyOn(server, "on").mockImplementation(((event: string, cb: any) => {
       if (event === "listening") {
         cb();
       }
-    });
+    }) as never);
 
     await listener();
 
-    expect(server.listen).toBeCalledWith(true, "0.0.0.0");
-    expect(injector.logger.info).toBeCalledWith("Listen server on http://0.0.0.0:8089");
+    expect(server.listen).toHaveBeenCalledWith(true, "0.0.0.0");
+    expect(injector.logger.info).toHaveBeenCalledWith("Listen server on http://0.0.0.0:8089");
   });
 
   it("should create a raw object (http port false)", () => {

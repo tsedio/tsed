@@ -2,11 +2,11 @@ import {GeneratorOptions} from "@prisma/generator-helper";
 import {parseEnvValue} from "@prisma/internals";
 import fs from "fs-extra";
 import path, {join} from "path";
+
 import {generateCode} from "../generator/generateCode.js";
 import removeDir from "../generator/utils/removeDir.js";
-import {isCommonjs} from "../generator/utils/sourceType";
 
-function parseStringBoolean(stringBoolean: string | undefined) {
+function parseStringBoolean(stringBoolean: string | string[] | undefined) {
   return Boolean(stringBoolean ? stringBoolean === "true" : undefined);
 }
 
@@ -38,17 +38,11 @@ export function generate({defaultOutput, packageDir}: GenerateOptions) {
     });
 
     if (outputDir === defaultOutput) {
-      await fs.copy(join(packageDir, "scripts", "backup-index.cjs.js"), join(packageDir, "lib", "cjs", "index.js"));
       await fs.copy(join(packageDir, "scripts", "backup-index.esm.js"), join(packageDir, "lib", "esm", "index.js"));
-
-      if (isCommonjs()) {
-        await fs.copy(join(packageDir, "scripts", "backup-index.d.cts"), join(packageDir, "lib", "types", "index.d.ts"));
-      } else {
-        await fs.copy(join(packageDir, "scripts", "backup-index.d.mts"), join(packageDir, "lib", "types", "index.d.ts"));
-        await fs.writeJson(`${outputDir}/package.json`, {
-          type: "module"
-        });
-      }
+      await fs.copy(join(packageDir, "scripts", "backup-index.d.mts"), join(packageDir, "lib", "types", "index.d.ts"));
+      await fs.writeJson(`${outputDir}/package.json`, {
+        type: "module"
+      });
     }
 
     return "";

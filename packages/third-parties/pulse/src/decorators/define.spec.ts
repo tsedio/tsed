@@ -1,6 +1,7 @@
 import {Store} from "@tsed/core";
-import {Pulse} from "./pulse";
+
 import {Define} from "./define.js";
+import {Pulse} from "./pulse.js";
 
 describe("@Define()", () => {
   it("should set empty metadata", () => {
@@ -30,7 +31,7 @@ describe("@Define()", () => {
     class Test {
       @Define({
         name: "testDefineDecoratorCustomName",
-        priority: 'highest'
+        priority: "highest"
       })
       test() {
         // test
@@ -41,7 +42,7 @@ describe("@Define()", () => {
     expect(store.get("pulse").define).toEqual({
       test: {
         name: "testDefineDecoratorCustomName",
-        priority: 'highest'
+        priority: "highest"
       }
     });
   });

@@ -1,6 +1,7 @@
-import {Get, PathParams} from "@tsed/common";
+import {PathParams} from "@tsed/common";
+import {Get, Name} from "@tsed/schema";
+
 import {Interactions, OidcCtx} from "../../../../src/index.js";
-import {Name} from "@tsed/schema";
 import {AbortInteraction} from "../../interactions/AbortInteraction.js";
 import {ConsentInteraction} from "../../interactions/ConsentInteraction.js";
 import {CustomInteraction} from "../../interactions/CustomInteraction.js";

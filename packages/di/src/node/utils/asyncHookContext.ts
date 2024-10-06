@@ -1,4 +1,5 @@
 import {AsyncLocalStorage, AsyncResource} from "async_hooks";
+
 import {InjectorService} from "../../common/index.js";
 import type {DIContext} from "../domain/DIContext.js";
 
@@ -12,11 +13,17 @@ export function useContextRef() {
   return getAsyncStore().getStore();
 }
 
-export function getContext<Context = DIContext>(): Context | undefined {
-  return useContextRef()?.current as any;
+export function useContext<Context = DIContext>(initialValue?: DIContext): Context | undefined {
+  return initialValue || (useContextRef()?.current as any);
 }
 
-export async function runInContext(ctx: DIContext | undefined, cb: any, injector?: InjectorService) {
+export const getContext = useContext;
+
+export async function runInContext<Result = unknown>(
+  ctx: DIContext | undefined,
+  cb: (...args: unknown[]) => Result,
+  injector?: InjectorService
+): Promise<Result> {
   const ref = useContextRef();
 
   if (ref) {

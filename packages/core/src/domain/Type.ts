@@ -1,5 +1,5 @@
 /**
- * An example of a `Type` is `MyCustomComponent` filters, which in JavaScript is be represented by
+ * An example of a `Type` is `MyCustomComponent` filters, which in JavaScript is represented by
  * the `MyCustomComponent` constructor function.
  */
 // tslint:disable-next-line: variable-name
@@ -14,3 +14,7 @@ export const Type = Function;
 
 // @ts-ignore
 global.Type = Type;
+
+export interface AbstractType<T> extends Function {
+  prototype: T;
+}

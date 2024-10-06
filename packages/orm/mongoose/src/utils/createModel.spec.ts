@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+
 import {createModel} from "../../src/index.js";
 
 describe("createModel()", () => {

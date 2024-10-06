@@ -1,7 +1,9 @@
 import {cleanObject} from "@tsed/core";
+import _ from "lodash";
 import isMatch from "lodash/isMatch.js";
-import low from "lowdb";
+import type {Low, LowSync} from "lowdb";
 import {v4 as uuid} from "uuid";
+
 import {Adapter} from "../domain/Adapter.js";
 
 export interface AdapterModel {
@@ -11,11 +13,17 @@ export interface AdapterModel {
   [key: string]: any;
 }
 
+export interface LowModel<T> {
+  collection: T[];
+  collectionName?: string;
+  modelName?: string;
+}
+
 export class LowDbAdapter<T extends AdapterModel> extends Adapter<T> {
-  protected db: low.LowdbSync<{collection: T[]}>;
+  protected db: LowSync<LowModel<T>> | Low<LowModel<T>>;
 
   get collection() {
-    return this.db.get("collection");
+    return this.db.data!.collection!;
   }
 
   protected get dbFilePath() {
@@ -32,7 +40,7 @@ export class LowDbAdapter<T extends AdapterModel> extends Adapter<T> {
 
     await this.validate(payload as T);
 
-    await this.collection.push(this.serialize(payload) as T).write();
+    await this.db.update(({collection}) => collection.push(this.serialize(payload)));
 
     return this.deserialize(payload);
   }
@@ -48,9 +56,9 @@ export class LowDbAdapter<T extends AdapterModel> extends Adapter<T> {
       const item = this.serialize(payload);
       item.expires_at = expiresAt;
 
-      await this.collection.push(item).write();
+      await this.db.update(({collection}) => collection.push(item));
 
-      return this.deserialize(payload);
+      return this.deserialize(item);
     }
 
     return (await this.update(id, payload, expiresAt)) as T;
@@ -61,27 +69,26 @@ export class LowDbAdapter<T extends AdapterModel> extends Adapter<T> {
   }
 
   public async updateOne(predicate: Partial<T & any>, payload: T, expiresAt?: Date): Promise<T | undefined> {
-    let index = this.collection.findIndex(cleanObject(predicate)).value();
+    let index = _.findIndex(this.collection, cleanObject(predicate));
 
     if (index === -1) {
       return;
     }
 
-    let item = this.deserialize(this.collection.get(index).value());
+    let item = this.deserialize(this.collection[index]);
 
     Object.assign(item, payload, {_id: item._id});
 
     await this.validate(item as T);
 
     item.expires_at = expiresAt || item.expires_at;
-
-    await this.collection.set(index, item).write();
+    this.db.update(({collection}) => (collection[index] = item));
 
     return this.deserialize(item);
   }
 
   findOne(predicate: Partial<T & any>): Promise<T | undefined> {
-    const item = this.collection.find(cleanObject(predicate)).value();
+    const item = _.find(this.collection, cleanObject(predicate));
 
     return this.deserialize(item);
   }
@@ -90,20 +97,15 @@ export class LowDbAdapter<T extends AdapterModel> extends Adapter<T> {
     return this.findOne({_id});
   }
 
-  public findAll(predicate: Partial<T & any> = {}): Promise<T[]> {
-    return Promise.resolve(
-      this.collection
-        .filter(cleanObject(predicate))
-        .value()
-        .map((item) => this.deserialize(item))
-    );
+  public async findAll(predicate: Partial<T & any> = {}): Promise<T[]> {
+    return _.filter(this.collection, cleanObject(predicate)).map((item) => this.deserialize(item));
   }
 
   public deleteOne(predicate: Partial<T & any>): Promise<T | undefined> {
-    const item = this.collection.find(cleanObject(predicate)).value();
+    const item = _.find<T>(this.collection, cleanObject(predicate));
 
     if (item) {
-      this.collection.remove(({_id}) => _id === item._id).write();
+      _.remove(this.collection, ({_id}) => _id === item._id);
 
       return Promise.resolve(this.deserialize(item));
     }
@@ -118,15 +120,15 @@ export class LowDbAdapter<T extends AdapterModel> extends Adapter<T> {
   public async deleteMany(predicate: Partial<T>): Promise<T[]> {
     let removedItems: T[] = [];
 
-    await this.collection
-      .remove((item) => {
+    this.db.update((data) => {
+      _.remove(data.collection, (item) => {
         if (isMatch(item, cleanObject(predicate))) {
           removedItems.push(this.deserialize(item));
           return true;
         }
         return false;
-      })
-      .write();
+      });
+    });
 
     return removedItems;
   }

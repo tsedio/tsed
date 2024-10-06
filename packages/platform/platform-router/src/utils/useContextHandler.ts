@@ -1,4 +1,5 @@
 import {DIContext} from "@tsed/di";
+
 import {PlatformHandlerType} from "../domain/PlatformHandlerType.js";
 
 export type PlatformContextHandler<Context = DIContext> = ($ctx: Context) => any | Promise<any>;

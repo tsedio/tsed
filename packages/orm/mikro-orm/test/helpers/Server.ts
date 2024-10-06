@@ -1,13 +1,15 @@
+import "@tsed/platform-express";
+import "@tsed/platform-log-request";
+import "./services/ManagedEventSubscriber.js";
+
 import {PlatformApplication} from "@tsed/common";
 import {Configuration, Inject} from "@tsed/di";
-import "@tsed/platform-express";
 import bodyParser from "body-parser";
 import compress from "compression";
 import cookieParser from "cookie-parser";
 import methodOverride from "method-override";
-import "./services/ManagedEventSubscriber";
 
-const rootDir = __dirname; // automatically replaced by import.meta.dirname on build
+const rootDir = import.meta.dirname; // automatically replaced by import.meta.dirname on build
 
 @Configuration({
   rootDir,
@@ -15,8 +17,7 @@ const rootDir = __dirname; // automatically replaced by import.meta.dirname on b
   httpsPort: false,
   disableComponentScan: true,
   logger: {
-    level: "info",
-    logRequest: true
+    level: "info"
   }
 })
 export class Server {

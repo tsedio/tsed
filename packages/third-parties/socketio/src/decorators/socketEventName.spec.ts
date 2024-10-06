@@ -1,4 +1,5 @@
 import {Store} from "@tsed/core";
+
 import {SocketEventName} from "../index.js";
 
 describe("@SocketEventName", () => {

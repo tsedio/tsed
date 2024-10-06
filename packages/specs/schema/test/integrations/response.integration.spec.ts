@@ -1,4 +1,5 @@
 import {QueryParams} from "@tsed/platform-params";
+
 import {getSpec, OperationPath, Path, Property, Returns, SpecTypes} from "../../src/index.js";
 import {validateSpec} from "../helpers/validateSpec.js";
 
@@ -18,7 +19,7 @@ class Product {
 @Path("/responses")
 class TestResponseCtrl {
   @OperationPath("GET", "/:id")
-  @Returns(200, Product).Description("Product")
+  @(Returns(200, Product).Description("Product"))
   async scenario1(@QueryParams("id") id: string) {}
 
   @OperationPath("POST", "/")

@@ -2,6 +2,7 @@ import {nameOf, useDecorators} from "@tsed/core";
 import {registerProvider} from "@tsed/di";
 import {DiscriminatorValue} from "@tsed/schema";
 import {Schema} from "mongoose";
+
 import {MongooseModelOptions} from "../interfaces/MongooseModelOptions.js";
 import {MONGOOSE_CONNECTIONS} from "../services/MongooseConnections.js";
 import {createModel, getModelToken} from "../utils/createModel.js";
@@ -48,8 +49,6 @@ import {applySchemaOptions, schemaOptions} from "../utils/schemaOptions.js";
 export function Model(options: MongooseModelOptions = {}) {
   return useDecorators((target: any) => {
     const {token, collectionName} = getModelToken(target, options);
-
-    options.discriminatorValue && DiscriminatorValue(options.discriminatorValue)(target);
 
     registerProvider({
       provide: token,

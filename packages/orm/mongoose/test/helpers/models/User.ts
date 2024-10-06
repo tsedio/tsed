@@ -1,7 +1,6 @@
-import {Model, MongooseNextCB, ObjectID, PostHook, PreHook, Ref, Schema, Unique} from "@tsed/mongoose";
 import {CollectionOf, Groups, Ignore, MinLength, Property, Required} from "@tsed/schema";
-import next from "ajv/dist/vocabularies/next";
-import {options} from "superagent";
+
+import {Model, MongooseNextCB, ObjectID, PostHook, PreHook, Ref, Schema, Unique} from "../../../src/index.js";
 
 export class BaseModel {
   @ObjectID("id")
@@ -19,7 +18,7 @@ export class BaseModel {
   schemaOptions: {_id: false}
 })
 export class UserModuleData {
-  @CollectionOf(Number).MinItems(1)
+  @(CollectionOf(Number).MinItems(1))
   roles: number[];
 }
 

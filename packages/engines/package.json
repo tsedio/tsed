@@ -1,18 +1,17 @@
 {
   "name": "@tsed/engines",
   "description": "Template engines library. Provide an API to adding custom engines from decorators.",
-  "type": "commonjs",
-  "version": "7.83.3",
+  "type": "module",
+  "version": "8.0.0-alpha.11",
   "source": "./src/index.ts",
-  "main": "./lib/cjs/index.js",
+  "main": "./lib/esm/index.js",
   "module": "./lib/esm/index.js",
   "typings": "./lib/types/index.d.ts",
   "exports": {
     ".": {
       "types": "./lib/types/index.d.ts",
       "import": "./lib/esm/index.js",
-      "require": "./lib/cjs/index.js",
-      "default": "./lib/cjs/index.js"
+      "default": "./lib/esm/index.js"
     }
   },
   "scripts": {
@@ -23,13 +22,13 @@
     "test:ci": "vitest run --coverage.thresholds.autoUpdate=true"
   },
   "dependencies": {
-    "tslib": "2.6.1"
+    "tslib": "2.7.0"
   },
   "devDependencies": {
-    "@babel/core": "7.24.3",
-    "@babel/plugin-transform-runtime": "7.24.3",
-    "@babel/preset-env": "7.24.3",
-    "@babel/preset-react": "7.24.1",
+    "@babel/core": "7.25.7",
+    "@babel/plugin-transform-runtime": "7.25.7",
+    "@babel/preset-env": "7.25.7",
+    "@babel/preset-react": "7.25.7",
     "@tsed/barrels": "workspace:*",
     "@tsed/typescript": "workspace:*",
     "@types/semver": "^7.5.8",
@@ -43,8 +42,8 @@
     "dustjs-linkedin": "^3.0.1",
     "eco": "^1.1.0-rc-3",
     "ect": "^0.5.9",
-    "ejs": "^3.1.9",
-    "eslint": "^8.57.0",
+    "ejs": "^3.1.10",
+    "eslint": "9.12.0",
     "haml": "^0.4.3",
     "haml-coffee": "^1.14.1",
     "hamlet": "^0.3.3",
@@ -61,14 +60,13 @@
     "mote": "^0.2.0",
     "mustache": "^4.2.0",
     "nunjucks": "^3.2.4",
-    "nyc": "15.1.0",
     "plates": "^0.4.11",
-    "pug": "^3.0.2",
-    "ractive": "^1.4.3",
+    "pug": "^3.0.3",
+    "ractive": "^1.4.4",
     "razor-tmpl": "^1.3.1",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0",
-    "semver": "^7.6.0",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "semver": "^7.6.3",
     "slm": "^2.0.0",
     "squirrelly": "^5.1.0",
     "swig-templates": "^2.0.3",
@@ -76,13 +74,13 @@
     "templayed": ">=0.2.3",
     "tinyliquid": "^0.2.34",
     "ts-node": "10.9.2",
-    "twig": "^1.15.2",
-    "twing": "^5.0.2",
-    "typescript": "4.9.5",
-    "underscore": "^1.11.0",
+    "twig": "^1.17.1",
+    "twing": "^5.2.2",
+    "typescript": "5.4.5",
+    "underscore": "^1.13.7",
     "vash": "^0.13.0",
-    "velocityjs": "^2.0.1",
-    "vitest": "2.0.4",
+    "velocityjs": "^2.0.6",
+    "vitest": "2.1.2",
     "walrus": "^0.10.1",
     "whiskers": "^0.4.0"
   },

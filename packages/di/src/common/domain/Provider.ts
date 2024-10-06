@@ -1,4 +1,5 @@
-import {classOf, getClassOrSymbol, isClass, methodsOf, nameOf, Store, Type} from "@tsed/core";
+import {type AbstractType, classOf, getClassOrSymbol, isClass, methodsOf, nameOf, Store, Type} from "@tsed/core";
+
 import type {ProviderOpts} from "../interfaces/ProviderOpts.js";
 import type {TokenProvider} from "../interfaces/TokenProvider.js";
 import {ProviderScope} from "./ProviderScope.js";
@@ -10,7 +11,7 @@ export class Provider<T = any> implements ProviderOpts<T> {
   /**
    * Token group provider to retrieve all provider from the same type
    */
-  public type: TokenProvider | ProviderType = ProviderType.PROVIDER;
+  public type: ProviderType | TokenProvider = ProviderType.PROVIDER;
   public deps: TokenProvider[];
   public imports: (TokenProvider | [TokenProvider])[];
   public alias?: string;
@@ -25,9 +26,9 @@ export class Provider<T = any> implements ProviderOpts<T> {
 
   [key: string]: any;
 
-  constructor(token: TokenProvider, options: Partial<Provider> = {}) {
+  constructor(token: TokenProvider<T>, options: Partial<Provider> = {}) {
     this.provide = token;
-    this.useClass = token;
+    this.useClass = token as Type<T>;
 
     Object.assign(this, options);
   }
@@ -52,10 +53,10 @@ export class Provider<T = any> implements ProviderOpts<T> {
   }
 
   /**
-   * Create a new store if the given value is a class. Otherwise the value is ignored.
+   * Create a new store if the given value is a class. Otherwise, the value is ignored.
    * @param value
    */
-  set useClass(value: Type<T>) {
+  set useClass(value: Type<T> | AbstractType<T>) {
     if (isClass(value)) {
       this._useClass = classOf(value);
       this._store = Store.from(value);

@@ -1,5 +1,5 @@
-import {Injectable} from "./injectable.js";
 import {GlobalProviders} from "../registries/GlobalProviders.js";
+import {Injectable} from "./injectable.js";
 
 describe("@Injectable()", () => {
   afterEach(() => {

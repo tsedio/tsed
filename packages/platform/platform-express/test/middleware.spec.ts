@@ -1,14 +1,16 @@
-import {Controller, Get, PlatformTest} from "@tsed/common";
+import {Controller, PlatformTest} from "@tsed/common";
 import {PlatformTestSdk} from "@tsed/platform-test-sdk";
+import {Get} from "@tsed/schema";
 import {Returns} from "@tsed/schema";
 import SuperTest from "supertest";
+
 import {PlatformExpress} from "../src/components/PlatformExpress.js";
 import {rootDir, Server} from "./app/Server.js";
 
 @Controller("/middlewares")
 class TestMiddleware {
   @Get("/scenario-1")
-  @Returns(200).OneOf(Event)
+  @(Returns(200).OneOf(Event))
   scenario1() {
     return (req: any, res: any, next: any) => {
       res.send("Hello");
@@ -34,7 +36,7 @@ describe("Middleware", () => {
       responseFilters: [TestMiddleware]
     })
   );
-  afterEach(utils.reset);
+  afterEach(() => utils.reset());
   afterEach(() => {
     vi.resetAllMocks();
   });

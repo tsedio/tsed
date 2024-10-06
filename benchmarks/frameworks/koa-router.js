@@ -1,5 +1,5 @@
-import Koa from "koa";
 import KoaRouter from "benchmarks/frameworks/koa-router.js";
+import Koa from "koa";
 
 const router = KoaRouter();
 

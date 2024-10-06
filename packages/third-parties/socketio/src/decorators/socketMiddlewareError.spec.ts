@@ -1,4 +1,5 @@
 import {Store} from "@tsed/core";
+
 import {SocketMiddlewareError, SocketProviderTypes} from "../index.js";
 
 describe("@SocketMiddlewareError", () => {

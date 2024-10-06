@@ -1,4 +1,4 @@
-import globby from "globby";
+import {globbySync} from "globby";
 import {basename} from "node:path";
 import pkg from "./package.json" assert {type: "json"};
 import {RuleConfigSeverity} from "@commitlint/types";
@@ -8,7 +8,7 @@ function findPackages() {
     return `${pkgPattern}/package.json`;
   });
 
-  let pkgs = globby.sync(patterns, {
+  let pkgs = globbySync(patterns, {
     cwd: process.cwd(),
   });
 

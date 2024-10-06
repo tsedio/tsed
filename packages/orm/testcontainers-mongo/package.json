@@ -1,23 +1,22 @@
 {
   "name": "@tsed/testcontainers-mongo",
   "description": "A module to test Ts.ED code that use MongoDB as database using Test Containers",
-  "type": "commonjs",
-  "version": "7.83.3",
+  "type": "module",
+  "version": "8.0.0-alpha.11",
   "source": "./src/index.ts",
-  "main": "./lib/cjs/index.js",
+  "main": "./lib/esm/index.js",
   "module": "./lib/esm/index.js",
   "typings": "./lib/types/index.d.ts",
   "exports": {
     ".": {
       "types": "./lib/types/index.d.ts",
       "import": "./lib/esm/index.js",
-      "require": "./lib/cjs/index.js",
-      "default": "./lib/cjs/index.js"
+      "default": "./lib/esm/index.js"
     },
     "./vitest/setup": {
       "types": "./lib/types/setup/vi.setup.d.ts",
       "import": "./lib/esm/setup/vi.setup.js",
-      "default": "./lib/cjs/setup/vi.setup.js"
+      "default": "./lib/esm/setup/vi.setup.js"
     }
   },
   "scripts": {
@@ -25,26 +24,26 @@
     "build:ts": "tsc --build tsconfig.json"
   },
   "dependencies": {
-    "semver": "^7.6.0",
-    "tslib": "2.6.1"
+    "semver": "^7.6.3",
+    "tslib": "2.7.0"
   },
   "devDependencies": {
-    "@testcontainers/mongodb": ">=10.11.0",
+    "@testcontainers/mongodb": "^10.13.2",
     "@tsed/barrels": "workspace:*",
     "@tsed/common": "workspace:*",
     "@tsed/core": "workspace:*",
     "@tsed/di": "workspace:*",
     "@tsed/typescript": "workspace:*",
-    "eslint": "^8.57.0",
-    "mongodb": "6.8.0",
+    "eslint": "9.12.0",
+    "mongodb": "6.9.0",
     "testcontainers": ">=10.11.0",
-    "typescript": "4.9.5"
+    "typescript": "5.4.5"
   },
   "peerDependencies": {
     "@testcontainers/mongodb": ">=10.11.0",
-    "@tsed/common": "7.83.3",
-    "@tsed/core": "7.83.3",
-    "@tsed/di": "7.83.3",
+    "@tsed/common": "8.0.0-alpha.11",
+    "@tsed/core": "8.0.0-alpha.11",
+    "@tsed/di": "8.0.0-alpha.11",
     "mongodb": ">=6",
     "testcontainers": ">=10.11.0"
   }

@@ -1,7 +1,8 @@
 import {setValue} from "@tsed/core";
 import {Configuration, registerProvider, TokenProvider} from "@tsed/di";
 import {Logger} from "@tsed/logger";
-import Redis, {Cluster, RedisOptions} from "ioredis";
+import {Cluster, Redis, RedisOptions} from "ioredis";
+
 import {IORedisConfiguration} from "../domain/IORedisConfiguration.js";
 import {ioRedisStore} from "../domain/IORedisStore.js";
 
@@ -56,7 +57,7 @@ export function registerConnectionProvider({provide, name = "default"}: CreateCo
           setValue(sentinelsOptions, "redisOptions.reconnectOnError", reconnectOnError);
 
           connection = new Redis({
-            name: sentinelName,
+            name: String(sentinelName),
             sentinels,
             ...sentinelsOptions,
             lazyConnect: true

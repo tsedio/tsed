@@ -1,7 +1,22 @@
-import {Store} from "@tsed/core";
-import {INJECTABLE_PROP} from "../constants/constants.js";
-import type {InjectableProperties} from "../interfaces/InjectableProperties.js";
-import {InjectablePropertyType} from "../domain/InjectablePropertyType.js";
+import {catchError} from "@tsed/core";
+
+import {InjectorService} from "../services/InjectorService.js";
+
+export function bindValue(target: any, propertyKey: string | symbol, expression: string, defaultValue?: any) {
+  const descriptor = {
+    get() {
+      return InjectorService.getInstance().settings.get(expression, defaultValue);
+    },
+    set(value: unknown) {
+      InjectorService.getInstance().settings.set(expression, value);
+    },
+    enumerable: true,
+    configurable: true
+  };
+
+  catchError(() => Reflect.deleteProperty(target, propertyKey));
+  catchError(() => Reflect.defineProperty(target, propertyKey, descriptor));
+}
 
 /**
  * Return value from Configuration.
@@ -38,15 +53,8 @@ import {InjectablePropertyType} from "../domain/InjectablePropertyType.js";
  * @returns {(targetClass: any, attributeName: string) => any}
  * @decorator
  */
-export function Value(expression: any, defaultValue?: any) {
-  return (target: any, propertyKey: string) => {
-    Store.from(target).merge(INJECTABLE_PROP, {
-      [propertyKey]: {
-        bindingType: InjectablePropertyType.VALUE,
-        propertyKey,
-        expression,
-        defaultValue
-      }
-    } as InjectableProperties);
+export function Value(expression: string, defaultValue?: unknown): PropertyDecorator {
+  return (target, propertyKey) => {
+    return bindValue(target, propertyKey, expression, defaultValue);
   };
 }

@@ -1,4 +1,5 @@
 import {Injectable, PlatformTest} from "@tsed/common";
+
 import {Health} from "./decorators/health.js";
 import {TerminusModule} from "./TerminusModule.js";
 

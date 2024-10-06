@@ -2,6 +2,7 @@ import {cleanObject} from "@tsed/core";
 import {Constant} from "@tsed/di";
 import {Middleware, MiddlewareMethods} from "@tsed/platform-middlewares";
 import {Context} from "@tsed/platform-params";
+
 import type {LoggerRequestFields} from "../domain/PlatformLogMiddlewareSettings.js";
 
 /**
@@ -115,7 +116,7 @@ export class PlatformLogMiddleware implements MiddlewareMethods {
         case "info":
           return {...this.minimalRequestPicker(ctx), ...obj};
         case "debug":
-          return withRequest ? {...this.requestToObject(ctx), ...obj} : obj;
+          return {...this.requestToObject(ctx), ...obj};
         default:
           return {...this.requestToObject(ctx), ...obj};
       }

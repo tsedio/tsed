@@ -1,18 +1,17 @@
 {
   "name": "@tsed/common",
   "description": "A TypeScript Framework on top of Express",
-  "type": "commonjs",
-  "version": "7.83.3",
+  "type": "module",
+  "version": "8.0.0-alpha.11",
   "source": "./src/index.ts",
-  "main": "./lib/cjs/index.js",
+  "main": "./lib/esm/index.js",
   "module": "./lib/esm/index.js",
   "typings": "./lib/types/index.d.ts",
   "exports": {
     ".": {
       "types": "./lib/types/index.d.ts",
       "import": "./lib/esm/index.js",
-      "require": "./lib/cjs/index.js",
-      "default": "./lib/cjs/index.js"
+      "default": "./lib/esm/index.js"
     }
   },
   "scripts": {
@@ -73,8 +72,8 @@
     "@tsed/di": "workspace:*",
     "@tsed/exceptions": "workspace:*",
     "@tsed/json-mapper": "workspace:*",
-    "@tsed/logger": ">=6.7.5",
-    "@tsed/logger-file": ">=6.7.5",
+    "@tsed/logger": "^6.7.8",
+    "@tsed/logger-file": "^6.7.8",
     "@tsed/platform-exceptions": "workspace:*",
     "@tsed/platform-log-middleware": "workspace:*",
     "@tsed/platform-middlewares": "workspace:*",
@@ -85,8 +84,8 @@
     "@tsed/schema": "workspace:*",
     "@types/json-schema": "7.0.15",
     "accepts": "^1.3.8",
-    "tslib": "2.6.1",
-    "uuid": "9.0.1"
+    "tslib": "2.7.0",
+    "uuid": "10.0.0"
   },
   "devDependencies": {
     "@tsed/barrels": "workspace:*",
@@ -94,9 +93,9 @@
     "@tsed/engines": "workspace:*",
     "@tsed/typescript": "workspace:*",
     "cross-env": "7.0.3",
-    "eslint": "^8.57.0",
-    "typescript": "4.9.5",
-    "vitest": "2.0.4"
+    "eslint": "9.12.0",
+    "typescript": "5.4.5",
+    "vitest": "2.1.2"
   },
   "peerDependencies": {
     "@tsed/logger": ">=6.7.5",

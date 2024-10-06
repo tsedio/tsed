@@ -1,6 +1,6 @@
 "use strict";
-import {OpenSpec2, OpenSpec3, OS3Operation} from "@tsed/openspec";
 import {cleanObject} from "@tsed/core";
+import {OpenSpec2, OpenSpec3, OS3Operation} from "@tsed/openspec";
 
 const HTTP_METHODS = ["get", "put", "post", "delete", "options", "head", "patch", "trace"];
 const SCHEMA_PROPERTIES = [

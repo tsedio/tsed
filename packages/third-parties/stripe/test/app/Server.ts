@@ -1,10 +1,11 @@
-import {FileSyncAdapter} from "@tsed/adapters";
 import "@tsed/ajv";
-import {Configuration} from "@tsed/di";
-import "@tsed/stripe";
+import "../../src/index.js";
 import "@tsed/swagger";
 
-const rootDir = __dirname; // automatically replaced by import.meta.dirname on build
+import {FileSyncAdapter} from "@tsed/adapters";
+import {Configuration} from "@tsed/di";
+
+const rootDir = import.meta.dirname; // automatically replaced by import.meta.dirname on build
 export {rootDir};
 
 @Configuration({

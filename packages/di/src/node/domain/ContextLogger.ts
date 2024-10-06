@@ -1,6 +1,7 @@
-import {DILogger} from "../../common/index.js";
 import {Hooks} from "@tsed/core";
 import {levels, LogLevel} from "@tsed/logger";
+
+import {DILogger} from "../../common/index.js";
 
 export interface ContextLoggerOptions extends Record<string, any> {
   id: string;
@@ -41,7 +42,7 @@ export class ContextLogger {
     return (this.#stack = this.#stack || []);
   }
 
-  alterLog(cb: (data: any, level: "debug" | "info" | "warn" | "error" | "off" | "all", withRequest: boolean) => any) {
+  alterLog(cb: (data: any, level: "debug" | "info" | "warn" | "error" | "all", withRequest: boolean) => any) {
     return this.hooks.on("log", cb);
   }
 
@@ -54,8 +55,8 @@ export class ContextLogger {
     return this;
   }
 
-  debug(obj: any, withRequest: boolean = true) {
-    this.run(levels().DEBUG, obj, withRequest);
+  debug(obj: any) {
+    this.run(levels().DEBUG, obj);
     return this;
   }
 

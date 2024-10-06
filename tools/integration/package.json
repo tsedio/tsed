@@ -1,9 +1,9 @@
 {
   "name": "@tsed/integration",
-  "type": "commonjs",
-  "version": "7.83.3",
-  "source": "src/index.ts",
-  "main": "src/index.js",
+  "type": "module",
+  "version": "8.0.0-alpha.11",
+  "source": "./src/index.ts",
+  "main": "./lib/esm/index.js",
   "private": true,
   "scripts": {
     "build": "tsc --build tsconfig.json",
@@ -20,6 +20,11 @@
     "@tsed/schema": "workspace:*",
     "@tsed/swagger": "workspace:*",
     "@tsed/typescript": "workspace:*",
-    "typescript": "4.9.5"
+    "typescript": "5.4.5"
+  },
+  "module": "./lib/esm/index.js",
+  "typings": "./lib/types/index.d.ts",
+  "exports": {
+    ".": {}
   }
 }

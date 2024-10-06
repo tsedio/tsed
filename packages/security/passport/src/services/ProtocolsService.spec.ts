@@ -1,5 +1,6 @@
 import {PlatformTest, Req} from "@tsed/common";
 import Passport from "passport";
+
 import {PassportMessage} from "../errors/PassportMessage.js";
 import {Protocol, ProtocolsService} from "../index.js";
 

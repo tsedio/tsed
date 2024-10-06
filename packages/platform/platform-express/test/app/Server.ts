@@ -1,13 +1,13 @@
 import "@tsed/ajv";
+import "../../src/index.js";
+
 import {Constant, PlatformApplication} from "@tsed/common";
 import {Configuration, Inject} from "@tsed/di";
 import compress from "compression";
 import {Application} from "express";
 import session from "express-session";
 
-import "../../src/index";
-
-const rootDir = __dirname; // automatically replaced by import.meta.dirname on build
+const rootDir = import.meta.dirname; // automatically replaced by import.meta.dirname on build
 export {rootDir};
 
 @Configuration({

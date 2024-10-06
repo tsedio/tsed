@@ -16,9 +16,6 @@
       "path": "../../utils/normalize-path/tsconfig.json"
     },
     {
-      "path": "./tsconfig.cjs.json"
-    },
-    {
       "path": "./tsconfig.esm.json"
     },
     {

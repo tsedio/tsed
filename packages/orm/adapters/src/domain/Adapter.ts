@@ -2,7 +2,7 @@ import {AjvService} from "@tsed/ajv";
 import {classOf, isArray, isPlainObject, nameOf, Type} from "@tsed/core";
 import {Configuration, Inject, Opts} from "@tsed/di";
 import {deserialize, JsonDeserializerOptions, JsonSerializerOptions, serialize} from "@tsed/json-mapper";
-import {getPropertiesStores, JsonEntityStore} from "@tsed/schema";
+import {getPropertiesStores} from "@tsed/schema";
 
 export interface AdapterConstructorOptions<T = any> extends Record<string, any> {
   model: Type<T> | Object;
@@ -46,7 +46,10 @@ export abstract class Adapter<Model = any> {
   @Inject()
   protected ajvService: AjvService;
 
-  constructor(@Opts options: AdapterConstructorOptions, @Configuration() protected configuration: Configuration) {
+  constructor(
+    @Opts options: AdapterConstructorOptions,
+    @Configuration() protected configuration: Configuration
+  ) {
     this.model = options.model;
     this.collectionName = options.collectionName || pluralize(nameOf(options.model));
 

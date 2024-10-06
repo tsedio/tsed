@@ -1,8 +1,8 @@
 import type {ProviderOpts} from "../interfaces/ProviderOpts.js";
-import type {ProviderType} from "./ProviderType.js";
 import type {TokenProvider} from "../interfaces/TokenProvider.js";
 import {GlobalProviders} from "../registries/GlobalProviders.js";
 import {Provider} from "./Provider.js";
+import type {ProviderType} from "./ProviderType.js";
 
 export class Container extends Map<TokenProvider, Provider> {
   /**
@@ -49,21 +49,21 @@ export class Container extends Map<TokenProvider, Provider> {
    * @returns {T} Returns the element associated with the specified key or undefined if the key can't be found in the Map object.
    * @param token
    */
-  public getProvider<T extends Provider = Provider>(token: TokenProvider): T | undefined {
-    return super.get(token) as T;
+  public getProvider<T extends Provider = Provider>(token: TokenProvider | undefined): T | undefined {
+    return super.get(token!) as T;
   }
 
   /**
    * Get all providers registered in the injector container.
    *
-   * @param {ProviderType} type Filter the list by the given ProviderType.
+   * @param type Filter the list by the given ProviderType.
    * @returns {[TokenProvider , Provider<any>][]}
    */
-  public getProviders(type?: ProviderType | string | string[]): Provider[] {
-    const types = ([] as (string | ProviderType)[]).concat(type as never);
+  public getProviders(type?: TokenProvider | ProviderType | string | string[]): Provider[] {
+    const types = ([] as (string | ProviderType)[]).concat(type as never).map(String);
 
     return [...this].reduce((providers, [_, provider]) => {
-      if (types.includes(provider.type) || !type) {
+      if (types.includes(String(provider.type)) || !type) {
         return [...providers, provider];
       }
       return providers;

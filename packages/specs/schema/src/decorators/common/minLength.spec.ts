@@ -1,4 +1,5 @@
-import "../../index";
+import "../../index.js";
+
 import {validateModel} from "../../../test/helpers/validateModel.js";
 import {JsonEntityStore} from "../../domain/JsonEntityStore.js";
 import {getJsonSchema} from "../../utils/getJsonSchema.js";
@@ -66,7 +67,7 @@ describe("@MinLength", () => {
     // WHEN
     class Model {
       @MinLength(0)
-      @CollectionOf(String).MinItems(0).MaxItems(10)
+      @(CollectionOf(String).MinItems(0).MaxItems(10))
       words: string[];
     }
 
@@ -91,8 +92,8 @@ describe("@MinLength", () => {
   it("should declare minLength field with custom error message", () => {
     // WHEN
     class Model {
-      @MinLength(2).Error("Require at least 2 characters")
-      @CollectionOf(String).MinItems(0).MaxItems(10)
+      @(MinLength(2).Error("Require at least 2 characters"))
+      @(CollectionOf(String).MinItems(0).MaxItems(10))
       words: string[];
     }
 
@@ -151,7 +152,7 @@ describe("@MinLength", () => {
   it("should throw error with custom error message", () => {
     // WHEN
     class Model {
-      @MinLength(10).Error("Title must be at least 10 characters long")
+      @(MinLength(10).Error("Title must be at least 10 characters long"))
       word: string;
     }
 

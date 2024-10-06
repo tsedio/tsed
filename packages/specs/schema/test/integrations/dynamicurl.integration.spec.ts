@@ -4,7 +4,7 @@ import {validateSpec} from "../helpers/validateSpec.js";
 @Path("/dynamic")
 class TestDynamicUrlCtrl {
   @OperationPath("GET", "/JQ=:id")
-  async get(@In("path").Name("id") id: string) {}
+  async get(@(In("path").Name("id")) id: string) {}
 }
 
 describe("Spec: DynamicUrl", () => {

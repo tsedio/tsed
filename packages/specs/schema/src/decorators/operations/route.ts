@@ -2,11 +2,6 @@ import {OperationVerbs} from "../../constants/OperationVerbs.js";
 import {Operation} from "./operation.js";
 
 /**
- * @deprecated Use Operation instead of Route
- */
-export const Route = Operation;
-
-/**
  * This method is just like the `router.METHOD()` methods, except that it matches all HTTP methods (verbs).
  *
  * This method is extremely useful for mapping “global” logic for specific path prefixes or arbitrary matches.

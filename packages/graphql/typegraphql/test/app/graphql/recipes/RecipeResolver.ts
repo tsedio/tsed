@@ -1,18 +1,23 @@
 import {InjectContext, PlatformContext} from "@tsed/common";
 import {Inject} from "@tsed/di";
-import {ResolverService} from "@tsed/typegraphql";
-import {Arg, Mutation, Publisher, PubSub, Query, Root, Subscription} from "type-graphql";
+import {Arg, Mutation, Query, Root, Subscription} from "type-graphql";
+
+import {ResolverController} from "../../../../src/index.js";
 import {RecipeService} from "../../services/RecipeService.js";
+import {PubSubProvider} from "../pubsub/pubsub.js";
 import {Recipe, RecipeNotification} from "./Recipe.js";
 import {RecipeNotFoundError} from "./RecipeNotFoundError.js";
 
-@ResolverService((_of) => Recipe)
+@ResolverController((_of) => Recipe)
 export class RecipeResolver {
   @InjectContext()
   private $ctx: PlatformContext;
 
   @Inject()
   private recipeService: RecipeService;
+
+  @Inject(PubSubProvider)
+  private pubSub: PubSubProvider;
 
   @Query((returns) => Recipe)
   async recipe(@Arg("id") id: string) {
@@ -32,13 +37,11 @@ export class RecipeResolver {
   }
 
   @Mutation((returns) => Recipe)
-  async addRecipe(
-    @Arg("title") title: string,
-    @Arg("description") description: string,
-    @PubSub("NOTIFICATIONS") publish: Publisher<Recipe>
-  ) {
+  async addRecipe(@Arg("title") title: string, @Arg("description") description: string) {
     const payload = await this.recipeService.create({title, description});
-    await publish(payload);
+    const notification = new RecipeNotification(payload);
+
+    this.pubSub.publish("NOTIFICATIONS", notification);
 
     return payload;
   }

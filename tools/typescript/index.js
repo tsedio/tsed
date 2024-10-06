@@ -1,9 +1,11 @@
-import {findPackages, MonoRepo} from "@tsed/monorepo-utils";
 import {dirname, join, relative} from "node:path";
-import cloneDeep from "lodash/cloneDeep.js";
-import omit from "lodash/omit.js";
+
+import {findPackages, MonoRepo} from "@tsed/monorepo-utils";
 import fs from "fs-extra";
 import globby from "globby";
+import cloneDeep from "lodash/cloneDeep.js";
+import get from "lodash/get.js";
+import omit from "lodash/omit.js";
 
 const scriptDir = import.meta.dirname;
 
@@ -18,7 +20,6 @@ async function main() {
 
   const tsConfigRootPath = join(monoRepo.rootDir, "tsconfig.json");
   const tsConfigTemplate = await fs.readJson(join(scriptDir, "./tsconfig.template.json"));
-  const tsConfigTemplateCjsPath = join(scriptDir, "./tsconfig.template.cjs.json");
   const tsConfigTemplateEsmPath = join(scriptDir, "./tsconfig.template.esm.json");
   const tsConfigTemplateSpecPath = join(scriptDir, "./tsconfig.template.spec.json");
   const tsConfigTemplateSpec = await fs.readJson(tsConfigTemplateSpecPath);
@@ -44,7 +45,6 @@ async function main() {
       const tsConfig = cloneDeep(tsConfigTemplate);
       const tsConfigPath = join(path, "tsconfig.json");
       const tsConfigBuildEsmPath = join(path, "tsconfig.esm.json");
-      const tsConfigBuildCjsPath = join(path, "tsconfig.cjs.json");
       const tsConfigBuildSpecPath = join(path, "tsconfig.spec.json");
       const npmignore = join(path, ".npmignore");
       const vitestPath = join(path, "vitest.config.mts");
@@ -73,14 +73,9 @@ async function main() {
           });
         });
 
-      tsConfig.references.push(
-        {
-          path: "./tsconfig.cjs.json"
-        },
-        {
-          path: "./tsconfig.esm.json"
-        }
-      );
+      tsConfig.references.push({
+        path: "./tsconfig.esm.json"
+      });
 
       if (hasFiles.length) {
         tsConfig.references.push({
@@ -95,13 +90,14 @@ async function main() {
               ((dep.path.includes("/platform") && !dep.path.includes("serverless")) ||
                 dep.path.includes("/components-scan") ||
                 dep.path.includes("/spec") ||
+                dep.path.includes("/normalize-path") ||
                 dep.path.includes("/di")) &&
               !deps.has(dep.name) &&
               pkg.name !== dep.name
             );
           })
           .forEach((dep) => {
-            paths["@tsed/" + dep.name] = [relative(dirname(pkg.path), dirname(dep.path)) + "/src"];
+            paths["@tsed/" + dep.name] = [relative(dirname(pkg.path), dirname(dep.path)) + "/src/index.ts"];
           });
         const tsCopy = cloneDeep(tsConfigTemplateSpec);
         tsCopy.compilerOptions.paths = paths;
@@ -121,7 +117,6 @@ async function main() {
 
       await fs.writeJson(tsConfigPath, tsConfig, {spaces: 2});
       await fs.copy(tsConfigTemplateEsmPath, tsConfigBuildEsmPath);
-      await fs.copy(tsConfigTemplateCjsPath, tsConfigBuildCjsPath);
       await fs.copy(npmIgnoreTemplatePath, npmignore);
 
       tsConfigRoot.references.push({
@@ -173,22 +168,19 @@ async function main() {
 
       // pkg.pkg.main = pkg.pkg.main.replace("cjs/", "esm/");
 
-      if (pkg.pkg.exports && !pkg.pkg.exports["."]) {
-        pkg.pkg.exports = {
-          ".": {
-            ...pkg.pkg.exports
-          }
-        };
-      }
+      pkg.pkg.type = "module";
+      pkg.pkg.source = "./src/index.ts";
+      pkg.pkg.main = "./lib/esm/index.js";
+      pkg.pkg.module = "./lib/esm/index.js";
+      pkg.pkg.typings = "./lib/types/index.d.ts";
+      pkg.pkg.exports = {
+        ".": omit(get(pkg, 'pkg.exports["."]', {}), ["require"])
+      };
 
       await fs.writeJson(pkg.path, pkg.pkg, {spaces: 2});
-      // try {
-      //   fs.removeSync(join(path, "tsconfig.compile.esm.json"));
-      //   fs.removeSync(join(path, "tsconfig.compile.json"));
-      //   fs.removeSync(join(path, "tsconfig.cjs.json"));
-      //   // fs.removeSync(join(path, "tsconfig.esm.json"));
-      // } catch {
-      // }
+      try {
+        fs.removeSync(join(path, "tsconfig.cjs.json"));
+      } catch {}
     }
   }
 

@@ -1,8 +1,11 @@
 import {catchError} from "@tsed/core";
+import {describe, expect, it} from "vitest";
+
 import {
   BadMapping,
   BadRequest,
   Conflict,
+  ExpectationFailed,
   Forbidden,
   Gone,
   ImATeapot,
@@ -15,9 +18,9 @@ import {
   PreconditionFailed,
   PreconditionRequired,
   ProxyAuthentificationRequired,
-  RequestRangeUnsatisfiable,
   RequestEntityTooLarge,
   RequestHeaderFieldsTooLarge,
+  RequestRangeUnsatisfiable,
   RequestTimeout,
   RequestURITooLong,
   TooManyRequests,
@@ -25,8 +28,7 @@ import {
   UnavailableForLegalReasons,
   UnprocessableEntity,
   UnsupportedMediaType,
-  UpgradeRequired,
-  ExpectationFailed
+  UpgradeRequired
 } from "../src/index.js";
 
 describe("ClientErrors", () => {
@@ -173,7 +175,7 @@ describe("ClientErrors", () => {
     });
   });
 
-  describe("LengthRequired", () => {
+  describe("NotFound", () => {
     it("should emit an exception", () => {
       const err = new NotFound("message");
 

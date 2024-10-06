@@ -1,14 +1,17 @@
 import "@tsed/ajv";
-import {Configuration, Controller, Get, PlatformTest} from "@tsed/common";
+
 import {PlatformExpress} from "@tsed/platform-express";
 import {PlatformTestSdk} from "@tsed/platform-test-sdk";
+import {Get} from "@tsed/schema";
 import bodyParser from "body-parser";
 import compress from "compression";
 import cookieParser from "cookie-parser";
 import methodOverride from "method-override";
 import SuperTest from "supertest";
 
-const rootDir = __dirname; // automatically replaced by import.meta.dirname on build
+import {Configuration, Controller, PlatformTest} from "../../src/index.js";
+
+const rootDir = import.meta.dirname; // automatically replaced by import.meta.dirname on build
 
 @Controller("/hello")
 class TestHelloWorld {

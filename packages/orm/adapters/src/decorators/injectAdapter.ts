@@ -1,5 +1,7 @@
-import {classOf, descriptorOf, isClass, isString, Type} from "@tsed/core";
-import {Inject} from "@tsed/di";
+import {classOf, isClass, isString, Type} from "@tsed/core";
+import {Inject, inject} from "@tsed/di";
+
+import type {Adapter} from "../domain/Adapter.js";
 import {AdapterInvokeOptions, Adapters} from "../services/Adapters.js";
 
 function mapOptions(args: any[]): AdapterInvokeOptions {
@@ -22,6 +24,25 @@ function mapOptions(args: any[]): AdapterInvokeOptions {
   }, {});
 }
 
+export function adapter<Model>(options: AdapterInvokeOptions<Model>): Adapter<Model>;
+export function adapter<Model>(model: Type<Model>, options?: Partial<Omit<AdapterInvokeOptions, "client">>): Adapter<Model>;
+export function adapter<Model>(
+  collectionName: string,
+  model: Type<Model>,
+  options?: Partial<Omit<AdapterInvokeOptions, "collectionName" | "client">>
+): Adapter<Model>;
+export function adapter(...args: any[]) {
+  const options: AdapterInvokeOptions = mapOptions(args);
+  const adapters = inject(Adapters);
+
+  return adapters.invokeAdapter(options);
+}
+
+/**
+ * Inject the adapter in the property.
+ * @param options
+ * @constructor
+ */
 export function InjectAdapter(options: AdapterInvokeOptions): PropertyDecorator;
 export function InjectAdapter(model: Type<any>, options?: Partial<Omit<AdapterInvokeOptions, "client">>): PropertyDecorator;
 export function InjectAdapter(
@@ -31,17 +52,11 @@ export function InjectAdapter(
 ): PropertyDecorator;
 export function InjectAdapter(...args: any[]): PropertyDecorator {
   const options: AdapterInvokeOptions = mapOptions(args);
+  const symbol = Symbol();
 
-  return (target) => {
-    Inject(Adapters)(target, "$adapters");
-    const descriptor = descriptorOf(target, "$onInit");
-
-    Reflect.defineProperty(target, "$onInit", {
-      value() {
-        this.adapter = (this.$adapters as Adapters).invokeAdapter(options);
-
-        return descriptor && descriptor.value && descriptor.value.call(this);
-      }
-    });
-  };
+  return Inject(Adapters, {
+    transform: (adapters: Adapters, {self}) => {
+      return (self[symbol] = self[symbol] || adapters.invokeAdapter(options));
+    }
+  });
 }

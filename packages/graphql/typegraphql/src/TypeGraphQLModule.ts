@@ -1,53 +1,63 @@
+import "./interfaces/interfaces.js";
+
+import {AlterApolloSettings, ApolloSettingsWithID} from "@tsed/apollo";
+import {isClass, Type} from "@tsed/core";
 import {Configuration, Inject, InjectorService, Module} from "@tsed/di";
-import {TypeGraphQLSettings} from "./interfaces/interfaces.js";
-import {TypeGraphQLService} from "./services/TypeGraphQLService.js";
+import {buildSchema} from "type-graphql";
+
+import {RESOLVERS_PROVIDERS} from "./constants/constants.js";
+import {ContextMiddleware} from "./middlewares/ContextMiddleware.js";
 
 /**
  * @ignore
  */
 @Module()
-export class TypeGraphQLModule {
-  @Inject()
-  protected service: TypeGraphQLService;
-
+export class TypeGraphQLModule implements AlterApolloSettings {
   @Inject()
   protected injector: InjectorService;
 
   @Configuration()
   protected configuration: Configuration;
 
-  get settings(): {[key: string]: TypeGraphQLSettings} | undefined {
-    return this.configuration.get("graphql") || this.configuration.get("typegraphql");
+  async $alterApolloSettings(settings: ApolloSettingsWithID): Promise<ApolloSettingsWithID> {
+    const {resolvers: initialResolvers = [], buildSchemaOptions = {}, ...serverOptions} = settings;
+
+    const resolvers: any = this.getResolvers(settings.id, [...(initialResolvers as any[]), ...(buildSchemaOptions.resolvers || [])]);
+
+    serverOptions.schema = await buildSchema({
+      container: this.injector as never,
+      ...buildSchemaOptions,
+      resolvers,
+      globalMiddlewares: [ContextMiddleware, ...(buildSchemaOptions.globalMiddlewares || [])]
+    });
+
+    return serverOptions;
   }
 
-  $onRoutesInit(): Promise<any> | void {
-    const {settings} = this;
-    if (settings) {
-      const promises = Object.entries(settings).map(([key, options]) => {
-        return this.service.createServer(key, options);
+  protected getResolvers(id: string, resolvers: Type<any>[]): Type<any>[] {
+    const globalResolvers = this.injector
+      .getProviders(RESOLVERS_PROVIDERS)
+      .filter((provider) => {
+        const opts = provider.store.get("graphql");
+
+        return !opts?.id || opts?.id === id;
+      })
+      .map((provider) => {
+        return provider.useClass;
       });
 
-      return Promise.all(promises);
-    }
-  }
+    return resolvers
+      .map((resolver) => {
+        if (!(this.injector.has(resolver) || !isClass(resolver))) {
+          this.injector
+            .addProvider(resolver, {
+              useClass: resolver
+            })
+            .invoke(resolver);
+        }
 
-  $afterListen(): Promise<any> | void {
-    const host = this.configuration.getBestHost();
-
-    const displayLog = (key: string, path: string) => {
-      const url = typeof host.port === "number" ? `${host.protocol}://${host.address}:${host.port}` : "";
-
-      this.injector.logger.info(`[${key}] GraphQL server is available on ${url}/${path.replace(/^\//, "")}`);
-    };
-
-    const {settings} = this;
-
-    if (settings) {
-      Object.entries(settings).map(([key, options]) => {
-        const {path} = options;
-
-        displayLog(key, path);
-      });
-    }
+        return resolver;
+      })
+      .concat(globalResolvers);
   }
 }

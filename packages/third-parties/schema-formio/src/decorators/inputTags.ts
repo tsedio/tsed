@@ -1,5 +1,6 @@
 import {useDecorators} from "@tsed/core";
 import {CollectionOf} from "@tsed/schema";
+
 import {Component} from "./component.js";
 /**
  * Configure the property as Tags component.

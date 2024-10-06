@@ -8,7 +8,7 @@ import session from "express-session";
 import methodOverride from "method-override";
 
 // import your protocol. Ts.ED will discover it automatically
-import "./protocols/LoginLocalProtocol";
+import "./protocols/LoginLocalProtocol.js";
 
 @Configuration({
   passport: {

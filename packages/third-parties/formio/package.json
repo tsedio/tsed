@@ -1,8 +1,8 @@
 {
   "name": "@tsed/formio",
   "description": "Formio package for Ts.ED framework",
-  "type": "commonjs",
-  "version": "7.83.3",
+  "type": "module",
+  "version": "8.0.0-alpha.11",
   "keywords": [
     "Formio",
     "Ts.ED",
@@ -12,15 +12,14 @@
     "express"
   ],
   "source": "./src/index.ts",
-  "main": "./lib/cjs/index.js",
+  "main": "./lib/esm/index.js",
   "module": "./lib/esm/index.js",
   "typings": "./lib/types/index.d.ts",
   "exports": {
     ".": {
       "types": "./lib/types/index.d.ts",
       "import": "./lib/esm/index.js",
-      "require": "./lib/cjs/index.js",
-      "default": "./lib/cjs/index.js"
+      "default": "./lib/esm/index.js"
     }
   },
   "scripts": {
@@ -34,7 +33,7 @@
   "dependencies": {
     "@tsed/formio-types": "workspace:*",
     "@tsed/normalize-path": "workspace:*",
-    "tslib": "2.6.1"
+    "tslib": "2.7.0"
   },
   "devDependencies": {
     "@tsed/barrels": "workspace:*",
@@ -44,21 +43,21 @@
     "@tsed/mongoose": "workspace:*",
     "@tsed/typescript": "workspace:*",
     "@types/async": "3.2.24",
-    "eslint": "^8.57.0",
-    "express": "^4.19.1",
-    "formio": "3.5.0",
-    "mongodb": "*",
-    "mongoose": "^6.12.7",
-    "typescript": "4.9.5",
-    "vitest": "2.0.4"
+    "eslint": "9.12.0",
+    "express": "^4.21.0",
+    "formio": "4.2.5",
+    "mongodb": "^6.9.0",
+    "mongoose": "8.7.0",
+    "typescript": "5.4.5",
+    "vitest": "2.1.2"
   },
   "peerDependencies": {
-    "@tsed/common": "7.83.3",
+    "@tsed/common": "8.0.0-alpha.11",
     "express": "^4.17.1",
     "formio": ">=2.0.0",
     "lodash": "^4.17.21",
     "mongodb": "*",
-    "mongoose": "^6.1.7"
+    "mongoose": "^8.7.0"
   },
   "peerDependenciesMeta": {
     "@tsed/common": {

@@ -1,5 +1,7 @@
-import {TestWorkflowEnvironment} from "@temporalio/testing";
 import {join} from "node:path";
+
+import {TestWorkflowEnvironment} from "@temporalio/testing";
+
 import {Activity, bootstrapWorker, Temporal} from "../src/index.js";
 import {Server} from "./helpers/Server.js";
 
@@ -25,7 +27,7 @@ describe("Temporal Worker", () => {
   it("should start a worker and execute decorated activities", async () => {
     const worker = await bootstrapWorker(Server, {
       worker: {
-        workflowsPath: join(__dirname, "workflows"),
+        workflowsPath: join(import.meta.dirname, "workflows"),
         taskQueue: "test"
       },
       connection: testEnv.nativeConnection

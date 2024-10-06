@@ -1,8 +1,9 @@
 import {catchAsyncError} from "@tsed/core";
 import {BadRequest} from "@tsed/exceptions";
 import {JsonEntityFn, Property} from "@tsed/schema";
-import {deserialize} from "../../src/utils/deserialize.js";
+
 import {BeforeDeserialize} from "../../src/decorators/beforeDeserialize.js";
+import {deserialize} from "../../src/utils/deserialize.js";
 
 class Company {
   @Property()

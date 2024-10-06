@@ -1,6 +1,7 @@
 import {CollectionOf, Property} from "@tsed/schema";
-import {Model, MongooseModel, ObjectID, Ref, Schema} from "@tsed/mongoose";
 import {Types} from "mongoose";
+
+import {Model, MongooseModel, ObjectID, Ref, Schema} from "../../../src/index.js";
 
 @Model()
 export class Workspace {

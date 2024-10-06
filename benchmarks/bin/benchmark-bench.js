@@ -1,8 +1,9 @@
 "use strict";
+import {Command} from "commander";
 import inquirer from "inquirer";
+
 import bench from "../src/bench.js";
 import {choices, list} from "../src/packages.js";
-import {Command} from "commander";
 
 const program = new Command();
 

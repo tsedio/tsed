@@ -1,6 +1,7 @@
 import {PlatformTest} from "@tsed/common";
 import {TestContainersMongo} from "@tsed/testcontainers-mongo";
-import {Pulse, PulseService, Define, Every} from "../src/index.js";
+
+import {Define, Every, Pulse, PulseService} from "../src/index.js";
 import {Server} from "./helpers/Server.js";
 
 @Pulse({namespace: "test-nsp"})
@@ -27,7 +28,7 @@ describe("Pulse integration", () => {
           enabled: true,
           db: {
             address: options.url,
-            options: options.connectionOptions
+            options: options.connectionOptions as never
           }
         }
       });
@@ -96,7 +97,7 @@ describe("Pulse integration", () => {
           disableJobProcessing: true,
           db: {
             address: options.url,
-            options: options.connectionOptions
+            options: options.connectionOptions as never
           }
         }
       });

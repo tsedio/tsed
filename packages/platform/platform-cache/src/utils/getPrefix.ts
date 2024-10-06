@@ -1,8 +1,10 @@
 import {nameOf, Type} from "@tsed/core";
-import {getInterceptorOptions} from "./getInterceptorOptions.js";
+import {getInterceptorOptions} from "@tsed/di";
+
+import type {PlatformCacheOptions} from "../interfaces/PlatformCacheOptions.js";
 
 export function getPrefix(target: Type<any>, propertyKey: string | symbol) {
-  const {prefix} = getInterceptorOptions(target, propertyKey);
+  const {prefix} = getInterceptorOptions<PlatformCacheOptions>(target, propertyKey);
   if (prefix) {
     return [prefix];
   }

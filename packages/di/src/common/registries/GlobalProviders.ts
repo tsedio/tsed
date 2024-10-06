@@ -1,4 +1,5 @@
 import {getClassOrSymbol, Type} from "@tsed/core";
+
 import type {LocalsContainer} from "../domain/LocalsContainer.js";
 import {Provider} from "../domain/Provider.js";
 import {ProviderType} from "../domain/ProviderType.js";
@@ -9,7 +10,7 @@ import {TokenProvider} from "../interfaces/TokenProvider.js";
 import type {InjectorService} from "../services/InjectorService.js";
 
 export class GlobalProviderRegistry extends Map<TokenProvider, Provider> {
-  #settings: Map<string, RegistrySettings> = new Map();
+  #settings: Map<TokenProvider, RegistrySettings> = new Map();
 
   /**
    * The get() method returns a specified element from a Map object.
@@ -49,7 +50,12 @@ export class GlobalProviderRegistry extends Map<TokenProvider, Provider> {
     const meta = this.createIfNotExists(target, options);
 
     Object.keys(options).forEach((key) => {
-      meta[key] = (options as any)[key];
+      let value = (options as never)[key];
+      // if (key === "type") {
+      //   value = String(value);
+      // }
+
+      meta[key] = value;
     });
 
     this.set(target, meta);
@@ -66,7 +72,7 @@ export class GlobalProviderRegistry extends Map<TokenProvider, Provider> {
     return super.delete(getClassOrSymbol(key));
   }
 
-  createRegistry(type: string, model: Type<Provider>, options: Partial<RegistrySettings> = {}) {
+  createRegistry(type: string | symbol, model: Type<Provider>, options: Partial<RegistrySettings> = {}) {
     const defaultOptions = this.getRegistrySettings(type);
 
     options = Object.assign(defaultOptions, {
@@ -87,8 +93,8 @@ export class GlobalProviderRegistry extends Map<TokenProvider, Provider> {
     }
   }
 
-  getRegistrySettings(target: string | TokenProvider): RegistrySettings {
-    let type: string = "provider";
+  getRegistrySettings(target: TokenProvider): RegistrySettings {
+    let type: TokenProvider | ProviderType = ProviderType.PROVIDER;
 
     if (typeof target === "string") {
       type = target;

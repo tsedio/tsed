@@ -1,5 +1,7 @@
-import {$log, Controller, Get} from "@tsed/common";
-import {PlatformKoa} from "@tsed/platform-koa";
+import {$log, Controller} from "@tsed/common";
+import {Get} from "@tsed/schema";
+
+import {PlatformKoa} from "../../src/index.js";
 import {Server} from "./Server.js";
 
 if (process.env.NODE_ENV !== "test") {

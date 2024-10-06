@@ -1,6 +1,7 @@
-import {sync} from "globby";
 import {readFileSync} from "node:fs";
 import {basename, dirname, join} from "node:path";
+
+import {globbySync} from "globby";
 
 const root = join(import.meta.dirname, "../../..");
 
@@ -17,7 +18,7 @@ function deps(pkg, pkgs, set = new Set()) {
 }
 
 function findPackages() {
-  const pkgs = sync(
+  const pkgs = globbySync(
     [
       "packages/*/package.json",
       "packages/graphql/*/package.json",

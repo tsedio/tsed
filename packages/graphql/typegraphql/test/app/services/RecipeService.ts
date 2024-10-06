@@ -1,4 +1,5 @@
 import {Service} from "@tsed/common";
+
 import {Recipe} from "../graphql/recipes/Recipe.js";
 
 @Service()

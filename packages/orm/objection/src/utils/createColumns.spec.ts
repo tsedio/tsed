@@ -1,5 +1,6 @@
 import {catchError} from "@tsed/core";
 import {MaxLength, Property} from "@tsed/schema";
+
 import {createTableStub} from "../../test/helpers/knex/table.js";
 import {Decimal} from "../decorators/decimal.js";
 import {Entity} from "../decorators/entity.js";

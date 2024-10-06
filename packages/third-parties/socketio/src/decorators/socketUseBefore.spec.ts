@@ -1,4 +1,5 @@
 import {Store} from "@tsed/core";
+
 import {SocketUseBefore} from "../index.js";
 
 describe("@SocketUseBefore", () => {

@@ -1,4 +1,5 @@
 import {Store} from "@tsed/core";
+
 import {Nsp} from "../index.js";
 
 describe("Nsp", () => {

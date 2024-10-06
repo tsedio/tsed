@@ -1,5 +1,6 @@
+import "./PlatformKoaRequest.js";
+
 import {PlatformContext, PlatformHandler, PlatformParamsCallback} from "@tsed/common";
-import "./PlatformKoaRequest";
 
 export class PlatformKoaHandler extends PlatformHandler {
   onRequest(handler: PlatformParamsCallback, $ctx: PlatformContext) {

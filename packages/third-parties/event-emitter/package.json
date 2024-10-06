@@ -1,15 +1,15 @@
 {
   "name": "@tsed/event-emitter",
   "description": "EventEmitter package for Ts.ED framework",
-  "type": "commonjs",
-  "version": "7.83.3",
+  "type": "module",
+  "version": "8.0.0-alpha.11",
   "contributors": [
     {
       "name": "Oliver Christen"
     }
   ],
   "source": "./src/index.ts",
-  "main": "./lib/cjs/index.js",
+  "main": "./lib/esm/index.js",
   "module": "./lib/esm/index.js",
   "typings": "./lib/types/index.d.ts",
   "browser": "./lib/browser/event-emitter.umd.min.js",
@@ -18,8 +18,7 @@
       "types": "./lib/types/index.d.ts",
       "browser": "./lib/browser/event-emitter.umd.min.js",
       "import": "./lib/esm/index.js",
-      "require": "./lib/cjs/index.js",
-      "default": "./lib/cjs/index.js"
+      "default": "./lib/esm/index.js"
     }
   },
   "scripts": {
@@ -31,7 +30,7 @@
     "test:ci": "vitest run --coverage.thresholds.autoUpdate=true"
   },
   "dependencies": {
-    "tslib": "2.6.1"
+    "tslib": "2.7.0"
   },
   "devDependencies": {
     "@tsed/barrels": "workspace:*",
@@ -39,10 +38,10 @@
     "@tsed/core": "workspace:*",
     "@tsed/di": "workspace:*",
     "@tsed/typescript": "workspace:*",
-    "eslint": "^8.57.0",
+    "eslint": "9.12.0",
     "eventemitter2": "^6.4.9",
-    "typescript": "4.9.5",
-    "vitest": "2.0.4",
+    "typescript": "5.4.5",
+    "vitest": "2.1.2",
     "webpack": "^5.75.0"
   },
   "peerDependencies": {

@@ -1,7 +1,8 @@
 {
   "name": "@tsed/github-sponsors",
-  "version": "7.83.3",
+  "version": "8.0.0-alpha.11",
   "private": true,
+  "type": "module",
   "scripts": {
     "sponsors": "node ./bin/github-sponsors.js"
   },
@@ -10,6 +11,6 @@
     "test": "__tests__"
   },
   "devDependencies": {
-    "yaml": "^2.0.1"
+    "yaml": "^2.5.1"
   }
 }

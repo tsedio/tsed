@@ -1,5 +1,6 @@
 import {Type} from "@tsed/core";
 import {PassportStatic} from "passport";
+
 import {ProtocolOptions} from "./ProtocolOptions.js";
 
 declare global {

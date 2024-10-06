@@ -1,8 +1,9 @@
-import faker from "@faker-js/faker";
+import {faker} from "@faker-js/faker";
 import {PlatformTest} from "@tsed/common";
+import {TestContainersMongo} from "@tsed/testcontainers-mongo";
+
 import {MongooseModel} from "../src/interfaces/MongooseModel.js";
 import {TestUser} from "./helpers/models/User.js";
-import {TestContainersMongo} from "@tsed/testcontainers-mongo";
 
 describe("Mongoose", () => {
   describe("UserModel (di)", () => {
@@ -15,7 +16,7 @@ describe("Mongoose", () => {
         // GIVEN
         const user = new userModel({
           email: "test@test.fr",
-          password: faker.internet.password(12)
+          password: faker.internet.password({length: 12})
         });
 
         // WHEN
@@ -41,7 +42,7 @@ describe("Mongoose", () => {
         // GIVEN
         const user = new userModel({
           email: "test@test.fr",
-          password: faker.internet.password(12)
+          password: faker.internet.password({length: 12})
         });
 
         // WHEN

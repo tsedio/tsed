@@ -1,9 +1,11 @@
 import "@tsed/ajv";
-import {BodyParams, Controller, Get, PathParams, PlatformTest, Post, Put} from "@tsed/common";
+
+import {BodyParams, Controller, PathParams, PlatformTest} from "@tsed/common";
 import {deserialize} from "@tsed/json-mapper";
 import {PlatformTestSdk} from "@tsed/platform-test-sdk";
-import {getSpec, Groups, Property, Returns, SpecTypes} from "@tsed/schema";
+import {Get, getSpec, Groups, Post, Property, Put, Returns, SpecTypes} from "@tsed/schema";
 import SuperTest from "supertest";
+
 import {PlatformExpress} from "../src/index.js";
 import {rootDir, Server} from "./app/Server.js";
 
@@ -30,7 +32,7 @@ const utils = PlatformTestSdk.create({
 @Controller("/groups")
 class TestGroupsCtrl {
   @Post("/")
-  @Returns(201, Product).Groups("group.*")
+  @(Returns(201, Product).Groups("group.*"))
   create(@BodyParams() @Groups("creation") payload: Product) {
     return deserialize(
       {
@@ -50,7 +52,7 @@ class TestGroupsCtrl {
   }
 
   @Get("/:id")
-  @Returns(200, Product).Groups("group.summary")
+  @(Returns(200, Product).Groups("group.summary"))
   get(@PathParams("id") id: string) {
     return deserialize(
       {
@@ -84,7 +86,7 @@ describe("Groups", () => {
       ]
     })
   );
-  afterAll(utils.reset);
+  afterAll(() => utils.reset());
 
   beforeAll(() => {
     request = SuperTest(PlatformTest.callback());

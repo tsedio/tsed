@@ -18,6 +18,12 @@
       "path": "./packages/core/tsconfig.json"
     },
     {
+      "path": "./packages/engines/tsconfig.json"
+    },
+    {
+      "path": "./packages/perf/tsconfig.json"
+    },
+    {
       "path": "./packages/specs/openspec/tsconfig.json"
     },
     {
@@ -25,12 +31,6 @@
     },
     {
       "path": "./packages/di/tsconfig.json"
-    },
-    {
-      "path": "./packages/engines/tsconfig.json"
-    },
-    {
-      "path": "./packages/perf/tsconfig.json"
     },
     {
       "path": "./packages/specs/exceptions/tsconfig.json"
@@ -49,6 +49,9 @@
     },
     {
       "path": "./packages/platform/platform-log-middleware/tsconfig.json"
+    },
+    {
+      "path": "./packages/platform/platform-log-request/tsconfig.json"
     },
     {
       "path": "./packages/platform/platform-response-filter/tsconfig.json"
@@ -72,43 +75,7 @@
       "path": "./packages/graphql/apollo/tsconfig.json"
     },
     {
-      "path": "./packages/graphql/typegraphql/tsconfig.json"
-    },
-    {
-      "path": "./packages/graphql/graphql-ws/tsconfig.json"
-    },
-    {
       "path": "./packages/specs/ajv/tsconfig.json"
-    },
-    {
-      "path": "./packages/orm/adapters/tsconfig.json"
-    },
-    {
-      "path": "./packages/orm/ioredis/tsconfig.json"
-    },
-    {
-      "path": "./packages/orm/adapters-redis/tsconfig.json"
-    },
-    {
-      "path": "./packages/orm/mongoose/tsconfig.json"
-    },
-    {
-      "path": "./packages/orm/objection/tsconfig.json"
-    },
-    {
-      "path": "./packages/orm/prisma/tsconfig.json"
-    },
-    {
-      "path": "./packages/orm/testing-mongoose/tsconfig.json"
-    },
-    {
-      "path": "./packages/orm/mikro-orm/tsconfig.json"
-    },
-    {
-      "path": "./packages/orm/testcontainers-mongo/tsconfig.json"
-    },
-    {
-      "path": "./packages/orm/typeorm/tsconfig.json"
     },
     {
       "path": "./packages/platform/platform-cache/tsconfig.json"
@@ -121,6 +88,36 @@
     },
     {
       "path": "./packages/platform/platform-express/tsconfig.json"
+    },
+    {
+      "path": "./packages/graphql/typegraphql/tsconfig.json"
+    },
+    {
+      "path": "./packages/graphql/graphql-ws/tsconfig.json"
+    },
+    {
+      "path": "./packages/orm/adapters/tsconfig.json"
+    },
+    {
+      "path": "./packages/orm/ioredis/tsconfig.json"
+    },
+    {
+      "path": "./packages/orm/adapters-redis/tsconfig.json"
+    },
+    {
+      "path": "./packages/orm/testcontainers-mongo/tsconfig.json"
+    },
+    {
+      "path": "./packages/orm/mikro-orm/tsconfig.json"
+    },
+    {
+      "path": "./packages/orm/mongoose/tsconfig.json"
+    },
+    {
+      "path": "./packages/orm/prisma/tsconfig.json"
+    },
+    {
+      "path": "./packages/orm/objection/tsconfig.json"
     },
     {
       "path": "./packages/platform/platform-koa/tsconfig.json"
@@ -150,7 +147,7 @@
       "path": "./packages/third-parties/agenda/tsconfig.json"
     },
     {
-      "path": "./packages/third-parties/bullmq/tsconfig.json"
+      "path": "./packages/third-parties/event-emitter/tsconfig.json"
     },
     {
       "path": "./packages/third-parties/formio-types/tsconfig.json"
@@ -159,7 +156,7 @@
       "path": "./packages/third-parties/formio/tsconfig.json"
     },
     {
-      "path": "./packages/third-parties/event-emitter/tsconfig.json"
+      "path": "./packages/third-parties/bullmq/tsconfig.json"
     },
     {
       "path": "./packages/third-parties/schema-formio/tsconfig.json"
@@ -174,22 +171,19 @@
       "path": "./packages/third-parties/socketio/tsconfig.json"
     },
     {
+      "path": "./packages/third-parties/stripe/tsconfig.json"
+    },
+    {
       "path": "./packages/third-parties/sse/tsconfig.json"
     },
     {
       "path": "./packages/third-parties/temporal/tsconfig.json"
     },
     {
-      "path": "./packages/third-parties/stripe/tsconfig.json"
+      "path": "./packages/third-parties/terminus/tsconfig.json"
     },
     {
       "path": "./packages/third-parties/vike/tsconfig.json"
-    },
-    {
-      "path": "./packages/third-parties/vite-ssr-plugin/tsconfig.json"
-    },
-    {
-      "path": "./packages/third-parties/terminus/tsconfig.json"
     },
     {
       "path": "./tools/integration/tsconfig.json"

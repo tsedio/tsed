@@ -1,4 +1,5 @@
 import {Type} from "@tsed/core";
+
 import {Returns, ReturnsChainedDecorators} from "./returns.js";
 
 /**
@@ -91,8 +92,7 @@ import {Returns, ReturnsChainedDecorators} from "./returns.js";
  * It's also possible to declare a nested generics models in order to have this type `Pagination<Submission<Product>>`:
  *
  * ```typescript
- * import {Generics, Property, Returns} from "@tsed/schema";
- * import {Post} from "@tsed/common";
+ * import {Post, Generics, Property, Returns} from "@tsed/schema";
  *
  * class Controller {
  *   @Post("/")

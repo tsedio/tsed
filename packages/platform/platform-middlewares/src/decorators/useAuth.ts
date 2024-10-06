@@ -9,6 +9,7 @@ import {
   UnsupportedDecoratorType,
   useDecorators
 } from "@tsed/core";
+
 import {AuthOptions} from "./authOptions.js";
 import {UseBefore} from "./useBefore.js";
 

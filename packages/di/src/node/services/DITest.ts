@@ -1,10 +1,11 @@
-import {Env, getValue, isClass, isPromise, setValue} from "@tsed/core";
+import {Env, getValue, isClass, isObject, isPromise, setValue} from "@tsed/core";
 import {$log} from "@tsed/logger";
+
 import {
   createContainer,
+  DI_INJECTABLE_PROPS,
   InjectorService,
-  LocalsContainer,
-  OnInit,
+  type OnInit,
   TokenProvider,
   type UseImportTokenProviderOpts
 } from "../../common/index.js";
@@ -82,6 +83,7 @@ export class DITest {
   static async reset() {
     if (DITest.hasInjector()) {
       await DITest.injector.destroy();
+      InjectorService.unsetLocals();
       DITest._injector = null;
     }
   }
@@ -91,17 +93,18 @@ export class DITest {
    * @param target
    * @param providers
    */
-  static async invoke<T = any>(target: TokenProvider, providers: UseImportTokenProviderOpts[] = []): Promise<T> {
-    const locals = new LocalsContainer();
+  static async invoke<T = any>(target: TokenProvider<T>, providers: UseImportTokenProviderOpts[] = []): Promise<T> {
+    const locals = InjectorService.getLocals();
+
     providers.forEach((p) => {
       locals.set(p.token, p.use);
     });
 
     locals.set(InjectorService, DITest.injector);
 
-    const instance: OnInit = DITest.injector.invoke(target, locals, {rebuild: true});
+    const instance: T & OnInit = DITest.injector.invoke<T & OnInit>(target, locals, {rebuild: true});
 
-    if (instance && instance.$onInit) {
+    if (instance && isObject(instance) && "$onInit" in instance) {
       const result = instance.$onInit();
 
       if (result instanceof Promise) {
@@ -114,8 +117,14 @@ export class DITest {
     }
 
     if (isClass(instance)) {
-      await Promise.all(Object.values(instance).filter(isPromise));
+      const keys = (instance as any)[DI_INJECTABLE_PROPS];
+
+      if (keys) {
+        await Promise.all([...keys.keys()].map((key: string) => (instance as any)[key]));
+      }
     }
+
+    InjectorService.unsetLocals();
 
     return instance as any;
   }

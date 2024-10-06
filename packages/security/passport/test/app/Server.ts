@@ -1,18 +1,20 @@
-import {MemoryAdapter} from "@tsed/adapters";
 import "@tsed/ajv";
-import {Configuration, Inject, PlatformApplication} from "@tsed/common";
 import "@tsed/platform-express";
 import "@tsed/swagger";
+import "./protocols/LoginLocalProtocol.js";
+
+import {MemoryAdapter} from "@tsed/adapters";
+import {Configuration, Inject, PlatformApplication} from "@tsed/common";
 import bodyParser from "body-parser";
 import compress from "compression";
 import cookieParser from "cookie-parser";
+import session from "express-session";
 import methodOverride from "method-override";
+
 import {AuthCtrl} from "./controllers/rest/auth/AuthCtrl.js";
 import {Account} from "./models/Account.js";
-import "./protocols/LoginLocalProtocol";
-import session from "express-session";
 
-const rootDir = __dirname; // automatically replaced by import.meta.dirname on build
+const rootDir = import.meta.dirname; // automatically replaced by import.meta.dirname on build
 export {rootDir};
 
 @Configuration({

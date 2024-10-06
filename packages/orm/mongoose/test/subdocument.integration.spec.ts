@@ -1,6 +1,7 @@
 import {Property} from "@tsed/schema";
-import {getSchema, Model, MongooseSchema, ObjectID} from "../src/index.js";
 import {TestContainersMongo} from "@tsed/testcontainers-mongo";
+
+import {getSchema, Model, MongooseSchema, ObjectID} from "../src/index.js";
 
 @MongooseSchema()
 export class TestSubDocument {

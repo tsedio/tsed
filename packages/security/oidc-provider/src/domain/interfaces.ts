@@ -1,5 +1,4 @@
-// @ts-ignore
-import type {interactionPolicy, default as Provider} from "oidc-provider";
+import type {default as Provider, interactionPolicy} from "oidc-provider";
 
 export type OIDCContext = InstanceType<Provider["OIDCContext"]>;
 export type OidcClient = InstanceType<Provider["Client"]>;

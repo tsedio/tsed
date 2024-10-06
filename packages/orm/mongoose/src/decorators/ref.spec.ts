@@ -1,13 +1,14 @@
 import {catchError, Store} from "@tsed/core";
 import {getJsonSchema, Property} from "@tsed/schema";
 import {Schema} from "mongoose";
+
 import {MONGOOSE_MODEL_NAME, MONGOOSE_SCHEMA} from "../constants/constants.js";
 import {MongooseModels} from "../registries/MongooseModels.js";
 import {Ref} from "./ref.js";
 
 describe("@Ref()", () => {
   describe("type is a class", () => {
-    it("should set metadata", () => {
+    it("should set metadata and catch error", () => {
       const error = catchError(() => {
         class Model {
           @Ref(undefined)
@@ -19,8 +20,7 @@ describe("@Ref()", () => {
         "A model is required on `@Ref(model)` decorator. Please give a model or wrap it inside an arrow function if you have a circular reference."
       );
     });
-  });
-  describe("type is a class", () => {
+
     it("should set metadata", () => {
       class RefTest {
         @Property()

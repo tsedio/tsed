@@ -1,6 +1,7 @@
-import {Model} from "@tsed/mongoose";
 import {CollectionOf, Default, Description, Enum, enums, getJsonSchema, MaxLength, MinLength, Required} from "@tsed/schema";
 import {TestContainersMongo} from "@tsed/testcontainers-mongo";
+
+import {Model} from "../src/index.js";
 
 export enum ComponentStatuses {
   UNDER_MAINTENANCE = "UNDER_MAINTENANCE",

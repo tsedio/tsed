@@ -1,7 +1,7 @@
-import {createProjectFixture} from "../../__mock__/createProjectFixture.js";
-import {generateModels} from "./generateModels.js";
 import {createDmmfFixture} from "../../__mock__/createDmmfFixture.js";
+import {createProjectFixture} from "../../__mock__/createProjectFixture.js";
 import {generateEnums} from "./generateEnums.js";
+import {generateModels} from "./generateModels.js";
 
 describe("generateEnums", () => {
   it("should generate filese", () => {

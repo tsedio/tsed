@@ -1,4 +1,7 @@
-import {injectProperty} from "../../common/index.js";
+import {catchError} from "@tsed/core";
+
+import {InjectorService} from "../../common/index.js";
+import {DIContext} from "../domain/DIContext.js";
 import {getContext} from "../utils/asyncHookContext.js";
 
 /**
@@ -15,11 +18,20 @@ import {getContext} from "../utils/asyncHookContext.js";
  * @returns {Function}
  * @decorator
  */
-export function InjectContext(): PropertyDecorator {
+export function InjectContext(transform: ($ctx: DIContext) => unknown = (o) => o): PropertyDecorator {
   return (target: any, propertyKey: string): any | void => {
-    injectProperty(target, propertyKey, {
-      resolver() {
-        return () => getContext();
+    catchError(() => Reflect.deleteProperty(target, propertyKey));
+    Reflect.defineProperty(target, propertyKey, {
+      get() {
+        return transform(
+          getContext() ||
+            new DIContext({
+              id: "",
+              logger: InjectorService.getInstance().logger,
+              injector: InjectorService.getInstance(),
+              maxStackSize: 0
+            })
+        );
       }
     });
   };

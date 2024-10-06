@@ -1,6 +1,7 @@
 import {Injectable} from "@tsed/di";
 import {PlatformHandlerMetadata, PlatformHandlerType} from "@tsed/platform-router";
 import {EndpointMetadata, Get, View} from "@tsed/schema";
+
 import {PlatformHandler} from "./PlatformHandler.js";
 import {PlatformTest} from "./PlatformTest.js";
 

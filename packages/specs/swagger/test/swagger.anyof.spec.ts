@@ -1,8 +1,9 @@
-import {Controller, Get, PathParams, PlatformTest} from "@tsed/common";
+import {Controller, PathParams, PlatformTest} from "@tsed/common";
 import {ObjectID} from "@tsed/mongoose";
 import {PlatformExpress} from "@tsed/platform-express";
-import {AnyOf, Required, Returns} from "@tsed/schema";
+import {AnyOf, Get, Required, Returns} from "@tsed/schema";
 import SuperTest from "supertest";
+
 import {Server} from "./app/Server.js";
 
 export class ListAbandonTask {

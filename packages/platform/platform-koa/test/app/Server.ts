@@ -1,10 +1,11 @@
 import "@tsed/ajv";
+
 import {PlatformApplication} from "@tsed/common";
 import {Configuration, Inject} from "@tsed/di";
 import Application from "koa";
 import session from "koa-session";
 
-const rootDir = __dirname; // automatically replaced by import.meta.dirname on build
+const rootDir = import.meta.dirname; // automatically replaced by import.meta.dirname on build
 export {rootDir};
 
 @Configuration({

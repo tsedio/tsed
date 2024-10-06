@@ -6,6 +6,7 @@ import type {IncomingMessage, ServerResponse} from "http";
 import Http from "http";
 import Http2 from "http2";
 import type Https from "https";
+
 import {PlatformStaticsSettings} from "../config/interfaces/PlatformStaticsSettings.js";
 import {PlatformRouteDetails} from "../domain/PlatformRouteDetails.js";
 import {Route} from "../interfaces/Route.js";
@@ -142,16 +143,6 @@ export class PlatformBuilder<App = TsED.Application> {
   }
 
   /**
-   * Add classes to the components list
-   * @param classes
-   */
-  public addComponents(classes: Type | Type[]) {
-    this.settings.set("imports", this.settings.get<any[]>("imports", []).concat(classes));
-
-    return this;
-  }
-
-  /**
    * Add classes decorated by @@Controller@@ to components container.
    *
    * ### Example
@@ -172,7 +163,7 @@ export class PlatformBuilder<App = TsED.Application> {
    * @param {any[]} controllers
    */
   public addControllers(endpoint: string, controllers: TokenProvider | TokenProvider[]) {
-    [].concat(controllers).forEach((token) => {
+    [].concat(controllers as never[]).forEach((token: TokenProvider) => {
       this.settings.routes.push({token, route: endpoint});
     });
   }
@@ -195,12 +186,6 @@ export class PlatformBuilder<App = TsED.Application> {
     // init routes (controllers, middlewares, etc...)
     this.log("Load routes");
     await this.#adapter.beforeLoadRoutes();
-
-    // istanbul ignore next
-    if (this.settings.get("logger.level") !== "off") {
-      const {PlatformLogMiddleware} = await import("@tsed/platform-log-middleware");
-      this.app.use(PlatformLogMiddleware);
-    }
 
     if (this.rootModule.$beforeRoutesInit) {
       await this.rootModule.$beforeRoutesInit();

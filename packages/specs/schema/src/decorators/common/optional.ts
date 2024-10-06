@@ -1,6 +1,7 @@
 import {DecoratorTypes, UnsupportedDecoratorType} from "@tsed/core";
-import {JsonEntityFn} from "./jsonEntityFn.js";
+
 import type {JsonParameterStore} from "../../domain/JsonParameterStore.js";
+import {JsonEntityFn} from "./jsonEntityFn.js";
 
 /**
  * Add optional annotation on Property or Parameter.

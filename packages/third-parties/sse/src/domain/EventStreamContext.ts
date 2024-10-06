@@ -3,7 +3,8 @@ import {isBoolean, isDate, isNumber, isString} from "@tsed/core";
 import {PlatformResponseFilter} from "@tsed/platform-response-filter";
 import type {EventEmitter} from "events";
 import type {Observable} from "rxjs";
-import type {EventStreamOpts} from "../decorators/eventStream";
+
+import type {EventStreamOpts} from "../decorators/eventStream.js";
 
 export type EventStreamContextOptions = {
   $ctx: PlatformContext;

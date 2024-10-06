@@ -1,7 +1,8 @@
-import faker from "@faker-js/faker";
+import {faker} from "@faker-js/faker";
 import {PlatformTest} from "@tsed/common";
 import {deserialize} from "@tsed/json-mapper";
 import {Format, getJsonSchema, Name, Property} from "@tsed/schema";
+
 import {Adapter} from "../domain/Adapter.js";
 import {Adapters} from "../services/Adapters.js";
 import {MemoryAdapter} from "./MemoryAdapter.js";
@@ -54,7 +55,7 @@ describe("MemoryAdapter", () => {
     it("should create a new instance", async () => {
       const base = deserialize(
         {
-          name: faker.name.jobTitle(),
+          name: faker.person.jobTitle(),
           createdAt: faker.date.past()
         },
         {type: Client}
@@ -70,7 +71,7 @@ describe("MemoryAdapter", () => {
 
     it("should create a new instance with expireAt", async () => {
       const base = {
-        name: faker.name.jobTitle()
+        name: faker.person.jobTitle()
       };
 
       const client = await adapter.create(base, new Date());
@@ -84,7 +85,7 @@ describe("MemoryAdapter", () => {
   describe("upsert()", () => {
     it("should create a new instance if not exists", async () => {
       const base: any = {
-        name: faker.name.jobTitle()
+        name: faker.person.jobTitle()
       };
 
       const client = await adapter.upsert(base._id, base);
@@ -96,7 +97,7 @@ describe("MemoryAdapter", () => {
 
     it("should update instance if exists", async () => {
       const base: any = {
-        name: faker.name.jobTitle()
+        name: faker.person.jobTitle()
       };
 
       const client = await adapter.upsert(base._id, base);
@@ -111,14 +112,14 @@ describe("MemoryAdapter", () => {
   describe("updateOne()", () => {
     it("should update an instance", async () => {
       const base = {
-        name: faker.name.jobTitle()
+        name: faker.person.jobTitle()
       };
 
       const client = await adapter.create(base);
 
       const update = {
         _id: client._id,
-        name: faker.name.jobTitle()
+        name: faker.person.jobTitle()
       };
 
       const client2 = await adapter.updateOne({_id: client._id}, update);
@@ -130,10 +131,10 @@ describe("MemoryAdapter", () => {
     });
     it("should return undefined", async () => {
       const base = {
-        name: faker.name.jobTitle()
+        name: faker.person.jobTitle()
       };
 
-      const client = await adapter.updateOne({_id: faker.datatype.uuid()}, base);
+      const client = await adapter.updateOne({_id: faker.string.uuid()}, base);
 
       expect(client).toBeUndefined();
     });
@@ -142,7 +143,7 @@ describe("MemoryAdapter", () => {
   describe("findById()", () => {
     it("should find by ID", async () => {
       const base = {
-        name: faker.name.jobTitle()
+        name: faker.person.jobTitle()
       };
 
       const client = await adapter.create(base);
@@ -157,7 +158,7 @@ describe("MemoryAdapter", () => {
   describe("findOne()", () => {
     it("should find one item", async () => {
       const base = {
-        name: faker.name.jobTitle()
+        name: faker.person.jobTitle()
       };
 
       const client = await adapter.create(base);
@@ -174,7 +175,7 @@ describe("MemoryAdapter", () => {
   describe("findAll()", () => {
     it("should find all items", async () => {
       const base = {
-        name: faker.name.jobTitle()
+        name: faker.person.jobTitle()
       };
 
       await adapter.create(base);
@@ -190,7 +191,7 @@ describe("MemoryAdapter", () => {
   describe("deleteById()", () => {
     it("should delete an item by id", async () => {
       const base = {
-        name: faker.name.jobTitle()
+        name: faker.person.jobTitle()
       };
 
       const client = await adapter.create(base);
@@ -204,16 +205,16 @@ describe("MemoryAdapter", () => {
   describe("deleteMany()", () => {
     it("should delete many", async () => {
       const base = {
-        name: faker.name.jobTitle()
+        name: faker.person.jobTitle()
       };
 
       const client = await adapter.create(base);
 
       await adapter.create({
-        name: faker.name.jobTitle()
+        name: faker.person.jobTitle()
       });
       await adapter.create({
-        name: faker.name.jobTitle()
+        name: faker.person.jobTitle()
       });
 
       const result = await adapter.deleteMany(client);

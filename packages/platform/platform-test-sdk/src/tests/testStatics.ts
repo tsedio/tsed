@@ -4,6 +4,8 @@ import {Configuration} from "@tsed/di";
 import {PlatformRouter} from "@tsed/platform-router";
 import {readFileSync} from "fs";
 import SuperTest from "supertest";
+import {afterEach, beforeEach, expect, it} from "vitest";
+
 import {PlatformTestingSdkOpts} from "../interfaces/index.js";
 
 @Controller("/statics")

@@ -1,4 +1,5 @@
 import {classOf, deepMerge} from "@tsed/core";
+
 import {JsonSchemaOptions} from "../../interfaces/JsonSchemaOptions.js";
 import {execMapper, registerJsonSchemaMapper} from "../../registries/JsonSchemaMapperContainer.js";
 import {getInheritedStores} from "../../utils/getInheritedStores.js";

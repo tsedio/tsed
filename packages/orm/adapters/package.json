@@ -1,18 +1,17 @@
 {
   "name": "@tsed/adapters",
   "description": "Database adapters for Ts.ED",
-  "type": "commonjs",
-  "version": "7.83.3",
+  "type": "module",
+  "version": "8.0.0-alpha.11",
   "source": "./src/index.ts",
-  "main": "./lib/cjs/index.js",
+  "main": "./lib/esm/index.js",
   "module": "./lib/esm/index.js",
   "typings": "./lib/types/index.d.ts",
   "exports": {
     ".": {
       "types": "./lib/types/index.d.ts",
       "import": "./lib/esm/index.js",
-      "require": "./lib/cjs/index.js",
-      "default": "./lib/cjs/index.js"
+      "default": "./lib/esm/index.js"
     }
   },
   "scripts": {
@@ -24,13 +23,13 @@
   },
   "dependencies": {
     "@types/lowdb": "1.0.15",
-    "@types/uuid": "9.0.8",
-    "change-case": "^4.1.2",
+    "@types/uuid": "^10.0.0",
+    "change-case": "^5.4.4",
     "fs-extra": "11.2.0",
     "lodash": "^4.17.21",
-    "lowdb": "1.0.0",
-    "tslib": "2.6.1",
-    "uuid": "9.0.1"
+    "lowdb": "7.0.1",
+    "tslib": "2.7.0",
+    "uuid": "^10.0.0"
   },
   "devDependencies": {
     "@tsed/ajv": "workspace:*",
@@ -42,17 +41,17 @@
     "@tsed/schema": "workspace:*",
     "@tsed/typescript": "workspace:*",
     "@types/fs-extra": "11.0.4",
-    "eslint": "^8.57.0",
-    "typescript": "4.9.5",
-    "vitest": "2.0.4"
+    "eslint": "9.12.0",
+    "typescript": "5.4.5",
+    "vitest": "2.1.2"
   },
   "peerDependencies": {
-    "@tsed/ajv": "7.83.3",
-    "@tsed/common": "7.83.3",
-    "@tsed/core": "7.83.3",
-    "@tsed/di": "7.83.3",
-    "@tsed/json-mapper": "7.83.3",
-    "@tsed/schema": "7.83.3"
+    "@tsed/ajv": "8.0.0-alpha.11",
+    "@tsed/common": "8.0.0-alpha.11",
+    "@tsed/core": "8.0.0-alpha.11",
+    "@tsed/di": "8.0.0-alpha.11",
+    "@tsed/json-mapper": "8.0.0-alpha.11",
+    "@tsed/schema": "8.0.0-alpha.11"
   },
   "peerDependenciesMeta": {
     "@tsed/ajv": {

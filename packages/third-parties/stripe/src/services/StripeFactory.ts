@@ -1,5 +1,6 @@
 import {Configuration, registerProvider} from "@tsed/di";
 import {Stripe} from "stripe";
+
 import {StripeSettings} from "../domain/StripeSettings.js";
 
 export const StripeFactory = Stripe;

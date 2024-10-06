@@ -1,4 +1,5 @@
 import {Store} from "@tsed/core";
+
 import {OnEvent} from "../decorators/onEvent.js";
 
 describe("@OnEvent()", () => {

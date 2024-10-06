@@ -1,10 +1,11 @@
 import {createReadStream} from "fs";
 import {of} from "rxjs";
+
 import {catchAsyncError} from "../utils/catchError.js";
 import {isStream} from "../utils/objects/isStream.js";
 import {AnyToPromise, AnyToPromiseStatus} from "./AnyToPromise.js";
 
-const rootDir = __dirname; // automatically replaced by import.meta.dirname on build
+const rootDir = import.meta.dirname; // automatically replaced by import.meta.dirname on build
 
 describe("AnyToPromise", () => {
   it("should handle sync value", async () => {

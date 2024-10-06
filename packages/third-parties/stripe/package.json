@@ -1,8 +1,8 @@
 {
   "name": "@tsed/stripe",
   "description": "Stripe package for Ts.ED framework",
-  "type": "commonjs",
-  "version": "7.83.3",
+  "type": "module",
+  "version": "8.0.0-alpha.11",
   "keywords": [
     "Stripe",
     "Ts.ED",
@@ -13,15 +13,14 @@
     "koa"
   ],
   "source": "./src/index.ts",
-  "main": "./lib/cjs/index.js",
+  "main": "./lib/esm/index.js",
   "module": "./lib/esm/index.js",
   "typings": "./lib/types/index.d.ts",
   "exports": {
     ".": {
       "types": "./lib/types/index.d.ts",
       "import": "./lib/esm/index.js",
-      "require": "./lib/cjs/index.js",
-      "default": "./lib/cjs/index.js"
+      "default": "./lib/esm/index.js"
     }
   },
   "scripts": {
@@ -32,9 +31,10 @@
     "test:ci": "vitest run --coverage.thresholds.autoUpdate=true"
   },
   "dependencies": {
-    "tslib": "2.6.1"
+    "tslib": "2.7.0"
   },
   "devDependencies": {
+    "@tsed/adapters": "workspace:*",
     "@tsed/barrels": "workspace:*",
     "@tsed/core": "workspace:*",
     "@tsed/di": "workspace:*",
@@ -43,16 +43,16 @@
     "@tsed/platform-params": "workspace:*",
     "@tsed/schema": "workspace:*",
     "@tsed/typescript": "workspace:*",
-    "eslint": "^8.57.0",
-    "stripe": "^8.129.0",
-    "typescript": "4.9.5",
-    "vitest": "2.0.4"
+    "eslint": "9.12.0",
+    "stripe": "^8.222.0",
+    "typescript": "5.4.5",
+    "vitest": "2.1.2"
   },
   "peerDependencies": {
-    "@tsed/exceptions": "7.83.3",
-    "@tsed/platform-middlewares": "7.83.3",
-    "@tsed/platform-params": "7.83.3",
-    "@tsed/schema": "7.83.3",
+    "@tsed/exceptions": "8.0.0-alpha.11",
+    "@tsed/platform-middlewares": "8.0.0-alpha.11",
+    "@tsed/platform-params": "8.0.0-alpha.11",
+    "@tsed/schema": "8.0.0-alpha.11",
     "@types/body-parser": "^1.19.0",
     "body-parser": "^1.19.0",
     "stripe": "^9.16.0"

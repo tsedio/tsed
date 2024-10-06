@@ -1,7 +1,40 @@
-import {Store} from "@tsed/core";
-import {INJECTABLE_PROP} from "../constants/constants.js";
-import type {InjectableProperties} from "../interfaces/InjectableProperties.js";
-import {InjectablePropertyType} from "../domain/InjectablePropertyType.js";
+import {catchError, deepClone} from "@tsed/core";
+
+import {InjectorService} from "../services/InjectorService.js";
+
+export function constant<Type>(expression: string): Type | undefined;
+export function constant<Type>(expression: string, defaultValue: Type | undefined): Type;
+export function constant<Type>(expression: string, defaultValue?: Type | undefined): Type | undefined {
+  return InjectorService.getInstance().settings.get(expression, defaultValue);
+}
+
+export function bindConstant(target: any, propertyKey: string | symbol, expression: string, defaultValue?: any) {
+  const symbol = Symbol();
+
+  catchError(() => Reflect.deleteProperty(target, propertyKey));
+  Reflect.defineProperty(target, propertyKey, {
+    get() {
+      if (this[symbol] !== undefined) {
+        return this[symbol];
+      }
+
+      const value = constant(expression, defaultValue);
+
+      this[symbol] = Object.freeze(deepClone(value));
+
+      return this[symbol];
+    },
+    set(value: unknown) {
+      const bean = constant(expression, defaultValue) || this[symbol];
+
+      if (bean === undefined && value !== undefined) {
+        this[symbol] = value;
+      }
+    },
+    enumerable: true,
+    configurable: true
+  });
+}
 
 /**
  * Return value from Configuration.
@@ -38,15 +71,8 @@ import {InjectablePropertyType} from "../domain/InjectablePropertyType.js";
  * @returns {(targetClass: any, attributeName: string) => any}
  * @decorator
  */
-export function Constant(expression: string, defaultValue?: any): any {
-  return (target: any, propertyKey: string) => {
-    Store.from(target).merge(INJECTABLE_PROP, {
-      [propertyKey]: {
-        bindingType: InjectablePropertyType.CONSTANT,
-        propertyKey,
-        expression,
-        defaultValue
-      }
-    } as InjectableProperties);
+export function Constant<Type = unknown>(expression: string, defaultValue?: Type): PropertyDecorator {
+  return (target, propertyKey) => {
+    return bindConstant(target, propertyKey, expression, defaultValue);
   };
 }

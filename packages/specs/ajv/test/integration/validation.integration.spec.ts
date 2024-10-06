@@ -1,7 +1,8 @@
-import "../../src/index";
-import {BodyParams, ParamTypes, ParamValidationError, PlatformTest, Post, QueryParams, UseParam, ValidationPipe} from "@tsed/common";
+import "../../src/index.js";
+
+import {BodyParams, ParamTypes, ParamValidationError, PlatformTest, QueryParams, UseParam, ValidationPipe} from "@tsed/common";
 import {BadRequest} from "@tsed/exceptions";
-import {getJsonSchema, JsonParameterStore, MinLength, Property, Required, Schema} from "@tsed/schema";
+import {getJsonSchema, JsonParameterStore, MinLength, Post, Property, Required, Schema} from "@tsed/schema";
 
 async function validate(value: any, metadata: any) {
   const pipe: ValidationPipe = await PlatformTest.invoke<ValidationPipe>(ValidationPipe);

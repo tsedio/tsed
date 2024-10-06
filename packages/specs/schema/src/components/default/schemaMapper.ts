@@ -1,4 +1,5 @@
 import {getValue, isObject} from "@tsed/core";
+
 import {mapAliasedProperties} from "../../domain/JsonAliasMap.js";
 import {JsonSchema} from "../../domain/JsonSchema.js";
 import {SpecTypes} from "../../domain/SpecTypes.js";

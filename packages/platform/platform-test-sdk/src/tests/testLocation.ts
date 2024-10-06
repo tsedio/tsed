@@ -1,6 +1,8 @@
-import {Controller, Get, PlatformTest} from "@tsed/common";
+import {Controller, PlatformTest} from "@tsed/common";
+import {Get, Location} from "@tsed/schema";
 import SuperTest from "supertest";
-import {Location} from "@tsed/schema";
+import {afterAll, beforeAll, expect, it} from "vitest";
+
 import {PlatformTestingSdkOpts} from "../interfaces/index.js";
 
 @Controller("/location")

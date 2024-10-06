@@ -1,4 +1,4 @@
-import {Socket, SocketErr, SocketMiddlewareError} from "@tsed/socketio";
+import {Socket, SocketErr, SocketMiddlewareError} from "../../../src/index.js";
 
 @SocketMiddlewareError()
 export class ErrorHandlerSocketMiddleware {

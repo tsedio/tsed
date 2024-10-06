@@ -1,6 +1,7 @@
-import {Constant, Controller, Get, HeaderParams} from "@tsed/common";
-import {View} from "@tsed/platform-views";
-import {Returns} from "@tsed/schema";
+import "@tsed/platform-views";
+
+import {Constant, Controller, HeaderParams} from "@tsed/common";
+import {Get, Returns, View} from "@tsed/schema";
 import {Hidden, SwaggerSettings} from "@tsed/swagger";
 
 @Hidden()
@@ -11,7 +12,7 @@ export class IndexCtrl {
 
   @Get("/")
   @View("index.ejs")
-  @Returns(200, String).ContentType("text/html")
+  @(Returns(200, String).ContentType("text/html"))
   get(@HeaderParams("x-forwarded-proto") protocol: string, @HeaderParams("host") host: string) {
     const hostUrl = `${protocol || "http"}://${host}`;
 

@@ -1,8 +1,9 @@
-import {Context, Controller, Get, PlatformTest, Res, ResponseFilter} from "@tsed/common";
+import {Context, Controller, PlatformTest, Res, ResponseFilter} from "@tsed/common";
 import {PlatformTestSdk} from "@tsed/platform-test-sdk";
-import {Returns} from "@tsed/schema";
+import {Get, Returns} from "@tsed/schema";
 import {ServerResponse} from "http";
 import SuperTest from "supertest";
+
 import {PlatformExpress} from "../src/index.js";
 import {rootDir, Server} from "./app/Server.js";
 
@@ -26,7 +27,7 @@ const utils = PlatformTestSdk.create({
 @Controller("/response-filter")
 class TestPageableCtrl {
   @Get("/scenario-1")
-  @Returns(200).ContentType("image/png")
+  @(Returns(200).ContentType("image/png"))
   scenario1() {
     const raw = "...";
     // response.setHeader('Content-Type', 'image/png');
@@ -59,7 +60,7 @@ describe("ResponseFilter", () => {
     request = SuperTest(PlatformTest.callback());
   });
 
-  afterEach(utils.reset);
+  afterEach(() => utils.reset());
   afterEach(() => {
     vi.resetAllMocks();
   });
@@ -68,13 +69,13 @@ describe("ResponseFilter", () => {
     const {headers} = await request.get("/rest/response-filter/scenario-1").expect(200);
 
     expect(headers["content-type"]).toEqual("image/png");
-    expect(PlainTextFilter.prototype.transform).not.toBeCalled();
+    expect(PlainTextFilter.prototype.transform).not.toHaveBeenCalled();
   });
 
   it("should return png (scenario-2)", async () => {
     const {headers} = await request.get("/rest/response-filter/scenario-2").expect(200);
 
     expect(headers["content-type"]).toEqual("image/png");
-    expect(PlainTextFilter.prototype.transform).not.toBeCalled();
+    expect(PlainTextFilter.prototype.transform).not.toHaveBeenCalled();
   });
 });

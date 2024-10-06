@@ -1,4 +1,5 @@
 import {Type} from "@tsed/core";
+
 import {Adapter} from "./Adapter.js";
 
 export interface AdaptersSettings {
@@ -21,6 +22,7 @@ export interface AdaptersSettings {
 declare global {
   namespace TsED {
     interface Configuration {
+      // @ts-ignore
       adapters: AdaptersSettings;
     }
   }

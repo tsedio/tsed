@@ -1,6 +1,9 @@
+import "../../src/index.js";
+
 import {Controller} from "@tsed/di";
 import {Use} from "@tsed/platform-middlewares";
 import {BodyParams, PathParams} from "@tsed/platform-params";
+
 import {
   CollectionOf,
   Delete,
@@ -22,7 +25,6 @@ import {
   SpecTypes,
   Subscribe
 } from "../../src/index.js";
-import "@tsed/schema";
 
 class PetCategory {
   @Required()
@@ -68,7 +70,7 @@ class PetController {
   @Get("/:id")
   @Publish("pet.get")
   @Subscribe("pet.get")
-  @Returns(200, Pet).Description("Returns a pet")
+  @(Returns(200, Pet).Description("Returns a pet"))
   @Returns(404)
   get(@PathParams("id") id: string) {
     return null;
@@ -77,7 +79,7 @@ class PetController {
   @Get("/")
   @Publish("pet.getAll")
   @Subscribe("pet.getAll")
-  @Returns(200, Array).Of(Pet).Description("Returns all pets")
+  @(Returns(200, Array).Of(Pet).Description("Returns all pets"))
   getAll() {
     return [];
   }
@@ -85,7 +87,7 @@ class PetController {
   @Patch("/:id")
   @Publish("pet.patch")
   @Subscribe("pet.updated")
-  @Returns(200, Pet).Description("Returns a pet")
+  @(Returns(200, Pet).Description("Returns a pet"))
   @Returns(404)
   @Description("Patch a pet")
   patch(@PathParams("id") id: string, @BodyParams() @Partial() partial: Pet) {
@@ -95,7 +97,7 @@ class PetController {
   @Post("/:id")
   @Publish("pet.update")
   @Subscribe("pet.created")
-  @Returns(200, Pet).Description("Returns a pet")
+  @(Returns(200, Pet).Description("Returns a pet"))
   @Returns(404)
   @Description("Update a pet")
   post(@BodyParams() @Groups("update") pet: Pet) {

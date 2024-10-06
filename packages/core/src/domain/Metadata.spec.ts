@@ -120,18 +120,6 @@ describe("Metadata", () => {
     });
   });
 
-  // describe("getReturnType", () => {
-  //   it("should return types on method", () => {
-  //     expect(Metadata.getReturnType(Test.prototype, "method")).toBe(Boolean);
-  //   });
-  // });
-  //
-  // describe("getOwnReturnType", () => {
-  //   it("should return types on method", () => {
-  //     expect(Metadata.getOwnReturnType(Test.prototype, "method")).toBe(Boolean);
-  //   });
-  // });
-
   describe("list", () => {
     it("should return unique provide from property key", () => {
       Metadata.set("controller", "test", Test);

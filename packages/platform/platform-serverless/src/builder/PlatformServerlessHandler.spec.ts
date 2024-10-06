@@ -4,6 +4,7 @@ import {Unauthorized} from "@tsed/exceptions";
 import {QueryParams} from "@tsed/platform-params";
 import {JsonEntityStore} from "@tsed/schema";
 import type {APIGatewayTokenAuthorizerEvent} from "aws-lambda";
+
 import {ServerlessContext} from "../domain/ServerlessContext.js";
 import {PlatformServerlessHandler} from "./PlatformServerlessHandler.js";
 

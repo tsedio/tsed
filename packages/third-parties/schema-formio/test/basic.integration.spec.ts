@@ -12,6 +12,7 @@ import {
   Title,
   Uri
 } from "@tsed/schema";
+
 import {getFormioSchema, InputTags, TableView} from "../src/index.js";
 
 export enum OIDCResponseTypes {

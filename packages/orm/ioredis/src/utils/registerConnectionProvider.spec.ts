@@ -1,5 +1,6 @@
 import {DITest} from "@tsed/di";
-import Redis from "ioredis";
+import {Redis} from "ioredis";
+
 import {registerConnectionProvider} from "./registerConnectionProvider.js";
 
 vi.mock("ioredis", () => {
@@ -37,7 +38,7 @@ vi.mock("ioredis", () => {
     }
   }
 
-  return {default: MockRedis};
+  return {Redis: MockRedis};
 });
 
 const REDIS_CONNECTION = Symbol.for("REDIS_CONNECTION");

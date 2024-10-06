@@ -1,6 +1,6 @@
-const fs = require("fs");
-const {promisify} = require("util");
-const YAML = require("yaml");
+import fs from "fs";
+import {promisify} from "util";
+import YAML from "yaml";
 
 const readFile = promisify(fs.readFile);
 const access = promisify(fs.access);
@@ -8,7 +8,7 @@ const access = promisify(fs.access);
 const FUNDING_FILENAME = "FUNDING.yml";
 
 // Parse the FUNDING.yml and return the content
-exports.parseFundingFile = async (path = process.cwd()) => {
+export async function parseFundingFile(path = process.cwd()) {
   const pathToFile = `${path}/.github/${FUNDING_FILENAME}`;
   try {
     await access(pathToFile, fs.constants.R_OK);
@@ -17,6 +17,5 @@ exports.parseFundingFile = async (path = process.cwd()) => {
   }
 
   const fileContent = await readFile(pathToFile, "utf-8");
-  const yamlDoc = YAML.parse(fileContent);
-  return yamlDoc;
-};
+  return YAML.parse(fileContent);
+}

@@ -1,7 +1,8 @@
-import {Required} from "@tsed/schema";
 import {PlatformTest} from "@tsed/common";
+import {DiscriminatorValue, Required} from "@tsed/schema";
 import {TestContainersMongo} from "@tsed/testcontainers-mongo";
-import {DiscriminatorKey, Model, ObjectID, MongooseModel} from "../src/index.js";
+
+import {DiscriminatorKey, Model, MongooseModel, ObjectID} from "../src/index.js";
 
 describe("Mongoose", () => {
   describe("Discriminators", () => {
@@ -17,13 +18,15 @@ describe("Mongoose", () => {
       type: string;
     }
 
-    @Model({discriminatorValue: "ClickedLinkEventModel"})
+    @Model()
+    @DiscriminatorValue("ClickedLinkEventModel")
     class ClickedLinkEventModel extends EventModel {
       @Required()
       url: string;
     }
 
-    @Model({discriminatorValue: "signUpEvent"})
+    @Model()
+    @DiscriminatorValue("signUpEvent")
     class SignedUpEventModel extends EventModel {
       @Required()
       user: string;

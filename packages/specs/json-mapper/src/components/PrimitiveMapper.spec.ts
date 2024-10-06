@@ -1,4 +1,5 @@
 import {catchError} from "@tsed/core";
+
 import {PrimitiveMapper} from "./PrimitiveMapper.js";
 
 describe("PrimitiveMapper", () => {

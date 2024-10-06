@@ -1,9 +1,10 @@
 import {PlatformViews} from "@tsed/platform-views";
 import {createReadStream} from "fs";
+
 import {PlatformResponse} from "./PlatformResponse.js";
 import {PlatformTest} from "./PlatformTest.js";
 
-const rootDir = __dirname; // automatically replaced by import.meta.dirname on build
+const rootDir = import.meta.dirname; // automatically replaced by import.meta.dirname on build
 
 vi.mock("on-finished");
 
@@ -38,7 +39,7 @@ describe("PlatformResponse", () => {
       vi.spyOn(res, "status").mockReturnValue(undefined);
       response.status(204);
 
-      expect(res.status).toBeCalledWith(204);
+      expect(res.status).toHaveBeenCalledWith(204);
     });
   });
   describe("setHeaders()", () => {
@@ -92,7 +93,7 @@ describe("PlatformResponse", () => {
       expect(response.getContentLength()).toEqual(5);
     });
 
-    it("should set content Type", () => {
+    it("should set content Type (size 0)", () => {
       const {res, response} = createResponse();
 
       response.contentLength(" " as any);
@@ -170,7 +171,7 @@ describe("PlatformResponse", () => {
         test: "test"
       });
 
-      expect(platformViews.render).toBeCalledWith("view", {
+      expect(platformViews.render).toHaveBeenCalledWith("view", {
         locale: "fr-FR",
         test: "test"
       });
@@ -212,7 +213,7 @@ describe("PlatformResponse", () => {
 
       response.body(stream);
 
-      expect(stream.pipe).toBeCalledWith(res);
+      expect(stream.pipe).toHaveBeenCalledWith(res);
     });
     it("should call body with buffer", () => {
       const {res, response} = createResponse();

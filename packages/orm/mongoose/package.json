@@ -1,8 +1,8 @@
 {
   "name": "@tsed/mongoose",
   "description": "Mongoose package for Ts.ED framework",
-  "type": "commonjs",
-  "version": "7.83.3",
+  "type": "module",
+  "version": "8.0.0-alpha.11",
   "keywords": [
     "tsed",
     "mongoose",
@@ -11,15 +11,14 @@
     "orm"
   ],
   "source": "./src/index.ts",
-  "main": "./lib/cjs/index.js",
+  "main": "./lib/esm/index.js",
   "module": "./lib/esm/index.js",
   "typings": "./lib/types/index.d.ts",
   "exports": {
     ".": {
       "types": "./lib/types/index.d.ts",
       "import": "./lib/esm/index.js",
-      "require": "./lib/cjs/index.js",
-      "default": "./lib/cjs/index.js"
+      "default": "./lib/esm/index.js"
     }
   },
   "scripts": {
@@ -30,8 +29,8 @@
     "test:ci": "vitest run --coverage.thresholds.autoUpdate=true"
   },
   "dependencies": {
-    "change-case": "4.1.2",
-    "tslib": "2.6.1"
+    "change-case": "5.4.4",
+    "tslib": "2.7.0"
   },
   "devDependencies": {
     "@tsed/ajv": "workspace:*",
@@ -39,22 +38,22 @@
     "@tsed/core": "workspace:*",
     "@tsed/di": "workspace:*",
     "@tsed/json-mapper": "workspace:*",
-    "@tsed/logger": ">=6.7.5",
+    "@tsed/logger": "^6.7.8",
     "@tsed/schema": "workspace:*",
     "@tsed/testcontainers-mongo": "workspace:*",
     "@tsed/typescript": "workspace:*",
-    "eslint": "^8.57.0",
-    "mongoose": "6.12.7",
-    "typescript": "4.9.5",
-    "vitest": "2.0.4"
+    "eslint": "9.12.0",
+    "mongoose": "8.7.0",
+    "typescript": "5.4.5",
+    "vitest": "2.1.2"
   },
   "peerDependencies": {
-    "@tsed/ajv": "7.83.3",
-    "@tsed/core": "7.83.3",
-    "@tsed/di": "7.83.3",
-    "@tsed/json-mapper": "7.83.3",
+    "@tsed/ajv": "8.0.0-alpha.11",
+    "@tsed/core": "8.0.0-alpha.11",
+    "@tsed/di": "8.0.0-alpha.11",
+    "@tsed/json-mapper": "8.0.0-alpha.11",
     "@tsed/logger": ">=6.7.5",
-    "@tsed/schema": "7.83.3",
+    "@tsed/schema": "8.0.0-alpha.11",
     "mongoose": ">=6.0.0"
   }
 }

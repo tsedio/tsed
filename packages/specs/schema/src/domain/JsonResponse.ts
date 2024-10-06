@@ -1,4 +1,5 @@
 import {OS3MediaType, OS3Response} from "@tsed/openspec";
+
 import {JsonHeader} from "../interfaces/JsonOpenSpec.js";
 import {mapHeaders} from "../utils/mapHeaders.js";
 import {toJsonMapCollection} from "../utils/toJsonMapCollection.js";

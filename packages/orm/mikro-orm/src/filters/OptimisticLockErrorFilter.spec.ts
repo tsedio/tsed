@@ -1,7 +1,8 @@
-import {instance, mock, objectContaining, reset, spy, verify} from "ts-mockito";
-import {OptimisticLockErrorFilter} from "./OptimisticLockErrorFilter.js";
 import {OptimisticLockError} from "@mikro-orm/core";
 import {Logger, PlatformContext, PlatformTest} from "@tsed/common";
+import {instance, mock, objectContaining, reset, spy, verify} from "ts-mockito";
+
+import {OptimisticLockErrorFilter} from "./OptimisticLockErrorFilter.js";
 
 describe("OptimisticLockErrorFilter", () => {
   const mockedLogger: Logger = mock<Logger>();

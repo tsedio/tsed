@@ -1,5 +1,6 @@
 import {Controller} from "@tsed/di";
 import {getSpec, JsonParameterStore, Post, SpecTypes} from "@tsed/schema";
+
 import {ParamTypes} from "../domain/ParamTypes.js";
 import {BodyParams, RawBodyParams} from "./bodyParams.js";
 

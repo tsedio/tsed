@@ -1,6 +1,6 @@
-import Fastify from "fastify";
-import {InjectorService, runInContext, getContext} from "@tsed/di";
 import {PlatformContext} from "@tsed/common";
+import {getContext, InjectorService, runInContext} from "@tsed/di";
+import Fastify from "fastify";
 import {v4} from "uuid";
 
 const fastify = Fastify();

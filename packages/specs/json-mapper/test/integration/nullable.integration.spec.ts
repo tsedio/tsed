@@ -1,5 +1,6 @@
-import {serialize} from "../../src/utils/serialize.js";
 import {Name, Nullable, Required} from "@tsed/schema";
+
+import {serialize} from "../../src/utils/serialize.js";
 
 export class ExtensionModel {
   @Required()

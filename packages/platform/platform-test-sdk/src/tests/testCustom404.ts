@@ -1,5 +1,7 @@
 import {PlatformTest} from "@tsed/common";
 import SuperTest from "supertest";
+import {afterAll, beforeAll, expect, it} from "vitest";
+
 import {PlatformTestingSdkOpts} from "../interfaces/index.js";
 
 export function testCustom404(options: PlatformTestingSdkOpts) {

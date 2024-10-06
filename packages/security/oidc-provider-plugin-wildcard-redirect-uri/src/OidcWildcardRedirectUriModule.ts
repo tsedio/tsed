@@ -1,10 +1,10 @@
 import {Constant, Inject, Module} from "@tsed/di";
 import {Logger} from "@tsed/logger";
-import {OIDC_PROVIDER_NODE_MODULE, OidcSettings} from "@tsed/oidc-provider";
-// @ts-ignore
-import type {default as Provider, KoaContextWithOIDC} from "oidc-provider";
+import {OidcSettings} from "@tsed/oidc-provider";
+import Provider, {errors, type KoaContextWithOIDC} from "oidc-provider";
 // @ts-ignore
 import psl from "psl";
+
 import {wildcardRedirectUriAllowed} from "./utils/wildcardRedirectUriAllowed.js";
 
 declare global {
@@ -24,8 +24,6 @@ export class OidcWildcardRedirectUriModule {
 
   @Inject(Logger)
   protected logger: Logger;
-
-  constructor(@Inject(OIDC_PROVIDER_NODE_MODULE) protected module: OIDC_PROVIDER_NODE_MODULE) {}
 
   $onCreateOIDC(provider: Provider) {
     if (this.enabled) {
@@ -60,15 +58,15 @@ export class OidcWildcardRedirectUriModule {
           const {hostname, href} = new URL(redirectUri);
 
           if (href.split("*").length !== 2) {
-            throw new this.module.errors.InvalidClientMetadata("redirect_uris with a wildcard may only contain a single one");
+            throw new errors.InvalidClientMetadata("redirect_uris with a wildcard may only contain a single one");
           }
 
           if (!hostname.includes("*")) {
-            throw new this.module.errors.InvalidClientMetadata("redirect_uris may only have a wildcard in the hostname");
+            throw new errors.InvalidClientMetadata("redirect_uris may only have a wildcard in the hostname");
           }
 
           if (!psl.get(hostname.split("*.")[1])) {
-            throw new this.module.errors.InvalidClientMetadata(
+            throw new errors.InvalidClientMetadata(
               "redirect_uris with a wildcard must not match an eTLD+1 of a known public suffix domain"
             );
           }
@@ -80,15 +78,15 @@ export class OidcWildcardRedirectUriModule {
           const {hostname, href} = new URL(postLogoutRedirectUri);
 
           if (href.split("*").length !== 2) {
-            throw new this.module.errors.InvalidClientMetadata("post_logout_redirect_uris with a wildcard may only contain a single one");
+            throw new errors.InvalidClientMetadata("post_logout_redirect_uris with a wildcard may only contain a single one");
           }
 
           if (!hostname.includes("*")) {
-            throw new this.module.errors.InvalidClientMetadata("post_logout_redirect_uris may only have a wildcard in the hostname");
+            throw new errors.InvalidClientMetadata("post_logout_redirect_uris may only have a wildcard in the hostname");
           }
 
           if (!psl.get(hostname.split("*.")[1])) {
-            throw new this.module.errors.InvalidClientMetadata(
+            throw new errors.InvalidClientMetadata(
               "post_logout_redirect_uris with a wildcard must not match an eTLD+1 of a known public suffix domain"
             );
           }

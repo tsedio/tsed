@@ -1,5 +1,6 @@
 import swc from "unplugin-swc";
 import {defineConfig} from "vitest/config";
+
 import {resolveWorkspaceFiles} from "../plugins/resolveWorkspaceFiles.js";
 import {alias} from "./alias.js";
 

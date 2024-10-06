@@ -1,7 +1,8 @@
+import "../../index.js";
+
 import {OperationVerbs} from "../../constants/OperationVerbs.js";
 import {JsonEntityStore} from "../../domain/JsonEntityStore.js";
 import {Publish} from "./publish.js";
-import "../../index.js";
 
 describe("Publish", () => {
   it("should register operation with Publish verb", () => {

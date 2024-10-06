@@ -1,8 +1,10 @@
 import "@tsed/ajv";
+
 import {Injectable} from "@tsed/di";
-import {BodyParams, PlatformServerless} from "@tsed/platform-serverless";
-import {MinLength, Patch, Post, Property, Put, Returns} from "@tsed/schema";
 import {PlatformServerlessTest} from "@tsed/platform-serverless-testing";
+import {MinLength, Patch, Post, Property, Put, Returns} from "@tsed/schema";
+
+import {BodyParams, PlatformServerless} from "../src/index.js";
 
 class Model {
   @Property()
@@ -21,8 +23,8 @@ class BodyLambda {
     };
   }
 
-  @Put("/scenario-2/:id").Name("scenario2")
-  @Returns(201, Model).Header("x-test", "test")
+  @(Put("/scenario-2/:id").Name("scenario2"))
+  @(Returns(201, Model).Header("x-test", "test"))
   scenario2(@BodyParams() model: Model) {
     return model;
   }

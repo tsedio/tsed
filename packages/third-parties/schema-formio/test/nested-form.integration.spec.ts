@@ -1,4 +1,5 @@
 import {Property, ReadOnly, Required} from "@tsed/schema";
+
 import {Currency, getFormioSchema, Hidden, TableView, Textarea} from "../src/index.js";
 
 describe("Nested form integration", () => {

@@ -1,12 +1,11 @@
-import {getSpec, Returns, SpecTypes} from "@tsed/schema";
-import {Get} from "../../src/index.js";
+import {Get, getSpec, Returns, SpecTypes} from "@tsed/schema";
 
 describe("@Returns", () => {
   it("should declare a return type (text/plain)", () => {
     // WHEN
     class Controller {
       @Get("/")
-      @Returns(200, String).ContentType("text/plain")
+      @(Returns(200, String).ContentType("text/plain"))
       method() {}
     }
 

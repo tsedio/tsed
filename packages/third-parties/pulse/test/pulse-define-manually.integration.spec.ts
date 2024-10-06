@@ -1,9 +1,9 @@
+import {Job} from "@pulsecron/pulse";
 import {PlatformTest} from "@tsed/common";
 import {Inject} from "@tsed/di";
 import {TestContainersMongo} from "@tsed/testcontainers-mongo";
 
-import {Job} from "@pulsecron/pulse";
-import {PulseModule, Pulse, PulseService, Define} from "../src/index.js";
+import {Define, Pulse, PulseModule, PulseService} from "../src/index.js";
 import {Server} from "./helpers/Server.js";
 
 @Pulse({namespace: "test-nsp"})
@@ -45,7 +45,7 @@ describe("Pulse integration", () => {
           enabled: true,
           db: {
             address: options.url,
-            options: options.connectionOptions
+            options: options.connectionOptions as never
           }
         }
       });
@@ -107,7 +107,7 @@ describe("Pulse integration", () => {
           disableJobProcessing: true,
           db: {
             address: options.url,
-            options: options.connectionOptions
+            options: options.connectionOptions as never
           }
         }
       });

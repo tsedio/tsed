@@ -1,5 +1,6 @@
 import {BodyParams} from "@tsed/platform-params";
-import Ajv from "ajv";
+import {Ajv} from "ajv";
+
 import {SpecTypes} from "../../domain/SpecTypes.js";
 import {getJsonSchema} from "../../utils/getJsonSchema.js";
 import {getSpec} from "../../utils/getSpec.js";
@@ -7,7 +8,7 @@ import {In} from "../operations/in.js";
 import {Path} from "../operations/path.js";
 import {Post} from "../operations/route.js";
 import {Format} from "./format.js";
-import {Integer} from "./integer";
+import {Integer} from "./integer.js";
 import {MaxLength} from "./maxLength.js";
 import {Minimum} from "./minimum.js";
 import {Nullable} from "./nullable.js";

@@ -1,7 +1,8 @@
-import {Controller, Get, PlatformTest} from "@tsed/common";
+import {Controller, PlatformTest} from "@tsed/common";
 import {PlatformTestSdk} from "@tsed/platform-test-sdk";
-import {Returns} from "@tsed/schema";
+import {Get, Returns} from "@tsed/schema";
 import SuperTest from "supertest";
+
 import {PlatformExpress} from "../src/index.js";
 import {rootDir, Server} from "./app/Server.js";
 
@@ -17,7 +18,7 @@ const utils = PlatformTestSdk.create({
 @Controller("/plain-text")
 class TestResponseParamsCtrl {
   @Get("/scenario-1")
-  @Returns(200, String).ContentType("text/plain")
+  @(Returns(200, String).ContentType("text/plain"))
   test() {
     return {
       id: "id"
@@ -46,7 +47,7 @@ describe("PlainText", () => {
     request = SuperTest(PlatformTest.callback());
   });
 
-  afterEach(utils.reset);
+  afterEach(() => utils.reset());
   describe("scenario 1", () => {
     it("should return a plain text", async () => {
       const response = await request.get("/rest/plain-text/scenario-1");

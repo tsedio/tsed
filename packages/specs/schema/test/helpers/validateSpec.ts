@@ -1,9 +1,10 @@
 import SwaggerParser from "@apidevtools/swagger-parser";
-import {SpecTypes} from "../../src/index.js";
 import fs from "fs-extra";
 import {v4} from "uuid";
 
-const rootDir = __dirname; // automatically replaced by import.meta.dirname on build
+import {SpecTypes} from "../../src/index.js";
+
+const rootDir = import.meta.dirname; // automatically replaced by import.meta.dirname on build
 
 export const validateSpec = async (spec: any, version = SpecTypes.SWAGGER) => {
   const file = `${rootDir}/spec-${v4()}.json`;

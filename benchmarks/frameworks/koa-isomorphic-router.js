@@ -1,5 +1,5 @@
-import Koa from "koa";
 import Router from "benchmarks/frameworks/koa-isomorphic-router.js";
+import Koa from "koa";
 
 const app = new Koa();
 const router = new Router();

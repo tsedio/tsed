@@ -1,8 +1,8 @@
 "use strict";
+import {PlatformApplication} from "@tsed/common";
+import {Inject} from "@tsed/di";
 import {PlatformExpress} from "@tsed/platform-express";
 import {__decorate} from "tslib";
-import {Inject} from "@tsed/di";
-import {PlatformApplication} from "@tsed/common";
 
 class Server {
   $onInit() {

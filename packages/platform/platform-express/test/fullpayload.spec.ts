@@ -1,12 +1,15 @@
-import {BodyParams, Controller, PlatformTest, Post} from "@tsed/common";
-import {PlatformTestSdk} from "@tsed/platform-test-sdk";
 import fs from "node:fs/promises";
 import {join} from "node:path";
+
+import {BodyParams, Controller, PlatformTest} from "@tsed/common";
+import {PlatformTestSdk} from "@tsed/platform-test-sdk";
+import {Post} from "@tsed/schema";
 import SuperTest from "supertest";
+
 import {PlatformExpress} from "../src/index.js";
 import {rootDir, Server} from "./app/Server.js";
 
-const root = __dirname;
+const root = import.meta.dirname;
 
 const utils = PlatformTestSdk.create({
   rootDir,
@@ -40,7 +43,7 @@ describe("Full payload", () => {
     request = SuperTest(PlatformTest.callback());
   });
 
-  afterEach(utils.reset);
+  afterEach(() => utils.reset());
   describe("Scenario1: large payload", () => {
     it("should accept a large payload", async () => {
       const payload = await fs.readFile(join(root, "data/largePayload.json"), {encoding: "utf8"});

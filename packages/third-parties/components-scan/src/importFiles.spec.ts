@@ -1,9 +1,10 @@
 import {join} from "path";
+
 import {Test1} from "./__mock__/Test1.js";
 import {Test2} from "./__mock__/Test2.js";
 import {importFiles} from "./importFiles.js";
 
-const rootDir = __dirname; // automatically replaced by import.meta.dirname on build
+const rootDir = import.meta.dirname; // automatically replaced by import.meta.dirname on build
 
 describe("importFiles", () => {
   it("should import symbols", async () => {

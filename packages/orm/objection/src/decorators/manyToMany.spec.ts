@@ -1,4 +1,5 @@
 import {Model} from "objection";
+
 import {Entity} from "./entity.js";
 import {IdColumn} from "./idColumn.js";
 import {ManyToMany} from "./manyToMany.js";

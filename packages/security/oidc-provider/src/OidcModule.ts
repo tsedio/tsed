@@ -1,6 +1,7 @@
 import {Inject, InjectorService, PlatformApplication} from "@tsed/common";
 import {Constant, Module} from "@tsed/di";
 import koaMount from "koa-mount";
+
 import {OidcAdapters} from "./services/OidcAdapters.js";
 import {OidcJwks} from "./services/OidcJwks.js";
 import {OidcProvider} from "./services/OidcProvider.js";

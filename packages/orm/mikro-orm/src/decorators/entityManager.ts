@@ -1,5 +1,11 @@
 import {Inject} from "@tsed/di";
+
 import {MikroOrmRegistry} from "../services/MikroOrmRegistry.js";
+import {orm} from "./orm.js";
+
+export function entityManager(contextName?: string) {
+  return orm(contextName)?.em;
+}
 
 /**
  * Get the entity manager for the given context name.
@@ -8,7 +14,7 @@ import {MikroOrmRegistry} from "../services/MikroOrmRegistry.js";
  * @mikroOrm
  */
 export const EntityManager = (contextName?: string): PropertyDecorator =>
-  Inject(MikroOrmRegistry, (registry: MikroOrmRegistry) => registry.get(contextName)?.em) as PropertyDecorator;
+  Inject(MikroOrmRegistry, {transform: (registry: MikroOrmRegistry) => registry.get(contextName)?.em}) as PropertyDecorator;
 
 /**
  * Get the entity manager for the given context name.

@@ -69,7 +69,7 @@ describe("DI Request", () => {
 
       expect(serviceSingleton1).toEqual(serviceSingleton2);
 
-      return expect(result1.$onDestroy).toBeCalledWith();
+      return expect(result1.$onDestroy).toHaveBeenCalledWith();
     });
   });
 });

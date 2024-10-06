@@ -1,8 +1,9 @@
 import {ParamTypes} from "@tsed/platform-params";
+import {JsonParameterStore} from "@tsed/schema";
 import {ServerResponse} from "http";
+
 import {PlatformResponse} from "../../services/PlatformResponse.js";
 import {Res, Response} from "./response.js";
-import {JsonParameterStore} from "@tsed/schema";
 
 describe("@Res", () => {
   it("should register a new parameter instance with the correct property (RawRes)", () => {

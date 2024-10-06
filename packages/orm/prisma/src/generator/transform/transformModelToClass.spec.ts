@@ -1,7 +1,7 @@
-import {transformModelToClass} from "./transformModelToClass.js";
-import {DmmfModel} from "../domain/DmmfModel.js";
 import {createContextFixture} from "../../__mock__/createContextFixture.js";
 import {createDmmfModelFixture} from "../../__mock__/createDmmfModelFixture.js";
+import {DmmfModel} from "../domain/DmmfModel.js";
+import {transformModelToClass} from "./transformModelToClass.js";
 
 describe("transformModelToClass()", () => {
   it("should transform Prisma model to a TS Model (InputType)", () => {

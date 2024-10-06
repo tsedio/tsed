@@ -1,6 +1,6 @@
 import autocannon from "autocannon";
-import fs from "fs";
 import autoCompare from "autocannon-compare";
+import fs from "fs";
 import path from "path";
 import {promisify} from "util";
 

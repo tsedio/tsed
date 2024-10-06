@@ -1,6 +1,6 @@
-import {EndpointMetadata, Get, PlatformTest} from "@tsed/common";
-import {Ignore, Property, Returns} from "@tsed/schema";
-import {View} from "@tsed/platform-views";
+import {PlatformTest} from "@tsed/common";
+import {EndpointMetadata, Get, Ignore, Property, Returns, View} from "@tsed/schema";
+
 import {renderView} from "./renderView.js";
 
 describe("renderView", () => {
@@ -32,7 +32,7 @@ describe("renderView", () => {
 
     await renderView(ctx.data, ctx);
 
-    expect(ctx.response.render).toBeCalledWith("view", {
+    expect(ctx.response.render).toHaveBeenCalledWith("view", {
       $ctx: ctx,
       data: "data",
       options: "options"

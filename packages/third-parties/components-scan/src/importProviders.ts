@@ -1,5 +1,6 @@
-import {GlobalProviders, ProviderType} from "@tsed/di";
 import {isArray, isClass, isString} from "@tsed/core";
+import {GlobalProviders, ProviderType} from "@tsed/di";
+
 import {importFiles} from "./importFiles.js";
 
 const lookup = ["imports", "componentsScan", "mount"];

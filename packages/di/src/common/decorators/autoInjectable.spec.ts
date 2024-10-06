@@ -1,6 +1,7 @@
 import {catchError} from "@tsed/core";
 import {Logger} from "@tsed/logger";
 import {beforeEach} from "vitest";
+
 import {DITest} from "../../node/index.js";
 import {registerProvider} from "../registries/ProviderRegistry.js";
 import {InjectorService} from "../services/InjectorService.js";
@@ -106,14 +107,15 @@ describe("AutoInjectable", () => {
         logger: Logger;
 
         private value: string;
+        instances?: InterfaceGroup[];
 
         constructor(initialValue: string, @Inject(TOKEN_GROUPS) instances?: InterfaceGroup[]) {
           this.value = initialValue;
-          expect(instances).toHaveLength(3);
+          this.instances = instances;
         }
       }
 
-      new Test("test");
+      expect(new Test("test").instances).toHaveLength(3);
     });
     it("should return a class that extends the original class (with 3 arguments)", () => {
       @AutoInjectable()

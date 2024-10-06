@@ -1,18 +1,17 @@
 {
   "name": "@tsed/apollo",
   "description": "Apollo package for Ts.ED framework",
-  "type": "commonjs",
-  "version": "7.83.3",
+  "type": "module",
+  "version": "8.0.0-alpha.11",
   "source": "./src/index.ts",
-  "main": "./lib/cjs/index.js",
+  "main": "./lib/esm/index.js",
   "module": "./lib/esm/index.js",
   "typings": "./lib/types/index.d.ts",
   "exports": {
     ".": {
       "types": "./lib/types/index.d.ts",
       "import": "./lib/esm/index.js",
-      "require": "./lib/cjs/index.js",
-      "default": "./lib/cjs/index.js"
+      "default": "./lib/esm/index.js"
     }
   },
   "scripts": {
@@ -23,35 +22,31 @@
     "test:ci": "vitest run --coverage.thresholds.autoUpdate=true"
   },
   "dependencies": {
-    "tslib": "2.6.1"
+    "tslib": "2.7.0"
   },
   "devDependencies": {
+    "@apollo/datasource-rest": "6.3.0",
+    "@apollo/server": "^4.11.0",
+    "@as-integrations/koa": "1.1.1",
     "@tsed/barrels": "workspace:*",
     "@tsed/common": "workspace:*",
     "@tsed/core": "workspace:*",
     "@tsed/di": "workspace:*",
-    "@tsed/logger": ">=6.7.5",
+    "@tsed/logger": "^6.7.8",
     "@tsed/typescript": "workspace:*",
-    "@types/graphql": "14.5.0",
-    "apollo-datasource": "^3.3.2",
-    "apollo-datasource-rest": "^3.7.0",
-    "apollo-server-core": "^3.13.0",
-    "apollo-server-express": "^3.13.0",
-    "apollo-server-koa": "^3.13.0",
-    "apollo-server-testing": "^2.26.2",
-    "eslint": "^8.57.0",
-    "graphql": "15.8.0",
-    "typescript": "4.9.5",
-    "vitest": "2.0.4"
+    "apollo-datasource-http": "0.21.0",
+    "apollo-server-testing": "2.26.2",
+    "eslint": "9.12.0",
+    "graphql": "16.9.0",
+    "typescript": "5.4.5",
+    "vitest": "2.1.2"
   },
   "peerDependencies": {
-    "@tsed/common": "7.83.3",
-    "@tsed/core": "7.83.3",
-    "@tsed/di": "7.83.3",
+    "@apollo/server": ">=4.10.4",
+    "@tsed/common": "8.0.0-alpha.11",
+    "@tsed/core": "8.0.0-alpha.11",
+    "@tsed/di": "8.0.0-alpha.11",
     "@tsed/logger": ">=6.7.5",
-    "apollo-datasource": ">=3.0.0",
-    "apollo-datasource-rest": ">=3.0.0",
-    "apollo-server-core": ">=3.0.0",
-    "graphql": ">15.0.0"
+    "graphql": ">16.0.0"
   }
 }

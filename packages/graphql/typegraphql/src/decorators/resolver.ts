@@ -1,16 +1,16 @@
 import {StoreSet, useDecorators} from "@tsed/core";
 import {Injectable} from "@tsed/di";
 import {ClassType, Resolver} from "type-graphql";
-import {AbstractClassOptions, ClassTypeResolver} from "type-graphql/dist/decorators/types";
+
 import {RESOLVERS_PROVIDERS} from "../constants/constants.js";
 
-export interface ResolverControllerOptions extends AbstractClassOptions {
+export interface ResolverControllerOptions {
   id?: string;
 }
 
-export function ResolverController(path?: string): ClassDecorator;
-export function ResolverController(options: ResolverControllerOptions): ClassDecorator;
-export function ResolverController(typeFunc: ClassTypeResolver, options?: ResolverControllerOptions): ClassDecorator;
+export function ResolverController(): ClassDecorator;
+export function ResolverController(path: string): ClassDecorator;
+export function ResolverController(typeFunc: (of?: void) => ClassType | Function, options?: ResolverControllerOptions): ClassDecorator;
 export function ResolverController(objectType: ClassType, options?: ResolverControllerOptions): ClassDecorator;
 export function ResolverController(...args: any[]): ClassDecorator {
   let id = undefined;
@@ -37,18 +37,4 @@ export function ResolverController(...args: any[]): ClassDecorator {
       id
     })
   );
-}
-
-/**
- * @deprecated Use ResolverController instead
- */
-export function ResolverService(): ClassDecorator;
-export function ResolverService(options: AbstractClassOptions): ClassDecorator;
-export function ResolverService(typeFunc: ClassTypeResolver, options?: AbstractClassOptions): ClassDecorator;
-export function ResolverService(objectType: ClassType, options?: AbstractClassOptions): ClassDecorator;
-/**
- * @deprecated Use ResolverController instead
- */
-export function ResolverService(...args: any[]): ClassDecorator {
-  return (ResolverController as any)(...args);
 }

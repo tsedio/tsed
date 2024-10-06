@@ -1,5 +1,3 @@
-import {Store} from "@tsed/core";
-import {INJECTABLE_PROP} from "../constants/constants.js";
 import {Configuration} from "../decorators/configuration.js";
 import {Inject} from "../decorators/inject.js";
 import {Injectable} from "../decorators/injectable.js";
@@ -95,43 +93,13 @@ describe("InjectorService", () => {
 
         // THEN
         expect(result1 !== result2).toEqual(true);
-        expect(injector.getProvider).toBeCalledWith(token);
+        expect(injector.getProvider).toHaveBeenCalledWith(token);
         expect(injector.get("alias")).toBeInstanceOf(token);
 
-        expect((injector as any).resolve).toBeCalledWith(token, locals, {rebuild: true});
-        expect((injector as any).invoke).toBeCalledWith(InjectorService, locals, {
+        expect((injector as any).resolve).toHaveBeenCalledWith(token, locals, {rebuild: true});
+        expect((injector as any).invoke).toHaveBeenCalledWith(InjectorService, locals, {
           parent: token
         });
-      });
-    });
-    describe("when provider is a SINGLETON", () => {
-      it("should invoke the provider from container", async () => {
-        // GIVEN
-        const token = class Test {};
-
-        const provider = new Provider<any>(token);
-        provider.scope = ProviderScope.SINGLETON;
-
-        const injector = new InjectorService();
-        const container = new Container();
-        container.set(token, provider);
-
-        await injector.load(container);
-
-        vi.spyOn(injector as any, "resolve");
-        vi.spyOn(injector, "getProvider");
-
-        const locals = new LocalsContainer();
-
-        // WHEN
-
-        const result1: any = injector.invoke(token, locals);
-        const result2: any = injector.invoke(token, locals);
-
-        // THEN
-        expect(result1).toEqual(result2);
-
-        return expect((injector as any).resolve).not.toBeCalled();
       });
     });
     describe("when provider is a REQUEST", () => {
@@ -166,12 +134,12 @@ describe("InjectorService", () => {
         expect(result1).toEqual(result2);
         expect(result2 !== result3).toEqual(true);
 
-        expect(injector.getProvider).toBeCalledWith(token);
-        expect((injector as any).resolve).toBeCalledWith(token, locals, {});
+        expect(injector.getProvider).toHaveBeenCalledWith(token);
+        expect((injector as any).resolve).toHaveBeenCalledWith(token, locals, {});
         expect(locals.get(token)).toEqual(result1);
         expect(locals2.get(token)).toEqual(result3);
 
-        return expect(injector.get).not.toBeCalled();
+        return expect(injector.get).not.toHaveBeenCalled();
       });
     });
     describe("when provider is a INSTANCE", () => {
@@ -201,11 +169,11 @@ describe("InjectorService", () => {
         // THEN
         expect(result1 !== result2).toEqual(true);
 
-        expect(injector.getProvider).toBeCalledWith(token);
-        expect((injector as any).resolve).toBeCalledWith(token, locals, {});
+        expect(injector.getProvider).toHaveBeenCalledWith(token);
+        expect((injector as any).resolve).toHaveBeenCalledWith(token, locals, {});
         expect(locals.has(token)).toEqual(false);
 
-        return expect(injector.get).not.toBeCalled();
+        return expect(injector.get).not.toHaveBeenCalled();
       });
     });
     describe("when provider is a SINGLETON", () => {
@@ -229,7 +197,35 @@ describe("InjectorService", () => {
 
         // THEN
         expect(result).toBeInstanceOf(token);
-        expect(GlobalProviders.onInvoke).toBeCalledWith(provider, expect.any(LocalsContainer), expect.anything());
+        expect(GlobalProviders.onInvoke).toHaveBeenCalledWith(provider, expect.any(LocalsContainer), expect.anything());
+      });
+      it("should invoke the provider from container (2)", async () => {
+        // GIVEN
+        const token = class Test {};
+
+        const provider = new Provider<any>(token);
+        provider.scope = ProviderScope.SINGLETON;
+
+        const injector = new InjectorService();
+        const container = new Container();
+        container.set(token, provider);
+
+        await injector.load(container);
+
+        vi.spyOn(injector as any, "resolve");
+        vi.spyOn(injector, "getProvider");
+
+        const locals = new LocalsContainer();
+
+        // WHEN
+
+        const result1: any = injector.invoke(token, locals);
+        const result2: any = injector.invoke(token, locals);
+
+        // THEN
+        expect(result1).toEqual(result2);
+
+        return expect((injector as any).resolve).not.toHaveBeenCalled();
       });
     });
     describe("when provider is a Value (useValue)", () => {
@@ -423,7 +419,7 @@ describe("InjectorService", () => {
 
         const provider3 = new Provider<any>(token3);
         provider3.scope = ProviderScope.SINGLETON;
-        provider3.deps = [undefined];
+        provider3.deps = [undefined] as never;
 
         const injector = new InjectorService();
         injector.set(token2, provider2);
@@ -439,7 +435,7 @@ describe("InjectorService", () => {
 
         // THEN
         expect(actualError.message).toContain(
-          "Injection failed on Test\nOrigin: Unable to inject dependency. Given token is undefined. Have you enabled emitDecoratorMetadata in your tsconfig.json or decorated your class with @Injectable, @Service, ... decorator ?"
+          "Injection failed on Test\nOrigin: Unable to inject dependency. Given token is undefined. Could mean a circular dependency problem. Try to use @Inject(() => Token) to solve it."
         );
       });
       it("should throw InjectionError > Object", () => {
@@ -602,173 +598,6 @@ describe("InjectorService", () => {
     });
   });
 
-  describe("bindInjectableProperties()", () => {
-    class TestBind {}
-
-    it("should bind all properties", () => {
-      // GIVEN
-      const injector = new InjectorService();
-      const instance = new TestBind();
-
-      vi.spyOn(injector as any, "bindProperty").mockReturnValue(undefined);
-      vi.spyOn(injector as any, "bindConstant").mockReturnValue(undefined);
-      vi.spyOn(injector as any, "bindValue").mockReturnValue(undefined);
-      vi.spyOn(injector as any, "bindInterceptor").mockReturnValue(undefined);
-
-      const injectableProperties = {
-        testMethod: {
-          bindingType: "method"
-        },
-        testProp: {
-          bindingType: "property"
-        },
-        testConst: {
-          bindingType: "constant"
-        },
-        testValue: {
-          bindingType: "value"
-        },
-        testInterceptor: {
-          bindingType: "interceptor"
-        }
-      };
-
-      Store.from(TestBind).set(INJECTABLE_PROP, injectableProperties);
-
-      // WHEN
-      injector.bindInjectableProperties(instance, new LocalsContainer(), {});
-
-      // THEN
-      expect(injector.bindProperty).toBeCalledWith(instance, injectableProperties.testProp, new LocalsContainer(), {});
-      expect(injector.bindConstant).toBeCalledWith(instance, injectableProperties.testConst);
-      expect(injector.bindValue).toBeCalledWith(instance, injectableProperties.testValue);
-      expect(injector.bindInterceptor).toBeCalledWith(instance, injectableProperties.testInterceptor);
-    });
-  });
-
-  describe("bindProperty()", () => {
-    it("should bind the method", () => {
-      // GIVEN
-      const injector = new InjectorService();
-      const instance = new Test();
-
-      // WHEN
-      injector.bindProperty(
-        instance,
-        {
-          bindingType: "property",
-          propertyKey: "prop",
-          resolver: (injector: InjectorService) => () => injector.get(InjectorService)
-        } as any,
-        new LocalsContainer(),
-        {}
-      );
-
-      // THEN
-      expect(instance.prop).toEqual(injector);
-    });
-  });
-
-  describe("bindValue()", () => {
-    it("should bind a property with a value (1)", () => {
-      // GIVEN
-      const injector = new InjectorService();
-      const instance = new Test();
-
-      // WHEN
-      injector.bindValue(instance, {propertyKey: "value", expression: "expression"} as any);
-
-      instance.value = "test";
-      // THEN
-      expect(instance.value).toEqual("test");
-    });
-
-    it("should bind a property with a value (2)", () => {
-      // GIVEN
-      const injector = new InjectorService();
-      const instance = new Test();
-
-      // WHEN
-      injector.bindValue(instance, {propertyKey: "value", expression: "UNKNOW", defaultValue: "test2"} as any);
-
-      // THEN
-      expect(instance.value).toEqual("test2");
-    });
-  });
-
-  describe("bindConstant()", () => {
-    it("should bind a property with a value (1)", () => {
-      // GIVEN
-      const injector = new InjectorService();
-      const instance = new Test();
-
-      injector.settings.set("expression", "constant");
-
-      // WHEN
-      injector.bindConstant(instance, {propertyKey: "constant", expression: "expression"} as any);
-
-      // THEN
-      expect(instance.constant).toEqual("constant");
-      // should be the same
-      expect(instance.constant).toEqual("constant");
-
-      let actualError: any;
-      try {
-        instance.constant = "test";
-      } catch (er) {
-        actualError = er;
-      }
-      expect(!!actualError).toEqual(true);
-    });
-
-    it("should bind a property with a value (2)", () => {
-      // GIVEN
-      const injector = new InjectorService();
-      const instance = new Test();
-
-      // WHEN
-      injector.bindConstant(instance, {propertyKey: "constant", expression: "UNKNOW", defaultValue: "test"} as any);
-
-      // THEN
-      expect(instance.constant).toEqual("test");
-    });
-  });
-
-  describe("bindInterceptor()", () => {
-    it("should bind the method with intercept", async () => {
-      // GIVEN
-      class InterceptorTest {
-        intercept(ctx: any) {
-          return ctx.next() + " intercepted";
-        }
-      }
-
-      const injector = new InjectorService();
-      const container = new Container();
-      container.addProvider(InterceptorTest);
-
-      await injector.load(container);
-
-      const instance = new Test();
-
-      vi.spyOn(injector, "get");
-
-      // WHEN
-      injector.bindInterceptor(instance, {
-        bindingType: "interceptor",
-        propertyKey: "test3",
-        useType: InterceptorTest
-      } as any);
-
-      const result = (instance as any).test3("test");
-
-      // THEN
-      expect(injector.get).toBeCalledWith(InterceptorTest);
-
-      expect(result).toEqual("test called  intercepted");
-    });
-  });
-
   describe("resolveConfiguration()", () => {
     it("should load configuration from each providers", () => {
       // GIVEN
@@ -903,7 +732,7 @@ describe("InjectorService", () => {
 
       const value = injector.alter("$alterValue", "value");
 
-      expect(service.$alterValue).toBeCalledWith("value");
+      expect(service.$alterValue).toHaveBeenCalledWith("value");
       expect(value).toEqual("alteredValue");
     });
     it("should alter value (factory)", () => {
@@ -948,7 +777,7 @@ describe("InjectorService", () => {
 
       const value = await injector.alterAsync("$alterValue", "value");
 
-      expect(service.$alterValue).toBeCalledWith("value");
+      expect(service.$alterValue).toHaveBeenCalledWith("value");
       expect(value).toEqual("alteredValue");
     });
   });
@@ -956,6 +785,7 @@ describe("InjectorService", () => {
   describe("imports", () => {
     it("should load all provider and override by configuration a provider (use)", async () => {
       const injector = new InjectorService();
+
       @Injectable()
       class TestService {
         get() {
@@ -979,6 +809,7 @@ describe("InjectorService", () => {
     });
     it("should load all provider and override by configuration a provider (useClass)", async () => {
       const injector = new InjectorService();
+
       @Injectable()
       class TestService {
         get() {
@@ -1007,6 +838,7 @@ describe("InjectorService", () => {
     });
     it("should load all provider and override by configuration a provider (useFactory)", async () => {
       const injector = new InjectorService();
+
       @Injectable()
       class TestService {
         get() {
@@ -1034,6 +866,7 @@ describe("InjectorService", () => {
     });
     it("should load all provider and override by configuration a provider (useAsyncFactory)", async () => {
       const injector = new InjectorService();
+
       @Injectable()
       class TestService {
         get() {

@@ -1,6 +1,7 @@
-import type {FilterQuery} from "mongoose";
 import {Inject} from "@tsed/di";
 import {MongooseDocument, MongooseModel} from "@tsed/mongoose";
+import type {FilterQuery} from "mongoose";
+
 import {FormioSubmission} from "../domain/FormioModels.js";
 import {FormioDatabase} from "./FormioDatabase.js";
 

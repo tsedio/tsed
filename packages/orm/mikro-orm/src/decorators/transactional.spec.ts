@@ -1,6 +1,7 @@
-import {Post} from "@tsed/common";
-import {Store} from "@tsed/core";
-import {Controller, INJECTABLE_PROP} from "@tsed/di";
+import {Controller, DITest} from "@tsed/di";
+import {Post} from "@tsed/schema";
+import {afterEach, beforeEach} from "vitest";
+
 import {TransactionalInterceptor} from "../interceptors/TransactionalInterceptor.js";
 import {Transactional} from "./transactional.js";
 
@@ -8,17 +9,26 @@ import {Transactional} from "./transactional.js";
 export class UsersCtrl {
   @Post("/")
   @Transactional()
-  create() {}
+  create(): any {}
 }
 
 describe("@Transactional", () => {
-  it("should decorate method", () => {
-    expect(Store.from(UsersCtrl).get(INJECTABLE_PROP)).toEqual({
-      create: {
-        bindingType: "interceptor",
-        propertyKey: "create",
-        useType: TransactionalInterceptor
+  beforeEach(() => DITest.create());
+  afterEach(() => DITest.reset());
+  it("should decorate method", async () => {
+    const interceptor = {
+      intercept: vi.fn().mockResolvedValue({})
+    };
+
+    const usersService = await DITest.invoke<UsersCtrl>(UsersCtrl, [
+      {
+        token: TransactionalInterceptor,
+        use: interceptor
       }
-    });
+    ]);
+
+    const result = await usersService.create();
+
+    expect(result).toEqual({});
   });
 });

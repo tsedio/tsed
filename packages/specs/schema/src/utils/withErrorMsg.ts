@@ -1,4 +1,5 @@
 import {deepMerge, useDecorators} from "@tsed/core";
+
 import {JsonEntityFn} from "../decorators/common/jsonEntityFn.js";
 
 export interface ErrorChainedMethods<T> {

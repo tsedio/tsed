@@ -1,4 +1,5 @@
 import {Type} from "@tsed/core";
+
 import {registerJsonTypeMapper} from "../domain/JsonMapperTypesContainer.js";
 
 /**

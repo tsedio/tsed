@@ -1,8 +1,9 @@
 import fs from "fs";
+
 import {Engine} from "../src/components/Engine.js";
 import {engines} from "../src/index.js";
 
-const rootDir = __dirname; // automatically replaced by import.meta.dirname on build
+const rootDir = import.meta.dirname; // automatically replaced by import.meta.dirname on build
 
 interface EngineFixtureOptions {
   token: string | typeof Engine;

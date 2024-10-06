@@ -1,11 +1,12 @@
 import {nameOf} from "@tsed/core";
 import {Configuration, Injectable, Opts, ProviderScope, Scope} from "@tsed/di";
 import fs from "fs-extra";
-import low from "lowdb";
-import FileSync from "lowdb/adapters/FileSync.js";
+import {LowSync} from "lowdb";
+import {JSONFileSync} from "lowdb/node";
 import {dirname} from "path";
+
 import {AdapterConstructorOptions} from "../domain/Adapter.js";
-import {AdapterModel, LowDbAdapter} from "./LowDbAdapter.js";
+import {AdapterModel, LowDbAdapter, type LowModel} from "./LowDbAdapter.js";
 
 export interface FileSyncAdapterConstructorOptions extends AdapterConstructorOptions {
   readOnly: true;
@@ -19,19 +20,17 @@ export class FileSyncAdapter<T extends AdapterModel> extends LowDbAdapter<T> {
 
     fs.ensureDirSync(dirname(this.dbFilePath));
 
-    const file = new FileSync<{collection: T[]}>(this.dbFilePath);
+    const file = new JSONFileSync<LowModel<T>>(this.dbFilePath);
 
-    this.db = low(file);
-    this.db
-      .defaults({
-        collectionName: this.collectionName,
-        modelName: nameOf(this.model),
-        collection: []
-      })
-      .write();
+    this.db = new LowSync<LowModel<T>>(file, {
+      collectionName: this.collectionName,
+      modelName: nameOf(this.model),
+      collection: []
+    });
+    this.db.write();
 
     if (options.readOnly) {
-      file.write = () => {};
+      file.write = (() => {}) as any;
     }
   }
 }

@@ -1,5 +1,5 @@
-import {MongooseIndexes} from "./mongooseIndexes.js";
 import {schemaOptions} from "../utils/schemaOptions.js";
+import {MongooseIndexes} from "./mongooseIndexes.js";
 
 describe("@MongooseIndexes()", () => {
   class Test {}

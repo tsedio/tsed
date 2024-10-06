@@ -1,10 +1,9 @@
 import {Inject, Injectable, InjectorService, Provider} from "@tsed/di";
-// @ts-ignore
 import {interactionPolicy} from "oidc-provider";
+
 import {InteractionMethods} from "../domain/InteractionMethods.js";
 import {OidcInteractionOptions} from "../domain/OidcInteractionOptions.js";
 import {OidcInteractions} from "./OidcInteractions.js";
-import {OIDC_PROVIDER_NODE_MODULE} from "./OidcProviderNodeModule.js";
 import Prompt = interactionPolicy.Prompt;
 
 @Injectable()
@@ -15,10 +14,8 @@ export class OidcPolicy {
   @Inject()
   protected oidcInteractions: OidcInteractions;
 
-  constructor(@Inject(OIDC_PROVIDER_NODE_MODULE) protected module: OIDC_PROVIDER_NODE_MODULE) {}
-
   public getPolicy() {
-    let policy = this.module.interactionPolicy.base();
+    let policy = interactionPolicy.base();
     const {usePriority, interactions} = this.getInteractions();
 
     if (interactions.size) {
@@ -52,7 +49,7 @@ export class OidcPolicy {
     const {checks: originalChecks = [], details, ...promptOptions} = options;
     const checks = [...(instance.checks ? instance.checks() : originalChecks)].filter(Boolean);
 
-    return new this.module.interactionPolicy.Prompt(promptOptions, instance.details ? instance.details.bind(instance) : details, ...checks);
+    return new interactionPolicy.Prompt(promptOptions, instance.details ? instance.details.bind(instance) : details, ...checks);
   }
 
   private getInteractions() {

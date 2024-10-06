@@ -1,11 +1,13 @@
-import {Controller, Get, PlatformTest} from "@tsed/common";
-import {ContentType} from "@tsed/schema";
+import {Controller, PlatformTest} from "@tsed/common";
+import {ContentType, Get} from "@tsed/schema";
 import {createReadStream} from "fs";
 import {join} from "path";
 import SuperTest from "supertest";
+import {afterAll, beforeAll, describe, expect, it} from "vitest";
+
 import {PlatformTestingSdkOpts} from "../interfaces/index.js";
 
-const rootDir = __dirname; // automatically replaced by import.meta.dirname on build
+const rootDir = import.meta.dirname; // automatically replaced by import.meta.dirname on build
 
 @Controller("/stream")
 class TestStreamCtrl {

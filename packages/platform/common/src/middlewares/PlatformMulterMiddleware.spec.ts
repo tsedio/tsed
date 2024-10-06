@@ -1,6 +1,7 @@
+import {catchAsyncError} from "@tsed/core";
 import {Exception} from "@tsed/exceptions";
 import {MulterError} from "multer";
-import {catchAsyncError} from "@tsed/core";
+
 import {MulterOptions} from "../decorators/multer/multerOptions.js";
 import {MultipartFile} from "../decorators/multer/multipartFile.js";
 import {EndpointMetadata} from "../domain/EndpointMetadata.js";
@@ -48,11 +49,11 @@ describe("PlatformMulterMiddleware", () => {
 
     await middleware.use(ctx);
 
-    expect(app.multer).toBeCalledWith({
+    expect(app.multer).toHaveBeenCalledWith({
       dest: "/dest"
     });
-    expect(multer.fields).toBeCalledWith([{maxCount: undefined, name: "file1"}]);
-    expect(multerMiddleware).toBeCalledWith(ctx.request.raw, ctx.response.raw);
+    expect(multer.fields).toHaveBeenCalledWith([{maxCount: undefined, name: "file1"}]);
+    expect(multerMiddleware).toHaveBeenCalledWith(ctx.request.raw, ctx.response.raw);
   });
   it("should create middleware with storage", async () => {
     const {middleware, ctx, multer, app, multerMiddleware} = await build({
@@ -61,11 +62,11 @@ describe("PlatformMulterMiddleware", () => {
 
     await middleware.use(ctx);
 
-    expect(app.multer).toBeCalledWith({
+    expect(app.multer).toHaveBeenCalledWith({
       storage: "storage"
     });
-    expect(multer.fields).toBeCalledWith([{maxCount: undefined, name: "file1"}]);
-    expect(multerMiddleware).toBeCalledWith(ctx.request.raw, ctx.response.raw);
+    expect(multer.fields).toHaveBeenCalledWith([{maxCount: undefined, name: "file1"}]);
+    expect(multerMiddleware).toHaveBeenCalledWith(ctx.request.raw, ctx.response.raw);
   });
   it("should catch error with code", async () => {
     const {middleware, ctx, multerMiddleware} = await build();

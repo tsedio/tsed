@@ -1,13 +1,15 @@
+import {Readable} from "node:stream";
+
 import {Injectable} from "@tsed/di";
-import {BodyParams, PlatformServerless} from "@tsed/platform-serverless";
 import {PlatformServerlessTest} from "@tsed/platform-serverless-testing";
 import {Post, Returns} from "@tsed/schema";
-import {Readable} from "node:stream";
+
+import {BodyParams, PlatformServerless} from "../src/index.js";
 
 @Injectable()
 class StreamLambda {
   @Post("/scenario-1/:id")
-  @Returns(200, String).Binary()
+  @(Returns(200, String).Binary())
   scenario1(@BodyParams("id") id: string) {
     return Readable.from(
       Buffer.from(

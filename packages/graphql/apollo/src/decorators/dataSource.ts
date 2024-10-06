@@ -1,5 +1,6 @@
 import {StoreSet, useDecorators} from "@tsed/core";
 import {Injectable, ProviderScope} from "@tsed/di";
+
 import {DATASOURCES_PROVIDERS} from "../constants/constants.js";
 
 /**
@@ -7,7 +8,7 @@ import {DATASOURCES_PROVIDERS} from "../constants/constants.js";
  *
  * ```typescript
  * import { DataSourceService } from "@tsed/graphql";
- * import { RESTDataSource } from 'apollo-datasource-rest';
+ * import { RESTDataSource } from '@apollo/datasource-rest';
  *
  * @DataSource()
  * export class MyDataSource extends RESTDataSource {
@@ -44,7 +45,7 @@ export function DataSource(name?: string): ClassDecorator {
  *
  * ```typescript
  * import { DataSourceService } from "@tsed/graphql";
- * import { RESTDataSource } from 'apollo-datasource-rest';
+ * import { RESTDataSource } from '@apollo/datasource-rest';
  *
  * @DataSource()
  * export class MyDataSource extends RESTDataSource {

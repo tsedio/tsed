@@ -1,8 +1,9 @@
-import {classOf} from "@tsed/core";
 import {Logger} from "@tsed/common";
+import {classOf} from "@tsed/core";
 import {Inject, InjectorService, Module, Provider} from "@tsed/di";
+
 import {PROVIDER_TYPE_TEMPORAL} from "./constants.js";
-import {TemporalStore, TEMPORAL_STORE_KEY} from "./interfaces/TemporalStore.js";
+import {TEMPORAL_STORE_KEY, TemporalStore} from "./interfaces/TemporalStore.js";
 import {TemporalClient} from "./services/TemporalFactory.js";
 
 @Module()

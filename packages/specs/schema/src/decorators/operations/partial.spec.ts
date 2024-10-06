@@ -1,4 +1,5 @@
-import Ajv from "ajv";
+import {Ajv} from "ajv";
+
 import {
   CollectionOf,
   getJsonSchema,
@@ -48,7 +49,7 @@ describe("@Partial", () => {
       @Path("/")
       class MyController {
         @OperationPath("PATCH", "/")
-        @Returns(200, MyModel).Groups("group.*")
+        @(Returns(200, MyModel).Groups("group.*"))
         patch(@In("body") @Partial() payload: MyModel) {
           return new MyModel();
         }

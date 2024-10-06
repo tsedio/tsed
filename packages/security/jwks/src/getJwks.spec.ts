@@ -1,8 +1,9 @@
 import fs from "fs-extra";
 import {join} from "path";
+
 import {generateJwks, getJwks} from "./getJwks.js";
 
-const rootDir = join(__dirname, "__mocks__");
+const rootDir = join(import.meta.dirname, "__mocks__");
 
 describe("GetJwks", () => {
   beforeEach(() => {
@@ -21,7 +22,7 @@ describe("GetJwks", () => {
           {path: join(rootDir, "keys", "sig.rsa.prv.pem"), alg: "RS256", use: "sig"},
           {path: join(rootDir, "keys", "enc.rsa.pub.pem"), alg: "RS256", use: "enc", kid: "key-1"},
           {path: join(rootDir, "keys", "enc.rsa.prv.pem"), alg: "RS256", use: "enc"}
-        ]
+        ] as never[]
       });
 
       expect(output).toEqual({

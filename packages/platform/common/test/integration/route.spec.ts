@@ -1,8 +1,4 @@
-import {All, Delete, EndpointMetadata, Get, Head, Options, Patch, Post, Put} from "@tsed/common";
-import {OperationMethods} from "@tsed/schema";
-
-const middleware: any = vi.fn();
-const useStub: any = vi.fn().mockReturnValue(middleware);
+import {All, Delete, EndpointMetadata, Get, Head, OperationVerbs, Options, Patch, Post, Put} from "@tsed/schema";
 
 describe("Route decorators", () => {
   describe("All", () => {
@@ -18,7 +14,7 @@ describe("Route decorators", () => {
       // THEN
       expect([...endpoint.operationPaths.values()]).toEqual([
         {
-          method: OperationMethods.ALL,
+          method: OperationVerbs.ALL,
           path: "/"
         }
       ]);
@@ -39,7 +35,7 @@ describe("Route decorators", () => {
       // THEN
       expect([...endpoint.operationPaths.values()]).toEqual([
         {
-          method: OperationMethods.GET,
+          method: OperationVerbs.GET,
           path: "/"
         }
       ]);
@@ -59,7 +55,7 @@ describe("Route decorators", () => {
       // THEN
       expect([...endpoint.operationPaths.values()]).toEqual([
         {
-          method: OperationMethods.GET,
+          method: OperationVerbs.GET,
           path: "/"
         }
       ]);
@@ -81,7 +77,7 @@ describe("Route decorators", () => {
       // THEN
       expect([...endpoint.operationPaths.values()]).toEqual([
         {
-          method: OperationMethods.POST,
+          method: OperationVerbs.POST,
           path: "/"
         }
       ]);
@@ -102,7 +98,7 @@ describe("Route decorators", () => {
       // THEN
       expect([...endpoint.operationPaths.values()]).toEqual([
         {
-          method: OperationMethods.PUT,
+          method: OperationVerbs.PUT,
           path: "/"
         }
       ]);
@@ -123,7 +119,7 @@ describe("Route decorators", () => {
       // THEN
       expect([...endpoint.operationPaths.values()]).toEqual([
         {
-          method: OperationMethods.DELETE,
+          method: OperationVerbs.DELETE,
           path: "/"
         }
       ]);
@@ -144,7 +140,7 @@ describe("Route decorators", () => {
       // THEN
       expect([...endpoint.operationPaths.values()]).toEqual([
         {
-          method: OperationMethods.HEAD,
+          method: OperationVerbs.HEAD,
           path: "/"
         }
       ]);
@@ -165,7 +161,7 @@ describe("Route decorators", () => {
       // THEN
       expect([...endpoint.operationPaths.values()]).toEqual([
         {
-          method: OperationMethods.PATCH,
+          method: OperationVerbs.PATCH,
           path: "/"
         }
       ]);
@@ -186,7 +182,7 @@ describe("Route decorators", () => {
       // THEN
       expect([...endpoint.operationPaths.values()]).toEqual([
         {
-          method: OperationMethods.OPTIONS,
+          method: OperationVerbs.OPTIONS,
           path: "/"
         }
       ]);

@@ -1,4 +1,5 @@
 import {Logger} from "@tsed/logger";
+
 import {Container, Inject, Injectable, InjectorService} from "../../common/index.js";
 
 describe("DILogger", () => {
@@ -15,7 +16,7 @@ describe("DILogger", () => {
     container.add(MyService);
 
     await injector.load(container);
-    const logger = injector.get(MyService).logger;
+    const logger = injector.get(MyService)!.logger;
 
     expect(logger).toEqual(injector.logger);
   });

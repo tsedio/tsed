@@ -1,4 +1,7 @@
 import "./services/MikroOrmFactory";
+
+import {EventSubscriber, Options} from "@mikro-orm/core";
+import {classOf, isFunction, Store} from "@tsed/core";
 import {
   AlterRunInContext,
   Constant,
@@ -11,16 +14,14 @@ import {
   ProviderScope,
   registerProvider
 } from "@tsed/di";
-import {EventSubscriber, Options} from "@mikro-orm/core";
-import {MikroOrmRegistry} from "./services/MikroOrmRegistry.js";
-import {RetryStrategy} from "./interfaces/RetryStrategy.js";
-import {OptimisticLockErrorFilter} from "./filters/OptimisticLockErrorFilter.js";
-import {MikroOrmContext} from "./services/MikroOrmContext.js";
-import {classOf, isFunction, Store} from "@tsed/core";
+
 import {DEFAULT_CONTEXT_NAME, SUBSCRIBER_INJECTION_TYPE} from "./constants.js";
+import {OptimisticLockErrorFilter} from "./filters/OptimisticLockErrorFilter.js";
+import {RetryStrategy} from "./interfaces/RetryStrategy.js";
+import {MikroOrmContext} from "./services/MikroOrmContext.js";
+import {MikroOrmRegistry} from "./services/MikroOrmRegistry.js";
 
 declare global {
-  // eslint-disable-next-line @typescript-eslint/no-namespace
   namespace TsED {
     interface Configuration {
       /**
@@ -77,8 +78,6 @@ export class MikroOrmModule implements OnDestroy, OnInit, AlterRunInContext {
       if (isFunction(subscriber)) {
         return this.injector.invoke(subscriber, container, diOpts);
       }
-
-      this.injector.bindInjectableProperties(subscriber, container, diOpts);
 
       return subscriber;
     });

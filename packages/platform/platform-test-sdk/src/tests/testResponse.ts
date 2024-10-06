@@ -1,9 +1,11 @@
-import {Context, Controller, Get, getContext, PathParams, PlatformResponse, PlatformTest, Post, Res} from "@tsed/common";
-import {CollectionOf, Enum, ForwardGroups, Groups, Ignore, Name, Property, Required, Returns, Status} from "@tsed/schema";
+import {Context, Controller, getContext, PathParams, PlatformResponse, PlatformTest, Res} from "@tsed/common";
+import {CollectionOf, Enum, ForwardGroups, Get, Groups, Ignore, Name, Post, Property, Required, Returns, Status} from "@tsed/schema";
 import axios from "axios";
 import {of} from "rxjs";
-import {agent, SuperAgentStatic} from "superagent";
+import {agent} from "superagent";
 import SuperTest from "supertest";
+import {afterAll, beforeAll, describe, expect, it} from "vitest";
+
 import {PlatformTestingSdkOpts} from "../interfaces/index.js";
 
 class Base {
@@ -167,7 +169,7 @@ class TestResponseParamsCtrl {
 
   @Get("/scenario13")
   async testScenario13(@Res() res: PlatformResponse) {
-    const http: SuperAgentStatic = agent();
+    const http = agent();
 
     const image_res = await http.get("https://www.google.com/images/branding/googlelogo/1x/googlelogo_color_272x92dp.png");
 
@@ -210,7 +212,7 @@ class TestResponseParamsCtrl {
   }
 
   @Get("/scenario17")
-  @Returns(201, ModelGroup).Groups("creation")
+  @(Returns(201, ModelGroup).Groups("creation"))
   testScenario17(): Promise<ModelGroup> {
     const model = new ModelGroup();
     model.id = "id";
@@ -231,7 +233,7 @@ class TestResponseParamsCtrl {
   }
 
   @Get("/scenario19")
-  @Returns(200, AllowedModel).Groups("!admin").AllowedGroups("summary", "details")
+  @(Returns(200, AllowedModel).Groups("!admin").AllowedGroups("summary", "details"))
   testScenario19(): Promise<AllowedModel> {
     const model = new AllowedModel();
     model.id = "id";

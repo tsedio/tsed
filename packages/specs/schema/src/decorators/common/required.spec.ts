@@ -1,9 +1,10 @@
+import {Ajv} from "ajv";
+
 import {validateModel} from "../../../test/helpers/validateModel.js";
-import {getJsonSchema, MinLength} from "../../index.js";
-import Ajv from "ajv";
 import {JsonEntityStore} from "../../domain/JsonEntityStore.js";
-import {Required} from "./required.js";
+import {getJsonSchema, MinLength} from "../../index.js";
 import {Property} from "../common/property.js";
+import {Required} from "./required.js";
 
 describe("@Required", () => {
   it("should declare required field", () => {
@@ -137,7 +138,7 @@ describe("@Required", () => {
   it("should declare required field with custom error message", () => {
     // WHEN
     class Model {
-      @Required().Error("custom message")
+      @(Required().Error("custom message"))
       num: number;
     }
 

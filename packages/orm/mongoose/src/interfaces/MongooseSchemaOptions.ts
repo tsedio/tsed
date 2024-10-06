@@ -1,4 +1,5 @@
 import {type IndexOptions, Schema, SchemaOptions} from "mongoose";
+
 import {MongooseDocument} from "./MongooseDocument.js";
 
 export type MongooseNextCB = (err?: Error) => void;

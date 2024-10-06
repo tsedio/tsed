@@ -1,6 +1,7 @@
 import {DecoratorParameters, Metadata, StoreMerge, useDecorators, useMethodDecorators} from "@tsed/core";
 import {ParamTypes, UseParam} from "@tsed/platform-params";
 import {InFile} from "@tsed/schema";
+
 import {PlatformMulterFile} from "../../config/interfaces/PlatformMulterSettings.js";
 import {MulterInputOptions, PlatformMulterMiddleware} from "../../middlewares/PlatformMulterMiddleware.js";
 
@@ -19,8 +20,8 @@ function mapOptions(name: string, maxCount: number | undefined): MulterInputOpti
  * Define a parameter as Multipart file.
  *
  * ```typescript
- * import {Controller, Post} from "@tsed/common";
- * import {MulterOptions, MultipartFile} from "@tsed/common";
+ * import {Post} from "@tsed/schema";
+ * import {Controller, MulterOptions, MultipartFile} from "@tsed/common";
  * import {Multer} from "@types/multer";
  *
  * type MulterFile = Express.Multer.File;

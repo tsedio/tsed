@@ -1,16 +1,18 @@
 import "@tsed/ajv";
-import {BodyParams, Configuration, Controller, Get, PlatformTest} from "@tsed/common";
+
 import {JsonMapperSettings} from "@tsed/json-mapper";
 import {PlatformExpress} from "@tsed/platform-express";
 import {PlatformTestSdk} from "@tsed/platform-test-sdk";
-import {getSpec, Groups, Post, Property, Required, Returns, SpecTypes} from "@tsed/schema";
+import {Get, getSpec, Groups, Post, Property, Required, Returns, SpecTypes} from "@tsed/schema";
 import bodyParser from "body-parser";
 import compress from "compression";
 import cookieParser from "cookie-parser";
 import methodOverride from "method-override";
 import SuperTest from "supertest";
 
-const rootDir = __dirname; // automatically replaced by import.meta.dirname on build
+import {BodyParams, Configuration, Controller, PlatformTest} from "../../src/index.js";
+
+const rootDir = import.meta.dirname; // automatically replaced by import.meta.dirname on build
 
 class MyModel {
   @Groups("!creation")
@@ -47,7 +49,7 @@ class GroupsIntegrationController {
   }
 
   @Get("/scenario-2")
-  @Returns(200, MyModel).Groups("summary")
+  @(Returns(200, MyModel).Groups("summary"))
   scenario2() {
     return new MyModel({
       id: "id",
@@ -58,7 +60,7 @@ class GroupsIntegrationController {
   }
 
   @Get("/scenario-3")
-  @Returns(200, MyModel).Groups("creation")
+  @(Returns(200, MyModel).Groups("creation"))
   scenario3() {
     return new MyModel({
       id: "id",

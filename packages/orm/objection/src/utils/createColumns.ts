@@ -1,9 +1,11 @@
+import "../components/createBooleanColumn.js";
+import "../components/createIdColumn.js";
+import "../components/createNumberColumn.js";
+import "../components/createStringColumn.js";
+
 import {getProperties, JsonEntityStore} from "@tsed/schema";
 import {Knex} from "knex";
-import "../components/createBooleanColumn";
-import "../components/createIdColumn";
-import "../components/createNumberColumn";
-import "../components/createStringColumn";
+
 import {ColumnTypesContainer} from "../services/ColumnTypesContainer.js";
 import {getColumnCtx} from "./getColumnCtx.js";
 

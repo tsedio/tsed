@@ -2,11 +2,12 @@ import {Type} from "@tsed/core";
 import {DITest, InjectorService} from "@tsed/di";
 import accepts from "accepts";
 import type {IncomingMessage, RequestListener, ServerResponse} from "http";
+
 import {PlatformBuilder} from "../builder/PlatformBuilder.js";
 import {PlatformContext, PlatformContextOptions} from "../domain/PlatformContext.js";
 import {createInjector} from "../utils/createInjector.js";
 import {getConfiguration} from "../utils/getConfiguration.js";
-import {FakeResponse} from "./FakeResponse";
+import {FakeResponse} from "./FakeResponse.js";
 import {PlatformAdapter, PlatformBuilderSettings} from "./PlatformAdapter.js";
 import {PlatformApplication} from "./PlatformApplication.js";
 

@@ -1,11 +1,12 @@
+import "./ExceptionSchema";
+
 import SwaggerParser from "@apidevtools/swagger-parser";
 import {BadRequest, Exception} from "@tsed/exceptions";
 import {getJsonSchema, getSpec, OperationPath, Path, Returns, SpecTypes} from "@tsed/schema";
-import Ajv from "ajv";
+import {Ajv} from "ajv";
 import fs from "fs-extra";
-import "./ExceptionSchema";
 
-const rootDir = __dirname; // automatically replaced by import.meta.dirname on build
+const rootDir = import.meta.dirname; // automatically replaced by import.meta.dirname on build
 
 function getAjv() {
   return new Ajv({
@@ -122,7 +123,7 @@ describe("ExceptionSchema", () => {
     @Path("/")
     class MyController {
       @OperationPath("GET", "/")
-      @Returns(400, BadRequest).Description("BadRequest")
+      @(Returns(400, BadRequest).Description("BadRequest"))
       get() {}
     }
 

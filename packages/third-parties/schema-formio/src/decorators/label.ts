@@ -1,4 +1,5 @@
 import {CustomKey, JsonEntityFn} from "@tsed/schema";
+
 import {Component} from "./component.js";
 
 /**

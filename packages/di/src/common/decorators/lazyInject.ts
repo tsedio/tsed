@@ -1,5 +1,6 @@
-import {importPackage} from "@tsed/core";
-import {injectProperty} from "./inject.js";
+import {catchError, importPackage} from "@tsed/core";
+
+import {InjectorService} from "../services/InjectorService.js";
 
 /**
  * Lazy load a provider from his package and invoke only when the provider is used
@@ -26,26 +27,26 @@ export function LazyInject(
   resolver: () => any,
   {optional = false, packageName = resolver.toString()}: {optional?: boolean; packageName?: string} = {}
 ): PropertyDecorator {
-  return (target: any, propertyKey: string): any | void => {
+  return (target: any, propertyKey: string | symbol): any | void => {
     let bean: any, token: any;
-    injectProperty(target, propertyKey, {
-      resolver(injector) {
-        return async () => {
-          if (!token || !bean) {
-            const exports = await importPackage(packageName, resolver, optional);
-            token = exports[key];
 
-            if (!token) {
-              if (!optional) {
-                throw new Error(`Unable to lazy load the "${key}". The token isn\'t a valid token provider.`);
-              }
+    catchError(() => Reflect.deleteProperty(target, propertyKey));
+    Reflect.defineProperty(target, propertyKey, {
+      async get() {
+        if (!token || !bean) {
+          const injector = InjectorService.getInstance();
+          const exports = await importPackage(packageName, resolver, optional);
+          token = exports[key];
+          if (!token) {
+            if (!optional) {
+              throw new Error(`Unable to lazy load the "${key}". The token isn\'t a valid token provider.`);
             }
-
-            bean = token ? await injector.lazyInvoke(token) : {};
           }
 
-          return bean;
-        };
+          bean = token ? await injector.lazyInvoke(token) : {};
+        }
+
+        return bean;
       }
     });
   };

@@ -13,7 +13,7 @@ describe("cleanGlobPatterns()", () => {
       expect(cleanGlobPatterns("file.ts", ["!**.spec.ts"])[0]).toContain("file.js");
     });
 
-    it("should return file.js", () => {
+    it("should return file.ts,js", () => {
       expect(cleanGlobPatterns("file{.ts,.js}", ["!**.spec.ts"])[0]).toContain("file.js");
     });
 

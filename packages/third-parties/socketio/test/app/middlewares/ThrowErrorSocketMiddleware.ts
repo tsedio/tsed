@@ -1,5 +1,5 @@
-import {Args} from "@tsed/socketio";
-import {SocketMiddleware} from "@tsed/socketio";
+import {Args} from "../../../src/index.js";
+import {SocketMiddleware} from "../../../src/index.js";
 
 @SocketMiddleware()
 export class ThrowErrorSocketMiddleware {

@@ -1,7 +1,8 @@
-import {$log, BodyParams, Controller, Get, PathParams, Post, Put, QueryParams} from "@tsed/common";
+import {$log, BodyParams, Controller, PathParams, QueryParams} from "@tsed/common";
 import {PlatformExpress} from "@tsed/platform-express";
-import {DiscriminatorKey, DiscriminatorValue, OneOf, Property, Required, Returns} from "@tsed/schema";
-import {Hidden} from "@tsed/swagger";
+import {DiscriminatorKey, DiscriminatorValue, Get, OneOf, Post, Property, Put, Required, Returns} from "@tsed/schema";
+
+import {Hidden} from "../../src/index.js";
 import {Server} from "./Server.js";
 
 if (process.env.NODE_ENV !== "test") {
@@ -86,19 +87,19 @@ if (process.env.NODE_ENV !== "test") {
   @Controller("/one-of")
   class HelloOneOf {
     @Post("/")
-    @Returns(200, Array).OneOf(Event)
+    @(Returns(200, Array).OneOf(Event))
     post(@BodyParams() @OneOf(Event) events: OneOfEvents[]) {
       return [];
     }
 
     @Put("/:id")
-    @Returns(200).OneOf(Event)
+    @(Returns(200).OneOf(Event))
     put(@PathParams(":id") id: string, @BodyParams() @OneOf(Event) event: OneOfEvents) {
       return [];
     }
 
     @Get("/:id")
-    @Returns(200).OneOf(Event)
+    @(Returns(200).OneOf(Event))
     get(@PathParams(":id") id: string) {
       return [];
     }

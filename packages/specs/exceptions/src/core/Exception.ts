@@ -1,6 +1,7 @@
 import {classOf, nameOf} from "@tsed/core";
 import {constantCase} from "change-case";
 import statuses from "statuses";
+
 import {StatusFamily} from "./StatusFamily.js";
 
 export class Exception extends Error {

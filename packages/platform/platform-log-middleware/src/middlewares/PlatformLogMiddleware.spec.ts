@@ -1,6 +1,8 @@
+import "../domain/PlatformLogMiddlewareSettings.js";
+
 import {PlatformHandlerMetadata, PlatformTest} from "@tsed/common";
+
 import {PlatformLogMiddleware} from "./PlatformLogMiddleware.js";
-import "../domain/PlatformLogMiddlewareSettings";
 
 async function createMiddlewareFixture({statusCode = 200, error}: {statusCode?: number; error?: any} = {}) {
   const middleware = await PlatformTest.invoke<PlatformLogMiddleware>(PlatformLogMiddleware);
@@ -163,7 +165,7 @@ describe("PlatformLogMiddleware", () => {
         );
       });
     });
-    describe("when no debug, logRequest, logEnd", () => {
+    describe("when no debug, logRequest, logStart", () => {
       beforeEach(() =>
         PlatformTest.create({
           logger: {
@@ -280,28 +282,6 @@ describe("PlatformLogMiddleware", () => {
             method: "GET",
             reqId: "id",
             url: "originalUrl"
-          })
-        );
-      });
-      it("should log debug without request", async () => {
-        // GIVEN
-        const {request, ctx, middleware} = await createMiddlewareFixture();
-        request.originalUrl = "originalUrl";
-        // WHEN
-        middleware.use(ctx);
-
-        // THEN
-        ctx.logger.debug(
-          {
-            event: "event"
-          },
-          false
-        );
-        // THEN
-        expect(PlatformTest.injector.logger.debug).toHaveBeenCalledWith(
-          expect.objectContaining({
-            event: "event",
-            reqId: "id"
           })
         );
       });

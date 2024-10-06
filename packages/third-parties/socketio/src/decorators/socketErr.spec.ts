@@ -1,4 +1,5 @@
 import {Store} from "@tsed/core";
+
 import {SocketErr} from "../index.js";
 
 describe("@SocketErr", () => {

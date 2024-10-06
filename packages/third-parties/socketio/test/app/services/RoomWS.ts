@@ -1,6 +1,7 @@
 import {getClass, nameOf} from "@tsed/core";
-import {Args, Emit, Input, IO, Nsp, Socket, SocketService, SocketSession, SocketUseAfter, SocketUseBefore} from "@tsed/socketio";
 import {Namespace, Server, Socket as IOSocket} from "socket.io";
+
+import {Args, Emit, Input, IO, Nsp, Socket, SocketService, SocketSession, SocketUseAfter, SocketUseBefore} from "../../../src/index.js";
 import {AuthSocketMiddleware} from "../middlewares/AuthSocketMiddleware.js";
 import {ConverterUserSocketMiddleware} from "../middlewares/ConverterUserSocketMiddleware.js";
 import {ErrorHandlerSocketMiddleware} from "../middlewares/ErrorHandlerSocketMiddleware.js";

@@ -1,9 +1,10 @@
 import {Context, PlatformContext, PlatformTest} from "@tsed/common";
 import {Controller} from "@tsed/di";
 import {Get, getSpec, JsonEntityStore, Name, Returns} from "@tsed/schema";
-import {EventStream} from "./decorators/eventStream";
-import {EventStreamCtx} from "./decorators/eventStreamCtx";
-import {EventStreamContext} from "./domain/EventStreamContext";
+
+import {EventStream} from "./decorators/eventStream.js";
+import {EventStreamCtx} from "./decorators/eventStreamCtx.js";
+import {EventStreamContext} from "./domain/EventStreamContext.js";
 
 function make(eventStream: EventStreamCtx, cb: () => any) {
   let intervalId: ReturnType<typeof setInterval>;
@@ -58,7 +59,7 @@ export class MyCtrl {
 
   @Get("/scenario5")
   @EventStream()
-  @Returns(200).Type(Model)
+  @(Returns(200).Type(Model))
   scenario5(@EventStreamCtx() eventStream: EventStreamCtx, @Context() $ctx: PlatformContext) {
     make(eventStream, () => {
       const model = new Model();

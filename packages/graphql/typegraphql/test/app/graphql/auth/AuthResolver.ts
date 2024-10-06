@@ -1,5 +1,6 @@
 import {PassportContext} from "graphql-passport";
 import {Arg, Ctx, Mutation, Query, Resolver} from "type-graphql";
+
 import {User} from "./User.js";
 
 export interface GQLContext extends PassportContext<User, {email: string; password: string}> {}
@@ -21,6 +22,6 @@ export class AuthResolver {
     // only required if express-session is used
     await context.login(user!);
 
-    return user;
+    return user!;
   }
 }

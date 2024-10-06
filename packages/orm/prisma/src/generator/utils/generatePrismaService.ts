@@ -1,5 +1,6 @@
-import {Project, Scope} from "ts-morph";
 import path from "path";
+import {Project, Scope} from "ts-morph";
+
 import {resolveExtension} from "./resolveExtension.js";
 
 export function generatePrismaService(project: Project, baseDirPath: string) {

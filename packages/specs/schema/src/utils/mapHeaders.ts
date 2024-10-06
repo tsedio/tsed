@@ -1,4 +1,5 @@
 import {cleanObject} from "@tsed/core";
+
 import {JsonHeader, JsonHeaders} from "../interfaces/JsonOpenSpec.js";
 
 /**

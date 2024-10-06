@@ -1,23 +1,22 @@
 {
   "name": "@tsed/oidc-provider-plugin-wildcard-redirect-uri",
   "description": "A plugin to support wildcard in the redirect uri whitelist",
-  "type": "commonjs",
-  "version": "7.83.3",
+  "type": "module",
+  "version": "8.0.0-alpha.11",
   "contributors": [
     {
       "name": "romakita"
     }
   ],
   "source": "./src/index.ts",
-  "main": "./lib/cjs/index.js",
+  "main": "./lib/esm/index.js",
   "module": "./lib/esm/index.js",
   "typings": "./lib/types/index.d.ts",
   "exports": {
     ".": {
       "types": "./lib/types/index.d.ts",
       "import": "./lib/esm/index.js",
-      "require": "./lib/cjs/index.js",
-      "default": "./lib/cjs/index.js"
+      "default": "./lib/esm/index.js"
     }
   },
   "scripts": {
@@ -30,7 +29,7 @@
   },
   "dependencies": {
     "psl": "1.9.0",
-    "wildcard": "2.0.0"
+    "wildcard": "2.0.1"
   },
   "devDependencies": {
     "@tsed/barrels": "workspace:*",
@@ -39,16 +38,16 @@
     "@tsed/oidc-provider": "workspace:*",
     "@tsed/typescript": "workspace:*",
     "@types/psl": "^1.1.3",
-    "@types/uuid": "9.0.8",
-    "eslint": "^8.57.0",
-    "typescript": "4.9.5",
-    "vitest": "2.0.4"
+    "@types/uuid": "10.0.0",
+    "eslint": "9.12.0",
+    "typescript": "5.4.5",
+    "vitest": "2.1.2"
   },
   "peerDependencies": {
-    "@tsed/core": "7.83.3",
-    "@tsed/di": "7.83.3",
+    "@tsed/core": "8.0.0-alpha.11",
+    "@tsed/di": "8.0.0-alpha.11",
     "@tsed/logger": ">=6.7.5",
-    "@tsed/oidc-provider": "7.83.3",
+    "@tsed/oidc-provider": "8.0.0-alpha.11",
     "oidc-provider": ">=8.0.0"
   },
   "peerDependenciesMeta": {

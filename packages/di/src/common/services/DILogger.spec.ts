@@ -15,7 +15,7 @@ describe("DILogger", () => {
     container.add(MyService);
 
     await injector.load(container);
-    const logger = injector.get(MyService).logger;
+    const logger = injector.get(MyService)!.logger;
 
     expect(logger).toEqual(injector.logger);
   });

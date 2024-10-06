@@ -1,14 +1,17 @@
 import "@tsed/ajv";
-import {Configuration, Inject, PlatformApplication} from "@tsed/common";
 import "@tsed/platform-express";
-import "@tsed/socketio";
+import "@tsed/platform-log-request";
+import "../../src/index.js";
+
+import {Configuration, Inject, PlatformApplication} from "@tsed/common";
 import bodyParser from "body-parser";
 import compress from "compression";
 import cookieParser from "cookie-parser";
 import methodOverride from "method-override";
+
 import {SocketPageCtrl} from "./controllers/pages/SocketPageCtrl.js";
 
-const rootDir = __dirname; // automatically replaced by import.meta.dirname on build
+const rootDir = import.meta.dirname; // automatically replaced by import.meta.dirname on build
 
 export {rootDir};
 
@@ -17,8 +20,7 @@ export {rootDir};
   httpPort: 8001,
   httpsPort: false,
   logger: {
-    level: "info",
-    logRequest: true
+    level: "info"
   },
   mount: {
     "/": [SocketPageCtrl]

@@ -1,5 +1,6 @@
-import faker from "@faker-js/faker";
+import {faker} from "@faker-js/faker";
 import {PlatformApplication, PlatformRouteDetails, PlatformTest} from "@tsed/common";
+
 import {FormioModule} from "./FormioModule.js";
 import {FormioInstaller} from "./services/FormioInstaller.js";
 import {FormioService} from "./services/FormioService.js";
@@ -103,7 +104,7 @@ describe("FormioModule", () => {
           method: "get",
           methodClassName: "operationId",
           name: "operationId",
-          url: "/path/to"
+          url: "/projects/path/to"
         }
       ]);
     });

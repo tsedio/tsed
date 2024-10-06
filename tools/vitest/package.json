@@ -1,7 +1,7 @@
 {
   "name": "@tsed/vitest",
   "type": "module",
-  "version": "7.83.3",
+  "version": "8.0.0-alpha.11",
   "private": true,
   "exports": {
     ".": "./index.js",
@@ -9,7 +9,7 @@
     "./presets": "./presets/index.js"
   },
   "devDependencies": {
-    "vitest": "2.0.5"
+    "vitest": "2.1.2"
   },
   "scripts": {
     "generate": "node index.js"
