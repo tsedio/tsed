@@ -2,9 +2,7 @@ import {Constant, InjectContext, PlatformContext} from "@tsed/common";
 import {Env} from "@tsed/core";
 import {Inject, Injectable} from "@tsed/di";
 import {Unauthorized} from "@tsed/exceptions";
-import {serialize} from "@tsed/json-mapper";
 import omit from "lodash/omit.js";
-// @ts-ignore
 import type {Account, default as Provider, InteractionResults, PromptDetail} from "oidc-provider";
 
 import {

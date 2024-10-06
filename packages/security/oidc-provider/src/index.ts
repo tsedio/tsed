@@ -29,6 +29,5 @@ export * from "./services/OidcInteractions.js";
 export * from "./services/OidcJwks.js";
 export * from "./services/OidcPolicy.js";
 export * from "./services/OidcProvider.js";
-export * from "./services/OidcProviderNodeModule.js";
 export * from "./utils/debug.js";
 export * from "./utils/events.js";
