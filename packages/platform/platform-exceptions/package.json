@@ -2,7 +2,7 @@
   "name": "@tsed/platform-exceptions",
   "description": "Platform exceptions module for Ts.ED Framework",
   "type": "module",
-  "version": "8.0.0-alpha.11",
+  "version": "8.0.0-alpha.12",
   "source": "./src/index.ts",
   "main": "./lib/esm/index.js",
   "module": "./lib/esm/index.js",
@@ -37,10 +37,10 @@
     "vitest": "2.1.2"
   },
   "peerDependencies": {
-    "@tsed/core": "8.0.0-alpha.11",
-    "@tsed/di": "8.0.0-alpha.11",
-    "@tsed/exceptions": "8.0.0-alpha.11",
-    "@tsed/schema": "8.0.0-alpha.11"
+    "@tsed/core": "8.0.0-alpha.12",
+    "@tsed/di": "8.0.0-alpha.12",
+    "@tsed/exceptions": "8.0.0-alpha.12",
+    "@tsed/schema": "8.0.0-alpha.12"
   },
   "peerDependenciesMeta": {
     "@tsed/core": {

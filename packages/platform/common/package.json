@@ -2,7 +2,7 @@
   "name": "@tsed/common",
   "description": "A TypeScript Framework on top of Express",
   "type": "module",
-  "version": "8.0.0-alpha.11",
+  "version": "8.0.0-alpha.12",
   "source": "./src/index.ts",
   "main": "./lib/esm/index.js",
   "module": "./lib/esm/index.js",

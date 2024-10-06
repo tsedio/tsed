@@ -2,7 +2,7 @@
   "name": "@tsed/ajv",
   "description": "AJV package for Ts.ED framework",
   "type": "module",
-  "version": "8.0.0-alpha.11",
+  "version": "8.0.0-alpha.12",
   "source": "./src/index.ts",
   "main": "./lib/esm/index.js",
   "module": "./lib/esm/index.js",
@@ -39,10 +39,10 @@
     "vitest": "2.1.2"
   },
   "peerDependencies": {
-    "@tsed/core": "8.0.0-alpha.11",
-    "@tsed/di": "8.0.0-alpha.11",
-    "@tsed/exceptions": "8.0.0-alpha.11",
-    "@tsed/schema": "8.0.0-alpha.11",
+    "@tsed/core": "8.0.0-alpha.12",
+    "@tsed/di": "8.0.0-alpha.12",
+    "@tsed/exceptions": "8.0.0-alpha.12",
+    "@tsed/schema": "8.0.0-alpha.12",
     "ajv": ">=8.9.0",
     "ajv-errors": ">=3.0.0"
   },
