@@ -1,5 +1,5 @@
 import {Env, Type} from "@tsed/core";
-import {createContainer, InjectorService, setLoggerConfiguration} from "@tsed/di";
+import {createContainer, injector, InjectorService, setLoggerConfiguration} from "@tsed/di";
 import {$log, Logger} from "@tsed/logger";
 import {getOperationsRoutes, JsonEntityStore} from "@tsed/schema";
 import type {Handler} from "aws-lambda";
@@ -184,7 +184,7 @@ export class PlatformServerless {
   }
 
   protected createInjector(settings: any) {
-    this._injector = new InjectorService();
+    this._injector = injector();
     this.injector.logger = $log;
     this.injector.settings.set(settings);
 

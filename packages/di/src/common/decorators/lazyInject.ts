@@ -1,6 +1,6 @@
 import {catchError, importPackage} from "@tsed/core";
 
-import {InjectorService} from "../services/InjectorService.js";
+import {$injector} from "../utils/injector.js";
 
 /**
  * Lazy load a provider from his package and invoke only when the provider is used
@@ -34,7 +34,6 @@ export function LazyInject(
     Reflect.defineProperty(target, propertyKey, {
       async get() {
         if (!token || !bean) {
-          const injector = InjectorService.getInstance();
           const exports = await importPackage(packageName, resolver, optional);
           token = exports[key];
           if (!token) {
@@ -43,7 +42,7 @@ export function LazyInject(
             }
           }
 
-          bean = token ? await injector.lazyInvoke(token) : {};
+          bean = token ? await $injector().lazyInvoke(token) : {};
         }
 
         return bean;

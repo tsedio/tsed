@@ -1,5 +1,5 @@
 import {toMap, Type} from "@tsed/core";
-import {InjectorService, ProviderOpts, setLoggerConfiguration} from "@tsed/di";
+import {$injector, ProviderOpts, setLoggerConfiguration} from "@tsed/di";
 import {$log} from "@tsed/logger";
 
 import {PlatformConfiguration} from "../config/services/PlatformConfiguration.js";
@@ -26,7 +26,7 @@ interface CreateInjectorOptions {
 }
 
 export function createInjector({adapter, settings = {}}: CreateInjectorOptions) {
-  const injector = new InjectorService();
+  const injector = $injector();
   injector.addProvider(PlatformConfiguration);
 
   injector.settings = injector.invoke(PlatformConfiguration);

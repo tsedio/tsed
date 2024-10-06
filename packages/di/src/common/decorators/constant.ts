@@ -1,11 +1,11 @@
 import {catchError, deepClone} from "@tsed/core";
 
-import {InjectorService} from "../services/InjectorService.js";
+import {injector as $injector} from "../utils/injector.js";
 
 export function constant<Type>(expression: string): Type | undefined;
 export function constant<Type>(expression: string, defaultValue: Type | undefined): Type;
 export function constant<Type>(expression: string, defaultValue?: Type | undefined): Type | undefined {
-  return InjectorService.getInstance().settings.get(expression, defaultValue);
+  return $injector().settings.get(expression, defaultValue);
 }
 
 export function bindConstant(target: any, propertyKey: string | symbol, expression: string, defaultValue?: any) {

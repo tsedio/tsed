@@ -1,6 +1,6 @@
 import {catchError} from "@tsed/core";
 
-import {InjectorService} from "../../common/index.js";
+import {$injector} from "../../common/index.js";
 import {DIContext} from "../domain/DIContext.js";
 import {getContext} from "../utils/asyncHookContext.js";
 
@@ -27,8 +27,8 @@ export function InjectContext(transform: ($ctx: DIContext) => unknown = (o) => o
           getContext() ||
             new DIContext({
               id: "",
-              logger: InjectorService.getInstance().logger,
-              injector: InjectorService.getInstance(),
+              logger: $injector().logger,
+              injector: $injector(),
               maxStackSize: 0
             })
         );

@@ -85,8 +85,9 @@ export class InjectorService extends Container {
    */
   static getInstance() {
     if (!globalInjector) {
-      throw new Error("InjectorService instance is not created yet.");
+      return new InjectorService();
     }
+
     return globalInjector;
   }
 

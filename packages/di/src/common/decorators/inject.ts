@@ -6,13 +6,14 @@ import type {InvokeOptions} from "../interfaces/InvokeOptions.js";
 import {TokenProvider} from "../interfaces/TokenProvider.js";
 import {InjectorService} from "../services/InjectorService.js";
 import {getConstructorDependencies, setConstructorDependencies} from "../utils/getConstructorDependencies.js";
+import {$injector} from "../utils/injector.js";
 
 export function inject<T>(token: TokenProvider<T>, opts?: Partial<Pick<InvokeOptions, "useOpts" | "rebuild" | "locals">>): T {
-  return InjectorService.getInstance().invoke(token, opts?.locals || InjectorService.getLocals(), opts);
+  return $injector().invoke(token, opts?.locals || InjectorService.getLocals(), opts);
 }
 
 export function injectMany<T>(token: string | symbol, opts?: Partial<Pick<InvokeOptions, "useOpts" | "rebuild" | "locals">>): T[] {
-  return InjectorService.getInstance().getMany<T>(token, opts?.locals || InjectorService.getLocals(), opts);
+  return $injector().getMany<T>(token, opts?.locals || InjectorService.getLocals(), opts);
 }
 
 function setToken(
