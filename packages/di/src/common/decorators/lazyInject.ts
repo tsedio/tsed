@@ -33,7 +33,7 @@ export function LazyInject(
     catchError(() => Reflect.deleteProperty(target, propertyKey));
     Reflect.defineProperty(target, propertyKey, {
       async get() {
-        if (!token) {
+        if (!token || !bean) {
           const injector = InjectorService.getInstance();
           const exports = await importPackage(packageName, resolver, optional);
           token = exports[key];

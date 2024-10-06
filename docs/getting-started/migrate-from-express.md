@@ -20,7 +20,7 @@ You can get the latest version of Ts.ED using the following npm command:
   
 ```bash
 $ yarn add -D typescript @types/express
-$ yarn add -D express@4 @tsed/core @tsed/di @tsed/common @tsed/schema @tsed/json-mapper @tsed/exceptions @tsed/platform-express
+$ yarn add express@4 @tsed/core @tsed/di @tsed/common @tsed/schema @tsed/json-mapper @tsed/exceptions @tsed/platform-express
 ```
 
   </Tab>
@@ -30,7 +30,7 @@ $ yarn add -D express@4 @tsed/core @tsed/di @tsed/common @tsed/schema @tsed/json
 $ npm install --save-dev typescript @types/express
 $ npm install --save express@4 @tsed/core @tsed/di @tsed/common @tsed/schema @tsed/json-mapper @tsed/exceptions @tsed/platform-express
 ```
-     
+
   </Tab>
 </Tabs>
 
