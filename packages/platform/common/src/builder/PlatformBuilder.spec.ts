@@ -1,5 +1,5 @@
 import {catchAsyncError, Type} from "@tsed/core";
-import {Configuration, Controller, Injectable, InjectorService, Module} from "@tsed/di";
+import {Configuration, Controller, Injectable, injector, InjectorService, Module} from "@tsed/di";
 
 import {AfterInit} from "../interfaces/AfterInit.js";
 import {AfterListen} from "../interfaces/AfterListen.js";
@@ -105,6 +105,9 @@ class ServerModule implements BeforeInit, AfterInit, BeforeRoutesInit, AfterRout
 }
 
 describe("PlatformBuilder", () => {
+  beforeEach(() => {
+    injector().destroy();
+  });
   describe("loadStatics()", () => {
     it("should loadStatics", async () => {
       // WHEN
