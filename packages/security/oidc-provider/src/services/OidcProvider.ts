@@ -1,6 +1,6 @@
-import {InjectContext, PlatformApplication, PlatformContext} from "@tsed/common";
+import {PlatformApplication, PlatformContext} from "@tsed/common";
 import {Env, setValue} from "@tsed/core";
-import {Constant, Inject, Injectable, InjectorService} from "@tsed/di";
+import {constant, context, inject, Injectable, InjectorService} from "@tsed/di";
 import Provider, {type Configuration, type KoaContextWithOIDC} from "oidc-provider";
 
 import {INTERACTIONS} from "../constants/constants.js";
@@ -8,7 +8,6 @@ import {OidcAccountsMethods} from "../domain/OidcAccountsMethods.js";
 import {OidcSettings} from "../domain/OidcSettings.js";
 import {OIDC_ERROR_EVENTS} from "../utils/events.js";
 import {OidcAdapters} from "./OidcAdapters.js";
-import {OidcInteractions} from "./OidcInteractions.js";
 import {OidcJwks} from "./OidcJwks.js";
 import {OidcPolicy} from "./OidcPolicy.js";
 
@@ -25,47 +24,24 @@ function mapError(error: any) {
 export class OidcProvider {
   raw: Provider;
 
-  @Constant("env")
-  protected env: Env;
-
-  @Constant("httpPort")
-  protected httpPort: number | string;
-
-  @Constant("httpsPort")
-  protected httpsPort: number | string;
-
-  @Constant("oidc.issuer", "")
-  protected issuer: string;
-
-  @Constant("oidc")
-  protected oidc: OidcSettings;
-
-  @Constant("PLATFORM_NAME")
-  protected platformName: string;
-
-  @Inject()
-  protected oidcJwks: OidcJwks;
-
-  @Inject()
-  protected oidcInteractions: OidcInteractions;
-
-  @Inject()
-  protected oidcPolicy: OidcPolicy;
-
-  @Inject()
-  protected adapters: OidcAdapters;
-
-  @Inject()
-  protected injector: InjectorService;
-
-  @Inject()
-  protected app: PlatformApplication;
-
-  @InjectContext()
-  protected $ctx?: PlatformContext;
+  protected env = constant<Env>("env");
+  protected httpPort = constant<number | string>("httpPort");
+  protected httpsPort = constant<number | string>("httpsPort");
+  protected issuer = constant<string>("oidc.issuer", "");
+  protected oidc = constant<OidcSettings>("oidc")!;
+  protected platformName = constant<string>("PLATFORM_NAME");
+  protected oidcJwks = inject(OidcJwks);
+  protected oidcPolicy = inject(OidcPolicy);
+  protected adapters = inject(OidcAdapters);
+  protected injector = inject(InjectorService);
+  protected app = inject(PlatformApplication);
 
   get logger() {
-    return this.$ctx?.logger || this.injector.logger;
+    return this.$ctx.logger;
+  }
+
+  protected get $ctx() {
+    return context<PlatformContext>();
   }
 
   hasConfiguration() {

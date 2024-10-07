@@ -1,4 +1,4 @@
-import {Inject, Injectable, InjectorService, Provider} from "@tsed/di";
+import {inject, Injectable, injector, Provider} from "@tsed/di";
 import {interactionPolicy} from "oidc-provider";
 
 import {InteractionMethods} from "../domain/InteractionMethods.js";
@@ -8,11 +8,8 @@ import Prompt = interactionPolicy.Prompt;
 
 @Injectable()
 export class OidcPolicy {
-  @Inject()
-  protected injector: InjectorService;
-
-  @Inject()
-  protected oidcInteractions: OidcInteractions;
+  protected injector = injector();
+  protected oidcInteractions = inject(OidcInteractions);
 
   public getPolicy() {
     let policy = interactionPolicy.base();

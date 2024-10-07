@@ -33,6 +33,7 @@ export * from "./fn/inject.js";
 export * from "./fn/injectable.js";
 export * from "./fn/injectMany.js";
 export * from "./fn/injector.js";
+export * from "./fn/refValue.js";
 export * from "./interfaces/DIConfigurationOptions.js";
 export * from "./interfaces/DILogger.js";
 export * from "./interfaces/DILoggerOptions.js";

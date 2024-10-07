@@ -1,5 +1,4 @@
-import {Constant, Inject, Module} from "@tsed/di";
-import {Logger} from "@tsed/logger";
+import {constant, logger, Module} from "@tsed/di";
 import {OidcSettings} from "@tsed/oidc-provider";
 import Provider, {errors, type KoaContextWithOIDC} from "oidc-provider";
 // @ts-ignore
@@ -19,11 +18,7 @@ declare global {
 
 @Module()
 export class OidcWildcardRedirectUriModule {
-  @Constant("oidc.plugins.wildcard.enabled", false)
-  readonly enabled: boolean;
-
-  @Inject(Logger)
-  protected logger: Logger;
+  readonly enabled = constant<boolean>("oidc.plugins.wildcard.enabled", false);
 
   $onCreateOIDC(provider: Provider) {
     if (this.enabled) {
@@ -34,7 +29,7 @@ export class OidcWildcardRedirectUriModule {
         "postLogoutRedirectUris"
       );
 
-      this.logger.warn("⚠️⚠️⚠️ OIDC Wildcard Uris plugin is ENABLED ⚠️⚠️⚠️");
+      logger().warn("⚠️⚠️⚠️ OIDC Wildcard Uris plugin is ENABLED ⚠️⚠️⚠️");
     }
   }
 

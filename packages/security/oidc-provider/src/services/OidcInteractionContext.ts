@@ -1,6 +1,6 @@
-import {Constant, InjectContext, PlatformContext} from "@tsed/common";
+import {PlatformContext} from "@tsed/common";
 import {Env} from "@tsed/core";
-import {Inject, Injectable} from "@tsed/di";
+import {constant, context, inject, Injectable} from "@tsed/di";
 import {Unauthorized} from "@tsed/exceptions";
 import omit from "lodash/omit.js";
 import type {Account, default as Provider, InteractionResults, PromptDetail} from "oidc-provider";
@@ -24,20 +24,13 @@ import {OidcProvider} from "./OidcProvider.js";
 
 @Injectable()
 export class OidcInteractionContext {
-  @Constant("env")
-  protected env: Env;
+  protected env = constant<Env>("env");
+  protected oidcProvider = inject(OidcProvider);
+  protected oidcInteractions = inject(OidcInteractions);
 
-  @Constant("oidc.render.omitClientProps", [])
-  protected omitClientProps: string[];
-
-  @Inject()
-  protected oidcProvider: OidcProvider;
-
-  @Inject()
-  protected oidcInteractions: OidcInteractions;
-
-  @InjectContext()
-  protected $ctx: PlatformContext;
+  get $ctx() {
+    return context<PlatformContext>();
+  }
 
   get raw(): OidcInteraction {
     return this.$ctx.get(INTERACTION_DETAILS)!;
@@ -115,8 +108,10 @@ export class OidcInteractionContext {
   async interactionPrompt({client, ...options}: Record<string, any>): Promise<OidcInteractionPromptProps> {
     client = client || (await this.findClient());
 
+    const omitClientProps = constant("oidc.render.omitClientProps", []);
+
     return {
-      client: omit(client, ["clientSecret", ...this.omitClientProps]),
+      client: omit(client, ["clientSecret", ...omitClientProps]),
       uid: this.uid,
       grantId: this.grantId,
       details: this.prompt.details,
