@@ -1,9 +1,9 @@
 import {isArray, type Type} from "@tsed/core";
 
 import {LocalsContainer} from "../domain/LocalsContainer.js";
+import {$injector} from "../fn/injector.js";
 import type {TokenProvider} from "../interfaces/TokenProvider.js";
 import {getConstructorDependencies} from "../utils/getConstructorDependencies.js";
-import {$injector} from "../utils/injector.js";
 
 function resolveAutoInjectableArgs(token: Type, args: unknown[]) {
   const injector = $injector();

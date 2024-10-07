@@ -1,8 +1,7 @@
 import {catchError} from "@tsed/core";
 
-import {$injector} from "../../common/index.js";
 import {DIContext} from "../domain/DIContext.js";
-import {getContext} from "../utils/asyncHookContext.js";
+import {context} from "../fn/context.js";
 
 /**
  * Inject a context like PlatformContext or any BaseContext.
@@ -23,15 +22,7 @@ export function InjectContext(transform: ($ctx: DIContext) => unknown = (o) => o
     catchError(() => Reflect.deleteProperty(target, propertyKey));
     Reflect.defineProperty(target, propertyKey, {
       get() {
-        return transform(
-          getContext() ||
-            new DIContext({
-              id: "",
-              logger: $injector().logger,
-              injector: $injector(),
-              maxStackSize: 0
-            })
-        );
+        return transform(context());
       }
     });
   };

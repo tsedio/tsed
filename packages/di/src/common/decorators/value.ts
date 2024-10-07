@@ -1,6 +1,6 @@
 import {catchError} from "@tsed/core";
 
-import {$injector} from "../utils/injector.js";
+import {$injector} from "../fn/injector.js";
 
 export function bindValue(target: any, propertyKey: string | symbol, expression: string, defaultValue?: any) {
   const descriptor = {

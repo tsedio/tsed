@@ -1,6 +1,6 @@
 import {catchError, importPackage} from "@tsed/core";
 
-import {$injector} from "../utils/injector.js";
+import {$injector} from "../fn/injector.js";
 
 /**
  * Lazy load a provider from his package and invoke only when the provider is used
