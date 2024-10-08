@@ -1,4 +1,4 @@
-import {DITest} from "@tsed/di";
+import {configuration, DITest} from "@tsed/di";
 import {Redis} from "ioredis";
 
 import {registerConnectionProvider} from "./registerConnectionProvider.js";
@@ -64,7 +64,7 @@ describe("RedisConnection", () => {
 
     it("should create redis connection", () => {
       const connection = DITest.get<REDIS_CONNECTION>(REDIS_CONNECTION);
-      const cacheSettings = DITest.injector.settings.get("cache");
+      const cacheSettings = configuration().get("cache");
 
       expect((connection as any).options).toMatchObject({
         host: "localhost",
@@ -93,7 +93,7 @@ describe("RedisConnection", () => {
 
     it("should create redis connection", () => {
       const connection = DITest.get<REDIS_CONNECTION>(REDIS_CONNECTION);
-      const cacheSettings = DITest.injector.settings.get("cache");
+      const cacheSettings = configuration().get("cache");
 
       expect((connection as any).options).toMatchObject({
         clusterRetryStrategy: expect.any(Function),
@@ -130,7 +130,7 @@ describe("RedisConnection", () => {
 
     it("should create redis connection", () => {
       const connection = DITest.get<REDIS_CONNECTION>(REDIS_CONNECTION);
-      const cacheSettings = DITest.injector.settings.get("cache");
+      const cacheSettings = configuration().get("cache");
 
       expect((connection as any).options).toMatchObject({
         value: "value",

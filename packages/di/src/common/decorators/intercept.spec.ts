@@ -10,10 +10,6 @@ import {Service} from "./service.js";
 
 @Interceptor()
 class MyInterceptor implements InterceptorMethods {
-  constructor(injSrv: InjectorService) {
-    // do some logic
-  }
-
   intercept(context: InterceptorContext<any>) {
     const r = typeof context.args[0] === "string" ? undefined : new Error(`Error message`);
     const retValue = context.next(r);

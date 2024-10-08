@@ -1,4 +1,3 @@
-import {catchError} from "@tsed/core";
 import {Logger} from "@tsed/logger";
 import {beforeEach} from "vitest";
 
@@ -105,9 +104,8 @@ describe("AutoInjectable", () => {
       class Test {
         @Inject(Logger)
         logger: Logger;
-
-        private value: string;
         instances?: InterfaceGroup[];
+        private value: string;
 
         constructor(initialValue: string, @Inject(TOKEN_GROUPS) instances?: InterfaceGroup[]) {
           this.value = initialValue;

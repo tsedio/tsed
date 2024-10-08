@@ -32,9 +32,6 @@ import {getConstructorDependencies} from "../utils/getConstructorDependencies.js
 import {resolveControllers} from "../utils/resolveControllers.js";
 import {DIConfiguration} from "./DIConfiguration.js";
 
-let globalInjector: InjectorService | undefined;
-let globalLocals: LocalsContainer | undefined;
-
 /**
  * This service contain all services collected by `@Service` or services declared manually with `InjectorService.factory()` or `InjectorService.service()`.
  *
@@ -64,12 +61,11 @@ export class InjectorService extends Container {
   public logger: DILogger = console;
   private resolvedConfiguration: boolean = false;
   #cache = new LocalsContainer();
-  #hooks = new Hooks();
+  readonly hooks = new Hooks();
 
   constructor() {
     super();
     this.#cache.set(InjectorService, this);
-    globalInjector = this;
   }
 
   get resolvers() {
@@ -78,31 +74,6 @@ export class InjectorService extends Container {
 
   get scopes() {
     return this.settings.scopes || {};
-  }
-
-  /**
-   * Return the current injector service.
-   */
-  static getInstance() {
-    if (!globalInjector) {
-      return new InjectorService();
-    }
-
-    return globalInjector;
-  }
-
-  /**
-   * Get the locals container initiated by DITest or .bootstrap() method.
-   */
-  static getLocals() {
-    return globalLocals || (globalLocals = new LocalsContainer());
-  }
-
-  /**
-   * Reset the locals container.
-   */
-  static unsetLocals() {
-    globalLocals = undefined;
   }
 
   /**
@@ -411,7 +382,7 @@ export class InjectorService extends Container {
    * @returns A list of promises.
    */
   public emit(eventName: string, ...args: any[]): Promise<void> {
-    return this.#hooks.asyncEmit(eventName, args);
+    return this.hooks.asyncEmit(eventName, args);
   }
 
   /**
@@ -421,7 +392,7 @@ export class InjectorService extends Container {
    * @param args
    */
   public alter<T = any>(eventName: string, value: any, ...args: any[]): T {
-    return this.#hooks.alter(eventName, value, args);
+    return this.hooks.alter(eventName, value, args);
   }
 
   /**
@@ -431,7 +402,7 @@ export class InjectorService extends Container {
    * @param args
    */
   public alterAsync<T = any>(eventName: string, value: any, ...args: any[]): Promise<T> {
-    return this.#hooks.asyncAlter(eventName, value, args);
+    return this.hooks.asyncAlter(eventName, value, args);
   }
 
   /**
@@ -439,7 +410,6 @@ export class InjectorService extends Container {
    */
   async destroy() {
     await this.emit("$onDestroy");
-    globalInjector = undefined;
   }
 
   /**
@@ -656,7 +626,7 @@ export class InjectorService extends Container {
       Object.entries(provider.hooks).forEach(([event, cb]) => {
         const callback = (...args: any[]) => cb(this.get(provider.token) || instance, ...args);
 
-        this.#hooks.on(event, callback);
+        this.hooks.on(event, callback);
       });
     }
   }

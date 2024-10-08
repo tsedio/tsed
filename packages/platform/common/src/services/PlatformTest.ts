@@ -1,5 +1,5 @@
 import {Type} from "@tsed/core";
-import {DITest, InjectorService} from "@tsed/di";
+import {DITest, hasInjector, injector, InjectorService} from "@tsed/di";
 import accepts from "accepts";
 import type {IncomingMessage, RequestListener, ServerResponse} from "http";
 
@@ -18,7 +18,7 @@ export class PlatformTest extends DITest {
   public static adapter: Type<PlatformAdapter>;
 
   static async create(settings: Partial<TsED.Configuration> = {}) {
-    DITest.injector = PlatformTest.createInjector(getConfiguration(settings));
+    PlatformTest.createInjector(getConfiguration(settings));
     await DITest.createContainer();
   }
 
@@ -56,18 +56,9 @@ export class PlatformTest extends DITest {
       settings.adapter = adapter as any;
 
       const configuration = getConfiguration(settings, mod);
-      const disableComponentsScan = configuration.disableComponentsScan || !!process.env.WEBPACK;
-
-      if (!disableComponentsScan) {
-        const {importProviders} = await import("@tsed/components-scan");
-        await importProviders(configuration);
-      }
 
       instance = await PlatformBuilder.build(mod, configuration).bootstrap();
       await instance.listen(!!listen);
-
-      // used by inject method
-      DITest.injector = instance.injector;
     };
   }
 
@@ -79,20 +70,21 @@ export class PlatformTest extends DITest {
    * * an array of Service dependency injection tokens,
    * * a test function whose parameters correspond exactly to each item in the injection token array.
    *
+   * @deprecated use PlatformTest.injector.invoke instead
    * @param targets
    * @param func
    */
   static inject<T>(targets: any[], func: (...args: any[]) => Promise<T> | T): () => Promise<T> {
     return async (): Promise<T> => {
-      if (!DITest.hasInjector()) {
+      if (!hasInjector()) {
         await PlatformTest.create();
       }
 
-      const injector: InjectorService = DITest.injector;
+      const inj: InjectorService = injector();
       const deps = [];
 
       for (const target of targets) {
-        deps.push(injector.has(target) ? injector.get(target) : await injector.invoke(target));
+        deps.push(inj.has(target) ? inj.get(target) : await inj.invoke(target));
       }
 
       return func(...deps);
@@ -116,7 +108,7 @@ export class PlatformTest extends DITest {
    * ```
    */
   static callback(): RequestListener<typeof IncomingMessage, typeof ServerResponse> {
-    return DITest.injector.get<PlatformApplication>(PlatformApplication)?.callback() as any;
+    return injector().get<PlatformApplication>(PlatformApplication)?.callback() as any;
   }
 
   static createRequest(options: any = {}): any {
@@ -148,8 +140,8 @@ export class PlatformTest extends DITest {
 
     const $ctx = new PlatformContext({
       id: "id",
-      injector: DITest.injector,
-      logger: DITest.injector.logger,
+      injector: injector(),
+      logger: injector().logger,
       url: "/",
       ...options,
       event

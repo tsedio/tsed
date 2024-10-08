@@ -1,14 +1,14 @@
 import {catchError} from "@tsed/core";
 
-import {$injector} from "../fn/injector.js";
+import {injector} from "../fn/injector.js";
 
 export function bindValue(target: any, propertyKey: string | symbol, expression: string, defaultValue?: any) {
   const descriptor = {
     get() {
-      return $injector().settings.get(expression, defaultValue);
+      return injector().settings.get(expression, defaultValue);
     },
     set(value: unknown) {
-      $injector().settings.set(expression, value);
+      injector().settings.set(expression, value);
     },
     enumerable: true,
     configurable: true

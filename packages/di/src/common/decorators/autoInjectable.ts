@@ -1,12 +1,12 @@
 import {isArray, type Type} from "@tsed/core";
 
 import {LocalsContainer} from "../domain/LocalsContainer.js";
-import {$injector} from "../fn/injector.js";
+import {injector} from "../fn/injector.js";
 import type {TokenProvider} from "../interfaces/TokenProvider.js";
 import {getConstructorDependencies} from "../utils/getConstructorDependencies.js";
 
 function resolveAutoInjectableArgs(token: Type, args: unknown[]) {
-  const injector = $injector();
+  const inj = injector();
   const locals = new LocalsContainer();
   const deps: TokenProvider[] = getConstructorDependencies(token);
   const list: any[] = [];
@@ -17,9 +17,7 @@ function resolveAutoInjectableArgs(token: Type, args: unknown[]) {
       list.push(args[i]);
     } else {
       const value = deps[i];
-      const instance = isArray(value)
-        ? injector!.getMany(value[0], locals, {parent: token})
-        : injector!.invoke(value, locals, {parent: token});
+      const instance = isArray(value) ? inj!.getMany(value[0], locals, {parent: token}) : inj!.invoke(value, locals, {parent: token});
 
       list.push(instance);
     }

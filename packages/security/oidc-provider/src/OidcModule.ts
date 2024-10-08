@@ -1,5 +1,5 @@
 import {PlatformApplication} from "@tsed/common";
-import {$injector, constant, inject, Module} from "@tsed/di";
+import {constant, inject, injector, Module} from "@tsed/di";
 import koaMount from "koa-mount";
 
 import {OidcAdapters} from "./services/OidcAdapters.js";
@@ -44,14 +44,14 @@ export class OidcModule {
   }
 
   $onReady() {
-    const injector = $injector();
+    const inj = injector();
 
-    if (this.oidcProvider.hasConfiguration() && "getBestHost" in injector.settings) {
+    if (this.oidcProvider.hasConfiguration() && "getBestHost" in inj.settings) {
       // @ts-ignore
       const host = injector.settings.getBestHost();
       const url = host.toString();
 
-      injector.logger.info(`WellKnown is available on ${url}/.well-known/openid-configuration`);
+      inj.logger.info(`WellKnown is available on ${url}/.well-known/openid-configuration`);
     }
   }
 

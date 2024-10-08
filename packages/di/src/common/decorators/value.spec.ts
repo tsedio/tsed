@@ -1,4 +1,5 @@
 import {DITest} from "../../node/index.js";
+import {configuration} from "../fn/configuration.js";
 import {Value} from "./value.js";
 
 describe("@Value()", () => {
@@ -25,7 +26,7 @@ describe("@Value()", () => {
       expect(test.test).toEqual("off");
     });
     it("should create a getter with default value", async () => {
-      expect(DITest.injector.settings.get("logger.test")).toEqual(undefined);
+      expect(configuration().get("logger.test")).toEqual(undefined);
 
       // WHEN
       class Test {
@@ -38,7 +39,7 @@ describe("@Value()", () => {
       const test = await DITest.invoke<Test>(Test);
 
       expect(test.test).toEqual("default value");
-      expect(DITest.injector.settings.get("logger.test")).toEqual(undefined);
+      expect(configuration().get("logger.test")).toEqual(undefined);
     });
     it("should create a getter with native default value", async () => {
       // WHEN
@@ -52,7 +53,7 @@ describe("@Value()", () => {
       const test = await DITest.invoke<Test>(Test);
 
       expect(test.test).toEqual("default prop");
-      expect(DITest.injector.settings.get("logger.test")).toEqual("default prop");
+      expect(configuration().get("logger.test")).toEqual("default prop");
     });
   });
 });

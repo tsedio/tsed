@@ -1,90 +1,62 @@
-import {Env, getValue, isClass, isObject, isPromise, setValue} from "@tsed/core";
+import {Env, getValue, isClass, isObject} from "@tsed/core";
 import {$log} from "@tsed/logger";
 
+import {cleanAllLocalsContainer, detachLocalsContainer, localsContainer} from "../../common/fn/localsContainer.js";
 import {
   createContainer,
+  destroyInjector,
   DI_INJECTABLE_PROPS,
+  hasInjector,
+  inject,
+  injector,
   InjectorService,
   type OnInit,
   TokenProvider,
   type UseImportTokenProviderOpts
 } from "../../common/index.js";
 import {DIContext} from "../domain/DIContext.js";
+import {logger} from "../fn/logger.js";
 import {setLoggerConfiguration} from "../utils/setLoggerConfiguration.js";
 
 /**
  * Tool to run test with lightweight DI sandbox.
  */
 export class DITest {
-  static options: Partial<TsED.Configuration> = {};
-  protected static _injector: InjectorService | null = null;
-
-  static get injector(): InjectorService {
-    if (DITest._injector) {
-      return DITest._injector!;
-    }
-
-    /* istanbul ignore next */
-    throw new Error(
-      "PlatformTest.injector is not initialized. Use PlatformTest.create(): Promise before PlatformTest.invoke() or PlatformTest.injector.\n" +
-        "Example:\n" +
-        "before(async () => {\n" +
-        "   await PlatformTest.create()\n" +
-        "   await PlatformTest.invoke(MyService, [])\n" +
-        "})"
-    );
-  }
-
-  static set injector(injector: InjectorService) {
-    DITest._injector = injector;
-  }
-
-  static set(key: string, value: any) {
-    setValue(DITest.options, key, value);
-  }
-
-  static hasInjector() {
-    return !!DITest._injector;
+  static get injector() {
+    return injector();
   }
 
   static async create(settings: Partial<TsED.Configuration> = {}) {
-    settings = {
-      ...DITest.options,
-      ...settings
-    };
-
-    DITest.injector = DITest.createInjector(settings);
-
+    DITest.createInjector(settings);
     await DITest.createContainer();
   }
 
   static async createContainer() {
-    await DITest.injector.load(createContainer());
+    await injector().load(createContainer());
   }
 
   /**
    * Create a new injector with the right default services
    */
   static createInjector(settings: any = {}): InjectorService {
-    const injector = new InjectorService();
-    injector.logger = $log;
+    const inj = injector({
+      rebuild: true,
+      logger: $log,
+      settings: DITest.configure(settings)
+    });
 
-    // @ts-ignore
-    injector.settings.set(DITest.configure(settings));
+    setLoggerConfiguration(inj);
 
-    setLoggerConfiguration(injector);
-
-    return injector;
+    return inj;
   }
 
   /**
    * Resets the test injector of the test context, so it won't pollute your next test. Call this in your `tearDown` logic.
    */
   static async reset() {
-    if (DITest.hasInjector()) {
-      await DITest.injector.destroy();
-      InjectorService.unsetLocals();
-      DITest._injector = null;
+    if (hasInjector()) {
+      await destroyInjector();
+      cleanAllLocalsContainer();
     }
   }
 
@@ -94,15 +66,9 @@ export class DITest {
    * @param providers
    */
   static async invoke<T = any>(target: TokenProvider<T>, providers: UseImportTokenProviderOpts[] = []): Promise<T> {
-    const locals = InjectorService.getLocals();
+    const locals = localsContainer({providers, rebuild: true});
 
-    providers.forEach((p) => {
-      locals.set(p.token, p.use);
-    });
-
-    locals.set(InjectorService, DITest.injector);
-
-    const instance: T & OnInit = DITest.injector.invoke<T & OnInit>(target, locals, {rebuild: true});
+    const instance: T & OnInit = inject<T & OnInit>(target, {locals, rebuild: true});
 
     if (instance && isObject(instance) && "$onInit" in instance) {
       const result = instance.$onInit();
@@ -124,7 +90,7 @@ export class DITest {
       }
     }
 
-    InjectorService.unsetLocals();
+    detachLocalsContainer();
 
     return instance as any;
   }
@@ -135,14 +101,14 @@ export class DITest {
    * @param options
    */
   static get<T = any>(target: TokenProvider, options: any = {}): T {
-    return DITest.injector.get<T>(target, options)!;
+    return injector().get<T>(target, options)!;
   }
 
   static createDIContext() {
     return new DIContext({
       id: "id",
-      injector: DITest.injector,
-      logger: DITest.injector.logger
+      injector: injector(),
+      logger: logger()
     });
   }
 

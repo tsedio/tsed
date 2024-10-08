@@ -1,4 +1,5 @@
 import {DITest} from "../../node/index.js";
+import {configuration} from "./configuration.js";
 import {refValue} from "./refValue.js";
 
 describe("refValue()", () => {
@@ -24,7 +25,7 @@ describe("refValue()", () => {
       expect(test.test.value).toEqual("off");
     });
     it("should create a getter with default value", async () => {
-      expect(DITest.injector.settings.get("logger.test")).toEqual(undefined);
+      expect(configuration().get("logger.test")).toEqual(undefined);
 
       // WHEN
       class Test {
@@ -36,7 +37,7 @@ describe("refValue()", () => {
       const test = await DITest.invoke<Test>(Test);
 
       expect(test.test.value).toEqual("default value");
-      expect(DITest.injector.settings.get("logger.test")).toEqual(undefined);
+      expect(configuration().get("logger.test")).toEqual(undefined);
     });
   });
 });

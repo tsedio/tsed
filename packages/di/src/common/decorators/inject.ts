@@ -4,10 +4,8 @@ import {DI_INJECTABLE_PROPS, DI_INVOKE_OPTIONS, DI_USE_OPTIONS} from "../constan
 import {InvalidPropertyTokenError} from "../errors/InvalidPropertyTokenError.js";
 import {inject} from "../fn/inject.js";
 import {injectMany} from "../fn/injectMany.js";
-import {$injector} from "../fn/injector.js";
 import type {InvokeOptions} from "../interfaces/InvokeOptions.js";
 import {TokenProvider} from "../interfaces/TokenProvider.js";
-import {InjectorService} from "../services/InjectorService.js";
 import {getConstructorDependencies, setConstructorDependencies} from "../utils/getConstructorDependencies.js";
 
 function setToken(

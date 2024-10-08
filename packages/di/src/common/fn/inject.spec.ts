@@ -26,4 +26,5 @@ describe("inject()", () => {
       }
     ]);
   });
+  it("should rebuild all dependencies using invoke", async () => {});
 });

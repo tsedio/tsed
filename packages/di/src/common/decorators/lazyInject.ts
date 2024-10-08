@@ -1,6 +1,6 @@
 import {catchError, importPackage} from "@tsed/core";
 
-import {$injector} from "../fn/injector.js";
+import {injector} from "../fn/injector.js";
 
 /**
  * Lazy load a provider from his package and invoke only when the provider is used
@@ -42,7 +42,7 @@ export function LazyInject(
             }
           }
 
-          bean = token ? await $injector().lazyInvoke(token) : {};
+          bean = token ? await injector().lazyInvoke(token) : {};
         }
 
         return bean;

@@ -1,5 +1,8 @@
 import {InjectorService} from "../services/InjectorService.js";
 
+let globalInjector: InjectorService | undefined;
+
+type InjectorFnOpts = {rebuild?: boolean; logger?: any; settings?: Partial<TsED.Configuration>};
 /**
  * Create or return the existing injector service.
  *
@@ -14,12 +17,27 @@ import {InjectorService} from "../services/InjectorService.js";
  * }
  * ```
  */
-export function injector(): InjectorService {
-  return InjectorService.getInstance();
+export function injector(opts?: InjectorFnOpts): InjectorService {
+  if (!globalInjector || opts?.rebuild) {
+    globalInjector = new InjectorService();
+
+    if (opts && opts.logger) {
+      globalInjector.logger = opts.logger;
+    }
+
+    if (opts?.settings) {
+      globalInjector.settings.set(opts.settings);
+    }
+  }
+
+  return globalInjector;
 }
 
-/**
- * Alias of injector
- * @alias injector
- */
-export const $injector = injector;
+export function hasInjector() {
+  return !!globalInjector;
+}
+
+export async function destroyInjector() {
+  await globalInjector?.destroy();
+  globalInjector = undefined;
+}
