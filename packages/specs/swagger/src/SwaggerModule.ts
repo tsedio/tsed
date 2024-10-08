@@ -2,6 +2,7 @@ import {
   Configuration,
   Constant,
   Inject,
+  injector,
   InjectorService,
   Module,
   OnReady,
@@ -128,7 +129,7 @@ export class SwaggerModule implements OnRoutesInit, OnReady {
    */
   private createRouter(conf: SwaggerSettings, urls: string[]) {
     const {disableSpec = false, fileName = "swagger.json", cssPath, jsPath, viewPath = join(ROOT_DIR, "../views/index.ejs")} = conf;
-    const router = new PlatformRouter(this.injector);
+    const router = new PlatformRouter(injector());
 
     if (!disableSpec) {
       router.get(normalizePath("/", fileName), useContextHandler(this.middlewareSwaggerJson(conf)));

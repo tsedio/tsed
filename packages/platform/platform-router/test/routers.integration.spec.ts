@@ -1,4 +1,4 @@
-import {PlatformContext, PlatformHandlerMetadata, PlatformTest, useResponseHandler} from "@tsed/common";
+import {injector, PlatformContext, PlatformHandlerMetadata, PlatformTest, useResponseHandler} from "@tsed/common";
 import {catchError} from "@tsed/core";
 import {Controller, InjectorService} from "@tsed/di";
 import {UseBefore} from "@tsed/platform-middlewares";
@@ -140,10 +140,9 @@ describe("routers integration", () => {
 
   describe("use()", () => {
     it("should call method", () => {
-      const injector = new InjectorService();
-      injector.addProvider(NestedController, {});
+      injector().addProvider(NestedController, {});
 
-      const router = new PlatformRouter(injector);
+      const router = new PlatformRouter(injector());
 
       router.use("/hello", function h() {});
 

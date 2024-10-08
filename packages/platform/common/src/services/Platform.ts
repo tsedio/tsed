@@ -1,4 +1,4 @@
-import {ControllerProvider, Injectable, InjectorService, ProviderScope, TokenProvider} from "@tsed/di";
+import {ControllerProvider, inject, Injectable, injector, InjectorService, ProviderScope, TokenProvider} from "@tsed/di";
 import {PlatformLayer, PlatformRouters} from "@tsed/platform-router";
 
 import {Route, RouteController} from "../interfaces/Route.js";
@@ -17,16 +17,11 @@ import {PlatformHandler} from "./PlatformHandler.js";
 export class Platform {
   #layers: PlatformLayer[];
 
-  constructor(
-    readonly injector: InjectorService,
-    readonly platformApplication: PlatformApplication,
-    readonly platformRouters: PlatformRouters
-  ) {
-    platformRouters.prebuild();
-  }
+  readonly app = inject(PlatformApplication);
+  readonly platformRouters = inject(PlatformRouters);
 
-  get app() {
-    return this.platformApplication;
+  constructor() {
+    this.platformRouters.prebuild();
   }
 
   public addRoutes(routes: Route[]) {
@@ -36,7 +31,7 @@ export class Platform {
   }
 
   public addRoute(route: string, token: TokenProvider) {
-    const provider = this.injector.getProvider(token) as ControllerProvider;
+    const provider = injector().getProvider(token) as ControllerProvider;
 
     if (!provider || provider.hasParent()) {
       return this;

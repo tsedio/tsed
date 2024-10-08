@@ -1,5 +1,5 @@
 import {isClass} from "@tsed/core";
-import {Constant, Inject, Injectable, InjectorService, TokenProvider} from "@tsed/di";
+import {Constant, constant, Inject, Injectable, InjectorService, TokenProvider} from "@tsed/di";
 import {ParamTypes} from "@tsed/platform-params";
 import {AlterEndpointHandlersArg} from "@tsed/platform-router";
 import {JsonEntityStore, JsonOperationRoute} from "@tsed/schema";
@@ -10,15 +10,6 @@ import {PlatformAdapter} from "../services/PlatformAdapter.js";
 
 @Injectable()
 export class PlatformMiddlewaresChain {
-  @Constant("acceptMimes", [])
-  protected acceptMimes: string[];
-
-  @Inject(PlatformAdapter)
-  protected adapter: PlatformAdapter;
-
-  @Inject(InjectorService)
-  protected injector: InjectorService;
-
   get(handlers: AlterEndpointHandlersArg, operationRoute: JsonOperationRoute): AlterEndpointHandlersArg {
     const {ACCEPT_MIMES, FILE} = this.getParamTypes(handlers, operationRoute);
 
@@ -29,7 +20,7 @@ export class PlatformMiddlewaresChain {
   }
 
   protected hasAcceptMimes(operationRoute: JsonOperationRoute) {
-    return operationRoute.endpoint.acceptMimes.length || this.acceptMimes.length;
+    return operationRoute.endpoint.acceptMimes.length || constant("acceptMimes", []).length;
   }
 
   protected getParamTypes(middlewares: AlterEndpointHandlersArg, operationRoute: JsonOperationRoute) {

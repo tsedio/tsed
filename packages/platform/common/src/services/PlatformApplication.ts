@@ -1,4 +1,4 @@
-import {Injectable, InjectorService, ProviderScope} from "@tsed/di";
+import {inject, Injectable, injector, ProviderScope} from "@tsed/di";
 import {PlatformRouter} from "@tsed/platform-router";
 import {IncomingMessage, ServerResponse} from "http";
 
@@ -25,12 +25,11 @@ export class PlatformApplication<App = TsED.Application> extends PlatformRouter 
   rawApp: App;
   rawCallback: () => any;
 
-  constructor(
-    public adapter: PlatformAdapter<App>,
-    public injector: InjectorService
-  ) {
-    super(injector);
-    const {app, callback} = adapter.createApp();
+  readonly adapter = inject<PlatformAdapter<App>>(PlatformAdapter);
+
+  constructor() {
+    super(injector());
+    const {app, callback} = this.adapter.createApp();
 
     this.rawApp = app;
     this.rawCallback = callback;
