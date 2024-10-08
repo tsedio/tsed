@@ -14,12 +14,17 @@ import {OidcPolicy} from "./OidcPolicy.js";
 import {OIDC_PROVIDER_NODE_MODULE, Provider} from "./OidcProviderNodeModule.js";
 
 function mapError(error: any) {
-  return Object.getOwnPropertyNames(error).reduce((obj: any, key) => {
-    return {
-      ...obj,
-      [key]: error[key]
-    };
-  }, {});
+  return Object.getOwnPropertyNames(error).reduce(
+    (obj: any, key) => {
+      return {
+        ...obj,
+        [key]: error[key]
+      };
+    },
+    {
+      stack: error.stack
+    }
+  );
 }
 
 @Injectable()
