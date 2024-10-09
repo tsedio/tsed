@@ -1,6 +1,6 @@
-import {PlatformBuilder, PlatformBuilderSettings} from "@tsed/common";
+import type {PlatformBuilder, PlatformBuilderSettings} from "@tsed/common";
 import {nameOf, Type} from "@tsed/core";
-import {DITest} from "@tsed/di";
+import {destroyInjector, DITest, hasInjector} from "@tsed/di";
 import {APIGatewayEventDefaultAuthorizerContext, APIGatewayProxyEventBase, APIGatewayProxyHandler} from "aws-lambda";
 import {APIGatewayProxyResult} from "aws-lambda/trigger/api-gateway-proxy.js";
 
@@ -153,7 +153,7 @@ export class PlatformServerlessTest extends DITest {
   static request = LambdaClientRequest;
 
   static bootstrap(
-    serverless: {bootstrap: (server: Type<any>, settings: PlatformBuilderSettings<any>) => PlatformBuilder},
+    serverless: {bootstrap: (server: Type<any>, settings: TsED.Configuration) => PlatformBuilder},
     {server, ...settings}: PlatformBuilderSettings<any> & {server: Type<any>}
   ): () => Promise<any>;
   static bootstrap(
@@ -177,8 +177,6 @@ export class PlatformServerlessTest extends DITest {
       }
 
       PlatformServerlessTest.callbacks.handler = instance.handler();
-      // used by inject method
-      DITest.injector = instance.injector;
 
       return instance.promise;
     };
@@ -191,9 +189,8 @@ export class PlatformServerlessTest extends DITest {
     if (PlatformServerlessTest.instance) {
       await PlatformServerlessTest.instance.stop();
     }
-    if (DITest.hasInjector()) {
-      await DITest.injector.destroy();
-      DITest._injector = null;
+    if (hasInjector()) {
+      await destroyInjector();
     }
   }
 }

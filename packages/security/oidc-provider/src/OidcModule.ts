@@ -48,7 +48,7 @@ export class OidcModule {
 
     if (this.oidcProvider.hasConfiguration() && "getBestHost" in inj.settings) {
       // @ts-ignore
-      const host = injector.settings.getBestHost();
+      const host = inj.settings.getBestHost();
       const url = host.toString();
 
       inj.logger.info(`WellKnown is available on ${url}/.well-known/openid-configuration`);

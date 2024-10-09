@@ -1,7 +1,7 @@
 import type {InvokeOptions} from "../interfaces/InvokeOptions.js";
 import {TokenProvider} from "../interfaces/TokenProvider.js";
 import {injector} from "./injector.js";
-import {localsContainer} from "./localsContainer.js";
+import {invokeOptions, localsContainer} from "./localsContainer.js";
 
 /**
  * Inject a provider to another provider.
@@ -21,5 +21,8 @@ import {localsContainer} from "./localsContainer.js";
  * @decorator
  */
 export function inject<T>(token: TokenProvider<T>, opts?: Partial<Pick<InvokeOptions, "useOpts" | "rebuild" | "locals">>): T {
-  return injector().invoke(token, opts?.locals || localsContainer(), opts);
+  return injector().invoke(token, opts?.locals || localsContainer(), {
+    ...opts,
+    ...invokeOptions()
+  });
 }

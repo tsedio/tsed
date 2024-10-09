@@ -507,7 +507,6 @@ export class InjectorService extends Container {
       Reflect.defineProperty(instance, DI_INVOKE_OPTIONS, {
         get: () => ({rebuild: options.rebuild, locals})
       });
-      // TODO add a way to notify DI consumer when a class instance is build
     }
 
     return instance;

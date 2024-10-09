@@ -1,11 +1,25 @@
 import {catchAsyncError} from "@tsed/core";
 
 import {DITest} from "../../node/index.js";
+import {inject} from "../fn/inject.js";
 import {injector} from "../fn/injector.js";
 import {registerProvider} from "../registries/ProviderRegistry.js";
 import {InjectorService} from "../services/InjectorService.js";
 import {Inject} from "./inject.js";
 import {Injectable} from "./injectable.js";
+
+@Injectable()
+class ProvidersList extends Map<string, string> {}
+
+@Injectable()
+class MyService {
+  @Inject(ProvidersList)
+  providersList: ProvidersList;
+
+  getValue() {
+    return this.providersList.get("key");
+  }
+}
 
 describe("@Inject()", () => {
   beforeEach(() => DITest.create());
@@ -278,5 +292,17 @@ describe("@Inject()", () => {
 
       expect(error?.message).toContain("Object isn't a valid token. Please check the token set on Test.test");
     });
+  });
+  it("should rebuild all dependencies using invoke", async () => {
+    const providersList = inject(ProvidersList);
+    const myService = inject(MyService);
+    providersList.set("key", "value");
+
+    expect(inject(ProvidersList).get("key")).toEqual("value");
+    expect(myService.getValue()).toEqual("value");
+
+    const newMyService = await DITest.invoke(MyService, []);
+    expect(newMyService.getValue()).toEqual(undefined);
+    expect(myService.getValue()).toEqual("value");
   });
 });
