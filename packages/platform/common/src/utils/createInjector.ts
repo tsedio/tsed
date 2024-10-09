@@ -1,5 +1,5 @@
 import {toMap, Type} from "@tsed/core";
-import {InjectorService, ProviderOpts, setLoggerConfiguration} from "@tsed/di";
+import {injector, ProviderOpts, setLoggerConfiguration} from "@tsed/di";
 import {$log} from "@tsed/logger";
 
 import {PlatformConfiguration} from "../config/services/PlatformConfiguration.js";
@@ -26,33 +26,33 @@ interface CreateInjectorOptions {
 }
 
 export function createInjector({adapter, settings = {}}: CreateInjectorOptions) {
-  const injector = new InjectorService();
-  injector.addProvider(PlatformConfiguration);
+  const inj = injector();
+  inj.addProvider(PlatformConfiguration);
 
-  injector.settings = injector.invoke(PlatformConfiguration);
-  injector.logger = $log;
-  injector.settings.set(settings);
+  inj.settings = inj.invoke(PlatformConfiguration);
+  inj.logger = $log;
+  inj.settings.set(settings);
 
   if (adapter) {
-    injector.addProvider(PlatformAdapter, {
+    inj.addProvider(PlatformAdapter, {
       useClass: adapter
     });
   }
 
-  injector.invoke(PlatformAdapter);
-  injector.alias(PlatformAdapter, "PlatformAdapter");
+  inj.invoke(PlatformAdapter);
+  inj.alias(PlatformAdapter, "PlatformAdapter");
 
-  setLoggerConfiguration(injector);
+  setLoggerConfiguration(inj);
 
-  const instance = injector.get<PlatformAdapter>(PlatformAdapter)!;
+  const instance = inj.get<PlatformAdapter>(PlatformAdapter)!;
 
   instance.providers = [...DEFAULT_PROVIDERS, ...instance.providers];
 
   toMap<any, ProviderOpts>(instance.providers, "provide").forEach((provider, token) => {
-    injector.addProvider(token, provider);
+    inj.addProvider(token, provider);
   });
 
-  injector.invoke(PlatformApplication);
+  inj.invoke(PlatformApplication);
 
-  return injector;
+  return inj;
 }

@@ -1,8 +1,8 @@
 import {DITest} from "../../node/index.js";
-import {configuration} from "../fn/configuration.js";
-import {Value} from "./value.js";
+import {configuration} from "./configuration.js";
+import {refValue} from "./refValue.js";
 
-describe("@Value()", () => {
+describe("refValue()", () => {
   beforeEach(() =>
     DITest.create({
       logger: {
@@ -15,45 +15,29 @@ describe("@Value()", () => {
     it("should create a getter", async () => {
       // WHEN
       class Test {
-        @Value("logger.level", "default value")
-        test: string;
+        test = refValue("logger.level", "default value");
       }
 
       // THEN
 
       const test = await DITest.invoke<Test>(Test);
 
-      expect(test.test).toEqual("off");
+      expect(test.test.value).toEqual("off");
     });
     it("should create a getter with default value", async () => {
       expect(configuration().get("logger.test")).toEqual(undefined);
 
       // WHEN
       class Test {
-        @Value("logger.test", "default value")
-        test: string;
+        test = refValue("logger.test", "default value");
       }
 
       // THEN
 
       const test = await DITest.invoke<Test>(Test);
 
-      expect(test.test).toEqual("default value");
+      expect(test.test.value).toEqual("default value");
       expect(configuration().get("logger.test")).toEqual(undefined);
-    });
-    it("should create a getter with native default value", async () => {
-      // WHEN
-      class Test {
-        @Value("logger.test")
-        test: string = "default prop";
-      }
-
-      // THEN
-
-      const test = await DITest.invoke<Test>(Test);
-
-      expect(test.test).toEqual("default prop");
-      expect(configuration().get("logger.test")).toEqual("default prop");
     });
   });
 });

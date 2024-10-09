@@ -1,5 +1,5 @@
 import {catchAsyncError, Type} from "@tsed/core";
-import {Configuration, Controller, Injectable, InjectorService, Module} from "@tsed/di";
+import {Configuration, configuration, Controller, destroyInjector, Injectable, injector, Module} from "@tsed/di";
 
 import {AfterInit} from "../interfaces/AfterInit.js";
 import {AfterListen} from "../interfaces/AfterListen.js";
@@ -216,31 +216,10 @@ describe("PlatformBuilder", () => {
       );
     });
   });
-  describe("static boostrap()", () => {
-    beforeAll(() => {
-      vi.spyOn(ServerModule.prototype, "$beforeRoutesInit").mockReturnValue(undefined);
-      vi.spyOn(ServerModule.prototype, "$afterRoutesInit").mockReturnValue(undefined);
-      vi.spyOn(ServerModule.prototype, "$afterInit").mockReturnValue(undefined);
-      vi.spyOn(ServerModule.prototype, "$afterListen").mockReturnValue(undefined);
-      vi.spyOn(ServerModule.prototype, "$beforeInit").mockReturnValue(undefined);
-      vi.spyOn(ServerModule.prototype, "$beforeListen").mockReturnValue(undefined);
-      vi.spyOn(ServerModule.prototype, "$onReady").mockReturnValue(undefined);
-      vi.spyOn(PlatformBuilder.prototype, "loadStatics");
-      // @ts-ignore
-      vi.spyOn(PlatformBuilder.prototype, "listenServers");
-      vi.spyOn(InjectorService.prototype, "emit").mockResolvedValue(undefined);
-      vi.spyOn(Platform.prototype, "addRoutes").mockReturnValue(undefined);
-    });
-    it("should boostrap a custom platform", async () => {
-      const result = await PlatformBuilder.bootstrap(ServerModule, {
-        adapter: FakeAdapter
-      });
-
-      expect(result).toBeInstanceOf(PlatformBuilder);
-    });
-  });
-  describe("static create()", () => {
+  describe("boostrap", () => {
     beforeEach(() => {
+      destroyInjector();
+      const inj = injector();
       vi.spyOn(ServerModule.prototype, "$beforeRoutesInit").mockReturnValue(undefined);
       vi.spyOn(ServerModule.prototype, "$afterRoutesInit").mockReturnValue(undefined);
       vi.spyOn(ServerModule.prototype, "$afterInit").mockReturnValue(undefined);
@@ -251,89 +230,82 @@ describe("PlatformBuilder", () => {
       vi.spyOn(PlatformBuilder.prototype, "loadStatics");
       // @ts-ignore
       vi.spyOn(PlatformBuilder.prototype, "listenServers");
-      vi.spyOn(InjectorService.prototype, "emit").mockResolvedValue(undefined);
       vi.spyOn(Platform.prototype, "addRoutes").mockReturnValue(undefined);
     });
-    afterAll(() => {
-      vi.resetAllMocks();
+
+    describe("static boostrap()", () => {
+      it("should boostrap a custom platform", async () => {
+        const result = await PlatformBuilder.bootstrap(ServerModule, {
+          adapter: FakeAdapter
+        });
+
+        expect(result).toBeInstanceOf(PlatformBuilder);
+      });
     });
-    it("should boostrap a custom platform", () => {
-      const platform = PlatformBuilder.create(ServerModule, {
-        adapter: FakeAdapter
+    describe("static create()", () => {
+      it("should boostrap a custom platform", () => {
+        PlatformBuilder.create(ServerModule, {
+          adapter: FakeAdapter
+        });
+
+        expect(configuration().get("httpPort")).toEqual(false);
+        expect(configuration().get("httpsPort")).toEqual(false);
+      });
+    });
+    describe("bootstrap()", () => {
+      it("should bootstrap platform", async () => {
+        // WHEN
+        const spyOn = vi.spyOn(injector().hooks, "asyncEmit").mockResolvedValue(undefined);
+        const stub = ServerModule.prototype.$beforeRoutesInit;
+        const server = await PlatformCustom.bootstrap(ServerModule, {
+          httpPort: false,
+          httpsPort: false
+        });
+        // THEN
+        await server.listen();
+
+        // THEN
+        // @ts-ignore
+        expect(server.listenServers).toHaveBeenCalledWith();
+        expect(server.loadStatics).toHaveBeenCalledWith("$beforeRoutesInit");
+        expect(server.loadStatics).toHaveBeenCalledWith("$afterRoutesInit");
+        expect(spyOn).toHaveBeenCalledWith("$afterInit", []);
+        expect(spyOn).toHaveBeenCalledWith("$beforeRoutesInit", []);
+        expect(spyOn).toHaveBeenCalledWith("$afterRoutesInit", []);
+        expect(spyOn).toHaveBeenCalledWith("$afterListen", []);
+        expect(spyOn).toHaveBeenCalledWith("$beforeListen", []);
+        expect(spyOn).toHaveBeenCalledWith("$onServerReady", []);
+        expect(spyOn).toHaveBeenCalledWith("$onReady", []);
+
+        // THEN
+        expect(server.rootModule).toBeInstanceOf(ServerModule);
+        expect(stub).toHaveBeenCalled();
+        expect(server.name).toEqual("custom");
+
+        await server.stop();
+        expect(spyOn).toHaveBeenCalledWith("$onDestroy", []);
+      });
+    });
+    describe("adapter()", () => {
+      it("should boostrap a custom platform", async () => {
+        const platformBuilder = await PlatformBuilder.bootstrap(ServerModule, {
+          adapter: FakeAdapter
+        });
+
+        expect(platformBuilder.callback()).toBeInstanceOf(Function);
+
+        expect(platformBuilder.adapter).toBeInstanceOf(FakeAdapter);
       });
 
-      expect(platform.settings.get("httpPort")).toEqual(false);
-      expect(platform.settings.get("httpsPort")).toEqual(false);
+      it("should listen a custom platform", async () => {
+        const platform = await PlatformBuilder.create(ServerModule, {
+          adapter: FakeAdapter
+        });
+
+        await platform.listen();
+      });
     });
   });
-  describe("bootstrap()", () => {
-    it("should bootstrap platform", async () => {
-      // WHEN
-      const stub = ServerModule.prototype.$beforeRoutesInit;
-      const server = await PlatformCustom.bootstrap(ServerModule, {
-        httpPort: false,
-        httpsPort: false
-      });
-
-      // THEN
-      await server.listen();
-
-      // THEN
-      // @ts-ignore
-      expect(server.listenServers).toHaveBeenCalledWith();
-      expect(server.loadStatics).toHaveBeenCalledWith("$beforeRoutesInit");
-      expect(server.loadStatics).toHaveBeenCalledWith("$afterRoutesInit");
-      expect(server.injector.emit).toHaveBeenCalledWith("$afterInit");
-      expect(server.injector.emit).toHaveBeenCalledWith("$beforeRoutesInit");
-      expect(server.injector.emit).toHaveBeenCalledWith("$afterRoutesInit");
-      expect(server.injector.emit).toHaveBeenCalledWith("$afterListen");
-      expect(server.injector.emit).toHaveBeenCalledWith("$beforeListen");
-      expect(server.injector.emit).toHaveBeenCalledWith("$onServerReady");
-      expect(server.injector.emit).toHaveBeenCalledWith("$onReady");
-
-      // THEN
-      expect(server.rootModule).toBeInstanceOf(ServerModule);
-      expect(stub).toHaveBeenCalled();
-      expect(server.name).toEqual("custom");
-
-      await server.stop();
-      expect(server.injector.emit).toHaveBeenCalledWith("$onDestroy");
-    });
-  });
-  describe("adapter()", () => {
-    beforeAll(() => {
-      vi.spyOn(ServerModule.prototype, "$beforeRoutesInit").mockReturnValue(undefined);
-      vi.spyOn(ServerModule.prototype, "$afterRoutesInit").mockReturnValue(undefined);
-      vi.spyOn(ServerModule.prototype, "$afterInit").mockReturnValue(undefined);
-      vi.spyOn(ServerModule.prototype, "$afterListen").mockReturnValue(undefined);
-      vi.spyOn(ServerModule.prototype, "$beforeInit").mockReturnValue(undefined);
-      vi.spyOn(ServerModule.prototype, "$beforeListen").mockReturnValue(undefined);
-      vi.spyOn(ServerModule.prototype, "$onReady").mockReturnValue(undefined);
-      vi.spyOn(PlatformBuilder.prototype, "loadStatics").mockResolvedValue(undefined as never);
-      // @ts-ignore
-      vi.spyOn(PlatformBuilder.prototype, "listenServers");
-      vi.spyOn(InjectorService.prototype, "emit").mockResolvedValue(undefined);
-      vi.spyOn(Platform.prototype, "addRoutes").mockReturnValue(undefined);
-    });
-    it("should boostrap a custom platform", async () => {
-      const platformBuilder = await PlatformBuilder.bootstrap(ServerModule, {
-        adapter: FakeAdapter
-      });
-
-      expect(platformBuilder.callback()).toBeInstanceOf(Function);
-
-      expect(platformBuilder.adapter).toBeInstanceOf(FakeAdapter);
-    });
-
-    it("should listen a custom platform", async () => {
-      const platform = await PlatformBuilder.create(ServerModule, {
-        adapter: FakeAdapter
-      });
-
-      await platform.listen();
-    });
-  });
-
   describe("useProvider()", () => {
     it("should add provider", async () => {
       // WHEN
@@ -353,6 +325,7 @@ describe("PlatformBuilder", () => {
     });
   });
   describe("addControllers", () => {
+    beforeEach(() => destroyInjector());
     it("should add controllers", async () => {
       // GIVEN
       const server = await PlatformCustom.bootstrap(ServerModule, {});

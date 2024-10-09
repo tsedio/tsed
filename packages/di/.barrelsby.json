@@ -1,5 +1,5 @@
 {
   "directory": ["./src/common", "./src/node"],
-  "exclude": ["**/__mock__", "**/__mocks__", "**/*.spec.ts"],
+  "exclude": ["**/__mock__", "**/__mocks__", "**/*.spec.ts", "localsContainer.ts"],
   "delete": true
 }

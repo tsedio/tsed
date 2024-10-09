@@ -1,21 +1,17 @@
 import {Adapter, Adapters} from "@tsed/adapters";
-import {Configuration, Inject, Injectable} from "@tsed/di";
+import {constant, inject, Injectable} from "@tsed/di";
 import type {Adapter as OidcAdapter, AdapterConstructor} from "oidc-provider";
 
 export type OidcAdapterMethods<Model = any> = Adapter<Model> & Partial<Omit<OidcAdapter, "upsert">>;
 
 @Injectable()
 export class OidcAdapters {
-  @Inject()
-  protected adapters: Adapters;
-
-  @Configuration()
-  protected settings: Configuration;
+  protected adapters = inject(Adapters);
 
   createAdapterClass(): AdapterConstructor {
     const self = this;
-    const adapterBase = this.settings.get("oidc.Adapter", this.settings.get("adapters.Adapter"));
-    const connectionName = this.settings.get("oidc.connectionName", "default");
+    const adapterBase = constant("oidc.Adapter", constant("adapters.Adapter"));
+    const connectionName = constant("oidc.connectionName", "default");
 
     return class CustomAdapter implements OidcAdapter {
       adapter: OidcAdapterMethods;

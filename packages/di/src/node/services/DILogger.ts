@@ -1,11 +1,9 @@
 import {Logger} from "@tsed/logger";
 
-import {InjectorService, registerProvider} from "../../common/index.js";
+import {injectable} from "../../common/fn/injectable.js";
+import {logger} from "../fn/logger.js";
 
-registerProvider({
+injectable({
   provide: Logger,
-  deps: [InjectorService],
-  useFactory(injector: InjectorService) {
-    return injector.logger;
-  }
+  useFactory: logger
 });

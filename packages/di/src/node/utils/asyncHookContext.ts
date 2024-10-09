@@ -13,11 +13,9 @@ export function useContextRef() {
   return getAsyncStore().getStore();
 }
 
-export function useContext<Context = DIContext>(initialValue?: DIContext): Context | undefined {
+export function getContext<Context = DIContext>(initialValue?: DIContext): Context | undefined {
   return initialValue || (useContextRef()?.current as any);
 }
-
-export const getContext = useContext;
 
 export async function runInContext<Result = unknown>(
   ctx: DIContext | undefined,

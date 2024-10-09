@@ -1,5 +1,5 @@
+import {injectable} from "../fn/injectable.js";
 import type {ProviderOpts} from "../interfaces/ProviderOpts.js";
-import {registerProvider} from "../registries/ProviderRegistry.js";
 
 /**
  * The decorators `@Injectable()` declare a new service can be injected in other service, controller, interceptor, etc.. on there `constructor`.
@@ -21,7 +21,7 @@ import {registerProvider} from "../registries/ProviderRegistry.js";
  */
 export function Injectable(options: Partial<ProviderOpts> = {}): ClassDecorator {
   return (target: any) => {
-    registerProvider({
+    injectable({
       ...options,
       ...(options.provide ? {useClass: target} : {provide: target})
     });

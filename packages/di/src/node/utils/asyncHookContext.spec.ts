@@ -1,5 +1,5 @@
 import {DITest} from "../services/DITest.js";
-import {getContext, runInContext, setContext, useContext} from "./asyncHookContext.js";
+import {getContext, runInContext, setContext} from "./asyncHookContext.js";
 
 describe("asyncHookContext", () => {
   beforeEach(() => DITest.create());
@@ -9,7 +9,7 @@ describe("asyncHookContext", () => {
     const res = {type: "res"};
 
     function next(res: any, req: any) {
-      return Promise.resolve(useContext());
+      return Promise.resolve(getContext());
     }
 
     function nextContext(res: any, req: any, next: any) {
@@ -45,7 +45,7 @@ describe("asyncHookContext", () => {
     const res = {type: "res"};
 
     function next(res: any, req: any) {
-      return Promise.resolve(useContext());
+      return Promise.resolve(getContext());
     }
 
     function nextContext(res: any, req: any, next: any) {
@@ -79,7 +79,7 @@ describe("asyncHookContext", () => {
     const res = {type: "res"};
 
     function next(res: any, req: any) {
-      return Promise.resolve(useContext({id: "id2"} as never));
+      return Promise.resolve(getContext({id: "id2"} as never));
     }
 
     function nextContext(res: any, req: any, next: any) {

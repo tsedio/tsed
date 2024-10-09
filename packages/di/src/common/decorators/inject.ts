@@ -2,18 +2,11 @@ import {catchError, decoratorTypeOf, DecoratorTypes, isPromise, Metadata, Store,
 
 import {DI_INJECTABLE_PROPS, DI_INVOKE_OPTIONS, DI_USE_OPTIONS} from "../constants/constants.js";
 import {InvalidPropertyTokenError} from "../errors/InvalidPropertyTokenError.js";
+import {inject} from "../fn/inject.js";
+import {injectMany} from "../fn/injectMany.js";
 import type {InvokeOptions} from "../interfaces/InvokeOptions.js";
 import {TokenProvider} from "../interfaces/TokenProvider.js";
-import {InjectorService} from "../services/InjectorService.js";
 import {getConstructorDependencies, setConstructorDependencies} from "../utils/getConstructorDependencies.js";
-
-export function inject<T>(token: TokenProvider<T>, opts?: Partial<Pick<InvokeOptions, "useOpts" | "rebuild" | "locals">>): T {
-  return InjectorService.getInstance().invoke(token, opts?.locals || InjectorService.getLocals(), opts);
-}
-
-export function injectMany<T>(token: string | symbol, opts?: Partial<Pick<InvokeOptions, "useOpts" | "rebuild" | "locals">>): T[] {
-  return InjectorService.getInstance().getMany<T>(token, opts?.locals || InjectorService.getLocals(), opts);
-}
 
 function setToken(
   token: TokenProvider,

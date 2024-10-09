@@ -1,22 +1,15 @@
-import {Constant, EndpointMetadata, PlatformContext, PlatformHandler, Provider, TokenProvider} from "@tsed/common";
+import {PlatformContext, PlatformHandler} from "@tsed/common";
 import {Env} from "@tsed/core";
-import {Inject, Injectable, InjectorService} from "@tsed/di";
+import {constant, Injectable, injector, Provider, TokenProvider} from "@tsed/di";
+import {EndpointMetadata} from "@tsed/schema";
 
 import {INTERACTION, INTERACTION_OPTIONS, INTERACTIONS} from "../constants/constants.js";
 import {OidcInteractionOptions} from "../domain/OidcInteractionOptions.js";
-import {OidcSettings} from "../domain/OidcSettings.js";
 
 @Injectable()
 export class OidcInteractions {
-  @Inject()
-  protected injector: InjectorService;
-
-  @Constant("env")
-  protected env: Env;
-
-  @Constant("oidc")
-  protected oidcSettings: OidcSettings;
-
+  protected injector = injector();
+  protected env = constant<Env>("env");
   protected interactions: Map<string, Provider> = new Map();
 
   $onInit(): void {
