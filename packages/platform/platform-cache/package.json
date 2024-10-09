@@ -2,7 +2,7 @@
   "name": "@tsed/platform-cache",
   "description": "Platform cache module for Ts.ED Framework",
   "type": "module",
-  "version": "8.0.0-beta.1",
+  "version": "8.0.0-beta.2",
   "source": "./src/index.ts",
   "main": "./lib/esm/index.js",
   "module": "./lib/esm/index.js",
@@ -39,10 +39,10 @@
     "vitest": "2.1.2"
   },
   "peerDependencies": {
-    "@tsed/core": "8.0.0-beta.1",
-    "@tsed/di": "8.0.0-beta.1",
-    "@tsed/json-mapper": "8.0.0-beta.1",
-    "@tsed/schema": "8.0.0-beta.1"
+    "@tsed/core": "8.0.0-beta.2",
+    "@tsed/di": "8.0.0-beta.2",
+    "@tsed/json-mapper": "8.0.0-beta.2",
+    "@tsed/schema": "8.0.0-beta.2"
   },
   "peerDependenciesMeta": {
     "@tsed/core": {

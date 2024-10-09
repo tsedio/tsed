@@ -1,7 +1,7 @@
 {
   "name": "@tsed/integration",
   "type": "module",
-  "version": "8.0.0-beta.1",
+  "version": "8.0.0-beta.2",
   "source": "./src/index.ts",
   "main": "./lib/esm/index.js",
   "private": true,
