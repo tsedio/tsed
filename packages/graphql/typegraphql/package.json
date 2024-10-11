@@ -2,7 +2,7 @@
   "name": "@tsed/typegraphql",
   "description": "TypeGraphQL package for Ts.ED framework, based on Apollo-server-core and Type-graphql",
   "type": "module",
-  "version": "8.0.0-beta.2",
+  "version": "8.0.0-beta.3",
   "source": "./src/index.ts",
   "main": "./lib/esm/index.js",
   "module": "./lib/esm/index.js",
