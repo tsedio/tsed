@@ -1,5 +1,5 @@
-import {PlatformBuilder} from "@tsed/common";
 import {PlatformExpress} from "@tsed/platform-express";
+import {PlatformBuilder} from "@tsed/platform-http";
 import serverless from "serverless-http";
 
 import {PlatformServerlessHttp} from "./PlatformServerlessHttp.js";

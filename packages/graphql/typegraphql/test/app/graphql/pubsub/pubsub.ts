@@ -1,5 +1,5 @@
 import {createPubSub} from "@graphql-yoga/subscription";
-import {registerProvider} from "@tsed/common";
+import {registerProvider} from "@tsed/di";
 
 import {RecipeNotification} from "../recipes/Recipe.js";
 

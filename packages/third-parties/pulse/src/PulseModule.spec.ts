@@ -1,6 +1,6 @@
 import type {Job} from "@pulsecron/pulse";
-import {PlatformTest} from "@tsed/common";
 import {Inject} from "@tsed/di";
+import {PlatformTest} from "@tsed/platform-http";
 
 import {Define} from "./decorators/define.js";
 import {Every} from "./decorators/every.js";

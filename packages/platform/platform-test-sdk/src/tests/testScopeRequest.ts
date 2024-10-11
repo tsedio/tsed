@@ -1,4 +1,6 @@
-import {Controller, PathParams, PlatformTest, ProviderScope, Scope, Service} from "@tsed/common";
+import {Controller, ProviderScope, Scope, Service} from "@tsed/di";
+import {PlatformTest} from "@tsed/platform-http";
+import {PathParams} from "@tsed/platform-params";
 import {Get} from "@tsed/schema";
 import SuperTest from "supertest";
 import {afterAll, beforeAll, describe, expect, it} from "vitest";

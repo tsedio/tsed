@@ -34,9 +34,9 @@
   },
   "devDependencies": {
     "@tsed/barrels": "workspace:*",
-    "@tsed/common": "workspace:*",
     "@tsed/core": "workspace:*",
     "@tsed/di": "workspace:*",
+    "@tsed/platform-http": "workspace:*",
     "@tsed/typescript": "workspace:*",
     "eslint": "9.12.0",
     "eventemitter2": "^6.4.9",

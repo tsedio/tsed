@@ -10,7 +10,7 @@
       "path": "../../specs/ajv/tsconfig.json"
     },
     {
-      "path": "../common/tsconfig.json"
+      "path": "../platform-http/tsconfig.json"
     },
     {
       "path": "../../core/tsconfig.json"

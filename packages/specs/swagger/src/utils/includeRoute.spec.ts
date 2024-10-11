@@ -1,4 +1,4 @@
-import {ControllerProvider} from "@tsed/common";
+import {ControllerProvider} from "@tsed/di";
 import {Hidden} from "@tsed/schema";
 
 import {Docs} from "../decorators/docs.js";

@@ -1,4 +1,5 @@
-import {Injectable, PlatformTest} from "@tsed/common";
+import {Injectable} from "@tsed/di";
+import {PlatformTest} from "@tsed/platform-http";
 
 import {OnAny} from "../src/decorators/onAny.js";
 import {OnEvent} from "../src/decorators/onEvent.js";

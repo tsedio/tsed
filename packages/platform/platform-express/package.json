@@ -64,9 +64,9 @@
   },
   "devDependencies": {
     "@tsed/barrels": "workspace:*",
-    "@tsed/common": "workspace:*",
     "@tsed/core": "workspace:*",
     "@tsed/di": "workspace:*",
+    "@tsed/platform-http": "workspace:*",
     "@tsed/platform-test-sdk": "workspace:*",
     "@tsed/platform-views": "workspace:*",
     "@tsed/typescript": "workspace:*",
@@ -89,7 +89,7 @@
     "vitest": "2.1.2"
   },
   "peerDependencies": {
-    "@tsed/common": "8.0.0-beta.3",
+    "@tsed/platform-http": "8.0.0-beta.3",
     "@tsed/core": "8.0.0-beta.3",
     "@tsed/di": "8.0.0-beta.3",
     "@tsed/json-mapper": "8.0.0-beta.3",

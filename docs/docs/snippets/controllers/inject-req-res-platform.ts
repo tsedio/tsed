@@ -1,4 +1,4 @@
-import {PlatformRequest, PlatformResponse, Req, Res} from "@tsed/common";
+import {PlatformRequest, PlatformResponse, Req, Res} from "@tsed/platform-http";
 import {Get} from "@tsed/schema";
 import {Controller} from "@tsed/di";
 

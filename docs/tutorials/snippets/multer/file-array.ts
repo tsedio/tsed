@@ -1,4 +1,4 @@
-import {MultipartFile, PlatformMulterFile} from "@tsed/common";
+import {MultipartFile, PlatformMulterFile} from "@tsed/platform-http";
 import {Post} from "@tsed/schema";
 import {Controller} from "@tsed/di";
 

@@ -1,4 +1,4 @@
-import {Controller} from "@tsed/common";
+import {Controller} from "@tsed/di";
 import {Get} from "@tsed/schema";
 import {Hidden} from "@tsed/swagger";
 

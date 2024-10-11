@@ -1,4 +1,7 @@
 import KoaRouter from "@koa/router";
+import {catchAsyncError, isFunction, Type} from "@tsed/core";
+import {runInContext} from "@tsed/di";
+import {PlatformExceptions} from "@tsed/platform-exceptions";
 import {
   createContext,
   PlatformAdapter,
@@ -9,11 +12,8 @@ import {
   PlatformProvider,
   PlatformRequest,
   PlatformResponse,
-  PlatformStaticsOptions,
-  runInContext
-} from "@tsed/common";
-import {catchAsyncError, isFunction, Type} from "@tsed/core";
-import {PlatformExceptions} from "@tsed/platform-exceptions";
+  PlatformStaticsOptions
+} from "@tsed/platform-http";
 import {PlatformHandlerMetadata, PlatformHandlerType, PlatformLayer} from "@tsed/platform-router";
 import Koa, {Context, Next} from "koa";
 import koaBodyParser, {Options} from "koa-bodyparser";

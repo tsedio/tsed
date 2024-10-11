@@ -1,4 +1,4 @@
-import {OriginalMiddleware} from "@tsed/common";
+import {OriginalMiddleware} from "@tsed/platform-http";
 import {Context} from "@tsed/platform-params";
 import {OverrideProvider} from "@tsed/di";
 

@@ -1,4 +1,4 @@
-import {PlatformResponse} from "@tsed/common";
+import {PlatformResponse} from "@tsed/platform-http";
 import {ServerResponse} from "http";
 import Koa from "koa";
 

@@ -1,4 +1,4 @@
-import {PlatformContext} from "@tsed/common";
+import {PlatformContext} from "@tsed/platform-http";
 import {ResponseFilter, ResponseFilterMethods} from "@tsed/platform-response-filter";
 import {Pagination} from "../models/Pagination";
 

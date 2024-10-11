@@ -1,5 +1,5 @@
-import {EndpointMetadata} from "@tsed/common";
 import {UnsupportedDecoratorType} from "@tsed/core";
+import {EndpointMetadata} from "@tsed/schema";
 
 import {UseBeforeEach} from "./useBeforeEach.js";
 

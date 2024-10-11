@@ -34,11 +34,11 @@
   },
   "devDependencies": {
     "@tsed/barrels": "workspace:*",
-    "@tsed/common": "workspace:*",
     "@tsed/core": "workspace:*",
     "@tsed/di": "workspace:*",
     "@tsed/json-mapper": "workspace:*",
     "@tsed/openspec": "workspace:*",
+    "@tsed/platform-http": "workspace:*",
     "@tsed/platform-middlewares": "workspace:*",
     "@tsed/schema": "workspace:*",
     "@tsed/socketio-testing": "workspace:*",

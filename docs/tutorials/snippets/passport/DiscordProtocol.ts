@@ -1,4 +1,4 @@
-import {Req} from "@tsed/common";
+import {Req} from "@tsed/platform-http";
 import {Args, OnInstall, OnVerify, Protocol} from "@tsed/passport";
 import {Strategy, StrategyOptions} from "passport-discord";
 import * as refresh from "passport-oauth2-refresh";

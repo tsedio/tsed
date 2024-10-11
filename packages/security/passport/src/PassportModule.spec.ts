@@ -1,6 +1,6 @@
 import "../src/index.js";
 
-import {PlatformApplication, PlatformTest} from "@tsed/common";
+import {PlatformApplication, PlatformTest} from "@tsed/platform-http";
 import Passport from "passport";
 
 import {PassportModule} from "./PassportModule.js";

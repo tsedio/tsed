@@ -1,5 +1,5 @@
-import {Context} from "@tsed/common";
 import {useDecorators} from "@tsed/core";
+import {Context} from "@tsed/platform-params";
 
 /**
  * Inject args resolve by the passport strategy on verify method.

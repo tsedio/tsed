@@ -6,7 +6,7 @@ import {JsonEntityFn} from "./jsonEntityFn.js";
  * The const keyword is used to restrict a value to a fixed value.
  *
  * ::: warning
- * For v6 user, use @@Const@@ from @tsed/schema instead of @tsed/common.
+ * For v6 user, use @@Const@@ from @tsed/schema instead of @tsed/platform-http.
  * :::
  *
  * ## Example

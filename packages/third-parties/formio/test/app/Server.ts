@@ -4,8 +4,8 @@ import "@tsed/swagger";
 import "../../src/index.js";
 
 import {FileSyncAdapter} from "@tsed/adapters";
-import {Constant, PlatformApplication} from "@tsed/common";
 import {Configuration, Inject} from "@tsed/di";
+import {Constant, PlatformApplication} from "@tsed/platform-http";
 import bodyParser from "body-parser";
 import compress from "compression";
 import cookieParser from "cookie-parser";

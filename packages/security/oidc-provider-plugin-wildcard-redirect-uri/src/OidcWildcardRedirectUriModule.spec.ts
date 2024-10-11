@@ -1,5 +1,5 @@
-import {PlatformTest} from "@tsed/common";
 import {catchError} from "@tsed/core";
+import {PlatformTest} from "@tsed/platform-http";
 import {errors, KoaContextWithOIDC} from "oidc-provider";
 
 import {OidcWildcardRedirectUriModule} from "./OidcWildcardRedirectUriModule.js";

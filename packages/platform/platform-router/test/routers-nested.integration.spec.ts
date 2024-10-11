@@ -1,5 +1,5 @@
-import {PlatformTest} from "@tsed/common";
 import {Controller, InjectorService} from "@tsed/di";
+import {PlatformTest} from "@tsed/platform-http";
 import {PlatformParams} from "@tsed/platform-params";
 import {Get, Post} from "@tsed/schema";
 

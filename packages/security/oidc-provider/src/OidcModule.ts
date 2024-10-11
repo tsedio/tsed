@@ -1,5 +1,5 @@
-import {PlatformApplication} from "@tsed/common";
 import {constant, inject, injector, Module} from "@tsed/di";
+import {PlatformApplication} from "@tsed/platform-http";
 import koaMount from "koa-mount";
 
 import {OidcAdapters} from "./services/OidcAdapters.js";

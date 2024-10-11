@@ -6,7 +6,7 @@ import {JsonEntityFn} from "../common/jsonEntityFn.js";
  * If this keyword has boolean value false, the instance validates successfully. If it has boolean value true, the instance validates successfully if all of its elements are unique.
  *
  * ::: warning
- * For v6 user, use @@UniqueItems@@ from @tsed/schema instead of @tsed/common.
+ * For v6 user, use @@UniqueItems@@ from @tsed/schema instead of @tsed/platform-http.
  * :::
  *
  * ## Example

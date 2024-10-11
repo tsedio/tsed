@@ -1,8 +1,9 @@
 import {faker} from "@faker-js/faker";
-import {BodyParams, PlatformTest, QueryParams} from "@tsed/common";
 import {Controller, Inject} from "@tsed/di";
 import {deserialize, serialize} from "@tsed/json-mapper";
 import {PlatformExpress} from "@tsed/platform-express";
+import {PlatformTest} from "@tsed/platform-http";
+import {BodyParams, QueryParams} from "@tsed/platform-params";
 import {Get, Post} from "@tsed/schema";
 import {TestContainersMongo} from "@tsed/testcontainers-mongo";
 import SuperTest from "supertest";

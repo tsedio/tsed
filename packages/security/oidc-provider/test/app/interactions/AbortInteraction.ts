@@ -1,4 +1,4 @@
-import {Inject} from "@tsed/common";
+import {Inject} from "@tsed/di";
 import {View} from "@tsed/platform-views";
 import {Name} from "@tsed/schema";
 

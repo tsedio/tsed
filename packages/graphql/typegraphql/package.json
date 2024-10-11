@@ -30,9 +30,9 @@
   "devDependencies": {
     "@graphql-yoga/subscription": "5.0.1",
     "@tsed/barrels": "workspace:*",
-    "@tsed/common": "workspace:*",
     "@tsed/core": "workspace:*",
     "@tsed/platform-express": "workspace:*",
+    "@tsed/platform-http": "workspace:*",
     "@tsed/typescript": "workspace:*",
     "@types/graphql": "^14.5.0",
     "class-validator": "~0.14.1",

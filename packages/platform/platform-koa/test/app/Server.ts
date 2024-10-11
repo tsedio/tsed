@@ -1,7 +1,7 @@
 import "@tsed/ajv";
 
-import {PlatformApplication} from "@tsed/common";
 import {Configuration, Inject} from "@tsed/di";
+import {PlatformApplication} from "@tsed/platform-http";
 import Application from "koa";
 import session from "koa-session";
 

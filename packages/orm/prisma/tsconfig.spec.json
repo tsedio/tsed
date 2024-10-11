@@ -7,84 +7,30 @@
     "composite": false,
     "noEmit": true,
     "paths": {
-      "@tsed/openspec": [
-        "../../specs/openspec/src/index.ts"
-      ],
-      "@tsed/schema": [
-        "../../specs/schema/src/index.ts"
-      ],
-      "@tsed/di": [
-        "../../di/src/index.ts"
-      ],
-      "@tsed/exceptions": [
-        "../../specs/exceptions/src/index.ts"
-      ],
-      "@tsed/json-mapper": [
-        "../../specs/json-mapper/src/index.ts"
-      ],
-      "@tsed/platform-exceptions": [
-        "../../platform/platform-exceptions/src/index.ts"
-      ],
-      "@tsed/platform-middlewares": [
-        "../../platform/platform-middlewares/src/index.ts"
-      ],
-      "@tsed/platform-params": [
-        "../../platform/platform-params/src/index.ts"
-      ],
-      "@tsed/platform-log-middleware": [
-        "../../platform/platform-log-middleware/src/index.ts"
-      ],
-      "@tsed/platform-response-filter": [
-        "../../platform/platform-response-filter/src/index.ts"
-      ],
-      "@tsed/platform-router": [
-        "../../platform/platform-router/src/index.ts"
-      ],
-      "@tsed/platform-views": [
-        "../../platform/platform-views/src/index.ts"
-      ],
-      "@tsed/normalize-path": [
-        "../../utils/normalize-path/src/index.ts"
-      ],
-      "@tsed/components-scan": [
-        "../../third-parties/components-scan/src/index.ts"
-      ],
-      "@tsed/common": [
-        "../../platform/common/src/index.ts"
-      ],
-      "@tsed/ajv": [
-        "../../specs/ajv/src/index.ts"
-      ],
-      "@tsed/platform-cache": [
-        "../../platform/platform-cache/src/index.ts"
-      ],
-      "@tsed/swagger": [
-        "../../specs/swagger/src/index.ts"
-      ],
-      "@tsed/platform-test-sdk": [
-        "../../platform/platform-test-sdk/src/index.ts"
-      ],
-      "@tsed/platform-express": [
-        "../../platform/platform-express/src/index.ts"
-      ],
-      "@tsed/platform-koa": [
-        "../../platform/platform-koa/src/index.ts"
-      ]
+      "@tsed/openspec": ["../../specs/openspec/src/index.ts"],
+      "@tsed/schema": ["../../specs/schema/src/index.ts"],
+      "@tsed/di": ["../../di/src/index.ts"],
+      "@tsed/exceptions": ["../../specs/exceptions/src/index.ts"],
+      "@tsed/json-mapper": ["../../specs/json-mapper/src/index.ts"],
+      "@tsed/platform-exceptions": ["../../platform/platform-exceptions/src/index.ts"],
+      "@tsed/platform-middlewares": ["../../platform/platform-middlewares/src/index.ts"],
+      "@tsed/platform-params": ["../../platform/platform-params/src/index.ts"],
+      "@tsed/platform-log-middleware": ["../../platform/platform-log-middleware/src/index.ts"],
+      "@tsed/platform-response-filter": ["../../platform/platform-response-filter/src/index.ts"],
+      "@tsed/platform-router": ["../../platform/platform-router/src/index.ts"],
+      "@tsed/platform-views": ["../../platform/platform-views/src/index.ts"],
+      "@tsed/normalize-path": ["../../utils/normalize-path/src/index.ts"],
+      "@tsed/components-scan": ["../../third-parties/components-scan/src/index.ts"],
+      "@tsed/platform-http": ["../../platform/platform-http/src/index.ts"],
+      "@tsed/ajv": ["../../specs/ajv/src/index.ts"],
+      "@tsed/platform-cache": ["../../platform/platform-cache/src/index.ts"],
+      "@tsed/swagger": ["../../specs/swagger/src/index.ts"],
+      "@tsed/platform-test-sdk": ["../../platform/platform-test-sdk/src/index.ts"],
+      "@tsed/platform-express": ["../../platform/platform-express/src/index.ts"],
+      "@tsed/platform-koa": ["../../platform/platform-koa/src/index.ts"]
     },
-    "types": [
-      "vite/client",
-      "vitest/globals"
-    ]
+    "types": ["vite/client", "vitest/globals"]
   },
-  "include": [
-    "src/**/*.spec.ts",
-    "test/**/*.spec.ts",
-    "vitest.config.mts"
-  ],
-  "exclude": [
-    "node_modules",
-    "lib",
-    "benchmark",
-    "coverage"
-  ]
+  "include": ["src/**/*.spec.ts", "test/**/*.spec.ts", "vitest.config.mts"],
+  "exclude": ["node_modules", "lib", "benchmark", "coverage"]
 }

@@ -28,12 +28,12 @@
   ],
   "dependencies": {
     "@tsed/ajv": "workspace:*",
-    "@tsed/common": "workspace:*",
     "@tsed/core": "workspace:*",
     "@tsed/di": "workspace:*",
     "@tsed/json-mapper": "workspace:*",
     "@tsed/logger": "6.7.8",
     "@tsed/platform-cache": "workspace:*",
+    "@tsed/platform-http": "workspace:*",
     "@tsed/platform-params": "workspace:*",
     "@tsed/platform-router": "workspace:*",
     "@tsed/platform-views": "workspace:*",

@@ -3,9 +3,9 @@ import {ApolloServerPluginLandingPageDisabled} from "@apollo/server/plugin/disab
 import {ApolloServerPluginDrainHttpServer} from "@apollo/server/plugin/drainHttpServer";
 import {ApolloServerPluginLandingPageLocalDefault} from "@apollo/server/plugin/landingPage/default";
 import type {IExecutableSchemaDefinition} from "@graphql-tools/schema";
-import {PlatformApplication, PlatformContext} from "@tsed/common";
 import {Constant, context, Inject, InjectorService, LocalsContainer, Provider, Service} from "@tsed/di";
 import {Logger} from "@tsed/logger";
+import {PlatformApplication, PlatformContext} from "@tsed/platform-http";
 import type {GraphQLSchema} from "graphql";
 import Http from "http";
 import Https from "https";

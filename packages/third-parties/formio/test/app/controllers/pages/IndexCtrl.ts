@@ -1,4 +1,4 @@
-import {Constant, Controller, HeaderParams} from "@tsed/common";
+import {Constant, Controller, HeaderParams} from "@tsed/platform-http";
 import {Get, Hidden, Returns, View} from "@tsed/schema";
 import {SwaggerSettings} from "@tsed/swagger";
 

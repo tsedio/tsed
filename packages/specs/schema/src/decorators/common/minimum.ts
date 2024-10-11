@@ -8,7 +8,7 @@ import {JsonEntityFn} from "./jsonEntityFn.js";
  *
  * ::: warning
  * This decorator will be removed in v7.
- * For v6 user, use @@Minimum@@ from @tsed/schema instead of @tsed/common.
+ * For v6 user, use @@Minimum@@ from @tsed/schema instead of @tsed/platform-http.
  * :::
  *
  * ## Example

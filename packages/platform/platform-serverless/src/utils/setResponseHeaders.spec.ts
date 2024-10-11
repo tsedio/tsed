@@ -1,4 +1,4 @@
-import {PlatformTest} from "@tsed/common";
+import {PlatformTest} from "@tsed/platform-http";
 import {Get, JsonEntityStore, Redirect, Returns} from "@tsed/schema";
 
 import {createServerlessContext} from "../../test/utils/createServerlessContext.js";

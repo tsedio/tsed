@@ -1,5 +1,5 @@
 import {faker} from "@faker-js/faker";
-import {PlatformTest} from "@tsed/common";
+import {PlatformTest} from "@tsed/platform-http";
 import {TestContainersMongo} from "@tsed/testcontainers-mongo";
 import axios from "axios";
 

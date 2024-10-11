@@ -12,7 +12,7 @@ import {JsonEntityFn} from "../common/jsonEntityFn.js";
  *
  * :: warning
  * This decorator will be removed in v7.
- * For v6 user, use @@MaxItems@@ from @tsed/schema instead of @tsed/common.
+ * For v6 user, use @@MaxItems@@ from @tsed/schema instead of @tsed/platform-http.
  * :::
  *
  * ## Example

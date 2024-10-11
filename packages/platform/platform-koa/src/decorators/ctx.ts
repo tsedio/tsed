@@ -1,4 +1,4 @@
-import {UseParam} from "@tsed/common";
+import {UseParam} from "@tsed/platform-params";
 import type {Context} from "koa";
 
 /**

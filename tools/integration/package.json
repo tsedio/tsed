@@ -10,12 +10,12 @@
     "build:ts": "tsc --build tsconfig.json"
   },
   "devDependencies": {
-    "@tsed/common": "workspace:*",
     "@tsed/di": "workspace:*",
     "@tsed/exceptions": "workspace:*",
     "@tsed/json-mapper": "workspace:*",
     "@tsed/platform-exceptions": "workspace:*",
     "@tsed/platform-express": "workspace:*",
+    "@tsed/platform-http": "workspace:*",
     "@tsed/platform-views": "workspace:*",
     "@tsed/schema": "workspace:*",
     "@tsed/swagger": "workspace:*",

@@ -1,4 +1,4 @@
-import type {PlatformContext} from "@tsed/common";
+import type {PlatformContext} from "@tsed/platform-http";
 
 import type {ApolloContext} from "./ApolloContext.js";
 

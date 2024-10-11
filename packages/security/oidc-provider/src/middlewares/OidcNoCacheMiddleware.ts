@@ -1,4 +1,5 @@
-import {Context, Middleware, MiddlewareMethods} from "@tsed/common";
+import {Middleware, MiddlewareMethods} from "@tsed/platform-middlewares";
+import {Context} from "@tsed/platform-params";
 
 @Middleware()
 export class OidcNoCacheMiddleware implements MiddlewareMethods {

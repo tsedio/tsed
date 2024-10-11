@@ -1,16 +1,7 @@
-import {
-  Configuration,
-  Constant,
-  Inject,
-  InjectorService,
-  Module,
-  OnReady,
-  OnRoutesInit,
-  PlatformApplication,
-  PlatformContext
-} from "@tsed/common";
 import {Env} from "@tsed/core";
+import {Configuration, Constant, Inject, InjectorService, Module} from "@tsed/di";
 import {normalizePath} from "@tsed/normalize-path";
+import {OnReady, OnRoutesInit, PlatformApplication, PlatformContext} from "@tsed/platform-http";
 import {PlatformRouter, useContextHandler} from "@tsed/platform-router";
 import Fs from "fs";
 import {join} from "path";

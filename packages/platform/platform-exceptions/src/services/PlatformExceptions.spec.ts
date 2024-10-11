@@ -1,6 +1,7 @@
-import {PlatformTest, ValidationError} from "@tsed/common";
 import {Env} from "@tsed/core";
 import {BadRequest} from "@tsed/exceptions";
+import {PlatformTest} from "@tsed/platform-http";
+import {ValidationError} from "@tsed/platform-params";
 
 import {PlatformExceptions} from "./PlatformExceptions.js";
 

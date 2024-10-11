@@ -15,7 +15,7 @@ import {JsonEntityFn} from "./jsonEntityFn.js";
  * :::
  *
  * ::: warning
- * For v6 user, use @@MaxLength@@ from @tsed/schema instead of @tsed/common.
+ * For v6 user, use @@MaxLength@@ from @tsed/schema instead of @tsed/platform-http.
  * :::
  *
  * ## Example

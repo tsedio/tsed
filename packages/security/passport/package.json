@@ -28,9 +28,9 @@
   },
   "devDependencies": {
     "@tsed/barrels": "workspace:*",
-    "@tsed/common": "workspace:*",
     "@tsed/core": "workspace:*",
     "@tsed/di": "workspace:*",
+    "@tsed/platform-http": "workspace:*",
     "@tsed/platform-router": "workspace:*",
     "@tsed/typescript": "workspace:*",
     "@types/passport": "1.0.16",
@@ -46,7 +46,7 @@
     "vitest": "2.1.2"
   },
   "peerDependencies": {
-    "@tsed/common": "8.0.0-beta.3",
+    "@tsed/platform-http": "8.0.0-beta.3",
     "passport": ">=0.4.1"
   },
   "peerDependenciesMeta": {

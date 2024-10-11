@@ -18,7 +18,7 @@ import {JsonEntityFn} from "./jsonEntityFn.js";
  * - **regex**: tests whether a string is a valid regular expression by passing it to RegExp constructor.
  *
  * ::: warning
- * For v6 user, use @@Format@@ from @tsed/schema instead of @tsed/common.
+ * For v6 user, use @@Format@@ from @tsed/schema instead of @tsed/platform-http.
  * :::
  *
  * ## Example
@@ -88,7 +88,7 @@ export const Format = withErrorMsg("format", (format: JsonFormatTypes | ValueOf<
  * Apply an email validation on property.
  *
  * ::: warning
- * For v6 user, use @@Email@@ from @tsed/schema instead of @tsed/common.
+ * For v6 user, use @@Email@@ from @tsed/schema instead of @tsed/platform-http.
  * :::
  *
  * ## Example

@@ -1,4 +1,6 @@
-import {Controller, PlatformContext, PlatformTest, ResponseFilter} from "@tsed/common";
+import {Controller} from "@tsed/di";
+import {PlatformContext, PlatformTest} from "@tsed/platform-http";
+import {ResponseFilter} from "@tsed/platform-response-filter";
 import {Get, Property, Returns} from "@tsed/schema";
 import SuperTest from "supertest";
 import {afterAll, beforeAll, describe, expect, it} from "vitest";

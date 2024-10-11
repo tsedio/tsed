@@ -1,4 +1,4 @@
-import {ValidationError} from "@tsed/common";
+import {ValidationError} from "./ValidationError.js";
 
 describe("ValidationError", () => {
   it("should return error", () => {

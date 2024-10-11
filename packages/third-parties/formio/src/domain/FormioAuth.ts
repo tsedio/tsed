@@ -1,4 +1,4 @@
-import {Next, Req, Res} from "@tsed/common";
+import {Next, Req, Res} from "@tsed/platform-http";
 
 import {FormioDecodedToken, FormioPayloadToken} from "./FormioDecodedToken.js";
 import {FormioForm} from "./FormioModels.js";

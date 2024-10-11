@@ -1,4 +1,4 @@
-import {AfterRoutesInit} from "@tsed/common";
+import {AfterRoutesInit} from "@tsed/platform-http";
 import {Inject, Injectable} from "@tsed/di";
 import {ApolloService} from "@tsed/apollo";
 import {ApolloServer} from "apollo-server-express";

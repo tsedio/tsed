@@ -1,6 +1,6 @@
-import {Controller, PlatformTest} from "@tsed/common";
 import {getValue} from "@tsed/core";
-import {Configuration} from "@tsed/di";
+import {Configuration, Controller} from "@tsed/di";
+import {PlatformTest} from "@tsed/platform-http";
 import {PlatformRouter} from "@tsed/platform-router";
 import {readFileSync} from "fs";
 import SuperTest from "supertest";

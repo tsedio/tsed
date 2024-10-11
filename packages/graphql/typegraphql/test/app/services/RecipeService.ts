@@ -1,4 +1,4 @@
-import {Service} from "@tsed/common";
+import {Service} from "@tsed/di";
 
 import {Recipe} from "../graphql/recipes/Recipe.js";
 

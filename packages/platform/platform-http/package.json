@@ -1,0 +1,108 @@
+{
+  "name": "@tsed/platform-http",
+  "description": "A TypeScript Framework on top of Express",
+  "type": "module",
+  "version": "8.0.0-beta.2",
+  "source": "./src/index.ts",
+  "main": "./lib/esm/index.js",
+  "module": "./lib/esm/index.js",
+  "typings": "./lib/types/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./lib/types/index.d.ts",
+      "import": "./lib/esm/index.js",
+      "default": "./lib/esm/index.js"
+    }
+  },
+  "scripts": {
+    "build": "yarn barrels && yarn build:ts",
+    "barrels": "barrels -e \"getConfiguration\"",
+    "test": "vitest run",
+    "build:ts": "tsc --build tsconfig.json",
+    "test:ci": "vitest run --coverage.thresholds.autoUpdate=true"
+  },
+  "keywords": [
+    "Express",
+    "Koa",
+    "TypeScript",
+    "typescript",
+    "Decorator",
+    "decorators",
+    "decorator",
+    "express",
+    "koa",
+    "Controller",
+    "Inject",
+    "ioc",
+    "di",
+    "mvc",
+    "swagger",
+    "swagger ui",
+    "ES2015",
+    "ES6",
+    "server",
+    "rest",
+    "api",
+    "validation"
+  ],
+  "author": {
+    "name": "Romain Lenzotti"
+  },
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/tsedio/tsed/issues"
+  },
+  "homepage": "http://tsed.io/",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tsedio//tsed.git"
+  },
+  "funding": [
+    {
+      "type": "github",
+      "url": "https://github.com/sponsors/Romakita"
+    },
+    {
+      "type": "opencollective",
+      "url": "https://opencollective.com/tsed"
+    }
+  ],
+  "dependencies": {
+    "@tsed/core": "workspace:*",
+    "@tsed/di": "workspace:*",
+    "@tsed/exceptions": "workspace:*",
+    "@tsed/json-mapper": "workspace:*",
+    "@tsed/logger": "^6.7.8",
+    "@tsed/logger-file": "^6.7.8",
+    "@tsed/platform-exceptions": "workspace:*",
+    "@tsed/platform-params": "workspace:*",
+    "@tsed/platform-response-filter": "workspace:*",
+    "@tsed/platform-router": "workspace:*",
+    "@tsed/platform-views": "workspace:*",
+    "@tsed/schema": "workspace:*",
+    "@types/json-schema": "7.0.15",
+    "accepts": "^1.3.8",
+    "tslib": "2.7.0",
+    "uuid": "10.0.0"
+  },
+  "devDependencies": {
+    "@tsed/barrels": "workspace:*",
+    "@tsed/engines": "workspace:*",
+    "@tsed/typescript": "workspace:*",
+    "cross-env": "7.0.3",
+    "eslint": "9.12.0",
+    "typescript": "5.4.5",
+    "vitest": "2.1.2"
+  },
+  "peerDependencies": {
+    "@tsed/logger": ">=6.7.5"
+  },
+  "peerDependenciesMeta": {
+    "@tsed/logger": {
+      "optional": false
+    },
+    "@tsed/logger-file": {
+      "optional": false
+    }
+  }
+}

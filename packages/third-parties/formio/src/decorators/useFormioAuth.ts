@@ -1,4 +1,4 @@
-import {UseAuth} from "@tsed/common";
+import {UseAuth} from "@tsed/platform-middlewares";
 
 import {FormioAuthMiddleware} from "../middlewares/FormioAuthMiddleware.js";
 

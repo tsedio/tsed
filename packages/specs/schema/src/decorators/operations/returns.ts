@@ -559,7 +559,7 @@ class ReturnDecoratorContext extends DecoratorContext<ReturnsChainedDecorators> 
  * Deprecated version:
  *
  * ```typescript
- * import {ReturnsArray} from "@tsed/common";
+ * import {ReturnsArray} from "@tsed/platform-http";
  * import {Returns} from "@tsed/schema";
  *
  * @Controller("/")

@@ -1,20 +1,18 @@
+import {catchAsyncError, Env, isFunction, Type} from "@tsed/core";
+import {InjectorService, runInContext} from "@tsed/di";
+import {PlatformExceptions} from "@tsed/platform-exceptions";
 import {
   createContext,
-  InjectorService,
   PlatformAdapter,
   PlatformBuilder,
   PlatformContext,
-  PlatformExceptions,
   PlatformHandler,
-  PlatformHandlerType,
   PlatformMulter,
   PlatformMulterSettings,
   PlatformProvider,
-  PlatformStaticsOptions,
-  runInContext
-} from "@tsed/common";
-import {catchAsyncError, Env, isFunction, Type} from "@tsed/core";
-import {PlatformHandlerMetadata, PlatformLayer} from "@tsed/platform-router";
+  PlatformStaticsOptions
+} from "@tsed/platform-http";
+import {PlatformHandlerMetadata, PlatformHandlerType, PlatformLayer} from "@tsed/platform-router";
 import type {PlatformViews} from "@tsed/platform-views";
 import {OptionsJson, OptionsText, OptionsUrlencoded} from "body-parser";
 import Express from "express";

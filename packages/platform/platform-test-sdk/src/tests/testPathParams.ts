@@ -1,4 +1,6 @@
-import {Context, Controller, PathParams, PlatformTest} from "@tsed/common";
+import {Controller} from "@tsed/di";
+import {PlatformTest} from "@tsed/platform-http";
+import {Context, PathParams} from "@tsed/platform-params";
 import {Get, Pattern, Post} from "@tsed/schema";
 import SuperTest from "supertest";
 import {afterAll, beforeAll, expect, it} from "vitest";

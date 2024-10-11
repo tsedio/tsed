@@ -2,8 +2,8 @@ import "@tsed/platform-express";
 import "@tsed/platform-log-request";
 import "./services/ManagedEventSubscriber.js";
 
-import {PlatformApplication} from "@tsed/common";
 import {Configuration, Inject} from "@tsed/di";
+import {PlatformApplication} from "@tsed/platform-http";
 import bodyParser from "body-parser";
 import compress from "compression";
 import cookieParser from "cookie-parser";

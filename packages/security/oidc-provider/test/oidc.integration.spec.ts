@@ -1,6 +1,6 @@
 import {MemoryAdapter} from "@tsed/adapters";
-import {PlatformTest} from "@tsed/common";
 import {PlatformExpress} from "@tsed/platform-express";
+import {PlatformTest} from "@tsed/platform-http";
 import {PlatformTestSdk} from "@tsed/platform-test-sdk";
 import {join} from "path";
 import SuperTest from "supertest";

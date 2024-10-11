@@ -1,5 +1,5 @@
-import {EndpointMetadata} from "@tsed/common";
 import {decoratorArgs, prototypeOf, Store, UnsupportedDecoratorType} from "@tsed/core";
+import {EndpointMetadata} from "@tsed/schema";
 
 import {UseAuth} from "./useAuth.js";
 

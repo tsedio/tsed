@@ -1,4 +1,4 @@
-import {Inject, Injectable, InjectorService} from "@tsed/common";
+import {Inject, Injectable, InjectorService} from "@tsed/di";
 import {Request} from "express";
 import {promisify} from "util";
 

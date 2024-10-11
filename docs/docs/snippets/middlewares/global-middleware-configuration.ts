@@ -1,4 +1,4 @@
-import {PlatformApplication} from "@tsed/common";
+import {PlatformApplication} from "@tsed/platform-http";
 import {Configuration, Inject} from "@tsed/di";
 import {GlobalAcceptMimeMiddleware} from "./GlobalAcceptMimeMiddleware";
 

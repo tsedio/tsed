@@ -9,7 +9,7 @@ import {JsonEntityFn} from "../common/jsonEntityFn.js";
  * :::
  *
  * ::: warning
- * For v6 user, use @@MinProperties@@ from @tsed/schema instead of @tsed/common.
+ * For v6 user, use @@MinProperties@@ from @tsed/schema instead of @tsed/platform-http.
  * :::
  *
  * ## Example

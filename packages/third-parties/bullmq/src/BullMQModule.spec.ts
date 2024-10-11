@@ -1,7 +1,7 @@
 import "./BullMQModule.js";
 
-import {Inject, PlatformTest} from "@tsed/common";
 import {catchAsyncError} from "@tsed/core";
+import {PlatformTest} from "@tsed/platform-http";
 import {Queue, Worker} from "bullmq";
 import {anything, instance, mock, verify, when} from "ts-mockito";
 
@@ -22,12 +22,14 @@ vi.mock("bullmq", () => {
       constructor(...args: any[]) {
         queueConstructorSpy(...args);
       }
+
       close() {}
     },
     Worker: class {
       constructor(...args: any[]) {
         workerConstructorSpy(...args);
       }
+
       close() {}
     }
   };

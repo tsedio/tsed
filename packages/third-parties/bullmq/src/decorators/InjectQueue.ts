@@ -1,4 +1,4 @@
-import {Inject} from "@tsed/common";
+import {Inject} from "@tsed/di";
 
 import {getQueueToken} from "../utils/getQueueToken.js";
 

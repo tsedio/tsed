@@ -1,4 +1,4 @@
-import {Req} from "@tsed/common";
+import {Req} from "@tsed/platform-http";
 import {Get} from "@tsed/schema";
 import {Controller} from "@tsed/di";
 import {Authenticate} from "@tsed/passport";

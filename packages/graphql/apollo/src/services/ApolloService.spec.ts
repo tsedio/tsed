@@ -1,8 +1,9 @@
 import {RESTDataSource} from "@apollo/datasource-rest";
 import {ApolloServer, ApolloServerPlugin} from "@apollo/server";
-import {InjectContext, Logger, Opts, PlatformApplication, PlatformContext, PlatformTest} from "@tsed/common";
 import {catchAsyncError} from "@tsed/core";
-import {Configuration, Constant, Module, runInContext} from "@tsed/di";
+import {Configuration, Constant, InjectContext, Module, runInContext} from "@tsed/di";
+import {Logger} from "@tsed/logger";
+import {PlatformApplication, PlatformContext, PlatformTest} from "@tsed/platform-http";
 import {HTTPDataSource} from "apollo-datasource-http";
 
 import {APOLLO_CONTEXT} from "../constants/constants.js";

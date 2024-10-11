@@ -1,6 +1,6 @@
-import {Logger} from "@tsed/common";
 import {Env} from "@tsed/core";
 import {Configuration, registerProvider} from "@tsed/di";
+import {Logger} from "@tsed/logger";
 // @ts-ignore
 import type {InlineConfig, ViteDevServer} from "vite";
 

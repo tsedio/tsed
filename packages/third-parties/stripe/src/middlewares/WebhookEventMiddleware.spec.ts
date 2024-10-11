@@ -1,7 +1,7 @@
 import "../index.js";
 
-import {EndpointMetadata, PlatformTest} from "@tsed/common";
 import {catchError} from "@tsed/core";
+import {EndpointMetadata, PlatformTest} from "@tsed/platform-http";
 import {Stripe} from "stripe";
 
 import {STRIPE_WEBHOOK_EVENT, STRIPE_WEBHOOK_SIGNATURE} from "../constants/constants.js";

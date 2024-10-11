@@ -1,4 +1,4 @@
-import {Inject, Injectable, InjectorService} from "@tsed/common";
+import {Inject, Injectable, InjectorService} from "@tsed/di";
 import {MongooseConnectionOptions} from "@tsed/mongoose";
 // @ts-ignore
 import createRouter from "formio";

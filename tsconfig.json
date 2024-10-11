@@ -69,7 +69,7 @@
       "path": "./packages/third-parties/components-scan/tsconfig.json"
     },
     {
-      "path": "./packages/platform/common/tsconfig.json"
+      "path": "./packages/platform/platform-http/tsconfig.json"
     },
     {
       "path": "./packages/graphql/apollo/tsconfig.json"

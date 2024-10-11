@@ -1,7 +1,7 @@
-import {PlatformContext} from "@tsed/common";
 import {Env} from "@tsed/core";
 import {constant, context, inject, Injectable} from "@tsed/di";
 import {Unauthorized} from "@tsed/exceptions";
+import {PlatformContext} from "@tsed/platform-http";
 import omit from "lodash/omit.js";
 import type {Account, default as Provider, InteractionResults, PromptDetail} from "oidc-provider";
 

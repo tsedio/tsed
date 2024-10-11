@@ -1,6 +1,6 @@
 import {getEphemeralServerTarget} from "@temporalio/core-bridge";
 import {Runtime} from "@temporalio/worker";
-import {PlatformTest} from "@tsed/common";
+import {PlatformTest} from "@tsed/platform-http";
 
 import {TemporalClient} from "../src/index.js";
 import {Server} from "./helpers/Server.js";

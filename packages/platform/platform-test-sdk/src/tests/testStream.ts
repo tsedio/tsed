@@ -1,4 +1,5 @@
-import {Controller, PlatformTest} from "@tsed/common";
+import {Controller} from "@tsed/di";
+import {PlatformTest} from "@tsed/platform-http";
 import {ContentType, Get} from "@tsed/schema";
 import {createReadStream} from "fs";
 import {join} from "path";

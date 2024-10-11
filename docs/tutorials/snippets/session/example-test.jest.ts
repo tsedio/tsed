@@ -1,4 +1,4 @@
-import {PlatformTest} from "@tsed/common";
+import {PlatformTest} from "@tsed/platform-http";
 import * as SuperTest from "supertest";
 import {Server} from "../../../src/Server";
 

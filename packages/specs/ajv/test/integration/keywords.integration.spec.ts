@@ -1,6 +1,6 @@
 import "../../src/index.js";
 
-import {PlatformTest} from "@tsed/common";
+import {PlatformTest} from "@tsed/platform-http";
 import {array, CustomKey, getJsonSchema, number} from "@tsed/schema";
 import {_, Ajv, KeywordCxt} from "ajv";
 

@@ -1,6 +1,6 @@
 import {Job} from "@pulsecron/pulse";
-import {PlatformTest} from "@tsed/common";
 import {Inject} from "@tsed/di";
+import {PlatformTest} from "@tsed/platform-http";
 import {TestContainersMongo} from "@tsed/testcontainers-mongo";
 
 import {Define, Pulse, PulseModule, PulseService} from "../src/index.js";

@@ -1,5 +1,5 @@
-import {Context} from "@tsed/common";
 import {useDecorators} from "@tsed/core";
+import {Context} from "@tsed/platform-params";
 import type {default as Provider} from "oidc-provider";
 
 import {INTERACTION_SESSION} from "../constants/constants.js";

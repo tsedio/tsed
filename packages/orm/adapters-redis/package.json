@@ -36,9 +36,9 @@
   },
   "peerDependencies": {
     "@tsed/adapters": "8.0.0-beta.3",
-    "@tsed/common": "8.0.0-beta.3",
     "@tsed/core": "8.0.0-beta.3",
     "@tsed/di": "8.0.0-beta.3",
+    "@tsed/platform-http": "8.0.0-beta.3",
     "ioredis": ">=5.2.3",
     "ioredis-mock": ">=8.2.2",
     "uuid": "^10.0.0"

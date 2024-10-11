@@ -1,5 +1,5 @@
-import {$log, BodyParams, Controller, PathParams, QueryParams} from "@tsed/common";
 import {PlatformExpress} from "@tsed/platform-express";
+import {$log, BodyParams, Controller, PathParams, QueryParams} from "@tsed/platform-http";
 import {DiscriminatorKey, DiscriminatorValue, Get, OneOf, Post, Property, Put, Required, Returns} from "@tsed/schema";
 
 import {Hidden} from "../../src/index.js";

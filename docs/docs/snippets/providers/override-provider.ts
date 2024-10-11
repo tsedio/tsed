@@ -1,4 +1,4 @@
-import {OriginalService} from "@tsed/common";
+import {OriginalService} from "@tsed/platform-http";
 import {OverrideProvider} from "@tsed/di";
 
 @OverrideProvider(OriginalService)

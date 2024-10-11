@@ -1,6 +1,8 @@
 import "@tsed/ajv";
 
-import {Controller, PlatformTest, QueryParams} from "@tsed/common";
+import {Controller} from "@tsed/di";
+import {PlatformTest} from "@tsed/platform-http";
+import {QueryParams} from "@tsed/platform-params";
 import {Default, GenericOf, Generics, Get, Maximum, Minimum, Property} from "@tsed/schema";
 import SuperTest from "supertest";
 import {afterAll, beforeAll, describe, expect, it} from "vitest";
