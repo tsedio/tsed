@@ -21,7 +21,8 @@ export default {
   extends: ["@commitlint/config-conventional"],
   rules: {
     "scope-enum": [RuleConfigSeverity.Error, "always", findPackages()],
-    "header-max-length": [0, "always", 120]
+    "header-max-length": [0, "always", 120],
+    "footer-max-line-length": [0, "always", 200],
   },
   ignores: [
     (message) =>

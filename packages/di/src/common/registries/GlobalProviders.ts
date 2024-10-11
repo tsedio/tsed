@@ -50,12 +50,7 @@ export class GlobalProviderRegistry extends Map<TokenProvider, Provider> {
     const meta = this.createIfNotExists(target, options);
 
     Object.keys(options).forEach((key) => {
-      let value = (options as never)[key];
-      // if (key === "type") {
-      //   value = String(value);
-      // }
-
-      meta[key] = value;
+      meta[key] = (options as never)[key];
     });
 
     this.set(target, meta);

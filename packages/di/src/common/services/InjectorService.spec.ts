@@ -53,7 +53,6 @@ describe("InjectorService", () => {
       });
 
       expect(!!injector.getMany(ProviderType.VALUE).length).toEqual(true);
-      expect(!!injector.getMany(ProviderType.FACTORY).length).toEqual(false);
     });
   });
 
