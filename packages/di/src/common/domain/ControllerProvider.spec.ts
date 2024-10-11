@@ -46,10 +46,10 @@ describe("ControllerProvider", () => {
 
   it("should have a middlewares", () => {
     expect(Array.isArray(controllerProvider.middlewares.use)).toBe(true);
-    expect(controllerProvider.middlewares.use[0]).toBeInstanceOf(Function);
+    expect(controllerProvider.middlewares.use![0]).toBeInstanceOf(Function);
     expect(Array.isArray(controllerProvider.middlewares.useAfter)).toBe(true);
-    expect(controllerProvider.middlewares.useAfter[0]).toBeInstanceOf(Function);
+    expect(controllerProvider.middlewares.useAfter![0]).toBeInstanceOf(Function);
     expect(Array.isArray(controllerProvider.middlewares.useBefore)).toBe(true);
-    expect(controllerProvider.middlewares.useBefore[0]).toBeInstanceOf(Function);
+    expect(controllerProvider.middlewares.useBefore![0]).toBeInstanceOf(Function);
   });
 });

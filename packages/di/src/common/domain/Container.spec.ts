@@ -32,7 +32,7 @@ describe("Container", () => {
 
       container = new Container();
       container.addProvider(MyMiddleware, {type: ProviderType.MIDDLEWARE});
-      container.addProvider(MyService, {type: ProviderType.SERVICE});
+      container.addProvider(MyService, {type: ProviderType.PROVIDER});
       container.addProvider(MyController, {type: ProviderType.CONTROLLER});
 
       // await container.load();

@@ -30,7 +30,9 @@ export class Provider<T = any> implements ProviderOpts<T> {
     this.provide = token;
     this.useClass = token as Type<T>;
 
-    Object.assign(this, options);
+    Object.assign(this, {
+      ...options
+    });
   }
 
   get token() {
@@ -128,6 +130,10 @@ export class Provider<T = any> implements ProviderOpts<T> {
 
   get children(): TokenProvider[] {
     return this.store.get("childrenControllers", []);
+  }
+
+  set children(children: TokenProvider[]) {
+    this.store.set("childrenControllers", children);
   }
 
   get(key: string) {

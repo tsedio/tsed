@@ -21,9 +21,10 @@ import type {ProviderOpts} from "../interfaces/ProviderOpts.js";
  */
 export function Injectable(options: Partial<ProviderOpts> = {}): ClassDecorator {
   return (target: any) => {
-    injectable({
+    const opts = {
       ...options,
       ...(options.provide ? {useClass: target} : {provide: target})
-    });
+    };
+    injectable(opts.provide, opts);
   };
 }
