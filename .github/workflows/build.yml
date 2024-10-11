@@ -132,7 +132,7 @@ jobs:
           path: |
             team.json
             packages/{core,di,engines}/vitest.config.mts
-            packages/platform/common/vitest.config.mts
+            packages/platform/platform-http/vitest.config.mts
             packages/utils/normalize-path/vitest.config.mts
         continue-on-error: true
 

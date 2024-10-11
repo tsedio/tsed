@@ -91,12 +91,12 @@
     "tslib": "2.7.0"
   },
   "peerDependencies": {
-    "@tsed/platform-http": "8.0.0-beta.3",
     "@tsed/core": "8.0.0-beta.3",
     "@tsed/di": "8.0.0-beta.3",
     "@tsed/json-mapper": "8.0.0-beta.3",
     "@tsed/logger": ">=6.7.5",
     "@tsed/openspec": "8.0.0-beta.3",
+    "@tsed/platform-http": "8.0.0-beta.3",
     "@tsed/schema": "8.0.0-beta.3",
     "cross-env": "7.0.3",
     "koa": ">=2.13.0",

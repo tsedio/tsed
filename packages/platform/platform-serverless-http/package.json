@@ -80,7 +80,7 @@
     "@tsed/json-mapper": "8.0.0-beta.3",
     "@tsed/logger": ">=6.7.5",
     "@tsed/openspec": "8.0.0-beta.3",
-    "@tsed/platform-http": "8.0.0-beta.2",
+    "@tsed/platform-http": "8.0.0-beta.3",
     "@tsed/schema": "8.0.0-beta.3",
     "serverless-http": ">=2.0.0"
   },
