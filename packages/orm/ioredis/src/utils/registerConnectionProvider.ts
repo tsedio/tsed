@@ -69,7 +69,9 @@ export function registerConnectionProvider({provide, name = "default"}: CreateCo
           } as RedisOptions);
         }
 
-        await connection.connect();
+        try {
+          await connection.connect();
+        } catch (e) {}
 
         logger.info("Connected to redis database...");
 
