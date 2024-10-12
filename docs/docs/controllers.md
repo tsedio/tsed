@@ -176,8 +176,9 @@ Finally, @@BodyParams@@ accepts to give a @@ParamOptions@@ object as parameter t
 @@QueryParams@@ decorator accept a model to transform `Express.request.query` plain object to a Class.
 
 ```typescript
-import {Controller, Get, QueryParams} from "@tsed/common";
-import {Required, MinLength, Property} from "@tsed/schema";
+import {QueryParams} from "@tsed/platform-params";
+import {Controller} from "@tsed/di";
+import {Get, Required, MinLength, Property} from "@tsed/schema";
 
 class QueryParamsModel {
   @Required()
@@ -253,7 +254,7 @@ The @@Integer@@ decorator is used to set integer type for integral numbers.
 @Controller("/")
 class ExampleCtrl {
   @Get("/")
-  @Returns(200, Array).OfInteger()
+  @(Returns(200, Array).OfInteger())
   async get(@BodyParams() @Integer() list: number[]) {
     return list;
   }
@@ -419,7 +420,9 @@ class MyCtrl {
 Finally, it also possible to perform redirection programmatically:
 
 ```typescript
-import {Controller, Get, ctx} from "@tsed/common";
+import {Controller} from "@tsed/di";
+import {Context} from "@tsed/platform-params";
+import {Get} from "@tsed/schema";
 
 @Controller("/")
 class MyCtrl {

@@ -82,7 +82,8 @@ The `mikroOrm` options accepts the same configuration object as `init()` from th
 `@Orm` decorator lets you retrieve an instance of MikroORM.
 
 ```typescript
-import {Injectable, AfterRoutesInit} from "@tsed/common";
+import {AfterRoutesInit} from "@tsed/platform-http";
+import {Injectable} from "@tsed/di";
 import {Orm} from "@tsed/mikro-orm";
 import {MikroORM} from "@mikro-orm/core";
 
@@ -127,7 +128,8 @@ export class MyService {
 `@EntityManager` and `@Em` decorators lets you retrieve an instance of EntityManager.
 
 ```typescript
-import {Injectable, AfterRoutesInit} from "@tsed/common";
+import {AfterRoutesInit} from "@tsed/platform-http";
+import {Injectable} from "@tsed/di";
 import {Em} from "@tsed/mikro-orm";
 import {EntityManager} from "@mikro-orm/mysql"; // Import EntityManager from your driver package or `@mikro-orm/knex`
 
@@ -148,7 +150,8 @@ export class UsersService {
 It's also possible to inject Entity manager by his context name:
 
 ```typescript
-import {Injectable, AfterRoutesInit} from "@tsed/common";
+import {AfterRoutesInit} from "@tsed/platform-http";
+import {Injectable} from "@tsed/di";
 import {Em} from "@tsed/mikro-orm";
 import {EntityManager} from "@mikro-orm/mysql"; // Import EntityManager from your driver package or `@mikro-orm/knex`
 
@@ -171,7 +174,7 @@ export class UsersService {
 To begin, we need to define an Entity MikroORM like this and use Ts.ED Decorator to define the JSON Schema.
 
 ```typescript
-import {Property, MaxLength, Required} from "@tsed/common";
+import {Property, MaxLength, Required} from "@tsed/schema";
 import {Entity, Property, PrimaryKey, Property as Column} from "@mikro-orm/core";
 
 @Entity()
@@ -204,7 +207,9 @@ Now, the model is correctly defined and can be used with a [Controller](https://
 We can use this model with a Controller like that:
 
 ```typescript
-import {Controller, Post, BodyParams, Inject, Post, Get} from "@tsed/common";
+import {Post, Post, Get} from "@tsed/schema";
+import {Controller, Inject} from "@tsed/di";
+import {BodyParams} from "@tsed/platform-params";
 
 @Controller("/users")
 export class UsersCtrl {
@@ -232,7 +237,9 @@ We can use the `@Transactional()` decorator, which will register a new request c
 inside the context.
 
 ```typescript
-import {Controller, Post, BodyParams, Inject, Get} from "@tsed/common";
+import {Post, Post, Get} from "@tsed/schema";
+import {Controller, Inject} from "@tsed/di";
+import {BodyParams} from "@tsed/platform-params";
 import {Transactional} from "@tsed/mikro-orm";
 
 @Controller("/users")
@@ -335,7 +342,9 @@ export class ExponentialBackoff implements RetryStrategy {
 Once a retry strategy is implemented, you can enable an automatic retry mechanism using the `@Transactional` decorator like that:
 
 ```typescript
-import {Controller, Post, BodyParams, Inject, Get} from "@tsed/common";
+import {Post, Post, Get} from "@tsed/schema";
+import {Controller, Inject} from "@tsed/di";
+import {BodyParams} from "@tsed/platform-params";
 import {Transactional} from "@tsed/mikro-orm";
 
 @Controller("/users")

@@ -24,7 +24,7 @@ standard [JsonSchema](http://json-schema.org/) model.
 Validation is only available when you import `@tsed/ajv` package in your server.
 
 ```typescript
-import {Configuration} from "@tsed/common";
+import {Configuration} from "@tsed/di";
 import "@tsed/ajv";
 
 @Configuration()
@@ -485,7 +485,8 @@ element, where each element is unique or a TypeScript enum.
 
 ```typescript
 import {Enum} from "@tsed/schema";
-import {QueryParams, Controller} from "@tsed/common";
+import {Controller} from "@tsed/di";
+import {QueryParams} from "@tsed/platform-params";
 
 @Controller("/")
 class MyController {
@@ -526,12 +527,13 @@ class Product {
 // in controller
 
 import {Enum} from "@tsed/schema";
-import {QueryParams, Controller} from "@tsed/common";
+import {Controller} from "@tsed/di";
+import {QueryParams} from "@tsed/platform-params";
 
 @Controller("/products")
 class ProductsController {
   @Get("/:type")
-  @Returns(200, Array).Of(Product)
+  @(Returns(200, Array).Of(Product))
   async get(@PathParams("type") @Enum(ProductTypes) type: ProductTypes): Promise<Product> {
     return [new Product()];
   }
@@ -605,7 +607,7 @@ import {Required} from "@tsed/schema";
 class MyModel {
   id: string;
 
-  @Required().Error("custom message")
+  @(Required().Error("custom message"))
   prop1: string;
 }
 ```
@@ -787,7 +789,7 @@ Finally, we can create a unit test to verify if our example works properly:
 
 ```typescript
 import "@tsed/ajv";
-import {PlatformTest} from "@tsed/common";
+import {PlatformTest} from "@tsed/platform-http/testing";
 import {getJsonSchema} from "@tsed/schema";
 import {Product} from "./Product";
 import "../keywords/RangeKeyword";
@@ -1059,11 +1061,11 @@ import {User} from "../models/User";
 @Controller("/")
 export class UsersCtrl {
   @Get("/:id")
-  @Returns(200, User).Groups("group.*")
+  @(Returns(200, User).Groups("group.*"))
   async get(@PathParams("id") id: string) {}
 
   @Post("/")
-  @Returns(201, User).Groups("group.*")
+  @(Returns(201, User).Groups("group.*"))
   async post(@BodyParams() @Groups("creation", "summary") user: User) {}
 }
 ```
@@ -1091,11 +1093,11 @@ import {User} from "../models/User";
 @Controller("/")
 export class UsersCtrl {
   @Get("/:id")
-  @Returns(200, User).Groups("Details", ["group.*"])
+  @(Returns(200, User).Groups("Details", ["group.*"]))
   async get(@PathParams("id") id: string) {}
 
   @Post("/")
-  @Returns(201, User).Groups("Details", ["group.*"])
+  @(Returns(201, User).Groups("Details", ["group.*"]))
   async post(@BodyParams() @Groups("Creation", ["creation", "summary"]) user: User) {}
 }
 ```
@@ -1226,7 +1228,7 @@ class MyModel {
 @Controller("/controllers")
 class MyController {
   @Get("/:id")
-  @Returns(200, MyModel).Groups("!admin").AllowedGroups("summary", "details")
+  @(Returns(200, MyModel).Groups("!admin").AllowedGroups("summary", "details"))
   get() {
     return {
       id: "id",
@@ -1335,13 +1337,13 @@ Partial allow you to create a Partial model on an endpoint:
 
 ```typescript
 import {Returns, Patch, Partial} from "@tsed/schema";
-import {Controller} from "@tsed/common";
+import {Controller} from "@tsed/di";
 import {BodyParams} from "./bodyParams";
 
 @Controller("/")
 class MyController {
   @Patch("/")
-  @Returns(200, MyModel).Groups("group.*")
+  @(Returns(200, MyModel).Groups("group.*"))
   async patch(@BodyParams() @Partial() payload: MyModel) {
     // ...
   }
@@ -1555,7 +1557,7 @@ Discriminator model can be used also on controller:
 @Controller("/")
 class Test {
   @Put("/:id")
-  @Returns(200).OneOf(Event)
+  @(Returns(200).OneOf(Event))
   put(@PathParams(":id") id: string, @BodyParams() @OneOf(Event) event: EventsType) {
     return [];
   }
@@ -1608,12 +1610,11 @@ It's also possible to declare nested generic models in order to have this type `
   <Tab label="MyController.ts">
 
 ```typescript
-import {Generics, Property, Returns} from "@tsed/schema";
-import {Post} from "@tsed/common";
+import {Post, Generics, Property, Returns} from "@tsed/schema";
 
 class MyController {
   @Post("/")
-  @Returns(200, Pagination).Of(Submission).Nested(Product).Description("description")
+  @(Returns(200, Pagination).Of(Submission).Nested(Product).Description("description"))
   async method(): Promise<Pagination<Submission<Product>> | null> {
     return null;
   }
@@ -1881,7 +1882,7 @@ the database, it's better to rename the property to `id`.
 ## Set Schema
 
 If Ts.ED doesn't provide the expected decorator to describe your json schema, you can use the @@Schema@@ decorator
-from `@tsed/common` to set a custom schema.
+from `@tsed/schema` to set a custom schema.
 
 ### Using JsonSchemaObject
 
@@ -1941,8 +1942,8 @@ You can create a controller, or an endpoint to expose a specific schema with the
 consumers to retrieve a validation template so that they can use it to validate a form.
 
 ```typescript
-import {Controller, Get} from "@tsed/common";
-import {getJsonSchema} from "@tsed/schema";
+import {Controller} from "@tsed/di";
+import {Get, getJsonSchema} from "@tsed/schema";
 import {Product} from "../models/Product";
 
 @Controller("/products")

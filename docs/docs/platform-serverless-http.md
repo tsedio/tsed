@@ -91,7 +91,7 @@ export class TimeslotsController {
 
   @Get("/")
   @Summary("Return a list of timeslots")
-  @Returns(200, Array).Of(TimeslotModel)
+  @(Returns(200, Array).Of(TimeslotModel))
   get(@QueryParams("date_start") dateStart: Date, @QueryParams("date_end") dateEnd: Date) {
     return this.timeslotsService.find({
       dateStart,
@@ -219,7 +219,8 @@ You should see in the terminal the following result:
 This package includes decorators to easily get the event object Lambda received from API Gateway:
 
 ```typescript
-import {Controller, Get} from "@tsed/common";
+import {Get} from "@tsed/schema";
+import {Controller} from "@tsed/di";
 import {ServerlessEvent, ServerlessContext} from "@tsed/platform-serverless-http";
 
 @Controller("/")

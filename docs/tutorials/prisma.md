@@ -547,9 +547,9 @@ Now we have to create controllers to expose your business to our consumers. So c
   <Tab label="UsersController.ts">
 
 ```typescript
-import {BodyParams, Controller, Get, Post} from "@tsed/common";
-import {Inject} from "@tsed/di";
-import {Groups, Returns, Summary} from "@tsed/schema";
+import {BodyParams} from "@tsed/platform-params";
+import {Controller, Inject} from "@tsed/di";
+import {Groups, Returns, Summary, Get, Post} from "@tsed/schema";
 import {UserModel, UsersRepository} from "@tsed/prisma";
 
 @Controller("/users")
@@ -566,7 +566,7 @@ export class UsersController {
 
   @Get("/")
   @Summary("Filter posts by title or content")
-  @Returns(200, Array).Of(UserModel).Description("Return a list of User")
+  @(Returns(200, Array).Of(UserModel).Description("Return a list of User"))
   getAll() {
     return this.service.findMany();
   }
@@ -577,9 +577,9 @@ export class UsersController {
   <Tab label="PostsController.ts">
 
 ```typescript
-import {BodyParams, Controller, Delete, Get, PathParams, Post, Put} from "@tsed/common";
-import {Inject} from "@tsed/di";
-import {Description, Groups, Name, Returns, Summary} from "@tsed/schema";
+import {BodyParams, PathParams} from "@tsed/platform-params";
+import {Inject, Controller} from "@tsed/di";
+import {Description, Groups, Name, Returns, Summary, Delete, Get, Post, Put} from "@tsed/schema";
 import {NotFound} from "@tsed/exceptions";
 import {PostModel, PostsRepository} from "@tsed/prisma";
 
@@ -637,7 +637,7 @@ export class PostsController {
 
   @Get("/search/:searchString")
   @Description("Filter posts by title or content")
-  @Returns(200, Array).Of(PostModel)
+  @(Returns(200, Array).Of(PostModel))
   async getFilteredPosts(@PathParams("searchString") searchString: string): Promise<PostModel[]> {
     return this.service.findMany({
       where: {
@@ -659,10 +659,9 @@ export class PostsController {
   <Tab label="FeedsController.ts">
 
 ```typescript
-import {Controller, Get} from "@tsed/common";
-import {Inject} from "@tsed/di";
+import {Controller, Inject} from "@tsed/di";
 import {PostModel, PostsRepository} from "@tsed/prisma";
-import {Returns, Summary} from "@tsed/schema";
+import {Get, Returns, Summary} from "@tsed/schema";
 
 @Controller("/feeds")
 export class FeedsController {
@@ -671,7 +670,7 @@ export class FeedsController {
 
   @Get("/")
   @Summary("Fetch all published posts")
-  @Returns(200, Array).Of(PostModel)
+  @(Returns(200, Array).Of(PostModel))
   getFeeds(): Promise<PostModel[]> {
     return this.service.findMany({
       where: {published: true}

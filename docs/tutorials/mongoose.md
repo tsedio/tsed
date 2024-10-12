@@ -95,7 +95,7 @@ Then import `@tsed/mongoose` in your [Configuration](/docs/configuration.md):
 @@MongooseService@@ lets you to retrieve an instance of Mongoose.Connection.
 
 ```typescript
-import {Service} from "@tsed/common";
+import {Service} from "@tsed/di";
 import {MongooseService} from "@tsed/mongoose";
 
 @Service()
@@ -143,7 +143,7 @@ Schema decorator accepts a second parameter to configure the Schema (See [Mongoo
 ### Declaring Properties
 
 By default, `@tsed/mongoose` reuses the metadata stored by the decorators dedicated
-to describe a JsonSchema. These decorators come from the `@tsed/common` package.
+to describe a JsonSchema. These decorators come from the `@tsed/schema` package.
 
 <<< @/tutorials/snippets/mongoose/example-model-mongoose.ts
 
@@ -296,7 +296,7 @@ Mongoose doesn't return a real instance of your class. If you inspected the retu
 you'll see that the instance is as Model type instead of the expected class:
 
 ```typescript
-import {Inject, Injectable} from "@tsed/common";
+import {Inject, Injectable} from "@tsed/di";
 import {MongooseModel} from "@tsed/mongoose";
 import {Product} from "./models/Product";
 
@@ -321,7 +321,7 @@ the class with the @@deserialize@@ function.
 To simplify this, Ts.ED adds a `toClass` method to the MongooseModel to find, if necessary, an instance of type Product.
 
 ```typescript
-import {Inject, Injectable} from "@tsed/common";
+import {Inject, Injectable} from "@tsed/di";
 import {MongooseModel} from "@tsed/mongoose";
 import {Product} from "./models/Product";
 

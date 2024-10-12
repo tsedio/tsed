@@ -2,7 +2,7 @@ import * as Sinon from "sinon";
 import {User} from "../models/User";
 import {UsersService} from "../services/users/UsersService";
 import {BasicProtocol} from "./BasicProtocol";
-import {PlatformTest} from "@tsed/platform-http";
+import {PlatformTest} from "@tsed/platform-http/testing";
 
 describe("BasicProtocol", () => {
   beforeEach(() => PlatformTest.create());

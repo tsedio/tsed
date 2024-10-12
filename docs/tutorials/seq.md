@@ -23,7 +23,7 @@ npm install --save @tsed/seq
 Then add the following configuration in your Server:
 
 ```typescript
-import {Configuration} from "@tsed/common";
+import {Configuration} from "@tsed/di";
 import "@tsed/seq"; // import seq Ts.ED module
 
 @Configuration({
@@ -45,7 +45,9 @@ Seq module uses the log level from the @@LoggerSettings@@ (default level is debu
 ## Example
 
 ```typescript
-import {Controller, Get, QueryParams} from "@tsed/common";
+import {Controller} from "@tsed/di";
+import {Get} from "@tsed/schema";
+import {QueryParams} from "@tsed/platform-params";
 import {$log} from "@tsed/logger";
 
 @Controller("/calendars")

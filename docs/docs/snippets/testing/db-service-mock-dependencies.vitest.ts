@@ -1,5 +1,5 @@
 import {it, expect, describe, beforeEach, afterEach} from "vitest";
-import {PlatformTest} from "@tsed/platform-http";
+import {PlatformTest} from "@tsed/platform-http/testing";
 import {MyCtrl} from "../controllers/MyCtrl";
 import {DbService} from "../services/DbService";
 

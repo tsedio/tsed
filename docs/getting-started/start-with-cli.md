@@ -100,12 +100,12 @@ To prevent errors, fix the version for each Ts.ED packages:
 ```json
 {
   "dependencies": {
-    "@tsed/common": "7.0.0",
-    "@tsed/di": "7.0.0",
-    "@tsed/core": "7.0.0",
-    "@tsed/exceptions": "7.0.0",
-    "@tsed/plaftorm-express": "7.0.0",
-    "@tsed/swagger": "7.0.0"
+    "@tsed/platform-http": "8.0.0",
+    "@tsed/di": "8.0.0",
+    "@tsed/core": "8.0.0",
+    "@tsed/exceptions": "8.0.0",
+    "@tsed/plaftorm-express": "8.0.0",
+    "@tsed/swagger": "8.0.0"
   }
 }
 ```

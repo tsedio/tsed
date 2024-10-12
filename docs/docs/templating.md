@@ -133,7 +133,7 @@ You can instantiate them manually beforehand if you want to add filters, globals
 ### Nunjucks
 
 ```typescript
-import {Configuration} from "@tsed/common";
+import {Configuration} from "@tsed/di";
 import nunjucks from "nunjucks";
 
 const nunjucksInstances = nunjucks.configure("./views");

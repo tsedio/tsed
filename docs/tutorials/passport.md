@@ -215,7 +215,8 @@ Finally, we can use this decorator on an Endpoint like this:
 ## Catch Passport Exception <Badge text="6.18.0+" />
 
 ```typescript
-import {Catch, ExceptionFilterMethods, PlatformContext} from "@tsed/common";
+import {PlatformContext} from "@tsed/platform-http";
+import {Catch, ExceptionFilterMethods} from "@tsed/platform-exceptions";
 import {PassportException} from "@tsed/passport";
 
 @Catch(PassportException)

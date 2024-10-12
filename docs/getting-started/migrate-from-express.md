@@ -20,7 +20,7 @@ You can get the latest version of Ts.ED using the following npm command:
   
 ```bash
 $ yarn add -D typescript @types/express
-$ yarn add express@4 @tsed/core @tsed/di @tsed/common @tsed/schema @tsed/json-mapper @tsed/exceptions @tsed/platform-express
+$ yarn add express@4 @tsed/core @tsed/di @tsed/platform-http @tsed/schema @tsed/json-mapper @tsed/exceptions @tsed/platform-express
 ```
 
   </Tab>
@@ -28,7 +28,7 @@ $ yarn add express@4 @tsed/core @tsed/di @tsed/common @tsed/schema @tsed/json-ma
   
 ```bash
 $ npm install --save-dev typescript @types/express
-$ npm install --save express@4 @tsed/core @tsed/di @tsed/common @tsed/schema @tsed/json-mapper @tsed/exceptions @tsed/platform-express
+$ npm install --save express@4 @tsed/core @tsed/di @tsed/platform-http @tsed/schema @tsed/json-mapper @tsed/exceptions @tsed/platform-express
 ```
 
   </Tab>
@@ -64,12 +64,12 @@ To prevent errors, fix the version for each Ts.ED packages:
 ```json
 {
   "dependencies": {
-    "@tsed/common": "5.56.0",
-    "@tsed/di": "5.56.0",
-    "@tsed/core": "5.56.0",
-    "@tsed/exceptions": "5.56.0",
-    "@tsed/plaftorm-express": "5.56.0",
-    "@tsed/swagger": "5.56.0"
+    "@tsed/di": "8.0.0",
+    "@tsed/core": "8.0.0",
+    "@tsed/exceptions": "8.0.0",
+    "@tsed/platform-http": "8.0.0",
+    "@tsed/platform-express": "8.0.0",
+    "@tsed/swagger": "8.0.0"
   }
 }
 ```

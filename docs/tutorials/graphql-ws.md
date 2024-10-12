@@ -40,7 +40,7 @@ yarn add @tsed/graphql-ws graphql-ws
 </Tabs>
 
 ```typescript
-import {Configuration} from "@tsed/common";
+import {Configuration} from "@tsed/di";
 import "@tsed/platform-express";
 import "@tsed/apollo";
 import "@tsed/graphql-ws"; // auto import plugin for @tsed/apollo
@@ -118,7 +118,7 @@ Depending on the schema resolver (nexus, type-graphql, etc.), you can use the `p
 To use the subscription feature with TypeGraphQL, you have to give pubsub instance to the buildSchemaOptions:
 
 ```typescript
-import {Configuration} from "@tsed/common";
+import {Configuration} from "@tsed/di";
 import "@tsed/platform-express";
 import "@tsed/apollo";
 import "@tsed/typegraphql";
@@ -154,8 +154,8 @@ export class Server {}
 Here is a simple example of how to use the `pubsub` instance in a resolver using the `type-graphql` library:
 
 ```typescript
-import {InjectContext, PlatformContext} from "@tsed/common";
-import {Inject} from "@tsed/di";
+import {PlatformContext} from "@tsed/platform-http";
+import {InjectContext, Inject} from "@tsed/di";
 import {ResolverController} from "@tsed/typegraphql";
 import {Arg, Mutation, Query, Root, Subscription} from "type-graphql";
 import {RecipeService} from "../../services/RecipeService";

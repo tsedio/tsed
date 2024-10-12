@@ -1,4 +1,4 @@
-import {PlatformTest} from "@tsed/platform-http";
+import {PlatformTest} from "@tsed/platform-http/testing";
 import {PlatformExpress} from "@tsed/platform-express";
 import {TestMongooseContext} from "@tsed/testing-mongoose";
 import {expect} from "chai";

@@ -9,7 +9,7 @@ This example shows you how you can add an already constructed service like a npm
 
 ```typescript
 // MyFooFactory.ts
-import {registerProvider} from "@tsed/common";
+import {registerProvider} from "@tsed/di";
 
 export interface MyFooFactory {
   getFoo(): string;

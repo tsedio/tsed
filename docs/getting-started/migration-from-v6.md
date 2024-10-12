@@ -153,7 +153,7 @@ To facilitate your migration, you can install the `@tsed/components-scan` module
 Here is the right way to use the `componentsScan` since v6.104.0:
 
 ```typescript
-import {$log} from "@tsed/common";
+import {$log} from "@tsed/logger";
 import {importProviders} from "@tsed/components-scan";
 import {PlatformExpress} from "@tsed/platform-express";
 import {Server} from "./Server";
@@ -333,7 +333,7 @@ The module is now stable and is directly integrated into the `@tsed/di` module. 
 - import {Injectable, Controller} from "@tsed/di";
 - import {InjectContext} from "@tsed/async-hook-context";
 + import {Injectable, Controller, runInContext, InjectContext} from "@tsed/di";
-import {PlatformContext} from "@tsed/common";
+import {PlatformContext} from "@tsed/platform-http";
 
 @Injectable()
 export class CustomRepository {
@@ -356,7 +356,7 @@ And in your test:
 ```diff
 - import {runInContext} from "@tsed/async-hook-context";
 + import {runInContext} from "@tsed/di";
-import {PlatformContext} from "@tsed/common";
+import {PlatformContext} from "@tsed/platform-http";
 import {CustomRepository} from "./CustomRepository";
 
 describe("CustomRepository", () => {
