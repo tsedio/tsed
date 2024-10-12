@@ -1,8 +1,8 @@
 import {PlatformViews} from "@tsed/platform-views";
 import {createReadStream} from "fs";
 
+import {PlatformTest} from "../../testing/PlatformTest.js";
 import {PlatformResponse} from "./PlatformResponse.js";
-import {PlatformTest} from "./PlatformTest.js";
 
 const rootDir = import.meta.dirname; // automatically replaced by import.meta.dirname on build
 

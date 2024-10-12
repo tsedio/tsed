@@ -43,7 +43,7 @@ npm install --save @tsed/graphql-ws graphql-ws
 Now, we can configure the Ts.ED server by importing `@tsed/gr` in your Server:
 
 ```typescript
-import {Configuration} from "@tsed/common";
+import {Configuration} from "@tsed/di";
 import "@tsed/apollo";
 
 @Configuration({
@@ -63,7 +63,8 @@ export class Server {}
 ApolloService let you retrieve an instance of ApolloServer.
 
 ```typescript
-import {Injectable, AfterRoutesInit} from "@tsed/common";
+import {Injectable} from "@tsed/di";
+import {AfterRoutesInit} from "@tsed/platform-http";
 import {graphQLService} from "@tsed/apollo";
 import {ApolloServer} from "@apollo/server";
 

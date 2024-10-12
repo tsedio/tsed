@@ -1,5 +1,5 @@
 import * as Sinon from "sinon";
-import {PlatformTest} from "@tsed/platform-http";
+import {PlatformTest} from "@tsed/platform-http/testing";
 import {User} from "../models/User";
 import {UsersService} from "../services/users/UsersService";
 import {LoginLocalProtocol} from "./LoginLocalProtocol";

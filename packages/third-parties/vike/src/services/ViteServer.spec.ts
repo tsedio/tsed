@@ -1,5 +1,5 @@
 import {Env} from "@tsed/core";
-import {PlatformTest} from "@tsed/platform-http";
+import {PlatformTest} from "@tsed/platform-http/testing";
 import sirv from "sirv";
 
 import {VITE_SERVER} from "./ViteServer.js";

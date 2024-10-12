@@ -2,7 +2,8 @@ import "@tsed/ajv";
 
 import {Controller} from "@tsed/di";
 import {BadRequest, Exception, Unauthorized} from "@tsed/exceptions";
-import {Err, PlatformTest} from "@tsed/platform-http";
+import {Err} from "@tsed/platform-http";
+import {PlatformTest} from "@tsed/platform-http/testing";
 import {Middleware, MiddlewareMethods, Use, UseAfter, UseBefore} from "@tsed/platform-middlewares";
 import {Context, QueryParams} from "@tsed/platform-params";
 import {Get} from "@tsed/schema";

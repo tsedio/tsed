@@ -39,7 +39,7 @@ Create a KeycloakService in `src/services` that handles the memory store, the Ke
 ```typescript
 import {Service} from "@tsed/di";
 import {MemoryStore} from "express-session";
-import {$log} from "@tsed/common";
+import {$log} from "@tsed/logger";
 import {Token} from "keycloak-connect";
 import KeycloakConnect = require("keycloak-connect");
 
@@ -91,7 +91,7 @@ The `KeycloakService` can then be injected in the Server class and the middlewar
 
 ```typescript
 import {Configuration, Inject} from "@tsed/di";
-import {PlatformApplication} from "@tsed/common";
+import {PlatformApplication} from "@tsed/platform-http";
 import session from "express-session";
 
 @Configuration({
@@ -130,7 +130,9 @@ With each request the token is set to the request property `kauth`.
 In order to be able to use the token we set this in the KeycloakService.
 
 ```typescript
-import {Context, MiddlewareMethods, Inject, Middleware} from "@tsed/common";
+import {MiddlewareMethods, Middleware} from "@tsed/platform-middlewares";
+import {Inject} from "@tsed/di";
+import {Context} from "@tsed/platform-params";
 import {KeycloakAuthOptions} from "../decorators/KeycloakAuthDecorator";
 import {KeycloakService} from "../services/KeycloakService";
 
@@ -158,7 +160,7 @@ To protect certain routes create a KeycloakAuthDecorator at `src/decorators`.
 
 ```typescript
 import {Returns} from "@tsed/schema";
-import {UseAuth} from "@tsed/common";
+import {UseAuth} from "@tsed/platform-middlewares";
 import {useDecorators} from "@tsed/core";
 import {Security} from "@tsed/schema";
 import {KeycloakMiddleware} from "../middlewares/KeycloakMiddleware";
@@ -178,7 +180,8 @@ export function KeycloakAuth(options: KeycloakAuthOptions = {}): Function {
 Now we can protect routes with our custom KeycloakAuth decorator.
 
 ```typescript
-import {Controller, Get} from "@tsed/common";
+import {Get} from "@tsed/schema";
+import {Controller} from "@tsed/di";
 import {KeycloakAuth} from "../decorators/KeycloakAuthDecorator";
 
 @Controller("/hello-world")

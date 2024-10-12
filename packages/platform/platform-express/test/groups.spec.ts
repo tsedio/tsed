@@ -2,7 +2,7 @@ import "@tsed/ajv";
 
 import {Controller} from "@tsed/di";
 import {deserialize} from "@tsed/json-mapper";
-import {PlatformTest} from "@tsed/platform-http";
+import {PlatformTest} from "@tsed/platform-http/testing";
 import {BodyParams, PathParams} from "@tsed/platform-params";
 import {PlatformTestSdk} from "@tsed/platform-test-sdk";
 import {Get, getSpec, Groups, Post, Property, Put, Returns, SpecTypes} from "@tsed/schema";

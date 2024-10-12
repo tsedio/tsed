@@ -25,7 +25,8 @@ With `vite-plugin-ssr`, you integrate tools manually and keep `architectural con
 Vike replace the `vite-plugin-ssr` package. Ts.ED provides `@tsed/vite-ssr-plugin` and `@tsed/vike` packages.
 All new features will only embed to `@tsed/vike` package.
 
-To migrate `@tsed/vite-ssr-plugin`, just replace `@tsed/vite-ssr-plugin` by `@tsed/vike` in your code and install `vike` dependency instead of `vite-plugin-ssr`.
+To migrate `@tsed/vite-ssr-plugin`, just replace `@tsed/vite-ssr-plugin` by `@tsed/vike` in your code and install `vike`
+dependency instead of `vite-plugin-ssr`.
 :::
 
 ::: tip
@@ -53,7 +54,7 @@ Then edit your `Server.ts`:
 ```ts
 import {join} from "path";
 import {Configuration, Inject} from "@tsed/di";
-import {PlatformApplication} from "@tsed/common";
+import {PlatformApplication} from "@tsed/platform-http";
 import "@tsed/platform-express"; // /!\ keep this import
 import "@tsed/vite-ssr-plugin"; // add this
 import "@tsed/ajv";
@@ -99,7 +100,7 @@ export class IndexController {
 
   @Get("/")
   @Vite()
-  @Returns(200, String).ContentType("text/html")
+  @(Returns(200, String).ContentType("text/html"))
   get(@HeaderParams("x-forwarded-proto") protocol: string, @HeaderParams("host") host: string) {
     const hostUrl = `${protocol || "http"}://${host}`;
 
@@ -129,26 +130,39 @@ export interface HomePageProps {
 export function Page({docs}: PageContext & HomePageProps) {
   return (
     <>
-      <h1>Welcome,</h1>
+      <h1>Welcome, </h1>
 
-      <p>This page is built with Ts.ED and vite-plugin-ssr.</p>
+    < p > This
+  page
+  is
+  built
+  with Ts.ED and
+  vite - plugin - ssr. < /p>
 
-      <br />
-      <br />
+  < br / >
+  <br / >
 
-      <ul>
-        {docs.map((doc) => {
-          return (
-            <li>
-              <a href={doc.path}>
-                <span>OpenSpec {doc.specVersion}</span>
-              </a>
-            </li>
-          );
-        })}
-      </ul>
-    </>
-  );
+  <ul>
+    {
+      docs.map((doc) => {
+        return (
+          <li>
+            <a href = {doc.path} >
+            <span>OpenSpec
+        {
+          doc.specVersion
+        }
+        </span>
+        < /a>
+        < /li>
+      )
+        ;
+      })
+    }
+  < /ul>
+  < />
+)
+  ;
 }
 ```
 
@@ -223,7 +237,9 @@ Then create a new Ts.ED controller `MoviesController` under `packages/server/src
 request that match the "/movies" route:
 
 ```ts
-import {Controller, Get} from "@tsed/common";
+import {Controller} from "@tsed/di";
+import {Vite} from "@tsed/vike";
+import {Property, Returns, Get} from "@tsed/schema";
 
 class Movie {
   @Property()
@@ -236,7 +252,7 @@ class Movie {
 @Controller("/movies")
 export class MoviesController {
   @Get("/")
-  @Returns(200, Array).Of(Movie)
+  @(Returns(200, Array).Of(Movie))
   @Vite()
   get() {
     return [

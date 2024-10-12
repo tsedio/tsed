@@ -1,7 +1,7 @@
 import "@tsed/platform-express";
 
 import {PlatformExpress} from "@tsed/platform-express";
-import {PlatformTest} from "@tsed/platform-http";
+import {PlatformTest} from "@tsed/platform-http/testing";
 import SuperTest from "supertest";
 
 import {Server} from "./app/Server.js";

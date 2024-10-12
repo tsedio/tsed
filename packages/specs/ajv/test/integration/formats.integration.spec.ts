@@ -1,4 +1,4 @@
-import {PlatformTest} from "@tsed/platform-http";
+import {PlatformTest} from "@tsed/platform-http/testing";
 import {Format, getJsonSchema} from "@tsed/schema";
 
 import {Formats} from "../../src/decorators/formats.js";

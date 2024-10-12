@@ -56,7 +56,7 @@ Then edit your `Server.ts`:
 ```ts
 import {join} from "path";
 import {Configuration, Inject} from "@tsed/di";
-import {PlatformApplication} from "@tsed/common";
+import {PlatformApplication} from "@tsed/platform-http";
 import "@tsed/platform-express"; // /!\ keep this import
 import "@tsed/vike"; // add this
 import "@tsed/ajv";
@@ -102,7 +102,7 @@ export class IndexController {
 
   @Get("/")
   @Vite()
-  @Returns(200, String).ContentType("text/html")
+  @(Returns(200, String).ContentType("text/html"))
   get(@HeaderParams("x-forwarded-proto") protocol: string, @HeaderParams("host") host: string) {
     const hostUrl = `${protocol || "http"}://${host}`;
 
@@ -226,7 +226,9 @@ Then create a new Ts.ED controller `MoviesController` under `packages/server/src
 requests that match the "/movies" route:
 
 ```ts
-import {Controller, Get} from "@tsed/common";
+import {Controller} from "@tsed/di";
+import {Property, Get, Returns} from "@tsed/schema";
+import {Vite} from "@tsed/vike";
 
 class Movie {
   @Property()
@@ -239,7 +241,7 @@ class Movie {
 @Controller("/movies")
 export class MoviesController {
   @Get("/")
-  @Returns(200, Array).Of(Movie)
+  @(Returns(200, Array).Of(Movie))
   @Vite()
   get() {
     return [

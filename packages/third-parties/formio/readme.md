@@ -49,7 +49,8 @@ npm install --save formio mongoose
 Then import `@tsed/formio` in your Server:
 
 ```typescript
-import {Configuration, PlatformApplication} from "@tsed/common";
+import {Configuration} from "@tsed/di";
+import {PlatformApplication} from "@tsed/platform-http";
 import "@tsed/formio";
 
 @Configuration({

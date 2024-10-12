@@ -47,7 +47,7 @@ npm install --save-dev apollo-server-testing
 </Tabs>
 
 ```typescript
-import {Configuration} from "@tsed/common";
+import {Configuration} from "@tsed/di";
 import "@tsed/platform-express";
 import "@tsed/apollo";
 import {join} from "path";
@@ -76,7 +76,7 @@ export class Server {}
 You can register plugins with the `plugins` property. The plugins are executed in the order of declaration.
 
 ```typescript
-import {Configuration} from "@tsed/common";
+import {Configuration} from "@tsed/di";
 import "@tsed/platform-express";
 import "@tsed/apollo";
 import {join} from "path";
@@ -161,7 +161,7 @@ Ts.ED provide a `@tsed/graphql-ws` package to support the `subscription` feature
 ApolloService (or TypeGraphQLService) lets you retrieve an instance of ApolloServer.
 
 ```ts
-import {AfterRoutesInit} from "@tsed/common";
+import {AfterRoutesInit} from "@tsed/platform-http";
 import {Inject, Injectable} from "@tsed/di";
 import {ApolloService} from "@tsed/apollo";
 import {ApolloServer} from "@apollo/server";
@@ -218,7 +218,7 @@ For example, you can call a service to get the user scope from the request token
 
 ```typescript
 import type {AlterApolloContext, ApolloContext} from "@tsed/apollo";
-import {PlatformContext} from "@tsed/common";
+import {PlatformContext} from "@tsed/platform-http";
 import {Injectable} from "@tsed/di";
 import {AuthService} from "../auth/AuthService";
 

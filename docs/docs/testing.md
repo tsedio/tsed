@@ -199,7 +199,7 @@ $ npm install --save-dev supertest @types/supertest
   <Tab label="Jest">
 
 ```ts
-import {PlatformTest} from "@tsed/common";
+import {PlatformTest} from "@tsed/platform-http/testing";
 import * as SuperTest from "supertest";
 import {Server} from "../Server";
 
@@ -223,9 +223,9 @@ describe("Rest", () => {
 
 ```ts
 import {it, expect, describe, beforeAll, afterAll} from "vitest";
-import {PlatformTest} from "@tsed/common";
+import {PlatformTest} from "@tsed/platform-http/testing";
 import * as SuperTest from "supertest";
-import {Server} from "../Server";
+import {Server} from "../Server.js";
 
 describe("Rest", () => {
   beforeAll(PlatformTest.bootstrap(Server));
@@ -246,7 +246,7 @@ describe("Rest", () => {
   <Tab label="Mocha">
 
 ```ts
-import {PlatformTest} from "@tsed/common";
+import {PlatformTest} from "@tsed/platform-http/testing";
 import {expect} from "chai";
 import * as SuperTest from "supertest";
 import {Server} from "../Server";
@@ -307,7 +307,7 @@ Here is an example to do that:
   <Tab label="Jest">
 
 ```typescript
-import {PlatformTest} from "@tsed/common";
+import {PlatformTest} from "@tsed/platform-http/testing";
 import SuperTest from "supertest";
 import {Server} from "../../Server";
 import {Chapter} from "../../entity/Chapter";
@@ -344,9 +344,9 @@ describe("ChapterController", () => {
 
 ```typescript
 import {it, expect, describe, beforeAll, afterAll} from "vitest";
-import {PlatformTest} from "@tsed/common";
+import {PlatformTest} from "@tsed/platform-http/testing";
 import SuperTest from "supertest";
-import {Server} from "../../Server";
+import {Server} from "../../Server.js";
 import {Chapter} from "../../entity/Chapter";
 
 const entity = new Chapter();
@@ -380,11 +380,11 @@ describe("ChapterController", () => {
   <Tab label="Mocha">
 
 ```typescript
-import {PlatformTest} from "@tsed/common";
+import {PlatformTest} from "@tsed/platform-http/testing";
 import SuperTest from "supertest";
 import Sinon from "sinon";
-import {Server} from "../../Server";
-import {Chapter} from "../../entity/Chapter";
+import {Server} from "../../Server.js";
+import {Chapter} from "../../entity/Chapter.js";
 
 const entity = new Chapter();
 Object.assign(entity, {
@@ -427,12 +427,12 @@ Here is an example to do that:
   <Tab label="Jest">
 
 ```typescript
-import {PlatformTest} from "@tsed/common";
+import {PlatformTest} from "@tsed/platform-http/testing";
 import SuperTest from "supertest";
 import {TestMongooseContext} from "@tsed/testing-mongoose";
-import {HelloWorldController} from "./HelloWorldController";
-import {Server} from "../../Server";
-import {AuthMiddleware} from "../../middlewares/auth.middleware";
+import {HelloWorldController} from "./HelloWorldController.js";
+import {Server} from "../../Server.js";
+import {AuthMiddleware} from "../../middlewares/auth.middleware.js";
 
 describe("HelloWorldController", () => {
   beforeAll(async () => {
@@ -459,12 +459,12 @@ describe("HelloWorldController", () => {
 
 ```typescript
 import {it, expect, describe, beforeAll, afterAll, beforeEach} from "vitest";
-import {PlatformTest} from "@tsed/common";
+import {PlatformTest} from "@tsed/platform-http/testing";
 import SuperTest from "supertest";
 import {TestMongooseContext} from "@tsed/testing-mongoose";
-import {HelloWorldController} from "./HelloWorldController";
-import {Server} from "../../Server";
-import {AuthMiddleware} from "../../middlewares/auth.middleware";
+import {HelloWorldController} from "./HelloWorldController.js";
+import {Server} from "../../Server.js";
+import {AuthMiddleware} from "../../middlewares/auth.middleware.js";
 
 describe("HelloWorldController", () => {
   beforeAll(async () => {
@@ -490,13 +490,13 @@ describe("HelloWorldController", () => {
 <Tab label="Mocha">
 
 ```typescript
-import {PlatformTest} from "@tsed/common";
+import {PlatformTest} from "@tsed/platform-http/testing";
 import SuperTest from "supertest";
 import Sinon from "sinon";
-import {HelloWorldController} from "./HelloWorldController";
-import {Server} from "../../Server";
+import {HelloWorldController} from "./HelloWorldController.js";
+import {Server} from "../../Server.js";
 import {TestMongooseContext} from "@tsed/testing-mongoose";
-import {AuthMiddleware} from "../../middlewares/auth.middleware";
+import {AuthMiddleware} from "../../middlewares/auth.middleware.js";
 
 const sandbox = Sinon.createSandbox();
 
@@ -586,7 +586,7 @@ describe("MyCtrl", () => {
 It's also possible to do that with `PlatformTest.bootstrap()`:
 
 ```typescript
-import {PlatformTest} from "@tsed/common";
+import {PlatformTest} from "@tsed/platform-http/testing";
 import SuperTest from "supertest";
 import {Server} from "../../Server";
 

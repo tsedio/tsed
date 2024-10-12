@@ -1,5 +1,5 @@
 import {DecoratorTypes} from "@tsed/core";
-import {PlatformTest} from "@tsed/platform-http";
+import {PlatformTest} from "@tsed/platform-http/testing";
 import {JsonParameterStore} from "@tsed/schema";
 
 import type {ParamOptions} from "../../src/index.js";

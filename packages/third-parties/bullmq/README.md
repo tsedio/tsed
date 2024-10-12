@@ -47,7 +47,7 @@ npm install @tsed/bullmq bullmq
 Import the `@tsed/bullmq` module in your server
 
 ```ts
-import {Configuration} from "@tsed/common";
+import {Configuration} from "@tsed/di";
 import "@tsed/bullmq"; // import bullmq ts.ed module
 
 @Configuration({
@@ -139,7 +139,7 @@ class MyCronJob implements JobMethods {
 To register the job you now have to import it in the server so they can be detected.
 
 ```ts
-import {Configuration} from "@tsed/common";
+import {Configuration} from "@tsed/di";
 import "@tsed/bullmq"; // import bullmq ts.ed module
 
 import "./jobs/MyCronJob";
@@ -175,7 +175,7 @@ class GlobalFallbackController implements JobMethods {
 You also have to register the fallback job in the server:
 
 ```ts
-import {Configuration} from "@tsed/common";
+import {Configuration} from "@tsed/di";
 import "@tsed/bullmq"; // import bullmq ts.ed module
 
 import "./jobs/MyFallbackJobs";

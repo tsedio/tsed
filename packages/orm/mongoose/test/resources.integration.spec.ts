@@ -3,7 +3,7 @@ import {isArray} from "@tsed/core";
 import {Controller, Inject, Injectable} from "@tsed/di";
 import {deserialize} from "@tsed/json-mapper";
 import {PlatformExpress} from "@tsed/platform-express";
-import {PlatformTest} from "@tsed/platform-http";
+import {PlatformTest} from "@tsed/platform-http/testing";
 import {BodyParams, PathParams} from "@tsed/platform-params";
 import {Get, Groups, Post, Returns} from "@tsed/schema";
 import {TestContainersMongo} from "@tsed/testcontainers-mongo";

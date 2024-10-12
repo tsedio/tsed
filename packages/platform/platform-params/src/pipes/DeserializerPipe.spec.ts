@@ -1,4 +1,4 @@
-import {PlatformTest} from "@tsed/platform-http";
+import {PlatformTest} from "@tsed/platform-http/testing";
 import {JsonParameterStore} from "@tsed/schema";
 
 import {BodyParams} from "../decorators/bodyParams.js";

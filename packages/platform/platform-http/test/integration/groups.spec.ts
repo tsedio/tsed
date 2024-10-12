@@ -12,7 +12,7 @@ import cookieParser from "cookie-parser";
 import methodOverride from "method-override";
 import SuperTest from "supertest";
 
-import {PlatformTest} from "../../src/index.js";
+import {PlatformTest} from "../../src/testing/index.js";
 
 const rootDir = import.meta.dirname; // automatically replaced by import.meta.dirname on build
 

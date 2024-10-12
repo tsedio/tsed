@@ -1,5 +1,5 @@
+import {PlatformTest} from "../../testing/PlatformTest.js";
 import {PlatformResponse} from "../services/PlatformResponse.js";
-import {PlatformTest} from "../services/PlatformTest.js";
 import {createContext} from "./createContext.js";
 
 async function createContextFixture(reqOpts?: any) {

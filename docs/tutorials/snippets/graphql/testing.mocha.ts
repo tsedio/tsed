@@ -1,4 +1,4 @@
-import {PlatformTest} from "@tsed/platform-http";
+import {PlatformTest} from "@tsed/platform-http/testing";
 import "@tsed/platform-express";
 import {ApolloServerTestClient, createTestClient} from "apollo-server-testing";
 import {expect} from "chai";

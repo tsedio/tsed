@@ -1,5 +1,5 @@
 import {Configuration} from "@tsed/di";
-import {PlatformTest} from "@tsed/platform-http";
+import {PlatformTest} from "@tsed/platform-http/testing";
 
 import {MongooseService} from "../../src/index.js";
 import {MONGOOSE_CONNECTIONS} from "../../src/services/MongooseConnections.js";

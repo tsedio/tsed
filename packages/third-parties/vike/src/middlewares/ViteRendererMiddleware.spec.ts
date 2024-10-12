@@ -1,4 +1,4 @@
-import {PlatformTest} from "@tsed/platform-http";
+import {PlatformTest} from "@tsed/platform-http/testing";
 
 import {ViteService} from "../services/ViteService.js";
 import {ViteRendererMiddleware} from "./ViteRendererMiddleware.js";

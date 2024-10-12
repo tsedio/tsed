@@ -6,7 +6,10 @@ import {alias} from "./alias.js";
 
 export const presets = defineConfig({
   resolve: {
-    alias
+    alias: {
+      "@tsed/platform-http/testing": alias["@tsed/platform-http"].replace("common", "testing"),
+      ...alias
+    }
   },
   test: {
     globals: true,

@@ -35,7 +35,7 @@ npm install --save @temporalio/client @temporalio/worker
 Import `@tsed/temporal` in your Server:
 
 ```typescript
-import {Configuration} from "@tsed/common";
+import {Configuration} from "@tsed/di";
 import "@tsed/temporal"; // import temporal ts.ed module
 
 @Configuration({
@@ -63,7 +63,10 @@ import {Temporal, Activity} from "@tsed/agenda";
 
 @Temporal()
 export class UserOnboardingActivities {
-  constructor(private userService: UserService, private emailService: EmailService) {}
+  constructor(
+    private userService: UserService,
+    private emailService: EmailService
+  ) {}
 
   @Activity()
   async sendVerificationEmail(email: string) {
@@ -155,7 +158,8 @@ export async function onboardUser(email: string): Promise<string> {
 Inject the TemporalClient instance to interact with it directly, e.g. to start a workflow.
 
 ```typescript
-import {Service, AfterRoutesInit} from "@tsed/common";
+import {AfterRoutesInit} from "@tsed/platform-http";
+import {Service} from "@tsed/di";
 import {TemporalClient} from "@tsed/temporal";
 import {onboardUser} from "../workflows";
 
@@ -196,7 +200,7 @@ const worker = await bootstrapWorker(Server, {
     /* optional: see NativeConnectionOptions of @temporalio/worker */
   },
   platform: {
-    /* optional: see PlatformBuilderSettings of @tsed/common */
+    /* optional: see PlatformBuilderSettings of @tsed/platform-http */
     componentsScan: false,
     logger: {
       level: "info"

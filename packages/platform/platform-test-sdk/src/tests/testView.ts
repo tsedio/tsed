@@ -1,5 +1,5 @@
 import {Controller} from "@tsed/di";
-import {PlatformTest} from "@tsed/platform-http";
+import {PlatformTest} from "@tsed/platform-http/testing";
 import {Middleware, UseBefore} from "@tsed/platform-middlewares";
 import {Locals} from "@tsed/platform-params";
 import {View} from "@tsed/platform-views";

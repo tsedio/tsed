@@ -1,5 +1,5 @@
 import {catchAsyncError} from "@tsed/core";
-import {PlatformTest} from "@tsed/platform-http";
+import {PlatformTest} from "@tsed/platform-http/testing";
 import {AllOf, AnyOf, CollectionOf, getSpec, JsonParameterStore, OneOf, Post, Property, Required, SpecTypes} from "@tsed/schema";
 
 import {BodyParams} from "../decorators/bodyParams.js";

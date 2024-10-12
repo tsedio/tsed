@@ -1,5 +1,5 @@
 import {Controller} from "@tsed/di";
-import {PlatformTest} from "@tsed/platform-http";
+import {PlatformTest} from "@tsed/platform-http/testing";
 import {PathParams} from "@tsed/platform-params";
 import {PlatformTestSdk} from "@tsed/platform-test-sdk";
 import {Get} from "@tsed/schema";

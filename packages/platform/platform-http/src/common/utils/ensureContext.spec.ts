@@ -1,4 +1,4 @@
-import {PlatformTest} from "../services/PlatformTest.js";
+import {PlatformTest} from "../../testing/PlatformTest.js";
 import {ensureContext} from "./ensureContext.js";
 
 describe("ensureContext()", () => {

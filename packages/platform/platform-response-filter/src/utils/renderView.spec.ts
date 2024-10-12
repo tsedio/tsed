@@ -1,4 +1,4 @@
-import {PlatformTest} from "@tsed/platform-http";
+import {PlatformTest} from "@tsed/platform-http/testing";
 import {EndpointMetadata, Get, Ignore, Property, Returns, View} from "@tsed/schema";
 
 import {renderView} from "./renderView.js";

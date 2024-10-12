@@ -1,6 +1,6 @@
 import {Store} from "@tsed/core";
 import {DIContext, getContext, InjectorService, ProviderType} from "@tsed/di";
-import {PlatformTest} from "@tsed/platform-http";
+import {PlatformTest} from "@tsed/platform-http/testing";
 
 import {SocketFilters} from "../interfaces/SocketFilters.js";
 import {SocketReturnsTypes} from "../interfaces/SocketReturnsTypes.js";

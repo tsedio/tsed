@@ -77,7 +77,6 @@ The goal of lambda isn't to expose static files. We do not plan to support this 
 ## Rule
 
 ::: warning
-
 By convention, try to not import something from `@tsed/common`. `@tsed/common` embed a lot of codes designed
 for the Full server platform which are not necessary in the Serverless context and aren't optimized for it.
 
@@ -94,6 +93,10 @@ Now, you have to import the decorator from `@tsed/schema`.
 import {Get} from "@tsed/schema";
 ```
 
+:::
+
+::: note
+With v8 `@tsed/common` are replaced by `@tsed/platform-http`, the same convention is available for `@tsed/platform-http`, but now `@tsed/platform-http` doesn't re-export `@tsed/schema`. So your IDE, won't try to import schema decorator from the unexpected package.
 :::
 
 ## Projects example
@@ -185,7 +188,7 @@ export class TimeslotsController {
 
   @Get("/")
   @Summary("Return a list of timeslots")
-  @Returns(200, Array).Of(TimeslotModel)
+  @(Returns(200, Array).Of(TimeslotModel))
   getAll(@QueryParams("date_start") dateStart: Date, @QueryParams("date_end") dateEnd: Date) {
     return this.timeslotsService.find({
       dateStart,
@@ -244,7 +247,7 @@ export class TimeslotsController {
 
   @Get("/")
   @Summary("Return a list of timeslots")
-  @Returns(200, Array).Of(TimeslotModel)
+  @(Returns(200, Array).Of(TimeslotModel))
   getAll(@QueryParams("date_start") dateStart: Date, @QueryParams("date_end") dateEnd: Date) {
     return this.timeslotsService.find({
       dateStart,
@@ -492,7 +495,7 @@ import {ServerlessContext} from "@tsed/platform-serverless";
 @Controller()
 class StreamLambda {
   @Post("/scenario-1/:id")
-  @Returns(200, String).Binary()
+  @(Returns(200, String).Binary())
   scenario1(@BodyParams("id") id: string) {
     return Readable.from(
       Buffer.from(

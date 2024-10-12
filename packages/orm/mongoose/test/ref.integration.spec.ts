@@ -2,7 +2,7 @@ import {faker} from "@faker-js/faker";
 import {Controller, Inject} from "@tsed/di";
 import {deserialize, serialize} from "@tsed/json-mapper";
 import {PlatformExpress} from "@tsed/platform-express";
-import {PlatformTest} from "@tsed/platform-http";
+import {PlatformTest} from "@tsed/platform-http/testing";
 import {BodyParams, QueryParams} from "@tsed/platform-params";
 import {Get, Post} from "@tsed/schema";
 import {TestContainersMongo} from "@tsed/testcontainers-mongo";

@@ -2,7 +2,7 @@ import "@tsed/ajv";
 import "@tsed/swagger";
 
 import {Controller} from "@tsed/di";
-import {PlatformTest} from "@tsed/platform-http";
+import {PlatformTest} from "@tsed/platform-http/testing";
 import {BodyParams} from "@tsed/platform-params";
 import {PlatformTestSdk} from "@tsed/platform-test-sdk";
 import {DiscriminatorKey, DiscriminatorValue, OneOf, Partial, Patch, Post, Property, Required, Returns} from "@tsed/schema";

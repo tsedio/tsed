@@ -1,7 +1,7 @@
 import "./BullMQModule.js";
 
 import {catchAsyncError} from "@tsed/core";
-import {PlatformTest} from "@tsed/platform-http";
+import {PlatformTest} from "@tsed/platform-http/testing";
 import {Queue, Worker} from "bullmq";
 import {anything, instance, mock, verify, when} from "ts-mockito";
 

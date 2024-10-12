@@ -19,7 +19,7 @@ It is also possible to create your own exception from any Exception of [@tsed/ex
 
 ```typescript
 import {BadRequest} from "@tsed/exceptions";
-import {ResponseErrorObject} from "@tsed/common";
+import {ResponseErrorObject} from "@tsed/platform-http";
 
 export class RequiredUserName extends BadRequest implements ResponseErrorObject {
   headers = {};
@@ -47,7 +47,9 @@ export class RequiredUserName extends BadRequest implements ResponseErrorObject 
 Then in your controller:
 
 ```typescript
-import {Controller, Post, BodyParams} from "@tsed/common";
+import {BodyParams} from "@tsed/platform-params";
+import {Controller, Post} from "@tsed/schema";
+import {Controller} from "@tsed/di";
 import {RequiredUserName} from "./RequiredUserName";
 import {User} from "./models/User";
 

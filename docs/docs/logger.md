@@ -68,7 +68,8 @@ You add this code to switch the logger to Json layout in production mode:
 
 ```typescript
 import {env} from "@tsed/core";
-import {$log, Configuration} from "@tsed/common";
+import {Configuration} from "@tsed/di";
+import {$log} from "@tsed/logger";
 import "@tsed/platform-express";
 
 export const isProduction = process.env.NODE_ENV === Env.PROD;
@@ -111,7 +112,7 @@ It's more useful if you planed to parse the log with LogStash or any log tool pa
 Logger can be injected in any injectable provider as follows:
 
 ```typescript
-import {Logger} from "@tsed/common";
+import {Logger} from "@tsed/logger";
 import {Injectable, Inject} from "@tsed/di";
 
 @Injectable()
@@ -134,8 +135,10 @@ Prefer the @@ContextLogger@@ usage if you want to attach your log the current re
 For each Request, a logger will be attached to the @@PlatformContext@@ and can be used like here:
 
 ```typescript
-import {Controller, Context, Get} from "@tsed/common";
+import {Controller} from "@tsed/di";
 import {Logger} from "@tsed/logger";
+import {Context} from "@tsed/platform-params";
+import {Get} from "@tsed/schema";
 import {MyService} from "../services/MyService";
 
 @Controller("/")
@@ -159,7 +162,7 @@ class MyController {
 ```
 
 ```typescript
-import {PlatformContext} from "@tsed/common";
+import {PlatformContext} from "@tsed/platform-http";
 import {Injectable, Inject} from "@tsed/di";
 
 @Injectable()
@@ -205,7 +208,7 @@ A call with one of these methods will generate a log according to the `logger.re
 You can configure the displayed fields from the server configuration:
 
 ```typescript
-import {Configuration} from "@tsed/common";
+import {Configuration} from "@tsed/di";
 
 @Configuration({
   logger: {
@@ -220,7 +223,8 @@ or you can override the middleware with @@OverrideProvider@@.
 Example:
 
 ```ts
-import {Context, OverrideProvider, PlatformLogMiddleware} from "@tsed/common";
+import {Context, OverrideProvider} from "@tsed/di";
+import {PlatformLogMiddleware} from "@tsed/platform-log-middleware";
 
 @OverrideProvider(PlatformLogMiddleware)
 export class CustomPlatformLogMiddleware extends PlatformLogMiddleware {
@@ -249,8 +253,7 @@ export class CustomPlatformLogMiddleware extends PlatformLogMiddleware {
 Another example to redact some fields:
 
 ```typescript
-import {Context} from "@tsed/common";
-import {OverrideProvider} from "@tsed/di";
+import {Context, OverrideProvider} from "@tsed/di";
 import {PlatformLogMiddleware} from "@tsed/platform-log-middleware";
 
 @OverrideProvider(PlatformLogMiddleware)

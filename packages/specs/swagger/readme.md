@@ -40,7 +40,7 @@ npm install --save @tsed/swagger
 Then add the following configuration in your Server:
 
 ```typescript
-import {Configuration} from "@tsed/common";
+import {Configuration} from "@tsed/di";
 import "@tsed/swagger"; // import swagger Ts.ED module
 import {resolve} from "path";
 
@@ -90,7 +90,7 @@ Some options is available to configure Swagger-ui, Ts.ED and the default spec in
 It also possible to create several swagger documentations with `doc` option:
 
 ```typescript
-import {Configuration} from "@tsed/common";
+import {Configuration} from "@tsed/di";
 import "@tsed/swagger"; // import swagger Ts.ED module
 
 @Configuration({
@@ -111,7 +111,7 @@ export class Server {}
 Then use `@Docs` decorators on your controllers to specify where the controllers should be displayed.
 
 ```typescript
-import {Controller} from "@tsed/common";
+import {Controller} from "@tsed/di";
 import {Docs} from "@tsed/swagger";
 
 @Controller("/calendars")
@@ -133,7 +133,7 @@ JSON Object (see [converters section](https://tsed.io/docs/components/converters
 This model can used on a method controller along with [@BodyParams](https://tsed.io/api/common/filters/decorators/BodyParams.html) or other decorators.
 
 ```typescript
-import {JsonProperty, Title, Description, Example} from "@tsed/common";
+import {JsonProperty, Title, Description, Example} from "@tsed/schema";
 
 export class CalendarModel {
   @Title("iD")
@@ -150,8 +150,9 @@ export class CalendarModel {
 #### Endpoint documentation
 
 ```typescript
-import {BodyParams, Controller, Get, Post, QueryParams, Returns, ReturnsArray, Description} from "@tsed/common";
-import {Summary, Deprecated, Security} from "@tsed/swagger";
+import {Controller} from "@tsed/di";
+import {BodyParams, QueryParams} from "@tsed/platform-params";
+import {Get, Post, Returns, ReturnsArray, Description, Summary, Deprecated, Security} from "@tsed/schema";
 import {CalendarModel} from "../models/CalendarModel.js";
 
 @Controller("/calendars")
@@ -199,7 +200,7 @@ To update the swagger.json you need to reload the server before.
 It possible to import a Javascript in the Swagger-ui documentation. This script let you customize the swagger-ui instance.
 
 ```typescript
-import {Configuration} from "@tsed/common";
+import {Configuration} from "@tsed/di";
 import "@tsed/swagger"; // import swagger Ts.ED module
 
 @Configuration({

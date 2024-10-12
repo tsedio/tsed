@@ -42,8 +42,9 @@ Edit your Server and add these lines:
 #### Set value
 
 ```typescript
-import {BodyParams, Controller, Post, Session} from "@tsed/common";
-import {Returns} from "@tsed/schema";
+import {BodyParams, Session} from "@tsed/platform-params";
+import {Controller} from "@tsed/di";
+import {Post, Returns} from "@tsed/schema";
 
 @Controller("/")
 export class MyCtrl {
@@ -64,8 +65,9 @@ export class MyCtrl {
 #### Set value
 
 ```typescript
-import {BodyParams, Controller, Post, Cookies} from "@tsed/common";
-import {Returns} from "@tsed/schema";
+import {Controller} from "@tsed/di";
+import {BodyParams, Cookies} from "@tsed/platform-params";
+import {Post, Returns} from "@tsed/schema";
 
 @Controller("/")
 export class MyCtrl {

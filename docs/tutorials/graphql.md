@@ -59,7 +59,8 @@ See [here](/tutorials/graphql-ws.md) for more details.
 ApolloService let you retrieve an instance of ApolloServer:
 
 ```typescript
-import {Injectable, AfterRoutesInit} from "@tsed/common";
+import {AfterRoutesInit} from "@tsed/platform-http";
+import {Injectable} from "@tsed/di";
 import {graphQLService} from "@tsed/apollo";
 import {ApolloServer} from "@apollo/server";
 

@@ -1,5 +1,5 @@
 import {Controller, ProviderScope, Scope, Service} from "@tsed/di";
-import {PlatformTest} from "@tsed/platform-http";
+import {PlatformTest} from "@tsed/platform-http/testing";
 import {PathParams} from "@tsed/platform-params";
 import {Get} from "@tsed/schema";
 import SuperTest from "supertest";

@@ -11,7 +11,7 @@
 
 Example to use your feature and to improve the documentation after merging your PR:
 ```typescript
-import {} from "@tsed/common";
+import {} from "@tsed/platform-http";
 
 ```
 -->

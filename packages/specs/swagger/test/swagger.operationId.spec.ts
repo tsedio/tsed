@@ -1,7 +1,7 @@
 import {Controller} from "@tsed/di";
 import {ObjectID} from "@tsed/mongoose";
 import {PlatformExpress} from "@tsed/platform-express";
-import {PlatformTest} from "@tsed/platform-http";
+import {PlatformTest} from "@tsed/platform-http/testing";
 import {BodyParams, PathParams} from "@tsed/platform-params";
 import {Consumes, Description, Get, Post, Returns} from "@tsed/schema";
 import SuperTest from "supertest";

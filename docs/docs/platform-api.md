@@ -10,7 +10,7 @@ This page will describe how you can get these instances with the new API.
 
 <Tabs>
   <Tab label="Abstraction">
-  <ApiList query="status.includes('platform') && ['@tsed/common', '@tsed/platform-views', '@tsed/platform-params', '@tsed/platform-response-filter', '@tsed/platform-exceptions'].includes(module)" />
+  <ApiList query="status.includes('platform') && ['@tsed/platform-http', '@tsed/platform-views', '@tsed/platform-params', '@tsed/platform-response-filter', '@tsed/platform-exceptions'].includes(module)" />
   </Tab>
   <Tab label="Express.js">
   <ApiList query="status.includes('platform') && module.includes('@tsed/platform-express')" />
@@ -96,8 +96,7 @@ Now with Platform API, the Server class is considered as a @@Provider@@.
 It means that you can use decorators like @@Constant@@ and @@Inject@@ to get any configuration, provider or service from the DI registry.
 
 ```typescript
-import {Configuration} from "@tsed/common";
-import {Inject} from "@tsed/di";
+import {Configuration, Inject} from "@tsed/di";
 import {MyService} from "./services/MyService";
 
 @Configuration({})
@@ -139,7 +138,7 @@ bootstrap();
 Now with Platform API, you have to install `@tsed/platform-express` (or `@tsed/platform-koa`) and change the code by the following example:
 
 ```typescript
-import {$log} from "@tsed/common";
+import {$log} from "@tsed/logger";
 import {PlatformExpress} from "@tsed/platform-express";
 import {Server} from "./server";
 
@@ -182,7 +181,7 @@ With Platform API, you have to inject @@PlatformApplication@@ and use the `app.r
 
 ```typescript
 import {Injectable, Inject} from "@tsed/di";
-import {PlatformApplication} from "@tsed/common";
+import {PlatformApplication} from "@tsed/platform-http";
 import {MyMiddleware} from "../middlewares/MyMiddleware";
 
 @Injectable()
@@ -233,7 +232,7 @@ After:
 
 ```typescript
 import {Injectable} from "@tsed/di";
-import {PlatformApplication} from "@tsed/common";
+import {PlatformApplication} from "@tsed/platform-http";
 import {join} from "path";
 
 @Injectable()

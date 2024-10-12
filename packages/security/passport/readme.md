@@ -43,7 +43,7 @@ npm install --save-dev @types/passport
 Add this configuration to your server:
 
 ```typescript
-import {Configuration} from "@tsed/common";
+import {Configuration} from "@tsed/di";
 
 @Configuration({
   componentsScan: [
@@ -61,7 +61,9 @@ A Protocol is a special Ts.ED service which is used to declare a Passport Strate
 Here an example with the PassportLocal:
 
 ```typescript
-import {BodyParams, Req, Format, Required} from "@tsed/common";
+import {BodyParams} from "@tsed/platform-params";
+import {Format, Required} from "@tsed/schema";
+import {Req} from "@tsed/platform-http";
 import {Strategy} from "passport-local";
 import {Unauthorized} from "@tsed/exceptions";
 import {Protocol, OnInstall, OnVerify} from "@tsed/passport";
@@ -114,7 +116,10 @@ export class LocalProtocol implements OnVerify, OnInstall {
 Create a new Passport controller as following:
 
 ```typescript
-import {BodyParams, Controller, Get, Post, ProviderScope, Req, Scope} from "@tsed/common";
+import {BodyParams} from "@tsed/platform-params";
+import {Req} from "@tsed/platform-http";
+import {Get, Post} from "@tsed/schema";
+import {Controller, ProviderScope, Scope} from "@tsed/di";
 import {Authenticate} from "@tsed/passport";
 
 @Controller("/")

@@ -3,13 +3,13 @@ import {DITest, hasInjector, injector, InjectorService} from "@tsed/di";
 import accepts from "accepts";
 import type {IncomingMessage, RequestListener, ServerResponse} from "http";
 
-import {PlatformBuilder} from "../builder/PlatformBuilder.js";
-import {PlatformContext, PlatformContextOptions} from "../domain/PlatformContext.js";
-import {createInjector} from "../utils/createInjector.js";
-import {getConfiguration} from "../utils/getConfiguration.js";
+import {PlatformBuilder} from "../common/builder/PlatformBuilder.js";
+import {PlatformContext, PlatformContextOptions} from "../common/domain/PlatformContext.js";
+import {PlatformAdapter, PlatformBuilderSettings} from "../common/services/PlatformAdapter.js";
+import {PlatformApplication} from "../common/services/PlatformApplication.js";
+import {createInjector} from "../common/utils/createInjector.js";
+import {getConfiguration} from "../common/utils/getConfiguration.js";
 import {FakeResponse} from "./FakeResponse.js";
-import {PlatformAdapter, PlatformBuilderSettings} from "./PlatformAdapter.js";
-import {PlatformApplication} from "./PlatformApplication.js";
 
 /**
  * @platform

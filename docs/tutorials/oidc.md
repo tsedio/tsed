@@ -403,7 +403,7 @@ It's possible to do that by listening the `$alterOidcConfiguration` hook and inj
 configuration:
 
 ```typescript
-import {PlatformContext} from "@tsed/common";
+import {PlatformContext} from "@tsed/platform-http";
 import {InjectContext, Module} from "@tsed/di";
 import {AuthorizationCode, BackchannelAuthenticationRequest, DeviceCode, RefreshToken, Client, OidcSettings} from "@tsed/oidc-provider";
 import {KoaContextWithOIDC, Provider, ResourceServer} from "oidc-provider";
@@ -451,7 +451,8 @@ change the policy configuration
 by adding `$alterOidcPolicy` on InteractionsCtrl:
 
 ```typescript
-import {Get, PathParams} from "@tsed/common";
+import {Get} from "@tsed/schema";
+import {PathParams} from "@tsed/platform-params";
 import {Interactions, OidcCtx, DefaultPolicy} from "@tsed/oidc-provider";
 import {LoginInteraction} from "../../interactions/LoginInteraction";
 

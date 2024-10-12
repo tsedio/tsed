@@ -160,7 +160,7 @@ The first one is to use the `@InjectContext()` decorator:
 
 ```ts
 import {Inject, InjectContext} from "@tsed/di";
-import {PLatformContext} from "@tsed/common";
+import {PLatformContext} from "@tsed/platform-http";
 import {ResolverController} from "@tsed/typegraphql";
 import {Arg, Args, Query} from "type-graphql";
 import {Recipe} from "../types/Recipe";

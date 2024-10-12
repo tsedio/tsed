@@ -8,7 +8,7 @@ All services annotated with `@Service()` are constructed one time.
 You must add the `services` folder on `componentsScan` attribute in your server settings as follow :
 
 ```typescript
-import {Configuration} from "@tsed/common";
+import {Configuration} from "@tsed/di";
 
 @Configuration({
   mount: {
@@ -29,8 +29,8 @@ export class Server {}
 Create a new file in your services folder. Create a new Class definition and add the `@Service()` annotation on your class.
 
 ```typescript
-import {Configuration, Injectable, Constant} from "@tsed/di";
-import {OnInit, BeforeRoutesInit, OnRoutesInit, AfterRoutesInit, OnServerReady} from "@tsed/common";
+import {Configuration, Injectable, Constant, OnInit} from "@tsed/di";
+import {BeforeRoutesInit, OnRoutesInit, AfterRoutesInit, OnServerReady} from "@tsed/platform-http";
 
 @Injectable()
 export class MyService implements OnInit, BeforeRoutesInit, OnRoutesInit, AfterRoutesInit, OnServerReady {
@@ -80,7 +80,7 @@ Example usage:
 
 ```typescript
 import {OverrideProvider} from "@tsed/di";
-import {SomeService} from "@tsed/common";
+import {SomeService} from "./SomeService.js";
 
 @OverrideProvider(SomeService)
 class CustomService extends SomeService {
@@ -104,7 +104,7 @@ Each interface has a single hook method whose name is the interface name prefixe
 interface has a hook method named `$onInit()` (old name `$onInjectorReady`) that Ts.ED calls when all services are built.
 
 ```typescript
-import {Hooks} from "@tsed/common";
+import {Hooks} from "@tsed/core";
 import {Injectable, OnInit, Configuration} from "@tsed/di";
 
 @Injectable()

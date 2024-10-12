@@ -52,7 +52,7 @@ npm install --save-dev  apollo-server-testing
 Now, we can configure the Ts.ED server by importing `@tsed/apollo` in your Server:
 
 ```typescript
-import {Configuration} from "@tsed/common";
+import {Configuration} from "@tsed/di";
 import "@tsed/apollo";
 
 @Configuration({

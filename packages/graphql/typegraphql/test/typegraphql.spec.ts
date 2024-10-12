@@ -4,7 +4,7 @@ import "@tsed/graphql-ws";
 import {ApolloService} from "@tsed/apollo";
 import {runInContext} from "@tsed/di";
 import {PlatformExpress} from "@tsed/platform-express";
-import {PlatformTest} from "@tsed/platform-http";
+import {PlatformTest} from "@tsed/platform-http/testing";
 import {gql} from "graphql-tag";
 
 import {Server} from "./app/Server.js";

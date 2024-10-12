@@ -26,7 +26,7 @@ Then import `@tsed/terminus` and add the following configuration in your `Server
   <Tab label="Configuration" icon="bx-code-alt">
 
 ```typescript
-import {Configuration} from "@tsed/common";
+import {Configuration} from "@tsed/di";
 import "@tsed/terminus"; // import terminus Ts.ED module
 import {resolve} from "path";
 

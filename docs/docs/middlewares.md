@@ -125,7 +125,8 @@ function (error, req, res, next){}
 Ts.ED has the same mechanism with the @@Err@@ decorator. Use this decorator on a middleware to create a handler which will only be called when an error occurs on the decorated endpoint.
 
 ```typescript
-import {Err, Middleware, Next} from "@tsed/common";
+import {Err, Next} from "@tsed/platform-params";
+import {Middleware} from "@tsed/platform-middlewares";
 
 @Middleware()
 export class MyMiddlewareError {
@@ -226,7 +227,7 @@ By default, the server imports automatically your middlewares that match with th
 If not, just import your middleware into your server or edit the [componentScan configuration](/docs/configuration.md).
 
 ```typescript
-import {Configuration} from "@tsed/common";
+import {Configuration} from "@tsed/di";
 import "./src/other/directory/CustomMiddleware";
 
 @Configuration({

@@ -1,5 +1,6 @@
 import {Controller} from "@tsed/di";
-import {MulterOptions, MultipartFile, PlatformMulterFile, PlatformTest} from "@tsed/platform-http";
+import {MulterOptions, MultipartFile, PlatformMulterFile} from "@tsed/platform-http";
+import {PlatformTest} from "@tsed/platform-http/testing";
 import {BodyParams} from "@tsed/platform-params";
 import {CollectionOf, Post, Property, Required, Status} from "@tsed/schema";
 import multer, {FileFilterCallback} from "multer";

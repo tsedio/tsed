@@ -1,7 +1,7 @@
 import "@tsed/ajv";
 
 import {Controller} from "@tsed/di";
-import {PlatformTest} from "@tsed/platform-http";
+import {PlatformTest} from "@tsed/platform-http/testing";
 import {QueryParams} from "@tsed/platform-params";
 import {Get, Maximum, Minimum, Required} from "@tsed/schema";
 import SuperTest from "supertest";

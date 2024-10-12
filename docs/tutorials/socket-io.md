@@ -213,7 +213,8 @@ In plain javascript you could connect like this.
   <Tab label="Jest">
 
 ```typescript
-import {Inject, PlatformTest} from "@tsed/common";
+import {Inject} from "@tsed/di";
+import {PlatformTest} from "@tsed/platform-http/testing";
 import {PlatformExpress} from "@tsed/platform-express";
 import {Emit, Input, SocketIOServer, SocketService, SocketSession, SocketUseBefore} from "@tsed/socketio";
 import {SocketClientService} from "@tsed/socketio-testing";
@@ -272,13 +273,14 @@ describe("Socket integration", () => {
   <Tab label="Mocha">
 
 ```typescript
-import {Inject, PlatformTest} from "@tsed/common";
+import {Inject} from "@tsed/di";
+import {PlatformTest} from "@tsed/platform-http/testing";
 import {PlatformExpress} from "@tsed/platform-express";
 import {Emit, Input, SocketIOServer, SocketService, SocketSession, SocketUseBefore} from "@tsed/socketio";
 import {SocketClientService} from "@tsed/socketio-testing";
 import {expect} from "chai";
 import {Namespace, Socket as IOSocket} from "socket.io";
-import {Server} from "./app/Server";
+import {Server} from "./app/Server.js";
 
 @SocketService("/test")
 export class TestWS {

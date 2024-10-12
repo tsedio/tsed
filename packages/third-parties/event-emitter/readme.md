@@ -59,7 +59,7 @@ npm install --save eventemitter2
 Import `@tsed/event-emitter` in your Server:
 
 ```typescript
-import {Configuration} from "@tsed/common";
+import {Configuration} from "@tsed/di";
 import "@tsed/event-emitter"; // import event emitter ts.ed module
 
 @Configuration({
@@ -79,7 +79,7 @@ Decorate any method within a Provider (like `@Injectable`, `@Service`,
 is imported somewhere or the Provider will not be registered.
 
 ```typescript
-import {Injectable} from "@tsed/common";
+import {Injectable} from "@tsed/di";
 import {OnEvent} from "@tsed/event-emitter";
 
 interface OrderShippedEvent {
@@ -102,7 +102,7 @@ export class SlackNotificationService {
 Inject the EventEmitterService instance to interact with it directly, e.g. to emit an event.
 
 ```typescript
-import {Service, Inject} from "@tsed/common";
+import {Service, Inject} from "@tsed/di";
 import {EventEmitterService} from "@tsed/event-emitter";
 
 @Service()

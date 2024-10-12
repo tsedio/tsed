@@ -39,7 +39,10 @@ metadata when you use the middleware over a controller method. By accessing to t
 
 ```typescript
 import {StoreSet} from "@tsed/core";
-import {Get, Controller, Middleware, Context, EndpointInfo, Use, Returns} from "@tsed/common";
+import {Controller} from "@tsed/di";
+import {Middleware, Use} from "@tsed/platform-middlewares";
+import {Context} from "@tsed/platform-params";
+import {Get, Returns} from "@tsed/schema";
 import {Resource} from "./Resource";
 
 @Middleware()
@@ -75,7 +78,9 @@ cannot provide all necessaries properties or methods. It's also possible to get 
 different ways.
 
 ```typescript
-import {Middleware, Context, Req, Res} from "@tsed/common";
+import {Req, Res} from "@tsed/platform-http";
+import {Middleware} from "@tsed/platform-middlewares";
+import {Context} from "@tsed/platform-params";
 
 @Middleware()
 export class MyMiddleware {
@@ -140,7 +145,8 @@ class PlatformRequest<T = Req> {
 ### Get request headers
 
 ```typescript
-import {Controller, Context} from "@tsed/common";
+import {Controller} from "@tsed/di";
+import {Context} from "@tsed/platform-params";
 
 @Controller("/")
 export class MyController {
@@ -156,7 +162,8 @@ export class MyController {
 ### Get request params/body/query/cookies/session
 
 ```typescript
-import {Controller, Context} from "@tsed/common";
+import {Controller} from "@tsed/di";
+import {Context} from "@tsed/platform-params";
 
 @Controller("/")
 export class MyController {
@@ -214,7 +221,8 @@ class PlatformResponse {
 ### Set response headers
 
 ```typescript
-import {Controller, Context} from "@tsed/common";
+import {Controller} from "@tsed/di";
+import {Context} from "@tsed/platform-params";
 
 @Controller("/")
 export class MyController {
@@ -231,7 +239,8 @@ export class MyController {
 Can be also done by returning a response like object:
 
 ```typescript
-import {Controller, Context} from "@tsed/common";
+import {Controller} from "@tsed/di";
+import {Context} from "@tsed/platform-params";
 
 @Controller("/")
 export class MyController {
@@ -250,7 +259,8 @@ export class MyController {
 ### Set response cookie
 
 ```typescript
-import {Controller, Context} from "@tsed/common";
+import {Controller} from "@tsed/di";
+import {Context} from "@tsed/platform-params";
 
 @Controller("/")
 export class MyController {
@@ -268,7 +278,8 @@ export class MyController {
 ### Set response body
 
 ```typescript
-import {Controller, Context} from "@tsed/common";
+import {Controller} from "@tsed/di";
+import {Context} from "@tsed/platform-params";
 
 @Controller("/")
 export class MyController {
@@ -298,7 +309,8 @@ But prefer returning payload from your method! Ts.ED will handle all data type (
 You can retrieve the Express\Koa response by using `ctx.getResponse()` method:
 
 ```typescript
-import {Controller, Context} from "@tsed/common";
+import {Controller} from "@tsed/di";
+import {Context} from "@tsed/platform-params";
 
 @Controller("/")
 export class MyController {
@@ -357,7 +369,7 @@ controller:
 
 ```typescript
 import {Injectable, Controller, InjectContext} from "@tsed/di";
-import {PlatformContext} from "@tsed/common";
+import {PlatformContext} from "@tsed/platform-http";
 
 @Injectable()
 export class CustomRepository {
@@ -390,7 +402,7 @@ To run a method with context in your unit test, you can use the @@PlatformAsyncH
 
 ```typescript
 import {runInContext} from "@tsed/di";
-import {PlatformContext} from "@tsed/common";
+import {PlatformContext} from "@tsed/platform-http";
 import {CustomRepository} from "./CustomRepository";
 
 describe("CustomRepository", () => {

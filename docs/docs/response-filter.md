@@ -24,7 +24,8 @@ By using the appropriate `Content-Type`, you can define a Xml serializer as foll
 <Tab label="XmlResponseFilter.ts" icon="bx-code-alt">
 
 ```typescript
-import {ResponseFilter, Context, ResponseFilterMethods} from "@tsed/common";
+import {ResponseFilter, ResponseFilterMethods} from "@tsed/platform-response-filter";
+import {Context} from "@tsed/platform-params";
 
 @ResponseFilter("text/xml")
 export class XmlResponseFilter implements ResponseFilterMethods {
@@ -38,14 +39,14 @@ export class XmlResponseFilter implements ResponseFilterMethods {
 <Tab label="UserCtrl.ts" icon="bx-code-alt">
 
 ```typescript
-import {Configuration} from "@tsed/common";
+import {Configuration} from "@tsed/di";
 import {Returns} from "@tsed/schema";
 
 @Controller("/users")
 export class UsersCtrl {
   @Get("/:id")
-  @Returns(200, User).ContentType("application/json")
-  @Returns(200, String).ContentType("text/xml")
+  @(Returns(200, User).ContentType("application/json"))
+  @(Returns(200, String).ContentType("text/xml"))
   async getUser(@PathParams("id") id: string) {
     return new User({id});
   }
@@ -56,7 +57,7 @@ export class UsersCtrl {
 <Tab label="Server.ts" icon="bxs-server">
 
 ```typescript
-import {Configuration} from "@tsed/common";
+import {Configuration} from "@tsed/di";
 import {XmlResponseFilter} from "./filters/XmlResponseFilter";
 
 @Configuration({
@@ -70,7 +71,7 @@ import {XmlResponseFilter} from "./filters/XmlResponseFilter";
 <Tab label="UsersCtrl.spec.ts" icon="bx-test-tube">
 
 ```typescript
-import {UsersCtrl} from "@tsed/common";
+import {PlatformTest} from "@tsed/platform-http/testing";
 import * as SuperTest from "supertest";
 import {UsersCtrl} from "./UsersCtrl";
 import {Server} from "../../Server";
@@ -125,7 +126,8 @@ to wrap data to the expected result:
 <Tab label="WrapperResponseFilter.ts" icon="bx-code-alt">
 
 ```typescript
-import {ResponseFilter, Context, ResponseFilterMethods} from "@tsed/common";
+import {ResponseFilter, ResponseFilterMethods} from "@tsed/platform-response-filter";
+import {Context} from "@tsed/platform-params";
 
 @ResponseFilter("application/json")
 export class WrapperResponseFilter implements ResponseFilterMethods {
@@ -139,14 +141,14 @@ export class WrapperResponseFilter implements ResponseFilterMethods {
 <Tab label="UserCtrl.ts" icon="bx-code-alt">
 
 ```typescript
-import {Configuration} from "@tsed/common";
+import {Configuration} from "@tsed/di";
 import {Returns} from "@tsed/schema";
 
 @Controller("/users")
 export class UsersCtrl {
   @Get("/:id")
-  @Returns(200, User).ContentType("application/json")
-  @Returns(200, String).ContentType("text/xml")
+  @(Returns(200, User).ContentType("application/json"))
+  @(Returns(200, String).ContentType("text/xml"))
   async getUser(@PathParams("id") id: string) {
     return new User({id});
   }
@@ -157,7 +159,7 @@ export class UsersCtrl {
 <Tab label="Server.ts" icon="bxs-server">
 
 ```typescript
-import {Configuration} from "@tsed/common";
+import {Configuration} from "@tsed/di";
 import {WrapperResponseFilter} from "./filters/WrapperResponseFilter";
 
 @Configuration({
@@ -171,7 +173,7 @@ import {WrapperResponseFilter} from "./filters/WrapperResponseFilter";
 <Tab label="UsersCtrl.spec.ts" icon="bx-test-tube">
 
 ```typescript
-import {UsersCtrl} from "@tsed/common";
+import {PlatformTest} from "@tsed/platform-http/testing";
 import * as SuperTest from "supertest";
 import {UsersCtrl} from "./UsersCtrl";
 import {Server} from "../../Server";
@@ -211,7 +213,8 @@ The wrapper won't be documented in your generated `swagger.json`!
 By using the `*/*` Content-Type value given to the @@ResponseFilter@@ you can intercept all data.
 
 ```typescript
-import {ResponseFilter, Context, ResponseFilterMethods} from "@tsed/common";
+import {ResponseFilter, ResponseFilterMethods} from "@tsed/platform-response-filter";
+import {Context} from "@tsed/platform-params";
 
 @ResponseFilter("*/*")
 export class AnyResponseFilter implements ResponseFilterMethods {

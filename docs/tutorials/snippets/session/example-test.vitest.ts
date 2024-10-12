@@ -1,5 +1,5 @@
 import {it, expect, describe, beforeAll, afterAll} from "vitest";
-import {PlatformTest} from "@tsed/platform-http";
+import {PlatformTest} from "@tsed/platform-http/testing";
 import * as SuperTest from "supertest";
 import {Server} from "../../../src/Server";
 

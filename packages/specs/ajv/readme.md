@@ -29,7 +29,7 @@ npm install --save @tsed/ajv
 Then import `@tsed/ajv` in your Server:
 
 ```typescript
-import {Configuration} from "@tsed/common";
+import {Configuration} from "@tsed/di";
 import "@tsed/ajv"; // import ajv ts.ed module
 
 @Configuration({})
@@ -46,7 +46,7 @@ A model can used on a method controller along with [@BodyParams](http://tsed.io/
 be validated by Ajv.
 
 ```typescript
-import {Required, MaxLength, MinLength, Minimum, Maximum, Format, Enum, Pattern, Email} from "@tsed/common";
+import {Required, MaxLength, MinLength, Minimum, Maximum, Format, Enum, Pattern, Email} from "@tsed/schema";
 
 export class CalendarModel {
   @MaxLength(20)
@@ -84,7 +84,7 @@ The AJV module allows a few settings to be added through the ServerSettings (all
 The error message could be changed like:
 
 ```typescript
-import {Configuration} from "@tsed/common";
+import {Configuration} from "@tsed/di";
 import "@tsed/ajv"; // import ajv ts.ed module
 
 @Configuration({

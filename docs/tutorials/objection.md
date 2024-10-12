@@ -36,7 +36,7 @@ npm install mysql2
 Add a `knex` configuration to your Ts.ED configuration (see: http://knexjs.org/#Installation-client for options):
 
 ```typescript
-import {Server} from "@tsed/common";
+import {Server} from "@tsed/platform-http";
 import "@tsed/objection"; // don't forget to add this line!
 
 @Configuration({
@@ -54,7 +54,8 @@ class Server {}
 You can use the @@Entity@@ decorator to create your models and make them work with Objection.js. `Entity` expects the table name as its argument.
 
 ```typescript
-import {Required, MinLength, MaxLength, Inject} from "@tsed/common";
+import {Required, MinLength, MaxLength} from "@tsed/schema";
+import {Inject} from "@tsed/di";
 import {Entity, IdColumn} from "@tsed/objection";
 import {Model} from "objection";
 

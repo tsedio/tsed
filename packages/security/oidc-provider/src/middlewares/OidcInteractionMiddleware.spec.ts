@@ -1,5 +1,5 @@
 import {faker} from "@faker-js/faker";
-import {PlatformTest} from "@tsed/platform-http";
+import {PlatformTest} from "@tsed/platform-http/testing";
 
 import {
   INTERACTION_CONTEXT,
