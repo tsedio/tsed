@@ -7,7 +7,7 @@ import {JsonEntityFn} from "./jsonEntityFn.js";
  * If the instance is a number, then this keyword validates only if the instance is less than or exactly equal to `maximum`.
  *
  * ::: warning
- * For v6 user, use @@Maximum@@ from @tsed/schema instead of @tsed/common.
+ * For v6 user, use @@Maximum@@ from @tsed/schema instead of @tsed/platform-http.
  * :::
  *
  * ## Example
@@ -81,7 +81,7 @@ export const Maximum = withErrorMsg("maximum", (maximum: number, exclusive: bool
  * If the instance is a number, then this keyword validates only if the instance is less than or exactly equal to `maximum`.
  *
  * ::: warning
- * For v6 user, use @@Maximum@@ from @tsed/schema instead of @tsed/common.
+ * For v6 user, use @@Maximum@@ from @tsed/schema instead of @tsed/platform-http.
  * :::
  *
  * ## Example

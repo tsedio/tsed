@@ -1,5 +1,5 @@
-import {PlatformTest} from "@tsed/common";
 import {Unauthorized} from "@tsed/exceptions";
+import {PlatformTest} from "@tsed/platform-http";
 import Passport from "passport";
 
 import {PassportException} from "../errors/PassportException.js";

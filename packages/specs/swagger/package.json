@@ -2,7 +2,7 @@
   "name": "@tsed/swagger",
   "description": "Swagger package for Ts.ED framework",
   "type": "module",
-  "version": "8.0.0-beta.2",
+  "version": "8.0.0-beta.3",
   "source": "./src/index.ts",
   "main": "./lib/esm/index.js",
   "module": "./lib/esm/index.js",
@@ -34,12 +34,12 @@
   },
   "devDependencies": {
     "@tsed/barrels": "workspace:*",
-    "@tsed/common": "workspace:*",
     "@tsed/core": "workspace:*",
     "@tsed/di": "workspace:*",
     "@tsed/json-mapper": "workspace:*",
     "@tsed/monorepo-utils": "2.3.5",
     "@tsed/openspec": "workspace:*",
+    "@tsed/platform-http": "workspace:*",
     "@tsed/schema": "workspace:*",
     "@tsed/typescript": "workspace:*",
     "@types/swagger-ui-dist": "3.30.5",
@@ -49,7 +49,7 @@
     "vitest": "2.1.2"
   },
   "peerDependencies": {
-    "@tsed/common": "8.0.0-beta.2"
+    "@tsed/platform-http": "8.0.0-beta.3"
   },
   "peerDependenciesMeta": {
     "@tsed/common": {

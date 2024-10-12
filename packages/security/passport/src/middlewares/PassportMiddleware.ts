@@ -1,6 +1,6 @@
-import {Context} from "@tsed/common";
 import {Inject} from "@tsed/di";
 import {Middleware} from "@tsed/platform-middlewares";
+import {Context} from "@tsed/platform-params";
 
 import {ProtocolsService} from "../services/ProtocolsService.js";
 import {getProtocolsFromRequest} from "../utils/getProtocolsFromRequest.js";

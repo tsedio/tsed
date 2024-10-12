@@ -1,5 +1,5 @@
-import {$log} from "@tsed/common";
 import {PlatformExpress} from "@tsed/platform-express";
+import {$log} from "@tsed/platform-http";
 
 import {InteractionsCtrl} from "./controllers/oidc/InteractionsCtrl.js";
 import {IndexCtrl} from "./controllers/pages/IndexCtrl.js";

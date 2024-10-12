@@ -1,6 +1,6 @@
-import {PlatformContext, PlatformHandler} from "@tsed/common";
 import {Env} from "@tsed/core";
 import {constant, Injectable, injector, Provider, TokenProvider} from "@tsed/di";
+import {PlatformContext, PlatformHandler} from "@tsed/platform-http";
 import {EndpointMetadata} from "@tsed/schema";
 
 import {INTERACTION, INTERACTION_OPTIONS, INTERACTIONS} from "../constants/constants.js";

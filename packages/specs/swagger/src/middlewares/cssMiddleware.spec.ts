@@ -1,4 +1,4 @@
-import {PlatformTest} from "@tsed/common";
+import {PlatformTest} from "@tsed/platform-http";
 import Fs from "fs";
 
 import {cssMiddleware} from "./cssMiddleware.js";

@@ -1,7 +1,7 @@
 import {EntityManager, MikroORM} from "@mikro-orm/core";
 import {defineConfig} from "@mikro-orm/mongodb";
-import {PlatformTest} from "@tsed/common";
 import {Logger} from "@tsed/logger";
+import {PlatformTest} from "@tsed/platform-http";
 import {TestContainersMongo} from "@tsed/testcontainers-mongo";
 import {anyOfClass, anything, reset, spy, verify} from "ts-mockito";
 

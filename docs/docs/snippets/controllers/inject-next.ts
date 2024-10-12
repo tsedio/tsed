@@ -1,4 +1,4 @@
-import {Next, Req, Res} from "@tsed/common";
+import {Next, Req, Res} from "@tsed/platform-http";
 import {Get} from "@tsed/schema";
 import {Controller} from "@tsed/di";
 import * as Express from "express";

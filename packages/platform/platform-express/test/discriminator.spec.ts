@@ -1,7 +1,9 @@
 import "@tsed/ajv";
 import "@tsed/swagger";
 
-import {BodyParams, Controller, PlatformTest} from "@tsed/common";
+import {Controller} from "@tsed/di";
+import {PlatformTest} from "@tsed/platform-http";
+import {BodyParams} from "@tsed/platform-params";
 import {PlatformTestSdk} from "@tsed/platform-test-sdk";
 import {DiscriminatorKey, DiscriminatorValue, OneOf, Partial, Patch, Post, Property, Required, Returns} from "@tsed/schema";
 import SuperTest from "supertest";

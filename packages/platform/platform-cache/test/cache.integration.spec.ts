@@ -1,5 +1,6 @@
-import {PathParams, PlatformTest, QueryParams} from "@tsed/common";
 import {Controller, Inject} from "@tsed/di";
+import {PlatformTest} from "@tsed/platform-http";
+import {PathParams, QueryParams} from "@tsed/platform-params";
 import {Get, Head, Post, Property} from "@tsed/schema";
 import SuperTest from "supertest";
 

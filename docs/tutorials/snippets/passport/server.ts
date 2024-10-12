@@ -1,5 +1,5 @@
 import {Configuration, Inject} from "@tsed/di";
-import {PlatformApplication} from "@tsed/common";
+import {PlatformApplication} from "@tsed/platform-http";
 import "@tsed/passport";
 import "@tsed/platform-express";
 import bodyParser from "body-parser";

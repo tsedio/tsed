@@ -1,4 +1,4 @@
-import {Controller} from "@tsed/common";
+import {Controller} from "@tsed/di";
 import {Get, object, Returns, string} from "@tsed/schema";
 
 @Controller("/version")

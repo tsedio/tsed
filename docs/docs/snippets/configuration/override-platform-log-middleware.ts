@@ -1,4 +1,5 @@
-import {Context, OverrideProvider, PlatformLogMiddleware} from "@tsed/common";
+import {Context, PlatformLogMiddleware} from "@tsed/platform-http";
+import {OverrideProvider} from "@tsed/di";
 
 @OverrideProvider(PlatformLogMiddleware)
 export class CustomPlatformLogMiddleware extends PlatformLogMiddleware {

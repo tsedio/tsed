@@ -1,4 +1,4 @@
-import {PlatformAcceptMimesMiddleware} from "@tsed/common";
+import {PlatformAcceptMimesMiddleware} from "@tsed/platform-http";
 import {UseBefore} from "@tsed/platform-middlewares";
 import {useDecorators, StoreSet} from "@tsed/core";
 

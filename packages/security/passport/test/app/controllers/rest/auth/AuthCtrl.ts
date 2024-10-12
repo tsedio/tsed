@@ -1,4 +1,6 @@
-import {BodyParams, Controller, ProviderScope, Req, Scope} from "@tsed/common";
+import {Controller, ProviderScope, Scope} from "@tsed/di";
+import {Req} from "@tsed/platform-http";
+import {BodyParams} from "@tsed/platform-params";
 import {Post, Returns} from "@tsed/schema";
 
 import {Authenticate} from "../../../../../src/index.js";

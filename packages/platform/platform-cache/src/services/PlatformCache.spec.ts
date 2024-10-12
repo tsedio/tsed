@@ -1,4 +1,4 @@
-import {PlatformTest} from "@tsed/common";
+import {PlatformTest} from "@tsed/platform-http";
 import {caching as cacheManager, multiCaching} from "cache-manager";
 
 import {UseCache} from "../decorators/useCache.js";

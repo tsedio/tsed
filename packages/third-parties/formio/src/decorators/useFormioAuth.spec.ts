@@ -1,4 +1,4 @@
-import {EndpointMetadata} from "@tsed/common";
+import {EndpointMetadata} from "@tsed/schema";
 
 import {FormioAuthMiddleware} from "../middlewares/FormioAuthMiddleware.js";
 import {UseFormioAuth} from "./useFormioAuth.js";

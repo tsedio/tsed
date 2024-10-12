@@ -1,6 +1,6 @@
 import {Client, Connection} from "@temporalio/client";
-import {Logger} from "@tsed/common";
 import {Configuration, registerProvider} from "@tsed/di";
+import {Logger} from "@tsed/logger";
 
 export const TemporalConnection = Connection;
 export type TemporalConnection = Connection;

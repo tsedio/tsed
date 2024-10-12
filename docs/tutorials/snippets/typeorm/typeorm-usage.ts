@@ -1,4 +1,4 @@
-import {AfterRoutesInit} from "@tsed/common";
+import {AfterRoutesInit} from "@tsed/platform-http";
 import {Injectable} from "@tsed/di";
 import {TypeORMService} from "@tsed/typeorm";
 import {Connection} from "typeorm";

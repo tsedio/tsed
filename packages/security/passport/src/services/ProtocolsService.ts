@@ -1,7 +1,7 @@
-import {PlatformContext, PlatformHandler} from "@tsed/common";
 import {ancestorsOf} from "@tsed/core";
 import {Inject, Injectable, InjectorService, Provider} from "@tsed/di";
 import {Unauthorized} from "@tsed/exceptions";
+import {PlatformContext, PlatformHandler} from "@tsed/platform-http";
 import Passport, {Strategy} from "passport";
 import {promisify} from "util";
 

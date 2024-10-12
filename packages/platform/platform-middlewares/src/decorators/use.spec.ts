@@ -1,5 +1,5 @@
-import {EndpointMetadata} from "@tsed/common";
 import {Store} from "@tsed/core";
+import {EndpointMetadata} from "@tsed/schema";
 
 import {Use} from "./use.js";
 

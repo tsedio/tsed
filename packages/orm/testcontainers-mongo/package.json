@@ -2,7 +2,7 @@
   "name": "@tsed/testcontainers-mongo",
   "description": "A module to test Ts.ED code that use MongoDB as database using Test Containers",
   "type": "module",
-  "version": "8.0.0-beta.2",
+  "version": "8.0.0-beta.3",
   "source": "./src/index.ts",
   "main": "./lib/esm/index.js",
   "module": "./lib/esm/index.js",
@@ -30,9 +30,9 @@
   "devDependencies": {
     "@testcontainers/mongodb": "^10.13.2",
     "@tsed/barrels": "workspace:*",
-    "@tsed/common": "workspace:*",
     "@tsed/core": "workspace:*",
     "@tsed/di": "workspace:*",
+    "@tsed/platform-http": "workspace:*",
     "@tsed/typescript": "workspace:*",
     "eslint": "9.12.0",
     "mongodb": "6.9.0",
@@ -41,9 +41,9 @@
   },
   "peerDependencies": {
     "@testcontainers/mongodb": ">=10.11.0",
-    "@tsed/common": "8.0.0-beta.2",
-    "@tsed/core": "8.0.0-beta.2",
-    "@tsed/di": "8.0.0-beta.2",
+    "@tsed/core": "8.0.0-beta.3",
+    "@tsed/di": "8.0.0-beta.3",
+    "@tsed/platform-http": "8.0.0-beta.3",
     "mongodb": ">=6",
     "testcontainers": ">=10.11.0"
   }

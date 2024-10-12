@@ -1,4 +1,4 @@
-import {PathParams} from "@tsed/common";
+import {PathParams} from "@tsed/platform-params";
 import {Get, Name} from "@tsed/schema";
 
 import {Interactions, OidcCtx} from "../../../../src/index.js";

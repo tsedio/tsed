@@ -1,5 +1,6 @@
-import {Context, PlatformContext, PlatformTest} from "@tsed/common";
 import {Controller} from "@tsed/di";
+import {PlatformContext, PlatformTest} from "@tsed/platform-http";
+import {Context} from "@tsed/platform-params";
 import {Get, getSpec, JsonEntityStore, Name, Returns} from "@tsed/schema";
 
 import {EventStream} from "./decorators/eventStream.js";

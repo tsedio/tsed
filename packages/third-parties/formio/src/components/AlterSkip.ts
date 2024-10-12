@@ -1,5 +1,6 @@
-import {Constant, PlatformContext} from "@tsed/common";
+import {Constant} from "@tsed/di";
 import {normalizePath} from "@tsed/normalize-path";
+import {PlatformContext} from "@tsed/platform-http";
 
 import {Alter} from "../decorators/alter.js";
 import {AlterHook} from "../domain/AlterHook.js";

@@ -1,4 +1,7 @@
-import {Context, Controller, Locals, Middleware, PlatformContext, PlatformTest, Req, Use} from "@tsed/common";
+import {Controller} from "@tsed/di";
+import {PlatformContext, PlatformTest, Req} from "@tsed/platform-http";
+import {Middleware, Use} from "@tsed/platform-middlewares";
+import {Context, Locals} from "@tsed/platform-params";
 import {Get} from "@tsed/schema";
 import SuperTest from "supertest";
 import {afterAll, beforeAll, describe, expect, it} from "vitest";

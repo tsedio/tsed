@@ -1,5 +1,5 @@
-import {PlatformApplication} from "@tsed/common";
 import {Inject, Module} from "@tsed/di";
+import {PlatformApplication} from "@tsed/platform-http";
 import {PlatformRenderOptions, PlatformViews} from "@tsed/platform-views";
 import compress from "compression";
 

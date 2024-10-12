@@ -1,4 +1,4 @@
-import {Locals} from "@tsed/common";
+import {Locals} from "@tsed/platform-params";
 
 /**
  * State return the value from koa.ctx.state object.

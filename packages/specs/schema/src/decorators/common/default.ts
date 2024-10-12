@@ -4,7 +4,7 @@ import {JsonEntityFn} from "./jsonEntityFn.js";
  * There are no restrictions placed on the value of this keyword.
  *
  * ::: warning
- * For v6 user, use @@Default@@ from @tsed/schema instead of @tsed/common.
+ * For v6 user, use @@Default@@ from @tsed/schema instead of @tsed/platform-http.
  * :::
  *
  * This keyword can be used to supply a default JSON value associated with a particular schema.

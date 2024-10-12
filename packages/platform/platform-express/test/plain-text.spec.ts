@@ -1,4 +1,5 @@
-import {Controller, PlatformTest} from "@tsed/common";
+import {Controller} from "@tsed/di";
+import {PlatformTest} from "@tsed/platform-http";
 import {PlatformTestSdk} from "@tsed/platform-test-sdk";
 import {Get, Returns} from "@tsed/schema";
 import SuperTest from "supertest";

@@ -2,7 +2,7 @@
   "name": "@tsed/mikro-orm",
   "description": "MikroORM package for Ts.ED framework",
   "type": "module",
-  "version": "8.0.0-beta.2",
+  "version": "8.0.0-beta.3",
   "source": "./src/index.ts",
   "main": "./lib/esm/index.js",
   "module": "./lib/esm/index.js",
@@ -28,11 +28,11 @@
     "@mikro-orm/core": "6.3.12",
     "@mikro-orm/mongodb": "6.3.12",
     "@tsed/barrels": "workspace:*",
-    "@tsed/common": "workspace:*",
     "@tsed/core": "workspace:*",
     "@tsed/di": "workspace:*",
     "@tsed/json-mapper": "workspace:*",
     "@tsed/logger": "^6.7.8",
+    "@tsed/platform-http": "workspace:*",
     "@tsed/schema": "workspace:*",
     "@tsed/testcontainers-mongo": "workspace:*",
     "@tsed/typescript": "workspace:*",
@@ -44,9 +44,9 @@
   },
   "peerDependencies": {
     "@mikro-orm/core": ">=4.5.9",
-    "@tsed/common": "8.0.0-beta.2",
-    "@tsed/core": "8.0.0-beta.2",
-    "@tsed/di": "8.0.0-beta.2",
-    "@tsed/logger": ">=6.7.5"
+    "@tsed/core": "8.0.0-beta.3",
+    "@tsed/di": "8.0.0-beta.3",
+    "@tsed/logger": ">=6.7.5",
+    "@tsed/platform-http": "8.0.0-beta.3"
   }
 }

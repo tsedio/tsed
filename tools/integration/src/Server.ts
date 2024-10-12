@@ -2,8 +2,8 @@ import "@tsed/platform-express"; // /!\ keep this import
 import "@tsed/ajv";
 import "@tsed/swagger";
 
-import {PlatformApplication} from "@tsed/common";
 import {Configuration, Inject} from "@tsed/di";
+import {PlatformApplication} from "@tsed/platform-http";
 import bodyParser from "body-parser";
 import compress from "compression";
 import cookieParser from "cookie-parser";

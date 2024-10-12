@@ -1,4 +1,6 @@
-import {BeforeRoutesInit, Constant, Inject, Logger, Module, OnInit, PlatformApplication, Provider, ProviderScope} from "@tsed/common";
+import {Constant, Inject, Module, type OnInit, Provider} from "@tsed/di";
+import {Logger} from "@tsed/logger";
+import {BeforeRoutesInit, PlatformApplication} from "@tsed/platform-http";
 import Passport from "passport";
 
 import {PassportSerializerService} from "./services/PassportSerializerService.js";
@@ -7,9 +9,7 @@ import {ProtocolsService} from "./services/ProtocolsService.js";
 /**
  * @ignore
  */
-@Module({
-  scope: ProviderScope.SINGLETON
-})
+@Module()
 export class PassportModule implements OnInit, BeforeRoutesInit {
   @Constant("passport.userProperty")
   userProperty: string;

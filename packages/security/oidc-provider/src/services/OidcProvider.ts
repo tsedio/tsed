@@ -1,6 +1,6 @@
-import {PlatformApplication, PlatformContext} from "@tsed/common";
 import {Env, setValue} from "@tsed/core";
 import {constant, context, inject, Injectable, InjectorService} from "@tsed/di";
+import {PlatformApplication, PlatformContext} from "@tsed/platform-http";
 import Provider, {type Configuration, type KoaContextWithOIDC} from "oidc-provider";
 
 import {INTERACTIONS} from "../constants/constants.js";

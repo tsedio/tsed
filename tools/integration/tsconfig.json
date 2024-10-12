@@ -7,7 +7,7 @@
   "include": [],
   "references": [
     {
-      "path": "../../packages/platform/common/tsconfig.json"
+      "path": "../../packages/platform/platform-http/tsconfig.json"
     },
     {
       "path": "../../packages/di/tsconfig.json"

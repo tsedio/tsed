@@ -1,4 +1,4 @@
-import {PlatformTest} from "@tsed/common";
+import {PlatformTest} from "@tsed/platform-http";
 import {TestContainersMongo} from "@tsed/testcontainers-mongo";
 
 import {Agenda, AgendaService, Every} from "../src/index.js";

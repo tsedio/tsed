@@ -1,5 +1,5 @@
 import {faker} from "@faker-js/faker";
-import {PlatformTest} from "@tsed/common";
+import {PlatformTest} from "@tsed/platform-http";
 import type {Adapter} from "oidc-provider";
 
 import {OidcAdapters} from "./OidcAdapters.js";

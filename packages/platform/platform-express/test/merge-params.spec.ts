@@ -1,4 +1,6 @@
-import {Controller, PathParams, PlatformTest} from "@tsed/common";
+import {Controller} from "@tsed/di";
+import {PlatformTest} from "@tsed/platform-http";
+import {PathParams} from "@tsed/platform-params";
 import {PlatformTestSdk} from "@tsed/platform-test-sdk";
 import {Get} from "@tsed/schema";
 import SuperTest from "supertest";

@@ -2,7 +2,7 @@
   "name": "@tsed/adapters",
   "description": "Database adapters for Ts.ED",
   "type": "module",
-  "version": "8.0.0-beta.2",
+  "version": "8.0.0-beta.3",
   "source": "./src/index.ts",
   "main": "./lib/esm/index.js",
   "module": "./lib/esm/index.js",
@@ -34,10 +34,10 @@
   "devDependencies": {
     "@tsed/ajv": "workspace:*",
     "@tsed/barrels": "workspace:*",
-    "@tsed/common": "workspace:*",
     "@tsed/core": "workspace:*",
     "@tsed/di": "workspace:*",
     "@tsed/json-mapper": "workspace:*",
+    "@tsed/platform-http": "workspace:*",
     "@tsed/schema": "workspace:*",
     "@tsed/typescript": "workspace:*",
     "@types/fs-extra": "11.0.4",
@@ -46,12 +46,12 @@
     "vitest": "2.1.2"
   },
   "peerDependencies": {
-    "@tsed/ajv": "8.0.0-beta.2",
-    "@tsed/common": "8.0.0-beta.2",
-    "@tsed/core": "8.0.0-beta.2",
-    "@tsed/di": "8.0.0-beta.2",
-    "@tsed/json-mapper": "8.0.0-beta.2",
-    "@tsed/schema": "8.0.0-beta.2"
+    "@tsed/ajv": "8.0.0-beta.3",
+    "@tsed/core": "8.0.0-beta.3",
+    "@tsed/di": "8.0.0-beta.3",
+    "@tsed/json-mapper": "8.0.0-beta.3",
+    "@tsed/platform-http": "8.0.0-beta.3",
+    "@tsed/schema": "8.0.0-beta.3"
   },
   "peerDependenciesMeta": {
     "@tsed/ajv": {

@@ -1,6 +1,6 @@
-import type {PlatformBuilder, PlatformBuilderSettings} from "@tsed/common";
 import {nameOf, Type} from "@tsed/core";
 import {destroyInjector, DITest, hasInjector} from "@tsed/di";
+import type {PlatformBuilder, PlatformBuilderSettings} from "@tsed/platform-http";
 import {APIGatewayEventDefaultAuthorizerContext, APIGatewayProxyEventBase, APIGatewayProxyHandler} from "aws-lambda";
 import {APIGatewayProxyResult} from "aws-lambda/trigger/api-gateway-proxy.js";
 

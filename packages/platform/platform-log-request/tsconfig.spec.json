@@ -20,7 +20,7 @@
       "@tsed/platform-views": ["../platform-views/src/index.ts"],
       "@tsed/normalize-path": ["../../utils/normalize-path/src/index.ts"],
       "@tsed/components-scan": ["../../third-parties/components-scan/src/index.ts"],
-      "@tsed/common": ["../common/src/index.ts"],
+      "@tsed/platform-http": ["../platform-http/src/index.ts"],
       "@tsed/ajv": ["../../specs/ajv/src/index.ts"],
       "@tsed/platform-cache": ["../platform-cache/src/index.ts"],
       "@tsed/swagger": ["../../specs/swagger/src/index.ts"],

@@ -1,6 +1,7 @@
-import {$log, AfterListen, Constant, InjectorService, Module, OnDestroy, Provider} from "@tsed/common";
 import {nameOf} from "@tsed/core";
-import {Inject} from "@tsed/di";
+import {Constant, Inject, InjectorService, Module, OnDestroy, Provider} from "@tsed/di";
+import {$log} from "@tsed/logger";
+import type {AfterListen} from "@tsed/platform-http";
 import Http from "http";
 import Https from "https";
 import {Server, ServerOptions} from "socket.io";

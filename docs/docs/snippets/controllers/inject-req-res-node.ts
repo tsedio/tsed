@@ -1,4 +1,4 @@
-import {Req, Res} from "@tsed/common";
+import {Req, Res} from "@tsed/platform-http";
 import {Get} from "@tsed/schema";
 import {Controller} from "@tsed/di";
 import {IncomingMessage, ServerResponse} from "http";

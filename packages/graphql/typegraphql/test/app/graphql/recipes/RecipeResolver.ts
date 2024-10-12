@@ -1,5 +1,5 @@
-import {InjectContext, PlatformContext} from "@tsed/common";
-import {Inject} from "@tsed/di";
+import {Inject, InjectContext} from "@tsed/di";
+import {PlatformContext} from "@tsed/platform-http";
 import {Arg, Mutation, Query, Root, Subscription} from "type-graphql";
 
 import {ResolverController} from "../../../../src/index.js";

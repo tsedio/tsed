@@ -1,5 +1,6 @@
-import {Inject, PlatformTest} from "@tsed/common";
+import {Inject} from "@tsed/di";
 import {PlatformExpress} from "@tsed/platform-express";
+import {PlatformTest} from "@tsed/platform-http";
 import {SocketClientService} from "@tsed/socketio-testing";
 import {Namespace, Socket as IOSocket} from "socket.io";
 

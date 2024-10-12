@@ -1,4 +1,6 @@
-import {BodyParams, Controller, PlatformTest, QueryParams} from "@tsed/common";
+import {Controller} from "@tsed/di";
+import {PlatformTest} from "@tsed/platform-http";
+import {BodyParams, QueryParams} from "@tsed/platform-params";
 import {PlatformTestSdk} from "@tsed/platform-test-sdk";
 import {Email, Post, Required} from "@tsed/schema";
 import SuperTest from "supertest";

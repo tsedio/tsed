@@ -1,4 +1,4 @@
-import {PlatformTest} from "@tsed/common";
+import {PlatformTest} from "@tsed/platform-http";
 import {MongoClient} from "mongodb";
 
 import {getMongoConnectionOptions, getMongoConnectionsOptions, startMongoServer, stopMongoServer} from "./ContainerUtils.js";

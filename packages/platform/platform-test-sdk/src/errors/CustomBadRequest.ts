@@ -1,5 +1,5 @@
-import {ResponseErrorObject} from "@tsed/common";
 import {BadRequest} from "@tsed/exceptions";
+import {ResponseErrorObject} from "@tsed/platform-http";
 
 export class CustomBadRequest extends BadRequest implements ResponseErrorObject {
   name = "CUSTOM_BAD_REQUEST";

@@ -26,7 +26,7 @@ import {JsonEntityFn} from "./jsonEntityFn.js";
  *
  * The controller:
  * ```typescript
- * import {Controller, BodyParams} from "@tsed/common";
+ * import {Controller, BodyParams} from "@tsed/platform-http";
  * import {Post} from "@tsed/schema";
  * import {Person} from "../models/Person.js";
  *

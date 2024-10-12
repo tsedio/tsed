@@ -1,4 +1,4 @@
-import {PlatformTest} from "@tsed/common";
+import {PlatformTest} from "@tsed/platform-http";
 import {TestContainersMongo} from "@tsed/testcontainers-mongo";
 
 import {Every, Pulse, PulseService} from "../src/index.js";

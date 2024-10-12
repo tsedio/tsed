@@ -1,5 +1,5 @@
-import {PlatformTest} from "@tsed/common";
 import {Inject} from "@tsed/di";
+import {PlatformTest} from "@tsed/platform-http";
 import {TestContainersMongo} from "@tsed/testcontainers-mongo";
 import type {Job} from "agenda";
 import {afterAll, beforeAll, describe, expect, it} from "vitest";

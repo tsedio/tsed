@@ -1,4 +1,4 @@
-import {Res} from "@tsed/common";
+import {Res} from "@tsed/platform-http";
 import {QueryParams} from "@tsed/platform-params";
 import {Get} from "@tsed/schema";
 import {Controller} from "@tsed/di";

@@ -1,4 +1,4 @@
-import {ParamTypes} from "@tsed/common";
+import {ParamTypes} from "@tsed/platform-params";
 import {JsonParameterStore} from "@tsed/schema";
 
 import {Arg, Args} from "./args.js";

@@ -1,4 +1,4 @@
-import {PlatformTest} from "@tsed/common";
+import {PlatformTest} from "@tsed/platform-http";
 import expressRewrite from "express-urlrewrite";
 import koaMount from "koa-mount";
 // @ts-ignore

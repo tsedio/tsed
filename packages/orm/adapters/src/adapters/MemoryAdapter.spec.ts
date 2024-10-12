@@ -1,6 +1,6 @@
 import {faker} from "@faker-js/faker";
-import {PlatformTest} from "@tsed/common";
 import {deserialize} from "@tsed/json-mapper";
+import {PlatformTest} from "@tsed/platform-http";
 import {Format, getJsonSchema, Name, Property} from "@tsed/schema";
 
 import {Adapter} from "../domain/Adapter.js";

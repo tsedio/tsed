@@ -19,7 +19,7 @@
       "path": "../../specs/schema/tsconfig.json"
     },
     {
-      "path": "../../platform/common/tsconfig.json"
+      "path": "../../platform/platform-http/tsconfig.json"
     },
     {
       "path": "../../core/tsconfig.json"

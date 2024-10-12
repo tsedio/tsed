@@ -1,4 +1,4 @@
-import {PlatformContext, ResourceNotFound} from "@tsed/common";
+import {PlatformContext, ResourceNotFound} from "@tsed/platform-http";
 import {Catch, ExceptionFilterMethods} from "@tsed/platform-exceptions";
 
 @Catch(ResourceNotFound)

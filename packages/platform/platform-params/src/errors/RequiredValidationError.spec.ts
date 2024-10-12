@@ -1,4 +1,4 @@
-import {RequiredValidationError} from "@tsed/common";
+import {RequiredValidationError} from "./RequiredValidationError.js";
 
 describe("RequiredValidationError", () => {
   it("should have a message", () => {

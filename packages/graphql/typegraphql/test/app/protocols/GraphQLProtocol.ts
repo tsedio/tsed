@@ -1,6 +1,7 @@
-import {Inject, Req} from "@tsed/common";
+import {Inject} from "@tsed/di";
 import {Unauthorized} from "@tsed/exceptions";
 import {Arg, OnVerify, Protocol} from "@tsed/passport";
+import {Req} from "@tsed/platform-http";
 import {GraphQLLocalStrategy} from "graphql-passport";
 
 import {UsersRepository} from "../services/UsersRepository.js";

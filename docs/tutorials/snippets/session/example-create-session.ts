@@ -1,4 +1,4 @@
-import {Req} from "@tsed/common";
+import {Req} from "@tsed/platform-http";
 import {Middleware} from "@tsed/platform-middlewares";
 
 @Middleware()

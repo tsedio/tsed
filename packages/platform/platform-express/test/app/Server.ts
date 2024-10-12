@@ -1,8 +1,8 @@
 import "@tsed/ajv";
 import "../../src/index.js";
 
-import {Constant, PlatformApplication} from "@tsed/common";
-import {Configuration, Inject} from "@tsed/di";
+import {Configuration, Constant, Inject} from "@tsed/di";
+import {PlatformApplication} from "@tsed/platform-http";
 import compress from "compression";
 import {Application} from "express";
 import session from "express-session";

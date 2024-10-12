@@ -1,5 +1,5 @@
-import {PlatformTest} from "@tsed/common";
 import {serialize} from "@tsed/json-mapper";
+import {PlatformTest} from "@tsed/platform-http";
 import {Integer, Required} from "@tsed/schema";
 import {TestContainersMongo} from "@tsed/testcontainers-mongo";
 

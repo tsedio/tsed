@@ -1,5 +1,5 @@
-import {PlatformTest} from "@tsed/common";
 import {catchAsyncError, catchError} from "@tsed/core";
+import {PlatformTest} from "@tsed/platform-http";
 
 import {OidcInteractionContext} from "./OidcInteractionContext.js";
 import {OidcProvider} from "./OidcProvider.js";

@@ -1,5 +1,5 @@
-import {PlatformTest} from "@tsed/common";
 import {Injectable} from "@tsed/di";
+import {PlatformTest} from "@tsed/platform-http";
 import {Name, Property} from "@tsed/schema";
 
 import {MemoryAdapter} from "../adapters/MemoryAdapter.js";

@@ -1,5 +1,6 @@
-import {AfterListen, Logger, OnRoutesInit} from "@tsed/common";
 import {Configuration, Inject, InjectorService, Module} from "@tsed/di";
+import {Logger} from "@tsed/logger";
+import {AfterListen, OnRoutesInit} from "@tsed/platform-http";
 
 import {ApolloSettings} from "./interfaces/ApolloSettings.js";
 import {ApolloService} from "./services/ApolloService.js";

@@ -1,4 +1,4 @@
-import {PlatformTest} from "@tsed/common";
+import {PlatformTest} from "@tsed/platform-http";
 import {expect} from "chai";
 import {ParseService} from "./ParseService";
 

@@ -1,7 +1,9 @@
 import fs from "node:fs/promises";
 import {join} from "node:path";
 
-import {BodyParams, Controller, PlatformTest} from "@tsed/common";
+import {Controller} from "@tsed/di";
+import {PlatformTest} from "@tsed/platform-http";
+import {BodyParams} from "@tsed/platform-params";
 import {PlatformTestSdk} from "@tsed/platform-test-sdk";
 import {Post} from "@tsed/schema";
 import SuperTest from "supertest";

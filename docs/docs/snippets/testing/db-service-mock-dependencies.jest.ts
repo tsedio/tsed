@@ -1,4 +1,4 @@
-import {PlatformTest} from "@tsed/common";
+import {PlatformTest} from "@tsed/platform-http";
 import {MyCtrl} from "../controllers/MyCtrl";
 import {DbService} from "../services/DbService";
 

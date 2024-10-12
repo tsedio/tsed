@@ -7,28 +7,10 @@
   "include": [],
   "references": [
     {
-      "path": "../../third-parties/components-scan/tsconfig.json"
-    },
-    {
-      "path": "../../engines/tsconfig.json"
-    },
-    {
-      "path": "../../core/tsconfig.json"
-    },
-    {
-      "path": "../../di/tsconfig.json"
-    },
-    {
-      "path": "../../specs/exceptions/tsconfig.json"
-    },
-    {
-      "path": "../../specs/json-mapper/tsconfig.json"
+      "path": "../platform-http/tsconfig.json"
     },
     {
       "path": "../platform-exceptions/tsconfig.json"
-    },
-    {
-      "path": "../platform-log-middleware/tsconfig.json"
     },
     {
       "path": "../platform-middlewares/tsconfig.json"
@@ -44,9 +26,6 @@
     },
     {
       "path": "../platform-views/tsconfig.json"
-    },
-    {
-      "path": "../../specs/schema/tsconfig.json"
     },
     {
       "path": "./tsconfig.esm.json"

@@ -1,5 +1,6 @@
-import {Injectable, PlatformTest} from "@tsed/common";
+import {Injectable} from "@tsed/di";
 import {requires} from "@tsed/engines";
+import {PlatformTest} from "@tsed/platform-http";
 
 import {PlatformViews} from "./PlatformViews.js";
 

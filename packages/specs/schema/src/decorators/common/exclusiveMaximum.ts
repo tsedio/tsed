@@ -7,7 +7,7 @@ import {Maximum} from "./maximum.js";
  * If the instance is a number, then the instance is valid only if it has a value strictly less than (not equal to) `exclusiveMaximum`.
  *
  * ::: warning
- * For v6 user, use @@ExclusiveMaximum@@ from @tsed/schema instead of @tsed/common.
+ * For v6 user, use @@ExclusiveMaximum@@ from @tsed/schema instead of @tsed/platform-http.
  * :::
  *
  * ## Example

@@ -1,5 +1,5 @@
 import {it, expect, describe, beforeEach, afterEach} from "vitest";
-import {PlatformTest} from "@tsed/common";
+import {PlatformTest} from "@tsed/platform-http";
 import {ParseService} from "./ParseService";
 
 describe("ParseService", () => {

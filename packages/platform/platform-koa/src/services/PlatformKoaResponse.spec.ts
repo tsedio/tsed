@@ -1,4 +1,4 @@
-import {PlatformTest} from "@tsed/common";
+import {PlatformTest} from "@tsed/platform-http";
 
 import {PlatformKoaRequest} from "./PlatformKoaRequest.js";
 import {PlatformKoaResponse} from "./PlatformKoaResponse.js";

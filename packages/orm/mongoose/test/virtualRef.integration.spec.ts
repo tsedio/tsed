@@ -1,8 +1,8 @@
-import {PlatformTest} from "@tsed/common";
 import {getValue} from "@tsed/core";
 import {Controller, Inject} from "@tsed/di";
 import {serialize} from "@tsed/json-mapper";
 import {PlatformExpress} from "@tsed/platform-express";
+import {PlatformTest} from "@tsed/platform-http";
 import {CollectionOf, Get, getJsonSchema, Groups, Integer, Required} from "@tsed/schema";
 import {TestContainersMongo} from "@tsed/testcontainers-mongo";
 import SuperTest from "supertest";

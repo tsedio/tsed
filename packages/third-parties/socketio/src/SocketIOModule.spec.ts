@@ -1,4 +1,4 @@
-import {PlatformConfiguration, PlatformTest} from "@tsed/common";
+import {PlatformConfiguration, PlatformTest} from "@tsed/platform-http";
 import Http from "http";
 import Https from "https";
 

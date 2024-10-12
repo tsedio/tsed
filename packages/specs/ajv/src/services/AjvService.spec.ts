@@ -1,5 +1,5 @@
-import {PlatformTest} from "@tsed/common";
 import {catchAsyncError} from "@tsed/core";
+import {PlatformTest} from "@tsed/platform-http";
 import {object, string} from "@tsed/schema";
 
 import {AjvService} from "./AjvService.js";

@@ -1,4 +1,4 @@
-import { BodyParams, Middleware, MiddlewareMethods } from '@tsed/common';
+import { BodyParams, Middleware, MiddlewareMethods } from '@tsed/platform-http';
 
 @Middleware({ priority: 11 })
 export class CustomMiddleware implements MiddlewareMethods {

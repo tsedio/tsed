@@ -1,4 +1,4 @@
-import {PlatformTest} from "@tsed/common";
+import {PlatformTest} from "@tsed/platform-http";
 
 import {FormioDatabase} from "../services/FormioDatabase.js";
 import {AlterTemplateImportSteps} from "./AlterTemplateImportSteps.js";

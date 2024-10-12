@@ -1,5 +1,6 @@
-import {Context, Middleware, MiddlewareMethods} from "@tsed/common";
 import {BadRequest} from "@tsed/exceptions";
+import {Middleware, MiddlewareMethods} from "@tsed/platform-middlewares";
+import {Context} from "@tsed/platform-params";
 import url from "url";
 
 @Middleware()

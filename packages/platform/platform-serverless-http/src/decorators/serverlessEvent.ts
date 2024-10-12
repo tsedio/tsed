@@ -1,4 +1,4 @@
-import {Req} from "@tsed/common";
+import {Req} from "@tsed/platform-http";
 
 /**
  * Return the serverless.event

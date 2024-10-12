@@ -1,4 +1,4 @@
-import {Controller} from "@tsed/common";
+import {Controller} from "@tsed/di";
 import {Get, Hidden, Returns, View} from "@tsed/schema";
 import fs from "fs";
 

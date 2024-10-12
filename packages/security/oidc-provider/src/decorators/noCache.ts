@@ -1,4 +1,4 @@
-import {UseBefore} from "@tsed/common";
+import {UseBefore} from "@tsed/platform-middlewares";
 
 import {OidcNoCacheMiddleware} from "../middlewares/OidcNoCacheMiddleware.js";
 

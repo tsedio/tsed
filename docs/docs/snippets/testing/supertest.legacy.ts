@@ -1,4 +1,4 @@
-import {ExpressApplication} from "@tsed/common";
+import {ExpressApplication} from "@tsed/platform-http";
 import {TestContext} from "@tsed/testing";
 import {expect} from "chai";
 import * as SuperTest from "supertest";

@@ -1,4 +1,4 @@
-import {PlatformTest} from "@tsed/common";
+import {PlatformTest} from "@tsed/platform-http";
 import {getSpec, SpecTypes} from "@tsed/schema";
 import * as qs from "querystring";
 import * as SuperTest from "supertest";

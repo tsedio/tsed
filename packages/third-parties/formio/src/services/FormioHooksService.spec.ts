@@ -1,5 +1,6 @@
-import {PlatformTest, Provider} from "@tsed/common";
 import {Store} from "@tsed/core";
+import {Provider} from "@tsed/di";
+import {PlatformTest} from "@tsed/platform-http";
 
 import {FormioHooksService} from "./FormioHooksService.js";
 import {FormioService} from "./FormioService.js";

@@ -1,5 +1,7 @@
-import {BodyParams, Controller, PlatformTest} from "@tsed/common";
+import {Controller} from "@tsed/di";
 import {PlatformExpress} from "@tsed/platform-express";
+import {PlatformTest} from "@tsed/platform-http";
+import {BodyParams} from "@tsed/platform-params";
 import {MaxLength, MinLength, Post} from "@tsed/schema";
 import SuperTest from "supertest";
 

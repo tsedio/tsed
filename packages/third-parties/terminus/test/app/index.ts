@@ -1,5 +1,5 @@
-import {$log} from "@tsed/common";
 import {PlatformExpress} from "@tsed/platform-express";
+import {$log} from "@tsed/platform-http";
 
 import {Server} from "./Server.js";
 

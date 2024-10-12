@@ -1,4 +1,6 @@
-import {BodyParams, Controller, MulterOptions, MultipartFile, PlatformMulterFile, PlatformTest} from "@tsed/common";
+import {Controller} from "@tsed/di";
+import {MulterOptions, MultipartFile, PlatformMulterFile, PlatformTest} from "@tsed/platform-http";
+import {BodyParams} from "@tsed/platform-params";
 import {CollectionOf, Post, Property, Required, Status} from "@tsed/schema";
 import multer, {FileFilterCallback} from "multer";
 import {dirname, join} from "path";

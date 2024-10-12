@@ -1,6 +1,6 @@
 import {PlatformExpressHandler} from "./PlatformExpressHandler.js";
 
-vi.mock("@tsed/common");
+vi.mock("@tsed/platform-http");
 
 describe("PlatformExpressHandler", () => {
   it("should call middleware", async () => {

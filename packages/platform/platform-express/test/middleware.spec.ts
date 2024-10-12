@@ -1,7 +1,7 @@
-import {Controller, PlatformTest} from "@tsed/common";
+import {Controller} from "@tsed/di";
+import {PlatformTest} from "@tsed/platform-http";
 import {PlatformTestSdk} from "@tsed/platform-test-sdk";
-import {Get} from "@tsed/schema";
-import {Returns} from "@tsed/schema";
+import {Get, Returns} from "@tsed/schema";
 import SuperTest from "supertest";
 
 import {PlatformExpress} from "../src/components/PlatformExpress.js";

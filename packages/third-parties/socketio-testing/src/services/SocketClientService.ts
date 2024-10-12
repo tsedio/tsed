@@ -1,5 +1,5 @@
-import {Inject, Logger, OnDestroy} from "@tsed/common";
-import {Configuration, Injectable} from "@tsed/di";
+import {Configuration, Inject, Injectable, OnDestroy} from "@tsed/di";
+import {Logger} from "@tsed/logger";
 import {io, Socket} from "socket.io-client";
 
 @Injectable()

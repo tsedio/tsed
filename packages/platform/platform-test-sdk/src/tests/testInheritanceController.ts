@@ -1,5 +1,8 @@
-import {BodyParams, Controller, Middleware, PathParams, PlatformTest, QueryParams, UseAuth} from "@tsed/common";
+import {Controller} from "@tsed/di";
 import {NotFound} from "@tsed/exceptions";
+import {PlatformTest} from "@tsed/platform-http";
+import {Middleware, UseAuth} from "@tsed/platform-middlewares";
+import {BodyParams, PathParams, QueryParams} from "@tsed/platform-params";
 import {Description, Get, MaxLength, MinLength, Post, Property, Returns, Summary} from "@tsed/schema";
 import SuperTest from "supertest";
 import {v4} from "uuid";

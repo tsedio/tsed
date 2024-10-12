@@ -1,4 +1,4 @@
-import {Next} from "@tsed/common";
+import {Next} from "@tsed/platform-http";
 import {Use, UseAfter, UseBefore, UseBeforeEach} from "@tsed/platform-middlewares";
 import {Get} from "@tsed/schema";
 import {Controller} from "@tsed/di";
