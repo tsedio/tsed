@@ -1,6 +1,7 @@
 import {catchAsyncError, Type} from "@tsed/core";
 import {Configuration, configuration, Controller, destroyInjector, Injectable, injector, Module} from "@tsed/di";
 
+import {FakeAdapter} from "../../testing/FakeAdapter.js";
 import {AfterInit} from "../interfaces/AfterInit.js";
 import {AfterListen} from "../interfaces/AfterListen.js";
 import {AfterRoutesInit} from "../interfaces/AfterRoutesInit.js";
@@ -8,7 +9,6 @@ import {BeforeInit} from "../interfaces/BeforeInit.js";
 import {BeforeListen} from "../interfaces/BeforeListen.js";
 import {BeforeRoutesInit} from "../interfaces/BeforeRoutesInit.js";
 import {OnReady} from "../interfaces/OnReady.js";
-import {FakeAdapter} from "../services/FakeAdapter.js";
 import {Platform} from "../services/Platform.js";
 import {PlatformBuilder} from "./PlatformBuilder.js";
 

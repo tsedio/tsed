@@ -1,5 +1,6 @@
 import {Controller} from "@tsed/di";
-import {PlatformTest, Req} from "@tsed/platform-http";
+import {Req} from "@tsed/platform-http";
+import {PlatformTest} from "@tsed/platform-http/testing";
 import {Middleware, Use} from "@tsed/platform-middlewares";
 import {Context, HeaderParams, Locals} from "@tsed/platform-params";
 import {Enum, Get, Post, Required} from "@tsed/schema";

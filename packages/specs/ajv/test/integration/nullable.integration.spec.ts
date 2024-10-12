@@ -1,7 +1,7 @@
 import "../../src/index.js";
 
 import {BadRequest} from "@tsed/exceptions";
-import {PlatformTest} from "@tsed/platform-http";
+import {PlatformTest} from "@tsed/platform-http/testing";
 import {BodyParams, ParamValidationError, ValidationPipe} from "@tsed/platform-params";
 import {CollectionOf, JsonParameterStore, Nullable, Property} from "@tsed/schema";
 

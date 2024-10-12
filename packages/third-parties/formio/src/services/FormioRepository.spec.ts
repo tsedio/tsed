@@ -1,5 +1,5 @@
 import {Injectable} from "@tsed/di";
-import {PlatformTest} from "@tsed/platform-http";
+import {PlatformTest} from "@tsed/platform-http/testing";
 
 import {FormioDatabase} from "./FormioDatabase.js";
 import {FormioRepository} from "./FormioRepository.js";

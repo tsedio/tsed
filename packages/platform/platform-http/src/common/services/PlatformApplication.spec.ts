@@ -1,7 +1,7 @@
+import {PlatformTest} from "../../testing/PlatformTest.js";
 import {createContext} from "../utils/createContext.js";
 import {PlatformApplication} from "./PlatformApplication.js";
 import {PlatformHandler} from "./PlatformHandler.js";
-import {PlatformTest} from "./PlatformTest.js";
 
 vi.mock("../utils/createContext");
 

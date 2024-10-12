@@ -100,7 +100,7 @@ export default defineConfig({
 Use the `TestContainersMongo.create` method to start the mongo server before your test:
 
 ```ts
-import {PlatformTest} from "@tsed/common";
+import {PlatformTest} from "@tsed/platform-http/testing";
 import {Property, Required} from "@tsed/schema";
 import {Model, MongooseModel, ObjectID, PostHook, PreHook, Unique} from "@tsed/mongoose";
 import {TestContainersMongo} from "@tsed/testcontainers-mongo";
@@ -169,7 +169,7 @@ TestContainersMongo provides a method to get the connection options for MikroORM
 ```ts
 import {EntityManager, MikroORM} from "@mikro-orm/core";
 import {defineConfig} from "@mikro-orm/mongodb";
-import {PlatformTest} from "@tsed/common";
+import {PlatformTest} from "@tsed/platform-http/testing";
 import {TestContainersMongo} from "@tsed/testcontainers-mongo";
 
 beforeEach(async () => {

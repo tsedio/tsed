@@ -1,6 +1,7 @@
 import {catchError} from "@tsed/core";
 import {Controller, InjectorService} from "@tsed/di";
-import {PlatformContext, PlatformTest} from "@tsed/platform-http";
+import {PlatformContext} from "@tsed/platform-http";
+import {PlatformTest} from "@tsed/platform-http/testing";
 import {UseBefore} from "@tsed/platform-middlewares";
 import {Context, PlatformParams} from "@tsed/platform-params";
 import {Delete, Get, Head, Options, Patch, Post, Publish, Put, Subscribe} from "@tsed/schema";

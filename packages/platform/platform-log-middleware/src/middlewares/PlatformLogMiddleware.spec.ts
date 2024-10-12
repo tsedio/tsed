@@ -1,6 +1,6 @@
 import "../domain/PlatformLogMiddlewareSettings.js";
 
-import {PlatformTest} from "@tsed/platform-http";
+import {PlatformTest} from "@tsed/platform-http/testing";
 import {PlatformHandlerMetadata} from "@tsed/platform-router";
 
 import {PlatformLogMiddleware} from "./PlatformLogMiddleware.js";

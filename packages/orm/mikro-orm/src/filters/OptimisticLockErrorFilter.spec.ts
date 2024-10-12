@@ -1,6 +1,7 @@
 import {OptimisticLockError} from "@mikro-orm/core";
 import {Logger} from "@tsed/logger";
-import {PlatformContext, PlatformTest} from "@tsed/platform-http";
+import {PlatformContext} from "@tsed/platform-http";
+import {PlatformTest} from "@tsed/platform-http/testing";
 import {instance, mock, objectContaining, reset, spy, verify} from "ts-mockito";
 
 import {OptimisticLockErrorFilter} from "./OptimisticLockErrorFilter.js";

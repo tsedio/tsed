@@ -1,5 +1,5 @@
 {
-  "directory": ["./src"],
+  "directory": ["./src/common", "./src/testing"],
   "exclude": ["**/__mock__", "**/__mocks__", "**/*.spec.ts", "**/getConfiguration.ts", "FakeResponse.ts"],
   "delete": true
 }

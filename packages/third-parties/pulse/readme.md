@@ -54,7 +54,7 @@ npm install --save @pulsecron/pulse
 Import `@tsed/pulse` in your Server:
 
 ```typescript
-import {Configuration} from "@tsed/common";
+import {Configuration} from "@tsed/di";
 import "@tsed/pulse"; // import pulse ts.ed module
 
 const mongoConnectionString = "mongodb://127.0.0.1/pulse";
@@ -166,7 +166,7 @@ Inject the PulseService instance to interact with it directly, e.g. to schedule
 a job manually.
 
 ```typescript
-import {Service, AfterRoutesInit} from "@tsed/common";
+import {Service, Inject} from "@tsed/di";
 import {PulseModule} from "@tsed/pulse";
 
 @Service()

@@ -1,8 +1,8 @@
 import {Env} from "@tsed/core";
 import {$log} from "@tsed/logger";
 
+import {FakeAdapter} from "../../testing/FakeAdapter.js";
 import {PlatformConfiguration} from "../config/services/PlatformConfiguration.js";
-import {FakeAdapter} from "../services/FakeAdapter.js";
 import {PlatformAdapter} from "../services/PlatformAdapter.js";
 import {createInjector} from "./createInjector.js";
 

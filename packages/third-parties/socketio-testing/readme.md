@@ -41,7 +41,7 @@ npm install --save socket.io @types/socket.io @tsed/socketio
 Then add the following configuration in your Server:
 
 ```typescript
-import {Configuration} from "@tsed/common";
+import {Configuration} from "@tsed/di";
 import "@tsed/socketio"; // import socketio Ts.ED module
 import {resolve} from "path";
 
@@ -111,7 +111,8 @@ export class MySocketService {
 Then, you can inject your socket service into another Service, Controller, etc... as following:
 
 ```typescript
-import {Controller, Get} from "@tsed/common";
+import {Controller} from "@tsed/di";
+import {Get} from "@tsed/schema";
 import {MySocketService} from "../services/MySocketService.js";
 
 @Controller("/")

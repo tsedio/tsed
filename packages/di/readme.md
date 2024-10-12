@@ -91,7 +91,8 @@ The `@Injectable()` attaches the metadata, thereby Ts.ED knows that this class i
 Now we have the service class already done, let's use it inside a controller:
 
 ```typescript
-import {Controller, Post, Body, Get} from "@tsed/common";
+import {Controller} from "@tsed/di";
+import {Post, Body, Get} from "@tsed/schema";
 import {CalendarsService} from "./CalendarsService.js";
 import {Calendar} from "./models/Calendar.js";
 
@@ -110,9 +111,6 @@ export class CalendarCtrl {
   }
 }
 ```
-
-> Note: Controller isn't a part of `@tsed/di`. `@Controller` decorator is exposed by `@tsed/common` package because it's a specific provider
-> used by the Ts.ED framework. Ts.ED DI allow you to define your own Provider and decorator.
 
 Finally, we can load the injector and use:
 

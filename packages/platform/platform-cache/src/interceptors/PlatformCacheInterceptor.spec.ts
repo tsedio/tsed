@@ -1,6 +1,6 @@
 import {isClass} from "@tsed/core";
 import {serialize} from "@tsed/json-mapper";
-import {PlatformTest} from "@tsed/platform-http";
+import {PlatformTest} from "@tsed/platform-http/testing";
 
 import {UseCache} from "../decorators/useCache.js";
 import {PlatformCache} from "../services/PlatformCache.js";

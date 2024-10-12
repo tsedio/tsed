@@ -1,5 +1,5 @@
 import {serialize} from "@tsed/json-mapper";
-import {PlatformTest} from "@tsed/platform-http";
+import {PlatformTest} from "@tsed/platform-http/testing";
 import {Knex} from "knex";
 import {afterAll, beforeAll, beforeEach, describe, expect, it} from "vitest";
 

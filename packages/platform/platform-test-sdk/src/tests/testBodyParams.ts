@@ -1,7 +1,7 @@
 import "@tsed/ajv";
 
 import {Controller} from "@tsed/di";
-import {PlatformTest} from "@tsed/platform-http";
+import {PlatformTest} from "@tsed/platform-http/testing";
 import {BodyParams, Context, HeaderParams, RawBodyParams} from "@tsed/platform-params";
 import {
   Consumes,

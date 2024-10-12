@@ -1,4 +1,4 @@
-import {PlatformTest} from "@tsed/platform-http";
+import {PlatformTest} from "@tsed/platform-http/testing";
 import {PlatformRouter} from "@tsed/platform-router";
 import Fs from "fs";
 import {absolutePath} from "swagger-ui-dist";

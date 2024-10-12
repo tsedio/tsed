@@ -1,5 +1,5 @@
 import {Controller, DIContext, InjectorService} from "@tsed/di";
-import {PlatformTest} from "@tsed/platform-http";
+import {PlatformTest} from "@tsed/platform-http/testing";
 import {UseBefore} from "@tsed/platform-middlewares";
 import {Context, PlatformParams, PlatformParamsScope} from "@tsed/platform-params";
 import {EndpointMetadata, Get, JsonOperationRoute} from "@tsed/schema";

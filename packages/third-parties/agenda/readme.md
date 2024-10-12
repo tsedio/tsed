@@ -52,7 +52,7 @@ npm install --save agenda
 Import `@tsed/agenda` in your Server:
 
 ```typescript
-import {Configuration} from "@tsed/common";
+import {Configuration} from "@tsed/di";
 import "@tsed/agenda"; // import agenda ts.ed module
 
 const mongoConnectionString = "mongodb://127.0.0.1/agenda";
@@ -164,7 +164,8 @@ Inject the AgendaService instance to interact with it directly, e.g. to schedule
 a job manually.
 
 ```typescript
-import {Service, AfterRoutesInit} from "@tsed/common";
+import {Service} from "@tsed/di";
+import {AfterRoutesInit} from "@tsed/platform-params";
 import {AgendaModule} from "@tsed/agenda";
 
 @Service()
@@ -202,8 +203,8 @@ npm install --save agendash
 Afterward create the module `agendash.module.ts` in src/modules so that the dashboard can be exposed using middleware.
 
 ```typescript
-import {AfterRoutesInit, Inject, PlatformApplication} from "@tsed/common";
-import {Configuration, Module} from "@tsed/di";
+import {AfterRoutesInit, PlatformApplication} from "@tsed/platform-http";
+import {Configuration, Inject, Module} from "@tsed/di";
 import {Agenda} from "agenda";
 
 const Agendash = require("agendash");

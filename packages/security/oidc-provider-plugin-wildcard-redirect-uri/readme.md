@@ -44,7 +44,7 @@ npm install --save @tsed/oidc-provider-plugin-wildcard-redirect-uri
 Then import `@tsed/oidc-provider-plugin-wildcard-redirect-uri` in your Server:
 
 ```typescript
-import {Configuration} from "@tsed/common";
+import {Configuration} from "@tsed/di";
 import "@tsed/oidc-provider"; // import typeorm ts.ed module
 import "@tsed/oidc-provider-plugin-wildcard-redirect-uri"; // import typeorm ts.ed module
 

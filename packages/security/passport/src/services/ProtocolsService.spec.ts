@@ -1,4 +1,5 @@
-import {PlatformTest, Req} from "@tsed/platform-http";
+import {Req} from "@tsed/platform-http";
+import {PlatformTest} from "@tsed/platform-http/testing";
 import Passport from "passport";
 
 import {PassportMessage} from "../errors/PassportMessage.js";

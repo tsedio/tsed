@@ -63,7 +63,7 @@ npm install mysql2
 Add a `knex` configuration to your Ts.ED configuration (see: http://knexjs.org/#Installation-client for options):
 
 ```typescript
-import {Server} from "@tsed/common";
+import {Configuration} from "@tsed/platform-http";
 import "@tsed/objection"; // don't forget to add this line!
 
 @Configuration({

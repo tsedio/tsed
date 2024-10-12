@@ -1,7 +1,7 @@
 import "@tsed/ajv";
 
 import {Controller} from "@tsed/di";
-import {PlatformTest} from "@tsed/platform-http";
+import {PlatformTest} from "@tsed/platform-http/testing";
 import {BodyParams} from "@tsed/platform-params";
 import {PlatformTestSdk} from "@tsed/platform-test-sdk";
 import {DefaultMsg, ErrorMsg, Integer, Post, Property, Required, TypeError} from "@tsed/schema";

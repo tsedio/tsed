@@ -49,7 +49,8 @@ npm install --save stripe
 Then import `@tsed/stripe` in your Server:
 
 ```typescript
-import {Configuration, PlatformApplication} from "@tsed/common";
+import {PlatformApplication} from "@tsed/platform-http";
+import {Configuration} from "@tsed/di";
 import "@tsed/stripe";
 import {Stripe} from "stripe";
 
@@ -129,7 +130,8 @@ Stripe can optionally sign the webhook events it sends to your endpoint, allowin
 To register a Stripe webhook with Ts.ED, just use the `@WebhookEvent` decorator. It'll call for you the `stripe.webhooks.constructEvent` with the right parameters:
 
 ```typescript
-import {RawBodyParams, HeaderParams, Controller, Context} from "@tsed/common";
+import {RawBodyParams, HeaderParams, Context} from "@tsed/platform-params";
+import {Controller} from "@tsed/di";
 import {Stripe} from "stripe";
 
 @Controller("/webhooks")
@@ -152,7 +154,7 @@ You can use stripe.webhooks.generateTestHeaderString to mock webhook events that
 
 ```typescript
 import {Stripe} from "stripe";
-import {PlatformTest} from "@tsed/common";
+import {PlatformTest} from "@tsed/platform-http/testing";
 import {StripWebhookCtrl} from "./StripWebhookCtrl.js";
 
 describe("StripWebhookCtrl", () => {
@@ -197,7 +199,7 @@ describe("StripWebhookCtrl", () => {
 With SuperTest:
 
 ```typescript
-import {PlatformTest} from "@tsed/common";
+import {PlatformTest} from "@tsed/platform-http/testing";
 import {PlatformExpress} from "@tsed/platform-express";
 import {PlatformTestUtils} from "@tsed/platform-test-utils";
 import {expect} from "chai";

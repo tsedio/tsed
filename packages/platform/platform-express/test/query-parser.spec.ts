@@ -1,5 +1,6 @@
 import {Configuration, Controller, Inject} from "@tsed/di";
-import {PlatformApplication, PlatformTest} from "@tsed/platform-http";
+import {PlatformApplication} from "@tsed/platform-http";
+import {PlatformTest} from "@tsed/platform-http/testing";
 import {QueryParams} from "@tsed/platform-params";
 import {PlatformTestSdk} from "@tsed/platform-test-sdk";
 import {Get} from "@tsed/schema";

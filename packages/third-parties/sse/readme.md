@@ -42,7 +42,7 @@ npm install --save @tsed/sse
 Then add the following configuration in your Server:
 
 ```typescript
-import {Configuration} from "@tsed/common";
+import {Configuration} from "@tsed/di";
 import "@tsed/sse"; // import sse Ts.ED module
 
 @Configuration({

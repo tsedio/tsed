@@ -1,4 +1,4 @@
-import {PlatformTest} from "@tsed/platform-http";
+import {PlatformTest} from "@tsed/platform-http/testing";
 
 import {SocketIOService} from "../index.js";
 import {Server} from "./SocketIOServer.js";

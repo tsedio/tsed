@@ -1,5 +1,5 @@
 import {Controller, InjectorService} from "@tsed/di";
-import {PlatformTest} from "@tsed/platform-http";
+import {PlatformTest} from "@tsed/platform-http/testing";
 import {Middleware, UseBeforeEach} from "@tsed/platform-middlewares";
 import {Context, PlatformParams} from "@tsed/platform-params";
 import {Get} from "@tsed/schema";

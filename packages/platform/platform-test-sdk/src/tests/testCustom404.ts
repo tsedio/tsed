@@ -1,4 +1,4 @@
-import {PlatformTest} from "@tsed/platform-http";
+import {PlatformTest} from "@tsed/platform-http/testing";
 import SuperTest from "supertest";
 import {afterAll, beforeAll, expect, it} from "vitest";
 

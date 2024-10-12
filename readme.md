@@ -76,7 +76,7 @@ Here an example to create a Server with Ts.ED:
 
 ```typescript
 import {Configuration, Inject} from "@tsed/di";
-import {PlatformApplication} from "@tsed/common";
+import {PlatformApplication} from "@tsed/platform-http";
 import "@tsed/platform-express";
 import cookieParser from "cookie-parser";
 import compress from "compress";
@@ -93,7 +93,7 @@ To run your server, you have to use Platform API to bootstrap your application w
 platform like Express.
 
 ```typescript
-import {$log} from "@tsed/common";
+import {$log} from "@tsed/logger";
 import {PlatformExpress} from "@tsed/platform-express";
 import {Server} from "./Server.js";
 
@@ -134,7 +134,7 @@ import {
   Put,
   Returns,
   ReturnsArray
-} from "@tsed/common";
+} from "@tsed/schema";
 import {BadRequest} from "@tsed/exceptions";
 import {UsersService} from "../services/UsersService.js";
 import {User} from "../models/User.js";
@@ -180,7 +180,7 @@ export class UsersCtrl {
 
   @Get("/")
   @Summary("Get all users")
-  @Returns(200, Array).Of(User)
+  @(Returns(200, Array).Of(User))
   async findUser(@QueryParams("name") name: string) {
     return this.usersService.find({name});
   }

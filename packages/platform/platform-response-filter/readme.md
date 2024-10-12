@@ -66,7 +66,8 @@ class MyService {
 Add a response filter for a specific content-type:
 
 ```typescript
-import {ResponseFilter, Context, ResponseFilterMethods} from "@tsed/common";
+import {ResponseFilter, ResponseFilterMethods} from "@tsed/platform-response-filter";
+import {Context} from "@tsed/platform-params";
 
 @ResponseFilter("application/json")
 export class WrapperResponseFilter implements ResponseFilterMethods {

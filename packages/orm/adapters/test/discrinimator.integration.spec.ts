@@ -1,4 +1,4 @@
-import {PlatformTest} from "@tsed/platform-http";
+import {PlatformTest} from "@tsed/platform-http/testing";
 import {DiscriminatorKey, DiscriminatorValue, Property, Required} from "@tsed/schema";
 
 import {Adapter, Adapters, FileSyncAdapter} from "../src/index.js";

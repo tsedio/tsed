@@ -1,5 +1,5 @@
 import {Inject, Injectable} from "@tsed/di";
-import {PlatformTest} from "@tsed/platform-http";
+import {PlatformTest} from "@tsed/platform-http/testing";
 import {getJsonSchema, Groups, Name, Property, ReadOnly, Required} from "@tsed/schema";
 import {TestContainersMongo} from "@tsed/testcontainers-mongo";
 

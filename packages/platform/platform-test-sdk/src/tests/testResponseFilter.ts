@@ -1,5 +1,6 @@
 import {Controller} from "@tsed/di";
-import {PlatformContext, PlatformTest} from "@tsed/platform-http";
+import {PlatformContext} from "@tsed/platform-http";
+import {PlatformTest} from "@tsed/platform-http/testing";
 import {ResponseFilter} from "@tsed/platform-response-filter";
 import {Get, Property, Returns} from "@tsed/schema";
 import SuperTest from "supertest";

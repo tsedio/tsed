@@ -1,5 +1,6 @@
 import {Controller, getContext} from "@tsed/di";
-import {PlatformResponse, PlatformTest, Res} from "@tsed/platform-http";
+import {PlatformResponse, Res} from "@tsed/platform-http";
+import {PlatformTest} from "@tsed/platform-http/testing";
 import {Context, PathParams} from "@tsed/platform-params";
 import {CollectionOf, Enum, ForwardGroups, Get, Groups, Ignore, Name, Post, Property, Required, Returns, Status} from "@tsed/schema";
 import axios from "axios";

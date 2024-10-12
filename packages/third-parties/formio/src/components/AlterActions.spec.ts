@@ -1,6 +1,7 @@
 import {BadRequest} from "@tsed/exceptions";
 import {FormioActionInfo, FormioComponent} from "@tsed/formio-types";
-import {PlatformContext, PlatformTest} from "@tsed/platform-http";
+import {PlatformContext} from "@tsed/platform-http";
+import {PlatformTest} from "@tsed/platform-http/testing";
 import {Context} from "@tsed/platform-params";
 
 import {Action} from "../decorators/action.js";

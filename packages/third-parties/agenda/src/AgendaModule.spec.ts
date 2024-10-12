@@ -1,5 +1,5 @@
 import {Inject} from "@tsed/di";
-import {PlatformTest} from "@tsed/platform-http";
+import {PlatformTest} from "@tsed/platform-http/testing";
 import type {Job} from "agenda";
 
 import {AgendaModule} from "./AgendaModule.js";

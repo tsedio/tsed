@@ -1,4 +1,4 @@
-import {PlatformTest} from "@tsed/platform-http";
+import {PlatformTest} from "@tsed/platform-http/testing";
 import {Property} from "@tsed/schema";
 import {TestContainersMongo} from "@tsed/testcontainers-mongo";
 import {afterEach, beforeEach, describe, expect, it} from "vitest";

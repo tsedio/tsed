@@ -55,7 +55,7 @@ npm install --save-dev @types/mongoose
 Then import `@tsed/mongoose` in your Server:
 
 ```typescript
-import {Configuration} from "@tsed/common";
+import {Configuration} from "@tsed/di";
 import "@tsed/mongoose"; // import mongoose ts.ed module
 
 @Configuration({
@@ -76,7 +76,7 @@ The mongoose module of Ts.ED Mongoose allows to configure several basic connecti
 Here is an example configuration:
 
 ```typescript
-import {Configuration} from "@tsed/common";
+import {Configuration} from "@tsed/di";
 import "@tsed/mongoose"; // import mongoose ts.ed module
 
 @Configuration({
@@ -98,10 +98,10 @@ export class Server {}
 
 ## MongooseService
 
-MongooseService let you to retrieve an instance of Mongoose.Connection.
+MongooseService let you retrieve an instance of Mongoose.Connection.
 
 ```typescript
-import {Service} from "@tsed/common";
+import {Service} from "@tsed/di";
 import {MongooseService} from "@tsed/mongoose";
 
 @Service()
@@ -118,12 +118,12 @@ export class MyService {
 ## Declaring a Model
 
 By default, Ts.ED mongoose will reuse the metadata stored by the decorators dedicated
-to describe a JsonSchema. This decorators come from the `@tsed/common` package.
+to describe a JsonSchema. These decorators come from the `@tsed/schema` package.
 
 Here a model example:
 
 ```typescript
-import {Minimum, Maximum, MaxLength, MinLength, Enum, Pattern, Required, CollectionOf} from "@tsed/common";
+import {Minimum, Maximum, MaxLength, MinLength, Enum, Pattern, Required, CollectionOf} from "@tsed/schema";
 import {Model, Unique, Indexed, Ref, ObjectID} from "@tsed/mongoose";
 
 enum Categories {
@@ -170,7 +170,7 @@ export class MyModel {
 ## Inject model
 
 ```typescript
-import {Service, Inject} from "@tsed/common";
+import {Service, Inject} from "@tsed/di";
 import {MongooseModel} from "@tsed/mongoose";
 import {MyModel} from "./models/MyModel.js";
 
@@ -210,7 +210,7 @@ We can simply attach a `@PreHook` decorator to your model class and
 define the hook function like you normally would in Mongoose.
 
 ```typescript
-import {Required} from "@tsed/common";
+import {Required} from "@tsed/schema";
 import {PreHook, Model, ObjectID} from "@tsed/mongoose";
 
 @Model()
@@ -249,7 +249,7 @@ We can simply attach a `@PostHook` decorator to your model class and
 define the hook function like you normally would in Mongoose.
 
 ```typescript
-import {ObjectID, Required} from "@tsed/common";
+import {ObjectID, Required} from "@tsed/schema";
 import {PostHook, Model} from "@tsed/mongoose";
 
 @Model()
@@ -287,7 +287,7 @@ Just like the regular `schema.plugin()` call, the decorator accepts 1 or 2 param
 Multiple `plugin` decorator can be used for a single model class.
 
 ```typescript
-import {Service} from "@tsed/common";
+import {Service} from "@tsed/di";
 import {MongoosePlugin, Model, MongooseModel} from "@tsed/mongoose";
 import * as findOrCreate from 'mongoose-findorcreate';
 

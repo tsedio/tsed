@@ -1,6 +1,7 @@
 import {NativeConnection, NativeConnectionOptions, Worker, WorkerOptions} from "@temporalio/worker";
 import {$log} from "@tsed/logger";
-import {PlatformBuilderSettings, PlatformTest} from "@tsed/platform-http";
+import {PlatformBuilderSettings} from "@tsed/platform-http";
+import {PlatformTest} from "@tsed/platform-http/testing";
 
 import {TemporalModule} from "../TemporalModule.js";
 
@@ -11,6 +12,7 @@ type BootstrapWorkerOptions = {
 };
 
 export async function bootstrapWorker(mod: any, settings: BootstrapWorkerOptions) {
+  // TODO remove this code and use production
   await PlatformTest.bootstrap(mod, settings.platform)();
   const temporalioModule = PlatformTest.get<TemporalModule>(TemporalModule);
   const activities = temporalioModule.getActivities();
