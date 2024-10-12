@@ -2,7 +2,7 @@
   "name": "@tsed/apollo",
   "description": "Apollo package for Ts.ED framework",
   "type": "module",
-  "version": "8.0.0-beta.4",
+  "version": "8.0.0-beta.5",
   "source": "./src/index.ts",
   "main": "./lib/esm/index.js",
   "module": "./lib/esm/index.js",
@@ -43,10 +43,10 @@
   },
   "peerDependencies": {
     "@apollo/server": ">=4.10.4",
-    "@tsed/core": "8.0.0-beta.4",
-    "@tsed/di": "8.0.0-beta.4",
+    "@tsed/core": "8.0.0-beta.5",
+    "@tsed/di": "8.0.0-beta.5",
     "@tsed/logger": ">=6.7.5",
-    "@tsed/platform-http": "8.0.0-beta.4",
+    "@tsed/platform-http": "8.0.0-beta.5",
     "graphql": ">16.0.0"
   }
 }

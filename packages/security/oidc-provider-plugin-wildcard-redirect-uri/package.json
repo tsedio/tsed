@@ -2,7 +2,7 @@
   "name": "@tsed/oidc-provider-plugin-wildcard-redirect-uri",
   "description": "A plugin to support wildcard in the redirect uri whitelist",
   "type": "module",
-  "version": "8.0.0-beta.4",
+  "version": "8.0.0-beta.5",
   "contributors": [
     {
       "name": "romakita"
@@ -44,10 +44,10 @@
     "vitest": "2.1.2"
   },
   "peerDependencies": {
-    "@tsed/core": "8.0.0-beta.4",
-    "@tsed/di": "8.0.0-beta.4",
+    "@tsed/core": "8.0.0-beta.5",
+    "@tsed/di": "8.0.0-beta.5",
     "@tsed/logger": ">=6.7.5",
-    "@tsed/oidc-provider": "8.0.0-beta.4",
+    "@tsed/oidc-provider": "8.0.0-beta.5",
     "oidc-provider": ">=8.0.0"
   },
   "peerDependenciesMeta": {
