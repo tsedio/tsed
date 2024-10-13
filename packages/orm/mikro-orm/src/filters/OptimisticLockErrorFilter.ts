@@ -8,7 +8,10 @@ export class OptimisticLockErrorFilter implements ExceptionFilterMethods<Optimis
     const {response, logger} = ctx;
 
     logger.error({
-      exception
+      event: "MIKRO_ORM_OPTIMISTIC_LOCK_ERROR",
+      error_name: exception.name,
+      error_message: exception.message,
+      stack: exception.stack
     });
 
     response.status(409).body(`Update refused. The resource has changed on the server. Please try again later`);
