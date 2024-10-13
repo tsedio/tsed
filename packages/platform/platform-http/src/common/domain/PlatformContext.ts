@@ -1,4 +1,4 @@
-import {DIContext, DIContextOptions} from "@tsed/di";
+import {$emit, DIContext, DIContextOptions} from "@tsed/di";
 import {PlatformHandlerMetadata} from "@tsed/platform-router";
 import {EndpointMetadata} from "@tsed/schema";
 import {IncomingMessage, ServerResponse} from "http";
@@ -81,11 +81,11 @@ export class PlatformContext<
   }
 
   start() {
-    return this.emit("$onRequest", this);
+    return $emit("$onRequest", this);
   }
 
   async finish() {
-    await Promise.all([this.emit("$onResponse", this), this.destroy()]);
+    await Promise.all([$emit("$onResponse", this), this.destroy()]);
     this.#isFinished = true;
   }
 

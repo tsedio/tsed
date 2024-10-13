@@ -36,18 +36,18 @@ describe("createContext", () => {
     // GIVEN
     const {injector, ctx, call} = await createContextFixture();
 
-    vi.spyOn(injector, "emit").mockResolvedValue(undefined);
+    vi.spyOn(injector.hooks, "asyncEmit").mockResolvedValue(undefined);
     vi.spyOn(injector.logger, "info").mockReturnValue(undefined);
 
     // WHEN
     await call();
 
     // THEN
-    expect(injector.emit).toHaveBeenCalledWith("$onRequest", ctx);
+    expect(injector.hooks.asyncEmit).toHaveBeenCalledWith("$onRequest", [ctx]);
 
     await vi.mocked(ctx.response.getRes().on).mock.calls[0][1](ctx);
 
-    expect(injector.emit).toHaveBeenCalledWith("$onResponse", ctx);
+    expect(injector.hooks.asyncEmit).toHaveBeenCalledWith("$onResponse", [ctx]);
   });
 
   it("should ignore logs", async () => {
@@ -57,7 +57,7 @@ describe("createContext", () => {
       originalUrl: "/admin"
     });
 
-    vi.spyOn(injector, "emit").mockResolvedValue(undefined);
+    vi.spyOn(injector.hooks, "asyncEmit").mockResolvedValue(undefined);
     vi.spyOn(injector.logger, "info").mockReturnValue(undefined);
 
     // WHEN

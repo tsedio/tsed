@@ -1,4 +1,4 @@
-import {Injectable} from "@tsed/di";
+import {Injectable, runInContext} from "@tsed/di";
 import {PlatformHandlerMetadata, PlatformHandlerType} from "@tsed/platform-router";
 import {EndpointMetadata, Get, View} from "@tsed/schema";
 
@@ -86,7 +86,7 @@ describe("PlatformHandler", () => {
 
       expect(result).toBeInstanceOf(Function);
 
-      await $ctx.runInContext(() => result($ctx));
+      await runInContext($ctx, () => result($ctx));
 
       expect($ctx.data).toEqual("hello");
       expect(testService.use).toHaveBeenCalledWith($ctx);
