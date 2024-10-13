@@ -12,7 +12,8 @@ registerProvider({
   provide: TemporalConnection,
   deps: [Configuration, Logger],
   async useAsyncFactory(settings: Configuration, logger: Logger) {
-    const {temporal} = settings;
+    const temporal = settings.get("temporal");
+
     if (!temporal?.enabled) {
       return null;
     }
@@ -33,7 +34,7 @@ registerProvider({
   provide: TemporalClient,
   deps: [Configuration, TemporalConnection],
   useFactory(settings: Configuration, connection: TemporalConnection) {
-    const {temporal} = settings;
+    const temporal = settings.get("temporal");
     if (!temporal?.enabled) {
       return null;
     }

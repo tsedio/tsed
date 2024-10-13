@@ -1,6 +1,6 @@
 import {Configuration, Inject, InjectorService, Module} from "@tsed/di";
 import {Logger} from "@tsed/logger";
-import {AfterListen, OnRoutesInit} from "@tsed/platform-http";
+import {AfterListen, OnRoutesInit, PlatformConfiguration} from "@tsed/platform-http";
 
 import {ApolloSettings} from "./interfaces/ApolloSettings.js";
 import {ApolloService} from "./services/ApolloService.js";
@@ -14,7 +14,7 @@ export class ApolloModule implements OnRoutesInit, AfterListen {
   protected service: ApolloService;
 
   @Configuration()
-  protected configuration: Configuration;
+  protected configuration: PlatformConfiguration;
 
   @Inject(InjectorService)
   protected injector: InjectorService;
@@ -41,7 +41,7 @@ export class ApolloModule implements OnRoutesInit, AfterListen {
     const host = this.configuration.getBestHost();
 
     const displayLog = (key: string, path: string) => {
-      const url = typeof host.port === "number" ? `${host.protocol}://${host.address}:${host.port}` : "";
+      const url = "port" in host && typeof host.port === "number" ? `${host.protocol}://${host.address}:${host.port}` : "";
 
       this.logger.info(`[${key}] Apollo server is available on ${url}/${path.replace(/^\//, "")}`);
     };

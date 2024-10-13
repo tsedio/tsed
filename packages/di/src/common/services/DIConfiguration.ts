@@ -1,4 +1,4 @@
-import {Env, getValue, proxyDelegation, setValue} from "@tsed/core";
+import {Env, getValue, setValue} from "@tsed/core";
 
 import type {ProviderScope} from "../domain/ProviderScope.js";
 import type {DILoggerOptions} from "../interfaces/DILoggerOptions.js";
@@ -21,12 +21,6 @@ export class DIConfiguration {
       ...initialProps
     }).forEach(([key, value]) => {
       this.default.set(key, value);
-    });
-
-    return proxyDelegation<DIConfiguration>(this, {
-      ownKeys(target) {
-        return [...target.default.keys(), ...target.map.keys()];
-      }
     });
   }
 
@@ -150,15 +144,6 @@ export class DIConfiguration {
    */
   get<T = any>(propertyKey: string, defaultValue?: T): T {
     return this.getRaw(propertyKey, defaultValue);
-  }
-
-  /**
-   *
-   * @param value
-   * @returns {any}
-   */
-  resolve(value: any) {
-    return value.replace("${rootDir}", this.rootDir);
   }
 
   protected getRaw(propertyKey: string, defaultValue?: any): any {

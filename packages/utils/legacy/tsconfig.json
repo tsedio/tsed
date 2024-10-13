@@ -1,0 +1,16 @@
+{
+  "extends": "@tsed/typescript/tsconfig.node.json",
+  "compilerOptions": {
+    "baseUrl": "./",
+    "noEmit": true
+  },
+  "include": [],
+  "references": [
+    {
+      "path": "./tsconfig.esm.json"
+    },
+    {
+      "path": "./tsconfig.spec.json"
+    }
+  ]
+}

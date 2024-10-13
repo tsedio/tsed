@@ -1,7 +1,8 @@
 {
-  "name": "@tsed/core",
+  "name": "@tsed/legacy",
   "description": "Core module for Ts.ED Framework",
   "type": "module",
+  "private": true,
   "version": "8.0.0-beta.5",
   "source": "./src/index.ts",
   "main": "./lib/esm/index.js",
@@ -14,11 +15,6 @@
       "browser": "./lib/browser/core.umd.min.js",
       "import": "./lib/esm/index.js",
       "default": "./lib/esm/index.js"
-    },
-    "./**/*.js": {
-      "types": "./lib/types/**/*.d.ts",
-      "import": "./lib/esm/**/*.js",
-      "default": "./lib/esm/**/*.js"
     }
   },
   "scripts": {

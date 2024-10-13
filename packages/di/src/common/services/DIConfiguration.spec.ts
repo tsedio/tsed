@@ -79,12 +79,4 @@ describe("DIConfiguration", () => {
       expect(configuration.resolvers).toEqual([]);
     });
   });
-
-  describe("rootDir()", () => {
-    it("should replace rootDir", () => {
-      const configuration = new DIConfiguration();
-      configuration.set("rootDir", "/root");
-      expect(configuration.resolve("${rootDir}")).toEqual("/root");
-    });
-  });
 });

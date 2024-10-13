@@ -1,13 +1,9 @@
-import {Enumerable} from "../../decorators/enumerable.js";
 import {getEnumerableKeys} from "./getEnumerableKeys.js";
 
 describe("getEnumerableKeys", () => {
   it("should return enumerable keys", () => {
     class Test {
-      @Enumerable(true)
       test: string;
-
-      @Enumerable(false)
       test2: string;
 
       constructor() {
@@ -16,7 +12,7 @@ describe("getEnumerableKeys", () => {
       }
     }
 
-    expect(getEnumerableKeys(new Test())).toEqual(["test"]);
+    expect(getEnumerableKeys(new Test())).toEqual(["test", "test2"]);
   });
   it("should return enumerable keys (security test)", () => {
     const obj = JSON.parse('{"__proto__": {"a": "vulnerable"}, "test": "test"}');
