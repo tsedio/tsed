@@ -21,6 +21,7 @@ exports[`generateModels > should generate models (post) 1`] = `
 "import { Post } from "../client/index";
 import { Integer, Required, Property, Allow } from "@tsed/schema";
 import { UserModel } from "./UserModel";
+import type { Relation } from "@tsed/core";
 
 export class PostModel implements Post {
   @Property(Number)
@@ -30,7 +31,7 @@ export class PostModel implements Post {
 
   @Property(() => UserModel)
   @Allow(null)
-  user: UserModel | null;
+  user: Relation<UserModel> | null;
 
   @Property(Number)
   @Integer()
@@ -44,6 +45,7 @@ export class PostModel implements Post {
 exports[`generateModels > should generate models (user) 1`] = `
 "import { User } from "../client/index";
 import { Integer, Required, Property, Groups, Format, Email, Description, Allow, Enum, CollectionOf } from "@tsed/schema";
+import type { Relation } from "@tsed/core";
 import { Role } from "../enums/index";
 import { PostModel } from "./PostModel";
 
@@ -84,121 +86,11 @@ export class UserModel implements User {
 
   @Property(() => UserModel)
   @Allow(null)
-  successor: UserModel | null;
+  successor: Relation<UserModel> | null;
 
   @Property(() => UserModel)
   @Allow(null)
-  predecessor: UserModel | null;
-
-  @Required()
-  @Enum(Role)
-  role: Role;
-
-  @CollectionOf(() => PostModel)
-  @Required()
-  posts: PostModel[];
-
-  @CollectionOf(String)
-  @Required()
-  keywords: string[];
-
-  @Property(Object)
-  @Required()
-  biography: any;
-}
-
-"
-`;
-
-exports[`generateModels should generate models (info) 1`] = `
-"import { Info } from \\"../client/index\\";
-import { Required, Property } from \\"@tsed/schema\\";
-
-export class InfoModel implements Info {
-  @Property(String)
-  @Required()
-  firstName: string;
-
-  @Property(String)
-  @Required()
-  lastName: string;
-}
-
-"
-`;
-
-exports[`generateModels should generate models (post) 1`] = `
-"import { Post } from \\"../client/index\\";
-import { Integer, Required, Property, Allow } from \\"@tsed/schema\\";
-import { UserModel } from \\"./UserModel\\";
-
-export class PostModel implements Post {
-  @Property(Number)
-  @Integer()
-  @Required()
-  id: number;
-
-  @Property(() => UserModel)
-  @Allow(null)
-  user: UserModel | null;
-
-  @Property(Number)
-  @Integer()
-  @Allow(null)
-  userId: number | null;
-}
-
-"
-`;
-
-exports[`generateModels should generate models (user) 1`] = `
-"import { User } from \\"../client/index\\";
-import { Integer, Required, Property, Groups, Format, Email, Description, Allow, Enum, CollectionOf } from \\"@tsed/schema\\";
-import { Role } from \\"../enums/index\\";
-import { PostModel } from \\"./PostModel\\";
-
-export class UserModel implements User {
-  @Property(Number)
-  @Integer()
-  @Required()
-  @Groups(\\"!creation\\")
-  id: number;
-
-  @Property(Date)
-  @Format(\\"date-time\\")
-  @Required()
-  createdAt: Date;
-
-  @Property(String)
-  @Required()
-  @Email()
-  @Description(\\"User email. This email must be unique!\\")
-  email: string;
-
-  @Property(Number)
-  @Allow(null)
-  weight: number | null;
-
-  @Property(Boolean)
-  @Allow(null)
-  is18: boolean | null;
-
-  @Property(String)
-  @Allow(null)
-  name: string | null;
-
-  @Property(Number)
-  @Integer()
-  @Allow(null)
-  successorId: number | null;
-
-  @Property(() => UserModel)
-  @Allow(null)
-  successor: UserModel | null;
-
-  @Property(() => UserModel)
-  @Allow(null)
-  predecessor: UserModel | null;
+  predecessor: Relation<UserModel> | null;
 
   @Required()
   @Enum(Role)

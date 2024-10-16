@@ -1,9 +1,9 @@
-import {isArray} from "@tsed/core";
-import {deserialize} from "@tsed/json-mapper";
-import {Injectable, Inject} from "@tsed/di";
-import {PrismaService} from "../services/PrismaService";
-import {Prisma, Post} from "../client/index";
-import {PostModel} from "../models/index";
+import { isArray } from "@tsed/core";
+import { deserialize } from "@tsed/json-mapper";
+import { Injectable, Inject } from "@tsed/di";
+import { PrismaService } from "../services/PrismaService";
+import { Prisma, Post } from "../client/index";
+import { PostModel } from "../models/index";
 
 @Injectable()
 export class PostsRepository {
@@ -11,15 +11,15 @@ export class PostsRepository {
   protected prisma: PrismaService;
 
   get collection() {
-    return this.prisma.post;
+    return this.prisma.post
   }
 
   get groupBy() {
-    return this.collection.groupBy.bind(this.collection);
+    return this.collection.groupBy.bind(this.collection)
   }
 
   protected deserialize<T>(obj: null | Post | Post[]): T {
-    return deserialize<T>(obj, {type: PostModel, collectionType: isArray(obj) ? Array : undefined});
+    return deserialize<T>(obj, { type: PostModel, collectionType: isArray(obj) ? Array : undefined })
   }
 
   async findUnique(args: Prisma.PostFindUniqueArgs): Promise<PostModel | null> {
@@ -58,14 +58,14 @@ export class PostsRepository {
   }
 
   deleteMany(args: Prisma.PostDeleteManyArgs) {
-    return this.collection.deleteMany(args);
+    return this.collection.deleteMany(args)
   }
 
   updateMany(args: Prisma.PostUpdateManyArgs) {
-    return this.collection.updateMany(args);
+    return this.collection.updateMany(args)
   }
 
   aggregate(args: Prisma.PostAggregateArgs) {
-    return this.collection.aggregate(args);
+    return this.collection.aggregate(args)
   }
 }
