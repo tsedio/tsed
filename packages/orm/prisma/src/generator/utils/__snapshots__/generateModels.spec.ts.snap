@@ -1,7 +1,7 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
 exports[`generateModels > should generate models (info) 1`] = `
-"import { Info } from "../client/index.js";
+"import { Info } from "../client/index";
 import { Required, Property } from "@tsed/schema";
 
 export class InfoModel implements Info {
@@ -18,9 +18,10 @@ export class InfoModel implements Info {
 `;
 
 exports[`generateModels > should generate models (post) 1`] = `
-"import { Post } from "../client/index.js";
+"import { Post } from "../client/index";
 import { Integer, Required, Property, Allow } from "@tsed/schema";
-import { UserModel } from "./UserModel.js";
+import { UserModel } from "./UserModel";
+import type { Relation } from "@tsed/core";
 
 export class PostModel implements Post {
   @Property(Number)
@@ -30,7 +31,7 @@ export class PostModel implements Post {
 
   @Property(() => UserModel)
   @Allow(null)
-  user: UserModel | null;
+  user: Relation<UserModel> | null;
 
   @Property(Number)
   @Integer()
@@ -42,10 +43,11 @@ export class PostModel implements Post {
 `;
 
 exports[`generateModels > should generate models (user) 1`] = `
-"import { User } from "../client/index.js";
+"import { User } from "../client/index";
 import { Integer, Required, Property, Groups, Format, Email, Description, Allow, Enum, CollectionOf } from "@tsed/schema";
-import { Role } from "../enums/index.js";
-import { PostModel } from "./PostModel.js";
+import type { Relation } from "@tsed/core";
+import { Role } from "../enums/index";
+import { PostModel } from "./PostModel";
 
 export class UserModel implements User {
   @Property(Number)
@@ -84,11 +86,11 @@ export class UserModel implements User {
 
   @Property(() => UserModel)
   @Allow(null)
-  successor: UserModel | null;
+  successor: Relation<UserModel> | null;
 
   @Property(() => UserModel)
   @Allow(null)
-  predecessor: UserModel | null;
+  predecessor: Relation<UserModel> | null;
 
   @Required()
   @Enum(Role)

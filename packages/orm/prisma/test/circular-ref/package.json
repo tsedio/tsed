@@ -1,0 +1,10 @@
+{
+  "name": "@tsed/prisma-test",
+  "type": "commonjs",
+  "devDependencies": {
+    "prisma": "^4.0.0"
+  },
+  "dependencies": {
+    "@prisma/client": "^4.0.0"
+  }
+}
