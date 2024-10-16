@@ -31,6 +31,11 @@ export function transformScalarToType(field: DmmfField, ctx: TransformContext): 
     TSType += "[]";
   }
 
+  if (!isList && hasCircularRef && ["inputObjectTypes", "enumTypes"].includes(location)) {
+    hasCircularRef && !isList && field.model.addImportDeclaration("@tsed/core", "Relation", true);
+    TSType = `Relation<${TSType}>`;
+  }
+
   if (!isRequired) {
     if (model.isInputType) {
       TSType += " | undefined";
@@ -39,11 +44,6 @@ export function transformScalarToType(field: DmmfField, ctx: TransformContext): 
     }
   } else if (isNullable && !isList) {
     TSType += " | null";
-  }
-
-  if (isRequired && !isList && !isNullable && hasCircularRef && ["inputObjectTypes", "enumTypes"].includes(location)) {
-    hasCircularRef && !isList && field.model.addImportDeclaration("@tsed/core", "Relation", true);
-    TSType = `Relation<${TSType}>`;
   }
 
   return TSType;

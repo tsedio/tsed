@@ -21,6 +21,7 @@ exports[`generateModels > should generate models (post) 1`] = `
 "import { Post } from "../client/index.js";
 import { Integer, Required, Property, Allow } from "@tsed/schema";
 import { UserModel } from "./UserModel.js";
+import type { Relation } from "@tsed/core";
 
 export class PostModel implements Post {
   @Property(Number)
@@ -30,7 +31,7 @@ export class PostModel implements Post {
 
   @Property(() => UserModel)
   @Allow(null)
-  user: UserModel | null;
+  user: Relation<UserModel> | null;
 
   @Property(Number)
   @Integer()
@@ -44,6 +45,7 @@ export class PostModel implements Post {
 exports[`generateModels > should generate models (user) 1`] = `
 "import { User } from "../client/index.js";
 import { Integer, Required, Property, Groups, Format, Email, Description, Allow, Enum, CollectionOf } from "@tsed/schema";
+import type { Relation } from "@tsed/core";
 import { Role } from "../enums/index.js";
 import { PostModel } from "./PostModel.js";
 
@@ -84,11 +86,11 @@ export class UserModel implements User {
 
   @Property(() => UserModel)
   @Allow(null)
-  successor: UserModel | null;
+  successor: Relation<UserModel> | null;
 
   @Property(() => UserModel)
   @Allow(null)
-  predecessor: UserModel | null;
+  predecessor: Relation<UserModel> | null;
 
   @Required()
   @Enum(Role)

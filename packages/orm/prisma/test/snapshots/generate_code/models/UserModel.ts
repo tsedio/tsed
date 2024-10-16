@@ -1,5 +1,6 @@
 import { User } from "../client/index.js";
 import { Integer, Required, Property, Groups, Format, Email, Description, Allow, Enum, CollectionOf } from "@tsed/schema";
+import type { Relation } from "@tsed/core";
 import { Role } from "../enums/index.js";
 import { PostModel } from "./PostModel.js";
 
@@ -40,11 +41,11 @@ export class UserModel implements User {
 
   @Property(() => UserModel)
   @Allow(null)
-  successor: UserModel | null;
+  successor: Relation<UserModel> | null;
 
   @Property(() => UserModel)
   @Allow(null)
-  predecessor: UserModel | null;
+  predecessor: Relation<UserModel> | null;
 
   @Required()
   @Enum(Role)
