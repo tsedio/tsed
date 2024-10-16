@@ -1,7 +1,7 @@
 import {pipeline} from "node:stream/promises";
 
 import {AnyPromiseResult, AnyToPromise, isSerializable, isStream} from "@tsed/core";
-import {BaseContext, Inject, Injectable, InjectorService, LazyInject, ProviderScope, TokenProvider} from "@tsed/di";
+import {BaseContext, Inject, Injectable, InjectorService, LazyInject, ProviderScope, runInContext, TokenProvider} from "@tsed/di";
 import {serialize} from "@tsed/json-mapper";
 import type {PlatformExceptions} from "@tsed/platform-exceptions";
 import {DeserializerPipe, PlatformParams, ValidationPipe} from "@tsed/platform-params";
@@ -29,7 +29,7 @@ export class PlatformServerlessHandler {
     const promisedHandler = this.params.compileHandler({token, propertyKey});
 
     return ($ctx: ServerlessContext<ServerlessEvent>) => {
-      return $ctx.runInContext(async () => {
+      return runInContext($ctx, async () => {
         await this.injector.emit("$onRequest", $ctx);
 
         try {

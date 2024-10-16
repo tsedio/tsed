@@ -1,16 +1,16 @@
-import {InjectorService, LocalsContainer} from "../../common/index.js";
+import {injector, InjectorService, LocalsContainer} from "../../common/index.js";
+import {logger} from "../fn/logger.js";
 import {runInContext} from "../utils/asyncHookContext.js";
 import {ContextLogger, ContextLoggerOptions} from "./ContextLogger.js";
 
 export interface DIContextOptions extends Omit<ContextLoggerOptions, "dateStart"> {
   id: string;
-  injector: InjectorService;
-  logger: any;
   platform?: string;
 }
 
 export class DIContext {
   [x: string]: any;
+
   readonly PLATFORM: string = "DI";
   #container?: LocalsContainer;
   #cache?: Map<any, any>;
@@ -24,7 +24,12 @@ export class DIContext {
    * Logger attached to the context request.
    */
   get logger() {
-    this.#logger = this.#logger || new ContextLogger(this.opts);
+    this.#logger =
+      this.#logger ||
+      new ContextLogger({
+        ...this.opts,
+        logger: logger()
+      });
     return this.#logger;
   }
 
@@ -61,7 +66,7 @@ export class DIContext {
   }
 
   get injector(): InjectorService {
-    return this.opts.injector!;
+    return injector();
   }
 
   get env() {
@@ -79,13 +84,13 @@ export class DIContext {
     return Promise.all([this.#container?.destroy(), this.#logger?.flush(true)]);
   }
 
-  emit(eventName: string, ...args: any[]) {
-    return this.injector?.emit(eventName, ...args);
-  }
+  // emit(eventName: string, ...args: any[]) {
+  //   return $emit(eventName, ...args);
+  // }
 
-  runInContext<Result = unknown>(next: (...args: unknown[]) => Result): Promise<Result> {
-    return runInContext<Result>(this, next);
-  }
+  // runInContext<Result = unknown>(next: (...args: unknown[]) => Result): Promise<Result> {
+  //   return runInContext<Result>(this, next);
+  // }
 
   cache<Value = any>(key: string, cb: () => Value): Value {
     if (!this.has(key)) {
