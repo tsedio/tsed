@@ -1,7 +1,8 @@
-import {User} from "../client/index";
-import {Integer, Required, Property, Groups, Format, Email, Description, Allow, Enum, CollectionOf} from "@tsed/schema";
-import {Role} from "../enums/index";
-import {PostModel} from "./PostModel";
+import { User } from "../client/index";
+import { Integer, Required, Property, Groups, Format, Email, Description, Allow, Enum, CollectionOf } from "@tsed/schema";
+import type { Relation } from "@tsed/core";
+import { Role } from "../enums/index";
+import { PostModel } from "./PostModel";
 
 export class UserModel implements User {
   @Property(Number)
@@ -40,11 +41,11 @@ export class UserModel implements User {
 
   @Property(() => UserModel)
   @Allow(null)
-  successor: UserModel | null;
+  successor: Relation<UserModel> | null;
 
   @Property(() => UserModel)
   @Allow(null)
-  predecessor: UserModel | null;
+  predecessor: Relation<UserModel> | null;
 
   @Required()
   @Enum(Role)
@@ -62,3 +63,4 @@ export class UserModel implements User {
   @Required()
   biography: any;
 }
+
