@@ -2,7 +2,7 @@
   "name": "@tsed/platform-log-request",
   "description": "Log request module for Ts.ED Framework (Express, Koa, Serverless)",
   "type": "module",
-  "version": "8.0.0-beta.5",
+  "version": "8.0.0-beta.6",
   "source": "./src/index.ts",
   "main": "./lib/esm/index.js",
   "module": "./lib/esm/index.js",
@@ -35,9 +35,9 @@
     "vitest": "2.1.2"
   },
   "peerDependencies": {
-    "@tsed/di": "8.0.0-beta.5",
-    "@tsed/platform-middlewares": "8.0.0-beta.5",
-    "@tsed/platform-params": "8.0.0-beta.5"
+    "@tsed/di": "8.0.0-beta.6",
+    "@tsed/platform-middlewares": "8.0.0-beta.6",
+    "@tsed/platform-params": "8.0.0-beta.6"
   },
   "peerDependenciesMeta": {
     "@tsed/di": {
