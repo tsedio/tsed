@@ -32,7 +32,7 @@
     "test:ci": "vitest run --coverage.thresholds.autoUpdate=true"
   },
   "dependencies": {
-    "@prisma/generator-helper": "^4.16.2",
+    "@prisma/generator-helper": "^5.14.0",
     "@prisma/internals": "^4.16.2",
     "change-case": "^4.1.2",
     "fs-extra": "^11.2.0",
