@@ -143,3 +143,15 @@ export class PlatformConfiguration extends DIConfiguration {
     };
   }
 }
+
+declare global {
+  namespace TsED {
+    // @ts-ignore
+    interface Context {}
+
+    /**
+     * Here to allow extension on DIConfiguration base service
+     */
+    interface DIConfiguration extends PlatformConfiguration {}
+  }
+}

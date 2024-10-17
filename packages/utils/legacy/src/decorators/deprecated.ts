@@ -1,4 +1,4 @@
-import {Type} from "../domain/Type.js";
+import {Type} from "@tsed/core";
 
 function deprecate(fn: any, msg: string) {
   if (typeof process !== "undefined" && (process as any).noDeprecation === true) {

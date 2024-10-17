@@ -1,17 +1,15 @@
-import {Configuration, registerProvider} from "@tsed/di";
-import {Server} from "socket.io";
+import {constant, injectable} from "@tsed/di";
+import {Server, type ServerOptions} from "socket.io";
 
 export type SocketIOServer = Server;
 
 // tslint:disable-next-line: variable-name
 export const SocketIOServer = Server;
 
-export {Server};
+injectable(Server).factory(() => {
+  const socketIO = constant<Partial<ServerOptions>>("socketIO");
 
-registerProvider({
-  provide: Server,
-  deps: [Configuration],
-  useFactory(config: Configuration) {
-    return new Server(config.socketIO);
-  }
+  return new Server(socketIO);
 });
+
+export {Server};

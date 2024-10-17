@@ -74,19 +74,7 @@ export function providerBuilder<Provider, Picked extends keyof Provider>(props: 
   };
 }
 
-type PickedProps =
-  | "scope"
-  | "path"
-  | "alias"
-  | "useFactory"
-  | "useAsyncFactory"
-  | "useValue"
-  | "useClass"
-  | "hooks"
-  | "deps"
-  | "resolvers"
-  | "imports"
-  | "configuration";
+type PickedProps = "scope" | "path" | "alias" | "hooks" | "deps" | "resolvers" | "imports" | "configuration";
 
 const Props = ["type", "scope", "path", "alias", "hooks", "deps", "resolvers", "imports", "configuration"];
 export const injectable = providerBuilder<Provider, PickedProps | "type">(Props);

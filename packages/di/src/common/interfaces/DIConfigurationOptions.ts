@@ -8,6 +8,11 @@ declare global {
     // @ts-ignore
     interface Context {}
 
+    /**
+     * Here to allow extension on DIConfiguration base service
+     */
+    interface DIConfiguration {}
+
     interface Configuration extends Record<string, any> {
       scopes: {[key: string]: ProviderScope};
       /**

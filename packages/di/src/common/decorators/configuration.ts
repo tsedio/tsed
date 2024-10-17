@@ -22,4 +22,4 @@ export function Configuration(configuration: Partial<TsED.Configuration> = {}): 
   };
 }
 
-export type Configuration = TsED.Configuration & DIConfiguration;
+export type Configuration = TsED.DIConfiguration & DIConfiguration;

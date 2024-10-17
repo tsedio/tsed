@@ -1,4 +1,4 @@
-import {Enumerable, getEnumerableKeys, NotEnumerable} from "../../src/index.js";
+import {Enumerable, getEnumerableKeys, NotEnumerable} from "../../../../core/src/index.js";
 
 class Test1 {
   test: string = "test";
