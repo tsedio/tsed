@@ -7066,25 +7066,6 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@tsed/legacy@workspace:packages/utils/legacy":
-  version: 0.0.0-use.local
-  resolution: "@tsed/legacy@workspace:packages/utils/legacy"
-  dependencies:
-    "@tsed/barrels": "workspace:*"
-    "@tsed/monorepo-utils": "npm:2.3.5"
-    "@tsed/typescript": "workspace:*"
-    "@tsed/vitest": "workspace:*"
-    "@vitest/coverage-v8": "npm:^2.1.2"
-    eslint: "npm:9.12.0"
-    reflect-metadata: "npm:^0.2.2"
-    tslib: "npm:2.7.0"
-    typescript: "npm:5.4.5"
-    vite: "npm:^5.4.8"
-    vitest: "npm:2.1.2"
-    webpack: "npm:^5.75.0"
-  languageName: unknown
-  linkType: soft
-
 "@tsed/logger-file@npm:^6.7.8":
   version: 6.7.8
   resolution: "@tsed/logger-file@npm:6.7.8"
