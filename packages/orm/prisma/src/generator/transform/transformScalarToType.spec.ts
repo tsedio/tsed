@@ -107,11 +107,11 @@ describe("transformScalarToType()", () => {
     });
     // @ts-ignore
     field.model.name = "User";
-    expect(transformScalarToType(field, ctx)).toEqual("UserModel | null");
-    expect(field.model.addImportDeclaration).not.toHaveBeenCalled();
+    expect(transformScalarToType(field, ctx)).toEqual("Relation<UserModel> | null");
+    expect(field.model.addImportDeclaration).toHaveBeenCalledWith("@tsed/core", "Relation", true);
   });
 
-  it("should transform User to User", () => {
+  it("should transform Role to User", () => {
     const ctx = createContextFixture();
     const field = createDmmfFieldFixture({
       kind: "object",
@@ -119,7 +119,7 @@ describe("transformScalarToType()", () => {
     });
     // @ts-ignore
     field.model.name = "User";
-    expect(transformScalarToType(field, ctx)).toEqual("RoleModel | null");
+    expect(transformScalarToType(field, ctx)).toEqual("Relation<RoleModel> | null");
     expect(field.model.addImportDeclaration).toHaveBeenCalledWith("./RoleModel", "RoleModel");
   });
 });
