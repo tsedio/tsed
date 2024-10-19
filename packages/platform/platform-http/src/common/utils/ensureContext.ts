@@ -1,4 +1,4 @@
-import {getContext} from "@tsed/di";
+import {getContext, runInContext} from "@tsed/di";
 
 import {PlatformContext} from "../domain/PlatformContext.js";
 
@@ -13,5 +13,5 @@ export function ensureContext(request: any, cb: ($ctx: PlatformContext) => any, 
     return fallback();
   }
 
-  return request.$ctx.runInContext(() => cb(request.$ctx));
+  return runInContext(request.$ctx, () => cb(request.$ctx));
 }

@@ -1,3 +1,5 @@
+import {runInContext} from "@tsed/di";
+
 import {PlatformTest} from "../../testing/PlatformTest.js";
 import {ensureContext} from "./ensureContext.js";
 
@@ -22,7 +24,7 @@ describe("ensureContext()", () => {
     const stub = vi.fn();
     const req = {};
 
-    await $ctx.runInContext(() => ensureContext(req, stub));
+    await runInContext($ctx, () => ensureContext(req, stub));
 
     expect(stub).toHaveBeenCalledWith($ctx);
   });

@@ -1,52 +1,33 @@
 import {OptimisticLockError} from "@mikro-orm/core";
-import {Logger} from "@tsed/logger";
-import {PlatformContext} from "@tsed/platform-http";
 import {PlatformTest} from "@tsed/platform-http/testing";
-import {instance, mock, objectContaining, reset, spy, verify} from "ts-mockito";
 
 import {OptimisticLockErrorFilter} from "./OptimisticLockErrorFilter.js";
 
 describe("OptimisticLockErrorFilter", () => {
-  const mockedLogger: Logger = mock<Logger>();
-  let optimisticLockErrorFilter!: OptimisticLockErrorFilter;
-
-  beforeEach(() => {
-    optimisticLockErrorFilter = new OptimisticLockErrorFilter();
-
-    return PlatformTest.create();
-  });
-
-  afterEach(() => {
-    reset(mockedLogger);
-
-    return PlatformTest.reset();
-  });
+  beforeEach(() => PlatformTest.create());
+  afterEach(() => PlatformTest.reset());
 
   describe("catch", () => {
-    it("should set HTTP status to 409", () => {
+    it("should set HTTP status to 409", async () => {
+      const optimisticLockErrorFilter = await PlatformTest.invoke(OptimisticLockErrorFilter);
+
       // arrange
       const exception = OptimisticLockError.lockFailed("entity");
-      const response = PlatformTest.createResponse();
-      const request = PlatformTest.createRequest({
-        url: "/admin"
-      });
-      const context = new PlatformContext({
-        event: {
-          response,
-          request
-        },
-        id: "id",
-        logger: instance(mockedLogger),
-        maxStackSize: 0,
-        injector: PlatformTest.injector
-      });
-      const spiedResponse = spy(response);
+      const context = PlatformTest.createRequestContext();
+
+      vi.spyOn(context.logger, "error").mockReturnThis();
 
       // act
       optimisticLockErrorFilter.catch(exception, context);
 
-      verify(mockedLogger.error(objectContaining({exception}))).once();
-      verify(spiedResponse.status(409)).once();
+      expect(context.logger.error).toHaveBeenCalledWith({
+        event: "MIKRO_ORM_OPTIMISTIC_LOCK_ERROR",
+        error_name: exception.name,
+        error_message: exception.message,
+        stack: exception.stack
+      });
+      expect(context.response.getBody()).toEqual("Update refused. The resource has changed on the server. Please try again later");
+      expect(context.response.statusCode).toEqual(409);
     });
   });
 });
