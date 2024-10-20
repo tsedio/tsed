@@ -25,6 +25,7 @@
     "test": "vitest run",
     "generate:postgres:esm": "yarn build && cd test/postgres-esm && prisma -v && prisma generate",
     "generate:mongo:esm": "yarn build && cd test/mongo-esm && prisma -v && prisma generate",
+    "generate:circular:esm": "yarn build && cd test/circular-ref && prisma -v && prisma generate",
     "test:ci": "vitest run --coverage.thresholds.autoUpdate=true"
   },
   "dependencies": {

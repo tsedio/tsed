@@ -1,0 +1,32 @@
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider        = "prisma-client-js"
+  binaryTargets   = ["native", "windows", "debian-openssl-1.1.x"]
+  output          = "../prisma/generated/client"
+}
+
+generator tsed {
+  provider                 = "node ../../lib/cjs/generator.js"
+  output                   = "../prisma/generated/tsed"
+  emitDMMF                 = true
+}
+
+model Conversation {
+  id           String      @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  assignmentId String?     @map("assignment_id") @db.Uuid
+  assignment   Assignment? @relation(fields: [assignmentId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+
+  @@map("conversation")
+}
+
+model Assignment {
+  id                String         @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  conversations     Conversation[]
+
+  @@map("assignment")
+}
