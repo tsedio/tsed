@@ -1,7 +1,7 @@
 {
   "sourceMaps": "inline",
   "jsc": {
-    "target": "es2023",
+    "target": "es2022",
     "externalHelpers": true,
     "keepClassNames": true,
     "parser": {

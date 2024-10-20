@@ -16,7 +16,6 @@ export const presets = defineConfig({
     environment: "node",
     coverage: {
       enabled: true,
-      provider: "v8",
       reporter: ["text", "json", "html"],
       all: true,
       include: ["src/**/*.{tsx,ts}"],
@@ -34,14 +33,37 @@ export const presets = defineConfig({
   plugins: [
     resolveWorkspaceFiles(),
     swc.vite({
+      sourceMaps: "inline",
       //tsconfigFile: "./tsconfig.spec.json",
       // Explicitly set the module type to avoid inheriting this value from a `.swcrc` config file
-      module: {type: "es6"},
       jsc: {
+        target: "es2022",
+        externalHelpers: true,
+        keepClassNames: true,
+        parser: {
+          syntax: "typescript",
+          tsx: true,
+          decorators: true,
+          dynamicImport: true,
+          privateMethod: true,
+          exportDefaultFrom: true,
+          importMeta: true,
+          preserveAllComments: true
+        },
         transform: {
-          useDefineForClassFields: false
+          useDefineForClassFields: false,
+          legacyDecorator: true,
+          decoratorMetadata: true
         }
-      }
+      },
+      module: {
+        type: "es6",
+        strict: false,
+        strictMode: true,
+        lazy: false,
+        noInterop: false
+      },
+      isModule: true
     })
   ]
 });
