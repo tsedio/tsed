@@ -2,8 +2,7 @@ import {Env, Type} from "@tsed/core";
 import {createContainer, injector, InjectorService, setLoggerConfiguration} from "@tsed/di";
 import {$log, Logger} from "@tsed/logger";
 import {getOperationsRoutes, JsonEntityStore} from "@tsed/schema";
-import type {Handler} from "aws-lambda";
-import type {Context} from "aws-lambda/handler.js";
+import type {Context, Handler} from "aws-lambda";
 import type {HTTPMethod, Instance} from "find-my-way";
 
 import {ServerlessContext} from "../domain/ServerlessContext.js";
