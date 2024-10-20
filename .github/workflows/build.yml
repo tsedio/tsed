@@ -22,11 +22,12 @@ jobs:
         node-version: [20.12.2]
 
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           node-version: ${{ matrix.node-version }}
+          cache: "yarn"
       - name: Install dependencies
         run: yarn install --immutable --network-timeout 500000
       - name: Run lint
@@ -40,13 +41,14 @@ jobs:
         node-version: [20.12.2]
 
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           fetch-depth: 0
       - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           node-version: ${{ matrix.node-version }}
+          cache: "yarn"
       - name: Install dependencies
         run: yarn install --immutable --network-timeout 500000
       - name: Run build
@@ -77,13 +79,14 @@ jobs:
         node-version: [20.12.2]
 
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           fetch-depth: 0
       - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           node-version: ${{ matrix.node-version }}
+          cache: "yarn"
       - name: Install dependencies
         run: yarn install --immutable --network-timeout 500000
       - name: Run build
@@ -103,13 +106,14 @@ jobs:
         node-version: [20.12.2]
 
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           fetch-depth: 0
       - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           node-version: ${{ matrix.node-version }}
+          cache: "yarn"
       - name: Install dependencies
         run: yarn install --immutable --network-timeout 500000
       - name: Run build
@@ -135,13 +139,14 @@ jobs:
         node-version: [20.12.2]
 
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           fetch-depth: 0
       - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           node-version: ${{ matrix.node-version }}
+          cache: "yarn"
       - name: Install dependencies
         run: yarn install --immutable --network-timeout 500000
       - name: Run build
@@ -164,13 +169,14 @@ jobs:
         node-version: [20.12.2]
 
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           fetch-depth: 0
       - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           node-version: ${{ matrix.node-version }}
+          cache: "yarn"
       - name: Install dependencies
         run: yarn install --immutable --network-timeout 500000
       - name: Run build
@@ -194,13 +200,14 @@ jobs:
         node-version: [20.12.2]
 
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           fetch-depth: 0
       - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           node-version: ${{ matrix.node-version }}
+          cache: "yarn"
       - name: Install dependencies
         run: yarn install --immutable --network-timeout 500000
       - name: Run build
@@ -222,13 +229,14 @@ jobs:
         node-version: [20.12.2]
 
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           fetch-depth: 0
       - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           node-version: ${{ matrix.node-version }}
+          cache: "yarn"
       - name: Install dependencies
         run: yarn install --immutable --network-timeout 500000
       - name: Run build
@@ -250,13 +258,14 @@ jobs:
         node-version: [20.12.2]
 
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           fetch-depth: 0
       - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           node-version: ${{ matrix.node-version }}
+          cache: "yarn"
       - name: Install dependencies
         run: yarn install --immutable --network-timeout 500000
       - name: Run build
@@ -278,13 +287,14 @@ jobs:
         node-version: [20.12.2]
 
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           fetch-depth: 0
       - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           node-version: ${{ matrix.node-version }}
+          cache: "yarn"
       - name: Install dependencies
         run: yarn install --immutable --network-timeout 500000
       - name: Run build
@@ -308,11 +318,12 @@ jobs:
       matrix:
         node-version: [20.x]
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           node-version: ${{ matrix.node-version }}
+          cache: "yarn"
       - name: Download Core vitest config files
         uses: actions/download-artifact@v4
         with:
@@ -340,11 +351,12 @@ jobs:
         node-version: [20.x]
 
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           node-version: ${{ matrix.node-version }}
+          cache: "yarn"
       - name: Install dependencies
         run: yarn install --network-timeout 500000
 
