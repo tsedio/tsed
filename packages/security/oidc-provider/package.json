@@ -2,7 +2,7 @@
   "name": "@tsed/oidc-provider",
   "description": "OIDC provider package for Ts.ED framework",
   "type": "module",
-  "version": "8.0.0-beta.6",
+  "version": "8.0.0-beta.7",
   "contributors": [
     {
       "name": "romakita"
@@ -62,12 +62,12 @@
     "vitest": "2.1.2"
   },
   "peerDependencies": {
-    "@tsed/ajv": "8.0.0-beta.6",
-    "@tsed/core": "8.0.0-beta.6",
-    "@tsed/di": "8.0.0-beta.6",
-    "@tsed/json-mapper": "8.0.0-beta.6",
-    "@tsed/platform-http": "8.0.0-beta.6",
-    "@tsed/schema": "8.0.0-beta.6",
+    "@tsed/ajv": "8.0.0-beta.7",
+    "@tsed/core": "8.0.0-beta.7",
+    "@tsed/di": "8.0.0-beta.7",
+    "@tsed/json-mapper": "8.0.0-beta.7",
+    "@tsed/platform-http": "8.0.0-beta.7",
+    "@tsed/schema": "8.0.0-beta.7",
     "oidc-provider": ">=8.0.0"
   },
   "peerDependenciesMeta": {
