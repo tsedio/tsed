@@ -62,6 +62,10 @@ export interface SwaggerSettingsBase {
    */
   outFile?: string;
   /**
+   * Sort paths by alphabetical order
+   */
+  sortPaths?: boolean;
+  /**
    * A function to generate the operationId.
    */
   operationIdFormatter?: (name: string, propertyKey: string, path: string) => string;

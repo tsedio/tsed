@@ -31,10 +31,10 @@ export class SwaggerService {
         .filter(({routes, provider}) => [...routes.values()].some((route) => includeRoute(route, provider, conf)))
         .map(({route, provider}) => ({token: provider.token, rootPath: route}));
 
-      const spec = await generateSpec({
+      const spec = generateSpec({
         tokens,
         ...conf,
-        specPath,
+        fileSpec: specPath ? await readSpec(specPath) : {},
         version,
         acceptMimes
       });

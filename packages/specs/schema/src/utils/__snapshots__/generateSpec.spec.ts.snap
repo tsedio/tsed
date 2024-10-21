@@ -1,0 +1,109 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`generateSpec() > OS 3.0.1 > should generate spec with sorted paths 1`] = `
+{
+  "info": {
+    "title": "Api documentation",
+    "version": "1.0.0",
+  },
+  "openapi": "3.0.1",
+  "paths": {
+    "/rest/controller1": {
+      "get": {
+        "operationId": "controller1Method",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Success",
+          },
+        },
+        "tags": [
+          "Controller1",
+        ],
+      },
+    },
+    "/rest/controller1/test": {
+      "post": {
+        "operationId": "controller1Method5",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Success",
+          },
+        },
+        "tags": [
+          "Controller1",
+        ],
+      },
+    },
+    "/rest/controller1/{id}": {
+      "get": {
+        "operationId": "controller1MethodById",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "string",
+            },
+          },
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+          },
+        },
+        "tags": [
+          "Controller1",
+        ],
+      },
+    },
+    "/rest/controller2": {
+      "get": {
+        "operationId": "controller2Method",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Success",
+          },
+        },
+        "tags": [
+          "Controller2",
+        ],
+      },
+    },
+    "/rest/controller2/{id}": {
+      "get": {
+        "operationId": "controller2MethodById",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "string",
+            },
+          },
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+          },
+        },
+        "tags": [
+          "Controller2",
+        ],
+      },
+    },
+  },
+  "tags": [
+    {
+      "name": "Controller2",
+    },
+    {
+      "name": "Controller1",
+    },
+  ],
+}
+`;
