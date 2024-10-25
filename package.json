@@ -204,6 +204,27 @@
         "branch": "main",
         "cname": "api-docs.tsed.io",
         "if": "production"
+      },
+      {
+        "dir": "./docs/.vuepress/dist",
+        "url": "https://github.com/tsedio/rc.tsed.dev.git",
+        "branch": "gh-pages",
+        "cname": "rc.tsed.dev",
+        "if": "rc"
+      },
+      {
+        "dir": "./docs/.vitepress/dist",
+        "url": "https://github.com/tsedio/beta.tsed.dev.git",
+        "branch": "main",
+        "cname": "beta.tsed.dev",
+        "if": "beta"
+      },
+      {
+        "dir": "./docs/.vitepress/dist",
+        "url": "https://github.com/tsedio/alpha.tsed.dev.git",
+        "branch": "main",
+        "cname": "alpha.tsed.dev",
+        "if": "alpha"
       }
     ]
   },
