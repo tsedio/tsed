@@ -21,7 +21,7 @@ import {MulterOptions} from "./multerOptions.js";
  * }
  * ```
  *
- * > See the tutorial on the [multer configuration](/tutorials/multer.md).
+ * > See the tutorial on the [multer configuration](/docs/upload-files.md).
  * @param fileSize
  * @returns {(target: any, propertyKey: string, descriptor: PropertyDescriptor) => PropertyDescriptor}
  * @decorator

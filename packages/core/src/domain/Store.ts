@@ -72,7 +72,7 @@ function defineStore(args: any[]): Store {
 export class Store {
   private _entries = new Map<string, any>();
   /**
-   * Create or get a Store from args {target + methodName + descriptor}
+   * Create or get a Store from given args (target, property, descriptor).
    * @param args
    * @returns {Store}
    */

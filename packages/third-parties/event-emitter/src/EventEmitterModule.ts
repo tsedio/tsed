@@ -1,5 +1,5 @@
 import {Constant, Inject, InjectorService, LOGGER, Module, Provider} from "@tsed/di";
-import {ListenerFn} from "eventemitter2";
+import type {ListenerFn} from "eventemitter2";
 
 import {EventEmitterStore} from "./interfaces/EventEmitterStore.js";
 import {EventEmitterService} from "./services/EventEmitterFactory.js";

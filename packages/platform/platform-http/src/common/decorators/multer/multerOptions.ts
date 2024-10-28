@@ -37,7 +37,7 @@ import {PlatformMulterMiddleware} from "../../middlewares/PlatformMulterMiddlewa
  * }
  * ```
  *
- * See the tutorial on the [multer configuration](/tutorials/multer.md).
+ * See the tutorial on the [multer configuration](/docs/upload-files.md).
  *
  * @param {multer.Options} options
  * @returns {(target: any, propertyKey: string, descriptor: PropertyDescriptor) => PropertyDescriptor}

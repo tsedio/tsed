@@ -1,0 +1,19 @@
+<%# Constructor %>
+<% if (hasConstructor) { %>
+
+## Constructor
+
+<% if (hasConstructorOverview) { %>
+<%- components.codeHighlight(construct.overview) %>
+<% } %>
+
+<% if (construct.description) { %>
+<%- construct.description %>
+<% } %>
+
+<% } %>
+<% if (members.length) { %>
+<% members.forEach((member, index, map) => { %>
+<%- components.symbolMember(member) %>
+<% }) %>
+<% } %>

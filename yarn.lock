@@ -8043,7 +8043,7 @@ __metadata:
     "@swc/helpers": "npm:0.5.13"
     "@tsed/logger": "npm:^6.7.8"
     "@tsed/monorepo-utils": "npm:2.3.9"
-    "@tsed/ts-doc": "npm:4.1.0"
+    "@tsed/ts-doc": "npm:5.0.0"
     "@types/axios": "npm:0.14.0"
     "@types/globby": "npm:9.1.0"
     "@types/node": "npm:22.7.4"
@@ -8417,9 +8417,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@tsed/ts-doc@npm:4.1.0":
-  version: 4.1.0
-  resolution: "@tsed/ts-doc@npm:4.1.0"
+"@tsed/ts-doc@npm:5.0.0":
+  version: 5.0.0
+  resolution: "@tsed/ts-doc@npm:5.0.0"
   dependencies:
     chalk: "npm:3.0.0"
     ejs: "npm:2.7.1"
@@ -8428,11 +8428,12 @@ __metadata:
     glob: "npm:7.1.6"
     globby: "npm:8.0.2"
     listr: "npm:^0.14.3"
+    lodash: "npm:^4.17.21"
     normalize-path: "npm:3.0.0"
     read-pkg-up: "npm:7.0.0"
   bin:
     tsdoc: bin/tsdoc.js
-  checksum: 10/c51352c32265a086e7f09ef202952234353481d2429d8eec3902e0c7b3c47d80b271c4126a450a538037be0c05fe8ee0b93e9ed4dd938205dd71e20418aa50d7
+  checksum: 10/0e726341daae5fcc1e6cf86e9be23b384e9348c1b1d5591b1185f3f26afb39c2e163855a05b123179aa82a91698d6fc1e1dc6ad6808d39641e4f7d08d817118a
   languageName: node
   linkType: hard
 

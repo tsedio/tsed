@@ -15,10 +15,8 @@ export default defineConfig({
     // ['link', { rel: 'icon', type: 'image/svg+xml', href: '/tsed.svg' }],
     ["link", {rel: "icon", type: "image/png", href: "/tsed-og.png"}],
     ["link", {rel: "shortcut icon", href: "/favicon.ico", type: "image/x-icon"}],
-    ["link", {rel: "icon", href: "/favicon.ico", type: "apple-touch-icon"}],
-    ["link", {rel: "icon", href: "/apple-touch-icon.png", type: "image/x-icon", sizes: "180x180"}],
-    ["link", {rel: "icon", href: "/favicon-32x32.png", type: "image/png", sizes: "32x32"}],
-    ["link", {rel: "icon", href: "/favicon-16x16.png", type: "image/png", sizes: "16x16"}],
+    ["link", {rel: "icon", href: "/icon512_maskable.png", type: "apple-touch-icon"}],
+    ["link", {rel: "icon", href: "/icon512_maskable.png", type: "image/x-icon", sizes: "512x512"}],
     ["meta", {name: "theme-color", content: "#5f67ee"}],
     ["meta", {property: "og:type", content: "website"}],
     ["meta", {property: "og:locale", content: "en"}],
@@ -31,8 +29,8 @@ export default defineConfig({
   themeConfig: {
     logo: "/tsed.svg",
     siteTitle: false,
-    apiUrl: "https://tsed.io/api.json",
-    apiRedirectUrl: "https://api-docs.tsed.io",
+    apiUrl: "http://localhost:5173/api.json",
+    apiRedirectUrl: "",
     repo: "tsedio/tsed",
     githubProxyUrl: "https://api.tsed.io/rest/github/tsedio/tsed",
     editLink: {
@@ -163,7 +161,8 @@ export default defineConfig({
             link: `/docs/testing`
           },
           {text: "Upload files", link: "/docs/upload-files"},
-          {text: "Customize 404", link: "/docs/not-found-page"}
+          {text: "Customize 404", link: "/docs/not-found-page"},
+          {text: "Api references", link: "/api"},
         ]
       },
       {
@@ -433,6 +432,10 @@ export default defineConfig({
             {
               text: "Customize 404",
               link: "/docs/not-found-page"
+            },
+            {
+              text: "Api references",
+              link: "/api"
             }
           ]
         }

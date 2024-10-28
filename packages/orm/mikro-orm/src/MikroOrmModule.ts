@@ -1,4 +1,4 @@
-import "./services/MikroOrmFactory";
+import "./services/MikroOrmFactory.js";
 
 import {EventSubscriber, Options} from "@mikro-orm/core";
 import {classOf, isFunction, Store} from "@tsed/core";

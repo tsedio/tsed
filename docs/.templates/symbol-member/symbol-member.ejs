@@ -1,0 +1,9 @@
+## <%- title %>
+
+<%- components.codeHighlight(member.overview.trim(), undefined) %>
+<% if (hasParams) { %>
+<%- components.symbolParams(member.params, member.overview) %>
+<% } %>
+<% if (member.description) { %>
+<%- member.description %>
+<% } %>

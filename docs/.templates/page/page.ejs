@@ -1,0 +1,30 @@
+---
+meta:
+ - name: keywords
+   description: api typescript node.js documentation <%- symbol.symbolName %> <%- symbol.symbolType %>
+---
+# <%- symbol.symbolLabel %> <%- symbol.symbolName %>
+
+<%- components.symbolSummary(symbol) %>
+<% if(symbol.overview) { %>
+
+## Overview
+
+<%- components.codeHighlight(symbol.overview, symbol.symbolName) %>
+<% }
+
+if (hasParams) { %>
+<%- components.symbolParams(params, symbol.overview) %>
+<% }
+
+if (description) { %>
+<!-- Description -->
+## Description
+
+<%- description %>
+<% }
+
+if (symbol.members.length) { %>
+<!-- Members -->
+<%- components.symbolMembers(symbol) %>
+<% } %>

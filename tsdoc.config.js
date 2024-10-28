@@ -43,9 +43,10 @@ module.exports = {
     "!<rootDir>/packages/platform/platform-test-sdk",
     "!**/node_modules"
   ],
-  outputDir: "<rootDir>/docs-references/api",
+  outputDir: "<rootDir>/docs/api",
   baseUrl: "/api",
   jsonOutputDir: "<rootDir>/docs/public",
+  templatesDir: "<rootDir>/docs/.templates",
   scope: "@tsed",
   modules: {}
 };

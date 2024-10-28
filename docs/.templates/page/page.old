@@ -1,0 +1,25 @@
+<%- components.symbolHeader(symbol) %>
+<!-- summary -->
+<%- components.symbolSummary(symbol) %>
+<!-- overview -->
+<% if(symbol.overview) { %>
+
+### Overview
+
+<%- components.codeHighlight(symbol.overview, symbol.symbolName) %>
+<% } %>
+<!-- Parameters -->
+<% if (hasParams) { %>
+<%- components.symbolParams(params, symbol.overview) %>
+<% } %>
+<!-- Description -->
+<% if (description) { %>
+
+### Description
+
+<%- description %>
+<% } %>
+<!-- Members -->
+<% if (symbol.members.length) { %>
+<%- components.symbolMembers(symbol) %>
+<% } %>

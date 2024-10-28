@@ -53,7 +53,7 @@ function mapOptions(name: string, maxCount: number | undefined): MulterInputOpti
  * }
  * ```
  *
- * > See the tutorial on the [multer configuration](/tutorials/multer.md).
+ * > See the tutorial on the [multer configuration](/docs/upload-files.md).
  *
  * @param name
  * @param maxCount

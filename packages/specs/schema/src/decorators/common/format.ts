@@ -142,7 +142,6 @@ export const Format = withErrorMsg("format", (format: JsonFormatTypes | ValueOf<
  * }
  * ```
  *
- * > See [Format](api/common/jsonschema/schema) decorator.
  * @returns {Function}
  * @decorator
  * @validation
@@ -209,7 +208,6 @@ export const Email = withErrorMsg("format", () => {
  * }
  * ```
  *
- * > See [Format](api/common/jsonschema/schema) decorator.
  * @returns {Function}
  * @decorator
  * @validation
@@ -277,7 +275,6 @@ export const DateTime = withErrorMsg("format", () => {
  * }
  * ```
  *
- * > See [Format](api/common/jsonschema/schema) decorator.
  * @returns {Function}
  * @decorator
  * @validation
@@ -344,7 +341,6 @@ export const DateFormat = withErrorMsg("format", () => {
  * }
  * ```
  *
- * > See [Format](api/common/jsonschema/schema) decorator.
  * @returns {Function}
  * @decorator
  * @validation
@@ -411,7 +407,6 @@ export const TimeFormat = withErrorMsg("format", () => {
  * }
  * ```
  *
- * > See [Format](api/common/jsonschema/schema) decorator.
  * @returns {Function}
  * @decorator
  * @validation
@@ -478,7 +473,6 @@ export const Uri = withErrorMsg("format", () => {
  * }
  * ```
  *
- * > See [Format](api/common/jsonschema/schema) decorator.
  * @returns {Function}
  * @decorator
  * @validation
