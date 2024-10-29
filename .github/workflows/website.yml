@@ -29,23 +29,3 @@ jobs:
           GH_TOKEN: ${{ secrets.GH_TOKEN }}
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
         run: yarn docs:publish
-#  publish-refs:
-#    runs-on: ubuntu-latest
-#    steps:
-#      - uses: actions/checkout@v4
-#      - name: Setup Node.js
-#        uses: actions/setup-node@v4
-#        with:
-#          node-version: 20.x
-#      - name: Install dependencies
-#        run: yarn install --immutable --network-timeout 500000
-#      - name: Build pages
-#        env:
-#          CI: true
-#        run: yarn api:build && yarn vitepress:ref:build
-#      - name: Publish pages
-#        env:
-#          CI: true
-#          GH_TOKEN: ${{ secrets.GH_TOKEN }}
-#          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
-#        run: yarn docs:publish
