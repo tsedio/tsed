@@ -10,13 +10,14 @@ export default {
       }
     }
 
-    const title = member.overview.match(/(.*)(\(|\?|=|:)+/)
+    const title = member.overview.match(/(.*)(\(|\?|=|:)+/);
 
     return {
       title: title ? title[1]
         .split("(")[0]
         .split("<")[0]
-        .trim() : "",
+        .trim()
+        .replace("?", "") : "",
       member,
       deprecated,
       hasParams

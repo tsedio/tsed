@@ -29,12 +29,12 @@ export default defineConfig({
   themeConfig: {
     logo: "/tsed.svg",
     siteTitle: false,
-    apiUrl: "http://localhost:5173/api.json",
+    apiUrl: "/api.json",
     apiRedirectUrl: "",
     repo: "tsedio/tsed",
     githubProxyUrl: "https://api.tsed.io/rest/github/tsedio/tsed",
     editLink: {
-      pattern: "https://github.com/tsedio/tsed-website/edit/main/docs/:path"
+      pattern: "https://github.com/tsedio/tsed/edit/main/docs/:path"
     },
     search: {
       provider: "algolia",
