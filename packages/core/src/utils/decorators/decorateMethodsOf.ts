@@ -20,7 +20,9 @@ export function decorateMethodsOf(klass: any, decorator: any) {
       Store.mergeStoreMethodFrom(klass, target, propertyKey);
     }
 
-    const newDescriptor = decorator(proto, propertyKey, descriptorOf(klass, propertyKey));
+    let descriptor = descriptorOf(klass, propertyKey);
+
+    const newDescriptor = decorator(proto, propertyKey, descriptor) || descriptor;
 
     if (newDescriptor) {
       Object.defineProperty(proto, propertyKey, newDescriptor);

@@ -17,12 +17,23 @@ describe("useMethodDecorators", () => {
       });
     }
 
+    function decorator3(value: any) {
+      return (...args: any) => {
+        console.log("===", args);
+        args[2].value = () => {
+          return "hello value";
+        };
+      };
+    }
+
     function decorate() {
       return useDecorators(useMethodDecorator(decorator2("test3")), useMethodDecorators(decorator1("test1")), decorator2("test2"));
     }
 
     class Test {
-      method(@decorate() param: string) {}
+      method(@decorate() param: string) {
+        return "";
+      }
     }
 
     const method1 = Store.fromMethod(Test, "method").get("decorator1");

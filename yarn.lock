@@ -7524,6 +7524,7 @@ __metadata:
     "@tsed/logger": "npm:^6.7.8"
     "@tsed/logger-file": "npm:^6.7.8"
     "@tsed/platform-exceptions": "workspace:*"
+    "@tsed/platform-middlewares": "workspace:*"
     "@tsed/platform-params": "workspace:*"
     "@tsed/platform-response-filter": "workspace:*"
     "@tsed/platform-router": "workspace:*"

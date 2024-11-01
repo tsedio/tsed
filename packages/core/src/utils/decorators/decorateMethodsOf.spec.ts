@@ -10,6 +10,7 @@ describe("decorateMethodsOf", () => {
       return (target: any) => {
         decorateMethodsOf(target, (klass: any, property: any, descriptor: any) => {
           Store.from(klass, property, descriptor).set("test", property);
+
           return descriptor;
         });
       };
