@@ -2,13 +2,11 @@
 next:
   text: Controllers
   link: /docs/controllers
-head:
-  - - meta:
-    - name: description
-      content: Create your first controller. Ts.ED is built on top of Express and uses TypeScript language.
-  - - meta:
-    - name: keywords
-      content: controller getting started ts.ed express typescript node.js javascript decorators mvc class models
+meta:
+  - name: description
+    content: Create your first controller. Ts.ED is built on top of Express and uses TypeScript language.
+  - name: keywords
+    content: controller getting started ts.ed express typescript node.js javascript decorators mvc class models
 ---
 
 # Create your first controller

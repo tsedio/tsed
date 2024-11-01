@@ -51,8 +51,33 @@ export default defineConfig({
   plugins: [
     // This is required to build the test files with SWC
     swc.vite({
-      // Explicitly set the module type to avoid inheriting this value from a `.swcrc` config file
-      module: {type: "es6"}
+      sourceMaps: "inline",
+
+      jsc: {
+        target: "es2022",
+        externalHelpers: true,
+        keepClassNames: true,
+        parser: {
+          syntax: "typescript",
+          tsx: true,
+          decorators: true,
+          dynamicImport: true,
+          importMeta: true,
+          preserveAllComments: true
+        },
+        transform: {
+          useDefineForClassFields: false,
+          legacyDecorator: true,
+          decoratorMetadata: true
+        }
+      },
+      module: {
+        type: "es6",
+        strictMode: true,
+        lazy: false,
+        noInterop: false
+      },
+      isModule: true
     })
   ]
 });
