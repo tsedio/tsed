@@ -1,8 +1,9 @@
 import {Injectable} from "@tsed/di";
+import {BodyParams} from "@tsed/platform-params";
 import {PlatformServerlessTest} from "@tsed/platform-serverless-testing";
 import {MinLength, Post, Property} from "@tsed/schema";
 
-import {BodyParams, PlatformServerless} from "../src/index.js";
+import {PlatformServerless} from "../src/index.js";
 
 class Model {
   @Property()

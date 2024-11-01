@@ -1,10 +1,11 @@
 import {Readable} from "node:stream";
 
 import {Injectable} from "@tsed/di";
+import {BodyParams} from "@tsed/platform-params";
 import {PlatformServerlessTest} from "@tsed/platform-serverless-testing";
 import {Post, Returns} from "@tsed/schema";
 
-import {BodyParams, PlatformServerless} from "../src/index.js";
+import {PlatformServerless} from "../src/index.js";
 
 @Injectable()
 class StreamLambda {
