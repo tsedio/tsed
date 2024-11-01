@@ -63,7 +63,8 @@ export default defineConfig({
           {
             text: "Migration",
             items: [
-              {text: "Migrate from v6", link: "/introduction/migrate-from-v6"},
+              {text: "Migrate from v7", link: "/introduction/migrate-from-v7"},
+              {text: "Migrate v6 to v7", link: "/introduction/migrate-from-v6"},
               {text: "Migrate from Express", link: "/introduction/migrate-from-express"}
             ]
           }
@@ -315,7 +316,8 @@ export default defineConfig({
         {
           text: "Migration",
           items: [
-            {text: "Migrate from v6", link: "/introduction/migrate-from-v6"},
+            {text: "Migrate from v7", link: "/introduction/migrate-from-v7"},
+            {text: "Migrate from v6 to v7", link: "/introduction/migrate-from-v6"},
             {text: "Migrate from Express", link: "/introduction/migrate-from-express"}
           ]
         }

@@ -13,7 +13,7 @@
     "axios": "1.7.7",
     "lodash": "4.17.21",
     "lucide-vue-next": "^0.436.0",
-    "vitepress": "1.4.1"
+    "vitepress": "1.4.2"
   },
   "devDependencies": {
     "autoprefixer": "^10.4.19",

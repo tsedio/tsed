@@ -1,14 +1,9 @@
 ---
-next:
-  text: Controllers
-  link: /docs/controllers
-head:
-  - - meta:
-    - name: description
-      content: Migrate Ts.ED application from Express.js. Ts.ED is built on top of Express and uses TypeScript language.
-  - - meta:
-    - name: keywords
-      content: migration getting started ts.ed express typescript node.js javascript decorators mvc class models
+meta:
+  - name: description
+    content: Migrate Ts.ED application from Express.js. Ts.ED is built on top of Express and uses TypeScript language.
+  - name: keywords
+    content: migration getting started ts.ed express typescript node.js javascript decorators mvc class models
 ---
 
 # Migrate from Express.js

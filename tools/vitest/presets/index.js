@@ -34,8 +34,7 @@ export const presets = defineConfig({
     resolveWorkspaceFiles(),
     swc.vite({
       sourceMaps: "inline",
-      //tsconfigFile: "./tsconfig.spec.json",
-      // Explicitly set the module type to avoid inheriting this value from a `.swcrc` config file
+
       jsc: {
         target: "es2022",
         externalHelpers: true,
@@ -45,8 +44,6 @@ export const presets = defineConfig({
           tsx: true,
           decorators: true,
           dynamicImport: true,
-          privateMethod: true,
-          exportDefaultFrom: true,
           importMeta: true,
           preserveAllComments: true
         },
@@ -58,7 +55,6 @@ export const presets = defineConfig({
       },
       module: {
         type: "es6",
-        strict: false,
         strictMode: true,
         lazy: false,
         noInterop: false
