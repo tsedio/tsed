@@ -1,0 +1,53 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`@Authorize > should support inheritance 1`] = `
+{
+  "paths": {
+    "/admin/allEntries": {
+      "get": {
+        "operationId": "abstractAdminControllerGetAllEntries",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Success",
+          },
+        },
+        "tags": [
+          "AdminController",
+        ],
+      },
+    },
+  },
+  "tags": [
+    {
+      "name": "AdminController",
+    },
+  ],
+}
+`;
+
+exports[`@Authorize > should support inheritance 2`] = `
+{
+  "paths": {
+    "/admin/bucket/allEntries": {
+      "get": {
+        "operationId": "abstractAdminControllerGetAllEntries",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Success",
+          },
+        },
+        "tags": [
+          "BucketAdminController",
+        ],
+      },
+    },
+  },
+  "tags": [
+    {
+      "name": "BucketAdminController",
+    },
+  ],
+}
+`;

@@ -47,7 +47,16 @@ export function UseAuth(guardAuth: Type<any>, options: Record<string, unknown> =
         )(...args);
 
       case DecoratorTypes.CLASS:
-        decorateMethodsOf(args[0], UseAuth(guardAuth, options));
+        decorateMethodsOf(
+          args[0],
+          StoreFn((store: Store) => {
+            if (!store.has(guardAuth)) {
+              return UseBefore(guardAuth);
+            }
+          })
+        );
+
+        AuthOptions(guardAuth, options)(...args);
         break;
 
       default:

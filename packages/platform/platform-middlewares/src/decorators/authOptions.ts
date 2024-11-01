@@ -4,6 +4,7 @@ import {
   DecoratorParameters,
   decoratorTypeOf,
   DecoratorTypes,
+  Store,
   Type,
   UnsupportedDecoratorType
 } from "@tsed/core";
@@ -41,7 +42,12 @@ export function AuthOptions(guardAuth: Type<any>, options: Record<string, unknow
         })(...(args as DecoratorMethodParameters));
 
       case DecoratorTypes.CLASS:
-        decorateMethodsOf(args[0], AuthOptions(guardAuth, options));
+        decorateMethodsOf(args[0], (_: any, property: string) => {
+          Store.fromMethod(args[0], property).merge(guardAuth, options, true);
+        });
+        // methodsOf(args[0]).forEach(({propertyKey}) => {
+        //
+        // });
         break;
 
       default:
