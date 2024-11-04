@@ -67,7 +67,7 @@ export class Provider<T = any> implements ProviderOpts<T> {
         if (String(propertyKey).startsWith("$")) {
           return {
             ...hooks,
-            [propertyKey]: (instance: any, ...args: any[]) => instance[propertyKey](...args)
+            [propertyKey]: (instance: any, ...args: any[]) => instance?.[propertyKey](...args)
           };
         }
         return hooks;
