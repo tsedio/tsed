@@ -140,8 +140,6 @@ export class PlatformTest extends DITest {
 
     const $ctx = new PlatformContext({
       id: "id",
-      injector: injector(),
-      logger: injector().logger,
       url: "/",
       ...options,
       event

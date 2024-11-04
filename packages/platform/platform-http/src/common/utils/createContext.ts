@@ -33,8 +33,6 @@ export function createContext(injector: InjectorService): (event: IncomingEvent)
 
   const opts = {
     ...loggerOptions,
-    logger: injector.logger,
-    injector,
     ResponseKlass,
     RequestKlass
   };
