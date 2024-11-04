@@ -1,5 +1,6 @@
 import type {Config, FactoryConfig, Store} from "cache-manager";
-import {Cluster, ClusterNode, ClusterOptions, Redis, RedisOptions} from "ioredis";
+import type {Cluster, ClusterNode, ClusterOptions, Redis, RedisOptions} from "ioredis";
+import ioredis from "ioredis";
 
 export interface RedisClusterConfig {
   nodes: ClusterNode[];
@@ -25,7 +26,9 @@ export class IORedisStore implements Store {
 
     this.redisCache =
       options.redisInstance ||
-      ("clusterConfig" in options ? new Redis.Cluster(options.clusterConfig.nodes, options.clusterConfig.options) : new Redis(options));
+      ("clusterConfig" in options
+        ? new ioredis.Redis.Cluster(options.clusterConfig.nodes, options.clusterConfig.options)
+        : new ioredis.Redis(options));
 
     this.storeArgs = this.redisCache.options;
     this.isCacheable = this.isCacheableValue =

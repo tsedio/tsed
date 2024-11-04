@@ -1,7 +1,8 @@
 import {setValue} from "@tsed/core";
 import {Configuration, registerProvider, TokenProvider} from "@tsed/di";
 import {Logger} from "@tsed/logger";
-import {Cluster, Redis, RedisOptions} from "ioredis";
+import type {Cluster, Redis, RedisOptions} from "ioredis";
+import ioredis from "ioredis";
 
 import {IORedisConfiguration} from "../domain/IORedisConfiguration.js";
 import {ioRedisStore} from "../domain/IORedisStore.js";
@@ -46,7 +47,7 @@ export function registerConnectionProvider({provide, name = "default"}: CreateCo
           setValue(clusterOptions, "clusterRetryStrategy", retryStrategy);
           setValue(clusterOptions, "redisOptions.reconnectOnError", reconnectOnError);
 
-          connection = new Redis.Cluster(nodes, {
+          connection = new ioredis.Redis.Cluster(nodes, {
             ...clusterOptions,
             lazyConnect: true
           });
@@ -56,14 +57,14 @@ export function registerConnectionProvider({provide, name = "default"}: CreateCo
           setValue(sentinelsOptions, "sentinelRetryStrategy", retryStrategy);
           setValue(sentinelsOptions, "redisOptions.reconnectOnError", reconnectOnError);
 
-          connection = new Redis({
+          connection = new ioredis.Redis({
             name: String(sentinelName),
             sentinels,
             ...sentinelsOptions,
             lazyConnect: true
           });
         } else {
-          connection = new Redis({
+          connection = new ioredis.Redis({
             reconnectOnError,
             ...redisOptions,
             lazyConnect: true
