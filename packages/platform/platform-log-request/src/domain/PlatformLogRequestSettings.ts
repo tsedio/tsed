@@ -1,9 +1,9 @@
-import type {BaseContext} from "@tsed/di";
+import type {DIContext} from "@tsed/di";
 
 export type AlterLogCallback = (
   level: "debug" | "info" | "warn" | "error" | "all",
   obj: Record<string, unknown>,
-  ctx: BaseContext
+  ctx: DIContext
 ) => Record<string, unknown>;
 
 export interface PlatformLogRequestSettings {
@@ -18,7 +18,7 @@ export interface PlatformLogRequestSettings {
   /**
    * A function to log the server response.
    */
-  onLogResponse?: ($ctx: BaseContext) => void;
+  onLogResponse?: ($ctx: DIContext) => void;
 }
 
 declare global {

@@ -1,6 +1,6 @@
-import type {BaseContext} from "@tsed/di";
+import type {DIContext} from "@tsed/di";
 
-export function defaultAlterLog(level: string, obj: Record<string, unknown>, ctx: BaseContext) {
+export function defaultAlterLog(level: string, obj: Record<string, unknown>, ctx: DIContext) {
   const minimalLog = {
     method: ctx.request.method,
     url: ctx.request.url,
