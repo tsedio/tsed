@@ -24,12 +24,7 @@ export class DIContext {
    * Logger attached to the context request.
    */
   get logger() {
-    this.#logger =
-      this.#logger ||
-      new ContextLogger({
-        ...this.opts,
-        logger: logger()
-      });
+    this.#logger = this.#logger || new ContextLogger(this.opts);
     return this.#logger;
   }
 
@@ -83,14 +78,6 @@ export class DIContext {
   destroy(): Promise<any> {
     return Promise.all([this.#container?.destroy(), this.#logger?.flush(true)]);
   }
-
-  // emit(eventName: string, ...args: any[]) {
-  //   return $emit(eventName, ...args);
-  // }
-
-  // runInContext<Result = unknown>(next: (...args: unknown[]) => Result): Promise<Result> {
-  //   return runInContext<Result>(this, next);
-  // }
 
   cache<Value = any>(key: string, cb: () => Value): Value {
     if (!this.has(key)) {

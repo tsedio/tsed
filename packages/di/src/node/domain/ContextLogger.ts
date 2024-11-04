@@ -2,6 +2,7 @@ import {Hooks} from "@tsed/core";
 import {levels, LogLevel} from "@tsed/logger";
 
 import {DILogger} from "../../common/index.js";
+import {logger as injectLogger} from "../fn/logger.js";
 
 export interface ContextLoggerOptions extends Record<string, any> {
   id: string;
@@ -28,7 +29,7 @@ export class ContextLogger {
   constructor({id, logger, dateStart = new Date(), level = "all", maxStackSize = 30, additionalProps}: ContextLoggerOptions) {
     this.dateStart = dateStart;
     this.id = id;
-    this.#logger = logger;
+    this.#logger = logger || injectLogger();
     this.#additionalProps = additionalProps;
     this.level = (LEVELS[level.toUpperCase()] || LEVELS.ALL) as LogLevel;
     this.maxStackSize = maxStackSize;
