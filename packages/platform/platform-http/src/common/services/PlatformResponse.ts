@@ -384,8 +384,6 @@ export class PlatformResponse<Res extends Record<string, any> = any> {
   }
 
   protected end(data?: string | Buffer) {
-    // data = await this.$ctx.injector.alter("$onResponse", data, this.$ctx);
-
     this.raw.send(data);
   }
 }

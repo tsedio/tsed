@@ -19,7 +19,6 @@ describe("useMethodDecorators", () => {
 
     function decorator3(value: any) {
       return (...args: any) => {
-        console.log("===", args);
         args[2].value = () => {
           return "hello value";
         };

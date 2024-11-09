@@ -29,7 +29,6 @@ describe("useDecorators", () => {
   function decorator4(value: any) {
     return (...args: any[]) => {
       args[2].value = () => {
-        console.trace(args);
         return "hello value 4";
       };
     };
