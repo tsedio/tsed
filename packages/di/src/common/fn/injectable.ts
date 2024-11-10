@@ -43,6 +43,7 @@ export function providerBuilder<Provider, Picked extends keyof Provider>(props: 
         };
       },
       {
+        configuration(configuration: any) {},
         factory(factory: any) {
           provider.useFactory = factory;
           return this;

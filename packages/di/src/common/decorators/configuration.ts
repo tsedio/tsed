@@ -1,5 +1,6 @@
-import {DecoratorParameters, decoratorTypeOf, DecoratorTypes, StoreSet} from "@tsed/core";
+import {DecoratorParameters, decoratorTypeOf, DecoratorTypes} from "@tsed/core";
 
+import {configuration} from "../fn/configuration.js";
 import {DIConfiguration} from "../services/DIConfiguration.js";
 import {Inject} from "./inject.js";
 
@@ -8,11 +9,13 @@ import {Inject} from "./inject.js";
  *
  * @decorator
  */
-export function Configuration(configuration: Partial<TsED.Configuration> = {}): Function {
+export function Configuration(): any;
+export function Configuration(settings: Partial<TsED.Configuration>): ClassDecorator;
+export function Configuration(settings: Partial<TsED.Configuration> = {}): Function {
   return (...args: DecoratorParameters) => {
     switch (decoratorTypeOf(args)) {
       case DecoratorTypes.CLASS:
-        StoreSet("configuration", configuration)(args[0]);
+        configuration(args[0], settings);
 
         break;
       default:
