@@ -1,5 +1,5 @@
 import {Configuration} from "@tsed/di";
-import {CalendarsController} from "./controllers/CalendarsController";
+import {CalendarsController} from "./controllers/CalendarsController.js";
 
 @Configuration({
   mount: {

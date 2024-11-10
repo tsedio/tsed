@@ -1,5 +1,4 @@
 import {EnvTypes} from "@tsed/core";
-import {injectable} from "@tsed/di";
 
 export interface ConfigService {
   get(key: string): any;
@@ -17,6 +16,9 @@ export class DevConfigService implements ConfigService {
   }
 }
 
-export const ConfigService = injectable<ConfigService>(Symbol.for("ConfigService"))
-  .class(process.env.NODE_ENV === EnvTypes.PROD ? ProdConfigService : DevConfigService)
-  .token();
+registerProvider({
+  provide: Symbol.for("ConfigService"),
+  deps: [],
+  useClass: process.env.NODE_ENV === EnvTypes.PROD ? ProdConfigService : DevConfigService
+});
+

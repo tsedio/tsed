@@ -26,6 +26,10 @@ function resolveAutoInjectableArgs(token: Type, args: unknown[]) {
   return list;
 }
 
+/**
+ * AutoInjectable decorator is used to automatically inject dependencies in the constructor.
+ * @decorator
+ */
 export function AutoInjectable() {
   return <T extends {new (...args: any[]): NonNullable<unknown>}>(constr: T): T => {
     return class AutoInjectable extends constr {

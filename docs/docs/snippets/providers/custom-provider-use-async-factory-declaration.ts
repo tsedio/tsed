@@ -1,17 +1,27 @@
-import {Configuration, registerProvider} from "@tsed/di";
-import {DatabaseConnection} from "connection-lib";
+import {constant, injectable} from "@tsed/di";
+import {DatabaseConnection, Options} from "connection-lib";
 
-export const CONNECTION = Symbol.for("CONNECTION");
+// add a new property to the Configuration interface
+declare global {
+  namespace TsED {
+    interface Configuration extends Record<string, any> {
+      database: Options;
+    }
+  }
+}
 
-registerProvider({
-  provide: CONNECTION,
-  deps: [Configuration],
-  async useAsyncFactory(settings: Configuration) {
-    const options = settings.get("myOptions");
+export const CONNECTION = injectable<DatabaseConnection>(Symbol.for("CONNECTION"))
+  .asyncFactory(async () => {
+    const options = constant<Options>("database");
     const connection = new DatabaseConnection(options);
 
     await connection.connect();
 
     return connection;
-  }
-});
+  })
+  .hooks({
+    $onDestroy(connection) {
+      return connection.close();
+    }
+  })
+  .token();

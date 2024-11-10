@@ -1,8 +1,7 @@
-import {Injectable} from "@tsed/di";
-import {Calendar} from "../models/Calendar";
+import {injectable} from "@tsed/di";
+import {Calendar} from "../models/Calendar.js";
 
-@Injectable()
-export class CalendarsService {
+export class CalendarService {
   private readonly calendars: Calendar[] = [];
 
   create(calendar: Calendar) {
@@ -13,3 +12,5 @@ export class CalendarsService {
     return this.calendars;
   }
 }
+
+injectable(CalendarsService);

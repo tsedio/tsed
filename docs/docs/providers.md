@@ -6,50 +6,75 @@ meta:
     content: providers di ioc ts.ed express typescript node.js javascript decorators jsonschema class models
 ---
 
-# Providers
+# DI & Providers
 
 Basically, almost everything may be considered as a provider – service, factory, interceptors, and so on. All of them
 can inject dependencies, meaning, they can create various relationships with each other. But in fact, a provider is
 nothing else than just a simple class annotated with an `@Injectable()` decorator.
 
-<figure><img src="./assets/providers.png" style="max-height: 300px; padding: 5px; background-color: #fff"></figure>
+![Providers](./assets/providers.png)
 
 In controllers chapter, we've seen how to build a Controller, handle a request and create a response. Controllers shall
 handle HTTP requests and delegate complex tasks to the **providers**.
 
-The providers are plain javascript class and use one of these decorators on top of them. Here is the list:
+Providers are plain javascript classes and use one of these decorators on top of them. Here is the list:
 
-<ApiList query="['Injectable', 'Module', 'Service', 'Controller', 'Interceptor', 'JsonMapper', 'Middleware', 'Protocol'].indexOf(symbolName) > -1" />
+<ApiList query="['Injectable', 'Module', 'Service', 'Controller', 'Interceptor', 'Middleware', 'Protocol'].indexOf(symbolName) > -1" />
 
-## Services
+::: tip
+Since v8, you can also use functional API to define your providers using @@injectable@@ function. This function let you
+defined your provider without using decorators and let you define your provider in a more functional way.
+
+This page will show you how to use both API to define your providers.
+:::
+
+## Injectable
 
 Let's start by creating a simple CalendarService provider.
 
-<<< @/docs/snippets/providers/getting-started-service.ts
+::: code-group
 
-::: tip Note
+<<< @/docs/snippets/providers/decorators/getting-started-service.ts [Decorators]
+<<< @/docs/snippets/providers/fn/getting-started-service.ts [Functional API]
 
-@@Service@@ and @@Injectable@@ have the same effect. @@Injectable@@ accepts options, @@Service@@ does not.
-A Service is always configured as `singleton`.
+:::
 
-Example with @@Injectable@:
+> @@Service@@ and @@Injectable@@ have the same effect. @@Injectable@@ accepts options, @@Service@@ does not.
+> A Service is always configured as `singleton`.
 
-<<< @/docs/snippets/providers/getting-started-injectable.ts
+Example with @@Injectable@@:
+
+::: code-group
+
+<<< @/docs/snippets/providers/decorators/getting-started-injectable.ts [Decorators]
+<<< @/docs/snippets/providers/fn/getting-started-injectable.ts [Functional API]
 
 :::
 
 Now we have the service class already done, let's use it inside the `CalendarsController`:
 
-<<< @/docs/snippets/providers/getting-started-controller.ts
+::: code-group
+
+<<< @/docs/snippets/providers/decorators/getting-started-controller.ts [Decorators]
+<<< @/docs/snippets/providers/fn/getting-started-controller.ts [Functional API]
+<<< @/docs/snippets/providers/tests/getting-started-controller.spec.ts [Test]
+:::
+
+> Functional API doesn't provides alternative for @@Get@@ and @@BodyParams@@ decorators at the moment.
 
 Finally, we can load the injector and use it:
 
-<<< @/docs/snippets/providers/getting-started-serverloader.ts
+::: code-group
+
+<<< @/docs/snippets/providers/decorators/getting-started-server.ts [Decorators]
+<<< @/docs/snippets/providers/fn/getting-started-server.ts [Functional API]
+
+:::
 
 ::: tip NOTE
 
 You'll notice that we only import the CalendarsController and not the CalendarsService as that would be the case
-with other DIs (Angular / inversify). Ts.ED will discover automatically services/providers as soon as it is imported
+with other DIs (Angular / inversify). Ts.ED will discover automatically services/providers as soon as it's imported
 into your application via an import ES6.
 
 In most case, if a service is used by a controller or another service which is used by a controller, it's not necessary
@@ -61,16 +86,47 @@ to import it explicitly!
 Ts.ED is built around the **dependency injection** pattern. TypeScript emits type metadata on the constructor which will
 be exploited by the @@InjectorService@@ to resolve dependencies automatically.
 
-```typescript
+::: code-group
+
+```typescript [Descorators]
 import {Injectable} from "@tsed/di";
 
 @Injectable()
 class MyInjectable {
-  constructor(private calendarsService: CalendarsService) {}
+  @Inject()
+  private calendarsService: CalendarsService;
+
+  // or through the constructor
+  constructor(private calendarsService2: CalendarsService) {
+    console.log(calendarsService);
+    console.log(calendarsService2);
+    console.log(calendarsService === calendarsService2); // true
+  }
 }
 ```
 
-It's also possible to inject a service on a property by using @@Inject@@ decorator:
+```typescript [Functional API]
+import {Injectable} from "@tsed/di";
+
+@Injectable()
+class MyInjectable {
+  private calendarsService = inject(CalendarsService);
+
+  constructor() {
+    const calendarsService2 = inject(CalendarsService);
+    console.log(calendarsService);
+    console.log(calendarsService2);
+    console.log(calendarsService === calendarsService2); // true
+  }
+}
+```
+
+:::
+
+::: warning Important
+With v7, accessing to a property decorated with @@Inject()@@, @@Constant@@, @@Value@@ in the constructor is not
+possible. You have to use the
+`$onInit()` hook to access to the injected service.
 
 ```typescript
 import {Injectable, Inject} from "@tsed/di";
@@ -86,8 +142,22 @@ class MyInjectable {
 }
 ```
 
-In this case, the service won't be usable in the constructor. If you have to do something with the injected service,
-you can use the `$onInit` hook.
+The v8 solve that, and now, you can access to the injected
+service in the constructor.
+:::
+
+Note that, the @@inject@@ function can be used anywhere in your code, not only in a DI context:
+
+```typescript
+function getCalendarsService(): CalendarsService {
+  const calendarsService = inject(CalendarsService);
+  console.log(calendarsService);
+
+  // do something
+
+  return calendarsService;
+}
+```
 
 ## Scopes
 
@@ -98,28 +168,175 @@ techniques [here](/docs/injection-scopes.md).
 
 ## Binding configuration
 
-All configurations set with @@Module@@ or @@Configuration@@ can be retrieved with @@Constant@@ and @@Value@@ decorators.
-These decorators can be used with:
+All configurations set with @@Module@@ or @@Configuration@@ can be retrieved with @@Constant@@ and @@Value@@ decorators,
+or
+with @@configuration@@, @@constant@@, and @@refValue@@ functions. It supports lodash path to retrieve nested properties.
 
-- [Service](/docs/services.md#services),
-- [Controller](/docs/controllers.md),
-- [Middleware](/docs/middlewares.md),
-- [Pipes](/docs/pipes.md).
+By using these decorators or functions, you can more easily decouple your code from your server configurations and
+therefore
+more easily test your code independently of environment variables managed by files (.env, nconf, etc.).
 
-@@Constant@@ and @@Value@@ accept an expression as parameter to inspect the configuration object and return the value.
+Instead of doing this:
 
-<<< @/docs/snippets/providers/binding-configuration.ts
+```ts
+import {Injectable} from "@tsed/di";
+
+@Injectable()
+class MyService {
+  doSomething() {
+    const value = process.env.MY_VALUE;
+
+    // your code
+  }
+}
+```
+
+Do this:
+
+::: code-group
+<<< @/docs/snippets/providers/decorators/binding-constant-best-practice.ts [Decorators]
+<<< @/docs/snippets/providers/fn/binding-constant-best-practice.ts [Functional API]
+:::
+
+Then, you can test your code like this:
+
+```ts
+import {PlatformTest} from "@tsed/platform-http/testing";
+import {inject} from "@tsed/di";
+import {MyService} from "./MyService.js";
+
+describe("MyService", () => {
+  describe("when MY_VALUE is given", () => {
+    beforeEach(() =>
+      PlatformTest.create({
+        envs: {
+          MY_VALUE: "myValue"
+        }
+      })
+    );
+    afterEach(() => PlatformTest.reset());
+
+    it("should do something", () => {
+      const myService = inject(MyService);
+
+      expect(myService.doSomething()).toBe("myValue");
+    });
+  });
+
+  describe("when MY_VALUE IS undefined", () => {
+    beforeEach(() => PlatformTest.create());
+    afterEach(() => PlatformTest.reset());
+
+    it("should do something", () => {
+      const myService = inject(MyService);
+
+      expect(myService.doSomething()).toBe("myValue");
+    });
+  });
+});
+```
+
+Testing different configurations is now much easier.
+
+### Constant
+
+The @@Constant@@ decorator or @@constant@@ function is used to inject a constant value into a provider.
+
+::: code-group
+<<< @/docs/snippets/providers/decorators/binding-constant.ts [Decorators]
+<<< @/docs/snippets/providers/fn/binding-constant.ts [Functional API]
+:::
 
 ::: warning
-
-@@Constant@@ returns an Object.freeze() value.
+@@Constant@@ returns an immutable value using `Object.freeze()`. If you need to inject a mutable value, use @@Value@@
+instead.
 :::
 
-::: tip NOTE
+Note that, @@constant@@ function can be used anywhere in your code, not only in a DI context:
 
-The values for the decorated properties aren't available on constructor. Use \$onInit() hook to use the
-value.
+```ts
+function getMyValue(): string {
+  const value = constant<string>("MY_VALUE");
+  console.log(value); // "myValue"
+
+  // do something
+
+  return value;
+}
+
+@Injectable()
+class MyService {
+  constructor() {
+    const value = getMyValue();
+    console.log(value); // "myValue"
+  }
+}
+
+// server.ts
+import {configuration} from "@tsed/di";
+
+class Server {}
+
+configuration(Server, {
+  MY_VALUE: "myValue"
+});
+```
+
+Default value can be set with the second argument of the @@Constant@@ / @@constant@@:
+
+```ts
+@Constant("MY_VALUE", "defaultValue")
+```
+
+```ts
+constant("MY_VALUE", "defaultValue");
+```
+
+::: tip Note
+@@constant@@ try to infer the type from the default value. But sometimes, TypeScript will infer the unexpected type if
+you give
+a `null` value. In this case, you can specify the type explicitly:
+
+```ts
+constant<string | null>("MY_VALUE", null);
+```
+
 :::
+
+### Value/refValue
+
+The @@Value@@ decorator or @@refValue@@ function is used to inject a mutable value into a provider.
+
+::: code-group
+<<< @/docs/snippets/providers/decorators/binding-value.ts [Decorators]
+<<< @/docs/snippets/providers/fn/binding-ref-value.ts [Functional API]
+:::
+
+Note that, @@value@@ function can be used anywhere in your code, not only in a DI context:
+
+```ts
+function getMyValue(): string {
+  const value = value<string>("MY_VALUE");
+  console.log(value); // "myValue"
+
+  // do something
+
+  return value;
+}
+
+// or
+const current = getMyValue();
+console.log(current.value);
+
+// or
+@Injectable()
+class MyService {
+  constructor() {
+    const current = getMyValue();
+    console.log(current.value); // "myValue"
+  }
+}
+```
 
 ## Custom providers
 
@@ -141,75 +358,91 @@ Using @@Opts@@ decorator on a constructor parameter changes the scope of the pro
 to `ProviderScope.INSTANCE`.
 :::
 
-## Inject many provider <Badge text="6.129.0+"/>
+## Inject many provider
 
-This feature simplifies dependency management when working with multiple implementations of the same interface using type code.
+This feature simplifies dependency management when working with multiple implementations of the same interface using
+type code.
 
-If users use the same token when registering providers, the IoC container should exchange a token for a list of instances. Let's consider the following real example:
+Using a token, you can configure injectable classe to be resolved as an array of instances using `type` option:
 
-```typescript
-interface Bar {
-  type: string;
-}
+::: code-group
+<<< @/docs/snippets/providers/decorators/inject-many-declaration.ts [Decorators]
+<<< @/docs/snippets/providers/fn/inject-many-declaration.ts [Functional API]
+:::
 
-const Bar: unique symbol = Symbol("Bar");
+Now, we can use the `Bar` token to inject all instances of `Bar` identified by his `type`:
 
-@Injectable({type: Bar})
-class Foo implements Bar {
-  private readonly type = "foo";
-}
+::: code-group
+<<< @/docs/snippets/providers/decorators/inject-many-usage.ts [Decorators]
+<<< @/docs/snippets/providers/fn/inject-many-usage.ts [Functional API]
+:::
 
-@Injectable({type: Bar})
-class Baz implements Bar {
-  private readonly type = "baz";
-}
-```
+Alternatively, you can do this:
 
-Now as a user, I would like to create a [registry](https://www.martinfowler.com/eaaCatalog/registry.html) and retrieve an appropriate instance by type:
+```ts
+import {Controller, injectMany} from "@tsed/di";
+import {Post} from "@tsed/schema";
+import {BodyParams} from "@tsed/platform-params";
 
-```typescript
 @Controller("/some")
 export class SomeController {
-  constructor(@Inject(Bar) private readonly bars: Bar[]) {}
-
   @Post()
-  async create(@Body("type") type: "baz" | "foo") {
-    const bar: Bar | undefined = this.bars.find((x) => x.type === type);
+  async create(@BodyParams("type") type: "baz" | "foo") {
+    const bar = injectMany<Bar>(Bar).find((x) => x.type === type);
   }
 }
 ```
 
-or in the following way as well:
+### AutoInjectable <Badge text="7.82.0+" />
 
-```typescript
-@Controller("/some")
-export class SomeController {
-  constructor(private readonly injector: InjectorService) {}
+The @@AutoInjectable@@ decorator let you create a class using `new` that will automatically inject all dependencies from his
+constructor signature.
 
-  @Post()
-  async create(@Body("type") type: "baz" | "foo") {
-    const bars: Bar[] = this.injector.getAll<Bar>(Bar);
-    const bar: Bar | undefined = bars.find((x) => x.type === type);
+```ts
+import {AutoInjectable} from "@tsed/di";
+import {MyOtherService} from "./MyOtherService.js";
 
-    // your code
+@AutoInjectable()
+class MyService {
+  constructor(
+    opts: MyOptions,
+    private myOtherService?: MyOtherService
+  ) {
+    console.log(myOtherService);
+    console.log(opts);
   }
 }
+
+const myService = new MyService({
+  prop: "value"
+});
 ```
 
-## Override an injection token <Badge text="6.93.0+"/>
+In this example, we can see that `MyService` is created using `new`. We can give some options to the constructor and the rest of
+the dependencies will be injected automatically.
 
-By default, the `@Injectable()` decorator registers a class provider using an injection token obtained from the metadata generated by TypeScript.
-That means that you have to use a concrete class as a token to resolve a provider.
+::: warning
+@@AutoInjectable@@ decorator doesn't declare the class as a provider.
+:::
 
-To override an injection token, that is needed to resolve an instance, use the `@Injectable` decorator like this:
+## Interface abstraction
 
-<<< @/docs/snippets/providers/override-injection-token.ts
+In some cases, you may want to use an interface to abstract the implementation of a service. This is a common pattern in
+TypeScript and can be achieved by using the `provide` option in the `@Injectable` decorator or the `injectable().class()` function.
 
-An injection token may be either a string, a symbol, a class constructor.
+::: code-group
+<<< @/docs/snippets/providers/decorators/interface-abstraction-declaration.ts [Decorators]
+<<< @/docs/snippets/providers/fn/interface-abstraction-declaration.ts [Functional API]
+:::
 
-> Just don't forget to import your provider in your project !
+Usage:
 
-## Import a provider from configuration <Badge text="7.74.0+" />
+::: code-group
+<<< @/docs/snippets/providers/decorators/interface-abstraction-usage.ts [Decorators]
+<<< @/docs/snippets/providers/fn/interface-abstraction-usage.ts [Functional API]
+:::
+
+## Define provider by environment <Badge text="7.74.0+" />
 
 Sometimes you need to import a provider depending on the environment or depending on a runtime context.
 
@@ -217,46 +450,23 @@ This is possible using the DI configuration `imports` option that let you fine-t
 
 Here is an example of how to import a provider from a configuration:
 
-```ts
-import {Configuration} from "@tsed/di";
+<<< @/docs/snippets/providers/decorators/define-provider-by-environment.ts
 
-const TimeslotsRepository = Symbol.for("TimeslotsRepository");
+You can also use @@injectable@@ function to define your provider by environment:
 
-interface TimeslotsRepository {
-  findTimeslots(): Promise<any[]>;
-}
+<<< @/docs/snippets/providers/fn/define-provider-by-environment.ts
 
-class DevTimeslotsRepository implements TimeslotsRepository {
-  findTimeslots(): Promise<any[]> {
-    return ["hello dev"];
-  }
-}
-
-class ProdTimeslotsRepository implements TimeslotsRepository {
-  findTimeslots(): Promise<any[]> {
-    return ["hello prod"];
-  }
-}
-
-@Configuration({
-  imports: [
-    {
-      token: "TimeslotsRepository",
-      useClass: process.env.NODE_ENV === "production" ? ProdTimeslotsRepository : DevTimeslotsRepository
-    }
-  ]
-})
-export class Server {}
-```
-
-## Lazy load provider <Badge text="6.81.0+"/>
+## Lazy load provider
 
 By default, modules are eagerly loaded, which means that as soon as the application loads, so do all the modules,
 whether or not they are immediately necessary. While this is fine for most applications,
-it may become a bottleneck for apps running in the **serverless environment**, where the startup latency `("cold start")` is crucial.
+it may become a bottleneck for apps running in the **serverless environment**, where the startup latency
+`("cold start")` is crucial.
 
-Lazy loading can help decrease bootstrap time by loading only modules required by the specific serverless function invocation.
-In addition, you could also load other modules asynchronously once the serverless function is "warm" to speed-up the bootstrap time for subsequent calls even further (deferred modules registration).
+Lazy loading can help decrease bootstrap time by loading only modules required by the specific serverless function
+invocation.
+In addition, you could also load other modules asynchronously once the serverless function is "warm" to speed-up the
+bootstrap time for subsequent calls even further (deferred modules registration).
 
 You can read more about these techniques [here](/docs/providers-lazy-loading.md).
 
@@ -265,6 +475,13 @@ You can read more about these techniques [here](/docs/providers-lazy-loading.md)
 Any provider (Provider, Service, Controller, Middleware, etc...) already registered by Ts.ED or third-party can be
 overridden by your own class.
 
-<<< @/docs/snippets/providers/override-provider.ts
+To override an existing provider, you can reuse the token to register your own provider
+using @@Injectable@@, @@OverrideProvider@@ decorators or @@injectable@@ function:
+
+::: code-group
+<<< @/docs/snippets/providers/decorators/override-existing-provider.ts [Decorators]
+<<< @/docs/snippets/providers/decorators/override-provider.ts [Decorators v7]
+<<< @/docs/snippets/providers/fn/override-existing-provider.ts [Functional API]
+:::
 
 > Just don't forget to import your provider in your project !

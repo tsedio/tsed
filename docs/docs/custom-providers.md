@@ -6,25 +6,38 @@ external libraries, or pre-calculated values that depend on few other defined pr
 
 Moreover, you are able to override default implementations, e.g. use different classes or make use of various test doubles (for testing purposes) when needed.
 
-One essential thing that you should always keep in mind is that Ts.ED uses @@TokenProvider@@ to identify a depencency.
+One essential thing that you should always keep in mind is that Ts.ED uses @@TokenProvider@@ to identify a dependency.
 
 Usually, the auto-generated tokens are equal to classes. If you want to create a custom provider, you'd need to choose a token.
 Mostly, the custom tokens are represented by either plain strings or symbols.
 
 Let's go through the available options.
 
-## Use Value
+Custom providers can also use [hooks](/docs/hooks.md) to handle Ts.ED lifecycle events.
+
+## Register Value
 
 The `useValue` syntax is useful when it comes to either define a constant value, put external library into DI container,
 or replace a real implementation with the mock object.
 
-<<< @/docs/snippets/providers/custom-provider-use-value-declaration.ts
+::: code-group
+<<< @/docs/snippets/providers/custom-provider-use-value-declaration.ts [v8]
+<<< @/docs/snippets/providers/v7/custom-provider-use-value-declaration.ts [Legacy]
+:::
 
 In order to inject custom provider, we use the @@Inject@@ decorator. This decorator takes a single argument - the token.
 
-<<< @/docs/snippets/providers/custom-provider-use-value-usage.ts
+::: code-group
+<<< @/docs/snippets/providers/decorators/custom-provider-use-value-usage.ts [Decorators]
+<<< @/docs/snippets/providers/fn/custom-provider-use-value-usage.ts [Functional API]
+:::
 
-## Use Factory
+::: warning
+When you declare a provider using a Symbol as a token, you must use the same Symbol to @@Inject@@ decorator.
+TypeScript set Object as metadata key for the Symbol token.
+:::
+
+## Register Factory
 
 The `useFactory` is a way of creating providers dynamically.
 The actual provider will be equal to a returned value of the factory function.
@@ -35,40 +48,56 @@ It means that factory may accept arguments, that DI will resolve and pass during
 
 In order to inject a custom provider, we use the @@Inject@@ decorator. This decorator takes a single argument - the token.
 
-<<< @/docs/snippets/providers/custom-provider-use-value-usage.ts
-
-::: tip
-Since v6.110.0, factory and custom provider can register his own [hooks](/docs/hooks.md)!
+::: code-group
+<<< @/docs/snippets/providers/decorators/custom-provider-use-value-usage.ts [Decorators]
+<<< @/docs/snippets/providers/fn/custom-provider-use-value-usage.ts [Functional API]
 :::
 
-## Use Async Factory
+::: warning
+When you declare a provider using a Symbol as a token, you must use the same Symbol to @@Inject@@ decorator.
+TypeScript set Object as metadata key for the Symbol token.
+:::
+
+## Register Async Factory
 
 The `useAsyncFactory` is a way of creating asynchronous providers dynamically.
 The actual provider will be equal to a returned value of the factory function.
 The factory function can either depend on several different providers or stay completely independent.
 It means that factory may accept arguments, that DI will resolve and pass during the instantiation process.
 
-<<< @/docs/snippets/providers/custom-provider-use-async-factory-declaration.ts
+::: code-group
+<<< @/docs/snippets/providers/custom-provider-use-async-factory-declaration.ts [v8]
+<<< @/docs/snippets/providers/v7/custom-provider-use-async-factory-declaration.ts [Legacy]
+:::
 
 In order to inject a custom provider, we use the @@Inject@@ decorator. This decorator takes a single argument - the token.
 
-<<< @/docs/snippets/providers/custom-provider-use-value-usage.ts
+::: code-group
+<<< @/docs/snippets/providers/decorators/custom-provider-use-value-usage.ts [Decorators]
+<<< @/docs/snippets/providers/fn/custom-provider-use-value-usage.ts [Functional API]
+:::
 
 ::: warning
-Async factory will always be considered as `SINGLETON`. It is not possible to use other scopes like `REQUEST` and `INSTANCE` because asynchronous providers are resolved on server loading.
+Because async factories are resolved on server loading, the scope of the provider created by useAsyncFactory will always be considered as `SINGLETON`.
 :::
 
-## Use Class
+## Register Class
 
 The `useClass` syntax is similar to register provider via decorator. But it allows you to use different classes per chosen factors.
-For example you can change the class depending on the environment profile `production` or `development`.
+For example, you can change the class depending on the environment profile `production` or `development`.
 
-<<< @/docs/snippets/providers/custom-provider-use-class-declaration.ts
-
-::: tip
-registerProvider can be used to add a provider or override an existing provider (like @@OverrideProvider@@ decorator).
+::: code-group
+<<< @/docs/snippets/providers/custom-provider-use-class-declaration.ts [v8]
+<<< @/docs/snippets/providers/v7/custom-provider-use-class-declaration.ts [Legacy]
 :::
 
-In this case, even if any class depends on ConfigService, Ts.ED will inject an instance of the provided class (`ConfigService` or `DevConfigService`) instead.
+In this case, even if any class depends on ConfigService, Ts.ED will inject an instance of the provided class (`ProdConfigService` or `DevConfigService`) instead.
 
-<<< @/docs/snippets/providers/custom-provider-use-class-usage.ts
+::: code-group
+<<< @/docs/snippets/providers/decorators/custom-provider-use-class-usage.ts [Decorators]
+<<< @/docs/snippets/providers/fn/custom-provider-use-class-usage.ts [Function API]
+:::
+
+::: tip
+@@injectable@@ can be also used to add a provider or override an existing provider (like @@OverrideProvider@@ decorator).
+:::

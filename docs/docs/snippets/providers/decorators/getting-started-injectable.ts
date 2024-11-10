@@ -1,5 +1,5 @@
 import {Injectable, ProviderScope, ProviderType} from "@tsed/di";
-import {Calendar} from "../models/Calendar";
+import {Calendar} from "../models/Calendar.js";
 
 @Injectable({
   type: ProviderType.SERVICE,

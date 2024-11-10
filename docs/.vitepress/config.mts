@@ -82,7 +82,7 @@ export default defineConfig({
             link: `/docs/controllers`
           },
           {
-            text: "Providers",
+            text: "DI & Providers",
             link: `/docs/providers`
           },
           {
@@ -340,7 +340,7 @@ export default defineConfig({
               link: "/docs/controllers"
             },
             {
-              text: "Providers",
+              text: "DI & Providers",
               link: `/docs/providers`
             },
             {

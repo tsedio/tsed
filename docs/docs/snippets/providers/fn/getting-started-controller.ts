@@ -1,12 +1,11 @@
 import {BodyParams} from "@tsed/platform-params";
 import {Get, Post} from "@tsed/schema";
-import {Controller} from "@tsed/di";
-import {Calendar} from "../models/Calendar";
-import {CalendarsService} from "../services/CalendarsService";
+import {controller} from "@tsed/di";
+import {Calendar} from "../models/Calendar.js";
+import {CalendarsService} from "../services/CalendarsService.js";
 
-@Controller("/calendars")
 export class CalendarsController {
-  constructor(private readonly calendarsService: CalendarsService) {}
+  private readonly calendarsService = inject(CalendarsService);
 
   @Post()
   create(@BodyParams() calendar: Calendar) {
@@ -18,3 +17,6 @@ export class CalendarsController {
     return this.calendarsService.findAll();
   }
 }
+
+controller(CalendarsController)
+  .path("/calendars");
