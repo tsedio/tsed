@@ -26,6 +26,9 @@ Since v8, you can also use functional API to define your providers using @@injec
 defined your provider without using decorators and let you define your provider in a more functional way.
 
 This page will show you how to use both API to define your providers.
+
+<ApiList query="['injectable', 'inject', 'lazyInject', 'constant', 'refValue', 'configuration'].indexOf(symbolName) > -1" />
+
 :::
 
 ## Injectable

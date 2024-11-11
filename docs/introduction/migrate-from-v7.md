@@ -148,6 +148,8 @@ class body. This feature is not supported by Ts.ED v8.
 ```json
 {
   "compilerOptions": {
+    // Critical for Ts.ED v8 compatibility
+    // Ensures proper behavior of class field definitions
     "useDefineForClassFields": false
   }
 }
@@ -245,7 +247,7 @@ v7 is already compatible with ESM, so you can start to switch your code base to 
 
 Here are some steps to help you to switch your code base to ESM.
 
-#### add `.js` extension in your imports statements.
+### add `.js` extension in your imports statements.
 
 If you use CommonJS modules, you have to add the `.js` extension in your import statements. For example:
 
@@ -402,8 +404,8 @@ Edit the package.json:
 This configuration use Node.js loader to convert TypeScript to JavaScript (e.g: `--import`). There is no need to compile your code
 on disk before running it.
 
-You can also keep loaders for production mode. We have some projects in this mode, and it works well without any issues and performance loss.
-DX are really improved with this configuration.
+You can also keep loaders for production mode. We have some projects in this mode, it works well without any issues and performance loss.
+DX is really improved with this configuration.
 
 `--import` differs from `--require` because, it uses Node.js workers to transform code on the fly without polluting the global runtime scope,
 while `--require` will load the typescript compiler in the global scope.
@@ -412,7 +414,7 @@ Don't forget to set `noEmit: true` in your `tsconfig.json` file if you don't wan
 
 :::
 
-Now, you can run your application with `npm start` or `yarn start` and debug you code.
+Now, you can run your application with `npm start` or `yarn start` and debug your code.
 
 ## Replace barrelsby by @tsed/barrels
 
@@ -441,7 +443,7 @@ Then update your `package.json` file:
 
 ## Update dependencies to v8
 
-You code base works on v7 with ESM. Now, you can update your dependencies to v8. You can update all dependencies at once to v8 and `@tsed/cli-*` to v6.
+Your code base works on v7 with ESM. Now, you can update your dependencies to v8. You can update all dependencies at once to v8 and `@tsed/cli-*` to v6.
 
 ```diff
 {
@@ -531,7 +533,7 @@ This code example will add the `tenant_id` to the log object when the log level 
 
 V8 comes with numerous optimizations to reduce the code size. But to not break your code, we have to keep some features through the `@tsed/common` package.
 
-To enable these optimization, you have to replace `@tsed/common` by `@tsed/platform-http`.
+To enable these optimizations, you have to replace `@tsed/common` by `@tsed/platform-http`.
 
 Here the list of optimization of `@tsed/platform-http`:
 
