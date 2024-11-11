@@ -10,6 +10,7 @@ import HomeTabTerminalNpm from "@tsed/vitepress-theme/organisms/home/terminal/Ho
 import HomeTabTerminalYarn from "@tsed/vitepress-theme/organisms/home/terminal/HomeTabTerminalYarn.vue";
 import HomeTabTerminalPnpm from "@tsed/vitepress-theme/organisms/home/terminal/HomeTabTerminalPnpm.vue";
 import HomeTabTerminalBun from "@tsed/vitepress-theme/organisms/home/terminal/HomeTabTerminalBun.vue";
+import "./style.css";
 
 export default {
   extends: DefaultTheme,

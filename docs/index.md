@@ -189,3 +189,27 @@ partners:
     src: /partners/schnell.svg
     class: "max-w-[120px]"
 ---
+
+<script setup>
+import HomeContainer from "@tsed/vitepress-theme/organisms/home/HomeContainer.vue";
+import { VPTeamMembers } from "vitepress/theme";
+import team from "../team.json";
+
+const members = team.map((member) => {
+   return {
+     avatar: member.src,
+     name: member.title + " - " + member.job,
+     title: member.role,
+     links: [
+        { icon: "github", link: "https://github.com/" + member.github },
+        member.twitter && { icon: "twitter", link: "https://x.com/" + member.twitter }
+     ].filter(Boolean)
+   };
+});
+</script>
+
+<HomeContainer animate class="mx-0 px-0">
+   <div class="text-2xl sm:text-5xl text-center pb-5 mt-20">Team members</div>
+
+   <VPTeamMembers v-lazyobserver animate size="small" :members="members" />
+</HomeContainer>
