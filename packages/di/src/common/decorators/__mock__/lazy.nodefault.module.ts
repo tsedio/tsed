@@ -1,7 +1,7 @@
 import {Injectable} from "../injectable.js";
 
 @Injectable()
-export class MyLazyModule {
+export default class MyLazyModule {
   called = false;
   $onInit() {
     this.called = true;

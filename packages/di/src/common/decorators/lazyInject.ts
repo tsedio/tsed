@@ -1,6 +1,30 @@
-import {catchError, importPackage} from "@tsed/core";
+import {catchError, isFunction} from "@tsed/core";
 
-import {injector} from "../fn/injector.js";
+import {lazyInject, optionalLazyInject} from "../fn/lazyInject.js";
+
+function mapOptions(args: any[], optional = false) {
+  function wrap(key: string, resolver: any) {
+    return async () => {
+      try {
+        const {[key]: token} = await resolver();
+
+        return {default: token};
+      } catch (er) {
+        if (!optional) {
+          throw er;
+        }
+
+        return;
+      }
+    };
+  }
+
+  if (isFunction(args[0])) {
+    return wrap("default", args[0]);
+  }
+
+  return wrap(args[0], args[1]);
+}
 
 /**
  * Lazy load a provider from his package and invoke only when the provider is used
@@ -10,42 +34,24 @@ import {injector} from "../fn/injector.js";
  *
  * @Injectable()
  * export class MyService {
- *   @LazyInject("PlatformException", () => import("@tsed/platform-exceptions"))
+ *   @LazyInject(() => import("@tsed/platform-exceptions"))
  *   exceptions: Promise<PlatformException>;
  * }
  * ```
- *
- * @param key
- * @param packageName
- * @param resolver
- * @param optional
+ *s
  * @returns {Function}
  * @decorator
  */
-export function LazyInject(
-  key: string,
-  resolver: () => any,
-  {optional = false, packageName = resolver.toString()}: {optional?: boolean; packageName?: string} = {}
-): PropertyDecorator {
-  return (target: any, propertyKey: string | symbol): any | void => {
-    let bean: any, token: any;
+export function LazyInject(resolver: () => Promise<{default: unknown}>): PropertyDecorator;
+export function LazyInject(key: string, resolver: () => Promise<{default: unknown}>): PropertyDecorator;
+export function LazyInject(...args: any[]): PropertyDecorator {
+  let resolver = mapOptions(args);
 
+  return (target: any, propertyKey: string | symbol): any | void => {
     catchError(() => Reflect.deleteProperty(target, propertyKey));
     Reflect.defineProperty(target, propertyKey, {
       async get() {
-        if (!token || !bean) {
-          const exports = await importPackage(packageName, resolver, optional);
-          token = exports[key];
-          if (!token) {
-            if (!optional) {
-              throw new Error(`Unable to lazy load the "${key}". The token isn\'t a valid token provider.`);
-            }
-          }
-
-          bean = token ? await injector().lazyInvoke(token) : {};
-        }
-
-        return bean;
+        return lazyInject<any>(resolver as any);
       }
     });
   };
@@ -59,16 +65,24 @@ export function LazyInject(
  *
  * @Injectable()
  * export class MyService {
- *   @OptionalLazyInject("@tsed/platform-exceptions")
+ *   @OptionalLazyInject(() => import("@tsed/platform-exceptions"))
  *   exceptions: Promise<PlatformException>;
  * }
  * ```
  *
- * @param key
- * @param resolver
- * @returns {Function}
  * @decorator
  */
-export function OptionalLazyInject(key: string, resolver: () => any): PropertyDecorator {
-  return (LazyInject as any)(key, resolver, {optional: true});
+export function OptionalLazyInject(resolver: () => Promise<{default: unknown}>): PropertyDecorator;
+export function OptionalLazyInject(key: string, resolver: () => Promise<{default: unknown}>): PropertyDecorator;
+export function OptionalLazyInject(...args: any[]): PropertyDecorator {
+  let resolver = mapOptions(args, true);
+
+  return (target: any, propertyKey: string | symbol): any | void => {
+    catchError(() => Reflect.deleteProperty(target, propertyKey));
+    Reflect.defineProperty(target, propertyKey, {
+      async get() {
+        return optionalLazyInject<any>(resolver as any);
+      }
+    });
+  };
 }

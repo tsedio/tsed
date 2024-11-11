@@ -59,9 +59,9 @@ import {DIConfiguration} from "./DIConfiguration.js";
 export class InjectorService extends Container {
   public settings: DIConfiguration = new DIConfiguration();
   public logger: DILogger = console;
+  readonly hooks = new Hooks();
   private resolvedConfiguration: boolean = false;
   #cache = new LocalsContainer();
-  readonly hooks = new Hooks();
 
   constructor() {
     super();
@@ -359,20 +359,6 @@ export class InjectorService extends Container {
     });
 
     this.resolvedConfiguration = true;
-  }
-
-  async lazyInvoke<T = any>(token: TokenProvider) {
-    let instance = this.getInstance(token);
-
-    if (!instance) {
-      instance = await this.invoke<T>(token);
-
-      if (isFunction(instance?.$onInit)) {
-        await instance.$onInit();
-      }
-    }
-
-    return instance;
   }
 
   /**
