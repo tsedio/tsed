@@ -26,7 +26,6 @@ export * from "./utils/decorators/useDecorators.js";
 export * from "./utils/decorators/useMethodDecorators.js";
 export * from "./utils/getRandomId.js";
 export * from "./utils/http/getHostInfoFromPort.js";
-export * from "./utils/imports/importPackage.js";
 export * from "./utils/objects/ancestorOf.js";
 export * from "./utils/objects/ancestorsOf.js";
 export * from "./utils/objects/classOf.js";
