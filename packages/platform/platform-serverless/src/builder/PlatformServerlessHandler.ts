@@ -22,7 +22,7 @@ export class PlatformServerlessHandler {
   @Inject()
   protected params: PlatformParams;
 
-  @LazyInject("PlatformExceptions", () => import("@tsed/platform-exceptions"))
+  @LazyInject(() => import("@tsed/platform-exceptions"))
   protected exceptionsManager: Promise<PlatformExceptions>;
 
   createHandler(token: TokenProvider, propertyKey: string | symbol) {

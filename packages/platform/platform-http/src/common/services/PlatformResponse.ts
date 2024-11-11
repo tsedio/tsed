@@ -1,5 +1,5 @@
 import {isArray, isBoolean, isNumber, isStream, isString} from "@tsed/core";
-import {Injectable, ProviderScope, Scope} from "@tsed/di";
+import {Injectable, lazyInject, ProviderScope, Scope} from "@tsed/di";
 import {getStatusMessage} from "@tsed/schema";
 import encodeUrl from "encodeurl";
 import {OutgoingHttpHeaders, ServerResponse} from "http";
@@ -260,8 +260,7 @@ export class PlatformResponse<Res extends Record<string, any> = any> {
    * @param options
    */
   async render(path: string, options: any = {}) {
-    const {PlatformViews} = await import("@tsed/platform-views");
-    const platformViews = await this.$ctx.injector.lazyInvoke(PlatformViews);
+    const platformViews = await lazyInject(() => import("@tsed/platform-views"));
 
     return platformViews.render(path, {
       ...this.locals,

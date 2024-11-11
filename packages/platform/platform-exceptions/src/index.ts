@@ -11,3 +11,4 @@ export * from "./domain/ExceptionSchema.js";
 export * from "./errors/ResourceNotFound.js";
 export * from "./interfaces/ExceptionFilterMethods.js";
 export * from "./services/PlatformExceptions.js";
+export {PlatformExceptions as default} from "./services/PlatformExceptions.js";

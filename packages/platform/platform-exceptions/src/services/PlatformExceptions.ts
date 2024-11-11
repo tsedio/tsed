@@ -1,5 +1,5 @@
 import {ancestorsOf, classOf, nameOf} from "@tsed/core";
-import {BaseContext, DIContext, Inject, Injectable, InjectorService} from "@tsed/di";
+import {DIContext, Inject, Injectable, InjectorService} from "@tsed/di";
 
 import {ErrorFilter} from "../components/ErrorFilter.js";
 import {ExceptionFilter} from "../components/ExceptionFilter.js";
