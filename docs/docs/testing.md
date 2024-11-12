@@ -45,6 +45,21 @@ Testing asynchronous method is also possible using `Promises` (`async`/`await`):
 
 :::
 
+### Mock context
+
+[Context](/docs/request-context.md) is a feature that allows you to store data in a global context during the request lifecycle.
+
+Here is an example of context usage:
+
+::: code-group
+<<< @/docs/snippets/request-context/decorators/request-context-usage.ts [Decorators]
+<<< @/docs/snippets/request-context/fn/request-context-usage.ts [Functional API]
+:::
+
+To run a method with context in your unit test, you can use the @@runInContext@@ function:
+
+<<< @/docs/snippets/request-context/testing/request-context-usage.spec.ts
+
 ## Mock dependencies
 
 ### Using PlatformTest.invoke

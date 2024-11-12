@@ -348,7 +348,7 @@ export class MyController {
 }
 ```
 
-## AsyncHook context
+## Inject context
 
 Inject @@PlatformContext@@ from a controller and forward the context to another service could be a pain point. See
 example:
@@ -377,7 +377,7 @@ export class AsyncHookCtrl {
 }
 ```
 
-Since `v6.26.0`, Ts.ED provide a way to get the @@PlatformContext@@ directly from a Service
+With `v6.26.0`, Ts.ED provide a way to get the @@PlatformContext@@ directly from a Service
 called by a controller, using the [`AsyncLocalStorage`](https://nodejs.org/docs/latest-v14.x/api/async_hooks.html#async_hooks_class_asynclocalstorage) provided by Node.js.
 
 This feature is experimental but in reality, the API is stable and the benefit to use it is here!
@@ -393,64 +393,11 @@ Since `v6.113.0`, the [`AsyncLocalStorage`](https://nodejs.org/docs/latest-v14.x
 With this feature, you can inject directly the @@PlatformContext@@ in the service without injecting it in the
 controller:
 
-```typescript
-import {Injectable, Controller, InjectContext} from "@tsed/di";
-import {PlatformContext} from "@tsed/platform-http";
+::: code-group
+<<< @/docs/snippets/request-context/decorators/request-context-usage.ts [Decorators]
+<<< @/docs/snippets/request-context/fn/request-context-usage.ts [Functional API]
+:::
 
-@Injectable()
-export class CustomRepository {
-  @InjectContext()
-  protected $ctx?: PlatformContext;
+To run a method with context in your unit test, you can use the @@runInContext@@ function.
 
-  async findById(id: string) {
-    this.ctx?.logger.info("Where are in the repository");
-
-    return {
-      id,
-      headers: this.$ctx?.request.headers
-    };
-  }
-}
-
-@Controller("/async-hooks")
-export class AsyncHookCtrl {
-  @Inject()
-  repository: CustomRepository;
-
-  @Get("/:id")
-  async get(@PathParams("id") id: string) {
-    return this.repository.findById(id);
-  }
-}
-```
-
-To run a method with context in your unit test, you can use the @@PlatformAsyncHookContext@@.
-
-```typescript
-import {runInContext} from "@tsed/di";
-import {PlatformContext} from "@tsed/platform-http";
-import {CustomRepository} from "./CustomRepository";
-
-describe("CustomRepository", () => {
-  beforeEach(() => PlatformTest.create());
-  afterEach(() => PlatformTest.reset());
-
-  it("should run method with the ctx", async () => {
-    const ctx = PlatformTest.createRequestContext();
-    const service = PlatformTest.get<CustomRepository>(CustomRepository);
-
-    ctx.request.headers = {
-      "x-api": "api"
-    };
-
-    const result = await runInContext(ctx, () => service.findById("id"));
-
-    expect(result).toEqual({
-      id: "id",
-      headers: {
-        "x-api": "api"
-      }
-    });
-  });
-});
-```
+<<< @/docs/snippets/request-context/testing/request-context-usage.spec.ts

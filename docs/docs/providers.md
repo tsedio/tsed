@@ -488,3 +488,34 @@ using @@Injectable@@, @@OverrideProvider@@ decorators or @@injectable@@ function
 :::
 
 > Just don't forget to import your provider in your project !
+
+## Inject context
+
+The @@Context@@ decorator or @@context@@ function is used to inject the request context into a class or another function.
+
+Context is a special object that contains all the information about the current request.
+It can be available in any injectable context, including controllers, services, and interceptors, while the request is being processed.
+
+Here is an example to get context:
+
+::: code-group
+<<< @/docs/snippets/request-context/decorators/request-context-usage.ts [Decorators]
+<<< @/docs/snippets/request-context/fn/request-context-usage.ts [Functional API]
+:::
+
+See more about the context [here](/docs/request-context.md).
+
+## Get injector
+
+v8 allows you to get the injector instance everywhere in your code:
+
+```typescript
+import {injector} from "@tsed/di";
+
+function doSomething() {
+  const myService = injector().get<MyService>(MyService);
+  // shortcut to inject(MyService)
+
+  return myService.doSomething();
+}
+```
