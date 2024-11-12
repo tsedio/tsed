@@ -161,7 +161,7 @@ export class Server {}
 This example works for a single redis connection. If you look for a complete example with Redis Cluster and Redis single
 connection, go to this example:
 
-```url
+```sh
 https://gist.github.com/Romakita/432b1a8afaa726b41d0baf2456b205aa
 ```
 

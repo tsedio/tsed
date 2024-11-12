@@ -193,7 +193,7 @@ partners:
 <script setup>
 import HomeContainer from "@tsed/vitepress-theme/organisms/home/HomeContainer.vue";
 import { VPTeamMembers } from "vitepress/theme";
-import team from "../team.json";
+import team from "./team.json";
 
 const members = team.map((member) => {
    return {
@@ -211,5 +211,5 @@ const members = team.map((member) => {
 <HomeContainer animate class="mx-0 px-0">
    <div class="text-2xl sm:text-5xl text-center pb-5 mt-20">Team members</div>
 
-   <VPTeamMembers v-lazyobserver animate size="small" :members="members" />
+   <VPTeamMembers size="small" :members="members" />
 </HomeContainer>
