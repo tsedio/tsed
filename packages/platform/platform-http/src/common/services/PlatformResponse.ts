@@ -265,7 +265,7 @@ export class PlatformResponse<Res extends Record<string, any> = any> {
     return platformViews.render(path, {
       ...this.locals,
       ...options
-    });
+    }) as unknown as string;
   }
 
   /**

@@ -7,4 +7,4 @@ export class MyService {
   }
 }
 
-injectable(MyService)
+injectable(MyService);

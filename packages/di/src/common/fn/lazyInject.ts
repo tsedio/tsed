@@ -9,17 +9,19 @@ import {injector} from "./injector.js";
 export async function lazyInject<Token>(factory: () => Promise<{default: TokenProvider<Token>}>): Promise<Token> {
   const {default: token} = await factory();
 
-  let instance: any = injector().get(token);
+  let instance = injector().get(token) as unknown;
 
   if (!instance) {
     instance = await injector().invoke(token);
 
-    if ("$onInit" in instance && isFunction(instance?.$onInit)) {
-      await instance.$onInit();
+    const instanceWithHook = instance as unknown as {$onInit?: () => Promise<void>};
+
+    if ("$onInit" in instanceWithHook && isFunction(instanceWithHook.$onInit)) {
+      await instanceWithHook.$onInit();
     }
   }
 
-  return instance;
+  return instance as unknown as Promise<Token>;
 }
 
 export async function optionalLazyInject<Token>(

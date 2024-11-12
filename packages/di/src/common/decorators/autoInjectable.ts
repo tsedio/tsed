@@ -28,7 +28,25 @@ function resolveAutoInjectableArgs(token: Type, args: unknown[]) {
 
 /**
  * AutoInjectable decorator is used to automatically inject dependencies in the constructor.
+ *
+ * @example
+ * ```typescript
+ * @AutoInjectable()
+ * class UserService {
+ *   constructor(
+ *     private database: Database,  // automatically injected
+ *     customConfig?: Config        // can be passed manually
+ *   ) {}
+ * }
+ * ```
+ *
+ * @description
+ * When applied to a class, this decorator:
+ * - Automatically resolves and injects dependencies based on constructor parameter types
+ * - Preserves the ability to manually pass arguments which override automatic injection
+ *
  * @decorator
+ * @returns {ClassDecorator} A class decorator that enables automatic dependency injection
  */
 export function AutoInjectable() {
   return <T extends {new (...args: any[]): NonNullable<unknown>}>(constr: T): T => {

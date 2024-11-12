@@ -1,11 +1,12 @@
-import {ProviderScope} from "@tsed/di";
+import {ProviderScope, controller} from "@tsed/di";
 import {Get} from "@tsed/schema";
 
 export class MyController {
+  // Generates a random number between 0 and 100 for each request
   private rand = Math.random() * 100;
 
   @Get("/random")
-  getValue() {
+  getRequestScopedRandom() {
     return this.rand;
   }
 }

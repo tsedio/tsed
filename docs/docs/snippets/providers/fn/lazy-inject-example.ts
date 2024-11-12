@@ -1,13 +1,17 @@
-import {Injectable, lazyInject} from "@tsed/di";
+import {injectable, lazyInject} from "@tsed/di";
 
-@Injectable()
 class MyInjectable {
   async use() {
     try {
       /// do something
+      // Example: Perform some operation that might fail
+       await someAsyncOperation();
     } catch (er) {
       const exceptions = await lazyInject(() => import("@tsed/platform-exceptions"));
-      exceptions.catch(er, {});
+      // Handle the error with appropriate options
+      exceptions.catch(er, injectContext());
     }
   }
 }
+
+injectable(MyInjectable);

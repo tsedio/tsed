@@ -533,9 +533,7 @@ This code example will add the `tenant_id` to the log object when the log level 
 
 V8 comes with numerous optimizations to reduce the code size. But to not break your code, we have to keep some features through the `@tsed/common` package.
 
-To enable these optimizations, you have to replace `@tsed/common` by `@tsed/platform-http`.
-
-Here the list of optimization of `@tsed/platform-http`:
+Here is list of optimization of `@tsed/platform-http`:
 
 - PlatformTest can be imported from `@tsed/platform-http/testing` instead of `@tsed/common`.
   - It means that you have to replace `import {PlatformTest} from "@tsed/common"` by `import {PlatformTest} from "@tsed/platform-http/testing"`.
@@ -571,7 +569,7 @@ export {AcceptMime, All, Delete, Get, Head, Location, Options, Patch, Post, Put,
 
 It means when you'll replace `@tsed/common` by `@tsed/platform-http`, you have to import the missing classes/decorators from the right package!
 
-Installation:
+To enable these optimizations, you need to replace `@tsed/common` by `@tsed/platform-http`.
 
 ::: code-group
 

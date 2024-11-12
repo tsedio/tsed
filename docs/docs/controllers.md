@@ -471,7 +471,7 @@ With @@Returns@@ you can document correctly your endpoint to reflect the correct
 
 :::
 
-> See our codesandbox example [here](https://codesandbox.io/embed/tsed-swagger-example-ripfl?fontsize=14&hidenavigation=1&theme=dark)
+> See a live example of generics with Swagger documentation in our [interactive demo](https://codesandbox.io/embed/tsed-swagger-example-ripfl?fontsize=14&hidenavigation=1&theme=dark). This demo showcases how to implement and document generic types with proper Swagger/OpenAPI specifications.
 
 ### Throw exceptions
 

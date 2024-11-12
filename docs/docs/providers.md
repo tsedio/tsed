@@ -22,8 +22,9 @@ Providers are plain javascript classes and use one of these decorators on top of
 <ApiList query="['Injectable', 'Module', 'Service', 'Controller', 'Interceptor', 'Middleware', 'Protocol'].indexOf(symbolName) > -1" />
 
 ::: tip
-Since v8, you can also use functional API to define your providers using @@injectable@@ function. This function let you
-defined your provider without using decorators and let you define your provider in a more functional way.
+Since v8, you can also use the functional API to define your providers using the @@injectable@@ function. This function
+lets you
+define your provider without using decorators and lets you define your provider in a more functional way.
 
 This page will show you how to use both API to define your providers.
 
@@ -361,7 +362,7 @@ Using @@Opts@@ decorator on a constructor parameter changes the scope of the pro
 to `ProviderScope.INSTANCE`.
 :::
 
-## Inject many provider
+## Inject many providers
 
 This feature simplifies dependency management when working with multiple implementations of the same interface using
 type code.
@@ -398,7 +399,8 @@ export class SomeController {
 
 ### AutoInjectable <Badge text="7.82.0+" />
 
-The @@AutoInjectable@@ decorator let you create a class using `new` that will automatically inject all dependencies from his
+The @@AutoInjectable@@ decorator let you create a class using `new` that will automatically inject all dependencies from
+his
 constructor signature.
 
 ```ts
@@ -421,17 +423,21 @@ const myService = new MyService({
 });
 ```
 
-In this example, we can see that `MyService` is created using `new`. We can give some options to the constructor and the rest of
+In this example, we can see that `MyService` is created using `new`. We can give some options to the constructor and the
+rest of
 the dependencies will be injected automatically.
 
 ::: warning
-@@AutoInjectable@@ decorator doesn't declare the class as a provider.
+@@AutoInjectable@@ decorator only handles dependency injection when using `new`. It doesn't register the class as a
+provider in the DI container. If you need the class to be available for injection in other classes, you must still use
+@@Injectable@@.
 :::
 
 ## Interface abstraction
 
 In some cases, you may want to use an interface to abstract the implementation of a service. This is a common pattern in
-TypeScript and can be achieved by using the `provide` option in the `@Injectable` decorator or the `injectable().class()` function.
+TypeScript and can be achieved by using the `provide` option in the `@Injectable` decorator or the
+`injectable().class()` function.
 
 ::: code-group
 <<< @/docs/snippets/providers/decorators/interface-abstraction-declaration.ts [Decorators]
@@ -468,8 +474,8 @@ it may become a bottleneck for apps running in the **serverless environment**, w
 
 Lazy loading can help decrease bootstrap time by loading only modules required by the specific serverless function
 invocation.
-In addition, you could also load other modules asynchronously once the serverless function is "warm" to speed-up the
-bootstrap time for subsequent calls even further (deferred modules registration).
+Additionally, you can load other modules asynchronously once the serverless function is "warm" to speed up the
+bootstrap time for subsequent calls (deferred module registration).
 
 You can read more about these techniques [here](/docs/providers-lazy-loading.md).
 
@@ -491,10 +497,12 @@ using @@Injectable@@, @@OverrideProvider@@ decorators or @@injectable@@ function
 
 ## Inject context
 
-The @@Context@@ decorator or @@context@@ function is used to inject the request context into a class or another function.
+The @@Context@@ decorator or @@context@@ function is used to inject the request context into a class or another
+function.
 
 Context is a special object that contains all the information about the current request.
-It can be available in any injectable context, including controllers, services, and interceptors, while the request is being processed.
+It can be available in any injectable context, including controllers, services, and interceptors, while the request is
+being processed.
 
 Here is an example to get context:
 

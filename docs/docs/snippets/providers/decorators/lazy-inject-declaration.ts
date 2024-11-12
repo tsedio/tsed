@@ -5,7 +5,12 @@ import {Module} from "@tsed/di";
   imports: [] // Use the imports field if you have services to build
 })
 export default class MyModule {
+  private initialized: boolean = false;
   $onInit() {
-    // The hook will be called once the module is loaded
+    // This lifecycle hook is called after the module is loaded
+    // and all dependencies are resolved.
+    // Example: Initialize module-specific resources
+    this.initialized = true;
+    console.log("MyModule initialized!");
   }
 }

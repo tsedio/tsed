@@ -18,7 +18,7 @@ speed up the bootstrap time for subsequent calls even further (deferred modules 
 
 ## Usage
 
-To load a provider on-demand, Ts.ED provide decorators @@LazyInject@@ and @@OptionalLazyInject@@. Here is an example
+To load a provider on-demand, Ts.ED provides decorators @@LazyInject@@ and @@OptionalLazyInject@@. Here is an example
 with a @@PlatformExceptions@@:
 
 ::: code-group
@@ -36,7 +36,7 @@ That means, each consecutive call will be very fast and will return a cached ins
 
 :::
 
-Create you own lazy injectable doesn't require special things, just declare a module or an injectable service with default export:
+Creating your own lazy injectable does not require special configuration, just declare a module or an injectable service with default export:
 
 ::: code-group
 <<< @/docs/snippets/providers/decorators/lazy-inject-declaration.ts [Decorators]

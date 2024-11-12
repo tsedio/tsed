@@ -38,7 +38,9 @@ function mapOptions(args: any[], optional = false) {
  *   exceptions: Promise<PlatformException>;
  * }
  * ```
- *s
+ *
+ * @param key - The named export to import from the module.
+ * @param resolver - A function that returns a promise resolving to the module.
  * @returns {Function}
  * @decorator
  */
@@ -69,19 +71,20 @@ export function LazyInject(...args: any[]): PropertyDecorator {
  *   exceptions: Promise<PlatformException>;
  * }
  * ```
- *
+ * @param key - The named export to import from the module.
+ * @param resolver - A function that returns a promise resolving to the module.
  * @decorator
  */
 export function OptionalLazyInject(resolver: () => Promise<{default: unknown}>): PropertyDecorator;
 export function OptionalLazyInject(key: string, resolver: () => Promise<{default: unknown}>): PropertyDecorator;
 export function OptionalLazyInject(...args: any[]): PropertyDecorator {
-  let resolver = mapOptions(args, true);
+  const resolver = mapOptions(args, true);
 
   return (target: any, propertyKey: string | symbol): any | void => {
     catchError(() => Reflect.deleteProperty(target, propertyKey));
     Reflect.defineProperty(target, propertyKey, {
       async get() {
-        return optionalLazyInject<any>(resolver as any);
+        return optionalLazyInject(resolver as any);
       }
     });
   };
