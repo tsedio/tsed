@@ -37,7 +37,7 @@ Ts.ED provides API to create your own decorator like @@AcceptMime@@ which regist
 with these decorators and utils:
 
 - @@Use@@, @@UseBeforeEach@@, @@UseBefore@@, or @@UseAfter@@ for middleware registration,
-- @@applyDecorator@@ if you want to combine different decorators,
+- @@useDecorators@@ if you want to combine different decorators,
 - @@StoreMerge@@ or @@StoreGet@@ to register options.
 
 For example, we can take the @@AcceptMime@@ decorator as an example and see how it works. Here is its code:

@@ -10,20 +10,24 @@ meta:
 
 ## What's new ?
 
-The latest releases for Ts.ED on GitHub focus on improved dependency injection (DI), updated adapter configurations, and
-enhanced logging. Notable features in recent pre-releases include better testing tools, support for Apollo 4, and the
-removal of CommonJS support in favor of ECMAScript Modules. Additionally, some deprecated methods and packages were
-removed or updated to align with new DI functions. For further details, you can view the full release notes here.
+The latest releases for Ts.ED on GitHub focus on improved dependency injection that let you access the
+[injector instance everywhere](#injector-instance-everywhere) in your code. Notable features in recent pre-releases
+include support for [Apollo 4](/tutorials/graphql.html#apollo), the removal of CommonJS support in favor of
+[ECMAScript Modules](#switch-your-code-base-on-esm), enhanced [request logging](#request-logger-doesn-t-work), and additional [optimizations](#optimization)
+to reduce code size.
 
-| Topics                                                                    | Migration note                        | Issue                                                                 |
-| ------------------------------------------------------------------------- | ------------------------------------- | --------------------------------------------------------------------- |
-| Access to injector instance everywhere                                    | [See](#injector-instance-everywhere)  | [#2812](https://github.com/tsedio/tsed/pull/2812)                     |
-| `useDefineForClassFields` must be set to false                            | [See](#usedefineforclassfields)       | [#2814](https://github.com/tsedio/tsed/pull/2814)                     |
-| Remove proxy on DI Configuration                                          | [See](#use-configuration-get-method)  | [beta.6](https://github.com/tsedio/tsed/releases/tag/v8.0.0-beta.6)   |
-| Removal of CommonJS support                                               | [See](#switch-your-code-base-on-esm)  | [alpha.6](https://github.com/tsedio/tsed/releases/tag/v8.0.0-alpha.6) |
-| Apollo Server v4 support                                                  | [See](/tutorials/graphql.html#apollo) | [#2493](https://github.com/tsedio/tsed/issues/2493)                   |
-| Remove Configurable, Deprecated,Enumerable, ReadOnly, Writable decorators |                                       | [beta.6](https://github.com/tsedio/tsed/releases/tag/v8.0.0-beta.6)   |
-| Remove auto import of `@tsed/platform-log-middleware`                     | [See](#request-logger-doesn-t-work)   |                                                                       |
+Additionally, some deprecated methods and packages were removed or updated to be aligned with new DI functions (aka [Functional API](/docs/providers.md)).
+For further details, you can view the full release notes here.
+
+| Topics                                                                     | Migration note                        | Issue                                                                 |
+| -------------------------------------------------------------------------- | ------------------------------------- | --------------------------------------------------------------------- |
+| Access to injector instance everywhere                                     | [See](#injector-instance-everywhere)  | [#2812](https://github.com/tsedio/tsed/pull/2812)                     |
+| `useDefineForClassFields` must be set to false                             | [See](#usedefineforclassfields)       | [#2814](https://github.com/tsedio/tsed/pull/2814)                     |
+| Remove proxy on DI Configuration                                           | [See](#use-configuration-get-method)  | [beta.6](https://github.com/tsedio/tsed/releases/tag/v8.0.0-beta.6)   |
+| Removal of CommonJS support                                                | [See](#switch-your-code-base-on-esm)  | [alpha.6](https://github.com/tsedio/tsed/releases/tag/v8.0.0-alpha.6) |
+| Apollo Server v4 support                                                   | [See](/tutorials/graphql.html#apollo) | [#2493](https://github.com/tsedio/tsed/issues/2493)                   |
+| Remove Configurable, Deprecated, Enumerable, ReadOnly, Writable decorators |                                       | [beta.6](https://github.com/tsedio/tsed/releases/tag/v8.0.0-beta.6)   |
+| Remove auto import of `@tsed/platform-log-middleware`                      | [See](#request-logger-doesn-t-work)   |                                                                       |
 
 ### Injector instance everywhere
 
@@ -66,7 +70,7 @@ const myService = injector().get(MyService);
 const myService = inject(MyService);
 ```
 
-With v7, your write your service using decorators like this:
+With v7, you write your service using decorators like this:
 
 ```ts
 import {Injectable, Configuration, Constant, Inject} from "@tsed/di";
