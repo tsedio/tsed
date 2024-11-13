@@ -92,41 +92,37 @@ class CustomContextModule {
 }
 ```
 
-### Custom provider <Badge text="v6.110.0+" />
+### Custom provider
 
-Since `v6.110.0`, it's also possible to subscribe to a hook in a [custom provider](/docs/custom-providers):
+It's also possible to subscribe to a hook in a [custom provider](/docs/custom-providers):
 
 ```typescript
-import {Configuration, registerProvider} from "@tsed/di";
-import {DatabaseConnection} from "connection-lib";
+import {injectable, constant} from "@tsed/di";
+import {DatabaseConnection, Options} from "connection-lib";
 
-export const CONNECTION = Symbol.for("CONNECTION");
-
-registerProvider<DatabaseConnection>({
-  provide: CONNECTION,
-  deps: [Configuration],
-  useFactory(configuration: Configuration) {
-    const options = configuration.get<any>("myOptions");
+export const CONNECTION = injectable<DatabaseConnection>(Symbol.for("CONNECTION"))
+  .factory(() => {
+    const options = constant<Options>("myOptions");
 
     return new DatabaseConnection(options);
-  },
-  hooks: {
+  })
+  .hooks({
     $onDestroy(connection) {
       // called when provider instance is destroyed
       return connection.close();
     }
-  }
-});
+  })
+  .token();
 ```
 
-It's now easy to close database connection through the `hooks` property!
+It's now easy to close database connection through the `hooks` methods!
 
 ## Emit event
 
 Emit event let the developers subscribe and implement his tasks.
 
 ```ts
-import {Inject, Module, InjectorService} from "@tsed/di";
+import {Module, $emit} from "@tsed/di";
 
 export interface OnEvent {
   $myEvent(value: string): Promise<void>;
@@ -134,13 +130,10 @@ export interface OnEvent {
 
 @Module()
 export class ModuleEmitter {
-  @Inject()
-  protected injector: InjectorService;
-
   async initSomething() {
     // do something before
 
-    await this.injector.emit("$myEvent"); // emit accept extra parameters forwarded to subscribers
+    await $emit("$myEvent"); // emit accept extra parameters forwarded to subscribers
 
     // do something after
   }
@@ -151,7 +144,7 @@ A subscriber:
 
 ```typescript
 import {Module} from "@tsed/di";
-import {OnEvent} from "module-emitter";
+import {OnEvent} from "./ModuleEmitter.js";
 
 @Module()
 export class ModuleSubscriber extends OnEvent {
@@ -167,7 +160,7 @@ This feature let you emit an event with a value. All providers who subscribe to 
 
 ```ts
 // module-emitter
-import {Inject, Module, InjectorService} from "@tsed/di";
+import {inject, Module, $alterAsync} from "@tsed/di";
 
 export interface AlterEvent {
   $alterEvent(value: string): Promise<string>;
@@ -175,13 +168,9 @@ export interface AlterEvent {
 
 @Module()
 export class ModuleEmitter {
-  @Inject()
-  protected injector: InjectorService;
-
   async initSomething() {
     // do something before
-
-    const value = this.injector.alterAsync("$alterEvent", "hello"); // alterAsync and alter accept extra parameters forwarded to subscribers
+    const value = $alterAsync("$alterEvent", "hello"); // alterAsync and alter accept extra parameters forwarded to subscribers
 
     console.log(value); // "hello-world"
     // do something after
@@ -193,7 +182,7 @@ A subscriber:
 
 ```typescript
 import {Module} from "@tsed/di";
-import {AlterEvent} from "module-emitter";
+import {AlterEvent} from "./ModuleEmitter.js";
 
 @Module()
 export class ModuleSubscriber extends AlterEvent {
