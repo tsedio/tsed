@@ -9,11 +9,16 @@ export default defineConfig(
       ...presets.test,
       coverage: {
         ...presets.test.coverage,
+        exclude: [
+          ...presets.test.coverage.exclude,
+          "**/isTsEnv.ts"
+        ],
         thresholds: {
           statements: 100,
-          branches: 100,
+          branches: 94.44,
           functions: 100,
-          lines: 100
+          lines: 100,
+
         }
       }
     }

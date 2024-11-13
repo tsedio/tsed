@@ -123,6 +123,7 @@
     "@types/supertest": "6.0.2",
     "@typescript-eslint/eslint-plugin": "8.8.0",
     "@typescript-eslint/parser": "8.8.0",
+    "@vitest/coverage-v8": "^2.1.2",
     "concurrently": "9.0.1",
     "cross-env": "7.0.3",
     "eslint": "9.12.0",
