@@ -1,5 +1,5 @@
 import {nameOf} from "@tsed/core";
-import {resolveControllers} from "@tsed/di";
+import {resolveControllers} from "@tsed/platform-http";
 
 import {importProviders} from "./importProviders.js";
 

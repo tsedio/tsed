@@ -16,7 +16,6 @@ import type {TokenProvider} from "../interfaces/TokenProvider.js";
 import {GlobalProviders} from "../registries/GlobalProviders.js";
 import {createContainer} from "../utils/createContainer.js";
 import {getConstructorDependencies} from "../utils/getConstructorDependencies.js";
-import {resolveControllers} from "../utils/resolveControllers.js";
 import {DIConfiguration} from "./DIConfiguration.js";
 
 /**
@@ -241,42 +240,6 @@ export class InjectorService extends Container {
   }
 
   /**
-   * Boostrap injector from container and resolve configuration.
-   *
-   * @param container
-   */
-  bootstrap(container: Container = createContainer()) {
-    // Clone all providers in the container
-    this.addProviders(container);
-
-    // Resolve all configuration
-    this.resolveConfiguration();
-
-    // allow mocking or changing provider instance before loading injector
-    this.resolveImportsProviders();
-
-    return this;
-  }
-
-  /**
-   * Load injector from a given module
-   * @param rootModule
-   */
-  loadModule(rootModule: TokenProvider) {
-    this.settings.routes = this.settings.routes.concat(resolveControllers(this.settings));
-
-    const container = createContainer();
-    container.delete(rootModule);
-
-    container.addProvider(rootModule, {
-      type: "server:module",
-      scope: ProviderScope.SINGLETON
-    });
-
-    return this.load(container);
-  }
-
-  /**
    * Build all providers from given container (or GlobalProviders) and emit `$onInit` event.
    *
    * @param container
@@ -359,6 +322,24 @@ export class InjectorService extends Container {
   }
 
   /**
+   * Boostrap injector from container and resolve configuration.
+   *
+   * @param container
+   */
+  protected bootstrap(container: Container = createContainer()) {
+    // Clone all providers in the container
+    this.addProviders(container);
+
+    // Resolve all configuration
+    this.resolveConfiguration();
+
+    // allow mocking or changing provider instance before loading injector
+    this.resolveImportsProviders();
+
+    return this;
+  }
+
+  /**
    * Ensure that a provider is added to the container.
    * @protected
    */
@@ -371,10 +352,6 @@ export class InjectorService extends Container {
     }
 
     return this.getProvider(token)!;
-  }
-
-  protected getInstance(token: any) {
-    return this.#cache.get(token);
   }
 
   /**
@@ -390,7 +367,6 @@ export class InjectorService extends Container {
    * #### Example
    *
    * @param target
-   * @param locals
    * @param options
    * @private
    */

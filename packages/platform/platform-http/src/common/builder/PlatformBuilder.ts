@@ -1,5 +1,14 @@
 import {isClass, isFunction, isString, nameOf, Type} from "@tsed/core";
-import {colors, InjectorService, ProviderOpts, setLoggerConfiguration, TokenProvider} from "@tsed/di";
+import {
+  colors,
+  createContainer,
+  injector,
+  InjectorService,
+  ProviderOpts,
+  ProviderScope,
+  setLoggerConfiguration,
+  TokenProvider
+} from "@tsed/di";
 import {getMiddlewaresForHook, PlatformMiddlewareLoadingOptions} from "@tsed/platform-middlewares";
 import {PlatformLayer} from "@tsed/platform-router";
 import type {IncomingMessage, ServerResponse} from "http";
@@ -19,6 +28,7 @@ import {CreateServerReturn} from "../utils/createServer.js";
 import {getConfiguration} from "../utils/getConfiguration.js";
 import {getStaticsOptions} from "../utils/getStaticsOptions.js";
 import {printRoutes} from "../utils/printRoutes.js";
+import {resolveControllers} from "../utils/resolveControllers.js";
 
 /**
  * @platform
@@ -29,7 +39,6 @@ export class PlatformBuilder<App = TsED.Application> {
   readonly name: string = "";
   protected startedAt = new Date();
   protected current = new Date();
-  readonly #injector: InjectorService;
   readonly #rootModule: Type<any>;
   readonly #adapter: PlatformAdapter<App>;
   #promise: Promise<this>;
@@ -45,14 +54,14 @@ export class PlatformBuilder<App = TsED.Application> {
     configuration.PLATFORM_NAME = adapterKlass.NAME;
     this.name = adapterKlass.NAME;
 
-    this.#injector = createInjector({
+    createInjector({
       adapter: adapterKlass,
       settings: configuration
     });
 
     this.log(`Loading ${adapterKlass.NAME.toUpperCase()} platform adapter...`);
 
-    this.#adapter = this.#injector.get<PlatformAdapter<App>>(PlatformAdapter)!;
+    this.#adapter = injector().get<PlatformAdapter<App>>(PlatformAdapter)!;
 
     this.createHttpServers();
 
@@ -60,11 +69,11 @@ export class PlatformBuilder<App = TsED.Application> {
   }
 
   get injector(): InjectorService {
-    return this.#injector;
+    return injector();
   }
 
   get rootModule(): any {
-    return this.#injector.get(this.#rootModule);
+    return injector().get(this.#rootModule);
   }
 
   get app(): PlatformApplication<App> {
@@ -221,7 +230,16 @@ export class PlatformBuilder<App = TsED.Application> {
     const {injector} = this;
     this.log("Build providers");
 
-    await injector.loadModule(this.#rootModule);
+    this.settings.routes = this.settings.routes.concat(resolveControllers(this.settings));
+
+    const container = createContainer();
+    container.delete(this.#rootModule);
+    container.addProvider(this.#rootModule, {
+      type: "server:module",
+      scope: ProviderScope.SINGLETON
+    });
+
+    await injector.load(container);
 
     this.log("Settings and injector loaded...");
 

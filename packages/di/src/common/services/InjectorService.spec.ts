@@ -566,37 +566,6 @@ describe("InjectorService", () => {
       });
     });
   });
-  describe("loadModule()", () => {
-    it("should load DI with a rootModule (SINGLETON + deps)", async () => {
-      // GIVEN
-      @Injectable()
-      class RootModule {}
-
-      const token = class Test {};
-      const provider = new Provider<any>(token);
-
-      provider.scope = ProviderScope.SINGLETON;
-      provider.deps = [InjectorService];
-
-      const injector = new InjectorService();
-
-      await injector.loadModule(RootModule);
-
-      expect(injector.get(RootModule)).toBeInstanceOf(RootModule);
-    });
-
-    it("should load DI with a rootModule", async () => {
-      // GIVEN
-      @Injectable()
-      class RootModule {}
-
-      const injector = new InjectorService();
-
-      await injector.loadModule(RootModule);
-
-      expect(injector.get(RootModule)).toBeInstanceOf(RootModule);
-    });
-  });
 
   describe("resolveConfiguration()", () => {
     it("should load configuration from each providers", () => {

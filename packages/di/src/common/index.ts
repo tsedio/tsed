@@ -60,4 +60,3 @@ export * from "./utils/colors.js";
 export * from "./utils/createContainer.js";
 export * from "./utils/getConfiguration.js";
 export * from "./utils/getConstructorDependencies.js";
-export * from "./utils/resolveControllers.js";

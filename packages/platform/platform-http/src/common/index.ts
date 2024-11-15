@@ -57,4 +57,5 @@ export * from "./utils/listenServer.js";
 export * from "./utils/mapReturnedResponse.js";
 export * from "./utils/printRoutes.js";
 export * from "./utils/registerPlatformAdapter.js";
+export * from "./utils/resolveControllers.js";
 export * from "./utils/setResponseHeaders.js";

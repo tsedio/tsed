@@ -1,14 +1,12 @@
 import {isArray, isClass} from "@tsed/core";
-
-import {Provider} from "../domain/Provider.js";
-import {ProviderType} from "../domain/ProviderType.js";
-import {TokenProvider} from "../interfaces/TokenProvider.js";
-import {TokenRoute} from "../interfaces/TokenRoute.js";
-import {GlobalProviders} from "../registries/GlobalProviders.js";
+import {GlobalProviders, Provider, ProviderType, type TokenProvider, type TokenRoute} from "@tsed/di";
 
 const lookupProperties = ["mount", "imports"];
 
-export function getTokens(config: any): {route?: string; token: TokenProvider}[] {
+/**
+ * @ignore
+ */
+function getTokens(config: any): {route?: string; token: TokenProvider}[] {
   if (!config) {
     return [];
   }
@@ -33,6 +31,9 @@ export function getTokens(config: any): {route?: string; token: TokenProvider}[]
   }, []);
 }
 
+/**
+ * @ignore
+ */
 function resolveRecursively(providers: {token: TokenProvider; route?: string}[]) {
   return providers
     .map(({token}) => GlobalProviders.get(token))
@@ -44,6 +45,7 @@ function resolveRecursively(providers: {token: TokenProvider; route?: string}[])
  * Return controllers and is base route according to his configuration in module configuration.
  *
  * @param settings
+ * @ignore
  */
 export function resolveControllers(settings: Partial<TsED.Configuration>): TokenRoute[] {
   const providers = lookupProperties.flatMap((property) => getTokens(settings[property]));
