@@ -1,17 +1,4 @@
-import {
-  classOf,
-  deepClone,
-  deepMerge,
-  Hooks,
-  isArray,
-  isClass,
-  isFunction,
-  isInheritedFrom,
-  isObject,
-  isPromise,
-  nameOf,
-  Store
-} from "@tsed/core";
+import {classOf, deepClone, deepMerge, Hooks, isArray, isClass, isFunction, isInheritedFrom, isObject, isPromise, nameOf} from "@tsed/core";
 
 import {DI_INVOKE_OPTIONS, DI_USE_PARAM_OPTIONS} from "../constants/constants.js";
 import {Configuration} from "../decorators/configuration.js";
@@ -119,7 +106,7 @@ export class InjectorService extends Container {
 
     if (!this.hasProvider(token)) {
       for (const resolver of this.resolvers) {
-        const result = resolver.get(token, options);
+        const result = resolver.get(token);
 
         if (result !== undefined) {
           return result;
@@ -221,7 +208,6 @@ export class InjectorService extends Container {
 
         if (!provider.isAsync() || !isPromise(instance)) {
           set(instance);
-          // locals?.delete(DI_USE_PARAM_OPTIONS);
           return instance;
         }
 
@@ -233,7 +219,6 @@ export class InjectorService extends Container {
 
           return instance;
         });
-        // locals?.delete(DI_USE_PARAM_OPTIONS);
         return instance;
 
       case ProviderScope.REQUEST:
@@ -244,8 +229,6 @@ export class InjectorService extends Container {
             options.locals.hooks.on("$onDestroy", (...args: any[]) => provider.hooks!.$onDestroy(instance, ...args));
           }
         }
-
-        // locals?.delete(DI_USE_PARAM_OPTIONS);
 
         return instance;
     }
@@ -459,7 +442,7 @@ export class InjectorService extends Container {
             return this.getMany(token[0], options);
           }
 
-          const useOpts = provider?.store?.get(`${DI_USE_PARAM_OPTIONS}:${index}`) || options.useOpts;
+          const useOpts = provider?.getArgOpts(index) || options.useOpts;
 
           return isInheritedFrom(token, Provider, 1)
             ? provider
@@ -564,7 +547,7 @@ export class InjectorService extends Container {
       provider = new Provider(token);
 
       this.resolvers.forEach((resolver) => {
-        const result = resolver.get(token, options.locals!.get(DI_USE_PARAM_OPTIONS));
+        const result = resolver.get(token);
 
         if (result !== undefined) {
           provider.useFactory = () => result;

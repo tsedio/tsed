@@ -1,5 +1,6 @@
 import {type AbstractType, classOf, getClassOrSymbol, isClass, methodsOf, nameOf, Store, Type} from "@tsed/core";
 
+import {DI_USE_PARAM_OPTIONS} from "../constants/constants.js";
 import type {ProviderOpts} from "../interfaces/ProviderOpts.js";
 import type {TokenProvider} from "../interfaces/TokenProvider.js";
 import {ProviderScope} from "./ProviderScope.js";
@@ -134,6 +135,10 @@ export class Provider<T = any> implements ProviderOpts<T> {
 
   set children(children: TokenProvider[]) {
     this.store.set("childrenControllers", children);
+  }
+
+  getArgOpts(index: number) {
+    return this.store.get(`${DI_USE_PARAM_OPTIONS}:${index}`);
   }
 
   get(key: string) {
