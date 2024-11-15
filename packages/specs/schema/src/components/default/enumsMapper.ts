@@ -2,7 +2,7 @@ import {JsonSchema} from "../../domain/JsonSchema.js";
 import {JsonSchemaOptions} from "../../interfaces/JsonSchemaOptions.js";
 import {registerJsonSchemaMapper} from "../../registries/JsonSchemaMapperContainer.js";
 
-export function inlineEnumsMapper(obj: any, schema: JsonSchema, options: JsonSchemaOptions) {
+export function enumsMapper(obj: any, schema: JsonSchema, options: JsonSchemaOptions) {
   if (options.inlineEnums && obj.enum?.$isJsonDocument) {
     obj.enum = obj.enum.toJSON().enum;
   }
@@ -14,4 +14,4 @@ export function inlineEnumsMapper(obj: any, schema: JsonSchema, options: JsonSch
   return obj;
 }
 
-registerJsonSchemaMapper("inlineEnums", inlineEnumsMapper);
+registerJsonSchemaMapper("enums", enumsMapper);

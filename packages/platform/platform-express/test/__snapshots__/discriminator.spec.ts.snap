@@ -57,6 +57,9 @@ exports[`Discriminator > os3 > should generate the spec 1`] = `
             "type": "string",
           },
           "type": {
+            "enum": [
+              "custom_action",
+            ],
             "example": "custom_action",
             "type": "string",
           },
@@ -79,6 +82,9 @@ exports[`Discriminator > os3 > should generate the spec 1`] = `
             "type": "string",
           },
           "type": {
+            "enum": [
+              "custom_action",
+            ],
             "example": "custom_action",
             "type": "string",
           },
@@ -91,6 +97,9 @@ exports[`Discriminator > os3 > should generate the spec 1`] = `
       "PageView": {
         "properties": {
           "type": {
+            "enum": [
+              "page_view",
+            ],
             "example": "page_view",
             "type": "string",
           },
@@ -110,6 +119,9 @@ exports[`Discriminator > os3 > should generate the spec 1`] = `
       "PageViewPartial": {
         "properties": {
           "type": {
+            "enum": [
+              "page_view",
+            ],
             "example": "page_view",
             "type": "string",
           },
@@ -140,6 +152,12 @@ exports[`Discriminator > os3 > should generate the spec 1`] = `
             "application/json": {
               "schema": {
                 "discriminator": {
+                  "mapping": {
+                    "action": "#/components/schemas/Action",
+                    "click_action": "#/components/schemas/Action",
+                    "custom_action": "#/components/schemas/CustomAction",
+                    "page_view": "#/components/schemas/PageView",
+                  },
                   "propertyName": "type",
                 },
                 "oneOf": [
@@ -167,6 +185,12 @@ exports[`Discriminator > os3 > should generate the spec 1`] = `
               "application/json": {
                 "schema": {
                   "discriminator": {
+                    "mapping": {
+                      "action": "#/components/schemas/Action",
+                      "click_action": "#/components/schemas/Action",
+                      "custom_action": "#/components/schemas/CustomAction",
+                      "page_view": "#/components/schemas/PageView",
+                    },
                     "propertyName": "type",
                   },
                   "oneOf": [
@@ -204,6 +228,12 @@ exports[`Discriminator > os3 > should generate the spec 1`] = `
               "schema": {
                 "items": {
                   "discriminator": {
+                    "mapping": {
+                      "action": "#/components/schemas/Action",
+                      "click_action": "#/components/schemas/Action",
+                      "custom_action": "#/components/schemas/CustomAction",
+                      "page_view": "#/components/schemas/PageView",
+                    },
                     "propertyName": "type",
                   },
                   "oneOf": [
@@ -234,6 +264,12 @@ exports[`Discriminator > os3 > should generate the spec 1`] = `
                 "schema": {
                   "items": {
                     "discriminator": {
+                      "mapping": {
+                        "action": "#/components/schemas/Action",
+                        "click_action": "#/components/schemas/Action",
+                        "custom_action": "#/components/schemas/CustomAction",
+                        "page_view": "#/components/schemas/PageView",
+                      },
                       "propertyName": "type",
                     },
                     "oneOf": [
@@ -272,6 +308,12 @@ exports[`Discriminator > os3 > should generate the spec 1`] = `
             "application/json": {
               "schema": {
                 "discriminator": {
+                  "mapping": {
+                    "action": "#/components/schemas/ActionPartial",
+                    "click_action": "#/components/schemas/ActionPartial",
+                    "custom_action": "#/components/schemas/CustomActionPartial",
+                    "page_view": "#/components/schemas/PageViewPartial",
+                  },
                   "propertyName": "type",
                 },
                 "oneOf": [
@@ -299,6 +341,12 @@ exports[`Discriminator > os3 > should generate the spec 1`] = `
               "application/json": {
                 "schema": {
                   "discriminator": {
+                    "mapping": {
+                      "action": "#/components/schemas/Action",
+                      "click_action": "#/components/schemas/Action",
+                      "custom_action": "#/components/schemas/CustomAction",
+                      "page_view": "#/components/schemas/PageView",
+                    },
                     "propertyName": "type",
                   },
                   "oneOf": [

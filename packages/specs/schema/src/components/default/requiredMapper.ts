@@ -3,6 +3,7 @@ import type {JsonSchema} from "../../domain/JsonSchema.js";
 import {alterRequiredGroups} from "../../hooks/alterRequiredGroups.js";
 import type {JsonSchemaOptions} from "../../interfaces/JsonSchemaOptions.js";
 import {registerJsonSchemaMapper} from "../../registries/JsonSchemaMapperContainer.js";
+import {createRef, createRefName, toRef} from "../../utils/ref.js";
 
 function mapRequiredProps(obj: any, schema: JsonSchema, options: JsonSchemaOptions = {}) {
   const {useAlias} = options;
@@ -58,10 +59,7 @@ export function requiredMapper(obj: any, schema: JsonSchema, options: JsonSchema
   }
 
   if (required.length) {
-    return {
-      ...obj,
-      required
-    };
+    obj.required = required;
   }
 
   return obj;

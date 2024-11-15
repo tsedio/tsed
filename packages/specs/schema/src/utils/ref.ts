@@ -53,10 +53,12 @@ export function createRef(name: string, schema: JsonSchema, options: JsonSchemaO
 /**
  * @ignore
  */
-export function toRef(value: JsonSchema, schema: any, options: JsonSchemaOptions) {
+export function toRef(value: JsonSchema, schema: unknown | undefined, options: JsonSchemaOptions) {
   const name = createRefName(value.getName(), options);
 
-  setValue(options, `components.schemas.${name}`, schema);
+  if (schema) {
+    setValue(options, `components.schemas.${name}`, schema);
+  }
 
   return createRef(name, value, options);
 }

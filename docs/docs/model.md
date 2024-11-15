@@ -1457,24 +1457,32 @@ By declaring a discriminatorKey, `@tsed/json-mapper` will be able to determine t
 Here is an example:
 
 ```typescript
-import {Discriminator, DiscriminatorKey, DiscriminatorValue, Property, Required, OneOf} from "@tsed/schema";
+import {DiscriminatorKey, DiscriminatorValue, OneOf, Property, Required} from "@tsed/schema";
+
+export enum EventType {
+  PAGE_VIEW = "page_view",
+  ACTION = "action",
+  CLICK_ACTION = "click_action"
+}
 
 export class Event {
   @DiscriminatorKey() // declare this property as discriminator key
-  type: string;
-
+  type: string; // Note: Do not set EventType enum here. The @DiscriminatorKey decorator will automatically generate the correct values based on @DiscriminatorValue decorators in derived classes.
+  
   @Property()
   value: string;
 }
 
-@DiscriminatorValue("page_view")
+@DiscriminatorValue(EventType.PAGE_VIEW)
 // or @DiscriminatorValue() value can be inferred by the class name (ex: "page_view")
 export class PageView extends Event {
+  override type = EventType.PAGE_VIEW; // optional
+
   @Required()
   url: string;
 }
 
-@DiscriminatorValue("action", "click_action")
+@DiscriminatorValue(EventType.ACTION, EventType.CLICK_ACTION)
 export class Action extends Event {
   @Required()
   event: string;

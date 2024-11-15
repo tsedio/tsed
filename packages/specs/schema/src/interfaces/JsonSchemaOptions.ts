@@ -26,7 +26,9 @@ export interface JsonSchemaOptions {
    * Generate custom keys when SpecType is JSON.
    */
   customKeys?: boolean;
-
+  /**
+   * Inline enums when enum instead of using $ref.
+   */
   inlineEnums?: boolean;
 
   [key: string]: any;

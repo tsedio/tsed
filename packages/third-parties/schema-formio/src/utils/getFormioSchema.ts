@@ -33,6 +33,7 @@ export async function getFormioSchema(
   const entity = JsonEntityStore.from(model);
   const schema = getJsonSchema(entity, {
     ...options,
+    inlineEnums: true,
     customKeys: true
   });
 

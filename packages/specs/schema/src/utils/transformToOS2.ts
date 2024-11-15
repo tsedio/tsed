@@ -1,6 +1,6 @@
 "use strict";
-import {OpenSpec2, OpenSpec3, OS3Operation} from "@tsed/openspec";
 import {cleanObject} from "@tsed/core";
+import {OpenSpec2, OpenSpec3, type OS2Security, OS3Operation} from "@tsed/openspec";
 
 const HTTP_METHODS = ["get", "put", "post", "delete", "options", "head", "patch", "trace"];
 const SCHEMA_PROPERTIES = [
@@ -62,7 +62,7 @@ function getSupportedMimeTypes(content: any) {
 }
 
 export function transformSecurity(securitySchemes: any) {
-  function map(security: any) {
+  function map(security: any): OS2Security | undefined {
     const {scheme, type, name, bearerFormat, flows, ...props} = security;
 
     switch (type) {
@@ -96,7 +96,7 @@ export function transformSecurity(securitySchemes: any) {
 
         return {
           type,
-          flow: flowType,
+          flow: flowType as never,
           authorizationUrl: flow.authorizationUrl,
           tokenUrl: flow.tokenUrl,
           scopes: flow.scopes
@@ -105,11 +105,14 @@ export function transformSecurity(securitySchemes: any) {
   }
 
   return Object.entries(securitySchemes).reduce((securityDefinitions, [key, security]) => {
-    return {
-      ...securityDefinitions,
-      [key]: map(security)
-    };
-  }, {});
+    const securityDefinition = map(security);
+
+    if (securityDefinition) {
+      securityDefinitions[key] = securityDefinition;
+    }
+
+    return securityDefinitions;
+  }, {} as Record<string, OS2Security>);
 }
 
 export function transformInformation(server: any) {

@@ -1041,7 +1041,18 @@ export class JsonSchema extends Map<string, any> implements NestedGenerics {
     if (jsonSchema.isDiscriminator) {
       const discriminator = jsonSchema.discriminatorAncestor.discriminator();
       const {propertyName} = discriminator;
-      super.set("discriminator", {propertyName});
+
+      super.set("discriminator", {
+        propertyName,
+        mapping: resolved.reduce((acc, schema: JsonSchema) => {
+          discriminator.types.get(schema.getTarget())?.forEach((key: string) => {
+            acc[key] = schema;
+          });
+
+          return acc;
+        }, {})
+      });
+
       this.isDiscriminator = true;
       this.#discriminator = discriminator;
     }

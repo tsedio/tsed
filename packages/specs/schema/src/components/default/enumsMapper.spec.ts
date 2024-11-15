@@ -1,8 +1,8 @@
-import {inlineEnumsMapper} from "./inlineEnumsMapper";
+import {enumsMapper} from "./enumsMapper.js";
 
-describe("inlineEnumsMapper()", () => {
+describe("enumsMapper()", () => {
   it("should inline enums", () => {
-    const result = inlineEnumsMapper(
+    const result = enumsMapper(
       {
         enum: {
           $isJsonDocument: true,
@@ -22,7 +22,7 @@ describe("inlineEnumsMapper()", () => {
   });
 
   it("should inline enums and set type (object to string)", () => {
-    const result = inlineEnumsMapper(
+    const result = enumsMapper(
       {
         type: "object",
         enum: {
@@ -42,7 +42,7 @@ describe("inlineEnumsMapper()", () => {
     });
   });
   it("should inline enums and keep the type", () => {
-    const result = inlineEnumsMapper(
+    const result = enumsMapper(
       {
         type: "string",
         enum: {
