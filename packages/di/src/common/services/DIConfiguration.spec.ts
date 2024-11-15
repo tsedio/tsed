@@ -44,7 +44,6 @@ describe("DIConfiguration", () => {
       expect(obj).toEqual({
         imports: [],
         logger: {},
-        resolvers: [],
         routes: [],
         scopes: {}
       });
@@ -67,16 +66,6 @@ describe("DIConfiguration", () => {
 
       configuration.imports = [];
       expect(configuration.imports).toEqual([]);
-    });
-  });
-
-  describe("resolvers()", () => {
-    it("should get resolvers", () => {
-      // GIVEN
-      const configuration = new DIConfiguration();
-
-      configuration.resolvers = [];
-      expect(configuration.resolvers).toEqual([]);
     });
   });
 });

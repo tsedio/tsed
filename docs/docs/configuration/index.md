@@ -288,22 +288,6 @@ export class Server {}
 
 Logger configuration. See [logger section for more detail](/docs/logger).
 
-### resolvers - External DI
-
-- type: @@DIResolver@@
-
-Ts.ED has its own DI container, but sometimes you have to work with other DI like Inversify or TypeDI. The version
-5.39.0+
-now allows you to configure multiple external DI by using the `resolvers` options.
-
-The resolvers options can be configured as following:
-
-<<< @/docs/configuration/snippets/server-resolvers.ts
-
-It's also possible to register resolvers with the @@Module@@ decorator:
-
-<<< @/docs/configuration/snippets/module-resolvers.ts
-
 ### views
 
 Object to configure Views engines with Ts.ED engines or Consolidate (deprecated). See more

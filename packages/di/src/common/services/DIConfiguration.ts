@@ -2,7 +2,6 @@ import {Env, getValue, setValue} from "@tsed/core";
 
 import type {ProviderScope} from "../domain/ProviderScope.js";
 import type {DILoggerOptions} from "../interfaces/DILoggerOptions.js";
-import type {DIResolver} from "../interfaces/DIResolver.js";
 import type {ImportTokenProviderOpts} from "../interfaces/ImportTokenProviderOpts.js";
 import type {TokenProvider} from "../interfaces/TokenProvider.js";
 import type {TokenRoute} from "../interfaces/TokenRoute.js";
@@ -14,7 +13,6 @@ export class DIConfiguration {
   constructor(initialProps = {}) {
     Object.entries({
       scopes: {},
-      resolvers: [],
       imports: [],
       routes: [],
       logger: {},
@@ -55,14 +53,14 @@ export class DIConfiguration {
   set scopes(value: Record<string, ProviderScope>) {
     this.map.set("scopes", value);
   }
-
-  get resolvers(): DIResolver[] {
-    return this.getRaw("resolvers");
-  }
-
-  set resolvers(resolvers: DIResolver[]) {
-    this.map.set("resolvers", resolvers);
-  }
+  //
+  // get resolvers(): DIResolver[] {
+  //   return this.getRaw("resolvers");
+  // }
+  //
+  // set resolvers(resolvers: DIResolver[]) {
+  //   this.map.set("resolvers", resolvers);
+  // }
 
   get imports(): (TokenProvider | ImportTokenProviderOpts)[] {
     return this.get("imports")!;

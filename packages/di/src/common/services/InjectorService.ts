@@ -55,10 +55,6 @@ export class InjectorService extends Container {
     this.#cache.set(InjectorService, this);
   }
 
-  get resolvers() {
-    return this.settings.resolvers!;
-  }
-
   get scopes() {
     return this.settings.scopes || {};
   }
@@ -98,21 +94,7 @@ export class InjectorService extends Container {
    * @param options
    */
   get<T = any>(token: TokenProvider<T>, options: Record<string, unknown> = {}): T | undefined {
-    const instance = this.getInstance(token);
-
-    if (instance !== undefined) {
-      return instance;
-    }
-
-    if (!this.hasProvider(token)) {
-      for (const resolver of this.resolvers) {
-        const result = resolver.get(token);
-
-        if (result !== undefined) {
-          return result;
-        }
-      }
-    }
+    return this.#cache.get(token);
   }
 
   /**
@@ -171,14 +153,14 @@ export class InjectorService extends Container {
       return this.settings as unknown as Type;
     }
 
-    instance = !options.rebuild ? this.getInstance(token) : undefined;
+    if (token === DI_USE_PARAM_OPTIONS) {
+      return options.useOpts as Type;
+    }
+
+    instance = !options.rebuild ? this.#cache.get(token) : undefined;
 
     if (instance != undefined) {
       return instance;
-    }
-
-    if (token === DI_USE_PARAM_OPTIONS) {
-      return options.useOpts as Type;
     }
 
     const provider = this.ensureProvider(token);
@@ -324,15 +306,11 @@ export class InjectorService extends Container {
     super.forEach((provider) => {
       if (provider.configuration && provider.type !== "server:module") {
         Object.entries(provider.configuration).forEach(([key, value]) => {
-          if (!["resolvers", "mount", "imports"].includes(key)) {
+          if (!["mount", "imports"].includes(key)) {
             value = mergedConfiguration.has(key) ? deepMerge(mergedConfiguration.get(key), value) : deepClone(value);
             mergedConfiguration.set(key, value);
           }
         });
-      }
-
-      if (provider.resolvers) {
-        this.settings.resolvers = this.settings.resolvers.concat(provider.resolvers);
       }
     });
 
@@ -545,14 +523,6 @@ export class InjectorService extends Container {
 
     if (!this.hasProvider(token)) {
       provider = new Provider(token);
-
-      this.resolvers.forEach((resolver) => {
-        const result = resolver.get(token);
-
-        if (result !== undefined) {
-          provider.useFactory = () => result;
-        }
-      });
     } else {
       provider = this.getProvider(token)!;
     }

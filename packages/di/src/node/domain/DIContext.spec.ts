@@ -1,6 +1,5 @@
 import {logger} from "../fn/logger.js";
 import {DITest} from "../services/DITest.js";
-import {bindContext, getAsyncStore} from "../utils/asyncHookContext.js";
 import {DIContext} from "./DIContext.js";
 
 describe("DIContext", () => {

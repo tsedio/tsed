@@ -663,8 +663,7 @@ describe("InjectorService", () => {
           scopes: {
             provider_custom: ProviderScope.SINGLETON
           }
-        },
-        resolvers: [vi.fn() as any]
+        }
       });
 
       injector.add(Symbol.for("TOKEN2"), {
@@ -679,37 +678,11 @@ describe("InjectorService", () => {
       injector.resolveConfiguration();
 
       // THEN
-      expect(injector.resolvers.length).toEqual(1);
-    });
-  });
-
-  describe("resolvers", () => {
-    it("should load all providers with the SINGLETON scope only", async () => {
-      class ExternalService {
-        constructor() {}
-      }
-
-      class MyService {
-        constructor(public externalService: ExternalService) {}
-      }
-
-      const externalDi = new Map();
-      externalDi.set(ExternalService, "MyClass");
-      // GIVEN
-      const injector = new InjectorService();
-      injector.settings.resolvers.push(externalDi);
-
-      const container = new Container();
-      container.add(MyService, {
-        deps: [ExternalService]
+      expect(injector.settings.scopes).toEqual({
+        provider_custom: "singleton",
+        provider_custom_2: "singleton",
+        value: "singleton"
       });
-
-      // WHEN
-      await injector.load(container);
-
-      // THEN
-      expect(injector.get(MyService)).toBeInstanceOf(MyService);
-      expect(injector.get<MyService>(MyService)!.externalService).toEqual("MyClass");
     });
   });
 
