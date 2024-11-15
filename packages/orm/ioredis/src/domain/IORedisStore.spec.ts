@@ -117,6 +117,7 @@ vi.mock("ioredis", () => {
   }
 
   return {
+    default: {Redis},
     Redis
   };
 });

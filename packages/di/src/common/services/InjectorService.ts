@@ -131,9 +131,9 @@ export class InjectorService extends Container {
   /**
    * Return all instance of the same provider type
    */
-  getMany<Type = any>(type: any, locals?: LocalsContainer, options?: Partial<InvokeOptions>): Type[] {
+  getMany<Type = any>(type: any, options?: Partial<InvokeOptions>): Type[] {
     return this.getProviders(type).map((provider) => {
-      return this.invoke(provider.token, locals, options)!;
+      return this.invoke(provider.token, options)!;
     });
   }
 
@@ -170,12 +170,11 @@ export class InjectorService extends Container {
    * ```
    *
    * @param token The injectable class to invoke. Class parameters are injected according constructor signature.
-   * @param locals  Optional object. If preset then any argument Class are read from this object first, before the `InjectorService` is consulted.
-   * @param options
+   * @param options {InvokeOptions} Optional options to invoke the class.
    * @returns {Type} The class constructed.
    */
-  public invoke<Type = any>(token: TokenProvider<Type>, locals?: LocalsContainer, options: Partial<InvokeOptions> = {}): Type {
-    let instance: any = locals ? locals.get(token) : undefined;
+  public invoke<Type = any>(token: TokenProvider<Type>, options: Partial<InvokeOptions> = {}): Type {
+    let instance: any = options.locals ? options.locals.get(token) : undefined;
 
     if (instance !== undefined) {
       return instance;
@@ -203,7 +202,7 @@ export class InjectorService extends Container {
     };
 
     if (!provider || options.rebuild) {
-      instance = this.resolve(token, locals, options);
+      instance = this.resolve(token, options);
 
       if (this.hasProvider(token)) {
         set(instance);
@@ -212,7 +211,7 @@ export class InjectorService extends Container {
       return instance;
     }
 
-    instance = this.resolve(token, locals, options);
+    instance = this.resolve(token, options);
 
     switch (this.scopeOf(provider)) {
       case ProviderScope.SINGLETON:
@@ -238,11 +237,11 @@ export class InjectorService extends Container {
         return instance;
 
       case ProviderScope.REQUEST:
-        if (locals) {
-          locals.set(token, instance);
+        if (options.locals) {
+          options.locals.set(token, instance);
 
           if (provider.hooks && provider.hooks.$onDestroy) {
-            locals.hooks.on("$onDestroy", (...args: any[]) => provider.hooks!.$onDestroy(instance, ...args));
+            options.locals.hooks.on("$onDestroy", (...args: any[]) => provider.hooks!.$onDestroy(instance, ...args));
           }
         }
 
@@ -434,12 +433,8 @@ export class InjectorService extends Container {
    * @param options
    * @private
    */
-  protected resolve<T>(
-    target: TokenProvider,
-    locals: LocalsContainer = new LocalsContainer(),
-    options: Partial<InvokeOptions> = {}
-  ): T | Promise<T> {
-    const resolvedOpts = this.mapInvokeOptions(target, locals, options);
+  protected resolve<T>(target: TokenProvider, options: Partial<InvokeOptions> = {}): T | Promise<T> {
+    const resolvedOpts = this.mapInvokeOptions(target, options);
 
     if (!resolvedOpts) {
       return undefined as T;
@@ -448,7 +443,7 @@ export class InjectorService extends Container {
     const {token, deps, construct, imports, provider} = resolvedOpts;
 
     if (provider) {
-      GlobalProviders.onInvoke(provider, locals, {...resolvedOpts, injector: this});
+      GlobalProviders.onInvoke(provider, resolvedOpts);
     }
 
     let instance: any;
@@ -461,12 +456,18 @@ export class InjectorService extends Container {
           currentDependency = {token, index, deps};
 
           if (isArray(token)) {
-            return this.getMany(token[0], locals, options);
+            return this.getMany(token[0], options);
           }
 
           const useOpts = provider?.store?.get(`${DI_USE_PARAM_OPTIONS}:${index}`) || options.useOpts;
 
-          return isInheritedFrom(token, Provider, 1) ? provider : this.invoke(token, locals, {parent, useOpts});
+          return isInheritedFrom(token, Provider, 1)
+            ? provider
+            : this.invoke(token, {
+                parent,
+                locals: options.locals,
+                useOpts
+              });
         };
 
       // Invoke manually imported providers
@@ -491,7 +492,7 @@ export class InjectorService extends Container {
 
     if (instance && isClass(classOf(instance))) {
       Reflect.defineProperty(instance, DI_INVOKE_OPTIONS, {
-        get: () => ({rebuild: options.rebuild, locals})
+        get: () => ({rebuild: options.rebuild, locals: options.locals})
       });
     }
 
@@ -542,17 +543,15 @@ export class InjectorService extends Container {
   /**
    * Create options to invoke a provider or class.
    * @param token
-   * @param locals
    * @param options
    */
-  private mapInvokeOptions(
-    token: TokenProvider,
-    locals: Map<TokenProvider, any>,
-    options: Partial<InvokeOptions>
-  ): ResolvedInvokeOptions | false {
+  private mapInvokeOptions(token: TokenProvider, options: Partial<InvokeOptions>): ResolvedInvokeOptions | false {
+    const locals = options.locals || new LocalsContainer();
+
+    options.locals = locals;
+
     let imports: (TokenProvider | [TokenProvider])[] | undefined = options.imports;
     let deps: TokenProvider[] | undefined = options.deps;
-    let scope = options.scope;
     let construct;
 
     if (!token || token === Object) {
@@ -565,7 +564,7 @@ export class InjectorService extends Container {
       provider = new Provider(token);
 
       this.resolvers.forEach((resolver) => {
-        const result = resolver.get(token, locals.get(DI_USE_PARAM_OPTIONS));
+        const result = resolver.get(token, options.locals!.get(DI_USE_PARAM_OPTIONS));
 
         if (result !== undefined) {
           provider.useFactory = () => result;
@@ -575,7 +574,6 @@ export class InjectorService extends Container {
       provider = this.getProvider(token)!;
     }
 
-    scope = scope || this.scopeOf(provider);
     deps = deps || provider.deps;
     imports = imports || provider.imports;
 
@@ -598,11 +596,11 @@ export class InjectorService extends Container {
 
     return {
       token,
-      scope: scope || Store.from(token).get("scope") || ProviderScope.SINGLETON,
       deps: deps! || [],
       imports: imports || [],
       construct,
-      provider
+      provider,
+      locals
     };
   }
 

@@ -1,4 +1,4 @@
-import {Controller, ControllerProvider, InjectorService} from "@tsed/di";
+import {Controller, ControllerProvider, injector} from "@tsed/di";
 import {PlatformParams} from "@tsed/platform-params";
 
 import {PlatformRouter} from "../src/domain/PlatformRouter.js";
@@ -14,12 +14,11 @@ class CustomStaticsCtrl {
 }
 
 function createAppRouterFixture() {
-  const injector = new InjectorService();
-  const platformRouters = injector.invoke<PlatformRouters>(PlatformRouters);
-  const platformParams = injector.invoke<PlatformParams>(PlatformParams);
-  const appRouter = injector.invoke<PlatformRouter>(PlatformRouter);
+  const platformRouters = injector({rebuild: true}).invoke<PlatformRouters>(PlatformRouters);
+  const platformParams = injector().invoke<PlatformParams>(PlatformParams);
+  const appRouter = injector().invoke<PlatformRouter>(PlatformRouter);
 
-  injector.addProvider(CustomStaticsCtrl, {});
+  injector().addProvider(CustomStaticsCtrl, {});
 
   return {injector, appRouter, platformRouters, platformParams};
 }
@@ -34,9 +33,9 @@ describe("Routers injection", () => {
     const router = platformRouters.from(CustomStaticsCtrl);
     const router1 = platformRouters.from(CustomStaticsCtrl);
 
-    const provider = injector.getProvider<ControllerProvider>(CustomStaticsCtrl)!;
-    const router2 = injector.get(provider.tokenRouter);
-    const controller = injector.invoke<CustomStaticsCtrl>(CustomStaticsCtrl)!;
+    const provider = injector().getProvider<ControllerProvider>(CustomStaticsCtrl)!;
+    const router2 = injector().get(provider.tokenRouter);
+    const controller = injector().invoke<CustomStaticsCtrl>(CustomStaticsCtrl)!;
 
     expect(router).toEqual(router1);
     expect(router).toEqual(router2);

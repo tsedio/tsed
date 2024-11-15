@@ -87,16 +87,17 @@ describe("InjectorService", () => {
 
         // WHEN
 
-        const result1: any = injector.invoke(token, locals);
-        const result2: any = injector.invoke(token, locals, {rebuild: true});
+        const result1: any = injector.invoke(token, {locals});
+        const result2: any = injector.invoke(token, {locals, rebuild: true});
 
         // THEN
         expect(result1 !== result2).toEqual(true);
         expect(injector.getProvider).toHaveBeenCalledWith(token);
         expect(injector.get("alias")).toBeInstanceOf(token);
 
-        expect((injector as any).resolve).toHaveBeenCalledWith(token, locals, {rebuild: true});
-        expect((injector as any).invoke).toHaveBeenCalledWith(InjectorService, locals, {
+        expect((injector as any).resolve).toHaveBeenCalledWith(token, {locals, rebuild: true});
+        expect(injector.invoke).toHaveBeenCalledWith(InjectorService, {
+          locals,
           parent: token
         });
       });
@@ -123,18 +124,18 @@ describe("InjectorService", () => {
         const locals2 = new LocalsContainer(); // LocalContainer for the second request
 
         // WHEN REQ1
-        const result1: any = injector.invoke(token, locals);
-        const result2: any = injector.invoke(token, locals);
+        const result1: any = injector.invoke(token, {locals});
+        const result2: any = injector.invoke(token, {locals});
 
         // WHEN REQ2
-        const result3: any = injector.invoke(token, locals2);
+        const result3: any = injector.invoke(token, {locals: locals2});
 
         // THEN
         expect(result1).toEqual(result2);
         expect(result2 !== result3).toEqual(true);
 
         expect(injector.getProvider).toHaveBeenCalledWith(token);
-        expect((injector as any).resolve).toHaveBeenCalledWith(token, locals, {});
+        expect((injector as any).resolve).toHaveBeenCalledWith(token, {locals});
         expect(locals.get(token)).toEqual(result1);
         expect(locals2.get(token)).toEqual(result3);
 
@@ -162,14 +163,14 @@ describe("InjectorService", () => {
         const locals = new LocalsContainer(); // LocalContainer for the first request
 
         // WHEN REQ1
-        const result1: any = injector.invoke(token, locals);
-        const result2: any = injector.invoke(token, locals);
+        const result1: any = injector.invoke(token, {locals});
+        const result2: any = injector.invoke(token, {locals});
 
         // THEN
         expect(result1 !== result2).toEqual(true);
 
         expect(injector.getProvider).toHaveBeenCalledWith(token);
-        expect((injector as any).resolve).toHaveBeenCalledWith(token, locals, {});
+        expect((injector as any).resolve).toHaveBeenCalledWith(token, {locals});
         expect(locals.has(token)).toEqual(false);
 
         return expect(injector.get).not.toHaveBeenCalled();
@@ -196,7 +197,7 @@ describe("InjectorService", () => {
 
         // THEN
         expect(result).toBeInstanceOf(token);
-        expect(GlobalProviders.onInvoke).toHaveBeenCalledWith(provider, expect.any(LocalsContainer), expect.anything());
+        expect(GlobalProviders.onInvoke).toHaveBeenCalledWith(provider, expect.anything());
       });
       it("should invoke the provider from container (2)", async () => {
         // GIVEN
@@ -218,8 +219,8 @@ describe("InjectorService", () => {
 
         // WHEN
 
-        const result1: any = injector.invoke(token, locals);
-        const result2: any = injector.invoke(token, locals);
+        const result1: any = injector.invoke(token, {locals});
+        const result2: any = injector.invoke(token, {locals});
 
         // THEN
         expect(result1).toEqual(result2);

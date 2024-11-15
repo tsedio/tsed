@@ -193,7 +193,7 @@ export class ApolloService {
       locals.set(ApolloServer, server);
 
       dataSourcesContainer.forEach((provider, key) => {
-        alteredContext.dataSources[key] = injector.invoke(provider.token, locals);
+        alteredContext.dataSources[key] = injector.invoke(provider.token, {locals});
       });
 
       return alteredContext;

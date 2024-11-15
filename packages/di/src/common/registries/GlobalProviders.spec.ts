@@ -100,13 +100,13 @@ describe("GlobalProviderRegistry", () => {
       const locals = new LocalsContainer();
       const resolvedOptions = {
         token: provider.token,
-        injector: new InjectorService()
+        locals
       } as any;
 
       GlobalProviders.createRegistry("type:test", Provider, opts);
-      GlobalProviders.onInvoke(provider, locals, resolvedOptions);
+      GlobalProviders.onInvoke(provider, resolvedOptions);
 
-      expect(opts.onInvoke).toHaveBeenCalledWith(provider, locals, resolvedOptions);
+      expect(opts.onInvoke).toHaveBeenCalledWith(provider, resolvedOptions);
     });
   });
 });

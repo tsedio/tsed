@@ -61,8 +61,8 @@ describe("DI", () => {
       expect(injector.invoke(ServiceInstance) === injector.invoke(ServiceInstance)).toEqual(false);
 
       const locals = new LocalsContainer();
-      expect(injector.invoke(ServiceRequest, locals)).toEqual(injector.invoke(ServiceRequest, locals));
-      expect(injector.invoke(ServiceInstance, locals) === injector.invoke(ServiceInstance, locals)).toEqual(false);
+      expect(injector.invoke(ServiceRequest, {locals})).toEqual(injector.invoke(ServiceRequest, {locals}));
+      expect(injector.invoke(ServiceInstance, {locals}) === injector.invoke(ServiceInstance, {locals})).toEqual(false);
     });
   });
 

@@ -75,9 +75,7 @@ Instance scope used on a provider tells the injector to create a new instance ea
 With the functional API, you can also rebuild any service on the fly by calling @@inject@@ with the `rebuild` flag:
 
 ```typescript
-import {inject, injector} from "@tsed/di";
+import {inject} from "@tsed/di";
 
 const myService = inject(MyService, {rebuild: true});
-// similar to
-const myService2 = injector().invoke(MyService, {rebuild: true});
 ```

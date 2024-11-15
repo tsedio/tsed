@@ -53,7 +53,7 @@ export class PlatformParams {
 
     return async (scope: PlatformParamsScope<Context>) => {
       const container = provider.scope === ProviderScope.REQUEST ? scope.$ctx.container : undefined;
-      const [instance, args] = await Promise.all([this.injector.invoke<any>(token, container), getArguments(scope)]);
+      const [instance, args] = await Promise.all([this.injector.invoke<any>(token, {locals: container}), getArguments(scope)]);
 
       return instance[propertyKey].call(instance, ...args, scope.$ctx);
     };

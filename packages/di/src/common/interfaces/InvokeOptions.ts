@@ -15,10 +15,10 @@ export interface InvokeOptions {
    * Parent provider.
    */
   parent?: TokenProvider;
-  /**
-   * Scope used by the injector to build the provider.
-   */
-  scope: ProviderScope;
+  // /**
+  //  * Scope used by the injector to build the provider.
+  //  */
+  // scope: ProviderScope;
   /**
    * If true, the injector will rebuild the instance.
    */

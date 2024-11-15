@@ -15,8 +15,7 @@ export interface RegistrySettings {
   /**
    *
    * @param provider
-   * @param {Map<string | Function, any>} locals
    * @param options
    */
-  onInvoke?(provider: Provider, locals: LocalsContainer, options: ResolvedInvokeOptions & {injector: InjectorService}): void;
+  onInvoke?(provider: Provider, options: ResolvedInvokeOptions): void;
 }

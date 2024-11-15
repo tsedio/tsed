@@ -38,7 +38,7 @@ vi.mock("ioredis", () => {
     }
   }
 
-  return {Redis: MockRedis};
+  return {Redis: MockRedis, default: {Redis: MockRedis}};
 });
 
 const REDIS_CONNECTION = Symbol.for("REDIS_CONNECTION");

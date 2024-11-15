@@ -16,7 +16,7 @@ export class Adapters {
   invokeAdapter<T = any>(options: AdapterInvokeOptions): Adapter<T> {
     const {adapter = this.injector.settings.get("adapters.Adapter", MemoryAdapter), ...props} = options;
 
-    return this.injector.invoke<Adapter<T>>(adapter, options.locals, {
+    return this.injector.invoke<Adapter<T>>(adapter, {
       useOpts: props
     });
   }

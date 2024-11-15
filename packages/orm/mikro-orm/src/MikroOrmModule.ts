@@ -54,7 +54,14 @@ export class MikroOrmModule implements OnDestroy, OnInit, AlterRunInContext {
   public async $onInit(): Promise<void> {
     const container = new LocalsContainer();
 
-    await Promise.all(this.settings.map((opts) => this.registry.register({...opts, subscribers: this.getSubscribers(opts, container)})));
+    await Promise.all(
+      this.settings.map((opts) =>
+        this.registry.register({
+          ...opts,
+          subscribers: this.getSubscribers(opts, container)
+        })
+      )
+    );
   }
 
   public $onDestroy(): Promise<void> {
@@ -70,13 +77,11 @@ export class MikroOrmModule implements OnDestroy, OnInit, AlterRunInContext {
   }
 
   private getUnmanagedSubscribers(opts: Pick<Options, "subscribers">, container: LocalsContainer) {
-    const diOpts = {scope: ProviderScope.INSTANCE};
-
     return (opts.subscribers ?? []).map((subscriber) => {
       // Starting from https://github.com/mikro-orm/mikro-orm/issues/4231 mikro-orm
       // accept also accepts class reference, not just instances.
       if (isFunction(subscriber)) {
-        return this.injector.invoke(subscriber, container, diOpts);
+        return this.injector.invoke(subscriber, {locals: container});
       }
 
       return subscriber;

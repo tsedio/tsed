@@ -1,5 +1,5 @@
 import {getValue, Hooks, Type} from "@tsed/core";
-import {ControllerProvider, GlobalProviders, Injectable, InjectorService, Provider, ProviderType, TokenProvider} from "@tsed/di";
+import {ControllerProvider, GlobalProviders, Injectable, injector, InjectorService, Provider, ProviderType, TokenProvider} from "@tsed/di";
 import {PlatformParamsCallback} from "@tsed/platform-params";
 import {concatPath, getOperationsRoutes, JsonMethodStore, OPERATION_HTTP_VERBS} from "@tsed/schema";
 
@@ -36,8 +36,8 @@ function createInjectableRouter(injector: InjectorService, provider: ControllerP
 }
 
 GlobalProviders.createRegistry(ProviderType.CONTROLLER, ControllerProvider, {
-  onInvoke(provider: ControllerProvider, locals: any, {injector}) {
-    const router = createInjectableRouter(injector, provider);
+  onInvoke(provider: ControllerProvider, {locals}) {
+    const router = createInjectableRouter(injector(), provider);
     locals.set(PlatformRouter, router);
   }
 });

@@ -17,7 +17,7 @@ function resolveAutoInjectableArgs(token: Type, args: unknown[]) {
       list.push(args[i]);
     } else {
       const value = deps[i];
-      const instance = isArray(value) ? inj!.getMany(value[0], locals, {parent: token}) : inj!.invoke(value, locals, {parent: token});
+      const instance = isArray(value) ? inj!.getMany(value[0], {locals, parent: token}) : inj!.invoke(value, {locals, parent: token});
 
       list.push(instance);
     }

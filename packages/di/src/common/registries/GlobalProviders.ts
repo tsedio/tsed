@@ -80,11 +80,11 @@ export class GlobalProviderRegistry extends Map<TokenProvider, Provider> {
     return this;
   }
 
-  onInvoke(provider: Provider, locals: LocalsContainer, options: ResolvedInvokeOptions & {injector: InjectorService}) {
+  onInvoke(provider: Provider, options: ResolvedInvokeOptions) {
     const settings = this.#settings.get(provider.type);
 
     if (settings?.onInvoke) {
-      settings.onInvoke(provider, locals, options);
+      settings.onInvoke(provider, options);
     }
   }
 
