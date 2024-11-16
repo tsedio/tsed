@@ -616,29 +616,18 @@ describe("InjectorService", () => {
       // GIVEN
       const injector = new InjectorService();
 
-      injector.settings.set({
-        scopes: {
-          [ProviderType.VALUE]: ProviderScope.SINGLETON
-        }
-      });
-
-      expect(injector.settings.get("scopes")).toEqual({
-        [ProviderType.VALUE]: ProviderScope.SINGLETON
-      });
-
       injector.add(Symbol.for("TOKEN1"), {
         configuration: {
-          custom: "config",
-          scopes: {
-            provider_custom: ProviderScope.SINGLETON
+          custom: {
+            config: "1"
           }
         }
       });
 
       injector.add(Symbol.for("TOKEN2"), {
         configuration: {
-          scopes: {
-            provider_custom_2: ProviderScope.SINGLETON
+          custom: {
+            config2: "1"
           }
         }
       });
@@ -647,11 +636,7 @@ describe("InjectorService", () => {
       injector.resolveConfiguration();
 
       // THEN
-      expect(injector.settings.scopes).toEqual({
-        provider_custom: "singleton",
-        provider_custom_2: "singleton",
-        value: "singleton"
-      });
+      expect(injector.settings.get("custom")).toEqual({config: "1", config2: "1"});
     });
   });
 

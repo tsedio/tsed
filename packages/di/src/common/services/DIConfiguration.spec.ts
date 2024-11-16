@@ -44,21 +44,10 @@ describe("DIConfiguration", () => {
       expect(obj).toEqual({
         imports: [],
         logger: {},
-        routes: [],
-        scopes: {}
+        routes: []
       });
     });
   });
-  describe("scopes()", () => {
-    it("should get scopes", () => {
-      // GIVEN
-      const configuration = new DIConfiguration();
-
-      configuration.scopes = {};
-      expect(configuration.scopes).toEqual({});
-    });
-  });
-
   describe("imports()", () => {
     it("should get imports", () => {
       // GIVEN

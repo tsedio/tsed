@@ -18,6 +18,8 @@ import {createContainer} from "../utils/createContainer.js";
 import {getConstructorDependencies} from "../utils/getConstructorDependencies.js";
 import {DIConfiguration} from "./DIConfiguration.js";
 
+const EXCLUDED_CONFIGURATION_KEYS = ["mount", "imports"];
+
 /**
  * This service contain all services collected by `@Service` or services declared manually with `InjectorService.factory()` or `InjectorService.service()`.
  *
@@ -52,18 +54,6 @@ export class InjectorService extends Container {
   constructor() {
     super();
     this.#cache.set(InjectorService, this);
-  }
-
-  get scopes() {
-    return this.settings.scopes || {};
-  }
-
-  /**
-   * Retrieve default scope for a given provider.
-   * @param provider
-   */
-  public scopeOf(provider: Provider) {
-    return provider.scope || this.scopes[String(provider.type)] || ProviderScope.SINGLETON;
   }
 
   /**
@@ -101,7 +91,7 @@ export class InjectorService extends Container {
    */
   getMany<Type = any>(type: any, options?: Partial<InvokeOptions>): Type[] {
     return this.getProviders(type).map((provider) => {
-      return this.invoke(provider.token, options)!;
+      return this.invoke<Type>(provider.token, options);
     });
   }
 
@@ -181,7 +171,7 @@ export class InjectorService extends Container {
 
     instance = this.resolve(token, options);
 
-    switch (this.scopeOf(provider)) {
+    switch (provider.scope) {
       case ProviderScope.SINGLETON:
         if (provider.hooks && !options.rebuild) {
           this.registerHooks(provider, instance);
@@ -206,9 +196,7 @@ export class InjectorService extends Container {
         if (options.locals) {
           options.locals.set(token, instance);
 
-          if (provider.hooks && provider.hooks.$onDestroy) {
-            options.locals.hooks.on("$onDestroy", (...args: any[]) => provider.hooks!.$onDestroy(instance, ...args));
-          }
+          options.locals?.hooks.on("$onDestroy", (...args: unknown[]) => provider.hooks?.$onDestroy(instance, ...args));
         }
 
         return instance;
@@ -233,7 +221,7 @@ export class InjectorService extends Container {
    */
   loadSync() {
     for (const [, provider] of this) {
-      if (!this.has(provider.token) && this.scopeOf(provider) === ProviderScope.SINGLETON) {
+      if (!this.has(provider.token) && provider.scope === ProviderScope.SINGLETON) {
         this.invoke(provider.token);
       }
     }
@@ -269,7 +257,7 @@ export class InjectorService extends Container {
     super.forEach((provider) => {
       if (provider.configuration && provider.type !== "server:module") {
         Object.entries(provider.configuration).forEach(([key, value]) => {
-          if (!["mount", "imports"].includes(key)) {
+          if (!EXCLUDED_CONFIGURATION_KEYS.includes(key)) {
             value = mergedConfiguration.has(key) ? deepMerge(mergedConfiguration.get(key), value) : deepClone(value);
             mergedConfiguration.set(key, value);
           }

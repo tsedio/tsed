@@ -12,7 +12,6 @@ export class DIConfiguration {
 
   constructor(initialProps = {}) {
     Object.entries({
-      scopes: {},
       imports: [],
       routes: [],
       logger: {},
@@ -45,22 +44,6 @@ export class DIConfiguration {
   set env(value: Env) {
     this.map.set("env", value);
   }
-
-  get scopes(): Record<string, ProviderScope> {
-    return this.map.get("scopes");
-  }
-
-  set scopes(value: Record<string, ProviderScope>) {
-    this.map.set("scopes", value);
-  }
-  //
-  // get resolvers(): DIResolver[] {
-  //   return this.getRaw("resolvers");
-  // }
-  //
-  // set resolvers(resolvers: DIResolver[]) {
-  //   this.map.set("resolvers", resolvers);
-  // }
 
   get imports(): (TokenProvider | ImportTokenProviderOpts)[] {
     return this.get("imports")!;

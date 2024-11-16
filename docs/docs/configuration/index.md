@@ -265,23 +265,6 @@ Add providers or modules here. These modules or provider will be built before th
   </Tab>
 </Tabs>
 
-### scopes
-
-- type: `{[key: string]: ProviderScope}`
-
-Change the default scope for a given provider. See [injection scopes](/docs/injection-scopes) for more details.
-
-```typescript
-import {Configuration, ProviderScope, ProviderType} from "@tsed/di";
-
-@Configuration({
-  scopes: {
-    [ProviderType.CONTROLLER]: ProviderScope.REQUEST
-  }
-})
-export class Server {}
-```
-
 ### logger
 
 - type: @@PlatformLoggerSettings@@

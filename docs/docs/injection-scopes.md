@@ -2,7 +2,7 @@
 
 The scope of a [Provider](/docs/providers.md) defines the lifecycle and visibility of that bean in the context in which it is used.
 
-Ts.ED DI defines 3 types of @@Scope@@ which can be used on injectable classes:
+Ts.ED DI defines 3 types of @@ProviderScope@@ which can be used on injectable classes:
 
 - `singleton`: The default scope. The provider is created during server initialization and is shared across all requests.
 - `request`: A new instance of the provider is created for each incoming request.

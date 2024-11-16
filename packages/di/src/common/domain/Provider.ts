@@ -110,7 +110,7 @@ export class Provider<T = any> implements ProviderOpts<T> {
       return ProviderScope.SINGLETON;
     }
 
-    return this.get("scope");
+    return this.get<ProviderScope>("scope", ProviderScope.SINGLETON);
   }
 
   /**
@@ -122,7 +122,7 @@ export class Provider<T = any> implements ProviderOpts<T> {
   }
 
   get configuration(): Partial<TsED.Configuration> {
-    return this.get("configuration");
+    return this.get("configuration")!;
   }
 
   set configuration(configuration: Partial<TsED.Configuration>) {
@@ -140,9 +140,21 @@ export class Provider<T = any> implements ProviderOpts<T> {
   getArgOpts(index: number) {
     return this.store.get(`${DI_USE_PARAM_OPTIONS}:${index}`);
   }
-
-  get(key: string) {
-    return this.store.get(key) || this._tokenStore.get(key);
+  /**
+   * Retrieves a value from the provider's store.
+   * @param key The key to look up
+   * @returns The value if found, undefined otherwise
+   */
+  get<Type = unknown>(key: string): Type | undefined;
+  /**
+   * Retrieves a value from the provider's store with a default fallback.
+   * @param key The key to look up
+   * @param defaultValue The value to return if key is not found
+   * @returns The found value or defaultValue
+   */
+  get<Type = unknown>(key: string, defaultValue: Type): Type;
+  get<Type = unknown>(key: string, defaultValue?: Type): Type | undefined {
+    return this.store.get(key) || this._tokenStore.get(key) || defaultValue;
   }
 
   isAsync(): boolean {
