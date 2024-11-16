@@ -64,6 +64,8 @@ export function deepMerge<T = any, C = any>(source: T & any, obj: C & any, optio
     return [].concat(obj).reduce((out: any[], value: any) => reducer(out, value, options), [...source]);
   }
 
+  const newObj = createInstance(source);
+
   return [...objectKeys(source), ...objectKeys(obj)].reduce((out: any, key: string) => {
     const src = source && source[key];
     const value = deepMerge(src, obj && obj[key], {
@@ -75,9 +77,8 @@ export function deepMerge<T = any, C = any>(source: T & any, obj: C & any, optio
       return out;
     }
 
-    return {
-      ...out,
-      [key]: value
-    };
-  }, createInstance(source));
+    out[key] = value;
+
+    return out;
+  }, newObj);
 }

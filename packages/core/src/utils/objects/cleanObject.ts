@@ -4,17 +4,14 @@ import {isProtectedKey} from "./isProtectedKey.js";
  * @param obj
  * @param ignore
  */
-export function cleanObject(obj: any, ignore: string[] = []): any {
+export function cleanObject(obj: Record<string, unknown>, ignore: string[] = []): any {
   return Object.entries(obj).reduce((obj, [key, value]) => {
-    if (isProtectedKey(key) || ignore.includes(key)) {
+    if (isProtectedKey(key) || ignore.includes(key) || value === undefined) {
       return obj;
     }
 
-    return value === undefined
-      ? obj
-      : {
-          ...obj,
-          [key]: value
-        };
-  }, {});
+    obj[key] = value;
+
+    return obj
+  }, {} as Record<string, unknown>);
 }
