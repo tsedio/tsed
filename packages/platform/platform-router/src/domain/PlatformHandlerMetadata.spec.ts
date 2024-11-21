@@ -1,4 +1,4 @@
-import {Controller, InjectorService} from "@tsed/di";
+import {Controller, destroyInjector, injector} from "@tsed/di";
 import {Err, Next, Req} from "@tsed/platform-http";
 import {Middleware} from "@tsed/platform-middlewares";
 import {Get, JsonMethodStore} from "@tsed/schema";
@@ -8,13 +8,14 @@ import {PlatformHandlerMetadata} from "./PlatformHandlerMetadata.js";
 import {PlatformHandlerType} from "./PlatformHandlerType.js";
 
 describe("PlatformHandlerMetadata", () => {
+  afterEach(() => destroyInjector());
   describe("from()", () => {
     it("should return PlatformMetadata", () => {
       const meta = new PlatformHandlerMetadata({
         type: PlatformHandlerType.CUSTOM,
         handler: () => {}
       });
-      const result = PlatformHandlerMetadata.from({} as any, meta);
+      const result = PlatformHandlerMetadata.from(meta);
       expect(result).toEqual(meta);
     });
   });
@@ -95,11 +96,10 @@ describe("PlatformHandlerMetadata", () => {
         test(@Req() req: Req, @Next() next: Next) {}
       }
 
-      const injector = new InjectorService();
-      injector.addProvider(Test);
+      injector().addProvider(Test);
 
       const options = {
-        provider: injector.getProvider(Test),
+        provider: injector().getProvider(Test),
         propertyKey: "test",
         type: PlatformHandlerType.ENDPOINT
       };
@@ -128,11 +128,10 @@ describe("PlatformHandlerMetadata", () => {
         use(@Err() error: any, @Next() next: Next) {}
       }
 
-      const injector = new InjectorService();
-      injector.addProvider(Test);
+      injector().addProvider(Test);
 
       const options = {
-        provider: injector.getProvider(Test),
+        provider: injector().getProvider(Test),
         propertyKey: "use",
         type: PlatformHandlerType.MIDDLEWARE
       };

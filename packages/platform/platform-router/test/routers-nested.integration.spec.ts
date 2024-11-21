@@ -1,4 +1,4 @@
-import {Controller, InjectorService} from "@tsed/di";
+import {configuration, Controller, inject, injector, InjectorService} from "@tsed/di";
 import {PlatformTest} from "@tsed/platform-http/testing";
 import {PlatformParams} from "@tsed/platform-params";
 import {Get, Post} from "@tsed/schema";
@@ -43,17 +43,18 @@ export class PlatformController {
 }
 
 function createAppRouterFixture() {
-  const injector = new InjectorService();
-  const platformRouters = injector.invoke<PlatformRouters>(PlatformRouters);
-  const platformParams = injector.invoke<PlatformParams>(PlatformParams);
-  const appRouter = injector.invoke<PlatformRouter>(PlatformRouter);
+  const platformRouters = inject(PlatformRouters);
+  const platformParams = inject(PlatformParams);
+  const appRouter = inject(PlatformRouter);
 
-  injector.addProvider(FlaggedCommentController, {});
-  injector.addProvider(CommentController, {});
-  injector.addProvider(DomainController, {});
-  injector.addProvider(PlatformController, {});
+  platformRouters.hooks.destroy();
 
-  return {injector, appRouter, platformRouters, platformParams};
+  injector().addProvider(FlaggedCommentController, {});
+  injector().addProvider(CommentController, {});
+  injector().addProvider(DomainController, {});
+  injector().addProvider(PlatformController, {});
+
+  return {appRouter, platformRouters, platformParams};
 }
 
 describe("routers integration", () => {
@@ -103,8 +104,8 @@ describe("routers integration", () => {
     });
 
     it("should declare correctly with appendChildrenRoutesFirst", () => {
-      const {injector, platformRouters, appRouter} = createAppRouterFixture();
-      injector.settings.set("router.appendChildrenRoutesFirst", true);
+      const {platformRouters, appRouter} = createAppRouterFixture();
+      configuration().set("router.appendChildrenRoutesFirst", true);
 
       platformRouters.prebuild();
 

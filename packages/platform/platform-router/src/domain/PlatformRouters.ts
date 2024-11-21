@@ -1,5 +1,17 @@
-import {getValue, Hooks, Type} from "@tsed/core";
-import {ControllerProvider, GlobalProviders, Injectable, injector, InjectorService, Provider, ProviderType, TokenProvider} from "@tsed/di";
+import {getValue, Type} from "@tsed/core";
+import {
+  constant,
+  ControllerProvider,
+  GlobalProviders,
+  inject,
+  Injectable,
+  injectable,
+  injector,
+  Provider,
+  ProviderType,
+  TokenProvider
+} from "@tsed/di";
+import {Hooks} from "@tsed/hooks";
 import {PlatformParamsCallback} from "@tsed/platform-params";
 import {concatPath, getOperationsRoutes, JsonMethodStore, OPERATION_HTTP_VERBS} from "@tsed/schema";
 
@@ -10,25 +22,25 @@ import {PlatformRouter} from "./PlatformRouter.js";
 
 let AUTO_INC = 0;
 
-function getInjectableRouter(injector: InjectorService, provider: Provider): PlatformRouter {
-  return injector.get(provider.tokenRouter)!;
+function getInjectableRouter(provider: Provider): PlatformRouter {
+  return injector().get(provider.tokenRouter)!;
 }
 
 function createTokenRouter(provider: ControllerProvider) {
   return (provider.tokenRouter = provider.tokenRouter || `${provider.name}_ROUTER_${AUTO_INC++}`);
 }
 
-function createInjectableRouter(injector: InjectorService, provider: ControllerProvider): PlatformRouter {
+function createInjectableRouter(provider: ControllerProvider): PlatformRouter {
   const tokenRouter = createTokenRouter(provider);
 
-  if (injector.has(tokenRouter)) {
-    return getInjectableRouter(injector, provider);
+  if (injector().has(tokenRouter)) {
+    return getInjectableRouter(provider);
   }
 
-  const router = injector.invoke<PlatformRouter>(PlatformRouter);
+  const router = inject<PlatformRouter>(PlatformRouter);
   router.provider = provider;
 
-  return injector
+  return injector()
     .add(tokenRouter, {
       useValue: router
     })
@@ -37,7 +49,7 @@ function createInjectableRouter(injector: InjectorService, provider: ControllerP
 
 GlobalProviders.createRegistry(ProviderType.CONTROLLER, ControllerProvider, {
   onInvoke(provider: ControllerProvider, {locals}) {
-    const router = createInjectableRouter(injector(), provider);
+    const router = createInjectableRouter(provider);
     locals.set(PlatformRouter, router);
   }
 });
@@ -48,28 +60,26 @@ export interface AlterEndpointHandlersArg {
   after: (Type<any> | Function)[];
 }
 
-@Injectable()
 export class PlatformRouters {
   readonly hooks = new Hooks();
   readonly allowedVerbs = OPERATION_HTTP_VERBS;
 
-  constructor(protected readonly injector: InjectorService) {}
-
   prebuild() {
-    this.injector.getProviders(ProviderType.CONTROLLER).forEach((provider: ControllerProvider) => {
-      createInjectableRouter(this.injector, provider);
-    });
+    injector()
+      .getProviders(ProviderType.CONTROLLER)
+      .forEach((provider: ControllerProvider) => {
+        createInjectableRouter(provider);
+      });
   }
 
   from(token: TokenProvider, parentMiddlewares: any[] = []) {
-    const {injector} = this;
-    const provider = injector.getProvider<ControllerProvider>(token)!;
+    const provider = injector().getProvider<ControllerProvider>(token)!;
 
     if (!provider) {
       throw new Error("Token not found in the provider registry");
     }
 
-    const router = createInjectableRouter(injector, provider);
+    const router = createInjectableRouter(provider);
 
     if (router.isBuilt()) {
       return router;
@@ -80,7 +90,7 @@ export class PlatformRouters {
     const {children} = provider;
 
     // Set default to true in next major version
-    const appendChildrenRoutesFirst = this.injector.settings.get<boolean>("router.appendChildrenRoutesFirst", false);
+    const appendChildrenRoutesFirst = constant<boolean>("router.appendChildrenRoutesFirst", false);
 
     if (appendChildrenRoutesFirst) {
       children.forEach((token: Type<any>) => {
@@ -139,7 +149,7 @@ export class PlatformRouters {
 
   private sortHandlers(handlers: AlterEndpointHandlersArg) {
     const get = (token: TokenProvider) => {
-      return this.injector.getProvider(token)?.priority || 0;
+      return injector().getProvider(token)?.priority || 0;
     };
 
     const sort = (p1: TokenProvider, p2: TokenProvider) => (get(p1) < get(p2) ? -1 : get(p1) > get(p2) ? 1 : 0);
@@ -182,3 +192,5 @@ export class PlatformRouters {
       });
   }
 }
+
+injectable(PlatformRouters);

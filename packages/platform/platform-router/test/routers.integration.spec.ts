@@ -1,5 +1,5 @@
 import {catchError} from "@tsed/core";
-import {Controller, InjectorService} from "@tsed/di";
+import {Controller, inject, injector} from "@tsed/di";
 import {PlatformContext} from "@tsed/platform-http";
 import {PlatformTest} from "@tsed/platform-http/testing";
 import {UseBefore} from "@tsed/platform-middlewares";
@@ -64,17 +64,19 @@ class MyController {
 }
 
 function createAppRouterFixture() {
-  const injector = new InjectorService();
-  const platformRouters = injector.invoke<PlatformRouters>(PlatformRouters);
-  const platformParams = injector.invoke<PlatformParams>(PlatformParams);
-  const appRouter = injector.invoke<PlatformRouter>(PlatformRouter);
+  const platformRouters = inject(PlatformRouters);
+  const platformParams = inject(PlatformParams);
+  const appRouter = inject(PlatformRouter);
 
-  injector.addProvider(NestedController, {});
+  platformRouters.hooks.destroy();
+
+  injector().addProvider(NestedController, {});
 
   platformRouters.hooks.on("alterEndpointHandlers", (handlers: AlterEndpointHandlersArg) => {
     handlers.after.push(useResponseHandler(() => "hello"));
     return handlers;
   });
+
   platformRouters.hooks.on("alterHandler", (handlerMetadata: PlatformHandlerMetadata) => {
     if (handlerMetadata.isInjectable()) {
       return platformParams.compileHandler(handlerMetadata);
@@ -83,7 +85,7 @@ function createAppRouterFixture() {
     return handlerMetadata.handler;
   });
 
-  return {injector, appRouter, platformRouters, platformParams};
+  return {appRouter, platformRouters, platformParams};
 }
 
 describe("routers integration", () => {
@@ -91,8 +93,8 @@ describe("routers integration", () => {
   afterEach(() => PlatformTest.reset());
   describe("getLayers()", () => {
     it("should declare router", () => {
-      const {injector, platformRouters} = createAppRouterFixture();
-      injector.addProvider(MyController, {});
+      const {platformRouters} = createAppRouterFixture();
+      injector().addProvider(MyController, {});
 
       const hookStub = vi.fn().mockImplementation((o) => o);
 
@@ -104,8 +106,8 @@ describe("routers integration", () => {
       expect(router.inspect()).toMatchSnapshot();
     });
     it("should declare router - appRouter", async () => {
-      const {injector, appRouter, platformRouters} = createAppRouterFixture();
-      injector.addProvider(MyController, {});
+      const {appRouter, platformRouters} = createAppRouterFixture();
+      injector().addProvider(MyController, {});
 
       const router = platformRouters.from(MyController);
 
@@ -142,10 +144,9 @@ describe("routers integration", () => {
 
   describe("use()", () => {
     it("should call method", () => {
-      const injector = new InjectorService();
-      injector.addProvider(NestedController, {});
+      injector().addProvider(NestedController, {});
 
-      const router = new PlatformRouter(injector);
+      const router = new PlatformRouter();
 
       router.use("/hello", function h() {});
 
