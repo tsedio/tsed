@@ -7,7 +7,6 @@ export * from "./decorators/storeSet.js";
 export * from "./domain/AnyToPromise.js";
 export * from "./domain/DecoratorTypes.js";
 export * from "./domain/Env.js";
-export * from "./domain/Hooks.js";
 export * from "./domain/Metadata.js";
 export * from "./domain/Store.js";
 export * from "./domain/Type.js";

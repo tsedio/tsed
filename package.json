@@ -31,7 +31,7 @@
     "test:ci": "yarn test:lint && yarn test:core && yarn test:specs && yarn test:platform && yarn test:integration && yarn test:graphql && yarn test:orm && yarn test:security && yarn test:third-parties",
     "test:lint": "eslint '**/*.{ts,js}'",
     "test:lint:fix": "eslint '**/*.{ts,js}' --fix",
-    "test:core": "lerna run test:ci --scope '@tsed/{core,di,platform-http,engines,normalize-path}' --stream --concurrency 2",
+    "test:core": "lerna run test:ci --scope '@tsed/{core,di,hooks,platform-http,engines,normalize-path}' --stream --concurrency 2",
     "test:platform": "lerna run test:ci --ignore '@tsed/platform-{express,koa}' --scope '@tsed/platform-*' --stream --concurrency 2",
     "test:integration": "lerna run test:ci --scope '@tsed/platform-{express,koa}' --stream --concurrency 2",
     "test:orm": "lerna run test:ci --scope '@tsed/{adapters,adapters-redis,mikro-orm,mongoose,objection,prisma}' --stream --concurrency 4",

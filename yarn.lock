@@ -6529,6 +6529,7 @@ __metadata:
     "@tsed/adapters": "workspace:*"
     "@tsed/barrels": "workspace:*"
     "@tsed/core": "workspace:*"
+    "@tsed/hooks": "workspace:*"
     "@tsed/ioredis": "workspace:*"
     "@tsed/typescript": "workspace:*"
     eslint: "npm:9.12.0"
@@ -6539,6 +6540,7 @@ __metadata:
     "@tsed/adapters": 8.0.0-rc.5
     "@tsed/core": 8.0.0-rc.5
     "@tsed/di": 8.0.0-rc.5
+    "@tsed/hooks": 8.0.0-rc.5
     "@tsed/platform-http": 8.0.0-rc.5
     ioredis: ">=5.2.3"
     ioredis-mock: ">=8.2.2"
@@ -6778,6 +6780,7 @@ __metadata:
   dependencies:
     "@tsed/barrels": "workspace:*"
     "@tsed/core": "workspace:*"
+    "@tsed/hooks": "workspace:*"
     "@tsed/logger": "npm:^6.7.8"
     "@tsed/schema": "workspace:*"
     "@tsed/typescript": "workspace:*"
@@ -6790,10 +6793,13 @@ __metadata:
     webpack: "npm:^5.75.0"
   peerDependencies:
     "@tsed/core": 8.0.0-rc.5
+    "@tsed/hooks": 8.0.0-rc.5
     "@tsed/logger": ">=6.7.5"
     "@tsed/schema": 8.0.0-rc.5
   peerDependenciesMeta:
     "@tsed/core":
+      optional: false
+    "@tsed/hooks":
       optional: false
     "@tsed/logger":
       optional: false
@@ -6982,6 +6988,23 @@ __metadata:
     "@tsed/logger": ">=6.7.5"
     "@tsed/platform-http": 8.0.0-rc.5
     graphql-ws: ">=5.14.2"
+  languageName: unknown
+  linkType: soft
+
+"@tsed/hooks@workspace:*, @tsed/hooks@workspace:packages/hooks":
+  version: 0.0.0-use.local
+  resolution: "@tsed/hooks@workspace:packages/hooks"
+  dependencies:
+    "@tsed/monorepo-utils": "npm:2.3.9"
+    "@tsed/typescript": "workspace:*"
+    "@tsed/vitest": "workspace:*"
+    eslint: "npm:9.12.0"
+    reflect-metadata: "npm:^0.2.2"
+    tslib: "npm:2.7.0"
+    typescript: "npm:5.4.5"
+    vite: "npm:^5.4.8"
+    vitest: "npm:2.1.2"
+    webpack: "npm:^5.75.0"
   languageName: unknown
   linkType: soft
 
@@ -7519,6 +7542,7 @@ __metadata:
     "@tsed/di": "workspace:*"
     "@tsed/engines": "workspace:*"
     "@tsed/exceptions": "workspace:*"
+    "@tsed/hooks": "workspace:*"
     "@tsed/json-mapper": "workspace:*"
     "@tsed/logger": "npm:^6.7.8"
     "@tsed/logger-file": "npm:^6.7.8"
@@ -7813,8 +7837,8 @@ __metadata:
   resolution: "@tsed/platform-serverless-http@workspace:packages/platform/platform-serverless-http"
   dependencies:
     "@tsed/barrels": "workspace:*"
-    "@tsed/core": "workspace:*"
     "@tsed/di": "workspace:*"
+    "@tsed/hooks": "workspace:*"
     "@tsed/platform-http": "workspace:*"
     "@tsed/platform-serverless-testing": "workspace:*"
     "@tsed/typescript": "workspace:*"
@@ -7882,7 +7906,9 @@ __metadata:
   dependencies:
     "@tsed/barrels": "workspace:*"
     "@tsed/core": "workspace:*"
+    "@tsed/di": "workspace:*"
     "@tsed/exceptions": "workspace:*"
+    "@tsed/hooks": "workspace:*"
     "@tsed/json-mapper": "workspace:*"
     "@tsed/platform-exceptions": "workspace:*"
     "@tsed/platform-params": "workspace:*"
@@ -8139,6 +8165,7 @@ __metadata:
     "@apidevtools/swagger-parser": "npm:10.1.0"
     "@tsed/barrels": "workspace:*"
     "@tsed/core": "workspace:*"
+    "@tsed/hooks": "workspace:*"
     "@tsed/openspec": "workspace:*"
     "@tsed/typescript": "workspace:*"
     "@types/fs-extra": "npm:11.0.4"
@@ -8159,6 +8186,7 @@ __metadata:
     webpack: "npm:^5.75.0"
   peerDependencies:
     "@tsed/core": 8.0.0-rc.5
+    "@tsed/hooks": 8.0.0-rc.5
     "@tsed/openspec": 8.0.0-rc.5
   peerDependenciesMeta:
     "@tsed/core":

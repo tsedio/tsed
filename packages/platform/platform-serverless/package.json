@@ -23,7 +23,9 @@
   },
   "dependencies": {
     "@tsed/core": "workspace:*",
+    "@tsed/di": "workspace:*",
     "@tsed/exceptions": "workspace:*",
+    "@tsed/hooks": "workspace:*",
     "@tsed/json-mapper": "workspace:*",
     "@tsed/platform-exceptions": "workspace:*",
     "@tsed/platform-params": "workspace:*",

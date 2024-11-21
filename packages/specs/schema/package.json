@@ -48,6 +48,7 @@
     "@apidevtools/swagger-parser": "10.1.0",
     "@tsed/barrels": "workspace:*",
     "@tsed/core": "workspace:*",
+    "@tsed/hooks": "workspace:*",
     "@tsed/openspec": "workspace:*",
     "@tsed/typescript": "workspace:*",
     "@types/fs-extra": "11.0.4",
@@ -63,6 +64,7 @@
   },
   "peerDependencies": {
     "@tsed/core": "8.0.0-rc.5",
+    "@tsed/hooks": "8.0.0-rc.5",
     "@tsed/openspec": "8.0.0-rc.5"
   },
   "peerDependenciesMeta": {

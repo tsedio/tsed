@@ -1,4 +1,5 @@
-import {classOf, deepClone, deepMerge, Hooks, isArray, isClass, isFunction, isInheritedFrom, isObject, isPromise, nameOf} from "@tsed/core";
+import {classOf, deepClone, deepMerge, isArray, isClass, isFunction, isInheritedFrom, isObject, isPromise, nameOf} from "@tsed/core";
+import {$alter, $asyncAlter, $asyncEmit, $off} from "@tsed/hooks";
 
 import {DI_INVOKE_OPTIONS, DI_USE_PARAM_OPTIONS} from "../constants/constants.js";
 import {Configuration} from "../decorators/configuration.js";
@@ -16,6 +17,7 @@ import type {TokenProvider} from "../interfaces/TokenProvider.js";
 import {GlobalProviders} from "../registries/GlobalProviders.js";
 import {createContainer} from "../utils/createContainer.js";
 import {getConstructorDependencies} from "../utils/getConstructorDependencies.js";
+import {registerHooks} from "../utils/registerProviderHooks.js";
 import {DIConfiguration} from "./DIConfiguration.js";
 
 const EXCLUDED_CONFIGURATION_KEYS = ["mount", "imports"];
@@ -34,11 +36,10 @@ const EXCLUDED_CONFIGURATION_KEYS = ["mount", "imports"];
  * import MyService3 from "./services/service3.js";
  *
  * // When all services are imported, you can load InjectorService.
- * const injector = new InjectorService()
  *
- * await injector.load();
+ * await injector().load();
  *
- * const myService1 = injector.get<MyService1>(MyServcice1);
+ * const myService1 = injector.get<MyService1>(MyService1);
  * ```
  */
 @Injectable({
@@ -47,7 +48,6 @@ const EXCLUDED_CONFIGURATION_KEYS = ["mount", "imports"];
 export class InjectorService extends Container {
   public settings: DIConfiguration = new DIConfiguration();
   public logger: DILogger = console;
-  readonly hooks = new Hooks();
   private resolvedConfiguration: boolean = false;
   #cache = new LocalsContainer();
 
@@ -173,8 +173,8 @@ export class InjectorService extends Container {
 
     switch (provider.scope) {
       case ProviderScope.SINGLETON:
-        if (provider.hooks && !options.rebuild) {
-          this.registerHooks(provider, instance);
+        if (!options.rebuild) {
+          registerHooks(provider, instance);
         }
 
         if (!provider.isAsync() || !isPromise(instance)) {
@@ -233,6 +233,8 @@ export class InjectorService extends Container {
    * @param container
    */
   async load(container: Container = createContainer()) {
+    await $asyncEmit("$beforeInit");
+
     this.bootstrap(container);
 
     // build async and sync provider
@@ -241,8 +243,7 @@ export class InjectorService extends Container {
     // load sync provider
     this.loadSync();
 
-    await this.emit("$beforeInit");
-    await this.emit("$onInit");
+    await $asyncEmit("$onInit");
   }
 
   /**
@@ -277,9 +278,10 @@ export class InjectorService extends Container {
    * @param eventName The event name to emit at all services.
    * @param args List of the parameters to give to each service.
    * @returns A list of promises.
+   * @deprecated use $asyncEmit instead
    */
-  public emit(eventName: string, ...args: any[]): Promise<void> {
-    return this.hooks.asyncEmit(eventName, args);
+  public emit(eventName: string, ...args: unknown[]) {
+    return $asyncEmit(eventName, args);
   }
 
   /**
@@ -287,9 +289,10 @@ export class InjectorService extends Container {
    * @param eventName
    * @param value
    * @param args
+   * @deprecated use $alter instead
    */
   public alter<T = any>(eventName: string, value: any, ...args: any[]): T {
-    return this.hooks.alter(eventName, value, args);
+    return $alter(eventName, value, args);
   }
 
   /**
@@ -297,16 +300,20 @@ export class InjectorService extends Container {
    * @param eventName
    * @param value
    * @param args
+   * @deprecated use $asyncAlter instead
    */
   public alterAsync<T = any>(eventName: string, value: any, ...args: any[]): Promise<T> {
-    return this.hooks.asyncAlter(eventName, value, args);
+    return $asyncAlter(eventName, value, args);
   }
 
   /**
    * Destroy the injector and all services.
    */
   async destroy() {
-    await this.emit("$onDestroy");
+    await $asyncEmit("$onDestroy");
+    this.#cache.forEach((_, token) => {
+      $off(token);
+    });
   }
 
   /**
@@ -519,15 +526,5 @@ export class InjectorService extends Container {
       provider,
       locals
     };
-  }
-
-  private registerHooks(provider: Provider, instance: any) {
-    if (provider.hooks) {
-      Object.entries(provider.hooks).forEach(([event, cb]) => {
-        const callback = (...args: any[]) => cb(this.get(provider.token) || instance, ...args);
-
-        this.hooks.on(event, callback);
-      });
-    }
   }
 }

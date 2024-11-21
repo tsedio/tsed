@@ -1,4 +1,5 @@
-import {Hooks, isBoolean} from "@tsed/core";
+import {isBoolean} from "@tsed/core";
+import type {Hooks} from "@tsed/hooks";
 
 /**
  * @ignore

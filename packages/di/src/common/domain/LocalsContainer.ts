@@ -1,4 +1,4 @@
-import {Hooks} from "@tsed/core";
+import {Hooks} from "@tsed/hooks";
 
 import type {TokenProvider} from "../interfaces/TokenProvider.js";
 

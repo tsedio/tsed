@@ -76,6 +76,7 @@
     "@tsed/core": "workspace:*",
     "@tsed/di": "workspace:*",
     "@tsed/exceptions": "workspace:*",
+    "@tsed/hooks": "workspace:*",
     "@tsed/json-mapper": "workspace:*",
     "@tsed/logger": "^6.7.8",
     "@tsed/logger-file": "^6.7.8",

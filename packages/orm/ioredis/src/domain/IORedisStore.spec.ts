@@ -1,4 +1,5 @@
-import {catchAsyncError, Hooks} from "@tsed/core";
+import {catchAsyncError} from "@tsed/core";
+import {Hooks} from "@tsed/hooks";
 import {type Cache, caching} from "cache-manager";
 import {Redis} from "ioredis";
 

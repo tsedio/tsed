@@ -7,15 +7,6 @@
   "include": [],
   "references": [
     {
-      "path": "../../core/tsconfig.json"
-    },
-    {
-      "path": "../../hooks/tsconfig.json"
-    },
-    {
-      "path": "../openspec/tsconfig.json"
-    },
-    {
       "path": "./tsconfig.esm.json"
     },
     {

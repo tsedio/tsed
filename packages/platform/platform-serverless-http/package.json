@@ -63,8 +63,8 @@
   },
   "devDependencies": {
     "@tsed/barrels": "workspace:*",
-    "@tsed/core": "workspace:*",
     "@tsed/di": "workspace:*",
+    "@tsed/hooks": "workspace:*",
     "@tsed/platform-http": "workspace:*",
     "@tsed/platform-serverless-testing": "workspace:*",
     "@tsed/typescript": "workspace:*",

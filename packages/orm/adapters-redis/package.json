@@ -29,6 +29,7 @@
   "devDependencies": {
     "@tsed/barrels": "workspace:*",
     "@tsed/core": "workspace:*",
+    "@tsed/hooks": "workspace:*",
     "@tsed/typescript": "workspace:*",
     "eslint": "9.12.0",
     "typescript": "5.4.5",
@@ -38,6 +39,7 @@
     "@tsed/adapters": "8.0.0-rc.5",
     "@tsed/core": "8.0.0-rc.5",
     "@tsed/di": "8.0.0-rc.5",
+    "@tsed/hooks": "8.0.0-rc.5",
     "@tsed/platform-http": "8.0.0-rc.5",
     "ioredis": ">=5.2.3",
     "ioredis-mock": ">=8.2.2",

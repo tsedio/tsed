@@ -1,6 +1,7 @@
 import {Adapter, AdapterConstructorOptions, AdapterModel} from "@tsed/adapters";
-import {cleanObject, Hooks, isObject, isString} from "@tsed/core";
+import {cleanObject, isObject, isString} from "@tsed/core";
 import {Configuration, Inject, Opts} from "@tsed/di";
+import {Hooks} from "@tsed/hooks";
 import {IORedis, IOREDIS_CONNECTIONS} from "@tsed/ioredis";
 import type {ChainableCommander, Redis} from "ioredis";
 import {v4 as uuid} from "uuid";

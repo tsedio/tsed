@@ -31,6 +31,7 @@
   "devDependencies": {
     "@tsed/barrels": "workspace:*",
     "@tsed/core": "workspace:*",
+    "@tsed/hooks": "workspace:*",
     "@tsed/logger": "^6.7.8",
     "@tsed/schema": "workspace:*",
     "@tsed/typescript": "workspace:*",
@@ -42,11 +43,15 @@
   },
   "peerDependencies": {
     "@tsed/core": "8.0.0-rc.5",
+    "@tsed/hooks": "8.0.0-rc.5",
     "@tsed/logger": ">=6.7.5",
     "@tsed/schema": "8.0.0-rc.5"
   },
   "peerDependenciesMeta": {
     "@tsed/core": {
+      "optional": false
+    },
+    "@tsed/hooks": {
       "optional": false
     },
     "@tsed/logger": {
