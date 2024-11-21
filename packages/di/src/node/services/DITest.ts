@@ -45,7 +45,7 @@ export class DITest {
       settings: DITest.configure(settings)
     });
 
-    setLoggerConfiguration(inj);
+    setLoggerConfiguration();
 
     return inj;
   }

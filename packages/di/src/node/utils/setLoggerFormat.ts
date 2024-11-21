@@ -1,18 +1,18 @@
-import type {InjectorService} from "../../common/index.js";
+import {injector} from "../../common/index.js";
+import {logger} from "../fn/logger.js";
 
 /**
  * @ignore
- * @param injector
  */
-export function setLoggerFormat(injector: InjectorService) {
-  const {level, format} = injector.settings.logger;
+export function setLoggerFormat() {
+  const {level, format} = injector().settings.logger;
 
   if (level) {
-    injector.logger.level = level;
+    injector().logger.level = level;
   }
 
-  if (format && injector.logger.appenders) {
-    injector.logger.appenders.set("stdout", {
+  if (format && injector().logger.appenders) {
+    logger().appenders.set("stdout", {
       type: "stdout",
       levels: ["info", "debug"],
       layout: {
@@ -21,7 +21,7 @@ export function setLoggerFormat(injector: InjectorService) {
       }
     });
 
-    injector.logger.appenders.set("stderr", {
+    logger().appenders.set("stderr", {
       levels: ["trace", "fatal", "error", "warn"],
       type: "stderr",
       layout: {

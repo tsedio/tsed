@@ -1,4 +1,3 @@
-import {InjectorService} from "../../common/index.js";
 import {ContextLogger} from "./ContextLogger.js";
 
 function getIgnoreLogFixture(ignore: string[], url: string) {
@@ -26,8 +25,7 @@ describe("ContextLogger", () => {
       },
       logger,
       id: "id",
-      dateStart: new Date("2019-01-01"),
-      injector: new InjectorService()
+      dateStart: new Date("2019-01-01")
     });
 
     contextLogger.alterIgnoreLog(getIgnoreLogFixture(["/admin"], "/"));
@@ -120,8 +118,7 @@ describe("ContextLogger", () => {
       },
       logger,
       id: "id",
-      startDate: new Date("2019-01-01"),
-      injector: new InjectorService()
+      startDate: new Date("2019-01-01")
     });
 
     contextLogger.alterIgnoreLog(getIgnoreLogFixture(["/admin"], "/url"));
@@ -195,8 +192,7 @@ describe("ContextLogger", () => {
       startDate: new Date("2019-01-01"),
       additionalProps: {
         url: "/"
-      },
-      injector: new InjectorService()
+      }
     });
 
     contextLogger.alterIgnoreLog(getIgnoreLogFixture(["/admin"], "/admin"));
@@ -227,8 +223,7 @@ describe("ContextLogger", () => {
       },
       id: "id",
       startDate: new Date("2019-01-01"),
-      maxStackSize: 2,
-      injector: new InjectorService()
+      maxStackSize: 2
     });
 
     contextLogger.maxStackSize = 2;
@@ -261,7 +256,6 @@ describe("ContextLogger", () => {
       logger,
       id: "id",
       dateStart: new Date("2019-01-01"),
-      injector: new InjectorService(),
       level: "off"
     });
 

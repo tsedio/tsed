@@ -1,13 +1,16 @@
 import {Store} from "@tsed/core";
+import {afterEach} from "vitest";
 
 import {Container} from "../domain/Container.js";
 import {Provider} from "../domain/Provider.js";
+import {destroyInjector, injector} from "../fn/injector.js";
 import {GlobalProviders} from "../registries/GlobalProviders.js";
 import {InjectorService} from "../services/InjectorService.js";
 import {Configuration} from "./configuration.js";
 import {Injectable} from "./injectable.js";
 
 describe("@Configuration", () => {
+  afterEach(() => destroyInjector());
   it("should declare a new provider with custom configuration", () => {
     @Configuration({})
     class Test {}
@@ -28,16 +31,15 @@ describe("@Configuration", () => {
       constructor(@Configuration() public config: Configuration) {}
     }
 
-    const injector = new InjectorService();
     const container = new Container();
 
-    injector.setProvider(Test, GlobalProviders.get(Test)!.clone());
+    injector().setProvider(Test, GlobalProviders.get(Test)!.clone());
 
-    await injector.load(container);
+    await injector().load(container);
 
-    const instance = injector.invoke<Test>(Test);
+    const instance = injector().invoke<Test>(Test);
 
-    expect(instance.config).toEqual(injector.settings);
+    expect(instance.config).toEqual(injector().settings);
     expect(instance.config.get("feature")).toEqual("feature");
   });
 });

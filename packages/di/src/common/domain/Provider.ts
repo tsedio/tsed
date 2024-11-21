@@ -1,8 +1,9 @@
-import {type AbstractType, classOf, getClassOrSymbol, isClass, methodsOf, nameOf, Store, Type} from "@tsed/core";
+import {type AbstractType, classOf, getClassOrSymbol, isClass, nameOf, Store, Type} from "@tsed/core";
 
 import {DI_USE_PARAM_OPTIONS} from "../constants/constants.js";
 import type {ProviderOpts} from "../interfaces/ProviderOpts.js";
 import type {TokenProvider} from "../interfaces/TokenProvider.js";
+import {discoverHooks} from "../utils/discoverHooks.js";
 import {ProviderScope} from "./ProviderScope.js";
 import {ProviderType} from "./ProviderType.js";
 
@@ -63,16 +64,7 @@ export class Provider<T = any> implements ProviderOpts<T> {
     if (isClass(value)) {
       this._useClass = classOf(value);
       this._store = Store.from(value);
-
-      this.hooks = methodsOf(this._useClass).reduce((hooks, {propertyKey}) => {
-        if (String(propertyKey).startsWith("$")) {
-          return {
-            ...hooks,
-            [propertyKey]: (instance: any, ...args: any[]) => instance?.[propertyKey](...args)
-          };
-        }
-        return hooks;
-      }, {} as any);
+      this.hooks = discoverHooks(this._useClass);
     }
   }
 
@@ -140,6 +132,7 @@ export class Provider<T = any> implements ProviderOpts<T> {
   getArgOpts(index: number) {
     return this.store.get(`${DI_USE_PARAM_OPTIONS}:${index}`);
   }
+
   /**
    * Retrieves a value from the provider's store.
    * @param key The key to look up

@@ -1,13 +1,16 @@
 import {isPromise} from "@tsed/core";
+import {afterEach, beforeEach} from "vitest";
 
 import {Inject} from "../decorators/inject.js";
 import {Injectable} from "../decorators/injectable.js";
 import {Container} from "../domain/Container.js";
+import {destroyInjector, injector} from "../fn/injector.js";
 import {GlobalProviders} from "../registries/GlobalProviders.js";
 import {registerProvider} from "../registries/ProviderRegistry.js";
 import {InjectorService} from "../services/InjectorService.js";
 
 describe("DI", () => {
+  afterEach(() => destroyInjector());
   describe("create new injector", () => {
     const ASYNC_FACTORY = Symbol.for("ASYNC_FACTORY");
 
@@ -40,16 +43,15 @@ describe("DI", () => {
 
     it("should load all providers with the SINGLETON scope only", async () => {
       // GIVEN
-      const injector = new InjectorService();
       const container = new Container();
       container.add(ASYNC_FACTORY);
       container.add(Server);
 
-      const server = injector.invoke<any>(Server);
+      const server = injector().invoke<any>(Server);
       expect(isPromise(server.asyncFactory)).toEqual(true);
 
       // WHEN
-      await injector.load(container);
+      await injector().load(container);
 
       expect(isPromise(server.asyncFactory)).toEqual(false);
       expect(server.asyncFactory.connection).toEqual(true);

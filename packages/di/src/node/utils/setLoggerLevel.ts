@@ -1,13 +1,12 @@
-import type {InjectorService} from "../../common/index.js";
+import {injector} from "../../common/index.js";
 
 /**
  * @ignore
- * @param injector
  */
-export function setLoggerLevel(injector: InjectorService) {
-  const {level} = injector.settings.logger;
+export function setLoggerLevel() {
+  const {level} = injector().settings.logger;
 
   if (level) {
-    injector.logger.level = level;
+    injector().logger.level = level;
   }
 }
