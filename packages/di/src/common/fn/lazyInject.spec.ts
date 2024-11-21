@@ -11,6 +11,7 @@ describe("lazyInject", () => {
     const service = await lazyInject(() => import("./__mock__/lazy.import.module.js"));
 
     expect(service).toBeDefined();
+    expect(service.called).toBeTruthy();
   });
 
   it("should optionally lazy load module", async () => {

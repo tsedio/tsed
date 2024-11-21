@@ -1,6 +1,7 @@
 import {isFunction} from "@tsed/core";
 
 import type {TokenProvider} from "../interfaces/TokenProvider.js";
+import {inject} from "./inject.js";
 import {injector} from "./injector.js";
 
 /**
@@ -9,10 +10,8 @@ import {injector} from "./injector.js";
 export async function lazyInject<Token>(factory: () => Promise<{default: TokenProvider<Token>}>): Promise<Token> {
   const {default: token} = await factory();
 
-  let instance = injector().get(token) as unknown;
-
-  if (!instance) {
-    instance = await injector().invoke(token);
+  if (!injector().has(token)) {
+    const instance = await inject(token);
 
     const instanceWithHook = instance as unknown as {$onInit?: () => Promise<void>};
 
@@ -21,7 +20,7 @@ export async function lazyInject<Token>(factory: () => Promise<{default: TokenPr
     }
   }
 
-  return instance as unknown as Promise<Token>;
+  return injector().get(token) as unknown as Promise<Token>;
 }
 
 export async function optionalLazyInject<Token>(

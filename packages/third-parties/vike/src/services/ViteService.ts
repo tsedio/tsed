@@ -42,7 +42,7 @@ export class ViteService {
       stateSnapshot: this.config.stateSnapshot && this.config.stateSnapshot()
     };
 
-    const {renderPage} = await import(ViteService.moduleName);
+    const {renderPage} = await import("vike/server");
 
     const pageContext = await renderPage({
       view,
