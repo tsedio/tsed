@@ -91,22 +91,4 @@ describe("GlobalProviderRegistry", () => {
       expect(Object.keys(provider.hooks || {})).toEqual(["$onInit", "$onReady"]);
     });
   });
-  describe("onInvoke()", () => {
-    it("should call the onInvoke hook", () => {
-      const opts = {
-        onInvoke: vi.fn()
-      };
-      const provider = new Provider(class {}, {type: "type:test"});
-      const locals = new LocalsContainer();
-      const resolvedOptions = {
-        token: provider.token,
-        locals
-      } as any;
-
-      GlobalProviders.createRegistry("type:test", Provider, opts);
-      GlobalProviders.onInvoke(provider, resolvedOptions);
-
-      expect(opts.onInvoke).toHaveBeenCalledWith(provider, resolvedOptions);
-    });
-  });
 });

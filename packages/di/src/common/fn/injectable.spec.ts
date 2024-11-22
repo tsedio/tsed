@@ -1,3 +1,5 @@
+import {Store} from "@tsed/core";
+
 import {DITest, logger} from "../../node/index.js";
 import {ProviderScope} from "../domain/ProviderScope.js";
 import {ProviderType} from "../domain/ProviderType.js";
@@ -27,6 +29,11 @@ describe("injectable", () => {
 
       expect(instance.nested).toBeInstanceOf(Nested);
       expect(instance.nested.get()).toEqual("hello");
+    });
+    it("should define class with scope", async () => {
+      injectable(MyClass).scope(ProviderScope.SINGLETON).class(MyClass).store().set("test", "test");
+
+      expect(Store.from(MyClass).get("test")).toEqual("test");
     });
     it("should create a factory", async () => {
       const builder = injectable(Symbol.for("Test")).factory(() => "test");

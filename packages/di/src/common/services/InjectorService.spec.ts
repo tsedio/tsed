@@ -1,3 +1,5 @@
+import {$emit} from "@tsed/hooks";
+
 import {Configuration} from "../decorators/configuration.js";
 import {Inject} from "../decorators/inject.js";
 import {Injectable} from "../decorators/injectable.js";
@@ -8,9 +10,17 @@ import {ProviderScope} from "../domain/ProviderScope.js";
 import {ProviderType} from "../domain/ProviderType.js";
 import {inject} from "../fn/inject.js";
 import {destroyInjector, injector} from "../fn/injector.js";
-import {GlobalProviders} from "../registries/GlobalProviders.js";
 import {registerProvider} from "../registries/ProviderRegistry.js";
 import {InjectorService} from "./InjectorService.js";
+
+vi.mock("@tsed/hooks", async (importOriginal) => {
+  const mod = await importOriginal<typeof import("@tsed/hooks")>();
+
+  return {
+    ...mod,
+    $emit: vi.fn()
+  };
+});
 
 class Test {
   @Inject()
@@ -80,8 +90,8 @@ describe("InjectorService", () => {
 
         await injector().load(container);
 
+        vi.spyOn(injector() as any, "invokeToken");
         vi.spyOn(injector() as any, "resolve");
-        vi.spyOn(injector() as any, "invoke");
         vi.spyOn(injector(), "getProvider");
 
         const locals = new LocalsContainer();
@@ -96,8 +106,8 @@ describe("InjectorService", () => {
         expect(injector().getProvider).toHaveBeenCalledWith(token);
         expect(injector().get("alias")).toBeInstanceOf(token);
 
-        expect((injector() as any).resolve).toHaveBeenCalledWith(token, {locals, rebuild: true});
-        expect(injector().invoke).toHaveBeenCalledWith(InjectorService, {
+        expect((injector() as any).invokeToken).toHaveBeenCalledWith(token, {locals, rebuild: true});
+        expect(injector().resolve).toHaveBeenCalledWith(InjectorService, {
           locals,
           parent: token
         });
@@ -177,12 +187,6 @@ describe("InjectorService", () => {
       });
     });
     describe("when provider is a SINGLETON", () => {
-      beforeAll(() => {
-        vi.spyOn(GlobalProviders, "onInvoke").mockReturnValue(undefined);
-      });
-      afterAll(() => {
-        vi.resetAllMocks();
-      });
       it("should invoke the provider from container", () => {
         // GIVEN
         const token = class Test {};
@@ -196,7 +200,9 @@ describe("InjectorService", () => {
 
         // THEN
         expect(result).toBeInstanceOf(token);
-        expect(GlobalProviders.onInvoke).toHaveBeenCalledWith(provider, expect.anything());
+        expect($emit).toHaveBeenCalledWith("$beforeInvoke", token, [expect.any(Object)]);
+        expect($emit).toHaveBeenCalledWith("$beforeInvoke:provider", [expect.any(Object)]);
+        expect($emit).toHaveBeenCalledWith("$afterInvoke", token, [result, expect.any(Object)]);
       });
       it("should invoke the provider from container (2)", async () => {
         // GIVEN
@@ -210,7 +216,7 @@ describe("InjectorService", () => {
 
         await injector().load(container);
 
-        vi.spyOn(injector() as any, "resolve");
+        vi.spyOn(injector() as any, "invokeToken");
         vi.spyOn(injector(), "getProvider");
 
         const locals = new LocalsContainer();
@@ -223,7 +229,7 @@ describe("InjectorService", () => {
         // THEN
         expect(result1).toEqual(result2);
 
-        return expect((injector() as any).resolve).not.toHaveBeenCalled();
+        return expect((injector() as any).invokeToken).not.toHaveBeenCalled();
       });
     });
     describe("when provider is a Value (useValue)", () => {

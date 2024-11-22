@@ -80,14 +80,6 @@ export class GlobalProviderRegistry extends Map<TokenProvider, Provider> {
     return this;
   }
 
-  onInvoke(provider: Provider, options: ResolvedInvokeOptions) {
-    const settings = this.#settings.get(provider.type);
-
-    if (settings?.onInvoke) {
-      settings.onInvoke(provider, options);
-    }
-  }
-
   getRegistrySettings(target: TokenProvider): RegistrySettings {
     let type: TokenProvider | ProviderType = ProviderType.PROVIDER;
 
@@ -105,13 +97,6 @@ export class GlobalProviderRegistry extends Map<TokenProvider, Provider> {
         model: Provider
       }
     );
-  }
-
-  createRegisterFn(type: string) {
-    return (provider: any | ProviderOpts, instance?: any): void => {
-      provider = Object.assign({instance}, provider, {type});
-      this.merge(provider.provide, provider);
-    };
   }
 
   /**

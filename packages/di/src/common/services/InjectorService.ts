@@ -1,5 +1,5 @@
 import {classOf, deepClone, deepMerge, isArray, isClass, isFunction, isInheritedFrom, isObject, isPromise, nameOf} from "@tsed/core";
-import {$alter, $asyncAlter, $asyncEmit, $off} from "@tsed/hooks";
+import {$alter, $asyncAlter, $asyncEmit, $emit, $off, $on} from "@tsed/hooks";
 
 import {DI_INVOKE_OPTIONS, DI_USE_PARAM_OPTIONS} from "../constants/constants.js";
 import {Configuration} from "../decorators/configuration.js";
@@ -17,7 +17,6 @@ import type {TokenProvider} from "../interfaces/TokenProvider.js";
 import {GlobalProviders} from "../registries/GlobalProviders.js";
 import {createContainer} from "../utils/createContainer.js";
 import {getConstructorDependencies} from "../utils/getConstructorDependencies.js";
-import {registerHooks} from "../utils/registerProviderHooks.js";
 import {DIConfiguration} from "./DIConfiguration.js";
 
 const EXCLUDED_CONFIGURATION_KEYS = ["mount", "imports"];
@@ -54,6 +53,7 @@ export class InjectorService extends Container {
   constructor() {
     super();
     this.#cache.set(InjectorService, this);
+    this.#cache.set(Configuration, this.settings);
   }
 
   /**
@@ -80,9 +80,8 @@ export class InjectorService extends Container {
    * ```
    *
    * @param token The class or symbol registered in InjectorService.
-   * @param options
    */
-  get<T = any>(token: TokenProvider<T>, options: Record<string, unknown> = {}): T | undefined {
+  get<T = any>(token: TokenProvider<T>): T | undefined {
     return this.#cache.get(token);
   }
 
@@ -91,7 +90,7 @@ export class InjectorService extends Container {
    */
   getMany<Type = any>(type: any, options?: Partial<InvokeOptions>): Type[] {
     return this.getProviders(type).map((provider) => {
-      return this.invoke<Type>(provider.token, options);
+      return this.resolve<Type>(provider.token, options);
     });
   }
 
@@ -112,7 +111,9 @@ export class InjectorService extends Container {
   }
 
   /**
-   * Invoke the class and inject all services that required by the class constructor.
+   * Resolve the token depending on his provider configuration.
+   *
+   * If the token isn't cached, the injector will invoke the provider and cache the result.
    *
    * #### Example
    *
@@ -131,15 +132,11 @@ export class InjectorService extends Container {
    * @param options {InvokeOptions} Optional options to invoke the class.
    * @returns {Type} The class constructed.
    */
-  public invoke<Type = any>(token: TokenProvider<Type>, options: Partial<InvokeOptions> = {}): Type {
+  public resolve<Type = any>(token: TokenProvider<Type>, options: Partial<InvokeOptions> = {}): Type {
     let instance: any = options.locals ? options.locals.get(token) : undefined;
 
     if (instance !== undefined) {
       return instance;
-    }
-
-    if (token === Configuration) {
-      return this.settings as unknown as Type;
     }
 
     if (token === DI_USE_PARAM_OPTIONS) {
@@ -160,7 +157,7 @@ export class InjectorService extends Container {
     };
 
     if (!provider || options.rebuild) {
-      instance = this.resolve(token, options);
+      instance = this.invokeToken(token, options);
 
       if (this.hasProvider(token)) {
         set(instance);
@@ -169,12 +166,12 @@ export class InjectorService extends Container {
       return instance;
     }
 
-    instance = this.resolve(token, options);
+    instance = this.invokeToken(token, options);
 
     switch (provider.scope) {
       case ProviderScope.SINGLETON:
         if (!options.rebuild) {
-          registerHooks(provider, instance);
+          this.registerHooks(provider, options);
         }
 
         if (!provider.isAsync() || !isPromise(instance)) {
@@ -194,9 +191,9 @@ export class InjectorService extends Container {
 
       case ProviderScope.REQUEST:
         if (options.locals) {
-          options.locals.set(token, instance);
+          options.locals.set(provider.token, instance);
 
-          options.locals?.hooks.on("$onDestroy", (...args: unknown[]) => provider.hooks?.$onDestroy(instance, ...args));
+          this.registerHooks(provider, options);
         }
 
         return instance;
@@ -206,12 +203,39 @@ export class InjectorService extends Container {
   }
 
   /**
+   * Resolve the token depending on his provider configuration.
+   *
+   * If the token isn't cached, the injector will invoke the provider and cache the result.
+   *
+   * #### Example
+   *
+   * ```typescript
+   * import {InjectorService} from "@tsed/di";
+   * import MyService from "./services.js";
+   *
+   * class OtherService {
+   *     constructor(injectorService: InjectorService) {
+   *          const myService = injectorService.invoke<MyService>(MyService);
+   *      }
+   *  }
+   * ```
+   *
+   * @param token The injectable class to invoke. Class parameters are injected according constructor signature.
+   * @param options {InvokeOptions} Optional options to invoke the class.
+   * @returns {Type} The class constructed.
+   * @alias InjectorService.resolve
+   */
+  public invoke<Type = any>(token: TokenProvider<Type>, options: Partial<InvokeOptions> = {}): Type {
+    return this.resolve(token, options);
+  }
+
+  /**
    * Build only providers which are asynchronous.
    */
   async loadAsync() {
     for (const [, provider] of this) {
       if (!this.has(provider.token) && provider.isAsync()) {
-        await this.invoke(provider.token);
+        await this.resolve(provider.token);
       }
     }
   }
@@ -222,7 +246,7 @@ export class InjectorService extends Container {
   loadSync() {
     for (const [, provider] of this) {
       if (!this.has(provider.token) && provider.scope === ProviderScope.SINGLETON) {
-        this.invoke(provider.token);
+        this.resolve(provider.token);
       }
     }
   }
@@ -317,7 +341,7 @@ export class InjectorService extends Container {
   }
 
   /**
-   * Boostrap injector from container and resolve configuration.
+   * Boostrap injector from container and invokeToken configuration.
    *
    * @param container
    */
@@ -365,7 +389,7 @@ export class InjectorService extends Container {
    * @param options
    * @private
    */
-  protected resolve<T>(target: TokenProvider, options: Partial<InvokeOptions> = {}): T | Promise<T> {
+  protected invokeToken<T>(target: TokenProvider, options: Partial<InvokeOptions> = {}): T | Promise<T> {
     const resolvedOpts = this.mapInvokeOptions(target, options);
 
     if (!resolvedOpts) {
@@ -374,9 +398,8 @@ export class InjectorService extends Container {
 
     const {token, deps, construct, imports, provider} = resolvedOpts;
 
-    if (provider) {
-      GlobalProviders.onInvoke(provider, resolvedOpts);
-    }
+    $emit("$beforeInvoke", token, [resolvedOpts]);
+    $emit(`$beforeInvoke:${String(provider.type)}`, [resolvedOpts]);
 
     let instance: any;
     let currentDependency: any = false;
@@ -395,7 +418,7 @@ export class InjectorService extends Container {
 
           return isInheritedFrom(token, Provider, 1)
             ? provider
-            : this.invoke(token, {
+            : this.resolve(token, {
                 parent,
                 locals: options.locals,
                 useOpts
@@ -427,6 +450,8 @@ export class InjectorService extends Container {
         get: () => ({rebuild: options.rebuild, locals: options.locals})
       });
     }
+
+    $emit("$afterInvoke", token, [instance, resolvedOpts]);
 
     return instance;
   }
@@ -526,5 +551,29 @@ export class InjectorService extends Container {
       provider,
       locals
     };
+  }
+
+  private registerHooks(provider: Provider, options: Partial<InvokeOptions>) {
+    if (provider.hooks) {
+      if (provider.scope === ProviderScope.REQUEST) {
+        if (options.locals && provider.hooks?.$onDestroy) {
+          const {locals} = options;
+
+          options.locals.hooks.on("$onDestroy", (...args: unknown[]) => {
+            return provider.hooks?.$onDestroy?.(locals.get(provider.token), ...args);
+          });
+        }
+
+        return;
+      }
+
+      Object.entries(provider.hooks).forEach(([event, cb]) => {
+        const callback = (...args: any[]) => {
+          return cb(this.#cache.get(provider.token), ...args);
+        };
+
+        $on(event, provider.token, callback);
+      });
+    }
   }
 }

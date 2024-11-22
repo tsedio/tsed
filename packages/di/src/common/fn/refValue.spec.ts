@@ -23,6 +23,10 @@ describe("refValue()", () => {
       const test = await DITest.invoke<Test>(Test);
 
       expect(test.test.value).toEqual("off");
+
+      test.test.value = "test";
+
+      expect(test.test.value).toEqual("test");
     });
     it("should create a getter with default value", async () => {
       expect(configuration().get("logger.test")).toEqual(undefined);
