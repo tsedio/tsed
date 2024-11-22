@@ -1,14 +1,13 @@
-import {InjectorService} from "@tsed/di";
+import {configuration, constant} from "@tsed/di";
 import Http from "http";
 
 import {createServer} from "./createServer.js";
 
-export function createHttpServer(injector: InjectorService, requestListener: Http.RequestListener) {
-  const {settings} = injector;
-  const httpOptions = settings.get<Http.ServerOptions>("httpOptions");
+export function createHttpServer(requestListener: Http.RequestListener) {
+  const httpOptions = configuration().get<Http.ServerOptions>("httpOptions");
 
-  return createServer(injector, {
-    port: settings.get("httpPort"),
+  return createServer({
+    port: constant<string | false>("httpPort"),
     type: "http",
     token: Http.Server,
     server: () => Http.createServer(httpOptions, requestListener)

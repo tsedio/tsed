@@ -1,10 +1,11 @@
 import {Type} from "@tsed/core";
-import {DITest, hasInjector, injector, InjectorService} from "@tsed/di";
+import {DITest, injector, InjectorService} from "@tsed/di";
 import accepts from "accepts";
 import type {IncomingMessage, RequestListener, ServerResponse} from "http";
 
 import {PlatformBuilder} from "../common/builder/PlatformBuilder.js";
 import {PlatformContext, PlatformContextOptions} from "../common/domain/PlatformContext.js";
+import {adapter as $adapter} from "../common/fn/adapter.js";
 import {PlatformAdapter, PlatformBuilderSettings} from "../common/services/PlatformAdapter.js";
 import {PlatformApplication} from "../common/services/PlatformApplication.js";
 import {createInjector} from "../common/utils/createInjector.js";
@@ -15,8 +16,6 @@ import {FakeResponse} from "./FakeResponse.js";
  * @platform
  */
 export class PlatformTest extends DITest {
-  public static adapter: Type<PlatformAdapter>;
-
   static async create(settings: Partial<TsED.Configuration> = {}) {
     PlatformTest.createInjector(getConfiguration(settings));
     await DITest.createContainer();
@@ -39,10 +38,20 @@ export class PlatformTest extends DITest {
    * @param settings
    * @returns {Promise<void>}
    */
-  static bootstrap(mod: any, {listen, ...settings}: Partial<PlatformBuilderSettings & {listen: boolean}> = {}): () => Promise<void> {
+  static bootstrap(
+    mod: any,
+    {
+      listen,
+      ...settings
+    }: Partial<
+      PlatformBuilderSettings & {
+        listen: boolean;
+      }
+    > = {}
+  ): () => Promise<void> {
     return async function before(): Promise<void> {
       let instance: PlatformBuilder;
-      const adapter: Type<PlatformAdapter> = settings.platform || settings.adapter || PlatformTest.adapter;
+      const adapter: Type<PlatformAdapter> = $adapter(settings.platform || settings.adapter);
 
       /* istanbul ignore next */
       if (!adapter) {
@@ -76,9 +85,7 @@ export class PlatformTest extends DITest {
    */
   static inject<T>(targets: any[], func: (...args: any[]) => Promise<T> | T): () => Promise<T> {
     return async (): Promise<T> => {
-      if (!hasInjector()) {
-        await PlatformTest.create();
-      }
+      await PlatformTest.create();
 
       const inj: InjectorService = injector();
       const deps = [];

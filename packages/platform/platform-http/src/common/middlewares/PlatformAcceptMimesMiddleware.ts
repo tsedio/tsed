@@ -1,19 +1,15 @@
 import {uniq} from "@tsed/core";
-import {Constant} from "@tsed/di";
+import {constant, injectable, ProviderType} from "@tsed/di";
 import {NotAcceptable} from "@tsed/exceptions";
-import {Middleware, MiddlewareMethods} from "@tsed/platform-middlewares";
+import {MiddlewareMethods} from "@tsed/platform-middlewares";
 import {Context} from "@tsed/platform-params";
 
 /**
  * @middleware
  * @platform
  */
-@Middleware({
-  priority: -10
-})
 export class PlatformAcceptMimesMiddleware implements MiddlewareMethods {
-  @Constant("acceptMimes", [])
-  acceptMimes: string[];
+  acceptMimes = constant<string[]>("acceptMimes", []);
 
   public use(@Context() ctx: Context): void {
     const {endpoint, request} = ctx;
@@ -24,3 +20,5 @@ export class PlatformAcceptMimesMiddleware implements MiddlewareMethods {
     }
   }
 }
+
+injectable(PlatformAcceptMimesMiddleware).type(ProviderType.MIDDLEWARE).priority(-10);

@@ -1,4 +1,4 @@
-import {Injectable, ProviderScope, Scope} from "@tsed/di";
+import {Injectable, injectable, ProviderScope, Scope} from "@tsed/di";
 import {IncomingHttpHeaders, IncomingMessage} from "http";
 
 import type {PlatformContext} from "../domain/PlatformContext.js";
@@ -17,11 +17,8 @@ declare global {
  * Platform Request abstraction layer.
  * @platform
  */
-@Injectable()
-@Scope(ProviderScope.INSTANCE)
 export class PlatformRequest<Req extends {[key: string]: any} = any> {
   constructor(readonly $ctx: PlatformContext) {}
-
   /**
    * The current @@PlatformResponse@@.
    */
@@ -180,3 +177,5 @@ export class PlatformRequest<Req extends {[key: string]: any} = any> {
     return this.$ctx.event.request;
   }
 }
+
+injectable(PlatformRequest).scope(ProviderScope.INSTANCE);

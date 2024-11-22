@@ -3,6 +3,7 @@ import {Controller} from "@tsed/di";
 import {Get, Post} from "@tsed/schema";
 
 import {PlatformTest} from "../../testing/PlatformTest.js";
+import {application} from "../fn/application.js";
 import {Platform} from "./Platform.js";
 
 @Controller("/my-route")
@@ -74,7 +75,7 @@ describe("Platform", () => {
       // GIVEN
       const platform = await PlatformTest.get<Platform>(Platform);
 
-      vi.spyOn(platform.app, "use");
+      vi.spyOn(application(), "use");
 
       // WHEN
       platform.addRoutes([{route: "/test", token: MyCtrl}]);
@@ -83,7 +84,7 @@ describe("Platform", () => {
       // GIVEN
       const platform = await PlatformTest.get<Platform>(Platform);
 
-      vi.spyOn(platform.app, "use");
+      vi.spyOn(application(), "use");
 
       // WHEN
       platform.addRoutes([{route: "/rest", token: MyNestedCtrl}]);
@@ -101,7 +102,7 @@ describe("Platform", () => {
       // GIVEN
       const platform = await PlatformTest.get<Platform>(Platform);
 
-      vi.spyOn(platform.app, "use");
+      vi.spyOn(application(), "use");
 
       // WHEN
       platform.addRoutes([{route: "/rest", token: DomainController}]);

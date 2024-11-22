@@ -1,6 +1,6 @@
-import {Inject, Value} from "@tsed/di";
+import {constant, inject, injectable, ProviderType} from "@tsed/di";
 import {BadRequest} from "@tsed/exceptions";
-import {Middleware, MiddlewareMethods} from "@tsed/platform-middlewares";
+import {MiddlewareMethods} from "@tsed/platform-middlewares";
 import {Context} from "@tsed/platform-params";
 import type {MulterError} from "multer";
 
@@ -23,21 +23,14 @@ export class MulterException extends BadRequest {
 /**
  * @middleware
  */
-@Middleware({
-  priority: 10
-})
 export class PlatformMulterMiddleware implements MiddlewareMethods {
-  @Value("multer", {}) // NOTE: don't use constant to getting multer configuration. See issue #1840
-  protected settings: PlatformMulterSettings;
-
-  @Inject()
-  protected app: PlatformApplication;
+  protected app = inject(PlatformApplication);
 
   async use(@Context() ctx: PlatformContext) {
     try {
       const {fields, options = {}} = ctx.endpoint.get(PlatformMulterMiddleware);
       const settings: PlatformMulterSettings = {
-        ...this.settings,
+        ...constant("multer", {}),
         ...options
       };
 
@@ -62,3 +55,5 @@ export class PlatformMulterMiddleware implements MiddlewareMethods {
     return conf.fields.map(({name, maxCount}) => ({name, maxCount}));
   }
 }
+
+injectable(PlatformMulterMiddleware).type(ProviderType.MIDDLEWARE).priority(-10);

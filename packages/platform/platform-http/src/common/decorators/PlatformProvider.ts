@@ -1,10 +1,14 @@
 import {Type} from "@tsed/core";
 
+import {adapter} from "../fn/adapter.js";
 import {PlatformAdapter} from "../services/PlatformAdapter.js";
-import {registerPlatformAdapter} from "../utils/registerPlatformAdapter.js";
 
+/**
+ * Register a new platform adapter.
+ * @decorator
+ */
 export function PlatformProvider() {
   return (klass: Type<PlatformAdapter>) => {
-    registerPlatformAdapter(klass);
+    adapter(klass);
   };
 }

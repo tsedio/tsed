@@ -1,5 +1,5 @@
 import {AnyPromiseResult, AnyToPromiseStatus, catchAsyncError} from "@tsed/core";
-import {Inject, Injectable, Provider, ProviderScope} from "@tsed/di";
+import {inject, injectable, Provider, ProviderScope} from "@tsed/di";
 import {PlatformExceptions} from "@tsed/platform-exceptions";
 import {PlatformParams, PlatformParamsCallback} from "@tsed/platform-params";
 import {PlatformResponseFilter} from "@tsed/platform-response-filter";
@@ -22,28 +22,17 @@ import {PlatformMiddlewaresChain} from "./PlatformMiddlewaresChain.js";
  * Platform Handler abstraction layer. Wrap original class method to a pure platform handler (Express, Koa, etc...).
  * @platform
  */
-@Injectable({
-  scope: ProviderScope.SINGLETON
-})
 export class PlatformHandler {
-  @Inject()
-  protected responseFilter: PlatformResponseFilter;
+  protected responseFilter = inject(PlatformResponseFilter);
+  protected platformParams = inject(PlatformParams);
+  protected platformExceptions = inject(PlatformExceptions);
+  protected platformApplication = inject(PlatformApplication);
+  protected platformMiddlewaresChain = inject(PlatformMiddlewaresChain);
+  protected platformRouters = inject(PlatformRouters);
 
-  @Inject()
-  protected platformParams: PlatformParams;
-
-  @Inject()
-  protected platformExceptions: PlatformExceptions;
-
-  @Inject()
-  protected platformApplication: PlatformApplication;
-
-  @Inject()
-  protected platformMiddlewaresChain: PlatformMiddlewaresChain;
-
-  constructor(protected platformRouters: PlatformRouters) {
+  constructor() {
     // configure the router module
-    platformRouters.hooks
+    this.platformRouters.hooks
       .on("alterEndpointHandlers", (handlers: AlterEndpointHandlersArg, operationRoute: JsonOperationRoute) => {
         handlers = this.platformMiddlewaresChain.get(handlers, operationRoute);
 
@@ -147,3 +136,5 @@ export class PlatformHandler {
     }
   }
 }
+
+injectable(PlatformHandler).scope(ProviderScope.SINGLETON);

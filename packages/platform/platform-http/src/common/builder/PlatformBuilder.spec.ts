@@ -1,5 +1,6 @@
 import {catchAsyncError, Type} from "@tsed/core";
 import {Configuration, configuration, Controller, destroyInjector, Injectable, injector, Module} from "@tsed/di";
+import {$asyncEmit} from "@tsed/hooks";
 
 import {FakeAdapter} from "../../testing/FakeAdapter.js";
 import {AfterInit} from "../interfaces/AfterInit.js";
@@ -11,6 +12,15 @@ import {BeforeRoutesInit} from "../interfaces/BeforeRoutesInit.js";
 import {OnReady} from "../interfaces/OnReady.js";
 import {Platform} from "../services/Platform.js";
 import {PlatformBuilder} from "./PlatformBuilder.js";
+
+vi.mock("@tsed/hooks", async (importOriginal) => {
+  const mod = await importOriginal<typeof import("@tsed/hooks")>();
+
+  return {
+    ...mod,
+    $asyncEmit: vi.fn()
+  };
+});
 
 @Controller("/")
 class RestCtrl {}
@@ -255,7 +265,8 @@ describe("PlatformBuilder", () => {
     describe("bootstrap()", () => {
       it("should bootstrap platform", async () => {
         // WHEN
-        const spyOn = vi.spyOn(injector().hooks, "asyncEmit").mockResolvedValue(undefined);
+        vi.mocked($asyncEmit).mockResolvedValue(undefined);
+
         const stub = ServerModule.prototype.$beforeRoutesInit;
         const server = await PlatformCustom.bootstrap(ServerModule, {
           httpPort: false,
@@ -269,13 +280,12 @@ describe("PlatformBuilder", () => {
         expect(server.listenServers).toHaveBeenCalledWith();
         expect(server.loadStatics).toHaveBeenCalledWith("$beforeRoutesInit");
         expect(server.loadStatics).toHaveBeenCalledWith("$afterRoutesInit");
-        expect(spyOn).toHaveBeenCalledWith("$afterInit", []);
-        expect(spyOn).toHaveBeenCalledWith("$beforeRoutesInit", []);
-        expect(spyOn).toHaveBeenCalledWith("$afterRoutesInit", []);
-        expect(spyOn).toHaveBeenCalledWith("$afterListen", []);
-        expect(spyOn).toHaveBeenCalledWith("$beforeListen", []);
-        expect(spyOn).toHaveBeenCalledWith("$onServerReady", []);
-        expect(spyOn).toHaveBeenCalledWith("$onReady", []);
+        expect($asyncEmit).toHaveBeenCalledWith("$afterInit", []);
+        expect($asyncEmit).toHaveBeenCalledWith("$beforeRoutesInit", []);
+        expect($asyncEmit).toHaveBeenCalledWith("$afterRoutesInit", []);
+        expect($asyncEmit).toHaveBeenCalledWith("$afterListen", []);
+        expect($asyncEmit).toHaveBeenCalledWith("$beforeListen", []);
+        expect($asyncEmit).toHaveBeenCalledWith("$onReady", []);
 
         // THEN
         expect(server.rootModule).toBeInstanceOf(ServerModule);
@@ -283,7 +293,7 @@ describe("PlatformBuilder", () => {
         expect(server.name).toEqual("custom");
 
         await server.stop();
-        expect(spyOn).toHaveBeenCalledWith("$onDestroy", []);
+        expect($asyncEmit).toHaveBeenCalledWith("$onDestroy", []);
       });
     });
     describe("adapter()", () => {

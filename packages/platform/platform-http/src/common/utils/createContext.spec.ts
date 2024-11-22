@@ -1,16 +1,26 @@
+import {configuration, injector} from "@tsed/di";
+import {$asyncEmit} from "@tsed/hooks";
+
 import {PlatformTest} from "../../testing/PlatformTest.js";
 import {PlatformResponse} from "../services/PlatformResponse.js";
 import {createContext} from "./createContext.js";
 
+vi.mock("@tsed/hooks", async (importOriginal) => {
+  const mod = await importOriginal<typeof import("@tsed/hooks")>();
+  return {
+    ...mod,
+    $asyncEmit: vi.fn()
+  };
+});
+
 async function createContextFixture(reqOpts?: any) {
-  const injector = PlatformTest.injector;
   const request = PlatformTest.createRequest(reqOpts);
   const response = PlatformTest.createResponse();
 
-  injector.settings.logger.level = "info";
-  injector.settings.logger.ignoreUrlPatterns = ["/admin", /\/admin2/];
+  configuration().logger.level = "info";
+  configuration().logger.ignoreUrlPatterns = ["/admin", /\/admin2/];
 
-  const invoke = createContext(injector);
+  const invoke = createContext();
   const ctx = await invoke({request, response});
   ctx.response.getRes().on = vi.fn();
 
@@ -23,7 +33,7 @@ async function createContextFixture(reqOpts?: any) {
     ctx.logger.flush();
   };
 
-  return {call, injector, request, response, ctx};
+  return {call, injector: injector(), request, response, ctx};
 }
 
 describe("createContext", () => {
@@ -36,18 +46,18 @@ describe("createContext", () => {
     // GIVEN
     const {injector, ctx, call} = await createContextFixture();
 
-    vi.spyOn(injector.hooks, "asyncEmit").mockResolvedValue(undefined);
+    vi.mocked($asyncEmit).mockResolvedValue(undefined);
     vi.spyOn(injector.logger, "info").mockReturnValue(undefined);
 
     // WHEN
     await call();
 
     // THEN
-    expect(injector.hooks.asyncEmit).toHaveBeenCalledWith("$onRequest", [ctx]);
+    expect($asyncEmit).toHaveBeenCalledWith("$onRequest", [ctx]);
 
     await vi.mocked(ctx.response.getRes().on).mock.calls[0][1](ctx);
 
-    expect(injector.hooks.asyncEmit).toHaveBeenCalledWith("$onResponse", [ctx]);
+    expect($asyncEmit).toHaveBeenCalledWith("$onResponse", [ctx]);
   });
 
   it("should ignore logs", async () => {
@@ -57,7 +67,7 @@ describe("createContext", () => {
       originalUrl: "/admin"
     });
 
-    vi.spyOn(injector.hooks, "asyncEmit").mockResolvedValue(undefined);
+    vi.mocked($asyncEmit).mockResolvedValue(undefined);
     vi.spyOn(injector.logger, "info").mockReturnValue(undefined);
 
     // WHEN

@@ -1,5 +1,5 @@
 import {isArray, isBoolean, isNumber, isStream, isString} from "@tsed/core";
-import {Injectable, lazyInject, ProviderScope, Scope} from "@tsed/di";
+import {injectable, lazyInject, ProviderScope} from "@tsed/di";
 import {getStatusMessage} from "@tsed/schema";
 import encodeUrl from "encodeurl";
 import {OutgoingHttpHeaders, ServerResponse} from "http";
@@ -30,8 +30,6 @@ declare global {
  * Platform Response abstraction layer.
  * @platform
  */
-@Injectable()
-@Scope(ProviderScope.INSTANCE)
 export class PlatformResponse<Res extends Record<string, any> = any> {
   data: any;
 
@@ -386,3 +384,5 @@ export class PlatformResponse<Res extends Record<string, any> = any> {
     this.raw.send(data);
   }
 }
+
+injectable(PlatformResponse).scope(ProviderScope.INSTANCE);

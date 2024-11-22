@@ -42,7 +42,7 @@ export function createInjector({adapter, settings = {}}: CreateInjectorOptions) 
   inj.invoke(PlatformAdapter);
   inj.alias(PlatformAdapter, "PlatformAdapter");
 
-  setLoggerConfiguration(inj);
+  setLoggerConfiguration();
 
   const instance = inj.get<PlatformAdapter>(PlatformAdapter)!;
 
@@ -52,7 +52,7 @@ export function createInjector({adapter, settings = {}}: CreateInjectorOptions) 
     inj.addProvider(token, provider);
   });
 
-  inj.invoke(PlatformApplication);
+  DEFAULT_PROVIDERS.map((provider) => inj.get(provider.provide));
 
   return inj;
 }

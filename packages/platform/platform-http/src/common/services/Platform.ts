@@ -1,32 +1,24 @@
-import {ControllerProvider, Injectable, InjectorService, ProviderScope, TokenProvider} from "@tsed/di";
+import {ControllerProvider, inject, injectable, injector, ProviderScope, TokenProvider} from "@tsed/di";
 import {PlatformLayer, PlatformRouters} from "@tsed/platform-router";
 
+import {application} from "../fn/application.js";
 import {Route, RouteController} from "../interfaces/Route.js";
-import {PlatformApplication} from "./PlatformApplication.js";
-import {PlatformHandler} from "./PlatformHandler.js";
 
 /**
  * `Platform` is used to provide all routes collected by annotation `@Controller`.
  *
  * @platform
  */
-@Injectable({
-  scope: ProviderScope.SINGLETON,
-  imports: [PlatformHandler]
-})
 export class Platform {
+  readonly platformRouters = inject(PlatformRouters);
   #layers: PlatformLayer[];
 
-  constructor(
-    readonly injector: InjectorService,
-    readonly platformApplication: PlatformApplication,
-    readonly platformRouters: PlatformRouters
-  ) {
-    platformRouters.prebuild();
+  constructor() {
+    this.platformRouters.prebuild();
   }
 
   get app() {
-    return this.platformApplication;
+    return application();
   }
 
   public addRoutes(routes: Route[]) {
@@ -36,7 +28,8 @@ export class Platform {
   }
 
   public addRoute(route: string, token: TokenProvider) {
-    const provider = this.injector.getProvider(token) as ControllerProvider;
+    const app = application();
+    const provider = injector().getProvider(token) as ControllerProvider;
 
     if (!provider || provider.hasParent()) {
       return this;
@@ -44,13 +37,13 @@ export class Platform {
 
     const router = this.platformRouters.from(provider.token);
 
-    this.app.use(route, router);
+    app.use(route, router);
 
     return this;
   }
 
   public getLayers() {
-    this.#layers = this.#layers || this.platformRouters.getLayers(this.app);
+    this.#layers = this.#layers || this.platformRouters.getLayers(application());
 
     return this.#layers;
   }
@@ -82,3 +75,5 @@ export class Platform {
     return [...controllers.values()];
   }
 }
+
+injectable(Platform).scope(ProviderScope.SINGLETON);

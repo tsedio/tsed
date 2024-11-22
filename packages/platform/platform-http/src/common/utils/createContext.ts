@@ -1,4 +1,4 @@
-import {InjectorService} from "@tsed/di";
+import {configuration, injector} from "@tsed/di";
 import {v4} from "uuid";
 
 import {PlatformContext} from "../domain/PlatformContext.js";
@@ -23,13 +23,12 @@ export function buildIgnoreLog(ignoreUrlPatterns: any[] | undefined) {
 
 /**
  * Create the TsED context to wrap request, response, injector, etc...
- * @param injector
  * @ignore
  */
-export function createContext(injector: InjectorService): (event: IncomingEvent) => PlatformContext {
-  const ResponseKlass = injector.getProvider(PlatformResponse)?.useClass;
-  const RequestKlass = injector.getProvider(PlatformRequest)?.useClass;
-  const {reqIdBuilder = defaultReqIdBuilder, ...loggerOptions} = injector.settings.logger;
+export function createContext(): (event: IncomingEvent) => PlatformContext {
+  const ResponseKlass = injector().getProvider(PlatformResponse)?.useClass;
+  const RequestKlass = injector().getProvider(PlatformRequest)?.useClass;
+  const {reqIdBuilder = defaultReqIdBuilder, ...loggerOptions} = configuration().logger;
 
   const opts = {
     ...loggerOptions,

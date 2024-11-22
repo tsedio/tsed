@@ -1,4 +1,4 @@
-import {Injectable, InjectorService, ProviderScope} from "@tsed/di";
+import {inject, injectable, ProviderScope} from "@tsed/di";
 import {PlatformRouter} from "@tsed/platform-router";
 import {IncomingMessage, ServerResponse} from "http";
 
@@ -17,20 +17,16 @@ declare global {
  *
  * @platform
  */
-@Injectable({
-  scope: ProviderScope.SINGLETON,
-  alias: "PlatformApplication"
-})
 export class PlatformApplication<App = TsED.Application> extends PlatformRouter {
+  adapter: PlatformAdapter<App> = inject(PlatformAdapter<App>);
+
   rawApp: App;
   rawCallback: () => any;
 
-  constructor(
-    public adapter: PlatformAdapter<App>,
-    public injector: InjectorService
-  ) {
-    super(injector);
-    const {app, callback} = adapter.createApp();
+  constructor() {
+    super();
+
+    const {app, callback} = this.adapter.createApp();
 
     this.rawApp = app;
     this.rawCallback = callback;
@@ -54,3 +50,5 @@ export class PlatformApplication<App = TsED.Application> extends PlatformRouter 
     return this.rawCallback();
   }
 }
+
+injectable(PlatformApplication).scope(ProviderScope.SINGLETON).alias("PlatformApplication");

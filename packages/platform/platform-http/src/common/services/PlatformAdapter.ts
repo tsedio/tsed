@@ -1,11 +1,12 @@
 import {Type} from "@tsed/core";
-import {InjectorService, ProviderOpts, registerProvider} from "@tsed/di";
+import {injectable, ProviderOpts} from "@tsed/di";
 import {PlatformContextHandler, PlatformHandlerMetadata, PlatformLayer} from "@tsed/platform-router";
 import {IncomingMessage, ServerResponse} from "http";
 
 import {PlatformMulter, PlatformMulterSettings} from "../config/interfaces/PlatformMulterSettings.js";
 import {PlatformStaticsOptions} from "../config/interfaces/PlatformStaticsSettings.js";
 import {PlatformContext} from "../domain/PlatformContext.js";
+import {application} from "../fn/application.js";
 import {createHttpServer} from "../utils/createHttpServer.js";
 import {createHttpsServer} from "../utils/createHttpsServer.js";
 import {CreateServerReturn} from "../utils/createServer.js";
@@ -18,16 +19,13 @@ export abstract class PlatformAdapter<App = TsED.Application> {
    */
   providers: ProviderOpts[];
 
-  constructor(protected injector: InjectorService) {}
-
   get app(): PlatformApplication<App> {
-    return this.injector.get<PlatformApplication<App>>("PlatformApplication")!;
+    return application();
   }
 
   getServers(): CreateServerReturn[] {
-    return [createHttpServer(this.injector, this.app.callback()), createHttpsServer(this.injector, this.app.callback())].filter(
-      Boolean
-    ) as any[];
+    const app = application<App>();
+    return [createHttpServer(app.callback()), createHttpsServer(app.callback())].filter(Boolean) as any[];
   }
 
   onInit(): Promise<void> | void {
@@ -144,8 +142,4 @@ export class FakeAdapter extends PlatformAdapter<any> {
   useContext() {}
 }
 
-registerProvider({
-  provide: PlatformAdapter,
-  deps: [InjectorService],
-  useClass: FakeAdapter
-});
+injectable(PlatformAdapter).class(FakeAdapter);

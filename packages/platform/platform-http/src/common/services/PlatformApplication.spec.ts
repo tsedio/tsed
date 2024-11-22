@@ -1,3 +1,5 @@
+import {configuration} from "@tsed/di";
+
 import {PlatformTest} from "../../testing/PlatformTest.js";
 import {createContext} from "../utils/createContext.js";
 import {PlatformApplication} from "./PlatformApplication.js";
@@ -29,7 +31,7 @@ async function getPlatformApp() {
       use: platformHandler
     }
   ]);
-  platformApp.injector.settings.logger = {};
+  configuration().logger = {};
   platformApp.rawApp = createDriver() as any;
 
   return {platformApp, platformHandler};

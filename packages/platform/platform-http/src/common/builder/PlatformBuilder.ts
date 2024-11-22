@@ -1,14 +1,19 @@
-import {isClass, isFunction, isString, nameOf, Type} from "@tsed/core";
+import {type Env, isClass, isFunction, isString, nameOf, Type} from "@tsed/core";
 import {
   colors,
+  configuration,
+  constant,
   createContainer,
+  destroyInjector,
   injector,
   InjectorService,
+  logger,
   ProviderOpts,
   ProviderScope,
   setLoggerConfiguration,
   TokenProvider
 } from "@tsed/di";
+import {$asyncAlter, $asyncEmit} from "@tsed/hooks";
 import {getMiddlewaresForHook, PlatformMiddlewareLoadingOptions} from "@tsed/platform-middlewares";
 import {PlatformLayer} from "@tsed/platform-router";
 import type {IncomingMessage, ServerResponse} from "http";
@@ -18,6 +23,8 @@ import type Https from "https";
 
 import {PlatformStaticsSettings} from "../config/interfaces/PlatformStaticsSettings.js";
 import {PlatformRouteDetails} from "../domain/PlatformRouteDetails.js";
+import {adapter as $adapter} from "../fn/adapter.js";
+import {application} from "../fn/application.js";
 import {Route} from "../interfaces/Route.js";
 import {Platform} from "../services/Platform.js";
 import {PlatformAdapter, PlatformBuilderSettings} from "../services/PlatformAdapter.js";
@@ -68,20 +75,16 @@ export class PlatformBuilder<App = TsED.Application> {
     this.log("Injector created...");
   }
 
-  get injector(): InjectorService {
-    return injector();
-  }
-
   get rootModule(): any {
     return injector().get(this.#rootModule);
   }
 
   get app(): PlatformApplication<App> {
-    return this.injector.get<PlatformApplication<App>>(PlatformApplication)!;
+    return injector().get<PlatformApplication<App>>(PlatformApplication)!;
   }
 
   get platform() {
-    return this.injector.get<Platform>(Platform)!;
+    return injector().get<Platform>(Platform)!;
   }
 
   get adapter() {
@@ -109,15 +112,22 @@ export class PlatformBuilder<App = TsED.Application> {
    * @returns {PlatformConfiguration}
    */
   get settings() {
-    return this.injector.settings;
+    return configuration();
   }
 
   get logger() {
-    return this.injector.logger;
+    return logger();
   }
 
   get disableBootstrapLog() {
-    return this.settings.get("logger.disableBootstrapLog");
+    return constant<boolean>("logger.disableBootstrapLog");
+  }
+
+  /**
+   * @deprecated use injector() instead of this method.
+   */
+  get injector(): InjectorService {
+    return injector();
   }
 
   static create<App = TsED.Application>(module: Type<any>, settings: PlatformBuilderSettings<App>) {
@@ -148,7 +158,7 @@ export class PlatformBuilder<App = TsED.Application> {
   }
 
   log(...data: any[]) {
-    return !this.disableBootstrapLog && this.logger.info(...data, this.diff());
+    return !this.disableBootstrapLog && logger().info(...data, this.diff());
   }
 
   /**
@@ -173,7 +183,7 @@ export class PlatformBuilder<App = TsED.Application> {
    */
   public addControllers(endpoint: string, controllers: TokenProvider | TokenProvider[]) {
     [].concat(controllers as never[]).forEach((token: TokenProvider) => {
-      this.settings.routes.push({token, route: endpoint});
+      configuration().routes.push({token, route: endpoint});
     });
   }
 
@@ -181,7 +191,7 @@ export class PlatformBuilder<App = TsED.Application> {
     // init adapter (Express, Koa, etc...)
     await this.#adapter.onInit();
 
-    setLoggerConfiguration(this.injector);
+    setLoggerConfiguration();
 
     // create the middleware mapping to be executed to the expected hook
     await this.mapTokenMiddlewares();
@@ -206,7 +216,7 @@ export class PlatformBuilder<App = TsED.Application> {
     await this.loadStatics("$beforeRoutesInit");
     await this.callHook("$beforeRoutesInit");
 
-    const routes = this.injector.settings.get<Route[]>("routes");
+    const routes = configuration().get<Route[]>("routes");
 
     this.platform.addRoutes(routes);
 
@@ -227,10 +237,10 @@ export class PlatformBuilder<App = TsED.Application> {
   }
 
   async loadInjector() {
-    const {injector} = this;
     this.log("Build providers");
+    const settings = configuration();
 
-    this.settings.routes = this.settings.routes.concat(resolveControllers(this.settings));
+    settings.set("routes", settings.get("routes").concat(resolveControllers(settings)));
 
     const container = createContainer();
     container.delete(this.#rootModule);
@@ -239,7 +249,7 @@ export class PlatformBuilder<App = TsED.Application> {
       scope: ProviderScope.SINGLETON
     });
 
-    await injector.load(container);
+    await injector().load(container);
 
     this.log("Settings and injector loaded...");
 
@@ -264,7 +274,7 @@ export class PlatformBuilder<App = TsED.Application> {
 
   async stop() {
     await this.callHook("$onDestroy");
-    await this.injector.destroy();
+    await destroyInjector();
 
     this.#listeners.map(closeServer);
   }
@@ -273,37 +283,35 @@ export class PlatformBuilder<App = TsED.Application> {
     const {startedAt} = this;
 
     await this.callHook("$onReady");
-    await this.injector.emit("$onServerReady");
 
     this.log(`Started in ${new Date().getTime() - startedAt.getTime()} ms`);
   }
 
   async callHook(hook: string, ...args: any[]) {
-    const {injector} = this;
-
     if (!this.disableBootstrapLog) {
-      injector.logger.debug(`\x1B[1mCall hook ${hook}\x1B[22m`);
+      logger().debug(`\x1B[1mCall hook ${hook}\x1B[22m`);
     }
 
     // Load middlewares for the given hook
     this.loadMiddlewaresFor(hook);
 
     // call hooks added by providers
-    await injector.emit(hook, ...args);
+    await $asyncEmit(hook, args);
   }
 
   loadStatics(hook: string) {
-    const statics = this.settings.get<PlatformStaticsSettings>("statics");
+    const statics = constant<PlatformStaticsSettings>("statics");
+    const app = application();
 
     getStaticsOptions(statics).forEach(({path, options}) => {
       if (options.hook === hook) {
-        this.platform.app.statics(path, options);
+        app.statics(path, options);
       }
     });
   }
 
   useProvider(token: Type<any>, settings?: Partial<ProviderOpts>) {
-    this.injector.addProvider(token, settings);
+    injector().addProvider(token, settings);
 
     return this;
   }
@@ -320,7 +328,7 @@ export class PlatformBuilder<App = TsED.Application> {
     this.#adapter.mapLayers(layers);
 
     const rawBody =
-      this.settings.get("rawBody") ||
+      constant("rawBody") ||
       layers.some(({handlers}) => {
         return handlers.some((handler) => handler.opts?.paramsTypes?.RAW_BODY);
       });
@@ -356,8 +364,6 @@ export class PlatformBuilder<App = TsED.Application> {
   }
 
   protected async logRoutes(layers: PlatformLayer[]) {
-    const {logger} = this;
-
     this.log("Routes mounted...");
 
     if (!this.settings.get("logger.disableRoutesSummary") && !this.disableBootstrapLog) {
@@ -371,13 +377,13 @@ export class PlatformBuilder<App = TsED.Application> {
         } as PlatformRouteDetails;
       });
 
-      logger.info(printRoutes(await this.injector.alterAsync("$logRoutes", routes)));
+      logger().info(printRoutes(await $asyncAlter("$logRoutes", routes)));
     }
   }
 
   protected async mapTokenMiddlewares() {
-    let middlewares = this.injector.settings.get<PlatformMiddlewareLoadingOptions[]>("middlewares", []);
-    const {env} = this.injector.settings;
+    let middlewares = constant<PlatformMiddlewareLoadingOptions[]>("middlewares", []);
+    const env = constant<Env>("env");
     const defaultHook = "$beforeRoutesInit";
 
     const promises = middlewares.map(async (middleware: PlatformMiddlewareLoadingOptions): Promise<PlatformMiddlewareLoadingOptions> => {
@@ -422,7 +428,7 @@ export class PlatformBuilder<App = TsED.Application> {
 
     middlewares = await Promise.all(promises);
 
-    this.injector.settings.set(
+    configuration().set(
       "middlewares",
       middlewares.filter((middleware) => middleware.use)
     );
