@@ -1,14 +1,14 @@
-import {type BaseContext, Configuration, registerProvider} from "@tsed/di";
+import {type BaseContext, constant, injectable} from "@tsed/di";
 
 import {defaultAlterLog} from "../utils/defaultAlterLog.js";
 import {defaultLogResponse} from "../utils/defaultLogResponse.js";
 
-function factory(configuration: Configuration) {
+function factory() {
   const {
     logRequest = true,
     alterLog = defaultAlterLog,
     onLogResponse = defaultLogResponse
-  } = configuration.get<TsED.LoggerConfiguration>("logger");
+  } = constant<TsED.LoggerConfiguration>("logger", {});
 
   return logRequest
     ? {
@@ -18,14 +18,11 @@ function factory(configuration: Configuration) {
     : null;
 }
 
-export const PlatformLogRequestFactory = Symbol.for("PLATFORM:LOGGER:REQUEST");
 export type PlatformLogRequestFactory = ReturnType<typeof factory>;
 
-registerProvider({
-  provide: PlatformLogRequestFactory,
-  deps: [Configuration],
-  useFactory: factory,
-  hooks: {
+export const PlatformLogRequestFactory = injectable(Symbol.for("PLATFORM:LOGGER:REQUEST"))
+  .factory(factory)
+  .hooks({
     $onRequest(instance: ReturnType<typeof factory>, $ctx: BaseContext) {
       if (instance) {
         $ctx.logger.alterLog((obj: any, level) => instance.alterLog(level, obj, $ctx));
@@ -37,5 +34,5 @@ registerProvider({
         instance.onLogResponse($ctx);
       }
     }
-  }
-});
+  })
+  .token();
