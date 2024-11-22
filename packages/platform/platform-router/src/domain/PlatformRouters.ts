@@ -2,16 +2,15 @@ import {getValue, Type} from "@tsed/core";
 import {
   constant,
   ControllerProvider,
-  GlobalProviders,
   inject,
-  Injectable,
   injectable,
   injector,
   Provider,
   ProviderType,
+  ResolvedInvokeOptions,
   TokenProvider
 } from "@tsed/di";
-import {Hooks} from "@tsed/hooks";
+import {$on, Hooks} from "@tsed/hooks";
 import {PlatformParamsCallback} from "@tsed/platform-params";
 import {concatPath, getOperationsRoutes, JsonMethodStore, OPERATION_HTTP_VERBS} from "@tsed/schema";
 
@@ -46,13 +45,6 @@ function createInjectableRouter(provider: ControllerProvider): PlatformRouter {
     })
     .invoke<PlatformRouter>(tokenRouter);
 }
-
-GlobalProviders.createRegistry(ProviderType.CONTROLLER, ControllerProvider, {
-  onInvoke(provider: ControllerProvider, {locals}) {
-    const router = createInjectableRouter(provider);
-    locals.set(PlatformRouter, router);
-  }
-});
 
 export interface AlterEndpointHandlersArg {
   before: (Type<any> | Function)[];
@@ -194,3 +186,11 @@ export class PlatformRouters {
 }
 
 injectable(PlatformRouters);
+/**
+ * Create injectable router for the current invoked provider.
+ * @ignore
+ */
+$on(`$beforeInvoke:${ProviderType.CONTROLLER}`, ({provider, locals}: ResolvedInvokeOptions) => {
+  const router = createInjectableRouter(provider as ControllerProvider);
+  locals.set(PlatformRouter, router);
+});
