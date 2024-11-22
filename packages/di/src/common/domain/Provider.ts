@@ -16,11 +16,12 @@ export class Provider<T = any> implements ProviderOpts<T> {
   public type: ProviderType | TokenProvider = ProviderType.PROVIDER;
   public deps: TokenProvider[];
   public imports: (TokenProvider | [TokenProvider])[];
-  public alias?: string;
+  public alias: string;
+  public priority: number;
   public useFactory?: Function;
   public useAsyncFactory?: Function;
   public useValue?: unknown;
-  public hooks?: Record<string, ProviderHookCallback<T>>;
+  public hooks: Record<string, ProviderHookCallback<T>> = {};
   private _useClass: Type<T>;
   private _provide: TokenProvider;
   private _store: Store;

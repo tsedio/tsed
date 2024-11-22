@@ -74,9 +74,9 @@ export function providerBuilder<Provider, Picked extends keyof Provider>(props: 
   };
 }
 
-type PickedProps = "scope" | "path" | "alias" | "hooks" | "deps" | "imports" | "configuration";
+type PickedProps = "scope" | "path" | "alias" | "hooks" | "deps" | "imports" | "configuration" | "priority";
 
-const Props = ["type", "scope", "path", "alias", "hooks", "deps", "imports", "configuration"];
+const Props = ["type", "scope", "path", "alias", "hooks", "deps", "imports", "configuration", "priority"];
 export const injectable = providerBuilder<Provider, PickedProps | "type">(Props);
 export const interceptor = providerBuilder<Provider, PickedProps | "type">(Props, {
   type: ProviderType.INTERCEPTOR
