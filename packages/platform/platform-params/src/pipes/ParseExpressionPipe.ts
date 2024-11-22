@@ -1,13 +1,10 @@
 import {getValue} from "@tsed/core";
-import {Injectable} from "@tsed/di";
+import {Injectable, injectable} from "@tsed/di";
 import {JsonParameterStore, PipeMethods} from "@tsed/schema";
 
 import {PlatformParamsScope} from "../builder/PlatformParams.js";
 import {ParamTypes} from "../domain/ParamTypes.js";
 
-@Injectable({
-  priority: -1000
-})
 export class ParseExpressionPipe implements PipeMethods {
   transform(scope: PlatformParamsScope, param: JsonParameterStore) {
     const {paramType, type} = param;
@@ -32,3 +29,5 @@ export class ParseExpressionPipe implements PipeMethods {
     return [dataPath, expression].filter(Boolean).join(".");
   }
 }
+
+injectable(ParseExpressionPipe).priority(-1000);

@@ -1,4 +1,4 @@
-import {DIContext, Inject, Injectable, InjectorService, ProviderScope, TokenProvider} from "@tsed/di";
+import {DIContext, Inject, Injectable, injectable, injector, InjectorService, ProviderScope, TokenProvider} from "@tsed/di";
 import {JsonMethodStore, JsonParameterStore, PipeMethods} from "@tsed/schema";
 
 import {ParamValidationError} from "../errors/ParamValidationError.js";
@@ -11,21 +11,15 @@ export type PlatformParamsCallback<Context extends DIContext = DIContext> = (sco
  * Platform Params abstraction layer.
  * @platform
  */
-@Injectable({
-  scope: ProviderScope.SINGLETON,
-  imports: [ParseExpressionPipe]
-})
-export class PlatformParams {
-  @Inject()
-  protected injector: InjectorService;
 
+export class PlatformParams {
   getPipes(param: JsonParameterStore) {
     const get = (pipe: TokenProvider) => {
-      return this.injector.getProvider(pipe)!.priority || 0;
+      return injector().getProvider(pipe)!.priority || 0;
     };
 
     const sort = (p1: TokenProvider, p2: TokenProvider) => (get(p1) < get(p2) ? -1 : get(p1) > get(p2) ? 1 : 0);
-    const map = (token: TokenProvider) => this.injector.get<PipeMethods>(token)!;
+    const map = (token: TokenProvider) => injector().get<PipeMethods>(token)!;
 
     return [ParseExpressionPipe, ...param.pipes.sort(sort)].map(map).filter(Boolean);
   }
@@ -47,13 +41,15 @@ export class PlatformParams {
       return (scope: PlatformParamsScope<Context>) => handler(scope.$ctx);
     }
 
+    const inj = injector();
     const store = JsonMethodStore.fromMethod(token, propertyKey);
     const getArguments = this.compile<Context>(store);
-    const provider = this.injector.getProvider(token)!;
+    const provider = inj.getProvider(token)!;
 
     return async (scope: PlatformParamsScope<Context>) => {
       const container = provider.scope === ProviderScope.REQUEST ? scope.$ctx.container : undefined;
-      const [instance, args] = await Promise.all([this.injector.invoke<any>(token, {locals: container}), getArguments(scope)]);
+
+      const [instance, args] = await Promise.all([inj.invoke<any>(token, {locals: container}), getArguments(scope)]);
 
       return instance[propertyKey].call(instance, ...args, scope.$ctx);
     };
@@ -86,3 +82,5 @@ export class PlatformParams {
     }, scope);
   }
 }
+
+injectable(PlatformParams).imports([ParseExpressionPipe]);

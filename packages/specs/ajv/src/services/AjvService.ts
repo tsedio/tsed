@@ -20,6 +20,8 @@ export interface AjvValidateOptions extends Record<string, any> {
   type: "validator:service"
 })
 export class AjvService {
+  readonly name = "ajv";
+
   @Constant("ajv.errorFormatter", defaultErrorFormatter)
   protected errorFormatter: ErrorFormatter;
 

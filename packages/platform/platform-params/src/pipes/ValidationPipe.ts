@@ -1,4 +1,4 @@
-import {Inject, Injectable} from "@tsed/di";
+import {constant, injectable, injectMany} from "@tsed/di";
 import {deserialize} from "@tsed/json-mapper";
 import {getJsonSchema, JsonParameterStore, PipeMethods} from "@tsed/schema";
 
@@ -15,16 +15,28 @@ function cast(value: any, metadata: JsonParameterStore) {
   }
 }
 
-export type ValidatorServiceMethods = {validate(value: any, options: any): Promise<any>};
+export interface ValidatorServiceMethods {
+  readonly name: string;
 
-@Injectable({
-  type: "validator"
-})
+  validate(value: any, options: any): Promise<any>;
+}
+
 export class ValidationPipe implements PipeMethods {
-  private validator: ValidatorServiceMethods;
+  private validators: Map<string, ValidatorServiceMethods> = new Map();
 
-  constructor(@Inject("validator:service") validators: ValidatorServiceMethods[]) {
-    this.validator = validators[0];
+  constructor() {
+    const validators = injectMany<ValidatorServiceMethods>("validator:service");
+    const defaultValidator = constant("validators.default");
+
+    validators.length && this.validators.set("default", validators[0]);
+
+    validators.map((service) => {
+      this.validators.set(service.name, service);
+
+      if (service.name === defaultValidator) {
+        this.validators.set("default", service);
+      }
+    });
   }
 
   coerceTypes(value: any, metadata: JsonParameterStore) {
@@ -52,7 +64,7 @@ export class ValidationPipe implements PipeMethods {
   }
 
   transform(value: any, metadata: JsonParameterStore): Promise<any> {
-    if (!this.validator) {
+    if (!this.validators.size) {
       this.checkIsRequired(value, metadata);
       return value;
     }
@@ -74,11 +86,18 @@ export class ValidationPipe implements PipeMethods {
       customKeys: true
     });
 
-    return this.validator.validate(value, {
-      schema,
-      type: metadata.isClass ? metadata.type : undefined,
-      collectionType: metadata.collectionType
-    });
+    // TODO retrieve the right validator from metadata
+    const validator = this.validators.get("default");
+
+    if (validator) {
+      return validator.validate(value, {
+        schema,
+        type: metadata.isClass ? metadata.type : undefined,
+        collectionType: metadata.collectionType
+      });
+    }
+
+    return value;
   }
 
   protected checkIsRequired(value: any, metadata: JsonParameterStore) {
@@ -89,3 +108,5 @@ export class ValidationPipe implements PipeMethods {
     return true;
   }
 }
+
+injectable(ValidationPipe).type("validator");
