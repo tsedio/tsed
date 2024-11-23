@@ -98,10 +98,9 @@ export class DITest {
   /**
    * Return the instance from injector registry
    * @param target
-   * @param options
    */
-  static get<T = any>(target: TokenProvider, options: any = {}): T {
-    return injector().get<T>(target, options)!;
+  static get<T = any>(target: TokenProvider): T {
+    return injector().get<T>(target)!;
   }
 
   static createDIContext() {

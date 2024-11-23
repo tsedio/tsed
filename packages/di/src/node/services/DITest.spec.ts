@@ -1,22 +1,16 @@
-import {Logger} from "@tsed/logger";
-
-import {Inject, Injectable, InjectorService, registerProvider, Service} from "../../index.js";
+import {Inject, Injectable, injectable, InjectorService} from "../../index.js";
 import {DITest} from "../services/DITest.js";
 
 class Model {}
 
-const SQLITE_DATA_SOURCE = Symbol.for("SQLITE_DATA_SOURCE");
-
-registerProvider({
-  provide: SQLITE_DATA_SOURCE,
-  type: "typeorm:datasource",
-  deps: [Logger],
-  useAsyncFactory(logger: Logger) {
+const SQLITE_DATA_SOURCE = injectable(Symbol.for("SQLITE_DATA_SOURCE"))
+  .type("typeorm:datasource")
+  .asyncFactory(() => {
     return Promise.resolve({
       id: "sqlite"
     });
-  }
-});
+  })
+  .token();
 
 export abstract class AbstractDao {
   private readonly dao: any;
@@ -91,24 +85,22 @@ describe("DITest", () => {
     });
 
     it("should return a service with pre mocked dependencies (invoke + mock)", async () => {
+      const dao = {
+        initialize: vi.fn(),
+        getRepository: vi.fn().mockReturnValue({
+          repository: false
+        })
+      };
       const service = await DITest.invoke<FileDao>(FileDao, [
         {
           token: SQLITE_DATA_SOURCE,
-          use: {
-            initialize: vi.fn(),
-            getRepository: vi.fn().mockReturnValue({
-              repository: false
-            })
-          }
+          use: dao
         }
       ]);
 
-      const repository = DITest.get(SQLITE_DATA_SOURCE);
-
-      expect(repository.getRepository).toHaveBeenCalledWith(Model);
-
       const result = service.getRepository();
 
+      expect(dao.getRepository).toHaveBeenCalledWith(Model);
       expect(result).toEqual({
         repository: false
       });

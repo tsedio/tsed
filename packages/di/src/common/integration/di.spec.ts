@@ -58,8 +58,10 @@ describe("DI", () => {
 
       // THEN
       expect(injector().get(ServiceSingleton)).toEqual(inject(ServiceSingleton));
-      expect(injector().get(ServiceRequest)).toBeUndefined();
-      expect(injector().get(ServiceInstance)).toBeUndefined();
+      expect(injector().get(ServiceRequest)).toBeInstanceOf(ServiceRequest);
+      expect(injector().has(ServiceRequest)).toBeFalsy();
+      expect(injector().get(ServiceInstance)).toBeInstanceOf(ServiceInstance);
+      expect(injector().has(ServiceRequest)).toBeFalsy();
 
       expect(injector().invoke(ServiceRequest) === injector().invoke(ServiceRequest)).toEqual(false);
       expect(inject(ServiceInstance) === inject(ServiceInstance)).toEqual(false);

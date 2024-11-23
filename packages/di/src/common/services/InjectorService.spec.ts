@@ -53,8 +53,8 @@ describe("InjectorService", () => {
       expect(injector().get(InjectorService)).toBeInstanceOf(InjectorService);
     });
 
-    it("should return undefined", () => {
-      expect(injector().get(Test)).toBeUndefined();
+    it("should return Test", () => {
+      expect(injector().get(Test)).toBeInstanceOf(Test);
     });
   });
   describe("getMany()", () => {
@@ -222,14 +222,12 @@ describe("InjectorService", () => {
         const locals = new LocalsContainer();
 
         // WHEN
-
         const result1: any = inject(token, {locals});
         const result2: any = inject(token, {locals});
 
         // THEN
         expect(result1).toEqual(result2);
-
-        return expect((injector() as any).invokeToken).not.toHaveBeenCalled();
+        expect((injector() as any).invokeToken).not.toHaveBeenCalled();
       });
     });
     describe("when provider is a Value (useValue)", () => {

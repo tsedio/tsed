@@ -3,7 +3,6 @@ import {$alter, $asyncAlter, $asyncEmit, $emit, $off, $on} from "@tsed/hooks";
 
 import {DI_INVOKE_OPTIONS, DI_USE_PARAM_OPTIONS} from "../constants/constants.js";
 import {Configuration} from "../decorators/configuration.js";
-import {Injectable} from "../decorators/injectable.js";
 import {Container} from "../domain/Container.js";
 import {LocalsContainer} from "../domain/LocalsContainer.js";
 import {Provider} from "../domain/Provider.js";
@@ -41,11 +40,7 @@ const EXCLUDED_CONFIGURATION_KEYS = ["mount", "imports"];
  * const myService1 = injector.get<MyService1>(MyService1);
  * ```
  */
-@Injectable({
-  scope: ProviderScope.SINGLETON
-})
 export class InjectorService extends Container {
-  public settings: DIConfiguration = new DIConfiguration();
   public logger: DILogger = console;
   private resolvedConfiguration: boolean = false;
   #cache = new LocalsContainer();
@@ -53,7 +48,15 @@ export class InjectorService extends Container {
   constructor() {
     super();
     this.#cache.set(InjectorService, this);
-    this.#cache.set(Configuration, this.settings);
+    this.#cache.set(Configuration, new DIConfiguration());
+  }
+
+  get settings(): DIConfiguration {
+    return this.#cache.get(Configuration);
+  }
+
+  set settings(settings: DIConfiguration) {
+    this.#cache.set(Configuration, settings);
   }
 
   /**
@@ -80,8 +83,13 @@ export class InjectorService extends Container {
    * ```
    *
    * @param token The class or symbol registered in InjectorService.
+   * @param options
    */
-  get<T = any>(token: TokenProvider<T>): T | undefined {
+  get<T = any>(token: TokenProvider<T>, options?: Partial<InvokeOptions>): T {
+    if (!this.has(token)) {
+      return this.resolve(token, options);
+    }
+
     return this.#cache.get(token);
   }
 
@@ -151,16 +159,12 @@ export class InjectorService extends Container {
 
     const provider = this.ensureProvider(token);
 
-    const set = (instance: any) => {
-      this.#cache.set(token, instance);
-      provider?.alias && this.alias(token, provider.alias);
-    };
-
+    // maybe not necessary
     if (!provider || options.rebuild) {
       instance = this.invokeToken(token, options);
 
-      if (this.hasProvider(token)) {
-        set(instance);
+      if (provider) {
+        return this.setToCache(provider!, instance);
       }
 
       return instance;
@@ -174,21 +178,7 @@ export class InjectorService extends Container {
           this.registerHooks(provider, options);
         }
 
-        if (!provider.isAsync() || !isPromise(instance)) {
-          set(instance);
-          return instance;
-        }
-
-        // store promise to lock token in cache
-        set(instance);
-
-        instance = instance.then((instance: any) => {
-          set(instance);
-
-          return instance;
-        });
-        return instance;
-
+        return this.setToCache(provider, instance);
       case ProviderScope.REQUEST:
         if (options.locals) {
           options.locals.set(provider.token, instance);
@@ -245,6 +235,7 @@ export class InjectorService extends Container {
    */
   loadSync() {
     for (const [, provider] of this) {
+      // TODO try to lazy provider instead initiate all providers (&& provider.hasRegisteredHooks())
       if (!this.has(provider.token) && provider.scope === ProviderScope.SINGLETON) {
         this.resolve(provider.token);
       }
@@ -271,7 +262,8 @@ export class InjectorService extends Container {
   }
 
   /**
-   * Load all configurations registered on providers
+   * Load all configurations registered on providers via @Configuration decorator.
+   * It inspects for each provider some fields like imports, mount, etc. to resolve the configuration.
    */
   resolveConfiguration() {
     if (this.resolvedConfiguration) {
@@ -414,14 +406,12 @@ export class InjectorService extends Container {
             return this.getMany(token[0], options);
           }
 
-          const useOpts = provider?.getArgOpts(index) || options.useOpts;
-
           return isInheritedFrom(token, Provider, 1)
             ? provider
             : this.resolve(token, {
                 parent,
                 locals: options.locals,
-                useOpts
+                useOpts: provider?.getArgOpts(index) || options.useOpts
               });
         };
 
@@ -575,5 +565,29 @@ export class InjectorService extends Container {
         $on(event, provider.token, callback);
       });
     }
+  }
+
+  private setToCache(provider: Provider, instance: any) {
+    const set = (instance: any) => {
+      this.#cache.set(provider.token, instance);
+      provider?.alias && this.alias(provider.token, provider.alias);
+    };
+
+    if ("isAsync" in provider && !provider.isAsync() && !isPromise(instance)) {
+      set(instance);
+
+      return instance;
+    }
+
+    // store promise to lock token in cache
+    set(instance);
+
+    instance = instance.then((instance: any) => {
+      set(instance);
+
+      return instance;
+    });
+
+    return instance;
   }
 }

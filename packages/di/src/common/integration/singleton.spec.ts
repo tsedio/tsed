@@ -91,7 +91,8 @@ describe("DI Singleton", () => {
       expect(serviceSingletonWithReqDep.serviceRequest).toEqual(serviceSingletonWithReqDep.serviceRequest2);
 
       // The service isn't registered in the injectorService
-      expect(serviceRequest).toBeUndefined();
+      expect(serviceRequest).toBeDefined();
+      expect(injector().has(ServiceRequest)).toEqual(false);
     });
   });
   describe("when it has a INSTANCE dependency", () => {
@@ -117,7 +118,8 @@ describe("DI Singleton", () => {
       expect(serviceWithInstDep.serviceInstance === serviceWithInstDep.serviceInstance2).toEqual(false);
 
       // The service isn't registered in the injectorService
-      expect(serviceInstance).toBeUndefined();
+      expect(serviceInstance).toBeInstanceOf(ServiceInstance);
+      expect(injector().has(ServiceInstance)).toEqual(false);
     });
   });
 });
