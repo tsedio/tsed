@@ -1,5 +1,5 @@
 import {cleanObject} from "@tsed/core";
-import {Configuration, InjectorService, ProviderScope, registerProvider} from "@tsed/di";
+import {constant, inject, injectable, injector, InjectorService, ProviderScope} from "@tsed/di";
 import {Ajv, Format, KeywordDefinition, Options, Vocabulary} from "ajv";
 import AjvErrors from "ajv-errors";
 import AjvFormats from "ajv-formats";
@@ -13,14 +13,14 @@ function getHandler(key: string, service: any) {
   }
 }
 
-function getKeywordProviders(injector: InjectorService) {
-  return injector.getProviders("ajv:keyword");
+function getKeywordProviders() {
+  return injector().getProviders("ajv:keyword");
 }
 
-function bindKeywords(injector: InjectorService): Vocabulary {
-  return getKeywordProviders(injector).map((provider) => {
+function bindKeywords(): Vocabulary {
+  return getKeywordProviders().map((provider) => {
     const options = provider.store.get<Omit<KeywordDefinition, "compile">>("ajv:keyword", {})!;
-    const service = injector.invoke(provider.token);
+    const service = inject(provider.token);
 
     return <KeywordDefinition>cleanObject({
       coerceTypes: "array",
@@ -33,14 +33,14 @@ function bindKeywords(injector: InjectorService): Vocabulary {
   });
 }
 
-function getFormatsProviders(injector: InjectorService) {
-  return injector.getProviders("ajv:formats");
+function getFormatsProviders() {
+  return injector().getProviders("ajv:formats");
 }
 
-function getFormats(injector: InjectorService): {name: string; options: Format}[] {
-  return getFormatsProviders(injector).map((provider) => {
+function getFormats(): {name: string; options: Format}[] {
+  return getFormatsProviders().map((provider) => {
     const {name, options} = provider.store.get<any>("ajv:formats", {})!;
-    const service = injector.invoke<FormatsMethods<any>>(provider.token);
+    const service = inject<FormatsMethods<any>>(provider.token);
 
     return {
       name,
@@ -53,18 +53,15 @@ function getFormats(injector: InjectorService): {name: string; options: Format}[
   });
 }
 
-registerProvider({
-  // @ts-ignore
-  provide: Ajv,
-  deps: [Configuration, InjectorService],
-  scope: ProviderScope.SINGLETON,
-  useFactory(configuration: Configuration, injector: InjectorService) {
-    const {errorFormatter, keywords = [], ...props} = configuration.get<IAjvSettings>("ajv") || {};
+injectable(Ajv)
+  .scope(ProviderScope.SINGLETON)
+  .factory(() => {
+    const {errorFormatter, keywords = [], ...props} = constant<IAjvSettings>("ajv") || {};
     const options: Options = {
       verbose: false,
       coerceTypes: true,
       strict: false,
-      keywords: [...keywords, ...bindKeywords(injector)],
+      keywords: [...keywords, ...bindKeywords()],
       discriminator: true,
       allErrors: true,
       ...props
@@ -79,10 +76,9 @@ registerProvider({
     // @ts-ignore
     AjvFormats(ajv as any);
 
-    getFormats(injector).forEach(({name, options}) => {
+    getFormats().forEach(({name, options}) => {
       ajv.addFormat(name, options);
     });
 
     return ajv;
-  }
-});
+  });

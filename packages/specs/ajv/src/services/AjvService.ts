@@ -1,7 +1,7 @@
 import "./Ajv.js";
 
 import {deepClone, getValue, nameOf, prototypeOf, setValue, Type} from "@tsed/core";
-import {Constant, Inject, Injectable} from "@tsed/di";
+import {constant, inject, injectable} from "@tsed/di";
 import {getJsonSchema, JsonEntityStore, JsonSchema, JsonSchemaObject} from "@tsed/schema";
 import {Ajv, ErrorObject} from "ajv";
 
@@ -16,20 +16,11 @@ export interface AjvValidateOptions extends Record<string, any> {
   collectionType?: Type<any> | any;
 }
 
-@Injectable({
-  type: "validator:service"
-})
 export class AjvService {
   readonly name = "ajv";
-
-  @Constant("ajv.errorFormatter", defaultErrorFormatter)
-  protected errorFormatter: ErrorFormatter;
-
-  @Constant("ajv.returnsCoercedValues")
-  protected returnsCoercedValues: boolean;
-
-  @Inject(Ajv)
-  protected ajv: Ajv;
+  protected errorFormatter = constant<ErrorFormatter>("ajv.errorFormatter", defaultErrorFormatter);
+  protected returnsCoercedValues = constant<boolean>("ajv.returnsCoercedValues");
+  protected ajv = inject(Ajv);
 
   async validate(value: any, options: AjvValidateOptions | JsonSchema): Promise<any> {
     let {schema: defaultSchema, type, collectionType, ...additionalOptions} = this.mapOptions(options);
@@ -121,3 +112,5 @@ export class AjvService {
     return error.message;
   }
 }
+
+injectable(AjvService).type("validator:service");
