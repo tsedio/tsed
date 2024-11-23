@@ -1,15 +1,29 @@
+import {DITest, inject} from "@tsed/di";
+import {PlatformRouters} from "@tsed/platform-router";
+
 import {PlatformExpressHandler} from "./PlatformExpressHandler.js";
 
 vi.mock("@tsed/platform-http");
 
 describe("PlatformExpressHandler", () => {
+  beforeEach(() =>
+    DITest.create({
+      imports: [
+        {
+          token: PlatformRouters,
+          use: {
+            prebuild: vi.fn(),
+            hooks: {
+              on: vi.fn().mockReturnThis()
+            }
+          }
+        }
+      ]
+    })
+  );
+  afterEach(() => DITest.reset());
   it("should call middleware", async () => {
-    const instance = new PlatformExpressHandler({
-      hooks: {
-        on: vi.fn().mockReturnThis()
-      }
-    } as any);
-
+    const instance = inject(PlatformExpressHandler);
     const response: any = {};
     const $ctx: any = {
       getRequest: vi.fn().mockReturnThis(),

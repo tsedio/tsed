@@ -1,7 +1,9 @@
 import {catchAsyncError, Env, isFunction, Type} from "@tsed/core";
-import {InjectorService, runInContext} from "@tsed/di";
+import {constant, inject, logger, runInContext} from "@tsed/di";
 import {PlatformExceptions} from "@tsed/platform-exceptions";
 import {
+  adapter,
+  application,
   createContext,
   PlatformAdapter,
   PlatformBuilder,
@@ -9,11 +11,9 @@ import {
   PlatformHandler,
   PlatformMulter,
   PlatformMulterSettings,
-  PlatformProvider,
   PlatformStaticsOptions
 } from "@tsed/platform-http";
 import {PlatformHandlerMetadata, PlatformHandlerType, PlatformLayer} from "@tsed/platform-router";
-import type {PlatformViews} from "@tsed/platform-views";
 import {OptionsJson, OptionsText, OptionsUrlencoded} from "body-parser";
 import Express from "express";
 import {IncomingMessage, ServerResponse} from "http";
@@ -56,7 +56,6 @@ declare global {
  * @platform
  * @express
  */
-@PlatformProvider()
 export class PlatformExpress extends PlatformAdapter<Express.Application> {
   static readonly NAME = "express";
 
@@ -68,9 +67,8 @@ export class PlatformExpress extends PlatformAdapter<Express.Application> {
   ];
   #multer: typeof multer;
 
-  constructor(injector: InjectorService) {
-    super(injector);
-
+  constructor() {
+    super();
     import("multer").then(({default: multer}) => (this.#multer = multer));
   }
 
@@ -99,18 +97,17 @@ export class PlatformExpress extends PlatformAdapter<Express.Application> {
   }
 
   async beforeLoadRoutes() {
-    const injector = this.injector;
     const {app} = this;
 
     // disable x-powered-by header
-    injector.settings.get("env") === Env.PROD && app.getApp().disable("x-powered-by");
+    constant<Env>("env") === Env.PROD && app.getApp().disable("x-powered-by");
 
     await this.configureViewsEngine();
   }
 
   afterLoadRoutes() {
     const {app} = this;
-    const platformExceptions = this.injector.get<PlatformExceptions>(PlatformExceptions)!;
+    const platformExceptions = inject(PlatformExceptions)!;
 
     // NOT FOUND
     app.use((req: any, res: any, next: any) => {
@@ -170,8 +167,8 @@ export class PlatformExpress extends PlatformAdapter<Express.Application> {
   }
 
   useContext(): this {
-    const {app} = this;
-    const invoke = createContext(this.injector);
+    const invoke = createContext();
+    const app = application();
 
     app.use(async (request: any, response: any, next: any) => {
       const $ctx = invoke({request, response});
@@ -186,7 +183,7 @@ export class PlatformExpress extends PlatformAdapter<Express.Application> {
   }
 
   createApp() {
-    const app = this.injector.settings.get("express.app") || Express();
+    const app = constant<Express.Express>("express.app") || Express();
 
     return {
       app,
@@ -225,7 +222,7 @@ export class PlatformExpress extends PlatformAdapter<Express.Application> {
   }
 
   bodyParser(type: "json" | "text" | "urlencoded", additionalOptions: any = {}): any {
-    const opts = this.injector.settings.get(`express.bodyParser.${type}`);
+    const opts = constant(`express.bodyParser.${type}`);
 
     let parser: any = Express[type];
     let options: OptionsJson & OptionsText & OptionsUrlencoded = {};
@@ -240,7 +237,7 @@ export class PlatformExpress extends PlatformAdapter<Express.Application> {
     }
 
     options.verify = (req: IncomingMessage & {rawBody: Buffer}, _res: ServerResponse, buffer: Buffer) => {
-      const rawBody = this.injector.settings.get(`rawBody`);
+      const rawBody = constant(`rawBody`);
 
       if (rawBody) {
         req.rawBody = buffer;
@@ -253,15 +250,14 @@ export class PlatformExpress extends PlatformAdapter<Express.Application> {
   }
 
   private async configureViewsEngine() {
-    const injector = this.injector;
     const {app} = this;
 
     try {
-      const {exists, disabled} = this.injector.settings.get("views") || {};
+      const {exists, disabled} = constant<{exists?: boolean; disabled?: boolean}>("views") || {};
 
       if (exists && !disabled) {
         const {PlatformViews} = await import("@tsed/platform-views");
-        const platformViews = injector.get<PlatformViews>(PlatformViews)!;
+        const platformViews = inject(PlatformViews)!;
         const express = app.getApp();
 
         platformViews.getEngines().forEach(({extension, engine}) => {
@@ -273,7 +269,7 @@ export class PlatformExpress extends PlatformAdapter<Express.Application> {
       }
     } catch (error) {
       // istanbul ignore next
-      injector.logger.warn({
+      logger().warn({
         event: "PLATFORM_VIEWS_ERROR",
         message: "Unable to configure the PlatformViews service on your environment.",
         error
@@ -281,3 +277,5 @@ export class PlatformExpress extends PlatformAdapter<Express.Application> {
     }
   }
 }
+
+adapter(PlatformExpress);

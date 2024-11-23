@@ -1,4 +1,5 @@
 import "@tsed/ajv";
+import "@tsed/swagger";
 import "../../src/index.js";
 
 import {Configuration, Constant, Inject} from "@tsed/di";
