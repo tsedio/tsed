@@ -1,5 +1,5 @@
 import {nameOf, Type} from "@tsed/core";
-import {destroyInjector, DITest, hasInjector} from "@tsed/di";
+import {destroyInjector, DITest} from "@tsed/di";
 import type {PlatformBuilder, PlatformBuilderSettings} from "@tsed/platform-http";
 import type {
   APIGatewayEventDefaultAuthorizerContext,
@@ -193,8 +193,7 @@ export class PlatformServerlessTest extends DITest {
     if (PlatformServerlessTest.instance) {
       await PlatformServerlessTest.instance.stop();
     }
-    if (hasInjector()) {
-      await destroyInjector();
-    }
+
+    await destroyInjector();
   }
 }

@@ -1,6 +1,7 @@
 import {Env, Type} from "@tsed/core";
-import {createContainer, injector, InjectorService, setLoggerConfiguration} from "@tsed/di";
-import {$log, Logger} from "@tsed/logger";
+import {configuration, constant, createContainer, destroyInjector, injector, InjectorService, setLoggerConfiguration} from "@tsed/di";
+import {$asyncEmit} from "@tsed/hooks";
+import {$log} from "@tsed/logger";
 import {getOperationsRoutes, JsonEntityStore} from "@tsed/schema";
 import type {Context, Handler} from "aws-lambda";
 import type {HTTPMethod, Instance} from "find-my-way";
@@ -20,17 +21,15 @@ export interface PlatformServerlessSettings extends Partial<TsED.Configuration> 
  */
 export class PlatformServerless {
   readonly name: string = "PlatformServerless";
-
-  private _injector: InjectorService;
   private _router: Instance<any>;
   private _promise: Promise<any>;
 
   get injector(): InjectorService {
-    return this._injector;
+    return injector();
   }
 
   get settings() {
-    return this.injector.settings;
+    return configuration();
   }
 
   get promise() {
@@ -88,7 +87,7 @@ export class PlatformServerless {
   }
 
   public callbacks(tokens: Type | Type[] = [], callbacks: any = {}): Record<string, Handler> {
-    return this.settings
+    return configuration()
       .get<Type[]>("lambda", [])
       .concat(tokens)
       .reduce((callbacks, token) => {
@@ -115,12 +114,11 @@ export class PlatformServerless {
   }
 
   public async ready() {
-    await this.injector.emit("$onReady");
+    await $asyncEmit("$onReady");
   }
 
   public async stop() {
-    await this.injector.emit("$onDestroy");
-    return this.injector.destroy();
+    await destroyInjector();
   }
 
   public init() {
@@ -148,8 +146,6 @@ export class PlatformServerless {
         context,
         responseStream,
         id: getRequestId(event, context),
-        logger: this.injector.logger as Logger,
-        injector: this.injector,
         endpoint: entity
       });
 
@@ -183,12 +179,11 @@ export class PlatformServerless {
   }
 
   protected createInjector(settings: any) {
-    this._injector = injector();
-    this.injector.logger = $log;
-    this.injector.settings.set(settings);
+    injector().logger = $log;
+    injector().settings.set(settings);
 
     // istanbul ignore next
-    if (this.injector.settings.get("env") === Env.TEST && !settings?.logger?.level) {
+    if (constant("env") === Env.TEST && !settings?.logger?.level) {
       $log.stop();
     }
 
@@ -198,12 +193,10 @@ export class PlatformServerless {
   protected async loadInjector() {
     const container = createContainer();
 
-    setLoggerConfiguration(this.injector);
+    setLoggerConfiguration();
 
-    await this.injector.emit("$beforeInit");
+    await injector().load(container);
 
-    await this.injector.load(container);
-
-    await this.injector.emit("$afterInit");
+    await $asyncEmit("$afterInit");
   }
 }
