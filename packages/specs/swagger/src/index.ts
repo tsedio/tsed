@@ -3,7 +3,6 @@
  */
 export * from "./constants.js";
 export * from "./decorators/docs.js";
-export * from "./decorators/hidden.js";
 export * from "./interfaces/interfaces.js";
 export * from "./interfaces/SwaggerSettings.js";
 export * from "./middlewares/cssMiddleware.js";

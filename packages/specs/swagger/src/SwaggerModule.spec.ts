@@ -1,3 +1,5 @@
+import {logger} from "@tsed/di";
+import {application} from "@tsed/platform-http";
 import {PlatformTest} from "@tsed/platform-http/testing";
 import {PlatformRouter} from "@tsed/platform-router";
 import Fs from "fs";
@@ -27,16 +29,16 @@ describe("SwaggerModule", () => {
     it("should add middlewares", async () => {
       const mod = await PlatformTest.invoke<SwaggerModule>(SwaggerModule);
 
-      vi.spyOn(mod.app as any, "get").mockReturnValue(undefined);
-      vi.spyOn(mod.app as any, "use").mockReturnValue(undefined);
+      vi.spyOn(application(), "get").mockReturnValue(undefined as never);
+      vi.spyOn(application(), "use").mockReturnValue(undefined as never);
       vi.spyOn(PlatformRouter.prototype as any, "get").mockReturnValue(undefined);
       vi.spyOn(PlatformRouter.prototype as any, "statics").mockReturnValue(undefined);
 
       mod.$onRoutesInit();
       mod.$onRoutesInit();
 
-      expect(mod.app.use).toHaveBeenCalledWith("/doc", expect.any(Function));
-      expect(mod.app.use).toHaveBeenCalledWith("/doc", expect.any(PlatformRouter));
+      expect(application().use).toHaveBeenCalledWith("/doc", expect.any(Function));
+      expect(application().use).toHaveBeenCalledWith("/doc", expect.any(PlatformRouter));
       expect(PlatformRouter.prototype.get).toHaveBeenCalledWith("/swagger.json", expect.any(Function));
       expect(PlatformRouter.prototype.get).toHaveBeenCalledWith("/main.css", expect.any(Function));
       expect(PlatformRouter.prototype.get).toHaveBeenCalledWith("/", expect.any(Function));
@@ -51,12 +53,12 @@ describe("SwaggerModule", () => {
       const mod = await PlatformTest.invoke<SwaggerModule>(SwaggerModule);
 
       vi.spyOn(Fs, "writeFile");
-      vi.spyOn(mod.injector.logger, "info");
+      vi.spyOn(logger(), "info");
 
       mod.$onReady();
 
-      expect(mod.injector.logger.info).toHaveBeenCalledWith("[default] Swagger JSON is available on https://0.0.0.0:8081/doc/swagger.json");
-      expect(mod.injector.logger.info).toHaveBeenCalledWith("[default] Swagger UI is available on https://0.0.0.0:8081/doc/");
+      expect(logger().info).toHaveBeenCalledWith("[default] Swagger JSON is available on https://0.0.0.0:8081/doc/swagger.json");
+      expect(logger().info).toHaveBeenCalledWith("[default] Swagger UI is available on https://0.0.0.0:8081/doc/");
     });
   });
 });

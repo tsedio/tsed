@@ -1,10 +1,11 @@
+import Fs from "node:fs";
+import {join} from "node:path";
+
 import {Env} from "@tsed/core";
-import {Configuration, Constant, Inject, InjectorService, Module} from "@tsed/di";
+import {configuration, constant, inject, injectable, logger, ProviderType} from "@tsed/di";
 import {normalizePath} from "@tsed/normalize-path";
-import {OnReady, OnRoutesInit, PlatformApplication, PlatformContext} from "@tsed/platform-http";
+import {application, OnReady, OnRoutesInit, PlatformContext} from "@tsed/platform-http";
 import {PlatformRouter, useContextHandler} from "@tsed/platform-router";
-import Fs from "fs";
-import {join} from "path";
 
 import {ROOT_DIR, SWAGGER_UI_DIST} from "./constants.js";
 import {SwaggerSettings} from "./interfaces/SwaggerSettings.js";
@@ -14,33 +15,15 @@ import {jsMiddleware} from "./middlewares/jsMiddleware.js";
 import {redirectMiddleware} from "./middlewares/redirectMiddleware.js";
 import {SwaggerService} from "./services/SwaggerService.js";
 
-/**
- * @ignore
- */
-@Module()
 export class SwaggerModule implements OnRoutesInit, OnReady {
-  @Inject()
-  injector: InjectorService;
-
-  @Inject()
-  app: PlatformApplication;
-
-  @Configuration()
-  configuration: Configuration;
-
-  @Inject()
-  swaggerService: SwaggerService;
-
-  @Constant("env")
-  env: Env;
-
-  @Constant("logger.disableRoutesSummary")
-  disableRoutesSummary: boolean;
+  protected swaggerService = inject(SwaggerService);
+  protected env = constant<Env>("env");
+  protected disableRoutesSummary = constant<boolean>("logger.disableRoutesSummary");
 
   private loaded = false;
 
   get settings() {
-    return ([] as SwaggerSettings[]).concat(this.configuration.get<SwaggerSettings[]>("swagger")).filter((o) => !!o);
+    return constant<SwaggerSettings[]>("swagger", []).filter((o) => !!o);
   }
 
   /**
@@ -56,8 +39,8 @@ export class SwaggerModule implements OnRoutesInit, OnReady {
     this.settings.forEach((conf: SwaggerSettings) => {
       const {path = "/"} = conf;
 
-      this.app.use(path, useContextHandler(redirectMiddleware(path)));
-      this.app.use(path, this.createRouter(conf, urls));
+      application().use(path, useContextHandler(redirectMiddleware(path)));
+      application().use(path, this.createRouter(conf, urls));
     });
 
     this.loaded = true;
@@ -65,15 +48,15 @@ export class SwaggerModule implements OnRoutesInit, OnReady {
 
   $onReady() {
     // istanbul ignore next
-    if (this.configuration.getBestHost && !this.disableRoutesSummary) {
-      const host = this.configuration.getBestHost();
+    if (configuration().getBestHost && !this.disableRoutesSummary) {
+      const host = configuration().getBestHost();
       const url = host.toString();
 
       const displayLog = (conf: SwaggerSettings) => {
         const {path = "/", fileName = "swagger.json", doc} = conf;
 
-        this.injector.logger.info(`[${doc || "default"}] Swagger JSON is available on ${url}${normalizePath(path, fileName)}`);
-        this.injector.logger.info(`[${doc || "default"}] Swagger UI is available on ${url}${path}/`);
+        logger().info(`[${doc || "default"}] Swagger JSON is available on ${url}${normalizePath(path, fileName)}`);
+        logger().info(`[${doc || "default"}] Swagger UI is available on ${url}${path}/`);
       };
 
       this.settings.forEach((conf) => {
@@ -119,12 +102,11 @@ export class SwaggerModule implements OnRoutesInit, OnReady {
    */
   private createRouter(conf: SwaggerSettings, urls: string[]) {
     const {disableSpec = false, fileName = "swagger.json", cssPath, jsPath, viewPath = join(ROOT_DIR, "../views/index.ejs")} = conf;
-    const router = new PlatformRouter(this.injector);
+    const router = new PlatformRouter();
 
     if (!disableSpec) {
       router.get(normalizePath("/", fileName), useContextHandler(this.middlewareSwaggerJson(conf)));
     }
-
     if (viewPath) {
       if (cssPath) {
         router.get("/main.css", useContextHandler(cssMiddleware(cssPath)));
@@ -147,3 +129,5 @@ export class SwaggerModule implements OnRoutesInit, OnReady {
     };
   }
 }
+
+injectable(SwaggerModule).type(ProviderType.MODULE);

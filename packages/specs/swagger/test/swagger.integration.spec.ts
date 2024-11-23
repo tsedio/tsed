@@ -3,10 +3,10 @@ import {ObjectID} from "@tsed/mongoose";
 import {PlatformExpress} from "@tsed/platform-express";
 import {PlatformTest} from "@tsed/platform-http/testing";
 import {BodyParams, PathParams} from "@tsed/platform-params";
-import {Consumes, Description, Get, Post, Returns} from "@tsed/schema";
+import {Consumes, Description, Get, Hidden, Post, Returns} from "@tsed/schema";
 import SuperTest from "supertest";
 
-import {Docs, Hidden} from "../src/index.js";
+import {Docs} from "../src/index.js";
 import {Calendar} from "./app/models/Calendar.js";
 import {Server} from "./app/Server.js";
 

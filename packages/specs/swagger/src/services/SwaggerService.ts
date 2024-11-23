@@ -1,5 +1,5 @@
 import type {Type} from "@tsed/core";
-import {constant, Injectable} from "@tsed/di";
+import {constant, inject, injectable} from "@tsed/di";
 import {OpenSpec2, OpenSpec3} from "@tsed/openspec";
 import {Platform} from "@tsed/platform-http";
 import {generateSpec} from "@tsed/schema";
@@ -8,11 +8,12 @@ import {SwaggerOS2Settings, SwaggerOS3Settings, SwaggerSettings} from "../interf
 import {includeRoute} from "../utils/includeRoute.js";
 import {readSpec} from "../utils/readSpec.js";
 
-@Injectable()
 export class SwaggerService {
+  protected platform = inject(Platform);
+
   #specs: Map<string, OpenSpec3 | OpenSpec2> = new Map();
 
-  constructor(private platform: Platform) {}
+  constructor() {}
 
   /**
    * Generate Spec for the given configuration
@@ -46,3 +47,5 @@ export class SwaggerService {
     return this.#specs.get(conf.path);
   }
 }
+
+injectable(SwaggerService);
