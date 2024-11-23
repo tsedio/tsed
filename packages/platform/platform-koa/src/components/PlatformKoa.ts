@@ -1,15 +1,16 @@
 import KoaRouter from "@koa/router";
 import {catchAsyncError, isFunction, Type} from "@tsed/core";
-import {runInContext} from "@tsed/di";
+import {constant, inject, runInContext} from "@tsed/di";
 import {PlatformExceptions} from "@tsed/platform-exceptions";
 import {
+  adapter,
+  application,
   createContext,
   PlatformAdapter,
   PlatformBuilder,
   PlatformHandler,
   PlatformMulter,
   PlatformMulterSettings,
-  PlatformProvider,
   PlatformRequest,
   PlatformResponse,
   PlatformStaticsOptions
@@ -54,7 +55,6 @@ KoaRouter.prototype.match = function match(...args: any[]) {
  * @platform
  * @koa
  */
-@PlatformProvider()
 export class PlatformKoa extends PlatformAdapter<Koa> {
   static readonly NAME = "koa";
 
@@ -102,9 +102,7 @@ export class PlatformKoa extends PlatformAdapter<Koa> {
   }
 
   mapLayers(layers: PlatformLayer[]) {
-    const {settings} = this.injector;
-    const {app} = this;
-    const options = settings.get("koa.router", {});
+    const options = constant("koa.router", {});
     const rawRouter = new KoaRouter(options) as any;
 
     layers.forEach((layer) => {
@@ -118,7 +116,7 @@ export class PlatformKoa extends PlatformAdapter<Koa> {
       }
     });
 
-    app.getApp().use(rawRouter.routes()).use(rawRouter.allowedMethods());
+    application().getApp().use(rawRouter.routes()).use(rawRouter.allowedMethods());
   }
 
   mapHandler(handler: Function, metadata: PlatformHandlerMetadata) {
@@ -140,11 +138,10 @@ export class PlatformKoa extends PlatformAdapter<Koa> {
   }
 
   useContext(): this {
-    const {app} = this;
-    const invoke = createContext(this.injector);
-    const platformExceptions = this.injector.get<PlatformExceptions>(PlatformExceptions);
+    const invoke = createContext();
+    const platformExceptions = inject(PlatformExceptions);
 
-    app.use((koaContext: Context, next: Next) => {
+    application().use((koaContext: Context, next: Next) => {
       const $ctx = invoke({
         request: koaContext.request as any,
         response: koaContext.response as any,
@@ -172,7 +169,7 @@ export class PlatformKoa extends PlatformAdapter<Koa> {
   }
 
   createApp() {
-    const app = this.injector.settings.get("koa.app") || new Koa();
+    const app = constant<Koa | undefined>("koa.app") || new Koa();
     koaQs(app, "extended");
 
     return {
@@ -191,8 +188,8 @@ export class PlatformKoa extends PlatformAdapter<Koa> {
     return staticsMiddleware(options);
   }
 
-  bodyParser(type: "json" | "urlencoded" | "raw" | "text", additionalOptions: any = {}): any {
-    const opts = this.injector.settings.get(`koa.bodyParser`);
+  bodyParser(_: "json" | "urlencoded" | "raw" | "text", additionalOptions: any = {}): any {
+    const opts = constant(`koa.bodyParser`);
     let parser: any = koaBodyParser;
 
     let options: Options = {};
@@ -205,3 +202,5 @@ export class PlatformKoa extends PlatformAdapter<Koa> {
     return parser({...options, ...additionalOptions});
   }
 }
+
+adapter(PlatformKoa);
