@@ -1,5 +1,5 @@
 import {ancestorsOf, classOf, nameOf} from "@tsed/core";
-import {DIContext, Inject, Injectable, InjectorService} from "@tsed/di";
+import {DIContext, inject, injectable, type TokenProvider} from "@tsed/di";
 
 import {ErrorFilter} from "../components/ErrorFilter.js";
 import {ExceptionFilter} from "../components/ExceptionFilter.js";
@@ -7,33 +7,34 @@ import {MongooseErrorFilter} from "../components/MongooseErrorFilter.js";
 import {StringErrorFilter} from "../components/StringErrorFilter.js";
 import {ExceptionFilterKey, ExceptionFiltersContainer} from "../domain/ExceptionFiltersContainer.js";
 import {ResourceNotFound} from "../errors/ResourceNotFound.js";
-import {ExceptionFilterMethods} from "../interfaces/ExceptionFilterMethods.js";
 
 /**
  * Catch all errors and return the json error with the right status code when it's possible.
  *
  * @platform
  */
-@Injectable({
-  imports: [ErrorFilter, ExceptionFilter, MongooseErrorFilter, StringErrorFilter]
-})
 export class PlatformExceptions {
-  types: Map<ExceptionFilterKey, ExceptionFilterMethods> = new Map();
+  types: Map<ExceptionFilterKey, TokenProvider> = new Map();
 
-  @Inject()
-  injector: InjectorService;
-
-  $onInit() {
+  constructor() {
     ExceptionFiltersContainer.forEach((token, type) => {
-      this.types.set(type, this.injector.get(token)!);
+      this.types.set(type, token);
     });
   }
 
   catch(error: unknown, ctx: DIContext) {
+    return this.resolve(error, ctx).catch(error, ctx);
+  }
+
+  resourceNotFound(ctx: DIContext) {
+    return this.catch(new ResourceNotFound(ctx.request.url), ctx);
+  }
+
+  protected resolve(error: any, ctx: DIContext) {
     const name = nameOf(classOf(error));
 
     if (name && this.types.has(name)) {
-      return this.types.get(name)!.catch(error, ctx);
+      return inject(this.types.get(name)!);
     }
 
     const target = ancestorsOf(error)
@@ -41,14 +42,12 @@ export class PlatformExceptions {
       .find((target) => this.types.has(target));
 
     if (target) {
-      return this.types.get(target)!.catch(error, ctx);
+      return inject(this.types.get(target)!);
     }
 
     // default
-    return this.types.get(Error)!.catch(error, ctx);
-  }
-
-  resourceNotFound(ctx: DIContext) {
-    return this.catch(new ResourceNotFound(ctx.request.url), ctx);
+    return inject(this.types.get(Error)!);
   }
 }
+
+injectable(PlatformExceptions).imports([ErrorFilter, ExceptionFilter, MongooseErrorFilter, StringErrorFilter]);
