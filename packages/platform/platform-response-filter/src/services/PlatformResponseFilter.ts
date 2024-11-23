@@ -1,5 +1,5 @@
 import {isSerializable, Type} from "@tsed/core";
-import {BaseContext, Constant, Inject, Injectable, InjectorService} from "@tsed/di";
+import {BaseContext, constant, inject, injectable, TokenProvider} from "@tsed/di";
 import {serialize} from "@tsed/json-mapper";
 
 import {ResponseFilterKey, ResponseFiltersContainer} from "../domain/ResponseFiltersContainer.js";
@@ -10,29 +10,21 @@ import {renderView} from "../utils/renderView.js";
 /**
  * @platform
  */
-@Injectable()
 export class PlatformResponseFilter {
-  protected types: Map<ResponseFilterKey, ResponseFilterMethods> = new Map();
+  protected types: Map<ResponseFilterKey, TokenProvider> = new Map();
+  protected responseFilters = constant<Type<ResponseFilterMethods>[]>("responseFilters", []);
+  protected additionalProperties = constant<boolean>("additionalProperties");
 
-  @Inject()
-  protected injector: InjectorService;
-
-  @Constant("responseFilters", [])
-  protected responseFilters: Type<ResponseFilterMethods>[];
-
-  @Constant("additionalProperties")
-  protected additionalProperties: boolean;
+  constructor() {
+    ResponseFiltersContainer.forEach((token, type) => {
+      if (this.responseFilters.includes(token)) {
+        this.types.set(type, token);
+      }
+    });
+  }
 
   get contentTypes(): ResponseFilterKey[] {
     return [...this.types.keys()];
-  }
-
-  $onInit() {
-    ResponseFiltersContainer.forEach((token, type) => {
-      if (this.responseFilters.includes(token)) {
-        this.types.set(type, this.injector.get(token)!);
-      }
-    });
   }
 
   getBestContentType(data: any, ctx: BaseContext) {
@@ -62,12 +54,10 @@ export class PlatformResponseFilter {
 
       bestContentType && response.contentType(bestContentType);
 
-      if (this.types.has(bestContentType)) {
-        return this.types.get(bestContentType)!.transform(data, ctx);
-      }
+      const resolved = this.resolve(bestContentType);
 
-      if (this.types.has(ANY_CONTENT_TYPE)) {
-        return this.types.get(ANY_CONTENT_TYPE)!.transform(data, ctx);
+      if (resolved) {
+        return resolved.transform(data, ctx);
       }
     }
 
@@ -102,6 +92,14 @@ export class PlatformResponseFilter {
     return data;
   }
 
+  private resolve(bestContentType: string) {
+    const token = this.types.get(bestContentType) || this.types.get(ANY_CONTENT_TYPE);
+
+    if (token) {
+      return inject<ResponseFilterMethods>(token);
+    }
+  }
+
   private getIncludes(ctx: BaseContext) {
     if (ctx.request.query.includes) {
       return [].concat(ctx.request.query.includes).flatMap((include: string) => include.split(","));
@@ -110,3 +108,5 @@ export class PlatformResponseFilter {
     return undefined;
   }
 }
+
+injectable(PlatformResponseFilter);
