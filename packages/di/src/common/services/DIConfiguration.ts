@@ -1,10 +1,11 @@
 import {Env, getValue, setValue} from "@tsed/core";
 
-import type {ProviderScope} from "../domain/ProviderScope.js";
 import type {DILoggerOptions} from "../interfaces/DILoggerOptions.js";
 import type {ImportTokenProviderOpts} from "../interfaces/ImportTokenProviderOpts.js";
 import type {TokenProvider} from "../interfaces/TokenProvider.js";
 import type {TokenRoute} from "../interfaces/TokenRoute.js";
+
+export const CONFIGURATION = Symbol.for("CONFIGURATION");
 
 export class DIConfiguration {
   readonly default: Map<string, any> = new Map();

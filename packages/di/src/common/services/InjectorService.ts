@@ -2,7 +2,6 @@ import {classOf, deepClone, deepMerge, isArray, isClass, isFunction, isInherited
 import {$alter, $asyncAlter, $asyncEmit, $emit, $off, $on} from "@tsed/hooks";
 
 import {DI_INVOKE_OPTIONS, DI_USE_PARAM_OPTIONS} from "../constants/constants.js";
-import {Configuration} from "../decorators/configuration.js";
 import {Container} from "../domain/Container.js";
 import {LocalsContainer} from "../domain/LocalsContainer.js";
 import {Provider} from "../domain/Provider.js";
@@ -49,15 +48,15 @@ export class InjectorService extends Container {
   constructor() {
     super();
     this.#cache.set(InjectorService, this);
-    this.#cache.set(Configuration, new DIConfiguration());
+    this.#cache.set(DIConfiguration, new DIConfiguration());
   }
 
   get settings(): DIConfiguration {
-    return this.#cache.get(Configuration);
+    return this.#cache.get(DIConfiguration);
   }
 
   set settings(settings: DIConfiguration) {
-    this.#cache.set(Configuration, settings);
+    this.#cache.set(DIConfiguration, settings);
   }
 
   isLoaded() {
