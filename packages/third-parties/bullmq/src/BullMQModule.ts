@@ -1,5 +1,16 @@
-import {DIContext, InjectorService, Module, OnDestroy, runInContext} from "@tsed/di";
-import type {BeforeInit} from "@tsed/platform-http";
+import {
+  constant,
+  DIContext,
+  inject,
+  injectable,
+  injectMany,
+  injector,
+  logger,
+  OnDestroy,
+  type OnInit,
+  ProviderType,
+  runInContext
+} from "@tsed/di";
 import {getComputedType} from "@tsed/schema";
 import {Job, Queue, Worker} from "bullmq";
 import {v4} from "uuid";
@@ -15,12 +26,10 @@ import {getFallbackJobToken, getJobToken} from "./utils/getJobToken.js";
 import {mapQueueOptions} from "./utils/mapQueueOptions.js";
 import {mapWorkerOptions} from "./utils/mapWorkerOptions.js";
 
-@Module()
-export class BullMQModule implements BeforeInit, OnDestroy {
-  constructor(
-    private readonly injector: InjectorService,
-    private readonly dispatcher: JobDispatcher
-  ) {
+export class BullMQModule implements OnInit, OnDestroy {
+  private readonly dispatcher = inject(JobDispatcher);
+
+  constructor() {
     // build providers allow @Inject(queue) usage in JobController instance
     if (this.isEnabled()) {
       const queues = [...this.getUniqQueueNames()];
@@ -36,12 +45,12 @@ export class BullMQModule implements BeforeInit, OnDestroy {
   }
 
   get config() {
-    return this.injector.settings.get<BullMQConfig>("bullmq");
+    return constant<BullMQConfig>("bullmq")!;
   }
 
-  $beforeInit() {
+  $onInit() {
     if (this.isEnabled()) {
-      this.injector.getMany<JobMethods>(BullMQTypes.CRON).map((job) => this.dispatcher.dispatch(getComputedType(job)));
+      injectMany<JobMethods>(BullMQTypes.CRON).map((job) => this.dispatcher.dispatch(getComputedType(job)));
     }
   }
 
@@ -50,8 +59,8 @@ export class BullMQModule implements BeforeInit, OnDestroy {
       return;
     }
 
-    await Promise.all(this.injector.getMany<Queue>(BullMQTypes.QUEUE).map((queue) => queue.close()));
-    await Promise.all(this.injector.getMany<Worker>(BullMQTypes.WORKER).map((worker) => worker.close()));
+    await Promise.all(injectMany<Queue>(BullMQTypes.QUEUE).map((queue) => queue.close()));
+    await Promise.all(injectMany<Worker>(BullMQTypes.WORKER).map((worker) => worker.close()));
   }
 
   isEnabled() {
@@ -65,14 +74,14 @@ export class BullMQModule implements BeforeInit, OnDestroy {
   private buildQueues(queues: string[]) {
     queues.forEach((queue) => {
       const opts = mapQueueOptions(queue, this.config);
-      createQueueProvider(this.injector, queue, opts);
+      createQueueProvider(queue, opts);
     });
   }
 
   private buildWorkers(workers: string[]) {
     workers.forEach((worker) => {
       const opts = mapWorkerOptions(worker, this.config);
-      createWorkerProvider(this.injector, worker, this.onProcess, opts);
+      createWorkerProvider(worker, this.onProcess, opts);
     });
   }
 
@@ -82,7 +91,7 @@ export class BullMQModule implements BeforeInit, OnDestroy {
    */
   private getUniqQueueNames() {
     return new Set(
-      this.injector
+      injector()
         .getProviders([BullMQTypes.JOB, BullMQTypes.CRON, BullMQTypes.FALLBACK_JOB])
         .map((provider) => provider.store.get<JobStore>(BULLMQ)?.queue)
         .concat(this.config.queues!)
@@ -91,18 +100,14 @@ export class BullMQModule implements BeforeInit, OnDestroy {
   }
 
   private getJob(name: string, queueName: string) {
-    return (
-      this.injector.get<JobMethods>(getJobToken(queueName, name)) ||
-      this.injector.get(getFallbackJobToken(queueName)) ||
-      this.injector.get(getFallbackJobToken())
-    );
+    return inject<JobMethods>(getJobToken(queueName, name)) || inject(getFallbackJobToken(queueName)) || inject(getFallbackJobToken());
   }
 
   private onProcess = async (job: Job) => {
     const jobService = this.getJob(job.name, job.queueName);
 
     if (!jobService) {
-      this.injector.logger.warn({
+      logger().warn({
         event: "BULLMQ_JOB_NOT_FOUND",
         message: `Job ${job.name} ${job.queueName} not found`
       });
@@ -110,8 +115,6 @@ export class BullMQModule implements BeforeInit, OnDestroy {
     }
 
     const $ctx = new DIContext({
-      injector: this.injector,
-      logger: this.injector.logger,
       id: job.id || v4().split("-").join(""),
       additionalProps: {
         logType: "bullmq",
@@ -144,3 +147,5 @@ export class BullMQModule implements BeforeInit, OnDestroy {
     }
   };
 }
+
+injectable(BullMQModule).type(ProviderType.MODULE);

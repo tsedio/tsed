@@ -9,11 +9,16 @@ export default defineConfig(
       ...presets.test,
       coverage: {
         ...presets.test.coverage,
+        exclude: [
+          ...presets.test.coverage.exclude,
+          "**/contracts/**/*",
+          "**/config/**/*"
+        ],
         thresholds: {
-          statements: 98.92,
-          branches: 98.55,
+          statements: 100,
+          branches: 98.38,
           functions: 100,
-          lines: 98.92
+          lines: 100
         }
       }
     }

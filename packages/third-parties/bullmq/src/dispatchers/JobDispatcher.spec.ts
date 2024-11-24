@@ -1,6 +1,6 @@
-import {InjectorService} from "@tsed/di";
-import {Queue} from "bullmq";
-import {anything, capture, instance, mock, objectContaining, spy, verify, when} from "ts-mockito";
+import {catchAsyncError} from "@tsed/core";
+import {DITest, inject, injectable, injector} from "@tsed/di";
+import {beforeEach} from "vitest";
 
 import {JobMethods} from "../contracts/index.js";
 import {JobController} from "../decorators/index.js";
@@ -27,45 +27,60 @@ class NotConfiguredQueueTestJob implements JobMethods {
   handle() {}
 }
 
-describe("JobDispatcher", () => {
-  let injector: InjectorService;
-  let queue: Queue;
-  let dispatcher: JobDispatcher;
-  beforeEach(() => {
-    injector = mock(InjectorService);
-    queue = mock(Queue);
-    when(queue.name).thenReturn("default");
-    when(injector.get("bullmq.queue.default")).thenReturn(instance(queue));
-    when(injector.get("bullmq.job.default.example-job")).thenReturn(new ExampleTestJob());
+function getFixture() {
+  const dispatcher = inject(JobDispatcher);
+  const queue = {
+    name: "default",
+    add: vi.fn()
+  };
 
-    dispatcher = new JobDispatcher(instance(injector));
-  });
+  const specialQueue = {
+    name: "special",
+    add: vi.fn()
+  };
+
+  injectable("bullmq.queue.default").value(queue);
+  injectable("bullmq.queue.special").value(specialQueue);
+  injectable("bullmq.job.default.example-job").value(new ExampleTestJob());
+  injectable("bullmq.job.default.example-job-with-custom-id-from-job-methods").value(new ExampleJobWithCustomJobIdFromJobMethods());
+
+  vi.spyOn(injector(), "resolve");
+
+  return {
+    dispatcher,
+    queue,
+    specialQueue,
+    job: inject<ExampleJobWithCustomJobIdFromJobMethods>("bullmq.job.default.example-job-with-custom-id-from-job-methods")
+  };
+}
+
+describe("JobDispatcher", () => {
+  beforeEach(() => DITest.create());
+  afterEach(() => DITest.reset());
 
   it("should throw an exception when a queue is not configured", async () => {
-    when(injector.get("bullmq.queue.not-configured")).thenReturn(undefined);
+    const {dispatcher} = getFixture();
 
-    await expect(dispatcher.dispatch(NotConfiguredQueueTestJob)).rejects.toThrow(new Error("Queue(not-configured) not defined"));
-    verify(injector.get("bullmq.queue.not-configured")).once();
+    const error = await catchAsyncError(() => dispatcher.dispatch(NotConfiguredQueueTestJob));
+
+    await expect(error).toEqual(new Error("Queue(not-configured) not defined"));
+
+    expect(injector().resolve).toHaveBeenCalledWith("bullmq.queue.not-configured", expect.anything());
   });
-
   it("should dispatch job as type", async () => {
+    const {dispatcher, queue} = getFixture();
+
     await dispatcher.dispatch(ExampleTestJob, {msg: "hello test"});
 
-    verify(
-      queue.add(
-        "example-job",
-        objectContaining({msg: "hello test"}),
-        objectContaining({
-          backoff: 69
-        })
-      )
-    ).once();
+    expect(queue.add).toHaveBeenCalledOnce();
+    expect(queue.add).toHaveBeenCalledWith(
+      "example-job",
+      expect.objectContaining({msg: "hello test"}),
+      expect.objectContaining({backoff: 69})
+    );
   });
-
   it("should dispatch job as options", async () => {
-    const specialQueue = mock(Queue);
-    when(specialQueue.name).thenReturn("special");
-    when(injector.get("bullmq.queue.special")).thenReturn(instance(specialQueue));
+    const {dispatcher, specialQueue} = getFixture();
 
     await dispatcher.dispatch(
       {
@@ -75,76 +90,77 @@ describe("JobDispatcher", () => {
       {msg: "hello test"}
     );
 
-    verify(specialQueue.add("some-name", objectContaining({msg: "hello test"}), objectContaining({}))).once();
+    expect(specialQueue.add).toHaveBeenCalledOnce();
+    expect(specialQueue.add).toHaveBeenCalledWith("some-name", expect.objectContaining({msg: "hello test"}), expect.anything());
   });
-
   it("should dispatch job as string", async () => {
+    const {dispatcher, queue} = getFixture();
+
     await dispatcher.dispatch("some-name", {msg: "hello test"});
 
-    verify(queue.add("some-name", objectContaining({msg: "hello test"}), objectContaining({}))).once();
+    expect(queue.add).toHaveBeenCalledOnce();
+    expect(queue.add).toHaveBeenCalledWith("some-name", expect.objectContaining({msg: "hello test"}), expect.anything());
   });
-
   it("should overwrite job options defined by the job", async () => {
+    const {dispatcher, queue} = getFixture();
+
     await dispatcher.dispatch(ExampleTestJob, {msg: "hello test"}, {backoff: 42, jobId: "ffeeaa"});
 
-    verify(
-      queue.add(
-        "example-job",
-        objectContaining({msg: "hello test"}),
-        objectContaining({
-          backoff: 42,
-          jobId: "ffeeaa"
-        })
-      )
-    ).once();
+    expect(queue.add).toHaveBeenCalledOnce();
+    expect(queue.add).toHaveBeenCalledWith(
+      "example-job",
+      expect.objectContaining({msg: "hello test"}),
+      expect.objectContaining({backoff: 42, jobId: "ffeeaa"})
+    );
   });
-
   it("should keep existing options and add new ones", async () => {
+    const {dispatcher, queue} = getFixture();
+
     await dispatcher.dispatch(ExampleTestJob, {msg: "hello test"}, {jobId: "ffeeaa"});
 
-    verify(
-      queue.add(
-        "example-job",
-        objectContaining({msg: "hello test"}),
-        objectContaining({
-          backoff: 69,
-          jobId: "ffeeaa"
-        })
-      )
-    ).once();
+    expect(queue.add).toHaveBeenCalledOnce();
+    expect(queue.add).toHaveBeenCalledWith(
+      "example-job",
+      expect.objectContaining({msg: "hello test"}),
+      expect.objectContaining({backoff: 69, jobId: "ffeeaa"})
+    );
   });
-
   describe("custom jobId", () => {
-    let job: ExampleJobWithCustomJobIdFromJobMethods;
-    beforeEach(() => {
-      job = new ExampleJobWithCustomJobIdFromJobMethods();
-      when(injector.get("bullmq.job.default.example-job-with-custom-id-from-job-methods")).thenReturn(job);
-    });
-
     it("should allow setting the job id from within the job", async () => {
+      const {dispatcher, queue} = getFixture();
+
       await dispatcher.dispatch(ExampleJobWithCustomJobIdFromJobMethods, "hello world");
 
-      verify(queue.add("example-job-with-custom-id-from-job-methods", "hello world", anything())).once();
+      expect(queue.add).toHaveBeenCalledOnce();
+      expect(queue.add).toHaveBeenCalledWith("example-job-with-custom-id-from-job-methods", "hello world", expect.anything());
 
-      const [, , opts] = capture(queue.add).last();
+      const [, , opts] = queue.add.mock.calls.at(-1)!;
+
       expect(opts).toMatchObject({
         jobId: "HELLO WORLD"
       });
     });
 
     it("should pass the payload to the jobId method", async () => {
-      const spyJob = spy(job);
+      const {dispatcher, job} = getFixture();
+
+      vi.spyOn(job, "jobId");
+
       await dispatcher.dispatch(ExampleJobWithCustomJobIdFromJobMethods, "hello world");
 
-      verify(spyJob.jobId("hello world")).once();
+      expect(job.jobId).toHaveBeenCalledOnce();
+      expect(job.jobId).toHaveBeenCalledWith("hello world");
     });
 
     it("should choose the jobId provided to the dispatcher even when the method is implemented", async () => {
+      const {dispatcher, queue} = getFixture();
+
       await dispatcher.dispatch(ExampleJobWithCustomJobIdFromJobMethods, "hello world", {
         jobId: "I don't think so"
       });
 
-      const [, , opts] = capture(queue.add).last();
+      const [, , opts] = queue.add.mock.calls.at(-1)!;
+
       expect(opts).toMatchObject({
         jobId: "I don't think so"
       });

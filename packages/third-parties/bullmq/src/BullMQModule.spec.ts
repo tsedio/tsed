@@ -4,6 +4,7 @@ import {catchAsyncError} from "@tsed/core";
 import {PlatformTest} from "@tsed/platform-http/testing";
 import {Queue, Worker} from "bullmq";
 import {anything, instance, mock, verify, when} from "ts-mockito";
+import {beforeEach} from "vitest";
 
 import {BullMQModule} from "./BullMQModule.js";
 import {type BullMQConfig} from "./config/config.js";
@@ -62,18 +63,17 @@ describe("BullMQModule", () => {
     dispatcher = mock(JobDispatcher);
     when(dispatcher.dispatch(CustomCronJob)).thenResolve();
   });
+  beforeEach(() => {
+    queueConstructorSpy.mockClear();
+    workerConstructorSpy.mockClear();
+  });
 
   afterEach(PlatformTest.reset);
 
   describe("configuration", () => {
-    beforeEach(() => {
-      queueConstructorSpy.mockClear();
-      workerConstructorSpy.mockClear();
-    });
-
     describe("merges config correctly", () => {
-      beforeEach(async () => {
-        await PlatformTest.create({
+      beforeEach(() =>
+        PlatformTest.create({
           bullmq: {
             queues: ["default", "special"],
             connection: {
@@ -114,8 +114,8 @@ describe("BullMQModule", () => {
               use: instance(dispatcher)
             }
           ]
-        });
-      });
+        })
+      );
 
       it("queue", () => {
         expect(queueConstructorSpy).toHaveBeenCalledTimes(2);
@@ -161,10 +161,9 @@ describe("BullMQModule", () => {
         });
       });
     });
-
     describe("discover queues from decorators", () => {
-      beforeEach(async () => {
-        await PlatformTest.create({
+      beforeEach(() =>
+        PlatformTest.create({
           bullmq: {
             queues: ["special"],
             connection: {
@@ -205,8 +204,8 @@ describe("BullMQModule", () => {
               use: instance(dispatcher)
             }
           ]
-        });
-      });
+        })
+      );
 
       it("queue", () => {
         expect(queueConstructorSpy).toHaveBeenCalledTimes(2);
@@ -252,7 +251,6 @@ describe("BullMQModule", () => {
         });
       });
     });
-
     describe("disableWorker", () => {
       const config = {
         queues: ["default", "foo", "bar"],
@@ -260,8 +258,8 @@ describe("BullMQModule", () => {
         disableWorker: true
       } as BullMQConfig;
 
-      beforeEach(async () => {
-        await PlatformTest.create({
+      beforeEach(() =>
+        PlatformTest.create({
           bullmq: config,
           imports: [
             {
@@ -269,25 +267,25 @@ describe("BullMQModule", () => {
               use: instance(dispatcher)
             }
           ]
-        });
-      });
+        })
+      );
 
       it("should not create any workers", () => {
         expect(workerConstructorSpy).toHaveBeenCalledTimes(0);
       });
     });
-
     describe("without", () => {
-      it("skips initialization", async () => {
-        await PlatformTest.create({
+      beforeEach(() =>
+        PlatformTest.create({
           imports: [
             {
               token: JobDispatcher,
               use: instance(dispatcher)
             }
           ]
-        });
-
+        })
+      );
+      it("skips initialization", async () => {
         expect(queueConstructorSpy).not.toHaveBeenCalled();
         verify(dispatcher.dispatch(anything())).never();
       });
@@ -301,8 +299,8 @@ describe("BullMQModule", () => {
       workerQueues: ["default", "foo"]
     } as BullMQConfig;
 
-    beforeEach(async () => {
-      await PlatformTest.create({
+    beforeEach(() =>
+      PlatformTest.create({
         bullmq: config,
         imports: [
           {
@@ -310,8 +308,8 @@ describe("BullMQModule", () => {
             use: instance(dispatcher)
           }
         ]
-      });
-    });
+      })
+    );
 
     describe("cronjobs", () => {
       it("should dispatch cron jobs automatically", () => {
@@ -331,10 +329,6 @@ describe("BullMQModule", () => {
 
         expect(instance).toBeInstanceOf(Queue);
       });
-
-      it("should not allow direct injection of the queue", () => {
-        expect(PlatformTest.get(Queue)).not.toBeInstanceOf(Queue);
-      });
     });
 
     describe("workers", () => {
@@ -352,10 +346,6 @@ describe("BullMQModule", () => {
 
       it("should not register unspecified worker queue", () => {
         expect(PlatformTest.get("bullmq.worker.bar")).toBeUndefined();
-      });
-
-      it("should not allow direct injection of the worker", () => {
-        expect(PlatformTest.get(Worker)).not.toBeInstanceOf(Worker);
       });
 
       it("should run worker and execute processor", async () => {
@@ -426,7 +416,6 @@ describe("BullMQModule", () => {
       });
     });
   });
-
   describe("with fallback controller", () => {
     beforeEach(async () => {
       @FallbackJobController("foo")

@@ -1,5 +1,5 @@
-import {Store, Type} from "@tsed/core";
-import {Injectable, InjectorService} from "@tsed/di";
+import {isClass, Store, Type} from "@tsed/core";
+import {inject, injectable} from "@tsed/di";
 import {Job as BullMQJob, JobsOptions, Queue} from "bullmq";
 
 import {BULLMQ} from "../constants/constants.js";
@@ -8,10 +8,7 @@ import {getJobToken} from "../utils/getJobToken.js";
 import {getQueueToken} from "../utils/getQueueToken.js";
 import type {JobDispatcherOptions} from "./JobDispatcherOptions.js";
 
-@Injectable()
 export class JobDispatcher {
-  constructor(private readonly injector: InjectorService) {}
-
   public async dispatch<T extends JobMethods>(
     job: Type<T>,
     payload?: Parameters<T["handle"]>[0],
@@ -22,7 +19,7 @@ export class JobDispatcher {
   public async dispatch(job: Type | JobDispatcherOptions | string, payload: unknown, options: JobsOptions = {}): Promise<BullMQJob> {
     const {queueName, jobName, defaultJobOptions} = await this.resolveDispatchArgs(job, payload);
 
-    const queue = this.injector.get<Queue>(getQueueToken(queueName));
+    const queue = inject<Queue>(getQueueToken(queueName));
 
     if (!queue) {
       throw new Error(`Queue(${queueName}) not defined`);
@@ -44,6 +41,7 @@ export class JobDispatcher {
       const store = Store.from(job).get<JobStore>(BULLMQ);
       queueName = store.queue;
       jobName = store.name;
+
       defaultJobOptions = await this.retrieveJobOptionsFromClassBasedJob(store, payload);
     } else if (typeof job === "object") {
       // job is passed as JobDispatcherOptions
@@ -63,13 +61,9 @@ export class JobDispatcher {
   }
 
   private async retrieveJobOptionsFromClassBasedJob(store: JobStore, payload: unknown): Promise<JobsOptions> {
-    const job = this.injector.get<JobMethods>(getJobToken(store.queue, store.name));
-
-    if (!job) {
-      return store.opts;
-    }
-
+    const job = inject<JobMethods>(getJobToken(store.queue, store.name));
     const jobId = await job.jobId?.(payload);
+
     if (jobId === undefined) {
       return store.opts;
     }
@@ -80,3 +74,5 @@ export class JobDispatcher {
     };
   }
 }
+
+injectable(JobDispatcher);
