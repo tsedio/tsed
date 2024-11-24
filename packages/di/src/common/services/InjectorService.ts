@@ -341,7 +341,7 @@ export class InjectorService extends Container {
   }
 
   /**
-   * Boostrap injector from container and invokeToken configuration.
+   * Bootstrap injector from container, resolve configuration and providers.
    *
    * @param container
    */

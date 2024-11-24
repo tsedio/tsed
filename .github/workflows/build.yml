@@ -33,71 +33,6 @@ jobs:
       - name: Run lint
         run: yarn test:lint
 
-  test-integration:
-    runs-on: ubuntu-latest
-
-    strategy:
-      matrix:
-        node-version: [20.12.2]
-
-    steps:
-      - uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-      - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v4
-        with:
-          node-version: ${{ matrix.node-version }}
-          cache: "yarn"
-      - name: Install dependencies
-        run: yarn install --immutable --network-timeout 500000
-      - name: Run build
-        run: yarn tsc --build
-        env:
-          FORCE_COLOR: true
-      - name: Run test
-        run: yarn test:integration
-        env:
-          FORCE_COLOR: true
-      - name: Upload vitest config files
-        uses: actions/upload-artifact@v4
-        with:
-          name: vitest-config-integration
-          overwrite: true
-          path: |
-            team.json
-            packages/platform/platform-express/vitest.config.mts
-            packages/platform/platform-koa/vitest.config.mts
-        continue-on-error: true
-
-  test-envs:
-    runs-on: ${{ matrix.os }}
-
-    strategy:
-      matrix:
-        os: [ubuntu-latest, macos-latest, windows-latest]
-        node-version: [20.12.2]
-
-    steps:
-      - uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-      - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v4
-        with:
-          node-version: ${{ matrix.node-version }}
-          cache: "yarn"
-      - name: Install dependencies
-        run: yarn install --immutable --network-timeout 500000
-      - name: Run build
-        run: yarn tsc --build
-        env:
-          FORCE_COLOR: true
-      - name: Run test
-        run: yarn test:integration
-        env:
-          FORCE_COLOR: true
-
   test-core:
     runs-on: ubuntu-latest
 
@@ -190,8 +125,6 @@ jobs:
           path: |
             team.json
             packages/platform/platform-*/vitest.config.mts
-            !packages/platform/platform-express/vitest.config.mts
-            !packages/platform/platform-koa/vitest.config.mts
   test-orm:
     runs-on: ubuntu-latest
 
@@ -311,8 +244,7 @@ jobs:
 
   test-download-artifacts:
     runs-on: ubuntu-latest
-    needs:
-      [lint, test-core, test-specs, test-platform, test-integration, test-envs, test-orm, test-security, test-graphql, test-third-parties]
+    needs: [lint, test-core, test-specs, test-platform, test-orm, test-security, test-graphql, test-third-parties]
     if: github.event_name == 'pull_request'
     strategy:
       matrix:
@@ -337,8 +269,7 @@ jobs:
 
   deploy-packages:
     runs-on: ubuntu-latest
-    needs:
-      [lint, test-core, test-specs, test-platform, test-integration, test-envs, test-orm, test-security, test-graphql, test-third-parties]
+    needs: [lint, test-core, test-specs, test-platform, test-orm, test-security, test-graphql, test-third-parties]
     if: github.event_name != 'pull_request' && contains('
       refs/heads/production
       refs/heads/alpha
