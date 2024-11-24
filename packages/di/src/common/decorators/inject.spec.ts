@@ -40,8 +40,6 @@ describe("@Inject()", () => {
       expect(instance.test).toBeInstanceOf(InjectorService);
     });
     it("should inject service and async factory", async () => {
-      //      const inj = injector({rebuild: true});
-
       // GIVEN
       class Test {
         constructor(public type: string) {}

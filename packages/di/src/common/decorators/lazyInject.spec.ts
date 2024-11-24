@@ -1,5 +1,6 @@
 import {catchAsyncError, classOf, nameOf} from "@tsed/core";
 
+import {inject} from "../fn/inject.js";
 import {injector} from "../fn/injector.js";
 import type {MyLazyModule} from "./__mock__/lazy.module.js";
 import {Injectable} from "./injectable.js";
@@ -13,14 +14,13 @@ describe("LazyInject", () => {
       lazy: Promise<MyLazyModule>;
     }
 
-    const inj = injector({rebuild: true});
-    const service = await inj.invoke<MyInjectable>(MyInjectable);
-    const nbProviders = inj.getProviders().length;
+    const service = inject<MyInjectable>(MyInjectable);
+    const nbProviders = injector().getProviders().length;
 
     const lazyService = await service.lazy;
 
     expect(nameOf(classOf(lazyService))).toEqual("MyLazyModule");
-    expect(nbProviders).not.toEqual(inj.getProviders().length);
+    expect(nbProviders).not.toEqual(injector().getProviders().length);
   });
 
   it("should throw an error when the module doesn't exists", async () => {
@@ -31,8 +31,7 @@ describe("LazyInject", () => {
       lazy?: Promise<MyLazyModule>;
     }
 
-    const inj = injector({rebuild: true});
-    const service = await inj.invoke<MyInjectable>(MyInjectable);
+    const service = inject<MyInjectable>(MyInjectable);
     const error = await catchAsyncError(() => service.lazy);
 
     expect(error?.message).toContain("Failed to load url lazy-module");
@@ -46,8 +45,7 @@ describe("LazyInject", () => {
       lazy?: Promise<MyLazyModule>;
     }
 
-    const inj = injector({rebuild: true});
-    const service = await inj.invoke<MyInjectable>(MyInjectable);
+    const service = inject(MyInjectable);
     const lazyService = await service.lazy;
 
     expect(lazyService).toEqual(undefined);

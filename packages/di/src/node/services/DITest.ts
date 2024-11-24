@@ -6,7 +6,6 @@ import {
   createContainer,
   destroyInjector,
   DI_INJECTABLE_PROPS,
-  hasInjector,
   inject,
   injector,
   InjectorService,
@@ -39,11 +38,9 @@ export class DITest {
    * Create a new injector with the right default services
    */
   static createInjector(settings: any = {}): InjectorService {
-    const inj = injector({
-      rebuild: true,
-      logger: $log,
-      settings: DITest.configure(settings)
-    });
+    const inj = injector();
+    injector().logger = $log;
+    inj.settings.set(DITest.configure(settings));
 
     setLoggerConfiguration();
 
@@ -54,10 +51,8 @@ export class DITest {
    * Resets the test injector of the test context, so it won't pollute your next test. Call this in your `tearDown` logic.
    */
   static async reset() {
-    if (hasInjector()) {
-      await destroyInjector();
-      cleanAllLocalsContainer();
-    }
+    await destroyInjector();
+    cleanAllLocalsContainer();
   }
 
   /**

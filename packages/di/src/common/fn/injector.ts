@@ -1,10 +1,9 @@
 import {InjectorService} from "../services/InjectorService.js";
 
-let globalInjector: InjectorService | undefined;
+let globalInjector: InjectorService = new InjectorService();
 
-type InjectorFnOpts = {rebuild?: boolean; logger?: any; settings?: Partial<TsED.Configuration>};
 /**
- * Create or return the existing injector service.
+ * Return the existing injector service.
  *
  * Example:
  *
@@ -17,27 +16,11 @@ type InjectorFnOpts = {rebuild?: boolean; logger?: any; settings?: Partial<TsED.
  * }
  * ```
  */
-export function injector(opts?: InjectorFnOpts): InjectorService {
-  if (!globalInjector || opts?.rebuild) {
-    globalInjector = new InjectorService();
-
-    if (opts && opts.logger) {
-      globalInjector.logger = opts.logger;
-    }
-
-    if (opts?.settings) {
-      globalInjector.settings.set(opts.settings);
-    }
-  }
-
+export function injector(): InjectorService {
   return globalInjector;
 }
 
-export function hasInjector() {
-  return !!globalInjector;
-}
-
 export async function destroyInjector() {
-  await globalInjector?.destroy();
-  globalInjector = undefined;
+  await globalInjector.destroy();
+  globalInjector = new InjectorService();
 }

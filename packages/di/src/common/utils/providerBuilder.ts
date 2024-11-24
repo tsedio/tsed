@@ -3,7 +3,7 @@ import "../registries/ProviderRegistry.js";
 import {Store, type Type} from "@tsed/core";
 
 import {ProviderType} from "../domain/ProviderType.js";
-import {hasInjector, injector} from "../fn/injector.js";
+import {injector} from "../fn/injector.js";
 import type {ProviderOpts} from "../interfaces/ProviderOpts.js";
 import type {TokenProvider} from "../interfaces/TokenProvider.js";
 import {GlobalProviders} from "../registries/GlobalProviders.js";
@@ -26,7 +26,7 @@ export function providerBuilder<Provider, Picked extends keyof Provider>(props: 
     options: Partial<ProviderOpts<Type>> = {}
   ): ProviderBuilder<Token, Provider, Pick<Provider, Picked>> => {
     const merged = {
-      global: !hasInjector() || injector().isLoaded(),
+      global: !injector().isLoaded(),
       ...options,
       ...baseOpts,
       provide: token
