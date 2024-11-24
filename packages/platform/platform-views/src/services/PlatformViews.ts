@@ -1,6 +1,9 @@
+import "../domain/PlatformViewsSettings.js";
+
 import {Env, getValue} from "@tsed/core";
-import {Constant, Inject, InjectorService, Module} from "@tsed/di";
+import {constant, injectable, ProviderType} from "@tsed/di";
 import {engines, getEngine, requires} from "@tsed/engines";
+import {$asyncAlter} from "@tsed/hooks";
 import Fs from "fs";
 import {extname, join, resolve} from "path";
 
@@ -28,35 +31,14 @@ async function patchEJS(ejs: any) {
 /**
  * @platform
  */
-@Module({
-  views: {
-    exists: true
-  }
-})
 export class PlatformViews {
-  @Constant("env")
-  env: Env;
-
-  @Constant("views.root", `${process.cwd()}/views`)
-  readonly root: string;
-
-  @Constant("views.cache")
-  readonly cache: boolean;
-
-  @Constant("views.disabled", false)
-  readonly disabled: string;
-
-  @Constant("views.viewEngine", "ejs")
-  readonly viewEngine: string;
-
-  @Constant("views.extensions", {})
-  protected extensionsOptions: PlatformViewsExtensionsTypes;
-
-  @Constant("views.options", {})
-  protected engineOptions: Record<string, PlatformViewsEngineOptions>;
-
-  @Inject()
-  protected injector: InjectorService;
+  readonly root = constant("views.root", `${process.cwd()}/views`);
+  readonly cache = constant<boolean>("views.cache");
+  readonly disabled = constant<string | boolean>("views.disabled", false);
+  readonly viewEngine = constant<string>("views.viewEngine", "ejs");
+  protected env = constant<Env>("env");
+  protected extensionsOptions = constant<PlatformViewsExtensionsTypes>("views.extensions", {});
+  protected engineOptions = constant<Record<string, PlatformViewsEngineOptions>>("views.options", {});
 
   #extensions: Map<string, string>;
   #engines = new Map<string, PlatformViewEngine>();
@@ -121,7 +103,8 @@ export class PlatformViews {
 
   async render(viewPath: string, options: any = {}): Promise<string | PlatformViewWritableStream> {
     const {$ctx} = options;
-    options = await this.injector.alterAsync("$alterRenderOptions", options, $ctx);
+
+    options = await $asyncAlter("$alterRenderOptions", options, $ctx);
 
     const {path, extension} = this.#cachePaths.get(viewPath) || this.#cachePaths.set(viewPath, this.resolve(viewPath)).get(viewPath)!;
     const engine = this.getEngine(extension);
@@ -158,3 +141,11 @@ export class PlatformViews {
     };
   }
 }
+
+injectable(PlatformViews)
+  .type(ProviderType.MODULE)
+  .configuration({
+    views: {
+      exists: true
+    }
+  } as never);
