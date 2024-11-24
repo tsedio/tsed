@@ -44,6 +44,7 @@ export class InjectorService extends Container {
   public logger: DILogger = console;
   private resolvedConfiguration: boolean = false;
   #cache = new LocalsContainer();
+  #loaded: boolean = false;
 
   constructor() {
     super();
@@ -57,6 +58,10 @@ export class InjectorService extends Container {
 
   set settings(settings: DIConfiguration) {
     this.#cache.set(Configuration, settings);
+  }
+
+  isLoaded() {
+    return this.#loaded;
   }
 
   /**
@@ -248,6 +253,10 @@ export class InjectorService extends Container {
    * @param container
    */
   async load(container: Container = createContainer()) {
+    // avoid provider registration in the GlobalContainer during the loading phase
+    // using injectable() or providerBuilder()
+    this.#loaded = true;
+
     await $asyncEmit("$beforeInit");
 
     this.bootstrap(container);

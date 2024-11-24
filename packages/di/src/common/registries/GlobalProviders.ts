@@ -1,13 +1,10 @@
 import {getClassOrSymbol, Type} from "@tsed/core";
 
-import type {LocalsContainer} from "../domain/LocalsContainer.js";
 import {Provider} from "../domain/Provider.js";
 import {ProviderType} from "../domain/ProviderType.js";
 import {ProviderOpts} from "../interfaces/ProviderOpts.js";
 import {RegistrySettings} from "../interfaces/RegistrySettings.js";
-import {ResolvedInvokeOptions} from "../interfaces/ResolvedInvokeOptions.js";
 import {TokenProvider} from "../interfaces/TokenProvider.js";
-import type {InjectorService} from "../services/InjectorService.js";
 
 export class GlobalProviderRegistry extends Map<TokenProvider, Provider> {
   #settings: Map<TokenProvider, RegistrySettings> = new Map();
@@ -47,6 +44,10 @@ export class GlobalProviderRegistry extends Map<TokenProvider, Provider> {
    * @param options
    */
   merge(target: TokenProvider, options: Partial<ProviderOpts>) {
+    if (options.global === false) {
+      return GlobalProviders.createProvider(target, options);
+    }
+
     const meta = this.createIfNotExists(target, options);
 
     Object.keys(options).forEach((key) => {
@@ -99,18 +100,21 @@ export class GlobalProviderRegistry extends Map<TokenProvider, Provider> {
     );
   }
 
+  protected createProvider(key: TokenProvider, options: Partial<ProviderOpts<any>>) {
+    const type = options.type || ProviderType.PROVIDER;
+    const {model = Provider} = this.#settings.get(type) || {};
+
+    return new model(key, options);
+  }
+
   /**
    *
    * @param key
    * @param options
    */
   protected createIfNotExists(key: TokenProvider, options: Partial<ProviderOpts>): Provider {
-    const type = options.type || ProviderType.PROVIDER;
-
     if (!this.has(key)) {
-      const {model = Provider} = this.#settings.get(type) || {};
-
-      const item = new model(key, options);
+      const item = this.createProvider(key, options);
 
       this.set(key, item);
     }

@@ -17,7 +17,8 @@ describe("ProviderRegistry", () => {
       registerProvider({provide: Test});
 
       expect(GlobalProviders.merge).toHaveBeenCalledWith(Test, {
-        provide: Test
+        provide: Test,
+        global: true
       });
     });
   });

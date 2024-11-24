@@ -34,13 +34,14 @@ describe("@Inject()", () => {
         test: InjectorService;
       }
 
-      const inj = injector({rebuild: true});
-      const instance = await inj.invoke<Test>(Test);
+      const instance = inject<Test>(Test);
 
       expect(instance).toBeInstanceOf(Test);
       expect(instance.test).toBeInstanceOf(InjectorService);
     });
     it("should inject service and async factory", async () => {
+      //      const inj = injector({rebuild: true});
+
       // GIVEN
       class Test {
         constructor(public type: string) {}
@@ -69,12 +70,10 @@ describe("@Inject()", () => {
         test: Test;
       }
 
-      const inj = injector({rebuild: true});
+      await injector().load();
 
-      await inj.load();
-
-      const parent1 = await inj.invoke<Parent1>(Parent1);
-      const parent2 = await inj.invoke<Parent2>(Parent2);
+      const parent1 = inject<Parent1>(Parent1);
+      const parent2 = inject<Parent2>(Parent2);
 
       expect(parent1.test).toBeInstanceOf(Test);
       expect(parent2.test).toBeInstanceOf(Test);
@@ -87,8 +86,7 @@ describe("@Inject()", () => {
         test: InjectorService;
       }
 
-      const inj = injector({rebuild: true});
-      const instance = await inj.invoke<Test>(Test);
+      const instance = inject(Test);
 
       expect(instance).toBeInstanceOf(Test);
       expect(instance.test).toBeInstanceOf(InjectorService);
@@ -101,8 +99,7 @@ describe("@Inject()", () => {
         test: InjectorService;
       }
 
-      const inj = injector({rebuild: true});
-      const instance = await inj.invoke<Test>(Test);
+      const instance = inject<Test>(Test);
 
       expect(instance).toBeInstanceOf(Test);
       expect(instance.test).toBeInstanceOf(InjectorService);
@@ -151,11 +148,9 @@ describe("@Inject()", () => {
         instances: InterfaceGroup[];
       }
 
-      const inj = injector({rebuild: true});
+      await injector().load();
 
-      await inj.load();
-
-      const instance = await inj.invoke<MyInjectable>(MyInjectable);
+      const instance = inject<MyInjectable>(MyInjectable);
 
       expect(instance.instances).toBeInstanceOf(Array);
       expect(instance.instances).toHaveLength(3);
@@ -212,8 +207,7 @@ describe("@Inject()", () => {
           constructor(@Inject(InjectorService) readonly injector: InjectorService) {}
         }
 
-        const inj = injector({rebuild: true});
-        const instance = await inj.invoke<MyInjectable>(MyInjectable);
+        const instance = inject(MyInjectable);
 
         expect(instance.injector).toBeInstanceOf(InjectorService);
       });
@@ -263,11 +257,9 @@ describe("@Inject()", () => {
           constructor(@Inject(TOKEN_GROUPS) readonly instances: InterfaceGroup[]) {}
         }
 
-        const inj = injector({rebuild: true});
+        await injector().load();
 
-        await inj.load();
-
-        const instance = await inj.invoke<MyInjectable>(MyInjectable);
+        const instance = inject(MyInjectable);
 
         expect(instance.instances).toBeInstanceOf(Array);
         expect(instance.instances).toHaveLength(3);
