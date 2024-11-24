@@ -22,7 +22,7 @@
       "path": "../formio-types/tsconfig.json"
     },
     {
-      "path": "../../utils/normalize-path/tsconfig.json"
+      "path": "../normalize-path/tsconfig.json"
     },
     {
       "path": "./tsconfig.esm.json"

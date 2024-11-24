@@ -7205,9 +7205,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@tsed/normalize-path@workspace:*, @tsed/normalize-path@workspace:packages/utils/normalize-path":
+"@tsed/normalize-path@workspace:*, @tsed/normalize-path@workspace:packages/third-parties/normalize-path":
   version: 0.0.0-use.local
-  resolution: "@tsed/normalize-path@workspace:packages/utils/normalize-path"
+  resolution: "@tsed/normalize-path@workspace:packages/third-parties/normalize-path"
   dependencies:
     "@tsed/barrels": "workspace:*"
     "@tsed/typescript": "workspace:*"

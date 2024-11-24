@@ -1,7 +1,7 @@
 {
   "extends": "@tsed/typescript/tsconfig.node.json",
   "compilerOptions": {
-    "baseUrl": ".",
+    "baseUrl": "./",
     "noEmit": true
   },
   "include": [],

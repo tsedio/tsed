@@ -13,7 +13,7 @@
       "path": "../../di/tsconfig.json"
     },
     {
-      "path": "../../utils/normalize-path/tsconfig.json"
+      "path": "../normalize-path/tsconfig.json"
     },
     {
       "path": "./tsconfig.esm.json"

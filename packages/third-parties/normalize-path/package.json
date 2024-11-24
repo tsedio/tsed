@@ -4,8 +4,8 @@
   "type": "module",
   "version": "8.0.0-rc.5",
   "source": "./src/index.ts",
-  "main": "./lib/esm/index.js",
-  "module": "./lib/esm/index.js",
+  "main": "lib/esm/index.js",
+  "module": "lib/esm/index.js",
   "typings": "./lib/types/index.d.ts",
   "exports": {
     ".": {
