@@ -6,7 +6,7 @@ import {StripeSettings} from "../domain/StripeSettings.js";
 export const StripeFactory = Stripe;
 
 registerProvider({
-  provide: Stripe,
+  token: Stripe,
   deps: [Configuration],
   useFactory(settings: Configuration) {
     const {apiKey, webhooks, ...options} = settings.get<StripeSettings>("stripe", {} as any);

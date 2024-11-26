@@ -60,15 +60,15 @@ export class PlatformKoa extends PlatformAdapter<Koa> {
 
   readonly providers = [
     {
-      provide: PlatformResponse,
+      token: PlatformResponse,
       useClass: PlatformKoaResponse
     },
     {
-      provide: PlatformRequest,
+      token: PlatformRequest,
       useClass: PlatformKoaRequest
     },
     {
-      provide: PlatformHandler,
+      token: PlatformHandler,
       useClass: PlatformKoaHandler
     }
   ];

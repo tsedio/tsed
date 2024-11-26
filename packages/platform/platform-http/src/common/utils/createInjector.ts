@@ -13,11 +13,11 @@ import {PlatformResponse} from "../services/PlatformResponse.js";
 $log.name = "TSED";
 
 const DEFAULT_PROVIDERS = [
-  {provide: PlatformHandler},
-  {provide: PlatformResponse},
-  {provide: PlatformRequest},
-  {provide: PlatformApplication},
-  {provide: Platform}
+  {token: PlatformHandler},
+  {token: PlatformResponse},
+  {token: PlatformRequest},
+  {token: PlatformApplication},
+  {token: Platform}
 ];
 
 interface CreateInjectorOptions {
@@ -52,7 +52,7 @@ export function createInjector({adapter, settings = {}}: CreateInjectorOptions) 
     inj.addProvider(token, provider);
   });
 
-  DEFAULT_PROVIDERS.map((provider) => inj.get(provider.provide));
+  DEFAULT_PROVIDERS.map((provider) => inj.get(provider.token));
 
   return inj;
 }

@@ -10,7 +10,7 @@ export function Alter(name: string): ClassDecorator {
   return useDecorators(
     (target: any) => {
       registerProvider({
-        provide: target,
+        token: target,
         type: "formio:alter"
       });
     },

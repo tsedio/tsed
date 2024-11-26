@@ -8,7 +8,7 @@ import {IORedisTest} from "./IORedisTest.js";
 const MY_CONNECTION = Symbol("MY_CONNECTION");
 type MY_CONNECTION = Redis;
 
-registerConnectionProvider({provide: MY_CONNECTION, name: "default"});
+registerConnectionProvider({token: MY_CONNECTION, name: "default"});
 
 @Injectable()
 class MyRepository {

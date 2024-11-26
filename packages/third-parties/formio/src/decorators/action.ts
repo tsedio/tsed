@@ -11,7 +11,7 @@ export function Action(options: FormioActionInfo): ClassDecorator {
   return useDecorators(
     (target: any) => {
       registerProvider({
-        provide: target,
+        token: target,
         type: "formio:action"
       });
     },

@@ -6,7 +6,7 @@ export const PulseService = Pulse;
 export type PulseService = Pulse;
 
 registerProvider({
-  provide: Pulse,
+  token: Pulse,
   deps: [Configuration],
   useFactory(settings: Configuration) {
     const opts = settings.get<PulseConfig & {enabled: boolean}>("pulse", {enabled: false});

@@ -10,7 +10,7 @@ import {OIDCRedisAdapter} from "./OIDCRedisAdapter.js";
 const REDIS_CONNECTION = Symbol.for("redis_connection");
 
 registerConnectionProvider({
-  provide: REDIS_CONNECTION
+  token: REDIS_CONNECTION
 });
 function createAdapterFixture(collectionName: string) {
   const adapter = IORedisTest.get<Adapters>(Adapters).invokeAdapter({

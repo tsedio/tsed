@@ -6,7 +6,7 @@ export const EventEmitterService = eventEmitter2.EventEmitter2;
 export type EventEmitterService = eventEmitter2.EventEmitter2;
 
 registerProvider({
-  provide: eventEmitter2.EventEmitter2,
+  token: eventEmitter2.EventEmitter2,
   deps: [Configuration],
   useFactory(settings: Configuration) {
     const opts = settings.get<ConstructorOptions & {enabled: boolean}>("eventEmitter", {enabled: false});

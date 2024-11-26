@@ -14,7 +14,7 @@ export function JobController(name: string, queue: string = "default", opts: Job
       opts
     }),
     Injectable({
-      provide: getJobToken(queue, name),
+      token: getJobToken(queue, name),
       type: opts.repeat ? BullMQTypes.CRON : BullMQTypes.JOB
     })
   );
@@ -26,7 +26,7 @@ export function FallbackJobController(queue?: string) {
       queue
     }),
     Injectable({
-      provide: getFallbackJobToken(queue),
+      token: getFallbackJobToken(queue),
       type: BullMQTypes.FALLBACK_JOB
     })
   );

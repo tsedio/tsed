@@ -44,7 +44,7 @@ vi.mock("ioredis", () => {
 const REDIS_CONNECTION = Symbol.for("REDIS_CONNECTION");
 type REDIS_CONNECTION = Redis;
 
-registerConnectionProvider({provide: REDIS_CONNECTION, name: "default"});
+registerConnectionProvider({token: REDIS_CONNECTION, name: "default"});
 
 describe("RedisConnection", () => {
   describe("Redis", () => {

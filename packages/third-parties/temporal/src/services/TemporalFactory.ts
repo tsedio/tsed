@@ -9,7 +9,7 @@ export const TemporalClient = Client;
 export type TemporalClient = Client;
 
 registerProvider({
-  provide: TemporalConnection,
+  token: TemporalConnection,
   deps: [Configuration, Logger],
   async useAsyncFactory(settings: Configuration, logger: Logger) {
     const temporal = settings.get("temporal");
@@ -31,7 +31,7 @@ registerProvider({
 });
 
 registerProvider({
-  provide: TemporalClient,
+  token: TemporalClient,
   deps: [Configuration, TemporalConnection],
   useFactory(settings: Configuration, connection: TemporalConnection) {
     const temporal = settings.get("temporal");

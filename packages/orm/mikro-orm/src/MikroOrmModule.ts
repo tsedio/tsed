@@ -101,4 +101,4 @@ export class MikroOrmModule implements OnDestroy, OnInit, AlterRunInContext {
 }
 
 // TODO: the IoC container should provide null or undefined by default until tsedio/tsed#1694 is closed
-registerProvider({provide: RetryStrategy, useValue: null});
+registerProvider({token: RetryStrategy, useValue: null});

@@ -8,16 +8,16 @@ import {IORedisConfiguration} from "../domain/IORedisConfiguration.js";
 import {ioRedisStore} from "../domain/IORedisStore.js";
 
 export interface CreateConnectionProviderProps {
-  provide: TokenProvider;
+  token: TokenProvider;
   name?: string;
 }
 
 export const IOREDIS_CONNECTIONS = Symbol.for("ioredis:connections");
 export type IORedis = Redis & {name: string};
 
-export function registerConnectionProvider({provide, name = "default"}: CreateConnectionProviderProps) {
+export function registerConnectionProvider({token, name = "default"}: CreateConnectionProviderProps) {
   registerProvider({
-    provide,
+    token,
     type: IOREDIS_CONNECTIONS,
     connectionName: name,
     deps: [Configuration, Logger],

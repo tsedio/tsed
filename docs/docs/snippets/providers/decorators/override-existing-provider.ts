@@ -1,7 +1,7 @@
 import {Injectable} from "@tsed/di";
 import {PlatformCache} from "@tsed/platform-cache";
 
-@Injectable({provide: PlatformCache})
+@Injectable({token: PlatformCache})
 export class CustomCache extends PlatformCache {
   /// do something
 }

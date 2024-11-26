@@ -8,7 +8,7 @@ describe("MyCtrl", () => {
     PlatformTest.create({
       imports: [
         {
-          provide: DbService,
+          token: DbService,
           use: {
             getData: () => {
               return "test";

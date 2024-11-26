@@ -6,7 +6,7 @@ export const AgendaService = Agenda;
 export type AgendaService = Agenda;
 
 registerProvider({
-  provide: Agenda,
+  token: Agenda,
   deps: [Configuration],
   useFactory(settings: Configuration) {
     const opts = settings.get<AgendaConfig & {enabled: boolean}>("agenda", {enabled: false});

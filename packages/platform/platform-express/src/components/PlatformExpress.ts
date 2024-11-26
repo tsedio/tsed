@@ -61,7 +61,7 @@ export class PlatformExpress extends PlatformAdapter<Express.Application> {
 
   readonly providers = [
     {
-      provide: PlatformHandler,
+      token: PlatformHandler,
       useClass: PlatformExpressHandler
     }
   ];

@@ -40,7 +40,7 @@ function mapOptions(options: Omit<MongooseConnectionOptions, "id"> | MongooseCon
 }
 
 registerProvider({
-  provide: MONGOOSE_CONNECTIONS,
+  token: MONGOOSE_CONNECTIONS,
   injectable: false,
   deps: [Configuration, MongooseService],
   async useAsyncFactory(configuration: Configuration, mongooseService: MongooseService) {

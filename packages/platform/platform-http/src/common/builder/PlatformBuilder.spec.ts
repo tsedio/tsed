@@ -29,7 +29,7 @@ class PlatformCustom extends FakeAdapter {
   static readonly NAME = "custom";
   readonly providers = [
     {
-      provide: class Test {}
+      token: class Test {}
     }
   ];
 

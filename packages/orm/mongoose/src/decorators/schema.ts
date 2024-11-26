@@ -1,5 +1,5 @@
 import {decoratorTypeOf, StoreMerge, useDecorators} from "@tsed/core";
-import {registerProvider} from "@tsed/di";
+import {injectable} from "@tsed/di";
 import {Property} from "@tsed/schema";
 import {SchemaTypeOptions} from "mongoose";
 
@@ -42,13 +42,7 @@ export function Schema(options: MongooseSchemaOptions | SchemaTypeOptions<any> =
       case "class":
         const {token} = getSchemaToken(parameters[0], options);
 
-        registerProvider({
-          provide: token,
-          deps: [],
-          useFactory() {
-            return getSchema(parameters[0], options as any);
-          }
-        });
+        injectable(token).factory(() => getSchema(parameters[0], options as any));
         break;
     }
   };
