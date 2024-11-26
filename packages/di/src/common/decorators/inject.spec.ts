@@ -48,7 +48,7 @@ describe("@Inject()", () => {
       const TokenAsync = Symbol.for("MyService");
 
       registerProvider<Test>({
-        provide: TokenAsync,
+        token: TokenAsync,
         type: "test:async",
         deps: [],
         useAsyncFactory() {
@@ -130,7 +130,7 @@ describe("@Inject()", () => {
       const TokenAsync = Symbol.for("MyService2");
 
       registerProvider({
-        provide: TokenAsync,
+        token: TokenAsync,
         type: TOKEN_GROUPS,
         deps: [],
         useAsyncFactory() {
@@ -240,7 +240,7 @@ describe("@Inject()", () => {
         const TokenAsync = Symbol.for("MyService1");
 
         registerProvider({
-          provide: TokenAsync,
+          token: TokenAsync,
           type: TOKEN_GROUPS,
           deps: [],
           useAsyncFactory() {

@@ -33,7 +33,7 @@ function mapOptions(options: any): ControllerOptions {
  *
  * ```typescript
  *  @Controller("/calendars")
- *  export provide CalendarCtrl {
+ *  export class CalendarCtrl {
  *
  *    @Get("/:id")
  *    public get(

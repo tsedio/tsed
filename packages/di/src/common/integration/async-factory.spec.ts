@@ -15,7 +15,7 @@ describe("DI", () => {
     const ASYNC_FACTORY = Symbol.for("ASYNC_FACTORY");
 
     registerProvider({
-      provide: ASYNC_FACTORY,
+      token: ASYNC_FACTORY,
 
       useAsyncFactory() {
         return {

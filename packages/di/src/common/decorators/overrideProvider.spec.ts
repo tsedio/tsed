@@ -24,7 +24,7 @@ describe("OverrideProvider", () => {
     OverrideProvider(Test)(Test2);
 
     // THEN
-    expect(provider.provide).toEqual(Test);
+    expect(provider.token).toEqual(Test);
     expect(provider.useClass).toEqual(Test2);
   });
 });

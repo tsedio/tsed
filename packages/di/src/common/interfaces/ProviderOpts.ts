@@ -8,7 +8,7 @@ export interface ProviderOpts<T = any> {
   /**
    * An injection token. (Typically an instance of `Type` or `InjectionToken`, but can be `any`).
    */
-  provide: TokenProvider<T>;
+  token: TokenProvider<T>;
   /**
    * Create alias token to retrieve the instance provider.
    */

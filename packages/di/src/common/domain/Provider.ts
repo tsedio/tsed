@@ -23,34 +23,43 @@ export class Provider<T = any> implements ProviderOpts<T> {
   public useValue?: unknown;
   public hooks: Record<string, ProviderHookCallback<T>> = {};
   private _useClass: Type<T>;
-  private _provide: TokenProvider;
+  private _token: TokenProvider;
   private _store: Store;
   private _tokenStore: Store;
 
   [key: string]: any;
 
   constructor(token: TokenProvider<T>, options: Partial<Provider> = {}) {
-    this.provide = token;
+    this.token = token;
     this.useClass = token as Type<T>;
 
-    Object.assign(this, {
-      ...options
-    });
+    Object.assign(this, options);
   }
 
   get token() {
-    return this._provide;
+    return this._token;
   }
 
-  get provide(): TokenProvider {
-    return this._provide;
-  }
-
-  set provide(value: TokenProvider) {
+  set token(value: TokenProvider) {
     if (value) {
-      this._provide = getClassOrSymbol(value);
+      this._token = getClassOrSymbol(value);
       this._tokenStore = this._store = Store.from(value);
     }
+  }
+
+  /**
+   * @deprecated
+   */
+  get provide(): TokenProvider {
+    return this.token;
+  }
+
+  /**
+   * @deprecated
+   * @param value
+   */
+  set provide(value: TokenProvider) {
+    this.token = value;
   }
 
   get useClass(): Type<T> {
@@ -74,7 +83,7 @@ export class Provider<T = any> implements ProviderOpts<T> {
   }
 
   get name() {
-    return nameOf(this.provide);
+    return nameOf(this.token);
   }
 
   get store(): Store {
@@ -156,7 +165,7 @@ export class Provider<T = any> implements ProviderOpts<T> {
   }
 
   clone(): Provider {
-    return new (classOf(this))(this._provide, this);
+    return new (classOf(this))(this.token, this);
   }
 
   /**

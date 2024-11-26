@@ -35,7 +35,7 @@ class MyService2 implements InterfaceGroup {
 const TokenAsync = Symbol.for("MyService2");
 
 registerProvider({
-  provide: TokenAsync,
+  token: TokenAsync,
   type: TOKEN_GROUPS,
   deps: [],
   useAsyncFactory() {

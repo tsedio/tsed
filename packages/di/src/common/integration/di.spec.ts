@@ -105,7 +105,7 @@ describe("DI", () => {
 
     const BaseService: unique symbol = Symbol("BaseService");
 
-    @Injectable({provide: BaseService})
+    @Injectable({token: BaseService})
     class NestedService implements BaseService {}
 
     @Injectable()

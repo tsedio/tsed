@@ -647,7 +647,7 @@ describe("InjectorService", () => {
     });
     it("should alter value (factory)", () => {
       registerProvider({
-        provide: "TOKEN",
+        token: "TOKEN",
         useFactory: () => {
           return {};
         },

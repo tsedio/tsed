@@ -29,7 +29,7 @@ export function providerBuilder<Provider, Picked extends keyof Provider>(props: 
       global: !injector().isLoaded(),
       ...options,
       ...baseOpts,
-      provide: token
+      token
     };
 
     const provider = GlobalProviders.merge(token, merged);

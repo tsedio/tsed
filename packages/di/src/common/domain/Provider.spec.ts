@@ -14,7 +14,7 @@ describe("Provider", () => {
       provider.scope = ProviderScope.REQUEST;
       provider.customProp = "test";
 
-      expect(provider.provide).toEqual(T1);
+      expect(provider.token).toEqual(T1);
       expect(provider.useClass).toEqual(T1);
       expect(!!provider.store).toEqual(true);
       expect(provider.clone()).toEqual(provider);
@@ -28,7 +28,7 @@ describe("Provider", () => {
 
       const cloned = provider.clone();
 
-      expect(provider.provide).toEqual(T1);
+      expect(provider.token).toEqual(T1);
       expect(provider.useClass).toEqual(T2);
       expect(!!provider.store).toEqual(true);
       expect(cloned.useClass).toEqual(T2);
@@ -42,7 +42,7 @@ describe("Provider", () => {
     it("should wrap the token provided", () => {
       const provider = new Provider(S1);
 
-      expect(provider.provide).toEqual(S1);
+      expect(provider.token).toEqual(S1);
       expect(!!provider.useClass).toEqual(false);
       expect(!!provider.store).toEqual(true);
     });
@@ -52,6 +52,7 @@ describe("Provider", () => {
     it("should wrap the token provided", () => {
       const provider = new Provider("test");
 
+      expect(provider.token).toEqual("test");
       expect(provider.provide).toEqual("test");
       expect(!!provider.useClass).toEqual(false);
       expect(!!provider.store).toEqual(true);

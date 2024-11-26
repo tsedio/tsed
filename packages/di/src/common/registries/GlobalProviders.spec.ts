@@ -85,7 +85,7 @@ describe("GlobalProviderRegistry", () => {
       }
 
       const provider = registerProvider({
-        provide: MyService
+        token: MyService
       });
 
       expect(Object.keys(provider.hooks || {})).toEqual(["$onInit", "$onReady"]);

@@ -11,13 +11,24 @@ describe("ProviderRegistry", () => {
       vi.resetAllMocks();
     });
 
-    it("should add provider", () => {
+    it("should add provider (token)", () => {
+      class Test {}
+
+      registerProvider({token: Test});
+
+      expect(GlobalProviders.merge).toHaveBeenCalledWith(Test, {
+        token: Test,
+        global: true
+      });
+    });
+
+    it("should add provider (provide)", () => {
       class Test {}
 
       registerProvider({provide: Test});
 
       expect(GlobalProviders.merge).toHaveBeenCalledWith(Test, {
-        provide: Test,
+        token: Test,
         global: true
       });
     });

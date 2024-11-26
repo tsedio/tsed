@@ -72,8 +72,8 @@ export class Container extends Map<TokenProvider, Provider> {
 
   public addProviders(container: Map<TokenProvider, Provider>) {
     container.forEach((provider) => {
-      if (!this.hasProvider(provider.provide)) {
-        this.setProvider(provider.provide, provider.clone());
+      if (!this.hasProvider(provider.token)) {
+        this.setProvider(provider.token, provider.clone());
       }
     });
   }

@@ -1,14 +1,8 @@
+import {injectable} from "../fn/injectable.js";
+import {injector} from "../fn/injector.js";
 import {DILogger} from "../interfaces/DILogger.js";
-import {registerProvider} from "../registries/ProviderRegistry.js";
-import {InjectorService} from "./InjectorService.js";
 
 export const LOGGER = Symbol.for("LOGGER");
 export type LOGGER = DILogger;
 
-registerProvider({
-  provide: LOGGER,
-  deps: [InjectorService],
-  useFactory(injector: InjectorService) {
-    return injector.logger;
-  }
-});
+injectable(LOGGER).factory(() => injector().logger);

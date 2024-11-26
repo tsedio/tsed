@@ -4,7 +4,7 @@ const PrimaryPostgresDb = Symbol.for("PrimaryPostgresDb");
 type PrimaryPostgresDb = {id: string};
 
 registerProvider({
-  provide: PrimaryPostgresDb,
+  token: PrimaryPostgresDb,
   useAsyncFactory: () => {
     return Promise.resolve({
       id: "id"
