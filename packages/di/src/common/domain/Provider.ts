@@ -22,10 +22,10 @@ export class Provider<T = any> implements ProviderOpts<T> {
   public useAsyncFactory?: Function;
   public useValue?: unknown;
   public hooks: Record<string, ProviderHookCallback<T>> = {};
-  private _useClass: Type<T>;
-  private _token: TokenProvider;
-  private _store: Store;
-  private _tokenStore: Store;
+  #useClass: Type<T>;
+  #token: TokenProvider;
+  #store: Store;
+  #tokenStore: Store;
 
   [key: string]: any;
 
@@ -34,16 +34,22 @@ export class Provider<T = any> implements ProviderOpts<T> {
     this.useClass = token as Type<T>;
 
     Object.assign(this, options);
+
+    if (options instanceof Provider) {
+      this.#useClass = options.#useClass;
+      this.#store = options.#store;
+      this.#tokenStore = options.#tokenStore;
+    }
   }
 
   get token() {
-    return this._token;
+    return this.#token;
   }
 
   set token(value: TokenProvider) {
     if (value) {
-      this._token = getClassOrSymbol(value);
-      this._tokenStore = this._store = Store.from(value);
+      this.#token = getClassOrSymbol(value);
+      this.#tokenStore = this.#store = Store.from(value);
     }
   }
 
@@ -63,7 +69,7 @@ export class Provider<T = any> implements ProviderOpts<T> {
   }
 
   get useClass(): Type<T> {
-    return this._useClass;
+    return this.#useClass;
   }
 
   /**
@@ -72,9 +78,9 @@ export class Provider<T = any> implements ProviderOpts<T> {
    */
   set useClass(value: Type<T> | AbstractType<T>) {
     if (isClass(value)) {
-      this._useClass = classOf(value);
-      this._store = Store.from(value);
-      this.hooks = discoverHooks(this._useClass);
+      this.#useClass = classOf(value);
+      this.#store = Store.from(value);
+      this.hooks = discoverHooks(this.#useClass);
     }
   }
 
@@ -87,7 +93,7 @@ export class Provider<T = any> implements ProviderOpts<T> {
   }
 
   get store(): Store {
-    return this._store;
+    return this.#store;
   }
 
   get path() {
@@ -157,7 +163,7 @@ export class Provider<T = any> implements ProviderOpts<T> {
    */
   get<Type = unknown>(key: string, defaultValue: Type): Type;
   get<Type = unknown>(key: string, defaultValue?: Type): Type | undefined {
-    return this.store.get(key) || this._tokenStore.get(key) || defaultValue;
+    return this.store.get(key) || this.#tokenStore.get(key) || defaultValue;
   }
 
   isAsync(): boolean {
