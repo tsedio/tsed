@@ -17,8 +17,7 @@ Create a new ResourceNotFoundFilter in the filters directories and copy/paste th
 Then import the custom filter in your server:
 
 ```typescript
-import {Configuration, Inject} from "@tsed/di";
-import {PlatformApplication} from "@tsed/platform-http";
+import {Configuration} from "@tsed/di";
 import "./filters/ResourceNotFoundFilter"; // Importing filter with ES6 import is enough
 
 @Configuration({

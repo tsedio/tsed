@@ -31,8 +31,7 @@ The way to create a Ts.ED application, add [middlewares](/docs/middlewares.html)
 Here is the common way to configure a server using the Platform API:
 
 ```typescript
-import {PlatformApplication} from "@tsed/platform-http";
-import {Configuration, Inject, Constant} from "@tsed/di";
+import {Configuration, Constant} from "@tsed/di";
 import {MyMiddleware} from "./MyMiddleware.js";
 
 @Configuration({
@@ -119,7 +118,7 @@ To get the framework application instance (Express.js, Koa.js), you have to inje
 
 ::: code-group
 
-```typescript [Express.js]
+```typescript [Decorators]
 import {Injectable, Inject} from "@tsed/di";
 import {PlatformApplication} from "@tsed/platform-http";
 import {MyMiddleware} from "../middlewares/MyMiddleware";
@@ -129,10 +128,6 @@ class MyService {
   @Inject()
   protected app: PlatformApplication<Express.Application>;
 
-  getExpressApp() {
-    return this.app.getApp(); // GET Express raw Application. E.g.: const app = express()
-  }
-
   $onInit() {
     // With Platform API, it is also possible to adding middlewares with a service, module, etc...
     this.app.use(MyMiddleware);
@@ -140,25 +135,21 @@ class MyService {
 }
 ```
 
-```typescript [Koa.js]
-import {Injectable, Inject} from "@tsed/di";
-import {PlatformApplication} from "@tsed/platform-http";
+```typescript [Functional API]
+import {injectable} from "@tsed/di";
+import {application} from "@tsed/platform-http";
 import {MyMiddleware} from "../middlewares/MyMiddleware";
 
-@Injectable()
 class MyService {
-  @Inject()
-  protected app: PlatformApplication<Koa>;
-
-  getExpressApp() {
-    return this.app.getApp(); // GET Koa raw Application. E.g.: const app = new Koa()
-  }
+  protected app = application();
 
   $onInit() {
     // With Platform API, it is also possible to adding middlewares with a service, module, etc...
     this.app.use(MyMiddleware);
   }
 }
+
+injectable(MyService);
 ```
 
 :::
@@ -197,7 +188,9 @@ To serve static files, you can use the `@Configuration` decorator:
 
 Or use the `app.statics()` method:
 
-```typescript
+::: code-group
+
+```typescript [Decorators]
 import {Injectable} from "@tsed/di";
 import {PlatformApplication} from "@tsed/platform-http";
 import {join} from "path";
@@ -211,6 +204,22 @@ class MyService {
   }
 }
 ```
+
+```typescript [Functional API]
+import {injectable} from "@tsed/di";
+import {application} from "@tsed/platform-http";
+import {join} from "path";
+
+class MyService {
+  protected app = application();
+
+  $onReady() {
+    this.app.statics("/endpoint", {root: join(process.cwd(), "../publics")});
+  }
+}
+```
+
+:::
 
 ## Catch exceptions
 

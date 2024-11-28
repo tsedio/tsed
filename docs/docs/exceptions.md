@@ -125,7 +125,6 @@ Then import the custom filter in your server:
 
 ```typescript
 import {Inject, Configuration} from "@tsed/di";
-import {PlatformApplication} from "@tsed/platform-http";
 import "./filters/ResourceNotFoundFilter"; // Importing filter with ES6 import is enough
 
 @Configuration({

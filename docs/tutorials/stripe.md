@@ -219,7 +219,7 @@ import {rootDir, Server} from "../Server";
 
 const utils = PlatformTestUtils.create({
   rootDir,
-  platform: PlatformExpress,
+  adapter: PlatformExpress,
   server: Server,
   logger: {
     level: "info"

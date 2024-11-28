@@ -220,8 +220,8 @@ To use `@RawBodyParams()` properly, you have to remove bodyParser add on `$befor
 +  ]
 })
 export class Server {
-  @Inject()
-  protected app: PlatformApplication;
+-  @Inject()
+-  protected app: PlatformApplication;
 
   $beforeRoutesInit() {
 -    this.app

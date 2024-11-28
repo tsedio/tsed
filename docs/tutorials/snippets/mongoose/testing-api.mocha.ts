@@ -10,7 +10,7 @@ describe("Rest", () => {
   // bootstrap your Server to load all endpoints before run your test
   let request: SuperTest.Agent;
 
-  before(TestMongooseContext.bootstrap(Server, {platform: PlatformExpress})); // Create a server with mocked database
+  before(TestMongooseContext.bootstrap(Server, {adapter: PlatformExpress})); // Create a server with mocked database
   before((done) => {
     request = SuperTest(PlatformTest.callback());
     done();
