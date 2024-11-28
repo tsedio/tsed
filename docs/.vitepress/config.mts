@@ -55,6 +55,7 @@ export default defineConfig({
             text: "Introduction",
             items: [
               {text: "What is Ts.ED?", link: "/introduction/what-is-tsed"},
+              {text: "What's new in v8?", link: "/introduction/what-is-news-v8"},
               {text: "Capabilities", link: "/introduction/capabilities"},
               {text: "Installation", link: "/introduction/getting-started"},
               {text: "Create your first controller", link: "/introduction/create-your-first-controller"}

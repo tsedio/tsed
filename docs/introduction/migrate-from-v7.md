@@ -16,6 +16,9 @@ include support for [Apollo 4](/tutorials/graphql.html#apollo), the removal of C
 [ECMAScript Modules](#switch-your-code-base-on-esm), enhanced [request logging](#request-logger-doesn-t-work), and additional [optimizations](#optimization)
 to reduce code size.
 
+We also re-think the hooks features be more useful and easier to use.
+Now, you can use the [`@tsed/hooks`](/docs/hooks) package to subscribe to hooks outside the DI context.
+
 Additionally, some deprecated methods and packages were removed or updated to be aligned with new DI functions (aka [Functional API](/docs/providers.md)).
 For further details, you can view the full release notes here.
 
@@ -23,6 +26,7 @@ For further details, you can view the full release notes here.
 | -------------------------------------------------------------------------- | ------------------------------------- | --------------------------------------------------------------------- |
 | Access to injector instance everywhere                                     | [See](#injector-instance-everywhere)  | [#2812](https://github.com/tsedio/tsed/pull/2812)                     |
 | `useDefineForClassFields` must be set to false                             | [See](#usedefineforclassfields)       | [#2814](https://github.com/tsedio/tsed/pull/2814)                     |
+| Add `@tsed/hooks` package to listen and emit events                        | [See](/docs/hooks)                    | [rc.6](https://github.com/tsedio/tsed/releases/tag/v8.0.0-rc.6)       |
 | Remove proxy on DI Configuration                                           | [See](#use-configuration-get-method)  | [beta.6](https://github.com/tsedio/tsed/releases/tag/v8.0.0-beta.6)   |
 | Removal of CommonJS support                                                | [See](#switch-your-code-base-on-esm)  | [alpha.6](https://github.com/tsedio/tsed/releases/tag/v8.0.0-alpha.6) |
 | Apollo Server v4 support                                                   | [See](/tutorials/graphql.html#apollo) | [#2493](https://github.com/tsedio/tsed/issues/2493)                   |
