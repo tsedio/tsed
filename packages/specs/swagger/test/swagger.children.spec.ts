@@ -26,7 +26,7 @@ describe("Swagger integration", () => {
     let request: SuperTest.Agent;
     beforeEach(
       PlatformTest.bootstrap(Server, {
-        platform: PlatformExpress,
+        adapter: PlatformExpress,
         mount: {
           "/api/v1": [OrgCtrl]
         }

@@ -121,7 +121,7 @@ async function getServiceFixture() {
 describe("Mongoose", () => {
   beforeEach(
     TestContainersMongo.bootstrap(Server, {
-      platform: PlatformExpress,
+      adapter: PlatformExpress,
       mount: {
         "/rest": [ResourcesCtrl]
       }

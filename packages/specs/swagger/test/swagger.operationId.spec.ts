@@ -62,7 +62,7 @@ describe("Swagger integration", () => {
     let request: SuperTest.Agent;
     beforeEach(
       PlatformTest.bootstrap(Server, {
-        platform: PlatformExpress,
+        adapter: PlatformExpress,
         swagger: [
           {
             path: "/v2/doc",

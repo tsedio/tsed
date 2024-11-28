@@ -5,7 +5,7 @@ import {rootDir, Server} from "./app/Server.js";
 
 const utils = PlatformTestSdk.create({
   rootDir,
-  platform: PlatformKoa,
+  adapter: PlatformKoa,
   server: Server
 });
 

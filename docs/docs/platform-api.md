@@ -196,7 +196,7 @@ import {PlatformApplication} from "@tsed/platform-http";
 import {join} from "path";
 
 @Injectable()
-class MyService {
+export class MyService {
   constructor(private app: PlatformApplication) {}
 
   $onReady() {
@@ -210,13 +210,15 @@ import {injectable} from "@tsed/di";
 import {application} from "@tsed/platform-http";
 import {join} from "path";
 
-class MyService {
+export class MyService {
   protected app = application();
 
   $onReady() {
     this.app.statics("/endpoint", {root: join(process.cwd(), "../publics")});
   }
 }
+
+injectable(MyService);
 ```
 
 :::

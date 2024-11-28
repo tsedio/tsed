@@ -67,7 +67,7 @@ describe("Swagger integration", () => {
     let request: SuperTest.Agent;
     beforeEach(
       PlatformTest.bootstrap(Server, {
-        platform: PlatformExpress,
+        adapter: PlatformExpress,
         mount: {
           "/rest": [CalendarsController]
         }
@@ -99,7 +99,7 @@ describe("Swagger integration", () => {
     let request: SuperTest.Agent;
     beforeEach(
       PlatformTest.bootstrap(Server, {
-        platform: PlatformExpress,
+        adapter: PlatformExpress,
         mount: {
           "/rest": [CalendarsController]
         }

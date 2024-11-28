@@ -16,10 +16,11 @@ describe("createInjector", () => {
   it("should create injector and stop logger in env Test", () => {
     const settings = {
       test: "test",
-      env: Env.TEST
+      env: Env.TEST,
+      adapter: FakeAdapter
     };
 
-    const injector = createInjector({settings, adapter: FakeAdapter});
+    const injector = createInjector(settings);
 
     expect(injector.settings).toBeInstanceOf(PlatformConfiguration);
     expect(injector.settings.get("test")).toEqual("test");
@@ -30,10 +31,11 @@ describe("createInjector", () => {
   it("should create injector", () => {
     const settings = {
       test: "test",
-      env: Env.PROD
+      env: Env.PROD,
+      adapter: FakeAdapter
     };
 
-    const injector = createInjector({settings, adapter: FakeAdapter});
+    const injector = createInjector(settings);
 
     expect(injector.logger.stop).not.toHaveBeenCalled();
   });

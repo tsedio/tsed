@@ -27,7 +27,7 @@ class Product {
 
 const utils = PlatformTestSdk.create({
   rootDir,
-  platform: PlatformExpress,
+  adapter: PlatformExpress,
   server: Server
 });
 

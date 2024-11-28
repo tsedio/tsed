@@ -20,7 +20,7 @@ class TestMiddleware {
 
 const utils = PlatformTestSdk.create({
   rootDir,
-  platform: PlatformExpress,
+  adapter: PlatformExpress,
   server: Server,
   logger: {
     level: "off"

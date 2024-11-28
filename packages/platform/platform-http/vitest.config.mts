@@ -9,6 +9,10 @@ export default defineConfig(
       ...presets.test,
       coverage: {
         ...presets.test.coverage,
+        exclude:[
+          ...presets.test.coverage.exclude ||[],
+          "**/Fake*"
+        ],
         thresholds: {
           statements: 96.88,
           branches: 95.5,

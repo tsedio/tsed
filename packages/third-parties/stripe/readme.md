@@ -209,7 +209,7 @@ import {StripeWebhooksCtrl} from "./StripWebhookCtrl.js";
 import {Server} from "../Server.js";
 
 const utils = PlatformTestUtils.create({
-  platform: PlatformExpress,
+  adapter: PlatformExpress,
   server: Server,
   logger: {
     level: "info"

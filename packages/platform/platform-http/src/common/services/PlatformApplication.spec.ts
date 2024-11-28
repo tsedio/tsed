@@ -33,6 +33,7 @@ async function getPlatformApp() {
   ]);
   configuration().logger = {};
   platformApp.rawApp = createDriver() as any;
+  vi.spyOn(platformApp, "multer").mockReturnValue({} as never);
 
   return {platformApp, platformHandler};
 }

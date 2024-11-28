@@ -23,7 +23,6 @@ import type Https from "https";
 
 import {PlatformStaticsSettings} from "../config/interfaces/PlatformStaticsSettings.js";
 import {PlatformRouteDetails} from "../domain/PlatformRouteDetails.js";
-import {adapter as $adapter} from "../fn/adapter.js";
 import {application} from "../fn/application.js";
 import {Route} from "../interfaces/Route.js";
 import {Platform} from "../services/Platform.js";
@@ -41,38 +40,29 @@ import {resolveControllers} from "../utils/resolveControllers.js";
  * @platform
  */
 export class PlatformBuilder<App = TsED.Application> {
-  public static adapter: Type<PlatformAdapter<any>>;
-
-  readonly name: string = "";
   protected startedAt = new Date();
   protected current = new Date();
   readonly #rootModule: Type<any>;
-  readonly #adapter: PlatformAdapter<App>;
   #promise: Promise<this>;
   #servers: CreateServerReturn[];
   #listeners: (Http.Server | Https.Server | Http2.Http2Server)[] = [];
 
-  protected constructor(adapter: Type<PlatformAdapter<App>> | undefined, module: Type, settings: Partial<TsED.Configuration>) {
+  protected constructor(module: Type, settings: Partial<TsED.Configuration>) {
     this.#rootModule = module;
 
     const configuration = getConfiguration(settings, module);
-    const adapterKlass: Type<PlatformAdapter<App>> & {NAME: string} = adapter || (PlatformBuilder.adapter as any);
 
-    configuration.PLATFORM_NAME = adapterKlass.NAME;
-    this.name = adapterKlass.NAME;
+    createInjector(configuration);
 
-    createInjector({
-      adapter: adapterKlass,
-      settings: configuration
-    });
-
-    this.log(`Loading ${adapterKlass.NAME.toUpperCase()} platform adapter...`);
-
-    this.#adapter = injector().get<PlatformAdapter<App>>(PlatformAdapter)!;
+    this.log(`Loading ${this.name.toUpperCase()} platform adapter...`);
 
     this.createHttpServers();
 
     this.log("Injector created...");
+  }
+
+  get name() {
+    return this.adapter.NAME;
   }
 
   get rootModule(): any {
@@ -88,7 +78,7 @@ export class PlatformBuilder<App = TsED.Application> {
   }
 
   get adapter() {
-    return this.#adapter;
+    return injector().get(PlatformAdapter);
   }
 
   /**
@@ -138,8 +128,8 @@ export class PlatformBuilder<App = TsED.Application> {
     });
   }
 
-  static build<App = TsED.Application>(module: Type<any>, {adapter, ...settings}: PlatformBuilderSettings<App>) {
-    return new PlatformBuilder(adapter, module, settings);
+  static build<App = TsED.Application>(module: Type<any>, settings: PlatformBuilderSettings<App>) {
+    return new PlatformBuilder(module, settings);
   }
 
   /**
@@ -189,7 +179,7 @@ export class PlatformBuilder<App = TsED.Application> {
 
   public async runLifecycle() {
     // init adapter (Express, Koa, etc...)
-    await this.#adapter.onInit();
+    await this.adapter.onInit();
 
     setLoggerConfiguration();
 
@@ -200,11 +190,11 @@ export class PlatformBuilder<App = TsED.Application> {
 
     // add the context middleware to the application
     this.log("Mount app context");
-    this.#adapter.useContext();
+    this.adapter.useContext();
 
     // init routes (controllers, middlewares, etc...)
     this.log("Load routes");
-    await this.#adapter.beforeLoadRoutes();
+    await this.adapter.beforeLoadRoutes();
 
     if (this.rootModule.$beforeRoutesInit) {
       await this.rootModule.$beforeRoutesInit();
@@ -225,7 +215,7 @@ export class PlatformBuilder<App = TsED.Application> {
     await this.loadStatics("$afterRoutesInit");
     await this.callHook("$afterRoutesInit");
 
-    await this.#adapter.afterLoadRoutes();
+    await this.adapter.afterLoadRoutes();
 
     // map routers are loaded after all hooks because it contains all added middlewares/controllers in the virtual Ts.ED layers
     // This step will convert all Ts.ED layers to the platform layer (Express or Koa)
@@ -325,7 +315,7 @@ export class PlatformBuilder<App = TsED.Application> {
   protected mapRouters() {
     const layers = this.platform.getLayers();
 
-    this.#adapter.mapLayers(layers);
+    this.adapter.mapLayers(layers);
 
     const rawBody =
       constant("rawBody") ||
@@ -356,7 +346,7 @@ export class PlatformBuilder<App = TsED.Application> {
   }
 
   protected createHttpServers() {
-    this.#servers = this.#adapter.getServers();
+    this.#servers = this.adapter.getServers();
   }
 
   protected async listenServers(): Promise<void> {

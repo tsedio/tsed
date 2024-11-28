@@ -260,7 +260,7 @@ export class TestWS {
 describe("Socket integration", () => {
   beforeAll(
     PlatformTest.bootstrap(Server, {
-      platform: PlatformExpress,
+      adapter: PlatformExpress,
       listen: true,
       httpPort: 8999,
       imports: [TestWS]

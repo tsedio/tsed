@@ -71,7 +71,7 @@ class TestDiscriminator {
 
 const utils = PlatformTestSdk.create({
   rootDir,
-  platform: PlatformExpress,
+  adapter: PlatformExpress,
   server: Server
 });
 describe("Discriminator", () => {

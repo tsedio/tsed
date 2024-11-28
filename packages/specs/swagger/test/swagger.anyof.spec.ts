@@ -40,7 +40,7 @@ describe("Swagger AnyOf()", () => {
     let request: SuperTest.Agent;
     beforeEach(
       PlatformTest.bootstrap(Server, {
-        platform: PlatformExpress,
+        adapter: PlatformExpress,
         mount: {
           "/rest": [ListTasksController]
         }

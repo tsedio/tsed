@@ -5,12 +5,16 @@ import {
   adapter,
   application,
   createContext,
+  Platform,
   PlatformAdapter,
+  PlatformApplication,
   PlatformBuilder,
   PlatformContext,
   PlatformHandler,
   PlatformMulter,
   PlatformMulterSettings,
+  PlatformRequest,
+  PlatformResponse,
   PlatformStaticsOptions
 } from "@tsed/platform-http";
 import {PlatformHandlerMetadata, PlatformHandlerType, PlatformLayer} from "@tsed/platform-router";
@@ -57,14 +61,19 @@ declare global {
  * @express
  */
 export class PlatformExpress extends PlatformAdapter<Express.Application> {
-  static readonly NAME = "express";
+  readonly NAME = "express";
 
   readonly providers = [
     {
       token: PlatformHandler,
       useClass: PlatformExpressHandler
-    }
+    },
+    {token: PlatformResponse},
+    {token: PlatformRequest},
+    {token: PlatformApplication},
+    {token: Platform}
   ];
+
   #multer: typeof multer;
 
   constructor() {

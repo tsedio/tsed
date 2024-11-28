@@ -10,7 +10,7 @@ describe("TypeGraphQL", () => {
   let request: SuperTest.Agent;
   beforeAll(
     PlatformTest.bootstrap(Server, {
-      platform: PlatformExpress
+      adapter: PlatformExpress
     })
   );
   beforeAll(() => {

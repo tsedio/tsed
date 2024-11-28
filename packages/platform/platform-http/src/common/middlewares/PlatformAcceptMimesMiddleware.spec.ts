@@ -1,7 +1,7 @@
 import {catchError} from "@tsed/core";
 import {AcceptMime, EndpointMetadata, Get} from "@tsed/schema";
 
-import {PlatformTest} from "../../testing/PlatformTest.js";
+import {PlatformTest} from "../../testing/index.js";
 import {PlatformAcceptMimesMiddleware} from "./PlatformAcceptMimesMiddleware.js";
 
 describe("PlatformMimesMiddleware", () => {

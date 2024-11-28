@@ -1,13 +1,21 @@
 import {DITest, inject} from "@tsed/di";
+import {PlatformTest} from "@tsed/platform-http/testing";
 import {PlatformRouters} from "@tsed/platform-router";
 
 import {PlatformExpressHandler} from "./PlatformExpressHandler.js";
 
-vi.mock("@tsed/platform-http");
+vi.mock("@tsed/platform-http", async (importOriginal) => {
+  return {
+    ...(await importOriginal()),
+    PlatformHandler: class PlatformHandler {
+      onResponse() {}
+    }
+  };
+});
 
 describe("PlatformExpressHandler", () => {
   beforeEach(() =>
-    DITest.create({
+    PlatformTest.create({
       imports: [
         {
           token: PlatformRouters,

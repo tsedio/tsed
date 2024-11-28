@@ -34,7 +34,7 @@ class TestQueryParamsCtrl {
 
 const utils = PlatformTestSdk.create({
   rootDir,
-  platform: PlatformExpress,
+  adapter: PlatformExpress,
   server: CustomServer,
   logger: {
     level: "error"

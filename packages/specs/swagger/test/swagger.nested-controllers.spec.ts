@@ -47,7 +47,7 @@ describe("Swagger - nested controllers", () => {
     let request: SuperTest.Agent;
     beforeEach(
       PlatformTest.bootstrap(Server, {
-        platform: PlatformExpress,
+        adapter: PlatformExpress,
         mount: {
           "/rest": [DomainController, CommentController, FlaggedCommentController, PlatformController]
         }

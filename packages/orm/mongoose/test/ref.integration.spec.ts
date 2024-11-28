@@ -75,7 +75,7 @@ describe("Mongoose", () => {
   describe("Ref", () => {
     beforeEach(
       TestContainersMongo.bootstrap(Server, {
-        platform: PlatformExpress,
+        adapter: PlatformExpress,
         mount: {
           "/rest": [ProfilesCtrl]
         }

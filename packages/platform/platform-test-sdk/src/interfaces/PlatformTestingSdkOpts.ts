@@ -3,7 +3,7 @@ import {PlatformAdapter} from "@tsed/platform-http";
 
 export interface PlatformTestingSdkOpts {
   rootDir: string;
-  platform: Type<PlatformAdapter<any>>;
+  adapter: Type<PlatformAdapter<any>>;
   server: Type<any>;
 
   [key: string]: any;

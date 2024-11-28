@@ -1,8 +1,8 @@
-import {catchAsyncError, Type} from "@tsed/core";
+import {catchAsyncError} from "@tsed/core";
 import {Configuration, configuration, Controller, destroyInjector, Injectable, injector, Module} from "@tsed/di";
 import {$asyncEmit} from "@tsed/hooks";
 
-import {FakeAdapter} from "../../testing/FakeAdapter.js";
+import {FakeAdapter} from "../../testing/index.js";
 import {AfterInit} from "../interfaces/AfterInit.js";
 import {AfterListen} from "../interfaces/AfterListen.js";
 import {AfterRoutesInit} from "../interfaces/AfterRoutesInit.js";
@@ -11,6 +11,7 @@ import {BeforeListen} from "../interfaces/BeforeListen.js";
 import {BeforeRoutesInit} from "../interfaces/BeforeRoutesInit.js";
 import {OnReady} from "../interfaces/OnReady.js";
 import {Platform} from "../services/Platform.js";
+import {PlatformCustom} from "./__fixtures__/PlatformCustom.js";
 import {PlatformBuilder} from "./PlatformBuilder.js";
 
 vi.mock("@tsed/hooks", async (importOriginal) => {
@@ -24,41 +25,6 @@ vi.mock("@tsed/hooks", async (importOriginal) => {
 
 @Controller("/")
 class RestCtrl {}
-
-class PlatformCustom extends FakeAdapter {
-  static readonly NAME = "custom";
-  readonly providers = [
-    {
-      token: class Test {}
-    }
-  ];
-
-  static create(module: Type<any>, settings: Partial<TsED.Configuration> = {}) {
-    return PlatformBuilder.create<any>(module, {
-      ...settings,
-      adapter: PlatformCustom
-    });
-  }
-
-  static bootstrap(module: Type<any>, settings: Partial<TsED.Configuration> = {}) {
-    return PlatformBuilder.build(module, {
-      ...settings,
-      adapter: PlatformCustom
-    }).bootstrap();
-  }
-
-  afterLoadRoutes(): Promise<any> {
-    return Promise.resolve(undefined);
-  }
-
-  beforeLoadRoutes(): Promise<any> {
-    return Promise.resolve(undefined);
-  }
-
-  useContext(): any {}
-
-  useRouter(): any {}
-}
 
 @Controller("/")
 class HealthCtrl {}

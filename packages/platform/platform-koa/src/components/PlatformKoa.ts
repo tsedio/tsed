@@ -6,7 +6,9 @@ import {
   adapter,
   application,
   createContext,
+  Platform,
   PlatformAdapter,
+  PlatformApplication,
   PlatformBuilder,
   PlatformHandler,
   PlatformMulter,
@@ -56,8 +58,7 @@ KoaRouter.prototype.match = function match(...args: any[]) {
  * @koa
  */
 export class PlatformKoa extends PlatformAdapter<Koa> {
-  static readonly NAME = "koa";
-
+  readonly NAME = "koa";
   readonly providers = [
     {
       token: PlatformResponse,
@@ -70,7 +71,9 @@ export class PlatformKoa extends PlatformAdapter<Koa> {
     {
       token: PlatformHandler,
       useClass: PlatformKoaHandler
-    }
+    },
+    {token: PlatformApplication},
+    {token: Platform}
   ];
 
   /**

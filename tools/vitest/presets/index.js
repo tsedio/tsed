@@ -24,6 +24,7 @@ export const presets = defineConfig({
         "**/interfaces/**",
         "**/*fixtures.ts",
         "**/fixtures/**",
+        "**/__fixtures__/**",
         "**/*.spec.{ts,tsx}",
         "**/*.stories.{ts,tsx}",
         "**/*.d.ts",

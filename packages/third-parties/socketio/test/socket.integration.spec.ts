@@ -52,7 +52,7 @@ export class TestWS2 {
 describe("Socket integration: default path", () => {
   beforeAll(
     PlatformTest.bootstrap(Server, {
-      platform: PlatformExpress,
+      adapter: PlatformExpress,
       listen: true,
       httpPort: 8999,
       mount: {},
@@ -87,7 +87,7 @@ describe("Socket integration: custom path", () => {
 
   beforeAll(
     PlatformTest.bootstrap(Server, {
-      platform: PlatformExpress,
+      adapter: PlatformExpress,
       listen: true,
       httpPort: 8999,
       mount: {},
@@ -131,7 +131,7 @@ describe("Socket integration: custom path", () => {
 describe("Socket integration: Dynamic Namespace", () => {
   beforeAll(
     PlatformTest.bootstrap(Server, {
-      platform: PlatformExpress,
+      adapter: PlatformExpress,
       listen: true,
       httpPort: 8999,
       componentsScan: [],

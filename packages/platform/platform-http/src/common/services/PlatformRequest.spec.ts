@@ -1,6 +1,8 @@
 import {PlatformHandlerMetadata} from "@tsed/platform-router";
 
+import {FakeAdapter} from "../../testing/index.js";
 import {PlatformTest} from "../../testing/PlatformTest.js";
+import {PlatformAdapter} from "./PlatformAdapter.js";
 import {PlatformRequest} from "./PlatformRequest.js";
 
 function createRequest() {

@@ -88,7 +88,7 @@ describe("Mongoose", () => {
   describe("VirtualRef", () => {
     beforeEach(
       TestContainersMongo.bootstrap(Server, {
-        platform: PlatformExpress,
+        adapter: PlatformExpress,
         mount: {
           "/rest": [SpacesController]
         }

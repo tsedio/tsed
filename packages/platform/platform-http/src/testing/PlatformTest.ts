@@ -1,15 +1,14 @@
-import {Type} from "@tsed/core";
 import {DITest, injector, InjectorService} from "@tsed/di";
 import accepts from "accepts";
 import type {IncomingMessage, RequestListener, ServerResponse} from "http";
 
 import {PlatformBuilder} from "../common/builder/PlatformBuilder.js";
 import {PlatformContext, PlatformContextOptions} from "../common/domain/PlatformContext.js";
-import {adapter as $adapter} from "../common/fn/adapter.js";
 import {PlatformAdapter, PlatformBuilderSettings} from "../common/services/PlatformAdapter.js";
 import {PlatformApplication} from "../common/services/PlatformApplication.js";
 import {createInjector} from "../common/utils/createInjector.js";
 import {getConfiguration} from "../common/utils/getConfiguration.js";
+import {FakeAdapter} from "./FakeAdapter.js";
 import {FakeResponse} from "./FakeResponse.js";
 
 /**
@@ -17,6 +16,14 @@ import {FakeResponse} from "./FakeResponse.js";
  */
 export class PlatformTest extends DITest {
   static async create(settings: Partial<TsED.Configuration> = {}) {
+    settings.imports = [
+      {
+        token: PlatformAdapter,
+        useClass: FakeAdapter
+      },
+      ...(settings.imports || [])
+    ];
+
     PlatformTest.createInjector(getConfiguration(settings));
     await DITest.createContainer();
   }
@@ -25,9 +32,7 @@ export class PlatformTest extends DITest {
    * Create a new injector with the right default services
    */
   static createInjector(settings: any = {}): InjectorService {
-    return createInjector({
-      settings: DITest.configure({httpPort: false, httpsPort: false, ...settings})
-    });
+    return createInjector(DITest.configure({httpPort: false, httpsPort: false, ...settings}));
   }
 
   /**
@@ -51,22 +56,13 @@ export class PlatformTest extends DITest {
   ): () => Promise<void> {
     return async function before(): Promise<void> {
       let instance: PlatformBuilder;
-      const adapter: Type<PlatformAdapter> = $adapter(settings.platform || settings.adapter);
-
-      /* istanbul ignore next */
-      if (!adapter) {
-        throw new Error(
-          "Platform adapter is not specified. Have you added at least `import @tsed/platform-express` (or equivalent) on your Server.ts ?"
-        );
-      }
-
       // @ts-ignore
       settings = DITest.configure(settings);
-      settings.adapter = adapter as any;
 
       const configuration = getConfiguration(settings, mod);
 
       instance = await PlatformBuilder.build(mod, configuration).bootstrap();
+
       await instance.listen(!!listen);
     };
   }

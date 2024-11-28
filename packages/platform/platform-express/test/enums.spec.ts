@@ -15,7 +15,7 @@ enums(Env).label("Env");
 
 const utils = PlatformTestSdk.create({
   rootDir,
-  platform: PlatformExpress,
+  adapter: PlatformExpress,
   server: Server
 });
 
