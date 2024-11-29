@@ -1,7 +1,7 @@
 import {Type} from "@tsed/core";
 import {refValue} from "@tsed/di";
 
-import {PlatformAdapter} from "../services/PlatformAdapter.js";
+import type {PlatformAdapter} from "../services/PlatformAdapter.js";
 
 const ADAPTER = "platform.adapter";
 

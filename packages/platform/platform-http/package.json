@@ -21,7 +21,7 @@
   },
   "scripts": {
     "build": "yarn barrels && yarn build:ts",
-    "barrels": "barrels -e \"getConfiguration\"",
+    "barrels": "barrels",
     "test": "vitest run",
     "build:ts": "tsc --build tsconfig.json",
     "test:ci": "vitest run --coverage.thresholds.autoUpdate=true"

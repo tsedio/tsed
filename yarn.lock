@@ -14322,14 +14322,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"dompurify@npm:^3.0.5":
-  version: 3.1.7
-  resolution: "dompurify@npm:3.1.7"
-  checksum: 10/dc637a064306f83cf911caa267ffe1f973552047602020e3b6723c90f67962813edf8a65a0b62e8c9bc13fcd173a2691212a3719bc116226967f46bcd6181277
-  languageName: node
-  linkType: hard
-
-"dompurify@npm:^3.1.4":
+"dompurify@npm:^3.0.5, dompurify@npm:^3.1.4":
   version: 3.1.7
   resolution: "dompurify@npm:3.1.7"
   checksum: 10/dc637a064306f83cf911caa267ffe1f973552047602020e3b6723c90f67962813edf8a65a0b62e8c9bc13fcd173a2691212a3719bc116226967f46bcd6181277
