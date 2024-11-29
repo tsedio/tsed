@@ -2,7 +2,7 @@ import {dirname, join, relative} from "node:path";
 
 import {findPackages, MonoRepo} from "@tsed/monorepo-utils";
 import fs from "fs-extra";
-import globby from "globby";
+import {globby} from "globby";
 import cloneDeep from "lodash/cloneDeep.js";
 import get from "lodash/get.js";
 import omit from "lodash/omit.js";
@@ -112,11 +112,11 @@ async function main() {
           tsCopy.include.push("vite.config.mts");
         }
 
-        await fs.writeJSON(tsConfigBuildSpecPath, tsCopy, {spaces: 2});
+        // await fs.writeJSON(tsConfigBuildSpecPath, tsCopy, {spaces: 2});
       }
 
-      await fs.writeJson(tsConfigPath, tsConfig, {spaces: 2});
-      await fs.copy(tsConfigTemplateEsmPath, tsConfigBuildEsmPath);
+      // await fs.writeJson(tsConfigPath, tsConfig, {spaces: 2});
+      // await fs.copy(tsConfigTemplateEsmPath, tsConfigBuildEsmPath);
       await fs.copy(npmIgnoreTemplatePath, npmignore);
 
       tsConfigRoot.references.push({
@@ -168,14 +168,21 @@ async function main() {
 
       // pkg.pkg.main = pkg.pkg.main.replace("cjs/", "esm/");
 
-      pkg.pkg.type = "module";
-      pkg.pkg.source = "./src/index.ts";
-      pkg.pkg.main = "./lib/esm/index.js";
-      pkg.pkg.module = "./lib/esm/index.js";
-      pkg.pkg.typings = "./lib/types/index.d.ts";
-      pkg.pkg.exports = {
-        ".": omit(get(pkg, 'pkg.exports["."]', {}), ["require"])
-      };
+      // pkg.pkg.type = "module";
+      // pkg.pkg.source = "./src/index.ts";
+      // pkg.pkg.main = "./lib/esm/index.js";
+      // pkg.pkg.module = "./lib/esm/index.js";
+      // pkg.pkg.typings = "./lib/types/index.d.ts";
+
+      const exports = get(pkg, "pkg.exports");
+      if (exports["."]) {
+        exports["."] = {
+          "@tsed/source": "./src/index.ts",
+          ...exports["."]
+        };
+
+        pkg.pkg.exports = exports;
+      }
 
       await fs.writeJson(pkg.path, pkg.pkg, {spaces: 2});
       try {
@@ -184,7 +191,7 @@ async function main() {
     }
   }
 
-  await fs.writeJson(tsConfigRootPath, tsConfigRoot, {spaces: 2});
+  // await fs.writeJson(tsConfigRootPath, tsConfigRoot, {spaces: 2});
 }
 
 main().catch((e) => {

@@ -10,6 +10,7 @@
   "browser": "./lib/browser/schema-formio.umd.min.js",
   "exports": {
     ".": {
+      "@tsed/source": "./src/index.ts",
       "types": "./lib/types/index.d.ts",
       "browser": "./lib/browser/schema-formio.umd.min.js",
       "import": "./lib/esm/index.js",
