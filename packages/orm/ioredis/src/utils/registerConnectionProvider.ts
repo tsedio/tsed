@@ -9,15 +9,19 @@ import {ioRedisStore} from "../domain/IORedisStore.js";
 
 export interface CreateConnectionProviderProps {
   token: TokenProvider;
+  /**
+   * @deprecated use `token` instead of `provide`
+   */
+  provide?: TokenProvider;
   name?: string;
 }
 
 export const IOREDIS_CONNECTIONS = Symbol.for("ioredis:connections");
 export type IORedis = Redis & {name: string};
 
-export function registerConnectionProvider({token, name = "default"}: CreateConnectionProviderProps) {
+export function registerConnectionProvider({token, provide, name = "default"}: CreateConnectionProviderProps) {
   registerProvider({
-    token,
+    token: provide || token,
     type: IOREDIS_CONNECTIONS,
     connectionName: name,
     deps: [Configuration, Logger],

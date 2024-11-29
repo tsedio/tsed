@@ -59,7 +59,7 @@ export const REDIS_CONNECTION = Symbol.for("REDIS_CONNECTION");
 export type REDIS_CONNECTION = Redis;
 
 registerConnectionProvider({
-  provide: REDIS_CONNECTION,
+  token: REDIS_CONNECTION,
   name: "default"
 });
 ```
