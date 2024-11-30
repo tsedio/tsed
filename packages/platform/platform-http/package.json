@@ -80,8 +80,7 @@
     "@tsed/exceptions": "workspace:*",
     "@tsed/hooks": "workspace:*",
     "@tsed/json-mapper": "workspace:*",
-    "@tsed/logger": "^6.7.8",
-    "@tsed/logger-file": "^6.7.8",
+    "@tsed/logger": "^7.0.1",
     "@tsed/platform-exceptions": "workspace:*",
     "@tsed/platform-middlewares": "workspace:*",
     "@tsed/platform-params": "workspace:*",
@@ -104,13 +103,10 @@
     "vitest": "2.1.2"
   },
   "peerDependencies": {
-    "@tsed/logger": ">=6.7.5"
+    "@tsed/logger": ">=7.0.1"
   },
   "peerDependenciesMeta": {
     "@tsed/logger": {
-      "optional": false
-    },
-    "@tsed/logger-file": {
       "optional": false
     }
   }

@@ -33,7 +33,7 @@
     "@tsed/barrels": "workspace:*",
     "@tsed/core": "workspace:*",
     "@tsed/hooks": "workspace:*",
-    "@tsed/logger": "^6.7.8",
+    "@tsed/logger": "^7.0.1",
     "@tsed/schema": "workspace:*",
     "@tsed/typescript": "workspace:*",
     "cross-env": "7.0.3",
@@ -45,7 +45,7 @@
   "peerDependencies": {
     "@tsed/core": "8.0.3",
     "@tsed/hooks": "8.0.3",
-    "@tsed/logger": ">=6.7.5",
+    "@tsed/logger": ">=7.0.1",
     "@tsed/schema": "8.0.3"
   },
   "peerDependenciesMeta": {

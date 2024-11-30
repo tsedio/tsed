@@ -47,7 +47,7 @@
   "peerDependencies": {
     "@tsed/core": "8.0.3",
     "@tsed/di": "8.0.3",
-    "@tsed/logger": ">=6.7.5",
+    "@tsed/logger": ">=7.0.1",
     "@tsed/oidc-provider": "8.0.3",
     "oidc-provider": ">=8.0.0"
   },

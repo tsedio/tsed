@@ -93,7 +93,7 @@
     "@tsed/core": "8.0.3",
     "@tsed/di": "8.0.3",
     "@tsed/json-mapper": "8.0.3",
-    "@tsed/logger": ">=6.7.5",
+    "@tsed/logger": ">=7.0.1",
     "@tsed/openspec": "8.0.3",
     "@tsed/platform-http": "8.0.3",
     "@tsed/platform-views": "8.0.3",

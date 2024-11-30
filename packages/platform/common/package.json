@@ -78,8 +78,8 @@
     "typescript": "5.4.5"
   },
   "peerDependencies": {
-    "@tsed/logger": ">=6.7.5",
-    "@tsed/logger-file": ">=6.7.5"
+    "@tsed/logger": ">=7.0.1",
+    "@tsed/logger-file": ">=7.0.1"
   },
   "peerDependenciesMeta": {
     "@tsed/logger": {

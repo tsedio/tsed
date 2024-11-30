@@ -54,7 +54,7 @@
   "peerDependencies": {
     "@tsed/di": "8.0.3",
     "@tsed/json-mapper": "8.0.3",
-    "@tsed/logger": ">=6.7.5",
+    "@tsed/logger": ">=7.0.1",
     "@tsed/platform-middlewares": "8.0.3",
     "@tsed/schema": "8.0.3",
     "socket.io": ">=4.0.0"
