@@ -20,7 +20,7 @@
   <span>&nbsp;&nbsp;•&nbsp;&nbsp;</span>
   <a href="https://tsed.io/getting-started.html">Getting started</a>
   <span>&nbsp;&nbsp;•&nbsp;&nbsp;</span>
-  <a href="https://api.tsed.io/rest/slack/tsedio/tsed">Slack</a>
+  <a href="https://slack.tsed.io">Slack</a>
   <span>&nbsp;&nbsp;•&nbsp;&nbsp;</span>
   <a href="https://twitter.com/TsED_io">Twitter</a>
 </div>

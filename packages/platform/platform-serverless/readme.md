@@ -20,7 +20,7 @@
   <span>&nbsp;&nbsp;•&nbsp;&nbsp;</span>
   <a href="https://tsed.io/getting-started/">Getting started</a>
   <span>&nbsp;&nbsp;•&nbsp;&nbsp;</span>
-  <a href="https://api.tsed.io/rest/slack/tsedio/tsed">Slack</a>
+  <a href="https://slack.tsed.io">Slack</a>
   <span>&nbsp;&nbsp;•&nbsp;&nbsp;</span>
   <a href="https://twitter.com/TsED_io">Twitter</a>
 </div>
@@ -148,7 +148,7 @@ export class TimeslotsLambda {
 
   @Get("/")
   @Summary("Return a list of timeslots")
-  @Returns(200, Array).Of(TimeslotModel)
+  @(Returns(200, Array).Of(TimeslotModel))
   get(@QueryParams("date_start") dateStart: Date, @QueryParams("date_end") dateEnd: Date) {
     return this.timeslotsService.find({
       dateStart,

@@ -21,7 +21,7 @@
   <span>&nbsp;&nbsp;•&nbsp;&nbsp;</span>
   <a href="https://tsed.io/tutorials/graphql.html">TypeGraphQL</a>
   <span>&nbsp;&nbsp;•&nbsp;&nbsp;</span>
-  <a href="https://api.tsed.io/rest/slack/tsedio/tsed">Slack</a>
+  <a href="https://slack.tsed.io">Slack</a>
   <span>&nbsp;&nbsp;•&nbsp;&nbsp;</span>
   <a href="https://twitter.com/TsED_io">Twitter</a>
 </div>

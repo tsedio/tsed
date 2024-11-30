@@ -21,7 +21,7 @@
   <span>&nbsp;&nbsp;•&nbsp;&nbsp;</span>
   <a href="https://tsed.dev/getting-started/">Getting started</a>
   <span>&nbsp;&nbsp;•&nbsp;&nbsp;</span>
-  <a href="https://api.tsed.io/rest/slack/tsedio/tsed">Slack</a>
+  <a href="https://slack.tsed.io">Slack</a>
   <span>&nbsp;&nbsp;•&nbsp;&nbsp;</span>
   <a href="https://twitter.com/TsED_io">Twitter</a>
 </div>
@@ -59,7 +59,7 @@ It provides a lot of decorators and guideline to make your code more readable an
 - [Documentation](https://tsed.dev)
 - [Guideline](./CONTRIBUTING.md)
 - [Tutorials](https://tsed.dev/tutorials/)
-- [Community Slack](https://api.tsed.io/rest/slack/tsedio/tsed)
+- [Community Slack](https://slack.tsed.io)
 - [Support us](https://github.com/sponsors/romakita)
 - [Team](https://tsed.dev/team.html)
 
