@@ -1,4 +1,4 @@
-import {classOf, decorateMethodsOf, DecoratorParameters, decoratorTypeOf, DecoratorTypes, Store, Type} from "@tsed/core";
+import {classOf, decorateMethodsOf, DecoratorParameters, decoratorTypeOf, DecoratorTypes, nameOf, Store, Type} from "@tsed/core";
 
 import {DI_INTERCEPTOR_OPTIONS, DI_INVOKE_OPTIONS} from "../constants/constants.js";
 import {inject} from "../fn/inject.js";
@@ -19,7 +19,7 @@ export function bindIntercept(target: any, propertyKey: string | symbol, token: 
 
   Store.fromMethod(klass, propertyKey).set(DI_INTERCEPTOR_OPTIONS, options);
 
-  descriptor!.value = function (...args: any[]) {
+  function newMethod(...args: any[]) {
     const next = (err?: Error) => {
       if (!err) {
         return originalMethod.apply(this, args);
@@ -50,7 +50,12 @@ export function bindIntercept(target: any, propertyKey: string | symbol, token: 
       },
       next
     );
-  };
+  }
+
+  descriptor!.value = newMethod;
+
+  Reflect.deleteProperty(klass.prototype, propertyKey);
+  Reflect.defineProperty(klass.prototype, propertyKey, descriptor!);
 
   return descriptor;
 }

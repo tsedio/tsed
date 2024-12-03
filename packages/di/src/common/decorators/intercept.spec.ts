@@ -3,7 +3,6 @@ import {catchError} from "@tsed/core";
 import {DITest} from "../../node/index.js";
 import {InterceptorContext} from "../interfaces/InterceptorContext.js";
 import {InterceptorMethods} from "../interfaces/InterceptorMethods.js";
-import {InjectorService} from "../services/InjectorService.js";
 import {getInterceptorOptions, Intercept} from "./intercept.js";
 import {Interceptor} from "./interceptor.js";
 import {Service} from "./service.js";
@@ -14,7 +13,17 @@ class MyInterceptor implements InterceptorMethods {
     const r = typeof context.args[0] === "string" ? undefined : new Error(`Error message`);
     const retValue = context.next(r);
 
-    return `${retValue} - ${context.options || ""} - intercepted`;
+    return `${retValue} - ${context.options || ""} - intercepted 1`;
+  }
+}
+
+@Interceptor()
+class MyInterceptor2 implements InterceptorMethods {
+  intercept(context: InterceptorContext<any>) {
+    const r = typeof context.args[0] === "string" ? undefined : new Error(`Error message`);
+    const retValue = context.next(r);
+
+    return `${retValue} - ${context.options || ""} - intercepted 2`;
   }
 }
 
@@ -23,6 +32,18 @@ class ServiceTest {
   @Intercept(MyInterceptor, "options data")
   exec(param: string) {
     return `Original data - ${param}`;
+  }
+
+  @Intercept(MyInterceptor, "options data")
+  @Intercept(MyInterceptor2, "options data")
+  chained(param: string) {
+    return `Chained - ${param}`;
+  }
+
+  @Intercept(MyInterceptor2, "options data")
+  @Intercept(MyInterceptor, "options data")
+  reverseChained(param: string) {
+    return `Chained - ${param}`;
   }
 }
 
@@ -49,7 +70,31 @@ describe("@Intercept", () => {
       expect(getInterceptorOptions(ServiceTest, "exec")).toEqual("options data");
 
       // THEN
-      expect(result).toEqual("Original data - param data - options data - intercepted");
+      expect(result).toEqual("Original data - param data - options data - intercepted 1");
+    });
+    it("should chained interceptor", async () => {
+      // GIVEN
+      const serviceTest = await DITest.invoke<ServiceTest>(ServiceTest)!;
+
+      // WHEN
+      const result = serviceTest.chained("param data");
+
+      expect(getInterceptorOptions(ServiceTest, "chained")).toEqual("options data");
+
+      // THEN
+      expect(result).toEqual("Chained - param data - options data - intercepted 2 - options data - intercepted 1");
+    });
+    it("should chained interceptor (reversed)", async () => {
+      // GIVEN
+      const serviceTest = await DITest.invoke<ServiceTest>(ServiceTest)!;
+
+      // WHEN
+      const result = serviceTest.reverseChained("param data");
+
+      expect(getInterceptorOptions(ServiceTest, "reverseChained")).toEqual("options data");
+
+      // THEN
+      expect(result).toEqual("Chained - param data - options data - intercepted 1 - options data - intercepted 2");
     });
     it("should intercept the method and mock interceptor", async () => {
       // GIVEN
@@ -88,7 +133,7 @@ describe("@Intercept", () => {
       const result = serviceTest.exec("param data");
 
       // THEN
-      expect(result).toEqual("Original data - param data - options data - intercepted");
+      expect(result).toEqual("Original data - param data - options data - intercepted 1");
     });
     it("should intercept the method and throw error", async () => {
       // GIVEN
