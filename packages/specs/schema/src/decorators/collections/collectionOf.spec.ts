@@ -1,7 +1,8 @@
 import {catchError} from "@tsed/core";
 
 import {JsonEntityStore} from "../../domain/JsonEntityStore.js";
-import {array, map, string} from "../../utils/from.js";
+import {array, map} from "../../fn/collection.js";
+import {string} from "../../fn/string.js";
 import {getJsonSchema} from "../../utils/getJsonSchema.js";
 import {Property} from "../common/property.js";
 import {Schema} from "../common/schema.js";

@@ -1,4 +1,4 @@
-import {enums} from "../../utils/from.js";
+import {enums} from "../../fn/enums.js";
 import {getJsonSchema} from "../../utils/getJsonSchema.js";
 import {Enum} from "./enum.js";
 
