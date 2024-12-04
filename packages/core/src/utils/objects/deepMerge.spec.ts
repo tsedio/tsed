@@ -52,6 +52,9 @@ describe("deepMerge", () => {
         });
       });
       it("should merge data (4)", () => {
+        const alter = vi.fn().mockImplementation((key, value) => {
+          return value;
+        });
         expect(
           deepMerge(
             {
@@ -59,11 +62,16 @@ describe("deepMerge", () => {
             },
             {
               prop: ""
+            },
+            {
+              alter
             }
           )
         ).toEqual({
           prop: {}
         });
+
+        expect(alter).toHaveBeenCalledWith("prop", {});
       });
       it("should merge data and prevent prototype pollution", () => {
         const obj = JSON.parse('{"__proto__": {"a": "vulnerable"}, "security":  [{"1": "o"}, {"2": "o1"}]}');

@@ -11,6 +11,7 @@ export interface DeepMergeOptions {
   reducers?: Record<string, DeepMergeReducerCB>;
   parentKey?: string;
   cleanUndefinedProps?: boolean;
+  alter?: (key: string, value: any) => any;
 }
 
 export function mergeReducerBuilder(cb: DeepMergeComparatorCB) {
@@ -77,7 +78,7 @@ export function deepMerge<T = any, C = any>(source: T & any, obj: C & any, optio
       return out;
     }
 
-    out[key] = value;
+    out[key] = options.alter?.(key, value) ?? value;
 
     return out;
   }, newObj);
