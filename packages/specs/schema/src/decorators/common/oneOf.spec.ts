@@ -1,5 +1,6 @@
+import {number} from "../../fn/number.js";
+import {string} from "../../fn/string.js";
 import {AllOf, getJsonSchema, getSpec, In, OneOf, OperationPath, Path, Property, SpecTypes} from "../../index.js";
-import {number, string} from "../../utils/from.js";
 
 describe("@OneOf", () => {
   it("should declare return schema", () => {

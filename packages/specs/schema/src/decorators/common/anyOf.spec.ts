@@ -1,6 +1,7 @@
-import {AllOf, getJsonSchema, getSpec, In, OneOf, OperationPath, Path, Property, SpecTypes} from "../../index.js";
 import {JsonEntityStore} from "../../domain/JsonEntityStore.js";
-import {number, string} from "../../utils/from.js";
+import {number} from "../../fn/number.js";
+import {string} from "../../fn/string.js";
+import {AllOf, getJsonSchema, getSpec, In, OneOf, OperationPath, Path, Property, SpecTypes} from "../../index.js";
 import {AnyOf} from "./anyOf.js";
 
 describe("@AnyOf", () => {

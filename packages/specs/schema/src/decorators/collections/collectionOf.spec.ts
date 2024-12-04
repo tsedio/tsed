@@ -1,18 +1,20 @@
 import {catchError} from "@tsed/core";
+
 import {JsonEntityStore} from "../../domain/JsonEntityStore.js";
+import {array, map} from "../../fn/collection.js";
+import {string} from "../../fn/string.js";
 import {getJsonSchema} from "../../utils/getJsonSchema.js";
 import {Property} from "../common/property.js";
+import {Schema} from "../common/schema.js";
 import {In} from "../operations/in.js";
 import {OperationPath} from "../operations/operationPath.js";
 import {CollectionContains} from "./collectionContains.js";
 import {ArrayOf, CollectionOf, MapOf} from "./collectionOf.js";
 import {MaxItems} from "./maxItems.js";
 import {MinItems} from "./minItems.js";
-import {Schema} from "../common/schema.js";
-import {map, array, string} from "../../utils/from.js";
 
 describe("@CollectionOf", () => {
-  it("should declare a collection (Array of)", () => {
+  it("should declare a collection and catch error (Array of)", () => {
     // WHEN
     const error = catchError(() => {
       class Model {
@@ -170,7 +172,7 @@ describe("@CollectionOf", () => {
   it("should declare a collection (Map of)", () => {
     // WHEN
     class Model {
-      @CollectionOf(Number).MinProperties(2).MaxProperties(5)
+      @(CollectionOf(Number).MinProperties(2).MaxProperties(5))
       num: Map<string, number>;
     }
 
@@ -217,7 +219,7 @@ describe("@CollectionOf", () => {
   it("should declare collection with additional props", () => {
     // WHEN
     class Model {
-      @CollectionOf(String).MinItems(0).MaxItems(10).UniqueItems()
+      @(CollectionOf(String).MinItems(0).MaxItems(10).UniqueItems())
       words: string[];
     }
 
@@ -242,7 +244,7 @@ describe("@CollectionOf", () => {
   it("should declare collection with additional props and contains", () => {
     // WHEN
     class Model {
-      @CollectionContains(String).MinItems(0).MaxItems(10)
+      @(CollectionContains(String).MinItems(0).MaxItems(10))
       words: string[];
     }
 
@@ -302,7 +304,7 @@ describe("@MapOf", () => {
   it("should declare a collection (Map of)", () => {
     // WHEN
     class Model {
-      @MapOf(Number).MinProperties(2).MaxProperties(5)
+      @(MapOf(Number).MinProperties(2).MaxProperties(5))
       num: MapCollection<string, number>;
     }
 

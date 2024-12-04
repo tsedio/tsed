@@ -3,7 +3,6 @@ import {pascalCase} from "change-case";
 import type {JsonSchema} from "../domain/JsonSchema.js";
 import {SpecTypes} from "../domain/SpecTypes.js";
 import {JsonSchemaOptions} from "../interfaces/JsonSchemaOptions.js";
-import {anyOf} from "./from.js";
 
 /**
  * ignore

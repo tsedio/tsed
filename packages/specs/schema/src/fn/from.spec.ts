@@ -1,27 +1,19 @@
-import {CollectionOf} from "../decorators/collections/collectionOf.js";
-import {Property} from "../decorators/common/property.js";
-import {
-  allOf,
-  any,
-  anyOf,
-  array,
-  boolean,
-  date,
-  datetime,
-  email,
-  from,
-  integer,
-  lazyRef,
-  map,
-  number,
-  object,
-  set,
-  string,
-  time,
-  uri,
-  url
-} from "./from.js";
 import "../index.js";
+
+import {allOf} from "./allOf.js";
+import {any} from "./any.js";
+import {anyOf} from "./anyOf.js";
+import {boolean} from "./boolean.js";
+import {array, map, set} from "./collection.js";
+import {date, datetime, time} from "./date.js";
+import {email} from "./email.js";
+import {from} from "./from.js";
+import {integer} from "./integer.js";
+import {number} from "./number.js";
+import {object} from "./object.js";
+import {string} from "./string.js";
+import {uri} from "./uri.js";
+import {url} from "./url.js";
 
 describe("from", () => {
   it("should declare a model", () => {
@@ -176,66 +168,6 @@ describe("from", () => {
         }
       },
       required: ["name", "message", "status"],
-      type: "object"
-    });
-  });
-  it("should declare a lazyRef", () => {
-    const schema1 = object({
-      owners: array().items(lazyRef(() => Owner))
-    });
-
-    class Post {
-      @Property()
-      id: string;
-
-      @Property(() => Owner)
-      owner: typeof Owner;
-    }
-
-    class Owner {
-      @Property()
-      id: string;
-
-      @CollectionOf(() => Post)
-      posts: Post[];
-    }
-
-    expect(schema1.toJSON()).toEqual({
-      definitions: {
-        Owner: {
-          properties: {
-            id: {
-              type: "string"
-            },
-            posts: {
-              items: {
-                $ref: "#/definitions/Post"
-              },
-              type: "array"
-            }
-          },
-          type: "object"
-        },
-        Post: {
-          properties: {
-            id: {
-              type: "string"
-            },
-            owner: {
-              $ref: "#/definitions/Owner"
-            }
-          },
-          type: "object"
-        }
-      },
-      properties: {
-        owners: {
-          items: {
-            $ref: "#/definitions/Owner"
-          },
-          type: "array"
-        }
-      },
       type: "object"
     });
   });

@@ -1,6 +1,7 @@
 import {JsonEntityStore} from "../../domain/JsonEntityStore.js";
 import {SpecTypes} from "../../domain/SpecTypes.js";
-import {number, string} from "../../utils/from.js";
+import {number} from "../../fn/number.js";
+import {string} from "../../fn/string.js";
 import {getJsonSchema} from "../../utils/getJsonSchema.js";
 import {getSpec} from "../../utils/getSpec.js";
 import {In} from "../operations/in.js";

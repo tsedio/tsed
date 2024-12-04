@@ -1,6 +1,6 @@
 import {isObject, Type} from "@tsed/core";
 import {JsonEntityStore} from "../../domain/JsonEntityStore.js";
-import {string} from "../../utils/from.js";
+import {string} from "../../fn/string.js";
 import {GenericValue} from "../../utils/generics.js";
 
 /**

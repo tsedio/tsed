@@ -1,8 +1,8 @@
 {
   "flow": "gflow",
   "remote": "origin",
-  "develop": "production",
-  "production": "production",
+  "develop": "v7",
+  "production": "v7",
   "ignores": [],
   "syncAfterFinish": false,
   "postFinish": "",
