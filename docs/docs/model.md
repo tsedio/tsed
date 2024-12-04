@@ -496,6 +496,97 @@ class MyController {
 }
 ```
 
+### LabelledAs <Badge text="7.85.0+"/>
+
+The @@LabelledAs@@ decorator is used to set a label to decorated property.
+This label will be used to generate a reference for the schema related to the decorated property.
+
+```typescript
+import {LabelledAs} from "@tsed/schema";
+
+enum Test {
+  VALUE = "VALUE",
+  TEST = "TEST"
+}
+
+class Model {
+  @Enum(Test)
+  @MaxItems(3)
+  @LabelledAs("ModelPropItem")
+  prop: Test[];
+}
+```
+
+The generated schema will be:
+
+```json
+{
+  "properties": {
+    "prop": {
+      "type": "array",
+      "maxItems": 3,
+      "items": {
+        "$ref": "#/components/schemas/ModelPropItem"
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "ModelPropItem": {
+        "type": "array",
+        "items": {
+          "enum": ["VALUE", "TEST"],
+          "type": "string"
+        },
+        "maxItems": 3
+      }
+    }
+  }
+}
+```
+
+To apply the label over the array schema add extra `collection` options as second parameter:
+
+```ts
+import {LabelledAs} from "@tsed/schema";
+
+enum Test {
+  VALUE = "VALUE",
+  TEST = "TEST"
+}
+
+class Model {
+  @Enum(Test)
+  @MaxItems(3)
+  @LabelledAs("ModelPropItems", "collection")
+  prop: Test[];
+}
+```
+
+The generated schema will be:
+
+```json
+{
+  "properties": {
+    "prop": {
+      "$ref": "#/components/schemas/ModelPropItems"
+    }
+  },
+  "components": {
+    "schemas": {
+      "ModelPropItems": {
+        "type": "array",
+        "maxItems": 3,
+        "items": {
+          "enum": ["VALUE", "TEST"],
+          "type": "string"
+        }
+      }
+    }
+  }
+}
+```
+
 ### Set label to an enum <Badge text="7.17.0+"/>
 
 With OpenSpec 3 it's now possible to create shared enum for many models in `components.schemas` instead of having its inlined values in
