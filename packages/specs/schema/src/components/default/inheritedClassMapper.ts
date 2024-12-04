@@ -3,6 +3,23 @@ import {JsonSchemaOptions} from "../../interfaces/JsonSchemaOptions.js";
 import {execMapper, registerJsonSchemaMapper} from "../../registries/JsonSchemaMapperContainer.js";
 import {getInheritedStores} from "../../utils/getInheritedStores.js";
 
+function alterMerge(_: string, obj: any) {
+  if (obj?.type && obj?.$ref) {
+    const {$ref, ...schema} = obj;
+
+    obj = {
+      allOf: [
+        {
+          $ref
+        },
+        schema
+      ]
+    };
+  }
+
+  return obj;
+}
+
 /**
  * @ignore
  */
@@ -11,10 +28,9 @@ export function inheritedClassMapper(obj: any, {target, ...options}: JsonSchemaO
 
   if (stores.length) {
     const schema = stores.reduce((obj, [, store]) => {
-      return deepMerge(obj, execMapper("schema", [store.schema], options));
+      return deepMerge(obj, execMapper("schema", [store.schema], options), {alter: alterMerge});
     }, {});
-
-    obj = deepMerge(schema, obj);
+    obj = deepMerge(schema, obj, {alter: alterMerge});
   }
 
   return obj;
