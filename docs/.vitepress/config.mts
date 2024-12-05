@@ -11,7 +11,7 @@ export default defineConfig({
   lastUpdated: true,
   description: "Ts.ED offers a flexible and easy-to-learn structure designed to enhance the developer experience. It provides decorators, guidelines, and supports Node.js, Bun.js, Express, Koa, CLI, and serverless architectures (e.g., AWS).",
   sitemap: {
-    hostname: "https://tsed.io"
+    hostname: "https://tsed.dev"
   },
 
   head: [
@@ -33,7 +33,7 @@ export default defineConfig({
       {async: "", src: "https://www.googletagmanager.com/gtag/js?id=G-3M3Q4QME6H&cx=c&_slc=1"}
     ],
     [
-      'script',
+      "script",
       {},
       `window.dataLayer = window.dataLayer || [];
       function gtag(){dataLayer.push(arguments);}
@@ -594,5 +594,16 @@ export default defineConfig({
     config: (md) => {
       md.use(apiAnchor);
     }
+  },
+  transformPageData(pageData) {
+    const canonicalUrl = `https://tsed.dev/${pageData.relativePath}`
+      .replace(/index\.md$/, "")
+      .replace(/\.md$/, ".html");
+
+    pageData.frontmatter.head ??= [];
+    pageData.frontmatter.head.push([
+      "link",
+      {rel: "canonical", href: canonicalUrl}
+    ]);
   }
 });
