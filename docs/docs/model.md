@@ -499,7 +499,12 @@ class MyController {
 ### LabelledAs <Badge text="7.85.0+"/>
 
 The @@LabelledAs@@ decorator is used to set a label to decorated property.
-This label will be used to generate a reference for the schema related to the decorated property.
+
+This label will be used to generate a reference for the schema related to the decorated property. This is particularly useful when:
+
+- You want to create reusable schema components
+- You need to maintain consistent schema references across your API
+- You want to improve the readability of your generated swagger.json
 
 ```typescript
 import {LabelledAs} from "@tsed/schema";

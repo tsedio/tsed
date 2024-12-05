@@ -30,7 +30,8 @@ export function inheritedClassMapper(obj: any, {target, ...options}: JsonSchemaO
     const schema = stores.reduce((obj, [, store]) => {
       return deepMerge(obj, execMapper("schema", [store.schema], options), {alter: alterMerge});
     }, {});
-    obj = deepMerge(schema, obj, {alter: alterMerge});
+
+    return deepMerge(schema, obj, {alter: alterMerge});
   }
 
   return obj;

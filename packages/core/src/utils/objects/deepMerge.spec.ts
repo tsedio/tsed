@@ -73,6 +73,25 @@ describe("deepMerge", () => {
 
         expect(alter).toHaveBeenCalledWith("prop", {});
       });
+      it("should alter nested properties", () => {
+        const alter = vi.fn().mockImplementation((key, value) => {
+          return key === "nested" ? {...value, extra: true} : value;
+        });
+        expect(
+          deepMerge(
+            {
+              prop: {nested: {a: 1}}
+            },
+            {
+              prop: {nested: {b: 2}}
+            },
+            {alter}
+          )
+        ).toEqual({
+          prop: {nested: {a: 1, b: 2, extra: true}}
+        });
+        expect(alter).toHaveBeenCalledWith("nested", {a: 1, b: 2});
+      });
       it("should merge data and prevent prototype pollution", () => {
         const obj = JSON.parse('{"__proto__": {"a": "vulnerable"}, "security":  [{"1": "o"}, {"2": "o1"}]}');
 

@@ -2,10 +2,7 @@ process.env.SEMANTIC_RELEASE_PACKAGE = "Ts.ED";
 
 export default {
   branches: [
-    "production",
-    {name: "alpha", prerelease: true, channel: "alpha"},
-    {name: "beta", prerelease: true, channel: "beta"},
-    {name: "rc", prerelease: true, channel: "rc"}
+    "v7"
   ],
   verifyConditions: [
     "@semantic-release/github",
