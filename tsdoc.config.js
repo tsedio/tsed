@@ -17,7 +17,7 @@ module.exports = {
     "!<rootDir>/packages/**/constants",
     "!<rootDir>/packages/**/registries",
     "!<rootDir>/packages/**/lib/**/hooks",
-    "!<rootDir>/packages/**/utils",
+    "!<rootDir>/packages/{di,engines,orm,perf,platform,security,specs,third-parties}/**/utils",
     "!<rootDir>/packages/perf",
     "!<rootDir>/packages/orm/prisma",
     "!<rootDir>/packages/third-parties/components-scan",
