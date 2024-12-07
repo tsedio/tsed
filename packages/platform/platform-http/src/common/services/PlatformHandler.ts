@@ -42,7 +42,7 @@ export class PlatformHandler {
       })
       .on("alterHandler", (handlerMetadata: PlatformHandlerMetadata) => {
         const handler = handlerMetadata.isInjectable() ? this.createHandler(handlerMetadata) : handlerMetadata.handler;
-
+        handlerMetadata.compiledHandler = handler;
         return this.platformApplication.adapter.mapHandler(handler, handlerMetadata);
       });
   }

@@ -1,0 +1,122 @@
+{
+  "name": "@tsed/platform-fastify",
+  "type": "module",
+  "version": "8.2.0",
+  "description": "Fastify package for Ts.ED framework",
+  "source": "./src/index.ts",
+  "main": "./lib/esm/index.js",
+  "module": "./lib/esm/index.js",
+  "typings": "./lib/types/index.d.ts",
+  "exports": {
+    ".": {
+      "@tsed/source": "./src/index.ts",
+      "types": "./lib/types/index.d.ts",
+      "import": "./lib/esm/index.js",
+      "default": "./lib/esm/index.js"
+    }
+  },
+  "scripts": {
+    "build": "yarn barrels && yarn build:ts",
+    "barrels": "barrels",
+    "start": "node --import @swc-node/register/esm-register test/app/index.ts",
+    "test": "vitest run -u",
+    "build:ts": "tsc --build tsconfig.json",
+    "test:ci": "vitest run --coverage.thresholds.autoUpdate=true"
+  },
+  "keywords": [
+    "Koa",
+    "TypeScript",
+    "typescript",
+    "Decorator",
+    "decorators",
+    "decorator",
+    "fastify",
+    "Controller",
+    "Inject",
+    "ioc",
+    "di",
+    "mvc",
+    "swagger",
+    "swagger ui",
+    "ES2015",
+    "ES6",
+    "server",
+    "rest",
+    "api",
+    "validation"
+  ],
+  "author": {
+    "name": "Romain Lenzotti"
+  },
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/tsedio/tsed/issues"
+  },
+  "homepage": "http://tsed.dev/",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tsedio/tsed.git"
+  },
+  "dependencies": {
+    "@fastify/middie": ">=9.0.2",
+    "@fastify/static": ">=8.0.4",
+    "content-disposition": ">=0.5.4",
+    "tslib": "2.6.1"
+  },
+  "devDependencies": {
+    "@fastify/accepts": "5.0.2",
+    "@fastify/cookie": "11.0.1",
+    "@fastify/formbody": "8.0.1",
+    "@fastify/session": "11.0.1",
+    "@tsed/barrels": "workspace:*",
+    "@tsed/core": "workspace:*",
+    "@tsed/di": "workspace:*",
+    "@tsed/platform-http": "workspace:*",
+    "@tsed/platform-test-sdk": "workspace:*",
+    "@types/content-disposition": "^0.5.4",
+    "cross-env": "7.0.3",
+    "fastify": "5.2.1",
+    "fastify-raw-body": "5.0.0",
+    "ts-node": "10.9.2"
+  },
+  "peerDependencies": {
+    "@fastify/accepts": ">=4.3.0",
+    "@fastify/cookie": ">=9.3.1",
+    "@fastify/formbody": ">=7.4.0",
+    "@tsed/core": ">=8.0.0",
+    "@tsed/di": ">=8.0.0",
+    "@tsed/json-mapper": ">=8.0.0",
+    "@tsed/logger": ">=7.0.0",
+    "@tsed/openspec": ">=8.0.0",
+    "@tsed/platform-http": ">=8.0.0",
+    "@tsed/schema": ">=8.0.0",
+    "fastify": ">=5.1.0",
+    "fastify-raw-body": ">=5.0.0"
+  },
+  "peerDependenciesMeta": {
+    "@tsed/common": {
+      "optional": false
+    },
+    "@tsed/core": {
+      "optional": false
+    },
+    "@tsed/di": {
+      "optional": false
+    },
+    "@tsed/json-mapper": {
+      "optional": false
+    },
+    "@tsed/logger": {
+      "optional": false
+    },
+    "@tsed/openspec": {
+      "optional": false
+    },
+    "@tsed/schema": {
+      "optional": false
+    },
+    "fastify": {
+      "optional": false
+    }
+  }
+}

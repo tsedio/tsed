@@ -1,5 +1,4 @@
-import {basename} from "node:path";
-import {join} from "node:path";
+import {basename, join} from "node:path";
 
 import {context} from "@tsed/di";
 
@@ -18,7 +17,7 @@ export function indexMiddleware(viewPath: string, conf: ScalarSettings) {
       ...options
     };
 
-    ctx.response.body(
+    ctx.response.contentType("text/html").body(
       await ctx.response.render(viewPath, {
         cssPath: join(path, basename(cssPath)),
         cdn,

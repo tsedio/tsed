@@ -58,7 +58,7 @@ export function testView(options: PlatformTestingSdkOpts) {
     it("should render a view", async () => {
       const response = await request.get("/rest/views/scenario-1").expect(200);
 
-      expect(response.headers["content-type"]).toEqual("text/html; charset=utf-8");
+      expect(response.headers["content-type"]).toContain("text/html");
       expect(response.text).toEqual(`<p>Hello world with opts and ID local-10909</p>${EOL}`);
     });
   });

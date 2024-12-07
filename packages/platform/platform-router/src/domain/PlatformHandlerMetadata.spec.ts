@@ -34,6 +34,7 @@ describe("PlatformHandlerMetadata", () => {
       expect(handlerMetadata.hasNextFunction).toEqual(false);
       expect(handlerMetadata.hasErrorParam).toEqual(false);
       expect(handlerMetadata.toString()).toEqual("");
+      expect(handlerMetadata.isRawMiddleware()).toEqual(false);
     });
   });
   describe("from function", () => {
@@ -50,6 +51,7 @@ describe("PlatformHandlerMetadata", () => {
       expect(handlerMetadata.hasNextFunction).toEqual(true);
       expect(handlerMetadata.hasErrorParam).toEqual(false);
       expect(handlerMetadata.toString()).toEqual("handler");
+      expect(handlerMetadata.isRawMiddleware()).toEqual(true);
     });
   });
   describe("from function err", () => {
@@ -67,6 +69,7 @@ describe("PlatformHandlerMetadata", () => {
       expect(handlerMetadata.hasErrorParam).toEqual(true);
       expect(handlerMetadata.propertyKey).toBeUndefined();
       expect(handlerMetadata.toString()).toEqual("handler");
+      expect(handlerMetadata.isRawMiddleware()).toEqual(true);
     });
   });
   describe("from function without nextFn", () => {
@@ -85,6 +88,7 @@ describe("PlatformHandlerMetadata", () => {
       expect(handlerMetadata.hasErrorParam).toEqual(false);
       expect(handlerMetadata.propertyKey).toBeUndefined();
       expect(handlerMetadata.toString()).toEqual("handler");
+      expect(handlerMetadata.isRawMiddleware()).toEqual(true);
     });
   });
   describe("from endpoint/middleware with injection", () => {
@@ -117,6 +121,7 @@ describe("PlatformHandlerMetadata", () => {
 
       expect(handlerMetadata.getParams()[0].paramType).toEqual("REQUEST");
       expect(handlerMetadata.getParams()[1].paramType).toEqual("NEXT_FN");
+      expect(handlerMetadata.isRawMiddleware()).toEqual(false);
     });
   });
 
@@ -144,6 +149,7 @@ describe("PlatformHandlerMetadata", () => {
       expect(handlerMetadata.hasErrorParam).toEqual(true);
       expect(handlerMetadata.propertyKey).toEqual("use");
       expect(handlerMetadata.toString()).toEqual("Test.use");
+      expect(handlerMetadata.isRawMiddleware()).toEqual(false);
     });
   });
 });

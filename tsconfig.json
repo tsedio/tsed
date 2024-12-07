@@ -99,6 +99,9 @@
       "path": "./packages/platform/platform-express/tsconfig.json"
     },
     {
+      "path": "./packages/platform/platform-koa/tsconfig.json"
+    },
+    {
       "path": "./packages/graphql/typegraphql/tsconfig.json"
     },
     {

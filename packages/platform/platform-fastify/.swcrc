@@ -1,0 +1,21 @@
+{
+  "sourceMaps": false,
+  "jsc": {
+    "parser": {
+      "syntax": "typescript",
+      "decorators": true,
+      "dynamicImport": true
+    },
+    "target": "es2022",
+    "externalHelpers": true,
+    "keepClassNames": true,
+    "transform": {
+      "useDefineForClassFields": false,
+      "legacyDecorator": true,
+      "decoratorMetadata": true
+    }
+  },
+  "module": {
+    "type": "es6"
+  }
+}
