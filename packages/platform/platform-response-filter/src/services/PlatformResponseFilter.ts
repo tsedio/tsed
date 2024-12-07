@@ -1,45 +1,18 @@
-import {isSerializable, Type} from "@tsed/core";
-import {BaseContext, constant, inject, injectable, TokenProvider} from "@tsed/di";
+import {isSerializable} from "@tsed/core";
+import {BaseContext, constant, inject, injectable} from "@tsed/di";
 import {serialize} from "@tsed/json-mapper";
 
-import {ResponseFilterKey, ResponseFiltersContainer} from "../domain/ResponseFiltersContainer.js";
-import {ResponseFilterMethods} from "../interfaces/ResponseFilterMethods.js";
-import {ANY_CONTENT_TYPE, getContentType} from "../utils/getContentType.js";
 import {renderView} from "../utils/renderView.js";
+import {PLATFORM_CONTENT_TYPE_RESOLVER} from "./PlatformContentTypeResolver.js";
+import {PLATFORM_CONTENT_TYPES_CONTAINER} from "./PlatformContentTypesContainer.js";
 
 /**
  * @platform
  */
 export class PlatformResponseFilter {
-  protected types: Map<ResponseFilterKey, TokenProvider> = new Map();
-  protected responseFilters = constant<Type<ResponseFilterMethods>[]>("responseFilters", []);
   protected additionalProperties = constant<boolean>("additionalProperties");
-
-  constructor() {
-    ResponseFiltersContainer.forEach((token, type) => {
-      if (this.responseFilters.includes(token)) {
-        this.types.set(type, token);
-      }
-    });
-  }
-
-  get contentTypes(): ResponseFilterKey[] {
-    return [...this.types.keys()];
-  }
-
-  getBestContentType(data: any, ctx: BaseContext) {
-    const contentType = getContentType(data, ctx);
-
-    if (ctx.request.get("Accept")) {
-      const bestContentType = ctx.request.accepts([contentType].concat(this.contentTypes).filter(Boolean));
-
-      if (bestContentType) {
-        return [].concat(bestContentType as any).filter((type) => type !== "*/*")[0];
-      }
-    }
-
-    return contentType;
-  }
+  protected container = inject<PLATFORM_CONTENT_TYPES_CONTAINER>(PLATFORM_CONTENT_TYPES_CONTAINER);
+  protected contentTypeResolver = inject<PLATFORM_CONTENT_TYPE_RESOLVER>(PLATFORM_CONTENT_TYPE_RESOLVER);
 
   /**
    * Call filters to transform data
@@ -50,11 +23,11 @@ export class PlatformResponseFilter {
     const {response} = ctx;
 
     if (ctx.endpoint?.operation) {
-      const bestContentType = this.getBestContentType(data, ctx);
+      const bestContentType = this.contentTypeResolver(data, ctx);
 
       bestContentType && response.contentType(bestContentType);
 
-      const resolved = this.resolve(bestContentType);
+      const resolved = this.container.resolve(bestContentType);
 
       if (resolved) {
         return resolved.transform(data, ctx);
@@ -90,14 +63,6 @@ export class PlatformResponseFilter {
     }
 
     return data;
-  }
-
-  private resolve(bestContentType: string) {
-    const token = this.types.get(bestContentType) || this.types.get(ANY_CONTENT_TYPE);
-
-    if (token) {
-      return inject<ResponseFilterMethods>(token);
-    }
   }
 
   private getIncludes(ctx: BaseContext) {
