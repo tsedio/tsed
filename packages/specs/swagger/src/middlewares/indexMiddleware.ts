@@ -1,4 +1,8 @@
+import {basename} from "node:path";
+
+import {context} from "@tsed/di";
 import {PlatformContext} from "@tsed/platform-http";
+import {join} from "path";
 
 import {SwaggerSettings} from "../interfaces/SwaggerSettings.js";
 
@@ -8,17 +12,18 @@ import {SwaggerSettings} from "../interfaces/SwaggerSettings.js";
  * @param conf
  */
 export function indexMiddleware(viewPath: string, conf: SwaggerSettings & {urls: string[]}) {
-  return async (ctx: PlatformContext) => {
-    const {path = "/", options = {}, showExplorer, cssPath, jsPath, urls} = conf;
+  return async () => {
+    const ctx = context();
+    const {path, options = {}, fileName, showExplorer, cssPath, jsPath, urls} = conf;
 
     ctx.response.body(
       await ctx.response.render(viewPath, {
         spec: {},
-        url: `${path}/swagger.json`,
+        url: `${path}/${fileName}`,
         urls,
         showExplorer,
-        cssPath,
-        jsPath,
+        cssPath: cssPath && join(path, basename(cssPath)),
+        jsPath: jsPath && join(path, basename(jsPath)),
         swaggerOptions: options
       })
     );

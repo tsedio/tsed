@@ -2,10 +2,11 @@ import {logger} from "@tsed/di";
 import {application} from "@tsed/platform-http";
 import {PlatformTest} from "@tsed/platform-http/testing";
 import {PlatformRouter} from "@tsed/platform-router";
-import Fs from "fs";
 import {absolutePath} from "swagger-ui-dist";
 
 import {SwaggerModule} from "./SwaggerModule.js";
+
+vi.mock("node:fs/promises");
 
 describe("SwaggerModule", () => {
   beforeEach(() =>
@@ -15,8 +16,8 @@ describe("SwaggerModule", () => {
       swagger: [
         {
           path: "/doc",
-          cssPath: "/cssPath",
-          jsPath: "/jsPath",
+          cssPath: "/cssPath/style.css",
+          jsPath: "/jsPath/script.js",
           viewPath: "/viewsPath",
           outFile: "/spec.json"
         }
@@ -40,8 +41,8 @@ describe("SwaggerModule", () => {
       expect(application().use).toHaveBeenCalledWith("/doc", expect.any(Function));
       expect(application().use).toHaveBeenCalledWith("/doc", expect.any(PlatformRouter));
       expect(PlatformRouter.prototype.get).toHaveBeenCalledWith("/swagger.json", expect.any(Function));
-      expect(PlatformRouter.prototype.get).toHaveBeenCalledWith("/main.css", expect.any(Function));
-      expect(PlatformRouter.prototype.get).toHaveBeenCalledWith("/", expect.any(Function));
+      expect(PlatformRouter.prototype.get).toHaveBeenCalledWith("/style.css", expect.any(Function));
+      expect(PlatformRouter.prototype.get).toHaveBeenCalledWith("/script.js", expect.any(Function));
       expect(PlatformRouter.prototype.statics).toHaveBeenCalledWith("/", {
         root: absolutePath()
       });
@@ -52,7 +53,6 @@ describe("SwaggerModule", () => {
     it("should display the right log", async () => {
       const mod = await PlatformTest.invoke<SwaggerModule>(SwaggerModule);
 
-      vi.spyOn(Fs, "writeFile");
       vi.spyOn(logger(), "info");
 
       mod.$onReady();

@@ -1,3 +1,4 @@
+import {runInContext} from "@tsed/di";
 import {PlatformTest} from "@tsed/platform-http/testing";
 
 import {indexMiddleware} from "./indexMiddleware.js";
@@ -13,18 +14,19 @@ describe("indexMiddleware and redirect", () => {
     const conf = {
       path: "/doc",
       options: {},
+      fileName: "swagger.json",
       showExplorer: false,
       cssPath: "/path.css",
       jsPath: "/path.js",
       urls: []
     };
 
-    await indexMiddleware(viewPath, conf)(ctx);
+    await runInContext(ctx, () => indexMiddleware(viewPath, conf)());
 
     expect(ctx.response.render).toHaveBeenCalledWith(viewPath, {
       spec: {},
-      cssPath: "/path.css",
-      jsPath: "/path.js",
+      cssPath: "/doc/path.css",
+      jsPath: "/doc/path.js",
       showExplorer: false,
       swaggerOptions: {},
       url: "/doc/swagger.json",

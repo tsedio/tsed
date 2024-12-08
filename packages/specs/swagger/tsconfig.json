@@ -7,22 +7,7 @@
   "include": [],
   "references": [
     {
-      "path": "../../platform/platform-http/tsconfig.json"
-    },
-    {
-      "path": "../../core/tsconfig.json"
-    },
-    {
-      "path": "../../di/tsconfig.json"
-    },
-    {
-      "path": "../json-mapper/tsconfig.json"
-    },
-    {
-      "path": "../openspec/tsconfig.json"
-    },
-    {
-      "path": "../schema/tsconfig.json"
+      "path": "../openapi-utils/tsconfig.json"
     },
     {
       "path": "../../third-parties/normalize-path/tsconfig.json"

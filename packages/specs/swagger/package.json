@@ -17,19 +17,18 @@
   },
   "scripts": {
     "clean": "rm -rf lib",
-    "build": "yarn clean && yarn barrels &&  yarn build:ts && yarn copy:views && monorepo build-hybrid",
+    "build": "yarn clean && yarn barrels &&  yarn build:ts && yarn copy:views",
     "copy:views": "cp -r ./views ./lib/views",
     "barrels": "barrels",
-    "start": "ts-node test/app/index.ts",
+    "start": "node --import @swc-node/register/esm-register test/app/index.ts",
     "test": "vitest run",
     "build:ts": "tsc --build tsconfig.json",
     "test:ci": "vitest run --coverage.thresholds.autoUpdate=true"
   },
   "dependencies": {
     "@tsed/normalize-path": "workspace:*",
+    "@tsed/openapi-utils": "workspace:*",
     "@tsed/openspec": "workspace:*",
-    "fs-extra": "11.2.0",
-    "micromatch": "4.0.8",
     "swagger-ui-dist": ">=5.17.14",
     "tslib": "2.7.0"
   },
@@ -38,14 +37,12 @@
     "@tsed/core": "workspace:*",
     "@tsed/di": "workspace:*",
     "@tsed/json-mapper": "workspace:*",
-    "@tsed/monorepo-utils": "2.3.9",
     "@tsed/openspec": "workspace:*",
     "@tsed/platform-http": "workspace:*",
     "@tsed/schema": "workspace:*",
     "@tsed/typescript": "workspace:*",
     "@types/swagger-ui-dist": "3.30.5",
     "eslint": "9.12.0",
-    "ts-node": "10.9.2",
     "typescript": "5.4.5",
     "vitest": "2.1.2"
   },
@@ -53,7 +50,7 @@
     "@tsed/platform-http": "8.2.0"
   },
   "peerDependenciesMeta": {
-    "@tsed/common": {
+    "@tsed/platform-http": {
       "optional": false
     }
   }
