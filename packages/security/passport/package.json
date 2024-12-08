@@ -51,7 +51,7 @@
     "passport": ">=0.4.1"
   },
   "peerDependenciesMeta": {
-    "@tsed/common": {
+    "@tsed/platform-http": {
       "optional": false
     }
   }

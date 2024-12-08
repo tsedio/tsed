@@ -282,6 +282,10 @@ export default defineConfig({
           {
             text: "Server-sent events",
             link: `/tutorials/server-sent-events`
+          },
+          {
+            text: "Scalar",
+            link: `/tutorials/scalar`
           }
         ].sort((a, b) => a.text.localeCompare(b.text))
       },
@@ -534,6 +538,10 @@ export default defineConfig({
             {
               text: "Swagger",
               link: `/tutorials/swagger`
+            },
+            {
+              text: "Scalar",
+              link: `/tutorials/scalar`
             },
             {
               text: "OIDC",

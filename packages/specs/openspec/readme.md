@@ -1,5 +1,5 @@
 <p style="text-align: center" align="center">
- <a href="https://tsed.dev" target="_blank"><img src="https://tsed.io/tsed-og.png" width="200" alt="Ts.ED logo"/></a>
+ <a href="https://tsed.dev" target="_blank"><img src="https://tsed.devtsed-og.png" width="200" alt="Ts.ED logo"/></a>
 </p>
 
 <div align="center">
@@ -16,9 +16,9 @@
 </div>
 
 <div align="center">
-  <a href="https://tsed.io/">Website</a>
+  <a href="https://tsed.dev">Website</a>
   <span>&nbsp;&nbsp;•&nbsp;&nbsp;</span>
-  <a href="https://tsed.io/getting-started/">Getting started</a>
+  <a href="https://tsed.dev/getting-started/">Getting started</a>
   <span>&nbsp;&nbsp;•&nbsp;&nbsp;</span>
   <a href="https://slack.tsed.io">Slack</a>
   <span>&nbsp;&nbsp;•&nbsp;&nbsp;</span>
@@ -27,13 +27,13 @@
 
 <hr />
 
-> A package of Ts.ED framework. See website: https://tsed.io/
+> A package of Ts.ED framework. See website: https://tsed.dev
 
 OpenSpec2 and OpenSpec3 interfaces declarations for TypeScript application.
 
 ## Documentation
 
-Documentation is available on [https://tsed.io](https://tsed.io/tutorials/swagger.html)
+Documentation is available on [https://tsed.io](https://tsed.devtutorials/swagger.html)
 
 ## Installation
 
@@ -54,7 +54,7 @@ const spec2: OpenSpec2 = {swagger: "2.0", paths: {}};
 
 ## Contributors
 
-Please read [contributing guidelines here](https://tsed.io/contributing.html)
+Please read [contributing guidelines here](https://tsed.devcontributing.html)
 
 <a href="https://github.com/tsedio/tsed/graphs/contributors"><img src="https://opencollective.com/tsed/contributors.svg?width=890" /></a>
 

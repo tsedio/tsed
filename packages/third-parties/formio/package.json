@@ -61,7 +61,7 @@
     "mongoose": "^8.7.0"
   },
   "peerDependenciesMeta": {
-    "@tsed/common": {
+    "@tsed/platform-http": {
       "optional": false
     }
   }

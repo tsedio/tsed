@@ -1,5 +1,5 @@
 <p style="text-align: center" align="center">
- <a href="https://tsed.io" target="_blank"><img src="https://tsed.io/tsed-og.png" width="200" alt="Ts.ED logo"/></a>
+ <a href="https://tsed.io" target="_blank"><img src="https://tsed.devtsed-og.png" width="200" alt="Ts.ED logo"/></a>
 </p>
 
 <div align="center">
@@ -17,9 +17,9 @@
 </div>
 
 <div align="center">
-  <a href="https://tsed.io/">Website</a>
+  <a href="https://tsed.dev">Website</a>
   <span>&nbsp;&nbsp;•&nbsp;&nbsp;</span>
-  <a href="https://tsed.io/tutorials/graphql.html">TypeGraphQL</a>
+  <a href="https://tsed.devtutorials/graphql.html">TypeGraphQL</a>
   <span>&nbsp;&nbsp;•&nbsp;&nbsp;</span>
   <a href="https://slack.tsed.io">Slack</a>
   <span>&nbsp;&nbsp;•&nbsp;&nbsp;</span>
@@ -38,7 +38,7 @@ GraphQL is a query language for APIs and a runtime for fulfilling those queries 
 
 ## TypeGraphQL
 
-If you're looking for integration with TypeGraphQL see the [`@tsed/typegraphql`](https://tsed.io/graphql.html#typegraphql) package.
+If you're looking for integration with TypeGraphQL see the [`@tsed/typegraphql`](https://tsed.devgraphql.html#typegraphql) package.
 
 ## Installation
 
@@ -71,7 +71,7 @@ For more information about ApolloServer look his documentation [here](https://ww
 
 ## Contributors
 
-Please read [contributing guidelines here](https://tsed.io/contributing.html)
+Please read [contributing guidelines here](https://tsed.devcontributing.html)
 
 <a href="https://github.com/tsedio/tsed/graphs/contributors"><img src="https://opencollective.com/tsed/contributors.svg?width=890" /></a>
 

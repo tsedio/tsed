@@ -86,9 +86,6 @@
     "serverless-http": ">=2.0.0"
   },
   "peerDependenciesMeta": {
-    "@tsed/common": {
-      "optional": false
-    },
     "@tsed/core": {
       "optional": false
     },
@@ -102,6 +99,9 @@
       "optional": false
     },
     "@tsed/openspec": {
+      "optional": false
+    },
+    "@tsed/platform-http": {
       "optional": false
     },
     "@tsed/schema": {

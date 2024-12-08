@@ -11,7 +11,7 @@ meta:
 <Banner src="https://swagger.io/swagger/media/assets/images/swagger_logo.svg" href="https://swagger.io/" :height="200" />
 
 This page shows you how you can configure Swagger-ui with Ts.ED. Swagger uses the OpenApi
-to describe a Rest API. Ts.ED operates the existing decorators as well as new decorators to build
+to describe a Rest API. Ts.ED operates the existing decorators to build
 a spec compliant with Swagger.
 
 ## Installation
@@ -89,9 +89,8 @@ Some options are available to configure Swagger-ui, Ts.ED and the default spec i
 | fileName             | `swagger.json`                                                | Swagger file name. By default swagger.json.                                                              |
 | doc                  | `hidden-doc`                                                  | The documentation key used by `@Docs` decorator to create several swagger documentations.                |
 | viewPath             | `${rootDir}/../views/swagger.ejs` or `false`                  | The path to the ejs template. Set false to disabled swagger-ui.                                          |
-| cssPath              | `${rootDir}/spec/style.css`                                   | The path to the CSS file.                                                                                |
-| jsPath               | `${rootDir}/spec/main.js`                                     | The path to the JS file.                                                                                 |
-| viewPath             | `${rootDir}/views/swagger.ejs`                                | The path to the ejs file to create html page.                                                            |
+| cssPath              | `${rootDir}/assets/style.css`                                 | The path to the CSS file.                                                                                |
+| jsPath               | `${rootDir}/assets/main.js`                                   | The path to the JS file.                                                                                 |
 | showExplorer         | `true`                                                        | Display the search field in the navbar.                                                                  |
 | spec                 | `{swagger: "2.0"}`                                            | The default information spec.                                                                            |
 | specPath             | `${rootDir}/spec/swagger.base.json`                           | Load the base spec documentation from the specified path.                                                |

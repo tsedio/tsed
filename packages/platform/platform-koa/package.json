@@ -109,9 +109,6 @@
     "multer": "^1.4.5-lts.1"
   },
   "peerDependenciesMeta": {
-    "@tsed/common": {
-      "optional": false
-    },
     "@tsed/core": {
       "optional": false
     },
@@ -125,6 +122,9 @@
       "optional": false
     },
     "@tsed/openspec": {
+      "optional": false
+    },
+    "@tsed/platform-http": {
       "optional": false
     },
     "@tsed/schema": {

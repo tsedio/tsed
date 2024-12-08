@@ -87,6 +87,9 @@ frameworks:
   - title: Swagger
     href: /tutorials/swagger.html
     src: /swagger.svg
+  - title: Scalar
+    href: /tutorials/scalar.html
+    src: /swagger.svg
   - title: Passport
     href: /tutorials/passport.html
     src: /passportjs.png

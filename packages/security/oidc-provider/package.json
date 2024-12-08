@@ -75,9 +75,6 @@
     "@tsed/ajv": {
       "optional": false
     },
-    "@tsed/common": {
-      "optional": false
-    },
     "@tsed/core": {
       "optional": false
     },
@@ -85,6 +82,9 @@
       "optional": false
     },
     "@tsed/json-mapper": {
+      "optional": false
+    },
+    "@tsed/platform-http": {
       "optional": false
     },
     "@tsed/schema": {

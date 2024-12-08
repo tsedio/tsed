@@ -49,7 +49,7 @@
     "vite": ">=4"
   },
   "peerDependenciesMeta": {
-    "@tsed/common": {
+    "@tsed/platform-http": {
       "optional": false
     },
     "vike": {

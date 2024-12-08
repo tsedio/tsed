@@ -34,7 +34,7 @@ Documentation is available on [https://tsed.dev/docs/exceptions](https://tsed.de
 
 ## Contributors
 
-Please read [contributing guidelines here](https://tsed.io/contributing.html).
+Please read [contributing guidelines here](https://tsed.devcontributing.html).
 
 <a href="https://github.com/tsedio/tsed/graphs/contributors"><img src="https://opencollective.com/tsed/contributors.svg?width=890" /></a>
 
