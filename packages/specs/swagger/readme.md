@@ -27,7 +27,7 @@
 
 <hr />
 
-A package of Ts.ED framework. See website: https://tsed.io/tutorials/swagger
+A package of Ts.ED framework. See website: https://tsed.dev/tutorials/swagger
 
 ## Installation
 

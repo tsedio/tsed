@@ -101,7 +101,7 @@ The following appenders are available:
 | [LogStash UDP](https://logger.tsed.io/appenders/logstash-udp.html)   | log to [LogStash](https://www.elastic.co/logstash).                         |
 | [Loggly](https://logger.tsed.io/appenders/loggly.html)               | log to [Loggly](https://www.loggly.com/).                                   |
 | [RabbitMQ](https://logger.tsed.io/appenders/rabbitmq.html)           | log to [RabbitMQ](https://www.rabbitmq.com/).                               |
-| [Seq](https://tsed.io/tutorials/seq.html)                            | log to [Seq](https://datalust.co/seq).                                      |
+| [Seq](https://logger.tsed.dev/tutorials/seq.html)                    | log to [Seq](https://datalust.co/seq).                                      |
 | [Slack](https://logger.tsed.io/appenders/slack.html)                 | log to [Slack](https://slack.com/).                                         |
 | [Smtp](https://logger.tsed.io/appenders/smtp.html)                   | log to [SMTP](https://en.wikipedia.org/wiki/Simple_Mail_Transfer_Protocol). |
 

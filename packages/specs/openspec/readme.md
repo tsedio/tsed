@@ -33,7 +33,7 @@ OpenSpec2 and OpenSpec3 interfaces declarations for TypeScript application.
 
 ## Documentation
 
-Documentation is available on [https://tsed.io](https://tsed.devtutorials/swagger.html)
+Documentation is available on [https://tsed.dev](https://tsed.devtutorials/swagger.html)
 
 ## Installation
 

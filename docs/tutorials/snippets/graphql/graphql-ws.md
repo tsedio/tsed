@@ -164,7 +164,7 @@ export class GraphQLWSModule {
 ```
 
 ::: tip Note
-Ts.ED provide a `@tsed/graphql-ws` package to support the `subscription` feature of GraphQL. See [here](https://tsed.io/api/graphql-ws.html) for more details.
+Ts.ED provide a `@tsed/graphql-ws` package to support the `subscription` feature of GraphQL. See [here](https://tsed.dev/api/graphql-ws.html) for more details.
 :::
 
 ## Nexus

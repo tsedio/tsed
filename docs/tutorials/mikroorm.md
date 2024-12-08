@@ -211,7 +211,7 @@ export class User {
 }
 ```
 
-Now, the model is correctly defined and can be used with a [Controller](https://tsed.io/docs/controllers.html)
+Now, the model is correctly defined and can be used with a [Controller](https://tsed.dev/docs/controllers.html)
 , [AJV validation](/tutorials/ajv.md),
 [Swagger](/tutorials/swagger.md) and [MikroORM](https://mikro-orm.io/docs/defining-entities).
 

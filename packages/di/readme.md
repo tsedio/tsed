@@ -154,8 +154,6 @@ See more details on our documentation https://tsed.dev/providers.html
 
 ## Contributors
 
-Please read [contributing guidelines here](https://tsed.dev/contributing.html)
-
 <a href="https://github.com/tsedio/tsed/graphs/contributors"><img src="https://opencollective.com/tsed/contributors.svg?width=890" /></a>
 
 ## Backers

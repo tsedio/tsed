@@ -1,5 +1,5 @@
 <p style="text-align: center" align="center">
- <a href="https://tsed.io" target="_blank"><img src="https://tsed.devtsed-og.png" width="200" alt="Ts.ED logo"/></a>
+ <a href="https://tsed.dev" target="_blank"><img src="https://tsed.devtsed-og.png" width="200" alt="Ts.ED logo"/></a>
 </p>
 
 <div align="center">
@@ -56,7 +56,7 @@ to make your code more readable and less error-prone.
 
 ## Documentation
 
-Documentation is available on [https://tsed.io](https://tsed.io)
+Documentation is available on [https://tsed.dev](https://tsed.dev)
 
 ## Getting started
 

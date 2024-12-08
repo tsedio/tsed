@@ -1,5 +1,5 @@
 <p style="text-align: center" align="center">
- <a href="https://tsed.io" target="_blank"><img src="https://tsed.dev/tsed-og.png" width="200" alt="Ts.ED logo"/></a>
+ <a href="https://tsed.dev" target="_blank"><img src="https://tsed.dev/tsed-og.png" width="200" alt="Ts.ED logo"/></a>
 </p>
 
 <div align="center">
@@ -16,9 +16,9 @@
 </div>
 
 <div align="center">
-  <a href="https://tsed.io/">Website</a>
+  <a href="https://tsed.dev/">Website</a>
   <span>&nbsp;&nbsp;•&nbsp;&nbsp;</span>
-  <a href="https://tsed.io/getting-started/">Getting started</a>
+  <a href="https://tsed.dev/getting-started/">Getting started</a>
   <span>&nbsp;&nbsp;•&nbsp;&nbsp;</span>
   <a href="https://slack.tsed.io">Slack</a>
   <span>&nbsp;&nbsp;•&nbsp;&nbsp;</span>
@@ -56,16 +56,16 @@ to make your code more readable and less error-prone.
 
 ## Documentation
 
-Documentation is available on [https://tsed.io](https://tsed.io)
+Documentation is available on [https://tsed.dev](https://tsed.dev)
 
 ## Getting started
 
-See our [getting started here](https://tsed.io/getting-started/) to create new Ts.ED project or use
+See our [getting started here](https://tsed.dev/getting-started/) to create new Ts.ED project or use
 our [CLI](https://cli.tsed.io)
 
 ## Examples
 
-Examples are available on [https://tsed.io/tutorials/](https://tsed.io/tutorials/)
+Examples are available on [https://tsed.dev/tutorials/](https://tsed.dev/tutorials/)
 
 ## Overview
 
@@ -112,7 +112,7 @@ async function bootstrap() {
 bootstrap();
 ```
 
-To customize the server settings see [Configure server with decorator](https://tsed.io/docs/configuration.md)
+To customize the server settings see [Configure server with decorator](https://tsed.dev/docs/configuration.md)
 
 #### Controller example
 

@@ -1,5 +1,5 @@
 <p style="text-align: center" align="center">
- <a href="https://tsed.io" target="_blank"><img src="https://tsed.dev/tsed-og.png" width="200" alt="Ts.ED logo"/></a>
+ <a href="https://tsed.dev" target="_blank"><img src="https://tsed.dev/tsed-og.png" width="200" alt="Ts.ED logo"/></a>
 </p>
 
 <div align="center">
@@ -16,9 +16,9 @@
 </div>
 
 <div align="center">
-  <a href="https://tsed.io/">Website</a>
+  <a href="https://tsed.dev/">Website</a>
   <span>&nbsp;&nbsp;•&nbsp;&nbsp;</span>
-  <a href="https://tsed.io/getting-started/">Getting started</a>
+  <a href="https://tsed.dev/getting-started/">Getting started</a>
   <span>&nbsp;&nbsp;•&nbsp;&nbsp;</span>
   <a href="https://slack.tsed.io">Slack</a>
   <span>&nbsp;&nbsp;•&nbsp;&nbsp;</span>
@@ -27,7 +27,7 @@
 
 <hr />
 
-A package of Ts.ED framework. See website: https://tsed.io/#/tutorials/server-sent-events
+A package of Ts.ED framework. See website: https://tsed.dev/tutorials/server-sent-events
 
 Server-sent events let you push data to the client. It's a simple way to send data from the server to the client. The data is sent as a stream of messages, with an optional event name and id. It's a simple way to send data from the server to the client.
 
@@ -150,11 +150,9 @@ export class MyCtrl {
 
 ## Documentation
 
-See our documentation https://tsed.io/#/api/index
+See our documentation https://tsed.dev/api.html
 
 ## Contributors
-
-Please read [contributing guidelines here](https://tsed.io/contributing.html)
 
 <a href="https://github.com/tsedio/tsed/graphs/contributors"><img src="https://opencollective.com/tsed/contributors.svg?width=890" /></a>
 

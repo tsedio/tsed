@@ -252,8 +252,6 @@ describe("IORedisTest", () => {
 
 ## Contributors
 
-Please read [contributing guidelines here](https://tsed.dev/CONTRIBUTING.html)
-
 <a href="https://github.com/tsedio/ts-express-decorators/graphs/contributors"><img src="https://opencollective.com/tsed/contributors.svg?width=890" /></a>
 
 ## Backers

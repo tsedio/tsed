@@ -1,5 +1,5 @@
 <p style="text-align: center" align="center">
- <a href="https://tsed.io" target="_blank"><img src="https://tsed.devtsed-og.png" width="200" alt="Ts.ED logo"/></a>
+ <a href="https://tsed.dev" target="_blank"><img src="https://tsed.devtsed-og.png" width="200" alt="Ts.ED logo"/></a>
 </p>
 
 <div align="center">
@@ -27,7 +27,7 @@
 
 <hr />
 
-A package of Ts.ED framework. See website: https://tsed.io/tutorials/aws.html
+A package of Ts.ED framework. See website: https://tsed.dev/tutorials/aws.html
 
 ## Features
 
@@ -40,8 +40,6 @@ npm install --save-dev @tsed/platform-serverless-testing
 ```
 
 ## Contributors
-
-Please read [contributing guidelines here](https://tsed.io/contributing.html)
 
 <a href="https://github.com/tsedio/tsed/graphs/contributors"><img src="https://opencollective.com/tsed/contributors.svg?width=890" /></a>
 

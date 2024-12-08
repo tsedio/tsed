@@ -38,7 +38,7 @@ export class Server {}
 
 ### Decorators
 
-See our API documentation on https://tsed.dev/api/index
+See our API documentation on https://tsed.dev/api.html
 
 ## Example
 
@@ -97,8 +97,6 @@ export class Server {}
 ```
 
 ## Contributors
-
-Please read [contributing guidelines here](https://tsed.dev/contributing.html)
 
 <a href="https://github.com/tsedio/tsed/graphs/contributors"><img src="https://opencollective.com/tsed/contributors.svg?width=890" /></a>
 

@@ -1,5 +1,5 @@
 <p style="text-align: center" align="center">
- <a href="https://tsed.io" target="_blank"><img src="https://tsed.dev/tsed-og.png" width="200" alt="Ts.ED logo"/></a>
+ <a href="https://tsed.dev" target="_blank"><img src="https://tsed.dev/tsed-og.png" width="200" alt="Ts.ED logo"/></a>
 </p>
 
 <div align="center">
@@ -16,9 +16,9 @@
 </div>
 
 <div align="center">
-  <a href="https://tsed.io/">Website</a>
+  <a href="https://tsed.dev/">Website</a>
   <span>&nbsp;&nbsp;•&nbsp;&nbsp;</span>
-  <a href="https://tsed.io/getting-started/">Getting started</a>
+  <a href="https://tsed.dev/getting-started/">Getting started</a>
   <span>&nbsp;&nbsp;•&nbsp;&nbsp;</span>
   <a href="https://slack.tsed.io">Slack</a>
   <span>&nbsp;&nbsp;•&nbsp;&nbsp;</span>
@@ -27,7 +27,7 @@
 
 <hr />
 
-A package of Ts.ED framework. See website: https://tsed.io/#/tutorials/socket-io
+A package of Ts.ED framework. See website: https://tsed.dev/tutorials/socket-io
 
 Socket.io enable real-time bidirectional event-based communication. It works on every platform, browser or device, focusing equally on reliability and speed.
 
@@ -152,7 +152,7 @@ export class MySocketService {
 
 You have a many choice to send a response to your client. Ts.ED offer some decorators to send a response:
 
-![socketio](https://tsed.io/socketio.png)
+![socketio](https://tsed.dev/socketio.png)
 
 Example:
 
@@ -172,7 +172,7 @@ export class MySocketService {
 > The method accept a promise as returned value.
 
 ::: warning
-Return value is only possible when the method is decorated by [@Emit](https://tsed.io/api/socketio/emit.html), [@Broadcast](https://tsed.io/api/socketio/broadcast.html) and [@BroadcastOthers](https://tsed.io/api/socketio/broadcastothers.html).
+Return value is only possible when the method is decorated by [@Emit](https://tsed.dev/api/socketio/emit.html), [@Broadcast](https://tsed.dev/api/socketio/broadcast.html) and [@BroadcastOthers](https://tsed.dev/api/socketio/broadcastothers.html).
 :::
 
 ### Socket Session
@@ -308,11 +308,9 @@ export class MySocketService {
 
 ## Documentation
 
-See our documentation https://tsed.io/#/api/index
+See our documentation https://tsed.dev/api.html
 
 ## Contributors
-
-Please read [contributing guidelines here](https://tsed.io/contributing.html)
 
 <a href="https://github.com/tsedio/tsed/graphs/contributors"><img src="https://opencollective.com/tsed/contributors.svg?width=890" /></a>
 
