@@ -11,8 +11,8 @@ meta:
 <Banner src="/scalar.svg" href="https://scalar.com" :height="200" />
 
 This page shows you how you can configure Scalar with Ts.ED. Scalar uses the OpenApi
-to describe a Rest API. Ts.ED operates the existing decorators to build
-a spec compliant with Scalar.
+to describe a Rest API. Ts.ED uses existing decorators to build
+a specification compliant with Scalar.
 
 ## Installation
 
@@ -126,7 +126,7 @@ export class Server {}
 
 ## Model documentation
 
-One of the feature of Ts.ED is the model definition to serialize or deserialize a
+One of the features of Ts.ED is the model definition to serialize or deserialize a
 JSON Object based on JsonSchema (See [model documentation](/docs/model.md)).
 
 A model can be used on a method controller along with @@BodyParams@@ or other decorators.
@@ -142,7 +142,7 @@ This example shows you how to use the decorators to generate Scalar documentatio
 ## Extra parameters
 
 Sometimes you want to display extra `in` parameters like `headers` without consuming it in an endpoint.
-It's possible describe extra parameters by using the @@In@@ decorator over the method.
+It's possible to describe extra parameters by using the @@In@@ decorator over the method.
 
 <<< @/tutorials/snippets/scalar/endpoint-extra-in-params.ts
 

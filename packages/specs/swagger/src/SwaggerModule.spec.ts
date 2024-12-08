@@ -57,7 +57,7 @@ describe("SwaggerModule", () => {
 
       mod.$onReady();
 
-      expect(logger().info).toHaveBeenCalledWith("[default] Swagger JSON is available on https://0.0.0.0:8081/doc/swagger.json");
+      expect(logger().info).toHaveBeenCalledWith("[default] OpenAPI JSON is available on https://0.0.0.0:8081/doc/swagger.json");
       expect(logger().info).toHaveBeenCalledWith("[default] Swagger UI is available on https://0.0.0.0:8081/doc/");
     });
   });

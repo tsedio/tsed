@@ -89,7 +89,7 @@ frameworks:
     src: /swagger.svg
   - title: Scalar
     href: /tutorials/scalar.html
-    src: /swagger.svg
+    src: /scalar.svg
   - title: Passport
     href: /tutorials/passport.html
     src: /passportjs.png

@@ -6,12 +6,12 @@ import {normalizePath} from "@tsed/normalize-path";
 import {application, OnReady, OnRoutesInit} from "@tsed/platform-http";
 import {PlatformRouter, useContextHandler} from "@tsed/platform-router";
 
-import {OpenAPIService} from "../..";
 import type {OpenApiSettings} from "../interfaces/OpenApiSettings.js";
 import {cssMiddleware} from "../middlewares/cssMiddleware.js";
 import {jsMiddleware} from "../middlewares/jsMiddleware.js";
 import {openApiMiddleware} from "../middlewares/openApiMiddleware.js";
 import {redirectMiddleware} from "../middlewares/redirectMiddleware.js";
+import {OpenAPIService} from "../services/OpenAPIService.js";
 
 export abstract class OpenAPIBaseModule implements OnRoutesInit, OnReady {
   abstract name: string;

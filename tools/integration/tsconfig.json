@@ -31,6 +31,9 @@
       "path": "../../packages/specs/schema/tsconfig.json"
     },
     {
+      "path": "../../packages/specs/openapi-utils/tsconfig.json"
+    },
+    {
       "path": "../../packages/specs/swagger/tsconfig.json"
     },
     {

@@ -1,0 +1,22 @@
+{
+  "extends": "@tsed/typescript/tsconfig.node.json",
+  "compilerOptions": {
+    "baseUrl": ".",
+    "noEmit": true
+  },
+  "include": [],
+  "references": [
+    {
+      "path": "../openapi-utils/tsconfig.json"
+    },
+    {
+      "path": "../../third-parties/normalize-path/tsconfig.json"
+    },
+    {
+      "path": "./tsconfig.esm.json"
+    },
+    {
+      "path": "./tsconfig.spec.json"
+    }
+  ]
+}

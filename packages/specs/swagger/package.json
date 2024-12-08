@@ -38,6 +38,7 @@
     "@tsed/di": "workspace:*",
     "@tsed/json-mapper": "workspace:*",
     "@tsed/openspec": "workspace:*",
+    "@tsed/openapi-utils": "workspace:*",
     "@tsed/platform-http": "workspace:*",
     "@tsed/schema": "workspace:*",
     "@tsed/typescript": "workspace:*",

@@ -5398,6 +5398,23 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@scalar/openapi-types@npm:0.1.5":
+  version: 0.1.5
+  resolution: "@scalar/openapi-types@npm:0.1.5"
+  checksum: 10/adbc8b9a67cc5d33dfed390735116a96967d866dcd814ea4df0e193d63d93d66f8293c0edd1b30fbff334812988065a96a5200576f6a1f4c98ea5d182f6f4ffc
+  languageName: node
+  linkType: hard
+
+"@scalar/types@npm:^0.0.23":
+  version: 0.0.23
+  resolution: "@scalar/types@npm:0.0.23"
+  dependencies:
+    "@scalar/openapi-types": "npm:0.1.5"
+    "@unhead/schema": "npm:^1.11.11"
+  checksum: 10/bb424b4433cf95ed8a8a60fddd1643995c2aad9d34759cede7be6b54f64edf2a16a383da7bb02864a780203eb08adf9dbc75157bbc1da4fbceefa16f24b4b617
+  languageName: node
+  linkType: hard
+
 "@sec-ant/readable-stream@npm:^0.4.1":
   version: 0.4.1
   resolution: "@sec-ant/readable-stream@npm:0.4.1"
@@ -6582,13 +6599,13 @@ __metadata:
   peerDependenciesMeta:
     "@tsed/ajv":
       optional: false
-    "@tsed/common":
-      optional: false
     "@tsed/core":
       optional: false
     "@tsed/di":
       optional: false
     "@tsed/json-mapper":
+      optional: false
+    "@tsed/platform-http":
       optional: false
     "@tsed/schema":
       optional: false
@@ -6956,7 +6973,7 @@ __metadata:
     mongodb: "*"
     mongoose: ^8.7.0
   peerDependenciesMeta:
-    "@tsed/common":
+    "@tsed/platform-http":
       optional: false
   languageName: unknown
   linkType: soft
@@ -7336,15 +7353,40 @@ __metadata:
   peerDependenciesMeta:
     "@tsed/ajv":
       optional: false
-    "@tsed/common":
-      optional: false
     "@tsed/core":
       optional: false
     "@tsed/di":
       optional: false
     "@tsed/json-mapper":
       optional: false
+    "@tsed/platform-http":
+      optional: false
     "@tsed/schema":
+      optional: false
+  languageName: unknown
+  linkType: soft
+
+"@tsed/openapi-utils@workspace:*, @tsed/openapi-utils@workspace:packages/specs/openapi-utils":
+  version: 0.0.0-use.local
+  resolution: "@tsed/openapi-utils@workspace:packages/specs/openapi-utils"
+  dependencies:
+    "@tsed/barrels": "workspace:*"
+    "@tsed/core": "workspace:*"
+    "@tsed/di": "workspace:*"
+    "@tsed/json-mapper": "workspace:*"
+    "@tsed/openspec": "workspace:*"
+    "@tsed/platform-http": "workspace:*"
+    "@tsed/schema": "workspace:*"
+    "@tsed/typescript": "workspace:*"
+    eslint: "npm:9.12.0"
+    micromatch: "npm:4.0.8"
+    tslib: "npm:2.7.0"
+    typescript: "npm:5.4.5"
+    vitest: "npm:2.1.2"
+  peerDependencies:
+    "@tsed/platform-http": 8.2.0
+  peerDependenciesMeta:
+    "@tsed/platform-http":
       optional: false
   languageName: unknown
   linkType: soft
@@ -7386,7 +7428,7 @@ __metadata:
     "@tsed/platform-http": 8.2.0
     passport: ">=0.4.1"
   peerDependenciesMeta:
-    "@tsed/common":
+    "@tsed/platform-http":
       optional: false
   languageName: unknown
   linkType: soft
@@ -7515,8 +7557,6 @@ __metadata:
     cross-env: 7.0.3
     multer: ^1.4.5-lts.1
   peerDependenciesMeta:
-    "@tsed/common":
-      optional: false
     "@tsed/core":
       optional: false
     "@tsed/di":
@@ -7524,6 +7564,8 @@ __metadata:
     "@tsed/json-mapper":
       optional: false
     "@tsed/logger":
+      optional: false
+    "@tsed/platform-http":
       optional: false
     "@tsed/platform-views":
       optional: true
@@ -7621,8 +7663,6 @@ __metadata:
     koa-session: ">=6.2.0"
     multer: ^1.4.5-lts.1
   peerDependenciesMeta:
-    "@tsed/common":
-      optional: false
     "@tsed/core":
       optional: false
     "@tsed/di":
@@ -7632,6 +7672,8 @@ __metadata:
     "@tsed/logger":
       optional: false
     "@tsed/openspec":
+      optional: false
+    "@tsed/platform-http":
       optional: false
     "@tsed/schema":
       optional: false
@@ -7856,8 +7898,6 @@ __metadata:
     "@tsed/schema": 8.2.0
     serverless-http: ">=2.0.0"
   peerDependenciesMeta:
-    "@tsed/common":
-      optional: false
     "@tsed/core":
       optional: false
     "@tsed/di":
@@ -7867,6 +7907,8 @@ __metadata:
     "@tsed/logger":
       optional: false
     "@tsed/openspec":
+      optional: false
+    "@tsed/platform-http":
       optional: false
     "@tsed/schema":
       optional: false
@@ -8118,6 +8160,34 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@tsed/scalar@workspace:packages/specs/scalar":
+  version: 0.0.0-use.local
+  resolution: "@tsed/scalar@workspace:packages/specs/scalar"
+  dependencies:
+    "@scalar/types": "npm:^0.0.23"
+    "@tsed/barrels": "workspace:*"
+    "@tsed/core": "workspace:*"
+    "@tsed/di": "workspace:*"
+    "@tsed/json-mapper": "workspace:*"
+    "@tsed/normalize-path": "workspace:*"
+    "@tsed/openapi-utils": "workspace:*"
+    "@tsed/openspec": "workspace:*"
+    "@tsed/platform-http": "workspace:*"
+    "@tsed/schema": "workspace:*"
+    "@tsed/swagger": "workspace:*"
+    "@tsed/typescript": "workspace:*"
+    eslint: "npm:9.12.0"
+    tslib: "npm:2.7.0"
+    typescript: "npm:5.4.5"
+    vitest: "npm:2.1.2"
+  peerDependencies:
+    "@tsed/platform-http": 8.2.0
+  peerDependenciesMeta:
+    "@tsed/platform-http":
+      optional: false
+  languageName: unknown
+  linkType: soft
+
 "@tsed/schema-formio@workspace:packages/third-parties/schema-formio":
   version: 0.0.0-use.local
   resolution: "@tsed/schema-formio@workspace:packages/third-parties/schema-formio"
@@ -8338,25 +8408,22 @@ __metadata:
     "@tsed/core": "workspace:*"
     "@tsed/di": "workspace:*"
     "@tsed/json-mapper": "workspace:*"
-    "@tsed/monorepo-utils": "npm:2.3.9"
     "@tsed/normalize-path": "workspace:*"
+    "@tsed/openapi-utils": "workspace:*"
     "@tsed/openspec": "workspace:*"
     "@tsed/platform-http": "workspace:*"
     "@tsed/schema": "workspace:*"
     "@tsed/typescript": "workspace:*"
     "@types/swagger-ui-dist": "npm:3.30.5"
     eslint: "npm:9.12.0"
-    fs-extra: "npm:11.2.0"
-    micromatch: "npm:4.0.8"
     swagger-ui-dist: "npm:>=5.17.14"
-    ts-node: "npm:10.9.2"
     tslib: "npm:2.7.0"
     typescript: "npm:5.4.5"
     vitest: "npm:2.1.2"
   peerDependencies:
     "@tsed/platform-http": 8.2.0
   peerDependenciesMeta:
-    "@tsed/common":
+    "@tsed/platform-http":
       optional: false
   languageName: unknown
   linkType: soft
@@ -8522,7 +8589,7 @@ __metadata:
     vike: ">=0.4.160"
     vite: ">=4"
   peerDependenciesMeta:
-    "@tsed/common":
+    "@tsed/platform-http":
       optional: false
     vike:
       optional: true
@@ -9809,6 +9876,16 @@ __metadata:
     "@typescript-eslint/types": "npm:8.8.0"
     eslint-visitor-keys: "npm:^3.4.3"
   checksum: 10/325733fce58c8ac917ff8485949fff927794fd842abb4a665549e7a2e63437e6b7b464b60d3c320da1980e43a6bee69b9dd84139b8dc93685b188efbf96fa707
+  languageName: node
+  linkType: hard
+
+"@unhead/schema@npm:^1.11.11":
+  version: 1.11.13
+  resolution: "@unhead/schema@npm:1.11.13"
+  dependencies:
+    hookable: "npm:^5.5.3"
+    zhead: "npm:^2.2.4"
+  checksum: 10/6142e258840afb9061822ec811fbb0a2145923ab46f3033d2e06c178f90d0512c8ca030f33c17bbc6b6edb481eafa7522f984bd00dcecbe7601167a7ca3b6cd1
   languageName: node
   linkType: hard
 
@@ -17559,6 +17636,13 @@ __metadata:
   version: 3.0.0
   resolution: "hook-std@npm:3.0.0"
   checksum: 10/f1f0ca88bbbca2306b9c2c342f45fbecb318ad5496bcbde1fcfc2a64dab0feabd50278a613f683edf07225c4b8b75b3c64ad3f1fca090dd0cae426fdec374a56
+  languageName: node
+  linkType: hard
+
+"hookable@npm:^5.5.3":
+  version: 5.5.3
+  resolution: "hookable@npm:5.5.3"
+  checksum: 10/c6cec06f693e99a8f8ebd55592efc68042b472a4a04522dde384620d9a2cd7f422003357bf5688525f4bb14454bb0e4188a26db847fb1f1e06875958dfc61cde
   languageName: node
   linkType: hard
 
@@ -30260,6 +30344,13 @@ __metadata:
   version: 0.8.15
   resolution: "zen-observable@npm:0.8.15"
   checksum: 10/30eac3f4055d33f446b4cd075d3543da347c2c8e68fbc35c3f5a19fb43be67c6ed27ee136bc8f8933efa547be7ce04957809ad00ee7f1b00a964f199ae6fb514
+  languageName: node
+  linkType: hard
+
+"zhead@npm:^2.2.4":
+  version: 2.2.4
+  resolution: "zhead@npm:2.2.4"
+  checksum: 10/cfa2ba81bf936fd4f5ba19360412c7017a164250823f22e575e1956b20c73d76b989985c02a4f89e2e02f3fb203fbe8857072cf5fbece59a374d1a6bf588555b
   languageName: node
   linkType: hard
 

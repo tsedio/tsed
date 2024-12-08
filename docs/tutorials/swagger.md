@@ -11,8 +11,8 @@ meta:
 <Banner src="https://swagger.io/swagger/media/assets/images/swagger_logo.svg" href="https://swagger.io/" :height="200" />
 
 This page shows you how you can configure Swagger-ui with Ts.ED. Swagger uses the OpenApi
-to describe a Rest API. Ts.ED operates the existing decorators to build
-a spec compliant with Swagger.
+to describe a Rest API. Ts.ED uses existing decorators to build
+a specification compliant with Swagger.
 
 ## Installation
 
@@ -140,7 +140,7 @@ export class Server {}
 
 ## Model documentation
 
-One of the feature of Ts.ED is the model definition to serialize or deserialize a
+One of the features of Ts.ED is the model definition to serialize or deserialize a
 JSON Object based on JsonSchema (See [model documentation](/docs/model.md)).
 
 A model can be used on a method controller along with @@BodyParams@@ or other decorators.
@@ -156,7 +156,7 @@ This example shows you how to use the decorators to generate swagger documentati
 ## Extra parameters
 
 Sometimes you want to display extra `in` parameters like `headers` without consuming it in an endpoint.
-It's possible describe extra parameters by using the @@In@@ decorator over the method.
+It's possible to describe extra parameters by using the @@In@@ decorator over the method.
 
 <<< @/tutorials/snippets/swagger/endpoint-extra-in-params.ts
 

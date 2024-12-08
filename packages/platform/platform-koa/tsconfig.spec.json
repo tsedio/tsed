@@ -25,6 +25,7 @@
       "@tsed/platform-http/testing": ["../../platform/platform-http/src/testing/index.ts"],
       "@tsed/ajv": ["../../specs/ajv/src/index.ts"],
       "@tsed/platform-cache": ["../platform-cache/src/index.ts"],
+      "@tsed/openapi-utils": ["../../specs/openapi-utils/src/index.ts"],
       "@tsed/swagger": ["../../specs/swagger/src/index.ts"],
       "@tsed/platform-test-sdk": ["../platform-test-sdk/src/index.ts"],
       "@tsed/platform-express": ["../platform-express/src/index.ts"]

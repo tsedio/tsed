@@ -84,7 +84,13 @@
       "path": "./packages/platform/platform-cache/tsconfig.json"
     },
     {
+      "path": "./packages/specs/openapi-utils/tsconfig.json"
+    },
+    {
       "path": "./packages/specs/swagger/tsconfig.json"
+    },
+    {
+      "path": "./packages/specs/scalar/tsconfig.json"
     },
     {
       "path": "./packages/platform/platform-test-sdk/tsconfig.json"
