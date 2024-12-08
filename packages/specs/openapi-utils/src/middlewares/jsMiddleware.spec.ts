@@ -1,3 +1,4 @@
+import {runInContext} from "@tsed/di";
 import {PlatformTest} from "@tsed/platform-http/testing";
 import Fs from "fs";
 
@@ -9,10 +10,10 @@ describe("jsMiddleware", () => {
   beforeEach(() => {
     vi.spyOn(Fs, "readFileSync").mockReturnValue("var test=1");
   });
-  it("should create a middleware", () => {
+  it("should create a middleware", async () => {
     const ctx = PlatformTest.createRequestContext();
 
-    jsMiddleware("/path")(ctx);
+    await runInContext(ctx, () => jsMiddleware("/path")());
 
     expect(ctx.response.raw.headers).toEqual({
       "content-type": "application/javascript",

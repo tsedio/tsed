@@ -1,9 +1,9 @@
 import {Provider} from "@tsed/di";
 
-import {SwaggerSettings} from "../interfaces/SwaggerSettings.js";
+import {OpenApiSettings} from "../interfaces/OpenApiSettings.js";
 import {matchPath} from "./matchPath.js";
 
-export function includeRoute(route: string, provider: Provider, conf: SwaggerSettings): boolean {
+export function includeRoute(route: string, provider: Provider, conf: OpenApiSettings): boolean {
   const hidden = provider.store.get("hidden");
   const docs = provider.store.get("docs") || [];
   const {doc, pathPatterns} = conf;

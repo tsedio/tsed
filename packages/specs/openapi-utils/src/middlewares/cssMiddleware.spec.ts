@@ -1,3 +1,4 @@
+import {runInContext} from "@tsed/di";
 import {PlatformTest} from "@tsed/platform-http/testing";
 import Fs from "fs";
 
@@ -9,10 +10,10 @@ describe("cssMiddleware", () => {
   beforeEach(() => {
     vi.spyOn(Fs, "readFileSync").mockReturnValue(".css{}");
   });
-  it("should create a middleware", () => {
+  it("should create a middleware", async () => {
     const ctx = PlatformTest.createRequestContext();
 
-    cssMiddleware("/path")(ctx);
+    await runInContext(ctx, () => cssMiddleware("/path")());
 
     expect(ctx.response.raw.headers).toEqual({
       "content-type": "text/css",

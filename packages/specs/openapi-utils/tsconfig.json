@@ -1,0 +1,34 @@
+{
+  "extends": "@tsed/typescript/tsconfig.node.json",
+  "compilerOptions": {
+    "baseUrl": ".",
+    "noEmit": true
+  },
+  "include": [],
+  "references": [
+    {
+      "path": "../../platform/platform-http/tsconfig.json"
+    },
+    {
+      "path": "../../core/tsconfig.json"
+    },
+    {
+      "path": "../../di/tsconfig.json"
+    },
+    {
+      "path": "../json-mapper/tsconfig.json"
+    },
+    {
+      "path": "../openspec/tsconfig.json"
+    },
+    {
+      "path": "../schema/tsconfig.json"
+    },
+    {
+      "path": "./tsconfig.esm.json"
+    },
+    {
+      "path": "./tsconfig.spec.json"
+    }
+  ]
+}

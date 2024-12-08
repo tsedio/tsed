@@ -1,0 +1,52 @@
+{
+  "name": "@tsed/openapi-utils",
+  "description": "OpenAPI utils to build @tsed/swagger package or @tsed/scalar",
+  "type": "module",
+  "version": "8.2.0",
+  "source": "./src/index.ts",
+  "main": "./lib/esm/index.js",
+  "module": "./lib/esm/index.js",
+  "typings": "./lib/types/index.d.ts",
+  "exports": {
+    ".": {
+      "@tsed/source": "./src/index.ts",
+      "types": "./lib/types/index.d.ts",
+      "import": "./lib/esm/index.js",
+      "default": "./lib/esm/index.js"
+    }
+  },
+  "scripts": {
+    "clean": "rm -rf lib",
+    "build": "yarn clean && yarn barrels && yarn build:ts",
+    "barrels": "barrels",
+    "test": "vitest run",
+    "build:ts": "tsc --build tsconfig.json",
+    "test:ci": "vitest run --coverage.thresholds.autoUpdate=true"
+  },
+  "dependencies": {
+    "@tsed/openspec": "workspace:*",
+    "micromatch": "4.0.8",
+    "tslib": "2.7.0"
+  },
+  "devDependencies": {
+    "@tsed/barrels": "workspace:*",
+    "@tsed/core": "workspace:*",
+    "@tsed/di": "workspace:*",
+    "@tsed/json-mapper": "workspace:*",
+    "@tsed/openspec": "workspace:*",
+    "@tsed/platform-http": "workspace:*",
+    "@tsed/schema": "workspace:*",
+    "@tsed/typescript": "workspace:*",
+    "eslint": "9.12.0",
+    "typescript": "5.4.5",
+    "vitest": "2.1.2"
+  },
+  "peerDependencies": {
+    "@tsed/platform-http": "8.2.0"
+  },
+  "peerDependenciesMeta": {
+    "@tsed/platform-http": {
+      "optional": false
+    }
+  }
+}

@@ -1,14 +1,16 @@
-import type {Type} from "@tsed/core";
+import {writeFile} from "node:fs/promises";
+
+import {Env, type Type} from "@tsed/core";
 import {constant, inject, injectable} from "@tsed/di";
 import {OpenSpec2, OpenSpec3} from "@tsed/openspec";
 import {Platform} from "@tsed/platform-http";
 import {generateSpec} from "@tsed/schema";
 
-import {SwaggerOS2Settings, SwaggerOS3Settings, SwaggerSettings} from "../interfaces/SwaggerSettings.js";
+import {OpenAPI3Settings, OpenApiSettings, Swagger2Settings} from "../interfaces/OpenApiSettings.js";
 import {includeRoute} from "../utils/includeRoute.js";
 import {readSpec} from "../utils/readSpec.js";
 
-export class SwaggerService {
+export class OpenAPIService {
   protected platform = inject(Platform);
 
   #specs: Map<string, OpenSpec3 | OpenSpec2> = new Map();
@@ -17,12 +19,11 @@ export class SwaggerService {
 
   /**
    * Generate Spec for the given configuration
-   * @returns {Spec}
    */
-  public async getOpenAPISpec(conf: SwaggerOS3Settings): Promise<OpenSpec3>;
-  public async getOpenAPISpec(conf: SwaggerOS2Settings): Promise<OpenSpec2>;
-  public async getOpenAPISpec(conf: SwaggerSettings): Promise<OpenSpec2>;
-  public async getOpenAPISpec(conf: SwaggerSettings) {
+  public async getOpenAPISpec(conf: OpenAPI3Settings): Promise<OpenSpec3>;
+  public async getOpenAPISpec(conf: Swagger2Settings): Promise<OpenSpec2>;
+  public async getOpenAPISpec(conf: OpenApiSettings): Promise<OpenSpec2>;
+  public async getOpenAPISpec(conf: OpenApiSettings) {
     if (!this.#specs.has(conf.path)) {
       const version = constant("version", "1.0.0");
       const acceptMimes = constant<string>("acceptMimes");
@@ -46,6 +47,19 @@ export class SwaggerService {
 
     return this.#specs.get(conf.path);
   }
+
+  async writeOpenAPISpec(conf: OpenApiSettings) {
+    const {outFile} = conf;
+    const env = constant<Env>("env");
+
+    if (env === Env.PROD || outFile) {
+      const spec = await this.getOpenAPISpec(conf);
+
+      if (outFile) {
+        return writeFile(outFile, JSON.stringify(spec, null, 2), {encoding: "utf8"});
+      }
+    }
+  }
 }
 
-injectable(SwaggerService);
+injectable(OpenAPIService);
