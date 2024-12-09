@@ -1,4 +1,4 @@
-#!/usr/bin/env ts-node
+#!/usr/bin/env node
 import helpers from "@prisma/generator-helper";
 import {join} from "path";
 
