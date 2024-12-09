@@ -15,7 +15,8 @@ const baseCompilerOptions: CompilerOptions = {
   module: ModuleKind.ESNext,
   emitDecoratorMetadata: true,
   experimentalDecorators: true,
-  esModuleInterop: true
+  esModuleInterop: true,
+  useDefineForClassFields: false
 };
 
 export interface GenerateCodeOptions {
@@ -31,7 +32,9 @@ export async function generateCode(dmmf: DMMF.Document, options: GenerateCodeOpt
   const project = new Project({
     compilerOptions: {
       ...baseCompilerOptions,
-      ...(emitTranspiledCode && {declaration: true})
+      ...(emitTranspiledCode && {
+        declaration: true
+      })
     }
   });
 
