@@ -1,5 +1,5 @@
 <p style="text-align: center" align="center">
- <a href="https://tsed.io" target="_blank"><img src="https://tsed.io/tsed-og.png" width="200" alt="Ts.ED logo"/></a>
+ <a href="https://tsed.dev" target="_blank"><img src="https://tsed.dev/tsed-og.png" width="200" alt="Ts.ED logo"/></a>
 </p>
 
 <div align="center">
@@ -17,9 +17,9 @@
 </div>
 
 <div align="center">
-  <a href="https://tsed.io/">Website</a>
+  <a href="https://tsed.dev/">Website</a>
   <span>&nbsp;&nbsp;•&nbsp;&nbsp;</span>
-  <a href="https://tsed.io/getting-started/">Getting started</a>
+  <a href="https://tsed.dev/getting-started/">Getting started</a>
   <span>&nbsp;&nbsp;•&nbsp;&nbsp;</span>
   <a href="https://api.tsed.io/rest/slack/tsedio/tsed">Slack</a>
   <span>&nbsp;&nbsp;•&nbsp;&nbsp;</span>
@@ -30,7 +30,7 @@
 
 **IMPORTANT:** This package is deprecated in favor of `@tsed/platform-serverless-http` or `@tsed/platform-serverless`. Please don't use this package for new project!
 
-A package of Ts.ED framework. See website: https://tsed.io/tutorials/aws.html
+A package of Ts.ED framework. See website: https://tsed.dev/tutorials/aws.html
 
 ## Installation
 
@@ -56,7 +56,7 @@ PlatformAws.bootstrap(Server, {
       // mime types list
     ]
   }
-  // additional Ts.ED options. See https://tsed.io/tutorials/aws.html
+  // additional Ts.ED options. See https://tsed.dev/tutorials/aws.html
 });
 
 // Handler used by AWS
@@ -98,7 +98,7 @@ class MyCtrl {
 
 ## Contributors
 
-Please read [contributing guidelines here](https://tsed.io/CONTRIBUTING.html)
+Please read [contributing guidelines here](https://tsed.dev/CONTRIBUTING.html)
 
 <a href="https://github.com/tsedio/ts-express-decorators/graphs/contributors"><img src="https://opencollective.com/tsed/contributors.svg?width=890" /></a>
 

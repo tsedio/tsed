@@ -30,7 +30,7 @@
     "build:esm": "tsc --build tsconfig.compile.esm.json"
   },
   "dependencies": {
-    "@tsed/logger-seq": ">=6.2.2",
+    "@tsed/logger-seq": "^6.7.8",
     "tslib": "2.4.0"
   },
   "devDependencies": {
@@ -42,7 +42,7 @@
     "@tsed/core": "^6.133.1",
     "@tsed/di": "^6.133.1",
     "@tsed/json-mapper": "^6.133.1",
-    "@tsed/logger": ">=6.2.2",
+    "@tsed/logger": "^6.7.8",
     "@tsed/openspec": "^6.133.1",
     "@tsed/schema": "^6.133.1"
   },

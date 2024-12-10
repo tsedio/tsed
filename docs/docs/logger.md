@@ -29,7 +29,7 @@ Ts.ED logger supports many features, and is optimized to be used in production.
   - [LogStash UDP](https://logger.tsed.io/appenders/logstash-udp.html).
   - [Loggly](https://logger.tsed.io/appenders/loggly.html).
   - [RabbitMQ](https://logger.tsed.io/appenders/rabbitmq.html).
-  - [Seq](https://tsed.io/tutorials/seq.html).
+  - [Seq](https://tsed.dev/tutorials/seq.html).
   - [Slack](https://logger.tsed.io/appenders/slack.html).
   - [Smtp](https://logger.tsed.io/appenders/smtp.html).
 - @@ContextLogger@@, in **production** mode, caches all request logs until the response is sent to your consumer. See [request logger](/docs/logger.html#request-logger) section bellow.

@@ -5,7 +5,7 @@
   "private": true,
   "author": "Romain Lenzotti",
   "license": "MIT",
-  "homepage": "https://tsed.io/",
+  "homepage": "https://tsed.dev/",
   "bugs": {
     "url": "https://github.com/tsedio/tsed/issues"
   },
@@ -99,7 +99,7 @@
     "multer"
   ],
   "dependencies": {
-    "@tsed/logger": ">=6.2.2",
+    "@tsed/logger": "^6.7.8",
     "ajv": "8.11.0",
     "axios": "0.27.2",
     "barrelsby": "^2.3.2",
@@ -205,49 +205,8 @@
         "dir": "./docs/.vuepress/dist",
         "url": "https://github.com/tsedio/v6.tsed.io.git",
         "branch": "main",
-        "cname": "v6.tsed.io"
+        "cname": "v6.tsed.dev"
       }
-    ],
-    "examples": {
-      "dir": "./examples",
-      "repositories": {
-        "getting-started": {
-          "url": "https://github.com/tsedio/tsed-getting-started.git"
-        },
-        "aws": {
-          "url": "https://github.com/tsedio/tsed-example-aws.git"
-        },
-        "mongoose": {
-          "url": "https://github.com/tsedio/tsed-example-mongoose.git"
-        },
-        "multer": {
-          "url": "https://github.com/tsedio/tsed-example-multer.git"
-        },
-        "passportjs": {
-          "url": "https://github.com/tsedio/tsed-example-passportjs.git"
-        },
-        "typeorm": {
-          "url": "https://github.com/tsedio/tsed-example-typeorm.git"
-        },
-        "session": {
-          "url": "https://github.com/tsedio/tsed-example-session.git"
-        },
-        "socketio": {
-          "url": "https://github.com/tsedio/tsed-example-socketio.git"
-        },
-        "vuejs": {
-          "url": "https://github.com/tsedio/tsed-example-vuejs.git"
-        },
-        "react": {
-          "url": "https://github.com/tsedio/tsed-example-react.git"
-        },
-        "graphql": {
-          "url": "https://github.com/tsedio/tsed-example-graphql.git"
-        },
-        "webpack": {
-          "url": "https://github.com/tsedio/tsed-example-webpack.git"
-        }
-      }
-    }
+    ]
   }
 }
