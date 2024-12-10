@@ -6439,7 +6439,7 @@ __metadata:
     "@tsed/common": "workspace:*"
     "@tsed/core": "workspace:*"
     "@tsed/di": "workspace:*"
-    "@tsed/logger": "npm:>=6.7.5"
+    "@tsed/logger": "npm:^6.7.8"
     "@tsed/typescript": "workspace:*"
     "@types/graphql": "npm:14.5.0"
     apollo-datasource: "npm:^3.3.2"
@@ -6457,7 +6457,7 @@ __metadata:
     "@tsed/common": 7.85.0
     "@tsed/core": 7.85.0
     "@tsed/di": 7.85.0
-    "@tsed/logger": ">=6.7.5"
+    "@tsed/logger": ^6.7.8
     apollo-datasource: ">=3.0.0"
     apollo-datasource-rest: ">=3.0.0"
     apollo-server-core: ">=3.0.0"
@@ -6507,8 +6507,8 @@ __metadata:
     "@tsed/engines": "workspace:*"
     "@tsed/exceptions": "workspace:*"
     "@tsed/json-mapper": "workspace:*"
-    "@tsed/logger": "npm:>=6.7.5"
-    "@tsed/logger-file": "npm:>=6.7.5"
+    "@tsed/logger": "npm:^6.7.8"
+    "@tsed/logger-file": "npm:^6.7.8"
     "@tsed/platform-exceptions": "workspace:*"
     "@tsed/platform-log-middleware": "workspace:*"
     "@tsed/platform-middlewares": "workspace:*"
@@ -6527,8 +6527,8 @@ __metadata:
     uuid: "npm:9.0.1"
     vitest: "npm:2.0.4"
   peerDependencies:
-    "@tsed/logger": ">=6.7.5"
-    "@tsed/logger-file": ">=6.7.5"
+    "@tsed/logger": ^6.7.8
+    "@tsed/logger-file": ^6.7.8
   peerDependenciesMeta:
     "@tsed/logger":
       optional: false
@@ -6584,7 +6584,7 @@ __metadata:
   dependencies:
     "@tsed/barrels": "workspace:*"
     "@tsed/core": "workspace:*"
-    "@tsed/logger": "npm:>=6.7.5"
+    "@tsed/logger": "npm:^6.7.8"
     "@tsed/schema": "workspace:*"
     "@tsed/typescript": "workspace:*"
     cross-env: "npm:7.0.3"
@@ -6595,7 +6595,7 @@ __metadata:
     webpack: "npm:^5.75.0"
   peerDependencies:
     "@tsed/core": 7.85.0
-    "@tsed/logger": ">=6.7.5"
+    "@tsed/logger": ^6.7.8
     "@tsed/schema": 7.85.0
   peerDependenciesMeta:
     "@tsed/core":
@@ -6776,7 +6776,7 @@ __metadata:
     "@tsed/common": "workspace:*"
     "@tsed/core": "workspace:*"
     "@tsed/di": "workspace:*"
-    "@tsed/logger": "npm:>=6.7.5"
+    "@tsed/logger": "npm:^6.7.8"
     "@tsed/typescript": "workspace:*"
     eslint: "npm:^8.57.0"
     graphql-ws: "npm:^5.15.0"
@@ -6786,7 +6786,7 @@ __metadata:
     "@tsed/common": 7.85.0
     "@tsed/core": 7.85.0
     "@tsed/di": 7.85.0
-    "@tsed/logger": ">=6.7.5"
+    "@tsed/logger": ^6.7.8
     graphql-ws: ">=5.14.2"
   languageName: unknown
   linkType: soft
@@ -6870,15 +6870,15 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@tsed/logger-file@npm:>=6.7.5":
-  version: 6.7.5
-  resolution: "@tsed/logger-file@npm:6.7.5"
+"@tsed/logger-file@npm:^6.7.8":
+  version: 6.7.8
+  resolution: "@tsed/logger-file@npm:6.7.8"
   dependencies:
     streamroller: "npm:^3.1.5"
     tslib: "npm:2.6.2"
   peerDependencies:
-    "@tsed/logger": 6.7.5
-  checksum: 10/ad5e7d2bb8d8b856c91b947d4410c57d643abfdedf094a560811a9ff7c89fe3879260b771da13803c511f92c28a33f8bddeb374f96407eac79aa6404093d816a
+    "@tsed/logger": 6.7.8
+  checksum: 10/cec406d33eb27cee6d78cf8db606d9c276805c3bfb1fed4baa3c115520ce4639830260784c13d128e479c244270d6fcc98785902286145a5cd6fdb263c9d9bec
   languageName: node
   linkType: hard
 
@@ -6894,15 +6894,15 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@tsed/logger@npm:>=6.7.5":
-  version: 6.7.5
-  resolution: "@tsed/logger@npm:6.7.5"
+"@tsed/logger@npm:^6.7.8":
+  version: 6.7.8
+  resolution: "@tsed/logger@npm:6.7.8"
   dependencies:
     colors: "npm:1.4.0"
     date-format: "npm:^4.0.14"
     semver: "npm:^7.6.0"
     tslib: "npm:2.6.2"
-  checksum: 10/969e83830261959792ee7ad26236422b251140642980edae79ff96242681a0dd4e93c9e3f428be5d90a5426190c631f891be46c6d325b09f1d9005f5b7cbe21f
+  checksum: 10/c9448a86e7da2fedd542e07fa9108e7852cc4a8dd0d7b02f54071e51914d68f87e655eef0fe430d08a189b0c3b41a35cc8420029a0d2b73e6ad4d8385890f258
   languageName: node
   linkType: hard
 
@@ -6917,7 +6917,7 @@ __metadata:
     "@tsed/core": "workspace:*"
     "@tsed/di": "workspace:*"
     "@tsed/json-mapper": "workspace:*"
-    "@tsed/logger": "npm:>=6.7.5"
+    "@tsed/logger": "npm:^6.7.8"
     "@tsed/schema": "workspace:*"
     "@tsed/testcontainers-mongo": "workspace:*"
     "@tsed/typescript": "workspace:*"
@@ -6932,7 +6932,7 @@ __metadata:
     "@tsed/common": 7.85.0
     "@tsed/core": 7.85.0
     "@tsed/di": 7.85.0
-    "@tsed/logger": ">=6.7.5"
+    "@tsed/logger": ^6.7.8
   languageName: unknown
   linkType: soft
 
@@ -6945,7 +6945,7 @@ __metadata:
     "@tsed/core": "workspace:*"
     "@tsed/di": "workspace:*"
     "@tsed/json-mapper": "workspace:*"
-    "@tsed/logger": "npm:>=6.7.5"
+    "@tsed/logger": "npm:^6.7.8"
     "@tsed/schema": "workspace:*"
     "@tsed/testcontainers-mongo": "workspace:*"
     "@tsed/typescript": "workspace:*"
@@ -6960,7 +6960,7 @@ __metadata:
     "@tsed/core": 7.85.0
     "@tsed/di": 7.85.0
     "@tsed/json-mapper": 7.85.0
-    "@tsed/logger": ">=6.7.5"
+    "@tsed/logger": ^6.7.8
     "@tsed/schema": 7.85.0
     mongoose: ">=6.0.0"
   languageName: unknown
@@ -7077,7 +7077,7 @@ __metadata:
   peerDependencies:
     "@tsed/core": 7.85.0
     "@tsed/di": 7.85.0
-    "@tsed/logger": ">=6.7.5"
+    "@tsed/logger": ^6.7.8
     "@tsed/oidc-provider": 7.85.0
     oidc-provider: ">=8.0.0"
   peerDependenciesMeta:
@@ -7298,7 +7298,7 @@ __metadata:
     "@tsed/core": 7.85.0
     "@tsed/di": 7.85.0
     "@tsed/json-mapper": 7.85.0
-    "@tsed/logger": ">=6.7.5"
+    "@tsed/logger": ^6.7.8
     "@tsed/openspec": 7.85.0
     "@tsed/platform-views": 7.85.0
     "@tsed/schema": 7.85.0
@@ -7366,7 +7366,7 @@ __metadata:
     "@tsed/core": 7.85.0
     "@tsed/di": 7.85.0
     "@tsed/json-mapper": 7.85.0
-    "@tsed/logger": ">=6.7.5"
+    "@tsed/logger": ^6.7.8
     "@tsed/openspec": 7.85.0
     "@tsed/schema": 7.85.0
     koa: ">=2.13.0"
@@ -7580,7 +7580,7 @@ __metadata:
     "@tsed/core": 7.85.0
     "@tsed/di": 7.85.0
     "@tsed/json-mapper": 7.85.0
-    "@tsed/logger": ">=6.7.5"
+    "@tsed/logger": ^6.7.8
     "@tsed/openspec": 7.85.0
     "@tsed/schema": 7.85.0
     serverless-http: ">=2.0.0"
@@ -7621,7 +7621,7 @@ __metadata:
     "@tsed/core": 7.85.0
     "@tsed/di": 7.85.0
     "@tsed/json-mapper": 7.85.0
-    "@tsed/logger": ">=6.7.5"
+    "@tsed/logger": ^6.7.8
     "@tsed/openspec": 7.85.0
     "@tsed/schema": 7.85.0
   languageName: unknown
@@ -7653,7 +7653,7 @@ __metadata:
     vitest: "npm:2.0.4"
   peerDependencies:
     "@tsed/di": 7.85.0
-    "@tsed/logger": ">=6.7.5"
+    "@tsed/logger": ^6.7.8
     find-my-way: ">=7.0.0"
   peerDependenciesMeta:
     "@tsed/di":
@@ -7792,7 +7792,7 @@ __metadata:
     "@swc-node/register": "npm:1.6.8"
     "@swc/core": "npm:1.7.26"
     "@swc/helpers": "npm:0.5.13"
-    "@tsed/logger": "npm:>=6.7.5"
+    "@tsed/logger": "npm:^6.7.8"
     "@tsed/monorepo-utils": "npm:2.3.5"
     "@tsed/ts-doc": "npm:4.1.0"
     "@types/axios": "npm:0.14.0"
@@ -7958,7 +7958,7 @@ __metadata:
   peerDependencies:
     "@tsed/di": 7.85.0
     "@tsed/json-mapper": 7.85.0
-    "@tsed/logger": ">=6.7.5"
+    "@tsed/logger": ^6.7.8
     "@tsed/platform-middlewares": 7.85.0
     "@tsed/schema": 7.85.0
     socket.io: ">=4.0.0"
@@ -7996,7 +7996,7 @@ __metadata:
   peerDependencies:
     "@tsed/di": 7.85.0
     "@tsed/json-mapper": 7.85.0
-    "@tsed/logger": ">=6.7.5"
+    "@tsed/logger": ^6.7.8
     "@tsed/platform-middlewares": 7.85.0
     "@tsed/schema": 7.85.0
   peerDependenciesMeta:

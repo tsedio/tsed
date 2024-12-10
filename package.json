@@ -5,7 +5,7 @@
   "private": true,
   "author": "Romain Lenzotti",
   "license": "MIT",
-  "homepage": "https://tsed.io/",
+  "homepage": "https://tsed.dev/",
   "bugs": {
     "url": "https://github.com/tsedio/tsed/issues"
   },
@@ -98,7 +98,7 @@
     "multer"
   ],
   "dependencies": {
-    "@tsed/logger": ">=6.7.5",
+    "@tsed/logger": "^6.7.8",
     "ajv": "8.12.0",
     "axios": "1.7.4",
     "change-case": "4.1.2",

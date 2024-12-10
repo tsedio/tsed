@@ -1,5 +1,5 @@
 <p style="text-align: center" align="center">
- <a href="https://tsed.io" target="_blank"><img src="https://tsed.io/tsed-og.png" width="200" alt="Ts.ED logo"/></a>
+ <a href="https://tsed.dev" target="_blank"><img src="https://tsed.dev/tsed-og.png" width="200" alt="Ts.ED logo"/></a>
 </p>
 
 <div align="center">
@@ -17,9 +17,9 @@
 </div>
 
 <div align="center">
-  <a href="https://tsed.io/">Website</a>
+  <a href="https://tsed.dev/">Website</a>
   <span>&nbsp;&nbsp;•&nbsp;&nbsp;</span>
-  <a href="https://tsed.io/getting-started/">Getting started</a>
+  <a href="https://tsed.dev/getting-started/">Getting started</a>
   <span>&nbsp;&nbsp;•&nbsp;&nbsp;</span>
   <a href="https://api.tsed.io/rest/slack/tsedio/tsed">Slack</a>
   <span>&nbsp;&nbsp;•&nbsp;&nbsp;</span>
@@ -56,16 +56,16 @@ It provides a lot of decorators and guideline to make your code more readable an
 ## Links
 
 - [Board/Roadmap](https://github.com/orgs/tsedio/projects/4/views/1)
-- [Documentation](https://tsed.io)
+- [Documentation](https://tsed.dev)
 - [Guideline](./CONTRIBUTING.md)
-- [Tutorials](https://tsed.io/tutorials/)
+- [Tutorials](https://tsed.dev/tutorials/)
 - [Community Slack](https://api.tsed.io/rest/slack/tsedio/tsed)
 - [Support us](https://github.com/sponsors/romakita)
-- [Team](https://tsed.io/team.html)
+- [Team](https://tsed.dev/team.html)
 
 ## Getting started
 
-See our [getting started here](https://tsed.io/getting-started) to create new Ts.ED project or use
+See our [getting started here](https://tsed.dev/getting-started) to create new Ts.ED project or use
 our [CLI](https://cli.tsed.io)
 
 ## Overview
@@ -112,7 +112,7 @@ async function bootstrap() {
 bootstrap();
 ```
 
-To customize the server settings see [Configure server with decorator](https://tsed.io/docs/configuration.html)
+To customize the server settings see [Configure server with decorator](https://tsed.dev/docs/configuration.html)
 
 #### Controller example
 

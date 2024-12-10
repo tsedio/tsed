@@ -33,7 +33,7 @@
     "@tsed/core": "workspace:*",
     "@tsed/di": "workspace:*",
     "@tsed/json-mapper": "workspace:*",
-    "@tsed/logger": ">=6.7.5",
+    "@tsed/logger": "^6.7.8",
     "@tsed/schema": "workspace:*",
     "@tsed/testcontainers-mongo": "workspace:*",
     "@tsed/typescript": "workspace:*",
@@ -48,6 +48,6 @@
     "@tsed/common": "7.85.0",
     "@tsed/core": "7.85.0",
     "@tsed/di": "7.85.0",
-    "@tsed/logger": ">=6.7.5"
+    "@tsed/logger": "^6.7.8"
   }
 }

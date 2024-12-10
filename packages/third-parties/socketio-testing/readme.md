@@ -1,5 +1,5 @@
 <p style="text-align: center" align="center">
- <a href="https://tsed.io" target="_blank"><img src="https://tsed.io/tsed-og.png" width="200" alt="Ts.ED logo"/></a>
+ <a href="https://tsed.dev" target="_blank"><img src="https://tsed.dev/tsed-og.png" width="200" alt="Ts.ED logo"/></a>
 </p>
 
 <div align="center">
@@ -16,9 +16,9 @@
 </div>
 
 <div align="center">
-  <a href="https://tsed.io/">Website</a>
+  <a href="https://tsed.dev/">Website</a>
   <span>&nbsp;&nbsp;•&nbsp;&nbsp;</span>
-  <a href="https://tsed.io/getting-started/">Getting started</a>
+  <a href="https://tsed.dev/getting-started/">Getting started</a>
   <span>&nbsp;&nbsp;•&nbsp;&nbsp;</span>
   <a href="https://api.tsed.io/rest/slack/tsedio/tsed">Slack</a>
   <span>&nbsp;&nbsp;•&nbsp;&nbsp;</span>
@@ -26,7 +26,7 @@
 </div>
 
 <hr />
-A package of Ts.ED framework. See website: https://tsed.io/#/tutorials/socket-io
+A package of Ts.ED framework. See website: https://tsed.dev/#/tutorials/socket-io
 
 Socket.io enable real-time bidirectional event-based communication. It works on every platform, browser or device, focusing equally on reliability and speed.
 
@@ -128,7 +128,7 @@ export class MyCtrl {
 
 ### Declaring an Input Event
 
-[@Input](https://tsed.io/api/socketio/decorators/Input.html) decorator declare a method as a new handler for a specific `event`.
+[@Input](https://tsed.dev/api/socketio/decorators/Input.html) decorator declare a method as a new handler for a specific `event`.
 
 ```typescript
 import {SocketService, Input, Emit, Args, Socket, Nsp} from "@tsed/socketio";
@@ -142,15 +142,15 @@ export class MySocketService {
 }
 ```
 
-- [@Args](https://tsed.io/api/socketio/args.html) &lt;any|any[]&gt;: List of the parameters sent by the input event.
-- [@Socket](https://tsed.io/api/socketio/socket.html) &lt;SocketIO.Socket&gt;: Socket instance.
-- [@Nsp](https://tsed.io/api/socketio/nsp.html) &lt;[SocketIO.Namespace](https://socket.io/docs/rooms-and-namespaces/#)&gt;: Namespace instance.
+- [@Args](https://tsed.dev/api/socketio/args.html) &lt;any|any[]&gt;: List of the parameters sent by the input event.
+- [@Socket](https://tsed.dev/api/socketio/socket.html) &lt;SocketIO.Socket&gt;: Socket instance.
+- [@Nsp](https://tsed.dev/api/socketio/nsp.html) &lt;[SocketIO.Namespace](https://socket.io/docs/rooms-and-namespaces/#)&gt;: Namespace instance.
 
 ### Send a response
 
 You have a many choice to send a response to your client. Ts.ED offer some decorators to send a response:
 
-![socketio](https://tsed.io/_media/socketio.png)
+![socketio](https://tsed.dev/_media/socketio.png)
 
 Example:
 
@@ -170,7 +170,7 @@ export class MySocketService {
 > The method accept a promise as returned value.
 
 ::: warning
-Return value is only possible when the method is decorated by [@Emit](https://tsed.io/api/socketio/emit.html), [@Broadcast](https://tsed.io/api/socketio/broadcast.html) and [@BroadcastOthers](https://tsed.io/api/socketio/broadcastothers.html).
+Return value is only possible when the method is decorated by [@Emit](https://tsed.dev/api/socketio/emit.html), [@Broadcast](https://tsed.dev/api/socketio/broadcast.html) and [@BroadcastOthers](https://tsed.dev/api/socketio/broadcastothers.html).
 :::
 
 ### Socket Session
@@ -278,11 +278,11 @@ export class MySocketService {
 
 ## Documentation
 
-See our documentation https://tsed.io/#/api/index
+See our documentation https://tsed.dev/#/api/index
 
 ## Contributors
 
-Please read [contributing guidelines here](https://tsed.io/contributing.html)
+Please read [contributing guidelines here](https://tsed.dev/contributing.html)
 
 <a href="https://github.com/tsedio/tsed/graphs/contributors"><img src="https://opencollective.com/tsed/contributors.svg?width=890" /></a>
 

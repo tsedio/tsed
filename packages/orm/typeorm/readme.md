@@ -1,5 +1,5 @@
 <p style="text-align: center" align="center">
- <a href="https://tsed.io" target="_blank"><img src="https://tsed.io/tsed-og.png" width="200" alt="Ts.ED logo"/></a>
+ <a href="https://tsed.dev" target="_blank"><img src="https://tsed.dev/tsed-og.png" width="200" alt="Ts.ED logo"/></a>
 </p>
 
 <div align="center">
@@ -16,9 +16,9 @@
 </div>
 
 <div align="center">
-  <a href="https://tsed.io/">Website</a>
+  <a href="https://tsed.dev/">Website</a>
   <span>&nbsp;&nbsp;•&nbsp;&nbsp;</span>
-  <a href="https://tsed.io/getting-started/">Getting started</a>
+  <a href="https://tsed.dev/getting-started/">Getting started</a>
   <span>&nbsp;&nbsp;•&nbsp;&nbsp;</span>
   <a href="https://api.tsed.io/rest/slack/tsedio/tsed">Slack</a>
   <span>&nbsp;&nbsp;•&nbsp;&nbsp;</span>
@@ -27,7 +27,7 @@
 
 <hr />
 
-A package of Ts.ED framework. See website: https://tsed.io/tutorials/typeorm
+A package of Ts.ED framework. See website: https://tsed.dev/tutorials/typeorm
 
 ## Feature
 
@@ -154,7 +154,7 @@ export class User {
 }
 ```
 
-Now, the model is correctly defined and can be used with a [Controller](https://tsed.io/docs/controllers.html), [AJV validation](tutorials/ajv.md),
+Now, the model is correctly defined and can be used with a [Controller](https://tsed.dev/docs/controllers.html), [AJV validation](tutorials/ajv.md),
 [Swagger](tutorials/swagger.md) and [TypeORM](https://github.com/typeorm/typeorm).
 
 We can use this model with a Controller like that:
@@ -180,7 +180,7 @@ export class UsersCtrl {
 
 ## Contributors
 
-Please read [contributing guidelines here](https://tsed.io/contributing.html)
+Please read [contributing guidelines here](https://tsed.dev/contributing.html)
 
 <a href="https://github.com/tsedio/tsed/graphs/contributors"><img src="https://opencollective.com/tsed/contributors.svg?width=890" /></a>
 

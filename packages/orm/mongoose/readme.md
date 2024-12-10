@@ -1,5 +1,5 @@
 <p style="text-align: center" align="center">
- <a href="https://tsed.io" target="_blank"><img src="https://tsed.io/tsed-og.png" width="200" alt="Ts.ED logo"/></a>
+ <a href="https://tsed.dev" target="_blank"><img src="https://tsed.dev/tsed-og.png" width="200" alt="Ts.ED logo"/></a>
 </p>
 
 <div align="center">
@@ -16,9 +16,9 @@
 </div>
 
 <div align="center">
-  <a href="https://tsed.io/">Website</a>
+  <a href="https://tsed.dev/">Website</a>
   <span>&nbsp;&nbsp;•&nbsp;&nbsp;</span>
-  <a href="https://tsed.io/getting-started/">Getting started</a>
+  <a href="https://tsed.dev/getting-started/">Getting started</a>
   <span>&nbsp;&nbsp;•&nbsp;&nbsp;</span>
   <a href="https://api.tsed.io/rest/slack/tsedio/tsed">Slack</a>
   <span>&nbsp;&nbsp;•&nbsp;&nbsp;</span>
@@ -27,7 +27,7 @@
 
 <hr />
 
-A package of Ts.ED framework. See website: https://tsed.io/tutorials/mongoose.html
+A package of Ts.ED framework. See website: https://tsed.dev/tutorials/mongoose.html
 
 ## Features
 
@@ -345,7 +345,7 @@ For further information, please refer to the [mongoose documentation about discr
 
 ## Contributors
 
-Please read [contributing guidelines here](https://tsed.io/contributing.html)
+Please read [contributing guidelines here](https://tsed.dev/contributing.html)
 
 <a href="https://github.com/tsedio/tsed/graphs/contributors"><img src="https://opencollective.com/tsed/contributors.svg?width=890" /></a>
 
