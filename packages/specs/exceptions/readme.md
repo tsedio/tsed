@@ -1,5 +1,5 @@
 <p style="text-align: center" align="center">
- <a href="https://tsed.io" target="_blank"><img src="https://tsed.io/tsed-og.png" width="200" alt="Ts.ED logo"/></a>
+ <a href="https://tsed.dev" target="_blank"><img src="https://tsed.dev/tsed-og.png" width="200" alt="Ts.ED logo"/></a>
 </p>
 
 <div align="center">
@@ -16,7 +16,7 @@
 
 </div>
 
-A package of Ts.ED framework. See website: https://tsed.io/
+A package of Ts.ED framework. See website: https://tsed.dev/
 
 Ts.ED http exceptions provide classes to throw standard HTTP exceptions. Theses exceptions can be used on Controller, Middleware or injectable Service.
 Emitted exceptions will be handle by the global error middleware and formatted to an Express response with the right status code and headers.
@@ -31,11 +31,11 @@ npm install --save @tsed/exceptions
 
 ## Documentation
 
-Documentation is available on [https://tsed.io/docs/exceptions](https://tsed.io/docs/exceptions)
+Documentation is available on [https://tsed.dev/docs/exceptions](https://tsed.dev/docs/exceptions)
 
 ## Contributors
 
-Please read [contributing guidelines here](https://tsed.io/CONTRIBUTING.html).
+Please read [contributing guidelines here](https://tsed.dev/CONTRIBUTING.html).
 
 <a href="https://github.com/tsedio/ts-express-decorators/graphs/contributors"><img src="https://opencollective.com/tsed/contributors.svg?width=890" /></a>
 

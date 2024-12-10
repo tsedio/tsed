@@ -43,13 +43,13 @@ module.exports = ({title, description, base = "", url, apiRedirectUrl = "", them
     openCollective: "https://api.tsed.io/rest/opencollective",
     slackUrl: "https://api.tsed.io/rest/slack/tsedio/tsed",
     stackoverflowUrl: "https://stackoverflow.com/search?q=tsed",
-    sponsorUrl: "https://tsed.io/support.html",
+    sponsorUrl: "https://tsed.dev/support.html",
     twitterUrl: "https://twitter.com/TsED_io",
     editLinks: true,
     docsDir: "docs",
     sidebar: "auto",
     docsBranch: "production",
-    apiUrl: "https://tsed.io/api.json",
+    apiUrl: "https://tsed.dev/api.json",
     apiRedirectUrl,
     smoothScroll: true,
     lastUpdated: "Last updated",
@@ -321,7 +321,7 @@ module.exports = ({title, description, base = "", url, apiRedirectUrl = "", them
             children: [
               {
                 title: "Migrate to v7",
-                path: `https://tsed.io/getting-started/migration-from-v6`
+                path: `https://tsed.dev/getting-started/migration-from-v6`
               },
               {
                 title: "Migrate from v5",

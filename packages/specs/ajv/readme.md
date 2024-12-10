@@ -1,5 +1,5 @@
 <p style="text-align: center" align="center">
- <a href="https://tsed.io" target="_blank"><img src="https://tsed.io/tsed-og.png" width="200" alt="Ts.ED logo"/></a>
+ <a href="https://tsed.dev" target="_blank"><img src="https://tsed.dev/tsed-og.png" width="200" alt="Ts.ED logo"/></a>
 </p>
 
 <div align="center">
@@ -16,7 +16,7 @@
 
 </div>
 
-A package of Ts.ED framework. See website: https://tsed.io/#/tutorials/ajv
+A package of Ts.ED framework. See website: https://tsed.dev/#/tutorials/ajv
 
 ## Installation
 
@@ -39,7 +39,7 @@ export class Server {}
 
 ### Decorators
 
-See our API documentation on https://tsed.io/#/api/index
+See our API documentation on https://tsed.dev/#/api/index
 
 ## Example
 
@@ -99,7 +99,7 @@ export class Server {}
 
 ## Contributors
 
-Please read [contributing guidelines here](https://tsed.io/CONTRIBUTING.html)
+Please read [contributing guidelines here](https://tsed.dev/CONTRIBUTING.html)
 
 <a href="https://github.com/tsedio/ts-express-decorators/graphs/contributors"><img src="https://opencollective.com/tsed/contributors.svg?width=890" /></a>
 

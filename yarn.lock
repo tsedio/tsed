@@ -3662,31 +3662,31 @@
   resolved "https://registry.yarnpkg.com/@tsconfig/node16/-/node16-1.0.2.tgz#423c77877d0569db20e1fc80885ac4118314010e"
   integrity sha512-eZxlbI8GZscaGS7kkc/trHTT5xgrjH3/1n2JDwusC9iahPKWMRvRjJSAN5mCXviuTGQ/lHnhvv8Q1YTpnfz9gA==
 
-"@tsed/logger-file@>=6.2.2":
-  version "6.2.2"
-  resolved "https://registry.yarnpkg.com/@tsed/logger-file/-/logger-file-6.2.2.tgz#ffd1f9ab1a0e09160433676976c370a0800ba674"
-  integrity sha512-LLoHK5JYcKNTG/kB7OVbo73crLBl27R3xBOyuyULqwuQD0NJHFE99hseH4EoqZ1lRblVstbP4YpJqKuDx2xqzA==
+"@tsed/logger-file@^6.7.8":
+  version "6.7.8"
+  resolved "https://registry.yarnpkg.com/@tsed/logger-file/-/logger-file-6.7.8.tgz#9696e1b09226e61bc3f616938fd67b5bac754ae1"
+  integrity sha512-xOZtTia2ipZRSdaRcOeCSajfYHV+FvTxvtmtiu1gP9l7tvtsAS7TZ3e6XY0LsFZdv/3Eor7n1jVdaEKZYznMwA==
   dependencies:
-    streamroller "3.0.6"
-    tslib "2.3.1"
+    streamroller "^3.1.5"
+    tslib "2.6.2"
 
-"@tsed/logger-seq@>=6.2.2":
-  version "6.2.2"
-  resolved "https://registry.yarnpkg.com/@tsed/logger-seq/-/logger-seq-6.2.2.tgz#c2ed22c413484a40c6a4dbbd66dbf5ebcf827685"
-  integrity sha512-qI8f6y1RL1padfStzKWnjmCGALJ/TmCm3uak9ar6n0kKdsp0rzCnqQ44vWFNRM3mWzGefjbGCav1js763GeC0A==
+"@tsed/logger-seq@^6.7.8":
+  version "6.7.8"
+  resolved "https://registry.yarnpkg.com/@tsed/logger-seq/-/logger-seq-6.7.8.tgz#fc5035defa6ade42c41316374900f81ecbb56c12"
+  integrity sha512-qExf9qCenSfE2ILwgSkLAPkFGpQxJ7Ydr5E0KGe1tySCENlv/LN5nXW0n8OSuCKu69IMfPwrpBxoqdqRWLgRAQ==
   dependencies:
-    seq-logging "1.1.1"
-    tslib "2.3.1"
+    seq-logging "1.1.2"
+    tslib "2.6.2"
 
-"@tsed/logger@>=6.2.2":
-  version "6.2.2"
-  resolved "https://registry.yarnpkg.com/@tsed/logger/-/logger-6.2.2.tgz#debf9f053b450d0e6c6c6ec995684aed511a4056"
-  integrity sha512-V3iZVZVPWunhRtRR7qvjTiuvGRSEVOA4ALAUzR69QIRihucZ7EnrFRwUJE5dz5GlzmfkbzbiMIrxp3e5BhBF6Q==
+"@tsed/logger@^6.7.8":
+  version "6.7.8"
+  resolved "https://registry.yarnpkg.com/@tsed/logger/-/logger-6.7.8.tgz#68c98b0f4c9368f7c9f82613f5719ac88308958c"
+  integrity sha512-4VB4+nt7Ljihp7IEv7RmosxsRyXZGhnesqlcNEyE8r1WZCVdXvUn2YmyF+4zMkaX1pR5Vaf80i4IDp7WSW9gwg==
   dependencies:
     colors "1.4.0"
-    date-format "^4.0.6"
-    semver "^7.3.5"
-    tslib "2.3.1"
+    date-format "^4.0.14"
+    semver "^7.6.0"
+    tslib "2.6.2"
 
 "@tsed/monorepo-utils@^1.20.2":
   version "1.21.0"
@@ -9206,10 +9206,10 @@ date-fns@^2.16.1:
   resolved "https://registry.yarnpkg.com/date-fns/-/date-fns-2.28.0.tgz#9570d656f5fc13143e50c975a3b6bbeb46cd08b2"
   integrity sha512-8d35hViGYx/QH0icHYCeLmsLmMUheMmTyV9Fcm6gvNwdw31yXXH+O85sOBJ+OLnLQMKZowvpKb6FgMIQjcpvQw==
 
-date-format@^4.0.6:
-  version "4.0.6"
-  resolved "https://registry.yarnpkg.com/date-format/-/date-format-4.0.6.tgz#f6138b8f17968df9815b3d101fc06b0523f066c5"
-  integrity sha512-B9vvg5rHuQ8cbUXE/RMWMyX2YA5TecT3jKF5fLtGNlzPlU7zblSPmAm2OImDbWL+LDOQ6pUm+4LOFz+ywS41Zw==
+date-format@^4.0.14:
+  version "4.0.14"
+  resolved "https://registry.yarnpkg.com/date-format/-/date-format-4.0.14.tgz#7a8e584434fb169a521c8b7aa481f355810d9400"
+  integrity sha512-39BOQLs9ZjKh0/patS9nrT8wc3ioX3/eA/zgbKNopnF2wCqJEoxywwwElATYvRsXdnOxA/OQeQoFZ3rFjVajhg==
 
 date-utils@*:
   version "1.2.21"
@@ -11645,7 +11645,7 @@ fs-extra@10.1.0, fs-extra@^10.0.0, fs-extra@^10.0.1, fs-extra@^10.1.0:
     jsonfile "^6.0.1"
     universalify "^2.0.0"
 
-fs-extra@8.1.0:
+fs-extra@8.1.0, fs-extra@^8.1.0:
   version "8.1.0"
   resolved "https://registry.yarnpkg.com/fs-extra/-/fs-extra-8.1.0.tgz#49d43c45a88cd9677668cb7be1b46efdb8d2e1c0"
   integrity sha512-yhlQgA6mnOJUKOsRUFsgJdQCvkKhcz8tlZG5HBQfReYZy46OwLcY+Zia0mtdHsOo9y/hP+CxMN0TU9QxoOtG4g==
@@ -20961,6 +20961,11 @@ semver@^6.0.0, semver@^6.1.1, semver@^6.1.2, semver@^6.3.0:
   resolved "https://registry.yarnpkg.com/semver/-/semver-6.3.0.tgz#ee0a64c8af5e8ceea67687b133761e1becbd1d3d"
   integrity sha512-b39TBaTSfV6yBrapU89p5fKekE2m/NwnDocOVruQFS1/veMgdzuPcnOM34M6CwxW8jH/lxEa5rBoDeUwu5HHTw==
 
+semver@^7.6.0:
+  version "7.6.3"
+  resolved "https://registry.yarnpkg.com/semver/-/semver-7.6.3.tgz#980f7b5550bc175fb4dc09403085627f9eb33143"
+  integrity sha512-oVekP1cKtI+CTDvHWYFUcMtsK/00wmAEfyqKfNdARm8u1wNVhSgaX7A8d4UuIlUI5e84iEwOhs7ZPYRmzU9U6A==
+
 send@0.17.2:
   version "0.17.2"
   resolved "https://registry.yarnpkg.com/send/-/send-0.17.2.tgz#926622f76601c41808012c8bf1688fe3906f7820"
@@ -21015,10 +21020,10 @@ sentence-case@^3.0.4:
     tslib "^2.0.3"
     upper-case-first "^2.0.2"
 
-seq-logging@1.1.1:
-  version "1.1.1"
-  resolved "https://registry.yarnpkg.com/seq-logging/-/seq-logging-1.1.1.tgz#e9119c1b59ef8c7c855e45462152e72505d437f0"
-  integrity sha512-9miWILWu22dKNCkZi2UePAnZeQEzaYsQRKbAi5eSBUbuOyyeYPyYO1bEvIvZAZRjltEwY1S0yz94hc0/f+niDg==
+seq-logging@1.1.2:
+  version "1.1.2"
+  resolved "https://registry.yarnpkg.com/seq-logging/-/seq-logging-1.1.2.tgz#fde4de7655560aaa614c93ec22fd7b4c2edd8f52"
+  integrity sha512-9n7bCIHiMdBene104oSEa2917OcNBw+uee2v+we4AQxmjqt/aeQkWy1296IvGsogbj5fK6wuDNhVhm/DYmauVA==
 
 serialize-javascript@6.0.0:
   version "6.0.0"
@@ -21930,14 +21935,14 @@ stream-transform@^3.0.4:
   resolved "https://registry.yarnpkg.com/stream-transform/-/stream-transform-3.0.4.tgz#aae97911ea3adf2cd25976655ec3201fb714fda8"
   integrity sha512-g2jbk1hs3GiF3oHZLbR7Fph/PXh/3xHoz/D8aR2oHySE4xVUvNeTGqihhb1vxFjYyu4inqiTfT42g2MHBjjx0g==
 
-streamroller@3.0.6:
-  version "3.0.6"
-  resolved "https://registry.yarnpkg.com/streamroller/-/streamroller-3.0.6.tgz#52823415800ded79a49aa3f7712f50a422b97493"
-  integrity sha512-Qz32plKq/MZywYyhEatxyYc8vs994Gz0Hu2MSYXXLD233UyPeIeRBZARIIGwFer4Mdb8r3Y2UqKkgyDghM6QCg==
+streamroller@^3.1.5:
+  version "3.1.5"
+  resolved "https://registry.yarnpkg.com/streamroller/-/streamroller-3.1.5.tgz#1263182329a45def1ffaef58d31b15d13d2ee7ff"
+  integrity sha512-KFxaM7XT+irxvdqSP1LGLgNWbYN7ay5owZ3r/8t77p+EtSUAfUgtl7be3xtqtOmGUl9K9YPO2ca8133RlTjvKw==
   dependencies:
-    date-format "^4.0.6"
+    date-format "^4.0.14"
     debug "^4.3.4"
-    fs-extra "^10.0.1"
+    fs-extra "^8.1.0"
 
 streamsearch@0.1.2:
   version "0.1.2"
@@ -23007,20 +23012,25 @@ tslib@2.0.1:
   resolved "https://registry.yarnpkg.com/tslib/-/tslib-2.0.1.tgz#410eb0d113e5b6356490eec749603725b021b43e"
   integrity sha512-SgIkNheinmEBgx1IUNirK0TUD4X9yjjBRTqqjggWCU3pUEqIk3/Uwl3yRixYKT6WjQuGiwDv4NomL3wqRCj+CQ==
 
-tslib@2.3.1, tslib@~2.3.0:
-  version "2.3.1"
-  resolved "https://registry.yarnpkg.com/tslib/-/tslib-2.3.1.tgz#e8a335add5ceae51aa261d32a490158ef042ef01"
-  integrity sha512-77EbyPPpMz+FRFRuAFlWMtmgUWGe9UOG2Z25NqCwiIjRhOf5iKGuzSe5P2w1laq+FkRy4p+PCuVkJSGkzTEKVw==
-
 tslib@2.4.0, tslib@^2.0.0, tslib@^2.0.1, tslib@^2.0.3, tslib@^2.1.0, tslib@^2.2.0, tslib@^2.3.0, tslib@^2.3.1:
   version "2.4.0"
   resolved "https://registry.yarnpkg.com/tslib/-/tslib-2.4.0.tgz#7cecaa7f073ce680a05847aa77be941098f36dc3"
   integrity sha512-d6xOpEDfsi2CZVlPQzGeux8XMwLT9hssAsaPYExaQMuYskwb+x1x7J371tWlbBdWHroy99KnVB6qIkUbs5X3UQ==
 
+tslib@2.6.2:
+  version "2.6.2"
+  resolved "https://registry.yarnpkg.com/tslib/-/tslib-2.6.2.tgz#703ac29425e7b37cd6fd456e92404d46d1f3e4ae"
+  integrity sha512-AEYxH93jGFPn/a2iVAwW87VuUIkR1FVUKB77NwMF7nBTDkDrrT/Hpt/IrCJ0QXhW27jTBDcf5ZY7w6RiqTMw2Q==
+
 tslib@^1.10.0, tslib@^1.8.1, tslib@^1.9.0, tslib@^1.9.3:
   version "1.14.1"
   resolved "https://registry.yarnpkg.com/tslib/-/tslib-1.14.1.tgz#cf2d38bdc34a134bcaf1091c41f6619e2f672d00"
   integrity sha512-Xni35NKzjgMrwevysHTCArtLDpPvye8zV/0E4EyYn43P7/7qvQwPh9BGkHewbMulVntbigmcT7rdX3BNo9wRJg==
+
+tslib@~2.3.0:
+  version "2.3.1"
+  resolved "https://registry.yarnpkg.com/tslib/-/tslib-2.3.1.tgz#e8a335add5ceae51aa261d32a490158ef042ef01"
+  integrity sha512-77EbyPPpMz+FRFRuAFlWMtmgUWGe9UOG2Z25NqCwiIjRhOf5iKGuzSe5P2w1laq+FkRy4p+PCuVkJSGkzTEKVw==
 
 tsscmp@1.0.6:
   version "1.0.6"

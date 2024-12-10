@@ -1,5 +1,5 @@
 <p style="text-align: center" align="center">
- <a href="https://tsed.io" target="_blank"><img src="https://tsed.io/tsed-og.png" width="200" alt="Ts.ED logo"/></a>
+ <a href="https://tsed.dev" target="_blank"><img src="https://tsed.dev/tsed-og.png" width="200" alt="Ts.ED logo"/></a>
 </p>
 
 <div align="center">
@@ -18,9 +18,9 @@
 </div>
 
 <div align="center">
-  <a href="https://tsed.io/">Website</a>
+  <a href="https://tsed.dev/">Website</a>
   <span>&nbsp;&nbsp;•&nbsp;&nbsp;</span>
-  <a href="https://tsed.io/tutorials/graphql.html">TypeGraphQL</a>
+  <a href="https://tsed.dev/tutorials/graphql.html">TypeGraphQL</a>
   <span>&nbsp;&nbsp;•&nbsp;&nbsp;</span>
   <a href="https://api.tsed.io/rest/slack/tsedio/tsed">Slack</a>
   <span>&nbsp;&nbsp;•&nbsp;&nbsp;</span>
@@ -29,7 +29,7 @@
 
 <hr />
 
-> A package of Ts.ED framework. See website: https://tsed.io/tutorials/graphql.html
+> A package of Ts.ED framework. See website: https://tsed.dev/tutorials/graphql.html
 
 GraphQL is a query language for APIs and a runtime for fulfilling those queries with your existing data. GraphQL provides a complete and understandable description of the data in your API, gives clients the power to ask for exactly what they need and nothing more, makes it easier to evolve APIs over time, and enables powerful developer tools.
 
@@ -176,7 +176,7 @@ export class RecipeResolver {
 
 ## Contributors
 
-Please read [contributing guidelines here](https://tsed.io/CONTRIBUTING.html)
+Please read [contributing guidelines here](https://tsed.dev/CONTRIBUTING.html)
 
 <a href="https://github.com/tsedio/ts-express-decorators/graphs/contributors"><img src="https://opencollective.com/tsed/contributors.svg?width=890" /></a>
 
