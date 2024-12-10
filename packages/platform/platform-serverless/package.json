@@ -48,7 +48,7 @@
   },
   "peerDependencies": {
     "@tsed/di": "7.85.0",
-    "@tsed/logger": ">=6.7.5",
+    "@tsed/logger": "^6.7.8",
     "find-my-way": ">=7.0.0"
   },
   "peerDependenciesMeta": {

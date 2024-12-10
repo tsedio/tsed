@@ -28,7 +28,7 @@
     "@tsed/common": "workspace:*",
     "@tsed/core": "workspace:*",
     "@tsed/di": "workspace:*",
-    "@tsed/logger": ">=6.7.5",
+    "@tsed/logger": "^6.7.8",
     "@tsed/typescript": "workspace:*",
     "eslint": "^8.57.0",
     "graphql-ws": "^5.15.0",
@@ -38,7 +38,7 @@
     "@tsed/common": "7.85.0",
     "@tsed/core": "7.85.0",
     "@tsed/di": "7.85.0",
-    "@tsed/logger": ">=6.7.5",
+    "@tsed/logger": "^6.7.8",
     "graphql-ws": ">=5.14.2"
   }
 }
