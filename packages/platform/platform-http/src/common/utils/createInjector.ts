@@ -49,7 +49,9 @@ export function createInjector(settings: Partial<TsED.Configuration>) {
     inj.addProvider(token, provider);
   });
 
-  DEFAULT_PROVIDERS.map((provider) => inj.get(provider.token));
+  DEFAULT_PROVIDERS.filter((provider) => ![PlatformResponse, PlatformRequest].includes(provider.token as never)).map((provider) => {
+    return inj.get(provider.token);
+  });
 
   return inj;
 }
