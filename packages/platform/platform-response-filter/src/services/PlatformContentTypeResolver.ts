@@ -1,29 +1,33 @@
-import {isObject} from "@tsed/core";
+import {isObject, isStream} from "@tsed/core";
 import {type BaseContext, inject, injectable} from "@tsed/di";
 
 import {ANY_CONTENT_TYPE} from "../constants/ANY_CONTENT_TYPE.js";
 import {PLATFORM_CONTENT_TYPES_CONTAINER} from "./PlatformContentTypesContainer.js";
 
 /**
+ * Determine the content type of the response based on the data and the context.
+ * @param {unknown} data
+ * @param {BaseContext} ctx
  * @ignore
  */
-export function getContentType(data: any, ctx: BaseContext) {
-  const {endpoint, response} = ctx;
-  const {operation} = endpoint;
+export function getContentType(data: unknown, ctx: BaseContext) {
+  const {
+    endpoint,
+    endpoint: {operation},
+    response
+  } = ctx;
 
-  const contentType = response.getContentType() || operation.getContentTypeOf(response.statusCode) || "";
+  const contentType = response.getContentType() || operation.getContentTypeOf(response.statusCode);
 
   if (contentType && contentType !== ANY_CONTENT_TYPE) {
-    if (contentType === "application/json" && isObject(data)) {
-      return "application/json";
-    }
-
-    return contentType;
+    return contentType === "application/json" && isObject(data) ? "application/json" : contentType;
   }
 
   if (endpoint.view) {
     return "text/html";
   }
+
+  return isObject(data) && !isStream(data) && !Buffer.isBuffer(data) ? "application/json" : contentType;
 }
 
 /**

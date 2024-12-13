@@ -1,5 +1,6 @@
 import {PlatformTest} from "@tsed/platform-http/testing";
 import {EndpointMetadata, Get, Returns, View} from "@tsed/schema";
+import {createReadStream} from "fs";
 
 import {PLATFORM_CONTENT_TYPE_RESOLVER} from "./PlatformContentTypeResolver.js";
 import {PLATFORM_CONTENT_TYPES_CONTAINER} from "./PlatformContentTypesContainer.js";
@@ -30,7 +31,37 @@ describe("PlatformContentTypeResolver", () => {
   beforeEach(() => PlatformTest.create());
   afterEach(() => PlatformTest.reset());
 
-  it("should return the content type (undefined)", async () => {
+  it("should return the content type (undefined | Buffer)", async () => {
+    class TestController {
+      @Get("/")
+      get() {}
+    }
+
+    const {contentTypeResolver, ctx, data} = await getTestFixture();
+
+    ctx.endpoint = EndpointMetadata.get(TestController, "get");
+
+    const result = await contentTypeResolver(Buffer.from("data"), ctx);
+
+    expect(result).toEqual(undefined);
+  });
+  it("should return the content type (undefined | Stream)", async () => {
+    class TestController {
+      @Get("/")
+      get() {}
+    }
+
+    const stream = createReadStream(`${import.meta.dirname}/__mock__/response.txt`);
+
+    const {contentTypeResolver, ctx, data} = await getTestFixture();
+
+    ctx.endpoint = EndpointMetadata.get(TestController, "get");
+
+    const result = await contentTypeResolver(stream, ctx);
+
+    expect(result).toEqual(undefined);
+  });
+  it("should return the content type (object - empty resolve content type - application/json)", async () => {
     class TestController {
       @Get("/")
       get() {}
@@ -42,7 +73,7 @@ describe("PlatformContentTypeResolver", () => {
 
     const result = await contentTypeResolver(data, ctx);
 
-    expect(result).toEqual(undefined);
+    expect(result).toEqual("application/json");
   });
   it("should return the content type (object - application/json)", async () => {
     class TestController {
