@@ -1,4 +1,4 @@
-import {catchError} from "@tsed/core";
+import {catchError, classOf, nameOf} from "@tsed/core";
 
 import {DITest} from "../../node/index.js";
 import {InterceptorContext} from "../interfaces/InterceptorContext.js";
@@ -12,6 +12,8 @@ class MyInterceptor implements InterceptorMethods {
   intercept(context: InterceptorContext<any>) {
     const r = typeof context.args[0] === "string" ? undefined : new Error(`Error message`);
     const retValue = context.next(r);
+
+    expect(nameOf(context.target)).toContain("Service");
 
     return `${retValue} - ${context.options || ""} - intercepted 1`;
   }

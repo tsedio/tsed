@@ -29,7 +29,7 @@ export function bindIntercept(target: any, propertyKey: string | symbol, token: 
     };
 
     const context: InterceptorContext<any> = {
-      target,
+      target: klass,
       propertyKey,
       args,
       options,
