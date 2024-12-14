@@ -1,8 +1,0 @@
-{
-  "extends": "@tsed/typescript/tsconfig.node.json",
-  "compilerOptions": {
-    "baseUrl": ".",
-    "noEmit": true
-  },
-  "include": ["."]
-}

@@ -24,6 +24,7 @@
     "build": "rm -rf lib && yarn build:ts && monorepo build-hybrid",
     "build:ts": "tsc --build tsconfig.json",
     "test": "vitest run",
+    "generate:enums": "yarn build && cd test/enums && prisma -v && prisma generate",
     "generate:postgres:esm": "yarn build && cd test/postgres-esm && prisma -v && prisma generate",
     "generate:mongo:esm": "yarn build && cd test/mongo-esm && prisma -v && prisma generate",
     "generate:circular:esm": "yarn build && cd test/circular-ref && prisma -v && prisma generate",

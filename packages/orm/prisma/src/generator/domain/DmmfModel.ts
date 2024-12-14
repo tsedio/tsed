@@ -67,9 +67,9 @@ export class DmmfModel {
   }
 
   addImportDeclaration(moduleSpecifier: string, name: string, isTypeOnly = false) {
-    if (!this.#imports.has(moduleSpecifier)) {
-      moduleSpecifier = resolveExtension(moduleSpecifier);
+    moduleSpecifier = resolveExtension(moduleSpecifier);
 
+    if (!this.#imports.has(moduleSpecifier)) {
       this.#imports.set(moduleSpecifier, {
         kind: StructureKind.ImportDeclaration,
         moduleSpecifier: moduleSpecifier,
@@ -79,10 +79,11 @@ export class DmmfModel {
     }
 
     const moduleDeclaration = this.#imports.get(moduleSpecifier)!;
-    const nameImports = moduleDeclaration.namedImports as any[];
+    const nameImports = moduleDeclaration.namedImports as string[];
 
     if (!nameImports.includes(name)) {
       nameImports.push(name);
+      moduleDeclaration.namedImports = nameImports.sort();
     }
 
     return this;

@@ -1,6 +1,6 @@
 {
   "name": "@tsed/prisma-test",
-  "type": "commonjs",
+  "type": "module",
   "devDependencies": {
     "prisma": "^4.0.0"
   },

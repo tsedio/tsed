@@ -2,7 +2,7 @@
 
 exports[`generateModels > should generate models (info) 1`] = `
 "import { Info } from "../client/index.js";
-import { Required, Property } from "@tsed/schema";
+import { Property, Required } from "@tsed/schema";
 
 export class InfoModel implements Info {
   @Property(String)
@@ -19,7 +19,7 @@ export class InfoModel implements Info {
 
 exports[`generateModels > should generate models (post) 1`] = `
 "import { Post } from "../client/index.js";
-import { Integer, Required, Property, Allow } from "@tsed/schema";
+import { Allow, Integer, Property, Required } from "@tsed/schema";
 import { UserModel } from "./UserModel.js";
 import type { Relation } from "@tsed/core";
 
@@ -44,7 +44,7 @@ export class PostModel implements Post {
 
 exports[`generateModels > should generate models (user) 1`] = `
 "import { User } from "../client/index.js";
-import { Integer, Required, Property, Groups, Format, Email, Description, Allow, Enum, CollectionOf } from "@tsed/schema";
+import { Allow, CollectionOf, Description, Email, Enum, Format, Groups, Integer, Property, Required } from "@tsed/schema";
 import type { Relation } from "@tsed/core";
 import { Role } from "../enums/index.js";
 import { PostModel } from "./PostModel.js";
