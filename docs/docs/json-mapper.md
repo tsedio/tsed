@@ -2,7 +2,7 @@
 head:
   - - meta
     - name: description
-      content: Documentation over JsonMapper and decorators provided by Ts.ED framework. Use decorator to build your model and map data.
+      content: Discover how to use the @tsed/json-mapper package to map a plain object to a model and a model to a plain object. Learn how to configure the package and use decorators to describe a model and transform object depending on which operation you want to perform.
   - - meta
     - name: keywords
       content: class model decorators ts.ed express typescript node.js javascript jsonschema json mapper serialization deserialization

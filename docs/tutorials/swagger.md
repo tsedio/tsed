@@ -1,9 +1,11 @@
 ---
-meta:
-  - name: description
-    content: Use Swagger with Express, TypeScript and Ts.ED. Swagger open source and pro tools have helped millions of API developers, teams, and organizations deliver great APIs.
-  - name: keywords
-    content: ts.ed express typescript swagger node.js javascript decorators
+head:
+  - - meta
+    - name: description
+      content: Use Swagger UI/OpenAPI with Ts.ED. Swagger open source and pro tools have helped millions of API developers, teams, and organizations deliver great APIs.
+  - - meta
+    - name: keywords
+      content: ts.ed express typescript swagger node.js javascript decorators openapi
 ---
 
 # Swagger

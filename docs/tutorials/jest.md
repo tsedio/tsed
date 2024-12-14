@@ -1,3 +1,13 @@
+---
+head:
+  - - meta
+    - name: description
+      content: This guide will take you through the process of installing Jest, a popular JavaScript testing framework, on an existing Ts.ED project. Jest provides a comprehensive solution for testing JavaScript and TypeScript code, and it integrates seamlessly with Ts.ED.
+  - - meta
+    - name: keywords
+      content: ts.ed express koa typescript jest node.js javascript decorators testing unit-testing test-framework
+---
+
 # Jest
 
 <Banner src="/jest.svg" height="150" href="https://jestjs.io"></Banner>

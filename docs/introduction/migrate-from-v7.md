@@ -5,7 +5,7 @@ head:
       content: Migrate Ts.ED application from v7 to v8. Ts.ED is built on top of Express and uses TypeScript language.
   - - meta
     - name: keywords
-      content: migration getting started ts.ed express typescript node.js javascript decorators mvc class models
+      content: migration v7 getting started ts.ed express typescript node.js javascript decorators mvc class models
 ---
 
 # Migrate from v7 to v8
@@ -291,7 +291,7 @@ fs.readFile();
 This import notation works only if have `"esModuleInterop": true` in your tsconfig.json. Otherwhise, use:
 
 ```ts
-import * as fs from "fs-extra"
+import * as fs from "fs-extra";
 ```
 
 :::

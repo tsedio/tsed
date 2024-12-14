@@ -1,3 +1,13 @@
+---
+head:
+  - - meta
+    - name: description
+      content: Learn how to test your Ts.ED application with Jest and Vitest.
+  - - meta
+    - name: keywords
+      content: testing ts.ed jest vitest unit integration e2e rest api request context
+---
+
 # Testing
 
 ## Unit test

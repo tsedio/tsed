@@ -1,3 +1,13 @@
+---
+head:
+  - - meta
+    - name: description
+      content: Ts.ED is a framework for building server-side and scalable applications for Node.js environment. It's built with TypeScript and uses classes (OOP), decorators and Functional programming to develop your application.
+  - - meta
+    - name: keywords
+      content: discover ts.ed framework express typescript node.js javascript decorators mvc class models providers pipes middlewares testing developer
+---
+
 # What is Ts.ED?
 
 Ts.ED is a framework for building server-side and scalable applications for Node.js environment. It's built with [TypeScript](http://www.typescriptlang.org/) and uses classes (OOP), decorators and Functional programming

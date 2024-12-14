@@ -1,3 +1,13 @@
+---
+head:
+  - - meta
+    - name: description
+      content: Discover how to use interceptors in Ts.ED to bind extra logic before/after method execution, transform the result returned from a function, transform the exception thrown from a function, extend the basic function's behavior, or completely override a function depending on specific conditions.
+  - - meta
+    - name: keywords
+      content: interceptors ts.ed framework express typescript node.js javascript decorators mvc class models providers pipes middlewares testing developer
+---
+
 # Interceptors
 
 An interceptor is a class annotated with the @@Interceptor@@ decorator. Interceptors should implement the @@InterceptorMethods@@ interface.

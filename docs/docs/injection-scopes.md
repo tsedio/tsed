@@ -1,3 +1,13 @@
+---
+head:
+  - - meta
+    - name: description
+      content: Discover how to use injection scopes in Ts.ED to define the lifecycle and visibility of a provider.
+  - - meta
+    - name: keywords
+      content: injection scopes ts.ed framework express typescript node.js javascript decorators mvc class models providers pipes middlewares testing developer
+---
+
 # Injection scopes
 
 The scope of a [Provider](/docs/providers.md) defines the lifecycle and visibility of that bean in the context in which it is used.

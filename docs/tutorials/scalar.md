@@ -1,9 +1,11 @@
 ---
-meta:
-  - name: description
-    content: Use Swagger with Express, TypeScript and Ts.ED. Swagger open source and pro tools have helped millions of API developers, teams, and organizations deliver great APIs.
-  - name: keywords
-    content: ts.ed express typescript swagger node.js javascript decorators
+head:
+  - - meta
+    - name: description
+      content: Use Scalar to describe a Rest API with Ts.ED. Scalar uses the OpenApi to describe a Rest API. Ts.ED uses existing decorators to build a specification compliant with Scalar.
+  - - meta
+    - name: keywords
+      content: ts.ed express typescript scalar node.js javascript decorators openapi swagger
 ---
 
 # Scalar

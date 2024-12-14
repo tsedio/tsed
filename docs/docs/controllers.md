@@ -2,7 +2,7 @@
 head:
   - - meta
     - name: description
-      content: Documentation over Controllers provided by Ts.ED framework. Use controllers to build your REST API.
+      content: Discover how to create controllers and Rest API in Ts.ED to handle incoming requests and return responses to the client.
   - - meta
     - name: keywords
       content: controllers ts.ed express typescript node.js javascript decorators jsonschema class models

@@ -1,3 +1,13 @@
+---
+head:
+  - - meta
+    - name: description
+      content: Ts.ED provides two decorators to get Session and Cookies values in your controller. Learn how to use them in your Ts.ED application.
+  - - meta
+    - name: keywords
+      content: ts.ed express typescript session cookies node.js javascript decorators
+---
+
 # Session & cookies
 
 Ts.ED provides two decorators to get @@Session@@ and @@Cookies@@ values in your controller.

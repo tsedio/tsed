@@ -1,3 +1,13 @@
+---
+head:
+  - - meta
+    - name: description
+      content: Ts.ED provides an utility to get request, response, to store and share data along all middlewares/endpoints during a request with PlatformContext. This context is created by Ts.ED when the request is handled by the server.
+  - - meta
+    - name: keywords
+      content: ts.ed express koa typescript request response context platform-context platform-request platform-response
+---
+
 # Context
 
 Ts.ED provides an utility to get request, response, to store and share data along all middlewares/endpoints during a

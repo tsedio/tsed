@@ -1,9 +1,11 @@
 ---
-meta:
-  - name: description
-    content: Use Apollo, Nexus or Type-graphql with Ts.ED framework. GraphQL is a query language for APIs and a runtime for fulfilling those queries with your existing data.
-  - name: keywords
-    content: ts.ed express typescript nexus typegraphql apollo graphql-ws node.js javascript decorators
+head:
+  - - meta
+    - name: description
+      content: Use Apollo, Nexus or Type-graphql with Ts.ED framework. GraphQL is a query language for APIs and a runtime for fulfilling those queries with your existing data.
+  - - meta
+    - name: keywords
+      content: ts.ed express koa typescript apollo nexus typegraphql node.js javascript decorators
 ---
 
 # GraphQL

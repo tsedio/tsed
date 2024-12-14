@@ -2,7 +2,7 @@
 head:
   - - meta
     - name: description
-      content: Documentation over response filters provided by Ts.ED framework. Use class to transform data before returning it to your consumer.
+      content: Discover response filters provided by Ts.ED framework. Learn how to transform and customize API responses using classes to enhance your application's data flow.
   - - meta
     - name: keywords
       content: response filter ts.ed express typescript node.js javascript decorators jsonschema class models

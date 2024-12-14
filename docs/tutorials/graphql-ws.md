@@ -1,9 +1,11 @@
 ---
-meta:
-  - name: description
-    content: GraphQL Websocket allows you to use the `subscription` feature of GraphQL using the Websocket transport protocol.
-  - name: keywords
-    content: ts.ed express typescript graphql websocket node.js javascript decorators
+head:
+  - - meta
+    - name: description
+      content: GraphQL Websocket allows you to use the `subscription` feature of GraphQL using the Websocket transport protocol.
+  - - meta
+    - name: keywords
+      content: ts.ed express typescript graphql websocket node.js javascript decorators
 ---
 
 # GraphQL WS

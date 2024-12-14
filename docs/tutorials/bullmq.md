@@ -1,9 +1,11 @@
 ---
-meta:
-  - name: description
-    content: Easy to use BullMQ integration for Ts.ED
-  - name: keywords
-    content: ts.ed typescript node.js javascript decorators bullmq
+head:
+  - - meta
+    - name: description
+      content: Easy to use BullMQ integration for Ts.ED. The BullMQ Module for Ts.ED allows you to decorate a class using the `@JobController` decorator and implement the `JobMethods` interface provided by the module. Repeatable Jobs can also be defined using this decorator.
+  - - meta
+    - name: keywords
+      content: ts.ed typescript node.js javascript decorators bullmq
 ---
 
 # BullMQ

@@ -1,9 +1,11 @@
 ---
-meta:
-  - name: description
-    content: Use Vike with Ts.ED. A SSR plugin to render page using Vite and your favorite front-end framework (React.js, Vue.js, etc...).
-  - name: keywords
-    content: ts.ed express typescript vite ssr plugin node.js javascript decorators
+head:
+  - - meta
+    - name: description
+      content: Use Vike with Ts.ED. A SSR plugin to render page using Vite and your favorite front-end framework (React.js, Vue.js, etc...).
+  - - meta
+    - name: keywords
+      content: ts.ed express typescript vite ssr plugin node.js javascript decorators react vue svelte solid
 projects:
   - title: Vike react example
     href: https://github.com/tsedio/tsed-vite-react-movies-demo.git

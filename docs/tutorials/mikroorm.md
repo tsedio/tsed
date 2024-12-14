@@ -1,9 +1,11 @@
 ---
-meta:
-  - name: description
-    content: Use MikroORM with Ts.ED. TypeScript ORM for Node.js based on Data Mapper, Unit of Work and Identity Map patterns. Supports MongoDB, MySQL, MariaDB, PostgreSQL and SQLite databases..
-  - name: keywords
-    content: ts.ed express typescript mikro orm node.js javascript decorators
+head:
+  - - meta
+    - name: description
+      content: Use MikroORM with Ts.ED. TypeScript ORM for Node.js based on Data Mapper, Unit of Work and Identity Map patterns. Supports MongoDB, MySQL, MariaDB, PostgreSQL and SQLite databases..
+  - - meta
+    - name: keywords
+      content: ts.ed express typescript mikro orm node.js javascript decorators
 ---
 
 # MikroORM

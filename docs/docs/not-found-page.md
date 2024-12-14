@@ -1,3 +1,13 @@
+---
+head:
+  - - meta
+    - name: description
+      content: Customize the 404 response error when a resource or route isn't resolved by the router in Ts.ED.
+  - - meta
+    - name: keywords
+      content: 404 not found error customize response ts.ed framework express typescript node.js javascript decorators mvc class models providers pipes middlewares testing developer
+---
+
 # Customize 404
 
 The guide shows you how you can customize the 404 response error when a resource or route isn't resolved by

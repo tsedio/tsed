@@ -1,3 +1,13 @@
+---
+head:
+  - - meta
+    - name: description
+      content: Ts.ED uses the Platform API to create an application. Platform API gives an abstraction layer between your code written with Ts.ED and the Express.js code. It means that a large part of your code isn't coupled with Express.js itself and can be used with another Platform like Koa.js.
+  - - meta
+    - name: keywords
+      content: platform api express koa serverless ts.ed framework typescript node.js javascript decorators mvc class models providers pipes middlewares testing developer
+---
+
 # Platform API
 
 Ts.ED uses now the Platform API to create an application. Platform API gives an abstraction layer between your code written with Ts.ED and the [Express.js](https://expressjs.com/fr/) code.

@@ -1,3 +1,13 @@
+---
+head:
+  - - meta
+    - name: description
+      content: What's new in v8? The latest releases for Ts.ED focus on improved dependency injection that let you access the injector instance everywhere in your code. Notable features in recent pre-releases include support for Apollo 4, the removal of CommonJS support in favor of ECMAScript Modules, enhanced request logging, and additional optimizations to reduce code size.
+  - - meta
+    - name: keywords
+      content: news features v8 ts.ed framework express typescript node.js javascript decorators mvc class models providers pipes middlewares testing developer
+---
+
 # What's new in v8 ?
 
 The latest releases for Ts.ED focus on improved dependency injection that let you access the

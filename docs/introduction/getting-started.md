@@ -1,4 +1,12 @@
 ---
+head:
+  - - meta
+    - name: description
+      content: Start your first Ts.ED project with the CLI or clone a starter project. Ts.ED provides a conventional base structure for your project, making it easy to get started. Choose from a variety of starter projects to find the one that best suits your needs.
+  - - meta
+    - name: keywords
+      content: installation ts.ed framework express koa aws cli di rest graphql typescript node.js bun.js javascript native ESM decorators jsonschema class models providers pipes middlewares testing developer
+
 projects:
   - title: Kit basic
     href: https://github.com/tsedio/tsed-getting-started

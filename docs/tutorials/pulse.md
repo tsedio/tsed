@@ -1,9 +1,11 @@
 ---
-meta:
-  - name: description
-    content: Use Pulse cron with Express/Koa, TypeScript and Ts.ED. Pulse is a maintained for of Agenda, a light-weight job scheduling library for Node.js
-  - name: keywords
-    content: ts.ed express typescript agenda node.js javascript decorators pulse pulse-cron pulsecron
+head:
+  - - meta
+    - name: description
+      content: Use Pulse cron with Express/Koa, TypeScript and Ts.ED. Pulse is a maintained for of Agenda, a light-weight job scheduling library for Node.js
+  - - meta
+    - name: keywords
+      content: ts.ed express typescript agenda node.js javascript decorators pulse pulse-cron pulsecron job-scheduling cron background-jobs
 ---
 
 # Pulse

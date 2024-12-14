@@ -1,3 +1,13 @@
+---
+head:
+  - - meta
+    - name: description
+      content: Discover the capabilities of Ts.ED, a Node.js and TypeScript framework on top of Express/Koa.js. Ts.ED provides different platform adapters to build your awesome server-side application. Depending on the platform you choose, Ts.ED provides a level of abstraction above these common Node.js frameworks (Express/Koa) with the Platform API but some features are not available on all platforms.
+  - - meta
+    - name: keywords
+      content: capabilities platform express koa serverless cli controllers providers model jsonschema jsonmapper middlewares pipes interceptors authentication hooks exceptions logger upload-files serve-files templating validation response-filters cache passport prisma typeorm mongoose
+---
+
 # Capabilities
 
 Ts.ED is a Node.js and TypeScript framework on top of Express/Koa.js. It provides different platform adapters

@@ -8,7 +8,7 @@ head:
       content: Create your first controller. Ts.ED is built on top of Express and uses TypeScript language.
   - - meta
     - name: keywords
-      content: controller getting started ts.ed express typescript node.js javascript decorators mvc class models
+      content: first controller getting started ts.ed express typescript node.js javascript decorators mvc class models
 ---
 
 # Create your first controller

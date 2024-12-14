@@ -1,3 +1,13 @@
+---
+head:
+  - - meta
+    - name: description
+      content: Use Ts.ED validation system to validate your data. Ts.ED provides a set of decorators to validate your data.
+  - - meta
+    - name: keywords
+      content: validation ajv ts.ed express typescript node.js javascript decorators jsonschema class models
+---
+
 # Validation
 
 <Banner src="/ajv_logo.png" href="https://ajv.js.org/" height="100" />

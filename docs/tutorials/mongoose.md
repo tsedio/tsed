@@ -1,9 +1,11 @@
 ---
-meta:
-  - name: description
-    content: Use Mongoose with Express, TypeScript and Ts.ED. Mongoose provides a straight-forward, schema-based solution to model your application data.
-  - name: keywords
-    content: ts.ed express typescript mongoose node.js javascript decorators
+head:
+  - - meta
+    - name: description
+      content: Use Mongoose with Express, TypeScript and Ts.ED. Mongoose provides a straight-forward, schema-based solution to model your application data.
+  - - meta
+    - name: keywords
+      content: mongoose ts.ed express koa typescript node.js javascript decorators
 projects:
   - title: Kit Mongoose
     href: https://github.com/tsedio/tsed-example-mongoose

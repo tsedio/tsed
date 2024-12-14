@@ -1,9 +1,11 @@
 ---
-meta:
-  - name: description
-    content: Use Temporal.io with Express/Koa, TypeScript and Ts.ED. Temporal is an open source durable execution system. Write code that’s fault tolerant, durable, and simple.
-  - name: keywords
-    content: ts.ed express typescript temporal temporal.io node.js javascript decorators
+head:
+  - - meta
+    - name: description
+      content: Use Temporal.io with Express/Koa, TypeScript and Ts.ED. Temporal is an open source durable execution system. Write code that’s fault tolerant, durable, and simple.
+  - - meta
+    - name: keywords
+      content: ts.ed express koa typescript temporal.io temporal node.js javascript decorators
 ---
 
 # Temporal

@@ -1,9 +1,11 @@
 ---
-meta:
-  - name: description
-    content: Nexus
-  - name: keywords
-    content: ts.ed express typescript graphql websocket node.js javascript decorators
+head:
+  - - meta
+    - name: description
+      content: GraphQL Nexus' APIs were designed with type-safety in mind. We auto-generate type-definitions as you develop, and infer them in your code, giving you IDE completion and type error catching out of the box!
+  - - meta
+    - name: keywords
+      content: ts.ed express typescript graphql websocket node.js javascript decorators
 ---
 
 # GraphQL Nexus

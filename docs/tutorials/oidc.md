@@ -1,9 +1,11 @@
 ---
-meta:
-  - name: description
-    content: Use oidc-provider with Express.js/Koa.js, TypeScript and Ts.ED. oidc-provider is an OAuth 2.0 Authorization Server with OpenID Connect and many additional features and standards implemented.
-  - name: keywords
-    content: ts.ed express koa oidc typescript node.js javascript decorators
+head:
+  - - meta
+    - name: description
+      content: Use oidc-provider with Express.js/Koa.js, TypeScript and Ts.ED. oidc-provider is an OAuth 2.0 Authorization Server with OpenID Connect and many additional features and standards implemented.
+  - - meta
+    - name: keywords
+      content: ts.ed express koa oidc typescript node.js javascript decorators
 projects:
   - title: Kit OIDC
     href: https://github.com/tsedio/tsed-example-oidc

@@ -1,3 +1,13 @@
+---
+head:
+  - - meta
+    - name: description
+      content: Guide to install Vitest with Ts.ED. Vitest is a testing framework designed to work seamlessly with Ts.ED, providing a simple and efficient way to run tests for your TypeScript code.
+  - - meta
+    - name: keywords
+      content: ts.ed express typescript vitest testing test framework node.js javascript decorators
+---
+
 # Vitest
 
 ## Introduction

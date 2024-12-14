@@ -2,10 +2,10 @@
 head:
   - - meta
     - name: description
-      content: Documentation over Providers / DI provided by Ts.ED framework. Use providers to build your backend services.
+      content: Discover Ts.ED Providers / DI. Learn how to create a provider, inject dependencies, and use the functional API to define your providers.
   - - meta
     - name: keywords
-      content: providers di ioc ts.ed express typescript node.js javascript decorators jsonschema class models
+      content: providers di ioc ts.ed express typescript node.js javascript decorators jsonschema class models pipes middlewares testing
 ---
 
 # DI & Providers

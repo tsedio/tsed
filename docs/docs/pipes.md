@@ -1,3 +1,13 @@
+---
+head:
+  - - meta
+    - name: description
+      content: Discover Pipes in Ts.ED. Pipes are classes annotated with the Injectable decorator and must be used to transform parameters values before they are received by the route handler method.
+  - - meta
+    - name: keywords
+      content: pipes ts.ed framework express typescript node.js javascript decorators mvc class models providers pipes middlewares testing developer
+---
+
 # Pipes
 
 A pipe is a class annotated with the @@Injectable@@ decorator.

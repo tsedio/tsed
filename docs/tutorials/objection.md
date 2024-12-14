@@ -1,9 +1,11 @@
 ---
-meta:
-  - name: description
-    content: Use Objection.js with Express, TypeScript and Ts.ED.
-  - name: keywords
-    content: ts.ed express typescript objection.js node.js javascript decorators
+head:
+  - - meta
+    - name: description
+      content: Use Objection.js with Express, TypeScript and Ts.ED.
+  - - meta
+    - name: keywords
+      content: ts.ed express typescript objection.js node.js javascript decorators
 ---
 
 # Objection.js

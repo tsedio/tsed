@@ -1,9 +1,11 @@
 ---
-meta:
-  - name: description
-    content: Guide to implement Server-sent events with Ts.ED.
-  - name: keywords
-    content: ts.ed express typescript sse server-sent events node.js javascript decorators
+head:
+  - - meta
+    - name: description
+      content: Guide to implement Server-sent events with Ts.ED. Server-sent events let you push data to the client. It's a simple way to send data from the server to the client.
+  - - meta
+    - name: keywords
+      content: ts.ed express typescript sse server-sent events node.js javascript decorators
 ---
 
 # Server-sent events

@@ -1,9 +1,11 @@
 ---
-meta:
-  - name: description
-    content: Use Keycloak with Express, TypeScript and Ts.ED to secure your application.
-  - name: keywords
-    content: ts.ed express typescript keycloak node.js javascript decorators
+head:
+  - - meta
+    - name: description
+      content: Use Keycloak with Express, TypeScript and Ts.ED to secure your application.
+  - - meta
+    - name: keywords
+      content: ts.ed express typescript keycloak node.js javascript decorators
 ---
 
 # Keycloak

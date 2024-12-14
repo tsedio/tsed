@@ -2,10 +2,10 @@
 head:
   - - meta
     - name: description
-      content: Authentication configuration
+      content: Discover how to use authentication in Ts.ED to protect your route with your own strategy.
   - - meta
     - name: keywords
-      content: ts.ed express typescript auth node.js javascript decorators
+      content: authentication ts.ed framework express typescript node.js javascript decorators mvc class models providers pipes middlewares testing developer
 ---
 
 # Authentication

@@ -1,9 +1,11 @@
 ---
-meta:
-  - name: description
-    content: Use Stripe with Express, TypeScript and Ts.ED. The Stripe Node library provides convenient access to the Stripe API from applications written in server-side JavaScript.
-  - name: keywords
-    content: ts.ed express typescript stripe node.js javascript decorators
+head:
+  - - meta
+    - name: description
+      content: Use Stripe with Express.js/Koa.js, TypeScript and Ts.ED. The Stripe Node library provides convenient access to the Stripe API from applications written in server-side JavaScript.
+  - - meta
+    - name: keywords
+      content: ts.ed express koa typescript stripe payment online node.js javascript decorators
 projects:
   - title: Kit Stripe
     href: https://github.com/tsedio/tsed-stripe-example

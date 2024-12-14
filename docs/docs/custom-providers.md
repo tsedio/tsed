@@ -1,3 +1,13 @@
+---
+head:
+  - - meta
+    - name: description
+      content: Learn how to create custom providers in Ts.ED to bind something directly to the IoC container.
+  - - meta
+    - name: keywords
+      content: custom providers ts.ed framework express typescript node.js javascript decorators mvc class models providers pipes middlewares testing developer
+---
+
 # Custom providers
 
 There are a lot of scenarios where you might want to bind something directly to the IoC container.

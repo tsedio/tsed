@@ -1,9 +1,11 @@
 ---
-meta:
-  - name: description
-    content: Use Prisma with Express, TypeScript and Ts.ED. Passport is authentication middleware for Node.js. Extremely flexible and modular, Passport can be unobtrusively dropped in to any Express-based web application.
-  - name: keywords
-    content: ts.ed express typescript prisma orm node.js javascript decorators
+head:
+  - - meta
+    - name: description
+      content: Use Prisma with Express, TypeScript and Ts.ED. Passport is authentication middleware for Node.js. Extremely flexible and modular, Passport can be unobtrusively dropped in to any Express-based web application.
+  - - meta
+    - name: keywords
+      content: ts.ed express typescript prisma orm node.js javascript decorators
 projects:
   - title: Kit Prisma
     href: https://github.com/tsedio/tsed-example-prisma

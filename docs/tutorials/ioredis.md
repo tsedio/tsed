@@ -1,10 +1,11 @@
 ---
-meta:
-  - name: description
-    content: Use IORedis with Express, TypeScript and Ts.ED.
-  - name: keywords
-    content: ts.ed express typescript ioredis node.js javascript decorators
-    projects:
+head:
+  - - meta
+    - name: description
+      content: Use IORedis with Express, TypeScript and Ts.ED.
+  - - meta
+    - name: keywords
+      content: ts.ed express typescript ioredis node.js javascript decorators
 ---
 
 # IORedis

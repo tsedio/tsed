@@ -1,4 +1,14 @@
-# TypeORM <Badge text="Contributors are welcome" />
+---
+head:
+  - - meta
+    - name: description
+      content: Documentation over TypeORM provided by Ts.ED framework. Use TypeORM to connect to your database.
+  - - meta
+    - name: keywords
+      content: typeorm ts.ed express typescript node.js javascript decorators jsonschema class models
+---
+
+# TypeORM
 
 <Banner src="https://github.com/typeorm/typeorm/raw/master/resources/logo_big.png" href="https://typeorm.io/" height="200" />
 

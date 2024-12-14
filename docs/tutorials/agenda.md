@@ -1,9 +1,11 @@
 ---
-meta:
-  - name: description
-    content: Use Agenda with Express/Koa, TypeScript and Ts.ED. Agenda, a light-weight job scheduling library for Node.js
-  - name: keywords
-    content: ts.ed express typescript agenda node.js javascript decorators
+head:
+  - - meta
+    - name: description
+      content: Use Agenda with Express/Koa, TypeScript and Ts.ED. Agenda, a light-weight job scheduling library for Node.js
+  - - meta
+    - name: keywords
+      content: ts.ed express typescript agenda node.js javascript decorators
 ---
 
 # Agenda

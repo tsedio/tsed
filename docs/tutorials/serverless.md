@@ -1,9 +1,11 @@
 ---
-meta:
-  - name: description
-    content: Guide to deploy your Ts.ED application on Serveless.
-  - name: keywords
-    content: ts.ed express typescript aws node.js javascript decorators
+head:
+  - - meta
+    - name: description
+      content: Guide to deploy your Ts.ED application on Serveless.
+  - - meta
+    - name: keywords
+      content: ts.ed express typescript aws node.js javascript decorators
 ---
 
 # Serverless

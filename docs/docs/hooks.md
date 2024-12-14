@@ -1,3 +1,13 @@
+---
+head:
+  - - meta
+    - name: description
+      content: Discover how to use hooks in Ts.ED to subscribe to lifecycle events and perform actions when they occur.
+  - - meta
+    - name: keywords
+      content: hooks ts.ed framework express typescript node.js javascript decorators mvc class models providers pipes middlewares testing developer
+---
+
 # Hooks
 
 ## Introduction

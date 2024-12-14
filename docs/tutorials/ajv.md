@@ -1,9 +1,11 @@
 ---
-meta:
-  - name: description
-    content: Use AJV with Express, TypeScript and Ts.ED. AJV allows you to validate your data models from a JsonSchema.
-  - name: keywords
-    content: ts.ed express typescript ajv node.js javascript decorators jsonschema class models
+head:
+  - - meta
+    - name: description
+      content: Use AJV with Express, TypeScript and Ts.ED. AJV allows you to validate your data models from a JsonSchema.
+  - - meta
+    - name: keywords
+      content: ts.ed express koa typescript ajv node.js javascript decorators jsonschema class models
 projects:
   - title: Kit basic
     href: https://github.com/tsedio/tsed-getting-started
