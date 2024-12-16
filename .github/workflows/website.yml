@@ -22,7 +22,7 @@ jobs:
       - name: Build pages
         env:
           CI: true
-        run: yarn api:build && yarn vitepress:docs:build
+        run: yarn api:build && yarn vuepress:docs:build
       - name: Publish pages
         env:
           CI: true

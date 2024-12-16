@@ -32,6 +32,7 @@ module.exports = ({title, description, base = "", url, apiRedirectUrl = "", them
     ["meta", {name: "twitter:title", content: title}],
     ["meta", {name: "twitter:description", content: description}],
     ["meta", {name: "twitter:card", content: "summary"}],
+    ["meta", {name: "robots", content: "noindex, nofollow"}],
     ["link", {rel: "preconnect", href: `https://${ALGOLIA.appId}-dsn.algolia.net`, crossOrigin: true}]
   ],
   themeConfig: {
