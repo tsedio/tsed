@@ -25,7 +25,8 @@ module.exports = ({title, description, base = "", url, apiRedirectUrl = "", them
     ["meta", {property: "og:image:height", content: "1024"}],
     ["meta", {name: "twitter:title", content: title}],
     ["meta", {name: "twitter:description", content: description}],
-    ["meta", {name: "twitter:card", content: "summary"}]
+    ["meta", {name: "twitter:card", content: "summary"}],
+    ["meta", {name: "robots", content: "noindex, nofollow"}]
   ],
   themeConfig: {
     shortTitle: "Ts.ED",

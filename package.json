@@ -196,6 +196,7 @@
     "productionBranch": "6.x",
     "developBranch": "6.x",
     "npmAccess": "public",
+    "npmDistTag": "v6-latest",
     "ignoreSyncDependencies": [
       "express",
       "@types/express"
