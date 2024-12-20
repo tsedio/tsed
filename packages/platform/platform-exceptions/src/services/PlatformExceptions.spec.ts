@@ -138,8 +138,51 @@ describe("PlatformExceptions", () => {
         status: 413
       });
     });
-  });
+    it("should handle view exception", async () => {
+      const platformExceptions = PlatformTest.get<PlatformExceptions>(PlatformExceptions);
 
+      class CatchViewException {
+        catch(error: any, ctx: PlatformContext) {
+          ctx.response.body("VIEW");
+          expect(ctx.endpoint).toEqual({
+            view: {
+              path: "hello"
+            }
+          });
+        }
+      }
+
+      platformExceptions.types.set(Symbol.for("VIEW_EXCEPTION"), CatchViewException);
+
+      const ctx = PlatformTest.createRequestContext();
+      ctx.endpoint = {
+        view: {
+          path: "hello"
+        }
+      };
+
+      vi.spyOn(ctx.response, "body").mockReturnThis();
+      vi.spyOn(ctx.response, "setHeaders").mockReturnThis();
+      vi.spyOn(ctx.response, "status").mockReturnThis();
+      vi.spyOn(ctx.response, "contentType").mockReturnThis();
+
+      const origin = new ValidationError("wrong ID", [
+        {
+          path: "id",
+          error: "format"
+        }
+      ]);
+
+      const error = new BadRequest("Bad request on ID", origin);
+      error.headers = {
+        "x-path": "id"
+      };
+
+      await platformExceptions.catch(error, ctx);
+
+      expect(ctx.response.body).toHaveBeenCalledWith("VIEW");
+    });
+  });
   describe("Env.PROD", () => {
     beforeEach(() =>
       PlatformTest.create({

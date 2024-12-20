@@ -109,6 +109,34 @@ If you want to catch all errors, just use the @@Catch@@ decorator with the `Erro
 
 <<< @/docs/snippets/exceptions/error-filter.ts
 
+## View Exception <Badge text="8.4.0+"/>
+
+When a controller method uses the @@View@@ annotation and an error is thrown, by default, the error is rendered in JSON format.
+However, it is possible to change this behavior and render a custom error page using the @@Catch@@ annotation.
+This allows you to implement custom response logic for exceptions, providing a more user-friendly error page instead of a JSON response.
+
+```ts
+import {Catch, ExceptionFilterMethods, VIEW_EXCEPTION} from "@tsed/platform-exceptions";
+import {PlatformContext} from "@tsed/platform-http";
+
+@Catch(VIEW_EXCEPTION)
+export class CatchViewException implements ExceptionFilterMethods {
+  catch(exception: Exception | Error, ctx: PlatformContext) {
+    const {response} = ctx;
+
+    response.status(500).render("error", {
+      message: exception.message,
+      stack: exception.stack
+    });
+  }
+}
+```
+
+::: tip Note
+You have to use a templating engine to render the error page.
+See our page over [Templating engine](/docs/templating#installation) installation for more details.
+:::
+
 ## 404 ResourceNotFound
 
 Ts.ED throw a @@ResourceNotFound@@ error when nothing routes are resolved by the router.

@@ -8,6 +8,8 @@ import {StringErrorFilter} from "../components/StringErrorFilter.js";
 import {ExceptionFilterKey, ExceptionFiltersContainer} from "../domain/ExceptionFiltersContainer.js";
 import {ResourceNotFound} from "../errors/ResourceNotFound.js";
 
+export const VIEW_EXCEPTION = Symbol.for("VIEW_EXCEPTION");
+
 /**
  * Catch all errors and return the json error with the right status code when it's possible.
  *
@@ -31,10 +33,16 @@ export class PlatformExceptions {
   }
 
   protected resolve(error: any, ctx: DIContext) {
-    const name = nameOf(classOf(error));
+    let name = nameOf(classOf(error));
 
-    if (name && this.types.has(name)) {
-      return inject(this.types.get(name)!);
+    if (ctx.endpoint?.view?.path && this.types.has(VIEW_EXCEPTION)) {
+      return inject(this.types.get(VIEW_EXCEPTION)!);
+    }
+
+    if (name) {
+      if (this.types.has(name)) {
+        return inject(this.types.get(name)!);
+      }
     }
 
     const target = ancestorsOf(error)
