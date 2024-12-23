@@ -1,0 +1,84 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`Multi description > OpenSpec > should generate the spec 1`] = `
+{
+  "paths": {
+    "/": {
+      "put": {
+        "description": "Update a pet",
+        "operationId": "testControllerPut_1",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Success",
+          },
+        },
+        "tags": [
+          "TestController",
+        ],
+      },
+    },
+    "/{id}": {
+      "put": {
+        "description": "Description with id",
+        "operationId": "testControllerPutById",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "string",
+            },
+          },
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+          },
+        },
+        "tags": [
+          "TestController",
+        ],
+      },
+    },
+    "/{id}/{albumToken}": {
+      "put": {
+        "description": "Description with id and albumToken",
+        "operationId": "testControllerPut",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "string",
+            },
+          },
+          {
+            "in": "path",
+            "name": "albumToken",
+            "required": true,
+            "schema": {
+              "type": "string",
+            },
+          },
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+          },
+        },
+        "tags": [
+          "TestController",
+        ],
+      },
+    },
+  },
+  "tags": [
+    {
+      "name": "TestController",
+    },
+  ],
+}
+`;

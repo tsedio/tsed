@@ -1,9 +1,10 @@
 import {BodyParams} from "@tsed/platform-params";
 
+import {OperationVerbs} from "../constants/OperationVerbs.js";
 import {Name} from "../decorators/common/name.js";
 import {Get} from "../decorators/operations/route.js";
 import {JsonEntityStore} from "./JsonEntityStore.js";
-import {JsonOperation} from "./JsonOperation.js";
+import {JsonMethodPath, JsonOperation} from "./JsonOperation.js";
 import {JsonOperationRoute} from "./JsonOperationRoute.js";
 
 describe("JsonOperationRoute", () => {
@@ -17,14 +18,12 @@ describe("JsonOperationRoute", () => {
     const operationRoute = new JsonOperationRoute({
       token: Test,
       endpoint,
-      operationPath: {method: "GET", path: "/"},
+      operationPath: new JsonMethodPath("GET", "/"),
       basePath: "/base"
     });
 
-    expect(operationRoute.operationPath).toEqual({
-      method: "GET",
-      path: "/"
-    });
+    expect(operationRoute.operationPath?.method).toEqual("GET");
+    expect(operationRoute.operationPath?.path).toEqual("/");
     expect(operationRoute.method).toEqual("GET");
     expect(operationRoute.path).toEqual("/");
     expect(operationRoute.fullPath).toEqual("/base");
@@ -50,14 +49,12 @@ describe("JsonOperationRoute", () => {
     const operationRoute = new JsonOperationRoute({
       token: Test,
       endpoint,
-      operationPath: {method: "GET", path: "/"},
+      operationPath: new JsonMethodPath(OperationVerbs.GET, "/"),
       basePath: "/base"
     });
 
-    expect(operationRoute.operationPath).toEqual({
-      method: "GET",
-      path: "/"
-    });
+    expect(operationRoute.operationPath?.method).toEqual("GET");
+    expect(operationRoute.operationPath?.path).toEqual("/");
     expect(operationRoute.method).toEqual("GET");
     expect(operationRoute.path).toEqual("/");
     expect(operationRoute.fullPath).toEqual("/base");
@@ -82,14 +79,12 @@ describe("JsonOperationRoute", () => {
     const operationRoute = new JsonOperationRoute({
       token: Test,
       endpoint,
-      operationPath: {method: "GET", path: "/"},
+      operationPath: new JsonMethodPath("GET", "/"),
       basePath: "/base"
     });
 
-    expect(operationRoute.operationPath).toEqual({
-      method: "GET",
-      path: "/"
-    });
+    expect(operationRoute.operationPath?.method).toEqual("GET");
+    expect(operationRoute.operationPath?.path).toEqual("/");
     expect(operationRoute.method).toEqual("GET");
     expect(operationRoute.path).toEqual("/");
     expect(operationRoute.fullPath).toEqual("/base");

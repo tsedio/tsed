@@ -7,6 +7,7 @@ import {Property} from "../decorators/common/property.js";
 import {In} from "../decorators/operations/in.js";
 import {Returns} from "../decorators/operations/returns.js";
 import {Get} from "../decorators/operations/route.js";
+import {inspectOperationsPaths} from "./__fixtures__/inspectOperationsPaths.js";
 import {JsonEntityStore} from "./JsonEntityStore.js";
 import {EndpointMetadata, JsonMethodStore} from "./JsonMethodStore.js";
 import {JsonOperation} from "./JsonOperation.js";
@@ -124,7 +125,7 @@ describe("JsonMethodStore", () => {
       // THEN
       expect(endpoint.middlewares).toHaveLength(1);
 
-      expect([...endpoint.operationPaths.values()]).toEqual([
+      expect(inspectOperationsPaths(endpoint)).toEqual([
         {
           method: OperationVerbs.GET,
           path: "/"
@@ -263,14 +264,11 @@ describe("JsonMethodStore", () => {
       expect(storeMethod?.parameters.length).toEqual(1);
       expect(storeMethod?.params.length).toEqual(1);
 
-      expect([...storeMethod?.operationPaths.entries()]).toEqual([
-        [
-          "GET/",
-          {
-            method: "GET",
-            path: "/"
-          }
-        ]
+      expect(inspectOperationsPaths(storeMethod as JsonMethodStore)).toEqual([
+        {
+          method: "GET",
+          path: "/"
+        }
       ]);
       expect(storeMethod?.getResponseOptions(200)).toEqual({
         groups: undefined,

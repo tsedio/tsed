@@ -1,6 +1,7 @@
 import "../../index.js";
 
 import {OperationVerbs} from "../../constants/OperationVerbs.js";
+import {inspectOperationsPaths} from "../../domain/__fixtures__/inspectOperationsPaths.js";
 import {JsonEntityStore} from "../../domain/JsonEntityStore.js";
 import {Publish} from "./publish.js";
 
@@ -15,7 +16,7 @@ describe("Publish", () => {
     const endpoint = JsonEntityStore.fromMethod(Test, "test");
 
     // THEN
-    expect([...endpoint.operation!.operationPaths.values()]).toEqual([
+    expect(inspectOperationsPaths(endpoint)).toEqual([
       {
         method: OperationVerbs.PUBLISH,
         path: "event"

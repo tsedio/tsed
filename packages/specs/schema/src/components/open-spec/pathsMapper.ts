@@ -76,6 +76,7 @@ function mapOperationInPathParameters(options: JsonSchemaOptions) {
       return {
         operation: {
           ...operation,
+          ...operationPath.toJSON(options),
           parameters,
           operationId:
             operation.operationId ||
