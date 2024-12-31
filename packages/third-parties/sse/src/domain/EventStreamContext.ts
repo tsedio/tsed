@@ -95,19 +95,14 @@ export class EventStreamContext {
       return this;
     }
 
-    this.responseFilter
-      .serialize(data, $ctx as any)
-      .then((data: unknown) => {
-        return this.responseFilter.transform(data, $ctx as any);
-      })
-      .then((data: unknown) => {
-        data = JSON.stringify(data);
+    this.responseFilter.transform(data, $ctx as any).then((data: unknown) => {
+      data = JSON.stringify(data);
 
-        this.write({
-          event: event || "",
-          data: data as string
-        });
+      this.write({
+        event: event || "",
+        data: data as string
       });
+    });
 
     return this;
   }

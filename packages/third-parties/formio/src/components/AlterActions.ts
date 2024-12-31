@@ -126,7 +126,6 @@ export class AlterActions implements AlterHook {
     if (!$ctx.isDone()) {
       setResponseHeaders($ctx);
 
-      data = await this.responseFilter.serialize(data, $ctx as any);
       data = await this.responseFilter.transform(data, $ctx as any);
 
       response.body(data);

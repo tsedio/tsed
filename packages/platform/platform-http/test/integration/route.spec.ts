@@ -1,5 +1,7 @@
 import {All, Delete, EndpointMetadata, Get, Head, OperationVerbs, Options, Patch, Post, Put} from "@tsed/schema";
 
+import {inspectOperationsPaths} from "./__fixtures__/inspectOperationsPaths.js";
+
 describe("Route decorators", () => {
   describe("All", () => {
     it("should register route and middleware (1)", () => {
@@ -12,7 +14,7 @@ describe("Route decorators", () => {
       const endpoint = EndpointMetadata.get(Test, "test");
 
       // THEN
-      expect([...endpoint.operationPaths.values()]).toEqual([
+      expect(inspectOperationsPaths(endpoint)).toEqual([
         {
           method: OperationVerbs.ALL,
           path: "/"
@@ -33,7 +35,7 @@ describe("Route decorators", () => {
       const endpoint = EndpointMetadata.get(Test, "test");
 
       // THEN
-      expect([...endpoint.operationPaths.values()]).toEqual([
+      expect(inspectOperationsPaths(endpoint)).toEqual([
         {
           method: OperationVerbs.GET,
           path: "/"
@@ -53,7 +55,7 @@ describe("Route decorators", () => {
       const endpoint = EndpointMetadata.get(Test, "test");
 
       // THEN
-      expect([...endpoint.operationPaths.values()]).toEqual([
+      expect(inspectOperationsPaths(endpoint)).toEqual([
         {
           method: OperationVerbs.GET,
           path: "/"
@@ -75,7 +77,7 @@ describe("Route decorators", () => {
       const endpoint = EndpointMetadata.get(Test, "test");
 
       // THEN
-      expect([...endpoint.operationPaths.values()]).toEqual([
+      expect(inspectOperationsPaths(endpoint)).toEqual([
         {
           method: OperationVerbs.POST,
           path: "/"
@@ -96,7 +98,7 @@ describe("Route decorators", () => {
       const endpoint = EndpointMetadata.get(Test, "test");
 
       // THEN
-      expect([...endpoint.operationPaths.values()]).toEqual([
+      expect(inspectOperationsPaths(endpoint)).toEqual([
         {
           method: OperationVerbs.PUT,
           path: "/"
@@ -117,7 +119,7 @@ describe("Route decorators", () => {
       const endpoint = EndpointMetadata.get(Test, "test");
 
       // THEN
-      expect([...endpoint.operationPaths.values()]).toEqual([
+      expect(inspectOperationsPaths(endpoint)).toEqual([
         {
           method: OperationVerbs.DELETE,
           path: "/"
@@ -138,7 +140,7 @@ describe("Route decorators", () => {
       const endpoint = EndpointMetadata.get(Test, "test");
 
       // THEN
-      expect([...endpoint.operationPaths.values()]).toEqual([
+      expect(inspectOperationsPaths(endpoint)).toEqual([
         {
           method: OperationVerbs.HEAD,
           path: "/"
@@ -159,7 +161,7 @@ describe("Route decorators", () => {
       const endpoint = EndpointMetadata.get(Test, "test");
 
       // THEN
-      expect([...endpoint.operationPaths.values()]).toEqual([
+      expect(inspectOperationsPaths(endpoint)).toEqual([
         {
           method: OperationVerbs.PATCH,
           path: "/"
@@ -180,7 +182,7 @@ describe("Route decorators", () => {
       const endpoint = EndpointMetadata.get(Test, "test");
 
       // THEN
-      expect([...endpoint.operationPaths.values()]).toEqual([
+      expect(inspectOperationsPaths(endpoint)).toEqual([
         {
           method: OperationVerbs.OPTIONS,
           path: "/"

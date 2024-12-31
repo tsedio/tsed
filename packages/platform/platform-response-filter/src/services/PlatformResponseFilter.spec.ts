@@ -1,7 +1,7 @@
 import {catchAsyncError} from "@tsed/core";
 import {PlatformTest} from "@tsed/platform-http/testing";
 import {Context} from "@tsed/platform-params";
-import {EndpointMetadata, Get, Returns, View} from "@tsed/schema";
+import {EndpointMetadata, Get, Ignore, Property, Returns, View} from "@tsed/schema";
 
 import {ResponseFilter} from "../decorators/responseFilter.js";
 import {ResponseFilterMethods} from "../interfaces/ResponseFilterMethods.js";
@@ -29,7 +29,7 @@ class AllFilter implements ResponseFilterMethods {
 }
 
 describe("PlatformResponseFilter", () => {
-  describe("transform()", () => {
+  describe("transform() with registered filters", () => {
     describe("when filter list is given", () => {
       beforeEach(() =>
         PlatformTest.create({
@@ -164,7 +164,6 @@ describe("PlatformResponseFilter", () => {
         });
       });
     });
-
     describe("when filter list is not given", () => {
       beforeEach(() =>
         PlatformTest.create({
@@ -228,18 +227,14 @@ describe("PlatformResponseFilter", () => {
       });
     });
   });
-  describe("serialize()", () => {
-    beforeEach(() =>
-      PlatformTest.create({
-        responseFilters: [CustomJsonFilter, AllFilter, ApplicationJsonFilter]
-      })
-    );
+  describe("transform() without registered filters", () => {
+    beforeEach(() => PlatformTest.create());
     afterEach(() => PlatformTest.reset());
     it("should transform value", async () => {
       const platformResponseFilter = PlatformTest.get<PlatformResponseFilter>(PlatformResponseFilter);
       const ctx = PlatformTest.createRequestContext();
 
-      const result = await platformResponseFilter.serialize({test: "test"}, ctx);
+      const result = await platformResponseFilter.transform({test: "test"}, ctx);
 
       expect(result).toEqual({test: "test"});
     });
@@ -255,7 +250,7 @@ describe("PlatformResponseFilter", () => {
 
       vi.spyOn(ctx.endpoint, "getResponseOptions");
 
-      const result = await platformResponseFilter.serialize({test: "test"}, ctx);
+      const result = await platformResponseFilter.transform({test: "test"}, ctx);
 
       expect(result).toEqual({test: "test"});
       expect(ctx.endpoint.getResponseOptions).toHaveBeenCalledWith(200, {includes: undefined});
@@ -274,7 +269,7 @@ describe("PlatformResponseFilter", () => {
 
       ctx.request.query.includes = [];
 
-      const result = await platformResponseFilter.serialize({test: "test"}, ctx);
+      const result = await platformResponseFilter.transform({test: "test"}, ctx);
 
       expect(result).toEqual({test: "test"});
       expect(ctx.endpoint.getResponseOptions).toHaveBeenCalledWith(200, {includes: []});
@@ -293,7 +288,7 @@ describe("PlatformResponseFilter", () => {
 
       ctx.request.query.includes = ["test,test2"];
 
-      const result = await platformResponseFilter.serialize({test: "test"}, ctx);
+      const result = await platformResponseFilter.transform({test: "test"}, ctx);
 
       expect(result).toEqual({test: "test"});
       expect(ctx.endpoint.getResponseOptions).toHaveBeenCalledWith(200, {
@@ -312,7 +307,7 @@ describe("PlatformResponseFilter", () => {
       ctx.endpoint = EndpointMetadata.get(Test, "test");
       vi.spyOn(ctx.response, "render").mockResolvedValue("template");
 
-      const result = await platformResponseFilter.serialize({test: "test"}, ctx);
+      const result = await platformResponseFilter.transform({test: "test"}, ctx);
 
       expect(result).toEqual("template");
     });
@@ -328,9 +323,62 @@ describe("PlatformResponseFilter", () => {
       ctx.endpoint = EndpointMetadata.get(Test, "test");
       vi.spyOn(ctx.response, "render").mockRejectedValue(new Error("parsing error"));
 
-      const result = await catchAsyncError(() => platformResponseFilter.serialize({test: "test"}, ctx));
+      const result = await catchAsyncError(() => platformResponseFilter.transform({test: "test"}, ctx));
 
       expect(result?.message).toEqual("Template rendering error: Test.test()\nError: parsing error");
+    });
+
+    it("should render content", async () => {
+      class Model {
+        @Property()
+        data: string;
+
+        @Ignore()
+        test: string;
+      }
+
+      class Test {
+        @Get("/")
+        @View("view", {options: "options"})
+        @Returns(200, Model)
+        test() {}
+      }
+
+      const platformResponseFilter = PlatformTest.get<PlatformResponseFilter>(PlatformResponseFilter);
+      const ctx = PlatformTest.createRequestContext();
+
+      ctx.endpoint = EndpointMetadata.get(Test, "test");
+
+      vi.spyOn(ctx.response, "render").mockResolvedValue("HTML");
+
+      ctx.data = {data: "data"};
+
+      await platformResponseFilter.transform(ctx.data, ctx);
+
+      expect(ctx.response.render).toHaveBeenCalledWith("view", {
+        $ctx: ctx,
+        data: "data",
+        options: "options"
+      });
+    });
+    it("should render content and throw an error", async () => {
+      class Test {
+        @Get("/")
+        @View("view", {options: "options"})
+        test() {}
+      }
+
+      const platformResponseFilter = PlatformTest.get<PlatformResponseFilter>(PlatformResponseFilter);
+      const ctx = PlatformTest.createRequestContext();
+      ctx.endpoint = EndpointMetadata.get(Test, "test");
+
+      vi.spyOn(ctx.response, "render").mockRejectedValue(new Error("parser error"));
+
+      ctx.data = {data: "data"};
+
+      let actualError: any = await catchAsyncError(() => platformResponseFilter.transform(ctx.data, ctx));
+
+      expect(actualError.message).toEqual("Template rendering error: Test.test()\nError: parser error");
     });
   });
 });

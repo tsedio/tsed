@@ -9,4 +9,3 @@ export * from "./interfaces/ResponseFilterMethods.js";
 export * from "./services/PlatformContentTypeResolver.js";
 export * from "./services/PlatformContentTypesContainer.js";
 export * from "./services/PlatformResponseFilter.js";
-export * from "./utils/renderView.js";
