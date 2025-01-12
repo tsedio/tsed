@@ -9,7 +9,7 @@
   "typings": "./lib/types/index.d.ts",
   "exports": {
     ".": {
-      "@tsed/source": "./src/index.ts",
+      "tsed-source": "./src/index.ts",
       "types": "./lib/types/index.d.ts",
       "import": "./lib/esm/index.js",
       "default": "./lib/esm/index.js"
@@ -45,9 +45,9 @@
   },
   "peerDependencies": {
     "@mikro-orm/core": ">=4.5.9",
-    "@tsed/core": "8.4.0",
-    "@tsed/di": "8.4.0",
+    "@tsed/core": ">=8.0.0",
+    "@tsed/di": ">=8.0.0",
     "@tsed/logger": ">=7.0.1",
-    "@tsed/platform-http": "8.4.0"
+    "@tsed/platform-http": ">=8.0.0"
   }
 }

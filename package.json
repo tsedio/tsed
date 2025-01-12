@@ -113,7 +113,7 @@
     "@swc-node/register": "1.10.9",
     "@swc/core": "1.7.28",
     "@swc/helpers": "0.5.13",
-    "@tsed/monorepo-utils": "2.3.9",
+    "@tsed/monorepo-utils": "2.3.11",
     "@tsed/ts-doc": "5.0.0",
     "@types/axios": "0.14.0",
     "@types/globby": "9.1.0",

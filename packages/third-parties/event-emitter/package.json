@@ -15,7 +15,7 @@
   "browser": "./lib/browser/event-emitter.umd.min.js",
   "exports": {
     ".": {
-      "@tsed/source": "./src/index.ts",
+      "tsed-source": "./src/index.ts",
       "types": "./lib/types/index.d.ts",
       "browser": "./lib/browser/event-emitter.umd.min.js",
       "import": "./lib/esm/index.js",

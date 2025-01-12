@@ -17,7 +17,7 @@
   "typings": "./lib/types/index.d.ts",
   "exports": {
     ".": {
-      "@tsed/source": "./src/index.ts",
+      "tsed-source": "./src/index.ts",
       "types": "./lib/types/index.d.ts",
       "import": "./lib/esm/index.js",
       "default": "./lib/esm/index.js"
@@ -53,7 +53,7 @@
     "vitest": "2.1.2"
   },
   "peerDependencies": {
-    "@tsed/platform-http": "8.4.0",
+    "@tsed/platform-http": ">=8.0.0",
     "express": "^4.17.1",
     "formio": ">=2.0.0",
     "lodash": "^4.17.21",
