@@ -48,7 +48,7 @@
     "express": "^4.21.0",
     "formio": "4.2.5",
     "mongodb": "^6.9.0",
-    "mongoose": "8.7.0",
+    "mongoose": "8.9.4",
     "typescript": "5.4.5",
     "vitest": "2.1.2"
   },
