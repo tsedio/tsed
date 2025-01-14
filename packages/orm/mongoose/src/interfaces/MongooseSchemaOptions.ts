@@ -2,32 +2,42 @@ import {type IndexOptions, Schema, SchemaOptions} from "mongoose";
 
 import {MongooseDocument} from "./MongooseDocument.js";
 
+export type MongooseMethod =
+  | "aggregate"
+  | "bulkWrite"
+  | "createCollection"
+  | "save"
+  | "insertMany"
+  | "estimatedDocumentCount"
+  | "countDocuments"
+  | "deleteMany"
+  | "distinct"
+  | "find"
+  | "findOne"
+  | "findOneAndDelete"
+  | "findOneAndReplace"
+  | "findOneAndUpdate"
+  | "replaceOne"
+  | "updateMany"
+  | "init"
+  | "validate";
+
+export type MongooseMethods = MongooseMethod | RegExp | MongooseMethod[];
+
 export type MongooseNextCB = (err?: Error) => void;
-
-export interface MongooseHookOptions {
-  document?: boolean;
-  query?: boolean;
-  parallel?: boolean;
-}
-
-export type MongooseHookPromised<T = any> = (doc: T | MongooseDocument<T>) => Promise<void> | void;
-
-export type MongoosePreHookCB<T = any> = ((doc: T | MongooseDocument<T>, next: MongooseNextCB) => void) | MongooseHookPromised;
-
-export type MongoosePostHookCB<T = any> =
-  | ((doc: T | MongooseDocument<T>, error: Error, next: MongooseNextCB) => void)
-  | ((doc: T | MongooseDocument<T>, error: Error) => Promise<void> | void)
-  | ((doc: T | MongooseDocument<T>, next: MongooseNextCB) => void)
-  | MongooseHookPromised;
+export type MongooseHookOptions = Record<string, unknown>;
+export type MongooseHookPromised<T = any> = (doc: T | MongooseDocument<T>) => Promise<void>;
+export type MongoosePreHookCB<T = any> = (doc: T | MongooseDocument<T>, ...args: unknown[]) => Promise<void> | void;
+export type MongoosePostHookCB<T = any> = (doc: T | MongooseDocument<T>, ...args: unknown[]) => Promise<void> | void;
 
 export interface MongoosePreHook<T = any> {
-  method: string | RegExp;
+  method: MongooseMethods;
   fn: MongoosePreHookCB<T>;
   options?: MongooseHookOptions;
 }
 
 export interface MongoosePostHook<T = any> {
-  method: string | RegExp;
+  method: MongooseMethods;
   fn: MongoosePostHookCB<T>;
   options?: MongooseHookOptions;
 }

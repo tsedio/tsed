@@ -1,6 +1,6 @@
-import {decoratorTypeOf, DecoratorTypes} from "@tsed/core";
+import {decoratorTypeOf, DecoratorTypes, StaticMethodDecorator} from "@tsed/core";
 
-import {MongooseHookOptions, MongoosePreHookCB} from "../interfaces/MongooseSchemaOptions.js";
+import type {MongooseHookOptions, MongooseMethods, MongoosePreHookCB} from "../interfaces/MongooseSchemaOptions.js";
 import {schemaOptions} from "../utils/schemaOptions.js";
 
 /**
@@ -43,28 +43,37 @@ import {schemaOptions} from "../utils/schemaOptions.js";
  *
  * This will execute the pre-save hook each time a `CarModel` document is saved.
  *
- * @param {string} method
- * @param fn
- * @param options
  * @returns {Function}
  * @decorator
  * @class
+ * @param method
+ * @param fn
+ * @param options
  */
-export function PreHook<T = any>(method: string, fn?: MongoosePreHookCB<T> | MongooseHookOptions, options?: MongooseHookOptions): Function {
+export function PreHook<T = any>(method: MongooseMethods, fn: MongoosePreHookCB<T>, options?: MongooseHookOptions): ClassDecorator;
+export function PreHook<T = any>(method: MongooseMethods, options?: MongooseHookOptions): StaticMethodDecorator;
+export function PreHook<T = any>(method: MongooseMethods, ...decoratorArgs: any[]): ClassDecorator | StaticMethodDecorator {
   return (...args: any[]) => {
     if (decoratorTypeOf(args) === DecoratorTypes.METHOD_STC) {
-      options = fn as MongooseHookOptions;
-      fn = args[0][args[1]].bind(args[0]);
+      schemaOptions(args[0], {
+        pre: [
+          {
+            method,
+            fn: args[0][args[1]].bind(args[0]),
+            options: decoratorArgs[0]
+          }
+        ]
+      });
+    } else {
+      schemaOptions(args[0], {
+        pre: [
+          {
+            method,
+            fn: decoratorArgs[0],
+            options: decoratorArgs[1]
+          }
+        ]
+      });
     }
-
-    schemaOptions(args[0], {
-      pre: [
-        {
-          method,
-          fn: fn as MongoosePreHookCB<T>,
-          options
-        }
-      ]
-    });
   };
 }

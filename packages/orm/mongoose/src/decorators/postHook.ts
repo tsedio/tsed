@@ -1,6 +1,6 @@
 import {decoratorTypeOf, DecoratorTypes, StaticMethodDecorator} from "@tsed/core";
 
-import {MongooseHookOptions, MongoosePostHookCB} from "../interfaces/MongooseSchemaOptions.js";
+import {MongooseHookOptions, MongooseMethods, MongoosePostHookCB} from "../interfaces/MongooseSchemaOptions.js";
 import {schemaOptions} from "../utils/schemaOptions.js";
 
 /**
@@ -46,10 +46,10 @@ import {schemaOptions} from "../utils/schemaOptions.js";
  * @mongoose
  * @class
  */
-export function PostHook<T = any>(method: string, fn: MongoosePostHookCB<T>): ClassDecorator;
-export function PostHook<T = any>(method: string, fn: MongoosePostHookCB<T>, options: MongooseHookOptions): ClassDecorator;
-export function PostHook<T = any>(method: string, options: MongooseHookOptions): StaticMethodDecorator;
-export function PostHook<T = any>(method: string, ...params: any[]): Function {
+export function PostHook<T = any>(method: MongooseMethods, fn: MongoosePostHookCB<T>): ClassDecorator;
+export function PostHook<T = any>(method: MongooseMethods, fn: MongoosePostHookCB<T>, options: MongooseHookOptions): ClassDecorator;
+export function PostHook<T = any>(method: MongooseMethods, options: MongooseHookOptions): StaticMethodDecorator;
+export function PostHook<T = any>(method: MongooseMethods, ...params: any[]): ClassDecorator | StaticMethodDecorator {
   return ((...args: any[]) => {
     let options: MongooseHookOptions = params[1];
     let fn: MongoosePostHookCB<T> = params[0];

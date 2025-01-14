@@ -4,7 +4,6 @@ import {Schema} from "mongoose";
 import {MONGOOSE_SCHEMA_OPTIONS} from "../constants/constants.js";
 import {
   MongooseHookPromised,
-  MongooseNextCB,
   MongoosePostHook,
   MongoosePreHook,
   MongoosePreHookCB,
@@ -40,8 +39,9 @@ export function buildPreHook(fn: MongoosePreHookCB) {
     ? function () {
         return (fn as MongooseHookPromised)(this);
       }
-    : function (next: MongooseNextCB) {
-        return fn(this, next);
+    : // we need to explicitly gives args to avoid a bug with mongoose
+      function (next: Function, arg1: unknown, arg2: unknown) {
+        return (fn as any)(this, next, arg1, arg2);
       };
 }
 
