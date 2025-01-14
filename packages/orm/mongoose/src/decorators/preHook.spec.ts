@@ -7,7 +7,7 @@ describe("@PreHook()", () => {
       const fn = vi.fn();
 
       // WHEN
-      @PreHook("method", fn, {query: true})
+      @PreHook("save", fn as any, {query: true})
       class Test {}
 
       // THEN
@@ -16,7 +16,7 @@ describe("@PreHook()", () => {
       expect(options).toEqual({
         pre: [
           {
-            method: "method",
+            method: "save",
             fn,
             options: {
               query: true
@@ -32,7 +32,7 @@ describe("@PreHook()", () => {
       });
 
       // WHEN
-      @PreHook("method", fn, {query: true})
+      @PreHook("save", fn, {query: true})
       class Test {}
 
       // THEN
@@ -41,7 +41,7 @@ describe("@PreHook()", () => {
       expect(options).toEqual({
         pre: [
           {
-            method: "method",
+            method: "save",
             fn,
             options: {
               query: true
