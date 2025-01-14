@@ -148,7 +148,7 @@
     "tslib": "2.7.0",
     "typescript": "5.4.5",
     "unplugin-swc": "1.5.1",
-    "vite": "5.4.8",
+    "vite": "6.0.7",
     "vitest": "2.1.2",
     "webpack": "^5.75.0",
     "webpack-cli": "^5.0.1",
