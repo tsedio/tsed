@@ -8,7 +8,7 @@ describe("@PostHook()", () => {
       const fn = vi.fn();
 
       // WHEN
-      @PostHook("method", fn)
+      @PostHook("save", fn)
       class Test {}
 
       // THEN
@@ -17,7 +17,7 @@ describe("@PostHook()", () => {
       expect(options).toEqual({
         post: [
           {
-            method: "method",
+            method: "save",
             fn,
             options: undefined
           }
