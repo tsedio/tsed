@@ -72,7 +72,7 @@ yarn dlx -p @tsed/cli tsed init tsed-prisma
 ```
 
 ```sh [pnpm]
-pnpx -p @tsed/cli tsed init tsed-prisma
+pnpm --package=@tsed/cli dlx tsed init tsed-prisma
 ```
 
 ```sh [bun]

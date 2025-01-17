@@ -69,7 +69,7 @@ yarn dlx -p @tsed/cli tsed init .
 ```
 
 ```sh [pnpm]
-pnpx -p @tsed/cli tsed init .
+pnpm --package=@tsed/cli dlx tsed init .
 ```
 
 ```sh [bun]
