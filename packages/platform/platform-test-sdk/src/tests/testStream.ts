@@ -1,8 +1,9 @@
+import {createReadStream} from "node:fs";
+import {join} from "node:path";
+
 import {Controller} from "@tsed/di";
 import {PlatformTest} from "@tsed/platform-http/testing";
 import {ContentType, Get} from "@tsed/schema";
-import {createReadStream} from "fs";
-import {join} from "path";
 import SuperTest from "supertest";
 import {afterAll, beforeAll, describe, expect, it} from "vitest";
 

@@ -1,6 +1,7 @@
-import fs from "fs";
+import fs from "node:fs";
+import {join} from "node:path";
+
 import handlebars from "handlebars";
-import {join} from "path";
 
 import {engines} from "../../src/index.js";
 

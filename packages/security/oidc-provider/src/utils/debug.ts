@@ -1,6 +1,7 @@
+import qs from "node:querystring";
+import {inspect} from "node:util";
+
 import {isEmpty} from "@tsed/core";
-import qs from "querystring";
-import {inspect} from "util";
 
 const keys = new Set();
 

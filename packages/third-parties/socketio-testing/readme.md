@@ -43,7 +43,7 @@ Then add the following configuration in your Server:
 ```typescript
 import {Configuration} from "@tsed/di";
 import "@tsed/socketio"; // import socketio Ts.ED module
-import {resolve} from "path";
+import {resolve} from "node:path";
 
 @Configuration({
   socketIO: {

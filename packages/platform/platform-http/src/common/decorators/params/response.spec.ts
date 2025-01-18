@@ -1,6 +1,7 @@
+import {ServerResponse} from "node:http";
+
 import {ParamTypes} from "@tsed/platform-params";
 import {JsonParameterStore} from "@tsed/schema";
-import {ServerResponse} from "http";
 
 import {PlatformResponse} from "../../services/PlatformResponse.js";
 import {Res, Response} from "./response.js";

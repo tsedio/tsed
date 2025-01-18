@@ -1,5 +1,6 @@
+import {promisify} from "node:util";
+
 import Koa from "koa";
-import {promisify} from "util";
 
 let multer: any;
 import("multer").then(({default: m}) => (multer = m));

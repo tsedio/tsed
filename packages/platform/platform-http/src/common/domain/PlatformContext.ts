@@ -1,8 +1,9 @@
+import {IncomingMessage, ServerResponse} from "node:http";
+
 import {DIContext, DIContextOptions, injector} from "@tsed/di";
 import {$asyncEmit} from "@tsed/hooks";
 import {PlatformHandlerMetadata} from "@tsed/platform-router";
 import {EndpointMetadata} from "@tsed/schema";
-import {IncomingMessage, ServerResponse} from "http";
 
 import {IncomingEvent} from "../interfaces/IncomingEvent.js";
 import {PlatformApplication} from "../services/PlatformApplication.js";

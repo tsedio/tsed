@@ -1,3 +1,5 @@
+import qs from "node:querystring";
+
 import {isString} from "@tsed/core";
 import {Controller} from "@tsed/di";
 import {OnDeserialize} from "@tsed/json-mapper";
@@ -24,7 +26,6 @@ import {
   SpecTypes,
   string
 } from "@tsed/schema";
-import qs from "querystring";
 import SuperTest from "supertest";
 
 import {PlatformExpress} from "../src/index.js";

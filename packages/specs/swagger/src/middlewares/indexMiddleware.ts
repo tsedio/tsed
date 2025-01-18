@@ -1,8 +1,8 @@
 import {basename} from "node:path";
+import {join} from "node:path";
 
 import {context} from "@tsed/di";
 import {PlatformContext} from "@tsed/platform-http";
-import {join} from "path";
 
 import {SwaggerSettings} from "../interfaces/SwaggerSettings.js";
 

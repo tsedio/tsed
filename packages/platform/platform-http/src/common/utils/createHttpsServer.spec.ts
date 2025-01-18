@@ -1,5 +1,6 @@
+import Https from "node:https";
+
 import {configuration, destroyInjector, injector, InjectorService} from "@tsed/di";
-import Https from "https";
 
 import {createHttpsServer} from "./createHttpsServer.js";
 

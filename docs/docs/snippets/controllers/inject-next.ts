@@ -2,7 +2,7 @@ import {Next, Req, Res} from "@tsed/platform-http";
 import {Get} from "@tsed/schema";
 import {Controller} from "@tsed/di";
 import * as Express from "express";
-import {promisify} from "util";
+import {promisify} from "node:util";
 
 @Controller("/calendars")
 export class CalendarCtrl {

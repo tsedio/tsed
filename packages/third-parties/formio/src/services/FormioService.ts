@@ -1,3 +1,5 @@
+import {promisify} from "node:util";
+
 import {Inject, Injectable, InjectorService} from "@tsed/di";
 import {MongooseConnectionOptions} from "@tsed/mongoose";
 // @ts-ignore
@@ -8,7 +10,6 @@ import swagger from "formio/src/util/swagger.js";
 import util from "formio/src/util/util.js";
 import {Db} from "mongodb";
 import {Mongoose} from "mongoose";
-import {promisify} from "util";
 
 import {Formio} from "../domain/Formio.js";
 import {FormioConfig} from "../domain/FormioConfig.js";

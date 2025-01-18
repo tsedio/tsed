@@ -1,9 +1,10 @@
+import Http from "node:http";
+import Https from "node:https";
+
 import {nameOf} from "@tsed/core";
 import {Constant, Inject, InjectorService, Module, OnDestroy, Provider} from "@tsed/di";
 import {$log} from "@tsed/logger";
 import type {AfterListen} from "@tsed/platform-http";
-import Http from "http";
-import Https from "https";
 import {Server, ServerOptions} from "socket.io";
 
 import {SocketProviderMetadata} from "./class/SocketProviderMetadata.js"; // tslint:disable-line: no-unused-variable

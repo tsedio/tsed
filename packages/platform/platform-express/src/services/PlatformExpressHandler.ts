@@ -1,6 +1,7 @@
+import {promisify} from "node:util";
+
 import {AnyPromiseResult, isFunction, isStream} from "@tsed/core";
 import {PlatformContext, PlatformHandler} from "@tsed/platform-http";
-import {promisify} from "util";
 
 export class PlatformExpressHandler extends PlatformHandler {
   onResponse(response: AnyPromiseResult, $ctx: PlatformContext): any {

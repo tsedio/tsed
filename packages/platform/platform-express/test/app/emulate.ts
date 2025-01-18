@@ -1,7 +1,8 @@
+import http from "node:http";
+
 import {Controller} from "@tsed/di";
 import {QueryParams} from "@tsed/platform-params";
 import {Get} from "@tsed/schema";
-import http from "http";
 
 import {PlatformExpress} from "../../src/index.js.js";
 import {Server} from "./Server.js";

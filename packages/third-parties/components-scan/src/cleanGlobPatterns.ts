@@ -1,6 +1,7 @@
 // @ts-ignore
+import {resolve} from "node:path";
+
 import {normalizePath} from "@tsed/normalize-path";
-import {resolve} from "path";
 
 import {isTsEnv} from "./isTsEnv.js";
 

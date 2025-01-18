@@ -2,6 +2,8 @@ import "@tsed/ajv";
 import "../../src/index.js";
 import "@tsed/swagger";
 
+import {join} from "node:path";
+
 import {FileSyncAdapter} from "@tsed/adapters";
 import {Configuration, Constant, Inject} from "@tsed/di";
 import {PlatformApplication} from "@tsed/platform-http";
@@ -10,7 +12,6 @@ import compress from "compression";
 import cookieParser from "cookie-parser";
 import session from "express-session";
 import methodOverride from "method-override";
-import {join} from "path";
 
 import {Accounts} from "./services/Accounts.js";
 

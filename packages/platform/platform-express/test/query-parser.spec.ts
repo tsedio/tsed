@@ -1,10 +1,11 @@
+import {parse} from "node:querystring";
+
 import {Configuration, Controller, Inject} from "@tsed/di";
 import {PlatformApplication} from "@tsed/platform-http";
 import {PlatformTest} from "@tsed/platform-http/testing";
 import {QueryParams} from "@tsed/platform-params";
 import {PlatformTestSdk} from "@tsed/platform-test-sdk";
 import {Get} from "@tsed/schema";
-import {parse} from "querystring";
 import SuperTest from "supertest";
 
 import {PlatformExpress} from "../src/index.js";

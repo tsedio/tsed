@@ -1,8 +1,9 @@
+import {join} from "node:path";
+
 import {MemoryAdapter} from "@tsed/adapters";
 import {PlatformExpress} from "@tsed/platform-express";
 import {PlatformTest} from "@tsed/platform-http/testing";
 import {PlatformTestSdk} from "@tsed/platform-test-sdk";
-import {join} from "path";
 import SuperTest from "supertest";
 
 import {rootDir} from "../../../platform/platform-express/test/app/Server.js";

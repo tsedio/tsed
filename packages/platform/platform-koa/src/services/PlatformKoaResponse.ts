@@ -1,5 +1,6 @@
+import {ServerResponse} from "node:http";
+
 import {PlatformResponse} from "@tsed/platform-http";
-import {ServerResponse} from "http";
 import Koa from "koa";
 
 declare global {

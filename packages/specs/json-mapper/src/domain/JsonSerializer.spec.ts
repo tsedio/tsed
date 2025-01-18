@@ -2,6 +2,8 @@ import "../components/DateMapper.js";
 import "../components/PrimitiveMapper.js";
 import "../components/SymbolMapper.js";
 
+import {parse} from "node:querystring";
+
 import {cleanObject, isBoolean, isNumber, isObjectID, useDecorators} from "@tsed/core";
 import {
   AdditionalProperties,
@@ -22,7 +24,6 @@ import {
   Uri
 } from "@tsed/schema";
 import {snakeCase} from "change-case";
-import {parse} from "querystring";
 
 import {Post} from "../../test/helpers/Post.js";
 import {User} from "../../test/helpers/User.js";

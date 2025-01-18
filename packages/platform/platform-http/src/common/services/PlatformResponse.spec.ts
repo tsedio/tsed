@@ -1,5 +1,6 @@
+import {createReadStream} from "node:fs";
+
 import {PlatformViews} from "@tsed/platform-views";
-import {createReadStream} from "fs";
 
 import {PlatformTest} from "../../testing/PlatformTest.js";
 import {PlatformResponse} from "./PlatformResponse.js";

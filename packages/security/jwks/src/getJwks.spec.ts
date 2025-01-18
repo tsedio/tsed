@@ -1,5 +1,6 @@
+import {join} from "node:path";
+
 import fs from "fs-extra";
-import {join} from "path";
 
 import {generateJwks, getJwks} from "./getJwks.js";
 

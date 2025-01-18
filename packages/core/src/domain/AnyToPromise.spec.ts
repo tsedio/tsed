@@ -1,4 +1,5 @@
-import {createReadStream} from "fs";
+import {createReadStream} from "node:fs";
+
 import {of} from "rxjs";
 
 import {catchAsyncError} from "../utils/catchError.js";

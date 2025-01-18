@@ -41,7 +41,7 @@ import {Configuration} from "@tsed/di";
 import "@tsed/platform-express";
 import "@tsed/apollo";
 import "@tsed/graphql-ws"; // auto import plugin for @tsed/apollo
-import {join} from "path";
+import {join} from "node:path";
 
 @Configuration({
   apollo: {
@@ -120,7 +120,7 @@ import "@tsed/platform-express";
 import "@tsed/apollo";
 import "@tsed/typegraphql";
 import "@tsed/graphql-ws"; // auto import plugin for @tsed/apollo
-import {join} from "path";
+import {join} from "node:path";
 import {pubsub} from "./pubsub/pubsub";
 
 @Configuration({

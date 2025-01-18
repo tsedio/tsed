@@ -1,3 +1,5 @@
+import {ServerResponse} from "node:http";
+
 import {Controller} from "@tsed/di";
 import {Res} from "@tsed/platform-http";
 import {PlatformTest} from "@tsed/platform-http/testing";
@@ -5,7 +7,6 @@ import {Context} from "@tsed/platform-params";
 import {ResponseFilter} from "@tsed/platform-response-filter";
 import {PlatformTestSdk} from "@tsed/platform-test-sdk";
 import {Get, Returns} from "@tsed/schema";
-import {ServerResponse} from "http";
 import SuperTest from "supertest";
 
 import {PlatformExpress} from "../src/index.js";

@@ -1,5 +1,5 @@
-import {readFileSync} from "fs";
-import {resolve} from "path";
+import {readFileSync} from "node:fs";
+import {resolve} from "node:path";
 
 import {ViewEngine} from "../decorators/viewEngine.js";
 import {getCachedEngine, getFromCache, importEngine, setToCache} from "../utils/cache.js";

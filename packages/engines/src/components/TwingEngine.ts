@@ -1,4 +1,4 @@
-import {existsSync} from "fs";
+import {existsSync} from "node:fs";
 
 import {ViewEngine} from "../decorators/viewEngine.js";
 import {Engine} from "./Engine.js";

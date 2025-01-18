@@ -1,7 +1,8 @@
+import Https from "node:https";
+
 import {getHostInfoFromPort, isBoolean} from "@tsed/core";
 import {DIConfiguration, Injectable, ProviderScope, TokenProvider} from "@tsed/di";
 import {JsonMapperSettings} from "@tsed/json-mapper";
-import Https from "https";
 
 import {PlatformJsonMapperSettings} from "../interfaces/PlatformJsonMapperSettings.js";
 

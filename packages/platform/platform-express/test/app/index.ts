@@ -1,7 +1,8 @@
+import {promisify} from "node:util";
+
 import {$log, BodyParams, Controller, PlatformResponse, QueryParams, Res} from "@tsed/platform-http";
 import {Get, Post, Returns} from "@tsed/schema";
 import {agent, SuperAgentStatic} from "superagent";
-import {promisify} from "util";
 
 import {PlatformExpress} from "../../src/index.js";
 import {Server} from "./Server.js";

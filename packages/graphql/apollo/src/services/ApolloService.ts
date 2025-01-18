@@ -1,3 +1,6 @@
+import Http from "node:http";
+import Https from "node:https";
+
 import {ApolloServer, ApolloServerOptions, ApolloServerPlugin} from "@apollo/server";
 import {ApolloServerPluginLandingPageDisabled} from "@apollo/server/plugin/disabled";
 import {ApolloServerPluginDrainHttpServer} from "@apollo/server/plugin/drainHttpServer";
@@ -7,8 +10,6 @@ import {Constant, context, Inject, InjectorService, LocalsContainer, Provider, S
 import {Logger} from "@tsed/logger";
 import {PlatformApplication, PlatformContext} from "@tsed/platform-http";
 import type {GraphQLSchema} from "graphql";
-import Http from "http";
-import Https from "https";
 
 import {APOLLO_CONTEXT, DATASOURCES_PROVIDERS} from "../constants/constants.js";
 import {ApolloContext} from "../interfaces/ApolloContext.js";

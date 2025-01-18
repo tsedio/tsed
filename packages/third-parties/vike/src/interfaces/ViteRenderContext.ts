@@ -1,4 +1,4 @@
-import type {IncomingHttpHeaders} from "http";
+import type {IncomingHttpHeaders} from "node:http";
 
 export type VitePageProps<Data = Record<string, unknown>> = Data & {view: string};
 

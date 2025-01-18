@@ -1,4 +1,4 @@
-import {AsyncLocalStorage, AsyncResource} from "async_hooks";
+import {AsyncLocalStorage, AsyncResource} from "node:async_hooks";
 
 import {InjectorService} from "../../common/index.js";
 import type {DIContext} from "../domain/DIContext.js";

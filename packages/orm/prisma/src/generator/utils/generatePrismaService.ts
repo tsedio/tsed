@@ -1,4 +1,5 @@
-import path from "path";
+import path from "node:path";
+
 import {Project, Scope} from "ts-morph";
 
 import {resolveExtension} from "./resolveExtension.js";

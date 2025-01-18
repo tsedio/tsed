@@ -1,8 +1,9 @@
+import Http from "node:http";
+import Https from "node:https";
+
 import {getHostInfoFromPort, ReturnHostInfoFromPort} from "@tsed/core";
 import {configuration, injector, logger, ProviderScope, TokenProvider} from "@tsed/di";
-import Http from "http";
 import Http2 from "http2";
-import Https from "https";
 
 import {listenServer} from "./listenServer.js";
 

@@ -47,7 +47,7 @@ npm install --save-dev apollo-server-testing
 import {Configuration} from "@tsed/di";
 import "@tsed/platform-express";
 import "@tsed/apollo";
-import {join} from "path";
+import {join} from "node:path";
 
 @Configuration({
   apollo: {
@@ -76,7 +76,7 @@ You can register plugins with the `plugins` property. The plugins are executed i
 import {Configuration} from "@tsed/di";
 import "@tsed/platform-express";
 import "@tsed/apollo";
-import {join} from "path";
+import {join} from "node:path";
 
 @Configuration({
   apollo: {
@@ -94,8 +94,8 @@ you can register the `graphql-ws` necessary to support the `subscription` featur
 ```typescript
 import {Constant, Inject, InjectorService, Module} from "@tsed/di";
 import {useServer} from "graphql-ws/lib/use/ws";
-import Http from "http";
-import Https from "https";
+import Http from "node:http";
+import Https from "node:https";
 import {WebSocketServer} from "ws";
 import {GraphQLWSOptions} from "./GraphQLWSOptions";
 

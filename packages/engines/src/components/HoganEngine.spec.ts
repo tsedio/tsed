@@ -1,4 +1,4 @@
-import {join} from "path";
+import {join} from "node:path";
 
 import {getEngineFixture} from "../../test/getEngineFixture.js";
 import {HoganEngine} from "./HoganEngine.js";

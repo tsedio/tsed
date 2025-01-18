@@ -1,8 +1,9 @@
+import {AsyncLocalStorage} from "node:async_hooks";
+
 import {isClass, isFunction, isString, Type} from "@tsed/core";
 import {Configuration, Inject, InjectorService, Module} from "@tsed/di";
 import {deserialize, JsonDeserializerOptions, serialize} from "@tsed/json-mapper";
 import {Logger} from "@tsed/logger";
-import {AsyncLocalStorage} from "async_hooks";
 import type {Cache, CachingConfig, MultiCache} from "cache-manager";
 
 import {PlatformCacheSettings} from "../interfaces/interfaces.js";

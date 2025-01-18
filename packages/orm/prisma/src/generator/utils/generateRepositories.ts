@@ -1,7 +1,8 @@
+import path from "node:path";
+
 import {DMMF} from "@prisma/generator-helper";
 import {toMap} from "@tsed/core";
 import {camelCase, pascalCase} from "change-case";
-import path from "path";
 import pluralize from "pluralize";
 import {ClassDeclaration, Project, Scope} from "ts-morph";
 

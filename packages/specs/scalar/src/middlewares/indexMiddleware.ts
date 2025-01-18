@@ -1,7 +1,7 @@
 import {basename} from "node:path";
+import {join} from "node:path";
 
 import {context} from "@tsed/di";
-import {join} from "path";
 
 import {ScalarSettings} from "../interfaces/ScalarSettings.js";
 

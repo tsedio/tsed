@@ -1,4 +1,4 @@
-import fs from "fs";
+import fs from "node:fs";
 
 import {Engine} from "../src/components/Engine.js";
 import {engines} from "../src/index.js";

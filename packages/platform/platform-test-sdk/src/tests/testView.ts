@@ -1,10 +1,11 @@
+import {EOL} from "node:os";
+
 import {Controller} from "@tsed/di";
 import {PlatformTest} from "@tsed/platform-http/testing";
 import {Middleware, UseBefore} from "@tsed/platform-middlewares";
 import {Locals} from "@tsed/platform-params";
 import {View} from "@tsed/platform-views";
 import {Get} from "@tsed/schema";
-import {EOL} from "os";
 import SuperTest from "supertest";
 import {afterAll, beforeAll, describe, expect, it} from "vitest";
 

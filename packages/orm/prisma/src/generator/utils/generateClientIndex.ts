@@ -1,4 +1,5 @@
-import path from "path";
+import path from "node:path";
+
 import {Project} from "ts-morph";
 
 import {GenerateCodeOptions} from "../generateCode.js";

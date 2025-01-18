@@ -42,7 +42,7 @@ Then import `@tsed/terminus` and add the following configuration in your `Server
 ```typescript
 import {Configuration} from "@tsed/di";
 import "@tsed/terminus"; // import terminus Ts.ED module
-import {resolve} from "path";
+import {resolve} from "node:path";
 
 @Configuration({
   terminus: {

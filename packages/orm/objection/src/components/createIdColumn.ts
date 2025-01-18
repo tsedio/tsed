@@ -1,4 +1,5 @@
-import {randomUUID} from "crypto";
+import {randomUUID} from "node:crypto";
+
 import type {Knex} from "knex";
 
 import {ColumnTypesContainer} from "../services/ColumnTypesContainer.js";

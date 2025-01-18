@@ -40,7 +40,7 @@ import {Configuration} from "@tsed/di";
 import "@tsed/platform-express";
 import "@tsed/apollo";
 import {schema} from "./schema";
-import {join} from "path";
+import {join} from "node:path";
 
 @Configuration({
   apollo: {
@@ -67,7 +67,7 @@ Then create `schema/index.ts`:
 
 ```typescript
 import {makeSchema} from "nexus";
-import {join} from "path";
+import {join} from "node:path";
 
 export const schema = makeSchema({
   types: [], // 1

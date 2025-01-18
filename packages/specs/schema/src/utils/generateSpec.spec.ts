@@ -1,6 +1,7 @@
+import {join} from "node:path";
+
 import {BodyParams} from "@tsed/platform-params";
 import fs from "fs-extra";
-import {join} from "path";
 
 import {validateSpec} from "../../test/helpers/validateSpec.js";
 import {CollectionOf} from "../decorators/collections/collectionOf.js";

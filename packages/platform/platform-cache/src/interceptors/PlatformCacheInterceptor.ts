@@ -1,8 +1,9 @@
+import {IncomingMessage, ServerResponse} from "node:http";
+
 import {isClass, isString, nameOf} from "@tsed/core";
 import {BaseContext, Constant, DIContext, Inject, Interceptor, InterceptorContext, InterceptorMethods, InterceptorNext} from "@tsed/di";
 import {deserialize, serialize} from "@tsed/json-mapper";
 import {Logger} from "@tsed/logger";
-import {IncomingMessage, ServerResponse} from "http";
 
 import {PlatformCachedObject} from "../interfaces/PlatformCachedObject.js";
 import {PlatformCacheOptions} from "../interfaces/PlatformCacheOptions.js";

@@ -1,7 +1,8 @@
+import Http from "node:http";
+import Https from "node:https";
+
 import {PlatformConfiguration} from "@tsed/platform-http";
 import {PlatformTest} from "@tsed/platform-http/testing";
-import Http from "http";
-import Https from "https";
 
 import {SocketIOModule, SocketIOServer, SocketIOService} from "./index.js";
 

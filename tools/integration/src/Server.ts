@@ -2,6 +2,8 @@ import "@tsed/platform-express"; // /!\ keep this import
 import "@tsed/ajv";
 import "@tsed/swagger";
 
+import {join} from "node:path";
+
 import {Configuration, Inject} from "@tsed/di";
 import {PlatformApplication} from "@tsed/platform-http";
 import bodyParser from "body-parser";
@@ -9,7 +11,6 @@ import compress from "compression";
 import cookieParser from "cookie-parser";
 import cors from "cors";
 import methodOverride from "method-override";
-import {join} from "path";
 
 import {config} from "./config/index.js";
 import * as pages from "./controllers/pages/index.js";

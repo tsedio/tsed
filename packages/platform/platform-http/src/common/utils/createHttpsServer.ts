@@ -1,6 +1,7 @@
+import Http from "node:http";
+import Https from "node:https";
+
 import {configuration, constant, InjectorService} from "@tsed/di";
-import Http from "http";
-import Https from "https";
 
 import {createServer} from "./createServer.js";
 

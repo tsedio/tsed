@@ -203,7 +203,7 @@ Or use the `app.statics()` method:
 ```typescript [Decorators]
 import {Injectable} from "@tsed/di";
 import {PlatformApplication} from "@tsed/platform-http";
-import {join} from "path";
+import {join} from "node:path";
 
 @Injectable()
 export class MyService {
@@ -218,7 +218,7 @@ export class MyService {
 ```typescript [Functional API]
 import {injectable} from "@tsed/di";
 import {application} from "@tsed/platform-http";
-import {join} from "path";
+import {join} from "node:path";
 
 export class MyService {
   protected app = application();

@@ -1,3 +1,6 @@
+import {IncomingMessage, ServerResponse} from "node:http";
+import {promisify} from "node:util";
+
 import {catchAsyncError, Env, isFunction, Type} from "@tsed/core";
 import {constant, inject, logger, runInContext} from "@tsed/di";
 import {PlatformExceptions} from "@tsed/platform-exceptions";
@@ -20,9 +23,7 @@ import {
 import {PlatformHandlerMetadata, PlatformHandlerType, PlatformLayer} from "@tsed/platform-router";
 import {OptionsJson, OptionsText, OptionsUrlencoded} from "body-parser";
 import Express from "express";
-import {IncomingMessage, ServerResponse} from "http";
 import type multer from "multer";
-import {promisify} from "util";
 
 import {PlatformExpressStaticsOptions} from "../interfaces/PlatformExpressStaticsOptions.js";
 import {staticsMiddleware} from "../middlewares/staticsMiddleware.js";

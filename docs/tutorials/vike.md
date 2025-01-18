@@ -56,7 +56,7 @@ npm install vike @tsed/vike vite@4 --save
 Then edit your `Server.ts`:
 
 ```ts
-import {join} from "path";
+import {join} from "node:path";
 import {Configuration, Inject} from "@tsed/di";
 import {PlatformApplication} from "@tsed/common";
 import "@tsed/platform-express"; // /!\ keep this import

@@ -77,7 +77,7 @@ Here an example to create a Server with Ts.ED:
 import {Configuration, Inject} from "@tsed/di";
 import {PlatformApplication} from "@tsed/platform-http";
 import "@tsed/platform-express";
-import Path from "path";
+import Path from "node:path";
 import cookieParser from "cookie-parser";
 import compress from "compression";
 import methodOverride from "method-override";

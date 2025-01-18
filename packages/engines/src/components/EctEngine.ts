@@ -1,4 +1,4 @@
-import {promisify} from "util";
+import {promisify} from "node:util";
 
 import {ViewEngine} from "../decorators/viewEngine.js";
 import {Engine} from "./Engine.js";

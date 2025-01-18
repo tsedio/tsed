@@ -1,6 +1,7 @@
+import path from "node:path";
+
 import {DMMF} from "@prisma/generator-helper";
 import {getValue, toMap} from "@tsed/core";
-import path from "path";
 import {Project} from "ts-morph";
 
 import {DmmfModel} from "../domain/DmmfModel.js";

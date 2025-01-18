@@ -1,7 +1,8 @@
+import {IncomingMessage, ServerResponse} from "node:http";
+
 import {Type} from "@tsed/core";
 import {injectable, ProviderOpts} from "@tsed/di";
 import {PlatformHandlerMetadata, PlatformLayer} from "@tsed/platform-router";
-import {IncomingMessage, ServerResponse} from "http";
 
 import {PlatformMulter, PlatformMulterSettings} from "../config/interfaces/PlatformMulterSettings.js";
 import {PlatformStaticsOptions} from "../config/interfaces/PlatformStaticsSettings.js";

@@ -1,6 +1,7 @@
+import {Writable} from "node:stream";
+
 import {Constant, Injectable} from "@tsed/di";
 import {PlatformContext} from "@tsed/platform-http";
-import {Writable} from "stream";
 
 import {ViteConfig} from "../interfaces/ViteConfig.js";
 import {ViteRenderContext} from "../interfaces/ViteRenderContext.js";

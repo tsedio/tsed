@@ -44,7 +44,7 @@ import {Configuration} from "@tsed/common";
 import "@tsed/platform-express";
 import "@tsed/apollo";
 import "@tsed/graphql-ws";
-import {join} from "path";
+import {join} from "node:path";
 
 @Configuration({
   apollo: {
@@ -90,7 +90,7 @@ You can register plugins with the `plugins` property. The plugins are executed i
 import {Configuration} from "@tsed/common";
 import "@tsed/platform-express";
 import "@tsed/apollo";
-import {join} from "path";
+import {join} from "node:path";
 
 @Configuration({
   apollo: {
@@ -108,8 +108,8 @@ you can register the `graphql-ws` necessary to support the `subscription` featur
 ```typescript
 import {Constant, Inject, InjectorService, Module} from "@tsed/di";
 import {useServer} from "graphql-ws/lib/use/ws";
-import Http from "http";
-import Https from "https";
+import Http from "node:http";
+import Https from "node:https";
 import {WebSocketServer} from "ws";
 import {GraphQLWSOptions} from "./GraphQLWSOptions";
 
@@ -199,7 +199,7 @@ import {Configuration} from "@tsed/common";
 import "@tsed/platform-express";
 import "@tsed/apollo";
 import {schema} from "./schema";
-import {join} from "path";
+import {join} from "node:path";
 
 @Configuration({
   apollo: {
@@ -226,7 +226,7 @@ Then create `schema/index.ts`:
 
 ```typescript
 import {makeSchema} from "nexus";
-import {join} from "path";
+import {join} from "node:path";
 
 export const schema = makeSchema({
   types: [], // 1

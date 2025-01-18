@@ -1,6 +1,7 @@
+import type {IncomingMessage, RequestListener, ServerResponse} from "node:http";
+
 import {DITest, injector, InjectorService} from "@tsed/di";
 import accepts from "accepts";
-import type {IncomingMessage, RequestListener, ServerResponse} from "http";
 
 import {PlatformBuilder} from "../common/builder/PlatformBuilder.js";
 import {PlatformContext, PlatformContextOptions} from "../common/domain/PlatformContext.js";

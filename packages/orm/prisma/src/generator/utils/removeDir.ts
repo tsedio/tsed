@@ -1,5 +1,5 @@
-import {promises as fs} from "fs";
-import path from "path";
+import {promises as fs} from "node:fs";
+import path from "node:path";
 
 export default async function removeDir(dirPath: string, onlyContent: boolean) {
   const dirEntries = await fs.readdir(dirPath, {withFileTypes: true});

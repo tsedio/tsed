@@ -1,3 +1,7 @@
+import type {IncomingMessage, ServerResponse} from "node:http";
+import Http from "node:http";
+import type Https from "node:https";
+
 import {type Env, isClass, isFunction, isString, nameOf, Type} from "@tsed/core";
 import {
   colors,
@@ -16,10 +20,7 @@ import {
 import {$asyncAlter, $asyncEmit} from "@tsed/hooks";
 import {getMiddlewaresForHook, PlatformMiddlewareLoadingOptions} from "@tsed/platform-middlewares";
 import {PlatformLayer} from "@tsed/platform-router";
-import type {IncomingMessage, ServerResponse} from "http";
-import Http from "http";
 import Http2 from "http2";
-import type Https from "https";
 
 import {PlatformStaticsSettings} from "../config/interfaces/PlatformStaticsSettings.js";
 import {PlatformRouteDetails} from "../domain/PlatformRouteDetails.js";

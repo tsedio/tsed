@@ -1,6 +1,7 @@
+import Fs from "node:fs";
+
 import {runInContext} from "@tsed/di";
 import {PlatformTest} from "@tsed/platform-http/testing";
-import Fs from "fs";
 
 import {openApiMiddleware} from "./openApiMiddleware.js";
 

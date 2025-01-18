@@ -10,12 +10,12 @@ import "@tsed/platform-log-request";
 
 import * as fs from "node:fs";
 import {join} from "node:path";
+import {resolve} from "node:path";
 
 import {ApolloContext} from "@tsed/apollo";
 import {Configuration, Constant, Inject} from "@tsed/di";
 import {PlatformApplication, PlatformContext} from "@tsed/platform-http";
 import {buildContext} from "graphql-passport";
-import {resolve} from "path";
 
 import {HelloController} from "./controllers/HelloController.js";
 import {User} from "./graphql/auth/User.js";

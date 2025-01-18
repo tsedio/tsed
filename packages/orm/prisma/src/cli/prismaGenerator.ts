@@ -1,7 +1,8 @@
+import path, {join} from "node:path";
+
 import {GeneratorOptions} from "@prisma/generator-helper";
 import internals from "@prisma/internals";
 import fs from "fs-extra";
-import path, {join} from "path";
 
 import {generateCode} from "../generator/generateCode.js";
 import removeDir from "../generator/utils/removeDir.js";

@@ -1,5 +1,5 @@
-import {extname} from "path";
-import {promisify} from "util";
+import {extname} from "node:path";
+import {promisify} from "node:util";
 
 import {ViewEngine} from "../decorators/viewEngine.js";
 import {read} from "../utils/cache.js";

@@ -1,11 +1,12 @@
 import "../domain/PlatformViewsSettings.js";
 
+import Fs from "node:fs";
+import {extname, join, resolve} from "node:path";
+
 import {Env, getValue} from "@tsed/core";
 import {constant, injectable, ProviderType} from "@tsed/di";
 import {engines, getEngine, requires} from "@tsed/engines";
 import {$asyncAlter} from "@tsed/hooks";
-import Fs from "fs";
-import {extname, join, resolve} from "path";
 
 import {
   PLATFORM_VIEWS_EXTENSIONS,

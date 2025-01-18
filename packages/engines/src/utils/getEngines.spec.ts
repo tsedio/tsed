@@ -1,6 +1,6 @@
 import "../index.js";
 
-import {join} from "path";
+import {join} from "node:path";
 
 import {getEngine, getEngines} from "./getEngines.js";
 

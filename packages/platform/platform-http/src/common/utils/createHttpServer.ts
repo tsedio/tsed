@@ -1,5 +1,6 @@
+import Http from "node:http";
+
 import {configuration, constant} from "@tsed/di";
-import Http from "http";
 
 import {createServer} from "./createServer.js";
 

@@ -1,7 +1,8 @@
+import url from "node:url";
+
 import {BadRequest} from "@tsed/exceptions";
 import {Middleware, MiddlewareMethods} from "@tsed/platform-middlewares";
 import {Context} from "@tsed/platform-params";
-import url from "url";
 
 @Middleware()
 export class OidcSecureMiddleware implements MiddlewareMethods {

@@ -1,3 +1,5 @@
+import {promisify} from "node:util";
+
 import {Constant, Controller} from "@tsed/di";
 import {NotFound} from "@tsed/exceptions";
 import {Req} from "@tsed/platform-http";
@@ -5,7 +7,6 @@ import {PlatformTest} from "@tsed/platform-http/testing";
 import {BodyParams, Session} from "@tsed/platform-params";
 import {Allow, Email, Get, Ignore, MinLength, Post, Property, Required, Returns} from "@tsed/schema";
 import SuperTest from "supertest";
-import {promisify} from "util";
 import {afterAll, beforeAll, describe, expect, it} from "vitest";
 
 import {PlatformTestingSdkOpts} from "../interfaces/index.js";

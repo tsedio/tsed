@@ -1,9 +1,10 @@
+import {dirname} from "node:path";
+
 import {nameOf} from "@tsed/core";
 import {Configuration, Injectable, Opts, ProviderScope, Scope} from "@tsed/di";
 import fs from "fs-extra";
 import {LowSync} from "lowdb";
 import {JSONFileSync} from "lowdb/node";
-import {dirname} from "path";
 
 import {AdapterConstructorOptions} from "../domain/Adapter.js";
 import {AdapterModel, LowDbAdapter, type LowModel} from "./LowDbAdapter.js";
