@@ -1,7 +1,7 @@
 import {MongooseSchema} from "./schema.js";
 
 /**
- * Do not apply this property to schema (create virtual property)
+ * Exclude this property from the mongoose schema.
  *
  * ### Example
  *
@@ -10,15 +10,13 @@ import {MongooseSchema} from "./schema.js";
  * @SchemaIgnore()
  * @Property()
  * kind: string;
- *
  * ```
  *
- * @returns {Function}
  * @decorator
  * @mongoose
  * @class
  */
 
-export function SchemaIgnore(): Function {
+export function SchemaIgnore(): PropertyDecorator {
   return MongooseSchema({schemaIgnore: true} as any);
 }

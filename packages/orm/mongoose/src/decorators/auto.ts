@@ -8,7 +8,7 @@ import {MongooseSchema} from "./schema.js";
  * ```typescript
  * @Model()
  * export class EventModel {
- *   @ExcludeIndexes()
+ *   @Auto()
  *   field: string;
  * }
  * ```

@@ -42,7 +42,7 @@ function isDecimal(value: undefined | number | any) {
  * @mongoose
  * @schema
  */
-export function NumberDecimal(type?: any) {
+export function NumberDecimal(type?: any): PropertyDecorator {
   const schema: SchemaTypeOptions<Decimal128> = {
     type: MongooseSchema.Types.Decimal128
   };

@@ -1,21 +1,37 @@
 import {decoratorTypeOf, StoreMerge, useDecorators} from "@tsed/core";
 import {injectable} from "@tsed/di";
 import {Property} from "@tsed/schema";
-import {SchemaTypeOptions} from "mongoose";
+import mongoose, {SchemaTypeOptions} from "mongoose";
 
 import {MONGOOSE_SCHEMA} from "../constants/constants.js";
 import {MongooseSchemaOptions} from "../interfaces/MongooseSchemaOptions.js";
 import {getSchema, getSchemaToken} from "../utils/createSchema.js";
 
+new mongoose.Schema({
+  test: {}
+});
 /**
- * Define a class as a Mongoose Schema ready to be used to compose other schemes and models.
+ * Let you configure a @@MongooseSchemaOptions@@ on a class or a SchemaTypeOptions on a property.
+ *
+ * See [SchemaTypeOptions]() on mongoose documentation for more details.
  *
  * ### Example
  *
  * ```typescript
- * @MongooseSchema()
+ * import {Schema} from "@tsed/mongoose";
+ * import {Property} from "@tsed/schema";
+ *
+ * @Schema({})
  * export class EventSchema {
  *   @Property()
+ *   field: string;
+ * }
+ *
+ * or
+ *
+ * export class EventSchema {
+ *   @Property()
+ *   @Schema({})
  *   field: string;
  * }
  * ```
@@ -31,9 +47,9 @@ import {getSchema, getSchemaToken} from "../utils/createSchema.js";
  * @property
  * @class
  */
-export function Schema(options?: MongooseSchemaOptions): (target: any) => void;
-export function Schema(definition: SchemaTypeOptions<any>): Function;
-export function Schema(options: MongooseSchemaOptions | SchemaTypeOptions<any> = {}) {
+export function Schema(options?: MongooseSchemaOptions): ClassDecorator;
+export function Schema(definition: SchemaTypeOptions<any>): PropertyDecorator;
+export function Schema(options: MongooseSchemaOptions | SchemaTypeOptions<any> = {}): ClassDecorator | PropertyDecorator {
   return (...parameters: any[]) => {
     switch (decoratorTypeOf(parameters)) {
       case "property":
@@ -69,11 +85,12 @@ export function Schema(options: MongooseSchemaOptions | SchemaTypeOptions<any> =
  * @returns {(target: any) => void}
  * @decorator
  * @mongoose
+ * @alias Schema from @tsed/mongoose package
  * @property
  * @class
  */
-export function MongooseSchema(options?: MongooseSchemaOptions): (target: any) => void;
-export function MongooseSchema(definition: SchemaTypeOptions<any>): Function;
-export function MongooseSchema(options: MongooseSchemaOptions | SchemaTypeOptions<any> = {}) {
+export function MongooseSchema(options?: MongooseSchemaOptions): ClassDecorator;
+export function MongooseSchema(definition: SchemaTypeOptions<any>): PropertyDecorator;
+export function MongooseSchema(options: MongooseSchemaOptions | SchemaTypeOptions<any> = {}): ClassDecorator | PropertyDecorator {
   return Schema(options as any);
 }

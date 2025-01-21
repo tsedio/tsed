@@ -144,7 +144,7 @@ export function buildMongooseSchema(target: any): MongooseSchemaMetadata {
  */
 export function createSchemaTypeOptions<T = any>(propEntity: JsonEntityStore): SchemaTypeOptions<T> | SchemaTypeOptions<T>[] {
   const key = propEntity.propertyKey;
-  const rawMongooseSchema = propEntity.store.get(MONGOOSE_SCHEMA) || {};
+  const rawMongooseSchema: SchemaTypeOptions<T> = propEntity.store.get(MONGOOSE_SCHEMA) || {};
 
   let schemaTypeOptions: SchemaTypeOptions<T> = {
     required: propEntity.required

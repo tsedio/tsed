@@ -45,17 +45,16 @@ function mapToSchema(opts: any) {
  * import in node.
  * :::
  *
- * @param ref
- * @param foreignField
- * @returns {Function}
+ * @param {string} ref the path to apply the correct model
+ * @param {string} foreignField the path to apply the correct model
  * @decorator
  * @mongoose
  * @property
  */
-export function VirtualRef(ref: string, foreignField: string): Function;
-export function VirtualRef(options: MongooseVirtualRefOptions): Function;
-export function VirtualRef(options: string | MongooseVirtualRefOptions, foreignField?: string): Function;
-export function VirtualRef(options: string | MongooseVirtualRefOptions, foreignField?: string): Function {
+export function VirtualRef(ref: string, foreignField: string): PropertyDecorator;
+export function VirtualRef(options: MongooseVirtualRefOptions): PropertyDecorator;
+export function VirtualRef(options: string | MongooseVirtualRefOptions, foreignField?: string): PropertyDecorator;
+export function VirtualRef(options: string | MongooseVirtualRefOptions, foreignField?: string): PropertyDecorator {
   const opts = getInitialOpts(options, foreignField);
   const schema = mapToSchema(opts);
   const type = getType(opts);

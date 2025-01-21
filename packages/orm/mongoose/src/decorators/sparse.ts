@@ -15,7 +15,7 @@ import {MongooseSchema} from "./schema.js";
  * }
  * ```
  *
- * @param {boolean | number} sparse
+ * @param {boolean | number} sparse If truthy, Mongoose will disallow changes to this path once the document is saved to the database for the first time.
  * @returns {Function}
  * @decorator
  * @mongoose

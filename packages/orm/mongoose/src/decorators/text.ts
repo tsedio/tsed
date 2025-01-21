@@ -14,8 +14,7 @@ import {MongooseSchema} from "./schema.js";
  * }
  * ```
  *
- * @param {boolean | number | any} text
- * @returns {Function}
+ * @param {boolean | number | any} text If [truthy](https://masteringjs.io/tutorials/fundamentals/truthy), Mongoose will build a text index on this path.
  * @decorator
  * @mongoose
  * @property

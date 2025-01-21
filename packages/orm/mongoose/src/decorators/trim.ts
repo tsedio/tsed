@@ -13,11 +13,10 @@ import {MongooseSchema} from "./schema.js";
  * }
  * ```
  *
- * @returns {Function}
  * @decorator
  * @mongoose
  * @property
  */
-export function Trim() {
+export function Trim(): PropertyDecorator {
   return MongooseSchema({trim: true});
 }

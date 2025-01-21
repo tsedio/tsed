@@ -13,8 +13,7 @@ import {MongooseSchema} from "./schema.js";
  * }
  * ```
  *
- * @param {boolean} uppercase
- * @returns {Function}
+ * @param {boolean} uppercase If truthy, Mongoose will add a custom setter that uppercases this string using JavaScript's built-in String#toUpperCase().
  * @decorator
  * @mongoose
  * @property

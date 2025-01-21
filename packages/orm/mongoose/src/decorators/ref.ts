@@ -53,8 +53,8 @@ function PopulateGroups(populatedGroups: string[]) {
  * }
  * ```
  *
- * @param model
- * @param options
+ * @param model The model to reference
+ * @param options Additional options
  * @returns {Function}
  * @decorator
  * @mongoose

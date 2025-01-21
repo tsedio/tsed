@@ -13,12 +13,12 @@ import {MongooseSchema} from "./schema.js";
  * }
  * ```
  *
- * @param {boolean | any} select
+ * @param {boolean | any} select If `true`, Mongoose will add the select property to this path. If `select` is an object, Mongoose will apply the select property to this path with the given options.
  * @returns {Function}
  * @decorator
  * @mongoose
  * @property
  */
-export function Select(select: boolean | any = true) {
+export function Select(select: boolean | any = true): PropertyDecorator {
   return MongooseSchema({select});
 }
