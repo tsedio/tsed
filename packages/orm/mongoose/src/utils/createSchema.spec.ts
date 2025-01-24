@@ -465,12 +465,10 @@ describe("createSchema", () => {
 
     // THEN
     expect(testSchema.obj).toEqual({
-      tests: [
-        {
-          type: childrenSchema,
-          required: false
-        }
-      ]
+      tests: {
+        type: [childrenSchema],
+        required: false
+      }
     });
 
     expect(childrenSchema.obj).toEqual({
@@ -496,6 +494,54 @@ describe("createSchema", () => {
         min: 0,
         required: false,
         type: Number
+      }
+    });
+  });
+  it("should create schema with collection (Array of subdocument and default value undefined)", () => {
+    // GIVEN
+    enum MyEnum {
+      V1 = "v1",
+      V2 = "v2"
+    }
+
+    @Schema()
+    class Children {
+      @Name("id")
+      _id: string;
+
+      @Enum(MyEnum)
+      @Default(undefined)
+      enum?: MyEnum[];
+    }
+
+    @Model()
+    class Test6 {
+      @CollectionOf(Children)
+      @Default(undefined)
+      tests?: Children[];
+    }
+
+    // WHEN
+    const testSchema = getSchema(Test6);
+    const childrenSchema = getSchema(Children);
+
+    // THEN
+    expect(testSchema.obj).toEqual({
+      tests: {
+        type: [childrenSchema],
+        required: false
+      }
+    });
+
+    expect(childrenSchema.obj).toEqual({
+      _id: {
+        required: false,
+        type: String
+      },
+      enum: {
+        enum: ["v1", "v2"],
+        required: false,
+        type: [String]
       }
     });
   });
@@ -536,13 +582,11 @@ describe("createSchema", () => {
 
     // THEN
     expect(testSchema.obj).toEqual({
-      tests: [
-        {
-          type: SchemaMongoose.Types.ObjectId,
-          ref: "Children3",
-          required: false
-        }
-      ]
+      tests: {
+        type: [SchemaMongoose.Types.ObjectId],
+        ref: "Children3",
+        required: false
+      }
     });
   });
   it("should create schema with collection (Array of virtual ref", () => {
@@ -632,9 +676,9 @@ describe("createSchema", () => {
       tests: {
         type: Map,
         of: {
-          type: childrenSchema,
-          required: false
-        }
+          type: childrenSchema
+        },
+        required: false
       }
     });
 
@@ -729,6 +773,7 @@ describe("createSchema", () => {
       @DiscriminatorKey()
       kind: string;
     }
+
     const testSchema = getSchema(Test11);
     // @ts-ignore
     const options = testSchema.options;
@@ -741,6 +786,7 @@ describe("createSchema", () => {
       @VersionKey()
       version: number;
     }
+
     const testSchema = getSchema(Test12);
     // @ts-ignore
     const options = testSchema.options;

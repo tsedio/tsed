@@ -1,8 +1,8 @@
-import {cleanObject, nameOf, Store, Type} from "@tsed/core";
+import {classOf, cleanObject, isClassObject, nameOf, Store, Type} from "@tsed/core";
 import {deserialize, serialize} from "@tsed/json-mapper";
 import {getProperties, JsonEntityStore} from "@tsed/schema";
 import {pascalCase} from "change-case";
-import mongoose, {Schema, SchemaDefinition, SchemaOptions, SchemaTypeOptions} from "mongoose";
+import mongoose, {Schema, SchemaDefinition, SchemaDefinitionProperty, SchemaOptions, SchemaTypeOptions} from "mongoose";
 
 import {MONGOOSE_SCHEMA, MONGOOSE_SCHEMA_OPTIONS} from "../constants/constants.js";
 import {MongooseSchemaOptions} from "../interfaces/MongooseSchemaOptions.js";
@@ -142,11 +142,11 @@ export function buildMongooseSchema(target: any): MongooseSchemaMetadata {
 /**
  * @ignore
  */
-export function createSchemaTypeOptions<T = any>(propEntity: JsonEntityStore): SchemaTypeOptions<T> | SchemaTypeOptions<T>[] {
+export function createSchemaTypeOptions(propEntity: JsonEntityStore): SchemaDefinitionProperty {
   const key = propEntity.propertyKey;
   const rawMongooseSchema = propEntity.store.get(MONGOOSE_SCHEMA) || {};
 
-  let schemaTypeOptions: SchemaTypeOptions<T> = {
+  let schemaTypeOptions: SchemaTypeOptions<any> = {
     required: propEntity.required
       ? function () {
           return propEntity.isRequired(this[key]);
@@ -165,13 +165,13 @@ export function createSchemaTypeOptions<T = any>(propEntity: JsonEntityStore): S
 
     schemaTypeOptions = {
       ...schemaTypeOptions,
-      type: propEntity.type,
+      type: jsonSchema["enum"] && isClassObject(propEntity.type) ? classOf(jsonSchema["enum"][0]) : propEntity.type,
       match: match as RegExp,
       min,
       max,
       minlength,
       maxlength,
-      enum: /*jsonSchema["enum"] instanceof JsonSchema ? jsonSchema["enum"].toJSON().enum :*/ jsonSchema["enum"],
+      enum: jsonSchema["enum"],
       default: jsonSchema["default"]
     };
   } else if (!rawMongooseSchema.ref) {
@@ -183,7 +183,10 @@ export function createSchemaTypeOptions<T = any>(propEntity: JsonEntityStore): S
 
   if (propEntity.isCollection) {
     if (propEntity.isArray) {
-      return [schemaTypeOptions];
+      return {
+        ...schemaTypeOptions,
+        type: [schemaTypeOptions.type]
+      };
     }
     // Can be a Map or a Set;
     // Mongoose implements only Map;
@@ -191,7 +194,13 @@ export function createSchemaTypeOptions<T = any>(propEntity: JsonEntityStore): S
       throw new Error(`Invalid collection type. ${nameOf(propEntity.collectionType)} is not supported.`);
     }
 
-    return {type: Map, of: schemaTypeOptions} as unknown as SchemaTypeOptions<T>;
+    const {default: defaultValue, required, ...otherOpts} = schemaTypeOptions;
+    return {
+      type: Map,
+      of: otherOpts,
+      default: defaultValue,
+      required
+    };
   }
 
   return schemaTypeOptions;

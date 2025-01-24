@@ -259,7 +259,7 @@ export class JsonSchema extends Map<string, any> implements NestedGenerics {
    * It is RECOMMENDED that a default value be valid against the associated schema.
    * @see https://tools.ietf.org/html/draft-wright-json-schema-validation-01#section-7.3
    */
-  default(value: JSONSchema6Type) {
+  default(value: JSONSchema6Type | undefined) {
     super.set("default", value);
 
     return this;

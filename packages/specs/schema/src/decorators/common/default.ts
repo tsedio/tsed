@@ -1,3 +1,5 @@
+import type {JSONSchema6Type} from "json-schema";
+
 import {JsonEntityFn} from "./jsonEntityFn.js";
 
 /**
@@ -40,7 +42,7 @@ import {JsonEntityFn} from "./jsonEntityFn.js";
  * @schema
  * @input
  */
-export function Default(defaultValue: string | number | boolean | {}) {
+export function Default(defaultValue: JSONSchema6Type | undefined) {
   return JsonEntityFn((store) => {
     store.itemSchema.default(defaultValue);
   });
