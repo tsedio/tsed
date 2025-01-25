@@ -53,9 +53,9 @@ import {Returns} from "./returns.js";
  * @response
  * @headers
  */
-export function Redirect(url: string, meta?: JsonHeader): Function;
-export function Redirect(status: number, url: string, meta?: JsonHeader): Function;
-export function Redirect(...args: any[]): Function {
+export function Redirect(url: string, meta?: JsonHeader): MethodDecorator;
+export function Redirect(status: number, url: string, meta?: JsonHeader): MethodDecorator;
+export function Redirect(...args: any[]): MethodDecorator {
   const {status, url, meta} = args.reduce(
     (options: any, value: any) => {
       if (isNumber(value)) {

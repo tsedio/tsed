@@ -11,7 +11,7 @@ import {JsonEntityFn} from "../common/jsonEntityFn.js";
  * @schema
  * @operation
  */
-export function OperationId(operationId: string) {
+export function OperationId(operationId: string): MethodDecorator {
   return JsonEntityFn((store, args) => {
     if (store.decoratorType !== DecoratorTypes.METHOD) {
       throw new UnsupportedDecoratorType(OperationId, args);

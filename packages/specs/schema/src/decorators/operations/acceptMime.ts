@@ -20,6 +20,6 @@ import {Produces} from "./produces.js";
  * @operation
  * @response
  */
-export function AcceptMime(...mimes: string[]): Function {
+export function AcceptMime(...mimes: string[]): ClassDecorator & MethodDecorator {
   return useDecorators(Produces(...mimes), StoreSet("acceptMimes", mimes));
 }

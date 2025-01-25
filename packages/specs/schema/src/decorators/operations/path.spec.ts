@@ -37,6 +37,7 @@ describe("Path", () => {
 
     let actualError: any;
     try {
+      // @ts-ignore
       Path("/")(Test.prototype, "test", 0);
     } catch (er) {
       actualError = er;

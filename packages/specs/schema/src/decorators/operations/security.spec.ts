@@ -152,6 +152,7 @@ describe("Security", () => {
 
     let actualError: any;
     try {
+      // @ts-ignore
       Security("POST", "/")(Test.prototype, "test", 0);
     } catch (er) {
       actualError = er;

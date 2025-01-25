@@ -13,7 +13,7 @@ import {JsonEntityStore} from "../../domain/JsonEntityStore.js";
  * @input
  * @generics
  */
-export function Generics(...generics: string[]) {
+export function Generics(...generics: string[]): ClassDecorator {
   return (target: any) => {
     const storedSchema = JsonEntityStore.from(target);
 

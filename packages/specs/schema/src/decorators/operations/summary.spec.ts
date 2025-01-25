@@ -35,6 +35,7 @@ describe("Summary", () => {
   it("should throw error for unsupported usage", () => {
     let actualError: any;
     try {
+      // @ts-ignore
       Summary("summary")(class Test {});
     } catch (er) {
       actualError = er;

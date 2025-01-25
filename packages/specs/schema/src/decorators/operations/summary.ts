@@ -21,7 +21,7 @@ import {JsonEntityFn} from "../common/jsonEntityFn.js";
  * @schema
  * @operation
  */
-export function Summary(summary: string) {
+export function Summary(summary: string): MethodDecorator {
   return JsonEntityFn((store, args) => {
     if (store.decoratorType !== DecoratorTypes.METHOD) {
       throw new UnsupportedDecoratorType(Summary, args);

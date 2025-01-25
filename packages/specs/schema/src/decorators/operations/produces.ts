@@ -27,7 +27,7 @@ import {JsonEntityFn} from "../common/jsonEntityFn.js";
  * @operation
  * @response
  */
-export function Produces(...produces: string[]) {
+export function Produces(...produces: string[]): ClassDecorator & MethodDecorator {
   return JsonEntityFn((store, args) => {
     switch (store.decoratorType) {
       case DecoratorTypes.METHOD:

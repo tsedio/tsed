@@ -9,7 +9,7 @@ import {JsonEntityFn} from "../common/jsonEntityFn.js";
  * ::: warning
  * Don't use decorator with Ts.ED application.
  *
- * Use theses decorators instead:
+ * Use these decorators instead:
  *
  * <ApiList query="status.includes('decorator') && status.includes('httpMethod')" />
  *

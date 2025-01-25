@@ -25,7 +25,7 @@ import {JsonEntityFn} from "../common/jsonEntityFn.js";
  * @classDecorator
  * @operation
  */
-export function Security(name: string, ...scopes: string[]): Function;
+export function Security(name: string, ...scopes: string[]): ClassDecorator & MethodDecorator;
 /**
  * Add security metadata on the decorated method.
  *
@@ -57,8 +57,8 @@ export function Security(name: string, ...scopes: string[]): Function;
  * @classDecorator
  * @operation
  */
-export function Security(security: OpenSpecSecurity): Function;
-export function Security(nameOrSecurity: string | OpenSpecSecurity, ...scopes: string[]): Function {
+export function Security(security: OpenSpecSecurity): ClassDecorator & MethodDecorator;
+export function Security(nameOrSecurity: string | OpenSpecSecurity, ...scopes: string[]): ClassDecorator & MethodDecorator {
   return JsonEntityFn((store, args) => {
     switch (store.decoratorType) {
       case DecoratorTypes.METHOD:
