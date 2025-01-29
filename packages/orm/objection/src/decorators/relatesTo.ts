@@ -17,9 +17,6 @@ export function RelatesTo(relation: RelationType, opts?: RelationshipOpts): Prop
   return useDecorators(
     opts?.type ? CollectionOf(opts.type) : Property(),
     StoreFn((store, params) => {
-      if (opts && isModelClassFactory(opts.type)) {
-        opts.type = opts.type();
-      }
       store.set(OBJECTION_RELATIONSHIP_KEY, createRelationshipMapping(params, relation, opts));
     })
   );

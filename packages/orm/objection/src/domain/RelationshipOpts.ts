@@ -12,3 +12,7 @@ export const isRelationshipOptsWithThrough = (opts?: RelationshipOpts): opts is 
 
 export const isModelClassFactory = (type?: ModelClassSpecifier): type is ModelClassFactory =>
   type !== undefined && !isString(type) && isFunction(type) && !("prototype" in type);
+
+export const isModelClassSpecifier = (specifierOrOther: unknown): specifierOrOther is ModelClassSpecifier => {
+  return !!specifierOrOther && (isString(specifierOrOther) || isFunction(specifierOrOther));
+};
