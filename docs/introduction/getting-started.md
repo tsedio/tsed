@@ -73,7 +73,7 @@ pnpx -p @tsed/cli tsed init .
 ```
 
 ```sh [bun]
-bnx -p @tsed/cli tsed init .
+bunx -p @tsed/cli tsed init .
 ```
 
 :::
