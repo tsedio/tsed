@@ -135,7 +135,7 @@
     "html-webpack-plugin": "5.6.0",
     "husky": "9.1.6",
     "is-ci": "3.0.1",
-    "lint-staged": "15.2.10",
+    "lint-staged": "15.4.3",
     "merge-istanbul": "1.1.4",
     "micromatch": "4.0.8",
     "moment": "2.30.1",
