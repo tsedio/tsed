@@ -7,7 +7,7 @@ class Server {}
 describe("PlatformFastify", () => {
   describe("create()", () => {
     beforeEach(() => {
-      vi.spyOn(PlatformBuilder, "create").mockReturnValue({});
+      vi.spyOn(PlatformBuilder, "create").mockReturnValue({} as never);
     });
     afterEach(() => vi.resetAllMocks());
     it("should create platform", () => {
@@ -20,7 +20,7 @@ describe("PlatformFastify", () => {
   });
   describe("bootstrap()", () => {
     beforeEach(() => {
-      vi.spyOn(PlatformBuilder, "bootstrap").mockReturnValue({});
+      vi.spyOn(PlatformBuilder, "bootstrap").mockReturnValue({} as never);
     });
     afterEach(() => vi.resetAllMocks());
     it("should create platform", async () => {

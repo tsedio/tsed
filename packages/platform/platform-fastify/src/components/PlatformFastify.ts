@@ -1,4 +1,5 @@
 import * as Http from "node:http";
+import {IncomingMessage, ServerResponse} from "node:http";
 import * as Https from "node:https";
 
 import fastifyMiddie from "@fastify/middie";
@@ -23,7 +24,6 @@ import {
 } from "@tsed/platform-http";
 import {PlatformHandlerMetadata, PlatformHandlerType, PlatformLayer} from "@tsed/platform-router";
 import Fastify, {FastifyInstance, FastifyReply, FastifyRequest} from "fastify";
-import {IncomingMessage, ServerResponse} from "http";
 
 import type {PlatformFastifyPluginLoadingOptions, PlatformFastifyPluginSettings} from "../interfaces/interfaces.js";
 import type {PlatformFastifySettings} from "../interfaces/PlatformFastifySettings.js";
@@ -56,7 +56,7 @@ export class PlatformFastify extends PlatformAdapter<FastifyInstance> {
       useClass: PlatformFastifyRequest
     }
   ];
-  private decorated: boolean = false;
+  private staticsDecorated = false;
 
   /**
    * Create new serverless application. In this mode, the component scan are disabled.
@@ -286,9 +286,9 @@ export class PlatformFastify extends PlatformAdapter<FastifyInstance> {
     this.app.getApp().register(fastifyStatics, {
       root: options.root,
       prefix: endpoint,
-      decorateReply: !this.decorated
+      decorateReply: !this.staticsDecorated
     });
-    this.decorated = true;
+    this.staticsDecorated = true;
 
     return null;
   }

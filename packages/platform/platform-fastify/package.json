@@ -24,12 +24,10 @@
     "test:ci": "vitest run --coverage.thresholds.autoUpdate=true"
   },
   "keywords": [
-    "Koa",
+    "Fastify",
     "TypeScript",
-    "typescript",
     "Decorator",
     "decorators",
-    "decorator",
     "fastify",
     "Controller",
     "Inject",
@@ -38,7 +36,7 @@
     "mvc",
     "swagger",
     "swagger ui",
-    "ES2015",
+    "ESM",
     "ES6",
     "server",
     "rest",
@@ -58,13 +56,13 @@
     "url": "git+https://github.com/tsedio/tsed.git"
   },
   "dependencies": {
+    "@fastify/accepts": ">=5.0.2",
     "@fastify/middie": ">=9.0.2",
     "@fastify/static": ">=8.0.4",
     "content-disposition": ">=0.5.4",
     "tslib": "2.6.1"
   },
   "devDependencies": {
-    "@fastify/accepts": "5.0.2",
     "@fastify/cookie": "11.0.1",
     "@fastify/formbody": "8.0.1",
     "@fastify/session": "11.0.1",

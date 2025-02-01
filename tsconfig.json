@@ -132,7 +132,7 @@
       "path": "./packages/orm/objection/tsconfig.json"
     },
     {
-      "path": "./packages/platform/platform-koa/tsconfig.json"
+      "path": "./packages/platform/platform-fastify/tsconfig.json"
     },
     {
       "path": "./packages/platform/platform-serverless-testing/tsconfig.json"

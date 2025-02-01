@@ -1,3 +1,5 @@
+import "@fastify/accepts";
+
 import type {IncomingMessage} from "node:http";
 
 import {type PlatformContext, PlatformRequest} from "@tsed/platform-http";

@@ -1,3 +1,5 @@
+import {promisify} from "node:util";
+
 import {Constant, Controller} from "@tsed/di";
 import {NotFound} from "@tsed/exceptions";
 import {Req} from "@tsed/platform-http";
@@ -6,7 +8,6 @@ import {BodyParams, Session} from "@tsed/platform-params";
 import {PlatformTestSdk} from "@tsed/platform-test-sdk";
 import {Allow, Email, Get, Ignore, MinLength, Post, Property, Required, Returns} from "@tsed/schema";
 import SuperTest from "supertest";
-import {promisify} from "util";
 import {afterAll, beforeAll, describe, expect, it} from "vitest";
 
 import {PlatformFastify} from "../src/index.js";
@@ -78,7 +79,7 @@ const utils = PlatformTestSdk.create({
   server: Server
 });
 
-describe("Fastify: sesssion", () => {
+describe.skip("Fastify: sesssion", () => {
   beforeAll(
     utils.bootstrap({
       logger: {

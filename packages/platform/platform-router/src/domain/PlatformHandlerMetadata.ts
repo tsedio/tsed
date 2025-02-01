@@ -139,6 +139,11 @@ export class PlatformHandlerMetadata {
     return this.type === PlatformHandlerType.RESPONSE_FN;
   }
 
+  /**
+   * Checks if the handler is a raw middleware function.
+   * Raw middleware functions are non-injectable handlers of type RAW_FN or RAW_ERR_FN.
+   * @returns {boolean} True if the handler is a raw middleware function
+   */
   public isRawMiddleware() {
     return !this.isInjectable() && (this.type === PlatformHandlerType.RAW_FN || this.type === PlatformHandlerType.RAW_ERR_FN);
   }
