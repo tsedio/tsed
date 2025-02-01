@@ -32,7 +32,7 @@
   },
   "devDependencies": {
     "@temporalio/client": "1.11.6",
-    "@temporalio/testing": "1.11.6",
+    "@temporalio/testing": "1.11.7",
     "@temporalio/worker": "1.11.6",
     "@tsed/barrels": "workspace:*",
     "@tsed/core": "workspace:*",
