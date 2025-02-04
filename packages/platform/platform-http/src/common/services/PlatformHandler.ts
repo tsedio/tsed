@@ -1,5 +1,6 @@
 import {AnyPromiseResult, AnyToPromiseStatus, catchAsyncError} from "@tsed/core";
 import {inject, injectable, Provider, ProviderScope} from "@tsed/di";
+import {$alter} from "@tsed/hooks";
 import {PlatformExceptions} from "@tsed/platform-exceptions";
 import {PlatformParams, PlatformParamsCallback} from "@tsed/platform-params";
 import {PlatformResponseFilter} from "@tsed/platform-response-filter";
@@ -16,7 +17,6 @@ import {AnyToPromiseWithCtx} from "../domain/AnyToPromiseWithCtx.js";
 import {PlatformContext} from "../domain/PlatformContext.js";
 import {setResponseHeaders} from "../utils/setResponseHeaders.js";
 import {PlatformAdapter} from "./PlatformAdapter.js";
-import {PlatformMiddlewaresChain} from "./PlatformMiddlewaresChain.js";
 
 /**
  * Platform Handler abstraction layer. Wrap original class method to a pure platform handler (Express, Koa, etc...).
@@ -26,14 +26,13 @@ export class PlatformHandler {
   protected responseFilter = inject(PlatformResponseFilter);
   protected platformParams = inject(PlatformParams);
   protected platformExceptions = inject(PlatformExceptions);
-  protected platformMiddlewaresChain = inject(PlatformMiddlewaresChain);
   protected platformRouters = inject(PlatformRouters);
 
   constructor() {
     // configure the router module
     this.platformRouters.hooks
       .on("alterEndpointHandlers", (handlers: AlterEndpointHandlersArg, operationRoute: JsonOperationRoute) => {
-        handlers = this.platformMiddlewaresChain.get(handlers, operationRoute);
+        handlers = $alter("$alterEndpointHandlers", handlers, [operationRoute]);
 
         handlers.after.push(useResponseHandler(this.flush.bind(this)));
 

@@ -83,6 +83,7 @@
     "@tsed/logger": "^7.0.1",
     "@tsed/platform-exceptions": "workspace:*",
     "@tsed/platform-middlewares": "workspace:*",
+    "@tsed/platform-multer": "workspace:*",
     "@tsed/platform-params": "workspace:*",
     "@tsed/platform-response-filter": "workspace:*",
     "@tsed/platform-router": "workspace:*",

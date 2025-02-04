@@ -3,9 +3,9 @@ import {IncomingMessage, ServerResponse} from "node:http";
 import {Type} from "@tsed/core";
 import {configuration, constant, inject, injectable} from "@tsed/di";
 import {$on} from "@tsed/hooks";
+import type {PlatformMulter, PlatformMulterSettings} from "@tsed/platform-multer";
 import {PlatformHandlerMetadata, PlatformLayer} from "@tsed/platform-router";
 
-import {PlatformMulter, PlatformMulterSettings} from "../config/interfaces/PlatformMulterSettings.js";
 import {PlatformStaticsOptions} from "../config/interfaces/PlatformStaticsSettings.js";
 import {application} from "../fn/application.js";
 import {createHttpServer} from "../utils/createHttpServer.js";
@@ -81,8 +81,11 @@ export abstract class PlatformAdapter<App = TsED.Application> {
   /**
    * Return the multipart middleware
    * @param options
+   * @deprecated use inject("MULTER_MODULE")?.get(options) instead
    */
-  abstract multipart(options: PlatformMulterSettings): PlatformMulter;
+  multipart(options: PlatformMulterSettings): PlatformMulter {
+    return inject<any>(Symbol.for("MULTER_MODULE"))?.get(options);
+  }
 
   /**
    * Return the body parser for the given

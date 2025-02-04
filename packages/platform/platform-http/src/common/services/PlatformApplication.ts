@@ -3,6 +3,8 @@ import {IncomingMessage, ServerResponse} from "node:http";
 import {injectable, ProviderScope} from "@tsed/di";
 import {PlatformRouter} from "@tsed/platform-router";
 
+import {PlatformAdapter} from "./PlatformAdapter.js";
+
 declare global {
   namespace TsED {
     // @ts-ignore

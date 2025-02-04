@@ -7855,6 +7855,7 @@ __metadata:
     "@tsed/logger": "npm:^7.0.1"
     "@tsed/platform-exceptions": "workspace:*"
     "@tsed/platform-middlewares": "workspace:*"
+    "@tsed/platform-multer": "workspace:*"
     "@tsed/platform-params": "workspace:*"
     "@tsed/platform-response-filter": "workspace:*"
     "@tsed/platform-router": "workspace:*"
@@ -8028,7 +8029,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@tsed/platform-multer@workspace:packages/platform/platform-multer":
+"@tsed/platform-multer@workspace:*, @tsed/platform-multer@workspace:packages/platform/platform-multer":
   version: 0.0.0-use.local
   resolution: "@tsed/platform-multer@workspace:packages/platform/platform-multer"
   dependencies:

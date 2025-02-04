@@ -1,7 +1,4 @@
-import {StoreMerge} from "@tsed/core";
-
-import {PlatformMulterSettings} from "../../config/interfaces/PlatformMulterSettings.js";
-import {PlatformMulterMiddleware} from "../../middlewares/PlatformMulterMiddleware.js";
+import {MulterOptions as M} from "@tsed/platform-multer";
 
 /**
  * Define multer option for all MultipartFile
@@ -43,11 +40,6 @@ import {PlatformMulterMiddleware} from "../../middlewares/PlatformMulterMiddlewa
  * @returns {(target: any, propertyKey: string, descriptor: PropertyDescriptor) => PropertyDescriptor}
  * @decorator
  * @multer
+ * @deprecated use MulterOptions from @tsed/platform-multer
  */
-export function MulterOptions(options: PlatformMulterSettings): MethodDecorator {
-  return (target: any, propertyKey: string, descriptor: PropertyDescriptor) => {
-    StoreMerge(PlatformMulterMiddleware, {options})(target, propertyKey, descriptor);
-
-    return descriptor;
-  };
-}
+export const MulterOptions: typeof M = M;

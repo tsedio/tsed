@@ -3,13 +3,23 @@ import {constant, injectable, ProviderType} from "@tsed/di";
 import {NotAcceptable} from "@tsed/exceptions";
 import {MiddlewareMethods} from "@tsed/platform-middlewares";
 import {Context} from "@tsed/platform-params";
+import type {AlterEndpointHandlersArg} from "@tsed/platform-router";
+import type {JsonOperationRoute} from "@tsed/schema";
 
 /**
  * @middleware
  * @platform
  */
 export class PlatformAcceptMimesMiddleware implements MiddlewareMethods {
-  acceptMimes = constant<string[]>("acceptMimes", []);
+  protected acceptMimes = constant<string[]>("acceptMimes", []);
+
+  public $alterEndpointHandlers(handlers: AlterEndpointHandlersArg, operationRoute: JsonOperationRoute) {
+    const hasAcceptMimes = operationRoute.endpoint.acceptMimes.length || this.acceptMimes.length;
+    return {
+      ...handlers,
+      before: [hasAcceptMimes && PlatformAcceptMimesMiddleware, ...handlers.before].filter(Boolean) as any[]
+    };
+  }
 
   public use(@Context() ctx: Context): void {
     const {endpoint, request} = ctx;
