@@ -1,4 +1,4 @@
-import {getValue, isObject} from "@tsed/core";
+import {getValue, isFunction, isObject} from "@tsed/core";
 
 import {mapAliasedProperties} from "../../domain/JsonAliasMap.js";
 import {JsonSchema} from "../../domain/JsonSchema.js";
@@ -125,6 +125,10 @@ function serializeSchema(schema: JsonSchema, options: JsonSchemaOptions) {
       ...obj,
       ...schema.get(options.specType as string).toJSON(options)
     };
+  }
+
+  if (isFunction(obj.default)) {
+    obj.default = obj.default();
   }
 
   obj = execMapper("required", [obj, schema], options);

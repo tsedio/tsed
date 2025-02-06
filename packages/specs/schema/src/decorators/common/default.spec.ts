@@ -22,4 +22,24 @@ describe("@Default", () => {
       type: "object"
     });
   });
+  it("should declare prop (Date.now)", () => {
+    // WHEN
+    class Model {
+      @Default(Date.now)
+      num: Date = new Date();
+
+      constructor() {}
+    }
+
+    // THEN
+    expect(getJsonSchema(Model)).toEqual({
+      properties: {
+        num: {
+          default: expect.any(Number),
+          type: "string"
+        }
+      },
+      type: "object"
+    });
+  });
 });
