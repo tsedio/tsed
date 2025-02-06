@@ -7167,7 +7167,7 @@ __metadata:
     express: "npm:^4.21.0"
     formio: "npm:4.2.5"
     mongodb: "npm:^6.9.0"
-    mongoose: "npm:8.9.4"
+    mongoose: "npm:8.9.5"
     tslib: "npm:2.7.0"
     typescript: "npm:5.4.5"
     vitest: "npm:2.1.2"
@@ -7381,7 +7381,7 @@ __metadata:
     "@tsed/typescript": "workspace:*"
     change-case: "npm:5.4.4"
     eslint: "npm:9.12.0"
-    mongoose: "npm:8.9.4"
+    mongoose: "npm:8.9.5"
     tslib: "npm:2.7.0"
     typescript: "npm:5.4.5"
     vitest: "npm:2.1.2"
@@ -22369,9 +22369,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"mongoose@npm:8.9.4":
-  version: 8.9.4
-  resolution: "mongoose@npm:8.9.4"
+"mongoose@npm:8.9.5":
+  version: 8.9.5
+  resolution: "mongoose@npm:8.9.5"
   dependencies:
     bson: "npm:^6.10.1"
     kareem: "npm:2.6.3"
@@ -22380,7 +22380,7 @@ __metadata:
     mquery: "npm:5.0.0"
     ms: "npm:2.1.3"
     sift: "npm:17.1.3"
-  checksum: 10/956842234e3a7ccde2ba2c7eebe8cfba1844a962dead9580e25bafaa99476ce3d470fec3c72901a6a911fd2507490acc441ba01a5becf8a50d05f5148f102517
+  checksum: 10/74f38844ef18bc6d8d68c702871cb11eafc349a356786a3277dd9160ba020dfef791ef760fe3f6228f037aed584a9ac1ad694153c8595c7e877204aea5cc537e
   languageName: node
   linkType: hard
 
