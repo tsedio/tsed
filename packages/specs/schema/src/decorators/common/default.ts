@@ -42,7 +42,7 @@ import {JsonEntityFn} from "./jsonEntityFn.js";
  * @schema
  * @input
  */
-export function Default(defaultValue: JSONSchema6Type | undefined) {
+export function Default(defaultValue: JSONSchema6Type | undefined | (() => JSONSchema6Type)) {
   return JsonEntityFn((store) => {
     store.itemSchema.default(defaultValue);
   });
