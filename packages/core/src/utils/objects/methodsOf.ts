@@ -1,6 +1,7 @@
 import {Type} from "../../domain/Type.js";
 import {ancestorsOf} from "./ancestorsOf.js";
 import {classOf} from "./classOf.js";
+import {isSymbol} from "./isSymbol.js";
 import {prototypeOf} from "./prototypeOf.js";
 
 /**
@@ -15,9 +16,9 @@ export function methodsOf(target: any): {target: Type; propertyKey: string}[] {
     const keys = Reflect.ownKeys(prototypeOf(target));
 
     keys.forEach((propertyKey: string) => {
-      if (propertyKey !== "constructor") {
-        methods.set(propertyKey, {target, propertyKey});
-      }
+      if (isSymbol(propertyKey) || propertyKey === "constructor" || Object.getOwnPropertyDescriptor(prototypeOf(target), propertyKey)?.get)
+        return;
+      methods.set(propertyKey, {target, propertyKey});
     });
   });
 
