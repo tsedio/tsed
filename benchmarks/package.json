@@ -43,7 +43,7 @@
     "hsts": "^2.1.0",
     "ienoopen": "^1.0.0",
     "inquirer": "^8.0.0",
-    "koa": "^2.7.0",
+    "koa": "^2.15.4",
     "koa-isomorphic-router": "^1.0.0",
     "koa-router": "^10.0.0",
     "make-promises-safe": "^5.1.0",
