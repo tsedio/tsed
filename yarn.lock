@@ -6854,6 +6854,7 @@ __metadata:
     tslib: "npm:2.7.0"
     typescript: "npm:5.4.5"
     vitest: "npm:2.1.2"
+    webpack: "npm:^5.75.0"
   peerDependencies:
     "@tsed/core": ">=8.4.7"
     "@tsed/di": ">=8.4.7"
@@ -7131,6 +7132,7 @@ __metadata:
     tslib: "npm:2.7.0"
     typescript: "npm:5.4.5"
     vitest: "npm:2.1.2"
+    webpack: "npm:^5.75.0"
   peerDependencies:
     "@tsed/core": ">=8.4.7"
   languageName: unknown
@@ -8444,14 +8446,13 @@ __metadata:
     "@tsed/typescript": "workspace:*"
     "@types/fs-extra": "npm:11.0.4"
     "@types/json-schema": "npm:7.0.15"
-    "@types/picomatch": "npm:3.0.1"
+    "@types/picomatch": "npm:3.0.2"
     "@types/statuses": "npm:2.0.5"
     ajv: "npm:^8.17.1"
     change-case: "npm:^5.4.4"
     eslint: "npm:9.12.0"
     json-schema: "npm:0.4.0"
-    picomatch: "npm:2.3.1"
-    picomatch-browser: "npm:^2.2.6"
+    picomatch: "npm:4.0.2"
     statuses: "npm:^2.0.1"
     tslib: "npm:2.7.0"
     typescript: "npm:5.4.5"
@@ -9636,10 +9637,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/picomatch@npm:3.0.1":
-  version: 3.0.1
-  resolution: "@types/picomatch@npm:3.0.1"
-  checksum: 10/0fadfbd35d80c203d9c7979bc2291b10d3fe859e63a7e96da0b9e45e6d568e8d0b4e79bbf5bb775a478ef9f6b1db76228703b73fa0e242f19c35be8a939c3603
+"@types/picomatch@npm:3.0.2":
+  version: 3.0.2
+  resolution: "@types/picomatch@npm:3.0.2"
+  checksum: 10/da4e0e0f4437576dfd59b94f5868f89a2bd5ce4aaa57eb5dc601818885ac7bd03ccb3e8d3402a6820e5a3d63c86c7030031a5fdc67a0598d0675dea912b6512e
   languageName: node
   linkType: hard
 
@@ -24490,14 +24491,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"picomatch-browser@npm:^2.2.6":
-  version: 2.2.6
-  resolution: "picomatch-browser@npm:2.2.6"
-  checksum: 10/0136abee4bbef256e9b6b20676873807e11cc6d04d52d4cd4e9e5c7b48b0888e67f224873eb7eaba6da2a5356647e5aa9a2ef62ad98a675c7940344bfae0238e
+"picomatch@npm:4.0.2":
+  version: 4.0.2
+  resolution: "picomatch@npm:4.0.2"
+  checksum: 10/ce617b8da36797d09c0baacb96ca8a44460452c89362d7cb8f70ca46b4158ba8bc3606912de7c818eb4a939f7f9015cef3c766ec8a0c6bfc725fdc078e39c717
   languageName: node
   linkType: hard
 
-"picomatch@npm:2.3.1, picomatch@npm:^2.0.4, picomatch@npm:^2.0.5, picomatch@npm:^2.2.1, picomatch@npm:^2.3.1":
+"picomatch@npm:^2.0.4, picomatch@npm:^2.0.5, picomatch@npm:^2.2.1, picomatch@npm:^2.3.1":
   version: 2.3.1
   resolution: "picomatch@npm:2.3.1"
   checksum: 10/60c2595003b05e4535394d1da94850f5372c9427ca4413b71210f437f7b2ca091dbd611c45e8b37d10036fa8eade25c1b8951654f9d3973bfa66a2ff4d3b08bc

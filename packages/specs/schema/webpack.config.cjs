@@ -4,10 +4,5 @@ module.exports = require("@tsed/webpack-config").create({
   externals: {
     "@tsed/core": "@tsed/core",
     "change-case": "change-case"
-  },
-  resolve: {
-    alias: {
-      picomatch: require.resolve("picomatch-browser")
-    }
   }
 });
