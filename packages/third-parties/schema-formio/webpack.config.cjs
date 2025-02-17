@@ -8,10 +8,5 @@ module.exports = require("@tsed/webpack-config").create({
     formiojs: "formiojs",
     lodash: "lodash",
     moment: "moment"
-  },
-  resolve: {
-    alias: {
-      picomatch: require.resolve("picomatch-browser")
-    }
   }
 });

@@ -28,6 +28,7 @@ exports.create = ({root, name, entry, externals = {}, resolve = {}}) => {
       "@tsed/di": "@tsed/di",
       "@tsed/json-mapper": "@tsed/json-mapper",
       "@tsed/event-emitter": "@tsed/event-emitter",
+      "@tsed/exceptions": "@tsed/exceptions",
       ...externals
     },
     module: {
@@ -35,21 +36,6 @@ exports.create = ({root, name, entry, externals = {}, resolve = {}}) => {
         {
           test: /\.(ts|js)?$/,
           use: [
-            {
-              loader: "webpack-remove-code-blocks",
-              options: {
-                blocks: [
-                  "debug",
-                  "devblock",
-                  {
-                    start: "node_env:start",
-                    end: "node_env:end",
-                    prefix: "/*",
-                    suffix: "*/"
-                  }
-                ]
-              }
-            },
             {
               loader: "ts-loader",
               options: {
