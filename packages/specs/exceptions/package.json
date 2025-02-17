@@ -7,16 +7,20 @@
   "main": "./lib/esm/index.js",
   "module": "./lib/esm/index.js",
   "typings": "./lib/types/index.d.ts",
+  "browser": "./lib/browser/exceptions.umd.min.js",
   "exports": {
     ".": {
       "tsed-source": "./src/index.ts",
       "types": "./lib/types/index.d.ts",
+      "browser": "./lib/browser/exceptions.umd.min.js",
       "import": "./lib/esm/index.js",
       "default": "./lib/esm/index.js"
     }
   },
   "scripts": {
-    "build": "yarn barrels && yarn build:ts",
+    "clean": "rm -rf lib",
+    "build": "yarn clean && yarn barrels && yarn build:ts && yarn run build:browser",
+    "build:browser": "webpack",
     "barrels": "barrels",
     "test": "vitest run",
     "build:ts": "tsc --build tsconfig.json",
@@ -33,7 +37,8 @@
     "@types/statuses": "2.0.5",
     "eslint": "9.12.0",
     "typescript": "5.4.5",
-    "vitest": "2.1.2"
+    "vitest": "2.1.2",
+    "webpack": "^5.75.0"
   },
   "peerDependencies": {
     "@tsed/core": ">=8.4.7"
