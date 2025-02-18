@@ -49,12 +49,12 @@
     "vitest": "2.1.2"
   },
   "peerDependencies": {
-    "@tsed/ajv": ">=8.5.0",
-    "@tsed/core": ">=8.5.0",
-    "@tsed/di": ">=8.5.0",
-    "@tsed/json-mapper": ">=8.5.0",
+    "@tsed/ajv": ">=8.0.0",
+    "@tsed/core": ">=8.0.0",
+    "@tsed/di": ">=8.0.0",
+    "@tsed/json-mapper": ">=8.0.0",
     "@tsed/logger": ">=7.0.1",
-    "@tsed/schema": ">=8.5.0",
+    "@tsed/schema": ">=8.0.0",
     "mongoose": ">=6.0.0"
   }
 }

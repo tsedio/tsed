@@ -40,8 +40,8 @@
     "vitest": "2.1.2"
   },
   "peerDependencies": {
-    "@tsed/core": ">=8.5.0",
-    "@tsed/di": ">=8.5.0",
+    "@tsed/core": ">=8.0.0",
+    "@tsed/di": ">=8.0.0",
     "@tsed/engines": ">=8.5.0",
     "@tsed/exceptions": ">=8.5.0",
     "@tsed/schema": ">=8.5.0"

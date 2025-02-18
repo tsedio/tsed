@@ -47,7 +47,7 @@
     "vitest": "2.1.2"
   },
   "peerDependencies": {
-    "@tsed/platform-http": ">=8.5.0",
+    "@tsed/platform-http": ">=8.0.0",
     "passport": ">=0.4.1"
   },
   "peerDependenciesMeta": {

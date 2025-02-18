@@ -39,12 +39,12 @@
     "vitest": "2.1.2"
   },
   "peerDependencies": {
-    "@tsed/core": ">=8.5.0",
-    "@tsed/di": ">=8.5.0",
-    "@tsed/exceptions": ">=8.5.0",
-    "@tsed/json-mapper": ">=8.5.0",
-    "@tsed/platform-params": ">=8.5.0",
-    "@tsed/schema": ">=8.5.0"
+    "@tsed/core": ">=8.0.0",
+    "@tsed/di": ">=8.0.0",
+    "@tsed/exceptions": ">=8.0.0",
+    "@tsed/json-mapper": ">=8.0.0",
+    "@tsed/platform-params": ">=8.0.0",
+    "@tsed/schema": ">=8.0.0"
   },
   "peerDependenciesMeta": {
     "@tsed/core": {

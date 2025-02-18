@@ -35,10 +35,10 @@
     "typescript": "5.4.5"
   },
   "peerDependencies": {
-    "@tsed/core": ">=8.5.0",
-    "@tsed/di": ">=8.5.0",
+    "@tsed/core": ">=8.0.0",
+    "@tsed/di": ">=8.0.0",
     "@tsed/logger": ">=7.0.1",
-    "@tsed/platform-http": ">=8.5.0",
+    "@tsed/platform-http": ">=8.0.0",
     "graphql-ws": ">=5.14.2"
   }
 }

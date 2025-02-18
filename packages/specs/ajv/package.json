@@ -45,10 +45,10 @@
     "webpack": "^5.75.0"
   },
   "peerDependencies": {
-    "@tsed/core": ">=8.5.0",
-    "@tsed/di": ">=8.5.0",
-    "@tsed/exceptions": ">=8.5.0",
-    "@tsed/schema": ">=8.5.0",
+    "@tsed/core": ">=8.0.0",
+    "@tsed/di": ">=8.0.0",
+    "@tsed/exceptions": ">=8.0.0",
+    "@tsed/schema": ">=8.0.0",
     "ajv": ">=8.9.0",
     "ajv-errors": ">=3.0.0"
   },

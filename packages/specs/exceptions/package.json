@@ -41,6 +41,6 @@
     "webpack": "^5.75.0"
   },
   "peerDependencies": {
-    "@tsed/core": ">=8.5.0"
+    "@tsed/core": ">=8.0.0"
   }
 }
