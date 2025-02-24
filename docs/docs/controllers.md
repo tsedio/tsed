@@ -266,6 +266,25 @@ You have to add extra parameter to enable it:
 
 :::
 
+### Accept Mime
+
+@@AcceptMime@@ decorator provides you quick access to the `request.accepts()` and add given mime type to the consumable data types.
+
+```typescript
+import {BodyParams} from "@tsed/platform-params";
+import {Get, AcceptMime} from "@tsed/schema";
+import {Controller} from "@tsed/di";
+
+@Controller("/")
+class ExampleCtrl {
+  @Get("/")
+  @AcceptMime("application/x-www-form-urlencoded")
+  async get(@BodyParams() model: Model) {
+    return {message: "Hello world"};
+  }
+}
+```
+
 ### Session/Cookies/Locals/Context
 
 For the session, cookies, locals or context data attached on the request, it works the same way as seen before. Use the
@@ -275,6 +294,7 @@ following decorators to get the data:
 - @@Cookies@@
 - @@Locals@@
 - @@Context@@
+-
 
 #### Locals
 

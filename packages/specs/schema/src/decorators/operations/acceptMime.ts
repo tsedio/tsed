@@ -1,6 +1,6 @@
 import {StoreSet, useDecorators} from "@tsed/core";
 
-import {Produces} from "./produces.js";
+import {Consumes} from "./consumes.js";
 
 /**
  * Set a mime list which are acceptable and checks if the specified content types are acceptable, based on the request’s Accept HTTP header field.
@@ -10,7 +10,7 @@ import {Produces} from "./produces.js";
  *  export class MyCtrl {
  *
  *    @Get('/')
- *    @AcceptMime('application/json')
+ *    @AcceptMime('application/x-www-form-urlencoded')
  *    public getResource(){}
  *  }
  * ```
@@ -21,5 +21,5 @@ import {Produces} from "./produces.js";
  * @response
  */
 export function AcceptMime(...mimes: string[]): ClassDecorator & MethodDecorator {
-  return useDecorators(Produces(...mimes), StoreSet("acceptMimes", mimes));
+  return useDecorators(Consumes(...mimes), StoreSet("acceptMimes", mimes));
 }
