@@ -1,7 +1,8 @@
 import {IncomingMessage, ServerResponse} from "node:http";
 
 import {Type} from "@tsed/core";
-import {injectable, ProviderOpts} from "@tsed/di";
+import {configuration, constant, inject, injectable} from "@tsed/di";
+import {$on} from "@tsed/hooks";
 import {PlatformHandlerMetadata, PlatformLayer} from "@tsed/platform-router";
 
 import {PlatformMulter, PlatformMulterSettings} from "../config/interfaces/PlatformMulterSettings.js";
@@ -10,17 +11,25 @@ import {application} from "../fn/application.js";
 import {createHttpServer} from "../utils/createHttpServer.js";
 import {createHttpsServer} from "../utils/createHttpsServer.js";
 import {CreateServerReturn} from "../utils/createServer.js";
-import type {PlatformApplication} from "./PlatformApplication.js";
+import {Platform} from "./Platform.js";
+import {PlatformApplication} from "./PlatformApplication.js";
+import {PlatformHandler} from "./PlatformHandler.js";
 
 export abstract class PlatformAdapter<App = TsED.Application> {
   abstract readonly NAME: string;
-  /**
-   * Load providers in top priority
-   */
-  providers: ProviderOpts[] = [];
 
-  get app(): PlatformApplication<App> {
-    return application();
+  readonly app = inject<PlatformApplication<App>>(PlatformApplication);
+
+  constructor() {
+    const platformApp = inject(PlatformApplication);
+
+    const {app, callback} = this.createApp();
+    platformApp.rawApp = app as any;
+    platformApp.rawCallback = callback;
+
+    $on("$afterInvoke", PlatformAdapter, () => {
+      configuration().set("PLATFORM_NAME", constant("PLATFORM_NAME") || this.NAME);
+    });
   }
 
   getServers(): CreateServerReturn[] {
@@ -87,4 +96,4 @@ export interface PlatformBuilderSettings<App = TsED.Application> extends Partial
   adapter?: Type<PlatformAdapter<App>>;
 }
 
-injectable(PlatformAdapter).alias("PlatformAdapter");
+injectable(PlatformAdapter).imports([PlatformApplication, Platform, PlatformHandler]).alias("PlatformAdapter");

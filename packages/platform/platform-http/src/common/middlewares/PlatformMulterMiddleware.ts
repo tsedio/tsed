@@ -6,6 +6,7 @@ import type {MulterError} from "multer";
 
 import {PlatformMulterField, PlatformMulterSettings} from "../config/interfaces/PlatformMulterSettings.js";
 import {PlatformContext} from "../domain/PlatformContext.js";
+import {PlatformAdapter} from "../services/PlatformAdapter.js";
 import {PlatformApplication} from "../services/PlatformApplication.js";
 
 export interface MulterInputOptions {
@@ -24,8 +25,6 @@ export class MulterException extends BadRequest {
  * @middleware
  */
 export class PlatformMulterMiddleware implements MiddlewareMethods {
-  protected app = inject(PlatformApplication);
-
   async use(@Context() ctx: PlatformContext) {
     try {
       const {fields, options = {}} = ctx.endpoint.get(PlatformMulterMiddleware);
@@ -39,7 +38,7 @@ export class PlatformMulterMiddleware implements MiddlewareMethods {
         delete settings.dest;
       }
 
-      const multer = this.app.multer(settings);
+      const multer = inject(PlatformAdapter).multipart(settings);
 
       if (multer) {
         const middleware: any = multer.fields(this.getFields({fields}));

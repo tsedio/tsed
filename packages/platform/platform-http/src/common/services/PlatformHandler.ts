@@ -15,7 +15,7 @@ import {JsonOperationRoute} from "@tsed/schema";
 import {AnyToPromiseWithCtx} from "../domain/AnyToPromiseWithCtx.js";
 import {PlatformContext} from "../domain/PlatformContext.js";
 import {setResponseHeaders} from "../utils/setResponseHeaders.js";
-import {PlatformApplication} from "./PlatformApplication.js";
+import {PlatformAdapter} from "./PlatformAdapter.js";
 import {PlatformMiddlewaresChain} from "./PlatformMiddlewaresChain.js";
 
 /**
@@ -26,7 +26,6 @@ export class PlatformHandler {
   protected responseFilter = inject(PlatformResponseFilter);
   protected platformParams = inject(PlatformParams);
   protected platformExceptions = inject(PlatformExceptions);
-  protected platformApplication = inject(PlatformApplication);
   protected platformMiddlewaresChain = inject(PlatformMiddlewaresChain);
   protected platformRouters = inject(PlatformRouters);
 
@@ -43,7 +42,7 @@ export class PlatformHandler {
       .on("alterHandler", (handlerMetadata: PlatformHandlerMetadata) => {
         const handler = handlerMetadata.isInjectable() ? this.createHandler(handlerMetadata) : handlerMetadata.handler;
 
-        return this.platformApplication.adapter.mapHandler(handler, handlerMetadata);
+        return inject(PlatformAdapter).mapHandler(handler, handlerMetadata);
       });
   }
 

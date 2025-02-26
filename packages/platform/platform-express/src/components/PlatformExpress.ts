@@ -64,17 +64,6 @@ declare global {
 export class PlatformExpress extends PlatformAdapter<Express.Application> {
   readonly NAME = "express";
 
-  readonly providers = [
-    {
-      token: PlatformHandler,
-      useClass: PlatformExpressHandler
-    },
-    {token: PlatformResponse},
-    {token: PlatformRequest},
-    {token: PlatformApplication},
-    {token: Platform}
-  ];
-
   #multer: typeof multer;
 
   constructor() {
@@ -286,4 +275,9 @@ export class PlatformExpress extends PlatformAdapter<Express.Application> {
   }
 }
 
-adapter(PlatformExpress);
+adapter(PlatformExpress, [
+  {
+    token: PlatformHandler,
+    useClass: PlatformExpressHandler
+  }
+]);

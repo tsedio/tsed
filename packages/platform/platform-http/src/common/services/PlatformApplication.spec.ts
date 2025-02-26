@@ -33,7 +33,6 @@ async function getPlatformApp() {
   ]);
   configuration().logger = {};
   platformApp.rawApp = createDriver() as any;
-  vi.spyOn(platformApp, "multer").mockReturnValue({} as never);
 
   return {platformApp, platformHandler};
 }
@@ -61,17 +60,6 @@ describe("PlatformApplication", () => {
 
       // WHEN
       platformApp.statics("/", {root: "/root"});
-    });
-  });
-  describe("multer()", () => {
-    it("should call statics", async () => {
-      // GIVEN
-      const {platformApp} = await getPlatformApp();
-
-      vi.spyOn(console, "warn");
-
-      // WHEN
-      platformApp.multer({});
     });
   });
 

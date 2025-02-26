@@ -6,9 +6,7 @@ import {
   adapter,
   application,
   createContext,
-  Platform,
   PlatformAdapter,
-  PlatformApplication,
   PlatformBuilder,
   PlatformHandler,
   PlatformMulter,
@@ -59,22 +57,6 @@ KoaRouter.prototype.match = function match(...args: any[]) {
  */
 export class PlatformKoa extends PlatformAdapter<Koa> {
   readonly NAME = "koa";
-  readonly providers = [
-    {
-      token: PlatformResponse,
-      useClass: PlatformKoaResponse
-    },
-    {
-      token: PlatformRequest,
-      useClass: PlatformKoaRequest
-    },
-    {
-      token: PlatformHandler,
-      useClass: PlatformKoaHandler
-    },
-    {token: PlatformApplication},
-    {token: Platform}
-  ];
 
   /**
    * Create new serverless application. In this mode, the component scan are disabled.
@@ -204,4 +186,17 @@ export class PlatformKoa extends PlatformAdapter<Koa> {
   }
 }
 
-adapter(PlatformKoa);
+adapter(PlatformKoa, [
+  {
+    token: PlatformResponse,
+    useClass: PlatformKoaResponse
+  },
+  {
+    token: PlatformRequest,
+    useClass: PlatformKoaRequest
+  },
+  {
+    token: PlatformHandler,
+    useClass: PlatformKoaHandler
+  }
+]);

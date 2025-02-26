@@ -1,16 +1,14 @@
 import {isClass} from "@tsed/core";
-import {constant, inject, injectable} from "@tsed/di";
+import {constant, injectable} from "@tsed/di";
 import {ParamTypes} from "@tsed/platform-params";
 import {AlterEndpointHandlersArg} from "@tsed/platform-router";
 import {JsonEntityStore, JsonOperationRoute} from "@tsed/schema";
 
 import {PlatformAcceptMimesMiddleware} from "../middlewares/PlatformAcceptMimesMiddleware.js";
 import {PlatformMulterMiddleware} from "../middlewares/PlatformMulterMiddleware.js";
-import {PlatformAdapter} from "./PlatformAdapter.js";
 
 export class PlatformMiddlewaresChain {
   protected acceptMimes = constant<string[]>("acceptMimes", []);
-  protected adapter = inject(PlatformAdapter);
 
   get(handlers: AlterEndpointHandlersArg, operationRoute: JsonOperationRoute): AlterEndpointHandlersArg {
     const {ACCEPT_MIMES, FILE} = this.getParamTypes(handlers, operationRoute);

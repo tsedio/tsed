@@ -1,4 +1,5 @@
 import {catchAsyncError} from "@tsed/core";
+import {inject} from "@tsed/di";
 import {Exception} from "@tsed/exceptions";
 import {MulterError} from "multer";
 
@@ -6,6 +7,7 @@ import {PlatformTest} from "../../testing/PlatformTest.js";
 import {MulterOptions} from "../decorators/multer/multerOptions.js";
 import {MultipartFile} from "../decorators/multer/multipartFile.js";
 import {EndpointMetadata} from "../domain/EndpointMetadata.js";
+import {PlatformAdapter} from "../services/PlatformAdapter.js";
 import {PlatformApplication} from "../services/PlatformApplication.js";
 import {PlatformMulterMiddleware} from "./PlatformMulterMiddleware.js";
 
@@ -19,20 +21,16 @@ async function build(options = {}) {
   const multer = {
     fields: vi.fn().mockReturnValue(multerMiddleware)
   };
-  const app = {
-    multer: vi.fn().mockReturnValue(multer)
-  };
 
-  const middleware = await PlatformTest.invoke<PlatformMulterMiddleware>(PlatformMulterMiddleware, [
-    {
-      token: PlatformApplication,
-      use: app
-    }
-  ]);
+  const middleware = inject(PlatformMulterMiddleware);
   const ctx: any = PlatformTest.createRequestContext();
   ctx.endpoint = EndpointMetadata.get(Test, "upload");
 
-  return {middleware, ctx, multer, app, multerMiddleware};
+  const adapter = inject(PlatformAdapter);
+
+  vi.spyOn(adapter, "multipart").mockReturnValue(multer as any);
+
+  return {middleware, ctx, multer, adapter, multerMiddleware};
 }
 
 describe("PlatformMulterMiddleware", () => {
@@ -45,24 +43,24 @@ describe("PlatformMulterMiddleware", () => {
   );
   afterEach(() => PlatformTest.reset());
   it("should create middleware", async () => {
-    const {middleware, ctx, multer, app, multerMiddleware} = await build({});
+    const {middleware, ctx, multer, adapter, multerMiddleware} = await build({});
 
     await middleware.use(ctx);
 
-    expect(app.multer).toHaveBeenCalledWith({
+    expect(adapter.multipart).toHaveBeenCalledWith({
       dest: "/dest"
     });
     expect(multer.fields).toHaveBeenCalledWith([{maxCount: undefined, name: "file1"}]);
     expect(multerMiddleware).toHaveBeenCalledWith(ctx.request.raw, ctx.response.raw);
   });
   it("should create middleware with storage", async () => {
-    const {middleware, ctx, multer, app, multerMiddleware} = await build({
+    const {middleware, ctx, multer, adapter, multerMiddleware} = await build({
       storage: "storage"
     });
 
     await middleware.use(ctx);
 
-    expect(app.multer).toHaveBeenCalledWith({
+    expect(adapter.multipart).toHaveBeenCalledWith({
       storage: "storage"
     });
     expect(multer.fields).toHaveBeenCalledWith([{maxCount: undefined, name: "file1"}]);
