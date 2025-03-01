@@ -1,6 +1,7 @@
 name: "\U0001F680 Feature request"
 description: Suggest an idea for this library
 labels: [":sparkles: enhancement"]
+type: feature
 assignees: ["Romakita"]
 body:
   - type: markdown

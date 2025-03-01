@@ -159,6 +159,14 @@ export default defineConfig({
             link: `/docs/platform-api`
           },
           {
+            text: "Platform Serverless",
+            link: `/docs/platform-serverless`
+          },
+          {
+            text: "Platform Serverless HTTP",
+            link: `/docs/platform-serverless-http`
+          },
+          {
             text: "Command",
             link: `/docs/command`
           },
@@ -433,6 +441,14 @@ export default defineConfig({
             {
               text: "Platform API",
               link: `/docs/platform-api`
+            },
+            {
+              text: "Platform Serverless",
+              link: `/docs/platform-serverless`
+            },
+            {
+              text: "Platform Serverless HTTP",
+              link: `/docs/platform-serverless-http`
             },
             {
               text: "Command",

@@ -1,7 +1,8 @@
 name: "\U0001F41B Bug report"
 description: Create a report to help us improve
-title: "[BUG] Title"
+title: "Title"
 labels: [":bug: bug"]
+type: bug
 assignees: ["Romakita"]
 body:
   - type: markdown
