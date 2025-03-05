@@ -8028,6 +8028,47 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@tsed/platform-multer@workspace:packages/platform/platform-multer":
+  version: 0.0.0-use.local
+  resolution: "@tsed/platform-multer@workspace:packages/platform/platform-multer"
+  dependencies:
+    "@tsed/barrels": "workspace:*"
+    "@tsed/core": "workspace:*"
+    "@tsed/di": "workspace:*"
+    "@tsed/platform-middlewares": "workspace:*"
+    "@tsed/typescript": "workspace:*"
+    eslint: "npm:9.12.0"
+    multer: "npm:^1.4.5-lts.1"
+    tslib: "npm:2.7.0"
+    typescript: "npm:5.4.5"
+    vitest: "npm:2.1.2"
+  peerDependencies:
+    "@tsed/core": ">=8.5.0-beta.2"
+    "@tsed/di": ">=8.5.0-beta.2"
+    "@tsed/json-mapper": ">=8.5.0-beta.2"
+    "@tsed/logger": ">=7.0.1"
+    "@tsed/openspec": ">=8.5.0-beta.2"
+    "@tsed/platform-middlewares": ">=8.5.0-beta.2"
+    "@tsed/schema": ">=8.5.0-beta.2"
+    cross-env: 7.0.3
+  peerDependenciesMeta:
+    "@tsed/core":
+      optional: false
+    "@tsed/di":
+      optional: false
+    "@tsed/json-mapper":
+      optional: false
+    "@tsed/logger":
+      optional: false
+    "@tsed/openspec":
+      optional: false
+    "@tsed/platform-middlewares":
+      optional: false
+    "@tsed/schema":
+      optional: false
+  languageName: unknown
+  linkType: soft
+
 "@tsed/platform-params@workspace:*, @tsed/platform-params@workspace:packages/platform/platform-params":
   version: 0.0.0-use.local
   resolution: "@tsed/platform-params@workspace:packages/platform/platform-params"

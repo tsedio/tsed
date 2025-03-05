@@ -1,8 +1,8 @@
 {
-  "name": "@tsed/platform-koa",
-  "description": "Koa package for Ts.ED framework",
+  "name": "@tsed/platform-multer",
+  "description": "Multer adapter package for Ts.ED framework",
   "type": "module",
-  "version": "8.6.1",
+  "version": "8.5.0-beta.2",
   "source": "./src/index.ts",
   "main": "./lib/esm/index.js",
   "module": "./lib/esm/index.js",
@@ -13,37 +13,37 @@
       "types": "./lib/types/index.d.ts",
       "import": "./lib/esm/index.js",
       "default": "./lib/esm/index.js"
+    },
+    "./express": {
+      "tsed-source": "./src/adapters/express/MulterModule.ts",
+      "types": "./lib/types/adapters/express/MulterModule.d.ts",
+      "import": "./lib/esm/adapters/express/MulterModule.js",
+      "default": "./lib/esm/adapters/express/MulterModule.js"
+    },
+    "./koa": {
+      "tsed-source": "./src/adapters/koa/MulterModule.ts",
+      "types": "./lib/types/adapters/koa/MulterModule.d.ts",
+      "import": "./lib/esm/adapters/koa/MulterModule.js",
+      "default": "./lib/esm/adapters/koa/MulterModule.js"
     }
   },
   "scripts": {
     "build": "yarn barrels && yarn build:ts",
     "barrels": "barrels",
-    "start": "ts-node test/app/index.ts",
     "test": "vitest run",
-    "build:ts": "tsc --build tsconfig.esm.json",
+    "build:ts": "tsc --build tsconfig.json",
     "test:ci": "vitest run --coverage.thresholds.autoUpdate=true"
   },
   "keywords": [
-    "Koa",
+    "Multer",
     "TypeScript",
     "typescript",
     "Decorator",
     "decorators",
     "decorator",
-    "koa",
-    "Controller",
-    "Inject",
-    "ioc",
-    "di",
-    "mvc",
-    "swagger",
-    "swagger ui",
-    "ES2015",
-    "ES6",
-    "server",
-    "rest",
-    "api",
-    "validation"
+    "ESM",
+    "multipartfile",
+    "Ts.ED"
   ],
   "author": {
     "name": "Romain Lenzotti"
@@ -58,55 +58,28 @@
     "url": "git+https://github.com/tsedio/tsed.git"
   },
   "devDependencies": {
-    "@koa/cors": "5.0.0",
     "@tsed/barrels": "workspace:*",
     "@tsed/core": "workspace:*",
     "@tsed/di": "workspace:*",
-    "@tsed/platform-http": "workspace:*",
-    "@tsed/platform-test-sdk": "workspace:*",
+    "@tsed/platform-middlewares": "workspace:*",
     "@tsed/typescript": "workspace:*",
-    "@types/koa": "2.15.0",
-    "@types/koa-bodyparser": "4.3.12",
-    "@types/koa-compose": "3.2.8",
-    "@types/koa-compress": "4.0.6",
-    "@types/koa-json": "2.0.23",
-    "@types/koa-mount": "4.0.5",
-    "@types/koa-send": "4.1.6",
-    "@types/koa-session": "6.4.5",
-    "@types/koa__router": "12.0.4",
     "eslint": "9.12.0",
-    "koa": "2.15.4",
-    "koa-bodyparser": "4.4.1",
-    "koa-compress": "5.1.1",
-    "koa-override": "4.0.0",
-    "koa-qs": "^3.0.0",
-    "koa-session": "6.4.0",
     "typescript": "5.4.5",
-    "vitest": "3.0.9"
+    "vitest": "2.1.2"
   },
   "dependencies": {
-    "@koa/router": "^13.1.0",
-    "encodeurl": "^2.0.0",
-    "koa-send": "5.0.1",
     "multer": "^1.4.5-lts.1",
     "tslib": "2.7.0"
   },
   "peerDependencies": {
-    "@tsed/core": ">=8.6.1",
-    "@tsed/di": ">=8.6.1",
-    "@tsed/json-mapper": ">=8.6.1",
+    "@tsed/core": ">=8.5.0-beta.2",
+    "@tsed/di": ">=8.5.0-beta.2",
+    "@tsed/json-mapper": ">=8.5.0-beta.2",
     "@tsed/logger": ">=7.0.1",
-    "@tsed/openspec": ">=8.6.1",
-    "@tsed/platform-http": ">=8.6.1",
-    "@tsed/schema": ">=8.6.1",
-    "cross-env": "7.0.3",
-    "koa": ">=2.13.0",
-    "koa-bodyparser": ">=4.3.0",
-    "koa-compress": ">=5.0.1",
-    "koa-override": ">=3.0.0",
-    "koa-qs": ">=3.0.0",
-    "koa-session": ">=6.2.0",
-    "multer": "^1.4.5-lts.1"
+    "@tsed/openspec": ">=8.5.0-beta.2",
+    "@tsed/platform-middlewares": ">=8.5.0-beta.2",
+    "@tsed/schema": ">=8.5.0-beta.2",
+    "cross-env": "7.0.3"
   },
   "peerDependenciesMeta": {
     "@tsed/core": {
@@ -124,13 +97,10 @@
     "@tsed/openspec": {
       "optional": false
     },
-    "@tsed/platform-http": {
+    "@tsed/platform-middlewares": {
       "optional": false
     },
     "@tsed/schema": {
-      "optional": false
-    },
-    "multer": {
       "optional": false
     }
   }
