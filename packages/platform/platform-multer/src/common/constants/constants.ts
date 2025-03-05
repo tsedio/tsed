@@ -3,7 +3,7 @@ import type {Multer, Options} from "multer";
 export interface MULTER_MODULE {
   multer: Multer;
 
-  get(options: Options): any;
+  get(options: Options): Multer;
 }
 
 export const MULTER_MODULE = Symbol.for("MULTER_MODULE");

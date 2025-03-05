@@ -25,7 +25,7 @@ export class PlatformMulterMiddleware implements MiddlewareMethods {
 
       /* istanbul ignore next */
       if (settings.storage) {
-        delete settings.dest;
+        settings.dest = undefined;
       }
 
       const {get} = await inject<Promise<MULTER_MODULE>>(MULTER_MODULE);
