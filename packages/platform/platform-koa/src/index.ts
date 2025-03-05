@@ -10,4 +10,3 @@ export * from "./middlewares/staticsMiddleware.js";
 export * from "./services/PlatformKoaHandler.js";
 export * from "./services/PlatformKoaRequest.js";
 export * from "./services/PlatformKoaResponse.js";
-export * from "./utils/multer.js";

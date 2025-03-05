@@ -1,3 +1,5 @@
+import "@tsed/platform-multer/koa";
+
 import KoaRouter from "@koa/router";
 import {catchAsyncError, isFunction, Type} from "@tsed/core";
 import {constant, inject, runInContext} from "@tsed/di";
@@ -9,8 +11,6 @@ import {
   PlatformAdapter,
   PlatformBuilder,
   PlatformHandler,
-  PlatformMulter,
-  PlatformMulterSettings,
   PlatformRequest,
   PlatformResponse,
   PlatformStaticsOptions
@@ -26,7 +26,6 @@ import {staticsMiddleware} from "../middlewares/staticsMiddleware.js";
 import {PlatformKoaHandler} from "../services/PlatformKoaHandler.js";
 import {PlatformKoaRequest} from "../services/PlatformKoaRequest.js";
 import {PlatformKoaResponse} from "../services/PlatformKoaResponse.js";
-import {getMulter} from "../utils/multer.js";
 
 declare global {
   namespace TsED {
@@ -161,10 +160,6 @@ export class PlatformKoa extends PlatformAdapter<Koa> {
         return app.callback();
       }
     };
-  }
-
-  multipart(options: PlatformMulterSettings): PlatformMulter {
-    return getMulter(options);
   }
 
   statics(endpoint: string, options: PlatformStaticsOptions) {
