@@ -19,7 +19,6 @@ export class ScalarModule extends OpenAPIBaseModule {
       return Object.assign(
         {
           disableSpec: false,
-          _integration: "tsed",
           cdn: "https://cdn.jsdelivr.net/npm/@scalar/api-reference",
           path: "/",
           fileName: "openapi.json",
