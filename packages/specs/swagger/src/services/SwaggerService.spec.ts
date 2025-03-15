@@ -8,11 +8,19 @@ describe("SwaggerService", () => {
   describe("getOpenAPISpec()", () => {
     it("should compile spec only once time", async () => {
       const swaggerService = await PlatformTest.invoke<SwaggerService>(SwaggerService);
+
+      vi.spyOn(swaggerService.injectorService, "alterAsync");
+
       const result1 = await swaggerService.getOpenAPISpec({specVersion: "3.0.1"} as any);
       const result2 = await swaggerService.getOpenAPISpec({specVersion: "3.0.1"} as any);
 
       expect(result1).toEqual(result2);
       expect(result1).toMatchSnapshot();
+
+      expect(swaggerService.injectorService.alterAsync).toHaveBeenCalledTimes(1);
+      expect(swaggerService.injectorService.alterAsync).toHaveBeenCalledWith("$alterOpenSpec", result1, {
+        conf: {specVersion: "3.0.1"}
+      });
     });
   });
 });
