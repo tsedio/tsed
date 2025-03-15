@@ -20,7 +20,7 @@
   <span>&nbsp;&nbsp;•&nbsp;&nbsp;</span>
   <a href="https://tsed.dev/getting-started/">Getting started</a>
   <span>&nbsp;&nbsp;•&nbsp;&nbsp;</span>
-  <a href="https://slack.tsed.io">Slack</a>
+  <a href="https://slack.tsed.dev">Slack</a>
   <span>&nbsp;&nbsp;•&nbsp;&nbsp;</span>
   <a href="https://twitter.com/TsED_io">Twitter</a>
 </div>
@@ -38,7 +38,7 @@ to a plain javascript object to your consumer.
 
 ## Documentation
 
-Documentation is available on [v6.tsed.io/docs/converters.html](https://v6.tsed.io/docs/converters.html)
+Documentation is available on [v6.tsed.dev/docs/converters.html](https://v6.tsed.dev/docs/converters.html)
 
 ## Installation
 

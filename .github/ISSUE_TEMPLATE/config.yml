@@ -7,6 +7,5 @@ contact_links:
     url: https://github.com/tsedio/tsed/discussions
     about: Open a discussion that can be followed by the whole community on Github!
   - name: 💬 Community channel (Slack)
-    url: https://api.tsed.io/rest/slack/tsedio/tsed
+    url: https://slack.tsed.dev/
     about: Join our slack workspace to discuss directly with the team!
-

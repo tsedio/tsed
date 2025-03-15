@@ -21,7 +21,7 @@
   <span>&nbsp;&nbsp;•&nbsp;&nbsp;</span>
   <a href="https://tsed.dev/getting-started/">Getting started</a>
   <span>&nbsp;&nbsp;•&nbsp;&nbsp;</span>
-  <a href="https://slack.tsed.io">Slack</a>
+  <a href="https://slack.tsed.dev">Slack</a>
   <span>&nbsp;&nbsp;•&nbsp;&nbsp;</span>
   <a href="https://twitter.com/TsED_io">Twitter</a>
 </div>
@@ -40,7 +40,7 @@ Ts.ED is a modern Node.js framework built with TypeScript. It offers a flexible 
 
 ## Features
 
-- Use our CLI to create a new project https://cli.tsed.io
+- Use our CLI to create a new project: https://tsed.dev/introduction/getting-started.html#installation
 - Support TypeORM, Mongoose, GraphQL, Socket.io, Swagger-ui, Passport.js, etc...
 - Define class as Controller,
 - Define class as Service (IoC),
@@ -62,14 +62,14 @@ Ts.ED is a modern Node.js framework built with TypeScript. It offers a flexible 
 - [Documentation](https://tsed.dev)
 - [Guideline](./CONTRIBUTING.md)
 - [Tutorials](https://tsed.dev/tutorials/)
-- [Community Slack](https://slack.tsed.io)
+- [Community Slack](https://slack.tsed.dev)
 - [Support us](https://github.com/sponsors/romakita)
 - [Team](https://tsed.dev/team.html)
 
 ## Getting started
 
 See our [getting started here](https://tsed.dev/getting-started) to create new Ts.ED project or use
-our [CLI](https://cli.tsed.io)
+our [CLI](https://tsed.dev/introduction/getting-started.html#installation)
 
 ## Overview
 

@@ -38,7 +38,7 @@ to make your code more readable and less error-prone.
 
 ## Features
 
-- Use our CLI to create a new project https://cli.tsed.io
+- Use our CLI to create a new project: https://tsed.dev/introduction/getting-started.html#installation
 - Support TypeORM, Mongoose, GraphQL, Socket.io, Swagger-ui, Passport.js, etc...
 - Define class as Controller,
 - Define class as Service (IoC),
@@ -61,7 +61,7 @@ Documentation is available on [https://tsed.dev](https://tsed.dev)
 ## Getting started
 
 See our [getting started here](https://tsed.dev/getting-started/) to create new Ts.ED project or use
-our [CLI](https://cli.tsed.io)
+our [CLI](https://tsed.dev/introduction/getting-started.html#installation)
 
 ## Examples
 

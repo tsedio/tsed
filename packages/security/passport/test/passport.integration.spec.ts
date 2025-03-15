@@ -25,12 +25,12 @@ describe("Passport", () => {
     const response = await request
       .post("/auth/login")
       .send({
-        email: "admin@tsed.io",
-        password: "admin@tsed.io"
+        email: "admin@tsed.dev",
+        password: "admin@tsed.dev"
       })
       .expect(200);
 
-    expect(response.body.email).toBe("admin@tsed.io");
+    expect(response.body.email).toBe("admin@tsed.dev");
   });
 
   it("should throw bad request", async () => {

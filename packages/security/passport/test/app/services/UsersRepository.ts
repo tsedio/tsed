@@ -15,8 +15,8 @@ export class UsersRepository {
     if (!accounts.length) {
       const user = deserialize(
         {
-          email: "admin@tsed.io",
-          password: "admin@tsed.io"
+          email: "admin@tsed.dev",
+          password: "admin@tsed.dev"
         },
         {type: Account}
       );

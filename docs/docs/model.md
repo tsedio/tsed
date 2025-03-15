@@ -879,7 +879,7 @@ const result = deserialize<User>(
     id: "id", // will be ignored because creation doesn't include `id` field
     firstName: "firstName",
     lastName: "lastName",
-    email: "email@tsed.io",
+    email: "email@tsed.dev",
     password: "password"
   },
   {type: User, groups: ["creation"]}
@@ -896,7 +896,7 @@ const result = deserialize<User>(
     id: "id",
     firstName: "firstName",
     lastName: "lastName",
-    email: "email@tsed.io",
+    email: "email@tsed.dev",
     password: "password",
     roles: ["admin"]
   },
@@ -914,7 +914,7 @@ const result = deserialize<User>(
     id: "id",
     firstName: "firstName",
     lastName: "lastName",
-    email: "email@tsed.io",
+    email: "email@tsed.dev",
     password: "password",
     roles: ["admin"]
   },

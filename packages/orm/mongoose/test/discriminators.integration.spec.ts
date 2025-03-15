@@ -42,14 +42,14 @@ describe("Mongoose", () => {
 
       const date = new Date();
       const savedEventModel = await eventModel.create({time: date});
-      const savedClickedLinkEventModel = await clickedLinkEventModel.create({time: date, url: "https://www.tsed.io"});
+      const savedClickedLinkEventModel = await clickedLinkEventModel.create({time: date, url: "https://www.tsed.dev"});
       const savedSignedUpEventModel = await signedUpEventModel.create({time: date, user: "usario"});
 
       expect(savedEventModel.time).toBe(date);
       expect(savedEventModel.type).toBeUndefined();
       expect(savedClickedLinkEventModel.time).toBe(date);
       expect(savedClickedLinkEventModel.type).toBe("ClickedLinkEventModel");
-      expect(savedClickedLinkEventModel.url).toBe("https://www.tsed.io");
+      expect(savedClickedLinkEventModel.url).toBe("https://www.tsed.dev");
       expect(savedSignedUpEventModel.time).toBe(date);
       expect(savedSignedUpEventModel.type).toBe("signUpEvent");
       expect(savedSignedUpEventModel.user).toBe("usario");
