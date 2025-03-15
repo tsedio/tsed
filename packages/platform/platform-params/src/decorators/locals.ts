@@ -7,7 +7,7 @@ import {UseParam} from "./useParam.js";
  *
  * ::: tip
  * Locals are generally used by express and third-party like templating engine to render a page/template.
- * See [Templating](http://tsed.io/tutorials/templating.html) section for more details.
+ * See [Templating](http://tsed.dev/tutorials/templating.html) section for more details.
  * :::
  *
  * #### Example

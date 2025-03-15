@@ -12,7 +12,7 @@ Please use one of the following community channels for your issue:
       bg-color="button-white"
       color="blue"
       title="Slack"
-      href="https://slack.tsed.io">
+      href="https://slack.tsed.dev">
       <BxIcon name="bxl-slack" class="mr-1" />
       Slack
     </Button>

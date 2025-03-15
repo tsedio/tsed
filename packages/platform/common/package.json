@@ -53,7 +53,7 @@
   "bugs": {
     "url": "https://github.com/tsedio/tsed/issues"
   },
-  "homepage": "http://tsed.io/",
+  "homepage": "http://tsed.dev/",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/tsedio//tsed.git"

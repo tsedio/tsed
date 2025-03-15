@@ -40,7 +40,7 @@ export class SwaggerService {
         acceptMimes
       });
 
-      spec = await this.injectorService.alterAsync("$alterOpenSpec", spec, {conf});
+      spec = await this.injectorService.alterAsync("$alterOpenSpec", spec, conf);
 
       this.#specs.set(conf.path, spec);
     }

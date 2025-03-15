@@ -49,7 +49,7 @@ module.exports = ({title, description, base = "", url, apiRedirectUrl = "", them
     repo: "tsedio/tsed",
     githubProxyUrl: "https://api.tsed.dev/rest/github/tsedio/tsed",
     openCollective: "https://api.tsed.dev/rest/opencollective",
-    slackUrl: "https://api.tsed.dev/rest/slack/tsedio/tsed",
+    slackUrl: "https://slack.tsed.dev",
     stackoverflowUrl: "https://stackoverflow.com/search?q=tsed",
     sponsorUrl: "https://tsed.dev/support.html",
     twitterUrl: "https://twitter.com/TsED_io",

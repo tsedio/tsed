@@ -971,7 +971,7 @@ const result = deserialize<User>(
     id: "id", // will be ignored because creation doesn't include `id` field
     firstName: "firstName",
     lastName: "lastName",
-    email: "email@tsed.io",
+    email: "email@tsed.dev",
     password: "password"
   },
   {type: User, groups: ["creation"]}
@@ -991,7 +991,7 @@ const result = deserialize<User>(
     id: "id",
     firstName: "firstName",
     lastName: "lastName",
-    email: "email@tsed.io",
+    email: "email@tsed.dev",
     password: "password",
     roles: ["admin"]
   },
@@ -1012,7 +1012,7 @@ const result = deserialize<User>(
     id: "id",
     firstName: "firstName",
     lastName: "lastName",
-    email: "email@tsed.io",
+    email: "email@tsed.dev",
     password: "password",
     roles: ["admin"]
   },
@@ -1564,7 +1564,7 @@ export enum EventType {
 export class Event {
   @DiscriminatorKey() // declare this property as discriminator key
   type: string; // Note: Do not set EventType enum here. The @DiscriminatorKey decorator will automatically generate the correct values based on @DiscriminatorValue decorators in derived classes.
-  
+
   @Property()
   value: string;
 }

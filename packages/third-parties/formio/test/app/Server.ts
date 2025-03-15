@@ -27,8 +27,8 @@ export {rootDir};
       expireTime: 240
     },
     root: {
-      email: "admin@tsed.io",
-      password: "admin@tsed.io"
+      email: "admin@tsed.dev",
+      password: "admin@tsed.dev"
     },
     template
   },

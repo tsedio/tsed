@@ -21,7 +21,7 @@
   <span>&nbsp;&nbsp;•&nbsp;&nbsp;</span>
   <a href="https://tsed.dev/getting-started/">Getting started</a>
   <span>&nbsp;&nbsp;•&nbsp;&nbsp;</span>
-  <a href="https://api.tsed.io/rest/slack/tsedio/tsed">Slack</a>
+  <a href="https://slack.tsed.dev">Slack</a>
   <span>&nbsp;&nbsp;•&nbsp;&nbsp;</span>
   <a href="https://twitter.com/TsED_io">Twitter</a>
 </div>
@@ -37,7 +37,7 @@ It provides a lot of decorators and guideline to make your code more readable an
 
 ## Features
 
-- Use our CLI to create a new project https://cli.tsed.io
+- Use our CLI to create a new project https://cli.tsed.dev
 - Support TypeORM, Mongoose, GraphQL, Socket.io, Swagger-ui, Passport.js, etc...
 - Define class as Controller,
 - Define class as Service (IoC),
@@ -59,14 +59,14 @@ It provides a lot of decorators and guideline to make your code more readable an
 - [Documentation](https://tsed.dev)
 - [Guideline](./CONTRIBUTING.md)
 - [Tutorials](https://tsed.dev/tutorials/)
-- [Community Slack](https://api.tsed.io/rest/slack/tsedio/tsed)
+- [Community Slack](https://slack.tsed.dev)
 - [Support us](https://github.com/sponsors/romakita)
 - [Team](https://tsed.dev/team.html)
 
 ## Getting started
 
 See our [getting started here](https://tsed.dev/getting-started) to create new Ts.ED project or use
-our [CLI](https://cli.tsed.io)
+our [CLI](https://cli.tsed.dev)
 
 ## Overview
 

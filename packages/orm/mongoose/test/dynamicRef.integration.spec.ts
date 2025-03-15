@@ -115,7 +115,7 @@ describe("DynamicRef Integration", () => {
       const EventRepository = PlatformTest.get<MongooseModel<EventModel>>(EventModel);
       const ClickedEventRepository = PlatformTest.get<MongooseModel<ClickedLinkEventModel>>(ClickedLinkEventModel);
 
-      const clickedEvent = await new ClickedEventRepository({url: "https://www.tsed.io"}).save();
+      const clickedEvent = await new ClickedEventRepository({url: "https://www.tsed.dev"}).save();
       const event1 = await new EventRepository({eventType: "ClickedLinkEventModel", event: clickedEvent}).save();
 
       const result1 = serialize(event1, {type: EventModel});
@@ -123,7 +123,7 @@ describe("DynamicRef Integration", () => {
       expect(result1).toEqual({
         id: event1.id,
         eventType: "ClickedLinkEventModel",
-        event: {id: clickedEvent.id, url: "https://www.tsed.io"}
+        event: {id: clickedEvent.id, url: "https://www.tsed.dev"}
       });
     });
     it("should serialize (SignedUpEventModel)", async () => {
@@ -148,7 +148,7 @@ describe("DynamicRef Integration", () => {
         {
           id: "6229a38b4e23ac98aad216d6",
           eventType: "ClickedLinkEventModel",
-          event: {id: "6229a38b4e23ac98aad216d5", url: "https://www.tsed.io"}
+          event: {id: "6229a38b4e23ac98aad216d5", url: "https://www.tsed.dev"}
         },
         {type: EventModel}
       );
@@ -157,7 +157,7 @@ describe("DynamicRef Integration", () => {
         _id: "6229a38b4e23ac98aad216d6",
         event: {
           _id: "6229a38b4e23ac98aad216d5",
-          url: "https://www.tsed.io"
+          url: "https://www.tsed.dev"
         },
         eventType: "ClickedLinkEventModel"
       });
