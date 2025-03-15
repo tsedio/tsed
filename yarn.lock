@@ -6954,6 +6954,39 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@tsed/monorepo-utils@npm:2.3.12":
+  version: 2.3.12
+  resolution: "@tsed/monorepo-utils@npm:2.3.12"
+  dependencies:
+    "@samverschueren/stream-to-observable": "npm:>=0.3.1"
+    "@typescript-eslint/typescript-estree": "npm:>=6.20.0"
+    any-observable: "npm:>=0.5.1"
+    axios: "npm:>=1.6.7"
+    chalk: "npm:>=5.3.0"
+    commander: "npm:>=12.0.0"
+    execa: "npm:>=8.0.1"
+    fancy-log: "npm:>=1.3.3"
+    figures: "npm:>=3.2.0"
+    fs-extra: "npm:>=11.2.0"
+    globby: "npm:>=14.0.0"
+    has-yarn: "npm:>=3.0.0"
+    inquirer: "npm:>=9.2.13"
+    jsonfile: "npm:>=6.1.0"
+    listr2: "npm:>=8.0.2"
+    lodash: "npm:>=4.17.21"
+    normalize-path: "npm:>=3.0.0"
+    rxjs: "npm:>=7.8.1"
+    semver: "npm:>=7.5.4"
+    split: "npm:>=1.0.1"
+    typescript: "npm:>=5.3.3"
+  peerDependencies:
+    semantic-release: ">=19"
+  bin:
+    monorepo: bin/monorepo.js
+  checksum: 10/08c93e655301fd73749b4ef036bd73a28f40feba5790e079642918c675c6c6ce67ccbe568ae743c5108bfe4889e207c7aad0c4ce3192fe535baec96d9f47ff2f
+  languageName: node
+  linkType: hard
+
 "@tsed/monorepo-utils@npm:2.3.5":
   version: 2.3.5
   resolution: "@tsed/monorepo-utils@npm:2.3.5"
@@ -7781,7 +7814,7 @@ __metadata:
     "@swc/core": "npm:1.7.26"
     "@swc/helpers": "npm:0.5.13"
     "@tsed/logger": "npm:^6.7.8"
-    "@tsed/monorepo-utils": "npm:2.3.5"
+    "@tsed/monorepo-utils": "npm:2.3.12"
     "@tsed/ts-doc": "npm:4.1.0"
     "@types/axios": "npm:0.14.0"
     "@types/globby": "npm:9.1.0"
