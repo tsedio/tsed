@@ -2,6 +2,7 @@ import {writeFile} from "node:fs/promises";
 
 import {Env, type Type} from "@tsed/core";
 import {constant, inject, injectable} from "@tsed/di";
+import {$asyncAlter} from "@tsed/hooks";
 import {OpenSpec2, OpenSpec3} from "@tsed/openspec";
 import {Platform} from "@tsed/platform-http";
 import {generateSpec} from "@tsed/schema";
@@ -34,13 +35,15 @@ export class OpenAPIService {
         .filter(({routes, provider}) => [...routes.values()].some((route) => includeRoute(route, provider, conf)))
         .map(({route, provider}) => ({token: provider.token as Type, rootPath: route}));
 
-      const spec = generateSpec({
+      let spec = generateSpec({
         tokens,
         ...conf,
         fileSpec: specPath ? await readSpec(specPath) : {},
         version,
         acceptMimes
       });
+
+      spec = await $asyncAlter("$alterOpenSpec", spec, [conf]);
 
       this.#specs.set(conf.path, spec);
     }

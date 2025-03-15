@@ -173,6 +173,22 @@ It's possible to describe extra parameters by using the @@In@@ decorator over th
 
 <<< @/tutorials/snippets/scalar/endpoint-extra-in-params.ts
 
+## Intercept generated spec
+
+You can intercept the generated spec by using the `$alterOpenSpec` hook.
+
+This hook is called after the spec generation. You can modify the spec before it is sent to the client:
+
+```typescript
+@Configuration()
+class Server {
+  $alterOpenSpec(spec: OpenSpec, config: SwaggerSettings) {
+    // do something with the spec
+    return spec;
+  }
+}
+```
+
 ## Authors
 
 <GithubContributors :users="['Romakita']"/>
