@@ -47,17 +47,17 @@ module.exports = ({title, description, base = "", url, apiRedirectUrl = "", them
       end: new Date().getFullYear()
     },
     repo: "tsedio/tsed",
-    githubProxyUrl: "https://api.tsed.io/rest/github/tsedio/tsed",
-    openCollective: "https://api.tsed.io/rest/opencollective",
-    slackUrl: "https://api.tsed.io/rest/slack/tsedio/tsed",
+    githubProxyUrl: "https://api.tsed.dev/rest/github/tsedio/tsed",
+    openCollective: "https://api.tsed.dev/rest/opencollective",
+    slackUrl: "https://api.tsed.dev/rest/slack/tsedio/tsed",
     stackoverflowUrl: "https://stackoverflow.com/search?q=tsed",
-    sponsorUrl: "https://tsed.io/support.html",
+    sponsorUrl: "https://tsed.dev/support.html",
     twitterUrl: "https://twitter.com/TsED_io",
     editLinks: true,
     docsDir: "docs",
     sidebar: "auto",
     docsBranch: "production",
-    apiUrl: "https://tsed.io/api.json",
+    apiUrl: "https://tsed.dev/api.json",
     apiRedirectUrl,
     smoothScroll: true,
     lastUpdated: "Last updated",
@@ -301,16 +301,12 @@ module.exports = ({title, description, base = "", url, apiRedirectUrl = "", them
             title: `Extras`,
             items: [
               {
-                text: "Ts.ED CLI",
-                link: "http://cli.tsed.io"
-              },
-              {
                 text: "Ts.ED Logger",
-                link: "http://logger.tsed.io"
+                link: "http://logger.tsed.dev"
               },
               {
                 text: "Ts.ED Formio.js",
-                link: "http://formio.tsed.io"
+                link: "http://formio.tsed.dev"
               },
               {
                 text: "Team",
@@ -350,15 +346,15 @@ module.exports = ({title, description, base = "", url, apiRedirectUrl = "", them
             items: [
               {
                 text: "v6 (maintenance)",
-                link: "https://v6.tsed.io"
+                link: "https://v6.tsed.dev"
               },
               {
                 text: "v5 (obsolete)",
-                link: "http://v5.tsed.io"
+                link: "http://v5.tsed.dev"
               },
               {
                 text: "v4 (obsolete)",
-                link: "http://v4.tsed.io"
+                link: "http://v4.tsed.dev"
               }
             ]
           }
@@ -377,7 +373,7 @@ module.exports = ({title, description, base = "", url, apiRedirectUrl = "", them
             children: [
               {
                 title: "Migrate from v6",
-                path: `https://tsed.io/getting-started/migration-from-v6`
+                path: `${base}/getting-started/migration-from-v6`
               },
               {
                 title: "Migrate from Express.js",
@@ -546,7 +542,7 @@ module.exports = ({title, description, base = "", url, apiRedirectUrl = "", them
                 },
                 {
                   label: "Chat with us",
-                  url: "https://api.tsed.io/rest/slack/tsedio/tsed"
+                  url: "https://slack.tsed.dev"
                 },
                 {
                   label: "Contribution guide",

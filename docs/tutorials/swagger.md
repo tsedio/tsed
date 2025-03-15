@@ -88,7 +88,7 @@ export class Server {}
 Some options are available to configure Swagger-ui, Ts.ED and the default spec information.
 
 | Key                  | Example                                                       | Description                                                                                              |
-|----------------------|---------------------------------------------------------------|----------------------------------------------------------------------------------------------------------|
+| -------------------- | ------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------- |
 | path                 | `/api-doc`                                                    | The url subpath to access to the documentation.                                                          |
 | specVersion          | `2.0`, `3.0.1`                                                | The OpenSpec version.                                                                                    |
 | fileName             | `swagger.json`                                                | Swagger file name. By default swagger.json.                                                              |
@@ -180,6 +180,22 @@ console.log(SwaggerUIBuilder.config); //Swagger-ui config
 document.addEventListener("swagger.init", (evt) => {
   console.log(SwaggerUIBuilder.ui); //Swagger-ui instance
 });
+```
+
+## Intercept generated spec
+
+You can intercept the generated spec by using the `$alterOpenSpec` hook.
+
+This hook is called after the spec generation. You can modify the spec before it is sent to the client:
+
+```typescript
+@Configuration()
+class Server {
+  $alterOpenSpec(spec: OpenSpec, {config}: {config: SwaggerSettings}) {
+    // do something with the specreturn spec;
+    return spec;
+  }
+}
 ```
 
 ## Decorators
