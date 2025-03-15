@@ -42,7 +42,7 @@ See our API documentation on https://tsed.dev/#/api/index
 
 ## Example
 
-A model can used on a method controller along with [@BodyParams](http://tsed.io/api/common/filters/decorators/BodyParams.html) or other decorators, and will
+A model can used on a method controller along with [@BodyParams](http://tsed.dev/api/common/filters/decorators/BodyParams.html) or other decorators, and will
 be validated by Ajv.
 
 ```typescript

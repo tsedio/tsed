@@ -35,7 +35,7 @@ export class Server {}
 ```
 
 ::: tip Note
-Seq module uses the [@tsed/logger](https://logger.tsed.io/) as a default system logger
+Seq module uses the [@tsed/logger](https://logger.tsed.dev/) as a default system logger
 :::
 
 ::: tip Note

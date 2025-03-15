@@ -52,7 +52,7 @@ tsed init .
 ```
 
 ::: tip
-See our [CLI website](https://cli.tsed.io) for more details on the CLI commands.
+See our [CLI website](https://cli.tsed.dev) for more details on the CLI commands.
 :::
 
 You can select different options to generate your first application:

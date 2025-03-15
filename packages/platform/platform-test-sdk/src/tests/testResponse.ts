@@ -187,14 +187,14 @@ class TestResponseParamsCtrl {
 
   @Get("/scenario15a")
   testScenario15a() {
-    return axios.get(`https://tsed.io/api.json`, {
+    return axios.get(`https://tsed.dev/api.json`, {
       responseType: "json"
     });
   }
 
   @Get("/scenario15b")
   testScenario15b() {
-    return axios.get(`https://api.tsed.io/rest/github/typed/test`, {
+    return axios.get(`https://api.tsed.dev/rest/github/typed/test`, {
       responseType: "json"
     });
   }

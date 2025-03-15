@@ -4,8 +4,8 @@ const conf = settings({
   title: "Ts.ED API - A Node.js and TypeScript Framework on top of Express/Koa.js.",
   description:
     "A Node.js and TypeScript Framework on top of Express/Koa.js. It provides a lot of decorators and guidelines to write your code.",
-  url: "https://api-docs.tsed.io",
-  base: "https://tsed.io",
+  url: "https://api-docs.tsed.dev",
+  base: "https://v7.tsed.dev",
   api: require("../../docs/.vuepress/public/api.json"),
   apiRedirectUrl: "",
   themeConfig: {

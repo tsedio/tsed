@@ -191,7 +191,7 @@ This hook is called after the spec generation. You can modify the spec before it
 ```typescript
 @Configuration()
 class Server {
-  $alterOpenSpec(spec: OpenSpec, {config}: {config: SwaggerSettings}) {
+  $alterOpenSpec(spec: OpenSpec, config: SwaggerSettings) {
     // do something with the specreturn spec;
     return spec;
   }

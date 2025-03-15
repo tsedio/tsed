@@ -8,36 +8,36 @@ meta:
 
 # Logger
 
-Ts.ED has its own logger available through [`@tsed/logger`](https://logger.tsed.io) package.
+Ts.ED has its own logger available through [`@tsed/logger`](https://logger.tsed.dev) package.
 
 ## Features
 
 Ts.ED logger supports many features, and is optimized to be used in production.
 
-- Many [layout](https://logger.tsed.io/layouts) formats are supported:
-- [Colored console](https://logger.tsed.io/layouts/colored.html) logging to stdout or stderr.
-- [Json layout](https://logger.tsed.io/layouts/json.html).
+- Many [layout](https://logger.tsed.dev/layouts) formats are supported:
+- [Colored console](https://logger.tsed.dev/layouts/colored.html) logging to stdout or stderr.
+- [Json layout](https://logger.tsed.dev/layouts/json.html).
 - Many appender (stream) formats are supported:
-  - [Console](https://logger.tsed.io/appenders/console.html).
-  - [File](https://logger.tsed.io/appenders/file.html).
-  - [File date](https://logger.tsed.io/appenders/file-date.html), with configurable log rolling based on file size or date.
-  - [Stdout](https://logger.tsed.io/appenders/stdout.html).
-  - [Stderr](https://logger.tsed.io/appenders/stderr.html).
-  - [Insight](https://logger.tsed.io/appenders/insight.html).
-  - [LogEntries](https://logger.tsed.io/appenders/logentries.html).
-  - [LogStash HTTP](https://logger.tsed.io/appenders/logstash-http.html).
-  - [LogStash UDP](https://logger.tsed.io/appenders/logstash-udp.html).
-  - [Loggly](https://logger.tsed.io/appenders/loggly.html).
-  - [RabbitMQ](https://logger.tsed.io/appenders/rabbitmq.html).
+  - [Console](https://logger.tsed.dev/appenders/console.html).
+  - [File](https://logger.tsed.dev/appenders/file.html).
+  - [File date](https://logger.tsed.dev/appenders/file-date.html), with configurable log rolling based on file size or date.
+  - [Stdout](https://logger.tsed.dev/appenders/stdout.html).
+  - [Stderr](https://logger.tsed.dev/appenders/stderr.html).
+  - [Insight](https://logger.tsed.dev/appenders/insight.html).
+  - [LogEntries](https://logger.tsed.dev/appenders/logentries.html).
+  - [LogStash HTTP](https://logger.tsed.dev/appenders/logstash-http.html).
+  - [LogStash UDP](https://logger.tsed.dev/appenders/logstash-udp.html).
+  - [Loggly](https://logger.tsed.dev/appenders/loggly.html).
+  - [RabbitMQ](https://logger.tsed.dev/appenders/rabbitmq.html).
   - [Seq](https://tsed.dev/tutorials/seq.html).
-  - [Slack](https://logger.tsed.io/appenders/slack.html).
-  - [Smtp](https://logger.tsed.io/appenders/smtp.html).
+  - [Slack](https://logger.tsed.dev/appenders/slack.html).
+  - [Smtp](https://logger.tsed.dev/appenders/smtp.html).
 - @@ContextLogger@@, in **production** mode, caches all request logs until the response is sent to your consumer. See [request logger](/docs/logger.html#request-logger) section bellow.
 
 You can create your own layout/appender:
 
-- [Customize appender (chanel)](https://logger.tsed.io/appenders/custom.html),
-- [Customize layout](https://logger.tsed.io/layouts/custom.html)
+- [Customize appender (chanel)](https://logger.tsed.dev/appenders/custom.html),
+- [Customize layout](https://logger.tsed.dev/layouts/custom.html)
 
 ## Configuration
 
@@ -53,7 +53,7 @@ Logger can be configured through the @@Configuration@@ decorator:
 | `logger.reqIdBuilder`         | A function called for each incoming request to create a request id.                                                                                                                |
 | `logger.jsonIndentation`      | The number of space characters to use as white space in JSON output. Default is 2 (0 in production).                                                                               |
 | `logger.disableRoutesSummary` | Disable routes table displayed in the logger.                                                                                                                                      |
-| `logger.format`               | Specify log format. Example: `%[%d{[yyyy-MM-dd hh:mm:ss,SSS}] %p%] %m`. See [@tsed/logger configuration](https://logger.tsed.io).                                                  |
+| `logger.format`               | Specify log format. Example: `%[%d{[yyyy-MM-dd hh:mm:ss,SSS}] %p%] %m`. See [@tsed/logger configuration](https://logger.tsed.dev).                                                 |
 | `logger.ignoreUrlPatterns`    | (`String` or `RegExp`) List of patterns to ignore logged request according to the `request.url`.                                                                                   |
 
 </div>

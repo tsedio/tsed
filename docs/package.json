@@ -52,7 +52,7 @@
   "bugs": {
     "url": "https://github.com/tsedio/tsed/issues"
   },
-  "homepage": "http://tsed.io/",
+  "homepage": "http://tsed.dev/",
   "dependencies": {
     "cross-env": "7.0.3"
   },
