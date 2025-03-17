@@ -27,6 +27,7 @@ describe("DIContext", () => {
       expect(context.env).toEqual("test");
       expect(context.PLATFORM).toEqual("DI");
 
+      context.logger.level = "info";
       context.logger.info("test");
 
       expect(logger().info).toHaveBeenCalled();
@@ -53,6 +54,7 @@ describe("DIContext", () => {
       expect(context.PLATFORM).toEqual("OTHER");
 
       context.next();
+      context.logger.level = "info";
       context.logger.info("test");
 
       expect(logger().info).toHaveBeenCalled();

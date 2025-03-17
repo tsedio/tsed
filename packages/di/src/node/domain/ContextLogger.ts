@@ -20,19 +20,32 @@ export class ContextLogger {
   readonly #additionalProps?: Record<string, unknown>;
 
   maxStackSize: number;
-  level: LogLevel;
-
+  #level: LogLevel;
   #hooks?: Hooks;
   #stack?: any[];
   #logger: any;
 
-  constructor({id, logger, dateStart = new Date(), level = "all", maxStackSize = 30, additionalProps}: ContextLoggerOptions) {
+  constructor({id, logger, dateStart = new Date(), level, maxStackSize = 30, additionalProps}: ContextLoggerOptions) {
     this.dateStart = dateStart;
     this.id = id;
     this.#logger = logger || injectLogger();
     this.#additionalProps = additionalProps;
-    this.level = (LEVELS[level.toUpperCase()] || LEVELS.ALL) as LogLevel;
+
+    this.level = (LEVELS[(level || this.#logger.level || "").toUpperCase()] || LEVELS.ALL) as LogLevel;
+
     this.maxStackSize = maxStackSize;
+  }
+
+  set level(level: "debug" | "info" | "warn" | "error" | "off" | "all" | LogLevel) {
+    if (typeof level === "string") {
+      this.#level = LEVELS[level.toUpperCase()];
+    } else {
+      this.#level = level;
+    }
+  }
+
+  get level() {
+    return this.#level;
   }
 
   get hooks() {
@@ -83,9 +96,15 @@ export class ContextLogger {
 
   public flush(stream = false) {
     if (this.stack.length) {
+      const level = this.#logger.level;
+
+      this.#logger.level = this.#level.levelStr.toLowerCase();
+
       this.stack.forEach(({level, data}: any) => {
         this.#logger[level](data);
       });
+
+      this.#logger.level = level;
 
       this.#stack = [];
     }
@@ -96,7 +115,7 @@ export class ContextLogger {
   }
 
   public isLevelEnabled(otherLevel: string | LogLevel) {
-    return this.level.isLessThanOrEqualTo(otherLevel);
+    return this.#level.isLessThanOrEqualTo(otherLevel);
   }
 
   /**

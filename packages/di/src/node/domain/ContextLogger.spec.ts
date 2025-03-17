@@ -1,3 +1,5 @@
+import {levels, Logger} from "@tsed/logger";
+
 import {ContextLogger} from "./ContextLogger.js";
 
 function getIgnoreLogFixture(ignore: string[], url: string) {
@@ -97,6 +99,127 @@ describe("ContextLogger", () => {
     expect(logger.trace).toHaveBeenCalledWith({
       complete: "complete",
       duration: 1,
+      reqId: "id",
+      test: "test",
+      time: expect.any(Date)
+    });
+  });
+  it("should create a new Context with initial log level (error) and change the request log level (debug)", () => {
+    const logger = new Logger();
+    logger.level = "error";
+
+    vi.spyOn(logger, "error").mockReturnValue(undefined as never);
+    vi.spyOn(logger, "debug").mockReturnValue(undefined as never);
+    vi.spyOn(logger, "info").mockReturnValue(undefined as never);
+    vi.spyOn(logger, "warn").mockReturnValue(undefined as never);
+    vi.spyOn(logger, "trace").mockReturnValue(undefined as never);
+    vi.spyOn(logger, "fatal").mockReturnValue(undefined as never);
+
+    const contextLogger = new ContextLogger({
+      event: {
+        request: {},
+        response: {}
+      },
+      logger,
+      id: "id",
+      dateStart: new Date("2019-01-01")
+    });
+
+    expect(logger.level).toEqual("ERROR");
+    expect(contextLogger.level).toEqual(levels().ERROR);
+
+    // WHEN
+    contextLogger.level = levels().DEBUG;
+
+    contextLogger.debug({test: "test"});
+    contextLogger.info({test: "test"});
+    contextLogger.warn({test: "test"});
+    contextLogger.error({test: "test"});
+    contextLogger.fatal({test: "test"});
+    contextLogger.trace({test: "test"});
+
+    contextLogger.flush();
+
+    // THEN
+    expect(logger.level).toEqual("ERROR");
+
+    expect(logger.info).toHaveBeenCalledWith({
+      duration: expect.any(Number),
+      reqId: "id",
+      test: "test",
+      time: expect.any(Date)
+    });
+
+    expect(logger.debug).toHaveBeenCalledWith({
+      duration: expect.any(Number),
+      reqId: "id",
+      test: "test",
+      time: expect.any(Date)
+    });
+    expect(logger.warn).toHaveBeenCalledWith({
+      duration: expect.any(Number),
+      reqId: "id",
+      test: "test",
+      time: expect.any(Date)
+    });
+    expect(logger.error).toHaveBeenCalledWith({
+      duration: expect.any(Number),
+      reqId: "id",
+      test: "test",
+      time: expect.any(Date)
+    });
+    expect(logger.fatal).toHaveBeenCalledWith({
+      duration: expect.any(Number),
+      reqId: "id",
+      test: "test",
+      time: expect.any(Date)
+    });
+  });
+  it("should create a new Context with initial log level (error) and not change the request log level", () => {
+    const logger = new Logger();
+    logger.level = "error";
+
+    vi.spyOn(logger, "error").mockReturnValue(undefined as never);
+    vi.spyOn(logger, "debug").mockReturnValue(undefined as never);
+    vi.spyOn(logger, "info").mockReturnValue(undefined as never);
+    vi.spyOn(logger, "warn").mockReturnValue(undefined as never);
+    vi.spyOn(logger, "trace").mockReturnValue(undefined as never);
+    vi.spyOn(logger, "fatal").mockReturnValue(undefined as never);
+
+    const contextLogger = new ContextLogger({
+      event: {
+        request: {},
+        response: {}
+      },
+      logger,
+      id: "id",
+      dateStart: new Date("2019-01-01")
+    });
+
+    expect(contextLogger.level).toEqual(levels().ERROR);
+
+    // WHEN
+    contextLogger.debug({test: "test"});
+    contextLogger.info({test: "test"});
+    contextLogger.warn({test: "test"});
+    contextLogger.error({test: "test"});
+    contextLogger.fatal({test: "test"});
+    contextLogger.trace({test: "test"});
+
+    contextLogger.flush();
+
+    // THEN
+    expect(logger.debug).not.toHaveBeenCalled();
+    expect(logger.trace).not.toHaveBeenCalled();
+    expect(logger.info).not.toHaveBeenCalled();
+    expect(logger.error).toHaveBeenCalledWith({
+      duration: expect.any(Number),
+      reqId: "id",
+      test: "test",
+      time: expect.any(Date)
+    });
+    expect(logger.fatal).toHaveBeenCalledWith({
+      duration: expect.any(Number),
       reqId: "id",
       test: "test",
       time: expect.any(Date)
