@@ -1,5 +1,5 @@
 import {Controller} from "@tsed/di";
-import {MultipartFile, PlatformMulterFile} from "@tsed/platform-http";
+import {MultipartFile, PlatformMulterFile} from "@tsed/platform-multer";
 import {BodyParams} from "@tsed/platform-params";
 
 import {SpecTypes} from "../../src/index.js";

@@ -7,7 +7,7 @@ import type {PlatformMulterFile} from "../../config/interfaces/PlatformMulterSet
  *
  * ```typescript
  * import {Post} from "@tsed/schema";
- * import {Controller, MulterOptions, MultipartFile} from "@tsed/platform-http";
+ * import {Controller, MulterOptions, MultipartFile} from "@tsed/platform-multer";
  * import {Controller} from "@tsed/di";
  * import {Multer} from "@types/multer";
  *

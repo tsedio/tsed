@@ -1,5 +1,5 @@
 import {Controller} from "@tsed/di";
-import {MultipartFile, PlatformMulterFile} from "@tsed/platform-http";
+import {MultipartFile, PlatformMulterFile} from "@tsed/platform-multer";
 import {Post} from "@tsed/schema";
 
 @Controller("/")

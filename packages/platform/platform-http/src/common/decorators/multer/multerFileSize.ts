@@ -5,7 +5,7 @@ import {MulterFileSize as M} from "@tsed/platform-multer";
  *
  * ```typescript
  * import {Post} from "@tsed/schema";
- * import {MulterOptions, MultipartFile} from "@tsed/platform-http";
+ * import {MulterOptions, MultipartFile} from "@tsed/platform-multer";
  * import {Controller} from "@tsed/di";
  * import {Multer} from "@types/multer";
  *

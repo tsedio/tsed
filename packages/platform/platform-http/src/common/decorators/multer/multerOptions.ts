@@ -4,7 +4,7 @@ import {MulterOptions as M} from "@tsed/platform-multer";
  * Define multer option for all MultipartFile
  *
  * ```typescript
- * import {PlatformMulterFile, MultipartFile, MulterOptions} from "@tsed/platform-http";
+ * import {PlatformMulterFile, MultipartFile, MulterOptions} from "@tsed/platform-multer";
  * import {Controller} from "@tsed/di";
  * import {Post} from "@tsed/schema";
  *

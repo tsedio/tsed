@@ -24,7 +24,7 @@ function mapOptions(name: string, maxCount: number | undefined): {fields: Field[
  *
  * ```typescript
  * import {Post} from "@tsed/schema";
- * import {Controller, MulterOptions, MultipartFile} from "@tsed/platform-http";
+ * import {Controller, MulterOptions, MultipartFile} from "@tsed/platform-multer";
  * import {Controller} from "@tsed/di";
  * import {Multer} from "@types/multer";
  *
