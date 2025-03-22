@@ -4,7 +4,7 @@ import {Controller} from "@tsed/di";
 import {QueryParams} from "@tsed/platform-params";
 import {Get} from "@tsed/schema";
 
-import {PlatformExpress} from "../../src/index.js.js";
+import {PlatformExpress} from "../../src/index.js";
 import {Server} from "./Server.js";
 
 @Controller("/hello")

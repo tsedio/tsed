@@ -1,7 +1,6 @@
+import {$log} from "@tsed/logger";
 import {PlatformExpress} from "@tsed/platform-express";
-import {$log} from "@tsed/platform-http";
 
-import {InteractionsCtrl} from "./controllers/oidc/InteractionsCtrl.js";
 import {IndexCtrl} from "./controllers/pages/IndexCtrl.js";
 import {VersionCtrl} from "./controllers/rest/VersionCtrl.js";
 import {Server} from "./Server.js";
@@ -12,7 +11,7 @@ if (process.env.NODE_ENV !== "test") {
       const platform = await PlatformExpress.bootstrap(Server, {
         mount: {
           "/rest": [VersionCtrl],
-          "/": [IndexCtrl, InteractionsCtrl]
+          "/": [IndexCtrl]
         }
       });
 

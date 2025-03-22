@@ -36,7 +36,7 @@ export class Server {}
 
 const utils = PlatformTestSdk.create({
   rootDir,
-  adapter: PlatformExpress,
+  adapter: PlatformExpress as any,
   server: Server,
   logger: {
     level: "off"

@@ -1,4 +1,4 @@
-import {Injectable} from "../../../../decorators/injectable.js";
+import {Injectable} from "../../../../../index.js";
 import {SubService} from "../submodule/SubService.js";
 
 @Injectable()

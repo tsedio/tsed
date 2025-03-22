@@ -86,7 +86,7 @@ class TestCacheController {
 describe("Cache", () => {
   beforeEach(
     PlatformTest.bootstrap(Server, {
-      adapter: PlatformExpress,
+      adapter: PlatformExpress as any,
       logger: {},
       mount: {
         "/rest": [TestCacheController]
@@ -251,7 +251,7 @@ describe("Cache", () => {
 describe("withoutCache", () => {
   beforeEach(
     PlatformTest.bootstrap(Server, {
-      adapter: PlatformExpress,
+      adapter: PlatformExpress as any,
       logger: {},
       cache: false,
       mount: {

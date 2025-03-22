@@ -1,4 +1,5 @@
-import {Injectable} from "../../../../../../../di/src/index.js";
+// @ts-ignore
+import {Injectable} from "@tsed/di";
 
 @Injectable()
 export class SubService {}

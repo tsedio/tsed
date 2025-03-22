@@ -10,7 +10,7 @@ import {rootDir, Server} from "./app/Server.js";
 
 const utils = PlatformTestSdk.create({
   rootDir,
-  adapter: PlatformExpress,
+  adapter: PlatformExpress as any,
   server: Server
 });
 

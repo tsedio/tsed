@@ -1,4 +1,4 @@
-import {Module} from "../../../decorators/module.js";
+import {Module} from "../../../../index.js";
 import {M1Ctrl1} from "./controllers/M1Ctrl1.js";
 import {SubModule} from "./submodule/SubModule.js";
 

@@ -47,7 +47,7 @@ describe("Swagger integration: pathPatterns", () => {
     let request: SuperTest.Agent;
     beforeEach(
       PlatformTest.bootstrap(Server, {
-        adapter: PlatformExpress,
+        adapter: PlatformExpress as any,
         swagger: [
           {
             path: "/rest/doc",

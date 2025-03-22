@@ -15,6 +15,7 @@
       "default": "./lib/esm/index.js"
     },
     "./vitest/setup": {
+      "tsed-source": "./lib/esm/setup/vi.setup.ts",
       "types": "./lib/types/setup/vi.setup.d.ts",
       "import": "./lib/esm/setup/vi.setup.js",
       "default": "./lib/esm/setup/vi.setup.js"

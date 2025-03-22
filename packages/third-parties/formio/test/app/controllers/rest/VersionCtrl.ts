@@ -8,7 +8,7 @@ export class VersionCtrl {
     .ContentType("application/json")
     .Schema(object().properties({name: string(), version: string()})))
   async get() {
-    const {name, version} = await import("../../../../package.json");
+    const {name, version} = (await import("../../../../package.json")) as any;
     return {
       name,
       version

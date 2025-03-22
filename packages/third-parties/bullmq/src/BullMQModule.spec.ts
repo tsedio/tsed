@@ -1,6 +1,7 @@
 import "./BullMQModule.js";
 
 import {catchAsyncError} from "@tsed/core";
+import {logger} from "@tsed/di";
 import {PlatformTest} from "@tsed/platform-http/testing";
 import {Queue, Worker} from "bullmq";
 import {anything, instance, mock, verify, when} from "ts-mockito";
@@ -16,6 +17,8 @@ import {JobDispatcher} from "./dispatchers/index.js";
 
 const queueConstructorSpy = vi.fn();
 const workerConstructorSpy = vi.fn();
+
+vi.spyOn(logger(), "error");
 
 vi.mock("bullmq", () => {
   return {
@@ -384,6 +387,10 @@ describe("BullMQModule", () => {
       });
 
       it("should run worker, execute processor and handle error", async () => {
+        vi.spyOn(logger(), "error").mockReturnThis();
+
+        logger().level = "error";
+
         const bullMQModule = PlatformTest.get<BullMQModule>(BullMQModule);
         const worker = PlatformTest.get<JobMethods>("bullmq.job.default.regular");
         const job = {
@@ -393,14 +400,12 @@ describe("BullMQModule", () => {
           attemptsMade: 1
         };
 
-        vi.spyOn(PlatformTest.injector.logger, "error");
-
         vi.spyOn(worker, "handle").mockRejectedValue(new Error("error") as never);
 
         const error = await catchAsyncError(() => (bullMQModule as any).onProcess(job));
 
         expect(worker.handle).toHaveBeenCalledWith({test: "test"}, job);
-        expect(PlatformTest.injector.logger.error).toHaveBeenCalledWith({
+        expect(logger().error).toHaveBeenCalledWith({
           attempt: 1,
           name: "regular",
           queue: "default",

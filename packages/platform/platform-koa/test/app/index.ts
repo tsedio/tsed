@@ -1,4 +1,5 @@
-import {$log, Controller} from "@tsed/platform-http";
+import {Controller} from "@tsed/di";
+import {$log} from "@tsed/logger";
 import {Get} from "@tsed/schema";
 
 import {PlatformKoa} from "../../src/index.js";

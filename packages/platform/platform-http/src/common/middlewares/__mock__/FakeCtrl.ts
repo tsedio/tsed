@@ -1,4 +1,4 @@
-import {Controller} from "../../../../../di/src/index.js";
+import {Controller} from "@tsed/di";
 
 @Controller("/")
 export class FakeCtrl {}

@@ -1,8 +1,11 @@
 import {promisify} from "node:util";
 
-import {$log, BodyParams, Controller, PlatformResponse, QueryParams, Res} from "@tsed/platform-http";
+import {Controller} from "@tsed/di";
+import {$log} from "@tsed/logger";
+import {PlatformResponse, Res} from "@tsed/platform-http";
+import {BodyParams, QueryParams} from "@tsed/platform-params";
 import {Get, Post, Returns} from "@tsed/schema";
-import {agent, SuperAgentStatic} from "superagent";
+import {agent} from "superagent";
 
 import {PlatformExpress} from "../../src/index.js";
 import {Server} from "./Server.js";
@@ -24,7 +27,7 @@ if (process.env.NODE_ENV !== "test") {
     @Get("/image")
     @(Returns(200).Header("X-Content-Type-Options", "nosniff"))
     async getGoogle(@Res() res: PlatformResponse) {
-      const http: SuperAgentStatic = agent();
+      const http = agent();
 
       const image_res = await http.get("https://www.google.com/images/branding/googlelogo/1x/googlelogo_color_272x92dp.png");
 

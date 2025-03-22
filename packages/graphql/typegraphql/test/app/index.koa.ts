@@ -1,4 +1,4 @@
-import {$log} from "@tsed/platform-http";
+import {$log} from "@tsed/logger";
 import {PlatformKoa} from "@tsed/platform-koa";
 
 import {Server} from "./Server.js";

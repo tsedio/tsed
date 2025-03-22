@@ -1,4 +1,5 @@
-import {Module} from "../../../../../../di/src/index.js";
+import {Module} from "@tsed/di";
+
 import {M1Ctrl1} from "./controllers/M1Ctrl1.js";
 import {SubModule} from "./submodule/SubModule.js";
 

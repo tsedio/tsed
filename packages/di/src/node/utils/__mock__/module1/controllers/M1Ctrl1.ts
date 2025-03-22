@@ -1,4 +1,4 @@
-import {Controller} from "../../../../decorators/controller.js";
+import {Controller} from "../../../../../index.js";
 import {M1Service} from "../services/M1Service.js";
 
 @Controller("/m1")

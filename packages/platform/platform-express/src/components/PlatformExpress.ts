@@ -79,7 +79,7 @@ export class PlatformExpress extends PlatformAdapter<Express.Application> {
   static create(module: Type<any>, settings: Partial<TsED.Configuration> = {}) {
     return PlatformBuilder.create<Express.Application>(module, {
       ...settings,
-      adapter: PlatformExpress
+      adapter: PlatformExpress as any
     });
   }
 
@@ -91,7 +91,7 @@ export class PlatformExpress extends PlatformAdapter<Express.Application> {
   static bootstrap(module: Type<any>, settings: Partial<TsED.Configuration> = {}) {
     return PlatformBuilder.bootstrap<Express.Application>(module, {
       ...settings,
-      adapter: PlatformExpress
+      adapter: PlatformExpress as any
     });
   }
 

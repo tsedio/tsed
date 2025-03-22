@@ -1,4 +1,4 @@
-import {Module} from "../../../decorators/module.js";
+import {Module} from "../../../../index.js";
 import {M2Ctrl} from "./controllers/M2Ctrl.js";
 
 @Module({

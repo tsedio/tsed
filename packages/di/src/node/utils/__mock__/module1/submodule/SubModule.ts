@@ -1,4 +1,4 @@
-import {Module} from "../../../../decorators/module.js";
+import {Module} from "../../../../../index.js";
 import {SubService} from "./SubService.js";
 
 @Module({

@@ -16,7 +16,8 @@
       "import": "./lib/esm/index.js",
       "default": "./lib/esm/index.js"
     },
-    "./**/*.js": {
+    "./**/*": {
+      "tsed-source": "./src/**/*.ts",
       "types": "./lib/types/**/*.d.ts",
       "import": "./lib/esm/**/*.js",
       "default": "./lib/esm/**/*.js"

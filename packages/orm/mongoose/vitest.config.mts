@@ -8,7 +8,9 @@ export default defineConfig(
     test: {
       ...presets.test,
       // @ts-ignore
-      globalSetup: [import.meta.resolve("@tsed/testcontainers-mongo/vitest/setup")],
+      globalSetup: [
+        "../testcontainers-mongo/src/setup/vi.setup.ts"
+      ],
       coverage: {
         ...presets.test.coverage,
         thresholds: {

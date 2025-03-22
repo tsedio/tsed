@@ -21,7 +21,7 @@ describe("ServerlessEvent & ServerlessContext", () => {
   beforeEach(
     PlatformServerlessTest.bootstrap(PlatformServerlessHttp, {
       server: Server,
-      adapter: PlatformExpress,
+      adapter: PlatformExpress as any,
       mount: {
         "/": [BodyLambda]
       }

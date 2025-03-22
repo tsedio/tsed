@@ -7,7 +7,6 @@ import type {MulterError} from "multer";
 import {PlatformMulterField, PlatformMulterSettings} from "../config/interfaces/PlatformMulterSettings.js";
 import {PlatformContext} from "../domain/PlatformContext.js";
 import {PlatformAdapter} from "../services/PlatformAdapter.js";
-import {PlatformApplication} from "../services/PlatformApplication.js";
 
 export interface MulterInputOptions {
   fields: PlatformMulterField[];

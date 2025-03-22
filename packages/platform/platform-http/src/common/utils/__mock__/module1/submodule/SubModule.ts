@@ -1,4 +1,6 @@
-import {Module} from "../../../../../../../di/src/index.js";
+// @ts-ignore
+import {Module} from "@tsed/di";
+
 import {SubService} from "./SubService.js";
 
 @Module({

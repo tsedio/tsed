@@ -15,7 +15,7 @@ const root = import.meta.dirname;
 
 const utils = PlatformTestSdk.create({
   rootDir,
-  adapter: PlatformExpress,
+  adapter: PlatformExpress as any,
   server: Server,
   logger: {
     level: "off"

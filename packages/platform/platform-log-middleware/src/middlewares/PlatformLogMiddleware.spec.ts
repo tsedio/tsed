@@ -20,8 +20,7 @@ async function createMiddlewareFixture({statusCode = 200, error}: {statusCode?: 
         error
       })
     },
-    endpoint: new Map(),
-    logger: PlatformTest.injector.logger
+    endpoint: new Map()
   });
 
   ctx.error = error;
@@ -30,11 +29,11 @@ async function createMiddlewareFixture({statusCode = 200, error}: {statusCode?: 
     handler: () => {}
   });
 
-  vi.spyOn(PlatformTest.injector.logger, "info").mockResolvedValue(undefined);
-  vi.spyOn(PlatformTest.injector.logger, "warn").mockResolvedValue(undefined);
-  vi.spyOn(PlatformTest.injector.logger, "trace").mockResolvedValue(undefined);
-  vi.spyOn(PlatformTest.injector.logger, "debug").mockResolvedValue(undefined);
-  vi.spyOn(PlatformTest.injector.logger, "error").mockResolvedValue(undefined);
+  vi.spyOn(ctx.logger, "info").mockReturnThis();
+  vi.spyOn(ctx.logger, "warn").mockReturnThis();
+  vi.spyOn(ctx.logger, "trace").mockReturnThis();
+  vi.spyOn(ctx.logger, "debug").mockReturnThis();
+  vi.spyOn(ctx.logger, "error").mockReturnThis();
 
   ctx.logger.maxStackSize = 0;
   ctx.data = "test";
@@ -69,32 +68,15 @@ describe("PlatformLogMiddleware", () => {
         middleware.onLogEnd(request.$ctx);
 
         // THEN
-        expect(PlatformTest.injector.logger.info).toHaveBeenCalledWith(
-          expect.objectContaining({
-            event: "request.start",
-            method: "GET",
-            reqId: "id",
-            url: "/originalUrl",
-            route: "/:id"
-          })
-        );
-        expect(PlatformTest.injector.logger.info).toHaveBeenCalledWith(
-          expect.objectContaining({
-            event: "request.end",
-            method: "GET",
-            reqId: "id",
-            url: "/originalUrl",
-            route: "/:id",
-            status: 200,
-            state: "OK"
-          })
-        );
-        expect(PlatformTest.injector.logger.info).toHaveBeenCalledWith(
-          expect.objectContaining({
-            duration: expect.any(Number)
-          })
-        );
-        expect(PlatformTest.injector.logger.info).toHaveBeenCalledWith(expect.objectContaining({time: expect.any(Date)}));
+        expect(ctx.logger.info).toHaveBeenCalledWith({
+          event: "request.start"
+        });
+        expect(ctx.logger.info).toHaveBeenCalledWith({
+          event: "request.end",
+          status: 200,
+          status_code: "200",
+          state: "OK"
+        });
       });
     });
     describe("when debug, logRequest", () => {
@@ -119,21 +101,16 @@ describe("PlatformLogMiddleware", () => {
         middleware.onLogEnd(ctx as any);
 
         // THEN
-        expect(PlatformTest.injector.logger.debug).toHaveBeenCalledWith(
+        expect(ctx.logger.debug).toHaveBeenCalledWith(
           expect.objectContaining({
-            event: "request.start",
-            method: "GET",
-            reqId: "id",
-            url: "url"
+            event: "request.start"
           })
         );
-        expect(PlatformTest.injector.logger.debug).toHaveBeenCalledWith(
+        expect(ctx.logger.debug).toHaveBeenCalledWith(
           expect.objectContaining({
             event: "request.end",
-            method: "GET",
-            reqId: "id",
-            url: "url",
             status: 200,
+            status_code: "200",
             data: "test",
             state: "OK"
           })
@@ -159,7 +136,7 @@ describe("PlatformLogMiddleware", () => {
         middleware.onLogEnd(request.$ctx as any);
 
         // THEN
-        expect(PlatformTest.injector.logger.info).toHaveBeenCalledWith(
+        expect(ctx.logger.info).toHaveBeenCalledWith(
           expect.objectContaining({
             event: "request.start"
           })
@@ -189,13 +166,12 @@ describe("PlatformLogMiddleware", () => {
         //  middleware.onLogEnd(request.$ctx as any);
 
         // THEN
-        expect(PlatformTest.injector.logger.info).toHaveBeenCalledWith(
+        expect(ctx.logger.info).toHaveBeenCalledWith(
           expect.objectContaining({
             event: "request.end",
-            method: "GET",
-            reqId: "id",
-            url: "url",
-            status: 200
+            state: "OK",
+            status: 200,
+            status_code: "200"
           })
         );
       });
@@ -214,13 +190,12 @@ describe("PlatformLogMiddleware", () => {
         //  middleware.onLogEnd(request.$ctx as any);
 
         // THEN
-        expect(PlatformTest.injector.logger.error).toHaveBeenCalledWith(
+        expect(ctx.logger.error).toHaveBeenCalledWith(
           expect.objectContaining({
             event: "request.end",
-            method: "GET",
-            reqId: "id",
-            url: "url",
+            state: "KO",
             status: 400,
+            status_code: "400",
             error_name: "Error",
             error_message: "Test"
           })
@@ -245,13 +220,12 @@ describe("PlatformLogMiddleware", () => {
         //  middleware.onLogEnd(request.$ctx as any);
 
         // THEN
-        expect(PlatformTest.injector.logger.error).toHaveBeenCalledWith(
+        expect(ctx.logger.error).toHaveBeenCalledWith(
           expect.objectContaining({
             event: "request.end",
-            method: "GET",
-            reqId: "id",
-            url: "url",
             status: 400,
+            state: "KO",
+            status_code: "400",
             error_name: "CODE",
             error_message: "message"
           })
@@ -277,12 +251,9 @@ describe("PlatformLogMiddleware", () => {
           event: "event"
         });
         // THEN
-        expect(PlatformTest.injector.logger.error).toHaveBeenCalledWith(
+        expect(ctx.logger.error).toHaveBeenCalledWith(
           expect.objectContaining({
-            event: "event",
-            method: "GET",
-            reqId: "id",
-            url: "originalUrl"
+            event: "event"
           })
         );
       });

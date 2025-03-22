@@ -33,7 +33,7 @@ describe("SocketIO", () => {
 
   beforeAll(
     PlatformTest.bootstrap(Server, {
-      adapter: PlatformExpress,
+      adapter: PlatformExpress as any,
       mount: {
         "/rest": [HelloCtrl]
       }

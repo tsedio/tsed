@@ -32,7 +32,7 @@ const ADD_RECIPE = gql`
 describe("TypeGraphQL", () => {
   beforeAll(
     PlatformTest.bootstrap(Server, {
-      adapter: PlatformExpress
+      adapter: PlatformExpress as any
     })
   );
   afterAll(PlatformTest.reset);

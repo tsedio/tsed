@@ -34,7 +34,7 @@ class TestQueryParamsCtrl {
 
 const utils = PlatformTestSdk.create({
   rootDir,
-  adapter: PlatformExpress,
+  adapter: PlatformExpress as any,
   server: Server
 });
 

@@ -1,4 +1,5 @@
-import {Middleware, Request} from "@tsed/platform-http";
+import {Request} from "@tsed/platform-http";
+import {Middleware} from "@tsed/platform-middlewares";
 
 import {IUser} from "../models/User.js";
 
