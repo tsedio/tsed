@@ -6,8 +6,8 @@
   "main": "./lib/esm/index.js",
   "private": true,
   "scripts": {
-    "build": "tsc --build tsconfig.json",
-    "build:ts": "tsc --build tsconfig.json"
+    "build": "tsc --build tsconfig.esm.json",
+    "build:ts": "tsc --build tsconfig.esm.json"
   },
   "devDependencies": {
     "@tsed/di": "workspace:*",

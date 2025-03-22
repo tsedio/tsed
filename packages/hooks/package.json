@@ -25,7 +25,7 @@
   "scripts": {
     "build": "yarn build:ts && yarn run build:browser",
     "build:browser": "webpack",
-    "build:ts": "tsc --build tsconfig.json",
+    "build:ts": "tsc --build tsconfig.esm.json",
     "test": "vitest run",
     "test:ci": "vitest run --coverage.thresholds.autoUpdate=true"
   },

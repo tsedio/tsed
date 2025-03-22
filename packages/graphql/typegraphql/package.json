@@ -21,7 +21,7 @@
     "start:express": "ts-node test/app/index.express.ts",
     "start:koa": "ts-node test/app/index.koa.ts",
     "test": "vitest run",
-    "build:ts": "tsc --build tsconfig.json",
+    "build:ts": "tsc --build tsconfig.esm.json",
     "test:ci": "vitest run --coverage.thresholds.autoUpdate=true"
   },
   "dependencies": {

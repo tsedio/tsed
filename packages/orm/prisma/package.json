@@ -22,7 +22,7 @@
   "scripts": {
     "prebuild": "cd ../../core && yarn build",
     "build": "rm -rf lib && yarn build:ts && monorepo build-hybrid",
-    "build:ts": "tsc --build tsconfig.json",
+    "build:ts": "tsc --build tsconfig.esm.json",
     "test": "vitest run",
     "generate:enums": "yarn build && cd test/enums && prisma -v && prisma generate",
     "generate:postgres:esm": "yarn build && cd test/postgres-esm && prisma -v && prisma generate",

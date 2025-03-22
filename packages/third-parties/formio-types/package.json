@@ -27,7 +27,7 @@
     "build": "yarn barrels && yarn build:ts",
     "barrels": "barrels",
     "start": "ts-node test/app/index.ts",
-    "build:ts": "tsc --build tsconfig.json"
+    "build:ts": "tsc --build tsconfig.esm.json"
   },
   "dependencies": {
     "tslib": "2.7.0"

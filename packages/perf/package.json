@@ -18,7 +18,7 @@
   },
   "scripts": {
     "build": "yarn build:ts",
-    "build:ts": "tsc --build tsconfig.json"
+    "build:ts": "tsc --build tsconfig.esm.json"
   },
   "dependencies": {
     "@tsed/core": "workspace:*",

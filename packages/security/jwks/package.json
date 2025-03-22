@@ -19,7 +19,7 @@
     "build": "yarn build:ts",
     "test": "vitest run",
     "start": "ts-node test/app/index.ts",
-    "build:ts": "tsc --build tsconfig.json",
+    "build:ts": "tsc --build tsconfig.esm.json",
     "test:ci": "vitest run --coverage.thresholds.autoUpdate=true"
   },
   "dependencies": {

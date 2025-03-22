@@ -18,7 +18,7 @@
   "scripts": {
     "build": "yarn barrels && yarn build:ts",
     "barrels": "barrels",
-    "build:ts": "tsc --build tsconfig.json"
+    "build:ts": "tsc --build tsconfig.esm.json"
   },
   "keywords": [
     "Ts.ED",

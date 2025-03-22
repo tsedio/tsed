@@ -31,7 +31,7 @@
     "start": "ts-node test/app/index.ts",
     "barrels": "barrels",
     "test": "vitest run",
-    "build:ts": "tsc --build tsconfig.json",
+    "build:ts": "tsc --build tsconfig.esm.json",
     "test:ci": "vitest run --coverage.thresholds.autoUpdate=true"
   },
   "dependencies": {
