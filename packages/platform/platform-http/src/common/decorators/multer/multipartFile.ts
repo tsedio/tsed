@@ -1,6 +1,5 @@
+import type {MultipartFile as MType} from "@tsed/platform-multer";
 import {MultipartFile as M} from "@tsed/platform-multer";
-
-import type {PlatformMulterFile} from "../../config/interfaces/PlatformMulterSettings.js";
 
 /**
  * Define a parameter as Multipart file.
@@ -49,4 +48,4 @@ import type {PlatformMulterFile} from "../../config/interfaces/PlatformMulterSet
  * @deprecated use MultipartFile from @tsed/platform-multer
  */
 export const MultipartFile: typeof M = M;
-export type MultipartFile = typeof M;
+export type MultipartFile = MType;

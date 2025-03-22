@@ -65,20 +65,20 @@
     "@tsed/typescript": "workspace:*",
     "eslint": "9.12.0",
     "typescript": "5.4.5",
-    "vitest": "2.1.2"
+    "vitest": "3.0.9"
   },
   "dependencies": {
     "multer": "^1.4.5-lts.1",
     "tslib": "2.7.0"
   },
   "peerDependencies": {
-    "@tsed/core": ">=8.5.0-beta.2",
-    "@tsed/di": ">=8.5.0-beta.2",
-    "@tsed/json-mapper": ">=8.5.0-beta.2",
+    "@tsed/core": ">=8.5.0",
+    "@tsed/di": ">=8.5.0",
+    "@tsed/json-mapper": ">=8.5.0",
     "@tsed/logger": ">=7.0.1",
-    "@tsed/openspec": ">=8.5.0-beta.2",
-    "@tsed/platform-middlewares": ">=8.5.0-beta.2",
-    "@tsed/schema": ">=8.5.0-beta.2",
+    "@tsed/openspec": ">=8.5.0",
+    "@tsed/platform-middlewares": ">=8.5.0",
+    "@tsed/schema": ">=8.5.0",
     "cross-env": "7.0.3"
   },
   "peerDependenciesMeta": {

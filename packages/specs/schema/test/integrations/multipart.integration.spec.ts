@@ -1,3 +1,6 @@
+import "@tsed/exceptions";
+import "@tsed/platform-exceptions";
+
 import {Controller} from "@tsed/di";
 import {MultipartFile, PlatformMulterFile} from "@tsed/platform-multer";
 import {BodyParams} from "@tsed/platform-params";

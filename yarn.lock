@@ -1404,7 +1404,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@babel/parser@npm:^7.25.4":
+"@babel/parser@npm:^7.25.4, @babel/parser@npm:^7.26.9":
   version: 7.26.10
   resolution: "@babel/parser@npm:7.26.10"
   dependencies:
@@ -1423,17 +1423,6 @@ __metadata:
   bin:
     parser: ./bin/babel-parser.js
   checksum: 10/98eaa81bd378734a5f2790f02c7c076ecaba0839217445b4b84f45a7b391d640c34034253231a5bb2b2daf8204796f03584c3f94c10d46b004369bbb426a418f
-  languageName: node
-  linkType: hard
-
-"@babel/parser@npm:^7.26.9":
-  version: 7.26.10
-  resolution: "@babel/parser@npm:7.26.10"
-  dependencies:
-    "@babel/types": "npm:^7.26.10"
-  bin:
-    parser: ./bin/babel-parser.js
-  checksum: 10/3f87781f46795ba72448168061d9e99c394fdf9cd4aa3ddf053a06334247da4d25d0923ccc89195937d3360d384cee181e99711763c1e8fe81d4f17ee22541fc
   languageName: node
   linkType: hard
 
@@ -2564,7 +2553,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@babel/types@npm:^7.25.4, @babel/types@npm:^7.26.10":
+"@babel/types@npm:^7.25.4, @babel/types@npm:^7.26.10, @babel/types@npm:^7.26.9":
   version: 7.26.10
   resolution: "@babel/types@npm:7.26.10"
   dependencies:
@@ -2582,16 +2571,6 @@ __metadata:
     "@babel/helper-validator-identifier": "npm:^7.25.7"
     to-fast-properties: "npm:^2.0.0"
   checksum: 10/4504e16a95b6a67d50cfaa389bcbc0621019084cff73784ad4797f82d1bb76c870cb0abb6d9881d5776eb06b4607419a2b1205a08c3e87b152d74bd0884b822a
-  languageName: node
-  linkType: hard
-
-"@babel/types@npm:^7.26.10, @babel/types@npm:^7.26.9":
-  version: 7.26.10
-  resolution: "@babel/types@npm:7.26.10"
-  dependencies:
-    "@babel/helper-string-parser": "npm:^7.25.9"
-    "@babel/helper-validator-identifier": "npm:^7.25.9"
-  checksum: 10/6b4f24ee77af853c2126eaabb65328cd44a7d6f439685131cf929c30567e01b6ea2e5d5653b2c304a09c63a5a6199968f0e27228a007acf35032036d79a9dee6
   languageName: node
   linkType: hard
 
@@ -8042,7 +8021,7 @@ __metadata:
     multer: "npm:^1.4.5-lts.1"
     tslib: "npm:2.7.0"
     typescript: "npm:5.4.5"
-    vitest: "npm:2.1.2"
+    vitest: "npm:3.0.9"
   peerDependencies:
     "@tsed/core": ">=8.5.0-beta.2"
     "@tsed/di": ">=8.5.0-beta.2"
