@@ -7192,7 +7192,7 @@ __metadata:
     express: "npm:^4.21.0"
     formio: "npm:4.2.5"
     mongodb: "npm:^6.9.0"
-    mongoose: "npm:8.9.5"
+    mongoose: "npm:8.12.2"
     tslib: "npm:2.7.0"
     typescript: "npm:5.4.5"
     vitest: "npm:3.0.9"
@@ -7406,7 +7406,7 @@ __metadata:
     "@tsed/typescript": "workspace:*"
     change-case: "npm:5.4.4"
     eslint: "npm:9.12.0"
-    mongoose: "npm:8.9.5"
+    mongoose: "npm:8.12.2"
     tslib: "npm:2.7.0"
     typescript: "npm:5.4.5"
     vitest: "npm:3.0.9"
@@ -12060,10 +12060,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"bson@npm:^6.10.1":
-  version: 6.10.1
-  resolution: "bson@npm:6.10.1"
-  checksum: 10/7b6d2a4c877bbe27d9e7fa0cd31e6b446ba08c5d70927403a6d42abf6e354fd12e79daf562fa5cc36e85cb8e701edc2ebdc2381c75c2376dde0f5e8d7ee3fd1b
+"bson@npm:^6.10.3":
+  version: 6.10.3
+  resolution: "bson@npm:6.10.3"
+  checksum: 10/53693ad7636fa1a128f32d5c30a9584b4a09a2b2aa2040ea8bf8dca35a283eb1394138770bc6c2dae91b0c6df96b3caef3b14532644736f4d7a1d3177969537b
   languageName: node
   linkType: hard
 
@@ -22483,12 +22483,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"mongodb@npm:~6.12.0":
-  version: 6.12.0
-  resolution: "mongodb@npm:6.12.0"
+"mongodb@npm:~6.14.0":
+  version: 6.14.2
+  resolution: "mongodb@npm:6.14.2"
   dependencies:
     "@mongodb-js/saslprep": "npm:^1.1.9"
-    bson: "npm:^6.10.1"
+    bson: "npm:^6.10.3"
     mongodb-connection-string-url: "npm:^3.0.0"
   peerDependencies:
     "@aws-sdk/credential-providers": ^3.188.0
@@ -22513,22 +22513,22 @@ __metadata:
       optional: true
     socks:
       optional: true
-  checksum: 10/482c00f12ddc87a48a6e0d1e0f0d7cda7b4e3e95b016dea06e052cfe0cdbca0064ff78646440f6312f8030eb193d114dc4470ebe89ba1864638e322a003d65e3
+  checksum: 10/08f6b42b78e9d860c1270300c018e31216d2ad758b0f77ba914274a3dd7cb316d3f6a2353fe1126c712bfb22611abd0389586237341288a64559b7628f07a3bc
   languageName: node
   linkType: hard
 
-"mongoose@npm:8.9.5":
-  version: 8.9.5
-  resolution: "mongoose@npm:8.9.5"
+"mongoose@npm:8.12.2":
+  version: 8.12.2
+  resolution: "mongoose@npm:8.12.2"
   dependencies:
-    bson: "npm:^6.10.1"
+    bson: "npm:^6.10.3"
     kareem: "npm:2.6.3"
-    mongodb: "npm:~6.12.0"
+    mongodb: "npm:~6.14.0"
     mpath: "npm:0.9.0"
     mquery: "npm:5.0.0"
     ms: "npm:2.1.3"
     sift: "npm:17.1.3"
-  checksum: 10/74f38844ef18bc6d8d68c702871cb11eafc349a356786a3277dd9160ba020dfef791ef760fe3f6228f037aed584a9ac1ad694153c8595c7e877204aea5cc537e
+  checksum: 10/a02e7383a2a9ca72ae30824a85e32210d6b7784150e3ac70b993f8068131c4c479e8fbef310ffc428073646a998fc59265b642d6c10a0ea160ef0b23fcbc9f49
   languageName: node
   linkType: hard
 
