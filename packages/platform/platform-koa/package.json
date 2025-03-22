@@ -82,7 +82,7 @@
     "koa-qs": "^3.0.0",
     "koa-session": "6.4.0",
     "typescript": "5.4.5",
-    "vitest": "2.1.2"
+    "vitest": "3.0.9"
   },
   "dependencies": {
     "@koa/router": "^13.1.0",

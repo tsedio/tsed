@@ -41,7 +41,7 @@
     "typescript": "5.4.5",
     "vike": "0.4.198",
     "vite": "6.0.9",
-    "vitest": "2.1.2"
+    "vitest": "3.0.9"
   },
   "peerDependencies": {
     "@tsed/platform-http": ">=8.6.1",
