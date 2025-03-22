@@ -12,6 +12,7 @@
     "vitest": "3.0.9"
   },
   "scripts": {
-    "generate": "node index.js"
+    "generate": "node index.js",
+    "reset:coverage": "node reset.js"
   }
 }

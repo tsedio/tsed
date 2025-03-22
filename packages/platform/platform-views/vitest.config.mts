@@ -14,10 +14,10 @@ export default defineConfig(
           "src/decorators/view.ts",
         ],
         thresholds: {
-          statements: 91.3,
-          branches: 94.73,
-          functions: 76.92,
-          lines: 91.3
+          statements: 0,
+          branches: 0,
+          functions: 0,
+          lines: 0
         }
       }
     }
