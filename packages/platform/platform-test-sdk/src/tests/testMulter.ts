@@ -76,13 +76,18 @@ export class TestMulterController {
       file: media.originalname
     };
   }
+
+  @Post("/scenario-4")
+  @Status(201)
+  uploadTwoFiles(@MultipartFile("media1") media: PlatformMulterFile, @MultipartFile("media2") media2: PlatformMulterFile) {
+    return {
+      file1: media.originalname,
+      file2: media2.originalname
+    };
+  }
 }
 
 export function testMulter(options: PlatformTestingSdkOpts) {
-  let request: SuperTest.Agent;
-
-  const buffer = Buffer.from("test content");
-
   const pkg = readPkgUp.sync({
     cwd: import.meta.dirname
   });
@@ -96,21 +101,21 @@ export function testMulter(options: PlatformTestingSdkOpts) {
       }
     })
   );
-  beforeAll(() => {
-    request = SuperTest(PlatformTest.callback());
-  });
+  beforeAll(() => {});
   afterAll(PlatformTest.reset);
   beforeAll(() => {
     vi.resetAllMocks();
   });
   describe("Scenario 1: POST /rest/multer/scenario-1", () => {
     it("should upload file with multer", async () => {
+      const request = SuperTest(PlatformTest.callback());
       const result = await request.post("/rest/multer/scenario-1").attach("media", `${rootDir}/data/file.txt`).expect(201);
 
       expect(result.text).toEqual("file.txt");
     });
 
     it("should throw an exception when there is no file", async () => {
+      const request = SuperTest(PlatformTest.callback());
       const result = await request.post("/rest/multer/scenario-1").expect(400);
 
       expect(result.body).toEqual({
@@ -133,6 +138,7 @@ export function testMulter(options: PlatformTestingSdkOpts) {
   });
   describe("Scenario 2: POST /rest/multer/scenario-2", () => {
     it("should upload file with multer", async () => {
+      const request = SuperTest(PlatformTest.callback());
       const result = await request
         .post("/rest/multer/scenario-2")
         .attach("media", `${rootDir}/data/file.txt`)
@@ -146,10 +152,31 @@ export function testMulter(options: PlatformTestingSdkOpts) {
   });
   describe("Scenario 3: POST /rest/multer/scenario-3", () => {
     it("should upload file with multer", async () => {
+      const request = SuperTest(PlatformTest.callback());
       const result = await request.post("/rest/multer/scenario-3").attach("media", `${rootDir}/data/file.txt`).field({}).expect(201);
 
       expect(result.body).toEqual({
         file: "file.txt"
+      });
+
+      // filterFilter is called
+      expect(fileFilterStub).toBeCalled();
+    });
+  });
+
+  describe("Scenario 4: POST /rest/multer/scenario-4", () => {
+    it("should upload two files using multer", async () => {
+      const request = SuperTest(PlatformTest.callback());
+      const result = await request
+        .post("/rest/multer/scenario-4")
+        .attach("media1", `${rootDir}/data/file.txt`)
+        .attach("media2", `${rootDir}/data/file.txt`)
+        .field({})
+        .expect(201);
+
+      expect(result.body).toEqual({
+        file1: "file.txt",
+        file2: "file.txt"
       });
 
       // filterFilter is called
