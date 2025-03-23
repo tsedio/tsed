@@ -16,6 +16,7 @@ describe("UseBefore()", () => {
     it("should add the middleware on the use stack", () => {
       // WHEN
       @UseBefore(CustomMiddleware)
+      @UseBefore(CustomMiddleware) // should be ignored
       @UseBefore(CustomMiddleware2)
       class Test {
         test() {}
@@ -31,6 +32,7 @@ describe("UseBefore()", () => {
     it("should add the middleware on the use stack", () => {
       // WHEN
       class Test {
+        @UseBefore(CustomMiddleware)
         @UseBefore(CustomMiddleware)
         @UseBefore(CustomMiddleware2)
         test() {}

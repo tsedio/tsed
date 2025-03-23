@@ -1,5 +1,11 @@
-import {DecoratorTypes, UnsupportedDecoratorType} from "@tsed/core";
+import {DecoratorTypes, isClass, UnsupportedDecoratorType} from "@tsed/core";
 import {JsonEntityFn} from "@tsed/schema";
+
+const useOnce = (list: any[] = [], middlewares: any[] = []) => {
+  return middlewares
+    .filter((middleware) => (isClass(middleware) ? !list.find((current: any) => current === middleware) : middleware))
+    .concat(list);
+};
 
 /**
  * Mounts the specified middleware function or functions at the specified path: the middleware function is executed when
@@ -25,7 +31,7 @@ export function UseBefore(...args: any[]): Function {
   return JsonEntityFn((entity, parameters) => {
     switch (entity.decoratorType) {
       case DecoratorTypes.METHOD:
-        entity.beforeMiddlewares = args.concat(entity.beforeMiddlewares);
+        entity.beforeMiddlewares = useOnce(entity.beforeMiddlewares, args);
 
         break;
 
@@ -34,7 +40,7 @@ export function UseBefore(...args: any[]): Function {
 
         entity.store.set("middlewares", {
           ...middlewares,
-          useBefore: [...args, ...(middlewares.useBefore || [])]
+          useBefore: useOnce(middlewares.useBefore, args)
         });
         break;
 
