@@ -88,7 +88,7 @@ describe("PlatformFastify integration", () => {
   describe("Plugin: Statics files", () => {
     utils.test("statics");
   });
-  describe.skip("Plugin: Multer", () => {
+  describe("Plugin: Multer", () => {
     utils.test("multer");
   });
   describe.skip("Plugin: DeepQueryParams", () => {

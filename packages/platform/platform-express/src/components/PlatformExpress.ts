@@ -9,20 +9,15 @@ import {
   adapter,
   application,
   createContext,
-  Platform,
   PlatformAdapter,
-  PlatformApplication,
   PlatformBuilder,
   PlatformContext,
   PlatformHandler,
-  PlatformRequest,
-  PlatformResponse,
   PlatformStaticsOptions
 } from "@tsed/platform-http";
 import {PlatformHandlerMetadata, PlatformHandlerType, PlatformLayer} from "@tsed/platform-router";
 import {OptionsJson, OptionsText, OptionsUrlencoded} from "body-parser";
 import Express from "express";
-import type multer from "multer";
 
 import {PlatformExpressStaticsOptions} from "../interfaces/PlatformExpressStaticsOptions.js";
 import {staticsMiddleware} from "../middlewares/staticsMiddleware.js";

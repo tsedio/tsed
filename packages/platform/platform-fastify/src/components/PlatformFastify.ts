@@ -1,3 +1,5 @@
+import "@tsed/platform-multer/fastify";
+
 import * as Http from "node:http";
 import {IncomingMessage, ServerResponse} from "node:http";
 import * as Https from "node:https";
@@ -7,17 +9,14 @@ import fastifyStatics from "@fastify/static";
 import {type Env, isFunction, isString, ReturnHostInfoFromPort, Type} from "@tsed/core";
 import {constant, inject, logger, runInContext} from "@tsed/di";
 import {NotFound} from "@tsed/exceptions";
+import {$alter} from "@tsed/hooks";
 import {PlatformExceptions} from "@tsed/platform-exceptions";
 import {
   adapter,
   createContext,
   createServer,
-  Platform,
   PlatformAdapter,
-  PlatformApplication,
   PlatformBuilder,
-  PlatformHandler,
-  PlatformMulterSettings,
   PlatformRequest,
   PlatformResponse,
   PlatformStaticsOptions
@@ -257,15 +256,6 @@ export class PlatformFastify extends PlatformAdapter<FastifyInstance> {
     return null;
   }
 
-  multipart(options: PlatformMulterSettings): any {
-    logger().warn({
-      event: "PLATFORM_UNSUPPORTED_FEATURE",
-      message: "Multipart method is not implemented yet",
-      options
-    });
-    return null;
-  }
-
   statics(endpoint: string, options: PlatformStaticsOptions): any {
     this.app.getApp().register(fastifyStatics, {
       root: options.root,
@@ -338,7 +328,10 @@ export class PlatformFastify extends PlatformAdapter<FastifyInstance> {
 
     plugins = await Promise.all(promises);
 
-    return plugins.filter((middleware) => middleware.use).filter((middleware) => middleware.env === env);
+    return $alter(
+      "$afterPlugins",
+      plugins.filter((middleware) => middleware.use).filter((middleware) => middleware.env === env)
+    );
   }
 }
 

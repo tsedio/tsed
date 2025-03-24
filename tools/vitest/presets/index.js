@@ -9,6 +9,7 @@ export const presets = defineConfig({
       "@tsed/platform-http/testing": alias["@tsed/platform-http"].replace("common", "testing"),
       "@tsed/platform-multer/express": alias["@tsed/platform-multer"].replace("src/index.ts", "src/adapters/express/MulterModule.ts"),
       "@tsed/platform-multer/koa": alias["@tsed/platform-multer"].replace("src/index.ts", "src/adapters/koa/MulterModule.ts"),
+      "@tsed/platform-multer/fastify": alias["@tsed/platform-multer"].replace("src/index.ts", "src/adapters/fastify/MulterModule.ts"),
       ...alias
     }
   },

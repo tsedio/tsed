@@ -25,6 +25,12 @@
       "types": "./lib/types/adapters/koa/MulterModule.d.ts",
       "import": "./lib/esm/adapters/koa/MulterModule.js",
       "default": "./lib/esm/adapters/koa/MulterModule.js"
+    },
+    "./fastify": {
+      "tsed-source": "./src/adapters/fastify/MulterModule.ts",
+      "types": "./lib/types/adapters/fastify/MulterModule.d.ts",
+      "import": "./lib/esm/adapters/fastify/MulterModule.js",
+      "default": "./lib/esm/adapters/fastify/MulterModule.js"
     }
   },
   "scripts": {
