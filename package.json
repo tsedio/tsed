@@ -141,7 +141,7 @@
     "moment": "2.30.1",
     "mongoose": "^8.7.0",
     "prettier": "3.3.3",
-    "semantic-release": "24.1.2",
+    "semantic-release": "24.2.3",
     "semantic-release-slack-bot": "4.0.2",
     "supertest": "7.0.0",
     "ts-loader": "9.5.1",
