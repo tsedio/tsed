@@ -355,7 +355,7 @@ export class JsonSerializer extends JsonMapperCompiler<JsonSerializerOptions> {
 
   private mapJSON(input: any, {id, ...options}: JsonSerializerOptions) {
     if (isMongooseObject(input)) {
-      return input.toJSON({...options, id});
+      return input.toJSON({...options, self: undefined, id});
     }
 
     id = id || nameOf(classOf(input));
