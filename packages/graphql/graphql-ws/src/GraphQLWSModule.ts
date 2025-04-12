@@ -2,7 +2,6 @@ import Http from "node:http";
 import Https from "node:https";
 
 import {Constant, Inject, InjectorService, Module} from "@tsed/di";
-import type {Disposable} from "graphql-ws";
 import {useServer} from "graphql-ws/lib/use/ws";
 
 import {GraphQLWSOptions} from "./GraphQLWSOptions.js";
