@@ -63,7 +63,7 @@ export class Server {}
 
 - type: @@Env@@
 
-The environment profiles. By default the environment profile is equal to `NODE_ENV`.
+The environment profiles. By default, the environment profile is equal to `NODE_ENV`.
 
 ```typescript
 import {Env} from "@tsed/core";
@@ -354,8 +354,9 @@ The `strictGroups` option is enabled by default in the next major version of Ts.
 
 See specific platform options for:
 
-- [Express.js](/docs/configuration/express)
-- [Koa.js](/docs/configuration/koa)
+- [Express.js](/docs/configuration/express.md)
+- [Koa.js](/docs/configuration/koa.md)
+- [Fastify.js](/docs/configuration/fastify.md)
 
 ## HTTP & HTTPs server
 

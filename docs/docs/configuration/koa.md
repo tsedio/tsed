@@ -1,6 +1,6 @@
 # Koa.js
 
-## koa.bodyParser <Badge text="6.111.0+"/>
+## koa.bodyParser
 
 This option let you configure the default bodyParser used by Ts.ED to parse the body request:
 
@@ -72,5 +72,25 @@ interface KoaStaticsOptions {
   setHeaders?: SetHeaders;
   /** Try to match extensions from passed array to search for file when no extension is sufficed in URL. First found is served. (defaults to false) */
   extensions?: string[] | false;
+}
+```
+
+## Use custom Koa app
+
+You can use a custom Koa app using the `app` server options:
+
+```typescript
+import {Configuration} from "@tsed/di";
+import "@tsed/platform-koa";
+import {createKoaApp} from "./app.js";
+import {Koa} from "koa";
+
+@Configuration({
+  koa: {
+    app: createKoaApp()
+  }
+})
+export class Server {
+  // ...
 }
 ```

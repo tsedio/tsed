@@ -13,7 +13,7 @@ head:
 Ts.ED is a framework for building server-side and scalable applications for Node.js environment. It's built with [TypeScript](http://www.typescriptlang.org/) and uses classes (OOP), decorators and Functional programming
 to develop your application.
 
-It uses [Express.js](https://expressjs.com/) HTTP server frameworks by default, but it's also possible to use [Koa.js](https://koajs.com) or [Serverless](https://www.serverless.com/) as well.
+It uses [Express.js](https://expressjs.com/) HTTP server frameworks by default, but it's also possible to use [Koa.js](https://koajs.com), [Fastify.js](https://fastify.dev) or [Serverless](https://www.serverless.com/) as well.
 
 Ts.ED provides a level of abstraction above these common Node.js frameworks (Express/Koa) with the [Platform API](/docs/platform-api.md)
 but also exposes their APIs directly for the developer. It gives developers the freedom to use the myriad of third-party

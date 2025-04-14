@@ -1,6 +1,6 @@
 # Express.js
 
-## express.bodyParser <Badge text="6.111.0+"/>
+## express.bodyParser
 
 This option let you configure the default bodyParser used by Ts.ED to parse the body request:
 
@@ -16,6 +16,7 @@ This option let you configure the default bodyParser used by Ts.ED to parse the 
     }
   }
 })
+class Server {}
 ```
 
 ## express.router
@@ -29,4 +30,19 @@ express [documentation](http://expressjs.com/en/api.html#express.router).
 
 Object to mount all directories under an endpoint.
 
-[//]: # "<<< @/../packages/platform/platform-express/src/interfaces/PlatformExpressStaticsOptions.ts"
+## Use custom Express app
+
+You can use a custom Express app using the `app` server options:
+
+```typescript
+import {Configuration} from "@tsed/di";
+import "@tsed/platform-express";
+import {createExpressApp} from "./app.js";
+
+@Configuration({
+  express: {
+    app: createExpressApp()
+  }
+})
+export class Server {}
+```

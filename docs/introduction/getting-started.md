@@ -126,12 +126,12 @@ To prevent errors, fix the version for each Ts.ED packages:
 ```json
 {
   "dependencies": {
-    "@tsed/common": "7.53.0",
-    "@tsed/di": "7.53.0",
-    "@tsed/core": "7.53.0",
-    "@tsed/exceptions": "7.53.0",
-    "@tsed/platform-express": "7.53.0",
-    "@tsed/swagger": "7.53.0"
+    "@tsed/platform-http": "8.0.0",
+    "@tsed/di": "8.0.0",
+    "@tsed/core": "8.0.0",
+    "@tsed/exceptions": "8.0.0",
+    "@tsed/platform-express": "8.0.0",
+    "@tsed/swagger": "8.0.0"
   }
 }
 ```
@@ -147,6 +147,7 @@ Alternatively, you can check out one of these projects:
 If none of previous solutions are satisfying maybe you are in these cases:
 
 - [I want to migrate my application from Ts.ED v6](/introduction/migrate-from-v6)
+- [I want to migrate my application from Ts.ED v7](/introduction/migrate-from-v7)
 - [I want to migrate my application from Express.js](/introduction/migrate-from-express)
 
 ## What's next?

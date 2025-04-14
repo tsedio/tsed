@@ -4,15 +4,15 @@ layout: home
 head:
   - - meta
     - name: description
-      content: Ts.ED is a modern Bun.js/Node.js framework built with TypeScript on top of Express.js/Koa.js. It offers a flexible structure with a fast learning curve, specifically designed to improve the developer experience. Ts.ED provides numerous decorators and guidelines to make your code more readable and less error-prone. It supports various platforms and tools, including Node.js/Bun.js, Express.js/Koa.js, CLI, and serverless architectures (e.g., AWS).
+      content: Ts.ED is a modern Bun.js/Node.js framework built with TypeScript on top of Express.js/Koa.js/Fastify.js. It offers a flexible structure with a fast learning curve, specifically designed to improve the developer experience. Ts.ED provides numerous decorators and guidelines to make your code more readable and less error-prone. It supports various platforms and tools, including Node.js/Bun.js, Express.js/Koa.js, CLI, and serverless architectures (e.g., AWS).
   - - meta
     - name: keywords
-      content: ts.ed framework express koa aws cli di rest graphql typescript node.js bun.js javascript native ESM decorators jsonschema class models providers pipes middlewares testing developer
+      content: ts.ed framework express koa fastify aws cli di rest graphql typescript node.js bun.js javascript native ESM decorators jsonschema class models providers pipes middlewares testing developer
 
 hero:
   name: "Ts.ED"
   text: "A modern framework written in TypeScript"
-  tagline: "A flexible framework on top of Express.js/Koa.js with a fast learning curve, designed to enhance the developer experience"
+  tagline: "A flexible framework on top of Express.js/Koa.js/Fastify.js with a fast learning curve, designed to enhance the developer experience"
   actions:
     - theme: brand
       text: What is Ts.ED?
@@ -26,12 +26,12 @@ hero:
 
 testimonial:
   title: "What is Ts.ED?"
-  description: Ts.ED offers a flexible structure with a fast learning curve, specifically designed to improve the developer experience. It provides numerous decorators and guidelines to make your code more readable and less error-prone. Ts.ED supports various platforms and tools, including Node.js/Bun.js, Express.js/Koa.js, CLI, and serverless architectures (e.g., AWS).
+  description: Ts.ED offers a flexible structure with a fast learning curve, specifically designed to improve the developer experience. It provides numerous decorators and guidelines to make your code more readable and less error-prone. Ts.ED supports various platforms and tools, including Node.js/Bun.js, Express.js/Koa.js/Fastify.js, CLI, and serverless architectures (e.g. AWS).
 
 features:
   - title: Multi-platform
     icon: <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-server"><rect width="20" height="8" x="2" y="2" rx="2" ry="2"/><rect width="20" height="8" x="2" y="14" rx="2" ry="2"/><line x1="6" x2="6.01" y1="6" y2="6"/><line x1="6" x2="6.01" y1="18" y2="18"/></svg>
-    details: Easily build your server-side application using Express.js, Koa.js, CLI, or serverless platforms (e.g., AWS). It supports both Node.js and Bun.js runtimes. Learn more <a class="home-link" capabilities" href="/introduction/capabilities.html">about Ts.ED capabilities</a>.
+    details: Easily build your server-side application using Express.js, Koa.js, Fastify.js, CLI, or serverless platforms (e.g., AWS). It supports both Node.js and Bun.js runtimes. Learn more <a class="home-link" href="/introduction/capabilities.html">about Ts.ED capabilities</a>.
   - title: Configuration
     icon: <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-bolt"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><circle cx="12" cy="12" r="4"/></svg>
     details: Stop wasting time on configuration—your application comes preconfigured for a fast start! Try our <a class="home-link" href="/introduction/getting-started.html">CLI</a>.
@@ -63,6 +63,9 @@ frameworks:
   - title: Koa.js
     href: https://koajs.com/
     src: /koa.svg
+  - title: Fastify.js
+    href: https://fastify.dev/
+    src: /fastify.svg
   - title: Jest
     href: https://jestjs.io/
     src: /jest.svg

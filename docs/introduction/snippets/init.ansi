@@ -1,6 +1,7 @@
 [0;32m?[0m Choose the target platform: (Use arrow keys)
 [0;36m❯ Express.js[0m
   Koa.js
+  Fastify.js
 
 [0;32m?[0m Choose the architecture for your project: (Use arrow keys)
 [0;36m❯ Ts.ED[0m

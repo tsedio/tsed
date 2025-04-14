@@ -159,7 +159,6 @@ export class PlatformFastify extends PlatformAdapter<FastifyInstance> {
     const plugins = await this.resolvePlugins();
 
     for (const plugin of plugins) {
-      // console.log("register", (plugin.use as any)[Symbol.for("plugin-meta")].name, plugin.options)
       await rawApp.register(plugin.use as any, plugin.options!);
     }
   }
@@ -330,7 +329,7 @@ export class PlatformFastify extends PlatformAdapter<FastifyInstance> {
 
     return $alter(
       "$afterPlugins",
-      plugins.filter((middleware) => middleware.use).filter((middleware) => middleware.env === env)
+      plugins.filter((plugin) => plugin.use).filter((plugin) => plugin.env === env)
     );
   }
 }
