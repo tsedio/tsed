@@ -264,7 +264,6 @@ export class PlatformBuilder<App = TsED.Application> {
   }
 
   async stop() {
-    await this.callHook("$onDestroy");
     await destroyInjector();
 
     this.#listeners.map(closeServer);

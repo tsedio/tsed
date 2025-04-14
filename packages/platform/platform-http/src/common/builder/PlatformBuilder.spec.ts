@@ -259,7 +259,7 @@ describe("PlatformBuilder", () => {
         expect(server.name).toEqual("custom");
 
         await server.stop();
-        expect($asyncEmit).toHaveBeenCalledWith("$onDestroy", []);
+        expect($asyncEmit).toHaveBeenCalledWith("$onDestroy");
       });
     });
     describe("adapter()", () => {
