@@ -3802,19 +3802,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@koa/router@npm:^12.0.1":
-  version: 12.0.1
-  resolution: "@koa/router@npm:12.0.1"
-  dependencies:
-    debug: "npm:^4.3.4"
-    http-errors: "npm:^2.0.0"
-    koa-compose: "npm:^4.1.0"
-    methods: "npm:^1.1.2"
-    path-to-regexp: "npm:^6.2.1"
-  checksum: 10/f9427c8eb21a2d7c880dae192b7298ecb243af32a8270b5e3e32c4420da157111bc326ab0bc75ff0f17320b9d9ab9df235295fc2d53d8681b5a14103c27ad22d
-  languageName: node
-  linkType: hard
-
 "@koa/router@npm:^13.1.0":
   version: 13.1.0
   resolution: "@koa/router@npm:13.1.0"
@@ -7276,7 +7263,7 @@ __metadata:
     koa-rewrite: "npm:^3.0.1"
     lodash: "npm:4.17.21"
     lowdb: "npm:7.0.1"
-    oidc-provider: "npm:8.5.1"
+    oidc-provider: "npm:8.8.1"
     tslib: "npm:2.7.0"
     typescript: "npm:5.4.5"
     uuid: "npm:^10.0.0"
@@ -15474,7 +15461,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eta@npm:^3.4.0":
+"eta@npm:^3.5.0":
   version: 3.5.0
   resolution: "eta@npm:3.5.0"
   checksum: 10/d3d90609cfd8cb837c9690a203f13a166118ccfe13e9ccb924d4a8251832e4d5fc39fedf9569a186c2e70abe1e15b15326434ea2a17311b1072f52e61229d461
@@ -18075,7 +18062,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"iconv-lite@npm:^0.6.2, iconv-lite@npm:^0.6.3":
+"iconv-lite@npm:0.6.3, iconv-lite@npm:^0.6.2, iconv-lite@npm:^0.6.3":
   version: 0.6.3
   resolution: "iconv-lite@npm:0.6.3"
   dependencies:
@@ -19399,10 +19386,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"jose@npm:^5.6.2":
-  version: 5.9.3
-  resolution: "jose@npm:5.9.3"
-  checksum: 10/9daf5511b8bfa184f1d6c265cdaf0a2b19e46f251d90703c6a5229ba76e5ac5fbd34626f263819569eb69a3f2cd2c37dab3b4fab9604258f468d343a784a9385
+"jose@npm:^5.9.6":
+  version: 5.10.0
+  resolution: "jose@npm:5.10.0"
+  checksum: 10/03881d1dfb390dcf50926402edcfe233bf557b5a77321fcb1bdb53453bc1cdd26d2d0a9ab28c7445cbb826881f84fdf5074179700f10c2711ccb9880f51065d7
   languageName: node
   linkType: hard
 
@@ -19456,6 +19443,15 @@ __metadata:
   bin:
     jsesc: bin/jsesc
   checksum: 10/8e5a7de6b70a8bd71f9cb0b5a7ade6a73ae6ab55e697c74cc997cede97417a3a65ed86c36f7dd6125fe49766e8386c845023d9e213916ca92c9dfdd56e2babf3
+  languageName: node
+  linkType: hard
+
+"jsesc@npm:^3.1.0":
+  version: 3.1.0
+  resolution: "jsesc@npm:3.1.0"
+  bin:
+    jsesc: bin/jsesc
+  checksum: 10/20bd37a142eca5d1794f354db8f1c9aeb54d85e1f5c247b371de05d23a9751ecd7bd3a9c4fc5298ea6fa09a100dafb4190fa5c98c6610b75952c3487f3ce7967
   languageName: node
   linkType: hard
 
@@ -19928,7 +19924,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"koa@npm:2.16.1":
+"koa@npm:2.16.1, koa@npm:^2.15.4":
   version: 2.16.1
   resolution: "koa@npm:2.16.1"
   dependencies:
@@ -19956,37 +19952,6 @@ __metadata:
     type-is: "npm:^1.6.16"
     vary: "npm:^1.1.2"
   checksum: 10/f33b95227e48bffd3a682996e6cf72c4ae2992671529c6c914b76d28172219c9cbd8201b16cc028dc25fafc8f1dc9391a6e7e045740a10ee7d89a5631031a974
-  languageName: node
-  linkType: hard
-
-"koa@npm:^2.15.3":
-  version: 2.15.3
-  resolution: "koa@npm:2.15.3"
-  dependencies:
-    accepts: "npm:^1.3.5"
-    cache-content-type: "npm:^1.0.0"
-    content-disposition: "npm:~0.5.2"
-    content-type: "npm:^1.0.4"
-    cookies: "npm:~0.9.0"
-    debug: "npm:^4.3.2"
-    delegates: "npm:^1.0.0"
-    depd: "npm:^2.0.0"
-    destroy: "npm:^1.0.4"
-    encodeurl: "npm:^1.0.2"
-    escape-html: "npm:^1.0.3"
-    fresh: "npm:~0.5.2"
-    http-assert: "npm:^1.3.0"
-    http-errors: "npm:^1.6.3"
-    is-generator-function: "npm:^1.0.7"
-    koa-compose: "npm:^4.1.0"
-    koa-convert: "npm:^2.0.0"
-    on-finished: "npm:^2.3.0"
-    only: "npm:~0.0.2"
-    parseurl: "npm:^1.3.2"
-    statuses: "npm:^1.5.0"
-    type-is: "npm:^1.6.16"
-    vary: "npm:^1.1.2"
-  checksum: 10/b2c2771a4ee5268f9d039ce025b9c3798a0baba8c3cf3895a6fc2d286363e0cd2c98c02a5b87f14100baa2bc17d854eed6ed80f9bd41afda1d056f803b206514
   languageName: node
   linkType: hard
 
@@ -22447,12 +22412,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"nanoid@npm:^5.0.7":
-  version: 5.0.7
-  resolution: "nanoid@npm:5.0.7"
+"nanoid@npm:^5.0.9":
+  version: 5.1.5
+  resolution: "nanoid@npm:5.1.5"
   bin:
     nanoid: bin/nanoid.js
-  checksum: 10/25ab0b0cf9082ae6747f0f55cec930e6c1cc5975103aa3a5fda44be5720eff57d9b25a8a9850274bfdde8def964b49bf03def71c6aa7ad1cba32787819b79f60
+  checksum: 10/6de2d006b51c983be385ef7ee285f7f2a57bd96f8c0ca881c4111461644bd81fafc2544f8e07cb834ca0f3e0f3f676c1fe78052183f008b0809efe6e273119f5
   languageName: node
   linkType: hard
 
@@ -23359,24 +23324,24 @@ __metadata:
   languageName: node
   linkType: hard
 
-"oidc-provider@npm:8.5.1":
-  version: 8.5.1
-  resolution: "oidc-provider@npm:8.5.1"
+"oidc-provider@npm:8.8.1":
+  version: 8.8.1
+  resolution: "oidc-provider@npm:8.8.1"
   dependencies:
     "@koa/cors": "npm:^5.0.0"
-    "@koa/router": "npm:^12.0.1"
-    debug: "npm:^4.3.5"
-    eta: "npm:^3.4.0"
+    "@koa/router": "npm:^13.1.0"
+    debug: "npm:^4.4.0"
+    eta: "npm:^3.5.0"
     got: "npm:^13.0.0"
-    jose: "npm:^5.6.2"
-    jsesc: "npm:^3.0.2"
-    koa: "npm:^2.15.3"
-    nanoid: "npm:^5.0.7"
+    jose: "npm:^5.9.6"
+    jsesc: "npm:^3.1.0"
+    koa: "npm:^2.15.4"
+    nanoid: "npm:^5.0.9"
     object-hash: "npm:^3.0.0"
     oidc-token-hash: "npm:^5.0.3"
     quick-lru: "npm:^7.0.0"
-    raw-body: "npm:^2.5.2"
-  checksum: 10/e2d12878c72a6f9a4fe802135c9d5b5405634a24cf237c71257fc813c073927ee98aeae8f8bf4b66b3e6fbca1db77ba27eb8a5c5e7c9995c56bcfb39c44551c7
+    raw-body: "npm:^3.0.0"
+  checksum: 10/731b89f19d92d2c1714c112873da8399ddfbceabb8e042f2c360755073b15691494984d3d337ef9a26e0184deee038a2120e3709b2f2dffd3a1d42658f29a360
   languageName: node
   linkType: hard
 
@@ -24219,13 +24184,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"path-to-regexp@npm:^6.2.1":
-  version: 6.2.1
-  resolution: "path-to-regexp@npm:6.2.1"
-  checksum: 10/1e266be712d1a08086ee77beab12a1804842ec635dfed44f9ee1ba960a0e01cec8063fb8c92561115cdc0ce73158cdc7766e353ffa039340b4a85b370084c4d4
-  languageName: node
-  linkType: hard
-
 "path-to-regexp@npm:^6.3.0":
   version: 6.3.0
   resolution: "path-to-regexp@npm:6.3.0"
@@ -25042,7 +25000,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"raw-body@npm:2.5.2, raw-body@npm:^2.5.2":
+"raw-body@npm:2.5.2":
   version: 2.5.2
   resolution: "raw-body@npm:2.5.2"
   dependencies:
@@ -25063,6 +25021,18 @@ __metadata:
     iconv-lite: "npm:0.4.24"
     unpipe: "npm:1.0.0"
   checksum: 10/280bedc12db3490ecd06f740bdcf66093a07535374b51331242382c0e130bb273ebb611b7bc4cba1b4b4e016cc7b1f4b05a6df885a6af39c2bc3b94c02291c84
+  languageName: node
+  linkType: hard
+
+"raw-body@npm:^3.0.0":
+  version: 3.0.0
+  resolution: "raw-body@npm:3.0.0"
+  dependencies:
+    bytes: "npm:3.1.2"
+    http-errors: "npm:2.0.0"
+    iconv-lite: "npm:0.6.3"
+    unpipe: "npm:1.0.0"
+  checksum: 10/2443429bbb2f9ae5c50d3d2a6c342533dfbde6b3173740b70fa0302b30914ff400c6d31a46b3ceacbe7d0925dc07d4413928278b494b04a65736fc17ca33e30c
   languageName: node
   linkType: hard
 

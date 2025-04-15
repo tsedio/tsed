@@ -58,7 +58,7 @@
     "cross-env": "7.0.3",
     "eslint": "9.12.0",
     "lowdb": "7.0.1",
-    "oidc-provider": "8.5.1",
+    "oidc-provider": "8.8.1",
     "typescript": "5.4.5",
     "vitest": "3.1.1"
   },
