@@ -55,7 +55,8 @@ describe("PlatformServerlessHandler", () => {
         }
       } as any,
       context: {} as any,
-      endpoint
+      endpoint,
+      logger: DITest.injector.logger
     } as any);
 
     const handler = service.createHandler(TimeslotsLambdaController, "get");
@@ -83,7 +84,8 @@ describe("PlatformServerlessHandler", () => {
       } as any,
       context: {} as any,
       endpoint,
-      injector: DITest.injector
+      injector: DITest.injector,
+      logger: DITest.injector.logger
     } as any);
 
     const handler = service.createHandler(TimeslotsLambdaController, "throwError");
@@ -110,7 +112,8 @@ describe("PlatformServerlessHandler", () => {
         authorizationToken: ""
       } as APIGatewayTokenAuthorizerEvent,
       context: {} as any,
-      endpoint
+      endpoint,
+      logger: DITest.injector.logger
     } as any);
 
     const handler = service.createHandler(TimeslotsLambdaController, "get");
@@ -132,7 +135,8 @@ describe("PlatformServerlessHandler", () => {
       } as APIGatewayTokenAuthorizerEvent,
       context: {} as any,
       endpoint,
-      injector: DITest.injector
+      injector: DITest.injector,
+      logger: DITest.injector.logger
     } as any);
 
     const handler = service.createHandler(TimeslotsLambdaController, "throwError");

@@ -30,10 +30,11 @@ export class ContextLogger {
     this.#additionalProps = additionalProps;
 
     this.level = (LEVELS[(level || this.#logger.level || "").toUpperCase()] || LEVELS.ALL) as LogLevel;
+
     this.maxStackSize = maxStackSize;
   }
 
-  set level(level: string | LogLevel) {
+  set level(level: "debug" | "info" | "warn" | "error" | "off" | "all" | LogLevel) {
     if (typeof level === "string") {
       this.#level = LEVELS[level.toUpperCase()];
     } else {
@@ -53,7 +54,7 @@ export class ContextLogger {
     return (this.#stack = this.#stack || []);
   }
 
-  alterLog(cb: (data: any, level: "debug" | "info" | "warn" | "error" | "off" | "all", withRequest: boolean) => any) {
+  alterLog(cb: (data: any, level: "debug" | "info" | "warn" | "error" | "all", withRequest: boolean) => any) {
     return this.hooks.on("log", cb);
   }
 
