@@ -76,7 +76,7 @@
     "fastify": "5.2.1",
     "fastify-raw-body": "5.0.0",
     "ts-node": "10.9.2",
-    "vitest": "3.0.9"
+    "vitest": "3.1.1"
   },
   "peerDependencies": {
     "@fastify/accepts": ">=4.3.0",
