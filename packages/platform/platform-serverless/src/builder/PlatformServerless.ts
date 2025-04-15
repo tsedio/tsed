@@ -118,8 +118,7 @@ export class PlatformServerless {
     await this.injector.emit("$onReady");
   }
 
-  public async stop() {
-    await this.injector.emit("$onDestroy");
+  public stop() {
     return this.injector.destroy();
   }
 
