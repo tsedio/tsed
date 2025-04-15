@@ -21,7 +21,7 @@
   "license": "MIT",
   "dependencies": {
     "@hapi/hapi": "^20.0.1",
-    "@nestjs/common": "8.4.3",
+    "@nestjs/common": "10.4.16",
     "@nestjs/core": "9.0.5",
     "@nestjs/platform-express": "8.4.3",
     "@nestjs/platform-fastify": "8.4.3",

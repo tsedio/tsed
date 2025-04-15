@@ -544,6 +544,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@lukeed/csprng@npm:^1.0.0":
+  version: 1.1.0
+  resolution: "@lukeed/csprng@npm:1.1.0"
+  checksum: 10/926f5f7fc629470ca9a8af355bfcd0271d34535f7be3890f69902432bddc3262029bb5dbe9025542cf6c9883d878692eef2815fc2f3ba5b92e9da1f9eba2e51b
+  languageName: node
+  linkType: hard
+
 "@nearform/heap-profiler@npm:^2.0.0":
   version: 2.0.0
   resolution: "@nearform/heap-profiler@npm:2.0.0"
@@ -554,28 +561,27 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@nestjs/common@npm:8.4.3":
-  version: 8.4.3
-  resolution: "@nestjs/common@npm:8.4.3"
+"@nestjs/common@npm:10.4.16":
+  version: 10.4.16
+  resolution: "@nestjs/common@npm:10.4.16"
   dependencies:
-    axios: "npm:0.26.1"
     iterare: "npm:1.2.1"
-    tslib: "npm:2.3.1"
-    uuid: "npm:8.3.2"
+    tslib: "npm:2.8.1"
+    uid: "npm:2.0.2"
   peerDependencies:
-    cache-manager: "*"
     class-transformer: "*"
     class-validator: "*"
-    reflect-metadata: ^0.1.12
+    file-type: ^20.4.1
+    reflect-metadata: ^0.1.12 || ^0.2.0
     rxjs: ^7.1.0
   peerDependenciesMeta:
-    cache-manager:
-      optional: true
     class-transformer:
       optional: true
     class-validator:
       optional: true
-  checksum: 10/d23b6268307b2072c5de9cf5d95647cc74eda6928190993d51a139e0986d5d320e0489ce4ce68ef9c8f9246a3dcdb86ac59a060cf419c15223b099eb06178302
+    file-type:
+      optional: true
+  checksum: 10/af0979def8f3fef575c4be02d54ae44066e985b0a90bc82b6431ecc402ef5aa0ad452f3add4c81752d3c8725cc9f4db49a421689fd79b02fa0bbc96b7e9f0625
   languageName: node
   linkType: hard
 
@@ -744,7 +750,7 @@ __metadata:
   resolution: "@tsed/benchmarks@workspace:."
   dependencies:
     "@hapi/hapi": "npm:^20.0.1"
-    "@nestjs/common": "npm:8.4.3"
+    "@nestjs/common": "npm:10.4.16"
     "@nestjs/core": "npm:9.0.5"
     "@nestjs/platform-express": "npm:8.4.3"
     "@nestjs/platform-fastify": "npm:8.4.3"
@@ -1280,15 +1286,6 @@ __metadata:
   version: 1.11.0
   resolution: "aws4@npm:1.11.0"
   checksum: 10/54886f07b3f9555f7f3ae9fb2aef7abbac302e892263ec4d9901f4502e667bb302a0639672f6bc8453033102ddd2512b79886a7de417dc0c24ecce003a888297
-  languageName: node
-  linkType: hard
-
-"axios@npm:0.26.1":
-  version: 0.26.1
-  resolution: "axios@npm:0.26.1"
-  dependencies:
-    follow-redirects: "npm:^1.14.8"
-  checksum: 10/02863f4a4fd4e43ad6e0c8bc9d1359a0863c43cc57bda42ea21dfce34681e3211df193b2bf2e8ee10b2c3870ab8d6bed38a3cf80cd6e8ee17749b7d73ccd4752
   languageName: node
   linkType: hard
 
@@ -3820,16 +3817,6 @@ __metadata:
   version: 1.0.12
   resolution: "flatstr@npm:1.0.12"
   checksum: 10/2334fec61d9b4e1d8de8ceb33d9a8c64f87073d06d5cb157b04c8835c50f600b10e763a303fa388443ee423f28ed600cfd04cba1e793fe5d7c2d7e13fd912a01
-  languageName: node
-  linkType: hard
-
-"follow-redirects@npm:^1.14.8":
-  version: 1.15.6
-  resolution: "follow-redirects@npm:1.15.6"
-  peerDependenciesMeta:
-    debug:
-      optional: true
-  checksum: 10/70c7612c4cab18e546e36b991bbf8009a1a41cf85354afe04b113d1117569abf760269409cb3eb842d9f7b03d62826687086b081c566ea7b1e6613cf29030bf7
   languageName: node
   linkType: hard
 
@@ -8717,6 +8704,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"tslib@npm:2.8.1":
+  version: 2.8.1
+  resolution: "tslib@npm:2.8.1"
+  checksum: 10/3e2e043d5c2316461cb54e5c7fe02c30ef6dccb3384717ca22ae5c6b5bc95232a6241df19c622d9c73b809bea33b187f6dbc73030963e29950c2141bc32a79f7
+  languageName: node
+  linkType: hard
+
 "tslib@npm:^1.9.0":
   version: 1.14.1
   resolution: "tslib@npm:1.14.1"
@@ -8860,6 +8854,15 @@ __metadata:
   version: 0.0.6
   resolution: "typedarray@npm:0.0.6"
   checksum: 10/2cc1bcf7d8c1237f6a16c04efc06637b2c5f2d74e58e84665445cf87668b85a21ab18dd751fa49eee6ae024b70326635d7b79ad37b1c370ed2fec6aeeeb52714
+  languageName: node
+  linkType: hard
+
+"uid@npm:2.0.2":
+  version: 2.0.2
+  resolution: "uid@npm:2.0.2"
+  dependencies:
+    "@lukeed/csprng": "npm:^1.0.0"
+  checksum: 10/18f6da43d8e1b8643077e8123f877b4506759d9accc15337140a1bf7c99f299a66e88b27ab4c640e66e6a10f19e3a85afa45fdf830dd4bab7570d07a3d51e073
   languageName: node
   linkType: hard
 
