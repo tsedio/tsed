@@ -13,6 +13,7 @@ import {
   PlatformBuilder,
   PlatformContext,
   PlatformHandler,
+  PlatformResponse,
   PlatformStaticsOptions
 } from "@tsed/platform-http";
 import {PlatformHandlerMetadata, PlatformHandlerType, PlatformLayer} from "@tsed/platform-router";
@@ -22,6 +23,7 @@ import Express from "express";
 import {PlatformExpressStaticsOptions} from "../interfaces/PlatformExpressStaticsOptions.js";
 import {staticsMiddleware} from "../middlewares/staticsMiddleware.js";
 import {PlatformExpressHandler} from "../services/PlatformExpressHandler.js";
+import {PlatformExpressResponse} from "../services/PlatformExpressResponse.js";
 
 declare module "express" {
   export interface Request {
@@ -242,5 +244,9 @@ adapter(PlatformExpress, [
   {
     token: PlatformHandler,
     useClass: PlatformExpressHandler
+  },
+  {
+    token: PlatformResponse,
+    useClass: PlatformExpressResponse
   }
 ]);

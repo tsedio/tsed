@@ -22,10 +22,6 @@ export class PlatformFastifyResponse extends PlatformResponse<TsED.Response> {
     this.raw.locals = {};
   }
 
-  // set raw(raw: FastifyReply) {
-  //   this.$ctx.event.response = raw;
-  // }
-
   /**
    * Return the Node.js response object
    */

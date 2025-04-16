@@ -254,6 +254,24 @@ class TestResponseParamsCtrl {
 
     return {id: $ctx?.request.query.id};
   }
+
+  @Get("/scenario21")
+  @Returns(200)
+  testScenario21(): Promise<boolean> {
+    return Promise.resolve(true);
+  }
+
+  @Get("/scenario22")
+  @Returns(200)
+  testScenario22(): Promise<number> {
+    return Promise.resolve(1);
+  }
+
+  @Get("/scenario23")
+  @Returns(200)
+  testScenario23(): Promise<null> {
+    return Promise.resolve(null);
+  }
 }
 
 export function testResponse(options: PlatformTestingSdkOpts) {
@@ -528,6 +546,28 @@ export function testResponse(options: PlatformTestingSdkOpts) {
       const response = await request.get("/rest/response/scenario20?id=id").expect(200);
 
       expect(response.body).toEqual({id: "id"});
+    });
+  });
+
+  describe("Scenario21: should return boolean", () => {
+    it("should return the response (200)", async () => {
+      const response = await request.get("/rest/response/scenario21").expect(200);
+
+      expect(response.body).toEqual(true);
+    });
+  });
+  describe("Scenario22: should return number", () => {
+    it("should return the response (200)", async () => {
+      const response = await request.get("/rest/response/scenario22").expect(200);
+
+      expect(response.body).toEqual(1);
+    });
+  });
+  describe("Scenario23: should return null", () => {
+    it("should return the response (204)", async () => {
+      const response = await request.get("/rest/response/scenario23").expect(204);
+
+      expect(response.body).toEqual({});
     });
   });
 }

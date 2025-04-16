@@ -1,7 +1,7 @@
 import type {Type} from "@tsed/core";
 import {constant, inject, injectable, type TokenProvider} from "@tsed/di";
 
-import {ANY_CONTENT_TYPE} from "../constants/ANY_CONTENT_TYPE.js";
+import {ContentTypes} from "../constants/ContentTypes.js";
 import {ResponseFilterKey, ResponseFiltersContainer} from "../domain/ResponseFiltersContainer.js";
 import type {ResponseFilterMethods} from "../interfaces/ResponseFilterMethods.js";
 
@@ -18,7 +18,7 @@ function factory() {
   return {
     contentTypes: [...containers.keys()],
     resolve(bestContentType: string) {
-      const token = containers.get(bestContentType) || containers.get(ANY_CONTENT_TYPE);
+      const token = containers.get(bestContentType) || containers.get(ContentTypes.ANY);
 
       if (token) {
         return inject<ResponseFilterMethods>(token);

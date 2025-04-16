@@ -1,8 +1,12 @@
-import {isObject, isStream} from "@tsed/core";
+import {isBoolean, isNumber, isObject, isStream} from "@tsed/core";
 import {type BaseContext, inject, injectable} from "@tsed/di";
 
-import {ANY_CONTENT_TYPE} from "../constants/ANY_CONTENT_TYPE.js";
+import {ContentTypes} from "../constants/ContentTypes.js";
 import {PLATFORM_CONTENT_TYPES_CONTAINER} from "./PlatformContentTypesContainer.js";
+
+const isJsonData = (data: unknown) => {
+  return (isObject(data) || isNumber(data) || isBoolean(data)) && !isStream(data) && !Buffer.isBuffer(data);
+};
 
 /**
  * Determine the content type of the response based on the data and the context.
@@ -11,23 +15,14 @@ import {PLATFORM_CONTENT_TYPES_CONTAINER} from "./PlatformContentTypesContainer.
  * @ignore
  */
 export function getContentType(data: unknown, ctx: BaseContext) {
-  const {
-    endpoint,
-    endpoint: {operation},
-    response
-  } = ctx;
+  const {endpoint, response} = ctx;
+  const contentType = response.getContentType() || endpoint.operation.getContentTypeOf(response.statusCode);
 
-  const contentType = response.getContentType() || operation.getContentTypeOf(response.statusCode);
-
-  if (contentType && contentType !== ANY_CONTENT_TYPE) {
-    return contentType === "application/json" && isObject(data) ? "application/json" : contentType;
+  if (contentType && contentType !== ContentTypes.ANY) {
+    return contentType;
   }
 
-  if (endpoint.view) {
-    return "text/html";
-  }
-
-  return isObject(data) && !isStream(data) && !Buffer.isBuffer(data) ? "application/json" : contentType;
+  return endpoint.view ? ContentTypes.HTML : isJsonData(data) ? ContentTypes.JSON : contentType;
 }
 
 /**
@@ -42,7 +37,7 @@ function resolver(data: any, ctx: BaseContext) {
     const bestContentType = ctx.request.accepts([contentType].concat(contentTypes).filter(Boolean));
 
     if (bestContentType) {
-      return [].concat(bestContentType as any).filter((type) => type !== "*/*")[0];
+      return [].concat(bestContentType as any).filter((type) => type !== ContentTypes.ANY)[0];
     }
   }
 

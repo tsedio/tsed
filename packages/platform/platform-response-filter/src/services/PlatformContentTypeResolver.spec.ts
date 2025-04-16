@@ -2,10 +2,11 @@ import {PlatformTest} from "@tsed/platform-http/testing";
 import {EndpointMetadata, Get, Returns, View} from "@tsed/schema";
 import {createReadStream} from "fs";
 
+import {ContentTypes} from "../constants/ContentTypes.js";
 import {PLATFORM_CONTENT_TYPE_RESOLVER} from "./PlatformContentTypeResolver.js";
 import {PLATFORM_CONTENT_TYPES_CONTAINER} from "./PlatformContentTypesContainer.js";
 
-async function getTestFixture(contentTypes = ["application/json", "text/html"]) {
+async function getTestFixture(contentTypes = [ContentTypes.JSON, ContentTypes.HTML]) {
   const contentTypeResolver = await PlatformTest.invoke<PLATFORM_CONTENT_TYPE_RESOLVER>(PLATFORM_CONTENT_TYPE_RESOLVER, [
     {
       token: PLATFORM_CONTENT_TYPES_CONTAINER,
@@ -78,7 +79,7 @@ describe("PlatformContentTypeResolver", () => {
   it("should return the content type (object - application/json)", async () => {
     class TestController {
       @Get("/")
-      @(Returns(200).ContentType("application/json"))
+      @(Returns(200).ContentType(ContentTypes.JSON))
       get() {}
     }
 
@@ -87,11 +88,29 @@ describe("PlatformContentTypeResolver", () => {
     ctx.endpoint = EndpointMetadata.get(TestController, "get");
     ctx.response.getRes().statusCode = 200;
 
-    vi.spyOn(ctx.response, "getContentType").mockReturnValue("application/json");
+    vi.spyOn(ctx.response, "getContentType").mockReturnValue(ContentTypes.JSON);
 
     const result = contentTypeResolver(data, ctx);
 
-    expect(result).toEqual("application/json");
+    expect(result).toEqual(ContentTypes.JSON);
+  });
+  it("should return the content type (object - custom content-type)", async () => {
+    class TestController {
+      @Get("/")
+      @(Returns(200).ContentType("application/vnd.custom+json"))
+      get() {}
+    }
+
+    const {contentTypeResolver, ctx, data} = await getTestFixture();
+
+    ctx.endpoint = EndpointMetadata.get(TestController, "get");
+    ctx.response.getRes().statusCode = 200;
+
+    vi.spyOn(ctx.response, "getContentType").mockReturnValue("application/vnd.custom+json");
+
+    const result = contentTypeResolver(data, ctx);
+
+    expect(result).toEqual("application/vnd.custom+json");
   });
   it("should return the content type (string - application/json)", async () => {
     class TestController {
@@ -110,10 +129,10 @@ describe("PlatformContentTypeResolver", () => {
 
     expect(result).toEqual("application/json");
   });
-  it("should return the content type (string - text/html)", async () => {
+  it("should return the content type (boolean - application/json)", async () => {
     class TestController {
       @Get("/")
-      @(Returns(200).ContentType("text/html"))
+      @Returns(200)
       get() {}
     }
 
@@ -121,11 +140,28 @@ describe("PlatformContentTypeResolver", () => {
 
     ctx.endpoint = EndpointMetadata.get(TestController, "get");
     ctx.response.getRes().statusCode = 200;
-    vi.spyOn(ctx.response, "getContentType").mockReturnValue("text/html");
+    vi.spyOn(ctx.response, "getContentType").mockReturnValue("application/json");
+
+    const result = contentTypeResolver(true, ctx);
+
+    expect(result).toEqual("application/json");
+  });
+  it("should return the content type (string - text/html)", async () => {
+    class TestController {
+      @Get("/")
+      @(Returns(200).ContentType(ContentTypes.HTML))
+      get() {}
+    }
+
+    const {contentTypeResolver, ctx, data} = await getTestFixture();
+
+    ctx.endpoint = EndpointMetadata.get(TestController, "get");
+    ctx.response.getRes().statusCode = 200;
+    vi.spyOn(ctx.response, "getContentType").mockReturnValue(ContentTypes.HTML);
 
     const result = contentTypeResolver(data, ctx);
 
-    expect(result).toEqual("text/html");
+    expect(result).toEqual(ContentTypes.HTML);
   });
   it("should return the content type (string - view)", async () => {
     class TestController {
@@ -143,6 +179,6 @@ describe("PlatformContentTypeResolver", () => {
 
     const result = contentTypeResolver(data, ctx);
 
-    expect(result).toEqual("text/html");
+    expect(result).toEqual(ContentTypes.HTML);
   });
 });
