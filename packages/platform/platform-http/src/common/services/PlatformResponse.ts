@@ -297,6 +297,10 @@ export class PlatformResponse<Res extends Record<string, any> = any> {
     }
 
     if (isBoolean(data) || isNumber(data) || isString(data) || data === null) {
+      if (data === null) {
+        this.status(204);
+      }
+
       this.end(data);
 
       return this;

@@ -207,6 +207,15 @@ describe("PlatformResponse", () => {
       expect(res.data).toEqual("string");
       expect(response.getBody()).toEqual("string");
     });
+    it("should call body with null", () => {
+      const {res, response} = createResponse();
+
+      response.body(null);
+
+      expect(res.data).toEqual(null);
+      expect(response.getBody()).toEqual(null);
+      expect(response.statusCode).toEqual(204);
+    });
     it("should call body with stream", () => {
       const {res, response} = createResponse();
       const stream = createReadStream(rootDir + "/__mock__/data.txt");
