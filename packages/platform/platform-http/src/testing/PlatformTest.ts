@@ -5,6 +5,7 @@ import accepts from "accepts";
 
 import {PlatformBuilder} from "../common/builder/PlatformBuilder.js";
 import {PlatformContext, PlatformContextOptions} from "../common/domain/PlatformContext.js";
+import {adapter} from "../common/index.js";
 import {PlatformAdapter, PlatformBuilderSettings} from "../common/services/PlatformAdapter.js";
 import {PlatformApplication} from "../common/services/PlatformApplication.js";
 import {createInjector} from "../common/utils/createInjector.js";
@@ -59,6 +60,8 @@ export class PlatformTest extends DITest {
       let instance: PlatformBuilder;
       // @ts-ignore
       settings = DITest.configure(settings);
+
+      adapter(settings.adapter || adapter());
 
       const configuration = getConfiguration(settings, mod);
 
