@@ -20,7 +20,10 @@ import {invokeOptions, localsContainer} from "./localsContainer.js";
  * @returns {Function}
  * @decorator
  */
-export function inject<T>(token: TokenProvider<T>, opts?: Partial<Pick<InvokeOptions, "useOpts" | "rebuild" | "locals">>): T {
+export function inject<TokenType>(
+  token: TokenProvider<TokenType>,
+  opts?: Partial<Pick<InvokeOptions, "useOpts" | "rebuild" | "locals">>
+): TokenType {
   return injector().resolve(token, {
     ...opts,
     ...invokeOptions(),

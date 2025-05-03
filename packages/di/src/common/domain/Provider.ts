@@ -202,4 +202,12 @@ export class Provider<T = any> implements ProviderOpts<T> {
       .filter(Boolean)
       .join(":");
   }
+
+  reset() {
+    this.useValue = undefined;
+    this.useFactory = undefined;
+    this.useAsyncFactory = undefined;
+
+    return this;
+  }
 }

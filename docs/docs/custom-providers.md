@@ -44,8 +44,8 @@ class CustomProvider {
 
 ## Register Value
 
-The `useValue` syntax is useful when it comes to either define a constant value, put external library into DI container,
-or replace a real implementation with the mock object.
+The `.value()` syntax is useful when it comes to either defining a constant value, putting an external library into the DI container,
+or replacing a real implementation with the mock object.
 
 ::: code-group
 <<< @/docs/snippets/providers/custom-provider-use-value-declaration.ts [v8]
@@ -86,12 +86,15 @@ class MyService {
 
 ## Register Factory
 
-The `useFactory` is a way of creating providers dynamically.
+The `.factory()` is a way of creating providers dynamically.
 The actual provider will be equal to a returned value of the factory function.
 The factory function can either depend on several different providers or stay completely independent.
 It means that factory may accept arguments, that DI will resolve and pass during the instantiation process.
 
-<<< @/docs/snippets/providers/custom-provider-use-factory-declaration.ts
+::: code-group
+<<< @/docs/snippets/providers/custom-provider-use-factory-declaration.ts [v8]
+<<< @/docs/snippets/providers/v7/custom-provider-use-factory-declaration.ts [Legacy]
+:::
 
 In order to inject a custom provider, we use the @@Inject@@ decorator. This decorator takes a single argument - the
 token.
@@ -103,7 +106,7 @@ token.
 
 ## Register Async Factory
 
-The `useAsyncFactory` is a way of creating asynchronous providers dynamically.
+The `.asyncFactory()` is a way of creating asynchronous providers dynamically.
 The actual provider will be equal to a returned value of the factory function.
 The factory function can either depend on several different providers or stay completely independent.
 It means that factory may accept arguments, that DI will resolve and pass during the instantiation process.
@@ -134,7 +137,7 @@ This means:
 
 ## Register Class
 
-The `useClass` syntax is similar to register provider via decorator. But it allows you to use different classes per
+The `.class()` syntax is similar to register provider via decorator. But it allows you to use different classes per
 chosen factors.
 For example, you can change the class depending on the environment profile `production` or `development`.
 

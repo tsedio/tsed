@@ -17,6 +17,7 @@ export class DevConfigService implements ConfigService {
   }
 }
 
-export const ConfigService = injectable<ConfigService>(Symbol.for("ConfigService"))
+export const ConfigService = injectable(Symbol.for("ConfigService"))
   .class(process.env.NODE_ENV === EnvTypes.PROD ? ProdConfigService : DevConfigService)
   .token();
+

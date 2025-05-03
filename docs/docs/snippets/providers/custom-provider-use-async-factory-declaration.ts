@@ -25,3 +25,4 @@ export const CONNECTION = injectable<DatabaseConnection>(Symbol.for("CONNECTION"
     }
   })
   .token();
+export type CONNECTION = typeof CONNECTION;

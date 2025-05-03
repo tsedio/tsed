@@ -14,8 +14,8 @@ import {PLATFORM_CONTENT_TYPES_CONTAINER} from "./PlatformContentTypesContainer.
  */
 export class PlatformResponseFilter {
   protected additionalProperties = constant<boolean>("additionalProperties");
-  protected container = inject<PLATFORM_CONTENT_TYPES_CONTAINER>(PLATFORM_CONTENT_TYPES_CONTAINER);
-  protected contentTypeResolver = inject<PLATFORM_CONTENT_TYPE_RESOLVER>(PLATFORM_CONTENT_TYPE_RESOLVER);
+  protected container = inject(PLATFORM_CONTENT_TYPES_CONTAINER);
+  protected contentTypeResolver = inject(PLATFORM_CONTENT_TYPE_RESOLVER);
 
   /**
    * Transform the data to the right format.

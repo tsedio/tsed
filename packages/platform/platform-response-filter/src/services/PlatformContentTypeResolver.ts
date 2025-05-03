@@ -1,5 +1,5 @@
 import {isBoolean, isNumber, isObject, isStream} from "@tsed/core";
-import {type BaseContext, inject, injectable} from "@tsed/di";
+import {type BaseContext, type FactoryTokenProvider, inject, injectable} from "@tsed/di";
 
 import {ContentTypes} from "../constants/ContentTypes.js";
 import {PLATFORM_CONTENT_TYPES_CONTAINER} from "./PlatformContentTypesContainer.js";
@@ -28,26 +28,22 @@ export function getContentType(data: unknown, ctx: BaseContext) {
 /**
  * @ignore
  */
-function resolver(data: any, ctx: BaseContext) {
-  const contentType = getContentType(data, ctx);
-
-  if (ctx.request.get("Accept")) {
-    const {contentTypes} = inject<PLATFORM_CONTENT_TYPES_CONTAINER>(PLATFORM_CONTENT_TYPES_CONTAINER);
-
-    const bestContentType = ctx.request.accepts([contentType].concat(contentTypes).filter(Boolean));
-
-    if (bestContentType) {
-      return [].concat(bestContentType as any).filter((type) => type !== ContentTypes.ANY)[0];
-    }
-  }
-
-  return contentType;
-}
-
-/**
- * @ignore
- */
-export type PLATFORM_CONTENT_TYPE_RESOLVER = typeof resolver;
 export const PLATFORM_CONTENT_TYPE_RESOLVER = injectable(Symbol.for("PLATFORM_CONTENT_TYPE_RESOLVER"))
-  .factory(() => resolver)
+  .factory(() => (data: any, ctx: BaseContext): string => {
+    const contentType = getContentType(data, ctx);
+
+    if (ctx.request.get("Accept")) {
+      const {contentTypes} = inject(PLATFORM_CONTENT_TYPES_CONTAINER);
+
+      const bestContentType = ctx.request.accepts([contentType].concat(contentTypes).filter(Boolean));
+
+      if (bestContentType) {
+        return [].concat(bestContentType as any).filter((type) => type !== ContentTypes.ANY)[0];
+      }
+    }
+
+    return contentType;
+  })
   .token();
+
+export type PLATFORM_CONTENT_TYPE_RESOLVER = typeof PLATFORM_CONTENT_TYPE_RESOLVER;

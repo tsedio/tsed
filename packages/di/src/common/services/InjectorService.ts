@@ -469,7 +469,7 @@ export class InjectorService extends Container {
             provider.useFactory = undefined;
 
             if ("useClass" in props) {
-              provider.useClass = props.useClass;
+              provider.useClass = props.useClass as TokenProvider;
               return;
             }
 
@@ -484,7 +484,7 @@ export class InjectorService extends Container {
             }
 
             if ("use" in props) {
-              provider.useValue = props.use;
+              provider.useValue = props.use as unknown;
               return;
             }
           }

@@ -63,9 +63,9 @@ export class DITest {
   static async invoke<T = any>(target: TokenProvider<T>, providers: UseImportTokenProviderOpts[] = []): Promise<T> {
     const locals = localsContainer({providers, rebuild: true});
 
-    const instance: T & OnInit = inject<T & OnInit>(target, {locals, rebuild: true});
+    const instance: T & Partial<OnInit> = inject(target as any, {locals, rebuild: true});
 
-    if (instance && isObject(instance) && "$onInit" in instance) {
+    if (instance && isObject(instance) && instance?.$onInit) {
       const result = instance.$onInit();
 
       if (result instanceof Promise) {

@@ -14,7 +14,7 @@ describe("LazyInject", () => {
       lazy: Promise<MyLazyModule>;
     }
 
-    const service = inject<MyInjectable>(MyInjectable);
+    const service = inject(MyInjectable);
     const nbProviders = injector().getProviders().length;
 
     const lazyService = await service.lazy;
