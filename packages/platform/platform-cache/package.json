@@ -2,7 +2,7 @@
   "name": "@tsed/platform-cache",
   "description": "Platform cache module for Ts.ED Framework",
   "type": "commonjs",
-  "version": "7.86.2",
+  "version": "7.86.3",
   "source": "./src/index.ts",
   "main": "./lib/cjs/index.js",
   "module": "./lib/esm/index.js",

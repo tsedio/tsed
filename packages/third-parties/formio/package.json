@@ -2,7 +2,7 @@
   "name": "@tsed/formio",
   "description": "Formio package for Ts.ED framework",
   "type": "commonjs",
-  "version": "7.86.2",
+  "version": "7.86.3",
   "keywords": [
     "Formio",
     "Ts.ED",
