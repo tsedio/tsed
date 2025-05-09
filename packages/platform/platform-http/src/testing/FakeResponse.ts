@@ -1,4 +1,5 @@
 import {EventEmitter} from "node:events";
+import cookie from "cookie";
 
 export class FakeResponse extends EventEmitter {
   headers: Record<string, unknown> = {};
@@ -12,6 +13,20 @@ export class FakeResponse extends EventEmitter {
     Object.assign(this, opts);
   }
 
+  append(field: string, val: string | string[]) {
+    const prev = this.get(field);
+    let value = val;
+
+    if (prev) {
+      // concat the new and prev vals
+      value = Array.isArray(prev) ? prev.concat(val)
+        : Array.isArray(val) ? [prev].concat(val)
+          : [prev, val]
+    }
+
+    return this.set(field, value);
+  }
+
   status(code: number) {
     this.statusCode = code;
     return this;
@@ -23,6 +38,37 @@ export class FakeResponse extends EventEmitter {
 
   contentLength(content: number) {
     this.set("content-length", content);
+  }
+
+  cookie(name: string, value: string, options?: TsED.SetCookieOpts) {
+    const opts = { ...options };
+    
+    const val = typeof value === 'object'
+      ? 'j:' + JSON.stringify(value)
+      : String(value);
+
+    if (opts.maxAge != null) {
+      const maxAge = opts.maxAge - 0
+
+      if (!isNaN(maxAge)) {
+        opts.expires = new Date(Date.now() + maxAge)
+        opts.maxAge = Math.floor(maxAge / 1000)
+      }
+    }
+
+    if (opts.path == null) {
+      opts.path = '/';
+    }
+
+    this.append('Set-Cookie', cookie.serialize(name, String(val), opts));
+
+    return this;
+  }
+
+  clearCookie(name: string, options?: TsED.SetCookieOpts) {
+    const opts = { path: "/", ...options, expires: new Date(1) };
+    delete opts.maxAge
+    return this.cookie(name, "", opts);
   }
 
   redirect(status: number, path: string) {

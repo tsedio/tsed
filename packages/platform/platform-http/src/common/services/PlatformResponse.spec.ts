@@ -350,5 +350,15 @@ describe("PlatformResponse", () => {
         "x-request-id": "id"
       });
     });
+
+    it("should clear cookie", () => {
+      const {res, response} = createResponse();
+
+      response.cookie("token", null, { maxAge: 0, path: "/", httpOnly: true, secure: true, sameSite: "none" });
+      expect(res.headers).toEqual({
+        "set-cookie": "token=; Path=/; Expires=Thu, 01 Jan 1970 00:00:00 GMT; HttpOnly; Secure; SameSite=None",
+        "x-request-id": "id"
+      });
+    });
   });
 });
