@@ -343,7 +343,7 @@ export class PlatformResponse<Res extends Record<string, any> = any> {
 
   cookie(name: string, value: string | null, opts?: TsED.SetCookieOpts) {
     if (value === null) {
-      this.raw.clearCookie(name);
+      this.raw.clearCookie(name, opts);
       return this;
     }
 
