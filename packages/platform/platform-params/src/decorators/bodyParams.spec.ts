@@ -295,27 +295,6 @@ describe("@BodyParams", () => {
         }
       ]
     });
-
-    // const param = JsonParameterStore.get(MyCtrl, "test", 0);
-    //
-    // const entity = getJsonEntityStore(param);
-    //
-    // console.log(entity._type, entity.schema);
-    //
-    // const schema = getJsonSchema(param);
-    //
-    // expect(schema).toEqual({
-    //   "properties": {
-    //     "name": {
-    //       "minLength": 1,
-    //       "type": "string"
-    //     }
-    //   },
-    //   "required": [
-    //     "name"
-    //   ],
-    //   "type": "object"
-    // });
   });
   it("should generate the correct spec for BodyParams from given type (TestModel)", () => {
     class TestModel {

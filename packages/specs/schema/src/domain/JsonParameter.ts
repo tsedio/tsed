@@ -58,9 +58,12 @@ export class JsonParameter extends JsonMap<OS3Parameter<JsonSchema>> implements 
     return this;
   }
 
-  schema(schema?: JsonSchema): JsonSchema {
+  public schema(): JsonSchema;
+  public schema(schema: JsonSchema): this;
+  public schema(schema?: JsonSchema): JsonSchema | this {
     if (schema) {
       this.$schema = schema;
+      return this;
     }
 
     return this.$schema;
@@ -73,7 +76,9 @@ export class JsonParameter extends JsonMap<OS3Parameter<JsonSchema>> implements 
       return this.$schema.itemSchema();
     }
 
-    return this.schema(schema);
+    schema && this.schema(schema);
+    // non-collection: delegate to main schema would
+    return this.schema();
   }
 
   toJSON(options?: JsonSchemaOptions) {
