@@ -1,0 +1,105 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`@BodyParams > should generate the correct spec for BodyParams from given arg 1`] = `
+{
+  "components": {
+    "schemas": {
+      "TestModel": {
+        "properties": {
+          "name": {
+            "minLength": 1,
+            "type": "string",
+          },
+        },
+        "required": [
+          "name",
+        ],
+        "type": "object",
+      },
+    },
+  },
+  "paths": {
+    "/": {
+      "post": {
+        "operationId": "myCtrlTest",
+        "parameters": [],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/TestModel",
+              },
+            },
+          },
+          "required": false,
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+          },
+        },
+        "tags": [
+          "MyCtrl",
+        ],
+      },
+    },
+  },
+  "tags": [
+    {
+      "name": "MyCtrl",
+    },
+  ],
+}
+`;
+
+exports[`@BodyParams > should generate the correct spec for BodyParams from metadata 1`] = `
+{
+  "components": {
+    "schemas": {
+      "TestModel": {
+        "properties": {
+          "name": {
+            "minLength": 1,
+            "type": "string",
+          },
+        },
+        "required": [
+          "name",
+        ],
+        "type": "object",
+      },
+    },
+  },
+  "paths": {
+    "/": {
+      "post": {
+        "operationId": "myCtrlTest",
+        "parameters": [],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/TestModel",
+              },
+            },
+          },
+          "required": false,
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+          },
+        },
+        "tags": [
+          "MyCtrl",
+        ],
+      },
+    },
+  },
+  "tags": [
+    {
+      "name": "MyCtrl",
+    },
+  ],
+}
+`;

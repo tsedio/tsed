@@ -1,10 +1,9 @@
-import {ancestorsOf, DecoratorTypes, isClass, isCollection, isMethodDescriptor, Metadata, prototypeOf, Type} from "@tsed/core";
+import {ancestorsOf, DecoratorTypes, isClass, isMethodDescriptor, Metadata, prototypeOf, Type} from "@tsed/core";
 
 import {JsonEntityComponent} from "../decorators/config/jsonEntityComponent.js";
 import {JsonEntityStore, JsonEntityStoreOptions} from "./JsonEntityStore.js";
 import type {JsonMethodStore} from "./JsonMethodStore.js";
 import {JsonParameter} from "./JsonParameter.js";
-import {JsonSchema} from "./JsonSchema.js";
 
 export interface JsonParameterStoreOptions extends JsonEntityStoreOptions {
   dataPath?: string;
@@ -63,6 +62,10 @@ export class JsonParameterStore extends JsonEntityStore {
     return this.schema.$allow;
   }
 
+  get schema() {
+    return this.parameter.$schema;
+  }
+
   static getParams<T extends JsonParameterStore = JsonParameterStore>(target: Type<any>, propertyKey: string | symbol): T[] {
     const params: T[] = [];
 
@@ -96,16 +99,6 @@ export class JsonParameterStore extends JsonEntityStore {
     return this.required && [undefined, null, ""].includes(value) && !this.allowedRequiredValues.includes(value);
   }
 
-  protected getSchema(type: any) {
-    if (isCollection(type) || !isClass(type)) {
-      return JsonSchema.from({
-        type
-      });
-    }
-
-    return JsonEntityStore.from(type).schema;
-  }
-
   protected build() {
     if (!this._type) {
       const type: any = Metadata.getParamTypes(prototypeOf(this.target), this.propertyKey)[this.index!];
@@ -114,19 +107,17 @@ export class JsonParameterStore extends JsonEntityStore {
     }
 
     this._type = this._type || Object;
+    this.parent.children.set(this.index!, this);
+    this.parent.operation.addParameter(this.index as number, this.parameter);
 
-    if (!this._schema) {
-      this.parent.children.set(this.index!, this);
+    if (this.collectionType) {
+      this.parameter.schema().type(this.collectionType);
+    }
 
-      this._schema = this.getSchema(this.collectionType || this.type);
-
-      this.parameter.schema(this._schema);
-
-      if (this.collectionType) {
-        this._schema.itemSchema(this.getSchema(this.type));
-      }
-
-      this.parent.operation.addParameter(this.index as number, this.parameter);
+    if (isClass(this._type)) {
+      this.parameter.itemSchema(JsonEntityStore.from(this._type).schema);
+    } else {
+      this.parameter.itemSchema().type(this._type);
     }
   }
 }

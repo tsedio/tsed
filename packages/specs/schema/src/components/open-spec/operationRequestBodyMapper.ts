@@ -68,9 +68,11 @@ function buildSchemaFromBodyParameters(parameters: JsonParameter[], options: Jso
 }
 
 export function operationRequestBodyMapper(bodyParameters: JsonParameter[], {consumes, ...options}: JsonSchemaOptions) {
-  const {schema, examples, in: _, ...props} = buildSchemaFromBodyParameters(bodyParameters, options);
+  const {schema, description, examples, in: _, ...props} = buildSchemaFromBodyParameters(bodyParameters, options);
 
   const requestBody = new JsonRequestBody(props);
+
+  description && requestBody.description(description);
 
   consumes.forEach((consume: string) => {
     requestBody.addContent(consume, schema, examples);

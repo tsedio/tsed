@@ -80,6 +80,11 @@ class Param2Type {
   value2!: string;
 }
 
+export class TestModel {
+  @Required()
+  name: string;
+}
+
 @Controller("/body-params")
 class TestBodyParamsCtrl {
   @Post("/scenario-1")
@@ -157,6 +162,12 @@ class TestBodyParamsCtrl {
   @Consumes("application/x-www-form-urlencoded")
   testScenario11(@Required() @BodyParams("client_id") client_id: string) {
     return {client_id};
+  }
+
+  @Post("/scenario-12")
+  @Description("Test payload given to BodyParams with any type to emulate metadata less behavior")
+  testScenario12(@BodyParams(TestModel) payload: any) {
+    return {payload};
   }
 }
 
@@ -483,6 +494,32 @@ export function testBodyParams(options: PlatformTestingSdkOpts) {
         .set("Content-Type", "application/x-www-form-urlencoded")
         .send("client_id=id&grant_type=grant")
         .expect(200);
+    });
+  });
+
+  describe("Scenario12: validate payload with any type", () => {
+    it("should throw a Bad Request if the payload is invalid", async () => {
+      const response = await request.post("/rest/body-params/scenario-12").send({}).expect(400);
+
+      expect(response.body).toEqual({
+        errors: [
+          {
+            dataPath: ".name",
+            instancePath: "",
+            keyword: "required",
+            message: "must have required property 'name'",
+            modelName: "TestModel",
+            params: {
+              missingProperty: "name"
+            },
+            requestPath: "body",
+            schemaPath: "#/required"
+          }
+        ],
+        message: 'Bad request on parameter "request.body".\nTestModel must have required property \'name\'. Given value: "undefined"',
+        name: "AJV_VALIDATION_ERROR",
+        status: 400
+      });
     });
   });
 }

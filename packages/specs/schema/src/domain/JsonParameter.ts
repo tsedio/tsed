@@ -14,7 +14,7 @@ export class JsonParameter extends JsonMap<OS3Parameter<JsonSchema>> implements 
   nestedGenerics: Type<any>[][] = [];
   groups: string[];
   groupsName: string;
-  $schema: JsonSchema;
+  $schema: JsonSchema = new JsonSchema();
   expression: string;
 
   getName() {
@@ -58,10 +58,22 @@ export class JsonParameter extends JsonMap<OS3Parameter<JsonSchema>> implements 
     return this;
   }
 
-  schema(schema: JsonSchema): this {
-    this.$schema = schema;
+  schema(schema?: JsonSchema): JsonSchema {
+    if (schema) {
+      this.$schema = schema;
+    }
 
-    return this;
+    return this.$schema;
+  }
+
+  itemSchema(schema?: JsonSchema) {
+    if (this.$schema.isCollection) {
+      schema && this.$schema.itemSchema(schema);
+
+      return this.$schema.itemSchema();
+    }
+
+    return this.schema(schema);
   }
 
   toJSON(options?: JsonSchemaOptions) {
