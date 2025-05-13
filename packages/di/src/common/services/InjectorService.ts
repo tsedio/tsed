@@ -258,7 +258,7 @@ export class InjectorService extends Container {
 
     await $asyncEmit("$beforeInit");
 
-    this.bootstrap(container);
+    await this.bootstrap(container);
 
     // build async and sync provider
     await this.loadAsync();
@@ -273,7 +273,7 @@ export class InjectorService extends Container {
    * Load all configurations registered on providers via @Configuration decorator.
    * It inspects for each provider some fields like imports, mount, etc. to resolve the configuration.
    */
-  resolveConfiguration() {
+  async resolveConfiguration() {
     if (this.resolvedConfiguration) {
       return;
     }
@@ -293,6 +293,8 @@ export class InjectorService extends Container {
     mergedConfiguration.forEach((value, key) => {
       this.settings.set(key, deepMerge(value, this.settings.get(key)));
     });
+
+    await $asyncEmit("$afterResolveConfiguration", this.settings);
 
     this.resolvedConfiguration = true;
   }
@@ -345,12 +347,12 @@ export class InjectorService extends Container {
    *
    * @param container
    */
-  protected bootstrap(container: Container = createContainer()) {
+  protected async bootstrap(container: Container = createContainer()) {
     // Clone all providers in the container
     this.addProviders(container);
 
     // Resolve all configuration
-    this.resolveConfiguration();
+    await this.resolveConfiguration();
 
     // allow mocking or changing provider instance before loading injector
     this.resolveImportsProviders();
