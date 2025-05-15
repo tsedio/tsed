@@ -1,0 +1,95 @@
+{
+  "name": "@tsed/config",
+  "description": "Configuration management for Ts.ED",
+  "type": "module",
+  "version": "8.8.4",
+  "keywords": [
+    "Ts.ED",
+    "Configuration",
+    "Config"
+  ],
+  "source": "./src/index.ts",
+  "main": "./lib/esm/index.js",
+  "module": "./lib/esm/index.js",
+  "typings": "./lib/types/index.d.ts",
+  "exports": {
+    ".": {
+      "tsed-source": "./src/index.ts",
+      "types": "./lib/types/index.d.ts",
+      "import": "./lib/esm/index.js",
+      "default": "./lib/esm/index.js"
+    },
+    "./dotenv": {
+      "tsed-source": "./src/providers/dotenv/index.ts",
+      "types": "./lib/types/providers/dotenv/index.d.ts",
+      "import": "./lib/esm/providers/dotenv/index.js",
+      "default": "./lib/esm/providers/dotenv/index.js"
+    },
+    "./envs": {
+      "tsed-source": "./src/providers/envs/index.ts",
+      "types": "./lib/types/providers/envs/index.d.ts",
+      "import": "./lib/esm/providers/envs/index.js",
+      "default": "./lib/esm/providers/envs/index.js"
+    },
+    "./json": {
+      "tsed-source": "./src/providers/json/index.ts",
+      "types": "./lib/types/providers/json/index.d.ts",
+      "import": "./lib/esm/providers/json/index.js",
+      "default": "./lib/esm/providers/json/index.js"
+    }
+  },
+  "scripts": {
+    "build": "yarn barrels && yarn build:ts",
+    "barrels": "barrels",
+    "test": "vitest run",
+    "build:ts": "tsc --build tsconfig.esm.json",
+    "test:ci": "vitest run --coverage.thresholds.autoUpdate=true"
+  },
+  "dependencies": {
+    "change-case": "5.4.4",
+    "tslib": "2.7.0"
+  },
+  "devDependencies": {
+    "@tsed/ajv": "workspace:*",
+    "@tsed/barrels": "workspace:*",
+    "@tsed/core": "workspace:*",
+    "@tsed/di": "workspace:*",
+    "@tsed/typescript": "workspace:*",
+    "@types/js-yaml": "4.0.9",
+    "dotenv": "^16.5.0",
+    "dotenv-expand": "^12.0.2",
+    "dotenv-flow": "^4.1.0",
+    "eslint": "9.12.0",
+    "typescript": "5.4.5",
+    "vitest": "3.1.1"
+  },
+  "peerDependencies": {
+    "@tsed/core": "workspace:*",
+    "@tsed/di": "workspace:*",
+    "dotenv": "^16.5.0",
+    "dotenv-expand": "^12.0.2",
+    "dotenv-flow": "^4.1.0",
+    "globby": "^14.1.0",
+    "js-yaml": "^4.1.0"
+  },
+  "peerDependenciesMeta": {
+    "@tsed/core": {
+      "optional": false
+    },
+    "@tsed/di": {
+      "optional": false
+    },
+    "dotenv": {
+      "optional": true
+    },
+    "dotenv-expand": {
+      "optional": true
+    },
+    "dotenv-flow": {
+      "optional": true
+    },
+    "js-yaml": {
+      "optional": true
+    }
+  }
+}

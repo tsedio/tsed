@@ -6,6 +6,7 @@
     "paths": {
       "@tsed/core": ["./packages/core/src/index.ts"],
       "@tsed/core/*": ["./packages/core/src/*"],
+      "@tsed/config": ["./packages/config/src/index.ts"],
       "@tsed/engines": ["./packages/engines/src/index.ts"],
       "@tsed/perf": ["./packages/perf/src/index.ts"],
       "@tsed/hooks": ["./packages/hooks/src/index.ts"],

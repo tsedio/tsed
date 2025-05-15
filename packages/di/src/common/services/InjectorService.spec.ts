@@ -554,7 +554,7 @@ describe("InjectorService", () => {
     });
   });
   describe("resolveConfiguration()", () => {
-    it("should load configuration from each providers", () => {
+    it("should getAll configuration from each providers", () => {
       // GIVEN
 
       injector().settings.set({
@@ -586,7 +586,7 @@ describe("InjectorService", () => {
 
       // WHEN
       injector().resolveConfiguration();
-      // should load only once the configuration
+      // should getAll only once the configuration
       injector().resolveConfiguration();
 
       // THEN
@@ -597,7 +597,7 @@ describe("InjectorService", () => {
         value: "singleton"
       });
     });
-    it("should load configuration from each providers (with resolvers)", () => {
+    it("should getAll configuration from each providers (with resolvers)", () => {
       // GIVEN
 
       injector().add(Symbol.for("TOKEN1"), {
@@ -688,7 +688,7 @@ describe("InjectorService", () => {
     });
   });
   describe("imports", () => {
-    it("should load all provider and override by configuration a provider (use)", async () => {
+    it("should getAll all provider and override by configuration a provider (use)", async () => {
       @Injectable()
       class TestService {
         get() {
@@ -710,7 +710,7 @@ describe("InjectorService", () => {
       const result = injector().get<TestService>(TestService)!.get();
       expect(result).toEqual("world");
     });
-    it("should load all provider and override by configuration a provider (useClass)", async () => {
+    it("should getAll all provider and override by configuration a provider (useClass)", async () => {
       @Injectable()
       class TestService {
         get() {
@@ -737,7 +737,7 @@ describe("InjectorService", () => {
       const result = injector().get<TestService>(TestService)!.get();
       expect(result).toEqual("fs");
     });
-    it("should load all provider and override by configuration a provider (useFactory)", async () => {
+    it("should getAll all provider and override by configuration a provider (useFactory)", async () => {
       @Injectable()
       class TestService {
         get() {

@@ -14,6 +14,7 @@ export interface AjvValidateOptions extends Record<string, any> {
   schema?: JsonSchema | Partial<JsonSchemaObject>;
   type?: Type<any> | any;
   collectionType?: Type<any> | any;
+  returnsCoercedValues?: boolean;
 }
 
 export class AjvService {
@@ -23,7 +24,13 @@ export class AjvService {
   protected ajv = inject(Ajv);
 
   async validate(value: any, options: AjvValidateOptions | JsonSchema): Promise<any> {
-    let {schema: defaultSchema, type, collectionType, ...additionalOptions} = this.mapOptions(options);
+    let {
+      schema: defaultSchema,
+      type,
+      collectionType,
+      returnsCoercedValues = this.returnsCoercedValues,
+      ...additionalOptions
+    } = this.mapOptions(options);
 
     const schema = defaultSchema || getJsonSchema(type, {...additionalOptions, customKeys: true});
 
@@ -43,7 +50,7 @@ export class AjvService {
         });
       }
 
-      if (this.returnsCoercedValues) {
+      if (returnsCoercedValues) {
         return localValue;
       }
     }

@@ -6842,6 +6842,48 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@tsed/config@workspace:packages/config":
+  version: 0.0.0-use.local
+  resolution: "@tsed/config@workspace:packages/config"
+  dependencies:
+    "@tsed/ajv": "workspace:*"
+    "@tsed/barrels": "workspace:*"
+    "@tsed/core": "workspace:*"
+    "@tsed/di": "workspace:*"
+    "@tsed/typescript": "workspace:*"
+    "@types/js-yaml": "npm:4.0.9"
+    change-case: "npm:5.4.4"
+    dotenv: "npm:^16.5.0"
+    dotenv-expand: "npm:^12.0.2"
+    dotenv-flow: "npm:^4.1.0"
+    eslint: "npm:9.12.0"
+    tslib: "npm:2.7.0"
+    typescript: "npm:5.4.5"
+    vitest: "npm:3.1.1"
+  peerDependencies:
+    "@tsed/core": "workspace:*"
+    "@tsed/di": "workspace:*"
+    dotenv: ^16.5.0
+    dotenv-expand: ^12.0.2
+    dotenv-flow: ^4.1.0
+    globby: ^14.1.0
+    js-yaml: ^4.1.0
+  peerDependenciesMeta:
+    "@tsed/core":
+      optional: false
+    "@tsed/di":
+      optional: false
+    dotenv:
+      optional: true
+    dotenv-expand:
+      optional: true
+    dotenv-flow:
+      optional: true
+    js-yaml:
+      optional: true
+  languageName: unknown
+  linkType: soft
+
 "@tsed/core@workspace:*, @tsed/core@workspace:packages/core":
   version: 0.0.0-use.local
   resolution: "@tsed/core@workspace:packages/core"
@@ -8287,7 +8329,7 @@ __metadata:
     "@types/supertest": "npm:6.0.2"
     "@typescript-eslint/eslint-plugin": "npm:8.8.0"
     "@typescript-eslint/parser": "npm:8.22.0"
-    "@vitest/coverage-v8": "npm:^3.0.9"
+    "@vitest/coverage-v8": "npm:3.1.1"
     ajv: "npm:8.17.1"
     axios: "npm:1.7.7"
     change-case: "npm:5.4.4"
@@ -9200,6 +9242,13 @@ __metadata:
     "@types/node": "npm:*"
     ioredis: "npm:>=5"
   checksum: 10/c32a20e02f8c777780b8663ba83bc7be4a5098fe44c390dd28cb69c9b60fc6dcfa1cbc7e5f8dca3579e85b3be1a08b5b8201a5a2d6d1195e5e5840b13538caab
+  languageName: node
+  linkType: hard
+
+"@types/js-yaml@npm:4.0.9":
+  version: 4.0.9
+  resolution: "@types/js-yaml@npm:4.0.9"
+  checksum: 10/a0ce595db8a987904badd21fc50f9f444cb73069f4b95a76cc222e0a17b3ff180669059c763ec314bc4c3ce284379177a9da80e83c5f650c6c1310cafbfaa8e6
   languageName: node
   linkType: hard
 
@@ -10124,9 +10173,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@vitest/coverage-v8@npm:^3.0.9":
-  version: 3.0.9
-  resolution: "@vitest/coverage-v8@npm:3.0.9"
+"@vitest/coverage-v8@npm:3.1.1":
+  version: 3.1.1
+  resolution: "@vitest/coverage-v8@npm:3.1.1"
   dependencies:
     "@ampproject/remapping": "npm:^2.3.0"
     "@bcoe/v8-coverage": "npm:^1.0.2"
@@ -10137,16 +10186,16 @@ __metadata:
     istanbul-reports: "npm:^3.1.7"
     magic-string: "npm:^0.30.17"
     magicast: "npm:^0.3.5"
-    std-env: "npm:^3.8.0"
+    std-env: "npm:^3.8.1"
     test-exclude: "npm:^7.0.1"
     tinyrainbow: "npm:^2.0.0"
   peerDependencies:
-    "@vitest/browser": 3.0.9
-    vitest: 3.0.9
+    "@vitest/browser": 3.1.1
+    vitest: 3.1.1
   peerDependenciesMeta:
     "@vitest/browser":
       optional: true
-  checksum: 10/7eea1ffc6966a15e29024f601d99bad1d0179267072e33f6c4e2328ab26e579c51649dd3ac2a99fa326bc8934874a5a16ed429edfdda42ba0ed5c814701a97e7
+  checksum: 10/855c3fb8b19ef71f0235d68b5311b0ae4e7bdaa37a616c565cd8c7cbd287e6069a786e91696c3f437d2760a052b179f91672899dfa4ae035b3c8e33c3a8490e5
   languageName: node
   linkType: hard
 
@@ -14751,6 +14800,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"dotenv-expand@npm:^12.0.2":
+  version: 12.0.2
+  resolution: "dotenv-expand@npm:12.0.2"
+  dependencies:
+    dotenv: "npm:^16.4.5"
+  checksum: 10/c956c8ff62ae4da7dd320f032da49f383cce5578a890ad4a432e882e8f0966d54fbcc6b94058cf07dd48773916b9843fe65958d1567cb5d7ee7a3ffad4739ba1
+  languageName: node
+  linkType: hard
+
 "dotenv-expand@npm:~11.0.6":
   version: 11.0.6
   resolution: "dotenv-expand@npm:11.0.6"
@@ -14760,10 +14818,26 @@ __metadata:
   languageName: node
   linkType: hard
 
+"dotenv-flow@npm:^4.1.0":
+  version: 4.1.0
+  resolution: "dotenv-flow@npm:4.1.0"
+  dependencies:
+    dotenv: "npm:^16.0.0"
+  checksum: 10/75c36fefbc25e8c4f2cd6cff0a161444c7f2e992ea24662c63887aa57950007355df5bf153a6acc7e20c05ff3e5b783150e255ce543464a748de32bb9c6e222c
+  languageName: node
+  linkType: hard
+
 "dotenv@npm:16.4.5, dotenv@npm:^16.3.1, dotenv@npm:^16.4.4, dotenv@npm:~16.4.5":
   version: 16.4.5
   resolution: "dotenv@npm:16.4.5"
   checksum: 10/55a3134601115194ae0f924e54473459ed0d9fc340ae610b676e248cca45aa7c680d86365318ea964e6da4e2ea80c4514c1adab5adb43d6867fb57ff068f95c8
+  languageName: node
+  linkType: hard
+
+"dotenv@npm:^16.0.0, dotenv@npm:^16.4.5, dotenv@npm:^16.5.0":
+  version: 16.5.0
+  resolution: "dotenv@npm:16.5.0"
+  checksum: 10/e68a16834f1a41cc2dfb01563bc150668ad675e6cd09191211467b5c0806b6ecd6ec438e021aa8e01cd0e72d2b70ef4302bec7cc0fe15b6955f85230b62dc8a9
   languageName: node
   linkType: hard
 
@@ -27662,13 +27736,6 @@ __metadata:
   version: 1.5.0
   resolution: "statuses@npm:1.5.0"
   checksum: 10/c469b9519de16a4bb19600205cffb39ee471a5f17b82589757ca7bd40a8d92ebb6ed9f98b5a540c5d302ccbc78f15dc03cc0280dd6e00df1335568a5d5758a5c
-  languageName: node
-  linkType: hard
-
-"std-env@npm:^3.8.0":
-  version: 3.8.1
-  resolution: "std-env@npm:3.8.1"
-  checksum: 10/ee119570e2e449be86aa4972f119f9086a918307cc524f6e891b7a7c1327a5c970cf1b7d5898c881777845292a7e3380cf7d80ad34aee355d2c22ac5eb628542
   languageName: node
   linkType: hard
 
