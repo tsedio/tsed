@@ -2,7 +2,7 @@
   "name": "@tsed/vike",
   "description": "Vike package for Ts.ED framework",
   "type": "module",
-  "version": "8.9.0-beta.1",
+  "version": "8.9.0-beta.2",
   "contributors": [
     {
       "name": "romakita"
@@ -44,7 +44,7 @@
     "vitest": "3.1.1"
   },
   "peerDependencies": {
-    "@tsed/platform-http": ">=8.9.0-beta.1",
+    "@tsed/platform-http": ">=8.9.0-beta.2",
     "vike": ">=0.4.160",
     "vite": ">=4"
   },
