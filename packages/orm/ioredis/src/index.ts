@@ -4,5 +4,6 @@
 export * from "./domain/IORedisConfiguration.js";
 export * from "./domain/IORedisStore.js";
 export * from "./domain/IORedisTest.js";
+export * from "./utils/createConnection.js";
 export * from "./utils/mockConnections.js";
 export * from "./utils/registerConnectionProvider.js";
