@@ -2,7 +2,7 @@
   "name": "@tsed/platform-middlewares",
   "description": "Middlewares module for Ts.ED Framework",
   "type": "module",
-  "version": "8.8.4",
+  "version": "8.9.0-beta.1",
   "source": "./src/index.ts",
   "main": "./lib/esm/index.js",
   "module": "./lib/esm/index.js",
@@ -36,9 +36,9 @@
     "vitest": "3.1.1"
   },
   "peerDependencies": {
-    "@tsed/core": ">=8.8.4",
-    "@tsed/di": ">=8.8.4",
-    "@tsed/schema": ">=8.8.4"
+    "@tsed/core": ">=8.9.0-beta.1",
+    "@tsed/di": ">=8.9.0-beta.1",
+    "@tsed/schema": ">=8.9.0-beta.1"
   },
   "peerDependenciesMeta": {
     "@tsed/core": {

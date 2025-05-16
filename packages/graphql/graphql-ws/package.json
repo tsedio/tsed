@@ -2,7 +2,7 @@
   "name": "@tsed/graphql-ws",
   "description": "An extension to allow GraphQL over WebSockets using graphql-ws protocol",
   "type": "module",
-  "version": "8.8.4",
+  "version": "8.9.0-beta.1",
   "source": "./src/index.ts",
   "main": "./lib/esm/index.js",
   "module": "./lib/esm/index.js",
@@ -37,10 +37,10 @@
     "ws": "8.18.1"
   },
   "peerDependencies": {
-    "@tsed/core": ">=8.8.4",
-    "@tsed/di": ">=8.8.4",
+    "@tsed/core": ">=8.9.0-beta.1",
+    "@tsed/di": ">=8.9.0-beta.1",
     "@tsed/logger": ">=7.0.1",
-    "@tsed/platform-http": ">=8.8.4",
+    "@tsed/platform-http": ">=8.9.0-beta.1",
     "graphql-ws": ">=6.0.4",
     "ws": ">=8.18.1"
   }
