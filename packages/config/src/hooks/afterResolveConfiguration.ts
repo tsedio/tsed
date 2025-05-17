@@ -12,7 +12,11 @@ export async function afterResolveConfiguration() {
   const sources = getConfigSources(constant<ConfigurationExtends>("extends", []));
 
   for (const source of sources.values()) {
-    const {instance, options, watch, refreshOn, name, validationSchema} = source;
+    const {instance, watch, refreshOn, name, validationSchema} = source;
+
+    if (instance?.$onInit) {
+      await instance.$onInit();
+    }
 
     const refresh = async () => {
       let data = await instance.getAll();

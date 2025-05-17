@@ -54,6 +54,7 @@ export type ConfigSourceOnChangeCB = () => void;
 export interface ConfigSource<Opts = any> {
   options: Opts;
 
+  $onInit?(): Promise<void> | void;
   /**
    * Load configuration from the source.
    */
