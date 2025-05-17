@@ -2,7 +2,7 @@
   "name": "@tsed/socketio-testing",
   "description": "Socket.io testing package for Ts.ED framework",
   "type": "module",
-  "version": "8.9.0-beta.2",
+  "version": "8.9.0-beta.3",
   "source": "./src/index.ts",
   "main": "./lib/esm/index.js",
   "module": "./lib/esm/index.js",
@@ -33,9 +33,9 @@
     "typescript": "5.4.5"
   },
   "peerDependencies": {
-    "@tsed/core": ">=8.9.0-beta.2",
-    "@tsed/di": ">=8.9.0-beta.2",
-    "@tsed/platform-http": ">=8.9.0-beta.2",
+    "@tsed/core": ">=8.9.0-beta.3",
+    "@tsed/di": ">=8.9.0-beta.3",
+    "@tsed/platform-http": ">=8.9.0-beta.3",
     "socket.io-client": "^4.0.1"
   }
 }
