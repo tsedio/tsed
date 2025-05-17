@@ -55,12 +55,13 @@ export interface ConfigSource<Opts = any> {
   options: Opts;
 
   $onInit?(): Promise<void> | void;
+  $onDestroy?(): Promise<void> | void;
   /**
    * Load configuration from the source.
    */
   getAll(): Promise<Record<string, unknown>> | Record<string, unknown>;
 
-  watch?(onChange?: ConfigSourceOnChangeCB): Promise<ConfigSourceWatchCloseCB> | ConfigSourceWatchCloseCB;
+  watch?(onChange?: ConfigSourceOnChangeCB): Promise<ConfigSourceWatchCloseCB> | ConfigSourceWatchCloseCB | void | Promise<void>;
 }
 
 export type ConfigurationExtends = (Type<ConfigSource> | ConfigSourceOptions)[];

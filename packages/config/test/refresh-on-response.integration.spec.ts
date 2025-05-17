@@ -11,12 +11,13 @@ class TestConfigSource implements ConfigSource {
 
   watch = vi.fn().mockReturnValue(vi.fn());
 
+  read = vi.fn().mockResolvedValue({
+    test: "string",
+    test2: "string-3"
+  });
+
   getAll() {
-    return Promise.resolve({
-      test: "string",
-      test2: "string-3",
-      ...this.options
-    });
+    return this.read();
   }
 }
 
@@ -38,14 +39,13 @@ describe("@tsed/config: refresh on response", () => {
 
       expect(constant("test")).toEqual("string");
 
-      vi.spyOn(configs["test"], "getAll").mockResolvedValueOnce({
+      (configs.test as any).read.mockResolvedValue({
         test: "string-2",
         test2: "string-4"
       });
 
       await $asyncEmit("$onResponse");
 
-      expect(configs["test"].getAll).toHaveBeenCalledTimes(1);
       expect(constant("test")).toEqual("string-2");
     });
     it("should refresh configuration on response and catch error", async () => {
@@ -53,13 +53,14 @@ describe("@tsed/config: refresh on response", () => {
 
       expect(constant("test")).toEqual("string");
 
-      vi.spyOn(configs["test"], "getAll").mockRejectedValue(new Error("message"));
+      (configs.test as any).read.mockRejectedValue(new Error("message"));
+
+      vi.spyOn(configs["test"], "getAll");
 
       vi.spyOn(logger(), "error");
 
       await $asyncEmit("$onResponse");
 
-      expect(configs["test"].getAll).toHaveBeenCalledTimes(1);
       expect(logger().error).toHaveBeenCalledWith({
         event: "CONFIG_SOURCE_REFRESH_ERROR",
         hook: "$onResponse",

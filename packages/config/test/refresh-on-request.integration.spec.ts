@@ -11,12 +11,13 @@ class TestConfigSource implements ConfigSource {
 
   watch = vi.fn().mockReturnValue(vi.fn());
 
+  read = vi.fn().mockResolvedValue({
+    test: "string",
+    test2: "string-3"
+  });
+
   getAll() {
-    return Promise.resolve({
-      test: "string",
-      test2: "string-3",
-      ...this.options
-    });
+    return this.read();
   }
 }
 
@@ -38,14 +39,14 @@ describe("@tsed/config: refresh on Request", () => {
 
       expect(constant("test")).toEqual("string");
 
-      vi.spyOn(configs["test"], "getAll").mockResolvedValueOnce({
+      vi.spyOn(configs["test"] as any, "read").mockResolvedValueOnce({
         test: "string-2",
         test2: "string-4"
       });
 
       await $asyncEmit("$onRequest");
 
-      expect(configs["test"].getAll).toHaveBeenCalledTimes(1);
+      expect((configs["test"] as any).read).toHaveBeenCalledTimes(1);
       expect(constant("test")).toEqual("string-2");
     });
   });

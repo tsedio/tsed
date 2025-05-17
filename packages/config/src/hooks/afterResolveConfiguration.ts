@@ -1,6 +1,6 @@
 import "@tsed/ajv";
 
-import {configuration, constant, injectable, logger} from "@tsed/di";
+import {configuration, constant, inject, injectable, logger} from "@tsed/di";
 import {$on} from "@tsed/hooks";
 
 import {CONFIG_SOURCES} from "../constants/constants.js";
@@ -18,8 +18,10 @@ export async function afterResolveConfiguration() {
       await instance.$onInit();
     }
 
+    const getAll = instance.getAll;
+
     const refresh = async () => {
-      let data = await instance.getAll();
+      let data = await getAll.apply(instance);
 
       if (validationSchema) {
         data = await validate(name!, data, validationSchema);
@@ -27,7 +29,11 @@ export async function afterResolveConfiguration() {
 
       source.data = data;
       configuration().set(data);
+
+      return data;
     };
+
+    instance.getAll = refresh as any;
 
     await refresh();
 
@@ -35,7 +41,7 @@ export async function afterResolveConfiguration() {
     if (watch && instance?.watch) {
       const closer = await instance.watch(refresh);
 
-      $on("$onDestroy", closer);
+      closer && $on("$onDestroy", closer);
     }
 
     // manager refresh on request
@@ -79,3 +85,12 @@ export async function afterResolveConfiguration() {
 }
 
 $on("$afterResolveConfiguration", afterResolveConfiguration);
+$on("$onDestroy", () => {
+  const configs = inject<CONFIG_SOURCES>(CONFIG_SOURCES);
+
+  const promises = Object.values(configs).map((config) => {
+    return config.$onDestroy?.();
+  });
+
+  return Promise.all(promises);
+});
