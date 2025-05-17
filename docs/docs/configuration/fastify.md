@@ -1,5 +1,12 @@
 # Fastify.js
 
+<Banner src="/fastify.svg" height="200" href="https://fastify.dev/"></Banner>
+
+::: tip Note
+To create Ts.ED application based on Fastify.js, use [Ts.ED CLI](/introduction/getting-started.md).
+:::
+
+To configure the Fastify server, you can use the `fastify` property in the `@Configuration` decorator.
 This option allows you to configure the default Fastify settings:
 
 ```typescript

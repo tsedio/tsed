@@ -1,5 +1,13 @@
 # Express.js
 
+<Banner src="/express.png" height="200" href="https://expressjs.com/"></Banner>
+
+To configure the Express server, you can use the `express` property in the `@Configuration` decorator.
+
+::: tip Note
+To create Ts.ED application based on Express.js, use [Ts.ED CLI](/introduction/getting-started.md).
+:::
+
 ## express.bodyParser
 
 This option let you configure the default bodyParser used by Ts.ED to parse the body request:

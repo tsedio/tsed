@@ -1,41 +1,13 @@
-<p style="text-align: center" align="center">
- <a href="https://tsed.dev" target="_blank"><img src="https://tsed.dev/tsed-og.png" width="200" alt="Ts.ED logo"/></a>
-</p>
+# Configuration sources
 
-<div align="center">
-   <h1>@tsed/config</h1>
+Formerly known as @@ConfigSource@@, this module provides a way to load configuration from different sources like
+environment variables, JSON files, YAML files, and more.
 
-[![Build & Release](https://github.com/tsedio/tsed/workflows/Build%20&%20Release/badge.svg)](https://github.com/tsedio/tsed/actions?query=workflow%3A%22Build+%26+Release%22)
-[![PR Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](https://github.com/tsedio/tsed/blob/master/CONTRIBUTING.md)
-[![npm version](https://badge.fury.io/js/%40tsed%2Fcommon.svg)](https://badge.fury.io/js/%40tsed%2Fcommon)
-[![semantic-release](https://img.shields.io/badge/%20%20%F0%9F%93%A6%F0%9F%9A%80-semantic--release-e10079.svg)](https://github.com/semantic-release/semantic-release)
-[![code style: prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg?style=flat-square)](https://github.com/prettier/prettier)
-[![github](https://img.shields.io/static/v1?label=Github%20sponsor&message=%E2%9D%A4&logo=GitHub&color=%23fe8e86)](https://github.com/sponsors/romakita)
-[![opencollective](https://img.shields.io/static/v1?label=OpenCollective%20sponsor&message=%E2%9D%A4&logo=OpenCollective&color=%23fe8e86)](https://opencollective.com/tsed)
+It allows you to define a configuration schema and validate the configuration values at runtime.
+You can also use it to watch for changes in the configuration files and reload the configuration automatically, without
+reloading the server or application (excepting for port or specific options).
 
-</div>
-
-<div align="center">
-  <a href="https://tsed.dev/">Website</a>
-  <span>&nbsp;&nbsp;•&nbsp;&nbsp;</span>
-  <a href="https://tsed.dev/getting-started/">Getting started</a>
-  <span>&nbsp;&nbsp;•&nbsp;&nbsp;</span>
-  <a href="https://slack.tsed.dev">Slack</a>
-  <span>&nbsp;&nbsp;•&nbsp;&nbsp;</span>
-  <a href="https://twitter.com/TsED_io">Twitter</a>
-</div>
-
-<hr />
-
-> Configuration management for Ts.ED
-
-A package of Ts.ED framework. See website: https://tsed.dev/
-
-## Installation
-
-```bash
-npm install --save @tsed/config
-```
+You can also create your own configuration sources by implementing the @@ConfigSource@@ interface!
 
 ## Supported config sources
 
@@ -46,13 +18,83 @@ npm install --save @tsed/config
 | Json   | Yes        | `@tsed/config/json`   | Load configuration from a JSON file. Supports watch mode to reload the configuration when the file changes.                                                                     |
 | YAML   | Yes        | `@tsed/config/yaml`   | Load configuration from a YAML file. Supports watch mode to reload the configuration when the file changes.                                                                     |
 
+## Installation
+
+::: code-group
+
+```sh [npm]
+npm install --save @tsed/config
+```
+
+```sh [yarn]
+yarn add @tsed/config
+```
+
+```sh [pnpm]
+pnpm add @tsed/config
+```
+
+```sh [bun]
+bun add @tsed/config
+```
+
+:::
+
+Some config sources require additional packages to be installed. Here are the installation commands for each source:
+
+### Installation for dotenv
+
+::: code-group
+
+```sh [npm]
+npm install --save dotenv dotenv-expand dotenv-flow
+```
+
+````
+
+```sh [yarn]
+yarn add dotenv dotenv-expand dotenv-flow
+````
+
+```sh [pnpm]
+pnpm add dotenv dotenv-expand dotenv-flow
+```
+
+```sh [bun]
+bun add dotenv dotenv-expand dotenv-flow
+```
+
+:::
+
+### Installation for yaml
+
+::: code-group
+
+```sh [npm]
+npm install --save js-yaml
+```
+
+```sh [yarn]
+yarn add js-yaml
+```
+
+```sh [pnpm]
+pnpm add js-yaml
+```
+
+```sh [bun]
+bun add js-yaml
+```
+
+:::
+
 ## Usage
 
-### Import the module
+You need to import the `@tsed/config` module in your application. You can do this in your `Server.ts` file:
 
 ```typescript
 import {Configuration} from "@tsed/di";
-import "@tsed/config";
+import "@tsed/config"; // import the module to enable `.extends[]` options
 import {EnvsConfigSource} from "@tsed/config/envs";
 import {JsonConfigSource} from "@tsed/config/json";
 import {withOptions} from "@tsed/config";
@@ -68,7 +110,13 @@ import {withOptions} from "@tsed/config";
 export class Server {}
 ```
 
-### Use the configuration service
+The `extends` option allows you to define multiple configuration sources. The order of the sources matters, as the last source will
+override the previous ones. In this example, the `EnvsConfigSource` will override any values defined in the `JsonConfigSource`.
+
+## Accessing configuration values
+
+`@tsed/config` merge all configuration sources in a single object, but it also creates a configuration namespace for each source under
+the `configs` key. This allows you to access the configuration values from each source separately.
 
 ```typescript
 import {Injectable} from "@tsed/di";
@@ -90,7 +138,7 @@ export class MyService {
 }
 ```
 
-### Naming a configuration source
+## Naming a configuration source
 
 You can name a configuration source by using the `name` option. This is useful when you have multiple sources and want
 to differentiate between them.
@@ -133,7 +181,7 @@ export class MyService {
 }
 ```
 
-### Validate configuration
+## Validate configuration
 
 You can validate your configuration using the `validationSchema` option. This is useful to ensure that your
 configuration values are of the expected type.
@@ -156,9 +204,9 @@ import {EnvsConfigSource} from "@tsed/config/envs";
 export class Server {}
 ```
 
-### Refresh strategy
+## Refresh strategy
 
-#### Watch strategy
+### Watch strategy
 
 You can use the `watch` strategy to automatically reload your configuration when the file changes.
 This is useful for development environments where you want to see changes immediately.
@@ -178,7 +226,7 @@ import {JsonConfigSource} from "@tsed/config/json";
 export class Server {}
 ```
 
-#### Refresh on request strategy
+### Refresh on request strategy
 
 You can use the `request` strategy to reload your configuration on each request.
 This is useful for dynamic configurations that may change at runtime.
@@ -201,7 +249,7 @@ export class Server {}
 > Important: Use the `request` strategy with caution, as it can impact performance.
 > It's recommended to use it only for configurations that are expected to change frequently.
 
-#### Refresh on response strategy
+### Refresh on response strategy
 
 You can use the `response` strategy to reload your configuration on each response.
 
@@ -223,7 +271,7 @@ import {MyDbSourceConfig} from "./sources/DbSourceConfig.js";
 export class Server {}
 ```
 
-### Enable config source on demand
+## Enable config source on demand
 
 You can enable a config source on demand by using the `enable` option. This is useful when you want to load a
 configuration source only when needed.
@@ -243,7 +291,9 @@ import {MyDbSourceConfig} from "./sources/DbSourceConfig.js";
 export class Server {}
 ```
 
-### Create a custom configuration source
+## Create a custom configuration source
+
+### Basic configuration source
 
 You can create a custom configuration source by implementing the `ConfigSource` interface:
 
@@ -365,37 +415,3 @@ export class MyService {
   configSource = injectConfigSource<MyCustomConfigSource>("myCustomConfig");
 }
 ```
-
-## Contributors
-
-<a href="https://github.com/tsedio/tsed/graphs/contributors"><img src="https://opencollective.com/tsed/contributors.svg?width=890" /></a>
-
-## Backers
-
-Thank you to all our backers! 🙏 [[Become a backer](https://opencollective.com/tsed#backer)]
-
-<a href="https://opencollective.com/tsed#backers" target="_blank"><img src="https://opencollective.com/tsed/tiers/backer.svg?width=890"></a>
-
-## Sponsors
-
-Support this project by becoming a sponsor. Your logo will show up here with a link to your
-website. [[Become a sponsor](https://opencollective.com/tsed#sponsor)]
-
-## License
-
-The MIT License (MIT)
-
-Copyright (c) 2016 - Today Romain Lenzotti
-
-Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated
-documentation files (the "Software"), to deal in the Software without restriction, including without limitation the
-rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit
-persons to whom the Software is furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in all copies or substantial portions of the
-Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE
-WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
-COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
-OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.

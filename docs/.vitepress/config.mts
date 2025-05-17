@@ -303,7 +303,16 @@ export default defineConfig({
       },
       {
         text: "Plugins",
-        link: "/plugins/index"
+        items: [
+          {
+            text: "Marketplace",
+            link: "/plugins/index"
+          },
+          {
+            text: "Create your own plugins",
+            link: "/plugins/create-your-own-plugins"
+          }
+        ]
       },
       {
         text: pkg.version,
@@ -359,11 +368,14 @@ export default defineConfig({
       "/docs/": [
         {
           text: "Configuration",
+          link: "/docs/configuration/",
           items: [
-            {text: "Options", link: "/docs/configuration/"},
-            {text: "Load config from file", link: "/docs/configuration/load-configuration-from-file"},
+            {text: "Introduction", link: "/docs/configuration/"},
+            {text: "Configuration sources", link: "/docs/configuration/configuration-sources"},
+            {text: "Server options", link: "/docs/configuration/server-options"},
             {text: "Express.js", link: "/docs/configuration/express"},
-            {text: "Koa.js", link: "/docs/configuration/koa"}
+            {text: "Koa.js", link: "/docs/configuration/koa"},
+            {text: "Fastify.js", link: "/docs/configuration/fastify"}
           ]
         },
         {
@@ -483,6 +495,16 @@ export default defineConfig({
               link: "/api"
             }
           ]
+        }
+      ],
+      "/plugins/": [
+        {
+          text: "Marketplace",
+          link: "/plugins/index"
+        },
+        {
+          text: "Create your own plugins",
+          link: "/plugins/create-your-own-plugins"
         }
       ],
       "/tutorials/": [
