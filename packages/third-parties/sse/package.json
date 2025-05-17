@@ -2,7 +2,7 @@
   "name": "@tsed/sse",
   "description": "Server-sent events package for Ts.ED framework",
   "type": "module",
-  "version": "8.9.0-beta.4",
+  "version": "8.9.0-beta.5",
   "keywords": [
     "tsed",
     "server-sent events",
@@ -50,11 +50,11 @@
     "vitest": "3.1.1"
   },
   "peerDependencies": {
-    "@tsed/di": ">=8.9.0-beta.4",
-    "@tsed/json-mapper": ">=8.9.0-beta.4",
+    "@tsed/di": ">=8.9.0-beta.5",
+    "@tsed/json-mapper": ">=8.9.0-beta.5",
     "@tsed/logger": ">=7.0.1",
-    "@tsed/platform-middlewares": ">=8.9.0-beta.4",
-    "@tsed/schema": ">=8.9.0-beta.4"
+    "@tsed/platform-middlewares": ">=8.9.0-beta.5",
+    "@tsed/schema": ">=8.9.0-beta.5"
   },
   "peerDependenciesMeta": {
     "@tsed/di": {

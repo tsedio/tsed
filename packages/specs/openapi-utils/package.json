@@ -2,7 +2,7 @@
   "name": "@tsed/openapi-utils",
   "description": "OpenAPI utils to build @tsed/swagger package or @tsed/scalar",
   "type": "module",
-  "version": "8.9.0-beta.4",
+  "version": "8.9.0-beta.5",
   "source": "./src/index.ts",
   "main": "./lib/esm/index.js",
   "module": "./lib/esm/index.js",
@@ -42,7 +42,7 @@
     "vitest": "3.1.1"
   },
   "peerDependencies": {
-    "@tsed/platform-http": ">=8.9.0-beta.4"
+    "@tsed/platform-http": ">=8.9.0-beta.5"
   },
   "peerDependenciesMeta": {
     "@tsed/platform-http": {
