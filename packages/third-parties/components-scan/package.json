@@ -2,7 +2,7 @@
   "name": "@tsed/components-scan",
   "description": "Components scan utilities for Ts.ED Framework",
   "type": "module",
-  "version": "8.9.0-beta.6",
+  "version": "8.9.0-beta.7",
   "source": "./src/index.ts",
   "main": "./lib/esm/index.js",
   "module": "./lib/esm/index.js",
@@ -37,7 +37,7 @@
     "vitest": "3.1.1"
   },
   "peerDependencies": {
-    "@tsed/core": ">=8.9.0-beta.6"
+    "@tsed/core": ">=8.9.0-beta.7"
   },
   "peerDependenciesMeta": {
     "@tsed/core": {

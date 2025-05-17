@@ -2,7 +2,7 @@
   "name": "@tsed/config",
   "description": "Configuration management for Ts.ED",
   "type": "module",
-  "version": "8.9.0-beta.6",
+  "version": "8.9.0-beta.7",
   "keywords": [
     "Ts.ED",
     "Configuration",
