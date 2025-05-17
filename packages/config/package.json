@@ -36,6 +36,18 @@
       "types": "./lib/types/providers/json/index.d.ts",
       "import": "./lib/esm/providers/json/index.js",
       "default": "./lib/esm/providers/json/index.js"
+    },
+    "./fn/*": {
+      "tsed-source": "./src/fn/*.ts",
+      "types": "./lib/types/fn/*.ts",
+      "import": "./lib/esm/fn/*.js",
+      "default": "./lib/esm/fn/*.js"
+    },
+    "./decorators/*": {
+      "tsed-source": "./src/decorators/*.ts",
+      "types": "./lib/types/decorators/*.ts",
+      "import": "./lib/esm/decorators/*.js",
+      "default": "./lib/esm/decorators/*.js"
     }
   },
   "scripts": {

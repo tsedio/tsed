@@ -319,6 +319,53 @@ export class MyCustomConfigSource implements ConfigSource<MyCustomConfigSourceOp
 }
 ```
 
+## Inject configuration source
+
+Given a configuration source, you can inject it in any service or controller using his name.
+
+```typescript
+import {Configuration} from "@tsed/di";
+import "@tsed/config";
+import {withOptions} from "@tsed/config";
+import {MyCustomConfigSource} from "./configs/MyCustomConfigSource.js";
+
+@Configuration({
+  extends: [
+    withOptions(MyCustomConfigSource, {
+      name: "myCustomConfig"
+    })
+  ]
+})
+export class Server {}
+```
+
+Then you can inject it in your service or controller using the `@InjectConfigSource` decorator:
+
+```typescript
+import {Injectable, Inject} from "@tsed/di";
+import {InjectConfigSource} from "@tsed/config/decorators/injectConfigSource.js";
+import {MyCustomConfigSource} from "./configs/MyCustomConfigSource.js";
+
+@Injectable()
+export class MyService {
+  @InjectConfigSource("myCustomConfig")
+  configSource: MyCustomConfigSource;
+}
+```
+
+Or using function `injectConfigSource`:
+
+```typescript
+import {Injectable} from "@tsed/di";
+import {injectConfigSource} from "@tsed/config/fn/injectConfigSource.js";
+import {MyCustomConfigSource} from "./configs/MyCustomConfigSource.js";
+
+@Injectable()
+export class MyService {
+  configSource = injectConfigSource<MyCustomConfigSource>("myCustomConfig");
+}
+```
+
 ## Contributors
 
 <a href="https://github.com/tsedio/tsed/graphs/contributors"><img src="https://opencollective.com/tsed/contributors.svg?width=890" /></a>
