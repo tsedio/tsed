@@ -27,8 +27,8 @@ export async function afterResolveConfiguration() {
         data = await validate(name!, data, validationSchema);
       }
 
-      source.data = data;
       configuration().set(data);
+      configuration().set(`configs.${name}`, data);
 
       return data;
     };
@@ -67,20 +67,12 @@ export async function afterResolveConfiguration() {
     }
   }
 
-  configuration().set(
-    "configs",
-    Object.fromEntries(
-      [...sources.entries()].map(([key, source]) => {
-        return [key, source.data];
-      })
-    )
-  );
-
   const configs = Object.fromEntries(
     [...sources.entries()].map(([key, source]) => {
       return [key, source.instance];
     })
   );
+
   injectable(CONFIG_SOURCES).value(configs);
 }
 
