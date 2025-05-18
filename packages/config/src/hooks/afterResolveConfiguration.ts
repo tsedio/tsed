@@ -1,7 +1,7 @@
 import "@tsed/ajv";
 
 import {configuration, constant, inject, injectable, logger} from "@tsed/di";
-import {$on} from "@tsed/hooks";
+import {$off, $on, $once} from "@tsed/hooks";
 
 import {CONFIG_SOURCES} from "../constants/constants.js";
 import type {ConfigurationExtends} from "../interfaces/ConfigSource.js";
@@ -13,6 +13,8 @@ export async function afterResolveConfiguration() {
 
   for (const source of sources.values()) {
     const {instance, watch, refreshOn, name, validationSchema} = source;
+    const seed = Math.floor(Math.random() * 10000);
+    const ref = name + "-" + seed;
 
     if (instance?.$onInit) {
       await instance.$onInit();
@@ -41,19 +43,17 @@ export async function afterResolveConfiguration() {
     if (watch && instance?.watch) {
       const closer = await instance.watch(refresh);
 
-      closer && $on("$onDestroy", closer);
+      closer && $once("$onDestroy", ref, closer);
     }
 
     // manager refresh on request
     if (refreshOn === "request") {
-      $on("$onRequest", () => {
-        return refresh();
-      });
+      $on("$onRequest", ref, refresh);
     }
 
     // manager refresh on response
     if (refreshOn === "response") {
-      $on("$onResponse", () => {
+      const onResponse = () => {
         refresh().catch((error) => {
           logger().error({
             event: "CONFIG_SOURCE_REFRESH_ERROR",
@@ -63,8 +63,19 @@ export async function afterResolveConfiguration() {
             error_stack: error.stack
           });
         });
-      });
+      };
+
+      $on("$onResponse", ref, onResponse);
     }
+
+    $once("$onDestroy", ref, () => {
+      if (instance?.$onDestroy) {
+        // clean all event related to the same ref
+        $off(ref);
+
+        return instance.$onDestroy();
+      }
+    });
   }
 
   const configs = Object.fromEntries(
@@ -77,12 +88,3 @@ export async function afterResolveConfiguration() {
 }
 
 $on("$afterResolveConfiguration", afterResolveConfiguration);
-$on("$onDestroy", () => {
-  const configs = inject<CONFIG_SOURCES>(CONFIG_SOURCES);
-
-  const promises = Object.values(configs).map((config) => {
-    return config.$onDestroy?.();
-  });
-
-  return Promise.all(promises);
-});
