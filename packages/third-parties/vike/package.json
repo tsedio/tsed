@@ -40,7 +40,7 @@
     "eslint": "9.12.0",
     "typescript": "5.4.5",
     "vike": "0.4.198",
-    "vite": "6.2.6",
+    "vite": "6.3.5",
     "vitest": "3.1.1"
   },
   "peerDependencies": {
