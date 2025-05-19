@@ -18,6 +18,20 @@ You can also create your own configuration sources by implementing the @@ConfigS
 | Json   | Yes        | `@tsed/config/json`   | Load configuration from a JSON file. Supports watch mode to reload the configuration when the file changes.                                                                     |
 | YAML   | Yes        | `@tsed/config/yaml`   | Load configuration from a YAML file. Supports watch mode to reload the configuration when the file changes.                                                                     |
 
+## Premium config sources
+
+| Type                                                 | Watch mode    | Import                  | Description                                                                                                                        |
+| ---------------------------------------------------- | ------------- | ----------------------- | ---------------------------------------------------------------------------------------------------------------------------------- |
+| [IORedis](/plugins/premium/config-source/ioredis.md) | Yes           | `@tsed/config/ioredis`  | Load configuration from a Redis database using ioredis. Supports watch mode to reload the configuration when the database changes. |
+| [Mongo](/plugins/premium/config-source/mongo.md)     | Yes           | `@tsed/config/mongo`    | Load configuration from a MongoDB collection. Supports watch mode to reload the configuration when the collection changes.         |
+| [Vault](/plugins/premium/config-source/vault.md)     | Yes - polling | `@tsed/config/vault`    | Load configuration from a HashiCorp Vault. Supports watch mode to reload the configuration when the vault changes.                 |
+| Postgres - WIP                                       | Yes - polling | `@tsed/config/postgres` | Load configuration from a Postgres database. Supports watch mode to reload the configuration when the database changes.            |
+
+::: warning Wants more?
+Ask us for a custom config source! We can create a custom config source for you, tailored to your needs.
+Contact us at [contact-tsed@gmail.com](mailto:contact-tsed@gmail.com) or via [Slack](https://slack.tsed.io/).
+:::
+
 ## Installation
 
 ::: code-group
@@ -110,12 +124,15 @@ import {withOptions} from "@tsed/config";
 export class Server {}
 ```
 
-The `extends` option allows you to define multiple configuration sources. The order of the sources matters, as the last source will
-override the previous ones. In this example, the `EnvsConfigSource` will override any values defined in the `JsonConfigSource`.
+The `extends` option allows you to define multiple configuration sources. The order of the sources matters, as the last
+source will
+override the previous ones. In this example, the `EnvsConfigSource` will override any values defined in the
+`JsonConfigSource`.
 
 ## Accessing configuration values
 
-`@tsed/config` merge all configuration sources in a single object, but it also creates a configuration namespace for each source under
+`@tsed/config` merge all configuration sources in a single object, but it also creates a configuration namespace for
+each source under
 the `configs` key. This allows you to access the configuration values from each source separately.
 
 ```typescript
@@ -415,3 +432,18 @@ export class MyService {
   configSource = injectConfigSource<MyCustomConfigSource>("myCustomConfig");
 }
 ```
+
+## Roadmap
+
+These config sources are not implemented yet, but we plan to implement them in the future:
+
+- Consul / etcd
+- SSM Parameter Store / Vault / GCP/Azure équivalents
+- Kubernetes ConfigMap/Secret
+- HTTP/REST
+- Git (GitOps)
+
+::: warning Wants more?
+Ask us for a custom config source! We can create a custom config source for you, tailored to your needs.
+Contact us at contact-tsed@gmail.com or via [Slack](https://slack.tsed.io/).
+:::

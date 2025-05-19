@@ -309,8 +309,41 @@ export default defineConfig({
             link: "/plugins/index"
           },
           {
+            text: "Install premium plugins",
+            link: "/plugins/premium/install-premium-plugins"
+          },
+          {
             text: "Create your own plugins",
             link: "/plugins/create-your-own-plugins"
+          },
+          {
+            text: "Premium plugins",
+            items: [
+              {
+                text: "IORedis ConfigSource",
+                link: "/plugins/premium/config-source/ioredis"
+              },
+              {
+                text: "Mongo ConfigSource",
+                link: "/plugins/premium/config-source/mongo"
+              },
+              {
+                text: "Vault ConfigSource",
+                link: "/plugins/premium/config-source/vault"
+              },
+              {
+                text: "Redis Testcontainers",
+                link: "/plugins/premium/testcontainers/redis"
+              },
+              {
+                text: "Mongo Testcontainers",
+                link: "/plugins/premium/testcontainers/mongo"
+              },
+              {
+                text: "Vault Testcontainers",
+                link: "/plugins/premium/testcontainers/vault"
+              }
+            ]
           }
         ]
       },
@@ -503,8 +536,41 @@ export default defineConfig({
           link: "/plugins/index"
         },
         {
+          text: "Install premium plugins",
+          link: "/plugins/premium/install-premium-plugins"
+        },
+        {
           text: "Create your own plugins",
           link: "/plugins/create-your-own-plugins"
+        },
+        {
+          text: "Premium plugins",
+          items: [
+            {
+              text: "IORedis ConfigSource",
+              link: "/plugins/premium/config-source/ioredis"
+            },
+            {
+              text: "Mongo ConfigSource",
+              link: "/plugins/premium/config-source/mongo"
+            },
+            {
+              text: "Vault ConfigSource",
+              link: "/plugins/premium/config-source/vault"
+            },
+            {
+              text: "Redis Testcontainers",
+              link: "/plugins/premium/testcontainers/redis"
+            },
+            {
+              text: "Mongo Testcontainers",
+              link: "/plugins/premium/testcontainers/mongo"
+            },
+            {
+              text: "Vault Testcontainers",
+              link: "/plugins/premium/testcontainers/vault"
+            }
+          ]
         }
       ],
       "/tutorials/": [

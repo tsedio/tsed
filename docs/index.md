@@ -183,6 +183,9 @@ frameworks:
   - title: Pulse
     href: /tutorials/pulse.html
     src: /pulse.png
+  - title: Vault
+    href: /plugins/premium/config-source/vault.html
+    src: /vault.png
 partners:
   - title: eGain
     href: https://www.egain.com/

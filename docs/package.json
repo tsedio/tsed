@@ -10,7 +10,7 @@
     "serve": "npx serve ./.vitepress/dist"
   },
   "dependencies": {
-    "@tsed/vitepress-theme": "1.5.5",
+    "@tsed/vitepress-theme": "1.5.6",
     "@vueuse/core": "10.11.0",
     "axios": "1.7.7",
     "lodash": "4.17.21",

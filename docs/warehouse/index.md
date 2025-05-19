@@ -9,4 +9,6 @@ head:
       content: Ts.ED nodejs typescript plugins marketplace premium official community discover
 ---
 
-<Warehouse />
+<Warehouse>
+Discover our list of plugins to extend your Ts.ED project. Created by the Ts.ED team and community.
+</Warehouse>
