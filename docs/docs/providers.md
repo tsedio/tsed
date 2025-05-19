@@ -12,23 +12,22 @@ head:
 
 Basically, almost everything may be considered as a provider – service, factory, interceptors, and so on. All of them
 can inject dependencies, meaning, they can create various relationships with each other. But in fact, a provider is
-nothing else than just a simple class annotated with an `@Injectable()` decorator.
+nothing else than just a simple class annotated with an @@Injectable@@ decorator.
 
 ![Providers](./assets/providers.png)
 
-In controllers chapter, we've seen how to build a Controller, handle a request and create a response. Controllers shall
+In controller chapters, we've seen how to build a Controller, handle a request and create a response. Controllers shall
 handle HTTP requests and delegate complex tasks to the **providers**.
 
-Providers are plain javascript classes and use one of these decorators on top of them. Here is the list:
+Providers are plain JavaScript classes and use one of these decorators on top of them. Here is the list:
 
 <ApiList query="['Injectable', 'Module', 'Service', 'Controller', 'Interceptor', 'Middleware', 'Protocol'].indexOf(symbolName) > -1" />
 
 ::: tip
 Since v8, you can also use the functional API to define your providers using the @@injectable@@ function. This function
-lets you
-define your provider without using decorators and lets you define your provider in a more functional way.
+lets you define your provider without using decorators and lets you define your provider in a more functional way.
 
-This page will show you how to use both API to define your providers.
+This page will show you how to use both syntaxes to define your providers.
 
 <ApiList query="['injectable', 'inject', 'lazyInject', 'constant', 'refValue', 'configuration'].indexOf(symbolName) > -1" />
 

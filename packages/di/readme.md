@@ -27,130 +27,311 @@
 
 <hr />
 
-A package of Ts.ED framework. See website: https://tsed.dev/
+A powerful and flexible Dependency Injection (DI) toolkit inspired by Angular, designed for both TypeScript and pure JavaScript applications. Use it standalone or as the foundation of Ts.ED. Supports both decorator-based and functional (decorator-less) APIs for maximum compatibility, even in non-TypeScript or pure JS projects.
 
-# Installation
+---
 
-You can get the latest release and the type definitions using npm:
+## Installation
+
+Install the latest release and required peer dependencies:
 
 ```bash
-npm install --save @tsed/di
+npm install --save @tsed/di @tsed/core @tsed/hooks @tsed/logger @tsed/schema
 ```
 
-> **Important!** TsExpressDecorators requires Node >= 6, Express >= 4, TypeScript >= 2.0 and
-> the `experimentalDecorators`, `emitDecoratorMetadata`, `types` and `lib` compilation
-> options in your `tsconfig.json` file.
+> **Important!**
+>
+> - @tsed/di v8+ supports **only ESM** (ECMAScript Modules).
+> - Requires Node >= 20,
+> - TypeScript >= 5.0 if you use decorators.
+> - For TypeScript, enable `emitDecoratorMetadata` and `experimentalDecorators` in your `tsconfig.json`.
 
-```json
-{
-  "compilerOptions": {
-    "target": "es2016",
-    "lib": ["es2016"],
-    "typeRoots": ["./node_modules/@types"],
-    "module": "commonjs",
-    "moduleResolution": "node",
-    "experimentalDecorators": true,
-    "emitDecoratorMetadata": true,
-    "allowSyntheticDefaultImports": true
-  },
-  "exclude": ["node_modules"]
-}
-```
+---
 
-## Introduction
+## Features
 
-Basically, almost everything may be considered as a provider – service, factory, intereceptors, and so on.
-All of them can inject dependencies, meaning, they can create various relationships with each other.
-But in fact, a provider is nothing else than just a simple class annotated with an `@Injectable()` decorator.
+- **[Providers](https://tsed.dev/docs/providers.html):** Register and manage services, factories, values, interceptors, and more.
+- **[Functional API](https://tsed.dev/docs/providers.html#injectable):** Register providers and factories without decorators (for pure JS or decorator-less code).
+- **[Async Factories](https://tsed.dev/docs/custom-providers.html#register-async-factory):** Create providers that resolve asynchronously (e.g., database connections).
+- **[Constants Injection](https://tsed.dev/docs/providers.html#constant):** Use `@Constant()` or `constant()` to inject configuration or static values.
+- **[Value Injection](https://tsed.dev/docs/providers.html#value-refvalue):** Use `@Value()` or `refValue()` to inject resolved provider values.
+- **[InjectContext](https://tsed.dev/docs/providers.html#inject-context):** Access the injection context and advanced DI features.
+- **[Config Sources](https://tsed.dev/docs/configuration/configuration-sources.html):** Load and merge configuration from multiple sources (files, env, remote, etc.).
+- **[Lifecycle hooks](https://tsed.dev/docs/hooks.html):** Manage provider lifecycle with hooks like `$onInit`, `$onDestroy`.
+- **[Lazy loading](https://tsed.dev/docs/providers.html#lazy-load-provider):** Lazily load Node.js ESM modules. The lazy loading feature allows you to declare a provider that is only instantiated when it is first injected. The DI system will dynamically import the ESM module, discover injectable services within it, and instantiate them on demand—enabling efficient code splitting and reducing startup time.
+- **Full TypeScript support:** Type inference with `inject()` and advanced tooling for type-safe DI.
 
-## Usage
+---
 
-Here is a basic usage to declare an injectable service to another one:
+## Basic Usage (Decorator API)
+
+Declare injectable services:
 
 ```typescript
 import {Injectable} from "@tsed/di";
-import {Calendar} from "./models/calendar.js";
 
 @Injectable()
-export class CalendarsService {
-  private readonly calendars: Calendar[] = [];
-
-  create(calendar: Calendar) {
-    this.calendars.push(calendar);
+export class UserRepository {
+  getUsers() {
+    return [{id: 1, name: "Alice"}];
   }
+}
 
-  findAll(): Calendar[] {
-    return this.calendars;
+@Injectable()
+export class UserService {
+  constructor(private repo: UserRepository) {}
+
+  listUsers() {
+    return this.repo.getUsers();
   }
 }
 ```
 
-Here's a CalendarsService, a basic class with one property and two methods. The only new trait is that it uses the `@Injectable()` decorator.
-The `@Injectable()` attaches the metadata, thereby Ts.ED knows that this class is a provider.
-
-Now we have the service class already done, let's use it inside a controller:
+Use the dependency injector:
 
 ```typescript
-import {Controller} from "@tsed/di";
-import {Post, Body, Get} from "@tsed/schema";
-import {CalendarsService} from "./CalendarsService.js";
-import {Calendar} from "./models/Calendar.js";
+import {inject} from "@tsed/di";
+import {UserService} from "./UserService.js";
 
-@Controller("/calendars")
-export class CalendarCtrl {
-  constructor(private readonly calendarsService: CalendarsService) {}
+const userService = inject(UserService);
 
-  @Post()
-  async create(@Body() calendar: Calendar) {
-    this.calendarsService.create(calendar);
-  }
-
-  @Get()
-  async findAll(): Promise<Calendar[]> {
-    return this.calendarsService.findAll();
-  }
-}
+console.log(userService.listUsers());
 ```
 
-Finally, we can load the injector and use:
+---
+
+## Usage Outside Ts.ED
+
+`@tsed/di` is completely standalone.  
+You can use it in any JS/TS project (web, CLI, backend, etc) without Ts.ED.
+
+---
+
+## Stable & Recommended Initialization Example
+
+This is the recommended and most stable way to initialize and use the injector, especially when working with advanced scenarios (settings, async providers, custom loggers, etc):
 
 ```typescript
-import {InjectorService, attachLogger} from "@tsed/di";
+import {injector, attachLogger, inject} from "@tsed/di";
 import {$log} from "@tsed/logger";
 import {CalendarCtrl} from "./CalendarCtrl.js";
 
-async function bootstrap() {
-  const injector = new InjectorService();
+// Create a new InjectorService instance
+const inj = injector();
 
-  // configure the default logger
-  attachLogger(injector, $log);
+// Register your configuration provider
+inj.addProvider(PlatformConfiguration);
 
-  // Load all providers registered via @Injectable decorator
-  await injector.load();
+// Optionally invoke and set configuration
+inj.settings = inj.invoke(PlatformConfiguration);
+inj.settings.set(settings);
 
-  const calendarController = injector.get<CalendarCtrl>();
-  await calendarController.create(new Calendar());
+// Attach a custom logger (optional)
+attachLogger($log); // Overriding the default logger is not recommended
+// You can use @tsed/logger-connect to bind Ts.ED logger with any other logger
 
-  // emit event to trigger actions for third parties modules
-  await injector.emit("$onReady");
+// If you have async providers or use the ConfigSource feature, ensure to await load()
+await inj.load();
 
-  // And finally destroy injector and his instances (see injector hooks)
-  await injector.destroy();
-}
+// Retrieve your controller (or any provider)
+const calendarCtrl = inject(CalendarCtrl);
 
-bootstrap();
+// Use your controller/service as needed
+calendarCtrl.create({name: "My calendar"});
 ```
 
-## Custom providers
+---
 
-To organize your code Ts.ED DI provide different kind of providers:
+## Functional API (Decorator-less / Pure JS, v8+)
 
-- Provider can be declared with `@Injectable`,
-- Service can be declared with `@Service`,
-- Interceptor can be declared with `@Interceptor`,
-- Factory and Value can be declared with `registerProvider` and `registerValue`.
+If you can't or don't want to use decorators (e.g. in pure JavaScript), use the **Functional API** introduced in v8+.
 
-See more details on our documentation https://tsed.dev/providers.html
+For exemple, we can register a provider like this:
+
+```js
+import {injectable, inject} from "@tsed/di";
+
+// Define a class as injectable
+export class UserRepository {
+  getUsers() {
+    return [{id: 1, name: "Alice"}];
+  }
+}
+
+injectable(UserRepository);
+```
+
+Then, you can use the `inject()` function to retrieve the instance of the class or any other provider:
+
+```js
+import {injectable, inject} from "@tsed/di";
+
+// Define a factory function
+export const GET_ALLOWED_USERS = injectable(Symbol.for("GET_ALLOWED_USERS"))
+  .factory(() => {
+    const userRepository = inject(UserRepository);
+    /// do something with userRepository
+    const users = userRepository.getAll();
+    const allowedRoles = constant("allowedRoles");
+
+    return userRepository.getUsers().filter((user) => allowedRoles.includes(user.role));
+  })
+  .token();
+```
+
+After that, we have to initialize the injector and load all providers:
+
+```js
+import {injector, attachLogger, inject} from "@tsed/di";
+import {$log} from "@tsed/logger";
+import "./services/GetAllowerUsers.js"; // just add import is enough to discover the providers
+
+// Create a new InjectorService instance
+const inj = injector();
+
+// Register your configuration provider
+inj.addProvider(PlatformConfiguration);
+
+// Optionally invoke and set configuration
+inj.settings = inj.invoke(PlatformConfiguration);
+inj.settings.set(settings);
+
+// Attach a custom logger (optional)
+attachLogger($log); // Overriding the default logger is not recommended
+// You can use @tsed/logger-connect to bind Ts.ED logger with any other logger
+
+// If you have async providers or use the ConfigSource feature, ensure to await load()
+await inj.load();
+```
+
+The example above is the main point to start the DI system. It should be placed in the main entry file of your application.
+
+Now, you can use the `inject()` function to retrieve the instance of the class, injectable provider, or pure JavaScript function.
+
+For example, if you want to use the `GET_ALLOWED_USERS` factory in your application, you can do it like this:
+
+```js
+import {injectable, inject} from "@tsed/di";
+import {GET_ALLOWED_USERS} from "./services/GetAllowerUsers.js";
+
+// use any framework you want like express.js, hapi.js, etc.
+app.get("/", async (req, res) => {
+  const getAllowedUser = inject(GET_ALLOWED_USERS);
+  const users = await getAllowedUser();
+
+  res.json(users);
+});
+```
+
+Here we use the `inject()` function in a pure JavaScript function to retrieve the `GET_ALLOWED_USERS` factory.
+This factory will be executed when the route is called, and it will return the allowed users.
+
+In summary:
+
+- **No decorators required.**
+- Use `injectable()` to register functions or classes as providers.
+- Use `factory()` or `asyncFactory()` to register (async) factories for advanced usage or for custom tokens.
+- Prefer this approach over `registerProvider` in v8+.
+
+---
+
+## Async Factories
+
+You can register **async factories** to provide values/services that require asynchronous initialization (e.g., database connections):
+
+```typescript
+import {injectable, inject} from "@tsed/di";
+
+const DATABASE = injectable(Symbol.for("DATABASE"))
+  .asyncFactory(async () => {
+    const db = await connectToDatabase(); // your async init logic
+    return db;
+  })
+  .token();
+
+const db = await inject(DATABASE); // Await the async factory
+db.query("SELECT * FROM users");
+```
+
+- Use `.asyncFactory()` for asynchronous initialization.
+- When injecting, **await** the result if the provider is async.
+
+---
+
+## Injecting Constants with `@Constant()` and `@Value()`
+
+You can inject constant values or configuration using the `@Constant()` decorator (or `constant()` function in the Functional API):
+
+```typescript
+import {Injectable, Constant} from "@tsed/di";
+
+@Injectable()
+export class MyService {
+  @Constant("app.token") private token: string;
+
+  printToken() {
+    console.log(this.token); // Value from config
+  }
+}
+```
+
+You can also use `@Value()` to inject the resolved value of a provider (by token), or `refValue()` for the functional API:
+
+```typescript
+import {Injectable, Value} from "@tsed/di";
+
+@Injectable()
+export class MyService {
+  @Value("MY_TOKEN") private value: string;
+
+  printValue() {
+    console.log(this.value); // Value from MY_TOKEN provider
+  }
+}
+```
+
+**Functional API for constants and values:**
+
+```js
+import {constant, refValue, inject} from "@tsed/di";
+
+const appToken = constant("app.token", "my-api-token"); // frozen value
+const refAppToken = refValue(); // reference to the app.token value. not frozen
+```
+
+- Use `@Constant()`/`constant()` for static configuration values.
+- Use `@Value()`/`refValue()` for dynamic values.
+
+Learn more: [Constants and Value Injection](https://tsed.dev/docs/providers.html#constant)
+
+---
+
+## Providers
+
+`@tsed/di` supports multiple provider types:
+
+- **@Injectable:** Basic class providers.
+- **@Service:** Same as `@Injectable`, for semantic clarity.
+- **@Interceptor:** For registering interceptors.
+- **Functional API:** Use `injectable()`, `.factory()`, `.asyncFactory()`, `.value()` for manual/advanced registration.
+- **Constants:** With `@Constant()`/`constant()`.
+- **Values:** With `@Value()`/`refValue()`.
+- **Scoped providers:** Support for singleton, request, and custom scopes.
+
+See [Providers documentation](https://tsed.dev/docs/providers.html).
+
+---
+
+## Documentation & Resources
+
+- **[Providers](https://tsed.dev/docs/providers.html)**
+- **[Custom Providers](https://tsed.dev/docs/custom-providers.html)**
+- **[Constants & Value Injection](https://tsed.dev/docs/providers.html#c)**
+- **[Config Sources](https://tsed.dev/docs/configuration/configuration-sources.html)**
+- **[Functional API](https://tsed.dev/docs/di-functional-api.html)**
+- **[InjectContext](https://tsed.dev/docs/di-injectcontext.html)**
+
+---
 
 ## Contributors
 

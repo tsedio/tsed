@@ -175,6 +175,10 @@ export default defineConfig({
             link: "/docs/custom-endpoint-decorators"
           },
           {
+            text: "Custom providers",
+            link: "/docs/custom-providers"
+          },
+          {
             text: "Templating",
             link: `/docs/templating`
           },
