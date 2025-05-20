@@ -7653,7 +7653,7 @@ __metadata:
     express: "npm:^4.21.0"
     express-session: "npm:1.18.1"
     method-override: "npm:3.0.0"
-    multer: "npm:^1.4.5-lts.1"
+    multer: "npm:^2.0.0"
     tslib: "npm:2.7.0"
     typescript: "npm:5.4.5"
     vitest: "npm:3.1.1"
@@ -7669,7 +7669,7 @@ __metadata:
     "@types/multer": ^1.4.5
     body-parser: ^1.19.0
     cross-env: 7.0.3
-    multer: ^1.4.5-lts.1
+    multer: ^2.0.0
   peerDependenciesMeta:
     "@tsed/core":
       optional: false
@@ -7813,7 +7813,7 @@ __metadata:
     koa-qs: "npm:^3.0.0"
     koa-send: "npm:5.0.1"
     koa-session: "npm:6.4.0"
-    multer: "npm:^1.4.5-lts.1"
+    multer: "npm:^2.0.0"
     tslib: "npm:2.7.0"
     typescript: "npm:5.4.5"
     vitest: "npm:3.1.1"
@@ -7832,7 +7832,7 @@ __metadata:
     koa-override: ">=3.0.0"
     koa-qs: ">=3.0.0"
     koa-session: ">=6.2.0"
-    multer: ^1.4.5-lts.1
+    multer: ^2.0.0
   peerDependenciesMeta:
     "@tsed/core":
       optional: false
@@ -7944,7 +7944,7 @@ __metadata:
     "@tsed/platform-middlewares": "workspace:*"
     "@tsed/typescript": "workspace:*"
     eslint: "npm:9.12.0"
-    multer: "npm:^1.4.5-lts.1"
+    multer: "npm:^2.0.0"
     tslib: "npm:2.7.0"
     typescript: "npm:5.4.5"
     vitest: "npm:3.1.1"
@@ -22796,9 +22796,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"multer@npm:^1.4.5-lts.1":
-  version: 1.4.5-lts.1
-  resolution: "multer@npm:1.4.5-lts.1"
+"multer@npm:^2.0.0":
+  version: 2.0.0
+  resolution: "multer@npm:2.0.0"
   dependencies:
     append-field: "npm:^1.0.0"
     busboy: "npm:^1.0.0"
@@ -22807,7 +22807,7 @@ __metadata:
     object-assign: "npm:^4.1.1"
     type-is: "npm:^1.6.4"
     xtend: "npm:^4.0.0"
-  checksum: 10/957c09956f3b7f79d8586cac5e2a50e9a5c3011eb841667b5e4590c5f31d9464f5b46aecd399c83e183a15b88b019cccf0e4fa5620db40bf16b9e3af7fab3ac6
+  checksum: 10/e6aebea164666dff522a4d2aff235dbab12ac6d50c6e491c6b9ccafeddc229c5ccd34911374d223d597d602454951dd2e9b7d6e0a7b401053e47ef43e2838e2a
   languageName: node
   linkType: hard
 
