@@ -20,7 +20,7 @@
   "scripts": {
     "clean": "rm -rf lib",
     "build": "yarn clean && yarn barrels && yarn build:ts && yarn run build:browser",
-    "build:browser": "webpack",
+    "build:browser": "vite build",
     "barrels": "barrels",
     "test": "vitest run",
     "build:ts": "tsc --build tsconfig.esm.json",
@@ -48,8 +48,8 @@
     "@tsed/typescript": "workspace:*",
     "eslint": "9.12.0",
     "typescript": "5.4.5",
-    "vitest": "3.1.4",
-    "webpack": "^5.75.0"
+    "vite": "6.2.2",
+    "vitest": "3.1.4"
   },
   "peerDependencies": {
     "@tsed/core": ">=8.9.5",

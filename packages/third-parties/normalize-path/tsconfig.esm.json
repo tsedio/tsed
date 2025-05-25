@@ -10,17 +10,5 @@
     "noEmit": false
   },
   "include": ["src/**/*.ts", "src/**/*.json"],
-  "exclude": [
-    "node_modules",
-    "test",
-    "lib",
-    "benchmark",
-    "coverage",
-    "spec",
-    "**/*.benchmark.ts",
-    "**/*.spec.ts",
-    "keys",
-    "**/__mock__/**",
-    "webpack.config.js"
-  ]
+  "exclude": ["node_modules", "test", "lib", "benchmark", "coverage", "spec", "**/*.benchmark.ts", "**/*.spec.ts", "keys", "**/__mock__/**"]
 }

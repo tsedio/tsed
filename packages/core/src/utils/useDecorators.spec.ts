@@ -1,5 +1,5 @@
-import {AnyDecorator} from "../../types/AnyDecorator.js";
 import {StoreFn} from "../decorators/storeFn.js";
+import type {AnyDecorator} from "../types/AnyDecorator.js";
 import {Store} from "../types/Store.js";
 import {useDecorators} from "./useDecorators.js";
 

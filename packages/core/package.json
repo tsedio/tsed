@@ -7,26 +7,26 @@
   "main": "./lib/esm/index.js",
   "module": "./lib/esm/index.js",
   "typings": "./lib/types/index.d.ts",
-  "browser": "./lib/browser/core.umd.min.js",
+  "browser": "./lib/browser/core.umd.cjs",
   "exports": {
     ".": {
       "tsed-source": "./src/index.ts",
       "types": "./lib/types/index.d.ts",
-      "browser": "./lib/browser/core.umd.min.js",
+      "browser": "./lib/browser/core.umd.cjs",
       "import": "./lib/esm/index.js",
       "default": "./lib/esm/index.js"
     },
-    "./**/*": {
-      "tsed-source": "./src/**/*.ts",
-      "types": "./lib/types/**/*.d.ts",
-      "import": "./lib/esm/**/*.js",
-      "default": "./lib/esm/**/*.js"
+    "./*.js": {
+      "tsed-source": "./src/*.ts",
+      "types": "./lib/types/*.d.ts",
+      "import": "./lib/esm/*.js",
+      "default": "./lib/esm/*.js"
     }
   },
   "scripts": {
     "build": "yarn barrels && yarn build:ts && yarn run build:browser",
     "barrels": "barrels",
-    "build:browser": "webpack",
+    "build:browser": "vite build",
     "build:ts": "tsc --build tsconfig.esm.json",
     "test": "vitest run",
     "test:ci": "vitest run --coverage.thresholds.autoUpdate=true"
@@ -37,13 +37,12 @@
   },
   "devDependencies": {
     "@tsed/barrels": "workspace:*",
-    "@tsed/monorepo-utils": "2.3.11",
+    "@tsed/monorepo-utils": "2.3.13",
     "@tsed/typescript": "workspace:*",
     "@tsed/vitest": "workspace:*",
-    "eslint": "9.12.0",
     "typescript": "5.4.5",
-    "vite": "6.3.5",
-    "vitest": "3.1.4",
-    "webpack": "^5.75.0"
+    "vite": "6.2.2",
+    "vite-plugin-dts": "4.5.4",
+    "vitest": "3.1.4"
   }
 }
