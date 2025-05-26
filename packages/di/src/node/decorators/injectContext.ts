@@ -1,4 +1,4 @@
-import {catchError} from "@tsed/core";
+import {catchError} from "@tsed/core/utils/catchError.js";
 
 import {DIContext} from "../domain/DIContext.js";
 import {context} from "../fn/context.js";

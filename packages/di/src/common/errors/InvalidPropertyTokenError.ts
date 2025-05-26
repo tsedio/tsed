@@ -1,4 +1,5 @@
-import {classOf, nameOf} from "@tsed/core";
+import {classOf} from "@tsed/core/utils/classOf.js";
+import {nameOf} from "@tsed/core/utils/nameOf.js";
 
 export class InvalidPropertyTokenError extends Error {
   name = "INVALID_TOKEN_ERROR";

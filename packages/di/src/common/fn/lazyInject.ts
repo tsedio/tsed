@@ -1,4 +1,4 @@
-import {isFunction} from "@tsed/core";
+import {isFunction} from "@tsed/core/utils/isFunction.js";
 
 import type {TokenProvider} from "../interfaces/TokenProvider.js";
 import {inject} from "./inject.js";

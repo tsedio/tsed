@@ -1,9 +1,11 @@
-import {DecoratorParameters, decoratorTypeOf, DecoratorTypes} from "@tsed/core";
+import {DecoratorParameters} from "@tsed/core/types/DecoratorParameters.js";
+import {DecoratorTypes} from "@tsed/core/types/DecoratorTypes.js";
+import {decoratorTypeOf} from "@tsed/core/utils/decoratorTypeOf.js";
 
 import {configuration} from "../fn/configuration.js";
 import {injectable} from "../fn/injectable.js";
 import {injector} from "../fn/injector.js";
-import {CONFIGURATION, DIConfiguration} from "../services/DIConfiguration.js";
+import {DIConfiguration} from "../services/DIConfiguration.js";
 import {Inject} from "./inject.js";
 
 /**

@@ -1,4 +1,10 @@
-import {catchError, decoratorTypeOf, DecoratorTypes, isPromise, Metadata, Store, type Type} from "@tsed/core";
+import {DecoratorTypes} from "@tsed/core/types/DecoratorTypes.js";
+import {Metadata} from "@tsed/core/types/Metadata.js";
+import {Store} from "@tsed/core/types/Store.js";
+import {type Type} from "@tsed/core/types/Type.js";
+import {catchError} from "@tsed/core/utils/catchError.js";
+import {decoratorTypeOf} from "@tsed/core/utils/decoratorTypeOf.js";
+import {isPromise} from "@tsed/core/utils/isPromise.js";
 
 import {DI_INJECTABLE_PROPS, DI_INVOKE_OPTIONS, DI_USE_OPTIONS} from "../constants/constants.js";
 import {InvalidPropertyTokenError} from "../errors/InvalidPropertyTokenError.js";

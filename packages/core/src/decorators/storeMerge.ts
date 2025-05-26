@@ -1,4 +1,4 @@
-import {Store} from "../domain/Store.js";
+import {Store} from "../types/Store.js";
 import {StoreFn} from "./storeFn.js";
 
 export function StoreMerge(key: any, value: any): Function {

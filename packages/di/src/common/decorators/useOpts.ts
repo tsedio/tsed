@@ -1,4 +1,7 @@
-import {decoratorTypeOf, DecoratorTypes, Store, UnsupportedDecoratorType} from "@tsed/core";
+import {UnsupportedDecoratorType} from "@tsed/core/errors/UnsupportedDecoratorType.js";
+import {DecoratorTypes} from "@tsed/core/types/DecoratorTypes.js";
+import {Store} from "@tsed/core/types/Store.js";
+import {decoratorTypeOf} from "@tsed/core/utils/decoratorTypeOf.js";
 
 import {DI_USE_OPTIONS, DI_USE_PARAM_OPTIONS} from "../constants/constants.js";
 

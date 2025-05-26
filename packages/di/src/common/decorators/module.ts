@@ -1,4 +1,4 @@
-import {useDecorators} from "@tsed/core";
+import {useDecorators} from "@tsed/core/utils/useDecorators.js";
 
 import {ProviderScope} from "../domain/ProviderScope.js";
 import {ProviderType} from "../domain/ProviderType.js";

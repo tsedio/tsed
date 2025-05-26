@@ -1,4 +1,5 @@
-import {isArray, type Type} from "@tsed/core";
+import {type Type} from "@tsed/core/types/Type.js";
+import {isArray} from "@tsed/core/utils/isArray.js";
 
 import {LocalsContainer} from "../domain/LocalsContainer.js";
 import {injector} from "../fn/injector.js";

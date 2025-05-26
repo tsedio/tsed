@@ -7,12 +7,12 @@
   "main": "./lib/esm/index.js",
   "module": "./lib/esm/index.js",
   "typings": "./lib/types/index.d.ts",
-  "browser": "./lib/browser/schema-formio.umd.min.js",
+  "browser": "./lib/browser/schema-formio.umd.cjs",
   "exports": {
     ".": {
       "tsed-source": "./src/index.ts",
       "types": "./lib/types/index.d.ts",
-      "browser": "./lib/browser/schema-formio.umd.min.js",
+      "browser": "./lib/browser/schema-formio.umd.cjs",
       "import": "./lib/esm/index.js",
       "default": "./lib/esm/index.js"
     }
@@ -20,7 +20,7 @@
   "scripts": {
     "clean": "rm -rf lib",
     "build": "yarn clean && yarn barrels && yarn build:ts && yarn run build:browser",
-    "build:browser": "webpack",
+    "build:browser": "vite build",
     "barrels": "barrels",
     "test": "vitest run",
     "build:ts": "tsc --build tsconfig.esm.json",
@@ -51,6 +51,7 @@
     "@tsed/typescript": "workspace:*",
     "eslint": "9.12.0",
     "typescript": "5.4.5",
+    "vite": "6.2.2",
     "vitest": "3.1.4"
   },
   "peerDependencies": {

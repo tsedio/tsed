@@ -1,5 +1,5 @@
-import {Store} from "../domain/Store.js";
-import {DecoratorParameters} from "../interfaces/DecoratorParameters.js";
+import {DecoratorParameters} from "../types/DecoratorParameters.js";
+import {Store} from "../types/Store.js";
 
 /**
  * Create a store correctly configured from the parameters given by the decorator.

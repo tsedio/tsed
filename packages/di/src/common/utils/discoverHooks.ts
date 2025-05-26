@@ -1,4 +1,5 @@
-import {type AbstractType, methodsOf, type Type} from "@tsed/core";
+import {type AbstractType, type Type} from "@tsed/core/types/Type.js";
+import {methodsOf} from "@tsed/core/utils/methodsOf.js";
 
 export function discoverHooks(token: Type | AbstractType<any>) {
   return methodsOf(token).reduce((hooks, {propertyKey}) => {

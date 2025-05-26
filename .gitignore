@@ -49,7 +49,6 @@ tools/**/dist
 /es6/
 /lib/
 
-**/types
 /dts/
 /dist
 .tmp

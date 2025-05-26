@@ -1,4 +1,13 @@
-import {classOf, deepClone, deepMerge, isArray, isClass, isFunction, isInheritedFrom, isObject, isPromise, nameOf} from "@tsed/core";
+import {classOf} from "@tsed/core/utils/classOf.js";
+import {deepClone} from "@tsed/core/utils/deepClone.js";
+import {deepMerge} from "@tsed/core/utils/deepMerge.js";
+import {isArray} from "@tsed/core/utils/isArray.js";
+import {isClass} from "@tsed/core/utils/isClass.js";
+import {isFunction} from "@tsed/core/utils/isFunction.js";
+import {isInheritedFrom} from "@tsed/core/utils/isInheritedFrom.js";
+import {isObject} from "@tsed/core/utils/isObject.js";
+import {isPromise} from "@tsed/core/utils/isPromise.js";
+import {nameOf} from "@tsed/core/utils/nameOf.js";
 import {$alter, $asyncAlter, $asyncEmit, $emit, $off, $on} from "@tsed/hooks";
 
 import {DI_INVOKE_OPTIONS, DI_USE_PARAM_OPTIONS} from "../constants/constants.js";

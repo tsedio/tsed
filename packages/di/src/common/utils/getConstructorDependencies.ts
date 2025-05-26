@@ -1,4 +1,4 @@
-import {Metadata} from "@tsed/core";
+import {Metadata} from "@tsed/core/types/Metadata.js";
 
 export function getConstructorDependencies(target: any, propertyKey?: string | symbol | undefined) {
   return Metadata.getOwn("override:ctor:design:paramtypes", target, propertyKey) || [...Metadata.getParamTypes(target, propertyKey)] || [];

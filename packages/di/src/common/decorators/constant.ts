@@ -1,4 +1,5 @@
-import {catchError, deepClone} from "@tsed/core";
+import {catchError} from "@tsed/core/utils/catchError.js";
+import {deepClone} from "@tsed/core/utils/deepClone.js";
 
 import {constant} from "../fn/constant.js";
 
@@ -36,7 +37,7 @@ export function bindConstant(target: any, propertyKey: string | symbol, expressi
  * ## Example
  *
  * ```typescript
- * import {Env} from "@tsed/core";
+ * import {Env} from "@tsed/core/domain/Env.js";
  * import {Constant, Value} from "@tsed/di";
  *
  * export class MyClass {

@@ -1,5 +1,8 @@
-import {isArrayOrArrayClass, Type, useDecorators} from "@tsed/core";
-import {Children, Path} from "@tsed/schema";
+import {Store} from "@tsed/core/types/Store.js";
+import {Type} from "@tsed/core/types/Type.js";
+import {classOf} from "@tsed/core/utils/classOf.js";
+import {isArrayOrArrayClass} from "@tsed/core/utils/isArray.js";
+import {useDecorators} from "@tsed/core/utils/useDecorators.js";
 
 import type {ControllerMiddlewares} from "../domain/ControllerProvider.js";
 import {controller} from "../fn/injectable.js";
@@ -54,12 +57,17 @@ function mapOptions(options: any): ControllerOptions {
 export function Controller(options: PathType | ControllerOptions): ClassDecorator {
   const {children = [], path, ...opts} = mapOptions(options);
 
-  return useDecorators(
-    (target: Type) => {
-      controller(target, opts);
-    },
-    // TODO @tsed/schema: remove this when we have a better solution
-    path && Path(path as any),
-    Children(...children)
-  );
+  return useDecorators((target: Type) => {
+    const factory = controller(target, opts);
+
+    if (path) {
+      factory.store().set("path", path);
+    }
+
+    factory.store().set("childrenControllers", children);
+
+    children.forEach((childToken) => {
+      Store.from(childToken).set("parentController", classOf(target));
+    });
+  });
 }

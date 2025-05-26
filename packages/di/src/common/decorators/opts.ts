@@ -1,4 +1,4 @@
-import {classOf} from "@tsed/core";
+import {classOf} from "@tsed/core/utils/classOf.js";
 
 import {DI_USE_PARAM_OPTIONS} from "../constants/constants.js";
 import {ProviderScope} from "../domain/ProviderScope.js";

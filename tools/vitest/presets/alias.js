@@ -3,7 +3,7 @@ import {basename, dirname, join} from "node:path";
 
 import {globbySync} from "globby";
 
-const root = join(import.meta.dirname, "../../..");
+export const root = join(import.meta.dirname, "../../..");
 
 function deps(pkg, pkgs, set = new Set()) {
   Object.keys({
@@ -18,23 +18,10 @@ function deps(pkg, pkgs, set = new Set()) {
 }
 
 function findPackages() {
-  const pkgs = globbySync(
-    [
-      "packages/*/package.json",
-      "packages/graphql/*/package.json",
-      "packages/orm/*/package.json",
-      "packages/utils/*/package.json",
-      "packages/platform/*/package.json",
-      "packages/security/*/package.json",
-      "packages/specs/*/package.json",
-      "packages/third-parties/*/package.json",
-      "!**/node_modules/**"
-    ],
-    {
-      cwd: root,
-      absolute: true
-    }
-  ).map((file) => ({
+  const pkgs = globbySync(["packages/*/package.json", "packages/*/*/package.json", "!**/node_modules/**"], {
+    cwd: root,
+    absolute: true
+  }).map((file) => ({
     path: file,
     name: basename(dirname(file)),
     pkg: JSON.parse(readFileSync(file, {encoding: "utf8"}))
@@ -56,9 +43,11 @@ function findPackages() {
 
 const packages = findPackages();
 
-export const alias = packages.reduce((acc, pkg) => {
-  return {
-    ...acc,
-    [pkg.pkg.name]: join(dirname(pkg.path), pkg.pkg.source)
-  };
-}, {});
+export const alias = packages
+  .filter((pkg) => pkg.path && pkg.pkg.main)
+  .reduce((acc, pkg) => {
+    return {
+      ...acc,
+      [pkg.pkg.name]: join(dirname(pkg.path), pkg.pkg.source)
+    };
+  }, {});

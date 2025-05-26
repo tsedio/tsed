@@ -1,19 +1,12 @@
+import {join} from "node:path";
+
 import swc from "unplugin-swc";
+import tsconfigPaths from "vite-tsconfig-paths";
 import {defineConfig} from "vitest/config";
 
-import {alias} from "./alias.js";
+export const root = join(import.meta.dirname, "../../..");
 
 export const presets = defineConfig({
-  resolve: {
-    alias: {
-      "@tsed/platform-http/testing": alias["@tsed/platform-http"].replace("common", "testing"),
-      "@tsed/platform-multer/express": alias["@tsed/platform-multer"].replace("src/index.ts", "src/adapters/express/MulterModule.ts"),
-      "@tsed/platform-multer/koa": alias["@tsed/platform-multer"].replace("src/index.ts", "src/adapters/koa/MulterModule.ts"),
-      "@tsed/platform-multer/fastify": alias["@tsed/platform-multer"].replace("src/index.ts", "src/adapters/fastify/MulterModule.ts"),
-      "@tsed/core/utils/objects/nameOf.js": alias["@tsed/core"].replace("src/index.ts", "src/utils/objects/nameOf.ts"),
-      ...alias
-    }
-  },
   test: {
     globals: true,
     environment: "node",
@@ -40,6 +33,9 @@ export const presets = defineConfig({
     }
   },
   plugins: [
+    tsconfigPaths({
+      projects: [join(root, "tsconfig.json"), join(root, "tsconfig.spec.json")]
+    }),
     swc.vite({
       sourceMaps: true,
       inlineSourcesContent: true,

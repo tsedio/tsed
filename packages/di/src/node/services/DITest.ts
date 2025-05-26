@@ -1,4 +1,7 @@
-import {Env, getValue, isClass, isObject} from "@tsed/core";
+import {Env} from "@tsed/core/types/Env.js";
+import {getValue} from "@tsed/core/utils/getValue.js";
+import {isClass} from "@tsed/core/utils/isClass.js";
+import {isObject} from "@tsed/core/utils/isObject.js";
 import {$log} from "@tsed/logger";
 
 import {cleanAllLocalsContainer, detachLocalsContainer, localsContainer} from "../../common/fn/localsContainer.js";

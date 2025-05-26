@@ -1,4 +1,4 @@
-import {Type} from "@tsed/core";
+import {Type} from "@tsed/core/types/Type.js";
 
 import {Container} from "../domain/Container.js";
 import {GlobalProviders} from "../registries/GlobalProviders.js";

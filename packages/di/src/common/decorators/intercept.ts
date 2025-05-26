@@ -1,4 +1,11 @@
-import {classOf, decorateMethodsOf, DecoratorParameters, decoratorTypeOf, DecoratorTypes, nameOf, Store, Type} from "@tsed/core";
+import {DecoratorParameters} from "@tsed/core/types/DecoratorParameters.js";
+import {DecoratorTypes} from "@tsed/core/types/DecoratorTypes.js";
+import {Store} from "@tsed/core/types/Store.js";
+import {Type} from "@tsed/core/types/Type.js";
+import {classOf} from "@tsed/core/utils/classOf.js";
+import {decorateMethodsOf} from "@tsed/core/utils/decorateMethodsOf.js";
+import {decoratorTypeOf} from "@tsed/core/utils/decoratorTypeOf.js";
+import {nameOf} from "@tsed/core/utils/nameOf.js";
 
 import {DI_INTERCEPTOR_OPTIONS, DI_INVOKE_OPTIONS} from "../constants/constants.js";
 import {inject} from "../fn/inject.js";

@@ -1,4 +1,5 @@
-import {Store, Type} from "@tsed/core";
+import {Store} from "@tsed/core/types/Store.js";
+import {Type} from "@tsed/core/types/Type.js";
 
 export function mergeMount(m1: any = {}, m2: any = {}) {
   return Object.entries(m2).reduce((mount, [key, controllers]) => {

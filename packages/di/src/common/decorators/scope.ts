@@ -1,4 +1,4 @@
-import {StoreSet} from "@tsed/core";
+import {StoreSet} from "@tsed/core/decorators/storeSet.js";
 
 import {ProviderScope} from "../domain/ProviderScope.js";
 

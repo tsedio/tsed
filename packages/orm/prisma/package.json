@@ -45,7 +45,7 @@
     "@tsed/core": "workspace:*",
     "@tsed/di": "workspace:*",
     "@tsed/json-mapper": "workspace:*",
-    "@tsed/monorepo-utils": "2.3.11",
+    "@tsed/monorepo-utils": "2.3.13",
     "@tsed/schema": "workspace:*",
     "@tsed/typescript": "workspace:*",
     "@types/change-case": "^2.3.1",

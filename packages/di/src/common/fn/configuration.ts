@@ -1,4 +1,4 @@
-import {Store} from "@tsed/core";
+import {Store} from "@tsed/core/types/Store.js";
 
 import type {TokenProvider} from "../interfaces/TokenProvider.js";
 import {DIConfiguration} from "../services/DIConfiguration.js";

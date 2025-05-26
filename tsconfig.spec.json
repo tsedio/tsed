@@ -78,6 +78,6 @@
       "@tsed/temporal": ["./packages/third-parties/temporal/src/index.ts"]
     }
   },
-  "include": ["vitest.*.mts", "**/vitest.*.mts", "**/*.ts"],
+  "include": ["**/vite.*.mts", "vitest.*.mts", "**/vitest.*.mts", "**/*.ts"],
   "exclude": ["dist", "**/lib/**", "**/generate_code/**", "**/docs/**", "**/generated/**"]
 }

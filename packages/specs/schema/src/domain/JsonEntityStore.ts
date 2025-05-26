@@ -272,6 +272,14 @@ export abstract class JsonEntityStore implements JsonEntityStoreOptions {
     }
   }
 
+  set path(path: string) {
+    this.store.set("path", path);
+  }
+
+  get path() {
+    return this.store.get("path");
+  }
+
   getBestType() {
     return this.itemSchema.hasDiscriminator
       ? this.itemSchema.discriminator().base

@@ -1,4 +1,9 @@
-import {type AbstractType, classOf, getClassOrSymbol, isClass, nameOf, Store, Type} from "@tsed/core";
+import {Store} from "@tsed/core/types/Store.js";
+import {type AbstractType, Type} from "@tsed/core/types/Type.js";
+import {classOf} from "@tsed/core/utils/classOf.js";
+import {getClassOrSymbol} from "@tsed/core/utils/getClassOrSymbol.js";
+import {isClass} from "@tsed/core/utils/isClass.js";
+import {nameOf} from "@tsed/core/utils/nameOf.js";
 
 import {DI_USE_PARAM_OPTIONS} from "../constants/constants.js";
 import type {ProviderOpts} from "../interfaces/ProviderOpts.js";

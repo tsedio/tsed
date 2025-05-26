@@ -1,4 +1,6 @@
-import {Env, getValue, setValue} from "@tsed/core";
+import {Env} from "@tsed/core/types/Env.js";
+import {getValue} from "@tsed/core/utils/getValue.js";
+import {setValue} from "@tsed/core/utils/setValue.js";
 
 import type {DILoggerOptions} from "../interfaces/DILoggerOptions.js";
 import type {ImportTokenProviderOpts} from "../interfaces/ImportTokenProviderOpts.js";

@@ -1,4 +1,5 @@
-import {catchError, isFunction} from "@tsed/core";
+import {catchError} from "@tsed/core/utils/catchError.js";
+import {isFunction} from "@tsed/core/utils/isFunction.js";
 
 import {lazyInject, optionalLazyInject} from "../fn/lazyInject.js";
 

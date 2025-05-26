@@ -1,4 +1,4 @@
-import {catchError} from "@tsed/core";
+import {catchError} from "@tsed/core/utils/catchError.js";
 
 import {injector} from "../fn/injector.js";
 
@@ -24,7 +24,7 @@ export function bindValue(target: any, propertyKey: string | symbol, expression:
  * ## Example
  *
  * ```typescript
- * import {Env} from "@tsed/core";
+ * import {Env} from "@tsed/core/domain/Env.js";
  * import {Constant, Value} from "@tsed/di";
  *
  * export class MyClass {
