@@ -1,5 +1,5 @@
 import {cleanObject} from "@tsed/core";
-import {constant, inject, injectable, injector, InjectorService, ProviderScope} from "@tsed/di";
+import {constant, inject, injectable, injector, ProviderScope} from "@tsed/di";
 import {Ajv, Format, KeywordDefinition, Options, Vocabulary} from "ajv";
 import AjvErrors from "ajv-errors";
 import AjvFormats from "ajv-formats";

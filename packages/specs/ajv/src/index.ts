@@ -4,6 +4,7 @@
 export * from "./decorators/formats.js";
 export * from "./decorators/keyword.js";
 export * from "./errors/AjvValidationError.js";
+export * from "./fn/validate.js";
 export * from "./interfaces/FormatsMethods.js";
 export * from "./interfaces/IAjvSettings.js";
 export * from "./interfaces/interfaces.js";
