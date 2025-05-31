@@ -144,6 +144,10 @@ export default defineConfig({
               {text: "Migrate v6 to v7", link: "/introduction/migrate-from-v6"},
               {text: "Migrate from Express", link: "/introduction/migrate-from-express"}
             ]
+          },
+          {
+            text: "Cheat sheet",
+            link: "/introduction/cheat-sheet"
           }
         ]
       },
