@@ -34,7 +34,7 @@
   "devDependencies": {
     "@babel/core": "7.25.7",
     "@babel/plugin-transform-runtime": "7.25.7",
-    "@babel/preset-env": "7.25.7",
+    "@babel/preset-env": "7.27.2",
     "@babel/preset-react": "7.25.7",
     "@tsed/barrels": "workspace:*",
     "@tsed/typescript": "workspace:*",
