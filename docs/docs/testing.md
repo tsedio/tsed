@@ -57,7 +57,8 @@ Testing asynchronous method is also possible using `Promises` (`async`/`await`):
 
 ### Mock context
 
-[Context](/docs/request-context.md) is a feature that allows you to store data in a global context during the request lifecycle.
+[Context](/docs/request-context.md) is a feature that allows you to store data in a global context during the request
+lifecycle.
 
 Here is an example of context usage:
 
@@ -77,7 +78,8 @@ To run a method with context in your unit test, you can use the @@runInContext@@
 
 ### Using PlatformTest.invoke
 
-PlatformTest API provides an `PlatformTest.invoke` method to create a new instance of your component with mocked dependencies during a test context created with `PlatformTest.create()`.
+PlatformTest API provides an `PlatformTest.invoke` method to create a new instance of your component with mocked
+dependencies during a test context created with `PlatformTest.create()`.
 This method is useful when you want to mock dependencies for a specific test.
 
 ::: code-group
@@ -98,7 +100,6 @@ If you want to mock dependencies for all your tests, you can use the `PlatformTe
 it useful if you have a service that execute a code in his constructor.
 
 ::: code-group
-
 
 <<< @/docs/snippets/testing/db-service-mock-dependencies-create.vitest.ts [vitest]
 
@@ -197,14 +198,16 @@ your server must be executed for integration test.
 
 ::: warning
 Use `PlatformTest.boostrap()` is not recommended in Jest environment.  
-This method is practical for carrying out some integration tests but consumes a lot of resources which can lead to a significant slowdown in your tests or even cause timeouts.
+This method is practical for carrying out some integration tests but consumes a lot of resources which can lead to a
+significant slowdown in your tests or even cause timeouts.
 
 It's better to write your tests using Cucumber and test your Rest applications in a container.
 :::
 
 ::: tip Note
 There is no performance issue as long as you use `PlatformTest.create()` to perform your tests,
-But it's not possible with this method to do an integration test with the server (Express or Koa). You can only test your controller and the services injected into it.
+But it's not possible with this method to do an integration test with the server (Express or Koa). You can only test
+your controller and the services injected into it.
 :::
 
 ### Stub a service method
@@ -214,7 +217,6 @@ When you're testing your API, you have sometimes to stub a method of a service.
 Here is an example to do that:
 
 ::: code-group
-
 
 ```typescript [vitest]
 import {it, expect, describe, beforeAll, afterAll} from "vitest";
@@ -322,7 +324,6 @@ describe("HelloWorldController", () => {
 });
 ```
 
-
 ```typescript [jest]
 import {PlatformTest} from "@tsed/platform-http/testing";
 import SuperTest from "supertest";
@@ -374,9 +375,11 @@ is that they will always call the hooks of your service like for example `$onIni
 `PlatformTest.create()` call only the `$onInit()` hook while `PlatformTest.bootstrap()` call all hooks.
 :::
 
-This is going to be a problem when you want to test your application, and it uses `$onInit` to initialize your database or something else.
+This is going to be a problem when you want to test your application, and it uses `$onInit` to initialize your database
+or something else.
 
-Since v7.4.0, You can now mock one or more services as soon as the PlatformTest context is created (like is possible with `PlatformTest.invoke`).
+Since v7.4.0, You can now mock one or more services as soon as the PlatformTest context is created (like is possible
+with `PlatformTest.invoke`).
 
 Here is an example:
 
@@ -429,3 +432,22 @@ describe("SomeIntegrationTestWithDB", () => {
   afterAll(PlatformTest.reset);
 });
 ```
+
+## Use TestContainers <Badge text="v8.9.0+" />
+
+Ts.ED provides a way to use [TestContainers](https://www.testcontainers.org/) to run your tests in a containerized
+environment.
+
+You can use the following packages to run your tests in a containerized environment, depending on your database or
+service:
+
+- [@tsed/testcontainers-mongo](/tutorials/mongoose.md#testing) a dedicated package for Ts.ED and MongoDB (open source
+  version)
+- [@tsedio/testcontainers-mongo](/plugins/premium/testcontainers/mongo.md), a standalone package for MongoDB (premium
+  version)
+- [@tsed/testcontainers-postgres](/plugins/premium/testcontainers/postgres.md) (premium
+  version)
+- [@tsed/testcontainers-regis](/plugins/premium/testcontainers/redis.md) (premium
+  version)
+- [@tsed/testcontainers-vault](/plugins/premium/testcontainers/vault.md) (premium
+  version)
