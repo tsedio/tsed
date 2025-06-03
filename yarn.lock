@@ -7963,6 +7963,7 @@ __metadata:
     "@types/multer": ^1.4.5
     body-parser: ^1.19.0
     cross-env: 7.0.3
+    express: ">=4.17.1"
     multer: ^2.0.0
   peerDependenciesMeta:
     "@tsed/core":
@@ -7978,6 +7979,8 @@ __metadata:
     "@tsed/platform-views":
       optional: true
     "@tsed/schema":
+      optional: false
+    express:
       optional: false
     multer:
       optional: false
