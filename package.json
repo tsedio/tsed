@@ -193,7 +193,7 @@
     "ghpages": [
       {
         "dir": "./docs/.vuepress/dist",
-        "url": "https://github.com/tsedio/v7.tsed.dev",
+        "url": "https://github.com/tsedio/v7.tsed.io",
         "branch": "gh-pages",
         "cname": "v7.tsed.dev",
         "if": "v7"

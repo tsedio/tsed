@@ -57,7 +57,7 @@ module.exports = ({title, description, base = "", url, apiRedirectUrl = "", them
     docsDir: "docs",
     sidebar: "auto",
     docsBranch: "production",
-    apiUrl: "https://tsed.dev/api.json",
+    apiUrl: "https://v7.tsed.dev/api.json",
     apiRedirectUrl,
     smoothScroll: true,
     lastUpdated: "Last updated",

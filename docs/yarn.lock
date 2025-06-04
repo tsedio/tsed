@@ -1736,7 +1736,7 @@ __metadata:
     vue-analytics: "npm:5.22.1"
     vuepress: "npm:1.9.10"
     vuepress-plugin-sitemap: "npm:2.3.1"
-    vuepress-theme-tsed: "npm:3.20.8"
+    vuepress-theme-tsed: "npm:3.20.9"
   languageName: unknown
   linkType: soft
 
@@ -1747,19 +1747,26 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@tsed/vuepress-common@npm:3.20.8":
-  version: 3.20.8
-  resolution: "@tsed/vuepress-common@npm:3.20.8"
-  checksum: 10/ee1c476658d1b4014503533e4b5df3b37ebe52bbe0a219863c0815d649ea928f237d60aca1b8e4083524ba3c99ad04d1a80daa1b428266a9002dc75e060acfec
+"@tsed/markdown-it-symbols@npm:3.20.9":
+  version: 3.20.9
+  resolution: "@tsed/markdown-it-symbols@npm:3.20.9"
+  checksum: 10/ce4027e3c87612ddd6edc171126d7125bf570eb45a3ff6a56a22f5defb9f87f8641a633dc2bdfd3df7d55e7f9130146f0f75deb06dccb663509c5d4a89da2e06
   languageName: node
   linkType: hard
 
-"@tsed/vuepress-tailwind-config@npm:3.20.8":
-  version: 3.20.8
-  resolution: "@tsed/vuepress-tailwind-config@npm:3.20.8"
+"@tsed/vuepress-common@npm:3.20.9":
+  version: 3.20.9
+  resolution: "@tsed/vuepress-common@npm:3.20.9"
+  checksum: 10/82755fb2e0aa321f18698638ea3171cff2352c0638cc678110f947f25afd88a5867788a32db6824f36dc32941cda4d99c8dafea3d97b84e43e3fdbb313751c0b
+  languageName: node
+  linkType: hard
+
+"@tsed/vuepress-tailwind-config@npm:3.20.9":
+  version: 3.20.9
+  resolution: "@tsed/vuepress-tailwind-config@npm:3.20.9"
   dependencies:
     tailwindcss: "npm:1.9.6"
-  checksum: 10/2235939d272cd4e2e736c59fd97b63a5af8137a74ae32787e60a3d404e688292b6f1e768c341479698f75a63fb39604ecf1adc8731c64b0fcfc9d5f6eb07e511
+  checksum: 10/9839a8ecaeb1ce17664ad3a55b40e093232cedbb1bd2a8cbe956a275fe6ad33328a7f5c638a4fd63da9b935a77f073961c0f74c876a2689e2231b8c8a8c23c76
   languageName: node
   linkType: hard
 
@@ -12732,18 +12739,18 @@ __metadata:
   languageName: node
   linkType: hard
 
-"vuepress-theme-tsed@npm:3.20.8":
-  version: 3.20.8
-  resolution: "vuepress-theme-tsed@npm:3.20.8"
+"vuepress-theme-tsed@npm:3.20.9":
+  version: 3.20.9
+  resolution: "vuepress-theme-tsed@npm:3.20.9"
   dependencies:
     "@docsearch/css": "npm:^3.3.0"
     "@docsearch/js": "npm:^3.3.0"
     "@docsearch/react": "npm:^3.3.0"
     "@sass-collective/sass-rem": "npm:^1.7.0"
     "@silvanite/vuepress-plugin-tailwind": "npm:^1.3.0"
-    "@tsed/markdown-it-symbols": "npm:3.20.8"
-    "@tsed/vuepress-common": "npm:3.20.8"
-    "@tsed/vuepress-tailwind-config": "npm:3.20.8"
+    "@tsed/markdown-it-symbols": "npm:3.20.9"
+    "@tsed/vuepress-common": "npm:3.20.9"
+    "@tsed/vuepress-tailwind-config": "npm:3.20.9"
     "@vuepress/markdown": "npm:^1.9.7"
     "@vuepress/plugin-active-header-links": "npm:^1.9.7"
     "@vuepress/plugin-medium-zoom": "npm:^1.9.7"
@@ -12780,7 +12787,7 @@ __metadata:
     vuepress: "npm:^1.9.7"
     vuepress-plugin-container: "npm:^2.1.5"
     vuepress-plugin-smooth-scroll: "npm:^0.0.10"
-  checksum: 10/e83f4c626ddfb513b498ced635eb634a19d36e3a09d18e3b66e58a8ffdbd8fac02631b160c5acb3c54fce92f87ac654db6ea59ec25ad3516e1df4b5c54d3513a
+  checksum: 10/7f68e1efa613ad8f7d71ff419c400a574cac9f0961f1c1c0628079edd3e9a7069e939a169035ba22ba090ffde7b2569f454f9b2d78aa48ba42e2e385453cf0f8
   languageName: node
   linkType: hard
 
