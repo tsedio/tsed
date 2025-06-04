@@ -32,6 +32,11 @@ pnpm add --dev @tsedio/testcontainers-postgres
 bun add --dev @tsedio/testcontainers-postgres
 ```
 
+::: warning
+See our documentation page for instructions
+on [installing premium plugins](/plugins/premium/install-premium-plugins.md).
+:::
+
 ## ⚙️ Configuration
 
 Set up a global test lifecycle to manage the PostgreSQL container.

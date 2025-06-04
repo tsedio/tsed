@@ -1,4 +1,3 @@
-import fs from "node:fs";
 import {readFile} from "node:fs/promises";
 import {dirname, extname, isAbsolute, join} from "node:path";
 

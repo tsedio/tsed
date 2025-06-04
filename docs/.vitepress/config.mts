@@ -22,6 +22,10 @@ const Plugins = [
     text: "Premium ConfigSource",
     items: [
       {
+        text: "AWS Secrets Manager",
+        link: "/plugins/premium/config-source/aws-secrets"
+      },
+      {
         text: "IORedis ",
         link: "/plugins/premium/config-source/ioredis"
       },
@@ -47,6 +51,10 @@ const Plugins = [
         link: "/plugins/premium/testcontainers/redis"
       },
       {
+        text: "LocalStack",
+        link: "/plugins/premium/testcontainers/localstack"
+      },
+      {
         text: "Mongo",
         link: "/plugins/premium/testcontainers/mongo"
       },
@@ -60,7 +68,7 @@ const Plugins = [
       }
     ]
   }
-]
+];
 
 // https://vitepress.dev/reference/site-config
 export default defineConfig({
@@ -422,6 +430,10 @@ export default defineConfig({
             {text: "Migrate from v6 to v7", link: "/introduction/migrate-from-v6"},
             {text: "Migrate from Express", link: "/introduction/migrate-from-express"}
           ]
+        },
+        {
+          text: "Cheat sheet",
+          link: "/introduction/cheat-sheet"
         }
       ],
       "/docs/": [

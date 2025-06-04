@@ -23,7 +23,8 @@ real time.
 - 🔄 **Sync configuration values**: Use MongoDB as a dynamic source of truth for your app settings.
 - 🛠️ **Flexible options**: Supports all MongoDB client options, custom collections, and validation schemas.
 
-For more details on the @@ConfigSource@@ feature, go to [Configuration Source documentation page](/docs/configuration/configuration-sources.md).
+For more details on the @@ConfigSource@@ feature, go
+to [Configuration Source documentation page](/docs/configuration/configuration-sources.md).
 
 ## 📦 Installation
 
@@ -53,8 +54,9 @@ bun add @tsed/config mongodb
 
 :::
 
-::: tip
-See our documentation page for instructions on [installing premium plugins](/plugins/premium/install-premium-plugins.md).
+::: warning
+See our documentation page for instructions
+on [installing premium plugins](/plugins/premium/install-premium-plugins.md).
 :::
 
 ## ⚙️ Configuration Example

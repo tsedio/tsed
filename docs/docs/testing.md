@@ -375,10 +375,10 @@ is that they will always call the hooks of your service like for example `$onIni
 `PlatformTest.create()` call only the `$onInit()` hook while `PlatformTest.bootstrap()` call all hooks.
 :::
 
-This is going to be a problem when you want to test your application, and it uses `$onInit` to initialize your database
+This will be a problem when you want to test your application, and it uses `$onInit` to initialize your database
 or something else.
 
-Since v7.4.0, You can now mock one or more services as soon as the PlatformTest context is created (like is possible
+Since v7.4.0, you can now mock one or more services as soon as the PlatformTest context is created (like is possible
 with `PlatformTest.invoke`).
 
 Here is an example:
@@ -445,9 +445,9 @@ service:
   version)
 - [@tsedio/testcontainers-mongo](/plugins/premium/testcontainers/mongo.md), a standalone package for MongoDB (premium
   version)
-- [@tsed/testcontainers-postgres](/plugins/premium/testcontainers/postgres.md) (premium
+- [@tsedio/testcontainers-postgres](/plugins/premium/testcontainers/postgres.md) (premium
   version)
-- [@tsed/testcontainers-regis](/plugins/premium/testcontainers/redis.md) (premium
+- [@tsedio/testcontainers-redis](/plugins/premium/testcontainers/redis.md) (premium
   version)
-- [@tsed/testcontainers-vault](/plugins/premium/testcontainers/vault.md) (premium
+- [@tsedio/testcontainers-vault](/plugins/premium/testcontainers/vault.md) (premium
   version)

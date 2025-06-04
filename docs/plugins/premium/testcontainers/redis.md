@@ -36,8 +36,9 @@ bun add --dev @tsedio/testcontainers-redis
 
 :::
 
-::: tip
-See our documentation page for instructions on [installing premium plugins](/plugins/premium/install-premium-plugins.md).
+::: warning
+See our documentation page for instructions
+on [installing premium plugins](/plugins/premium/install-premium-plugins.md).
 :::
 
 ## ⚙️ Configuration

@@ -23,7 +23,8 @@ real time.
 - 🛠️ **Flexible options:** Supports standard Redis, Redis Cluster, and custom key prefixing.
 - 🔒 **Validation schema:** Add a validation schema to ensure your configs are always valid.
 
-For more details on the @@ConfigSource@@ feature, go to [Configuration Source documentation page](/docs/configuration/configuration-sources.md).
+For more details on the @@ConfigSource@@ feature, go
+to [Configuration Source documentation page](/docs/configuration/configuration-sources.md).
 
 ## 📦 Installation
 
@@ -53,8 +54,9 @@ bun add @tsed/config @tsed/ioredis ioredis
 
 :::
 
-::: tip
-See our documentation page for instructions on [installing premium plugins](/plugins/premium/install-premium-plugins.md).
+::: warning
+See our documentation page for instructions
+on [installing premium plugins](/plugins/premium/install-premium-plugins.md).
 :::
 
 ## ⚙️ Configuration Example

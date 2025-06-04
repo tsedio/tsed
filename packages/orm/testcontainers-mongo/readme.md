@@ -53,7 +53,7 @@ bun add --dev @tsed/testcontainers-mongo
 
 ### Important
 
-This package require @tsed/platform-http package to work properly. If you're looking for a standalone package,
+This package requires the `@tsed/platform-http` package to work properly. If you're looking for a standalone package,
 you can use the `@tsedio/testcontainers-mongo` premium package available
 here: https://tsed.dev/plugins/premium/config-source/mongo.html
 

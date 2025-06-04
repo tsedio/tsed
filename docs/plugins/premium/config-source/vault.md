@@ -55,7 +55,7 @@ bun add @tsed/config node-vault
 
 :::
 
-::: tip
+::: warning
 See our documentation page for instructions
 on [installing premium plugins](/plugins/premium/install-premium-plugins.md).
 :::

@@ -48,6 +48,11 @@ bun add @tsedio/config-postgres
 bun add @tsed/config pg
 ```
 
+::: warning
+See our documentation page for instructions
+on [installing premium plugins](/plugins/premium/install-premium-plugins.md).
+:::
+
 ## ⚙️ Configuration Example
 
 Set up your PostgreSQL config source in your Ts.ED application:
