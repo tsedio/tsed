@@ -1,4 +1,5 @@
-import {DefineOptions, Job, JobAttributesData, Processor} from "@pulsecron/pulse";
+import {DefineOptions, Job, JobAttributesData, Processor, PulseOnEventType} from "@pulsecron/pulse";
+import type {Collection, Db, Document, Filter} from "@pulsecron/pulse/node_modules/mongodb";
 import {Constant, DIContext, Inject, InjectorService, Module, OnDestroy, Provider, runInContext} from "@tsed/di";
 import {Logger} from "@tsed/logger";
 import {AfterListen} from "@tsed/platform-http";
@@ -76,6 +77,23 @@ export class PulseModule implements OnDestroy, AfterListen {
 
       this.logger.info({event: "PULSE_STOP", message: "Pulse stopped"});
     }
+  }
+
+  get _collection(): Collection | undefined {
+    return this.pulse._collection;
+  }
+
+  get _mdb(): Db | undefined {
+    return this.pulse._mdb;
+  }
+
+  on(event: PulseOnEventType, listener: (jobOrErr: any, job?: Job) => void): this {
+    this.pulse.on(event, listener);
+    return this;
+  }
+
+  cancel(query: Filter<Document>): Promise<number | undefined> {
+    return this.pulse.cancel(query);
   }
 
   define<T extends JobAttributesData>(name: string, processor: Processor<T>, options?: DefineOptions) {

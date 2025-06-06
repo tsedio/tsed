@@ -22,6 +22,8 @@ vi.mock("@pulsecron/pulse", () => {
         save: vi.fn()
       });
       start = vi.fn();
+      on = vi.fn();
+      cancel = vi.fn();
     }
   };
 });
@@ -135,6 +137,45 @@ describe("PulseModule", () => {
 
         expect(pulseModule.pulse.stop).toHaveBeenCalledWith();
         expect(pulseModule.pulse.close).toHaveBeenCalledWith({force: true});
+      });
+    });
+    describe("_collection", () => {
+      it("should expose _collection", () => {
+        const pulseModule = PlatformTest.get<any>(PulseModule)!;
+
+        pulseModule.pulse._collection = {fake: "collection"};
+
+        expect(pulseModule._collection).toEqual({fake: "collection"});
+      });
+    });
+    describe("_mdb", () => {
+      it("should expose _mdb", () => {
+        const pulseModule = PlatformTest.get<any>(PulseModule)!;
+
+        pulseModule.pulse._mdb = {fake: "mdb"};
+
+        expect(pulseModule._mdb).toEqual({fake: "mdb"});
+      });
+    });
+    describe("cancel()", () => {
+      it("should call pulse.cancel", async () => {
+        const pulseModule = PlatformTest.get<any>(PulseModule)!;
+        pulseModule.pulse.cancel = vi.fn().mockResolvedValue(42);
+
+        const result = await pulseModule.cancel({});
+
+        expect(pulseModule.pulse.cancel).toHaveBeenCalledWith({});
+        expect(result).toEqual(42);
+      });
+    });
+    describe("on()", () => {
+      it("should call pulse.on", () => {
+        const pulseModule = PlatformTest.get<any>(PulseModule)!;
+        const listener = vi.fn();
+
+        pulseModule.on("fail", listener);
+
+        expect(pulseModule.pulse.on).toHaveBeenCalledWith("fail", listener);
       });
     });
   });
