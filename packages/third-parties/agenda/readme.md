@@ -3,9 +3,9 @@
 </p>
 
 <div align="center">
- 
+
    <h1>Agenda</h1>
- 
+
 [![Build & Release](https://github.com/tsedio/tsed/workflows/Build%20&%20Release/badge.svg)](https://github.com/tsedio/tsed/actions?query=workflow%3A%22Build+%26+Release%22)
 [![PR Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](https://github.com/tsedio/tsed/blob/master/CONTRIBUTING.md)
 [![npm version](https://badge.fury.io/js/%40tsed%2Fcommon.svg)](https://badge.fury.io/js/%40tsed%2Fcommon)
@@ -84,10 +84,10 @@ Use the `@Define` decorator on methods that you would like to schedule
 programmatically via the AgendaService and Agenda instance access.
 
 ```ts
-import {Agenda, Every, Define} from "@tsed/agenda";
+import {Every, Define, JobsController} from "@tsed/agenda";
 import {Job} from "agenda";
 
-@Agenda({namespace: "email"})
+@JobsController({namespace: "email"})
 export class EmailJobService {
   @Every("60 minutes", {
     name: "maintenanceJob"
@@ -114,15 +114,17 @@ export class EmailJobService {
 
 ## Define a job processor manually
 
-Since Ts.ED 7.53.0, AgendaModule exposes methods to manually define a job processor. It can be useful to define a job processor when you need to fetch data beforehand and dynamically build job name / options.
+Since Ts.ED 7.53.0, AgendaModule exposes methods to manually define a job processor. It can be useful to define a job
+processor when you need to fetch data beforehand and dynamically build job name / options.
 
 ```typescript
-import {Agenda, AgendaModule, Define} from "@tsed/agenda";
+import {Define, JobsController} from "@tsed/agenda";
+import {Agenda} from "agenda";
 
-@Agenda({namespace: "email"})
+@JobsController({namespace: "email"})
 export class EmailJobService {
   @Inject()
-  agenda: AgendaModule;
+  agenda: Agenda;
 
   @Inject()
   httpClient: HttpClient;
@@ -163,15 +165,15 @@ export class EmailJobService {
 Inject the AgendaService instance to interact with it directly, e.g. to schedule
 a job manually.
 
-```typescript
+```ts
 import {Service} from "@tsed/di";
 import {AfterRoutesInit} from "@tsed/platform-params";
-import {AgendaModule} from "@tsed/agenda";
+import {Agenda} from "agenda";
 
 @Service()
 export class UsersService {
   @Inject()
-  private agenda: AgendaModule;
+  private agenda: Agenda;
 
   async create(user: User): Promise<User> {
     // do something
@@ -187,7 +189,8 @@ export class UsersService {
 
 ## Using Agendash
 
-[Agendash](https://github.com/agenda/agendash) provides a job overview dashboard that makes it easy to manage, create and
+[Agendash](https://github.com/agenda/agendash) provides a job overview dashboard that makes it easy to manage, create
+and
 schedule your jobs.
 
 ::: tip Note
@@ -206,8 +209,7 @@ Afterward create the module `agendash.module.ts` in src/modules so that the dash
 import {AfterRoutesInit, PlatformApplication} from "@tsed/platform-http";
 import {Configuration, Inject, Module} from "@tsed/di";
 import {Agenda} from "agenda";
-
-const Agendash = require("agendash");
+import Agendash from "agendash";
 
 @Module()
 export class AgendashModule implements AfterRoutesInit {
@@ -240,7 +242,8 @@ Thank you to all our backers! 🙏 [[Become a backer](https://opencollective.com
 
 ## Sponsors
 
-Support this project by becoming a sponsor. Your logo will show up here with a link to your website. [[Become a sponsor](https://opencollective.com/tsed#sponsor)]
+Support this project by becoming a sponsor. Your logo will show up here with a link to your
+website. [[Become a sponsor](https://opencollective.com/tsed#sponsor)]
 
 ## License
 
@@ -248,8 +251,15 @@ The MIT License (MIT)
 
 Copyright (c) 2016 - 2021 Romain Lenzotti
 
-Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated
+documentation files (the "Software"), to deal in the Software without restriction, including without limitation the
+rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit
+persons to whom the Software is furnished to do so, subject to the following conditions:
 
-The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the
+Software.
 
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE
+WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
+COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
+OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.

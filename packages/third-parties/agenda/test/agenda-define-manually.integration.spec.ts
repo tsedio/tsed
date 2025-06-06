@@ -1,13 +1,13 @@
 import {Inject} from "@tsed/di";
 import {PlatformTest} from "@tsed/platform-http/testing";
 import {TestContainersMongo} from "@tsed/testcontainers-mongo";
-import type {Job} from "agenda";
+import {Agenda, type Job} from "agenda";
 import {afterAll, beforeAll, describe, expect, it} from "vitest";
 
-import {Agenda, AgendaModule, AgendaService, Define} from "../src/index.js";
+import {AgendaModule, AgendaService, Define, JobsController} from "../src/index.js";
 import {Server} from "./helpers/Server.js";
 
-@Agenda({namespace: "test-nsp"})
+@JobsController({namespace: "test-nsp"})
 class Test {
   @Inject()
   agenda: AgendaModule;
@@ -92,9 +92,9 @@ describe("Agenda integration", () => {
     });
     afterAll(() => TestContainersMongo.reset());
 
-    it("should not have job definitions", () => {
-      const agenda = PlatformTest.injector.get(AgendaService)!;
-      expect(agenda._definitions).toBeUndefined();
+    it("should have job definitions thanks to Proxy", () => {
+      const agenda = PlatformTest.injector.get(Agenda)!;
+      expect(agenda._definitions).toBeDefined();
     });
   });
 

@@ -1,16 +1,15 @@
 import {AgendaConfig} from "agenda";
 
+export type AgendaSettings = AgendaConfig & {
+  enabled?: boolean;
+  disableJobProcessing?: boolean;
+  drainJobsBeforeClose?: boolean;
+};
+
 declare global {
   namespace TsED {
     interface Configuration {
-      agenda?: {
-        /**
-         * Enable Agenda jobs. Default false.
-         */
-        enabled?: boolean;
-        disableJobProcessing?: boolean;
-        drainJobsBeforeClose?: boolean;
-      } & AgendaConfig;
+      agenda?: AgendaSettings;
     }
   }
 }

@@ -7,7 +7,7 @@ interface AgendaOptions {
   namespace?: string;
 }
 
-export function Agenda(options?: AgendaOptions): ClassDecorator {
+export function JobsController(options?: AgendaOptions) {
   return useDecorators(
     options?.namespace && StoreMerge("agenda", options),
     Injectable({
@@ -15,3 +15,8 @@ export function Agenda(options?: AgendaOptions): ClassDecorator {
     })
   );
 }
+
+/**
+ * @deprecated Use `JobsController` instead.
+ */
+export const Agenda: typeof JobsController = JobsController;

@@ -1,10 +1,11 @@
 import {PlatformTest} from "@tsed/platform-http/testing";
 import {TestContainersMongo} from "@tsed/testcontainers-mongo";
+import {Agenda} from "agenda";
 
-import {Agenda, AgendaService, Every} from "../src/index.js";
+import {AgendaService, Every, JobsController} from "../src/index.js";
 import {Server} from "./helpers/Server.js";
 
-@Agenda()
+@JobsController()
 class TestTwo {
   @Every("* * * * *")
   test3() {
@@ -65,9 +66,9 @@ describe("Agenda integration", () => {
     });
     afterAll(() => TestContainersMongo.reset());
 
-    it("should not have job definitions", () => {
-      const agenda = PlatformTest.injector.get(AgendaService)!;
-      expect(agenda._definitions).toBeUndefined();
+    it("should have job definitions thanks to Proxy", () => {
+      const agenda = PlatformTest.injector.get(Agenda)!;
+      expect(agenda._definitions).toBeDefined();
     });
   });
 });
