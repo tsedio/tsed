@@ -2,6 +2,7 @@ import {Constant, DIContext, Inject, InjectorService, Module, OnDestroy, Provide
 import {Logger} from "@tsed/logger";
 import {AfterListen} from "@tsed/platform-http";
 import {Job, Processor} from "agenda";
+import type {Collection, Db, Document, Filter} from "agenda/node_modules/mongodb";
 import {v4 as uuid} from "uuid";
 
 import {PROVIDER_TYPE_AGENDA} from "./constants/constants.js";
@@ -106,6 +107,23 @@ export class AgendaModule implements OnDestroy, AfterListen {
 
   create(name: string, data?: any) {
     return this.agenda.create(name, data);
+  }
+
+  get _collection(): Collection | undefined {
+    return this.agenda._collection;
+  }
+
+  get _mdb(): Db | undefined {
+    return this.agenda._mdb;
+  }
+
+  on(event: string, listener: (jobOrErr: any, job?: Job) => void): this {
+    this.agenda.on(event, listener);
+    return this;
+  }
+
+  cancel(query: Filter<Document>): Promise<number | undefined> {
+    return this.agenda.cancel(query);
   }
 
   protected getProviders(): Provider<any>[] {

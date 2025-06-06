@@ -22,6 +22,7 @@ vi.mock("agenda", () => {
         save: vi.fn()
       });
       start = vi.fn();
+      on = vi.fn();
     }
   };
 });
@@ -135,6 +136,46 @@ describe("AgendaModule", () => {
 
         expect(agendaModule.agenda.stop).toHaveBeenCalledWith();
         expect(agendaModule.agenda.close).toHaveBeenCalledWith({force: true});
+      });
+    });
+
+    describe("_collection", () => {
+      it("should expose _collection", () => {
+        const agendaModule = PlatformTest.get<any>(AgendaModule)!;
+
+        agendaModule.agenda._collection = {fake: "collection"};
+
+        expect(agendaModule._collection).toEqual({fake: "collection"});
+      });
+    });
+    describe("_mdb", () => {
+      it("should expose _mdb", () => {
+        const agendaModule = PlatformTest.get<any>(AgendaModule)!;
+
+        agendaModule.agenda._mdb = {fake: "mdb"};
+
+        expect(agendaModule._mdb).toEqual({fake: "mdb"});
+      });
+    });
+    describe("cancel()", () => {
+      it("should call agenda.cancel", async () => {
+        const agendaModule = PlatformTest.get<any>(AgendaModule)!;
+        agendaModule.agenda.cancel = vi.fn().mockResolvedValue(42);
+
+        const result = await agendaModule.cancel({});
+
+        expect(agendaModule.agenda.cancel).toHaveBeenCalledWith({});
+        expect(result).toEqual(42);
+      });
+    });
+    describe("on()", () => {
+      it("should call agenda.on", () => {
+        const agendaModule = PlatformTest.get<any>(AgendaModule)!;
+        const listener = vi.fn();
+
+        agendaModule.on("fail", listener);
+
+        expect(agendaModule.agenda.on).toHaveBeenCalledWith("fail", listener);
       });
     });
   });
