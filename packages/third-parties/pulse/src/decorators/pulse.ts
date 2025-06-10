@@ -7,7 +7,7 @@ interface PulseOptions {
   namespace?: string;
 }
 
-export function Pulse(options?: PulseOptions): ClassDecorator {
+export function JobsController(options?: PulseOptions): ClassDecorator {
   return useDecorators(
     options?.namespace && StoreMerge("pulse", options),
     Injectable({
@@ -15,3 +15,8 @@ export function Pulse(options?: PulseOptions): ClassDecorator {
     })
   );
 }
+
+/**
+ * @deprecated Use `JobsController` instead.
+ */
+export const Pulse: typeof JobsController = JobsController;

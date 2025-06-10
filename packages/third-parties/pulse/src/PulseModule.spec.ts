@@ -1,11 +1,12 @@
 import type {Job} from "@pulsecron/pulse";
-import {Inject} from "@tsed/di";
+import {destroyInjector, Inject} from "@tsed/di";
+import {$asyncEmit} from "@tsed/hooks";
 import {PlatformTest} from "@tsed/platform-http/testing";
 
 import {Define} from "./decorators/define.js";
 import {Every} from "./decorators/every.js";
-import {Pulse} from "./decorators/pulse.js";
-import {PulseModule} from "./PulseModule.js";
+import {JobsController} from "./decorators/pulse.js";
+import {PulseModule} from "./services/PulseService.js";
 
 vi.mock("@pulsecron/pulse", () => {
   return {
@@ -22,11 +23,13 @@ vi.mock("@pulsecron/pulse", () => {
         save: vi.fn()
       });
       start = vi.fn();
+      on = vi.fn();
+      cancel = vi.fn();
     }
   };
 });
 
-@Pulse({namespace: "test-nsp"})
+@JobsController({namespace: "test-nsp"})
 class CustomCampaign {
   @Inject()
   pulse: PulseModule;
@@ -61,7 +64,7 @@ class CustomCampaign {
   }
 }
 
-@Pulse({namespace: "test-nsp-2"})
+@JobsController({namespace: "test-nsp-2"})
 class CustomCampaign2 {
   @Define({name: "customName"})
   test(job: Job) {
@@ -70,7 +73,7 @@ class CustomCampaign2 {
   }
 }
 
-@Pulse({namespace: "test-nsp-3"})
+@JobsController({namespace: "test-nsp-3"})
 class CustomCampaign3 {}
 
 describe("PulseModule", () => {
@@ -89,17 +92,17 @@ describe("PulseModule", () => {
         const pulseModule = PlatformTest.get<any>(PulseModule)!;
         const campaign = PlatformTest.get<CustomCampaign>(CustomCampaign)!;
 
-        await pulseModule.$afterListen();
+        await $asyncEmit("$afterListen");
 
-        expect(pulseModule.pulse.define).toHaveBeenCalledWith("test-nsp.test", expect.any(Function), {});
-        expect(pulseModule.pulse.every).toHaveBeenCalledWith("60 seconds", "test-nsp.test", {}, {});
-        expect(pulseModule.pulse.start).toHaveBeenCalledWith();
-        expect(pulseModule.pulse.create).toHaveBeenCalledWith("customName2", {locale: "fr-FR"});
+        expect((pulseModule as any).$define).toHaveBeenCalledWith("test-nsp.test", expect.any(Function), {});
+        expect(pulseModule.every).toHaveBeenCalledWith("60 seconds", "test-nsp.test", {}, {});
+        expect(pulseModule.start).toHaveBeenCalledWith();
+        expect(pulseModule.create).toHaveBeenCalledWith("customName2", {locale: "fr-FR"});
 
         expect(campaign.job.repeatEvery).toHaveBeenCalledWith("1 week");
         expect(campaign.job.save).toHaveBeenCalledWith();
 
-        const result = await pulseModule.pulse.define.mock.calls[0][1]({
+        const result = await (pulseModule as any).$define.mock.calls[0][1]({
           attrs: {
             name: "test-nsp.test"
           }
@@ -108,33 +111,37 @@ describe("PulseModule", () => {
         expect(result).toEqual("hello test-nsp.test");
       });
     });
-    describe("schedule()", () => {
-      it("should schedule a job", async () => {
-        const pulseModule = PlatformTest.get<any>(PulseModule)!;
 
-        await pulseModule.schedule("now", "test-nsp.test", {});
-
-        expect(pulseModule.pulse.schedule).toHaveBeenCalledWith("now", "test-nsp.test", {});
-      });
-    });
-
-    describe("now()", () => {
-      it("should schedule a job", async () => {
-        const pulseModule = PlatformTest.get<any>(PulseModule)!;
-
-        await pulseModule.now("test-nsp.test", {});
-
-        expect(pulseModule.pulse.now).toHaveBeenCalledWith("test-nsp.test", {});
-      });
-    });
     describe("$onDestroy()", () => {
       it("should close pulse", async () => {
         const pulseModule = PlatformTest.get<any>(PulseModule)!;
 
-        await pulseModule.$onDestroy();
+        await destroyInjector();
 
-        expect(pulseModule.pulse.stop).toHaveBeenCalledWith();
-        expect(pulseModule.pulse.close).toHaveBeenCalledWith({force: true});
+        expect(pulseModule.stop).toHaveBeenCalledWith();
+        expect(pulseModule.close).toHaveBeenCalledWith({force: true});
+      });
+    });
+
+    describe("cancel()", () => {
+      it("should call pulse.cancel", async () => {
+        const pulseModule = PlatformTest.get<any>(PulseModule)!;
+        pulseModule.cancel = vi.fn().mockResolvedValue(42);
+
+        const result = await pulseModule.cancel({});
+
+        expect(pulseModule.cancel).toHaveBeenCalledWith({});
+        expect(result).toEqual(42);
+      });
+    });
+    describe("on()", () => {
+      it("should call pulse.on", () => {
+        const pulseModule = PlatformTest.get<any>(PulseModule)!;
+        const listener = vi.fn();
+
+        pulseModule.on("fail", listener);
+
+        expect(pulseModule.on).toHaveBeenCalledWith("fail", listener);
       });
     });
   });
@@ -152,10 +159,10 @@ describe("PulseModule", () => {
       it("should close pulse", async () => {
         const pulseModule = PlatformTest.get<any>(PulseModule)!;
 
-        await pulseModule.$onDestroy();
+        await destroyInjector();
 
-        expect(pulseModule.pulse.drain).toHaveBeenCalledWith();
-        expect(pulseModule.pulse.close).toHaveBeenCalledWith({force: true});
+        expect(pulseModule.drain).toHaveBeenCalledWith();
+        expect(pulseModule.close).toHaveBeenCalledWith({force: true});
       });
     });
   });
@@ -175,12 +182,12 @@ describe("PulseModule", () => {
         const pulseModule = PlatformTest.get<any>(PulseModule)!;
         const campaign = PlatformTest.get<CustomCampaign>(CustomCampaign)!;
 
-        await pulseModule.$afterListen();
+        await $asyncEmit("$afterListen");
 
-        expect(pulseModule.pulse.define).not.toHaveBeenCalled();
-        expect(pulseModule.pulse.every).not.toHaveBeenCalled();
-        expect(pulseModule.pulse.start).toHaveBeenCalledWith();
-        expect(pulseModule.pulse.create).not.toHaveBeenCalled();
+        expect((pulseModule as any).$define).not.toHaveBeenCalled();
+        expect(pulseModule.every).not.toHaveBeenCalled();
+        expect(pulseModule.start).toHaveBeenCalledWith();
+        expect(pulseModule.create).not.toHaveBeenCalled();
 
         expect(campaign.job).toBeUndefined();
       });
@@ -202,19 +209,11 @@ describe("PulseModule", () => {
         const pulseModule = PlatformTest.get<any>(PulseModule)!;
         const campaign = PlatformTest.get<CustomCampaign>(CustomCampaign)!;
 
-        await pulseModule.$afterListen();
+        await $asyncEmit("$afterListen");
 
-        expect(pulseModule.pulse.define).toBeUndefined();
+        expect((pulseModule as any).$define).toBeDefined();
 
         expect(campaign.job).toBeUndefined();
-      });
-    });
-
-    describe("$onDestroy()", () => {
-      it("should do nothing", async () => {
-        const pulseModule = PlatformTest.get<any>(PulseModule)!;
-
-        await pulseModule.$onDestroy();
       });
     });
   });

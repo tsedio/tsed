@@ -7,5 +7,4 @@ export * from "./decorators/every.js";
 export * from "./decorators/pulse.js";
 export * from "./interfaces/interfaces.js";
 export * from "./interfaces/PulseStore.js";
-export * from "./PulseModule.js";
-export * from "./services/PulseFactory.js";
+export * from "./services/PulseService.js";

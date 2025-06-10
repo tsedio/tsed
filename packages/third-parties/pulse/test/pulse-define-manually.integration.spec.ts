@@ -1,12 +1,12 @@
-import {Job} from "@pulsecron/pulse";
+import {Job, Pulse} from "@pulsecron/pulse";
 import {Inject} from "@tsed/di";
 import {PlatformTest} from "@tsed/platform-http/testing";
 import {TestContainersMongo} from "@tsed/testcontainers-mongo";
 
-import {Define, Pulse, PulseModule, PulseService} from "../src/index.js";
+import {Define, JobsController, PulseModule, PulseService} from "../src/index.js";
 import {Server} from "./helpers/Server.js";
 
-@Pulse({namespace: "test-nsp"})
+@JobsController({namespace: "test-nsp"})
 class Test {
   @Inject()
   pulse: PulseModule;
@@ -90,9 +90,9 @@ describe("Pulse integration", () => {
     });
     afterAll(() => TestContainersMongo.reset());
 
-    it("should not have job definitions", () => {
-      const pulse = PlatformTest.injector.get(PulseService)!;
-      expect(pulse._definitions).toBeUndefined();
+    it("should have job definitions thanks to Proxy", () => {
+      const pulse = PlatformTest.injector.get(Pulse)!;
+      expect(pulse._definitions).toBeDefined();
     });
   });
 
