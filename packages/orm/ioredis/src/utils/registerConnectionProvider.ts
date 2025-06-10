@@ -1,4 +1,4 @@
-import {constant, injectable, TokenProvider} from "@tsed/di";
+import {constant, type FactoryTokenProvider, injectable, TokenProvider} from "@tsed/di";
 import type {Redis} from "ioredis";
 
 import {IORedisConfiguration} from "../domain/IORedisConfiguration.js";
@@ -16,7 +16,7 @@ export interface CreateConnectionProviderProps {
 export const IOREDIS_CONNECTIONS = Symbol.for("ioredis:connections");
 export type IORedis = Redis & {name: string};
 
-export function registerConnectionProvider({token, provide, name = "default"}: CreateConnectionProviderProps) {
+export function registerConnectionProvider({token, provide, name = "default"}: CreateConnectionProviderProps): FactoryTokenProvider<Redis> {
   return injectable(provide || token, {
     connectionName: name
   })
@@ -27,5 +27,5 @@ export function registerConnectionProvider({token, provide, name = "default"}: C
 
       return item ? createConnection({...item, name}) : ({name} as any);
     })
-    .token();
+    .token() as FactoryTokenProvider<Redis>;
 }
