@@ -1,0 +1,65 @@
+{
+  "name": "@tsed/platform-gcp",
+  "description": "Platform Google Cloud Functions module for Ts.ED Framework",
+  "type": "module",
+  "version": "8.12.0",
+  "source": "./src/index.ts",
+  "main": "./lib/esm/index.js",
+  "module": "./lib/esm/index.js",
+  "typings": "./lib/types/index.d.ts",
+  "exports": {
+    ".": {
+      "tsed-source": "./src/index.ts",
+      "types": "./lib/types/index.d.ts",
+      "import": "./lib/esm/index.js",
+      "default": "./lib/esm/index.js"
+    }
+  },
+  "scripts": {
+    "build": "yarn barrels && yarn build:ts",
+    "barrels": "barrels",
+    "test": "vitest run",
+    "build:ts": "tsc --build tsconfig.esm.json",
+    "test:ci": "vitest run --coverage.thresholds.autoUpdate=true"
+  },
+  "dependencies": {
+    "@tsed/core": "workspace:*",
+    "@tsed/di": "workspace:*",
+    "@tsed/exceptions": "workspace:*",
+    "@tsed/hooks": "workspace:*",
+    "@tsed/json-mapper": "workspace:*",
+    "@tsed/platform-exceptions": "workspace:*",
+    "@tsed/platform-params": "workspace:*",
+    "@tsed/schema": "workspace:*",
+    "encodeurl": "^2.0.0",
+    "mime": "^4.0.4",
+    "tslib": "2.7.0",
+    "uuid": "^10.0.0"
+  },
+  "devDependencies": {
+    "@tsed/barrels": "workspace:*",
+    "@tsed/typescript": "workspace:*",
+    "@types/encodeurl": "^1.0.2",
+    "@types/mime": "^4.0.0",
+    "eslint": "9.12.0",
+    "find-my-way": "^9.1.0",
+    "typescript": "5.4.5",
+    "vitest": "3.1.4"
+  },
+  "peerDependencies": {
+    "@tsed/di": ">=8.0.0",
+    "@tsed/logger": ">=7.0.1",
+    "find-my-way": ">=7.0.0"
+  },
+  "peerDependenciesMeta": {
+    "@tsed/di": {
+      "optional": false
+    },
+    "@tsed/logger": {
+      "optional": false
+    },
+    "find-my-way": {
+      "optional": true
+    }
+  }
+}

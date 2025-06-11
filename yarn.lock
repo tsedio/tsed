@@ -8042,6 +8042,44 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@tsed/platform-gcp@workspace:packages/platform/platform-gcp":
+  version: 0.0.0-use.local
+  resolution: "@tsed/platform-gcp@workspace:packages/platform/platform-gcp"
+  dependencies:
+    "@tsed/barrels": "workspace:*"
+    "@tsed/core": "workspace:*"
+    "@tsed/di": "workspace:*"
+    "@tsed/exceptions": "workspace:*"
+    "@tsed/hooks": "workspace:*"
+    "@tsed/json-mapper": "workspace:*"
+    "@tsed/platform-exceptions": "workspace:*"
+    "@tsed/platform-params": "workspace:*"
+    "@tsed/schema": "workspace:*"
+    "@tsed/typescript": "workspace:*"
+    "@types/encodeurl": "npm:^1.0.2"
+    "@types/mime": "npm:^4.0.0"
+    encodeurl: "npm:^2.0.0"
+    eslint: "npm:9.12.0"
+    find-my-way: "npm:^9.1.0"
+    mime: "npm:^4.0.4"
+    tslib: "npm:2.7.0"
+    typescript: "npm:5.4.5"
+    uuid: "npm:^10.0.0"
+    vitest: "npm:3.1.4"
+  peerDependencies:
+    "@tsed/di": ">=8.0.0"
+    "@tsed/logger": ">=7.0.1"
+    find-my-way: ">=7.0.0"
+  peerDependenciesMeta:
+    "@tsed/di":
+      optional: false
+    "@tsed/logger":
+      optional: false
+    find-my-way:
+      optional: true
+  languageName: unknown
+  linkType: soft
+
 "@tsed/platform-http@workspace:*, @tsed/platform-http@workspace:packages/platform/platform-http":
   version: 0.0.0-use.local
   resolution: "@tsed/platform-http@workspace:packages/platform/platform-http"
