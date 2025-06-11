@@ -6,8 +6,11 @@ import {PlatformViews} from "./PlatformViews.js";
 
 @Injectable()
 class AlterOptions {
-  $alterRenderOptions(options: any) {
+  $alterRenderOptions(options: any, $ctx: any) {
     options.alter = "alter";
+
+    expect($ctx).toBeTypeOf("object");
+
     return Promise.resolve(options);
   }
 }
@@ -41,14 +44,15 @@ describe("PlatformViews", () => {
 
       vi.spyOn(engine, "render").mockResolvedValue("HTML");
 
-      const result = await platformViews.render("views.ejs");
+      const result = await platformViews.render("views.ejs", {$ctx: {}});
 
       expect(result).toEqual("HTML");
       expect(engine.render).toHaveBeenCalledWith("views.ejs", {
         cache: false,
         alter: "alter",
         global: "global",
-        requires: "requires"
+        requires: "requires",
+        $ctx: {}
       });
     });
     it("should render a template without extension", async () => {
@@ -57,7 +61,7 @@ describe("PlatformViews", () => {
 
       vi.spyOn(engine, "render").mockResolvedValue("HTML");
 
-      const result = await platformViews.render("views", {test: "test"});
+      const result = await platformViews.render("views", {test: "test", $ctx: {}});
 
       expect(result).toEqual("HTML");
       expect(engine.render).toHaveBeenCalledWith("views.ejs", {
@@ -65,7 +69,8 @@ describe("PlatformViews", () => {
         global: "global",
         test: "test",
         alter: "alter",
-        requires: "requires"
+        requires: "requires",
+        $ctx: {}
       });
     });
     it("should render a template without extension and catch error", async () => {
@@ -77,7 +82,7 @@ describe("PlatformViews", () => {
       let error: any;
 
       try {
-        await platformViews.render("views.toto", {test: "test"});
+        await platformViews.render("views.toto", {test: "test", $ctx: {}});
       } catch (er) {
         error = er;
       }

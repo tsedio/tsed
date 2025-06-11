@@ -105,7 +105,7 @@ export class PlatformViews {
   async render(viewPath: string, options: any = {}): Promise<string | PlatformViewWritableStream> {
     const {$ctx} = options;
 
-    options = await $asyncAlter("$alterRenderOptions", options, $ctx);
+    options = await $asyncAlter("$alterRenderOptions", options, [$ctx]);
 
     const {path, extension} = this.#cachePaths.get(viewPath) || this.#cachePaths.set(viewPath, this.resolve(viewPath)).get(viewPath)!;
     const engine = this.getEngine(extension);
