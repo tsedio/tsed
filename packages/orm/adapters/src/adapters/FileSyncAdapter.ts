@@ -28,7 +28,7 @@ export class FileSyncAdapter<T extends AdapterModel> extends LowDbAdapter<T> {
       modelName: nameOf(this.model),
       collection: []
     });
-    this.db.write();
+    this.db.read();
 
     if (options.readOnly) {
       file.write = (() => {}) as any;
