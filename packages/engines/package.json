@@ -19,6 +19,12 @@
       "types": "./lib/types/components/*.d.ts",
       "import": "./lib/esm/components/*.js",
       "default": "./lib/esm/components/*.js"
+    },
+    "./*": {
+      "tsed-source": "./src/components/*.ts",
+      "types": "./lib/types/components/*.d.ts",
+      "require": "./lib/esm/components/*.js",
+      "import": "./lib/esm/components/*"
     }
   },
   "scripts": {
