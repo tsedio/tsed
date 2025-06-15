@@ -7,6 +7,7 @@ import {serialize} from "@tsed/json-mapper";
 import {DeserializerPipe, PlatformParams, ValidationPipe} from "@tsed/platform-params";
 
 import {GCPContext} from "../domain/GCPContext.js";
+import type {GCPHttpEvent} from "../domain/GCPEvent.js";
 import {setResponseHeaders} from "../utils/setResponseHeaders.js";
 
 export class PlatformGCPHandler {
@@ -38,32 +39,26 @@ export class PlatformGCPHandler {
   }
 
   private async flush($ctx: GCPContext) {
-    const body: unknown = $ctx.isHttpEvent() ? await this.makeHttpResponse($ctx) : $ctx.response.getBody();
-
-    await $asyncEmit("$onResponse", $ctx);
-
-    $ctx.logger.flush();
-    $ctx.destroy();
-
-    if (!$ctx.isHttpEvent() && $ctx.response.statusCode >= 400 && body) {
-      throw new Error((body as Error).message);
-    }
-
-    return body;
-  }
-
-  private async makeHttpResponse($ctx: GCPContext) {
     setResponseHeaders($ctx);
 
-    let body = $ctx.response.getBody();
-
-    if (isSerializable(body)) {
-      $ctx.response.set("content-type", "application/json");
-      body = JSON.stringify(body);
-    }
-
-    // For HTTP events, the response is handled by Express
     if ($ctx.isHttpEvent()) {
+      const event = $ctx.event as GCPHttpEvent;
+
+      event.res.status($ctx.response.statusCode);
+
+      Object.entries($ctx.response.getHeaders()).forEach(([key, value]) => {
+        if (value !== undefined) {
+          event.res.setHeader(key, value as any);
+        }
+      });
+
+      let body = $ctx.response.getBody();
+
+      if (isSerializable(body)) {
+        $ctx.response.set("content-type", "application/json");
+        body = JSON.stringify(body);
+      }
+
       // If we have a stream and a response stream, pipe the stream to the response
       if (isStream(body) && $ctx.responseStream) {
         await pipeline(body, $ctx.responseStream);
@@ -74,20 +69,16 @@ export class PlatformGCPHandler {
       if (body !== undefined) {
         $ctx.event.res.send(body);
       }
-
-      return undefined;
     }
 
-    // For background events, return the response
-    return {
-      statusCode: $ctx.response.getStatus(),
-      headers: {
-        ...$ctx.response.getHeaders(),
-        "x-request-id": $ctx.id
-      },
-      body: body === undefined ? "" : body,
-      isBase64Encoded: false
-    };
+    await $asyncEmit("$onResponse", $ctx);
+
+    $ctx.logger.flush();
+    $ctx.destroy();
+
+    if (!$ctx.isHttpEvent() && $ctx.response.statusCode >= 400 && $ctx.response.getBody()) {
+      throw new Error(($ctx.response.getBody() as Error).message);
+    }
   }
 
   private processResult({status, headers, data}: AnyPromiseResult, $ctx: GCPContext) {

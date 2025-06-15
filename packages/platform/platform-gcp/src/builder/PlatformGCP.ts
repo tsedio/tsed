@@ -1,18 +1,18 @@
 import {Env, Type} from "@tsed/core";
-import {configuration, constant, createContainer, destroyInjector, injector, InjectorService, setLoggerConfiguration} from "@tsed/di";
+import {configuration, constant, createContainer, destroyInjector, inject, injector, setLoggerConfiguration} from "@tsed/di";
 import {$asyncEmit} from "@tsed/hooks";
 import {$log} from "@tsed/logger";
+import type {RequestHandler} from "@tsed/platform-serverless";
 import {getOperationsRoutes, JsonEntityStore} from "@tsed/schema";
 import type {HTTPMethod, Instance} from "find-my-way";
 
 import {GCPContext} from "../domain/GCPContext.js";
-import type {GCPEvent} from "../domain/GCPEvent.js";
-import {GCPResponseStream, type RequestHandler} from "../domain/GCPResponseStream.js";
+import type {GCPBackgroundEvent, GCPEvent, GCPRequestHandler, RawGCPContext, RawGPCRequest, RawGPCResponse} from "../domain/GCPEvent.js";
 import {getRequestId} from "../utils/getRequestId.js";
 import {PlatformGCPHandler} from "./PlatformGCPHandler.js";
 
 export interface PlatformGCPSettings extends Partial<TsED.Configuration> {
-  gcpFunctions?: Type[];
+  functions?: Type[];
 }
 
 /**
@@ -20,22 +20,14 @@ export interface PlatformGCPSettings extends Partial<TsED.Configuration> {
  */
 export class PlatformGCP {
   readonly name: string = "PlatformGCP";
-  private _router: Instance<any>;
-  private _promise: Promise<any>;
-
-  get injector(): InjectorService {
-    return injector();
-  }
-
-  get settings() {
-    return configuration();
-  }
+  #router: Instance<any>;
+  #promise: Promise<any>;
 
   get promise() {
-    return this._promise;
+    return this.#promise;
   }
 
-  static bootstrap(settings: Partial<TsED.Configuration> & {gcpFunctions?: Type[]} = {}): PlatformGCP {
+  static bootstrap(settings: Partial<TsED.Configuration> & {functions?: Type[]} = {}): PlatformGCP {
     const platform = new PlatformGCP();
     platform.createInjector(settings);
 
@@ -45,10 +37,10 @@ export class PlatformGCP {
   /**
    * Create a new handler from the given token and propertyKey. No routing is used here.
    */
-  static callback(token: Type<any>, propertyKey: string, settings: Partial<TsED.Configuration> = {}): RequestHandler {
+  static callback(token: Type<any>, propertyKey: string, settings: Partial<TsED.Configuration> = {}): GCPRequestHandler {
     const platform = PlatformGCP.bootstrap({
       ...settings,
-      gcpFunctions: [token]
+      functions: [token]
     });
 
     return platform.callback(token, propertyKey);
@@ -92,7 +84,7 @@ export class PlatformGCP {
 
   public callbacks(tokens: Type | Type[] = [], callbacks: any = {}): Record<string, RequestHandler> {
     return configuration()
-      .get<Type[]>("gcpFunctions", [])
+      .get<Type[]>("functions", [])
       .concat(tokens)
       .reduce((callbacks, token) => {
         const routes = getOperationsRoutes(token);
@@ -107,7 +99,7 @@ export class PlatformGCP {
 
           const callback = this.callback(token, propertyName);
 
-          this._router?.on(method as HTTPMethod, url as string, callback as any);
+          this.#router?.on(method as HTTPMethod, url as string, callback as any);
 
           return {
             ...callbacks,
@@ -126,51 +118,54 @@ export class PlatformGCP {
   }
 
   public init() {
-    if (!this._promise) {
-      this._promise = this.loadInjector().then(() => this.ready());
+    if (!this.#promise) {
+      this.#promise = this.loadInjector().then(() => this.ready());
     }
 
-    return this._promise;
+    return this.#promise;
   }
 
-  protected callback(token: Type<any>, propertyKey: string): RequestHandler {
+  protected callback(token: Type<any>, propertyKey: string): GCPRequestHandler {
     const entity = JsonEntityStore.fromMethod(token, propertyKey);
     let handler: ($ctx: GCPContext) => Promise<unknown>;
 
-    const wrappedHandler = async (event: GCPEvent, responseStream: GCPResponseStream | undefined, context?: any) => {
+    return async (reqOrEvent: RawGPCRequest | GCPBackgroundEvent, resOrContext: RawGPCResponse | RawGCPContext) => {
+      const event =
+        "headers" in reqOrEvent
+          ? {
+              event: {
+                req: reqOrEvent,
+                res: resOrContext
+              },
+              context: {}
+            }
+          : ({
+              event: reqOrEvent,
+              context: resOrContext
+            } as GCPEvent);
+
       await this.init();
 
       if (!handler) {
-        const platformHandler = this.injector.get<PlatformGCPHandler>(PlatformGCPHandler)!;
+        const platformHandler = inject(PlatformGCPHandler)!;
         handler = platformHandler.createHandler(token, propertyKey);
       }
 
       const $ctx = new GCPContext({
         event,
-        responseStream,
-        id: getRequestId(event, context),
+        id: getRequestId(event),
         endpoint: entity
       });
 
       return handler($ctx);
     };
-
-    const isBinary = entity.operation.response?.isBinary();
-
-    if (isBinary) {
-      return GCPResponseStream.streamifyResponse(wrappedHandler);
-    }
-
-    return (event: GCPEvent, context?: any) => {
-      return wrappedHandler(event, undefined, context);
-    };
   }
 
   protected async initRouter() {
-    if (!this._router) {
+    if (!this.#router) {
       const {default: FindMyMay} = await import("find-my-way");
 
-      this._router = FindMyMay({
+      this.#router = FindMyMay({
         caseSensitive: false,
         ignoreTrailingSlash: true
       });
@@ -178,7 +173,7 @@ export class PlatformGCP {
       this.callbacks();
     }
 
-    return this._router;
+    return this.#router;
   }
 
   protected createInjector(settings: any) {

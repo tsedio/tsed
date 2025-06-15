@@ -41,7 +41,7 @@ export class ServerlessContext<Event extends object = APIGatewayProxyEvent> exte
     this.endpoint = endpoint;
   }
 
-  isHttpEvent() {
+  isHttpEvent(): this is ServerlessContext & {event: APIGatewayProxyEvent} {
     return "httpMethod" in this.event;
   }
 

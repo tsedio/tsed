@@ -1,8 +1,7 @@
 import {getValue} from "@tsed/core";
-import type {Request} from "express";
 
 import {GCPContext} from "./GCPContext.js";
-import {GCPEvent, isHttpEvent} from "./GCPEvent.js";
+import {isHttpEvent} from "./GCPEvent.js";
 
 /**
  * @platform
@@ -13,15 +12,15 @@ export class GCPRequest {
   /**
    * Get the raw GCP event
    */
-  get event(): GCPEvent {
+  get event() {
     return this.$ctx.event;
   }
 
   /**
-   * Get the raw request object
+   * Get the raw event data
    */
-  get raw(): any {
-    return isHttpEvent(this.event) ? this.event.req : this.event;
+  get raw() {
+    return this.$ctx.event;
   }
 
   get response() {
@@ -32,6 +31,7 @@ export class GCPRequest {
     if (isHttpEvent(this.event)) {
       return this.event.req.secure;
     }
+
     return true;
   }
 
@@ -39,6 +39,7 @@ export class GCPRequest {
     if (isHttpEvent(this.event)) {
       return this.event.req.hostname;
     }
+
     return "";
   }
 
@@ -46,6 +47,7 @@ export class GCPRequest {
     if (isHttpEvent(this.event)) {
       return this.event.req.protocol;
     }
+
     return "https";
   }
 
@@ -56,6 +58,7 @@ export class GCPRequest {
     if (isHttpEvent(this.event)) {
       return this.event.req.url;
     }
+
     return "";
   }
 
@@ -63,6 +66,7 @@ export class GCPRequest {
     if (isHttpEvent(this.event)) {
       return this.event.req.headers;
     }
+
     return {};
   }
 
@@ -70,6 +74,7 @@ export class GCPRequest {
     if (isHttpEvent(this.event)) {
       return this.event.req.method;
     }
+
     return "";
   }
 
@@ -80,34 +85,26 @@ export class GCPRequest {
     if (isHttpEvent(this.event)) {
       return this.event.req.body;
     }
-    return isHttpEvent(this.event) ? {} : this.event;
+
+    return this.event.data;
   }
 
   get rawBody(): any {
-    if (isHttpEvent(this.event)) {
-      return this.event.req.body;
-    }
-    return this.event;
+    return this.body;
   }
 
   /**
    * This property is an object containing properties mapped to the named route parameters.
    */
   get params(): {[key: string]: any} {
-    if (isHttpEvent(this.event)) {
-      return this.event.req.params || {};
-    }
-    return {};
+    return (isHttpEvent(this.event) && this.event.req.params) || {};
   }
 
   /**
    * This property is an object containing a property for each query string parameter in the route.
    */
   get query(): {[key: string]: any} {
-    if (isHttpEvent(this.event)) {
-      return this.event.req.query || {};
-    }
-    return {};
+    return (isHttpEvent(this.event) && this.event.req.query) || {};
   }
 
   /**
@@ -119,6 +116,7 @@ export class GCPRequest {
     if (isHttpEvent(this.event)) {
       return getValue(this.event.req.headers, name);
     }
+
     return undefined;
   }
 }
