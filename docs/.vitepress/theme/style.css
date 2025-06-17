@@ -1,9 +1,21 @@
 .is-home .vp-doc.container .VPContainer {
-  padding-left: 0;
-  padding-right: 0;
+    padding-left: 0;
+    padding-right: 0;
 }
 
 
 .box a {
-  color: var(--vp-c-brand-1);
+    color: var(--vp-c-brand-1);
+}
+
+.VPMenu .items {
+    display: flex;
+    gap: 10px;
+}
+
+.VPMenu .items .VPMenuGroup {
+    margin-top: 0;
+    padding-top: 0;
+    border-top: none;
+    min-width: 170px;
 }

@@ -5,18 +5,176 @@ import pkg from "../../package.json";
 import referenceSidebar from "../public/reference-sidebar.json";
 import team from "../team.json";
 
+const Introduction = [
+  {
+    text: "Introduction",
+    items: [
+      {text: "What is Ts.ED?", link: "/introduction/what-is-tsed"},
+      {text: "What's new in v8?", link: "/introduction/what-is-news-v8"},
+      {text: "Capabilities", link: "/introduction/capabilities"},
+      {text: "Installation", link: "/introduction/getting-started"},
+      {text: "Create your first controller", link: "/introduction/create-your-first-controller"},
+      {
+        text: "Cheat sheet",
+        link: "/introduction/cheat-sheet"
+      }
+    ]
+  },
+  {
+    text: "Migration",
+    items: [
+      {text: "Migrate from v7", link: "/introduction/migrate-from-v7"},
+      {text: "Migrate v6 to v7", link: "/introduction/migrate-from-v6"},
+      {text: "Migrate from Express", link: "/introduction/migrate-from-express"}
+    ]
+  }
+];
+
+const Docs = [
+  {
+    text: "Configuration",
+    items: [
+      {text: "Introduction", link: "/docs/configuration/"},
+      {text: "Configuration sources", link: "/docs/configuration/configuration-sources"},
+      {text: "Server options", link: "/docs/configuration/server-options"},
+      {text: "Express.js", link: "/docs/configuration/express"},
+      {text: "Koa.js", link: "/docs/configuration/koa"},
+      {text: "Fastify.js", link: "/docs/configuration/fastify"}
+    ]
+  },
+  {
+    text: "Fundamentals",
+    items: [
+      {
+        text: "Introduction",
+        link: `/docs/controllers`
+      },
+      {
+        text: "DI & Providers",
+        link: `/docs/providers`
+      },
+      {
+        text: "Models",
+        link: `/docs/model`
+      },
+      {
+        text: "Json Mapper",
+        link: `/docs/json-mapper`
+      },
+      {
+        text: "Middlewares",
+        link: `/docs/middlewares`
+      },
+      {
+        text: "Pipes",
+        link: `/docs/pipes`
+      },
+      {
+        text: "Interceptors",
+        link: `/docs/interceptors`
+      },
+      {
+        text: "Validation",
+        link: `/docs/validation`
+      },
+      {
+        text: "Authentication",
+        link: `/docs/authentication`
+      },
+      {
+        text: "Hooks",
+        link: `/docs/hooks`
+      },
+      {
+        text: "Response filter",
+        link: `/docs/response-filter`
+      },
+      {
+        text: "Exceptions",
+        link: `/docs/exceptions`
+      },
+      {
+        text: "Logger",
+        link: `/docs/logger`
+      },
+      {
+        text: "Context",
+        link: `/docs/request-context`
+      },
+      {
+        text: "Testing",
+        link: `/docs/testing`
+      }
+    ]
+  },
+  {
+    text: "Advanced",
+    items: [
+      {
+        text: "Cache",
+        link: `/docs/cache`
+      },
+      {
+        text: "Platform API",
+        link: `/docs/platform-api`
+      },
+      {
+        text: "Platform Adapter",
+        link: `/docs/platform-adapter`
+      },
+      {
+        text: "Platform Serverless",
+        link: `/docs/platform-serverless`
+      },
+      {
+        text: "Platform Serverless HTTP",
+        link: `/docs/platform-serverless-http`
+      },
+      {
+        text: "Command",
+        link: `/docs/command`
+      },
+      {
+        text: "Custom decorators",
+        link: "/docs/custom-endpoint-decorators"
+      },
+      {
+        text: "Custom providers",
+        link: "/docs/custom-providers"
+      },
+      {
+        text: "Templating",
+        link: `/docs/templating`
+      },
+
+      {
+        text: "Session & Cookies",
+        link: `/docs/session`
+      },
+      {text: "Upload files", link: "/docs/upload-files"},
+      {text: "Customize 404", link: "/docs/not-found-page"},
+      {text: "Api references", link: "/api"}
+    ]
+  }
+];
+
 const Plugins = [
   {
-    text: "Marketplace",
-    link: "/plugins/index"
-  },
-  {
-    text: "Install premium plugins",
-    link: "/plugins/premium/install-premium-plugins"
-  },
-  {
-    text: "Create your own plugins",
-    link: "/plugins/create-your-own-plugins"
+    text: "Links",
+    items: [
+      {
+        text: "Marketplace",
+        link: "/plugins/index"
+      },
+      {
+        text: "Install premium plugins",
+        link: "/plugins/premium/install-premium-plugins"
+      },
+      {
+        text: "Create your own plugins",
+        link: "/plugins/create-your-own-plugins"
+      }
+    ]
   },
   {
     text: "Premium ConfigSource",
@@ -67,6 +225,155 @@ const Plugins = [
         link: "/plugins/premium/testcontainers/vault"
       }
     ]
+  }
+];
+
+const Tutorials = [
+  {
+    text: "ORM",
+    items: [
+      {
+        text: "Prisma",
+        link: `/tutorials/prisma`
+      },
+      {
+        text: "MikroORM",
+        link: `/tutorials/mikroorm`
+      },
+      {
+        text: "TypeORM",
+        link: `/tutorials/typeorm`
+      },
+      {
+        text: "Mongoose",
+        link: `/tutorials/mongoose`
+      },
+      {
+        text: "Objection.js",
+        link: `/tutorials/objection`
+      },
+      {
+        text: "IORedis",
+        link: `/tutorials/ioredis`
+      }
+    ].sort((a, b) => a.text.localeCompare(b.text))
+  },
+  {
+    text: "Recipes",
+    items: [
+      {
+        text: "Keycloak",
+        link: `/tutorials/keycloak`
+      },
+      {
+        text: "Jest",
+        link: `/tutorials/jest`
+      },
+      {
+        text: "Vitest",
+        link: `/tutorials/vitest`
+      }
+    ]
+  },
+  {
+    text: "Third-party integrations",
+    items: [
+      {
+        text: "AJV",
+        link: `/tutorials/ajv`
+      },
+      {
+        text: "AWS",
+        link: `/tutorials/aws`
+      },
+      {
+        text: "Passport.js",
+        link: `/tutorials/passport`
+      },
+      {
+        text: "GraphQL",
+        link: `/tutorials/graphql`
+      },
+      {
+        text: "Socket.io",
+        link: `/tutorials/socket-io`
+      },
+      {
+        text: "Swagger",
+        link: `/tutorials/swagger`
+      },
+      {
+        text: "Scalar",
+        link: `/tutorials/scalar`
+      },
+      {
+        text: "OIDC",
+        link: `/tutorials/oidc`
+      },
+      {
+        text: "Stripe",
+        link: `/tutorials/stripe`
+      },
+      {
+        text: "Agenda",
+        link: `/tutorials/agenda`
+      },
+      {
+        text: "Pulse",
+        link: `/tutorials/pulse`
+      },
+      {
+        text: "Serverless",
+        link: `/tutorials/serverless`
+      },
+      {
+        text: "Temporal",
+        link: `/tutorials/temporal`
+      },
+      {
+        text: "BullMQ",
+        link: `/tutorials/bullmq`
+      },
+      {
+        text: "Terminus",
+        link: `/tutorials/terminus`
+      },
+      {
+        text: "Vike",
+        link: `/tutorials/vike`
+      },
+      {
+        text: "Server-sent events",
+        link: `/tutorials/server-sent-events`
+      }
+    ].sort((a, b) => a.text.localeCompare(b.text))
+  }
+];
+
+const Releases = [
+  {
+    text: "Releases",
+    link: "https://github.com/tsedio/tsed/releases"
+  },
+  {
+    text: "v7 (maintenance)",
+    link: "https://v7.tsed.dev"
+  },
+  {
+    text: "v6 (obsolete)",
+    link: "https://v6.tsed.dev"
+  },
+  {
+    text: "v5 (obsolete)",
+    link: "https://v5.tsed.dev"
+  },
+  {
+    text: "Contributing",
+    link: "https://github.com/tsedio/tsed/blob/production/CONTRIBUTING.md"
+  },
+  {
+    text: "Team",
+    link: "/more/team"
   }
 ];
 
@@ -134,562 +441,30 @@ export default defineConfig({
       // {text: "Home", link: "/"},
       {
         text: "Getting started",
-        items: [
-          {
-            text: "Introduction",
-            items: [
-              {text: "What is Ts.ED?", link: "/introduction/what-is-tsed"},
-              {text: "What's new in v8?", link: "/introduction/what-is-news-v8"},
-              {text: "Capabilities", link: "/introduction/capabilities"},
-              {text: "Installation", link: "/introduction/getting-started"},
-              {text: "Create your first controller", link: "/introduction/create-your-first-controller"}
-            ]
-          },
-          {
-            text: "Migration",
-            items: [
-              {text: "Migrate from v7", link: "/introduction/migrate-from-v7"},
-              {text: "Migrate v6 to v7", link: "/introduction/migrate-from-v6"},
-              {text: "Migrate from Express", link: "/introduction/migrate-from-express"}
-            ]
-          },
-          {
-            text: "Cheat sheet",
-            link: "/introduction/cheat-sheet"
-          }
-        ]
+        items: Introduction
       },
       {
         text: "Documentation",
-        items: [
-          {
-            text: "Configuration",
-            link: `/docs/configuration/`
-          },
-          {
-            text: "Controllers",
-            link: `/docs/controllers`
-          },
-          {
-            text: "DI & Providers",
-            link: `/docs/providers`
-          },
-          {
-            text: "Models",
-            link: `/docs/model`
-          },
-          {
-            text: "Json Mapper",
-            link: `/docs/json-mapper`
-          },
-          {
-            text: "Middlewares",
-            link: `/docs/middlewares`
-          },
-          {
-            text: "Pipes",
-            link: `/docs/pipes`
-          },
-          {
-            text: "Interceptors",
-            link: `/docs/interceptors`
-          },
-          {
-            text: "Validation",
-            link: `/docs/validation`
-          },
-          {
-            text: "Authentication",
-            link: `/docs/authentication`
-          },
-          {
-            text: "Hooks",
-            link: `/docs/hooks`
-          },
-          {
-            text: "Response filter",
-            link: `/docs/response-filter`
-          },
-          {
-            text: "Exceptions",
-            link: `/docs/exceptions`
-          },
-          {
-            text: "Logger",
-            link: `/docs/logger`
-          },
-          {
-            text: "Context",
-            link: `/docs/request-context`
-          },
-          {
-            text: "Cache",
-            link: `/docs/cache`
-          },
-          {
-            text: "Platform API",
-            link: `/docs/platform-api`
-          },
-          {
-            text: "Platform Serverless",
-            link: `/docs/platform-serverless`
-          },
-          {
-            text: "Platform Serverless HTTP",
-            link: `/docs/platform-serverless-http`
-          },
-          {
-            text: "Command",
-            link: `/docs/command`
-          },
-          {
-            text: "Custom decorators",
-            link: "/docs/custom-endpoint-decorators"
-          },
-          {
-            text: "Custom providers",
-            link: "/docs/custom-providers"
-          },
-          {
-            text: "Templating",
-            link: `/docs/templating`
-          },
-
-          {
-            text: "Session & Cookies",
-            link: `/docs/session`
-          },
-          {
-            text: "Testing",
-            link: `/docs/testing`
-          },
-          {text: "Upload files", link: "/docs/upload-files"},
-          {text: "Customize 404", link: "/docs/not-found-page"},
-          {text: "Api references", link: "/api"}
-        ]
+        items: Docs
       },
       {
         text: "Tutorials",
-        items: [
-          {
-            text: "AJV",
-            link: `/tutorials/ajv`
-          },
-          {
-            text: "AWS",
-            link: `/tutorials/aws`
-          },
-          {
-            text: "Passport.js",
-            link: `/tutorials/passport`
-          },
-          {
-            text: "Keycloak",
-            link: `/tutorials/keycloak`
-          },
-          {
-            text: "Prisma",
-            link: `/tutorials/prisma`
-          },
-          {
-            text: "MikroORM",
-            link: `/tutorials/mikroorm`
-          },
-          {
-            text: "TypeORM",
-            link: `/tutorials/typeorm`
-          },
-          {
-            text: "Mongoose",
-            link: `/tutorials/mongoose`
-          },
-          {
-            text: "Objection.js",
-            link: `/tutorials/objection`
-          },
-          {
-            text: "IORedis",
-            link: `/tutorials/ioredis`
-          },
-          {
-            text: "GraphQL",
-            link: `/tutorials/graphql`
-          },
-          {
-            text: "Socket.io",
-            link: `/tutorials/socket-io`
-          },
-          {
-            text: "Swagger",
-            link: `/tutorials/swagger`
-          },
-          {
-            text: "OIDC",
-            link: `/tutorials/oidc`
-          },
-          {
-            text: "Stripe",
-            link: `/tutorials/stripe`
-          },
-          {
-            text: "Agenda",
-            link: `/tutorials/agenda`
-          },
-          {
-            text: "Pulse",
-            link: `/tutorials/pulse`
-          },
-          {
-            text: "Serverless",
-            link: `/tutorials/serverless`
-          },
-          {
-            text: "Temporal",
-            link: `/tutorials/temporal`
-          },
-          {
-            text: "BullMQ",
-            link: `/tutorials/bullmq`
-          },
-          {
-            text: "Terminus",
-            link: `/tutorials/terminus`
-          },
-          {
-            text: "Vike",
-            link: `/tutorials/vike`
-          },
-          {
-            text: "Jest",
-            link: `/tutorials/jest`
-          },
-          {
-            text: "Vitest",
-            link: `/tutorials/vitest`
-          },
-          {
-            text: "Server-sent events",
-            link: `/tutorials/server-sent-events`
-          },
-          {
-            text: "Scalar",
-            link: `/tutorials/scalar`
-          }
-        ].sort((a, b) => a.text.localeCompare(b.text))
+        items: Tutorials
       },
       {
         text: "Plugins",
-        items: Plugins as any[]
+        items: Plugins
       },
       {
         text: pkg.version,
-        items: [
-          {
-            text: "Releases",
-            link: "https://github.com/tsedio/tsed/releases"
-          },
-          {
-            text: "v7 (maintenance)",
-            link: "https://v7.tsed.dev"
-          },
-          {
-            text: "v6 (obsolete)",
-            link: "https://v6.tsed.dev"
-          },
-          {
-            text: "v5 (obsolete)",
-            link: "https://v5.tsed.dev"
-          },
-          {
-            text: "Contributing",
-            link: "https://github.com/tsedio/tsed/blob/production/CONTRIBUTING.md"
-          },
-          {
-            text: "Team",
-            link: "/more/team"
-          }
-        ]
+        items: [{text: "", items: Releases}]
       }
     ],
     sidebar: {
-      "/introduction/": [
-        {
-          text: "Introduction",
-          items: [
-            {text: "What is Ts.ED?", link: "/introduction/what-is-tsed"},
-            {text: "What's new in v8?", link: "/introduction/what-is-news-v8"},
-            {text: "Capabilities", link: "/introduction/capabilities"},
-            {text: "Installation", link: "/introduction/getting-started"},
-            {text: "Create your first controller", link: "/introduction/create-your-first-controller"}
-          ]
-        },
-        {
-          text: "Migration",
-          items: [
-            {text: "Migrate from v7", link: "/introduction/migrate-from-v7"},
-            {text: "Migrate from v6 to v7", link: "/introduction/migrate-from-v6"},
-            {text: "Migrate from Express", link: "/introduction/migrate-from-express"}
-          ]
-        },
-        {
-          text: "Cheat sheet",
-          link: "/introduction/cheat-sheet"
-        }
-      ],
-      "/docs/": [
-        {
-          text: "Configuration",
-          link: "/docs/configuration/",
-          items: [
-            {text: "Introduction", link: "/docs/configuration/"},
-            {text: "Configuration sources", link: "/docs/configuration/configuration-sources"},
-            {text: "Server options", link: "/docs/configuration/server-options"},
-            {text: "Express.js", link: "/docs/configuration/express"},
-            {text: "Koa.js", link: "/docs/configuration/koa"},
-            {text: "Fastify.js", link: "/docs/configuration/fastify"}
-          ]
-        },
-        {
-          text: "Fundamentals",
-          items: [
-            {
-              text: "Controllers",
-              link: "/docs/controllers"
-            },
-            {
-              text: "DI & Providers",
-              link: `/docs/providers`
-            },
-            {
-              text: "Models",
-              link: `/docs/model`
-            },
-            {
-              text: "Json Mapper",
-              link: `/docs/json-mapper`
-            },
-            {
-              text: "Middlewares",
-              link: `/docs/middlewares`
-            },
-            {
-              text: "Pipes",
-              link: `/docs/pipes`
-            },
-            {
-              text: "Interceptors",
-              link: `/docs/interceptors`
-            },
-            {
-              text: "Validation",
-              link: `/docs/validation`
-            },
-            {
-              text: "Authentication",
-              link: `/docs/authentication`
-            },
-            {
-              text: "Hooks",
-              link: `/docs/hooks`
-            },
-            {
-              text: "Response filter",
-              link: `/docs/response-filter`
-            },
-            {
-              text: "Exceptions",
-              link: `/docs/exceptions`
-            },
-            {
-              text: "Logger",
-              link: `/docs/logger`
-            },
-            {
-              text: "Context",
-              link: `/docs/request-context`
-            },
-            {
-              text: "Testing",
-              link: `/docs/testing`
-            }
-          ]
-        },
-        {
-          text: "Advanced",
-          items: [
-            {
-              text: "Cache",
-              link: `/docs/cache`
-            },
-            {
-              text: "Platform API",
-              link: `/docs/platform-api`
-            },
-            {
-              text: "Platform Serverless",
-              link: `/docs/platform-serverless`
-            },
-            {
-              text: "Platform Serverless HTTP",
-              link: `/docs/platform-serverless-http`
-            },
-            {
-              text: "Command",
-              link: `/docs/command`
-            },
-            {
-              text: "Templating",
-              link: `/docs/templating`
-            },
-            {
-              text: "Custom decorators",
-              link: "/docs/custom-endpoint-decorators"
-            },
-            {
-              text: "Session & Cookies",
-              link: `/docs/session`
-            },
-            {
-              text: "Serve files",
-              link: `/docs/serve-files`
-            },
-            {
-              text: "Upload files",
-              link: "/docs/upload-files"
-            },
-            {
-              text: "Customize 404",
-              link: "/docs/not-found-page"
-            },
-            {
-              text: "Api references",
-              link: "/api"
-            }
-          ]
-        }
-      ],
+      "/introduction/": Introduction,
+      "/docs/": Docs,
       "/plugins/": Plugins,
-      "/tutorials/": [
-        {
-          text: "ORM",
-          items: [
-            {
-              text: "Prisma",
-              link: `/tutorials/prisma`
-            },
-            {
-              text: "MikroORM",
-              link: `/tutorials/mikroorm`
-            },
-            {
-              text: "TypeORM",
-              link: `/tutorials/typeorm`
-            },
-            {
-              text: "Mongoose",
-              link: `/tutorials/mongoose`
-            },
-            {
-              text: "Objection.js",
-              link: `/tutorials/objection`
-            },
-            {
-              text: "IORedis",
-              link: `/tutorials/ioredis`
-            }
-          ].sort((a, b) => a.text.localeCompare(b.text))
-        },
-        {
-          text: "Recipes",
-          items: [
-            {
-              text: "Keycloak",
-              link: `/tutorials/keycloak`
-            },
-            {
-              text: "Jest",
-              link: `/tutorials/jest`
-            },
-            {
-              text: "Vitest",
-              link: `/tutorials/vitest`
-            }
-          ]
-        },
-        {
-          text: "Plugins",
-          items: [
-            {
-              text: "AJV",
-              link: `/tutorials/ajv`
-            },
-            {
-              text: "AWS",
-              link: `/tutorials/aws`
-            },
-            {
-              text: "Passport.js",
-              link: `/tutorials/passport`
-            },
-            {
-              text: "GraphQL",
-              link: `/tutorials/graphql`
-            },
-            {
-              text: "Socket.io",
-              link: `/tutorials/socket-io`
-            },
-            {
-              text: "Swagger",
-              link: `/tutorials/swagger`
-            },
-            {
-              text: "Scalar",
-              link: `/tutorials/scalar`
-            },
-            {
-              text: "OIDC",
-              link: `/tutorials/oidc`
-            },
-            {
-              text: "Stripe",
-              link: `/tutorials/stripe`
-            },
-            {
-              text: "Agenda",
-              link: `/tutorials/agenda`
-            },
-            {
-              text: "Pulse",
-              link: `/tutorials/pulse`
-            },
-            {
-              text: "Serverless",
-              link: `/tutorials/serverless`
-            },
-            {
-              text: "Temporal",
-              link: `/tutorials/temporal`
-            },
-            {
-              text: "BullMQ",
-              link: `/tutorials/bullmq`
-            },
-            {
-              text: "Terminus",
-              link: `/tutorials/terminus`
-            },
-            {
-              text: "Vike",
-              link: `/tutorials/vike`
-            },
-            {
-              text: "Server-sent events",
-              link: `/tutorials/server-sent-events`
-            }
-          ].sort((a, b) => a.text.localeCompare(b.text))
-        }
-      ],
+      "/tutorials/": Tutorials,
       "/api/": referenceSidebar
     },
     socialLinks: [
