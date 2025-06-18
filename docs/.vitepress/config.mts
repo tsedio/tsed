@@ -5,6 +5,8 @@ import pkg from "../../package.json";
 import referenceSidebar from "../public/reference-sidebar.json";
 import team from "../team.json";
 
+const sort = (items: { text: string; link: string }[]) => items.sort((a, b) => a.text.localeCompare(b.text))
+
 const Introduction = [
   {
     text: "Introduction",
@@ -123,7 +125,7 @@ const Docs = [
         link: `/docs/platform-adapter`
       },
       {
-        text: "Platform Serverless",
+        text: "Platform AWS",
         link: `/docs/platform-serverless`
       },
       {
@@ -230,8 +232,31 @@ const Plugins = [
 
 const Tutorials = [
   {
+    text: "Authentication & Security",
+    items: sort([
+      {text: "Passport.js", link: "/tutorials/passport"},
+      {text: "Keycloak", link: "/tutorials/keycloak"},
+      {text: "OIDC", link: "/tutorials/oidc"}
+    ])
+  },
+  {
+    text: "API & Documentation",
+    items: sort([
+      {text: "Swagger", link: "/tutorials/swagger"},
+      {text: "GraphQL", link: "/tutorials/graphql"},
+      {
+        text: "Scalar",
+        link: `/tutorials/scalar`
+      },
+      {
+        text: "Schema Formio",
+        link: `/tutorials/schema-formio`
+      },
+    ])
+  },
+  {
     text: "ORM",
-    items: [
+    items: sort([
       {
         text: "Prisma",
         link: `/tutorials/prisma`
@@ -256,64 +281,12 @@ const Tutorials = [
         text: "IORedis",
         link: `/tutorials/ioredis`
       }
-    ].sort((a, b) => a.text.localeCompare(b.text))
+    ])
   },
   {
-    text: "Recipes",
-    items: [
-      {
-        text: "Keycloak",
-        link: `/tutorials/keycloak`
-      },
-      {
-        text: "Jest",
-        link: `/tutorials/jest`
-      },
-      {
-        text: "Vitest",
-        link: `/tutorials/vitest`
-      }
-    ]
-  },
-  {
-    text: "Third-party integrations",
-    items: [
-      {
-        text: "AJV",
-        link: `/tutorials/ajv`
-      },
-      {
-        text: "AWS",
-        link: `/tutorials/aws`
-      },
-      {
-        text: "Passport.js",
-        link: `/tutorials/passport`
-      },
-      {
-        text: "GraphQL",
-        link: `/tutorials/graphql`
-      },
-      {
-        text: "Socket.io",
-        link: `/tutorials/socket-io`
-      },
-      {
-        text: "Swagger",
-        link: `/tutorials/swagger`
-      },
-      {
-        text: "Scalar",
-        link: `/tutorials/scalar`
-      },
-      {
-        text: "OIDC",
-        link: `/tutorials/oidc`
-      },
-      {
-        text: "Stripe",
-        link: `/tutorials/stripe`
-      },
+    text: "Orchestration & Workflow",
+    items: sort([
+
       {
         text: "Agenda",
         link: `/tutorials/agenda`
@@ -323,16 +296,42 @@ const Tutorials = [
         link: `/tutorials/pulse`
       },
       {
-        text: "Serverless",
-        link: `/tutorials/serverless`
+        text: "BullMQ",
+        link: `/tutorials/bullmq`
       },
       {
         text: "Temporal",
         link: `/tutorials/temporal`
       },
+    ])
+  },
+  {
+    text: "Testing",
+    items: sort([
       {
-        text: "BullMQ",
-        link: `/tutorials/bullmq`
+        text: "Jest",
+        link: `/tutorials/jest`
+      },
+      {
+        text: "Vitest",
+        link: `/tutorials/vitest`
+      },
+    ])
+  },
+  {
+    text: "Third-parties",
+    items: sort([
+      {
+        text: "Socket.io",
+        link: `/tutorials/socket-io`
+      },
+      {
+        text: "Stripe",
+        link: `/tutorials/stripe`
+      },
+      {
+        text: "Serverless",
+        link: `/tutorials/serverless`
       },
       {
         text: "Terminus",
@@ -346,7 +345,7 @@ const Tutorials = [
         text: "Server-sent events",
         link: `/tutorials/server-sent-events`
       }
-    ].sort((a, b) => a.text.localeCompare(b.text))
+    ])
   }
 ];
 

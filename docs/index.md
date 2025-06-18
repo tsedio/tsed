@@ -186,6 +186,9 @@ frameworks:
   - title: Vault
     href: /plugins/premium/config-source/vault.html
     src: /vault.png
+  - title: Formio
+    href: /tutorials/schema-formio.html
+    src: https://avatars.githubusercontent.com/u/11790256?s=400&v=4
 partners:
   - title: eGain
     href: https://www.egain.com/

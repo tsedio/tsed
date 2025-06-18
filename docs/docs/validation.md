@@ -12,10 +12,13 @@ head:
 
 <Banner src="/ajv_logo.png" href="https://ajv.js.org/" height="100" />
 
-Ts.ED provide by default an [AJV](/tutorials/ajv.md) package `@tsed/ajv` to perform a validation on a [Model](/docs/model).
-The CLI install `@tsed/ajv` module by default. But if you start your project without Ts.ED CLI, you have to install it manually.
+Ts.ED provides by default an [AJV](/tutorials/ajv.md) package `@tsed/ajv` to perform a validation on
+a [Model](/docs/model).
+The CLI install `@tsed/ajv` module by default. But if you start your project without Ts.ED CLI, you have to install it
+manually.
 
-This package must be installed to run automatic validation on input data. Any model used on parameter and annotated with one of JsonSchema decorator will be
+This package must be installed to run automatic validation on input data. Any model used on parameter and annotated with
+one of JsonSchema decorator will be
 validated with AJV.
 
 ::: code-group
@@ -125,7 +128,9 @@ When a validation error occurs, AJV generates a list of errors with a full descr
     "keyword": "minLength",
     "dataPath": ".password",
     "schemaPath": "#/properties/password/minLength",
-    "params": {"limit": 6},
+    "params": {
+      "limit": 6
+    },
     "message": "should NOT be shorter than 6 characters",
     "modelName": "User"
   }
@@ -138,11 +143,15 @@ When a validation error occurs, AJV generates a list of errors with a full descr
 
 Ajv allows you to define custom keywords to validate a property.
 
-You can find more details on the different ways to declare a custom validator on this page: https://ajv.js.org/docs/keywords.html
+You can find more details on the different ways to declare a custom validator on this
+page: https://ajv.js.org/docs/keywords.html
 
-Ts.ED introduces the @@Keyword@@ decorator to declare a new custom validator for Ajv. Combined with the @@CustomKey@@ decorator to add keywords to a property of your class, you can use more complex scenarios than what basic JsonSchema allows.
+Ts.ED introduces the @@Keyword@@ decorator to declare a new custom validator for Ajv. Combined with the @@CustomKey@@
+decorator to add keywords to a property of your class, you can use more complex scenarios than what basic JsonSchema
+allows.
 
-For example, we can create a custom validator to support the `range` validation over a number. To do that, we have to define
+For example, we can create a custom validator to support the `range` validation over a number. To do that, we have to
+define
 the custom validator by using @@Keyword@@ decorator:
 
 ```typescript
@@ -165,9 +174,7 @@ class RangeKeyword implements KeywordMethods {
 
 Then we can declare a model using the standard decorators from `@tsed/schema`:
 
-::: code-group
-
-```typescript [Product.ts]
+```typescript
 import {CustomKey} from "@tsed/schema";
 import {Range, ExclusiveRange} from "../decorators/Range"; // custom decorator
 
@@ -204,8 +211,8 @@ Finally, we can create a unit test to verify if our example works properly:
 import "@tsed/ajv";
 import {PlatformTest} from "@tsed/platform-http/testing";
 import {getJsonSchema} from "@tsed/schema";
-import {Product} from "./Product";
-import "../keywords/RangeKeyword";
+import {Product} from "./Product.js";
+import "../keywords/RangeKeyword.js";
 
 describe("Product", () => {
   beforeEach(PlatformTest.create);
@@ -236,12 +243,15 @@ describe("Product", () => {
 ```
 
 ::: warning
-If you planed to create keyword that transform the data, you have to set `returnsCoercedValues` to `true` in your configuration.
+If you plan to create keyword that transform the data, you have to set `returnsCoercedValues` to `true` in your
+configuration.
 :::
 
 ### With "code" function
 
-Starting from v7, Ajv uses [CodeGen module](https://github.com/ajv-validator/ajv/blob/master/lib/compile/codegen/index.ts) for all pre-defined keywords - see [codegen.md](https://ajv.js.org/codegen.html) for details.
+Starting from v7, Ajv
+uses [CodeGen module](https://github.com/ajv-validator/ajv/blob/master/lib/compile/codegen/index.ts) for all pre-defined
+keywords - see [codegen.md](https://ajv.js.org/codegen.html) for details.
 
 Example `even` keyword:
 
@@ -253,15 +263,15 @@ import {array, number} from "@tsed/schema";
 import {_, KeywordCxt} from "ajv";
 
 @Keyword({
-keyword: "even",
-type: "number",
-schemaType: "boolean"
+  keyword: "even",
+  type: "number",
+  schemaType: "boolean"
 })
 class EvenKeyword implements KeywordMethods {
   code(cxt: KeywordCxt) {
     const {data, schema} = cxt;
     const op = schema ? _`!==` : _`===`;
-    cxt.fail(\_`${data} %2 ${op} 0`);
+    cxt.fail(`\_${data} %2 ${op} 0`);
   }
 }
 ```
@@ -291,8 +301,10 @@ console.log(validate(3)); // false
 
 ## Custom Formats
 
-You can add and replace any format using @@Formats@@ decorator. For example, the current format validator for `uri` doesn't allow
-empty string. So, with this decorator you can create or override an existing [ajv-formats](https://github.com/ajv-validator/ajv-formats) validator.
+You can add and replace any format using @@Formats@@ decorator. For example, the current format validator for `uri`
+doesn't allow
+empty string. So, with this decorator you can create or override an
+existing [ajv-formats](https://github.com/ajv-validator/ajv-formats) validator.
 
 ```typescript
 import {Formats, FormatsMethods} from "@tsed/ajv";
@@ -368,7 +380,8 @@ Ts.ED allows you to change the default @@ValidationPipe@@ by your own library. T
 Create a CustomValidationPipe and use @@OverrideProvider@@ to change the default @@ValidationPipe@@.
 
 ::: warning
-Replace the default JsonSchema validation provided by Ts.ED isn't recommended. You lose the ability to generate the swagger documentation and the json-mapper feature.
+Replace the default JsonSchema validation provided by Ts.ED isn't recommended. You lose the ability to generate the
+swagger documentation and the json-mapper feature.
 :::
 
 <<< @/docs/snippets/validation/validator-pipe.ts
@@ -380,7 +393,8 @@ Don't forgot to import the new `CustomValidatorPipe` in your `server.ts` !
 ### Use Joi
 
 There are several approaches available for object validation. One common approach is to use schema-based validation.
-The [Joi](https://github.com/hapijs/joi) library allows you to create schemas in a pretty straightforward way, with a readable API.
+The [Joi](https://github.com/hapijs/joi) library allows you to create schemas in a pretty straightforward way, with a
+readable API.
 
 Let's look at a pipe that makes use of Joi-based schemas.
 
@@ -409,7 +423,8 @@ bun add joi
 In the code sample below, we create a simple class that takes a schema as a constructor argument.
 We then apply the `schema.validate()` method, which validates our incoming argument against the provided schema.
 
-In the next section, you'll see how we supply the appropriate schema for a given controller method using the @@UsePipe@@ decorator.
+In the next section, you'll see how we supply the appropriate schema for a given controller method using the @@UsePipe@@
+decorator.
 
 <<< @/docs/snippets/validation/joi-pipe.ts
 
@@ -426,8 +441,9 @@ And finally, we are able to add Joi schema with our new decorator:
 Let's look at an alternate implementation of our validation technique.
 
 Ts.ED works also with the [class-validator](https://github.com/typestack/class-validator) library.
-This library allows you to use **decorator-based** validation (like Ts.ED with his [JsonSchema](/docs/model) decorators).
-Decorator-based validation combined with Ts.ED [Pipe](/docs/pipes.html) capabilities since we have access to the medata.type of the processed parameter.
+This library allows you to use **decorator-based** validation (like Ts.ED with his [JsonSchema](/docs/model)decorators).
+Decorator-based validation combined with Ts.ED [Pipe](/docs/pipes.html) capabilities since we have access to the
+`metadata.type` of the processed parameter.
 
 Before we start, we need to install the required packages:
 
@@ -479,17 +495,21 @@ It's made by the same author as the **class-validator** library, and as a result
 :::
 
 Note that we get the type from @@ParamMetadata@@ and give it to plainToObject function. The method `shouldValidate`
-bypass the validation process for the basic types and when the `metadata.type` or `metadata.collectionType` are not available.
+bypass the validation process for the basic types and when the `metadata.type` or `metadata.collectionType` are not
+available.
 
-Next, we use the **class-transformer** function `plainToClass()` to transform our plain JavaScript argument object into a typed object
-so that we can apply validation. The incoming body, when deserialized from the network request, does not have any type information.
+Next, we use the **class-transformer** function `plainToClass()` to transform our plain JavaScript argument object into
+a typed object
+so that we can apply validation. The incoming body, when deserialized from the network request, does not have any type
+information.
 Class-validator needs to use the validation decorators we defined for our **PersonModel** earlier,
 so we need to perform this transformation.
 
 Finally, we return the value when we haven't errors or throws a `ValidationError`.
 
 ::: tip
-If you use **class-validator**, it also be logical to use [class-transformer](https://github.com/typestack/class-transformer) as Deserializer.
+If you use **class-validator**, it is also logical to
+use [class-transformer](https://github.com/typestack/class-transformer) as Deserializer.
 So we recommend to override also the @@DeserializerPipe@@.
 
 <<< @/docs/snippets/validation/class-transformer-pipe.ts
