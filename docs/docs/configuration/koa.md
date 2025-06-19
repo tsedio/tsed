@@ -6,7 +6,7 @@
 To create Ts.ED application based on Koa.js, use [Ts.ED CLI](/introduction/getting-started.md).
 :::
 
-To configure the Fastify server, you can use the `koa` property in the `@Configuration` decorator.
+To configure the Koa server, you can use the `koa` property in the `@Configuration` decorator.
 
 ## koa.bodyParser
 
