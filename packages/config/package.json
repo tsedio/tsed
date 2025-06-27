@@ -75,8 +75,8 @@
     "vitest": "3.1.4"
   },
   "peerDependencies": {
-    "@tsed/core": "workspace:*",
-    "@tsed/di": "workspace:*",
+    "@tsed/core": ">=8.0.0",
+    "@tsed/di": ">=8.0.0",
     "dotenv": "^16.5.0",
     "dotenv-expand": "^12.0.2",
     "dotenv-flow": "^4.1.0",
