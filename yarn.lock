@@ -7404,7 +7404,7 @@ __metadata:
     "@tsed/typescript": "workspace:*"
     "@types/ws": "npm:8.18.1"
     eslint: "npm:9.12.0"
-    graphql-ws: "npm:6.0.4"
+    graphql-ws: "npm:6.0.5"
     tslib: "npm:2.7.0"
     typescript: "npm:5.4.5"
     ws: "npm:8.18.1"
@@ -17872,22 +17872,25 @@ __metadata:
   languageName: node
   linkType: hard
 
-"graphql-ws@npm:6.0.4":
-  version: 6.0.4
-  resolution: "graphql-ws@npm:6.0.4"
+"graphql-ws@npm:6.0.5":
+  version: 6.0.5
+  resolution: "graphql-ws@npm:6.0.5"
   peerDependencies:
     "@fastify/websocket": ^10 || ^11
+    crossws: ~0.3
     graphql: ^15.10.1 || ^16
     uWebSockets.js: ^20
     ws: ^8
   peerDependenciesMeta:
     "@fastify/websocket":
       optional: true
+    crossws:
+      optional: true
     uWebSockets.js:
       optional: true
     ws:
       optional: true
-  checksum: 10/9cfd6bdf03a65c2b390e049b0e6ce43dd3e428eb7df74afaad45bbfe1f074687a507509f5ab3f9467fea90a7fbe468558621e8c7be06729ea9dc56e116f236da
+  checksum: 10/33767813faf574ec225f52ffdf3cd4ef78acfb4905e82116afe0fe4adcd438ae3886f12b8ced588376dfaa26d50a6ad2dd30596547ed0a93c190fc4495ab91d2
   languageName: node
   linkType: hard
 
