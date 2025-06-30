@@ -26,6 +26,7 @@ import {staticsMiddleware} from "../middlewares/staticsMiddleware.js";
 import {PlatformKoaHandler} from "../services/PlatformKoaHandler.js";
 import {PlatformKoaRequest} from "../services/PlatformKoaRequest.js";
 import {PlatformKoaResponse} from "../services/PlatformKoaResponse.js";
+import {convertPath} from "../utils/convertPath.js";
 
 declare global {
   namespace TsED {
@@ -90,14 +91,25 @@ export class PlatformKoa extends PlatformAdapter<Koa> {
     const rawRouter = new KoaRouter(options) as any;
 
     layers.forEach((layer) => {
-      switch (layer.method) {
-        case "statics":
-          rawRouter.use(layer.path, this.statics(layer.path as string, layer.opts as any));
-          break;
+      const {path, wildcard} = convertPath(layer.path);
+      layer.path = path;
 
-        default:
-          rawRouter[layer.method](...layer.getArgs());
+      if (layer.method === "statics") {
+        rawRouter.use(path, this.statics(layer.path as string, layer.opts as any));
+        return;
       }
+
+      const handlers = layer.getArgs(false);
+
+      if (wildcard === "*") {
+        handlers.unshift(((koaContext: any, next: any) => {
+          koaContext.request.params["*"] = koaContext.request.params["0"];
+
+          return next();
+        }) as any);
+      }
+
+      rawRouter[layer.method](path, ...handlers);
     });
 
     application().getApp().use(rawRouter.routes()).use(rawRouter.allowedMethods());

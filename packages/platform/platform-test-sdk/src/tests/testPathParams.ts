@@ -53,6 +53,7 @@ class TestPathParamsCtrl {
   }
 
   // test path syntaxes
+
   @Get("/syntax-1/*")
   testSyntax1(@PathParams("*") wildcard: string, @Context() ctx: PlatformContext) {
     return {wildcard};
