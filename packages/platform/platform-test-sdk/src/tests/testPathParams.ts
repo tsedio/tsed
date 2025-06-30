@@ -4,7 +4,7 @@ import {PlatformTest} from "@tsed/platform-http/testing";
 import {Context, PathParams} from "@tsed/platform-params";
 import {Get, Pattern, Post} from "@tsed/schema";
 import SuperTest from "supertest";
-import {afterAll, beforeAll, expect, it} from "vitest";
+import {afterAll, beforeAll, describe, expect, it} from "vitest";
 
 import {PlatformTestingSdkOpts} from "../interfaces/index.js";
 

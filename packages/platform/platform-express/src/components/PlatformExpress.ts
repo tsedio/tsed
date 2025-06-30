@@ -116,7 +116,7 @@ export class PlatformExpress extends PlatformAdapter<Express.Application> {
 
   mapLayers(layers: PlatformLayer[]) {
     const rawApp: any = this.app.getApp();
-    const v = "v" + version.split(".")[0];
+    const v = `v${version.split(".")[0]}`;
 
     layers.forEach((layer) => {
       const handlers = layer.getArgs(false);

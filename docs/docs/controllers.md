@@ -15,8 +15,7 @@ Controllers are responsible for handling incoming **requests** and returning **r
 ![Client controller](./assets/client-controllers.png)
 
 A controller is here to handle a specific request for a given HTTP verb and Route. The routing service is responsible
-for
-managing and dispatching request to the right Controller.
+for managing and dispatching requests to the right Controller.
 
 In order to create a basic controller, we use classes and **decorators**. Decorators associate classes with required
 metadata and enable Ts.ED to create a routing map.
@@ -33,6 +32,10 @@ We'll specify a path for the controller which will be used by the routing mechan
 The @@Get@@ decorator before the `findAll()` method tells Ts.ED to create an endpoint for this particular route path and
 map every corresponding request to this handler. Since we've declared a prefix for every route (`/calendars`), Ts.ED
 will map every `GET /calendars` request to this method.
+
+::: tip
+For more details about the routing, see our guide to [routing](/docs/routing).
+:::
 
 ### Decorators
 
@@ -134,11 +137,12 @@ Getting parameters from Request can be done by using the following decorators:
 
 ::: tip
 
-Some decorators run automatically `validator` and `json-mapper`. This behavior can be changed (if the decorator is flagged as configurable)
+Some decorators run automatically `validator` and `json-mapper`. This behavior can be changed (if the decorator is
+flagged as configurable)
 like this:
 
 ```typescript
-@HeaderParams({expression: "x-header",  useValidator: true, useMapper: true })
+@HeaderParams({expression: "x-header", useValidator: true, useMapper: true})
 ```
 
 :::
@@ -261,14 +265,15 @@ By default, the validator/json-mapper aren't executed on header parameters.
 You have to add extra parameter to enable it:
 
 ```typescript
-@HeaderParams({expression: "x-header", useValidator: true, useMapper: true })
+@HeaderParams({expression: "x-header", useValidator: true, useMapper: true})
 ```
 
 :::
 
 ### Accept Mime
 
-@@AcceptMime@@ decorator provides you quick access to the `request.accepts()` and add given mime type to the consumable data types.
+@@AcceptMime@@ decorator provides you quick access to the `request.accepts()` and add given mime type to the consumable
+data types.
 
 ```typescript
 import {BodyParams} from "@tsed/platform-params";
@@ -493,7 +498,10 @@ With @@Returns@@ you can document correctly your endpoint to reflect the correct
 
 :::
 
-> See a live example of generics with Swagger documentation in our [interactive demo](https://codesandbox.io/embed/tsed-swagger-example-ripfl?fontsize=14&hidenavigation=1&theme=dark). This demo showcases how to implement and document generic types with proper Swagger/OpenAPI specifications.
+> See a live example of generics with Swagger documentation in
+>
+> our [interactive demo](https://codesandbox.io/embed/tsed-swagger-example-ripfl?fontsize=14&hidenavigation=1&theme=dark).
+> This demo showcases how to implement and document generic types with proper Swagger/OpenAPI specifications.
 
 ### Throw exceptions
 

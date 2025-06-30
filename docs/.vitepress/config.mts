@@ -5,7 +5,7 @@ import pkg from "../../package.json";
 import referenceSidebar from "../public/reference-sidebar.json";
 import team from "../team.json";
 
-const sort = (items: { text: string; link: string }[]) => items.sort((a, b) => a.text.localeCompare(b.text))
+const sort = (items: {text: string; link: string}[]) => items.sort((a, b) => a.text.localeCompare(b.text));
 
 const Introduction = [
   {
@@ -50,6 +50,10 @@ const Docs = [
       {
         text: "Introduction",
         link: `/docs/controllers`
+      },
+      {
+        text: "Routing",
+        link: `/docs/routing`
       },
       {
         text: "DI & Providers",
@@ -251,7 +255,7 @@ const Tutorials = [
       {
         text: "Schema Formio",
         link: `/tutorials/schema-formio`
-      },
+      }
     ])
   },
   {
@@ -302,7 +306,7 @@ const Tutorials = [
       {
         text: "Temporal",
         link: `/tutorials/temporal`
-      },
+      }
     ])
   },
   {
@@ -315,7 +319,7 @@ const Tutorials = [
       {
         text: "Vitest",
         link: `/tutorials/vitest`
-      },
+      }
     ])
   },
   {

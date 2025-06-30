@@ -32,6 +32,131 @@ framework, it's the adapter's responsibility to fill these gaps.
 
 The core of this system is the @@PlatformAdapter@@ abstract class, which your custom adapter will extend.
 
+## Path Conventions Support
+
+One of the key responsibilities of a platform adapter is to support Ts.ED's path conventions and adapt them to the
+target platform's routing system.
+Different web frameworks handle path patterns differently, and the adapter must ensure that Ts.ED's path syntax works
+correctly with the underlying framework.
+
+### Path Conversion
+
+Each adapter must implement a `convertPath` utility function that transforms Ts.ED path patterns into the format
+expected by the target framework.
+This function handles various path syntaxes, including:
+
+- Simple wildcards (`/*`)
+- Named wildcards (`/:param*`)
+- Regular expression patterns (`/(.*)`)
+- Optional parameters (`/:param?` or `/{:param}`)
+- Special patterns with brackets or regex
+
+For example, here's how the Fastify adapter converts paths:
+
+::: code-group
+
+```typescript [Implementation]
+import {isString} from "@tsed/core";
+
+interface ConvertPathResult {
+  path: string | RegExp;
+  wildcard?: string;
+}
+
+export function convertPath(path: string | RegExp): ConvertPathResult {
+  if (isString(path)) {
+    const parsed = path.split("/").reduce(
+      (options, segment, index) => {
+        const isLastSegment = index === path.split("/").length - 1;
+
+        if (isLastSegment && (segment === "*" || segment === "(.*)")) {
+          options.wildcard = "*";
+          options.path.push("*");
+
+          return options;
+        }
+
+        if (isLastSegment && segment.startsWith("*")) {
+          options.wildcard = segment.substring(1);
+          options.path.push("*");
+
+          return options;
+        }
+
+        if (segment.startsWith(":") && segment.endsWith("*")) {
+          options.wildcard = segment.substring(1, segment.length - 1);
+          options.path.push("*");
+
+          return options;
+        }
+
+        if (segment.startsWith("{:") && segment.endsWith("}")) {
+          // Handle v5 style parameters like /{param}
+          const paramName = segment.substring(2, segment.length - 1);
+          options.path.push(`:${paramName}?`);
+
+          return options;
+        }
+
+        options.path.push(segment);
+
+        return options;
+      },
+      {path: [], wildcard: undefined} as {path: string[]; wildcard?: string}
+    );
+
+    return {
+      path: parsed.path.join("/"),
+      wildcard: parsed.wildcard
+    };
+  }
+
+  return {path};
+}
+```
+
+```ts [Tests]
+import {convertPath} from "./convertPath.js";
+
+describe("Path conversion", () => {
+  it("should convert path with parameters correctly", () => {
+    // v4
+    expect(convertPath("/*")).toEqual({path: "/*", wildcard: "*"});
+    expect(convertPath("/foo/*")).toEqual({path: "/foo/*", wildcard: "*"});
+    expect(convertPath("/test/foo/*")).toEqual({path: "/test/foo/*", wildcard: "*"});
+    expect(convertPath("/test/:foo/*")).toEqual({path: "/test/:foo/*", wildcard: "*"});
+    expect(convertPath("/:param?")).toEqual({path: "/:param?"});
+    expect(convertPath("/foo/:param?")).toEqual({path: "/foo/:param?"});
+    expect(convertPath("/test/:foo/:param?")).toEqual({path: "/test/:foo/:param?"});
+    expect(convertPath("/test/:foo?/:param?")).toEqual({path: "/test/:foo?/:param?"});
+
+    // Ts.ED syntax
+    expect(convertPath("/:param*")).toEqual({path: "/*", wildcard: "param"});
+    expect(convertPath("/foo/:param*")).toEqual({path: "/foo/*", wildcard: "param"});
+    expect(convertPath("/:foo/:param*")).toEqual({path: "/:foo/*", wildcard: "param"});
+
+    // Express v5 compatibility to @koa/router
+    expect(convertPath("/*splat")).toEqual({path: "/*", wildcard: "splat"});
+    expect(convertPath("/foo/*splat")).toEqual({path: "/foo/*", wildcard: "splat"});
+    expect(convertPath("/{:param}")).toEqual({path: "/:param?"});
+    expect(convertPath("/foo/{:param}")).toEqual({path: "/foo/:param?"});
+    expect(convertPath("/test/{:foo}/{:param}")).toEqual({path: "/test/:foo?/:param?"});
+    expect(convertPath("/test/:foo/{:param}")).toEqual({path: "/test/:foo/:param?"});
+
+    // v4 pattern to v4 wildcard
+    expect(convertPath("/(.*)")).toEqual({path: "/*", wildcard: "*"});
+    expect(convertPath("/foo/(.*)")).toEqual({path: "/foo/*", wildcard: "*"});
+
+    // preserve the original path for v4, not supported in v5
+    expect(convertPath("/[discussion|page]/:slug")).toEqual({path: "/[discussion|page]/:slug"});
+    expect(convertPath("/test/(.*)/end")).toEqual({path: "/test/(.*)/end"});
+  });
+});
+```
+
+The adapter must handle all supported path conventions and ensure they work correctly with the target framework. For
+more details on the supported path conventions, see the [Routing documentation](./routing.md).
+
 ## Adapter Implementation Steps
 
 ### 1. Project Structure
@@ -333,7 +458,8 @@ class PlatformFastify extends PlatformAdapter {
 
 #### mapLayers()
 
-Maps platform layers to framework routes:
+Maps platform layers to framework routes. This method is where path conversion typically happens, transforming Ts.ED
+path patterns to the format expected by the target framework:
 
 ::: code-group
 
@@ -343,16 +469,24 @@ class PlatformYourFramework extends PlatformAdapter {
     const rawApp = this.app.getApp();
 
     layers.forEach((layer) => {
-      switch (layer.method) {
-        case "statics":
-          // Handle static files
-          rawApp.use(layer.path, this.statics(layer.path as string, layer.opts as any));
-          return;
+      // Convert the path to the format expected by the target framework
+      const {path, wildcard} = convertPath(layer.path);
 
-        default:
-          // Handle routes
-          rawApp[layer.method](...layer.getArgs());
+      layer.path = path;
+
+      if (layer.method === "statics") {
+        // Handle static files
+        rawApp.use(path, this.statics(path as string, layer.opts as any));
+        return;
       }
+
+      // Handle routes
+      // If the path has a wildcard, you may need to add special handling
+      if (wildcard) {
+        // Add wildcard-specific handling if needed
+      }
+
+      rawApp[layer.method](path, ...layer.getArgs(false));
     });
   }
 }
@@ -366,13 +500,27 @@ class PlatformExpress extends PlatformAdapter {
     const rawApp: any = this.app.getApp();
 
     layers.forEach((layer) => {
-      switch (layer.method) {
-        case "statics":
-          rawApp.use(layer.path, this.statics(layer.path as string, layer.opts as any));
-          return;
+      const handlers = layer.getArgs(false);
+      const {path, wildcard} = convertPath(layer.path, v as "v4" | "v5");
+
+      layer.path = path;
+
+      if (layer.method === "statics") {
+        rawApp.use(path, this.statics(path, layer.opts as any));
+        return;
       }
 
-      rawApp[layer.method](...layer.getArgs());
+      if (wildcard) {
+        handlers.unshift(((req: Express.Request, _: any, next: Express.NextFunction) => {
+          if (req.params["0"] && !req.params[wildcard]) {
+            req.params[wildcard] = req.params["0"];
+          }
+
+          next();
+        }) as any);
+      }
+
+      rawApp[layer.method](path, ...handlers);
     });
   }
 }
@@ -387,14 +535,25 @@ class PlatformKoa extends PlatformAdapter {
     const rawRouter = new KoaRouter(options) as any;
 
     layers.forEach((layer) => {
-      switch (layer.method) {
-        case "statics":
-          rawRouter.use(layer.path, this.statics(layer.path as string, layer.opts as any));
-          break;
+      const {path, wildcard} = convertPath(layer.path);
+      layer.path = path;
 
-        default:
-          rawRouter[layer.method](...layer.getArgs());
+      if (layer.method === "statics") {
+        rawRouter.use(path, this.statics(layer.path as string, layer.opts as any));
+        return;
       }
+
+      const handlers = layer.getArgs(false);
+
+      if (wildcard === "*") {
+        handlers.unshift(((koaContext: any, next: any) => {
+          koaContext.request.params["*"] = koaContext.request.params["0"];
+
+          return next();
+        }) as any);
+      }
+
+      rawRouter[layer.method](path, ...handlers);
     });
 
     application().getApp().use(rawRouter.routes()).use(rawRouter.allowedMethods());
@@ -411,23 +570,27 @@ class PlatformFastify extends PlatformAdapter {
     const rawApp: FastifyInstance = app.getApp();
 
     layers.forEach((layer) => {
+      const {path, wildcard} = convertPath(layer.path);
+      const handlers = layer.getArgs(false);
+
       switch (layer.method) {
         case "use":
           if ((rawApp as any).use) {
-            (rawApp as any).use(...layer.getArgs());
+            (rawApp as any).use(path, handlers);
           }
           return;
         case "statics":
-          this.statics(layer.path as string, layer.opts as any);
+          this.statics(path as string, layer.opts as any);
 
           // rawApp.register();
           return;
       }
+
       try {
         rawApp.route({
           method: layer.method.toUpperCase() as any,
-          url: layer.path as any,
-          handler: this.compose(layer), // this method emulate middleware on the route like is used in Express
+          url: path as any,
+          handler: this.compose(layer, wildcard),
           config: {
             rawBody: layer.handlers.some((handler) => handler.opts?.paramsTypes?.RAW_BODY)
           }
@@ -716,3 +879,7 @@ For more details, examine the source code of the existing adapters:
 - [PlatformExpress](https://github.com/tsedio/tsed/blob/production/packages/platform/platform-express/src/components/PlatformExpress.ts)
 - [PlatformKoa](https://github.com/tsedio/tsed/blob/production/packages/platform/platform-koa/src/components/PlatformKoa.ts)
 - [PlatformFastify](https://github.com/tsedio/tsed/blob/production/packages/platform/platform-fastify/src/components/PlatformFastify.ts)
+
+```
+
+```
