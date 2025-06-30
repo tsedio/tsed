@@ -19,11 +19,13 @@ import {
 import {PlatformHandlerMetadata, PlatformHandlerType, PlatformLayer} from "@tsed/platform-router";
 import {OptionsJson, OptionsText, OptionsUrlencoded} from "body-parser";
 import Express from "express";
+import {version} from "express/package.json" with {type: "json"};
 
 import {PlatformExpressStaticsOptions} from "../interfaces/PlatformExpressStaticsOptions.js";
 import {staticsMiddleware} from "../middlewares/staticsMiddleware.js";
 import {PlatformExpressHandler} from "../services/PlatformExpressHandler.js";
 import {PlatformExpressResponse} from "../services/PlatformExpressResponse.js";
+import {convertPath} from "../utils/convertPath.js";
 
 declare module "express" {
   export interface Request {
@@ -114,15 +116,30 @@ export class PlatformExpress extends PlatformAdapter<Express.Application> {
 
   mapLayers(layers: PlatformLayer[]) {
     const rawApp: any = this.app.getApp();
+    const v = "v" + version.split(".")[0];
 
     layers.forEach((layer) => {
-      switch (layer.method) {
-        case "statics":
-          rawApp.use(layer.path, this.statics(layer.path as string, layer.opts as any));
-          return;
+      const handlers = layer.getArgs(false);
+      const {path, wildcard} = convertPath(layer.path, v as "v4" | "v5");
+
+      layer.path = path;
+
+      if (layer.method === "statics") {
+        rawApp.use(path, this.statics(path, layer.opts as any));
+        return;
       }
 
-      rawApp[layer.method](...layer.getArgs());
+      if (wildcard) {
+        handlers.unshift(((req: Express.Request, _: any, next: Express.NextFunction) => {
+          if (req.params["0"] && !req.params[wildcard]) {
+            req.params[wildcard] = req.params["0"];
+          }
+
+          next();
+        }) as any);
+      }
+
+      rawApp[layer.method](path, ...handlers);
     });
   }
 
@@ -177,7 +194,7 @@ export class PlatformExpress extends PlatformAdapter<Express.Application> {
     };
   }
 
-  statics(endpoint: string, options: PlatformStaticsOptions) {
+  statics(endpoint: string | RegExp, options: PlatformStaticsOptions) {
     const {root, ...props} = options;
 
     return staticsMiddleware(root, props);

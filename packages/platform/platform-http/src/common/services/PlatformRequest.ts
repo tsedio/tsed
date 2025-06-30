@@ -1,6 +1,6 @@
 import {IncomingHttpHeaders, IncomingMessage} from "node:http";
 
-import {Injectable, injectable, ProviderScope, Scope} from "@tsed/di";
+import {injectable, ProviderScope} from "@tsed/di";
 
 import type {PlatformContext} from "../domain/PlatformContext.js";
 import type {PlatformResponse} from "./PlatformResponse.js";
@@ -20,6 +20,7 @@ declare global {
  */
 export class PlatformRequest<Req extends {[key: string]: any} = any> {
   constructor(readonly $ctx: PlatformContext) {}
+
   /**
    * The current @@PlatformResponse@@.
    */

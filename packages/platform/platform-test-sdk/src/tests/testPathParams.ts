@@ -1,4 +1,5 @@
 import {Controller} from "@tsed/di";
+import type {PlatformContext} from "@tsed/platform-http";
 import {PlatformTest} from "@tsed/platform-http/testing";
 import {Context, PathParams} from "@tsed/platform-params";
 import {Get, Pattern, Post} from "@tsed/schema";
@@ -50,6 +51,27 @@ class TestPathParamsCtrl {
   testScenario6(@PathParams("id") id: number) {
     return {id};
   }
+
+  // test path syntaxes
+  @Get("/syntax-1/*")
+  testSyntax1(@PathParams("*") wildcard: string, @Context() ctx: PlatformContext) {
+    return {wildcard};
+  }
+
+  @Get("/syntax-2/(.*)")
+  testSyntax2(@PathParams("*") wildcard: string, @Context() ctx: PlatformContext) {
+    return {wildcard};
+  }
+
+  @Get("/syntax-3/:named*")
+  testSyntax3(@PathParams("named") wildcard: string, @Context() ctx: PlatformContext) {
+    return {wildcard};
+  }
+
+  @Get("/syntax-4/:named?")
+  testSyntax4(@PathParams("named") named: string, @Context() ctx: PlatformContext) {
+    return {named};
+  }
 }
 
 export function testPathParams(options: PlatformTestingSdkOpts) {
@@ -58,6 +80,9 @@ export function testPathParams(options: PlatformTestingSdkOpts) {
   beforeAll(
     PlatformTest.bootstrap(options.server, {
       ...options,
+      logger: {
+        level: "info"
+      },
       mount: {
         "/rest": [TestPathParamsCtrl]
       }
@@ -123,5 +148,31 @@ export function testPathParams(options: PlatformTestingSdkOpts) {
     const response = await request.get("/rest/path-params/scenario-6/1").expect(200);
 
     expect(response.body).toEqual({id: 1});
+  });
+
+  describe("path syntaxes", () => {
+    it("Syntax 1: GET /rest/path-params/syntax-1/*", async () => {
+      const response = await request.get("/rest/path-params/syntax-1/abc/def").expect(200);
+
+      expect(response.body).toEqual({wildcard: "abc/def"});
+    });
+
+    it("Syntax 2: GET /rest/path-params/syntax-2/(.*)", async () => {
+      const response = await request.get("/rest/path-params/syntax-2/abc/def").expect(200);
+
+      expect(response.body).toEqual({wildcard: "abc/def"});
+    });
+
+    it("Syntax 2: GET /rest/path-params/syntax-3/:named*", async () => {
+      const response = await request.get("/rest/path-params/syntax-3/abc/def").expect(200);
+
+      expect(response.body).toEqual({wildcard: "abc/def"});
+    });
+
+    it("Syntax 3: GET /rest/path-params/syntax-4/:named?", async () => {
+      const response = await request.get("/rest/path-params/syntax-4/named").expect(200);
+
+      expect(response.body).toEqual({named: "named"});
+    });
   });
 }
