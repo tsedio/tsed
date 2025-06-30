@@ -51,7 +51,7 @@ export class PlatformLayer {
     this.#args = args;
   }
 
-  getArgs(withPath: true): [SinglePathType, ...PlatformParamsCallback[]];
+  getArgs(withPath?: true): [SinglePathType, ...PlatformParamsCallback[]];
   getArgs(withPath: false): PlatformParamsCallback[];
   getArgs(withPath = true) {
     return [withPath ? this.path : null, ...this.#args].filter(Boolean);

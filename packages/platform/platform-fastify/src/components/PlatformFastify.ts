@@ -28,6 +28,7 @@ import type {PlatformFastifyPluginLoadingOptions, PlatformFastifyPluginSettings}
 import type {PlatformFastifySettings} from "../interfaces/PlatformFastifySettings.js";
 import {PlatformFastifyRequest} from "../services/PlatformFastifyRequest.js";
 import {PlatformFastifyResponse} from "../services/PlatformFastifyResponse.js";
+import {convertPath} from "../utils/convertPath.js";
 
 declare global {
   namespace TsED {
@@ -70,23 +71,27 @@ export class PlatformFastify extends PlatformAdapter<FastifyInstance> {
     const rawApp: FastifyInstance = app.getApp();
 
     layers.forEach((layer) => {
+      const {path, wildcard} = convertPath(layer.path);
+      const handlers = layer.getArgs(false);
+
       switch (layer.method) {
         case "use":
           if ((rawApp as any).use) {
-            (rawApp as any).use(...layer.getArgs());
+            (rawApp as any).use(path, handlers);
           }
           return;
         case "statics":
-          this.statics(layer.path as string, layer.opts as any);
+          this.statics(path as string, layer.opts as any);
 
           // rawApp.register();
           return;
       }
+
       try {
         rawApp.route({
           method: layer.method.toUpperCase() as any,
-          url: layer.path as any,
-          handler: this.compose(layer),
+          url: path as any,
+          handler: this.compose(layer, wildcard),
           config: {
             rawBody: layer.handlers.some((handler) => handler.opts?.paramsTypes?.RAW_BODY)
           }
@@ -266,8 +271,14 @@ export class PlatformFastify extends PlatformAdapter<FastifyInstance> {
     return null;
   }
 
-  protected compose(layer: PlatformLayer) {
-    return (req: FastifyRequest, reply: FastifyReply) => {
+  protected compose(layer: PlatformLayer, wildcard?: string) {
+    return (req: FastifyRequest, _: FastifyReply) => {
+      const params = req.params as Record<string, any>;
+
+      if (wildcard && params["*"] && !params[wildcard]) {
+        params[wildcard] = params["*"];
+      }
+
       return runInContext(req.$ctx, async () => {
         const $ctx = req.$ctx;
         $ctx.next = null;

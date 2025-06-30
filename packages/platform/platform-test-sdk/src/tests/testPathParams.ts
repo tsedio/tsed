@@ -81,9 +81,9 @@ export function testPathParams(options: PlatformTestingSdkOpts) {
   beforeAll(
     PlatformTest.bootstrap(options.server, {
       ...options,
-      logger: {
-        level: "info"
-      },
+      // logger: {
+      //   level: "info"
+      // },
       mount: {
         "/rest": [TestPathParamsCtrl]
       }
@@ -164,13 +164,13 @@ export function testPathParams(options: PlatformTestingSdkOpts) {
       expect(response.body).toEqual({wildcard: "abc/def"});
     });
 
-    it("Syntax 2: GET /rest/path-params/syntax-3/:named*", async () => {
+    it("Syntax 3: GET /rest/path-params/syntax-3/:named*", async () => {
       const response = await request.get("/rest/path-params/syntax-3/abc/def").expect(200);
 
       expect(response.body).toEqual({wildcard: "abc/def"});
     });
 
-    it("Syntax 3: GET /rest/path-params/syntax-4/:named?", async () => {
+    it("Syntax 4: GET /rest/path-params/syntax-4/:named?", async () => {
       const response = await request.get("/rest/path-params/syntax-4/named").expect(200);
 
       expect(response.body).toEqual({named: "named"});
