@@ -7,9 +7,11 @@ interface ConvertPathResult {
 
 export function convertPath(path: string | RegExp): ConvertPathResult {
   if (isString(path)) {
-    const parsed = path.split("/").reduce(
+    const segments = path.split("/");
+
+    const parsed = segments.reduce(
       (options, segment, index) => {
-        const isLastSegment = index === path.split("/").length - 1;
+        const isLastSegment = index === segments.length - 1;
 
         if (isLastSegment && (segment === "*" || segment === "(.*)")) {
           options.wildcard = "*";

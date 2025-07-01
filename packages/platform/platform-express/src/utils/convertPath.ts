@@ -11,9 +11,11 @@ interface ConvertPathResult {
  * Converts a path to v4 format
  */
 function convertPathToV4(path: string): ConvertPathResult {
-  const parsed = path.split("/").reduce(
+  const segments = path.split("/");
+
+  const parsed = segments.reduce(
     (options, segment, index) => {
-      const isLastSegment = index === path.split("/").length - 1;
+      const isLastSegment = index === segments.length - 1;
 
       if (isLastSegment && (segment === "*" || segment === "(.*)")) {
         options.wildcard = "*";
@@ -60,9 +62,11 @@ function convertPathToV4(path: string): ConvertPathResult {
  * Converts a path to v5 format
  */
 function convertPathToV5(path: string): ConvertPathResult {
-  const parsed = path.split("/").reduce(
+  const segments = path.split("/");
+
+  const parsed = segments.reduce(
     (options, segment, index) => {
-      const isLastSegment = index === path.split("/").length - 1;
+      const isLastSegment = index === segments.length - 1;
 
       if (isLastSegment && (segment === "*" || segment === "(.*)")) {
         options.wildcard = "*";

@@ -26,7 +26,8 @@ Ts.ED supports several path syntax conventions that allow you to define routes w
 | `/{:param}` | Optional parameter (v5 syntax) | `/users/{:id}` matches both `/users/123` and `/users` |
 | `/(.*)`     | Regular expression wildcard    | `/files/(.*)` matches `/files/any/path`               |
 
-Ts.ED try to be compatible with the most common conventions used in web frameworks like Express.js, Koa.js, and Fastify.
+Ts.ED tries to be compatible with the most common conventions used in web frameworks like Express.js, Koa.js, and
+Fastify.
 
 ::: warning
 RegExp in string paths are not converted by Ts.ED. Express.js v5 has removed support for RegExp in string paths.
