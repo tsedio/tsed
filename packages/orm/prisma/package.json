@@ -53,7 +53,7 @@
     "eslint": "9.12.0",
     "prisma": "^6.0.1",
     "typescript": "5.4.5",
-    "vitest": "3.1.4"
+    "vitest": "3.2.4"
   },
   "peerDependencies": {
     "@prisma/client": ">=6.0.0",
