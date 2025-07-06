@@ -8143,7 +8143,6 @@ __metadata:
     "@types/express": "npm:^4.17.21"
     "@types/express-session": "npm:1.18.1"
     "@types/method-override": "npm:0.0.35"
-    "@types/multer": "npm:^1.4.12"
     body-parser: "npm:1.20.3"
     compression: "npm:1.7.4"
     cookie-parser: "npm:1.4.6"
@@ -8166,7 +8165,6 @@ __metadata:
     "@tsed/platform-http": ">=8.0.0"
     "@tsed/platform-views": ">=8.0.0"
     "@tsed/schema": ">=8.0.0"
-    "@types/multer": ^1.4.5
     body-parser: ^1.19.0
     cross-env: 7.0.3
     express: ">=4.17.1"
@@ -8447,6 +8445,7 @@ __metadata:
     "@tsed/platform-middlewares": "workspace:*"
     "@tsed/platform-params": "workspace:*"
     "@tsed/typescript": "workspace:*"
+    "@types/multer": "npm:^2.0.0"
     eslint: "npm:9.12.0"
     multer: "npm:^2.0.0"
     tslib: "npm:2.7.0"
@@ -8460,6 +8459,7 @@ __metadata:
     "@tsed/openspec": ">=8.0.0"
     "@tsed/platform-middlewares": ">=8.0.0"
     "@tsed/schema": ">=8.0.0"
+    "@types/multer": ">=2.0.0"
     cross-env: 7.0.3
   peerDependenciesMeta:
     "@tsed/core":
@@ -9988,12 +9988,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/multer@npm:^1.4.12":
-  version: 1.4.12
-  resolution: "@types/multer@npm:1.4.12"
+"@types/multer@npm:^2.0.0":
+  version: 2.0.0
+  resolution: "@types/multer@npm:2.0.0"
   dependencies:
     "@types/express": "npm:*"
-  checksum: 10/3d2b32da58ddd67f972d4ef1021492f78d65f33f936b6fb25dd461bb6cc7b03bfd1de1a11562c4310680dac8054e4398038db51767a0ffbf1fe62457b3706e95
+  checksum: 10/87ddd5b39fd572b1d98f84908738eed9fef53fc20628bff066d43b3bcf70481f51010a997554ed65c97121e7b8fe44b59a24cd68ccf59c3d7c64bbffb8c5a127
   languageName: node
   linkType: hard
 
