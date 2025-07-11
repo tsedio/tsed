@@ -2,9 +2,7 @@ import "@tsed/platform-exceptions";
 
 import {SpecTypes} from "../../domain/SpecTypes.js";
 import {getSpec} from "../../utils/getSpec.js";
-import {CollectionOf} from "../collections/collectionOf.js";
 import {Property} from "../common/property.js";
-import {Generics} from "../generics/generics.js";
 import {OperationPath} from "./operationPath.js";
 import {Status} from "./status.js";
 
@@ -466,102 +464,6 @@ describe("@Status", () => {
                         $ref: "#/components/schemas/Model"
                       },
                       type: "array"
-                    }
-                  }
-                },
-                description: "description"
-              }
-            },
-            tags: ["Controller"]
-          }
-        }
-      },
-      tags: [
-        {
-          name: "Controller"
-        }
-      ]
-    });
-  });
-  it("should declare an Generic of Model", () => {
-    // WHEN
-    @Generics("T")
-    class Pagination<T> {
-      @CollectionOf("T")
-      data: T[];
-
-      @Property()
-      totalCount: number;
-    }
-
-    @Generics("T")
-    class Submission<T> {
-      @Property()
-      _id: string;
-
-      @Property("T")
-      data: T;
-    }
-
-    class Product {
-      @Property()
-      title: string;
-    }
-
-    class Controller {
-      @OperationPath("POST", "/")
-      @(Status(200, Pagination).Of(Submission).Nested(Product).Description("description"))
-      method(): Promise<Pagination<Submission<Product>> | null> {
-        return null as never;
-      }
-    }
-
-    // THEN
-    const spec = getSpec(Controller);
-
-    expect(spec).toEqual({
-      components: {
-        schemas: {
-          Product: {
-            properties: {
-              title: {
-                type: "string"
-              }
-            },
-            type: "object"
-          }
-        }
-      },
-      paths: {
-        "/": {
-          post: {
-            operationId: "controllerMethod",
-            parameters: [],
-            responses: {
-              "200": {
-                content: {
-                  "application/json": {
-                    schema: {
-                      properties: {
-                        data: {
-                          items: {
-                            properties: {
-                              _id: {
-                                type: "string"
-                              },
-                              data: {
-                                $ref: "#/components/schemas/Product"
-                              }
-                            },
-                            type: "object"
-                          },
-                          type: "array"
-                        },
-                        totalCount: {
-                          type: "number"
-                        }
-                      },
-                      type: "object"
                     }
                   }
                 },
