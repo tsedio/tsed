@@ -302,6 +302,8 @@ export class PlatformFastify extends PlatformAdapter<FastifyInstance> {
           // TODO maybe we can use platform exception here?
           throw req.$ctx.error;
         }
+
+        return $ctx.response.raw;
       });
     };
   }
