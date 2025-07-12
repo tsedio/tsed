@@ -1,4 +1,4 @@
-import {DecoratorTypes, Metadata, prototypeOf, Type} from "@tsed/core";
+import {DecoratorTypes, isClass, Metadata, prototypeOf, Type} from "@tsed/core";
 
 import {JsonEntityComponent} from "../decorators/config/jsonEntityComponent.js";
 import type {JsonClassStore} from "./JsonClassStore.js";
@@ -33,6 +33,10 @@ export class JsonPropertyStore extends JsonEntityStore {
     return this.schema.$allow;
   }
 
+  static get(target: Type<any>, propertyKey: string | symbol) {
+    return JsonEntityStore.from<JsonPropertyStore>(prototypeOf(target), propertyKey);
+  }
+
   discriminatorKey() {
     this.parent.schema.discriminatorKey(String(this.propertyKey));
     this.itemSchema.isDiscriminatorKey = true;
@@ -61,7 +65,7 @@ export class JsonPropertyStore extends JsonEntityStore {
 
     const properties = this.parent.schema.get("properties");
 
-    let schema: JsonSchema = properties[this.propertyName];
+    let schema: JsonSchema | JsonSchema[] = properties[this.propertyName];
 
     if (!schema) {
       this.parent.children.set(this.propertyName, this);
@@ -72,16 +76,14 @@ export class JsonPropertyStore extends JsonEntityStore {
 
       if (this.collectionType) {
         schema.itemSchema(this.type);
+      } else if (isClass(this.type)) {
+        schema = [JsonSchema.from({type: "object"}), schema];
       }
     }
 
     this.parent.schema.addProperty(this.propertyName, schema);
 
     this._schema = schema;
-  }
-
-  static get(target: Type<any>, propertyKey: string | symbol) {
-    return JsonEntityStore.from<JsonPropertyStore>(prototypeOf(target), propertyKey);
   }
 }
 

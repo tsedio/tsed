@@ -4,6 +4,7 @@ import {
   decoratorTypeOf,
   DecoratorTypes,
   descriptorOf,
+  isArray,
   isArrayOrArrayClass,
   isArrowFn,
   isClass,
@@ -75,16 +76,6 @@ export abstract class JsonEntityStore implements JsonEntityStoreOptions {
   readonly isStore = true;
   readonly parent: JsonEntityStore;
   readonly target: Type<any>;
-  /**
-   *
-   */
-  protected _type: Type<any>;
-  /**
-   * Ref to JsonSchema
-   */
-  protected _schema: JsonSchema;
-
-  [key: string]: any;
 
   constructor(options: JsonEntityStoreOptions) {
     const {target, propertyKey, descriptor, index, decoratorType} = options;
@@ -97,6 +88,38 @@ export abstract class JsonEntityStore implements JsonEntityStoreOptions {
     this.token = target;
     this.store = options.store;
     this.parent = this;
+  }
+
+  /**
+   *
+   */
+  protected _type: Type<any>;
+
+  [key: string]: any;
+
+  get type(): Type<any> | any {
+    return this._type;
+  }
+
+  /**
+   * Get original type without transformation
+   * @param value
+   */
+  set type(value: Type<any> | any) {
+    this._type = value;
+    this.build();
+  }
+
+  /**
+   * Ref to JsonSchema
+   */
+  protected _schema: JsonSchema | JsonSchema[];
+
+  /**
+   * Return the JsonSchema
+   */
+  get schema(): JsonSchema {
+    return isArray(this._schema) ? this._schema[0] : this._schema;
   }
 
   /**
@@ -137,32 +160,12 @@ export abstract class JsonEntityStore implements JsonEntityStoreOptions {
     return isClass(this.computedType);
   }
 
-  /**
-   * Return the JsonSchema
-   */
-  get schema(): JsonSchema {
-    return this._schema;
-  }
-
   get nestedGenerics(): Type<any>[][] {
     return this.schema.nestedGenerics;
   }
 
   set nestedGenerics(nestedGenerics: Type<any>[][]) {
     this.schema.nestedGenerics = nestedGenerics;
-  }
-
-  get type(): Type<any> | any {
-    return this._type;
-  }
-
-  /**
-   * Get original type without transformation
-   * @param value
-   */
-  set type(value: Type<any> | any) {
-    this._type = value;
-    this.build();
   }
 
   /**
@@ -183,6 +186,14 @@ export abstract class JsonEntityStore implements JsonEntityStoreOptions {
 
   get isDiscriminatorChild() {
     return this.schema.isDiscriminator && this.discriminatorAncestor?.schema.discriminator().base !== this.target;
+  }
+
+  get path() {
+    return this.store.get("path");
+  }
+
+  set path(path: string) {
+    this.store.set("path", path);
   }
 
   static from<T extends JsonClassStore = JsonClassStore>(target: Type<any>): T;
@@ -257,6 +268,16 @@ export abstract class JsonEntityStore implements JsonEntityStoreOptions {
     return [this.targetName, this.propertyName, this.index].filter((o) => o !== undefined).join(":");
   }
 
+  getBestType() {
+    return this.itemSchema.hasDiscriminator
+      ? this.itemSchema.discriminator().base
+      : isClassObject(this.type)
+        ? this.itemSchema.getTarget()
+        : isArrowFn(this.type)
+          ? this.type()
+          : this.type;
+  }
+
   protected abstract build(): void;
 
   protected buildType(type: any) {
@@ -270,23 +291,5 @@ export abstract class JsonEntityStore implements JsonEntityStoreOptions {
         this._type = String;
       }
     }
-  }
-
-  set path(path: string) {
-    this.store.set("path", path);
-  }
-
-  get path() {
-    return this.store.get("path");
-  }
-
-  getBestType() {
-    return this.itemSchema.hasDiscriminator
-      ? this.itemSchema.discriminator().base
-      : isClassObject(this.type)
-        ? this.itemSchema.getTarget()
-        : isArrowFn(this.type)
-          ? this.type()
-          : this.type;
   }
 }
