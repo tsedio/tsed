@@ -1,0 +1,75 @@
+{
+  "name": "@tsed/schema-async-api",
+  "description": "Async API schema module for Ts.ED Framework",
+  "type": "module",
+  "version": "8.13.3",
+  "source": "./src/index.ts",
+  "main": "./lib/esm/index.js",
+  "module": "./lib/esm/index.js",
+  "typings": "./lib/types/index.d.ts",
+  "private": true,
+  "exports": {
+    ".": {
+      "tsed-source": "./src/index.ts",
+      "types": "./lib/types/index.d.ts",
+      "import": "./lib/esm/index.js",
+      "default": "./lib/esm/index.js"
+    }
+  },
+  "scripts": {
+    "clean": "rm -rf lib",
+    "build": "yarn clean && yarn barrels && yarn build:ts",
+    "barrels": "barrels",
+    "test": "vitest run",
+    "build:ts": "tsc --build tsconfig.esm.json",
+    "test:ci": "vitest run --coverage.thresholds.autoUpdate=true"
+  },
+  "keywords": [
+    "TypeScript",
+    "decorators",
+    "models",
+    "json schema",
+    "JsonSchema",
+    "AsyncAPI",
+    "class",
+    "classes",
+    "tsed"
+  ],
+  "dependencies": {
+    "@tsed/openspec": "workspace:*",
+    "change-case": "^5.4.4",
+    "json-schema": "0.4.0",
+    "picomatch": "4.0.2",
+    "statuses": "^2.0.1",
+    "tslib": "2.7.0"
+  },
+  "devDependencies": {
+    "@apidevtools/swagger-parser": "10.1.0",
+    "@tsed/barrels": "workspace:*",
+    "@tsed/core": "workspace:*",
+    "@tsed/hooks": "workspace:*",
+    "@tsed/openspec": "workspace:*",
+    "@tsed/typescript": "workspace:*",
+    "@types/fs-extra": "11.0.4",
+    "@types/json-schema": "7.0.15",
+    "@types/picomatch": "3.0.2",
+    "@types/statuses": "2.0.5",
+    "ajv": "^8.17.1",
+    "eslint": "9.12.0",
+    "typescript": "5.4.5",
+    "vitest": "3.2.4"
+  },
+  "peerDependencies": {
+    "@tsed/core": ">=8.0.0",
+    "@tsed/hooks": ">=8.0.0",
+    "@tsed/openspec": ">=8.0.0"
+  },
+  "peerDependenciesMeta": {
+    "@tsed/core": {
+      "optional": false
+    },
+    "@tsed/openspec": {
+      "optional": false
+    }
+  }
+}

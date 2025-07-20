@@ -1,14 +1,16 @@
+import {
+  buildPath,
+  execMapper,
+  getJsonEntityStore,
+  getOperationsStores,
+  JsonMethodPath,
+  JsonMethodStore,
+  JsonSchemaOptions,
+  OperationVerbs,
+  registerJsonSchemaMapper,
+  removeHiddenOperation
+} from "@tsed/schema";
 import {camelCase} from "change-case";
-
-import {OperationVerbs} from "../../constants/OperationVerbs.js";
-import {JsonMethodStore} from "../../domain/JsonMethodStore.js";
-import {JsonMethodPath} from "../../domain/JsonOperation.js";
-import {JsonSchemaOptions} from "../../interfaces/JsonSchemaOptions.js";
-import {execMapper, registerJsonSchemaMapper} from "../../registries/JsonSchemaMapperContainer.js";
-import {buildPath} from "../../utils/buildPath.js";
-import {getJsonEntityStore} from "../../utils/getJsonEntityStore.js";
-import {getOperationsStores} from "../../utils/getOperationsStores.js";
-import {removeHiddenOperation} from "../../utils/removeHiddenOperation.js";
 
 const ALLOWED_VERBS = [OperationVerbs.PUBLISH, OperationVerbs.SUBSCRIBE];
 

@@ -1,12 +1,8 @@
 import {setValue} from "@tsed/core";
+import {execMapper, JsonMethodPath, JsonMethodStore, JsonSchemaOptions, registerJsonSchemaMapper, SpecTypes} from "@tsed/schema";
 import {pascalCase} from "change-case";
 
-import {JsonMethodStore} from "../../domain/JsonMethodStore.js";
-import {JsonMethodPath} from "../../domain/JsonOperation.js";
-import {SpecTypes} from "../../domain/SpecTypes.js";
-import {JsonSchemaOptions} from "../../interfaces/JsonSchemaOptions.js";
-import {execMapper, registerJsonSchemaMapper} from "../../registries/JsonSchemaMapperContainer.js";
-import {makeOf} from "../../utils/somethingOf.js";
+import {makeOf} from "../utils/somethingOf.js";
 
 export function responsePayloadMapper(jsonOperationStore: JsonMethodStore, operationPath: JsonMethodPath, options: JsonSchemaOptions) {
   const responses = jsonOperationStore.operation.getResponses();

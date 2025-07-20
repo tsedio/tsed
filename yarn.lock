@@ -8900,6 +8900,41 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@tsed/schema-async-api@workspace:packages/specs/schema-async-api":
+  version: 0.0.0-use.local
+  resolution: "@tsed/schema-async-api@workspace:packages/specs/schema-async-api"
+  dependencies:
+    "@apidevtools/swagger-parser": "npm:10.1.0"
+    "@tsed/barrels": "workspace:*"
+    "@tsed/core": "workspace:*"
+    "@tsed/hooks": "workspace:*"
+    "@tsed/openspec": "workspace:*"
+    "@tsed/typescript": "workspace:*"
+    "@types/fs-extra": "npm:11.0.4"
+    "@types/json-schema": "npm:7.0.15"
+    "@types/picomatch": "npm:3.0.2"
+    "@types/statuses": "npm:2.0.5"
+    ajv: "npm:^8.17.1"
+    change-case: "npm:^5.4.4"
+    eslint: "npm:9.12.0"
+    json-schema: "npm:0.4.0"
+    picomatch: "npm:4.0.2"
+    statuses: "npm:^2.0.1"
+    tslib: "npm:2.7.0"
+    typescript: "npm:5.4.5"
+    vitest: "npm:3.2.4"
+  peerDependencies:
+    "@tsed/core": ">=8.0.0"
+    "@tsed/hooks": ">=8.0.0"
+    "@tsed/openspec": ">=8.0.0"
+  peerDependenciesMeta:
+    "@tsed/core":
+      optional: false
+    "@tsed/openspec":
+      optional: false
+  languageName: unknown
+  linkType: soft
+
 "@tsed/schema-formio@workspace:packages/third-parties/schema-formio":
   version: 0.0.0-use.local
   resolution: "@tsed/schema-formio@workspace:packages/third-parties/schema-formio"
