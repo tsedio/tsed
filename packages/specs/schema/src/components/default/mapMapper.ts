@@ -1,6 +1,5 @@
 import {JsonSchemaOptions} from "../../interfaces/JsonSchemaOptions.js";
 import {execMapper, registerJsonSchemaMapper} from "../../registries/JsonSchemaMapperContainer.js";
-import {mapGenericsOptions} from "../../utils/generics.js";
 
 /**
  * Serialize class which inherit from Map like JsonMap, JsonOperation, JsonParameter.
@@ -10,8 +9,6 @@ import {mapGenericsOptions} from "../../utils/generics.js";
  * @ignore
  */
 export function mapMapper(input: Map<string, any>, {ignore = [], ...options}: JsonSchemaOptions = {}): any {
-  options = mapGenericsOptions(options);
-
   return Array.from(input.entries()).reduce((obj: any, [key, value]) => {
     if (ignore.includes(key)) {
       return obj;

@@ -15,44 +15,48 @@ function Ref(model: string | (() => Type) | any): PropertyDecorator {
   ) as PropertyDecorator;
 }
 
-class Model {
-  @Property()
-  id: string;
-}
-
-class Parent {
-  @Ref(() => Model)
-  model: Model;
-}
-
 describe("LazyRef", () => {
   it("should generate the spec with lazy loaded ref", () => {
-    expect(getJsonSchema(Parent)).toEqual({
-      definitions: {
-        Model: {
-          properties: {
-            id: {
-              type: "string"
-            }
-          },
-          type: "object"
-        }
-      },
-      properties: {
-        model: {
-          oneOf: [
-            {
-              description: "A reference ObjectID",
-              examples: ["5ce7ad3028890bd71749d477"],
-              type: "string"
+    class Model {
+      @Property()
+      id: string;
+    }
+
+    class Parent {
+      @Ref(() => Model)
+      model: Model;
+    }
+
+    expect(getJsonSchema(Parent)).toMatchInlineSnapshot(`
+      {
+        "definitions": {
+          "Model": {
+            "properties": {
+              "id": {
+                "type": "string",
+              },
             },
-            {
-              $ref: "#/definitions/Model"
-            }
-          ]
-        }
-      },
-      type: "object"
-    });
+            "type": "object",
+          },
+        },
+        "properties": {
+          "model": {
+            "oneOf": [
+              {
+                "$ref": "#/definitions/Model",
+              },
+              {
+                "description": "A reference ObjectID",
+                "examples": [
+                  "5ce7ad3028890bd71749d477",
+                ],
+                "type": "string",
+              },
+            ],
+          },
+        },
+        "type": "object",
+      }
+    `);
   });
 });

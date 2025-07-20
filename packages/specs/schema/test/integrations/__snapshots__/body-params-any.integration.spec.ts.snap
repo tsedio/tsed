@@ -166,6 +166,65 @@ exports[`Integration: BodyParams any > should generate the right spec (MyModel[]
 }
 `;
 
+exports[`Integration: BodyParams any > should generate the right spec (any[]) - 3.1.0 1`] = `
+{
+  "paths": {
+    "/array/3": {
+      "post": {
+        "operationId": "testArrayBodyCtrlScenario3",
+        "parameters": [],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "anyOf": [
+                  {
+                    "type": "null",
+                  },
+                  {
+                    "multipleOf": 1,
+                    "type": "integer",
+                  },
+                  {
+                    "type": "number",
+                  },
+                  {
+                    "type": "string",
+                  },
+                  {
+                    "type": "boolean",
+                  },
+                  {
+                    "type": "array",
+                  },
+                  {
+                    "type": "object",
+                  },
+                ],
+              },
+            },
+          },
+          "required": false,
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+          },
+        },
+        "tags": [
+          "TestArrayBodyCtrl",
+        ],
+      },
+    },
+  },
+  "tags": [
+    {
+      "name": "TestArrayBodyCtrl",
+    },
+  ],
+}
+`;
+
 exports[`Integration: BodyParams any > should generate the right spec (any[]) 1`] = `
 {
   "paths": {

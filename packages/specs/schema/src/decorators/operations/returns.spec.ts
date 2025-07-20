@@ -4,9 +4,7 @@ import {OpenSpec3} from "@tsed/openspec";
 
 import {SpecTypes} from "../../domain/SpecTypes.js";
 import {getSpec} from "../../utils/getSpec.js";
-import {CollectionOf} from "../collections/collectionOf.js";
 import {Property} from "../common/property.js";
-import {Generics} from "../generics/generics.js";
 import {OperationPath} from "./operationPath.js";
 import {Returns} from "./returns.js";
 
@@ -299,152 +297,167 @@ describe("@Returns", () => {
         @OperationPath("POST", "/")
         @(Returns(400).Description("Bad request"))
         @Returns(401)
-        @(Returns(200).Description("Success"))
+        @(Returns(200, Object).Description("Success"))
         method() {}
       }
 
       // THEN
       const spec = getSpec(Controller);
 
-      expect(spec).toEqual({
-        components: {
-          schemas: {
-            BadRequest: {
-              properties: {
-                errors: {
-                  description: "A list of related errors",
-                  items: {
-                    $ref: "#/components/schemas/GenericError"
+      expect(spec).toMatchInlineSnapshot(`
+        {
+          "components": {
+            "schemas": {
+              "BadRequest": {
+                "properties": {
+                  "errors": {
+                    "description": "A list of related errors",
+                    "items": {
+                      "$ref": "#/components/schemas/GenericError",
+                    },
+                    "type": "array",
                   },
-                  type: "array"
+                  "message": {
+                    "description": "An error message",
+                    "minLength": 1,
+                    "type": "string",
+                  },
+                  "name": {
+                    "default": "BAD_REQUEST",
+                    "description": "The error name",
+                    "example": "BAD_REQUEST",
+                    "minLength": 1,
+                    "type": "string",
+                  },
+                  "stack": {
+                    "description": "The stack trace (only in development mode)",
+                    "type": "string",
+                  },
+                  "status": {
+                    "default": 400,
+                    "description": "The status code of the exception",
+                    "example": 400,
+                    "type": "number",
+                  },
                 },
-                message: {
-                  description: "An error message",
-                  minLength: 1,
-                  type: "string"
-                },
-                name: {
-                  default: "BAD_REQUEST",
-                  description: "The error name",
-                  example: "BAD_REQUEST",
-                  minLength: 1,
-                  type: "string"
-                },
-                stack: {
-                  description: "The stack trace (only in development mode)",
-                  type: "string"
-                },
-                status: {
-                  default: 400,
-                  description: "The status code of the exception",
-                  example: 400,
-                  type: "number"
-                }
+                "required": [
+                  "name",
+                  "message",
+                  "status",
+                ],
+                "type": "object",
               },
-              required: ["name", "message", "status"],
-              type: "object"
+              "GenericError": {
+                "additionalProperties": true,
+                "properties": {
+                  "message": {
+                    "description": "An error message",
+                    "minLength": 1,
+                    "type": "string",
+                  },
+                  "name": {
+                    "description": "The error name",
+                    "minLength": 1,
+                    "type": "string",
+                  },
+                },
+                "required": [
+                  "name",
+                  "message",
+                ],
+                "type": "object",
+              },
+              "Unauthorized": {
+                "properties": {
+                  "errors": {
+                    "description": "A list of related errors",
+                    "items": {
+                      "$ref": "#/components/schemas/GenericError",
+                    },
+                    "type": "array",
+                  },
+                  "message": {
+                    "description": "An error message",
+                    "minLength": 1,
+                    "type": "string",
+                  },
+                  "name": {
+                    "default": "UNAUTHORIZED",
+                    "description": "The error name",
+                    "example": "UNAUTHORIZED",
+                    "minLength": 1,
+                    "type": "string",
+                  },
+                  "stack": {
+                    "description": "The stack trace (only in development mode)",
+                    "type": "string",
+                  },
+                  "status": {
+                    "default": 401,
+                    "description": "The status code of the exception",
+                    "example": 401,
+                    "type": "number",
+                  },
+                },
+                "required": [
+                  "name",
+                  "message",
+                  "status",
+                ],
+                "type": "object",
+              },
             },
-            GenericError: {
-              additionalProperties: true,
-              properties: {
-                message: {
-                  description: "An error message",
-                  minLength: 1,
-                  type: "string"
+          },
+          "paths": {
+            "/": {
+              "post": {
+                "operationId": "controllerMethod",
+                "parameters": [],
+                "responses": {
+                  "200": {
+                    "content": {
+                      "application/json": {
+                        "schema": {
+                          "type": "object",
+                        },
+                      },
+                    },
+                    "description": "Success",
+                  },
+                  "400": {
+                    "content": {
+                      "application/json": {
+                        "schema": {
+                          "$ref": "#/components/schemas/BadRequest",
+                        },
+                      },
+                    },
+                    "description": "Bad request",
+                  },
+                  "401": {
+                    "content": {
+                      "application/json": {
+                        "schema": {
+                          "$ref": "#/components/schemas/Unauthorized",
+                        },
+                      },
+                    },
+                    "description": "Unauthorized",
+                  },
                 },
-                name: {
-                  description: "The error name",
-                  minLength: 1,
-                  type: "string"
-                }
+                "tags": [
+                  "Controller",
+                ],
               },
-              required: ["name", "message"],
-              type: "object"
             },
-            Unauthorized: {
-              properties: {
-                errors: {
-                  description: "A list of related errors",
-                  items: {
-                    $ref: "#/components/schemas/GenericError"
-                  },
-                  type: "array"
-                },
-                message: {
-                  description: "An error message",
-                  minLength: 1,
-                  type: "string"
-                },
-                name: {
-                  default: "UNAUTHORIZED",
-                  description: "The error name",
-                  example: "UNAUTHORIZED",
-                  minLength: 1,
-                  type: "string"
-                },
-                stack: {
-                  description: "The stack trace (only in development mode)",
-                  type: "string"
-                },
-                status: {
-                  default: 401,
-                  description: "The status code of the exception",
-                  example: 401,
-                  type: "number"
-                }
-              },
-              required: ["name", "message", "status"],
-              type: "object"
-            }
-          }
-        },
-        paths: {
-          "/": {
-            post: {
-              operationId: "controllerMethod",
-              parameters: [],
-              responses: {
-                "200": {
-                  content: {
-                    "*/*": {
-                      schema: {
-                        type: "object"
-                      }
-                    }
-                  },
-                  description: "Success"
-                },
-                "400": {
-                  content: {
-                    "application/json": {
-                      schema: {
-                        $ref: "#/components/schemas/BadRequest"
-                      }
-                    }
-                  },
-                  description: "Bad request"
-                },
-                "401": {
-                  content: {
-                    "application/json": {
-                      schema: {
-                        $ref: "#/components/schemas/Unauthorized"
-                      }
-                    }
-                  },
-                  description: "Unauthorized"
-                }
-              },
-              tags: ["Controller"]
-            }
-          }
-        },
-        tags: [
-          {
-            name: "Controller"
-          }
-        ]
-      });
+          },
+          "tags": [
+            {
+              "name": "Controller",
+            },
+          ],
+        }
+      `);
     });
     it("should declare error response on class", () => {
       // WHEN
@@ -561,9 +574,7 @@ describe("@Returns", () => {
                 "200": {
                   content: {
                     "*/*": {
-                      schema: {
-                        type: "object"
-                      }
+                      schema: {}
                     }
                   },
                   description: "Success"
@@ -743,318 +754,7 @@ describe("@Returns", () => {
         ]
       });
     });
-    it("should declare an Generic of Model", () => {
-      // WHEN
-      @Generics("T")
-      class Pagination<T> {
-        @CollectionOf("T")
-        data: T[];
 
-        @Property()
-        totalCount: number;
-      }
-
-      @Generics("T")
-      class Submission<T> {
-        @Property()
-        _id: string;
-
-        @Property("T")
-        data: T;
-      }
-
-      class Product {
-        @Property()
-        title: string;
-      }
-
-      class Controller {
-        @OperationPath("POST", "/")
-        @(Returns(200, Pagination)
-          .Of(Submission)
-          .Nested(Product)
-          .Description("description")
-          .Examples({
-            Example1: {
-              value: [
-                {
-                  totalCount: 0,
-                  data: [
-                    {
-                      _id: "id",
-                      data: {}
-                    }
-                  ]
-                }
-              ]
-            }
-          }))
-        method(): Promise<Pagination<Submission<Product>> | null> {
-          return null as never;
-        }
-      }
-
-      // THEN
-      const spec = getSpec(Controller, {specType: SpecTypes.OPENAPI});
-
-      expect(spec).toEqual({
-        components: {
-          schemas: {
-            Product: {
-              properties: {
-                title: {
-                  type: "string"
-                }
-              },
-              type: "object"
-            }
-          }
-        },
-        paths: {
-          "/": {
-            post: {
-              operationId: "controllerMethod",
-              parameters: [],
-              responses: {
-                "200": {
-                  content: {
-                    "application/json": {
-                      examples: {
-                        Example1: {
-                          value: [
-                            {
-                              data: [
-                                {
-                                  _id: "id",
-                                  data: {}
-                                }
-                              ],
-                              totalCount: 0
-                            }
-                          ]
-                        }
-                      },
-                      schema: {
-                        properties: {
-                          data: {
-                            items: {
-                              properties: {
-                                _id: {
-                                  type: "string"
-                                },
-                                data: {
-                                  $ref: "#/components/schemas/Product"
-                                }
-                              },
-                              type: "object"
-                            },
-                            type: "array"
-                          },
-                          totalCount: {
-                            type: "number"
-                          }
-                        },
-                        type: "object"
-                      }
-                    }
-                  },
-                  description: "description"
-                }
-              },
-              tags: ["Controller"]
-            }
-          }
-        },
-        tags: [
-          {
-            name: "Controller"
-          }
-        ]
-      });
-    });
-    it("should declare an Generic of Model with enum (OS3)", () => {
-      // WHEN
-      @Generics("T")
-      class Submission<T> {
-        @Property()
-        _id: string;
-
-        @Property("T")
-        data: T;
-      }
-
-      enum MyEnum {
-        READ = "read",
-        WRITE = "write"
-      }
-
-      class Controller {
-        @OperationPath("POST", "/")
-        @(Returns(200, Submission).Of(MyEnum).Description("description"))
-        method(): Promise<Submission<MyEnum> | null> {
-          return Promise.resolve(null);
-        }
-      }
-
-      // THEN
-      const spec = getSpec(Controller, {specType: SpecTypes.OPENAPI});
-
-      expect(spec).toEqual({
-        paths: {
-          "/": {
-            post: {
-              operationId: "controllerMethod",
-              parameters: [],
-              responses: {
-                "200": {
-                  content: {
-                    "application/json": {
-                      schema: {
-                        properties: {
-                          _id: {
-                            type: "string"
-                          },
-                          data: {
-                            enum: ["read", "write"],
-                            type: "string"
-                          }
-                        },
-                        type: "object"
-                      }
-                    }
-                  },
-                  description: "description"
-                }
-              },
-              tags: ["Controller"]
-            }
-          }
-        },
-        tags: [
-          {
-            name: "Controller"
-          }
-        ]
-      });
-    });
-    it("should declare an Generic of Model with enum with pagination(OS3)", () => {
-      // WHEN
-      @Generics("T")
-      class Pagination<T> {
-        @CollectionOf("T")
-        data: T[];
-
-        @Property()
-        totalCount: number;
-      }
-
-      @Generics("T")
-      class Submission<T> {
-        @Property()
-        _id: string;
-
-        @Property("T")
-        data: T;
-      }
-
-      enum MyEnum {
-        READ = "read",
-        WRITE = "write"
-      }
-
-      class Controller {
-        @OperationPath("POST", "/")
-        @(Returns(200, Pagination)
-          .Of(Submission)
-          .Nested(MyEnum)
-          .Description("description")
-          .Examples({
-            Example1: {
-              value: [
-                {
-                  totalCount: 0,
-                  data: [
-                    {
-                      _id: "id",
-                      data: {}
-                    }
-                  ]
-                }
-              ]
-            }
-          }))
-        method(): Promise<Pagination<Submission<MyEnum>> | null> {
-          return null as never;
-        }
-      }
-
-      // THEN
-      const spec = getSpec(Controller, {specType: SpecTypes.OPENAPI});
-
-      expect(spec).toEqual({
-        paths: {
-          "/": {
-            post: {
-              operationId: "controllerMethod",
-              parameters: [],
-              responses: {
-                "200": {
-                  content: {
-                    "application/json": {
-                      examples: {
-                        Example1: {
-                          value: [
-                            {
-                              data: [
-                                {
-                                  _id: "id",
-                                  data: {}
-                                }
-                              ],
-                              totalCount: 0
-                            }
-                          ]
-                        }
-                      },
-                      schema: {
-                        properties: {
-                          data: {
-                            items: {
-                              properties: {
-                                _id: {
-                                  type: "string"
-                                },
-                                data: {
-                                  enum: ["read", "write"],
-                                  type: "string"
-                                }
-                              },
-                              type: "object"
-                            },
-                            type: "array"
-                          },
-                          totalCount: {
-                            type: "number"
-                          }
-                        },
-                        type: "object"
-                      }
-                    }
-                  },
-                  description: "description"
-                }
-              },
-              tags: ["Controller"]
-            }
-          }
-        },
-        tags: [
-          {
-            name: "Controller"
-          }
-        ]
-      });
-    });
     it("should apply application/json content type if OneOf/AnyOf/AllOf is used without base model", () => {
       class Model {
         @Property()
@@ -1203,107 +903,7 @@ describe("@Returns", () => {
       });
     });
   });
-  describe("Title", () => {
-    it("should declare an Generic of Model", () => {
-      // WHEN
-      @Generics("T")
-      class Pagination<T> {
-        @CollectionOf("T")
-        data: T[];
 
-        @Property()
-        totalCount: number;
-      }
-
-      @Generics("T")
-      class Submission<T> {
-        @Property()
-        _id: string;
-
-        @Property("T")
-        data: T;
-      }
-
-      class Product {
-        @Property()
-        title: string;
-      }
-
-      class Controller {
-        @OperationPath("POST", "/")
-        @(Returns(200, Pagination).Of(Submission).Nested(Product).Title("PaginatedSubmissionProduct").Description("description"))
-        method(): Promise<Pagination<Submission<Product>> | null> {
-          return null as never;
-        }
-      }
-
-      // THEN
-      const spec = getSpec(Controller, {specType: SpecTypes.OPENAPI});
-
-      expect(spec).toEqual({
-        components: {
-          schemas: {
-            Product: {
-              properties: {
-                title: {
-                  type: "string"
-                }
-              },
-              type: "object"
-            },
-            PaginatedSubmissionProduct: {
-              properties: {
-                data: {
-                  items: {
-                    properties: {
-                      _id: {
-                        type: "string"
-                      },
-                      data: {
-                        $ref: "#/components/schemas/Product"
-                      }
-                    },
-                    type: "object"
-                  },
-                  type: "array"
-                },
-                totalCount: {
-                  type: "number"
-                }
-              },
-              type: "object"
-            }
-          }
-        },
-        paths: {
-          "/": {
-            post: {
-              operationId: "controllerMethod",
-              parameters: [],
-              responses: {
-                "200": {
-                  content: {
-                    "application/json": {
-                      schema: {
-                        $ref: "#/components/schemas/PaginatedSubmissionProduct"
-                      }
-                    }
-                  },
-                  description: "description"
-                }
-              },
-              tags: ["Controller"]
-            }
-          }
-        },
-        tags: [
-          {
-            name: "Controller"
-          }
-        ]
-      });
-    });
-  });
   describe("Multiple return types", () => {
     class ClassA {
       @Property()

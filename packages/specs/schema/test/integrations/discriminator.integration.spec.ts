@@ -1146,6 +1146,253 @@ describe("Discriminator", () => {
         ]
       });
     });
+    it("should generate the json schema from endpoint - partial", () => {
+      @Controller("/")
+      class MyTest {
+        @Patch("/")
+        @(Returns(200, Array).OneOf(Event))
+        patch(@BodyParams() @OneOf(Event) @Partial() event: OneOfEvents) {
+          return [];
+        }
+      }
+
+      expect(getSpec(MyTest)).toMatchInlineSnapshot(`
+        {
+          "components": {
+            "schemas": {
+              "Action": {
+                "properties": {
+                  "event": {
+                    "minLength": 1,
+                    "type": "string",
+                  },
+                  "meta": {
+                    "type": "string",
+                  },
+                  "type": {
+                    "enum": [
+                      "action",
+                      "click_action",
+                    ],
+                    "example": "action",
+                    "type": "string",
+                  },
+                  "value": {
+                    "type": "string",
+                  },
+                },
+                "required": [
+                  "event",
+                ],
+                "type": "object",
+              },
+              "ActionPartial": {
+                "properties": {
+                  "event": {
+                    "minLength": 1,
+                    "type": "string",
+                  },
+                  "meta": {
+                    "type": "string",
+                  },
+                  "type": {
+                    "enum": [
+                      "action",
+                      "click_action",
+                    ],
+                    "example": "action",
+                    "type": "string",
+                  },
+                  "value": {
+                    "type": "string",
+                  },
+                },
+                "type": "object",
+              },
+              "CustomAction": {
+                "properties": {
+                  "event": {
+                    "minLength": 1,
+                    "type": "string",
+                  },
+                  "meta": {
+                    "type": "string",
+                  },
+                  "type": {
+                    "enum": [
+                      "custom_action",
+                    ],
+                    "example": "custom_action",
+                    "type": "string",
+                  },
+                  "value": {
+                    "type": "string",
+                  },
+                },
+                "required": [
+                  "event",
+                ],
+                "type": "object",
+              },
+              "CustomActionPartial": {
+                "properties": {
+                  "event": {
+                    "minLength": 1,
+                    "type": "string",
+                  },
+                  "meta": {
+                    "type": "string",
+                  },
+                  "type": {
+                    "enum": [
+                      "custom_action",
+                    ],
+                    "example": "custom_action",
+                    "type": "string",
+                  },
+                  "value": {
+                    "type": "string",
+                  },
+                },
+                "type": "object",
+              },
+              "PageView": {
+                "properties": {
+                  "meta": {
+                    "type": "string",
+                  },
+                  "type": {
+                    "enum": [
+                      "page_view",
+                    ],
+                    "example": "page_view",
+                    "type": "string",
+                  },
+                  "url": {
+                    "minLength": 1,
+                    "type": "string",
+                  },
+                  "value": {
+                    "type": "string",
+                  },
+                },
+                "required": [
+                  "url",
+                ],
+                "type": "object",
+              },
+              "PageViewPartial": {
+                "properties": {
+                  "meta": {
+                    "type": "string",
+                  },
+                  "type": {
+                    "enum": [
+                      "page_view",
+                    ],
+                    "example": "page_view",
+                    "type": "string",
+                  },
+                  "url": {
+                    "minLength": 1,
+                    "type": "string",
+                  },
+                  "value": {
+                    "type": "string",
+                  },
+                },
+                "type": "object",
+              },
+            },
+          },
+          "paths": {
+            "/": {
+              "patch": {
+                "operationId": "myTestPatch",
+                "parameters": [],
+                "requestBody": {
+                  "content": {
+                    "application/json": {
+                      "schema": {
+                        "discriminator": {
+                          "mapping": {
+                            "action": "#/components/schemas/ActionPartial",
+                            "click_action": "#/components/schemas/ActionPartial",
+                            "custom_action": "#/components/schemas/CustomActionPartial",
+                            "page_view": "#/components/schemas/PageViewPartial",
+                          },
+                          "propertyName": "type",
+                        },
+                        "oneOf": [
+                          {
+                            "$ref": "#/components/schemas/PageViewPartial",
+                          },
+                          {
+                            "$ref": "#/components/schemas/ActionPartial",
+                          },
+                          {
+                            "$ref": "#/components/schemas/CustomActionPartial",
+                          },
+                        ],
+                        "required": [
+                          "type",
+                        ],
+                      },
+                    },
+                  },
+                  "required": false,
+                },
+                "responses": {
+                  "200": {
+                    "content": {
+                      "application/json": {
+                        "schema": {
+                          "items": {
+                            "discriminator": {
+                              "mapping": {
+                                "action": "#/components/schemas/Action",
+                                "click_action": "#/components/schemas/Action",
+                                "custom_action": "#/components/schemas/CustomAction",
+                                "page_view": "#/components/schemas/PageView",
+                              },
+                              "propertyName": "type",
+                            },
+                            "oneOf": [
+                              {
+                                "$ref": "#/components/schemas/PageView",
+                              },
+                              {
+                                "$ref": "#/components/schemas/Action",
+                              },
+                              {
+                                "$ref": "#/components/schemas/CustomAction",
+                              },
+                            ],
+                            "required": [
+                              "type",
+                            ],
+                          },
+                          "type": "array",
+                        },
+                      },
+                    },
+                    "description": "Success",
+                  },
+                },
+                "tags": [
+                  "MyTest",
+                ],
+              },
+            },
+          },
+          "tags": [
+            {
+              "name": "MyTest",
+            },
+          ],
+        }
+      `);
+    });
   });
   describe("isDiscriminatorChild", () => {
     it("should return true when it's a child discriminator", () => {

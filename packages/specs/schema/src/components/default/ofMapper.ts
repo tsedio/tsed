@@ -4,10 +4,7 @@ import {execMapper, registerJsonSchemaMapper} from "../../registries/JsonSchemaM
 
 export function ofMapper(input: (any | JsonSchema)[], options: JsonSchemaOptions, parent: JsonSchema) {
   return input.map((value: any | JsonSchema) => {
-    return execMapper("item", [value], {
-      ...options,
-      genericLabels: parent.genericLabels
-    });
+    return execMapper("item", [value], options);
   });
 }
 

@@ -18,6 +18,6 @@ import {JsonEntityFn} from "./jsonEntityFn.js";
  */
 export function OneOf(...oneOf: AnyJsonSchema[]) {
   return JsonEntityFn((entity) => {
-    entity.itemSchema.oneOf(oneOf);
+    entity.schema.oneOf(oneOf);
   });
 }

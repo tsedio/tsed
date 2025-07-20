@@ -19,9 +19,7 @@ describe("JsonOperation", () => {
       expect(execMapper("operationResponse", [entity.operation?.response], {})).toEqual({
         content: {
           "*/*": {
-            schema: {
-              type: "object"
-            }
+            schema: {}
           }
         },
         description: "Success",

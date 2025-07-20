@@ -1,7 +1,12 @@
+import {DecoratorTypes} from "@tsed/core";
+
 import {JsonEntityStore} from "../../domain/JsonEntityStore.js";
+import {GenericValue} from "../../utils/generics.js";
 
 export interface ArrayOfChainedDecorators {
   (...args: any): any;
+
+  Nested(...generics: any[]): this;
 
   /**
    * An array instance is valid against `minItems` if its size is greater than, or equal to, the value of this keyword.
@@ -33,7 +38,6 @@ export interface ArrayOfChainedDecorators {
    * Set the type of the item collection. The possible value is String, Boolean, Number, Date, Object, Class, etc...
    *
    * The array instance will be valid against "contains" if at least one of its elements is valid against the given schema.
-   * @deprecated Since 2025-05-12. Use Contains decorator instead.
    */
   Contains(): this;
 
@@ -111,6 +115,7 @@ export function CollectionOf(type: any, collectionType?: any): CollectionOfChain
 
   const schema: any = {};
   let contains: boolean = false;
+  const nestedGenerics: GenericValue[][] = [];
 
   const decorator = (...args: any) => {
     const store = JsonEntityStore.from(...args);
@@ -122,8 +127,15 @@ export function CollectionOf(type: any, collectionType?: any): CollectionOfChain
 
     store.type = type;
     store.itemSchema.type(type);
-
     store.schema.assign(schema);
+
+    if (nestedGenerics.length) {
+      if (store.is(DecoratorTypes.PARAM)) {
+        store.parameter.itemSchema().genericOf(...nestedGenerics);
+      } else {
+        store.itemSchema.genericOf(...nestedGenerics);
+      }
+    }
 
     if (store.isArray && contains) {
       store.schema.set("contains", store.schema.get("items"));
@@ -163,9 +175,6 @@ export function CollectionOf(type: any, collectionType?: any): CollectionOfChain
     return decorator;
   };
 
-  /**
-   * @deprecated Since 2025-05-12. Use Contains decorator instead.
-   */
   decorator.Contains = () => {
     contains = true;
 
@@ -177,6 +186,12 @@ export function CollectionOf(type: any, collectionType?: any): CollectionOfChain
    */
   decorator.UniqueItems = (uniqueItems = true) => {
     schema.uniqueItems = uniqueItems;
+
+    return decorator;
+  };
+
+  decorator.Nested = (...generics: any) => {
+    nestedGenerics.push(generics);
 
     return decorator;
   };

@@ -1,15 +1,21 @@
+import {validate} from "@tsed/ajv";
+import {catchAsyncError} from "@tsed/core";
+
 import {
-  boolean,
+  AdditionalProperties,
+  array,
   CollectionOf,
-  date,
+  Description,
   Email,
   GenericOf,
   Generics,
   getJsonSchema,
   getSpec,
   In,
+  JsonEntityStore,
+  JsonSchema,
   MinLength,
-  number,
+  object,
   OperationPath,
   Path,
   Post,
@@ -17,698 +23,1183 @@ import {
   Required,
   Returns,
   SpecTypes,
-  string
+  Status,
+  string,
+  VendorKeys
 } from "../../src/index.js";
 import {validateSpec} from "../helpers/validateSpec.js";
 
-describe("Generics", () => {
+describe("Generics: basic", () => {
   describe("JsonSchema", () => {
-    describe("Basic", () => {
-      it("should return the json schema for an inherited model and generics", () => {
-        @Generics("T")
-        class Base<T> {
-          @Property()
-          id: string;
+    it("should generate the JsonSchema from given options: Paginated", async () => {
+      class Product {
+        @MinLength(10)
+        label: string;
+      }
 
-          @Required()
-          @Email()
-          email: string;
+      @Generics("Data")
+      @AdditionalProperties(false)
+      class Paginated<Data> {
+        @CollectionOf("Data")
+        data: Product[];
 
-          @Property("T")
-          role: T;
-        }
+        @Property()
+        totalCount: number;
+      }
 
-        class Model<T> extends Base<T> {
-          @MinLength(0)
-          declare email: string;
-
-          @Property()
-          name: string;
-        }
-
-        class Role {
-          @Property()
-          level: string;
-        }
-
-        class Content {
-          @GenericOf(Role)
-          payload: Model<Role>;
-        }
-
-        expect(getJsonSchema(Content)).toEqual({
-          definitions: {
-            Role: {
-              properties: {
-                level: {
-                  type: "string"
-                }
-              },
-              type: "object"
-            }
+      expect(getJsonSchema(Paginated, {})).toEqual({
+        additionalProperties: false,
+        properties: {
+          data: {
+            type: "array"
           },
-          properties: {
-            payload: {
-              properties: {
-                email: {
-                  format: "email",
-                  minLength: 0,
-                  type: "string"
-                },
-                id: {
-                  type: "string"
-                },
-                name: {
-                  type: "string"
-                },
-                role: {
-                  $ref: "#/definitions/Role"
-                }
-              },
-              required: ["email"],
-              type: "object"
-            }
-          },
-          type: "object"
-        });
-      });
-      it("should return the json schema with hosted schemes", () => {
-        @Generics("T")
-        class Base<T> {
-          @Property()
-          id: string;
-
-          @Required()
-          @Email()
-          email: string;
-
-          @Property("T")
-          role: T;
-        }
-
-        class Model<T> extends Base<T> {
-          @MinLength(0)
-          declare email: string;
-
-          @Property()
-          name: string;
-        }
-
-        class Role {
-          @Property()
-          level: string;
-        }
-
-        class Content {
-          @GenericOf(Role)
-          payload: Model<Role>;
-        }
-
-        expect(getJsonSchema(Content, {host: "http://example.com/schema"})).toEqual({
-          definitions: {
-            Role: {
-              properties: {
-                level: {
-                  type: "string"
-                }
-              },
-              type: "object"
-            }
-          },
-          properties: {
-            payload: {
-              properties: {
-                email: {
-                  format: "email",
-                  minLength: 0,
-                  type: "string"
-                },
-                id: {
-                  type: "string"
-                },
-                name: {
-                  type: "string"
-                },
-                role: {
-                  $ref: "http://example.com/schema/Role"
-                }
-              },
-              required: ["email"],
-              type: "object"
-            }
-          },
-          type: "object"
-        });
+          totalCount: {
+            type: "number"
+          }
+        },
+        type: "object"
       });
     });
-    describe("using Functional api", () => {
-      it("should generate JsonSchema with 'string' from generic object", () => {
-        @Generics("T")
-        class UserProperty<T> {
-          @Property("T")
-          value: T;
+    it("should generate the JsonSchema from given options: Paginated<Product>", async () => {
+      class Product {
+        @MinLength(10)
+        label: string;
+      }
+
+      @Generics("Data")
+      @AdditionalProperties(false)
+      class Paginated<Data> {
+        @CollectionOf("Data")
+        data: Product[];
+
+        @Property()
+        totalCount: number;
+      }
+
+      const schema = getJsonSchema(Paginated, {
+        generics: {
+          Data: [Product]
         }
-
-        class Adjustment {
-          @GenericOf(string())
-          adjustment: UserProperty<string>;
-        }
-
-        let result = getJsonSchema(Adjustment);
-
-        expect(result).toEqual({
-          properties: {
-            adjustment: {
-              properties: {
-                value: {
-                  type: "string"
-                }
-              },
-              type: "object"
-            }
-          },
-          type: "object"
-        });
       });
-      it("should generate JsonSchema with 'number' from generic object", () => {
-        @Generics("T")
-        class UserProperty<T> {
-          @Property("T")
-          value: T;
-        }
-
-        class Adjustment {
-          @GenericOf(number())
-          adjustment: UserProperty<number>;
-        }
-
-        let result = getJsonSchema(Adjustment);
-
-        expect(result).toEqual({
-          properties: {
-            adjustment: {
-              properties: {
-                value: {
-                  type: "number"
-                }
-              },
-              type: "object"
-            }
+      expect(schema).toEqual({
+        allOf: [
+          {
+            $ref: "#/definitions/Paginated"
           },
-          type: "object"
-        });
-      });
-      it("should generate JsonSchema with 'boolean' from generic object", () => {
-        @Generics("T")
-        class UserProperty<T> {
-          @Property("T")
-          value: T;
-        }
-
-        class Adjustment {
-          @GenericOf(boolean())
-          adjustment: UserProperty<Date>;
-        }
-
-        let result = getJsonSchema(Adjustment);
-
-        expect(result).toEqual({
-          properties: {
-            adjustment: {
-              properties: {
-                value: {
-                  type: "boolean"
-                }
+          {
+            properties: {
+              data: {
+                items: {
+                  $ref: "#/definitions/Product"
+                },
+                type: "array"
+              }
+            },
+            type: "object"
+          }
+        ],
+        definitions: {
+          Paginated: {
+            additionalProperties: false,
+            properties: {
+              data: {
+                type: "array"
               },
-              type: "object"
-            }
+              totalCount: {
+                type: "number"
+              }
+            },
+            type: "object"
           },
-          type: "object"
-        });
+          Product: {
+            properties: {
+              label: {
+                type: "string",
+                minLength: 10
+              }
+            },
+            type: "object"
+          }
+        }
       });
-      it("should generate JsonSchema with 'date' from generic object", () => {
-        @Generics("T")
-        class UserProperty<T> {
-          @Property("T")
-          value: T;
-        }
 
-        class Adjustment {
-          @GenericOf(date().format("date-time"))
-          adjustment: UserProperty<Date>;
-        }
-
-        let result = getJsonSchema(Adjustment);
-
-        expect(result).toEqual({
-          properties: {
-            adjustment: {
-              properties: {
-                value: {
-                  format: "date-time",
-                  type: "string"
-                }
-              },
-              type: "object"
-            }
+      const value = await catchAsyncError(() =>
+        validate(
+          {
+            totalCount: 10,
+            data: ["tst"]
           },
-          type: "object"
-        });
-      });
+          {schema: schema as any}
+        )
+      );
+      expect(value?.message).toEqual('Value.data.0 must be object. Given value: "tst"');
+
+      const value2 = await catchAsyncError(() =>
+        validate(
+          {
+            totalCount: 10,
+            data: [
+              {
+                label: "Long label with 10 charaters"
+              }
+            ]
+          },
+          {schema: schema as any}
+        )
+      );
+      expect(value2?.message).toEqual(undefined);
     });
-    describe("using type", () => {
-      it("should generate JsonSchema with 'string' from generic object", () => {
-        @Generics("T")
-        class UserProperty<T> {
-          @Property("T")
-          value: T;
-        }
+    it("should generate the JsonSchema from given options: Adjustment", () => {
+      @Generics("T")
+      class UserProperty<T> {
+        @Property()
+        id: string;
 
-        class Adjustment {
-          @GenericOf(String)
-          adjustment: UserProperty<string>;
-        }
+        @Property("T")
+        value: T;
+      }
 
-        let result = getJsonSchema(Adjustment);
+      class Adjustment {
+        @GenericOf(Number)
+        adjustment: UserProperty<number>;
+      }
 
-        expect(result).toEqual({
-          properties: {
-            adjustment: {
-              properties: {
-                value: {
-                  type: "string"
-                }
+      expect(getJsonSchema(Adjustment)).toMatchInlineSnapshot(`
+        {
+          "definitions": {
+            "UserProperty": {
+              "properties": {
+                "id": {
+                  "type": "string",
+                },
+                "value": {},
               },
-              type: "object"
-            }
+              "type": "object",
+            },
           },
-          type: "object"
-        });
-      });
-      it("should generate JsonSchema with 'number' from generic object", () => {
-        @Generics("T")
-        class UserProperty<T> {
-          @Property("T")
-          value: T;
+          "properties": {
+            "adjustment": {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/UserProperty",
+                },
+                {
+                  "properties": {
+                    "value": {
+                      "type": "number",
+                    },
+                  },
+                  "type": "object",
+                },
+              ],
+            },
+          },
+          "type": "object",
         }
+      `);
+    });
+    it("should generate the JsonSchema from given options: UserProperty[]", () => {
+      @Generics("T")
+      class UserProperty<T> {
+        @Property()
+        id: string;
 
-        class Adjustment {
-          @GenericOf(Number)
-          adjustment: UserProperty<number>;
-        }
+        @Property("T")
+        value: T;
+      }
 
-        let result = getJsonSchema(Adjustment);
+      const itemSchema = object().description("Hello").type(UserProperty).genericOf([Number]);
 
-        expect(result).toEqual({
-          properties: {
-            adjustment: {
-              properties: {
-                value: {
-                  type: "number"
-                }
+      expect(itemSchema.getTarget()).toEqual(UserProperty);
+      expect(JsonSchema.from(UserProperty).getGenericLabels()).toEqual(["T"]);
+      expect(itemSchema.get(VendorKeys.GENERIC_OF)).toBeDefined();
+
+      const schema = array().items(itemSchema).toJSON();
+
+      expect(schema).toMatchInlineSnapshot(`
+        {
+          "definitions": {
+            "UserProperty": {
+              "properties": {
+                "id": {
+                  "type": "string",
+                },
+                "value": {},
               },
-              type: "object"
-            }
+              "type": "object",
+            },
           },
-          type: "object"
-        });
-      });
-      it("should generate JsonSchema with 'boolean' from generic object", () => {
-        @Generics("T")
-        class UserProperty<T> {
-          @Property("T")
-          value: T;
-        }
-
-        class Adjustment {
-          @GenericOf(Boolean)
-          adjustment: UserProperty<Date>;
-        }
-
-        let result = getJsonSchema(Adjustment);
-
-        expect(result).toEqual({
-          properties: {
-            adjustment: {
-              properties: {
-                value: {
-                  type: "boolean"
-                }
+          "items": {
+            "allOf": [
+              {
+                "$ref": "#/definitions/UserProperty",
               },
-              type: "object"
-            }
-          },
-          type: "object"
-        });
-      });
-      it("should generate JsonSchema with 'date' from generic object", () => {
-        @Generics("T")
-        class UserProperty<T> {
-          @Property("T")
-          value: T;
-        }
-
-        class Adjustment {
-          @GenericOf(Date)
-          adjustment: UserProperty<Date>;
-        }
-
-        let result = getJsonSchema(Adjustment);
-
-        expect(result).toEqual({
-          properties: {
-            adjustment: {
-              properties: {
-                value: {
-                  format: "date-time",
-                  type: "string"
-                }
+              {
+                "description": "Hello",
+                "properties": {
+                  "value": {
+                    "type": "number",
+                  },
+                },
+                "type": "object",
               },
-              type: "object"
-            }
+            ],
           },
-          type: "object"
-        });
-      });
-      it("should generate JsonSchema with 'enum' from generic object", () => {
-        enum AdjustmentType {
-          PRICE = "price",
-          DELAY = "delay"
+          "type": "array",
         }
+      `);
+    });
+    it("should generate the JsonSchema from given options: Adjustment[]", () => {
+      @Generics("T")
+      class UserProperty<T> {
+        @Property()
+        id: string;
 
-        @Generics("T")
-        class UserProperty<T> {
-          @Property("T")
-          value: T;
-        }
+        @Property("T")
+        value: T;
+      }
 
-        class Adjustment {
-          @GenericOf(AdjustmentType)
-          adjustment: UserProperty<AdjustmentType>;
-        }
+      class Adjustment {
+        @(CollectionOf(UserProperty).Nested(Number))
+        adjustments: UserProperty<number>[];
+      }
 
-        let result = getJsonSchema(Adjustment);
+      const entity = JsonEntityStore.from(Adjustment, "adjustments");
+      // console.log(entity.schema.get("type"));
+      // console.log(entity.schema.itemSchema().getTarget());
+      // console.log(entity.schema.get(VendorKeys.GENERIC_OF));
+      // console.log(entity.itemSchema.getGenericLabels());
+      // console.log(JSON.stringify(JsonEntityStore.from(Adjustment, "adjustments").schema.toJSON(), null, 2));
 
-        expect(result).toEqual({
-          properties: {
-            adjustment: {
-              properties: {
-                value: {
-                  enum: ["price", "delay"],
-                  type: "string"
-                }
+      expect(getJsonSchema(Adjustment)).toMatchInlineSnapshot(`
+        {
+          "definitions": {
+            "UserProperty": {
+              "properties": {
+                "id": {
+                  "type": "string",
+                },
+                "value": {},
               },
-              type: "object"
-            }
+              "type": "object",
+            },
           },
-          type: "object"
-        });
-      });
-      it("should generate JsonSchema with 'object' from generic object", () => {
-        @Generics("T")
-        class UserProperty<T> {
-          @Property("T")
-          value: T;
-        }
-
-        class Adjustment {
-          @GenericOf(Object)
-          adjustment: UserProperty<unknown>;
-        }
-
-        let result = getJsonSchema(Adjustment);
-
-        expect(result).toEqual({
-          properties: {
-            adjustment: {
-              properties: {
-                value: {
-                  type: "object"
-                }
+          "properties": {
+            "adjustments": {
+              "items": {
+                "allOf": [
+                  {
+                    "$ref": "#/definitions/UserProperty",
+                  },
+                  {
+                    "properties": {
+                      "value": {
+                        "type": "number",
+                      },
+                    },
+                    "type": "object",
+                  },
+                ],
               },
-              type: "object"
-            }
+              "type": "array",
+            },
           },
-          type: "object"
-        });
+          "type": "object",
+        }
+      `);
+    });
+    it("should generate the JsonSchema with nested models: Paginated<Submission<Product>>", async () => {
+      @Generics("T")
+      class Paginated<T> {
+        @CollectionOf("T")
+        data: T[];
+
+        @Property()
+        totalCount: number;
+      }
+
+      @Generics("S")
+      class Submission<S> {
+        @Property()
+        @Required()
+        _id: string;
+
+        @Property("S")
+        @Required()
+        data: S;
+      }
+
+      class Product {
+        @Property()
+        @MinLength(10)
+        label: string;
+      }
+
+      const schema = getJsonSchema(Paginated, {
+        generics: {
+          T: [
+            Submission,
+            {
+              S: [Product]
+            }
+          ]
+        }
       });
+
+      expect(schema).toMatchInlineSnapshot(`
+        {
+          "allOf": [
+            {
+              "$ref": "#/definitions/Paginated",
+            },
+            {
+              "properties": {
+                "data": {
+                  "items": {
+                    "allOf": [
+                      {
+                        "$ref": "#/definitions/Submission",
+                      },
+                      {
+                        "properties": {
+                          "data": {
+                            "$ref": "#/definitions/Product",
+                          },
+                        },
+                        "type": "object",
+                      },
+                    ],
+                  },
+                  "type": "array",
+                },
+              },
+              "type": "object",
+            },
+          ],
+          "definitions": {
+            "Paginated": {
+              "properties": {
+                "data": {
+                  "type": "array",
+                },
+                "totalCount": {
+                  "type": "number",
+                },
+              },
+              "type": "object",
+            },
+            "Product": {
+              "properties": {
+                "label": {
+                  "minLength": 10,
+                  "type": "string",
+                },
+              },
+              "type": "object",
+            },
+            "Submission": {
+              "properties": {
+                "_id": {
+                  "minLength": 1,
+                  "type": "string",
+                },
+                "data": {},
+              },
+              "required": [
+                "_id",
+                "data",
+              ],
+              "type": "object",
+            },
+          },
+        }
+      `);
+
+      const value = await catchAsyncError(() =>
+        validate(
+          {
+            totalCount: 10,
+            data: ["tst"]
+          },
+          {schema: schema as any}
+        )
+      );
+      expect(!!value?.message).toEqual(true);
+
+      const value2 = await catchAsyncError(() =>
+        validate(
+          {
+            totalCount: 10,
+            data: [
+              {
+                _id: "id",
+                data: {
+                  label: "A long label with 10 characters"
+                }
+              }
+            ]
+          },
+          {schema: schema as any}
+        )
+      );
+      expect(value2?.message).toEqual(undefined);
+    });
+    it("should generate the JsonSchema from a given class: Paginated<Product> + @GenericOf", () => {
+      @Generics("T")
+      class Submission<T> {
+        @Property()
+        _id: string;
+
+        @Property("T")
+        data: T;
+      }
+
+      class Product {
+        @Property()
+        label: string;
+      }
+
+      class Content {
+        @GenericOf(Product)
+        submission: Submission<Product>;
+      }
+
+      expect(getJsonSchema(Content)).toMatchInlineSnapshot(`
+        {
+          "definitions": {
+            "Product": {
+              "properties": {
+                "label": {
+                  "type": "string",
+                },
+              },
+              "type": "object",
+            },
+            "Submission": {
+              "properties": {
+                "_id": {
+                  "type": "string",
+                },
+                "data": {},
+              },
+              "type": "object",
+            },
+          },
+          "properties": {
+            "submission": {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/Submission",
+                },
+                {
+                  "properties": {
+                    "data": {
+                      "$ref": "#/definitions/Product",
+                    },
+                  },
+                  "type": "object",
+                },
+              ],
+            },
+          },
+          "type": "object",
+        }
+      `);
+    });
+    it("should generate the JsonSchema from a given class: Paginated<Product> + @GenericOf + @Description", () => {
+      @Generics("Data")
+      class Paginated<Data> {
+        @CollectionOf("Data")
+        data: Data[];
+
+        @Property()
+        totalCount: number;
+      }
+
+      class Product {
+        @Property()
+        label: string;
+      }
+
+      class Content {
+        @GenericOf(Product)
+        @Description("description")
+        products: Paginated<Product>;
+      }
+
+      expect(getJsonSchema(Content)).toMatchInlineSnapshot(`
+        {
+          "definitions": {
+            "Paginated": {
+              "properties": {
+                "data": {
+                  "type": "array",
+                },
+                "totalCount": {
+                  "type": "number",
+                },
+              },
+              "type": "object",
+            },
+            "Product": {
+              "properties": {
+                "label": {
+                  "type": "string",
+                },
+              },
+              "type": "object",
+            },
+          },
+          "properties": {
+            "products": {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/Paginated",
+                },
+                {
+                  "description": "description",
+                  "properties": {
+                    "data": {
+                      "items": {
+                        "$ref": "#/definitions/Product",
+                      },
+                      "type": "array",
+                    },
+                  },
+                  "type": "object",
+                },
+              ],
+            },
+          },
+          "type": "object",
+        }
+      `);
+    });
+    it("should generate the JsonSchema with enum: Submission<MyEnum> + @Enum", () => {
+      @Generics("T")
+      class Submission<T> {
+        @Property()
+        _id: string;
+
+        @Property("T")
+        data: T;
+      }
+
+      enum MyEnum {
+        READ = "read",
+        WRITE = "write"
+      }
+
+      class Content {
+        @GenericOf(MyEnum)
+        submission: Submission<MyEnum>;
+      }
+
+      expect(getJsonSchema(Content)).toMatchInlineSnapshot(`
+        {
+          "definitions": {
+            "Submission": {
+              "properties": {
+                "_id": {
+                  "type": "string",
+                },
+                "data": {},
+              },
+              "type": "object",
+            },
+          },
+          "properties": {
+            "submission": {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/Submission",
+                },
+                {
+                  "properties": {
+                    "data": {
+                      "enum": [
+                        "read",
+                        "write",
+                      ],
+                      "type": "string",
+                    },
+                  },
+                  "type": "object",
+                },
+              ],
+            },
+          },
+          "type": "object",
+        }
+      `);
+    });
+    it("should generate the JsonSchema with enum: Submission<MyEnum> + MyEnum as string().enum()", () => {
+      @Generics("T")
+      class Submission<T> {
+        @Property()
+        _id: string;
+
+        @Property("T")
+        data: T;
+      }
+
+      enum MyEnum {
+        READ = "read",
+        WRITE = "write"
+      }
+
+      class Content {
+        @GenericOf(string().enum(["read", "write"]))
+        submission: Submission<MyEnum>;
+      }
+
+      expect(getJsonSchema(Content)).toMatchInlineSnapshot(`
+        {
+          "definitions": {
+            "Submission": {
+              "properties": {
+                "_id": {
+                  "type": "string",
+                },
+                "data": {},
+              },
+              "type": "object",
+            },
+          },
+          "properties": {
+            "submission": {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/Submission",
+                },
+                {
+                  "properties": {
+                    "data": {
+                      "enum": [
+                        "read",
+                        "write",
+                      ],
+                      "type": "string",
+                    },
+                  },
+                  "type": "object",
+                },
+              ],
+            },
+          },
+          "type": "object",
+        }
+      `);
+    });
+    it("should generate the JsonSchema with nested models: Paginated<Submission<Product>> + @GenericOf", () => {
+      @Generics("T")
+      class Paginated<T> {
+        @CollectionOf("T")
+        data: T[];
+
+        @Property()
+        totalCount: number;
+      }
+
+      @Generics("S")
+      class Submission<S> {
+        @Property()
+        _id: string;
+
+        @Property("S")
+        data: S;
+      }
+
+      class Product {
+        @Property()
+        label: string;
+      }
+
+      class Content {
+        @(GenericOf(Submission).Nested(Product))
+        submissions: Paginated<Submission<Product>>;
+      }
+
+      expect(getJsonSchema(Content)).toMatchInlineSnapshot(`
+        {
+          "definitions": {
+            "Paginated": {
+              "properties": {
+                "data": {
+                  "type": "array",
+                },
+                "totalCount": {
+                  "type": "number",
+                },
+              },
+              "type": "object",
+            },
+            "Product": {
+              "properties": {
+                "label": {
+                  "type": "string",
+                },
+              },
+              "type": "object",
+            },
+            "Submission": {
+              "properties": {
+                "_id": {
+                  "type": "string",
+                },
+                "data": {},
+              },
+              "type": "object",
+            },
+          },
+          "properties": {
+            "submissions": {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/Paginated",
+                },
+                {
+                  "properties": {
+                    "data": {
+                      "items": {
+                        "allOf": [
+                          {
+                            "$ref": "#/definitions/Submission",
+                          },
+                          {
+                            "properties": {
+                              "data": {
+                                "$ref": "#/definitions/Product",
+                              },
+                            },
+                            "type": "object",
+                          },
+                        ],
+                      },
+                      "type": "array",
+                    },
+                  },
+                  "type": "object",
+                },
+              ],
+            },
+          },
+          "type": "object",
+        }
+      `);
+    });
+    it("should generate the JsonSchema from parameter: Submission<Product>", () => {
+      // WHEN
+      @Generics("T")
+      class Submission<T> {
+        @Property()
+        _id: string;
+
+        @Property("T")
+        data: T;
+      }
+
+      class Product {
+        @Property()
+        title: string;
+      }
+
+      class Controller1 {
+        @OperationPath("POST", "/")
+        method(@In("body") @GenericOf(Product) submission: Submission<Product>) {
+          return null;
+        }
+      }
+
+      const metadata = JsonEntityStore.from(Controller1, "method", 0);
+
+      // THEN
+      const schema = getJsonSchema(metadata);
+
+      expect(schema).toMatchInlineSnapshot(`
+        {
+          "allOf": [
+            {
+              "$ref": "#/definitions/Submission",
+            },
+            {
+              "properties": {
+                "data": {
+                  "$ref": "#/definitions/Product",
+                },
+              },
+              "type": "object",
+            },
+          ],
+          "definitions": {
+            "Product": {
+              "properties": {
+                "title": {
+                  "type": "string",
+                },
+              },
+              "type": "object",
+            },
+            "Submission": {
+              "properties": {
+                "_id": {
+                  "type": "string",
+                },
+                "data": {},
+              },
+              "type": "object",
+            },
+          },
+        }
+      `);
+    });
+    it("should generate the JsonSchema with Map: Map<string, Submission<Product>>", () => {
+      // WHEN
+      @Generics("T")
+      class Submission<T> {
+        @Property()
+        _id: string;
+
+        @Property("T")
+        data: T;
+      }
+
+      class Product {
+        @Property()
+        title: string;
+      }
+
+      class Content {
+        @(CollectionOf(Submission).Nested(Product))
+        data: Map<string, Submission<Product>>;
+      }
+
+      // THEN
+      const schema = getJsonSchema(Content);
+
+      expect(schema).toMatchInlineSnapshot(`
+        {
+          "definitions": {
+            "Product": {
+              "properties": {
+                "title": {
+                  "type": "string",
+                },
+              },
+              "type": "object",
+            },
+            "Submission": {
+              "properties": {
+                "_id": {
+                  "type": "string",
+                },
+                "data": {},
+              },
+              "type": "object",
+            },
+          },
+          "properties": {
+            "data": {
+              "additionalProperties": {
+                "allOf": [
+                  {
+                    "$ref": "#/definitions/Submission",
+                  },
+                  {
+                    "properties": {
+                      "data": {
+                        "$ref": "#/definitions/Product",
+                      },
+                    },
+                    "type": "object",
+                  },
+                ],
+              },
+              "type": "object",
+            },
+          },
+          "type": "object",
+        }
+      `);
+    });
+    it("should generate the JsonSchema with inherited generics: Model<T> extends Base<T>", () => {
+      @Generics("T")
+      class Base<T> {
+        @Property()
+        id: string;
+
+        @Required()
+        @Email()
+        email: string;
+
+        @Property("T")
+        role: T;
+      }
+
+      class Model<T> extends Base<T> {
+        @MinLength(0)
+        declare email: string;
+
+        @Property()
+        name: string;
+      }
+
+      class Role {
+        @Property()
+        level: string;
+      }
+
+      class Content {
+        @GenericOf(Role)
+        payload: Model<Role>;
+      }
+
+      const schema = getJsonSchema(Content);
+
+      expect(schema).toMatchInlineSnapshot(`
+        {
+          "definitions": {
+            "Base": {
+              "properties": {
+                "email": {
+                  "format": "email",
+                  "minLength": 1,
+                  "type": "string",
+                },
+                "id": {
+                  "type": "string",
+                },
+                "role": {},
+              },
+              "required": [
+                "email",
+              ],
+              "type": "object",
+            },
+            "Role": {
+              "properties": {
+                "level": {
+                  "type": "string",
+                },
+              },
+              "type": "object",
+            },
+          },
+          "properties": {
+            "payload": {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/Base",
+                },
+                {
+                  "properties": {
+                    "role": {
+                      "$ref": "#/definitions/Role",
+                    },
+                  },
+                  "type": "object",
+                },
+              ],
+            },
+          },
+          "type": "object",
+        }
+      `);
     });
   });
+
   describe("OpenSpec", () => {
-    describe("Adjustment<number>", () => {
-      it("should generate", async () => {
-        @Generics("T")
-        class UserProperty<T> {
-          @Property("T")
-          value: T;
+    it("should generate the open spec: UserProperty<number> + @GenericOf", async () => {
+      @Generics("T")
+      class UserProperty<T> {
+        @Property()
+        id: string;
+
+        @Property("T")
+        value: T;
+      }
+
+      class Adjustment {
+        @GenericOf(Number)
+        adjustment: UserProperty<number>;
+      }
+
+      @Path("/hello-world")
+      class HelloWorldController {
+        @Post("/")
+        get(@In("body") m: Adjustment) {
+          return m;
         }
+      }
 
-        class Adjustment {
-          @GenericOf(Number)
-          adjustment: UserProperty<number>;
-        }
+      const spec = getSpec(HelloWorldController, {specType: SpecTypes.OPENAPI});
 
-        @Path("/hello-world")
-        class HelloWorldController {
-          @Post("/")
-          get(@In("body") m: Adjustment) {
-            return m;
-          }
-        }
-
-        const spec = getSpec(HelloWorldController, {specType: SpecTypes.OPENAPI});
-
-        expect(spec).toEqual({
-          components: {
-            schemas: {
-              Adjustment: {
-                properties: {
-                  adjustment: {
-                    properties: {
-                      value: {
-                        type: "number"
-                      }
-                    },
-                    type: "object"
-                  }
-                },
-                type: "object"
-              }
-            }
-          },
-          paths: {
-            "/hello-world": {
-              post: {
-                operationId: "helloWorldControllerGet",
-                parameters: [],
-                requestBody: {
-                  content: {
-                    "application/json": {
-                      schema: {
-                        $ref: "#/components/schemas/Adjustment"
-                      }
-                    }
-                  },
-                  required: false
-                },
-                responses: {
-                  "200": {
-                    description: "Success"
-                  }
-                },
-                tags: ["HelloWorldController"]
-              }
-            }
-          },
-          tags: [
-            {
-              name: "HelloWorldController"
-            }
-          ]
-        });
-        expect(await validateSpec(spec, SpecTypes.OPENAPI)).toBe(true);
-      });
-    });
-    describe("Submission<T> with twice models", () => {
-      it("should generate", () => {
-        // WHEN
-        @Generics("T")
-        class Submission<T> {
-          @Property()
-          _id: string;
-
-          @Property("T")
-          data: T;
-        }
-
-        class Product {
-          @Property()
-          title: string;
-        }
-
-        class Controller1 {
-          @OperationPath("POST", "/")
-          method(@In("body") @GenericOf(Product) submission: Submission<Product>) {
-            return null;
-          }
-        }
-
-        // THEN
-        const spec1 = getSpec(Controller1, {specType: SpecTypes.OPENAPI});
-
-        expect(spec1).toEqual({
-          components: {
-            schemas: {
-              Product: {
-                properties: {
-                  title: {
-                    type: "string"
-                  }
-                },
-                type: "object"
-              },
-              Submission: {
-                properties: {
-                  _id: {
-                    type: "string"
-                  },
-                  data: {
-                    $ref: "#/components/schemas/Product"
-                  }
-                },
-                type: "object"
-              }
-            }
-          },
-          paths: {
-            "/": {
-              post: {
-                operationId: "controller1Method",
-                parameters: [],
-                requestBody: {
-                  content: {
-                    "application/json": {
-                      schema: {
-                        $ref: "#/components/schemas/Submission"
-                      }
-                    }
-                  },
-                  required: false
-                },
-                responses: {
-                  "200": {
-                    description: "Success"
-                  }
-                },
-                tags: ["Controller1"]
-              }
-            }
-          },
-          tags: [
-            {
-              name: "Controller1"
-            }
-          ]
-        });
-      });
-      it("should declare a nested Generics of Model (openspec3)", () => {
-        // WHEN
-        @Generics("T")
-        class Pagination<T> {
-          @CollectionOf("T")
-          data: T[];
-
-          @Property()
-          totalCount: number;
-        }
-
-        @Generics("T")
-        class Submission<T> {
-          @Property()
-          _id: string;
-
-          @Property("T")
-          data: T;
-        }
-
-        class Product {
-          @Property()
-          title: string;
-        }
-
-        class Controller {
-          @OperationPath("POST", "/")
-          @(Returns(200, Pagination).Of(Submission).Nested(Product).Description("description"))
-          method(): Promise<Pagination<Submission<Product>> | null> {
-            return null as never;
-          }
-        }
-
-        // THEN
-        const spec = getSpec(Controller, {specType: SpecTypes.OPENAPI});
-
-        expect(spec).toEqual({
-          components: {
-            schemas: {
-              Product: {
-                properties: {
-                  title: {
-                    type: "string"
-                  }
-                },
-                type: "object"
-              }
-            }
-          },
-          tags: [
-            {
-              name: "Controller"
-            }
-          ],
-          paths: {
-            "/": {
-              post: {
-                operationId: "controllerMethod",
-                parameters: [],
-                tags: ["Controller"],
-                responses: {
-                  "200": {
-                    content: {
-                      "application/json": {
-                        schema: {
-                          properties: {
-                            data: {
-                              items: {
-                                type: "object",
-                                properties: {
-                                  _id: {
-                                    type: "string"
-                                  },
-                                  data: {
-                                    $ref: "#/components/schemas/Product"
-                                  }
-                                }
-                              },
-                              type: "array"
-                            },
-                            totalCount: {
-                              type: "number"
-                            }
+      expect(spec).toMatchInlineSnapshot(`
+        {
+          "components": {
+            "schemas": {
+              "Adjustment": {
+                "properties": {
+                  "adjustment": {
+                    "allOf": [
+                      {
+                        "$ref": "#/components/schemas/UserProperty",
+                      },
+                      {
+                        "properties": {
+                          "value": {
+                            "type": "number",
                           },
-                          type: "object"
-                        }
-                      }
+                        },
+                        "type": "object",
+                      },
+                    ],
+                  },
+                },
+                "type": "object",
+              },
+              "UserProperty": {
+                "properties": {
+                  "id": {
+                    "type": "string",
+                  },
+                  "value": {},
+                },
+                "type": "object",
+              },
+            },
+          },
+          "paths": {
+            "/hello-world": {
+              "post": {
+                "operationId": "helloWorldControllerGet",
+                "parameters": [],
+                "requestBody": {
+                  "content": {
+                    "application/json": {
+                      "schema": {
+                        "$ref": "#/components/schemas/Adjustment",
+                      },
                     },
-                    description: "description"
-                  }
-                }
-              }
-            }
-          }
-        });
-      });
+                  },
+                  "required": false,
+                },
+                "responses": {
+                  "200": {
+                    "description": "Success",
+                  },
+                },
+                "tags": [
+                  "HelloWorldController",
+                ],
+              },
+            },
+          },
+          "tags": [
+            {
+              "name": "HelloWorldController",
+            },
+          ],
+        }
+      `);
+      expect(await validateSpec(spec, SpecTypes.OPENAPI)).toBe(true);
     });
-    describe("Pagination<Submission<Product>>", () => {
+    it("should generate the open spec: Submission<Product>", () => {
+      // WHEN
+      @Generics("T")
+      class Submission<T> {
+        @Property()
+        _id: string;
+
+        @Property("T")
+        data: T;
+      }
+
+      class Product {
+        @Property()
+        title: string;
+      }
+
+      class Controller1 {
+        @OperationPath("POST", "/")
+        method(@In("body") @GenericOf(Product) submission: Submission<Product>) {
+          return null;
+        }
+      }
+
+      // THEN
+      const spec1 = getSpec(Controller1, {specType: SpecTypes.OPENAPI});
+
+      expect(spec1).toMatchInlineSnapshot(`
+        {
+          "components": {
+            "schemas": {
+              "Product": {
+                "properties": {
+                  "title": {
+                    "type": "string",
+                  },
+                },
+                "type": "object",
+              },
+              "Submission": {
+                "properties": {
+                  "_id": {
+                    "type": "string",
+                  },
+                  "data": {},
+                },
+                "type": "object",
+              },
+            },
+          },
+          "paths": {
+            "/": {
+              "post": {
+                "operationId": "controller1Method",
+                "parameters": [],
+                "requestBody": {
+                  "content": {
+                    "application/json": {
+                      "schema": {
+                        "allOf": [
+                          {
+                            "$ref": "#/components/schemas/Submission",
+                          },
+                          {
+                            "properties": {
+                              "data": {
+                                "$ref": "#/components/schemas/Product",
+                              },
+                            },
+                            "type": "object",
+                          },
+                        ],
+                      },
+                    },
+                  },
+                  "required": false,
+                },
+                "responses": {
+                  "200": {
+                    "description": "Success",
+                  },
+                },
+                "tags": [
+                  "Controller1",
+                ],
+              },
+            },
+          },
+          "tags": [
+            {
+              "name": "Controller1",
+            },
+          ],
+        }
+      `);
+    });
+    it("should generate the open spec: Pagination<Submission<Product>", () => {
       // WHEN
       @Generics("T")
       class Pagination<T> {
@@ -733,7 +1224,7 @@ describe("Generics", () => {
         title: string;
       }
 
-      class MyController {
+      class Controller {
         @OperationPath("POST", "/")
         @(Returns(200, Pagination).Of(Submission).Nested(Product).Description("description"))
         method(): Promise<Pagination<Submission<Product>> | null> {
@@ -741,183 +1232,774 @@ describe("Generics", () => {
         }
       }
 
-      it("should generate", () => {
-        // THEN
-        const spec1 = getSpec(MyController, {specType: SpecTypes.OPENAPI});
+      // THEN
+      const spec = getSpec(Controller, {specType: SpecTypes.OPENAPI});
 
-        expect(spec1).toEqual({
-          components: {
-            schemas: {
-              Product: {
-                properties: {
-                  title: {
-                    type: "string"
-                  }
+      expect(spec).toMatchInlineSnapshot(`
+        {
+          "components": {
+            "schemas": {
+              "Pagination": {
+                "properties": {
+                  "data": {
+                    "type": "array",
+                  },
+                  "totalCount": {
+                    "type": "number",
+                  },
                 },
-                type: "object"
-              }
-            }
-          },
-          paths: {
-            "/": {
-              post: {
-                operationId: "myControllerMethod",
-                parameters: [],
-                responses: {
-                  "200": {
-                    content: {
-                      "application/json": {
-                        schema: {
-                          properties: {
-                            data: {
-                              items: {
-                                properties: {
-                                  _id: {
-                                    type: "string"
-                                  },
-                                  data: {
-                                    $ref: "#/components/schemas/Product"
-                                  }
-                                },
-                                type: "object"
-                              },
-                              type: "array"
-                            },
-                            totalCount: {
-                              type: "number"
-                            }
-                          },
-                          type: "object"
-                        }
-                      }
-                    },
-                    description: "description"
-                  }
-                },
-                tags: ["MyController"]
-              }
-            }
-          },
-          tags: [
-            {
-              name: "MyController"
-            }
-          ]
-        });
-      });
-    });
-    describe("Pagination<Product>", () => {
-      it("should generate", () => {
-        // WHEN
-        @Generics("T")
-        class Pagination<T> {
-          @CollectionOf("T")
-          data: T[];
-
-          @Property()
-          totalCount: number;
-        }
-
-        @Generics("T")
-        class Submission<T> {
-          @Property()
-          _id: string;
-
-          @Property("T")
-          data: T;
-        }
-
-        class Product {
-          @Property()
-          title: string;
-        }
-
-        class Controller {
-          @OperationPath("POST", "/")
-          @(Returns(200, Pagination).Of(Submission).Nested(Product).Description("description"))
-          method(): Promise<Pagination<Submission<Product>> | null> {
-            return null as never;
-          }
-        }
-
-        expect(getJsonSchema(Pagination)).toEqual({
-          properties: {
-            data: {
-              items: {
-                $ref: "T"
+                "type": "object",
               },
-              type: "array"
-            },
-            totalCount: {
-              type: "number"
-            }
-          },
-          type: "object"
-        });
-
-        // THEN
-        const spec = getSpec(Controller, {specType: SpecTypes.OPENAPI});
-
-        expect(spec).toEqual({
-          components: {
-            schemas: {
-              Product: {
-                properties: {
-                  title: {
-                    type: "string"
-                  }
+              "Product": {
+                "properties": {
+                  "title": {
+                    "type": "string",
+                  },
                 },
-                type: "object"
-              }
-            }
+                "type": "object",
+              },
+              "Submission": {
+                "properties": {
+                  "_id": {
+                    "type": "string",
+                  },
+                  "data": {},
+                },
+                "type": "object",
+              },
+            },
           },
-          tags: [
-            {
-              name: "Controller"
-            }
-          ],
-          paths: {
+          "paths": {
             "/": {
-              post: {
-                operationId: "controllerMethod",
-                parameters: [],
-                tags: ["Controller"],
-                responses: {
+              "post": {
+                "operationId": "controllerMethod",
+                "parameters": [],
+                "responses": {
                   "200": {
-                    content: {
+                    "content": {
                       "application/json": {
-                        schema: {
-                          properties: {
-                            data: {
-                              items: {
-                                properties: {
-                                  data: {
-                                    $ref: "#/components/schemas/Product"
-                                  },
-                                  _id: {
-                                    type: "string"
-                                  }
-                                },
-                                type: "object"
-                              },
-                              type: "array"
+                        "schema": {
+                          "allOf": [
+                            {
+                              "$ref": "#/components/schemas/Pagination",
                             },
-                            totalCount: {
-                              type: "number"
-                            }
-                          },
-                          type: "object"
-                        }
-                      }
+                            {
+                              "properties": {
+                                "data": {
+                                  "items": {
+                                    "allOf": [
+                                      {
+                                        "$ref": "#/components/schemas/Submission",
+                                      },
+                                      {
+                                        "properties": {
+                                          "data": {
+                                            "$ref": "#/components/schemas/Product",
+                                          },
+                                        },
+                                        "type": "object",
+                                      },
+                                    ],
+                                  },
+                                  "type": "array",
+                                },
+                              },
+                              "type": "object",
+                            },
+                          ],
+                        },
+                      },
                     },
-                    description: "description"
-                  }
+                    "description": "description",
+                  },
+                },
+                "tags": [
+                  "Controller",
+                ],
+              },
+            },
+          },
+          "tags": [
+            {
+              "name": "Controller",
+            },
+          ],
+        }
+      `);
+    });
+    it("should generate the open spec: Pagination<Submission<Product> + @Status", () => {
+      // WHEN
+      @Generics("T")
+      class Pagination<T> {
+        @CollectionOf("T")
+        data: T[];
+
+        @Property()
+        totalCount: number;
+      }
+
+      @Generics("T")
+      class Submission<T> {
+        @Property()
+        _id: string;
+
+        @Property("T")
+        data: T;
+      }
+
+      class Product {
+        @Property()
+        title: string;
+      }
+
+      class Controller {
+        @OperationPath("POST", "/")
+        @(Status(200, Pagination).Of(Submission).Nested(Product).Description("description"))
+        method(): Promise<Pagination<Submission<Product>> | null> {
+          return null as never;
+        }
+      }
+
+      // THEN
+      const spec = getSpec(Controller);
+
+      expect(spec).toMatchInlineSnapshot(`
+        {
+          "components": {
+            "schemas": {
+              "Pagination": {
+                "properties": {
+                  "data": {
+                    "type": "array",
+                  },
+                  "totalCount": {
+                    "type": "number",
+                  },
+                },
+                "type": "object",
+              },
+              "Product": {
+                "properties": {
+                  "title": {
+                    "type": "string",
+                  },
+                },
+                "type": "object",
+              },
+              "Submission": {
+                "properties": {
+                  "_id": {
+                    "type": "string",
+                  },
+                  "data": {},
+                },
+                "type": "object",
+              },
+            },
+          },
+          "paths": {
+            "/": {
+              "post": {
+                "operationId": "controllerMethod",
+                "parameters": [],
+                "responses": {
+                  "200": {
+                    "content": {
+                      "application/json": {
+                        "schema": {
+                          "allOf": [
+                            {
+                              "$ref": "#/components/schemas/Pagination",
+                            },
+                            {
+                              "properties": {
+                                "data": {
+                                  "items": {
+                                    "allOf": [
+                                      {
+                                        "$ref": "#/components/schemas/Submission",
+                                      },
+                                      {
+                                        "properties": {
+                                          "data": {
+                                            "$ref": "#/components/schemas/Product",
+                                          },
+                                        },
+                                        "type": "object",
+                                      },
+                                    ],
+                                  },
+                                  "type": "array",
+                                },
+                              },
+                              "type": "object",
+                            },
+                          ],
+                        },
+                      },
+                    },
+                    "description": "description",
+                  },
+                },
+                "tags": [
+                  "Controller",
+                ],
+              },
+            },
+          },
+          "tags": [
+            {
+              "name": "Controller",
+            },
+          ],
+        }
+      `);
+    });
+    it("should generate the open spec: Pagination<Submission<Product> + @Returns + @Examples", () => {
+      // WHEN
+      @Generics("T")
+      class Pagination<T> {
+        @CollectionOf("T")
+        data: T[];
+
+        @Property()
+        totalCount: number;
+      }
+
+      @Generics("T")
+      class Submission<T> {
+        @Property()
+        _id: string;
+
+        @Property("T")
+        data: T;
+      }
+
+      class Product {
+        @Property()
+        title: string;
+      }
+
+      class Controller {
+        @OperationPath("POST", "/")
+        @(Returns(200, Pagination)
+          .Of(Submission)
+          .Nested(Product)
+          .Description("description")
+          .Examples({
+            Example1: {
+              value: [
+                {
+                  totalCount: 0,
+                  data: [
+                    {
+                      _id: "id",
+                      data: {}
+                    }
+                  ]
                 }
-              }
+              ]
             }
-          }
-        });
-      });
+          }))
+        method(): Promise<Pagination<Submission<Product>> | null> {
+          return null as never;
+        }
+      }
+
+      // THEN
+      const spec = getSpec(Controller, {specType: SpecTypes.OPENAPI});
+
+      expect(spec).toMatchInlineSnapshot(`
+        {
+          "components": {
+            "schemas": {
+              "Pagination": {
+                "properties": {
+                  "data": {
+                    "type": "array",
+                  },
+                  "totalCount": {
+                    "type": "number",
+                  },
+                },
+                "type": "object",
+              },
+              "Product": {
+                "properties": {
+                  "title": {
+                    "type": "string",
+                  },
+                },
+                "type": "object",
+              },
+              "Submission": {
+                "properties": {
+                  "_id": {
+                    "type": "string",
+                  },
+                  "data": {},
+                },
+                "type": "object",
+              },
+            },
+          },
+          "paths": {
+            "/": {
+              "post": {
+                "operationId": "controllerMethod",
+                "parameters": [],
+                "responses": {
+                  "200": {
+                    "content": {
+                      "application/json": {
+                        "examples": {
+                          "Example1": {
+                            "value": [
+                              {
+                                "data": [
+                                  {
+                                    "_id": "id",
+                                    "data": {},
+                                  },
+                                ],
+                                "totalCount": 0,
+                              },
+                            ],
+                          },
+                        },
+                        "schema": {
+                          "allOf": [
+                            {
+                              "$ref": "#/components/schemas/Pagination",
+                            },
+                            {
+                              "properties": {
+                                "data": {
+                                  "items": {
+                                    "allOf": [
+                                      {
+                                        "$ref": "#/components/schemas/Submission",
+                                      },
+                                      {
+                                        "properties": {
+                                          "data": {
+                                            "$ref": "#/components/schemas/Product",
+                                          },
+                                        },
+                                        "type": "object",
+                                      },
+                                    ],
+                                  },
+                                  "type": "array",
+                                },
+                              },
+                              "type": "object",
+                            },
+                          ],
+                        },
+                      },
+                    },
+                    "description": "description",
+                  },
+                },
+                "tags": [
+                  "Controller",
+                ],
+              },
+            },
+          },
+          "tags": [
+            {
+              "name": "Controller",
+            },
+          ],
+        }
+      `);
+    });
+    it("should generate the open spec: Submission<MyEnum>", () => {
+      // WHEN
+      @Generics("T")
+      class Submission<T> {
+        @Property()
+        _id: string;
+
+        @Property("T")
+        data: T;
+      }
+
+      enum MyEnum {
+        READ = "read",
+        WRITE = "write"
+      }
+
+      class Controller {
+        @OperationPath("POST", "/")
+        @(Returns(200, Submission).Of(MyEnum).Description("description"))
+        method(): Promise<Submission<MyEnum> | null> {
+          return Promise.resolve(null);
+        }
+      }
+
+      // THEN
+      const spec = getSpec(Controller, {specType: SpecTypes.OPENAPI});
+
+      expect(spec).toMatchInlineSnapshot(`
+        {
+          "components": {
+            "schemas": {
+              "Submission": {
+                "properties": {
+                  "_id": {
+                    "type": "string",
+                  },
+                  "data": {},
+                },
+                "type": "object",
+              },
+            },
+          },
+          "paths": {
+            "/": {
+              "post": {
+                "operationId": "controllerMethod",
+                "parameters": [],
+                "responses": {
+                  "200": {
+                    "content": {
+                      "application/json": {
+                        "schema": {
+                          "allOf": [
+                            {
+                              "$ref": "#/components/schemas/Submission",
+                            },
+                            {
+                              "properties": {
+                                "data": {
+                                  "enum": [
+                                    "read",
+                                    "write",
+                                  ],
+                                  "type": "string",
+                                },
+                              },
+                              "type": "object",
+                            },
+                          ],
+                        },
+                      },
+                    },
+                    "description": "description",
+                  },
+                },
+                "tags": [
+                  "Controller",
+                ],
+              },
+            },
+          },
+          "tags": [
+            {
+              "name": "Controller",
+            },
+          ],
+        }
+      `);
+    });
+    it("should generate the open spec: Pagination<Submission<MyEnum>>", () => {
+      // WHEN
+      @Generics("T")
+      class Pagination<T> {
+        @CollectionOf("T")
+        data: T[];
+
+        @Property()
+        totalCount: number;
+      }
+
+      @Generics("T")
+      class Submission<T> {
+        @Property()
+        _id: string;
+
+        @Property("T")
+        data: T;
+      }
+
+      enum MyEnum {
+        READ = "read",
+        WRITE = "write"
+      }
+
+      class Controller {
+        @OperationPath("POST", "/")
+        @(Returns(200, Pagination)
+          .Of(Submission)
+          .Nested(MyEnum)
+          .Description("description")
+          .Examples({
+            Example1: {
+              value: [
+                {
+                  totalCount: 0,
+                  data: [
+                    {
+                      _id: "id",
+                      data: {}
+                    }
+                  ]
+                }
+              ]
+            }
+          }))
+        method(): Promise<Pagination<Submission<MyEnum>> | null> {
+          return null as never;
+        }
+      }
+
+      // THEN
+      const spec = getSpec(Controller, {specType: SpecTypes.OPENAPI});
+
+      expect(spec).toMatchInlineSnapshot(`
+        {
+          "components": {
+            "schemas": {
+              "Pagination": {
+                "properties": {
+                  "data": {
+                    "type": "array",
+                  },
+                  "totalCount": {
+                    "type": "number",
+                  },
+                },
+                "type": "object",
+              },
+              "Submission": {
+                "properties": {
+                  "_id": {
+                    "type": "string",
+                  },
+                  "data": {},
+                },
+                "type": "object",
+              },
+            },
+          },
+          "paths": {
+            "/": {
+              "post": {
+                "operationId": "controllerMethod",
+                "parameters": [],
+                "responses": {
+                  "200": {
+                    "content": {
+                      "application/json": {
+                        "examples": {
+                          "Example1": {
+                            "value": [
+                              {
+                                "data": [
+                                  {
+                                    "_id": "id",
+                                    "data": {},
+                                  },
+                                ],
+                                "totalCount": 0,
+                              },
+                            ],
+                          },
+                        },
+                        "schema": {
+                          "allOf": [
+                            {
+                              "$ref": "#/components/schemas/Pagination",
+                            },
+                            {
+                              "properties": {
+                                "data": {
+                                  "items": {
+                                    "allOf": [
+                                      {
+                                        "$ref": "#/components/schemas/Submission",
+                                      },
+                                      {
+                                        "properties": {
+                                          "data": {
+                                            "enum": [
+                                              "read",
+                                              "write",
+                                            ],
+                                            "type": "string",
+                                          },
+                                        },
+                                        "type": "object",
+                                      },
+                                    ],
+                                  },
+                                  "type": "array",
+                                },
+                              },
+                              "type": "object",
+                            },
+                          ],
+                        },
+                      },
+                    },
+                    "description": "description",
+                  },
+                },
+                "tags": [
+                  "Controller",
+                ],
+              },
+            },
+          },
+          "tags": [
+            {
+              "name": "Controller",
+            },
+          ],
+        }
+      `);
+    });
+    it("should generate the open spec: Pagination<Submission<Product>> + @Title", () => {
+      // WHEN
+      @Generics("T")
+      class Pagination<T> {
+        @CollectionOf("T")
+        data: T[];
+
+        @Property()
+        totalCount: number;
+      }
+
+      @Generics("T")
+      class Submission<T> {
+        @Property()
+        _id: string;
+
+        @Property("T")
+        data: T;
+      }
+
+      class Product {
+        @Property()
+        title: string;
+      }
+
+      class Controller {
+        @OperationPath("POST", "/")
+        @(Returns(200, Pagination)
+          .Of(Submission)
+          .Nested(Product)
+          .Label("PaginatedSubmissionProduct")
+          .Schema({
+            $comment: "Hello comment"
+          })
+          .Description("description"))
+        method(): Promise<Pagination<Submission<Product>> | null> {
+          return null as never;
+        }
+      }
+
+      // THEN
+      const spec = getSpec(Controller, {specType: SpecTypes.OPENAPI});
+
+      expect(spec).toMatchInlineSnapshot(`
+        {
+          "components": {
+            "schemas": {
+              "PaginatedSubmissionProduct": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/Pagination",
+                  },
+                  {
+                    "$comment": "Hello comment",
+                    "properties": {
+                      "data": {
+                        "items": {
+                          "allOf": [
+                            {
+                              "$ref": "#/components/schemas/Submission",
+                            },
+                            {
+                              "properties": {
+                                "data": {
+                                  "$ref": "#/components/schemas/Product",
+                                },
+                              },
+                              "type": "object",
+                            },
+                          ],
+                        },
+                        "type": "array",
+                      },
+                    },
+                    "type": "object",
+                  },
+                ],
+              },
+              "Pagination": {
+                "properties": {
+                  "data": {
+                    "type": "array",
+                  },
+                  "totalCount": {
+                    "type": "number",
+                  },
+                },
+                "type": "object",
+              },
+              "Product": {
+                "properties": {
+                  "title": {
+                    "type": "string",
+                  },
+                },
+                "type": "object",
+              },
+              "Submission": {
+                "properties": {
+                  "_id": {
+                    "type": "string",
+                  },
+                  "data": {},
+                },
+                "type": "object",
+              },
+            },
+          },
+          "paths": {
+            "/": {
+              "post": {
+                "operationId": "controllerMethod",
+                "parameters": [],
+                "responses": {
+                  "200": {
+                    "content": {
+                      "application/json": {
+                        "schema": {
+                          "$ref": "#/components/schemas/PaginatedSubmissionProduct",
+                        },
+                      },
+                    },
+                    "description": "description",
+                  },
+                },
+                "tags": [
+                  "Controller",
+                ],
+              },
+            },
+          },
+          "tags": [
+            {
+              "name": "Controller",
+            },
+          ],
+        }
+      `);
     });
   });
 });

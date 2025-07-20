@@ -61,9 +61,9 @@ function buildSchemaFromBodyParameters(parameters: JsonParameter[], options: Jso
   }
 
   return {
-    schema: schema.toJSON(options),
     required: false,
-    ...props
+    ...props,
+    schema: schema.toJSON(options)
   };
 }
 

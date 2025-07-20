@@ -1,16 +1,11 @@
-import {isObject, Type} from "@tsed/core";
+import {DecoratorTypes} from "@tsed/core";
 
 import {JsonEntityStore} from "../../domain/JsonEntityStore.js";
-import {string} from "../../fn/string.js";
 import {GenericValue} from "../../utils/generics.js";
 
 /**
  * @ignore
  */
-function isEnum(type: any) {
-  return isObject(type) && !("toJSON" in type);
-}
-
 export interface GenericOfChainedDecorators {
   (...args: any): any;
 
@@ -88,18 +83,16 @@ export interface GenericOfChainedDecorators {
  * @generics
  */
 export function GenericOf(...generics: GenericValue[]): GenericOfChainedDecorators {
-  const nestedGenerics: GenericValue[][] = [
-    generics.map((type) => {
-      if (isEnum(type)) {
-        return string().enum(Object.values(type));
-      }
-      return type;
-    })
-  ];
+  const nestedGenerics: GenericValue[][] = [generics];
 
   const decorator = (...args: any) => {
     const store = JsonEntityStore.from(...args);
-    store.nestedGenerics = nestedGenerics;
+
+    if (store.is(DecoratorTypes.PARAM)) {
+      store.parameter.schema().genericOf(...nestedGenerics);
+    } else {
+      store.schema.genericOf(...nestedGenerics);
+    }
   };
 
   decorator.Nested = (...generics: any) => {

@@ -1,9 +1,6 @@
 import {DecoratorTypes, isArray} from "@tsed/core";
 
 import type {JsonClassStore} from "../../domain/JsonClassStore.js";
-import type {JsonParameterStore} from "../../domain/JsonParameterStore.js";
-import {matchGroups} from "../../utils/matchGroups.js";
-import {CustomKey} from "./customKey.js";
 import {JsonEntityFn} from "./jsonEntityFn.js";
 
 /**
@@ -34,33 +31,25 @@ export function Groups<T>(groupName: string, groups: string[]): ParameterDecorat
 export function Groups(...groups: string[]): Function;
 export function Groups(...groups: any): any {
   return JsonEntityFn((entity) => {
-    switch (entity.decoratorType) {
-      case DecoratorTypes.CLASS:
-        groupsClass(groups, entity as JsonClassStore);
-        break;
-      case DecoratorTypes.PROP:
-        CustomKey("x-groups", groups)(entity.target, entity.propertyKey);
-        entity.schema.$hooks.on("groups", (prev: boolean, givenGroups: string[]) => {
-          if (!prev) {
-            if (matchGroups(groups, givenGroups)) {
-              return true;
-            }
-          }
+    if (entity.is(DecoratorTypes.CLASS)) {
+      groupsClass(groups, entity as JsonClassStore);
+      return;
+    }
 
-          return prev;
-        });
-        break;
-      case DecoratorTypes.PARAM:
-        let groupsName = "";
+    if (entity.is(DecoratorTypes.PROP)) {
+      entity.schema.groups(groups, true);
+      return;
+    }
 
-        if (groups.length == 2 && isArray(groups[1])) {
-          groupsName = groups[0];
-          groups = groups[1];
-        }
+    if (entity.is(DecoratorTypes.PARAM)) {
+      let groupsName = "";
 
-        (entity as JsonParameterStore).parameter.groups = groups;
-        (entity as JsonParameterStore).parameter.groupsName = groupsName;
-        break;
+      if (groups.length == 2 && isArray(groups[1])) {
+        groupsName = groups[0];
+        groups = groups[1];
+      }
+
+      entity.parameter.schema().groups(groups).groupsName(groupsName);
     }
   });
 }

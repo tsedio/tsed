@@ -12,7 +12,6 @@ describe("JsonSchema", () => {
       schema.set("extra", "test");
 
       expect(schema.isGeneric).toBe(false);
-      expect(schema.genericType).toBeUndefined();
       expect(schema.toJSON()).toEqual({
         extra: "test"
       });
@@ -504,7 +503,7 @@ describe("JsonSchema", () => {
           type: "object",
           propertyNames: JsonSchema.from({
             pattern: "^[A-Za-z_][A-Za-z0-9_]*$"
-          })
+          }) as any
         }).toObject();
 
         const validate = new Ajv({strict: true}).compile(schema);

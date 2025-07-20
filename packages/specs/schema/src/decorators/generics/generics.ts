@@ -5,18 +5,18 @@ import {JsonEntityStore} from "../../domain/JsonEntityStore.js";
  *
  * See @@GenericOf@@ decorator for more details.
  *
- * @param generics
  * @decorator
  * @validation
  * @swagger
  * @schema
  * @input
  * @generics
+ * @param genericLabels
  */
-export function Generics(...generics: string[]): ClassDecorator {
+export function Generics(...genericLabels: string[]): ClassDecorator {
   return (target: any) => {
     const storedSchema = JsonEntityStore.from(target);
 
-    storedSchema.schema.genericLabels = generics;
+    storedSchema.schema.genericLabels(genericLabels);
   };
 }

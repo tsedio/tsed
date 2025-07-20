@@ -1,8 +1,6 @@
-import {DecoratorParameters, decoratorTypeOf, DecoratorTypes} from "@tsed/core";
+import {DecoratorParameters, DecoratorTypes} from "@tsed/core";
 
 import {JsonEntityStore} from "../../domain/JsonEntityStore.js";
-import type {JsonMethodStore} from "../../domain/JsonMethodStore.js";
-import type {JsonParameterStore} from "../../domain/JsonParameterStore.js";
 import {JsonEntityFn} from "./jsonEntityFn.js";
 
 /**
@@ -59,19 +57,12 @@ import {JsonEntityFn} from "./jsonEntityFn.js";
  */
 export function Description(description: any) {
   return JsonEntityFn((store: JsonEntityStore, args: DecoratorParameters) => {
-    switch (decoratorTypeOf(args)) {
-      case DecoratorTypes.PROP:
-      case DecoratorTypes.CLASS:
-        store.schema.description(description);
-        break;
-
-      case DecoratorTypes.PARAM:
-        (store as JsonParameterStore).parameter.description(description);
-        break;
-
-      case DecoratorTypes.METHOD:
-        (store as JsonMethodStore).operation?.description(description);
-        break;
+    if (store.is(DecoratorTypes.PROP) || store.is(DecoratorTypes.CLASS)) {
+      store.schema.description(description);
+    } else if (store.is(DecoratorTypes.PARAM)) {
+      store.parameter.description(description);
+    } else if (store.is(DecoratorTypes.METHOD)) {
+      store.operation?.description(description);
     }
   });
 }

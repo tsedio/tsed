@@ -1,7 +1,6 @@
 import {JsonLazyRef} from "../../domain/JsonLazyRef.js";
 import {JsonSchemaOptions} from "../../interfaces/JsonSchemaOptions.js";
 import {execMapper, registerJsonSchemaMapper} from "../../registries/JsonSchemaMapperContainer.js";
-import {mapGenericsOptions} from "../../utils/generics.js";
 import {createRef, toRef} from "../../utils/ref.js";
 
 export function lazyRefMapper(jsonLazyRef: JsonLazyRef, options: JsonSchemaOptions) {
@@ -13,7 +12,7 @@ export function lazyRefMapper(jsonLazyRef: JsonLazyRef, options: JsonSchemaOptio
 
   options.$refs = [...(options.$refs || []), jsonLazyRef.target];
 
-  const schema = jsonLazyRef.getType() && execMapper("schema", [jsonLazyRef.schema], mapGenericsOptions(options));
+  const schema = jsonLazyRef.getType() && execMapper("schema", [jsonLazyRef.schema], options); //mapGenericsOptions(options));
 
   return toRef(jsonLazyRef.schema, schema, options);
 }

@@ -1,14 +1,30 @@
-import {ancestorsOf, classOf, isArray, isClass, isFunction, isObject, isPrimitiveClass, nameOf, Type, uniq, ValueOf} from "@tsed/core";
+import {
+  ancestorOf,
+  ancestorsOf,
+  classOf,
+  isArray,
+  isClass,
+  isFunction,
+  isObject,
+  isPlainObject,
+  isPrimitiveClass,
+  nameOf,
+  Type,
+  uniq,
+  ValueOf
+} from "@tsed/core";
 import {Hooks} from "@tsed/hooks";
-import type {JSONSchema6, JSONSchema6Definition, JSONSchema6Type, JSONSchema6TypeName, JSONSchema6Version} from "json-schema";
+import type {JSONSchema7, JSONSchema7Definition, JSONSchema7Type, JSONSchema7TypeName, JSONSchema7Version} from "json-schema";
 
+import {VendorKeys} from "../constants/VendorKeys.js";
 import {IgnoreCallback} from "../interfaces/IgnoreCallback.js";
 import {JsonSchemaOptions} from "../interfaces/JsonSchemaOptions.js";
 import {enumsRegistry} from "../registries/enumRegistries.js";
 import {execMapper} from "../registries/JsonSchemaMapperContainer.js";
-import {NestedGenerics} from "../utils/generics.js";
+import {type GenericsMap, GenericValue} from "../utils/generics.js";
 import {getComputedType} from "../utils/getComputedType.js";
 import {getJsonType} from "../utils/getJsonType.js";
+import {matchGroups} from "../utils/matchGroups.js";
 import {serializeEnumValues} from "../utils/serializeEnumValues.js";
 import {toJsonRegex} from "../utils/toJsonRegex.js";
 import {AliasMap, AliasType} from "./JsonAliasMap.js";
@@ -17,14 +33,13 @@ import {JsonEntityStore} from "./JsonEntityStore.js";
 import {JsonFormatTypes} from "./JsonFormatTypes.js";
 import {JsonLazyRef} from "./JsonLazyRef.js";
 
-export interface JsonSchemaObject extends JSONSchema6, Record<string, any> {
-  type: (any | JSONSchema6TypeName) | (any | JSONSchema6TypeName)[];
-  additionalProperties?: boolean | JSONSchema6 | any;
-  propertyNames?: boolean | JSONSchema6 | any;
-  items?: (any | JSONSchema6Definition) | (any | JSONSchema6Definition)[];
+export interface JsonSchemaObject extends Omit<JSONSchema7, "type" | "additionalProperties" | "items"> {
+  type?: Type | JSONSchema7["type"] | null | (String | null | Date | Number | Object | Boolean)[];
+  additionalProperties?: boolean | JSONSchema7 | Type | JsonSchema;
+  items?: (Type | JSONSchema7Definition | JsonSchema) | (Type | JSONSchema7Definition | JsonSchema)[];
 }
 
-export type AnyJsonSchema = Partial<JsonSchemaObject> | JsonSchema | JsonLazyRef | any;
+export type AnyJsonSchema = JsonSchemaObject | JSONSchema7 | JsonSchema | JsonLazyRef | {label?: string} | Type;
 
 function mapProperties(properties: Record<string, any>) {
   // istanbul ignore next
@@ -39,7 +54,9 @@ function mapProperties(properties: Record<string, any>) {
   }, {});
 }
 
-function mapToJsonSchema(item: any): any {
+function mapToJsonSchema(item: Record<string, any>[]): JsonSchema[];
+function mapToJsonSchema(item: Record<string, any> | JSONSchema7Definition): JsonSchema;
+function mapToJsonSchema(item: any): JsonSchema | JsonSchema[] {
   if (isArray(item)) {
     return (item as any[]).map(mapToJsonSchema);
   }
@@ -63,29 +80,31 @@ function mapToJsonSchema(item: any): any {
   return item;
 }
 
-export class JsonSchema extends Map<string, any> implements NestedGenerics {
+export class JsonSchema extends Map<string, any> {
   readonly $kind: string = "schema";
   readonly $isJsonDocument = true;
   readonly $hooks = new Hooks();
-  readonly $required: Set<string> = new Set();
   readonly $allow: any[] = [];
   public $selfRequired: boolean;
-  public $forwardGroups: boolean = false;
   public $ignore: boolean | IgnoreCallback = false;
-
   public isDiscriminatorKey = false;
   public isDiscriminator = false;
-
-  #nullable: boolean = false;
+  /**
+   * All required fields are stored here
+   * @private
+   */
+  #required: Set<string> = new Set();
+  /**
+   * Internal custom props
+   * @private
+   */
+  #vendors = new Map<string, any>();
   #discriminator: null | Discriminator = null;
-  #genericLabels: string[];
-  #nestedGenerics: Type<any>[][] = [];
   #alias: AliasMap = new Map();
   #itemSchema: JsonSchema;
   #target: Type<any>;
-  #isGeneric: boolean = false;
   #isCollection: boolean = false;
-  #ref: boolean = false;
+  #isRef: boolean = false;
 
   constructor(obj: JsonSchema | Partial<JsonSchemaObject> = {}) {
     super();
@@ -97,22 +116,6 @@ export class JsonSchema extends Map<string, any> implements NestedGenerics {
 
   get alias() {
     return this.#alias;
-  }
-
-  get nestedGenerics(): any[] {
-    return this.#nestedGenerics;
-  }
-
-  set nestedGenerics(value: any[]) {
-    this.#nestedGenerics = value;
-  }
-
-  get genericLabels(): string[] {
-    return this.#genericLabels;
-  }
-
-  set genericLabels(value: string[]) {
-    this.#genericLabels = value;
   }
 
   get isClass() {
@@ -130,7 +133,7 @@ export class JsonSchema extends Map<string, any> implements NestedGenerics {
    * Current schema is a generic
    */
   get isGeneric() {
-    return this.#isGeneric;
+    return this.has(VendorKeys.GENERIC_LABEL);
   }
 
   get discriminatorAncestor() {
@@ -139,27 +142,16 @@ export class JsonSchema extends Map<string, any> implements NestedGenerics {
     return ancestor && JsonEntityStore.from(ancestor).schema;
   }
 
-  /**
-   * Current schema has generics items
-   */
-  get hasGenerics(): boolean {
-    return !!(this.nestedGenerics && this.nestedGenerics.length);
-  }
-
-  get genericType(): string {
-    return this.get("$ref");
-  }
-
   get class() {
     return this.getComputedType();
   }
 
   get canRef(): boolean {
-    return this.#ref;
+    return this.#isRef;
   }
 
   get isNullable(): boolean {
-    return this.#nullable;
+    return !!this.get<Boolean>("nullable");
   }
 
   get isReadOnly() {
@@ -174,17 +166,167 @@ export class JsonSchema extends Map<string, any> implements NestedGenerics {
     return !!this.#discriminator;
   }
 
-  static from(obj: Partial<JsonSchemaObject> = {}) {
-    return new JsonSchema(obj);
+  static from(item: Partial<JsonSchemaObject> | Type<any> | JsonSchema = {}) {
+    if (item instanceof JsonSchema) {
+      return item;
+    }
+
+    if (classOf(item) !== Object && isClass(item)) {
+      return JsonEntityStore.from(item).schema;
+    }
+
+    if (isPrimitiveClass(item)) {
+      return new JsonSchema({type: item as Type});
+    }
+
+    return new JsonSchema(item as Partial<JsonSchemaObject>);
+  }
+
+  /**
+   * Check if the schema as key, #key or x-key
+   * @param key
+   */
+  has(key: string) {
+    if (super.has(key)) {
+      return true;
+    }
+
+    if (super.has(`#${key}`)) {
+      return true;
+    }
+
+    return this.#vendors.has(key);
+  }
+
+  /**
+   * Get the value of the schema by key, #key or x-key.
+   * @param key
+   * @param defaultValue
+   */
+  get<T = any>(key: string, defaultValue: T): T;
+  get<T = any>(key: string, defaultValue?: T): T | undefined;
+  get<T = any>(key: string, defaultValue?: T): T | undefined {
+    if (this.#vendors.has(key)) {
+      return this.#vendors.get(key);
+    }
+
+    if (super.has(key)) {
+      return super.get(key);
+    }
+
+    if (super.has(`#${key}`)) {
+      return super.get(`#${key}`);
+    }
+
+    return defaultValue;
+  }
+
+  forwardGroups(bool: boolean = true) {
+    this.vendorKey(VendorKeys.FORWARD_GROUPS, bool);
+    return this;
+  }
+
+  groups(groups?: string[], isProperty?: boolean) {
+    if (groups) {
+      this.vendorKey(VendorKeys.GROUPS, groups);
+      // this.customKey("x-groups", groups);
+
+      if (isProperty) {
+        this.$hooks.on("groups", (prev: boolean, givenGroups: string[]) => {
+          if (!prev) {
+            if (matchGroups(groups, givenGroups)) {
+              return true;
+            }
+          }
+
+          return prev;
+        });
+      }
+    }
+
+    return this;
+  }
+
+  groupsName(groupsName?: string) {
+    groupsName && this.vendorKey(VendorKeys.GROUPS_NAME, groupsName);
+    return this;
+  }
+
+  allowedGroups(groups?: string[]) {
+    groups && this.vendorKey(VendorKeys.ALLOWED_GROUPS, groups);
+    return this;
+  }
+
+  /**
+   * Assign the Generic Labels used over a class or a schema.
+   * @param genericLabels
+   */
+  genericLabels(genericLabels: string[]) {
+    this.vendorKey(VendorKeys.GENERIC_LABELS, genericLabels);
+    return this;
+  }
+
+  genericLabel(genericLabel: string) {
+    this.vendorKey(VendorKeys.GENERIC_LABEL, genericLabel);
+    return this;
+  }
+
+  /**
+   * Assign the types of the generics that must be used for the property
+   * @param generics
+   */
+  genericOf(...generics: GenericValue[][]) {
+    function isEnum(type: any) {
+      return isObject(type) && !("toJSON" in type);
+    }
+
+    function map(jsonSchema: JsonSchema, generics: GenericValue[][]) {
+      const genericLabels = jsonSchema.getGenericLabels()!;
+
+      if (!genericLabels) {
+        return {};
+      }
+
+      const [types, ...nextTypes] = generics;
+
+      return types.reduce((mapping: GenericsMap, type, index) => {
+        const label = genericLabels[index];
+
+        if (label) {
+          if (isEnum(type)) {
+            mapping[label] = [JsonSchema.from({type: "string", enum: Object.values(type)})];
+          } else if (nextTypes.length) {
+            const nextSchema = mapToJsonSchema(type);
+
+            mapping[label] = [nextSchema, map(nextSchema, nextTypes)];
+          } else {
+            mapping[label] = [mapToJsonSchema(type)];
+          }
+        }
+
+        return mapping;
+      }, {} as GenericsMap) as GenericsMap;
+    }
+
+    const mapped = map(this.#itemSchema || mapToJsonSchema(this.getTarget()), generics);
+
+    this.vendorKey(VendorKeys.GENERIC_OF, mapped);
+
+    return this;
   }
 
   nullable(value: boolean) {
-    this.#nullable = value;
+    this.vendorKey(VendorKeys.NULLABLE, value);
+
+    return this;
   }
 
   itemSchema(obj: AnyJsonSchema = {}) {
     this.#itemSchema = this.#itemSchema || mapToJsonSchema(obj);
-    this.#itemSchema.assign(obj);
+
+    if (isPlainObject(obj)) {
+      this.#itemSchema.assign(obj);
+    }
 
     return this.#itemSchema;
   }
@@ -220,7 +362,7 @@ export class JsonSchema extends Map<string, any> implements NestedGenerics {
     return this;
   }
 
-  $schema($schema: JSONSchema6Version) {
+  $schema($schema: JSONSchema7Version) {
     super.set("$schema", $schema);
 
     return this;
@@ -231,7 +373,7 @@ export class JsonSchema extends Map<string, any> implements NestedGenerics {
    * @param name
    */
   label(name: string) {
-    this.#ref = true;
+    this.#isRef = true;
 
     super.set("name", name);
 
@@ -259,7 +401,7 @@ export class JsonSchema extends Map<string, any> implements NestedGenerics {
    * It is RECOMMENDED that a default value be valid against the associated schema.
    * @see https://tools.ietf.org/html/draft-wright-json-schema-validation-01#section-7.3
    */
-  default(value: JSONSchema6Type | undefined | (() => JSONSchema6Type)) {
+  default(value: JSONSchema7Type | undefined | (() => JSONSchema7Type)) {
     super.set("default", value);
 
     return this;
@@ -269,7 +411,7 @@ export class JsonSchema extends Map<string, any> implements NestedGenerics {
    * More readible form of a one-element "enum"
    * @see https://tools.ietf.org/html/draft-wright-json-schema-validation-01#section-6.24
    */
-  const(value: JSONSchema6Type) {
+  const(value: JSONSchema7Type) {
     super.set("const", value);
 
     return this;
@@ -349,7 +491,7 @@ export class JsonSchema extends Map<string, any> implements NestedGenerics {
    * An array instance is valid against "contains" if at least one of its elements is valid against the given schema.
    * @see https://tools.ietf.org/html/draft-wright-json-schema-validation-01#section-6.14
    */
-  contains(contains: JSONSchema6Definition) {
+  contains(contains: JSONSchema7Definition) {
     super.set("contains", mapToJsonSchema(contains));
 
     return this;
@@ -359,7 +501,7 @@ export class JsonSchema extends Map<string, any> implements NestedGenerics {
    * Array of examples with no validation effect the value of "default" is usable as an example without repeating it under this keyword
    * @see https://tools.ietf.org/html/draft-wright-json-schema-validation-01#section-7.4
    */
-  examples(examples: JSONSchema6Type[]) {
+  examples(examples: JSONSchema7Type[]) {
     super.set("examples", examples);
 
     return this;
@@ -369,7 +511,7 @@ export class JsonSchema extends Map<string, any> implements NestedGenerics {
    * Array of examples with no validation effect the value of "default" is usable as an example without repeating it under this keyword
    * @see https://tools.ietf.org/html/draft-wright-json-schema-validation-01#section-7.4
    */
-  example(...examples: JSONSchema6Type[]) {
+  example(...examples: JSONSchema7Type[]) {
     return this.examples(examples);
   }
 
@@ -379,7 +521,7 @@ export class JsonSchema extends Map<string, any> implements NestedGenerics {
    * @see https://tools.ietf.org/html/draft-wright-json-schema-validation-01#section-6.9
    */
   items(items: AnyJsonSchema | AnyJsonSchema[]) {
-    super.set("items", (this.#itemSchema = mapToJsonSchema(items)));
+    super.set("items", (this.#itemSchema = mapToJsonSchema(items) as unknown as JsonSchema));
 
     return this;
   }
@@ -478,9 +620,9 @@ export class JsonSchema extends Map<string, any> implements NestedGenerics {
    */
   required(required: boolean | string[] = true) {
     if (isArray(required)) {
-      this.$required.clear();
+      this.#required.clear();
 
-      required.forEach((value: any) => this.$required.add(value));
+      required.forEach((value: any) => this.#required.add(value));
     } else {
       const schema = this.clone();
       schema.$selfRequired = required;
@@ -496,19 +638,23 @@ export class JsonSchema extends Map<string, any> implements NestedGenerics {
   }
 
   addRequired(property: string) {
-    this.$required.add(property);
+    this.#required.add(property);
 
     return this;
   }
 
   removeRequired(property: string) {
-    this.$required.delete(property);
+    this.#required.delete(property);
 
     return this;
   }
 
   isRequired(property: string): boolean {
-    return this.$required.has(property);
+    return this.#required.has(property);
+  }
+
+  getRequiredFields(): string[] {
+    return [...this.#required];
   }
 
   /**
@@ -581,7 +727,7 @@ export class JsonSchema extends Map<string, any> implements NestedGenerics {
    * Omitting this keyword has the same behavior as an empty object.
    * @see https://tools.ietf.org/html/draft-wright-json-schema-validation-01#section-6.21
    */
-  dependencies(dependencies: {[p: string]: JSONSchema6Definition | JsonSchema | string[]}) {
+  dependencies(dependencies: {[p: string]: JSONSchema7Definition | JsonSchema | string[]}) {
     super.set("dependencies", mapProperties(dependencies));
 
     return this;
@@ -593,7 +739,7 @@ export class JsonSchema extends Map<string, any> implements NestedGenerics {
    * Omitting this keyword has the same behavior as an empty schema.
    * @see https://tools.ietf.org/html/draft-wright-json-schema-validation-01#section-6.22
    */
-  propertyNames(propertyNames: JSONSchema6Definition | JsonSchema) {
+  propertyNames(propertyNames: JSONSchema7Definition | JsonSchema) {
     super.set("propertyNames", mapToJsonSchema(propertyNames));
 
     return this;
@@ -661,8 +807,11 @@ export class JsonSchema extends Map<string, any> implements NestedGenerics {
    * @see https://tools.ietf.org/html/draft-wright-json-schema-validation-01#section-6.28
    */
   oneOf(oneOf: AnyJsonSchema[]) {
-    this.setManyOf("oneOf", oneOf);
-
+    if (this.isCollection) {
+      this.itemSchema().oneOf(oneOf);
+    } else {
+      this.setManyOf("oneOf", oneOf);
+    }
     return this;
   }
 
@@ -776,7 +925,7 @@ export class JsonSchema extends Map<string, any> implements NestedGenerics {
    * A single type, or a union of simple types
    * @see https://tools.ietf.org/html/draft-wright-json-schema-validation-01#section-6.25
    */
-  type(type: any | JSONSchema6TypeName | JSONSchema6TypeName[]): this {
+  type(type: any | JSONSchema7TypeName | JSONSchema7TypeName[]): this {
     switch (type) {
       case "map":
       case Map:
@@ -842,8 +991,7 @@ export class JsonSchema extends Map<string, any> implements NestedGenerics {
         } else {
           const jsonType = getJsonType(type);
           if (jsonType === "generic") {
-            this.#isGeneric = true;
-            super.set("$ref", type);
+            this.genericLabel(type);
           } else {
             super.set("type", jsonType);
           }
@@ -905,6 +1053,12 @@ export class JsonSchema extends Map<string, any> implements NestedGenerics {
     return this;
   }
 
+  vendorKey(key: VendorKeys, value: any) {
+    this.#vendors.set(key, value);
+
+    return this;
+  }
+
   toObject(options?: JsonSchemaOptions) {
     return this.toJSON(options);
   }
@@ -913,8 +1067,9 @@ export class JsonSchema extends Map<string, any> implements NestedGenerics {
     return execMapper("schema", [this], options);
   }
 
-  assign(obj: JsonSchema | Partial<JsonSchemaObject> = {}) {
+  assign(obj: AnyJsonSchema = {}) {
     const entries = obj instanceof JsonSchema ? [...obj.entries()] : Object.entries(obj);
+
     entries.forEach(([key, value]) => {
       this.set(key, value);
     });
@@ -923,23 +1078,15 @@ export class JsonSchema extends Map<string, any> implements NestedGenerics {
       this.$selfRequired = obj.$selfRequired;
       this.$allow.push(...obj.$allow);
 
-      obj.$required.forEach((key) => {
-        this.$required.add(key);
-      });
-
+      this.#required = new Set(obj.#required.keys());
+      this.#alias = new Map(this.#alias.entries());
+      this.#vendors = new Map(obj.#vendors.entries());
       this.#discriminator = this.#discriminator ? new Discriminator(this.#discriminator) : null;
       this.isDiscriminator = obj.isDiscriminator;
       this.isDiscriminatorKey = obj.isDiscriminatorKey;
-      this.#ref = obj.#ref;
-
-      this.#alias = new Map(this.#alias.entries());
-      obj.#genericLabels && (this.#genericLabels = [...obj.#genericLabels]);
-      this.#nestedGenerics = obj.#nestedGenerics.map((item) => [...item]);
+      this.#isRef = obj.#isRef;
       this.#target = obj.#target;
-      this.#isGeneric = obj.#isGeneric;
       this.#isCollection = obj.#isCollection;
-      this.#ref = obj.#ref;
-      this.#nullable = obj.#nullable;
 
       super.set("type", obj.get("type"));
     }
@@ -987,6 +1134,18 @@ export class JsonSchema extends Map<string, any> implements NestedGenerics {
     return this.#target;
   }
 
+  getAllowedGroups() {
+    return this.get<Set<string>>(VendorKeys.ALLOWED_GROUPS);
+  }
+
+  getGroups() {
+    return this.get<string[]>(VendorKeys.GROUPS);
+  }
+
+  getGroupsName() {
+    return this.get<string>(VendorKeys.GROUPS_NAME);
+  }
+
   /**
    * Get the symbolic name of the entity
    */
@@ -998,10 +1157,36 @@ export class JsonSchema extends Map<string, any> implements NestedGenerics {
     return new JsonSchema(this);
   }
 
+  getGenericLabels(): string[] | undefined {
+    const labels = this.get<string[]>(VendorKeys.GENERIC_LABELS);
+
+    if (this.isClass && !labels) {
+      const ancestor = ancestorOf(this.class);
+
+      return ancestor === Object ? undefined : JsonSchema.from(ancestor).getGenericLabels();
+    }
+
+    return this.get<string[]>(VendorKeys.GENERIC_LABELS);
+  }
+
+  getGenericOf(): GenericsMap | undefined {
+    return this.get(VendorKeys.GENERIC_OF);
+  }
+
+  refSchema() {
+    if (this.isClass && this.class) {
+      const refSchema = JsonSchema.from(this.getTarget());
+
+      if (refSchema !== this) {
+        return refSchema;
+      }
+    }
+  }
+
   protected setManyOf(keyword: "oneOf" | "anyOf" | "allOf", value: AnyJsonSchema[]) {
     let resolved = value
       .filter((o) => {
-        if (o?.type === "null") {
+        if (o && "type" in o && o.type === "null") {
           this.nullable(true);
           return false;
         }
@@ -1027,7 +1212,7 @@ export class JsonSchema extends Map<string, any> implements NestedGenerics {
 
     const jsonSchema: JsonSchema = resolved[0];
 
-    if (jsonSchema.isDiscriminator) {
+    if (jsonSchema?.isDiscriminator) {
       const discriminator = jsonSchema.discriminatorAncestor.discriminator();
       const {propertyName} = discriminator;
 
@@ -1039,7 +1224,7 @@ export class JsonSchema extends Map<string, any> implements NestedGenerics {
           });
 
           return acc;
-        }, {})
+        }, {} as any)
       });
 
       this.isDiscriminator = true;

@@ -1,7 +1,7 @@
 import {JsonEntityStore} from "../../domain/JsonEntityStore.js";
 import {number} from "../../fn/number.js";
 import {string} from "../../fn/string.js";
-import {AllOf, getJsonSchema, getSpec, In, OneOf, OperationPath, Path, Property, SpecTypes} from "../../index.js";
+import {getJsonSchema, getSpec, In, OperationPath, Path, Property, SpecTypes} from "../../index.js";
 import {AnyOf} from "./anyOf.js";
 
 describe("@AnyOf", () => {
@@ -266,6 +266,38 @@ describe("@AnyOf", () => {
           name: "MyController"
         }
       ]
+    });
+  });
+  it("should generate schema with @AllOf + custom schema", () => {
+    class Model {
+      @AnyOf(
+        Number,
+        Boolean,
+        String,
+        {type: "array", items: {type: "number"}},
+        {
+          type: "array",
+          items: {type: "string"}
+        }
+      )
+      test: number | boolean | string | number[] | string[];
+    }
+
+    const schema = getJsonSchema(Model);
+
+    expect(schema).toEqual({
+      properties: {
+        test: {
+          anyOf: [
+            {type: "number"},
+            {type: "boolean"},
+            {type: "string"},
+            {type: "array", items: {type: "number"}},
+            {type: "array", items: {type: "string"}}
+          ]
+        }
+      },
+      type: "object"
     });
   });
 });

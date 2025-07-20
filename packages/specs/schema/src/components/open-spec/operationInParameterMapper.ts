@@ -6,7 +6,6 @@ import {JsonParameter} from "../../domain/JsonParameter.js";
 import {JsonParameterTypes} from "../../domain/JsonParameterTypes.js";
 import {JsonSchemaOptions} from "../../interfaces/JsonSchemaOptions.js";
 import {execMapper, hasMapper, registerJsonSchemaMapper} from "../../registries/JsonSchemaMapperContainer.js";
-import {popGenerics} from "../../utils/generics.js";
 
 export type JsonParameterOptions = JsonSchemaOptions & {
   jsonParameter: JsonParameter;
@@ -17,8 +16,8 @@ export type JsonParameterOptions = JsonSchemaOptions & {
 function mapOptions(parameter: JsonParameter, options: JsonSchemaOptions = {}) {
   return {
     ...options,
-    groups: parameter.groups,
-    groupsName: parameter.groupsName
+    groups: parameter.schema().getGroups(),
+    groupsName: parameter.schema().getGroupsName()
   };
 }
 
@@ -28,10 +27,7 @@ export function operationInParameterMapper(jsonParameter: JsonParameter, opts?: 
 
   const {type, schema, ...parameter} = execMapper("map", [jsonParameter], options);
 
-  const jsonSchema = execMapper("item", [jsonParameter.$schema], {
-    ...options,
-    ...popGenerics(jsonParameter)
-  });
+  const jsonSchema = execMapper("item", [jsonParameter.schema()], options);
 
   parameter.required = parameter.required || jsonParameter.get("in") === JsonParameterTypes.PATH;
 

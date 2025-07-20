@@ -183,6 +183,24 @@ export class JsonOperation extends JsonMap<JsonOperationOptions> {
     return this;
   }
 
+  addAllowedGroupsParameter(allowedGroups: string[]) {
+    const jsonParameter = new JsonParameter();
+    jsonParameter.in("query").name("includes");
+    jsonParameter.schema(
+      JsonSchema.from({
+        type: "array",
+        items: {
+          type: "string",
+          enum: [...allowedGroups]
+        }
+      })
+    );
+
+    this.addParameter(-1, jsonParameter);
+
+    return this;
+  }
+
   parameters(parameters: JsonParameter[]): this {
     super.set("parameters", parameters);
 

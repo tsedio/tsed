@@ -1,7 +1,7 @@
 import {catchError} from "@tsed/core";
 import {QueryParams} from "@tsed/platform-params";
 
-import {Deprecated, getSpec, OperationPath, Returns, SpecTypes} from "../../index.js";
+import {Deprecated, getJsonSchema, getSpec, OperationPath, Property, Returns, SpecTypes} from "../../index.js";
 
 describe("Deprecated", () => {
   it("should store metadata (swagger)", () => {
@@ -208,6 +208,44 @@ describe("Deprecated", () => {
           }
         }
       }
+    });
+  });
+  it("should store metadata (prop with $ref)", () => {
+    class Author {
+      @Property()
+      id: string;
+    }
+
+    class MyModel {
+      @Deprecated()
+      author: Author;
+    }
+
+    expect(getJsonSchema(MyModel)).toEqual({
+      definitions: {
+        Author: {
+          properties: {
+            id: {
+              type: "string"
+            }
+          },
+          type: "object"
+        }
+      },
+      properties: {
+        author: {
+          allOf: [
+            {
+              $ref: "#/definitions/Author"
+            },
+            {
+              type: "object",
+              deprecated: true
+            }
+          ]
+        }
+      },
+      type: "object"
     });
   });
   it("should throw an error when the decorator is as static func decorator", () => {

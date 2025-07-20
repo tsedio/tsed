@@ -55,81 +55,87 @@ describe("@ReadOnly", () => {
     }
 
     // THEN
-    expect(getSpec(MyCtrl, {specType: SpecTypes.OPENAPI})).toEqual({
-      components: {
-        schemas: {
-          TestBand: {
-            properties: {
-              createdAt: {
-                format: "date-time",
-                readOnly: true,
-                type: "number"
-              },
-              members: {
-                anyOf: [
-                  {
-                    $ref: "#/components/schemas/TestPerson"
-                  }
-                ],
-                readOnly: true
-              },
-              updatedAt: {
-                format: "date-time",
-                readOnly: true,
-                type: "number"
-              }
-            },
-            type: "object"
-          },
-          TestPerson: {
-            properties: {
-              band: {
-                type: "string"
-              },
-              name: {
-                type: "string"
-              }
-            },
-            type: "object"
-          }
-        }
-      },
-      paths: {
-        "/": {
-          post: {
-            operationId: "myCtrlPost",
-            parameters: [],
-            requestBody: {
-              content: {
-                "application/json": {
-                  schema: {
-                    $ref: "#/components/schemas/TestBand"
-                  }
-                }
-              },
-              required: false
-            },
-            responses: {
-              "200": {
-                content: {
-                  "application/json": {
-                    schema: {
-                      $ref: "#/components/schemas/TestBand"
-                    }
-                  }
+    expect(getSpec(MyCtrl, {specType: SpecTypes.OPENAPI})).toMatchInlineSnapshot(`
+      {
+        "components": {
+          "schemas": {
+            "TestBand": {
+              "properties": {
+                "createdAt": {
+                  "format": "date-time",
+                  "readOnly": true,
+                  "type": "number",
                 },
-                description: "Success"
-              }
+                "members": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/TestPerson",
+                    },
+                    {
+                      "readOnly": true,
+                    },
+                  ],
+                },
+                "updatedAt": {
+                  "format": "date-time",
+                  "readOnly": true,
+                  "type": "number",
+                },
+              },
+              "type": "object",
             },
-            tags: ["MyCtrl"]
-          }
-        }
-      },
-      tags: [
-        {
-          name: "MyCtrl"
-        }
-      ]
-    });
+            "TestPerson": {
+              "properties": {
+                "band": {
+                  "type": "string",
+                },
+                "name": {
+                  "type": "string",
+                },
+              },
+              "type": "object",
+            },
+          },
+        },
+        "paths": {
+          "/": {
+            "post": {
+              "operationId": "myCtrlPost",
+              "parameters": [],
+              "requestBody": {
+                "content": {
+                  "application/json": {
+                    "schema": {
+                      "$ref": "#/components/schemas/TestBand",
+                    },
+                  },
+                },
+                "required": false,
+              },
+              "responses": {
+                "200": {
+                  "content": {
+                    "application/json": {
+                      "schema": {
+                        "$ref": "#/components/schemas/TestBand",
+                      },
+                    },
+                  },
+                  "description": "Success",
+                },
+              },
+              "tags": [
+                "MyCtrl",
+              ],
+            },
+          },
+        },
+        "tags": [
+          {
+            "name": "MyCtrl",
+          },
+        ],
+      }
+    `);
   });
 });

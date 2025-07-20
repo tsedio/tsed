@@ -38,13 +38,13 @@ export class JsonParameterStore extends JsonEntityStore {
     this.dataPath = options.dataPath || this.dataPath;
   }
 
-  get nestedGenerics(): Type<any>[][] {
-    return this.parameter.nestedGenerics;
-  }
-
-  set nestedGenerics(nestedGenerics: Type<any>[][]) {
-    this.parameter.nestedGenerics = nestedGenerics;
-  }
+  // get nestedGenerics(): Type<any>[][] {
+  //   return this.parameter.nestedGenerics;
+  // }
+  //
+  // set nestedGenerics(nestedGenerics: Type<any>[][]) {
+  //   this.parameter.nestedGenerics = nestedGenerics;
+  // }
 
   /**
    * Return the required state.
@@ -63,7 +63,7 @@ export class JsonParameterStore extends JsonEntityStore {
   }
 
   get schema() {
-    return this.parameter.$schema;
+    return this.parameter.schema();
   }
 
   static getParams<T extends JsonParameterStore = JsonParameterStore>(target: Type<any>, propertyKey: string | symbol): T[] {
@@ -115,7 +115,7 @@ export class JsonParameterStore extends JsonEntityStore {
     }
 
     if (isClass(this._type)) {
-      this.parameter.itemSchema(JsonEntityStore.from(this._type).schema);
+      this.parameter.schema().itemSchema(this._type);
     } else {
       this.parameter.itemSchema().type(this._type);
     }

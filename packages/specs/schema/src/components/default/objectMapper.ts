@@ -1,5 +1,6 @@
 import {isArray} from "@tsed/core";
 
+import {VendorKeys} from "../../constants/VendorKeys.js";
 import {JsonSchema} from "../../domain/JsonSchema.js";
 import {alterIgnore} from "../../hooks/alterIgnore.js";
 import {JsonSchemaOptions} from "../../interfaces/JsonSchemaOptions.js";
@@ -12,19 +13,23 @@ import {execMapper, registerJsonSchemaMapper} from "../../registries/JsonSchemaM
  * @ignore
  */
 export function objectMapper(input: any, options: JsonSchemaOptions) {
-  const {specType, operationIdFormatter, root, components, genericTypes, nestedGenerics, useAlias, genericLabels, ...ctx} = options;
+  const {specType, operationIdFormatter, root, components, useAlias, ...ctx} = options;
 
   return Object.entries(input).reduce<any>(
     (obj, [key, value]: [string, any | JsonSchema]) => {
       if (options.withIgnoredProps !== false && !alterIgnore(value, ctx)) {
         const opts = {
           ...options,
-          groups: input?.$forwardGroups || value?.$forwardGroups ? options.groups : undefined
+          parent: value,
+          groups: input?.get?.(VendorKeys.FORWARD_GROUPS) || value?.get?.(VendorKeys.FORWARD_GROUPS) ? options.groups : undefined
         };
 
-        // remove groups to avoid bad schema generation over children models
         obj[key] = execMapper("item", [value], opts);
         obj[key] = execMapper("nullable", [obj[key], value], opts);
+
+        if (value.isGeneric && obj[key]?.type) {
+          delete obj[key].type;
+        }
       }
 
       return obj;

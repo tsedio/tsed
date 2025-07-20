@@ -25,7 +25,7 @@ describe("JsonEntityStore", () => {
 
     expect(storeClass).toBeInstanceOf(JsonEntityStore);
     expect(storeClass.decoratorType).toBe("class");
-    expect(storeClass.propertyName).toBe("undefined");
+    expect(storeClass.propertyName).toBe("");
     expect(storeClass.propertyKey).toBeUndefined();
     expect(storeClass.index).toBeUndefined();
     expect(storeClass.parent).toBe(storeClass);
@@ -47,7 +47,6 @@ describe("JsonEntityStore", () => {
     expect(storeProp.propertyKey).toBe("id");
     expect(storeProp.propertyName).toBe("id");
     expect(storeProp.index).toBeUndefined();
-    expect(storeProp.nestedGenerics).toEqual([]);
     expect(storeProp.parent).toEqual(storeClass);
     expect(storeProp.type).toEqual(String);
     expect(storeProp.target).toEqual(Model);
@@ -67,7 +66,7 @@ describe("JsonEntityStore", () => {
     expect(storeMethod.decoratorType).toBe("method");
     expect(storeMethod.index).toBeUndefined();
     expect(storeMethod.operation).toBeInstanceOf(JsonOperation);
-    expect(storeMethod.nestedGenerics).toEqual([]);
+    // expect(storeMethod.nestedGenerics).toEqual([]);
     expect(storeMethod.parent).toEqual(storeClass);
     expect(storeMethod.target).toEqual(Model);
     expect(storeMethod.type).toEqual(Object);
@@ -87,7 +86,6 @@ describe("JsonEntityStore", () => {
     expect(storeParam.index).toBe(0);
     expect(storeParam.decoratorType).toBe("parameter");
     expect(storeParam.parameter).toBeInstanceOf(JsonParameter);
-    expect(storeParam.nestedGenerics).toEqual([]);
     expect(storeParam.parent).toEqual(storeMethod);
     expect(storeParam.type).toEqual(String);
     expect(storeParam.target).toEqual(Model);
@@ -138,6 +136,7 @@ describe("JsonEntityStore", () => {
         get id() {
           return "id";
         }
+
         set id(id: string) {}
       }
 

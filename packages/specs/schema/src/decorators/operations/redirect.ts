@@ -74,7 +74,7 @@ export function Redirect(...args: any[]): MethodDecorator {
     {status: 302, url: "", meta: {}}
   );
   return useDecorators(
-    Returns(status).Location(url, meta),
+    Returns(status, String).Location(url, meta),
     JsonEntityFn((entity) => {
       entity.operation?.setRedirection(status);
     })

@@ -2,11 +2,17 @@ import {cleanObject} from "@tsed/core";
 
 import type {JsonSchema} from "../../domain/JsonSchema.js";
 import {SpecTypes} from "../../domain/SpecTypes.js";
+import {JsonSchemaOptions} from "../../interfaces/JsonSchemaOptions.js";
 import {registerJsonSchemaMapper} from "../../registries/JsonSchemaMapperContainer.js";
+import {nullableMapper} from "../default/nullableMapper.js";
 
-export function nullableMapperOpenApi(obj: any, schema: JsonSchema | null) {
+export function nullableMapperOpenApi(obj: any, schema: JsonSchema | null, options: JsonSchemaOptions) {
   if (!schema?.isNullable) {
     return obj;
+  }
+
+  if (options.specVersion === "3.1.0") {
+    return nullableMapper(obj, schema);
   }
 
   if (obj.$ref) {

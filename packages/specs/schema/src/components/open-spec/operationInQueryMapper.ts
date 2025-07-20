@@ -1,6 +1,7 @@
 import {cleanObject} from "@tsed/core";
 import {OS3Example} from "@tsed/openspec";
 
+import type {JsonParameter} from "../../domain/JsonParameter.js";
 import {JsonSchemaOptions} from "../../interfaces/JsonSchemaOptions.js";
 import {registerJsonSchemaMapper} from "../../registries/JsonSchemaMapperContainer.js";
 import {createRefName} from "../../utils/ref.js";
@@ -33,12 +34,20 @@ function buildExamples(property: string, examples?: Record<string, OS3Example>) 
   return hasKey ? newExamples : undefined;
 }
 
-function inlineReference(parameter: any, {jsonParameter, ...options}: JsonSchemaOptions) {
-  const name = createRefName(jsonParameter.$schema.getName(), options);
+function inlineReference(
+  parameter: any,
+  {
+    jsonParameter,
+    ...options
+  }: JsonSchemaOptions & {
+    jsonParameter: JsonParameter;
+  }
+) {
+  const name = createRefName(jsonParameter.schema().itemSchema().getName(), options);
   const schema = options.components?.schemas?.[name];
 
   if (schema && !options.oldSchemas?.[name]) {
-    delete options.components!.schemas![jsonParameter.$schema.getName()];
+    delete options.components!.schemas![jsonParameter.schema().itemSchema().getName()];
   }
 
   return Object.entries(schema?.properties || {}).reduce((params, [key, {description, ...prop}]: [string, any]) => {

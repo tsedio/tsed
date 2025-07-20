@@ -21,7 +21,7 @@ describe("Location", () => {
                 content: {
                   "*/*": {
                     schema: {
-                      type: "object"
+                      type: "string"
                     }
                   }
                 },

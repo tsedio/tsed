@@ -24,7 +24,7 @@ describe("JsonParameterStore", () => {
       expect(entity.parent).toBeInstanceOf(JsonMethodStore);
       expect(entity.parent.parent).toBeInstanceOf(JsonClassStore);
       expect(entity.parent.parent.parent).toBeInstanceOf(JsonClassStore);
-      expect(entity.nestedGenerics).toEqual([]);
+      // expect(entity.nestedGenerics).toEqual([]);
       expect(entity.required).toBe(false);
       expect(entity.isRequired("")).toBe(false);
       expect(entity.allowedRequiredValues).toEqual([]);

@@ -1,4 +1,16 @@
-import {DecoratorTypes, deepMerge, descriptorOf, isCollection, isFunction, isPromise, Metadata, prototypeOf, Store, Type} from "@tsed/core";
+import {
+  DecoratorTypes,
+  deepMerge,
+  descriptorOf,
+  isClass,
+  isCollection,
+  isFunction,
+  isPromise,
+  Metadata,
+  prototypeOf,
+  Store,
+  Type
+} from "@tsed/core";
 
 import {JsonEntityComponent} from "../decorators/config/jsonEntityComponent.js";
 import type {JsonClassStore} from "./JsonClassStore.js";
@@ -86,6 +98,12 @@ export class JsonMethodStore extends JsonEntityStore {
     return JsonEntityStore.from<JsonMethodStore>(prototypeOf(target), propertyKey, descriptor);
   }
 
+  /**
+   * TODO must be located on JsonOperation level directly
+   * @param status
+   * @param contentType
+   * @param includes
+   */
   getResponseOptions(
     status: number,
     {contentType = "application/json", includes}: {contentType?: string; includes?: string[]} = {}
@@ -93,14 +111,14 @@ export class JsonMethodStore extends JsonEntityStore {
     const media = this.operation.getResponseOf(status).getMedia(contentType, false);
 
     if (media && media.has("schema")) {
-      const schema = media.get("schema") as JsonSchema;
-      let groups = media.groups;
+      const allowedGroups = media.schema().getAllowedGroups();
+      let groups = media.schema().getGroups();
 
-      if (includes && media.allowedGroups?.size) {
-        groups = [...(groups || []), ...includes.filter((include) => media.allowedGroups!.has(include))];
+      if (includes && allowedGroups?.size) {
+        groups = [...(groups || []), ...includes.filter((include) => allowedGroups.has(include))];
       }
 
-      return {type: schema.getComputedItemType(), groups};
+      return {type: media.schema().getComputedItemType(), groups};
     }
 
     return {type: this.type};
@@ -178,12 +196,22 @@ export class JsonMethodStore extends JsonEntityStore {
       delete this._type;
     }
 
-    this._schema = JsonSchema.from({
-      type: this.collectionType || this.type
-    });
-
+    // TODO est-ce que c'est tjrs d'actualité car on doit utiliser le decorator @Returns pour affecter correctement les data
+    // peut etre que c'est pour les get/setter ou méthod n'étant pas un endpoint?
     if (this.collectionType) {
+      this._schema = JsonSchema.from({
+        type: this.collectionType
+      });
       this._schema.itemSchema(this.type);
+    } else if (isClass(this.type)) {
+      this._schema = JsonSchema.from({
+        type: "object"
+      });
+      this._schema.itemSchema(this.type);
+    } else {
+      this._schema = JsonSchema.from({
+        type: this.type
+      });
     }
 
     this.parent.schema.addProperty(this.propertyName, this.schema);
@@ -193,10 +221,11 @@ export class JsonMethodStore extends JsonEntityStore {
 /**
  * EndpointMetadata contains metadata about a controller and his method.
  * Each annotation (@Get, @Body...) attached to a method are stored into endpoint.
- * EndpointMetadata convert this metadata to an array which contain arguments to call an Express method.
+ * EndpointMetadata converts this metadata to an array which contain arguments to call an Express method.
  *
  * Example :
- *```typescript
+ *
+ *```ts
  * @Controller("/my-path")
  * provide MyClass {
  *

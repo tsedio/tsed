@@ -18,6 +18,7 @@ const IGNORES_OPENSPEC: string[] = [];
 
 /**
  * @ignore
+ * TODO check if we can remove this
  */
 function isEmptyProperties(key: string, value: any) {
   return typeof value === "object" && ["items", "properties", "additionalProperties"].includes(key) && Object.keys(value).length === 0;
@@ -36,7 +37,8 @@ function shouldMapAlias(key: string, value: any, useAlias: boolean) {
 function shouldSkipKey(key: string, {specType = SpecTypes.JSON, customKeys = false}: JsonSchemaOptions) {
   return (
     IGNORES.includes(key) ||
-    (key.startsWith("#") && (customKeys === false || specType !== SpecTypes.JSON)) ||
+    key.startsWith("x-") ||
+    (key.startsWith("#") && (!customKeys || specType !== SpecTypes.JSON)) ||
     (specType !== SpecTypes.JSON && IGNORES_OPENSPEC.includes(key))
   );
 }
@@ -66,6 +68,10 @@ function mapOptions(options: JsonSchemaOptions) {
   };
 }
 
+// function isCollection(key: string, value: any) {
+//   return ["items", "additionalProperties", "contains"].includes(key) && value instanceof JsonSchema;
+// }
+
 function mapKeys(schema: JsonSchema, options: JsonSchemaOptions) {
   const {useAlias} = options;
 
@@ -87,7 +93,17 @@ function mapKeys(schema: JsonSchema, options: JsonSchemaOptions) {
       }
 
       if (value && typeof value === "object" && hasMapper(key)) {
+        // if (isCollection(key, value) && schema.has(VendorKeys.GENERIC_OF)) {
+        //   const {generics, mapper} = getGenericsOptions(schema, options);
+        //
+        //   value = execMapper(mapper, [value], {
+        //     ...options,
+        //     generics
+        //   }, schema);
+        //
+        // } else {
         value = execMapper(key, [value], options, schema);
+        // }
 
         if (isEmptyProperties(key, value)) {
           return item;
@@ -115,11 +131,6 @@ function serializeSchema(schema: JsonSchema, options: JsonSchemaOptions) {
     });
   }
 
-  obj = execMapper("generics", [obj], {
-    ...options,
-    root: false
-  } as any);
-
   if (schema.has(options.specType as string)) {
     obj = {
       ...obj,
@@ -136,6 +147,7 @@ function serializeSchema(schema: JsonSchema, options: JsonSchemaOptions) {
   obj = alterOneOf(obj, schema, options);
   obj = execMapper("enums", [obj, schema], options);
   obj = execMapper("discriminatorMapping", [obj, schema], options);
+  obj = execMapper("generics", [obj, schema], options);
 
   return obj;
 }

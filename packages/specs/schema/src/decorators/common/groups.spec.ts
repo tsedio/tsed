@@ -101,7 +101,6 @@ describe("@Groups", () => {
           ChildModel: {
             properties: {
               id: {
-                "x-groups": ["!creation"],
                 type: "string"
               },
               prop1: {
@@ -115,16 +114,13 @@ describe("@Groups", () => {
         },
         properties: {
           id: {
-            "x-groups": ["!creation"],
             type: "string"
           },
           prop1: {
-            "x-groups": ["group.summary"],
             minLength: 1,
             type: "string"
           },
           prop2: {
-            "x-groups": ["group.extended"],
             minLength: 1,
             type: "string"
           },

@@ -4,21 +4,20 @@ import {
   DecoratorTypes,
   isArray,
   isCollection,
-  isObject,
   isPlainObject,
   isPrimitiveOrPrimitiveClass,
   isString,
   Type
 } from "@tsed/core";
 import {OS3Example} from "@tsed/openspec";
+import type {JSONSchema7} from "json-schema";
 
 import {getStatusMessage} from "../../constants/httpStatusMessages.js";
 import {DecoratorContext} from "../../domain/DecoratorContext.js";
 import {JsonEntityStore} from "../../domain/JsonEntityStore.js";
-import {JsonParameter} from "../../domain/JsonParameter.js";
+import type {JsonMethodStore} from "../../domain/JsonMethodStore.js";
 import {JsonResponse} from "../../domain/JsonResponse.js";
 import {JsonSchema, JsonSchemaObject} from "../../domain/JsonSchema.js";
-import {string} from "../../fn/string.js";
 import {JsonHeader, JsonHeaders} from "../../interfaces/JsonOpenSpec.js";
 import {getStatusModel} from "../../utils/defineStatusModel.js";
 import {GenericValue} from "../../utils/generics.js";
@@ -127,8 +126,11 @@ export interface ReturnsChainedDecorators {
   /**
    * Add an inline title for the return model.
    * @param title
+   * @deprecated use Label instead of
    */
   Title(title: string): this;
+
+  Label(label: string): this;
 
   /**
    * Use group to filter model
@@ -156,22 +158,6 @@ export interface ReturnsChainedDecorators {
 /**
  * @ignore
  */
-function isEnum(type: any) {
-  return isObject(type) && !("toJSON" in type);
-}
-
-function mapGenerics(types: GenericValue[]) {
-  return types.map((type) => {
-    if (isEnum(type)) {
-      return string().enum(Object.values(type));
-    }
-    return type;
-  });
-}
-
-/**
- * @ignore
- */
 class ReturnDecoratorContext extends DecoratorContext<ReturnsChainedDecorators> {
   readonly methods: string[] = [
     "contentType",
@@ -189,6 +175,7 @@ class ReturnDecoratorContext extends DecoratorContext<ReturnsChainedDecorators> 
     "headers",
     "schema",
     "title",
+    "label",
     "groups",
     "allowedGroups",
     "location",
@@ -199,7 +186,6 @@ class ReturnDecoratorContext extends DecoratorContext<ReturnsChainedDecorators> 
 
   constructor({status, model}: any) {
     super();
-
     this.model(model);
     this.status(status);
   }
@@ -245,6 +231,10 @@ class ReturnDecoratorContext extends DecoratorContext<ReturnsChainedDecorators> 
   }
 
   location(path: string, meta: JsonHeaders = {}) {
+    if (!this.get("model")) {
+      this.model(String);
+    }
+
     this.headers({
       Location: {
         ...meta,
@@ -279,7 +269,10 @@ class ReturnDecoratorContext extends DecoratorContext<ReturnsChainedDecorators> 
     this.checkCollection(model);
 
     this.addAction((ctx) => {
-      (this.get("schema") as JsonSchema).nestedGenerics.push(mapGenerics(generics));
+      const currentGenerics = ctx.get("generics") || [];
+      currentGenerics.push(generics);
+
+      (ctx.get("schema") as JsonSchema).genericOf(...currentGenerics);
     });
 
     return this;
@@ -292,10 +285,13 @@ class ReturnDecoratorContext extends DecoratorContext<ReturnsChainedDecorators> 
     this.addAction(() => {
       const schema = this.get("schema") as JsonSchema;
 
-      if (isCollection(model)) {
-        schema?.itemSchema({type: types[0]});
-      } else {
-        schema?.nestedGenerics.push(mapGenerics(types));
+      if (schema) {
+        if (isCollection(model)) {
+          schema.itemSchema({type: types[0]});
+        } else {
+          this.set("generics", [types]);
+          schema.genericOf(types);
+        }
       }
     });
 
@@ -318,7 +314,7 @@ class ReturnDecoratorContext extends DecoratorContext<ReturnsChainedDecorators> 
     return this.manyOf("anyOf", types);
   }
 
-  schema(partial: Partial<JsonSchemaObject> | JsonSchema) {
+  schema(partial: JSONSchema7 | JsonSchema | {label?: string}) {
     this.addAction(() => {
       const schema = this.get("schema") as JsonSchema;
 
@@ -333,8 +329,16 @@ class ReturnDecoratorContext extends DecoratorContext<ReturnsChainedDecorators> 
     return this;
   }
 
+  /**
+   * @deprecated
+   * @param title
+   */
   title(title: string) {
-    return this.schema({title});
+    return this.schema({label: title});
+  }
+
+  label(label: string) {
+    return this.schema({label});
   }
 
   binary() {
@@ -413,7 +417,8 @@ class ReturnDecoratorContext extends DecoratorContext<ReturnsChainedDecorators> 
 
     if (isSuccessStatus(this.get("status")) || currentStatus === "default") {
       if (model) {
-        entity.type = model;
+        // TODO Check why we need that ?
+        // entity.type = model;
       }
     }
 
@@ -426,51 +431,22 @@ class ReturnDecoratorContext extends DecoratorContext<ReturnsChainedDecorators> 
 
   protected mapMedia(response: JsonResponse) {
     const contentType = this.getContentType();
-    const model = this.get("model");
-    const media = response.getMedia(contentType || "*/*");
-    const schema = media.get("schema") || new JsonSchema({type: model});
-    const groups = this.get("groups");
-    const groupsName = this.get("groupsName");
     const allowedGroups = this.get("allowedGroups");
-    const operation = this.entity.operation!;
+    const {operation} = this.entity as JsonMethodStore;
 
-    if (model) {
-      if (isArray(model)) {
-        schema.oneOf(model.map((type) => ({type})));
-      } else {
-        schema.type(model);
-      }
-    }
+    const media = response.getMedia(contentType || "*/*");
+    const schema = media
+      .type(this.get("model"))
+      .examples(this.get("examples"))
+      .schema()
+      .groups(this.get("groups"))
+      .groupsName(this.get("groupsName"))
+      .allowedGroups(allowedGroups);
 
     this.set("schema", schema);
 
-    media.schema(schema);
-
-    media.groups = groups;
-    media.groupsName = groupsName;
-
     if (allowedGroups) {
-      media.allowedGroups = allowedGroups;
-
-      const jsonParameter = new JsonParameter();
-      jsonParameter.in("query").name("includes");
-      jsonParameter.schema(
-        JsonSchema.from({
-          type: "array",
-          items: {
-            type: "string",
-            enum: [...allowedGroups]
-          }
-        })
-      );
-
-      operation.addParameter(-1, jsonParameter);
-    }
-
-    const examples = this.get("examples");
-
-    if (examples) {
-      media.examples(examples);
+      operation.addAllowedGroupsParameter(allowedGroups);
     }
 
     return media;
@@ -485,7 +461,6 @@ class ReturnDecoratorContext extends DecoratorContext<ReturnsChainedDecorators> 
 
       if (isCollection(model)) {
         schema.type(model || Object);
-
         schema.itemSchema().set(kind, types);
       } else {
         schema.set(kind, types);
@@ -558,7 +533,7 @@ class ReturnDecoratorContext extends DecoratorContext<ReturnsChainedDecorators> 
  *
  * Deprecated version:
  *
- * ```typescript
+ * ```ts
  * import {ReturnsArray} from "@tsed/platform-http";
  * import {Returns} from "@tsed/schema";
  *
@@ -571,14 +546,14 @@ class ReturnDecoratorContext extends DecoratorContext<ReturnsChainedDecorators> 
  *
  * ### Declaring a generic model <Badge text="6+"/>
  *
- * Sometime, it might be useful to use generic models. TypeScript doesn't store the generic type in the metadata. This is why we need to
+ * Sometimes, it might be useful to use generic models. TypeScript doesn't store the generic type in the metadata. This is why we need to
  * declare explicitly the generic models with the decorators.
  *
- * One of the generic's usage, can be a paginated list. With Returns decorator it's now possible to declare generic type and generate the appropriate OpenSpec documentation.
+ * One of the generic's usage can be a paginated list. With Returns decorator it's now possible to declare a generic type and generate the appropriate OpenSpec documentation.
  *
  * Starting with the pagination model, by using @@Generics@@ and @@CollectionOf@@:
  *
- * ```typescript
+ * ```ts
  * @Generics("T")
  * class Pagination<T> {
  *  @CollectionOf("T")
@@ -601,7 +576,7 @@ class ReturnDecoratorContext extends DecoratorContext<ReturnsChainedDecorators> 
  * }
  * ```
  *
- * Finally, we can use our models on a method as following:
+ * Finally, we can use our models on a method as follows:
  *
  * ```typescript
  * class Controller {
@@ -613,11 +588,11 @@ class ReturnDecoratorContext extends DecoratorContext<ReturnsChainedDecorators> 
  * }
  * ```
  *
- * ### Declaring a nested generics models <Badge text="6+"/>
+ * ### Declaring nested generics models <Badge text="6+"/>
  *
- * It's also possible to declare a nested generics models in order to have this type `Pagination<Submission<Product>>`:
+ * It's also possible to declare a nested generics model to have this type `Pagination<Submission<Product>>`:
  *
- * ```typescript
+ * ```ts
  * import {Post, Generics, Property, Returns} from "@tsed/schema";
  *
  * class Controller {
@@ -631,7 +606,7 @@ class ReturnDecoratorContext extends DecoratorContext<ReturnsChainedDecorators> 
  *
  * And here is the Submission model:
  *
- * ```typescript
+ * ```ts
  * import {Generics, Property} from "@tsed/schema";
  *
  * @Generics("T")
