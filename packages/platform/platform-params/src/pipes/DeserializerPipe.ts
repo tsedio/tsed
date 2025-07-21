@@ -1,4 +1,4 @@
-import {Injectable, injectable} from "@tsed/di";
+import {injectable} from "@tsed/di";
 import {deserialize} from "@tsed/json-mapper";
 import {JsonParameterStore, PipeMethods} from "@tsed/schema";
 

@@ -1,9 +1,5 @@
-import {Configuration, Inject} from "@tsed/di";
-import {PlatformApplication} from "@tsed/platform-http";
-import bodyParser from "body-parser";
+import {Configuration} from "@tsed/di";
 import compress from "compression";
-import cookieParser from "cookie-parser";
-import methodOverride from "method-override";
 
 import {TimeslotsController} from "./TimeslotsController.js";
 
@@ -13,22 +9,7 @@ import {TimeslotsController} from "./TimeslotsController.js";
   },
   mount: {
     "/": [TimeslotsController]
-  }
+  },
+  middlewares: ["cookie-parser", compress({}), "method-override", {use: "json-parser"}, {use: "urlencoded-parser"}]
 })
-export class Server {
-  @Inject()
-  app: PlatformApplication;
-
-  public $beforeRoutesInit(): void {
-    this.app
-      .use(bodyParser.json())
-      .use(
-        bodyParser.urlencoded({
-          extended: true
-        })
-      )
-      .use(cookieParser())
-      .use(compress({}))
-      .use(methodOverride());
-  }
-}
+export class Server {}
