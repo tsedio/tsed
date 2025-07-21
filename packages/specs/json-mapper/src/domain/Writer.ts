@@ -39,7 +39,7 @@ export class Writer {
   }
 
   arrow(...args: string[]) {
-    this.add(`(${args}) => {`);
+    this.add(`(${args.join(", ")}) => {`);
 
     const writer = this.new();
 

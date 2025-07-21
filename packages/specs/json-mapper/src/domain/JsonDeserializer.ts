@@ -1,5 +1,13 @@
 import {classOf, isArray, isBoolean, isClass, isEmpty, isNil, nameOf, objectKeys, Type} from "@tsed/core";
-import {getPropertiesStores, JsonClassStore, JsonEntityStore, JsonParameterStore, JsonPropertyStore} from "@tsed/schema";
+import {
+  getPropertiesStores,
+  JsonClassStore,
+  JsonEntityStore,
+  JsonParameterStore,
+  JsonPropertyStore,
+  JsonSchema,
+  VendorKeys
+} from "@tsed/schema";
 
 import {alterAfterDeserialize} from "../hooks/alterAfterDeserialize.js";
 import {alterBeforeDeserialize} from "../hooks/alterBeforeDeserialize.js";
@@ -28,14 +36,9 @@ function mapParamStoreOptions(store: JsonParameterStore, options: JsonDeserializ
     store: undefined,
     type: store.getBestType(),
     collectionType: store.collectionType,
-    groups: store.parameter.groups,
-    // genericTypes: store.nestedGenerics[0],
-    generics: store.nestedGenerics
+    groups: store.parameter.schema().getGroups(),
+    generics: store.parameter.schema().getGenericOf()
   };
-}
-
-function getGenericIndex(propertyStore: JsonPropertyStore) {
-  return propertyStore.parent.schema.genericLabels.indexOf(propertyStore.itemSchema.genericType);
 }
 
 export class JsonDeserializer extends JsonMapperCompiler<JsonDeserializerOptions> {
@@ -51,6 +54,8 @@ export class JsonDeserializer extends JsonMapperCompiler<JsonDeserializerOptions
     this.addGlobal("newInstanceOf", this.newInstanceOf.bind(this));
     this.addGlobal("alterBeforeDeserialize", this.alterBeforeDeserialize.bind(this));
     this.addGlobal("alterAfterDeserialize", this.alterAfterDeserialize.bind(this));
+    this.addGlobal("alterAfterDeserialize", this.alterAfterDeserialize.bind(this));
+    this.addGlobal("mapGenericsOptions", this.mapGenericsOptions.bind(this));
 
     this.addTypeMapper(Object, this.mapObject.bind(this));
     this.addTypeMapper(Array, this.mapArray.bind(this));
@@ -134,14 +139,16 @@ export class JsonDeserializer extends JsonMapperCompiler<JsonDeserializerOptions
       writer.set("input", `alterBeforeDeserialize('${id}', input, options)`);
     }
 
+    // console.log("entity.schema.genericLabels", entity.schema.getGenericLabels());
     // generics and options
-    writer.const("generics", "options.generics[0]");
+    // writer.const("generics", "options.generics['T']");
 
-    if (entity.schema.genericLabels?.length) {
-      writer.set("options", "{...options, self: input, generics: [...options.generics].slice(1)}");
-    } else {
-      writer.set("options", "{...options, self: input}");
-    }
+    // if (entity.schema.getGenericLabels()?.length) {
+    ///[...options.generics].slice(1)
+    //  writer.set("options", "{...options, self: input}"); // Forward generics options ?
+    // } else {
+    writer.set("options", "{...options, self: input}");
+    // }
 
     writer.const("obj", `newInstanceOf('${id}', input, options)`);
 
@@ -247,29 +254,45 @@ export class JsonDeserializer extends JsonMapperCompiler<JsonDeserializerOptions
   private getPropertyFiller(propertyStore: JsonPropertyStore, id: string, groups: false | string[], formatOpts: any) {
     const key = String(propertyStore.propertyKey);
     const schemaId = this.getSchemaId(id, key);
-    const generics = propertyStore.itemSchema.nestedGenerics;
-    const isGeneric = propertyStore.itemSchema.isGeneric && !generics?.length;
 
-    if (isGeneric) {
-      const index = getGenericIndex(propertyStore);
-      const opts = Writer.options(formatOpts, `type: generics[${index}]`);
+    if (propertyStore.itemSchema.isGeneric) {
+      const label = propertyStore.itemSchema.get(VendorKeys.GENERIC_LABEL);
 
-      return (writer: Writer) => writer.set(varKey(key), `compileAndMap(${varKey(key)}, ${opts})`);
+      return (writer: Writer) => {
+        const opts = Writer.options(formatOpts, `...mapGenericsOptions('${label}', options.generics)`);
+
+        return writer.set(varKey(key), `compileAndMap(${varKey(key)}, ${opts})`);
+      };
     }
 
     const type = propertyStore.itemSchema.hasDiscriminator ? propertyStore.itemSchema.discriminator().base : propertyStore.getBestType();
     const nestedMapper = this.compile(type, groups);
 
     if (propertyStore.isCollection) {
+      if (propertyStore.itemSchema.getGenericOf()) {
+        this.schemes[schemaId] = propertyStore.itemSchema;
+
+        return (writer: Writer) => {
+          return writer.callMapper(
+            nameOf(propertyStore.collectionType),
+            varKey(key),
+            `id: '${nestedMapper.id}'`,
+            `generics: schemes['${schemaId}'].getGenericOf()`,
+            formatOpts
+          );
+        };
+      }
+
       return (writer: Writer) =>
         writer.callMapper(nameOf(propertyStore.collectionType), varKey(key), `id: '${nestedMapper.id}'`, formatOpts);
     }
 
-    if (generics?.length) {
+    if (propertyStore.schema.getGenericOf()) {
       this.schemes[schemaId] = propertyStore.schema;
 
-      return (writer: Writer) =>
-        writer.callMapper(nestedMapper.id, varKey(key), formatOpts, `generics: schemes['${schemaId}'].nestedGenerics`);
+      return (writer: Writer) => {
+        return writer.callMapper(nestedMapper.id, varKey(key), formatOpts, `generics: schemes['${schemaId}'].getGenericOf()`);
+      };
     }
 
     return (writer: Writer) => writer.callMapper(nestedMapper.id, varKey(key), formatOpts);
@@ -309,7 +332,7 @@ export class JsonDeserializer extends JsonMapperCompiler<JsonDeserializerOptions
       groups: groups === undefined ? (strictGroups ? [] : false) : groups || false,
       useAlias,
       customMappers,
-      generics: options.generics || []
+      generics: options.generics || {}
     };
   }
 
@@ -398,5 +421,19 @@ export class JsonDeserializer extends JsonMapperCompiler<JsonDeserializerOptions
 
   private alterAfterDeserialize(schemaId: string, value: any, options: JsonDeserializerOptions): any {
     return alterAfterDeserialize(value, this.schemes[schemaId], options);
+  }
+
+  private mapGenericsOptions(label: string, inputGenerics: JsonDeserializerOptions["generics"]): JsonDeserializerOptions {
+    const generics = inputGenerics?.[label];
+
+    if (!generics) {
+      return {};
+    }
+
+    const type = generics[0] instanceof JsonSchema ? generics[0].getTarget() : generics[0];
+    return {
+      type,
+      generics: generics[1]
+    };
   }
 }

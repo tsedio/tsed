@@ -1,5 +1,5 @@
 import {MetadataTypes, Type} from "@tsed/core";
-import {JsonEntityStore} from "@tsed/schema";
+import {type GenericsMap, JsonEntityStore} from "@tsed/schema";
 
 import {JsonMapperMethods} from "../interfaces/JsonMapperMethods.js";
 import {JsonMapperGlobalOptions} from "./JsonMapperGlobalOptions.js";
@@ -23,9 +23,9 @@ export interface JsonDeserializerOptions<T = any, C = any> extends MetadataTypes
    */
   groups?: string[] | false;
   /**
-   * Add types to deserialize a module using generics feature.
+   * Add types to deserialize a module using the generics feature.
    */
-  generics?: Type[][];
+  generics?: GenericsMap;
 
   [key: string]: any;
 }
