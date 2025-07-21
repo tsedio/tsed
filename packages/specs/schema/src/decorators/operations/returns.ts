@@ -21,7 +21,6 @@ import {JsonSchema, JsonSchemaObject} from "../../domain/JsonSchema.js";
 import {JsonHeader, JsonHeaders} from "../../interfaces/JsonOpenSpec.js";
 import {getStatusModel} from "../../utils/defineStatusModel.js";
 import {GenericValue} from "../../utils/generics.js";
-import {isSuccessStatus} from "../../utils/isSuccessStatus.js";
 import {mapHeaders} from "../../utils/mapHeaders.js";
 
 export interface ReturnsChainedDecorators {
@@ -415,12 +414,12 @@ class ReturnDecoratorContext extends DecoratorContext<ReturnsChainedDecorators> 
 
     this.mapMedia(response);
 
-    if (isSuccessStatus(this.get("status")) || currentStatus === "default") {
-      if (model) {
-        // TODO Check why we need that ?
-        // entity.type = model;
-      }
-    }
+    // if (isSuccessStatus(this.get("status")) || currentStatus === "default") {
+    //   if (model) {
+    //     // TODO Check why we need that ?
+    //     // entity.type = model;
+    //   }
+    // }
 
     // additional info for OS2
     contentType && operation.addProduce(contentType);

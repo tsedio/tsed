@@ -113,7 +113,7 @@ export function testDeepQueryParams(options: PlatformTestingSdkOpts) {
             params: {
               type: "number"
             },
-            schemaPath: "#/properties/where/properties/a/type"
+            schemaPath: "#/definitions/FindQuery/properties/a/type"
           }
         ],
         message: 'Bad request on parameter "request.query.q".\nPaginationQuery.where.a must be number. Given value: "ca"',

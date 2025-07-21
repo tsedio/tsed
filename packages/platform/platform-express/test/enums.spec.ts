@@ -52,45 +52,52 @@ describe("Enums", () => {
   it("should generate spec", () => {
     const spec = getSpec(TestEnumsCtrl, {specType: SpecTypes.OPENAPI});
 
-    expect(spec).toEqual({
-      components: {
-        schemas: {
-          Env: {
-            enum: ["production", "development", "test"],
-            type: "string"
-          }
-        }
-      },
-      paths: {
-        "/enums": {
-          get: {
-            operationId: "testEnumsCtrlGet",
-            parameters: [
-              {
-                in: "query",
-                name: "env",
-                required: false,
-                schema: {
-                  $ref: "#/components/schemas/Env"
-                },
-                style: "deepObject"
-              }
-            ],
-            responses: {
-              "200": {
-                description: "Success"
-              }
+    expect(spec).toMatchInlineSnapshot(`
+      {
+        "components": {
+          "schemas": {
+            "Env": {
+              "enum": [
+                "production",
+                "development",
+                "test",
+              ],
+              "type": "string",
             },
-            tags: ["TestEnumsCtrl"]
-          }
-        }
-      },
-      tags: [
-        {
-          name: "TestEnumsCtrl"
-        }
-      ]
-    });
+          },
+        },
+        "paths": {
+          "/enums": {
+            "get": {
+              "operationId": "testEnumsCtrlGet",
+              "parameters": [
+                {
+                  "in": "query",
+                  "name": "env",
+                  "required": false,
+                  "schema": {
+                    "$ref": "#/components/schemas/Env",
+                  },
+                },
+              ],
+              "responses": {
+                "200": {
+                  "description": "Success",
+                },
+              },
+              "tags": [
+                "TestEnumsCtrl",
+              ],
+            },
+          },
+        },
+        "tags": [
+          {
+            "name": "TestEnumsCtrl",
+          },
+        ],
+      }
+    `);
   });
 
   describe("GET /rest/enums", () => {

@@ -29,7 +29,7 @@
 
 A package of Ts.ED framework. See website: https://tsed.dev/
 
-Package to declare JsonSchema and OpenAPI.
+Package to generate AsyncAPI specifications from your Ts.ED application.
 
 ## Documentation
 

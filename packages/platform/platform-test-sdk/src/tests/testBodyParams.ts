@@ -452,7 +452,7 @@ export function testBodyParams(options: PlatformTestingSdkOpts) {
               comparison: ">=",
               limit: 1
             },
-            schemaPath: "#/properties/limit/minimum"
+            schemaPath: "#/definitions/PaginationQuery/properties/limit/minimum"
           }
         ],
         message: 'Bad request on parameter "request.body".\nPaginationQuery.limit must be >= 1. Given value: 0',

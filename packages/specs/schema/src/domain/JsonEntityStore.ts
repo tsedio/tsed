@@ -105,7 +105,10 @@ export abstract class JsonEntityStore implements JsonEntityStoreOptions {
    * @param value
    */
   set type(value: Type<any> | any) {
-    this._type = value;
+    if (!value?.$schema?.skip) {
+      this._type = value;
+    }
+
     this.build();
   }
 
@@ -280,11 +283,13 @@ export abstract class JsonEntityStore implements JsonEntityStoreOptions {
     if (isCollection(type)) {
       this.collectionType = type;
     } else {
-      this._type = type;
+      if (!(type && "$schema" in type && type.$schema.skip)) {
+        this._type = type;
 
-      // issue #1534: Enum metadata stored as plain object instead of String (see: https://github.com/tsedio/tsed/issues/1534)
-      if (this._type && isPlainObject(this._type)) {
-        this._type = String;
+        // issue #1534: Enum metadata stored as plain object instead of String (see: https://github.com/tsedio/tsed/issues/1534)
+        if (this._type && isPlainObject(this._type)) {
+          this._type = String;
+        }
       }
     }
   }
