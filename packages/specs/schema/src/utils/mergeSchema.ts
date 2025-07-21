@@ -1,4 +1,4 @@
-import {isObject} from "@tsed/core";
+import {isObject, uniq} from "@tsed/core";
 import type {JSONSchema7, JSONSchema7Definition} from "json-schema";
 
 type Properties = {
@@ -82,7 +82,7 @@ export function mergeSchema(schema1: JSONSchema7, schema2: JSONSchema7): JSONSch
       return {
         ...schema,
         discriminator: (schema1 as any).discriminator || (schema2 as any).discriminator,
-        required: [...(schema1.required || []), ...(schema2.required || [])]
+        required: uniq([...(schema1.required || []), ...(schema2.required || [])])
       } as JSONSchema7;
     }
 
@@ -114,7 +114,7 @@ export function mergeSchema(schema1: JSONSchema7, schema2: JSONSchema7): JSONSch
 
   if (schema1.required || schema2.required) {
     // Handle required fields
-    mergedSchema.required = Array.from(new Set([...(schema1.required || []), ...(schema2.required || [])]));
+    mergedSchema.required = uniq([...(schema1.required || []), ...(schema2.required || [])]);
   }
 
   return mergedSchema;
