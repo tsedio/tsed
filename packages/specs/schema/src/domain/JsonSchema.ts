@@ -178,6 +178,10 @@ export class JsonSchema extends Map<string, any> {
     return this.#isCollection;
   }
 
+  get isLink() {
+    return this.#isLocalSchema;
+  }
+
   /**
    * Current schema is a generic
    */

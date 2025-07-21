@@ -8,6 +8,8 @@ import {mergeSchema} from "../../utils/mergeSchema.js";
 
 function getMapper(input: JsonSchema, mapper: string, root?: false) {
   if (input.__isClass && !root) {
+    // FIXME: __isClass is deprecated but we need to keep it to avoid bugs
+
     return mapper || "class";
   }
 
@@ -59,7 +61,7 @@ export function itemMapper(input: JsonSchema | Type, options: JsonSchemaOptions)
 }
 
 export function nextMapper(input: JsonSchema | Type | any, options: JsonSchemaOptions) {
-  if (input && input instanceof JsonSchema && input.__isClass) {
+  if (input && input instanceof JsonSchema && !input.isLink) {
     const refSchema = input.refSchema();
 
     if (refSchema) {
