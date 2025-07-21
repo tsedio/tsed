@@ -129,6 +129,7 @@ describe("@CollectionOf", () => {
     class Model {
       @Property()
       id: string;
+
       @CollectionOf(Nested)
       prop: Nested;
     }

@@ -1110,7 +1110,7 @@ export class JsonSchema extends Map<string, any> {
    * the function will be called to get the right type.
    */
   getComputedType(): any {
-    return getComputedType(this.#target);
+    return getComputedType(this.#target) || this.#itemSchema?.getComputedType();
   }
 
   getComputedItemType(): any {

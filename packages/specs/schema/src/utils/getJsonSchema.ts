@@ -42,6 +42,7 @@ function get(model: Type | JsonParameterStore, options: any) {
     if (entity instanceof JsonParameterStore) {
       options = {
         ...options,
+        root: true,
         groups: entity.schema.getGroups()
       };
       mapper = "item";

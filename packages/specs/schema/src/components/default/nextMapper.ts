@@ -6,18 +6,24 @@ import {execMapper, registerJsonSchemaMapper} from "../../registries/JsonSchemaM
 import {getGenericsOptions} from "../../utils/generics.js";
 import {mergeSchema} from "../../utils/mergeSchema.js";
 
-function getMapper(input: JsonSchema, mapper: string) {
-  return input?.isClass ? mapper || "class" : "any";
+function getMapper(input: JsonSchema, mapper: string, root?: false) {
+  if (input.isClass && !root) {
+    return mapper || "class";
+  }
+
+  return "any";
 }
 
 function buildAndMergeSchemas(mapper: string, schema1: JsonSchema, schema2: JsonSchema, options: JsonSchemaOptions) {
-  const schema = execMapper(getMapper(schema2, mapper), [schema2], {
+  const schema = execMapper(getMapper(schema2, mapper, options.root), [schema2], {
     ...options,
+    root: false,
     mapper: mapper === "next" ? options.mapper : undefined
   });
 
-  let extraSchema = execMapper(mapper, [schema1], {
+  let extraSchema = execMapper(options.root ? "any" : mapper, [schema1], {
     ...options,
+    root: false,
     generics: undefined,
     mapper: mapper === "next" ? options.mapper : undefined
   });
@@ -52,7 +58,7 @@ export function itemMapper(input: JsonSchema | Type, options: JsonSchemaOptions)
   return execMapper("next", [input], options);
 }
 
-export function nextMapper(input: JsonSchema | Type | any, options: JsonSchemaOptions, parent: JsonSchema) {
+export function nextMapper(input: JsonSchema | Type | any, options: JsonSchemaOptions) {
   if (input && input instanceof JsonSchema && input.isClass) {
     const refSchema = input.refSchema();
 
@@ -69,6 +75,7 @@ export function nextMapper(input: JsonSchema | Type | any, options: JsonSchemaOp
 
   return execMapper(getMapper(input, options.mapper), [input], {
     ...options,
+    root: false,
     mapper: undefined
   });
 }
