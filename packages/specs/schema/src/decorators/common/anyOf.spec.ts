@@ -268,7 +268,7 @@ describe("@AnyOf", () => {
       ]
     });
   });
-  it("should generate schema with @AllOf + custom schema", () => {
+  it("should generate schema with @AnyOf + custom schema", () => {
     class Model {
       @AnyOf(
         Number,

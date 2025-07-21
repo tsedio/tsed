@@ -28,7 +28,8 @@ export function objectMapper(input: any, options: JsonSchemaOptions) {
         obj[key] = execMapper("nullable", [obj[key], value], opts);
 
         if (value.isGeneric && obj[key]?.type) {
-          delete obj[key].type;
+          const {type, ...rest} = obj[key];
+          obj[key] = rest;
         }
       }
 

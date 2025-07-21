@@ -47,7 +47,7 @@ function inlineReference(
   const schema = options.components?.schemas?.[name];
 
   if (schema && !options.oldSchemas?.[name]) {
-    delete options.components!.schemas![jsonParameter.schema().itemSchema().getName()];
+    delete options.components?.schemas?.[jsonParameter.schema().itemSchema().getName()];
   }
 
   return Object.entries(schema?.properties || {}).reduce((params, [key, {description, ...prop}]: [string, any]) => {

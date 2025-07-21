@@ -12,7 +12,7 @@ export function lazyRefMapper(jsonLazyRef: JsonLazyRef, options: JsonSchemaOptio
 
   options.$refs = [...(options.$refs || []), jsonLazyRef.target];
 
-  const schema = jsonLazyRef.getType() && execMapper("schema", [jsonLazyRef.schema], options); //mapGenericsOptions(options));
+  const schema = jsonLazyRef.getType() && execMapper("schema", [jsonLazyRef.schema], options);
 
   return toRef(jsonLazyRef.schema, schema, options);
 }

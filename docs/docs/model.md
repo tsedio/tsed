@@ -545,9 +545,8 @@ The generated schema will be:
 
 ### Set label to an enum <Badge text="7.17.0+"/>
 
-With OpenSpec 3 it's now possible to create shared enum for many models in `components.schemas` instead of having its
-inlined values in
-each model.
+With OpenSpec 3 it's now possible to create shared enums for many models in `components.schemas` instead of having their
+inlined values in each model.
 
 Ts.ED introduce a new function `enums()` to declare the enum schema as follows:
 
@@ -1071,18 +1070,20 @@ export class UsersCtrl {
 
 In this example, the Groups annotation `@Groups("creation", "summary") user: User` will generate a new model name
 `UserCreationSummary`.
-If you change the groups list by this one:
+If you change the `groups` list by this one:
 
-```
- @Groups("creation", "summary", "extra") user: User
+```ts
+export class UsersCtrl {
+  async post(@BodyParams() @Groups("creation", "summary", "extra") user: User) {}
+}
 ```
 
 The new model name will be `UserCreationSummaryExtra`. This change will break the entire consumer code by removing the
 `UserCreationSummary` type and giving a new `UserCreationSummaryExtra` type.
 In fact, `UserCreationSummary` and `UserCreationSummaryExtra` are the same model with more fields!
 
-In order to minimize the impact of this kind of change Ts.ED allows to configure the postfix added to each model
-impacted by the groups.
+To minimize the impact of this kind of change, Ts.ED lets you configure the postfix added to each model
+impacted by groups.
 
 Here is an example with a configured GroupsName:
 
@@ -1123,10 +1124,9 @@ It's also possible to define all groups on class instead of declaring it on each
 
 ## ForwardGroups
 
-Groups configuration isn't forwarded to the nested models to avoid side effect on model generation.
-With @@ForwardGroups@@ decorator, you are able to tell if a property should use or not the Groups configuration to
-generate correctly
-a nested model.
+Groups configuration isn't forwarded to the nested models to avoid side effects on model generation.
+With @@ForwardGroups@@ decorator, you can specify whether a property should use the Groups configuration to
+correctly generate a nested model.
 
 ```typescript
 class ChildModel {
@@ -1190,9 +1190,8 @@ class MyModel {
 
 ## AllowedGroups
 
-This feature let your API consumer to define which field he wants to consume. The server will filter automatically
-fields based on the @@Groups@@
-strategy.
+This feature lets your API consumers define which fields they want to consume. The server will automatically filter
+fields based on the @@Groups@@ strategy.
 
 ```typescript
 class MyModel {
@@ -1228,7 +1227,8 @@ class MyController {
 }
 ```
 
-The AllowedGroups is enabled while `includes` query params is given in the request. Here the different scenario with
+AllowedGroups is enabled when the `includes` query parameter is provided in the request. Here are the different
+scenarios with
 this parameter:
 
 <div class="vp-code-group vp-adaptive-theme">

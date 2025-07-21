@@ -15,6 +15,10 @@ export interface JsonSchemaOptions {
    */
   specType?: SpecTypes;
   /**
+   * Define the spec version for OPENAPI (3.1.0, 3.0.3, 3.0.2, 3.0.1, 3.0.0)
+   */
+  specVersion?: string;
+  /**
    * Define a group restriction to generate the JsonSchema.
    * Set false to disable groups.
    */

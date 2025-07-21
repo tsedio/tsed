@@ -38,14 +38,6 @@ export class JsonParameterStore extends JsonEntityStore {
     this.dataPath = options.dataPath || this.dataPath;
   }
 
-  // get nestedGenerics(): Type<any>[][] {
-  //   return this.parameter.nestedGenerics;
-  // }
-  //
-  // set nestedGenerics(nestedGenerics: Type<any>[][]) {
-  //   this.parameter.nestedGenerics = nestedGenerics;
-  // }
-
   /**
    * Return the required state.
    * @returns {boolean}

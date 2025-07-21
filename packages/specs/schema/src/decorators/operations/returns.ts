@@ -126,7 +126,7 @@ export interface ReturnsChainedDecorators {
   /**
    * Add an inline title for the return model.
    * @param title
-   * @deprecated use Label instead of
+   * @deprecated use Label instead
    */
   Title(title: string): this;
 

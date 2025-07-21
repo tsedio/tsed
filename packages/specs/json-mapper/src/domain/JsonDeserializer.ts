@@ -54,7 +54,6 @@ export class JsonDeserializer extends JsonMapperCompiler<JsonDeserializerOptions
     this.addGlobal("newInstanceOf", this.newInstanceOf.bind(this));
     this.addGlobal("alterBeforeDeserialize", this.alterBeforeDeserialize.bind(this));
     this.addGlobal("alterAfterDeserialize", this.alterAfterDeserialize.bind(this));
-    this.addGlobal("alterAfterDeserialize", this.alterAfterDeserialize.bind(this));
     this.addGlobal("mapGenericsOptions", this.mapGenericsOptions.bind(this));
 
     this.addTypeMapper(Object, this.mapObject.bind(this));
@@ -139,16 +138,7 @@ export class JsonDeserializer extends JsonMapperCompiler<JsonDeserializerOptions
       writer.set("input", `alterBeforeDeserialize('${id}', input, options)`);
     }
 
-    // console.log("entity.schema.genericLabels", entity.schema.getGenericLabels());
-    // generics and options
-    // writer.const("generics", "options.generics['T']");
-
-    // if (entity.schema.getGenericLabels()?.length) {
-    ///[...options.generics].slice(1)
-    //  writer.set("options", "{...options, self: input}"); // Forward generics options ?
-    // } else {
     writer.set("options", "{...options, self: input}");
-    // }
 
     writer.const("obj", `newInstanceOf('${id}', input, options)`);
 

@@ -264,13 +264,6 @@ describe("Generics: basic", () => {
         adjustments: UserProperty<number>[];
       }
 
-      const entity = JsonEntityStore.from(Adjustment, "adjustments");
-      // console.log(entity.schema.get("type"));
-      // console.log(entity.schema.itemSchema().getTarget());
-      // console.log(entity.schema.get(VendorKeys.GENERIC_OF));
-      // console.log(entity.itemSchema.getGenericLabels());
-      // console.log(JSON.stringify(JsonEntityStore.from(Adjustment, "adjustments").schema.toJSON(), null, 2));
-
       expect(getJsonSchema(Adjustment)).toMatchInlineSnapshot(`
         {
           "definitions": {

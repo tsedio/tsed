@@ -9,57 +9,55 @@ import {execMapper, registerJsonSchemaMapper} from "../../registries/JsonSchemaM
 import {toRef} from "../../utils/ref.js";
 
 function getNestedSchema(propertyKey: string, schema: JsonSchema | JsonLazyRef, options: JsonSchemaOptions): JSONSchema7 | null {
-  try {
-    if ("isLazyRef" in schema) {
+  if ("isLazyRef" in schema) {
+    return null;
+  }
+
+  if (schema.isGeneric) {
+    const genericLabel = schema.get(VendorKeys.GENERIC_LABEL);
+    const genericValue = options.generics?.[genericLabel];
+
+    if (!genericValue) {
       return null;
     }
 
-    if (schema.isGeneric) {
-      const genericLabel = schema.get(VendorKeys.GENERIC_LABEL);
-      let [model, next]: [Type | JsonSchema, any] = ([] as any).concat(options.generics?.[genericLabel]);
+    const [model, next] = genericValue as [Type | JsonSchema, any];
+    const refSchema = JsonSchema.from(model);
 
-      if (!model) {
-        return null;
-      }
+    const modelSchema = execMapper("schema", [refSchema], {
+      ...options,
+      generics: next
+    });
 
-      const refSchema = JsonSchema.from(model);
-
-      const modelSchema = execMapper("schema", [refSchema], {
-        ...options,
-        generics: next
-      });
-
-      if (next || !refSchema.isClass) {
-        return modelSchema;
-      }
-
-      return toRef(refSchema, modelSchema, options);
+    if (next || !refSchema.isClass) {
+      return modelSchema;
     }
 
-    if (schema?.has("items")) {
-      const nestedSchema = getNestedSchema(propertyKey, schema.get("items")!, options);
-
-      if (nestedSchema) {
-        return {
-          type: "array",
-          items: nestedSchema as JSONSchema7
-        };
-      }
-    }
-
-    if (schema.has("additionalProperties") && isObject(schema.get("additionalProperties"))) {
-      const nestedSchema = getNestedSchema(propertyKey, schema.get("additionalProperties")!, options);
-
-      if (nestedSchema) {
-        return {
-          type: "object",
-          additionalProperties: nestedSchema
-        };
-      }
-    }
-  } catch (er) {
-    console.error(`Error while processing generics for property "${propertyKey}":`, er);
+    return toRef(refSchema, modelSchema, options);
   }
+
+  if (schema?.has("items")) {
+    const nestedSchema = getNestedSchema(propertyKey, schema.get("items")!, options);
+
+    if (nestedSchema) {
+      return {
+        type: "array",
+        items: nestedSchema as JSONSchema7
+      };
+    }
+  }
+
+  if (schema.has("additionalProperties") && isObject(schema.get("additionalProperties"))) {
+    const nestedSchema = getNestedSchema(propertyKey, schema.get("additionalProperties")!, options);
+
+    if (nestedSchema) {
+      return {
+        type: "object",
+        additionalProperties: nestedSchema
+      };
+    }
+  }
+
   return null;
 }
 

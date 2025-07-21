@@ -281,7 +281,7 @@ export class JsonSchema extends Map<string, any> {
     }
 
     function map(jsonSchema: JsonSchema, generics: GenericValue[][]) {
-      const genericLabels = jsonSchema.getGenericLabels()!;
+      const genericLabels = jsonSchema.getGenericLabels();
 
       if (!genericLabels) {
         return {};

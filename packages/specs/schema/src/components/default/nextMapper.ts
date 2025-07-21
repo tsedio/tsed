@@ -7,11 +7,11 @@ import {getGenericsOptions} from "../../utils/generics.js";
 import {mergeSchema} from "../../utils/mergeSchema.js";
 
 function getMapper(input: JsonSchema, mapper: string) {
-  return input && input.isClass ? mapper || "class" : "any";
+  return input?.isClass ? mapper || "class" : "any";
 }
 
 function buildAndMergeSchemas(mapper: string, schema1: JsonSchema, schema2: JsonSchema, options: JsonSchemaOptions) {
-  let schema = execMapper(getMapper(schema2, mapper), [schema2], {
+  const schema = execMapper(getMapper(schema2, mapper), [schema2], {
     ...options,
     mapper: mapper === "next" ? options.mapper : undefined
   });
