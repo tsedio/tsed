@@ -53,8 +53,7 @@ function inlineReference(
   return Object.entries(schema?.properties || {}).reduce((params, [key, {description, ...prop}]: [string, any]) => {
     const style = parameter.style || (prop.$ref && !getSchemaFromRef(prop.$ref, options)?.enum) ? "deepObject" : undefined;
 
-    return [
-      ...params,
+    params.push(
       cleanObject({
         ...parameter,
         style,
@@ -65,8 +64,10 @@ function inlineReference(
         schema: prop,
         examples: buildExamples(key, parameter.examples)
       })
-    ];
-  }, []);
+    );
+
+    return params;
+  }, [] as any[]);
 }
 
 export function operationInQueryMapper(parameter: any, {jsonSchema, ...options}: JsonParameterOptions) {

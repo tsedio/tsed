@@ -68,10 +68,6 @@ function mapOptions(options: JsonSchemaOptions) {
   };
 }
 
-// function isCollection(key: string, value: any) {
-//   return ["items", "additionalProperties", "contains"].includes(key) && value instanceof JsonSchema;
-// }
-
 function mapKeys(schema: JsonSchema, options: JsonSchemaOptions) {
   const {useAlias} = options;
 
@@ -93,17 +89,7 @@ function mapKeys(schema: JsonSchema, options: JsonSchemaOptions) {
       }
 
       if (value && typeof value === "object" && hasMapper(key)) {
-        // if (isCollection(key, value) && schema.has(VendorKeys.GENERIC_OF)) {
-        //   const {generics, mapper} = getGenericsOptions(schema, options);
-        //
-        //   value = execMapper(mapper, [value], {
-        //     ...options,
-        //     generics
-        //   }, schema);
-        //
-        // } else {
         value = execMapper(key, [value], options, schema);
-        // }
 
         if (isEmptyProperties(key, value)) {
           return item;
