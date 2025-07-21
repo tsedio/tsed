@@ -137,6 +137,11 @@ export class JsonSchema extends Map<string, any> {
   #discriminator: null | Discriminator = null;
   #alias: AliasMap = new Map();
   #itemSchema: JsonSchema;
+  /**
+   * This flag is used to know if the schema is created to link property/param to a class schema.
+   * @private
+   */
+  #isLocalSchema: boolean = false;
   #target: Type<any>;
   #isCollection: boolean = false;
   #isRef: boolean = false;
@@ -338,6 +343,10 @@ export class JsonSchema extends Map<string, any> {
 
     if (isPlainObject(obj)) {
       this.#itemSchema.assign(obj);
+    }
+
+    if (!this.isCollection && this.#itemSchema?.isClass) {
+      this.#isLocalSchema = true;
     }
 
     return this.#itemSchema;
@@ -1100,6 +1109,7 @@ export class JsonSchema extends Map<string, any> {
       this.#isRef = obj.#isRef;
       this.#target = obj.#target;
       this.#isCollection = obj.#isCollection;
+      this.#isLocalSchema = obj.#isLocalSchema;
 
       super.set("type", obj.get("type"));
     }
