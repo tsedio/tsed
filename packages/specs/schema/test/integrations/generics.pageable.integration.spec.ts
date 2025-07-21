@@ -761,6 +761,7 @@ describe("Generics: Pageable - Testing pagination functionality with generic typ
                   },
                 },
                 {
+                  "explode": true,
                   "in": "query",
                   "name": "search",
                   "required": false,

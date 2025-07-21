@@ -7,6 +7,17 @@ import {SpecTypes} from "../domain/SpecTypes.js";
 import {JsonSchemaOptions} from "../interfaces/JsonSchemaOptions.js";
 import {mergeSchema} from "./mergeSchema.js";
 
+export function getSchemaFromRef($ref: string | undefined, options: JsonSchemaOptions): JSONSchema7 | undefined {
+  const {components} = options;
+
+  if (components?.schemas && $ref) {
+    const host = getHost(options);
+    const refName = $ref.replace(`${host}/`, "");
+
+    return components.schemas[refName];
+  }
+}
+
 /**
  * ignore
  * @param options
