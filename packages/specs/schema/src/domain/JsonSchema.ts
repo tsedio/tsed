@@ -1133,7 +1133,7 @@ export class JsonSchema extends Map<string, any> {
    * the function will be called to get the right type.
    */
   getComputedType(): any {
-    if (this.#propertyKey && this.#target === Object && this.#itemSchema?.getTarget()) {
+    if (this.#isLocalSchema) {
       return this.#itemSchema?.getTarget();
     }
 
@@ -1187,7 +1187,7 @@ export class JsonSchema extends Map<string, any> {
   getGenericLabels(): string[] | undefined {
     const labels = this.get<string[]>(VendorKeys.GENERIC_LABELS);
 
-    if (this.__isClass && !labels) {
+    if (this.isClass && !labels) {
       const ancestor = ancestorOf(this.class);
 
       return ancestor === Object ? undefined : JsonSchema.from(ancestor).getGenericLabels();
@@ -1201,8 +1201,8 @@ export class JsonSchema extends Map<string, any> {
   }
 
   refSchema() {
-    if (this.__isClass && this.class) {
-      const refSchema = JsonSchema.from(this.getTarget());
+    if (this.isClass && this.class) {
+      const refSchema = JsonSchema.from(this.class);
 
       if (refSchema !== this) {
         return refSchema;
