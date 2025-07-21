@@ -42,72 +42,87 @@ describe("DynamicRef Integration", () => {
 
   describe("JsonSchema", () => {
     it("should return the json schema", () => {
-      expect(getJsonSchema(EventModel)).toEqual({
-        definitions: {
-          ClickedLinkEventModel: {
-            properties: {
-              id: {
-                description: "An ObjectID",
-                examples: ["5ce7ad3028890bd71749d477"],
-                pattern: "^[0-9a-fA-F]{24}$",
-                type: "string"
+      expect(getJsonSchema(EventModel)).toMatchInlineSnapshot(`
+        {
+          "definitions": {
+            "ClickedLinkEventModel": {
+              "properties": {
+                "id": {
+                  "description": "An ObjectID",
+                  "examples": [
+                    "5ce7ad3028890bd71749d477",
+                  ],
+                  "pattern": "^[0-9a-fA-F]{24}$",
+                  "type": "string",
+                },
+                "url": {
+                  "minLength": 1,
+                  "type": "string",
+                },
               },
-              url: {
-                minLength: 1,
-                type: "string"
-              }
+              "required": [
+                "url",
+              ],
+              "type": "object",
             },
-            required: ["url"],
-            type: "object"
-          },
-          SignedUpEventModel: {
-            properties: {
-              id: {
-                description: "An ObjectID",
-                examples: ["5ce7ad3028890bd71749d477"],
-                pattern: "^[0-9a-fA-F]{24}$",
-                type: "string"
+            "SignedUpEventModel": {
+              "properties": {
+                "id": {
+                  "description": "An ObjectID",
+                  "examples": [
+                    "5ce7ad3028890bd71749d477",
+                  ],
+                  "pattern": "^[0-9a-fA-F]{24}$",
+                  "type": "string",
+                },
+                "user": {
+                  "minLength": 1,
+                  "type": "string",
+                },
               },
-              user: {
-                minLength: 1,
-                type: "string"
-              }
+              "required": [
+                "user",
+              ],
+              "type": "object",
             },
-            required: ["user"],
-            type: "object"
-          }
-        },
-        properties: {
-          event: {
-            description: "A reference ObjectID",
-            examples: ["5ce7ad3028890bd71749d477"],
-            oneOf: [
-              {
-                description: "A reference ObjectID",
-                examples: ["5ce7ad3028890bd71749d477"],
-                type: "string"
-              },
-              {
-                $ref: "#/definitions/ClickedLinkEventModel"
-              },
-              {
-                $ref: "#/definitions/SignedUpEventModel"
-              }
-            ]
           },
-          eventType: {
-            enum: ["ClickedLinkEventModel", "SignedUpEventModel"],
-            type: "string"
+          "properties": {
+            "event": {
+              "oneOf": [
+                {
+                  "description": "A reference ObjectID",
+                  "examples": [
+                    "5ce7ad3028890bd71749d477",
+                  ],
+                  "type": "string",
+                },
+                {
+                  "$ref": "#/definitions/ClickedLinkEventModel",
+                },
+                {
+                  "$ref": "#/definitions/SignedUpEventModel",
+                },
+              ],
+            },
+            "eventType": {
+              "enum": [
+                "ClickedLinkEventModel",
+                "SignedUpEventModel",
+              ],
+              "type": "string",
+            },
+            "id": {
+              "description": "An ObjectID",
+              "examples": [
+                "5ce7ad3028890bd71749d477",
+              ],
+              "pattern": "^[0-9a-fA-F]{24}$",
+              "type": "string",
+            },
           },
-          id: {
-            description: "An ObjectID",
-            examples: ["5ce7ad3028890bd71749d477"],
-            pattern: "^[0-9a-fA-F]{24}$",
-            type: "string"
-          }
-        },
-        type: "object"
-      });
+          "type": "object",
+        }
+      `);
     });
   });
 

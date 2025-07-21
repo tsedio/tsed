@@ -2,6 +2,7 @@ import "../index.js";
 
 import {Ajv} from "ajv";
 
+import {CollectionOf, JsonEntityStore, Property} from "../index.js";
 import {JsonSchema} from "./JsonSchema.js";
 
 describe("JsonSchema", () => {
@@ -1283,6 +1284,42 @@ describe("JsonSchema", () => {
         type: "object"
       });
     });
+    it('should return true if "type" is a class', () => {
+      class Test1 {
+        @Property()
+        id: string;
+      }
+
+      class Test2 {
+        @Property()
+        test: Test1;
+      }
+
+      const entity = JsonEntityStore.from(Test2, "test");
+
+      expect(entity.schema.getPropertyKey()).toEqual("test");
+      expect(entity.schema.getTarget()).toEqual(Object);
+      expect(entity.schema.getComputedType()).toEqual(Test1);
+      expect(entity.schema.isClass).toBe(true);
+    });
+    it('should return false if "type" is not a class', () => {
+      class Test1 {
+        @Property()
+        id: string;
+      }
+
+      class Test2 {
+        @CollectionOf(Test1)
+        test: Test1[];
+      }
+
+      const entity = JsonEntityStore.from(Test2, "test");
+
+      expect(entity.schema.getPropertyKey()).toEqual("test");
+      expect(entity.schema.getTarget()).toEqual(Array);
+      expect(entity.schema.getComputedType()).toEqual(Array);
+      expect(entity.schema.isClass).toBe(false);
+    });
   });
   describe("Circular ref", () => {
     it("should create and validate schema", () => {
@@ -1380,7 +1417,7 @@ describe("JsonSchema", () => {
       const jsonSchema = schema.toObject();
 
       expect(schema.getAliasOf("prop")).toBe("aliasProp");
-      expect(schema.getTarget()).toBe("object");
+      expect(schema.getTarget()).toBe(Object);
       expect(jsonSchema).toEqual({
         type: "object",
         properties: {

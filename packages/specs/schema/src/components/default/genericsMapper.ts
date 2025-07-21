@@ -29,7 +29,7 @@ function getNestedSchema(propertyKey: string, schema: JsonSchema | JsonLazyRef, 
       generics: next
     });
 
-    if (next || !refSchema.isClass) {
+    if (next || !refSchema.__isClass) {
       return modelSchema;
     }
 

@@ -248,114 +248,112 @@ describe("@Ref()", () => {
         groups: ["group1", "group3"]
       });
 
-      expect(spec).toEqual({
-        definitions: {
-          MyChildModel: {
-            properties: {
-              test: {
-                type: "string"
-              }
-            },
-            type: "object"
-          },
-          MyChildModelGroup1Group3: {
-            properties: {
-              test: {
-                type: "string"
-              }
-            },
-            type: "object"
-          }
-        },
-        properties: {
-          child1: {
-            oneOf: [
-              {
-                $ref: "#/definitions/MyChildModelGroup1Group3"
-              }
-            ]
-          },
-          child2: {
-            oneOf: [
-              {
-                description: "A reference ObjectID",
-                examples: ["5ce7ad3028890bd71749d477"],
-                type: "string"
-              }
-            ]
-          },
-          child3: {
-            oneOf: [
-              {
-                description: "A reference ObjectID",
-                examples: ["5ce7ad3028890bd71749d477"],
-                type: "string"
+      expect(spec).toMatchInlineSnapshot(`
+        {
+          "definitions": {
+            "MyChildModel": {
+              "properties": {
+                "test": {
+                  "type": "string",
+                },
               },
-              {
-                $ref: "#/definitions/MyChildModel"
-              }
-            ]
+              "type": "object",
+            },
+            "MyChildModelGroup1Group3": {
+              "properties": {
+                "test": {
+                  "type": "string",
+                },
+              },
+              "type": "object",
+            },
           },
-          id: {
-            type: "string"
-          }
-        },
-        type: "object"
-      });
+          "properties": {
+            "child1": {
+              "$ref": "#/definitions/MyChildModelGroup1Group3",
+            },
+            "child2": {
+              "description": "A reference ObjectID",
+              "examples": [
+                "5ce7ad3028890bd71749d477",
+              ],
+              "type": "string",
+            },
+            "child3": {
+              "oneOf": [
+                {
+                  "description": "A reference ObjectID",
+                  "examples": [
+                    "5ce7ad3028890bd71749d477",
+                  ],
+                  "type": "string",
+                },
+                {
+                  "$ref": "#/definitions/MyChildModel",
+                },
+              ],
+            },
+            "id": {
+              "type": "string",
+            },
+          },
+          "type": "object",
+        }
+      `);
     });
 
     it("should reflect the populated groups options in the schema (without given groups)", () => {
       const spec = getJsonSchema(MyParentModel, {
         groups: []
       });
-      expect(spec).toEqual({
-        definitions: {
-          MyChildModel: {
-            properties: {
-              test: {
-                type: "string"
-              }
-            },
-            type: "object"
-          }
-        },
-        properties: {
-          child1: {
-            oneOf: [
-              {
-                description: "A reference ObjectID",
-                examples: ["5ce7ad3028890bd71749d477"],
-                type: "string"
-              }
-            ]
-          },
-          child2: {
-            oneOf: [
-              {
-                description: "A reference ObjectID",
-                examples: ["5ce7ad3028890bd71749d477"],
-                type: "string"
-              }
-            ]
-          },
-          child3: {
-            oneOf: [
-              {
-                description: "A reference ObjectID",
-                examples: ["5ce7ad3028890bd71749d477"],
-                type: "string"
+      expect(spec).toMatchInlineSnapshot(`
+        {
+          "definitions": {
+            "MyChildModel": {
+              "properties": {
+                "test": {
+                  "type": "string",
+                },
               },
-              {
-                $ref: "#/definitions/MyChildModel"
-              }
-            ]
+              "type": "object",
+            },
           },
-          id: {
-            type: "string"
-          }
-        },
-        type: "object"
-      });
+          "properties": {
+            "child1": {
+              "description": "A reference ObjectID",
+              "examples": [
+                "5ce7ad3028890bd71749d477",
+              ],
+              "type": "string",
+            },
+            "child2": {
+              "description": "A reference ObjectID",
+              "examples": [
+                "5ce7ad3028890bd71749d477",
+              ],
+              "type": "string",
+            },
+            "child3": {
+              "oneOf": [
+                {
+                  "description": "A reference ObjectID",
+                  "examples": [
+                    "5ce7ad3028890bd71749d477",
+                  ],
+                  "type": "string",
+                },
+                {
+                  "$ref": "#/definitions/MyChildModel",
+                },
+              ],
+            },
+            "id": {
+              "type": "string",
+            },
+          },
+          "type": "object",
+        }
+      `);
     });
   });
 });

@@ -108,4 +108,8 @@ export function Ref(
   ) as PropertyDecorator;
 }
 
+Ref.$schema = {
+  skip: true
+};
+
 export type Ref<T> = T | string;

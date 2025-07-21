@@ -49,6 +49,9 @@ function mapProperties(properties: Record<string, any>) {
 
   return Object.entries(properties).reduce<any>((properties, [key, schema]) => {
     properties[toJsonRegex(key)] = mapToJsonSchema(schema);
+    if (schema instanceof JsonSchema) {
+      schema.propertyKey(toJsonRegex(key));
+    }
 
     return properties;
   }, {});
@@ -80,6 +83,38 @@ function mapToJsonSchema(item: any): JsonSchema | JsonSchema[] {
   return item;
 }
 
+function isEnum(type: any) {
+  return isObject(type) && !("toJSON" in type);
+}
+
+function mapGenerics(jsonSchema: JsonSchema, generics: GenericValue[][]) {
+  const genericLabels = jsonSchema.getGenericLabels();
+
+  if (!genericLabels) {
+    return {};
+  }
+
+  const [types, ...nextTypes] = generics;
+
+  return types.reduce((mapping: GenericsMap, type, index) => {
+    const label = genericLabels[index];
+
+    if (label) {
+      if (isEnum(type)) {
+        mapping[label] = [JsonSchema.from({type: "string", enum: Object.values(type)})];
+      } else if (nextTypes.length) {
+        const nextSchema = mapToJsonSchema(type);
+
+        mapping[label] = [nextSchema, mapGenerics(nextSchema, nextTypes)];
+      } else {
+        mapping[label] = [mapToJsonSchema(type)];
+      }
+    }
+
+    return mapping;
+  }, {} as GenericsMap) as GenericsMap;
+}
+
 export class JsonSchema extends Map<string, any> {
   readonly $kind: string = "schema";
   readonly $isJsonDocument = true;
@@ -105,6 +140,7 @@ export class JsonSchema extends Map<string, any> {
   #target: Type<any>;
   #isCollection: boolean = false;
   #isRef: boolean = false;
+  #propertyKey: string | symbol | undefined;
 
   constructor(obj: JsonSchema | Partial<JsonSchemaObject> = {}) {
     super();
@@ -119,11 +155,19 @@ export class JsonSchema extends Map<string, any> {
   }
 
   get isClass() {
+    return isClass(this.class);
+  }
+
+  /**
+   * Legacy isClass method with unexpected behavior.
+   * @deprecated
+   */
+  get __isClass() {
     return isClass(this.class) && ![Map, Array, Set, Object, Date, Boolean, Number, String].includes(this.#target as any);
   }
 
   /**
-   * Current schema is a collection
+   * The current schema is a collection
    */
   get isCollection() {
     return this.#isCollection;
@@ -276,39 +320,7 @@ export class JsonSchema extends Map<string, any> {
    * @param generics
    */
   genericOf(...generics: GenericValue[][]) {
-    function isEnum(type: any) {
-      return isObject(type) && !("toJSON" in type);
-    }
-
-    function map(jsonSchema: JsonSchema, generics: GenericValue[][]) {
-      const genericLabels = jsonSchema.getGenericLabels();
-
-      if (!genericLabels) {
-        return {};
-      }
-
-      const [types, ...nextTypes] = generics;
-
-      return types.reduce((mapping: GenericsMap, type, index) => {
-        const label = genericLabels[index];
-
-        if (label) {
-          if (isEnum(type)) {
-            mapping[label] = [JsonSchema.from({type: "string", enum: Object.values(type)})];
-          } else if (nextTypes.length) {
-            const nextSchema = mapToJsonSchema(type);
-
-            mapping[label] = [nextSchema, map(nextSchema, nextTypes)];
-          } else {
-            mapping[label] = [mapToJsonSchema(type)];
-          }
-        }
-
-        return mapping;
-      }, {} as GenericsMap) as GenericsMap;
-    }
-
-    const mapped = map(this.#itemSchema || mapToJsonSchema(this.getTarget()), generics);
+    const mapped = mapGenerics(this.#itemSchema || mapToJsonSchema(this.getTarget()), generics);
 
     this.vendorKey(VendorKeys.GENERIC_OF, mapped);
 
@@ -930,7 +942,7 @@ export class JsonSchema extends Map<string, any> {
       case "map":
       case Map:
         super.set("type", getJsonType(type));
-        this.#target = type;
+        this.target(type);
         this.#isCollection = true;
         if (!this.has("additionalProperties")) {
           super.set("additionalProperties", this.itemSchema({}));
@@ -940,7 +952,7 @@ export class JsonSchema extends Map<string, any> {
       case "array":
       case Array:
         super.set("type", getJsonType(type));
-        this.#target = type;
+        this.target(type);
         this.#isCollection = true;
 
         if (!this.has("items")) {
@@ -951,7 +963,7 @@ export class JsonSchema extends Map<string, any> {
       case "set":
       case Set:
         super.set("type", getJsonType(type));
-        this.#target = type;
+        this.target(type);
         this.#isCollection = true;
         this.uniqueItems(true);
 
@@ -974,7 +986,8 @@ export class JsonSchema extends Map<string, any> {
       case Number:
       case String:
         super.set("type", getJsonType(type));
-        this.#target = type;
+
+        this.target(type);
         if (!this.has("properties")) {
           super.set("properties", {});
         }
@@ -983,7 +996,7 @@ export class JsonSchema extends Map<string, any> {
       default:
         if (isClass(type) || isFunction(type)) {
           super.set("type", undefined);
-          this.#target = type;
+          this.target(type);
 
           if (!this.has("properties")) {
             super.set("properties", {});
@@ -1106,15 +1119,19 @@ export class JsonSchema extends Map<string, any> {
 
   /**
    * Return the itemSchema computed type.
-   * If the type is a function used for recursive model,
+   * If the type is a function used for a recursive model,
    * the function will be called to get the right type.
    */
   getComputedType(): any {
-    return getComputedType(this.#target) || this.#itemSchema?.getComputedType();
+    if (this.#propertyKey && this.#target === Object && this.#itemSchema?.getTarget()) {
+      return this.#itemSchema?.getTarget();
+    }
+
+    return getComputedType(this.#target);
   }
 
   getComputedItemType(): any {
-    return this.#itemSchema ? this.#itemSchema.getComputedType() : this.getComputedType();
+    return this.isCollection && this.#itemSchema ? this.#itemSchema.getComputedType() : this.getComputedType();
   }
 
   /**
@@ -1160,7 +1177,7 @@ export class JsonSchema extends Map<string, any> {
   getGenericLabels(): string[] | undefined {
     const labels = this.get<string[]>(VendorKeys.GENERIC_LABELS);
 
-    if (this.isClass && !labels) {
+    if (this.__isClass && !labels) {
       const ancestor = ancestorOf(this.class);
 
       return ancestor === Object ? undefined : JsonSchema.from(ancestor).getGenericLabels();
@@ -1174,12 +1191,29 @@ export class JsonSchema extends Map<string, any> {
   }
 
   refSchema() {
-    if (this.isClass && this.class) {
+    if (this.__isClass && this.class) {
       const refSchema = JsonSchema.from(this.getTarget());
 
       if (refSchema !== this) {
         return refSchema;
       }
+    }
+  }
+
+  propertyKey(s: string) {
+    this.#propertyKey = s;
+    return this;
+  }
+
+  getPropertyKey() {
+    return this.#propertyKey;
+  }
+
+  target(target: any) {
+    if (target === "object") {
+      this.#target = Object;
+    } else {
+      this.#target = target;
     }
   }
 

@@ -66,6 +66,10 @@ export function VirtualRef(options: string | MongooseVirtualRefOptions, foreignF
   );
 }
 
+VirtualRef.$schema = {
+  skip: true
+};
+
 export type VirtualRef<T> = T | null;
 /**
  * @deprecated Use T[] instead

@@ -5,7 +5,7 @@ import {Format, getJsonSchema, getSpec, Post, Property, ReadOnly, Returns, SpecT
 
 import {MONGOOSE_SCHEMA} from "../constants/constants.js";
 import {Model} from "./model.js";
-import {VirtualRef, VirtualRefs} from "./virtualRef.js";
+import {VirtualRef} from "./virtualRef.js";
 
 describe("@VirtualRef()", () => {
   describe("when type and foreign value are given", () => {
@@ -191,82 +191,88 @@ describe("@VirtualRef()", () => {
         options: {}
       });
 
-      expect(getSpec(MyCtrl, {specType: SpecTypes.OPENAPI})).toEqual({
-        components: {
-          schemas: {
-            TestBand: {
-              properties: {
-                createdAt: {
-                  format: "date-time",
-                  readOnly: true,
-                  type: "number"
-                },
-                members: {
-                  anyOf: [
-                    {
-                      $ref: "#/components/schemas/TestPerson"
-                    }
-                  ],
-                  readOnly: true
-                },
-                updatedAt: {
-                  format: "date-time",
-                  readOnly: true,
-                  type: "number"
-                }
-              },
-              type: "object"
-            },
-            TestPerson: {
-              properties: {
-                band: {
-                  type: "string"
-                },
-                name: {
-                  type: "string"
-                }
-              },
-              type: "object"
-            }
-          }
-        },
-        paths: {
-          "/": {
-            post: {
-              operationId: "myCtrlPost",
-              parameters: [],
-              requestBody: {
-                content: {
-                  "application/json": {
-                    schema: {
-                      $ref: "#/components/schemas/TestBand"
-                    }
-                  }
-                },
-                required: false
-              },
-              responses: {
-                "200": {
-                  content: {
-                    "application/json": {
-                      schema: {
-                        $ref: "#/components/schemas/TestBand"
-                      }
-                    }
+      expect(getSpec(MyCtrl, {specType: SpecTypes.OPENAPI})).toMatchInlineSnapshot(`
+        {
+          "components": {
+            "schemas": {
+              "TestBand": {
+                "properties": {
+                  "createdAt": {
+                    "format": "date-time",
+                    "readOnly": true,
+                    "type": "number",
                   },
-                  description: "Success"
-                }
+                  "members": {
+                    "allOf": [
+                      {
+                        "$ref": "#/components/schemas/TestPerson",
+                      },
+                      {
+                        "readOnly": true,
+                      },
+                    ],
+                  },
+                  "updatedAt": {
+                    "format": "date-time",
+                    "readOnly": true,
+                    "type": "number",
+                  },
+                },
+                "type": "object",
               },
-              tags: ["MyCtrl"]
-            }
-          }
-        },
-        tags: [
-          {
-            name: "MyCtrl"
-          }
-        ]
-      });
+              "TestPerson": {
+                "properties": {
+                  "band": {
+                    "type": "string",
+                  },
+                  "name": {
+                    "type": "string",
+                  },
+                },
+                "type": "object",
+              },
+            },
+          },
+          "paths": {
+            "/": {
+              "post": {
+                "operationId": "myCtrlPost",
+                "parameters": [],
+                "requestBody": {
+                  "content": {
+                    "application/json": {
+                      "schema": {
+                        "$ref": "#/components/schemas/TestBand",
+                      },
+                    },
+                  },
+                  "required": false,
+                },
+                "responses": {
+                  "200": {
+                    "content": {
+                      "application/json": {
+                        "schema": {
+                          "$ref": "#/components/schemas/TestBand",
+                        },
+                      },
+                    },
+                    "description": "Success",
+                  },
+                },
+                "tags": [
+                  "MyCtrl",
+                ],
+              },
+            },
+          },
+          "tags": [
+            {
+              "name": "MyCtrl",
+            },
+          ],
+        }
+      `);
     });
   });
 

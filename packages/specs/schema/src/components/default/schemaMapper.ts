@@ -123,7 +123,7 @@ function mapKeys(schema: JsonSchema, options: JsonSchemaOptions) {
 function serializeSchema(schema: JsonSchema, options: JsonSchemaOptions) {
   let obj: any = mapKeys(schema, options);
 
-  if (schema.isClass) {
+  if (schema.__isClass) {
     obj = execMapper("inheritedClass", [obj], {
       ...options,
       root: false,

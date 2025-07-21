@@ -282,14 +282,12 @@ export abstract class JsonEntityStore implements JsonEntityStoreOptions {
   protected buildType(type: any) {
     if (isCollection(type)) {
       this.collectionType = type;
-    } else {
-      if (!(type && "$schema" in type && type.$schema.skip)) {
-        this._type = type;
+    } else if (!(type && "$schema" in type && type.$schema.skip)) {
+      this._type = type;
 
-        // issue #1534: Enum metadata stored as plain object instead of String (see: https://github.com/tsedio/tsed/issues/1534)
-        if (this._type && isPlainObject(this._type)) {
-          this._type = String;
-        }
+      // issue #1534: Enum metadata stored as plain object instead of String (see: https://github.com/tsedio/tsed/issues/1534)
+      if (this._type && isPlainObject(this._type)) {
+        this._type = String;
       }
     }
   }

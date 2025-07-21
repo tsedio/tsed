@@ -546,8 +546,7 @@ describe("ValidationPipe", () => {
     expect(result).toEqual("1");
     expect(defaultValidator.validate).toHaveBeenCalledWith("1", {
       collectionType: undefined,
-      schema: {type: "string", minLength: 1},
-      type: undefined
+      schema: {type: "string", minLength: 1}
     });
   });
   it("should cast string to array", async () => {

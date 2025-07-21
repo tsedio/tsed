@@ -1,6 +1,6 @@
 import {Type} from "@tsed/core";
 
-import {getJsonSchema, Property} from "../..";
+import {getJsonSchema, Property} from "../../src/index.js";
 
 function Ref(model: string | (() => Type) | any): PropertyDecorator {
   return Property(model) as PropertyDecorator;
