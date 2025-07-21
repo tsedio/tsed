@@ -179,7 +179,8 @@ export class Model {
 
 :::
 
-Since v7.75.0, when you use @@Any@@ decorator combined with other decorators like @@MinLength@@, @@Minimum@@, etc. metadata will be automatically assigned to the right
+Since v7.75.0, when you use @@Any@@ decorator combined with other decorators like @@MinLength@@, @@Minimum@@, etc.
+metadata will be automatically assigned to the right
 type. For example, if you add a @@Minimum@@ decorator, it will be assigned to the number type.
 
 ```ts
@@ -228,11 +229,14 @@ The @@Nullable@@ decorator is used allow a null value on a field while preservin
 
 ::: warning
 
-Since the v7.43.0, `ajv.returnsCoercedValues` is available to solve the following issue: [#2355](https://github.com/tsedio/tsed/issues/2355)
-If `returnsCoercedValues` is true, AjvService will return the coerced value instead of the original value. In this case, `@Nullable()` will be mandatory to
+Since the v7.43.0, `ajv.returnsCoercedValues` is available to solve the following
+issue: [#2355](https://github.com/tsedio/tsed/issues/2355)
+If `returnsCoercedValues` is true, AjvService will return the coerced value instead of the original value. In this case,
+`@Nullable()` will be mandatory to
 allow the coercion of the value to `null`.
 
-For example if `returnsCoercedValues` is `false` (default behavior), Ts.ED will allow null value on a field without `@Nullable()` decorator:
+For example if `returnsCoercedValues` is `false` (default behavior), Ts.ED will allow null value on a field without
+`@Nullable()` decorator:
 
 ```typescript
 class NullableModel {
@@ -247,10 +251,12 @@ class NullableModel {
 }
 ```
 
-Ajv won't emit validation error if the value is null due to his coercion behavior. AjvService will return the original value and not the Ajv coerced value.
+Ajv won't emit validation error if the value is null due to his coercion behavior. AjvService will return the original
+value and not the Ajv coerced value.
 Another problem is, the typings of the model doesn't reflect the real coerced value.
 
-Using the `returnsCoercedValues` option, AjvService will return the coerced type. In this case, our previous model will have the following behavior:
+Using the `returnsCoercedValues` option, AjvService will return the coerced type. In this case, our previous model will
+have the following behavior:
 
 ```typescript
 class NullableModel {
@@ -299,7 +305,8 @@ class Model {
 }
 ```
 
-Since v7.75.0, when you use @@Nullable@@ decorator combined with other decorators like @@MinLength@@, @@Minimum@@, etc. metadata will be automatically assigned to the right
+Since v7.75.0, when you use @@Nullable@@ decorator combined with other decorators like @@MinLength@@, @@Minimum@@, etc.
+metadata will be automatically assigned to the right
 type. For example, if you add a @@Minimum@@ decorator, it will be assigned to the number type.
 
 ```ts
@@ -443,7 +450,8 @@ class MyController {
 
 The @@LabelledAs@@ decorator is used to set a label to decorated property.
 
-This label will be used to generate a reference for the schema related to the decorated property. This is particularly useful when:
+This label will be used to generate a reference for the schema related to the decorated property. This is particularly
+useful when:
 
 - You want to create reusable schema components
 - You need to maintain consistent schema references across your API
@@ -537,7 +545,8 @@ The generated schema will be:
 
 ### Set label to an enum <Badge text="7.17.0+"/>
 
-With OpenSpec 3 it's now possible to create shared enum for many models in `components.schemas` instead of having its inlined values in
+With OpenSpec 3 it's now possible to create shared enum for many models in `components.schemas` instead of having its
+inlined values in
 each model.
 
 Ts.ED introduce a new function `enums()` to declare the enum schema as follows:
@@ -674,7 +683,8 @@ class MyModel {
 
 ### ErrorMsg
 
-If none of the above work for you, you can use the @@ErrorMsg@@ decorator to define your own custom error message schema using the [ajv-errors documentation](https://ajv.js.org/packages/ajv-errors.html#ajv-errors):
+If none of the above work for you, you can use the @@ErrorMsg@@ decorator to define your own custom error message schema
+using the [ajv-errors documentation](https://ajv.js.org/packages/ajv-errors.html#ajv-errors):
 
 ```typescript
 import {ErrorMsg} from "@tsed/schema";
@@ -836,7 +846,8 @@ Instead, use Groups decorator to manage your model serialization/deserialization
 
 ::: tip Note
 
-To retrieve the original Ignore decorator behavior, you can use the @@Groups@@ decorator. You have to set `jsonMapper.strictGroups` to `true` also:
+To retrieve the original Ignore decorator behavior, you can use the @@Groups@@ decorator. You have to set
+`jsonMapper.strictGroups` to `true` also:
 
 ```ts
 @Configuration({
@@ -992,7 +1003,8 @@ class TestController {
 }
 ```
 
-We can see that the @@Returns@@ and the input params doesn't set any group configuration. In this case, Ts.ED will not apply any group configuration to the input params and the output.
+We can see that the @@Returns@@ and the input params doesn't set any group configuration. In this case, Ts.ED will not
+apply any group configuration to the input params and the output.
 
 So if you send this payload:
 
@@ -1006,7 +1018,8 @@ So if you send this payload:
 }
 ```
 
-The endpoint will return the same payload without any modification. But here, we expect that the `email` and `password` fields are not returned because they are Groups configuration on these `fields`.
+The endpoint will return the same payload without any modification. But here, we expect that the `email` and `password`
+fields are not returned because they are Groups configuration on these `fields`.
 
 To avoid this behavior, you can set the `strictGroups` option to the `json-mapper`:
 
@@ -1035,7 +1048,8 @@ The `strictGroups` option is enabled by default in the next major version of Ts.
 ## Groups Name
 
 By default, Groups decorator generate automatically a name for each model impacted by the given groups list.
-If you use a typed client http generator based on Swagger (OAS3) to generate the client code, this behavior can be a constraint for your consumer when you change the group list.
+If you use a typed client http generator based on Swagger (OAS3) to generate the client code, this behavior can be a
+constraint for your consumer when you change the group list.
 
 ```ts
 import {BodyParams, PathParams} from "@tsed/platform-params";
@@ -1055,17 +1069,20 @@ export class UsersCtrl {
 }
 ```
 
-In this example, the Groups annotation `@Groups("creation", "summary") user: User` will generate a new model name `UserCreationSummary`.
+In this example, the Groups annotation `@Groups("creation", "summary") user: User` will generate a new model name
+`UserCreationSummary`.
 If you change the groups list by this one:
 
 ```
  @Groups("creation", "summary", "extra") user: User
 ```
 
-The new model name will be `UserCreationSummaryExtra`. This change will break the entire consumer code by removing the `UserCreationSummary` type and giving a new `UserCreationSummaryExtra` type.
+The new model name will be `UserCreationSummaryExtra`. This change will break the entire consumer code by removing the
+`UserCreationSummary` type and giving a new `UserCreationSummaryExtra` type.
 In fact, `UserCreationSummary` and `UserCreationSummaryExtra` are the same model with more fields!
 
-In order to minimize the impact of this kind of change Ts.ED allows to configure the postfix added to each model impacted by the groups.
+In order to minimize the impact of this kind of change Ts.ED allows to configure the postfix added to each model
+impacted by the groups.
 
 Here is an example with a configured GroupsName:
 
@@ -1107,7 +1124,8 @@ It's also possible to define all groups on class instead of declaring it on each
 ## ForwardGroups
 
 Groups configuration isn't forwarded to the nested models to avoid side effect on model generation.
-With @@ForwardGroups@@ decorator, you are able to tell if a property should use or not the Groups configuration to generate correctly
+With @@ForwardGroups@@ decorator, you are able to tell if a property should use or not the Groups configuration to
+generate correctly
 a nested model.
 
 ```typescript
@@ -1145,7 +1163,8 @@ Now `prop4` will have a `ChildModel` generated along to groups configuration.
 
 ## RequiredGroups
 
-As @@Groups@@ decorator, @@RequiredGroups@@ allow you to define when a field is `required` depending on the given groups strategy.
+As @@Groups@@ decorator, @@RequiredGroups@@ allow you to define when a field is `required` depending on the given groups
+strategy.
 
 The usage is the same as Groups:
 
@@ -1171,7 +1190,8 @@ class MyModel {
 
 ## AllowedGroups
 
-This feature let your API consumer to define which field he wants to consume. The server will filter automatically fields based on the @@Groups@@
+This feature let your API consumer to define which field he wants to consume. The server will filter automatically
+fields based on the @@Groups@@
 strategy.
 
 ```typescript
@@ -1208,7 +1228,8 @@ class MyController {
 }
 ```
 
-The AllowedGroups is enabled while `includes` query params is given in the request. Here the different scenario with this parameter:
+The AllowedGroups is enabled while `includes` query params is given in the request. Here the different scenario with
+this parameter:
 
 <div class="vp-code-group vp-adaptive-theme">
   <div class="tabs">
@@ -1338,7 +1359,8 @@ class MyController {
 
 ### BeforeDeserialize
 
-If you want to validate or manipulate data before the model has been deserialized you can use the @@BeforeDeserialize@@ decorator.
+If you want to validate or manipulate data before the model has been deserialized you can use the @@BeforeDeserialize@@
+decorator.
 
 ::: tip Note
 Don't forget to return the data in your callback function otherwise an error will occur.
@@ -1372,7 +1394,8 @@ export class Animal {
 
 ### AfterDeserialize
 
-If you want to validate or manipulate data after the model has been deserialized you can use the @@AfterDeserialize@@ decorator.
+If you want to validate or manipulate data after the model has been deserialized you can use the @@AfterDeserialize@@
+decorator.
 
 ::: tip Note
 Don't forget to return the data in your callback function otherwise an error will occur.
@@ -1436,7 +1459,8 @@ function RequiredIf(cb: any): PropertyDecorator {
 ## Discriminator <Badge text="v7.8.0+" />
 
 The discriminator feature allows polymorphism with JsonSchema and OpenAPI.
-Although @@OneOf@@ already allows polymorphism in terms of validation, the latter doesn't allow the `@tsed/json-mapper` to render the correct class type during the deserialization (plain object to class).
+Although @@OneOf@@ already allows polymorphism in terms of validation, the latter doesn't allow the `@tsed/json-mapper`
+to render the correct class type during the deserialization (plain object to class).
 
 By declaring a discriminatorKey, `@tsed/json-mapper` will be able to determine the correct class which should be used.
 
@@ -1518,7 +1542,8 @@ expect(result.data[3]).toBeInstanceOf(CustomAction);
 
 ::: tip Shortcut
 
-Declaring each time the list of children class using @@OneOf@@ decorator can be a pain point, so Ts.ED provide a way to simplify your code:
+Declaring each time the list of children class using @@OneOf@@ decorator can be a pain point, so Ts.ED provide a way to
+simplify your code:
 
 Instead of declaring all classes:
 
@@ -1574,7 +1599,7 @@ Now, we need a model to be used with the generic Pagination model:
 
 <<< @/docs/snippets/model/generics-product.ts
 
-Finally, we can use our models on a method as following:
+Finally, we can use our models on a method as follows:
 
 ::: code-group
 <<< @/docs/snippets/model/generics-controller1.ts [MyController.ts]
@@ -1584,7 +1609,7 @@ Finally, we can use our models on a method as following:
 
 ### Declaring nested generic models
 
-It's also possible to declare nested generic models in order to have this type `Pagination<Submission<Product>>`:
+It's also possible to declare nested generic models to have this type `Pagination<Submission<Product>>`:
 
 ::: code-group
 
@@ -1643,7 +1668,8 @@ The used features are the following:
 
 ## Deep object on query
 
-With OpenAPI 3, it's possible to describe and use a [deepObject](https://swagger.io/docs/specification/serialization/#query) `style` as Query params.
+With OpenAPI 3, it's possible to describe and use
+a [deepObject](https://swagger.io/docs/specification/serialization/#query) `style` as Query params.
 It means, a consumer can call your endpoint with the following url:
 
 ```
