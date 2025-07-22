@@ -860,7 +860,17 @@ describe("mergeSchema", () => {
   it("should keep the nullable field if it is present in the schema", () => {
     const schema1 = {};
     const schema2 = {
-      anyOf: [{type: "integer", multipleOf: 1}, {type: "number"}, {type: "string"}, {type: "boolean"}, {type: "array"}, {type: "object"}],
+      anyOf: [
+        {
+          type: "integer",
+          multipleOf: 1
+        },
+        {type: "number"},
+        {type: "string"},
+        {type: "boolean"},
+        {type: "array"},
+        {type: "object"}
+      ],
       nullable: true
     } as any;
 
@@ -889,6 +899,23 @@ describe("mergeSchema", () => {
           },
         ],
         "nullable": true,
+      }
+    `);
+  });
+  it("should merge schemas with allOf and readOnly (remove type)", () => {
+    const schema = {$ref: "#/components/schemas/TestPerson"};
+    const extraSchema = {type: "object", readOnly: true} as JSONSchema7;
+
+    expect(mergeSchema(schema, extraSchema)).toMatchInlineSnapshot(`
+      {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/TestPerson",
+          },
+          {
+            "readOnly": true,
+          },
+        ],
       }
     `);
   });

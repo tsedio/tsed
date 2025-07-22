@@ -28,6 +28,11 @@ function mergeProps(properties1?: Properties, properties2?: Properties): Propert
 function mergeManyOf(kind: "allOf" | "anyOf" | "oneOf", schema1: JSONSchema7, schema2: JSONSchema7) {
   const refs = new Set();
 
+  if (schema1.$ref && schema2.type && (schema2.readOnly || schema2.writeOnly) && kind === "allOf") {
+    const {type, ...rest} = schema2;
+    schema2 = rest;
+  }
+
   let of = [...(schema1[kind] || [schema1]), ...(schema2[kind] || [schema2])].filter((schema: any) => {
     if ("$ref" in schema) {
       if (refs.has(schema.$ref)) {
