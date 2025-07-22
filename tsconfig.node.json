@@ -12,6 +12,7 @@
       "@tsed/hooks": ["./packages/hooks/src/index.ts"],
       "@tsed/openspec": ["./packages/specs/openspec/src/index.ts"],
       "@tsed/schema": ["./packages/specs/schema/src/index.ts"],
+      "@tsed/schema-async-api": ["./packages/specs/schema-async-api/src/index.ts"],
       "@tsed/di": ["./packages/di/src/index.ts"],
       "@tsed/exceptions": ["./packages/specs/exceptions/src/index.ts"],
       "@tsed/json-mapper": ["./packages/specs/json-mapper/src/index.ts"],

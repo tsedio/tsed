@@ -8909,6 +8909,7 @@ __metadata:
     "@tsed/core": "workspace:*"
     "@tsed/hooks": "workspace:*"
     "@tsed/openspec": "workspace:*"
+    "@tsed/schema": "workspace:*"
     "@tsed/typescript": "workspace:*"
     "@types/fs-extra": "npm:11.0.4"
     "@types/json-schema": "npm:7.0.15"
@@ -8927,6 +8928,7 @@ __metadata:
     "@tsed/core": ">=8.0.0"
     "@tsed/hooks": ">=8.0.0"
     "@tsed/openspec": ">=8.0.0"
+    "@tsed/schema": ">=8.0.0"
   peerDependenciesMeta:
     "@tsed/core":
       optional: false
