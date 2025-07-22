@@ -6,10 +6,8 @@ import {execMapper, registerJsonSchemaMapper} from "../../registries/JsonSchemaM
 import {getGenericsOptions} from "../../utils/generics.js";
 import {mergeSchema} from "../../utils/mergeSchema.js";
 
-function getMapper(input: JsonSchema, mapper: string, root?: false) {
-  if (input.__isClass && !root) {
-    // FIXME: __isClass is deprecated but we need to keep it to avoid bugs
-
+function getMapper(input: JsonSchema, mapper: string, root?: boolean) {
+  if (input.isClass && !input.isLocalSchema && !root) {
     return mapper || "class";
   }
 

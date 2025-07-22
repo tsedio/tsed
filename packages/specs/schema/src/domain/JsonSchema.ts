@@ -164,14 +164,6 @@ export class JsonSchema extends Map<string, any> {
   }
 
   /**
-   * Legacy isClass method with unexpected behavior.
-   * @deprecated
-   */
-  get __isClass() {
-    return isClass(this.class) && ![Map, Array, Set, Object, Date, Boolean, Number, String].includes(this.#target as any);
-  }
-
-  /**
    * The current schema is a collection
    */
   get isCollection() {

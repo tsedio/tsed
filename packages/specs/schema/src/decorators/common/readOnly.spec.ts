@@ -73,6 +73,7 @@ describe("@ReadOnly", () => {
                     },
                     {
                       "readOnly": true,
+                      "type": "object",
                     },
                   ],
                 },
