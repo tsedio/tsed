@@ -1299,7 +1299,7 @@ describe("JsonSchema", () => {
 
       expect(entity.schema.getPropertyKey()).toEqual("test");
       expect(entity.schema.getTarget()).toEqual(Object);
-      expect(entity.schema.getComputedType()).toEqual(Test1);
+      expect(entity.schema.class).toEqual(Test1);
       expect(entity.schema.isClass).toBe(true);
     });
     it('should return false if "type" is not a class', () => {
@@ -1317,7 +1317,7 @@ describe("JsonSchema", () => {
 
       expect(entity.schema.getPropertyKey()).toEqual("test");
       expect(entity.schema.getTarget()).toEqual(Array);
-      expect(entity.schema.getComputedType()).toEqual(Array);
+      expect(entity.schema.class).toEqual(Array);
       expect(entity.schema.isClass).toBe(false);
     });
   });

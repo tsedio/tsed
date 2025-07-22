@@ -118,7 +118,7 @@ export class JsonMethodStore extends JsonEntityStore {
         groups = [...(groups || []), ...includes.filter((include) => allowedGroups.has(include))];
       }
 
-      return {type: media.schema().getComputedItemType(), groups};
+      return {type: media.schema().collectionClass, groups};
     }
 
     return {type: this.type};

@@ -144,7 +144,7 @@ export class JsonSchema extends Map<string, any> {
   #isLocalSchema: boolean = false;
   #target: Type<any>;
   #isCollection: boolean = false;
-  #isRef: boolean = false;
+  #useRefLabel: boolean = false;
   #propertyKey: string | symbol | undefined;
 
   constructor(obj: JsonSchema | Partial<JsonSchemaObject> = {}) {
@@ -160,7 +160,7 @@ export class JsonSchema extends Map<string, any> {
   }
 
   get isClass() {
-    return isClass(this.class);
+    return isClass(this.class) && !this.isCollection;
   }
 
   /**
@@ -178,7 +178,11 @@ export class JsonSchema extends Map<string, any> {
     return this.#isCollection;
   }
 
-  get isLink() {
+  /**
+   * The current schema is a reference to another schema
+   * to link property/param to a class schema (if the reference exists).
+   */
+  get isLocalSchema() {
     return this.#isLocalSchema;
   }
 
@@ -195,12 +199,28 @@ export class JsonSchema extends Map<string, any> {
     return ancestor && JsonEntityStore.from(ancestor).schema;
   }
 
+  /**
+   * Return the itemSchema computed type.
+   * If the type is a function used for a recursive model,
+   * the function will be called to get the right type.
+   */
   get class() {
-    return this.getComputedType();
+    if (this.#isLocalSchema) {
+      return this.#itemSchema?.getTarget();
+    }
+
+    return getComputedType(this.#target);
+  }
+
+  /**
+   * Return the itemSchema computed type.
+   */
+  get collectionClass() {
+    return this.isCollection && this.#itemSchema ? this.#itemSchema.class : this.class;
   }
 
   get canRef(): boolean {
-    return this.#isRef;
+    return this.#useRefLabel;
   }
 
   get isNullable(): boolean {
@@ -257,7 +277,9 @@ export class JsonSchema extends Map<string, any> {
    * @param defaultValue
    */
   get<T = any>(key: string, defaultValue: T): T;
+
   get<T = any>(key: string, defaultValue?: T): T | undefined;
+
   get<T = any>(key: string, defaultValue?: T): T | undefined {
     if (this.#vendors.has(key)) {
       return this.#vendors.get(key);
@@ -398,7 +420,7 @@ export class JsonSchema extends Map<string, any> {
    * @param name
    */
   label(name: string) {
-    this.#isRef = true;
+    this.#useRefLabel = true;
 
     super.set("name", name);
 
@@ -465,6 +487,15 @@ export class JsonSchema extends Map<string, any> {
   discriminatorKey(propertyName: string) {
     this.discriminator().propertyName = propertyName;
     this.isDiscriminator = true;
+
+    const propertySchema = this.get("properties")[propertyName];
+    if (propertySchema) {
+      if (propertySchema.isCollection) {
+        propertySchema.itemSchema().isDiscriminatorKey = true;
+      } else {
+        propertySchema.isDiscriminatorKey = true;
+      }
+    }
 
     return this;
   }
@@ -780,7 +811,9 @@ export class JsonSchema extends Map<string, any> {
    * @see https://tools.ietf.org/html/draft-wright-json-schema-validation-01#section-6.23
    */
   enum(...enumValues: any[]): this;
+
   enum(enumSchema: JsonSchema): this;
+
   enum(enumValue: any | any[] | JsonSchema, ...enumValues: any[]): this {
     if (enumsRegistry.has(enumValue)) {
       return this.enum(enumsRegistry.get(enumValue));
@@ -1110,7 +1143,7 @@ export class JsonSchema extends Map<string, any> {
       this.#discriminator = this.#discriminator ? new Discriminator(this.#discriminator) : null;
       this.isDiscriminator = obj.isDiscriminator;
       this.isDiscriminatorKey = obj.isDiscriminatorKey;
-      this.#isRef = obj.#isRef;
+      this.#useRefLabel = obj.#useRefLabel;
       this.#target = obj.#target;
       this.#isCollection = obj.#isCollection;
       this.#isLocalSchema = obj.#isLocalSchema;
@@ -1132,23 +1165,6 @@ export class JsonSchema extends Map<string, any> {
   }
 
   /**
-   * Return the itemSchema computed type.
-   * If the type is a function used for a recursive model,
-   * the function will be called to get the right type.
-   */
-  getComputedType(): any {
-    if (this.#isLocalSchema) {
-      return this.#itemSchema?.getTarget();
-    }
-
-    return getComputedType(this.#target);
-  }
-
-  getComputedItemType(): any {
-    return this.isCollection && this.#itemSchema ? this.#itemSchema.getComputedType() : this.getComputedType();
-  }
-
-  /**
    * Return the Json type as string
    */
   getJsonType(): string | string[] {
@@ -1158,7 +1174,7 @@ export class JsonSchema extends Map<string, any> {
       });
     }
 
-    return this.get("type") || getJsonType(this.getComputedType());
+    return this.get("type") || getJsonType(this.class);
   }
 
   getTarget() {
@@ -1167,6 +1183,10 @@ export class JsonSchema extends Map<string, any> {
 
   getAllowedGroups() {
     return this.get<Set<string>>(VendorKeys.ALLOWED_GROUPS);
+  }
+
+  getAllowedRequiredValues() {
+    return this.$allow;
   }
 
   getGroups() {
@@ -1181,7 +1201,7 @@ export class JsonSchema extends Map<string, any> {
    * Get the symbolic name of the entity
    */
   getName() {
-    return this.get("name") || (isClass(this.#target) ? nameOf(classOf(this.getComputedType())) : "");
+    return this.get("name") || (isClass(this.#target) ? nameOf(classOf(this.class)) : "");
   }
 
   clone() {
@@ -1204,8 +1224,13 @@ export class JsonSchema extends Map<string, any> {
     return this.get(VendorKeys.GENERIC_OF);
   }
 
-  refSchema() {
-    if (this.isClass && this.class) {
+  /**
+   * Returns the reference schema for class-based schemas.
+   * Used to get the original schema definition when this schema is a local reference.
+   * @returns The reference schema or undefined if not applicable
+   */
+  getRefSchema() {
+    if (!this.isLocalSchema && this.isClass) {
       const refSchema = JsonSchema.from(this.class);
 
       if (refSchema !== this) {
@@ -1229,6 +1254,18 @@ export class JsonSchema extends Map<string, any> {
     } else {
       this.#target = target;
     }
+  }
+
+  isRequiredValue(property: string, value: any): boolean {
+    if (this.isRequired(property) && [undefined, null, ""].includes(value)) {
+      const propertySchema = this.get("properties")?.[property];
+
+      if (propertySchema) {
+        return !propertySchema.getAllowedRequiredValues().includes(value);
+      }
+    }
+
+    return false;
   }
 
   protected setManyOf(keyword: "oneOf" | "anyOf" | "allOf", value: AnyJsonSchema[]) {

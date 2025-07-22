@@ -8,7 +8,7 @@ export function DiscriminatorKey(): PropertyDecorator {
   return useDecorators(
     Property(),
     JsonEntityFn((store: JsonPropertyStore) => {
-      store.discriminatorKey();
+      store.parent.schema.discriminatorKey(String(store.propertyKey));
     })
   );
 }

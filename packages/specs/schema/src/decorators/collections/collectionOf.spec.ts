@@ -93,7 +93,7 @@ describe("@CollectionOf", () => {
 
     expect(entity.schema.getTarget()).toEqual(Array);
     expect(entity.schema.get("type")).toEqual("array");
-    expect(entity.itemSchema.getComputedType()).toEqual(Nested);
+    expect(entity.itemSchema.class).toEqual(Nested);
 
     expect(schema).toEqual({
       definitions: {

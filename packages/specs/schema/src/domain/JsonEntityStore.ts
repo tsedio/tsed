@@ -167,7 +167,7 @@ export abstract class JsonEntityStore implements JsonEntityStoreOptions {
    * get the right type.
    */
   get computedType() {
-    return this.itemSchema.getComputedType();
+    return this.itemSchema.class;
   }
 
   get itemSchema(): JsonSchema {

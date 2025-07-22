@@ -1,4 +1,4 @@
-import {classOf, isArray, isBoolean, isClass, isEmpty, isNil, nameOf, objectKeys, Type} from "@tsed/core";
+import {classOf, isArray, isBoolean, isEmpty, isNil, nameOf, objectKeys, Type} from "@tsed/core";
 import {
   getPropertiesStores,
   JsonClassStore,
@@ -339,8 +339,8 @@ export class JsonDeserializer extends JsonMapperCompiler<JsonDeserializerOptions
       each = each.if(`![${exclude}].includes(key)`);
     }
 
-    if (isClass(additionalProperties)) {
-      const nestedMapper = this.compile(additionalProperties.getComputedType(), groups);
+    if (additionalProperties && additionalProperties instanceof JsonSchema) {
+      const nestedMapper = this.compile(additionalProperties.class, groups);
 
       each.set("obj[key]", Writer.mapper(nestedMapper.id, "input[key]", "options"));
 

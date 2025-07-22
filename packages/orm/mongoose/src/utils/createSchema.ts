@@ -119,7 +119,7 @@ export function buildMongooseSchema(target: any): MongooseSchemaMetadata {
     // Keeping the Mongoose Schema separate, so it can overwrite everything once schema has been built.
     const schemaTypeOptions: any = propertyMetadata.store.get(MONGOOSE_SCHEMA) || {};
 
-    if (schemaTypeOptions.schemaIgnore || propertyMetadata.isDiscriminatorKey() || propertyMetadata.isGetterOnly()) {
+    if (schemaTypeOptions.schemaIgnore || propertyMetadata.itemSchema.isDiscriminatorKey || propertyMetadata.isGetterOnly()) {
       return;
     }
 
@@ -147,9 +147,9 @@ export function createSchemaTypeOptions(propEntity: JsonEntityStore): SchemaDefi
   const rawMongooseSchema = propEntity.store.get(MONGOOSE_SCHEMA) || {};
 
   let schemaTypeOptions: SchemaTypeOptions<any> = {
-    required: propEntity.required
+    required: propEntity.parent.schema.isRequired(String(key))
       ? function () {
-          return propEntity.isRequired(this[key]);
+          return propEntity.parent.schema.isRequiredValue(String(key), this[key]);
         }
       : false
   };

@@ -15,11 +15,7 @@ describe("JsonParameterStore", () => {
     expect(entity).toBeInstanceOf(JsonPropertyStore);
     expect(entity.parent).toBeInstanceOf(JsonClassStore);
     expect(entity.parent.parent.parent).toBeInstanceOf(JsonClassStore);
-    // expect(entity.nestedGenerics).toEqual([]);
-    expect(entity.required).toBe(true);
-    expect(entity.isRequired("")).toBe(true);
-    expect(entity.allowedRequiredValues).toEqual([]);
-    expect(entity.isDiscriminatorKey()).toEqual(false);
+    expect(entity.itemSchema.isDiscriminatorKey).toEqual(false);
 
     entity.required = false;
     expect(entity.required).toBe(false);
@@ -38,10 +34,6 @@ describe("JsonParameterStore", () => {
     expect(entity).toBeInstanceOf(JsonPropertyStore);
     expect(entity.parent).toBeInstanceOf(JsonClassStore);
     expect(entity.parent.parent.parent).toBeInstanceOf(JsonClassStore);
-    // expect(entity.nestedGenerics).toEqual([]);
-    expect(entity.required).toBe(true);
-    expect(entity.isRequired("")).toBe(false);
-    expect(entity.allowedRequiredValues).toEqual([""]);
 
     entity.required = false;
     expect(entity.required).toBe(false);
@@ -69,31 +61,33 @@ describe("JsonParameterStore", () => {
     });
   });
 
-  describe("isRequired", () => {
+  describe("get()", () => {
+    class Test {
+      test: string;
+    }
+
+    it("should return the jsonPropertyStore", () => {
+      const jsonPropertyStore = JsonPropertyStore.get(Test, "test");
+      expect(jsonPropertyStore).toBeInstanceOf(JsonPropertyStore);
+    });
+  });
+
+  describe("schema.isRequiredValue", () => {
     describe("when property is required", () => {
-      class Test {
-        @Required(true)
-        test: string;
-      }
+      it("should return expected value", () => {
+        class Test {
+          @Required(true)
+          test: string;
+        }
 
-      let jsonPropertyStore: JsonPropertyStore;
+        const jsonPropertyStore = JsonPropertyStore.get(Test, "test");
 
-      beforeAll(() => {
-        jsonPropertyStore = JsonPropertyStore.get(Test, "test");
-        jsonPropertyStore.required = true;
-      });
-      it("should return false (value 0)", () => {
-        expect(jsonPropertyStore.isRequired(0)).toEqual(false);
-      });
+        const classSchema = jsonPropertyStore.parent.schema;
 
-      it("should return true (value '')", () => {
-        expect(jsonPropertyStore.isRequired("")).toEqual(true);
-      });
-      it("should return true (value null)", () => {
-        expect(jsonPropertyStore.isRequired(null)).toEqual(true);
-      });
-      it("should return true (value undefined)", () => {
-        expect(jsonPropertyStore.isRequired(undefined)).toEqual(true);
+        expect(classSchema.isRequiredValue("test", 0)).toEqual(false);
+        expect(classSchema.isRequiredValue("test", "")).toEqual(true);
+        expect(classSchema.isRequiredValue("test", null)).toEqual(true);
+        expect(classSchema.isRequiredValue("test", undefined)).toEqual(true);
       });
     });
 
@@ -108,11 +102,13 @@ describe("JsonParameterStore", () => {
         let jsonPropertyStore: JsonPropertyStore;
         jsonPropertyStore = JsonPropertyStore.get(Test, "test");
 
-        expect(jsonPropertyStore.allowedRequiredValues).toEqual([null]);
-        expect(jsonPropertyStore.isRequired(0)).toEqual(false);
-        expect(jsonPropertyStore.isRequired("")).toEqual(true);
-        expect(jsonPropertyStore.isRequired(null)).toEqual(false);
-        expect(jsonPropertyStore.isRequired(undefined)).toEqual(true);
+        const classSchema = jsonPropertyStore.parent.schema;
+
+        expect(jsonPropertyStore.schema.getAllowedRequiredValues()).toEqual([null]);
+        expect(classSchema.isRequiredValue("test", 0)).toEqual(false);
+        expect(classSchema.isRequiredValue("test", "")).toEqual(true);
+        expect(classSchema.isRequiredValue("test", null)).toEqual(false);
+        expect(classSchema.isRequiredValue("test", undefined)).toEqual(true);
       });
 
       it("should validate the required values (2)", () => {
@@ -124,11 +120,13 @@ describe("JsonParameterStore", () => {
         let jsonPropertyStore: JsonPropertyStore;
         jsonPropertyStore = JsonPropertyStore.get(Test, "test");
 
-        expect(jsonPropertyStore.allowedRequiredValues).toEqual([""]);
-        expect(jsonPropertyStore.isRequired(0)).toEqual(false);
-        expect(jsonPropertyStore.isRequired("")).toEqual(false);
-        expect(jsonPropertyStore.isRequired(null)).toEqual(true);
-        expect(jsonPropertyStore.isRequired(undefined)).toEqual(true);
+        const classSchema = jsonPropertyStore.parent.schema;
+
+        expect(jsonPropertyStore.schema.getAllowedRequiredValues()).toEqual([""]);
+        expect(classSchema.isRequiredValue("test", 0)).toEqual(false);
+        expect(classSchema.isRequiredValue("test", "")).toEqual(false);
+        expect(classSchema.isRequiredValue("test", null)).toEqual(true);
+        expect(classSchema.isRequiredValue("test", undefined)).toEqual(true);
       });
 
       it("should validate the required values (3)", () => {
@@ -140,11 +138,13 @@ describe("JsonParameterStore", () => {
         let jsonPropertyStore: JsonPropertyStore;
         jsonPropertyStore = JsonPropertyStore.get(Test, "test");
 
-        expect(jsonPropertyStore.allowedRequiredValues).toEqual([""]);
-        expect(jsonPropertyStore.isRequired(0)).toEqual(false);
-        expect(jsonPropertyStore.isRequired("")).toEqual(false);
-        expect(jsonPropertyStore.isRequired(null)).toEqual(true);
-        expect(jsonPropertyStore.isRequired(undefined)).toEqual(true);
+        const classSchema = jsonPropertyStore.parent.schema;
+
+        expect(jsonPropertyStore.schema.getAllowedRequiredValues()).toEqual([""]);
+        expect(classSchema.isRequiredValue("test", 0)).toEqual(false);
+        expect(classSchema.isRequiredValue("test", "")).toEqual(false);
+        expect(classSchema.isRequiredValue("test", null)).toEqual(true);
+        expect(classSchema.isRequiredValue("test", undefined)).toEqual(true);
       });
     });
 
@@ -156,22 +156,14 @@ describe("JsonParameterStore", () => {
         }
 
         const jsonPropertyStore = JsonPropertyStore.get(Test, "test");
-        jsonPropertyStore.required = false;
-        expect(jsonPropertyStore.isRequired(0)).toEqual(false);
-        expect(jsonPropertyStore.isRequired("")).toEqual(false);
-        expect(jsonPropertyStore.isRequired(null)).toEqual(false);
-        expect(jsonPropertyStore.isRequired(undefined)).toEqual(false);
-      });
-    });
-  });
-  describe("get()", () => {
-    class Test {
-      test: string;
-    }
 
-    it("should return the jsonPropertyStore", () => {
-      const jsonPropertyStore = JsonPropertyStore.get(Test, "test");
-      expect(jsonPropertyStore).toBeInstanceOf(JsonPropertyStore);
+        const classSchema = jsonPropertyStore.parent.schema;
+
+        expect(classSchema.isRequiredValue("test", 0)).toEqual(false);
+        expect(classSchema.isRequiredValue("test", "")).toEqual(false);
+        expect(classSchema.isRequiredValue("test", null)).toEqual(false);
+        expect(classSchema.isRequiredValue("test", undefined)).toEqual(false);
+      });
     });
   });
 });

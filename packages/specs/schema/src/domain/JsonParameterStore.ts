@@ -51,7 +51,7 @@ export class JsonParameterStore extends JsonEntityStore {
   }
 
   get allowedRequiredValues() {
-    return this.schema.$allow;
+    return this.schema.getAllowedRequiredValues();
   }
 
   get schema() {

@@ -61,8 +61,8 @@ export function itemMapper(input: JsonSchema | Type, options: JsonSchemaOptions)
 }
 
 export function nextMapper(input: JsonSchema | Type | any, options: JsonSchemaOptions) {
-  if (input && input instanceof JsonSchema && !input.isLink) {
-    const refSchema = input.refSchema();
+  if (input && input instanceof JsonSchema && !input.isLocalSchema) {
+    const refSchema = input.getRefSchema();
 
     if (refSchema) {
       let {generics, mapper} = getGenericsOptions(input, options);
