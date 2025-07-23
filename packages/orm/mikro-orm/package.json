@@ -2,7 +2,7 @@
   "name": "@tsed/mikro-orm",
   "description": "MikroORM package for Ts.ED framework",
   "type": "module",
-  "version": "8.13.5",
+  "version": "8.14.0-rc.1",
   "source": "./src/index.ts",
   "main": "./lib/esm/index.js",
   "module": "./lib/esm/index.js",

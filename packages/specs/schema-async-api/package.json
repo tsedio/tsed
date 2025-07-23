@@ -2,7 +2,7 @@
   "name": "@tsed/schema-async-api",
   "description": "Async API schema module for Ts.ED Framework",
   "type": "module",
-  "version": "8.13.3",
+  "version": "8.14.0-rc.1",
   "source": "./src/index.ts",
   "main": "./lib/esm/index.js",
   "module": "./lib/esm/index.js",

@@ -2,7 +2,7 @@
   "name": "@tsed/terminus",
   "description": "Adds graceful shutdown and Kubernetes readiness / liveness checks for any HTTP applications.",
   "type": "module",
-  "version": "8.13.5",
+  "version": "8.14.0-rc.1",
   "author": "Emilien Leroy <emilien1005@hotmail.fr>",
   "source": "./src/index.ts",
   "main": "./lib/esm/index.js",

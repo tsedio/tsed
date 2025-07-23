@@ -2,7 +2,7 @@
   "name": "@tsed/platform-http",
   "description": "A TypeScript Framework on top of Express",
   "type": "module",
-  "version": "8.13.5",
+  "version": "8.14.0-rc.1",
   "source": "./src/common/index.ts",
   "main": "./lib/esm/common/index.js",
   "module": "./lib/esm/common/index.js",
