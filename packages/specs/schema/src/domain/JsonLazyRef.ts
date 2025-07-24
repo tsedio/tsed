@@ -1,4 +1,5 @@
 import {nameOf, Type} from "@tsed/core";
+
 import {getJsonEntityStore} from "../utils/getJsonEntityStore.js";
 
 export class JsonLazyRef {

@@ -1,4 +1,5 @@
 import {DecoratorTypes, UnsupportedDecoratorType} from "@tsed/core";
+
 import {JsonEntityFn} from "../common/jsonEntityFn.js";
 
 /**
@@ -15,7 +16,7 @@ import {JsonEntityFn} from "../common/jsonEntityFn.js";
  * @classDecorator
  * @operation
  */
-export function Path(path: string) {
+export function Path(path: string): ClassDecorator {
   return JsonEntityFn((store, args) => {
     if (store.decoratorType !== DecoratorTypes.CLASS) {
       throw new UnsupportedDecoratorType(Path, args);

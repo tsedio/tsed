@@ -1,9 +1,11 @@
+import {join} from "node:path";
+
 import {BodyParams} from "@tsed/platform-params";
 import fs from "fs-extra";
-import {join} from "path";
+
 import {validateSpec} from "../../test/helpers/validateSpec.js";
 import {CollectionOf} from "../decorators/collections/collectionOf.js";
-import {AnyOf} from "../decorators/common/anyOf";
+import {AnyOf} from "../decorators/common/anyOf.js";
 import {Description} from "../decorators/common/description.js";
 import {Min} from "../decorators/common/minimum.js";
 import {Name} from "../decorators/common/name.js";
@@ -14,7 +16,7 @@ import {In} from "../decorators/operations/in.js";
 import {OperationPath} from "../decorators/operations/operationPath.js";
 import {Path} from "../decorators/operations/path.js";
 import {Returns} from "../decorators/operations/returns.js";
-import {Post} from "../decorators/operations/route";
+import {Post} from "../decorators/operations/route.js";
 import {SpecTypes} from "../domain/SpecTypes.js";
 import {generateSpec} from "./generateSpec.js";
 
@@ -27,15 +29,13 @@ describe("generateSpec()", () => {
       @Path("/controller1")
       class Controller1 {
         @OperationPath("GET", "/:id?")
-        method(@In("path") @Name("id") id: string) {
-        }
+        method(@In("path") @Name("id") id: string) {}
       }
 
       @Path("/controller2")
       class Controller2 {
         @OperationPath("GET", "/:id?")
-        method(@In("path") @Name("id") id: string) {
-        }
+        method(@In("path") @Name("id") id: string) {}
       }
 
       const result = generateSpec({
@@ -143,28 +143,20 @@ describe("generateSpec()", () => {
     });
     it("should generate spec and correctly merge shared model with custom schema", () => {
       class Model {
-        @AnyOf(
-          Number,
-          Boolean,
-          String,
-          {type: "array", items: {type: "number"}},
-          {type: "array", items: {type: "string"}}
-        )
+        @AnyOf(Number, Boolean, String, {type: "array", items: {type: "number"}}, {type: "array", items: {type: "string"}})
         test: number | boolean | string | number[] | string[];
       }
 
       @Path("/controller1")
       class Controller1 {
         @Post("/post")
-        method(@BodyParams() body: Model) {
-        }
+        method(@BodyParams() body: Model) {}
       }
 
       @Path("/controller2")
       class Controller2 {
         @Post("/post")
-        method(@BodyParams() body: Model) {
-        }
+        method(@BodyParams() body: Model) {}
       }
 
       const result = generateSpec({
@@ -271,23 +263,19 @@ describe("generateSpec()", () => {
       @Path("/controller2")
       class Controller2 {
         @OperationPath("GET", "/:id?")
-        method(@In("path") @Name("id") id: string) {
-        }
+        method(@In("path") @Name("id") id: string) {}
       }
 
       @Path("/controller1")
       class Controller1 {
         @OperationPath("GET", "/")
-        method2() {
-        }
+        method2() {}
 
         @OperationPath("GET", "/:id?")
-        method(@In("path") @Name("id") id: string) {
-        }
+        method(@In("path") @Name("id") id: string) {}
 
         @OperationPath("POST", "/test")
-        method5() {
-        }
+        method5() {}
       }
 
       const result = generateSpec({
@@ -309,15 +297,13 @@ describe("generateSpec()", () => {
       @Path("/controller1")
       class Controller1 {
         @OperationPath("GET", "/:id?")
-        method(@In("path") @Name("id") id: string) {
-        }
+        method(@In("path") @Name("id") id: string) {}
       }
 
       @Path("/controller2")
       class Controller2 {
         @OperationPath("GET", "/:id?")
-        method(@In("path") @Name("id") id: string) {
-        }
+        method(@In("path") @Name("id") id: string) {}
       }
 
       const result = generateSpec({
@@ -475,8 +461,7 @@ describe("generateSpec()", () => {
       // WHEN
       class Controller {
         @OperationPath("GET", "/")
-        method(@In("path") @Name("basic") basic: string) {
-        }
+        method(@In("path") @Name("basic") basic: string) {}
       }
 
       // THEN
@@ -491,8 +476,7 @@ describe("generateSpec()", () => {
       // WHEN
       class Controller {
         @OperationPath("GET", "/:id?")
-        method(@In("path") id: string) {
-        }
+        method(@In("path") id: string) {}
       }
 
       // THEN
@@ -554,8 +538,7 @@ describe("generateSpec()", () => {
       // WHEN
       class Controller {
         @OperationPath("GET", "/:id")
-        method(@In("query") @Name("basic") basic: string) {
-        }
+        method(@In("query") @Name("basic") basic: string) {}
       }
 
       // THEN
@@ -615,8 +598,7 @@ describe("generateSpec()", () => {
 
       class Controller {
         @OperationPath("GET", "/:id")
-        method(@In("query") basic: QueryModel) {
-        }
+        method(@In("query") basic: QueryModel) {}
       }
 
       // THEN
@@ -677,8 +659,7 @@ describe("generateSpec()", () => {
       // WHEN
       class Controller {
         @OperationPath("GET", "/:id")
-        method(@In("query") @Name("basic") basic: string[]) {
-        }
+        method(@In("query") @Name("basic") basic: string[]) {}
       }
 
       // THEN
@@ -737,8 +718,7 @@ describe("generateSpec()", () => {
       // WHEN
       class Controller {
         @OperationPath("GET", "/:id")
-        method(@In("query") @Name("basic") @CollectionOf(String) basic: Map<string, string>) {
-        }
+        method(@In("query") @Name("basic") @CollectionOf(String) basic: Map<string, string>) {}
       }
 
       // THEN
@@ -801,8 +781,7 @@ describe("generateSpec()", () => {
       class Controller {
         @Consumes("application/json")
         @OperationPath("POST", "/")
-        method(@In("body") @Required() num: MyModel) {
-        }
+        method(@In("body") @Required() num: MyModel) {}
       }
 
       // THEN
@@ -999,8 +978,7 @@ describe("generateSpec()", () => {
       class Controller {
         @Consumes("application/json")
         @OperationPath("POST", "/")
-        method(@In("body") @Required() @Name("num") @Min(0) num: number, @In("body") @Required() @Name("test") @Min(0) num2: number) {
-        }
+        method(@In("body") @Required() @Name("num") @Min(0) num: number, @In("body") @Required() @Name("test") @Min(0) num2: number) {}
       }
 
       // THEN
@@ -1063,8 +1041,7 @@ describe("generateSpec()", () => {
         method(
           @In("body") @Required() @Name("num") @CollectionOf(Number) @Min(0) num: number[],
           @In("body") @Required() @Name("test") @Min(0) num2: number
-        ) {
-        }
+        ) {}
       }
 
       // THEN
@@ -1130,8 +1107,7 @@ describe("generateSpec()", () => {
       class Controller {
         @OperationPath("POST", "/")
         @Returns(200, String).Description("description")
-        method() {
-        }
+        method() {}
       }
 
       // THEN
@@ -1176,8 +1152,7 @@ describe("generateSpec()", () => {
       class Controller {
         @OperationPath("POST", "/")
         @Returns(200, Array).Of(String).Description("description")
-        method() {
-        }
+        method() {}
       }
 
       // THEN
@@ -1234,8 +1209,7 @@ describe("generateSpec()", () => {
           .Schema({
             minLength: 3
           })
-        method() {
-        }
+        method() {}
       }
 
       // THEN

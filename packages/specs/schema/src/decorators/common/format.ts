@@ -1,4 +1,5 @@
 import {ValueOf} from "@tsed/core";
+
 import {JsonFormatTypes} from "../../domain/JsonFormatTypes.js";
 import {withErrorMsg} from "../../utils/withErrorMsg.js";
 import {JsonEntityFn} from "./jsonEntityFn.js";

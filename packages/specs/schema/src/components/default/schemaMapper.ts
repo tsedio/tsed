@@ -1,4 +1,5 @@
-import {getValue, isObject, isFunction} from "@tsed/core";
+import {getValue, isFunction, isObject} from "@tsed/core";
+
 import {mapAliasedProperties} from "../../domain/JsonAliasMap.js";
 import {JsonSchema} from "../../domain/JsonSchema.js";
 import {SpecTypes} from "../../domain/SpecTypes.js";
@@ -17,6 +18,7 @@ const IGNORES_OPENSPEC: string[] = [];
 
 /**
  * @ignore
+ * TODO check if we can remove this
  */
 function isEmptyProperties(key: string, value: any) {
   return typeof value === "object" && ["items", "properties", "additionalProperties"].includes(key) && Object.keys(value).length === 0;
@@ -35,7 +37,8 @@ function shouldMapAlias(key: string, value: any, useAlias: boolean) {
 function shouldSkipKey(key: string, {specType = SpecTypes.JSON, customKeys = false}: JsonSchemaOptions) {
   return (
     IGNORES.includes(key) ||
-    (key.startsWith("#") && (customKeys === false || specType !== SpecTypes.JSON)) ||
+    key.startsWith("x-") ||
+    (key.startsWith("#") && (!customKeys || specType !== SpecTypes.JSON)) ||
     (specType !== SpecTypes.JSON && IGNORES_OPENSPEC.includes(key))
   );
 }
@@ -106,18 +109,13 @@ function mapKeys(schema: JsonSchema, options: JsonSchemaOptions) {
 function serializeSchema(schema: JsonSchema, options: JsonSchemaOptions) {
   let obj: any = mapKeys(schema, options);
 
-  if (schema.isClass) {
+  if (schema.isClass && !schema.isLocalSchema) {
     obj = execMapper("inheritedClass", [obj], {
       ...options,
       root: false,
-      target: schema.getComputedType()
+      target: schema.class
     });
   }
-
-  obj = execMapper("generics", [obj], {
-    ...options,
-    root: false
-  } as any);
 
   if (schema.has(options.specType as string)) {
     obj = {
@@ -135,6 +133,7 @@ function serializeSchema(schema: JsonSchema, options: JsonSchemaOptions) {
   obj = alterOneOf(obj, schema, options);
   obj = execMapper("enums", [obj, schema], options);
   obj = execMapper("discriminatorMapping", [obj, schema], options);
+  obj = execMapper("generics", [obj, schema], options);
 
   return obj;
 }

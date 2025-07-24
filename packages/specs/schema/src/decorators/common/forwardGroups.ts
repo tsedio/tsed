@@ -11,6 +11,6 @@ import {JsonEntityFn} from "./jsonEntityFn.js";
  */
 export function ForwardGroups(bool = true): PropertyDecorator {
   return JsonEntityFn((entity) => {
-    entity.schema.$forwardGroups = bool;
+    entity.schema.forwardGroups(bool);
   });
 }

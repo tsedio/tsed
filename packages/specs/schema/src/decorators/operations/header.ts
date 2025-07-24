@@ -1,4 +1,5 @@
 import {isString} from "@tsed/core";
+
 import {JsonHeader, JsonHeaders} from "../../interfaces/JsonOpenSpec.js";
 import {Returns} from "./returns.js";
 
@@ -49,7 +50,7 @@ import {Returns} from "./returns.js";
  * @operation
  * @response
  */
-export function Header(headers: string | number | JsonHeaders, value?: string | number | JsonHeader): Function {
+export function Header(headers: string | number | JsonHeaders, value?: string | number | JsonHeader) {
   if (value !== undefined) {
     headers = {[headers as string]: value};
   }

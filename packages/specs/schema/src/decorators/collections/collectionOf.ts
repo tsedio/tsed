@@ -1,7 +1,12 @@
+import {DecoratorTypes} from "@tsed/core";
+
 import {JsonEntityStore} from "../../domain/JsonEntityStore.js";
+import {GenericValue} from "../../utils/generics.js";
 
 export interface ArrayOfChainedDecorators {
   (...args: any): any;
+
+  Nested(...generics: any[]): this;
 
   /**
    * An array instance is valid against `minItems` if its size is greater than, or equal to, the value of this keyword.
@@ -13,6 +18,7 @@ export interface ArrayOfChainedDecorators {
    * ::: tip
    * Omitting this keyword has the same behavior as a value of 0.
    * :::
+   * @deprecated Since 2025-05-12. Use MinItems decorator instead.
    */
   MinItems(minItems: number): this;
 
@@ -24,6 +30,7 @@ export interface ArrayOfChainedDecorators {
    * :: warning
    * The value `maxItems` MUST be a non-negative integer.
    * :::
+   * @deprecated Since 2025-05-12. Use MaxItems decorator instead.
    */
   MaxItems(maxItems: number): this;
 
@@ -36,6 +43,7 @@ export interface ArrayOfChainedDecorators {
 
   /**
    * If this keyword has boolean value false, the instance validates successfully. If it has boolean value true, the instance validates successfully if all of its elements are unique.
+   * @deprecated Since 2025-05-12. Use UniqueItems decorator instead.
    */
   UniqueItems(uniqueItems?: boolean): this;
 }
@@ -49,6 +57,7 @@ export interface MapOfChainedDecorators {
    * ::: warning
    * The value of this keyword MUST be a non-negative integer.
    * :::
+   * @deprecated Since 2025-05-12. Use MinProperties decorator instead.
    */
   MinProperties(minProperties: number): this;
 
@@ -58,6 +67,7 @@ export interface MapOfChainedDecorators {
    * ::: warning
    * The value of this keyword MUST be a non-negative integer.
    * :::
+   * @deprecated Since 2025-05-12. Use MaxProperties decorator instead.
    */
   MaxProperties(maxProperties: number): this;
 }
@@ -105,6 +115,7 @@ export function CollectionOf(type: any, collectionType?: any): CollectionOfChain
 
   const schema: any = {};
   let contains: boolean = false;
+  const nestedGenerics: GenericValue[][] = [];
 
   const decorator = (...args: any) => {
     const store = JsonEntityStore.from(...args);
@@ -116,32 +127,48 @@ export function CollectionOf(type: any, collectionType?: any): CollectionOfChain
 
     store.type = type;
     store.itemSchema.type(type);
-
     store.schema.assign(schema);
+
+    if (nestedGenerics.length) {
+      if (store.is(DecoratorTypes.PARAM)) {
+        store.parameter.itemSchema().genericOf(...nestedGenerics);
+      } else {
+        store.itemSchema.genericOf(...nestedGenerics);
+      }
+    }
 
     if (store.isArray && contains) {
       store.schema.set("contains", store.schema.get("items"));
       store.schema.delete("items");
     }
   };
-
+  /**
+   * @deprecated Since 2025-05-12. Use MinItems decorator instead.
+   */
   decorator.MinItems = (minItems: number) => {
     schema.minItems = minItems;
 
     return decorator;
   };
-
+  /**
+   * @deprecated Since 2025-05-12. Use MaxItems decorator instead.
+   */
   decorator.MaxItems = (maxItems: number) => {
     schema.maxItems = maxItems;
 
     return decorator;
   };
+  /**
+   * @deprecated Since 2025-05-12. Use MinProperties decorator instead.
+   */
   decorator.MinProperties = (minProperties: number) => {
     schema.minProperties = minProperties;
 
     return decorator;
   };
-
+  /**
+   * @deprecated Since 2025-05-12. Use MaxProperties decorator instead.
+   */
   decorator.MaxProperties = (maxProperties: number) => {
     schema.maxProperties = maxProperties;
 
@@ -154,8 +181,17 @@ export function CollectionOf(type: any, collectionType?: any): CollectionOfChain
     return decorator;
   };
 
+  /**
+   * @deprecated Since 2025-05-12. Use UniqueItems decorator instead.
+   */
   decorator.UniqueItems = (uniqueItems = true) => {
     schema.uniqueItems = uniqueItems;
+
+    return decorator;
+  };
+
+  decorator.Nested = (...generics: any) => {
+    nestedGenerics.push(generics);
 
     return decorator;
   };

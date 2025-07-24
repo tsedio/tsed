@@ -1,7 +1,8 @@
 import {DecoratorTypes, isClass, useDecorators} from "@tsed/core";
+
+import type {JsonParameterStore} from "../../domain/JsonParameterStore.js";
 import {JsonEntityFn} from "./jsonEntityFn.js";
 import {Property} from "./property.js";
-import type {JsonParameterStore} from "../../domain/JsonParameterStore.js";
 
 /**
  * Add allowed values when the property or parameters is required.

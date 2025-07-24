@@ -1,7 +1,8 @@
 import {decorateMethodsOf, decoratorTypeOf, DecoratorTypes, UnsupportedDecoratorType} from "@tsed/core";
-import {JsonEntityFn} from "../common/jsonEntityFn.js";
-import {JsonPropertyStore} from "../../domain/JsonPropertyStore.js";
+
 import {JsonParameterStore} from "../../domain/JsonParameterStore.js";
+import {JsonPropertyStore} from "../../domain/JsonPropertyStore.js";
+import {JsonEntityFn} from "../common/jsonEntityFn.js";
 
 /**
  * Add deprecated metadata on the decorated element.

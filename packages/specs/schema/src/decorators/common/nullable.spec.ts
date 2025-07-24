@@ -7,7 +7,7 @@ import {In} from "../operations/in.js";
 import {Path} from "../operations/path.js";
 import {Post} from "../operations/route.js";
 import {Format} from "./format.js";
-import {Integer} from "./integer";
+import {Integer} from "./integer.js";
 import {MaxLength} from "./maxLength.js";
 import {Minimum} from "./minimum.js";
 import {Nullable} from "./nullable.js";

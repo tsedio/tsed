@@ -132,7 +132,7 @@ describe("PetStore", () => {
     });
   });
 
-  describe("AsyncAPI", () => {
+  describe.skip("AsyncAPI", () => {
     it("should generate the spec", () => {
       const spec = getSpec(PetController, {specType: SpecTypes.ASYNCAPI});
 

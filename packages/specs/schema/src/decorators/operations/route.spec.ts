@@ -1,3 +1,4 @@
+import {inspectOperationsPaths} from "../../domain/__fixtures__/inspectOperationsPaths.js";
 import {JsonEntityStore, OperationVerbs} from "../../index.js";
 import {All, Delete, Get, Head, Options, Patch, Post, Put} from "./route.js";
 
@@ -13,7 +14,7 @@ describe("Route decorators", () => {
       const endpoint = JsonEntityStore.fromMethod(Test, "test");
 
       // THEN
-      expect([...endpoint.operation!.operationPaths.values()]).toEqual([
+      expect(inspectOperationsPaths(endpoint)).toEqual([
         {
           method: OperationVerbs.ALL,
           path: "/"
@@ -34,7 +35,7 @@ describe("Route decorators", () => {
       const endpoint = JsonEntityStore.fromMethod(Test, "test");
 
       // THEN
-      expect([...endpoint.operation!.operationPaths.values()]).toEqual([
+      expect(inspectOperationsPaths(endpoint)).toEqual([
         {
           method: OperationVerbs.GET,
           path: "/"
@@ -54,7 +55,7 @@ describe("Route decorators", () => {
       const endpoint = JsonEntityStore.fromMethod(Test, "test");
 
       // THEN
-      expect([...endpoint.operation!.operationPaths.values()]).toEqual([
+      expect(inspectOperationsPaths(endpoint)).toEqual([
         {
           method: OperationVerbs.GET,
           path: "/"
@@ -91,7 +92,7 @@ describe("Route decorators", () => {
       const endpoint = JsonEntityStore.fromMethod(Test, "test");
 
       // THEN
-      expect([...endpoint.operation!.operationPaths.values()]).toEqual([
+      expect(inspectOperationsPaths(endpoint)).toEqual([
         {
           method: OperationVerbs.POST,
           path: "/"
@@ -112,7 +113,7 @@ describe("Route decorators", () => {
       const endpoint = JsonEntityStore.fromMethod(Test, "test");
 
       // THEN
-      expect([...endpoint.operation!.operationPaths.values()]).toEqual([
+      expect(inspectOperationsPaths(endpoint)).toEqual([
         {
           method: OperationVerbs.PUT,
           path: "/"
@@ -136,7 +137,7 @@ describe("Route decorators", () => {
       const endpoint = JsonEntityStore.fromMethod(Test, "test");
 
       // THEN
-      expect([...endpoint.operation!.operationPaths.values()]).toEqual([
+      expect(inspectOperationsPaths(endpoint)).toEqual([
         {
           method: OperationVerbs.DELETE,
           path: "/"
@@ -157,7 +158,7 @@ describe("Route decorators", () => {
       const endpoint = JsonEntityStore.fromMethod(Test, "test");
 
       // THEN
-      expect([...endpoint.operation!.operationPaths.values()]).toEqual([
+      expect(inspectOperationsPaths(endpoint)).toEqual([
         {
           method: OperationVerbs.HEAD,
           path: "/"
@@ -178,7 +179,7 @@ describe("Route decorators", () => {
       const endpoint = JsonEntityStore.fromMethod(Test, "test");
 
       // THEN
-      expect([...endpoint.operation!.operationPaths.values()]).toEqual([
+      expect(inspectOperationsPaths(endpoint)).toEqual([
         {
           method: OperationVerbs.PATCH,
           path: "/"
@@ -199,7 +200,7 @@ describe("Route decorators", () => {
       const endpoint = JsonEntityStore.fromMethod(Test, "test");
 
       // THEN
-      expect([...endpoint.operation!.operationPaths.values()]).toEqual([
+      expect(inspectOperationsPaths(endpoint)).toEqual([
         {
           method: OperationVerbs.OPTIONS,
           path: "/"

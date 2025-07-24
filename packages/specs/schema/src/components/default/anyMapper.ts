@@ -2,7 +2,6 @@ import {JsonLazyRef} from "../../domain/JsonLazyRef.js";
 import {JsonSchema} from "../../domain/JsonSchema.js";
 import {JsonSchemaOptions} from "../../interfaces/JsonSchemaOptions.js";
 import {execMapper, execOneOfMapper, registerJsonSchemaMapper} from "../../registries/JsonSchemaMapperContainer.js";
-import {mapGenericsOptions} from "../../utils/generics.js";
 import {toRef} from "../../utils/ref.js";
 
 export function anyMapper(input: any, options: JsonSchemaOptions = {}): any {
@@ -15,14 +14,14 @@ export function anyMapper(input: any, options: JsonSchemaOptions = {}): any {
   }
 
   if (input instanceof JsonSchema && input.get("enum") instanceof JsonSchema) {
-    const enumSchema: JsonSchema = input.get("enum");
+    const enumSchema: JsonSchema = input.get("enum")!;
 
     return toRef(enumSchema, enumSchema.toJSON(options), options);
   }
 
   if (input.$kind && input.$isJsonDocument) {
     const kind = execOneOfMapper([input.$kind, "map"], options);
-    const schema = execMapper(kind, [input], mapGenericsOptions(options));
+    const schema = execMapper(kind, [input], options);
 
     return input.canRef ? toRef(input, schema, options) : schema;
   }

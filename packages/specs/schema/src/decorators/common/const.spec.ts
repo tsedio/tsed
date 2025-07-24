@@ -29,9 +29,7 @@ describe("@Const", () => {
       properties: {
         num: {
           type: "string",
-          enum: [
-            "10"
-          ]
+          enum: ["10"]
         }
       },
       type: "object"
@@ -47,8 +45,7 @@ describe("@Const", () => {
     @Path("/")
     class MyController {
       @OperationPath("POST", "/")
-      get(@In("body") payload: Model) {
-      }
+      get(@In("body") payload: Model) {}
     }
 
     const spec = getSpec(MyController, {specType: SpecTypes.OPENAPI});
@@ -60,9 +57,7 @@ describe("@Const", () => {
             properties: {
               num: {
                 type: "string",
-                enum: [
-                  "10"
-                ]
+                enum: ["10"]
               }
             },
             type: "object"

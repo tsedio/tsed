@@ -33,6 +33,7 @@ describe("OperationId", () => {
   it("should throw error for unsupported usage", () => {
     let actualError: any;
     try {
+      // @ts-ignore
       OperationId("id")(class Test {});
     } catch (er) {
       actualError = er;

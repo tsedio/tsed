@@ -79,6 +79,7 @@ describe("Consumes", () => {
 
     let actualError: any;
     try {
+      // @ts-ignore
       Consumes("text/json")(Test.prototype, "test", 0);
     } catch (er) {
       actualError = er;

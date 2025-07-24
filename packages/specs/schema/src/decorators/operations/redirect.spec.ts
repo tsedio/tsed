@@ -22,7 +22,7 @@ describe("Redirect", () => {
                 content: {
                   "*/*": {
                     schema: {
-                      type: "object"
+                      type: "string"
                     }
                   }
                 },
@@ -68,7 +68,7 @@ describe("Redirect", () => {
                 content: {
                   "*/*": {
                     schema: {
-                      type: "object"
+                      type: "string"
                     }
                   }
                 },
@@ -116,7 +116,7 @@ describe("Redirect", () => {
                 content: {
                   "*/*": {
                     schema: {
-                      type: "object"
+                      type: "string"
                     }
                   }
                 },

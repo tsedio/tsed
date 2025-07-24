@@ -79,6 +79,7 @@ describe("Produces", () => {
 
     let actualError: any;
     try {
+      // @ts-ignore
       Produces("text/json")(Test.prototype, "test", 0);
     } catch (er) {
       actualError = er;

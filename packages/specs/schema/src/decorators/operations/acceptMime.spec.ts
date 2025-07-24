@@ -1,6 +1,7 @@
+import {BodyParams} from "@tsed/platform-params";
+
 import {Get, getSpec, JsonMethodStore, Property, SpecTypes} from "../../index.js";
 import {AcceptMime} from "./acceptMime.js";
-import {BodyParams} from "@tsed/platform-params";
 
 class Model {
   @Property()
