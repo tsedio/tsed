@@ -5,7 +5,6 @@ import {
   CollectionOf,
   DiscriminatorKey,
   DiscriminatorValue,
-  Email,
   Enum,
   GenericOf,
   Generics,
@@ -15,7 +14,6 @@ import {
   JsonEntityStore,
   JsonHookContext,
   JsonParameterStore,
-  MinLength,
   Name,
   Nullable,
   OneOf,
@@ -1051,130 +1049,6 @@ describe("deserialize()", () => {
             id: "id"
           }
         ]
-      });
-    });
-    it("should transform object to class (generics property)", () => {
-      @Generics("T")
-      class Base<T> {
-        @Property()
-        id: string;
-
-        @Required()
-        @Email()
-        email: string;
-
-        @Property("T")
-        role: T;
-      }
-
-      class Model<T> extends Base<T> {
-        @MinLength(0)
-        declare email: string;
-
-        @Property()
-        name: string;
-      }
-
-      class Role {
-        @Property()
-        level: string;
-      }
-
-      class Content {
-        @GenericOf(Role)
-        payload: Model<Role>;
-      }
-
-      const result = deserialize(
-        {
-          payload: {
-            email: "email",
-            name: "name",
-            id: "id",
-            role: {
-              level: "level"
-            }
-          }
-        },
-        {type: Content}
-      );
-
-      expect(result).toBeInstanceOf(Content);
-      expect(result.payload).toBeInstanceOf(Model);
-      expect(result.payload.role).toBeInstanceOf(Role);
-      expect(result).toEqual({
-        payload: {
-          email: "email",
-          id: "id",
-          name: "name",
-          role: {
-            level: "level"
-          }
-        }
-      });
-    });
-    it("should transform object to class (generics property + array)", () => {
-      @Generics("T")
-      class Base<T> {
-        @Property()
-        id: string;
-
-        @Required()
-        @Email()
-        email: string;
-
-        @CollectionOf("T")
-        roles: T[];
-      }
-
-      class Model<T> extends Base<T> {
-        @MinLength(0)
-        declare email: string;
-
-        @Property()
-        name: string;
-      }
-
-      class Role {
-        @Property()
-        level: string;
-      }
-
-      class Content {
-        @GenericOf(Role)
-        payload: Model<Role>;
-      }
-
-      const result = deserialize(
-        {
-          payload: {
-            email: "email",
-            name: "name",
-            id: "id",
-            roles: [
-              {
-                level: "level"
-              }
-            ]
-          }
-        },
-        {type: Content}
-      );
-
-      expect(result).toBeInstanceOf(Content);
-      expect(result.payload).toBeInstanceOf(Model);
-      expect(result.payload.roles[0]).toBeInstanceOf(Role);
-      expect(result).toEqual({
-        payload: {
-          email: "email",
-          id: "id",
-          name: "name",
-          roles: [
-            {
-              level: "level"
-            }
-          ]
-        }
       });
     });
   });

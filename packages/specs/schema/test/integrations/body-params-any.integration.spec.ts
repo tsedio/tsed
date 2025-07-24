@@ -1,7 +1,8 @@
-import {MultipartFile, PlatformMulterFile} from "@tsed/common";
 import {Controller} from "@tsed/di";
 import {BodyParams} from "@tsed/platform-params";
+import {it, describe, expect} from "vitest";
 import {Any, CollectionOf, getSpec, Integer, Post, Property} from "../../src/index.js";
+import {MultipartFile, PlatformMulterFile} from "@tsed/common";
 
 class MyModel {
   @Property()
@@ -29,6 +30,74 @@ describe("Integration: BodyParams any", () => {
     }
 
     expect(getSpec(TestArrayBodyCtrl)).toMatchSnapshot();
+  });
+  it("should generate the right spec (any[]) - 3.1.0", () => {
+    @Controller("/array")
+    class TestArrayBodyCtrl {
+      @Post("/3")
+      scenario3(@BodyParams() @Any() list: any) {
+        return list;
+      }
+    }
+
+    expect(getSpec(TestArrayBodyCtrl, {specVersion: "3.1.0"})).toMatchInlineSnapshot(`
+      {
+        "paths": {
+          "/array/3": {
+            "post": {
+              "operationId": "testArrayBodyCtrlScenario3",
+              "parameters": [],
+              "requestBody": {
+                "content": {
+                  "application/json": {
+                    "schema": {
+                      "anyOf": [
+                        {
+                          "type": "null",
+                        },
+                        {
+                          "multipleOf": 1,
+                          "type": "integer",
+                        },
+                        {
+                          "type": "number",
+                        },
+                        {
+                          "type": "string",
+                        },
+                        {
+                          "type": "boolean",
+                        },
+                        {
+                          "type": "array",
+                        },
+                        {
+                          "type": "object",
+                        },
+                      ],
+                    },
+                  },
+                },
+                "required": false,
+              },
+              "responses": {
+                "200": {
+                  "description": "Success",
+                },
+              },
+              "tags": [
+                "TestArrayBodyCtrl",
+              ],
+            },
+          },
+        },
+        "tags": [
+          {
+            "name": "TestArrayBodyCtrl",
+          },
+        ],
+      }
+    `);
   });
   it("should generate the right spec (number[])", () => {
     @Controller("/array")

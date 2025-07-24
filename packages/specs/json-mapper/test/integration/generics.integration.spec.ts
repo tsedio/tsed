@@ -4,6 +4,7 @@ import {
   boolean,
   CollectionOf,
   date,
+  Email,
   ForwardGroups,
   GenericOf,
   Generics,
@@ -11,6 +12,7 @@ import {
   Ignore,
   Integer,
   JsonEntityStore,
+  MinLength,
   number,
   Property,
   Required,
@@ -22,7 +24,7 @@ import {serialize} from "../../src/utils/serialize.js";
 
 describe("Generics", () => {
   describe("using Functional api", () => {
-    it("should transform string from generic object", () => {
+    it("should transform string from a generic object: Adjustment + UserProperty<string>", () => {
       @Generics("T")
       class UserProperty<T> {
         @Property("T")
@@ -51,7 +53,7 @@ describe("Generics", () => {
         }
       });
     });
-    it("should transform number from generic object", () => {
+    it("should transform number from a generic object: Adjustment + UserProperty<number>", () => {
       @Generics("T")
       class UserProperty<T> {
         @Property("T")
@@ -80,39 +82,7 @@ describe("Generics", () => {
         }
       });
     });
-    it("should transform model with given generic explicitly", () => {
-      @Generics("T")
-      class Envelope<T> {
-        @CollectionOf("T")
-        @ForwardGroups()
-        data: T[];
-      }
-
-      class Match {
-        @Integer()
-        id: number;
-      }
-
-      const result = deserialize(
-        {
-          data: [{id: 1}, {id: 2}]
-        },
-        {type: Envelope, generics: [[Match]]}
-      );
-
-      expect(result).toEqual({
-        data: [
-          {
-            id: 1
-          },
-          {
-            id: 2
-          }
-        ]
-      });
-      expect(result.data[0]).toBeInstanceOf(Match);
-    });
-    it("should transform boolean from generic object", () => {
+    it("should transform boolean from a generic object: Adjustment + UserProperty<boolean>", () => {
       @Generics("T")
       class UserProperty<T> {
         @Property("T")
@@ -121,7 +91,7 @@ describe("Generics", () => {
 
       class Adjustment {
         @GenericOf(boolean())
-        adjustment: UserProperty<Date>;
+        adjustment: UserProperty<boolean>;
       }
 
       let result = deserialize(
@@ -141,7 +111,7 @@ describe("Generics", () => {
         }
       });
     });
-    it("should transform date from generic object", () => {
+    it("should transform date from a generic object: Adjustment + UserProperty<Date>", () => {
       @Generics("T")
       class UserProperty<T> {
         @Property("T")
@@ -166,9 +136,46 @@ describe("Generics", () => {
 
       expect(result).toMatchSnapshot();
     });
+    it("should transform model with given generic explicitly: Envelope<Match> generics: {T: [Match]}", () => {
+      @Generics("T")
+      class Envelope<T> {
+        @CollectionOf("T")
+        @ForwardGroups()
+        data: T[];
+      }
+
+      class Match {
+        @Integer()
+        id: number;
+      }
+
+      const result = deserialize(
+        {
+          data: [{id: 1}, {id: 2}]
+        },
+        {
+          type: Envelope,
+          generics: {
+            T: [Match]
+          }
+        }
+      );
+
+      expect(result).toEqual({
+        data: [
+          {
+            id: 1
+          },
+          {
+            id: 2
+          }
+        ]
+      });
+      expect(result.data[0]).toBeInstanceOf(Match);
+    });
   });
   describe("using type", () => {
-    it("should transform string from generic object", () => {
+    it("should transform string from a generic object: Adjustment + UserProperty<string>", () => {
       @Generics("T")
       class UserProperty<T> {
         @Property("T")
@@ -197,7 +204,7 @@ describe("Generics", () => {
         }
       });
     });
-    it("should transform number from generic object", () => {
+    it("should transform number from a generic object: Adjustment + UserProperty<number>", () => {
       @Generics("T")
       class UserProperty<T> {
         @Property("T")
@@ -226,7 +233,7 @@ describe("Generics", () => {
         }
       });
     });
-    it("should transform boolean from generic object", () => {
+    it("should transform boolean from a generic object: Adjustment + UserProperty<boolean>", () => {
       @Generics("T")
       class UserProperty<T> {
         @Property("T")
@@ -255,7 +262,7 @@ describe("Generics", () => {
         }
       });
     });
-    it("should transform date from generic object", () => {
+    it("should transform date from a generic object: Adjustment + UserProperty<Date>", () => {
       @Generics("T")
       class UserProperty<T> {
         @Property("T")
@@ -284,7 +291,7 @@ describe("Generics", () => {
         }
       });
     });
-    it("should generate JsonSchema with 'enum' from generic object", () => {
+    it("should generate JsonSchema with 'enum' from a generic object: Adjustment + UserProperty<AdjustmentType>", () => {
       enum AdjustmentType {
         PRICE = "price",
         DELAY = "delay"
@@ -317,6 +324,195 @@ describe("Generics", () => {
           value: "delay"
         }
       });
+    });
+    it("should transform an object to class: @GenericOf + Content + Model<Role>", () => {
+      @Generics("T")
+      class Base<T> {
+        @Property()
+        id: string;
+
+        @Required()
+        @Email()
+        email: string;
+
+        @Property("T")
+        role: T;
+      }
+
+      class Model<T> extends Base<T> {
+        @MinLength(0)
+        declare email: string;
+
+        @Property()
+        name: string;
+      }
+
+      class Role {
+        @Property()
+        level: string;
+      }
+
+      class Content {
+        @GenericOf(Role)
+        payload: Model<Role>;
+      }
+
+      const result = deserialize(
+        {
+          payload: {
+            email: "email",
+            name: "name",
+            id: "id",
+            role: {
+              level: "level"
+            }
+          }
+        },
+        {type: Content}
+      );
+
+      expect(result).toEqual({
+        payload: {
+          email: "email",
+          id: "id",
+          name: "name",
+          role: {
+            level: "level"
+          }
+        }
+      });
+
+      expect(result).toBeInstanceOf(Content);
+      expect(result.payload).toBeInstanceOf(Model);
+      expect(result.payload.role).toBeInstanceOf(Role);
+    });
+    it("should transform an object to class: @GenericOf + Content + Model<Role[]>", () => {
+      @Generics("T")
+      class Base<T> {
+        @Property()
+        id: string;
+
+        @Required()
+        @Email()
+        email: string;
+
+        @CollectionOf("T")
+        roles: T[];
+      }
+
+      class Model<T> extends Base<T> {
+        @MinLength(0)
+        declare email: string;
+
+        @Property()
+        name: string;
+      }
+
+      class Role {
+        @Property()
+        level: string;
+      }
+
+      class Content {
+        @GenericOf(Role)
+        payload: Model<Role>;
+      }
+
+      const result = deserialize(
+        {
+          payload: {
+            email: "email",
+            name: "name",
+            id: "id",
+            roles: [
+              {
+                level: "level"
+              }
+            ]
+          }
+        },
+        {type: Content}
+      );
+
+      expect(result).toBeInstanceOf(Content);
+      expect(result.payload).toBeInstanceOf(Model);
+      expect(result.payload.roles[0]).toBeInstanceOf(Role);
+      expect(result).toEqual({
+        payload: {
+          email: "email",
+          id: "id",
+          name: "name",
+          roles: [
+            {
+              level: "level"
+            }
+          ]
+        }
+      });
+    });
+    it("should transform an object to class: @GenericOf + Content + Model<Role>[]", () => {
+      @Generics("T")
+      class Base<T> {
+        @Property()
+        id: string;
+
+        @Required()
+        @Email()
+        email: string;
+
+        @Property("T")
+        role: T;
+      }
+
+      class Model<T> extends Base<T> {
+        @MinLength(0)
+        declare email: string;
+
+        @Property()
+        name: string;
+      }
+
+      class Role {
+        @Property()
+        level: string;
+      }
+
+      class Content {
+        @CollectionOf(Model).Nested(Role)
+        payload: Model<Role>[];
+      }
+
+      const result = deserialize(
+        {
+          payload: [
+            {
+              email: "email",
+              name: "name",
+              id: "id",
+              role: {
+                level: "level"
+              }
+            }
+          ]
+        },
+        {type: Content}
+      );
+
+      expect(result).toEqual({
+        payload: [
+          {
+            email: "email",
+            id: "id",
+            name: "name",
+            role: {
+              level: "level"
+            }
+          }
+        ]
+      });
+      expect(result).toBeInstanceOf(Content);
+      expect(result.payload[0]).toBeInstanceOf(Model);
+      expect(result.payload[0].role).toBeInstanceOf(Role);
     });
   });
 

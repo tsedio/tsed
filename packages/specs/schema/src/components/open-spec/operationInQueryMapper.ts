@@ -1,8 +1,10 @@
 import {cleanObject} from "@tsed/core";
 import {OS3Example} from "@tsed/openspec";
+
+import type {JsonParameter} from "../../domain/JsonParameter.js";
 import {JsonSchemaOptions} from "../../interfaces/JsonSchemaOptions.js";
 import {registerJsonSchemaMapper} from "../../registries/JsonSchemaMapperContainer.js";
-import {createRefName} from "../../utils/ref.js";
+import {createRefName, getSchemaFromRef} from "../../utils/ref.js";
 import type {JsonParameterOptions} from "./operationInParameterMapper.js";
 
 function buildExamples(property: string, examples?: Record<string, OS3Example>) {
@@ -32,37 +34,54 @@ function buildExamples(property: string, examples?: Record<string, OS3Example>) 
   return hasKey ? newExamples : undefined;
 }
 
-function inlineReference(parameter: any, {jsonParameter, ...options}: JsonSchemaOptions) {
-  const name = createRefName(jsonParameter.$schema.getName(), options);
+function inlineReference(
+  parameter: any,
+  {
+    jsonParameter,
+    ...options
+  }: JsonSchemaOptions & {
+    jsonParameter: JsonParameter;
+  }
+) {
+  const name = createRefName(jsonParameter.schema().itemSchema().getName(), options);
   const schema = options.components?.schemas?.[name];
 
   if (schema && !options.oldSchemas?.[name]) {
-    delete options.components!.schemas![jsonParameter.$schema.getName()];
+    delete options.components?.schemas?.[jsonParameter.schema().itemSchema().getName()];
   }
 
   return Object.entries(schema?.properties || {}).reduce((params, [key, {description, ...prop}]: [string, any]) => {
-    return [
-      ...params,
+    const style = parameter.style || (prop.$ref && !getSchemaFromRef(prop.$ref, options)?.enum) ? "deepObject" : undefined;
+
+    params.push(
       cleanObject({
         ...parameter,
+        style,
+        explode: style === "deepObject" ? true : parameter.explode,
         name: key,
         required: (schema?.required || []).includes(key),
         description,
         schema: prop,
-        style: prop.$ref ? "deepObject" : undefined,
         examples: buildExamples(key, parameter.examples)
       })
-    ];
-  }, []);
+    );
+
+    return params;
+  }, [] as any[]);
 }
 
-export function operationInQueryMapper(parameter: any, {jsonSchema, jsonParameters, ...options}: JsonParameterOptions) {
+export function operationInQueryMapper(parameter: any, {jsonSchema, ...options}: JsonParameterOptions) {
   if (jsonSchema.$ref) {
     if (!parameter.name) {
       return inlineReference(parameter, options);
     }
 
-    parameter.style = "deepObject";
+    const schema = getSchemaFromRef(jsonSchema.$ref, options);
+    // if the reference is an enum, we don't need to set the style or explode
+    if (!schema?.enum) {
+      parameter.style = "deepObject";
+      parameter.explode = true;
+    }
   }
 
   parameter.schema = jsonSchema;

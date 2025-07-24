@@ -1,6 +1,8 @@
 import Ajv from "ajv";
-import {JsonSchema} from "./JsonSchema.js";
 import "../index.js";
+
+import {CollectionOf, JsonEntityStore, Property} from "../index.js";
+import {JsonSchema} from "./JsonSchema.js";
 
 describe("JsonSchema", () => {
   describe("extra Props", () => {
@@ -10,7 +12,6 @@ describe("JsonSchema", () => {
       schema.set("extra", "test");
 
       expect(schema.isGeneric).toBe(false);
-      expect(schema.genericType).toBeUndefined();
       expect(schema.toJSON()).toEqual({
         extra: "test"
       });
@@ -502,7 +503,7 @@ describe("JsonSchema", () => {
           type: "object",
           propertyNames: JsonSchema.from({
             pattern: "^[A-Za-z_][A-Za-z0-9_]*$"
-          })
+          }) as any
         }).toObject();
 
         const validate = new Ajv({strict: true}).compile(schema);
@@ -1282,6 +1283,42 @@ describe("JsonSchema", () => {
         type: "object"
       });
     });
+    it('should return true if "type" is a class', () => {
+      class Test1 {
+        @Property()
+        id: string;
+      }
+
+      class Test2 {
+        @Property()
+        test: Test1;
+      }
+
+      const entity = JsonEntityStore.from(Test2, "test");
+
+      expect(entity.schema.getPropertyKey()).toEqual("test");
+      expect(entity.schema.getTarget()).toEqual(Object);
+      expect(entity.schema.class).toEqual(Test1);
+      expect(entity.schema.isClass).toBe(true);
+    });
+    it('should return false if "type" is not a class', () => {
+      class Test1 {
+        @Property()
+        id: string;
+      }
+
+      class Test2 {
+        @CollectionOf(Test1)
+        test: Test1[];
+      }
+
+      const entity = JsonEntityStore.from(Test2, "test");
+
+      expect(entity.schema.getPropertyKey()).toEqual("test");
+      expect(entity.schema.getTarget()).toEqual(Array);
+      expect(entity.schema.class).toEqual(Array);
+      expect(entity.schema.isClass).toBe(false);
+    });
   });
   describe("Circular ref", () => {
     it("should create and validate schema", () => {
@@ -1379,7 +1416,7 @@ describe("JsonSchema", () => {
       const jsonSchema = schema.toObject();
 
       expect(schema.getAliasOf("prop")).toBe("aliasProp");
-      expect(schema.getTarget()).toBe("object");
+      expect(schema.getTarget()).toBe(Object);
       expect(jsonSchema).toEqual({
         type: "object",
         properties: {

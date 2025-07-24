@@ -25,7 +25,7 @@ describe("JsonEntityStore", () => {
 
     expect(storeClass).toBeInstanceOf(JsonEntityStore);
     expect(storeClass.decoratorType).toBe("class");
-    expect(storeClass.propertyName).toBe("undefined");
+    expect(storeClass.propertyName).toBe("");
     expect(storeClass.propertyKey).toBeUndefined();
     expect(storeClass.index).toBeUndefined();
     expect(storeClass.parent).toBe(storeClass);
@@ -47,7 +47,6 @@ describe("JsonEntityStore", () => {
     expect(storeProp.propertyKey).toBe("id");
     expect(storeProp.propertyName).toBe("id");
     expect(storeProp.index).toBeUndefined();
-    expect(storeProp.nestedGenerics).toEqual([]);
     expect(storeProp.parent).toEqual(storeClass);
     expect(storeProp.type).toEqual(String);
     expect(storeProp.target).toEqual(Model);
@@ -67,7 +66,7 @@ describe("JsonEntityStore", () => {
     expect(storeMethod.decoratorType).toBe("method");
     expect(storeMethod.index).toBeUndefined();
     expect(storeMethod.operation).toBeInstanceOf(JsonOperation);
-    expect(storeMethod.nestedGenerics).toEqual([]);
+    // expect(storeMethod.nestedGenerics).toEqual([]);
     expect(storeMethod.parent).toEqual(storeClass);
     expect(storeMethod.target).toEqual(Model);
     expect(storeMethod.type).toEqual(Object);
@@ -87,7 +86,6 @@ describe("JsonEntityStore", () => {
     expect(storeParam.index).toBe(0);
     expect(storeParam.decoratorType).toBe("parameter");
     expect(storeParam.parameter).toBeInstanceOf(JsonParameter);
-    expect(storeParam.nestedGenerics).toEqual([]);
     expect(storeParam.parent).toEqual(storeMethod);
     expect(storeParam.type).toEqual(String);
     expect(storeParam.target).toEqual(Model);
@@ -138,6 +136,7 @@ describe("JsonEntityStore", () => {
         get id() {
           return "id";
         }
+
         set id(id: string) {}
       }
 
@@ -157,110 +156,12 @@ describe("JsonEntityStore", () => {
       }
 
       const propertyMetadata = JsonEntityStore.get(Test, "test");
-      propertyMetadata.required = true;
       propertyMetadata.type = Test;
 
-      expect(propertyMetadata.required).toEqual(true);
-
+      expect(propertyMetadata.parent.schema.isRequired("test")).toEqual(true);
       expect(propertyMetadata.collectionType).toEqual(undefined);
       expect(propertyMetadata.type).toEqual(Test);
       expect(propertyMetadata.isCollection).toEqual(false);
-    });
-  });
-
-  describe("isRequired", () => {
-    describe("when property is required", () => {
-      class Test {
-        @Required(true)
-        test: string;
-      }
-
-      let propertyMetadata: JsonEntityStore;
-
-      beforeAll(() => {
-        propertyMetadata = JsonEntityStore.get(Test, "test");
-        propertyMetadata.required = true;
-      });
-      it("should return false (value 0)", () => {
-        expect(propertyMetadata.isRequired(0)).toEqual(false);
-      });
-
-      it("should return true (value '')", () => {
-        expect(propertyMetadata.isRequired("")).toEqual(true);
-      });
-      it("should return true (value null)", () => {
-        expect(propertyMetadata.isRequired(null)).toEqual(true);
-      });
-      it("should return true (value undefined)", () => {
-        expect(propertyMetadata.isRequired(undefined)).toEqual(true);
-      });
-    });
-
-    describe("when property is required and have allowed values", () => {
-      it("should validate the required values", () => {
-        class Test {
-          @Required()
-          @Allow(null)
-          test: string;
-        }
-
-        let propertyMetadata: JsonEntityStore;
-        propertyMetadata = JsonEntityStore.get(Test, "test");
-
-        expect(propertyMetadata.allowedRequiredValues).toEqual([null]);
-        expect(propertyMetadata.isRequired(0)).toEqual(false);
-        expect(propertyMetadata.isRequired("")).toEqual(true);
-        expect(propertyMetadata.isRequired(null)).toEqual(false);
-        expect(propertyMetadata.isRequired(undefined)).toEqual(true);
-      });
-
-      it("should validate the required values (2)", () => {
-        class Test {
-          @Allow("")
-          test: string;
-        }
-
-        let propertyMetadata: JsonEntityStore;
-        propertyMetadata = JsonEntityStore.get(Test, "test");
-
-        expect(propertyMetadata.allowedRequiredValues).toEqual([""]);
-        expect(propertyMetadata.isRequired(0)).toEqual(false);
-        expect(propertyMetadata.isRequired("")).toEqual(false);
-        expect(propertyMetadata.isRequired(null)).toEqual(true);
-        expect(propertyMetadata.isRequired(undefined)).toEqual(true);
-      });
-
-      it("should validate the required values (3)", () => {
-        class Test {
-          @Allow("")
-          test: string;
-        }
-
-        let propertyMetadata: JsonEntityStore;
-        propertyMetadata = JsonEntityStore.get(Test, "test");
-
-        expect(propertyMetadata.allowedRequiredValues).toEqual([""]);
-        expect(propertyMetadata.isRequired(0)).toEqual(false);
-        expect(propertyMetadata.isRequired("")).toEqual(false);
-        expect(propertyMetadata.isRequired(null)).toEqual(true);
-        expect(propertyMetadata.isRequired(undefined)).toEqual(true);
-      });
-    });
-
-    describe("when property is not required", () => {
-      it("should validate values", () => {
-        class Test {
-          @Required(false)
-          test: string;
-        }
-
-        const propertyMetadata = JsonEntityStore.get(Test, "test");
-        propertyMetadata.required = false;
-        expect(propertyMetadata.isRequired(0)).toEqual(false);
-        expect(propertyMetadata.isRequired("")).toEqual(false);
-        expect(propertyMetadata.isRequired(null)).toEqual(false);
-        expect(propertyMetadata.isRequired(undefined)).toEqual(false);
-      });
     });
   });
 
