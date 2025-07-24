@@ -113,6 +113,7 @@ export * from "./decorators/operations/subscribe.js";
 export * from "./decorators/operations/summary.js";
 export * from "./decorators/operations/tags.js";
 export * from "./decorators/operations/view.js";
+export * from "./domain/__fixtures__/inspectOperationsPaths.js";
 export * from "./domain/DecoratorContext.js";
 export * from "./domain/JsonAliasMap.js";
 export * from "./domain/JsonClassStore.js";
