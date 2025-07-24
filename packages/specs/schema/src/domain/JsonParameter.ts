@@ -1,20 +1,22 @@
-import {Type} from "@tsed/core";
 import {OpenSpecHash, OpenSpecRef, OS3Example, OS3Parameter} from "@tsed/openspec";
+
+import {Partial} from "../decorators/operations/partial.js";
 import {JsonSchemaOptions} from "../interfaces/JsonSchemaOptions.js";
 import {execMapper} from "../registries/JsonSchemaMapperContainer.js";
-import {NestedGenerics} from "../utils/generics.js";
 import {JsonMap} from "./JsonMap.js";
 import {formatParameterType} from "./JsonParameterTypes.js";
 import {JsonSchema} from "./JsonSchema.js";
 
-export class JsonParameter extends JsonMap<OS3Parameter<JsonSchema>> implements NestedGenerics {
+export class JsonParameter extends JsonMap<OS3Parameter<JsonSchema>> {
   $kind = "operationInParameter";
-
-  nestedGenerics: Type<any>[][] = [];
-  groups: string[];
-  groupsName: string;
-  $schema: JsonSchema;
   expression: string;
+
+  constructor(obj: Partial<OS3Parameter<JsonSchema>> = {}) {
+    super(obj);
+    if (!this.has("schema")) {
+      this.set("schema", new JsonSchema());
+    }
+  }
 
   getName() {
     const name = this.get("name");
@@ -57,10 +59,27 @@ export class JsonParameter extends JsonMap<OS3Parameter<JsonSchema>> implements 
     return this;
   }
 
-  schema(schema: JsonSchema): this {
-    this.$schema = schema;
+  public schema(): JsonSchema;
+  public schema(schema: JsonSchema): this;
+  public schema(schema?: JsonSchema): JsonSchema | this {
+    if (schema) {
+      this.set("schema", schema);
+      return this;
+    }
 
-    return this;
+    return this.get("schema");
+  }
+
+  itemSchema(schema?: JsonSchema) {
+    if (this.schema().isCollection) {
+      schema && this.schema().itemSchema(schema);
+
+      return this.schema().itemSchema();
+    }
+
+    schema && this.schema(schema);
+    // non-collection: delegate to the main schema
+    return this.schema();
   }
 
   toJSON(options?: JsonSchemaOptions) {

@@ -1,9 +1,9 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`Generics > using Functional api > should transform date from generic object 1`] = `
+exports[`Generics > using Functional api > should transform date from a generic object: Adjustment + UserProperty<Date> 1`] = `
 Adjustment {
   "adjustment": UserProperty {
-    "value": "2019-01-01T12:45:57.111Z",
+    "value": 2019-01-01T12:45:57.111Z,
   },
 }
 `;

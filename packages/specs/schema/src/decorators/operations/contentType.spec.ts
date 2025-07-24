@@ -19,9 +19,7 @@ describe("ContentType", () => {
               "200": {
                 content: {
                   "application/json": {
-                    schema: {
-                      type: "object"
-                    }
+                    schema: {}
                   }
                 }
               }

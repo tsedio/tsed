@@ -2,12 +2,9 @@ import {execMapper, registerJsonSchemaMapper} from "../../registries/JsonSchemaM
 import type {JsonSchema} from "../../domain/JsonSchema.js";
 import type {JsonSchemaOptions} from "../../interfaces/JsonSchemaOptions.js";
 
-export function ofMapper(input: (any | JsonSchema)[], options: JsonSchemaOptions, parent: JsonSchema) {
+export function ofMapper(input: (any | JsonSchema)[], options: JsonSchemaOptions) {
   return input.map((value: any | JsonSchema) => {
-    return execMapper("item", [value], {
-      ...options,
-      genericLabels: parent.genericLabels
-    });
+    return execMapper("item", [value], options);
   });
 }
 

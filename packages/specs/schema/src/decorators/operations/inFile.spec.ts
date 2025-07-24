@@ -34,9 +34,7 @@ describe("@File()", () => {
                 "400": {
                   description:
                     "<File too long | Too many parts | Too many files | Field name too long | Field value too long | Too many fields | Unexpected field>  [fieldName] Example: File too long file1",
-                  schema: {
-                    type: "object"
-                  }
+                  schema: {}
                 }
               },
               tags: ["TestController"]
@@ -54,51 +52,52 @@ describe("@File()", () => {
     });
 
     it("should set endpoint metadata - OS3", () => {
-      expect(getSpec(TestController, {specType: SpecTypes.OPENAPI})).toEqual({
-        paths: {
-          "/": {
-            post: {
-              operationId: "testControllerTest",
-              parameters: [],
-              requestBody: {
-                content: {
-                  "multipart/form-data": {
-                    schema: {
-                      properties: {
-                        file1: {
-                          format: "binary",
-                          type: "string"
-                        }
+      expect(getSpec(TestController, {specType: SpecTypes.OPENAPI})).toMatchInlineSnapshot(`
+        {
+          "paths": {
+            "/": {
+              "post": {
+                "operationId": "testControllerTest",
+                "parameters": [],
+                "requestBody": {
+                  "content": {
+                    "multipart/form-data": {
+                      "schema": {
+                        "properties": {
+                          "file1": {
+                            "format": "binary",
+                            "type": "string",
+                          },
+                        },
+                        "type": "object",
                       },
-                      type: "object"
-                    }
-                  }
-                },
-                required: false
-              },
-              responses: {
-                "400": {
-                  content: {
-                    "*/*": {
-                      schema: {
-                        type: "object"
-                      }
-                    }
+                    },
                   },
-                  description:
-                    "<File too long | Too many parts | Too many files | Field name too long | Field value too long | Too many fields | Unexpected field>  [fieldName] Example: File too long file1"
-                }
+                  "required": false,
+                },
+                "responses": {
+                  "400": {
+                    "content": {
+                      "*/*": {
+                        "schema": {},
+                      },
+                    },
+                    "description": "<File too long | Too many parts | Too many files | Field name too long | Field value too long | Too many fields | Unexpected field>  [fieldName] Example: File too long file1",
+                  },
+                },
+                "tags": [
+                  "TestController",
+                ],
               },
-              tags: ["TestController"]
-            }
-          }
-        },
-        tags: [
-          {
-            name: "TestController"
-          }
-        ]
-      });
+            },
+          },
+          "tags": [
+            {
+              "name": "TestController",
+            },
+          ],
+        }
+      `);
     });
   });
   describe("many files", () => {
@@ -137,9 +136,7 @@ describe("@File()", () => {
                 "400": {
                   description:
                     "<File too long | Too many parts | Too many files | Field name too long | Field value too long | Too many fields | Unexpected field>  [fieldName] Example: File too long file1",
-                  schema: {
-                    type: "object"
-                  }
+                  schema: {}
                 }
               },
               tags: ["TestController"]
@@ -156,54 +153,55 @@ describe("@File()", () => {
       });
     });
     it("should set endpoint metadata - OS3", () => {
-      expect(getSpec(TestController, {specType: SpecTypes.OPENAPI})).toEqual({
-        paths: {
-          "/": {
-            post: {
-              operationId: "testControllerTest",
-              parameters: [],
-              requestBody: {
-                content: {
-                  "multipart/form-data": {
-                    schema: {
-                      properties: {
-                        file1: {
-                          items: {
-                            format: "binary",
-                            type: "string"
+      expect(getSpec(TestController, {specType: SpecTypes.OPENAPI})).toMatchInlineSnapshot(`
+        {
+          "paths": {
+            "/": {
+              "post": {
+                "operationId": "testControllerTest",
+                "parameters": [],
+                "requestBody": {
+                  "content": {
+                    "multipart/form-data": {
+                      "schema": {
+                        "properties": {
+                          "file1": {
+                            "items": {
+                              "format": "binary",
+                              "type": "string",
+                            },
+                            "type": "array",
                           },
-                          type: "array"
-                        }
+                        },
+                        "type": "object",
                       },
-                      type: "object"
-                    }
-                  }
-                },
-                required: false
-              },
-              responses: {
-                "400": {
-                  content: {
-                    "*/*": {
-                      schema: {
-                        type: "object"
-                      }
-                    }
+                    },
                   },
-                  description:
-                    "<File too long | Too many parts | Too many files | Field name too long | Field value too long | Too many fields | Unexpected field>  [fieldName] Example: File too long file1"
-                }
+                  "required": false,
+                },
+                "responses": {
+                  "400": {
+                    "content": {
+                      "*/*": {
+                        "schema": {},
+                      },
+                    },
+                    "description": "<File too long | Too many parts | Too many files | Field name too long | Field value too long | Too many fields | Unexpected field>  [fieldName] Example: File too long file1",
+                  },
+                },
+                "tags": [
+                  "TestController",
+                ],
               },
-              tags: ["TestController"]
-            }
-          }
-        },
-        tags: [
-          {
-            name: "TestController"
-          }
-        ]
-      });
+            },
+          },
+          "tags": [
+            {
+              "name": "TestController",
+            },
+          ],
+        }
+      `);
     });
   });
 });

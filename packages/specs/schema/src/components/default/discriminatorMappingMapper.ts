@@ -1,6 +1,5 @@
 import {isString} from "@tsed/core";
 import {JsonSchema} from "../../domain/JsonSchema.js";
-import {SpecTypes} from "../../domain/SpecTypes.js";
 import type {JsonSchemaOptions} from "../../interfaces/JsonSchemaOptions.js";
 import {registerJsonSchemaMapper} from "../../registries/JsonSchemaMapperContainer.js";
 import {toRef} from "../../utils/ref.js";
@@ -15,7 +14,7 @@ export function discriminatorMappingMapper(obj: SchemaWithDiscriminator, _: Json
     const newMapping: Record<string, string> = {};
 
     for (const [key, value] of entries) {
-      newMapping[key] = isString(value) ? value : toRef(value, null, options).$ref;
+      newMapping[key] = isString(value) ? value : toRef(value, null, options).$ref!;
     }
 
     obj.discriminator.mapping = newMapping;
@@ -32,6 +31,4 @@ function defaultDiscriminatorMappingMapper(obj: SchemaWithDiscriminator) {
   return obj;
 }
 
-
 registerJsonSchemaMapper("discriminatorMapping", defaultDiscriminatorMappingMapper);
-
