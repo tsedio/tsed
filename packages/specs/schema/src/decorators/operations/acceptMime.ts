@@ -1,4 +1,5 @@
 import {StoreSet, useDecorators} from "@tsed/core";
+
 import {Consumes} from "./consumes.js";
 
 /**
@@ -19,6 +20,6 @@ import {Consumes} from "./consumes.js";
  * @operation
  * @response
  */
-export function AcceptMime(...mimes: string[]): Function {
+export function AcceptMime(...mimes: string[]): ClassDecorator & MethodDecorator {
   return useDecorators(Consumes(...mimes), StoreSet("acceptMimes", mimes));
 }

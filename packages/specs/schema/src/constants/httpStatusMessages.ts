@@ -1,5 +1,5 @@
-import statuses from "statuses";
 import {constantCase} from "change-case";
+import statuses from "statuses";
 
 export const HTTP_STATUS_MESSAGES = statuses.codes.reduce((map: Record<string, {label: string; code: string}>, code: number) => {
   const message: string = String(statuses(code));

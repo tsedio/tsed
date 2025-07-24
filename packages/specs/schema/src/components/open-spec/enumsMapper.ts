@@ -12,7 +12,7 @@ export function wrapEnumsMapper(obj: any, schema: JsonSchema, options: JsonSchem
     delete obj.const;
   }
 
-  return obj
+  return obj;
 }
 
 registerJsonSchemaMapper("enums", wrapEnumsMapper, SpecTypes.OPENAPI);

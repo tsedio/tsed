@@ -1,6 +1,7 @@
 import {OperationVerbs} from "../../constants/OperationVerbs.js";
 import {DecoratorContext} from "../../domain/DecoratorContext.js";
 import {JsonMethodStore} from "../../domain/JsonMethodStore.js";
+import {JsonMethodPath, type JsonOperation} from "../../domain/JsonOperation.js";
 import {mapOperationOptions} from "../../utils/mapOperationOptions.js";
 
 export interface RouteChainedDecorators {
@@ -53,12 +54,15 @@ export interface RouteChainedDecorators {
 class OperationDecoratorContext extends DecoratorContext<RouteChainedDecorators> {
   readonly methods: string[] = ["name", "description", "summary", "method", "id", "use", "useAfter", "useBefore"];
   protected declare entity: JsonMethodStore;
+  protected operationPath: JsonMethodPath;
 
   protected beforeInit() {
     const path: string = this.get("path");
     const method: string = OperationVerbs[this.get("method") as OperationVerbs] || OperationVerbs.CUSTOM;
 
-    path && this.entity.operation.addOperationPath(method, path);
+    if (path) {
+      this.operationPath = this.entity.operation.addOperationPath(method, path);
+    }
   }
 
   protected onMapKey(key: string, value: any) {
@@ -68,10 +72,13 @@ class OperationDecoratorContext extends DecoratorContext<RouteChainedDecorators>
         this.entity.operation.operationId(value);
         return;
       case "summary":
+        this.operationPath?.summary(value);
         this.entity.operation.summary(value);
         return;
       case "description":
+        this.operationPath?.description(value);
         this.entity.operation.description(value);
+
         return;
       case "use":
         this.entity.use(value);

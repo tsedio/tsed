@@ -103,6 +103,7 @@ describe("Tags", () => {
 
     let actualError: any;
     try {
+      // @ts-ignore
       Tags("tags")(Test.prototype, "test", 0);
     } catch (er) {
       actualError = er;

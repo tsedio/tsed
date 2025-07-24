@@ -662,9 +662,7 @@ exports[`PetStore > OpenSpec > should generate the spec 1`] = `
           "404": {
             "content": {
               "*/*": {
-                "schema": {
-                  "type": "object",
-                },
+                "schema": {},
               },
             },
             "description": "Not Found",
@@ -696,9 +694,7 @@ exports[`PetStore > OpenSpec > should generate the spec 1`] = `
           "404": {
             "content": {
               "*/*": {
-                "schema": {
-                  "type": "object",
-                },
+                "schema": {},
               },
             },
             "description": "Not Found",
@@ -734,9 +730,7 @@ exports[`PetStore > OpenSpec > should generate the spec 1`] = `
           "404": {
             "content": {
               "*/*": {
-                "schema": {
-                  "type": "object",
-                },
+                "schema": {},
               },
             },
             "description": "Not Found",
@@ -783,9 +777,7 @@ exports[`PetStore > OpenSpec > should generate the spec 1`] = `
           "404": {
             "content": {
               "*/*": {
-                "schema": {
-                  "type": "object",
-                },
+                "schema": {},
               },
             },
             "description": "Not Found",
@@ -832,9 +824,7 @@ exports[`PetStore > OpenSpec > should generate the spec 1`] = `
           "404": {
             "content": {
               "*/*": {
-                "schema": {
-                  "type": "object",
-                },
+                "schema": {},
               },
             },
             "description": "Not Found",

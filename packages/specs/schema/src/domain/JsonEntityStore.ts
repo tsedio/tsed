@@ -18,6 +18,7 @@ import {
   Store,
   Type
 } from "@tsed/core";
+
 import type {JsonClassStore} from "./JsonClassStore.js";
 import type {JsonMethodStore} from "./JsonMethodStore.js";
 import type {JsonParameterStore} from "./JsonParameterStore.js";
@@ -74,28 +75,53 @@ export abstract class JsonEntityStore implements JsonEntityStoreOptions {
   readonly isStore = true;
   readonly parent: JsonEntityStore;
   readonly target: Type<any>;
-  /**
-   *
-   */
-  protected _type: Type<any>;
-  /**
-   * Ref to JsonSchema
-   */
-  protected _schema: JsonSchema;
-
-  [key: string]: any;
 
   constructor(options: JsonEntityStoreOptions) {
     const {target, propertyKey, descriptor, index, decoratorType} = options;
     this.target = target;
     this.propertyKey = propertyKey!;
-    this.propertyName = String(propertyKey);
+    this.propertyName = propertyKey ? String(propertyKey) : propertyKey || "";
     this.descriptor = descriptor;
     this.index = index!;
     this.decoratorType = decoratorType;
     this.token = target;
     this.store = options.store;
     this.parent = this;
+  }
+
+  /**
+   *
+   */
+  protected _type: Type<any>;
+
+  [key: string]: any;
+
+  get type(): Type<any> | any {
+    return this._type;
+  }
+
+  /**
+   * Get original type without transformation
+   * @param value
+   */
+  set type(value: Type<any> | any) {
+    if (!value?.$schema?.skip) {
+      this._type = value;
+    }
+
+    this.build();
+  }
+
+  /**
+   * Ref to JsonSchema
+   */
+  protected _schema: JsonSchema;
+
+  /**
+   * Return the JsonSchema
+   */
+  get schema(): JsonSchema {
+    return this._schema;
   }
 
   /**
@@ -137,39 +163,11 @@ export abstract class JsonEntityStore implements JsonEntityStoreOptions {
   }
 
   /**
-   * Return the JsonSchema
-   */
-  get schema(): JsonSchema {
-    return this._schema;
-  }
-
-  get nestedGenerics(): Type<any>[][] {
-    return this.schema.nestedGenerics;
-  }
-
-  set nestedGenerics(nestedGenerics: Type<any>[][]) {
-    this.schema.nestedGenerics = nestedGenerics;
-  }
-
-  get type(): Type<any> | any {
-    return this._type;
-  }
-
-  /**
-   * Get original type without transformation
-   * @param value
-   */
-  set type(value: Type<any> | any) {
-    this._type = value;
-    this.build();
-  }
-
-  /**
    * Return the itemSchema computed type. if the type is a function used for recursive model, the function will be called to
    * get the right type.
    */
   get computedType() {
-    return this.itemSchema.getComputedType();
+    return this.itemSchema.class;
   }
 
   get itemSchema(): JsonSchema {
@@ -184,12 +182,17 @@ export abstract class JsonEntityStore implements JsonEntityStoreOptions {
     return this.schema.isDiscriminator && this.discriminatorAncestor?.schema.discriminator().base !== this.target;
   }
 
+  get path() {
+    return this.store.get("path");
+  }
+
+  set path(path: string) {
+    this.store.set("path", path);
+  }
+
   static from<T extends JsonClassStore = JsonClassStore>(target: Type<any>): T;
-
   static from<T extends JsonPropertyStore = JsonPropertyStore>(target: Type<any> | any, propertyKey: string | symbol): T;
-
   static from<T extends JsonParameterStore = JsonParameterStore>(target: Type<any> | any, propertyKey: string | symbol, index: number): T;
-
   static from<T extends JsonMethodStore = JsonMethodStore>(
     target: Type<any> | any,
     propertyKey: string | symbol,
@@ -256,21 +259,6 @@ export abstract class JsonEntityStore implements JsonEntityStoreOptions {
     return [this.targetName, this.propertyName, this.index].filter((o) => o !== undefined).join(":");
   }
 
-  protected abstract build(): void;
-
-  protected buildType(type: any) {
-    if (isCollection(type)) {
-      this.collectionType = type;
-    } else {
-      this._type = type;
-
-      // issue #1534: Enum metadata stored as plain object instead of String (see: https://github.com/tsedio/tsed/issues/1534)
-      if (this._type && isPlainObject(this._type)) {
-        this._type = String;
-      }
-    }
-  }
-
   getBestType() {
     return this.itemSchema.hasDiscriminator
       ? this.itemSchema.discriminator().base
@@ -279,5 +267,28 @@ export abstract class JsonEntityStore implements JsonEntityStoreOptions {
         : isArrowFn(this.type)
           ? this.type()
           : this.type;
+  }
+
+  is(input: DecoratorTypes.CLASS): this is JsonClassStore;
+  is(input: DecoratorTypes.PROP): this is JsonPropertyStore;
+  is(input: DecoratorTypes.METHOD): this is JsonMethodStore;
+  is(input: DecoratorTypes.PARAM): this is JsonParameterStore;
+  is(input: DecoratorTypes): boolean {
+    return this.decoratorType === input;
+  }
+
+  protected abstract build(): void;
+
+  protected buildType(type: any) {
+    if (isCollection(type)) {
+      this.collectionType = type;
+    } else if (!(type && "$schema" in type && type.$schema.skip)) {
+      this._type = type;
+
+      // issue #1534: Enum metadata stored as plain object instead of String (see: https://github.com/tsedio/tsed/issues/1534)
+      if (this._type && isPlainObject(this._type)) {
+        this._type = String;
+      }
+    }
   }
 }

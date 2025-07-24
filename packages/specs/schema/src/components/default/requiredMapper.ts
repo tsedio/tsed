@@ -1,9 +1,9 @@
 import {uniq} from "@tsed/core";
+
 import type {JsonSchema} from "../../domain/JsonSchema.js";
 import {alterRequiredGroups} from "../../hooks/alterRequiredGroups.js";
 import type {JsonSchemaOptions} from "../../interfaces/JsonSchemaOptions.js";
 import {registerJsonSchemaMapper} from "../../registries/JsonSchemaMapperContainer.js";
-import {createRef, createRefName, toRef} from "../../utils/ref.js";
 
 function mapRequiredProps(obj: any, schema: JsonSchema, options: JsonSchemaOptions = {}) {
   const {useAlias} = options;
@@ -23,7 +23,7 @@ function mapRequiredProps(obj: any, schema: JsonSchema, options: JsonSchemaOptio
 function extractRequiredProps(obj: any, schema: JsonSchema, options: JsonSchemaOptions): string[] {
   let required: string[] = obj.required || [];
 
-  required = [...required, ...schema.$required];
+  required = [...required, ...schema.getRequiredFields()];
 
   if (schema.get("properties")) {
     required = Object.entries(schema.get("properties")).reduce((required, [key, prop]: [string, any]) => {
@@ -39,7 +39,7 @@ function extractRequiredProps(obj: any, schema: JsonSchema, options: JsonSchemaO
 }
 
 export function requiredMapper(obj: any, schema: JsonSchema, options: JsonSchemaOptions) {
-  if (options.groups && options.groups.includes("partial")) {
+  if (options.groups && options.groups?.includes("partial")) {
     if (obj.discriminator) {
       return {
         ...obj,

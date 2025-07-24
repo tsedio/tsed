@@ -93,7 +93,7 @@ describe("@CollectionOf", () => {
 
     expect(entity.schema.getTarget()).toEqual(Array);
     expect(entity.schema.get("type")).toEqual("array");
-    expect(entity.itemSchema.getComputedType()).toEqual(Nested);
+    expect(entity.itemSchema.class).toEqual(Nested);
 
     expect(schema).toEqual({
       definitions: {
@@ -129,6 +129,7 @@ describe("@CollectionOf", () => {
     class Model {
       @Property()
       id: string;
+
       @CollectionOf(Nested)
       prop: Nested;
     }
@@ -172,7 +173,7 @@ describe("@CollectionOf", () => {
   it("should declare a collection (Map of)", () => {
     // WHEN
     class Model {
-      @(CollectionOf(Number).MinProperties(2).MaxProperties(5))
+      @CollectionOf(Number).MinProperties(2).MaxProperties(5)
       num: Map<string, number>;
     }
 
@@ -219,7 +220,7 @@ describe("@CollectionOf", () => {
   it("should declare collection with additional props", () => {
     // WHEN
     class Model {
-      @(CollectionOf(String).MinItems(0).MaxItems(10).UniqueItems())
+      @CollectionOf(String).MinItems(0).MaxItems(10).UniqueItems()
       words: string[];
     }
 
@@ -244,7 +245,7 @@ describe("@CollectionOf", () => {
   it("should declare collection with additional props and contains", () => {
     // WHEN
     class Model {
-      @(CollectionContains(String).MinItems(0).MaxItems(10))
+      @CollectionContains(String).MinItems(0).MaxItems(10)
       words: string[];
     }
 
@@ -304,7 +305,7 @@ describe("@MapOf", () => {
   it("should declare a collection (Map of)", () => {
     // WHEN
     class Model {
-      @(MapOf(Number).MinProperties(2).MaxProperties(5))
+      @MapOf(Number).MinProperties(2).MaxProperties(5)
       num: MapCollection<string, number>;
     }
 

@@ -23,9 +23,7 @@ describe("Header", () => {
                   "200": {
                     content: {
                       "*/*": {
-                        schema: {
-                          type: "object"
-                        }
+                        schema: {}
                       }
                     },
                     headers: {
@@ -70,9 +68,7 @@ describe("Header", () => {
                   "200": {
                     content: {
                       "*/*": {
-                        schema: {
-                          type: "object"
-                        }
+                        schema: {}
                       }
                     },
                     headers: {
@@ -116,9 +112,7 @@ describe("Header", () => {
                   "200": {
                     content: {
                       "*/*": {
-                        schema: {
-                          type: "object"
-                        }
+                        schema: {}
                       }
                     },
                     headers: {
@@ -170,9 +164,7 @@ describe("Header", () => {
                   "200": {
                     content: {
                       "*/*": {
-                        schema: {
-                          type: "object"
-                        }
+                        schema: {}
                       }
                     },
                     headers: {

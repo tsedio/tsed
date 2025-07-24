@@ -1,4 +1,5 @@
 import {decorateMethodsOf, DecoratorTypes, UnsupportedDecoratorType} from "@tsed/core";
+
 import {JsonEntityFn} from "../common/jsonEntityFn.js";
 
 /**
@@ -19,7 +20,7 @@ import {JsonEntityFn} from "../common/jsonEntityFn.js";
  * @classDecorator
  * @operation
  */
-export function Consumes(...consumes: string[]) {
+export function Consumes(...consumes: string[]): ClassDecorator & MethodDecorator {
   return JsonEntityFn((store, args) => {
     switch (store.decoratorType) {
       case DecoratorTypes.METHOD:

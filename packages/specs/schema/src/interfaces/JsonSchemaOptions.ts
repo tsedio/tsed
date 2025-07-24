@@ -1,4 +1,5 @@
 import {SpecTypes} from "../domain/SpecTypes.js";
+import type {GenericsMap} from "../utils/generics.js";
 
 export interface JsonSchemaOptions {
   /**
@@ -14,12 +15,16 @@ export interface JsonSchemaOptions {
    */
   specType?: SpecTypes;
   /**
-   * Define a groups restriction to generate the JsonSchema.
+   * Define the spec version for OPENAPI (3.1.0, 3.0.3, 3.0.2, 3.0.1, 3.0.0)
+   */
+  specVersion?: string;
+  /**
+   * Define a group restriction to generate the JsonSchema.
    * Set false to disable groups.
    */
   groups?: string[] | false;
   /**
-   * Set the postfix groups name for generated model and ref.
+   * Set the postfix groups name for a generated model and ref.
    */
   groupsName?: string;
   /**
@@ -30,6 +35,15 @@ export interface JsonSchemaOptions {
    * Inline enums when enum instead of using $ref.
    */
   inlineEnums?: boolean;
+  /**
+   * Represents optional generic definitions that adhere to the JSON Schema standard.
+   *
+   * This property allows the specification of generics when constructing or representing a JSON schema.
+   * It can be used to define reusable and parameterized components within the schema structure.
+   *
+   * @type {GenericsMap|undefined}
+   */
+  generics?: GenericsMap;
 
   [key: string]: any;
 }

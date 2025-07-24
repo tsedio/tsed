@@ -1,6 +1,7 @@
 import {DecoratorTypes, UnsupportedDecoratorType} from "@tsed/core";
-import {JsonEntityFn} from "../common/jsonEntityFn.js";
+
 import {OperationVerbs} from "../../constants/OperationVerbs.js";
+import {JsonEntityFn} from "../common/jsonEntityFn.js";
 
 /**
  * Declare new Operation with his path and http method.
@@ -8,7 +9,7 @@ import {OperationVerbs} from "../../constants/OperationVerbs.js";
  * ::: warning
  * Don't use decorator with Ts.ED application.
  *
- * Use theses decorators instead:
+ * Use these decorators instead:
  *
  * <ApiList query="status.includes('decorator') && status.includes('httpMethod')" />
  *

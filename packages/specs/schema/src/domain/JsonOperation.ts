@@ -1,5 +1,6 @@
 import {deepMerge, uniq, uniqBy} from "@tsed/core";
 import {OpenSpecSecurity, OpenSpecTag, OS3Operation} from "@tsed/openspec";
+
 import {JsonHeader} from "../interfaces/JsonOpenSpec.js";
 import {isRedirectionStatus, isSuccessStatus} from "../utils/isSuccessStatus.js";
 import {JsonMap} from "./JsonMap.js";
@@ -7,11 +8,25 @@ import {JsonParameter} from "./JsonParameter.js";
 import {JsonResponse} from "./JsonResponse.js";
 import {JsonSchema} from "./JsonSchema.js";
 
-export interface JsonMethodPath {
-  path: string | RegExp;
-  method: string;
+export class JsonMethodPath extends JsonMap<any> {
+  constructor(
+    public method: string,
+    public path: string | RegExp
+  ) {
+    super();
+  }
 
-  [key: string]: any;
+  summary(summary: string): this {
+    super.set("summary", summary);
+
+    return this;
+  }
+
+  description(description: string): this {
+    super.set("description", description);
+
+    return this;
+  }
 }
 
 export interface JsonOperationOptions extends OS3Operation<JsonSchema, JsonParameter, JsonMap<JsonResponse>> {
@@ -23,6 +38,7 @@ export class JsonOperation extends JsonMap<JsonOperationOptions> {
   $kind: string = "operation";
 
   readonly operationPaths: Map<string, JsonMethodPath> = new Map();
+
   #status: number;
   #redirection: boolean = false;
 
@@ -167,6 +183,24 @@ export class JsonOperation extends JsonMap<JsonOperationOptions> {
     return this;
   }
 
+  addAllowedGroupsParameter(allowedGroups: string[]) {
+    const jsonParameter = new JsonParameter();
+    jsonParameter.in("query").name("includes");
+    jsonParameter.schema(
+      JsonSchema.from({
+        type: "array",
+        items: {
+          type: "string",
+          enum: [...allowedGroups]
+        }
+      })
+    );
+
+    this.addParameter(-1, jsonParameter);
+
+    return this;
+  }
+
   parameters(parameters: JsonParameter[]): this {
     super.set("parameters", parameters);
 
@@ -198,14 +232,11 @@ export class JsonOperation extends JsonMap<JsonOperationOptions> {
     this.set("produces", produces);
   }
 
-  addOperationPath(method: string, path: string | RegExp, options: any = {}) {
-    this.operationPaths.set(String(method) + String(path), {
-      ...options,
-      method,
-      path
-    });
+  addOperationPath(method: string, path: string | RegExp) {
+    const operationPath = new JsonMethodPath(method, path);
+    this.operationPaths.set(String(method) + String(path), operationPath);
 
-    return this;
+    return operationPath;
   }
 
   getAllowedOperationPath(allowedVerbs?: string[]) {

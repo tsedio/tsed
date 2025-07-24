@@ -1,4 +1,5 @@
 import {isNumber, isString, useDecorators} from "@tsed/core";
+
 import {JsonHeader} from "../../interfaces/JsonOpenSpec.js";
 import {JsonEntityFn} from "../common/jsonEntityFn.js";
 import {Returns} from "./returns.js";
@@ -73,7 +74,7 @@ export function Redirect(...args: any[]): Function {
     {status: 302, url: "", meta: {}}
   );
   return useDecorators(
-    Returns(status).Location(url, meta),
+    Returns(status, String).Location(url, meta),
     JsonEntityFn((entity) => {
       entity.operation?.setRedirection(status);
     })

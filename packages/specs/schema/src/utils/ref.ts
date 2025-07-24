@@ -1,8 +1,22 @@
-import {cleanObject, setValue} from "@tsed/core";
+import {setValue} from "@tsed/core";
 import {pascalCase} from "change-case";
+import type {JSONSchema7} from "json-schema";
+
 import type {JsonSchema} from "../domain/JsonSchema.js";
 import {SpecTypes} from "../domain/SpecTypes.js";
 import {JsonSchemaOptions} from "../interfaces/JsonSchemaOptions.js";
+import {mergeSchema} from "./mergeSchema.js";
+
+export function getSchemaFromRef($ref: string | undefined, options: JsonSchemaOptions): JSONSchema7 | undefined {
+  const {components} = options;
+
+  if (components?.schemas && $ref) {
+    const host = getHost(options);
+    const refName = $ref.replace(`${host}/`, "");
+
+    return components.schemas[refName];
+  }
+}
 
 /**
  * ignore
@@ -31,28 +45,22 @@ export function createRefName(name: string, options: JsonSchemaOptions) {
  */
 export function createRef(name: string, schema: JsonSchema, options: JsonSchemaOptions) {
   const host = getHost(options);
-  const ref = {
-    $ref: `${host}/${name}`
-  };
 
-  const readOnly = schema.isReadOnly;
-  const writeOnly = schema.isWriteOnly;
-
-  return cleanObject({
-    readOnly: readOnly ? true : undefined,
-    writeOnly: writeOnly ? true : undefined,
-    ...(readOnly || writeOnly
-      ? {
-          anyOf: [ref]
-        }
-      : ref)
-  });
+  return mergeSchema(
+    {
+      $ref: `${host}/${name}`
+    },
+    {
+      ...(schema.isReadOnly ? {readOnly: true} : {}),
+      ...(schema.isWriteOnly ? {writeOnly: true} : {})
+    }
+  );
 }
 
 /**
  * @ignore
  */
-export function toRef(value: JsonSchema, schema: unknown | undefined, options: JsonSchemaOptions) {
+export function toRef(value: JsonSchema, schema: JSONSchema7 | undefined | null, options: JsonSchemaOptions) {
   const name = createRefName(value.getName(), options);
 
   if (schema) {

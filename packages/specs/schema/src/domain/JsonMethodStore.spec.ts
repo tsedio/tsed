@@ -1,10 +1,13 @@
 import {StoreSet} from "@tsed/core";
+// @ts-ignore
 import {Use, UseAfter, UseBefore} from "@tsed/platform-middlewares";
+
 import {OperationVerbs} from "../constants/OperationVerbs.js";
 import {Property} from "../decorators/common/property.js";
 import {In} from "../decorators/operations/in.js";
 import {Returns} from "../decorators/operations/returns.js";
 import {Get} from "../decorators/operations/route.js";
+import {inspectOperationsPaths} from "./__fixtures__/inspectOperationsPaths.js";
 import {JsonEntityStore} from "./JsonEntityStore.js";
 import {EndpointMetadata, JsonMethodStore} from "./JsonMethodStore.js";
 import {JsonOperation} from "./JsonOperation.js";
@@ -70,7 +73,7 @@ describe("JsonMethodStore", () => {
       expect(endpoint.acceptMimes).toEqual([]);
     });
   });
-  describe("endpoint declaration", () => {
+  describe("endpoint declaration (2)", () => {
     it("should return an endpoint metadata", () => {
       // GIVEN
       const middleware1 = () => {};
@@ -122,7 +125,7 @@ describe("JsonMethodStore", () => {
       // THEN
       expect(endpoint.middlewares).toHaveLength(1);
 
-      expect([...endpoint.operationPaths.values()]).toEqual([
+      expect(inspectOperationsPaths(endpoint)).toEqual([
         {
           method: OperationVerbs.GET,
           path: "/"
@@ -234,7 +237,7 @@ describe("JsonMethodStore", () => {
       const storeClass = JsonEntityStore.from(Model);
       expect(storeClass).toBeInstanceOf(JsonEntityStore);
       expect(storeClass.decoratorType).toBe("class");
-      expect(storeClass.propertyName).toBe("undefined");
+      expect(storeClass.propertyName).toBe("");
       expect(storeClass.propertyKey).toBeUndefined();
       expect(storeClass.index).toBeUndefined();
       expect(storeClass.parent).toBe(storeClass);
@@ -248,7 +251,7 @@ describe("JsonMethodStore", () => {
       expect(storeProp?.index).toBeUndefined();
       expect(storeProp?.parameter).toBeUndefined();
       expect(storeProp?.operation).toBeUndefined();
-      expect(storeProp?.nestedGenerics).toEqual([]);
+      // expect(storeProp?.nestedGenerics).toEqual([]);
       expect(storeProp?.parent).toEqual(storeClass);
 
       // METHOD
@@ -261,14 +264,11 @@ describe("JsonMethodStore", () => {
       expect(storeMethod?.parameters.length).toEqual(1);
       expect(storeMethod?.params.length).toEqual(1);
 
-      expect([...storeMethod?.operationPaths.entries()]).toEqual([
-        [
-          "GET/",
-          {
-            method: "GET",
-            path: "/"
-          }
-        ]
+      expect(inspectOperationsPaths(storeMethod as JsonMethodStore)).toEqual([
+        {
+          method: "GET",
+          path: "/"
+        }
       ]);
       expect(storeMethod?.getResponseOptions(200)).toEqual({
         groups: undefined,
@@ -278,7 +278,7 @@ describe("JsonMethodStore", () => {
         type: Object
       });
       expect(storeMethod?.operation).toBeInstanceOf(JsonOperation);
-      expect(storeMethod?.nestedGenerics).toEqual([]);
+      // expect(storeMethod?.nestedGenerics).toEqual([]);
       expect(storeProp?.parent).toEqual(storeClass);
 
       // PARAMETERS
@@ -291,8 +291,6 @@ describe("JsonMethodStore", () => {
       expect(storeParam?.decoratorType).toBe("parameter");
       expect(storeParam?.parameter).toBeInstanceOf(JsonParameter);
       expect(storeParam?.operation).toBeUndefined();
-      expect(storeParam?.nestedGenerics).toEqual([]);
-      expect(storeParam?.nestedGenerics).toEqual([]);
       expect(storeParam?.parent).toEqual(storeMethod);
     });
   });

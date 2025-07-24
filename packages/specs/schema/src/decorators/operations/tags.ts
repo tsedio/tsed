@@ -1,5 +1,6 @@
 import {decorateMethodsOf, DecoratorTypes, UnsupportedDecoratorType} from "@tsed/core";
 import {OpenSpecTag} from "@tsed/openspec";
+
 import {JsonEntityFn} from "../common/jsonEntityFn.js";
 
 function mapTags(tags: (string | OpenSpecTag)[]) {
@@ -15,7 +16,7 @@ function mapTags(tags: (string | OpenSpecTag)[]) {
 }
 
 /**
- * Add tags metadata on the decorated element.
+ * Add metadata tags to the decorated element (class or method).
  *
  * ## Examples
  * ### On method
@@ -27,6 +28,15 @@ function mapTags(tags: (string | OpenSpecTag)[]) {
  *  get() {}
  * }
  * ```
+ * ### On Class
+ *
+ * ```typescript
+ * @Controller("/")
+ * @Tags("api")
+ * class MyController {
+ *  get() {}
+ * }
+ * ```
  *
  * @param tags
  * @decorator
@@ -35,7 +45,7 @@ function mapTags(tags: (string | OpenSpecTag)[]) {
  * @classDecorator
  * @operation
  */
-export function Tags(...tags: (string | OpenSpecTag)[]) {
+export function Tags(...tags: (string | OpenSpecTag)[]): ClassDecorator & MethodDecorator {
   return JsonEntityFn((store, args) => {
     switch (store.decoratorType) {
       case DecoratorTypes.METHOD:
