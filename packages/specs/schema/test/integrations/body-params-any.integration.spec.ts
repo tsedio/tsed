@@ -69,6 +69,7 @@ describe("Integration: BodyParams any", () => {
                           "type": "boolean",
                         },
                         {
+                          "items": {},
                           "type": "array",
                         },
                         {

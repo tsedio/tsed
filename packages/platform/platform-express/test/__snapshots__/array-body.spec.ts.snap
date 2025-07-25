@@ -44,6 +44,7 @@ exports[`Array Body > swagger > should return the swagger (OS3) 1`] = `
                       "type": "boolean",
                     },
                     {
+                      "items": {},
                       "type": "array",
                     },
                     {
@@ -92,6 +93,7 @@ exports[`Array Body > swagger > should return the swagger (OS3) 1`] = `
                       "type": "boolean",
                     },
                     {
+                      "items": {},
                       "type": "array",
                     },
                     {
@@ -217,6 +219,7 @@ exports[`Array Body > swagger > should return the swagger (OS3) 1`] = `
                     "type": "boolean",
                   },
                   {
+                    "items": {},
                     "type": "array",
                   },
                   {
