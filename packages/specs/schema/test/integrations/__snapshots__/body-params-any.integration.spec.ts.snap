@@ -193,6 +193,7 @@ exports[`Integration: BodyParams any > should generate the right spec (any[]) 1`
                       "type": "boolean",
                     },
                     {
+                      "items": {},
                       "type": "array",
                     },
                     {
@@ -264,6 +265,7 @@ exports[`Integration: BodyParams any > should generate the right spec (any[]) 1`
                     "type": "boolean",
                   },
                   {
+                    "items": {},
                     "type": "array",
                   },
                   {

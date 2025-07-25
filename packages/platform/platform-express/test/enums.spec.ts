@@ -68,8 +68,7 @@ describe("Enums", () => {
                 required: false,
                 schema: {
                   $ref: "#/components/schemas/Env"
-                },
-                style: "deepObject"
+                }
               }
             ],
             responses: {

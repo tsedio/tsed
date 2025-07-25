@@ -10,37 +10,40 @@ describe("@Any", () => {
     }
 
     // THEN
-    expect(getJsonSchema(Model)).toEqual({
-      properties: {
-        prop: {
-          anyOf: [
-            {
-              type: "null"
-            },
-            {
-              multipleOf: 1,
-              type: "integer"
-            },
-            {
-              type: "number"
-            },
-            {
-              type: "string"
-            },
-            {
-              type: "boolean"
-            },
-            {
-              type: "array"
-            },
-            {
-              type: "object"
-            }
-          ]
-        }
-      },
-      type: "object"
-    });
+    expect(getJsonSchema(Model)).toMatchInlineSnapshot(`
+      {
+        "properties": {
+          "prop": {
+            "anyOf": [
+              {
+                "type": "null",
+              },
+              {
+                "multipleOf": 1,
+                "type": "integer",
+              },
+              {
+                "type": "number",
+              },
+              {
+                "type": "string",
+              },
+              {
+                "type": "boolean",
+              },
+              {
+                "items": {},
+                "type": "array",
+              },
+              {
+                "type": "object",
+              },
+            ],
+          },
+        },
+        "type": "object",
+      }
+    `);
   });
   it("should declare any prop (uniq type)", () => {
     // WHEN
