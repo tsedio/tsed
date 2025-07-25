@@ -2,7 +2,7 @@
   "name": "@tsed/oidc-provider",
   "description": "OIDC provider package for Ts.ED framework",
   "type": "commonjs",
-  "version": "7.87.0",
+  "version": "7.87.1",
   "contributors": [
     {
       "name": "romakita"
