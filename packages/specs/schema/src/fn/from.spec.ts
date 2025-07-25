@@ -55,13 +55,14 @@ describe("from", () => {
     });
     expect(set().toJSON()).toEqual({
       type: "array",
+      items: {},
       uniqueItems: true
     });
     expect(map().toJSON()).toEqual({
       additionalProperties: true,
       type: "object"
     });
-    expect(array().toJSON()).toEqual({type: "array"});
+    expect(array().toJSON()).toEqual({type: "array", items: {}});
     expect(any().toJSON()).toEqual({
       anyOf: [
         {
@@ -81,7 +82,8 @@ describe("from", () => {
           type: "boolean"
         },
         {
-          type: "array"
+          type: "array",
+          items: {}
         },
         {
           type: "object"

@@ -191,6 +191,7 @@ describe("Pageable", () => {
             "Pagination": {
               "properties": {
                 "data": {
+                  "items": {},
                   "type": "array",
                 },
                 "page": {

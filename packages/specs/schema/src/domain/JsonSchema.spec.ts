@@ -750,7 +750,8 @@ describe("JsonSchema", () => {
         const validate = new Ajv({strict: true}).compile(schema);
 
         expect(schema).toEqual({
-          type: "array"
+          type: "array",
+          items: {}
         });
 
         expect(validate([1, 2, 3, 4, 5])).toBe(true);
@@ -1253,7 +1254,8 @@ describe("JsonSchema", () => {
       const result = JsonSchema.from({type: Array}).toObject();
       expect(JsonSchema.from({type: Array}).isCollection).toBe(true);
       expect(result).toEqual({
-        type: "array"
+        type: "array",
+        items: {}
       });
     });
 
@@ -1270,6 +1272,7 @@ describe("JsonSchema", () => {
 
       expect(result).toEqual({
         type: "array",
+        items: {},
         uniqueItems: true
       });
     });
@@ -1494,7 +1497,8 @@ describe("JsonSchema", () => {
             type: "boolean"
           },
           {
-            type: "array"
+            type: "array",
+            items: {}
           },
           {
             type: "object"

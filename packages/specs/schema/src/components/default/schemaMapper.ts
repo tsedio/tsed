@@ -135,6 +135,10 @@ function serializeSchema(schema: JsonSchema, options: JsonSchemaOptions) {
   obj = execMapper("discriminatorMapping", [obj, schema], options);
   obj = execMapper("generics", [obj, schema], options);
 
+  if (obj.type === "array" && !obj.items && !obj.contains) {
+    obj.items = {};
+  }
+
   return obj;
 }
 

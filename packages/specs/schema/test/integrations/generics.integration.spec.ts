@@ -51,7 +51,8 @@ describe("Generics: basic", () => {
         additionalProperties: false,
         properties: {
           data: {
-            type: "array"
+            type: "array",
+            items: {}
           },
           totalCount: {
             type: "number"
@@ -81,47 +82,50 @@ describe("Generics: basic", () => {
           Data: [Product]
         }
       });
-      expect(schema).toEqual({
-        allOf: [
-          {
-            $ref: "#/definitions/Paginated"
-          },
-          {
-            properties: {
-              data: {
-                items: {
-                  $ref: "#/definitions/Product"
+      expect(schema).toMatchInlineSnapshot(`
+        {
+          "allOf": [
+            {
+              "$ref": "#/definitions/Paginated",
+            },
+            {
+              "properties": {
+                "data": {
+                  "items": {
+                    "$ref": "#/definitions/Product",
+                  },
+                  "type": "array",
                 },
-                type: "array"
-              }
-            },
-            type: "object"
-          }
-        ],
-        definitions: {
-          Paginated: {
-            additionalProperties: false,
-            properties: {
-              data: {
-                type: "array"
               },
-              totalCount: {
-                type: "number"
-              }
+              "type": "object",
             },
-            type: "object"
+          ],
+          "definitions": {
+            "Paginated": {
+              "additionalProperties": false,
+              "properties": {
+                "data": {
+                  "items": {},
+                  "type": "array",
+                },
+                "totalCount": {
+                  "type": "number",
+                },
+              },
+              "type": "object",
+            },
+            "Product": {
+              "properties": {
+                "label": {
+                  "minLength": 10,
+                  "type": "string",
+                },
+              },
+              "type": "object",
+            },
           },
-          Product: {
-            properties: {
-              label: {
-                type: "string",
-                minLength: 10
-              }
-            },
-            type: "object"
-          }
         }
-      });
+      `);
 
       const value = await catchAsyncError(() =>
         validate(
@@ -373,6 +377,7 @@ describe("Generics: basic", () => {
             "Paginated": {
               "properties": {
                 "data": {
+                  "items": {},
                   "type": "array",
                 },
                 "totalCount": {
@@ -526,6 +531,7 @@ describe("Generics: basic", () => {
             "Paginated": {
               "properties": {
                 "data": {
+                  "items": {},
                   "type": "array",
                 },
                 "totalCount": {
@@ -719,6 +725,7 @@ describe("Generics: basic", () => {
             "Paginated": {
               "properties": {
                 "data": {
+                  "items": {},
                   "type": "array",
                 },
                 "totalCount": {
@@ -1235,6 +1242,7 @@ describe("Generics: basic", () => {
               "Pagination": {
                 "properties": {
                   "data": {
+                    "items": {},
                     "type": "array",
                   },
                   "totalCount": {
@@ -1363,6 +1371,7 @@ describe("Generics: basic", () => {
               "Pagination": {
                 "properties": {
                   "data": {
+                    "items": {},
                     "type": "array",
                   },
                   "totalCount": {
@@ -1509,6 +1518,7 @@ describe("Generics: basic", () => {
               "Pagination": {
                 "properties": {
                   "data": {
+                    "items": {},
                     "type": "array",
                   },
                   "totalCount": {
@@ -1759,6 +1769,7 @@ describe("Generics: basic", () => {
               "Pagination": {
                 "properties": {
                   "data": {
+                    "items": {},
                     "type": "array",
                   },
                   "totalCount": {
@@ -1936,6 +1947,7 @@ describe("Generics: basic", () => {
               "Pagination": {
                 "properties": {
                   "data": {
+                    "items": {},
                     "type": "array",
                   },
                   "totalCount": {

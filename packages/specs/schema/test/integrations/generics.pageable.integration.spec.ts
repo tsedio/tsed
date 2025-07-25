@@ -210,6 +210,7 @@ describe("Generics: Pageable - Testing pagination functionality with generic typ
             "Pagination": {
               "properties": {
                 "data": {
+                  "items": {},
                   "type": "array",
                 },
                 "page": {
