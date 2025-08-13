@@ -2,7 +2,7 @@
   "name": "@tsed/ioredis",
   "description": "IO Redis connection for Ts.ED",
   "type": "commonjs",
-  "version": "7.87.1",
+  "version": "7.87.2",
   "source": "./src/index.ts",
   "main": "./lib/cjs/index.js",
   "module": "./lib/esm/index.js",

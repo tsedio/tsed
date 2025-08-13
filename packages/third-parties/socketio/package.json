@@ -2,7 +2,7 @@
   "name": "@tsed/socketio",
   "description": "Socket.io package for Ts.ED framework",
   "type": "commonjs",
-  "version": "7.87.1",
+  "version": "7.87.2",
   "keywords": [
     "tsed",
     "socket.io",
