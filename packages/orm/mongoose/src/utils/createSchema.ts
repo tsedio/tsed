@@ -1,8 +1,9 @@
 import {classOf, cleanObject, isClassObject, nameOf, Store, Type} from "@tsed/core";
 import {deserialize, serialize} from "@tsed/json-mapper";
-import {getProperties, JsonEntityStore, JsonSchema} from "@tsed/schema";
+import {getProperties, JsonEntityStore} from "@tsed/schema";
 import {pascalCase} from "change-case";
 import mongoose, {Schema, SchemaDefinition, SchemaDefinitionProperty, SchemaOptions, SchemaTypeOptions} from "mongoose";
+
 import {MONGOOSE_SCHEMA, MONGOOSE_SCHEMA_OPTIONS} from "../constants/constants.js";
 import {MongooseSchemaOptions} from "../interfaces/MongooseSchemaOptions.js";
 import {MongooseVirtualRefOptions} from "../interfaces/MongooseVirtualRefOptions.js";
@@ -18,7 +19,7 @@ export interface MongooseSchemaMetadata {
  * @ignore
  */
 function setUpSchema({schema, virtuals}: MongooseSchemaMetadata, options?: SchemaOptions) {
-  const mongooseSchema = new mongoose.Schema(schema, options);
+  const mongooseSchema = new mongoose.Schema(schema, options as never);
 
   for (const [key, options] of virtuals.entries()) {
     mongooseSchema.virtual(key, options);
@@ -118,7 +119,7 @@ export function buildMongooseSchema(target: any): MongooseSchemaMetadata {
     // Keeping the Mongoose Schema separate, so it can overwrite everything once schema has been built.
     const schemaTypeOptions: any = propertyMetadata.store.get(MONGOOSE_SCHEMA) || {};
 
-    if (schemaTypeOptions.schemaIgnore || propertyMetadata.isDiscriminatorKey() || propertyMetadata.isGetterOnly()) {
+    if (schemaTypeOptions.schemaIgnore || propertyMetadata.itemSchema.isDiscriminatorKey || propertyMetadata.isGetterOnly()) {
       return;
     }
 
@@ -146,9 +147,9 @@ export function createSchemaTypeOptions(propEntity: JsonEntityStore): SchemaDefi
   const rawMongooseSchema = propEntity.store.get(MONGOOSE_SCHEMA) || {};
 
   let schemaTypeOptions: SchemaTypeOptions<any> = {
-    required: propEntity.required
+    required: propEntity.parent.schema.isRequired(String(key))
       ? function () {
-          return propEntity.isRequired(this[key]);
+          return propEntity.parent.schema.isRequiredValue(String(key), this[key]);
         }
       : false
   };

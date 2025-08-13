@@ -1,5 +1,6 @@
 import {isPlainObject, isString, Store, StoreMerge, useDecorators} from "@tsed/core";
 import {CollectionOf, Property} from "@tsed/schema";
+
 import {MONGOOSE_MODEL_NAME, MONGOOSE_SCHEMA} from "../constants/constants.js";
 import {MongooseVirtualRefOptions} from "../interfaces/MongooseVirtualRefOptions.js";
 import {MongooseModels} from "../registries/MongooseModels.js";
@@ -64,6 +65,10 @@ export function VirtualRef(options: string | MongooseVirtualRefOptions, foreignF
     schema.count ? Property(Number) : type && (schema.justOne ? Property(type) : CollectionOf(type, Array))
   );
 }
+
+VirtualRef.$schema = {
+  skip: true
+};
 
 export type VirtualRef<T> = T | null;
 /**

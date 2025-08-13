@@ -1,8 +1,9 @@
-import {classOf, isArrowFn, isString, StoreMerge, Type, useDecorators} from "@tsed/core";
+import {isString, StoreMerge, Type, useDecorators} from "@tsed/core";
+import {deserialize, OnDeserialize, OnSerialize, serialize} from "@tsed/json-mapper";
 import {Description, Example, JsonHookContext, OneOf, Property, string} from "@tsed/schema";
 import {Schema as MongooseSchema} from "mongoose";
+
 import {MONGOOSE_SCHEMA} from "../constants/constants.js";
-import {deserialize, OnDeserialize, OnSerialize, serialize} from "@tsed/json-mapper";
 import {MongooseModels} from "../registries/MongooseModels.js";
 
 function isRef(value: undefined | string | any) {
@@ -71,5 +72,9 @@ export function DynamicRef(refPath: string, ...types: Type<any>[]): PropertyDeco
     OneOf(string().example("5ce7ad3028890bd71749d477").description("A reference ObjectID"), ...types)
   ) as PropertyDecorator;
 }
+
+DynamicRef.$schema = {
+  skip: true
+};
 
 export type DynamicRef<T> = T | string;

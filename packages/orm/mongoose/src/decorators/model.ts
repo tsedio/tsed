@@ -1,4 +1,4 @@
-import {nameOf, useDecorators} from "@tsed/core";
+import {useDecorators} from "@tsed/core";
 import {registerProvider} from "@tsed/di";
 import {DiscriminatorValue} from "@tsed/schema";
 import {Schema} from "mongoose";

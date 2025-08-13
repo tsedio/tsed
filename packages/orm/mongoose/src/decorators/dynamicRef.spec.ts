@@ -1,13 +1,17 @@
 import {descriptorOf, Store} from "@tsed/core";
-import {getJsonSchema} from "@tsed/schema";
+import {getJsonSchema, Property, string} from "@tsed/schema";
 import {Schema} from "mongoose";
-import {MONGOOSE_MODEL_NAME, MONGOOSE_SCHEMA} from "../constants/constants.js";
+
 import {DynamicRef} from "../../src/index.js";
+import {MONGOOSE_MODEL_NAME, MONGOOSE_SCHEMA} from "../constants/constants.js";
 
 describe("@DynamicRef()", () => {
   it("should set metadata", () => {
     // GIVEN
-    class RefTest {}
+    class RefTest {
+      @Property()
+      id: string;
+    }
 
     Store.from(RefTest).set(MONGOOSE_MODEL_NAME, "RefTest");
 
@@ -23,13 +27,7 @@ describe("@DynamicRef()", () => {
         test: {
           description: "A reference ObjectID",
           examples: ["5ce7ad3028890bd71749d477"],
-          oneOf: [
-            {
-              description: "A reference ObjectID",
-              examples: ["5ce7ad3028890bd71749d477"],
-              type: "string"
-            }
-          ]
+          type: "string"
         }
       },
       type: "object"
