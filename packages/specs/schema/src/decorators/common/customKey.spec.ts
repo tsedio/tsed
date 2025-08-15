@@ -1,4 +1,22 @@
-import {CustomKeys, getJsonSchema, getSpec, OperationPath, Path, Returns, SpecTypes} from "../../index.js";
+import {
+  AnyOf,
+  boolean,
+  CustomKeys,
+  Default,
+  Deprecated,
+  Description,
+  Example,
+  getJsonSchema,
+  getSpec,
+  number,
+  OperationPath,
+  Path,
+  Property,
+  Required,
+  Returns,
+  SpecTypes,
+  string
+} from "../../index.js";
 import {CustomKey} from "./customKey.js";
 
 describe("@CustomKey", () => {
@@ -101,5 +119,61 @@ describe("@CustomKey", () => {
       },
       type: "object"
     });
+  });
+
+  it("should return the spec using anyOf (OS3)", () => {
+    class Model {
+      @Required()
+      @Property(String)
+      @Default("GET")
+      @CustomKey("x-key", 0)
+      public method: string;
+
+      @CustomKey("x-key", 1)
+      @AnyOf(string().default(""), number().default(0), boolean().default(false))
+      @Description("The value can be a string, number, or boolean")
+      @Deprecated()
+      @Example("example string")
+      public value?: string | number | boolean;
+    }
+
+    expect(getJsonSchema(Model, {customKeys: true})).toMatchInlineSnapshot(`
+      {
+        "properties": {
+          "method": {
+            "default": "GET",
+            "minLength": 1,
+            "type": "string",
+            "x-key": 0,
+          },
+          "value": {
+            "anyOf": [
+              {
+                "default": "",
+                "type": "string",
+              },
+              {
+                "default": 0,
+                "type": "number",
+              },
+              {
+                "default": false,
+                "type": "boolean",
+              },
+            ],
+            "deprecated": true,
+            "description": "The value can be a string, number, or boolean",
+            "examples": [
+              "example string",
+            ],
+            "x-key": 1,
+          },
+        },
+        "required": [
+          "method",
+        ],
+        "type": "object",
+      }
+    `);
   });
 });

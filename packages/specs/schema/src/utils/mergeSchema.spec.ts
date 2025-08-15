@@ -348,24 +348,15 @@ describe("mergeSchema", () => {
 
     expect(result).toMatchInlineSnapshot(`
       {
-        "allOf": [
-          {
-            "properties": {
-              "prop1": {
-                "type": "string",
-              },
-            },
-            "type": "object",
+        "properties": {
+          "prop1": {
+            "type": "string",
           },
-          {
-            "properties": {
-              "prop2": {
-                "type": "number",
-              },
-            },
-            "type": "object",
+          "prop2": {
+            "type": "number",
           },
-        ],
+        },
+        "type": "object",
       }
     `);
   });
@@ -396,24 +387,15 @@ describe("mergeSchema", () => {
 
     expect(result).toMatchInlineSnapshot(`
       {
-        "allOf": [
-          {
-            "properties": {
-              "prop1": {
-                "type": "string",
-              },
-            },
-            "type": "object",
+        "properties": {
+          "prop1": {
+            "type": "string",
           },
-          {
-            "properties": {
-              "prop2": {
-                "type": "number",
-              },
-            },
-            "type": "object",
+          "prop2": {
+            "type": "number",
           },
-        ],
+        },
+        "type": "object",
       }
     `);
   });
@@ -440,24 +422,15 @@ describe("mergeSchema", () => {
 
     expect(result).toMatchInlineSnapshot(`
       {
-        "allOf": [
-          {
-            "properties": {
-              "prop1": {
-                "type": "string",
-              },
-            },
-            "type": "object",
+        "properties": {
+          "prop1": {
+            "type": "string",
           },
-          {
-            "properties": {
-              "prop2": {
-                "type": "number",
-              },
-            },
-            "type": "object",
+          "prop2": {
+            "type": "number",
           },
-        ],
+        },
+        "type": "object",
       }
     `);
   });
@@ -484,24 +457,15 @@ describe("mergeSchema", () => {
 
     expect(result).toMatchInlineSnapshot(`
       {
-        "allOf": [
-          {
-            "properties": {
-              "prop1": {
-                "type": "string",
-              },
-            },
-            "type": "object",
+        "properties": {
+          "prop1": {
+            "type": "string",
           },
-          {
-            "properties": {
-              "prop2": {
-                "type": "number",
-              },
-            },
-            "type": "object",
+          "prop2": {
+            "type": "number",
           },
-        ],
+        },
+        "type": "object",
       }
     `);
   });
@@ -711,10 +675,8 @@ describe("mergeSchema", () => {
           {
             "$ref": "#/components/schemas/TestPerson",
           },
-          {
-            "readOnly": true,
-          },
         ],
+        "readOnly": true,
       }
     `);
   });
@@ -912,10 +874,66 @@ describe("mergeSchema", () => {
           {
             "$ref": "#/components/schemas/TestPerson",
           },
+        ],
+        "readOnly": true,
+      }
+    `);
+  });
+  it('should preserve some keys when merging with "allOf"', () => {
+    const schema1 = {} satisfies JSONSchema7;
+    const schema2 = {
+      anyOf: [
+        {type: "string", default: ""},
+        {type: "number", default: 0},
+        {type: "boolean", default: false}
+      ],
+      "x-key": 1,
+      default: "default"
+    } as any as JSONSchema7;
+
+    const result = mergeSchema(schema1, schema2);
+
+    expect(result).toMatchInlineSnapshot(`
+      {
+        "anyOf": [
           {
-            "readOnly": true,
+            "default": "",
+            "type": "string",
+          },
+          {
+            "default": 0,
+            "type": "number",
+          },
+          {
+            "default": false,
+            "type": "boolean",
           },
         ],
+        "default": "default",
+        "x-key": 1,
+      }
+    `);
+  });
+
+  it("shouldn't merge schemas with $ref and deprecated, type object", () => {
+    const schema1 = {
+      $ref: "#/components/schemas/TestPerson"
+    } satisfies JSONSchema7;
+
+    const schema2 = {
+      type: "object",
+      deprecated: true
+    } as JSONSchema7;
+
+    const result = mergeSchema(schema1, schema2);
+    expect(result).toMatchInlineSnapshot(`
+      {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/TestPerson",
+          },
+        ],
+        "deprecated": true,
       }
     `);
   });

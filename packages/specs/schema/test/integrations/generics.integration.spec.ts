@@ -993,6 +993,13 @@ describe("Generics: basic", () => {
                 },
                 {
                   "properties": {
+                    "email": {
+                      "minLength": 0,
+                      "type": "string",
+                    },
+                    "name": {
+                      "type": "string",
+                    },
                     "role": {
                       "$ref": "#/definitions/Role",
                     },
