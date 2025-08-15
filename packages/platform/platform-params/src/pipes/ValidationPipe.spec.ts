@@ -77,61 +77,66 @@ describe("ValidationPipe", () => {
     const result = await validator.transform("value", param);
 
     // THEN
-    expect(getSpec(Test, {specType: SpecTypes.OPENAPI})).toEqual({
-      paths: {
-        "/": {
-          post: {
-            operationId: "testTest",
-            parameters: [],
-            requestBody: {
-              content: {
-                "application/json": {
-                  schema: {
-                    items: {
-                      anyOf: [
-                        {
-                          multipleOf: 1,
-                          type: "integer"
-                        },
-                        {
-                          type: "number"
-                        },
-                        {
-                          type: "string"
-                        },
-                        {
-                          type: "boolean"
-                        },
-                        {
-                          type: "array"
-                        },
-                        {
-                          type: "object"
-                        }
-                      ],
-                      nullable: true
+    expect(getSpec(Test, {specType: SpecTypes.OPENAPI})).toMatchInlineSnapshot(`
+      {
+        "paths": {
+          "/": {
+            "post": {
+              "operationId": "testTest",
+              "parameters": [],
+              "requestBody": {
+                "content": {
+                  "application/json": {
+                    "schema": {
+                      "items": {
+                        "anyOf": [
+                          {
+                            "multipleOf": 1,
+                            "type": "integer",
+                          },
+                          {
+                            "type": "number",
+                          },
+                          {
+                            "type": "string",
+                          },
+                          {
+                            "type": "boolean",
+                          },
+                          {
+                            "items": {},
+                            "type": "array",
+                          },
+                          {
+                            "type": "object",
+                          },
+                        ],
+                        "nullable": true,
+                      },
+                      "type": "array",
                     },
-                    type: "array"
-                  }
-                }
+                  },
+                },
+                "required": false,
               },
-              required: false
+              "responses": {
+                "200": {
+                  "description": "Success",
+                },
+              },
+              "tags": [
+                "Test",
+              ],
             },
-            responses: {
-              "200": {
-                description: "Success"
-              }
-            },
-            tags: ["Test"]
-          }
-        }
-      },
-      tags: [
-        {
-          name: "Test"
-        }
-      ]
-    });
+          },
+        },
+        "tags": [
+          {
+            "name": "Test",
+          },
+        ],
+      }
+    `);
     expect(result).toEqual("value");
   });
   it("should return value (Body with array oneOf)", async () => {
