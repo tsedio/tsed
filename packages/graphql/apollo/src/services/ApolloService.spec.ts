@@ -1,7 +1,7 @@
 import {RESTDataSource} from "@apollo/datasource-rest";
 import {ApolloServer, ApolloServerPlugin} from "@apollo/server";
 import {catchAsyncError} from "@tsed/core";
-import {Configuration, Constant, InjectContext, Module, runInContext} from "@tsed/di";
+import {Configuration, Constant, inject, InjectContext, logger, Module, runInContext} from "@tsed/di";
 import {Logger} from "@tsed/logger";
 import {PlatformApplication, PlatformContext} from "@tsed/platform-http";
 import {PlatformTest} from "@tsed/platform-http/testing";
@@ -118,9 +118,8 @@ class MoviesAPI extends HTTPDataSource {
 }
 
 function getFixture() {
-  const service = PlatformTest.get<ApolloService>(ApolloService);
-  const logger = PlatformTest.get<Logger>(Logger);
-  const app = PlatformTest.get(PlatformApplication);
+  const service = inject<ApolloService>(ApolloService);
+  const app = inject(PlatformApplication);
 
   const serverMockInstance = {
     start: vi.fn()
@@ -131,7 +130,7 @@ function getFixture() {
 
   return {
     service,
-    logger,
+    logger: logger(),
     app,
     serverMock,
     serverMockInstance
@@ -196,6 +195,7 @@ describe("ApolloService", () => {
           server: serverMock
         } as never;
 
+        vi.spyOn(logger, "warn");
         vi.spyOn(logger, "error");
 
         serverMockInstance.start.mockRejectedValue(new Error("test"));
@@ -236,7 +236,7 @@ describe("ApolloService", () => {
 
         $ctx.request.headers["authorization"] = "token";
 
-        const contextResult: CustomApolloContext = await runInContext($ctx, () => result());
+        const contextResult: any = await runInContext($ctx, () => result());
 
         expect(contextResult.token).toEqual("token");
         expect(Object.keys(contextResult.dataSources)).toEqual(["myDataSource", "myName", "moviesAPI"]);
