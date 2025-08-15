@@ -7,6 +7,8 @@ import {Property} from "../decorators/common/property.js";
 import {In} from "../decorators/operations/in.js";
 import {Returns} from "../decorators/operations/returns.js";
 import {Get} from "../decorators/operations/route.js";
+import {Path} from "../decorators/operations/path.js";
+import {getSpec} from "../utils/getSpec.js";
 import {inspectOperationsPaths} from "./__fixtures__/inspectOperationsPaths.js";
 import {JsonEntityStore} from "./JsonEntityStore.js";
 import {EndpointMetadata, JsonMethodStore} from "./JsonMethodStore.js";
@@ -292,6 +294,79 @@ describe("JsonMethodStore", () => {
       expect(storeParam?.parameter).toBeInstanceOf(JsonParameter);
       expect(storeParam?.operation).toBeUndefined();
       expect(storeParam?.parent).toEqual(storeMethod);
+    });
+  });
+
+  describe("isCollection", () => {
+    it("should return Array", () => {
+      class Dummy {
+        @Property(String)
+        foo: string = "foo";
+      }
+
+      @Path("/")
+      class TestController {
+        @Get("/")
+        @Returns(200, Array).Of(Dummy).Description("description")
+        test() {
+          return [new Dummy(), new Dummy()];
+        }
+      }
+
+      // THEN
+      const endpoint = EndpointMetadata.get(TestController, "test") as any;
+
+      expect(endpoint.schema).toBeDefined();
+      expect(endpoint.collectionType).toBe(Array);
+      expect(endpoint.isCollection).toBe(true);
+
+      expect(getSpec(TestController)).toMatchInlineSnapshot(`
+        {
+          "components": {
+            "schemas": {
+              "Dummy": {
+                "properties": {
+                  "foo": {
+                    "type": "string",
+                  },
+                },
+                "type": "object",
+              },
+            },
+          },
+          "paths": {
+            "/": {
+              "get": {
+                "operationId": "testControllerTest",
+                "parameters": [],
+                "responses": {
+                  "200": {
+                    "content": {
+                      "application/json": {
+                        "schema": {
+                          "items": {
+                            "$ref": "#/components/schemas/Dummy",
+                          },
+                          "type": "array",
+                        },
+                      },
+                    },
+                    "description": "description",
+                  },
+                },
+                "tags": [
+                  "TestController",
+                ],
+              },
+            },
+          },
+          "tags": [
+            {
+              "name": "TestController",
+            },
+          ],
+        }
+      `);
     });
   });
 });

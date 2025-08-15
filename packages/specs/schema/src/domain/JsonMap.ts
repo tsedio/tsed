@@ -20,7 +20,7 @@ export class JsonMap<T> extends Map<string, any> {
       if (isFunction(this[key])) {
         this[key](value);
       } else {
-        this.set(key, value);
+        this.set(key, value as T);
       }
     });
 

@@ -1,22 +1,11 @@
-import {
-  DecoratorTypes,
-  deepMerge,
-  descriptorOf,
-  isClass,
-  isCollection,
-  isFunction,
-  isPromise,
-  Metadata,
-  prototypeOf,
-  Store,
-  Type
-} from "@tsed/core";
+import {DecoratorTypes, deepMerge, descriptorOf, isFunction, prototypeOf, Store, Type} from "@tsed/core";
 
 import {JsonEntityComponent} from "../decorators/config/jsonEntityComponent.js";
-import type {JsonClassStore} from "./JsonClassStore.js";
+import {isSuccessStatus} from "../utils/isSuccessStatus.js";
+import {type JsonClassStore} from "./JsonClassStore.js";
 import {JsonEntityStore, JsonEntityStoreOptions} from "./JsonEntityStore.js";
 import {JsonOperation} from "./JsonOperation.js";
-import type {JsonParameterStore} from "./JsonParameterStore.js";
+import {type JsonParameterStore} from "./JsonParameterStore.js";
 import {JsonSchema} from "./JsonSchema.js";
 
 export interface JsonViewOptions {
@@ -86,6 +75,42 @@ export class JsonMethodStore extends JsonEntityStore {
     return this.operation.operationPaths;
   }
 
+  get collectionType() {
+    return this.schema.getTarget();
+  }
+
+  set collectionType(type: Type<any>) {
+    console.trace("collectionType is deprecated, use schema.collectionClass instead");
+  }
+
+  get isCollection() {
+    return this.schema.isCollection;
+  }
+
+  get schema(): JsonSchema {
+    if (this._schema) {
+      return this._schema;
+    }
+
+    const responses = this.operation.getResponses();
+
+    const [, response] =
+      [...responses.entries()].find(([key, response]) => {
+        return isSuccessStatus(key);
+      }) || [];
+    if (response) {
+      const firstMediaType = response.getContent().values().next().value;
+
+      if (firstMediaType) {
+        this._schema = firstMediaType.schema();
+      }
+    } else {
+      this._schema = new JsonSchema();
+    }
+
+    return this._schema;
+  }
+
   /**
    * Get an endpoint.
    * @param target
@@ -121,7 +146,7 @@ export class JsonMethodStore extends JsonEntityStore {
       return {type: media.schema().collectionClass, groups};
     }
 
-    return {type: this.type};
+    return {type: this.type || Object};
   }
 
   /**
@@ -179,42 +204,7 @@ export class JsonMethodStore extends JsonEntityStore {
   }
 
   protected build() {
-    if (!this._type) {
-      let type: any = Metadata.getReturnType(this.target, this.propertyKey);
-      type = isPromise(type) ? undefined : type;
-
-      this.buildType(type);
-    }
-
-    this._type = this._type || Object;
-
     this.parent.children.set(this.propertyName, this);
-
-    if (isCollection(this._type)) {
-      this.collectionType = this._type;
-      // @ts-ignore
-      delete this._type;
-    }
-
-    // TODO est-ce que c'est tjrs d'actualité car on doit utiliser le decorator @Returns pour affecter correctement les data
-    // peut etre que c'est pour les get/setter ou méthod n'étant pas un endpoint?
-    if (this.collectionType) {
-      this._schema = JsonSchema.from({
-        type: this.collectionType
-      });
-      this._schema.itemSchema(this.type);
-    } else if (isClass(this.type)) {
-      this._schema = JsonSchema.from({
-        type: "object"
-      });
-      this._schema.itemSchema(this.type);
-    } else {
-      this._schema = JsonSchema.from({
-        type: this.type
-      });
-    }
-
-    this.parent.schema.addProperty(this.propertyName, this.schema);
   }
 }
 
