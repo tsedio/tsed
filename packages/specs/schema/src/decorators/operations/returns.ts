@@ -392,8 +392,7 @@ class ReturnDecoratorContext extends DecoratorContext<ReturnsChainedDecorators> 
   }
 
   protected map() {
-    const model = this.get("model");
-    const {entity, decoratorType} = this;
+    const {decoratorType} = this;
     const operation = this.entity.operation!;
     const currentStatus = this.getStatus();
     const response = operation.ensureResponseOf(currentStatus);
@@ -413,13 +412,6 @@ class ReturnDecoratorContext extends DecoratorContext<ReturnsChainedDecorators> 
     }
 
     this.mapMedia(response);
-
-    // if (isSuccessStatus(this.get("status")) || currentStatus === "default") {
-    //   if (model) {
-    //     // TODO Check why we need that ?
-    //     // entity.type = model;
-    //   }
-    // }
 
     // additional info for OS2
     contentType && operation.addProduce(contentType);

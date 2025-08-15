@@ -1,9 +1,11 @@
+import type {Type} from "@tsed/core";
+
 import {JsonMap} from "../domain/JsonMap.js";
 
 /**
  * @ignore
  */
-export function toJsonMapCollection(content: {[key: string]: any}, klass = JsonMap) {
+export function toJsonMapCollection(content: {[key: string]: any}, klass: Type<JsonMap<any>> = JsonMap) {
   return Object.entries(content).reduce((content, [key, value]) => {
     content.set(key, new klass(value));
 

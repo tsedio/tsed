@@ -69,7 +69,7 @@ describe("JsonEntityStore", () => {
     // expect(storeMethod.nestedGenerics).toEqual([]);
     expect(storeMethod.parent).toEqual(storeClass);
     expect(storeMethod.target).toEqual(Model);
-    expect(storeMethod.type).toEqual(Object);
+    expect(storeMethod.type).toEqual(undefined);
     expect(storeMethod.target).toEqual(Model);
     expect(storeMethod.token).toEqual(Model);
     expect(storeMethod.isCollection).toBe(false);

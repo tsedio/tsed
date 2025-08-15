@@ -5,7 +5,7 @@ import {Partial} from "../decorators/operations/partial.js";
 import {JsonMap} from "./JsonMap.js";
 import {JsonSchema} from "./JsonSchema.js";
 
-export class JsonMedia extends JsonMap<OS3MediaType<JsonSchema>> {
+export class JsonMedia extends JsonMap<any> {
   $kind: string = "operationMedia";
 
   constructor(obj: Partial<OS3MediaType<JsonSchema>> = {}) {

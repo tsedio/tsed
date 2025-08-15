@@ -66,15 +66,13 @@ export abstract class JsonEntityStore implements JsonEntityStoreOptions {
    * Decorator type used to declare the JsonSchemaStore.
    */
   readonly decoratorType: DecoratorTypes;
-  /**
-   * Type of the collection (Array, Map, Set, etc...)
-   */
-  public collectionType: Type<any>;
   public token: Type<any>;
   readonly store: Store;
   readonly isStore = true;
   readonly parent: JsonEntityStore;
   readonly target: Type<any>;
+
+  [key: string]: any;
 
   constructor(options: JsonEntityStoreOptions) {
     const {target, propertyKey, descriptor, index, decoratorType} = options;
@@ -90,11 +88,22 @@ export abstract class JsonEntityStore implements JsonEntityStoreOptions {
   }
 
   /**
+   * Type of the collection (Array, Map, Set, etc...)
+   */
+  private _collectionType: Type<any>;
+
+  get collectionType(): Type<any> | undefined {
+    return this._collectionType;
+  }
+
+  set collectionType(value: Type<any>) {
+    this._collectionType = value;
+  }
+
+  /**
    *
    */
   protected _type: Type<any>;
-
-  [key: string]: any;
 
   get type(): Type<any> | any {
     return this._type;
@@ -133,11 +142,11 @@ export abstract class JsonEntityStore implements JsonEntityStoreOptions {
   }
 
   get isCollection(): boolean {
-    return !!this.collectionType;
+    return !!this._collectionType;
   }
 
   get isArray() {
-    return isArrayOrArrayClass(this.collectionType);
+    return isArrayOrArrayClass(this._collectionType);
   }
 
   get discriminatorAncestor(): JsonEntityStore | undefined {
@@ -147,7 +156,7 @@ export abstract class JsonEntityStore implements JsonEntityStoreOptions {
   }
 
   get isPrimitive() {
-    return isPrimitiveOrPrimitiveClass(this._type);
+    return isPrimitiveOrPrimitiveClass(this.type);
   }
 
   get isDate() {
@@ -281,7 +290,7 @@ export abstract class JsonEntityStore implements JsonEntityStoreOptions {
 
   protected buildType(type: any) {
     if (isCollection(type)) {
-      this.collectionType = type;
+      this._collectionType = type;
     } else if (!(type && "$schema" in type && type.$schema.skip)) {
       this._type = type;
 

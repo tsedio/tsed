@@ -1,4 +1,6 @@
 import {StoreSet} from "@tsed/core";
+import {Controller} from "@tsed/di";
+import {PlatformTest} from "@tsed/platform-http";
 // @ts-ignore
 import {Use, UseAfter, UseBefore} from "@tsed/platform-middlewares";
 
@@ -7,6 +9,7 @@ import {Property} from "../decorators/common/property.js";
 import {In} from "../decorators/operations/in.js";
 import {Returns} from "../decorators/operations/returns.js";
 import {Get} from "../decorators/operations/route.js";
+import {getSpec} from "../utils/getSpec.js";
 import {inspectOperationsPaths} from "./__fixtures__/inspectOperationsPaths.js";
 import {JsonEntityStore} from "./JsonEntityStore.js";
 import {EndpointMetadata, JsonMethodStore} from "./JsonMethodStore.js";
@@ -292,6 +295,81 @@ describe("JsonMethodStore", () => {
       expect(storeParam?.parameter).toBeInstanceOf(JsonParameter);
       expect(storeParam?.operation).toBeUndefined();
       expect(storeParam?.parent).toEqual(storeMethod);
+    });
+  });
+
+  describe("isCollection", () => {
+    it("should return Array", async () => {
+      class Dummy {
+        @Property(String)
+        foo: string = "foo";
+      }
+
+      @Controller("/")
+      class TestController {
+        @Get("/")
+        @(Returns(200, Array).Of(Dummy).Description("description"))
+        async test() {
+          return [new Dummy(), new Dummy()];
+        }
+      }
+
+      // THEN
+      const spec = getSpec(TestController);
+      const ctx = PlatformTest.createRequestContext();
+      ctx.endpoint = EndpointMetadata.get(TestController, "test");
+
+      expect(ctx.endpoint.schema).toBeDefined();
+      expect(ctx.endpoint.collectionType).toBe(Array);
+      expect(ctx.endpoint.isCollection).toBe(true);
+
+      expect(getSpec(TestController)).toMatchInlineSnapshot(`
+        {
+          "components": {
+            "schemas": {
+              "Dummy": {
+                "properties": {
+                  "foo": {
+                    "type": "string",
+                  },
+                },
+                "type": "object",
+              },
+            },
+          },
+          "paths": {
+            "/": {
+              "get": {
+                "operationId": "testControllerTest",
+                "parameters": [],
+                "responses": {
+                  "200": {
+                    "content": {
+                      "application/json": {
+                        "schema": {
+                          "items": {
+                            "$ref": "#/components/schemas/Dummy",
+                          },
+                          "type": "array",
+                        },
+                      },
+                    },
+                    "description": "description",
+                  },
+                },
+                "tags": [
+                  "TestController",
+                ],
+              },
+            },
+          },
+          "tags": [
+            {
+              "name": "TestController",
+            },
+          ],
+        }
+      `);
     });
   });
 });
