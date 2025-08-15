@@ -1,4 +1,6 @@
-import {isObject, uniq} from "@tsed/core";
+import {cleanObject} from "@tsed/core/utils/cleanObject.js";
+import {isObject} from "@tsed/core/utils/isObject.js";
+import {uniq} from "@tsed/core/utils/uniq.js";
 import type {JSONSchema7, JSONSchema7Definition} from "json-schema";
 
 type Properties = {
@@ -25,48 +27,74 @@ function mergeProps(properties1?: Properties, properties2?: Properties): Propert
   }, {} as Properties);
 }
 
+function getSchemaType(schema: any) {
+  return schema.type || (schema.items && "array") || ((schema.properties || schema.additionalProperties) && "object") || "$any";
+}
+
 function mergeManyOf(kind: "allOf" | "anyOf" | "oneOf", schema1: JSONSchema7, schema2: JSONSchema7) {
-  const refs = new Set();
+  const {[kind]: kind1, ...$rest1} = schema1;
+  const {[kind]: kind2, ...$rest2} = schema2;
+  let hasRef = false;
 
-  if (schema1.$ref && schema2.type && (schema2.readOnly || schema2.writeOnly) && kind === "allOf") {
-    const {type, ...rest} = schema2;
-    schema2 = rest;
-  }
+  const map = [kind1, $rest1, kind2, $rest2]
+    .flat()
+    .filter(Boolean)
+    .reduce((map, schema: JSONSchema7, index) => {
+      schema = cleanObject(schema as any);
 
-  let of = [...(schema1[kind] || [schema1]), ...(schema2[kind] || [schema2])].filter((schema: any) => {
-    if ("$ref" in schema) {
-      if (refs.has(schema.$ref)) {
-        return false;
+      if (schema.$ref) {
+        hasRef = true;
+        return map.set(schema.$ref, schema);
       }
 
-      refs.add(schema.$ref);
-
-      return true;
-    }
-    return Object.keys(schema).length > 0;
-  }) as JSONSchema7[];
-
-  if (of.length > 2) {
-    of = of.reduce((current, item: JSONSchema7, index) => {
-      if (item.$ref) {
-        return current.concat(item);
+      if (Object.keys(schema).length === 0) {
+        return map;
       }
 
-      if (current.at(-1)?.type === item.type && item.type !== "array") {
-        current[current.length - 1] = mergeSchema(current.at(-1) as JSONSchema7, item);
-        return current;
+      if (schema.type === "object" && Object.keys(schema).length === 2) {
+        if ("writeOnly" in schema || "readOnly" in schema || "deprecated" in schema) {
+          schema = {...schema, type: undefined} as JSONSchema7;
+        }
       }
 
-      return current.concat(item);
-    }, [] as JSONSchema7[]);
-  }
+      const type = getSchemaType(schema);
 
-  return of.length > 1
-    ? {
-        [kind]: of,
-        ...(((schema1 as any).nullable || (schema2 as any).nullable ? {nullable: true} : {}) as any)
+      if (type === "array") {
+        map.set("array_" + index, schema);
+        return map;
       }
-    : (of[0]! as JSONSchema7);
+
+      if (map.has(type)) {
+        if (kind === "allOf") {
+          // we can merge allOf schemas to optimize the schema
+          map.set(type, mergeSchema(map.get(type)!, schema));
+          return map;
+        }
+
+        map.set(type + "_" + index, schema);
+
+        return map;
+      }
+
+      return map.set(type, schema);
+    }, new Map<string, JSONSchema7>());
+
+  const rest = map.get("$any");
+  map.delete("$any");
+
+  const of = Array.from(map.values()) as JSONSchema7[];
+
+  return cleanObject(
+    of.length > 1 || (hasRef && rest)
+      ? {
+          ...rest,
+          [kind]: of
+        }
+      : {
+          ...rest,
+          ...of[0]!
+        }
+  ) as JSONSchema7;
 }
 
 export function mergeSchema(schema1: JSONSchema7, schema2: JSONSchema7): JSONSchema7 {

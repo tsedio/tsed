@@ -237,12 +237,9 @@ describe("Deprecated", () => {
           allOf: [
             {
               $ref: "#/definitions/Author"
-            },
-            {
-              type: "object",
-              deprecated: true
             }
-          ]
+          ],
+          deprecated: true
         }
       },
       type: "object"
