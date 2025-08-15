@@ -12,12 +12,17 @@ import {OidcJwks} from "./OidcJwks.js";
 import {OidcPolicy} from "./OidcPolicy.js";
 
 function mapError(error: any) {
-  return Object.getOwnPropertyNames(error).reduce((obj: any, key) => {
-    return {
-      ...obj,
-      [key]: error[key]
-    };
-  }, {});
+  return Object.getOwnPropertyNames(error).reduce(
+    (obj: any, key) => {
+      return {
+        ...obj,
+        [key]: error[key]
+      };
+    },
+    {
+      stack: error.stack
+    }
+  );
 }
 
 @Injectable()
