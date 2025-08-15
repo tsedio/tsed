@@ -2,7 +2,7 @@
   "name": "@tsed/platform-serverless-http",
   "description": "Module to support Serverless HTTP function with Ts.ED",
   "type": "commonjs",
-  "version": "7.87.2",
+  "version": "7.87.3",
   "source": "./src/index.ts",
   "main": "./lib/cjs/index.js",
   "module": "./lib/esm/index.js",

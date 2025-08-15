@@ -2,7 +2,7 @@
   "name": "@tsed/schema-formio",
   "description": "Transform Ts.ED Schema & JsonSchema to a valid Formio schema",
   "type": "commonjs",
-  "version": "7.87.2",
+  "version": "7.87.3",
   "source": "./src/index.ts",
   "main": "./lib/cjs/index.js",
   "module": "./lib/esm/index.js",

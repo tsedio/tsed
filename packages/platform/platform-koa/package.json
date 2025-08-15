@@ -2,7 +2,7 @@
   "name": "@tsed/platform-koa",
   "description": "Koa package for Ts.ED framework",
   "type": "commonjs",
-  "version": "7.87.2",
+  "version": "7.87.3",
   "source": "./src/index.ts",
   "main": "./lib/cjs/index.js",
   "module": "./lib/esm/index.js",

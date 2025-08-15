@@ -2,7 +2,7 @@
   "name": "@tsed/stripe",
   "description": "Stripe package for Ts.ED framework",
   "type": "commonjs",
-  "version": "7.87.2",
+  "version": "7.87.3",
   "keywords": [
     "Stripe",
     "Ts.ED",
