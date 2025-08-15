@@ -207,10 +207,8 @@ describe("@VirtualRef()", () => {
                       {
                         "$ref": "#/components/schemas/TestPerson",
                       },
-                      {
-                        "readOnly": true,
-                      },
                     ],
+                    "readOnly": true,
                   },
                   "updatedAt": {
                     "format": "date-time",

@@ -69,7 +69,7 @@ export function DynamicRef(refPath: string, ...types: Type<any>[]): PropertyDeco
 
       return serialize(value, {...ctx, type: getType(refPath, ctx)});
     }),
-    OneOf(string().example("5ce7ad3028890bd71749d477").description("A reference ObjectID"), ...types)
+    OneOf(string(), ...types)
   ) as PropertyDecorator;
 }
 

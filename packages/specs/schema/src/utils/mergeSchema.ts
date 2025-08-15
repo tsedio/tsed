@@ -1,6 +1,4 @@
-import {cleanObject} from "@tsed/core/utils/cleanObject.js";
-import {isObject} from "@tsed/core/utils/isObject.js";
-import {uniq} from "@tsed/core/utils/uniq.js";
+import {cleanObject, isObject, uniq} from "@tsed/core";
 import type {JSONSchema7, JSONSchema7Definition} from "json-schema";
 
 type Properties = {
