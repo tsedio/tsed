@@ -1,8 +1,9 @@
 import "@tsed/ajv";
 
 import {Controller} from "@tsed/di";
+import {PlatformContext} from "@tsed/platform-http";
 import {PlatformTest} from "@tsed/platform-http/testing";
-import {QueryParams} from "@tsed/platform-params";
+import {Context, QueryParams} from "@tsed/platform-params";
 import {Default, GenericOf, Generics, Get, Maximum, Minimum, Property} from "@tsed/schema";
 import SuperTest from "supertest";
 import {afterAll, beforeAll, describe, expect, it} from "vitest";
@@ -36,13 +37,18 @@ class PaginationQuery<T> {
 @Controller("/deep-query-params")
 class TestDeepQueryParamsCtrl {
   @Get("/scenario-1")
-  testScenario6(@QueryParams() @GenericOf(FindQuery) q: PaginationQuery<FindQuery>, @QueryParams() qs: any) {
+  testScenario1(@QueryParams() @GenericOf(FindQuery) q: PaginationQuery<FindQuery>, @QueryParams() qs: any) {
     return {q};
   }
 
   @Get("/scenario-2")
-  testScenario7(@QueryParams("q") @GenericOf(FindQuery) q: PaginationQuery<FindQuery>) {
+  testScenario2(@QueryParams("q") @GenericOf(FindQuery) q: PaginationQuery<FindQuery>) {
     return {q};
+  }
+
+  @Get("/scenario-3")
+  testScenario3(@Context() $ctx: PlatformContext): any {
+    return $ctx.request.query;
   }
 }
 
@@ -119,6 +125,21 @@ export function testDeepQueryParams(options: PlatformTestingSdkOpts) {
         message: 'Bad request on parameter "request.query.q".\nPaginationQuery.where.a must be number. Given value: "ca"',
         name: "AJV_VALIDATION_ERROR",
         status: 400
+      });
+    });
+  });
+  describe("Scenario3", () => {
+    it("should return the query params as object", async () => {
+      const endpoint = "/rest/deep-query-params/scenario-3";
+      const response = await request.get(`${endpoint}?offset=0&limit=10&where[a]=0&where[b]=1`).expect(200);
+
+      expect(response.body).toEqual({
+        offset: "0",
+        limit: "10",
+        where: {
+          a: "0",
+          b: "1"
+        }
       });
     });
   });

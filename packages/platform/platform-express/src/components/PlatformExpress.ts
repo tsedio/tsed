@@ -225,6 +225,7 @@ export class PlatformExpress extends PlatformAdapter<Express.Application> {
 
     if (type === "urlencoded") {
       options.extended = true;
+      this.app.getApp().set("query parser", "extended");
     }
 
     options.verify = (req: IncomingMessage & {rawBody: Buffer}, _res: ServerResponse, buffer: Buffer) => {
