@@ -1,6 +1,7 @@
 import {type Env, isClass, isFunction, isString, nameOf} from "@tsed/core";
 import {configuration, constant, inject} from "@tsed/di";
 import {$on} from "@tsed/hooks";
+import {PlatformAdapter} from "@tsed/platform-http";
 
 import type {PlatformMiddlewareLoadingOptions} from "../domain/PlatformMiddlewareSettings.js";
 
@@ -8,8 +9,7 @@ export async function beforeInit() {
   const env = constant<Env>("env");
   const defaultHook = "$beforeRoutesInit";
   const middlewares = constant<PlatformMiddlewareLoadingOptions[]>("middlewares", []);
-  // HACK to fix the circular dependency issue around platform-multer -> platform-http -> platform-middlewares
-  const platformAdapter = inject<{bodyParser: any}>("PlatformAdapter");
+  const platformAdapter = inject<{bodyParser: any}>(PlatformAdapter);
 
   const promises = middlewares.map(async (middleware: PlatformMiddlewareLoadingOptions): Promise<PlatformMiddlewareLoadingOptions> => {
     if (isFunction(middleware)) {

@@ -1,4 +1,5 @@
 import "@tsed/platform-multer/koa";
+import "@tsed/platform-middlewares";
 
 import KoaRouter from "@koa/router";
 import {catchAsyncError, isFunction, Type} from "@tsed/core";

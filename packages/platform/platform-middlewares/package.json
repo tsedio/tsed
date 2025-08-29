@@ -29,6 +29,7 @@
     "@tsed/barrels": "workspace:*",
     "@tsed/core": "workspace:*",
     "@tsed/di": "workspace:*",
+    "@tsed/platform-http": "workspace:*",
     "@tsed/platform-router": "workspace:*",
     "@tsed/schema": "workspace:*",
     "@tsed/typescript": "workspace:*",

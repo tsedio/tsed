@@ -40,7 +40,7 @@ declare global {
 
 export class PlatformFastify extends PlatformAdapter<FastifyInstance> {
   readonly NAME = "fastify";
-  private staticsDecorated = false;
+  protected staticsDecorated = false;
 
   /**
    * Create new serverless application. In this mode, the component scan are disabled.

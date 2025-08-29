@@ -86,6 +86,8 @@
   },
   "dependencies": {
     "@koa/router": "^13.1.0",
+    "@tsed/platform-middlewares": "workspace:*",
+    "@tsed/platform-multer": "workspace:*",
     "encodeurl": "^2.0.0",
     "koa-send": "5.0.1",
     "multer": "^2.0.0",

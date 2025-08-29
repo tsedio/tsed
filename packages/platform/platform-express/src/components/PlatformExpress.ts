@@ -1,4 +1,5 @@
 import "@tsed/platform-multer/express";
+import "@tsed/platform-middlewares";
 
 import {readFileSync} from "node:fs";
 import {IncomingMessage, ServerResponse} from "node:http";

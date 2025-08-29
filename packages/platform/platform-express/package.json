@@ -59,6 +59,8 @@
     "url": "git+https://github.com/tsedio/tsed.git"
   },
   "dependencies": {
+    "@tsed/platform-middlewares": "workspace:*",
+    "@tsed/platform-multer": "workspace:*",
     "multer": "^2.0.0",
     "tslib": "2.7.0"
   },

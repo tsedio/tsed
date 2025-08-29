@@ -50,8 +50,7 @@ const EXCLUDED_CONFIGURATION_KEYS = ["mount", "imports"];
  */
 export class InjectorService extends Container {
   public logger: DILogger = console;
-  /*readonly */
-  settings = new DIConfiguration();
+  readonly settings = new DIConfiguration();
   private resolvedConfiguration: boolean = false;
   #cache = new LocalsContainer();
   #loaded: boolean = false;
