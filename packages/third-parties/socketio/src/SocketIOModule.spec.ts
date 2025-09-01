@@ -55,7 +55,7 @@ describe("SocketIOModule", () => {
         expect(socketIOServer.attach).toHaveBeenCalledTimes(2);
 
         expect((socketIOModule as any).getWebsocketServices).toHaveBeenCalledWith();
-        expect(socketIOServer.adapter).toHaveBeenCalled();
+        expect(socketIOServer.adapter).not.toHaveBeenCalled();
         expect(socketIOService.addSocketProvider).toHaveBeenCalledWith({provider: "provider"});
       });
     });
