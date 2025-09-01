@@ -47,10 +47,6 @@ export class SocketIOModule implements AfterListen, OnDestroy {
       this.io.attach(this.httpsServer, {...this.settings});
     }
 
-    if (this.settings.adapter) {
-      this.io.adapter(this.settings.adapter);
-    }
-
     this.getWebsocketServices().forEach((provider) => this.socketIOService.addSocketProvider(provider));
 
     if (!this.disableRoutesSummary) {
