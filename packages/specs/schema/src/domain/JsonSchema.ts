@@ -33,10 +33,11 @@ import {JsonEntityStore} from "./JsonEntityStore.js";
 import {JsonFormatTypes} from "./JsonFormatTypes.js";
 import {JsonLazyRef} from "./JsonLazyRef.js";
 
-export interface JsonSchemaObject extends Omit<JSONSchema7, "type" | "additionalProperties" | "items"> {
-  type?: Type | JSONSchema7["type"] | null | (String | null | Date | Number | Object | Boolean)[];
-  additionalProperties?: boolean | JSONSchema7 | Type | JsonSchema;
-  items?: (Type | JSONSchema7Definition | JsonSchema) | (Type | JSONSchema7Definition | JsonSchema)[];
+export interface JsonSchemaObject extends Omit<JSONSchema7, "type" | "additionalProperties" | "items" | "pattern"> {
+  type?: JSONSchema7["type"] | Type | null | (String | null | Date | Number | Object | Boolean)[];
+  additionalProperties?: JsonSchemaObject | boolean | Type | JsonSchema;
+  items?: JsonSchemaObject | boolean | Type | JsonSchema | (JsonSchemaObject | Type | JsonSchema)[];
+  pattern?: string | RegExp;
 }
 
 export type AnyJsonSchema = JsonSchemaObject | JSONSchema7 | JsonSchema | JsonLazyRef | {label?: string} | Type;

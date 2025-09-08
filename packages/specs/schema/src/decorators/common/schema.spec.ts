@@ -5,19 +5,27 @@ describe("Schema()", () => {
   it("should store data", () => {
     class Test {
       @Schema({
-        pattern: "a|b"
+        items: {
+          type: "string",
+          pattern: /a|b/
+        }
       })
-      test: string;
+      test: string[];
     }
 
-    expect(getJsonSchema(Test)).toEqual({
-      properties: {
-        test: {
-          pattern: "a|b",
-          type: "string"
-        }
-      },
-      type: "object"
-    });
+    expect(getJsonSchema(Test)).toMatchInlineSnapshot(`
+      {
+        "properties": {
+          "test": {
+            "items": {
+              "pattern": "a|b",
+              "type": "string",
+            },
+            "type": "array",
+          },
+        },
+        "type": "object",
+      }
+    `);
   });
 });
