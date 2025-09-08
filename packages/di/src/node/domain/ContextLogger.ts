@@ -29,7 +29,7 @@ export class ContextLogger {
     this.#logger = logger;
     this.#additionalProps = additionalProps;
 
-    this.level = (LEVELS[(level || this.#logger.level || "").toUpperCase()] || LEVELS.ALL) as LogLevel;
+    this.level = (LEVELS[level?.toUpperCase() || this.#logger.level || ""] || LEVELS.ALL) as LogLevel;
 
     this.maxStackSize = maxStackSize;
   }

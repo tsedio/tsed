@@ -400,7 +400,8 @@ describe("BullMQModule", () => {
           attemptsMade: 1
         };
 
-        vi.spyOn(PlatformTest.injector.logger, "error");
+        PlatformTest.injector.logger.level = "error";
+        vi.spyOn(PlatformTest.injector.logger, "error").mockReturnValue(undefined);
 
         vi.spyOn(worker, "handle").mockRejectedValue(new Error("error") as never);
 

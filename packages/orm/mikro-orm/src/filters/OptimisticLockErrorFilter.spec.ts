@@ -37,6 +37,7 @@ describe("OptimisticLockErrorFilter", () => {
         maxStackSize: 0,
         injector: PlatformTest.injector
       });
+
       const spiedResponse = spy(response);
 
       // act

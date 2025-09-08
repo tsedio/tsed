@@ -21,6 +21,8 @@ async function createMiddlewareFixture({statusCode = 200, error}: {statusCode?: 
     logger: PlatformTest.injector.logger
   });
 
+  ctx.logger.maxStackSize = 0;
+  ctx.logger.level = "debug";
   ctx.error = error;
 
   ctx.handlerMetadata = new PlatformHandlerMetadata({
@@ -47,6 +49,7 @@ describe("PlatformLogMiddleware", () => {
       beforeEach(() =>
         PlatformTest.create({
           logger: {
+            maxStackSize: 0,
             debug: false,
             logRequest: true
           }
@@ -64,7 +67,7 @@ describe("PlatformLogMiddleware", () => {
 
         // THEN
         middleware.onLogEnd(request.$ctx);
-
+        ctx.logger.info("test");
         // THEN
         expect(PlatformTest.injector.logger.info).toHaveBeenCalledWith(
           expect.objectContaining({
