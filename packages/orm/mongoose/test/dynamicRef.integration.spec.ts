@@ -93,10 +93,6 @@ describe("DynamicRef Integration", () => {
               ],
               "oneOf": [
                 {
-                  "description": "A reference ObjectID",
-                  "examples": [
-                    "5ce7ad3028890bd71749d477",
-                  ],
                   "type": "string",
                 },
                 {

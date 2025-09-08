@@ -23,9 +23,7 @@ exports[`SSE integration > should generate the swagger spec 1`] = `
           "200": {
             "content": {
               "*/*": {
-                "schema": {
-                  "type": "object",
-                },
+                "schema": {},
               },
             },
             "headers": {
@@ -51,9 +49,7 @@ exports[`SSE integration > should generate the swagger spec 1`] = `
           "200": {
             "content": {
               "*/*": {
-                "schema": {
-                  "type": "object",
-                },
+                "schema": {},
               },
             },
             "headers": {
@@ -79,9 +75,7 @@ exports[`SSE integration > should generate the swagger spec 1`] = `
           "200": {
             "content": {
               "*/*": {
-                "schema": {
-                  "type": "object",
-                },
+                "schema": {},
               },
             },
             "headers": {
@@ -107,9 +101,7 @@ exports[`SSE integration > should generate the swagger spec 1`] = `
           "200": {
             "content": {
               "*/*": {
-                "schema": {
-                  "type": "object",
-                },
+                "schema": {},
               },
             },
             "headers": {
@@ -135,9 +127,7 @@ exports[`SSE integration > should generate the swagger spec 1`] = `
           "200": {
             "content": {
               "*/*": {
-                "schema": {
-                  "type": "object",
-                },
+                "schema": {},
               },
               "application/json": {
                 "schema": {

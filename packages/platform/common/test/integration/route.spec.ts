@@ -1,8 +1,11 @@
-import {All, Delete, EndpointMetadata, Get, Head, Options, Patch, Post, Put} from "@tsed/common";
-import {OperationMethods} from "@tsed/schema";
+import {All, Delete, EndpointMetadata, Get, Head, OperationVerbs, Options, Patch, Post, Put} from "@tsed/schema";
 
-const middleware: any = vi.fn();
-const useStub: any = vi.fn().mockReturnValue(middleware);
+function inspectOperationsPaths(endpoint: JsonMethodStore) {
+  return [...endpoint.operationPaths.values()].map(({method, path}) => ({
+    method,
+    path
+  }));
+}
 
 describe("Route decorators", () => {
   describe("All", () => {
@@ -16,9 +19,9 @@ describe("Route decorators", () => {
       const endpoint = EndpointMetadata.get(Test, "test");
 
       // THEN
-      expect([...endpoint.operationPaths.values()]).toEqual([
+      expect(inspectOperationsPaths(endpoint)).toEqual([
         {
-          method: OperationMethods.ALL,
+          method: OperationVerbs.ALL,
           path: "/"
         }
       ]);
@@ -37,9 +40,9 @@ describe("Route decorators", () => {
       const endpoint = EndpointMetadata.get(Test, "test");
 
       // THEN
-      expect([...endpoint.operationPaths.values()]).toEqual([
+      expect(inspectOperationsPaths(endpoint)).toEqual([
         {
-          method: OperationMethods.GET,
+          method: OperationVerbs.GET,
           path: "/"
         }
       ]);
@@ -57,9 +60,9 @@ describe("Route decorators", () => {
       const endpoint = EndpointMetadata.get(Test, "test");
 
       // THEN
-      expect([...endpoint.operationPaths.values()]).toEqual([
+      expect(inspectOperationsPaths(endpoint)).toEqual([
         {
-          method: OperationMethods.GET,
+          method: OperationVerbs.GET,
           path: "/"
         }
       ]);
@@ -79,9 +82,9 @@ describe("Route decorators", () => {
       const endpoint = EndpointMetadata.get(Test, "test");
 
       // THEN
-      expect([...endpoint.operationPaths.values()]).toEqual([
+      expect(inspectOperationsPaths(endpoint)).toEqual([
         {
-          method: OperationMethods.POST,
+          method: OperationVerbs.POST,
           path: "/"
         }
       ]);
@@ -100,9 +103,9 @@ describe("Route decorators", () => {
       const endpoint = EndpointMetadata.get(Test, "test");
 
       // THEN
-      expect([...endpoint.operationPaths.values()]).toEqual([
+      expect(inspectOperationsPaths(endpoint)).toEqual([
         {
-          method: OperationMethods.PUT,
+          method: OperationVerbs.PUT,
           path: "/"
         }
       ]);
@@ -121,9 +124,9 @@ describe("Route decorators", () => {
       const endpoint = EndpointMetadata.get(Test, "test");
 
       // THEN
-      expect([...endpoint.operationPaths.values()]).toEqual([
+      expect(inspectOperationsPaths(endpoint)).toEqual([
         {
-          method: OperationMethods.DELETE,
+          method: OperationVerbs.DELETE,
           path: "/"
         }
       ]);
@@ -142,9 +145,9 @@ describe("Route decorators", () => {
       const endpoint = EndpointMetadata.get(Test, "test");
 
       // THEN
-      expect([...endpoint.operationPaths.values()]).toEqual([
+      expect(inspectOperationsPaths(endpoint)).toEqual([
         {
-          method: OperationMethods.HEAD,
+          method: OperationVerbs.HEAD,
           path: "/"
         }
       ]);
@@ -163,9 +166,9 @@ describe("Route decorators", () => {
       const endpoint = EndpointMetadata.get(Test, "test");
 
       // THEN
-      expect([...endpoint.operationPaths.values()]).toEqual([
+      expect(inspectOperationsPaths(endpoint)).toEqual([
         {
-          method: OperationMethods.PATCH,
+          method: OperationVerbs.PATCH,
           path: "/"
         }
       ]);
@@ -184,9 +187,9 @@ describe("Route decorators", () => {
       const endpoint = EndpointMetadata.get(Test, "test");
 
       // THEN
-      expect([...endpoint.operationPaths.values()]).toEqual([
+      expect(inspectOperationsPaths(endpoint)).toEqual([
         {
-          method: OperationMethods.OPTIONS,
+          method: OperationVerbs.OPTIONS,
           path: "/"
         }
       ]);

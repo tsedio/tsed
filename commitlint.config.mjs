@@ -1,6 +1,6 @@
 import globby from "globby";
 import {basename} from "node:path";
-import pkg from "./package.json" assert {type: "json"};
+import pkg from "./package.json" with {type: "json"};
 import {RuleConfigSeverity} from "@commitlint/types";
 
 function findPackages() {

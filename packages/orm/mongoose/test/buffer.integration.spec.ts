@@ -14,7 +14,7 @@ describe("Mongoose", () => {
       "Should save and load buffer",
       PlatformTest.inject([TestAvatar], async (avatarModel: MongooseModel<TestAvatar>) => {
         const imageBuffer = await axios
-          .get(faker.image.people(256, 256), {
+          .get("https://avatars.githubusercontent.com/u/1763311?v=4&size=64", {
             responseType: "arraybuffer"
           })
           .then((response) => Buffer.from(response.data, "binary"));
