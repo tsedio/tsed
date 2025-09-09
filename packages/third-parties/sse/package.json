@@ -2,7 +2,7 @@
   "name": "@tsed/sse",
   "description": "Server-sent events package for Ts.ED framework",
   "type": "commonjs",
-  "version": "7.87.3",
+  "version": "7.87.4",
   "keywords": [
     "tsed",
     "server-sent events",
