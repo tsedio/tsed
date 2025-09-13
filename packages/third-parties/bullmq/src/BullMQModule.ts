@@ -116,6 +116,7 @@ export class BullMQModule implements OnInit, OnDestroy {
 
     const $ctx = new DIContext({
       id: job.id || v4().split("-").join(""),
+      level: this.config.logLevel ?? "info",
       additionalProps: {
         logType: "bullmq",
         name: job.name,

@@ -80,7 +80,9 @@ import "@tsed/bullmq"; // import bullmq ts.ed module
       special: {
         // Specify additional worker options by queue name
       }
-    }
+    },
+    // Specify the log level of the module
+    logLevel: "info"
   }
 })
 export class Server {}
@@ -254,6 +256,30 @@ class MyService {
   }
 }
 ```
+
+## Logs
+
+Be default the module will log every job's start and completion/failure.
+
+Start and completion is logged on the level of `info`, failure is logged on the level of `error`.
+To change/disable this behaviour, pass `logLevel` in the configuration 
+
+
+```ts
+
+@Configuration({
+  bullmq: {
+    // ...
+    logLevel: "off"
+    // ...
+  }
+})
+export class Server {}
+
+```
+
+**Note**: The module logs when job controller is missing as `warn`. This cannot be separetely controlled.
+
 
 ## Contributors
 

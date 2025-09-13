@@ -48,6 +48,13 @@ export type BullMQConfig = {
    * Specify additional worker options by queue name
    */
   workerOptions?: Record<string, Partial<WorkerOptions>>;
+
+  /**
+   * Log level for the module
+   *
+   * Default: Info
+   */
+  logLevel?: "debug" | "info" | "warn" | "error" | "off" | "all";
 };
 
 declare global {
