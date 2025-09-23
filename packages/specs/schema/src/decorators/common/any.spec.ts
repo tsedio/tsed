@@ -14,7 +14,7 @@ describe("@Any", () => {
       {
         "properties": {
           "prop": {
-            "anyOf": [
+            "oneOf": [
               {
                 "type": "null",
               },
@@ -73,7 +73,7 @@ describe("@Any", () => {
     expect(getJsonSchema(Model)).toEqual({
       properties: {
         prop: {
-          anyOf: [
+          oneOf: [
             {
               type: "null"
             },

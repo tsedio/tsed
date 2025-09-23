@@ -116,7 +116,7 @@ describe("@Required", () => {
       },
       properties: {
         allow: {
-          anyOf: [
+          oneOf: [
             {
               type: "null"
             },

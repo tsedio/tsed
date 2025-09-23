@@ -1068,7 +1068,7 @@ describe("JsonSchema", () => {
         }).toObject();
 
         expect(schema).toEqual({
-          anyOf: [
+          oneOf: [
             {
               type: "null"
             },
@@ -1478,7 +1478,7 @@ describe("JsonSchema", () => {
       const result = JsonSchema.from({type: Object}).any().toObject();
 
       expect(result).toEqual({
-        anyOf: [
+        oneOf: [
           {
             type: "null"
           },

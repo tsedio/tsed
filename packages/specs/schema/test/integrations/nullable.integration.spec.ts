@@ -55,7 +55,7 @@ describe("Spec: Nullable", () => {
           type: "string"
         },
         nested: {
-          anyOf: [
+          oneOf: [
             {
               type: "null"
             },
@@ -68,7 +68,7 @@ describe("Spec: Nullable", () => {
           type: ["null", "number"]
         },
         priceDetails: {
-          anyOf: [
+          oneOf: [
             {
               type: "null"
             },
@@ -88,83 +88,90 @@ describe("Spec: Nullable", () => {
   it("should generate the OS3", async () => {
     const spec = getSpec(TestNullableCtrl, {specType: SpecTypes.OPENAPI});
 
-    expect(spec).toEqual({
-      components: {
-        schemas: {
-          Nested: {
-            properties: {
-              id: {
-                type: "string"
-              }
-            },
-            type: "object"
-          },
-          Product: {
-            properties: {
-              description: {
-                minLength: 1,
-                nullable: true,
-                type: "string"
-              },
-              id: {
-                type: "string"
-              },
-              nested: {
-                anyOf: [
-                  {
-                    $ref: "#/components/schemas/Nested"
-                  }
-                ],
-                nullable: true
-              },
-              price: {
-                nullable: true,
-                type: "number"
-              },
-              priceDetails: {
-                anyOf: [
-                  {
-                    type: "string"
-                  },
-                  {
-                    type: "number"
-                  }
-                ],
-                nullable: true
-              }
-            },
-            required: ["description", "nested"],
-            type: "object"
-          }
-        }
-      },
-      paths: {
-        "/nullable": {
-          get: {
-            operationId: "testNullableCtrlGet",
-            parameters: [],
-            responses: {
-              "200": {
-                content: {
-                  "application/json": {
-                    schema: {
-                      $ref: "#/components/schemas/Product"
-                    }
-                  }
+    expect(spec).toMatchInlineSnapshot(`
+      {
+        "components": {
+          "schemas": {
+            "Nested": {
+              "properties": {
+                "id": {
+                  "type": "string",
                 },
-                description: "Success"
-              }
+              },
+              "type": "object",
             },
-            tags: ["TestNullableCtrl"]
-          }
-        }
-      },
-      tags: [
-        {
-          name: "TestNullableCtrl"
-        }
-      ]
-    });
+            "Product": {
+              "properties": {
+                "description": {
+                  "minLength": 1,
+                  "nullable": true,
+                  "type": "string",
+                },
+                "id": {
+                  "type": "string",
+                },
+                "nested": {
+                  "anyOf": [
+                    {
+                      "$ref": "#/components/schemas/Nested",
+                    },
+                  ],
+                  "nullable": true,
+                },
+                "price": {
+                  "nullable": true,
+                  "type": "number",
+                },
+                "priceDetails": {
+                  "nullable": true,
+                  "oneOf": [
+                    {
+                      "type": "string",
+                    },
+                    {
+                      "type": "number",
+                    },
+                  ],
+                },
+              },
+              "required": [
+                "description",
+                "nested",
+              ],
+              "type": "object",
+            },
+          },
+        },
+        "paths": {
+          "/nullable": {
+            "get": {
+              "operationId": "testNullableCtrlGet",
+              "parameters": [],
+              "responses": {
+                "200": {
+                  "content": {
+                    "application/json": {
+                      "schema": {
+                        "$ref": "#/components/schemas/Product",
+                      },
+                    },
+                  },
+                  "description": "Success",
+                },
+              },
+              "tags": [
+                "TestNullableCtrl",
+              ],
+            },
+          },
+        },
+        "tags": [
+          {
+            "name": "TestNullableCtrl",
+          },
+        ],
+      }
+    `);
     expect(await validateSpec(spec, SpecTypes.OPENAPI)).toBe(true);
   });
 });

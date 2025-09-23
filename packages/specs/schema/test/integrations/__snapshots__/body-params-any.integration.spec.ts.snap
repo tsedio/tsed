@@ -178,7 +178,8 @@ exports[`Integration: BodyParams any > should generate the right spec (any[]) 1`
             "application/json": {
               "schema": {
                 "items": {
-                  "anyOf": [
+                  "nullable": true,
+                  "oneOf": [
                     {
                       "multipleOf": 1,
                       "type": "integer",
@@ -200,7 +201,6 @@ exports[`Integration: BodyParams any > should generate the right spec (any[]) 1`
                       "type": "object",
                     },
                   ],
-                  "nullable": true,
                 },
                 "type": "array",
               },
@@ -250,7 +250,8 @@ exports[`Integration: BodyParams any > should generate the right spec (any[]) 1`
           "content": {
             "application/json": {
               "schema": {
-                "anyOf": [
+                "nullable": true,
+                "oneOf": [
                   {
                     "multipleOf": 1,
                     "type": "integer",
@@ -272,7 +273,6 @@ exports[`Integration: BodyParams any > should generate the right spec (any[]) 1`
                     "type": "object",
                   },
                 ],
-                "nullable": true,
               },
             },
           },

@@ -64,7 +64,7 @@ describe("from", () => {
     });
     expect(array().toJSON()).toEqual({type: "array", items: {}});
     expect(any().toJSON()).toEqual({
-      anyOf: [
+      oneOf: [
         {
           type: "null"
         },

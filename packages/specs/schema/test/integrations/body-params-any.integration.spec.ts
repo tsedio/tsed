@@ -51,7 +51,7 @@ describe("Integration: BodyParams any", () => {
                 "content": {
                   "application/json": {
                     "schema": {
-                      "anyOf": [
+                      "oneOf": [
                         {
                           "type": "null",
                         },
