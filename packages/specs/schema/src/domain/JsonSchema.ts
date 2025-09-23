@@ -65,11 +65,11 @@ function mapToJsonSchema(item: any): JsonSchema | JsonSchema[] {
     return (item as any[]).map(mapToJsonSchema);
   }
 
-  if (item.isStore || item.$isJsonDocument || item.isLazyRef) {
+  if (item && (item.isStore || item.$isJsonDocument || item.isLazyRef)) {
     return item;
   }
 
-  if (classOf(item) !== Object && isClass(item)) {
+  if (item && classOf(item) !== Object && isClass(item)) {
     return JsonEntityStore.from(item).schema;
   }
 
@@ -77,7 +77,7 @@ function mapToJsonSchema(item: any): JsonSchema | JsonSchema[] {
     return JsonSchema.from(item as any);
   }
 
-  if (isPrimitiveClass(item)) {
+  if (isPrimitiveClass(item) || item === Date || item === null) {
     return JsonSchema.from({type: item});
   }
 
@@ -217,7 +217,7 @@ export class JsonSchema extends Map<string, any> {
   }
 
   get isNullable(): boolean {
-    return !!this.get<Boolean>("nullable");
+    return !!this.get<Boolean>(VendorKeys.NULLABLE);
   }
 
   get isReadOnly() {
@@ -237,11 +237,11 @@ export class JsonSchema extends Map<string, any> {
       return item;
     }
 
-    if (classOf(item) !== Object && isClass(item)) {
+    if (item && classOf(item) !== Object && isClass(item)) {
       return JsonEntityStore.from(item).schema;
     }
 
-    if (isPrimitiveClass(item)) {
+    if (isPrimitiveClass(item) || item === Date || item === null) {
       return new JsonSchema({type: item as Type});
     }
 
@@ -1054,14 +1054,14 @@ export class JsonSchema extends Map<string, any> {
   }
 
   any(...types: any[]) {
-    types = types.length ? types : ["integer", "number", "string", "boolean", "array", "object", "null"];
+    types = types.length ? types : ["integer", "number", "string", "boolean", "array", "object", "null"]; // should be simplified by no type
 
     types = uniq(types).map((o) => {
       return isClass(o) ? o : {type: getJsonType(o)};
     });
 
     if (types.length > 1) {
-      this.anyOf(types);
+      this.oneOf(types);
     } else {
       this.type(types[0]?.type || types[0]);
     }

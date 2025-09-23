@@ -1,6 +1,7 @@
 import {BodyParams} from "@tsed/platform-params";
 import {Ajv} from "ajv";
 
+import {AnyOf, array, OneOf, oneOf, Schema} from "../../..";
 import {SpecTypes} from "../../domain/SpecTypes.js";
 import {getJsonSchema} from "../../utils/getJsonSchema.js";
 import {getSpec} from "../../utils/getSpec.js";
@@ -27,16 +28,23 @@ describe("@Nullable", () => {
     // THEN
     const schema = getJsonSchema(Model);
 
-    expect(schema).toEqual({
-      properties: {
-        prop2: {
-          type: ["null", "string"],
-          minLength: 1
-        }
-      },
-      required: ["prop2"],
-      type: "object"
-    });
+    expect(schema).toMatchInlineSnapshot(`
+      {
+        "properties": {
+          "prop2": {
+            "minLength": 1,
+            "type": [
+              "null",
+              "string",
+            ],
+          },
+        },
+        "required": [
+          "prop2",
+        ],
+        "type": "object",
+      }
+    `);
 
     const ajv = new Ajv({strict: true});
 
@@ -51,52 +59,106 @@ describe("@Nullable", () => {
       test(@BodyParams() model: Model) {}
     }
 
-    expect(getSpec(Test, {specType: SpecTypes.OPENAPI})).toEqual({
-      components: {
-        schemas: {
-          Model: {
-            properties: {
-              prop2: {
-                minLength: 1,
-                type: "string",
-                nullable: true
-              }
-            },
-            required: ["prop2"],
-            type: "object"
-          }
-        }
-      },
-      paths: {
-        "/": {
-          post: {
-            operationId: "testTest",
-            parameters: [],
-            requestBody: {
-              content: {
-                "application/json": {
-                  schema: {
-                    $ref: "#/components/schemas/Model"
-                  }
+    expect(getSpec(Test, {specType: SpecTypes.OPENAPI})).toMatchInlineSnapshot(
+      {
+        components: {
+          schemas: {
+            Model: {
+              properties: {
+                prop2: {
+                  minLength: 1,
+                  type: "string",
+                  nullable: true
                 }
               },
-              required: false
-            },
-            responses: {
-              "200": {
-                description: "Success"
-              }
-            },
-            tags: ["Test"]
+              required: ["prop2"],
+              type: "object"
+            }
           }
-        }
+        },
+        paths: {
+          "/": {
+            post: {
+              operationId: "testTest",
+              parameters: [],
+              requestBody: {
+                content: {
+                  "application/json": {
+                    schema: {
+                      $ref: "#/components/schemas/Model"
+                    }
+                  }
+                },
+                required: false
+              },
+              responses: {
+                "200": {
+                  description: "Success"
+                }
+              },
+              tags: ["Test"]
+            }
+          }
+        },
+        tags: [
+          {
+            name: "Test"
+          }
+        ]
       },
-      tags: [
-        {
-          name: "Test"
-        }
-      ]
-    });
+      `
+      {
+        "components": {
+          "schemas": {
+            "Model": {
+              "properties": {
+                "prop2": {
+                  "minLength": 1,
+                  "nullable": true,
+                  "type": "string",
+                },
+              },
+              "required": [
+                "prop2",
+              ],
+              "type": "object",
+            },
+          },
+        },
+        "paths": {
+          "/": {
+            "post": {
+              "operationId": "testTest",
+              "parameters": [],
+              "requestBody": {
+                "content": {
+                  "application/json": {
+                    "schema": {
+                      "$ref": "#/components/schemas/Model",
+                    },
+                  },
+                },
+                "required": false,
+              },
+              "responses": {
+                "200": {
+                  "description": "Success",
+                },
+              },
+              "tags": [
+                "Test",
+              ],
+            },
+          },
+        },
+        "tags": [
+          {
+            "name": "Test",
+          },
+        ],
+      }
+    `
+    );
   });
   it("should declare any prop (String + Required + Nullable)", () => {
     // WHEN
@@ -112,15 +174,22 @@ describe("@Nullable", () => {
 
     ajv.compile(schema);
 
-    expect(schema).toEqual({
-      properties: {
-        prop2: {
-          type: ["null", "string"]
-        }
-      },
-      required: ["prop2"],
-      type: "object"
-    });
+    expect(schema).toMatchInlineSnapshot(`
+      {
+        "properties": {
+          "prop2": {
+            "type": [
+              "null",
+              "string",
+            ],
+          },
+        },
+        "required": [
+          "prop2",
+        ],
+        "type": "object",
+      }
+    `);
 
     @Path("/")
     class Test {
@@ -128,37 +197,57 @@ describe("@Nullable", () => {
       test(@BodyParams() model: Model) {}
     }
 
-    expect(getSpec(Test, {specType: SpecTypes.OPENAPI})).toEqual({
-      components: {
-        schemas: {
-          Model: {
-            properties: {
-              prop2: {
-                type: "string",
-                nullable: true
-              }
+    expect(getSpec(Test, {specType: SpecTypes.OPENAPI})).toMatchInlineSnapshot(`
+      {
+        "components": {
+          "schemas": {
+            "Model": {
+              "properties": {
+                "prop2": {
+                  "nullable": true,
+                  "type": "string",
+                },
+              },
+              "required": [
+                "prop2",
+              ],
+              "type": "object",
             },
-            required: ["prop2"],
-            type: "object"
-          }
-        }
-      },
-      paths: {
-        "/": {
-          post: {
-            operationId: "testTest",
-            parameters: [],
-            requestBody: {
-              content: {"application/json": {schema: {$ref: "#/components/schemas/Model"}}},
-              required: false
+          },
+        },
+        "paths": {
+          "/": {
+            "post": {
+              "operationId": "testTest",
+              "parameters": [],
+              "requestBody": {
+                "content": {
+                  "application/json": {
+                    "schema": {
+                      "$ref": "#/components/schemas/Model",
+                    },
+                  },
+                },
+                "required": false,
+              },
+              "responses": {
+                "200": {
+                  "description": "Success",
+                },
+              },
+              "tags": [
+                "Test",
+              ],
             },
-            responses: {"200": {description: "Success"}},
-            tags: ["Test"]
-          }
-        }
-      },
-      tags: [{name: "Test"}]
-    });
+          },
+        },
+        "tags": [
+          {
+            "name": "Test",
+          },
+        ],
+      }
+    `);
   });
   it("should declare any prop (String + Nullable)", () => {
     // WHEN
@@ -168,14 +257,19 @@ describe("@Nullable", () => {
     }
 
     // THEN
-    expect(getJsonSchema(Model)).toEqual({
-      properties: {
-        prop2: {
-          type: ["null", "string"]
-        }
-      },
-      type: "object"
-    });
+    expect(getJsonSchema(Model)).toMatchInlineSnapshot(`
+      {
+        "properties": {
+          "prop2": {
+            "type": [
+              "null",
+              "string",
+            ],
+          },
+        },
+        "type": "object",
+      }
+    `);
   });
   it("should declare any prop (Integer + Nullable)", () => {
     // WHEN
@@ -199,95 +293,103 @@ describe("@Nullable", () => {
     }
 
     // THEN
-    expect(getJsonSchema(Model)).toEqual({
-      properties: {
-        prop1: {
-          multipleOf: 1,
-          type: "integer"
-        },
-        prop2: {
-          multipleOf: 1,
-          type: ["null", "integer"]
-        },
-        prop3: {
-          anyOf: [
-            {
-              type: "null"
-            },
-            {
-              multipleOf: 1,
-              type: "integer"
-            },
-            {
-              type: "string"
-            }
-          ]
-        }
-      },
-      type: "object"
-    });
-
-    expect(getSpec(MyController, {specType: SpecTypes.OPENAPI})).toEqual({
-      components: {
-        schemas: {
-          Model: {
-            properties: {
-              prop1: {
-                multipleOf: 1,
-                type: "integer"
+    expect(getJsonSchema(Model)).toMatchInlineSnapshot(`
+      {
+        "properties": {
+          "prop1": {
+            "multipleOf": 1,
+            "type": "integer",
+          },
+          "prop2": {
+            "multipleOf": 1,
+            "type": [
+              "null",
+              "integer",
+            ],
+          },
+          "prop3": {
+            "oneOf": [
+              {
+                "type": "null",
               },
-              prop2: {
-                multipleOf: 1,
-                nullable: true,
-                type: "integer"
+              {
+                "multipleOf": 1,
+                "type": "integer",
               },
-              prop3: {
-                anyOf: [
-                  {
-                    multipleOf: 1,
-                    type: "integer"
+              {
+                "type": "string",
+              },
+            ],
+          },
+        },
+        "type": "object",
+      }
+    `);
+    expect(getSpec(MyController, {specType: SpecTypes.OPENAPI})).toMatchInlineSnapshot(`
+      {
+        "components": {
+          "schemas": {
+            "Model": {
+              "properties": {
+                "prop1": {
+                  "multipleOf": 1,
+                  "type": "integer",
+                },
+                "prop2": {
+                  "multipleOf": 1,
+                  "nullable": true,
+                  "type": "number",
+                },
+                "prop3": {
+                  "nullable": true,
+                  "oneOf": [
+                    {
+                      "multipleOf": 1,
+                      "type": "number",
+                    },
+                    {
+                      "type": "string",
+                    },
+                  ],
+                },
+              },
+              "type": "object",
+            },
+          },
+        },
+        "paths": {
+          "/": {
+            "post": {
+              "operationId": "myControllerBody",
+              "parameters": [],
+              "requestBody": {
+                "content": {
+                  "application/json": {
+                    "schema": {
+                      "$ref": "#/components/schemas/Model",
+                    },
                   },
-                  {
-                    type: "string"
-                  }
-                ],
-                nullable: true
-              }
-            },
-            type: "object"
-          }
-        }
-      },
-      paths: {
-        "/": {
-          post: {
-            operationId: "myControllerBody",
-            parameters: [],
-            requestBody: {
-              content: {
-                "application/json": {
-                  schema: {
-                    $ref: "#/components/schemas/Model"
-                  }
-                }
+                },
+                "required": false,
               },
-              required: false
+              "responses": {
+                "200": {
+                  "description": "Success",
+                },
+              },
+              "tags": [
+                "MyController",
+              ],
             },
-            responses: {
-              "200": {
-                description: "Success"
-              }
-            },
-            tags: ["MyController"]
-          }
-        }
-      },
-      tags: [
-        {
-          name: "MyController"
-        }
-      ]
-    });
+          },
+        },
+        "tags": [
+          {
+            "name": "MyController",
+          },
+        ],
+      }
+    `);
   });
   it("should declare any prop (String & Number + Nullable)", () => {
     // WHEN
@@ -298,24 +400,26 @@ describe("@Nullable", () => {
 
     // THEN
     const schema = getJsonSchema(Model);
-    expect(schema).toEqual({
-      properties: {
-        prop2: {
-          anyOf: [
-            {
-              type: "null"
-            },
-            {
-              type: "string"
-            },
-            {
-              type: "number"
-            }
-          ]
-        }
-      },
-      type: "object"
-    });
+    expect(schema).toMatchInlineSnapshot(`
+      {
+        "properties": {
+          "prop2": {
+            "oneOf": [
+              {
+                "type": "null",
+              },
+              {
+                "type": "string",
+              },
+              {
+                "type": "number",
+              },
+            ],
+          },
+        },
+        "type": "object",
+      }
+    `);
 
     const ajv = new Ajv({strict: true});
 
@@ -335,27 +439,24 @@ describe("@Nullable", () => {
     }
 
     // THEN
-    expect(getJsonSchema(Model)).toEqual({
-      properties: {
-        prop2: {
-          anyOf: [
-            {
-              type: "null"
-            },
-            {
-              maxLength: 10,
-              type: "string"
-            },
-            {
-              minimum: 0,
-              type: "number"
-            }
-          ]
-        }
-      },
-      required: ["prop2"],
-      type: "object"
-    });
+    expect(getJsonSchema(Model)).toMatchInlineSnapshot(`
+      {
+        "properties": {
+          "prop2": {
+            "maxLength": 10,
+            "minimum": 0,
+            "type": [
+              "null",
+              "object",
+            ],
+          },
+        },
+        "required": [
+          "prop2",
+        ],
+        "type": "object",
+      }
+    `);
   });
   it("should declare any prop (Date + Nullable)", () => {
     // WHEN
@@ -366,15 +467,20 @@ describe("@Nullable", () => {
     }
 
     // THEN
-    expect(getJsonSchema(Model)).toEqual({
-      properties: {
-        prop2: {
-          format: "date-time",
-          type: ["null", "string"]
-        }
-      },
-      type: "object"
-    });
+    expect(getJsonSchema(Model)).toMatchInlineSnapshot(`
+      {
+        "properties": {
+          "prop2": {
+            "format": "date-time",
+            "type": [
+              "null",
+              "string",
+            ],
+          },
+        },
+        "type": "object",
+      }
+    `);
   });
   it("should declare any prop (Model + Nullable)", () => {
     // WHEN
@@ -395,88 +501,95 @@ describe("@Nullable", () => {
     }
 
     // THEN
-    expect(getSpec(Test)).toEqual({
-      components: {
-        schemas: {
-          Model: {
-            properties: {
-              prop2: {
-                anyOf: [
-                  {
-                    $ref: "#/components/schemas/Nested"
-                  }
-                ],
-                nullable: true
-              }
-            },
-            type: "object"
-          },
-          Nested: {
-            properties: {
-              id: {
-                type: "string"
-              }
-            },
-            type: "object"
-          }
-        }
-      },
-      paths: {
-        "/": {
-          post: {
-            operationId: "testTest",
-            parameters: [],
-            requestBody: {
-              content: {
-                "application/json": {
-                  schema: {
-                    $ref: "#/components/schemas/Model"
-                  }
-                }
+    expect(getSpec(Test)).toMatchInlineSnapshot(`
+      {
+        "components": {
+          "schemas": {
+            "Model": {
+              "properties": {
+                "prop2": {
+                  "anyOf": [
+                    {
+                      "$ref": "#/components/schemas/Nested",
+                    },
+                  ],
+                  "nullable": true,
+                },
               },
-              required: false
+              "type": "object",
             },
-            responses: {
-              "200": {
-                description: "Success"
-              }
+            "Nested": {
+              "properties": {
+                "id": {
+                  "type": "string",
+                },
+              },
+              "type": "object",
             },
-            tags: ["Test"]
-          }
-        }
-      },
-      tags: [
-        {
-          name: "Test"
-        }
-      ]
-    });
-    const schema = getJsonSchema(Model);
-    expect(schema).toEqual({
-      definitions: {
-        Nested: {
-          properties: {
-            id: {
-              type: "string"
-            }
           },
-          type: "object"
-        }
-      },
-      properties: {
-        prop2: {
-          anyOf: [
-            {
-              type: "null"
+        },
+        "paths": {
+          "/": {
+            "post": {
+              "operationId": "testTest",
+              "parameters": [],
+              "requestBody": {
+                "content": {
+                  "application/json": {
+                    "schema": {
+                      "$ref": "#/components/schemas/Model",
+                    },
+                  },
+                },
+                "required": false,
+              },
+              "responses": {
+                "200": {
+                  "description": "Success",
+                },
+              },
+              "tags": [
+                "Test",
+              ],
             },
-            {
-              $ref: "#/definitions/Nested"
-            }
-          ]
-        }
-      },
-      type: "object"
-    });
+          },
+        },
+        "tags": [
+          {
+            "name": "Test",
+          },
+        ],
+      }
+    `);
+
+    const schema = getJsonSchema(Model);
+    expect(schema).toMatchInlineSnapshot(`
+      {
+        "definitions": {
+          "Nested": {
+            "properties": {
+              "id": {
+                "type": "string",
+              },
+            },
+            "type": "object",
+          },
+        },
+        "properties": {
+          "prop2": {
+            "oneOf": [
+              {
+                "type": "null",
+              },
+              {
+                "$ref": "#/definitions/Nested",
+              },
+            ],
+          },
+        },
+        "type": "object",
+      }
+    `);
 
     const ajv = new Ajv({strict: true});
 
@@ -508,48 +621,50 @@ describe("@Nullable", () => {
 
     const schema = getJsonSchema(Model);
 
-    expect(schema).toEqual({
-      definitions: {
-        Nested1: {
-          properties: {
-            id: {
-              type: "string"
+    expect(schema).toMatchInlineSnapshot(`
+      {
+        "definitions": {
+          "Nested1": {
+            "properties": {
+              "id": {
+                "type": "string",
+              },
+              "top": {
+                "type": "string",
+              },
             },
-            top: {
-              type: "string"
-            }
+            "type": "object",
           },
-          type: "object"
+          "Nested2": {
+            "properties": {
+              "id": {
+                "type": "string",
+              },
+              "other": {
+                "type": "string",
+              },
+            },
+            "type": "object",
+          },
         },
-        Nested2: {
-          properties: {
-            id: {
-              type: "string"
-            },
-            other: {
-              type: "string"
-            }
+        "properties": {
+          "prop2": {
+            "oneOf": [
+              {
+                "type": "null",
+              },
+              {
+                "$ref": "#/definitions/Nested1",
+              },
+              {
+                "$ref": "#/definitions/Nested2",
+              },
+            ],
           },
-          type: "object"
-        }
-      },
-      properties: {
-        prop2: {
-          anyOf: [
-            {
-              type: "null"
-            },
-            {
-              $ref: "#/definitions/Nested1"
-            },
-            {
-              $ref: "#/definitions/Nested2"
-            }
-          ]
-        }
-      },
-      type: "object"
-    });
+        },
+        "type": "object",
+      }
+    `);
 
     const ajv = new Ajv({strict: true});
 
@@ -569,7 +684,8 @@ describe("@Nullable", () => {
 
     class Nested2 {
       @Property()
-      id: string;
+      @Minimum(1)
+      id: number;
 
       @Property()
       other: string;
@@ -587,129 +703,142 @@ describe("@Nullable", () => {
     }
 
     // THEN
-    expect(getSpec(MyController, {specType: SpecTypes.OPENAPI})).toEqual({
-      components: {
-        schemas: {
-          Model: {
-            properties: {
-              prop2: {
-                anyOf: [
-                  {
-                    $ref: "#/components/schemas/Nested1"
+    expect(getSpec(MyController, {specType: SpecTypes.OPENAPI})).toMatchInlineSnapshot(`
+      {
+        "components": {
+          "schemas": {
+            "Model": {
+              "properties": {
+                "prop2": {
+                  "nullable": true,
+                  "oneOf": [
+                    {
+                      "$ref": "#/components/schemas/Nested1",
+                    },
+                    {
+                      "$ref": "#/components/schemas/Nested2",
+                    },
+                  ],
+                },
+              },
+              "type": "object",
+            },
+            "Nested1": {
+              "properties": {
+                "id": {
+                  "type": "string",
+                },
+                "top": {
+                  "type": "string",
+                },
+              },
+              "type": "object",
+            },
+            "Nested2": {
+              "properties": {
+                "id": {
+                  "minimum": 1,
+                  "type": "number",
+                },
+                "other": {
+                  "type": "string",
+                },
+              },
+              "type": "object",
+            },
+          },
+        },
+        "paths": {
+          "/": {
+            "post": {
+              "operationId": "myControllerBody",
+              "parameters": [],
+              "requestBody": {
+                "content": {
+                  "application/json": {
+                    "schema": {
+                      "$ref": "#/components/schemas/Model",
+                    },
                   },
-                  {
-                    $ref: "#/components/schemas/Nested2"
-                  }
-                ],
-                nullable: true
-              }
+                },
+                "required": false,
+              },
+              "responses": {
+                "200": {
+                  "description": "Success",
+                },
+              },
+              "tags": [
+                "MyController",
+              ],
             },
-            type: "object"
           },
-          Nested1: {
-            properties: {
-              id: {
-                type: "string"
-              },
-              top: {
-                type: "string"
-              }
-            },
-            type: "object"
+        },
+        "tags": [
+          {
+            "name": "MyController",
           },
-          Nested2: {
-            properties: {
-              id: {
-                type: "string"
-              },
-              other: {
-                type: "string"
-              }
-            },
-            type: "object"
-          }
-        }
-      },
-      paths: {
-        "/": {
-          post: {
-            operationId: "myControllerBody",
-            parameters: [],
-            requestBody: {
-              content: {
-                "application/json": {
-                  schema: {
-                    $ref: "#/components/schemas/Model"
-                  }
-                }
-              },
-              required: false
-            },
-            responses: {
-              "200": {
-                description: "Success"
-              }
-            },
-            tags: ["MyController"]
-          }
-        }
-      },
-      tags: [
-        {
-          name: "MyController"
-        }
-      ]
-    });
+        ],
+      }
+    `);
 
     const schema = getJsonSchema(Model);
 
-    expect(schema).toEqual({
-      definitions: {
-        Nested1: {
-          properties: {
-            id: {
-              type: "string"
+    expect(schema).toMatchInlineSnapshot(`
+      {
+        "definitions": {
+          "Nested1": {
+            "properties": {
+              "id": {
+                "type": "string",
+              },
+              "top": {
+                "type": "string",
+              },
             },
-            top: {
-              type: "string"
-            }
+            "type": "object",
           },
-          type: "object"
+          "Nested2": {
+            "properties": {
+              "id": {
+                "minimum": 1,
+                "type": "number",
+              },
+              "other": {
+                "type": "string",
+              },
+            },
+            "type": "object",
+          },
         },
-        Nested2: {
-          properties: {
-            id: {
-              type: "string"
-            },
-            other: {
-              type: "string"
-            }
+        "properties": {
+          "prop2": {
+            "oneOf": [
+              {
+                "type": "null",
+              },
+              {
+                "$ref": "#/definitions/Nested1",
+              },
+              {
+                "$ref": "#/definitions/Nested2",
+              },
+            ],
           },
-          type: "object"
-        }
-      },
-      properties: {
-        prop2: {
-          anyOf: [
-            {
-              type: "null"
-            },
-            {
-              $ref: "#/definitions/Nested1"
-            },
-            {
-              $ref: "#/definitions/Nested2"
-            }
-          ]
-        }
-      },
-      type: "object"
-    });
+        },
+        "type": "object",
+      }
+    `);
 
     const ajv = new Ajv({strict: true});
 
     expect(ajv.validate(schema, {prop2: null})).toBeTruthy();
-    expect(ajv.validate(schema, {prop2: {id: "id", other: "other"}})).toBeTruthy();
+
+    const value = {prop2: {id: "id", other: "other"}};
+    const result = ajv.validate(schema, value);
+
+    expect(ajv.errors).toBe(null);
+    expect(result).toBeTruthy();
   });
   it("should declare any prop (many Models + Nullable + OS2)", () => {
     // WHEN
@@ -741,78 +870,494 @@ describe("@Nullable", () => {
     }
 
     // THEN
-    expect(getSpec(MyController, {specType: SpecTypes.OPENAPI})).toEqual({
-      components: {
-        schemas: {
-          Model: {
-            properties: {
-              prop2: {
-                anyOf: [
-                  {
-                    $ref: "#/components/schemas/Nested1"
+    expect(getSpec(MyController, {specType: SpecTypes.OPENAPI})).toMatchInlineSnapshot(`
+      {
+        "components": {
+          "schemas": {
+            "Model": {
+              "properties": {
+                "prop2": {
+                  "nullable": true,
+                  "oneOf": [
+                    {
+                      "$ref": "#/components/schemas/Nested1",
+                    },
+                    {
+                      "$ref": "#/components/schemas/Nested2",
+                    },
+                  ],
+                },
+              },
+              "type": "object",
+            },
+            "Nested1": {
+              "properties": {
+                "id": {
+                  "type": "string",
+                },
+                "top": {
+                  "type": "string",
+                },
+              },
+              "type": "object",
+            },
+            "Nested2": {
+              "properties": {
+                "id": {
+                  "type": "string",
+                },
+                "other": {
+                  "type": "string",
+                },
+              },
+              "type": "object",
+            },
+          },
+        },
+        "paths": {
+          "/": {
+            "post": {
+              "operationId": "myControllerBody",
+              "parameters": [],
+              "requestBody": {
+                "content": {
+                  "application/json": {
+                    "schema": {
+                      "$ref": "#/components/schemas/Model",
+                    },
                   },
-                  {
-                    $ref: "#/components/schemas/Nested2"
-                  }
-                ],
-                nullable: true
-              }
+                },
+                "required": false,
+              },
+              "responses": {
+                "200": {
+                  "description": "Success",
+                },
+              },
+              "tags": [
+                "MyController",
+              ],
             },
-            type: "object"
           },
-          Nested1: {
-            properties: {
-              id: {
-                type: "string"
-              },
-              top: {
-                type: "string"
-              }
-            },
-            type: "object"
+        },
+        "tags": [
+          {
+            "name": "MyController",
           },
-          Nested2: {
-            properties: {
-              id: {
-                type: "string"
+        ],
+      }
+    `);
+  });
+  it("should declare any prop (many Models + Nullable + OS3 + anyOf alternative)", () => {
+    // WHEN
+    class Nested1 {
+      @Property()
+      id: string;
+
+      @Property()
+      top: string;
+    }
+
+    class Nested2 {
+      @Property()
+      @Minimum(1)
+      id: number;
+
+      @Property()
+      other: string;
+    }
+
+    class Model {
+      @AnyOf(Nested1, Nested2, {type: "null"})
+      prop2: Nested1 | Nested2 | null;
+    }
+
+    @Path("/")
+    class MyController {
+      @Post("/")
+      body(@BodyParams() model: Model) {}
+    }
+
+    // THEN
+    expect(getSpec(MyController, {specType: SpecTypes.OPENAPI})).toMatchInlineSnapshot(`
+      {
+        "components": {
+          "schemas": {
+            "Model": {
+              "properties": {
+                "prop2": {
+                  "anyOf": [
+                    {
+                      "$ref": "#/components/schemas/Nested1",
+                    },
+                    {
+                      "$ref": "#/components/schemas/Nested2",
+                    },
+                  ],
+                  "nullable": true,
+                },
               },
-              other: {
-                type: "string"
-              }
+              "type": "object",
             },
-            type: "object"
-          }
-        }
-      },
-      paths: {
-        "/": {
-          post: {
-            operationId: "myControllerBody",
-            parameters: [],
-            requestBody: {
-              content: {
-                "application/json": {
-                  schema: {
-                    $ref: "#/components/schemas/Model"
-                  }
-                }
+            "Nested1": {
+              "properties": {
+                "id": {
+                  "type": "string",
+                },
+                "top": {
+                  "type": "string",
+                },
               },
-              required: false
+              "type": "object",
             },
-            responses: {
-              "200": {
-                description: "Success"
-              }
+            "Nested2": {
+              "properties": {
+                "id": {
+                  "minimum": 1,
+                  "type": "number",
+                },
+                "other": {
+                  "type": "string",
+                },
+              },
+              "type": "object",
             },
-            tags: ["MyController"]
-          }
-        }
-      },
-      tags: [
-        {
-          name: "MyController"
-        }
-      ]
-    });
+          },
+        },
+        "paths": {
+          "/": {
+            "post": {
+              "operationId": "myControllerBody",
+              "parameters": [],
+              "requestBody": {
+                "content": {
+                  "application/json": {
+                    "schema": {
+                      "$ref": "#/components/schemas/Model",
+                    },
+                  },
+                },
+                "required": false,
+              },
+              "responses": {
+                "200": {
+                  "description": "Success",
+                },
+              },
+              "tags": [
+                "MyController",
+              ],
+            },
+          },
+        },
+        "tags": [
+          {
+            "name": "MyController",
+          },
+        ],
+      }
+    `);
+
+    const schema = getJsonSchema(Model);
+
+    expect(schema).toMatchInlineSnapshot(`
+      {
+        "definitions": {
+          "Nested1": {
+            "properties": {
+              "id": {
+                "type": "string",
+              },
+              "top": {
+                "type": "string",
+              },
+            },
+            "type": "object",
+          },
+          "Nested2": {
+            "properties": {
+              "id": {
+                "minimum": 1,
+                "type": "number",
+              },
+              "other": {
+                "type": "string",
+              },
+            },
+            "type": "object",
+          },
+        },
+        "properties": {
+          "prop2": {
+            "anyOf": [
+              {
+                "type": "null",
+              },
+              {
+                "$ref": "#/definitions/Nested1",
+              },
+              {
+                "$ref": "#/definitions/Nested2",
+              },
+            ],
+          },
+        },
+        "type": "object",
+      }
+    `);
+
+    const ajv = new Ajv({strict: true});
+
+    expect(ajv.validate(schema, {prop2: null})).toBeTruthy();
+
+    const value = {prop2: {id: "id", other: "other"}};
+    const result = ajv.validate(schema, value);
+
+    expect(ajv.errors).toBe(null);
+    expect(result).toBeTruthy();
+  });
+  it("should declare any prop (many Models + Nullable + OS3 + oneOf alternative)", () => {
+    // WHEN
+    class Nested1 {
+      @Property()
+      id: string;
+
+      @Property()
+      top: string;
+    }
+
+    class Nested2 {
+      @Property()
+      @Minimum(1)
+      id: number;
+
+      @Property()
+      other: string;
+    }
+
+    class Model {
+      @OneOf(Nested1, Nested2, {type: "null"})
+      prop2: Nested1 | Nested2 | null;
+    }
+
+    @Path("/")
+    class MyController {
+      @Post("/")
+      body(@BodyParams() model: Model) {}
+    }
+
+    // THEN
+    expect(getSpec(MyController, {specType: SpecTypes.OPENAPI})).toMatchInlineSnapshot(`
+      {
+        "components": {
+          "schemas": {
+            "Model": {
+              "properties": {
+                "prop2": {
+                  "nullable": true,
+                  "oneOf": [
+                    {
+                      "$ref": "#/components/schemas/Nested1",
+                    },
+                    {
+                      "$ref": "#/components/schemas/Nested2",
+                    },
+                  ],
+                },
+              },
+              "type": "object",
+            },
+            "Nested1": {
+              "properties": {
+                "id": {
+                  "type": "string",
+                },
+                "top": {
+                  "type": "string",
+                },
+              },
+              "type": "object",
+            },
+            "Nested2": {
+              "properties": {
+                "id": {
+                  "minimum": 1,
+                  "type": "number",
+                },
+                "other": {
+                  "type": "string",
+                },
+              },
+              "type": "object",
+            },
+          },
+        },
+        "paths": {
+          "/": {
+            "post": {
+              "operationId": "myControllerBody",
+              "parameters": [],
+              "requestBody": {
+                "content": {
+                  "application/json": {
+                    "schema": {
+                      "$ref": "#/components/schemas/Model",
+                    },
+                  },
+                },
+                "required": false,
+              },
+              "responses": {
+                "200": {
+                  "description": "Success",
+                },
+              },
+              "tags": [
+                "MyController",
+              ],
+            },
+          },
+        },
+        "tags": [
+          {
+            "name": "MyController",
+          },
+        ],
+      }
+    `);
+
+    const schema = getJsonSchema(Model);
+
+    expect(schema).toMatchInlineSnapshot(`
+      {
+        "definitions": {
+          "Nested1": {
+            "properties": {
+              "id": {
+                "type": "string",
+              },
+              "top": {
+                "type": "string",
+              },
+            },
+            "type": "object",
+          },
+          "Nested2": {
+            "properties": {
+              "id": {
+                "minimum": 1,
+                "type": "number",
+              },
+              "other": {
+                "type": "string",
+              },
+            },
+            "type": "object",
+          },
+        },
+        "properties": {
+          "prop2": {
+            "oneOf": [
+              {
+                "type": "null",
+              },
+              {
+                "$ref": "#/definitions/Nested1",
+              },
+              {
+                "$ref": "#/definitions/Nested2",
+              },
+            ],
+          },
+        },
+        "type": "object",
+      }
+    `);
+
+    const ajv = new Ajv({strict: true});
+
+    expect(ajv.validate(schema, {prop2: null})).toBeTruthy();
+
+    const value = {prop2: {id: "id", other: "other"}};
+    const result = ajv.validate(schema, value);
+
+    expect(ajv.errors).toBe(null);
+    expect(result).toBeTruthy();
+  });
+  it("should declare a nullable array property", () => {
+    class ConsumerEllipticCurveJwk {
+      @Property()
+      kty: "EC";
+    }
+
+    class ConsumerRSAJwk {
+      @Property()
+      kty: "RSA";
+    }
+
+    class ConsumerSymetricJwk {
+      @Property()
+      kty: "oct";
+    }
+
+    class ConsumerJwksUpdate {
+      @Schema(
+        array()
+          .items(oneOf(ConsumerEllipticCurveJwk, ConsumerRSAJwk, ConsumerSymetricJwk))
+          .nullable(true)
+      )
+      // @Nullable(Array<ConsumerEllipticCurveJwk | ConsumerRSAJwk | ConsumerSymetricJwk>)
+      keys: Array<ConsumerEllipticCurveJwk | ConsumerRSAJwk | ConsumerSymetricJwk> | null;
+    }
+
+    expect(getJsonSchema(ConsumerJwksUpdate)).toMatchInlineSnapshot(`
+      {
+        "definitions": {
+          "ConsumerEllipticCurveJwk": {
+            "properties": {
+              "kty": {
+                "type": "string",
+              },
+            },
+            "type": "object",
+          },
+          "ConsumerRSAJwk": {
+            "properties": {
+              "kty": {
+                "type": "string",
+              },
+            },
+            "type": "object",
+          },
+          "ConsumerSymetricJwk": {
+            "properties": {
+              "kty": {
+                "type": "string",
+              },
+            },
+            "type": "object",
+          },
+        },
+        "properties": {
+          "keys": {
+            "items": {
+              "oneOf": [
+                {
+                  "$ref": "#/definitions/ConsumerEllipticCurveJwk",
+                },
+                {
+                  "$ref": "#/definitions/ConsumerRSAJwk",
+                },
+                {
+                  "$ref": "#/definitions/ConsumerSymetricJwk",
+                },
+              ],
+            },
+            "type": "array",
+          },
+        },
+        "type": "object",
+      }
+    `);
   });
 });

@@ -1,7 +1,7 @@
 import {Type, useDecorators} from "@tsed/core";
 import type {JSONSchema6TypeName} from "json-schema";
 
-import {Any} from "./any.js";
+import {OneOf} from "./oneOf.js";
 import {Property} from "./property.js";
 
 /**
@@ -28,5 +28,5 @@ import {Property} from "./property.js";
  */
 export function Nullable(type: JSONSchema6TypeName | Type<any> | any, ...types: (JSONSchema6TypeName | Type<any> | any)[]) {
   types = [type, ...types];
-  return useDecorators(types.length === 1 && Property(types[0]), Any(null, ...types));
+  return useDecorators(types.length === 1 && Property(types[0]), OneOf({type: "null"}, ...types));
 }
