@@ -14,7 +14,8 @@ export function nullableMapper(obj: any, schema: JsonSchema | null) {
       obj = cleanObject({
         ...obj,
         $ref: undefined,
-        anyOf: [
+        oneOf: [
+          // Note: anyOf work but isn't correct, oneOf can cause issue if the object shape match with 2 or more schema with the lax constraint
           {type: "null"},
           {
             $ref: obj.$ref

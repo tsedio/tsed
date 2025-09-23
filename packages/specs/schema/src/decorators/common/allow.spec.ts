@@ -108,7 +108,7 @@ describe("@Allow", () => {
       },
       properties: {
         allow: {
-          anyOf: [
+          oneOf: [
             {
               type: "null"
             },

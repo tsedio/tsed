@@ -31,7 +31,7 @@ describe("@Enum", () => {
       expect(getJsonSchema(Model)).toEqual({
         properties: {
           num: {
-            anyOf: [
+            oneOf: [
               {
                 enum: ["0", "1"],
                 type: "string"
@@ -56,7 +56,7 @@ describe("@Enum", () => {
       expect(getJsonSchema(Model)).toEqual({
         properties: {
           num: {
-            anyOf: [
+            oneOf: [
               {
                 type: "null"
               },
@@ -84,7 +84,7 @@ describe("@Enum", () => {
       expect(getJsonSchema(Model)).toEqual({
         properties: {
           num: {
-            anyOf: [
+            oneOf: [
               {
                 type: "null"
               },
@@ -171,7 +171,7 @@ describe("@Enum", () => {
       expect(getJsonSchema(Model)).toEqual({
         properties: {
           num: {
-            anyOf: [
+            oneOf: [
               {
                 enum: [0],
                 type: "number"
@@ -206,7 +206,7 @@ describe("@Enum", () => {
       expect(getJsonSchema(Model)).toEqual({
         definitions: {
           SomeEnum: {
-            anyOf: [
+            oneOf: [
               {
                 enum: [0],
                 type: "number"
@@ -246,7 +246,7 @@ describe("@Enum", () => {
       expect(getJsonSchema(Model)).toEqual({
         definitions: {
           SomeEnum: {
-            anyOf: [
+            oneOf: [
               {
                 enum: [0],
                 type: "number"
@@ -286,7 +286,7 @@ describe("@Enum", () => {
       expect(getJsonSchema(Model)).toEqual({
         properties: {
           num: {
-            anyOf: [
+            oneOf: [
               {
                 enum: [0],
                 type: "number"
