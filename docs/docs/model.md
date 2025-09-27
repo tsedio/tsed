@@ -115,7 +115,7 @@ export class Model {
 {
   "properties": {
     "prop": {
-      "anyOf": [
+      "oneOf": [
         {
           "type": "null"
         },
@@ -150,7 +150,7 @@ export class Model {
   "properties": {
     "prop": {
       "nullable": true,
-      "anyOf": [
+      "oneOf": [
         {
           "type": "integer",
           "multipleOf": 1
@@ -218,7 +218,15 @@ Produce a json-schema as follows:
 
 ## Nullable
 
-The @@Nullable@@ decorator is used allow a null value on a field while preserving the original Typescript type.
+Use the @@Nullable@@ decorator to explicitly allow null as a valid value for a property while preserving the original
+TypeScript type. This is the recommended and future-proof way to model nullability in your schemas and validation.
+
+Key points:
+
+- Nullable controls whether null is accepted at validation/serialization time; it does not make the property optional.
+  Use @@Required@@/@@Optional@@ for presence.
+- Prefer writing the TypeScript union type as well (for example string | null) to reflect the runtime behavior in your
+  code.
 
 ::: code-group
 
@@ -229,7 +237,7 @@ The @@Nullable@@ decorator is used allow a null value on a field while preservin
 
 ::: warning
 
-Since the v7.43.0, `ajv.returnsCoercedValues` is available to solve the following
+Since v7.43.0, `ajv.returnsCoercedValues` is available to address the following
 issue: [#2355](https://github.com/tsedio/tsed/issues/2355)
 If `returnsCoercedValues` is true, AjvService will return the coerced value instead of the original value. In this case,
 `@Nullable()` will be mandatory to
@@ -251,9 +259,9 @@ class NullableModel {
 }
 ```
 
-Ajv won't emit validation error if the value is null due to his coercion behavior. AjvService will return the original
-value and not the Ajv coerced value.
-Another problem is, the typings of the model doesn't reflect the real coerced value.
+AJV will not emit a validation error when the value is null because of its coercion behavior. In that case, AjvService
+returns the original value, not the coerced one.
+Another issue is that your TypeScript types do not reflect the actual coerced value at runtime.
 
 Using the `returnsCoercedValues` option, AjvService will return the coerced type. In this case, our previous model will
 have the following behavior:
@@ -289,12 +297,12 @@ class NullableModel {
 :::
 
 ::: warning
-`returnsCoercedValue` will become true by default in the next major version of Ts.ED.
+`returnsCoercedValues` will become true by default in the next major version of Ts.ED.
 :::
 
 ## Nullable and mixed types <Badge text="7.75.0+"/>
 
-The @@Nullable@@ decorator can be used with Tuple types:
+You can use the @@Nullable@@ decorator with union types:
 
 ```ts
 import {Nullable} from "@tsed/schema";
@@ -305,9 +313,9 @@ class Model {
 }
 ```
 
-Since v7.75.0, when you use @@Nullable@@ decorator combined with other decorators like @@MinLength@@, @@Minimum@@, etc.
-metadata will be automatically assigned to the right
-type. For example, if you add a @@Minimum@@ decorator, it will be assigned to the number type.
+Since v7.75.0, when you combine @@Nullable@@ with other constraints such as @@MinLength@@ or @@Minimum@@, Ts.ED
+automatically assigns each constraint to the appropriate branch of the union. For example, @@Minimum@@ applies to the
+number branch, while @@MaxLength@@ applies to the string branch.
 
 ```ts
 import {Nullable} from "@tsed/schema";
@@ -320,13 +328,13 @@ class Model {
 }
 ```
 
-Produce a json-schema as follows:
+It produces the following JSON Schema:
 
 ```json
 {
   "properties": {
     "prop": {
-      "anyOf": [
+      "oneOf": [
         {
           "type": "null"
         },
@@ -344,6 +352,90 @@ Produce a json-schema as follows:
   "type": "object"
 }
 ```
+
+::: warning
+Because `oneOf` is strict, sometimes you can have this Ajv error message:
+
+```
+"must match exactly one schema in oneOf"
+```
+
+This happens because the object being validated matches at least two schemas. To work around this, you have two options:
+either avoid overlapping between the schemas by adding different constraints to each schema, or use the @@AnyOf@@
+decorator as follows:
+
+```ts
+class Model {
+  @AnyOf(String, Number, null)
+  @Minimum(0)
+  @MaxLength(100)
+  prop: string | number | null;
+}
+```
+
+:::
+
+## Nullable and Array
+
+The @@Nullable@@ decorator can be used with Array types:
+
+```ts
+import {Nullable} from "@tsed/schema";
+
+class Model {
+  @Nullable(Array)
+  prop: string[] | null;
+}
+```
+
+This alone will not generate the correct JSON Schema. Adding @@CollectionOf@@ is not sufficient either:
+
+```ts
+import {Nullable} from "@tsed/schema";
+
+class Model {
+  @Nullable(Array)
+  @CollectionOf(String)
+  prop: string[] | null;
+}
+```
+
+Why? Because at runtime, TypeScript only preserves the Object constructor in this case for the property type, not the
+item type. With only decorators, Ts.ED cannot infer both "array of string" and the nullability of the array itself.
+
+Solution: use a custom schema builder to declare both the item type and the fact that the entire array can be null:
+
+```ts
+class Model {
+  @Schema(array().items(String).nullable(true))
+  prop: string[] | null;
+}
+```
+
+If you have complex schema with mixed item types, use the custom schema also as following:
+
+```ts
+import {array, number, string} from "@tsed/schema";
+
+class Model {
+  @Schema(array().oneOf([string(), number()]).nullable(true))
+  prop: (string | number)[] | null;
+}
+```
+
+### Nullable quick reference
+
+- string | null: use `@Nullable(String)` and declare the TypeScript type as `string | null`.
+- number | null: use `@Nullable(Number)` and declare the type as `number | null`.
+- boolean | null: use `@Nullable(Boolean)` and declare the type as `boolean | null`.
+- (string | number) | null: use `@Nullable(String, Number)` and declare the type as `string | number | null`.
+- string[] | null (nullable array itself): use the Schema builder `@Schema(array().items(String).nullable(true))`.
+- (string | number)[] | null (nullable array itself with mixed items):
+  `@Schema(array().oneOf([string(), number()]).nullable(true))`.
+- Array with nullable items (e.g., (string | null)[]): `@Schema(array().items(string().nullable(true)))`.
+
+Note: Nullable means the value can be null. It does not mean the property can be omitted. Use @@Optional@@ (or remove
+@@Required@@) to make a property optional.
 
 ## Regular expressions
 

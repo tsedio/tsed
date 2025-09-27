@@ -1,7 +1,14 @@
 {
   "properties": {
     "prop2": {
-      "type": ["null", "string"]
+      "oneOf": [
+        {
+          "type": "null"
+        },
+        {
+          "type": "string"
+        }
+      ]
     }
   },
   "required": ["prop2"],
