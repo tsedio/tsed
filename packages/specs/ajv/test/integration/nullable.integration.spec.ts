@@ -79,6 +79,59 @@ describe("Nullable model", () => {
         prop5: null
       };
 
+      expect(getJsonSchema(NullModel)).toMatchInlineSnapshot(`
+        {
+          "definitions": {
+            "NestedModel": {
+              "properties": {
+                "id": {
+                  "type": "string",
+                },
+              },
+              "type": "object",
+            },
+          },
+          "properties": {
+            "prop1": {
+              "type": [
+                "null",
+                "string",
+              ],
+            },
+            "prop2": {
+              "type": [
+                "null",
+                "number",
+              ],
+            },
+            "prop3": {
+              "type": [
+                "null",
+                "string",
+              ],
+            },
+            "prop4": {
+              "oneOf": [
+                {
+                  "type": "null",
+                },
+                {
+                  "$ref": "#/definitions/NestedModel",
+                },
+              ],
+            },
+            "prop5": {
+              "$comment": "Warning: you should not use @Nullable(Array) which lead to an incorrect schema. Use @Schema(array().items().nullable()) instead",
+              "type": [
+                "null",
+                "array",
+              ],
+            },
+          },
+          "type": "object",
+        }
+      `);
+
       const result = await validate(value, JsonParameterStore.get(Ctrl, "get", 0));
 
       expect(result).toEqual({

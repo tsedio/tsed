@@ -1,4 +1,4 @@
-import type {AnyJsonSchema, JsonSchema} from "../domain/JsonSchema.js";
+import type {JsonSchema} from "../domain/JsonSchema.js";
 import {from} from "./from.js";
 
 /**
@@ -9,6 +9,6 @@ import {from} from "./from.js";
  * @schemaFunctional
  * @see https://tools.ietf.org/html/draft-wright-json-schema-validation-01#section-6.28
  */
-export function oneOf(...oneOf: AnyJsonSchema[]): JsonSchema {
+export function oneOf(...oneOf: Parameters<typeof JsonSchema.prototype.oneOf>[0]): JsonSchema {
   return from().oneOf(oneOf);
 }

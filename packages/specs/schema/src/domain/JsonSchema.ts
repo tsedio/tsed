@@ -59,7 +59,7 @@ function mapProperties(properties: Record<string, any>) {
 }
 
 function mapToJsonSchema(item: Record<string, any>[]): JsonSchema[];
-function mapToJsonSchema(item: Record<string, any> | JSONSchema7Definition): JsonSchema;
+function mapToJsonSchema(item: Record<string, any> | JSONSchema7Definition | null): JsonSchema;
 function mapToJsonSchema(item: any): JsonSchema | JsonSchema[] {
   if (isArray(item)) {
     return (item as any[]).map(mapToJsonSchema);
@@ -352,7 +352,9 @@ export class JsonSchema extends Map<string, any> {
   }
 
   nullable(value: boolean) {
-    this.vendorKey(VendorKeys.NULLABLE, value);
+    if (!this.isNullable) {
+      this.vendorKey(VendorKeys.NULLABLE, value);
+    }
 
     return this;
   }
@@ -572,6 +574,11 @@ export class JsonSchema extends Map<string, any> {
   items(items: AnyJsonSchema | AnyJsonSchema[]) {
     super.set("items", (this.#itemSchema = mapToJsonSchema(items) as unknown as JsonSchema));
 
+    return this;
+  }
+
+  $comment(comment: string) {
+    super.set("$comment", comment);
     return this;
   }
 
@@ -839,7 +846,7 @@ export class JsonSchema extends Map<string, any> {
   /**
    * @see https://tools.ietf.org/html/draft-wright-json-schema-validation-01#section-6.26
    */
-  allOf(allOf: AnyJsonSchema[]) {
+  allOf(allOf: (AnyJsonSchema | null)[]) {
     this.setManyOf("allOf", allOf);
 
     return this;
@@ -848,7 +855,7 @@ export class JsonSchema extends Map<string, any> {
   /**
    * @see https://tools.ietf.org/html/draft-wright-json-schema-validation-01#section-6.27
    */
-  anyOf(anyOf: AnyJsonSchema[]) {
+  anyOf(anyOf: (AnyJsonSchema | null)[]) {
     this.setManyOf("anyOf", anyOf);
 
     return this;
@@ -857,7 +864,7 @@ export class JsonSchema extends Map<string, any> {
   /*
    * @see https://tools.ietf.org/html/draft-wright-json-schema-validation-01#section-6.28
    */
-  oneOf(oneOf: AnyJsonSchema[]) {
+  oneOf(oneOf: (AnyJsonSchema | null)[]) {
     if (this.isCollection) {
       this.itemSchema().oneOf(oneOf);
     } else {
@@ -1261,10 +1268,13 @@ export class JsonSchema extends Map<string, any> {
     return false;
   }
 
-  protected setManyOf(keyword: "oneOf" | "anyOf" | "allOf", value: AnyJsonSchema[]) {
+  protected setManyOf(keyword: "oneOf" | "anyOf" | "allOf", value: (AnyJsonSchema | null)[]) {
     let resolved = value
+      // .map((o) => {
+      //   return o === null ? {type: "null"} : o;
+      // })
       .filter((o) => {
-        if (o && "type" in o && o.type === "null") {
+        if ((o && "type" in o && o.type === "null") || o === null) {
           this.nullable(true);
           return false;
         }
