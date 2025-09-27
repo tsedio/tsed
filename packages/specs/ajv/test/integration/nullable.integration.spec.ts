@@ -3,7 +3,7 @@ import "../../src/index.js";
 import {BadRequest} from "@tsed/exceptions";
 import {PlatformTest} from "@tsed/platform-http/testing";
 import {BodyParams, ParamValidationError, ValidationPipe} from "@tsed/platform-params";
-import {CollectionOf, JsonParameterStore, Nullable, Property} from "@tsed/schema";
+import {CollectionOf, getJsonSchema, JsonParameterStore, Nullable, Property} from "@tsed/schema";
 
 async function validate(value: any, metadata: any) {
   const pipe: ValidationPipe = await PlatformTest.invoke<ValidationPipe>(ValidationPipe);
@@ -80,6 +80,59 @@ describe("Nullable model", () => {
         prop4: null,
         prop5: null
       };
+
+      expect(getJsonSchema(NullModel)).toMatchInlineSnapshot(`
+        {
+          "definitions": {
+            "NestedModel": {
+              "properties": {
+                "id": {
+                  "type": "string",
+                },
+              },
+              "type": "object",
+            },
+          },
+          "properties": {
+            "prop1": {
+              "type": [
+                "null",
+                "string",
+              ],
+            },
+            "prop2": {
+              "type": [
+                "null",
+                "number",
+              ],
+            },
+            "prop3": {
+              "type": [
+                "null",
+                "string",
+              ],
+            },
+            "prop4": {
+              "oneOf": [
+                {
+                  "type": "null",
+                },
+                {
+                  "$ref": "#/definitions/NestedModel",
+                },
+              ],
+            },
+            "prop5": {
+              "$comment": "Warning: you should not use @Nullable(Array) which lead to an incorrect schema. Use @Schema(array().items().nullable()) instead",
+              "type": [
+                "null",
+                "array",
+              ],
+            },
+          },
+          "type": "object",
+        }
+      `);
 
       const result = await validate(value, JsonParameterStore.get(Ctrl, "get", 0));
 

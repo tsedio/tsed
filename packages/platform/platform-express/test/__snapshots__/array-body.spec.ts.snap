@@ -29,7 +29,8 @@ exports[`Array Body > swagger > should return the swagger (OS3) 1`] = `
             "application/json": {
               "schema": {
                 "items": {
-                  "anyOf": [
+                  "nullable": true,
+                  "oneOf": [
                     {
                       "multipleOf": 1,
                       "type": "integer",
@@ -51,7 +52,6 @@ exports[`Array Body > swagger > should return the swagger (OS3) 1`] = `
                       "type": "object",
                     },
                   ],
-                  "nullable": true,
                 },
                 "type": "array",
               },
@@ -78,7 +78,8 @@ exports[`Array Body > swagger > should return the swagger (OS3) 1`] = `
             "application/json": {
               "schema": {
                 "items": {
-                  "anyOf": [
+                  "nullable": true,
+                  "oneOf": [
                     {
                       "multipleOf": 1,
                       "type": "integer",
@@ -100,7 +101,6 @@ exports[`Array Body > swagger > should return the swagger (OS3) 1`] = `
                       "type": "object",
                     },
                   ],
-                  "nullable": true,
                 },
                 "type": "array",
               },
@@ -204,7 +204,8 @@ exports[`Array Body > swagger > should return the swagger (OS3) 1`] = `
           "content": {
             "application/json": {
               "schema": {
-                "anyOf": [
+                "nullable": true,
+                "oneOf": [
                   {
                     "multipleOf": 1,
                     "type": "integer",
@@ -226,7 +227,6 @@ exports[`Array Body > swagger > should return the swagger (OS3) 1`] = `
                     "type": "object",
                   },
                 ],
-                "nullable": true,
               },
             },
           },

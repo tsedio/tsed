@@ -89,7 +89,8 @@ describe("ValidationPipe", () => {
                   "application/json": {
                     "schema": {
                       "items": {
-                        "anyOf": [
+                        "nullable": true,
+                        "oneOf": [
                           {
                             "multipleOf": 1,
                             "type": "integer",
@@ -111,7 +112,6 @@ describe("ValidationPipe", () => {
                             "type": "object",
                           },
                         ],
-                        "nullable": true,
                       },
                       "type": "array",
                     },

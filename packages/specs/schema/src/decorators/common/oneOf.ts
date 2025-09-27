@@ -1,4 +1,4 @@
-import {AnyJsonSchema} from "../../domain/JsonSchema.js";
+import {JsonSchema} from "../../domain/JsonSchema.js";
 import {JsonEntityFn} from "./jsonEntityFn.js";
 
 /**
@@ -16,7 +16,7 @@ import {JsonEntityFn} from "./jsonEntityFn.js";
  * @input
  * @param oneOf
  */
-export function OneOf(...oneOf: AnyJsonSchema[]) {
+export function OneOf(...oneOf: Parameters<typeof JsonSchema.prototype.oneOf>[0]) {
   return JsonEntityFn((entity) => {
     entity.schema.oneOf(oneOf);
   });

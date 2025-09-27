@@ -22,6 +22,10 @@ export function nullableMapper(obj: any, schema: JsonSchema | null) {
           }
         ]
       });
+    } else if (obj.type === "array") {
+      obj = {
+        oneOf: [{type: "null"}, obj]
+      };
     } else {
       MANY_OF_PROPERTIES.some((keyword: string) => {
         if (obj[keyword]) {
