@@ -1,6 +1,8 @@
 import {BodyParams} from "@tsed/platform-params";
-import Ajv from "ajv";import {AnyOf, array, OneOf, oneOf, Schema} from "../../..";
+import Ajv from "ajv";
+import {AnyOf, Const, OneOf, Schema} from "../../index.js";
 import {SpecTypes} from "../../domain/SpecTypes.js";
+import {s} from "../../fn/index.js";
 import {getJsonSchema} from "../../utils/getJsonSchema.js";
 import {getSpec} from "../../utils/getSpec.js";
 import {In} from "../operations/in.js";
@@ -593,6 +595,29 @@ describe("@Nullable", () => {
 
     expect(ajv.validate(schema, {prop2: null})).toBeTruthy();
     expect(ajv.validate(schema, {prop2: {id: "id"}})).toBeTruthy();
+  });
+  it("should declare any prop (array + nullable)", () => {
+    class NullModel {
+      @Nullable(s.array().items(String))
+      prop5: string[] | null;
+    }
+
+    expect(getJsonSchema(NullModel)).toMatchInlineSnapshot(`
+      {
+        "properties": {
+          "prop5": {
+            "items": {
+              "type": "string",
+            },
+            "type": [
+              "null",
+              "array",
+            ],
+          },
+        },
+        "type": "object",
+      }
+    `);
   });
   it("should declare any prop (many Models + Nullable + JsonSchema)", () => {
     // WHEN
@@ -1282,38 +1307,50 @@ describe("@Nullable", () => {
     expect(ajv.errors).toBe(null);
     expect(result).toBeTruthy();
   });
-  it("should declare a nullable array property", () => {
+  it("should declare a nullable array property (customSchema + oneOf)", () => {
     class ConsumerEllipticCurveJwk {
-      @Property()
+      @Const("EC")
       kty: "EC";
     }
 
     class ConsumerRSAJwk {
-      @Property()
+      @Const("RSA")
       kty: "RSA";
     }
 
     class ConsumerSymetricJwk {
-      @Property()
+      @Const("oct")
       kty: "oct";
     }
 
     class ConsumerJwksUpdate {
-      @Schema(
-        array()
-          .items(oneOf(ConsumerEllipticCurveJwk, ConsumerRSAJwk, ConsumerSymetricJwk))
-          .nullable(true)
-      )
-      // @Nullable(Array<ConsumerEllipticCurveJwk | ConsumerRSAJwk | ConsumerSymetricJwk>)
+      @Schema(s.array().oneOf([ConsumerEllipticCurveJwk, ConsumerRSAJwk, ConsumerSymetricJwk]).nullable(true))
       keys: Array<ConsumerEllipticCurveJwk | ConsumerRSAJwk | ConsumerSymetricJwk> | null;
     }
 
-    expect(getJsonSchema(ConsumerJwksUpdate)).toMatchInlineSnapshot(`
+    const schema = getJsonSchema(ConsumerJwksUpdate);
+    const ajv = new Ajv({strict: true});
+
+    expect(ajv.validate(schema, {keys: null})).toBeTruthy();
+    expect(ajv.validate(schema, {keys: []})).toBeTruthy();
+
+    const result = ajv.validate(schema, {
+      keys: [
+        {
+          kty: "EC"
+        }
+      ]
+    });
+
+    expect(result).toBeTruthy();
+
+    expect(schema).toMatchInlineSnapshot(`
       {
         "definitions": {
           "ConsumerEllipticCurveJwk": {
             "properties": {
               "kty": {
+                "const": "EC",
                 "type": "string",
               },
             },
@@ -1322,6 +1359,7 @@ describe("@Nullable", () => {
           "ConsumerRSAJwk": {
             "properties": {
               "kty": {
+                "const": "RSA",
                 "type": "string",
               },
             },
@@ -1330,6 +1368,7 @@ describe("@Nullable", () => {
           "ConsumerSymetricJwk": {
             "properties": {
               "kty": {
+                "const": "oct",
                 "type": "string",
               },
             },
@@ -1351,7 +1390,64 @@ describe("@Nullable", () => {
                 },
               ],
             },
-            "type": "array",
+            "type": [
+              "null",
+              "array",
+            ],
+          },
+        },
+        "type": "object",
+      }
+    `);
+  });
+  it("should declare a nullable array", () => {
+    class TestModel {
+      @Nullable(Array)
+      prop: string[] | null;
+    }
+
+    const schema = getJsonSchema(TestModel);
+
+    expect(schema).toMatchInlineSnapshot(`
+      {
+        "properties": {
+          "prop": {
+            "$comment": "Warning: you should not use @Nullable(Array) which lead to an incorrect schema. Use @Schema(array().items().nullable()) instead",
+            "type": [
+              "null",
+              "array",
+            ],
+          },
+        },
+        "type": "object",
+      }
+    `);
+  });
+  it("should generate schema with anyOf and nullable", () => {
+    class Model {
+      @AnyOf(String, Number, null)
+      @Minimum(0)
+      @MaxLength(100)
+      prop: string | number | null;
+    }
+
+    expect(getJsonSchema(Model)).toMatchInlineSnapshot(`
+      {
+        "properties": {
+          "prop": {
+            "anyOf": [
+              {
+                "type": "null",
+              },
+              {
+                "maxLength": 100,
+                "type": "string",
+              },
+              {
+                "minimum": 0,
+                "type": "number",
+              },
+            ],
           },
         },
         "type": "object",
