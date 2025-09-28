@@ -259,11 +259,10 @@ class MyService {
 
 ## Logs
 
-Be default the module will log every job's start and completion/failure.
+By default, the module logs each job’s start, completion, and failure.
 
-Start and completion is logged on the level of `info`, failure is logged on the level of `error`.
-To change/disable this behaviour, pass `logLevel` in the configuration 
-
+Start and completion are logged at level `info`; failures are logged at level `error`.  
+To change or disable this behavior, set `logLevel` in the configuration.
 
 ```ts
 
