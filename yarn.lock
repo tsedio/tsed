@@ -7352,7 +7352,7 @@ __metadata:
     react-dom: "npm:^18.3.1"
     semver: "npm:^7.6.3"
     slm: "npm:^2.0.0"
-    squirrelly: "npm:^5.1.0"
+    squirrelly: "npm:^9.1.0"
     swig-templates: "npm:^2.0.3"
     teacup: "npm:^2.0.0"
     templayed: "npm:>=0.2.3"
@@ -28250,12 +28250,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"squirrelly@npm:^5.1.0":
-  version: 5.1.0
-  resolution: "squirrelly@npm:5.1.0"
-  bin:
-    squirrelly: cli.js
-  checksum: 10/bbc8d3bdb768b8921b54b503faa064519aa8cf8260ce0b9393d3e67f448d69cb557d9300d91d70a893355bfd7b8a12f36f118a175b74c809b340662b4349ac61
+"squirrelly@npm:^9.1.0":
+  version: 9.1.0
+  resolution: "squirrelly@npm:9.1.0"
+  checksum: 10/c93c885cf34e1429d7fc7986ec042bdcdc5b1b67763e91a91426416c91f1e1ad4b642491e94dc3fcf05285e254c632a645796f4a007e85f3ef1bbd4c9f79b61e
   languageName: node
   linkType: hard
 
