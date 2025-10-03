@@ -346,7 +346,7 @@ describe("@Nullable", () => {
                   "oneOf": [
                     {
                       "multipleOf": 1,
-                      "type": "number",
+                      "type": "integer",
                     },
                     {
                       "type": "string",
@@ -509,11 +509,7 @@ describe("@Nullable", () => {
             "Model": {
               "properties": {
                 "prop2": {
-                  "anyOf": [
-                    {
-                      "$ref": "#/components/schemas/Nested",
-                    },
-                  ],
+                  "$ref": "#/components/schemas/Nested",
                   "nullable": true,
                 },
               },
@@ -1413,7 +1409,7 @@ describe("@Nullable", () => {
       {
         "properties": {
           "prop": {
-            "$comment": "Warning: you should not use @Nullable(Array) which lead to an incorrect schema. Use @Schema(array().items().nullable()) instead",
+            "$comment": "Warning: you should not use @Nullable(Array), which leads to an incorrect schema. Use @Schema(array().items().nullable()) instead",
             "type": [
               "null",
               "array",

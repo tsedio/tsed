@@ -18,37 +18,33 @@ export function nullableMapperOpenApi(obj: any, schema: JsonSchema | null, optio
   if (obj.$ref) {
     return cleanObject({
       ...obj,
-      ...(obj.$ref && {
-        anyOf: [
-          {
-            $ref: obj.$ref
-          }
-        ],
-        type: undefined
-      }),
-      nullable: true,
-      $ref: undefined
+      nullable: true
     });
   }
 
-  return cleanObject({
-    ...obj,
-    ...(obj.anyOf?.length === 1
-      ? {
-          ...obj.anyOf[0],
-          anyOf: undefined,
-          type: Number.isInteger(obj.multipleOf) ? "integer" : obj.anyOf[0]?.type
-        }
-      : {
-          type: obj.anyOf?.length > 1 ? undefined : obj.type,
-          anyOf: obj.anyOf?.map((item: any) => {
+  function map(manyOf: string) {
+    return obj[manyOf]?.length === 1
+      ? cleanObject({
+          ...obj[manyOf][0],
+          [manyOf]: undefined,
+          type: Number.isInteger(obj.multipleOf) ? "integer" : obj[manyOf][0]?.type
+        })
+      : cleanObject({
+          type: obj[manyOf]?.length > 1 ? undefined : obj.type,
+          [manyOf]: obj[manyOf]?.map((item: any) => {
             if (Number.isInteger(item.multipleOf)) {
               item.type = "integer";
             }
 
             return item;
           })
-        }),
+        });
+  }
+
+  return cleanObject({
+    ...obj,
+    ...map("oneOf"),
+    ...map("anyOf"),
     nullable: true
   });
 }
