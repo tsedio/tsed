@@ -1,6 +1,7 @@
-import {isArray, isBoolean, isNumber, isObject, isString} from "@tsed/core";
+import {isBoolean} from "@tsed/core/utils/isBoolean.js";
+import {isNumber} from "@tsed/core/utils/isNumber.js";
+import {isString} from "@tsed/core/utils/isString.js";
 import type {JSONSchema6} from "json-schema";
-import {filter} from "rxjs";
 
 import {
   ARRAY_PROPERTIES,

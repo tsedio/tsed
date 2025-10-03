@@ -143,6 +143,7 @@ export * from "./fn/date.js";
 export * from "./fn/email.js";
 export * from "./fn/enums.js";
 export * from "./fn/from.js";
+export * from "./fn/index.js";
 export * from "./fn/integer.js";
 export * from "./fn/lazyRef.js";
 export * from "./fn/number.js";
