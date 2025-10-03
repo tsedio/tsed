@@ -652,12 +652,7 @@ export class JsonSchema extends Map<string, any> {
           this.set("minLength", undefined);
           break;
         case null:
-          this.any(
-            ...["null"].concat(
-              this.getJsonType(),
-              this.$allow.map((v) => typeof v)
-            )
-          );
+          this.nullable(true);
           break;
       }
     });
@@ -1270,9 +1265,6 @@ export class JsonSchema extends Map<string, any> {
 
   protected setManyOf(keyword: "oneOf" | "anyOf" | "allOf", value: (AnyJsonSchema | null)[]) {
     let resolved = value
-      // .map((o) => {
-      //   return o === null ? {type: "null"} : o;
-      // })
       .filter((o) => {
         if ((o && "type" in o && o.type === "null") || o === null) {
           this.nullable(true);
@@ -1297,6 +1289,7 @@ export class JsonSchema extends Map<string, any> {
     }
 
     super.set(keyword, resolved);
+    console.trace(this.get(keyword));
 
     const jsonSchema: JsonSchema = resolved[0];
 
