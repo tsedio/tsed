@@ -38,7 +38,7 @@ export function Nullable(type: JSONSchema6TypeName | Type<any> | any, ...types: 
         array()
           .items({})
           .$comment(
-            "Warning: you should not use @Nullable(Array) which lead to an incorrect schema. Use @Schema(array().items().nullable()) instead"
+            "Warning: you should not use @Nullable(Array), which leads to an incorrect schema. Use @Schema(array().items().nullable()) instead"
           )
           .nullable(true)
       );

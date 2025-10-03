@@ -8,6 +8,6 @@ import {from} from "./from.js";
  *
  * @see https://tools.ietf.org/html/draft-wright-json-schema-validation-01#section-6.26
  */
-export function allOf(...allOf: Parameters<typeof JsonSchema.prototype.allOf>[0]): JsonSchema {
+export function allOf(...allOf: Parameters<JsonSchema["allOf"]>[0]): JsonSchema {
   return from().allOf(allOf);
 }

@@ -121,7 +121,7 @@ describe("Nullable model", () => {
               ],
             },
             "prop5": {
-              "$comment": "Warning: you should not use @Nullable(Array) which lead to an incorrect schema. Use @Schema(array().items().nullable()) instead",
+              "$comment": "Warning: you should not use @Nullable(Array), which leads to an incorrect schema. Use @Schema(array().items().nullable()) instead",
               "type": [
                 "null",
                 "array",

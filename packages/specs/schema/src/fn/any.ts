@@ -6,6 +6,6 @@ import {from} from "./from.js";
  *
  * See @@JsonSchema@@ to discover available methods.
  */
-export function any(...types: Parameters<typeof JsonSchema.prototype.oneOf>[0]): JsonSchema {
+export function any(...types: Parameters<JsonSchema["oneOf"]>[0]): JsonSchema {
   return from().any(...types);
 }

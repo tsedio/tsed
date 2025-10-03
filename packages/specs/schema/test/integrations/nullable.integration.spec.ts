@@ -111,11 +111,7 @@ describe("Spec: Nullable", () => {
                   "type": "string",
                 },
                 "nested": {
-                  "anyOf": [
-                    {
-                      "$ref": "#/components/schemas/Nested",
-                    },
-                  ],
+                  "$ref": "#/components/schemas/Nested",
                   "nullable": true,
                 },
                 "price": {

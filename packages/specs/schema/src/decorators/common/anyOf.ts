@@ -1,4 +1,4 @@
-import {JsonSchema} from "../../domain/JsonSchema.js";
+import type {JsonSchema} from "../../domain/JsonSchema.js";
 import {JsonEntityFn} from "./jsonEntityFn.js";
 
 /**
@@ -16,7 +16,7 @@ import {JsonEntityFn} from "./jsonEntityFn.js";
  * @input
  * @param anyOf
  */
-export function AnyOf(...anyOf: Parameters<typeof JsonSchema.prototype.anyOf>[0]) {
+export function AnyOf(...anyOf: Parameters<JsonSchema["anyOf"]>[0]) {
   return JsonEntityFn((entity) => {
     entity.itemSchema.anyOf(anyOf);
   });

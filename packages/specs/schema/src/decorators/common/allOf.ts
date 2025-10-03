@@ -1,4 +1,4 @@
-import {JsonSchema} from "../../domain/JsonSchema.js";
+import type {JsonSchema} from "../../domain/JsonSchema.js";
 import {JsonEntityFn} from "./jsonEntityFn.js";
 
 /**
@@ -12,7 +12,7 @@ import {JsonEntityFn} from "./jsonEntityFn.js";
  * @input
  * @param allOf
  */
-export function AllOf(...allOf: Parameters<typeof JsonSchema.prototype.allOf>[0]) {
+export function AllOf(...allOf: Parameters<JsonSchema["allOf"]>[0]) {
   return JsonEntityFn((entity) => {
     entity.itemSchema.allOf(allOf);
   });
