@@ -1289,7 +1289,6 @@ export class JsonSchema extends Map<string, any> {
     }
 
     super.set(keyword, resolved);
-    console.trace(this.get(keyword));
 
     const jsonSchema: JsonSchema = resolved[0];
 
