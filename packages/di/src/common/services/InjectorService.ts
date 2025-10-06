@@ -158,6 +158,11 @@ export class InjectorService extends Container {
       return options.useOpts as Type;
     }
 
+    if (token === DIConfiguration) {
+      // keep this configuration for legacy code that use as custom Configuration service
+      return this.settings as Type;
+    }
+
     instance = !options.rebuild ? this.#cache.get(token) : undefined;
 
     if (instance != undefined) {
