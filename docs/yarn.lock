@@ -753,7 +753,7 @@ __metadata:
     "@tsed/vitepress-theme": "npm:1.5.7"
     "@vueuse/core": "npm:10.11.0"
     autoprefixer: "npm:^10.4.19"
-    axios: "npm:1.7.7"
+    axios: "npm:1.12.0"
     lodash: "npm:4.17.21"
     lucide-vue-next: "npm:^0.436.0"
     postcss: "npm:^8.4.39"
@@ -1216,6 +1216,17 @@ __metadata:
   bin:
     autoprefixer: bin/autoprefixer
   checksum: 10/d3c4b562fc4af2393623a0207cc336f5b9f94c4264ae1c316376904c279702ce2b12dc3f27205f491195d1e29bb52ffc269970ceb0f271f035fadee128a273f7
+  languageName: node
+  linkType: hard
+
+"axios@npm:1.12.0":
+  version: 1.12.0
+  resolution: "axios@npm:1.12.0"
+  dependencies:
+    follow-redirects: "npm:^1.15.6"
+    form-data: "npm:^4.0.4"
+    proxy-from-env: "npm:^1.1.0"
+  checksum: 10/6c45e294b6ee72f832dbee94cb3fe7331bf2961874fa6b656d909a93b3574c59281f0c62eb92baf7b3e4f39be71936c9f1fcbbe494c90f7ff4d7cc2d7932f06d
   languageName: node
   linkType: hard
 
@@ -1770,7 +1781,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"form-data@npm:^4.0.0":
+"form-data@npm:^4.0.0, form-data@npm:^4.0.4":
   version: 4.0.4
   resolution: "form-data@npm:4.0.4"
   dependencies:

@@ -12,7 +12,7 @@
   "dependencies": {
     "@tsed/vitepress-theme": "1.5.7",
     "@vueuse/core": "10.11.0",
-    "axios": "1.7.7",
+    "axios": "1.12.0",
     "lodash": "4.17.21",
     "lucide-vue-next": "^0.436.0",
     "vitepress": "1.5.0"
