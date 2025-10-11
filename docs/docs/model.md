@@ -43,7 +43,11 @@ See [Validation](/docs/validation) for more information. By default, Ts.ED CLI i
 The example below uses decorators to describe a property of the class and store metadata such as the description of the
 field.
 
-<<< @/docs/snippets/model/example.ts
+::: code-group
+
+<<< @/docs/snippets/model/example.ts [Decorators]
+<<< @/docs/snippets/model/fn-api-example.ts [Functional API]
+:::
 
 ::: tip
 The Model will generate a JsonSchema which can be used by modules supporting JsonSchema spec
@@ -70,7 +74,8 @@ model. Ts.ED will get the type from Typescript metadata and transform this type 
 
 ::: code-group
 
-<<< @/docs/snippets/model/primitives.ts [Model]
+<<< @/docs/snippets/model/primitives.ts [Decorators]
+<<< @/docs/snippets/model/fn-api-primitives.ts [Functional API]
 <<< @/docs/snippets/model/primitives.json [JSON Schema]
 
 :::
@@ -81,7 +86,8 @@ The @@Integer@@ decorator is used to set integer type for integral numbers.
 
 ::: code-group
 
-<<< @/docs/snippets/model/integer.ts [Model]
+<<< @/docs/snippets/model/integer.ts [Decorators]
+<<< @/docs/snippets/model/fn-api-integer.ts [Functional API]
 <<< @/docs/snippets/model/integer.json [JSON Schema]
 
 :::
@@ -93,93 +99,13 @@ json type or when you use a mixed TypeScript types.
 
 ::: code-group
 
-<<< @/docs/snippets/model/any-types.ts [Model]
+<<< @/docs/snippets/model/any-types.ts [Decorators]
+<<< @/docs/snippets/model/fn-api-any-types.ts [Functional API]
 <<< @/docs/snippets/model/any-types.json [JSON Schema]
 
 :::
 
-You can also use @@Any@@ decorator to allow all types:
-
-::: code-group
-
-```typescript [Model]
-import {Any} from "@tsed/schema";
-
-export class Model {
-  @Any()
-  prop: any;
-}
-```
-
-```json [Json schema]
-{
-  "properties": {
-    "prop": {
-      "oneOf": [
-        {
-          "type": "null"
-        },
-        {
-          "type": "integer",
-          "multipleOf": 1
-        },
-        {
-          "type": "number"
-        },
-        {
-          "type": "string"
-        },
-        {
-          "type": "boolean"
-        },
-        {
-          "type": "array"
-        },
-        {
-          "type": "object"
-        }
-      ]
-    }
-  },
-  "type": "object"
-}
-```
-
-```json [OS3]
-{
-  "properties": {
-    "prop": {
-      "nullable": true,
-      "oneOf": [
-        {
-          "type": "integer",
-          "multipleOf": 1
-        },
-        {
-          "type": "number"
-        },
-        {
-          "type": "string"
-        },
-        {
-          "type": "boolean"
-        },
-        {
-          "type": "array"
-        },
-        {
-          "type": "object"
-        }
-      ]
-    }
-  },
-  "type": "object"
-}
-```
-
-:::
-
-Since v7.75.0, when you use @@Any@@ decorator combined with other decorators like @@MinLength@@, @@Minimum@@, etc.
+From v7.75.0, when you use @@Any@@ decorator combined with other decorators like @@MinLength@@, @@Minimum@@, etc.
 metadata will be automatically assigned to the right
 type. For example, if you add a @@Minimum@@ decorator, it will be assigned to the number type.
 
@@ -230,7 +156,8 @@ Key points:
 
 ::: code-group
 
-<<< @/docs/snippets/model/nullable-properties.ts [Model]
+<<< @/docs/snippets/model/nullable-properties.ts [Decorators]
+<<< @/docs/snippets/model/fn-api-nullable.ts [Functional API]
 <<< @/docs/snippets/model/nullable-properties.json [JSON Schema]
 
 :::
@@ -297,7 +224,7 @@ class NullableModel {
 :::
 
 ::: warning
-`returnsCoercedValues` will become true by default in the next major version of Ts.ED.
+`returnsCoercedValues` is true by default since v8 version of Ts.ED.
 :::
 
 ## Nullable and mixed types <Badge text="7.75.0+"/>
@@ -313,7 +240,7 @@ class Model {
 }
 ```
 
-Since v7.75.0, when you combine @@Nullable@@ with other constraints such as @@MinLength@@ or @@Minimum@@, Ts.ED
+From v7.75.0, when you combine @@Nullable@@ with other constraints such as @@MinLength@@ or @@Minimum@@, Ts.ED
 automatically assigns each constraint to the appropriate branch of the union. For example, @@Minimum@@ applies to the
 number branch, while @@MaxLength@@ applies to the string branch.
 
@@ -406,8 +333,10 @@ item type. With only decorators, Ts.ED cannot infer both "array of string" and t
 Solution: use a custom schema builder to declare both the item type and the fact that the entire array can be null:
 
 ```ts
+import {s} from "@tsed/schema";
+
 class Model {
-  @Schema(array().items(String).nullable(true))
+  @Schema(s.array().items(s.string()).nullable())
   prop: string[] | null;
 }
 ```
@@ -415,27 +344,27 @@ class Model {
 If you have complex schema with mixed item types, use the custom schema also as following:
 
 ```ts
-import {array, number, string} from "@tsed/schema";
+import {s} from "@tsed/schema";
 
 class Model {
-  @Schema(array().oneOf([string(), number()]).nullable(true))
+  @Schema(s.array().oneOf([s.string(), s.number()]).nullable())
   prop: (string | number)[] | null;
 }
 ```
 
 ### Nullable quick reference
 
-- string | null: use `@Nullable(String)` and declare the TypeScript type as `string | null`.
-- number | null: use `@Nullable(Number)` and declare the type as `number | null`.
-- boolean | null: use `@Nullable(Boolean)` and declare the type as `boolean | null`.
-- (string | number) | null: use `@Nullable(String, Number)` and declare the type as `string | number | null`.
-- string[] | null (nullable array itself): use the Schema builder `@Schema(array().items(String).nullable(true))`.
-- (string | number)[] | null (nullable array itself with mixed items):
-  `@Schema(array().oneOf([string(), number()]).nullable(true))`.
-- Array with nullable items (e.g., (string | null)[]): `@Schema(array().items(string().nullable(true)))`.
+- `string | null`: use `@Nullable(String)` and declare the TypeScript type as `string | null`.
+- `number | null`: use `@Nullable(Number)` and declare the type as `number | null`.
+- `boolean | null`: use `@Nullable(Boolean)` and declare the type as `boolean | null`.
+- `(string | number) | null`: use `@Nullable(String, Number)` and declare the type as `string | number | null`.
+- `string[] | null` (nullable array itself): use the Schema builder `@Schema(s.array().items(s.string()).nullable())`.
+- `(string | number)[] | null` (nullable array itself with mixed items):
+  `@Schema(s.array().oneOf([s.string(), s.number()]).nullable())`.
+- Array with nullable items (e.g., (string | null)[]): `@Schema(s.array().items(s.string().nullable()))`.
 
-Note: Nullable means the value can be null. It does not mean the property can be omitted. Use @@Optional@@ (or remove
-@@Required@@) to make a property optional.
+> Note: Nullable means the value can be null. It does not mean the property can be omitted. Use @@Optional@@ (or remove
+> @@Required@@) to make a property optional.
 
 ## Regular expressions
 
@@ -447,7 +376,8 @@ for more information.
 
 ::: code-group
 
-<<< @/docs/snippets/model/pattern.ts [Model]
+<<< @/docs/snippets/model/pattern.ts [Decorators]
+<<< @/docs/snippets/model/fn-api-pattern.ts [Functional API]
 <<< @/docs/snippets/model/pattern.json [JSON Schema]
 
 :::
@@ -461,7 +391,8 @@ can do.
 
 ::: code-group
 
-<<< @/docs/snippets/model/format.ts [Model]
+<<< @/docs/snippets/model/format.ts [Decorators]
+<<< @/docs/snippets/model/fn-api-format.ts [Functional API]
 <<< @/docs/snippets/model/format.json [JSON Schema]
 
 :::
@@ -491,7 +422,8 @@ more details.
 
 ::: code-group
 
-<<< @/docs/snippets/model/multiple-of.ts [Model]
+<<< @/docs/snippets/model/multiple-of.ts [Decorators]
+<<< @/docs/snippets/model/fn-api-multiple-of.ts [Functional API]
 <<< @/docs/snippets/model/multiple-of.json [JSON Schema]
 
 :::
@@ -505,7 +437,8 @@ more details.
 
 ::: code-group
 
-<<< @/docs/snippets/model/ranges.ts [Model]
+<<< @/docs/snippets/model/ranges.ts [Decorators]
+<<< @/docs/snippets/model/fn-api-ranges.ts [Functional API]
 <<< @/docs/snippets/model/ranges.json [JSON Schema]
 
 :::
@@ -517,12 +450,13 @@ element, where each element is unique or a TypeScript enum.
 
 ::: code-group
 
-<<< @/docs/snippets/model/enumerated-values.ts [Model]
+<<< @/docs/snippets/model/enumerated-values.ts [Decorators]
+<<< @/docs/snippets/model/fn-api-enums.ts [Functional API]
 <<< @/docs/snippets/model/enumerated-values.json [JSON Schema]
 
 :::
 
-@@Enum@@ decorator can be also in combination with @@BodyParams@@ or @QueryParams@@:
+@@Enum@@ decorator can be also in combination with @@BodyParams@@ or @@QueryParams@@:
 
 ```typescript
 import {Enum} from "@tsed/schema";
@@ -549,7 +483,9 @@ useful when:
 - You need to maintain consistent schema references across your API
 - You want to improve the readability of your generated swagger.json
 
-```typescript
+::: code-group
+
+```typescript [Decorators]
 import {LabelledAs} from "@tsed/schema";
 
 enum Test {
@@ -564,6 +500,21 @@ class Model {
   prop: Test[];
 }
 ```
+
+```typescript [Functional API]
+import {s} from "@tsed/schema";
+
+enum Test {
+  VALUE = "VALUE",
+  TEST = "TEST"
+}
+
+export const MySchema = s.object({
+  prop: s.array().items(s.enum(Test).label("ModelPropItem")).maxItems(3)
+});
+```
+
+:::
 
 The generated schema will be:
 
@@ -611,6 +562,21 @@ class Model {
 }
 ```
 
+For Function API, you can use the `s.label()` function to set the label:
+
+```typescript [Functional API]
+import {s} from "@tsed/schema";
+
+enum Test {
+  VALUE = "VALUE",
+  TEST = "TEST"
+}
+
+export const MySchema = s.object({
+  prop: s.array().items(s.enum(Test)).maxItems(3).label("ModelPropItems")
+});
+```
+
 The generated schema will be:
 
 ```json
@@ -643,7 +609,7 @@ inlined values in each model.
 Ts.ED introduce a new function `enums()` to declare the enum schema as follows:
 
 ```ts
-import {enums} from "@tsed/schema";
+import {s} from "@tsed/schema";
 
 enum ProductTypes {
   ALL = "ALL",
@@ -651,7 +617,7 @@ enum ProductTypes {
   FOOD = "FOOD"
 }
 
-enums(ProductTypes).label("ProductTypes");
+s.enums(ProductTypes).label("ProductTypes");
 
 // in models
 class Product {
@@ -685,7 +651,8 @@ United States for export reasons:
 
 ::: code-group
 
-<<< @/docs/snippets/model/constant-values.ts [Model]
+<<< @/docs/snippets/model/constant-values.ts [Decorators]
+<<< @/docs/snippets/model/fn-api-const.ts [Functional API]
 <<< @/docs/snippets/model/constant-values.json [JSON Schema]
 
 :::
@@ -696,16 +663,17 @@ Declaring a property that uses a collection is a bit different than declaring a 
 the `Array`/`Set`/`Map` type when you declare the type of your property. The type used by the collection is lost.
 
 To tell Ts.ED (and other third party which uses JsonSchema) that a property uses a collection with a specific type, you
-must use @@CollectionOf@@ (before v5.62.0, use @@PropertyType@@) decorator as following:
+must use @@CollectionOf@@ decorator as follows:
 
 ::: code-group
 
-<<< @/docs/snippets/model/collections.ts [Model]
+<<< @/docs/snippets/model/collections.ts [Decorators]
+<<< @/docs/snippets/model/fn-api-collections.ts [Functional API]
 <<< @/docs/snippets/model/collections.json [JSON Schema]
 
 :::
 
-Ts.ED provides others related collection decorators:
+Ts.ED provides other related collection decorators:
 
 <ApiList query="status.includes('decorator') && status.includes('schema') && status.includes('collections')" />
 
@@ -714,7 +682,9 @@ Ts.ED provides others related collection decorators:
 By default, the properties defined with a decorator are not `required`. However, one can use @@Required@@ decorator to
 add a required property to the json schema:
 
-```typescript
+::: code-group
+
+```typescript [Decorators]
 import {Required} from "@tsed/schema";
 
 class MyModel {
@@ -724,6 +694,16 @@ class MyModel {
   prop1: string;
 }
 ```
+
+```typescript [Functional API]
+import {s} from "@tsed/schema";
+
+export const MySchema = s.object({
+  prop1: s.string().required()
+});
+```
+
+:::
 
 You can also add a custom ajv error message with the `.Error(msg)` function:
 
@@ -737,6 +717,8 @@ class MyModel {
   prop1: string;
 }
 ```
+
+> Note: Functional API doesn't support custom error message for now.
 
 ## Custom AJV error messages
 
@@ -798,25 +780,28 @@ Use @@AdditionalProperties@@ on your model to allow this behavior:
 
 ::: code-group
 
-<<< @/docs/snippets/model/additional-properties.ts [Model]
+<<< @/docs/snippets/model/additional-properties.ts [Decorators]
+<<< @/docs/snippets/model/fn-api-additional-properties.ts [Functional API]
 <<< @/docs/snippets/model/additional-properties.json [JSON Schema]
 
 :::
 
-It is also possible to add constraint on additional properties, by giving a raw Json schema:
+It is also possible to add constraint on additional properties by giving a raw JSON schema:
 
 ::: code-group
 
-<<< @/docs/snippets/model/additional-properties-with-schema.ts [Model]
+<<< @/docs/snippets/model/additional-properties-with-schema.ts [Decorators]
+<<< @/docs/snippets/model/fn-api-additional-properties-with-schema.ts [Functional API]
 <<< @/docs/snippets/model/additional-properties-with-schema.json [JSON Schema]
 
 :::
 
-Or by using @@getJsonSchema@@ in combination with @@AdditionalProperty@@ as following:
+Or by using @@getJsonSchema@@ in combination with @@AdditionalProperty@@ as follows:
 
 ::: code-group
 
-<<< @/docs/snippets/model/additional-properties-with-model.ts [Model]
+<<< @/docs/snippets/model/additional-properties-with-model.ts [Decorators]
+<<< @/docs/snippets/model/fn-api-additional-properties-with-model.ts [Functional API]
 <<< @/docs/snippets/model/additional-properties-with-model.json [JSON Schema]
 
 :::
@@ -825,7 +810,12 @@ Or by using @@getJsonSchema@@ in combination with @@AdditionalProperty@@ as foll
 
 Circular reference can be resolved by using arrow with a @@Property@@ and @@CollectionOf@@ decorators:
 
-<<< @/docs/snippets/model/circular-references.ts
+::: code-group
+
+<<< @/docs/snippets/model/circular-references.ts [Decorators]
+<<< @/docs/snippets/model/fn-api-circular-references.ts [Functional API]
+
+:::
 
 ## Custom Keys
 
@@ -858,9 +848,18 @@ Then we can declare a model using the standard decorators from `@tsed/schema`:
 
 ::: code-group
 
-```typescript [Product.ts]
+```typescript [Decorators]
 import {CustomKey} from "@tsed/schema";
-import {Range, ExclusiveRange} from "../decorators/Range"; // custom decorator
+
+// Custom decorator
+export function Range(min: number, max: number) {
+  return CustomKey("range", [min, max]);
+}
+
+// Custom Decorator
+export function ExclusiveRange(bool: boolean) {
+  return CustomKey("exclusiveRange", bool);
+}
 
 export class Product {
   @CustomKey("range", [10, 100])
@@ -875,16 +874,12 @@ export class Product {
 }
 ```
 
-```typescript [Range.ts]
-import {CustomKey} from "@tsed/schema";
+```typescript [Functional API]
+import {s} from "@tsed/schema";
 
-export function Range(min: number, max: number) {
-  return CustomKey("range", [min, max]);
-}
-
-export function ExclusiveRange(bool: boolean) {
-  return CustomKey("exclusiveRange", bool);
-}
+const ProductSchema = s.object({
+  price: s.number().customKey("range", [10, 100]).customKey("exclusiveRange", true)
+});
 ```
 
 :::
@@ -1323,114 +1318,68 @@ AllowedGroups is enabled when the `includes` query parameter is provided in the 
 scenarios with
 this parameter:
 
-<div class="vp-code-group vp-adaptive-theme">
-  <div class="tabs">
-    <input type="radio" name="allowed-groups" id="tab-basic-usage" checked="checked">
-    <label for="tab-basic-usage">Basic usage</label>
-    <input type="radio" name="allowed-groups" id="tab-multiple-includes">
-    <label for="tab-multiple-includes">Multiple includes</label>
-    <input type="radio" name="allowed-groups" id="tab-without-includes">
-    <label for="tab-without-includes">Without includes</label>
-    <input type="radio" name="allowed-groups" id="tab-unexpected-includes">
-    <label for="tab-unexpected-includes">Unexpected includes</label>
-  </div>
-  <div class="blocks">
-    <div class="language-http vp-adaptive-theme active">
-      <p>Request:</p>
-        <pre>
-          <code>
-            <span class="line">GET http://host/rest/controllers/1?includes=summary</span>
-          </code>
-        </pre>
-      <p>The response will be:</p>
-      <blockquote>
-        <pre>
-          <code>
-          {
-            "id": "id",
-            "description": "description",
-            "prop1": "prop1"
-          }
-          </code>
-        </pre>
-      </blockquote>
-    </div>
-    <div class="language-json vp-adaptive-theme">
-      <p>Request:</p>
-      <pre>
-        <code>
-          GET http://host/rest/controllers/1?includes=summary&includes=details
-        </code>
-      </pre>
-      <p>OR</p>
-      <pre>
-        <code>
-          GET http://host/rest/controllers/1?includes=summary,details
-        </code>
-      </pre>
-      <p>Expected JSON:</p>
-      <blockquote>
-        <pre>
-          <code>
-          {
-            "id": "id",
-            "description": "description",
-            "prop1": "prop1",
-            "prop2": "prop2"
-          }
-          </code>
-        </pre>
-      </blockquote>
-    </div>
-    <div class="language-json vp-adaptive-theme">
-      <p>Request:</p>
-      <pre>
-        <code>
-          GET http://host/rest/controllers/1
-        </code>
-      </pre>
-      <p>Expected JSON:</p>
-      <blockquote>
-        <pre>
-          <code>
-          {
-            "id": "id",
-            "description": "description",
-            "prop1": "prop1",
-            "prop2": "prop2"
-          }
-          </code>
-        </pre>
-      </blockquote>
-    </div>
-    <div class="language-json vp-adaptive-theme">
-      <p>If a given value isn't listed in the allowed groups, the value will be ignored!</p>
-      <p>Request:</p>
-      <pre>
-        <code>
-          GET http://host/rest/controllers/1?includes=admin
-        </code>
-      </pre>
-      <p>Expected JSON:</p>
-      <blockquote>
-        <pre>
-          <code>
-          {
-            "id": "id",
-            "description": "description",
-            "prop1": "prop1",
-            "prop2": "prop2"
-          }
-          </code>
-        </pre>
-      </blockquote>
-    </div>
-  </div>
-</div>
+::: code-group
+
+```text [Basic usage]
+# Request
+GET http://host/rest/controllers/1?includes=summary
+
+# Response
+{
+  "id": "id",
+  "description": "description",
+  "prop1": "prop1"
+}
+```
+
+```text [Multiple includes]
+# Request
+GET http://host/rest/controllers/1?includes=summary&includes=details
+
+OR
+
+GET http://host/rest/controllers/1?includes=summary,details
+
+# Response
+{
+  "id": "id",
+  "description": "description",
+  "prop1": "prop1",
+  "prop2": "prop2"
+}
+```
+
+```text [Without includes]
+# Request
+GET http://host/rest/controllers/1
+
+# Response
+{
+  "id": "id",
+  "description": "description",
+  "prop1": "prop1",
+  "prop2": "prop2"
+}
+```
+
+```text [Unexpected includes]
+# Request
+GET http://host/rest/controllers/1?includes=admin
+
+# Response
+{
+  "id": "id",
+  "description": "description",
+  "prop1": "prop1",
+  "prop2": "prop2"
+}
+```
+
+:::
 
 ## Partial
 
-Partial allow you to create a Partial model on an endpoint:
+Partial allows you to create a Partial model on an endpoint:
 
 ```typescript
 import {Returns, Patch, Partial} from "@tsed/schema";
@@ -1455,7 +1404,9 @@ If you want to validate or manipulate data before the model has been deserialize
 decorator.
 
 ::: tip Note
-Don't forget to return the data in your callback function otherwise an error will occur.
+
+Remember to return the data in your callback function, otherwise an error will occur.
+
 :::
 
 ```typescript
@@ -1479,6 +1430,7 @@ enum AnimalType {
 export class Animal {
   @Property()
   name: string;
+
   @Enum(AnimalType)
   type: AnimalType;
 }
@@ -1490,7 +1442,9 @@ If you want to validate or manipulate data after the model has been deserialized
 decorator.
 
 ::: tip Note
-Don't forget to return the data in your callback function otherwise an error will occur.
+
+Remember to return the data in your callback function, otherwise an error will occur.
+
 :::
 
 ```typescript
@@ -1531,6 +1485,7 @@ import {BadRequest} from "@tsed/exceptions";
 class Company {
   @Property()
   name: string;
+
   @Property()
   @RequiredIf((value: any, data: any) => data.name === "tsed" && value !== undefined)
   location: string;
@@ -1596,7 +1551,7 @@ export class Tracking {
 }
 ```
 
-And now we can use `deserialize` to map plain object to a class:
+And now we can use `deserialize` to map a plain object to a class:
 
 ```typescript
 import {deserialize} from "@tsed/json-mapper";
@@ -1634,7 +1589,7 @@ expect(result.data[3]).toBeInstanceOf(CustomAction);
 
 ::: tip Shortcut
 
-Declaring each time the list of children class using @@OneOf@@ decorator can be a pain point, so Ts.ED provide a way to
+Declaring each time, the list of children class using @@OneOf@@ decorator can be a pain point, so Ts.ED provide a way to
 simplify your code:
 
 Instead of declaring all classes:
@@ -1657,7 +1612,7 @@ export class Tracking {
 }
 ```
 
-Ts.ED will automatically infer the children classes!
+Ts.ED will automatically infer the children's classes!
 :::
 
 Discriminator model can be used also on controller:
@@ -1680,7 +1635,7 @@ class Test {
 Sometimes, it might be useful to use generic models. TypeScript doesn't store the generic type in the metadata. This is
 why we need to declare explicitly the generic models with the decorators.
 
-One of the generic's usage can be a paginated list. With Returns decorator, it's now possible to declare generic type
+One of the generic's usage can be a paginated list. With Returns decorator, it's now possible to declare a generic type
 and generate the appropriate OpenSpec documentation.
 
 Starting with the pagination model, by using @@Generics@@ and @@CollectionOf@@:
@@ -1903,7 +1858,7 @@ the database, it's better to rename the property to `id`.
 
 <<< @/docs/snippets/model/name.ts
 
-## Set Schema
+## Custom Schema
 
 If Ts.ED doesn't provide the expected decorator to describe your json schema, you can use the @@Schema@@ decorator
 from `@tsed/schema` to set a custom schema.
@@ -1914,15 +1869,22 @@ You can declare schema by using the @@JsonSchemaObject@@ interface:
 
 <<< @/docs/snippets/model/raw-schema-controller.ts
 
-### Using functions
+### Using Functional API
 
-It's also possible to write a valid JsonSchema by using the functional approach (Joi like):
+It's also possible to write a valid JsonSchema by using the functional approach (Joi or Zod like):
 
-<<< @/docs/snippets/model/functional-schema-controller.ts
+<<< @/docs/snippets/model/fn-api-schema-controller.ts
 
 Here is the list of available functions:
 
 <ApiList query="status.includes('schemaFunctional')" />
+
+## Infer types (Experimental)
+
+Ts.ED provides a Functional API to build JsonSchema programmatically with TypeScript type inference, similar to Zod.
+You can derive the TypeScript type from a schema via `s.infer<typeof Schema>`.
+
+<<< @/docs/snippets/model/fn-api-infer.ts [Functional API]
 
 ## RecordOf
 
@@ -1930,7 +1892,7 @@ The @@RecordOf@@ decorator constructs a json schema object type which property k
 and which property values are of a given type.
 
 ::: code-group
-<<< @/docs/snippets/model/record-of.ts [Model]
+<<< @/docs/snippets/model/record-of.ts [Decorators]
 <<< @/docs/snippets/model/record-of.json [JSON Schema]
 :::
 

@@ -57,10 +57,12 @@ type User = s.infer<typeof user>; // { name: string; age: number }
 
 ### 3) Typed Builder Signatures
 
+Note on time(): time-of-day values are mapped to Date by default (not string) to align with @tsed/json-mapper’s default behavior. This can be made configurable in a future phase.
+
 Update the type signatures of the functional builders to return `SchemaShape<T>` rather than bare `JsonSchema`. Key builders:
 
 - Primitives: `string() -> SchemaShape<string>`, `number() -> SchemaShape<number>`, `integer() -> SchemaShape<number>`, `boolean() -> SchemaShape<boolean>`
-- Dates: `date() -> SchemaShape<Date>`, `datetime() -> SchemaShape<Date>`, `time() -> SchemaShape<string>` (string for time-of-day)
+- Dates: `date() -> SchemaShape<Date>`, `datetime() -> SchemaShape<Date>`, `time() -> SchemaShape<Date>` (inferred as Date by default to align with @tsed/json-mapper)
 - Collections: `array(item: SchemaShape<I>) -> SchemaShape<I[]>`, `set(item: SchemaShape<I>) -> SchemaShape<Set<I>>`, `map(value: SchemaShape<V>) -> SchemaShape<Record<string, V>>`
 - Object: `object(props: { [K in string]: SchemaShape<any> }) -> SchemaShape<{ [K in keyof props]: Infer<props[K]> }>`
 - Enums: `enums(["A","B"]) -> SchemaShape<"A" | "B">` and `enums(enumObj) -> SchemaShape<EnumType>`
@@ -155,6 +157,11 @@ Use `// @ts-expect-error` to ensure invalid compositions are caught.
 - No change in emitted JSON Schema or OpenAPI.
 
 ### 12) Implementation Steps
+
+Additional builder: any()
+
+- Behavior: `any()` with no arguments => `SchemaShape<any>`; `any(S1, S2, ...)` where each Si is a SchemaShape => `SchemaShape<[Infer<S1>, Infer<S2>, ...]>` (tuple of provided types). It is also exposed on `s.any`.
+- Rationale: matches Ts.ED’s current JSON mapper use-cases for a variadic any() that describes a fixed tuple of allowed types at the type level while preserving runtime behavior.
 
 1. Introduce `types.ts` under `fn/` exporting `SchemaShape<T>`, `Infer`, and `namespace s { type infer<...> }` via declaration merging.
 2. Update each builder’s TypeScript signature to return `SchemaShape<T> & JsonSchema & TypedChain<T>`.

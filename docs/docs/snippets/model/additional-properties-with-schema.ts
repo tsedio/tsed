@@ -1,6 +1,6 @@
-import {AdditionalProperties, Property} from "@tsed/schema";
+import {AdditionalProperties, Property, s} from "@tsed/schema";
 
-@AdditionalProperties({type: "string"})
+@AdditionalProperties(s.string())
 export class Model {
   @Property()
   id: string;

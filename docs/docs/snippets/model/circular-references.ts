@@ -1,4 +1,4 @@
-import {CollectionOf, Groups, Property} from "@tsed/schema";
+import {CollectionOf, Property} from "@tsed/schema";
 
 export class Photo {
   @Property(() => User)
@@ -7,6 +7,5 @@ export class Photo {
 
 export class User {
   @CollectionOf(Photo)
-  @Groups("group.roles")
   photos: Photo[];
 }

@@ -4,6 +4,6 @@ export class Model {
   @Email()
   email: string;
 
-  @Format("date-time")
+  @Format("date-time") // or @DateTime()
   dateCreation: Date = new Date();
 }

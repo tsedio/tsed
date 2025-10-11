@@ -18,7 +18,7 @@ export enum Days {
 
 export class Model {
   @Enum("red", "amber", "green")
-  prop1: string;
+  prop1: "red" | "amber" | "green";
 
   @Enum(Colors)
   prop2: Colors;
