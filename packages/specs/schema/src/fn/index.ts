@@ -1,4 +1,5 @@
 import {allOf} from "./allOf.js";
+import {any} from "./any.js";
 import {anyOf} from "./anyOf.js";
 import {boolean} from "./boolean.js";
 import {array, map, set} from "./collection.js";
@@ -18,6 +19,7 @@ import {url} from "./url.js";
 export const s = {
   allOf,
   anyOf,
+  any,
   boolean,
   array,
   map,

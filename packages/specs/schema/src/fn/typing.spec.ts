@@ -193,4 +193,17 @@ describe("Functional API typing (inference)", () => {
       matrix: number[][];
     }>();
   });
+  it("should infer any() with and without arguments", () => {
+    const a0 = s.any();
+    type A0 = s.infer<typeof a0>;
+    expectTypeOf<A0>().toEqualTypeOf<any>();
+
+    const a1 = s.any(s.string());
+    type A1 = s.infer<typeof a1>;
+    expectTypeOf<A1>().toEqualTypeOf<[string]>();
+
+    const a2 = s.any(s.string(), s.number(), s.boolean());
+    type A2 = s.infer<typeof a2>;
+    expectTypeOf<A2>().toEqualTypeOf<[string, number, boolean]>();
+  });
 });
