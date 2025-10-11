@@ -351,7 +351,7 @@ export class JsonSchema extends Map<string, any> {
     return this;
   }
 
-  nullable(value: boolean) {
+  nullable(value: boolean = true) {
     if (!this.isNullable) {
       this.vendorKey(VendorKeys.NULLABLE, value);
     }
@@ -666,6 +666,10 @@ export class JsonSchema extends Map<string, any> {
     this.$allow.push(...allow);
 
     return this;
+  }
+
+  optional() {
+    return this.required(false);
   }
 
   /**
