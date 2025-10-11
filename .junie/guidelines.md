@@ -65,6 +65,13 @@ cd packages/specs/schema && yarn test
 yarn test # (coverage enabled by default in individual packages)
 ```
 
+#### Package-scoped test runs (recommended during development)
+
+- To speed up local feedback when working on a single package, run tests from that package directory instead of the workspace root.
+- Examples:
+  - cd packages/specs/schema && yarn test
+  - cd packages/<category>/<package-name> && yarn test
+
 ### Test Structure
 
 - **Location**: Tests are co-located with source files using `.spec.ts` extension

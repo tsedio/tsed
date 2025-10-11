@@ -63,7 +63,6 @@ yarn tsc --build
 For developers that use `Intellij`, you have to enable the "Recompile on change" option in `Languages & Frameworks` > `TypeScript`.
 :::
 
-
 ### Recompile source
 
 ```bash
@@ -83,6 +82,21 @@ yarn build
 ```bash
 yarn test
 ```
+
+Tip: To speed up local feedback when working on a single package, run tests from that package directory instead of the workspace root.
+
+Examples:
+
+- For the schema package (recommended during development):
+  ```bash
+  cd packages/specs/schema && yarn test
+  ```
+- For any other package:
+  ```bash
+  cd packages/<category>/<package-name> && yarn test
+  ```
+
+This uses the package's own Vitest configuration and avoids running the entire monorepo test suite.
 
 ### Start a feature branch
 
