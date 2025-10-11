@@ -1,14 +1,14 @@
-import type {JsonSchema} from "../domain/JsonSchema.js";
 import {from} from "./from.js";
-import type {SchemaShape, TypedChain} from "./types.js";
+import type {TypedJsonSchema} from "./types.js";
+
 /**
  * Declare a new integer model.
  *
  * See @@JsonSchema@@ to discover available methods.
  *
  * @returns {JsonSchema} A schema configured for integer values
- * @function
+ * @schemaFunctional
  */
-export function integer(): SchemaShape<number> & JsonSchema & TypedChain<number> {
+export function integer(): TypedJsonSchema<number> {
   return from(Number).integer();
 }

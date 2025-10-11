@@ -6,6 +6,7 @@ import {array, map, set} from "./collection.js";
 import {date, datetime, time} from "./date.js";
 import {email} from "./email.js";
 import {enums} from "./enums.js";
+import {from} from "./from.js";
 import {integer} from "./integer.js";
 import {lazyRef} from "./lazyRef.js";
 import {number} from "./number.js";
@@ -16,7 +17,12 @@ import type {Infer} from "./types.js";
 import {uri} from "./uri.js";
 import {url} from "./url.js";
 
+/**
+ * A namespace of all schema builder functions.
+ * @schemaFunctional
+ */
 export const s = {
+  from,
   allOf,
   anyOf,
   any,

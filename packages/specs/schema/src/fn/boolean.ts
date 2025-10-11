@@ -1,12 +1,13 @@
-import type {JsonSchema} from "../domain/JsonSchema.js";
 import {from} from "./from.js";
-import type {SchemaShape, TypedChain} from "./types.js";
+import type {TypedJsonSchema} from "./types.js";
 
 /**
  * Declare a new boolean model.
  *
- *  * See @@JsonSchema@@ to discover available methods.
+ * See @@JsonSchema@@ to discover available methods.
+ *
+ * @schemaFunctional
  */
-export function boolean(): SchemaShape<boolean> & JsonSchema & TypedChain<boolean> {
+export function boolean(): TypedJsonSchema<boolean> {
   return from(Boolean);
 }

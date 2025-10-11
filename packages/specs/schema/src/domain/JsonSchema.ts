@@ -903,6 +903,15 @@ export class JsonSchema extends Map<string, any> {
    * This keyword validates only if the instance is less than or exactly equal to "maximum".
    * @see https://tools.ietf.org/html/draft-wright-json-schema-validation-01#section-6.2
    */
+  max(maximum: number) {
+    return this.maximum(maximum);
+  }
+
+  /**
+   * Representing an inclusive upper limit for a numeric instance.
+   * This keyword validates only if the instance is less than or exactly equal to "maximum".
+   * @see https://tools.ietf.org/html/draft-wright-json-schema-validation-01#section-6.2
+   */
   maximum(maximum: number): this {
     super.set("maximum", maximum);
 
@@ -918,6 +927,15 @@ export class JsonSchema extends Map<string, any> {
     super.set("exclusiveMaximum", exclusiveMaximum);
 
     return this;
+  }
+
+  /**
+   * Representing an inclusive lower limit for a numeric instance.
+   * This keyword validates only if the instance is greater than or exactly equal to "minimum".
+   * @see https://tools.ietf.org/html/draft-wright-json-schema-validation-01#section-6.4
+   */
+  min(minimum: number) {
+    return this.minimum(minimum);
   }
 
   /**

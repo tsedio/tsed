@@ -1,7 +1,6 @@
 import {JsonFormatTypes} from "../domain/JsonFormatTypes.js";
-import type {JsonSchema} from "../domain/JsonSchema.js";
 import {string} from "./string.js";
-import type {SchemaShape, TypedChain} from "./types.js";
+import type {TypedJsonSchema} from "./types.js";
 
 /**
  * Declare a new string model with `format: email`.
@@ -14,7 +13,9 @@ import type {SchemaShape, TypedChain} from "./types.js";
  * const schema = email();
  * // Results in: { type: "string", format: "email" }
  * ```
+ *
+ * @schemaFunctional
  */
-export function email(): SchemaShape<string> & JsonSchema & TypedChain<string> {
+export function email(): TypedJsonSchema<string> {
   return string().format(JsonFormatTypes.EMAIL);
 }

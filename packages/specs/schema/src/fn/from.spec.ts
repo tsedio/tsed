@@ -58,8 +58,21 @@ describe("from", () => {
       items: {},
       uniqueItems: true
     });
+    expect(set().items(string()).toJSON()).toEqual({
+      type: "array",
+      items: {
+        type: "string"
+      },
+      uniqueItems: true
+    });
     expect(map().toJSON()).toEqual({
       additionalProperties: true,
+      type: "object"
+    });
+    expect(map().additionalProperties(string()).toJSON()).toEqual({
+      additionalProperties: {
+        type: "string"
+      },
       type: "object"
     });
     expect(array().toJSON()).toEqual({type: "array", items: {}});

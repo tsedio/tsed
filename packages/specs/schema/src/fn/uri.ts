@@ -1,7 +1,6 @@
 import {JsonFormatTypes} from "../domain/JsonFormatTypes.js";
-import type {JsonSchema} from "../domain/JsonSchema.js";
 import {string} from "./string.js";
-import type {SchemaShape, TypedChain} from "./types.js";
+import type {TypedJsonSchema} from "./types.js";
 
 /**
  * Declare a new string model with `format: uri`.
@@ -10,6 +9,6 @@ import type {SchemaShape, TypedChain} from "./types.js";
  *
  * @schemaFunctional
  */
-export function uri(): SchemaShape<string> & JsonSchema & TypedChain<string> {
+export function uri(): TypedJsonSchema<string> {
   return string().format(JsonFormatTypes.URI);
 }

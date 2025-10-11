@@ -1,4 +1,5 @@
-import {from, JsonSchema, s} from "../..";
+import {JsonSchema} from "../domain/JsonSchema.js";
+import {s} from "./index.js";
 
 // Helper classes for from() and lazyRef()
 class UserClass {
@@ -44,14 +45,14 @@ describe("Functional API typing (inference)", () => {
   });
 
   it("should infer from() ctor mapping", () => {
-    const fromString = from(String);
-    const fromNumber = from(Number);
-    const fromBoolean = from(Boolean);
-    const fromDate = from(Date);
-    const fromArray = from(Array);
-    const fromMap = from(Map);
-    const fromSet = from(Set);
-    const fromObj = from();
+    const fromString = s.from(String);
+    const fromNumber = s.from(Number);
+    const fromBoolean = s.from(Boolean);
+    const fromDate = s.from(Date);
+    const fromArray = s.from(Array);
+    const fromMap = s.from(Map);
+    const fromSet = s.from(Set);
+    const fromObj = s.from();
 
     type FS = s.infer<typeof fromString>;
     type FN = s.infer<typeof fromNumber>;
@@ -204,6 +205,7 @@ describe("Functional API typing (inference)", () => {
 
     const a2 = s.any(s.string(), s.number(), s.boolean());
     type A2 = s.infer<typeof a2>;
+
     expectTypeOf<A2>().toEqualTypeOf<[string, number, boolean]>();
   });
 });

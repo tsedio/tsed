@@ -9,10 +9,14 @@ export type Infer<S> = S extends {readonly __tsed_infer?: infer T} ? T : never;
 // Chainable typed methods — compile-time only typing overlay for JsonSchema methods
 export interface TypedChain<T> {
   optional(): SchemaShape<T | undefined>;
+
   nullable(): SchemaShape<T | null>;
+
   default(value: T): SchemaShape<T>; // documentation-only; does not change type
   required(): SchemaShape<NonNullable<T>>;
 }
+
+export type TypedJsonSchema<T> = SchemaShape<T> & JsonSchema & TypedChain<T>;
 
 // Helper to map object properties definition to a concrete TS type
 export type PropsToShape<P extends Record<string, SchemaShape<any>>> = {

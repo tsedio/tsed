@@ -1,12 +1,13 @@
-import type {JsonSchema} from "../domain/JsonSchema.js";
 import {from} from "./from.js";
-import type {SchemaShape, TypedChain} from "./types.js";
+import type {TypedJsonSchema} from "./types.js";
 
 /**
  * Declare a new string model.
  *
  * See @@JsonSchema@@ to discover available methods.
+ *
+ * @schemaFunctional
  */
-export function string(): SchemaShape<string> & JsonSchema & TypedChain<string> {
+export function string(): TypedJsonSchema<string> {
   return from(String);
 }
