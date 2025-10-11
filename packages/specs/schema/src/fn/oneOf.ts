@@ -1,5 +1,6 @@
 import type {JsonSchema} from "../domain/JsonSchema.js";
 import {from} from "./from.js";
+import type {Infer, SchemaShape, TypedChain} from "./types.js";
 
 /**
  * See https://tools.ietf.org/html/draft-wright-json-schema-validation-01#section-6.28
@@ -9,6 +10,8 @@ import {from} from "./from.js";
  * @schemaFunctional
  * @see https://tools.ietf.org/html/draft-wright-json-schema-validation-01#section-6.28
  */
-export function oneOf(...oneOf: Parameters<JsonSchema["oneOf"]>[0]): JsonSchema {
-  return from().oneOf(oneOf);
+export function oneOf<S extends Array<SchemaShape<any>>>(
+  ...oneOf: S
+): SchemaShape<Infer<S[number]>> & JsonSchema & TypedChain<Infer<S[number]>> {
+  return from().oneOf(oneOf) as unknown as SchemaShape<Infer<S[number]>> & JsonSchema & TypedChain<Infer<S[number]>>;
 }

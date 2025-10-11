@@ -11,6 +11,7 @@ import {number} from "./number.js";
 import {object} from "./object.js";
 import {oneOf} from "./oneOf.js";
 import {string} from "./string.js";
+import type {Infer} from "./types.js";
 import {uri} from "./uri.js";
 import {url} from "./url.js";
 
@@ -35,3 +36,9 @@ export const s = {
   uri,
   url
 } as const;
+
+// Attach type helper via namespace merging to avoid separate export conflicts
+export namespace s {
+  // Re-export the type-level infer on the value namespace
+  export type infer<S> = Infer<S>;
+}

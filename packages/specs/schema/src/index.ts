@@ -150,6 +150,7 @@ export * from "./fn/number.js";
 export * from "./fn/object.js";
 export * from "./fn/oneOf.js";
 export * from "./fn/string.js";
+export * from "./fn/types.js";
 export * from "./fn/uri.js";
 export * from "./fn/url.js";
 export * from "./hooks/alterIgnore.js";
