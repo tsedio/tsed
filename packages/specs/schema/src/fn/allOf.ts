@@ -1,5 +1,6 @@
+import type {JsonSchema} from "../domain/JsonSchema.js";
 import {from} from "./from.js";
-import type {Infer, SchemaShape, TypedJsonSchema, UnionToIntersection} from "./types.js";
+import type {Infer, UnionToIntersection} from "./types.js";
 
 /**
  * See https://tools.ietf.org/html/draft-wright-json-schema-validation-01#section-6.26
@@ -10,6 +11,6 @@ import type {Infer, SchemaShape, TypedJsonSchema, UnionToIntersection} from "./t
  *
  * @schemaFunctional
  */
-export function allOf<S extends Array<SchemaShape<any>>>(...allOf: S): TypedJsonSchema<UnionToIntersection<Infer<S[number]>>> {
-  return from().allOf(allOf) as unknown as TypedJsonSchema<UnionToIntersection<Infer<S[number]>>>;
+export function allOf<S extends Array<JsonSchema<any>>>(...allOf: S): JsonSchema<UnionToIntersection<Infer<S[number]>>> {
+  return from().allOf(allOf) as unknown as JsonSchema<UnionToIntersection<Infer<S[number]>>>;
 }

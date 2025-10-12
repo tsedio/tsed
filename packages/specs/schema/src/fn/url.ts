@@ -1,6 +1,5 @@
 import {JsonFormatTypes} from "../domain/JsonFormatTypes.js";
 import {string} from "./string.js";
-import type {TypedJsonSchema} from "./types.js";
 
 /**
  * Declare a new string model with `format: url`.
@@ -9,6 +8,6 @@ import type {TypedJsonSchema} from "./types.js";
  *
  * @schemaFunctional
  */
-export function url(): TypedJsonSchema<string> {
+export function url() {
   return string().format(JsonFormatTypes.URL);
 }

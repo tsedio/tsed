@@ -77,22 +77,22 @@ describe("Functional API typing (inference)", () => {
     const base = s.string();
     const opt = base.optional();
     const nul = base.nullable();
+    const reqNul = base.required().nullable();
     const def = base.default("");
     const req = base.optional().required();
 
     type Base = s.infer<typeof base>;
     type Opt = s.infer<typeof opt>;
     type Nul = s.infer<typeof nul>;
+    type ReqNul = s.infer<typeof reqNul>;
     type Def = s.infer<typeof def>;
     type Req = s.infer<typeof req>;
 
     expectTypeOf<Base>().toEqualTypeOf<string>();
-    // @ts-expect-error - optional only impacts type when strictNullChecks is enabled
     expectTypeOf<Opt>().toEqualTypeOf<string | undefined>();
-    // @ts-expect-error - nullable only impacts type when strictNullChecks is enabled
     expectTypeOf<Nul>().toEqualTypeOf<string | null>();
+    expectTypeOf<ReqNul>().toEqualTypeOf<string | null>();
     expectTypeOf<Def>().toEqualTypeOf<string>(); // documentation-only, no type impact
-    // @ts-expect-error - required after optional has no effect
     expectTypeOf<Req>().toEqualTypeOf<string>();
   });
 

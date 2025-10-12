@@ -1,5 +1,4 @@
 import {from} from "./from.js";
-import type {TypedJsonSchema} from "./types.js";
 
 /**
  * Declare a new boolean model.
@@ -8,6 +7,6 @@ import type {TypedJsonSchema} from "./types.js";
  *
  * @schemaFunctional
  */
-export function boolean(): TypedJsonSchema<boolean> {
+export function boolean() {
   return from(Boolean);
 }

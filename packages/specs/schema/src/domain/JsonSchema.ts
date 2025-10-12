@@ -116,7 +116,9 @@ function mapGenerics(jsonSchema: JsonSchema, generics: GenericValue[][]) {
   }, {} as GenericsMap) as GenericsMap;
 }
 
-export class JsonSchema extends Map<string, any> {
+export class JsonSchema<T = JSONSchema7Type> extends Map<string, any> {
+  // readonly __infer?: T;
+
   readonly $kind: string = "schema";
   readonly $isJsonDocument = true;
   readonly $hooks = new Hooks();
@@ -351,7 +353,10 @@ export class JsonSchema extends Map<string, any> {
     return this;
   }
 
-  nullable(value: boolean = true) {
+  nullable(): JsonSchema<T | null>;
+  nullable(value: true): JsonSchema<T | null>;
+  nullable(value: false): JsonSchema<Exclude<T, null>>;
+  nullable(value: boolean = true): JsonSchema<T | null> | JsonSchema<Exclude<T, null>> {
     if (!this.isNullable) {
       this.vendorKey(VendorKeys.NULLABLE, value);
     }
@@ -443,7 +448,8 @@ export class JsonSchema extends Map<string, any> {
    * It is RECOMMENDED that a default value be valid against the associated schema.
    * @see https://tools.ietf.org/html/draft-wright-json-schema-validation-01#section-7.3
    */
-  default(value: JSONSchema7Type | undefined | (() => JSONSchema7Type)) {
+  default(value: T | (() => T)): JsonSchema<T>;
+  default(value: T | JSONSchema7Type | undefined | (() => JSONSchema7Type) | (() => T)): JsonSchema<T> {
     super.set("default", value);
 
     return this;
@@ -453,7 +459,7 @@ export class JsonSchema extends Map<string, any> {
    * More readible form of a one-element "enum"
    * @see https://tools.ietf.org/html/draft-wright-json-schema-validation-01#section-6.24
    */
-  const(value: JSONSchema7Type) {
+  const(value: T) {
     super.set("const", value);
 
     return this;
@@ -679,7 +685,10 @@ export class JsonSchema extends Map<string, any> {
    *
    * @see https://tools.ietf.org/html/draft-wright-json-schema-validation-01#section-6.17
    */
-  required(required: boolean | string[] = true) {
+  required(): JsonSchema<Exclude<T, undefined>>;
+  required(required: true): JsonSchema<Exclude<T, undefined>>;
+  required(required: false): JsonSchema<T | undefined>;
+  required(required: boolean | string[] = true): JsonSchema<Exclude<T, undefined>> | JsonSchema<T | undefined> {
     if (isArray(required)) {
       this.#required.clear();
 
@@ -692,7 +701,7 @@ export class JsonSchema extends Map<string, any> {
         schema.minLength(1);
       }
 
-      return schema;
+      return schema as unknown as JsonSchema<Exclude<T, undefined>> | JsonSchema<T | undefined>;
     }
 
     return this;

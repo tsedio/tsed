@@ -2,7 +2,7 @@ import {isClass, Type} from "@tsed/core";
 
 import {JsonSchema} from "../domain/JsonSchema.js";
 import {getJsonEntityStore} from "../utils/getJsonEntityStore.js";
-import type {CtorToType, TypedJsonSchema} from "./types.js";
+import type {CtorToType} from "./types.js";
 
 /**
  * Create a new model from the given type.
@@ -15,8 +15,8 @@ import type {CtorToType, TypedJsonSchema} from "./types.js";
  *
  * @schemaFunctional
  */
-export function from<TC extends Type<any> = Type<any>>(): TypedJsonSchema<CtorToType<ObjectConstructor>>;
-export function from<TC extends Type<any> = Type<any>>(type?: TC): TypedJsonSchema<CtorToType<TC>>;
+export function from<TC extends Type<any> = Type<any>>(): JsonSchema<CtorToType<ObjectConstructor>>;
+export function from<TC extends Type<any> = Type<any>>(type?: TC): JsonSchema<CtorToType<TC>>;
 export function from(type: Type<any> = Object) {
   if (isClass(type)) {
     const {schema} = getJsonEntityStore(type);

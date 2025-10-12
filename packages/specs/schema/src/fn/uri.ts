@@ -1,6 +1,5 @@
 import {JsonFormatTypes} from "../domain/JsonFormatTypes.js";
 import {string} from "./string.js";
-import type {TypedJsonSchema} from "./types.js";
 
 /**
  * Declare a new string model with `format: uri`.
@@ -9,6 +8,6 @@ import type {TypedJsonSchema} from "./types.js";
  *
  * @schemaFunctional
  */
-export function uri(): TypedJsonSchema<string> {
+export function uri() {
   return string().format(JsonFormatTypes.URI);
 }

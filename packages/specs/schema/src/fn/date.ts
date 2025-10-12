@@ -1,6 +1,5 @@
 import {JsonFormatTypes} from "../domain/JsonFormatTypes.js";
 import {from} from "./from.js";
-import type {TypedJsonSchema} from "./types.js";
 
 /**
  * Declare a new string model with `format: date`.
@@ -9,7 +8,7 @@ import type {TypedJsonSchema} from "./types.js";
  *
  * @schemaFunctional
  */
-export function date(): TypedJsonSchema<Date> {
+export function date() {
   return from(Date).format(JsonFormatTypes.DATE);
 }
 
@@ -20,7 +19,7 @@ export function date(): TypedJsonSchema<Date> {
  *
  * @schemaFunctional
  */
-export function datetime(): TypedJsonSchema<Date> {
+export function datetime() {
   return from(Date).format(JsonFormatTypes.DATE_TIME);
 }
 
@@ -31,6 +30,6 @@ export function datetime(): TypedJsonSchema<Date> {
  *
  * @schemaFunctional
  */
-export function time(): TypedJsonSchema<Date> {
+export function time() {
   return from(Date).format(JsonFormatTypes.TIME);
 }
