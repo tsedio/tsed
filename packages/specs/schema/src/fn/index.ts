@@ -1,3 +1,4 @@
+import type {Infer} from "../domain/types.js";
 import {allOf} from "./allOf.js";
 import {any} from "./any.js";
 import {anyOf} from "./anyOf.js";
@@ -13,7 +14,6 @@ import {number} from "./number.js";
 import {object} from "./object.js";
 import {oneOf} from "./oneOf.js";
 import {string} from "./string.js";
-import type {Infer} from "./types.js";
 import {uri} from "./uri.js";
 import {url} from "./url.js";
 

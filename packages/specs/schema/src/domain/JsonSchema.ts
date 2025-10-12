@@ -32,6 +32,7 @@ import {Discriminator} from "./JsonDiscriminator.js";
 import {JsonEntityStore} from "./JsonEntityStore.js";
 import {JsonFormatTypes} from "./JsonFormatTypes.js";
 import {JsonLazyRef} from "./JsonLazyRef.js";
+import type {Infer, PropsToShape, UnionToIntersection} from "./types.js";
 
 export interface JsonSchemaObject extends Omit<JSONSchema7, "type" | "additionalProperties" | "items" | "pattern"> {
   type?: JSONSchema7["type"] | Type | null | (String | null | Date | Number | Object | Boolean)[];
@@ -40,85 +41,21 @@ export interface JsonSchemaObject extends Omit<JSONSchema7, "type" | "additional
   pattern?: string | RegExp;
 }
 
-export type AnyJsonSchema = JsonSchemaObject | JSONSchema7 | JsonSchema | JsonLazyRef | {label?: string} | Type;
-
-function mapProperties(properties: Record<string, any>) {
-  // istanbul ignore next
-  if (properties instanceof JsonSchema) {
-    return properties;
-  }
-
-  return Object.entries(properties).reduce<any>((properties, [key, schema]) => {
-    properties[toJsonRegex(key)] = mapToJsonSchema(schema);
-    if (schema instanceof JsonSchema) {
-      schema.propertyKey(toJsonRegex(key));
+export type AnyJsonSchema<T = any> =
+  | JsonSchemaObject
+  | JSONSchema7
+  | JsonSchema<T>
+  | JsonLazyRef
+  | {
+      label?: string;
     }
-
-    return properties;
-  }, {});
-}
-
-function mapToJsonSchema(item: Record<string, any>[]): JsonSchema[];
-function mapToJsonSchema(item: Record<string, any> | JSONSchema7Definition | null): JsonSchema;
-function mapToJsonSchema(item: any): JsonSchema | JsonSchema[] {
-  if (isArray(item)) {
-    return (item as any[]).map(mapToJsonSchema);
-  }
-
-  if (item && (item.isStore || item.$isJsonDocument || item.isLazyRef)) {
-    return item;
-  }
-
-  if (item && classOf(item) !== Object && isClass(item)) {
-    return JsonEntityStore.from(item).schema;
-  }
-
-  if (isObject(item)) {
-    return JsonSchema.from(item as any);
-  }
-
-  if (isPrimitiveClass(item) || item === Date || item === null) {
-    return JsonSchema.from({type: item});
-  }
-
-  return item;
-}
+  | Type;
 
 function isEnum(type: any) {
   return isObject(type) && !("toJSON" in type);
 }
 
-function mapGenerics(jsonSchema: JsonSchema, generics: GenericValue[][]) {
-  const genericLabels = jsonSchema.getGenericLabels();
-
-  if (!genericLabels) {
-    return {};
-  }
-
-  const [types, ...nextTypes] = generics;
-
-  return types.reduce((mapping: GenericsMap, type, index) => {
-    const label = genericLabels[index];
-
-    if (label) {
-      if (isEnum(type)) {
-        mapping[label] = [JsonSchema.from({type: "string", enum: Object.values(type)})];
-      } else if (nextTypes.length) {
-        const nextSchema = mapToJsonSchema(type);
-
-        mapping[label] = [nextSchema, mapGenerics(nextSchema, nextTypes)];
-      } else {
-        mapping[label] = [mapToJsonSchema(type)];
-      }
-    }
-
-    return mapping;
-  }, {} as GenericsMap) as GenericsMap;
-}
-
 export class JsonSchema<T = JSONSchema7Type> extends Map<string, any> {
-  // readonly __infer?: T;
-
   readonly $kind: string = "schema";
   readonly $isJsonDocument = true;
   readonly $hooks = new Hooks();
@@ -129,7 +66,6 @@ export class JsonSchema<T = JSONSchema7Type> extends Map<string, any> {
   public isDiscriminator = false;
   /**
    * All required fields are stored here
-   * @private
    */
   #required: Set<string> = new Set();
   /**
@@ -150,7 +86,7 @@ export class JsonSchema<T = JSONSchema7Type> extends Map<string, any> {
   #useRefLabel: boolean = false;
   #propertyKey: string | symbol | undefined;
 
-  constructor(obj: JsonSchema | Partial<JsonSchemaObject> = {}) {
+  constructor(obj?: Partial<JSONSchema7> | JsonSchema | Record<string, unknown>) {
     super();
 
     if (obj) {
@@ -234,7 +170,7 @@ export class JsonSchema<T = JSONSchema7Type> extends Map<string, any> {
     return !!this.#discriminator;
   }
 
-  static from(item: Partial<JsonSchemaObject> | Type<any> | JsonSchema = {}) {
+  static from(item: Partial<JsonSchemaObject> | Type<any> | JsonSchema | undefined) {
     if (item instanceof JsonSchema) {
       return item;
     }
@@ -346,7 +282,7 @@ export class JsonSchema<T = JSONSchema7Type> extends Map<string, any> {
    * @param generics
    */
   genericOf(...generics: GenericValue[][]) {
-    const mapped = mapGenerics(this.#itemSchema || mapToJsonSchema(this.getTarget()), generics);
+    const mapped = this.mapGenerics(this.#itemSchema || this.mapToJsonSchema(this.getTarget()), generics);
 
     this.vendorKey(VendorKeys.GENERIC_OF, mapped);
 
@@ -365,10 +301,10 @@ export class JsonSchema<T = JSONSchema7Type> extends Map<string, any> {
   }
 
   itemSchema(obj: AnyJsonSchema = {}) {
-    this.#itemSchema = this.#itemSchema || mapToJsonSchema(obj);
+    this.#itemSchema = this.#itemSchema || this.mapToJsonSchema(obj);
 
     if (isPlainObject(obj)) {
-      this.#itemSchema.assign(obj);
+      this.#itemSchema.assign(obj as Record<string, unknown>);
     }
 
     if (!this.isCollection && this.#itemSchema?.isClass) {
@@ -448,15 +384,14 @@ export class JsonSchema<T = JSONSchema7Type> extends Map<string, any> {
    * It is RECOMMENDED that a default value be valid against the associated schema.
    * @see https://tools.ietf.org/html/draft-wright-json-schema-validation-01#section-7.3
    */
-  default(value: T | (() => T)): JsonSchema<T>;
-  default(value: T | JSONSchema7Type | undefined | (() => JSONSchema7Type) | (() => T)): JsonSchema<T> {
+  default(value: T | undefined | (() => T)): JsonSchema<T> {
     super.set("default", value);
 
     return this;
   }
 
   /**
-   * More readible form of a one-element "enum"
+   * More readable form of a one-element "enum"
    * @see https://tools.ietf.org/html/draft-wright-json-schema-validation-01#section-6.24
    */
   const(value: T) {
@@ -466,7 +401,7 @@ export class JsonSchema<T = JSONSchema7Type> extends Map<string, any> {
   }
 
   /**
-   * This attribute is a string that provides a full description of the of purpose the instance property.
+   * This attribute is a string that provides a full description of the purpose of the instance property.
    *
    * @see https://tools.ietf.org/html/draft-wright-json-schema-validation-01#section-7.2
    */
@@ -530,7 +465,7 @@ export class JsonSchema<T = JSONSchema7Type> extends Map<string, any> {
   }
 
   /**
-   * This keyword determines how child instances validate for arrays, and does not directly validate the immediate instance itself.
+   * This keyword determines how child instances validate for arrays and does not directly validate the immediate instance itself.
    * If "items" is an array of schemas, validation succeeds if every instance element
    * at a position greater than the size of "items" validates against "additionalItems".
    * Otherwise, "additionalItems" MUST be ignored, as the "items" schema
@@ -539,7 +474,7 @@ export class JsonSchema<T = JSONSchema7Type> extends Map<string, any> {
    * @see https://tools.ietf.org/html/draft-wright-json-schema-validation-01#section-6.10
    */
   additionalItems(additionalItems: boolean | AnyJsonSchema) {
-    super.set("additionalItems", mapToJsonSchema(additionalItems));
+    super.set("additionalItems", this.mapToJsonSchema(additionalItems));
 
     return this;
   }
@@ -549,7 +484,7 @@ export class JsonSchema<T = JSONSchema7Type> extends Map<string, any> {
    * @see https://tools.ietf.org/html/draft-wright-json-schema-validation-01#section-6.14
    */
   contains(contains: JSONSchema7Definition) {
-    super.set("contains", mapToJsonSchema(contains));
+    super.set("contains", this.mapToJsonSchema(contains));
 
     return this;
   }
@@ -573,14 +508,20 @@ export class JsonSchema<T = JSONSchema7Type> extends Map<string, any> {
   }
 
   /**
-   * This keyword determines how child instances validate for arrays, and does not directly validate the immediate instance itself.
+   * This keyword determines how child instances validate for arrays and does not directly validate the immediate instance itself.
    * Omitting this keyword has the same behavior as an empty schema.
    * @see https://tools.ietf.org/html/draft-wright-json-schema-validation-01#section-6.9
    */
-  items(items: AnyJsonSchema | AnyJsonSchema[]) {
-    super.set("items", (this.#itemSchema = mapToJsonSchema(items) as unknown as JsonSchema));
+  /**
+   * Set the items' schema for array/set collections
+   * @param items The schema for array/set items
+   */
+  items<I = JSONSchema7Type>(
+    items: JsonSchema<I> | AnyJsonSchema | AnyJsonSchema[]
+  ): JsonSchema<T extends Array<any> ? I[] : T extends Set<any> ? Set<I> : I> {
+    super.set("items", (this.#itemSchema = this.mapToJsonSchema(items) as unknown as JsonSchema));
 
-    return this;
+    return this as JsonSchema<T extends Array<any> ? I[] : T extends Set<any> ? Set<I> : I>;
   }
 
   $comment(comment: string) {
@@ -612,7 +553,7 @@ export class JsonSchema<T = JSONSchema7Type> extends Map<string, any> {
   }
 
   /**
-   * If this keyword has boolean value false, the instance validates successfully.
+   * If this keyword has a boolean value false, the instance validates successfully.
    * If it has boolean value true, the instance validates successfully if all of its elements are unique.
    * Omitting this keyword has the same behavior as a value of false.
    * @see https://tools.ietf.org/html/draft-wright-json-schema-validation-01#section-6.13
@@ -728,16 +669,16 @@ export class JsonSchema<T = JSONSchema7Type> extends Map<string, any> {
   }
 
   /**
-   * This keyword determines how child instances validate for objects, and does not directly validate the immediate instance itself.
+   * This keyword determines how child instances validate for objects and does not directly validate the immediate instance itself.
    * Validation succeeds if, for each name that appears in both the instance and as a name within this keyword's value,
    * the child instance for that name successfully validates against the corresponding schema.
    * Omitting this keyword has the same behavior as an empty object.
    * @see https://tools.ietf.org/html/draft-wright-json-schema-validation-01#section-6.18
    */
-  properties(properties: AnyJsonSchema | Record<string, AnyJsonSchema>) {
-    super.set("properties", mapProperties(properties));
+  properties<P extends Record<string, JsonSchema<any>> = Record<string, JsonSchema<any>>>(properties: P): JsonSchema<PropsToShape<P>> {
+    super.set("properties", this.mapProperties(properties));
 
-    return this;
+    return this as JsonSchema<PropsToShape<P>>;
   }
 
   addProperty(key: string, schema: AnyJsonSchema) {
@@ -745,7 +686,7 @@ export class JsonSchema<T = JSONSchema7Type> extends Map<string, any> {
 
     properties[key] = schema;
 
-    super.set("properties", mapProperties(properties));
+    super.set("properties", this.mapProperties(properties));
 
     return this;
   }
@@ -758,36 +699,38 @@ export class JsonSchema<T = JSONSchema7Type> extends Map<string, any> {
    * Omitting this keyword has the same behavior as an empty object.
    * @see https://tools.ietf.org/html/draft-wright-json-schema-validation-01#section-6.19
    */
-  patternProperties(patternProperties: Record<string, AnyJsonSchema>) {
-    super.set("patternProperties", mapProperties(patternProperties));
+  patternProperties<P extends Record<string, JsonSchema<any>> = Record<string, JsonSchema<any>>>(
+    patternProperties: P
+  ): JsonSchema<PropsToShape<P>> {
+    super.set("patternProperties", this.mapProperties(patternProperties));
 
-    return this;
+    return this as JsonSchema<PropsToShape<P>>;
   }
 
   /**
    * This attribute defines a schema for all properties that are not explicitly defined in an object type definition.
    * If specified, the value MUST be a schema or a boolean.
    * If false is provided, no additional properties are allowed beyond the properties defined in the schema.
-   * The default value is an empty schema which allows any value for additional properties.
+   * The default value is an empty schema that allows any value for additional properties.
    * @see https://tools.ietf.org/html/draft-wright-json-schema-validation-01#section-6.20
    */
-  additionalProperties(additionalProperties: boolean | AnyJsonSchema) {
-    super.set("additionalProperties", mapToJsonSchema(additionalProperties));
+  additionalProperties<V>(additionalProperties: boolean | AnyJsonSchema | JsonSchema<V>): JsonSchema<Map<string, V>> {
+    super.set("additionalProperties", this.mapToJsonSchema(additionalProperties));
 
-    return this;
+    return this as JsonSchema<Map<string, V>>;
   }
 
   /**
    * This attribute defines a schema for all properties that are not explicitly defined in an object type definition.
    * If specified, the value MUST be a schema or a boolean.
    * If false is provided, no additional properties are allowed beyond the properties defined in the schema.
-   * The default value is an empty schema which allows any value for additional properties.
+   * The default value is an empty schema that allows any value for additional properties.
    * @see https://tools.ietf.org/html/draft-wright-json-schema-validation-01#section-6.20
    * @alias additionalProperties
    * @param unknown
    */
-  unknown(unknown: boolean = true) {
-    return this.additionalProperties(unknown);
+  unknown(unknown: boolean = true): JsonSchema<T & Record<string, unknown>> {
+    return this.additionalProperties(unknown) as unknown as JsonSchema<T & Record<string, unknown>>;
   }
 
   /**
@@ -798,7 +741,7 @@ export class JsonSchema<T = JSONSchema7Type> extends Map<string, any> {
    * @see https://tools.ietf.org/html/draft-wright-json-schema-validation-01#section-6.21
    */
   dependencies(dependencies: {[p: string]: JSONSchema7Definition | JsonSchema | string[]}) {
-    super.set("dependencies", mapProperties(dependencies));
+    super.set("dependencies", this.mapProperties(dependencies));
 
     return this;
   }
@@ -810,7 +753,7 @@ export class JsonSchema<T = JSONSchema7Type> extends Map<string, any> {
    * @see https://tools.ietf.org/html/draft-wright-json-schema-validation-01#section-6.22
    */
   propertyNames(propertyNames: JSONSchema7Definition | JsonSchema) {
-    super.set("propertyNames", mapToJsonSchema(propertyNames));
+    super.set("propertyNames", this.mapToJsonSchema(propertyNames));
 
     return this;
   }
@@ -824,13 +767,15 @@ export class JsonSchema<T = JSONSchema7Type> extends Map<string, any> {
    *
    * @see https://tools.ietf.org/html/draft-wright-json-schema-validation-01#section-6.23
    */
-  enum(...enumValues: any[]): this;
-
-  enum(enumSchema: JsonSchema): this;
-
-  enum(enumValue: any | any[] | JsonSchema, ...enumValues: any[]): this {
+  // enum(...enumValues: any[]): this;
+  enum<E extends Record<string, string | number>>(e: E): JsonSchema<E[keyof E]>;
+  enum<E extends readonly (string | number)[]>(...e: E): JsonSchema<E[number]>;
+  enum<E extends readonly (string | number)[]>(e: E): JsonSchema<E[number]>;
+  // enum<E extends T>(e: E[]): JsonSchema<E[keyof E]>;
+  // enum<T>(enumSchema: JsonSchema<T>): this;
+  enum(enumValue: any, ...enumValues: any[]): this {
     if (enumsRegistry.has(enumValue)) {
-      return this.enum(enumsRegistry.get(enumValue));
+      return this.enum(enumsRegistry.get(enumValue) as any) as any;
     }
 
     if (enumValue instanceof JsonSchema) {
@@ -852,7 +797,7 @@ export class JsonSchema<T = JSONSchema7Type> extends Map<string, any> {
    * @see https://tools.ietf.org/html/draft-wright-json-schema-validation-01#section-7.1
    */
   definitions(definitions: Record<string, AnyJsonSchema>) {
-    super.set("definitions", mapProperties(definitions));
+    super.set("definitions", this.mapProperties(definitions));
 
     return this;
   }
@@ -860,38 +805,39 @@ export class JsonSchema<T = JSONSchema7Type> extends Map<string, any> {
   /**
    * @see https://tools.ietf.org/html/draft-wright-json-schema-validation-01#section-6.26
    */
-  allOf(allOf: (AnyJsonSchema | null)[]) {
+  allOf<S extends Array<AnyJsonSchema | null>>(allOf: S): JsonSchema<UnionToIntersection<Infer<S[number]>>> {
     this.setManyOf("allOf", allOf);
 
-    return this;
+    return this as JsonSchema<UnionToIntersection<Infer<S[number]>>>;
   }
 
   /**
    * @see https://tools.ietf.org/html/draft-wright-json-schema-validation-01#section-6.27
    */
-  anyOf(anyOf: (AnyJsonSchema | null)[]) {
+  anyOf<S extends Array<AnyJsonSchema | null>>(anyOf: S): JsonSchema<Infer<S[number]>> {
     this.setManyOf("anyOf", anyOf);
 
-    return this;
+    return this as JsonSchema<Infer<S[number]>>;
   }
 
   /*
    * @see https://tools.ietf.org/html/draft-wright-json-schema-validation-01#section-6.28
    */
-  oneOf(oneOf: (AnyJsonSchema | null)[]) {
+  oneOf<S extends Array<AnyJsonSchema | null>>(oneOf: S): JsonSchema<Infer<S[number]>> {
     if (this.isCollection) {
       this.itemSchema().oneOf(oneOf);
     } else {
       this.setManyOf("oneOf", oneOf);
     }
-    return this;
+
+    return this as JsonSchema<Infer<S[number]>>;
   }
 
   /**
    * @see https://tools.ietf.org/html/draft-wright-json-schema-validation-01#section-6.29
    */
   not(not: AnyJsonSchema) {
-    super.set("not", mapToJsonSchema(not));
+    super.set("not", this.mapToJsonSchema(not));
 
     return this;
   }
@@ -1158,7 +1104,7 @@ export class JsonSchema<T = JSONSchema7Type> extends Map<string, any> {
     return execMapper("schema", [this], options);
   }
 
-  assign(obj: AnyJsonSchema = {}) {
+  assign(obj: Partial<JSONSchema7> | JsonSchema | Record<string, unknown>) {
     const entries = obj instanceof JsonSchema ? [...obj.entries()] : Object.entries(obj);
 
     entries.forEach(([key, value]) => {
@@ -1197,7 +1143,7 @@ export class JsonSchema<T = JSONSchema7Type> extends Map<string, any> {
   }
 
   /**
-   * Return the Json type as string
+   * Return the JSON type as string
    */
   getJsonType(): string | string[] {
     if (this.get("anyOf")) {
@@ -1309,7 +1255,7 @@ export class JsonSchema<T = JSONSchema7Type> extends Map<string, any> {
         }
         return true;
       })
-      .map(mapToJsonSchema);
+      .map((item) => this.mapToJsonSchema(item));
 
     if (resolved.length === 1 && !(value[0] instanceof JsonSchema) && !this.isNullable) {
       if (!resolved[0].hasDiscriminator) {
@@ -1322,7 +1268,7 @@ export class JsonSchema<T = JSONSchema7Type> extends Map<string, any> {
         return this.type(value[0]);
       }
 
-      resolved = children.map(mapToJsonSchema);
+      resolved = children.map((item) => this.mapToJsonSchema(item));
     }
 
     super.set(keyword, resolved);
@@ -1347,5 +1293,75 @@ export class JsonSchema<T = JSONSchema7Type> extends Map<string, any> {
       this.isDiscriminator = true;
       this.#discriminator = discriminator;
     }
+  }
+
+  protected mapToJsonSchema(item: any[]): JsonSchema[];
+  protected mapToJsonSchema(item: any): JsonSchema;
+  protected mapToJsonSchema(item: any | any[]): JsonSchema | JsonSchema[] {
+    if (isArray(item)) {
+      return (item as any[]).map((item) => this.mapToJsonSchema(item));
+    }
+
+    if (item && (item.isStore || item.$isJsonDocument || item.isLazyRef)) {
+      return item;
+    }
+
+    if (item && classOf(item) !== Object && isClass(item)) {
+      return JsonEntityStore.from(item).schema;
+    }
+
+    if (isObject(item)) {
+      return JsonSchema.from(item as any);
+    }
+
+    if (isPrimitiveClass(item) || item === Date || item === null) {
+      return JsonSchema.from({type: item});
+    }
+
+    return item;
+  }
+
+  protected mapGenerics(jsonSchema: JsonSchema, generics: GenericValue[][]) {
+    const genericLabels = jsonSchema.getGenericLabels();
+
+    if (!genericLabels) {
+      return {};
+    }
+
+    const [types, ...nextTypes] = generics;
+
+    return types.reduce((mapping: GenericsMap, type, index) => {
+      const label = genericLabels[index];
+
+      if (label) {
+        if (isEnum(type)) {
+          mapping[label] = [JsonSchema.from({type: "string", enum: Object.values(type)})];
+        } else if (nextTypes.length) {
+          const nextSchema = this.mapToJsonSchema(type);
+
+          mapping[label] = [nextSchema, this.mapGenerics(nextSchema, nextTypes)];
+        } else {
+          mapping[label] = [this.mapToJsonSchema(type)];
+        }
+      }
+
+      return mapping;
+    }, {} as GenericsMap) as GenericsMap;
+  }
+
+  protected mapProperties(properties: Record<string, any>) {
+    // istanbul ignore next
+    if (properties instanceof JsonSchema) {
+      return properties;
+    }
+
+    return Object.entries(properties).reduce<any>((properties, [key, schema]) => {
+      properties[toJsonRegex(key)] = this.mapToJsonSchema(schema);
+      if (schema instanceof JsonSchema) {
+        schema.propertyKey(toJsonRegex(key));
+      }
+
+      return properties;
+    }, {});
   }
 }

@@ -1,8 +1,8 @@
 import {isClass, Type} from "@tsed/core";
 
 import {JsonSchema} from "../domain/JsonSchema.js";
+import type {CtorToType} from "../domain/types.js";
 import {getJsonEntityStore} from "../utils/getJsonEntityStore.js";
-import type {CtorToType} from "./types.js";
 
 /**
  * Create a new model from the given type.

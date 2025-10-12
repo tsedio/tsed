@@ -107,7 +107,24 @@ describe("Functional API typing (inference)", () => {
 
     expectTypeOf<A>().toEqualTypeOf<number[]>();
     expectTypeOf<Se>().toEqualTypeOf<Set<string>>();
-    expectTypeOf<M>().toEqualTypeOf<Record<string, boolean>>();
+    expectTypeOf<M>().toEqualTypeOf<Map<string, boolean>>();
+
+    // @ts-ignore
+    s.array(123);
+  });
+
+  it("should infer collections: array / set / map (long syntax)", () => {
+    const arr = s.array().items(s.number());
+    const set = s.set().items(s.string());
+    const map = s.map().additionalProperties(s.boolean());
+
+    type A = s.infer<typeof arr>;
+    type Se = s.infer<typeof set>;
+    type M = s.infer<typeof map>;
+
+    expectTypeOf<A>().toEqualTypeOf<number[]>();
+    expectTypeOf<Se>().toEqualTypeOf<Set<string>>();
+    expectTypeOf<M>().toEqualTypeOf<Map<string, boolean>>();
 
     // @ts-ignore
     s.array(123);
@@ -127,24 +144,57 @@ describe("Functional API typing (inference)", () => {
 
     type User = s.infer<typeof UserSchema>;
 
-    // @ts-expect-error - id is required
     expectTypeOf<User>().toEqualTypeOf<{
       id: string;
-      email?: string | undefined;
-      age?: number | null | undefined;
+      email: string | undefined;
+      age: number | null | undefined;
       roles: string[];
-      profile: {firstName: string; lastName?: string | undefined};
+      profile: {firstName: string; lastName: string | undefined};
     }>();
+  });
+  it("should infer object().properties()", () => {
+    const UserSchema = s.object().properties({
+      id: s.string().required(),
+      email: s.string().optional(),
+      age: s.number().optional().nullable(),
+      roles: s.array(s.string()).default([]),
+      profile: s.object({
+        firstName: s.string(),
+        lastName: s.string().optional()
+      })
+    });
+
+    type User = s.infer<typeof UserSchema>;
+
+    expectTypeOf<User>().toEqualTypeOf<{
+      id: string;
+      email: string | undefined;
+      age: number | null | undefined;
+      roles: string[];
+      profile: {firstName: string; lastName: string | undefined};
+    }>();
+  });
+  it("should infer object().unknown()", () => {
+    const UserSchema = s
+      .object({
+        id: s.string().required()
+      })
+      .unknown();
+
+    type User = s.infer<typeof UserSchema>;
+    expectTypeOf<User>().toEqualTypeOf<{id: string} & Record<string, unknown>>();
   });
 
   it("should infer enums from literals and enum-like objects", () => {
     const literalEnum = s.enums(["A", "B", "C"] as const);
     type LE = s.infer<typeof literalEnum>;
+
     expectTypeOf<LE>().toEqualTypeOf<"A" | "B" | "C">();
 
     const obj = {X: "x", Y: "y"} as const;
     const objectEnum = s.enums(obj);
     type OE = s.infer<typeof objectEnum>;
+
     expectTypeOf<OE>().toEqualTypeOf<(typeof obj)[keyof typeof obj]>();
 
     enum N {
@@ -153,6 +203,31 @@ describe("Functional API typing (inference)", () => {
     }
 
     const tsEnum = s.enums(N);
+    type NE = s.infer<typeof tsEnum>;
+    // For TS numeric enums, value type is string | number due to reverse mapping
+    // @ts-expect-error - should be number but TS enums are weird
+    expectTypeOf<NE>().toEqualTypeOf<string | number>();
+  });
+
+  it("should infer string.enum()", () => {
+    const schema = s.string().enum("a", "b", "c");
+
+    type E = s.infer<typeof schema>;
+
+    expectTypeOf<E>().toEqualTypeOf<"a" | "b" | "c">();
+
+    const obj = {X: "x", Y: "y"} as const;
+    const objectEnum = s.string().enum(obj);
+    type OE = s.infer<typeof objectEnum>;
+
+    expectTypeOf<OE>().toEqualTypeOf<(typeof obj)[keyof typeof obj]>();
+
+    enum N {
+      A = 1,
+      B = 2
+    }
+
+    const tsEnum = s.string().enum(N);
     type NE = s.infer<typeof tsEnum>;
     // For TS numeric enums, value type is string | number due to reverse mapping
     // @ts-expect-error - should be number but TS enums are weird

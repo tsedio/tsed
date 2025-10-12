@@ -32,10 +32,10 @@ export function array<I = any>(item?: JsonSchema<I>): JsonSchema<I[]> {
  * @schemaFunctional
  */
 export function map(): JsonSchema<Record<string, any>>;
-export function map<V>(value: JsonSchema<V>): JsonSchema<Record<string, V>>;
-export function map<V = any>(value?: JsonSchema<V>): JsonSchema<Record<string, V>> {
+export function map<V>(value: JsonSchema<V>): JsonSchema<Map<string, V>>;
+export function map<V = any>(value?: JsonSchema<V>): JsonSchema<Map<string, V>> {
   const schema = from(Map).unknown(true);
-  return (value ? (schema.additionalProperties(value as JsonSchema) as any) : (schema as any)) as JsonSchema<Record<string, V>>;
+  return (value ? (schema.additionalProperties(value as JsonSchema) as any) : (schema as any)) as JsonSchema<Map<string, V>>;
 }
 
 /**

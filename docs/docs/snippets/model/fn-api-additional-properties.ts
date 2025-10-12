@@ -4,4 +4,4 @@ export const MySchema = s
   .object({
     id: s.string()
   })
-  .additionalProperties(true);
+  .unkown(); // alias of .additionalProperties(true)

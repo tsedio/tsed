@@ -1,6 +1,5 @@
 import {JsonSchema} from "../domain/JsonSchema.js";
 import {from} from "./from.js";
-import type {PropsToShape} from "./types.js";
 
 /**
  * Declare a new object model.
@@ -21,5 +20,5 @@ import type {PropsToShape} from "./types.js";
  * @schemaFunctional
  */
 export function object<P extends Record<string, JsonSchema<any>> = Record<string, JsonSchema<any>>>(properties: P = {} as P) {
-  return from(Object).properties(properties) as unknown as JsonSchema<PropsToShape<P>>;
+  return from(Object).properties(properties);
 }

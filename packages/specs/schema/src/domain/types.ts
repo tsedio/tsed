@@ -1,4 +1,4 @@
-import type {JsonSchema} from "../domain/JsonSchema.js";
+import type {JsonSchema} from "./JsonSchema.js";
 
 // Extract the inferred Type parameter from a SchemaShape
 export type Infer<S> = S extends JsonSchema<infer T> ? T : never;

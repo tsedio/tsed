@@ -19,6 +19,6 @@ export enum Days {
 export const MySchema = s.object({
   prop1: s.enums("red", "amber", "green"),
   prop2: s.enums(Colors),
-  prop3: s.array().items(s.enums(Days)),
+  prop3: s.array(s.enums(Days)),
   prop4: s.enums("red", "amber", "green", null, 42).nullable()
 });

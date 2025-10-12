@@ -7,7 +7,7 @@ import {JsonEntityFn} from "./jsonEntityFn.js";
  *
  * ## Example
  *
- * ```typescript
+ * ```ts
  * @Schema({title: "test"})
  * class Model {
  *    @Schema({formatMinimum: "1987-10-24"})
@@ -40,14 +40,14 @@ import {JsonEntityFn} from "./jsonEntityFn.js";
  * @classDecorator
  * @input
  */
-export function Schema(partialSchema: Partial<JsonSchemaObject> | JsonSchema) {
+export function Schema<T>(partialSchema: Partial<JsonSchemaObject> | JsonSchema<T>) {
   return JsonEntityFn((entity) => {
-    entity.schema.assign(partialSchema);
+    entity.schema.assign(partialSchema as any);
   });
 }
 
 /**
- * Apply specific schema depending on the spec version
+ * Apply a specific schema depending on the spec version
  * @param specType
  * @param schema
  * @decorator

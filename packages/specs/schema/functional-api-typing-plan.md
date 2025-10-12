@@ -2,7 +2,7 @@
 
 Status: Proposal/Plan
 Owner: @tsed/schema
-Last updated: 2025-10-11
+Last updated: 2025-10-12
 
 ## Goals
 
@@ -59,7 +59,7 @@ Update the type signatures of the functional builders to return `JsonSchema<T>` 
 
 - Primitives: `string() -> JsonSchema<string>`, `number() -> JsonSchema<number>`, `integer() -> JsonSchema<number>`, `boolean() -> JsonSchema<boolean>`
 - Dates: `date() -> JsonSchema<Date>`, `datetime() -> JsonSchema<Date>`, `time() -> JsonSchema<Date>` (inferred as Date by default to align with @tsed/json-mapper)
-- Collections: `array(item: JsonSchema<I>) -> JsonSchema<I[]>`, `set(item: JsonSchema<I>) -> JsonSchema<Set<I>>`, `map(value: JsonSchema<V>) -> JsonSchema<Record<string, V>>`
+- Collections: `array(item: JsonSchema<I>) -> JsonSchema<I[]>`, `set(item: JsonSchema<I>) -> JsonSchema<Set<I>>`, `map(value: JsonSchema<V>) -> JsonSchema<Map<string, V>>`
 - Object: `object(props: { [K in string]: JsonSchema<any> }) -> JsonSchema<{ [K in keyof props]: Infer<props[K]> }>`
 - Enums: `enums(["A","B"]) -> JsonSchema<"A" | "B">` and `enums(enumObj) -> JsonSchema<EnumType>`
 - Unions: `oneOf([S1, S2]) -> JsonSchema<Infer<S1> | Infer<S2>>`, `anyOf` similarly
@@ -160,13 +160,23 @@ Additional builder: any()
 - `.default()` is documentation-only for Swagger/JSON Schema and DOES NOT affect runtime behavior or TypeScript types.
 - `date()` and `datetime()` infer `Date` by default because `@tsed/json-mapper` performs conversion. We will document an extension point to let devs override the inferred type (e.g., Moment) in a future phase; not part of MVP.
 
-### 14) Roadmap (Phase II/III)
+### 14) Axes d'amélioration (Roadmap Phase II/III)
 
-- Provide a configurable/global override for the inferred date type (e.g., via module augmentation or a generic parameter on a central type like `SchemaDate<TDate = Date>`), keeping default as `Date`.
-- Literal narrowing for `.const()` and `.enum()` to preserve literal types.
-- Key-level transforms: `.readOnly()`/`.writeOnly()` do not affect `T` (doc-only).
-- Better branded primitives (e.g., email/uri/url as branded `string & { __brand: "email" }`).
-- Deep partial helpers: `s.object(props).partial()` -> recursively optional shape (new helper or use existing decorator `partial`).
+- Date type override (configurable): Allow a global/project-level override for the inferred date-like type (e.g., Moment, Dayjs) while keeping `Date` as the default. Possible approaches: module augmentation hook, DI configuration token, or generic parameter like `SchemaDate<TDate = Date>` applied via a central helper. The runtime stays unchanged; only typing varies.
+- Literal narrowing enhancements: Improve `.const()` and `.enum()` so that the inferred type preserves literal values ("A", 42) where possible. Keep `.default()` as documentation-only (no type impact) but explore an opt-in helper (e.g., `.asConstDefault()`) for literal default-based narrowing without changing runtime.
+- Branded primitives: Provide branded types for format-based strings (email/uri/url/uuid/cuid) via intersection branding (e.g., `string & { __brand: "email" }`) to improve static safety without affecting runtime.
+- Deep helpers on object schemas: Add helpers like `.partial()`, `.requiredAll()`, `.pick<K>()`, `.omit<K>()`, `.merge()`, and `.deepPartial()` that transform `T` while preserving JSON Schema equivalence or providing documented transformation semantics.
+- `additionalProperties` typing ergonomics: Offer a configuration or helper to choose between `Record<string, V>` and `Map<string, V>` for object maps when using `additionalProperties`. Today `map()` is `Map<string, V>`; consider an alternate builder `record()` to infer `Record<string, V>`.
+- `patternProperties` key typing: Explore a light refinement to represent known regex buckets at the type level (e.g., via branded keys or mapped types) while remaining sound. Likely an opt-in helper.
+- Union/intersection expressiveness: Improve `oneOf/anyOf/allOf` inference for complex arrays (distributive unions, exclusion of `null`/`undefined` where appropriate) and add stricter oneOf semantics checks (type-level) when feasible.
+- `any()` ergonomics: Evaluate an additional signature that yields union of provided types instead of tuple when appropriate, e.g., `anyUnion(S1, S2, ...) -> Infer<S1> | Infer<S2> | ...`, keeping existing behavior for backward compatibility.
+- Schema generics and parameterization: Provide a pattern for defining generic schemas (e.g., `makePaged<T>(item: JsonSchema<T>)`) with strong typing, including inference for nested generics.
+- Type emission performance: Keep types shallow where possible to reduce editor latency (avoid excessive conditional types and recursive mapped types). Provide internal utility types to cap recursion depth for `.deepPartial()`.
+- DX and error messages: Add typed helpers that surface clearer compile-time errors (e.g., invalid enum inputs, inconsistent `oneOf` array forms). Consider labeled helpers like `s.name("User")` that brand the type for better diagnostics without changing `T`.
+- Interop and adapters: Provide type-safe adapters/importers from Zod/Valibot/Yup where feasible (type-only). Ensure the inferred `T` matches adapters’ expectations.
+- Testing strategy: Augment type-level tests using `@tsd` or `vitest` type assertions to cover the above features; include negative tests (`@ts-expect-error`) and perf sentinels for slow types.
+- Documentation and recipes: Add a dedicated page with advanced recipes (branded types, deep helpers, generics), guidance on date type override, and migration notes. Provide copy‑paste snippets and playground links.
+- Tooling guardrails: Offer optional ESLint rules or codemods to discourage unsafe `any()` usage in favor of precise builders (array/map/set/object) or `anyUnion` when introduced.
 
 ---
 

@@ -1,6 +1,6 @@
 import type {JsonSchema} from "../domain/JsonSchema.js";
+import type {Infer} from "../domain/types.js";
 import {from} from "./from.js";
-import type {Infer} from "./types.js";
 
 /**
  * Declare a model with any type (By default: `integer`, `number`, `string`, `boolean`, `array`, `object`, `null`)

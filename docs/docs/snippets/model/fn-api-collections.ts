@@ -14,7 +14,7 @@ class User {
 }
 
 export const MySchema = s.object({
-  roles: s.array().items(Role),
-  securities: s.map().additionalProperties(Security),
-  scopes: s.set().items(s.string())
+  roles: s.array(Role),
+  securities: s.map(Security),
+  scopes: s.set(s.string())
 });
