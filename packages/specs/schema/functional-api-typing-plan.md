@@ -20,27 +20,23 @@ Last updated: 2025-10-11
 
 ## High-level Design
 
-Introduce a phantom-typed wrapper that overlays the existing `JsonSchema` at type level only. We avoid changing runtime classes and instead leverage declaration merging and type aliases.
+Leverage the new generic `JsonSchema<T>` as the single source of truth for type inference. We no longer need a separate phantom wrapper type. All functional builders will return `JsonSchema<T>` directly and chaining methods will transform `T` via their generic signatures.
 
-### 1) Phantom Schema Type (rename to avoid @Schema decorator)
+### 1) JsonSchema<T> as carrier of the inferred type
 
-- Define a generic alias `SchemaShape<T>` representing a `JsonSchema` with a phantom generic `T`.
-- Implementation: purely type-level; at runtime it’s still a `JsonSchema` instance.
+- `JsonSchema` is now generic: `class JsonSchema<T = any> { ... }`. The generic `T` carries the inferred TypeScript type across builder chains.
+- No runtime changes are necessary; the generic only exists at compile time.
 
-```ts
-// packages/specs/schema/src/fn/types.ts
-export type SchemaShape<T> = JsonSchema & {readonly __tsed_infer?: T};
-```
-
-Rationale: This keeps the runtime object identical to today’s `JsonSchema`, while giving us carry-forward typing across builder chains. We avoid any naming conflict with the existing `@Schema()` decorator and `Schema` symbol by using `SchemaShape<T>`.
+Rationale: By placing the generic on `JsonSchema` itself, we simplify the type surface, avoid wrapper aliases, and reduce conflicts with existing decorators like `@Schema()`.
 
 ### 2) Infer Utility (s.infer)
 
-- Provide an `infer<S>` type that extracts `T` from `SchemaShape<T>`.
-- Expose it under the `s` namespace as `s.infer<...>` using declaration merging (`export namespace s { export type infer<...> = ... }`). Also export from package root for convenience.
+- Provide an `infer<S>` helper that extracts the `T` from `JsonSchema<T>`.
+- Expose it under the `s` namespace as `s.infer<...>` using declaration merging. Also export from the package root for convenience.
 
 ```ts
-export type Infer<S> = S extends {readonly __tsed_infer?: infer T} ? T : never;
+// Helper to extract the generic parameter
+export type Infer<S> = S extends JsonSchema<infer T> ? T : never;
 
 // Re-export as s.infer via namespace merging
 export namespace s {
@@ -59,16 +55,16 @@ type User = s.infer<typeof user>; // { name: string; age: number }
 
 Note on time(): time-of-day values are mapped to Date by default (not string) to align with @tsed/json-mapper’s default behavior. This can be made configurable in a future phase.
 
-Update the type signatures of the functional builders to return `SchemaShape<T>` rather than bare `JsonSchema`. Key builders:
+Update the type signatures of the functional builders to return `JsonSchema<T>` directly. Key builders:
 
-- Primitives: `string() -> SchemaShape<string>`, `number() -> SchemaShape<number>`, `integer() -> SchemaShape<number>`, `boolean() -> SchemaShape<boolean>`
-- Dates: `date() -> SchemaShape<Date>`, `datetime() -> SchemaShape<Date>`, `time() -> SchemaShape<Date>` (inferred as Date by default to align with @tsed/json-mapper)
-- Collections: `array(item: SchemaShape<I>) -> SchemaShape<I[]>`, `set(item: SchemaShape<I>) -> SchemaShape<Set<I>>`, `map(value: SchemaShape<V>) -> SchemaShape<Record<string, V>>`
-- Object: `object(props: { [K in string]: SchemaShape<any> }) -> SchemaShape<{ [K in keyof props]: Infer<props[K]> }>`
-- Enums: `enums(["A","B"]) -> SchemaShape<"A" | "B">` and `enums(enumObj) -> SchemaShape<EnumType>`
-- Unions: `oneOf([S1, S2]) -> SchemaShape<Infer<S1> | Infer<S2>>`, `anyOf` similarly
-- Intersections: `allOf([S1, S2]) -> SchemaShape<Infer<S1> & Infer<S2>>`
-- Lazy refs: `lazyRef(() => Class) -> SchemaShape<InstanceType<typeof Class>>`
+- Primitives: `string() -> JsonSchema<string>`, `number() -> JsonSchema<number>`, `integer() -> JsonSchema<number>`, `boolean() -> JsonSchema<boolean>`
+- Dates: `date() -> JsonSchema<Date>`, `datetime() -> JsonSchema<Date>`, `time() -> JsonSchema<Date>` (inferred as Date by default to align with @tsed/json-mapper)
+- Collections: `array(item: JsonSchema<I>) -> JsonSchema<I[]>`, `set(item: JsonSchema<I>) -> JsonSchema<Set<I>>`, `map(value: JsonSchema<V>) -> JsonSchema<Record<string, V>>`
+- Object: `object(props: { [K in string]: JsonSchema<any> }) -> JsonSchema<{ [K in keyof props]: Infer<props[K]> }>`
+- Enums: `enums(["A","B"]) -> JsonSchema<"A" | "B">` and `enums(enumObj) -> JsonSchema<EnumType>`
+- Unions: `oneOf([S1, S2]) -> JsonSchema<Infer<S1> | Infer<S2>>`, `anyOf` similarly
+- Intersections: `allOf([S1, S2]) -> JsonSchema<Infer<S1> & Infer<S2>>`
+- Lazy refs: `lazyRef(() => Class) -> JsonSchema<InstanceType<typeof Class>>`
 
 Notes:
 
@@ -77,39 +73,25 @@ Notes:
 
 ### 4) Typed Method Chaining on JsonSchema
 
-Many instance methods exist on `JsonSchema` (e.g., `optional`, `nullable`, `default`, `minLength`, etc.). We should type a subset that affects the resulting inferred type:
+Many instance methods exist on `JsonSchema<T>` (e.g., `optional`, `nullable`, `default`, `minLength`, etc.). We will type the subset that affects the resulting inferred type via generic method signatures on `JsonSchema<T>` itself:
 
-- `optional()`: transforms `T` to `T | undefined` and toggles required=false on the property.
-- `nullable()`: transforms `T` to `T | null` and sets `nullable=true`.
-- `default(value: T)`: doc-only; it DOES NOT change the type `T`.
-- `required()`: removes `undefined` from type on object property usage.
-- `.nullish()` (optional): shorthand for `T | null | undefined`.
+- `optional(): JsonSchema<T | undefined>` — marks property as optional (required=false) and adds `undefined` to `T`.
+- `nullable(value?: boolean): JsonSchema<T | null>` — sets `nullable=true` and adds `null` to `T`.
+- `default(value: T | (() => T)): JsonSchema<T>` — documentation-only; DOES NOT change the type `T`.
+- `required(): JsonSchema<Exclude<T, undefined>>` and `required(false): JsonSchema<T | undefined>` — toggles required at type level accordingly.
 
 Implementation approach:
 
-- We can define intersection augmentation types via declaration merging on `JsonSchema` return type, but since `JsonSchema` is a class, we will annotate the functional builder return as `SchemaShape<T> & JsonSchema` and model chainers with generics that transform `T` at type level.
-- Where direct augmentation on the class is noisy, provide helper interface that the return type implements at compile time only.
-
-Example type-level augmentation (no runtime changes):
-
-```ts
-export interface TypedChain<T> {
-  optional(): SchemaShape<T | undefined>;
-  nullable(): SchemaShape<T | null>;
-  default(value: T): SchemaShape<T>; // doc-only, no type change
-  required(): SchemaShape<NonNullable<T>>;
-}
-```
-
-Return type for builders becomes `SchemaShape<T> & JsonSchema & TypedChain<T>`.
+- Since `JsonSchema` is generic, its instance methods can be declared with generic-aware return types. No wrapper interface is needed.
+- Non-type-affecting methods (format, minLength, etc.) keep returning `JsonSchema<T>`.
 
 ### 5) Object Properties Typing
 
-- `object({...})` should accept `SchemaShape` values and infer the resulting TypeScript type.
+- `object({...})` should accept `JsonSchema` values and infer the resulting TypeScript type.
 - Add a helper `PropsToShape<P>` mapping from builder map to a TS type:
 
 ```ts
-type PropsToShape<P extends Record<string, SchemaShape<any>>> = {
+type PropsToShape<P extends Record<string, JsonSchema<any>>> = {
   [K in keyof P]: Infer<P[K]>;
 };
 ```
@@ -125,12 +107,12 @@ type PropsToShape<P extends Record<string, SchemaShape<any>>> = {
 
 ### 7) Types for `from()`
 
-- `from(Ctor)` should produce `SchemaShape<InstanceType<Ctor>>` when `Ctor` is a class.
+- `from(Ctor)` should produce `JsonSchema<InstanceType<Ctor>>` when `Ctor` is a class.
 - For primitives passed (String, Number, Boolean), map to their primitive types.
 
 ### 8) Public Exports and `s` Namespace
 
-- Extend `s` in `fn/index.ts` with a declaration-merged namespace to expose `type infer<S>`; also export `Infer` and `SchemaShape` from the package root (`src/index.ts`).
+- Extend `s` in `fn/index.ts` with a declaration-merged namespace to expose `type infer<S>`; also export `Infer` from the package root (`src/index.ts`). No separate `SchemaShape` export is required anymore.
 
 ### 9) Type Tests (no runtime)
 
@@ -153,24 +135,24 @@ Use `// @ts-expect-error` to ensure invalid compositions are caught.
 ### 11) Migration & Compatibility
 
 - The change is additive: existing code using `JsonSchema` continues to work.
-- Builders now return a value that is both `JsonSchema` at runtime and carries a `SchemaShape<T>` phantom type at compile time.
+- Builders now return `JsonSchema<T>` directly; the inferred type is carried by the generic parameter.
 - No change in emitted JSON Schema or OpenAPI.
 
 ### 12) Implementation Steps
 
 Additional builder: any()
 
-- Behavior: `any()` with no arguments => `SchemaShape<any>`; `any(S1, S2, ...)` where each Si is a SchemaShape => `SchemaShape<[Infer<S1>, Infer<S2>, ...]>` (tuple of provided types). It is also exposed on `s.any`.
+- Behavior: `any()` with no arguments => `JsonSchema<any>`; `any(S1, S2, ...)` where each Si is a `JsonSchema` => `JsonSchema<[Infer<S1>, Infer<S2>, ...]>` (tuple of provided types). It is also exposed on `s.any`.
 - Rationale: matches Ts.ED’s current JSON mapper use-cases for a variadic any() that describes a fixed tuple of allowed types at the type level while preserving runtime behavior.
 
-1. Introduce `types.ts` under `fn/` exporting `SchemaShape<T>`, `Infer`, and `namespace s { type infer<...> }` via declaration merging.
-2. Update each builder’s TypeScript signature to return `SchemaShape<T> & JsonSchema & TypedChain<T>`.
-3. Add `TypedChain<T>` interface with method signatures that transform `T` at type level; no runtime changes needed (methods already exist on `JsonSchema`).
-4. Update `object()` typings to infer property shape via `PropsToShape`.
-5. Add typings to `from()` to map classes and primitives to correct `T`.
-6. Extend exports in `fn/index.ts` and `src/index.ts` to re-export `SchemaShape`, `Infer`, and enable `s.infer`.
-7. Add type-level tests under `packages/specs/schema/src/fn/__tests__/typing.spec.ts` (or a dedicated directory) using Vitest with `// @ts-expect-error`.
-8. Update docs and examples.
+1. Ensure `Infer` type extracts the generic from `JsonSchema<T>` and expose it as `s.infer` via namespace merging.
+2. Verify each builder’s TypeScript signature returns `JsonSchema<T>` with correct generic, leveraging the new `JsonSchema<T>`.
+3. Ensure `JsonSchema` chainers (`optional`, `nullable`, `default`, `required`) have generic-aware return types that transform `T` as specified; `default()` remains doc-only.
+4. Keep `object()` typings using `PropsToShape` to infer property shapes from `JsonSchema` props.
+5. Confirm `from()` typings map classes and primitives to the correct `T`.
+6. Public exports: expose `Infer` and `s.infer`; no separate wrapper type export needed.
+7. Maintain and extend type-level tests in `packages/specs/schema/src/fn/typing.spec.ts` to cover all scenarios.
+8. Update docs and examples to reflect `JsonSchema<T>` as the carrier type and `s.infer` usage.
 
 ### 13) Decisions Applied (resolving previous open questions)
 
