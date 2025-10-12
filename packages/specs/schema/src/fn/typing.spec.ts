@@ -204,9 +204,7 @@ describe("Functional API typing (inference)", () => {
 
     const tsEnum = s.enums(N);
     type NE = s.infer<typeof tsEnum>;
-    // For TS numeric enums, value type is string | number due to reverse mapping
-    // @ts-expect-error - should be number but TS enums are weird
-    expectTypeOf<NE>().toEqualTypeOf<string | number>();
+    expectTypeOf<NE>().toEqualTypeOf<N>();
   });
 
   it("should infer string.enum()", () => {
@@ -229,9 +227,19 @@ describe("Functional API typing (inference)", () => {
 
     const tsEnum = s.string().enum(N);
     type NE = s.infer<typeof tsEnum>;
-    // For TS numeric enums, value type is string | number due to reverse mapping
-    // @ts-expect-error - should be number but TS enums are weird
-    expectTypeOf<NE>().toEqualTypeOf<string | number>();
+    expectTypeOf<NE>().toEqualTypeOf<N>();
+  });
+
+  it("should infer number.enum()", () => {
+    const schema = s.number().enum(1, 2, 3);
+
+    type E = s.infer<typeof schema>;
+    expectTypeOf<E>().toEqualTypeOf<1 | 2 | 3>();
+  });
+
+  it("should trigger error when value of a enum isn't aligned with base type", () => {
+    // @ts-expect-error - mixed types not allowed
+    s.string().enum("a", "b", 3);
   });
 
   it("should infer unions and intersections (oneOf/anyOf/allOf)", () => {
@@ -282,5 +290,13 @@ describe("Functional API typing (inference)", () => {
     type A2 = s.infer<typeof a2>;
 
     expectTypeOf<A2>().toEqualTypeOf<[string, number, boolean]>();
+  });
+
+  it("should infer .const()", () => {
+    const c1 = s.string().const("fixedValue");
+
+    type C1 = s.infer<typeof c1>;
+
+    expectTypeOf<C1>().toEqualTypeOf<"fixedValue">();
   });
 });

@@ -394,10 +394,10 @@ export class JsonSchema<T = JSONSchema7Type> extends Map<string, any> {
    * More readable form of a one-element "enum"
    * @see https://tools.ietf.org/html/draft-wright-json-schema-validation-01#section-6.24
    */
-  const(value: T) {
+  const<V extends T>(value: V): JsonSchema<V> {
     super.set("const", value);
 
-    return this;
+    return this as JsonSchema<V>;
   }
 
   /**
@@ -769,10 +769,8 @@ export class JsonSchema<T = JSONSchema7Type> extends Map<string, any> {
    */
   // enum(...enumValues: any[]): this;
   enum<E extends Record<string, string | number>>(e: E): JsonSchema<E[keyof E]>;
-  enum<E extends readonly (string | number)[]>(...e: E): JsonSchema<E[number]>;
-  enum<E extends readonly (string | number)[]>(e: E): JsonSchema<E[number]>;
-  // enum<E extends T>(e: E[]): JsonSchema<E[keyof E]>;
-  // enum<T>(enumSchema: JsonSchema<T>): this;
+  enum<E extends readonly T[]>(...e: E): JsonSchema<E[number]>;
+  enum<E extends readonly T[]>(e: E): JsonSchema<E[number]>;
   enum(enumValue: any, ...enumValues: any[]): this {
     if (enumsRegistry.has(enumValue)) {
       return this.enum(enumsRegistry.get(enumValue) as any) as any;
