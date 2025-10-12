@@ -615,7 +615,7 @@ export class JsonSchema<T = JSONSchema7Type> extends Map<string, any> {
     return this;
   }
 
-  optional() {
+  optional(): JsonSchema<T | undefined> {
     return this.required(false);
   }
 
@@ -773,7 +773,7 @@ export class JsonSchema<T = JSONSchema7Type> extends Map<string, any> {
   enum<E extends readonly T[]>(e: E): JsonSchema<E[number]>;
   enum(enumValue: any, ...enumValues: any[]): this {
     if (enumsRegistry.has(enumValue)) {
-      return this.enum(enumsRegistry.get(enumValue) as any) as any;
+      return this.enum(enumsRegistry.get(enumValue) as any) as this;
     }
 
     if (enumValue instanceof JsonSchema) {

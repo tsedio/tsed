@@ -3,7 +3,7 @@ import {allOf} from "./allOf.js";
 import {any} from "./any.js";
 import {anyOf} from "./anyOf.js";
 import {boolean} from "./boolean.js";
-import {array, map, set} from "./collection.js";
+import {array, map, record, set} from "./collection.js";
 import {date, datetime, time} from "./date.js";
 import {email} from "./email.js";
 import {enums} from "./enums.js";
@@ -30,6 +30,7 @@ export const s = {
   array,
   map,
   set,
+  record,
   date,
   datetime,
   time,

@@ -56,3 +56,22 @@ export function set<I = any>(item?: JsonSchema<I>): JsonSchema<Set<I>> {
   const schema = from(Array).uniqueItems(true);
   return (item ? (schema.items(item as JsonSchema) as any) : (schema as any)) as JsonSchema<Set<I>>;
 }
+
+/**
+ * Declare a new object model with `additionalProperties: true` (record-like). If a value schema is provided, it is used
+ * as `additionalProperties` and its type will be inferred as `Record<string, V>`.
+ *
+ * ```json
+ * { "type": "object", "additionalProperties": true }
+ * ```
+ *
+ * See @@JsonSchema@@ to discover available methods.
+ *
+ * @schemaFunctional
+ */
+export function record<K extends string | number | symbol = string, V = any>(): JsonSchema<Record<K, V>>;
+export function record<V>(value: JsonSchema<V>): JsonSchema<Record<string, V>>;
+export function record<K extends string | number | symbol = string, V = any>(value?: JsonSchema<V>): JsonSchema<Record<K, V>> {
+  const schema = from(Object).unknown(true);
+  return (value ? (schema.additionalProperties(value as JsonSchema) as any) : (schema as any)) as JsonSchema<Record<K, V>>;
+}

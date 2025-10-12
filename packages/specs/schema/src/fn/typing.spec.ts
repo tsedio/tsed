@@ -29,7 +29,6 @@ describe("Functional API typing (inference)", () => {
     expect(int).toBeInstanceOf(JsonSchema);
     expect(bool).toBeInstanceOf(JsonSchema);
   });
-
   it("should infer dates as Date by default", () => {
     const d = s.date();
     const dt = s.datetime();
@@ -43,7 +42,6 @@ describe("Functional API typing (inference)", () => {
     expectTypeOf<DT>().toEqualTypeOf<Date>();
     expectTypeOf<T>().toEqualTypeOf<Date>();
   });
-
   it("should infer from() ctor mapping", () => {
     const fromString = s.from(String);
     const fromNumber = s.from(Number);
@@ -72,7 +70,6 @@ describe("Functional API typing (inference)", () => {
     expectTypeOf<FSe>().toEqualTypeOf<Set<any>>();
     expectTypeOf<FO>().toEqualTypeOf<Record<string, any>>();
   });
-
   it("should type chainers: optional / nullable / default / required", () => {
     const base = s.string();
     const opt = base.optional();
@@ -95,7 +92,6 @@ describe("Functional API typing (inference)", () => {
     expectTypeOf<Def>().toEqualTypeOf<string>(); // documentation-only, no type impact
     expectTypeOf<Req>().toEqualTypeOf<string>();
   });
-
   it("should infer collections: array / set / map", () => {
     const arr = s.array(s.number());
     const set = s.set(s.string());
@@ -112,7 +108,6 @@ describe("Functional API typing (inference)", () => {
     // @ts-ignore
     s.array(123);
   });
-
   it("should infer collections: array / set / map (long syntax)", () => {
     const arr = s.array().items(s.number());
     const set = s.set().items(s.string());
@@ -129,7 +124,6 @@ describe("Functional API typing (inference)", () => {
     // @ts-ignore
     s.array(123);
   });
-
   it("should infer object(props)", () => {
     const UserSchema = s.object({
       id: s.string().required(),
@@ -184,7 +178,6 @@ describe("Functional API typing (inference)", () => {
     type User = s.infer<typeof UserSchema>;
     expectTypeOf<User>().toEqualTypeOf<{id: string} & Record<string, unknown>>();
   });
-
   it("should infer enums from literals and enum-like objects", () => {
     const literalEnum = s.enums(["A", "B", "C"] as const);
     type LE = s.infer<typeof literalEnum>;
@@ -206,7 +199,6 @@ describe("Functional API typing (inference)", () => {
     type NE = s.infer<typeof tsEnum>;
     expectTypeOf<NE>().toEqualTypeOf<N>();
   });
-
   it("should infer string.enum()", () => {
     const schema = s.string().enum("a", "b", "c");
 
@@ -229,19 +221,16 @@ describe("Functional API typing (inference)", () => {
     type NE = s.infer<typeof tsEnum>;
     expectTypeOf<NE>().toEqualTypeOf<N>();
   });
-
   it("should infer number.enum()", () => {
     const schema = s.number().enum(1, 2, 3);
 
     type E = s.infer<typeof schema>;
     expectTypeOf<E>().toEqualTypeOf<1 | 2 | 3>();
   });
-
   it("should trigger error when value of a enum isn't aligned with base type", () => {
     // @ts-expect-error - mixed types not allowed
     s.string().enum("a", "b", 3);
   });
-
   it("should infer unions and intersections (oneOf/anyOf/allOf)", () => {
     const u1 = s.oneOf(s.string(), s.number());
     type U1 = s.infer<typeof u1>;
@@ -255,13 +244,11 @@ describe("Functional API typing (inference)", () => {
     type I1 = s.infer<typeof i1>;
     expectTypeOf<I1>().toEqualTypeOf<{a: string} & {b: number}>();
   });
-
   it("should infer lazyRef to InstanceType", () => {
     const ref = s.lazyRef(() => UserClass);
     type R = s.infer<typeof ref>;
     expectTypeOf<R>().toEqualTypeOf<UserClass>();
   });
-
   it("should allow nested compositions", () => {
     const Schema = s.object({
       ids: s.set(s.string()).optional(),
@@ -291,12 +278,24 @@ describe("Functional API typing (inference)", () => {
 
     expectTypeOf<A2>().toEqualTypeOf<[string, number, boolean]>();
   });
-
   it("should infer .const()", () => {
     const c1 = s.string().const("fixedValue");
 
     type C1 = s.infer<typeof c1>;
 
     expectTypeOf<C1>().toEqualTypeOf<"fixedValue">();
+  });
+  it("should infer record() as Record<string, V>", () => {
+    const r1 = s.record();
+    const r2 = s.record(s.string());
+    const r3 = s.record(s.number());
+
+    type R1 = s.infer<typeof r1>;
+    type R2 = s.infer<typeof r2>;
+    type R3 = s.infer<typeof r3>;
+
+    expectTypeOf<R1>().toEqualTypeOf<Record<string, any>>();
+    expectTypeOf<R2>().toEqualTypeOf<Record<string, string>>();
+    expectTypeOf<R3>().toEqualTypeOf<Record<string, number>>();
   });
 });
