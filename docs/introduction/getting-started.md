@@ -73,7 +73,7 @@ pnpm --package=@tsed/cli dlx tsed init .
 ```
 
 ```sh [bun]
-bunx -p @tsed/cli init .
+bunx -p @tsed/cli tsed init .
 ```
 
 :::
