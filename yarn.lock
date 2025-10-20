@@ -7270,7 +7270,7 @@ __metadata:
     eslint: "npm:9.12.0"
     tslib: "npm:2.7.0"
     typescript: "npm:5.4.5"
-    vite: "npm:7.1.7"
+    vite: "npm:7.1.11"
     vitest: "npm:3.2.4"
   peerDependencies:
     "@tsed/core": ">=8.0.0"
@@ -7469,7 +7469,7 @@ __metadata:
     tslib: "npm:2.7.0"
     typescript: "npm:5.4.5"
     uuid: "npm:^10.0.0"
-    vite: "npm:7.1.7"
+    vite: "npm:7.1.11"
     vitest: "npm:3.2.4"
   peerDependencies:
     "@tsed/core": ">=8.0.0"
@@ -7564,7 +7564,7 @@ __metadata:
     eventemitter2: "npm:^6.4.9"
     tslib: "npm:2.7.0"
     typescript: "npm:5.4.5"
-    vite: "npm:7.1.7"
+    vite: "npm:7.1.11"
     vitest: "npm:3.2.4"
   peerDependencies:
     eventemitter2: ^6.4.4
@@ -7583,7 +7583,7 @@ __metadata:
     statuses: "npm:^2.0.1"
     tslib: "npm:2.7.0"
     typescript: "npm:5.4.5"
-    vite: "npm:7.1.7"
+    vite: "npm:7.1.11"
     vitest: "npm:3.2.4"
   peerDependencies:
     "@tsed/core": ">=8.0.0"
@@ -7683,7 +7683,7 @@ __metadata:
     reflect-metadata: "npm:^0.2.2"
     tslib: "npm:2.7.0"
     typescript: "npm:5.4.5"
-    vite: "npm:7.1.7"
+    vite: "npm:7.1.11"
     vitest: "npm:3.2.4"
   languageName: unknown
   linkType: soft
@@ -9005,7 +9005,7 @@ __metadata:
     typescript: "npm:5.4.5"
     unplugin-swc: "npm:1.5.1"
     uuid: "npm:10.0.0"
-    vite: "npm:7.1.7"
+    vite: "npm:7.1.11"
     vite-plugin-dts: "npm:4.5.4"
     vite-tsconfig-paths: "npm:5.1.4"
     vitest: "npm:3.2.4"
@@ -9091,7 +9091,7 @@ __metadata:
     eslint: "npm:9.12.0"
     tslib: "npm:2.7.0"
     typescript: "npm:5.4.5"
-    vite: "npm:7.1.7"
+    vite: "npm:7.1.11"
     vitest: "npm:3.2.4"
   peerDependencies:
     "@tsed/core": ">=8.0.0"
@@ -9470,7 +9470,7 @@ __metadata:
     sirv: "npm:^2.0.4"
     typescript: "npm:5.4.5"
     vike: "npm:0.4.230"
-    vite: "npm:7.1.7"
+    vite: "npm:7.1.11"
     vitest: "npm:3.2.4"
   peerDependencies:
     "@tsed/platform-http": ">=8.0.0"
@@ -31327,9 +31327,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"vite@npm:7.1.7":
-  version: 7.1.7
-  resolution: "vite@npm:7.1.7"
+"vite@npm:7.1.11":
+  version: 7.1.11
+  resolution: "vite@npm:7.1.11"
   dependencies:
     esbuild: "npm:^0.25.0"
     fdir: "npm:^6.5.0"
@@ -31378,7 +31378,7 @@ __metadata:
       optional: true
   bin:
     vite: bin/vite.js
-  checksum: 10/824703387717e1c90fac2e263021bf8ed5cddd5ac14f8c6ee80e54f8351be579869950438accb6daeb1e238f2108fddbadf98ec3cf8b0442f1fd8a25fb0ecab3
+  checksum: 10/b75ce7a38beeba7800751938df4fe2638cfb77509647329ac824332af51831eaed52ab0a0bae1d9162ac41ef59fff1c754e0acf7e1470dfa7d3da51fc3bf0985
   languageName: node
   linkType: hard
 
