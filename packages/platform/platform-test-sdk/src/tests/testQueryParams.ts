@@ -47,6 +47,11 @@ class TestQueryParamsCtrl {
   testScenario8(@QueryParams("test", String) value: string[]): any {
     return {value};
   }
+
+  @Get("/scenario-7")
+  testScenario7(@QueryParams("test") value: string[]): any {
+    return {value};
+  }
 }
 
 export function testQueryParams(options: PlatformTestingSdkOpts) {
@@ -233,6 +238,14 @@ export function testQueryParams(options: PlatformTestingSdkOpts) {
       const response = await request.get(`${endpoint}?test=1&test=2`).expect(200);
 
       expect(response.body).toEqual({value: ["1", "2"]});
+    });
+  });
+  describe("Scenario7: String[] value without correct metadata", () => {
+    const endpoint = "/rest/query-params/scenario-7";
+    it("should throw Bad Request", async () => {
+      const response = await request.get(`${endpoint}?test=1&test=2`).expect(400);
+
+      expect(response.badRequest).toEqual(true);
     });
   });
 }

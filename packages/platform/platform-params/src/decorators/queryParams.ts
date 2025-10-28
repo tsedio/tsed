@@ -6,7 +6,8 @@ import {mapParamsOptions} from "../utils/mapParamsOptions.js";
 import {UseParam} from "./useParam.js";
 
 /**
- * QueryParams return the value from [request.query](http://expressjs.com/en/4x/api.html#req.query) object.
+ * QueryParams returns the value from [request.query](http://expressjs.com/en/4x/api.html#req.query) object.
+ * N.B.: If the query parameter is an array, the type of the array elements needs to be specified.
  *
  * #### Example
  *
@@ -21,6 +22,11 @@ import {UseParam} from "./useParam.js";
  *    @Get('/')
  *    get(@QueryParams('id') id: string) {
  *       console.log('ID', id);
+ *    }
+ *
+ *    @Get('/')
+ *    get(@QueryParams('ids', String) ids: string[]) {
+ *       console.log('IDs', ids);
  *    }
  *
  *    @Get('/')
