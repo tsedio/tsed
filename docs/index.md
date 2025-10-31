@@ -32,21 +32,21 @@ features:
   - title: Multi-platform
     icon: <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-server"><rect width="20" height="8" x="2" y="2" rx="2" ry="2"/><rect width="20" height="8" x="2" y="14" rx="2" ry="2"/><line x1="6" x2="6.01" y1="6" y2="6"/><line x1="6" x2="6.01" y1="18" y2="18"/></svg>
     details: Easily build your server-side application using <a class="home-link" href="/docs/configuration/express.html">Express.js</a>, <a class="home-link" href="/docs/configuration/koa.html">Koa.js</a>, <a class="home-link" href="/docs/configuration/fastify.html">Fastify.js</a>, <a class="home-link" href="/introduction/getting-started.html">CLI</a>, or <a class="home-link" href="/docs/platform-serverless.html">serverless platforms</a> (e.g., AWS). It supports both Node.js and Bun.js runtimes. Learn more <a class="home-link" href="/introduction/capabilities.html">about Ts.ED capabilities</a>.
+  - title: AI-forward
+    icon: <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><polygon points="19,9 20.25,6.25 23,5 20.25,3.75 19,1 17.75,3.75 15,5 17.75,6.25"></polygon><polygon points="19,15 17.75,17.75 15,19 17.75,20.25 19,23 20.25,20.25 23,19 20.25,17.75"></polygon><path d="M11.5,9.5L9,4L6.5,9.5L1,12l5.5,2.5L9,20l2.5-5.5L17,12L11.5,9.5z M9.99,12.99L9,15.17l-0.99-2.18L5.83,12l2.18-0.99 L9,8.83l0.99,2.18L12.17,12L9.99,12.99z"></path></svg>
+    details: Resources and integrations to supercharge your development with AI. Learn how to <a class='home-link' href='/introduction/ai/develop-with-ai.html'>develop with AI</a> and speed up your project setup with the <a class='home-link' href='/ai/AGENTS.md'>AGENTS.md template</a> (Codex, Junie, etc.).
   - title: CLI
     icon: <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-square-terminal-icon lucide-square-terminal"><path d="m7 11 2-2-2-2"/><path d="M11 13h4"/><rect width="18" height="18" x="3" y="3" rx="2" ry="2"/></svg>
     details: Stop wasting time on configuration—your application comes preconfigured for a fast start! Try our <a class="home-link" href="/introduction/getting-started.html">CLI</a>.
   - title: Plugins
     icon: <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-unplug"><path d="m19 5 3-3"/><path d="m2 22 3-3"/><path d="M6.3 20.3a2.4 2.4 0 0 0 3.4 0L12 18l-6-6-2.3 2.3a2.4 2.4 0 0 0 0 3.4Z"/><path d="M7.5 13.5 10 11"/><path d="M10.5 16.5 13 14"/><path d="m12 6 6 6 2.3-2.3a2.4 2.4 0 0 0 0-3.4l-2.6-2.6a2.4 2.4 0 0 0-3.4 0Z"/></svg>
     details: Explore a variety of <a href="/plugins/index.html">plugins</a> (+100) to customize your application and build the perfect stack tailored to your needs. You can even <a href="/plugins/create-your-own-plugins.html">create your own plugins</a> to extend functionality further.
-  - title: Class based
+  - title: Class-based & Decorators
     icon: <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-gem"><path d="M6 3h12l4 6-10 13L2 9Z"/><path d="M11 3 8 9l4 13 4-13-3-6"/><path d="M2 9h20"/></svg>
-    details: Define classes as <a class='home-link' href='/docs/controllers.html'>Controllers</a>, <a class='home-link' href='/docs/configuration/configuration-sources.html'>ConfigSource</a>, <a class='home-link' href='/docs/model.html'>Models</a>, <a class='home-link' href='/docs/providers.html'>Providers (DI)</a>, <a class='home-link' href='/docs/interceptors.html'>Interceptors</a>, <a class='home-link' href='/docs/pipes.html'>Pipes</a>, and more, with JSON Schema and OpenAPI at the core of the framework.
-  - title: Decorators
-    icon: <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-paintbrush"><path d="m14.622 17.897-10.68-2.913"/><path d="M18.376 2.622a1 1 0 1 1 3.002 3.002L17.36 9.643a.5.5 0 0 0 0 .707l.944.944a2.41 2.41 0 0 1 0 3.408l-.944.944a.5.5 0 0 1-.707 0L8.354 7.348a.5.5 0 0 1 0-.707l.944-.944a2.41 2.41 0 0 1 3.408 0l.944.944a.5.5 0 0 0 .707 0z"/><path d="M9 8c-1.804 2.71-3.97 3.46-6.583 3.948a.507.507 0 0 0-.302.819l7.32 8.883a1 1 0 0 0 1.185.204C12.735 20.405 16 16.792 16 15"/></svg>
-    details: Leverage a wide range of <a href='/introduction/create-your-first-controller.html'>decorators</a> to structure your code, define routes, and implement methods with ease.
+    details: Define classes as <a class='home-link' href='/docs/controllers.html'>Controllers</a>, <a class='home-link' href='/docs/configuration/configuration-sources.html'>ConfigSource</a>, <a class='home-link' href='/docs/model.html'>Models</a>, <a class='home-link' href='/docs/providers.html'>Providers (DI)</a>, <a class='home-link' href='/docs/interceptors.html'>Interceptors</a>, <a class='home-link' href='/docs/pipes.html'>Pipes</a>, and more — and leverage a wide range of <a class='home-link' href='/introduction/create-your-first-controller.html'>decorators</a> to structure your code, define routes, and implement methods with ease. JSON Schema and OpenAPI are at the core of the framework.
   - title: Testing
     icon: <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-flask-conical"><path d="M10 2v7.527a2 2 0 0 1-.211.896L4.72 20.55a1 1 0 0 0 .9 1.45h12.76a1 1 0 0 0 .9-1.45l-5.069-10.127A2 2 0 0 1 14 9.527V2"/><path d="M8.5 2h7"/><path d="M7 16h10"/></svg>
-    details: Testing is not optional—it's essential! Ts.ED includes built-in features to make testing your code simple and efficient. <a class='home-link' href='/docs/testing.html'>Learn more about testing tools embed by Ts.ED</a>.
+    details: Testing is not optional - it's essential! Ts.ED includes built-in features to make testing your code simple and efficient. <a class='home-link' href='/docs/testing.html'>Learn more about testing tools embed by Ts.ED</a>.
 frameworks:
   - title: Node.js
     href: https://nodejs.org/
@@ -135,9 +135,6 @@ frameworks:
   - title: Stripe
     href: /tutorials/stripe.html
     src: /stripe.svg
-  - title: Seq
-    href: /tutorials/seq.html
-    src: https://blog.datalust.co/content/images/2018/09/Seq-380px-1.png
   - title: LogEntries
     href: https://logentries.com/
     src: /logentries.svg

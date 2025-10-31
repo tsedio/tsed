@@ -294,12 +294,14 @@ export class MyService {
 ```ts
 import {PlatformTest} from "@tsed/platform-http/testing";
 
-beforeEach(() => PlatformTest.create());
-afterEach(() => PlatformTest.reset());
+describe("MyService", () => {
+  beforeEach(() => PlatformTest.create());
+  afterEach(() => PlatformTest.reset());
 
-it("should inject service", () => {
-  const service = PlatformTest.get<MyService>(MyService);
-  expect(service).toBeInstanceOf(MyService);
+  it("should inject service", () => {
+    const service = PlatformTest.get<MyService>(MyService);
+    expect(service).toBeInstanceOf(MyService);
+  });
 });
 ```
 
