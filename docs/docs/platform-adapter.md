@@ -154,6 +154,8 @@ describe("Path conversion", () => {
 });
 ```
 
+:::
+
 The adapter must handle all supported path conventions and ensure they work correctly with the target framework. For
 more details on the supported path conventions, see the [Routing documentation](./routing.md).
 
@@ -879,7 +881,3 @@ For more details, examine the source code of the existing adapters:
 - [PlatformExpress](https://github.com/tsedio/tsed/blob/production/packages/platform/platform-express/src/components/PlatformExpress.ts)
 - [PlatformKoa](https://github.com/tsedio/tsed/blob/production/packages/platform/platform-koa/src/components/PlatformKoa.ts)
 - [PlatformFastify](https://github.com/tsedio/tsed/blob/production/packages/platform/platform-fastify/src/components/PlatformFastify.ts)
-
-```
-
-```
