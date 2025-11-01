@@ -1,17 +1,11 @@
----
-name: Ts.ED Application — AI Collaboration Guide
-version: 1.0
-last_updated: 2025-11-01
-owners:
-  - project: Ts.ED
-source_of_truth:
-  - https://tsed.dev/
-  - https://tsed.dev/api.json
----
+# Ts.ED AGENTS.md guide
 
-# Audience
+This document provides an overview of the Ts.ED framework for AI assistants.
 
-This guide is for AI agents assisting with a Ts.ED APPLICATION (not Ts.ED framework development).
+## Audience
+
+You are an expert in TypeScript, Ts.ED, and scalable Node.js application development. You write functional,
+maintainable, performant, and accessible code following Ts.ED and TypeScript best practices.
 
 # Objectives
 
@@ -20,30 +14,42 @@ This guide is for AI agents assisting with a Ts.ED APPLICATION (not Ts.ED framew
 - Generate code that compiles, follows decorators usage, and respects dependency injection.
 - Use the official Ts.ED documentation for API details and examples.
 
-# Typical repository layout (adjust to your project)
+## Typical repository layout (adjust to your project)
 
 layout:
+
+```text
 src/
-controllers/
-services/
-models/ (or dtos/)
-middlewares/
-interceptors/
-protocols/ (auth strategies, guards)
-index.ts (server bootstrap)
-test/ or src/**/**.spec.ts
-package.json
+  controllers/
+  services/
+  models/
+  middlewares/
+  interceptors/
+  protocols/ (auth strategies, guards)
+  index.ts (server bootstrap)
+  test/ or src/**/**.spec.ts
+  package.json
+```
 
-# Commands (adapt to your scripts/package manager)
+## Best practices for Ts.ED apps
 
-scripts:
-dev: npm run dev | yarn dev | pnpm dev | bun run dev
-build: npm run build | yarn build | pnpm build | bun run build
-start: npm start | yarn start | pnpm start | bun run start
-test: npm test | yarn test | pnpm test | bun test
-lint: npm run lint | yarn lint | pnpm lint
+- Keep controllers small; push logic to services for easier testing.
+- Use Model/DTOs and validation decorators to protect your routes.
+- Prefer dependency injection over manual singletons.
+- Use interceptors and middlewares for cross‑cutting concerns (logging, caching, metrics).
+- Document routes with OpenAPI where applicable and keep examples up‑to‑date.
 
-# Conventions & scaffolding (CLI)
+## Troubleshooting
+
+- "Validation doesn’t run" → ensure Model/DTO is used as parameter with `@BodyParams()` and decorators like
+  `@Required()` are
+  present.
+- "DI didn’t inject my service" → annotate with `@Injectable()` and ensure it’s discovered (standard directory
+  structure/imports).
+- "Custom error shape" → write an exception filter with `@Catch()` or use built‑in exceptions.
+- "Types mismatch" → ensure DTOs are classes with explicit types; avoid loose `any` types.
+
+## Conventions & scaffolding (CLI)
 
 cli:
 name: @tsed/cli
@@ -51,12 +57,11 @@ install: npm i -D @tsed/cli | yarn add -D @tsed/cli | pnpm add -D @tsed/cli | bu
 usage:
 
 - tsed generate <resource>
-  notes:
 - The Ts.ED CLI is the canonical source of scaffolding and up-to-date conventions for Ts.ED.
 - Prefer using `tsed generate` to create controllers, services, DTOs, middlewares, interceptors, tests, etc.
 - When available, agents should call the CLI to ensure files, names, and boilerplate match the current best practices.
 
-# Plugins & extensions
+## Plugins & extensions
 
 plugins:
 marketplace: https://tsed.dev/plugins/
@@ -66,29 +71,30 @@ notes:
 - Discover community and premium plugins to extend the framework (auth, logging, integrations, etc.).
 - Agents may query the API to suggest relevant plugins when the task involves external systems or advanced features.
 
-# Authoritative docs (link instead of copying)
+## Authoritative docs (link instead of copying)
 
 links:
-getting_started: https://tsed.dev/introduction/getting-started
-controllers: https://tsed.dev/docs/controllers
-routing: https://tsed.dev/docs/routing
-di_providers: https://tsed.dev/docs/providers
-models: https://tsed.dev/docs/model
-validation: https://tsed.dev/docs/validation
-middlewares: https://tsed.dev/docs/middlewares
-pipes: https://tsed.dev/docs/pipes
-interceptors: https://tsed.dev/docs/interceptors
-authentication: https://tsed.dev/docs/authentication
-exceptions: https://tsed.dev/docs/exceptions
-request_context: https://tsed.dev/docs/request-context
-swagger_openapi: https://tsed.dev/tutorials/swagger
-testing: https://tsed.dev/docs/testing
-best_practices: https://tsed.dev/introduction/cheat-sheet
-cli: https://tsed.dev/docs/cli
-plugins_marketplace: https://tsed.dev/plugins/
-plugins_api: https://api.tsed.io/rest/warehouse
 
-# Guardrails for AI
+- getting_started: https://tsed.dev/introduction/getting-started
+- controllers: https://tsed.dev/docs/controllers
+- routing: https://tsed.dev/docs/routing
+- di_providers: https://tsed.dev/docs/providers
+- models: https://tsed.dev/docs/model
+- validation: https://tsed.dev/docs/validation
+- middlewares: https://tsed.dev/docs/middlewares
+- pipes: https://tsed.dev/docs/pipes
+- interceptors: https://tsed.dev/docs/interceptors
+- authentication: https://tsed.dev/docs/authentication
+- exceptions: https://tsed.dev/docs/exceptions
+- request_context: https://tsed.dev/docs/request-context
+- swagger_openapi: https://tsed.dev/tutorials/swagger
+- testing: https://tsed.dev/docs/testing
+- best_practices: https://tsed.dev/introduction/cheat-sheet
+- cli: https://tsed.dev/docs/commands.html
+- plugins_marketplace: https://tsed.dev/plugins/
+- plugins_api: https://api.tsed.io/rest/warehouse
+
+## Guardrails for AI
 
 rules:
 
@@ -102,7 +108,7 @@ rules:
 - When adding routes, include types, status codes, and example responses; update OpenAPI annotations when applicable.
 - Do not change package manager or framework choices.
 
-# How the agent should operate
+## How the agent should operate
 
 process:
 
@@ -111,7 +117,7 @@ process:
 - Provide follow‑up commands to validate locally (build/test/start).
 - When adding new files, include short TSDoc comments and example usage where helpful.
 
-# Common tasks (examples)
+## Common tasks (examples)
 
 examples:
 

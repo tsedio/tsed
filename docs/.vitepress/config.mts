@@ -511,5 +511,6 @@ export default defineConfig({
         {rel: "canonical", href: canonicalUrl}
       ]);
     }
-  }
+  },
+  srcExclude: ["public/**/*.md"]
 });
