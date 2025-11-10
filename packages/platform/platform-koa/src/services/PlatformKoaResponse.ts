@@ -14,6 +14,8 @@ declare global {
  * @koa
  */
 export class PlatformKoaResponse extends PlatformResponse<Koa.Response> {
+  #statusCode?: number;
+
   get ctx() {
     return this.raw.ctx;
   }
@@ -34,8 +36,7 @@ export class PlatformKoaResponse extends PlatformResponse<Koa.Response> {
   }
 
   hasStatus() {
-    // KOA set 404 by default
-    return this.statusCode !== 404;
+    return this.#statusCode !== undefined || this.statusCode !== 404;
   }
 
   /**
@@ -45,6 +46,7 @@ export class PlatformKoaResponse extends PlatformResponse<Koa.Response> {
    */
   status(status: number) {
     this.raw.status = status;
+    this.#statusCode = status;
 
     return this;
   }

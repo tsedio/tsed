@@ -73,7 +73,7 @@ describe("PlatformKoaResponse", () => {
 
       response.status(404);
       expect(response.statusCode).toEqual(404);
-      expect(response.hasStatus()).toEqual(false);
+      expect(response.hasStatus()).toEqual(true);
 
       response.status(201);
       expect(response.hasStatus()).toEqual(true);
