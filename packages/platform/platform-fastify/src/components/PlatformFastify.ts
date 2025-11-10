@@ -17,6 +17,7 @@ import {
   createServer,
   PlatformAdapter,
   PlatformBuilder,
+  PlatformContext,
   PlatformRequest,
   PlatformResponse,
   PlatformStaticsOptions
@@ -36,6 +37,12 @@ declare global {
   }
 
   namespace TsED {}
+}
+
+function callNext(next: any, metadata: PlatformHandlerMetadata, $ctx: PlatformContext) {
+  if (metadata.type !== PlatformHandlerType.RESPONSE_FN) {
+    return next && $ctx.error && !$ctx.isDone() ? next($ctx.error) : next();
+  }
 }
 
 export class PlatformFastify extends PlatformAdapter<FastifyInstance> {
@@ -82,8 +89,6 @@ export class PlatformFastify extends PlatformAdapter<FastifyInstance> {
           return;
         case "statics":
           this.statics(path as string, layer.opts as any);
-
-          // rawApp.register();
           return;
       }
 
@@ -112,12 +117,16 @@ export class PlatformFastify extends PlatformAdapter<FastifyInstance> {
 
     switch (metadata.type) {
       case PlatformHandlerType.MIDDLEWARE:
-        return (request: IncomingMessage, _: ServerResponse, done: (err?: any) => void) => {
+        return async (request: IncomingMessage, _: ServerResponse, done: (err?: any) => void) => {
           const {$ctx} = request;
 
           $ctx.next = done;
 
-          return runInContext($ctx, () => handler($ctx));
+          const result = await runInContext($ctx, () => handler($ctx));
+
+          callNext(done, metadata, $ctx);
+
+          return result;
         };
 
       default:

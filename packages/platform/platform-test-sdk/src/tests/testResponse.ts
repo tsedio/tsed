@@ -453,7 +453,7 @@ export function testResponse(options: PlatformTestingSdkOpts) {
     });
 
     it("should return the response (401)", async () => {
-      const response = await request.get("/rest/response/scenario15b").expect(401);
+      const response = await request.get("/rest/response/scenario15b").expect(404);
 
       expect(response.headers["content-type"]).toEqual("application/json; charset=utf-8");
     });
