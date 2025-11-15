@@ -28,6 +28,6 @@ export function isPrimitive(target: any): boolean {
  * @public
  * @since v7.0.0
  */
-export function isPrimitiveClass(target: any) {
+export function isPrimitiveClass(target: any): boolean {
   return [String, Number, Boolean].includes(target);
 }

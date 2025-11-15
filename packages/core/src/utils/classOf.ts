@@ -1,10 +1,10 @@
 /**
- * Retourne le constructeur d'une cible. Si `target` est déjà une classe
- * (fonction constructeur), elle est renvoyée telle quelle; si c'est une
- * instance, son constructeur est renvoyé.
+ * Returns the constructor of a target. If `target` is already a class
+ * (constructor function), it is returned as is; if it is an instance,
+ * its constructor is returned.
  *
- * @param target Instance ou constructeur.
- * @returns Le constructeur associé à la cible.
+ * @param target Instance or constructor.
+ * @returns The constructor associated with the target.
  * @example
  * ```ts
  * class A {}
@@ -17,7 +17,7 @@ export function getClass(target: any): any {
 }
 
 /**
- * Alias de `getClass`.
+ * Alias of `getClass`.
  * @see getClass
  */
 export function classOf(target: any) {

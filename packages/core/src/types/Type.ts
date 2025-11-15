@@ -1,10 +1,9 @@
 /**
- * Représente un constructeur de classe `new (...args) => T`.
+ * Represents a class constructor `new (...args) => T`.
  *
- * Dans Ts.ED, `Type<T>` est utilisé pour typer les références de classes
- * (contrôleurs, services, modèles, etc.) là où un constructeur est attendu.
+ * In Ts.ED, `Type<T>` is used to type class references (controllers, services, models, etc.) where a constructor is expected.
  *
- * @typeParam T Type de l'instance créée par le constructeur.
+ * @typeParam T Type of the instance created by the constructor.
  * @public
  */
 export interface Type<T = any> extends Function {
@@ -12,16 +11,15 @@ export interface Type<T = any> extends Function {
 }
 
 /**
- * Alias du constructeur de base de JavaScript, utilisé pour préserver
- * la compatibilité avec certains contextes d'inférence.
+ * Alias of the JavaScript base constructor, used to preserve
+ * compatibility with certain inference contexts.
  *
- * @deprecated Éviter d'utiliser cette constante directement; préférer le type `Type<T>`.
+ * @deprecated Avoid using this constant directly; prefer the `Type<T>` type.
  */
 export const Type = Function;
 
 /**
- * Décrit un type abstrait (classe abstraite), utile pour déclarer des dépendances
- * qui ne doivent pas être instanciées directement.
+ * Describes an abstract type (abstract class), useful for declaring dependencies that should not be instantiated directly.
  */
 export interface AbstractType<T> extends Function {
   prototype: T;

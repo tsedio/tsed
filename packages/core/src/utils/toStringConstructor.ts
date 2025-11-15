@@ -1,13 +1,13 @@
 import {constructorOf} from "./constructorOf.js";
 
 /**
- * Retourne la signature textuelle du constructeur d'une classe/instance.
+ * Returns the textual signature of a class/instance constructor.
  *
- * Exemple de sortie: `constructor(id: string, name?: string)`.
- * Utile pour le débogage et la génération de documentation.
+ * Example output: `constructor(id: string, name?: string)`.
+ * Useful for debugging and documentation generation.
  *
- * @param target Instance ou constructeur.
- * @returns La signature du constructeur sous forme de chaîne.
+ * @param target Instance or constructor.
+ * @returns The constructor signature as a string.
  * @public
  */
 export function toStringConstructor(target: any): string {

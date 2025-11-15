@@ -1,11 +1,9 @@
 /**
- * Marqueur de type permettant d'exprimer une relation entre modèles/DTOs.
+ * Type marker for expressing a relationship between models/DTOs.
  *
- * Dans certains contextes, `Relation<T>` est utilisé pour indiquer qu'une propriété
- * représente une entité liée de type `T`. Il s'agit d'un alias transparent de `T`
- * servant surtout la documentation et l'intention.
+ * In some contexts, `Relation<T>` is used to indicate that a property represents a related entity of type `T`. It is a transparent alias for `T`, primarily serving documentation and intent.
  *
- * @typeParam T Type de la ressource liée.
+ * @typeParam Resource Type
  * @public
  */
 export type Relation<T> = T;

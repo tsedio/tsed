@@ -4,6 +4,6 @@
  * @public
  * @since v7.0.0
  */
-export function isMomentObject(obj: any) {
+export function isMomentObject(obj: any): boolean {
   return !!(obj && obj?._isAMomentObject);
 }

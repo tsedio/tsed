@@ -9,39 +9,24 @@ import {Metadata} from "./Metadata.js";
 import type {Type} from "./Type.js";
 
 /**
- * @ignore
- */
-/**
  * Metadata key used to reference the class-level store.
- *
- * @public
+ * @ignore
  */
 export const CLASS_STORE = "tsed:class:store";
 /**
- * @ignore
- */
-/**
  * Metadata key used to reference the method-level store.
- *
- * @public
+ * @ignore
  */
 export const METHOD_STORE = "tsed:method:store";
-/**
- * @ignore
- */
+
 /**
  * Metadata key used to reference the property-level store.
- *
- * @public
+ * @ignore
  */
 export const PROPERTY_STORE = "tsed:property:store";
 /**
- * @ignore
- */
-/**
  * Metadata key used to reference the parameter-level store.
- *
- * @public
+ * @ignore
  */
 export const PARAM_STORE = "tsed:param:store";
 
@@ -101,6 +86,7 @@ function defineStore(args: any[]): Store {
  */
 export class Store {
   private _entries = new Map<string, any>();
+
   /**
    * Create or get a Store from given args (target, property, descriptor).
    * @param args

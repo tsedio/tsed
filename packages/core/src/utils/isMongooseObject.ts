@@ -6,8 +6,8 @@ import {hasJsonMethod} from "./hasJsonMethod.js";
  * @public
  * @since v7.0.0
  */
-export function isObjectID(obj: any) {
-  return obj && obj._bsontype;
+export function isObjectID(obj: any): boolean {
+  return !!(obj && obj._bsontype);
 }
 
 /**
