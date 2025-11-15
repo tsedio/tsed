@@ -29,3 +29,12 @@ jobs:
           GH_TOKEN: ${{ secrets.GH_TOKEN }}
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
         run: yarn docs:publish
+      - name: Publish api on Directus
+        env:
+          DIRECTUS_TOKEN: ${{ secrets.DIRECTUS_TOKEN }}
+          DIRECTUS_FLOW_ID: ${{ secrets.DIRECTUS_FLOW_ID }}
+        run: |
+          curl -sS -L -X POST "https://api.tsed.dev/flows/trigger/${DIRECTUS_FLOW_ID}" \
+            -H "Authorization: Bearer ${DIRECTUS_TOKEN}" \
+            -H "Content-Type: application/json" \
+            --data-binary @docs/public/api.json
