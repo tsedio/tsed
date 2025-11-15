@@ -44,7 +44,7 @@
     "build:references": "node ./tools/typescript",
     "build:eslint": "node ./tools/eslint",
     "sync:packages": "monorepo sync packages",
-    "api:build": "rm -rf ./docs/api && tsc -b && tsdoc",
+    "api:build": "rm -rf ./docs/api && tsc -b && tsdoc && cp -R ./docs/api ./docs/public/ai/references/api",
     "api:build:dev": "npx -p chokidar-cli chokidar \"docs/.templates/**/*.{js,ejs}\" -c \"tsdoc\"",
     "docs:install": "cd docs && yarn install && cd ..",
     "docs:build": "yarn api:build && yarn vitepress:build",

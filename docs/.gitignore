@@ -4,7 +4,7 @@ api
 .vitepress/dist
 public/api.json
 public/reference-sidebar.json
-
+public/ai/references/api
 # Yarn
 .pnp.*
 .yarn/*
