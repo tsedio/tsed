@@ -2,6 +2,12 @@ import {ancestorOf} from "./ancestorOf.js";
 import {classOf} from "./classOf.js";
 import {nameOf} from "./nameOf.js";
 
+/**
+ * Checks if a target class inherits from another class within a specified depth limit.
+ *
+ * @public
+ * @since v7.0.0
+ */
 export function isInheritedFrom(target: any, from: any, deep = 5): boolean {
   if (!target || !from) {
     return false;

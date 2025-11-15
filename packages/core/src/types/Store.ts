@@ -11,17 +11,37 @@ import type {Type} from "./Type.js";
 /**
  * @ignore
  */
+/**
+ * Metadata key used to reference the class-level store.
+ *
+ * @public
+ */
 export const CLASS_STORE = "tsed:class:store";
 /**
  * @ignore
+ */
+/**
+ * Metadata key used to reference the method-level store.
+ *
+ * @public
  */
 export const METHOD_STORE = "tsed:method:store";
 /**
  * @ignore
  */
+/**
+ * Metadata key used to reference the property-level store.
+ *
+ * @public
+ */
 export const PROPERTY_STORE = "tsed:property:store";
 /**
  * @ignore
+ */
+/**
+ * Metadata key used to reference the parameter-level store.
+ *
+ * @public
  */
 export const PARAM_STORE = "tsed:param:store";
 
@@ -69,6 +89,16 @@ function defineStore(args: any[]): Store {
   }
 }
 
+/**
+ * Lightweight key/value registry used to attach and retrieve metadata at
+ * class, method, property, and parameter levels.
+ *
+ * The `Store` is used internally by decorators and utilities to group
+ * metadata by symbol. Only the exported class is documented per the
+ * symbols-only rule; members are intentionally not described here.
+ *
+ * @public
+ */
 export class Store {
   private _entries = new Map<string, any>();
   /**

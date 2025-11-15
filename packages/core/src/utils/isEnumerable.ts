@@ -2,9 +2,10 @@ import {classOf} from "./classOf.js";
 import {inheritedDescriptorOf} from "./inheritedDescriptorOf.js";
 
 /**
+ * Checks if a property is enumerable on an object, considering its prototype chain.
  *
- * @param obj
- * @param key
+ * @public
+ * @since v7.0.0
  */
 export function isEnumerable(obj: any, key: string) {
   const klass = classOf(obj);

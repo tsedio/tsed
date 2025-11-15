@@ -1,9 +1,10 @@
 import {nameOf} from "./nameOf.js";
 
 /**
- * Tests to see if the object is Buffer
- * @param target
- * @returns {boolean}
+ * Checks if a value is a Buffer or Uint8Array instance.
+ *
+ * @public
+ * @since v7.0.0
  */
 export function isBuffer(target: any): target is Buffer {
   // is Class
@@ -14,6 +15,12 @@ export function isBuffer(target: any): target is Buffer {
   return isUint8Array(target);
 }
 
+/**
+ * Checks if a value is the Uint8Array constructor or a Uint8Array instance.
+ *
+ * @public
+ * @since v7.0.0
+ */
 export function isUint8Array(target: any): target is Uint8Array {
   return !!(target && (target === Uint8Array || target instanceof Uint8Array));
 }

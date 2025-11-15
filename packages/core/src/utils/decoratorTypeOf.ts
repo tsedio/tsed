@@ -1,6 +1,16 @@
 import {DecoratorTypes} from "../types/DecoratorTypes.js";
 import {classOf} from "./classOf.js";
 
+/**
+ * Determines the decorator type from decorator parameters.
+ *
+ * Analyzes the target, propertyKey, and descriptor to classify the decorator as
+ * class, method, property, parameter, or their static variants.
+ *
+ * @public
+ * @since v7.0.0
+ * @see DecoratorTypes
+ */
 export function decoratorTypeOf(args: any[]): DecoratorTypes {
   const [target, propertyKey, descriptor] = args;
 

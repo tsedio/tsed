@@ -5,8 +5,10 @@ import {isSymbol} from "./isSymbol.js";
 import {prototypeOf} from "./prototypeOf.js";
 
 /**
- * Return all methods for a given class.
- * @param target
+ * Returns all methods for a given class by traversing its prototype chain.
+ *
+ * @public
+ * @since v7.0.0
  */
 export function methodsOf(target: any): {target: Type; propertyKey: string}[] {
   const methods = new Map();

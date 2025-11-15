@@ -1,19 +1,26 @@
 /**
- * Get the provide name.
- * @param targetClass
+ * Gets the name of a class from a constructor function or instance.
+ *
+ * @public
+ * @since v7.0.0
  */
 export function nameOfClass(targetClass: any): string {
   return typeof targetClass === "function" ? targetClass.name : targetClass.constructor.name;
 }
 
 /**
- * Get symbol name.
- * @param sym
+ * Extracts the name from a symbol by removing the Symbol() wrapper.
+ *
+ * @public
+ * @since v7.0.0
  */
 export const nameOfSymbol = (sym: symbol): string => sym.toString().replace("Symbol(", "").replace(")", "");
 
 /**
- * Get object name
+ * Gets the name of any object including symbols, functions, and classes.
+ *
+ * @public
+ * @since v7.0.0
  */
 export function nameOf(obj: any): string {
   switch (typeof obj) {

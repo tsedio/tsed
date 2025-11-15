@@ -1,9 +1,12 @@
 import {isArrayOrArrayClass} from "./isArray.js";
 
 /**
- * Return true if the target.
- * @param target
- * @returns {boolean}
+ * Determines whether a value is a collection type (Array, Map, Set, WeakMap, WeakSet).
+ *
+ * Checks both the constructor itself and instances of these collection types.
+ *
+ * @public
+ * @since v7.0.0
  */
 export function isCollection(target: any): boolean {
   return (

@@ -7,6 +7,15 @@ import {isPrimitiveOrPrimitiveClass} from "./isPrimitive.js";
 import {isPromise} from "./isPromise.js";
 import {isSymbol} from "./isSymbol.js";
 
+/**
+ * Determines whether a given value represents a class (constructor function).
+ *
+ * This helper filters out common non-class values such as primitives, symbols,
+ * plain objects, dates, promises, arrays, buffers, and arrow functions.
+ *
+ * @public
+ * @since v7.0.0
+ */
 export function isClass(target: any) {
   if (!target) {
     return false;

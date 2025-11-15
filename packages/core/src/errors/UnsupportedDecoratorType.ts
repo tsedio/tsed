@@ -2,6 +2,14 @@ import {classOf} from "../utils/classOf.js";
 import {decoratorTypeOf} from "../utils/decoratorTypeOf.js";
 import {nameOf} from "../utils/nameOf.js";
 
+/**
+ * Error thrown when a decorator is used in an unsupported location or context.
+ *
+ * Provides a descriptive message indicating where the decorator was applied and why it's invalid.
+ *
+ * @public
+ * @since v7.0.0
+ */
 export class UnsupportedDecoratorType extends Error {
   name: "UNSUPPORTED_DECORATOR_TYPE";
 

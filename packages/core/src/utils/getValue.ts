@@ -23,36 +23,17 @@ const mapOptions = (args: any[]) => {
 };
 
 /**
- * Get value from scope
- * @param {string} expression
- * @param scope
- * @returns {any}
+ * Retrieves a value from an object using a dot-separated path expression.
+ *
+ * Supports flexible argument order (scope-first or expression-first), optional default values,
+ * and custom path separators. Can navigate nested objects and call .get() methods when available.
+ *
+ * @public
+ * @since v7.0.0
  */
 export function getValue<T = any>(scope: any, expression: string | undefined): T | undefined;
-/**
- * Get value from scope
- * @param {string} expression
- * @param scope
- * @param defaultValue
- * @param separator
- * @returns {any}
- */
 export function getValue<T = any>(scope: any, expression: string | undefined, defaultValue: T, separator?: string): T;
-/**
- * Get value from scope
- * @param {string} expression
- * @param scope
- * @returns {any}
- */
 export function getValue<T = any>(expression: string | undefined, scope: any): T | undefined;
-/**
- * Get value from scope
- * @param {string} expression
- * @param scope
- * @param defaultValue
- * @param separator
- * @returns {any}
- */
 export function getValue<T = any>(expression: string | undefined, scope: any, defaultValue: T, separator?: string): T;
 export function getValue(...args: any[]) {
   const options = mapOptions(args);

@@ -9,9 +9,13 @@ import {isSymbol} from "./isSymbol.js";
 const isBasicType = (source: any) => isNil(source) || isPrimitive(source) || isSymbol(source) || isFunction(source);
 
 /**
- * Return a cloned value
- * @param source
- * @param stack
+ * Creates a deep clone of the provided value, preserving prototype chains and handling circular references.
+ *
+ * Supports primitives, dates, regular expressions, typed arrays, buffers, maps, sets, and plain objects.
+ * Uses a WeakMap to track and handle circular references correctly.
+ *
+ * @public
+ * @since v7.0.0
  */
 export const deepClone = (source: any, stack = new WeakMap()): any => {
   // provides an early exit for simple cases

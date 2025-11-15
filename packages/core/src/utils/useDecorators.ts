@@ -1,6 +1,12 @@
 import {AnyDecorator} from "../types/AnyDecorator.js";
 import {DecoratorParameters} from "../types/DecoratorParameters.js";
 
+/**
+ * Combines multiple decorators into a single decorator function.
+ *
+ * @public
+ * @since v7.0.0
+ */
 export function useDecorators(...decorators: AnyDecorator[]): any {
   return (...args: DecoratorParameters) => {
     const isMethod = typeof args[2] === "object";

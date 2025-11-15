@@ -1,8 +1,9 @@
 /**
- * Tests to see if the object is an ES2015 (ES6) Promise
+ * Checks if a value is a Promise by verifying the then method exists and it's not an Observable.
+ *
+ * @public
+ * @since v7.0.0
  * @see {@link https://www.ecma-international.org/ecma-262/6.0/#sec-promise-objects}
- * @param target
- * @returns {boolean}
  */
 export function isPromise<T = any>(target: any): target is Promise<T> {
   return (

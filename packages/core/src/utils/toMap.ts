@@ -1,7 +1,20 @@
 import {isArray} from "./isArray.js";
 import {isString} from "./isString.js";
 
+/**
+ * Callback function type for generating map keys from items.
+ *
+ * @public
+ * @since v7.0.0
+ */
 export type ToMapIdentityCB<V> = (item: V, index: string | number) => string | string[];
+
+/**
+ * Identity type for map key generation, either a property name or callback function.
+ *
+ * @public
+ * @since v7.0.0
+ */
 export type ToMapIdentity<V> = string | ToMapIdentityCB<V>;
 
 function createIdentityFn<V>(keyOrFn?: ToMapIdentity<V>): ToMapIdentityCB<V> {
@@ -18,6 +31,12 @@ function createIdentityFn<V>(keyOrFn?: ToMapIdentity<V>): ToMapIdentityCB<V> {
   return keyOrFn;
 }
 
+/**
+ * Converts an array or object to a Map using a key extraction strategy.
+ *
+ * @public
+ * @since v7.0.0
+ */
 export function toMap<K extends keyof any = any, V = any>(input: Record<K, V> | V[], keyOrFn?: ToMapIdentity<V>): Map<K, V> {
   if (isArray<V>(input)) {
     const identity = createIdentityFn<V>(keyOrFn || "id");

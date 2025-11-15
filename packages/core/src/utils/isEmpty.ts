@@ -1,9 +1,10 @@
 import {isNil} from "./isNil.js";
 
 /**
- * Return true if the value is an empty string, null or undefined.
- * @param value
- * @returns {boolean}
+ * Checks if a value is an empty string, null, or undefined.
+ *
+ * @public
+ * @since v7.0.0
  */
 export function isEmpty(value: any): boolean {
   return value === "" || isNil(value);

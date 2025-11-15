@@ -2,10 +2,14 @@ import {DecoratorParameters} from "../types/DecoratorParameters.js";
 import {Store} from "../types/Store.js";
 
 /**
- * Create a store correctly configured from the parameters given by the decorator.
- * The `fn` can return a decorator that will be initialized with the parameters (target, propertyKey, descriptor).
- * @param {(store: Store, parameters: DecoratorParameters) => void} fn
- * @returns {Function}
+ * Creates a decorator factory that initializes a Store from decorator parameters and invokes a callback.
+ *
+ * The callback receives both the Store instance and the original decorator parameters.
+ * If the callback returns a function, that function is invoked with the same decorator parameters.
+ *
+ * @public
+ * @since v7.0.0
+ * @see Store
  */
 export function StoreFn(fn: (store: Store, parameters: DecoratorParameters) => void): Function {
   return (...parameters: any[]): any => {

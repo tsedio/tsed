@@ -117,6 +117,14 @@ process:
 - Provide follow‑up commands to validate locally (build/test/start).
 - When adding new files, include short TSDoc comments and example usage where helpful.
 
+### Planning conventions (AI plans storage)
+
+- All new AI work plans must be stored under the repository root folder `.plan/`.
+- Each plan must live in its own subfolder with a clear, kebab‑case name (e.g., `.plan/core-jsdoc-status/`).
+- The plan document inside that subfolder must be named `plan.md`.
+- Example: `.plan/core-jsdoc-status/plan.md`.
+- Plans should not be placed under `docs/` or other public docs folders unless explicitly requested.
+
 ## Common tasks (examples)
 
 examples:

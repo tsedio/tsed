@@ -4,9 +4,25 @@ import {isPrimitive} from "./isPrimitive.js";
 import {isSymbol} from "./isSymbol.js";
 import {objectKeys} from "./objectKeys.js";
 
+/**
+ * Callback type for custom array merge reducers.
+ * @public
+ * @since v7.0.0
+ */
 export type DeepMergeReducerCB = (collection: any[], value: any, options?: DeepMergeOptions) => any;
+
+/**
+ * Callback type for comparing array items during merge.
+ * @public
+ * @since v7.0.0
+ */
 export type DeepMergeComparatorCB = (item: any, ref: any) => boolean;
 
+/**
+ * Configuration options for deep merge operations.
+ * @public
+ * @since v7.0.0
+ */
 export interface DeepMergeOptions {
   reducers?: Record<string, DeepMergeReducerCB>;
   parentKey?: string;
@@ -14,6 +30,12 @@ export interface DeepMergeOptions {
   alter?: (key: string, value: any) => any;
 }
 
+/**
+ * Creates a merge reducer using a custom comparator function.
+ *
+ * @public
+ * @since v7.0.0
+ */
 export function mergeReducerBuilder(cb: DeepMergeComparatorCB) {
   return (collection: any[], value: any, options: DeepMergeOptions) => {
     const index = collection.findIndex((item) => cb(item, value));
@@ -50,6 +72,15 @@ function shouldReturnSource(obj: any, source: any) {
   return obj === undefined || obj === null || (obj === "" && source !== "");
 }
 
+/**
+ * Deeply merges two values, combining objects recursively and handling arrays with custom reducers.
+ *
+ * Supports primitives, arrays, and objects. Can clean undefined properties and apply custom transformations.
+ *
+ * @public
+ * @since v7.0.0
+ * @see DeepMergeOptions
+ */
 export function deepMerge<T = any, C = any>(source: T & any, obj: C & any, options: DeepMergeOptions = {}): (T & C) | undefined | null {
   if (shouldReturnSource(obj, source)) {
     return source as any;

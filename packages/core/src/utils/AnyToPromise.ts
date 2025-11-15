@@ -13,6 +13,11 @@ function isResponse(obj: any) {
 /**
  * @ignore
  */
+/**
+ * Represents the lifecycle state of an `AnyToPromise` operation.
+ *
+ * @public
+ */
 export enum AnyToPromiseStatus {
   PENDING = "PENDING",
   CANCELED = "CANCELED",
@@ -20,12 +25,25 @@ export enum AnyToPromiseStatus {
   REJECTED = "REJECTED"
 }
 
+/**
+ * Describes the high-level response kind produced by `AnyToPromise`.
+ *
+ * @public
+ */
 export enum AnyToPromiseResponseTypes {
   STREAM = "STREAM",
   BUFFER = "BUFFER",
   DATA = "DATA"
 }
 
+/**
+ * Result shape returned by `AnyToPromise` when resolved.
+ *
+ * Only the symbol itself is documented per the symbols-only rule (member fields are self-explanatory).
+ *
+ * @typeParam T Type of the `data` field.
+ * @public
+ */
 export interface AnyPromiseResult<T = any> {
   state: AnyToPromiseStatus;
   type: AnyToPromiseResponseTypes;
@@ -34,6 +52,16 @@ export interface AnyPromiseResult<T = any> {
   data: T;
 }
 
+/**
+ * Utility that normalizes various async-like values (Promise, Observable, Stream, plain value)
+ * into a single Promise-based flow with a consistent result shape.
+ *
+ * This class is used internally to handle controller/middleware outputs, but can be
+ * reused anywhere a unified async handling is desired.
+ *
+ * @typeParam T Type of the resulting payload.
+ * @public
+ */
 export class AnyToPromise<T = any> {
   public status = AnyToPromiseStatus.PENDING;
   public args: any[];

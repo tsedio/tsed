@@ -29,6 +29,15 @@ const DESIGN_RETURN_TYPE = "design:returntype";
 const PROPERTIES: Map<string | symbol, any[]> = new Map<string | symbol, any[]>();
 
 /**
+ * Static helper around `reflect-metadata` to read and write metadata on classes,
+ * methods, properties and parameters.
+ *
+ * This is the single entry point used across Ts.ED core to interact with
+ * design-time type information (e.g. param types, return types) and custom
+ * metadata keys. Only the exported class symbol is documented here per the
+ * symbols-only rule; individual members are intentionally not described.
+ *
+ * @public
  * @stable
  */
 export class Metadata {
