@@ -1,0 +1,56 @@
+{
+  "name": "@tsed/directus-sdk",
+  "description": "A library to integrate Directus SDK with Ts.ED, facilitating the creation of extensions (endpoints, hooks, operations) and the use of Directus services.",
+  "type": "module",
+  "version": "8.17.0",
+  "source": "./src/index.ts",
+  "main": "./lib/esm/index.js",
+  "module": "./lib/esm/index.js",
+  "typings": "./lib/types/index.d.ts",
+  "exports": {
+    ".": {
+      "tsed-source": "./src/index.ts",
+      "types": "./lib/types/index.d.ts",
+      "import": "./lib/esm/index.js",
+      "default": "./lib/esm/index.js"
+    },
+    "./attach-logger": {
+      "tsed-source": "./src/bootstrap/attach-logger.ts",
+      "types": "./lib/types/bootstrap/attach-logger.d.ts",
+      "import": "./lib/esm/bootstrap/attach-logger.js",
+      "default": "./lib/esm/bootstrap/attach-logger.js"
+    }
+  },
+  "scripts": {
+    "build": "yarn barrels && yarn build:ts",
+    "barrels": "barrels",
+    "test": "vitest run",
+    "build:ts": "tsc --build tsconfig.esm.json",
+    "test:ci": "vitest run --coverage.thresholds.autoUpdate=true"
+  },
+  "dependencies": {
+    "semver": "^7.6.3",
+    "tslib": "2.8.1"
+  },
+  "devDependencies": {
+    "@directus/api": "32.1.0",
+    "@directus/extensions-sdk": "13.1.1",
+    "@directus/sdk": "20.2.0",
+    "@directus/types": "13.4.0",
+    "@tsed/barrels": "workspace:*",
+    "@tsed/logger-connect": "8.0.4",
+    "vitest": "3.2.4"
+  },
+  "peerDependencies": {
+    "@directus/api": ">=31.0.0",
+    "@directus/extensions-sdk": ">=13.0.0",
+    "@directus/sdk": ">=20.0.0",
+    "@directus/types": ">=13.0.0",
+    "@tsed/config": ">=8.0.0",
+    "@tsed/core": ">=8.0.0",
+    "@tsed/di": ">=8.0.0",
+    "@tsed/logger": ">=8.0.0",
+    "@tsed/logger-connect": ">=8.0.0",
+    "express": "*"
+  }
+}
