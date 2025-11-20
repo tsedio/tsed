@@ -8,7 +8,31 @@ let globalInvOpts: any = {};
 const stagedLocals: LocalsContainer[] = [];
 
 /**
- * Get the locals container initiated by DITest or .bootstrap() method.
+ * Get or create the current locals container for request-scoped providers.
+ *
+ * Returns the global locals container used for storing request-scoped provider instances.
+ * Can optionally create a new container with custom providers.
+ *
+ * ### Usage
+ *
+ * ```typescript
+ * import {localsContainer} from "@tsed/di";
+ *
+ * // Get current locals
+ * const locals = localsContainer();
+ *
+ * // Create with custom providers
+ * const locals = localsContainer({
+ *   providers: [{token: MyService, use: mockInstance}],
+ *   rebuild: true
+ * });
+ * ```
+ *
+ * @param options Configuration options
+ * @param options.providers Optional array of provider overrides
+ * @param options.rebuild Whether to mark providers for rebuilding
+ * @returns The locals container instance
+ * @public
  */
 export function localsContainer({
   providers,
@@ -41,7 +65,12 @@ export function invokeOptions() {
 }
 
 /**
- * Reset the locals container.
+ * Detach and stage the current locals container.
+ *
+ * Removes the global locals reference and saves it for cleanup.
+ * Used internally to manage request scope lifecycle.
+ *
+ * @public
  */
 export function detachLocalsContainer() {
   globalLocals && stagedLocals.push(globalLocals);

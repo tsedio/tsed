@@ -4,6 +4,26 @@ import {GlobalProviders} from "../registries/GlobalProviders.js";
 import {Provider} from "./Provider.js";
 import type {ProviderType} from "./ProviderType.js";
 
+/**
+ * Provider container managing registered providers and their metadata.
+ *
+ * Extends `Map` to provide specialized methods for adding, retrieving, and managing providers
+ * within the dependency injection system. Acts as a registry for all injectable classes and values.
+ *
+ * ### Usage
+ *
+ * ```typescript
+ * import {Container} from "@tsed/di";
+ *
+ * const container = new Container();
+ * container.add(MyService, {scope: ProviderScope.SINGLETON});
+ *
+ * const provider = container.getProvider(MyService);
+ * const controllers = container.getProviders(ProviderType.CONTROLLER);
+ * ```
+ *
+ * @public
+ */
 export class Container extends Map<TokenProvider, Provider> {
   /**
    *

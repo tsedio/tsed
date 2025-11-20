@@ -33,26 +33,45 @@ function resolveAutoInjectableArgs(token: Type, args: unknown[]) {
 }
 
 /**
- * AutoInjectable decorator is used to automatically inject dependencies in the constructor.
+ * Enable automatic dependency injection for a class constructor.
  *
- * @example
+ * Automatically resolves and injects constructor dependencies while preserving
+ * the ability to manually pass arguments. Useful for classes that need both
+ * automatic DI and manual instantiation flexibility.
+ *
+ * ### Usage
+ *
  * ```typescript
+ * import {AutoInjectable} from "@tsed/di";
+ *
  * @AutoInjectable()
  * class UserService {
  *   constructor(
- *     private database: Database,  // automatically injected
- *     customConfig?: Config        // can be passed manually
+ *     private database: Database,     // Automatically injected
+ *     private logger: Logger,         // Automatically injected
+ *     customConfig?: Config           // Can be passed manually
  *   ) {}
  * }
+ *
+ * // Automatic injection
+ * const service1 = new UserService();
+ *
+ * // Manual override
+ * const service2 = new UserService(customDb, customLogger, {debug: true});
+ *
+ * // Partial override (remaining deps auto-injected)
+ * const service3 = new UserService(undefined, undefined, {debug: true});
  * ```
  *
- * @description
- * When applied to a class, this decorator:
- * - Automatically resolves and injects dependencies based on constructor parameter types
- * - Preserves the ability to manually pass arguments which override automatic injection
+ * ### Behavior
  *
+ * - Automatically resolves dependencies based on TypeScript metadata
+ * - Manual arguments override automatic injection for that position
+ * - `undefined` arguments trigger automatic injection
+ *
+ * @returns Class decorator function
+ * @public
  * @decorator
- * @returns {ClassDecorator} A class decorator that enables automatic dependency injection
  */
 export function AutoInjectable() {
   return <T extends {new (...args: any[]): NonNullable<unknown>}>(constr: T): T => {

@@ -6,6 +6,30 @@ import {nameOf} from "@tsed/core/utils/nameOf.js";
 import {TokenProvider} from "../interfaces/TokenProvider.js";
 import {colors} from "../utils/colors.js";
 
+/**
+ * Error thrown when dependency injection fails.
+ *
+ * Provides detailed information about the failed injection including the dependency chain
+ * and the original error. Helps diagnose circular dependencies, missing providers, and
+ * configuration issues in the DI system.
+ *
+ * ### Usage
+ *
+ * ```typescript
+ * import {InjectionError} from "@tsed/di";
+ *
+ * try {
+ *   injector.invoke(MyService);
+ * } catch (error) {
+ *   if (error instanceof InjectionError) {
+ *     console.log("Dependency chain:", error.tokens);
+ *     console.log("Original error:", error.origin);
+ *   }
+ * }
+ * ```
+ *
+ * @public
+ */
 export class InjectionError extends Error {
   name = "INJECTION_ERROR";
 

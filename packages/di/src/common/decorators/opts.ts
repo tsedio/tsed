@@ -6,7 +6,12 @@ import {Inject} from "./inject.js";
 import {Scope} from "./scope.js";
 
 /**
- * Get instance options. This options depending on his invocation context.
+ * Inject custom options passed to a provider instance.
+ *
+ * Used in configurable providers to receive options from the injection context.
+ * Automatically changes the provider scope to `INSTANCE` since each invocation may have different options.
+ *
+ * ### Usage
  *
  * ```typescript
  * import {Injectable, Opts, UseOpts} from "@tsed/di";
@@ -14,35 +19,38 @@ import {Scope} from "./scope.js";
  * @Injectable()
  * class MyConfigurableService {
  *   source: string;
- *   constructor(@Opts options: any = {}) {
- *      console.log("Hello ", options.source); // log: Hello Service1 then Hello Service2
  *
- *      this.source = options.source;
+ *   constructor(@Opts options: any = {}) {
+ *     console.log("Hello", options.source);
+ *     this.source = options.source;
  *   }
  * }
  *
  * @Injectable()
  * class MyService1 {
  *   constructor(@UseOpts({source: 'Service1'}) service: MyConfigurableService) {
- *     console.log(service.source) // log: Service1
+ *     console.log(service.source); // "Service1"
  *   }
  * }
  *
  * @Injectable()
  * class MyService2 {
  *   constructor(@UseOpts({source: 'Service2'}) service: MyConfigurableService) {
- *     console.log(service.source) // log: Service2
+ *     console.log(service.source); // "Service2"
  *   }
  * }
  * ```
  *
- * ::: warning
- * Using @@Opts@@ decorator on a constructor parameter change the Scope of the provider to `ProviderScope.INSTANCE`.
- * :::
+ * ### Warning
  *
- * @param target
- * @param propertyKey
- * @param index
+ * Using `@Opts` changes the provider scope to `ProviderScope.INSTANCE`,
+ * meaning a new instance is created for each injection.
+ *
+ * @param target The target class
+ * @param propertyKey The constructor method name
+ * @param index The parameter index
+ * @returns Parameter decorator
+ * @public
  * @decorator
  */
 export function Opts(target: any, propertyKey: string | symbol | undefined, index: number) {

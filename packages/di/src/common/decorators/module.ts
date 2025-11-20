@@ -27,13 +27,44 @@ export interface ModuleOptions extends Omit<TsED.Configuration, "scopes"> {
 }
 
 /**
- * Declare a new Ts.ED module
+ * Declare a Ts.ED module to organize related providers and configuration.
  *
- * ## Options
- * - imports: List of Provider which must be built by injector before invoking the module
- * - deps: List of provider must be injected to the module constructor (explicit declaration)
+ * Modules group related functionality together, manage provider dependencies,
+ * and configure application settings. They are singleton-scoped by default.
  *
- * @param options
+ * ### Usage
+ *
+ * ```typescript
+ * import {Module} from "@tsed/di";
+ *
+ * @Module({
+ *   imports: [DatabaseService, CacheService],
+ *   mount: {
+ *     "/api": [UserController, ProductController]
+ *   }
+ * })
+ * export class AppModule {
+ *   constructor(private db: DatabaseService) {
+ *     // Dependencies injected
+ *   }
+ *
+ *   $onInit() {
+ *     this.db.connect();
+ *   }
+ * }
+ * ```
+ *
+ * ### Options
+ *
+ * - `imports`: Providers to initialize before this module
+ * - `deps`: Constructor dependencies (explicit declaration)
+ * - `mount`: Route mappings for controllers
+ * - `scope`: Provider scope (default: singleton)
+ * - Additional properties are stored as module configuration
+ *
+ * @param options Module configuration options
+ * @returns Class decorator function
+ * @public
  * @decorator
  */
 export function Module(options: Partial<ModuleOptions> = {}) {

@@ -12,8 +12,33 @@ import {discoverHooks} from "../utils/discoverHooks.js";
 import {ProviderScope} from "./ProviderScope.js";
 import {ProviderType} from "./ProviderType.js";
 
+/**
+ * Callback function type for provider lifecycle hooks.
+ *
+ * @typeParam T - The type of provider instance
+ * @public
+ */
 export type ProviderHookCallback<T = any> = (instance: T, ...args: unknown[]) => Promise<void> | void;
 
+/**
+ * Provider metadata class managing dependency injection configuration.
+ *
+ * Encapsulates all information needed to create, configure, and manage a provider instance
+ * within the DI container. Tracks dependencies, lifecycle hooks, creation strategies, and metadata.
+ *
+ * ### Usage
+ *
+ * ```typescript
+ * import {Provider, ProviderType} from "@tsed/di";
+ *
+ * const provider = new Provider(MyService);
+ * provider.type = ProviderType.PROVIDER;
+ * provider.deps = [DatabaseService, LoggerService];
+ * ```
+ *
+ * @typeParam T - The type of instance this provider creates
+ * @public
+ */
 export class Provider<T = any> implements ProviderOpts<T> {
   /**
    * Token group provider to retrieve all provider from the same type

@@ -1,3 +1,26 @@
+/**
+ * Configuration options for the DI Logger.
+ *
+ * Controls logging behavior, formatting, and filtering for the Ts.ED logging system.
+ * These options can be set in the application configuration under the `logger` property.
+ *
+ * ### Usage
+ *
+ * ```typescript
+ * import {Configuration} from "@tsed/di";
+ *
+ * @Configuration({
+ *   logger: {
+ *     level: "debug",
+ *     format: "%d{yyyy-MM-dd HH:mm:ss} %p %m",
+ *     disableRoutesSummary: false
+ *   }
+ * })
+ * class Server {}
+ * ```
+ *
+ * @public
+ */
 export interface DILoggerOptions {
   /**
    * Enable debug mode. By default debug is false.

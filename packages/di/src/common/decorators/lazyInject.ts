@@ -28,21 +28,38 @@ function mapOptions(args: any[], optional = false) {
 }
 
 /**
- * Lazy load a provider from his package and invoke only when the provider is used
+ * Lazily inject a provider from a dynamic import.
+ *
+ * Defers loading and injection of a provider until the property is first accessed.
+ * Useful for code splitting, optional dependencies, or reducing initial bundle size.
+ *
+ * ### Usage
  *
  * ```typescript
  * import type {PlatformException} from "@tsed/platform-exceptions";
+ * import {Injectable, LazyInject} from "@tsed/di";
  *
  * @Injectable()
  * export class MyService {
+ *   // Import default export
  *   @LazyInject(() => import("@tsed/platform-exceptions"))
  *   exceptions: Promise<PlatformException>;
+ *
+ *   // Import named export
+ *   @LazyInject("MyPlugin", () => import("./plugins"))
+ *   plugin: Promise<MyPlugin>;
+ *
+ *   async handleError(error: Error) {
+ *     const handler = await this.exceptions;
+ *     handler.handle(error);
+ *   }
  * }
  * ```
  *
- * @param key - The named export to import from the module.
- * @param resolver - A function that returns a promise resolving to the module.
- * @returns {Function}
+ * @param key Optional named export to extract from the module
+ * @param resolver Function returning a promise resolving to the module
+ * @returns Property decorator function
+ * @public
  * @decorator
  */
 export function LazyInject(resolver: () => Promise<{default: unknown}>): PropertyDecorator;
@@ -61,20 +78,37 @@ export function LazyInject(...args: any[]): PropertyDecorator {
 }
 
 /**
- * Optionally Lazy load a provider from his package and invoke only when the provider is used
+ * Optionally inject a provider from a dynamic import, returning undefined on failure.
+ *
+ * Similar to `@LazyInject` but gracefully handles import failures by returning undefined.
+ * Useful for truly optional dependencies that may not be available in all environments.
+ *
+ * ### Usage
  *
  * ```typescript
  * import type {PlatformException} from "@tsed/platform-exceptions";
+ * import {Injectable, OptionalLazyInject} from "@tsed/di";
  *
  * @Injectable()
  * export class MyService {
  *   @OptionalLazyInject(() => import("@tsed/platform-exceptions"))
- *   exceptions: Promise<PlatformException>;
+ *   exceptions?: Promise<PlatformException>;
+ *
+ *   async handleError(error: Error) {
+ *     const handler = await this.exceptions;
+ *     if (handler) {
+ *       handler.handle(error);
+ *     } else {
+ *       console.error("Exception handler not available:", error);
+ *     }
+ *   }
  * }
  * ```
- * @param key - The named export to import from the module.
- * @param resolver - A function that returns a promise resolving to the module.
- * @decorator
+ *
+ * @param key Optional named export to extract from the module
+ * @param resolver Function returning a promise resolving to the module
+ * @returns Property decorator function
+ * @public
  */
 export function OptionalLazyInject(resolver: () => Promise<{default: unknown}>): PropertyDecorator;
 export function OptionalLazyInject(key: string, resolver: () => Promise<{default: unknown}>): PropertyDecorator;

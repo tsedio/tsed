@@ -32,39 +32,43 @@ export function bindConstant(target: any, propertyKey: string | symbol, expressi
 }
 
 /**
- * Return value from Configuration.
+ * Inject a frozen configuration value into a property.
  *
- * ## Example
+ * Retrieves a value from the injector configuration and freezes it (creates an immutable deep clone).
+ * The value is lazily loaded on first access and cached for subsequent accesses.
+ *
+ * ### Usage
  *
  * ```typescript
- * import {Env} from "@tsed/core/domain/Env.js";
- * import {Constant, Value} from "@tsed/di";
+ * import {Injectable, Constant} from "@tsed/di";
+ * import {Env} from "@tsed/core";
  *
- * export class MyClass {
+ * @Injectable()
+ * export class MyService {
+ *   @Constant("env")
+ *   env: Env;
  *
- *    @Constant("env")
- *    env: Env;
+ *   @Constant("api.baseUrl")
+ *   apiUrl: string;
  *
- *    @Value("swagger.path")
- *    swaggerPath: string;
+ *   @Constant("api.timeout", 5000)
+ *   timeout: number;
  *
- *    @Value("swagger.path", "defaultValue")
- *    swaggerPath: string;
+ *   constructor() {
+ *     // Not available yet - undefined
+ *   }
  *
- *    constructor() {
- *       console.log(this.swaggerPath) // undefined. Not available on constructor
- *    }
- *
- *    $onInit() {
- *      console.log(this.swaggerPath)  // something
- *    }
+ *   $onInit() {
+ *     console.log(this.env); // Value is available
+ *   }
  * }
  * ```
  *
- * @param {string} expression
- * @param defaultValue
- * @returns {(targetClass: any, attributeName: string) => any}
- * @decorator
+ * @typeParam Type The expected type of the constant value
+ * @param expression Dot-notation path to the configuration value
+ * @param defaultValue Optional default value if not found
+ * @returns Property decorator function
+ * @public
  */
 export function Constant<Type = unknown>(expression: string, defaultValue?: Type): PropertyDecorator {
   return (target, propertyKey) => {

@@ -2,6 +2,14 @@ import type {LocalsContainer} from "../domain/LocalsContainer.js";
 import {ProviderScope} from "../domain/ProviderScope.js";
 import {TokenProvider} from "./TokenProvider.js";
 
+/**
+ * Options for invoking and building a provider instance.
+ *
+ * Controls how the injector resolves dependencies, handles imports, and constructs provider instances.
+ * Used when manually invoking the injector to create instances with specific configuration.
+ *
+ * @public
+ */
 export interface InvokeOptions {
   /**
    * Define dependencies to build the provider and inject them in the constructor.

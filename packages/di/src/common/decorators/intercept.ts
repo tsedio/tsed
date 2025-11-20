@@ -67,10 +67,48 @@ export function bindIntercept(target: any, propertyKey: string | symbol, token: 
 }
 
 /**
- * Attaches interceptor to method call and executes the before and after methods
+ * Apply an interceptor to a method or all methods of a class.
  *
- * @param interceptor
- * @param options
+ * Wraps method execution with interceptor logic for cross-cutting concerns like logging,
+ * validation, caching, or error handling. Can be applied to individual methods or entire classes.
+ *
+ * ### Usage
+ *
+ * ```typescript
+ * import {Injectable, Intercept, Interceptor, InterceptorContext, InterceptorMethods} from "@tsed/di";
+ *
+ * @Interceptor()
+ * class LogInterceptor implements InterceptorMethods {
+ *   intercept(context: InterceptorContext) {
+ *     console.log("Before:", context.propertyKey);
+ *     const result = context.next();
+ *     console.log("After:", result);
+ *     return result;
+ *   }
+ * }
+ *
+ * @Injectable()
+ * class UserService {
+ *   @Intercept(LogInterceptor)
+ *   async findById(id: string) {
+ *     return {id, name: "User"};
+ *   }
+ * }
+ *
+ * // Apply to all methods
+ * @Injectable()
+ * @Intercept(LogInterceptor)
+ * class ProductService {
+ *   getAll() {}
+ *   getById(id: string) {}
+ * }
+ * ```
+ *
+ * @typeParam T The interceptor class type
+ * @param interceptor The interceptor class token
+ * @param options Optional configuration passed to the interceptor
+ * @returns Method or class decorator function
+ * @public
  * @decorator
  */
 export function Intercept<T extends InterceptorMethods>(interceptor: Type<T>, options?: any): any {

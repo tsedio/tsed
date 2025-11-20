@@ -9,6 +9,30 @@ import type {ImportTokenProviderOpts} from "../interfaces/ImportTokenProviderOpt
 import type {TokenProvider} from "../interfaces/TokenProvider.js";
 import type {TokenRoute} from "../interfaces/TokenRoute.js";
 
+/**
+ * Configuration management service for the DI system.
+ *
+ * Stores and manages application configuration settings including imports, routes, logger options,
+ * and custom properties. Provides type-safe accessors for common configuration keys and supports
+ * nested property access via `get()` and `set()`.
+ *
+ * ### Usage
+ *
+ * ```typescript
+ * import {DIConfiguration} from "@tsed/di";
+ *
+ * const config = new DIConfiguration({
+ *   rootDir: __dirname,
+ *   env: Env.PROD,
+ *   logger: {level: "info"}
+ * });
+ *
+ * config.set("custom.nested.key", "value");
+ * const value = config.get("custom.nested.key");
+ * ```
+ *
+ * @public
+ */
 export class DIConfiguration {
   readonly default: Map<string, any> = new Map();
   protected map: Map<string, any> = new Map();

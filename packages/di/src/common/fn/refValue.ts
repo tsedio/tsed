@@ -1,23 +1,32 @@
 import {injector} from "./injector.js";
 
 /**
- * Get a value from the `injector.settings`.
+ * Create a reactive reference to a configuration value.
  *
- * ## Example
+ * Returns an object with a `value` getter that always fetches the current configuration value.
+ * Useful for creating properties that stay synchronized with configuration changes.
  *
- * ```ts
+ * ### Usage
+ *
+ * ```typescript
  * import {refValue, Injectable} from "@tsed/di";
  *
  * @Injectable()
  * class Test {
- *   test = refValue("logger.level", "default value");
+ *   logLevel = refValue<string>("logger.level", "info");
+ *   port = refValue<number>("server.port");
  *
  *   constructor() {
- *     console.log(this.test.value); // "off"
+ *     console.log(this.logLevel.value); // Always current value
  *   }
  * }
+ * ```
  *
- * @param expression The expression to get the value from the `injector.settings`.
+ * @typeParam Type The expected type of the value
+ * @param expression Dot-notation path to the configuration value
+ * @param defaultValue Optional default value if the expression is not found
+ * @returns A frozen object with a reactive `value` property
+ * @public
  */
 export function refValue<Type>(expression: string): {value: Type | undefined};
 export function refValue<Type>(expression: string, defaultValue: Type | undefined): {value: Type};

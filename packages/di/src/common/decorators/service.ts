@@ -1,12 +1,32 @@
 import {Injectable} from "./injectable.js";
 
 /**
- * The decorators `@Service()` declare a new service can be injected in other service or controller on there `constructor`.
- * All services annotated with `@Service()` are constructed one time.
+ * Declare a service class that can be injected into other components.
  *
- * > `@Service()` use the `reflect-metadata` to collect and inject service on controllers or other services.
+ * Alias for `@Injectable()` decorator with default settings.
+ * Services are singleton-scoped and instantiated once during application startup.
  *
- * @returns {Function}
+ * ### Usage
+ *
+ * ```typescript
+ * import {Service} from "@tsed/di";
+ *
+ * @Service()
+ * export class UserService {
+ *   async findById(id: string) {
+ *     // Service logic
+ *   }
+ * }
+ *
+ * // Use in another service or controller
+ * @Service()
+ * export class AuthService {
+ *   constructor(private userService: UserService) {}
+ * }
+ * ```
+ *
+ * @returns Class decorator function
+ * @public
  * @decorator
  */
 export function Service(): Function {

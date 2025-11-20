@@ -1,11 +1,38 @@
 import {injector, InjectorService, LocalsContainer} from "../index.js";
 import {ContextLogger, ContextLoggerOptions} from "./ContextLogger.js";
 
+/**
+ * Options for creating a DI context instance.
+ *
+ * @public
+ */
 export interface DIContextOptions extends Omit<ContextLoggerOptions, "dateStart"> {
   id: string;
   platform?: string;
 }
 
+/**
+ * Execution context for dependency injection operations.
+ *
+ * Represents a single execution scope (typically an HTTP request) with its own
+ * scoped provider instances, logger, and lifecycle management. Provides access to
+ * request-scoped services and context-specific data.
+ *
+ * ### Usage
+ *
+ * ```typescript
+ * import {DIContext} from "@tsed/di";
+ *
+ * const context = new DIContext({id: "req-123"});
+ *
+ * context.logger.info("Processing request");
+ * const service = await context.injector.invoke(MyService, context.container);
+ *
+ * await context.destroy(); // Cleanup when done
+ * ```
+ *
+ * @public
+ */
 export class DIContext {
   [x: string]: any;
 

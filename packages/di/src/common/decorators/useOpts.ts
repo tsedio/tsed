@@ -6,7 +6,12 @@ import {decoratorTypeOf} from "@tsed/core/utils/decoratorTypeOf.js";
 import {DI_USE_OPTIONS, DI_USE_PARAM_OPTIONS} from "../constants/constants.js";
 
 /**
- * Add options to invoke the Service.
+ * Pass custom options to an injected provider.
+ *
+ * Supplies configuration options when injecting a provider that accepts `@Opts`.
+ * Works with constructor parameters and property injection.
+ *
+ * ### Usage
  *
  * ```typescript
  * import {Injectable, Opts, UseOpts} from "@tsed/di";
@@ -14,35 +19,38 @@ import {DI_USE_OPTIONS, DI_USE_PARAM_OPTIONS} from "../constants/constants.js";
  * @Injectable()
  * class MyConfigurableService {
  *   source: string;
- *   constructor(@Opts options: any = {}) {
- *      console.log("Hello ", options.source); // log: Hello Service1 then Hello Service2
  *
- *      this.source = options.source;
+ *   constructor(@Opts options: any = {}) {
+ *     this.source = options.source;
  *   }
  * }
  *
  * @Injectable()
  * class MyService1 {
+ *   // Constructor parameter with options
  *   constructor(@UseOpts({source: 'Service1'}) service: MyConfigurableService) {
- *     console.log(service.source) // log: Service1
+ *     console.log(service.source); // "Service1"
  *   }
  * }
  *
  * @Injectable()
  * class MyService2 {
- *   constructor(@UseOpts({source: 'Service2'}) service: MyConfigurableService) {
- *     console.log(service.source) // log: Service2
- *   }
+ *   // Property injection with options
+ *   @Inject(MyConfigurableService)
+ *   @UseOpts({source: 'Service2'})
+ *   service: MyConfigurableService;
  * }
  * ```
  *
- * ::: warning
- * Using @@Opts@@ decorator on a constructor parameter change the Scope of the provider to `ProviderScope.INSTANCE`.
- * :::
+ * ### Warning
  *
- * @returns {Function}
+ * The injected provider must use `@Opts` to receive these options.
+ * Using `@Opts` automatically sets the provider scope to `INSTANCE`.
+ *
+ * @param options Configuration object to pass to the provider
+ * @returns Decorator function (parameter or property)
+ * @public
  * @decorator
- * @param options
  */
 export function UseOpts(options: {[key: string]: any}): Function {
   return (target: Object, propertyKey: string | symbol, index?: number): any => {

@@ -3,6 +3,11 @@ import {levels, LogLevel} from "@tsed/logger";
 
 import {DILogger, logger as injectLogger} from "../../common/index.js";
 
+/**
+ * Options for creating a context logger instance.
+ *
+ * @public
+ */
 export interface ContextLoggerOptions extends Record<string, any> {
   id: string;
   logger?: DILogger;
@@ -13,6 +18,27 @@ export interface ContextLoggerOptions extends Record<string, any> {
 
 const LEVELS: Record<string, LogLevel> = levels();
 
+/**
+ * Context-aware logger for scoped logging within a request or execution context.
+ *
+ * Buffers log messages and associates them with a specific context (like an HTTP request).
+ * Supports log level filtering, buffering, and automatic flushing when the context ends.
+ *
+ * ### Usage
+ *
+ * ```typescript
+ * import {ContextLogger} from "@tsed/di";
+ *
+ * const logger = new ContextLogger({id: "req-123"});
+ *
+ * logger.info("Processing request");
+ * logger.debug("Debug info");
+ *
+ * await logger.flush(); // Write buffered logs
+ * ```
+ *
+ * @public
+ */
 export class ContextLogger {
   readonly dateStart: Date;
   readonly id: string;

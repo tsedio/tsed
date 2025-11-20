@@ -29,24 +29,28 @@ import {DIConfiguration} from "./DIConfiguration.js";
 const EXCLUDED_CONFIGURATION_KEYS = ["mount", "imports"];
 
 /**
- * This service contain all services collected by `@Service` or services declared manually with `InjectorService.factory()` or `InjectorService.service()`.
+ * Core dependency injection orchestrator managing provider lifecycle and resolution.
  *
- * ### Example:
+ * The main service responsible for registering, resolving, and managing all injectable providers.
+ * Handles dependency graph resolution, instance caching, scope management, and lifecycle hooks.
+ *
+ * ### Usage
  *
  * ```typescript
  * import {InjectorService} from "@tsed/di";
  *
- * // Import the services (all services are decorated with @Service()";
+ * // Import the services (all services are decorated with @Service())
  * import MyService1 from "./services/service1.js";
  * import MyService2 from "./services/service2.js";
  * import MyService3 from "./services/service3.js";
  *
- * // When all services are imported, you can load InjectorService.
- *
+ * // When all services are imported, you can load InjectorService
  * await injector().load();
  *
  * const myService1 = injector.get<MyService1>(MyService1);
  * ```
+ *
+ * @public
  */
 export class InjectorService extends Container {
   public logger: DILogger = console;
@@ -67,30 +71,35 @@ export class InjectorService extends Container {
   }
 
   /**
-   * Return a list of instance build by the injector.
+   * Return a list of all instances built by the injector.
+   *
+   * @returns An array of all cached provider instances
    */
   public toArray(): any[] {
     return [...this.#cache.values()];
   }
 
   /**
-   * Get a service or factory already constructed from his symbol or class.
+   * Get a service or factory already constructed from its symbol or class.
    *
-   * #### Example
+   * Returns the cached instance if available, otherwise resolves and caches the provider.
+   *
+   * ### Usage
    *
    * ```typescript
    * import {InjectorService} from "@tsed/di";
    * import MyService from "./services.js";
    *
    * class OtherService {
-   *      constructor(injectorService: InjectorService) {
-   *          const myService = injectorService.get<MyService>(MyService);
-   *      }
+   *   constructor(injectorService: InjectorService) {
+   *     const myService = injectorService.get<MyService>(MyService);
+   *   }
    * }
    * ```
    *
-   * @param token The class or symbol registered in InjectorService.
-   * @param options
+   * @param token The class or symbol registered in InjectorService
+   * @param options Optional invocation options
+   * @returns The resolved provider instance
    */
   get<T = any>(token: TokenProvider<T>, options?: Partial<InvokeOptions>): T {
     if (!this.has(token)) {
@@ -101,7 +110,13 @@ export class InjectorService extends Container {
   }
 
   /**
-   * Return all instance of the same provider type
+   * Return all instances of providers matching the specified type.
+   *
+   * Retrieves all providers of a given type and resolves their instances.
+   *
+   * @param type The provider type to filter by (e.g., ProviderType.CONTROLLER)
+   * @param options Optional invocation options
+   * @returns Array of resolved instances matching the type
    */
   getMany<Type = any>(type: any, options?: Partial<InvokeOptions>): Type[] {
     return this.getProviders(type).map((provider) => {
@@ -110,14 +125,23 @@ export class InjectorService extends Container {
   }
 
   /**
-   * The has() method returns a boolean indicating whether an element with the specified key exists or not.
+   * Check if a provider instance exists in the cache.
+   *
+   * @param token The token to check for
+   * @returns `true` if the instance is cached, `false` otherwise
    */
   has(token: TokenProvider): boolean {
     return this.#cache.get(token) !== undefined;
   }
 
   /**
-   * Declare an alias for a given token.
+   * Create an alias for a provider token.
+   *
+   * Allows the same provider instance to be retrieved using a different token.
+   *
+   * @param token The original provider token
+   * @param alias The alias token to register
+   * @returns The injector instance for chaining
    */
   alias(token: TokenProvider, alias: TokenProvider) {
     this.#cache.set(alias, this.#cache.get(token));
@@ -126,26 +150,27 @@ export class InjectorService extends Container {
   }
 
   /**
-   * Resolve the token depending on his provider configuration.
+   * Resolve a provider token and return its instance.
    *
-   * If the token isn't cached, the injector will invoke the provider and cache the result.
+   * If the token isn't cached, the injector creates the instance according to the provider configuration
+   * and caches it based on the provider's scope (singleton, request, or instance).
    *
-   * #### Example
+   * ### Usage
    *
    * ```typescript
    * import {InjectorService} from "@tsed/di";
    * import MyService from "./services.js";
    *
    * class OtherService {
-   *     constructor(injectorService: InjectorService) {
-   *          const myService = injectorService.invoke<MyService>(MyService);
-   *      }
-   *  }
+   *   constructor(injectorService: InjectorService) {
+   *     const myService = injectorService.resolve<MyService>(MyService);
+   *   }
+   * }
    * ```
    *
-   * @param token The injectable class to invoke. Class parameters are injected according constructor signature.
-   * @param options {InvokeOptions} Optional options to invoke the class.
-   * @returns {Type} The class constructed.
+   * @param token The injectable class to invoke. Constructor parameters are injected automatically
+   * @param options Optional invocation options (locals, rebuild, useOpts, etc.)
+   * @returns The resolved provider instance
    */
   public resolve<Type = any>(token: TokenProvider<Type>, options: Partial<InvokeOptions> = {}): Type {
     let instance: any = options.locals ? options.locals.get(token) : undefined;
@@ -205,34 +230,38 @@ export class InjectorService extends Container {
   }
 
   /**
-   * Resolve the token depending on his provider configuration.
+   * Invoke a provider token and return its instance.
    *
-   * If the token isn't cached, the injector will invoke the provider and cache the result.
+   * Alias for `resolve()`. If the token isn't cached, the injector creates the instance
+   * according to the provider configuration.
    *
-   * #### Example
+   * ### Usage
    *
    * ```typescript
    * import {InjectorService} from "@tsed/di";
    * import MyService from "./services.js";
    *
    * class OtherService {
-   *     constructor(injectorService: InjectorService) {
-   *          const myService = injectorService.invoke<MyService>(MyService);
-   *      }
-   *  }
+   *   constructor(injectorService: InjectorService) {
+   *     const myService = injectorService.invoke<MyService>(MyService);
+   *   }
+   * }
    * ```
    *
-   * @param token The injectable class to invoke. Class parameters are injected according constructor signature.
-   * @param options {InvokeOptions} Optional options to invoke the class.
-   * @returns {Type} The class constructed.
-   * @alias InjectorService.resolve
+   * @param token The injectable class to invoke. Constructor parameters are injected automatically
+   * @param options Optional invocation options (locals, rebuild, useOpts, etc.)
+   * @returns The resolved provider instance
+   * @see resolve
    */
   public invoke<Type = any>(token: TokenProvider<Type>, options: Partial<InvokeOptions> = {}): Type {
     return this.resolve(token, options);
   }
 
   /**
-   * Build only providers which are asynchronous.
+   * Build all asynchronous providers.
+   *
+   * Resolves providers that have async factories or async initialization.
+   * Called automatically during the `load()` process.
    */
   async loadAsync() {
     for (const [, provider] of this) {
@@ -243,7 +272,10 @@ export class InjectorService extends Container {
   }
 
   /**
-   * Build only providers which are synchronous.
+   * Build all synchronous singleton providers.
+   *
+   * Instantiates all singleton-scoped providers that haven't been cached yet.
+   * Called automatically during the `load()` process after async providers.
    */
   loadSync() {
     for (const [, provider] of this) {
@@ -255,9 +287,20 @@ export class InjectorService extends Container {
   }
 
   /**
-   * Build all providers from given container (or GlobalProviders) and emit `$onInit` event.
+   * Load and initialize all registered providers.
    *
-   * @param container
+   * Bootstraps the DI system by resolving configuration, building provider instances,
+   * and triggering lifecycle hooks (`$beforeInit`, `$onInit`).
+   *
+   * ### Usage
+   *
+   * ```typescript
+   * import {injector} from "@tsed/di";
+   *
+   * await injector().load();
+   * ```
+   *
+   * @param container Optional container with additional providers to merge
    */
   async load(container: Container = createContainer()) {
     // avoid provider registration in the GlobalContainer during the loading phase
@@ -278,8 +321,11 @@ export class InjectorService extends Container {
   }
 
   /**
-   * Load all configurations registered on providers via @Configuration decorator.
-   * It inspects for each provider some fields like imports, mount, etc. to resolve the configuration.
+   * Resolve and merge all provider configurations.
+   *
+   * Collects configuration from all providers decorated with `@Configuration`,
+   * merges them, and stores the result in the injector settings.
+   * Called automatically during the load process.
    */
   async resolveConfiguration() {
     if (this.resolvedConfiguration) {

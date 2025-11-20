@@ -27,32 +27,52 @@ function mapOptions(options: any): ControllerOptions {
 }
 
 /**
- * Declare a new controller with his Rest path. His methods annotated will be collected to build the routing list.
- * This routing listing will be built with the `express.Router` object.
+ * Declare a REST controller with a base path for routing.
  *
- * ::: tip
- * See [Controllers](/docs/controllers.md) section for more details
- * :::
+ * Registers a class as a controller provider that handles HTTP requests.
+ * Annotated methods define routes relative to the controller's base path.
+ *
+ * ### Usage
  *
  * ```typescript
- *  @Controller("/calendars")
- *  export class CalendarCtrl {
+ * import {Controller, Get} from "@tsed/di";
  *
- *    @Get("/:id")
- *    public get(
- *      @Req() request: Req,
- *      @Res() response: Res,
- *      @Next() next: Next
- *    ): void {
+ * @Controller("/calendars")
+ * export class CalendarCtrl {
+ *   @Get("/:id")
+ *   get(@PathParams("id") id: string) {
+ *     return {id};
+ *   }
+ * }
  *
- *    }
- *  }
+ * // With middleware
+ * @Controller({
+ *   path: "/users",
+ *   middlewares: {
+ *     useBefore: [AuthMiddleware]
+ *   }
+ * })
+ * export class UserCtrl {}
+ *
+ * // Nested controllers
+ * @Controller({
+ *   path: "/admin",
+ *   children: [UserAdminCtrl, ProductAdminCtrl]
+ * })
+ * export class AdminCtrl {}
  * ```
  *
- * @param options
- * @controller
+ * ### Options
+ *
+ * - `path`: Base route path (string, RegExp, or array)
+ * - `children`: Child controller classes for nested routing
+ * - `middlewares`: Middleware configuration (useBefore, use, useAfter)
+ * - Additional `ProviderOpts` options
+ *
+ * @param options Controller path or configuration object
+ * @returns Class decorator function
+ * @public
  * @decorator
- * @classDecorator
  */
 export function Controller(options: PathType | ControllerOptions): ClassDecorator {
   const {children = [], path, ...opts} = mapOptions(options);

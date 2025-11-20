@@ -1,12 +1,39 @@
 import {interceptor} from "../fn/injectable.js";
 
 /**
- * The decorators `@Interceptor()` declare a new service can be injected in other service or controller on there `constructor`.
- * All services annotated with `@Interceptor()` are constructed one time.
+ * Declare an interceptor class for cross-cutting concerns.
  *
- * > `@Service()` use the `reflect-metadata` to collect and inject service on controllers or other services.
+ * Registers a class as an interceptor provider that can modify method execution behavior.
+ * Interceptors must implement the `InterceptorMethods` interface.
+ * All interceptors are singleton-scoped and constructed once.
  *
- * @returns {Function}
+ * ### Usage
+ *
+ * ```typescript
+ * import {Interceptor, InterceptorContext, InterceptorMethods} from "@tsed/di";
+ *
+ * @Interceptor()
+ * export class LogInterceptor implements InterceptorMethods {
+ *   intercept(context: InterceptorContext) {
+ *     console.log("Before:", context.propertyKey);
+ *     const result = context.next();
+ *     console.log("After:", result);
+ *     return result;
+ *   }
+ * }
+ *
+ * // Use with @Intercept decorator
+ * @Injectable()
+ * class MyService {
+ *   @Intercept(LogInterceptor)
+ *   async fetchData() {
+ *     return "data";
+ *   }
+ * }
+ * ```
+ *
+ * @returns Class decorator function
+ * @public
  * @decorator
  */
 export function Interceptor(): ClassDecorator {

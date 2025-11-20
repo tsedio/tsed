@@ -106,22 +106,44 @@ function bindInjectableProperty<T = any>(
 }
 
 /**
- * Inject a provider to another provider.
+ * Inject a provider into a constructor parameter or property.
  *
- * Use this decorator to inject a custom provider on constructor parameter or property.
+ * Explicitly declares a dependency injection for constructor parameters or class properties.
+ * Supports custom tokens, transformations, and injection options.
+ *
+ * ### Usage
  *
  * ```typescript
+ * import {Injectable, Inject} from "@tsed/di";
+ *
+ * const CONNECTION = Symbol.for("CONNECTION");
+ *
  * @Injectable()
  * export class MyService {
+ *   // Property injection
  *   @Inject(CONNECTION)
- *   connection: CONNECTION;
+ *   connection: Database;
+ *
+ *   // Constructor injection
+ *   constructor(
+ *     @Inject(CONNECTION) private db: Database,
+ *     private otherService: OtherService // Auto-injected
+ *   ) {}
+ * }
+ *
+ * // With transformation
+ * @Injectable()
+ * export class ProcessorService {
+ *   @Inject(DataService, (service) => service.getData())
+ *   initialData: any[];
  * }
  * ```
  *
- * @param token A token provider or token provider group
- * @param transform
- * @returns {Function}
- * @decorator
+ * @typeParam T The type of the injected provider
+ * @param token The provider token to inject (optional for constructor params with TypeScript metadata)
+ * @param transform Optional transformation function or injection options
+ * @returns Decorator function (property or parameter)
+ * @public
  */
 export function Inject<T = any>(token?: TokenProvider<T> | (() => TokenProvider<T>), transform?: TransformInjectedProviderCB<T>): any;
 export function Inject<T = any>(

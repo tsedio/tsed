@@ -4,21 +4,34 @@ import {injector} from "./injector.js";
 import {invokeOptions, localsContainer} from "./localsContainer.js";
 
 /**
- * Inject a provider to another provider.
+ * Programmatically inject a provider instance.
  *
- * Use this function to inject a custom provider on constructor parameter or property.
+ * Resolves and returns a provider instance using the global injector.
+ * Useful for injecting dependencies outside of decorators or in property initializers.
+ *
+ * ### Usage
  *
  * ```typescript
+ * import {inject, Injectable} from "@tsed/di";
+ *
  * @Injectable()
  * export class MyService {
+ *   // Property injection
  *   connection = inject(CONNECTION);
+ *
+ *   // Function injection
+ *   getData() {
+ *     const api = inject(ApiService);
+ *     return api.fetch();
+ *   }
  * }
  * ```
  *
- * @param token A token provider or token provider group
- * @param opts
- * @returns {Function}
- * @decorator
+ * @typeParam TokenType The type of the injected provider
+ * @param token The provider token to resolve
+ * @param opts Optional invocation options (locals, rebuild, useOpts)
+ * @returns The resolved provider instance
+ * @public
  */
 export function inject<TokenType>(
   token: TokenProvider<TokenType>,
