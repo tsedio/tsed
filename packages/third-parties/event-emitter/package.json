@@ -42,7 +42,7 @@
     "eventemitter2": "^6.4.9",
     "typescript": "5.9.3",
     "vite": "7.1.11",
-    "vitest": "3.2.4"
+    "vitest": "4.0.12"
   },
   "peerDependencies": {
     "eventemitter2": "^6.4.4"

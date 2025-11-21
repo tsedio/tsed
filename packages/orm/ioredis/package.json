@@ -41,7 +41,7 @@
     "ioredis": "5.4.1",
     "ioredis-mock": "8.9.0",
     "typescript": "5.9.3",
-    "vitest": "3.2.4"
+    "vitest": "4.0.12"
   },
   "peerDependencies": {
     "@tsed/core": ">=8.0.0",
