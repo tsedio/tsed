@@ -90,9 +90,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@apollo/datasource-rest@npm:6.3.0":
-  version: 6.3.0
-  resolution: "@apollo/datasource-rest@npm:6.3.0"
+"@apollo/datasource-rest@npm:6.4.1":
+  version: 6.4.1
+  resolution: "@apollo/datasource-rest@npm:6.4.1"
   dependencies:
     "@apollo/utils.fetcher": "npm:^3.0.0"
     "@apollo/utils.keyvaluecache": "npm:^3.1.0"
@@ -105,7 +105,7 @@ __metadata:
     node-fetch: "npm:^2.6.7"
   peerDependencies:
     graphql: ^16.5.0
-  checksum: 10/06f5adcb4a20c9de876c2661c725a1910713ba417de36e434847d91913ad5d8bf868014d20bc0ce29a0c9986c9737194728b793574aca1a0cc96d29145bf2860
+  checksum: 10/8fb932e632ded35be73ff8dc0a6d310b86e05d64414a6e1bee610fc632c02c6f16a76f4fd4f425d7e8a2c3466737e51c644a6670a2ebdbcbdb70297a4e54caed
   languageName: node
   linkType: hard
 
@@ -12138,7 +12138,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@tsed/apollo@workspace:packages/graphql/apollo"
   dependencies:
-    "@apollo/datasource-rest": "npm:6.3.0"
+    "@apollo/datasource-rest": "npm:6.4.1"
     "@apollo/server": "npm:^4.11.0"
     "@as-integrations/koa": "npm:1.1.1"
     "@tsed/barrels": "workspace:*"
