@@ -136,8 +136,14 @@ describe("Spec: Nullable", () => {
                   "type": "string",
                 },
                 "nested": {
-                  "$ref": "#/components/schemas/Nested",
-                  "nullable": true,
+                  "oneOf": [
+                    {
+                      "$ref": "#/components/schemas/Nested",
+                    },
+                    {
+                      "nullable": true,
+                    },
+                  ],
                 },
                 "price": {
                   "nullable": true,
@@ -693,8 +699,14 @@ describe("Spec: Nullable", () => {
             "Model": {
               "properties": {
                 "prop2": {
-                  "$ref": "#/components/schemas/Nested",
-                  "nullable": true,
+                  "oneOf": [
+                    {
+                      "$ref": "#/components/schemas/Nested",
+                    },
+                    {
+                      "nullable": true,
+                    },
+                  ],
                 },
               },
               "type": "object",

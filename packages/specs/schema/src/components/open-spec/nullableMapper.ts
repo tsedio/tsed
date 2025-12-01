@@ -17,8 +17,12 @@ export function nullableMapperOpenApi(obj: any, schema: JsonSchema | null, optio
 
   if (obj.$ref) {
     return cleanObject({
-      ...obj,
-      nullable: true
+      oneOf: [
+        obj,
+        {
+          nullable: true
+        }
+      ]
     });
   }
 
