@@ -1,6 +1,6 @@
 import {OutgoingHttpHeaders, ServerResponse} from "node:http";
 
-import {isArray, isBoolean, isNumber, isStream, isString} from "@tsed/core";
+import {isBoolean, isNumber, isStream, isString} from "@tsed/core";
 import {injectable, lazyInject, ProviderScope} from "@tsed/di";
 import {getStatusMessage} from "@tsed/schema";
 import encodeUrl from "encodeurl";
@@ -348,12 +348,6 @@ export class PlatformResponse<Res extends Record<string, any> = any> {
     }
 
     this.raw.cookie(name, value, opts);
-
-    const cookie = this.raw.get("set-cookie");
-
-    if (!isArray(value)) {
-      this.raw.set("set-cookie", [].concat(cookie));
-    }
 
     return this;
   }
