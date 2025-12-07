@@ -3,6 +3,7 @@ import type {NextHandleFunction} from "connect";
 import type {RouterOptions} from "express";
 
 export interface PlatformExpressSettings {
+  version?: "v4" | "v5";
   /**
    * Global configuration for the Express.Router. See express [documentation](http://expressjs.com/en/api.html#express.router).
    */

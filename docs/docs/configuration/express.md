@@ -15,6 +15,7 @@ This option let you configure the default bodyParser used by Ts.ED to parse the 
 ```typescript
 @Configuration({
   express: {
+    version: "v5", // to force v5 feature, if Ts.ED doesn't detect it automatically
     bodyParser: {
       text: {},
       json: {},

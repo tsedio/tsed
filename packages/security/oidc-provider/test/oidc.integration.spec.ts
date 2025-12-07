@@ -28,6 +28,7 @@ describe("OIDC", () => {
   function followRedirection(response: any, headers: any = {}) {
     if (response.headers.location) {
       const url = response.headers.location.replace("http://0.0.0.0:8081", "");
+
       return request.get(url).set("Origin", "http://0.0.0.0:8081").set("Host", "0.0.0.0:8081").set(headers);
     }
 
@@ -36,6 +37,9 @@ describe("OIDC", () => {
 
   beforeEach(
     utils.bootstrap({
+      express: {
+        version: "v5"
+      },
       mount: {
         "/": [InteractionsCtrl]
       },
@@ -126,6 +130,9 @@ describe("OIDC on a different path", () => {
 
   beforeEach(
     utils.bootstrap({
+      express: {
+        version: "v5"
+      },
       mount: {
         "/": [InteractionsCtrl]
       },

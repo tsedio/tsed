@@ -11,108 +11,128 @@ interface ConvertPathResult {
  * Converts a path to v4 format
  */
 function convertPathToV4(path: string): ConvertPathResult {
-  const segments = path.split("/");
+  // Preserve unsupported/complex patterns
+  // Keep paths with bracket choices or middle wildcards intact
+  if (path.includes("[") || (path.includes("(.*)") && !path.endsWith("/(.*)") && path !== "/(.*)")) {
+    return {path};
+  }
 
-  const parsed = segments.reduce(
-    (options, segment, index) => {
-      const isLastSegment = index === segments.length - 1;
+  let wildcard: string | undefined;
+  let result = path;
 
-      if (isLastSegment && (segment === "*" || segment === "(.*)")) {
-        options.wildcard = "*";
-        options.path.push("*");
-        return options;
-      }
+  // v5 optional segment syntax -> v4 optional param
+  // e.g. "/test{/:foo}{/:param}" -> "/test/:foo?/:param?"
+  result = result.replace(/\{\/:([A-Za-z0-9_]+)\}/g, "/:$1?");
+  // e.g. "/test/:foo/{:param}" -> "/test/:foo/:param"
+  result = result.replace(/\{:([A-Za-z0-9_]+)\}/g, ":$1");
 
-      if (isLastSegment && segment.startsWith("*")) {
-        options.wildcard = segment.substring(1);
-        options.path.push("*");
+  // Trailing v5 wildcard segment -> v4
+  result = result.replace(/\/{\*([A-Za-z0-9_]+)\}$/g, (_m, name) => {
+    wildcard = name;
+    return "/*";
+  });
 
-        return options;
-      }
+  const segments = result.split("/");
+  const last = segments[segments.length - 1];
 
-      if (segment.startsWith(":") && segment.endsWith("*")) {
-        options.wildcard = segment.substring(1, segment.length - 1);
+  if (last === "*" || last === "(.*)") {
+    wildcard = "*";
+    if (last === "(.*)") {
+      segments[segments.length - 1] = "*";
+      result = segments.join("/");
+    }
+    return {path: result, wildcard};
+  }
 
-        options.path.push("*");
-        return options;
-      }
+  // Trailing *name -> wildcard name for v4
+  if (last && last.startsWith("*") && last.length > 1) {
+    wildcard = last.substring(1);
+    segments[segments.length - 1] = "*";
+    result = segments.join("/");
+    return {path: result, wildcard};
+  }
 
-      if (segment.startsWith("{")) {
-        // Handle v5 style parameters like /{param}
-        const paramName = segment.substring(1, segment.length - 1);
-        options.path.push(`${paramName}?`);
+  // Ts.ED syntax :param* -> v4 "*"
+  if (last && last.startsWith(":") && last.endsWith("*")) {
+    wildcard = last.substring(1, last.length - 1);
+    segments[segments.length - 1] = "*";
+    result = segments.join("/");
+    return {path: result, wildcard};
+  }
 
-        return options;
-      }
-
-      options.path.push(segment);
-
-      return options;
-    },
-    {path: [], wildcard: undefined} as {path: string[]; wildcard?: string}
-  );
-
-  return {
-    path: parsed.path.join("/"),
-    wildcard: parsed.wildcard
-  };
+  return {path: result, wildcard};
 }
 
 /**
  * Converts a path to v5 format
  */
 function convertPathToV5(path: string): ConvertPathResult {
+  // Preserve unsupported/complex patterns
+  if (path.includes("[") || (path.includes("(.*)") && !path.endsWith("/(.*)") && path !== "/(.*)")) {
+    return {path};
+  }
+
+  // Already v5-style specific constructs should be preserved
+  if (/\/{\*[^}]+\}/.test(path) || /\{:[^}]+\}/.test(path) || /\{\/:[^}]+\}/.test(path)) {
+    const m = path.match(/\/{\*([^}]+)\}$/);
+    return {path, wildcard: m ? m[1] : undefined};
+  }
+
   const segments = path.split("/");
+  const base: string[] = [];
+  const optionals: string[] = [];
+  let wildcard: string | undefined;
 
-  const parsed = segments.reduce(
-    (options, segment, index) => {
-      const isLastSegment = index === segments.length - 1;
+  segments.forEach((seg, idx) => {
+    if (idx === 0) return; // first split is empty because path starts with '/'
+    const isLast = idx === segments.length - 1;
 
-      if (isLastSegment && (segment === "*" || segment === "(.*)")) {
-        options.wildcard = "*";
-        options.path.push("{*wildcard}");
+    // Trailing raw wildcard
+    if (isLast && (seg === "*" || seg === "(.*)")) {
+      wildcard = "wildcard";
+      optionals.push("/{*wildcard}");
+      return;
+    }
 
-        return options;
-      }
+    // Trailing named wildcard forms
+    if (isLast && seg.startsWith(":") && seg.endsWith("*")) {
+      wildcard = seg.substring(1, seg.length - 1);
+      optionals.push(`/{*${wildcard}}`);
+      return;
+    }
 
-      if (isLastSegment && segment.startsWith("*")) {
-        options.wildcard = segment.substring(1);
-        options.path.push(segment);
+    if (isLast && seg.startsWith("*") && seg.length > 1) {
+      wildcard = seg.substring(1);
+      base.push(seg); // keep as-is according to spec for v5
+      return;
+    }
 
-        return options;
-      }
+    // Optional parameter -> v5 optional segment
+    if (seg.startsWith(":") && seg.endsWith("?")) {
+      const name = seg.substring(1, seg.length - 1);
+      optionals.push(`{/:${name}}`);
+      return;
+    }
 
-      if (segment.startsWith(":")) {
-        if (segment.endsWith("?")) {
-          options.path.push(`{:${segment.substring(1, segment.length - 1)}}`);
+    // Keep everything else (including non-optional params)
+    base.push(seg);
+  });
 
-          return options;
-        }
+  let result = "/" + base.join("/");
+  // Collapse double slash when base is empty
+  if (result === "/") {
+    result = "";
+  }
+  result += optionals.join("");
 
-        if (isLastSegment && segment.endsWith("*")) {
-          options.wildcard = segment.substring(1, segment.length - 1);
-          options.path.push(`{*${options.wildcard}}`);
+  // If named wildcard kept as segment like '/*splat', leave as-is (handled above)
+  if (!result) {
+    // Edge case when path was only optional param like "/:param?"
+    // base is empty -> result becomes optionals only
+    result = optionals.join("");
+  }
 
-          return options;
-        }
-      }
-
-      if (isLastSegment && segment.startsWith("{*")) {
-        // Handle v5 style parameters like /{param}
-        options.wildcard = segment.substring(2, segment.length - 1);
-      }
-
-      options.path.push(segment);
-
-      return options;
-    },
-    {path: [], wildcard: undefined} as {path: string[]; wildcard?: string}
-  );
-
-  return {
-    path: parsed.path.join("/"),
-    wildcard: parsed.wildcard
-  };
+  return {path: result || "/", wildcard};
 }
 
 /**

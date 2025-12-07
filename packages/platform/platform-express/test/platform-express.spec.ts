@@ -9,6 +9,9 @@ const utils = PlatformTestSdk.create({
   server: Server,
   logger: {
     level: "off"
+  },
+  express: {
+    version: "v5"
   }
 });
 

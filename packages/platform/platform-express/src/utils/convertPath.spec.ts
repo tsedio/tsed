@@ -21,10 +21,11 @@ describe("Path conversion", () => {
       // v5 compatibility to v4
       expect(convertPath("/*splat", "v4")).toEqual({path: "/*", wildcard: "splat"});
       expect(convertPath("/foo/*splat", "v4")).toEqual({path: "/foo/*", wildcard: "splat"});
-      expect(convertPath("/{:param}", "v4")).toEqual({path: "/:param?"});
-      expect(convertPath("/foo/{:param}", "v4")).toEqual({path: "/foo/:param?"});
-      expect(convertPath("/test/{:foo}/{:param}", "v4")).toEqual({path: "/test/:foo?/:param?"});
-      expect(convertPath("/test/:foo/{:param}", "v4")).toEqual({path: "/test/:foo/:param?"});
+      expect(convertPath("{/:param}", "v4")).toEqual({path: "/:param?"});
+      expect(convertPath("/foo{/:param}", "v4")).toEqual({path: "/foo/:param?"});
+      expect(convertPath("/test{/:foo}{/:param}", "v4")).toEqual({path: "/test/:foo?/:param?"});
+      expect(convertPath("/test/:foo/{:param}", "v4")).toEqual({path: "/test/:foo/:param"});
+      expect(convertPath("/test/:foo{/:param}", "v4")).toEqual({path: "/test/:foo/:param?"});
 
       // v4 pattern to v4 wildcard
       expect(convertPath("/(.*)", "v4")).toEqual({path: "/*", wildcard: "*"});
@@ -42,11 +43,11 @@ describe("Path conversion", () => {
       expect(convertPath("/*", "v5")).toEqual({path: "/{*wildcard}", wildcard: "*"});
       expect(convertPath("/foo/*", "v5")).toEqual({path: "/foo/{*wildcard}", wildcard: "*"});
       expect(convertPath("/test/foo/*", "v5")).toEqual({path: "/test/foo/{*wildcard}", wildcard: "*"});
-      expect(convertPath("/:param?", "v5")).toEqual({path: "/{:param}"});
-      expect(convertPath("/foo/:param?", "v5")).toEqual({path: "/foo/{:param}"});
-      expect(convertPath("/test/foo/:param?", "v5")).toEqual({path: "/test/foo/{:param}"});
-      expect(convertPath("/test/:foo/:param?", "v5")).toEqual({path: "/test/:foo/{:param}"});
-      expect(convertPath("/test/:foo?/:param?", "v5")).toEqual({path: "/test/{:foo}/{:param}"});
+      expect(convertPath("/:param?", "v5")).toEqual({path: "{/:param}"});
+      expect(convertPath("/foo/:param?", "v5")).toEqual({path: "/foo{/:param}"});
+      expect(convertPath("/test/foo/:param?", "v5")).toEqual({path: "/test/foo{/:param}"});
+      expect(convertPath("/test/:foo/:param?", "v5")).toEqual({path: "/test/:foo{/:param}"});
+      expect(convertPath("/test/:foo?/:param?", "v5")).toEqual({path: "/test{/:foo}{/:param}"});
       expect(convertPath("/(.*)", "v5")).toEqual({path: "/{*wildcard}", wildcard: "*"});
       expect(convertPath("/foo/(.*)", "v5")).toEqual({path: "/foo/{*wildcard}", wildcard: "*"});
       expect(convertPath("/test/foo/(.*)", "v5")).toEqual({path: "/test/foo/{*wildcard}", wildcard: "*"});
@@ -64,6 +65,7 @@ describe("Path conversion", () => {
       expect(convertPath("/foo/{*splat}", "v5")).toEqual({path: "/foo/{*splat}", wildcard: "splat"});
       expect(convertPath("/{:param}", "v5")).toEqual({path: "/{:param}"});
       expect(convertPath("/foo/{:param}", "v5")).toEqual({path: "/foo/{:param}"});
+      expect(convertPath("/foo{/:param}", "v5")).toEqual({path: "/foo{/:param}"});
 
       // fail in v5, let developers handle it
       expect(convertPath("/[discussion|page]/:slug", "v5")).toEqual({path: "/[discussion|page]/:slug"});

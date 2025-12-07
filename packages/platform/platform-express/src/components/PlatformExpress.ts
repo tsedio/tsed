@@ -5,7 +5,7 @@ import {IncomingMessage, ServerResponse} from "node:http";
 import {dirname, join} from "node:path";
 import {fileURLToPath} from "node:url";
 
-import {catchAsyncError, Env, isFunction, Type} from "@tsed/core";
+import {catchAsyncError, Env, isArray, isFunction, Type} from "@tsed/core";
 import {constant, inject, logger, runInContext} from "@tsed/di";
 import {PlatformExceptions} from "@tsed/platform-exceptions";
 import {
@@ -59,6 +59,12 @@ declare global {
 
 function getVersion() {
   try {
+    const v = constant("express.version");
+
+    if (v) {
+      return v;
+    }
+
     const {version} = JSON.parse(readFileSync(join(dirname(fileURLToPath(import.meta.resolve("express"))), "package.json"), "utf8"));
 
     return `v${version.split(".")[0]}`;
@@ -143,8 +149,12 @@ export class PlatformExpress extends PlatformAdapter<Express.Application> {
 
       if (wildcard) {
         handlers.unshift(((req: Express.Request, _: any, next: Express.NextFunction) => {
-          if (req.params["0"] && !req.params[wildcard]) {
-            req.params[wildcard] = req.params["0"];
+          if (isArray(req.params[wildcard])) {
+            req.params[wildcard] = req.params[wildcard].join("/");
+          }
+
+          if (wildcard === "wildcard") {
+            req.params["*"] ||= req.params[wildcard];
           }
 
           next();
