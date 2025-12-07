@@ -149,6 +149,10 @@ export class PlatformExpress extends PlatformAdapter<Express.Application> {
 
       if (wildcard) {
         handlers.unshift(((req: Express.Request, _: any, next: Express.NextFunction) => {
+          if (req.params["0"] && !req.params[wildcard]) {
+            req.params[wildcard] = req.params["0"];
+          }
+
           if (isArray(req.params[wildcard])) {
             req.params[wildcard] = req.params[wildcard].join("/");
           }

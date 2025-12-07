@@ -40,18 +40,18 @@ describe("Path conversion", () => {
   describe("v5", () => {
     it("should convert path with parameters correctly", () => {
       // v4 to v5 conversion
-      expect(convertPath("/*", "v5")).toEqual({path: "/{*wildcard}", wildcard: "*"});
-      expect(convertPath("/foo/*", "v5")).toEqual({path: "/foo/{*wildcard}", wildcard: "*"});
-      expect(convertPath("/test/foo/*", "v5")).toEqual({path: "/test/foo/{*wildcard}", wildcard: "*"});
+      expect(convertPath("/*", "v5")).toEqual({path: "/{*wildcard}", wildcard: "wildcard"});
+      expect(convertPath("/foo/*", "v5")).toEqual({path: "/foo/{*wildcard}", wildcard: "wildcard"});
+      expect(convertPath("/test/foo/*", "v5")).toEqual({path: "/test/foo/{*wildcard}", wildcard: "wildcard"});
       expect(convertPath("/:param?", "v5")).toEqual({path: "{/:param}"});
       expect(convertPath("/foo/:param?", "v5")).toEqual({path: "/foo{/:param}"});
       expect(convertPath("/test/foo/:param?", "v5")).toEqual({path: "/test/foo{/:param}"});
       expect(convertPath("/test/:foo/:param?", "v5")).toEqual({path: "/test/:foo{/:param}"});
       expect(convertPath("/test/:foo?/:param?", "v5")).toEqual({path: "/test{/:foo}{/:param}"});
-      expect(convertPath("/(.*)", "v5")).toEqual({path: "/{*wildcard}", wildcard: "*"});
-      expect(convertPath("/foo/(.*)", "v5")).toEqual({path: "/foo/{*wildcard}", wildcard: "*"});
-      expect(convertPath("/test/foo/(.*)", "v5")).toEqual({path: "/test/foo/{*wildcard}", wildcard: "*"});
-      expect(convertPath("/test/:foo/(.*)", "v5")).toEqual({path: "/test/:foo/{*wildcard}", wildcard: "*"});
+      expect(convertPath("/(.*)", "v5")).toEqual({path: "/{*wildcard}", wildcard: "wildcard"});
+      expect(convertPath("/foo/(.*)", "v5")).toEqual({path: "/foo/{*wildcard}", wildcard: "wildcard"});
+      expect(convertPath("/test/foo/(.*)", "v5")).toEqual({path: "/test/foo/{*wildcard}", wildcard: "wildcard"});
+      expect(convertPath("/test/:foo/(.*)", "v5")).toEqual({path: "/test/:foo/{*wildcard}", wildcard: "wildcard"});
 
       // Ts.ED syntax
       expect(convertPath("/:param*", "v5")).toEqual({path: "/{*param}", wildcard: "param"});
