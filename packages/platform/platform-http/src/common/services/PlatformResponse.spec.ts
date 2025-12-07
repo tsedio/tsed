@@ -333,7 +333,7 @@ describe("PlatformResponse", () => {
 
       response.cookie("locale", "fr-FR");
       expect(res.headers).toEqual({
-        "set-cookie": ["locale=fr-FR"],
+        "set-cookie": "locale=fr-FR",
         "x-request-id": "id"
       });
 

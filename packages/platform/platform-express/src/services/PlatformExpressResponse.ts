@@ -7,7 +7,7 @@ export class PlatformExpressResponse extends PlatformResponse<TsED.Response> {
 
     const cookie = this.get("set-cookie");
 
-    if (!isArray(value)) {
+    if (cookie && !isArray(value)) {
       this.setHeader("set-cookie", [].concat(cookie));
     }
 
