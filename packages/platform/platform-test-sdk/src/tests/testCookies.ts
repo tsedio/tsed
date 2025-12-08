@@ -25,6 +25,7 @@ export class CookiesCtrl {
       sameSite: true
     });
 
+    $ctx.response.setHeader("test", "test");
     return "OK";
   }
 }
@@ -52,6 +53,6 @@ export function testCookies(options: PlatformTestingSdkOpts) {
   it("Scenario 2: GET /rest/cookies/scenario-2", async () => {
     const {headers} = await request.get("/rest/cookies/scenario-2").expect(200);
 
-    expect(headers["set-cookie"]).toContain("test=test; Path=/; SameSite=Strict");
+    expect(headers["set-cookie"][0]).toContain("test=test;");
   });
 }

@@ -56,7 +56,6 @@ describe("Body params", () => {
         id: "1",
         name: "Test"
       });
-
       expect(response.statusCode).toBe(200);
       expect(JSON.parse(response.body)).toEqual({
         id: "1"

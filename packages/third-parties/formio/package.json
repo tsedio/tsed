@@ -45,7 +45,7 @@
     "@tsed/typescript": "workspace:*",
     "@types/async": "3.2.24",
     "eslint": "9.12.0",
-    "express": "^4.21.0",
+    "express": "^5.2.1",
     "formio": "4.2.5",
     "mongodb": "^6.9.0",
     "mongoose": "8.12.2",
@@ -54,7 +54,7 @@
   },
   "peerDependencies": {
     "@tsed/platform-http": ">=8.0.0",
-    "express": "^4.17.1",
+    "express": ">=4.17.1",
     "formio": ">=2.0.0",
     "lodash": "^4.17.21",
     "mongodb": "*",
