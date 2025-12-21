@@ -12,7 +12,7 @@ describe("Provider", () => {
     it("should wrap the token provided", () => {
       const provider = new Provider(T1);
       provider.scope = ProviderScope.REQUEST;
-      provider.customProp = "test";
+      // provider.customProp = "test";
 
       expect(provider.token).toEqual(T1);
       expect(provider.useClass).toEqual(T1);
@@ -23,7 +23,7 @@ describe("Provider", () => {
     it("should override the token provider", () => {
       const provider = new Provider(T1);
       provider.scope = ProviderScope.REQUEST;
-      provider.customProp = "test";
+      // provider.customProp = "test";
       provider.useClass = T2;
 
       const cloned = provider.clone();
@@ -103,5 +103,30 @@ describe("Provider", () => {
 
       expect(provider.isAsync()).toEqual(true);
     });
+  });
+
+  it("should have type field to equals to controller", () => {
+    class Test {}
+
+    const provider = new Provider(Test);
+    provider.path = "/";
+    provider.scope = ProviderScope.REQUEST;
+    provider.middlewares = {
+      useBefore: [new Function()],
+      use: [new Function()],
+      useAfter: [new Function()]
+    };
+    expect(provider.type).toEqual("controller");
+    expect(provider.path).toEqual("/");
+    expect(provider.children).toHaveLength(0);
+    expect(provider.scope).toEqual("request");
+    expect(provider.hasChildren()).toEqual(false);
+    expect(provider.hasParent()).toBe(false);
+    expect(Array.isArray(provider.middlewares.use)).toBe(true);
+    expect(provider.middlewares.use![0]).toBeInstanceOf(Function);
+    expect(Array.isArray(provider.middlewares.useAfter)).toBe(true);
+    expect(provider.middlewares.useAfter![0]).toBeInstanceOf(Function);
+    expect(Array.isArray(provider.middlewares.useBefore)).toBe(true);
+    expect(provider.middlewares.useBefore![0]).toBeInstanceOf(Function);
   });
 });

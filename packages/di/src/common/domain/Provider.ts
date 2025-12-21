@@ -13,6 +13,19 @@ import {ProviderScope} from "./ProviderScope.js";
 import {ProviderType} from "./ProviderType.js";
 
 /**
+ * Middleware configuration for a controller.
+ *
+ * Defines middleware tokens to be applied at different stages of request processing.
+ *
+ * @public
+ */
+export interface ControllerMiddlewares {
+  useBefore: TokenProvider[];
+  use: TokenProvider[];
+  useAfter: TokenProvider[];
+}
+
+/**
  * Callback function type for provider lifecycle hooks.
  *
  * @typeParam T - The type of provider instance
@@ -52,7 +65,10 @@ export class Provider<T = any> implements ProviderOpts<T> {
   public useAsyncFactory?: Function;
   public useValue?: unknown;
   public hooks: Record<string, ProviderHookCallback<T>> = {};
+  public tokenRouter: string;
+
   #useClass: Type<T>;
+
   #token: TokenProvider;
   #store: Store;
   #tokenStore: Store;
@@ -131,6 +147,7 @@ export class Provider<T = any> implements ProviderOpts<T> {
   }
 
   set path(path: string) {
+    this.type = ProviderType.CONTROLLER;
     this.store.set("path", path);
   }
 
@@ -175,6 +192,36 @@ export class Provider<T = any> implements ProviderOpts<T> {
     this.store.set("childrenControllers", children);
   }
 
+  /**
+   *
+   * @returns {any[]}
+   */
+  get middlewares(): Partial<ControllerMiddlewares> {
+    return Object.assign(
+      {
+        use: [],
+        useAfter: [],
+        useBefore: []
+      },
+      this.store.get("middlewares", {})
+    );
+  }
+
+  /**
+   *
+   * @param middlewares
+   */
+  set middlewares(middlewares: Partial<ControllerMiddlewares>) {
+    const mdlwrs = this.middlewares;
+    const concat = (key: string, a: any, b: any) => (a[key] = a[key].concat(b[key]));
+
+    Object.keys(middlewares).forEach((key: string) => {
+      concat(key, mdlwrs, middlewares);
+    });
+
+    this.store.set("middlewares", mdlwrs);
+  }
+
   getArgOpts(index: number) {
     return this.store.get(`${DI_USE_PARAM_OPTIONS}:${index}`);
   }
@@ -185,6 +232,7 @@ export class Provider<T = any> implements ProviderOpts<T> {
    * @returns The value if found, undefined otherwise
    */
   get<Type = unknown>(key: string): Type | undefined;
+
   /**
    * Retrieves a value from the provider's store with a default fallback.
    * @param key The key to look up
@@ -192,6 +240,7 @@ export class Provider<T = any> implements ProviderOpts<T> {
    * @returns The found value or defaultValue
    */
   get<Type = unknown>(key: string, defaultValue: Type): Type;
+
   get<Type = unknown>(key: string, defaultValue?: Type): Type | undefined {
     return this.store.get(key) || this.#tokenStore.get(key) || defaultValue;
   }

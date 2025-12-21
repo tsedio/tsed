@@ -1,11 +1,6 @@
-import {ControllerProvider} from "../domain/ControllerProvider.js";
-import {ProviderType} from "../domain/ProviderType.js";
 import {injectable} from "../fn/injectable.js";
 import type {ProviderOpts} from "../interfaces/ProviderOpts.js";
 import type {TokenProvider} from "../interfaces/TokenProvider.js";
-import {GlobalProviders} from "./GlobalProviders.js";
-
-GlobalProviders.createRegistry(ProviderType.CONTROLLER, ControllerProvider);
 
 type Opts<Type = any> = Partial<ProviderOpts<Type>> &
   (

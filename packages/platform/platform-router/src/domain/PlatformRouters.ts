@@ -1,15 +1,5 @@
 import {getValue, Type} from "@tsed/core";
-import {
-  constant,
-  ControllerProvider,
-  inject,
-  injectable,
-  injector,
-  Provider,
-  ProviderType,
-  ResolvedInvokeOptions,
-  TokenProvider
-} from "@tsed/di";
+import {constant, inject, injectable, injector, Provider, ProviderType, ResolvedInvokeOptions, TokenProvider} from "@tsed/di";
 import {$on, Hooks} from "@tsed/hooks";
 import {PlatformParamsCallback} from "@tsed/platform-params";
 import {concatPath, getOperationsRoutes, JsonMethodStore, OPERATION_HTTP_VERBS} from "@tsed/schema";
@@ -22,14 +12,14 @@ import {PlatformRouter} from "./PlatformRouter.js";
 let AUTO_INC = 0;
 
 function getInjectableRouter(provider: Provider): PlatformRouter {
-  return injector().get(provider.tokenRouter)!;
+  return injector().get<PlatformRouter>(provider.tokenRouter)!;
 }
 
-function createTokenRouter(provider: ControllerProvider) {
+function createTokenRouter(provider: Provider) {
   return (provider.tokenRouter = provider.tokenRouter || `${provider.name}_ROUTER_${AUTO_INC++}`);
 }
 
-function createInjectableRouter(provider: ControllerProvider): PlatformRouter {
+function createInjectableRouter(provider: Provider): PlatformRouter {
   const tokenRouter = createTokenRouter(provider);
 
   if (injector().has(tokenRouter)) {
@@ -59,13 +49,13 @@ export class PlatformRouters {
   prebuild() {
     injector()
       .getProviders(ProviderType.CONTROLLER)
-      .forEach((provider: ControllerProvider) => {
+      .forEach((provider) => {
         createInjectableRouter(provider);
       });
   }
 
   from(token: TokenProvider, parentMiddlewares: any[] = []) {
-    const provider = injector().getProvider<ControllerProvider>(token)!;
+    const provider = injector().getProvider(token)!;
 
     if (!provider) {
       throw new Error("Token not found in the provider registry");
@@ -191,6 +181,6 @@ injectable(PlatformRouters);
  * @ignore
  */
 $on(`$beforeInvoke:${ProviderType.CONTROLLER}`, ({provider, locals}: ResolvedInvokeOptions) => {
-  const router = createInjectableRouter(provider as ControllerProvider);
+  const router = createInjectableRouter(provider);
   locals.set(PlatformRouter, router);
 });

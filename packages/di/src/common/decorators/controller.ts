@@ -4,7 +4,7 @@ import {classOf} from "@tsed/core/utils/classOf.js";
 import {isArrayOrArrayClass} from "@tsed/core/utils/isArray.js";
 import {useDecorators} from "@tsed/core/utils/useDecorators.js";
 
-import type {ControllerMiddlewares} from "../domain/ControllerProvider.js";
+import type {ControllerMiddlewares} from "../domain/Provider.js";
 import {controller} from "../fn/injectable.js";
 import {ProviderOpts} from "../interfaces/ProviderOpts.js";
 
@@ -84,7 +84,7 @@ export function Controller(options: PathType | ControllerOptions): ClassDecorato
       factory.store().set("path", path);
     }
 
-    factory.store().set("childrenControllers", children);
+    factory.children(children);
 
     children.forEach((childToken) => {
       Store.from(childToken).set("parentController", classOf(target));
