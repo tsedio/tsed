@@ -22,7 +22,8 @@ export default {
   rules: {
     "scope-enum": [RuleConfigSeverity.Error, "always", findPackages()],
     "header-max-length": [0, "always", 120],
-    "footer-max-line-length": [0, "always", 200]
+    "footer-max-line-length": [0, "always", 200],
+    "body-max-line-length": [0, "always", 300]
   },
   ignores: [
     (message) =>

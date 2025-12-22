@@ -350,8 +350,7 @@ export class JiraIssueClient {
   }
 }
 
-injectable(JiraIssueClient);
-useDirectusCache(JiraIssueClient, "search", {ttl: 900000});
+injectable(JiraIssueClient).directusCache("search", {ttl: 900000});
 ```
 
 ## 🔧 Advanced Usage
