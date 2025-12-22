@@ -41,7 +41,6 @@ import {DataSource} from "typeorm";
 import {Logger} from "@tsed/logger";
 import {User} from "../entities/User";
 
-export const MYSQL_DATA_SOURCE = Symbol.for("MySqlDataSource");
 export const MysqlDataSource = new DataSource({
   // name: "default",  if you come from v0.2.x
   type: "mysql",
@@ -53,23 +52,21 @@ export const MysqlDataSource = new DataSource({
   database: "test"
 });
 
-registerProvider<DataSource>({
-  provide: MYSQL_DATA_SOURCE,
-  type: "typeorm:datasource",
-  deps: [Logger],
-  async useAsyncFactory(logger: Logger) {
+export const MYSQL_DATA_SOURCE = injectable<DataSource>(Symbol.for("MySqlDataSource"))
+  .type("typeorm:datasource")
+  .asyncFactory(async () => {
     await MysqlDataSource.initialize();
 
-    logger.info("Connected with typeorm to database: MySQL");
+    logger().info("Connected with typeorm to database: MySQL");
 
     return MysqlDataSource;
-  },
-  hooks: {
+  })
+  .hooks({
     $onDestroy(dataSource) {
       return dataSource.isInitialized && dataSource.close();
     }
-  }
-});
+  })
+  .token();
 ```
 
 Finally, inject the DataSource in your controller or service:
@@ -158,13 +155,10 @@ import {MySqlDataSource} from "../datasources/MySqlDataSource";
 import {User} from "../entities/User";
 
 export const UserRepository = MySqlDataSource.getRepository(User);
-export const USER_REPOSITORY = Symbol.for("UserRepository");
-export type USER_REPOSITORY = typeof UserRepository;
 
-registerProvider({
-  provide: USER_REPOSITORY,
-  useValue: UserRepository
-});
+const USER_REPOSITORY = injectable<DataSource>(Symbol.for("UserRepository")).value(UserRepository).token();
+
+export type USER_REPOSITORY = typeof UserRepository;
 ```
 
 Then inject the `UserRepository` in your controller:
@@ -209,13 +203,9 @@ export const UserRepository = MySqlDataSource.getRepository(User).extend({
       .getMany();
   }
 });
-export const USER_REPOSITORY = Symbol.for("UserRepository");
-export type USER_REPOSITORY = typeof UserRepository;
 
-registerProvider({
-  provide: USER_REPOSITORY,
-  useValue: UserRepository
-});
+export const USER_REPOSITORY = injectable(USER_REPOSITORY).value(UserRepository).token();
+export type USER_REPOSITORY = typeof UserRepository;
 ```
 
 Then inject the `UserRepository` in your controller:
@@ -324,7 +314,8 @@ Then inject your repository to another service:
 
 <<< @/tutorials/snippets/typeorm/typeorm-injection-entity-repository.ts
 
-::: tip Use @@UseConnection@@ decorator to select which database connection the injected repository should be used (require Ts.ED v5.58.0+).
+::: tip Use @@UseConnection@@ decorator to select which database connection the injected repository should be used (
+require Ts.ED v5.58.0+).
 :::
 
 ## Author
