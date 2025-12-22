@@ -1,3 +1,4 @@
+import type {Store} from "@tsed/core";
 import type {Type} from "@tsed/core/types/Type.js";
 
 import {Provider} from "../domain/Provider.js";
@@ -8,9 +9,142 @@ import type {FactoryTokenProvider, TokenProvider} from "../interfaces/TokenProvi
 
 declare global {
   namespace TsED {
-    interface ClassProviderBuilder<Token extends Type> {}
+    interface ProviderBuilder<Token> {
+      /**
+       * Sets the provider scope
+       * @param scope - The scope to set for this provider
+       * @returns Current builder instance
+       */
+      scope(scope: Provider["scope"]): this;
 
-    interface ProviderBuilder<Token> {}
+      /**
+       * Sets the provider path
+       * @param path - The path to set for this provider
+       * @returns Current builder instance
+       */
+      path(path: Provider["path"]): this;
+
+      /**
+       * Sets the provider alias
+       * @param alias - The alias to set for this provider
+       * @returns Current builder instance
+       */
+      alias(alias: Provider["alias"]): this;
+
+      /**
+       * Sets the provider hooks
+       * @param hooks - The hooks to set for this provider
+       * @returns Current builder instance
+       */
+      hooks(hooks: Provider["hooks"]): this;
+
+      /**
+       * Sets the provider dependencies
+       * @param deps - The dependencies to set for this provider
+       * @returns Current builder instance
+       */
+      deps(deps: Provider["deps"]): this;
+
+      /**
+       * Sets the provider imports
+       * @param imports - The imports to set for this provider
+       * @returns Current builder instance
+       */
+      imports(imports: Provider["imports"]): this;
+
+      /**
+       * Sets the provider configuration
+       * @param configuration - The configuration to set for this provider
+       * @returns Current builder instance
+       */
+      configuration(configuration: Provider["configuration"]): this;
+
+      /**
+       * Sets the provider priority
+       * @param priority - The priority to set for this provider
+       * @returns Current builder instance
+       */
+      priority(priority: Provider["priority"]): this;
+
+      /**
+       * Sets the provider type
+       * @param type - The type to set for this provider
+       * @returns Current builder instance
+       */
+      type(type: Provider["type"]): this;
+
+      /**
+       * Sets the provider children
+       * @param children - The children to set for this provider
+       * @returns Current builder instance
+       */
+      children(children: Provider["children"]): this;
+
+      /**
+       * Sets the provider middlewares
+       * @param middlewares - The middlewares to set for this provider
+       * @returns Current builder instance
+       */
+      middlewares(middlewares: Provider["middlewares"]): this;
+
+      /**
+       * Sets a factory function for the provider
+       * @param factory - Factory function that creates provider instances
+       * @returns Builder instance with updated factory type
+       */
+      factory<FactoryReturn>(factory: (...args: unknown[]) => FactoryReturn): TsED.ProviderBuilder<FactoryTokenProvider<FactoryReturn>>;
+
+      /**
+       * Sets an async factory function for the provider
+       * @param asyncFactory - Async factory function that creates provider instances
+       * @returns Builder instance with updated factory type
+       */
+      asyncFactory<FactoryReturn>(
+        asyncFactory: (...args: unknown[]) => Promise<FactoryReturn>
+      ): TsED.ProviderBuilder<FactoryTokenProvider<FactoryReturn>>;
+
+      /**
+       * Sets a static value for the provider
+       * @param value - Value to be provided
+       * @returns Builder instance with value type
+       */
+      value<Value>(value: Value): TsED.ProviderBuilder<FactoryTokenProvider<Value>>;
+
+      /**
+       * Sets the class to be used by the provider
+       * @param k - Class type to be provided
+       * @returns Builder instance with class type
+       */
+      class<TokenKlass extends Type>(k: TokenKlass): TsED.ClassProviderBuilder<TokenKlass>;
+
+      /**
+       * Gets the provider's store
+       * @returns Provider store instance
+       */
+      store(): Store;
+
+      /**
+       * Gets the underlying provider instance
+       * @returns Provider instance
+       */
+      inspect(): Provider<Token>;
+
+      /**
+       * Gets the provider's token
+       * @returns Provider token
+       */
+      token(): Token;
+
+      /**
+       * Sets a value in the provider's store
+       * @param key - Key to store the value under
+       * @param value - Value to store
+       * @returns Current builder instance
+       */
+      set(key: string, value: unknown): this;
+    }
+
+    interface ClassProviderBuilder<Token extends Type> extends ProviderBuilder<Token> {}
   }
 }
 
@@ -44,20 +178,13 @@ export class ProviderBuilder<Token> {
 
   static add<Keys extends keyof ClassProviderBuilder, Token extends Type>(
     property: Keys,
-    method: (providerBuilder: AnyProviderBuilder<Token>) => ClassProviderBuilder<Token>[Keys]
-  ): typeof ProviderBuilder;
-  static add<Keys extends keyof AnyProviderBuilder, Token extends TokenProvider>(
-    property: Keys,
-    method: (providerBuilder: AnyProviderBuilder<Token>) => AnyProviderBuilder<Token>[Keys]
-  ): typeof ProviderBuilder;
-  static add<Keys extends keyof AnyProviderBuilder, Token extends TokenProvider>(
-    property: Keys,
-    method: (providerBuilder: AnyProviderBuilder<Token>) => AnyProviderBuilder<Token>[Keys]
+    method: (providerBuilder: ClassProviderBuilder<Token>) => ClassProviderBuilder<Token>[Keys]
   ): typeof ProviderBuilder {
     Object.defineProperty(ProviderBuilder.prototype, property, {
-      value: method
+      value(...args: unknown[]) {
+        return method(this).apply(this, args);
+      }
     });
-
     return ProviderBuilder;
   }
 
@@ -258,19 +385,17 @@ export class ProviderBuilder<Token> {
   }
 }
 
-export type AnyProviderBuilder<Token extends TokenProvider = any> = ProviderBuilder<Token> & TsED.ProviderBuilder<Token>;
-
-export type ClassProviderBuilder<Token extends Type = any> = AnyProviderBuilder<Token> & TsED.ClassProviderBuilder<Token>;
+type ClassProviderBuilder<Token extends Type = any> = TsED.ClassProviderBuilder<Token>;
 
 export function providerBuilder(baseOpts: Partial<ProviderOpts> = {}) {
-  function factory<Token extends Type>(token: Token, options?: Partial<ProviderOpts>): ClassProviderBuilder<Token>;
-  function factory<Token extends TokenProvider>(token: Token, options?: Partial<ProviderOpts>): AnyProviderBuilder<Token>;
+  function factory<Token extends Type>(token: Token, options?: Partial<ProviderOpts>): TsED.ClassProviderBuilder<Token>;
+  function factory<Token extends TokenProvider>(token: Token, options?: Partial<ProviderOpts>): TsED.ProviderBuilder<Token>;
   function factory<Token>(token: Token, options: Partial<ProviderOpts> = {}) {
     return new ProviderBuilder<Token>({
       token,
       ...baseOpts,
       ...options
-    });
+    }) as unknown as ClassProviderBuilder;
   }
 
   return factory;

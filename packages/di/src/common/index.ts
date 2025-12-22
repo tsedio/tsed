@@ -30,6 +30,7 @@ export * from "./domain/ProviderScope.js";
 export * from "./domain/ProviderType.js";
 export * from "./errors/InjectionError.js";
 export * from "./errors/InvalidPropertyTokenError.js";
+export * from "./extends/intercept.js";
 export * from "./fn/configuration.js";
 export * from "./fn/constant.js";
 export * from "./fn/inject.js";
