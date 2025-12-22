@@ -54,27 +54,98 @@ export type ProviderHookCallback<T = any> = (instance: T, ...args: unknown[]) =>
  */
 export class Provider<T = any> implements ProviderOpts<T> {
   /**
+   * Registry for managing global providers in the dependency injection system.
+   * Extends the Map class to store TokenProvider-Provider pairs.
+   */
+  /**
+   * Global registry storing all providers in the dependency injection system.
+   * Maps provider tokens (string) to their Provider instances.
+   */
+  /**
+   * Global registry for storing all providers in the dependency injection system.
+   * Maps provider tokens to their Provider instances.
+   */
+  static readonly Registry = new Map<TokenProvider, Provider>();
+
+  /**
    * Token group provider to retrieve all provider from the same type
    */
+  /**
+   * The type of the provider - can be a ProviderType enum value or TokenProvider
+   */
   public type: ProviderType | TokenProvider = ProviderType.PROVIDER;
-  public deps: TokenProvider[];
-  public imports: (TokenProvider | [TokenProvider])[];
-  public alias: string;
-  public priority: number;
-  public useFactory?: Function;
-  public useAsyncFactory?: Function;
-  public useValue?: unknown;
-  public hooks: Record<string, ProviderHookCallback<T>> = {};
-  public tokenRouter: string;
 
+  /**
+   * Array of token providers that this provider depends on
+   */
+  public deps: TokenProvider[];
+
+  /**
+   * Array of providers or provider arrays to be imported
+   */
+  public imports: (TokenProvider | [TokenProvider])[];
+
+  /**
+   * Alternative name/alias for this provider
+   */
+  public alias: string;
+
+  /**
+   * Priority value affecting the order of provider initialization
+   */
+  public priority: number;
+
+  /**
+   * Optional factory function to create provider instances
+   */
+  public useFactory?: Function;
+
+  /**
+   * Optional async factory function to create provider instances
+   */
+  public useAsyncFactory?: Function;
+
+  /**
+   * Optional static value to use instead of creating instances
+   */
+  public useValue?: unknown;
+
+  /**
+   * Map of lifecycle hook callbacks for this provider
+   */
+  public hooks: Record<string, ProviderHookCallback<T>> = {};
+
+  /**
+   * Router token for routing-related providers
+   */
+  public tokenRouter: string;
+  /**
+   * The class type used to instantiate this provider
+   */
   #useClass: Type<T>;
 
+  /**
+   * The token used to identify this provider
+   */
   #token: TokenProvider;
+
+  /**
+   * Store instance for provider metadata
+   */
   #store: Store;
+
+  /**
+   * Store instance for token-specific metadata
+   */
   #tokenStore: Store;
 
   [key: string]: any;
 
+  /**
+   * Creates a new Provider instance
+   * @param token - The token used to identify this provider
+   * @param options - Optional configuration options for the provider
+   */
   constructor(token: TokenProvider<T>, options: Partial<Provider> = {}) {
     this.token = token;
     this.useClass = token as Type<T>;
@@ -88,10 +159,17 @@ export class Provider<T = any> implements ProviderOpts<T> {
     }
   }
 
+  /**
+   * Get the provider's token
+   */
   get token() {
     return this.#token;
   }
 
+  /**
+   * Set the provider's token and initialize stores
+   * @param value - The token to set
+   */
   set token(value: TokenProvider) {
     if (value) {
       this.#token = getClassOrSymbol(value);
@@ -114,13 +192,16 @@ export class Provider<T = any> implements ProviderOpts<T> {
     this.token = value;
   }
 
+  /**
+   * Gets the class type used to instantiate this provider
+   */
   get useClass(): Type<T> {
     return this.#useClass;
   }
 
   /**
-   * Create a new store if the given value is a class. Otherwise, the value is ignored.
-   * @param value
+   * Sets the class type and initializes store/hooks for this provider
+   * @param value - The class type to use for instantiation
    */
   set useClass(value: Type<T> | AbstractType<T>) {
     if (isClass(value)) {
@@ -176,10 +257,17 @@ export class Provider<T = any> implements ProviderOpts<T> {
     this.store.set("scope", scope);
   }
 
+  /**
+   * Gets the provider configuration settings
+   */
   get configuration(): Partial<TsED.Configuration> {
     return this.get("configuration")!;
   }
 
+  /**
+   * Sets the provider configuration settings
+   * @param configuration - The configuration object to set
+   */
   set configuration(configuration: Partial<TsED.Configuration>) {
     this.store.set("configuration", configuration);
   }
@@ -193,10 +281,13 @@ export class Provider<T = any> implements ProviderOpts<T> {
   }
 
   /**
-   *
-   * @returns {any[]}
+   * Gets the configured middleware stack for this provider
    */
   get middlewares(): Partial<ControllerMiddlewares> {
+    /**
+     * Sets middleware configuration, merging with existing middlewares
+     * @param middlewares - The middleware configuration to apply
+     */
     return Object.assign(
       {
         use: [],
@@ -207,10 +298,6 @@ export class Provider<T = any> implements ProviderOpts<T> {
     );
   }
 
-  /**
-   *
-   * @param middlewares
-   */
   set middlewares(middlewares: Partial<ControllerMiddlewares>) {
     const mdlwrs = this.middlewares;
     const concat = (key: string, a: any, b: any) => (a[key] = a[key].concat(b[key]));
@@ -222,6 +309,12 @@ export class Provider<T = any> implements ProviderOpts<T> {
     this.store.set("middlewares", mdlwrs);
   }
 
+  // static readonly Builder = <TypeOf>(base: Partial<ProviderOpts<Type>>) =>
+  //   (token: TypeOf, options: Partial<ProviderOpts<Type>> = {}) => new Builder<TypeOf>(token, {
+  //     ...base,
+  //     ...options
+  //   });
+
   getArgOpts(index: number) {
     return this.store.get(`${DI_USE_PARAM_OPTIONS}:${index}`);
   }
@@ -232,7 +325,6 @@ export class Provider<T = any> implements ProviderOpts<T> {
    * @returns The value if found, undefined otherwise
    */
   get<Type = unknown>(key: string): Type | undefined;
-
   /**
    * Retrieves a value from the provider's store with a default fallback.
    * @param key The key to look up
@@ -240,7 +332,6 @@ export class Provider<T = any> implements ProviderOpts<T> {
    * @returns The found value or defaultValue
    */
   get<Type = unknown>(key: string, defaultValue: Type): Type;
-
   get<Type = unknown>(key: string, defaultValue?: Type): Type | undefined {
     return this.store.get(key) || this.#tokenStore.get(key) || defaultValue;
   }
@@ -254,21 +345,25 @@ export class Provider<T = any> implements ProviderOpts<T> {
   }
 
   /**
-   *
-   * @returns {boolean}
+   * Checks if this provider has any child controllers
+   * @returns True if provider has children, false otherwise
    */
   public hasChildren(): boolean {
     return !!this.children.length;
   }
 
   /**
-   *
-   * @returns {boolean}
+   * Checks if this provider has a parent controller
+   * @returns True if provider has a parent, false otherwise
    */
   public hasParent(): boolean {
     return !!this.store.get("parentController");
   }
 
+  /**
+   * Returns a string representation of this provider
+   * @returns A string containing the provider's token, class and factory information
+   */
   toString() {
     return [
       "Token",
@@ -282,6 +377,11 @@ export class Provider<T = any> implements ProviderOpts<T> {
       .join(":");
   }
 
+  /**
+   * Resets the provider's factory configuration
+   * Clears useValue, useFactory and useAsyncFactory
+   * @returns This provider instance
+   */
   reset() {
     this.useValue = undefined;
     this.useFactory = undefined;
