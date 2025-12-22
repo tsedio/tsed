@@ -1,5 +1,5 @@
 import {Store} from "@tsed/core";
-import {GlobalProviders} from "@tsed/di";
+import {Provider} from "@tsed/di";
 
 import {INTERACTION_OPTIONS} from "../constants/constants.js";
 import {OidcInteractionMethods} from "../domain/OidcInteractionMethods.js";
@@ -15,7 +15,7 @@ describe("@Interaction", () => {
     class CustomInteraction implements OidcInteractionMethods {}
 
     const store = Store.from(CustomInteraction);
-    const provider = GlobalProviders.get(CustomInteraction)!;
+    const provider = Provider.Registry.get(CustomInteraction)!;
 
     expect(provider.subType).toEqual("interaction");
     expect(store.get(INTERACTION_OPTIONS)).toEqual({

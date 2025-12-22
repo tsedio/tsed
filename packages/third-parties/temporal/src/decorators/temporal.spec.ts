@@ -1,4 +1,4 @@
-import {GlobalProviders} from "@tsed/di";
+import {Provider} from "@tsed/di";
 
 import {Temporal} from "./temporal.js";
 
@@ -7,6 +7,6 @@ describe("@Activity()", () => {
     @Temporal()
     class Test {}
 
-    expect(GlobalProviders.get(Test)?.useClass).toEqual(Test);
+    expect(Provider.Registry.get(Test)?.useClass).toEqual(Test);
   });
 });

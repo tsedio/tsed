@@ -1,5 +1,5 @@
 import {isArray, isClass, isString} from "@tsed/core";
-import {GlobalProviders, ProviderType} from "@tsed/di";
+import {Provider, ProviderType} from "@tsed/di";
 
 import {importFiles} from "./importFiles.js";
 
@@ -15,7 +15,7 @@ async function resolveRecursively(items: any[], exclude: string[], rootDir: stri
   const providers = items.flat().filter(isClass);
 
   for (const token of providers) {
-    const provider = GlobalProviders.get(token);
+    const provider = Provider.Registry.get(token);
 
     if (provider?.type === ProviderType.MODULE && provider.configuration) {
       provider.configuration.exclude = exclude;

@@ -1,10 +1,10 @@
 import {Store} from "@tsed/core";
-import {GlobalProviders} from "@tsed/di";
+import {Provider} from "@tsed/di";
 
 import {FallbackJobController, JobController} from "./JobController.js";
 
 describe("JobController", () => {
-  afterEach(() => GlobalProviders.clear());
+  afterEach(() => Provider.Registry.clear());
 
   it("should set the proper store data", () => {
     @JobController("testjob")
@@ -54,7 +54,7 @@ describe("JobController", () => {
 });
 
 describe("FallbackJobController", () => {
-  afterEach(() => GlobalProviders.clear());
+  afterEach(() => Provider.Registry.clear());
 
   describe("with queue", () => {
     it("should set the proper store data", () => {
@@ -64,12 +64,12 @@ describe("FallbackJobController", () => {
       const store = Store.from(FallbackJob).get("bullmq");
       expect(store.queue).toBe("default");
 
-      const fallbackControllerForQueue = GlobalProviders.get("bullmq.fallback-job.default");
+      const fallbackControllerForQueue = Provider.Registry.get("bullmq.fallback-job.default");
       expect(fallbackControllerForQueue).not.toBeUndefined();
       expect(fallbackControllerForQueue?.type).toEqual("bullmq:fallback-job");
       expect(fallbackControllerForQueue?.useClass).toEqual(FallbackJob);
 
-      const fallbackController = GlobalProviders.get("bullmq.fallback-job");
+      const fallbackController = Provider.Registry.get("bullmq.fallback-job");
       expect(fallbackController).toBeUndefined();
     });
   });
@@ -82,12 +82,12 @@ describe("FallbackJobController", () => {
       const store = Store.from(FallbackJob).get("bullmq");
       expect(store.queue).toBeUndefined();
 
-      const fallbackController = GlobalProviders.get("bullmq.fallback-job");
+      const fallbackController = Provider.Registry.get("bullmq.fallback-job");
       expect(fallbackController).not.toBeUndefined();
       expect(fallbackController?.type).toEqual("bullmq:fallback-job");
       expect(fallbackController?.useClass).toEqual(FallbackJob);
 
-      const fallbackControllerForQueue = GlobalProviders.get("bullmq.fallback-job.default");
+      const fallbackControllerForQueue = Provider.Registry.get("bullmq.fallback-job.default");
       expect(fallbackControllerForQueue).toBeUndefined();
     });
   });

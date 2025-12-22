@@ -1,5 +1,5 @@
 import {isArray, isClass} from "@tsed/core";
-import {GlobalProviders, Provider, ProviderType, type TokenProvider, type TokenRoute} from "@tsed/di";
+import {Provider, ProviderType, type TokenProvider, type TokenRoute} from "@tsed/di";
 
 const lookupProperties = ["mount", "imports"];
 
@@ -36,7 +36,7 @@ function getTokens(config: any): {route?: string; token: TokenProvider}[] {
  */
 function resolveRecursively(providers: {token: TokenProvider; route?: string}[]) {
   return providers
-    .map(({token}) => GlobalProviders.get(token))
+    .map(({token}) => Provider.Registry.get(token))
     .filter((provider) => provider?.type === ProviderType.MODULE && provider.configuration)
     .flatMap((provider: Provider) => resolveControllers(provider.configuration));
 }

@@ -1,4 +1,4 @@
-import {Controller, ControllerProvider, inject, injector} from "@tsed/di";
+import {Controller, inject, injector} from "@tsed/di";
 import {PlatformParams} from "@tsed/platform-params";
 
 import {PlatformRouter} from "../src/domain/PlatformRouter.js";
@@ -35,7 +35,7 @@ describe("Routers injection", () => {
     const router = platformRouters.from(CustomStaticsCtrl);
     const router1 = platformRouters.from(CustomStaticsCtrl);
 
-    const provider = injector().getProvider<ControllerProvider>(CustomStaticsCtrl)!;
+    const provider = injector().getProvider(CustomStaticsCtrl)!;
     const router2 = injector().get(provider.tokenRouter);
     const controller = inject(CustomStaticsCtrl)!;
 

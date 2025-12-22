@@ -1,4 +1,4 @@
-import {GlobalProviders, TokenProvider} from "@tsed/di";
+import {Provider, TokenProvider} from "@tsed/di";
 import type {Redis} from "ioredis";
 
 import {IOREDIS_CONNECTIONS} from "./registerConnectionProvider.js";
@@ -17,7 +17,7 @@ export async function mockConnection(token: TokenProvider, name: string) {
 
 export function mockConnections() {
   return Promise.all(
-    [...GlobalProviders.values()]
+    [...Provider.Registry.values()]
       .filter((provider) => provider.type === IOREDIS_CONNECTIONS)
       .map((provider) => mockConnection(provider.token, provider.connectionName))
   );

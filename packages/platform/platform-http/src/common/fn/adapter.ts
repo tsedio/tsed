@@ -1,5 +1,5 @@
 import {Type} from "@tsed/core";
-import {GlobalProviders, injector, ProviderOpts, refValue} from "@tsed/di";
+import {injector, Provider, ProviderOpts, refValue} from "@tsed/di";
 
 import {PlatformAdapter} from "../services/PlatformAdapter.js";
 
@@ -22,7 +22,7 @@ export function adapter(adapter?: Type<PlatformAdapter<any>>, imports: ProviderO
     globalAdapter ||= adapter;
 
     imports?.forEach(({token, useClass}) => {
-      const provider = GlobalProviders.get(token);
+      const provider = Provider.Registry.get(token);
       if (useClass && provider) {
         provider.useClass = useClass;
         injector().set(token, provider);
