@@ -17,10 +17,8 @@ declare global {
   }
 }
 
-ProviderBuilder.add("intercept", (providerBuilder) => {
-  return (propertyKey: string, interceptorToken, options) => {
-    bindIntercept(classOf(providerBuilder.inspect().useClass), propertyKey as string, interceptorToken, options);
+ProviderBuilder.add("intercept", function intercept(propertyKey: string, interceptorToken, options) {
+  bindIntercept(classOf(this.inspect().useClass), propertyKey as string, interceptorToken, options);
 
-    return providerBuilder;
-  };
+  return this;
 });

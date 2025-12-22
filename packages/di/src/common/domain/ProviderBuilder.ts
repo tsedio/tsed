@@ -178,13 +178,15 @@ export class ProviderBuilder<Token> {
 
   static add<Keys extends keyof ClassProviderBuilder, Token extends Type>(
     property: Keys,
-    method: (providerBuilder: ClassProviderBuilder<Token>) => ClassProviderBuilder<Token>[Keys]
+    method: (
+      this: ClassProviderBuilder<Token>,
+      ...args: Parameters<ClassProviderBuilder<Token>[Keys]>
+    ) => ReturnType<ClassProviderBuilder<Token>[Keys]>
   ): typeof ProviderBuilder {
     Object.defineProperty(ProviderBuilder.prototype, property, {
-      value(...args: unknown[]) {
-        return method(this).apply(this, args);
-      }
+      value: method
     });
+
     return ProviderBuilder;
   }
 
