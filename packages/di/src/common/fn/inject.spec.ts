@@ -2,6 +2,7 @@ import {DITest} from "../../node/index.js";
 import {Injectable} from "../decorators/injectable.js";
 import {InjectorService} from "../services/InjectorService.js";
 import {inject} from "./inject.js";
+import {injectable} from "./injectable.js";
 
 @Injectable()
 class ProvidersList extends Map<string, string> {}
@@ -50,5 +51,46 @@ describe("inject()", () => {
     const newMyService = await DITest.invoke(MyService, []);
     expect(newMyService.getValue()).toEqual(undefined);
     expect(myService.getValue()).toEqual("value");
+  });
+  describe("typings", () => {
+    it("should infer instance type (class)", () => {
+      const instance = inject(ProvidersList);
+
+      type Instance = typeof instance;
+
+      expectTypeOf<Instance>().toEqualTypeOf<ProvidersList>();
+    });
+
+    it("should infer instance type (factory)", () => {
+      const token = injectable(Symbol.for("provider"))
+        .factory(() => {
+          return {
+            hello: "world"
+          };
+        })
+        .token();
+
+      const instance = inject(token);
+
+      type Instance = typeof instance;
+
+      expectTypeOf<Instance>().toEqualTypeOf<{hello: string}>();
+    });
+
+    it("should infer instance type (async factory)", () => {
+      const token = injectable(Symbol.for("provider"))
+        .asyncFactory(async () => {
+          return {
+            hello: "world"
+          };
+        })
+        .token();
+
+      const instance = inject(token);
+
+      type Instance = typeof instance;
+
+      expectTypeOf<Instance>().toEqualTypeOf<{hello: string}>();
+    });
   });
 });

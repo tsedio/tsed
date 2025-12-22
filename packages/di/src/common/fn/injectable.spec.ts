@@ -24,6 +24,23 @@ injectable(Nested).scope(ProviderScope.SINGLETON).class(Nested);
 injectable(MyClass);
 
 describe("injectable", () => {
+  describe("typings", () => {
+    it("should infer the correct token type (class)", () => {
+      const provider = injectable(MyClass);
+
+      type token = ReturnType<typeof provider.token>;
+
+      expectTypeOf<token>().toEqualTypeOf<typeof MyClass>();
+    });
+
+    it("should infer the correct token type (symbol)", () => {
+      const provider = injectable(Symbol.for("Symbol"));
+
+      type token = ReturnType<typeof provider.token>;
+
+      expectTypeOf<token>().toEqualTypeOf<symbol>();
+    });
+  });
   describe("injectable()", () => {
     it("should define a singleton scope", async () => {
       const instance = await DITest.invoke(MyClass);

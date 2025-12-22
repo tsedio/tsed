@@ -1,11 +1,7 @@
-import {ControllerProvider} from "../domain/ControllerProvider.js";
-import type {Provider} from "../domain/Provider.js";
+import {providerBuilder} from "../domain/ProviderBuilder.js";
 import {ProviderType} from "../domain/ProviderType.js";
-import {providerBuilder} from "../utils/providerBuilder.js";
-
-type PickedProps = "scope" | "path" | "alias" | "hooks" | "deps" | "imports" | "configuration" | "priority";
-
-const Props = ["type", "scope", "path", "alias", "hooks", "deps", "imports", "configuration", "priority"];
+import type {ProviderOpts} from "../interfaces/ProviderOpts.js";
+import type {TokenProvider} from "../interfaces/TokenProvider.js";
 
 /**
  * Fluent builder for registering providers programmatically.
@@ -31,7 +27,7 @@ const Props = ["type", "scope", "path", "alias", "hooks", "deps", "imports", "co
  *
  * @public
  */
-export const injectable = providerBuilder<Provider, PickedProps | "type">(Props);
+export const injectable = providerBuilder({type: ProviderType.PROVIDER});
 
 /**
  * Fluent builder for registering interceptor providers.
@@ -48,7 +44,7 @@ export const injectable = providerBuilder<Provider, PickedProps | "type">(Props)
  *
  * @public
  */
-export const interceptor = providerBuilder<Provider, PickedProps | "type">(Props, {
+export const interceptor = providerBuilder({
   type: ProviderType.INTERCEPTOR
 });
 
@@ -70,6 +66,30 @@ export const interceptor = providerBuilder<Provider, PickedProps | "type">(Props
  *
  * @public
  */
-export const controller = providerBuilder<ControllerProvider, PickedProps | "children" | "middlewares">([...Props, "middlewares"], {
+export const controller = providerBuilder({
   type: ProviderType.CONTROLLER
 });
+
+type Opts<Type = any> = Partial<ProviderOpts<Type>> &
+  (
+    | {
+        token: TokenProvider<Type>;
+      }
+    | {
+        /**
+         * @deprecated use token prop instead
+         */
+        provide: TokenProvider<Type>;
+      }
+  );
+
+/**
+ * Register a provider configuration.
+ * @deprecated Since v8. Use injectable() function instead.
+ */
+export function registerProvider<Type = any>({token, provide, ...opts}: Opts<Type>) {
+  return injectable(token || provide, {
+    ...opts,
+    token: token || provide
+  } as unknown as Partial<ProviderOpts>).inspect();
+}
