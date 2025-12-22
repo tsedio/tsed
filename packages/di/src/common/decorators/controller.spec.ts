@@ -1,6 +1,6 @@
+import {Provider} from "../domain/Provider.js";
 import {ProviderScope} from "../domain/ProviderScope.js";
 import {ProviderType} from "../domain/ProviderType.js";
-import {GlobalProviders} from "../registries/GlobalProviders.js";
 import {Controller} from "./controller.js";
 
 class Test {}
@@ -9,14 +9,14 @@ class Dep {}
 
 describe("@Controller", () => {
   afterAll(() => {
-    GlobalProviders.delete(Test);
+    Provider.Registry.delete(Test);
   });
   it("should register a controller with his path and Dependency", () => {
     // WHEN
     Controller("/test")(Test);
 
     // THEN
-    const provider = GlobalProviders.get(Test)!;
+    const provider = Provider.Registry.get(Test)!;
 
     // THEN
     expect(provider.type).toEqual(ProviderType.CONTROLLER);
@@ -32,7 +32,7 @@ describe("@Controller", () => {
     })(Test);
 
     // THEN
-    const provider = GlobalProviders.get(Test)!;
+    const provider = Provider.Registry.get(Test)!;
 
     // THEN
     expect(provider.type).toEqual(ProviderType.CONTROLLER);

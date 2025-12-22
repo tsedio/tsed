@@ -1,6 +1,5 @@
 import {Provider} from "../domain/Provider.js";
 import type {TokenProvider} from "../interfaces/TokenProvider.js";
-import {GlobalProviders} from "../registries/GlobalProviders.js";
 import {OverrideProvider} from "./overrideProvider.js";
 
 describe("OverrideProvider", () => {
@@ -9,13 +8,13 @@ describe("OverrideProvider", () => {
   class Test2 {}
 
   beforeAll(() => {
-    vi.spyOn(GlobalProviders, "get");
+    vi.spyOn(Provider.Registry, "get");
   });
   it("should use OverrideProvider", () => {
     // GIVEN
     const provider = new Provider(Test);
 
-    vi.mocked(GlobalProviders.get).mockImplementation((token: TokenProvider) => {
+    vi.mocked(Provider.Registry.get).mockImplementation((token: TokenProvider) => {
       if (token === Test) {
         return provider;
       }

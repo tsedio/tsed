@@ -21,7 +21,6 @@ import type {ImportTokenProviderOpts} from "../interfaces/ImportTokenProviderOpt
 import type {InvokeOptions} from "../interfaces/InvokeOptions.js";
 import type {ResolvedInvokeOptions} from "../interfaces/ResolvedInvokeOptions.js";
 import type {TokenProvider} from "../interfaces/TokenProvider.js";
-import {GlobalProviders} from "../registries/GlobalProviders.js";
 import {createContainer} from "../utils/createContainer.js";
 import {getConstructorDependencies} from "../utils/getConstructorDependencies.js";
 import {DIConfiguration} from "./DIConfiguration.js";
@@ -422,7 +421,7 @@ export class InjectorService extends Container {
   protected ensureProvider(token: TokenProvider, force: false): Provider | undefined;
   protected ensureProvider(token: TokenProvider): Provider | undefined;
   protected ensureProvider(token: TokenProvider, force = false): Provider | undefined {
-    if (!this.hasProvider(token) && (GlobalProviders.has(token) || force)) {
+    if (!this.hasProvider(token) && (Provider.Registry.has(token) || force)) {
       this.addProvider(token);
     }
 
@@ -634,7 +633,7 @@ export class InjectorService extends Container {
   private setToCache(provider: Provider, instance: any) {
     const set = (instance: any) => {
       this.#cache.set(provider.token, instance);
-      provider?.alias && this.alias(provider.token, provider.alias);
+      provider.alias && this.alias(provider.token, provider.alias);
     };
 
     if ("isAsync" in provider && !provider.isAsync() && !isPromise(instance)) {

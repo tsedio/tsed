@@ -9,8 +9,8 @@ import {Provider} from "../domain/Provider.js";
 import {ProviderScope} from "../domain/ProviderScope.js";
 import {ProviderType} from "../domain/ProviderType.js";
 import {inject} from "../fn/inject.js";
+import {injectable} from "../fn/injectable.js";
 import {destroyInjector, injector} from "../fn/injector.js";
-import {registerProvider} from "../registries/ProviderRegistry.js";
 import {InjectorService} from "./InjectorService.js";
 
 vi.mock("@tsed/hooks", async (importOriginal) => {
@@ -646,17 +646,15 @@ describe("InjectorService", () => {
       expect(value).toEqual("alteredValue");
     });
     it("should alter value (factory)", () => {
-      registerProvider({
-        token: "TOKEN",
-        useFactory: () => {
+      injectable("TOKEN")
+        .factory(() => {
           return {};
-        },
-        hooks: {
-          $alterValue(instance: any, value: any) {
+        })
+        .hooks({
+          $alterValue(instance: any, value: any): any {
             return "alteredValue";
           }
-        }
-      });
+        });
 
       // GIVEN
 

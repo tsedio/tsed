@@ -1,9 +1,9 @@
 import {Scope} from "../decorators/scope.js";
 import {Service} from "../decorators/service.js";
 import {Container} from "../domain/Container.js";
+import {Provider} from "../domain/Provider.js";
 import {ProviderScope} from "../domain/ProviderScope.js";
 import {destroyInjector, injector} from "../fn/injector.js";
-import {GlobalProviders} from "../registries/GlobalProviders.js";
 import {InjectorService} from "../services/InjectorService.js";
 
 describe("DI Singleton", () => {
@@ -42,11 +42,11 @@ describe("DI Singleton", () => {
 
   afterEach(() => destroyInjector());
   afterAll(() => {
-    GlobalProviders.delete(ServiceSingleton);
-    GlobalProviders.delete(ServiceRequest);
-    GlobalProviders.delete(ServiceInstance);
-    GlobalProviders.delete(ServiceSingletonWithRequestDep);
-    GlobalProviders.delete(ServiceSingletonWithInstanceDep);
+    Provider.Registry.delete(ServiceSingleton);
+    Provider.Registry.delete(ServiceRequest);
+    Provider.Registry.delete(ServiceInstance);
+    Provider.Registry.delete(ServiceSingletonWithRequestDep);
+    Provider.Registry.delete(ServiceSingletonWithInstanceDep);
   });
 
   describe("when it has a SINGLETON dependency", () => {

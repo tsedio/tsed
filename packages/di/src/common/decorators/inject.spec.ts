@@ -2,8 +2,8 @@ import {catchAsyncError} from "@tsed/core";
 
 import {DITest} from "../../node/index.js";
 import {inject} from "../fn/inject.js";
+import {injectable} from "../fn/injectable.js";
 import {injector} from "../fn/injector.js";
-import {registerProvider} from "../registries/ProviderRegistry.js";
 import {InjectorService} from "../services/InjectorService.js";
 import {Inject} from "./inject.js";
 import {Injectable} from "./injectable.js";
@@ -47,14 +47,12 @@ describe("@Inject()", () => {
 
       const TokenAsync = Symbol.for("MyService");
 
-      registerProvider<Test>({
-        token: TokenAsync,
-        type: "test:async",
-        deps: [],
-        useAsyncFactory() {
+      injectable(TokenAsync)
+        .type("test:async")
+        .asyncFactory(() => {
           return Promise.resolve(new Test("async"));
-        }
-      });
+        })
+        .token();
 
       @Injectable()
       class Parent1 {
@@ -129,16 +127,13 @@ describe("@Inject()", () => {
 
       const TokenAsync = Symbol.for("MyService2");
 
-      registerProvider({
-        token: TokenAsync,
-        type: TOKEN_GROUPS,
-        deps: [],
-        useAsyncFactory() {
+      injectable(TokenAsync)
+        .type(TOKEN_GROUPS)
+        .asyncFactory(() => {
           return Promise.resolve({
             type: "async"
           });
-        }
-      });
+        });
 
       @Injectable()
       class MyInjectable {
@@ -239,16 +234,13 @@ describe("@Inject()", () => {
 
         const TokenAsync = Symbol.for("MyService1");
 
-        registerProvider({
-          token: TokenAsync,
-          type: TOKEN_GROUPS,
-          deps: [],
-          useAsyncFactory() {
+        injectable(TokenAsync)
+          .type(TOKEN_GROUPS)
+          .asyncFactory(() => {
             return Promise.resolve({
               type: "async"
             });
-          }
-        });
+          });
 
         @Injectable()
         class MyInjectable {

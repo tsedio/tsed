@@ -4,7 +4,6 @@ import {afterEach} from "vitest";
 import {Container} from "../domain/Container.js";
 import {Provider} from "../domain/Provider.js";
 import {destroyInjector, injector} from "../fn/injector.js";
-import {GlobalProviders} from "../registries/GlobalProviders.js";
 import {Configuration} from "./configuration.js";
 import {Injectable} from "./injectable.js";
 
@@ -32,7 +31,7 @@ describe("@Configuration", () => {
 
     const container = new Container();
 
-    injector().setProvider(Test, GlobalProviders.get(Test)!.clone());
+    injector().setProvider(Test, Provider.Registry.get(Test)!.clone());
 
     await injector().load(container);
 
@@ -51,7 +50,7 @@ describe("@Configuration", () => {
 
     const container = new Container();
 
-    injector().setProvider(Test, GlobalProviders.get(Test)!.clone());
+    injector().setProvider(Test, Provider.Registry.get(Test)!.clone());
 
     await injector().load(container);
 

@@ -1,6 +1,5 @@
 import type {ProviderOpts} from "../interfaces/ProviderOpts.js";
 import type {TokenProvider} from "../interfaces/TokenProvider.js";
-import {GlobalProviders} from "../registries/GlobalProviders.js";
 import {Provider} from "./Provider.js";
 import type {ProviderType} from "./ProviderType.js";
 
@@ -31,7 +30,7 @@ export class Container extends Map<TokenProvider, Provider> {
    * @param settings
    */
   public add(token: TokenProvider, settings: Partial<ProviderOpts> = {}): this {
-    const provider = GlobalProviders.get(token)?.clone() || new Provider(token);
+    const provider = Provider.Registry.get(token)?.clone() || new Provider(token);
 
     Object.assign(provider, settings);
 

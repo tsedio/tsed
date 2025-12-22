@@ -1,6 +1,6 @@
 import type {Type} from "@tsed/core/types/Type.js";
 
-import {GlobalProviders} from "../registries/GlobalProviders.js";
+import {Provider} from "../domain/Provider.js";
 
 /**
  * Override an existing provider registration with a new implementation.
@@ -44,6 +44,10 @@ import {GlobalProviders} from "../registries/GlobalProviders.js";
  */
 export function OverrideProvider(originalProvider: Type<any>): Function {
   return (target: Type<any>): void => {
-    GlobalProviders.get(originalProvider)!.useClass = target;
+    const provider = Provider.Registry.get(originalProvider);
+
+    if (provider) {
+      provider.useClass = target;
+    }
   };
 }

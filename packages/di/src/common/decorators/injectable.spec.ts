@@ -1,4 +1,4 @@
-import {GlobalProviders} from "../registries/GlobalProviders.js";
+import {Provider} from "../domain/Provider.js";
 import {Injectable} from "./injectable.js";
 
 describe("@Injectable()", () => {
@@ -14,7 +14,7 @@ describe("@Injectable()", () => {
     Injectable()(Test);
 
     // THEN
-    expect(GlobalProviders.get(Test)?.useClass).toEqual(Test);
+    expect(Provider.Registry.get(Test)?.useClass).toEqual(Test);
   });
 
   it("should call `registerProvider` passing an additional options", () => {
@@ -25,19 +25,20 @@ describe("@Injectable()", () => {
     Injectable({options: "options"})(Test);
 
     // THEN
-    expect(GlobalProviders.get(Test)?.useClass).toEqual(Test);
-    expect(GlobalProviders.get(Test)?.options).toEqual("options");
+    expect(Provider.Registry.get(Test)?.useClass).toEqual(Test);
+    expect(Provider.Registry.get(Test)?.options).toEqual("options");
   });
 
   it("should override `token`", () => {
     // GIVEN
     class Test {}
+
     const token = "custom";
 
     // WHEN
     Injectable({token})(Test);
 
     // THEN
-    expect(GlobalProviders.get("custom")?.useClass).toEqual(Test);
+    expect(Provider.Registry.get("custom")?.useClass).toEqual(Test);
   });
 });

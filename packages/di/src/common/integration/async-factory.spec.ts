@@ -1,34 +1,30 @@
 import {isPromise} from "@tsed/core";
-import {afterEach, beforeEach} from "vitest";
+import {afterEach} from "vitest";
 
+import {injectable, Provider} from "../../..";
 import {Inject} from "../decorators/inject.js";
 import {Injectable} from "../decorators/injectable.js";
 import {Container} from "../domain/Container.js";
 import {destroyInjector, injector} from "../fn/injector.js";
-import {GlobalProviders} from "../registries/GlobalProviders.js";
-import {registerProvider} from "../registries/ProviderRegistry.js";
-import {InjectorService} from "../services/InjectorService.js";
 
 describe("DI", () => {
   afterEach(() => destroyInjector());
   describe("create new injector", () => {
     const ASYNC_FACTORY = Symbol.for("ASYNC_FACTORY");
 
-    registerProvider({
-      token: ASYNC_FACTORY,
-
-      useAsyncFactory() {
+    injectable(ASYNC_FACTORY)
+      .asyncFactory(async () => {
         return {
           connection: true,
           close() {}
         };
-      },
-      hooks: {
+      })
+      .hooks({
         $onDestroy(instance: any) {
           return instance.close();
         }
-      }
-    });
+      })
+      .token();
 
     @Injectable()
     class Server {
@@ -37,8 +33,8 @@ describe("DI", () => {
     }
 
     afterAll(() => {
-      GlobalProviders.delete(Server);
-      GlobalProviders.delete(ASYNC_FACTORY);
+      Provider.Registry.delete(Server);
+      Provider.Registry.delete(ASYNC_FACTORY);
     });
 
     it("should load all providers with the SINGLETON scope only", async () => {

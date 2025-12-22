@@ -2,7 +2,7 @@ import {Logger} from "@tsed/logger";
 import {beforeEach} from "vitest";
 
 import {DITest} from "../../node/index.js";
-import {registerProvider} from "../registries/ProviderRegistry.js";
+import {registerProvider} from "../fn/injectable.js";
 import {InjectorService} from "../services/InjectorService.js";
 import {AutoInjectable} from "./autoInjectable.js";
 import {Inject} from "./inject.js";

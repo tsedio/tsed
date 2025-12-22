@@ -6,11 +6,11 @@ import {Scope} from "../decorators/scope.js";
 import {Service} from "../decorators/service.js";
 import {Container} from "../domain/Container.js";
 import {LocalsContainer} from "../domain/LocalsContainer.js";
+import {Provider} from "../domain/Provider.js";
 import {ProviderScope} from "../domain/ProviderScope.js";
 import {inject} from "../fn/inject.js";
 import {destroyInjector, injector} from "../fn/injector.js";
 import {OnDestroy} from "../interfaces/OnDestroy.js";
-import {GlobalProviders} from "../registries/GlobalProviders.js";
 
 describe("DI", () => {
   afterEach(() => destroyInjector());
@@ -41,9 +41,9 @@ describe("DI", () => {
     }
 
     afterAll(() => {
-      GlobalProviders.delete(ServiceSingleton);
-      GlobalProviders.delete(ServiceRequest);
-      GlobalProviders.delete(ServiceInstance);
+      Provider.Registry.delete(ServiceSingleton);
+      Provider.Registry.delete(ServiceRequest);
+      Provider.Registry.delete(ServiceInstance);
     });
 
     it("should load all providers with the SINGLETON scope only", async () => {
@@ -86,8 +86,8 @@ describe("DI", () => {
     class MyService extends BaseMyService {}
 
     afterAll(() => {
-      GlobalProviders.delete(MyService);
-      GlobalProviders.delete(NestedService);
+      Provider.Registry.delete(MyService);
+      Provider.Registry.delete(NestedService);
     });
 
     it("should inject the expected class", async () => {
@@ -115,8 +115,8 @@ describe("DI", () => {
     }
 
     afterAll(() => {
-      GlobalProviders.delete(MyService);
-      GlobalProviders.delete(NestedService);
+      Provider.Registry.delete(MyService);
+      Provider.Registry.delete(NestedService);
     });
 
     it("should inject the expected class", async () => {
