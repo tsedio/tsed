@@ -2,8 +2,14 @@ import "../index.js";
 
 import {Ajv} from "ajv";
 
-import {CollectionOf, JsonEntityStore, Property} from "../index.js";
+import {CollectionOf, JsonEntityStore, Property, s} from "../index.js";
 import {JsonSchema} from "./JsonSchema.js";
+
+declare module "@tsed/schema" {
+  interface JsonSchema {
+    test(): this;
+  }
+}
 
 describe("JsonSchema", () => {
   describe("extra Props", () => {
@@ -1505,6 +1511,16 @@ describe("JsonSchema", () => {
           }
         ]
       });
+    });
+  });
+
+  describe("JsonSchema.add()", () => {
+    it("should add new method to JsonSchema prototype", () => {
+      JsonSchema.add("test", function test() {
+        return this;
+      });
+
+      expect(s.string().test()).toBeInstanceOf(JsonSchema);
     });
   });
 });

@@ -362,6 +362,12 @@ export class JsonSchema<T = JSONSchema7Type> extends Map<string, any> {
     return new JsonSchema(item as Partial<JsonSchemaObject>);
   }
 
+  static add<Keys extends keyof JsonSchema>(property: Keys, method: JsonSchema[Keys]) {
+    Object.defineProperty(JsonSchema.prototype, property, {
+      value: method
+    });
+  }
+
   /**
    * Check if the schema has a property.
    *
@@ -578,8 +584,11 @@ export class JsonSchema<T = JSONSchema7Type> extends Map<string, any> {
    * @returns This schema instance with updated type
    */
   nullable(): JsonSchema<T | null>;
+
   nullable(value: true): JsonSchema<T | null>;
+
   nullable(value: false): JsonSchema<Exclude<T, null>>;
+
   nullable(value: boolean = true): JsonSchema<T | null> | JsonSchema<Exclude<T, null>> {
     if (!this.isNullable) {
       this.vendorKey(VendorKeys.NULLABLE, value);
@@ -1030,8 +1039,11 @@ export class JsonSchema<T = JSONSchema7Type> extends Map<string, any> {
    * @see https://tools.ietf.org/html/draft-wright-json-schema-validation-01#section-6.17
    */
   required(): JsonSchema<Exclude<T, undefined>>;
+
   required(required: true): JsonSchema<Exclude<T, undefined>>;
+
   required(required: false): JsonSchema<T | undefined>;
+
   required(required: boolean | string[] = true): JsonSchema<Exclude<T, undefined>> | JsonSchema<T | undefined> {
     if (isArray(required)) {
       this.#required.clear();
@@ -1172,8 +1184,11 @@ export class JsonSchema<T = JSONSchema7Type> extends Map<string, any> {
    */
   // enum(...enumValues: any[]): this;
   enum<E extends Record<string, string | number>>(e: E): JsonSchema<E[keyof E]>;
+
   enum<E extends readonly T[]>(...e: E): JsonSchema<E[number]>;
+
   enum<E extends readonly T[]>(e: E): JsonSchema<E[number]>;
+
   enum(enumValue: any, ...enumValues: any[]): this {
     if (enumsRegistry.has(enumValue)) {
       return this.enum(enumsRegistry.get(enumValue) as any) as this;
@@ -1697,7 +1712,9 @@ export class JsonSchema<T = JSONSchema7Type> extends Map<string, any> {
   }
 
   protected mapToJsonSchema(item: any[]): JsonSchema[];
+
   protected mapToJsonSchema(item: any): JsonSchema;
+
   protected mapToJsonSchema(item: any | any[]): JsonSchema | JsonSchema[] {
     if (isArray(item)) {
       return (item as any[]).map((item) => this.mapToJsonSchema(item));
