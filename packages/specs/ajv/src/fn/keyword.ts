@@ -13,8 +13,8 @@ export type KeywordOptions = Partial<Omit<KeywordDefinition, "metaSchema">> & {
  * @decorator
  * @ajv
  */
-export function keyword(token: TokenProvider, options: KeywordOptions): ReturnType<typeof injectable> {
-  return injectable(token)
+export function keyword<Token extends TokenProvider>(token: Token, options: KeywordOptions) {
+  return injectable<Token>(token)
     .type("ajv:keyword")
     .set("ajv:keyword", {
       ...options,

@@ -10,8 +10,8 @@ export type FormatsOptions = Omit<FormatDefinition<any>, "validate" | "compare">
  * @param options
  * @ajv
  */
-export function formats(token: TokenProvider, name: string, options: FormatsOptions = {}): ReturnType<typeof injectable> {
-  return injectable(token, {type: "ajv:formats"}).set("ajv:formats", {
+export function formats<Token extends TokenProvider>(token: Token, name: string, options: FormatsOptions = {}) {
+  return injectable<Token>(token, {type: "ajv:formats"}).set("ajv:formats", {
     name,
     options
   });
