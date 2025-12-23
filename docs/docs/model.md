@@ -1879,6 +1879,41 @@ Here is the list of available functions:
 
 <ApiList query="status.includes('schemaFunctional')" />
 
+#### Composing object schemas
+
+JsonSchema instances returned by the Functional API expose `.pick()`, `.omit()`, and `.merge()` helpers to build derived object models without mutating the original schema. Each helper keeps `s.infer()` aligned with the resulting shape.
+
+```typescript [Functional API]
+const User = s.object({
+  id: s.string().required(),
+  email: s.string(),
+  password: s.string(),
+  audit: s.object({
+    createdAt: s.date().required(),
+    updatedAt: s.date().optional()
+  })
+});
+
+const PublicUser = User.pick("id", "email");
+const InternalUser = User.omit("password");
+const ExtraFields = s.object({
+  flags: s.object({
+    active: s.boolean()
+  })
+});
+
+const AuditedUser = User.merge(ExtraFields);
+
+type PublicShape = s.infer<typeof PublicUser>;
+// { id: string; email: string | undefined }
+
+type InternalShape = s.infer<typeof InternalUser>;
+// { id: string; email: string | undefined; audit: { createdAt: Date; updatedAt: Date | undefined } }
+
+type AuditedShape = s.infer<typeof AuditedUser>;
+// { id: string; email: string | undefined; password: string; audit: {...}; flags: { active: boolean } }
+```
+
 ## Infer types (Experimental)
 
 Ts.ED provides a Functional API to build JsonSchema programmatically with TypeScript type inference, similar to Zod.

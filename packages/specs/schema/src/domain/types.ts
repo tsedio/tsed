@@ -46,6 +46,43 @@ export type PropsToShape<P extends Record<string, JsonSchema<any>>> = {
   [K in keyof P]: Infer<P[K]>;
 };
 
+type JsonLikeObject = Record<string, any>;
+type ObjectPortion<T> = Extract<T, JsonLikeObject>;
+type NonObjectPortion<T> = Exclude<T, JsonLikeObject>;
+
+type ObjectPick<T, K extends PropertyKey> = Pick<ObjectPortion<T>, Extract<K, keyof ObjectPortion<T>>>;
+type ObjectOmit<T, K extends PropertyKey> = Omit<ObjectPortion<T>, Extract<K, keyof ObjectPortion<T>>>;
+
+type MergedObjectPortion<T, U> = [ObjectPortion<T>] extends [never]
+  ? ObjectPortion<U>
+  : [ObjectPortion<U>] extends [never]
+    ? ObjectPortion<T>
+    : ObjectPortion<T> & ObjectPortion<U>;
+
+export type SchemaPick<T, K extends PropertyKey> = [ObjectPortion<T>] extends [never]
+  ? T
+  : NonObjectPortion<T> extends never
+    ? ObjectPick<T, K>
+    : ObjectPick<T, K> | NonObjectPortion<T>;
+
+export type SchemaOmit<T, K extends PropertyKey> = [ObjectPortion<T>] extends [never]
+  ? T
+  : NonObjectPortion<T> extends never
+    ? ObjectOmit<T, K>
+    : ObjectOmit<T, K> | NonObjectPortion<T>;
+
+export type SchemaMerge<T, U> = [MergedObjectPortion<T, U>] extends [never]
+  ? NonObjectPortion<T> | NonObjectPortion<U>
+  : NonObjectPortion<T> extends never
+    ? NonObjectPortion<U> extends never
+      ? MergedObjectPortion<T, U>
+      : MergedObjectPortion<T, U> | NonObjectPortion<U>
+    : MergedObjectPortion<T, U> | NonObjectPortion<T> | NonObjectPortion<U>;
+
+type ObjectKeys<T> = ObjectPortion<T> extends never ? never : keyof ObjectPortion<T>;
+
+export type SchemaKey<T> = ObjectKeys<T> extends never ? string : Extract<ObjectKeys<T>, string>;
+
 /**
  * Maps common JavaScript constructors to their corresponding TypeScript types.
  *

@@ -175,6 +175,67 @@ describe("Functional API typing (inference)", () => {
     type User = s.infer<typeof UserSchema>;
     expectTypeOf<User>().toEqualTypeOf<{id: string} & Record<string, unknown>>();
   });
+  it("should infer pick/omit helpers", () => {
+    const UserSchema = s.object({
+      id: s.string().required(),
+      email: s.string().optional(),
+      admin: s.boolean().optional().nullable()
+    });
+
+    const picked = UserSchema.pick("id", "email");
+    const omitted = UserSchema.omit("admin");
+
+    type Picked2 = Pick<s.infer<typeof UserSchema>, "id" | "email">;
+
+    type Picked = s.infer<typeof picked>;
+    type Omitted = s.infer<typeof omitted>;
+
+    expectTypeOf<Picked2>().toEqualTypeOf<{
+      id: string;
+      email: string | undefined;
+    }>();
+
+    expectTypeOf<Picked>().toEqualTypeOf<{
+      id: string;
+      email: string | undefined;
+    }>();
+
+    expectTypeOf<Omitted>().toEqualTypeOf<{
+      id: string;
+      email: string | undefined;
+    }>();
+  });
+  it("should infer merge helper results", () => {
+    const BaseSchema = s.object({
+      id: s.string().required()
+    });
+
+    const AuditSchema = s.object({
+      createdAt: s.date().required(),
+      updatedAt: s.date().optional()
+    });
+
+    const combined = BaseSchema.merge(AuditSchema);
+    const FlagsSchema = s.object({
+      flags: s.object({
+        active: s.boolean()
+      })
+    });
+
+    const withFlags = BaseSchema.merge(FlagsSchema);
+
+    type Combined = s.infer<typeof combined>;
+    type WithFlags = s.infer<typeof withFlags>;
+
+    expectTypeOf<Combined["id"]>().toEqualTypeOf<string>();
+    expectTypeOf<Combined["createdAt"]>().toEqualTypeOf<Date>();
+    expectTypeOf<Combined["updatedAt"]>().toEqualTypeOf<Date | undefined>();
+
+    expectTypeOf<WithFlags["id"]>().toEqualTypeOf<string>();
+    expectTypeOf<WithFlags["flags"]>().toEqualTypeOf<{
+      active: boolean;
+    }>();
+  });
   it("should infer enums from literals and enum-like objects", () => {
     const literalEnum = s.enums(["A", "B", "C"] as const);
     type LE = s.infer<typeof literalEnum>;

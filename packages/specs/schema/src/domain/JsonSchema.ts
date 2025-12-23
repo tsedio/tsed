@@ -32,7 +32,7 @@ import {Discriminator} from "./JsonDiscriminator.js";
 import {JsonEntityStore} from "./JsonEntityStore.js";
 import {JsonFormatTypes} from "./JsonFormatTypes.js";
 import {JsonLazyRef} from "./JsonLazyRef.js";
-import type {Infer, PropsToShape, UnionToIntersection} from "./types.js";
+import type {Infer, PropsToShape, SchemaKey, SchemaMerge, SchemaOmit, SchemaPick, UnionToIntersection} from "./types.js";
 
 /**
  * Extended JSON Schema object supporting TypeScript types and Ts.ED enhancements.
@@ -1100,6 +1100,62 @@ export class JsonSchema<T = JSONSchema7Type> extends Map<string, any> {
     return this as JsonSchema<PropsToShape<P>>;
   }
 
+  pick<K extends SchemaKey<T>>(...keys: K[]): JsonSchema<SchemaPick<T, K>> {
+    const keySet = new Set(keys.map((key) => toJsonRegex(key)));
+    const schema = this.clone() as JsonSchema<SchemaPick<T, K>>;
+
+    const properties = Object.entries(schema.get("properties")).reduce((properties: any, [key, value]: [string, any]) => {
+      if (keySet.has(key)) {
+        return {
+          ...properties,
+          [key]: value.clone()
+        };
+      }
+      return properties;
+    }, {});
+
+    schema.set("properties", properties);
+
+    schema.#required = new Set([...schema.#required].filter((key) => keySet.has(key)));
+
+    return schema;
+  }
+
+  omit<K extends SchemaKey<T>>(...keys: K[]): JsonSchema<SchemaOmit<T, K>> {
+    const keySet = new Set(keys.map((key) => toJsonRegex(key)));
+    const schema = this.clone() as JsonSchema<SchemaOmit<T, K>>;
+
+    const properties = Object.entries(schema.get("properties")).reduce((properties: any, [key, value]: [string, any]) => {
+      if (!keySet.has(key)) {
+        return {
+          ...properties,
+          [key]: value
+        };
+      }
+
+      return properties;
+    }, {});
+
+    schema.set("properties", properties);
+
+    keySet.forEach((key) => schema.#required.delete(key));
+
+    return schema;
+  }
+
+  merge<S extends JsonSchema<any>>(schema: S): JsonSchema<SchemaMerge<T, Infer<S>>> {
+    const cloned = this.clone() as JsonSchema<SchemaMerge<T, Infer<S>>>;
+    const currentProperties = {...((cloned.get("properties") as Record<string, JsonSchema>) || {})};
+    const incoming = schema.get("properties") || {};
+
+    Object.assign(currentProperties, incoming);
+    schema.getRequiredFields().forEach((field) => cloned.#required.add(field));
+
+    cloned.properties(currentProperties as Record<string, JsonSchema>);
+
+    return cloned;
+  }
+
   addProperty(key: string, schema: AnyJsonSchema) {
     const properties = this.get("properties") || {};
 
@@ -1526,8 +1582,26 @@ export class JsonSchema<T = JSONSchema7Type> extends Map<string, any> {
 
   assign(obj: Partial<JSONSchema7> | JsonSchema | Record<string, unknown>) {
     const entries = obj instanceof JsonSchema ? [...obj.entries()] : Object.entries(obj);
+    const clone = (value: any) => (value instanceof JsonSchema ? value.clone() : value);
 
     entries.forEach(([key, value]) => {
+      if (obj instanceof JsonSchema) {
+        // deep clone
+        if (key === "properties") {
+          value = Object.fromEntries(
+            Object.entries(value).map(([key, value]: [string, any]) => {
+              return [key, clone(value)];
+            })
+          );
+        } else if (key === "items") {
+          if (!obj.isNullable) {
+            value = clone(value);
+          }
+        } else if (key === "additionalProperties") {
+          value = clone(value);
+        }
+      }
+
       this.set(key, value);
     });
 
@@ -1545,6 +1619,10 @@ export class JsonSchema<T = JSONSchema7Type> extends Map<string, any> {
       this.#target = obj.#target;
       this.#isCollection = obj.#isCollection;
       this.#isLocalSchema = obj.#isLocalSchema;
+
+      if (obj.#isLocalSchema && obj.#itemSchema) {
+        this.#itemSchema = obj.#itemSchema.clone();
+      }
 
       super.set("type", obj.get("type"));
     }

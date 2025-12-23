@@ -201,6 +201,137 @@ describe("JsonSchema", () => {
       });
     });
   });
+
+  describe("object transforms", () => {
+    const buildUserSchema = () => {
+      return JsonSchema.from({type: Object}).properties({
+        id: JsonSchema.from({type: String}).required(true),
+        email: JsonSchema.from({type: String}),
+        admin: JsonSchema.from({type: Boolean})
+      });
+    };
+
+    it("should pick a subset of properties", () => {
+      const schema = buildUserSchema();
+
+      const picked = schema.pick("id", "email");
+      const output = picked.toJSON();
+
+      expect(picked).not.toBe(schema);
+      expect(schema.get("properties")["id"]).not.toBe(picked.get("properties")["id"]);
+      expect(output).toMatchInlineSnapshot(`
+        {
+          "properties": {
+            "email": {
+              "type": "string",
+            },
+            "id": {
+              "minLength": 1,
+              "type": "string",
+            },
+          },
+          "required": [
+            "id",
+          ],
+          "type": "object",
+        }
+      `);
+    });
+
+    it("should omit properties", () => {
+      const schema = buildUserSchema();
+
+      const omitted = schema.omit("id", "email");
+      const output = omitted.toJSON();
+
+      expect(output).toMatchInlineSnapshot(`
+        {
+          "properties": {
+            "admin": {
+              "type": "boolean",
+            },
+          },
+          "type": "object",
+        }
+      `);
+    });
+
+    it("should merge schemas", () => {
+      const user = buildUserSchema();
+      const audit = JsonSchema.from({type: Object}).properties({
+        createdAt: JsonSchema.from({type: Date}).required(),
+        updatedAt: JsonSchema.from({type: Date})
+      });
+
+      const mergedSchema = user.merge(audit);
+
+      expect(mergedSchema.toJSON()).toMatchInlineSnapshot(`
+        {
+          "properties": {
+            "admin": {
+              "type": "boolean",
+            },
+            "createdAt": {
+              "minLength": 1,
+              "type": "string",
+            },
+            "email": {
+              "type": "string",
+            },
+            "id": {
+              "minLength": 1,
+              "type": "string",
+            },
+            "updatedAt": {
+              "type": "string",
+            },
+          },
+          "required": [
+            "id",
+            "createdAt",
+          ],
+          "type": "object",
+        }
+      `);
+
+      const flags = JsonSchema.from({type: Object}).properties({
+        flags: JsonSchema.from({type: Object}).properties({
+          active: JsonSchema.from({type: Boolean})
+        })
+      });
+
+      const withFlags = user.merge(flags).toJSON();
+
+      expect(withFlags).toMatchInlineSnapshot(`
+        {
+          "properties": {
+            "admin": {
+              "type": "boolean",
+            },
+            "email": {
+              "type": "string",
+            },
+            "flags": {
+              "properties": {
+                "active": {
+                  "type": "boolean",
+                },
+              },
+              "type": "object",
+            },
+            "id": {
+              "minLength": 1,
+              "type": "string",
+            },
+          },
+          "required": [
+            "id",
+          ],
+          "type": "object",
+        }
+      `);
+    });
+  });
   describe("Object", () => {
     describe("basic", () => {
       // https://json-schema.org/understanding-json-schema/reference/object.html#object

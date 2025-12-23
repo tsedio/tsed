@@ -9,12 +9,6 @@
 - Then a **new** `JsonSchema` instance is returned where `properties` only contains `id` and `email`, the original schema remains unchanged, and the internal required set only includes `id`
 - And `s.infer<typeof subset>` resolves to `Pick<{id: string; email: string | undefined; admin: boolean | undefined}, "id" | "email">`
 
-#### Scenario: Picking with an explicit list argument
-
-- Given a schema with properties `id`, `email`, and `admin`
-- When `.pick(["id"])` is invoked with an array of keys
-- Then the returned schema only keeps the `id` property (same as varargs usage) and remains a new instance
-
 #### Scenario: Picking keys that are missing
 
 - Given a `JsonSchema` with properties `id` and `email`
@@ -28,12 +22,6 @@
 - Given a schema with properties `id`, `email`, and `admin`
 - When `.omit("admin")` is called
 - Then the returned schema excludes `admin` from its `properties`, removes it from the required set if necessary, and `s.infer<typeof schema.omit("admin")>` equals `Omit<T, "admin">`
-
-#### Scenario: Omitting with an explicit list argument
-
-- Given a schema with properties `id`, `email`, and `admin`
-- When `.omit(["email", "admin"])` is called
-- Then both properties are removed from the returned schema, just as if they were passed as separate arguments
 
 #### Scenario: Omitting multiple keys preserves the other metadata
 

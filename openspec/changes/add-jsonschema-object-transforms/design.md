@@ -10,7 +10,7 @@
 
 ### `pick(...keys)`
 
-1. Normalize the requested keys (`string | string[]` or an array literal passed as the first argument) into a `Set` for lookup.
+1. Normalize the requested keys (varargs strings) into a `Set` for lookup.
 2. Read the current `properties` map (default `{}`) and filter to entries whose keys exist in the set.
 3. Clone the schema, overwrite its `properties` map with the filtered object, and update its internal `#required` set to only include retained keys.
 4. Leave non-property keywords untouched (patternProperties, additionalProperties, vendor keys, etc.).
@@ -18,20 +18,19 @@
 
 ### `omit(...keys)`
 
-1. Normalize keys to a `Set` as above, supporting both varargs and `string[]` inputs (e.g., `schema.omit([\"a\", \"b\"])`).
+1. Normalize keys to a `Set` as above using the provided varargs strings.
 2. Filter the current `properties` map by excluding the specified keys.
 3. Clone, replace its `properties` map, and drop each omitted key from the `#required` set.
 4. Return the clone typed as `JsonSchema<SchemaOmit<T, Keys>>`.
 
-### `merge(source)`
+### `merge(schema)`
 
-- Accept either another `JsonSchema<any>` instance or a plain property bag (`Record<string, AnyJsonSchema>`). Optionally allow chaining `merge(schema, bag)` by supporting rest parameters or repeated invocation; initial design sticks to a single argument per call so consumers can chain.
-- Convert the incoming payload into a normalized `Record<string, JsonSchema>` using the existing `mapToJsonSchema` helper for each property.
-- When merging another `JsonSchema`, derive the property bag from `source.get('properties') ?? {}` and union the `#required` set.
+- Accept another `JsonSchema<any>` instance and return a cloned schema containing both sets of properties.
+- Derive the incoming property bag from `schema.get("properties") ?? {}` and union the `#required` set.
 - Combine property objects with later definitions overriding earlier ones when keys collide.
 - For nested properties referenced across both schemas, prefer the incoming schema instance so developers can reuse previously-configured chains.
 - Keep other keywords (`additionalProperties`, `patternProperties`, `vendor keys`) untouched during an object-property merge; this keeps the first iteration simple and is consistent with the guardrail to add complexity only when required.
-- Return a clone typed as `JsonSchema<SchemaMerge<T, U>>` where `U` resolves to either `Infer<S>` (when merging another schema) or `PropsToShape<P>` for raw property bags.
+- Return a clone typed as `JsonSchema<SchemaMerge<T, Infer<S>>>`.
 
 ## Type operations
 
@@ -47,7 +46,6 @@ To keep `s.infer()` accurate, introduce helper types inside `domain/types.ts`:
 pick<K extends PropertyKey[]>(...keys: K): JsonSchema<SchemaPick<T, K[number]>>;
 omit<K extends PropertyKey[]>(...keys: K): JsonSchema<SchemaOmit<T, K[number]>>;
 merge<S extends JsonSchema<any>>(other: S): JsonSchema<SchemaMerge<T, Infer<S>>>;
-merge<P extends Record<string, JsonSchema<any>>>(properties: P): JsonSchema<SchemaMerge<T, PropsToShape<P>>>;
 ```
 
 The overloads keep existing call sites type-safe while ensuring inference works for `s.object({...}).pick("id")` and for merging separate schema builders.
