@@ -364,7 +364,10 @@ export class JsonSchema<T = JSONSchema7Type> extends Map<string, any> {
 
   static add<Keys extends keyof JsonSchema>(property: Keys, method: JsonSchema[Keys]) {
     Object.defineProperty(JsonSchema.prototype, property, {
-      value: method
+      value: method,
+      writable: false,
+      enumerable: false,
+      configurable: false
     });
   }
 

@@ -12,7 +12,7 @@ describe("Provider", () => {
     it("should wrap the token provided", () => {
       const provider = new Provider(T1);
       provider.scope = ProviderScope.REQUEST;
-      // provider.customProp = "test";
+      provider.customProp = "test";
 
       expect(provider.token).toEqual(T1);
       expect(provider.useClass).toEqual(T1);
@@ -108,7 +108,9 @@ describe("Provider", () => {
   it("should have type field to equals to controller", () => {
     class Test {}
 
-    const provider = new Provider(Test);
+    const provider = new Provider(Test, {
+      type: "controller"
+    });
     provider.path = "/";
     provider.scope = ProviderScope.REQUEST;
     provider.middlewares = {

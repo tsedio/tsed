@@ -54,24 +54,13 @@ export type ProviderHookCallback<T = any> = (instance: T, ...args: unknown[]) =>
  */
 export class Provider<T = any> implements ProviderOpts<T> {
   /**
-   * Registry for managing global providers in the dependency injection system.
-   * Extends the Map class to store TokenProvider-Provider pairs.
-   */
-  /**
-   * Global registry storing all providers in the dependency injection system.
-   * Maps provider tokens (string) to their Provider instances.
-   */
-  /**
    * Global registry for storing all providers in the dependency injection system.
    * Maps provider tokens to their Provider instances.
    */
   static readonly Registry = new Map<TokenProvider, Provider>();
 
   /**
-   * Token group provider to retrieve all provider from the same type
-   */
-  /**
-   * The type of the provider - can be a ProviderType enum value or TokenProvider
+   * Token group provider to retrieve all providers from the same type
    */
   public type: ProviderType | TokenProvider = ProviderType.PROVIDER;
 
@@ -228,7 +217,6 @@ export class Provider<T = any> implements ProviderOpts<T> {
   }
 
   set path(path: string) {
-    this.type = ProviderType.CONTROLLER;
     this.store.set("path", path);
   }
 
@@ -284,10 +272,6 @@ export class Provider<T = any> implements ProviderOpts<T> {
    * Gets the configured middleware stack for this provider
    */
   get middlewares(): Partial<ControllerMiddlewares> {
-    /**
-     * Sets middleware configuration, merging with existing middlewares
-     * @param middlewares - The middleware configuration to apply
-     */
     return Object.assign(
       {
         use: [],
@@ -298,6 +282,10 @@ export class Provider<T = any> implements ProviderOpts<T> {
     );
   }
 
+  /**
+   * Sets middleware configuration, merging with existing middlewares
+   * @param middlewares - The middleware configuration to apply
+   */
   set middlewares(middlewares: Partial<ControllerMiddlewares>) {
     const mdlwrs = this.middlewares;
     const concat = (key: string, a: any, b: any) => (a[key] = a[key].concat(b[key]));
@@ -308,12 +296,6 @@ export class Provider<T = any> implements ProviderOpts<T> {
 
     this.store.set("middlewares", mdlwrs);
   }
-
-  // static readonly Builder = <TypeOf>(base: Partial<ProviderOpts<Type>>) =>
-  //   (token: TypeOf, options: Partial<ProviderOpts<Type>> = {}) => new Builder<TypeOf>(token, {
-  //     ...base,
-  //     ...options
-  //   });
 
   getArgOpts(index: number) {
     return this.store.get(`${DI_USE_PARAM_OPTIONS}:${index}`);

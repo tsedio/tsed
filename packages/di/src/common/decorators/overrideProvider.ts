@@ -1,3 +1,4 @@
+import {nameOf} from "@tsed/core";
 import type {Type} from "@tsed/core/types/Type.js";
 
 import {Provider} from "../domain/Provider.js";
@@ -48,6 +49,11 @@ export function OverrideProvider(originalProvider: Type<any>): Function {
 
     if (provider) {
       provider.useClass = target;
+    } else {
+      throw new Error(
+        `Cannot override provider ${nameOf(originalProvider)}: Provider not found in registry. ` +
+          `Ensure the original provider is decorated with @Injectable() or registered before applying @OverrideProvider.`
+      );
     }
   };
 }
