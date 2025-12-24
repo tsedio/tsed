@@ -28,10 +28,18 @@
 - Given an object schema with discriminator/vendor metadata
 - When `.omit()` removes fields, non-property metadata (e.g., discriminator, additionalProperties) remains unchanged in the cloned instance
 
-### Requirement: Type inference helpers keep `.pick()` and `.omit()` aligned with runtime behavior
+### Requirement: JsonSchema exposes `.partial()` to mark every property optional
+
+#### Scenario: Creating a partial schema from an object definition
+
+- Given a `JsonSchema` with required properties `id` and `admin`
+- When `.partial()` is called
+- Then the returned schema clears its required list, clones property definitions so the original schema is untouched, sets each property's `$selfRequired` flag to `false`, and `s.infer<typeof schema.partial()>` equals `Partial<s.infer<typeof schema>>`
+
+### Requirement: Type inference helpers keep `.pick()`, `.omit()`, and `.partial()` aligned with runtime behavior
 
 #### Scenario: Functional API inference
 
 - Given a schema built via the functional API
-- When `.pick()` / `.omit()` are used before calling `s.infer()`
+- When `.pick()`, `.omit()`, or `.partial()` are used before calling `s.infer()`
 - Then TypeScript infers the resulting shape using the new helper types so optional/nullable unions are preserved

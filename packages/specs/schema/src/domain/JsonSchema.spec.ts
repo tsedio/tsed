@@ -256,6 +256,36 @@ describe("JsonSchema", () => {
       `);
     });
 
+    it("should mark all properties optional via partial()", () => {
+      const schema = buildUserSchema();
+
+      const partial = schema.partial();
+      const output = partial.toJSON();
+
+      expect(partial).not.toBe(schema);
+      expect(partial.get("properties")["id"]).not.toBe(schema.get("properties")["id"]);
+      expect(schema.toJSON().required).toEqual(["id"]);
+      expect(partial.getRequiredFields()).toEqual([]);
+      expect(output.required).toBeUndefined();
+      expect(output).toMatchInlineSnapshot(`
+        {
+          "properties": {
+            "admin": {
+              "type": "boolean",
+            },
+            "email": {
+              "type": "string",
+            },
+            "id": {
+              "minLength": 1,
+              "type": "string",
+            },
+          },
+          "type": "object",
+        }
+      `);
+    });
+
     it("should merge schemas", () => {
       const user = buildUserSchema();
       const audit = JsonSchema.from({type: Object}).properties({

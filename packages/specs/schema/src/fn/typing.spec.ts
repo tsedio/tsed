@@ -205,6 +205,23 @@ describe("Functional API typing (inference)", () => {
       email: string | undefined;
     }>();
   });
+  it("should infer partial helper results", () => {
+    const UserSchema = s.object({
+      id: s.string().required(),
+      email: s.string(),
+      admin: s.boolean().required()
+    });
+
+    const partial = UserSchema.partial();
+
+    type PartialUser = s.infer<typeof partial>;
+
+    expectTypeOf<PartialUser>().toEqualTypeOf<{
+      id?: string | undefined;
+      email?: string | undefined;
+      admin?: boolean | undefined;
+    }>();
+  });
   it("should infer merge helper results", () => {
     const BaseSchema = s.object({
       id: s.string().required()

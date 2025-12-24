@@ -4,3 +4,5 @@
 - [x] Extend `packages/specs/schema/src/fn/typing.spec.ts` with inference-focused tests covering pick/omit/merge flows (schema-schema + schema-object merge).
 - [x] Update `docs/docs/model.md` to document the new helpers with Functional API examples and call out inference guarantees.
 - [x] Validation: run the relevant package tests (`cd packages/specs/schema && yarn test`) to ensure new specs pass.
+- [x] Add a `.partial()` helper (plus `SchemaPartial<T>` typing) so JsonSchema can produce all-optional object variants without mutating the source schema.
+- [x] Cover `.partial()` with runtime + typing specs, update the Functional API docs snippet, and rerun `packages/specs/schema` tests to validate the new behavior.

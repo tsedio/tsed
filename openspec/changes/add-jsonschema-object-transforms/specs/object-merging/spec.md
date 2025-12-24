@@ -11,11 +11,11 @@
 
 ### Requirement: Documentation covers the new composition helpers
 
-#### Scenario: Functional API guide mentions pick/omit/merge
+#### Scenario: Functional API guide mentions pick/omit/partial/merge
 
 - Given the `docs/docs/model.md` Functional API section
 - When the documentation is updated
-- Then it includes examples for `.pick()`, `.omit()`, and `.merge()` that describe runtime behavior and the inference guarantee so users can rely on them
+- Then it includes examples for `.pick()`, `.omit()`, `.partial()`, and `.merge()` that describe runtime behavior and the inference guarantee so users can rely on them
 
 ### Requirement: Unit tests guard `.merge()` behavior
 

@@ -1881,7 +1881,7 @@ Here is the list of available functions:
 
 #### Composing object schemas
 
-JsonSchema instances returned by the Functional API expose `.pick()`, `.omit()`, and `.merge()` helpers to build derived object models without mutating the original schema. Each helper keeps `s.infer()` aligned with the resulting shape.
+JsonSchema instances returned by the Functional API expose `.pick()`, `.omit()`, `.partial()`, and `.merge()` helpers to build derived object models without mutating the original schema. Each helper keeps `s.infer()` aligned with the resulting shape.
 
 ```typescript [Functional API]
 const User = s.object({
@@ -1896,6 +1896,7 @@ const User = s.object({
 
 const PublicUser = User.pick("id", "email");
 const InternalUser = User.omit("password");
+const DraftUser = User.partial();
 const ExtraFields = s.object({
   flags: s.object({
     active: s.boolean()
@@ -1909,6 +1910,9 @@ type PublicShape = s.infer<typeof PublicUser>;
 
 type InternalShape = s.infer<typeof InternalUser>;
 // { id: string; email: string | undefined; audit: { createdAt: Date; updatedAt: Date | undefined } }
+
+type DraftShape = s.infer<typeof DraftUser>;
+// { id?: string | undefined; email?: string | undefined; password?: string | undefined; audit?: { createdAt: Date; updatedAt: Date | undefined } }
 
 type AuditedShape = s.infer<typeof AuditedUser>;
 // { id: string; email: string | undefined; password: string; audit: {...}; flags: { active: boolean } }

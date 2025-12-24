@@ -52,6 +52,9 @@ type NonObjectPortion<T> = Exclude<T, JsonLikeObject>;
 
 type ObjectPick<T, K extends PropertyKey> = Pick<ObjectPortion<T>, Extract<K, keyof ObjectPortion<T>>>;
 type ObjectOmit<T, K extends PropertyKey> = Omit<ObjectPortion<T>, Extract<K, keyof ObjectPortion<T>>>;
+type ObjectPartial<T> = {
+  [K in keyof ObjectPortion<T>]?: ObjectPortion<T>[K] | undefined;
+};
 
 type MergedObjectPortion<T, U> = [ObjectPortion<T>] extends [never]
   ? ObjectPortion<U>
@@ -70,6 +73,12 @@ export type SchemaOmit<T, K extends PropertyKey> = [ObjectPortion<T>] extends [n
   : NonObjectPortion<T> extends never
     ? ObjectOmit<T, K>
     : ObjectOmit<T, K> | NonObjectPortion<T>;
+
+export type SchemaPartial<T> = [ObjectPortion<T>] extends [never]
+  ? T
+  : NonObjectPortion<T> extends never
+    ? ObjectPartial<T>
+    : ObjectPartial<T> | NonObjectPortion<T>;
 
 export type SchemaMerge<T, U> = [MergedObjectPortion<T, U>] extends [never]
   ? NonObjectPortion<T> | NonObjectPortion<U>

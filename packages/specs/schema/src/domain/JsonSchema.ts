@@ -32,7 +32,7 @@ import {Discriminator} from "./JsonDiscriminator.js";
 import {JsonEntityStore} from "./JsonEntityStore.js";
 import {JsonFormatTypes} from "./JsonFormatTypes.js";
 import {JsonLazyRef} from "./JsonLazyRef.js";
-import type {Infer, PropsToShape, SchemaKey, SchemaMerge, SchemaOmit, SchemaPick, UnionToIntersection} from "./types.js";
+import type {Infer, PropsToShape, SchemaKey, SchemaMerge, SchemaOmit, SchemaPartial, SchemaPick, UnionToIntersection} from "./types.js";
 
 /**
  * Extended JSON Schema object supporting TypeScript types and Ts.ED enhancements.
@@ -1108,7 +1108,7 @@ export class JsonSchema<T = JSONSchema7Type> extends Map<string, any> {
       if (keySet.has(key)) {
         return {
           ...properties,
-          [key]: value.clone()
+          [key]: value
         };
       }
       return properties;
@@ -1139,6 +1139,29 @@ export class JsonSchema<T = JSONSchema7Type> extends Map<string, any> {
     schema.set("properties", properties);
 
     keySet.forEach((key) => schema.#required.delete(key));
+
+    return schema;
+  }
+
+  partial(): JsonSchema<SchemaPartial<T>> {
+    const schema = this.clone() as JsonSchema<SchemaPartial<T>>;
+    const properties = schema.get("properties") as Record<string, JsonSchema> | undefined;
+
+    if (properties) {
+      const partialProps = Object.entries(properties).reduce((acc: Record<string, JsonSchema>, [key, value]) => {
+        if (value instanceof JsonSchema && value.$selfRequired) {
+          acc[key] = value.required(false);
+        } else {
+          acc[key] = value;
+        }
+
+        return acc;
+      }, {});
+
+      schema.set("properties", partialProps);
+    }
+
+    schema.#required.clear();
 
     return schema;
   }
