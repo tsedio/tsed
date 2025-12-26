@@ -69,7 +69,19 @@ export class ApolloService {
 
           switch (this.platformName) {
             case "express":
-              const {expressMiddleware} = await import("@apollo/server/express4");
+              // use newer graphql express middleware
+              const expressVersion = await import("express/package.json").then((pkg) => pkg.default.version);
+              const majorVersion = parseInt(expressVersion.split(".")[0], 10);
+
+              let expressMiddleware: any;
+
+              if (majorVersion >= 5) {
+                ({expressMiddleware} = await import("@as-integrations/express5"));
+              } else if (majorVersion === 4) {
+                ({expressMiddleware} = await import("@as-integrations/express4"));
+              } else {
+                throw new Error(`Express version ${expressVersion} is not supported. Please use Express 4 or 5.`);
+              }
 
               this.app.use(
                 path,

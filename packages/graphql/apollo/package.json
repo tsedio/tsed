@@ -27,7 +27,9 @@
   },
   "devDependencies": {
     "@apollo/datasource-rest": "6.4.1",
-    "@apollo/server": "^4.11.0",
+    "@apollo/server": "^5.2.0",
+    "@as-integrations/express4": "1.1.2",
+    "@as-integrations/express5": "1.1.2",
     "@as-integrations/koa": "1.1.1",
     "@tsed/barrels": "workspace:*",
     "@tsed/core": "workspace:*",
@@ -38,16 +40,30 @@
     "apollo-datasource-http": "0.21.0",
     "apollo-server-testing": "2.26.2",
     "eslint": "9.12.0",
-    "graphql": "16.9.0",
+    "graphql": "16.12.0",
     "typescript": "5.9.3",
     "vitest": "3.2.4"
   },
   "peerDependencies": {
-    "@apollo/server": ">=4.10.4",
+    "@apollo/server": ">=4.12.0",
     "@tsed/core": ">=8.0.0",
     "@tsed/di": ">=8.0.0",
     "@tsed/logger": ">=8.0.0",
     "@tsed/platform-http": ">=8.0.0",
-    "graphql": ">16.0.0"
+    "graphql": ">16.0.0",
+    "@as-integrations/express4": ">=1.1.2",
+    "@as-integrations/express5": ">=1.1.2",
+    "@as-integrations/koa": ">=1.1.1"
+    },
+    "peerDependenciesMeta": {
+    "@as-integrations/express4": {
+      "optional": true
+    },
+    "@as-integrations/express5": {
+      "optional": true
+    },
+    "@as-integrations/koa": {
+      "optional": true
+    }
   }
 }
