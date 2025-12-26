@@ -45,9 +45,36 @@ If you're looking for integration with TypeGraphQL see the [`@tsed/typegraphql`]
 To begin, install the Apollo module for TS.ED:
 
 ```bash
-npm install --save @tsed/apollo graphql@15 @apollo/server apollo/datasource-rest
+npm install --save @tsed/apollo graphql@16 @apollo/server apollo/datasource-rest
 npm install --save-dev  apollo-server-testing
+
 ```
+
+### Express Integration
+
+If you are using express you need to install its respecitve integration:
+
+- Express 4 - [@as-integrations/express4](https://www.npmjs.com/package/@as-integrations/express4)
+
+``` bash
+npm install --save @as-integrations/express4
+```
+
+- Express 5 - [@as-integrations/express5](https://www.npmjs.com/package/@as-integrations/express5)
+
+``` bash
+npm install --save @as-integrations/express4
+```
+
+### Koa Integration
+
+```bash
+npm install --save @as-integrations/koa
+```
+
+### Fastify Integration
+
+``` Coming Soon```
 
 Now, we can configure the Ts.ED server by importing `@tsed/apollo` in your Server:
 

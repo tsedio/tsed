@@ -30,6 +30,7 @@
     "@apollo/server": "^5.2.0",
     "@as-integrations/express4": "1.1.2",
     "@as-integrations/express5": "1.1.2",
+    "@as-integrations/fastify": "3.1.0",
     "@as-integrations/koa": "1.1.1",
     "@tsed/barrels": "workspace:*",
     "@tsed/core": "workspace:*",
@@ -46,20 +47,24 @@
   },
   "peerDependencies": {
     "@apollo/server": ">=4.12.0",
+    "@as-integrations/express4": ">=1.1.2",
+    "@as-integrations/express5": ">=1.1.2",
+    "@as-integrations/fastify": ">=3.1.0",
+    "@as-integrations/koa": ">=1.1.1",
     "@tsed/core": ">=8.0.0",
     "@tsed/di": ">=8.0.0",
     "@tsed/logger": ">=8.0.0",
     "@tsed/platform-http": ">=8.0.0",
-    "graphql": ">16.0.0",
-    "@as-integrations/express4": ">=1.1.2",
-    "@as-integrations/express5": ">=1.1.2",
-    "@as-integrations/koa": ">=1.1.1"
-    },
-    "peerDependenciesMeta": {
+    "graphql": ">16.0.0"
+  },
+  "peerDependenciesMeta": {
     "@as-integrations/express4": {
       "optional": true
     },
     "@as-integrations/express5": {
+      "optional": true
+    },
+    "@as-integrations/fastify": {
       "optional": true
     },
     "@as-integrations/koa": {
