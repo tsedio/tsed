@@ -14336,11 +14336,10 @@ __metadata:
     "@tsed/platform-express": "workspace:*"
     "@tsed/platform-http": "workspace:*"
     "@tsed/typescript": "workspace:*"
-    "@types/graphql": "npm:^14.5.0"
     class-validator: "npm:~0.14.1"
     cross-env: "npm:^7.0.3"
     eslint: "npm:9.12.0"
-    graphql: "npm:16.9.0"
+    graphql: "npm:16.12.0"
     graphql-passport: "npm:^0.6.8"
     graphql-scalars: "npm:1.25.0"
     ts-node: "npm:10.9.2"
@@ -14852,15 +14851,6 @@ __metadata:
   dependencies:
     globby: "npm:*"
   checksum: 10/947ce406cd093771aee381279649db1380da5361225b3cd0517a43d7c5acef8a28720acead7fe4345bac9b2f038781674eb43ab3f83636ff6db79d496c517150
-  languageName: node
-  linkType: hard
-
-"@types/graphql@npm:^14.5.0":
-  version: 14.5.0
-  resolution: "@types/graphql@npm:14.5.0"
-  dependencies:
-    graphql: "npm:*"
-  checksum: 10/8f6e3873a75f1818b6551dae88002d786f764c6c3f5d3b228078ecfc8fb1b116fcec03a1a0dd1f83790505d8e5ecfc4737e152ad7abb6948ff5412f11d7b1b38
   languageName: node
   linkType: hard
 
@@ -25783,24 +25773,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"graphql@npm:*":
-  version: 16.3.0
-  resolution: "graphql@npm:16.3.0"
-  checksum: 10/32a185a5901a09b8b14a97433c027f29a59dd9955339b4eaf4ced54a356064b12316d3d3e67a0e2c052eb9a3ebf1720af34f6a28e7477f02924b0e5116af6577
-  languageName: node
-  linkType: hard
-
 "graphql@npm:16.12.0":
   version: 16.12.0
   resolution: "graphql@npm:16.12.0"
   checksum: 10/e299bc97cca178e549c8c1ed4cb164f631f07be987d3657f76cdf18c0250040cc0d456d4b6d41c87b855cac97b15a62ed345557527efcb0546492895a893bb87
-  languageName: node
-  linkType: hard
-
-"graphql@npm:16.9.0":
-  version: 16.9.0
-  resolution: "graphql@npm:16.9.0"
-  checksum: 10/5833f82bb6c31bec120bbf9cd400eda873e1bb7ef5c17974fa262cd82dc68728fda5d4cb859dc8aaa4c4fe4f6fe1103a9c47efc01a12c02ae5cb581d8e4029e2
   languageName: node
   linkType: hard
 
