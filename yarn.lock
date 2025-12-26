@@ -426,6 +426,18 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@as-integrations/fastify@npm:3.1.0":
+  version: 3.1.0
+  resolution: "@as-integrations/fastify@npm:3.1.0"
+  dependencies:
+    fastify-plugin: "npm:^5.0.1"
+  peerDependencies:
+    "@apollo/server": ^4.0.0 || ^5.0.0
+    fastify: ^5.3.0
+  checksum: 10/e33d574ed051ed48394e88c488bee4952a009607d99cc2a4e2d39fd6ee2c13fc223c05c49c4af2141b5e44878be32f94164077de5ed02c93d4045cc239a78c2b
+  languageName: node
+  linkType: hard
+
 "@as-integrations/koa@npm:1.1.1":
   version: 1.1.1
   resolution: "@as-integrations/koa@npm:1.1.1"
@@ -12138,6 +12150,7 @@ __metadata:
     "@apollo/server": "npm:^5.2.0"
     "@as-integrations/express4": "npm:1.1.2"
     "@as-integrations/express5": "npm:1.1.2"
+    "@as-integrations/fastify": "npm:3.1.0"
     "@as-integrations/koa": "npm:1.1.1"
     "@tsed/barrels": "workspace:*"
     "@tsed/core": "workspace:*"
@@ -12154,11 +12167,24 @@ __metadata:
     vitest: "npm:3.2.4"
   peerDependencies:
     "@apollo/server": ">=4.12.0"
+    "@as-integrations/express4": ">=1.1.2"
+    "@as-integrations/express5": ">=1.1.2"
+    "@as-integrations/fastify": ">=3.1.0"
+    "@as-integrations/koa": ">=1.1.1"
     "@tsed/core": ">=8.0.0"
     "@tsed/di": ">=8.0.0"
     "@tsed/logger": ">=8.0.0"
     "@tsed/platform-http": ">=8.0.0"
     graphql: ">16.0.0"
+  peerDependenciesMeta:
+    "@as-integrations/express4":
+      optional: true
+    "@as-integrations/express5":
+      optional: true
+    "@as-integrations/fastify":
+      optional: true
+    "@as-integrations/koa":
+      optional: true
   languageName: unknown
   linkType: soft
 
@@ -23964,6 +23990,13 @@ __metadata:
   version: 5.0.1
   resolution: "fastify-plugin@npm:5.0.1"
   checksum: 10/76f6960558239d1ead520ecfb9dbb9b0435a63376d9d48bed0861609a909bf1958cb097745bb1a5485592f2c6d1438941e7481203c86b0e74d2bc34f09e8ed3e
+  languageName: node
+  linkType: hard
+
+"fastify-plugin@npm:^5.0.1":
+  version: 5.1.0
+  resolution: "fastify-plugin@npm:5.1.0"
+  checksum: 10/4532fa1f980f1e76f0e0bf1514945fdd9eb1379108235be3db78e07e76761bdc4218c4cc978d382de77aa298c9b49b1723e60c4628e052402d1134af01aa384c
   languageName: node
   linkType: hard
 
