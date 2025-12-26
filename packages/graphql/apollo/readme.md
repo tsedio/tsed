@@ -52,7 +52,7 @@ npm install --save-dev  apollo-server-testing
 
 ### Express Integration
 
-If you are using express you need to install its respecitve integration:
+If you are using express you need to install its respective integration:
 
 - Express 4 - [@as-integrations/express4](https://www.npmjs.com/package/@as-integrations/express4)
 
@@ -63,7 +63,7 @@ npm install --save @as-integrations/express4
 - Express 5 - [@as-integrations/express5](https://www.npmjs.com/package/@as-integrations/express5)
 
 ``` bash
-npm install --save @as-integrations/express4
+npm install --save @as-integrations/express5
 ```
 
 ### Koa Integration
@@ -74,7 +74,7 @@ npm install --save @as-integrations/koa
 
 ### Fastify Integration
 
-``` Coming Soon```
+`Coming Soon`
 
 Now, we can configure the Ts.ED server by importing `@tsed/apollo` in your Server:
 
