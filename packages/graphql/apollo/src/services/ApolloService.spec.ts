@@ -16,16 +16,33 @@ import type {ApolloContext} from "../interfaces/ApolloContext.js";
 import type {ApolloSettings} from "../interfaces/ApolloSettings.js";
 import {ApolloService} from "./ApolloService.js";
 
-vi.mock("@apollo/server/express4", () => {
+vi.mock("@as-integrations/express4", () => {
   return {
     __esModule: true,
-    expressMiddleware: vi.fn().mockReturnValue("expressMiddleware")
+    expressMiddleware: vi.fn().mockReturnValue("expressMiddleware4")
   };
 });
+
+vi.mock("@as-integrations/express5", () => {
+  return {
+    __esModule: true,
+    expressMiddleware: vi.fn().mockReturnValue("expressMiddleware5")
+  };
+});
+
 vi.mock("@as-integrations/koa", () => {
   return {
     __esModule: true,
     koaMiddleware: vi.fn().mockReturnValue("koaMiddleware")
+  };
+});
+
+vi.mock("express/package.json", () => {
+  return {
+    __esModule: true,
+    default: {
+      version: "4.18.2"
+    }
   };
 });
 
@@ -139,15 +156,21 @@ function getFixture() {
 
 describe("ApolloService", () => {
   describe("when platform is express", () => {
-    beforeEach(() =>
-      PlatformTest.create({
+    beforeEach(() => {
+      vi.doMock("express/package.json", () => ({
+        __esModule: true,
+        default: {version: "4.18.2"}
+      }));
+
+      return PlatformTest.create({
         PLATFORM_NAME: "express",
         envs: {
           MOVIES_API_URL: "http://localhost:8001"
         }
-      })
-    );
+      });
+    });
     afterEach(() => {
+      vi.doUnmock("express/package.json");
       return PlatformTest.reset();
     });
 
@@ -177,7 +200,7 @@ describe("ApolloService", () => {
         expect(service.has("key")).toEqual(true);
         expect(service.has()).toEqual(false);
         expect(result2).toEqual(result1);
-        expect(app.use).toHaveBeenCalledWith("/path", "expressMiddleware");
+        expect(app.use).toHaveBeenCalledWith("/path", "expressMiddleware4");
         expect(serverMock).toHaveBeenCalledWith({
           plugins: expect.any(Array),
           schema: "schema",
@@ -186,6 +209,7 @@ describe("ApolloService", () => {
         });
         expect(serverMock.mock.calls[0][0].plugins).toContain("extraPlugin");
       });
+
       it("should log server error", async () => {
         // GIVEN
         const {serverMock, logger, serverMockInstance, service, app} = getFixture();
@@ -242,6 +266,75 @@ describe("ApolloService", () => {
         expect(Object.keys(contextResult.dataSources)).toEqual(["myDataSource", "myName", "moviesAPI"]);
 
         expect($ctx.get(APOLLO_CONTEXT)).toEqual(contextResult);
+      });
+    });
+  });
+  describe("when platform is express 5", () => {
+    beforeEach(() => {
+      vi.doMock("express/package.json", () => ({
+        __esModule: true,
+        default: {version: "5.0.0"}
+      }));
+
+      return PlatformTest.create({
+        PLATFORM_NAME: "express"
+      });
+    });
+    afterEach(() => {
+      vi.doUnmock("express/package.json");
+      return PlatformTest.reset();
+    });
+
+    describe("createServer()", () => {
+      it("should create a server with Express 5", async () => {
+        // GIVEN
+        const {serverMock, service, app} = getFixture();
+
+        const opts = {
+          path: "/path",
+          server: serverMock,
+          schema: "schema"
+        } as never;
+
+        // WHEN
+        await service.createServer("key", opts);
+
+        expect(service.has("key")).toEqual(true);
+        expect(app.use).toHaveBeenCalledWith("/path", "expressMiddleware5");
+      });
+    });
+  });
+  describe("when platform is express 3 (unsupported)", () => {
+    beforeEach(() => {
+      vi.doMock("express/package.json", () => ({
+        __esModule: true,
+        default: {version: "3.21.2"}
+      }));
+
+      return PlatformTest.create({
+        PLATFORM_NAME: "express"
+      });
+    });
+    afterEach(() => {
+      vi.doUnmock("express/package.json");
+      return PlatformTest.reset();
+    });
+
+    describe("createServer()", () => {
+      it("should throw error for unsupported Express version", async () => {
+        // GIVEN
+        const {serverMock, service} = getFixture();
+
+        const opts = {
+          path: "/path",
+          server: serverMock
+        } as never;
+
+        // WHEN
+        const result = await catchAsyncError(() => service.createServer("key", opts));
+
+        expect(result).toBeInstanceOf(Error);
+        if (result instanceof Error) expect(result.message).toContain("Express version 3.21.2 is not supported");
       });
     });
   });
