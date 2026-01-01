@@ -23,7 +23,7 @@
     "test:ci": "vitest run --coverage.thresholds.autoUpdate=true"
   },
   "dependencies": {
-    "@types/lowdb": "1.0.15",
+    "@types/lowdb": "2.0.3",
     "@types/uuid": "^10.0.0",
     "change-case": "^5.4.4",
     "fs-extra": "11.3.0",

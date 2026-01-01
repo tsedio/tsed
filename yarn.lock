@@ -12044,7 +12044,7 @@ __metadata:
     "@tsed/schema": "workspace:*"
     "@tsed/typescript": "workspace:*"
     "@types/fs-extra": "npm:11.0.4"
-    "@types/lowdb": "npm:1.0.15"
+    "@types/lowdb": "npm:2.0.3"
     "@types/uuid": "npm:^10.0.0"
     change-case: "npm:^5.4.4"
     eslint: "npm:9.12.0"
@@ -12932,7 +12932,7 @@ __metadata:
     "@tsed/jwks": "workspace:*"
     "@tsed/platform-http": "workspace:*"
     "@tsed/typescript": "workspace:*"
-    "@types/lowdb": "npm:1.0.15"
+    "@types/lowdb": "npm:2.0.3"
     "@types/oidc-provider": "npm:8.5.2"
     "@types/uuid": "npm:10.0.0"
     cross-env: "npm:7.0.3"
@@ -15042,13 +15042,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/lodash@npm:*":
-  version: 4.14.181
-  resolution: "@types/lodash@npm:4.14.181"
-  checksum: 10/9cc9bbdee41697ba6f68fd381d392a91df39336f2a36f25b2dee34c198e40f3e7e9a9faec2c94256fb2b248ebbbfa44a1a2aef231ee5b7842f1459920ee4a838
-  languageName: node
-  linkType: hard
-
 "@types/long@npm:^4.0.0":
   version: 4.0.1
   resolution: "@types/long@npm:4.0.1"
@@ -15056,12 +15049,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/lowdb@npm:1.0.15":
-  version: 1.0.15
-  resolution: "@types/lowdb@npm:1.0.15"
+"@types/lowdb@npm:2.0.3":
+  version: 2.0.3
+  resolution: "@types/lowdb@npm:2.0.3"
   dependencies:
-    "@types/lodash": "npm:*"
-  checksum: 10/6bd04827520eaa0553689df36e228524a1cd0cea90330d496f8af1ab8e16031a851f3ae189797a16ef80e5cccf706bfff3f4b65346b8f1a2eb3e67fd4c80b4a3
+    lowdb: "npm:*"
+  checksum: 10/5f846186ffc47f171dc36970c4dd0a09bfb214677dd0ad4fe1ab47bea107fefe5c02736a11cdbbc5f7b03baf6d7e376c10d4b45720c640ace0a47bd68d1d49b6
   languageName: node
   linkType: hard
 
@@ -29938,7 +29931,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"lowdb@npm:7.0.1":
+"lowdb@npm:*, lowdb@npm:7.0.1":
   version: 7.0.1
   resolution: "lowdb@npm:7.0.1"
   dependencies:

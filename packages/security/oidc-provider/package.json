@@ -52,7 +52,7 @@
     "@tsed/jwks": "workspace:*",
     "@tsed/platform-http": "workspace:*",
     "@tsed/typescript": "workspace:*",
-    "@types/lowdb": "1.0.15",
+    "@types/lowdb": "2.0.3",
     "@types/oidc-provider": "8.5.2",
     "@types/uuid": "10.0.0",
     "cross-env": "7.0.3",
