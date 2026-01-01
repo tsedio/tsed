@@ -146,7 +146,7 @@
     "ts-loader": "9.5.1",
     "tslib": "2.7.0",
     "typescript": "5.9.3",
-    "unplugin-swc": "1.5.1",
+    "unplugin-swc": "1.5.9",
     "vite": "7.1.11",
     "vite-plugin-dts": "4.5.4",
     "vite-tsconfig-paths": "5.1.4",
