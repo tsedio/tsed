@@ -4345,13 +4345,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@directus/api@npm:32.1.0":
-  version: 32.1.0
-  resolution: "@directus/api@npm:32.1.0"
+"@directus/api@npm:32.1.1":
+  version: 32.1.1
+  resolution: "@directus/api@npm:32.1.1"
   dependencies:
     "@authenio/samlify-node-xmllint": "npm:2.0.0"
     "@aws-sdk/client-sesv2": "npm:3.928.0"
-    "@directus/app": "npm:14.2.0"
+    "@directus/app": "npm:14.3.0"
     "@directus/constants": "npm:14.0.0"
     "@directus/env": "npm:5.3.2"
     "@directus/errors": "npm:2.0.5"
@@ -4400,7 +4400,7 @@ __metadata:
     date-fns: "npm:4.1.0"
     deep-diff: "npm:1.0.2"
     destroy: "npm:1.2.0"
-    directus: "npm:11.13.3"
+    directus: "npm:11.13.4"
     dotenv: "npm:17.2.3"
     encodeurl: "npm:2.0.0"
     eventemitter2: "npm:6.4.9"
@@ -4490,14 +4490,14 @@ __metadata:
       optional: true
     tedious:
       optional: true
-  checksum: 10/27e2dc6fbeb8ed16b94843a5f74f13dd4c97f92aae02e668af993b1a19f1c8d2b53e81a44af09cfa314a6a3a6fa612702a4496c9dd19a2c0d91e564e3132be8c
+  checksum: 10/e3c46fbc53e43573e0070a1e4e70e5c0fdae8194d2ef171afff32050576adff341892906c6837e08a87bf3a0c892165896b9fa9d223f6be6579458cea641fd48
   languageName: node
   linkType: hard
 
-"@directus/app@npm:14.2.0":
-  version: 14.2.0
-  resolution: "@directus/app@npm:14.2.0"
-  checksum: 10/d329fe3c2bc68252708a0ff65b302b2c5a8e2a479847efad85f75c21e8b9c0849ec062b310cf54fce8ed0a59317cd929b7f66279b7e647206186abdacb873338
+"@directus/app@npm:14.3.0":
+  version: 14.3.0
+  resolution: "@directus/app@npm:14.3.0"
+  checksum: 10/f8cf0c02aead47b89f5635f95e97e79c4ca3918182d0f9bcaea114463aced4ce02bb83c106c7ddebe8704e1ac806c54cce5dc2728e5a7f7ff10d0d31b91e1439
   languageName: node
   linkType: hard
 
@@ -12332,7 +12332,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@tsed/directus-sdk@workspace:packages/third-parties/directus-sdk"
   dependencies:
-    "@directus/api": "npm:32.1.0"
+    "@directus/api": "npm:32.1.1"
     "@directus/extensions-sdk": "npm:13.1.1"
     "@directus/sdk": "npm:20.2.0"
     "@directus/types": "npm:13.4.0"
@@ -21653,15 +21653,15 @@ __metadata:
   languageName: node
   linkType: hard
 
-"directus@npm:11.13.3":
-  version: 11.13.3
-  resolution: "directus@npm:11.13.3"
+"directus@npm:11.13.4":
+  version: 11.13.4
+  resolution: "directus@npm:11.13.4"
   dependencies:
-    "@directus/api": "npm:32.1.0"
+    "@directus/api": "npm:32.1.1"
     "@directus/update-check": "npm:13.0.4"
   bin:
     directus: cli.js
-  checksum: 10/b4b4290c05c87aeebc2a3510c41018ded6ca94c179eea4e0e35ceb1bc50b3b73b384b5274979d88fabe6dcfb1fef432e37f15a955e8b53f104d8f427820a12d7
+  checksum: 10/a52dc5f47acd02c45ff70f7247e0fa58a775477123762fa73ae5e189ca475c682c79595bd527db2a9f88dd18c4789641464528a76411ede15aae54b16b94d87e
   languageName: node
   linkType: hard
 
