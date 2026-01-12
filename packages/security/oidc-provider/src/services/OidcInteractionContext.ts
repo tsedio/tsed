@@ -16,6 +16,7 @@ import {
 } from "../constants/constants.js";
 import {OidcSession} from "../decorators/oidcSession.js";
 import {OidcClient, OidcInteraction} from "../domain/interfaces.js";
+import {OidcAccountsMethods} from "../domain/OidcAccountsMethods.js";
 import {OidcBadInteractionName} from "../domain/OidcBadInteractionName.js";
 import {OidcInteractionPromptProps} from "../domain/OidcInteractionPromptProps.js";
 import {debug} from "../utils/debug.js";
@@ -150,7 +151,7 @@ export class OidcInteractionContext {
     const key = `$account:${sub}`;
 
     return this.$ctx.cacheAsync<Account | undefined>(key, (() => {
-      return this.oidcProvider.get().Account.findAccount(undefined as any, sub!, token);
+      return inject<OidcAccountsMethods>(constant("oidc.Accounts")!).findAccount(sub, token);
     }) as any);
   }
 

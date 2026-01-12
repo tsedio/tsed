@@ -1,9 +1,14 @@
 import {catchAsyncError, catchError} from "@tsed/core";
-import {runInContext} from "@tsed/di";
+import {inject, Injectable, runInContext} from "@tsed/di";
 import {PlatformTest} from "@tsed/platform-http/testing";
 
 import {OidcInteractionContext} from "./OidcInteractionContext.js";
 import {OidcProvider} from "./OidcProvider.js";
+
+@Injectable()
+class AccountsMock {
+  findAccount = vi.fn().mockResolvedValue({accountId: "accountId"});
+}
 
 async function createOidcInteractionContextFixture(grantId: any = "grantId") {
   const $ctx = PlatformTest.createRequestContext();
@@ -39,11 +44,6 @@ async function createOidcInteractionContextFixture(grantId: any = "grantId") {
       find: vi.fn().mockResolvedValue({
         client_id: "client_id"
       })
-    },
-    Account: {
-      findAccount: vi.fn().mockResolvedValue({
-        accountId: "accountId"
-      })
     }
   };
   const oidcCtx = await PlatformTest.invoke<OidcInteractionContext>(OidcInteractionContext, [
@@ -59,11 +59,17 @@ async function createOidcInteractionContextFixture(grantId: any = "grantId") {
 
   await runInContext($ctx, () => oidcCtx.interactionDetails());
 
-  return {$ctx, oidcCtx, oidcProvider, session, interactionDetails};
+  return {$ctx, oidcCtx, oidcProvider, session, interactionDetails, accounts: inject(AccountsMock)};
 }
 
 describe("OidcInteractionContext", () => {
-  beforeEach(() => PlatformTest.create());
+  beforeEach(() => {
+    return PlatformTest.create({
+      oidc: {
+        Accounts: AccountsMock
+      }
+    });
+  });
   afterEach(() => PlatformTest.reset());
 
   describe("uid()", () => {
@@ -248,11 +254,10 @@ describe("OidcInteractionContext", () => {
 
   describe("findAccount()", () => {
     it("should return call findAccount", async () => {
-      const {$ctx, oidcCtx, oidcProvider} = await createOidcInteractionContextFixture();
+      const {$ctx, oidcCtx, accounts} = await createOidcInteractionContextFixture();
       await runInContext($ctx, async () => {
         const result = await oidcCtx.findAccount(undefined, "token");
-
-        expect(oidcProvider.Account.findAccount).toHaveBeenCalledWith(undefined, "accountId", "token");
+        expect(accounts.findAccount).toHaveBeenCalledWith("accountId", "token");
         expect(result).toEqual({
           accountId: "accountId"
         });
@@ -260,11 +265,11 @@ describe("OidcInteractionContext", () => {
     });
 
     it("should return call findAccount (with accountId)", async () => {
-      const {$ctx, oidcCtx, oidcProvider} = await createOidcInteractionContextFixture();
+      const {$ctx, oidcCtx, accounts} = await createOidcInteractionContextFixture();
       await runInContext($ctx, async () => {
         const result = await oidcCtx.findAccount("accountId", "token");
 
-        expect(oidcProvider.Account.findAccount).toHaveBeenCalledWith(undefined, "accountId", "token");
+        expect(accounts.findAccount).toHaveBeenCalledWith("accountId", "token");
         expect(result).toEqual({
           accountId: "accountId"
         });
