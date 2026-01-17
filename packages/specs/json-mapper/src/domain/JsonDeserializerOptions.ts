@@ -4,6 +4,10 @@ import {type GenericsMap, JsonEntityStore} from "@tsed/schema";
 import {JsonMapperMethods} from "../interfaces/JsonMapperMethods.js";
 import {JsonMapperGlobalOptions} from "./JsonMapperGlobalOptions.js";
 
+/**
+ * Options accepted by the `JsonDeserializer`. They describe the target type,
+ * collection strategy, additional mapper types, and hook configuration used while materializing data.
+ */
 export interface JsonDeserializerOptions<T = any, C = any> extends MetadataTypes<T, C>, JsonMapperGlobalOptions {
   /**
    * Types used to map complex types (Symbol, Array, Set, Map)

@@ -7,7 +7,7 @@ export interface BeforeDeserializeCallback {
 /**
  * Call the function before JsonMapper.
  *
- * ## Example
+ * ### Example
  *
  * ```typescript
  * @BeforeDeserialize((data: Record<string, unknown>) => { // Before deserialize get the data

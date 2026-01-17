@@ -41,6 +41,10 @@ function mapParamStoreOptions(store: JsonParameterStore, options: JsonDeserializ
   };
 }
 
+/**
+ * Deserializes raw JSON data into class instances based on schema metadata,
+ * handling collections, discriminators, hooks, and registered type mappers.
+ */
 export class JsonDeserializer extends JsonMapperCompiler<JsonDeserializerOptions> {
   /**
    * Cached classes by his id

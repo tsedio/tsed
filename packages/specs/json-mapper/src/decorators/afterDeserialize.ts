@@ -7,7 +7,7 @@ export interface AfterDeserializeCallback {
 /**
  * Call the function after JsonMapper.
  *
- * ## Example
+ * ### Example
  *
  * ```typescript
  * @AfterDeserialize((data: Model) => { // After deserialize get the instance class

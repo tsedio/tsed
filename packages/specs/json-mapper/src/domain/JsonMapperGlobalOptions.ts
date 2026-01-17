@@ -1,3 +1,6 @@
+/**
+ * Shared configuration flags used by both serialization and deserialization flows.
+ */
 export interface JsonMapperGlobalOptions {
   /**
    * JsonMapper additional property policy. (see [JsonMapper](/docs/json-mapper.md))

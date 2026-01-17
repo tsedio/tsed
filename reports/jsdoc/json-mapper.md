@@ -42,46 +42,46 @@ Files under `packages/specs/json-mapper/src` (excluding index.ts and tests), gro
 
 #### components
 
-- [ ] packages/specs/json-mapper/src/components/DateMapper.ts
-- [ ] packages/specs/json-mapper/src/components/PrimitiveMapper.ts
-- [ ] packages/specs/json-mapper/src/components/SymbolMapper.ts
+- [x] packages/specs/json-mapper/src/components/DateMapper.ts
+- [x] packages/specs/json-mapper/src/components/PrimitiveMapper.ts
+- [x] packages/specs/json-mapper/src/components/SymbolMapper.ts
 
 #### decorators
 
-- [ ] packages/specs/json-mapper/src/decorators/afterDeserialize.ts
-- [ ] packages/specs/json-mapper/src/decorators/beforeDeserialize.ts
-- [ ] packages/specs/json-mapper/src/decorators/jsonMapper.ts
-- [ ] packages/specs/json-mapper/src/decorators/onDeserialize.ts
-- [ ] packages/specs/json-mapper/src/decorators/onSerialize.ts
+- [x] packages/specs/json-mapper/src/decorators/afterDeserialize.ts
+- [x] packages/specs/json-mapper/src/decorators/beforeDeserialize.ts
+- [x] packages/specs/json-mapper/src/decorators/jsonMapper.ts
+- [x] packages/specs/json-mapper/src/decorators/onDeserialize.ts
+- [x] packages/specs/json-mapper/src/decorators/onSerialize.ts
 
 #### domain
 
-- [ ] packages/specs/json-mapper/src/domain/JsonDeserializer.ts
-- [ ] packages/specs/json-mapper/src/domain/JsonDeserializerOptions.ts
-- [ ] packages/specs/json-mapper/src/domain/JsonMapperCompiler.ts
-- [ ] packages/specs/json-mapper/src/domain/JsonMapperGlobalOptions.ts
-- [ ] packages/specs/json-mapper/src/domain/JsonMapperSettings.ts
-- [ ] packages/specs/json-mapper/src/domain/JsonMapperTypesContainer.ts
-- [ ] packages/specs/json-mapper/src/domain/JsonSerializer.ts
-- [ ] packages/specs/json-mapper/src/domain/JsonSerializerOptions.ts
-- [ ] packages/specs/json-mapper/src/domain/Writer.ts
+- [x] packages/specs/json-mapper/src/domain/JsonDeserializer.ts
+- [x] packages/specs/json-mapper/src/domain/JsonDeserializerOptions.ts
+- [x] packages/specs/json-mapper/src/domain/JsonMapperCompiler.ts
+- [x] packages/specs/json-mapper/src/domain/JsonMapperGlobalOptions.ts
+- [x] packages/specs/json-mapper/src/domain/JsonMapperSettings.ts
+- [x] packages/specs/json-mapper/src/domain/JsonMapperTypesContainer.ts
+- [x] packages/specs/json-mapper/src/domain/JsonSerializer.ts
+- [x] packages/specs/json-mapper/src/domain/JsonSerializerOptions.ts
+- [x] packages/specs/json-mapper/src/domain/Writer.ts
 
 #### hooks
 
-- [ ] packages/specs/json-mapper/src/hooks/alterAfterDeserialize.ts
-- [ ] packages/specs/json-mapper/src/hooks/alterBeforeDeserialize.ts
-- [ ] packages/specs/json-mapper/src/hooks/alterOnDeserialize.ts
-- [ ] packages/specs/json-mapper/src/hooks/alterOnSerialize.ts
+- [x] packages/specs/json-mapper/src/hooks/alterAfterDeserialize.ts
+- [x] packages/specs/json-mapper/src/hooks/alterBeforeDeserialize.ts
+- [x] packages/specs/json-mapper/src/hooks/alterOnDeserialize.ts
+- [x] packages/specs/json-mapper/src/hooks/alterOnSerialize.ts
 
 #### interfaces
 
-- [ ] packages/specs/json-mapper/src/interfaces/JsonMapperMethods.ts
+- [x] packages/specs/json-mapper/src/interfaces/JsonMapperMethods.ts
 
 #### utils
 
-- [ ] packages/specs/json-mapper/src/utils/deserialize.ts
-- [ ] packages/specs/json-mapper/src/utils/getObjectProperties.ts
-- [ ] packages/specs/json-mapper/src/utils/serialize.ts
+- [x] packages/specs/json-mapper/src/utils/deserialize.ts
+- [x] packages/specs/json-mapper/src/utils/getObjectProperties.ts
+- [x] packages/specs/json-mapper/src/utils/serialize.ts
 
 ---
 
@@ -89,34 +89,34 @@ Files under `packages/specs/json-mapper/src` (excluding index.ts and tests), gro
 
 ### Domain models and settings
 
-- [ ] `JsonSerializer` — needs symbol-level summary, params/returns tags, and @public.
-- [ ] `JsonSerializerOptions` — document the exported interface (symbols only).
-- [ ] `Writer` — document the class describing buffered serialization output.
-- [ ] `JsonDeserializer` — add symbol-level description and @public.
-- [ ] `JsonDeserializerOptions` — describe configuration contract and mark @public.
-- [ ] `JsonMapperSettings` — describe factory + fluent API plus note defaults.
-- [ ] `JsonMapperGlobalOptions` — explain shared/global configuration usage.
-- [ ] `JsonMapperTypesContainer` — describe registry responsibilities.
-- [ ] `JsonMapperCompiler` — document purpose and describe compile options/return type.
+- [x] `JsonSerializer` — needs symbol-level summary, params/returns tags, and @public.
+- [x] `JsonSerializerOptions` — document the exported interface (symbols only).
+- [x] `Writer` — document the class describing buffered serialization output.
+- [x] `JsonDeserializer` — add symbol-level description and @public.
+- [x] `JsonDeserializerOptions` — describe configuration contract and mark @public.
+- [x] `JsonMapperSettings` — describe factory + fluent API plus note defaults.
+- [x] `JsonMapperGlobalOptions` — explain shared/global configuration usage.
+- [x] `JsonMapperTypesContainer` — describe registry responsibilities.
+- [x] `JsonMapperCompiler` — document purpose and describe compile options/return type.
 
 ### Mapper components
 
-- [ ] `DateMapper` — document serialize/deserialize responsibilities + @see.
-- [ ] `PrimitiveMapper` — explain primitive handling and fallback strategy.
-- [ ] `SymbolMapper` — document symbol serialization behavior.
+- [x] `DateMapper` — document serialize/deserialize responsibilities + @see.
+- [x] `PrimitiveMapper` — explain primitive handling and fallback strategy.
+- [x] `SymbolMapper` — document symbol serialization behavior.
 
 ### Decorators and hooks
 
-- [ ] `@JsonMapper` decorator — describe usage and acceptable tokens.
-- [ ] `@OnSerialize`, `@OnDeserialize` — describe lifecycle and hook contexts.
-- [ ] `@BeforeDeserialize`, `@AfterDeserialize` — describe pipeline integration.
-- [ ] `alterOnSerialize`, `alterOnDeserialize`, `alterBeforeDeserialize`, `alterAfterDeserialize` — document hook contexts and return contracts.
+- [x] `@JsonMapper` decorator — describe usage and acceptable tokens.
+- [x] `@OnSerialize`, `@OnDeserialize` — describe lifecycle and hook contexts.
+- [x] `@BeforeDeserialize`, `@AfterDeserialize` — describe pipeline integration.
+- [x] `alterOnSerialize`, `alterOnDeserialize`, `alterBeforeDeserialize`, `alterAfterDeserialize` — document hook contexts and return contracts.
 
 ### Utilities
 
-- [ ] `serialize()` helper — document params/options/return value and async behavior.
-- [ ] `deserialize()` helper — document how errors bubble and how options apply.
-- [ ] `getObjectProperties()` — describe selection logic for mapper metadata.
+- [x] `serialize()` helper — document params/options/return value and async behavior.
+- [x] `deserialize()` helper — document how errors bubble and how options apply.
+- [x] `getObjectProperties()` — describe selection logic for mapper metadata.
 
 ---
 
@@ -134,10 +134,11 @@ Files under `packages/specs/json-mapper/src` (excluding index.ts and tests), gro
 
 ### Next actions
 
-- [ ] Audit domain files for existing comments; convert them to symbol-only JSDoc.
-- [ ] Add baseline docs to `serialize.ts` / `deserialize.ts`.
-- [ ] Document mapper components.
-- [ ] Add hook/decorator documentation and ensure translator-friendly Markdown headings replace `@example`.
+- [x] Audit domain files for existing comments; convert them to symbol-only JSDoc.
+- [x] Add baseline docs to `serialize.ts` / `deserialize.ts`.
+- [x] Document mapper components.
+- [x] Add hook/decorator documentation and ensure translator-friendly Markdown headings replace `@example`.
+- [ ] Keep the tracker in sync as new mapper features land and continue validating with `yarn api:build --filter @tsed/json-mapper`.
 
 ---
 
@@ -151,7 +152,7 @@ Files under `packages/specs/json-mapper/src` (excluding index.ts and tests), gro
   - Interfaces: 1
   - Utils: 3
 - Status counts:
-  - Documented `[x]`: 0 (0%)
+  - Documented `[x]`: 25 (100%)
   - Partial `[~]`: 0 (0%)
-  - Pending `[ ]`: 25 (100%)
+  - Pending `[ ]`: 0 (0%)
 - Spec files (`*.spec.ts`) and index barrels are excluded from these totals.

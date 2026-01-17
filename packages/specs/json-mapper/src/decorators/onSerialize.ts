@@ -7,7 +7,7 @@ export interface OnSerializeCallback {
 /**
  * Call the function before property serialization.
  *
- * ## Example
+ * ### Example
  *
  * ```typescript
  * class Model {

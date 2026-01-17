@@ -7,6 +7,9 @@ function isNullish(data: any) {
   return [null, "null"].includes(data);
 }
 
+/**
+ * Error thrown when a primitive conversion cannot be performed safely.
+ */
 export class CastError extends Error {
   name = "CAST_ERROR";
 

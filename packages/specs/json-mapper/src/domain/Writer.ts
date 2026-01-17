@@ -1,3 +1,7 @@
+/**
+ * Tiny utility used by the mapper compilers to build executable arrow functions as strings.
+ * It provides helpers for scoping, branching, and composing mapper fragments before `eval`.
+ */
 export class Writer {
   static object = {
     assign(...args: string[]) {

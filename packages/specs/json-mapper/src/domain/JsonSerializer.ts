@@ -42,6 +42,12 @@ function varKey(k: string) {
   return `__${k}`;
 }
 
+/**
+ * Serializes data structures according to the metadata captured by `@tsed/schema`.
+ *
+ * The serializer walks entity schemas, applies hooks, honors alias/group rules, and falls back to the
+ * registered type mappers (e.g., components in `src/components`).
+ */
 export class JsonSerializer extends JsonMapperCompiler<JsonSerializerOptions> {
   constructor() {
     super();

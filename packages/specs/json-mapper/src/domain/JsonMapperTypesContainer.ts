@@ -7,13 +7,14 @@ import {JsonMapperMethods} from "../interfaces/JsonMapperMethods.js";
 // tslint:disable-next-line:variable-name
 const JsonMapperTypesContainer: Map<Type<any> | Symbol | string, JsonMapperMethods> = new Map();
 /**
- * @ignore
+ * Register a mapper class for a specific primitive/complex type so it can be reused by the serializers.
  */
 export function registerJsonTypeMapper(type: Type<any> | Symbol | string, token: Type<JsonMapperMethods>) {
   JsonMapperTypesContainer.set(type, new token());
 }
+
 /**
- * @ignore
+ * Retrieve the registry of custom JSON mapper instances keyed by the types they support.
  */
 export function getJsonMapperTypes(): Map<Type<any> | Symbol | string, JsonMapperMethods> {
   return JsonMapperTypesContainer;

@@ -18,14 +18,29 @@ import {
 } from "@tsed/core";
 import {JsonSchema} from "@tsed/schema";
 
+/**
+ * Signature exposed by compiled mappers. They accept an input value plus contextual options
+ * and return the serialized/deserialized result.
+ */
 export type JsonMapperCallback<Options> = (input: any, options?: Options) => any;
+/**
+ * Executable mapper plus its unique identifier stored in the compiler cache.
+ */
 export type CachedJsonMapper<Options> = {
   id: string;
   fn: JsonMapperCallback<Options>;
 };
 
+/**
+ * Cached mapper registry keyed by the groups fingerprint generated for a schema.
+ */
 export type CachedGroupsJsonMapper<Options> = Map<string, CachedJsonMapper<Options>>;
 
+/**
+ * Base compiler that turns schema metadata into executable (de)serialization functions.
+ * Subclasses supply `map`, `alterValue`, and `createMapper` implementations to specialize
+ * the pipeline for serialization or deserialization.
+ */
 export abstract class JsonMapperCompiler<Options extends Record<string, any> = any> {
   /**
    * Cached mappers metadata
