@@ -9,7 +9,7 @@ This directory replaces the legacy `.plan/*-jsdoc-status` trackers. Each package
 
 ## Workflow
 
-1. Pick the package report (`core.md`, `di.md`, `hooks.md`, `schema.md`) from this directory.
+1. Pick the package report (`core.md`, `di.md`, `hooks.md`, `json-mapper.md`, `schema.md`) from this directory.
 2. Follow the rules called out in each file (e.g., no `@example` tag in DI/Hooks/Schema, document exported symbols only).
 3. Update the status tables/checklists after each documentation batch.
 4. Run `yarn api:build` for the package you touched to surface TSDoc issues.

@@ -137,7 +137,7 @@ yarn benchmarks:prepare
 
 ## JSDoc coverage trackers
 
-- Package-specific progress reports live under `reports/jsdoc/` (`core.md`, `di.md`, `hooks.md`, `schema.md`).
+- Package-specific progress reports live under `reports/jsdoc/` (`core.md`, `di.md`, `hooks.md`, `json-mapper.md`, `schema.md`).
 - Each tracker captures the symbol-only rules (including language-specific reminders) plus validation expectations.
 - When you update documentation in any of these packages, update the corresponding tracker and run `yarn api:build` to validate TSDoc.
 
