@@ -129,4 +129,16 @@ yarn benchmarks
 yarn benchmarks:prepare
 ```
 
+## Planning conventions (AI plans storage)
+
+- Use the OpenSpec workflow for all non-trivial work. Review `openspec/AGENTS.md` and `openspec/project.md` before drafting a proposal.
+- Store new plans/specs under `openspec/changes/<change-id>/` with the standard `proposal.md`, `tasks.md`, `design.md`, and `specs/` structure.
+- JSDoc coverage progress now lives in `reports/jsdoc/`; do not recreate `.plan/*` trackers. For historical context see `openspec/changes/standardize-jsdoc-tracking`.
+
+## JSDoc coverage trackers
+
+- Package-specific progress reports live under `reports/jsdoc/` (`core.md`, `di.md`, `hooks.md`, `schema.md`).
+- Each tracker captures the symbol-only rules (including language-specific reminders) plus validation expectations.
+- When you update documentation in any of these packages, update the corresponding tracker and run `yarn api:build` to validate TSDoc.
+
 This AGENTS file is the authoritative source for Ts.ED development guidance. Update this document first whenever processes change, and mirror references elsewhere.

@@ -25,7 +25,7 @@ Each spec references the relevant source files (e.g., `packages/core/src/types/D
 
 After the specs are approved, the apply stage can:
 
-1. Port the tracker content from `.plan` into a permanent docs location (e.g., `docs/reports/jsdoc/<package>.md`) that maps 1:1 with the requirements.
+1. Port the tracker content from `.plan` into a permanent repository location (e.g., `reports/jsdoc/<package>.md`) that maps 1:1 with the requirements.
 2. Update contributor guides to point at the OpenSpec-backed trackers.
 3. Remove the stale `.plan` directory once teams rely on the new docs.
 

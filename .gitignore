@@ -54,7 +54,8 @@ tools/**/dist
 .tmp
 .vscode
 .clinic
-/reports
+!/reports/jsdoc
+/report/*
 
 /.nyc_output
 **/.nyc_output
