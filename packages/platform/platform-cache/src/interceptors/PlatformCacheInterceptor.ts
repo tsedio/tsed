@@ -1,7 +1,18 @@
 import {IncomingMessage, ServerResponse} from "node:http";
 
 import {isClass, isString, nameOf} from "@tsed/core";
-import {BaseContext, Constant, DIContext, Inject, Interceptor, InterceptorContext, InterceptorMethods, InterceptorNext} from "@tsed/di";
+import {
+  type BaseContext,
+  Constant,
+  context,
+  DIContext,
+  Inject,
+  Interceptor,
+  InterceptorContext,
+  InterceptorMethods,
+  InterceptorNext,
+  runInContext
+} from "@tsed/di";
 import {deserialize, serialize} from "@tsed/json-mapper";
 import {Logger} from "@tsed/logger";
 
@@ -10,6 +21,7 @@ import {PlatformCacheOptions} from "../interfaces/PlatformCacheOptions.js";
 import {PlatformCache} from "../services/PlatformCache.js";
 import {getPrefix} from "../utils/getPrefix.js";
 import {isEndpoint} from "../utils/isEndpoint.js";
+
 const cleanHeaders = (headers: Record<string, unknown>, blacklist: string[]) => {
   return Object.entries(headers)
     .filter(([key]) => !blacklist.includes(key.toLowerCase()))
@@ -19,6 +31,30 @@ const cleanHeaders = (headers: Record<string, unknown>, blacklist: string[]) => 
         [key]: value
       };
     }, {});
+};
+
+interface Response {
+  setHeader(key: string, value: string): this;
+
+  setHeaders(headers: Record<string, unknown>): this;
+
+  body(data: unknown): this;
+
+  status(status: number): this;
+
+  onEnd(cb: any): void;
+
+  getBody(): unknown;
+
+  getHeaders(): Record<string, unknown>;
+}
+
+type Context = DIContext & {
+  request?: {
+    get(key: string): string | undefined;
+    method: string;
+  };
+  response?: Response;
 };
 
 /**
@@ -59,7 +95,8 @@ export class PlatformCacheInterceptor implements InterceptorMethods {
       refreshThreshold?: number;
       ttl: any;
     },
-    next: Function
+    next: Function,
+    $ctx?: Context
   ) {
     const inQueue = await this.hasKeyInQueue(key);
 
@@ -69,16 +106,26 @@ export class PlatformCacheInterceptor implements InterceptorMethods {
       const currentTTL = await this.cache.ttl(key);
       const calculatedTTL = this.cache.calculateTTL(currentTTL, ttl);
 
-      if (currentTTL === undefined || currentTTL < calculatedTTL - refreshThreshold) {
-        await next();
+      try {
+        if (currentTTL === undefined || currentTTL < calculatedTTL - refreshThreshold) {
+          if ($ctx) {
+            await runInContext($ctx, () => next());
+          } else {
+            await next();
+          }
+        }
+      } finally {
+        await this.deleteKeyFromQueue(key);
       }
-
-      await this.deleteKeyFromQueue(key);
     }
   }
 
   async cacheMethod(context: InterceptorContext<any, PlatformCacheOptions>, next: InterceptorNext) {
-    const {key, type, ttl, collectionType, refreshThreshold, args, canCache} = this.getOptions(context);
+    const {key, type, ttl, collectionType, refreshThreshold, args, canCache, $ctx, byPass} = this.getOptions(context, false);
+
+    if (this.shouldByPassCache(byPass, args, $ctx)) {
+      return next();
+    }
 
     const set = (result: any) => {
       if (!canCache || (canCache && canCache(result))) {
@@ -100,11 +147,16 @@ export class PlatformCacheInterceptor implements InterceptorMethods {
       return result;
     }
 
-    this.canRefreshInBackground(key, {refreshThreshold, ttl}, async () => {
-      const result = await next();
+    this.canRefreshInBackground(
+      key,
+      {refreshThreshold, ttl},
+      async () => {
+        const result = await next();
 
-      await set(result);
-    }).catch((er) =>
+        await set(result);
+      },
+      $ctx
+    ).catch((er) =>
       this.logger.error({
         event: "CACHE_ERROR",
         method: "cacheMethod",
@@ -121,43 +173,57 @@ export class PlatformCacheInterceptor implements InterceptorMethods {
     return deserialize(JSON.parse(data), {collectionType, type});
   }
 
-  async cacheResponse(context: InterceptorContext<any, PlatformCacheOptions>, next: InterceptorNext) {
-    const {request, response} = context.args[context.args.length - 1];
+  async cacheResponse(interceptorContext: InterceptorContext<any, PlatformCacheOptions>, next: InterceptorNext) {
+    const {key, ttl, args, $ctx, byPass} = this.getOptions(interceptorContext, "no-cache");
+    const currentCtx = $ctx || context<Context>();
 
-    if (request.method !== "GET") {
+    if (this.getMethod(currentCtx) !== "GET") {
       return next();
     }
 
-    const {key, ttl, args, $ctx} = this.getOptions(context);
+    const shouldByPass = this.shouldByPassCache(byPass, args, currentCtx);
+    const useCache = !shouldByPass;
 
-    const cachedObject = await this.cache.getCachedObject(key);
+    if (useCache) {
+      const cachedObject = await this.cache.getCachedObject(key);
 
-    if (cachedObject && !(request.get("cache-control") === "no-cache")) {
-      return this.sendResponse(cachedObject, $ctx);
+      if (cachedObject) {
+        return this.sendResponse(cachedObject);
+      }
     }
 
     const result = await next();
-
     const calculatedTTL = this.cache.calculateTTL(result, ttl);
 
-    $ctx.response.setHeaders({
+    currentCtx.response?.setHeaders({
       "cache-control": `max-age=${calculatedTTL}`
     });
 
-    // cache final response with his headers and body
-    response.onEnd(() => {
-      this.cache.setCachedObject(key, response.getBody(), {
+    currentCtx.response?.onEnd(() => {
+      if (!useCache) {
+        return;
+      }
+
+      this.cache.setCachedObject(key, currentCtx.response!.getBody(), {
         ttl: calculatedTTL,
         args,
-        headers: cleanHeaders(response.getHeaders(), this.blacklist)
+        headers: cleanHeaders(currentCtx.response!.getHeaders(), this.blacklist)
       });
     });
 
     return result;
   }
 
-  protected getArgs(context: InterceptorContext<unknown, PlatformCacheOptions>) {
-    return context.args.reduce((args, arg) => {
+  protected getMethod($ctx = context<Context>()) {
+    return $ctx.request?.method;
+  }
+
+  protected noCache($ctx = context<Context>()) {
+    return $ctx.request?.get("cache-control") === "no-cache" || $ctx.get("cache-control") === "no-cache";
+  }
+
+  protected getArgs(context: InterceptorContext<unknown, PlatformCacheOptions>): unknown[] {
+    return context.args.reduce((args: unknown[], arg) => {
       if (arg instanceof DIContext || arg instanceof IncomingMessage || arg instanceof ServerResponse) {
         return args;
       }
@@ -167,25 +233,35 @@ export class PlatformCacheInterceptor implements InterceptorMethods {
       }
 
       return args.concat(arg);
-    }, []);
+    }, [] as unknown[]) as unknown[];
   }
 
-  protected getOptions(context: InterceptorContext<any, PlatformCacheOptions>) {
-    const $ctx = context.args[context.args.length - 1];
+  protected getOptions(
+    interceptorContext: InterceptorContext<any, PlatformCacheOptions>,
+    defaultByPass: PlatformCacheOptions["byPass"] = false
+  ) {
+    const $ctx = this.getContextFromArgs(interceptorContext.args) || context<Context>();
 
-    const {ttl, type, collectionType, key: k = this.cache.defaultKeyResolver(), refreshThreshold} = context.options || {};
+    const {
+      ttl,
+      type,
+      collectionType,
+      key: k = this.cache.defaultKeyResolver(),
+      refreshThreshold,
+      byPass = defaultByPass
+    } = interceptorContext.options || {};
 
-    let {canCache} = context.options || {};
+    let {canCache} = interceptorContext.options || {};
 
-    const args = this.getArgs(context);
-    const keyArgs = isString(k) ? k : k(args, $ctx);
+    const args = this.getArgs(interceptorContext);
+    const keyArgs = isString(k) ? k : k(args as any[], $ctx as any);
 
     if (canCache && canCache === "no-nullish") {
       canCache = (item: any) => ![null, undefined].includes(item);
     }
 
     return {
-      key: [...[this.prefix, ...getPrefix(context.target, context.propertyKey)].filter(Boolean), keyArgs].join(":"),
+      key: [...[this.prefix, ...getPrefix(interceptorContext.target, interceptorContext.propertyKey)].filter(Boolean), keyArgs].join(":"),
       refreshThreshold,
       ttl,
       type,
@@ -193,8 +269,25 @@ export class PlatformCacheInterceptor implements InterceptorMethods {
       collectionType,
       keyArgs,
       canCache,
-      $ctx
+      $ctx,
+      byPass
     };
+  }
+
+  protected getContextFromArgs(args: unknown[]): Context | undefined {
+    return args.find((arg): arg is Context => arg instanceof DIContext);
+  }
+
+  protected shouldByPassCache(byPass: PlatformCacheOptions["byPass"], args: unknown[], $ctx?: Context) {
+    if (!byPass) {
+      return false;
+    }
+
+    if (byPass === "no-cache") {
+      return this.noCache($ctx);
+    }
+
+    return typeof byPass === "function" ? byPass(args as any[], $ctx as BaseContext) : !!byPass;
   }
 
   protected async hasKeyInQueue(key: string) {
@@ -209,28 +302,31 @@ export class PlatformCacheInterceptor implements InterceptorMethods {
     await this.cache.del(`$$queue:${key}`);
   }
 
-  protected sendResponse(cachedObject: PlatformCachedObject, $ctx: BaseContext) {
+  protected sendResponse(cachedObject: PlatformCachedObject) {
     const {headers, ttl} = cachedObject;
-    const {request, response} = $ctx;
+    const $ctx = context<Context>();
+    if ($ctx.request && $ctx.response) {
+      const requestEtag = $ctx.request.get("if-none-match");
 
-    const requestEtag = request.get("if-none-match");
+      if (requestEtag && headers?.etag === requestEtag) {
+        $ctx.response.status(304).setHeaders(headers).body(undefined);
 
-    if (requestEtag && headers.etag === requestEtag) {
-      response.status(304).setHeaders(headers).body(undefined);
+        return undefined;
+      }
 
-      return undefined;
+      const data = JSON.parse(cachedObject.data);
+
+      $ctx.response
+        .setHeaders({
+          ...headers,
+          "x-cached": "true",
+          "cache-control": `max-age=${ttl}`
+        })
+        .body(data);
+
+      return cachedObject.data;
     }
 
-    const data = JSON.parse(cachedObject.data);
-
-    $ctx.response
-      .setHeaders({
-        ...headers,
-        "x-cached": "true",
-        "cache-control": `max-age=${ttl}`
-      })
-      .body(data);
-
-    return data;
+    return cachedObject.data;
   }
 }

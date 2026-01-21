@@ -256,6 +256,17 @@ Only `GET` endpoints are cached. Also, HTTP server routes that use the native re
 @@PlatformCacheInterceptor@@.
 :::
 
+::: tip Force refresh
+Send the `Cache-Control: no-cache` header with your request (or set the same header on the @@PlatformContext@@) to
+bypass @@PlatformCacheInterceptor@@ temporarily. This lets you fetch a fresh response without clearing the cache and is
+useful for debugging, warm-up scripts, or administrative tooling. You can override this behavior via the `byPass`
+option on @@UseCache@@:
+
+- Services/methods that aren't tied to HTTP default to `byPass: false`, meaning caching is always considered unless you opt out.
+- Controllers/endpoints default to `byPass: "no-cache"`, so sending `Cache-Control: no-cache` skips both the lookup and write for that request without touching existing entries.
+- Supply a predicate `byPass: (args, $ctx) => boolean` when you need finer control (tenant-based bypass, admin flag, etc.).
+  :::
+
 ## Cache a value
 
 Because @@UseCache@@ uses @@PlatformCacheInterceptor@@ and not a middleware, you can also apply the decorator on any
@@ -450,9 +461,9 @@ background if current `ttl` is under 45 minutes.
 
 ## Refresh cached value <Badge text="7.9.0+" />
 
-A service method response can be cached by using the `@UseCache` decorator. Sometimes, we need to explicitly refresh the cached data because the consumed data backend state has changed.
-because the consumed data backend state has changed. By implementing a notifications service, the backend data can trigger an event to tell your API that
-the data has changed.
+A service method response can be cached by using the `@UseCache` decorator. Sometimes, we need to explicitly refresh the
+cached data because the consumed data backend state has changed. By implementing a notifications service, the backend
+data can trigger an event to tell your API that the data has changed.
 
 Here is short example:
 
@@ -491,7 +502,8 @@ export class NotificationsService {
 This small example will force the data refresh.
 
 ::: tip
-If you have several cached method calls, then the refresh will also be done on all of these methods called by the function passed to `PlatformCache.refresh()`.
+If you have several cached method calls, then the refresh will also be done on all of these methods called by the
+function passed to `PlatformCache.refresh()`.
 :::
 
 ## Multi caching

@@ -1,4 +1,5 @@
 import {isClass} from "@tsed/core";
+import {runInContext} from "@tsed/di";
 import {serialize} from "@tsed/json-mapper";
 import {PlatformTest} from "@tsed/platform-http/testing";
 
@@ -105,10 +106,13 @@ describe("PlatformCacheInterceptor", () => {
   describe("canRefreshInBackground()", () => {
     it("should refresh key in background", async () => {
       const {cache, interceptor} = await getInterceptorFixture();
+      const $ctx = PlatformTest.createRequestContext();
 
       const next = vi.fn();
 
-      await interceptor.canRefreshInBackground("key", {refreshThreshold: 300, ttl: 10000}, next);
+      await runInContext($ctx, () => {
+        return interceptor.canRefreshInBackground("key", {refreshThreshold: 300, ttl: 10000}, next, $ctx);
+      });
 
       expect(cache.get).toHaveBeenCalledWith("$$queue:key");
       expect(cache.set).toHaveBeenCalledWith("$$queue:key", true, {ttl: 120});
@@ -120,10 +124,21 @@ describe("PlatformCacheInterceptor", () => {
       const {cache, interceptor} = await getInterceptorFixture({
         ttl: 9700
       });
+      const $ctx = PlatformTest.createRequestContext();
 
       const next = vi.fn();
 
-      await interceptor.canRefreshInBackground("key", {refreshThreshold: 300, ttl: 10000}, next);
+      await runInContext($ctx, () =>
+        interceptor.canRefreshInBackground(
+          "key",
+          {
+            refreshThreshold: 300,
+            ttl: 10000
+          },
+          next,
+          $ctx
+        )
+      );
 
       expect(cache.get).toHaveBeenCalledWith("$$queue:key");
       expect(cache.ttl).toHaveBeenCalledWith("key");
@@ -133,6 +148,39 @@ describe("PlatformCacheInterceptor", () => {
     });
   });
   describe("cacheMethod()", () => {
+    it("should bypass method cache when byPass returns true", async () => {
+      const {cache, interceptor} = await getInterceptorFixture();
+      cache.getCachedObject = vi.fn();
+      cache.setCachedObject = vi.fn();
+      cache.defaultKeyResolver = () => defaultKeyResolver;
+
+      class Test {
+        @UseCache({
+          ttl: 10000,
+          byPass: () => true
+        })
+        test(arg: string) {
+          return "";
+        }
+      }
+
+      const next = vi.fn().mockResolvedValue("fresh");
+      const context: any = {
+        target: Test,
+        propertyKey: "test",
+        args: ["value"],
+        options: {
+          ttl: 10000,
+          byPass: () => true
+        }
+      };
+
+      const result = await interceptor.cacheMethod(context, next);
+
+      expect(cache.getCachedObject).not.toHaveBeenCalled();
+      expect(cache.setCachedObject).not.toHaveBeenCalled();
+      expect(result).toEqual("fresh");
+    });
     it("should return the cached response", async () => {
       const {cache, interceptor} = await getInterceptorFixture();
       cache.getCachedObject = vi.fn().mockResolvedValue({
@@ -454,20 +502,14 @@ describe("PlatformCacheInterceptor", () => {
       }
 
       const next = vi.fn();
-      const $ctx = {
-        request: {
-          method: "GET",
-          url: "/",
-          get: vi.fn()
-        },
-        response: {
-          getBody: vi.fn().mockReturnValue({
-            data: "data"
-          }),
-          setHeaders: vi.fn(),
-          onEnd: vi.fn()
-        }
-      };
+      const $ctx = PlatformTest.createRequestContext();
+      vi.spyOn($ctx.request, "get");
+      vi.spyOn($ctx, "get").mockReturnValue(undefined);
+      vi.spyOn($ctx.response, "getBody").mockReturnValue({
+        data: "data"
+      });
+      vi.spyOn($ctx.response, "setHeaders").mockReturnThis();
+      vi.spyOn($ctx.response, "onEnd").mockImplementation(() => $ctx.response);
       const context: any = {
         target: Test,
         propertyKey: "test",
@@ -483,9 +525,9 @@ describe("PlatformCacheInterceptor", () => {
 
       const result = await interceptor.cacheResponse(context, next);
 
-      expect(cache.getCachedObject).toHaveBeenCalledWith('Test:test:value:{"request":{"method":"GET","url":"/"},"response":{}}');
+      expect(cache.getCachedObject).toHaveBeenCalledWith("Test:test:value");
       expect(result).toEqual(undefined);
-      expect((interceptor as any).sendResponse).toHaveBeenCalledWith({data: '{"data":"data"}'}, $ctx);
+      expect((interceptor as any).sendResponse).toHaveBeenCalledWith({data: '{"data":"data"}'});
       expect($ctx.request.get).toHaveBeenCalledWith("cache-control");
 
       /*
@@ -526,20 +568,14 @@ describe("PlatformCacheInterceptor", () => {
       }
 
       const next = vi.fn();
-      const $ctx = {
-        request: {
-          method: "GET",
-          url: "/",
-          get: vi.fn()
-        },
-        response: {
-          getBody: vi.fn().mockReturnValue({
-            data: "data"
-          }),
-          setHeaders: vi.fn(),
-          onEnd: vi.fn()
-        }
-      };
+      const $ctx = PlatformTest.createRequestContext();
+      vi.spyOn($ctx.request, "get");
+      vi.spyOn($ctx, "get").mockReturnValue(undefined);
+      vi.spyOn($ctx.response, "getBody").mockReturnValue({
+        data: "data"
+      });
+      vi.spyOn($ctx.response, "setHeaders").mockReturnThis();
+      vi.spyOn($ctx.response, "onEnd").mockImplementation(() => $ctx.response);
       const context: any = {
         target: Test,
         propertyKey: "test",
@@ -556,9 +592,9 @@ describe("PlatformCacheInterceptor", () => {
 
       const result = await interceptor.cacheResponse(context, next);
 
-      expect(cache.getCachedObject).toHaveBeenCalledWith('TEST:value:{"request":{"method":"GET","url":"/"},"response":{}}');
+      expect(cache.getCachedObject).toHaveBeenCalledWith("TEST:value");
       expect(result).toEqual(undefined);
-      expect((interceptor as any).sendResponse).toHaveBeenCalledWith({data: '{"data":"data"}'}, $ctx);
+      expect((interceptor as any).sendResponse).toHaveBeenCalledWith({data: '{"data":"data"}'});
       expect($ctx.request.get).toHaveBeenCalledWith("cache-control");
 
       /*
@@ -567,6 +603,128 @@ describe("PlatformCacheInterceptor", () => {
 
       expect(cache.setCachedObject).toHaveBeenCalledWith()
        */
+    });
+    it("should bypass cached response when cache-control is no-cache", async () => {
+      const cache = {
+        get: vi.fn().mockResolvedValue(false),
+        set: vi.fn().mockResolvedValue(false),
+        del: vi.fn().mockResolvedValue(true),
+        calculateTTL: vi.fn().mockReturnValue(10000),
+        getCachedObject: vi.fn().mockResolvedValue({
+          data: JSON.stringify({data: "cached"})
+        }),
+        setCachedObject: vi.fn().mockResolvedValue("test"),
+        defaultKeyResolver: () => defaultKeyResolver
+      };
+      const interceptor = await PlatformTest.invoke<PlatformCacheInterceptor>(PlatformCacheInterceptor, [
+        {
+          token: PlatformCache,
+          use: cache
+        }
+      ]);
+
+      class Test {
+        @UseCache({
+          ttl: 10000,
+          refreshThreshold: 1000
+        })
+        test(arg: string) {
+          return "";
+        }
+      }
+
+      const next = vi.fn().mockResolvedValue({data: "fresh"});
+      const $ctx = PlatformTest.createRequestContext();
+      vi.spyOn($ctx.request, "get").mockImplementation((key: string) => (key === "cache-control" ? "no-cache" : undefined));
+      vi.spyOn($ctx, "get").mockReturnValue(undefined);
+      vi.spyOn($ctx.response, "setHeaders").mockReturnThis();
+      vi.spyOn($ctx.response, "onEnd").mockImplementation((cb) => {
+        cb && cb();
+        return $ctx.response;
+      });
+      vi.spyOn($ctx.response, "getBody").mockReturnValue({data: "fresh"});
+      vi.spyOn($ctx.response, "getHeaders").mockReturnValue({
+        "x-key": "key"
+      });
+
+      const context: any = {
+        target: Test,
+        propertyKey: "test",
+        args: ["value", $ctx],
+        options: {
+          ttl: 10000,
+          refreshThreshold: 1000
+        }
+      };
+
+      const sendResponseSpy = vi.spyOn(interceptor as any, "sendResponse").mockReturnValue(undefined);
+
+      const result = await interceptor.cacheResponse(context, next);
+
+      expect(cache.getCachedObject).not.toHaveBeenCalled();
+      expect(next).toHaveBeenCalledWith();
+      expect(sendResponseSpy).not.toHaveBeenCalled();
+      expect($ctx.request.get).toHaveBeenCalledWith("cache-control");
+      expect($ctx.response.setHeaders).toHaveBeenCalledWith({
+        "cache-control": `max-age=10000`
+      });
+      expect(result).toEqual({data: "fresh"});
+      expect(cache.setCachedObject).not.toHaveBeenCalled();
+    });
+    it("should ignore cache-control header when byPass is false", async () => {
+      const cache = {
+        get: vi.fn().mockResolvedValue(false),
+        set: vi.fn().mockResolvedValue(false),
+        del: vi.fn().mockResolvedValue(true),
+        calculateTTL: vi.fn().mockReturnValue(10000),
+        getCachedObject: vi.fn().mockResolvedValue({
+          data: JSON.stringify({data: "data"})
+        }),
+        setCachedObject: vi.fn().mockResolvedValue("test"),
+        defaultKeyResolver: () => defaultKeyResolver
+      };
+      const interceptor = await PlatformTest.invoke<PlatformCacheInterceptor>(PlatformCacheInterceptor, [
+        {
+          token: PlatformCache,
+          use: cache
+        }
+      ]);
+
+      class Test {
+        @UseCache({
+          ttl: 10000,
+          refreshThreshold: 1000,
+          byPass: false
+        })
+        test(arg: string) {
+          return "";
+        }
+      }
+
+      const next = vi.fn();
+      const $ctx = PlatformTest.createRequestContext();
+      vi.spyOn($ctx.request, "get").mockImplementation((key: string) => (key === "cache-control" ? "no-cache" : undefined));
+      vi.spyOn($ctx, "get").mockReturnValue(undefined);
+      vi.spyOn($ctx.response, "setHeaders").mockReturnThis();
+      const context: any = {
+        target: Test,
+        propertyKey: "test",
+        args: ["value", $ctx],
+        options: {
+          ttl: 10000,
+          refreshThreshold: 1000,
+          byPass: false
+        }
+      };
+
+      vi.spyOn(interceptor, "canRefreshInBackground").mockResolvedValue();
+      const sendResponseSpy = vi.spyOn(interceptor as any, "sendResponse").mockResolvedValue(undefined);
+
+      await interceptor.cacheResponse(context, next);
+
+      expect(cache.getCachedObject).toHaveBeenCalledWith("Test:test:value");
+      expect(sendResponseSpy).toHaveBeenCalledWith({data: '{"data":"data"}'});
+      expect(next).not.toHaveBeenCalled();
     });
     it("should call the method and set the cache", async () => {
       const cache = {
@@ -596,23 +754,20 @@ describe("PlatformCacheInterceptor", () => {
       }
 
       const next = vi.fn();
-      const $ctx = {
-        request: {
-          method: "GET",
-          url: "/",
-          get: vi.fn()
-        },
-        response: {
-          getBody: vi.fn().mockReturnValue({
-            data: "data"
-          }),
-          getHeaders: vi.fn().mockReturnValue({
-            "x-key": "key"
-          }),
-          setHeaders: vi.fn(),
-          onEnd: vi.fn()
-        }
-      };
+      const $ctx = PlatformTest.createRequestContext();
+      vi.spyOn($ctx.request, "get");
+      vi.spyOn($ctx, "get").mockReturnValue(undefined);
+      vi.spyOn($ctx.response, "getBody").mockReturnValue({
+        data: "data"
+      });
+      vi.spyOn($ctx.response, "getHeaders").mockReturnValue({
+        "x-key": "key"
+      });
+      vi.spyOn($ctx.response, "setHeaders").mockReturnThis();
+      vi.spyOn($ctx.response, "onEnd").mockImplementation((cb) => {
+        cb && cb();
+        return $ctx.response;
+      });
       const context: any = {
         target: Test,
         propertyKey: "test",
@@ -628,19 +783,17 @@ describe("PlatformCacheInterceptor", () => {
 
       const result = await interceptor.cacheResponse(context, next);
 
-      expect(cache.getCachedObject).toHaveBeenCalledWith('Test:test:value:{"request":{"method":"GET","url":"/"},"response":{}}');
+      expect(cache.getCachedObject).toHaveBeenCalledWith("Test:test:value");
       expect(result).toEqual(undefined);
       expect($ctx.response.setHeaders).toHaveBeenCalledWith({
         "cache-control": `max-age=10000`
       });
 
-      await $ctx.response.onEnd.mock.calls[0][0]();
-
       expect(cache.setCachedObject).toHaveBeenCalledWith(
-        'Test:test:value:{"request":{"method":"GET","url":"/"},"response":{}}',
+        "Test:test:value",
         {data: "data"},
         {
-          args: ["value", {request: {method: "GET", url: "/"}, response: {}}],
+          args: ["value"],
           headers: {"x-key": "key"},
           ttl: 10000
         }

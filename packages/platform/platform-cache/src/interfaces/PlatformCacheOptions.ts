@@ -24,4 +24,11 @@ export interface PlatformCacheOptions extends MetadataTypes {
    * The function determine if the result must be cached or not.
    */
   canCache?: ((item: any) => boolean) | "no-nullish";
+  /**
+   * Configure the bypass cache strategy.
+   * - `false` (default for services) never bypasses the cache.
+   * - `"no-cache"` (default for HTTP endpoints) bypasses when the `Cache-Control: no-cache` header is present.
+   * - Provide a function to decide dynamically based on the current call arguments/context.
+   */
+  byPass?: false | "no-cache" | ((args: any[], $ctx?: BaseContext) => boolean);
 }

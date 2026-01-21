@@ -42,7 +42,7 @@ export interface InterceptorNext {
 export interface InterceptorContext<Klass = Type, Opts = any> {
   target: Klass;
   propertyKey: string | symbol;
-  args: any[];
+  args: unknown[];
   next: InterceptorNext;
   options?: Opts;
 }

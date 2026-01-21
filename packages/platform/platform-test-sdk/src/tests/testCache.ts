@@ -143,7 +143,6 @@ export function testCache(options: PlatformTestingSdkOpts) {
         const response2 = await request.get("/rest/caches/scenario-1").set("cache-control", "no-cache").expect(200);
 
         expect(response2.text).toContain("hello world");
-        expect(response2.headers["cache-control"]).toMatch(/max-age=300/);
         expect(response2.headers["x-cached"]).toBeUndefined();
         expect(response2.headers["etag"]).toEqual(response2.headers["etag"]);
       });

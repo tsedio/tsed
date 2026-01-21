@@ -35,6 +35,16 @@ A package of Ts.ED framework. See website: https://tsed.devdocs/cache.html
 npm install --save @tsed/platform-cache
 ```
 
+## Force refresh
+
+Send the header `Cache-Control: no-cache` (or set it directly on the `PlatformContext`) to bypass
+`PlatformCacheInterceptor` for a single request. This is handy when you want a fresh response without wiping the cache.
+You can override or extend this behavior with the `byPass` option on `@UseCache`:
+
+- Service methods default to `byPass: false`, so they always consult the cache unless you explicitly return `true` from your predicate.
+- HTTP endpoints default to `byPass: "no-cache"`, which automatically honours the `Cache-Control: no-cache` header for one-off refreshes.
+- Provide a function (`byPass: (args, $ctx) => boolean`) to build custom strategies (e.g., bypass for admins or based on payload).
+
 ## Contributors
 
 Please read [contributing guidelines here](https://tsed.devcontributing.html).
