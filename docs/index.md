@@ -93,6 +93,9 @@ frameworks:
   - title: Scalar
     href: /tutorials/scalar.html
     src: /scalar.svg
+  - title: Model Context Protocol
+    href: /docs/mcp.html
+    src: https://upload.wikimedia.org/wikipedia/commons/f/fe/Model_Context_Protocol_logo.svg
   - title: Passport
     href: /tutorials/passport.html
     src: /passportjs.png

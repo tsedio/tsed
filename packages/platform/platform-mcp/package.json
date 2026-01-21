@@ -1,0 +1,62 @@
+{
+  "name": "@tsed/platform-mcp",
+  "description": "Model Context Protocol integration for Ts.ED HTTP adapters.",
+  "type": "module",
+  "version": "8.17.0",
+  "source": "./src/index.ts",
+  "main": "./lib/esm/index.js",
+  "module": "./lib/esm/index.js",
+  "typings": "./lib/types/index.d.ts",
+  "exports": {
+    ".": {
+      "tsed-source": "./src/index.ts",
+      "types": "./lib/types/index.d.ts",
+      "import": "./lib/esm/index.js",
+      "default": "./lib/esm/index.js"
+    }
+  },
+  "scripts": {
+    "build": "yarn barrels && yarn build:ts",
+    "barrels": "barrels",
+    "test": "vitest run",
+    "build:ts": "tsc --build tsconfig.esm.json",
+    "test:ci": "vitest run --coverage.thresholds.autoUpdate=true"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": ">=1.29.0",
+    "tslib": "2.7.0",
+    "uuid": "^11.0.2",
+    "zod": ">=4.3.6"
+  },
+  "devDependencies": {
+    "@tsed/barrels": "workspace:*",
+    "@tsed/core": "workspace:*",
+    "@tsed/di": "workspace:*",
+    "@tsed/platform-http": "workspace:*",
+    "@tsed/schema": "workspace:*",
+    "@tsed/typescript": "workspace:*",
+    "eslint": "9.12.0",
+    "typescript": "5.9.3",
+    "vitest": "3.2.4"
+  },
+  "peerDependencies": {
+    "@tsed/core": ">=8.0.0",
+    "@tsed/di": ">=8.0.0",
+    "@tsed/platform-http": ">=8.0.0",
+    "@tsed/schema": ">=8.0.0"
+  },
+  "peerDependenciesMeta": {
+    "@tsed/core": {
+      "optional": false
+    },
+    "@tsed/di": {
+      "optional": false
+    },
+    "@tsed/platform-http": {
+      "optional": false
+    },
+    "@tsed/schema": {
+      "optional": false
+    }
+  }
+}

@@ -138,6 +138,10 @@ const Docs = [
         link: `/docs/platform-serverless-http`
       },
       {
+        text: "Platform MCP",
+        link: `/docs/mcp`
+      },
+      {
         text: "Command",
         link: `/docs/command`
       },

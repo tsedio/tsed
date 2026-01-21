@@ -3,6 +3,7 @@ import {
   decoratorTypeOf,
   DecoratorTypes,
   isArray,
+  isClass,
   isCollection,
   isPlainObject,
   isPrimitiveOrPrimitiveClass,
@@ -617,11 +618,15 @@ class ReturnDecoratorContext extends DecoratorContext<ReturnsChainedDecorators> 
  * @response
  * @operation
  */
+export function Returns(model?: Type<any> | Type<any>[]): ReturnsChainedDecorators;
 export function Returns(status?: string | number, model?: Type<any> | Type<any>[]): ReturnsChainedDecorators;
-export function Returns(status?: string | number, model?: Type<any> | Type<any>[] | any): ReturnsChainedDecorators {
+export function Returns(
+  status?: string | number | Type<any> | Type<any>[],
+  model?: Type<any> | Type<any>[] | any
+): ReturnsChainedDecorators {
   const context = new ReturnDecoratorContext({
-    status,
-    model
+    status: isClass(status) ? 200 : status,
+    model: isClass(status) ? status : model
   });
 
   return context.build();

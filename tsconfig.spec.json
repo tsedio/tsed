@@ -31,6 +31,7 @@
       "@tsed/platform-router": ["./packages/platform/platform-router/src/index.ts"],
       "@tsed/platform-accept-mimes": ["./packages/platform/platform-accept-mimes/src/index.ts"],
       "@tsed/platform-views": ["./packages/platform/platform-views/src/index.ts"],
+      "@tsed/platform-mcp": ["./packages/platform/platform-mcp/src/index.ts"],
       "@tsed/platform-http": ["./packages/platform/platform-http/src/index.ts"],
       "@tsed/platform-http/testing": ["./packages/platform/platform-http/src/testing/index.ts"],
       "@tsed/apollo": ["./packages/graphql/apollo/src/index.ts"],
