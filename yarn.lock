@@ -13318,6 +13318,7 @@ __metadata:
     "@types/json-schema": "npm:7.0.15"
     accepts: "npm:^1.3.8"
     cross-env: "npm:7.0.3"
+    encodeurl: "npm:^2.0.0"
     eslint: "npm:9.12.0"
     tslib: "npm:2.7.0"
     typescript: "npm:5.9.3"
