@@ -6079,14 +6079,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@fastify/ajv-compiler@npm:^4.0.0":
-  version: 4.0.2
-  resolution: "@fastify/ajv-compiler@npm:4.0.2"
+"@fastify/ajv-compiler@npm:^4.0.5":
+  version: 4.0.5
+  resolution: "@fastify/ajv-compiler@npm:4.0.5"
   dependencies:
     ajv: "npm:^8.12.0"
     ajv-formats: "npm:^3.0.1"
     fast-uri: "npm:^3.0.0"
-  checksum: 10/adc3f9a99418e4495af64099a2b137bf5960909191287568f2ddc48c4bffe70e140f17453ab7f4ac021bf78ddb6fc14db8a1d3a3fe7ee6e7a6d321c8e2c232f8
+  checksum: 10/ee6a3388314811b4ce25341620c9b5f07bbcb7192e2adafba44b69c2f4d6e50dd93775f22408a28fab9c6ca010f6f7c83c796142c803653baf18e446c84de336
   languageName: node
   linkType: hard
 
@@ -8763,6 +8763,13 @@ __metadata:
   version: 1.0.0
   resolution: "@phc/format@npm:1.0.0"
   checksum: 10/26c4feccdc766e4ebf0d2b46a99ded027b8fd9b013529d5728870e0683dfd1f606177b475ceb656d163519443d734abeba6b1d8ea5c9d2748e723059cc1c0c39
+  languageName: node
+  linkType: hard
+
+"@pinojs/redact@npm:^0.4.0":
+  version: 0.4.0
+  resolution: "@pinojs/redact@npm:0.4.0"
+  checksum: 10/2210ffb6b38357853d47239fd0532cc9edb406325270a81c440a35cece22090127c30c2ead3eefa3e608f2244087485308e515c431f4f69b6bd2e16cbd32812b
   languageName: node
   linkType: hard
 
@@ -13254,7 +13261,7 @@ __metadata:
     "@types/content-disposition": "npm:^0.5.4"
     content-disposition: "npm:>=0.5.4"
     cross-env: "npm:7.0.3"
-    fastify: "npm:5.3.2"
+    fastify: "npm:5.7.3"
     fastify-raw-body: "npm:5.0.0"
     ts-node: "npm:10.9.2"
     tslib: "npm:2.7.0"
@@ -23957,11 +23964,11 @@ __metadata:
   languageName: node
   linkType: hard
 
-"fastify@npm:5.3.2":
-  version: 5.3.2
-  resolution: "fastify@npm:5.3.2"
+"fastify@npm:5.7.3":
+  version: 5.7.3
+  resolution: "fastify@npm:5.7.3"
   dependencies:
-    "@fastify/ajv-compiler": "npm:^4.0.0"
+    "@fastify/ajv-compiler": "npm:^4.0.5"
     "@fastify/error": "npm:^4.0.0"
     "@fastify/fast-json-stringify-compiler": "npm:^5.0.0"
     "@fastify/proxy-addr": "npm:^5.0.0"
@@ -23970,13 +23977,13 @@ __metadata:
     fast-json-stringify: "npm:^6.0.0"
     find-my-way: "npm:^9.0.0"
     light-my-request: "npm:^6.0.0"
-    pino: "npm:^9.0.0"
+    pino: "npm:^10.1.0"
     process-warning: "npm:^5.0.0"
     rfdc: "npm:^1.3.1"
     secure-json-parse: "npm:^4.0.0"
     semver: "npm:^7.6.0"
     toad-cache: "npm:^3.7.0"
-  checksum: 10/afb57c5ff72196e50f23a8374bb3c7e55e272db0190f24659f3671d04d13532a7032103c7fdcdfdd7f5c111d497a05e0ad1ccdf56f61ec63d3191462d4c34aa5
+  checksum: 10/10cad30dc4dbfe7d9c5cd3cc38ac8403b8f25c452b3dd910eeade56be60b4df32ba44a1be12ad301049cf5624785eaf075f1efa5d6a91a4161ca4a2550d737cc
   languageName: node
   linkType: hard
 
@@ -33954,6 +33961,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"pino-abstract-transport@npm:^3.0.0":
+  version: 3.0.0
+  resolution: "pino-abstract-transport@npm:3.0.0"
+  dependencies:
+    split2: "npm:^4.0.0"
+  checksum: 10/f42b85b2663c8520839124a55b27801e88c89c65e9569384b49bb4c81b022ae24860020c2375b92a03db699113969007cc155e1fb2dfe53754403920c1cbe18c
+  languageName: node
+  linkType: hard
+
 "pino-http-print@npm:3.1.0":
   version: 3.1.0
   resolution: "pino-http-print@npm:3.1.0"
@@ -34054,6 +34070,27 @@ __metadata:
   bin:
     pino: bin.js
   checksum: 10/01f489e01457ceeb46aa73189922381a6e6c7e0b8599a49d2d18e4d765e7898e36534b7bfd389aca9702c57d680f14dc87d66ab4e80792266f928b051ba8872a
+  languageName: node
+  linkType: hard
+
+"pino@npm:^10.1.0":
+  version: 10.3.0
+  resolution: "pino@npm:10.3.0"
+  dependencies:
+    "@pinojs/redact": "npm:^0.4.0"
+    atomic-sleep: "npm:^1.0.0"
+    on-exit-leak-free: "npm:^2.1.0"
+    pino-abstract-transport: "npm:^3.0.0"
+    pino-std-serializers: "npm:^7.0.0"
+    process-warning: "npm:^5.0.0"
+    quick-format-unescaped: "npm:^4.0.3"
+    real-require: "npm:^0.2.0"
+    safe-stable-stringify: "npm:^2.3.1"
+    sonic-boom: "npm:^4.0.1"
+    thread-stream: "npm:^4.0.0"
+  bin:
+    pino: bin.js
+  checksum: 10/c96eb30c95e5e9ad1d6ee229a63251ee1e7a73cabd62036ab75b621fbfe0c62c9001369af2a4f01268e1fef228c2b804e110db8213f7f766399b162061d54828
   languageName: node
   linkType: hard
 
@@ -39975,6 +40012,15 @@ __metadata:
   dependencies:
     real-require: "npm:^0.2.0"
   checksum: 10/ea2d816c4f6077a7062fac5414a88e82977f807c82ee330938fb9691fe11883bb03f078551c0518bb649c239e47ba113d44014fcbb5db42c5abd5996f35e4213
+  languageName: node
+  linkType: hard
+
+"thread-stream@npm:^4.0.0":
+  version: 4.0.0
+  resolution: "thread-stream@npm:4.0.0"
+  dependencies:
+    real-require: "npm:^0.2.0"
+  checksum: 10/698ac8bd104c6cf91dda8421c30790979b867d7b6c878f914ddef18f1b1bc846f8776976d9f0113ed0ee90043f2e9e6554b96f4c1154ff84cd199da657f214fa
   languageName: node
   linkType: hard
 
