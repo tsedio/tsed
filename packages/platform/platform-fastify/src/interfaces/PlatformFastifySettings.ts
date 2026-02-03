@@ -1,5 +1,5 @@
-import type {FastifyInstance} from "fastify";
+import type {FastifyHttpOptions, FastifyInstance} from "fastify";
 
-export interface PlatformFastifySettings {
+export interface PlatformFastifySettings extends FastifyHttpOptions<any, any> {
   app?: FastifyInstance;
 }

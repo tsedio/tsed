@@ -5,7 +5,7 @@ import {IncomingMessage, ServerResponse} from "node:http";
 import * as Https from "node:https";
 
 import fastifyMiddie from "@fastify/middie";
-import fastifyStatics from "@fastify/static";
+import fastifyStatics, {type FastifyStaticOptions} from "@fastify/static";
 import {type Env, isFunction, isString, ReturnHostInfoFromPort, Type} from "@tsed/core";
 import {constant, inject, logger, runInContext} from "@tsed/di";
 import {NotFound} from "@tsed/exceptions";
@@ -269,12 +269,13 @@ export class PlatformFastify extends PlatformAdapter<FastifyInstance> {
     return null;
   }
 
-  statics(endpoint: string, options: PlatformStaticsOptions): any {
+  statics(endpoint: string, options: PlatformStaticsOptions & FastifyStaticOptions): any {
     this.app.getApp().register(fastifyStatics, {
-      root: options.root,
-      prefix: endpoint,
+      prefix: endpoint === "/" ? "/" : endpoint.endsWith("/") ? endpoint : `${endpoint}/`,
+      ...options,
       decorateReply: !this.staticsDecorated
     });
+
     this.staticsDecorated = true;
 
     return null;
