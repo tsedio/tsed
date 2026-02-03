@@ -8,4 +8,11 @@ describe("closeServer", () => {
     expect(await closeServer(server)).toEqual(undefined);
     expect(server.close).toHaveBeenCalledWith(expect.any(Function));
   });
+
+  it("should handle undefined close method (fastify)", async () => {
+    const server: any = {
+      close: undefined
+    };
+    expect(await closeServer(server)).toEqual(undefined);
+  });
 });
