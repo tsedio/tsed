@@ -9,7 +9,7 @@ import fastifyStatics, {type FastifyStaticOptions} from "@fastify/static";
 import {type Env, isFunction, isString, ReturnHostInfoFromPort, Type} from "@tsed/core";
 import {constant, inject, logger, runInContext} from "@tsed/di";
 import {NotFound} from "@tsed/exceptions";
-import {$alter} from "@tsed/hooks";
+import {$alter, $asyncEmit} from "@tsed/hooks";
 import {PlatformExceptions} from "@tsed/platform-exceptions";
 import {
   adapter,
@@ -30,6 +30,7 @@ import type {PlatformFastifySettings} from "../interfaces/PlatformFastifySetting
 import {PlatformFastifyRequest} from "../services/PlatformFastifyRequest.js";
 import {PlatformFastifyResponse} from "../services/PlatformFastifyResponse.js";
 import {convertPath} from "../utils/convertPath.js";
+import {toPrefix} from "../utils/toPrefix.js";
 
 declare global {
   namespace TsED {
@@ -73,11 +74,11 @@ export class PlatformFastify extends PlatformAdapter<FastifyInstance> {
     });
   }
 
-  mapLayers(layers: PlatformLayer[]) {
+  async mapLayers(layers: PlatformLayer[]) {
     const {app} = this;
     const rawApp: FastifyInstance = app.getApp();
 
-    layers.forEach((layer) => {
+    for (const layer of layers) {
       const {path, wildcard} = convertPath(layer.path);
       const handlers = layer.getArgs(false);
 
@@ -86,10 +87,10 @@ export class PlatformFastify extends PlatformAdapter<FastifyInstance> {
           if ((rawApp as any).use) {
             (rawApp as any).use(path, handlers);
           }
-          return;
+          continue;
         case "statics":
-          this.statics(path as string, layer.opts as any);
-          return;
+          await this.statics(path as string, layer.opts as any);
+          continue;
       }
 
       try {
@@ -107,7 +108,7 @@ export class PlatformFastify extends PlatformAdapter<FastifyInstance> {
           error_message: er.message
         });
       }
-    });
+    }
   }
 
   mapHandler(handler: (...args: any[]) => any, metadata: PlatformHandlerMetadata) {
@@ -269,16 +270,18 @@ export class PlatformFastify extends PlatformAdapter<FastifyInstance> {
     return null;
   }
 
-  statics(endpoint: string, options: PlatformStaticsOptions & FastifyStaticOptions): any {
-    this.app.getApp().register(fastifyStatics, {
-      prefix: endpoint === "/" ? "/" : endpoint.endsWith("/") ? endpoint : `${endpoint}/`,
+  async statics(endpoint: string, options: PlatformStaticsOptions & FastifyStaticOptions): Promise<void> {
+    options = {
+      prefix: toPrefix(endpoint),
       ...options,
       decorateReply: !this.staticsDecorated
-    });
+    };
+
+    await this.app.getApp().register(fastifyStatics, options);
 
     this.staticsDecorated = true;
 
-    return null;
+    await $asyncEmit("$staticsMounted", [endpoint, options]);
   }
 
   protected compose(layer: PlatformLayer, wildcard?: string) {

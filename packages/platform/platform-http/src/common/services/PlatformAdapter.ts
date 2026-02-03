@@ -57,7 +57,7 @@ export abstract class PlatformAdapter<App = TsED.Application> {
   /**
    * Map router layer to the targeted framework
    */
-  abstract mapLayers(layer: PlatformLayer[]): void;
+  abstract mapLayers(layer: PlatformLayer[]): void | Promise<void>;
 
   /**
    * Map handler to the targeted framework

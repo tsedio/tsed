@@ -319,10 +319,10 @@ export class PlatformBuilder<App = TsED.Application> {
     return this.#promise;
   }
 
-  protected mapRouters() {
+  protected async mapRouters() {
     const layers = this.platform.getLayers();
 
-    this.adapter.mapLayers(layers);
+    await this.adapter.mapLayers(layers);
 
     const rawBody =
       constant("rawBody") ||

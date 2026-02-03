@@ -90,13 +90,13 @@ export class PlatformKoa extends PlatformAdapter<Koa> {
     const options = constant("koa.router", {});
     const rawRouter = new KoaRouter(options) as any;
 
-    layers.forEach((layer) => {
+    for (const layer of layers) {
       const {path, wildcard} = convertPath(layer.path);
       layer.path = path;
 
       if (layer.method === "statics") {
         rawRouter.use(path, this.statics(layer.path as string, layer.opts as any));
-        return;
+        continue;
       }
 
       const handlers = layer.getArgs(false);
@@ -110,7 +110,7 @@ export class PlatformKoa extends PlatformAdapter<Koa> {
       }
 
       rawRouter[layer.method](path, ...handlers);
-    });
+    }
 
     application().getApp().use(rawRouter.routes()).use(rawRouter.allowedMethods());
   }

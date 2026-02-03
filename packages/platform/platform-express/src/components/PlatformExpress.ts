@@ -136,7 +136,7 @@ export class PlatformExpress extends PlatformAdapter<Express.Application> {
     const rawApp: any = this.app.getApp();
     const version = getVersion();
 
-    layers.forEach((layer) => {
+    for (const layer of layers) {
       const handlers = layer.getArgs(false);
       const {path, wildcard} = convertPath(layer.path, version as "v4" | "v5");
 
@@ -144,7 +144,7 @@ export class PlatformExpress extends PlatformAdapter<Express.Application> {
 
       if (layer.method === "statics") {
         rawApp.use(path, this.statics(path, layer.opts as any));
-        return;
+        continue;
       }
 
       if (wildcard) {
@@ -166,7 +166,7 @@ export class PlatformExpress extends PlatformAdapter<Express.Application> {
       }
 
       rawApp[layer.method](path, ...handlers);
-    });
+    }
   }
 
   mapHandler(handler: Function, metadata: PlatformHandlerMetadata) {
