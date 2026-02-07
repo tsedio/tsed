@@ -24,15 +24,15 @@
     "build": "rm -rf lib && yarn build:ts && monorepo build-hybrid",
     "build:ts": "tsc --build tsconfig.esm.json",
     "test": "vitest run",
-    "generate:enums": "yarn build && cd test/enums && prisma -v && prisma generate",
-    "generate:postgres:esm": "yarn build && cd test/postgres-esm && prisma -v && prisma generate",
-    "generate:mongo:esm": "yarn build && cd test/mongo-esm && prisma -v && prisma generate",
-    "generate:circular:esm": "yarn build && cd test/circular-ref && prisma -v && prisma generate",
+    "generate:enums": "yarn build && cd test/enums && DATABASE_URL=postgres://localhost:8000/db prisma generate",
+    "generate:postgres:esm": "yarn build && cd test/postgres-esm && DATABASE_URL=postgres://localhost:8000/db prisma generate",
+    "generate:mongo:esm": "yarn build && cd test/mongo-esm && DATABASE_URL=postgres://localhost:8000/db prisma generate",
+    "generate:circular:esm": "yarn build && cd test/circular-ref && DATABASE_URL=postgres://localhost:8000/db prisma generate",
     "test:ci": "vitest run --coverage.thresholds.autoUpdate=true"
   },
   "dependencies": {
-    "@prisma/generator-helper": "^6.0.1",
-    "@prisma/internals": "^6.0.1",
+    "@prisma/generator-helper": "^7.3.0",
+    "@prisma/internals": "^7.3.0",
     "change-case": "^5.4.4",
     "fs-extra": "^11.2.0",
     "pluralize": "^8.0.0",
@@ -40,7 +40,7 @@
     "tslib": "2.7.0"
   },
   "devDependencies": {
-    "@prisma/client": "^6.0.1",
+    "@prisma/client": "^7.3.0",
     "@tsed/barrels": "workspace:*",
     "@tsed/core": "workspace:*",
     "@tsed/di": "workspace:*",
@@ -51,7 +51,7 @@
     "@types/change-case": "^2.3.1",
     "@types/pluralize": "0.0.33",
     "eslint": "9.12.0",
-    "prisma": "^6.0.1",
+    "prisma": "^7.3.0",
     "typescript": "5.9.3",
     "vitest": "3.2.4"
   },

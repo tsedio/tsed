@@ -1,19 +1,17 @@
-
 datasource db {
   provider = "postgresql"
-  url      = env("DATABASE_URL")
 }
 
 generator client {
-  provider        = "prisma-client-js"
-  binaryTargets   = ["native", "windows", "debian-openssl-1.1.x"]
-  output          = "../prisma/generated/client"
+  provider      = "prisma-client-js"
+  binaryTargets = ["native", "windows", "debian-openssl-1.1.x"]
+  output        = "../prisma/generated/client"
 }
 
 generator tsed {
-  provider                 = "node ../../lib/esm/generator.js"
-  output                   = "../prisma/generated/tsed"
-  emitDMMF                 = true
+  provider = "node ../../lib/esm/generator.js"
+  output   = "../prisma/generated/tsed"
+  emitDMMF = true
 }
 
 model user {
@@ -35,7 +33,7 @@ model user {
   keywords    String[]
   biography   Json
   /// @TsED.Ignore(ctx.endpoint === true)
-  ignored    String
+  ignored     String
 }
 
 model Post {

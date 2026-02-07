@@ -95,15 +95,16 @@ By choosing this options, your feature/fix request treated in top priority.
 
 ## Set the database connection
 
-Your database connection is configured in the `datasource` block in your `schema.prisma` file. By default it's set to
+Your database connection is configured in the `datasource` block in your `schema.prisma` file. By default, it's set to
 `postgresql`,
-but since you're using a SQLite database in this guide you need to adjust the `provider` field of the `datasource` block
+but since you're using a SQLite database in this guide, you need to adjust the `provider` field of the `datasource`
+block
 to `sqlite`:
 
 ```groovy
 datasource db {
   provider = "sqlite"
-  url      = env("DATABASE_URL")
+  url      = env("DATABASE_URL") # before v7 set url here. With v7 create a prisma.config.ts
 }
 
 generator client {
@@ -114,6 +115,11 @@ generator tsed {
   provider = "tsed-prisma"
 }
 ```
+
+::: warning
+Since Prisma v7, you have to configure url in `prisma.config.ts` file. See more details
+here: https://www.prisma.io/docs/orm/reference/prisma-config-reference#engine
+:::
 
 Now, open up `.env` and adjust the `DATABASE_URL` environment variable to look as follows:
 

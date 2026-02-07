@@ -1,7 +1,5 @@
-
 datasource db {
   provider = "mongodb"
-  url      = env("DATABASE_URL")
 }
 
 generator client {
@@ -12,9 +10,9 @@ generator client {
 }
 
 generator tsed {
-  provider                 = "node ../../lib/esm/generator.js"
-  output                   = "../prisma/generated/tsed"
-  emitDMMF                 = true
+  provider = "node ../../lib/esm/generator.js"
+  output   = "../prisma/generated/tsed"
+  emitDMMF = true
 }
 
 model User {

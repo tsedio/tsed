@@ -2,9 +2,9 @@
   "name": "@tsed/prisma-test",
   "type": "module",
   "devDependencies": {
-    "prisma": "^4.0.0"
+    "prisma": "^7.3.0"
   },
   "dependencies": {
-    "@prisma/client": "^4.0.0"
+    "@prisma/client": "^7.3.0"
   }
 }
