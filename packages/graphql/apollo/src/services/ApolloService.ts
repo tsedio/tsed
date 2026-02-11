@@ -70,7 +70,7 @@ export class ApolloService {
           switch (this.platformName) {
             case "express":
               // use newer graphql express middleware
-              const expressVersion = await import("express/package.json", { with: { type: "json" } }).then((pkg) => pkg.default.version);
+              const expressVersion = await import("express/package.json", {with: {type: "json"}}).then((pkg) => pkg.default.version);
               const majorVersion = parseInt(expressVersion.split(".")[0], 10);
 
               let expressMiddleware: any;
