@@ -24,7 +24,7 @@
     "@nestjs/common": "10.4.16",
     "@nestjs/core": "9.0.5",
     "@nestjs/platform-express": "8.4.3",
-    "@nestjs/platform-fastify": "8.4.3",
+    "@nestjs/platform-fastify": "11.1.14",
     "autocannon": "^7.0.1",
     "autocannon-compare": "^0.4.0",
     "benchmark": "^2.1.4",
