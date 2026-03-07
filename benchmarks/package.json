@@ -37,7 +37,7 @@
     "dns-prefetch-control": "^0.3.0",
     "execa": "^6.1.0",
     "express": "^4.19.2",
-    "fastify": "^3.29.4",
+    "fastify": "^5.8.1",
     "frameguard": "^4.0.0",
     "hide-powered-by": "^1.0.0",
     "hsts": "^2.1.0",
