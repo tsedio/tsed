@@ -25,11 +25,13 @@ function alterMerge(_: string, obj: any) {
  * @ignore
  */
 export function inheritedClassMapper(obj: any, {target, ...options}: JsonSchemaOptions) {
-  const stores = Array.from(getInheritedStores(target).entries()).filter(([model]) => classOf(model) !== classOf(target));
+  const stores = Array.from(getInheritedStores(target).entries())
+    .filter(([model]) => classOf(model) !== classOf(target))
+    .reverse();
 
   if (stores.length) {
     const schema = stores.reduce((obj, [, store]) => {
-      return deepMerge(obj, execMapper("schema", [store.schema], options), {alter: alterMerge});
+      return deepMerge(obj, execMapper("schema", [store.schema], {...options, inheritedClass: store.target}), {alter: alterMerge});
     }, {});
 
     return deepMerge(schema, obj, {alter: alterMerge});

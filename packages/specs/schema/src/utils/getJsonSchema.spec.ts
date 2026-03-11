@@ -692,4 +692,50 @@ describe("getJsonSchema", () => {
       type: "object"
     });
   });
+  it("should keep inherited merges for nested classes declared on an inherited model", () => {
+    class NestedBase {
+      @Property()
+      base: string;
+    }
+
+    class Nested extends NestedBase {
+      @Property()
+      child: string;
+    }
+
+    class Root {
+      @Property()
+      nested: Nested;
+    }
+
+    class Model extends Root {
+      @Property()
+      id: string;
+    }
+
+    expect(getJsonSchema(Model)).toEqual({
+      type: "object",
+      properties: {
+        nested: {
+          $ref: "#/definitions/Nested"
+        },
+        id: {
+          type: "string"
+        }
+      },
+      definitions: {
+        Nested: {
+          type: "object",
+          properties: {
+            base: {
+              type: "string"
+            },
+            child: {
+              type: "string"
+            }
+          }
+        }
+      }
+    });
+  });
 });

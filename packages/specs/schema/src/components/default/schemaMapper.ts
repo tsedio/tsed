@@ -109,7 +109,7 @@ function mapKeys(schema: JsonSchema, options: JsonSchemaOptions) {
 function serializeSchema(schema: JsonSchema, options: JsonSchemaOptions) {
   let obj: any = mapKeys(schema, options);
 
-  if (schema.isClass && !schema.isLocalSchema) {
+  if (options.inheritedClass !== schema.class && schema.isClass && !schema.isLocalSchema) {
     obj = execMapper("inheritedClass", [obj], {
       ...options,
       root: false,
