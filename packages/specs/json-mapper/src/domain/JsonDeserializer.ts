@@ -13,7 +13,7 @@ import {alterAfterDeserialize} from "../hooks/alterAfterDeserialize.js";
 import {alterBeforeDeserialize} from "../hooks/alterBeforeDeserialize.js";
 import {alterOnDeserialize} from "../hooks/alterOnDeserialize.js";
 import {JsonDeserializerOptions} from "./JsonDeserializerOptions.js";
-import {CachedJsonMapper, JsonMapperCompiler} from "./JsonMapperCompiler.js";
+import {CachedGroupsJsonMapper, CachedJsonMapper, JsonMapperCompiler} from "./JsonMapperCompiler.js";
 import {JsonMapperSettings} from "./JsonMapperSettings.js";
 import {getJsonMapperTypes} from "./JsonMapperTypesContainer.js";
 import {Writer} from "./Writer.js";
@@ -103,16 +103,20 @@ export class JsonDeserializer extends JsonMapperCompiler<JsonDeserializerOptions
     {
       id,
       groupsId,
-      model
+      model,
+      storeGroups
     }: {
       id: string;
-      model: Type<any>;
+      model: Type<any> | string;
       groupsId: string;
+      storeGroups: CachedGroupsJsonMapper<JsonDeserializerOptions>;
     }
   ): CachedJsonMapper<JsonDeserializerOptions> {
-    this.constructors[id] = model;
+    if (typeof model === "function") {
+      this.constructors[id] = model;
+    }
 
-    return super.eval(mapper, {id, groupsId, model});
+    return super.eval(mapper, {id, groupsId, model, storeGroups});
   }
 
   protected newInstanceOf(id: string, obj: any, options: any) {

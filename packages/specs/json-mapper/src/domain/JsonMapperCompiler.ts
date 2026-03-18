@@ -121,9 +121,20 @@ export abstract class JsonMapperCompiler<Options extends Record<string, any> = a
     return this;
   }
 
-  eval(mapper: string, {id, groupsId, model}: {id: string; model: Type<any> | string; groupsId: string}) {
-    this.addGlobal("cache", this.cache);
-
+  eval(
+    mapper: string,
+    {
+      id,
+      groupsId,
+      model,
+      storeGroups
+    }: {
+      id: string;
+      groupsId: string;
+      model: Type<any> | string;
+      storeGroups: CachedGroupsJsonMapper<Options>;
+    }
+  ) {
     const {globals, schemes} = this;
 
     const injectGlobals = Object.keys(globals)
@@ -132,11 +143,24 @@ export abstract class JsonMapperCompiler<Options extends Record<string, any> = a
       })
       .join("\n");
 
-    eval(`${injectGlobals};
+    const compileMapper = new Function(
+      "globals",
+      "storeGroups",
+      "schemes",
+      "groupsId",
+      "id",
+      `${injectGlobals}
+      storeGroups.set(groupsId, {id, fn: (${mapper})});
+      return storeGroups.get(groupsId);`
+    ) as (
+      globals: Record<string, any>,
+      storeGroups: CachedGroupsJsonMapper<Options>,
+      schemes: Record<string, any>,
+      groupsId: string,
+      id: string
+    ) => CachedJsonMapper<Options>;
 
-    cache.get(model).set(groupsId, { id: '${id}', fn: ${mapper} })`);
-
-    const store = this.cache.get(model)!.get(groupsId)!;
+    const store = compileMapper(globals, storeGroups, schemes, groupsId, id)!;
 
     this.mappers[id] = store.fn;
 
@@ -185,7 +209,7 @@ export abstract class JsonMapperCompiler<Options extends Record<string, any> = a
       const mapper = opts.mapper ? opts.mapper(id, groups) : this.createMapper(token as Type<any>, id, groups);
 
       try {
-        return this.eval(mapper, {id, model: token, groupsId});
+        return this.eval(mapper, {id, groupsId, model: token, storeGroups});
       } catch (err) {
         throw new Error(`Fail to compile mapper for ${nameOf(model)}. See the error above: ${err.message}.\n${mapper}`);
       }
