@@ -60,7 +60,7 @@ export class PlatformCache {
   calculateTTL(result?: any, currentTtl?: Ttl): number {
     const ttl = currentTtl === undefined ? this.defaultTtl() : currentTtl;
 
-    return isFunction(ttl) ? ttl(result) : ttl;
+    return (isFunction(ttl) ? ttl(result) : ttl)!;
   }
 
   ttl(key: string) {
