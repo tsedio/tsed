@@ -146,6 +146,31 @@ describe("PlatformCacheInterceptor", () => {
       expect(cache.del).toHaveBeenCalledWith("$$queue:key");
       expect(next).not.toHaveBeenCalled();
     });
+    it("should refresh key in background with cached ttl when ttl option is a function", async () => {
+      const {cache, interceptor} = await getInterceptorFixture();
+      const $ctx = PlatformTest.createRequestContext();
+
+      const next = vi.fn();
+
+      await runInContext($ctx, () => {
+        return interceptor.canRefreshInBackground(
+          "key",
+          {
+            refreshThreshold: 300,
+            ttl: () => 10000,
+            cachedTTL: 10000
+          },
+          next,
+          $ctx
+        );
+      });
+
+      expect(cache.get).toHaveBeenCalledWith("$$queue:key");
+      expect(cache.ttl).toHaveBeenCalledWith("key");
+      expect(cache.set).toHaveBeenCalledWith("$$queue:key", true, {ttl: 120});
+      expect(cache.del).toHaveBeenCalledWith("$$queue:key");
+      expect(next).toHaveBeenCalledWith();
+    });
   });
   describe("cacheMethod()", () => {
     it("should bypass method cache when byPass returns true", async () => {

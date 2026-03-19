@@ -90,10 +90,12 @@ export class PlatformCacheInterceptor implements InterceptorMethods {
     key: string,
     {
       refreshThreshold,
-      ttl
+      ttl,
+      cachedTTL
     }: {
       refreshThreshold?: number;
       ttl: any;
+      cachedTTL?: number;
     },
     next: Function,
     $ctx?: Context
@@ -104,10 +106,10 @@ export class PlatformCacheInterceptor implements InterceptorMethods {
       await this.addKeyToQueue(key);
 
       const currentTTL = await this.cache.ttl(key);
-      const calculatedTTL = this.cache.calculateTTL(currentTTL, ttl);
+      const calculatedTTL = cachedTTL ?? (typeof ttl === "number" ? ttl : undefined);
 
       try {
-        if (currentTTL === undefined || currentTTL < calculatedTTL - refreshThreshold) {
+        if (calculatedTTL !== undefined && (currentTTL === undefined || currentTTL < calculatedTTL - refreshThreshold)) {
           if ($ctx) {
             await runInContext($ctx, () => next());
           } else {
@@ -149,7 +151,7 @@ export class PlatformCacheInterceptor implements InterceptorMethods {
 
     this.canRefreshInBackground(
       key,
-      {refreshThreshold, ttl},
+      {refreshThreshold, ttl, cachedTTL: cachedObject.ttl},
       async () => {
         const result = await next();
 
