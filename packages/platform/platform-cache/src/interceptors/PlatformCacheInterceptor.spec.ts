@@ -122,7 +122,7 @@ describe("PlatformCacheInterceptor", () => {
     });
     it("should not refresh key in background", async () => {
       const {cache, interceptor} = await getInterceptorFixture({
-        ttl: 9700
+        ttl: 9800
       });
       const $ctx = PlatformTest.createRequestContext();
 
@@ -169,6 +169,53 @@ describe("PlatformCacheInterceptor", () => {
       expect(cache.ttl).toHaveBeenCalledWith("key");
       expect(cache.set).toHaveBeenCalledWith("$$queue:key", true, {ttl: 120});
       expect(cache.del).toHaveBeenCalledWith("$$queue:key");
+      expect(next).toHaveBeenCalledWith();
+    });
+    it("should skip refresh when cooldown key is present", async () => {
+      const {cache, interceptor} = await getInterceptorFixture();
+      const $ctx = PlatformTest.createRequestContext();
+
+      cache.get = vi.fn().mockImplementation((key: string) => {
+        if (key === "$$refresh-cooldown:key") {
+          return Promise.resolve(true);
+        }
+
+        return Promise.resolve(false);
+      });
+
+      const next = vi.fn();
+
+      await runInContext($ctx, () => {
+        return interceptor.canRefreshInBackground("key", {refreshThreshold: 300, ttl: 10000}, next, $ctx);
+      });
+
+      expect(cache.get).toHaveBeenCalledWith("$$queue:key");
+      expect(cache.get).toHaveBeenCalledWith("$$refresh-cooldown:key");
+      expect(cache.set).not.toHaveBeenCalledWith("$$queue:key", true, {ttl: 120});
+      expect(cache.ttl).not.toHaveBeenCalled();
+      expect(next).not.toHaveBeenCalled();
+    });
+    it("should set cooldown key when refresh is triggered", async () => {
+      const {cache, interceptor} = await getInterceptorFixture();
+      const $ctx = PlatformTest.createRequestContext();
+
+      const next = vi.fn();
+
+      await runInContext($ctx, () => {
+        return interceptor.canRefreshInBackground(
+          "key",
+          {
+            refreshThreshold: 300,
+            ttl: 10000,
+            cachedTTL: 10000
+          },
+          next,
+          $ctx
+        );
+      });
+
+      expect(cache.set).toHaveBeenCalledWith("$$queue:key", true, {ttl: 120});
+      expect(cache.set).toHaveBeenCalledWith("$$refresh-cooldown:key", true, expect.objectContaining({ttl: expect.any(Number)}));
       expect(next).toHaveBeenCalledWith();
     });
   });

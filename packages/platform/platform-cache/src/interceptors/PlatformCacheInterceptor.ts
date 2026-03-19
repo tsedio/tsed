@@ -101,15 +101,19 @@ export class PlatformCacheInterceptor implements InterceptorMethods {
     $ctx?: Context
   ) {
     const inQueue = await this.hasKeyInQueue(key);
+    const inCooldown = await this.hasRefreshCooldown(key);
 
-    if (refreshThreshold && !inQueue) {
+    if (refreshThreshold && !inQueue && !inCooldown) {
       await this.addKeyToQueue(key);
 
       const currentTTL = await this.cache.ttl(key);
       const calculatedTTL = cachedTTL ?? (typeof ttl === "number" ? ttl : undefined);
+      const refreshThresholdWithJitter = this.getRefreshThresholdWithJitter(key, refreshThreshold);
 
       try {
-        if (calculatedTTL !== undefined && (currentTTL === undefined || currentTTL < calculatedTTL - refreshThreshold)) {
+        if (calculatedTTL !== undefined && (currentTTL === undefined || currentTTL < calculatedTTL - refreshThresholdWithJitter)) {
+          await this.addRefreshCooldown(key, refreshThresholdWithJitter);
+
           if ($ctx) {
             await runInContext($ctx, () => next());
           } else {
@@ -302,6 +306,28 @@ export class PlatformCacheInterceptor implements InterceptorMethods {
 
   protected async deleteKeyFromQueue(key: string) {
     await this.cache.del(`$$queue:${key}`);
+  }
+
+  protected getRefreshCooldownKey(key: string) {
+    return `$$refresh-cooldown:${key}`;
+  }
+
+  protected getRefreshThresholdWithJitter(key: string, refreshThreshold: number) {
+    const maxJitter = Math.max(1, Math.floor(refreshThreshold * 0.1));
+    const hash = key.split("").reduce((acc, char) => (acc * 31 + char.charCodeAt(0)) | 0, 0);
+    const jitter = Math.abs(hash) % (maxJitter + 1);
+
+    return Math.max(1, refreshThreshold - jitter);
+  }
+
+  protected async hasRefreshCooldown(key: string) {
+    return !!(await this.cache.get(this.getRefreshCooldownKey(key)));
+  }
+
+  protected async addRefreshCooldown(key: string, refreshThreshold: number) {
+    const cooldownTTL = Math.max(1, Math.floor(refreshThreshold / 2));
+
+    await this.cache.set(this.getRefreshCooldownKey(key), true, {ttl: cooldownTTL});
   }
 
   protected sendResponse(cachedObject: PlatformCachedObject) {
