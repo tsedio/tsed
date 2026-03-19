@@ -1,5 +1,5 @@
 import {isClass} from "@tsed/core";
-import {runInContext} from "@tsed/di";
+import {logger, runInContext} from "@tsed/di";
 import {serialize} from "@tsed/json-mapper";
 import {PlatformTest} from "@tsed/platform-http/testing";
 
@@ -526,13 +526,13 @@ describe("PlatformCacheInterceptor", () => {
 
       const error = new Error("error");
       vi.spyOn(interceptor, "canRefreshInBackground").mockRejectedValue(error);
-      vi.spyOn((interceptor as any).logger, "error");
+      vi.spyOn(logger(), "error");
 
       await interceptor.cacheMethod(context, next);
 
       await new Promise((resolve) => setTimeout(resolve, 100));
 
-      expect((interceptor as any).logger.error).toHaveBeenCalledWith({
+      expect(logger().error).toHaveBeenCalledWith({
         event: "CACHE_ERROR",
         method: "cacheMethod",
         class_name: "Test",

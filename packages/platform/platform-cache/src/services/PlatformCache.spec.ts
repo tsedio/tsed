@@ -1,3 +1,4 @@
+import {logger} from "@tsed/di";
 import {PlatformTest} from "@tsed/platform-http/testing";
 import {caching as cacheManager, multiCaching} from "cache-manager";
 
@@ -241,12 +242,12 @@ describe("PlatformCache", () => {
         const cacheManager: any = PlatformTest.get<PlatformCache>(PlatformCache);
 
         vi.spyOn(cacheManager, "get").mockRejectedValue(new Error("message"));
-        vi.spyOn(cacheManager.logger, "error");
+        vi.spyOn(logger(), "error");
 
         await cacheManager.getCachedObject("key");
 
         expect(cacheManager.get).toHaveBeenCalledWith("key");
-        expect(cacheManager.logger.error).toHaveBeenCalledWith({
+        expect(logger().error).toHaveBeenCalledWith({
           error: new Error("message"),
           event: "CACHE_ERROR",
           method: "getCachedObject"
@@ -258,12 +259,12 @@ describe("PlatformCache", () => {
         const cacheManager: any = PlatformTest.get<PlatformCache>(PlatformCache);
 
         vi.spyOn(cacheManager, "set").mockRejectedValue(new Error("message"));
-        vi.spyOn(cacheManager.logger, "error");
+        vi.spyOn(logger(), "error");
 
         await cacheManager.setCachedObject("key", {data: "data"}, {ttl: 10});
 
         expect(cacheManager.set).toHaveBeenCalledWith("key", {data: '{"data":"data"}', ttl: 10}, {ttl: 10});
-        expect(cacheManager.logger.error).toHaveBeenCalledWith({
+        expect(logger().error).toHaveBeenCalledWith({
           error: new Error("message"),
           event: "CACHE_ERROR",
           method: "setCachedObject"

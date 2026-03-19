@@ -1,9 +1,9 @@
 import {AsyncLocalStorage} from "node:async_hooks";
 
 import {isClass, isFunction, isString, Type} from "@tsed/core";
-import {Configuration, Inject, InjectorService, Module} from "@tsed/di";
+import {constant, injectable, logger, ProviderScope, ProviderType} from "@tsed/di";
+import {$asyncEmit} from "@tsed/hooks";
 import {deserialize, JsonDeserializerOptions, serialize} from "@tsed/json-mapper";
-import {Logger} from "@tsed/logger";
 import type {Cache, CachingConfig, MultiCache} from "cache-manager";
 
 import {PlatformCacheSettings} from "../interfaces/interfaces.js";
@@ -22,17 +22,7 @@ const storage: AsyncLocalStorage<{forceRefresh: boolean}> = new AsyncLocalStorag
 /**
  * @platform
  */
-@Module()
 export class PlatformCache {
-  @Configuration()
-  protected settings: Configuration;
-
-  @Inject()
-  protected injector: InjectorService;
-
-  @Inject()
-  protected logger: Logger;
-
   #cache: CacheManager | undefined;
 
   get cache() {
@@ -40,12 +30,12 @@ export class PlatformCache {
   }
 
   async $onInit() {
-    const settings = this.settings.get<PlatformCacheSettings>("cache");
+    const settings = constant<PlatformCacheSettings>("cache");
 
     if (settings) {
       this.#cache = await this.createCacheManager(settings);
 
-      await this.injector.emit("$onCreateCacheManager", this.#cache);
+      await $asyncEmit("$onCreateCacheManager", [this.#cache]);
     }
   }
 
@@ -56,15 +46,15 @@ export class PlatformCache {
   }
 
   disabled(): boolean {
-    return !this.settings.get<PlatformCacheSettings>("cache");
+    return !constant<PlatformCacheSettings>("cache");
   }
 
   defaultKeyResolver() {
-    return this.settings.get<(args: any[], ctx?: any) => string>("cache.keyResolver", defaultKeyResolver);
+    return constant<(args: any[], ctx?: any) => string>("cache.keyResolver", defaultKeyResolver);
   }
 
   defaultTtl() {
-    return this.settings.get<Ttl>("cache.ttl");
+    return constant<Ttl>("cache.ttl");
   }
 
   calculateTTL(result?: any, currentTtl?: Ttl): number {
@@ -102,7 +92,7 @@ export class PlatformCache {
     try {
       return await this.get<PlatformCachedObject>(key);
     } catch (er) {
-      this.logger.error({
+      logger().error({
         event: "CACHE_ERROR",
         method: "getCachedObject",
         error: er
@@ -123,7 +113,7 @@ export class PlatformCache {
         }
       );
     } catch (er) {
-      this.logger.error({
+      logger().error({
         event: "CACHE_ERROR",
         method: "setCachedObject",
         error: er
@@ -203,3 +193,5 @@ export class PlatformCache {
     return store;
   }
 }
+
+injectable(PlatformCache).type(ProviderType.MODULE).scope(ProviderScope.SINGLETON);

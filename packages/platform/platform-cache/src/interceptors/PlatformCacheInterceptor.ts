@@ -3,18 +3,18 @@ import {IncomingMessage, ServerResponse} from "node:http";
 import {isClass, isString, nameOf} from "@tsed/core";
 import {
   type BaseContext,
-  Constant,
+  constant,
   context,
   DIContext,
-  Inject,
-  Interceptor,
+  inject,
+  interceptor,
   InterceptorContext,
   InterceptorMethods,
   InterceptorNext,
+  logger,
   runInContext
 } from "@tsed/di";
 import {deserialize, serialize} from "@tsed/json-mapper";
-import {Logger} from "@tsed/logger";
 
 import {PlatformCachedObject} from "../interfaces/PlatformCachedObject.js";
 import {PlatformCacheOptions} from "../interfaces/PlatformCacheOptions.js";
@@ -60,19 +60,18 @@ type Context = DIContext & {
 /**
  * @platform
  */
-@Interceptor()
 export class PlatformCacheInterceptor implements InterceptorMethods {
-  @Inject()
-  protected cache: PlatformCache;
+  protected cache = inject(PlatformCache);
 
-  @Inject()
-  protected logger: Logger;
+  protected prefix = constant<string>("cache.prefix", "");
 
-  @Constant("cache.prefix", "")
-  protected prefix: string;
-
-  @Constant("cache.ignoreHeaders", ["content-length", "x-request-id", "cache-control", "vary", "content-encoding"])
-  protected blacklist: string[];
+  protected blacklist = constant<string[]>("cache.ignoreHeaders", [
+    "content-length",
+    "x-request-id",
+    "cache-control",
+    "vary",
+    "content-encoding"
+  ]);
 
   intercept(context: InterceptorContext<any, PlatformCacheOptions>, next: InterceptorNext) {
     if (this.cache.disabled()) {
@@ -163,7 +162,7 @@ export class PlatformCacheInterceptor implements InterceptorMethods {
       },
       $ctx
     ).catch((er) =>
-      this.logger.error({
+      logger().error({
         event: "CACHE_ERROR",
         method: "cacheMethod",
         concerned_key: key,
@@ -358,3 +357,5 @@ export class PlatformCacheInterceptor implements InterceptorMethods {
     return cachedObject.data;
   }
 }
+
+interceptor(PlatformCacheInterceptor);
