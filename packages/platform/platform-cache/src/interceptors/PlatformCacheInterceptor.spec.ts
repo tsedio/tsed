@@ -218,6 +218,57 @@ describe("PlatformCacheInterceptor", () => {
       expect(cache.set).toHaveBeenCalledWith("$$refresh-cooldown:key", true, expect.objectContaining({ttl: expect.any(Number)}));
       expect(next).toHaveBeenCalledWith();
     });
+    it("should serialize concurrent refresh checks for the same key", async () => {
+      const {cache, interceptor} = await getInterceptorFixture();
+      const $ctx = PlatformTest.createRequestContext();
+      const store = new Map<string, any>();
+
+      cache.get = vi.fn().mockImplementation((key: string) => Promise.resolve(store.get(key)));
+      cache.set = vi.fn().mockImplementation((key: string, value: any) => {
+        store.set(key, value);
+        return Promise.resolve();
+      });
+      cache.del = vi.fn().mockImplementation((key: string) => {
+        store.delete(key);
+        return Promise.resolve();
+      });
+      cache.ttl = vi.fn().mockResolvedValue(6999);
+
+      const next = vi.fn().mockImplementation(async () => {
+        await new Promise((resolve) => setTimeout(resolve, 20));
+      });
+
+      await Promise.all([
+        runInContext($ctx, () =>
+          interceptor.canRefreshInBackground(
+            "key",
+            {
+              refreshThreshold: 300,
+              ttl: 10000,
+              cachedTTL: 10000
+            },
+            next,
+            $ctx
+          )
+        ),
+        runInContext($ctx, () =>
+          interceptor.canRefreshInBackground(
+            "key",
+            {
+              refreshThreshold: 300,
+              ttl: 10000,
+              cachedTTL: 10000
+            },
+            next,
+            $ctx
+          )
+        )
+      ]);
+
+      expect(next).toHaveBeenCalledTimes(1);
+      expect(cache.set).toHaveBeenCalledWith("$$queue:key", true, {ttl: 120});
+      expect(cache.set).toHaveBeenCalledWith("$$refresh-cooldown:key", true, expect.objectContaining({ttl: expect.any(Number)}));
+    });
   });
   describe("cacheMethod()", () => {
     it("should bypass method cache when byPass returns true", async () => {

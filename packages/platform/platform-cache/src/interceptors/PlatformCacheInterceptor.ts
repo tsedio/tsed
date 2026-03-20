@@ -61,6 +61,8 @@ type Context = DIContext & {
  * @platform
  */
 export class PlatformCacheInterceptor implements InterceptorMethods {
+  static #refreshLocks = new Map<string, Promise<void>>();
+
   protected cache = inject(PlatformCache);
 
   protected prefix = constant<string>("cache.prefix", "");
@@ -99,10 +101,20 @@ export class PlatformCacheInterceptor implements InterceptorMethods {
     next: Function,
     $ctx?: Context
   ) {
-    const inQueue = await this.hasKeyInQueue(key);
-    const inCooldown = await this.hasRefreshCooldown(key);
+    if (!refreshThreshold) {
+      return;
+    }
 
-    if (refreshThreshold && !inQueue && !inCooldown) {
+    const release = await this.acquireRefreshLock(key);
+
+    try {
+      const inQueue = await this.hasKeyInQueue(key);
+      const inCooldown = await this.hasRefreshCooldown(key);
+
+      if (inQueue || inCooldown) {
+        return;
+      }
+
       await this.addKeyToQueue(key);
 
       const currentTTL = await this.cache.ttl(key);
@@ -122,6 +134,8 @@ export class PlatformCacheInterceptor implements InterceptorMethods {
       } finally {
         await this.deleteKeyFromQueue(key);
       }
+    } finally {
+      release();
     }
   }
 
@@ -305,6 +319,31 @@ export class PlatformCacheInterceptor implements InterceptorMethods {
 
   protected async deleteKeyFromQueue(key: string) {
     await this.cache.del(`$$queue:${key}`);
+  }
+
+  protected async acquireRefreshLock(key: string) {
+    for (;;) {
+      const lock = PlatformCacheInterceptor.#refreshLocks.get(key);
+
+      if (!lock) {
+        let releaseFn: (() => void) | undefined;
+        const currentLock = new Promise<void>((resolve) => {
+          releaseFn = resolve;
+        });
+
+        PlatformCacheInterceptor.#refreshLocks.set(key, currentLock);
+
+        return () => {
+          if (PlatformCacheInterceptor.#refreshLocks.get(key) === currentLock) {
+            PlatformCacheInterceptor.#refreshLocks.delete(key);
+          }
+
+          releaseFn?.();
+        };
+      }
+
+      await lock;
+    }
   }
 
   protected getRefreshCooldownKey(key: string) {
