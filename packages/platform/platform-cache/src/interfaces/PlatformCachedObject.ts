@@ -1,5 +1,5 @@
 export interface PlatformCachedObject {
-  ttl: number;
+  ttl?: number;
   args: any[];
   data: any;
   expires: number;

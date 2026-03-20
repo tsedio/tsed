@@ -922,5 +922,71 @@ describe("PlatformCacheInterceptor", () => {
         }
       );
     });
+
+    it("should skip max-age header and ttl persistence when calculateTTL is undefined", async () => {
+      const cache = {
+        get: vi.fn().mockResolvedValue(false),
+        set: vi.fn().mockResolvedValue(false),
+        del: vi.fn().mockResolvedValue(true),
+        calculateTTL: vi.fn().mockReturnValue(undefined),
+        getCachedObject: vi.fn().mockResolvedValue(undefined),
+        setCachedObject: vi.fn().mockResolvedValue("test"),
+        defaultKeyResolver: () => defaultKeyResolver
+      };
+      const interceptor = await PlatformTest.invoke<PlatformCacheInterceptor>(PlatformCacheInterceptor, [
+        {
+          token: PlatformCache,
+          use: cache
+        }
+      ]);
+
+      class Test {
+        @UseCache({
+          refreshThreshold: 1000
+        })
+        test(arg: string) {
+          return "";
+        }
+      }
+
+      const next = vi.fn().mockResolvedValue({data: "data"});
+      const $ctx = PlatformTest.createRequestContext();
+      vi.spyOn($ctx.request, "get");
+      vi.spyOn($ctx, "get").mockReturnValue(undefined);
+      vi.spyOn($ctx.response, "getBody").mockReturnValue({data: "data"});
+      vi.spyOn($ctx.response, "getHeaders").mockReturnValue({"x-key": "key"});
+      vi.spyOn($ctx.response, "setHeaders").mockReturnThis();
+      vi.spyOn($ctx.response, "onEnd").mockImplementation((cb) => {
+        cb && cb();
+        return $ctx.response;
+      });
+      const context: any = {
+        target: Test,
+        propertyKey: "test",
+        args: ["value", $ctx],
+        options: {
+          refreshThreshold: 1000
+        }
+      };
+
+      vi.spyOn(interceptor, "canRefreshInBackground").mockResolvedValue();
+      vi.spyOn(interceptor as any, "sendResponse").mockResolvedValue(undefined);
+
+      const result = await interceptor.cacheResponse(context, next);
+
+      expect(cache.getCachedObject).toHaveBeenCalledWith("Test:test:value");
+      expect(result).toEqual({data: "data"});
+      expect($ctx.response.setHeaders).not.toHaveBeenCalledWith({
+        "cache-control": expect.any(String)
+      });
+      expect(cache.setCachedObject).toHaveBeenCalledWith(
+        "Test:test:value",
+        {data: "data"},
+        {
+          args: ["value"],
+          headers: {"x-key": "key"}
+        }
+      );
+    });
   });
 });

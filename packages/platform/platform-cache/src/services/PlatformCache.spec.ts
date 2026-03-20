@@ -136,6 +136,14 @@ describe("PlatformCache", () => {
       expect(cacheManager.calculateTTL()).toBe(300);
     });
 
+    it("should return undefined when ttl and defaultTtl are undefined", () => {
+      const cacheManager = PlatformTest.get<PlatformCache>(PlatformCache);
+
+      vi.spyOn(cacheManager, "defaultTtl").mockReturnValue(undefined);
+
+      expect(cacheManager.calculateTTL({})).toBeUndefined();
+    });
+
     it("should get matching keys", async () => {
       const cacheManager = PlatformTest.get<PlatformCache>(PlatformCache);
 
@@ -255,6 +263,15 @@ describe("PlatformCache", () => {
       });
     });
     describe("setCachedObject()", () => {
+      it("should set cached object without ttl when ttl is undefined", async () => {
+        const cacheManager: any = PlatformTest.get<PlatformCache>(PlatformCache);
+        vi.spyOn(cacheManager, "set");
+
+        await cacheManager.setCachedObject("key", {data: "data"}, {});
+
+        expect(cacheManager.set).toHaveBeenCalledWith("key", {data: '{"data":"data"}'}, undefined);
+      });
+
       it("should catch and log error", async () => {
         const cacheManager: any = PlatformTest.get<PlatformCache>(PlatformCache);
 

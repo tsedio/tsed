@@ -150,7 +150,7 @@ export class PlatformCacheInterceptor implements InterceptorMethods {
       if (!canCache || (canCache && canCache(result))) {
         const calculatedTTL = this.cache.calculateTTL(result, ttl);
         const data = serialize(result, {type, collectionType});
-        this.cache.setCachedObject(key, data, {args, ttl: calculatedTTL});
+        this.cache.setCachedObject(key, data, {args, ...(calculatedTTL !== undefined && {ttl: calculatedTTL})});
       }
     };
 
@@ -214,9 +214,11 @@ export class PlatformCacheInterceptor implements InterceptorMethods {
     const result = await next();
     const calculatedTTL = this.cache.calculateTTL(result, ttl);
 
-    currentCtx.response?.setHeaders({
-      "cache-control": `max-age=${calculatedTTL}`
-    });
+    if (calculatedTTL !== undefined) {
+      currentCtx.response?.setHeaders({
+        "cache-control": `max-age=${calculatedTTL}`
+      });
+    }
 
     currentCtx.response?.onEnd(() => {
       if (!useCache) {
@@ -224,9 +226,9 @@ export class PlatformCacheInterceptor implements InterceptorMethods {
       }
 
       this.cache.setCachedObject(key, currentCtx.response!.getBody(), {
-        ttl: calculatedTTL,
         args,
-        headers: cleanHeaders(currentCtx.response!.getHeaders(), this.blacklist)
+        headers: cleanHeaders(currentCtx.response!.getHeaders(), this.blacklist),
+        ...(calculatedTTL !== undefined && {ttl: calculatedTTL})
       });
     });
 
@@ -386,7 +388,7 @@ export class PlatformCacheInterceptor implements InterceptorMethods {
         .setHeaders({
           ...headers,
           "x-cached": "true",
-          "cache-control": `max-age=${ttl}`
+          ...(ttl !== undefined && {"cache-control": `max-age=${ttl}`})
         })
         .body(data);
 

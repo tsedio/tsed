@@ -57,10 +57,10 @@ export class PlatformCache {
     return constant<Ttl>("cache.ttl");
   }
 
-  calculateTTL(result?: any, currentTtl?: Ttl): number {
+  calculateTTL(result?: any, currentTtl?: Ttl): number | undefined {
     const ttl = currentTtl === undefined ? this.defaultTtl() : currentTtl;
 
-    return (isFunction(ttl) ? ttl(result) : ttl)!;
+    return isFunction(ttl) ? ttl(result) : ttl;
   }
 
   ttl(key: string) {
@@ -100,17 +100,18 @@ export class PlatformCache {
     }
   }
 
-  async setCachedObject(key: string, data: any, opts: {ttl: number} & Record<string, any>) {
+  async setCachedObject(key: string, data: any, opts: {ttl?: number} & Record<string, any>) {
     try {
+      const {ttl, ...rest} = opts;
+
       await this.set<PlatformCachedObject>(
         key,
         {
-          ...opts,
+          ...rest,
+          ...(ttl !== undefined && {ttl}),
           data: JSON.stringify(data)
         },
-        {
-          ttl: opts.ttl
-        }
+        ttl !== undefined ? {ttl} : undefined
       );
     } catch (er) {
       logger().error({
