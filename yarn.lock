@@ -13649,7 +13649,7 @@ __metadata:
     "@types/content-disposition": "npm:^0.5.4"
     content-disposition: "npm:>=0.5.4"
     cross-env: "npm:7.0.3"
-    fastify: "npm:5.7.3"
+    fastify: "npm:5.8.3"
     fastify-raw-body: "npm:5.0.0"
     ts-node: "npm:10.9.2"
     tslib: "npm:2.7.0"
@@ -24519,9 +24519,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"fastify@npm:5.7.3":
-  version: 5.7.3
-  resolution: "fastify@npm:5.7.3"
+"fastify@npm:5.8.3":
+  version: 5.8.3
+  resolution: "fastify@npm:5.8.3"
   dependencies:
     "@fastify/ajv-compiler": "npm:^4.0.5"
     "@fastify/error": "npm:^4.0.0"
@@ -24532,13 +24532,13 @@ __metadata:
     fast-json-stringify: "npm:^6.0.0"
     find-my-way: "npm:^9.0.0"
     light-my-request: "npm:^6.0.0"
-    pino: "npm:^10.1.0"
+    pino: "npm:^9.14.0 || ^10.1.0"
     process-warning: "npm:^5.0.0"
     rfdc: "npm:^1.3.1"
     secure-json-parse: "npm:^4.0.0"
     semver: "npm:^7.6.0"
     toad-cache: "npm:^3.7.0"
-  checksum: 10/10cad30dc4dbfe7d9c5cd3cc38ac8403b8f25c452b3dd910eeade56be60b4df32ba44a1be12ad301049cf5624785eaf075f1efa5d6a91a4161ca4a2550d737cc
+  checksum: 10/01e117c900ffaffc747c195d244ae2fb39c26a74b31336950b64660ed01f24a225e9a984ef0eb2a6e03c2902b3fb28bc27986fead53f21fdc7aea234928046ea
   languageName: node
   linkType: hard
 
@@ -34653,27 +34653,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"pino@npm:^10.1.0":
-  version: 10.3.0
-  resolution: "pino@npm:10.3.0"
-  dependencies:
-    "@pinojs/redact": "npm:^0.4.0"
-    atomic-sleep: "npm:^1.0.0"
-    on-exit-leak-free: "npm:^2.1.0"
-    pino-abstract-transport: "npm:^3.0.0"
-    pino-std-serializers: "npm:^7.0.0"
-    process-warning: "npm:^5.0.0"
-    quick-format-unescaped: "npm:^4.0.3"
-    real-require: "npm:^0.2.0"
-    safe-stable-stringify: "npm:^2.3.1"
-    sonic-boom: "npm:^4.0.1"
-    thread-stream: "npm:^4.0.0"
-  bin:
-    pino: bin.js
-  checksum: 10/c96eb30c95e5e9ad1d6ee229a63251ee1e7a73cabd62036ab75b621fbfe0c62c9001369af2a4f01268e1fef228c2b804e110db8213f7f766399b162061d54828
-  languageName: node
-  linkType: hard
-
 "pino@npm:^9.0.0":
   version: 9.6.0
   resolution: "pino@npm:9.6.0"
@@ -34692,6 +34671,27 @@ __metadata:
   bin:
     pino: bin.js
   checksum: 10/0a36125718dc2350bbaff243e4856108a80805dc1b305da1e246460cd22396d11a8b3a78b39b0b270cce4fb8ae6aa6e584f5387f6c2ee47348aae5db49d919e6
+  languageName: node
+  linkType: hard
+
+"pino@npm:^9.14.0 || ^10.1.0":
+  version: 10.3.1
+  resolution: "pino@npm:10.3.1"
+  dependencies:
+    "@pinojs/redact": "npm:^0.4.0"
+    atomic-sleep: "npm:^1.0.0"
+    on-exit-leak-free: "npm:^2.1.0"
+    pino-abstract-transport: "npm:^3.0.0"
+    pino-std-serializers: "npm:^7.0.0"
+    process-warning: "npm:^5.0.0"
+    quick-format-unescaped: "npm:^4.0.3"
+    real-require: "npm:^0.2.0"
+    safe-stable-stringify: "npm:^2.3.1"
+    sonic-boom: "npm:^4.0.1"
+    thread-stream: "npm:^4.0.0"
+  bin:
+    pino: bin.js
+  checksum: 10/46cad7bf1859c83a8a9c43af764e5165f44057ce76d44b1b2b4390f2abccb8a579f42abfe742d88b4d8e1d339213afb46ea50fc39c50095dd1f0f9fe26ea1342
   languageName: node
   linkType: hard
 
