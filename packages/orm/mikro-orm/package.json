@@ -26,7 +26,7 @@
     "tslib": "2.7.0"
   },
   "devDependencies": {
-    "@mikro-orm/core": "6.3.12",
+    "@mikro-orm/core": "6.6.10",
     "@mikro-orm/mongodb": "6.3.12",
     "@tsed/barrels": "workspace:*",
     "@tsed/core": "workspace:*",
