@@ -76,7 +76,7 @@
     "@types/express": "^5.0.6",
     "@types/express-session": "1.18.1",
     "@types/method-override": "0.0.35",
-    "body-parser": "2.2.0",
+    "body-parser": "2.2.1",
     "compression": "1.8.0",
     "cookie-parser": "1.4.7",
     "cors": "2.8.5",
