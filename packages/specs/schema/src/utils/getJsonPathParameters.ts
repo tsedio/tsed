@@ -50,7 +50,7 @@ export function getJsonPathParameters(base: string, path: string | RegExp | (str
   let current = "";
 
   parseUrl(`${base}${path}`).map((key) => {
-    const subpath = key.replace(":", "").replace("?", "");
+    const subpath = key.replace(":", "").replace("?", "").replace(/\*/g, "");
 
     if (key.includes(":")) {
       const optional = key.includes("?");

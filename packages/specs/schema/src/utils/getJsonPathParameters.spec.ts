@@ -123,4 +123,42 @@ describe("getJsonPathParameters", () => {
       }
     ]);
   });
+
+  it("should return params and path /merged/:moduleUri*", () => {
+    expect(getJsonPathParameters("/rest/", "/merged/:moduleUri*")).toEqual([
+      {
+        path: "/rest/merged/{moduleUri}",
+        parameters: [
+          {
+            in: "path",
+            name: "moduleUri",
+            required: true,
+            type: "string"
+          }
+        ]
+      }
+    ]);
+  });
+
+  it("should return params and path /:moduleUri*/child/:id*", () => {
+    expect(getJsonPathParameters("/rest/", "/:moduleUri*/child/:id*")).toEqual([
+      {
+        path: "/rest/{moduleUri}/child/{id}",
+        parameters: [
+          {
+            in: "path",
+            name: "moduleUri",
+            required: true,
+            type: "string"
+          },
+          {
+            in: "path",
+            name: "id",
+            required: true,
+            type: "string"
+          }
+        ]
+      }
+    ]);
+  });
 });
