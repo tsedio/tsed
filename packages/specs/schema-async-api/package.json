@@ -39,7 +39,7 @@
     "@tsed/openspec": "workspace:*",
     "change-case": "^5.4.4",
     "json-schema": "0.4.0",
-    "picomatch": "4.0.2",
+    "picomatch": "4.0.4",
     "statuses": "^2.0.1",
     "tslib": "2.7.0"
   },
