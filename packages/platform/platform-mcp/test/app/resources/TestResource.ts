@@ -3,7 +3,7 @@ import {Description, Title} from "@tsed/schema";
 
 import {Resource} from "../../../src/index.js";
 
-class TestResource {
+export class TestResource {
   @Resource("tsed://resources/test")
   @Title("Test resource")
   @Description("Returns a static payload for integration tests")

@@ -37,7 +37,7 @@
     "fs-extra": "^11.2.0",
     "pluralize": "^8.0.0",
     "ts-morph": "^12.2.0",
-    "tslib": "2.7.0"
+    "tslib": ">=2.7.0"
   },
   "devDependencies": {
     "@prisma/client": "^7.3.0",

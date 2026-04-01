@@ -27,7 +27,7 @@
   },
   "dependencies": {
     "semver": "^7.6.3",
-    "tslib": "2.7.0"
+    "tslib": ">=2.7.0"
   },
   "devDependencies": {
     "@testcontainers/mongodb": "^10.13.2",

@@ -89,7 +89,7 @@
     "encodeurl": "^2.0.0",
     "koa-send": "5.0.1",
     "multer": "^2.0.0",
-    "tslib": "2.7.0"
+    "tslib": ">=2.7.0"
   },
   "peerDependencies": {
     "@tsed/core": ">=8.0.0",

@@ -28,7 +28,7 @@
     }
   ],
   "dependencies": {
-    "tslib": "2.7.0"
+    "tslib": ">=2.7.0"
   },
   "devDependencies": {
     "@temporalio/client": "1.11.6",

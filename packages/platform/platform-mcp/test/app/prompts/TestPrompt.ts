@@ -4,7 +4,7 @@ import {Description, Title} from "@tsed/schema";
 import {Prompt} from "../../../src/index.js";
 
 @Injectable()
-class TestPrompt {
+export class TestPrompt {
   @Prompt()
   @Title("Title")
   @Description("Description")

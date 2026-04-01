@@ -30,7 +30,7 @@
     "@tsed/normalize-path": "workspace:*",
     "@tsed/openapi-utils": "workspace:*",
     "@tsed/openspec": "workspace:*",
-    "tslib": "2.7.0"
+    "tslib": ">=2.7.0"
   },
   "devDependencies": {
     "@tsed/barrels": "workspace:*",

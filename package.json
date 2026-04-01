@@ -141,7 +141,7 @@
     "semantic-release-slack-bot": "4.0.2",
     "supertest": "7.0.0",
     "ts-loader": "9.5.1",
-    "tslib": "2.7.0",
+    "tslib": "^2.8.1",
     "typescript": "5.9.3",
     "unplugin-swc": "1.5.1",
     "vite": "7.1.11",

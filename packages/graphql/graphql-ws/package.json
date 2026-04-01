@@ -21,7 +21,7 @@
     "build:ts": "tsc --build tsconfig.esm.json"
   },
   "dependencies": {
-    "tslib": "2.7.0"
+    "tslib": ">=2.7.0"
   },
   "devDependencies": {
     "@tsed/barrels": "workspace:*",

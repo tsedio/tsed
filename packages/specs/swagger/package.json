@@ -30,7 +30,7 @@
     "@tsed/openapi-utils": "workspace:*",
     "@tsed/openspec": "workspace:*",
     "swagger-ui-dist": ">=5.17.14",
-    "tslib": "2.7.0"
+    "tslib": ">=2.7.0"
   },
   "devDependencies": {
     "@tsed/barrels": "workspace:*",

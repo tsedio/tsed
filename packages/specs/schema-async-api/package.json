@@ -41,7 +41,7 @@
     "json-schema": "0.4.0",
     "picomatch": "4.0.2",
     "statuses": "^2.0.1",
-    "tslib": "2.7.0"
+    "tslib": ">=2.7.0"
   },
   "devDependencies": {
     "@apidevtools/swagger-parser": "10.1.0",

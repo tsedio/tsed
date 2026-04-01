@@ -69,7 +69,7 @@
     "@tsed/logger-file": ">=8.0.0",
     "@tsed/logger-std": ">=8.0.0",
     "@tsed/platform-http": "workspace:*",
-    "tslib": "2.7.0"
+    "tslib": ">=2.7.0"
   },
   "devDependencies": {
     "@tsed/barrels": "workspace:*",

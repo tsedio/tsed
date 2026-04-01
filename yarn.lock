@@ -12462,7 +12462,7 @@ __metadata:
     "@tsed/ioredis": "workspace:*"
     "@tsed/typescript": "workspace:*"
     eslint: "npm:9.12.0"
-    tslib: "npm:2.7.0"
+    tslib: "npm:>=2.7.0"
     typescript: "npm:5.9.3"
     vitest: "npm:3.2.4"
   peerDependencies:
@@ -12497,7 +12497,7 @@ __metadata:
     fs-extra: "npm:11.3.0"
     lodash: "npm:^4.17.21"
     lowdb: "npm:7.0.1"
-    tslib: "npm:2.7.0"
+    tslib: "npm:>=2.7.0"
     typescript: "npm:5.9.3"
     uuid: "npm:^10.0.0"
     vitest: "npm:3.2.4"
@@ -12535,7 +12535,7 @@ __metadata:
     "@tsed/typescript": "workspace:*"
     agenda: "npm:^5.0.0"
     eslint: "npm:9.12.0"
-    tslib: "npm:2.7.0"
+    tslib: "npm:>=2.7.0"
     typescript: "npm:5.9.3"
     vitest: "npm:3.2.4"
   peerDependencies:
@@ -12557,7 +12557,7 @@ __metadata:
     ajv-errors: "npm:3.0.0"
     ajv-formats: "npm:3.0.1"
     eslint: "npm:9.12.0"
-    tslib: "npm:2.7.0"
+    tslib: "npm:>=2.7.0"
     typescript: "npm:5.9.3"
     vite: "npm:7.1.11"
     vitest: "npm:3.2.4"
@@ -12600,7 +12600,7 @@ __metadata:
     apollo-server-testing: "npm:2.26.2"
     eslint: "npm:9.12.0"
     graphql: "npm:16.12.0"
-    tslib: "npm:2.7.0"
+    tslib: "npm:>=2.7.0"
     typescript: "npm:5.9.3"
     vitest: "npm:3.2.4"
   peerDependencies:
@@ -12649,7 +12649,7 @@ __metadata:
     bullmq: "npm:^4.12.3 || ^5.1.1"
     eslint: "npm:9.12.0"
     ts-mockito: "npm:^2.6.1"
-    tslib: "npm:2.7.0"
+    tslib: "npm:>=2.7.0"
     typescript: "npm:5.9.3"
     vitest: "npm:3.2.4"
   peerDependencies:
@@ -12669,7 +12669,7 @@ __metadata:
     "@tsed/typescript": "workspace:*"
     cross-env: "npm:7.0.3"
     eslint: "npm:9.12.0"
-    tslib: "npm:2.7.0"
+    tslib: "npm:>=2.7.0"
     typescript: "npm:5.9.3"
   peerDependencies:
     "@tsed/logger": ">=8.0.0"
@@ -12690,7 +12690,7 @@ __metadata:
     "@tsed/typescript": "workspace:*"
     eslint: "npm:9.12.0"
     globby: "npm:14.1.0"
-    tslib: "npm:2.7.0"
+    tslib: "npm:>=2.7.0"
     typescript: "npm:5.9.3"
     vitest: "npm:3.2.4"
   peerDependencies:
@@ -12718,7 +12718,7 @@ __metadata:
     dotenv-expand: "npm:^12.0.2"
     dotenv-flow: "npm:^4.1.0"
     eslint: "npm:9.12.0"
-    tslib: "npm:2.7.0"
+    tslib: "npm:>=2.7.0"
     typescript: "npm:5.9.3"
     vitest: "npm:3.2.4"
   peerDependencies:
@@ -12754,7 +12754,7 @@ __metadata:
     "@tsed/typescript": "workspace:*"
     "@tsed/vitest": "workspace:*"
     reflect-metadata: "npm:^0.2.2"
-    tslib: "npm:2.7.0"
+    tslib: "npm:>=2.7.0"
     typescript: "npm:5.9.3"
     vitest: "npm:3.2.4"
   languageName: unknown
@@ -12771,7 +12771,7 @@ __metadata:
     "@tsed/typescript": "workspace:*"
     cross-env: "npm:7.0.3"
     eslint: "npm:9.12.0"
-    tslib: "npm:2.7.0"
+    tslib: "npm:>=2.7.0"
     typescript: "npm:5.9.3"
     uuid: "npm:^10.0.0"
     vite: "npm:7.1.11"
@@ -12872,7 +12872,7 @@ __metadata:
     templayed: "npm:>=0.2.3"
     tinyliquid: "npm:^0.2.34"
     ts-node: "npm:10.9.2"
-    tslib: "npm:2.7.0"
+    tslib: "npm:>=2.7.0"
     twig: "npm:^1.17.1"
     twing: "npm:^7.3.1"
     typescript: "npm:5.9.3"
@@ -12896,7 +12896,7 @@ __metadata:
     "@tsed/typescript": "workspace:*"
     eslint: "npm:9.12.0"
     eventemitter2: "npm:^6.4.9"
-    tslib: "npm:2.7.0"
+    tslib: "npm:>=2.7.0"
     typescript: "npm:5.9.3"
     vite: "npm:7.1.11"
     vitest: "npm:3.2.4"
@@ -12915,7 +12915,7 @@ __metadata:
     change-case: "npm:^5.4.4"
     eslint: "npm:9.12.0"
     statuses: "npm:^2.0.1"
-    tslib: "npm:2.7.0"
+    tslib: "npm:>=2.7.0"
     typescript: "npm:5.9.3"
     vite: "npm:7.1.11"
     vitest: "npm:3.2.4"
@@ -12931,7 +12931,7 @@ __metadata:
     "@tsed/barrels": "workspace:*"
     "@tsed/typescript": "workspace:*"
     eslint: "npm:9.12.0"
-    tslib: "npm:2.7.0"
+    tslib: "npm:>=2.7.0"
     typescript: "npm:5.9.3"
   peerDependencies:
     formiojs: ">=4.0.0"
@@ -12956,7 +12956,7 @@ __metadata:
     formio: "npm:4.2.5"
     mongodb: "npm:^6.9.0"
     mongoose: "npm:8.9.5"
-    tslib: "npm:2.7.0"
+    tslib: "npm:>=2.7.0"
     typescript: "npm:5.9.3"
     vitest: "npm:3.2.4"
   peerDependencies:
@@ -12993,7 +12993,7 @@ __metadata:
     "@types/ws": "npm:8.18.1"
     eslint: "npm:9.12.0"
     graphql-ws: "npm:6.0.5"
-    tslib: "npm:2.7.0"
+    tslib: "npm:>=2.7.0"
     typescript: "npm:5.9.3"
     ws: "npm:8.18.1"
   peerDependencies:
@@ -13015,7 +13015,7 @@ __metadata:
     "@tsed/vitest": "workspace:*"
     eslint: "npm:9.12.0"
     reflect-metadata: "npm:^0.2.2"
-    tslib: "npm:2.7.0"
+    tslib: "npm:>=2.7.0"
     typescript: "npm:5.9.3"
     vite: "npm:7.1.11"
     vitest: "npm:3.2.4"
@@ -13052,7 +13052,7 @@ __metadata:
     eslint: "npm:9.12.0"
     ioredis: "npm:5.4.1"
     ioredis-mock: "npm:8.9.0"
-    tslib: "npm:2.7.0"
+    tslib: "npm:>=2.7.0"
     typescript: "npm:5.9.3"
     vitest: "npm:3.2.4"
   peerDependencies:
@@ -13072,7 +13072,7 @@ __metadata:
     "@tsed/schema": "workspace:*"
     "@tsed/typescript": "workspace:*"
     eslint: "npm:9.12.0"
-    tslib: "npm:2.7.0"
+    tslib: "npm:>=2.7.0"
     typescript: "npm:5.9.3"
     vitest: "npm:3.2.4"
   peerDependencies:
@@ -13095,7 +13095,7 @@ __metadata:
     eslint: "npm:9.12.0"
     fs-extra: "npm:^11.2.0"
     jose2: "npm:jose@^2.0.4"
-    tslib: "npm:2.7.0"
+    tslib: "npm:>=2.7.0"
     typescript: "npm:5.9.3"
     vitest: "npm:3.2.4"
   languageName: unknown
@@ -13183,7 +13183,7 @@ __metadata:
     cross-env: "npm:7.0.3"
     eslint: "npm:9.12.0"
     ts-mockito: "npm:^2.6.1"
-    tslib: "npm:2.7.0"
+    tslib: "npm:>=2.7.0"
     typescript: "npm:5.9.3"
     vitest: "npm:3.2.4"
   peerDependencies:
@@ -13211,7 +13211,7 @@ __metadata:
     change-case: "npm:5.4.4"
     eslint: "npm:9.12.0"
     mongoose: "npm:8.9.5"
-    tslib: "npm:2.7.0"
+    tslib: "npm:>=2.7.0"
     typescript: "npm:5.9.3"
     vitest: "npm:3.2.4"
   peerDependencies:
@@ -13300,7 +13300,7 @@ __metadata:
     "@types/normalize-path": "npm:^3.0.2"
     eslint: "npm:9.12.0"
     normalize-path: "npm:3.0.0"
-    tslib: "npm:2.7.0"
+    tslib: "npm:>=2.7.0"
     typescript: "npm:5.9.3"
     vitest: "npm:3.2.4"
   languageName: unknown
@@ -13321,7 +13321,7 @@ __metadata:
     knex: "npm:^3.1.0"
     objection: "npm:^2.2.18"
     sqlite3: "npm:^5.1.7"
-    tslib: "npm:2.7.0"
+    tslib: "npm:>=2.7.0"
     typescript: "npm:5.9.3"
     vitest: "npm:3.2.4"
   peerDependencies:
@@ -13406,7 +13406,7 @@ __metadata:
     lodash: "npm:4.17.21"
     lowdb: "npm:7.0.1"
     oidc-provider: "npm:9.6.0"
-    tslib: "npm:2.7.0"
+    tslib: "npm:>=2.7.0"
     typescript: "npm:5.9.3"
     uuid: "npm:^10.0.0"
     vitest: "npm:3.2.4"
@@ -13448,7 +13448,7 @@ __metadata:
     "@tsed/typescript": "workspace:*"
     eslint: "npm:9.12.0"
     micromatch: "npm:4.0.8"
-    tslib: "npm:2.7.0"
+    tslib: "npm:>=2.7.0"
     typescript: "npm:5.9.3"
     vitest: "npm:3.2.4"
   peerDependencies:
@@ -13489,7 +13489,7 @@ __metadata:
     passport-http: "npm:0.3.0"
     passport-local: "npm:1.0.0"
     passport-strategy: "npm:1.0.0"
-    tslib: "npm:2.7.0"
+    tslib: "npm:>=2.7.0"
     typescript: "npm:5.9.3"
     vitest: "npm:3.2.4"
   peerDependencies:
@@ -13509,7 +13509,7 @@ __metadata:
     "@tsed/typescript": "workspace:*"
     chalk: "npm:^5.3.0"
     eslint: "npm:9.12.0"
-    tslib: "npm:2.7.0"
+    tslib: "npm:>=2.7.0"
     typescript: "npm:5.9.3"
   languageName: unknown
   linkType: soft
@@ -13526,7 +13526,7 @@ __metadata:
     "@tsed/schema": "workspace:*"
     "@tsed/typescript": "workspace:*"
     eslint: "npm:9.12.0"
-    tslib: "npm:2.7.0"
+    tslib: "npm:>=2.7.0"
     typescript: "npm:5.9.3"
     vitest: "npm:3.2.4"
   peerDependencies:
@@ -13557,7 +13557,7 @@ __metadata:
     cache-manager: "npm:^5.7.6"
     eslint: "npm:9.12.0"
     micromatch: "npm:4.0.8"
-    tslib: "npm:2.7.0"
+    tslib: "npm:>=2.7.0"
     typescript: "npm:5.9.3"
     vitest: "npm:3.2.4"
   peerDependencies:
@@ -13589,7 +13589,7 @@ __metadata:
     "@tsed/typescript": "workspace:*"
     ajv: "npm:^8.17.1"
     eslint: "npm:9.12.0"
-    tslib: "npm:2.7.0"
+    tslib: "npm:>=2.7.0"
     typescript: "npm:5.9.3"
     vitest: "npm:3.2.4"
   peerDependencies:
@@ -13636,7 +13636,7 @@ __metadata:
     express-session: "npm:1.18.1"
     method-override: "npm:3.0.0"
     multer: "npm:^2.0.0"
-    tslib: "npm:2.7.0"
+    tslib: "npm:>=2.7.0"
     typescript: "npm:5.9.3"
     vitest: "npm:3.2.4"
   peerDependencies:
@@ -13694,7 +13694,7 @@ __metadata:
     fastify: "npm:5.8.3"
     fastify-raw-body: "npm:5.0.0"
     ts-node: "npm:10.9.2"
-    tslib: "npm:2.7.0"
+    tslib: "npm:>=2.7.0"
     vitest: "npm:3.2.4"
   peerDependencies:
     "@fastify/accepts": ">=4.3.0"
@@ -13757,7 +13757,7 @@ __metadata:
     cross-env: "npm:7.0.3"
     encodeurl: "npm:^2.0.0"
     eslint: "npm:9.12.0"
-    tslib: "npm:2.7.0"
+    tslib: "npm:>=2.7.0"
     typescript: "npm:5.9.3"
     uuid: "npm:10.0.0"
     vitest: "npm:3.2.4"
@@ -13800,7 +13800,7 @@ __metadata:
     koa-send: "npm:5.0.1"
     koa-session: "npm:6.4.0"
     multer: "npm:^2.0.0"
-    tslib: "npm:2.7.0"
+    tslib: "npm:>=2.7.0"
     typescript: "npm:5.9.3"
     vitest: "npm:3.2.4"
   peerDependencies:
@@ -13849,7 +13849,7 @@ __metadata:
     "@tsed/platform-params": "workspace:*"
     "@tsed/typescript": "workspace:*"
     eslint: "npm:9.12.0"
-    tslib: "npm:2.7.0"
+    tslib: "npm:>=2.7.0"
     typescript: "npm:5.9.3"
     vitest: "npm:3.2.4"
   peerDependencies:
@@ -13876,7 +13876,7 @@ __metadata:
     "@tsed/platform-params": "workspace:*"
     "@tsed/typescript": "workspace:*"
     eslint: "npm:9.12.0"
-    tslib: "npm:2.7.0"
+    tslib: "npm:>=2.7.0"
     typescript: "npm:5.9.3"
     vitest: "npm:3.2.4"
   peerDependencies:
@@ -13905,11 +13905,11 @@ __metadata:
     "@tsed/schema": "workspace:*"
     "@tsed/typescript": "workspace:*"
     eslint: "npm:9.12.0"
-    tslib: "npm:2.7.0"
+    tslib: "npm:>=2.7.0"
     typescript: "npm:5.9.3"
-    uuid: "npm:^11.0.2"
+    uuid: "npm:>=11.0.2"
     vitest: "npm:3.2.4"
-    zod: "npm:>=4.3.6"
+    zod: "npm:>=4.0.0"
   peerDependencies:
     "@tsed/core": ">=8.0.0"
     "@tsed/di": ">=8.0.0"
@@ -13938,7 +13938,7 @@ __metadata:
     "@tsed/schema": "workspace:*"
     "@tsed/typescript": "workspace:*"
     eslint: "npm:9.12.0"
-    tslib: "npm:2.7.0"
+    tslib: "npm:>=2.7.0"
     typescript: "npm:5.9.3"
     vitest: "npm:3.2.4"
   peerDependencies:
@@ -13968,7 +13968,7 @@ __metadata:
     "@types/multer": "npm:^2.0.0"
     eslint: "npm:9.12.0"
     multer: "npm:^2.0.0"
-    tslib: "npm:2.7.0"
+    tslib: "npm:>=2.7.0"
     typescript: "npm:5.9.3"
     vitest: "npm:3.2.4"
   peerDependencies:
@@ -14010,7 +14010,7 @@ __metadata:
     "@tsed/schema": "workspace:*"
     "@tsed/typescript": "workspace:*"
     eslint: "npm:9.12.0"
-    tslib: "npm:2.7.0"
+    tslib: "npm:>=2.7.0"
     typescript: "npm:5.9.3"
     vitest: "npm:3.2.4"
   peerDependencies:
@@ -14045,7 +14045,7 @@ __metadata:
     "@tsed/schema": "workspace:*"
     "@tsed/typescript": "workspace:*"
     eslint: "npm:9.12.0"
-    tslib: "npm:2.7.0"
+    tslib: "npm:>=2.7.0"
     typescript: "npm:5.9.3"
     vitest: "npm:3.2.4"
   peerDependencies:
@@ -14081,7 +14081,7 @@ __metadata:
     "@tsed/schema": "workspace:*"
     "@tsed/typescript": "workspace:*"
     eslint: "npm:9.12.0"
-    tslib: "npm:2.7.0"
+    tslib: "npm:>=2.7.0"
     typescript: "npm:5.9.3"
     vitest: "npm:3.2.4"
   peerDependencies:
@@ -14120,7 +14120,7 @@ __metadata:
     "@types/aws-lambda": "npm:^8.10.145"
     eslint: "npm:9.12.0"
     serverless-http: "npm:4.0.0"
-    tslib: "npm:2.7.0"
+    tslib: "npm:>=2.7.0"
     typescript: "npm:5.9.3"
     vitest: "npm:3.2.4"
   peerDependencies:
@@ -14162,7 +14162,7 @@ __metadata:
     "@tsed/typescript": "workspace:*"
     "@types/aws-lambda": "npm:^8.10.145"
     eslint: "npm:9.12.0"
-    tslib: "npm:2.7.0"
+    tslib: "npm:>=2.7.0"
     typescript: "npm:5.9.3"
   peerDependencies:
     "@tsed/core": ">=8.0.0"
@@ -14197,7 +14197,7 @@ __metadata:
     eslint: "npm:9.12.0"
     find-my-way: "npm:^9.1.0"
     mime: "npm:^4.0.4"
-    tslib: "npm:2.7.0"
+    tslib: "npm:>=2.7.0"
     typescript: "npm:5.9.3"
     uuid: "npm:^10.0.0"
     vitest: "npm:3.2.4"
@@ -14255,7 +14255,7 @@ __metadata:
     "@types/ejs": "npm:3.1.5"
     ejs: "npm:^3.1.10"
     eslint: "npm:9.12.0"
-    tslib: "npm:2.7.0"
+    tslib: "npm:>=2.7.0"
     typescript: "npm:5.9.3"
     vitest: "npm:3.2.4"
   peerDependencies:
@@ -14298,7 +14298,7 @@ __metadata:
     pluralize: "npm:^8.0.0"
     prisma: "npm:^7.3.0"
     ts-morph: "npm:^12.2.0"
-    tslib: "npm:2.7.0"
+    tslib: "npm:>=2.7.0"
     typescript: "npm:5.9.3"
     vitest: "npm:3.2.4"
   peerDependencies:
@@ -14324,7 +14324,7 @@ __metadata:
     "@tsed/platform-http": "workspace:*"
     "@tsed/typescript": "workspace:*"
     eslint: "npm:9.12.0"
-    tslib: "npm:2.7.0"
+    tslib: "npm:>=2.7.0"
     typescript: "npm:5.9.3"
     vitest: "npm:3.2.4"
   peerDependencies:
@@ -14381,7 +14381,7 @@ __metadata:
     semantic-release-slack-bot: "npm:4.0.2"
     supertest: "npm:7.0.0"
     ts-loader: "npm:9.5.1"
-    tslib: "npm:2.7.0"
+    tslib: "npm:^2.8.1"
     typescript: "npm:5.9.3"
     unplugin-swc: "npm:1.5.1"
     uuid: "npm:10.0.0"
@@ -14409,7 +14409,7 @@ __metadata:
     "@tsed/swagger": "workspace:*"
     "@tsed/typescript": "workspace:*"
     eslint: "npm:9.12.0"
-    tslib: "npm:2.7.0"
+    tslib: "npm:>=2.7.0"
     typescript: "npm:5.9.3"
     vitest: "npm:3.2.4"
   peerDependencies:
@@ -14441,7 +14441,7 @@ __metadata:
     json-schema: "npm:0.4.0"
     picomatch: "npm:4.0.2"
     statuses: "npm:^2.0.1"
-    tslib: "npm:2.7.0"
+    tslib: "npm:>=2.7.0"
     typescript: "npm:5.9.3"
     vitest: "npm:3.2.4"
   peerDependencies:
@@ -14469,7 +14469,7 @@ __metadata:
     "@tsed/typescript": "workspace:*"
     change-case: "npm:^5.4.4"
     eslint: "npm:9.12.0"
-    tslib: "npm:2.7.0"
+    tslib: "npm:>=2.7.0"
     typescript: "npm:5.9.3"
     vite: "npm:7.1.11"
     vitest: "npm:3.2.4"
@@ -14516,7 +14516,7 @@ __metadata:
     json-schema: "npm:0.4.0"
     picomatch: "npm:4.0.2"
     statuses: "npm:^2.0.1"
-    tslib: "npm:2.7.0"
+    tslib: "npm:>=2.7.0"
     typescript: "npm:5.9.3"
     vitest: "npm:3.2.4"
   peerDependencies:
@@ -14541,7 +14541,7 @@ __metadata:
     "@tsed/typescript": "workspace:*"
     eslint: "npm:9.12.0"
     socket.io-client: "npm:^4.8.0"
-    tslib: "npm:2.7.0"
+    tslib: "npm:>=2.7.0"
     typescript: "npm:5.9.3"
   peerDependencies:
     "@tsed/core": ">=8.0.0"
@@ -14569,7 +14569,7 @@ __metadata:
     express: "npm:5.2.1"
     socket.io: "npm:4.8.0"
     socket.io-client: "npm:^4.8.0"
-    tslib: "npm:2.7.0"
+    tslib: "npm:>=2.7.0"
     typescript: "npm:5.9.3"
     vitest: "npm:3.2.4"
   peerDependencies:
@@ -14607,7 +14607,7 @@ __metadata:
     "@tsed/typescript": "workspace:*"
     eslint: "npm:9.12.0"
     express: "npm:^5.2.1"
-    tslib: "npm:2.7.0"
+    tslib: "npm:>=2.7.0"
     typescript: "npm:5.9.3"
     vitest: "npm:3.2.4"
   peerDependencies:
@@ -14643,7 +14643,7 @@ __metadata:
     "@tsed/typescript": "workspace:*"
     eslint: "npm:9.12.0"
     stripe: "npm:^17.7.0"
-    tslib: "npm:2.7.0"
+    tslib: "npm:>=2.7.0"
     typescript: "npm:5.9.3"
     vitest: "npm:3.2.4"
   peerDependencies:
@@ -14685,7 +14685,7 @@ __metadata:
     "@types/swagger-ui-dist": "npm:3.30.5"
     eslint: "npm:9.12.0"
     swagger-ui-dist: "npm:>=5.17.14"
-    tslib: "npm:2.7.0"
+    tslib: "npm:>=2.7.0"
     typescript: "npm:5.9.3"
     vitest: "npm:3.2.4"
   peerDependencies:
@@ -14710,7 +14710,7 @@ __metadata:
     "@tsed/typescript": "workspace:*"
     cross-env: "npm:7.0.3"
     eslint: "npm:9.12.0"
-    tslib: "npm:2.7.0"
+    tslib: "npm:>=2.7.0"
     typescript: "npm:5.9.3"
     vitest: "npm:3.2.4"
   peerDependencies:
@@ -14731,7 +14731,7 @@ __metadata:
     "@tsed/schema": "workspace:*"
     "@tsed/typescript": "workspace:*"
     eslint: "npm:9.12.0"
-    tslib: "npm:2.7.0"
+    tslib: "npm:>=2.7.0"
     typescript: "npm:5.9.3"
     vitest: "npm:3.2.4"
   peerDependencies:
@@ -14766,7 +14766,7 @@ __metadata:
     mongodb: "npm:6.9.0"
     semver: "npm:^7.6.3"
     testcontainers: "npm:>=10.11.0"
-    tslib: "npm:2.7.0"
+    tslib: "npm:>=2.7.0"
     typescript: "npm:5.9.3"
   peerDependencies:
     "@testcontainers/mongodb": ">=10.11.0"
@@ -14816,7 +14816,7 @@ __metadata:
     graphql-passport: "npm:^0.6.8"
     graphql-scalars: "npm:1.25.0"
     ts-node: "npm:10.9.2"
-    tslib: "npm:2.7.0"
+    tslib: "npm:>=2.7.0"
     type-graphql: "npm:>=2.0.0-rc.2"
     typescript: "npm:5.9.3"
     vitest: "npm:3.2.4"
@@ -41245,14 +41245,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"tslib@npm:2.7.0, tslib@npm:^2.5.2, tslib@npm:^2.6.3":
-  version: 2.7.0
-  resolution: "tslib@npm:2.7.0"
-  checksum: 10/9a5b47ddac65874fa011c20ff76db69f97cf90c78cff5934799ab8894a5342db2d17b4e7613a087046bc1d133d21547ddff87ac558abeec31ffa929c88b7fce6
-  languageName: node
-  linkType: hard
-
-"tslib@npm:2.8.1, tslib@npm:^2.0.1, tslib@npm:^2.2.0, tslib@npm:^2.8.1":
+"tslib@npm:2.8.1, tslib@npm:>=2.7.0, tslib@npm:^2.0.1, tslib@npm:^2.2.0, tslib@npm:^2.8.1":
   version: 2.8.1
   resolution: "tslib@npm:2.8.1"
   checksum: 10/3e2e043d5c2316461cb54e5c7fe02c30ef6dccb3384717ca22ae5c6b5bc95232a6241df19c622d9c73b809bea33b187f6dbc73030963e29950c2141bc32a79f7
@@ -41270,6 +41263,13 @@ __metadata:
   version: 2.6.2
   resolution: "tslib@npm:2.6.2"
   checksum: 10/bd26c22d36736513980091a1e356378e8b662ded04204453d353a7f34a4c21ed0afc59b5f90719d4ba756e581a162ecbf93118dc9c6be5acf70aa309188166ca
+  languageName: node
+  linkType: hard
+
+"tslib@npm:^2.5.2, tslib@npm:^2.6.3":
+  version: 2.7.0
+  resolution: "tslib@npm:2.7.0"
+  checksum: 10/9a5b47ddac65874fa011c20ff76db69f97cf90c78cff5934799ab8894a5342db2d17b4e7613a087046bc1d133d21547ddff87ac558abeec31ffa929c88b7fce6
   languageName: node
   linkType: hard
 
@@ -42212,12 +42212,21 @@ __metadata:
   languageName: node
   linkType: hard
 
-"uuid@npm:11.1.0, uuid@npm:^11.0.2, uuid@npm:^11.1.0":
+"uuid@npm:11.1.0, uuid@npm:^11.1.0":
   version: 11.1.0
   resolution: "uuid@npm:11.1.0"
   bin:
     uuid: dist/esm/bin/uuid
   checksum: 10/d2da43b49b154d154574891ced66d0c83fc70caaad87e043400cf644423b067542d6f3eb641b7c819224a7cd3b4c2f21906acbedd6ec9c6a05887aa9115a9cf5
+  languageName: node
+  linkType: hard
+
+"uuid@npm:>=11.0.2":
+  version: 13.0.0
+  resolution: "uuid@npm:13.0.0"
+  bin:
+    uuid: dist-node/bin/uuid
+  checksum: 10/2742b24d1e00257e60612572e4d28679423469998cafbaf1fe9f1482e3edf9c40754b31bfdb3d08d71b29239f227a304588f75210b3b48f2609f0673f1feccef
   languageName: node
   linkType: hard
 
@@ -43780,7 +43789,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"zod@npm:>=4.3.6, zod@npm:^3.25 || ^4.0":
+"zod@npm:>=4.0.0, zod@npm:^3.25 || ^4.0":
   version: 4.3.6
   resolution: "zod@npm:4.3.6"
   checksum: 10/25fc0f62e01b557b4644bf0b393bbaf47542ab30877c37837ea8caf314a8713d220c7d7fe51f68ffa72f0e1018ddfa34d96f1973d23033f5a2a5a9b6b9d9da01

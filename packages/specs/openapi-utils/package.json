@@ -26,7 +26,7 @@
   "dependencies": {
     "@tsed/openspec": "workspace:*",
     "micromatch": "4.0.8",
-    "tslib": "2.7.0"
+    "tslib": ">=2.7.0"
   },
   "devDependencies": {
     "@tsed/barrels": "workspace:*",

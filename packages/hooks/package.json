@@ -23,7 +23,7 @@
   },
   "dependencies": {
     "reflect-metadata": "^0.2.2",
-    "tslib": "2.7.0"
+    "tslib": ">=2.7.0"
   },
   "devDependencies": {
     "@tsed/monorepo-utils": "2.3.13",

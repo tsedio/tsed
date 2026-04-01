@@ -77,7 +77,7 @@
   },
   "dependencies": {
     "multer": "^2.0.0",
-    "tslib": "2.7.0"
+    "tslib": ">=2.7.0"
   },
   "peerDependencies": {
     "@tsed/core": ">=8.0.0",

@@ -29,7 +29,7 @@
     "fs-extra": "11.3.0",
     "lodash": "^4.17.21",
     "lowdb": "7.0.1",
-    "tslib": "2.7.0",
+    "tslib": ">=2.7.0",
     "uuid": "^10.0.0"
   },
   "devDependencies": {

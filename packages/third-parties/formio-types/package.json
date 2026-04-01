@@ -30,7 +30,7 @@
     "build:ts": "tsc --build tsconfig.esm.json"
   },
   "dependencies": {
-    "tslib": "2.7.0"
+    "tslib": ">=2.7.0"
   },
   "peerDependencies": {
     "formiojs": ">=4.0.0"
