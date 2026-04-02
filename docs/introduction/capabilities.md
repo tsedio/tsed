@@ -85,5 +85,6 @@ Here are the plugins provided by Ts.ED and the compatibility with the different 
 | [Socket.io](/tutorials/socket-io.md)    | <img src="/icons/valid.svg" width="15" alt="yes"/> | <img src="/icons/valid.svg" width="15" alt="yes"/>  | <center>?</center>                                  | <img src="/icons/invalid.svg" width="15" alt="no"/> | <img src="/icons/invalid.svg" width="15" alt="no"/> |
 | [OIDC](/tutorials/oidc.md)              | <img src="/icons/valid.svg" width="15" alt="yes"/> | <img src="/icons/valid.svg" width="15" alt="yes"/>  | <center>?</center>                                  | <img src="/icons/invalid.svg" width="15" alt="no"/> | <img src="/icons/invalid.svg" width="15" alt="no"/> |
 | [Stripe](/tutorials/stripe.md)          | <img src="/icons/valid.svg" width="15" alt="yes"/> | <img src="/icons/valid.svg" width="15" alt="yes"/>  | <center>?</center>                                  | <center>?</center>                                  | <img src="/icons/invalid.svg" width="15" alt="no"/> |
+| [MCP](/docs/mcp.md)                     | <img src="/icons/valid.svg" width="15" alt="yes"/> | <img src="/icons/valid.svg" width="15" alt="yes"/>  | <img src="/icons/valid.svg" width="15" alt="yes"/>  | <img src="/icons/invalid.svg" width="15" alt="no"/> | <img src="/icons/invalid.svg" width="15" alt="no"/> |
 
 </div>
