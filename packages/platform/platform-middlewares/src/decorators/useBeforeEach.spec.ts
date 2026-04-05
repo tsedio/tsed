@@ -41,16 +41,16 @@ describe("UseBeforeEach()", () => {
 
     it("should add the middleware on the use stack", () => {
       // WHEN
-      let actualError;
+      let actualError: Error | undefined;
       try {
         UseBeforeEach(CustomMiddleware)(Test, "property");
       } catch (er) {
-        actualError = er;
+        actualError = er as Error;
       }
 
       // THEN
       expect(actualError).toBeInstanceOf(UnsupportedDecoratorType);
-      expect(actualError.message).toEqual("UseBeforeEach cannot be used as property.static decorator on Test.property");
+      expect(actualError?.message).toEqual("UseBeforeEach cannot be used as property.static decorator on Test.property");
     });
   });
 });

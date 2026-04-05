@@ -11,7 +11,7 @@ import {Route, RouteController} from "../interfaces/Route.js";
  */
 export class Platform {
   readonly platformRouters = inject(PlatformRouters);
-  #layers: PlatformLayer[];
+  #layers!: PlatformLayer[];
 
   constructor() {
     this.platformRouters.prebuild();

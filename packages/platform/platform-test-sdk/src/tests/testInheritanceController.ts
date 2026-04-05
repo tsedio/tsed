@@ -12,16 +12,16 @@ import {PlatformTestingSdkOpts} from "../interfaces/index.js";
 
 export class Resource {
   @Property()
-  id: string;
+  id!: string;
 
   @Property()
   @MinLength(3)
   @MaxLength(100)
-  name: string;
+  name!: string;
 }
 
 export class BaseController<T extends {id: string}> {
-  resources: T[];
+  resources!: T[];
 
   @Get("/:id")
   @Summary("Return an element by his resource")

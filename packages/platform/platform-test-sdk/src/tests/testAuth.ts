@@ -32,7 +32,7 @@ export class TokenService {
 @Middleware()
 class OAuthMiddleware {
   @Inject()
-  tokenService: TokenService;
+  tokenService!: TokenService;
 
   public use(@Context() ctx: Context) {
     const {endpoint, request} = ctx;
@@ -71,7 +71,7 @@ export function OAuth(options: any = {}): Function {
 @Controller("/auth")
 class TestAuthCtrl {
   @Inject()
-  tokenService: TokenService;
+  tokenService!: TokenService;
 
   @Post("/authorize")
   authorize() {

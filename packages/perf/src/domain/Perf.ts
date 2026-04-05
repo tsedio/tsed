@@ -6,8 +6,8 @@ export type CallbackWrapper<T = any> = (...args: any[]) => T;
 
 // istanbul ignore next
 export class Perf {
-  #latest: bigint;
-  #start: bigint;
+  #latest = now();
+  #start = now();
 
   constructor() {
     this.start = this.start.bind(this);

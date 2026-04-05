@@ -35,7 +35,7 @@ declare global {
   }
 }
 
-ProviderBuilder.add("cache", function cache(propertyKey: string, options: PlatformCacheOptions = {}) {
+ProviderBuilder.add("cache", function cache(propertyKey: string | number | symbol, options: PlatformCacheOptions = {}) {
   this.intercept(propertyKey, PlatformCacheInterceptor, options as Record<string, unknown>);
 
   return this;

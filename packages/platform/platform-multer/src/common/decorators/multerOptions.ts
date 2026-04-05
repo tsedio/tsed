@@ -45,7 +45,7 @@ import {PLATFORM_MULTER_OPTIONS} from "../constants/constants.js";
  * @multer
  */
 export function MulterOptions(options: Options): MethodDecorator {
-  return (target: any, propertyKey: string, descriptor: PropertyDescriptor) => {
+  return (target: any, propertyKey: string | symbol, descriptor: PropertyDescriptor) => {
     StoreMerge(PLATFORM_MULTER_OPTIONS, {options})(target, propertyKey, descriptor);
 
     return descriptor;

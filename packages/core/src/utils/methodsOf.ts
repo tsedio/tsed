@@ -17,9 +17,15 @@ export function methodsOf(target: any): {target: Type; propertyKey: string}[] {
   ancestorsOf(target).forEach((target) => {
     const keys = Reflect.ownKeys(prototypeOf(target));
 
-    keys.forEach((propertyKey: string) => {
-      if (isSymbol(propertyKey) || propertyKey === "constructor" || Object.getOwnPropertyDescriptor(prototypeOf(target), propertyKey)?.get)
+    keys.forEach((propertyKey: string | symbol) => {
+      if (
+        isSymbol(propertyKey) ||
+        propertyKey === "constructor" ||
+        Object.getOwnPropertyDescriptor(prototypeOf(target), propertyKey)?.get
+      ) {
         return;
+      }
+
       methods.set(propertyKey, {target, propertyKey});
     });
   });

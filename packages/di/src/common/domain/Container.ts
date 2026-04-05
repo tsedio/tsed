@@ -81,7 +81,7 @@ export class Container extends Map<TokenProvider, Provider> {
   public getProviders(type?: TokenProvider | ProviderType | string | string[]): Provider[] {
     const types = ([] as (string | ProviderType)[]).concat(type as never).map(String);
 
-    return [...this].reduce((providers, [_, provider]) => {
+    return [...this].reduce<Provider[]>((providers, [_, provider]) => {
       if (types.includes(String(provider.type)) || !type) {
         return [...providers, provider];
       }

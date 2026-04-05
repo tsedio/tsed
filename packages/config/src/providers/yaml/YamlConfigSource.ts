@@ -13,7 +13,7 @@ export interface YamlConfigSourceOptions extends LoadOptions {
 }
 
 export class YamlConfigSource implements ConfigSource<YamlConfigSourceOptions> {
-  options: YamlConfigSourceOptions;
+  options!: YamlConfigSourceOptions;
 
   async getAll() {
     const {path, ...opts} = this.options;

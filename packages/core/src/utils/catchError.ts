@@ -8,7 +8,7 @@ export function catchError<T extends Error>(cb: Function): T | undefined {
   try {
     cb();
   } catch (er) {
-    return er;
+    return er as T;
   }
 }
 
@@ -22,6 +22,6 @@ export async function catchAsyncError<T extends Error>(cb: Function): Promise<T 
   try {
     await cb();
   } catch (er) {
-    return er;
+    return er as T;
   }
 }

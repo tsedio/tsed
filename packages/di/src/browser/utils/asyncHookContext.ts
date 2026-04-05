@@ -74,13 +74,16 @@ export function bindContext(cb: any) {
 if (typeof window !== "undefined") {
   // Patch Promise.then pour propager le contexte
   const origThen = Promise.prototype.then;
-  Promise.prototype.then = function (onFulfilled, onRejected) {
+  Promise.prototype.then = function <TResult1 = any, TResult2 = never>(
+    onFulfilled?: ((value: any) => TResult1 | PromiseLike<TResult1>) | null,
+    onRejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | null
+  ): Promise<TResult1 | TResult2> {
     const ctx = useContextRef();
     return origThen.call(
       this,
       onFulfilled && ((v: any) => storage.run({current: ctx?.current}, () => onFulfilled(v))),
       onRejected && ((e: any) => storage.run({current: ctx?.current}, () => onRejected(e)))
-    );
+    ) as Promise<TResult1 | TResult2>;
   };
 
   // Patch setTimeout pour propager le contexte

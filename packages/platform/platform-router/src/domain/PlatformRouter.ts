@@ -13,7 +13,7 @@ function printHandler(handler: any) {
 
 export class PlatformRouter {
   readonly layers: PlatformLayer[] = [];
-  provider: Provider;
+  provider!: Provider;
   #isBuilt = false;
 
   use(...handlers: any[]) {

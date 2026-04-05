@@ -13,7 +13,7 @@ export class RandomStringModel {
   @Maximum(250)
   @Minimum(1)
   @Required()
-  length: number;
+  length!: number;
 }
 
 @Controller("/query-params")

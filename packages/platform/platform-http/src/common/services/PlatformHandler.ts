@@ -34,14 +34,14 @@ export class PlatformHandler {
       .on("alterEndpointHandlers", (handlers: AlterEndpointHandlersArg, operationRoute: JsonOperationRoute) => {
         handlers = $alter("$alterEndpointHandlers", handlers, [operationRoute]);
 
-        handlers.after.push(useResponseHandler(this.flush.bind(this)));
+        handlers.after.push(useResponseHandler(this.flush.bind(this) as any));
 
         return handlers;
       })
       .on("alterHandler", (handlerMetadata: PlatformHandlerMetadata) => {
         const handler = handlerMetadata.isInjectable() ? this.createHandler(handlerMetadata) : handlerMetadata.handler;
         handlerMetadata.compiledHandler = handler;
-        return inject(PlatformAdapter).mapHandler(handler, handlerMetadata);
+        return inject(PlatformAdapter).mapHandler(handler as any, handlerMetadata);
       });
   }
 

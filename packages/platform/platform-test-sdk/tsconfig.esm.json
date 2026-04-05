@@ -2,6 +2,7 @@
   "extends": "@tsed/typescript/tsconfig.node.json",
   "compilerOptions": {
     "baseUrl": ".",
+    "strictPropertyInitialization": false,
     "rootDir": "src",
     "outDir": "./lib/esm",
     "declarationDir": "./lib/types",

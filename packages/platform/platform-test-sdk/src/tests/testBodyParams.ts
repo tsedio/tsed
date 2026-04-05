@@ -29,21 +29,21 @@ enum MyEnum {
 
 class NestedModel {
   @Property()
-  id: string;
+  id!: string;
 }
 
 class NullModel {
   @Property()
-  prop1: string;
+  prop1!: string;
 
   @Property()
-  prop2: number;
+  prop2!: number;
 
   @Property()
-  prop3: Date;
+  prop3!: Date;
 
   @Nullable(NestedModel)
-  prop4: NestedModel;
+  prop4!: NestedModel;
 }
 
 class FindQuery {
@@ -82,7 +82,7 @@ class Param2Type {
 
 export class TestModel {
   @Required()
-  name: string;
+  name!: string;
 }
 
 @Controller("/body-params")

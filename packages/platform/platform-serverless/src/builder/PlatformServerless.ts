@@ -21,8 +21,8 @@ export interface PlatformServerlessSettings extends Partial<TsED.Configuration> 
  */
 export class PlatformServerless {
   readonly name: string = "PlatformServerless";
-  private _router: Instance<any>;
-  private _promise: Promise<any>;
+  private _router!: Instance<any>;
+  private _promise!: Promise<any>;
 
   get injector(): InjectorService {
     return injector();
@@ -133,7 +133,7 @@ export class PlatformServerless {
     const entity = JsonEntityStore.fromMethod(token, propertyKey);
     let handler: ($ctx: ServerlessContext<ServerlessEvent>) => Promise<unknown>;
 
-    const wrappedHandler = async (event: ServerlessEvent, responseStream: ServerlessResponseStream | undefined, context: Context) => {
+    const wrappedHandler = async (event: ServerlessEvent, responseStream: ServerlessResponseStream | undefined, context?: Context) => {
       await this.init();
 
       if (!handler) {
@@ -143,9 +143,9 @@ export class PlatformServerless {
 
       const $ctx = new ServerlessContext<ServerlessEvent>({
         event,
-        context,
+        context: context as Context,
         responseStream,
-        id: getRequestId(event, context),
+        id: getRequestId(event, context as Context),
         endpoint: entity
       });
 

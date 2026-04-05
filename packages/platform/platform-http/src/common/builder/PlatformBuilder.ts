@@ -42,8 +42,8 @@ export class PlatformBuilder<App = TsED.Application> {
   protected startedAt = new Date();
   protected current = new Date();
   readonly #rootModule?: Type<any>;
-  #promise: Promise<this>;
-  #servers: CreateServerReturn[];
+  #promise!: Promise<this>;
+  #servers!: CreateServerReturn[];
   #listeners: (Http.Server | Https.Server | Http2.Http2Server)[] = [];
 
   protected constructor(settings: Partial<TsED.Configuration>) {

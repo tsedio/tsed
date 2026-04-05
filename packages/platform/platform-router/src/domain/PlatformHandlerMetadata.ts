@@ -19,14 +19,14 @@ export interface PlatformHandlerMetadataProps {
 }
 
 export class PlatformHandlerMetadata {
-  path: SinglePathType;
+  path: SinglePathType = "";
 
   readonly provider?: Provider;
-  readonly propertyKey: string | symbol;
+  readonly propertyKey!: string | symbol;
   readonly type: PlatformHandlerType = PlatformHandlerType.RAW_FN;
   readonly hasNextFunction: boolean = false;
   readonly opts: PlatformHandlerMetadataOpts = {};
-  compiledHandler: ($ctx: DIContext) => any;
+  compiledHandler!: ($ctx: DIContext) => any;
   #handler: any;
 
   constructor(props: PlatformHandlerMetadataProps) {

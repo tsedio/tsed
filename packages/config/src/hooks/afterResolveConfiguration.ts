@@ -30,8 +30,6 @@ export async function afterResolveConfiguration() {
 
       configuration().set(data);
       configuration().set(`configs.${name}`, data);
-
-      return data;
     };
 
     instance.getAll = refresh as any;

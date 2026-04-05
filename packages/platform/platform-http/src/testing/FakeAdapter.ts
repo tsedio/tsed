@@ -12,7 +12,7 @@ export class FakeAdapter extends PlatformAdapter<any> {
     function FakeRawDriver() {}
 
     // istanbul ignore next
-    function use() {
+    function use(this: any) {
       return this;
     }
 

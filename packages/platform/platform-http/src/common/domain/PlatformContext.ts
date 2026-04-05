@@ -51,11 +51,11 @@ export class PlatformContext<
   /**
    * The current @@EndpointMetadata@@ resolved by Ts.ED during the request.
    */
-  endpoint: EndpointMetadata;
+  endpoint!: EndpointMetadata;
   /**
    * The current @@PlatformHandlerMetadata@@ resolved by Ts.ED during the request.
    */
-  handlerMetadata: PlatformHandlerMetadata;
+  handlerMetadata!: PlatformHandlerMetadata;
 
   #isFinished: boolean = false;
 

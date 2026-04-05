@@ -25,7 +25,7 @@ export function bindIntercept(target: any, propertyKey: string | symbol, token: 
 
   Store.fromMethod(klass, propertyKey).set(DI_INTERCEPTOR_OPTIONS, options);
 
-  function newMethod(...args: any[]) {
+  function newMethod(this: any, ...args: any[]) {
     const next = (err?: Error) => {
       if (!err) {
         return originalMethod.apply(this, args);

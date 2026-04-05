@@ -13,19 +13,19 @@ import type {LoggerRequestFields} from "../domain/PlatformLogMiddlewareSettings.
 @Middleware()
 export class PlatformLogMiddleware implements MiddlewareMethods {
   @Constant("logger.requestFields", ["reqId", "method", "url", "duration", "route"])
-  protected requestFields: LoggerRequestFields;
+  protected requestFields!: LoggerRequestFields;
 
   @Constant("logger.logRequest", true)
-  protected logRequest: boolean;
+  protected logRequest!: boolean;
 
   @Constant("logger.logStart", true)
-  protected logStart: boolean;
+  protected logStart!: boolean;
 
   @Constant("logger.logEnd", true)
-  protected logEnd: boolean;
+  protected logEnd!: boolean;
 
   @Constant("logger.level")
-  protected logLevel: string;
+  protected logLevel!: string;
 
   get settings() {
     return this;

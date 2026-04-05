@@ -52,5 +52,5 @@ declare global {
 configuration().decorate("getBestHost", getBestHost);
 configuration().decorate("getHttpPort", getHttpPort);
 configuration().decorate("getHttpsPort", getHttpsPort);
-configuration().decorate("setHttpsPort", setHttpsPort);
-configuration().decorate("setHttpPort", setHttpPort);
+configuration().decorate("setHttpsPort", setHttpsPort as (...args: unknown[]) => unknown);
+configuration().decorate("setHttpPort", setHttpPort as (...args: unknown[]) => unknown);

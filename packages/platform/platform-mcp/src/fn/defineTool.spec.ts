@@ -9,13 +9,13 @@ describe("defineTool", () => {
   afterEach(() => PlatformTest.reset());
 
   it("should wrap handler errors with structured MCP payloads", async () => {
-    const token = defineTool({
+    const token = defineTool<any>({
       name: "failing-tool",
       description: "Always throws",
       handler() {
         throw new Error("boom");
       }
-    });
+    } as any);
 
     const definition = inject<any>(token);
 

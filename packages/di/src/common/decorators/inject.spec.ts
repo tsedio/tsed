@@ -160,7 +160,7 @@ describe("@Inject()", () => {
           test: Object;
         }
       } catch (er) {
-        expect(er.message).toContain("Object isn't a valid token. Please check the token set on Test.test");
+        expect((er as Error).message).toContain("Object isn't a valid token. Please check the token set on Test.test");
       }
     });
     it("should inject service and use mock", async () => {

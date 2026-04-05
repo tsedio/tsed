@@ -118,18 +118,18 @@ describe("UseAuth()", () => {
   describe("when the decorator is use in another way", () => {
     it("should add the middleware on the use stack", () => {
       // WHEN
-      let actualError;
+      let actualError: Error | undefined;
       try {
         class Test {}
 
         UseAuth(Guard)(Test, "property");
       } catch (er) {
-        actualError = er;
+        actualError = er as Error;
       }
 
       // THEN
       expect(actualError).toBeInstanceOf(UnsupportedDecoratorType);
-      expect(actualError.message).toEqual("UseAuth cannot be used as property.static decorator on Test.property");
+      expect(actualError?.message).toEqual("UseAuth cannot be used as property.static decorator on Test.property");
     });
   });
 });

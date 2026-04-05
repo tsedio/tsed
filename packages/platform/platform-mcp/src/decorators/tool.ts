@@ -29,6 +29,6 @@ export function Tool<Input = any, Output = any>(name?: string, options: Partial<
       name: name || String(propertyKey),
       token: classOf(target),
       propertyKey
-    });
+    } as any);
   };
 }

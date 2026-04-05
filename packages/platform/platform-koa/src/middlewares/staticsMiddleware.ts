@@ -23,7 +23,8 @@ export function staticsMiddleware(options: PlatformStaticsOptions): any {
           return;
         }
       } catch (err) {
-        if (err.status !== 404) {
+        const error = err as {status?: number};
+        if (error.status !== 404) {
           throw err;
         }
       }

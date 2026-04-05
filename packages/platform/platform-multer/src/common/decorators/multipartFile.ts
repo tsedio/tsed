@@ -65,9 +65,8 @@ function mapOptions(name: string, maxCount: number | undefined): {fields: Field[
  * @input
  */
 export function MultipartFile(name: string, maxCount?: number): ParameterDecorator {
-  return (...args: DecoratorParameters): void => {
-    const [target, propertyKey, index] = args;
-    const multiple = Metadata.getParamTypes(target, propertyKey)[index as number] === Array;
+  return (target: any, propertyKey: string | symbol | undefined, index: number): void => {
+    const multiple = Metadata.getParamTypes(target, propertyKey as string | symbol)[index as number] === Array;
 
     name = (typeof name === "object" ? undefined : name)!;
 
@@ -84,7 +83,7 @@ export function MultipartFile(name: string, maxCount?: number): ParameterDecorat
       })
     );
 
-    decorators(...args);
+    decorators(target, propertyKey as string | symbol, index);
   };
 }
 

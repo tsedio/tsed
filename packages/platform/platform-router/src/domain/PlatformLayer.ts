@@ -23,9 +23,9 @@ export interface PlatformLayerProps {
 }
 
 export class PlatformLayer {
-  public provider: Provider;
+  public provider!: Provider;
   public path: SinglePathType = "";
-  public method: string;
+  public method!: string;
   public handlers: PlatformHandlerMetadata[] = [];
   public router?: PlatformRouter;
   public opts: PlatformLayerOptions = {};
@@ -33,8 +33,8 @@ export class PlatformLayer {
   public layers: PlatformLayer[] = [];
 
   public parent?: PlatformLayer;
-  basePath: SinglePathType;
-  #args: PlatformParamsCallback[];
+  basePath: SinglePathType = "";
+  #args!: PlatformParamsCallback[];
 
   constructor(props: Partial<PlatformLayerProps> = {}) {
     Object.assign(this, props);

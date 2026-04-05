@@ -417,15 +417,15 @@ describe("InjectorService", () => {
         injector().set(token3, provider3);
 
         // WHEN
-        let actualError;
+        let actualError: Error | undefined;
         try {
           inject(token3);
         } catch (er) {
-          actualError = er;
+          actualError = er as Error;
         }
 
         // THEN
-        expect(actualError.message).toContain(
+        expect(actualError?.message).toContain(
           "Injection failed on Test\nOrigin: Unable to inject dependency. Given token is undefined. Could mean a circular dependency problem. Try to use @Inject(() => Token) to solve it."
         );
       });
@@ -451,15 +451,15 @@ describe("InjectorService", () => {
         injector().set(token3, provider3);
 
         // WHEN
-        let actualError;
+        let actualError: Error | undefined;
         try {
           inject(token3);
         } catch (er) {
-          actualError = er;
+          actualError = er as Error;
         }
 
         // THEN
-        expect(actualError.message).toContain("Injection failed on Test\nOrigin: Unable to inject dependency.");
+        expect(actualError?.message).toContain("Injection failed on Test\nOrigin: Unable to inject dependency.");
       });
       it("should try to inject string token (optional)", () => {
         // GIVEN
@@ -498,15 +498,15 @@ describe("InjectorService", () => {
         injector().set(token3, provider3);
 
         // WHEN
-        let actualError;
+        let actualError: Error | undefined;
         try {
           inject(token3);
         } catch (er) {
-          actualError = er;
+          actualError = er as Error;
         }
 
         // THEN
-        expect(actualError.message).toEqual(
+        expect(actualError?.message).toEqual(
           "Injection failed on Test > TokenFactory > TokenValue\nOrigin: Unable to create new instance from undefined value. Check your provider declaration for TokenValue"
         );
       });

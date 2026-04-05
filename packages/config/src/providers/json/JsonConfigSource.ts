@@ -18,7 +18,7 @@ export interface JsonConfigSourceOptions {
 }
 
 export class JsonConfigSource implements ConfigSource<JsonConfigSourceOptions> {
-  options: JsonConfigSourceOptions;
+  options!: JsonConfigSourceOptions;
 
   getAll(): Record<string, unknown> {
     const {path, encoding = "utf8"} = this.options;

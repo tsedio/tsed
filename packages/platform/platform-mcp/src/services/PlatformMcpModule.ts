@@ -24,7 +24,7 @@ export class PlatformMcpModule implements OnRoutesInit {
 
       this.app.post(
         path,
-        useContextHandler(async ($ctx: PlatformContext) => this.dispatch($ctx))
+        useContextHandler(async ($ctx) => this.dispatch($ctx as PlatformContext))
       );
     }
   }

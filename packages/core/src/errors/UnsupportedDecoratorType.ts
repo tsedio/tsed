@@ -11,7 +11,7 @@ import {nameOf} from "../utils/nameOf.js";
  * @since v7.0.0
  */
 export class UnsupportedDecoratorType extends Error {
-  name: "UNSUPPORTED_DECORATOR_TYPE";
+  override name = "UNSUPPORTED_DECORATOR_TYPE" as const;
 
   constructor(decorator: any, args: any[]) {
     super(UnsupportedDecoratorType.buildMessage(decorator, args));

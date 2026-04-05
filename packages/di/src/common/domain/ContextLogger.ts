@@ -45,7 +45,7 @@ export class ContextLogger {
   readonly #additionalProps?: Record<string, unknown>;
 
   maxStackSize: number;
-  #level: LogLevel;
+  #level: LogLevel = LEVELS.ALL;
   #hooks?: Hooks;
   #stack?: any[];
   #logger: any;

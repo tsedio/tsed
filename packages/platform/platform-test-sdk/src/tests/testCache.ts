@@ -15,7 +15,7 @@ export function testCache(options: PlatformTestingSdkOpts) {
 
   class MyModel {
     @Property()
-    name: string;
+    name!: string;
   }
 
   class MyService {
@@ -39,7 +39,7 @@ export function testCache(options: PlatformTestingSdkOpts) {
   @Controller("/caches")
   class TestCacheController {
     @Inject()
-    myService: MyService;
+    myService!: MyService;
 
     @Get("/scenario-1")
     @UseCache()

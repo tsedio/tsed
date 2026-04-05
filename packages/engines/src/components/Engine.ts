@@ -11,7 +11,7 @@ export interface EngineOptions {
 }
 
 export class Engine {
-  protected driverName: string;
+  protected driverName = "";
 
   constructor(
     readonly name: string,
@@ -81,7 +81,9 @@ export class Engine {
       try {
         await importEngine(req, name);
         this.driverName = req;
-      } catch (er) {}
+      } catch {
+        // silently ignore unavailable drivers while probing engine candidates
+      }
     }
   }
 }

@@ -10,11 +10,11 @@ import {PlatformTestingSdkOpts} from "../interfaces/index.js";
 export class MyModel {
   @Title("ID")
   @Property()
-  public id: string;
+  public id!: string;
 
   @Property()
   @Required()
-  public name: string;
+  public name!: string;
 }
 
 @Controller("/handlers")

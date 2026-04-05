@@ -7,8 +7,8 @@ import {engines, requires} from "../../src/index.js";
 
 const rootDir = join(import.meta.dirname, "..");
 
-const readFile = fs.readFile;
-const readFileSync = fs.readFileSync;
+const readFile = fs.readFile as any;
+const readFileSync = fs.readFileSync as any;
 
 async function getEngineFixture(name: string) {
   const engine = engines.get(name)!;
@@ -40,16 +40,15 @@ export function test(name: string) {
       const locals = {user: user};
       let calls = 0;
 
-      fs.readFileSync = function (...args) {
+      fs.readFileSync = function (this: any, ...args: any[]) {
         ++calls;
         return readFileSync.call(this, ...args);
-      };
+      } as any;
 
-      // @ts-ignore
-      fs.readFile = function (...args) {
+      fs.readFile = function (this: any, ...args: any[]) {
         ++calls;
-        readFile.call(this, ...args);
-      };
+        return readFile.call(this, ...args);
+      } as any;
       const {engine} = await getEngineFixture(name);
       const html = await engine.renderFile(path, locals);
       expect(html).toMatch(/Tobi/);

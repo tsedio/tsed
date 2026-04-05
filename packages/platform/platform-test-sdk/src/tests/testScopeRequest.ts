@@ -10,13 +10,13 @@ import {PlatformTestingSdkOpts} from "../interfaces/index.js";
 @Service()
 @Scope(ProviderScope.REQUEST)
 export class ScopeRequestService {
-  user: string;
+  user!: string;
 }
 
 @Controller("/scopes-request")
 @Scope(ProviderScope.REQUEST)
 export class ScopeRequestCtrl {
-  userId: string | null;
+  userId!: string | null;
 
   constructor(public scopeRequestService: ScopeRequestService) {}
 

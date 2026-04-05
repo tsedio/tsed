@@ -18,10 +18,12 @@ const callbackify = async (fn: any, cb?: RenderCallback) => {
     cb && cb(null, html);
     return html;
   } catch (er) {
+    const error = er instanceof Error ? er : new Error(String(er));
+
     if (cb) {
-      cb(er);
+      cb(error);
     } else {
-      throw er;
+      throw error;
     }
   }
 };

@@ -34,11 +34,13 @@ export class PlatformMulterMiddleware implements MiddlewareMethods {
 
       return await middleware(ctx.getRequest(), ctx.getResponse());
     } catch (er) {
-      if (er.code) {
-        throw new MulterException(er);
+      const error = er as {code?: string};
+
+      if (error.code) {
+        throw new MulterException(error as any);
       }
 
-      throw er;
+      throw error;
     }
   }
 }

@@ -67,22 +67,22 @@ export class Provider<T = any> implements ProviderOpts<T> {
   /**
    * Array of token providers that this provider depends on
    */
-  public deps: TokenProvider[];
+  public deps!: TokenProvider[];
 
   /**
    * Array of providers or provider arrays to be imported
    */
-  public imports: (TokenProvider | [TokenProvider])[];
+  public imports!: (TokenProvider | [TokenProvider])[];
 
   /**
    * Alternative name/alias for this provider
    */
-  public alias: string;
+  public alias!: string;
 
   /**
    * Priority value affecting the order of provider initialization
    */
-  public priority: number;
+  public priority!: number;
 
   /**
    * Optional factory function to create provider instances
@@ -107,26 +107,26 @@ export class Provider<T = any> implements ProviderOpts<T> {
   /**
    * Router token for routing-related providers
    */
-  public tokenRouter: string;
+  public tokenRouter!: string;
   /**
    * The class type used to instantiate this provider
    */
-  #useClass: Type<T>;
+  #useClass!: Type<T>;
 
   /**
    * The token used to identify this provider
    */
-  #token: TokenProvider;
+  #token!: TokenProvider;
 
   /**
    * Store instance for provider metadata
    */
-  #store: Store;
+  #store!: Store;
 
   /**
    * Store instance for token-specific metadata
    */
-  #tokenStore: Store;
+  #tokenStore!: Store;
 
   [key: string]: any;
 

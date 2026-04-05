@@ -16,19 +16,19 @@ const rootDir = import.meta.dirname; // automatically replaced by import.meta.di
 
 export class Task {
   @Property()
-  id: string;
+  id!: string;
 
   @Property()
-  title: string;
+  title!: string;
 }
 
 export class Event {
   @Property()
   @Required()
-  id: string;
+  id!: string;
 
   @CollectionOf(Task)
-  tasks: Task[];
+  tasks!: Task[];
 }
 
 const fileFilterStub = vi.fn();

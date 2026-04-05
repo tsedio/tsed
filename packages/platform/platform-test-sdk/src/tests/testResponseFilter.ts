@@ -10,7 +10,7 @@ import {PlatformTestingSdkOpts} from "../interfaces/index.js";
 
 class ResponseFilterModel {
   @Property()
-  id: string;
+  id!: string;
 }
 
 @Controller("/response-filter")

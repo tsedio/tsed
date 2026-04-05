@@ -6,7 +6,7 @@ export interface EnvsConfigSourceOptions {
 }
 
 export class EnvsConfigSource<Config extends EnvsConfigSourceOptions = EnvsConfigSourceOptions> implements ConfigSource<Config> {
-  options: Config;
+  options!: Config;
 
   getAll(): Record<string, unknown> {
     const {parseJson = true} = this.options;

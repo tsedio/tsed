@@ -103,9 +103,10 @@ export class PlatformFastify extends PlatformAdapter<FastifyInstance> {
           }
         });
       } catch (er) {
+        const error = er as {code?: string; message?: string};
         logger().warn({
-          error_name: er.code,
-          error_message: er.message
+          error_name: error.code,
+          error_message: error.message
         });
       }
     }

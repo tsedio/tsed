@@ -13,25 +13,25 @@ import {PlatformTestingSdkOpts} from "../interfaces/index.js";
 
 class Base {
   @Ignore()
-  ignoreMeBase: string;
+  ignoreMeBase!: string;
 
   @Property()
-  fooBase: string;
+  fooBase!: string;
 }
 
 class MyModel extends Base {
   @Property()
-  foo: string;
+  foo!: string;
 
   @Ignore()
-  ignoreMe: string;
+  ignoreMe!: string;
 
   @Ignore((value, ctx) => ctx.endpoint)
-  ignoreMe2: string;
+  ignoreMe2!: string;
 }
 
 class EmptyModel {
-  raw: any;
+  raw!: any;
   affected?: number | null;
 }
 
@@ -43,50 +43,50 @@ export enum EnumValue {
 export class NestedEnum {
   @Required()
   @Enum(EnumValue)
-  value: EnumValue;
+  value!: EnumValue;
 }
 
 export class TestNestedEnum {
   @Property()
-  nested: NestedEnum;
+  nested!: NestedEnum;
 }
 
 export class ModelGroup {
   @Property()
-  id: string;
+  id!: string;
 
   @Groups("!creation")
-  groups: string;
+  groups!: string;
 }
 
 class TeamModel {
   @Required()
   @Name("teamName")
-  name: string;
+  name!: string;
 }
 
 class TeamsModel {
   @Required()
   @CollectionOf(TeamModel)
   @ForwardGroups()
-  teams: TeamModel[];
+  teams!: TeamModel[];
 }
 
 class AllowedModel {
   @Property()
-  id: string;
+  id!: string;
 
   @Property()
-  description: string;
+  description!: string;
 
   @Groups("summary")
-  prop1: string; // not display by default
+  prop1!: string; // not display by default
 
   @Groups("details")
-  prop2: string; // not display by default
+  prop2!: string; // not display by default
 
   @Groups("admin")
-  sensitiveProp: string; // not displayed because it's a sensitive props
+  sensitiveProp!: string; // not displayed because it's a sensitive props
 }
 
 @Controller("/response")

@@ -16,7 +16,7 @@ declare global {
  * @platform
  */
 export class PlatformApplication<App = TsED.Application> extends PlatformRouter {
-  rawApp: App;
+  rawApp!: App;
 
   rawCallback(): any {}
 

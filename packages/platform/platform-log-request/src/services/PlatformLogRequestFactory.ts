@@ -23,13 +23,17 @@ export type PlatformLogRequestFactory = ReturnType<typeof factory>;
 export const PlatformLogRequestFactory = injectable(Symbol.for("PLATFORM:LOGGER:REQUEST"))
   .factory(factory)
   .hooks({
-    $onRequest(instance: ReturnType<typeof factory>, $ctx: BaseContext) {
+    $onRequest(instance: ReturnType<typeof factory>, ...args: unknown[]) {
+      const $ctx = args[0] as BaseContext;
+
       if (instance) {
         $ctx.logger.alterLog((obj: any, level) => instance.alterLog(level, obj, $ctx));
         $ctx.logStarted = true;
       }
     },
-    $onResponse(instance: ReturnType<typeof factory>, $ctx: BaseContext) {
+    $onResponse(instance: ReturnType<typeof factory>, ...args: unknown[]) {
+      const $ctx = args[0] as BaseContext;
+
       if (instance && $ctx.logStarted) {
         instance.onLogResponse($ctx);
       }

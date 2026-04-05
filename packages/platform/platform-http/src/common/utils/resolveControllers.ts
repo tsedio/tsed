@@ -38,7 +38,7 @@ function resolveRecursively(providers: {token: TokenProvider; route?: string}[])
   return providers
     .map(({token}) => Provider.Registry.get(token))
     .filter((provider) => provider?.type === ProviderType.MODULE && provider.configuration)
-    .flatMap((provider: Provider) => resolveControllers(provider.configuration));
+    .flatMap((provider) => (provider ? resolveControllers(provider.configuration) : []));
 }
 
 /**

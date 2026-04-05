@@ -13,17 +13,17 @@ import {PlatformTestingSdkOpts} from "../interfaces/index.js";
 
 export class UserCreation {
   @Property()
-  name: string;
+  name!: string;
 
   @Required()
   @Email()
   @Allow(null)
-  email: string;
+  email!: string;
 
   @Required()
   @MinLength(6)
   @Allow(null)
-  password: string;
+  password!: string;
 }
 
 export class User extends UserCreation {
@@ -34,7 +34,7 @@ export class User extends UserCreation {
 @Controller("/session")
 export class SessionCtrl {
   @Constant("PLATFORM_NAME")
-  platformName: string;
+  platformName!: string;
 
   @Post("/connect")
   connect(@Session() session: any, @BodyParams() user: UserCreation) {

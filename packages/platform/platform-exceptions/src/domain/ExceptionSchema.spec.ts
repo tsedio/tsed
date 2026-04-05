@@ -1,4 +1,4 @@
-import "./ExceptionSchema";
+import "./ExceptionSchema.js";
 
 import SwaggerParser from "@apidevtools/swagger-parser";
 import {BadRequest, Exception} from "@tsed/exceptions";

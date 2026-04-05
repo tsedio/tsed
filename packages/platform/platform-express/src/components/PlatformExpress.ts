@@ -267,7 +267,7 @@ export class PlatformExpress extends PlatformAdapter<Express.Application> {
         const express = app.getApp();
 
         platformViews.getEngines().forEach(({extension, engine}) => {
-          express.engine(extension, engine.render);
+          express.engine(extension, engine.render as any);
         });
 
         platformViews.viewEngine && express.set("view engine", platformViews.viewEngine);

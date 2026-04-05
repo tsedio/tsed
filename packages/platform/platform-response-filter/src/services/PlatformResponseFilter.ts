@@ -49,7 +49,7 @@ export class PlatformResponseFilter {
 
       return await response.render(path, {...options, ...(data as object), $ctx});
     } catch (err) {
-      throw new TemplateRenderError(endpoint.targetName, endpoint.propertyKey, err);
+      throw new TemplateRenderError(endpoint.targetName, endpoint.propertyKey, err as Error);
     }
   }
 

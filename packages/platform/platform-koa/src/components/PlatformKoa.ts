@@ -38,9 +38,9 @@ declare global {
   }
 }
 
-// @ts-ignore
-KoaRouter.prototype.$$match = KoaRouter.prototype.match;
-KoaRouter.prototype.match = function match(...args: any[]) {
+const koaRouterProto = KoaRouter.prototype as any;
+koaRouterProto.$$match = koaRouterProto.match;
+koaRouterProto.match = function match(...args: any[]) {
   const matched = this.$$match(...args);
   if (matched) {
     if (matched.path.length) {

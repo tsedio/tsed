@@ -64,7 +64,6 @@ export interface AnyPromiseResult<T = any> {
  */
 export class AnyToPromise<T = any> {
   public status = AnyToPromiseStatus.PENDING;
-  public args: any[];
 
   #resolves: any;
   #rejects: any;
@@ -81,10 +80,6 @@ export class AnyToPromise<T = any> {
     });
   }
 
-  isDone(): boolean {
-    return this.status !== AnyToPromiseStatus.PENDING;
-  }
-
   get next() {
     this.#hasNextFunction = true;
 
@@ -95,6 +90,10 @@ export class AnyToPromise<T = any> {
 
       return error ? this.reject(error) : this.resolve({type: AnyToPromiseResponseTypes.DATA});
     };
+  }
+
+  isDone(): boolean {
+    return this.status !== AnyToPromiseStatus.PENDING;
   }
 
   /**

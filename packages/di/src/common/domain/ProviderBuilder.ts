@@ -309,7 +309,7 @@ export class ProviderBuilder<Token> {
     this.provider.reset();
     this.provider.useFactory = factory;
 
-    return this as ProviderBuilder<FactoryTokenProvider<FactoryReturn>>;
+    return this as unknown as ProviderBuilder<FactoryTokenProvider<FactoryReturn>>;
   }
 
   /**
@@ -323,7 +323,7 @@ export class ProviderBuilder<Token> {
     this.provider.reset();
     this.provider.useAsyncFactory = asyncFactory;
 
-    return this as ProviderBuilder<FactoryTokenProvider<FactoryReturn>>;
+    return this as unknown as ProviderBuilder<FactoryTokenProvider<FactoryReturn>>;
   }
 
   /**
@@ -336,7 +336,7 @@ export class ProviderBuilder<Token> {
     this.provider.useValue = value;
     this.provider.type = ProviderType.VALUE;
 
-    return this as ProviderBuilder<FactoryTokenProvider<Value>>;
+    return this as unknown as ProviderBuilder<FactoryTokenProvider<Value>>;
   }
 
   /**

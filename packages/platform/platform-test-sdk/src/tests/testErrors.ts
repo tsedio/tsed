@@ -16,13 +16,13 @@ import {CustomInternalError} from "../errors/CustomInternalError.js";
 import {PlatformTestingSdkOpts} from "../interfaces/index.js";
 
 class CustomModel {
-  @Required() name: string;
+  @Required() name!: string;
 }
 
 class CustomPropModel {
   @Name("role_item")
   @Required()
-  roleItem: string;
+  roleItem!: string;
 }
 
 @Middleware()

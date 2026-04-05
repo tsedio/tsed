@@ -77,14 +77,14 @@ describe("UseOpts", () => {
     }
 
     // WHEN
-    let actualError;
+    let actualError: Error | undefined;
     try {
       UseOpts({})(Test, "test", descriptorOf(Test, "test"));
     } catch (er) {
-      actualError = er;
+      actualError = er as Error;
     }
 
     // THEN
-    expect(actualError.message).toEqual("UseOpts cannot be used as method.static decorator on Test.test");
+    expect(actualError?.message).toEqual("UseOpts cannot be used as method.static decorator on Test.test");
   });
 });

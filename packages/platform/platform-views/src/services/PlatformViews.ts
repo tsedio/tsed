@@ -41,7 +41,7 @@ export class PlatformViews {
   protected extensionsOptions = constant<PlatformViewsExtensionsTypes>("views.extensions", {});
   protected engineOptions = constant<Record<string, PlatformViewsEngineOptions>>("views.options", {});
 
-  #extensions: Map<string, string>;
+  #extensions!: Map<string, string>;
   #engines = new Map<string, PlatformViewEngine>();
   #cachePaths = new Map<string, {path: string; extension: string}>();
 

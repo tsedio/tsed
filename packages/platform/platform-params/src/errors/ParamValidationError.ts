@@ -6,8 +6,8 @@ import {ValidationError} from "./ValidationError.js";
 
 export class ParamValidationError extends BadRequest {
   public name: string = "PARAM_VALIDATION_ERROR";
-  public dataPath: string;
-  public requestType: string;
+  public dataPath = "";
+  public requestType = "";
 
   static from(metadata: JsonParameterStore, origin: any = {}) {
     if (origin instanceof ValidationError || origin instanceof BadRequest) {
