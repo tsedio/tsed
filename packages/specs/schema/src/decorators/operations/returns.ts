@@ -182,7 +182,7 @@ class ReturnDecoratorContext extends DecoratorContext<ReturnsChainedDecorators> 
     "binary"
   ];
 
-  private hasOfTypes: boolean;
+  private hasOfTypes = false;
 
   constructor({status, model}: any) {
     super();

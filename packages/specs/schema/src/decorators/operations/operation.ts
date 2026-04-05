@@ -54,7 +54,7 @@ export interface RouteChainedDecorators {
 class OperationDecoratorContext extends DecoratorContext<RouteChainedDecorators> {
   readonly methods: string[] = ["name", "description", "summary", "method", "id", "use", "useAfter", "useBefore"];
   protected declare entity: JsonMethodStore;
-  protected operationPath: JsonMethodPath;
+  protected operationPath!: JsonMethodPath;
 
   protected beforeInit() {
     const path: string = this.get("path");

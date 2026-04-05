@@ -14,9 +14,9 @@ export interface DecoratorActionHandler {
  * @ignore
  */
 export abstract class DecoratorContext<T = any> extends Map<string, any> {
-  readonly methods: string[];
-  protected decoratorType: DecoratorTypes;
-  protected entity: JsonEntityStore;
+  readonly methods!: string[];
+  protected decoratorType!: DecoratorTypes;
+  protected entity!: JsonEntityStore;
   protected actions: DecoratorActionHandler[] = [];
 
   constructor(opts: any = {}) {

@@ -131,7 +131,7 @@ export class JsonSchema<T = JSONSchema7Type> extends Map<string, any> {
   readonly $isJsonDocument = true;
   readonly $hooks = new Hooks();
   readonly $allow: any[] = [];
-  public $selfRequired: boolean;
+  public $selfRequired = false;
   public $ignore: boolean | IgnoreCallback = false;
   public isDiscriminatorKey = false;
   public isDiscriminator = false;
@@ -146,13 +146,13 @@ export class JsonSchema<T = JSONSchema7Type> extends Map<string, any> {
   #vendors = new Map<string, any>();
   #discriminator: null | Discriminator = null;
   #alias: AliasMap = new Map();
-  #itemSchema: JsonSchema;
+  #itemSchema!: JsonSchema;
   /**
    * This flag is used to know if the schema is created to link property/param to a class schema.
    * @private
    */
   #isLocalSchema: boolean = false;
-  #target: Type<any>;
+  #target!: Type<any>;
   #isCollection: boolean = false;
   #useRefLabel: boolean = false;
   #propertyKey: string | symbol | undefined;

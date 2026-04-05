@@ -22,7 +22,7 @@ export class Exception extends Error {
   /**
    * Stack calling
    */
-  public stack: string;
+  public override stack!: string;
   public origin: Error & any;
   /**
    * HTTP Code Status

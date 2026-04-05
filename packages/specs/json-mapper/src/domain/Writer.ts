@@ -11,7 +11,7 @@ export class Writer {
 
   protected _root?: Writer;
   protected body: (string | Writer)[] = [];
-  private _indent: boolean;
+  private _indent = false;
 
   constructor(root?: Writer) {
     this._root = root;

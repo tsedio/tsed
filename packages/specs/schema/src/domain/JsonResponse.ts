@@ -46,7 +46,7 @@ export type JsonResponseOptions = OS3Response<JsonSchema, string | JsonHeader>;
 export class JsonResponse extends JsonMap<JsonResponseOptions> {
   $kind: string = "operationResponse";
 
-  status: number;
+  status = 200;
 
   constructor(obj: Partial<JsonResponseOptions> = {}) {
     super(obj);

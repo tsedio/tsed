@@ -90,7 +90,7 @@ export class JsonOperation extends JsonMap<JsonOperationOptions> {
 
   readonly operationPaths: Map<string, JsonMethodPath> = new Map();
 
-  #status: number;
+  #status = 200;
   #redirection: boolean = false;
 
   constructor(obj: Partial<JsonOperationOptions> = {}) {

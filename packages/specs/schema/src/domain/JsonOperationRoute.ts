@@ -59,8 +59,8 @@ import {JsonMethodPath, JsonOperation} from "./JsonOperation.js";
  * @public
  */
 export class JsonOperationRoute<Entity extends JsonMethodStore = JsonMethodStore> {
-  readonly token: Type<any>;
-  readonly endpoint: Entity;
+  readonly token!: Type<any>;
+  readonly endpoint!: Entity;
   readonly operationPath?: JsonMethodPath;
   readonly basePath?: string;
   readonly paramsTypes: Record<string, boolean>;

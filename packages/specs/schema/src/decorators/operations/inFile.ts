@@ -1,4 +1,4 @@
-import {DecoratorParameters, Metadata, useDecorators, useMethodDecorators} from "@tsed/core";
+import {Metadata, useDecorators, useMethodDecorators} from "@tsed/core";
 
 import {JsonParameterTypes} from "../../domain/JsonParameterTypes.js";
 import {Name} from "../common/name.js";
@@ -31,9 +31,8 @@ import {Returns} from "./returns.js";
  * @param name
  */
 export function InFile(name: string): ParameterDecorator {
-  return (...args: DecoratorParameters): void => {
-    const [target, propertyKey, index] = args;
-    const multiple = Metadata.getParamTypes(target, propertyKey)[index as number] === Array;
+  return (target: any, propertyKey: string | symbol | undefined, index: number): void => {
+    const multiple = Metadata.getParamTypes(target, propertyKey as string | symbol)[index] === Array;
 
     name = (typeof name === "object" ? undefined : name)!;
 
@@ -50,6 +49,6 @@ export function InFile(name: string): ParameterDecorator {
       )
     );
 
-    decorators(...args);
+    decorators(target, propertyKey as string | symbol, index);
   };
 }

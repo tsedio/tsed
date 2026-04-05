@@ -211,7 +211,7 @@ export abstract class JsonMapperCompiler<Options extends Record<string, any> = a
       try {
         return this.eval(mapper, {id, groupsId, model: token, storeGroups});
       } catch (err) {
-        throw new Error(`Fail to compile mapper for ${nameOf(model)}. See the error above: ${err.message}.\n${mapper}`);
+        throw new Error(`Fail to compile mapper for ${nameOf(model)}. See the error above: ${(err as Error).message}.\n${mapper}`);
       }
     }
 

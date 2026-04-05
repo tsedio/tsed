@@ -1677,7 +1677,7 @@ describe("JsonSchema", () => {
 
   describe("JsonSchema.add()", () => {
     it("should add new method to JsonSchema prototype", () => {
-      JsonSchema.add("test", function test() {
+      JsonSchema.add("test", function test(this: JsonSchema) {
         return this;
       });
 

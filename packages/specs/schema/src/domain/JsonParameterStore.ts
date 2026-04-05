@@ -114,9 +114,9 @@ export interface PipeMethods<T = any, R = any> {
  */
 @JsonEntityComponent(DecoratorTypes.PARAM)
 export class JsonParameterStore extends JsonEntityStore {
-  public paramType: string;
-  public expression: string;
-  public dataPath: string;
+  public paramType = "";
+  public expression = "";
+  public dataPath = "";
   /**
    * Define pipes can be called by the framework to transform input parameter
    */
@@ -165,8 +165,8 @@ export class JsonParameterStore extends JsonEntityStore {
       });
 
     if (klass) {
-      JsonEntityStore.fromMethod(klass, propertyKey).children.forEach((param: T, index) => {
-        params[+index] = param;
+      JsonEntityStore.fromMethod(klass, propertyKey).children.forEach((param: JsonParameterStore, index: string | number) => {
+        params[+index] = param as T;
       });
 
       return params;

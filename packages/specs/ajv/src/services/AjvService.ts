@@ -19,7 +19,7 @@ export interface AjvValidateOptions extends Record<string, any> {
 
 export class AjvService {
   readonly name = "ajv";
-  protected errorFormatter = constant<ErrorFormatter>("ajv.errorFormatter", defaultErrorFormatter);
+  protected errorFormatter = constant<ErrorFormatter>("ajv.errorFormatter", defaultErrorFormatter as ErrorFormatter);
   protected returnsCoercedValues = constant<boolean>("ajv.returnsCoercedValues");
   protected ajv = inject(Ajv);
 
@@ -71,8 +71,8 @@ export class AjvService {
   protected mapErrors(errors: ErrorObject[], options: any) {
     const {type, collectionType, value} = options;
 
-    const message = errors
-      .map((error: AjvErrorObject) => {
+    const message = (errors as AjvErrorObject[])
+      .map((error) => {
         if (collectionType) {
           error.collectionName = nameOf(collectionType);
         }
@@ -96,7 +96,7 @@ export class AjvService {
           error.message = this.mapClassError(error, type);
         }
 
-        return this.errorFormatter.call(this, error, {});
+        return this.errorFormatter(error);
       })
       .join("\n");
 

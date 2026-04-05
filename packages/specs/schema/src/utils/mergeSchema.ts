@@ -36,48 +36,47 @@ function mergeManyOf(kind: "allOf" | "anyOf" | "oneOf", schema1: JSONSchema7, sc
   const {[kind]: kind2, ...$rest2} = schema2;
   let hasRef = false;
 
-  const map = [kind1, $rest1, kind2, $rest2]
-    .flat()
-    .filter(Boolean)
-    .reduce((map, schema: JSONSchema7, index) => {
-      schema = cleanObject(schema as any);
+  const schemas = [kind1, $rest1, kind2, $rest2].flat().filter(Boolean) as JSONSchema7[];
 
-      if (schema.$ref) {
-        hasRef = true;
-        return map.set(schema.$ref, schema);
+  const map = schemas.reduce((map, schema: JSONSchema7, index) => {
+    schema = cleanObject(schema as any);
+
+    if (schema.$ref) {
+      hasRef = true;
+      return map.set(schema.$ref, schema);
+    }
+
+    if (Object.keys(schema).length === 0) {
+      return map;
+    }
+
+    if (schema.type === "object" && Object.keys(schema).length === 2) {
+      if ("writeOnly" in schema || "readOnly" in schema || "deprecated" in schema) {
+        schema = {...schema, type: undefined} as JSONSchema7;
       }
+    }
 
-      if (Object.keys(schema).length === 0) {
+    const type = getSchemaType(schema);
+
+    if (type === "array") {
+      map.set("array_" + index, schema);
+      return map;
+    }
+
+    if (map.has(type)) {
+      if (kind === "allOf") {
+        // we can merge allOf schemas to optimize the schema
+        map.set(type, mergeSchema(map.get(type)!, schema));
         return map;
       }
 
-      if (schema.type === "object" && Object.keys(schema).length === 2) {
-        if ("writeOnly" in schema || "readOnly" in schema || "deprecated" in schema) {
-          schema = {...schema, type: undefined} as JSONSchema7;
-        }
-      }
+      map.set(type + "_" + index, schema);
 
-      const type = getSchemaType(schema);
+      return map;
+    }
 
-      if (type === "array") {
-        map.set("array_" + index, schema);
-        return map;
-      }
-
-      if (map.has(type)) {
-        if (kind === "allOf") {
-          // we can merge allOf schemas to optimize the schema
-          map.set(type, mergeSchema(map.get(type)!, schema));
-          return map;
-        }
-
-        map.set(type + "_" + index, schema);
-
-        return map;
-      }
-
-      return map.set(type, schema);
-    }, new Map<string, JSONSchema7>());
+    return map.set(type, schema);
+  }, new Map<string, JSONSchema7>());
 
   const rest = map.get("$any");
   map.delete("$any");

@@ -65,7 +65,7 @@ describe("Exception", () => {
     try {
       Exception.validate(90, StatusFamily["4xx"]);
     } catch (e) {
-      expect(e.message).toContain("between 100 and 599");
+      expect((e as Error).message).toContain("between 100 and 599");
     }
   });
 
@@ -73,7 +73,7 @@ describe("Exception", () => {
     try {
       Exception.validate(600, StatusFamily["4xx"]);
     } catch (e) {
-      expect(e.message).toContain("between 100 and 599");
+      expect((e as Error).message).toContain("between 100 and 599");
     }
   });
 
@@ -81,7 +81,7 @@ describe("Exception", () => {
     try {
       Exception.validate(519, StatusFamily["4xx"]);
     } catch (e) {
-      expect(e.message).toContain("does not belong to the family");
+      expect((e as Error).message).toContain("does not belong to the family");
     }
   });
 

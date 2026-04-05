@@ -141,7 +141,7 @@ export abstract class JsonEntityStore implements JsonEntityStoreOptions {
   /**
    * Type of the collection (Array, Map, Set, etc...)
    */
-  private _collectionType: Type<any>;
+  private _collectionType!: Type<any>;
 
   get collectionType(): Type<any> | undefined {
     return this._collectionType;
@@ -154,7 +154,7 @@ export abstract class JsonEntityStore implements JsonEntityStoreOptions {
   /**
    *
    */
-  protected _type: Type<any>;
+  protected _type!: Type<any>;
 
   get type(): Type<any> | any {
     return this._type;
@@ -175,7 +175,7 @@ export abstract class JsonEntityStore implements JsonEntityStoreOptions {
   /**
    * Ref to JsonSchema
    */
-  protected _schema: JsonSchema;
+  protected _schema!: JsonSchema;
 
   /**
    * Return the JsonSchema

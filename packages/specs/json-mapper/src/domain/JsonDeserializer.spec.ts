@@ -39,7 +39,7 @@ const deserialize = (...args: any[]) => (deserializer.map as any)(...args);
 function mapToObject(value: any): any {
   expect(value).toBeInstanceOf(Map);
 
-  return Array.from(value.entries()).reduce((obj: any, [key, value]: [string, any]) => {
+  return (Array.from(value.entries()) as [string, any][]).reduce((obj: any, [key, value]) => {
     return {
       ...obj,
       [key]: value

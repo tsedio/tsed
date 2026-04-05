@@ -44,7 +44,7 @@ import {JsonSchema} from "./JsonSchema.js";
  */
 export class JsonParameter extends JsonMap<OS3Parameter<JsonSchema>> {
   $kind = "operationInParameter";
-  expression: string;
+  expression = "";
 
   constructor(obj: Partial<OS3Parameter<JsonSchema>> = {}) {
     super(obj);

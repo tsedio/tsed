@@ -58,8 +58,8 @@ import {cleanObject, Type} from "@tsed/core";
  * @public
  */
 export class Discriminator {
-  propertyName: string;
-  base: Type<any>;
+  propertyName!: string;
+  base!: Type<any>;
   values: Map<string, Type> = new Map();
   types: Map<Type, string[]> = new Map();
 

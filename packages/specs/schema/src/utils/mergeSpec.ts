@@ -48,7 +48,7 @@ const SPEC_REDUCERS = {
  */
 export function mergeSpec<Spec = OpenSpec2 | OpenSpec3>(spec: Partial<Spec>, input: Partial<Spec>): Partial<Spec> {
   return deepMerge(spec, input, {
-    reducers: SPEC_REDUCERS,
+    reducers: SPEC_REDUCERS as any,
     cleanUndefinedProps: true
   });
 }
