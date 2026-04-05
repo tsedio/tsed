@@ -20,7 +20,7 @@
     "@tsed/schema": "workspace:*",
     "@tsed/swagger": "workspace:*",
     "@tsed/typescript": "workspace:*",
-    "typescript": "5.9.3"
+    "typescript": "6.0.2"
   },
   "module": "./lib/esm/index.js",
   "typings": "./lib/types/index.d.ts"

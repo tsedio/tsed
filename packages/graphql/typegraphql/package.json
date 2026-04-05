@@ -43,7 +43,7 @@
     "graphql-scalars": "1.25.0",
     "ts-node": "10.9.2",
     "type-graphql": ">=2.0.0-rc.2",
-    "typescript": "5.9.3",
+    "typescript": "6.0.2",
     "vitest": "3.2.4"
   },
   "peerDependencies": {

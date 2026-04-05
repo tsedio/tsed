@@ -81,7 +81,7 @@
     "koa-override": "4.0.0",
     "koa-qs": "^3.0.0",
     "koa-session": "6.4.0",
-    "typescript": "5.9.3",
+    "typescript": "6.0.2",
     "vitest": "3.2.4"
   },
   "dependencies": {

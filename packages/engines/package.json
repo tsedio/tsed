@@ -89,7 +89,7 @@
     "ts-node": "10.9.2",
     "twig": "^1.17.1",
     "twing": "^7.3.1",
-    "typescript": "5.9.3",
+    "typescript": "6.0.2",
     "underscore": "^1.13.7",
     "vash": "^0.13.0",
     "velocityjs": "^2.0.6",

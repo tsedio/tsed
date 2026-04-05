@@ -46,7 +46,7 @@
     "@tsed/barrels": "workspace:*",
     "@tsed/logger-connect": "8.0.4",
     "@types/express": "4.17.21",
-    "typescript": "5.9.3",
+    "typescript": "6.0.2",
     "vitest": "3.2.4"
   },
   "peerDependencies": {

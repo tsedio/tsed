@@ -43,7 +43,7 @@
     "@tsed/monorepo-utils": "2.3.13",
     "@tsed/typescript": "workspace:*",
     "@tsed/vitest": "workspace:*",
-    "typescript": "5.9.3",
+    "typescript": "6.0.2",
     "vitest": "3.2.4"
   }
 }
