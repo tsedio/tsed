@@ -27,8 +27,8 @@ export type MongooseMethods = MongooseMethod | RegExp | MongooseMethod[];
 export type MongooseNextCB = (err?: Error) => void;
 export type MongooseHookOptions = Record<string, unknown>;
 export type MongooseHookPromised<T = any> = (doc: T | MongooseDocument<T>) => Promise<void>;
-export type MongoosePreHookCB<T = any> = (doc: T | MongooseDocument<T>, ...args: unknown[]) => Promise<void> | void;
-export type MongoosePostHookCB<T = any> = (doc: T | MongooseDocument<T>, ...args: unknown[]) => Promise<void> | void;
+export type MongoosePreHookCB<T = any> = (doc: T | MongooseDocument<T>, ...args: any[]) => Promise<void> | void;
+export type MongoosePostHookCB<T = any> = (doc: T | MongooseDocument<T>, ...args: any[]) => Promise<void> | void;
 
 export interface MongoosePreHook<T = any> {
   method: MongooseMethods;

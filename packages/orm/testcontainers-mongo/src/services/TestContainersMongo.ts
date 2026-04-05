@@ -49,7 +49,8 @@ export class TestContainersMongo {
       await db.collection(collectionName).deleteMany({});
       await client.close();
     } catch (er) {
-      console.error(`Collection ${collectionName} not found. ${er.message} ${er.stack}`);
+      const error = er as Error;
+      console.error(`Collection ${collectionName} not found. ${error.message} ${error.stack}`);
     }
   }
 }

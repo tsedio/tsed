@@ -14,7 +14,7 @@ export class MongooseService {
   private defaultConnection: string = "default";
 
   @Inject()
-  logger: Logger;
+  logger!: Logger;
 
   /**
    *
@@ -39,12 +39,14 @@ export class MongooseService {
 
       return connection;
     } catch (er) {
+      const error = er as Error;
+
       /* istanbul ignore next */
       this.logger.error({
         event: "MONGO_CONNECTION_ERROR",
-        error_name: er.name,
-        message: er.message,
-        stack: er.stack
+        error_name: error.name,
+        message: error.message,
+        stack: error.stack
       });
       /* istanbul ignore next */
       process.exit();

@@ -54,7 +54,9 @@ export function Model(options: MongooseModelOptions = {}) {
     injectable(target)
       .type("mongoose:model")
       .deps([MONGOOSE_CONNECTIONS, token])
-      .factory((connections: MONGOOSE_CONNECTIONS, schema: Schema) => {
+      .factory((...args: unknown[]) => {
+        const [connections, schema] = args as [MONGOOSE_CONNECTIONS, Schema];
+
         applySchemaOptions(schema, schemaOptions(target));
         return createModel(
           target,

@@ -90,6 +90,7 @@ export class JsonOperation extends JsonMap<JsonOperationOptions> {
 
   readonly operationPaths: Map<string, JsonMethodPath> = new Map();
 
+  // TODO check this after migration
   #status = 200;
   #redirection: boolean = false;
 

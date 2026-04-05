@@ -23,7 +23,7 @@ function mapError(error: any) {
 
 @Injectable()
 export class OidcProvider {
-  raw: Provider;
+  raw!: Provider;
 
   protected env = constant<Env>("env");
   protected httpPort = constant<number | string>("httpPort");

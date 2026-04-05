@@ -8,7 +8,7 @@ import {getProtocolsFromRequest} from "../utils/getProtocolsFromRequest.js";
 @Middleware()
 export class PassportMiddleware {
   @Inject(ProtocolsService)
-  protocolsService: ProtocolsService;
+  protocolsService!: ProtocolsService;
 
   shouldSkip(ctx: Context) {
     const request = ctx.getRequest();

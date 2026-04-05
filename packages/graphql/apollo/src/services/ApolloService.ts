@@ -111,13 +111,15 @@ export class ApolloService {
           }
         }
       } catch (er) {
+        const error = er as Error;
+
         logger().error({
           event: "APOLLO_BOOTSTRAP_ERROR",
-          error_name: er.name,
-          message: er.message,
-          stack: er.stack
+          error_name: error.name,
+          message: error.message,
+          stack: error.stack
         });
-        throw er;
+        throw error;
       }
     }
 

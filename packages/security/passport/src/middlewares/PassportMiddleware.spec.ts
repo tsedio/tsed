@@ -178,7 +178,7 @@ describe("PassportMiddleware", () => {
     } as any;
 
     // WHEN
-    let actualError;
+    let actualError: any;
     try {
       await middleware.use(context);
     } catch (er) {
@@ -214,7 +214,7 @@ describe("PassportMiddleware", () => {
     } as any;
 
     // WHEN
-    let actualError;
+    let actualError: any;
     try {
       await middleware.use(context);
     } catch (er) {
@@ -251,7 +251,7 @@ describe("PassportMiddleware", () => {
     } as any;
 
     // WHEN
-    let actualError;
+    let actualError: any;
     try {
       await middleware.use(context);
     } catch (er) {
@@ -287,7 +287,7 @@ describe("PassportMiddleware", () => {
     } as any;
 
     // WHEN
-    let actualError;
+    let actualError: any;
     try {
       await middleware.use(context);
     } catch (er) {

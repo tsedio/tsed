@@ -45,8 +45,11 @@ export class OidcPolicy {
   public createPrompt(instance: InteractionMethods, options: OidcInteractionOptions): Prompt {
     const {checks: originalChecks = [], details, ...promptOptions} = options;
     const checks = [...(instance.checks ? instance.checks() : originalChecks)].filter(Boolean);
+    const promptDetails = instance.details ? instance.details.bind(instance) : details;
 
-    return new interactionPolicy.Prompt(promptOptions, instance.details ? instance.details.bind(instance) : details, ...checks);
+    return promptDetails
+      ? new interactionPolicy.Prompt(promptOptions, promptDetails, ...checks)
+      : new interactionPolicy.Prompt(promptOptions, ...checks);
   }
 
   private getInteractions() {

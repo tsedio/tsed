@@ -20,7 +20,7 @@ export interface LowModel<T> {
 }
 
 export class LowDbAdapter<T extends AdapterModel> extends Adapter<T> {
-  protected db: LowSync<LowModel<T>> | Low<LowModel<T>>;
+  protected db!: LowSync<LowModel<T>> | Low<LowModel<T>>;
 
   get collection() {
     return this.db.data!.collection!;

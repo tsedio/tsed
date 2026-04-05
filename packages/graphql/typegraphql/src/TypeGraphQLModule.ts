@@ -14,10 +14,10 @@ import {ContextMiddleware} from "./middlewares/ContextMiddleware.js";
 @Module()
 export class TypeGraphQLModule implements AlterApolloSettings {
   @Inject()
-  protected injector: InjectorService;
+  protected injector!: InjectorService;
 
   @Configuration()
-  protected configuration: Configuration;
+  protected configuration!: Configuration;
 
   async $alterApolloSettings(settings: ApolloSettingsWithID): Promise<ApolloSettingsWithID> {
     const {resolvers: initialResolvers = [], buildSchemaOptions = {}, ...serverOptions} = settings;

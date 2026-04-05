@@ -12,19 +12,19 @@ import {ProtocolsService} from "./services/ProtocolsService.js";
 @Module()
 export class PassportModule implements OnInit, BeforeRoutesInit {
   @Constant("passport.userProperty")
-  userProperty: string;
+  userProperty!: string;
 
   @Constant("passport.pauseStream")
-  pauseStream: boolean;
+  pauseStream!: boolean;
 
   @Constant("passport.disableSession", false)
-  disableSession: boolean;
+  disableSession!: boolean;
 
   @Constant("PLATFORM_NAME")
-  platformName: string;
+  platformName!: string;
 
   @Inject()
-  logger: Logger;
+  logger!: Logger;
 
   constructor(
     private app: PlatformApplication,
@@ -33,8 +33,8 @@ export class PassportModule implements OnInit, BeforeRoutesInit {
   ) {}
 
   async $onInit(): Promise<any> {
-    Passport.serializeUser(this.passportSerializer.serialize.bind(this.passportSerializer));
-    Passport.deserializeUser(this.passportSerializer.deserialize.bind(this.passportSerializer));
+    Passport.serializeUser(this.passportSerializer.serialize.bind(this.passportSerializer) as any);
+    Passport.deserializeUser(this.passportSerializer.deserialize.bind(this.passportSerializer) as any);
 
     const promises = this.protocolsService.getProtocols().map((provider: Provider) => this.protocolsService.invoke(provider));
 

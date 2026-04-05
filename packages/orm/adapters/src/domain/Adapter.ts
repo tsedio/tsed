@@ -44,7 +44,7 @@ export abstract class Adapter<Model = any> {
   readonly useAlias: boolean = false;
 
   @Inject()
-  protected ajvService: AjvService;
+  protected ajvService!: AjvService;
 
   constructor(
     @Opts options: AdapterConstructorOptions,

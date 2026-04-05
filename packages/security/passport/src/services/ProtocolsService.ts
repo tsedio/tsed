@@ -20,10 +20,10 @@ export class ProtocolsService {
   readonly strategies: Map<string, Strategy> = new Map();
 
   @Inject()
-  protected platformHandler: PlatformHandler;
+  protected platformHandler!: PlatformHandler;
 
   @Inject()
-  private injector: InjectorService;
+  private injector!: InjectorService;
 
   public getProtocols(): Provider[] {
     return this.injector.getProviders(PROVIDER_TYPE_PROTOCOL);
@@ -155,10 +155,12 @@ export class ProtocolsService {
 
           done(null, ...[].concat(req.$ctx.data));
         } catch (err) {
+          const error = err as Error;
+
           if (err instanceof PassportMessage) {
             done(null, false, {...err.opts, message: err.message});
           } else {
-            done(err, false, {message: err.message});
+            done(error, false, {message: error.message});
           }
         }
       } else {

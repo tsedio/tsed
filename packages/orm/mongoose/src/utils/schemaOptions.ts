@@ -36,11 +36,11 @@ function mapHookArgs(hook: MongoosePreHook | MongoosePostHook): [string | RegExp
  */
 export function buildPreHook(fn: MongoosePreHookCB) {
   return fn.length === 1
-    ? function () {
+    ? function (this: unknown) {
         return (fn as MongooseHookPromised)(this);
       }
     : // we need to explicitly gives args to avoid a bug with mongoose
-      function (next: Function, arg1: unknown, arg2: unknown) {
+      function (this: unknown, next: Function, arg1: unknown, arg2: unknown) {
         return (fn as any)(this, next, arg1, arg2);
       };
 }

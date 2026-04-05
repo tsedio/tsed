@@ -8,16 +8,16 @@ import {ApolloService} from "./services/ApolloService.js";
 @Module()
 export class ApolloModule implements OnRoutesInit, AfterListen {
   @Inject()
-  protected logger: Logger;
+  protected logger!: Logger;
 
   @Inject()
-  protected service: ApolloService;
+  protected service!: ApolloService;
 
   @Configuration()
-  protected configuration: PlatformConfiguration;
+  protected configuration!: PlatformConfiguration;
 
   @Inject(InjectorService)
-  protected injector: InjectorService;
+  protected injector!: InjectorService;
 
   get settings(): {[key: string]: ApolloSettings} | undefined {
     return this.configuration.get("apollo", this.configuration.get("graphql", this.configuration.get("typegraphql")));

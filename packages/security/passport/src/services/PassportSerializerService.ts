@@ -10,7 +10,7 @@ import {UserInfo} from "../domain/UserInfo.js";
 @Service()
 export class PassportSerializerService {
   @Constant("passport.userInfoModel", UserInfo)
-  private model: Type<UserInfo> | boolean;
+  private model!: Type<UserInfo> | boolean;
 
   serialize(user: UserInfo, done: any) {
     try {

@@ -253,7 +253,11 @@ export class RedisAdapter<Model extends AdapterModel> extends Adapter<Model> {
     });
 
     const result = await pipeline.exec();
-    return (result || []).map(([, data]: [any, string]) => this.deserialize(JSON.parse(data))).filter(Boolean);
+    return (result || [])
+      .map(([, data]) => {
+        return typeof data === "string" ? this.deserialize(JSON.parse(data)) : undefined;
+      })
+      .filter(Boolean);
   }
 
   protected async findAllBy(props: Partial<Model & any>): Promise<Model[]> {

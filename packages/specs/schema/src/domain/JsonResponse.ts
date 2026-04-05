@@ -45,7 +45,7 @@ export type JsonResponseOptions = OS3Response<JsonSchema, string | JsonHeader>;
  */
 export class JsonResponse extends JsonMap<JsonResponseOptions> {
   $kind: string = "operationResponse";
-
+  // TODO check this after migration
   status = 200;
 
   constructor(obj: Partial<JsonResponseOptions> = {}) {
