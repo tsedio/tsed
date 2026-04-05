@@ -2,6 +2,8 @@
   "extends": "@tsed/typescript/tsconfig.node.json",
   "compilerOptions": {
     "baseUrl": ".",
+    "ignoreDeprecations": "6.0",
+    "strictPropertyInitialization": false,
     "noEmit": true,
     "composite": false,
     "declarationMap": false,
