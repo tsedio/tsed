@@ -137,12 +137,14 @@ export class BullMQModule implements OnInit, OnDestroy {
         }
       });
     } catch (er) {
+      const error = er as Error;
+
       $ctx.logger.error({
         event: "BULLMQ_JOB_ERROR",
-        message: er.message,
-        stack: er.stack
+        message: error.message,
+        stack: error.stack
       });
-      throw er;
+      throw error;
     } finally {
       await $ctx.destroy();
     }
