@@ -91,7 +91,7 @@ export class JsonOperation extends JsonMap<JsonOperationOptions> {
   readonly operationPaths: Map<string, JsonMethodPath> = new Map();
 
   // TODO check this after migration
-  #status = 200;
+  #status!: number;
   #redirection: boolean = false;
 
   constructor(obj: Partial<JsonOperationOptions> = {}) {

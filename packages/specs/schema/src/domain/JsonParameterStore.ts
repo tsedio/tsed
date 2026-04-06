@@ -114,7 +114,6 @@ export interface PipeMethods<T = any, R = any> {
  */
 @JsonEntityComponent(DecoratorTypes.PARAM)
 export class JsonParameterStore extends JsonEntityStore {
-  // TODO check this after migration
   public paramType = "";
   public expression = "";
   public dataPath = "";

@@ -131,7 +131,7 @@ export class JsonSchema<T = JSONSchema7Type> extends Map<string, any> {
   readonly $isJsonDocument = true;
   readonly $hooks = new Hooks();
   readonly $allow: any[] = [];
-  public $selfRequired = false;
+  public $selfRequired?: boolean;
   public $ignore: boolean | IgnoreCallback = false;
   public isDiscriminatorKey = false;
   public isDiscriminator = false;
