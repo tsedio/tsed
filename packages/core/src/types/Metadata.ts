@@ -147,7 +147,7 @@ export class Metadata {
    * ```
    *
    */
-  static getType(target: any, propertyKey?: string | symbol): any {
+  static getType(target: Object, propertyKey?: string | symbol): any {
     return Reflect.getMetadata(DESIGN_TYPE, target, propertyKey!);
   }
 
@@ -179,7 +179,7 @@ export class Metadata {
    * ```
    *
    */
-  static getOwnType(target: any, propertyKey?: string | symbol): any {
+  static getOwnType(target: Object, propertyKey?: string | symbol): any {
     return Reflect.getMetadata(DESIGN_TYPE, target, propertyKey!);
   }
 
@@ -211,7 +211,7 @@ export class Metadata {
    * ```
    *
    */
-  static getReturnType(target: any, propertyKey?: string | symbol): any {
+  static getReturnType(target: Object, propertyKey?: string | symbol): any {
     return Reflect.getMetadata(DESIGN_RETURN_TYPE, target, propertyKey!);
   }
 
@@ -243,7 +243,7 @@ export class Metadata {
    * ```
    *
    */
-  static getOwnReturnType(target: any, propertyKey?: string | symbol): any {
+  static getOwnReturnType(target: Object, propertyKey?: string | symbol): any {
     return Reflect.getOwnMetadata(DESIGN_RETURN_TYPE, target, propertyKey!);
   }
 
@@ -526,7 +526,7 @@ export class Metadata {
    * ```
    *
    */
-  static getOwnParamTypes(target: any, propertyKey?: string | symbol): any[] {
+  static getOwnParamTypes(target: Object, propertyKey?: string | symbol): any[] {
     return Reflect.getOwnMetadata(DESIGN_PARAM_TYPES, target, propertyKey!) || [];
   }
 }

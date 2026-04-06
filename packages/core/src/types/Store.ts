@@ -102,7 +102,7 @@ export class Store {
    * @param {string} propertyKey
    * @returns {Store}
    */
-  static fromMethod(target: any, propertyKey: string | symbol): Store {
+  static fromMethod(target: Object, propertyKey: string | symbol): Store {
     return Store.from(target, propertyKey, descriptorOf(target, propertyKey));
   }
 
