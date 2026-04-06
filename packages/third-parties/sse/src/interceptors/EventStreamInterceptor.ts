@@ -9,7 +9,7 @@ import {EventStreamContext} from "../domain/EventStreamContext.js";
 @Injectable()
 export class EventStreamInterceptor implements InterceptorMethods {
   @InjectContext()
-  protected $ctx: PlatformContext;
+  protected $ctx!: PlatformContext;
 
   async intercept(context: InterceptorContext): Promise<unknown> {
     const result = await context.next();
