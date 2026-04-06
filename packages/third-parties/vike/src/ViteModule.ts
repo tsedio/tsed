@@ -12,16 +12,16 @@ import {ViteService} from "./services/ViteService.js";
 })
 export class ViteModule {
   @Inject()
-  protected app: PlatformApplication;
+  protected app!: PlatformApplication;
 
   @Inject()
-  protected platformView: PlatformViews;
+  protected platformView!: PlatformViews;
 
   @Inject()
-  protected viteService: ViteService;
+  protected viteService!: ViteService;
 
   @Inject(VITE_SERVER)
-  protected viteServer: VITE_SERVER;
+  protected viteServer!: VITE_SERVER;
 
   $onInit() {
     this.platformView.registerEngine("vite", {

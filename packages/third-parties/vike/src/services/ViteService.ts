@@ -11,10 +11,10 @@ export class ViteService {
   static moduleName = "vike/server";
 
   @Constant("vite", {})
-  protected config: ViteConfig;
+  protected config!: ViteConfig;
 
   @Constant("vite.enableStream", false)
-  private enableStream: boolean;
+  private enableStream!: boolean;
 
   async render(
     viewPath: string,

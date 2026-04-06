@@ -7,7 +7,7 @@ import {ViteService} from "../services/ViteService.js";
 @Middleware()
 export class ViteRendererMiddleware {
   @Inject()
-  protected viteService: ViteService;
+  protected viteService!: ViteService;
 
   async use(@Context() $ctx: Context) {
     const response = await this.viteService.render("*", {$ctx});
