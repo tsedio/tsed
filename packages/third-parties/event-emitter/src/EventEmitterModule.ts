@@ -7,19 +7,19 @@ import {EventEmitterService} from "./services/EventEmitterFactory.js";
 @Module()
 export class EventEmitterModule {
   @Inject(LOGGER)
-  protected logger: LOGGER;
+  protected logger!: LOGGER;
 
   @Inject()
-  protected injector: InjectorService;
+  protected injector!: InjectorService;
 
   @Inject()
-  protected eventEmitter: EventEmitterService;
+  protected eventEmitter!: EventEmitterService;
 
   @Constant("eventEmitter.disableSummary", false)
-  private disableSummary: boolean;
+  private disableSummary!: boolean;
 
   @Constant("eventEmitter.enabled", false)
-  private loadEventEmitter: boolean;
+  private loadEventEmitter!: boolean;
 
   $onInit() {
     if (this.loadEventEmitter) {

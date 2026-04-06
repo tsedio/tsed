@@ -4,7 +4,7 @@ import {event, eventNS, OnOptions} from "eventemitter2";
 import {EventEmitterStore} from "../interfaces/EventEmitterStore.js";
 
 export function OnEvent(event: event | eventNS, options?: boolean | OnOptions): MethodDecorator {
-  return (target: any, propertyKey: string) => {
+  return (target: Object, propertyKey: string | symbol) => {
     const store: EventEmitterStore = {
       onEvent: {
         [propertyKey]: {event, options}
