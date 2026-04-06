@@ -21,7 +21,7 @@ import {Input} from "./input.js";
  * @param eventName
  */
 export function InputAndBroadcastOthers(eventName: string) {
-  return (target: any, propertyKey: string, descriptor: PropertyDescriptor) => {
+  return (target: Object, propertyKey: string, descriptor: PropertyDescriptor) => {
     Input(eventName)(target, propertyKey, descriptor);
     BroadcastOthers(eventName)(target, propertyKey, descriptor);
   };

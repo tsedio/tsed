@@ -78,11 +78,11 @@ export function Nsp(target: any, propertyKey?: string, index?: number): any {
  * @alias {Nsp}
  * @decorator
  */
-export function Namespace(target: any, propertyKey?: string, index?: number): any {
+export function Namespace(target: Object, propertyKey?: string, index?: number) {
   if (typeof target === "string" || isRegExp(target)) {
     const nsp = target as string | RegExp;
 
-    return (target: any, propertyKey: string) => {
+    return (target: Object, propertyKey: string) => {
       Store.from(target).merge("socketIO", {
         injectNamespaces: [{propertyKey, nsp}]
       });

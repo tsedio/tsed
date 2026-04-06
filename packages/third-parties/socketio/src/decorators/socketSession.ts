@@ -24,7 +24,7 @@ export type SocketSession = Map<string, any>;
  * @param {number} index
  * @decorator
  */
-export function SocketSession(target: any, propertyKey: string, index: number) {
+export function SocketSession(target: Object, propertyKey: string, index: number) {
   return SocketFilter(SocketFilters.SESSION)(target, propertyKey, index);
 }
 
@@ -48,6 +48,6 @@ export function SocketSession(target: any, propertyKey: string, index: number) {
  * @param {number} index
  * @constructor
  */
-export function RawSocketSession(target: any, propertyKey: string, index: number) {
+export function RawSocketSession(target: Object, propertyKey: string, index: number) {
   return SocketFilter(SocketFilters.RAW_SESSION)(target, propertyKey, index);
 }

@@ -21,6 +21,6 @@ import {SocketFilter} from "./socketFilter.js";
  * @param propertyKey
  * @param index
  */
-export function SocketErr(target: any, propertyKey: string, index: number): any {
+export function SocketErr(target: Object, propertyKey: string, index: number): any {
   return SocketFilter(SocketFilters.ERR)(target, propertyKey, index);
 }

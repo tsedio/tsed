@@ -25,6 +25,6 @@ import {SocketFilter} from "./socketFilter.js";
  * @param {number} index
  * @decorator
  */
-export function Reason(target: unknown, propertyKey: string, index: number) {
+export function Reason(target: Object, propertyKey: string, index: number) {
   return SocketFilter(SocketFilters.REASON)(target, propertyKey, index);
 }

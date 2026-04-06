@@ -27,6 +27,6 @@ export type Socket = SocketType;
  * @param {number} index
  * @decorator
  */
-export function Socket(target: any, propertyKey: string, index: number): any {
+export function Socket(target: Object, propertyKey: string, index: number): any {
   return SocketFilter(SocketFilters.SOCKET)(target, propertyKey, index);
 }

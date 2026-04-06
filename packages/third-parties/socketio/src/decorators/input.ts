@@ -20,7 +20,7 @@ import {Store} from "@tsed/core";
  * @param eventName
  */
 export function Input(eventName: string) {
-  return (target: any, propertyKey: string, descriptor: PropertyDescriptor) => {
+  return (target: Object, propertyKey: string, descriptor: PropertyDescriptor) => {
     Store.from(target).merge("socketIO", {
       handlers: {
         [propertyKey]: {

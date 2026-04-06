@@ -21,6 +21,6 @@ import {SocketFilter} from "./socketFilter.js";
  * @param {number} index
  * @decorator
  */
-export function SocketEventName(target: any, propertyKey: string, index: number): any {
+export function SocketEventName(target: Object, propertyKey: string, index: number): any {
   return SocketFilter(SocketFilters.EVENT_NAME)(target, propertyKey, index);
 }

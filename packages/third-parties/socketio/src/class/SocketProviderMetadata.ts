@@ -3,8 +3,8 @@ import {SocketInjectableNsp} from "../interfaces/SocketInjectableNsp.js";
 import {SocketProviderTypes} from "../interfaces/SocketProviderTypes.js";
 
 export class SocketProviderMetadata {
-  public type: SocketProviderTypes;
-  public namespace: string | RegExp;
+  public type!: SocketProviderTypes;
+  public namespace!: string | RegExp;
   public error: boolean = false;
   public injectNamespaces: SocketInjectableNsp[] = [];
   public useBefore: any[] = [];

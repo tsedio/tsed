@@ -146,7 +146,7 @@ describe("SocketSessionData", () => {
     it("should call the callback function with the specified thisArg", () => {
       // arrange
       const thisArg = {customProp: "customValue"};
-      const callbackFn = vi.fn(function () {
+      const callbackFn = vi.fn(function (this: unknown) {
         expect(this).toBe(thisArg);
       });
 

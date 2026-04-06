@@ -6,10 +6,10 @@ import {io, Socket} from "socket.io-client";
 @Injectable()
 export class SocketClientService implements OnDestroy {
   @Configuration()
-  private settings: PlatformConfiguration;
+  private settings!: PlatformConfiguration;
 
   @Inject()
-  private logger: Logger;
+  private logger!: Logger;
 
   private clients: Map<string, Socket> = new Map();
 

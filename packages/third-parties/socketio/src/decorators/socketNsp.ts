@@ -27,6 +27,6 @@ export type SocketNsp = Namespace;
  * @param {number} index
  * @decorator
  */
-export function SocketNsp(target: any, propertyKey: string, index: number): any {
+export function SocketNsp(target: Object, propertyKey: string, index: number): any {
   return SocketFilter(SocketFilters.SOCKET_NSP)(target, propertyKey, index);
 }

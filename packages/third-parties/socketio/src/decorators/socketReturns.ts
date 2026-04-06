@@ -10,7 +10,7 @@ import {SocketReturnsTypes} from "../interfaces/SocketReturnsTypes.js";
  * @decorator
  */
 export function SocketReturns(eventName: string, type: SocketReturnsTypes) {
-  return (target: any, propertyKey: string, descriptor: PropertyDescriptor) => {
+  return (target: Object, propertyKey: string, descriptor: PropertyDescriptor) => {
     Store.from(target).merge("socketIO", {
       handlers: {
         [propertyKey]: {

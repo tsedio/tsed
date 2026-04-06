@@ -18,25 +18,25 @@ import {SocketIOService} from "./services/SocketIOService.js";
 @Module()
 export class SocketIOModule implements AfterListen, OnDestroy {
   @Constant("logger.disableRoutesSummary", false)
-  protected disableRoutesSummary: boolean;
+  protected disableRoutesSummary!: boolean;
 
   @Constant("socketIO", {})
-  protected settings: Partial<ServerOptions>;
+  protected settings!: Partial<ServerOptions>;
 
   @Inject()
-  protected injector: InjectorService;
+  protected injector!: InjectorService;
 
   @Inject(Http.Server)
-  protected httpServer: Http.Server | null;
+  protected httpServer!: Http.Server | null;
 
   @Inject(Https.Server)
-  protected httpsServer: Https.Server | null;
+  protected httpsServer!: Https.Server | null;
 
   @IO()
-  private io: Server;
+  private io!: Server;
 
   @Inject()
-  private socketIOService: SocketIOService;
+  private socketIOService!: SocketIOService;
 
   $afterListen() {
     if (this.httpServer) {

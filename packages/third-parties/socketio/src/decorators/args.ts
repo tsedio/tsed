@@ -30,7 +30,7 @@ import {SocketFilters} from "../interfaces/SocketFilters.js";
  * @param useType
  */
 export function Args(mapIndex?: number, useType?: any): any {
-  return (target: any, propertyKey: string, index: number) => {
+  return (target: Object, propertyKey: string, index: number) => {
     const store = Store.from(target);
     const type = Metadata.getParamTypes(target, propertyKey)[index];
     const param = {
