@@ -16,10 +16,10 @@ export interface WebhookEventOptions {
 @Middleware()
 export class WebhookEventMiddleware implements MiddlewareMethods {
   @Inject()
-  protected stripe: Stripe;
+  protected stripe!: Stripe;
 
   @Constant("stripe.webhooks")
-  protected webhooks: WebhookEventOptions;
+  protected webhooks!: WebhookEventOptions;
 
   use(@HeaderParams("stripe-signature") signature: string, @RawBodyParams() body: Buffer, @Context() ctx: Context): any {
     const {secret, tolerance}: WebhookEventOptions = {
@@ -37,7 +37,8 @@ export class WebhookEventMiddleware implements MiddlewareMethods {
       ctx.set(STRIPE_WEBHOOK_SIGNATURE, signature);
       ctx.set(STRIPE_WEBHOOK_EVENT, this.stripe.webhooks.constructEvent(body, signature, secret, tolerance));
     } catch (err) {
-      throw new BadRequest(`Stripe webhook error: ${err.message}`, err);
+      const error = err as Error;
+      throw new BadRequest(`Stripe webhook error: ${error.message}`, error);
     }
   }
 }
