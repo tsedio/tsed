@@ -11,7 +11,7 @@ import {FormioDatabase} from "../services/FormioDatabase.js";
 @Alter("templateImportSteps")
 export class AlterTemplateImportSteps implements AlterHook {
   @Inject()
-  protected database: FormioDatabase;
+  protected database!: FormioDatabase;
 
   transform(queue: any[], install: Function, template: Partial<FormioTemplate>): any {
     queue.push(async.apply(this.importSubmissions.bind(this), template));

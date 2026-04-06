@@ -7,11 +7,11 @@ import {FormioDatabase} from "./FormioDatabase.js";
 
 export abstract class FormioRepository<SubmissionData = any> {
   @Inject()
-  protected formioDatabase: FormioDatabase;
+  protected formioDatabase!: FormioDatabase;
 
   protected abstract formName: string;
 
-  private formId: string;
+  private formId!: string;
 
   async getFormId() {
     if (!this.formId) {

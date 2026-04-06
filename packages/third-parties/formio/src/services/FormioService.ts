@@ -21,10 +21,10 @@ import {FormioExportOptions} from "../domain/FormioTemplateUtil.js";
 
 @Injectable()
 export class FormioService {
-  router: FormioRouter;
+  router!: FormioRouter;
 
   @Inject()
-  protected injector: InjectorService;
+  protected injector!: InjectorService;
 
   get audit(): Function {
     return this.formio.audit || (() => {});

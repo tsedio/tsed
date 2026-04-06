@@ -16,7 +16,7 @@ function toMap<T>(list: any[]) {
 @Injectable()
 export class FormioDatabase {
   @Inject()
-  protected formio: FormioService;
+  protected formio!: FormioService;
 
   get models() {
     return this.formio.mongoose.models;

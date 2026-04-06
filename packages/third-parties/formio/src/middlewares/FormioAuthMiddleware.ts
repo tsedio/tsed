@@ -15,7 +15,7 @@ import {FormioService} from "../services/FormioService.js";
 @Middleware()
 export class FormioAuthMiddleware {
   @Inject()
-  protected formio: FormioService;
+  protected formio!: FormioService;
 
   get tokenHandler(): any {
     return promisify(this.formio.middleware.tokenHandler);

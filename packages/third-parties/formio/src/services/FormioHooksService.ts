@@ -9,10 +9,10 @@ import {FormioService} from "./FormioService.js";
 @Injectable()
 export class FormioHooksService {
   @Inject()
-  protected injector: InjectorService;
+  protected injector!: InjectorService;
 
   @Inject(FormioService)
-  protected formio: FormioService;
+  protected formio!: FormioService;
 
   get settings(): (req: Request, cb: Function) => void {
     return this.formio.hook.settings;

@@ -33,28 +33,28 @@ import {FormioService} from "./services/FormioService.js";
 })
 export class FormioModule implements OnRoutesInit, OnReady {
   @Inject()
-  protected formio: FormioService;
+  protected formio!: FormioService;
 
   @Inject()
-  protected hooks: FormioHooksService;
+  protected hooks!: FormioHooksService;
 
   @Inject()
-  protected installer: FormioInstaller;
+  protected installer!: FormioInstaller;
 
   @Inject()
-  protected app: PlatformApplication;
+  protected app!: PlatformApplication;
 
   @Inject()
-  protected injector: InjectorService;
+  protected injector!: InjectorService;
 
   @Constant("formio", {})
-  protected settings: FormioConfig;
+  protected settings!: FormioConfig;
 
   @Constant("formio.baseUrl", "/")
-  protected baseUrl: string;
+  protected baseUrl!: string;
 
   @Constant("formio.skipInstall", false)
-  protected skipInstall: boolean;
+  protected skipInstall!: boolean;
 
   @Constant("formio.template")
   protected template?: FormioTemplate;

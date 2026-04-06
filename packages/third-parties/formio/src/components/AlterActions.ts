@@ -15,16 +15,16 @@ import {FormioService} from "../services/FormioService.js";
 @Alter("actions")
 export class AlterActions implements AlterHook {
   @Inject()
-  protected injector: InjectorService;
+  protected injector!: InjectorService;
 
   @Inject()
-  protected formio: FormioService;
+  protected formio!: FormioService;
 
   @Inject()
-  protected params: PlatformParams;
+  protected params!: PlatformParams;
 
   @Inject()
-  protected responseFilter: PlatformResponseFilter;
+  protected responseFilter!: PlatformResponseFilter;
 
   transform(actions: FormioActions): FormioActions {
     const {Action} = this.formio;

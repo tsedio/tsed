@@ -14,13 +14,13 @@ import {FormioService} from "./FormioService.js";
 @Injectable()
 export class FormioAuthService {
   @Inject()
-  formio: FormioService;
+  formio!: FormioService;
 
   @Inject()
-  hooks: FormioHooksService;
+  hooks!: FormioHooksService;
 
   @Inject()
-  db: FormioDatabase;
+  db!: FormioDatabase;
 
   get currentUser() {
     return promisify(this.formio.auth.currentUser);
@@ -140,8 +140,9 @@ export class FormioAuthService {
 
       await this.currentUser(ctx.getRequest(), ctx.getResponse());
     } catch (err) {
-      ctx.logger.error({event: "Error on OAuthActions", error: err});
-      throw new Unauthorized(err.message);
+      const error = err as Error;
+      ctx.logger.error({event: "Error on OAuthActions", error});
+      throw new Unauthorized(error.message);
     }
   }
 

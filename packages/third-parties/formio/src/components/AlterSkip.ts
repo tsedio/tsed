@@ -8,10 +8,10 @@ import {AlterHook} from "../domain/AlterHook.js";
 @Alter("skip")
 export class AlterSkip implements AlterHook {
   @Constant("formio.baseUrl", "/")
-  baseUrl: string;
+  baseUrl!: string;
 
   @Constant("formio.whiteList", ["/spec.json"])
-  whiteList: string[];
+  whiteList!: string[];
 
   transform(value: any, ctx: PlatformContext): any {
     if (value) {

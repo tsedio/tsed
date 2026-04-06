@@ -8,7 +8,7 @@ import {FormioDatabase} from "./FormioDatabase.js";
 @Injectable()
 export class FormioInstaller extends FormioDatabase {
   @Inject()
-  protected logger: Logger;
+  protected logger!: Logger;
 
   async install(template: FormioTemplate, root: any) {
     this.logger.info("Install formio template...");
