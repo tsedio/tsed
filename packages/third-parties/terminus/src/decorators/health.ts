@@ -20,7 +20,7 @@ import {Store} from "@tsed/core";
  * @terminus
  */
 export function Health(name: string): MethodDecorator {
-  return <Function>(target: Object, propertyKey: string) => {
+  return (target: Object, propertyKey: string | symbol) => {
     Store.from(target).merge(`terminus:health`, {
       [propertyKey]: {name}
     });

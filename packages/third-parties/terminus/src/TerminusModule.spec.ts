@@ -53,7 +53,7 @@ describe("TerminusModule", () => {
       {"/redis/health": "OK"} // legacy
     ]);
 
-    logger("event", {message: "message"});
+    logger("event", new Error("message"));
 
     expect(await terminusModule.$logRoutes([])).toEqual([
       {

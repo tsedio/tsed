@@ -11,19 +11,19 @@ import {TerminusSettings} from "./interfaces/TerminusSettings.js";
 @Module()
 export class TerminusModule implements OnInit {
   @Constant("terminus", {})
-  private settings: TerminusSettings;
+  private settings!: TerminusSettings;
 
   @Constant("terminus.path", "/health")
-  private basePath: string;
+  private basePath!: string;
 
   @Inject()
-  private injector: InjectorService;
+  private injector!: InjectorService;
 
   @Inject(Http.Server)
-  private httpServer: Http.Server | null;
+  private httpServer!: Http.Server | null;
 
   @Inject(Https.Server)
-  private httpsServer: Https.Server | null;
+  private httpsServer!: Https.Server | null;
 
   public $onInit() {
     this.mount();
@@ -90,11 +90,11 @@ export class TerminusModule implements OnInit {
       const metadata = provider.store.get(`terminus:${name}`);
 
       if (metadata) {
-        return Object.entries(metadata).map(([propertyKey, options]: [string, Opts]) => {
+        return Object.entries(metadata).map(([propertyKey, options]) => {
           return {
             provider,
             propertyKey,
-            options
+            options: options as Opts
           };
         });
       }
