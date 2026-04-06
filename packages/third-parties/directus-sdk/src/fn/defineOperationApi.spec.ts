@@ -1,9 +1,10 @@
 import {defineOperationApi as oDefineOperationApi} from "@directus/extensions-sdk";
-import type {OperationApiConfig} from "@directus/types";
 import {beforeEach, describe, expect, it, vi} from "vitest";
 
 import {defineOperationApi} from "./defineOperationApi.js";
 import {wrapOperation} from "./wrapOperation.js";
+
+type OperationApiConfig = Parameters<typeof defineOperationApi>[0];
 
 vi.mock("@directus/extensions-sdk", () => ({
   defineOperationApi: vi.fn((config) => config)
@@ -77,12 +78,12 @@ describe("defineOperationApi", () => {
     };
 
     const handler = vi.fn();
-    const config: OperationApiConfig<CustomOptions> = {
+    const config: OperationApiConfig = {
       id: "custom-operation",
       handler: handler as any
     };
 
-    defineOperationApi<CustomOptions>(config);
+    defineOperationApi(config as any);
 
     expect(wrapOperation).toHaveBeenCalledWith(handler);
     expect(oDefineOperationApi).toHaveBeenCalled();

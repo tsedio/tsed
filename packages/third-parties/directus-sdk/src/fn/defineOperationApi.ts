@@ -1,7 +1,9 @@
 import {defineOperationApi as oDefineOperationApi} from "@directus/extensions-sdk";
-import {OperationApiConfig} from "@directus/types";
 
 import {wrapOperation} from "./wrapOperation.js";
+
+type OperationApiConfig = Parameters<typeof oDefineOperationApi>[0];
+type OperationApiResult = ReturnType<typeof oDefineOperationApi>;
 
 /**
  * Defines a Directus operation with Ts.ED dependency injection support.
@@ -115,9 +117,9 @@ import {wrapOperation} from "./wrapOperation.js";
  * @see {@link DirectusContextService} to access Directus context
  * @see {@link https://docs.directus.io/extensions/operations.html} Directus Operations Documentation
  */
-export function defineOperationApi<Options = Record<string, unknown>>(config: OperationApiConfig<Options>): OperationApiConfig<Options> {
-  return oDefineOperationApi<Options>({
+export function defineOperationApi(config: OperationApiConfig): OperationApiResult {
+  return oDefineOperationApi({
     ...config,
-    handler: wrapOperation(config.handler)
-  });
+    handler: wrapOperation(config.handler as any)
+  } as OperationApiConfig);
 }

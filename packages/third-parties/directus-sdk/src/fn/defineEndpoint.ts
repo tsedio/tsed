@@ -1,7 +1,9 @@
 import {defineEndpoint as oDefineEndpoint} from "@directus/extensions-sdk";
-import type {EndpointConfig} from "@directus/types";
 
 import {wrapEndpoint} from "./wrapEndpoint.js";
+
+type EndpointConfig = Parameters<typeof oDefineEndpoint>[0];
+type EndpointResult = ReturnType<typeof oDefineEndpoint>;
 
 /**
  * Defines a Directus endpoint with Ts.ED dependency injection support.
@@ -74,13 +76,13 @@ import {wrapEndpoint} from "./wrapEndpoint.js";
  * @see {@link wrapEndpoint} for the underlying wrapper implementation
  * @see {@link https://docs.directus.io/extensions/endpoints.html} Directus Endpoints Documentation
  */
-export function defineEndpoint(config: EndpointConfig): EndpointConfig {
+export function defineEndpoint(config: EndpointConfig): EndpointResult {
   if (typeof config === "function") {
-    return oDefineEndpoint(wrapEndpoint(config));
+    return oDefineEndpoint(wrapEndpoint(config as any) as EndpointConfig);
   }
 
   return oDefineEndpoint({
     ...config,
-    handler: wrapEndpoint(config.handler)
-  });
+    handler: wrapEndpoint(config.handler as any)
+  } as EndpointConfig);
 }

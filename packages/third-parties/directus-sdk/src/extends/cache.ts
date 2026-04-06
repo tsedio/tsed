@@ -75,7 +75,7 @@ declare global {
   }
 }
 
-ProviderBuilder.add("directusCache", function directusCache(propertyKey: string, options: DirectusCacheOptions = {}) {
+ProviderBuilder.add("directusCache", function directusCache(propertyKey: string | number | symbol, options: DirectusCacheOptions = {}) {
   this.intercept(propertyKey, DirectusCacheInterceptor, options as Record<string, unknown>);
 
   return this;

@@ -14,7 +14,7 @@ import {snakeCase} from "change-case";
  */
 export type DirectusCacheOptions = {
   ttl?: number;
-  keyGenerator?: (...args: unknown[]) => string;
+  keyGenerator?: (...args: any[]) => string;
   namespace?: string;
   useSystemCache?: boolean;
 };

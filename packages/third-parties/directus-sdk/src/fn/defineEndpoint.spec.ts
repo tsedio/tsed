@@ -1,9 +1,10 @@
 import {defineEndpoint as oDefineEndpoint} from "@directus/extensions-sdk";
-import type {EndpointConfig} from "@directus/types";
 import {beforeEach, describe, expect, it, vi} from "vitest";
 
 import {defineEndpoint} from "./defineEndpoint.js";
 import {wrapEndpoint} from "./wrapEndpoint.js";
+
+type EndpointConfig = Parameters<typeof defineEndpoint>[0];
 
 vi.mock("@directus/extensions-sdk", () => ({
   defineEndpoint: vi.fn((config) => config)
