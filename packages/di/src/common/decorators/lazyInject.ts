@@ -67,7 +67,7 @@ export function LazyInject(key: string, resolver: () => Promise<{default: unknow
 export function LazyInject(...args: any[]): PropertyDecorator {
   let resolver = mapOptions(args);
 
-  return (target: any, propertyKey: string | symbol): any | void => {
+  return (target: Object, propertyKey: string | symbol): any | void => {
     catchError(() => Reflect.deleteProperty(target, propertyKey));
     Reflect.defineProperty(target, propertyKey, {
       async get() {
@@ -115,7 +115,7 @@ export function OptionalLazyInject(key: string, resolver: () => Promise<{default
 export function OptionalLazyInject(...args: any[]): PropertyDecorator {
   const resolver = mapOptions(args, true);
 
-  return (target: any, propertyKey: string | symbol): any | void => {
+  return (target: Object, propertyKey: string | symbol): any | void => {
     catchError(() => Reflect.deleteProperty(target, propertyKey));
     Reflect.defineProperty(target, propertyKey, {
       async get() {

@@ -18,7 +18,7 @@ import {context} from "../fn/context.js";
  * @decorator
  */
 export function InjectContext(transform: ($ctx: DIContext) => unknown = (o) => o): PropertyDecorator {
-  return (target: any, propertyKey: string | symbol): any | void => {
+  return (target: Object, propertyKey: string | symbol): any | void => {
     catchError(() => Reflect.deleteProperty(target, propertyKey));
     Reflect.defineProperty(target, propertyKey, {
       get() {

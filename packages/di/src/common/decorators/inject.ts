@@ -156,7 +156,7 @@ export function Inject<T = any>(
 ) {
   opts = typeof opts === "function" ? {transform: opts} : opts;
 
-  return (target: any, propertyKey: string | symbol | undefined, index?: number) => {
+  return (target: Object, propertyKey: string | symbol | undefined, index?: number) => {
     const bindingType = decoratorTypeOf([target, propertyKey, index]);
 
     switch (bindingType) {
