@@ -1,5 +1,5 @@
 {
   "directory": ["./src"],
-  "exclude": ["**/bin", "**/__mock__", "**/__mocks__", "**/*.spec.ts", "**/cache"],
+  "exclude": ["**/bin", "**/__mock__", "**/__mocks__", "**/*.spec.ts", "**/cache", "**/types"],
   "delete": true
 }
