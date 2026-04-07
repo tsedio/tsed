@@ -114,9 +114,9 @@ export interface PipeMethods<T = any, R = any> {
  */
 @JsonEntityComponent(DecoratorTypes.PARAM)
 export class JsonParameterStore extends JsonEntityStore {
-  public paramType = "";
-  public expression = "";
-  public dataPath = "";
+  public paramType?: string;
+  public expression?: string;
+  public dataPath?: string;
   /**
    * Define pipes can be called by the framework to transform input parameter
    */
