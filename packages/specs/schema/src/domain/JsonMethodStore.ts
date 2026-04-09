@@ -260,13 +260,13 @@ export class JsonMethodStore extends JsonEntityStore {
   }
 
   public getParamTypes(): Record<string, boolean> {
-    return [...this.children.values()].reduce(
-      (obj, item) => ({
-        ...obj,
-        [item.paramType]: true
-      }),
-      {}
-    );
+    return [...this.children.values()].reduce<Record<string, boolean>>((obj, item) => {
+      if (item.paramType) {
+        obj[item.paramType] = true;
+      }
+
+      return obj;
+    }, {});
   }
 
   protected build() {
