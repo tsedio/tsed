@@ -14433,7 +14433,7 @@ __metadata:
     "@tsed/swagger": "workspace:*"
     "@tsed/typescript": "workspace:*"
     ajv: "npm:^8.17.1"
-    axios: "npm:1.12.0"
+    axios: "npm:1.13.5"
     eslint: "npm:9.12.0"
     read-pkg-up: "npm:7.0.1"
     typescript: "npm:6.0.2"
@@ -14553,7 +14553,7 @@ __metadata:
     "@typescript-eslint/parser": "npm:8.58.0"
     "@vitest/coverage-v8": "npm:3.2.4"
     ajv: "npm:8.17.1"
-    axios: "npm:1.12.0"
+    axios: "npm:1.13.5"
     change-case: "npm:5.4.4"
     concurrently: "npm:9.0.1"
     cross-env: "npm:7.0.3"
@@ -18351,17 +18351,6 @@ __metadata:
     follow-redirects: "npm:^1.14.9"
     form-data: "npm:^4.0.0"
   checksum: 10/2efaf18dd0805f7bc772882bc86f004abd92d51007b54c5081f74db0d08ce3593e2c010261896d25a14318eeaa2e966fd825e34f810e8a3339dc64b9d177cf70
-  languageName: node
-  linkType: hard
-
-"axios@npm:1.12.0":
-  version: 1.12.0
-  resolution: "axios@npm:1.12.0"
-  dependencies:
-    follow-redirects: "npm:^1.15.6"
-    form-data: "npm:^4.0.4"
-    proxy-from-env: "npm:^1.1.0"
-  checksum: 10/6c45e294b6ee72f832dbee94cb3fe7331bf2961874fa6b656d909a93b3574c59281f0c62eb92baf7b3e4f39be71936c9f1fcbbe494c90f7ff4d7cc2d7932f06d
   languageName: node
   linkType: hard
 
