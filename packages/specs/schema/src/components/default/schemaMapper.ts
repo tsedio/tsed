@@ -37,7 +37,6 @@ function shouldMapAlias(key: string, value: any, useAlias: boolean) {
 function shouldSkipKey(key: string, {specType = SpecTypes.JSON, customKeys = false}: JsonSchemaOptions) {
   return (
     IGNORES.includes(key) ||
-    key.startsWith("x-") ||
     (key.startsWith("#") && (!customKeys || specType !== SpecTypes.JSON)) ||
     (specType !== SpecTypes.JSON && IGNORES_OPENSPEC.includes(key))
   );

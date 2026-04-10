@@ -1,4 +1,4 @@
-import {getJsonSchema} from "../../index.js";
+import {getJsonSchema, SpecTypes} from "../../index.js";
 import {Schema} from "./schema.js";
 
 describe("Schema()", () => {
@@ -27,5 +27,35 @@ describe("Schema()", () => {
         "type": "object",
       }
     `);
+  });
+
+  it("should support vendor extensions passed to @Schema", () => {
+    class Test {
+      @Schema({
+        type: "string",
+        "x-secret": true
+      })
+      test: string;
+    }
+
+    expect(getJsonSchema(Test)).toEqual({
+      properties: {
+        test: {
+          type: "string",
+          "x-secret": true
+        }
+      },
+      type: "object"
+    });
+
+    expect(getJsonSchema(Test, {specType: SpecTypes.OPENAPI})).toEqual({
+      properties: {
+        test: {
+          type: "string",
+          "x-secret": true
+        }
+      },
+      type: "object"
+    });
   });
 });

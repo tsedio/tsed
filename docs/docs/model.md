@@ -366,6 +366,27 @@ class Model {
 > Note: Nullable means the value can be null. It does not mean the property can be omitted. Use @@Optional@@ (or remove
 > @@Required@@) to make a property optional.
 
+## Vendor extensions with `@Schema`
+
+You can pass OpenAPI vendor extensions (`x-*`) directly to @@Schema@@:
+
+```ts
+import {Schema} from "@tsed/schema";
+
+class SecretFieldModel {
+  @Schema({
+    type: "string",
+    "x-secret": true
+  })
+  token: string;
+}
+```
+
+The `x-*` key is preserved in generated schemas, including OpenAPI output.
+
+Use this when the extension belongs to the schema definition itself. For other custom metadata cases, you can still use
+@@CustomKey@@ / @@CustomKeys@@.
+
 ## Regular expressions
 
 The @@Pattern@@ decorator is used to restrict a string to a particular regular expression. The regular expression syntax

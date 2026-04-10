@@ -44,6 +44,7 @@ import type {Infer, PropsToShape, SchemaKey, SchemaMerge, SchemaOmit, SchemaPart
  * @public
  */
 export interface JsonSchemaObject extends Omit<JSONSchema7, "type" | "additionalProperties" | "items" | "pattern"> {
+  [key: `x-${string}`]: unknown;
   type?: JSONSchema7["type"] | Type | null | (String | null | Date | Number | Object | Boolean)[];
   additionalProperties?: JsonSchemaObject | boolean | Type | JsonSchema;
   items?: JsonSchemaObject | boolean | Type | JsonSchema | (JsonSchemaObject | Type | JsonSchema)[];
