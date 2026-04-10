@@ -1675,6 +1675,25 @@ describe("JsonSchema", () => {
     });
   });
 
+  describe("Generics mapping safety", () => {
+    it("should warn and fallback when getGenericLabels would fail on JsonEntityStore", () => {
+      class Product {
+        @Property()
+        id: string;
+      }
+
+      const store = JsonEntityStore.from(Product);
+      const warnSpy = vi.spyOn(console, "warn").mockImplementation(() => {});
+
+      const mapped = (JsonSchema.from({}) as any).mapGenerics(store, [[String]]);
+
+      expect(mapped).toEqual({});
+      expect(warnSpy).toHaveBeenCalledTimes(1);
+
+      warnSpy.mockRestore();
+    });
+  });
+
   describe("JsonSchema.add()", () => {
     it("should add new method to JsonSchema prototype", () => {
       JsonSchema.add("test", function test(this: JsonSchema) {

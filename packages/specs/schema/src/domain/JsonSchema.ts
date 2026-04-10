@@ -44,11 +44,12 @@ import type {Infer, PropsToShape, SchemaKey, SchemaMerge, SchemaOmit, SchemaPart
  * @public
  */
 export interface JsonSchemaObject extends Omit<JSONSchema7, "type" | "additionalProperties" | "items" | "pattern"> {
-  [key: `x-${string}`]: unknown;
   type?: JSONSchema7["type"] | Type | null | (String | null | Date | Number | Object | Boolean)[];
   additionalProperties?: JsonSchemaObject | boolean | Type | JsonSchema;
   items?: JsonSchemaObject | boolean | Type | JsonSchema | (JsonSchemaObject | Type | JsonSchema)[];
   pattern?: string | RegExp;
+
+  [key: `x-${string}`]: unknown;
 }
 
 /**
@@ -1845,7 +1846,25 @@ export class JsonSchema<T = JSONSchema7Type> extends Map<string, any> {
     return item;
   }
 
-  protected mapGenerics(jsonSchema: JsonSchema, generics: GenericValue[][]) {
+  protected mapGenerics(jsonSchema: unknown, generics: GenericValue[][]) {
+    if (!(jsonSchema instanceof JsonSchema)) {
+      console.warn(
+        "[@tsed/schema] The model likely contains an invalid generic declaration. " +
+          "A JsonSchema instance was expected, but a different value was resolved. " +
+          "Check your GenericOf/Nested declaration (or functional API usage).",
+        {
+          context: {
+            schemaName: this.getName(),
+            propertyKey: this.getPropertyKey(),
+            target: nameOf(this.getTarget())
+          },
+          generics,
+          resolvedValue: jsonSchema
+        }
+      );
+      return {};
+    }
+
     const genericLabels = jsonSchema.getGenericLabels();
 
     if (!genericLabels) {
