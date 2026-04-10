@@ -23,7 +23,27 @@ export class AjvService {
   protected returnsCoercedValues = constant<boolean>("ajv.returnsCoercedValues");
   protected ajv = inject(Ajv);
 
-  async validate(value: any, options: AjvValidateOptions | JsonSchema): Promise<any> {
+  /**
+   * Validate a value against a JSON schema, a model type, or explicit AJV options.
+   *
+   * The return type is inferred from `value` by default and can be overridden with an explicit generic:
+   * `ajvService.validate<MyType>(value, options)`.
+   *
+   * If `returnsCoercedValues` is enabled globally or in `options`, coercions performed by AJV are returned.
+   *
+   * @typeParam TReturn Explicit return type override. When omitted, `TValue` is returned.
+   * @typeParam TValue Input value type.
+   * @param value Value to validate.
+   * @param options Validation options or `JsonSchema`.
+   * @returns The validated value (possibly coerced when configured).
+   * @throws {AjvValidationError} When validation fails.
+   */
+  async validate<TReturn = never, TValue = unknown>(
+    value: TValue,
+    options: AjvValidateOptions | JsonSchema
+  ): Promise<[TReturn] extends [never] ? TValue : TReturn> {
+    type ValidateResult = [TReturn] extends [never] ? TValue : TReturn;
+
     let {
       schema: defaultSchema,
       type,
@@ -51,11 +71,11 @@ export class AjvService {
       }
 
       if (returnsCoercedValues) {
-        return localValue;
+        return localValue as ValidateResult;
       }
     }
 
-    return value;
+    return value as ValidateResult;
   }
 
   protected mapOptions(options: AjvValidateOptions | JsonSchema): AjvValidateOptions {
