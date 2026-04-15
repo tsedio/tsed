@@ -13884,7 +13884,7 @@ __metadata:
     "@types/content-disposition": "npm:^0.5.4"
     content-disposition: "npm:>=0.5.4"
     cross-env: "npm:7.0.3"
-    fastify: "npm:5.8.3"
+    fastify: "npm:5.8.5"
     fastify-raw-body: "npm:5.0.0"
     ts-node: "npm:10.9.2"
     tslib: "npm:>=2.7.0"
@@ -24357,9 +24357,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"fastify@npm:5.8.3":
-  version: 5.8.3
-  resolution: "fastify@npm:5.8.3"
+"fastify@npm:5.8.5":
+  version: 5.8.5
+  resolution: "fastify@npm:5.8.5"
   dependencies:
     "@fastify/ajv-compiler": "npm:^4.0.5"
     "@fastify/error": "npm:^4.0.0"
@@ -24376,7 +24376,7 @@ __metadata:
     secure-json-parse: "npm:^4.0.0"
     semver: "npm:^7.6.0"
     toad-cache: "npm:^3.7.0"
-  checksum: 10/01e117c900ffaffc747c195d244ae2fb39c26a74b31336950b64660ed01f24a225e9a984ef0eb2a6e03c2902b3fb28bc27986fead53f21fdc7aea234928046ea
+  checksum: 10/286054e09964743b3e36ae7fb5d78a46662adb818ac305efca6a09560c9f7346881b0f1ef51736bdd334f5bfecab4461dacdb55bef10e6b64829bbfcc397474d
   languageName: node
   linkType: hard
 
