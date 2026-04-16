@@ -1,5 +1,5 @@
 // https://vitepress.dev/guide/custom-theme
-import {DefaultTheme} from "@tsed/vitepress-theme";
+import {DefaultTheme, DocActions} from "@tsed/vitepress-theme";
 import HomeBanner from "@tsed/vitepress-theme/organisms/home/HomeBanner.vue";
 import HomeBody from "@tsed/vitepress-theme/organisms/home/HomeBody.vue";
 import HomeTabsTerminal from "@tsed/vitepress-theme/organisms/home/terminal/HomeTabsTerminal.vue";
@@ -16,6 +16,9 @@ export default {
   extends: DefaultTheme,
   Layout: () => {
     return h(DefaultTheme.Layout, null, {
+      "doc-before": () => h(
+        DocActions
+      ),
       "home-hero-image": () =>
         h(HomeBanner, null, {
           default: () =>

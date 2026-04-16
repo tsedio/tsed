@@ -389,7 +389,8 @@ const Releases = [
 export default defineConfig({
   title: "Ts.ED a modern Node.js/Bun.js framework built with TypeScript on top of Express.js/Koa.js/Fastify.js/CLI/AWS",
   lastUpdated: true,
-  description: "Ts.ED offers a flexible and easy-to-learn structure designed to enhance the developer experience. It provides decorators, guidelines, and supports Node.js, Bun.js, Express.js, Koa.js, Fastify.js, CLI, and serverless architectures (e.g., AWS).",
+  description:
+    "Ts.ED offers a flexible and easy-to-learn structure designed to enhance the developer experience. It provides decorators, guidelines, and supports Node.js, Bun.js, Express.js, Koa.js, Fastify.js, CLI, and serverless architectures (e.g., AWS).",
   sitemap: {
     hostname: "https://tsed.dev"
   },
@@ -404,17 +405,18 @@ export default defineConfig({
     ["meta", {name: "theme-color", content: "#5f67ee"}],
     ["meta", {property: "og:type", content: "website"}],
     ["meta", {property: "og:locale", content: "en"}],
-    ["meta", {
-      property: "og:title",
-      content: "Ts.ED a modern Node.js/Bun.js framework built with TypeScript on top of Express.js/Koa.js/Fastify.js/CLI/AWS"
-    }],
+    [
+      "meta",
+      {
+        property: "og:title",
+        content:
+          "Ts.ED a modern Node.js/Bun.js framework built with TypeScript on top of Express.js/Koa.js/Fastify.js/CLI/AWS"
+      }
+    ],
     ["meta", {property: "og:site_name", content: "Ts.ED"}],
     ["meta", {property: "og:image", content: "https://tsed.dev/tsed-og.png"}],
     ["meta", {property: "og:url", content: "https://tsed.dev/"}],
-    [
-      "script",
-      {async: "", src: "https://www.googletagmanager.com/gtag/js?id=G-3M3Q4QME6H&cx=c&_slc=1"}
-    ],
+    ["script", {async: "", src: "https://www.googletagmanager.com/gtag/js?id=G-3M3Q4QME6H&cx=c&_slc=1"}],
     [
       "script",
       {},
@@ -477,7 +479,9 @@ export default defineConfig({
     },
     socialLinks: [
       {
-        icon: {svg: "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"currentColor\"><polygon points=\"19,9 20.25,6.25 23,5 20.25,3.75 19,1 17.75,3.75 15,5 17.75,6.25\"></polygon><polygon points=\"19,15 17.75,17.75 15,19 17.75,20.25 19,23 20.25,20.25 23,19 20.25,17.75\"></polygon><path d=\"M11.5,9.5L9,4L6.5,9.5L1,12l5.5,2.5L9,20l2.5-5.5L17,12L11.5,9.5z M9.99,12.99L9,15.17l-0.99-2.18L5.83,12l2.18-0.99 L9,8.83l0.99,2.18L12.17,12L9.99,12.99z\"></path></svg>"},
+        icon: {
+          svg: '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><polygon points="19,9 20.25,6.25 23,5 20.25,3.75 19,1 17.75,3.75 15,5 17.75,6.25"></polygon><polygon points="19,15 17.75,17.75 15,19 17.75,20.25 19,23 20.25,20.25 23,19 20.25,17.75"></polygon><path d="M11.5,9.5L9,4L6.5,9.5L1,12l5.5,2.5L9,20l2.5-5.5L17,12L11.5,9.5z M9.99,12.99L9,15.17l-0.99-2.18L5.83,12l2.18-0.99 L9,8.83l0.99,2.18L12.17,12L9.99,12.99z"></path></svg>'
+        },
         link: "/introduction/ai/develop-with-ai.html"
       },
       {icon: "github", link: "https://github.com/tsedio/tsed"},
