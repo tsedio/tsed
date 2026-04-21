@@ -40,9 +40,45 @@ export class PlatformCache {
   }
 
   getKeysOf(target: Type<any>, propertyKey: string | symbol) {
-    const prefix = getPrefix(target, propertyKey);
+    return this.keys(this.buildEntryPattern(target, propertyKey));
+  }
 
-    return this.keys(`${prefix.join(":")}:*`);
+  /**
+   * Returns the global cache key prefix from settings (`cache.prefix`).
+   */
+  cachePrefix() {
+    return constant<string>("cache.prefix", "");
+  }
+
+  /**
+   * Builds the stable namespace segments used by cached entries for a method.
+   * The namespace combines the global cache prefix (if configured) and the method prefix.
+   */
+  buildNamespace(target: Type<any>, propertyKey: string | symbol) {
+    return [this.cachePrefix(), ...getPrefix(target, propertyKey)].filter(Boolean);
+  }
+
+  /**
+   * Builds the final cache key for a method call.
+   */
+  buildEntryKey(target: Type<any>, propertyKey: string | symbol, keyArgs: string) {
+    return [...this.buildNamespace(target, propertyKey), keyArgs].join(":");
+  }
+
+  /**
+   * Builds a key pattern scoped to a cached method namespace.
+   * Useful for listing/invalidation of keys produced by the same cached method.
+   */
+  buildEntryPattern(target: Type<any>, propertyKey: string | symbol, suffix = "*") {
+    return [...this.buildNamespace(target, propertyKey), suffix].join(":");
+  }
+
+  /**
+   * Builds internal keys used by cache housekeeping features
+   * (refresh queue and refresh cooldown markers).
+   */
+  buildInternalKey(namespace: "queue" | "refresh-cooldown", key: string) {
+    return `$$${namespace}:${key}`;
   }
 
   disabled(): boolean {

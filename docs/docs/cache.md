@@ -465,45 +465,61 @@ A service method response can be cached by using the `@UseCache` decorator. Some
 cached data because the consumed data backend state has changed. By implementing a notifications service, the backend
 data can trigger an event to tell your API that the data has changed.
 
-Here is short example:
+Here is a simple refresh example based on the centralized key helpers from `PlatformCache`:
 
 ```typescript
-import {Controller, Injectable} from "@tsed/di";
+import {Inject, Injectable} from "@tsed/di";
 import {PlatformCache, UseCache} from "@tsed/platform-cache";
-import {PlatformContext} from "@tsed/platform-http";
-import {PathParams} from "@tsed/platform-params";
-import {Get} from "@tsed/schema";
 
 @Injectable()
 export class ProductsService {
   @Inject()
   protected pimClient: PimClient;
 
-  @UseCache({ttl: 3600})
-  async get(id: string) {
+  @UseCache({prefix: "products", ttl: 3600})
+  async getById(id: string) {
     return this.pimClient.get("/products/" + id);
   }
 }
 
 @Injectable()
-export class NotificationsService {
+export class CacheRefreshService {
   @Inject()
   protected cache: PlatformCache;
 
   @Inject()
   protected productsService: ProductsService;
 
-  refreshProductId(id: string) {
-    return this.cache.refresh(() => this.productsService.get(id));
+  async refreshProduct(id: string) {
+    // Includes the global `cache.prefix` automatically, if configured.
+    const keys = await this.cache.getKeysOf(ProductsService, "getById");
+    let refreshed = 0;
+
+    for (const key of keys) {
+      const cached = await this.cache.getCachedObject(key);
+      const [cachedId] = Array.isArray(cached?.args) ? cached.args : [];
+
+      if (cachedId !== id) {
+        continue;
+      }
+
+      await this.cache.refresh(() => this.productsService.getById(id));
+      refreshed++;
+    }
+
+    // Optional fallback to warm cache when no existing key was found.
+    if (!refreshed) {
+      await this.cache.refresh(() => this.productsService.getById(id));
+    }
   }
 }
 ```
 
-This small example will force the data refresh.
+This example refreshes only matching cached entries and keeps key format concerns centralized in `PlatformCache`.
 
 ::: tip
-If you have several cached method calls, then the refresh will also be done on all of these methods called by the
-function passed to `PlatformCache.refresh()`.
+You can also build patterns explicitly with `cache.buildEntryPattern(Target, "method")` when using
+`getMatchingKeys(...)` or `deleteMatchingKeys(...)`, without hardcoding key formats.
 :::
 
 ## Multi caching

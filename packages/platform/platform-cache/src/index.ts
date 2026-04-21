@@ -8,5 +8,6 @@ export * from "./interfaces/interfaces.js";
 export * from "./interfaces/PlatformCachedObject.js";
 export * from "./interfaces/PlatformCacheOptions.js";
 export * from "./services/PlatformCache.js";
+export * from "./services/PlatformCacheRefreshService.js";
 export * from "./utils/getPrefix.js";
 export * from "./utils/isEndpoint.js";

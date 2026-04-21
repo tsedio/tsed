@@ -11,15 +11,14 @@ import {
   InterceptorContext,
   InterceptorMethods,
   InterceptorNext,
-  logger,
-  runInContext
+  logger
 } from "@tsed/di";
 import {deserialize, serialize} from "@tsed/json-mapper";
 
 import {PlatformCachedObject} from "../interfaces/PlatformCachedObject.js";
 import {PlatformCacheOptions} from "../interfaces/PlatformCacheOptions.js";
 import {PlatformCache} from "../services/PlatformCache.js";
-import {getPrefix} from "../utils/getPrefix.js";
+import {PlatformCacheRefreshService} from "../services/PlatformCacheRefreshService.js";
 import {isEndpoint} from "../utils/isEndpoint.js";
 
 const cleanHeaders = (headers: Record<string, unknown>, blacklist: string[]) => {
@@ -61,9 +60,8 @@ type Context = DIContext & {
  * @platform
  */
 export class PlatformCacheInterceptor implements InterceptorMethods {
-  static #refreshLocks = new Map<string, Promise<void>>();
-
   protected cache = inject(PlatformCache);
+  protected refreshService = inject(PlatformCacheRefreshService);
 
   protected prefix = constant<string>("cache.prefix", "");
 
@@ -85,58 +83,6 @@ export class PlatformCacheInterceptor implements InterceptorMethods {
     }
 
     return this.cacheResponse(context, next);
-  }
-
-  async canRefreshInBackground(
-    key: string,
-    {
-      refreshThreshold,
-      ttl,
-      cachedTTL
-    }: {
-      refreshThreshold?: number;
-      ttl: any;
-      cachedTTL?: number;
-    },
-    next: Function,
-    $ctx?: Context
-  ) {
-    if (!refreshThreshold) {
-      return;
-    }
-
-    const release = await this.acquireRefreshLock(key);
-
-    try {
-      const inQueue = await this.hasKeyInQueue(key);
-      const inCooldown = await this.hasRefreshCooldown(key);
-
-      if (inQueue || inCooldown) {
-        return;
-      }
-
-      await this.addKeyToQueue(key);
-
-      const currentTTL = await this.cache.ttl(key);
-      const calculatedTTL = cachedTTL ?? (typeof ttl === "number" ? ttl : undefined);
-      const refreshThresholdWithJitter = this.getRefreshThresholdWithJitter(key, refreshThreshold);
-
-      try {
-        if (calculatedTTL !== undefined && (currentTTL === undefined || currentTTL < calculatedTTL - refreshThresholdWithJitter)) {
-          await this.addRefreshCooldown(key, refreshThresholdWithJitter);
-
-          if ($ctx) {
-            await runInContext($ctx, () => next());
-          } else {
-            await next();
-          }
-        }
-      } finally {
-        await this.deleteKeyFromQueue(key);
-      }
-    } finally {
-      release();
-    }
   }
 
   async cacheMethod(context: InterceptorContext<any, PlatformCacheOptions>, next: InterceptorNext) {
@@ -166,26 +112,28 @@ export class PlatformCacheInterceptor implements InterceptorMethods {
       return result;
     }
 
-    this.canRefreshInBackground(
-      key,
-      {refreshThreshold, ttl, cachedTTL: cachedObject.ttl},
-      async () => {
-        const result = await next();
+    this.refreshService
+      .refreshInBackground(
+        key,
+        {refreshThreshold, ttl, cachedTTL: cachedObject.ttl},
+        async () => {
+          const result = await next();
 
-        await set(result);
-      },
-      $ctx
-    ).catch((er) =>
-      logger().error({
-        event: "CACHE_ERROR",
-        method: "cacheMethod",
-        concerned_key: key,
-        class_name: nameOf(context.target),
-        property_key: context.propertyKey,
-        error_description: er.message,
-        stack: er.stack
-      })
-    );
+          await set(result);
+        },
+        $ctx as BaseContext
+      )
+      .catch((er) =>
+        logger().error({
+          event: "CACHE_ERROR",
+          method: "cacheMethod",
+          concerned_key: key,
+          class_name: nameOf(context.target),
+          property_key: context.propertyKey,
+          error_description: er.message,
+          stack: er.stack
+        })
+      );
 
     const {data} = cachedObject;
 
@@ -282,7 +230,7 @@ export class PlatformCacheInterceptor implements InterceptorMethods {
     }
 
     return {
-      key: [...[this.prefix, ...getPrefix(interceptorContext.target, interceptorContext.propertyKey)].filter(Boolean), keyArgs].join(":"),
+      key: this.cache.buildEntryKey(interceptorContext.target, interceptorContext.propertyKey, keyArgs),
       refreshThreshold,
       ttl,
       type,
@@ -309,65 +257,6 @@ export class PlatformCacheInterceptor implements InterceptorMethods {
     }
 
     return typeof byPass === "function" ? byPass(args as any[], $ctx as BaseContext) : !!byPass;
-  }
-
-  protected async hasKeyInQueue(key: string) {
-    return !!(await this.cache.get(`$$queue:${key}`));
-  }
-
-  protected async addKeyToQueue(key: string) {
-    await this.cache.set(`$$queue:${key}`, true, {ttl: 120});
-  }
-
-  protected async deleteKeyFromQueue(key: string) {
-    await this.cache.del(`$$queue:${key}`);
-  }
-
-  protected async acquireRefreshLock(key: string) {
-    for (;;) {
-      const lock = PlatformCacheInterceptor.#refreshLocks.get(key);
-
-      if (!lock) {
-        let releaseFn: (() => void) | undefined;
-        const currentLock = new Promise<void>((resolve) => {
-          releaseFn = resolve;
-        });
-
-        PlatformCacheInterceptor.#refreshLocks.set(key, currentLock);
-
-        return () => {
-          if (PlatformCacheInterceptor.#refreshLocks.get(key) === currentLock) {
-            PlatformCacheInterceptor.#refreshLocks.delete(key);
-          }
-
-          releaseFn?.();
-        };
-      }
-
-      await lock;
-    }
-  }
-
-  protected getRefreshCooldownKey(key: string) {
-    return `$$refresh-cooldown:${key}`;
-  }
-
-  protected getRefreshThresholdWithJitter(key: string, refreshThreshold: number) {
-    const maxJitter = Math.max(1, Math.floor(refreshThreshold * 0.1));
-    const hash = key.split("").reduce((acc, char) => (acc * 31 + char.charCodeAt(0)) | 0, 0);
-    const jitter = Math.abs(hash) % (maxJitter + 1);
-
-    return Math.max(1, refreshThreshold - jitter);
-  }
-
-  protected async hasRefreshCooldown(key: string) {
-    return !!(await this.cache.get(this.getRefreshCooldownKey(key)));
-  }
-
-  protected async addRefreshCooldown(key: string, refreshThreshold: number) {
-    const cooldownTTL = Math.max(1, Math.floor(refreshThreshold / 2));
-
-    await this.cache.set(this.getRefreshCooldownKey(key), true, {ttl: cooldownTTL});
   }
 
   protected sendResponse(cachedObject: PlatformCachedObject) {

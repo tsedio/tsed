@@ -3,7 +3,6 @@ import {PlatformTest} from "@tsed/platform-http/testing";
 import {caching as cacheManager, multiCaching} from "cache-manager";
 
 import {UseCache} from "../decorators/useCache.js";
-import {getPrefix} from "../utils/getPrefix.js";
 import {PlatformCache} from "./PlatformCache.js";
 
 function createCacheFixture() {
@@ -166,14 +165,32 @@ describe("PlatformCache", () => {
         async test() {}
       }
 
-      const prefix = getPrefix(Test, "test");
-
-      await cacheManager.set(prefix + ":arg", "value");
-      await cacheManager.set(prefix + ":arg2", "value2");
+      await cacheManager.set(cacheManager.buildEntryKey(Test, "test", "arg"), "value");
+      await cacheManager.set(cacheManager.buildEntryKey(Test, "test", "arg2"), "value2");
 
       const keys = await cacheManager.getKeysOf(Test, "test");
 
       expect(keys).toEqual(["TEST:arg", "TEST:arg2"]);
+    });
+
+    it("should include global cache prefix when getting keys of a given class/method", async () => {
+      const cacheManager = PlatformTest.get<PlatformCache>(PlatformCache);
+
+      class Test {
+        @UseCache({
+          prefix: "TEST"
+        })
+        async test() {}
+      }
+
+      vi.spyOn(cacheManager, "cachePrefix").mockReturnValue("GLOBAL");
+
+      await cacheManager.set(cacheManager.buildEntryKey(Test, "test", "arg"), "value");
+      await cacheManager.set(cacheManager.buildEntryKey(Test, "test", "arg2"), "value2");
+
+      const keys = await cacheManager.getKeysOf(Test, "test");
+
+      expect(keys).toEqual(["GLOBAL:TEST:arg", "GLOBAL:TEST:arg2"]);
     });
 
     it("should delete matching keys (native)", async () => {

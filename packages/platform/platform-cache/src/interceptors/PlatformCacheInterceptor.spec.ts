@@ -5,6 +5,7 @@ import {PlatformTest} from "@tsed/platform-http/testing";
 
 import {UseCache} from "../decorators/useCache.js";
 import {PlatformCache} from "../services/PlatformCache.js";
+import {getPrefix} from "../utils/getPrefix.js";
 import {isEndpoint} from "../utils/isEndpoint.js";
 import {PlatformCacheInterceptor} from "./PlatformCacheInterceptor.js";
 
@@ -12,15 +13,27 @@ const defaultKeyResolver = (args: any[]) => {
   return args.map((arg: any) => (isClass(arg) ? JSON.stringify(serialize(arg)) : arg)).join(":");
 };
 
+const createCacheServiceMock = (cache: Record<string, any>) => {
+  return {
+    buildEntryKey: (target: any, propertyKey: string | symbol, keyArgs: string) => {
+      return [...getPrefix(target, propertyKey), keyArgs].join(":");
+    },
+    buildInternalKey: (namespace: "queue" | "refresh-cooldown", key: string) => {
+      return `$$${namespace}:${key}`;
+    },
+    ...cache
+  };
+};
+
 async function getInterceptorFixture(opts: any = {}) {
-  const cache: any = {
+  const cache: any = createCacheServiceMock({
     get: vi.fn().mockResolvedValue(false),
     set: vi.fn().mockResolvedValue(false),
     del: vi.fn().mockResolvedValue(true),
     ttl: vi.fn().mockResolvedValue(opts.ttl || 6999),
     calculateTTL: vi.fn().mockImplementation((result: any, ttl: any) => ttl),
     isForceRefresh: vi.fn().mockReturnValue(opts.forceRefresh)
-  };
+  });
 
   const interceptor = await PlatformTest.invoke<PlatformCacheInterceptor>(PlatformCacheInterceptor, [
     {
@@ -103,7 +116,7 @@ describe("PlatformCacheInterceptor", () => {
       expect((interceptor as any).cacheMethod).not.toHaveBeenCalled();
     });
   });
-  describe("canRefreshInBackground()", () => {
+  describe("refreshService.refreshInBackground()", () => {
     it("should refresh key in background", async () => {
       const {cache, interceptor} = await getInterceptorFixture();
       const $ctx = PlatformTest.createRequestContext();
@@ -111,7 +124,7 @@ describe("PlatformCacheInterceptor", () => {
       const next = vi.fn();
 
       await runInContext($ctx, () => {
-        return interceptor.canRefreshInBackground("key", {refreshThreshold: 300, ttl: 10000}, next, $ctx);
+        return (interceptor as any).refreshService.refreshInBackground("key", {refreshThreshold: 300, ttl: 10000}, next, $ctx);
       });
 
       expect(cache.get).toHaveBeenCalledWith("$$queue:key");
@@ -129,7 +142,7 @@ describe("PlatformCacheInterceptor", () => {
       const next = vi.fn();
 
       await runInContext($ctx, () =>
-        interceptor.canRefreshInBackground(
+        (interceptor as any).refreshService.refreshInBackground(
           "key",
           {
             refreshThreshold: 300,
@@ -153,7 +166,7 @@ describe("PlatformCacheInterceptor", () => {
       const next = vi.fn();
 
       await runInContext($ctx, () => {
-        return interceptor.canRefreshInBackground(
+        return (interceptor as any).refreshService.refreshInBackground(
           "key",
           {
             refreshThreshold: 300,
@@ -186,7 +199,7 @@ describe("PlatformCacheInterceptor", () => {
       const next = vi.fn();
 
       await runInContext($ctx, () => {
-        return interceptor.canRefreshInBackground("key", {refreshThreshold: 300, ttl: 10000}, next, $ctx);
+        return (interceptor as any).refreshService.refreshInBackground("key", {refreshThreshold: 300, ttl: 10000}, next, $ctx);
       });
 
       expect(cache.get).toHaveBeenCalledWith("$$queue:key");
@@ -202,7 +215,7 @@ describe("PlatformCacheInterceptor", () => {
       const next = vi.fn();
 
       await runInContext($ctx, () => {
-        return interceptor.canRefreshInBackground(
+        return (interceptor as any).refreshService.refreshInBackground(
           "key",
           {
             refreshThreshold: 300,
@@ -240,7 +253,7 @@ describe("PlatformCacheInterceptor", () => {
 
       await Promise.all([
         runInContext($ctx, () =>
-          interceptor.canRefreshInBackground(
+          (interceptor as any).refreshService.refreshInBackground(
             "key",
             {
               refreshThreshold: 300,
@@ -252,7 +265,7 @@ describe("PlatformCacheInterceptor", () => {
           )
         ),
         runInContext($ctx, () =>
-          interceptor.canRefreshInBackground(
+          (interceptor as any).refreshService.refreshInBackground(
             "key",
             {
               refreshThreshold: 300,
@@ -333,7 +346,7 @@ describe("PlatformCacheInterceptor", () => {
         }
       };
 
-      vi.spyOn(interceptor, "canRefreshInBackground").mockResolvedValue();
+      vi.spyOn((interceptor as any).refreshService, "refreshInBackground").mockResolvedValue();
 
       const result = await interceptor.cacheMethod(context, next);
 
@@ -342,7 +355,7 @@ describe("PlatformCacheInterceptor", () => {
         data: "data"
       });
 
-      (interceptor.canRefreshInBackground as any).mock.calls[0][2]();
+      ((interceptor as any).refreshService.refreshInBackground as any).mock.calls[0][2]();
 
       await new Promise((resolve) => setTimeout(resolve, 100));
 
@@ -386,7 +399,7 @@ describe("PlatformCacheInterceptor", () => {
         }
       };
 
-      vi.spyOn(interceptor, "canRefreshInBackground").mockResolvedValue();
+      vi.spyOn((interceptor as any).refreshService, "refreshInBackground").mockResolvedValue();
 
       const result = await interceptor.cacheMethod(context, next);
 
@@ -395,7 +408,7 @@ describe("PlatformCacheInterceptor", () => {
         data: "data"
       });
 
-      (interceptor.canRefreshInBackground as any).mock.calls[0][2]();
+      ((interceptor as any).refreshService.refreshInBackground as any).mock.calls[0][2]();
 
       await new Promise((resolve) => setTimeout(resolve, 100));
 
@@ -439,7 +452,7 @@ describe("PlatformCacheInterceptor", () => {
         }
       };
 
-      vi.spyOn(interceptor, "canRefreshInBackground").mockResolvedValue();
+      vi.spyOn((interceptor as any).refreshService, "refreshInBackground").mockResolvedValue();
 
       const result = await interceptor.cacheMethod(context, next);
 
@@ -447,7 +460,7 @@ describe("PlatformCacheInterceptor", () => {
       expect(result).toEqual({
         data: "refreshed"
       });
-      expect(interceptor.canRefreshInBackground).not.toHaveBeenCalled();
+      expect((interceptor as any).refreshService.refreshInBackground).not.toHaveBeenCalled();
       expect(cache.setCachedObject).toHaveBeenCalledWith(
         "Test:test:value",
         {data: "refreshed"},
@@ -486,13 +499,13 @@ describe("PlatformCacheInterceptor", () => {
         }
       };
 
-      vi.spyOn(interceptor, "canRefreshInBackground").mockResolvedValue();
+      vi.spyOn((interceptor as any).refreshService, "refreshInBackground").mockResolvedValue();
 
       const result = await interceptor.cacheMethod(context, next);
 
       await new Promise((resolve) => setTimeout(resolve, 100));
 
-      expect(interceptor.canRefreshInBackground).not.toHaveBeenCalled();
+      expect((interceptor as any).refreshService.refreshInBackground).not.toHaveBeenCalled();
       expect(cache.getCachedObject).toHaveBeenCalledWith("Test:test:value");
       expect(cache.setCachedObject).toHaveBeenCalledWith(
         "Test:test:value",
@@ -535,13 +548,13 @@ describe("PlatformCacheInterceptor", () => {
         }
       };
 
-      vi.spyOn(interceptor, "canRefreshInBackground").mockResolvedValue();
+      vi.spyOn((interceptor as any).refreshService, "refreshInBackground").mockResolvedValue();
 
       const result = await interceptor.cacheMethod(context, next);
 
       await new Promise((resolve) => setTimeout(resolve, 100));
 
-      expect(interceptor.canRefreshInBackground).not.toHaveBeenCalled();
+      expect((interceptor as any).refreshService.refreshInBackground).not.toHaveBeenCalled();
       expect(cache.getCachedObject).toHaveBeenCalledWith("Test:test:value");
       expect(cache.setCachedObject).not.toHaveBeenCalled();
       expect(result).toEqual(null);
@@ -576,7 +589,7 @@ describe("PlatformCacheInterceptor", () => {
       };
 
       const error = new Error("error");
-      vi.spyOn(interceptor, "canRefreshInBackground").mockRejectedValue(error);
+      vi.spyOn((interceptor as any).refreshService, "refreshInBackground").mockRejectedValue(error);
       vi.spyOn(logger(), "error");
 
       await interceptor.cacheMethod(context, next);
@@ -596,7 +609,7 @@ describe("PlatformCacheInterceptor", () => {
   });
   describe("cacheResponse()", () => {
     it("should return the cached response", async () => {
-      const cache = {
+      const cache = createCacheServiceMock({
         get: vi.fn().mockResolvedValue(false),
         set: vi.fn().mockResolvedValue(false),
         del: vi.fn().mockResolvedValue(true),
@@ -606,7 +619,7 @@ describe("PlatformCacheInterceptor", () => {
         }),
         setCachedObject: vi.fn().mockResolvedValue("test"),
         defaultKeyResolver: () => defaultKeyResolver
-      };
+      });
       const interceptor = await PlatformTest.invoke<PlatformCacheInterceptor>(PlatformCacheInterceptor, [
         {
           token: PlatformCache,
@@ -643,7 +656,7 @@ describe("PlatformCacheInterceptor", () => {
         }
       };
 
-      vi.spyOn(interceptor, "canRefreshInBackground").mockResolvedValue();
+      vi.spyOn((interceptor as any).refreshService, "refreshInBackground").mockResolvedValue();
       vi.spyOn(interceptor as any, "sendResponse").mockResolvedValue(undefined);
 
       const result = await interceptor.cacheResponse(context, next);
@@ -661,7 +674,7 @@ describe("PlatformCacheInterceptor", () => {
        */
     });
     it("should return the cached response (prefix)", async () => {
-      const cache = {
+      const cache = createCacheServiceMock({
         get: vi.fn().mockResolvedValue(false),
         set: vi.fn().mockResolvedValue(false),
         del: vi.fn().mockResolvedValue(true),
@@ -671,7 +684,7 @@ describe("PlatformCacheInterceptor", () => {
         }),
         setCachedObject: vi.fn().mockResolvedValue("test"),
         defaultKeyResolver: () => defaultKeyResolver
-      };
+      });
       const interceptor = await PlatformTest.invoke<PlatformCacheInterceptor>(PlatformCacheInterceptor, [
         {
           token: PlatformCache,
@@ -710,7 +723,7 @@ describe("PlatformCacheInterceptor", () => {
         }
       };
 
-      vi.spyOn(interceptor, "canRefreshInBackground").mockResolvedValue();
+      vi.spyOn((interceptor as any).refreshService, "refreshInBackground").mockResolvedValue();
       vi.spyOn(interceptor as any, "sendResponse").mockResolvedValue(undefined);
 
       const result = await interceptor.cacheResponse(context, next);
@@ -728,7 +741,7 @@ describe("PlatformCacheInterceptor", () => {
        */
     });
     it("should bypass cached response when cache-control is no-cache", async () => {
-      const cache = {
+      const cache = createCacheServiceMock({
         get: vi.fn().mockResolvedValue(false),
         set: vi.fn().mockResolvedValue(false),
         del: vi.fn().mockResolvedValue(true),
@@ -738,7 +751,7 @@ describe("PlatformCacheInterceptor", () => {
         }),
         setCachedObject: vi.fn().mockResolvedValue("test"),
         defaultKeyResolver: () => defaultKeyResolver
-      };
+      });
       const interceptor = await PlatformTest.invoke<PlatformCacheInterceptor>(PlatformCacheInterceptor, [
         {
           token: PlatformCache,
@@ -795,7 +808,7 @@ describe("PlatformCacheInterceptor", () => {
       expect(cache.setCachedObject).not.toHaveBeenCalled();
     });
     it("should ignore cache-control header when byPass is false", async () => {
-      const cache = {
+      const cache = createCacheServiceMock({
         get: vi.fn().mockResolvedValue(false),
         set: vi.fn().mockResolvedValue(false),
         del: vi.fn().mockResolvedValue(true),
@@ -805,7 +818,7 @@ describe("PlatformCacheInterceptor", () => {
         }),
         setCachedObject: vi.fn().mockResolvedValue("test"),
         defaultKeyResolver: () => defaultKeyResolver
-      };
+      });
       const interceptor = await PlatformTest.invoke<PlatformCacheInterceptor>(PlatformCacheInterceptor, [
         {
           token: PlatformCache,
@@ -840,7 +853,7 @@ describe("PlatformCacheInterceptor", () => {
         }
       };
 
-      vi.spyOn(interceptor, "canRefreshInBackground").mockResolvedValue();
+      vi.spyOn((interceptor as any).refreshService, "refreshInBackground").mockResolvedValue();
       const sendResponseSpy = vi.spyOn(interceptor as any, "sendResponse").mockResolvedValue(undefined);
 
       await interceptor.cacheResponse(context, next);
@@ -850,7 +863,7 @@ describe("PlatformCacheInterceptor", () => {
       expect(next).not.toHaveBeenCalled();
     });
     it("should call the method and set the cache", async () => {
-      const cache = {
+      const cache = createCacheServiceMock({
         get: vi.fn().mockResolvedValue(false),
         set: vi.fn().mockResolvedValue(false),
         del: vi.fn().mockResolvedValue(true),
@@ -858,7 +871,7 @@ describe("PlatformCacheInterceptor", () => {
         getCachedObject: vi.fn().mockResolvedValue(undefined),
         setCachedObject: vi.fn().mockResolvedValue("test"),
         defaultKeyResolver: () => defaultKeyResolver
-      };
+      });
       const interceptor = await PlatformTest.invoke<PlatformCacheInterceptor>(PlatformCacheInterceptor, [
         {
           token: PlatformCache,
@@ -901,7 +914,7 @@ describe("PlatformCacheInterceptor", () => {
         }
       };
 
-      vi.spyOn(interceptor, "canRefreshInBackground").mockResolvedValue();
+      vi.spyOn((interceptor as any).refreshService, "refreshInBackground").mockResolvedValue();
       vi.spyOn(interceptor as any, "sendResponse").mockResolvedValue(undefined);
 
       const result = await interceptor.cacheResponse(context, next);
@@ -924,7 +937,7 @@ describe("PlatformCacheInterceptor", () => {
     });
 
     it("should skip max-age header and ttl persistence when calculateTTL is undefined", async () => {
-      const cache = {
+      const cache = createCacheServiceMock({
         get: vi.fn().mockResolvedValue(false),
         set: vi.fn().mockResolvedValue(false),
         del: vi.fn().mockResolvedValue(true),
@@ -932,7 +945,7 @@ describe("PlatformCacheInterceptor", () => {
         getCachedObject: vi.fn().mockResolvedValue(undefined),
         setCachedObject: vi.fn().mockResolvedValue("test"),
         defaultKeyResolver: () => defaultKeyResolver
-      };
+      });
       const interceptor = await PlatformTest.invoke<PlatformCacheInterceptor>(PlatformCacheInterceptor, [
         {
           token: PlatformCache,
@@ -969,7 +982,7 @@ describe("PlatformCacheInterceptor", () => {
         }
       };
 
-      vi.spyOn(interceptor, "canRefreshInBackground").mockResolvedValue();
+      vi.spyOn((interceptor as any).refreshService, "refreshInBackground").mockResolvedValue();
       vi.spyOn(interceptor as any, "sendResponse").mockResolvedValue(undefined);
 
       const result = await interceptor.cacheResponse(context, next);
