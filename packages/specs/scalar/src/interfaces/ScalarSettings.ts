@@ -7,3 +7,11 @@ export type ScalarSettings = OpenApiSettings &
     cdn?: string;
     options?: ReferenceConfiguration;
   };
+
+declare global {
+  namespace TsED {
+    interface Configuration {
+      scalar?: ScalarSettings[];
+    }
+  }
+}

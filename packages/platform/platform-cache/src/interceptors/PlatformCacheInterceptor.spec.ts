@@ -13,7 +13,7 @@ const defaultKeyResolver = (args: any[]) => {
   return args.map((arg: any) => (isClass(arg) ? JSON.stringify(serialize(arg)) : arg)).join(":");
 };
 
-const createCacheServiceMock = (cache: Record<string, any>) => {
+const createCacheServiceMock = (cache: Record<string, any> = {}): any => {
   return {
     buildEntryKey: (target: any, propertyKey: string | symbol, keyArgs: string) => {
       return [...getPrefix(target, propertyKey), keyArgs].join(":");
@@ -346,7 +346,7 @@ describe("PlatformCacheInterceptor", () => {
         }
       };
 
-      vi.spyOn((interceptor as any).refreshService, "refreshInBackground").mockResolvedValue();
+      vi.spyOn((interceptor as any).refreshService, "refreshInBackground").mockResolvedValue(undefined);
 
       const result = await interceptor.cacheMethod(context, next);
 
@@ -399,7 +399,7 @@ describe("PlatformCacheInterceptor", () => {
         }
       };
 
-      vi.spyOn((interceptor as any).refreshService, "refreshInBackground").mockResolvedValue();
+      vi.spyOn((interceptor as any).refreshService, "refreshInBackground").mockResolvedValue(undefined);
 
       const result = await interceptor.cacheMethod(context, next);
 
@@ -452,7 +452,7 @@ describe("PlatformCacheInterceptor", () => {
         }
       };
 
-      vi.spyOn((interceptor as any).refreshService, "refreshInBackground").mockResolvedValue();
+      vi.spyOn((interceptor as any).refreshService, "refreshInBackground").mockResolvedValue(undefined);
 
       const result = await interceptor.cacheMethod(context, next);
 
@@ -499,7 +499,7 @@ describe("PlatformCacheInterceptor", () => {
         }
       };
 
-      vi.spyOn((interceptor as any).refreshService, "refreshInBackground").mockResolvedValue();
+      vi.spyOn((interceptor as any).refreshService, "refreshInBackground").mockResolvedValue(undefined);
 
       const result = await interceptor.cacheMethod(context, next);
 
@@ -548,7 +548,7 @@ describe("PlatformCacheInterceptor", () => {
         }
       };
 
-      vi.spyOn((interceptor as any).refreshService, "refreshInBackground").mockResolvedValue();
+      vi.spyOn((interceptor as any).refreshService, "refreshInBackground").mockResolvedValue(undefined);
 
       const result = await interceptor.cacheMethod(context, next);
 
@@ -656,7 +656,7 @@ describe("PlatformCacheInterceptor", () => {
         }
       };
 
-      vi.spyOn((interceptor as any).refreshService, "refreshInBackground").mockResolvedValue();
+      vi.spyOn((interceptor as any).refreshService, "refreshInBackground").mockResolvedValue(undefined);
       vi.spyOn(interceptor as any, "sendResponse").mockResolvedValue(undefined);
 
       const result = await interceptor.cacheResponse(context, next);
@@ -723,7 +723,7 @@ describe("PlatformCacheInterceptor", () => {
         }
       };
 
-      vi.spyOn((interceptor as any).refreshService, "refreshInBackground").mockResolvedValue();
+      vi.spyOn((interceptor as any).refreshService, "refreshInBackground").mockResolvedValue(undefined);
       vi.spyOn(interceptor as any, "sendResponse").mockResolvedValue(undefined);
 
       const result = await interceptor.cacheResponse(context, next);
@@ -853,7 +853,7 @@ describe("PlatformCacheInterceptor", () => {
         }
       };
 
-      vi.spyOn((interceptor as any).refreshService, "refreshInBackground").mockResolvedValue();
+      vi.spyOn((interceptor as any).refreshService, "refreshInBackground").mockResolvedValue(undefined);
       const sendResponseSpy = vi.spyOn(interceptor as any, "sendResponse").mockResolvedValue(undefined);
 
       await interceptor.cacheResponse(context, next);
@@ -914,7 +914,7 @@ describe("PlatformCacheInterceptor", () => {
         }
       };
 
-      vi.spyOn((interceptor as any).refreshService, "refreshInBackground").mockResolvedValue();
+      vi.spyOn((interceptor as any).refreshService, "refreshInBackground").mockResolvedValue(undefined);
       vi.spyOn(interceptor as any, "sendResponse").mockResolvedValue(undefined);
 
       const result = await interceptor.cacheResponse(context, next);
@@ -982,7 +982,7 @@ describe("PlatformCacheInterceptor", () => {
         }
       };
 
-      vi.spyOn((interceptor as any).refreshService, "refreshInBackground").mockResolvedValue();
+      vi.spyOn((interceptor as any).refreshService, "refreshInBackground").mockResolvedValue(undefined);
       vi.spyOn(interceptor as any, "sendResponse").mockResolvedValue(undefined);
 
       const result = await interceptor.cacheResponse(context, next);
