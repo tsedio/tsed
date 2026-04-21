@@ -121,12 +121,11 @@ export abstract class JsonMapperCompiler<Options extends Record<string, any> = a
     return this;
   }
 
-  eval(
+  compileMapper(
     mapper: string,
     {
       id,
       groupsId,
-      model,
       storeGroups
     }: {
       id: string;
@@ -209,7 +208,7 @@ export abstract class JsonMapperCompiler<Options extends Record<string, any> = a
       const mapper = opts.mapper ? opts.mapper(id, groups) : this.createMapper(token as Type<any>, id, groups);
 
       try {
-        return this.eval(mapper, {id, groupsId, model: token, storeGroups});
+        return this.compileMapper(mapper, {id, groupsId, model: token, storeGroups});
       } catch (err) {
         throw new Error(`Fail to compile mapper for ${nameOf(model)}. See the error above: ${(err as Error).message}.\n${mapper}`);
       }

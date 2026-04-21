@@ -98,7 +98,7 @@ export class JsonDeserializer extends JsonMapperCompiler<JsonDeserializerOptions
     return super.compile(model, groups);
   }
 
-  eval(
+  compileMapper(
     mapper: string,
     {
       id,
@@ -116,7 +116,7 @@ export class JsonDeserializer extends JsonMapperCompiler<JsonDeserializerOptions
       this.constructors[id] = model;
     }
 
-    return super.eval(mapper, {id, groupsId, model, storeGroups});
+    return super.compileMapper(mapper, {id, groupsId, model, storeGroups});
   }
 
   protected newInstanceOf(id: string, obj: any, options: any) {
