@@ -2,6 +2,7 @@ import {ancestorsOf, nameOf, Type} from "@tsed/core";
 
 import {Post} from "../../test/helpers/Post.js";
 import {CollectionOf, compile, Email, Format, JsonEntityStore, MinLength, Name, Property, Required, s} from "../index.js";
+import {getJsonSchema} from "./getJsonSchema.js";
 
 describe("compile", () => {
   it("should compile JsonSchema instances", () => {
@@ -22,13 +23,13 @@ describe("compile", () => {
     });
   });
 
-  it("should expose compile as an alias of compile", () => {
+  it("should expose compile as an alias of getJsonSchema", () => {
     const schema = s.object({
       id: s.string().required()
     });
 
-    expect(compile(schema)).toEqual(compile(schema));
-    expect(compile(Post)).toEqual(compile(Post));
+    expect(compile(schema)).toEqual(getJsonSchema(schema));
+    expect(compile(Post)).toEqual(getJsonSchema(Post));
   });
 
   it("should declare all schema correctly (basic)", () => {

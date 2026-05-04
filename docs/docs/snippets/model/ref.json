@@ -1,0 +1,9 @@
+{
+  "type": "object",
+  "required": ["paymentProviders"],
+  "properties": {
+    "paymentProviders": {
+      "$ref": "https://example.com/doc/swagger.json#/components/schemas/NotificationPayloadModel"
+    }
+  }
+}

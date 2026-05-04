@@ -1,7 +1,7 @@
 import {AjvService} from "@tsed/ajv";
 import {PlatformTest} from "@tsed/platform-http/testing";
 
-import {compile, s} from "../../src/index.js";
+import {compile, Property, Ref, Required, s} from "../../src/index.js";
 
 const PaymentProvidersResponseSchema = s.object({
   paymentProviders: s.$ref("https://api.clubmed.com/doc/swagger.json#/components/schemas/NotificationPayloadModel"),
@@ -39,31 +39,6 @@ describe("External ref url integration", () => {
                   }
                 }
               }
-            };
-          }
-
-          if (uri === "https://api.clubmed.com/doc/swagger.json#/components/schemas/NotificationPayloadModel") {
-            return {
-              $id: uri,
-              type: "object",
-              properties: {
-                id: {type: "string"},
-                amount: {type: "number"}
-              },
-              required: ["id", "amount"],
-              additionalProperties: false
-            };
-          }
-
-          if (uri === "https://api.clubmed.com/doc/swagger.json#/components/schemas/BuyNowPayLaterProviderModel") {
-            return {
-              $id: uri,
-              type: "object",
-              properties: {
-                provider: {type: "string"}
-              },
-              required: ["provider"],
-              additionalProperties: false
             };
           }
 
@@ -115,5 +90,24 @@ describe("External ref url integration", () => {
         {schema: paymentProvidersResponseSchemaJson}
       )
     ).rejects.toThrow("must have required property");
+  });
+
+  it("should generate required + $ref with decorators", () => {
+    class DecoratorModel {
+      @Property()
+      @Required()
+      @Ref("https://api.clubmed.com/doc/swagger.json#/components/schemas/NotificationPayloadModel")
+      paymentProviders: unknown;
+    }
+
+    expect(compile(DecoratorModel)).toEqual({
+      type: "object",
+      required: ["paymentProviders"],
+      properties: {
+        paymentProviders: {
+          $ref: "https://api.clubmed.com/doc/swagger.json#/components/schemas/NotificationPayloadModel"
+        }
+      }
+    });
   });
 });

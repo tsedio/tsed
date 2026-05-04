@@ -142,6 +142,47 @@ Produce a json-schema as follows:
 }
 ```
 
+## References
+
+Use @@Ref@@ to assign a `$ref` directly on a property schema. This works with both local references (`#/...`) and
+external URLs.
+
+::: code-group
+
+<<< @/docs/snippets/model/ref.ts [Decorators]
+<<< @/docs/snippets/model/fn-api-ref.ts [Functional API]
+<<< @/docs/snippets/model/ref.json [JSON Schema]
+
+:::
+
+::: warning External `$ref` and validation
+When using external `$ref` URLs, runtime validation with `@tsed/ajv` requires AJV to resolve those schemas.
+
+Configure `ajv.loadSchema` (or register schemas manually with AJV) so external references can be loaded during
+validation.
+
+```ts
+import {Configuration} from "@tsed/di";
+import "@tsed/ajv";
+
+@Configuration({
+  ajv: {
+    loadSchema: async (uri: string) => {
+      const response = await fetch(uri);
+
+      if (!response.ok) {
+        throw new Error(`Unable to load schema: ${uri}`);
+      }
+
+      return response.json();
+    }
+  }
+})
+export class Server {}
+```
+
+:::
+
 ## Nullable
 
 Use the @@Nullable@@ decorator to explicitly allow null as a valid value for a property while preserving the original

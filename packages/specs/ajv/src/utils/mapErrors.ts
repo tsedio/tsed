@@ -34,7 +34,7 @@ export function mapErrors(errors: ErrorObject[], options: MapErrorsOptions) {
 
       const dataPath = getPath(error);
 
-      if (!error.data) {
+      if (error.data === undefined) {
         if (dataPath) {
           error.data = getValue(value, dataPath.replace(/^\./, ""));
         } else if (error.schemaPath !== "#/required") {
@@ -42,7 +42,7 @@ export function mapErrors(errors: ErrorObject[], options: MapErrorsOptions) {
         }
       }
 
-      if (dataPath && dataPath.match(/pwd|password|mdp|secret/)) {
+      if (dataPath && dataPath.match(/pwd|password|mdp|secret/i)) {
         error.data = "[REDACTED]";
       }
 

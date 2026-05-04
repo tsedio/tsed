@@ -8,7 +8,7 @@ import {getJsonSchema} from "./getJsonSchema.js";
 /**
  * Compile a class, parameter store, or `JsonSchema` into a plain JSON schema object.
  *
- * This is an alias of `compile(...)`.
+ * This is an alias of `getJsonSchema(...)`.
  *
  * @param model Class, parameter store, or `JsonSchema` to compile.
  * @param options JSON schema generation options.
