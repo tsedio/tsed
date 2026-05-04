@@ -3,7 +3,7 @@ import "../../src/index.js";
 import {BadRequest} from "@tsed/exceptions";
 import {PlatformTest} from "@tsed/platform-http/testing";
 import {BodyParams, ParamValidationError, ValidationPipe} from "@tsed/platform-params";
-import {CollectionOf, getJsonSchema, JsonParameterStore, Nullable, Property} from "@tsed/schema";
+import {CollectionOf, compile, JsonParameterStore, Nullable, Property} from "@tsed/schema";
 
 async function validate(value: any, metadata: any) {
   const pipe: ValidationPipe = await PlatformTest.invoke<ValidationPipe>(ValidationPipe);
@@ -81,7 +81,7 @@ describe("Nullable model", () => {
         prop5: null
       };
 
-      expect(getJsonSchema(NullModel)).toMatchInlineSnapshot(`
+      expect(compile(NullModel)).toMatchInlineSnapshot(`
         {
           "definitions": {
             "NestedModel": {

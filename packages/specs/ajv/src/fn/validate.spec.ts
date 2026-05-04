@@ -9,11 +9,11 @@ describe("validate", () => {
 
   it("should validate a value against a JSON schema or a type", async () => {
     const value = {name: "John"};
-    const options = object({
+    const schema = object({
       name: string()
     });
 
-    const result = await validate(value, options);
+    const result = await validate(value, schema);
 
     expect(result).toEqual(value);
   });

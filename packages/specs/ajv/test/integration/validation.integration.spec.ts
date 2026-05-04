@@ -3,7 +3,7 @@ import "../../src/index.js";
 import {BadRequest} from "@tsed/exceptions";
 import {PlatformTest} from "@tsed/platform-http/testing";
 import {BodyParams, ParamTypes, ParamValidationError, QueryParams, UseParam, ValidationPipe} from "@tsed/platform-params";
-import {getJsonSchema, JsonParameterStore, MinLength, Post, Property, Required, Schema} from "@tsed/schema";
+import {compile, JsonParameterStore, MinLength, Post, Property, Required, Schema} from "@tsed/schema";
 
 async function validate(value: any, metadata: any) {
   const pipe: ValidationPipe = await PlatformTest.invoke<ValidationPipe>(ValidationPipe);
@@ -50,7 +50,7 @@ describe("AjvValidationPipe", () => {
       const value: any[] = [];
       const error = await validate(value, metadata);
 
-      expect(getJsonSchema(metadata)).toEqual({
+      expect(compile(metadata)).toEqual({
         type: "object"
       });
 
@@ -91,7 +91,7 @@ describe("AjvValidationPipe", () => {
 
       const metadata = JsonParameterStore.get(Ctrl, "get", 0);
 
-      expect(getJsonSchema(metadata, {useAlias: true})).toEqual({
+      expect(compile(metadata, {useAlias: true})).toEqual({
         type: "array",
         items: {
           type: "string"
@@ -150,7 +150,7 @@ describe("AjvValidationPipe", () => {
 
       const error = await validate(value, metadata);
 
-      expect(getJsonSchema(metadata)).toEqual({
+      expect(compile(metadata)).toEqual({
         type: "object",
         properties: {
           id: {
@@ -241,7 +241,7 @@ describe("AjvValidationPipe", () => {
 
       const error = await validate(value, metadata);
 
-      expect(getJsonSchema(metadata)).toEqual({
+      expect(compile(metadata)).toEqual({
         properties: {
           id: {
             minLength: 1,
@@ -314,7 +314,7 @@ describe("AjvValidationPipe", () => {
       const value: any = [{}];
       const error = await validate(value, metadata);
 
-      expect(getJsonSchema(metadata)).toEqual({
+      expect(compile(metadata)).toEqual({
         definitions: {
           Model: {
             properties: {
@@ -363,7 +363,7 @@ describe("AjvValidationPipe", () => {
         }
       ];
 
-      expect(getJsonSchema(metadata)).toEqual({
+      expect(compile(metadata)).toEqual({
         definitions: {
           Model: {
             properties: {
@@ -470,7 +470,7 @@ describe("AjvValidationPipe", () => {
       const metadata = JsonParameterStore.get(Ctrl, "get", 0);
       const error = await validate(value, metadata);
 
-      expect(getJsonSchema(metadata)).toEqual({
+      expect(compile(metadata)).toEqual({
         additionalProperties: {
           $ref: "#/definitions/Model"
         },
@@ -544,7 +544,7 @@ describe("AjvValidationPipe", () => {
       const value: any = [{}];
       const error = await validate(value, metadata);
 
-      expect(getJsonSchema(metadata)).toEqual({
+      expect(compile(metadata)).toEqual({
         definitions: {
           Model: {
             properties: {

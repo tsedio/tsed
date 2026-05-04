@@ -1,5 +1,5 @@
 import {PlatformTest} from "@tsed/platform-http/testing";
-import {Format, getJsonSchema} from "@tsed/schema";
+import {compile, Format} from "@tsed/schema";
 
 import {Formats} from "../../src/decorators/formats.js";
 import {FormatsMethods} from "../../src/interfaces/FormatsMethods.js";
@@ -27,7 +27,7 @@ describe("Formats", () => {
     }
 
     const service = PlatformTest.get<AjvService>(AjvService);
-    const jsonSchema = getJsonSchema(MyModel);
+    const jsonSchema = compile(MyModel);
 
     expect(jsonSchema).toEqual({
       properties: {

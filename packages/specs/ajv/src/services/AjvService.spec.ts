@@ -11,7 +11,7 @@ describe("AjvService", () => {
   it("should use the function api as schema", async () => {
     const ajvService = PlatformTest.get<AjvService>(AjvService);
 
-    const error: any = await catchAsyncError(() => ajvService.validate("test", string().minLength(5)));
+    const error: any = await catchAsyncError(() => ajvService.validate("test", {schema: string().minLength(5)}));
     expect(error.errors).toEqual([
       {
         data: "test",
@@ -30,7 +30,7 @@ describe("AjvService", () => {
   it("should use the function api as schema (required)", async () => {
     const ajvService = PlatformTest.get<AjvService>(AjvService);
 
-    const error: any = await catchAsyncError(() => ajvService.validate({}, object({test: string().required()})));
+    const error: any = await catchAsyncError(() => ajvService.validate({}, {schema: object({test: string().required()})}));
     expect(error.errors).toEqual([
       {
         dataPath: ".test",

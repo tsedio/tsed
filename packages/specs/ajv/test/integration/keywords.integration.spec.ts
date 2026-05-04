@@ -1,7 +1,7 @@
 import "../../src/index.js";
 
 import {PlatformTest} from "@tsed/platform-http/testing";
-import {array, CustomKey, getJsonSchema, number} from "@tsed/schema";
+import {array, compile, CustomKey, number} from "@tsed/schema";
 import {_, Ajv, KeywordCxt} from "ajv";
 
 import {Keyword} from "../../src/decorators/keyword.js";
@@ -66,7 +66,7 @@ describe("Keywords", () => {
 
   it("should call custom keyword validation (model)", () => {
     const ajv = PlatformTest.get<Ajv>(Ajv);
-    const schema = getJsonSchema(Product, {customKeys: true});
+    const schema = compile(Product, {customKeys: true});
 
     const validate = ajv.compile(schema);
 

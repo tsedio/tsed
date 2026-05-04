@@ -1,14 +1,13 @@
 import "./Ajv.js";
 
-import {deepClone, getValue, nameOf, prototypeOf, setValue, Type} from "@tsed/core";
+import {deepClone, Type} from "@tsed/core";
 import {constant, inject, injectable} from "@tsed/di";
-import {getJsonSchema, JsonEntityStore, JsonSchema, JsonSchemaObject} from "@tsed/schema";
-import {Ajv, ErrorObject} from "ajv";
+import {compile, JsonSchema, JsonSchemaObject} from "@tsed/schema";
+import {Ajv, ValidateFunction} from "ajv";
 
-import {AjvValidationError} from "../errors/AjvValidationError.js";
-import {AjvErrorObject, ErrorFormatter} from "../interfaces/AjvSettings.js";
+import {AjvSettings, ErrorFormatter} from "../interfaces/AjvSettings.js";
 import {defaultErrorFormatter} from "../utils/defaultErrorFormatter.js";
-import {getPath} from "../utils/getPath.js";
+import {mapErrors} from "../utils/mapErrors.js";
 
 export interface AjvValidateOptions extends Record<string, any> {
   schema?: JsonSchema | Partial<JsonSchemaObject>;
@@ -21,7 +20,9 @@ export class AjvService {
   readonly name = "ajv";
   protected errorFormatter = constant<ErrorFormatter>("ajv.errorFormatter", defaultErrorFormatter as ErrorFormatter);
   protected returnsCoercedValues = constant<boolean>("ajv.returnsCoercedValues");
+  protected hasLoadSchema = !!constant<AjvSettings["loadSchema"]>("ajv.loadSchema");
   protected ajv = inject(Ajv);
+  protected validatorsBySchema = new WeakMap<object, ValidateFunction>();
 
   /**
    * Validate a value against a JSON schema, a model type, or explicit AJV options.
@@ -40,33 +41,26 @@ export class AjvService {
    */
   async validate<TReturn = never, TValue = unknown>(
     value: TValue,
-    options: AjvValidateOptions | JsonSchema
+    options: AjvValidateOptions
   ): Promise<[TReturn] extends [never] ? TValue : TReturn> {
     type ValidateResult = [TReturn] extends [never] ? TValue : TReturn;
 
-    let {
-      schema: defaultSchema,
-      type,
-      collectionType,
-      returnsCoercedValues = this.returnsCoercedValues,
-      ...additionalOptions
-    } = this.mapOptions(options);
+    if (options.type || options.schema) {
+      let {schema: defaultSchema, type, collectionType, returnsCoercedValues = this.returnsCoercedValues, ...additionalOptions} = options;
 
-    const schema = defaultSchema || getJsonSchema(type, {...additionalOptions, customKeys: true});
+      const validate = await this.getValidator(defaultSchema || type, additionalOptions);
 
-    if (schema) {
-      const localValue = this.returnsCoercedValues ? value : deepClone(value);
-      const validate = this.ajv.compile(schema);
+      const localValue = returnsCoercedValues ? value : deepClone(value);
 
       const valid = await validate(localValue);
       const {errors} = validate;
 
       if (!valid && errors) {
-        throw this.mapErrors(errors, {
+        throw mapErrors(errors, {
           type,
           collectionType,
-          async: true,
-          value: localValue
+          value: localValue,
+          errorFormatter: this.errorFormatter
         });
       }
 
@@ -78,65 +72,38 @@ export class AjvService {
     return value as ValidateResult;
   }
 
-  protected mapOptions(options: AjvValidateOptions | JsonSchema): AjvValidateOptions {
-    if (options instanceof JsonSchema) {
-      return {
-        schema: options.toJSON({customKeys: true})
-      };
+  /**
+   * Resolve and compile a validator for the provided schema input.
+   *
+   * The compiled validator is cached by schema object identity to avoid
+   * recompiling validators for repeated calls using the same schema instance.
+   *
+   * When `loadSchema` is configured, this method uses `compileAsync` to support
+   * asynchronous external reference resolution.
+   *
+   * @param schema Schema source as `JsonSchema` instance or plain JSON schema object.
+   * @returns Compiled AJV validate function.
+   */
+  protected async getValidator(input: Type | JsonSchema | JsonSchemaObject, additionalOptions: Record<string, any>) {
+    const schema =
+      input instanceof JsonSchema || typeof input === "function"
+        ? compile(input, {
+            ...additionalOptions,
+            customKeys: true
+          })
+        : input;
+
+    const cached = this.validatorsBySchema.get(schema);
+
+    if (cached) {
+      return cached;
     }
 
-    return options;
-  }
+    const validate = this.hasLoadSchema ? await this.ajv.compileAsync(schema) : this.ajv.compile(schema);
 
-  protected mapErrors(errors: ErrorObject[], options: any) {
-    const {type, collectionType, value} = options;
+    this.validatorsBySchema.set(schema, validate);
 
-    const message = (errors as AjvErrorObject[])
-      .map((error) => {
-        if (collectionType) {
-          error.collectionName = nameOf(collectionType);
-        }
-
-        const dataPath = getPath(error);
-
-        if (!error.data) {
-          if (dataPath) {
-            error.data = getValue(value, dataPath.replace(/^\./, ""));
-          } else if (error.schemaPath !== "#/required") {
-            error.data = value;
-          }
-        }
-
-        if (dataPath && dataPath.match(/pwd|password|mdp|secret/)) {
-          error.data = "[REDACTED]";
-        }
-
-        if (type) {
-          error.modelName = nameOf(type);
-          error.message = this.mapClassError(error, type);
-        }
-
-        return this.errorFormatter(error);
-      })
-      .join("\n");
-
-    return new AjvValidationError(message, errors);
-  }
-
-  protected mapClassError(error: AjvErrorObject, targetType: Type<any>) {
-    const propertyKey = getValue(error, "params.missingProperty");
-
-    if (propertyKey) {
-      const store = JsonEntityStore.from<JsonEntityStore>(prototypeOf(targetType), propertyKey);
-
-      if (store) {
-        setValue(error, "params.missingProperty", store.name || propertyKey);
-
-        return error.message?.replace(`'${propertyKey}'`, `'${store.name || propertyKey}'`);
-      }
-    }
-
-    return error.message;
+    return validate;
   }
 }
 
