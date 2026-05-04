@@ -879,7 +879,7 @@ __metadata:
     globby: "npm:^14.0.1"
     lodash: "npm:4.17.21"
     lucide-vue-next: "npm:^0.436.0"
-    postcss: "npm:^8.4.39"
+    postcss: "npm:^8.5.10"
     remark-parse: "npm:^9.0.0"
     remark-stringify: "npm:^9.0.1"
     tailwindcss: "npm:3.4.4"
@@ -3122,7 +3122,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"postcss@npm:^8.4.23, postcss@npm:^8.4.39, postcss@npm:^8.4.43":
+"postcss@npm:^8.4.23, postcss@npm:^8.4.43":
   version: 8.4.47
   resolution: "postcss@npm:8.4.47"
   dependencies:
@@ -3130,6 +3130,17 @@ __metadata:
     picocolors: "npm:^1.1.0"
     source-map-js: "npm:^1.2.1"
   checksum: 10/f2b50ba9b6fcb795232b6bb20de7cdc538c0025989a8ed9c4438d1960196ba3b7eaff41fdb1a5c701b3504651ea87aeb685577707f0ae4d6ce6f3eae5df79a81
+  languageName: node
+  linkType: hard
+
+"postcss@npm:^8.5.10":
+  version: 8.5.13
+  resolution: "postcss@npm:8.5.13"
+  dependencies:
+    nanoid: "npm:^3.3.11"
+    picocolors: "npm:^1.1.1"
+    source-map-js: "npm:^1.2.1"
+  checksum: 10/4763873c0a39a6f71fc552d0046fedb80dca889ed0b85e36217285f754a3bd003a906f6088feb266b1f53b0ad20483a475dce4cc1c756f05e27940c51e40ebd8
   languageName: node
   linkType: hard
 
