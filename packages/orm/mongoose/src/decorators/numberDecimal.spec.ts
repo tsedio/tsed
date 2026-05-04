@@ -1,6 +1,6 @@
 import {Store} from "@tsed/core";
 import {deserialize, serialize} from "@tsed/json-mapper";
-import {getJsonSchema} from "@tsed/schema";
+import {compile} from "@tsed/schema";
 import {Schema, Types} from "mongoose";
 
 import {MONGOOSE_SCHEMA} from "../constants/constants.js";
@@ -20,7 +20,7 @@ describe("@NumberDecimal()", () => {
 
     // THEN
     const store = Store.from(Test, "price");
-    const schema = getJsonSchema(Test);
+    const schema = compile(Test);
 
     expect(schema).toEqual({
       properties: {

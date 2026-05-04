@@ -1,5 +1,5 @@
 import {Controller} from "@tsed/di";
-import {Description, getJsonSchema, getSpec, JsonParameterStore, MaxLength, MinItems, Post, Required, SpecTypes} from "@tsed/schema";
+import {compile, Description, getSpec, JsonParameterStore, MaxLength, MinItems, Post, Required, SpecTypes} from "@tsed/schema";
 
 import {ParamTypes} from "../domain/ParamTypes.js";
 import {BodyParams, RawBodyParams} from "./bodyParams.js";
@@ -218,7 +218,7 @@ describe("@BodyParams", () => {
       ]
     });
     const param = JsonParameterStore.get(MyCtrl, "test", 0);
-    const schema = getJsonSchema(param);
+    const schema = compile(param);
 
     expect(schema).toEqual({
       properties: {
@@ -356,7 +356,7 @@ describe("@BodyParams", () => {
     });
 
     const param = JsonParameterStore.get(MyCtrl, "test", 0);
-    const schema = getJsonSchema(param);
+    const schema = compile(param);
 
     expect(schema).toEqual({
       properties: {

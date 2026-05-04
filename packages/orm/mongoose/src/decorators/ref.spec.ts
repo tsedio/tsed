@@ -1,5 +1,5 @@
 import {catchError, Store} from "@tsed/core";
-import {getJsonSchema, Property} from "@tsed/schema";
+import {compile, Property} from "@tsed/schema";
 import {Schema} from "mongoose";
 
 import {MONGOOSE_MODEL_NAME, MONGOOSE_SCHEMA} from "../constants/constants.js";
@@ -35,7 +35,7 @@ describe("@Ref()", () => {
       }
 
       const store = Store.from(Test, "test");
-      const schema = getJsonSchema(Test);
+      const schema = compile(Test);
 
       expect(schema).toEqual({
         definitions: {
@@ -87,7 +87,7 @@ describe("@Ref()", () => {
       }
 
       const store = Store.from(Test, "test");
-      const schema = getJsonSchema(Test);
+      const schema = compile(Test);
 
       expect(schema).toEqual({
         definitions: {
@@ -142,7 +142,7 @@ describe("@Ref()", () => {
       }
 
       const store = Store.from(Test, "test");
-      const schema = getJsonSchema(Test);
+      const schema = compile(Test);
 
       expect(schema).toEqual({
         definitions: {
@@ -190,7 +190,7 @@ describe("@Ref()", () => {
       MongooseModels.set("RefTest", RefTest);
       const store = Store.from(Test, "test");
 
-      expect(getJsonSchema(Test)).toEqual({
+      expect(compile(Test)).toEqual({
         definitions: {
           RefTest: {
             properties: {
@@ -244,7 +244,7 @@ describe("@Ref()", () => {
     }
 
     it("should reflect the populated groups options in the schema (with given groups)", () => {
-      const spec = getJsonSchema(MyParentModel, {
+      const spec = compile(MyParentModel, {
         groups: ["group1", "group3"]
       });
 
@@ -303,7 +303,7 @@ describe("@Ref()", () => {
     });
 
     it("should reflect the populated groups options in the schema (without given groups)", () => {
-      const spec = getJsonSchema(MyParentModel, {
+      const spec = compile(MyParentModel, {
         groups: []
       });
       expect(spec).toMatchInlineSnapshot(`

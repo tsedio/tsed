@@ -1,8 +1,8 @@
 import {
   CollectionOf,
+  compile,
   Default,
   Enum,
-  getJsonSchema,
   Maximum,
   MaxLength,
   Minimum,
@@ -263,7 +263,7 @@ describe("createSchema", () => {
       }
     });
 
-    expect(getJsonSchema(Test4)).toEqual({
+    expect(compile(Test4)).toEqual({
       definitions: {
         Children: {
           properties: {
@@ -309,7 +309,7 @@ describe("createSchema", () => {
       },
       type: "object"
     });
-    expect(getJsonSchema(Children)).toEqual({
+    expect(compile(Children)).toEqual({
       properties: {
         enum: {
           enum: ["v1", "v2"],
@@ -809,7 +809,7 @@ describe("createSchema", () => {
     }
 
     // WHEN
-    const testSchema: any = getJsonSchema(Test13);
+    const testSchema: any = compile(Test13);
 
     // THEN
     expect(testSchema.properties.childrenCount.type).toEqual("number");

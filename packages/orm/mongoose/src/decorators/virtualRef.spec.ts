@@ -1,7 +1,7 @@
 import {Store} from "@tsed/core";
 import {Controller} from "@tsed/di";
 import {BodyParams} from "@tsed/platform-params";
-import {Format, getJsonSchema, getSpec, Post, Property, ReadOnly, Returns, SpecTypes} from "@tsed/schema";
+import {compile, Format, getSpec, Post, Property, ReadOnly, Returns, SpecTypes} from "@tsed/schema";
 
 import {MONGOOSE_SCHEMA} from "../constants/constants.js";
 import {Model} from "./model.js";
@@ -118,7 +118,7 @@ describe("@VirtualRef()", () => {
         options: {}
       });
 
-      expect(getJsonSchema(TestBand)).toEqual({
+      expect(compile(TestBand)).toEqual({
         definitions: {
           TestPerson: {
             properties: {
@@ -350,7 +350,7 @@ describe("@VirtualRef()", () => {
         options: {}
       });
 
-      const schema = getJsonSchema(VirtualRefStringTestBand);
+      const schema = compile(VirtualRefStringTestBand);
 
       expect(schema).toEqual({
         definitions: {

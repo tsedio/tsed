@@ -1,5 +1,5 @@
 import {Type} from "@tsed/core";
-import {getJsonSchema} from "@tsed/schema";
+import {compile} from "@tsed/schema";
 
 import {defineStaticGetter} from "../utils/defineStaticGetter.js";
 import {getJsonEntityRelationships} from "../utils/getJsonEntityRelationships.js";
@@ -18,7 +18,7 @@ export function Entity(tableName: string): ClassDecorator {
   return (target: any) => {
     const originalRelationMappings = target["relationMappings"];
     defineStaticGetter(target, "tableName", () => tableName);
-    defineStaticGetter(target, "jsonSchema", () => getJsonSchema(target));
+    defineStaticGetter(target, "jsonSchema", () => compile(target));
     defineStaticGetter(target, "relationMappings", () => originalRelationMappings || getJsonEntityRelationships(target));
     return target;
   };

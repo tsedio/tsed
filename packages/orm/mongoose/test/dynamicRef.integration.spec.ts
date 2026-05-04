@@ -1,6 +1,6 @@
 import {deserialize, serialize} from "@tsed/json-mapper";
 import {PlatformTest} from "@tsed/platform-http/testing";
-import {Enum, getJsonSchema, Required} from "@tsed/schema";
+import {compile, Enum, Required} from "@tsed/schema";
 import {TestContainersMongo} from "@tsed/testcontainers-mongo";
 
 import {Model} from "../src/decorators/model.js";
@@ -42,7 +42,7 @@ describe("DynamicRef Integration", () => {
 
   describe("JsonSchema", () => {
     it("should return the json schema", () => {
-      expect(getJsonSchema(EventModel)).toMatchInlineSnapshot(`
+      expect(compile(EventModel)).toMatchInlineSnapshot(`
         {
           "definitions": {
             "ClickedLinkEventModel": {

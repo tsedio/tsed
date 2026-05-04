@@ -2,7 +2,7 @@ import "./ExceptionSchema.js";
 
 import SwaggerParser from "@apidevtools/swagger-parser";
 import {BadRequest, Exception} from "@tsed/exceptions";
-import {getJsonSchema, getSpec, OperationPath, Path, Returns, SpecTypes} from "@tsed/schema";
+import {compile, getSpec, OperationPath, Path, Returns, SpecTypes} from "@tsed/schema";
 import {Ajv} from "ajv";
 import fs from "fs-extra";
 
@@ -51,7 +51,7 @@ const validateSpec = async (spec: any) => {
 
 describe("ExceptionSchema", () => {
   it("should generate the right json schema", () => {
-    const schema = getJsonSchema(Exception);
+    const schema = compile(Exception);
 
     expect(schema).toEqual({
       definitions: {

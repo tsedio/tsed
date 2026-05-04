@@ -1,5 +1,5 @@
 import {Store} from "@tsed/core";
-import {getJsonSchema} from "@tsed/schema";
+import {compile} from "@tsed/schema";
 import {Model} from "objection";
 
 import {IdColumn} from "./idColumn.js";
@@ -11,7 +11,7 @@ describe("@IdColumn", () => {
       id: number;
     }
 
-    expect(getJsonSchema(MyModel)).toEqual({
+    expect(compile(MyModel)).toEqual({
       properties: {
         id: {
           type: "number"

@@ -1,5 +1,5 @@
 import {descriptorOf, Store} from "@tsed/core";
-import {getJsonSchema, Property, string} from "@tsed/schema";
+import {compile, Property, string} from "@tsed/schema";
 import {Schema} from "mongoose";
 
 import {DynamicRef} from "../../src/index.js";
@@ -22,7 +22,7 @@ describe("@DynamicRef()", () => {
     }
 
     // THEN
-    expect(getJsonSchema(Test)).toEqual({
+    expect(compile(Test)).toEqual({
       properties: {
         test: {
           description: "A reference ObjectID",

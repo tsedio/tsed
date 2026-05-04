@@ -1,5 +1,5 @@
 import {Store} from "@tsed/core";
-import {getJsonSchema} from "@tsed/schema";
+import {compile} from "@tsed/schema";
 
 import {Decimal} from "./decimal.js";
 
@@ -10,7 +10,7 @@ describe("@Decimal", () => {
       prop: number;
     }
 
-    expect(getJsonSchema(MyModel)).toEqual({
+    expect(compile(MyModel)).toEqual({
       properties: {
         prop: {
           type: "number"
@@ -34,7 +34,7 @@ describe("@Decimal", () => {
       prop: number;
     }
 
-    expect(getJsonSchema(MyModel)).toEqual({
+    expect(compile(MyModel)).toEqual({
       properties: {
         prop: {
           type: "number"

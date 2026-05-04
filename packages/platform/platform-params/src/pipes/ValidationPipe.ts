@@ -1,6 +1,6 @@
 import {constant, injectable, injectMany} from "@tsed/di";
 import {deserialize} from "@tsed/json-mapper";
-import {getJsonSchema, JsonParameterStore, PipeMethods} from "@tsed/schema";
+import {compile, JsonParameterStore, PipeMethods} from "@tsed/schema";
 
 import {ParamTypes} from "../domain/ParamTypes.js";
 import {RequiredValidationError} from "../errors/RequiredValidationError.js";
@@ -82,7 +82,7 @@ export class ValidationPipe implements PipeMethods {
       return value;
     }
 
-    const schema = getJsonSchema(metadata, {
+    const schema = compile(metadata, {
       customKeys: true
     });
 

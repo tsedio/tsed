@@ -1,7 +1,7 @@
 import {faker} from "@faker-js/faker";
 import {deserialize} from "@tsed/json-mapper";
 import {PlatformTest} from "@tsed/platform-http/testing";
-import {Format, getJsonSchema, Name, Property} from "@tsed/schema";
+import {compile, Format, Name, Property} from "@tsed/schema";
 
 import {Adapter} from "../domain/Adapter.js";
 import {Adapters} from "../services/Adapters.js";
@@ -33,7 +33,7 @@ describe("MemoryAdapter", () => {
   });
   describe("getSchema", () => {
     it("should", () => {
-      expect(getJsonSchema(Client)).toEqual({
+      expect(compile(Client)).toEqual({
         properties: {
           createdAt: {
             format: "date-time",

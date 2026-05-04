@@ -1,6 +1,6 @@
 import {Inject, Injectable} from "@tsed/di";
 import {PlatformTest} from "@tsed/platform-http/testing";
-import {getJsonSchema} from "@tsed/schema";
+import {compile} from "@tsed/schema";
 import {TestContainersMongo} from "@tsed/testcontainers-mongo";
 
 import {MongooseModel} from "../src/index.js";
@@ -30,7 +30,7 @@ describe("Circular Ref", () => {
     expect(!!service.contract).toBe(true);
     expect(!!service.customer).toBe(true);
 
-    expect(getJsonSchema(TestContract)).toEqual({
+    expect(compile(TestContract)).toEqual({
       definitions: {
         SelfUser: {
           properties: {
@@ -168,7 +168,7 @@ describe("Circular Ref", () => {
 
     expect(!!service.user).toBe(true);
 
-    expect(getJsonSchema(SelfUser)).toEqual({
+    expect(compile(SelfUser)).toEqual({
       definitions: {
         SelfUser: {
           properties: {

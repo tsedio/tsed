@@ -3,7 +3,7 @@ import {Controller, Inject} from "@tsed/di";
 import {serialize} from "@tsed/json-mapper";
 import {PlatformExpress} from "@tsed/platform-express";
 import {PlatformTest} from "@tsed/platform-http/testing";
-import {CollectionOf, Get, getJsonSchema, Groups, Integer, Required} from "@tsed/schema";
+import {CollectionOf, compile, Get, Groups, Integer, Required} from "@tsed/schema";
 import {TestContainersMongo} from "@tsed/testcontainers-mongo";
 import SuperTest from "supertest";
 
@@ -97,7 +97,7 @@ describe("Mongoose", () => {
     afterEach(() => TestContainersMongo.reset());
 
     it("should return the json-schema of the given model", () => {
-      expect(getJsonSchema(SpacesModel)).toMatchSnapshot();
+      expect(compile(SpacesModel)).toMatchSnapshot();
     });
     it("should map the document to POO", async () => {
       const {controller} = await getServiceFixture();

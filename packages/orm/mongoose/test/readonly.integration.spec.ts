@@ -1,6 +1,6 @@
 import {Inject, Injectable} from "@tsed/di";
 import {PlatformTest} from "@tsed/platform-http/testing";
-import {getJsonSchema, Groups, Name, Property, ReadOnly, Required} from "@tsed/schema";
+import {compile, Groups, Name, Property, ReadOnly, Required} from "@tsed/schema";
 import {TestContainersMongo} from "@tsed/testcontainers-mongo";
 
 import {Immutable, Model, MongooseModel, ObjectID, SchemaIgnore} from "../src/index.js";
@@ -51,7 +51,7 @@ describe("Mongoose: ReadOnly", () => {
   beforeEach(() => TestContainersMongo.create());
   afterEach(() => TestContainersMongo.reset());
   it("should generate json schema", () => {
-    const jsonSchema = getJsonSchema(DataSourceModel);
+    const jsonSchema = compile(DataSourceModel);
 
     expect(jsonSchema).toMatchSnapshot();
   });

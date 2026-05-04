@@ -1,4 +1,4 @@
-import {CollectionOf, Default, Description, Enum, enums, getJsonSchema, MaxLength, MinLength, Required} from "@tsed/schema";
+import {CollectionOf, compile, Default, Description, Enum, enums, MaxLength, MinLength, Required} from "@tsed/schema";
 import {TestContainersMongo} from "@tsed/testcontainers-mongo";
 
 import {Model} from "../src/index.js";
@@ -38,7 +38,7 @@ describe("Enums integration", () => {
   afterEach(() => TestContainersMongo.reset());
 
   it("should not fail when the enum is used with enums() utils", () => {
-    expect(getJsonSchema(ComponentStatusSettings)).toEqual({
+    expect(compile(ComponentStatusSettings)).toEqual({
       definitions: {
         ComponentStatuses: {
           enum: ["UNDER_MAINTENANCE", "DEGRADED_PERFORMANCE", "PARTIAL_OUTAGE", "MAJOR_OUTAGE"],

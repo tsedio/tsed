@@ -1,4 +1,4 @@
-import {getJsonSchema} from "@tsed/schema";
+import {compile} from "@tsed/schema";
 
 import {ObjectID} from "./objectID.js";
 
@@ -9,7 +9,7 @@ describe("ObjectID", () => {
       _id: string;
     }
 
-    expect(getJsonSchema(MyModelTest)).toEqual({
+    expect(compile(MyModelTest)).toEqual({
       properties: {
         id: {
           description: "An ObjectID",
