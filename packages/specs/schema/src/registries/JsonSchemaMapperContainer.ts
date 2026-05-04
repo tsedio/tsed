@@ -22,7 +22,7 @@ export function registerJsonSchemaMapper(type: string, mapper: JsonSchemaMapper,
 /**
  * @ignore
  */
-export function getJsonSchemaMapper(type: string, options: any): JsonSchemaMapper {
+export function compileMapper(type: string, options: any): JsonSchemaMapper {
   const mapper = JsonSchemaMappersContainer.get(`${options?.specType}:${type}`)! || JsonSchemaMappersContainer.get(type)!;
 
   if (mapper) {
@@ -37,7 +37,7 @@ export function getJsonSchemaMapper(type: string, options: any): JsonSchemaMappe
  * @ignore
  */
 export function execMapper(type: string, args: any[], options: any, parent?: any): any {
-  return getJsonSchemaMapper(type, options)(...args, options, parent);
+  return compileMapper(type, options)(...args, options, parent);
 }
 
 export function hasMapper(type: string) {

@@ -1,18 +1,6 @@
 import {Ajv} from "ajv";
 
-import {
-  CollectionOf,
-  getJsonSchema,
-  getSpec,
-  Groups,
-  In,
-  OperationPath,
-  Path,
-  Property,
-  Required,
-  Returns,
-  SpecTypes
-} from "../../index.js";
+import {CollectionOf, compile, getSpec, Groups, In, OperationPath, Path, Property, Required, Returns, SpecTypes} from "../../index.js";
 import {Partial} from "./partial.js";
 
 class ChildModel {
@@ -159,7 +147,7 @@ describe("@Partial", () => {
       });
     });
     it("should return a valid json-schema", () => {
-      const schema = getJsonSchema(MyModel, {});
+      const schema = compile(MyModel, {});
 
       expect(schema).toEqual({
         definitions: {
@@ -202,7 +190,7 @@ describe("@Partial", () => {
       expect(ajv.validate(schema, {prop3: "test"})).toBe(true);
     });
     it("should return a valid json-schema (partial)", () => {
-      const schema = getJsonSchema(MyModel, {
+      const schema = compile(MyModel, {
         groups: ["partial"]
       });
 

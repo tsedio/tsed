@@ -1,4 +1,4 @@
-import {Format, getJsonSchema, getSpec, In, Path, Post, Property, Returns, SpecTypes} from "../../index.js";
+import {compile, Format, getSpec, In, Path, Post, Property, Returns, SpecTypes} from "../../index.js";
 import {ReadOnly} from "./readOnly.js";
 
 describe("@ReadOnly", () => {
@@ -10,7 +10,7 @@ describe("@ReadOnly", () => {
     }
 
     // THEN
-    const schema = getJsonSchema(Model);
+    const schema = compile(Model);
 
     expect(schema).toEqual({
       properties: {

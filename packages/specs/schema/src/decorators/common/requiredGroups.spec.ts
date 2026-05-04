@@ -1,4 +1,4 @@
-import {getJsonSchema, Required} from "../../index.js";
+import {compile, Required} from "../../index.js";
 import {Groups} from "./groups.js";
 import {RequiredGroups} from "./requiredGroups.js";
 
@@ -20,7 +20,7 @@ class MyModel {
 
 describe("@RequiredGroups", () => {
   it("should have required fields filtered by groups (groups: false)", () => {
-    const spec = getJsonSchema(MyModel, {
+    const spec = compile(MyModel, {
       groups: false
     });
 
@@ -47,7 +47,7 @@ describe("@RequiredGroups", () => {
     });
   });
   it("should have required fields filtered by groups (groups: [])", () => {
-    const spec = getJsonSchema(MyModel, {
+    const spec = compile(MyModel, {
       groups: []
     });
 
@@ -74,7 +74,7 @@ describe("@RequiredGroups", () => {
     });
   });
   it("should have required fields filtered by groups (groups: ['patch'])", () => {
-    const spec = getJsonSchema(MyModel, {
+    const spec = compile(MyModel, {
       groups: ["patch"]
     });
 
@@ -101,7 +101,7 @@ describe("@RequiredGroups", () => {
     });
   });
   it("should have required fields filtered by groups (groups: ['!patch'])", () => {
-    const spec = getJsonSchema(MyModel, {
+    const spec = compile(MyModel, {
       groups: ["!patch"]
     });
 

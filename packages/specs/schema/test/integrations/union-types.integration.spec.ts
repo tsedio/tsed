@@ -1,6 +1,6 @@
 import {Ajv} from "ajv";
 
-import {AdditionalProperties, AnyOf, array, Enum, getJsonSchema, string} from "../../src/index.js";
+import {AdditionalProperties, AnyOf, array, compile, Enum, string} from "../../src/index.js";
 
 describe("Union on model", () => {
   it("should return the expected schema", () => {
@@ -16,7 +16,7 @@ describe("Union on model", () => {
       public color: Color | Color[];
     }
 
-    const schema = getJsonSchema(GetColorsQueryParameters);
+    const schema = compile(GetColorsQueryParameters);
 
     expect(schema).toEqual({
       additionalProperties: false,
@@ -66,7 +66,7 @@ describe("Union on model", () => {
       public color: Color[];
     }
 
-    const schema = getJsonSchema(GetColorsQueryParameters);
+    const schema = compile(GetColorsQueryParameters);
 
     expect(schema).toEqual({
       additionalProperties: false,

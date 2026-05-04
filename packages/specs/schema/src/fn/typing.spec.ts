@@ -324,6 +324,16 @@ describe("Functional API typing (inference)", () => {
     type R = s.infer<typeof ref>;
     expectTypeOf<R>().toEqualTypeOf<UserClass>();
   });
+  it("should infer $ref with default and explicit type", () => {
+    const unknownRef = s.$ref("https://api.clubmed.com/doc/swagger.json#Path/To/Schema");
+    const typedRef = s.$ref<{id: string}>("https://api.clubmed.com/doc/swagger.json#Path/To/Schema");
+
+    type UnknownRef = s.infer<typeof unknownRef>;
+    type TypedRef = s.infer<typeof typedRef>;
+
+    expectTypeOf<UnknownRef>().toEqualTypeOf<unknown>();
+    expectTypeOf<TypedRef>().toEqualTypeOf<{id: string}>();
+  });
   it("should allow nested compositions", () => {
     const Schema = s.object({
       ids: s.set(s.string()).optional(),

@@ -12,7 +12,7 @@ import type {GenericsMap} from "../utils/generics.js";
  * ### Usage
  *
  * ```typescript
- * import {getJsonSchema, JsonSchemaOptions} from "@tsed/schema";
+ * import {compile, JsonSchemaOptions} from "@tsed/schema";
  *
  * const options: JsonSchemaOptions = {
  *   specType: SpecTypes.OPENAPI,
@@ -22,7 +22,7 @@ import type {GenericsMap} from "../utils/generics.js";
  *   customKeys: true
  * };
  *
- * const schema = getJsonSchema(MyModel, options);
+ * const schema = compile(MyModel, options);
  * ```
  *
  * @public

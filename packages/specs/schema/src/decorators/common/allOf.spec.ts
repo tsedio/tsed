@@ -2,7 +2,7 @@ import {JsonEntityStore} from "../../domain/JsonEntityStore.js";
 import {SpecTypes} from "../../domain/SpecTypes.js";
 import {number} from "../../fn/number.js";
 import {string} from "../../fn/string.js";
-import {getJsonSchema} from "../../utils/getJsonSchema.js";
+import {compile} from "../../utils/compile.js";
 import {getSpec} from "../../utils/getSpec.js";
 import {In} from "../operations/in.js";
 import {OperationPath} from "../operations/operationPath.js";
@@ -53,7 +53,7 @@ describe("@AllOf", () => {
       test: One1 | One2;
     }
 
-    const schema = getJsonSchema(Model);
+    const schema = compile(Model);
 
     expect(schema).toEqual({
       definitions: {

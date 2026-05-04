@@ -2,7 +2,7 @@ import {Ajv} from "ajv";
 
 import {validateModel} from "../../../test/helpers/validateModel.js";
 import {JsonEntityStore} from "../../domain/JsonEntityStore.js";
-import {getJsonSchema, MinLength} from "../../index.js";
+import {compile, MinLength} from "../../index.js";
 import {Property} from "../common/property.js";
 import {Required} from "./required.js";
 
@@ -102,7 +102,7 @@ describe("@Required", () => {
     }
 
     // THEN
-    const spec = getJsonSchema(Model);
+    const spec = compile(Model);
 
     expect(spec).toEqual({
       definitions: {
@@ -143,7 +143,7 @@ describe("@Required", () => {
     }
 
     // THEN
-    const schema = getJsonSchema(Model, {customKeys: true});
+    const schema = compile(Model, {customKeys: true});
 
     expect(schema).toEqual({
       errorMessage: {

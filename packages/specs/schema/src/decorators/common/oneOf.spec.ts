@@ -1,6 +1,6 @@
 import {number} from "../../fn/number.js";
 import {string} from "../../fn/string.js";
-import {AllOf, getJsonSchema, getSpec, In, OneOf, OperationPath, Path, Property, SpecTypes} from "../../index.js";
+import {AllOf, compile, getSpec, In, OneOf, OperationPath, Path, Property, SpecTypes} from "../../index.js";
 
 describe("@OneOf", () => {
   it("should declare return schema", () => {
@@ -11,7 +11,7 @@ describe("@OneOf", () => {
     }
 
     // THEN
-    const schema = getJsonSchema(Model);
+    const schema = compile(Model);
 
     expect(schema).toEqual({
       properties: {
@@ -41,7 +41,7 @@ describe("@OneOf", () => {
     }
 
     // THEN
-    const schema = getJsonSchema(Model);
+    const schema = compile(Model);
 
     expect(schema).toEqual({
       definitions: {
@@ -78,7 +78,7 @@ describe("@OneOf", () => {
       test: One1 | One2;
     }
 
-    const schema = getJsonSchema(Model);
+    const schema = compile(Model);
 
     expect(schema).toEqual({
       definitions: {

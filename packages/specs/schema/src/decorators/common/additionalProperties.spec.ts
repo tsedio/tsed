@@ -1,4 +1,4 @@
-import {AdditionalProperties, CollectionOf, getJsonSchema, Property, string} from "../../index.js";
+import {AdditionalProperties, CollectionOf, compile, Property, string} from "../../index.js";
 
 describe("AdditionalProperties", () => {
   it("should declare additional properties", () => {
@@ -10,7 +10,7 @@ describe("AdditionalProperties", () => {
       [key: string]: any;
     }
 
-    expect(getJsonSchema(Model)).toEqual({
+    expect(compile(Model)).toEqual({
       additionalProperties: true,
       properties: {
         id: {
@@ -30,7 +30,7 @@ describe("AdditionalProperties", () => {
       [key: string]: any;
     }
 
-    expect(getJsonSchema(Model)).toEqual({
+    expect(compile(Model)).toEqual({
       additionalProperties: {
         type: "string"
       },
@@ -52,7 +52,7 @@ describe("AdditionalProperties", () => {
       [key: string]: any;
     }
 
-    expect(getJsonSchema(Model)).toEqual({
+    expect(compile(Model)).toEqual({
       additionalProperties: {
         type: "string"
       },
@@ -74,7 +74,7 @@ describe("AdditionalProperties", () => {
       [key: string]: any;
     }
 
-    expect(getJsonSchema(Model)).toEqual({
+    expect(compile(Model)).toEqual({
       additionalProperties: {
         type: "number"
       },
@@ -102,7 +102,7 @@ describe("AdditionalProperties", () => {
       list: Model[];
     }
 
-    expect(getJsonSchema(Container)).toEqual({
+    expect(compile(Container)).toEqual({
       definitions: {
         Model: {
           additionalProperties: {

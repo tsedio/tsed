@@ -1,5 +1,5 @@
 import {Get, getSpec, Path, SpecTypes} from "../../index.js";
-import {getJsonSchema} from "../../utils/getJsonSchema.js";
+import {compile} from "../../utils/compile.js";
 import {Hidden} from "./hidden.js";
 
 describe("@Hidden", () => {
@@ -10,7 +10,7 @@ describe("@Hidden", () => {
       prop: number;
     }
 
-    expect(getJsonSchema(Model)).toEqual({
+    expect(compile(Model)).toEqual({
       type: "object"
     });
   });

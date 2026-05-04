@@ -1,4 +1,4 @@
-import {getJsonSchema} from "../../utils/getJsonSchema.js";
+import {compile} from "../../utils/compile.js";
 import {Ignore} from "./ignore.js";
 import {Property} from "./property.js";
 
@@ -13,7 +13,7 @@ describe("@Ignore", () => {
       prop2: string;
     }
 
-    expect(getJsonSchema(Model)).toEqual({
+    expect(compile(Model)).toEqual({
       properties: {
         prop2: {
           type: "string"
@@ -33,7 +33,7 @@ describe("@Ignore", () => {
       prop2: string;
     }
 
-    expect(getJsonSchema(Model)).toEqual({
+    expect(compile(Model)).toEqual({
       properties: {
         prop2: {
           type: "string"
@@ -53,7 +53,7 @@ describe("@Ignore", () => {
       prop2: string;
     }
 
-    expect(getJsonSchema(Model)).toEqual({
+    expect(compile(Model)).toEqual({
       properties: {
         prop1: {
           type: "string"
@@ -76,7 +76,7 @@ describe("@Ignore", () => {
       prop2: string;
     }
 
-    expect(getJsonSchema(Model)).toEqual({
+    expect(compile(Model)).toEqual({
       properties: {
         prop2: {
           type: "string"

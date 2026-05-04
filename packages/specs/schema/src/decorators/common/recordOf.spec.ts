@@ -1,4 +1,4 @@
-import {getJsonSchema} from "../../index.js";
+import {compile} from "../../index.js";
 import {RecordOf} from "./recordOf.js";
 
 describe("RecordOf()", () => {
@@ -16,7 +16,7 @@ describe("RecordOf()", () => {
       parts: Parts;
     }
 
-    expect(getJsonSchema(Test)).toEqual({
+    expect(compile(Test)).toEqual({
       definitions: {
         Part: {
           type: "object"

@@ -3,7 +3,7 @@ import AjvErrors from "ajv-errors";
 import AjvFormats from "ajv-formats";
 
 import type {JsonSchemaOptions} from "../../src/index.js";
-import {getJsonSchema} from "../../src/index.js";
+import {compile} from "../../src/index.js";
 
 export function validateModel(data: any, model: any, options: JsonSchemaOptions & Options = {}) {
   const {errorFormatter, keywords = [], ...props} = options;
@@ -26,7 +26,7 @@ export function validateModel(data: any, model: any, options: JsonSchemaOptions 
   // @ts-ignore
   AjvFormats(ajv as any);
 
-  const schema = getJsonSchema(model, {
+  const schema = compile(model, {
     ...options,
     customKeys: true
   });

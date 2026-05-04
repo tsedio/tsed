@@ -3,6 +3,7 @@ import "../components/index.js";
 import {getValue, isClass, isPlainObject, nameOf, Type} from "@tsed/core";
 
 import {JsonParameterStore} from "../domain/JsonParameterStore.js";
+import {JsonSchema} from "../domain/JsonSchema.js";
 import {SpecTypes} from "../domain/SpecTypes.js";
 import {JsonSchemaOptions} from "../interfaces/JsonSchemaOptions.js";
 import {execMapper} from "../registries/JsonSchemaMapperContainer.js";
@@ -11,7 +12,7 @@ import {getJsonEntityStore} from "./getJsonEntityStore.js";
 /**
  * @ignore
  */
-const CACHES = new Map<Type | JsonParameterStore, Map<string, any>>();
+const CACHES = new Map<Type | JsonParameterStore | JsonSchema, Map<string, any>>();
 
 /**
  * @ignore
@@ -29,13 +30,18 @@ function getKey(options: any) {
 /**
  * @ignore
  */
-function get(model: Type | JsonParameterStore, options: any) {
+function get(model: Type | JsonParameterStore | JsonSchema, options: any) {
   const cache: Map<string, any> = CACHES.get(model) || new Map();
   CACHES.set(model, cache);
 
   const key = getKey(options);
 
   if (!cache.has(key)) {
+    if (model instanceof JsonSchema) {
+      cache.set(key, model.toJSON(options));
+      return cache.get(key);
+    }
+
     const entity = getJsonEntityStore(model);
 
     let mapper = "schema";
@@ -60,7 +66,7 @@ function get(model: Type | JsonParameterStore, options: any) {
   return cache.get(key);
 }
 
-export function getJsonSchema(model: Type<any> | JsonParameterStore, options: JsonSchemaOptions = {}) {
+export function getJsonSchema(model: Type<any> | JsonParameterStore | JsonSchema, options: JsonSchemaOptions = {}) {
   const specType = options.specType || SpecTypes.JSON;
 
   options = {

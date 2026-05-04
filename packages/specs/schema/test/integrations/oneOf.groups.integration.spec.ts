@@ -1,4 +1,4 @@
-import {ForwardGroups, getJsonSchema, Groups, OneOf, Property, string} from "../../src/index.js";
+import {compile, ForwardGroups, Groups, OneOf, Property, string} from "../../src/index.js";
 
 // WHEN
 class One1 {
@@ -31,7 +31,7 @@ class Model {
 describe("OneOf and Groups", () => {
   it("should declare return schema (without groups)", () => {
     // THEN
-    const schema = getJsonSchema(Model, {groups: []});
+    const schema = compile(Model, {groups: []});
 
     expect(schema).toEqual({
       definitions: {
@@ -78,7 +78,7 @@ describe("OneOf and Groups", () => {
   });
   it("should declare return schema (with groups 'creation')", () => {
     // THEN
-    const schema = getJsonSchema(Model, {
+    const schema = compile(Model, {
       groups: ["creation"]
     });
 

@@ -1,5 +1,5 @@
 import {JsonEntityStore} from "../../domain/JsonEntityStore.js";
-import {getJsonSchema} from "../../utils/getJsonSchema.js";
+import {compile} from "../../utils/compile.js";
 import {CollectionOf} from "../collections/collectionOf.js";
 import {MaxLength} from "./maxLength.js";
 
@@ -12,7 +12,7 @@ describe("@MaxLength", () => {
     }
 
     // THEN
-    expect(getJsonSchema(Model)).toEqual({
+    expect(compile(Model)).toEqual({
       properties: {
         word: {
           maxLength: 0,

@@ -1,6 +1,6 @@
 import {Ajv} from "ajv";
 
-import {getJsonSchema} from "../../index.js";
+import {compile} from "../../index.js";
 import {Allow} from "./allow.js";
 import {Property} from "./property.js";
 import {Required} from "./required.js";
@@ -14,7 +14,7 @@ describe("@Allow", () => {
     }
 
     // THEN
-    const classSchema = getJsonSchema(Model);
+    const classSchema = compile(Model);
 
     expect(classSchema).toEqual({
       properties: {
@@ -40,7 +40,7 @@ describe("@Allow", () => {
     }
 
     // THEN
-    const classSchema = getJsonSchema(Model);
+    const classSchema = compile(Model);
 
     expect(classSchema).toEqual({
       properties: {
@@ -64,7 +64,7 @@ describe("@Allow", () => {
     }
 
     // THEN
-    const classSchema = getJsonSchema(Model);
+    const classSchema = compile(Model);
 
     expect(classSchema).toEqual({
       properties: {
@@ -94,7 +94,7 @@ describe("@Allow", () => {
     }
 
     // THEN
-    const spec = getJsonSchema(Model);
+    const spec = compile(Model);
 
     expect(spec).toEqual({
       definitions: {

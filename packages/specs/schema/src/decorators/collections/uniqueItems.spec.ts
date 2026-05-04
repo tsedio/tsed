@@ -1,4 +1,4 @@
-import {getJsonSchema} from "../../utils/getJsonSchema.js";
+import {compile} from "../../utils/compile.js";
 import {CollectionOf} from "./collectionOf.js";
 import {UniqueItems} from "./uniqueItems.js";
 
@@ -12,7 +12,7 @@ describe("@UniqueItems", () => {
     }
 
     // THEN
-    expect(getJsonSchema(Model)).toEqual({
+    expect(compile(Model)).toEqual({
       properties: {
         num: {
           items: {

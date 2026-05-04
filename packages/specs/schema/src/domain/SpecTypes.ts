@@ -17,7 +17,7 @@
  * ```typescript
  * import {SpecTypes} from "@tsed/schema";
  *
- * const schema = getJsonSchema(MyModel, {
+ * const schema = compile(MyModel, {
  *   specType: SpecTypes.OPENAPI
  * });
  * ```

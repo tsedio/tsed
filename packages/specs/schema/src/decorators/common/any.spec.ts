@@ -1,6 +1,6 @@
 import {OnDeserialize} from "@tsed/json-mapper";
 
-import {Default, getJsonSchema, MinLength, Property} from "../../index.js";
+import {compile, Default, MinLength, Property} from "../../index.js";
 import {Any} from "./any.js";
 
 describe("@Any", () => {
@@ -12,7 +12,7 @@ describe("@Any", () => {
     }
 
     // THEN
-    expect(getJsonSchema(Model)).toMatchInlineSnapshot(`
+    expect(compile(Model)).toMatchInlineSnapshot(`
       {
         "properties": {
           "prop": {
@@ -55,7 +55,7 @@ describe("@Any", () => {
     }
 
     // THEN
-    expect(getJsonSchema(Model)).toEqual({
+    expect(compile(Model)).toEqual({
       properties: {
         prop: {
           type: "string"
@@ -72,7 +72,7 @@ describe("@Any", () => {
     }
 
     // THEN
-    expect(getJsonSchema(Model)).toEqual({
+    expect(compile(Model)).toEqual({
       properties: {
         prop: {
           oneOf: [
@@ -102,7 +102,7 @@ describe("@Any", () => {
     }
 
     // THEN
-    expect(getJsonSchema(Model)).toEqual({
+    expect(compile(Model)).toEqual({
       properties: {
         prop: {
           type: ["null", "string"]
@@ -119,7 +119,7 @@ describe("@Any", () => {
     }
 
     // THEN
-    expect(getJsonSchema(Model)).toEqual({
+    expect(compile(Model)).toEqual({
       properties: {
         prop: {
           type: "string"
@@ -141,7 +141,7 @@ describe("@Any", () => {
     }
 
     // THEN
-    expect(getJsonSchema(Model)).toEqual({
+    expect(compile(Model)).toEqual({
       definitions: {
         Nested: {
           properties: {
@@ -185,7 +185,7 @@ describe("@Any", () => {
       declare email: string;
     }
 
-    expect(getJsonSchema(Model)).toEqual({
+    expect(compile(Model)).toEqual({
       type: "object",
       properties: {
         id: {

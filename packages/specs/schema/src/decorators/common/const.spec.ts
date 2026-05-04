@@ -1,5 +1,5 @@
 import {SpecTypes} from "../../domain/SpecTypes.js";
-import {getJsonSchema} from "../../utils/getJsonSchema.js";
+import {compile} from "../../utils/compile.js";
 import {getSpec} from "../../utils/getSpec.js";
 import {In} from "../operations/in.js";
 import {OperationPath} from "../operations/operationPath.js";
@@ -15,7 +15,7 @@ describe("@Const", () => {
     }
 
     // THEN
-    expect(getJsonSchema(Model)).toEqual({
+    expect(compile(Model)).toEqual({
       properties: {
         num: {
           const: "10",
@@ -25,7 +25,7 @@ describe("@Const", () => {
       type: "object"
     });
 
-    expect(getJsonSchema(Model, {specType: SpecTypes.OPENAPI})).toEqual({
+    expect(compile(Model, {specType: SpecTypes.OPENAPI})).toEqual({
       properties: {
         num: {
           type: "string",

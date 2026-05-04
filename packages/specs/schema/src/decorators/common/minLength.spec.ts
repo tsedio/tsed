@@ -2,7 +2,7 @@ import "../../index.js";
 
 import {validateModel} from "../../../test/helpers/validateModel.js";
 import {JsonEntityStore} from "../../domain/JsonEntityStore.js";
-import {getJsonSchema} from "../../utils/getJsonSchema.js";
+import {compile} from "../../utils/compile.js";
 import {CollectionOf} from "../collections/collectionOf.js";
 import {MinLength} from "./minLength.js";
 
@@ -98,7 +98,7 @@ describe("@MinLength", () => {
     }
 
     // THEN
-    const schema = getJsonSchema(Model, {customKeys: true});
+    const schema = compile(Model, {customKeys: true});
 
     expect(schema).toEqual({
       properties: {

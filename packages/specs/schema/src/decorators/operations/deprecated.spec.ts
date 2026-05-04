@@ -1,7 +1,7 @@
 import {catchError} from "@tsed/core";
 import {QueryParams} from "@tsed/platform-params";
 
-import {Deprecated, getJsonSchema, getSpec, OperationPath, Property, Returns, SpecTypes} from "../../index.js";
+import {compile, Deprecated, getSpec, OperationPath, Property, Returns, SpecTypes} from "../../index.js";
 
 describe("Deprecated", () => {
   it("should store metadata (swagger)", () => {
@@ -221,7 +221,7 @@ describe("Deprecated", () => {
       author: Author;
     }
 
-    expect(getJsonSchema(MyModel)).toEqual({
+    expect(compile(MyModel)).toEqual({
       definitions: {
         Author: {
           properties: {

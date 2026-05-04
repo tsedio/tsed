@@ -1,6 +1,6 @@
 import {isArrowFn, Type, useDecorators} from "@tsed/core";
 
-import {getJsonSchema, JsonEntityFn, lazyRef, Property, string} from "../../src/index.js";
+import {compile, JsonEntityFn, lazyRef, Property, string} from "../../src/index.js";
 
 function Ref(model: string | (() => Type) | any): PropertyDecorator {
   const getType = () => (isArrowFn(model) ? model() : model);
@@ -27,7 +27,7 @@ describe("LazyRef", () => {
       model: Model;
     }
 
-    expect(getJsonSchema(Parent)).toMatchInlineSnapshot(`
+    expect(compile(Parent)).toMatchInlineSnapshot(`
       {
         "definitions": {
           "Model": {

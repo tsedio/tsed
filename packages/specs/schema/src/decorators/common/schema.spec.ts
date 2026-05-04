@@ -1,4 +1,4 @@
-import {getJsonSchema, SpecTypes} from "../../index.js";
+import {compile, SpecTypes} from "../../index.js";
 import {Schema} from "./schema.js";
 
 describe("Schema()", () => {
@@ -13,7 +13,7 @@ describe("Schema()", () => {
       test: string[];
     }
 
-    expect(getJsonSchema(Test)).toMatchInlineSnapshot(`
+    expect(compile(Test)).toMatchInlineSnapshot(`
       {
         "properties": {
           "test": {
@@ -38,7 +38,7 @@ describe("Schema()", () => {
       test: string;
     }
 
-    expect(getJsonSchema(Test)).toEqual({
+    expect(compile(Test)).toEqual({
       properties: {
         test: {
           type: "string",
@@ -48,7 +48,7 @@ describe("Schema()", () => {
       type: "object"
     });
 
-    expect(getJsonSchema(Test, {specType: SpecTypes.OPENAPI})).toEqual({
+    expect(compile(Test, {specType: SpecTypes.OPENAPI})).toEqual({
       properties: {
         test: {
           type: "string",

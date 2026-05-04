@@ -13,6 +13,7 @@ import {lazyRef} from "./lazyRef.js";
 import {number} from "./number.js";
 import {object} from "./object.js";
 import {oneOf} from "./oneOf.js";
+import {ref} from "./ref.js";
 import {string} from "./string.js";
 import {uri} from "./uri.js";
 import {url} from "./url.js";
@@ -41,6 +42,7 @@ export const s = {
   lazyRef,
   object,
   oneOf,
+  $ref: ref,
   string,
   uri,
   url

@@ -6,7 +6,7 @@ import {JsonEntityFn} from "./jsonEntityFn.js";
  *
  * The `@CustomKey()` decorator allows adding vendor-specific extensions or custom metadata
  * to schemas. These custom keys are only included in the generated schema when explicitly
- * requested with the `customKeys: true` option in `getJsonSchema()`.
+ * requested with the `customKeys: true` option in `compile()`.
  *
  * ### Basic Usage
  *
@@ -58,12 +58,12 @@ import {JsonEntityFn} from "./jsonEntityFn.js";
  * Custom keys must be explicitly requested:
  *
  * ```typescript
- * import { getJsonSchema } from "@tsed/schema";
+ * import { compile } from "@tsed/schema";
  *
- * const schema = getJsonSchema(UserModel, { customKeys: true });
+ * const schema = compile(UserModel, { customKeys: true });
  * // Schema will include x-internal-id and other custom keys
  *
- * const standardSchema = getJsonSchema(UserModel);
+ * const standardSchema = compile(UserModel);
  * // Custom keys are omitted by default
  * ```
  *

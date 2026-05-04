@@ -1,6 +1,6 @@
 import {Type} from "@tsed/core";
 
-import {getJsonSchema, Property} from "../../src/index.js";
+import {compile, Property} from "../../src/index.js";
 
 function Ref(model: string | (() => Type) | any): PropertyDecorator {
   return Property(model) as PropertyDecorator;
@@ -25,7 +25,7 @@ describe("Decorators as type", () => {
         test: Ref<Test2>;
       }
 
-      expect(getJsonSchema(Test)).toMatchInlineSnapshot(`
+      expect(compile(Test)).toMatchInlineSnapshot(`
         {
           "definitions": {
             "Test2": {

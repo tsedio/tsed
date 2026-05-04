@@ -1,4 +1,4 @@
-import {getJsonSchema} from "../../utils/getJsonSchema.js";
+import {compile} from "../../utils/compile.js";
 import {ErrorMsg} from "./errorMsg.js";
 
 describe("@ErrorMsg", () => {
@@ -10,7 +10,7 @@ describe("@ErrorMsg", () => {
     }
 
     // THEN
-    const schema = getJsonSchema(Model, {customKeys: true});
+    const schema = compile(Model, {customKeys: true});
 
     expect(schema).toEqual({
       type: "object",
@@ -36,7 +36,7 @@ describe("@ErrorMsg", () => {
     }
 
     // THEN
-    const schema = getJsonSchema(Model, {customKeys: true});
+    const schema = compile(Model, {customKeys: true});
 
     expect(schema).toEqual({
       type: "object",

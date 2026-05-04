@@ -1,5 +1,5 @@
 import {SpecTypes} from "../../domain/SpecTypes.js";
-import {getJsonSchema} from "../../utils/getJsonSchema.js";
+import {compile} from "../../utils/compile.js";
 import {getSpec} from "../../utils/getSpec.js";
 import {In} from "../operations/in.js";
 import {OperationPath} from "../operations/operationPath.js";
@@ -14,7 +14,7 @@ describe("@MinProperties", () => {
     }
 
     // THEN
-    expect(getJsonSchema(Model)).toEqual({
+    expect(compile(Model)).toEqual({
       properties: {
         prop: {
           minProperties: 10,
@@ -32,7 +32,7 @@ describe("@MinProperties", () => {
     }
 
     // THEN
-    expect(getJsonSchema(Model)).toEqual({
+    expect(compile(Model)).toEqual({
       properties: {
         prop: {
           minProperties: 10,
@@ -48,7 +48,7 @@ describe("@MinProperties", () => {
     class Model {}
 
     // THEN
-    expect(getJsonSchema(Model)).toEqual({
+    expect(compile(Model)).toEqual({
       minProperties: 10,
       type: "object"
     });

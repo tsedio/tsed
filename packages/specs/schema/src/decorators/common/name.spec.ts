@@ -1,5 +1,5 @@
 import {Consumes, getSpec, OperationPath, Path} from "../../index.js";
-import {getJsonSchema} from "../../utils/getJsonSchema.js";
+import {compile} from "../../utils/compile.js";
 import {Name} from "./name.js";
 
 describe("@Name", () => {
@@ -11,7 +11,7 @@ describe("@Name", () => {
     }
 
     // THEN
-    expect(getJsonSchema(Model)).toEqual({
+    expect(compile(Model)).toEqual({
       properties: {
         num2: {
           type: "number"

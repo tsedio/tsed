@@ -1,9 +1,36 @@
 import {ancestorsOf, nameOf, Type} from "@tsed/core";
 
 import {Post} from "../../test/helpers/Post.js";
-import {CollectionOf, Email, Format, getJsonSchema, JsonEntityStore, MinLength, Name, Property, Required} from "../index.js";
+import {CollectionOf, compile, Email, Format, JsonEntityStore, MinLength, Name, Property, Required, s} from "../index.js";
 
-describe("getJsonSchema", () => {
+describe("compile", () => {
+  it("should compile JsonSchema instances", () => {
+    const schema = s.object({
+      id: s.string().required()
+    });
+    const compiled = compile(schema);
+
+    expect(compiled).toEqual({
+      type: "object",
+      required: ["id"],
+      properties: {
+        id: {
+          minLength: 1,
+          type: "string"
+        }
+      }
+    });
+  });
+
+  it("should expose compile as an alias of compile", () => {
+    const schema = s.object({
+      id: s.string().required()
+    });
+
+    expect(compile(schema)).toEqual(compile(schema));
+    expect(compile(Post)).toEqual(compile(Post));
+  });
+
   it("should declare all schema correctly (basic)", () => {
     // WHEN
     class Model {
@@ -22,7 +49,7 @@ describe("getJsonSchema", () => {
     }
 
     // THEN
-    expect(getJsonSchema(Model)).toEqual({
+    expect(compile(Model)).toEqual({
       type: "object",
       required: ["prop1"],
       properties: {
@@ -94,7 +121,7 @@ describe("getJsonSchema", () => {
 
     // THEN
 
-    expect(getJsonSchema(NestedModel)).toEqual({
+    expect(compile(NestedModel)).toEqual({
       type: "object",
       properties: {
         id: {
@@ -106,7 +133,7 @@ describe("getJsonSchema", () => {
       }
     });
 
-    expect(getJsonSchema(Model)).toEqual({
+    expect(compile(Model)).toEqual({
       type: "object",
       properties: {
         id: {
@@ -152,7 +179,7 @@ describe("getJsonSchema", () => {
 
     // THEN
 
-    expect(getJsonSchema(NestedModel)).toEqual({
+    expect(compile(NestedModel)).toEqual({
       type: "object",
       properties: {
         id: {
@@ -193,7 +220,7 @@ describe("getJsonSchema", () => {
         }
       }
     });
-    expect(getJsonSchema(Model)).toEqual({
+    expect(compile(Model)).toEqual({
       type: "object",
       properties: {
         id: {
@@ -245,7 +272,7 @@ describe("getJsonSchema", () => {
     }
 
     // THEN
-    expect(getJsonSchema(ChildModel)).toEqual({
+    expect(compile(ChildModel)).toEqual({
       type: "object",
       properties: {
         id: {
@@ -257,7 +284,7 @@ describe("getJsonSchema", () => {
       }
     });
 
-    expect(getJsonSchema(NestedModel)).toEqual({
+    expect(compile(NestedModel)).toEqual({
       type: "object",
       properties: {
         id: {
@@ -285,7 +312,7 @@ describe("getJsonSchema", () => {
       }
     });
 
-    expect(getJsonSchema(Model)).toEqual({
+    expect(compile(Model)).toEqual({
       type: "object",
       properties: {
         id: {
@@ -351,7 +378,7 @@ describe("getJsonSchema", () => {
     }
 
     // THEN
-    expect(getJsonSchema(ChildModel)).toEqual({
+    expect(compile(ChildModel)).toEqual({
       type: "object",
       properties: {
         id: {
@@ -363,7 +390,7 @@ describe("getJsonSchema", () => {
       }
     });
 
-    expect(getJsonSchema(NestedModel)).toEqual({
+    expect(compile(NestedModel)).toEqual({
       type: "object",
       properties: {
         id: {
@@ -392,7 +419,7 @@ describe("getJsonSchema", () => {
       }
     });
 
-    expect(getJsonSchema(Model)).toEqual({
+    expect(compile(Model)).toEqual({
       type: "object",
       properties: {
         id: {
@@ -459,7 +486,7 @@ describe("getJsonSchema", () => {
     }
 
     // THEN
-    expect(getJsonSchema(ChildModel)).toEqual({
+    expect(compile(ChildModel)).toEqual({
       type: "object",
       properties: {
         id: {
@@ -471,7 +498,7 @@ describe("getJsonSchema", () => {
       }
     });
 
-    expect(getJsonSchema(NestedModel)).toEqual({
+    expect(compile(NestedModel)).toEqual({
       type: "object",
       properties: {
         id: {
@@ -499,7 +526,7 @@ describe("getJsonSchema", () => {
       }
     });
 
-    expect(getJsonSchema(Model)).toEqual({
+    expect(compile(Model)).toEqual({
       type: "object",
       properties: {
         id: {
@@ -542,7 +569,7 @@ describe("getJsonSchema", () => {
     // WHEN
 
     // THEN
-    const classSchema = getJsonSchema(Post);
+    const classSchema = compile(Post);
 
     expect(classSchema).toEqual({
       definitions: {
@@ -601,7 +628,7 @@ describe("getJsonSchema", () => {
       name: string;
     }
 
-    expect(getJsonSchema(Model)).toEqual({
+    expect(compile(Model)).toEqual({
       type: "object",
       properties: {
         id: {
@@ -662,7 +689,7 @@ describe("getJsonSchema", () => {
 
     // THEN
     expect(ancestorsOf(EmailTemplate).map(nameOf)).toEqual(["Model", "WithDates", "AutoUUIDMixin", "EmailTemplate"]);
-    expect(getJsonSchema(EmailTemplate)).toEqual({
+    expect(compile(EmailTemplate)).toEqual({
       properties: {
         created_at: {
           format: "datetime",
@@ -713,7 +740,7 @@ describe("getJsonSchema", () => {
       id: string;
     }
 
-    expect(getJsonSchema(Model)).toEqual({
+    expect(compile(Model)).toEqual({
       type: "object",
       properties: {
         nested: {

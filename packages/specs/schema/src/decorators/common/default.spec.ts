@@ -1,4 +1,4 @@
-import {getJsonSchema} from "../../utils/getJsonSchema.js";
+import {compile} from "../../utils/compile.js";
 import {Default} from "./default.js";
 
 describe("@Default", () => {
@@ -12,7 +12,7 @@ describe("@Default", () => {
     }
 
     // THEN
-    expect(getJsonSchema(Model)).toEqual({
+    expect(compile(Model)).toEqual({
       properties: {
         num: {
           default: "10",
@@ -32,7 +32,7 @@ describe("@Default", () => {
     }
 
     // THEN
-    expect(getJsonSchema(Model)).toEqual({
+    expect(compile(Model)).toEqual({
       properties: {
         num: {
           default: expect.any(Number),

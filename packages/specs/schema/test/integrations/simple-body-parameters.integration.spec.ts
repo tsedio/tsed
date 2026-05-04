@@ -1,6 +1,6 @@
 import {ParamTypes, UseParam} from "@tsed/platform-params";
 
-import {getJsonSchema, JsonParameterStore, Post, Required} from "../../src/index.js";
+import {compile, JsonParameterStore, Post, Required} from "../../src/index.js";
 
 describe("Simple body parameters integration", () => {
   it("should generate the json schema", () => {
@@ -16,7 +16,7 @@ describe("Simple body parameters integration", () => {
 
     const metadata = JsonParameterStore.get(Ctrl, "get", 0);
 
-    expect(getJsonSchema(Model)).toEqual({
+    expect(compile(Model)).toEqual({
       properties: {
         id: {
           minLength: 1,
@@ -26,7 +26,7 @@ describe("Simple body parameters integration", () => {
       required: ["id"],
       type: "object"
     });
-    expect(getJsonSchema(metadata)).toEqual({
+    expect(compile(metadata)).toEqual({
       type: "object",
       properties: {
         id: {

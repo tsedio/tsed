@@ -3,7 +3,7 @@ import {catchError} from "@tsed/core";
 import {JsonEntityStore} from "../../domain/JsonEntityStore.js";
 import {array, map} from "../../fn/collection.js";
 import {string} from "../../fn/string.js";
-import {getJsonSchema} from "../../utils/getJsonSchema.js";
+import {compile} from "../../utils/compile.js";
 import {Property} from "../common/property.js";
 import {Schema} from "../common/schema.js";
 import {In} from "../operations/in.js";
@@ -36,7 +36,7 @@ describe("@CollectionOf", () => {
       fields: Map<string, string>[] = [];
     }
 
-    expect(getJsonSchema(Test)).toEqual({
+    expect(compile(Test)).toEqual({
       properties: {
         fields: {
           items: {
@@ -89,7 +89,7 @@ describe("@CollectionOf", () => {
 
     // THEN
     const entity = JsonEntityStore.from(Model, "prop");
-    const schema = getJsonSchema(Model);
+    const schema = compile(Model);
 
     expect(entity.schema.getTarget()).toEqual(Array);
     expect(entity.schema.get("type")).toEqual("array");
@@ -142,7 +142,7 @@ describe("@CollectionOf", () => {
     // THEN
     const entity = JsonEntityStore.from(Ctrl.prototype, "test", 0);
 
-    expect(getJsonSchema(entity)).toEqual({
+    expect(compile(entity)).toEqual({
       definitions: {
         Model: {
           properties: {

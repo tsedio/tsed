@@ -1,12 +1,12 @@
 import {
   AnyOf,
   boolean,
+  compile,
   CustomKeys,
   Default,
   Deprecated,
   Description,
   Example,
-  getJsonSchema,
   getSpec,
   number,
   OperationPath,
@@ -28,7 +28,7 @@ describe("@CustomKey", () => {
     }
 
     // THEN
-    const schema = getJsonSchema(Model, {customKeys: true});
+    const schema = compile(Model, {customKeys: true});
 
     expect(schema).toEqual({
       properties: {
@@ -108,7 +108,7 @@ describe("@CustomKey", () => {
     }
 
     // THEN
-    const schema = getJsonSchema(Model, {customKeys: true});
+    const schema = compile(Model, {customKeys: true});
 
     expect(schema).toEqual({
       properties: {
@@ -137,7 +137,7 @@ describe("@CustomKey", () => {
       public value?: string | number | boolean;
     }
 
-    expect(getJsonSchema(Model, {customKeys: true})).toMatchInlineSnapshot(`
+    expect(compile(Model, {customKeys: true})).toMatchInlineSnapshot(`
       {
         "properties": {
           "method": {

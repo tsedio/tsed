@@ -5,11 +5,11 @@ import {
   AdditionalProperties,
   array,
   CollectionOf,
+  compile,
   Description,
   Email,
   GenericOf,
   Generics,
-  getJsonSchema,
   getSpec,
   In,
   JsonEntityStore,
@@ -47,7 +47,7 @@ describe("Generics: basic", () => {
         totalCount: number;
       }
 
-      expect(getJsonSchema(Paginated, {})).toEqual({
+      expect(compile(Paginated, {})).toEqual({
         additionalProperties: false,
         properties: {
           data: {
@@ -77,7 +77,7 @@ describe("Generics: basic", () => {
         totalCount: number;
       }
 
-      const schema = getJsonSchema(Paginated, {
+      const schema = compile(Paginated, {
         generics: {
           Data: [Product]
         }
@@ -168,7 +168,7 @@ describe("Generics: basic", () => {
         adjustment: UserProperty<number>;
       }
 
-      expect(getJsonSchema(Adjustment)).toMatchInlineSnapshot(`
+      expect(compile(Adjustment)).toMatchInlineSnapshot(`
         {
           "definitions": {
             "UserProperty": {
@@ -268,7 +268,7 @@ describe("Generics: basic", () => {
         adjustments: UserProperty<number>[];
       }
 
-      expect(getJsonSchema(Adjustment)).toMatchInlineSnapshot(`
+      expect(compile(Adjustment)).toMatchInlineSnapshot(`
         {
           "definitions": {
             "UserProperty": {
@@ -332,7 +332,7 @@ describe("Generics: basic", () => {
         label: string;
       }
 
-      const schema = getJsonSchema(Paginated, {
+      const schema = compile(Paginated, {
         generics: {
           T: [
             Submission,
@@ -462,7 +462,7 @@ describe("Generics: basic", () => {
         submission: Submission<Product>;
       }
 
-      expect(getJsonSchema(Content)).toMatchInlineSnapshot(`
+      expect(compile(Content)).toMatchInlineSnapshot(`
         {
           "definitions": {
             "Product": {
@@ -525,7 +525,7 @@ describe("Generics: basic", () => {
         products: Paginated<Product>;
       }
 
-      expect(getJsonSchema(Content)).toMatchInlineSnapshot(`
+      expect(compile(Content)).toMatchInlineSnapshot(`
         {
           "definitions": {
             "Paginated": {
@@ -594,7 +594,7 @@ describe("Generics: basic", () => {
         submission: Submission<MyEnum>;
       }
 
-      expect(getJsonSchema(Content)).toMatchInlineSnapshot(`
+      expect(compile(Content)).toMatchInlineSnapshot(`
         {
           "definitions": {
             "Submission": {
@@ -652,7 +652,7 @@ describe("Generics: basic", () => {
         submission: Submission<MyEnum>;
       }
 
-      expect(getJsonSchema(Content)).toMatchInlineSnapshot(`
+      expect(compile(Content)).toMatchInlineSnapshot(`
         {
           "definitions": {
             "Submission": {
@@ -719,7 +719,7 @@ describe("Generics: basic", () => {
         submissions: Paginated<Submission<Product>>;
       }
 
-      expect(getJsonSchema(Content)).toMatchInlineSnapshot(`
+      expect(compile(Content)).toMatchInlineSnapshot(`
         {
           "definitions": {
             "Paginated": {
@@ -814,7 +814,7 @@ describe("Generics: basic", () => {
       const metadata = JsonEntityStore.from(Controller1, "method", 0);
 
       // THEN
-      const schema = getJsonSchema(metadata);
+      const schema = compile(metadata);
 
       expect(schema).toMatchInlineSnapshot(`
         {
@@ -875,7 +875,7 @@ describe("Generics: basic", () => {
       }
 
       // THEN
-      const schema = getJsonSchema(Content);
+      const schema = compile(Content);
 
       expect(schema).toMatchInlineSnapshot(`
         {
@@ -954,7 +954,7 @@ describe("Generics: basic", () => {
         payload: Model<Role>;
       }
 
-      const schema = getJsonSchema(Content);
+      const schema = compile(Content);
 
       expect(schema).toMatchInlineSnapshot(`
         {

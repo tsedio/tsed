@@ -1,4 +1,4 @@
-import {getJsonSchema, getSpec, OperationPath, Path, Returns, SpecTypes} from "../../index.js";
+import {compile, getSpec, OperationPath, Path, Returns, SpecTypes} from "../../index.js";
 import {WriteOnly} from "./writeOnly.js";
 
 describe("@WriteOnly", () => {
@@ -10,7 +10,7 @@ describe("@WriteOnly", () => {
     }
 
     // THEN
-    const schema = getJsonSchema(Model);
+    const schema = compile(Model);
 
     expect(schema).toEqual({
       properties: {
@@ -30,7 +30,7 @@ describe("@WriteOnly", () => {
     }
 
     // THEN
-    const schema = getJsonSchema(Model);
+    const schema = compile(Model);
 
     expect(schema).toEqual({
       properties: {

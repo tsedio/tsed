@@ -1,4 +1,4 @@
-import {getJsonSchema} from "../../utils/getJsonSchema.js";
+import {compile} from "../../utils/compile.js";
 import {MultipleOf} from "./multipleOf.js";
 
 describe("MultipleOf", () => {
@@ -10,7 +10,7 @@ describe("MultipleOf", () => {
     }
 
     // THEN
-    expect(getJsonSchema(Model)).toEqual({
+    expect(compile(Model)).toEqual({
       properties: {
         num: {
           multipleOf: 2,

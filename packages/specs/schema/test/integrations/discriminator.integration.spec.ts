@@ -2,12 +2,12 @@ import {Controller} from "@tsed/di";
 import {BodyParams, PathParams} from "@tsed/platform-params";
 
 import {
+  compile,
   DiscriminatorKey,
   DiscriminatorValue,
   Enum,
   enums,
   Get,
-  getJsonSchema,
   getSpec,
   JsonEntityStore,
   Name,
@@ -75,7 +75,7 @@ describe("Discriminator", () => {
         data: PageView | Action;
       }
 
-      expect(getJsonSchema(Tracking)).toEqual({
+      expect(compile(Tracking)).toEqual({
         definitions: {
           Action: {
             properties: {
@@ -145,7 +145,7 @@ describe("Discriminator", () => {
         data: (PageView | Action)[];
       }
 
-      expect(getJsonSchema(Tracking)).toEqual({
+      expect(compile(Tracking)).toEqual({
         definitions: {
           Action: {
             properties: {
@@ -218,7 +218,7 @@ describe("Discriminator", () => {
         data: OneOfEvents;
       }
 
-      expect(getJsonSchema(Tracking)).toEqual({
+      expect(compile(Tracking)).toEqual({
         definitions: {
           Action: {
             properties: {
@@ -312,7 +312,7 @@ describe("Discriminator", () => {
         data: Action;
       }
 
-      expect(getJsonSchema(Tracking)).toEqual({
+      expect(compile(Tracking)).toEqual({
         definitions: {
           Action: {
             properties: {
@@ -356,7 +356,7 @@ describe("Discriminator", () => {
 
       const metadata = JsonEntityStore.from(MyTest, "post", 0);
 
-      expect(getJsonSchema(metadata)).toEqual({
+      expect(compile(metadata)).toEqual({
         definitions: {
           Action: {
             properties: {
@@ -454,7 +454,7 @@ describe("Discriminator", () => {
 
       const metadata = JsonEntityStore.from(MyTest, "patch", 0);
 
-      expect(getJsonSchema(metadata)).toEqual({
+      expect(compile(metadata)).toEqual({
         definitions: {
           ActionPartial: {
             properties: {

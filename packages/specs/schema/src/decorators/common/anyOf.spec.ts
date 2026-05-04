@@ -1,7 +1,7 @@
 import {JsonEntityStore} from "../../domain/JsonEntityStore.js";
 import {number} from "../../fn/number.js";
 import {string} from "../../fn/string.js";
-import {getJsonSchema, getSpec, In, OperationPath, Path, Property, SpecTypes} from "../../index.js";
+import {compile, getSpec, In, OperationPath, Path, Property, SpecTypes} from "../../index.js";
 import {AnyOf} from "./anyOf.js";
 
 describe("@AnyOf", () => {
@@ -47,7 +47,7 @@ describe("@AnyOf", () => {
       test: One1 | One2;
     }
 
-    const schema = getJsonSchema(Model);
+    const schema = compile(Model);
 
     expect(schema).toEqual({
       definitions: {
@@ -283,7 +283,7 @@ describe("@AnyOf", () => {
       test: number | boolean | string | number[] | string[];
     }
 
-    const schema = getJsonSchema(Model);
+    const schema = compile(Model);
 
     expect(schema).toEqual({
       properties: {

@@ -1,4 +1,4 @@
-import {CollectionOf, ForwardGroups, getJsonSchema, Name, Required} from "../../src/index.js";
+import {CollectionOf, compile, ForwardGroups, Name, Required} from "../../src/index.js";
 
 class TeamModel {
   @Required()
@@ -15,7 +15,7 @@ class TeamsModel {
 
 describe("Nested list schema", () => {
   it("should generated schema with alias", () => {
-    expect(getJsonSchema(TeamsModel, {useAlias: true})).toEqual({
+    expect(compile(TeamsModel, {useAlias: true})).toEqual({
       definitions: {
         TeamModel: {
           properties: {

@@ -3,12 +3,12 @@ import {QueryParams} from "@tsed/platform-params";
 import {
   array,
   CollectionOf,
+  compile,
   Default,
   Description,
   For,
   GenericOf,
   Generics,
-  getJsonSchema,
   getSpec,
   In,
   Integer,
@@ -143,7 +143,7 @@ class TestContactPageableCtrl {
 
 describe("Generics: Pageable - Testing pagination functionality with generic types", () => {
   it("should generate the correct JSON schema for the Pageable class", () => {
-    const schema = getJsonSchema(Pageable);
+    const schema = compile(Pageable);
 
     expect(schema).toMatchInlineSnapshot(`
       {
@@ -568,7 +568,7 @@ describe("Generics: Pageable - Testing pagination functionality with generic typ
     `);
   });
   it("should generate the correct JSON schema for the ContactQueryParams class", () => {
-    const schema = getJsonSchema(ContactQueryParams);
+    const schema = compile(ContactQueryParams);
 
     expect(schema).toMatchInlineSnapshot(`
       {

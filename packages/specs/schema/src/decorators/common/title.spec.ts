@@ -1,4 +1,4 @@
-import {getJsonSchema, Title} from "../../index.js";
+import {compile, Title} from "../../index.js";
 
 describe("Title()", () => {
   it("should store data", () => {
@@ -7,7 +7,7 @@ describe("Title()", () => {
       test: string;
     }
 
-    expect(getJsonSchema(Test)).toEqual({
+    expect(compile(Test)).toEqual({
       properties: {
         test: {
           title: "Title",

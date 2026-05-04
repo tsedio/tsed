@@ -1,7 +1,7 @@
 import {descriptorOf, useDecorators} from "@tsed/core";
 
 import {Description, getSpec, In, Name, OperationPath, Path, Pattern, SpecTypes} from "../../index.js";
-import {getJsonSchema} from "../../utils/getJsonSchema.js";
+import {compile} from "../../utils/compile.js";
 import {Example} from "./example.js";
 
 function ObjectID(name?: string) {
@@ -15,7 +15,7 @@ describe("@Example", () => {
     class Model {}
 
     // THEN
-    expect(getJsonSchema(Model)).toEqual({
+    expect(compile(Model)).toEqual({
       examples: [{id: "id"}],
       type: "object"
     });
@@ -80,7 +80,7 @@ describe("@Example", () => {
     }
 
     // THEN
-    expect(getJsonSchema(Model)).toEqual({
+    expect(compile(Model)).toEqual({
       properties: {
         method: {
           examples: ["Examples"],

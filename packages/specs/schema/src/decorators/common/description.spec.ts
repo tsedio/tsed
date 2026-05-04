@@ -1,5 +1,5 @@
 import {In, OperationPath, Property, SpecTypes} from "../../index.js";
-import {getJsonSchema} from "../../utils/getJsonSchema.js";
+import {compile} from "../../utils/compile.js";
 import {getSpec} from "../../utils/getSpec.js";
 import {Description} from "./description.js";
 
@@ -10,7 +10,7 @@ describe("@Description", () => {
     class Model {}
 
     // THEN
-    expect(getJsonSchema(Model)).toEqual({
+    expect(compile(Model)).toEqual({
       description: "Description",
       type: "object"
     });
@@ -53,7 +53,7 @@ describe("@Description", () => {
     }
 
     // THEN
-    expect(getJsonSchema(Model)).toEqual({
+    expect(compile(Model)).toEqual({
       properties: {
         method: {
           description: "Description",

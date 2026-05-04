@@ -1,5 +1,5 @@
 import {SpecTypes} from "../../domain/SpecTypes.js";
-import {getJsonSchema} from "../../utils/getJsonSchema.js";
+import {compile} from "../../utils/compile.js";
 import {getSpec} from "../../utils/getSpec.js";
 import {CollectionOf} from "../collections/collectionOf.js";
 import {In} from "../operations/in.js";
@@ -43,7 +43,7 @@ class MyModel {
 describe("@Groups", () => {
   describe("JsonSchema", () => {
     it("should show fields with group annotation", () => {
-      const spec = getJsonSchema(MyModel, {
+      const spec = compile(MyModel, {
         groups: false
       });
 
@@ -91,7 +91,7 @@ describe("@Groups", () => {
       });
     });
     it("should show fields with group annotation (with x-groups custom key)", () => {
-      const spec = getJsonSchema(MyModel, {
+      const spec = compile(MyModel, {
         groups: false,
         customKeys: true
       });
@@ -140,7 +140,7 @@ describe("@Groups", () => {
       });
     });
     it("should show fields with group annotation if the an empty array is given to group fields", () => {
-      const spec = getJsonSchema(MyModel, {
+      const spec = compile(MyModel, {
         groups: []
       });
 
@@ -180,7 +180,7 @@ describe("@Groups", () => {
       });
     });
     it("should show fields with group annotation if the an empty any groups is given", () => {
-      const spec = getJsonSchema(MyModel);
+      const spec = compile(MyModel);
 
       expect(spec).toEqual({
         definitions: {
@@ -218,7 +218,7 @@ describe("@Groups", () => {
       });
     });
     it("should display fields when a group match with (group.summary)", () => {
-      const spec = getJsonSchema(MyModel, {
+      const spec = compile(MyModel, {
         groups: ["group.summary"]
       });
 
@@ -262,7 +262,7 @@ describe("@Groups", () => {
       });
     });
     it("should display fields when a group match with (creation)", () => {
-      const spec = getJsonSchema(MyModel, {
+      const spec = compile(MyModel, {
         groups: ["creation"]
       });
 
@@ -299,7 +299,7 @@ describe("@Groups", () => {
       });
     });
     it("should display fields when a group match with (pattern)", () => {
-      const spec = getJsonSchema(MyModel, {
+      const spec = compile(MyModel, {
         groups: ["group.*"]
       });
 
@@ -380,7 +380,7 @@ describe("@Groups", () => {
         newPassword: string;
       }
 
-      const spec1 = getJsonSchema(User, {
+      const spec1 = compile(User, {
         groups: ["creation"]
       });
 
@@ -407,7 +407,7 @@ describe("@Groups", () => {
         type: "object"
       });
 
-      const spec2 = getJsonSchema(User, {
+      const spec2 = compile(User, {
         groups: ["update"]
       });
 
@@ -434,7 +434,7 @@ describe("@Groups", () => {
         type: "object"
       });
 
-      const spec3 = getJsonSchema(User, {
+      const spec3 = compile(User, {
         groups: ["changePassword"]
       });
 

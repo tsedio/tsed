@@ -1,4 +1,4 @@
-import {CollectionOf, getJsonSchema, getSpec, In, Name, OperationPath, Path, Property, Required, Returns, SpecTypes} from "../../index.js";
+import {CollectionOf, compile, getSpec, In, Name, OperationPath, Path, Property, Required, Returns, SpecTypes} from "../../index.js";
 import {ForwardGroups} from "./forwardGroups.js";
 import {Groups} from "./groups.js";
 
@@ -34,7 +34,7 @@ class MyModel {
 describe("@ForwardGroups", () => {
   describe("JsonSchema", () => {
     it("should display fields when a group match with (creation)", () => {
-      const spec = getJsonSchema(MyModel, {
+      const spec = compile(MyModel, {
         groups: ["creation"]
       });
 

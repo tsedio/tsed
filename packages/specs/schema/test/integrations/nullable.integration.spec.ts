@@ -4,9 +4,9 @@ import {Ajv} from "ajv";
 import {
   Any,
   AnyOf,
+  compile,
   Const,
   Format,
-  getJsonSchema,
   getSpec,
   In,
   Integer,
@@ -59,7 +59,7 @@ class TestNullableCtrl {
 
 describe("Spec: Nullable", () => {
   it("should generate the JSON", () => {
-    const schema = getJsonSchema(Product);
+    const schema = compile(Product);
     expect(schema).toEqual({
       definitions: {
         Nested: {
@@ -210,7 +210,7 @@ describe("Spec: Nullable", () => {
     }
 
     // THEN
-    const schema = getJsonSchema(Model);
+    const schema = compile(Model);
 
     expect(schema).toMatchInlineSnapshot(`
       {
@@ -353,7 +353,7 @@ describe("Spec: Nullable", () => {
     }
 
     // THEN
-    const schema = getJsonSchema(Model);
+    const schema = compile(Model);
     const ajv = new Ajv();
 
     ajv.compile(schema);
@@ -441,7 +441,7 @@ describe("Spec: Nullable", () => {
     }
 
     // THEN
-    expect(getJsonSchema(Model)).toMatchInlineSnapshot(`
+    expect(compile(Model)).toMatchInlineSnapshot(`
       {
         "properties": {
           "prop2": {
@@ -477,7 +477,7 @@ describe("Spec: Nullable", () => {
     }
 
     // THEN
-    expect(getJsonSchema(Model)).toMatchInlineSnapshot(`
+    expect(compile(Model)).toMatchInlineSnapshot(`
       {
         "properties": {
           "prop1": {
@@ -583,7 +583,7 @@ describe("Spec: Nullable", () => {
     }
 
     // THEN
-    const schema = getJsonSchema(Model);
+    const schema = compile(Model);
     expect(schema).toMatchInlineSnapshot(`
       {
         "properties": {
@@ -623,7 +623,7 @@ describe("Spec: Nullable", () => {
     }
 
     // THEN
-    expect(getJsonSchema(Model)).toMatchInlineSnapshot(`
+    expect(compile(Model)).toMatchInlineSnapshot(`
       {
         "properties": {
           "prop2": {
@@ -658,7 +658,7 @@ describe("Spec: Nullable", () => {
     }
 
     // THEN
-    expect(getJsonSchema(Model)).toMatchInlineSnapshot(`
+    expect(compile(Model)).toMatchInlineSnapshot(`
       {
         "properties": {
           "prop2": {
@@ -755,7 +755,7 @@ describe("Spec: Nullable", () => {
       }
     `);
 
-    const schema = getJsonSchema(Model);
+    const schema = compile(Model);
     expect(schema).toMatchInlineSnapshot(`
       {
         "definitions": {
@@ -795,7 +795,7 @@ describe("Spec: Nullable", () => {
       prop5: string[] | null;
     }
 
-    expect(getJsonSchema(NullModel)).toMatchInlineSnapshot(`
+    expect(compile(NullModel)).toMatchInlineSnapshot(`
       {
         "properties": {
           "prop5": {
@@ -835,7 +835,7 @@ describe("Spec: Nullable", () => {
       prop2: Nested1 | Nested2 | null;
     }
 
-    const schema = getJsonSchema(Model);
+    const schema = compile(Model);
 
     expect(schema).toMatchInlineSnapshot(`
       {
@@ -998,7 +998,7 @@ describe("Spec: Nullable", () => {
       }
     `);
 
-    const schema = getJsonSchema(Model);
+    const schema = compile(Model);
 
     expect(schema).toMatchInlineSnapshot(`
       {
@@ -1274,7 +1274,7 @@ describe("Spec: Nullable", () => {
       }
     `);
 
-    const schema = getJsonSchema(Model);
+    const schema = compile(Model);
 
     expect(schema).toMatchInlineSnapshot(`
       {
@@ -1442,7 +1442,7 @@ describe("Spec: Nullable", () => {
       }
     `);
 
-    const schema = getJsonSchema(Model);
+    const schema = compile(Model);
 
     expect(schema).toMatchInlineSnapshot(`
       {
@@ -1521,7 +1521,7 @@ describe("Spec: Nullable", () => {
       keys: Array<ConsumerEllipticCurveJwk | ConsumerRSAJwk | ConsumerSymetricJwk> | null;
     }
 
-    const schema = getJsonSchema(ConsumerJwksUpdate);
+    const schema = compile(ConsumerJwksUpdate);
     const ajv = new Ajv({strict: true});
 
     expect(ajv.validate(schema, {keys: null})).toBeTruthy();
@@ -1599,7 +1599,7 @@ describe("Spec: Nullable", () => {
       prop: string[] | null;
     }
 
-    const schema = getJsonSchema(TestModel);
+    const schema = compile(TestModel);
 
     expect(schema).toMatchInlineSnapshot(`
       {
@@ -1624,7 +1624,7 @@ describe("Spec: Nullable", () => {
       prop: string | number | null;
     }
 
-    expect(getJsonSchema(Model)).toMatchInlineSnapshot(`
+    expect(compile(Model)).toMatchInlineSnapshot(`
       {
         "properties": {
           "prop": {
