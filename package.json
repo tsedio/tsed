@@ -95,7 +95,7 @@
   "dependencies": {
     "@tsed/logger": "^8.0.0",
     "ajv": "8.17.1",
-    "axios": "1.12.0",
+    "axios": "1.15.2",
     "change-case": "5.4.4",
     "globby": "14.1.0",
     "lerna": "8.1.8",
