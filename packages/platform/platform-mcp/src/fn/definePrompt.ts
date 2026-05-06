@@ -1,4 +1,5 @@
-import type {PromptCallback} from "@modelcontextprotocol/sdk/server/mcp.js";
+import type {RequestHandlerExtra} from "@modelcontextprotocol/sdk/shared/protocol.js";
+import type {GetPromptResult, ServerNotification, ServerRequest} from "@modelcontextprotocol/sdk/types.js";
 import {type AbstractType, isArrowFn, type Type} from "@tsed/core";
 import {inject, injectable, type TokenProvider} from "@tsed/di";
 import {JsonEntityStore, JsonSchema} from "@tsed/schema";
@@ -16,11 +17,15 @@ type BasePromptProps<Args> = BasePromptConfig & {
   argsSchema?: JsonSchema<Args> | (() => JsonSchema<Args>) | Record<string, unknown>;
 };
 
-export type FnPromptProps<Args extends undefined = any> = BasePromptProps<Args> & {
-  handler: PromptCallback<Args>;
+export type PromptHandler<Args = undefined> = Args extends undefined
+  ? (extra: RequestHandlerExtra<ServerRequest, ServerNotification>) => GetPromptResult | Promise<GetPromptResult>
+  : (args: Args, extra: RequestHandlerExtra<ServerRequest, ServerNotification>) => GetPromptResult | Promise<GetPromptResult>;
+
+export type FnPromptProps<Args = any> = BasePromptProps<Args> & {
+  handler: PromptHandler<Args>;
 };
 
-export type ClassPromptProps<Args extends undefined = any> = Omit<BasePromptProps<Args>, "name"> & {
+export type ClassPromptProps<Args = any> = Omit<BasePromptProps<Args>, "name"> & {
   name?: string;
   token: Type | AbstractType<any>;
   propertyKey: string | symbol;
@@ -33,10 +38,11 @@ export type ClassPromptProps<Args extends undefined = any> = Omit<BasePromptProp
  * @module platform/mcp
  * @since 8.17.0
  */
-export type PromptProps<Args extends undefined = any> = FnPromptProps<Args> | ClassPromptProps<Args>;
+export type PromptProps<Args = any> = FnPromptProps<Args> | ClassPromptProps<Args>;
 
-function mapOptions<Args extends undefined = any>(options: PromptProps<Args>) {
-  let handler: PromptCallback<Args> = undefined as any;
+function mapOptions<Args = any>(options: PromptProps<Args>) {
+  let handler: PromptHandler<Args> = undefined as any;
+  const name = options.name || ("propertyKey" in options ? String(options.propertyKey) : undefined);
 
   if ("handler" in options) {
     handler = options.handler;
@@ -48,7 +54,7 @@ function mapOptions<Args extends undefined = any>(options: PromptProps<Args>) {
     handler = ((...args: any[]) => {
       const instance = inject(options.token) as any;
       return instance[propertyKey](...args);
-    }) as unknown as PromptCallback<Args>;
+    }) as unknown as PromptHandler<Args>;
 
     const methodStore = JsonEntityStore.fromMethod(token, propertyKey);
     options.description = options.description || methodStore.operation.get("description");
@@ -57,6 +63,7 @@ function mapOptions<Args extends undefined = any>(options: PromptProps<Args>) {
 
   return {
     ...options,
+    name,
     argsSchema: toZod(isArrowFn(options.argsSchema) ? options.argsSchema() : options.argsSchema),
     handler: handler
   };
@@ -88,9 +95,9 @@ export type PromptsSettings = ReturnType<typeof mapOptions>;
  * });
  * ```
  */
-export function definePrompt<Args extends undefined = any>(options: FnPromptProps<Args>): TokenProvider;
-export function definePrompt<Args extends undefined = any>(options: ClassPromptProps<Args>): TokenProvider;
-export function definePrompt<Args extends undefined = any>(options: PromptProps<Args>) {
+export function definePrompt<Args = any>(options: FnPromptProps<Args>): TokenProvider;
+export function definePrompt<Args = any>(options: ClassPromptProps<Args>): TokenProvider;
+export function definePrompt<Args = any>(options: PromptProps<Args>) {
   const provider = injectable(Symbol.for(`MCP:PROMPT:${options.name}`))
     .type(MCP_PROVIDER_TYPES.PROMPT)
     .factory(() => {

@@ -1,0 +1,9 @@
+{
+  "extends": "@tsed/typescript/tsconfig.node.json",
+  "compilerOptions": {
+    "baseUrl": "../..",
+    "noEmit": true
+  },
+  "include": ["./**/*.ts", "../../src/**/*.ts"],
+  "exclude": ["../../src/**/*.spec.ts"]
+}

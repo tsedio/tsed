@@ -4,18 +4,31 @@ import {JsonEntityStore} from "@tsed/schema";
 
 import {MCP_PROVIDER_TYPES} from "../constants/constants.js";
 
-type ResourceBaseProps = ResourceMetadata & {
+type ResourceMetadataProps = ResourceMetadata & {
   name: string;
-  handler: ReadResourceCallback;
-  token?: TokenProvider;
-  propertyKey?: string | symbol;
 };
 
-type ResourceReadProps = ResourceBaseProps & {
+export type FnResourceReadProps = ResourceMetadataProps & {
+  uri: string;
+  handler: ReadResourceCallback;
+};
+
+export type FnResourceTemplateProps = ResourceMetadataProps & {
+  template: ResourceTemplate;
+  handler: ReadResourceCallback;
+};
+
+type ClassResourceBaseProps = Omit<ResourceMetadataProps, "name"> & {
+  name?: string;
+  token: TokenProvider;
+  propertyKey: string | symbol;
+};
+
+export type ClassResourceReadProps = ClassResourceBaseProps & {
   uri: string;
 };
 
-type ResourceTemplateProps = ResourceBaseProps & {
+export type ClassResourceTemplateProps = ClassResourceBaseProps & {
   template: ResourceTemplate;
 };
 
@@ -25,12 +38,17 @@ type ResourceTemplateProps = ResourceBaseProps & {
  * @module platform/mcp
  * @since 8.17.0
  */
-export type ResourceProps = ResourceReadProps | ResourceTemplateProps;
+export type ResourceProps = FnResourceReadProps | FnResourceTemplateProps | ClassResourceReadProps | ClassResourceTemplateProps;
+
+function isClassResourceProps(options: ResourceProps): options is ClassResourceReadProps | ClassResourceTemplateProps {
+  return "token" in options && "propertyKey" in options;
+}
 
 function mapOptions(options: ResourceProps) {
   let handler: ReadResourceCallback;
+  const name = options.name || ("propertyKey" in options ? String(options.propertyKey) : undefined);
 
-  if ("propertyKey" in options && options.propertyKey) {
+  if (isClassResourceProps(options)) {
     const {token, propertyKey} = options;
 
     handler = (...args: any[]) => {
@@ -42,14 +60,17 @@ function mapOptions(options: ResourceProps) {
     options.description = options.description || methodStore.operation.get("description");
     options.title = options.title || methodStore.schema.get("title");
   } else {
-    handler = options.handler!;
+    handler = options.handler;
   }
 
   return {
     ...options,
+    name,
     handler
   };
 }
+
+export type ResourceSettings = ReturnType<typeof mapOptions>;
 
 /**
  * Registers an MCP resource provider with the Ts.ED injector and returns its token.
@@ -68,8 +89,10 @@ function mapOptions(options: ResourceProps) {
  * });
  * ```
  */
-export function defineResource(options: ResourceReadProps): TokenProvider;
-export function defineResource(options: ResourceTemplateProps): TokenProvider;
+export function defineResource(options: FnResourceReadProps): TokenProvider;
+export function defineResource(options: FnResourceTemplateProps): TokenProvider;
+export function defineResource(options: ClassResourceReadProps): TokenProvider;
+export function defineResource(options: ClassResourceTemplateProps): TokenProvider;
 export function defineResource(options: ResourceProps): TokenProvider {
   const provider = injectable(Symbol.for(`MCP:RESOURCE:${options.name}`))
     .type(MCP_PROVIDER_TYPES.RESOURCE)

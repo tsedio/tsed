@@ -8,7 +8,7 @@ import {type ClassPromptProps, definePrompt} from "../fn/definePrompt.js";
  * @module platform/mcp
  * @since 8.17.0
  */
-export type PromptDecoratorOptions<Args extends undefined = any> = Omit<ClassPromptProps<Args>, "token" | "propertyKey">;
+export type PromptDecoratorOptions<Args = any> = Omit<ClassPromptProps<Args>, "token" | "propertyKey">;
 
 /**
  * Declares a Ts.ED class method as an MCP prompt and registers it through {@link definePrompt}.
@@ -27,7 +27,7 @@ export type PromptDecoratorOptions<Args extends undefined = any> = Omit<ClassPro
  * }
  * ```
  */
-export function Prompt<Args extends undefined = any>(options?: PromptDecoratorOptions<Args>) {
+export function Prompt<Args = any>(options?: PromptDecoratorOptions<Args>) {
   return (target: any, propertyKey: string | symbol, _: PropertyDescriptor) => {
     definePrompt<Args>({
       ...options,

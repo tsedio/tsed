@@ -265,15 +265,18 @@ describe("PlatformCache", () => {
       });
       it("should catch and log error", async () => {
         const cacheManager: any = PlatformTest.get<PlatformCache>(PlatformCache);
+        const error = new Error("message");
 
-        vi.spyOn(cacheManager, "get").mockRejectedValue(new Error("message"));
-        vi.spyOn(logger(), "error");
+        vi.spyOn(cacheManager, "get").mockRejectedValue(error);
+        const errorSpy = vi.spyOn(logger(), "error");
 
         await cacheManager.getCachedObject("key");
 
         expect(cacheManager.get).toHaveBeenCalledWith("key");
-        expect(logger().error).toHaveBeenCalledWith({
-          error: new Error("message"),
+        expect(errorSpy).toHaveBeenCalledWith({
+          error_message: "message",
+          error_name: "Error",
+          error_stack: expect.any(String),
           event: "CACHE_ERROR",
           method: "getCachedObject"
         });
@@ -291,15 +294,18 @@ describe("PlatformCache", () => {
 
       it("should catch and log error", async () => {
         const cacheManager: any = PlatformTest.get<PlatformCache>(PlatformCache);
+        const error = new Error("message");
 
-        vi.spyOn(cacheManager, "set").mockRejectedValue(new Error("message"));
-        vi.spyOn(logger(), "error");
+        vi.spyOn(cacheManager, "set").mockRejectedValue(error);
+        const errorSpy = vi.spyOn(logger(), "error");
 
         await cacheManager.setCachedObject("key", {data: "data"}, {ttl: 10});
 
         expect(cacheManager.set).toHaveBeenCalledWith("key", {data: '{"data":"data"}', ttl: 10}, {ttl: 10});
-        expect(logger().error).toHaveBeenCalledWith({
-          error: new Error("message"),
+        expect(errorSpy).toHaveBeenLastCalledWith({
+          error_message: "message",
+          error_name: "Error",
+          error_stack: expect.any(String),
           event: "CACHE_ERROR",
           method: "setCachedObject"
         });
