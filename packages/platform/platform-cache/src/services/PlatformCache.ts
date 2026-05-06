@@ -127,11 +127,13 @@ export class PlatformCache {
   async getCachedObject(key: string) {
     try {
       return await this.get<PlatformCachedObject>(key);
-    } catch (er) {
+    } catch (er: any) {
       logger().error({
         event: "CACHE_ERROR",
         method: "getCachedObject",
-        error: er
+        error_name: er.name,
+        error_message: er.message,
+        error_stack: er.stack
       });
     }
   }
@@ -153,7 +155,9 @@ export class PlatformCache {
       logger().error({
         event: "CACHE_ERROR",
         method: "setCachedObject",
-        error: er
+        error_name: (er as Error).name,
+        error_message: (er as Error).message,
+        error_stack: (er as Error).stack
       });
     }
   }
