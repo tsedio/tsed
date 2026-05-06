@@ -1,8 +1,7 @@
-import type {McpServer} from "@modelcontextprotocol/sdk/server/mcp.js";
 import type {RequestHandlerExtra} from "@modelcontextprotocol/sdk/shared/protocol.js";
-import type {CallToolResult, ServerNotification, ServerRequest, Tool} from "@modelcontextprotocol/sdk/types.js";
+import type {CallToolResult, ServerNotification, ServerRequest, Tool, ToolAnnotations} from "@modelcontextprotocol/sdk/types.js";
 import {type AbstractType, isArrowFn, type Type} from "@tsed/core";
-import {inject, injectable, logger} from "@tsed/di";
+import {inject, injectable, logger, type TokenProvider} from "@tsed/di";
 import {JsonEntityStore, JsonMethodStore, JsonSchema} from "@tsed/schema";
 
 import {MCP_PROVIDER_TYPES} from "../constants/constants.js";
@@ -20,13 +19,19 @@ export type ToolCallback<Args = undefined> = (
   extra: RequestHandlerExtra<ServerRequest, ServerNotification>
 ) => CallToolResult | Promise<CallToolResult>;
 
-type ToolConfig = Parameters<McpServer["registerTool"]>[1];
-type BaseToolProps<Input, Output = undefined> = Omit<ToolConfig, "inputSchema" | "outputSchema"> & {
+type BaseToolConfig = {
+  title?: string;
+  description?: string;
+  annotations?: ToolAnnotations;
+  _meta?: Record<string, unknown>;
+};
+
+type BaseToolProps<Input, Output = undefined> = BaseToolConfig & {
   inputSchema?: JsonSchema<Input> | (() => JsonSchema<Input>) | Tool["inputSchema"];
   outputSchema?: JsonSchema<Output> | Tool["outputSchema"];
 };
 
-type FnToolProps<Input, Output = undefined> = BaseToolProps<Input, Output> & {
+export type FnToolProps<Input, Output = undefined> = BaseToolProps<Input, Output> & {
   name: string;
   handler: ToolCallback<Input>;
 };
@@ -103,6 +108,8 @@ function mapOptions<Input, Output = undefined>(options: ToolProps<Input, Output>
  * });
  * ```
  */
+export function defineTool<Input, Output = undefined>(options: FnToolProps<Input, Output>): TokenProvider;
+export function defineTool<Input, Output = undefined>(options: ClassToolProps<Input, Output>): TokenProvider;
 export function defineTool<Input, Output = undefined>(options: ToolProps<Input, Output>) {
   const provider = injectable(Symbol.for(`MCP:TOOL:${options.name}`))
     .type(MCP_PROVIDER_TYPES.TOOL)

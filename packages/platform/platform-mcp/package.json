@@ -19,6 +19,7 @@
     "build": "yarn barrels && yarn build:ts",
     "barrels": "barrels",
     "test": "vitest run",
+    "test:types": "tsc -p test/types/tsconfig.json",
     "build:ts": "tsc --build tsconfig.esm.json",
     "test:ci": "vitest run --coverage.thresholds.autoUpdate=true"
   },

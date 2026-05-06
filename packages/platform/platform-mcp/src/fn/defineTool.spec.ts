@@ -15,7 +15,7 @@ describe("defineTool", () => {
       handler() {
         throw new Error("boom");
       }
-    } as any);
+    });
 
     const definition = inject<any>(token);
 
