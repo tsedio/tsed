@@ -1,6 +1,6 @@
 import {classOf} from "@tsed/core";
 
-import {definePrompt, type PromptProps} from "../fn/definePrompt.js";
+import {type ClassPromptProps, definePrompt} from "../fn/definePrompt.js";
 
 /**
  * Options accepted by {@link Prompt} when decorating a class method. Matches {@link PromptProps} minus the handler reference.
@@ -8,7 +8,7 @@ import {definePrompt, type PromptProps} from "../fn/definePrompt.js";
  * @module platform/mcp
  * @since 8.17.0
  */
-export type PromptDecoratorOptions = Omit<PromptProps, "handler">;
+export type PromptDecoratorOptions<Args extends undefined = any> = Omit<ClassPromptProps<Args>, "token" | "propertyKey">;
 
 /**
  * Declares a Ts.ED class method as an MCP prompt and registers it through {@link definePrompt}.
@@ -27,10 +27,10 @@ export type PromptDecoratorOptions = Omit<PromptProps, "handler">;
  * }
  * ```
  */
-export function Prompt(options?: PromptDecoratorOptions) {
+export function Prompt<Args extends undefined = any>(options?: PromptDecoratorOptions<Args>) {
   return (target: any, propertyKey: string | symbol, _: PropertyDescriptor) => {
-    definePrompt({
-      ...(options as PromptProps),
+    definePrompt<Args>({
+      ...options,
       name: options?.name || String(propertyKey),
       token: classOf(target),
       propertyKey: propertyKey
