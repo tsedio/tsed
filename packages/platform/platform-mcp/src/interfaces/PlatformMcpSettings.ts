@@ -1,4 +1,6 @@
+import type {ServerOptions} from "@modelcontextprotocol/sdk/server/index.js";
 import type {StreamableHTTPServerTransportOptions} from "@modelcontextprotocol/sdk/server/streamableHttp.js";
+import type {Implementation} from "@modelcontextprotocol/sdk/types.js";
 import type {TokenProvider} from "@tsed/di";
 
 /**
@@ -25,11 +27,31 @@ export interface PlatformMcpSettings {
    */
   version?: string;
   /**
+   * Optional human-readable server title exposed to MCP clients.
+   */
+  title?: Implementation["title"];
+  /**
+   * Optional server description exposed to MCP clients.
+   */
+  description?: Implementation["description"];
+  /**
+   * Optional canonical website URL exposed to MCP clients.
+   */
+  websiteUrl?: Implementation["websiteUrl"];
+  /**
+   * Optional icon descriptors exposed to MCP clients.
+   */
+  icons?: Implementation["icons"];
+  /**
    * Optional tokens registered through configuration.
    */
   tools?: TokenProvider[];
   resources?: TokenProvider[];
   prompts?: TokenProvider[];
+  /**
+   * Optional low-level MCP server options forwarded to `new McpServer(serverInfo, options)`.
+   */
+  serverOptions?: ServerOptions;
   /**
    * Optional transport options for the MCP server.
    */

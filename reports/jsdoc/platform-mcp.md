@@ -54,6 +54,9 @@ Rules
 - [x] `PromptProps`, `PromptsSettings`, `definePrompt` (fn/definePrompt.ts)
 - [x] `ResourceProps`, `defineResource` overloads (fn/defineResource.ts)
 - [x] `ToolCallback`, `ClassToolProps`, `ToolProps`, `defineTool` (fn/defineTool.ts)
+- [x] `defineTool` error contract updated in docs/tests (`status_code`, `code`, `message`, `request_id`, `tool`)
+- [x] `definePrompt` error contract updated in docs/tests (`status_code`, `code`, `message`, `request_id`, `prompt` in `_meta`)
+- [x] `defineResource` error contract updated in docs/tests (`status_code`, `code`, `message`, `request_id`, `resource` in `_meta`)
 
 ### interfaces
 
@@ -83,3 +86,4 @@ Rules
 
 - [x] Ensure `index.ts` exports remain documented indirectly through their source files.
 - [x] Update `reports/jsdoc/platform-mcp.md` after each documentation batch and log validation commands.
+- [x] Keep tool error-handling documentation aligned with runtime payload shape.

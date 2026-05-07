@@ -1,6 +1,7 @@
 import type {ReadResourceCallback, ResourceMetadata, ResourceTemplate} from "@modelcontextprotocol/sdk/server/mcp.js";
-import {inject, injectable, type TokenProvider} from "@tsed/di";
+import {context, inject, injectable, logger, type TokenProvider} from "@tsed/di";
 import {JsonEntityStore} from "@tsed/schema";
+import {constantCase} from "change-case";
 
 import {MCP_PROVIDER_TYPES} from "../constants/constants.js";
 
@@ -97,7 +98,47 @@ export function defineResource(options: ResourceProps): TokenProvider {
   const provider = injectable(Symbol.for(`MCP:RESOURCE:${options.name}`))
     .type(MCP_PROVIDER_TYPES.RESOURCE)
     .factory(() => {
-      return mapOptions(options);
+      const {handler, ...opts} = mapOptions(options);
+
+      return {
+        ...opts,
+        async handler(...args: Parameters<ReadResourceCallback>) {
+          try {
+            return await handler(...args);
+          } catch (er: any) {
+            const safeErr =
+              er && typeof er === "object"
+                ? er
+                : {
+                    message: String(er),
+                    name: undefined,
+                    status: undefined
+                  };
+            const code = safeErr.name && safeErr.status ? `E_MCP_RESOURCE_${constantCase(safeErr.name)}` : "E_MCP_RESOURCE_ERROR";
+            logger().error({
+              event: "MCP_RESOURCE_ERROR",
+              status_code: safeErr.status,
+              code,
+              error_name: safeErr.name,
+              message: safeErr.message,
+              request_id: context().id,
+              resource: opts.name
+            });
+
+            return {
+              contents: [],
+              _meta: {
+                status_code: safeErr.status,
+                code,
+                error_name: safeErr.name,
+                message: safeErr.message,
+                request_id: context().id,
+                resource: opts.name
+              }
+            };
+          }
+        }
+      };
     });
 
   return provider.token();

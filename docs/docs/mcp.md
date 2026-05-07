@@ -282,6 +282,71 @@ export const askTsedPrompt = definePrompt({
 
 :::
 
+## Error handling
+
+`defineTool`, `defineResource`, and `definePrompt` wrap handler execution in `try/catch`.
+When a handler throws, Ts.ED logs a structured event and returns a fallback MCP payload instead of re-throwing.
+
+Error code resolution follows this rule:
+
+- if `error.name` and `error.status` are present: `E_MCP_<KIND>_<CONSTANT_CASE(error.name)>` (via `change-case`)
+- otherwise: `E_MCP_<KIND>_ERROR`
+
+### Tool errors
+
+- log event: `MCP_TOOL_ERROR`
+- fallback response:
+
+```json
+{
+  "content": [],
+  "structuredContent": {
+    "status_code": 500,
+    "code": "E_MCP_TOOL_INTERNAL_SERVER_ERROR",
+    "message": "Something went wrong",
+    "request_id": "<tsed-di-context-id>",
+    "tool": "my-tool"
+  }
+}
+```
+
+### Resource errors
+
+- log event: `MCP_RESOURCE_ERROR`
+- fallback response:
+
+```json
+{
+  "contents": [],
+  "_meta": {
+    "status_code": 404,
+    "code": "E_MCP_RESOURCE_NOT_FOUND",
+    "message": "Resource not found",
+    "request_id": "<tsed-di-context-id>",
+    "resource": "docs"
+  }
+}
+```
+
+### Prompt errors
+
+- log event: `MCP_PROMPT_ERROR`
+- fallback response:
+
+```json
+{
+  "description": "Prompt execution failed",
+  "messages": [],
+  "_meta": {
+    "status_code": 400,
+    "code": "E_MCP_PROMPT_BAD_REQUEST",
+    "message": "Prompt execution failed",
+    "request_id": "<tsed-di-context-id>",
+    "prompt": "ask-tsed"
+  }
+}
+```
+
 ## Customising the endpoint
 
 Set `mcp.path` or `mcp.enabled` to control how the transport is exposed:

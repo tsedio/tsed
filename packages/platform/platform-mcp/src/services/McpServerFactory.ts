@@ -29,11 +29,19 @@ export const MCP_SERVER = injectable(McpServer)
     const settings = constant<PlatformMcpSettings>("mcp", {}) || {};
     const name = settings.name || constant<string>("name") || "tsed-mcp";
     const version = settings.version || constant<string>("version") || "0.0.0";
+    const {websiteUrl, description, title, icons} = settings;
 
-    const server = new McpServer({
-      name,
-      version
-    });
+    const server = new McpServer(
+      {
+        websiteUrl,
+        description,
+        icons,
+        title,
+        name,
+        version
+      },
+      settings?.serverOptions
+    );
 
     const toolTokens = collectTokens(MCP_PROVIDER_TYPES.TOOL, settings.tools);
     toolTokens.forEach((token) => {

@@ -25,6 +25,7 @@
   },
   "dependencies": {
     "@modelcontextprotocol/sdk": ">=1.29.0",
+    "change-case": ">=5.4.4",
     "tslib": ">=2.7.0",
     "uuid": ">=11.0.2",
     "zod": ">=4.0.0"

@@ -22,8 +22,34 @@ describe("defineTool", () => {
     const result = await definition.handler({}, {} as any);
 
     expect(result.structuredContent).toEqual({
+      status_code: undefined,
       code: "E_MCP_TOOL_ERROR",
-      message: "boom"
+      message: "boom",
+      request_id: expect.any(String),
+      tool: "failing-tool"
+    });
+  });
+
+  it("should derive error code from error name and status when available", async () => {
+    const token = defineTool<any>({
+      name: "http-tool",
+      handler() {
+        const er = new Error("Not found") as Error & {status?: number; name: string};
+        er.name = "NotFound";
+        er.status = 404;
+        throw er;
+      }
+    });
+
+    const definition = inject<any>(token);
+    const result = await definition.handler({}, {} as any);
+
+    expect(result.structuredContent).toEqual({
+      status_code: 404,
+      code: "E_MCP_TOOL_NOT_FOUND",
+      message: "Not found",
+      request_id: expect.any(String),
+      tool: "http-tool"
     });
   });
 });

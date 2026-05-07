@@ -1,8 +1,9 @@
 import type {RequestHandlerExtra} from "@modelcontextprotocol/sdk/shared/protocol.js";
 import type {GetPromptResult, ServerNotification, ServerRequest} from "@modelcontextprotocol/sdk/types.js";
 import {type AbstractType, isArrowFn, type Type} from "@tsed/core";
-import {inject, injectable, type TokenProvider} from "@tsed/di";
+import {context, inject, injectable, logger, type TokenProvider} from "@tsed/di";
 import {JsonEntityStore, JsonSchema} from "@tsed/schema";
+import {constantCase} from "change-case";
 
 import {MCP_PROVIDER_TYPES} from "../constants/constants.js";
 import {toZod} from "../utils/toZod.js";
@@ -101,7 +102,39 @@ export function definePrompt<Args = any>(options: PromptProps<Args>) {
   const provider = injectable(Symbol.for(`MCP:PROMPT:${options.name}`))
     .type(MCP_PROVIDER_TYPES.PROMPT)
     .factory(() => {
-      return mapOptions<Args>(options);
+      const {handler, ...opts} = mapOptions<Args>(options);
+
+      return {
+        ...opts,
+        async handler(...args: any[]) {
+          try {
+            return await (handler as any)(...args);
+          } catch (er: any) {
+            const code = er.name && er.status ? `E_MCP_PROMPT_${constantCase(er.name)}` : "E_MCP_PROMPT_ERROR";
+            logger().error({
+              event: "MCP_PROMPT_ERROR",
+              status_code: er.status,
+              code,
+              error_name: er.name,
+              message: er.message,
+              request_id: context().id,
+              prompt: opts.name
+            });
+
+            return {
+              description: er.message,
+              messages: [],
+              _meta: {
+                status_code: er.status,
+                code,
+                message: er.message,
+                request_id: context().id,
+                prompt: opts.name
+              }
+            } satisfies GetPromptResult;
+          }
+        }
+      };
     });
 
   return provider.token();

@@ -1,8 +1,9 @@
 import type {RequestHandlerExtra} from "@modelcontextprotocol/sdk/shared/protocol.js";
 import type {CallToolResult, ServerNotification, ServerRequest, Tool, ToolAnnotations} from "@modelcontextprotocol/sdk/types.js";
 import {type AbstractType, isArrowFn, type Type} from "@tsed/core";
-import {inject, injectable, logger, type TokenProvider} from "@tsed/di";
+import {context, inject, injectable, logger, type TokenProvider} from "@tsed/di";
 import {JsonEntityStore, JsonMethodStore, JsonSchema} from "@tsed/schema";
+import {constantCase} from "change-case";
 
 import {MCP_PROVIDER_TYPES} from "../constants/constants.js";
 import {toZod} from "../utils/toZod.js";
@@ -125,18 +126,25 @@ export function defineTool<Input, Output = undefined>(options: ToolProps<Input, 
           try {
             return await handler(args as Input, extra);
           } catch (er: any) {
+            const code = er.name && er.status ? `E_MCP_TOOL_${constantCase(er.name)}` : "E_MCP_TOOL_ERROR";
             logger().error({
               event: "MCP_TOOL_ERROR",
-              tool: opts.name,
-              error_message: er?.message,
-              stack: er?.stack
+              status_code: er.status,
+              code,
+              error_name: er.name,
+              message: er.message,
+              request_id: context().id,
+              tool: opts.name
             });
 
             return {
               content: [],
               structuredContent: {
-                code: "E_MCP_TOOL_ERROR",
-                message: er?.message
+                status_code: er.status,
+                code,
+                message: er.message,
+                request_id: context().id,
+                tool: opts.name
               }
             } satisfies CallToolResult;
           }
