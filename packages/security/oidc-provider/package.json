@@ -42,7 +42,7 @@
     "koa-rewrite": "^3.0.1",
     "lodash": "4.17.21",
     "tslib": ">=2.7.0",
-    "uuid": "^10.0.0"
+    "uuid": "^14.0.0"
   },
   "devDependencies": {
     "@tsed/barrels": "workspace:*",
