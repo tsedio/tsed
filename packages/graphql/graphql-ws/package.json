@@ -34,7 +34,7 @@
     "eslint": "9.12.0",
     "graphql-ws": "6.0.5",
     "typescript": "6.0.2",
-    "ws": "8.18.1"
+    "ws": "8.20.1"
   },
   "peerDependencies": {
     "@tsed/core": ">=8.0.0",
