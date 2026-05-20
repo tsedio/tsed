@@ -187,7 +187,10 @@ export class PlatformFastify extends PlatformAdapter<FastifyInstance> {
     const httpsOptions = constant<Https.ServerOptions>("httpsOptions");
     const opts = {
       ...props,
-      ignoreTrailingSlash: true,
+      routerOptions: {
+        ...props?.routerOptions,
+        ignoreTrailingSlash: true
+      },
       http:
         httpPort !== false
           ? {
