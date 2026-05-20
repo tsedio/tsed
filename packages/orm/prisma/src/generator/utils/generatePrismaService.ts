@@ -1,6 +1,6 @@
 import path from "node:path";
 
-import {Project, Scope} from "ts-morph";
+import {Project} from "ts-morph";
 
 import {resolveExtension} from "./resolveExtension.js";
 
@@ -11,11 +11,7 @@ export function generatePrismaService(project: Project, baseDirPath: string) {
   prismaServiceFile.addImportDeclarations([
     {
       moduleSpecifier: "@tsed/di",
-      namedImports: ["Inject", "Injectable", "Configuration", "OnInit", "OnDestroy"]
-    },
-    {
-      moduleSpecifier: "@tsed/logger",
-      namedImports: ["Logger"]
+      namedImports: ["injectable", "constant", "logger", "OnInit", "OnDestroy"]
     },
     {
       moduleSpecifier: resolveExtension("../client/index"),
@@ -26,44 +22,11 @@ export function generatePrismaService(project: Project, baseDirPath: string) {
   const prismaService = prismaServiceFile.addClass({
     name: "PrismaService",
     isExported: true,
-    decorators: [
-      {
-        name: "Injectable",
-        arguments: []
-      }
-    ],
     extends: "PrismaClient",
     implements: ["OnInit", "OnDestroy"]
   });
 
-  prismaService.addProperty({
-    name: "logger",
-    scope: Scope.Protected,
-    type: "Logger",
-    decorators: [
-      {
-        name: "Inject",
-        arguments: []
-      }
-    ]
-  });
-
-  prismaService
-    .addConstructor({
-      parameters: [
-        {
-          name: "settings",
-          type: "Configuration",
-          decorators: [
-            {
-              name: "Configuration",
-              arguments: []
-            }
-          ]
-        }
-      ]
-    })
-    .setBodyText("super(settings.get('prisma'));");
+  prismaService.addConstructor().setBodyText("super(constant('prisma'));");
 
   prismaService
     .addMethod({
@@ -72,7 +35,7 @@ export function generatePrismaService(project: Project, baseDirPath: string) {
       returnType: "Promise<void>"
     })
     .setBodyText(
-      `this.logger.info("Connection to prisma database");
+      `logger().info("Connection to prisma database");
       await this.$connect();`
     );
 
@@ -83,9 +46,11 @@ export function generatePrismaService(project: Project, baseDirPath: string) {
       returnType: "Promise<void>"
     })
     .setBodyText(
-      `this.logger.info("Disconnection from prisma database");
+      `logger().info("Disconnection from prisma database");
       await this.$disconnect();`
     );
+
+  prismaServiceFile.addStatements("injectable(PrismaService);");
 
   return prismaService;
 }

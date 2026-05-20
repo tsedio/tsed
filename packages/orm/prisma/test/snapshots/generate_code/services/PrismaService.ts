@@ -1,23 +1,19 @@
-import { Inject, Injectable, Configuration, OnInit, OnDestroy } from "@tsed/di";
-import { Logger } from "@tsed/logger";
+import { Injectable, constant, logger, OnInit, OnDestroy } from "@tsed/di";
 import { PrismaClient } from "../client/index.js";
 
 @Injectable()
 export class PrismaService extends PrismaClient implements OnInit, OnDestroy {
-  @Inject()
-  protected logger: Logger;
-
-  constructor(@Configuration() settings: Configuration) {
-    super(settings.get('prisma'));
+  constructor() {
+    super(constant('prisma'));
   }
 
   async $onInit(): Promise<void> {
-    this.logger.info("Connection to prisma database");
+    logger().info("Connection to prisma database");
     await this.$connect();
   }
 
   async $onDestroy(): Promise<void> {
-    this.logger.info("Disconnection from prisma database");
+    logger().info("Disconnection from prisma database");
     await this.$disconnect();
   }
 }
