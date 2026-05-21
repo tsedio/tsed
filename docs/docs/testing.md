@@ -107,6 +107,350 @@ it useful if you have a service that execute a code in his constructor.
 
 :::
 
+## Unit-testing injectable services: best practices
+
+The repository contains many good service unit tests. Use these patterns to keep tests fast and readable.
+
+### 1. Choose the right test entrypoint
+
+- `inject(MyService)`:
+  Use when no local overrides are needed.
+- `await PlatformTest.invoke(MyService, locals)`:
+  Use when one test needs custom mocked dependencies.
+- `PlatformTest.inject([MyService], (service) => {})`:
+  Prefer avoiding this style in new tests. Keep it only for legacy callback-style cases.
+
+### Which tool to choose?
+
+| Need                                                      | Recommended tool                                              | Why                                        |
+| --------------------------------------------------------- | ------------------------------------------------------------- | ------------------------------------------ |
+| Resolve one injectable service with container defaults    | `inject(MyService)`                                           | Most direct and readable                   |
+| Override one or more dependencies only for one test       | `await PlatformTest.invoke(MyService, locals)`                | Local mocks, no global side effects        |
+| Override dependencies for all tests in a `describe` block | `PlatformTest.create({imports: [...]})` + `inject(MyService)` | Shared setup, less duplication             |
+| Test callback-based legacy flow                           | `await PlatformTest.invoke(MyService)` + Promise wrapper      | Works with modern `async/await` assertions |
+
+### 2. Keep strict setup/teardown
+
+Always isolate each test:
+
+```ts
+beforeEach(() => PlatformTest.create());
+afterEach(() => PlatformTest.reset());
+```
+
+### 3. Mock only direct collaborators
+
+Mock only dependencies injected into the tested service, then assert both:
+
+- result returned by the service,
+- calls made to mocked collaborators (`toHaveBeenCalledWith`).
+
+`PlatformTest.invoke()` with locals is usually the cleanest pattern for this.
+
+### 4. Cover success and error paths
+
+For async services, test at least:
+
+- one successful flow (`mockResolvedValue`),
+- one failing flow (`mockRejectedValue` or thrown error).
+
+If the API is callback-based, wrap it in a Promise in the test to keep `async/await` style.
+
+### 5. Use focused assertions
+
+- Assert business output first.
+- Assert one important interaction per expectation block.
+- Avoid snapshot-only assertions for business logic; prefer explicit field/value checks.
+
+## Real examples from this codebase
+
+### Injectable service with `PlatformTest.invoke()` and local overrides
+
+::: code-group
+
+```ts [Test (vitest)]
+import {Injectable} from "@tsed/di";
+import {PlatformTest} from "@tsed/platform-http/testing";
+import {FormioDatabase} from "./FormioDatabase.js";
+import {FormioRepository} from "./FormioRepository.js";
+
+@Injectable()
+class PackagesRepository extends FormioRepository {
+  formName = "package";
+}
+
+describe("FormioRepository", () => {
+  beforeEach(() => PlatformTest.create());
+  afterEach(() => PlatformTest.reset());
+
+  it("should resolve form id then query submissions", async () => {
+    const database = {
+      formModel: {
+        findOne: vi.fn().mockResolvedValue({_id: "id"})
+      },
+      getSubmissions: vi.fn().mockResolvedValue([])
+    };
+
+    const service = await PlatformTest.invoke(PackagesRepository, [
+      {
+        token: FormioDatabase,
+        use: database
+      }
+    ]);
+
+    const submissions = await service.getSubmissions();
+
+    expect(submissions).toEqual([]);
+    expect(database.formModel.findOne).toHaveBeenCalledWith({
+      name: {$eq: "package"}
+    });
+    expect(database.getSubmissions).toHaveBeenCalledWith({form: "id"});
+  });
+});
+```
+
+```ts [Service]
+import {Inject} from "@tsed/di";
+
+export class FormioRepository {
+  @Inject(FormioDatabase)
+  protected database: FormioDatabase;
+
+  formName = "default";
+
+  async getSubmissions() {
+    const form = await this.database.formModel.findOne({
+      name: {$eq: this.formName}
+    });
+
+    return this.database.getSubmissions({form: form._id});
+  }
+}
+```
+
+:::
+
+### Injectable service resolved with `inject()` + module mock
+
+::: code-group
+
+```ts [Test (vitest)]
+import {writeFile} from "node:fs/promises";
+import {inject} from "@tsed/di";
+import {PlatformTest} from "@tsed/platform-http/testing";
+import {OpenAPIService} from "../index.js";
+
+vi.mock("node:fs/promises");
+
+describe("OpenAPIService", () => {
+  beforeEach(() => PlatformTest.create());
+  afterEach(() => PlatformTest.reset());
+
+  it("should write generated spec to disk", async () => {
+    const service = inject(OpenAPIService);
+
+    await service.writeOpenAPISpec({specVersion: "3.0.1", outFile: "/path"} as any);
+
+    expect(writeFile).toHaveBeenCalledWith("/path", expect.any(String), {
+      encoding: "utf8"
+    });
+  });
+});
+```
+
+```ts [Service]
+import {writeFile} from "node:fs/promises";
+import {Injectable} from "@tsed/di";
+
+@Injectable()
+export class OpenAPIService {
+  async writeOpenAPISpec(options: {specVersion: string; outFile: string}) {
+    const spec = {
+      openapi: options.specVersion,
+      info: {title: "API", version: "1.0.0"}
+    };
+
+    await writeFile(options.outFile, JSON.stringify(spec, null, 2), {
+      encoding: "utf8"
+    });
+  }
+}
+```
+
+:::
+
+### Legacy callback API wrapped in Promise (error path included)
+
+::: code-group
+
+```ts [Test (vitest)]
+import {PlatformTest} from "@tsed/platform-http/testing";
+import {PassportSerializerService} from "../index.js";
+
+describe("PassportSerializerService", () => {
+  beforeEach(() => PlatformTest.create());
+  afterEach(PlatformTest.reset);
+
+  it("should deserialize payload", async () => {
+    const service = await PlatformTest.invoke(PassportSerializerService);
+
+    const result = await new Promise((resolve) =>
+      service.deserialize('{"id":"id","email":"email@email.fr"}', (...args: any[]) => resolve(args))
+    );
+
+    expect(result).toEqual([null, {id: "id", email: "email@email.fr"}]);
+  });
+
+  it("should return an error for invalid payload", async () => {
+    const service = await PlatformTest.invoke(PassportSerializerService);
+
+    const result: any = await new Promise((resolve) =>
+      service.deserialize('{"id":"id","email":"email@email.fr}', (...args: any[]) => resolve(args))
+    );
+
+    expect(result[0]).toBeInstanceOf(Error);
+  });
+});
+```
+
+```ts [Service]
+import {Injectable} from "@tsed/di";
+
+@Injectable()
+export class PassportSerializerService {
+  serialize(user: {id: string; email: string; password?: string}, done: (err: any, value?: string) => void) {
+    const {id, email} = user;
+    done(null, JSON.stringify({id, email}));
+  }
+
+  deserialize(payload: string, done: (err: any, value?: any) => void) {
+    try {
+      done(null, JSON.parse(payload));
+    } catch (er) {
+      done(er);
+    }
+  }
+}
+```
+
+:::
+
+### Injectable service with config token
+
+::: code-group
+
+```ts [Test (vitest)]
+import {Inject, Injectable, TokenProvider, inject} from "@tsed/di";
+import {PlatformTest} from "@tsed/platform-http/testing";
+
+const CACHE_OPTIONS = "cache.options";
+
+@Injectable()
+class CachePolicyService {
+  @Inject(CACHE_OPTIONS)
+  protected options: TokenProvider<{ttl: number}>;
+
+  ttl() {
+    return this.options.value.ttl;
+  }
+}
+
+describe("CachePolicyService", () => {
+  beforeEach(() =>
+    PlatformTest.create({
+      imports: [
+        {
+          token: CACHE_OPTIONS,
+          useValue: {ttl: 120}
+        }
+      ]
+    })
+  );
+  afterEach(() => PlatformTest.reset());
+
+  it("should read ttl from injected token", () => {
+    const service = inject(CachePolicyService);
+
+    expect(service.ttl()).toBe(120);
+  });
+});
+```
+
+```ts [Service]
+import {Inject, Injectable, TokenProvider} from "@tsed/di";
+
+export const CACHE_OPTIONS = "cache.options";
+
+@Injectable()
+export class CachePolicyService {
+  @Inject(CACHE_OPTIONS)
+  protected options: TokenProvider<{ttl: number}>;
+
+  ttl() {
+    return this.options.value.ttl;
+  }
+}
+```
+
+:::
+
+### Override config values with `PlatformTest.create()` + `constant()`
+
+::: code-group
+
+```ts [Test (vitest)]
+import {constant, inject, injectable} from "@tsed/di";
+import {PlatformTest} from "@tsed/platform-http/testing";
+
+@injectable()
+class FeatureFlagService {
+  isEnabled() {
+    return constant<boolean>("features.newCheckout", false);
+  }
+}
+
+describe("FeatureFlagService", () => {
+  afterEach(() => PlatformTest.reset());
+
+  it("should read enabled flag from test config", async () => {
+    await PlatformTest.create({
+      features: {
+        newCheckout: true
+      }
+    });
+
+    const service = inject(FeatureFlagService);
+
+    expect(service.isEnabled()).toBe(true);
+  });
+
+  it("should support another value in another test", async () => {
+    await PlatformTest.create({
+      features: {
+        newCheckout: false
+      }
+    });
+
+    const service = inject(FeatureFlagService);
+
+    expect(service.isEnabled()).toBe(false);
+  });
+});
+```
+
+```ts [Service]
+import {constant, injectable} from "@tsed/di";
+
+@injectable()
+export class FeatureFlagService {
+  isEnabled() {
+    return constant<boolean>("features.newCheckout", false);
+  }
+}
+```
+
+:::
+
 ## Test your Rest API
 
 ### Installation
@@ -139,7 +483,8 @@ bun add -D supertest @types/supertest
 
 ::: code-group
 
-```ts [jest]
+```ts [vitest]
+import {it, expect, describe, beforeAll, afterAll} from "vitest";
 import {PlatformTest} from "@tsed/platform-http/testing";
 import * as SuperTest from "supertest";
 import {Server} from "../Server.js";
@@ -159,8 +504,7 @@ describe("Rest", () => {
 });
 ```
 
-```ts [vitest]
-import {it, expect, describe, beforeAll, afterAll} from "vitest";
+```ts [jest]
 import {PlatformTest} from "@tsed/platform-http/testing";
 import * as SuperTest from "supertest";
 import {Server} from "../Server.js";
