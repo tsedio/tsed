@@ -399,10 +399,10 @@ export class CachePolicyService {
 ::: code-group
 
 ```ts [Test (vitest)]
-import {constant, inject, injectable} from "@tsed/di";
+import {Injectable, constant, inject} from "@tsed/di";
 import {PlatformTest} from "@tsed/platform-http/testing";
 
-@injectable()
+@Injectable()
 class FeatureFlagService {
   isEnabled() {
     return constant<boolean>("features.newCheckout", false);
@@ -439,9 +439,9 @@ describe("FeatureFlagService", () => {
 ```
 
 ```ts [Service]
-import {constant, injectable} from "@tsed/di";
+import {Injectable, constant} from "@tsed/di";
 
-@injectable()
+@Injectable()
 export class FeatureFlagService {
   isEnabled() {
     return constant<boolean>("features.newCheckout", false);
