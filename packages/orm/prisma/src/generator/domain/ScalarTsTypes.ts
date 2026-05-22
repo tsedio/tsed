@@ -1,4 +1,4 @@
-import {DecoratorStructure, StructureKind} from "ts-morph";
+import {DecoratorStructure} from "ts-morph";
 
 export enum PrismaScalars {
   String = "String",
@@ -17,7 +17,7 @@ export const ScalarTsTypes: Record<string, string> = {
   [PrismaScalars.Boolean]: "boolean",
   [PrismaScalars.Int]: "number",
   [PrismaScalars.Float]: "number",
-  [PrismaScalars.Decimal]: "number",
+  [PrismaScalars.Decimal]: "Prisma.Decimal",
   [PrismaScalars.BigInt]: "bigint",
   [PrismaScalars.DateTime]: "Date",
   [PrismaScalars.Json]: "any",
@@ -29,7 +29,7 @@ export const ScalarJsClasses: Record<string, string> = {
   [PrismaScalars.Boolean]: "Boolean",
   [PrismaScalars.Int]: "Number",
   [PrismaScalars.Float]: "Number",
-  [PrismaScalars.Decimal]: "Number",
+  [PrismaScalars.Decimal]: "Prisma.Decimal",
   [PrismaScalars.BigInt]: "BigInt",
   [PrismaScalars.DateTime]: "Date",
   [PrismaScalars.Json]: "Object",

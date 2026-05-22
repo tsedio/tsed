@@ -1,7 +1,7 @@
 import {DmmfEnum} from "../domain/DmmfEnum.js";
 import {DmmfField} from "../domain/DmmfField.js";
 import {DmmfModel} from "../domain/DmmfModel.js";
-import {ScalarTsTypes} from "../domain/ScalarTsTypes.js";
+import {PrismaScalars, ScalarTsTypes} from "../domain/ScalarTsTypes.js";
 import type {TransformContext} from "../domain/TransformContext.js";
 import {isCircularRef} from "../utils/isCircularRef.js";
 
@@ -13,6 +13,10 @@ export function transformScalarToType(field: DmmfField, ctx: TransformContext): 
   switch (location) {
     case "scalar":
       TSType = ScalarTsTypes[field.type];
+      // Import Prisma namespace when Decimal is used
+      if (field.type === PrismaScalars.Decimal) {
+        field.model.addImportDeclaration("@prisma/client", "Prisma");
+      }
       break;
     case "enumTypes":
       TSType = DmmfEnum.symbolName(type);
