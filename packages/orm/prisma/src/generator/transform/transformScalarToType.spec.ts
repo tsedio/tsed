@@ -100,6 +100,29 @@ describe("transformScalarToType()", () => {
     expect(field.model.addImportDeclaration).toHaveBeenCalledWith("@prisma/client", "Prisma");
   });
 
+  it("should transform Decimal to Decimal (nullable)", () => {
+    const ctx = createContextFixture();
+    const field = createDmmfFieldFixture({
+      kind: "scalar",
+      type: PrismaScalars.Decimal,
+      isRequired: false
+    });
+    expect(transformScalarToType(field, ctx)).toEqual("Prisma.Decimal | null");
+    expect(field.model.addImportDeclaration).toHaveBeenCalledWith("@prisma/client", "Prisma");
+  });
+
+  it("should transform Decimal to Decimal (list)", () => {
+    const ctx = createContextFixture();
+    const field = createDmmfFieldFixture({
+      kind: "scalar",
+      type: PrismaScalars.Decimal,
+      isRequired: true,
+      isList: true
+    });
+    expect(transformScalarToType(field, ctx)).toEqual("Prisma.Decimal[]");
+    expect(field.model.addImportDeclaration).toHaveBeenCalledWith("@prisma/client", "Prisma");
+  });
+
   it("should transform enumTypes to Date", () => {
     const ctx = createContextFixture();
     const field = createDmmfFieldFixture({
