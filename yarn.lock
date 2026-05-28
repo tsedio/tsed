@@ -14223,6 +14223,7 @@ __metadata:
     "@tsed/typescript": "workspace:*"
     change-case: "npm:>=5.4.4"
     eslint: "npm:9.12.0"
+    json-schema-to-zod: "npm:>=2.8.1"
     tslib: "npm:>=2.7.0"
     typescript: "npm:6.0.2"
     uuid: "npm:>=11.0.2"
@@ -28684,6 +28685,15 @@ __metadata:
   dependencies:
     dequal: "npm:^2.0.3"
   checksum: 10/dca0c2eac8ef813d20cfe7a277d8a885fbacccb3bade199fd288b2d3af6ebfbc4cf8cd0ccdd478152e30519cbc5876fbc558834d8f95a7522daa5153cdfc1302
+  languageName: node
+  linkType: hard
+
+"json-schema-to-zod@npm:>=2.8.1":
+  version: 2.8.1
+  resolution: "json-schema-to-zod@npm:2.8.1"
+  bin:
+    json-schema-to-zod: dist/cjs/cli.js
+  checksum: 10/9104332bf005b57133c257ca6a686b0ef52b1323f6aff9e55686bd33c6eeb1a6da8fbc6db564367ef35ebd1959a342025c03c880d14582f7d3e961891e6fa8e2
   languageName: node
   linkType: hard
 

@@ -1,7 +1,6 @@
 import {JsonSchema} from "@tsed/schema";
+import {jsonSchemaToZod} from "json-schema-to-zod";
 import {z, type ZodObject} from "zod";
-
-import {jsonSchemaToZod} from "./json-schema-to-zod/index.js";
 
 function transform(schema: JsonSchema): ZodObject {
   return eval(`(z) => ${jsonSchemaToZod(schema.toJSON(), {zodVersion: 4})}`)(z);
