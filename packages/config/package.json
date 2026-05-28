@@ -37,6 +37,12 @@
       "import": "./lib/esm/providers/json/index.js",
       "default": "./lib/esm/providers/json/index.js"
     },
+    "./yaml": {
+      "tsed-source": "./src/providers/yaml/index.ts",
+      "types": "./lib/types/providers/yaml/index.d.ts",
+      "import": "./lib/esm/providers/yaml/index.js",
+      "default": "./lib/esm/providers/yaml/index.js"
+    },
     "./fn/*": {
       "tsed-source": "./src/fn/*.ts",
       "types": "./lib/types/fn/*.ts",
