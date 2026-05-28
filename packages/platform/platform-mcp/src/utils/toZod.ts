@@ -3,7 +3,9 @@ import {jsonSchemaToZod} from "json-schema-to-zod";
 import {z, type ZodObject} from "zod";
 
 function transform(schema: JsonSchema): ZodObject {
-  return eval(`(z) => ${jsonSchemaToZod(schema.toJSON(), {zodVersion: 4})}`)(z);
+  const schemaFactory = new Function("z", `return ${jsonSchemaToZod(schema.toJSON(), {zodVersion: 4})}`) as (zod: unknown) => ZodObject;
+
+  return schemaFactory(z);
 }
 
 /**
