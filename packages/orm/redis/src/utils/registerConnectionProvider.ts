@@ -24,11 +24,16 @@ export function registerConnectionProvider({
     connectionName: name
   })
     .type(REDIS_CONNECTIONS)
-    .asyncFactory(() => {
+    .asyncFactory(async () => {
       const items = constant<RedisConfiguration[]>("redis", []);
       const item = items.find((item) => item.name === name);
 
-      return item ? createConnection({...item, name}) : ({name} as any);
+      return item
+        ? createConnection({...item, name}).then((connection) => {
+            (connection as any).name = name;
+            return connection;
+          })
+        : ({name} as any);
     })
     .token() as FactoryTokenProvider<RedisConnection>;
 }

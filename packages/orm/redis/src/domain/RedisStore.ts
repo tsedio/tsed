@@ -1,9 +1,10 @@
+import type {RedisClusterOptions} from "@redis/client";
 import type {Config, FactoryConfig, Store} from "cache-manager";
-import type {RedisClientType, RedisClusterType, RootNode} from "redis";
+import type {RedisClientType, RedisClusterType} from "redis";
 import {createClient, createCluster} from "redis";
 
 export interface RedisClusterConfig {
-  nodes: RootNode[];
+  nodes: RedisClusterOptions["rootNodes"][];
   options?: Record<string, any>;
 }
 
@@ -111,11 +112,11 @@ export class RedisStore implements Store {
   async mget(...args: string[]) {
     const x = await (this.redisCache as any).mGet(args);
 
-    return x.map((x) => (x === null || x === undefined ? undefined : (JSON.parse(x) as unknown)));
+    return x.map((x: any) => (x === null || x === undefined ? undefined : (JSON.parse(x) as unknown)));
   }
 
   async mdel(...args: string[]) {
-    await this.redisCache.del(...args);
+    await (this.redisCache as any).del(...(args as any[]));
   }
 
   async reset() {

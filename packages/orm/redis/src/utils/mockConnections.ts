@@ -4,8 +4,9 @@ import type {RedisClientType} from "redis";
 import {REDIS_CONNECTIONS} from "./registerConnectionProvider.js";
 
 export async function mockConnection(token: TokenProvider, name: string) {
+  // @ts-ignore
   const RealTsEDRedis = await import("redis-mock");
-  const connection: RedisClientType = (RealTsEDRedis as any).createClient();
+  const connection: RedisClientType & Record<string, any> = (RealTsEDRedis as any).createClient();
 
   (connection as any).name = name;
 

@@ -1,8 +1,8 @@
 import {TokenProvider} from "@tsed/di";
-import type {RedisClientOptions, RedisClientType, RedisClusterType, RootNode} from "redis";
+import type {RedisClientOptions, RedisClientType, RedisClusterType} from "redis";
 
 export type ClusterConfiguration = {
-  nodes: RootNode[];
+  nodes: any[];
 } & Record<string, any>;
 
 export interface BaseRedisConfiguration {
