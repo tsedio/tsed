@@ -46,7 +46,6 @@
     "@tsed/hooks": ">=8.0.0",
     "@tsed/platform-http": ">=8.0.0",
     "redis": ">=5.1.0",
-    "redis-mock": ">=0.56.3",
     "uuid": "^10.0.0"
   }
 }

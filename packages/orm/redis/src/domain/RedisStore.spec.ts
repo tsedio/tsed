@@ -35,15 +35,32 @@ vi.mock("redis", () => {
       }),
       keys: vi.fn(() => Promise.resolve([...cache.keys()])),
       ttl: vi.fn((key: string) => Promise.resolve(cache.get(key)?.ttl || -1)),
-      multi: vi.fn(function () {
-        const client = this as any;
-        return {
+      multi: vi.fn(() => {
+        const commands: any[] = [];
+
+        const multi: any = {
           setEx: (key: string, ttl: number, value: string) => {
-            client.cache.set(key, {value, ttl});
-            return this;
+            commands.push({type: "setEx", key, ttl, value});
+            return multi;
           },
-          exec: () => Promise.resolve([])
+          set: (key: string, value: string) => {
+            commands.push({type: "set", key, value});
+            return multi;
+          },
+          exec: () => {
+            commands.forEach((command) => {
+              if (command.type === "setEx") {
+                cache.set(command.key, {value: command.value, ttl: command.ttl});
+              } else {
+                cache.set(command.key, {value: command.value, ttl: -1});
+              }
+            });
+
+            return Promise.resolve([]);
+          }
         };
+
+        return multi;
       })
     };
   };

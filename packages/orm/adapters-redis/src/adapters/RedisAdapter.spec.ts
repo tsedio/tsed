@@ -48,7 +48,7 @@ describe("RedisAdapter", () => {
       redis: [
         {
           name: "default",
-          ...TestContainersRedis.getRedisOptions()
+          url: TestContainersRedis.getUrl()
         }
       ]
     });

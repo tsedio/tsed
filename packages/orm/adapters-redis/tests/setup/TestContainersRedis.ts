@@ -1,7 +1,6 @@
 import {RedisContainer, StartedRedisContainer} from "@testcontainers/redis";
 
 const KEY = "TEST_CONTAINER_REDIS";
-const DB_KEY = "TEST_CONTAINER_REDIS_DB";
 
 function getGlobal<T>(key: string): T | null {
   // @ts-ignore
@@ -19,6 +18,7 @@ export class TestContainersRedis {
   }
 
   static async startContainer(image?: string) {
+    // await stopMockServer()
     const container = getGlobal<StartedRedisContainer>(KEY) || (await this.createContainer(image));
 
     setGlobal(KEY, container);
@@ -44,29 +44,17 @@ export class TestContainersRedis {
 
   static async reset() {
     const container = getGlobal<StartedRedisContainer>(KEY);
-    await container?.exec(["redis-cli", "flushall"]);
-  }
-
-  static nextDatabase(max = 15) {
-    const current = getGlobal<number>(DB_KEY) || 0;
-    const next = (current % max) + 1;
-
-    setGlobal(DB_KEY, next);
-
-    return next;
+    await container?.exec("redis-cli flushall");
   }
 
   static getUrl(): string {
     return process.env.REDIS_URL as string;
   }
 
-  static getRedisOptions(database?: number) {
+  static getRedisOptions() {
     const url = new URL(this.getUrl());
-    database = database ?? TestContainersRedis.nextDatabase();
-
     return {
       host: url.hostname,
-      database,
       password: url.password,
       port: url.port ? Number(url.port) : 6379,
       username: url.username,

@@ -36,26 +36,25 @@ This package allows you to test your code using the [TestContainers](https://nod
 To use the `@tsed/testcontainers-mongo` package, you need to install the package:
 
 ```sh [npm]
-npm install --save-dev @tsed/testcontainers-mongo
+npm install --save-dev @tsed/mongo
 ```
 
 ```sh [yarn]
-yarn add --dev @tsed/testcontainers-mongo
+yarn add --dev @tsed/mongo
 ```
 
 ```sh [pnpm]
-pnpm add --dev @tsed/testcontainers-mongo
+pnpm add --dev @tsed/mongo
 ```
 
 ```sh [bun]
-bun add --dev @tsed/testcontainers-mongo
+bun add --dev @tsed/mongo
 ```
 
 ### Important
 
 This package requires the `@tsed/platform-http` package to work properly. If you're looking for a standalone package,
-you can use the `@tsedio/testcontainers-mongo` premium package available
-here: https://tsed.dev/plugins/premium/config-source/mongo.html
+you can use the `@tsedio/testcontainers-mongo` premium package available here: https://tsed.dev/plugins/premium/config-source/mongo.html
 
 ### Configuration
 
@@ -71,13 +70,13 @@ module.exports = {
 };
 
 // jest.setup.js
-const {TestContainersMongo} = require("@tsed/testcontainers-mongo");
+const {TestContainersMongo} = require("@tsed/mongo");
 module.exports = async () => {
   await TestContainersMongo.startMongoServer();
 };
 
 // jest.teardown.js
-const {TestContainersMongo} = require("@tsed/testcontainers-mongo");
+const {TestContainersMongo} = require("@tsed/mongo");
 module.exports = async () => {
   await TestContainersMongo.stopMongoServer();
 };
@@ -90,7 +89,7 @@ import {defineConfig} from "vitest/config";
 
 export default defineConfig({
   test: {
-    globalSetup: [import.meta.resolve("@tsed/testcontainers-mongo/vitest/setup")]
+    globalSetup: [import.meta.resolve("@tsed/mongo/vitest/setup")]
   }
 });
 ```
@@ -109,7 +108,7 @@ Use the `TestContainersMongo.create` method to start the mongo server before you
 import {PlatformTest} from "@tsed/platform-http/testing";
 import {Property, Required} from "@tsed/schema";
 import {Model, MongooseModel, ObjectID, PostHook, PreHook, Unique} from "@tsed/mongoose";
-import {TestContainersMongo} from "@tsed/testcontainers-mongo";
+import {TestContainersMongo} from "@tsed/mongo";
 
 @Model({schemaOptions: {timestamps: true}})
 @PreHook("save", (user: UserModel, next: any) => {
@@ -176,7 +175,7 @@ TestContainersMongo provides a method to get the connection options for MikroORM
 import {EntityManager, MikroORM} from "@mikro-orm/core";
 import {defineConfig} from "@mikro-orm/mongodb";
 import {PlatformTest} from "@tsed/platform-http/testing";
-import {TestContainersMongo} from "@tsed/testcontainers-mongo";
+import {TestContainersMongo} from "@tsed/mongo";
 
 beforeEach(async () => {
   const mongoSettings = TestContainersMongo.getMongoConnectionOptions();

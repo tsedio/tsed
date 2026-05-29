@@ -6682,6 +6682,16 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@grpc/grpc-js@npm:^1.11.1":
+  version: 1.14.4
+  resolution: "@grpc/grpc-js@npm:1.14.4"
+  dependencies:
+    "@grpc/proto-loader": "npm:^0.8.0"
+    "@js-sdsl/ordered-map": "npm:^4.4.2"
+  checksum: 10/f9cdbd81e7388dc784c57274fcf6f4f4484da8968dd0975b97a14708d3fb117ae4a7bc2848e1bd1cc8b8ed9ee7a80ff131bfe728c85260da90a4e0b170e31ca9
+  languageName: node
+  linkType: hard
+
 "@grpc/proto-loader@npm:^0.7.13":
   version: 0.7.13
   resolution: "@grpc/proto-loader@npm:0.7.13"
@@ -6693,6 +6703,20 @@ __metadata:
   bin:
     proto-loader-gen-types: build/bin/proto-loader-gen-types.js
   checksum: 10/7e2d842c2061cbaf6450c71da0077263be3bab165454d5c8a3e1ae4d3c6d2915f02fd27da63ff01f05e127b1221acd40705273f5d29303901e60514e852992f4
+  languageName: node
+  linkType: hard
+
+"@grpc/proto-loader@npm:^0.8.0":
+  version: 0.8.1
+  resolution: "@grpc/proto-loader@npm:0.8.1"
+  dependencies:
+    lodash.camelcase: "npm:^4.3.0"
+    long: "npm:^5.0.0"
+    protobufjs: "npm:^7.5.5"
+    yargs: "npm:^17.7.2"
+  bin:
+    proto-loader-gen-types: build/bin/proto-loader-gen-types.js
+  checksum: 10/d9ef734a43fa3003b9fea4ad9392137f353b79d62b6452b68f8f6b1d8f97947139141d111108ba3e858642989e966e4aa1211012a657d1e41f80a9c7540070ec
   languageName: node
   linkType: hard
 
@@ -7596,6 +7620,15 @@ __metadata:
     koa:
       optional: false
   checksum: 10/3cda04b577d046d9903db2c3da704cbfd01b4afb43e7d86d733335b7632ca2a839b980f7cef348343d3eb790afb3087fe5779e91d58ccd9cb4e13297467fbef0
+  languageName: node
+  linkType: hard
+
+"@kwsites/file-exists@npm:^1.1.1":
+  version: 1.1.1
+  resolution: "@kwsites/file-exists@npm:1.1.1"
+  dependencies:
+    debug: "npm:^4.1.1"
+  checksum: 10/4ff945de7293285133aeae759caddc71e73c4a44a12fac710fdd4f574cce2671a3f89d8165fdb03d383cfc97f3f96f677d8de3c95133da3d0e12a123a23109fe
   languageName: node
   linkType: hard
 
@@ -9615,6 +9648,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@protobufjs/eventemitter@npm:^1.1.1":
+  version: 1.1.1
+  resolution: "@protobufjs/eventemitter@npm:1.1.1"
+  checksum: 10/a54dc1aff4475ffad4fdf3235c71a553f5e40e3b4cf6a2e217151895a61cb4eb0be20d63791db22441ca25e594671f1021977133f9939540750231ff7d8e9dd6
+  languageName: node
+  linkType: hard
+
 "@protobufjs/fetch@npm:^1.1.0":
   version: 1.1.0
   resolution: "@protobufjs/fetch@npm:1.1.0"
@@ -9699,6 +9739,32 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@redis/bloom@npm:6.0.0":
+  version: 6.0.0
+  resolution: "@redis/bloom@npm:6.0.0"
+  peerDependencies:
+    "@redis/client": ^6.0.0
+  checksum: 10/6f48065e2b583afeeb495a8724f538701702c1f9da8885f4ad176e7417123af02eae66e2d74a9914ea204bcc005b5575a48d826527db619e2eb469518f0e3c5a
+  languageName: node
+  linkType: hard
+
+"@redis/client@npm:6.0.0":
+  version: 6.0.0
+  resolution: "@redis/client@npm:6.0.0"
+  dependencies:
+    cluster-key-slot: "npm:1.1.2"
+  peerDependencies:
+    "@node-rs/xxhash": ^1.1.0
+    "@opentelemetry/api": ">=1 <2"
+  peerDependenciesMeta:
+    "@node-rs/xxhash":
+      optional: true
+    "@opentelemetry/api":
+      optional: true
+  checksum: 10/8f03d48004208a5f4871e98163d89fc1b5c8cf3df37c412b6af13df1c083988d6c766ec5aacb3e67f7a5faf6749c2651d2095412ef2ceda7414b10f6ba739acf
+  languageName: node
+  linkType: hard
+
 "@redis/client@npm:^1.6.0":
   version: 1.6.1
   resolution: "@redis/client@npm:1.6.1"
@@ -9707,6 +9773,33 @@ __metadata:
     generic-pool: "npm:3.9.0"
     yallist: "npm:4.0.0"
   checksum: 10/3ef20235b9b0ecba728bbc7208eabbdfc2eebb50c6fb95b20486a0c14e9d6f3ce620ac0d3d14d7f682ea7cb953b13bf89bd94932b7ab3babeb12ba77136b4291
+  languageName: node
+  linkType: hard
+
+"@redis/json@npm:6.0.0":
+  version: 6.0.0
+  resolution: "@redis/json@npm:6.0.0"
+  peerDependencies:
+    "@redis/client": ^6.0.0
+  checksum: 10/0155e5c61c3e443e3d46c8f7231e1ac997efb29ff63058ee4e5c201eedac67268c4146085f07a88fd83190f9b2ca416bf367fef7fa271c3a08e079fb6ff8852f
+  languageName: node
+  linkType: hard
+
+"@redis/search@npm:6.0.0":
+  version: 6.0.0
+  resolution: "@redis/search@npm:6.0.0"
+  peerDependencies:
+    "@redis/client": ^6.0.0
+  checksum: 10/c189496349654f692aeb26bdb0f8085a40cba0bb12c70ea2842888481f0023645646c688f108550abe33370378465c745b1b2373e150aaf742afd4c77ea65066
+  languageName: node
+  linkType: hard
+
+"@redis/time-series@npm:6.0.0":
+  version: 6.0.0
+  resolution: "@redis/time-series@npm:6.0.0"
+  peerDependencies:
+    "@redis/client": ^6.0.0
+  checksum: 10/16c8d54fd364cdf508f53dcb85661f91a42183132d2fe4f17d5beed0e964ad323d76ea10e5bff3537d3e94c7ed770a3b9fa0a4f32b2b4d8126b52e068beae488
   languageName: node
   linkType: hard
 
@@ -12700,6 +12793,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@testcontainers/redis@npm:^11.7.2":
+  version: 11.14.0
+  resolution: "@testcontainers/redis@npm:11.14.0"
+  dependencies:
+    testcontainers: "npm:^11.14.0"
+  checksum: 10/c1326e6ed7ff1b04ad7f6a9fbf809b43e00450ec14eea829f2d97d21ba56de8f2bf0ae06d7e54ac319121487e83db01dd8357e083c8dc8f8c233ec265abe666d
+  languageName: node
+  linkType: hard
+
 "@tootallnate/once@npm:1":
   version: 1.1.2
   resolution: "@tootallnate/once@npm:1.1.2"
@@ -12761,9 +12863,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@tsed/adapters-redis@workspace:packages/orm/adapters-redis":
+"@tsed/adapters-ioredis@workspace:packages/orm/adapters-ioredis":
   version: 0.0.0-use.local
-  resolution: "@tsed/adapters-redis@workspace:packages/orm/adapters-redis"
+  resolution: "@tsed/adapters-ioredis@workspace:packages/orm/adapters-ioredis"
   dependencies:
     "@tsed/adapters": "workspace:*"
     "@tsed/barrels": "workspace:*"
@@ -12783,6 +12885,34 @@ __metadata:
     "@tsed/platform-http": ">=8.0.0"
     ioredis: ">=5.2.3"
     ioredis-mock: ">=8.2.2"
+    uuid: ^10.0.0
+  languageName: unknown
+  linkType: soft
+
+"@tsed/adapters-redis@workspace:packages/orm/adapters-redis":
+  version: 0.0.0-use.local
+  resolution: "@tsed/adapters-redis@workspace:packages/orm/adapters-redis"
+  dependencies:
+    "@testcontainers/redis": "npm:^11.7.2"
+    "@tsed/adapters": "workspace:*"
+    "@tsed/barrels": "workspace:*"
+    "@tsed/core": "workspace:*"
+    "@tsed/di": "workspace:*"
+    "@tsed/hooks": "workspace:*"
+    "@tsed/redis": "workspace:*"
+    "@tsed/typescript": "workspace:*"
+    eslint: "npm:9.12.0"
+    testcontainers: "npm:11.7.2"
+    tslib: "npm:>=2.7.0"
+    typescript: "npm:6.0.2"
+    vitest: "npm:4.1.4"
+  peerDependencies:
+    "@tsed/adapters": ">=8.0.0"
+    "@tsed/core": ">=8.0.0"
+    "@tsed/di": ">=8.0.0"
+    "@tsed/hooks": ">=8.0.0"
+    "@tsed/platform-http": ">=8.0.0"
+    redis: ">=5.1.0"
     uuid: ^10.0.0
   languageName: unknown
   linkType: soft
@@ -13011,9 +13141,49 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@tsed/config@workspace:packages/config":
+"@tsed/config-ioredis@workspace:packages/config/ioredis":
   version: 0.0.0-use.local
-  resolution: "@tsed/config@workspace:packages/config"
+  resolution: "@tsed/config-ioredis@workspace:packages/config/ioredis"
+  dependencies:
+    tslib: "npm:2.8.1"
+    typescript: "npm:6.0.2"
+  languageName: unknown
+  linkType: soft
+
+"@tsed/config-mongo@workspace:packages/config/mongo":
+  version: 0.0.0-use.local
+  resolution: "@tsed/config-mongo@workspace:packages/config/mongo"
+  dependencies:
+    tslib: "npm:2.8.1"
+    typescript: "npm:6.0.2"
+  peerDependencies:
+    "@tsed/config": ">=8.9.4"
+  languageName: unknown
+  linkType: soft
+
+"@tsed/config-postgres@workspace:packages/config/postgres":
+  version: 0.0.0-use.local
+  resolution: "@tsed/config-postgres@workspace:packages/config/postgres"
+  dependencies:
+    tslib: "npm:2.8.1"
+    typescript: "npm:6.0.2"
+  languageName: unknown
+  linkType: soft
+
+"@tsed/config-source-aws-secrets@workspace:packages/config/aws-secrets":
+  version: 0.0.0-use.local
+  resolution: "@tsed/config-source-aws-secrets@workspace:packages/config/aws-secrets"
+  dependencies:
+    tslib: "npm:2.8.1"
+    typescript: "npm:6.0.2"
+  peerDependencies:
+    "@tsed/config": ">=8.9.4"
+  languageName: unknown
+  linkType: soft
+
+"@tsed/config@workspace:*, @tsed/config@workspace:packages/config/core":
+  version: 0.0.0-use.local
+  resolution: "@tsed/config@workspace:packages/config/core"
   dependencies:
     "@tsed/barrels": "workspace:*"
     "@tsed/core": "workspace:*"
@@ -13109,6 +13279,7 @@ __metadata:
     "@directus/sdk": "npm:21.2.2"
     "@directus/types": "npm:15.0.1"
     "@tsed/barrels": "workspace:*"
+    "@tsed/config": "workspace:*"
     "@tsed/logger-connect": "npm:8.0.4"
     "@types/express": "npm:4.17.21"
     semver: "npm:^7.6.3"
@@ -14644,6 +14815,26 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@tsed/redis@workspace:*, @tsed/redis@workspace:packages/orm/redis":
+  version: 0.0.0-use.local
+  resolution: "@tsed/redis@workspace:packages/orm/redis"
+  dependencies:
+    "@tsed/barrels": "workspace:*"
+    "@tsed/core": "workspace:*"
+    "@tsed/di": "workspace:*"
+    "@tsed/typescript": "workspace:*"
+    eslint: "npm:9.12.0"
+    redis: "npm:6.0.0"
+    tslib: "npm:>=2.7.0"
+    typescript: "npm:6.0.2"
+    vitest: "npm:4.1.4"
+  peerDependencies:
+    "@tsed/core": ">=8.0.0"
+    "@tsed/di": ">=8.0.0"
+    redis: ">=5.1.0"
+  languageName: unknown
+  linkType: soft
+
 "@tsed/root@workspace:.":
   version: 0.0.0-use.local
   resolution: "@tsed/root@workspace:."
@@ -15064,9 +15255,18 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@tsed/testcontainers-mongo@workspace:*, @tsed/testcontainers-mongo@workspace:packages/orm/testcontainers-mongo":
+"@tsed/testcontainers-localstack@workspace:packages/testcontainers/localstack":
   version: 0.0.0-use.local
-  resolution: "@tsed/testcontainers-mongo@workspace:packages/orm/testcontainers-mongo"
+  resolution: "@tsed/testcontainers-localstack@workspace:packages/testcontainers/localstack"
+  dependencies:
+    tslib: "npm:2.8.1"
+    typescript: "npm:6.0.2"
+  languageName: unknown
+  linkType: soft
+
+"@tsed/testcontainers-mongo@workspace:*, @tsed/testcontainers-mongo@workspace:packages/testcontainers/mongo":
+  version: 0.0.0-use.local
+  resolution: "@tsed/testcontainers-mongo@workspace:packages/testcontainers/mongo"
   dependencies:
     "@testcontainers/mongodb": "npm:^10.13.2"
     "@tsed/barrels": "workspace:*"
@@ -15087,6 +15287,33 @@ __metadata:
     "@tsed/platform-http": ">=8.0.0"
     mongodb: ">=6"
     testcontainers: ">=10.11.0"
+  languageName: unknown
+  linkType: soft
+
+"@tsed/testcontainers-postgres@workspace:packages/testcontainers/postgres":
+  version: 0.0.0-use.local
+  resolution: "@tsed/testcontainers-postgres@workspace:packages/testcontainers/postgres"
+  dependencies:
+    tslib: "npm:2.8.1"
+    typescript: "npm:6.0.2"
+  languageName: unknown
+  linkType: soft
+
+"@tsed/testcontainers-redis@workspace:packages/testcontainers/redis":
+  version: 0.0.0-use.local
+  resolution: "@tsed/testcontainers-redis@workspace:packages/testcontainers/redis"
+  dependencies:
+    tslib: "npm:2.8.1"
+    typescript: "npm:6.0.2"
+  languageName: unknown
+  linkType: soft
+
+"@tsed/testcontainers-vault@workspace:packages/testcontainers/vault":
+  version: 0.0.0-use.local
+  resolution: "@tsed/testcontainers-vault@workspace:packages/testcontainers/vault"
+  dependencies:
+    tslib: "npm:2.8.1"
+    typescript: "npm:6.0.2"
   languageName: unknown
   linkType: soft
 
@@ -15180,6 +15407,15 @@ __metadata:
   resolution: "@tsed/vitest@workspace:tools/vitest"
   dependencies:
     vitest: "npm:4.1.4"
+  languageName: unknown
+  linkType: soft
+
+"@tsedio/config-vault@workspace:packages/config/vault":
+  version: 0.0.0-use.local
+  resolution: "@tsedio/config-vault@workspace:packages/config/vault"
+  dependencies:
+    tslib: "npm:2.8.1"
+    typescript: "npm:6.0.2"
   languageName: unknown
   linkType: soft
 
@@ -15453,6 +15689,28 @@ __metadata:
     "@types/node": "npm:*"
     "@types/ssh2": "npm:*"
   checksum: 10/14d7e8bd0860de0d22aa52fd51aaea637462aba1636735a89a2e7d54b4cd63a28f8dc28aec7f81ae0950c6f9035aafa1d68152264d77dba155064afa49ed1b4b
+  languageName: node
+  linkType: hard
+
+"@types/dockerode@npm:^3.3.44":
+  version: 3.3.47
+  resolution: "@types/dockerode@npm:3.3.47"
+  dependencies:
+    "@types/docker-modem": "npm:*"
+    "@types/node": "npm:*"
+    "@types/ssh2": "npm:*"
+  checksum: 10/b840ae7872398a3b02e5789006a69d0cf5bb7ec6c0eb714c7ca04ca093add8de4cd06204ecd8f01388e347e62927cf4c599e8b7dba53e81c1350910da766d517
+  languageName: node
+  linkType: hard
+
+"@types/dockerode@npm:^4.0.1":
+  version: 4.0.1
+  resolution: "@types/dockerode@npm:4.0.1"
+  dependencies:
+    "@types/docker-modem": "npm:*"
+    "@types/node": "npm:*"
+    "@types/ssh2": "npm:*"
+  checksum: 10/d16b3a69a20fac269b2317a978442a6752dea158729a264511a3812dcb4c756e0ee079b39b61068cee182f268661e27e32aa7a28815262f0e088ffeb9f2f48c5
   languageName: node
   linkType: hard
 
@@ -18610,6 +18868,18 @@ __metadata:
   languageName: node
   linkType: hard
 
+"bare-events@npm:^2.5.4, bare-events@npm:^2.7.0":
+  version: 2.8.3
+  resolution: "bare-events@npm:2.8.3"
+  peerDependencies:
+    bare-abort-controller: "*"
+  peerDependenciesMeta:
+    bare-abort-controller:
+      optional: true
+  checksum: 10/704252793362d4a422959f3b5d134a3f893f020b515cccf55965c8076941d6e7fd8c23268560693f2300270378a00384156237e4390edda2d4ca0e641bfe774e
+  languageName: node
+  linkType: hard
+
 "bare-fs@npm:^2.1.1":
   version: 2.3.1
   resolution: "bare-fs@npm:2.3.1"
@@ -18621,10 +18891,35 @@ __metadata:
   languageName: node
   linkType: hard
 
+"bare-fs@npm:^4.0.1":
+  version: 4.7.1
+  resolution: "bare-fs@npm:4.7.1"
+  dependencies:
+    bare-events: "npm:^2.5.4"
+    bare-path: "npm:^3.0.0"
+    bare-stream: "npm:^2.6.4"
+    bare-url: "npm:^2.2.2"
+    fast-fifo: "npm:^1.3.2"
+  peerDependencies:
+    bare-buffer: "*"
+  peerDependenciesMeta:
+    bare-buffer:
+      optional: true
+  checksum: 10/bb873bf8d22c45fd14444b0f9731315a77b696c9387b09cc0df9975b998d1b5db9f4c88aa4b264ce59edeade573689ba9e0ba172003cc8900b2c2ad803f9275b
+  languageName: node
+  linkType: hard
+
 "bare-os@npm:^2.1.0":
   version: 2.4.0
   resolution: "bare-os@npm:2.4.0"
   checksum: 10/3514944652d29cdde7be554a89440306be326f2760c3e50c7dda507d540f21c0b89bd9f4ecb4642401501860f22ddd11c4403f7f5dacaf687fc75320738e1176
+  languageName: node
+  linkType: hard
+
+"bare-os@npm:^3.0.1":
+  version: 3.9.1
+  resolution: "bare-os@npm:3.9.1"
+  checksum: 10/2a106aca9eeb1cf41e30403410c9fa81a9e13c25818debc21444f2485158e01e65f10daff37acab0cbf9460c00e64e6bcaedef07b25a9171ec1e45485213ff50
   languageName: node
   linkType: hard
 
@@ -18637,12 +18932,51 @@ __metadata:
   languageName: node
   linkType: hard
 
+"bare-path@npm:^3.0.0":
+  version: 3.0.0
+  resolution: "bare-path@npm:3.0.0"
+  dependencies:
+    bare-os: "npm:^3.0.1"
+  checksum: 10/712d90e9cd8c3263cc11b0e0d386d1531a452706d7840c081ee586b34b00d72544e65df7a40013d47c1b177277495225deeede65cb2984db88a979cb65aaa2ff
+  languageName: node
+  linkType: hard
+
 "bare-stream@npm:^2.0.0":
   version: 2.1.3
   resolution: "bare-stream@npm:2.1.3"
   dependencies:
     streamx: "npm:^2.18.0"
   checksum: 10/05ef8f2e691cd9649a0dda3a37580f4cf1aa1d1a08d489f64fbe10455acad63ac08b390f9381917c41700ee7adf5fc178106eb2c6d4be3b5453f1433c4147841
+  languageName: node
+  linkType: hard
+
+"bare-stream@npm:^2.6.4":
+  version: 2.13.1
+  resolution: "bare-stream@npm:2.13.1"
+  dependencies:
+    streamx: "npm:^2.25.0"
+    teex: "npm:^1.0.1"
+  peerDependencies:
+    bare-abort-controller: "*"
+    bare-buffer: "*"
+    bare-events: "*"
+  peerDependenciesMeta:
+    bare-abort-controller:
+      optional: true
+    bare-buffer:
+      optional: true
+    bare-events:
+      optional: true
+  checksum: 10/50aa90a7005d71c1af8fafcc84f378bd4d7c2dd293a581ffe3899bee39b0d2eb07c47e1092f581fa5b199a63c0ad2618b150c0ab716658727e3fcc7fd7d1e401
+  languageName: node
+  linkType: hard
+
+"bare-url@npm:^2.2.2":
+  version: 2.4.3
+  resolution: "bare-url@npm:2.4.3"
+  dependencies:
+    bare-path: "npm:^3.0.0"
+  checksum: 10/e2c16dd57e0c4b974813d9acd626b96e83a8894e19b0bf780de4bef40a7000c697984a47c398c8f612aa7991974bfb97f1c3c3fd410085a55fa5db15d1ba6309
   languageName: node
   linkType: hard
 
@@ -21166,7 +21500,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"cpu-features@npm:~0.0.9":
+"cpu-features@npm:~0.0.10, cpu-features@npm:~0.0.9":
   version: 0.0.10
   resolution: "cpu-features@npm:0.0.10"
   dependencies:
@@ -22168,6 +22502,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"docker-compose@npm:^1.3.0, docker-compose@npm:^1.4.2":
+  version: 1.4.2
+  resolution: "docker-compose@npm:1.4.2"
+  dependencies:
+    yaml: "npm:^2.2.2"
+  checksum: 10/def0c2da93e29a65315525a17e3e7bf47a8fc6918b45cac4468f0b3aa33cc286d5b33c4dd31101ff76d901ac4f2644771fc8b0c2b0c08d4f60791cd83106efb5
+  languageName: node
+  linkType: hard
+
 "docker-modem@npm:^3.0.0":
   version: 3.0.8
   resolution: "docker-modem@npm:3.0.8"
@@ -22180,6 +22523,18 @@ __metadata:
   languageName: node
   linkType: hard
 
+"docker-modem@npm:^5.0.7":
+  version: 5.0.7
+  resolution: "docker-modem@npm:5.0.7"
+  dependencies:
+    debug: "npm:^4.1.1"
+    readable-stream: "npm:^3.5.0"
+    split-ca: "npm:^1.0.1"
+    ssh2: "npm:^1.15.0"
+  checksum: 10/8c0dc9908e10fbc91c35b187fc6a67a0dcbe4b33a2198dfa67cd8304e0f2452325e1639215674d6e441731d0bf27f06339550f6c3767585b877601d2f16e43e2
+  languageName: node
+  linkType: hard
+
 "dockerode@npm:^3.3.5":
   version: 3.3.5
   resolution: "dockerode@npm:3.3.5"
@@ -22188,6 +22543,21 @@ __metadata:
     docker-modem: "npm:^3.0.0"
     tar-fs: "npm:~2.0.1"
   checksum: 10/1748e8d96f88fe71bb165a4c05726904937f5863b69eaeb4a3c1bb3bbf66940c7bef13b349ff757dc43664b4367611aab76f35c1ba468f07dcbaba567e6acd88
+  languageName: node
+  linkType: hard
+
+"dockerode@npm:^4.0.10, dockerode@npm:^4.0.9":
+  version: 4.0.12
+  resolution: "dockerode@npm:4.0.12"
+  dependencies:
+    "@balena/dockerignore": "npm:^1.0.2"
+    "@grpc/grpc-js": "npm:^1.11.1"
+    "@grpc/proto-loader": "npm:^0.7.13"
+    docker-modem: "npm:^5.0.7"
+    protobufjs: "npm:^7.3.2"
+    tar-fs: "npm:^2.1.4"
+    uuid: "npm:^10.0.0"
+  checksum: 10/e08b15ba2ba41e93e61cac472e525efff48851b0eaaba75e5075cf540760099658f57883b08334ccc3fee021c4ca286013c76a00890b5d0716892b8ff678b2d1
   languageName: node
   linkType: hard
 
@@ -23781,6 +24151,15 @@ __metadata:
   version: 5.0.1
   resolution: "eventemitter3@npm:5.0.1"
   checksum: 10/ac6423ec31124629c84c7077eed1e6987f6d66c31cf43c6fcbf6c87791d56317ce808d9ead483652436df171b526fc7220eccdc9f3225df334e81582c3cf7dd5
+  languageName: node
+  linkType: hard
+
+"events-universal@npm:^1.0.0":
+  version: 1.0.1
+  resolution: "events-universal@npm:1.0.1"
+  dependencies:
+    bare-events: "npm:^2.7.0"
+  checksum: 10/71b2e6079b4dc030c613ef73d99f1acb369dd3ddb6034f49fd98b3e2c6632cde9f61c15fb1351004339d7c79672252a4694ecc46a6124dc794b558be50a83867
   languageName: node
   linkType: hard
 
@@ -25501,6 +25880,13 @@ __metadata:
   version: 5.1.1
   resolution: "get-port@npm:5.1.1"
   checksum: 10/0162663ffe5c09e748cd79d97b74cd70e5a5c84b760a475ce5767b357fb2a57cb821cee412d646aa8a156ed39b78aab88974eddaa9e5ee926173c036c0713787
+  languageName: node
+  linkType: hard
+
+"get-port@npm:^7.1.0, get-port@npm:^7.2.0":
+  version: 7.2.0
+  resolution: "get-port@npm:7.2.0"
+  checksum: 10/f8785ccdcc52b1e03f1b1de3fcd46dbc41fe4079e234f2727c3e154ca76bb94318fb0d341daa28a6c87eff24ad4016eaa8b1b4e26eff0d6a2196dd1c1ffc63a1
   languageName: node
   linkType: hard
 
@@ -31572,6 +31958,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"mkdirp@npm:^3.0.1":
+  version: 3.0.1
+  resolution: "mkdirp@npm:3.0.1"
+  bin:
+    mkdirp: dist/cjs/src/bin.js
+  checksum: 10/16fd79c28645759505914561e249b9a1f5fe3362279ad95487a4501e4467abeb714fd35b95307326b8fd03f3c7719065ef11a6f97b7285d7888306d1bd2232ba
+  languageName: node
+  linkType: hard
+
 "mkdirp@npm:~0.5.0":
   version: 0.5.6
   resolution: "mkdirp@npm:0.5.6"
@@ -32129,6 +32524,15 @@ __metadata:
   dependencies:
     node-gyp: "npm:latest"
   checksum: 10/5f16e4c9953075d9920229c703c1d781c0b74118ce3d9e926b448a4eef92b7d8be5ac6adc748a13a5fafb594436cbfe63250e3471aefdd78e3a0cd14603b9ba7
+  languageName: node
+  linkType: hard
+
+"nan@npm:^2.23.0":
+  version: 2.27.0
+  resolution: "nan@npm:2.27.0"
+  dependencies:
+    node-gyp: "npm:latest"
+  checksum: 10/bdce0630e417740501394c412bd9f0ed1c287825e3b8f9b7efb95cc3acd3ef69de60479b5f00a2d039b79321e5ce29b672b0b263cfe0e4d8f47c8f810a24a5ee
   languageName: node
   linkType: hard
 
@@ -35705,6 +36109,16 @@ __metadata:
   languageName: node
   linkType: hard
 
+"properties-reader@npm:^3.0.1":
+  version: 3.0.1
+  resolution: "properties-reader@npm:3.0.1"
+  dependencies:
+    "@kwsites/file-exists": "npm:^1.1.1"
+    mkdirp: "npm:^3.0.1"
+  checksum: 10/5a96c33dad9925c399bf3c3e343f3eb801fa1b4802330d1bfbf1e7d7639dafa935deb6c60be38b292544b57793b03ba1eaf5191cc3a7d018cda7bd6ead19a15c
+  languageName: node
+  linkType: hard
+
 "proto-list@npm:~1.2.1":
   version: 1.2.4
   resolution: "proto-list@npm:1.2.4"
@@ -35738,6 +36152,26 @@ __metadata:
     "@types/node": "npm:>=13.7.0"
     long: "npm:^5.3.2"
   checksum: 10/2becdf429fa148b2f3c9ee5e52c7b8249d2b775d158ce9e5bcf82d2f9d979bf95667818f5c70487636f775e5712aecf20775ac6e86a019e146fb95ed4063dfdc
+  languageName: node
+  linkType: hard
+
+"protobufjs@npm:^7.3.2, protobufjs@npm:^7.5.5":
+  version: 7.6.1
+  resolution: "protobufjs@npm:7.6.1"
+  dependencies:
+    "@protobufjs/aspromise": "npm:^1.1.2"
+    "@protobufjs/base64": "npm:^1.1.2"
+    "@protobufjs/codegen": "npm:^2.0.5"
+    "@protobufjs/eventemitter": "npm:^1.1.1"
+    "@protobufjs/fetch": "npm:^1.1.1"
+    "@protobufjs/float": "npm:^1.0.2"
+    "@protobufjs/inquire": "npm:^1.1.2"
+    "@protobufjs/path": "npm:^1.1.2"
+    "@protobufjs/pool": "npm:^1.1.0"
+    "@protobufjs/utf8": "npm:^1.1.1"
+    "@types/node": "npm:>=13.7.0"
+    long: "npm:^5.3.2"
+  checksum: 10/010dcf77ab435da50d62887d57cc4b68384768e4d1cbe85948ec747996222ea659501b7c6b6d3426f96fdbaf59f577213788ce461c0938f89b8126569d8be7e2
   languageName: node
   linkType: hard
 
@@ -36572,6 +37006,19 @@ __metadata:
   dependencies:
     redis-errors: "npm:^1.0.0"
   checksum: 10/b10846844b4267f19ce1a6529465819c3d78c3e89db7eb0c3bb4eb19f83784797ec411274d15a77dbe08038b48f95f76014b83ca366dc955a016a3a0a0234650
+  languageName: node
+  linkType: hard
+
+"redis@npm:6.0.0":
+  version: 6.0.0
+  resolution: "redis@npm:6.0.0"
+  dependencies:
+    "@redis/bloom": "npm:6.0.0"
+    "@redis/client": "npm:6.0.0"
+    "@redis/json": "npm:6.0.0"
+    "@redis/search": "npm:6.0.0"
+    "@redis/time-series": "npm:6.0.0"
+  checksum: 10/8e1d64b7e2cbf636a259da63ee124790266a7cef08497b4f011dbaa65a45d8d3ef1216b180022687649983640ea37203039316cd407dc58af60d802d25e9a723
   languageName: node
   linkType: hard
 
@@ -39302,6 +39749,23 @@ __metadata:
   languageName: node
   linkType: hard
 
+"ssh2@npm:^1.15.0":
+  version: 1.17.0
+  resolution: "ssh2@npm:1.17.0"
+  dependencies:
+    asn1: "npm:^0.2.6"
+    bcrypt-pbkdf: "npm:^1.0.2"
+    cpu-features: "npm:~0.0.10"
+    nan: "npm:^2.23.0"
+  dependenciesMeta:
+    cpu-features:
+      optional: true
+    nan:
+      optional: true
+  checksum: 10/5a7e911f234f73c4332f2b436cc6131c164962d2eac71f463ab401b54c4b8627875d9c9be1c55e0bfd1a0eae108cfa33217bc73939287e4a5e81f34f532b1036
+  languageName: node
+  linkType: hard
+
 "ssri@npm:^10.0.0, ssri@npm:^10.0.5":
   version: 10.0.5
   resolution: "ssri@npm:10.0.5"
@@ -39517,6 +39981,17 @@ __metadata:
   version: 1.1.0
   resolution: "streamsearch@npm:1.1.0"
   checksum: 10/612c2b2a7dbcc859f74597112f80a42cbe4d448d03da790d5b7b39673c1197dd3789e91cd67210353e58857395d32c1e955a9041c4e6d5bae723436b3ed9ed14
+  languageName: node
+  linkType: hard
+
+"streamx@npm:^2.12.5, streamx@npm:^2.25.0":
+  version: 2.26.0
+  resolution: "streamx@npm:2.26.0"
+  dependencies:
+    events-universal: "npm:^1.0.0"
+    fast-fifo: "npm:^1.3.2"
+    text-decoder: "npm:^1.1.0"
+  checksum: 10/77cdc5f2e0b8d85a1c6850db0f895c5fb1a4412fc4be285896451f9c51bd5e493af511ad6d4a1e2a76f0da2636b1a84f6a79a646467e29fbe7cc5d05eee72683
   languageName: node
   linkType: hard
 
@@ -40095,6 +40570,18 @@ __metadata:
   languageName: node
   linkType: hard
 
+"tar-fs@npm:^2.1.4":
+  version: 2.1.4
+  resolution: "tar-fs@npm:2.1.4"
+  dependencies:
+    chownr: "npm:^1.1.1"
+    mkdirp-classic: "npm:^0.5.2"
+    pump: "npm:^3.0.0"
+    tar-stream: "npm:^2.1.4"
+  checksum: 10/bdf7e3cb039522e39c6dae3084b1bca8d7bcc1de1906eae4a1caea6a2250d22d26dcc234118bf879b345d91ebf250a744b196e379334a4abcbb109a78db7d3be
+  languageName: node
+  linkType: hard
+
 "tar-fs@npm:^3.0.6":
   version: 3.0.6
   resolution: "tar-fs@npm:3.0.6"
@@ -40109,6 +40596,23 @@ __metadata:
     bare-path:
       optional: true
   checksum: 10/277f9ba707928ed7396f582b7f9648617f7683a84ac7a97d66404b0811c9c9e55136a6b88e3ba72515c2761b50aebfd428598d2770ea6ba95fda3e06e75380c7
+  languageName: node
+  linkType: hard
+
+"tar-fs@npm:^3.1.1, tar-fs@npm:^3.1.2":
+  version: 3.1.2
+  resolution: "tar-fs@npm:3.1.2"
+  dependencies:
+    bare-fs: "npm:^4.0.1"
+    bare-path: "npm:^3.0.0"
+    pump: "npm:^3.0.0"
+    tar-stream: "npm:^3.1.5"
+  dependenciesMeta:
+    bare-fs:
+      optional: true
+    bare-path:
+      optional: true
+  checksum: 10/b358fb7061eebb42bfa6f122cf62d1bdd40dc619117863f3b59eeaa4f880dc03707014905bdb592e77176703d9045956d1ba27adda4458805f9f7cbf62015cbd
   languageName: node
   linkType: hard
 
@@ -40257,6 +40761,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"teex@npm:^1.0.1":
+  version: 1.0.1
+  resolution: "teex@npm:1.0.1"
+  dependencies:
+    streamx: "npm:^2.12.5"
+  checksum: 10/36bf7ce8bb5eb428ad7b14b695ee7fb0a02f09c1a9d8181cc42531208543a920b299d711bf78dad4ff9bcf36ac437ae8e138053734746076e3e0e7d6d76eef64
+  languageName: node
+  linkType: hard
+
 "temp-dir@npm:1.0.0":
   version: 1.0.0
   resolution: "temp-dir@npm:1.0.0"
@@ -40340,6 +40853,29 @@ __metadata:
   languageName: node
   linkType: hard
 
+"testcontainers@npm:11.7.2":
+  version: 11.7.2
+  resolution: "testcontainers@npm:11.7.2"
+  dependencies:
+    "@balena/dockerignore": "npm:^1.0.2"
+    "@types/dockerode": "npm:^3.3.44"
+    archiver: "npm:^7.0.1"
+    async-lock: "npm:^1.4.1"
+    byline: "npm:^5.0.0"
+    debug: "npm:^4.4.3"
+    docker-compose: "npm:^1.3.0"
+    dockerode: "npm:^4.0.9"
+    get-port: "npm:^7.1.0"
+    proper-lockfile: "npm:^4.1.2"
+    properties-reader: "npm:^2.3.0"
+    ssh-remote-port-forward: "npm:^1.0.4"
+    tar-fs: "npm:^3.1.1"
+    tmp: "npm:^0.2.5"
+    undici: "npm:^7.16.0"
+  checksum: 10/75222e5fbeffbc3002a3a06d9ac00bfff6602bb36d4f421ec0ef7f71075bf0b295ab754d48668ddce0066a4a9d67e9334e3aefca1254141de4e94c65824df06a
+  languageName: node
+  linkType: hard
+
 "testcontainers@npm:>=10.11.0":
   version: 10.11.0
   resolution: "testcontainers@npm:10.11.0"
@@ -40383,6 +40919,29 @@ __metadata:
     tmp: "npm:^0.2.3"
     undici: "npm:^5.28.4"
   checksum: 10/9d1c7028b494ef68a15138c1de3880f2629e46e80fec4c427c885589b26249be3294ee3824e3409a8a8db4420f16db84e8e5be06b69162e98ebdcde8ecd6c951
+  languageName: node
+  linkType: hard
+
+"testcontainers@npm:^11.14.0":
+  version: 11.14.0
+  resolution: "testcontainers@npm:11.14.0"
+  dependencies:
+    "@balena/dockerignore": "npm:^1.0.2"
+    "@types/dockerode": "npm:^4.0.1"
+    archiver: "npm:^7.0.1"
+    async-lock: "npm:^1.4.1"
+    byline: "npm:^5.0.0"
+    debug: "npm:^4.4.3"
+    docker-compose: "npm:^1.4.2"
+    dockerode: "npm:^4.0.10"
+    get-port: "npm:^7.2.0"
+    proper-lockfile: "npm:^4.1.2"
+    properties-reader: "npm:^3.0.1"
+    ssh-remote-port-forward: "npm:^1.0.4"
+    tar-fs: "npm:^3.1.2"
+    tmp: "npm:^0.2.5"
+    undici: "npm:^7.24.5"
+  checksum: 10/f836b2908060efd041958da28412acb3456f759c44c468b72d81a8e86d1417e1c5bdac97c848ee074c203033eadcc8af6603f6afa9ab44af8a0b3b957d84281c
   languageName: node
   linkType: hard
 
@@ -40625,6 +41184,13 @@ __metadata:
   version: 0.2.3
   resolution: "tmp@npm:0.2.3"
   checksum: 10/7b13696787f159c9754793a83aa79a24f1522d47b87462ddb57c18ee93ff26c74cbb2b8d9138f571d2e0e765c728fb2739863a672b280528512c6d83d511c6fa
+  languageName: node
+  linkType: hard
+
+"tmp@npm:^0.2.5":
+  version: 0.2.7
+  resolution: "tmp@npm:0.2.7"
+  checksum: 10/0a3bc90beb0c6275273c3475fb57e466eaab1c9c4a101d029ff62b18146ce136e7f75d09de34863d9f2c2a492751402508f9e028bc98eb34a1416195d4b15619
   languageName: node
   linkType: hard
 
@@ -41539,6 +42105,13 @@ __metadata:
   dependencies:
     "@fastify/busboy": "npm:^2.0.0"
   checksum: 10/a666a9f5ac4270c659fafc33d78b6b5039a0adbae3e28f934774c85dcc66ea91da907896f12b414bd6f578508b44d5dc206fa636afa0e49a4e1c9e99831ff065
+  languageName: node
+  linkType: hard
+
+"undici@npm:^7.16.0, undici@npm:^7.24.5":
+  version: 7.26.0
+  resolution: "undici@npm:7.26.0"
+  checksum: 10/c55b8f8e378dce6e645853faf0834d66b9f470c6ee1430c6e2b7971d831de36081f7e2e21ac1fc11297657d7c856241b0bf746b2a24f1277f8d156df9c181ba7
   languageName: node
   linkType: hard
 
