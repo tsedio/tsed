@@ -14717,7 +14717,7 @@ __metadata:
     "@tsed/swagger": "workspace:*"
     "@tsed/typescript": "workspace:*"
     ajv: "npm:^8.17.1"
-    axios: "npm:1.15.2"
+    axios: "npm:1.16.0"
     eslint: "npm:9.12.0"
     read-pkg-up: "npm:7.0.1"
     typescript: "npm:6.0.2"
@@ -14857,7 +14857,7 @@ __metadata:
     "@typescript-eslint/parser": "npm:8.58.0"
     "@vitest/coverage-v8": "npm:4.1.4"
     ajv: "npm:8.17.1"
-    axios: "npm:1.15.2"
+    axios: "npm:1.16.0"
     change-case: "npm:5.4.4"
     concurrently: "npm:9.0.1"
     cross-env: "npm:7.0.3"
@@ -18725,14 +18725,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"axios@npm:1.15.2":
-  version: 1.15.2
-  resolution: "axios@npm:1.15.2"
+"axios@npm:1.16.0":
+  version: 1.16.0
+  resolution: "axios@npm:1.16.0"
   dependencies:
-    follow-redirects: "npm:^1.15.11"
+    follow-redirects: "npm:^1.16.0"
     form-data: "npm:^4.0.5"
     proxy-from-env: "npm:^2.1.0"
-  checksum: 10/eebbd8cb777316d4252cd994a06ec9fb956ef519214a62dab6c5443ae8b753b5116e9a770502316789e6cdef1101e6aae53b6936d6a3791b2d66d75f4d7d2462
+  checksum: 10/cf8b521ff732c21550b38c8739aef556ea5e14b268468bb89e4307416ab262b462e582474e810963a3d61c2392ab47ad35c11d05eff027de7c97113bc7411623
   languageName: node
   linkType: hard
 
@@ -25257,6 +25257,16 @@ __metadata:
     debug:
       optional: true
   checksum: 10/70c7612c4cab18e546e36b991bbf8009a1a41cf85354afe04b113d1117569abf760269409cb3eb842d9f7b03d62826687086b081c566ea7b1e6613cf29030bf7
+  languageName: node
+  linkType: hard
+
+"follow-redirects@npm:^1.16.0":
+  version: 1.16.0
+  resolution: "follow-redirects@npm:1.16.0"
+  peerDependenciesMeta:
+    debug:
+      optional: true
+  checksum: 10/3fbe3d80b3b544c22705d837aa5d4a0d07a740d913534a2620b0a004c610af4148e3b58723536dd099aaa1c9d3a155964bde9665d6e5cb331460809a1fc572fd
   languageName: node
   linkType: hard
 
