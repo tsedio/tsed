@@ -287,6 +287,18 @@ const Tutorials = [
         link: `/tutorials/objection`
       },
       {
+        text: "Adapters",
+        link: `/tutorials/adapters`
+      },
+      {
+        text: "Adapters Redis",
+        link: `/tutorials/adapters-redis`
+      },
+      {
+        text: "Adapters IORedis",
+        link: `/tutorials/adapters-ioredis`
+      },
+      {
         text: "IORedis",
         link: `/tutorials/ioredis`
       },
