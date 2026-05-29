@@ -1,0 +1,49 @@
+{
+  "name": "@tsed/adapters-ioredis",
+  "description": "IORedis adapter for Ts.ED",
+  "type": "module",
+  "version": "8.17.0",
+  "source": "./src/index.ts",
+  "main": "./lib/esm/index.js",
+  "module": "./lib/esm/index.js",
+  "typings": "./lib/types/index.d.ts",
+  "exports": {
+    ".": {
+      "tsed-source": "./src/index.ts",
+      "types": "./lib/types/index.d.ts",
+      "import": "./lib/esm/index.js",
+      "default": "./lib/esm/index.js"
+    }
+  },
+  "scripts": {
+    "build": "yarn barrels && yarn build:ts",
+    "barrels": "barrels",
+    "test": "vitest run",
+    "build:ts": "tsc --build tsconfig.esm.json",
+    "test:ci": "vitest run --coverage.thresholds.autoUpdate=true"
+  },
+  "dependencies": {
+    "@tsed/adapters": "workspace:*",
+    "@tsed/ioredis": "workspace:*",
+    "tslib": ">=2.7.0"
+  },
+  "devDependencies": {
+    "@tsed/barrels": "workspace:*",
+    "@tsed/core": "workspace:*",
+    "@tsed/hooks": "workspace:*",
+    "@tsed/typescript": "workspace:*",
+    "eslint": "9.12.0",
+    "typescript": "6.0.2",
+    "vitest": "4.1.4"
+  },
+  "peerDependencies": {
+    "@tsed/adapters": ">=8.0.0",
+    "@tsed/core": ">=8.0.0",
+    "@tsed/di": ">=8.0.0",
+    "@tsed/hooks": ">=8.0.0",
+    "@tsed/platform-http": ">=8.0.0",
+    "ioredis": ">=5.2.3",
+    "ioredis-mock": ">=8.2.2",
+    "uuid": "^10.0.0"
+  }
+}
