@@ -6,13 +6,13 @@ import {IORedis, IOREDIS_CONNECTIONS} from "@tsed/ioredis";
 import type {ChainableCommander, Redis} from "ioredis";
 import {v4 as uuid} from "uuid";
 
-const getId = (key: string) => key.split(":")[2];
 const flatKeys = (keys: [Error | null, string[]][]): string[] => {
   return keys.flatMap(([, result]) => result).filter(Boolean);
 };
 
 export interface OIRedisAdapterConstructorOptions extends AdapterConstructorOptions {
   connectionName?: string;
+  keyPrefix?: string;
   useHash?: boolean;
 }
 
@@ -20,13 +20,15 @@ export class OIRedisAdapter<Model extends AdapterModel> extends Adapter<Model> {
   readonly hooks = new Hooks();
   readonly connectionName: string;
   readonly connection: IORedis;
+  readonly keyPrefix: string;
   protected useHash: boolean = false;
 
   constructor(@Opts options: OIRedisAdapterConstructorOptions) {
-    super(options);
+    super(options as any);
 
     this.useHash = Boolean(options.useHash);
     this.connectionName = options.connectionName || "default";
+    this.keyPrefix = options.keyPrefix || "";
     this.connection = injectMany<IORedis>(IOREDIS_CONNECTIONS).find((connection) => connection.name === this.connectionName)!; // || connections[0];
   }
 
@@ -35,7 +37,11 @@ export class OIRedisAdapter<Model extends AdapterModel> extends Adapter<Model> {
   }
 
   key(id: string) {
-    return `${this.collectionName}:${id}`;
+    return this.prefix(`${this.collectionName}:${id}`);
+  }
+
+  prefix(key: string) {
+    return this.keyPrefix ? `${this.keyPrefix}:${key}` : key;
   }
 
   public create(payload: Partial<Model>, expiresAt?: Date): Promise<Model> {
@@ -87,10 +93,13 @@ export class OIRedisAdapter<Model extends AdapterModel> extends Adapter<Model> {
       return undefined;
     }
 
-    const getId = (key: string) => key.split(":")[2];
-    const id = getId(foundKeys[0]);
+    const id = this.extractIdFromIndexedKey(foundKeys[0]);
 
-    foundKeys = foundKeys.filter((key) => id === getId(key));
+    if (!id) {
+      return undefined;
+    }
+
+    foundKeys = foundKeys.filter((key) => id === this.extractIdFromIndexedKey(key));
 
     return keys.length === foundKeys.length ? this.findById(id) : undefined;
   }
@@ -172,6 +181,13 @@ export class OIRedisAdapter<Model extends AdapterModel> extends Adapter<Model> {
     return results;
   }
 
+  protected extractIdFromIndexedKey(key: string) {
+    const parts = key.split(":");
+    const collectionIndex = parts.lastIndexOf(this.collectionName);
+
+    return collectionIndex > -1 ? parts[collectionIndex + 1] : undefined;
+  }
+
   protected async findKeys(props: any): Promise<string[]> {
     const keys: any[] = Object.keys(props);
     const pipeline = this.db.pipeline();
@@ -230,18 +246,18 @@ export class OIRedisAdapter<Model extends AdapterModel> extends Adapter<Model> {
   protected getAllIndex(id: string): Promise<string[]>;
   protected getAllIndex(id: string, pipeline: ChainableCommander): ChainableCommander;
   protected getAllIndex(id: string, pipeline?: ChainableCommander) {
-    const key = ["$idx", this.key(id), "*"].join(":");
+    const key = this.prefix(["$idx", `${this.collectionName}:${id}`, "*"].join(":"));
 
     return (pipeline || this.db).keys(key);
   }
 
   protected getIndexedKey(id: string, propertyKey: string, value: any): string {
-    const key = this.key(id);
-    return ["$idx", key, `${propertyKey}(${value})`].map(String).join(":");
+    const key = `${this.collectionName}:${id}`;
+    return this.prefix(["$idx", key, `${propertyKey}(${value})`].map(String).join(":"));
   }
 
   protected async getAll(): Promise<Model[]> {
-    const keys = await this.db.keys(`${this.collectionName}:*`);
+    const keys = await this.db.keys(this.prefix(`${this.collectionName}:*`));
     const pipeline = this.db.pipeline();
 
     keys.forEach((key) => {
@@ -265,7 +281,10 @@ export class OIRedisAdapter<Model extends AdapterModel> extends Adapter<Model> {
     }
 
     const map = foundKeys.reduce((map: Map<string, number>, key) => {
-      const id = getId(key);
+      const id = this.extractIdFromIndexedKey(key);
+      if (!id) {
+        return map;
+      }
       const value = map.get(id) || 0;
 
       return map.set(id, value + 1);

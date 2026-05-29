@@ -1,3 +1,5 @@
+import {randomUUID} from "node:crypto";
+
 import {Adapters} from "@tsed/adapters";
 import {IORedisTest, registerConnectionProvider} from "@tsed/ioredis";
 import {Redis} from "ioredis";
@@ -8,6 +10,7 @@ import moment from "moment";
 import {OIDCIORedisAdapter} from "./OIDCIORedisAdapter.js";
 
 const REDIS_CONNECTION = Symbol.for("redis_connection");
+let TEST_PREFIX = "";
 
 registerConnectionProvider({
   token: REDIS_CONNECTION
@@ -16,6 +19,7 @@ registerConnectionProvider({
 function createAdapterFixture(collectionName: string) {
   const adapter = IORedisTest.get<Adapters>(Adapters).invokeAdapter({
     collectionName,
+    keyPrefix: TEST_PREFIX,
     model: Object,
     adapter: OIDCIORedisAdapter
   }) as OIDCIORedisAdapter<any>;
@@ -41,7 +45,10 @@ async function createInitialDBFixture() {
 }
 
 describe("OIDCIORedisAdapter", () => {
-  beforeEach(() => IORedisTest.create());
+  beforeEach(() => {
+    TEST_PREFIX = `test:${randomUUID()}`;
+    return IORedisTest.create();
+  });
   afterEach(() => IORedisTest.reset());
 
   describe("onInsert()", () => {
@@ -57,10 +64,14 @@ describe("OIDCIORedisAdapter", () => {
 
       await adapter.upsert("id", payload);
 
-      const keys = await redis.keys("$oidc:*");
+      const keys = await redis.keys(`${TEST_PREFIX}:$oidc:*`);
 
-      expect(await redis.get("$oidc:grant:grantId")).toEqual(["AccessToken:id"]);
-      expect(keys).toEqual(["$oidc:grant:grantId", "$oidc:userCode:userCode", "$oidc:uid:uid"]);
+      expect(await redis.get(adapter.prefix(`$oidc:grant:grantId`))).toEqual([adapter.prefix(`AccessToken:id`)]);
+      expect(keys.sort()).toEqual([
+        adapter.prefix(`$oidc:grant:grantId`),
+        adapter.prefix(`$oidc:uid:uid`),
+        adapter.prefix(`$oidc:userCode:userCode`)
+      ]);
     });
     it("should set the expiration ttl", async () => {
       const {adapter, redis} = await createAdapterFixture("AccessToken");
@@ -74,7 +85,7 @@ describe("OIDCIORedisAdapter", () => {
 
       await adapter.upsert("id", payload, moment().add(2, "days").toDate());
 
-      const ttl = await redis.ttl("$oidc:grant:grantId");
+      const ttl = await redis.ttl(adapter.prefix(`$oidc:grant:grantId`));
 
       expect(ttl).toBeGreaterThan(100000);
     });
@@ -90,9 +101,9 @@ describe("OIDCIORedisAdapter", () => {
 
       await adapter.upsert("id", payload);
 
-      const keys = await redis.keys("$oidc:*");
+      const keys = await redis.keys(`${TEST_PREFIX}:$oidc:*`);
 
-      expect(keys).toEqual(["$oidc:userCode:userCode", "$oidc:uid:uid"]);
+      expect(keys.sort()).toEqual([adapter.prefix(`$oidc:uid:uid`), adapter.prefix(`$oidc:userCode:userCode`)]);
     });
   });
 
@@ -157,17 +168,19 @@ describe("OIDCIORedisAdapter", () => {
     it("should retrieve the payload by his userCode", async () => {
       const adapter = await createInitialDBFixture();
 
-      const keys = await adapter.db.lrange("$oidc:grant:grantId", 0, -1);
+      const keys = await adapter.db.lrange(adapter.prefix(`$oidc:grant:grantId`), 0, -1);
 
-      expect(keys).toEqual(["AccessToken:id"]);
+      expect(keys).toEqual([adapter.prefix(`AccessToken:id`)]);
 
-      expect(await adapter.db.get("AccessToken:id")).toEqual('{"grantId":"grantId","userCode":"userCode","uid":"uid","_id":"id"}');
-      expect(await adapter.db.get("$oidc:grant:grantId")).toEqual(["AccessToken:id"]);
+      expect(await adapter.db.get(adapter.prefix(`AccessToken:id`))).toEqual(
+        '{"grantId":"grantId","userCode":"userCode","uid":"uid","_id":"id"}'
+      );
+      expect(await adapter.db.get(adapter.prefix(`$oidc:grant:grantId`))).toEqual([adapter.prefix(`AccessToken:id`)]);
 
       await adapter.revokeByGrantId("grantId");
 
-      expect(await adapter.db.get("AccessToken:id")).toEqual(null);
-      expect(await adapter.db.get("$oidc:grant:grantId")).toEqual(null);
+      expect(await adapter.db.get(adapter.prefix(`AccessToken:id`))).toEqual(null);
+      expect(await adapter.db.get(adapter.prefix(`$oidc:grant:grantId`))).toEqual(null);
     });
   });
 
@@ -177,7 +190,7 @@ describe("OIDCIORedisAdapter", () => {
 
       await adapter.consume("codeId");
 
-      const result = await adapter.db.hget("AuthorizationCode:codeId", "consumed");
+      const result = await adapter.db.hget(adapter.prefix(`AuthorizationCode:codeId`), "consumed");
 
       expect(!isNaN(Number(result))).toBe(true);
     });

@@ -7,20 +7,20 @@ import {OIRedisAdapter, OIRedisAdapterConstructorOptions} from "./OIRedisAdapter
 const GRANTABLE = new Set(["AccessToken", "AuthorizationCode", "RefreshToken", "DeviceCode", "BackchannelAuthenticationRequest"]);
 const CONSUMABLE = new Set(["AuthorizationCode", "RefreshToken", "DeviceCode", "BackchannelAuthenticationRequest"]);
 
-function grantKeyFor(id: string) {
-  return `$oidc:grant:${id}`;
-}
-
-function userCodeKeyFor(userCode: string) {
-  return `$oidc:userCode:${userCode}`;
-}
-
-function uidKeyFor(uid: string) {
-  return `$oidc:uid:${uid}`;
-}
-
 export class OIDCIORedisAdapter<T extends AdapterModel> extends OIRedisAdapter<T> {
   protected isGrantable: boolean;
+
+  protected grantKeyFor(id: string) {
+    return this.prefix(`$oidc:grant:${id}`);
+  }
+
+  protected userCodeKeyFor(userCode: string) {
+    return this.prefix(`$oidc:userCode:${userCode}`);
+  }
+
+  protected uidKeyFor(uid: string) {
+    return this.prefix(`$oidc:uid:${uid}`);
+  }
 
   constructor(@Opts options: OIRedisAdapterConstructorOptions) {
     super(options);
@@ -36,7 +36,7 @@ export class OIDCIORedisAdapter<T extends AdapterModel> extends OIRedisAdapter<T
     const key = this.key(id);
 
     if (this.isGrantable && payload.grantId) {
-      const grantKey = grantKeyFor(payload.grantId);
+      const grantKey = this.grantKeyFor(payload.grantId);
 
       multi.rpush(grantKey, key);
       // if you're seeing grant key lists growing out of acceptable proportions consider using LTRIM
@@ -49,14 +49,14 @@ export class OIDCIORedisAdapter<T extends AdapterModel> extends OIRedisAdapter<T
     }
 
     if (payload.userCode) {
-      const userCodeKey = userCodeKeyFor(payload.userCode);
+      const userCodeKey = this.userCodeKeyFor(payload.userCode);
 
       multi.set(userCodeKey, id);
       expiresIn && multi.expire(userCodeKey, expiresIn);
     }
 
     if (payload.uid) {
-      const uidKey = uidKeyFor(payload.uid);
+      const uidKey = this.uidKeyFor(payload.uid);
 
       multi.set(uidKey, id);
       expiresIn && multi.expire(uidKey, expiresIn);
@@ -66,13 +66,13 @@ export class OIDCIORedisAdapter<T extends AdapterModel> extends OIRedisAdapter<T
   }
 
   async findByUid(uid: string) {
-    const id = await this.db.get(uidKeyFor(uid));
+    const id = await this.db.get(this.uidKeyFor(uid));
 
     return id && this.findById(id);
   }
 
   async findByUserCode(userCode: string) {
-    const id = await this.db.get(userCodeKeyFor(userCode));
+    const id = await this.db.get(this.userCodeKeyFor(userCode));
     return id && this.findById(id);
   }
 
@@ -83,11 +83,11 @@ export class OIDCIORedisAdapter<T extends AdapterModel> extends OIRedisAdapter<T
 
   async revokeByGrantId(grantId: string) {
     const multi = this.db.multi();
-    const key = grantKeyFor(grantId);
+    const key = this.grantKeyFor(grantId);
     const tokens = await this.db.lrange(key, 0, -1);
 
     tokens.forEach((token) => multi.del(token));
-    multi.del(grantKeyFor(grantId));
+    multi.del(this.grantKeyFor(grantId));
 
     await multi.exec();
   }

@@ -1,3 +1,5 @@
+import {randomUUID} from "node:crypto";
+
 import {AdapterModel, Adapters, Indexed} from "@tsed/adapters";
 import {IORedisTest, registerConnectionProvider} from "@tsed/ioredis";
 import {deserialize} from "@tsed/json-mapper";
@@ -6,6 +8,7 @@ import {Property, Required} from "@tsed/schema";
 import {OIRedisAdapter} from "./OIRedisAdapter.js";
 
 const REDIS_CONNECTION = Symbol.for("redis_connection");
+let TEST_PREFIX = "";
 
 registerConnectionProvider({
   token: REDIS_CONNECTION
@@ -29,6 +32,7 @@ function createAdapterFixture<Model extends AdapterModel = Client>({
 }: {collectionName?: string; model?: any} = {}) {
   const adapter = IORedisTest.get<Adapters>(Adapters).invokeAdapter<Model>({
     collectionName,
+    keyPrefix: TEST_PREFIX,
     model,
     adapter: OIRedisAdapter,
     useHash: collectionName === "AuthorizationCode"
@@ -38,7 +42,10 @@ function createAdapterFixture<Model extends AdapterModel = Client>({
 }
 
 describe("OIRedisAdapter", () => {
-  beforeEach(() => IORedisTest.create());
+  beforeEach(() => {
+    TEST_PREFIX = `test:${randomUUID()}`;
+    return IORedisTest.create();
+  });
   afterEach(() => IORedisTest.reset());
 
   describe("create()", () => {
@@ -58,8 +65,8 @@ describe("OIRedisAdapter", () => {
 
       const keys = await adapter.db.keys("*");
 
-      expect(keys).toContain("client:" + client._id);
-      expect(keys).toContain(`$idx:client:${client._id}:name(${base.name})`);
+      expect(keys).toContain(adapter.prefix(`client:${client._id}`));
+      expect(keys).toContain(adapter.prefix(`$idx:client:${client._id}:name(${base.name})`));
     });
   });
   describe("upsert()", () => {
@@ -85,8 +92,8 @@ describe("OIRedisAdapter", () => {
 
       const keys = await adapter.db.keys("*");
 
-      expect(keys).toContain("client:" + client._id);
-      expect(keys).toContain(`$idx:client:${client._id}:name(${base.name})`);
+      expect(keys).toContain(adapter.prefix(`client:${client._id}`));
+      expect(keys).toContain(adapter.prefix(`$idx:client:${client._id}:name(${base.name})`));
     });
   });
   describe("findById()", () => {
