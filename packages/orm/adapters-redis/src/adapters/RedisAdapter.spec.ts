@@ -1,8 +1,12 @@
+import {randomUUID} from "node:crypto";
+
 import {AdapterModel, Adapters, Indexed} from "@tsed/adapters";
-import {IORedisTest, registerConnectionProvider} from "@tsed/ioredis";
+import {DITest} from "@tsed/di";
 import {deserialize} from "@tsed/json-mapper";
+import {registerConnectionProvider} from "@tsed/redis";
 import {Property, Required} from "@tsed/schema";
 
+import {TestContainersRedis} from "../../tests/setup/TestContainersRedis.js";
 import {RedisAdapter} from "./RedisAdapter.js";
 
 const REDIS_CONNECTION = Symbol.for("redis_connection");
@@ -27,8 +31,9 @@ function createAdapterFixture<Model extends AdapterModel = Client>({
   collectionName = "client",
   model = Client
 }: {collectionName?: string; model?: any} = {}) {
-  const adapter = IORedisTest.get<Adapters>(Adapters).invokeAdapter<Model>({
+  const adapter = DITest.get<Adapters>(Adapters).invokeAdapter<Model>({
     collectionName,
+    keyPrefix: `test:${randomUUID()}`,
     model,
     adapter: RedisAdapter,
     useHash: collectionName === "AuthorizationCode"
@@ -38,8 +43,17 @@ function createAdapterFixture<Model extends AdapterModel = Client>({
 }
 
 describe("RedisAdapter", () => {
-  beforeEach(() => IORedisTest.create());
-  afterEach(() => IORedisTest.reset());
+  beforeEach(() => {
+    return DITest.create({
+      redis: [
+        {
+          name: "default",
+          ...TestContainersRedis.getRedisOptions()
+        }
+      ]
+    });
+  });
+  afterEach(() => DITest.reset());
 
   describe("create()", () => {
     it("should create a new instance", async () => {
@@ -58,8 +72,8 @@ describe("RedisAdapter", () => {
 
       const keys = await adapter.db.keys("*");
 
-      expect(keys).toContain("client:" + client._id);
-      expect(keys).toContain(`$idx:client:${client._id}:name(${base.name})`);
+      expect(keys).toContain(adapter.prefix(`client:${client._id}`));
+      expect(keys).toContain(adapter.prefix(`$idx:client:${client._id}:name(${base.name})`));
     });
   });
   describe("upsert()", () => {
@@ -85,8 +99,8 @@ describe("RedisAdapter", () => {
 
       const keys = await adapter.db.keys("*");
 
-      expect(keys).toContain("client:" + client._id);
-      expect(keys).toContain(`$idx:client:${client._id}:name(${base.name})`);
+      expect(keys).toContain(adapter.prefix(`client:${client._id}`));
+      expect(keys).toContain(adapter.prefix(`$idx:client:${client._id}:name(${base.name})`));
     });
   });
   describe("findById()", () => {
@@ -210,9 +224,8 @@ describe("RedisAdapter", () => {
         name: base.name
       });
 
-      expect(result[0]).toBeInstanceOf(Client);
-      expect(result[0]?._id).toBe(client._id);
-      expect(result[0]?.name).toBe(base.name);
+      expect(result.length).toBeGreaterThan(0);
+      expect(result.some((item) => item instanceof Client && item._id === client._id && item.name === base.name)).toBe(true);
     });
     it("should find all by id (one prop)", async () => {
       const {adapter} = await createAdapterFixture({});
@@ -244,9 +257,8 @@ describe("RedisAdapter", () => {
 
       const result = await adapter.findAll({});
 
-      expect(result[0]).toBeInstanceOf(Client);
-      expect(result[0]?._id).toBe(client._id);
-      expect(result[0]?.name).toBe(base.name);
+      expect(result.length).toBeGreaterThan(0);
+      expect(result.some((item) => item instanceof Client && item._id === client._id && item.name === base.name)).toBe(true);
     });
     it("should not find data when predicate has an unknown prop", async () => {
       const {adapter} = await createAdapterFixture({});
@@ -404,10 +416,8 @@ describe("RedisAdapter", () => {
         name: base.name
       });
 
-      expect(result[0]).toBeInstanceOf(Client);
-      expect(typeof result[0]._id).toBe("string");
-      expect(result[0]._id).toBe(client?._id);
-      expect(result[0].name).toBe(base.name);
+      expect(result.length).toBeGreaterThan(0);
+      expect(result.some((item) => item instanceof Client && item._id === client?._id && item.name === base.name)).toBe(true);
     });
   });
 });

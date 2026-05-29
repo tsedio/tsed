@@ -4,3 +4,5 @@
 export * from "./adapters/OIDCRedisAdapter.js";
 export * from "./adapters/RedisAdapter.js";
 export * from "./domain/RedisAdaptersSettings.js";
+export * from "./services/TestContainersRedis.js";
+export * from "./setup/vi.setup.js";

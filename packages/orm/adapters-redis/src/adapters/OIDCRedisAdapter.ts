@@ -1,34 +1,29 @@
 import {AdapterModel} from "@tsed/adapters";
-import {Configuration, Inject, Opts} from "@tsed/di";
-import {IORedis, IOREDIS_CONNECTIONS} from "@tsed/ioredis";
-import {ChainableCommander} from "ioredis";
+import {Opts} from "@tsed/di";
 
 import {RedisAdapter, RedisAdapterConstructorOptions} from "./RedisAdapter.js";
 
 const GRANTABLE = new Set(["AccessToken", "AuthorizationCode", "RefreshToken", "DeviceCode", "BackchannelAuthenticationRequest"]);
 const CONSUMABLE = new Set(["AuthorizationCode", "RefreshToken", "DeviceCode", "BackchannelAuthenticationRequest"]);
-
-function grantKeyFor(id: string) {
-  return `$oidc:grant:${id}`;
-}
-
-function userCodeKeyFor(userCode: string) {
-  return `$oidc:userCode:${userCode}`;
-}
-
-function uidKeyFor(uid: string) {
-  return `$oidc:uid:${uid}`;
-}
+type ChainableCommander = any;
 
 export class OIDCRedisAdapter<T extends AdapterModel> extends RedisAdapter<T> {
   protected isGrantable: boolean;
 
-  constructor(
-    @Opts options: RedisAdapterConstructorOptions,
-    @Inject(IOREDIS_CONNECTIONS) connections: IORedis[],
-    @Configuration() protected configuration: Configuration
-  ) {
-    super(options, connections, configuration);
+  protected grantKeyFor(id: string) {
+    return this.prefix(`$oidc:grant:${id}`);
+  }
+
+  protected userCodeKeyFor(userCode: string) {
+    return this.prefix(`$oidc:userCode:${userCode}`);
+  }
+
+  protected uidKeyFor(uid: string) {
+    return this.prefix(`$oidc:uid:${uid}`);
+  }
+
+  constructor(@Opts options: RedisAdapterConstructorOptions) {
+    super(options);
 
     this.useHash = CONSUMABLE.has(this.collectionName);
     this.isGrantable = GRANTABLE.has(this.collectionName);
@@ -41,63 +36,63 @@ export class OIDCRedisAdapter<T extends AdapterModel> extends RedisAdapter<T> {
     const key = this.key(id);
 
     if (this.isGrantable && payload.grantId) {
-      const grantKey = grantKeyFor(payload.grantId);
+      const grantKey = this.grantKeyFor(payload.grantId);
 
-      multi.rpush(grantKey, key);
+      this.callCmd(multi, ["rPush", "rpush"], grantKey, key);
       // if you're seeing grant key lists growing out of acceptable proportions consider using LTRIM
       // here to trim the list to an appropriate length
-      const ttl = await this.db.ttl(grantKey);
+      const ttl = await this.callCmd(this.db, ["ttl"], grantKey);
 
       if (expiresIn && expiresIn > ttl) {
-        multi.expire(grantKey, expiresIn);
+        this.callCmd(multi, ["expire"], grantKey, expiresIn);
       }
     }
 
     if (payload.userCode) {
-      const userCodeKey = userCodeKeyFor(payload.userCode);
+      const userCodeKey = this.userCodeKeyFor(payload.userCode);
 
-      multi.set(userCodeKey, id);
-      expiresIn && multi.expire(userCodeKey, expiresIn);
+      this.callCmd(multi, ["set"], userCodeKey, id);
+      expiresIn && this.callCmd(multi, ["expire"], userCodeKey, expiresIn);
     }
 
     if (payload.uid) {
-      const uidKey = uidKeyFor(payload.uid);
+      const uidKey = this.uidKeyFor(payload.uid);
 
-      multi.set(uidKey, id);
-      expiresIn && multi.expire(uidKey, expiresIn);
+      this.callCmd(multi, ["set"], uidKey, id);
+      expiresIn && this.callCmd(multi, ["expire"], uidKey, expiresIn);
     }
 
     return multi;
   }
 
   async findByUid(uid: string) {
-    const id = await this.db.get(uidKeyFor(uid));
+    const id = await this.callCmd(this.db, ["get"], this.uidKeyFor(uid));
 
     return id && this.findById(id);
   }
 
   async findByUserCode(userCode: string) {
-    const id = await this.db.get(userCodeKeyFor(userCode));
+    const id = await this.callCmd(this.db, ["get"], this.userCodeKeyFor(userCode));
     return id && this.findById(id);
   }
 
   async destroy(id: string) {
     const key = this.key(id);
-    await this.db.del(key);
+    await this.callCmd(this.db, ["del"], key);
   }
 
   async revokeByGrantId(grantId: string) {
     const multi = this.db.multi();
-    const key = grantKeyFor(grantId);
-    const tokens = await this.db.lrange(key, 0, -1);
+    const key = this.grantKeyFor(grantId);
+    const tokens = await this.callCmd(this.db, ["lRange", "lrange"], key, 0, -1);
 
-    tokens.forEach((token) => multi.del(token));
-    multi.del(grantKeyFor(grantId));
+    tokens.forEach((token: string) => this.callCmd(multi, ["del"], token));
+    this.callCmd(multi, ["del"], this.grantKeyFor(grantId));
 
-    await multi.exec();
+    await this.callCmd(multi, ["exec"]);
   }
 
   async consume(id: string) {
-    await this.db.hset(this.key(id), "consumed", Math.floor(Date.now() / 1000));
+    await this.callCmd(this.db, ["hSet", "hset"], this.key(id), "consumed", Math.floor(Date.now() / 1000));
   }
 }

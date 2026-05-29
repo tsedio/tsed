@@ -7,6 +7,8 @@ export default defineConfig(
     ...presets,
     test: {
       ...presets.test,
+      // @ts-ignore
+      globalSetup: ["./tests/setup/vi.setup.ts"],
       coverage: {
         ...presets.test.coverage,
         thresholds: {
