@@ -9,7 +9,7 @@ export default defineConfig(
       ...presets.test,
       // @ts-ignore
       globalSetup: [
-        "../testcontainers-mongo/src/setup/vi.setup.ts"
+        "../../testcontainers/mongo/src/setup/vi.setup.ts"
       ],
       coverage: {
         ...presets.test.coverage,

@@ -1,0 +1,28 @@
+{
+  "name": "@tsed/testcontainers-vault",
+  "description": "A module to test Ts.ED code that use Vault as a secrets manager using Test Containers",
+  "type": "module",
+  "version": "1.6.1",
+  "source": "./src/index.ts",
+  "main": "./lib/esm/index.js",
+  "module": "./lib/esm/index.js",
+  "typings": "./lib/types/index.d.ts",
+  "exports": {
+    ".": {
+      "tsed-source": "./src/index.ts",
+      "types": "./lib/types/index.d.ts",
+      "import": "./lib/esm/index.js",
+      "default": "./lib/esm/index.js"
+    }
+  },
+  "scripts": {
+    "build": "yarn build:ts",
+    "build:ts": "tsc --build tsconfig.esm.json"
+  },
+  "dependencies": {
+    "tslib": "2.8.1"
+  },
+  "devDependencies": {
+    "typescript": "6.0.2"
+  }
+}
