@@ -1,6 +1,5 @@
 import {AdapterModel} from "@tsed/adapters";
-import {Inject, Opts} from "@tsed/di";
-import {IORedis, IOREDIS_CONNECTIONS} from "@tsed/ioredis";
+import {Opts} from "@tsed/di";
 import {ChainableCommander} from "ioredis";
 
 import {OIRedisAdapter, OIRedisAdapterConstructorOptions} from "./OIRedisAdapter.js";
@@ -23,8 +22,8 @@ function uidKeyFor(uid: string) {
 export class OIDCIORedisAdapter<T extends AdapterModel> extends OIRedisAdapter<T> {
   protected isGrantable: boolean;
 
-  constructor(@Opts options: OIRedisAdapterConstructorOptions, @Inject(IOREDIS_CONNECTIONS) connections: IORedis[]) {
-    super(options, connections);
+  constructor(@Opts options: OIRedisAdapterConstructorOptions) {
+    super(options);
 
     this.useHash = CONSUMABLE.has(this.collectionName);
     this.isGrantable = GRANTABLE.has(this.collectionName);

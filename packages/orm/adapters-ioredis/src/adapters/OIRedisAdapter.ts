@@ -1,6 +1,6 @@
 import {Adapter, AdapterConstructorOptions, AdapterModel} from "@tsed/adapters";
 import {cleanObject, isObject, isString} from "@tsed/core";
-import {Inject, Opts} from "@tsed/di";
+import {injectMany, Opts} from "@tsed/di";
 import {Hooks} from "@tsed/hooks";
 import {IORedis, IOREDIS_CONNECTIONS} from "@tsed/ioredis";
 import type {ChainableCommander, Redis} from "ioredis";
@@ -22,12 +22,12 @@ export class OIRedisAdapter<Model extends AdapterModel> extends Adapter<Model> {
   readonly connection: IORedis;
   protected useHash: boolean = false;
 
-  constructor(@Opts options: OIRedisAdapterConstructorOptions, @Inject(IOREDIS_CONNECTIONS) connections: IORedis[]) {
+  constructor(@Opts options: OIRedisAdapterConstructorOptions) {
     super(options);
 
     this.useHash = Boolean(options.useHash);
     this.connectionName = options.connectionName || "default";
-    this.connection = connections.find((connection) => connection.name === this.connectionName)!; // || connections[0];
+    this.connection = injectMany<IORedis>(IOREDIS_CONNECTIONS).find((connection) => connection.name === this.connectionName)!; // || connections[0];
   }
 
   get db(): Redis {
