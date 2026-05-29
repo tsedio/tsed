@@ -289,6 +289,10 @@ const Tutorials = [
       {
         text: "IORedis",
         link: `/tutorials/ioredis`
+      },
+      {
+        text: "Redis",
+        link: `/tutorials/redis`
       }
     ])
   },

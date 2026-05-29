@@ -1,0 +1,144 @@
+import type {Config, FactoryConfig, Store} from "cache-manager";
+import type {RedisClientType, RedisClusterType, RootNode} from "redis";
+import {createClient, createCluster} from "redis";
+
+export interface RedisClusterConfig {
+  nodes: RootNode[];
+  options?: Record<string, any>;
+}
+
+const getVal = (value: unknown) => JSON.stringify(value) || '"undefined"';
+
+export type RedisStoreCtrOptions = (Record<string, any> | {clusterConfig: RedisClusterConfig}) &
+  Config & {redisInstance?: RedisClientType | RedisClusterType<any, any>};
+
+export class RedisStore implements Store {
+  public name = "redis";
+  /**
+   * @deprecated
+   */
+  public isCacheableValue;
+  public isCacheable;
+  private redisCache: RedisClientType | RedisClusterType<any, any>;
+  private storeArgs: any;
+
+  constructor(options?: RedisStoreCtrOptions) {
+    options = options || {};
+
+    this.redisCache =
+      options.redisInstance ||
+      ("clusterConfig" in options
+        ? (createCluster({rootNodes: options.clusterConfig.nodes, ...(options.clusterConfig.options || {})}) as any)
+        : (createClient(options as any) as any));
+    (this.redisCache as any).connect?.().catch(() => undefined);
+
+    this.storeArgs = options;
+    this.isCacheable = this.isCacheableValue =
+      this.storeArgs.isCacheable || this.storeArgs.isCacheableValue || ((value: any) => value !== undefined && value !== null);
+  }
+
+  get client() {
+    return this.redisCache;
+  }
+
+  getClient() {
+    return this.redisCache;
+  }
+
+  async set(key: string, value: any, ttl?: number) {
+    this.assertCacheable(value);
+
+    ttl = this.getTtl(ttl);
+
+    const val = getVal(value);
+
+    if (ttl) {
+      if ((this.redisCache as any).setEx) {
+        await (this.redisCache as any).setEx(key, ttl, val);
+      } else {
+        await (this.redisCache as any).set(key, val, {EX: ttl});
+      }
+      return;
+    }
+
+    await this.redisCache.set(key, val);
+  }
+
+  async get<T = any>(key: string, options?: any) {
+    const val = await this.redisCache.get(key);
+
+    if (val === undefined || val === null) {
+      return undefined;
+    }
+
+    return JSON.parse(val) as T;
+  }
+
+  async del(key: string) {
+    await this.redisCache.del(key);
+  }
+
+  async mset(args: [string, unknown][], ttl?: number) {
+    ttl = this.getTtl(ttl);
+
+    if (ttl) {
+      const multi = this.redisCache.multi();
+
+      for (const [key, value] of args) {
+        this.assertCacheable(value);
+
+        if (multi.setEx) {
+          multi.setEx(key, ttl / 1000, getVal(value));
+        } else {
+          multi.set(key, getVal(value), {EX: ttl / 1000});
+        }
+      }
+
+      await multi.exec();
+    } else
+      await (this.redisCache as any).mSet(
+        args.reduce(
+          (acc, [key, value]) => {
+            this.assertCacheable(value);
+            acc[key] = getVal(value);
+            return acc;
+          },
+          {} as Record<string, string>
+        )
+      );
+  }
+
+  async mget(...args: string[]) {
+    const x = await (this.redisCache as any).mGet(args);
+
+    return x.map((x) => (x === null || x === undefined ? undefined : (JSON.parse(x) as unknown)));
+  }
+
+  async mdel(...args: string[]) {
+    await this.redisCache.del(...args);
+  }
+
+  async reset() {
+    await (this.redisCache as any).flushAll();
+  }
+
+  keys(pattern: string = "*") {
+    return this.redisCache.keys(pattern);
+  }
+
+  ttl(key: string) {
+    return this.redisCache.ttl(key);
+  }
+
+  private getTtl(ttl?: number) {
+    return ttl === undefined ? this.storeArgs.ttl : ttl;
+  }
+
+  private assertCacheable(value: any) {
+    if (!this.isCacheable(value)) {
+      throw new Error(`"${getVal(value)}" is not a cacheable value`);
+    }
+  }
+}
+
+export const redisStore = (config?: FactoryConfig<any>) => new RedisStore(config);

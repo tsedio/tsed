@@ -1,0 +1,51 @@
+{
+  "name": "@tsed/redis",
+  "description": "Redis (node-redis) connection for Ts.ED",
+  "type": "module",
+  "version": "8.17.0",
+  "source": "./src/index.ts",
+  "main": "./lib/esm/index.js",
+  "module": "./lib/esm/index.js",
+  "typings": "./lib/types/index.d.ts",
+  "exports": {
+    ".": {
+      "tsed-source": "./src/index.ts",
+      "types": "./lib/types/index.d.ts",
+      "import": "./lib/esm/index.js",
+      "default": "./lib/esm/index.js"
+    },
+    "./cache": {
+      "tsed-source": "./src/domain/index.ts",
+      "types": "./lib/types/domain/index.d.ts",
+      "import": "./lib/esm/domain/index.js",
+      "default": "./lib/esm/domain/index.js"
+    }
+  },
+  "scripts": {
+    "build": "yarn barrels && yarn build:ts",
+    "barrels": "barrels",
+    "test": "vitest run",
+    "build:ts": "tsc --build tsconfig.esm.json",
+    "test:ci": "vitest run --coverage.thresholds.autoUpdate=true"
+  },
+  "dependencies": {
+    "tslib": ">=2.7.0"
+  },
+  "devDependencies": {
+    "@tsed/barrels": "workspace:*",
+    "@tsed/core": "workspace:*",
+    "@tsed/di": "workspace:*",
+    "@tsed/typescript": "workspace:*",
+    "eslint": "9.12.0",
+    "redis": "6.0.0",
+    "redis-mock": "^0.56.3",
+    "typescript": "6.0.2",
+    "vitest": "4.1.4"
+  },
+  "peerDependencies": {
+    "@tsed/core": ">=8.0.0",
+    "@tsed/di": ">=8.0.0",
+    "redis": ">=5.1.0",
+    "redis-mock": ">=0.56.3"
+  }
+}
