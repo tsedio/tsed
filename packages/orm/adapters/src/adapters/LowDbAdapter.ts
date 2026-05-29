@@ -1,4 +1,5 @@
 import {cleanObject} from "@tsed/core";
+import {constant} from "@tsed/di";
 import _ from "lodash";
 import isMatch from "lodash/isMatch.js";
 import type {Low, LowSync} from "lowdb";
@@ -27,7 +28,7 @@ export class LowDbAdapter<T extends AdapterModel> extends Adapter<T> {
   }
 
   protected get dbFilePath() {
-    const lowdbDir = this.configuration.get("adapters.lowdbDir", ".db");
+    const lowdbDir = constant("adapters.lowdbDir", ".db");
     return `${lowdbDir}/${this.collectionName}.json`;
   }
 

@@ -1,6 +1,6 @@
 import {AjvService} from "@tsed/ajv";
 import {classOf, isArray, isPlainObject, nameOf, Type} from "@tsed/core";
-import {Configuration, Inject, Opts} from "@tsed/di";
+import {constant, inject, Opts} from "@tsed/di";
 import {deserialize, JsonDeserializerOptions, JsonSerializerOptions, serialize} from "@tsed/json-mapper";
 import {getPropertiesStores} from "@tsed/schema";
 
@@ -42,18 +42,13 @@ export abstract class Adapter<Model = any> {
   readonly collectionName: string;
   readonly indexes: {propertyKey: string; options: any}[];
   readonly useAlias: boolean = false;
+  protected ajvService = inject(AjvService);
 
-  @Inject()
-  protected ajvService!: AjvService;
-
-  constructor(
-    @Opts options: AdapterConstructorOptions,
-    @Configuration() protected configuration: Configuration
-  ) {
+  constructor(@Opts options: AdapterConstructorOptions) {
     this.model = options.model;
     this.collectionName = options.collectionName || pluralize(nameOf(options.model));
 
-    let indexes = options.indexes || configuration.get(`adapters.${this.collectionName}.indexes`) || getIndexes(this.model);
+    let indexes = options.indexes || constant(`adapters.${this.collectionName}.indexes`) || getIndexes(this.model);
 
     if (!isArray(indexes)) {
       indexes = mapIndexes(indexes);

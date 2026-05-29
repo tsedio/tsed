@@ -1,7 +1,7 @@
 import {dirname} from "node:path";
 
 import {nameOf} from "@tsed/core";
-import {Configuration, Injectable, Opts, ProviderScope, Scope} from "@tsed/di";
+import {Injectable, Opts, ProviderScope, Scope} from "@tsed/di";
 import fs from "fs-extra";
 import {LowSync} from "lowdb";
 import {JSONFileSync} from "lowdb/node";
@@ -16,8 +16,8 @@ export interface FileSyncAdapterConstructorOptions extends AdapterConstructorOpt
 @Injectable()
 @Scope(ProviderScope.INSTANCE)
 export class FileSyncAdapter<T extends AdapterModel> extends LowDbAdapter<T> {
-  constructor(@Opts options: FileSyncAdapterConstructorOptions, @Configuration() configuration: Configuration) {
-    super(options, configuration);
+  constructor(@Opts options: FileSyncAdapterConstructorOptions) {
+    super(options);
 
     fs.ensureDirSync(dirname(this.dbFilePath));
 
