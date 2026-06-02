@@ -18,7 +18,7 @@ const rootDir = import.meta.dirname; // automatically replaced by import.meta.di
 })
 export class Server {
   @Inject()
-  app: PlatformApplication;
+  app!: PlatformApplication;
 
   public $beforeRoutesInit(): void {
     this.app

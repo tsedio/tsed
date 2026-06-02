@@ -1,14 +1,21 @@
 import {constant, DIContext, injectable, injector, logger, Provider, runInContext} from "@tsed/di";
 import {$asyncEmit} from "@tsed/hooks";
-import {Agenda, Processor} from "agenda";
+import {Agenda, type AgendaOptions, type Job} from "agenda";
 import {v4 as uuid} from "uuid";
 
 import {PROVIDER_TYPE_AGENDA} from "../constants/constants.js";
 import type {AgendaStore} from "../interfaces/AgendaStore.js";
 import type {AgendaSettings} from "../interfaces/interfaces.js";
 
-function getOpts() {
-  return constant<AgendaSettings>("agenda", {enabled: false});
+type JobProcessor = (job: Job<unknown>) => Promise<void>;
+
+function getOpts(): AgendaSettings | false {
+  return constant<AgendaSettings | false>("agenda", false);
+}
+
+function getEnabledAgendaOptions(settings: AgendaSettings): AgendaOptions {
+  const {enabled, disableJobProcessing, drainJobsBeforeClose, ...agendaOptions} = settings;
+  return agendaOptions as AgendaOptions;
 }
 
 function addAgendaDefinitionsForProvider(agenda: Agenda, provider: Provider): void {
@@ -21,10 +28,12 @@ function addAgendaDefinitionsForProvider(agenda: Agenda, provider: Provider): vo
   Object.entries(store.define).forEach(([propertyKey, {name, ...options}]) => {
     const instance = injector().get(provider.token);
 
-    const jobProcessor: Processor<unknown> = instance[propertyKey].bind(instance) as Processor<unknown>;
+    const jobProcessor: JobProcessor = async (job) => {
+      await Promise.resolve(instance[propertyKey].call(instance, job));
+    };
     const jobName = getNameForJob(propertyKey, store.namespace, name);
 
-    agenda.define(jobName, options, jobProcessor);
+    agenda.define(jobName, jobProcessor, options);
   });
 }
 
@@ -53,7 +62,7 @@ function getNameForJob(propertyKey: string, namespace?: string, customName?: str
 async function afterListen(agenda: Agenda) {
   const opts = getOpts();
 
-  if (opts.enabled) {
+  if (opts && opts.enabled) {
     const providers = injector().getProviders(PROVIDER_TYPE_AGENDA);
 
     if (!opts.disableJobProcessing) {
@@ -85,7 +94,7 @@ async function afterListen(agenda: Agenda) {
 async function onDestroy(agenda: Agenda) {
   const opts = getOpts();
 
-  if (opts.enabled) {
+  if (opts && opts.enabled) {
     if (opts.drainJobsBeforeClose && "drain" in agenda) {
       logger().info({
         event: "AGENDA_DRAIN",
@@ -100,8 +109,6 @@ async function onDestroy(agenda: Agenda) {
       await agenda.stop();
     }
 
-    await agenda.close({force: true});
-
     logger().info({event: "AGENDA_STOP", message: "Agenda stopped"});
   }
 }
@@ -110,8 +117,8 @@ export const AgendaService = injectable(Agenda)
   .factory(() => {
     const opts = getOpts();
 
-    if (opts.enabled) {
-      const agenda = new Agenda(opts);
+    if (opts && opts.enabled) {
+      const agenda = new Agenda(getEnabledAgendaOptions(opts));
 
       return new Proxy(agenda, {
         set(target, prop, value) {
@@ -128,16 +135,20 @@ export const AgendaService = injectable(Agenda)
           }
 
           if (prop === "define") {
-            return (name: string, options: any, processor: any) => {
-              return target["define"](name, options, (job: any) => {
-                const $ctx = new DIContext({
-                  id: uuid()
-                });
+            return (name: string, processor: any, options?: any) => {
+              return target["define"](
+                name,
+                async (job: any) => {
+                  const $ctx = new DIContext({
+                    id: uuid()
+                  });
 
-                $ctx.set("job", job);
+                  $ctx.set("job", job);
 
-                return runInContext($ctx, () => processor(job));
-              });
+                  await Promise.resolve(runInContext($ctx, () => processor(job)));
+                },
+                options
+              );
             };
           }
 

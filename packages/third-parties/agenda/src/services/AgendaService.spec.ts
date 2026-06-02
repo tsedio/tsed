@@ -3,15 +3,14 @@ import {$asyncEmit} from "@tsed/hooks";
 import {PlatformTest} from "@tsed/platform-http/testing";
 import {type Job} from "agenda";
 
-import {JobsController} from "./decorators/agenda.js";
-import {Define} from "./decorators/define.js";
-import {Every} from "./decorators/every.js";
-import {AgendaModule} from "./services/AgendaService.js";
+import {JobsController} from "../decorators/agenda.js";
+import {Define} from "../decorators/define.js";
+import {Every} from "../decorators/every.js";
+import {AgendaModule} from "./AgendaService.js";
 
 vi.mock("agenda", () => {
   return {
     Agenda: class {
-      close = vi.fn();
       stop = vi.fn();
       drain = vi.fn();
       define = vi.fn();
@@ -24,16 +23,23 @@ vi.mock("agenda", () => {
       });
       start = vi.fn();
       on = vi.fn();
+      constructor() {}
     }
   };
 });
 
+const backend = {
+  repository: {},
+  connect: vi.fn().mockResolvedValue(undefined),
+  disconnect: vi.fn().mockResolvedValue(undefined)
+};
+
 @JobsController({namespace: "test-nsp"})
 class CustomCampaign {
   @Inject()
-  agenda: AgendaModule;
+  agenda!: AgendaModule;
 
-  job: Job;
+  job!: Job;
 
   $beforeAgendaStart() {
     this.job = this.agenda.create("customName2", {
@@ -80,7 +86,8 @@ describe("AgendaModule", () => {
     beforeEach(() =>
       PlatformTest.create({
         agenda: {
-          enabled: true
+          enabled: true,
+          backend: backend as never
         }
       })
     );
@@ -93,7 +100,7 @@ describe("AgendaModule", () => {
 
         await $asyncEmit("$afterListen");
 
-        expect((agendaModule as any).$define).toHaveBeenCalledWith("test-nsp.test", {}, expect.any(Function));
+        expect((agendaModule as any).$define).toHaveBeenCalledWith("test-nsp.test", expect.any(Function), {});
         expect(agendaModule.every).toHaveBeenCalledWith("60 seconds", "test-nsp.test", {}, {});
         expect(agendaModule.start).toHaveBeenCalledWith();
         expect(agendaModule.create).toHaveBeenCalledWith("customName2", {locale: "fr-FR"});
@@ -101,7 +108,7 @@ describe("AgendaModule", () => {
         expect(campaign.job.repeatEvery).toHaveBeenCalledWith("1 week");
         expect(campaign.job.save).toHaveBeenCalledWith();
 
-        const result = await (agendaModule as any).$define.mock.calls[0][2]({
+        const result = await (agendaModule as any).$define.mock.calls[0][1]({
           attrs: {
             name: "test-nsp.test"
           }
@@ -118,7 +125,6 @@ describe("AgendaModule", () => {
         await destroyInjector();
 
         expect(agendaModule.stop).toHaveBeenCalledWith();
-        expect(agendaModule.close).toHaveBeenCalledWith({force: true});
       });
     });
 
@@ -149,7 +155,8 @@ describe("AgendaModule", () => {
       PlatformTest.create({
         agenda: {
           enabled: true,
-          drainJobsBeforeClose: true
+          drainJobsBeforeClose: true,
+          backend: backend as never
         }
       })
     );
@@ -161,7 +168,6 @@ describe("AgendaModule", () => {
         await destroyInjector();
 
         expect(agendaModule.drain).toHaveBeenCalledWith();
-        expect(agendaModule.close).toHaveBeenCalledWith({force: true});
       });
     });
   });
@@ -170,7 +176,8 @@ describe("AgendaModule", () => {
       PlatformTest.create({
         agenda: {
           enabled: true,
-          disableJobProcessing: true
+          disableJobProcessing: true,
+          backend: backend as never
         }
       })
     );

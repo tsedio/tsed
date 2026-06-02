@@ -1,10 +1,22 @@
-import {DefineOptions as AgendaDefineOptions, JobOptions} from "agenda";
+import {type JobDefinition} from "agenda";
 
-export interface DefineOptions extends AgendaDefineOptions {
+type AgendaJobOptions = {
+  timezone?: string;
+  skipImmediate?: boolean;
+  forkMode?: boolean;
+  startDate?: Date | string;
+  endDate?: Date | string;
+  skipDays?: number[];
+};
+
+export interface DefineOptions
+  extends Partial<
+    Pick<JobDefinition, "lockLimit" | "lockLifetime" | "concurrency" | "backoff" | "removeOnComplete" | "logging" | "priority">
+  > {
   name?: string;
 }
 
-export type EveryOptions = JobOptions & DefineOptions;
+export type EveryOptions = AgendaJobOptions & DefineOptions;
 
 export interface AgendaStore {
   namespace?: string;

@@ -1,3 +1,4 @@
+import {MongoBackend} from "@agendajs/mongo-backend";
 import {Inject} from "@tsed/di";
 import {PlatformTest} from "@tsed/platform-http/testing";
 import {TestContainersMongo} from "@tsed/testcontainers-mongo";
@@ -10,12 +11,12 @@ import {Server} from "./helpers/Server.js";
 @JobsController({namespace: "test-nsp"})
 class Test {
   @Inject()
-  agenda: AgendaModule;
+  agenda!: AgendaModule;
 
-  jobs: Job[];
+  jobs!: Job<{locale: string}>[];
 
   @Define({name: "customName"})
-  test2(job: Job) {
+  test2(job: Job<{locale: string}>) {
     // test
     expect(job.attrs.data.locale).toBeDefined();
   }
@@ -44,25 +45,24 @@ describe("Agenda integration", () => {
         mongoose: [options],
         agenda: {
           enabled: true,
-          db: {
+          backend: new MongoBackend({
             address: options.url,
             options: options.connectionOptions as never
-          }
+          })
         }
       });
 
       await bstrp();
     });
     afterAll(async () => {
-      const agenda = PlatformTest.get<AgendaService>(AgendaService)!;
+      await PlatformTest.reset();
       await TestContainersMongo.reset();
-      await agenda._db?.close();
     });
 
     it("should have job definitions", () => {
       const agenda = PlatformTest.get<AgendaService>(AgendaService)!;
 
-      expect(Object.keys(agenda._definitions)).toEqual(["test-nsp.customName"]);
+      expect(Object.keys(agenda.definitions)).toEqual(["test-nsp.customName"]);
     });
 
     it("should schedule defined job and run it", async () => {
@@ -71,9 +71,9 @@ describe("Agenda integration", () => {
       const job = await agenda.now("test-nsp.customName", {
         locale: "fr-FR"
       });
-      const runnedJob = await agenda.jobs({_id: job.attrs._id});
-      expect(runnedJob[0].attrs._id).toStrictEqual(job.attrs._id);
-      expect(runnedJob[0].attrs.data.locale).toEqual("fr-FR");
+      const {jobs: runnedJobs} = await agenda.queryJobs({id: String(job.attrs._id)});
+      expect(runnedJobs[0]._id).toStrictEqual(job.attrs._id);
+      expect((runnedJobs[0].data as {locale: string}).locale).toEqual("fr-FR");
     });
   });
 
@@ -94,7 +94,7 @@ describe("Agenda integration", () => {
 
     it("should have job definitions thanks to Proxy", () => {
       const agenda = PlatformTest.injector.get(Agenda)!;
-      expect(agenda._definitions).toBeDefined();
+      expect(agenda.definitions).toBeDefined();
     });
   });
 
@@ -107,32 +107,31 @@ describe("Agenda integration", () => {
         agenda: {
           enabled: true,
           disableJobProcessing: true,
-          db: {
+          backend: new MongoBackend({
             address: options.url,
             options: options.connectionOptions as never
-          }
+          })
         }
       });
 
       await bstrp();
     });
     afterAll(async () => {
-      const agenda = PlatformTest.get<AgendaService>(AgendaService)!;
+      await PlatformTest.reset();
       await TestContainersMongo.reset();
-      await agenda._db.close();
     });
 
     it("should not have job definitions", () => {
       const agenda = PlatformTest.get<AgendaService>(AgendaService)!;
-      expect(Object.keys(agenda._definitions)).toEqual([]);
+      expect(Object.keys(agenda.definitions)).toEqual([]);
     });
 
     it("should schedule job but not run it", async () => {
       const agenda = PlatformTest.get<AgendaService>(AgendaService)!;
 
       const job = await agenda.now("test-nsp.customName", {});
-      const runnedJob = await agenda.jobs({_id: job.attrs._id});
-      expect(runnedJob[0].attrs.lastRunAt).toBeUndefined();
+      const {jobs: runnedJobs} = await agenda.queryJobs({id: String(job.attrs._id)});
+      expect(runnedJobs[0].lastRunAt).toBeUndefined();
     });
   });
 });

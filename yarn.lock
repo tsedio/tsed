@@ -12,6 +12,18 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@agendajs/mongo-backend@npm:^4.0.2":
+  version: 4.0.2
+  resolution: "@agendajs/mongo-backend@npm:4.0.2"
+  dependencies:
+    debug: "npm:^4.4.0"
+  peerDependencies:
+    agenda: 6.2.5
+    mongodb: ^6.0.0 || ^7.0.0
+  checksum: 10/29b1feb7ea490087c42b2f962dae9bfe0872490920ba7bb4ecdbfb7a10d02a03a3ae13ad494695a15a18a460aea32889f3cf4119022bb06eebca6ad7e0b3063e
+  languageName: node
+  linkType: hard
+
 "@ai-sdk/anthropic@npm:3.0.58":
   version: 3.0.58
   resolution: "@ai-sdk/anthropic@npm:3.0.58"
@@ -12968,18 +12980,21 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@tsed/agenda@workspace:packages/third-parties/agenda"
   dependencies:
+    "@agendajs/mongo-backend": "npm:^4.0.2"
     "@tsed/barrels": "workspace:*"
     "@tsed/core": "workspace:*"
     "@tsed/di": "workspace:*"
     "@tsed/platform-http": "workspace:*"
+    "@tsed/testcontainers-mongo": "workspace:*"
     "@tsed/typescript": "workspace:*"
-    agenda: "npm:^5.0.0"
+    agenda: "npm:^6.2.5"
     eslint: "npm:9.12.0"
+    mongodb: "npm:^6.21.0"
     tslib: "npm:>=2.7.0"
     typescript: "npm:6.0.2"
     vitest: "npm:4.1.4"
   peerDependencies:
-    agenda: ">=4"
+    agenda: ^6.2.5
   languageName: unknown
   linkType: soft
 
@@ -17574,17 +17589,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"agenda@npm:^5.0.0":
-  version: 5.0.0
-  resolution: "agenda@npm:5.0.0"
+"agenda@npm:^6.2.5":
+  version: 6.2.5
+  resolution: "agenda@npm:6.2.5"
   dependencies:
-    cron-parser: "npm:^3.5.0"
+    cron-parser: "npm:^5.0.0"
     date.js: "npm:~0.3.3"
-    debug: "npm:~4.3.4"
+    debug: "npm:^4.4.0"
     human-interval: "npm:~2.0.1"
-    moment-timezone: "npm:~0.5.37"
-    mongodb: "npm:^4.11.0"
-  checksum: 10/a1aa5d4301712f6308c7972c7a4601ed6135561928b4e64a557b6a73aa40e21ee490a527006686ab46fddf2e023a5fde6f5c573ce3ba2a3946c4e8f4816fdd35
+    luxon: "npm:^3.2.1"
+  checksum: 10/c7c294c76a6b1265a0e2e360323cc30c3a789466510d1656861c9a452acc64b61313f1d95c6db5dbace79f21865b0588551b072bd471adf642f37c65e4a72035
   languageName: node
   linkType: hard
 
@@ -21558,22 +21572,21 @@ __metadata:
   languageName: node
   linkType: hard
 
-"cron-parser@npm:^3.5.0":
-  version: 3.5.0
-  resolution: "cron-parser@npm:3.5.0"
-  dependencies:
-    is-nan: "npm:^1.3.2"
-    luxon: "npm:^1.26.0"
-  checksum: 10/09bb87285e36baddec1b3a87f441c80d3e01f349e341c8cf6f9f01045a532bd5388f9fd52dfc374818e58a93cb172b000379ce02a411e4fc94a99302e7fe2330
-  languageName: node
-  linkType: hard
-
 "cron-parser@npm:^4.6.0, cron-parser@npm:^4.9.0":
   version: 4.9.0
   resolution: "cron-parser@npm:4.9.0"
   dependencies:
     luxon: "npm:^3.2.1"
   checksum: 10/ffca5e532a5ee0923412ee6e4c7f9bbceacc6ddf8810c16d3e9fb4fe5ec7e2de1b6896d7956f304bb6bc96b0ce37ad7e3935304179d52951c18d84107184faa7
+  languageName: node
+  linkType: hard
+
+"cron-parser@npm:^5.0.0":
+  version: 5.5.0
+  resolution: "cron-parser@npm:5.5.0"
+  dependencies:
+    luxon: "npm:^3.7.1"
+  checksum: 10/ee2c710ba9ad07a1e9fd2cc5615a5d998cef08558a66f4a33915f971c124966df8f4fb164484220e7b55c79b84f2d6447f863dacd32839e62361a984095e263d
   languageName: node
   linkType: hard
 
@@ -28213,16 +28226,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"is-nan@npm:^1.3.2":
-  version: 1.3.2
-  resolution: "is-nan@npm:1.3.2"
-  dependencies:
-    call-bind: "npm:^1.0.0"
-    define-properties: "npm:^1.1.3"
-  checksum: 10/1f784d3472c09bc2e47acba7ffd4f6c93b0394479aa613311dc1d70f1bfa72eb0846c81350967722c959ba65811bae222204d6c65856fdce68f31986140c7b0e
-  languageName: node
-  linkType: hard
-
 "is-negative-zero@npm:^2.0.2":
   version: 2.0.2
   resolution: "is-negative-zero@npm:2.0.2"
@@ -30937,7 +30940,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"luxon@npm:^1.19.3, luxon@npm:^1.26.0":
+"luxon@npm:^1.19.3":
   version: 1.28.1
   resolution: "luxon@npm:1.28.1"
   checksum: 10/dfba84bb3cd72f359c77115d374937c31eccdfa6b383284b6848c075f85e02269d4d9a717608944f2c11c4ca5d3df0fc18197ce4ca21313ddd72619b39ee034c
@@ -30951,7 +30954,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"luxon@npm:~3.7.0":
+"luxon@npm:^3.7.1, luxon@npm:~3.7.0":
   version: 3.7.2
   resolution: "luxon@npm:3.7.2"
   checksum: 10/b24cd205ed306ce7415991687897dcc4027921ae413c9116590bc33a95f93b86ce52cf74ba72b4f5c5ab1c10090517f54ac8edfb127c049e0bf55b90dc2260be
@@ -32046,15 +32049,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"moment-timezone@npm:~0.5.37":
-  version: 0.5.43
-  resolution: "moment-timezone@npm:0.5.43"
-  dependencies:
-    moment: "npm:^2.29.4"
-  checksum: 10/f8b66f8562960d6c2ec90ea7e2ca8c10bd5f5cf5ced2eaaac83deb1011b145d0154e8d77018cf5e913d489898a343122a3d815768809653ab039306dce1db1eb
-  languageName: node
-  linkType: hard
-
 "moment@npm:2.30.1, moment@npm:^2.29.3, moment@npm:^2.29.4":
   version: 2.30.1
   resolution: "moment@npm:2.30.1"
@@ -32099,7 +32093,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"mongodb@npm:4.17.2, mongodb@npm:^4.10.0, mongodb@npm:^4.11.0, mongodb@npm:^4.13.0":
+"mongodb@npm:4.17.2, mongodb@npm:^4.10.0, mongodb@npm:^4.13.0":
   version: 4.17.2
   resolution: "mongodb@npm:4.17.2"
   dependencies:
@@ -32148,6 +32142,40 @@ __metadata:
     socks:
       optional: true
   checksum: 10/c2b1af2affc27d67ffd966e1821585d88970bfefae21a3f7232d2f32345df3ea1ff329118844904527f6d74cc4fcab7fcafae1f6a4d6b12a58c3f24a9a5e4e9b
+  languageName: node
+  linkType: hard
+
+"mongodb@npm:^6.21.0":
+  version: 6.21.0
+  resolution: "mongodb@npm:6.21.0"
+  dependencies:
+    "@mongodb-js/saslprep": "npm:^1.3.0"
+    bson: "npm:^6.10.4"
+    mongodb-connection-string-url: "npm:^3.0.2"
+  peerDependencies:
+    "@aws-sdk/credential-providers": ^3.188.0
+    "@mongodb-js/zstd": ^1.1.0 || ^2.0.0
+    gcp-metadata: ^5.2.0
+    kerberos: ^2.0.1
+    mongodb-client-encryption: ">=6.0.0 <7"
+    snappy: ^7.3.2
+    socks: ^2.7.1
+  peerDependenciesMeta:
+    "@aws-sdk/credential-providers":
+      optional: true
+    "@mongodb-js/zstd":
+      optional: true
+    gcp-metadata:
+      optional: true
+    kerberos:
+      optional: true
+    mongodb-client-encryption:
+      optional: true
+    snappy:
+      optional: true
+    socks:
+      optional: true
+  checksum: 10/28d2cab1c55c4cf58e410529ac6ae4c79a233adeb2147ba872d912819a0b496ee2dc5b9819ccbf0527618ced3b841e733b221fd1c627901e8e87ae60a8dc0553
   languageName: node
   linkType: hard
 

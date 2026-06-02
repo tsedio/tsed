@@ -1,10 +1,15 @@
-import {AgendaConfig} from "agenda";
+import {type AgendaOptions} from "agenda";
 
-export type AgendaSettings = AgendaConfig & {
-  enabled?: boolean;
+type CommonSettings = {
   disableJobProcessing?: boolean;
   drainJobsBeforeClose?: boolean;
-};
+} & AgendaOptions;
+
+export type AgendaSettings =
+  | ({enabled: false} & Partial<CommonSettings>)
+  | ({
+      enabled?: true;
+    } & CommonSettings);
 
 declare global {
   namespace TsED {
