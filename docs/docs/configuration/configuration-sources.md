@@ -20,13 +20,13 @@ You can also create your own configuration sources by implementing the @@ConfigS
 
 ## Premium config sources
 
-| Type                                                                                   | Watch mode    | Import                            | Description                                                                                                                        |
-| -------------------------------------------------------------------------------------- | ------------- | --------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------- |
-| [Aws secret managers](https://tsed.dev/plugins/premium/config-source/aws-secrets.html) | Yes - polling | `@tsed/config-source-aws-secrets` | Load configuration from a Aws Secrets manager.                                                                                     |
-| [IORedis](/plugins/premium/config-source/ioredis.md)                                   | Yes           | `@tsed/config-ioredis`            | Load configuration from a Redis database using ioredis. Supports watch mode to reload the configuration when the database changes. |
-| [Mongo](/plugins/premium/config-source/mongo.md)                                       | Yes           | `@tsed/config-mongo`              | Load configuration from a MongoDB collection. Supports watch mode to reload the configuration when the collection changes.         |
-| [Vault](/plugins/premium/config-source/vault.md)                                       | Yes - polling | `@tsed/config-vault`              | Load configuration from a HashiCorp Vault. Supports watch mode to reload the configuration when the vault changes.                 |
-| [Postgres](/plugins/premium/config-source/postgres.md)                                 | Yes           | `@tsedio/config-postgres`         | Load configuration from a Postgres database. Supports watch mode to reload the configuration when the database changes.            |
+| Type                                                                                   | Watch mode    | Import                              | Description                                                                                                                        |
+| -------------------------------------------------------------------------------------- | ------------- | ----------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------- |
+| [Aws secret managers](https://tsed.dev/plugins/premium/config-source/aws-secrets.html) | Yes - polling | `@tsedio/config-source-aws-secrets` | Load configuration from a Aws Secrets manager.                                                                                     |
+| [IORedis](/plugins/premium/config-source/ioredis.md)                                   | Yes           | `@tsedio/config-ioredis`            | Load configuration from a Redis database using ioredis. Supports watch mode to reload the configuration when the database changes. |
+| [Mongo](/plugins/premium/config-source/mongo.md)                                       | Yes           | `@tsedio/config-mongo`              | Load configuration from a MongoDB collection. Supports watch mode to reload the configuration when the collection changes.         |
+| [Vault](/plugins/premium/config-source/vault.md)                                       | Yes - polling | `@tsedio/config-vault`              | Load configuration from a HashiCorp Vault. Supports watch mode to reload the configuration when the vault changes.                 |
+| [Postgres](/plugins/premium/config-source/postgres.md)                                 | Yes           | `@tsedio/config-postgres`           | Load configuration from a Postgres database. Supports watch mode to reload the configuration when the database changes.            |
 
 ::: warning Wants more?
 Ask us for a custom config source! We can create a custom config source for you, tailored to your needs.
