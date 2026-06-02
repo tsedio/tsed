@@ -9,6 +9,7 @@
     "packages/security/*",
     "packages/specs/*",
     "packages/third-parties/*",
+    "packages/testcontainers/*",
     "packages/utils/*",
     "docs"
   ],

@@ -19,9 +19,6 @@
     "build": "yarn build:ts",
     "build:ts": "tsc --build tsconfig.esm.json"
   },
-  "files": [
-    "lib"
-  ],
   "keywords": [
     "Ts.ED",
     "tsed",

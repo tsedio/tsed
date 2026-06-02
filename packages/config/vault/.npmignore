@@ -5,3 +5,7 @@ tsconfig.*.json
 __mock__
 *.spec.js
 *.tsbuildinfo
+vitest.config.mts
+vite
+src
+.barrelsby.json

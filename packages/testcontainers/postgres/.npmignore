@@ -6,5 +6,6 @@ __mock__
 *.spec.js
 *.tsbuildinfo
 vitest.config.mts
+vite
 src
-.gitignore
+.barrelsby.json

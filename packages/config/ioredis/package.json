@@ -21,9 +21,6 @@
     "test": "vitest run --silent=false",
     "test:ci": "vitest run --coverage.thresholds.autoUpdate=true"
   },
-  "files": [
-    "lib"
-  ],
   "keywords": [
     "Ts.ED",
     "tsed",
