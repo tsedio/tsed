@@ -52,7 +52,8 @@ For more information about Pulse look at the documentation [here](https://github
 To begin, install the Pulse module for Ts.ED:
 
 ```bash
-npm install --save @tsed/agenda agenda @agendajs/mongo-backend
+npm install --save @tsed/pulse
+npm install --save @pulsecron/pulse
 ```
 
 ## Migration note
@@ -82,14 +83,15 @@ Prefer `@tsed/agenda` over `@tsed/pulse`.
 
 ```diff
 -import {Pulse, Every, Define, PulseModule} from "@tsed/pulse";
-+import {JobsController, Every, Define, AgendaModule} from "@tsed/agenda";
++import {JobsController, Every, Define} from "@tsed/agenda";
++import {Agenda} from "agenda";
 
 -@Pulse({namespace: "email"})
 +@JobsController({namespace: "email"})
  export class EmailJobService {
    @Inject()
 -  pulse: PulseModule;
-+  agenda: AgendaModule;
++  agenda: Agenda;
  }
 ```
 
@@ -248,7 +250,7 @@ Support this project by becoming a sponsor. Your logo will show up here with a l
 
 The MIT License (MIT)
 
-Copyright (c) 2016 - 2021 Romain Lenzotti
+Copyright (c) 2016 - Today Romain Lenzotti
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
 

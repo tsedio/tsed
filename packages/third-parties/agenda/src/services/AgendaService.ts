@@ -29,7 +29,7 @@ function addAgendaDefinitionsForProvider(agenda: Agenda, provider: Provider): vo
     const instance = injector().get(provider.token);
 
     const jobProcessor: JobProcessor = async (job) => {
-      await Promise.resolve(instance[propertyKey].call(instance, job));
+      return Promise.resolve(instance[propertyKey].call(instance, job));
     };
     const jobName = getNameForJob(propertyKey, store.namespace, name);
 
@@ -145,7 +145,7 @@ export const AgendaService = injectable(Agenda)
 
                   $ctx.set("job", job);
 
-                  await Promise.resolve(runInContext($ctx, () => processor(job)));
+                  return Promise.resolve(runInContext($ctx, () => processor(job)));
                 },
                 options
               );

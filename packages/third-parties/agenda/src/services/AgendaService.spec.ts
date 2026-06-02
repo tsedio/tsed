@@ -6,6 +6,7 @@ import {Agenda, type Job} from "agenda";
 import {Define} from "../decorators/define.js";
 import {Every} from "../decorators/every.js";
 import {JobsController} from "../decorators/jobController.js";
+import {AgendaService} from "./AgendaService.js";
 
 vi.mock("agenda", () => {
   return {
@@ -94,7 +95,7 @@ describe("AgendaService", () => {
 
     describe("$afterListen()", () => {
       it("should load all jobs", async () => {
-        const agendaModule = PlatformTest.get<any>(Agenda)!;
+        const agendaModule = PlatformTest.get<any>(AgendaService)!;
         const campaign = PlatformTest.get<CustomCampaign>(CustomCampaign)!;
 
         await $asyncEmit("$afterListen");
@@ -119,7 +120,7 @@ describe("AgendaService", () => {
 
     describe("$onDestroy()", () => {
       it("should close agenda", async () => {
-        const agendaModule = PlatformTest.get<any>(Agenda)!;
+        const agendaModule = PlatformTest.get<any>(AgendaService)!;
 
         await destroyInjector();
 
@@ -129,7 +130,7 @@ describe("AgendaService", () => {
 
     describe("cancel()", () => {
       it("should call agenda.cancel", async () => {
-        const agendaModule = PlatformTest.get<any>(Agenda)!;
+        const agendaModule = PlatformTest.get<any>(AgendaService)!;
         agendaModule.agenda.cancel = vi.fn().mockResolvedValue(42);
 
         const result = await agendaModule.cancel({});
@@ -140,7 +141,7 @@ describe("AgendaService", () => {
     });
     describe("on()", () => {
       it("should call agenda.on", () => {
-        const agendaModule = PlatformTest.get<any>(Agenda)!;
+        const agendaModule = PlatformTest.get<any>(AgendaService)!;
         const listener = vi.fn();
 
         agendaModule.on("fail", listener);
@@ -162,7 +163,7 @@ describe("AgendaService", () => {
     afterEach(() => PlatformTest.reset());
     describe("$onDestroy()", () => {
       it("should close agenda", async () => {
-        const agendaModule = PlatformTest.get<any>(Agenda)!;
+        const agendaModule = PlatformTest.get<any>(AgendaService)!;
 
         await destroyInjector();
 
@@ -184,7 +185,7 @@ describe("AgendaService", () => {
 
     describe("$afterListen()", () => {
       it("should load all jobs", async () => {
-        const agendaModule = PlatformTest.get<any>(Agenda)!;
+        const agendaModule = PlatformTest.get<any>(AgendaService)!;
         const campaign = PlatformTest.get<CustomCampaign>(CustomCampaign)!;
 
         await $asyncEmit("$afterListen");

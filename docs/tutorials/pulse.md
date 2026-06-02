@@ -38,19 +38,19 @@ To begin, install the Pulse module for Ts.ED:
 ::: code-group
 
 ```sh [npm]
-npm install --save @tsed/agenda agenda @agendajs/mongo-backend
+npm install --save @tsed/pulse @pulsecron/pulse
 ```
 
 ```sh [yarn]
-yarn add @tsed/agenda agenda @agendajs/mongo-backend
+yarn add @tsed/pulse @pulsecron/pulse
 ```
 
 ```sh [pnpm]
-pnpm add @tsed/agenda agenda @agendajs/mongo-backend
+pnpm add @tsed/pulse @pulsecron/pulse
 ```
 
 ```sh [bun]
-bun add @tsed/agenda agenda @agendajs/mongo-backend
+bun add @tsed/pulse @pulsecron/pulse
 ```
 
 :::
@@ -86,7 +86,7 @@ Apply these deterministic rewrites:
 
 - `import "@tsed/pulse"` → `import "@tsed/agenda"`
 - `@Pulse(...)` → `@JobsController(...)`
-- `PulseModule` → `AgendaModule`
+- `PulseModule` → `Agenda` from `agenda`
 - `pulse` config key → `agenda`
 - `@pulsecron/pulse` dependency → `agenda` + `@agendajs/mongo-backend`
 
