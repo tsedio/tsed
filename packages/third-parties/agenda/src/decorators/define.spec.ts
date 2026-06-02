@@ -1,11 +1,11 @@
 import {Store} from "@tsed/core";
 
-import {Agenda} from "./agenda.js";
 import {Define} from "./define.js";
+import {JobsController} from "./jobController.js";
 
 describe("@Define()", () => {
   it("should set empty metadata", () => {
-    @Agenda()
+    @JobsController()
     class Test {
       @Define()
       testDefineDecorator() {
@@ -27,7 +27,7 @@ describe("@Define()", () => {
   });
 
   it("should set options metadata", () => {
-    @Agenda()
+    @JobsController()
     class Test {
       @Define({
         name: "testDefineDecoratorCustomName",

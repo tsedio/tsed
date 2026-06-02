@@ -30,7 +30,8 @@
 
 A package of Ts.ED framework. See website: https://tsed.dev
 
-> [!WARNING] > `@tsed/pulse` is deprecated.
+> [!WARNING] > `@tsed/pulse` is deprecated and will be removed in a future major release.
+> This package won't receive any future updates.
 > For new projects, use `@tsed/agenda` with Agenda v6.
 > Existing consumers should plan a migration to `@tsed/agenda` + `agenda` + `@agendajs/mongo-backend`.
 >

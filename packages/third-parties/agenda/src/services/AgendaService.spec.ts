@@ -1,12 +1,11 @@
 import {destroyInjector, Inject} from "@tsed/di";
 import {$asyncEmit} from "@tsed/hooks";
 import {PlatformTest} from "@tsed/platform-http/testing";
-import {type Job} from "agenda";
+import {Agenda, type Job} from "agenda";
 
-import {JobsController} from "../decorators/agenda.js";
 import {Define} from "../decorators/define.js";
 import {Every} from "../decorators/every.js";
-import {AgendaModule} from "./AgendaService.js";
+import {JobsController} from "../decorators/jobController.js";
 
 vi.mock("agenda", () => {
   return {
@@ -37,7 +36,7 @@ const backend = {
 @JobsController({namespace: "test-nsp"})
 class CustomCampaign {
   @Inject()
-  agenda!: AgendaModule;
+  agenda!: Agenda;
 
   job!: Job;
 
@@ -81,7 +80,7 @@ class CustomCampaign2 {
 @JobsController({namespace: "test-nsp-3"})
 class CustomCampaign3 {}
 
-describe("AgendaModule", () => {
+describe("AgendaService", () => {
   describe("when agenda is enabled", () => {
     beforeEach(() =>
       PlatformTest.create({
@@ -95,7 +94,7 @@ describe("AgendaModule", () => {
 
     describe("$afterListen()", () => {
       it("should load all jobs", async () => {
-        const agendaModule = PlatformTest.get<any>(AgendaModule)!;
+        const agendaModule = PlatformTest.get<any>(Agenda)!;
         const campaign = PlatformTest.get<CustomCampaign>(CustomCampaign)!;
 
         await $asyncEmit("$afterListen");
@@ -120,7 +119,7 @@ describe("AgendaModule", () => {
 
     describe("$onDestroy()", () => {
       it("should close agenda", async () => {
-        const agendaModule = PlatformTest.get<any>(AgendaModule)!;
+        const agendaModule = PlatformTest.get<any>(Agenda)!;
 
         await destroyInjector();
 
@@ -130,7 +129,7 @@ describe("AgendaModule", () => {
 
     describe("cancel()", () => {
       it("should call agenda.cancel", async () => {
-        const agendaModule = PlatformTest.get<any>(AgendaModule)!;
+        const agendaModule = PlatformTest.get<any>(Agenda)!;
         agendaModule.agenda.cancel = vi.fn().mockResolvedValue(42);
 
         const result = await agendaModule.cancel({});
@@ -141,7 +140,7 @@ describe("AgendaModule", () => {
     });
     describe("on()", () => {
       it("should call agenda.on", () => {
-        const agendaModule = PlatformTest.get<any>(AgendaModule)!;
+        const agendaModule = PlatformTest.get<any>(Agenda)!;
         const listener = vi.fn();
 
         agendaModule.on("fail", listener);
@@ -163,7 +162,7 @@ describe("AgendaModule", () => {
     afterEach(() => PlatformTest.reset());
     describe("$onDestroy()", () => {
       it("should close agenda", async () => {
-        const agendaModule = PlatformTest.get<any>(AgendaModule)!;
+        const agendaModule = PlatformTest.get<any>(Agenda)!;
 
         await destroyInjector();
 
@@ -185,7 +184,7 @@ describe("AgendaModule", () => {
 
     describe("$afterListen()", () => {
       it("should load all jobs", async () => {
-        const agendaModule = PlatformTest.get<any>(AgendaModule)!;
+        const agendaModule = PlatformTest.get<any>(Agenda)!;
         const campaign = PlatformTest.get<CustomCampaign>(CustomCampaign)!;
 
         await $asyncEmit("$afterListen");
@@ -203,16 +202,14 @@ describe("AgendaModule", () => {
   describe("when agenda is disabled", () => {
     beforeEach(() =>
       PlatformTest.create({
-        agenda: {
-          enabled: false
-        }
+        agenda: false as never
       })
     );
     afterEach(() => PlatformTest.reset());
 
     describe("$afterListen()", () => {
       it("should load all jobs", async () => {
-        const agendaModule = PlatformTest.get<any>(AgendaModule)!;
+        const agendaModule = PlatformTest.get<any>(Agenda)!;
         const campaign = PlatformTest.get<CustomCampaign>(CustomCampaign)!;
 
         await $asyncEmit("$afterListen");

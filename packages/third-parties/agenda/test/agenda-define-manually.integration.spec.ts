@@ -5,13 +5,13 @@ import {TestContainersMongo} from "@tsed/testcontainers-mongo";
 import {Agenda, type Job} from "agenda";
 import {afterAll, beforeAll, describe, expect, it} from "vitest";
 
-import {AgendaModule, AgendaService, Define, JobsController} from "../src/index.js";
+import {AgendaService, Define, JobsController} from "../src/index.js";
 import {Server} from "./helpers/Server.js";
 
 @JobsController({namespace: "test-nsp"})
 class Test {
   @Inject()
-  agenda!: AgendaModule;
+  agenda!: Agenda;
 
   jobs!: Job<{locale: string}>[];
 

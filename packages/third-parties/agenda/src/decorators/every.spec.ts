@@ -1,11 +1,11 @@
 import {descriptorOf, Store} from "@tsed/core";
 
-import {Agenda} from "./agenda.js";
 import {Every} from "./every.js";
+import {JobsController} from "./jobController.js";
 
 describe("@Every()", () => {
   it("should set metadata", () => {
-    @Agenda()
+    @JobsController()
     class Test {
       @Every("60 seconds")
       testEveryDecorator() {

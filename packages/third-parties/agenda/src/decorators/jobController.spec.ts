@@ -1,17 +1,17 @@
 import {Store} from "@tsed/core";
 
-import {Agenda} from "./agenda.js";
+import {JobsController} from "./jobController.js";
 
-describe("@Agenda()", () => {
+describe("@JobsController()", () => {
   it("should set empty metadata", () => {
-    @Agenda()
+    @JobsController()
     class Test {}
 
     const store = Store.from(Test);
     expect(store.get("agenda")).toEqual(undefined);
   });
   it("should set namespace metadata", () => {
-    @Agenda({namespace: "nsp1"})
+    @JobsController({namespace: "nsp1"})
     class Test {}
 
     const store = Store.from(Test);

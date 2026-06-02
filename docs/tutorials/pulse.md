@@ -10,13 +10,16 @@ head:
 
 # Pulse
 
-> [!WARNING] > `@tsed/pulse` is deprecated.
-> For new projects, use `@tsed/agenda` with Agenda v6.
-> Existing consumers should migrate to `@tsed/agenda` + `agenda` + `@agendajs/mongo-backend`.
->
-> The legacy Pulse examples below are kept only to help existing consumers migrate old code.
-
 <Banner src="/pulse.png" href="https://github.com/pulsecron/pulse" height="200" />
+
+::: warning
+`@tsed/pulse` is deprecated and will be removed in a future major release. This package won't receive any future updates.
+
+For new projects, use `@tsed/agenda` with Agenda v6.
+Existing consumers should migrate to `@tsed/agenda` + `agenda` + `@agendajs/mongo-backend`.
+
+The legacy Pulse examples below are kept only to help existing consumers migrate old code.
+:::
 
 ## Feature
 

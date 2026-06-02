@@ -169,8 +169,3 @@ export const AgendaService = injectable(Agenda)
  * @deprecated Use `Agenda` from `agenda` instead.
  */
 export type AgendaService = Agenda;
-/**
- * @deprecated Use `Agenda` from `agenda` instead.
- */
-export const AgendaModule = Agenda;
-export type AgendaModule = Agenda;

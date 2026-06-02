@@ -54,6 +54,8 @@ npm install --save @tsed/agenda agenda @agendajs/mongo-backend
 - top-level `db`, `mongo`, and `repository` configuration are no longer supported
 - `ensureIndex` and `sort` move into `new MongoBackend(...)`
 - sort directions use `"asc"` / `"desc"` instead of `1` / `-1`
+- `@Agenda()` has been removed in favor of `@JobsController()`
+- `AgendaModule` has been removed; inject `Agenda` from `agenda`
 
 ```diff
  import {Configuration} from "@tsed/di";
@@ -115,6 +117,22 @@ method name is used as job name.
 Use the `@Define` decorator on methods that you would like to schedule
 programmatically via the AgendaService and Agenda instance access.
 
+### Migration note for decorators and injection
+
+```diff
+-import {Agenda, AgendaModule, Define, Every} from "@tsed/agenda";
++import {Define, Every, JobsController} from "@tsed/agenda";
++import {Agenda} from "agenda";
+
+-@Agenda({namespace: "email"})
++@JobsController({namespace: "email"})
+ export class EmailJobService {
+   @Inject()
+-  agenda: AgendaModule;
++  agenda: Agenda;
+ }
+```
+
 ```ts
 import {Every, Define, JobsController} from "@tsed/agenda";
 import {Job} from "agenda";
@@ -146,8 +164,8 @@ export class EmailJobService {
 
 ## Define a job processor manually
 
-Since Ts.ED 7.53.0, AgendaModule exposes methods to manually define a job processor. It can be useful to define a job
-processor when you need to fetch data beforehand and dynamically build job name / options.
+Inject `Agenda` from `agenda` to manually define a job processor. It can be useful when you need to fetch data
+beforehand and dynamically build job name / options.
 
 ```typescript
 import {Define, JobsController} from "@tsed/agenda";
@@ -194,12 +212,11 @@ export class EmailJobService {
 
 ## Inject Agenda
 
-Inject the AgendaService instance to interact with it directly, e.g. to schedule
+Inject the Agenda instance to interact with it directly, e.g. to schedule
 a job manually.
 
 ```ts
 import {Service} from "@tsed/di";
-import {AfterRoutesInit} from "@tsed/platform-params";
 import {Agenda} from "agenda";
 
 @Service()

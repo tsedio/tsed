@@ -15,8 +15,3 @@ export function JobsController(options?: AgendaOptions) {
     })
   );
 }
-
-/**
- * @deprecated Use `JobsController` instead.
- */
-export const Agenda: typeof JobsController = JobsController;

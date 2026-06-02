@@ -52,6 +52,8 @@ bun add @tsed/agenda agenda @agendajs/mongo-backend
 - legacy top-level `db`, `mongo`, and `repository` config are no longer supported
 - `ensureIndex` and `sort` belong to `MongoBackend`
 - sort directions use `"asc"` / `"desc"`
+- `@Agenda()` has been removed in favor of `@JobsController()`
+- `AgendaModule` has been removed; inject `Agenda` from `agenda`
 
 ```diff
  import {Configuration} from "@tsed/di";
@@ -83,6 +85,8 @@ Apply these deterministic rewrites when migrating code:
 - top-level `agenda.ensureIndex` / `agenda.sort` → move inside `new MongoBackend(...)`
 - `agenda.jobs(...)` → `agenda.queryJobs(...)`
 - `agenda.define(name, options, processor)` → `agenda.define(name, processor, options)`
+- `@Agenda(...)` → `@JobsController(...)`
+- `AgendaModule` → `Agenda` from `agenda`
 
 ## Configure your server
 
@@ -156,15 +160,16 @@ export class EmailJobService {
 
 ## Define a job processor manually
 
-Since Ts.ED 7.53.0, AgendaModule exposes methods to manually define a job processor. It can be useful to define a job processor when you need to fetch data beforehand and dynamically build job name / options.
+Inject `Agenda` from `agenda` to manually define a job processor. It can be useful when you need to fetch data beforehand and dynamically build job name / options.
 
 ```typescript
-import {AgendaModule, Define, JobsController} from "@tsed/agenda";
+import {Define, JobsController} from "@tsed/agenda";
+import {Agenda} from "agenda";
 
 @JobsController({namespace: "email"})
 export class EmailJobService {
   @Inject()
-  agenda: AgendaModule;
+  agenda: Agenda;
 
   @Inject()
   httpClient: HttpClient;
@@ -206,14 +211,13 @@ Inject the AgendaService instance to interact with it directly, e.g. to schedule
 a job manually.
 
 ```typescript
-import {AfterRoutesInit} from "@tsed/platform-test";
 import {Service} from "@tsed/di";
-import {AgendaModule} from "@tsed/agenda";
+import {Agenda} from "agenda";
 
 @Service()
 export class UsersService {
   @Inject()
-  private agenda: AgendaModule;
+  private agenda: Agenda;
 
   async create(user: User): Promise<User> {
     // do something
