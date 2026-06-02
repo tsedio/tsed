@@ -14,7 +14,7 @@ head:
 
 ## Feature
 
-Currently, `@tsed/agenda` allows you to decorate classes with `@Agenda` and
+Currently, `@tsed/agenda` allows you to decorate classes with `@JobsController` and
 corresponding methods to have them picked up by the Agenda library to be
 scheduled automatically (`@Every`) or programmatically (`@Define`) via the AgendaService.
 
@@ -27,26 +27,62 @@ To begin, install the Agenda module for Ts.ED:
 ::: code-group
 
 ```sh [npm]
-npm install --save @tsed/agenda
-npm install --save agenda
+npm install --save @tsed/agenda agenda @agendajs/mongo-backend
 ```
 
 ```sh [yarn]
-yarn add @tsed/agenda
-yarn add agenda
+yarn add @tsed/agenda agenda @agendajs/mongo-backend
 ```
 
 ```sh [pnpm]
-pnpm add @tsed/agenda
-pnpm add agenda
+pnpm add @tsed/agenda agenda @agendajs/mongo-backend
 ```
 
 ```sh [bun]
-bun add @tsed/agenda
-bun add agenda
+bun add @tsed/agenda agenda @agendajs/mongo-backend
 ```
 
 :::
+
+## Migration note
+
+`@tsed/agenda` now uses Agenda v6.
+
+- `agenda.backend` is required
+- legacy top-level `db`, `mongo`, and `repository` config are no longer supported
+- `ensureIndex` and `sort` belong to `MongoBackend`
+- sort directions use `"asc"` / `"desc"`
+
+```diff
+ import {Configuration} from "@tsed/di";
+ import "@tsed/agenda";
++import {MongoBackend} from "@agendajs/mongo-backend";
+
+ @Configuration({
+   agenda: {
+     enabled: true,
+-    db: {
+-      address: mongoConnectionString
+-    }
++    backend: new MongoBackend({
++      address: mongoConnectionString
++    })
+   }
+ })
+ export class Server {}
+```
+
+### AI migration note
+
+Apply these deterministic rewrites when migrating code:
+
+- `import "@tsed/agenda"` stays unchanged
+- add `import {MongoBackend} from "@agendajs/mongo-backend"`
+- `agenda.db` → `agenda.backend: new MongoBackend(...)`
+- top-level `agenda.mongo` → `agenda.backend: new MongoBackend({mongo: ...})`
+- top-level `agenda.ensureIndex` / `agenda.sort` → move inside `new MongoBackend(...)`
+- `agenda.jobs(...)` → `agenda.queryJobs(...)`
+- `agenda.define(name, options, processor)` → `agenda.define(name, processor, options)`
 
 ## Configure your server
 
@@ -55,18 +91,23 @@ Import `@tsed/agenda` in your Server:
 ```typescript
 import {Configuration} from "@tsed/di";
 import "@tsed/agenda"; // import agenda ts.ed module
+import {MongoBackend} from "@agendajs/mongo-backend";
 
 const mongoConnectionString = "mongodb://127.0.0.1/agenda";
 
 @Configuration({
   agenda: {
     enabled: true, // Enable Agenda jobs for this instance.
-    // drainJobsBeforeStop: true, // Wait for jobs to finish before stopping the agenda process.
+    // drainJobsBeforeClose: true, // Wait for jobs to finish before stopping the agenda process.
     // disableJobProcessing: true, // Prevents jobs from being processed.
-    // pass any options that you would normally pass to new Agenda(), e.g.
-    db: {
-      address: mongoConnectionString
-    }
+    backend: new MongoBackend({
+      address: mongoConnectionString,
+      ensureIndex: true,
+      sort: {
+        nextRunAt: "asc",
+        priority: "desc"
+      }
+    })
   }
 })
 export class Server {}
@@ -74,7 +115,7 @@ export class Server {}
 
 ## Create a new Service
 
-Decorate the class with `@Agenda`. The `namespace` option is optional and will
+Decorate the class with `@JobsController`. The `namespace` option is optional and will
 prefix the job name with `namespace.`
 
 Use the `@Every` decorator to define a cron-like job that gets automatically
@@ -85,10 +126,10 @@ Use the `@Define` decorator on methods that you would like to schedule
 programmatically via the AgendaService and Agenda instance access.
 
 ```ts
-import {Agenda, Every, Define} from "@tsed/agenda";
+import {JobsController, Every, Define} from "@tsed/agenda";
 import {Job} from "agenda";
 
-@Agenda({namespace: "email"})
+@JobsController({namespace: "email"})
 export class EmailJobService {
   @Every("60 minutes", {
     name: "maintenanceJob"
@@ -118,9 +159,9 @@ export class EmailJobService {
 Since Ts.ED 7.53.0, AgendaModule exposes methods to manually define a job processor. It can be useful to define a job processor when you need to fetch data beforehand and dynamically build job name / options.
 
 ```typescript
-import {Agenda, AgendaModule, Define} from "@tsed/agenda";
+import {AgendaModule, Define, JobsController} from "@tsed/agenda";
 
-@Agenda({namespace: "email"})
+@JobsController({namespace: "email"})
 export class EmailJobService {
   @Inject()
   agenda: AgendaModule;
@@ -198,7 +239,7 @@ This is an optional feature and is not required to use agenda.
 Install the additional dependency.
 
 ```shell
-npm install --save agendash
+npm install --save agendash agenda @agendajs/mongo-backend
 ```
 
 Afterward create the module `agendash.module.ts` in src/modules so that the dashboard can be exposed using middleware.
@@ -207,8 +248,7 @@ Afterward create the module `agendash.module.ts` in src/modules so that the dash
 import {AfterRoutesInit, PlatformApplication} from "@tsed/platform-http";
 import {Inject, Configuration, Module} from "@tsed/di";
 import {Agenda} from "agenda";
-
-const Agendash = require("agendash");
+import {expressMiddleware} from "agendash";
 
 @Module()
 export class AgendashModule implements AfterRoutesInit {
@@ -223,7 +263,7 @@ export class AgendashModule implements AfterRoutesInit {
 
   $afterRoutesInit() {
     if (this.config.agenda?.enabled) {
-      this.app.use("/agendash", Agendash(this.agenda));
+      this.app.use("/agendash", expressMiddleware(this.agenda));
     }
   }
 }

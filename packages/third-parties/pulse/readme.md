@@ -30,6 +30,12 @@
 
 A package of Ts.ED framework. See website: https://tsed.dev
 
+> [!WARNING] > `@tsed/pulse` is deprecated.
+> For new projects, use `@tsed/agenda` with Agenda v6.
+> Existing consumers should plan a migration to `@tsed/agenda` + `agenda` + `@agendajs/mongo-backend`.
+>
+> The legacy Pulse examples below are kept only to help existing consumers maintain or migrate old code.
+
 ## Feature
 
 `@pulsecron/pulse` is maintained fork of the Agenda.
@@ -45,8 +51,45 @@ For more information about Pulse look at the documentation [here](https://github
 To begin, install the Pulse module for Ts.ED:
 
 ```bash
-npm install --save @tsed/pulse
-npm install --save @pulsecron/pulse
+npm install --save @tsed/agenda agenda @agendajs/mongo-backend
+```
+
+## Migration note
+
+Prefer `@tsed/agenda` over `@tsed/pulse`.
+
+```diff
+ import {Configuration} from "@tsed/di";
+-import "@tsed/pulse";
++import "@tsed/agenda";
++import {MongoBackend} from "@agendajs/mongo-backend";
+
+ @Configuration({
+-  pulse: {
++  agenda: {
+     enabled: true,
+-    db: {
+-      address: mongoConnectionString
+-    }
++    backend: new MongoBackend({
++      address: mongoConnectionString
++    })
+   }
+ })
+ export class Server {}
+```
+
+```diff
+-import {Pulse, Every, Define, PulseModule} from "@tsed/pulse";
++import {JobsController, Every, Define, AgendaModule} from "@tsed/agenda";
+
+-@Pulse({namespace: "email"})
++@JobsController({namespace: "email"})
+ export class EmailJobService {
+   @Inject()
+-  pulse: PulseModule;
++  agenda: AgendaModule;
+ }
 ```
 
 ## Configure your server

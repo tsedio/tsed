@@ -32,7 +32,7 @@ A package of Ts.ED framework. See website: https://tsed.dev
 
 ## Feature
 
-Currently, `@tsed/agenda` allows you to decorate classes with `@Agenda` and
+Currently, `@tsed/agenda` allows you to decorate classes with `@JobsController` and
 corresponding methods to have them picked up by the Agenda library to be
 scheduled automatically (`@Every`) or programmatically (`@Define`) via the AgendaService.
 
@@ -43,8 +43,35 @@ For more information about Agenda look at the documentation [here](https://githu
 To begin, install the Agenda module for Ts.ED:
 
 ```bash
-npm install --save @tsed/agenda
-npm install --save agenda
+npm install --save @tsed/agenda agenda @agendajs/mongo-backend
+```
+
+## Migration note
+
+`@tsed/agenda` now targets Agenda v6.
+
+- `agenda.backend` is required when the module is enabled
+- top-level `db`, `mongo`, and `repository` configuration are no longer supported
+- `ensureIndex` and `sort` move into `new MongoBackend(...)`
+- sort directions use `"asc"` / `"desc"` instead of `1` / `-1`
+
+```diff
+ import {Configuration} from "@tsed/di";
+ import "@tsed/agenda";
++import {MongoBackend} from "@agendajs/mongo-backend";
+
+ @Configuration({
+   agenda: {
+     enabled: true,
+-    db: {
+-      address: mongoConnectionString
+-    }
++    backend: new MongoBackend({
++      address: mongoConnectionString
++    })
+   }
+ })
+ export class Server {}
 ```
 
 ## Configure your server
@@ -54,18 +81,23 @@ Import `@tsed/agenda` in your Server:
 ```typescript
 import {Configuration} from "@tsed/di";
 import "@tsed/agenda"; // import agenda ts.ed module
+import {MongoBackend} from "@agendajs/mongo-backend";
 
 const mongoConnectionString = "mongodb://127.0.0.1/agenda";
 
 @Configuration({
   agenda: {
     enabled: true, // Enable Agenda jobs for this instance.
-    // drainJobsBeforeStop: true, // Wait for jobs to finish before stopping the agenda process.
+    // drainJobsBeforeClose: true, // Wait for jobs to finish before stopping the agenda process.
     // disableJobProcessing: true, // Prevents jobs from being processed.
-    // pass any options that you would normally pass to new Agenda(), e.g.
-    db: {
-      address: mongoConnectionString
-    }
+    backend: new MongoBackend({
+      address: mongoConnectionString,
+      ensureIndex: true,
+      sort: {
+        nextRunAt: "asc",
+        priority: "desc"
+      }
+    })
   }
 })
 export class Server {}
@@ -73,7 +105,7 @@ export class Server {}
 
 ## Create a new Service
 
-Decorate the class with `@Agenda`. The `namespace` option is optional and will
+Decorate the class with `@JobsController`. The `namespace` option is optional and will
 prefix the job name with `namespace.`
 
 Use the `@Every` decorator to define a cron-like job that gets automatically
@@ -200,7 +232,7 @@ This is an optional feature and is not required to use agenda.
 Install the additional dependency.
 
 ```shell
-npm install --save agendash
+npm install --save agendash agenda @agendajs/mongo-backend
 ```
 
 Afterward create the module `agendash.module.ts` in src/modules so that the dashboard can be exposed using middleware.
@@ -209,7 +241,7 @@ Afterward create the module `agendash.module.ts` in src/modules so that the dash
 import {AfterRoutesInit, PlatformApplication} from "@tsed/platform-http";
 import {Configuration, Inject, Module} from "@tsed/di";
 import {Agenda} from "agenda";
-import Agendash from "agendash";
+import {expressMiddleware} from "agendash";
 
 @Module()
 export class AgendashModule implements AfterRoutesInit {
@@ -224,7 +256,7 @@ export class AgendashModule implements AfterRoutesInit {
 
   $afterRoutesInit() {
     if (this.config.agenda?.enabled) {
-      this.app.use("/agendash", Agendash(this.agenda));
+      this.app.use("/agendash", expressMiddleware(this.agenda));
     }
   }
 }

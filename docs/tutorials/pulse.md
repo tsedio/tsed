@@ -10,6 +10,12 @@ head:
 
 # Pulse
 
+> [!WARNING] > `@tsed/pulse` is deprecated.
+> For new projects, use `@tsed/agenda` with Agenda v6.
+> Existing consumers should migrate to `@tsed/agenda` + `agenda` + `@agendajs/mongo-backend`.
+>
+> The legacy Pulse examples below are kept only to help existing consumers migrate old code.
+
 <Banner src="/pulse.png" href="https://github.com/pulsecron/pulse" height="200" />
 
 ## Feature
@@ -29,22 +35,57 @@ To begin, install the Pulse module for Ts.ED:
 ::: code-group
 
 ```sh [npm]
-npm install --save @tsed/pulse @pulsecron/pulse
+npm install --save @tsed/agenda agenda @agendajs/mongo-backend
 ```
 
 ```sh [yarn]
-yarn add @tsed/pulse @pulsecron/pulse
+yarn add @tsed/agenda agenda @agendajs/mongo-backend
 ```
 
 ```sh [pnpm]
-pnpm add @tsed/pulse @pulsecron/pulse
+pnpm add @tsed/agenda agenda @agendajs/mongo-backend
 ```
 
 ```sh [bun]
-bun add @tsed/pulse @pulsecron/pulse
+bun add @tsed/agenda agenda @agendajs/mongo-backend
 ```
 
 :::
+
+## Migration note
+
+Migrate from `@tsed/pulse` to `@tsed/agenda` on top of Agenda v6.
+
+```diff
+ import {Configuration} from "@tsed/di";
+-import "@tsed/pulse";
++import "@tsed/agenda";
++import {MongoBackend} from "@agendajs/mongo-backend";
+
+ @Configuration({
+-  pulse: {
++  agenda: {
+     enabled: true,
+-    db: {
+-      address: mongoConnectionString
+-    }
++    backend: new MongoBackend({
++      address: mongoConnectionString
++    })
+   }
+ })
+ export class Server {}
+```
+
+### AI migration note
+
+Apply these deterministic rewrites:
+
+- `import "@tsed/pulse"` → `import "@tsed/agenda"`
+- `@Pulse(...)` → `@JobsController(...)`
+- `PulseModule` → `AgendaModule`
+- `pulse` config key → `agenda`
+- `@pulsecron/pulse` dependency → `agenda` + `@agendajs/mongo-backend`
 
 ## Configure your server
 
