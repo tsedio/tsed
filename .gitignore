@@ -36,6 +36,8 @@ node_modules
 # Typings
 typings/
 
+.serena
+
 # Typescript
 packages/**/lib
 packages/**/dist

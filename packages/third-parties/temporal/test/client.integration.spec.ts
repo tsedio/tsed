@@ -1,34 +1,30 @@
-import {getEphemeralServerTarget} from "@temporalio/core-bridge";
-import {Runtime} from "@temporalio/worker";
+import {TestWorkflowEnvironment} from "@temporalio/testing";
 import {PlatformTest} from "@tsed/platform-http/testing";
 
 import {TemporalClient} from "../src/index.js";
 import {Server} from "./helpers/Server.js";
 
 describe("Temporal Client", () => {
-  let server: any;
+  let testEnv: TestWorkflowEnvironment;
   let client: TemporalClient;
 
   beforeEach(async () => {
-    server = await Runtime.instance().createEphemeralServer({type: "time-skipping"});
+    testEnv = await TestWorkflowEnvironment.createTimeSkipping();
   });
 
   afterEach(async () => {
     if (client) {
       await client.connection.close();
     }
-    await Runtime.instance().shutdownEphemeralServer(server);
+    await testEnv.teardown();
   });
 
   it("should provide TemporalClient", async () => {
-    const server = await Runtime.instance().createEphemeralServer({type: "time-skipping"});
-    const address = getEphemeralServerTarget(server);
-
     await PlatformTest.bootstrap(Server, {
       temporal: {
         enabled: true,
         connection: {
-          address
+          address: testEnv.connection.options.address
         }
       }
     })();

@@ -1,0 +1,4 @@
+- [x] Bump `@temporalio/client`, `@temporalio/testing`, and `@temporalio/worker` in `packages/third-parties/temporal/package.json` to `1.13.0` and align peer dependency ranges.
+- [x] Replace the direct `@temporalio/core-bridge` import in `packages/third-parties/temporal/test/client.integration.spec.ts` with a supported public API from the upgraded SDK.
+- [x] Regenerate any dependency metadata required by the workspace for the Temporal bump.
+- [x] Run the targeted `@tsed/temporal` test suite and fix any migration regressions uncovered by Temporal 1.13.0.

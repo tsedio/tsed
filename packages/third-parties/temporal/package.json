@@ -31,9 +31,9 @@
     "tslib": ">=2.7.0"
   },
   "devDependencies": {
-    "@temporalio/client": "1.11.6",
-    "@temporalio/testing": "1.11.6",
-    "@temporalio/worker": "1.11.6",
+    "@temporalio/client": "1.13.0",
+    "@temporalio/testing": "1.13.0",
+    "@temporalio/worker": "1.13.0",
     "@tsed/barrels": "workspace:*",
     "@tsed/core": "workspace:*",
     "@tsed/di": "workspace:*",
@@ -45,7 +45,7 @@
     "vitest": "4.1.4"
   },
   "peerDependencies": {
-    "@temporalio/client": "^1.11.6",
-    "@temporalio/worker": "^1.11.6"
+    "@temporalio/client": "^1.13.0",
+    "@temporalio/worker": "^1.13.0"
   }
 }
