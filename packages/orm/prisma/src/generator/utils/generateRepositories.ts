@@ -197,7 +197,7 @@ export function generateRepositories(dmmf: DMMF.Document, project: Project, base
     addDelegatedMethod({
       repository,
       name: "aggregate",
-      model: pascalCase(model.name),
+      model: model.name,
       isAsync: false
     });
 
