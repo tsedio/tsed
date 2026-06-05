@@ -1,0 +1,52 @@
+{
+  "datamodel": {
+    "enums": [],
+    "models": [
+      {
+        "name": "MyDBModel",
+        "isEmbedded": false,
+        "dbName": null,
+        "fields": [
+          {
+            "name": "id",
+            "kind": "scalar",
+            "isList": false,
+            "isRequired": true,
+            "isUnique": false,
+            "isId": true,
+            "isReadOnly": false,
+            "type": "Int",
+            "hasDefaultValue": true,
+            "default": {
+              "name": "autoincrement",
+              "args": []
+            },
+            "isGenerated": false,
+            "isUpdatedAt": false
+          }
+        ],
+        "isGenerated": false,
+        "idFields": [],
+        "uniqueFields": [],
+        "uniqueIndexes": []
+      }
+    ]
+  },
+  "schema": {
+    "inputObjectTypes": {
+      "prisma": []
+    },
+    "outputObjectTypes": {
+      "model": [
+        {
+          "name": "MyDBModel",
+          "fields": []
+        }
+      ],
+      "prisma": []
+    },
+    "enumTypes": {
+      "prisma": []
+    }
+  }
+}

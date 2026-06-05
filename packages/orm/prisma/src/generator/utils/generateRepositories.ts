@@ -2,7 +2,7 @@ import path from "node:path";
 
 import {DMMF} from "@prisma/generator-helper";
 import {toMap} from "@tsed/core";
-import {camelCase, pascalCase} from "change-case";
+import {pascalCase} from "change-case";
 import pluralize from "pluralize";
 import {ClassDeclaration, Project, Scope} from "ts-morph";
 
@@ -107,7 +107,7 @@ export function generateRepositories(dmmf: DMMF.Document, project: Project, base
       .addGetAccessor({
         name: "collection"
       })
-      .setBodyText(`return this.prisma.${camelCase(model.name)}`);
+      .setBodyText(`return this.prisma.${uncapitalize(model.name)}`);
 
     repository
       .addGetAccessor({
@@ -205,4 +205,8 @@ export function generateRepositories(dmmf: DMMF.Document, project: Project, base
   });
 
   generateOutputsBarrelFile(repositoriesIndex, exportedModels);
+}
+
+function uncapitalize(str: string) {
+  return str.substring(0, 1).toLowerCase() + str.substring(1);
 }

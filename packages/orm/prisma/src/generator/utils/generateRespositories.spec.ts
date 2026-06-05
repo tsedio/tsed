@@ -1,4 +1,4 @@
-import {createDmmfFixture} from "../../__mock__/createDmmfFixture.js";
+import {createDmmfFixture, createDmmfMixedCaseFixture} from "../../__mock__/createDmmfFixture.js";
 import {createProjectFixture} from "../../__mock__/createProjectFixture.js";
 import {generateRepositories} from "./generateRepositories.js";
 
@@ -25,5 +25,17 @@ describe("generateRepositories", () => {
 
     postsRepository.not.toContain("User");
     postsRepository.toMatchSnapshot();
+  });
+
+  it("should generate repositories (mixed case)", () => {
+    const {project, render, baseDir} = createProjectFixture("generate_repositories_mixed_case");
+    const dmmf = createDmmfMixedCaseFixture();
+
+    generateRepositories(dmmf, project, baseDir);
+
+    const myDBModelRepo = render("/repositories/MyDbModelsRepository.ts");
+
+    myDBModelRepo.toContain("return this.prisma.myDBModel");
+    myDBModelRepo.not.toContain("return this.prisma.myDbModel");
   });
 });
