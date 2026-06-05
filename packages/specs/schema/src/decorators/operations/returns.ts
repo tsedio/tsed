@@ -121,7 +121,7 @@ export interface ReturnsChainedDecorators {
    * Assign partial schema
    * @param schema
    */
-  Schema(schema: Partial<JsonSchemaObject> | JsonSchema): this;
+  Schema<T>(schema: Partial<JsonSchemaObject> | JsonSchema<T>): this;
 
   /**
    * Add an inline title for the return model.
