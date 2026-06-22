@@ -1,6 +1,7 @@
 import {EventEmitter} from "node:events";
 
 import {PlatformFastifyResponse} from "@tsed/platform-fastify";
+import {application} from "@tsed/platform-http";
 import {PlatformTest} from "@tsed/platform-http/testing";
 import {afterEach, beforeEach, describe, expect, it, vi} from "vitest";
 
@@ -81,6 +82,20 @@ describe("PlatformMcpModule", () => {
     transportInstances.length = 0;
   });
 
+  describe("$onRoutesInit()", () => {
+    it("should register the MCP route only once", () => {
+      const {module} = createModule();
+
+      vi.spyOn(application(), "post").mockReturnValue(undefined as never);
+
+      module.$onRoutesInit();
+      module.$onRoutesInit();
+
+      expect(application().post).toHaveBeenCalledTimes(1);
+      expect(application().post).toHaveBeenCalledWith("/mcp", expect.any(Function));
+    });
+  });
+
   describe.each([
     ["express", createExpressContext],
     ["fastify", createFastifyContext]
@@ -110,7 +125,7 @@ describe("PlatformMcpModule", () => {
 
       res.emit("close");
 
-      expect(transport.close).toHaveBeenCalledTimes(2);
+      expect(transport.close).toHaveBeenCalledTimes(1);
     });
   });
 });

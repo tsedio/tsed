@@ -17,16 +17,21 @@ export class PlatformMcpModule implements OnRoutesInit {
   protected settings = constant<PlatformMcpSettings>("mcp", {});
   protected app = application();
   protected server = inject<McpServer>(MCP_SERVER);
+  private loaded = false;
 
   $onRoutesInit() {
-    if (this.isEnabled()) {
-      const path = this.settings?.path || "/mcp";
-
-      this.app.post(
-        path,
-        useContextHandler(async ($ctx) => this.dispatch($ctx as PlatformContext))
-      );
+    if (!this.isEnabled() || this.loaded) {
+      return;
     }
+
+    const path = this.settings?.path || "/mcp";
+
+    this.app.post(
+      path,
+      useContextHandler(async ($ctx) => this.dispatch($ctx as PlatformContext))
+    );
+
+    this.loaded = true;
   }
 
   $logRoutes(routes: PlatformRouteDetails[]) {
@@ -49,14 +54,25 @@ export class PlatformMcpModule implements OnRoutesInit {
 
     const {request, response} = $ctx;
     const res = response.getRes();
+    let closed = false;
 
-    res?.on("close", () => transport.close());
+    const closeTransport = async () => {
+      if (closed) {
+        return;
+      }
+
+      closed = true;
+      await transport.close();
+    };
+
+    res?.once("close", closeTransport);
 
     try {
       await this.server.connect(transport as any);
       await transport.handleRequest(request.getReq(), res, request.body);
     } finally {
-      await transport.close();
+      res?.off?.("close", closeTransport);
+      await closeTransport();
     }
   }
 
