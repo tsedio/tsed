@@ -48,12 +48,13 @@ export class PlatformMcpModule implements OnRoutesInit {
     });
 
     const {request, response} = $ctx;
+    const res = response.getRes();
 
-    response.raw?.on("close", () => transport.close());
+    res?.on("close", () => transport.close());
 
     try {
       await this.server.connect(transport as any);
-      await transport.handleRequest(request.getReq(), response.getRes(), request.body);
+      await transport.handleRequest(request.getReq(), res, request.body);
     } finally {
       await transport.close();
     }

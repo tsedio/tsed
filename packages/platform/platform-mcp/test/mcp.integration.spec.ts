@@ -1,20 +1,23 @@
 import {PlatformExpress} from "@tsed/platform-express";
+import {PlatformFastify} from "@tsed/platform-fastify";
 import {PlatformTest} from "@tsed/platform-http/testing";
 import {PlatformTestSdk} from "@tsed/platform-test-sdk";
 import SuperTest from "supertest";
 
 import {rootDir, Server} from "./app/Server.js";
 
-const utils = PlatformTestSdk.create({
-  rootDir,
-  adapter: PlatformExpress as any,
-  server: Server,
-  logger: {
-    level: "off"
-  }
-});
-
-describe("MCP", () => {
+describe.each([
+  ["express", PlatformExpress as any],
+  ["fastify", PlatformFastify as any]
+])("MCP with %s", (_, adapter) => {
+  const utils = PlatformTestSdk.create({
+    rootDir,
+    adapter,
+    server: Server,
+    logger: {
+      level: "off"
+    }
+  });
   let request: SuperTest.Agent;
   const sendMcpRequest = (body: Record<string, unknown>) =>
     request
@@ -25,7 +28,7 @@ describe("MCP", () => {
       })
       .send(body);
 
-  beforeEach(
+  beforeAll(
     utils.bootstrap({
       mcp: {
         path: "/mcp"
@@ -36,7 +39,7 @@ describe("MCP", () => {
     request = SuperTest(PlatformTest.callback());
   });
 
-  afterEach(() => utils.reset());
+  afterAll(() => utils.reset());
   it("should return all mcp information", async () => {
     const response = await sendMcpRequest({jsonrpc: "2.0", id: 1, method: "ping", params: {}});
 
