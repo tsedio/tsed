@@ -30,7 +30,7 @@
     "cookie-parser": "1.4.5",
     "express": "5.2.1",
     "method-override": "^3.0.0",
-    "uuid": "8.3.0",
+    "uuid": "14.0.0",
     "cross-env": "7.0.2"
   },
   "devDependencies": {
