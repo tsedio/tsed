@@ -18,6 +18,23 @@ describe("AcceptMime", () => {
 
     const endpoint = JsonMethodStore.get(Test, "test");
     expect(endpoint.acceptMimes).toEqual(["application/json"]);
+    expect(endpoint.operation.get("produces")).toEqual(["application/json"]);
+  });
+
+  it("should map the mime to produces (response), not consumes (requestBody)", () => {
+    class Test {
+      @Get("/")
+      @AcceptMime("application/xml")
+      test(@BodyParams() model: Model) {}
+    }
+
+    const endpoint = JsonMethodStore.get(Test, "test");
+
+    // The client's `Accept` header must contain the format described by
+    // `AcceptMime`, so the server must produce a response in that format.
+    expect(endpoint.acceptMimes).toEqual(["application/xml"]);
+    expect(endpoint.operation.get("produces")).toEqual(["application/xml"]);
+    expect(endpoint.operation.get("consumes")).toBeUndefined();
 
     const spec = getSpec(Test, {specType: SpecTypes.OPENAPI});
 

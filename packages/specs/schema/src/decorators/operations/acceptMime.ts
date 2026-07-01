@@ -1,6 +1,6 @@
 import {StoreSet, useDecorators} from "@tsed/core";
 
-import {Consumes} from "./consumes.js";
+import {Produces} from "./produces.js";
 
 /**
  * Set a mime list which are acceptable and checks if the specified content types are acceptable, based on the request’s Accept HTTP header field.
@@ -21,5 +21,5 @@ import {Consumes} from "./consumes.js";
  * @response
  */
 export function AcceptMime(...mimes: string[]): ClassDecorator & MethodDecorator {
-  return useDecorators(Consumes(...mimes), StoreSet("acceptMimes", mimes));
+  return useDecorators(Produces(...mimes), StoreSet("acceptMimes", mimes));
 }
