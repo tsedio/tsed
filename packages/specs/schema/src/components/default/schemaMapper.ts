@@ -6,6 +6,7 @@ import {SpecTypes} from "../../domain/SpecTypes.js";
 import {alterOneOf} from "../../hooks/alterOneOf.js";
 import {JsonSchemaOptions} from "../../interfaces/JsonSchemaOptions.js";
 import {execMapper, hasMapper, registerJsonSchemaMapper} from "../../registries/JsonSchemaMapperContainer.js";
+import {getGenerics} from "../../utils/generics.js";
 
 /**
  * @ignore
@@ -143,7 +144,7 @@ function serializeSchema(schema: JsonSchema, options: JsonSchemaOptions) {
 
 export function schemaMapper(schema: JsonSchema, opts: JsonSchemaOptions): any {
   const {options, addDef} = mapOptions(opts);
-  const generics = options.generics || schema.getGenericOf();
+  const generics = getGenerics(schema, options);
 
   const obj = serializeSchema(schema, {
     ...options,
