@@ -62,12 +62,20 @@ export interface JsonSchemaOptions {
    */
   inlineEnums?: boolean;
   /**
-   * Represents optional generic definitions that adhere to the JSON Schema standard.
+   * Explicit generic bindings used during schema compilation.
    *
-   * This property allows the specification of generics when constructing or representing a JSON schema.
-   * It can be used to define reusable and parameterized components within the schema structure.
+   * Prefer attaching generics directly to a local schema instance with the
+   * functional API:
    *
-   * @type {GenericsMap|undefined}
+   * ```typescript
+   * from(Pagination).genericOf(Product)
+   * generic(Pagination).of(Product)
+   * ```
+   *
+   * `options.generics` remains useful for low-level compilation flows where the
+   * generic bindings must be supplied externally, for example when compiling a
+   * shared class schema. When both are provided, the generics carried by the
+   * `JsonSchema` instance take precedence over `options.generics`.
    */
   generics?: GenericsMap;
 
