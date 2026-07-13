@@ -10,12 +10,12 @@ import {
   Get,
   Ignore,
   Integer,
-  JsonEntityStore,
   MinLength,
   number,
   Property,
   Required,
   Returns,
+  s,
   string
 } from "@tsed/schema";
 import {describe, expect, it} from "vitest";
@@ -554,7 +554,7 @@ describe("Generics", () => {
         get() {}
       }
 
-      const endpoint = JsonEntityStore.fromMethod(HelloWorldController, "get");
+      const endpoint = s.store.method(HelloWorldController, "get");
 
       const responseOpts = endpoint.getResponseOptions(200, {});
 
@@ -618,7 +618,7 @@ describe("Generics", () => {
         get() {}
       }
 
-      const endpoint = JsonEntityStore.fromMethod(HelloWorldController, "get");
+      const endpoint = s.store.method(HelloWorldController, "get");
 
       const responseOpts = endpoint.getResponseOptions(200, {});
 

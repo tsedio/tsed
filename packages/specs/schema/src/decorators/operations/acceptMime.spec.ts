@@ -29,7 +29,7 @@ describe("AcceptMime", () => {
       test(@BodyParams() model: Model) {}
     }
 
-    const endpoint = JsonMethodStore.get(Test, "test");
+    const endpoint = s.store.method(Test, "test");
 
     // The client's `Accept` header must contain the format described by
     // `AcceptMime`, so the server must produce a response in that format.

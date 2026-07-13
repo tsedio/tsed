@@ -1,4 +1,4 @@
-import {JsonEntityStore, Property} from "@tsed/schema";
+import {Property, s} from "@tsed/schema";
 
 import {Form} from "../decorators/form.js";
 import {getFormioSchema} from "../utils/getFormioSchema.js";
@@ -79,6 +79,6 @@ describe("getFormioSchema", () => {
       test: string;
     }
 
-    expect(await getFormioSchema(JsonEntityStore.from(Model))).toEqual(schema);
+    expect(await getFormioSchema(s.store(Model))).toEqual(schema);
   });
 });
