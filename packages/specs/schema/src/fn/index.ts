@@ -7,7 +7,8 @@ import {array, map, record, set} from "./collection.js";
 import {date, datetime, time} from "./date.js";
 import {email} from "./email.js";
 import {enums} from "./enums.js";
-import {from} from "./from.js";
+import {from, get} from "./from.js";
+import {generic} from "./generic.js";
 import {integer} from "./integer.js";
 import {lazyRef} from "./lazyRef.js";
 import {number} from "./number.js";
@@ -45,7 +46,9 @@ export const s = {
   $ref: ref,
   string,
   uri,
-  url
+  url,
+  generic,
+  get
 } as const;
 
 // Attach type helper via namespace merging to avoid separate export conflicts
