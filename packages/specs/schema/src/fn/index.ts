@@ -17,6 +17,7 @@ import {number} from "./number.js";
 import {object} from "./object.js";
 import {oneOf} from "./oneOf.js";
 import {ref} from "./ref.js";
+import {getSpec} from "./spec.js";
 import {string} from "./string.js";
 import {uri} from "./uri.js";
 import {url} from "./url.js";
@@ -54,7 +55,8 @@ export const s = {
   store: Object.assign(getJsonEntityStore, {
     method: getJsonMethodStore
   }),
-  compile
+  compile,
+  spec: getSpec
 } as const;
 
 // Attach type helper via namespace merging to avoid separate export conflicts

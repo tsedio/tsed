@@ -75,7 +75,7 @@ describe("defineTool", () => {
   it("should expose aliased input schema properties", () => {
     const token = defineTool<any>({
       name: "aliased-tool",
-      inputSchema: JsonSchema.from({
+      inputSchema: new JsonSchema({
         type: "object",
         properties: {
           prop: {

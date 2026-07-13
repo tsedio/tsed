@@ -1,6 +1,6 @@
 import {s} from "../../fn/index.js";
+import {getSpec} from "../../fn/spec.js";
 import {In, OperationPath, Property, SpecTypes} from "../../index.js";
-import {getSpec} from "../../utils/getSpec.js";
 import {Description} from "./description.js";
 
 describe("@Description", () => {

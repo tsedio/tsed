@@ -3,7 +3,7 @@ import "@tsed/platform-exceptions";
 import {OpenSpec3} from "@tsed/openspec";
 
 import {SpecTypes} from "../../domain/SpecTypes.js";
-import {getSpec} from "../../utils/getSpec.js";
+import {getSpec} from "../../fn/spec.js";
 import {Property} from "../common/property.js";
 import {OperationPath} from "./operationPath.js";
 import {Returns} from "./returns.js";

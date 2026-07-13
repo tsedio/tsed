@@ -10,7 +10,7 @@ import {OperationPath} from "../decorators/operations/operationPath.js";
 import {Returns} from "../decorators/operations/returns.js";
 import {JsonParameterTypes} from "../domain/JsonParameterTypes.js";
 import {SpecTypes} from "../domain/SpecTypes.js";
-import {getSpec} from "./getSpec.js";
+import {getSpec} from "./spec.js";
 
 describe("getSpec()", () => {
   describe("with on controller", () => {
