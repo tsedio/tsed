@@ -1,5 +1,5 @@
 import {nameOf, Store, Type} from "@tsed/core";
-import {JsonEntityStore} from "@tsed/schema";
+import {JsonEntityStore, s} from "@tsed/schema";
 import mongoose, {Connection} from "mongoose";
 
 import {MONGOOSE_MODEL, MONGOOSE_MODEL_NAME} from "../constants/constants.js";
@@ -34,7 +34,7 @@ export function createModel<T>(
   overwriteModels?: boolean,
   connection?: Connection
 ) {
-  const entity = JsonEntityStore.from(target);
+  const entity = s.store(target);
 
   if (entity.isDiscriminatorChild) {
     const discriminatorName = entity.discriminatorAncestor!.schema.discriminator().getDefaultValue(target)!;

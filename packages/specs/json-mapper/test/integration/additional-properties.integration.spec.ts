@@ -1,5 +1,5 @@
 import {useDecorators} from "@tsed/core";
-import {AdditionalProperties, Groups, Hidden, JsonEntityStore, Name, ReadOnly, Title} from "@tsed/schema";
+import {AdditionalProperties, Groups, Hidden, Name, ReadOnly, s, Title} from "@tsed/schema";
 import {sentenceCase, snakeCase} from "change-case";
 
 import {deserialize, serialize} from "../../src/index.js";
@@ -12,7 +12,7 @@ describe("AdditionalProperties", () => {
 
     function Label(label?: string) {
       return (target: any, propertyKey: string) => {
-        const type = JsonEntityStore.from(target, propertyKey).computedType;
+        const type = s.store(target, propertyKey).computedType;
 
         label = (label ? label : sentenceCase(propertyKey)) + (type === Boolean ? "" : ":");
 

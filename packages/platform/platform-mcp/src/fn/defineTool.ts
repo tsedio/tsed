@@ -3,7 +3,7 @@ import type {CallToolResult, ServerNotification, ServerRequest, Tool, ToolAnnota
 import {type AbstractType, isArrowFn, isClass, type Type} from "@tsed/core";
 import {context, inject, injectable, logger, type TokenProvider} from "@tsed/di";
 import {deserialize} from "@tsed/json-mapper";
-import {JsonEntityStore, JsonMethodStore, JsonSchema} from "@tsed/schema";
+import {JsonEntityStore, JsonMethodStore, JsonSchema, s} from "@tsed/schema";
 import {constantCase} from "change-case";
 
 import {MCP_PROVIDER_TYPES} from "../constants/constants.js";
@@ -70,7 +70,7 @@ function getOutputSchema<Output>(methodStore: JsonMethodStore): JsonSchema<Outpu
 }
 
 function getInputSchema<Input>(token: Type<any> | AbstractType<any>, propertyKey: string | symbol): JsonSchema<Input> {
-  return JsonEntityStore.from(token, propertyKey, 0).schema?.itemSchema() as JsonSchema<Input>;
+  return s.store(token, propertyKey, 0).schema?.itemSchema() as JsonSchema<Input>;
 }
 
 function resolveInputSchema<Input>(inputSchema: JsonSchema<Input> | (() => JsonSchema<Input>) | Tool["inputSchema"] | undefined) {
@@ -101,13 +101,13 @@ function mapOptions<Input, Output = undefined>(options: ToolProps<Input, Output>
 
   if ("propertyKey" in options) {
     const {token, propertyKey} = options;
-    inputStore = JsonEntityStore.from(token, propertyKey, 0);
+    inputStore = s.store(token, propertyKey, 0);
     handler = (args: Input, extra: any) => {
       const instance = inject(options.token) as any;
       return instance[options.propertyKey](args, extra);
     };
 
-    const methodStore = JsonEntityStore.fromMethod(token, propertyKey);
+    const methodStore = s.store.method(token, propertyKey);
     options.description = options.description || methodStore.operation.get("description");
     options.inputSchema =
       options.inputSchema || ((inputStore.schema?.itemSchema() || getInputSchema(token, propertyKey)) as JsonSchema<Input>);

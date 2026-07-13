@@ -9,7 +9,7 @@ import type {JsonSchema} from "./JsonSchema.js";
  * ### Usage
  *
  * ```typescript
- * const userSchema = JsonSchema.from({ type: "object" });
+ * const userSchema = s.object();
  * type User = Infer<typeof userSchema>; // Extracts the type
  * ```
  *
