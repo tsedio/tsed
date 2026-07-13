@@ -1,13 +1,13 @@
+import { JsonMapperCtx } from "../interfaces/JsonMapperMethods.js";
 import {TemporalMapper} from "./TemporalMapper.js";
 
-// `Temporal` is provided natively on Node >= 24 and via the polyfill wired in vitest.setup.ts.
 describe("TemporalMapper", () => {
   describe("deserialize()", () => {
     it("should rebuild a Temporal.Instant from an ISO string", () => {
       const mapper = new TemporalMapper();
       const instant = Temporal.Instant.from("2024-01-15T14:30:00Z");
 
-      const value = mapper.deserialize(instant.toString(), {type: Temporal.Instant} as any);
+      const value = mapper.deserialize(instant.toString(), { type: Temporal.Instant } as JsonMapperCtx);
 
       expect(Temporal.Instant.compare(value, instant)).toEqual(0);
     });
@@ -16,7 +16,7 @@ describe("TemporalMapper", () => {
       const mapper = new TemporalMapper();
       const date = Temporal.PlainDate.from("2024-01-15");
 
-      const value = mapper.deserialize(date.toString(), {type: Temporal.PlainDate} as any);
+      const value = mapper.deserialize(date.toString(), { type: Temporal.PlainDate} as JsonMapperCtx);
 
       expect(Temporal.PlainDate.compare(value, date)).toEqual(0);
     });
@@ -25,7 +25,7 @@ describe("TemporalMapper", () => {
       const mapper = new TemporalMapper();
       const duration = Temporal.Duration.from({hours: 2, minutes: 30});
 
-      const value = mapper.deserialize(duration.toString(), {type: Temporal.Duration} as any);
+      const value = mapper.deserialize(duration.toString(), {type: Temporal.Duration} as JsonMapperCtx);
 
       expect(value.toString()).toEqual(duration.toString());
     });
@@ -34,7 +34,7 @@ describe("TemporalMapper", () => {
       const mapper = new TemporalMapper();
       const zdt = Temporal.ZonedDateTime.from("2024-06-15T10:00:00[Europe/Paris]");
 
-      const value = mapper.deserialize(zdt.toString(), {type: Temporal.ZonedDateTime} as any);
+      const value = mapper.deserialize(zdt.toString(), {type: Temporal.ZonedDateTime} as JsonMapperCtx);
 
       expect(Temporal.ZonedDateTime.compare(value, zdt)).toEqual(0);
       expect(mapper.serialize(zdt)).toEqual(zdt.toString());
