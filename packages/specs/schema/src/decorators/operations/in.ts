@@ -1,11 +1,11 @@
 import {decorateMethodsOf, DecoratorTypes, Type, UnsupportedDecoratorType} from "@tsed/core";
 
-import {JsonEntityStore} from "../../domain/JsonEntityStore.js";
 import {JsonMethodStore} from "../../domain/JsonMethodStore.js";
 import {JsonParameter} from "../../domain/JsonParameter.js";
 import {JsonParameterStore} from "../../domain/JsonParameterStore.js";
 import {JsonParameterTypes} from "../../domain/JsonParameterTypes.js";
 import {JsonSchema, JsonSchemaObject} from "../../domain/JsonSchema.js";
+import {s} from "../../fn/index.js";
 
 export interface InChainedDecorators {
   <T>(target: Object, propertyKey: string | symbol, descriptor: TypedPropertyDescriptor<T>): TypedPropertyDescriptor<T> | void;
@@ -81,7 +81,7 @@ export function In(inType: JsonParameterTypes | string): InChainedDecorators {
   const schema: any = {};
 
   const decorator = (target: any, propertyKey?: string | symbol, index?: PropertyDescriptor | number) => {
-    const store = JsonEntityStore.from(target, propertyKey, index);
+    const store = s.store(target, propertyKey, index);
 
     switch (store.decoratorType) {
       case DecoratorTypes.PARAM:
@@ -91,7 +91,7 @@ export function In(inType: JsonParameterTypes | string): InChainedDecorators {
         jsonParameter.in(inType);
         (store as JsonMethodStore).operation.addParameter(-1, jsonParameter);
 
-        jsonParameter.schema(JsonSchema.from(schema));
+        jsonParameter.schema(new JsonSchema(schema));
         break;
 
       case DecoratorTypes.CLASS:

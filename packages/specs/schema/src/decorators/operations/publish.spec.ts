@@ -2,7 +2,7 @@ import "../../index.js";
 
 import {OperationVerbs} from "../../constants/OperationVerbs.js";
 import {inspectOperationsPaths} from "../../domain/__fixtures__/inspectOperationsPaths.js";
-import {JsonEntityStore} from "../../domain/JsonEntityStore.js";
+import {s} from "../../fn/index.js";
 import {Publish} from "./publish.js";
 
 describe("Publish", () => {
@@ -13,7 +13,7 @@ describe("Publish", () => {
       test() {}
     }
 
-    const endpoint = JsonEntityStore.fromMethod(Test, "test");
+    const endpoint = s.store.method(Test, "test");
 
     // THEN
     expect(inspectOperationsPaths(endpoint)).toEqual([

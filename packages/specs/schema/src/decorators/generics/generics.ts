@@ -1,4 +1,4 @@
-import {JsonEntityStore} from "../../domain/JsonEntityStore.js";
+import {s} from "../../fn/index.js";
 
 /**
  * Define generics list. This list is used by @@GenericOf@@ and the @@compile@@ function to build the correct JsonSchema.
@@ -15,8 +15,6 @@ import {JsonEntityStore} from "../../domain/JsonEntityStore.js";
  */
 export function Generics(...genericLabels: string[]): ClassDecorator {
   return (target: any) => {
-    const storedSchema = JsonEntityStore.from(target);
-
-    storedSchema.schema.genericLabels(genericLabels);
+    s.get(target).genericLabels(genericLabels);
   };
 }

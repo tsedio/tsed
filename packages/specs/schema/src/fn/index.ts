@@ -1,9 +1,11 @@
+import {getJsonEntityStore, getJsonMethodStore} from "../domain/index.js";
 import type {Infer} from "../domain/types.js";
 import {allOf} from "./allOf.js";
 import {any} from "./any.js";
 import {anyOf} from "./anyOf.js";
 import {boolean} from "./boolean.js";
 import {array, map, record, set} from "./collection.js";
+import {compile} from "./compile.js";
 import {date, datetime, time} from "./date.js";
 import {email} from "./email.js";
 import {enums} from "./enums.js";
@@ -48,7 +50,11 @@ export const s = {
   uri,
   url,
   generic,
-  get
+  get,
+  store: Object.assign(getJsonEntityStore, {
+    method: getJsonMethodStore
+  }),
+  compile
 } as const;
 
 // Attach type helper via namespace merging to avoid separate export conflicts

@@ -1,5 +1,6 @@
 import {inspectOperationsPaths} from "../../domain/__fixtures__/inspectOperationsPaths.js";
-import {JsonEntityStore, OperationVerbs} from "../../index.js";
+import {s} from "../../fn/index.js";
+import {OperationVerbs} from "../../index.js";
 import {All, Delete, Get, Head, Options, Patch, Post, Put} from "./route.js";
 
 describe("Route decorators", () => {
@@ -11,7 +12,7 @@ describe("Route decorators", () => {
         test() {}
       }
 
-      const endpoint = JsonEntityStore.fromMethod(Test, "test");
+      const endpoint = s.store.method(Test, "test");
 
       // THEN
       expect(inspectOperationsPaths(endpoint)).toEqual([
@@ -32,7 +33,7 @@ describe("Route decorators", () => {
         test() {}
       }
 
-      const endpoint = JsonEntityStore.fromMethod(Test, "test");
+      const endpoint = s.store.method(Test, "test");
 
       // THEN
       expect(inspectOperationsPaths(endpoint)).toEqual([
@@ -52,7 +53,7 @@ describe("Route decorators", () => {
         test() {}
       }
 
-      const endpoint = JsonEntityStore.fromMethod(Test, "test");
+      const endpoint = s.store.method(Test, "test");
 
       // THEN
       expect(inspectOperationsPaths(endpoint)).toEqual([
@@ -74,7 +75,7 @@ describe("Route decorators", () => {
         test() {}
       }
 
-      const endpoint = JsonEntityStore.fromMethod(Test, "test");
+      const endpoint = s.store.method(Test, "test");
       expect(endpoint.middlewares).toEqual([middleware]);
       expect(endpoint.afterMiddlewares).toEqual([afterMiddleware]);
       expect(endpoint.beforeMiddlewares).toEqual([beforeMiddleware]);
@@ -89,7 +90,7 @@ describe("Route decorators", () => {
         test() {}
       }
 
-      const endpoint = JsonEntityStore.fromMethod(Test, "test");
+      const endpoint = s.store.method(Test, "test");
 
       // THEN
       expect(inspectOperationsPaths(endpoint)).toEqual([
@@ -110,7 +111,7 @@ describe("Route decorators", () => {
         test() {}
       }
 
-      const endpoint = JsonEntityStore.fromMethod(Test, "test");
+      const endpoint = s.store.method(Test, "test");
 
       // THEN
       expect(inspectOperationsPaths(endpoint)).toEqual([
@@ -134,7 +135,7 @@ describe("Route decorators", () => {
         test() {}
       }
 
-      const endpoint = JsonEntityStore.fromMethod(Test, "test");
+      const endpoint = s.store.method(Test, "test");
 
       // THEN
       expect(inspectOperationsPaths(endpoint)).toEqual([
@@ -155,7 +156,7 @@ describe("Route decorators", () => {
         test() {}
       }
 
-      const endpoint = JsonEntityStore.fromMethod(Test, "test");
+      const endpoint = s.store.method(Test, "test");
 
       // THEN
       expect(inspectOperationsPaths(endpoint)).toEqual([
@@ -176,7 +177,7 @@ describe("Route decorators", () => {
         test() {}
       }
 
-      const endpoint = JsonEntityStore.fromMethod(Test, "test");
+      const endpoint = s.store.method(Test, "test");
 
       // THEN
       expect(inspectOperationsPaths(endpoint)).toEqual([
@@ -197,7 +198,7 @@ describe("Route decorators", () => {
         test() {}
       }
 
-      const endpoint = JsonEntityStore.fromMethod(Test, "test");
+      const endpoint = s.store.method(Test, "test");
 
       // THEN
       expect(inspectOperationsPaths(endpoint)).toEqual([

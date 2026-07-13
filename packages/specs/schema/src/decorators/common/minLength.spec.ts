@@ -1,8 +1,7 @@
 import "../../index.js";
 
 import {validateModel} from "../../../test/helpers/validateModel.js";
-import {JsonEntityStore} from "../../domain/JsonEntityStore.js";
-import {compile} from "../../utils/compile.js";
+import {s} from "../../fn/index.js";
 import {CollectionOf} from "../collections/collectionOf.js";
 import {MinLength} from "./minLength.js";
 
@@ -15,9 +14,7 @@ describe("@MinLength", () => {
     }
 
     // THEN
-    const classSchema = JsonEntityStore.from(Model);
-
-    expect(classSchema.schema.toJSON()).toEqual({
+    expect(s.compile(Model)).toEqual({
       properties: {
         word: {
           minLength: 0,
@@ -48,9 +45,7 @@ describe("@MinLength", () => {
     }
 
     // THEN
-    const classSchema = JsonEntityStore.from(Model);
-
-    expect(classSchema.schema.toJSON()).toEqual({
+    expect(s.compile(Model)).toEqual({
       properties: {
         words: {
           type: "array",
@@ -72,9 +67,7 @@ describe("@MinLength", () => {
     }
 
     // THEN
-    const classSchema = JsonEntityStore.from(Model);
-
-    expect(classSchema.schema.toJSON()).toEqual({
+    expect(s.compile(Model)).toEqual({
       properties: {
         words: {
           type: "array",
@@ -98,7 +91,7 @@ describe("@MinLength", () => {
     }
 
     // THEN
-    const schema = compile(Model, {customKeys: true});
+    const schema = s.compile(Model, {customKeys: true});
 
     expect(schema).toEqual({
       properties: {

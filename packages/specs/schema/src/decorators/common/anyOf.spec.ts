@@ -1,4 +1,4 @@
-import {JsonEntityStore} from "../../domain/JsonEntityStore.js";
+import {s} from "../../fn/index.js";
 import {number} from "../../fn/number.js";
 import {string} from "../../fn/string.js";
 import {compile, getSpec, In, OperationPath, Path, Property, SpecTypes} from "../../index.js";
@@ -13,9 +13,7 @@ describe("@AnyOf", () => {
     }
 
     // THEN
-    const classSchema = JsonEntityStore.from(Model);
-
-    expect(classSchema.schema.toJSON()).toEqual({
+    expect(s.compile(Model)).toEqual({
       properties: {
         num: {
           anyOf: [

@@ -1,4 +1,4 @@
-import {compile} from "../../utils/compile.js";
+import {s} from "../../fn/index.js";
 import {DateFormat, DateTime, Email, Format, TimeFormat, Uri, Url} from "./format.js";
 
 describe("@Format", () => {
@@ -10,7 +10,7 @@ describe("@Format", () => {
     }
 
     // THEN
-    expect(compile(Model)).toEqual({
+    expect(s.compile(Model)).toEqual({
       properties: {
         email: {
           format: "email",
@@ -31,7 +31,7 @@ describe("@Email", () => {
     }
 
     // THEN
-    expect(compile(Model)).toEqual({
+    expect(s.compile(Model)).toEqual({
       properties: {
         email: {
           format: "email",
@@ -52,7 +52,7 @@ describe("@DateFormat", () => {
     }
 
     // THEN
-    expect(compile(Model)).toEqual({
+    expect(s.compile(Model)).toEqual({
       properties: {
         prop: {
           format: "date",
@@ -73,7 +73,7 @@ describe("@TimeFormat", () => {
     }
 
     // THEN
-    expect(compile(Model)).toEqual({
+    expect(s.compile(Model)).toEqual({
       properties: {
         prop: {
           format: "time",
@@ -94,7 +94,7 @@ describe("@DateTime", () => {
     }
 
     // THEN
-    expect(compile(Model)).toEqual({
+    expect(s.compile(Model)).toEqual({
       properties: {
         prop: {
           format: "date-time",
@@ -115,7 +115,7 @@ describe("@Uri", () => {
     }
 
     // THEN
-    expect(compile(Model)).toEqual({
+    expect(s.compile(Model)).toEqual({
       properties: {
         prop: {
           format: "uri",
@@ -136,7 +136,7 @@ describe("@Url", () => {
     }
 
     // THEN
-    expect(compile(Model)).toEqual({
+    expect(s.compile(Model)).toEqual({
       properties: {
         prop: {
           format: "url",

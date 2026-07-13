@@ -15,10 +15,10 @@ import type {JSONSchema7} from "json-schema";
 
 import {getStatusMessage} from "../../constants/httpStatusMessages.js";
 import {DecoratorContext} from "../../domain/DecoratorContext.js";
-import {JsonEntityStore} from "../../domain/JsonEntityStore.js";
 import type {JsonMethodStore} from "../../domain/JsonMethodStore.js";
 import {JsonResponse} from "../../domain/JsonResponse.js";
 import {JsonSchema, JsonSchemaObject} from "../../domain/JsonSchema.js";
+import {s} from "../../fn/index.js";
 import {JsonHeader, JsonHeaders} from "../../interfaces/JsonOpenSpec.js";
 import {getStatusModel} from "../../utils/defineStatusModel.js";
 import {GenericValue} from "../../utils/generics.js";
@@ -380,7 +380,7 @@ class ReturnDecoratorContext extends DecoratorContext<ReturnsChainedDecorators> 
     const type = decoratorTypeOf(args);
     switch (type) {
       case DecoratorTypes.METHOD:
-        this.entity = JsonEntityStore.from(...args);
+        this.entity = s.store(...args);
         if (this.entity.operation) {
           this.map();
         }

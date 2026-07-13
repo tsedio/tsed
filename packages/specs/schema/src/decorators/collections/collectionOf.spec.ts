@@ -1,9 +1,8 @@
 import {catchError} from "@tsed/core";
 
-import {JsonEntityStore} from "../../domain/JsonEntityStore.js";
 import {array, map} from "../../fn/collection.js";
+import {s} from "../../fn/index.js";
 import {string} from "../../fn/string.js";
-import {compile} from "../../utils/compile.js";
 import {Property} from "../common/property.js";
 import {Schema} from "../common/schema.js";
 import {In} from "../operations/in.js";
@@ -36,7 +35,7 @@ describe("@CollectionOf", () => {
       fields: Map<string, string>[] = [];
     }
 
-    expect(compile(Test)).toEqual({
+    expect(s.compile(Test)).toEqual({
       properties: {
         fields: {
           items: {
@@ -59,9 +58,7 @@ describe("@CollectionOf", () => {
     }
 
     // THEN
-    const classSchema = JsonEntityStore.from(Model);
-
-    expect(classSchema.schema.toJSON()).toEqual({
+    expect(s.compile(Model)).toEqual({
       properties: {
         num: {
           items: {
@@ -88,8 +85,8 @@ describe("@CollectionOf", () => {
     }
 
     // THEN
-    const entity = JsonEntityStore.from(Model, "prop");
-    const schema = compile(Model);
+    const entity = s.store(Model, "prop");
+    const schema = s.compile(Model);
 
     expect(entity.schema.getTarget()).toEqual(Array);
     expect(entity.schema.get("type")).toEqual("array");
@@ -140,9 +137,9 @@ describe("@CollectionOf", () => {
     }
 
     // THEN
-    const entity = JsonEntityStore.from(Ctrl.prototype, "test", 0);
+    const entity = s.store(Ctrl.prototype, "test", 0);
 
-    expect(compile(entity)).toEqual({
+    expect(s.compile(entity)).toEqual({
       definitions: {
         Model: {
           properties: {
@@ -178,9 +175,7 @@ describe("@CollectionOf", () => {
     }
 
     // THEN
-    const classSchema = JsonEntityStore.from(Model);
-
-    expect(classSchema.schema.toJSON()).toEqual({
+    expect(s.compile(Model)).toEqual({
       properties: {
         num: {
           additionalProperties: {
@@ -202,9 +197,7 @@ describe("@CollectionOf", () => {
     }
 
     // THEN
-    const classSchema = JsonEntityStore.from(Model);
-
-    expect(classSchema.schema.toJSON()).toEqual({
+    expect(s.compile(Model)).toEqual({
       properties: {
         num: {
           items: {
@@ -225,9 +218,7 @@ describe("@CollectionOf", () => {
     }
 
     // THEN
-    const classSchema = JsonEntityStore.from(Model);
-
-    expect(classSchema.schema.toJSON()).toEqual({
+    expect(s.compile(Model)).toEqual({
       properties: {
         words: {
           type: "array",
@@ -250,9 +241,7 @@ describe("@CollectionOf", () => {
     }
 
     // THEN
-    const classSchema = JsonEntityStore.from(Model);
-
-    expect(classSchema.schema.toJSON()).toEqual({
+    expect(s.compile(Model)).toEqual({
       properties: {
         words: {
           type: "array",
@@ -281,9 +270,7 @@ describe("@ArrayOf", () => {
     }
 
     // THEN
-    const classSchema = JsonEntityStore.from(Model);
-
-    expect(classSchema.schema.toJSON()).toEqual({
+    expect(s.compile(Model)).toEqual({
       properties: {
         num: {
           items: {
@@ -310,9 +297,7 @@ describe("@MapOf", () => {
     }
 
     // THEN
-    const classSchema = JsonEntityStore.from(Model);
-
-    expect(classSchema.schema.toJSON()).toEqual({
+    expect(s.compile(Model)).toEqual({
       properties: {
         num: {
           additionalProperties: {

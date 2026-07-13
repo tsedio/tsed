@@ -1,4 +1,4 @@
-import {execMapper, getSpec, In, JsonEntityStore, Name, number, OperationPath, Path, SpecTypes} from "../../index.js";
+import {execMapper, getSpec, In, Name, number, OperationPath, Path, s, SpecTypes} from "../../index.js";
 
 describe("In", () => {
   it("should declare all schema correctly (param)", () => {
@@ -12,7 +12,7 @@ describe("In", () => {
       specType: SpecTypes.SWAGGER
     });
 
-    const paramSchema = JsonEntityStore.from(Controller, "method", 0);
+    const paramSchema = s.store(Controller, "method", 0);
     const methodSchema = paramSchema.parent;
     const operation = execMapper("operation", [methodSchema.operation], {});
 
@@ -46,7 +46,7 @@ describe("In", () => {
       specType: SpecTypes.SWAGGER
     });
 
-    const paramSchema = JsonEntityStore.from(Controller, "method", 0);
+    const paramSchema = s.store(Controller, "method", 0);
     const methodSchema = paramSchema.parent;
     const operation = execMapper("operation", [methodSchema.operation], {});
 
@@ -89,7 +89,7 @@ describe("In", () => {
       specType: SpecTypes.SWAGGER
     });
 
-    const paramSchema = JsonEntityStore.from(Controller, "method", 0);
+    const paramSchema = s.store(Controller, "method", 0);
     const methodSchema = paramSchema.parent;
     const operation = execMapper("operation", [methodSchema.operation], {});
 
@@ -139,7 +139,7 @@ describe("In", () => {
       specType: SpecTypes.OPENAPI
     });
 
-    const paramSchema = JsonEntityStore.from(Controller, "method", 0);
+    const paramSchema = s.store(Controller, "method", 0);
     const methodSchema = paramSchema.parent;
     const operation = execMapper("operation", [methodSchema.operation!], {
       specType: SpecTypes.OPENAPI
@@ -227,7 +227,7 @@ describe("In", () => {
       specType: SpecTypes.OPENAPI
     });
 
-    const paramSchema = JsonEntityStore.from(Controller, "method", 0);
+    const paramSchema = s.store(Controller, "method", 0);
     const methodSchema = paramSchema.parent;
     const operation = execMapper("operation", [methodSchema.operation!], {
       specType: SpecTypes.OPENAPI

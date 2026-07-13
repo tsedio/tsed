@@ -1,6 +1,7 @@
 import {BodyParams} from "@tsed/platform-params";
 
-import {Get, getSpec, JsonMethodStore, Property, SpecTypes} from "../../index.js";
+import {s} from "../../fn/index.js";
+import {Get, getSpec, Property, SpecTypes} from "../../index.js";
 import {AcceptMime} from "./acceptMime.js";
 
 class Model {
@@ -16,7 +17,7 @@ describe("AcceptMime", () => {
       test(@BodyParams() model: Model) {}
     }
 
-    const endpoint = JsonMethodStore.get(Test, "test");
+    const endpoint = s.store.method(Test, "test");
     expect(endpoint.acceptMimes).toEqual(["application/json"]);
     expect(endpoint.operation.get("produces")).toEqual(["application/json"]);
   });

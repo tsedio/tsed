@@ -1,7 +1,7 @@
 import {Ajv} from "ajv";
 
 import {validateModel} from "../../../test/helpers/validateModel.js";
-import {JsonEntityStore} from "../../domain/JsonEntityStore.js";
+import {s} from "../../fn/index.js";
 import {compile, MinLength} from "../../index.js";
 import {Property} from "../common/property.js";
 import {Required} from "./required.js";
@@ -15,9 +15,7 @@ describe("@Required", () => {
     }
 
     // THEN
-    const classSchema = JsonEntityStore.from(Model);
-
-    expect(classSchema.schema.toJSON()).toEqual({
+    expect(s.compile(Model)).toEqual({
       properties: {
         num: {
           type: "number"
@@ -35,9 +33,7 @@ describe("@Required", () => {
     }
 
     // THEN
-    const classSchema = JsonEntityStore.from(Model);
-
-    expect(classSchema.schema.toJSON()).toEqual({
+    expect(s.compile(Model)).toEqual({
       properties: {
         num: {
           type: "number"
@@ -54,9 +50,7 @@ describe("@Required", () => {
     }
 
     // THEN
-    const classSchema = JsonEntityStore.from(Model);
-
-    expect(classSchema.schema.toJSON()).toEqual({
+    expect(s.compile(Model)).toEqual({
       properties: {
         prop: {
           minLength: 1,
@@ -76,9 +70,7 @@ describe("@Required", () => {
     }
 
     // THEN
-    const classSchema = JsonEntityStore.from(Model);
-
-    expect(classSchema.schema.toJSON()).toEqual({
+    expect(s.compile(Model)).toEqual({
       properties: {
         prop: {
           minLength: 3,
