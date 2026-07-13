@@ -8,8 +8,8 @@ import {
   Enum,
   enums,
   Get,
+  getJsonEntityStore,
   getSpec,
-  JsonEntityStore,
   Name,
   OneOf,
   Partial,
@@ -18,7 +18,8 @@ import {
   Property,
   Put,
   Required,
-  Returns
+  Returns,
+  s
 } from "../../src/index.js";
 
 export enum EventType {
@@ -505,7 +506,7 @@ describe("Discriminator", () => {
         }
       }
 
-      const metadata = JsonEntityStore.from(MyTest, "post", 0);
+      const metadata = s.store(MyTest, "post", 0);
 
       expect(compile(metadata)).toMatchInlineSnapshot(`
         {
@@ -652,7 +653,7 @@ describe("Discriminator", () => {
         }
       }
 
-      const metadata = JsonEntityStore.from(MyTest, "patch", 0);
+      const metadata = s.store(MyTest, "patch", 0);
 
       expect(compile(metadata)).toMatchInlineSnapshot(`
         {
@@ -1568,10 +1569,10 @@ describe("Discriminator", () => {
   });
   describe("isDiscriminatorChild", () => {
     it("should return true when it's a child discriminator", () => {
-      expect(JsonEntityStore.from(CustomAction).isDiscriminatorChild).toEqual(true);
+      expect(getJsonEntityStore(CustomAction).isDiscriminatorChild).toEqual(true);
     });
     it("should return false when isn't a child discriminator", () => {
-      expect(JsonEntityStore.from(Event).isDiscriminatorChild).toEqual(false);
+      expect(getJsonEntityStore(Event).isDiscriminatorChild).toEqual(false);
     });
   });
   describe("with kind property", () => {

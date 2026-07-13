@@ -1,6 +1,6 @@
-import {compile} from "../../utils/compile.js";
 import {CollectionOf} from "./collectionOf.js";
 import {MinItems} from "./minItems.js";
+import {s} from "@tsed/schema";
 
 describe("@MinItems", () => {
   it("should declare a prop", () => {
@@ -12,7 +12,7 @@ describe("@MinItems", () => {
     }
 
     // THEN
-    expect(compile(Model)).toEqual({
+    expect(s.compile(Model)).toEqual({
       properties: {
         num: {
           items: {

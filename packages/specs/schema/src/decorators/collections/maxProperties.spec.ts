@@ -1,9 +1,9 @@
 import {SpecTypes} from "../../domain/SpecTypes.js";
-import {compile} from "../../utils/compile.js";
 import {getSpec} from "../../utils/getSpec.js";
 import {In} from "../operations/in.js";
 import {OperationPath} from "../operations/operationPath.js";
 import {MaxProperties} from "./maxProperties.js";
+import {s} from "@tsed/schema";
 
 describe("@MaxProperties", () => {
   it("should declare max value (any)", () => {
@@ -14,7 +14,7 @@ describe("@MaxProperties", () => {
     }
 
     // THEN
-    expect(compile(Model)).toEqual({
+    expect(s.compile(Model)).toEqual({
       properties: {
         prop: {
           maxProperties: 10,
@@ -32,7 +32,7 @@ describe("@MaxProperties", () => {
     }
 
     // THEN
-    expect(compile(Model)).toEqual({
+    expect(s.compile(Model)).toEqual({
       properties: {
         prop: {
           maxProperties: 10,
@@ -48,7 +48,7 @@ describe("@MaxProperties", () => {
     class Model {}
 
     // THEN
-    expect(compile(Model)).toEqual({
+    expect(s.compile(Model)).toEqual({
       maxProperties: 10,
       type: "object"
     });

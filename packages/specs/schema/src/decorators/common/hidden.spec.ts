@@ -1,5 +1,4 @@
-import {Get, getSpec, Path, SpecTypes} from "../../index.js";
-import {compile} from "../../utils/compile.js";
+import {Get, getSpec, Path, s, SpecTypes} from "../../index.js";
 import {Hidden} from "./hidden.js";
 
 describe("@Hidden", () => {
@@ -10,7 +9,7 @@ describe("@Hidden", () => {
       prop: number;
     }
 
-    expect(compile(Model)).toEqual({
+    expect(s.compile(Model)).toEqual({
       type: "object"
     });
   });

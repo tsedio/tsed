@@ -1,10 +1,9 @@
-import {isBoolean, Type} from "@tsed/core";
+import {Type} from "@tsed/core";
 
-import type {JsonClassStore} from "../domain/JsonClassStore.js";
-import type {JsonPropertyStore} from "../domain/JsonPropertyStore.js";
+import type {JsonClassStore, JsonPropertyStore} from "../domain/index.js";
+import {getJsonEntityStore} from "../domain/index.js";
 import {alterIgnore} from "../hooks/alterIgnore.js";
 import {getInheritedStores} from "./getInheritedStores.js";
-import {getJsonEntityStore} from "./getJsonEntityStore.js";
 
 /**
  * Return the list of properties including properties from inherited classes
@@ -14,7 +13,7 @@ import {getJsonEntityStore} from "./getJsonEntityStore.js";
 export function getPropertiesStores<T extends JsonPropertyStore = JsonPropertyStore>(
   target: Type<any> | any
 ): Map<string | symbol | number, T> {
-  const store: JsonClassStore = target.isStore ? target : getJsonEntityStore(target);
+  const store = getJsonEntityStore<JsonClassStore>(target);
 
   if (!store.$properties) {
     const stores = getInheritedStores(store);

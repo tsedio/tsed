@@ -2,7 +2,7 @@ import "../index.js";
 
 import {Ajv} from "ajv";
 
-import {CollectionOf, JsonEntityStore, Name, Property, Required, s} from "../index.js";
+import {CollectionOf, getJsonEntityStore, Name, Property, Required, s} from "../index.js";
 import {JsonSchema} from "./JsonSchema.js";
 
 declare module "@tsed/schema" {
@@ -29,7 +29,7 @@ describe("JsonSchema", () => {
   describe("extra Props", () => {
     // https://json-schema.org/understanding-json-schema/basics.html
     it("should add extra props", () => {
-      const schema = JsonSchema.from({});
+      const schema = new JsonSchema({});
       schema.set("extra", "test");
 
       expect(schema.isGeneric).toBe(false);
@@ -41,7 +41,7 @@ describe("JsonSchema", () => {
   describe("basics", () => {
     // https://json-schema.org/understanding-json-schema/basics.html
     it("should validate {}", () => {
-      const schema = JsonSchema.from({}).toObject();
+      const schema = new JsonSchema({}).toObject();
       const validate = new Ajv({strict: true}).compile(schema);
 
       expect(schema).toEqual({});
@@ -54,7 +54,7 @@ describe("JsonSchema", () => {
     describe("Basics", () => {
       // https://json-schema.org/understanding-json-schema/reference/string.html#string
       it("should create a new jsonSchema", () => {
-        const schema = JsonSchema.from({type: String}).toObject();
+        const schema = new JsonSchema({type: String}).toObject();
         const validate = new Ajv({strict: true}).compile(schema);
 
         expect(schema).toEqual({
@@ -72,7 +72,7 @@ describe("JsonSchema", () => {
     describe("Length", () => {
       // https://json-schema.org/understanding-json-schema/reference/string.html#length
       it("should create a new jsonSchema", () => {
-        const schema = JsonSchema.from({type: String}).minLength(2).maxLength(3).toObject();
+        const schema = new JsonSchema({type: String}).minLength(2).maxLength(3).toObject();
 
         const validate = new Ajv({strict: true}).compile(schema);
 
@@ -92,7 +92,7 @@ describe("JsonSchema", () => {
     describe("Regular expression", () => {
       // https://json-schema.org/understanding-json-schema/reference/string.html#regular-expressions
       it("should build json schema", () => {
-        const schema = JsonSchema.from({type: String}).pattern(new RegExp("^(\\([0-9]{3}\\))?[0-9]{3}-[0-9]{4}$")).toObject();
+        const schema = new JsonSchema({type: String}).pattern(new RegExp("^(\\([0-9]{3}\\))?[0-9]{3}-[0-9]{4}$")).toObject();
 
         const validate = new Ajv({strict: true}).compile(schema);
 
@@ -111,7 +111,7 @@ describe("JsonSchema", () => {
     describe("Format", () => {
       // https://json-schema.org/understanding-json-schema/reference/string.html#format
       it("should create a new jsonSchema", () => {
-        const result = JsonSchema.from({type: Date}).toObject();
+        const result = new JsonSchema({type: Date}).toObject();
 
         expect(result).toEqual({
           type: "string"
@@ -119,7 +119,7 @@ describe("JsonSchema", () => {
       });
 
       it("should create a new jsonSchema with format", () => {
-        const result = JsonSchema.from({type: Date}).format("date-time").toObject();
+        const result = new JsonSchema({type: Date}).format("date-time").toObject();
 
         expect(result).toEqual({
           type: "string",
@@ -132,7 +132,7 @@ describe("JsonSchema", () => {
     describe("Basics", () => {
       // https://json-schema.org/understanding-json-schema/reference/numeric.html#number
       it("should create a jsonschema for number", () => {
-        const schema = JsonSchema.from({type: Number}).toObject();
+        const schema = new JsonSchema({type: Number}).toObject();
         const validate = new Ajv({strict: true}).compile(schema);
 
         expect(schema).toEqual({
@@ -149,7 +149,7 @@ describe("JsonSchema", () => {
     describe("Integer", () => {
       // https://json-schema.org/understanding-json-schema/reference/numeric.html#integer
       it("should create a jsonschema", () => {
-        const schema = JsonSchema.from({type: "integer"}).toObject();
+        const schema = new JsonSchema({type: "integer"}).toObject();
         const validate = new Ajv({strict: true}).compile(schema);
 
         expect(schema).toEqual({
@@ -165,7 +165,7 @@ describe("JsonSchema", () => {
     describe("Multiples", () => {
       // https://json-schema.org/understanding-json-schema/reference/numeric.html#multiples
       it("should create a jsonschema", () => {
-        const schema = JsonSchema.from({type: Number, multipleOf: 10}).toObject();
+        const schema = new JsonSchema({type: Number, multipleOf: 10}).toObject();
         const validate = new Ajv({strict: true}).compile(schema);
 
         expect(schema).toEqual({
@@ -182,7 +182,7 @@ describe("JsonSchema", () => {
     describe("Ranges", () => {
       // https://json-schema.org/understanding-json-schema/reference/numeric.html#range
       it("should create a jsonschema minimum & exclusiveMaximum", () => {
-        const schema = JsonSchema.from({type: Number, minimum: 0, exclusiveMaximum: 100}).toObject();
+        const schema = new JsonSchema({type: Number, minimum: 0, exclusiveMaximum: 100}).toObject();
         const validate = new Ajv({strict: true}).compile(schema);
 
         expect(schema).toEqual({
@@ -197,7 +197,7 @@ describe("JsonSchema", () => {
         expect(validate(101)).toBe(false);
       });
       it("should create a jsonschema exclusiveMinimum & maximum", () => {
-        const schema = JsonSchema.from({type: Number, exclusiveMinimum: 0, maximum: 100}).toObject();
+        const schema = new JsonSchema({type: Number, exclusiveMinimum: 0, maximum: 100}).toObject();
         const validate = new Ajv({strict: true}).compile(schema);
 
         expect(schema).toEqual({
@@ -218,10 +218,10 @@ describe("JsonSchema", () => {
 
   describe("object transforms", () => {
     const buildUserSchema = () => {
-      return JsonSchema.from({type: Object}).properties({
-        id: JsonSchema.from({type: String}).required(true),
-        email: JsonSchema.from({type: String}),
-        admin: JsonSchema.from({type: Boolean})
+      return new JsonSchema({type: Object}).properties({
+        id: new JsonSchema({type: String}).required(true),
+        email: new JsonSchema({type: String}),
+        admin: new JsonSchema({type: Boolean})
       });
     };
 
@@ -271,7 +271,7 @@ describe("JsonSchema", () => {
     });
 
     it("should preserve aliases when omitting properties from a Ts.ED model schema", () => {
-      const schema = JsonSchema.from(KnowledgeSearchRequest) as unknown as JsonSchema<KnowledgeSearchRequest>;
+      const schema = s.get(KnowledgeSearchRequest) as unknown as JsonSchema<KnowledgeSearchRequest>;
 
       const omitted = schema.omit("type");
 
@@ -319,7 +319,7 @@ describe("JsonSchema", () => {
     });
 
     it("should preserve aliases when marking a Ts.ED model schema as partial", () => {
-      const schema = JsonSchema.from(KnowledgeSearchRequest) as unknown as JsonSchema<KnowledgeSearchRequest>;
+      const schema = s.get(KnowledgeSearchRequest) as unknown as JsonSchema<KnowledgeSearchRequest>;
 
       const partial = schema.partial();
 
@@ -342,9 +342,9 @@ describe("JsonSchema", () => {
 
     it("should merge schemas", () => {
       const user = buildUserSchema();
-      const audit = JsonSchema.from({type: Object}).properties({
-        createdAt: JsonSchema.from({type: Date}).required(),
-        updatedAt: JsonSchema.from({type: Date})
+      const audit = new JsonSchema({type: Object}).properties({
+        createdAt: new JsonSchema({type: Date}).required(),
+        updatedAt: new JsonSchema({type: Date})
       });
 
       const mergedSchema = user.merge(audit);
@@ -378,9 +378,9 @@ describe("JsonSchema", () => {
         }
       `);
 
-      const flags = JsonSchema.from({type: Object}).properties({
-        flags: JsonSchema.from({type: Object}).properties({
-          active: JsonSchema.from({type: Boolean})
+      const flags = new JsonSchema({type: Object}).properties({
+        flags: new JsonSchema({type: Object}).properties({
+          active: new JsonSchema({type: Boolean})
         })
       });
 
@@ -420,7 +420,7 @@ describe("JsonSchema", () => {
     describe("basic", () => {
       // https://json-schema.org/understanding-json-schema/reference/object.html#object
       it("should create a new jsonSchema", () => {
-        const schema = JsonSchema.from({type: Object}).toObject();
+        const schema = new JsonSchema({type: Object}).toObject();
         const validate = new Ajv({strict: true}).compile(schema);
 
         expect(schema).toEqual({
@@ -462,7 +462,7 @@ describe("JsonSchema", () => {
     describe("Properties", () => {
       // https://json-schema.org/understanding-json-schema/reference/object.html#properties
       it("should create a valid jsonchema (properties)", () => {
-        const schema = JsonSchema.from({
+        const schema = new JsonSchema({
           type: Object,
           properties: {
             number: {type: "number"},
@@ -489,7 +489,7 @@ describe("JsonSchema", () => {
         ).toBe(true);
       });
       it("should create a valid jsonschema (additionalProperties boolean)", () => {
-        const schema = JsonSchema.from({
+        const schema = new JsonSchema({
           type: "object",
           properties: {
             number: {type: "number"},
@@ -528,7 +528,7 @@ describe("JsonSchema", () => {
         ).toBe(false);
       });
       it("should create a valid jsonchema (additionalProperties schema)", () => {
-        const schema = JsonSchema.from({
+        const schema = new JsonSchema({
           type: "object",
           properties: {
             number: {type: "number"},
@@ -538,7 +538,7 @@ describe("JsonSchema", () => {
               enum: ["Street", "Avenue", "Boulevard"]
             }
           },
-          additionalProperties: JsonSchema.from({type: "string"})
+          additionalProperties: new JsonSchema({type: "string"})
         }).toObject();
 
         const validate = new Ajv({strict: true}).compile(schema);
@@ -565,7 +565,7 @@ describe("JsonSchema", () => {
     describe("Required", () => {
       // https://json-schema.org/understanding-json-schema/reference/object.html#required-properties
       it("should create a valid jsonchema (basic)", () => {
-        const jsonSchema = JsonSchema.from({
+        const jsonSchema = new JsonSchema({
           type: "object",
           properties: {
             name: {type: "string"},
@@ -613,7 +613,7 @@ describe("JsonSchema", () => {
         ).toBe(false);
       });
       it("should create a valid jsonchema (default - string)", () => {
-        const schema = JsonSchema.from({
+        const schema = new JsonSchema({
           type: "object",
           properties: {
             name: {type: "string", minLength: 1}
@@ -638,7 +638,7 @@ describe("JsonSchema", () => {
       });
 
       it("should create a valid jsonchema (default - number)", () => {
-        const schema = JsonSchema.from({
+        const schema = new JsonSchema({
           type: "object",
           properties: {
             name: {type: "number"}
@@ -663,7 +663,7 @@ describe("JsonSchema", () => {
       });
 
       it("should create a valid jsonchema (empty string is falsy)", () => {
-        const schema = JsonSchema.from({
+        const schema = new JsonSchema({
           type: "object",
           properties: {
             name: {
@@ -694,7 +694,7 @@ describe("JsonSchema", () => {
       });
 
       it("should create a valid jsonchema (0 is falsy - number)", () => {
-        const schema = JsonSchema.from({
+        const schema = new JsonSchema({
           type: "object",
           properties: {
             name: {type: "number", exclusiveMinimum: 0}
@@ -721,9 +721,9 @@ describe("JsonSchema", () => {
     describe("Property names", () => {
       // https://json-schema.org/understanding-json-schema/reference/object.html#property-names
       it("should create a valid jsonchema", () => {
-        const schema = JsonSchema.from({
+        const schema = new JsonSchema({
           type: "object",
-          propertyNames: JsonSchema.from({
+          propertyNames: new JsonSchema({
             pattern: "^[A-Za-z_][A-Za-z0-9_]*$"
           }) as any
         }).toObject();
@@ -744,7 +744,7 @@ describe("JsonSchema", () => {
     describe("Size", () => {
       // https://json-schema.org/understanding-json-schema/reference/object.html#size
       it("should create a valid jsonchema", () => {
-        const schema = JsonSchema.from({
+        const schema = new JsonSchema({
           type: "object",
           minProperties: 2,
           maxProperties: 3
@@ -762,7 +762,7 @@ describe("JsonSchema", () => {
       // https://json-schema.org/understanding-json-schema/reference/object.html#dependencies
       describe("Property Dependencies", () => {
         it("should create a valid jsonchema", () => {
-          const schema = JsonSchema.from({
+          const schema = new JsonSchema({
             type: "object",
             properties: {
               name: {type: "string"},
@@ -818,7 +818,7 @@ describe("JsonSchema", () => {
           ).toBe(true);
         });
         it("should create a valid jsonchema (bidirectional dependencies)", () => {
-          const schema = JsonSchema.from({
+          const schema = new JsonSchema({
             type: "object",
 
             properties: {
@@ -852,7 +852,7 @@ describe("JsonSchema", () => {
       });
       describe("Schema Dependencies", () => {
         it("should create a valid jsonchema", () => {
-          const schema = JsonSchema.from({
+          const schema = new JsonSchema({
             type: "object",
 
             properties: {
@@ -903,7 +903,7 @@ describe("JsonSchema", () => {
     describe("Pattern Properties", () => {
       // https://json-schema.org/understanding-json-schema/reference/object.html#pattern-properties
       it("should create a valid jsonchema with false value", () => {
-        const schema = JsonSchema.from({
+        const schema = new JsonSchema({
           type: "object",
           patternProperties: {
             "^S_": {type: "string"},
@@ -932,7 +932,7 @@ describe("JsonSchema", () => {
         expect(validate({keyword: "value"})).toBe(false);
       });
       it("should create a valid jsonchema with schema value", () => {
-        const schema = JsonSchema.from({
+        const schema = new JsonSchema({
           type: "object",
           properties: {
             builtin: {type: "number"}
@@ -941,7 +941,7 @@ describe("JsonSchema", () => {
             "^S_": {type: "string"},
             "^I_": {type: "integer"}
           },
-          additionalProperties: JsonSchema.from({type: "string"})
+          additionalProperties: new JsonSchema({type: "string"})
         }).toObject();
 
         expect(schema).toEqual({
@@ -967,7 +967,7 @@ describe("JsonSchema", () => {
     describe("Basic", () => {
       // https://json-schema.org/understanding-json-schema/reference/array.html#array
       it("should create a new jsonSchema", () => {
-        const schema = JsonSchema.from({type: Array}).toObject();
+        const schema = new JsonSchema({type: Array}).toObject();
         const validate = new Ajv({strict: true}).compile(schema);
 
         expect(schema).toEqual({
@@ -985,9 +985,9 @@ describe("JsonSchema", () => {
       describe("List validation", () => {
         // https://json-schema.org/understanding-json-schema/reference/array.html#list-validation
         it("should create a new jsonSchema (items)", () => {
-          const schema = JsonSchema.from({
+          const schema = new JsonSchema({
             type: Array,
-            items: JsonSchema.from({
+            items: new JsonSchema({
               type: "number"
             })
           }).toObject();
@@ -1007,7 +1007,7 @@ describe("JsonSchema", () => {
         });
 
         it("should create a new jsonSchema (contains)", () => {
-          const schema = JsonSchema.from({
+          const schema = new JsonSchema({
             type: "array",
             contains: {
               type: "number"
@@ -1031,7 +1031,7 @@ describe("JsonSchema", () => {
       describe("Tuple validation", () => {
         // https://json-schema.org/understanding-json-schema/reference/array.html#tuple-validation
         it("should create a new jsonSchema", () => {
-          const schema = JsonSchema.from({
+          const schema = new JsonSchema({
             type: "array",
             items: [
               {
@@ -1080,7 +1080,7 @@ describe("JsonSchema", () => {
           expect(validate([1600, "Pennsylvania", "Avenue", "NW", "Washington"])).toBe(true);
         });
         it("should create a new jsonSchema (additionalItems=false)", () => {
-          const schema = JsonSchema.from({
+          const schema = new JsonSchema({
             type: "array",
             items: [
               {
@@ -1129,7 +1129,7 @@ describe("JsonSchema", () => {
           expect(validate([1600, "Pennsylvania", "Avenue", "NW", "Washington"])).toBe(false);
         });
         it("should create a new jsonSchema (additionalItems=Schema)", () => {
-          const schema = JsonSchema.from({
+          const schema = new JsonSchema({
             type: "array",
             items: [
               {
@@ -1180,7 +1180,7 @@ describe("JsonSchema", () => {
       describe("Length", () => {
         // https://json-schema.org/understanding-json-schema/reference/array.html#length
         it("should create a new jsonSchema", () => {
-          const schema = JsonSchema.from({
+          const schema = new JsonSchema({
             type: "array",
             minItems: 2,
             maxItems: 3
@@ -1198,7 +1198,7 @@ describe("JsonSchema", () => {
       describe("Uniqueness", () => {
         // https://json-schema.org/understanding-json-schema/reference/array.html#uniqueness
         it("should create a new jsonSchema", () => {
-          const schema = JsonSchema.from({
+          const schema = new JsonSchema({
             type: "array",
             uniqueItems: true
           }).toObject();
@@ -1215,7 +1215,7 @@ describe("JsonSchema", () => {
   describe("Boolean", () => {
     // https://json-schema.org/understanding-json-schema/reference/boolean.html
     it("should create a new jsonSchema", () => {
-      const schema = JsonSchema.from({type: Boolean}).toObject();
+      const schema = new JsonSchema({type: Boolean}).toObject();
       const validate = new Ajv({strict: true}).compile(schema);
 
       expect(schema).toEqual({
@@ -1230,7 +1230,7 @@ describe("JsonSchema", () => {
   });
   describe("Null", () => {
     it("should create a new jsonSchema", () => {
-      const schema = JsonSchema.from({type: null}).toObject();
+      const schema = new JsonSchema({type: null}).toObject();
 
       expect(schema).toEqual({
         type: "null"
@@ -1250,7 +1250,7 @@ describe("JsonSchema", () => {
     describe("Annotations", () => {
       // https://json-schema.org/understanding-json-schema/reference/generic.html#annotations
       it("should create a new jsonSchema", () => {
-        const schema = JsonSchema.from({
+        const schema = new JsonSchema({
           title: "Match anything",
           description: "This is a schema that matches anything.",
           default: "Default value",
@@ -1269,7 +1269,7 @@ describe("JsonSchema", () => {
     describe("Enumerated values", () => {
       // https://json-schema.org/understanding-json-schema/reference/generic.html#enumerated-values
       it("should create a new jsonSchema", () => {
-        const schema = JsonSchema.from({
+        const schema = new JsonSchema({
           type: "string",
           enum: ["red", "amber", "green", "green"]
         }).toObject();
@@ -1285,7 +1285,7 @@ describe("JsonSchema", () => {
         expect(validate("blue")).toBe(false);
       });
       it("should create a new jsonSchema (without type)", () => {
-        const schema = JsonSchema.from({
+        const schema = new JsonSchema({
           enum: ["red", "amber", "green", null, 42]
         }).toObject();
 
@@ -1317,7 +1317,7 @@ describe("JsonSchema", () => {
     describe("Constant values", () => {
       // https://json-schema.org/understanding-json-schema/reference/generic.html#constant-values
       it("should create a new jsonSchema", () => {
-        const schema = JsonSchema.from({
+        const schema = new JsonSchema({
           type: "object",
           properties: {
             country: {
@@ -1344,7 +1344,7 @@ describe("JsonSchema", () => {
 
     describe("props", () => {
       it("should create a new jsonSchema", () => {
-        const result = JsonSchema.from({
+        const result = new JsonSchema({
           type: String,
           $id: "$id",
           $schema: "$schema",
@@ -1394,7 +1394,7 @@ describe("JsonSchema", () => {
     // https://json-schema.org/understanding-json-schema/reference/combining.html#combining-schemas
     describe("anyOf", () => {
       it("should create a new jsonSchema", () => {
-        const schema = JsonSchema.from({
+        const schema = new JsonSchema({
           anyOf: [
             {type: "string", maxLength: 5},
             {type: "number", minimum: 0}
@@ -1419,7 +1419,7 @@ describe("JsonSchema", () => {
     describe("allOf", () => {
       // https://json-schema.org/understanding-json-schema/reference/combining.html#allof
       it("should create a new jsonSchema", () => {
-        const schema = JsonSchema.from({
+        const schema = new JsonSchema({
           allOf: [
             {type: "string", maxLength: 5},
             {type: "number", minimum: 0}
@@ -1442,7 +1442,7 @@ describe("JsonSchema", () => {
     describe("oneOf", () => {
       // https://json-schema.org/understanding-json-schema/reference/combining.html#oneof
       it("should create a new jsonSchema", () => {
-        const schema = JsonSchema.from({
+        const schema = new JsonSchema({
           oneOf: [
             {type: "number", multipleOf: 5},
             {type: "number", multipleOf: 3}
@@ -1460,7 +1460,7 @@ describe("JsonSchema", () => {
     describe("not", () => {
       // https://json-schema.org/understanding-json-schema/reference/combining.html#not
       it("should create a new jsonSchema", () => {
-        const schema = JsonSchema.from({not: {type: "string"}}).toObject();
+        const schema = new JsonSchema({not: {type: "string"}}).toObject();
 
         const validate = new Ajv({strict: true}).compile(schema);
 
@@ -1472,8 +1472,8 @@ describe("JsonSchema", () => {
   });
   describe("Collection", () => {
     it("should create a new jsonSchema (Array)", () => {
-      const result = JsonSchema.from({type: Array}).toObject();
-      expect(JsonSchema.from({type: Array}).isCollection).toBe(true);
+      const result = new JsonSchema({type: Array}).toObject();
+      expect(new JsonSchema({type: Array}).isCollection).toBe(true);
       expect(result).toEqual({
         type: "array",
         items: {}
@@ -1481,7 +1481,7 @@ describe("JsonSchema", () => {
     });
 
     it("should create a new jsonSchema (Map)", () => {
-      const result = JsonSchema.from({type: Map}).toObject();
+      const result = new JsonSchema({type: Map}).toObject();
 
       expect(result).toEqual({
         type: "object"
@@ -1489,7 +1489,7 @@ describe("JsonSchema", () => {
     });
 
     it("should create a new jsonSchema (Set)", () => {
-      const result = JsonSchema.from({type: Set}).toObject();
+      const result = new JsonSchema({type: Set}).toObject();
 
       expect(result).toEqual({
         type: "array",
@@ -1500,7 +1500,7 @@ describe("JsonSchema", () => {
   });
   describe("Class", () => {
     it("should create a new jsonSchema", () => {
-      const result = JsonSchema.from({
+      const result = new JsonSchema({
         type: class Test {}
       }).toObject();
 
@@ -1519,7 +1519,7 @@ describe("JsonSchema", () => {
         test: Test1;
       }
 
-      const entity = JsonEntityStore.from(Test2, "test");
+      const entity = getJsonEntityStore(Test2, "test");
 
       expect(entity.schema.getPropertyKey()).toEqual("test");
       expect(entity.schema.getTarget()).toEqual(Object);
@@ -1537,7 +1537,7 @@ describe("JsonSchema", () => {
         test: Test1[];
       }
 
-      const entity = JsonEntityStore.from(Test2, "test");
+      const entity = getJsonEntityStore(Test2, "test");
 
       expect(entity.schema.getPropertyKey()).toEqual("test");
       expect(entity.schema.getTarget()).toEqual(Array);
@@ -1547,7 +1547,7 @@ describe("JsonSchema", () => {
   });
   describe("Circular ref", () => {
     it("should create and validate schema", () => {
-      const schema = JsonSchema.from({
+      const schema = new JsonSchema({
         $ref: "#/definitions/Post",
         definitions: {
           Post: {
@@ -1628,7 +1628,7 @@ describe("JsonSchema", () => {
   });
   describe("Alias", () => {
     it("should create new jsonSchema (useAlias = true)", () => {
-      const schema = JsonSchema.from({
+      const schema = new JsonSchema({
         type: "object",
         properties: {
           prop: {
@@ -1654,7 +1654,7 @@ describe("JsonSchema", () => {
     });
 
     it("should create new jsonSchema (useAlias = false)", () => {
-      const schema = JsonSchema.from({
+      const schema = new JsonSchema({
         type: "object",
         properties: {
           prop: {
@@ -1680,14 +1680,14 @@ describe("JsonSchema", () => {
   });
   describe("Mixed types", () => {
     it("should create a new jsonSchema", () => {
-      const result = JsonSchema.from({type: [String, Number]}).toObject();
+      const result = new JsonSchema({type: [String, Number]}).toObject();
 
       expect(result).toEqual({
         type: ["string", "number"]
       });
     });
     it("should create a new jsonSchema (2)", () => {
-      const result = JsonSchema.from({type: ["string", "null"]}).toObject();
+      const result = new JsonSchema({type: ["string", "null"]}).toObject();
 
       expect(result).toEqual({
         type: ["string", "null"]
@@ -1697,7 +1697,7 @@ describe("JsonSchema", () => {
 
   describe("Any types", () => {
     it("should create a new jsonSchema", () => {
-      const result = JsonSchema.from({type: Object}).any().toObject();
+      const result = new JsonSchema({type: Object}).any().toObject();
 
       expect(result).toEqual({
         oneOf: [
@@ -1736,10 +1736,10 @@ describe("JsonSchema", () => {
         id: string;
       }
 
-      const store = JsonEntityStore.from(Product);
+      const store = getJsonEntityStore(Product);
       const warnSpy = vi.spyOn(console, "warn").mockImplementation(() => {});
 
-      const mapped = (JsonSchema.from({}) as any).mapGenerics(store, [[String]]);
+      const mapped = (new JsonSchema({}) as any).mapGenerics(store, [[String]]);
 
       expect(mapped).toEqual({});
       expect(warnSpy).toHaveBeenCalledTimes(1);

@@ -7,11 +7,11 @@ import {JsonSchemaOptions} from "../../interfaces/JsonSchemaOptions.js";
 import {execMapper, registerJsonSchemaMapper} from "../../registries/JsonSchemaMapperContainer.js";
 import {buildPath} from "../../utils/buildPath.js";
 import {concatParameters} from "../../utils/concatParameters.js";
-import {getJsonEntityStore} from "../../utils/getJsonEntityStore.js";
 import {getJsonPathParameters} from "../../utils/getJsonPathParameters.js";
 import {getOperationsStores} from "../../utils/getOperationsStores.js";
 import {getOperationId} from "../../utils/operationIdFormatter.js";
 import {removeHiddenOperation} from "../../utils/removeHiddenOperation.js";
+import {getJsonEntityStore} from "../../domain/index.js";
 
 const ALLOWED_VERBS = [
   OperationVerbs.ALL,
@@ -48,10 +48,10 @@ function pushToPath(
 
 function mapOperationInPathParameters(options: JsonSchemaOptions) {
   return ({
-    operationPath,
-    operation,
-    operationStore
-  }: {
+            operationPath,
+            operation,
+            operationStore
+          }: {
     operationPath: JsonMethodPath;
     operation: OS3Operation;
     operationStore: JsonMethodStore;

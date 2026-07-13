@@ -59,7 +59,7 @@ class TestNullableCtrl {
 
 describe("Spec: Nullable", () => {
   it("should generate the JSON", () => {
-    const schema = compile(Product);
+    const schema = s.compile(Product);
     expect(schema).toEqual({
       definitions: {
         Nested: {
@@ -210,7 +210,7 @@ describe("Spec: Nullable", () => {
     }
 
     // THEN
-    const schema = compile(Model);
+    const schema = s.compile(Model);
 
     expect(schema).toMatchInlineSnapshot(`
       {
@@ -353,7 +353,7 @@ describe("Spec: Nullable", () => {
     }
 
     // THEN
-    const schema = compile(Model);
+    const schema = s.compile(Model);
     const ajv = new Ajv();
 
     ajv.compile(schema);
@@ -583,7 +583,7 @@ describe("Spec: Nullable", () => {
     }
 
     // THEN
-    const schema = compile(Model);
+    const schema = s.compile(Model);
     expect(schema).toMatchInlineSnapshot(`
       {
         "properties": {
@@ -755,7 +755,7 @@ describe("Spec: Nullable", () => {
       }
     `);
 
-    const schema = compile(Model);
+    const schema = s.compile(Model);
     expect(schema).toMatchInlineSnapshot(`
       {
         "definitions": {
@@ -835,7 +835,7 @@ describe("Spec: Nullable", () => {
       prop2: Nested1 | Nested2 | null;
     }
 
-    const schema = compile(Model);
+    const schema = s.compile(Model);
 
     expect(schema).toMatchInlineSnapshot(`
       {
@@ -998,7 +998,7 @@ describe("Spec: Nullable", () => {
       }
     `);
 
-    const schema = compile(Model);
+    const schema = s.compile(Model);
 
     expect(schema).toMatchInlineSnapshot(`
       {
@@ -1274,7 +1274,7 @@ describe("Spec: Nullable", () => {
       }
     `);
 
-    const schema = compile(Model);
+    const schema = s.compile(Model);
 
     expect(schema).toMatchInlineSnapshot(`
       {
@@ -1442,7 +1442,7 @@ describe("Spec: Nullable", () => {
       }
     `);
 
-    const schema = compile(Model);
+    const schema = s.compile(Model);
 
     expect(schema).toMatchInlineSnapshot(`
       {
@@ -1521,7 +1521,7 @@ describe("Spec: Nullable", () => {
       keys: Array<ConsumerEllipticCurveJwk | ConsumerRSAJwk | ConsumerSymetricJwk> | null;
     }
 
-    const schema = compile(ConsumerJwksUpdate);
+    const schema = s.compile(ConsumerJwksUpdate);
     const ajv = new Ajv({strict: true});
 
     expect(ajv.validate(schema, {keys: null})).toBeTruthy();
@@ -1599,7 +1599,7 @@ describe("Spec: Nullable", () => {
       prop: string[] | null;
     }
 
-    const schema = compile(TestModel);
+    const schema = s.compile(TestModel);
 
     expect(schema).toMatchInlineSnapshot(`
       {

@@ -1,9 +1,8 @@
-import {ancestorsOf, DecoratorTypes, isClass, isMethodDescriptor, Metadata, prototypeOf, Type} from "@tsed/core";
-
-import {JsonEntityComponent} from "../decorators/config/jsonEntityComponent.js";
+import {ancestorsOf, isClass, isMethodDescriptor, Metadata, prototypeOf, Type} from "@tsed/core";
 import {JsonEntityStore, JsonEntityStoreOptions} from "./JsonEntityStore.js";
 import type {JsonMethodStore} from "./JsonMethodStore.js";
 import {JsonParameter} from "./JsonParameter.js";
+import {getJsonEntityStore, getJsonMethodStore} from "./JsonEntitiesContainer.js";
 
 /**
  * Configuration options for creating a JsonParameterStore.
@@ -112,7 +111,6 @@ export interface PipeMethods<T = any, R = any> {
  *
  * @public
  */
-@JsonEntityComponent(DecoratorTypes.PARAM)
 export class JsonParameterStore extends JsonEntityStore {
   public paramType?: string;
   public expression?: string;
@@ -125,7 +123,7 @@ export class JsonParameterStore extends JsonEntityStore {
    * Ref to JsonParameter when the decorated object is a parameter.
    */
   readonly parameter: JsonParameter = new JsonParameter();
-  readonly parent: JsonMethodStore = JsonEntityStore.fromMethod(this.target, this.propertyKey);
+  readonly parent: JsonMethodStore = getJsonMethodStore(this.target, this.propertyKey);
 
   constructor(options: JsonParameterStoreOptions) {
     super(options);
@@ -161,11 +159,11 @@ export class JsonParameterStore extends JsonEntityStore {
     const klass = ancestorsOf(target)
       .reverse()
       .find((target) => {
-        return isMethodDescriptor(target, propertyKey) && JsonEntityStore.fromMethod(target, propertyKey).children.size;
+        return isMethodDescriptor(target, propertyKey) && getJsonMethodStore(target, propertyKey).children.size;
       });
 
     if (klass) {
-      JsonEntityStore.fromMethod(klass, propertyKey).children.forEach((param: JsonParameterStore, index: string | number) => {
+      getJsonMethodStore(klass, propertyKey).children.forEach((param: JsonParameterStore, index: string | number) => {
         params[+index] = param as T;
       });
 
@@ -176,7 +174,7 @@ export class JsonParameterStore extends JsonEntityStore {
   }
 
   static get(target: Type<any>, propertyKey: string | symbol, index: number) {
-    return JsonEntityStore.from<JsonParameterStore>(prototypeOf(target), propertyKey, index);
+    return getJsonEntityStore(prototypeOf(target), propertyKey, index);
   }
 
   /**
@@ -188,7 +186,7 @@ export class JsonParameterStore extends JsonEntityStore {
     return this.required && [undefined, null, ""].includes(value) && !this.allowedRequiredValues.includes(value);
   }
 
-  protected build() {
+  build() {
     if (!this._type) {
       const type: any = Metadata.getParamTypes(prototypeOf(this.target), this.propertyKey)[this.index!];
 

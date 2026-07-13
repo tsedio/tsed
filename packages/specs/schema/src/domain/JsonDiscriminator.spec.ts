@@ -2,7 +2,7 @@ import {DiscriminatorValue} from "../decorators/class/discriminatorValue.js";
 import {DiscriminatorKey} from "../decorators/common/discriminatorKey.js";
 import {Property} from "../decorators/common/property.js";
 import {Required} from "../decorators/common/required.js";
-import {JsonEntityStore} from "./JsonEntityStore.js";
+import {getJsonEntityStore} from "@tsed/schema";
 
 class Event {
   @DiscriminatorKey() // declare this property a discriminator key
@@ -36,7 +36,7 @@ class CustomAction extends Event {
 describe("Discriminator", () => {
   describe("getType()", () => {
     it("should return the expected type", () => {
-      const discriminator = JsonEntityStore.from(Event).schema.discriminator();
+      const discriminator = getJsonEntityStore(Event).schema.discriminator();
 
       expect(discriminator.getType("custom_action")).toEqual(CustomAction);
       expect(discriminator.getType("")).toEqual(Event);
@@ -45,7 +45,7 @@ describe("Discriminator", () => {
 
   describe("getValues()", () => {
     it("should return the expected values", () => {
-      const discriminator = JsonEntityStore.from(Event).schema.discriminator();
+      const discriminator = getJsonEntityStore(Event).schema.discriminator();
 
       expect(discriminator.getValues(CustomAction)).toEqual(["custom_action"]);
       expect(discriminator.getValues(Event)).toEqual(undefined);
@@ -55,7 +55,7 @@ describe("Discriminator", () => {
 
   describe("getDefaultValue()", () => {
     it("should return the expected value", () => {
-      const discriminator = JsonEntityStore.from(Event).schema.discriminator();
+      const discriminator = getJsonEntityStore(Event).schema.discriminator();
 
       expect(discriminator.getDefaultValue(CustomAction)).toEqual("custom_action");
       expect(discriminator.getDefaultValue(Event)).toEqual(undefined);

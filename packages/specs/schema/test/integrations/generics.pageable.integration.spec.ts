@@ -1,9 +1,7 @@
 import {QueryParams} from "@tsed/platform-params";
 
 import {
-  array,
   CollectionOf,
-  compile,
   Default,
   Description,
   For,
@@ -18,14 +16,13 @@ import {
   MinLength,
   Name,
   OneOf,
-  oneOf,
   OperationPath,
   Path,
   Property,
   Required,
   Returns,
-  SpecTypes,
-  string
+  s,
+  SpecTypes
 } from "../../src/index.js";
 import {validateSpec} from "../helpers/validateSpec.js";
 
@@ -42,9 +39,9 @@ export class Pageable {
   @Description("Number of objects per page.")
   size: number = 20;
 
-  @For(SpecTypes.JSON, oneOf(string(), array().items(string()).maxItems(2)))
-  @For(SpecTypes.OPENAPI, array().items(string()).maxItems(2))
-  @For(SpecTypes.SWAGGER, array().items(string()).maxItems(2))
+  @For(SpecTypes.JSON, s.oneOf(s.string(), s.array().items(s.string()).maxItems(2)))
+  @For(SpecTypes.OPENAPI, s.array().items(s.string()).maxItems(2))
+  @For(SpecTypes.SWAGGER, s.array().items(s.string()).maxItems(2))
   @Description("Sorting criteria: property(,asc|desc). Default sort order is ascending. Multiple sort criteria are supported.")
   sort: string[];
 
@@ -138,12 +135,13 @@ export class ContactQueryParams extends Pageable {
 class TestContactPageableCtrl {
   @OperationPath("GET", "/")
   @Returns(206, ContactQueryParams)
-  async get(@In("query") pageableOptions: ContactQueryParams) {}
+  async get(@In("query") pageableOptions: ContactQueryParams) {
+  }
 }
 
 describe("Generics: Pageable - Testing pagination functionality with generic types", () => {
   it("should generate the correct JSON schema for the Pageable class", () => {
-    const schema = compile(Pageable);
+    const schema = s.compile(Pageable);
 
     expect(schema).toMatchInlineSnapshot(`
       {
@@ -372,7 +370,8 @@ describe("Generics: Pageable - Testing pagination functionality with generic typ
     @Path("/pageable")
     class TestDeepObjectCtrl {
       @OperationPath("GET", "/")
-      async get(@QueryParams("s") @GenericOf(FindQuery) q: PaginationQuery<FindQuery>) {}
+      async get(@QueryParams("s") @GenericOf(FindQuery) q: PaginationQuery<FindQuery>) {
+      }
     }
 
     const spec = getSpec(TestDeepObjectCtrl, {specType: SpecTypes.OPENAPI});
@@ -484,7 +483,8 @@ describe("Generics: Pageable - Testing pagination functionality with generic typ
     @Path("/pageable")
     class TestDeepObjectCtrl {
       @OperationPath("GET", "/")
-      async get(@In("query") @GenericOf(FindQuery) q: PaginationQuery<FindQuery>) {}
+      async get(@In("query") @GenericOf(FindQuery) q: PaginationQuery<FindQuery>) {
+      }
     }
 
     const spec = getSpec(TestDeepObjectCtrl, {specType: SpecTypes.OPENAPI});
@@ -568,7 +568,7 @@ describe("Generics: Pageable - Testing pagination functionality with generic typ
     `);
   });
   it("should generate the correct JSON schema for the ContactQueryParams class", () => {
-    const schema = compile(ContactQueryParams);
+    const schema = s.compile(ContactQueryParams);
 
     expect(schema).toMatchInlineSnapshot(`
       {

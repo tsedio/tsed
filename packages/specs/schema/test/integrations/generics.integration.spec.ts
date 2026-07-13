@@ -8,13 +8,11 @@ import {
   compile,
   Description,
   Email,
-  from,
   GenericOf,
   Generics,
+  get,
   getSpec,
   In,
-  JsonEntityStore,
-  JsonSchema,
   MinLength,
   object,
   OperationPath,
@@ -23,6 +21,7 @@ import {
   Property,
   Required,
   Returns,
+  s,
   SpecTypes,
   Status,
   string,
@@ -78,7 +77,7 @@ describe("Generics: basic", () => {
         totalCount: number;
       }
 
-      const schema = compile(Paginated, {
+      const schema = s.compile(Paginated, {
         generics: {
           Data: [Product]
         }
@@ -137,7 +136,7 @@ describe("Generics: basic", () => {
           {schema: schema as any}
         )
       );
-      expect(value?.message).toEqual('Value.data.0 must be object. Given value: "tst"');
+      expect(value?.message).toEqual("Value.data.0 must be object. Given value: \"tst\"");
 
       const value2 = await catchAsyncError(() =>
         validate(
@@ -216,7 +215,7 @@ describe("Generics: basic", () => {
       const itemSchema = object().description("Hello").type(UserProperty).genericOf([Number]);
 
       expect(itemSchema.getTarget()).toEqual(UserProperty);
-      expect(JsonSchema.from(UserProperty).getGenericLabels()).toEqual(["T"]);
+      expect(get(UserProperty).getGenericLabels()).toEqual(["T"]);
       expect(itemSchema.get(VendorKeys.GENERIC_OF)).toBeDefined();
 
       const schema = array().items(itemSchema).toJSON();
@@ -333,7 +332,7 @@ describe("Generics: basic", () => {
         label: string;
       }
 
-      const schema = compile(Paginated, {
+      const schema = s.compile(Paginated, {
         generics: {
           T: [
             Submission,
@@ -812,10 +811,10 @@ describe("Generics: basic", () => {
         }
       }
 
-      const metadata = JsonEntityStore.from(Controller1, "method", 0);
+      const metadata = s.store(Controller1, "method", 0);
 
       // THEN
-      const schema = compile(metadata);
+      const schema = s.compile(metadata);
 
       expect(schema).toMatchInlineSnapshot(`
         {
@@ -876,7 +875,7 @@ describe("Generics: basic", () => {
       }
 
       // THEN
-      const schema = compile(Content);
+      const schema = s.compile(Content);
 
       expect(schema).toMatchInlineSnapshot(`
         {
@@ -955,7 +954,7 @@ describe("Generics: basic", () => {
         payload: Model<Role>;
       }
 
-      const schema = compile(Content);
+      const schema = s.compile(Content);
 
       expect(schema).toMatchInlineSnapshot(`
         {
@@ -1888,7 +1887,7 @@ describe("Generics: basic", () => {
 
       class Controller {
         @OperationPath("POST", "/")
-        @(Returns(200, Object).Schema(from(Pagination).genericOf([Product]).description("description")))
+        @(Returns(200, Object).Schema(s.from(Pagination).genericOf([Product]).description("description")))
         method(): Promise<Pagination<Product> | null> {
           return null as never;
         }
