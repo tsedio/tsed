@@ -14,7 +14,7 @@ describe("toZod", () => {
   });
 
   it("should preserve aliases when useAlias is enabled", () => {
-    const schema = JsonSchema.from({
+    const schema = new JsonSchema({
       type: "object",
       properties: {
         prop: {

@@ -1,5 +1,6 @@
+import {s} from "../../..";
 import {SpecTypes} from "../../domain/SpecTypes.js";
-import {getSpec} from "../../utils/getSpec.js";
+import {getSpec} from "../../fn/spec.js";
 import {CollectionOf} from "../collections/collectionOf.js";
 import {In} from "../operations/in.js";
 import {OperationPath} from "../operations/operationPath.js";
@@ -10,7 +11,6 @@ import {Name} from "./name.js";
 import {Property} from "./property.js";
 import {Required} from "./required.js";
 import {RequiredGroups} from "./requiredGroups.js";
-import {s} from "@tsed/schema";
 
 class ChildModel {
   @Groups("!creation")

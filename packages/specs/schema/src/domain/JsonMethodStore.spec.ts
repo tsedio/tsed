@@ -4,18 +4,18 @@ import {PlatformTest} from "@tsed/platform-http";
 // @ts-ignore
 import {Use, UseAfter, UseBefore} from "@tsed/platform-middlewares";
 
+import {getJsonEntityStore, getJsonMethodStore} from "../..";
 import {OperationVerbs} from "../constants/OperationVerbs.js";
 import {Property} from "../decorators/common/property.js";
 import {In} from "../decorators/operations/in.js";
 import {Returns} from "../decorators/operations/returns.js";
 import {Get} from "../decorators/operations/route.js";
-import {getSpec} from "../utils/getSpec.js";
+import {getSpec} from "../fn/spec.js";
 import {inspectOperationsPaths} from "./__fixtures__/inspectOperationsPaths.js";
 import {JsonEntityStore} from "./JsonEntityStore.js";
 import {EndpointMetadata, JsonMethodStore} from "./JsonMethodStore.js";
 import {JsonOperation} from "./JsonOperation.js";
 import {JsonParameter} from "./JsonParameter.js";
-import {getJsonEntityStore, getJsonMethodStore} from "@tsed/schema";
 
 describe("JsonMethodStore", () => {
   describe("endpoint declaration", () => {

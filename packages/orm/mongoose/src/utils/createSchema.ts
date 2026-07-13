@@ -1,6 +1,6 @@
 import {classOf, cleanObject, isClassObject, nameOf, Store, Type} from "@tsed/core";
 import {deserialize, serialize} from "@tsed/json-mapper";
-import {getProperties, JsonEntityStore} from "@tsed/schema";
+import {getProperties, JsonEntityStore, s} from "@tsed/schema";
 import {pascalCase} from "change-case";
 import mongoose, {Schema, SchemaDefinition, SchemaDefinitionProperty, SchemaOptions, SchemaTypeOptions} from "mongoose";
 
@@ -44,7 +44,7 @@ function hasVersionField(schema: mongoose.Schema, versionKey?: string | boolean)
 }
 
 export function createSchema(target: Type<any>, options: MongooseSchemaOptions = {}): mongoose.Schema {
-  const entity = JsonEntityStore.from(target);
+  const entity = s.store(target);
   const schemaOptionsFromStore = entity.store.get(MONGOOSE_SCHEMA_OPTIONS) || {};
   options.schemaOptions = {...options.schemaOptions, ...schemaOptionsFromStore};
 

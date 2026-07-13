@@ -1,9 +1,9 @@
+import {s} from "../../..";
 import {SpecTypes} from "../../domain/SpecTypes.js";
-import {getSpec} from "../../utils/getSpec.js";
+import {getSpec} from "../../fn/spec.js";
 import {In} from "../operations/in.js";
 import {OperationPath} from "../operations/operationPath.js";
 import {MaxProperties} from "./maxProperties.js";
-import {s} from "@tsed/schema";
 
 describe("@MaxProperties", () => {
   it("should declare max value (any)", () => {
