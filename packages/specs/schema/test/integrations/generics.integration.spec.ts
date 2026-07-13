@@ -8,6 +8,7 @@ import {
   compile,
   Description,
   Email,
+  from,
   GenericOf,
   Generics,
   getSpec,
@@ -1699,6 +1700,264 @@ describe("Generics: basic", () => {
                       },
                     },
                     "description": "description",
+                  },
+                },
+                "tags": [
+                  "Controller",
+                ],
+              },
+            },
+          },
+          "tags": [
+            {
+              "name": "Controller",
+            },
+          ],
+        }
+      `);
+    });
+    it("should isolate generics for multiple Returns.Of declarations", () => {
+      @Generics("T")
+      class Pagination<T> {
+        @CollectionOf("T")
+        data: T[];
+
+        @Property()
+        totalCount: number;
+      }
+
+      class Product {
+        @Property()
+        id: string;
+      }
+
+      class Assets {
+        @Property()
+        url: string;
+      }
+
+      class Controller {
+        @OperationPath("GET", "/products")
+        @(Returns(200, Pagination).Of(Product).Description("products"))
+        getProducts(): Promise<Pagination<Product> | null> {
+          return null as never;
+        }
+
+        @OperationPath("GET", "/assets")
+        @(Returns(200, Pagination).Of(Assets).Description("assets"))
+        getAssets(): Promise<Pagination<Assets> | null> {
+          return null as never;
+        }
+      }
+
+      const spec = getSpec(Controller, {specType: SpecTypes.OPENAPI});
+
+      expect(spec).toMatchInlineSnapshot(`
+        {
+          "components": {
+            "schemas": {
+              "Assets": {
+                "properties": {
+                  "url": {
+                    "type": "string",
+                  },
+                },
+                "type": "object",
+              },
+              "Pagination": {
+                "properties": {
+                  "data": {
+                    "items": {},
+                    "type": "array",
+                  },
+                  "totalCount": {
+                    "type": "number",
+                  },
+                },
+                "type": "object",
+              },
+              "Product": {
+                "properties": {
+                  "id": {
+                    "type": "string",
+                  },
+                },
+                "type": "object",
+              },
+            },
+          },
+          "paths": {
+            "/assets": {
+              "get": {
+                "operationId": "controllerGetAssets",
+                "parameters": [],
+                "responses": {
+                  "200": {
+                    "content": {
+                      "application/json": {
+                        "schema": {
+                          "allOf": [
+                            {
+                              "$ref": "#/components/schemas/Pagination",
+                            },
+                            {
+                              "properties": {
+                                "data": {
+                                  "items": {
+                                    "$ref": "#/components/schemas/Assets",
+                                  },
+                                  "type": "array",
+                                },
+                              },
+                              "type": "object",
+                            },
+                          ],
+                        },
+                      },
+                    },
+                    "description": "assets",
+                  },
+                },
+                "tags": [
+                  "Controller",
+                ],
+              },
+            },
+            "/products": {
+              "get": {
+                "operationId": "controllerGetProducts",
+                "parameters": [],
+                "responses": {
+                  "200": {
+                    "content": {
+                      "application/json": {
+                        "schema": {
+                          "allOf": [
+                            {
+                              "$ref": "#/components/schemas/Pagination",
+                            },
+                            {
+                              "properties": {
+                                "data": {
+                                  "items": {
+                                    "$ref": "#/components/schemas/Product",
+                                  },
+                                  "type": "array",
+                                },
+                              },
+                              "type": "object",
+                            },
+                          ],
+                        },
+                      },
+                    },
+                    "description": "products",
+                  },
+                },
+                "tags": [
+                  "Controller",
+                ],
+              },
+            },
+          },
+          "tags": [
+            {
+              "name": "Controller",
+            },
+          ],
+        }
+      `);
+    });
+    it("should generate the open spec: Pagination<Product> + Returns.Schema(from().genericOf())", () => {
+      @Generics("T")
+      class Pagination<T> {
+        @CollectionOf("T")
+        data: T[];
+
+        @Property()
+        totalCount: number;
+      }
+
+      class Product {
+        @Property()
+        id: string;
+
+        @Property()
+        title: string;
+      }
+
+      class Controller {
+        @OperationPath("POST", "/")
+        @(Returns(200, Object).Schema(from(Pagination).genericOf([Product]).description("description")))
+        method(): Promise<Pagination<Product> | null> {
+          return null as never;
+        }
+      }
+
+      const spec = getSpec(Controller, {specType: SpecTypes.OPENAPI});
+
+      expect(spec).toMatchInlineSnapshot(`
+        {
+          "components": {
+            "schemas": {
+              "Pagination": {
+                "description": "description",
+                "properties": {
+                  "data": {
+                    "items": {
+                      "type": "object",
+                    },
+                    "type": "array",
+                  },
+                  "totalCount": {
+                    "type": "number",
+                  },
+                },
+                "type": "object",
+              },
+              "Product": {
+                "properties": {
+                  "id": {
+                    "type": "string",
+                  },
+                  "title": {
+                    "type": "string",
+                  },
+                },
+                "type": "object",
+              },
+            },
+          },
+          "paths": {
+            "/": {
+              "post": {
+                "operationId": "controllerMethod",
+                "parameters": [],
+                "responses": {
+                  "200": {
+                    "content": {
+                      "application/json": {
+                        "schema": {
+                          "allOf": [
+                            {
+                              "$ref": "#/components/schemas/Pagination",
+                            },
+                            {
+                              "properties": {
+                                "data": {
+                                  "items": {
+                                    "$ref": "#/components/schemas/Product",
+                                  },
+                                  "type": "array",
+                                },
+                              },
+                              "type": "object",
+                            },
+                          ],
+                        },
+                      },
+                    },
+                    "description": "Success",
                   },
                 },
                 "tags": [

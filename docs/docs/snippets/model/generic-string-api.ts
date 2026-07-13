@@ -1,4 +1,4 @@
-import {GenericOf, Generics, getJsonSchema, Property, string} from "@tsed/schema";
+import {compile, GenericOf, Generics, Property, string} from "@tsed/schema";
 
 @Generics("T")
 class UserProperty<T> {
@@ -11,7 +11,7 @@ class Adjustment {
   adjustment: UserProperty<string>;
 }
 
-console.log(getJsonSchema(Adjustment));
+console.log(compile(Adjustment));
 /* OUTPUT:
 {
   "properties": {

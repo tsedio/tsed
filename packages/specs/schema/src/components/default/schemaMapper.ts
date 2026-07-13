@@ -143,8 +143,12 @@ function serializeSchema(schema: JsonSchema, options: JsonSchemaOptions) {
 
 export function schemaMapper(schema: JsonSchema, opts: JsonSchemaOptions): any {
   const {options, addDef} = mapOptions(opts);
+  const generics = options.generics || schema.getGenericOf();
 
-  const obj = serializeSchema(schema, options);
+  const obj = serializeSchema(schema, {
+    ...options,
+    generics
+  });
 
   if (addDef && Object.keys(getValue(options, "components.schemas", {})).length) {
     obj.definitions = options.components!.schemas;
