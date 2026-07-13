@@ -1,13 +1,5 @@
 import {classOf, isArray, isBoolean, isEmpty, isNil, nameOf, objectKeys, Type} from "@tsed/core";
-import {
-  getPropertiesStores,
-  JsonClassStore,
-  JsonEntityStore,
-  JsonParameterStore,
-  JsonPropertyStore,
-  JsonSchema,
-  VendorKeys
-} from "@tsed/schema";
+import {getPropertiesStores, JsonClassStore, JsonParameterStore, JsonPropertyStore, JsonSchema, s, VendorKeys} from "@tsed/schema";
 
 import {alterAfterDeserialize} from "../hooks/alterAfterDeserialize.js";
 import {alterBeforeDeserialize} from "../hooks/alterBeforeDeserialize.js";
@@ -128,7 +120,7 @@ export class JsonDeserializer extends JsonMapperCompiler<JsonDeserializerOptions
   }
 
   protected createMapper(model: Type<any>, id: string, groups: false | string[]): string {
-    const entity = JsonEntityStore.from(model);
+    const entity = s.store(model);
     const properties = new Set<string>();
     const schemaProperties = [...getPropertiesStores(entity).values()];
 
