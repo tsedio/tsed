@@ -14,7 +14,7 @@ import "../components/stringToComponent.js";
 
 import {isString, Type} from "@tsed/core";
 import {FormioForm} from "@tsed/formio-types";
-import {compile, JsonEntityStore, JsonSchemaOptions} from "@tsed/schema";
+import {compile, JsonSchemaOptions, s} from "@tsed/schema";
 import {kebabCase} from "change-case";
 
 import {execMapper} from "../registries/FormioMappersContainer.js";
@@ -32,7 +32,7 @@ export async function getFormioSchema(
     return getFormioSchema(FormsContainer.get(model) as Type<any>, options);
   }
 
-  const entity = JsonEntityStore.from(model);
+  const entity = s.store(model);
   const schema = compile(model, {
     ...options,
     inlineEnums: true,

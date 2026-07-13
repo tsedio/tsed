@@ -14,7 +14,7 @@ import {
   nameOf,
   Type
 } from "@tsed/core";
-import {getPropertiesStores, JsonClassStore, JsonEntityStore, JsonPropertyStore} from "@tsed/schema";
+import {getPropertiesStores, JsonClassStore, JsonPropertyStore, s} from "@tsed/schema";
 
 import {alterOnSerialize} from "../hooks/alterOnSerialize.js";
 import {getObjectProperties} from "../utils/getObjectProperties.js";
@@ -79,7 +79,7 @@ export class JsonSerializer extends JsonMapperCompiler<JsonSerializerOptions> {
   }
 
   protected createMapper(model: Type<any>, id: string, groups: false | string[]): string {
-    const entity = JsonEntityStore.from(model);
+    const entity = s.store(model);
     const properties = new Set<string>();
     const schemaProperties = [...getPropertiesStores(entity).values()];
 

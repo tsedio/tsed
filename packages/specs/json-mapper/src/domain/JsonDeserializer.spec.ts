@@ -15,7 +15,6 @@ import {
   Groups,
   Ignore,
   In,
-  JsonEntityStore,
   JsonHookContext,
   JsonParameterStore,
   Name,
@@ -23,7 +22,8 @@ import {
   OneOf,
   OperationPath,
   Property,
-  Required
+  Required,
+  s
 } from "@tsed/schema";
 
 import {Post} from "../../test/helpers/Post.js";
@@ -875,7 +875,7 @@ describe("deserialize()", () => {
           }
         ],
         {
-          store: JsonEntityStore.from(Controller, "method", 0)
+          store: s.store(Controller, "method", 0)
         }
       );
 
@@ -932,7 +932,7 @@ describe("deserialize()", () => {
           }
         },
         {
-          store: JsonEntityStore.from(Controller, "method", 0)
+          store: s.store(Controller, "method", 0)
         }
       );
 
@@ -953,7 +953,7 @@ describe("deserialize()", () => {
           }
         },
         {
-          store: JsonEntityStore.from(Controller2, "method", 0)
+          store: s.store(Controller2, "method", 0)
         }
       );
 
@@ -1012,7 +1012,7 @@ describe("deserialize()", () => {
           ]
         },
         {
-          store: JsonEntityStore.from(Controller, "method", 0)
+          store: s.store(Controller, "method", 0)
         }
       );
 
@@ -1038,7 +1038,7 @@ describe("deserialize()", () => {
           ]
         },
         {
-          store: JsonEntityStore.from(Controller2, "method", 0)
+          store: s.store(Controller2, "method", 0)
         }
       );
 
