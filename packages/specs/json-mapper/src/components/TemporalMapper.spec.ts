@@ -1,10 +1,9 @@
 import {TemporalMapper} from "./TemporalMapper.js";
 
+// `Temporal` is provided natively on Node >= 24 and via the polyfill wired in vitest.setup.ts.
 const Temporal = (globalThis as any).Temporal;
-const hasTemporal = typeof Temporal !== "undefined";
 
-// Temporal is only available on Temporal-capable runtimes (e.g. Node >= 24).
-describe.skipIf(!hasTemporal)("TemporalMapper", () => {
+describe("TemporalMapper", () => {
   describe("deserialize()", () => {
     it("should rebuild a Temporal.Instant from an ISO string", () => {
       const mapper = new TemporalMapper();
@@ -31,6 +30,16 @@ describe.skipIf(!hasTemporal)("TemporalMapper", () => {
       const value = mapper.deserialize(duration.toString(), {type: Temporal.Duration} as any);
 
       expect(value.toString()).toEqual(duration.toString());
+    });
+
+    it("should rebuild a Temporal.ZonedDateTime with time zone", () => {
+      const mapper = new TemporalMapper();
+      const zdt = Temporal.ZonedDateTime.from("2024-06-15T10:00:00[Europe/Paris]");
+
+      const value = mapper.deserialize(zdt.toString(), {type: Temporal.ZonedDateTime} as any);
+
+      expect(Temporal.ZonedDateTime.compare(value, zdt)).toEqual(0);
+      expect(mapper.serialize(zdt)).toEqual(zdt.toString());
     });
 
     it("should return value when the data is a boolean/null/undefined", () => {
