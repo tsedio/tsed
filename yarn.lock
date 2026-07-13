@@ -13583,6 +13583,7 @@ __metadata:
     "@tsed/schema": "workspace:*"
     "@tsed/typescript": "workspace:*"
     eslint: "npm:9.12.0"
+    temporal-polyfill: "npm:1.0.1"
     tslib: "npm:>=2.7.0"
     typescript: "npm:6.0.2"
     vitest: "npm:4.1.4"
@@ -40842,6 +40843,30 @@ __metadata:
   version: 0.2.3
   resolution: "templayed@npm:0.2.3"
   checksum: 10/83a97ab113ca73ef822285cc010cd5103bae30517467e1f75ac3c362ab4916425863a0eb6498b21ff923ede17d40695c25a0e6de28b270a23669ac300a27b16f
+  languageName: node
+  linkType: hard
+
+"temporal-polyfill@npm:1.0.1":
+  version: 1.0.1
+  resolution: "temporal-polyfill@npm:1.0.1"
+  dependencies:
+    temporal-spec: "npm:1.0.0"
+    temporal-utils: "npm:1.0.1"
+  checksum: 10/1d7f19f1bfbe3d582c5cc33c8f186975c92c247258bf61dd64a5943684ee793aa403c80946aae2072ed39e47c46c2ba0b69dcd9391adba3c8652b7602094d004
+  languageName: node
+  linkType: hard
+
+"temporal-spec@npm:1.0.0":
+  version: 1.0.0
+  resolution: "temporal-spec@npm:1.0.0"
+  checksum: 10/5b4089c57b4dcb4afdfe72c9bd73b4d83487a3be2891d8c6983c703b4fbc79b695473814a1fe3867c31b7d72b421d5483c4445d063b294c4d91e4e2d698b5a83
+  languageName: node
+  linkType: hard
+
+"temporal-utils@npm:1.0.1":
+  version: 1.0.1
+  resolution: "temporal-utils@npm:1.0.1"
+  checksum: 10/75e586eddcedad0c47d4771e79dbf9c8f83f3fdd687399eaa9942c1e6875bb9c745401542c64e61f04ee3874d5d989fd47cf02dfef53eee436a36d825e67dab3
   languageName: node
   linkType: hard
 
