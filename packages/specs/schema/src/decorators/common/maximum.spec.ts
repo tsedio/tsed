@@ -1,6 +1,6 @@
 import "../../index.js";
 
-import {JsonEntityStore} from "../../domain/JsonEntityStore.js";
+import {s} from "../../fn/index.js";
 import {CollectionOf} from "../collections/collectionOf.js";
 import {Max} from "./maximum.js";
 
@@ -13,9 +13,7 @@ describe("@Maximum", () => {
     }
 
     // THEN
-    const classSchema = JsonEntityStore.from(Model);
-
-    expect(classSchema.schema.toJSON()).toEqual({
+    expect(s.compile(Model)).toEqual({
       properties: {
         num: {
           maximum: 0,
@@ -34,9 +32,7 @@ describe("@Maximum", () => {
     }
 
     // THEN
-    const classSchema = JsonEntityStore.from(Model);
-
-    expect(classSchema.schema.toJSON()).toEqual({
+    expect(s.compile(Model)).toEqual({
       properties: {
         num: {
           exclusiveMaximum: 0,
@@ -55,9 +51,7 @@ describe("@Maximum", () => {
     }
 
     // THEN
-    const classSchema = JsonEntityStore.from(Model);
-
-    expect(classSchema.schema.toJSON()).toEqual({
+    expect(s.compile(Model)).toEqual({
       properties: {
         num: {
           type: "array",

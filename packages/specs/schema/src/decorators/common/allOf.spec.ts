@@ -1,8 +1,7 @@
-import {JsonEntityStore} from "../../domain/JsonEntityStore.js";
 import {SpecTypes} from "../../domain/SpecTypes.js";
+import {s} from "../../fn/index.js";
 import {number} from "../../fn/number.js";
 import {string} from "../../fn/string.js";
-import {compile} from "../../utils/compile.js";
 import {getSpec} from "../../utils/getSpec.js";
 import {In} from "../operations/in.js";
 import {OperationPath} from "../operations/operationPath.js";
@@ -19,9 +18,7 @@ describe("@AllOf", () => {
     }
 
     // THEN
-    const classSchema = JsonEntityStore.from(Model);
-
-    expect(classSchema.schema.toJSON()).toEqual({
+    expect(s.compile(Model)).toEqual({
       properties: {
         num: {
           allOf: [
@@ -53,7 +50,7 @@ describe("@AllOf", () => {
       test: One1 | One2;
     }
 
-    const schema = compile(Model);
+    const schema = s.compile(Model);
 
     expect(schema).toEqual({
       definitions: {

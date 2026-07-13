@@ -1,4 +1,4 @@
-import {compile} from "../../utils/compile.js";
+import {s} from "../../fn/index.js";
 import {DefaultMsg} from "./defaultMsg.js";
 
 describe("@DefaultMsg", () => {
@@ -10,7 +10,7 @@ describe("@DefaultMsg", () => {
     }
 
     // THEN
-    const schema = compile(Model, {customKeys: true});
+    const schema = s.compile(Model, {customKeys: true});
 
     expect(schema).toEqual({
       type: "object",

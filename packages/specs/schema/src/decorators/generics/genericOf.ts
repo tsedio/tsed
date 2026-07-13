@@ -1,6 +1,6 @@
 import {DecoratorTypes} from "@tsed/core";
 
-import {JsonEntityStore} from "../../domain/JsonEntityStore.js";
+import {s} from "../../fn/index.js";
 import {GenericValue} from "../../utils/generics.js";
 
 /**
@@ -86,7 +86,7 @@ export function GenericOf(...generics: GenericValue[]): GenericOfChainedDecorato
   const nestedGenerics: GenericValue[][] = [generics];
 
   const decorator = (...args: any) => {
-    const store = JsonEntityStore.from(...args);
+    const store = s.store(...args);
 
     if (store.is(DecoratorTypes.PARAM)) {
       store.parameter.schema().genericOf(...nestedGenerics);

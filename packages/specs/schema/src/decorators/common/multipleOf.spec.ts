@@ -1,4 +1,4 @@
-import {compile} from "../../utils/compile.js";
+import {s} from "../../fn/index.js";
 import {MultipleOf} from "./multipleOf.js";
 
 describe("MultipleOf", () => {
@@ -10,7 +10,7 @@ describe("MultipleOf", () => {
     }
 
     // THEN
-    expect(compile(Model)).toEqual({
+    expect(s.compile(Model)).toEqual({
       properties: {
         num: {
           multipleOf: 2,

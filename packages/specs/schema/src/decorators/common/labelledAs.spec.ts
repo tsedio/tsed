@@ -1,4 +1,4 @@
-import {compile} from "../../utils/compile.js";
+import {s} from "../../fn/index.js";
 import {MaxItems} from "../collections/maxItems.js";
 import {Enum} from "./enum.js";
 import {LabelledAs} from "./labelledAs.js";
@@ -17,7 +17,7 @@ describe("LabelledAs", () => {
       prop: Test[];
     }
 
-    const schema = compile(Model);
+    const schema = s.compile(Model);
 
     expect(schema).toMatchInlineSnapshot(`
       {
@@ -56,7 +56,7 @@ describe("LabelledAs", () => {
       prop: Test[];
     }
 
-    const schema = compile(Model);
+    const schema = s.compile(Model);
 
     expect(schema).toMatchInlineSnapshot(`
       {

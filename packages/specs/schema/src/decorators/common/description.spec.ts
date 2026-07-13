@@ -1,5 +1,5 @@
+import {s} from "../../fn/index.js";
 import {In, OperationPath, Property, SpecTypes} from "../../index.js";
-import {compile} from "../../utils/compile.js";
 import {getSpec} from "../../utils/getSpec.js";
 import {Description} from "./description.js";
 
@@ -10,7 +10,7 @@ describe("@Description", () => {
     class Model {}
 
     // THEN
-    expect(compile(Model)).toEqual({
+    expect(s.compile(Model)).toEqual({
       description: "Description",
       type: "object"
     });
@@ -53,7 +53,7 @@ describe("@Description", () => {
     }
 
     // THEN
-    expect(compile(Model)).toEqual({
+    expect(s.compile(Model)).toEqual({
       properties: {
         method: {
           description: "Description",

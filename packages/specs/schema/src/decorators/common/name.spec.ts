@@ -1,5 +1,5 @@
+import {s} from "../../fn/index.js";
 import {Consumes, getSpec, OperationPath, Path} from "../../index.js";
-import {compile} from "../../utils/compile.js";
 import {Name} from "./name.js";
 
 describe("@Name", () => {
@@ -11,7 +11,7 @@ describe("@Name", () => {
     }
 
     // THEN
-    expect(compile(Model)).toEqual({
+    expect(s.compile(Model)).toEqual({
       properties: {
         num2: {
           type: "number"

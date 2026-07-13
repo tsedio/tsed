@@ -1,4 +1,4 @@
-import {compile} from "../../utils/compile.js";
+import {s} from "../../fn/index.js";
 import {CollectionOf} from "./collectionOf.js";
 import {UniqueItems} from "./uniqueItems.js";
 
@@ -12,7 +12,7 @@ describe("@UniqueItems", () => {
     }
 
     // THEN
-    expect(compile(Model)).toEqual({
+    expect(s.compile(Model)).toEqual({
       properties: {
         num: {
           items: {

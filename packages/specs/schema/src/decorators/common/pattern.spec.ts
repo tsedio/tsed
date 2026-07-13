@@ -1,6 +1,6 @@
 import "../../index.js";
 
-import {JsonEntityStore} from "../../domain/JsonEntityStore.js";
+import {s} from "../../fn/index.js";
 import {Pattern} from "./pattern.js";
 
 describe("@Pattern", () => {
@@ -12,9 +12,7 @@ describe("@Pattern", () => {
     }
 
     // THEN
-    const classSchema = JsonEntityStore.from(Model);
-
-    expect(classSchema.schema.toJSON()).toEqual({
+    expect(s.compile(Model)).toEqual({
       properties: {
         num: {
           pattern: "(a|b)",
