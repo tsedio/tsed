@@ -8,7 +8,7 @@ const PaymentProvidersResponseSchema = s.object({
   buyNowPayLaterProviders: s.$ref("https://api.clubmed.com/doc/swagger.json#/components/schemas/BuyNowPayLaterProviderModel")
 });
 
-const paymentProvidersResponseSchemaJson = compile(PaymentProvidersResponseSchema);
+const paymentProvidersResponseSchemaJson = s.compile(PaymentProvidersResponseSchema);
 
 describe("External ref url integration", () => {
   beforeEach(() =>

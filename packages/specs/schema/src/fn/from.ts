@@ -2,7 +2,7 @@ import {isClass, Type} from "@tsed/core";
 
 import {JsonSchema} from "../domain/JsonSchema.js";
 import type {CtorToType} from "../domain/types.js";
-import {getJsonEntityStore} from "../utils/getJsonEntityStore.js";
+import {getJsonEntityStore} from "../domain/JsonEntitiesContainer.js";
 
 /**
  * Create a new local schema instance from the given type.
@@ -32,7 +32,7 @@ export function from(type: Type<any> = Object) {
     return schema.clone();
   }
 
-  return JsonSchema.from({type});
+  return new JsonSchema({type});
 }
 
 /**

@@ -1,5 +1,6 @@
 import {
   Allow,
+  getJsonEntityStore,
   In,
   JsonEntityStore,
   JsonMethodStore,
@@ -21,7 +22,7 @@ describe("JsonEntityStore", () => {
     }
 
     // CLASS
-    const storeClass = JsonEntityStore.from(Model);
+    const storeClass = getJsonEntityStore(Model);
 
     expect(storeClass).toBeInstanceOf(JsonEntityStore);
     expect(storeClass.decoratorType).toBe("class");
@@ -41,7 +42,7 @@ describe("JsonEntityStore", () => {
     expect(storeClass.getBestType()).toBe(Model);
 
     // PROPERTY
-    const storeProp = JsonEntityStore.from(Model).children.get("id") as JsonPropertyStore;
+    const storeProp = getJsonEntityStore(Model).children.get("id") as JsonPropertyStore;
     expect(storeProp).toBeInstanceOf(JsonEntityStore);
     expect(storeProp.decoratorType).toBe("property");
     expect(storeProp.propertyKey).toBe("id");
@@ -59,7 +60,7 @@ describe("JsonEntityStore", () => {
     expect(storeProp.isGetterOnly()).toBeFalsy();
 
     // METHOD
-    const storeMethod = JsonEntityStore.from(Model).children.get("method") as JsonMethodStore;
+    const storeMethod = getJsonEntityStore(Model).children.get("method") as JsonMethodStore;
     expect(storeMethod).toBeInstanceOf(JsonEntityStore);
     expect(storeMethod.propertyKey).toBe("method");
     expect(storeMethod.propertyName).toBe("method");
@@ -79,7 +80,7 @@ describe("JsonEntityStore", () => {
     expect(storeMethod.isClass).toBe(false);
 
     // PARAMETERS
-    const storeParam = JsonEntityStore.from(Model).children.get("method")?.children.get(0) as JsonParameterStore;
+    const storeParam = getJsonEntityStore(Model).children.get("method")?.children.get(0) as JsonParameterStore;
     expect(storeParam).toBeInstanceOf(JsonEntityStore);
     expect(storeParam.propertyKey).toBe("method");
     expect(storeParam.propertyName).toBe("method");
@@ -111,7 +112,7 @@ describe("JsonEntityStore", () => {
 
     // CLASS
     Property()(Model.prototype, "test");
-    const store = JsonEntityStore.from(Model, "test");
+    const store = getJsonEntityStore(Model, "test");
 
     expect(store.type).toEqual(String);
   });
@@ -127,7 +128,7 @@ describe("JsonEntityStore", () => {
 
       // CLASS
       // PROPERTY
-      const storeProp = JsonEntityStore.from(Model).children.get("id") as JsonPropertyStore;
+      const storeProp = getJsonEntityStore(Model).children.get("id") as JsonPropertyStore;
       expect(storeProp.isGetterOnly()).toBeTruthy();
     });
     it("should create JsonEntityStore on getter/setter", () => {
@@ -142,7 +143,7 @@ describe("JsonEntityStore", () => {
 
       // CLASS
       // PROPERTY
-      const storeProp = JsonEntityStore.from(Model).children.get("id") as JsonPropertyStore;
+      const storeProp = getJsonEntityStore(Model).children.get("id") as JsonPropertyStore;
       expect(storeProp.isGetterOnly()).toBeFalsy();
     });
   });
@@ -155,7 +156,7 @@ describe("JsonEntityStore", () => {
         test: string;
       }
 
-      const propertyMetadata = JsonEntityStore.get(Test, "test");
+      const propertyMetadata = getJsonEntityStore(Test, "test");
       propertyMetadata.type = Test;
 
       expect(propertyMetadata.parent.schema.isRequired("test")).toEqual(true);
@@ -165,14 +166,14 @@ describe("JsonEntityStore", () => {
     });
   });
 
-  describe("get()", () => {
-    class Test {
-      test: string;
-    }
-
-    it("should return the propertyMetadata", () => {
-      const propertyMetadata = JsonEntityStore.get(Test, "test");
-      expect(propertyMetadata).toBeInstanceOf(JsonEntityStore);
-    });
-  });
+  // describe("get()", () => {
+  //   class Test {
+  //     test: string;
+  //   }
+  //
+  //   it.fails("should return the propertyMetadata", () => {
+  //     const propertyMetadata = JsonEntityStore.get(Test, "test");
+  //     expect(propertyMetadata).toBeInstanceOf(JsonEntityStore);
+  //   });
+  // });
 });

@@ -15,7 +15,13 @@ import {
   ValueOf
 } from "@tsed/core";
 import {Hooks} from "@tsed/hooks";
-import type {JSONSchema7, JSONSchema7Definition, JSONSchema7Type, JSONSchema7TypeName, JSONSchema7Version} from "json-schema";
+import type {
+  JSONSchema7,
+  JSONSchema7Definition,
+  JSONSchema7Type,
+  JSONSchema7TypeName,
+  JSONSchema7Version
+} from "json-schema";
 
 import {VendorKeys} from "../constants/VendorKeys.js";
 import {IgnoreCallback} from "../interfaces/IgnoreCallback.js";
@@ -30,10 +36,19 @@ import {serializeEnumValues} from "../utils/serializeEnumValues.js";
 import {toJsonRegex} from "../utils/toJsonRegex.js";
 import {AliasMap, AliasType} from "./JsonAliasMap.js";
 import {Discriminator} from "./JsonDiscriminator.js";
-import {JsonEntityStore} from "./JsonEntityStore.js";
 import {JsonFormatTypes} from "./JsonFormatTypes.js";
 import {JsonLazyRef} from "./JsonLazyRef.js";
-import type {Infer, PropsToShape, SchemaKey, SchemaMerge, SchemaOmit, SchemaPartial, SchemaPick, UnionToIntersection} from "./types.js";
+import type {
+  Infer,
+  PropsToShape,
+  SchemaKey,
+  SchemaMerge,
+  SchemaOmit,
+  SchemaPartial,
+  SchemaPick,
+  UnionToIntersection
+} from "./types.js";
+import {getJsonEntityStore} from "./JsonEntitiesContainer.js";
 
 /**
  * Extended JSON Schema object supporting TypeScript types and Ts.ED enhancements.
@@ -110,7 +125,7 @@ function isEnum(type: any) {
  *   email: string;
  * }
  *
- * const userSchema = JsonSchema.from(User);
+ * const userSchema = s.from(User);
  *
  * // Generate JSON Schema output
  * const jsonSchema = userSchema.toJSON();
@@ -234,8 +249,8 @@ export class JsonSchema<T = JSONSchema7Type> extends Map<string, any> {
    */
   get discriminatorAncestor() {
     const ancestors = ancestorsOf(this.#target);
-    const ancestor = ancestors.find((ancestor) => JsonEntityStore.from(ancestor).schema.isDiscriminator);
-    return ancestor && JsonEntityStore.from(ancestor).schema;
+    const ancestor = ancestors.find((ancestor) => getJsonEntityStore(ancestor).schema.isDiscriminator);
+    return ancestor && getJsonEntityStore(ancestor).schema;
   }
 
   /**
@@ -334,36 +349,38 @@ export class JsonSchema<T = JSONSchema7Type> extends Map<string, any> {
    *
    * ```typescript
    * // From a class
-   * const schema1 = JsonSchema.from(User);
+   * const schema1 = s.from(User);
    *
    * // From a primitive
-   * const schema2 = JsonSchema.from(String);
+   * const schema2 = s.from(String);
    *
    * // From a schema object
-   * const schema3 = JsonSchema.from({type: "string", minLength: 1});
+   * const schema3 = s.string().minLength(1);
    *
    * // From existing schema (no-op)
-   * const schema4 = JsonSchema.from(schema1);
+   * const schema4 = s.from(schema1);
    * ```
    *
    * @param item - The input to convert to a JsonSchema
    * @returns A JsonSchema instance representing the input
+   * @deprecated
    */
-  static from(item: Partial<JsonSchemaObject> | Type<any> | JsonSchema | undefined) {
-    if (item instanceof JsonSchema) {
-      return item;
-    }
-
-    if (item && classOf(item) !== Object && isClass(item)) {
-      return JsonEntityStore.from(item).schema;
-    }
-
-    if (isPrimitiveClass(item) || item === Date || isTemporal(item) || item === null) {
-      return new JsonSchema({type: item as Type});
-    }
-
-    return new JsonSchema(item as Partial<JsonSchemaObject>);
-  }
+  // static from(item: Partial<JsonSchemaObject> | Type<any> | JsonSchema | undefined) {
+    // // console.trace("JsonSchema.from", item)
+    // if (item instanceof JsonSchema) {
+    //   return item;
+    // }
+    //
+    // if (item && classOf(item) !== Object && isClass(item)) {
+    //   return getJsonEntityStore(item).schema;
+    // }
+    //
+    // if (isPrimitiveClass(item) || item === Date || isTemporal(item) || item === null) {
+    //   return new JsonSchema({type: item as Type});
+    // }
+    //
+    // return new JsonSchema(item as Partial<JsonSchemaObject>);
+ // }
 
   static add<Keys extends keyof JsonSchema>(property: Keys, method: JsonSchema[Keys]) {
     Object.defineProperty(JsonSchema.prototype, property, {
@@ -564,7 +581,7 @@ export class JsonSchema<T = JSONSchema7Type> extends Map<string, any> {
    * @returns This schema instance for method chaining
    */
   genericOf(...generics: GenericValue[][]) {
-    const mapped = this.mapGenerics(this.#itemSchema || this.mapToJsonSchema(this.getTarget()), generics);
+    const mapped = this.mapGenerics(this.#itemSchema || this.toSchema(this.getTarget()), generics);
 
     this.vendorKey(VendorKeys.GENERIC_OF, mapped);
 
@@ -626,7 +643,7 @@ export class JsonSchema<T = JSONSchema7Type> extends Map<string, any> {
    * @returns The item schema instance
    */
   itemSchema(obj: AnyJsonSchema = {}) {
-    this.#itemSchema = this.#itemSchema || this.mapToJsonSchema(obj);
+    this.#itemSchema = this.#itemSchema || this.toSchema(obj);
 
     if (isPlainObject(obj)) {
       this.#itemSchema.assign(obj as Record<string, unknown>);
@@ -893,7 +910,7 @@ export class JsonSchema<T = JSONSchema7Type> extends Map<string, any> {
    * @see https://tools.ietf.org/html/draft-wright-json-schema-validation-01#section-6.10
    */
   additionalItems(additionalItems: boolean | AnyJsonSchema) {
-    super.set("additionalItems", this.mapToJsonSchema(additionalItems));
+    super.set("additionalItems", this.toSchema(additionalItems));
 
     return this;
   }
@@ -903,7 +920,7 @@ export class JsonSchema<T = JSONSchema7Type> extends Map<string, any> {
    * @see https://tools.ietf.org/html/draft-wright-json-schema-validation-01#section-6.14
    */
   contains(contains: JSONSchema7Definition) {
-    super.set("contains", this.mapToJsonSchema(contains));
+    super.set("contains", this.toSchema(contains));
 
     return this;
   }
@@ -938,7 +955,7 @@ export class JsonSchema<T = JSONSchema7Type> extends Map<string, any> {
   items<I = JSONSchema7Type>(
     items: JsonSchema<I> | AnyJsonSchema | AnyJsonSchema[]
   ): JsonSchema<T extends Array<any> ? I[] : T extends Set<any> ? Set<I> : I> {
-    super.set("items", (this.#itemSchema = this.mapToJsonSchema(items) as unknown as JsonSchema));
+    super.set("items", (this.#itemSchema = this.toSchema(items) as unknown as JsonSchema));
 
     return this as JsonSchema<T extends Array<any> ? I[] : T extends Set<any> ? Set<I> : I>;
   }
@@ -1216,7 +1233,7 @@ export class JsonSchema<T = JSONSchema7Type> extends Map<string, any> {
    * @see https://tools.ietf.org/html/draft-wright-json-schema-validation-01#section-6.20
    */
   additionalProperties<V>(additionalProperties: boolean | AnyJsonSchema | JsonSchema<V>): JsonSchema<Map<string, V>> {
-    super.set("additionalProperties", this.mapToJsonSchema(additionalProperties));
+    super.set("additionalProperties", this.toSchema(additionalProperties));
 
     return this as JsonSchema<Map<string, V>>;
   }
@@ -1254,7 +1271,7 @@ export class JsonSchema<T = JSONSchema7Type> extends Map<string, any> {
    * @see https://tools.ietf.org/html/draft-wright-json-schema-validation-01#section-6.22
    */
   propertyNames(propertyNames: JSONSchema7Definition | JsonSchema) {
-    super.set("propertyNames", this.mapToJsonSchema(propertyNames));
+    super.set("propertyNames", this.toSchema(propertyNames));
 
     return this;
   }
@@ -1339,7 +1356,7 @@ export class JsonSchema<T = JSONSchema7Type> extends Map<string, any> {
    * @see https://tools.ietf.org/html/draft-wright-json-schema-validation-01#section-6.29
    */
   not(not: AnyJsonSchema) {
-    super.set("not", this.mapToJsonSchema(not));
+    super.set("not", this.toSchema(not));
 
     return this;
   }
@@ -1723,8 +1740,7 @@ export class JsonSchema<T = JSONSchema7Type> extends Map<string, any> {
 
     if (this.isClass && !labels) {
       const ancestor = ancestorOf(this.class);
-
-      return ancestor === Object ? undefined : JsonSchema.from(ancestor).getGenericLabels();
+      return ancestor === Object ? undefined : getJsonEntityStore(ancestor).schema.getGenericLabels();
     }
 
     return this.get<string[]>(VendorKeys.GENERIC_LABELS);
@@ -1741,7 +1757,7 @@ export class JsonSchema<T = JSONSchema7Type> extends Map<string, any> {
    */
   getRefSchema() {
     if (!this.isLocalSchema && this.isClass) {
-      const refSchema = JsonSchema.from(this.class);
+      const refSchema = getJsonEntityStore(this.class).schema;
 
       if (refSchema !== this) {
         return refSchema;
@@ -1787,7 +1803,7 @@ export class JsonSchema<T = JSONSchema7Type> extends Map<string, any> {
         }
         return true;
       })
-      .map((item) => this.mapToJsonSchema(item));
+      .map((item) => this.toSchema(item));
 
     if (resolved.length === 1 && !(value[0] instanceof JsonSchema) && !this.isNullable) {
       if (!resolved[0].hasDiscriminator) {
@@ -1800,7 +1816,7 @@ export class JsonSchema<T = JSONSchema7Type> extends Map<string, any> {
         return this.type(value[0]);
       }
 
-      resolved = children.map((item) => this.mapToJsonSchema(item));
+      resolved = children.map((item) => this.toSchema(item));
     }
 
     super.set(keyword, resolved);
@@ -1827,13 +1843,11 @@ export class JsonSchema<T = JSONSchema7Type> extends Map<string, any> {
     }
   }
 
-  protected mapToJsonSchema(item: any[]): JsonSchema[];
-
-  protected mapToJsonSchema(item: any): JsonSchema;
-
-  protected mapToJsonSchema(item: any | any[]): JsonSchema | JsonSchema[] {
+  protected toSchema(item: any[]): JsonSchema[];
+  protected toSchema(item: any): JsonSchema;
+  protected toSchema(item: any | any[]): JsonSchema | JsonSchema[] {
     if (isArray(item)) {
-      return (item as any[]).map((item) => this.mapToJsonSchema(item));
+      return (item as any[]).map((item) => this.toSchema(item));
     }
 
     if (item && (item.isStore || item.$isJsonDocument || item.isLazyRef)) {
@@ -1841,15 +1855,15 @@ export class JsonSchema<T = JSONSchema7Type> extends Map<string, any> {
     }
 
     if (item && classOf(item) !== Object && isClass(item)) {
-      return JsonEntityStore.from(item).schema;
+      return getJsonEntityStore(item).schema;
     }
 
     if (isObject(item)) {
-      return JsonSchema.from(item as any);
+      return new JsonSchema(item as any);
     }
 
     if (isPrimitiveClass(item) || item === Date || isTemporal(item) || item === null) {
-      return JsonSchema.from({type: item});
+      return new JsonSchema({type: item});
     }
 
     return item;
@@ -1887,13 +1901,13 @@ export class JsonSchema<T = JSONSchema7Type> extends Map<string, any> {
 
       if (label) {
         if (isEnum(type)) {
-          mapping[label] = [JsonSchema.from({type: "string", enum: Object.values(type)})];
+          mapping[label] = [new JsonSchema({type: "string", enum: Object.values(type)})];
         } else if (nextTypes.length) {
-          const nextSchema = this.mapToJsonSchema(type);
+          const nextSchema = this.toSchema(type);
 
           mapping[label] = [nextSchema, this.mapGenerics(nextSchema, nextTypes)];
         } else {
-          mapping[label] = [this.mapToJsonSchema(type)];
+          mapping[label] = [this.toSchema(type)];
         }
       }
 
@@ -1908,7 +1922,7 @@ export class JsonSchema<T = JSONSchema7Type> extends Map<string, any> {
     }
 
     return Object.entries(properties).reduce<any>((properties, [key, schema]) => {
-      properties[toJsonRegex(key)] = this.mapToJsonSchema(schema);
+      properties[toJsonRegex(key)] = this.toSchema(schema);
       if (schema instanceof JsonSchema) {
         schema.propertyKey(toJsonRegex(key));
       }

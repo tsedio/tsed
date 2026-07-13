@@ -1,7 +1,4 @@
-import {DecoratorTypes} from "@tsed/core";
-
-import {JsonEntityComponent} from "../decorators/config/jsonEntityComponent.js";
-import {JsonEntityStore, JsonEntityStoreOptions} from "./JsonEntityStore.js";
+import {JsonEntityStore} from "./JsonEntityStore.js";
 import type {JsonMethodStore} from "./JsonMethodStore.js";
 import type {JsonPropertyStore} from "./JsonPropertyStore.js";
 import {JsonSchema} from "./JsonSchema.js";
@@ -26,10 +23,10 @@ import {JsonSchema} from "./JsonSchema.js";
  *
  * ```typescript
  * // Get class store
- * const classStore = JsonEntityStore.from(MyClass);
+ * const classStore = s.store(MyClass);
  *
  * // Access class schema
- * const schema = classStore.schema;
+ * const schema = s.get(MyClass);
  *
  * // Get all properties
  * const properties = classStore.children;
@@ -81,7 +78,6 @@ import {JsonSchema} from "./JsonSchema.js";
  *
  * @public
  */
-@JsonEntityComponent(DecoratorTypes.CLASS)
 export class JsonClassStore extends JsonEntityStore {
   /**
    * List of children JsonEntityStore (properties or methods or params)
@@ -96,14 +92,14 @@ export class JsonClassStore extends JsonEntityStore {
     this.store.set("path", path);
   }
 
-  protected build() {
+  build() {
     if (!this._type) {
       this.buildType(this.target);
     }
 
     this._type = this._type || Object;
 
-    this._schema = JsonSchema.from({
+    this._schema = new JsonSchema({
       type: this.type
     });
   }

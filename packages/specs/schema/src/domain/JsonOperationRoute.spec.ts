@@ -3,9 +3,9 @@ import {BodyParams} from "@tsed/platform-params";
 import {OperationVerbs} from "../constants/OperationVerbs.js";
 import {Name} from "../decorators/common/name.js";
 import {Get} from "../decorators/operations/route.js";
-import {JsonEntityStore} from "./JsonEntityStore.js";
 import {JsonMethodPath, JsonOperation} from "./JsonOperation.js";
 import {JsonOperationRoute} from "./JsonOperationRoute.js";
+import {getJsonMethodStore} from "@tsed/schema";
 
 describe("JsonOperationRoute", () => {
   it("should create JsonOperationRoute instance", () => {
@@ -14,7 +14,7 @@ describe("JsonOperationRoute", () => {
       get() {}
     }
 
-    const endpoint = JsonEntityStore.fromMethod(Test, "get");
+    const endpoint = getJsonMethodStore(Test, "get");
     const operationRoute = new JsonOperationRoute({
       token: Test,
       endpoint,
@@ -45,7 +45,7 @@ describe("JsonOperationRoute", () => {
       get() {}
     }
 
-    const endpoint = JsonEntityStore.fromMethod(Test, "get");
+    const endpoint = getJsonMethodStore(Test, "get");
     const operationRoute = new JsonOperationRoute({
       token: Test,
       endpoint,
@@ -75,7 +75,7 @@ describe("JsonOperationRoute", () => {
       get(@BodyParams() body: string) {}
     }
 
-    const endpoint = JsonEntityStore.fromMethod(Test, "get");
+    const endpoint = getJsonMethodStore(Test, "get");
     const operationRoute = new JsonOperationRoute({
       token: Test,
       endpoint,

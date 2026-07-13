@@ -1,6 +1,5 @@
 import {nameOf, Type} from "@tsed/core";
-
-import {getJsonEntityStore} from "../utils/getJsonEntityStore.js";
+import {getJsonEntityStore} from "./JsonEntitiesContainer.js";
 
 /**
  * Lazy reference to a schema type for handling circular dependencies.

@@ -15,6 +15,7 @@ import {JsonEntityStore} from "./JsonEntityStore.js";
 import {EndpointMetadata, JsonMethodStore} from "./JsonMethodStore.js";
 import {JsonOperation} from "./JsonOperation.js";
 import {JsonParameter} from "./JsonParameter.js";
+import {getJsonEntityStore, getJsonMethodStore} from "@tsed/schema";
 
 describe("JsonMethodStore", () => {
   describe("endpoint declaration", () => {
@@ -30,7 +31,7 @@ describe("JsonMethodStore", () => {
         method(): any {}
       }
 
-      const endpoint = JsonEntityStore.fromMethod(Test, "method");
+      const endpoint = getJsonMethodStore(Test, "method");
 
       // THEN
       expect(endpoint.beforeMiddlewares).toHaveLength(1);
@@ -190,7 +191,7 @@ describe("JsonMethodStore", () => {
       }
 
       // METHOD
-      const storeMethod = JsonEntityStore.from(MyController).children.get("method");
+      const storeMethod = getJsonEntityStore(MyController).children.get("method");
 
       expect(storeMethod?.getResponseOptions(200)).toEqual({
         groups: undefined,
@@ -208,7 +209,7 @@ describe("JsonMethodStore", () => {
       }
 
       // METHOD
-      const storeMethod = JsonEntityStore.from(MyController).children.get("method");
+      const storeMethod = getJsonEntityStore(MyController).children.get("method");
 
       expect(storeMethod?.getResponseOptions(200, {includes: undefined})).toEqual({
         groups: undefined,
@@ -237,7 +238,7 @@ describe("JsonMethodStore", () => {
       }
 
       // CLASS
-      const storeClass = JsonEntityStore.from(Model);
+      const storeClass = getJsonEntityStore(Model);
       expect(storeClass).toBeInstanceOf(JsonEntityStore);
       expect(storeClass.decoratorType).toBe("class");
       expect(storeClass.propertyName).toBe("");
@@ -246,7 +247,7 @@ describe("JsonMethodStore", () => {
       expect(storeClass.parent).toBe(storeClass);
 
       // PROPERTY
-      const storeProp = JsonEntityStore.from(Model).children.get("id");
+      const storeProp = getJsonEntityStore(Model).children.get("id");
       expect(storeProp).toBeInstanceOf(JsonEntityStore);
       expect(storeProp?.decoratorType).toBe("property");
       expect(storeProp?.propertyKey).toBe("id");
@@ -258,7 +259,7 @@ describe("JsonMethodStore", () => {
       expect(storeProp?.parent).toEqual(storeClass);
 
       // METHOD
-      const storeMethod = JsonEntityStore.from(Model).children.get("method");
+      const storeMethod = getJsonEntityStore(Model).children.get("method");
       expect(storeMethod).toBeInstanceOf(JsonEntityStore);
       expect(storeMethod?.propertyKey).toBe("method");
       expect(storeMethod?.propertyName).toBe("method");
@@ -285,7 +286,7 @@ describe("JsonMethodStore", () => {
       expect(storeProp?.parent).toEqual(storeClass);
 
       // PARAMETERS
-      const storeParam = JsonEntityStore.from(Model).children.get("method")?.children.get(0);
+      const storeParam = getJsonEntityStore(Model).children.get("method")?.children.get(0);
 
       expect(storeParam).toBeInstanceOf(JsonEntityStore);
       expect(storeParam?.propertyKey).toBe("method");

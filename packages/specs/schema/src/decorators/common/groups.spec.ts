@@ -1,5 +1,4 @@
 import {SpecTypes} from "../../domain/SpecTypes.js";
-import {compile} from "../../utils/compile.js";
 import {getSpec} from "../../utils/getSpec.js";
 import {CollectionOf} from "../collections/collectionOf.js";
 import {In} from "../operations/in.js";
@@ -11,6 +10,7 @@ import {Name} from "./name.js";
 import {Property} from "./property.js";
 import {Required} from "./required.js";
 import {RequiredGroups} from "./requiredGroups.js";
+import {s} from "@tsed/schema";
 
 class ChildModel {
   @Groups("!creation")
@@ -43,7 +43,7 @@ class MyModel {
 describe("@Groups", () => {
   describe("JsonSchema", () => {
     it("should show fields with group annotation", () => {
-      const spec = compile(MyModel, {
+      const spec = s.compile(MyModel, {
         groups: false
       });
 
@@ -91,7 +91,7 @@ describe("@Groups", () => {
       });
     });
     it("should show fields with group annotation (with x-groups custom key)", () => {
-      const spec = compile(MyModel, {
+      const spec = s.compile(MyModel, {
         groups: false,
         customKeys: true
       });
@@ -140,7 +140,7 @@ describe("@Groups", () => {
       });
     });
     it("should show fields with group annotation if the an empty array is given to group fields", () => {
-      const spec = compile(MyModel, {
+      const spec = s.compile(MyModel, {
         groups: []
       });
 
@@ -180,7 +180,7 @@ describe("@Groups", () => {
       });
     });
     it("should show fields with group annotation if the an empty any groups is given", () => {
-      const spec = compile(MyModel);
+      const spec = s.compile(MyModel);
 
       expect(spec).toEqual({
         definitions: {
@@ -218,7 +218,7 @@ describe("@Groups", () => {
       });
     });
     it("should display fields when a group match with (group.summary)", () => {
-      const spec = compile(MyModel, {
+      const spec = s.compile(MyModel, {
         groups: ["group.summary"]
       });
 
@@ -262,7 +262,7 @@ describe("@Groups", () => {
       });
     });
     it("should display fields when a group match with (creation)", () => {
-      const spec = compile(MyModel, {
+      const spec = s.compile(MyModel, {
         groups: ["creation"]
       });
 
@@ -299,7 +299,7 @@ describe("@Groups", () => {
       });
     });
     it("should display fields when a group match with (pattern)", () => {
-      const spec = compile(MyModel, {
+      const spec = s.compile(MyModel, {
         groups: ["group.*"]
       });
 
@@ -380,7 +380,7 @@ describe("@Groups", () => {
         newPassword: string;
       }
 
-      const spec1 = compile(User, {
+      const spec1 = s.compile(User, {
         groups: ["creation"]
       });
 
@@ -407,7 +407,7 @@ describe("@Groups", () => {
         type: "object"
       });
 
-      const spec2 = compile(User, {
+      const spec2 = s.compile(User, {
         groups: ["update"]
       });
 
@@ -434,7 +434,7 @@ describe("@Groups", () => {
         type: "object"
       });
 
-      const spec3 = compile(User, {
+      const spec3 = s.compile(User, {
         groups: ["changePassword"]
       });
 

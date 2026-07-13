@@ -1,12 +1,11 @@
 import {Type} from "@tsed/core";
 
 import {OperationVerbs} from "../constants/OperationVerbs.js";
-import {JsonEntityStore} from "../domain/JsonEntityStore.js";
 import {JsonMethodStore} from "../domain/JsonMethodStore.js";
 import {JsonOperationRoute} from "../domain/JsonOperationRoute.js";
 import {concatPath} from "./concatPath.js";
-import {getJsonEntityStore} from "./getJsonEntityStore.js";
 import {getOperationsStores} from "./getOperationsStores.js";
+import {getJsonEntityStore} from "../domain/index.js";
 
 export interface GetOperationsRoutesOptions {
   withChildren?: boolean;
@@ -18,7 +17,7 @@ export function getOperationsRoutes<Entity extends JsonMethodStore = JsonMethodS
   token: Type<any> | any,
   options: GetOperationsRoutesOptions = {}
 ): JsonOperationRoute<Entity>[] {
-  const store: JsonEntityStore = token.isStore ? token : getJsonEntityStore(token);
+  const store = getJsonEntityStore(token);
   const basePath = concatPath(options.basePath, store.path);
   let operationsRoutes: JsonOperationRoute<Entity>[] = [];
 

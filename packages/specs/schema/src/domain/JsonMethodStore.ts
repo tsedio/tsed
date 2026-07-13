@@ -1,12 +1,11 @@
-import {DecoratorTypes, deepMerge, descriptorOf, isFunction, prototypeOf, Store, Type} from "@tsed/core";
-
-import {JsonEntityComponent} from "../decorators/config/jsonEntityComponent.js";
+import {deepMerge, descriptorOf, isFunction, prototypeOf, Store, Type} from "@tsed/core";
 import {isSuccessStatus} from "../utils/isSuccessStatus.js";
 import {type JsonClassStore} from "./JsonClassStore.js";
 import {JsonEntityStore, JsonEntityStoreOptions} from "./JsonEntityStore.js";
 import {JsonOperation} from "./JsonOperation.js";
 import {type JsonParameterStore} from "./JsonParameterStore.js";
 import {JsonSchema} from "./JsonSchema.js";
+import {getJsonEntityStore} from "./JsonEntitiesContainer.js";
 
 /**
  * Configuration options for view rendering.
@@ -47,7 +46,7 @@ export interface JsonRedirectOptions {
  *
  * ```typescript
  * // Get method store
- * const methodStore = JsonEntityStore.from(MyController, "myMethod");
+ * const methodStore = getJsonEntityStore(MyController, "myMethod");
  *
  * // Access operation for OpenAPI
  * const operation = methodStore.operation;
@@ -84,9 +83,8 @@ export interface JsonRedirectOptions {
  *
  * @public
  */
-@JsonEntityComponent(DecoratorTypes.METHOD)
 export class JsonMethodStore extends JsonEntityStore {
-  readonly parent: JsonClassStore = JsonEntityStore.from(this.target);
+  readonly parent: JsonClassStore = getJsonEntityStore(this.target);
   public middlewares: any[] = [];
   public beforeMiddlewares: any[] = [];
   public afterMiddlewares: any[] = [];
@@ -184,9 +182,7 @@ export class JsonMethodStore extends JsonEntityStore {
    * @param descriptor
    */
   static get(target: Type<any>, propertyKey: string | symbol, descriptor?: PropertyDescriptor): JsonMethodStore {
-    descriptor = descriptor || descriptorOf(prototypeOf(target), propertyKey);
-
-    return JsonEntityStore.from<JsonMethodStore>(prototypeOf(target), propertyKey, descriptor);
+    return getJsonEntityStore<JsonMethodStore>(prototypeOf(target), propertyKey, descriptor || descriptorOf(prototypeOf(target), propertyKey));
   }
 
   /**
@@ -269,7 +265,7 @@ export class JsonMethodStore extends JsonEntityStore {
     }, {});
   }
 
-  protected build() {
+  build() {
     this.parent.children.set(this.propertyName, this);
   }
 }

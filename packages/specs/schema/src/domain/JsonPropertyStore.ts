@@ -1,9 +1,8 @@
-import {DecoratorTypes, isClass, Metadata, prototypeOf, Type} from "@tsed/core";
-
-import {JsonEntityComponent} from "../decorators/config/jsonEntityComponent.js";
+import {isClass, Metadata, prototypeOf, Type} from "@tsed/core";
 import type {JsonClassStore} from "./JsonClassStore.js";
 import {JsonEntityStore} from "./JsonEntityStore.js";
 import {JsonSchema} from "./JsonSchema.js";
+import {getJsonEntityStore} from "./JsonEntitiesContainer.js";
 
 /**
  * Store for property metadata and schema information.
@@ -49,15 +48,14 @@ import {JsonSchema} from "./JsonSchema.js";
  *
  * @public
  */
-@JsonEntityComponent(DecoratorTypes.PROP)
 export class JsonPropertyStore extends JsonEntityStore {
-  readonly parent: JsonClassStore = JsonEntityStore.from(this.target);
+  readonly parent: JsonClassStore = getJsonEntityStore(this.target);
 
   static get(target: Type<any>, propertyKey: string | symbol) {
-    return JsonEntityStore.from<JsonPropertyStore>(prototypeOf(target), propertyKey);
+    return getJsonEntityStore<JsonPropertyStore>(prototypeOf(target), propertyKey);
   }
 
-  protected build() {
+   build() {
     if (!this._type) {
       this.buildType(Metadata.getType(prototypeOf(this.target), this.propertyKey));
     }
@@ -72,15 +70,15 @@ export class JsonPropertyStore extends JsonEntityStore {
       this.parent.children.set(this.propertyName, this);
 
       if (this.isCollection) {
-        schema = JsonSchema.from({
+        schema = new JsonSchema({
           type: this.collectionType
         });
         schema.itemSchema(this.type);
       } else if (isClass(this.type)) {
-        schema = JsonSchema.from({type: "object"});
+        schema = new JsonSchema({type: "object"});
         schema.itemSchema(this.type);
       } else {
-        schema = JsonSchema.from({type: this.type});
+        schema = new JsonSchema({type: this.type});
       }
     }
 

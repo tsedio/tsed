@@ -1,13 +1,10 @@
 import "../components/index.js";
 
 import {getValue, isClass, isPlainObject, nameOf, Type} from "@tsed/core";
-
-import {JsonParameterStore} from "../domain/JsonParameterStore.js";
-import {JsonSchema} from "../domain/JsonSchema.js";
-import {SpecTypes} from "../domain/SpecTypes.js";
 import {JsonSchemaOptions} from "../interfaces/JsonSchemaOptions.js";
+
+import {getJsonEntityStore, JsonParameterStore, JsonSchema, SpecTypes} from "../domain/index.js";
 import {execMapper} from "../registries/JsonSchemaMapperContainer.js";
-import {getJsonEntityStore} from "./getJsonEntityStore.js";
 
 /**
  * @ignore
@@ -66,7 +63,16 @@ function get(model: Type | JsonParameterStore | JsonSchema, options: any) {
   return cache.get(key);
 }
 
-export function getJsonSchema(model: Type<any> | JsonParameterStore | JsonSchema, options: JsonSchemaOptions = {}) {
+/**
+ * Compile a class, parameter store, or `JsonSchema` into a plain JSON schema object.
+ *
+ * This is an alias of `getJsonSchema(...)`.
+ *
+ * @param model Class, parameter store, or `JsonSchema` to compile.
+ * @param options JSON schema generation options.
+ * @returns Compiled JSON schema object.
+ */
+export function compile(model: Type<any> | JsonParameterStore | JsonSchema, options: JsonSchemaOptions = {}) {
   const specType = options.specType || SpecTypes.JSON;
 
   options = {
@@ -82,3 +88,10 @@ export function getJsonSchema(model: Type<any> | JsonParameterStore | JsonSchema
 
   return get(model, options);
 }
+
+/**
+ * @deprecated Use s.compile() instead
+ * @param model
+ * @param options
+ */
+export const getJsonSchema = compile;
