@@ -8,7 +8,6 @@ interface TemporalType {
 }
 
 /**
- * Access the global `Temporal` object without depending on the `esnext.temporal` TypeScript lib.
  * Older runtimes (e.g. Node < 24) don't expose it, so it may be `undefined` at import time.
  */
 const Temporal = (globalThis as unknown as {Temporal?: Record<string, TemporalType>}).Temporal;
@@ -31,9 +30,6 @@ export class TemporalMapper implements JsonMapperMethods {
   deserialize(data: string | number, ctx: JsonMapperCtx): unknown;
   deserialize(data: boolean | null | undefined, ctx: JsonMapperCtx): boolean | null | undefined;
   deserialize(data: any, ctx: JsonMapperCtx): any {
-    // don't convert unexpected data. In normal case, Ajv reject unexpected data.
-    // But by default, we have to skip data deserialization and let user to apply
-    // the right mapping
     if (isBoolean(data) || data === null || data === undefined) {
       return data;
     }
