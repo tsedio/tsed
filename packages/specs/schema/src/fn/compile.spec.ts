@@ -1,8 +1,8 @@
 import {ancestorsOf, nameOf, Type} from "@tsed/core";
 
 import {Post} from "../../test/helpers/Post.js";
-import {CollectionOf, compile, Email, Format, JsonEntityStore, MinLength, Name, Property, Required, s} from "../index.js";
-import {getJsonSchema} from "./getJsonSchema.js";
+import {CollectionOf, Email, Format, getJsonEntityStore, MinLength, Name, Property, Required, s} from "../index.js";
+import {compile} from "./compile.js";
 
 describe("compile", () => {
   it("should compile JsonSchema instances", () => {
@@ -23,13 +23,13 @@ describe("compile", () => {
     });
   });
 
-  it("should expose compile as an alias of getJsonSchema", () => {
+  it("should expose compile as an alias of compile", () => {
     const schema = s.object({
       id: s.string().required()
     });
 
-    expect(compile(schema)).toEqual(getJsonSchema(schema));
-    expect(compile(Post)).toEqual(getJsonSchema(Post));
+    expect(compile(schema)).toEqual(compile(schema));
+    expect(compile(Post)).toEqual(compile(Post));
   });
 
   it("should map a Temporal.* property to a string schema (like Date)", () => {
@@ -114,7 +114,7 @@ describe("compile", () => {
     }
 
     // THEN
-    const classSchema = JsonEntityStore.from(Model);
+    const classSchema = getJsonEntityStore(Model);
 
     expect(classSchema.schema.toJSON()).toEqual({
       type: "object",
@@ -218,7 +218,7 @@ describe("compile", () => {
     });
 
     const options = {components: {schemas: {}}};
-    expect(JsonEntityStore.from(Model).schema.clone().toJSON(options)).toEqual({
+    expect(getJsonEntityStore(Model).schema.clone().toJSON(options)).toEqual({
       type: "object",
       properties: {
         id: {

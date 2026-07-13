@@ -1,6 +1,18 @@
 import {descriptorOf} from "@tsed/core";
 
-import {execMapper, Get, getSpec, In, JsonEntityStore, OperationPath, Path, Redirect, Returns, SpecTypes} from "../index.js";
+import {
+  execMapper,
+  Get,
+  getJsonEntityStore,
+  getJsonMethodStore,
+  getSpec,
+  In,
+  OperationPath,
+  Path,
+  Redirect,
+  Returns,
+  SpecTypes
+} from "../index.js";
 
 describe("JsonOperation", () => {
   describe("getStatus()", () => {
@@ -12,7 +24,7 @@ describe("JsonOperation", () => {
         method() {}
       }
 
-      const entity = JsonEntityStore.from(MyController.prototype, "method", descriptorOf(MyController, "method"));
+      const entity = getJsonEntityStore(MyController.prototype, "method", descriptorOf(MyController, "method"));
 
       expect(entity.operation?.getStatus()).toBe(200);
       expect(entity.operation?.status).toBe(200);
@@ -59,7 +71,7 @@ describe("JsonOperation", () => {
         test() {}
       }
 
-      const entity = JsonEntityStore.fromMethod(MyController, "test");
+      const entity = getJsonMethodStore(MyController, "test");
 
       expect(entity.operation.isRedirection()).toBe(true);
       expect(entity.operation.isRedirection(302)).toBe(true);
@@ -75,7 +87,7 @@ describe("JsonOperation", () => {
         test() {}
       }
 
-      const entity = JsonEntityStore.fromMethod(MyController, "test");
+      const entity = getJsonMethodStore(MyController, "test");
 
       expect(entity.operation.getContentTypeOf(200)).toEqual("text/html");
       expect(entity.operation.getContentTypeOf(201)).toEqual(undefined);

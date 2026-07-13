@@ -1,6 +1,6 @@
 import {DecoratorTypes, Type} from "@tsed/core";
 
-import {JsonEntitiesContainer, JsonEntityStore} from "../../domain/JsonEntityStore.js";
+import {JsonEntitiesContainer, JsonEntityStore} from "../../domain/index.js";
 
 /**
  * Declare a new JsonEntityStore class for a specific decorator type.
@@ -8,6 +8,7 @@ import {JsonEntitiesContainer, JsonEntityStore} from "../../domain/JsonEntitySto
  * @ignore
  * @param type
  * @decorator
+ * @deprecated
  */
 export function JsonEntityComponent(type: DecoratorTypes) {
   return (target: Type<JsonEntityStore>) => {

@@ -239,7 +239,7 @@ export class JsonOperation extends JsonMap<JsonOperationOptions> {
     const jsonParameter = new JsonParameter();
     jsonParameter.in("query").name("includes");
     jsonParameter.schema(
-      JsonSchema.from({
+      new JsonSchema({
         type: "array",
         items: {
           type: "string",

@@ -1,9 +1,9 @@
 import {SpecTypes} from "../../domain/SpecTypes.js";
-import {compile} from "../../utils/compile.js";
 import {getSpec} from "../../utils/getSpec.js";
 import {In} from "../operations/in.js";
 import {OperationPath} from "../operations/operationPath.js";
 import {MinProperties} from "./minProperties.js";
+import {s} from "@tsed/schema";
 
 describe("@MinProperties", () => {
   it("should declare min value (any)", () => {
@@ -14,7 +14,7 @@ describe("@MinProperties", () => {
     }
 
     // THEN
-    expect(compile(Model)).toEqual({
+    expect(s.compile(Model)).toEqual({
       properties: {
         prop: {
           minProperties: 10,
@@ -32,7 +32,7 @@ describe("@MinProperties", () => {
     }
 
     // THEN
-    expect(compile(Model)).toEqual({
+    expect(s.compile(Model)).toEqual({
       properties: {
         prop: {
           minProperties: 10,
@@ -48,7 +48,7 @@ describe("@MinProperties", () => {
     class Model {}
 
     // THEN
-    expect(compile(Model)).toEqual({
+    expect(s.compile(Model)).toEqual({
       minProperties: 10,
       type: "object"
     });

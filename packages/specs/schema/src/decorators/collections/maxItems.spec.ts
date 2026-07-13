@@ -1,6 +1,6 @@
-import {compile} from "../../utils/compile.js";
 import {CollectionOf} from "./collectionOf.js";
 import {MaxItems} from "./maxItems.js";
+import {s} from "@tsed/schema";
 
 describe("@MaxItems", () => {
   it("should declare a prop", () => {
@@ -12,7 +12,7 @@ describe("@MaxItems", () => {
     }
 
     // THEN
-    expect(compile(Model)).toEqual({
+    expect(s.compile(Model)).toEqual({
       properties: {
         num: {
           items: {

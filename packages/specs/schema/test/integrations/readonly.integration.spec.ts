@@ -1,4 +1,4 @@
-import {compile, Groups, Name, Property, ReadOnly, Required} from "../../src/index.js";
+import {Groups, Name, Property, ReadOnly, Required, s} from "../../src/index.js";
 
 class BaseModel {
   @Required()
@@ -18,7 +18,7 @@ class DataSourceModel extends BaseModel {
 
 describe("schema: ReadOnly", () => {
   it("should generate json schema", () => {
-    const jsonSchema = compile(DataSourceModel);
+    const jsonSchema = s.compile(DataSourceModel);
 
     expect(jsonSchema).toMatchSnapshot();
   });

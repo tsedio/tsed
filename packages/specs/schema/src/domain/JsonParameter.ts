@@ -30,7 +30,7 @@ import {JsonSchema} from "./JsonSchema.js";
  *   .in("path")
  *   .required(true)
  *   .description("The user identifier")
- *   .schema(JsonSchema.from(String));
+ *   .schema(s.string());
  * ```
  *
  * ### Key Features

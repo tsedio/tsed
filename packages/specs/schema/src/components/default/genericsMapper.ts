@@ -7,6 +7,7 @@ import {JsonSchema} from "../../domain/JsonSchema.js";
 import type {JsonSchemaOptions} from "../../interfaces/JsonSchemaOptions.js";
 import {execMapper, registerJsonSchemaMapper} from "../../registries/JsonSchemaMapperContainer.js";
 import {toRef} from "../../utils/ref.js";
+import {s} from "../../fn/index.js";
 
 function getNestedSchema(propertyKey: string, schema: JsonSchema | JsonLazyRef, options: JsonSchemaOptions): JSONSchema7 | null {
   if ("isLazyRef" in schema) {
@@ -22,7 +23,8 @@ function getNestedSchema(propertyKey: string, schema: JsonSchema | JsonLazyRef, 
     }
 
     const [model, next] = genericValue as [Type | JsonSchema, any];
-    const refSchema = JsonSchema.from(model);
+
+    const refSchema = model instanceof JsonSchema ? model : s.get(model);
 
     const modelSchema = execMapper("schema", [refSchema], {
       ...options,

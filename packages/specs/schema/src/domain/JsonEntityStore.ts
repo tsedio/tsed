@@ -1,9 +1,6 @@
 import {
   ancestorsOf,
-  classOf,
-  decoratorTypeOf,
   DecoratorTypes,
-  descriptorOf,
   isArrayOrArrayClass,
   isArrowFn,
   isClass,
@@ -14,7 +11,6 @@ import {
   isPlainObject,
   isPrimitiveOrPrimitiveClass,
   nameOf,
-  prototypeOf,
   Store,
   Type
 } from "@tsed/core";
@@ -24,11 +20,7 @@ import type {JsonMethodStore} from "./JsonMethodStore.js";
 import type {JsonParameterStore} from "./JsonParameterStore.js";
 import type {JsonPropertyStore} from "./JsonPropertyStore.js";
 import type {JsonSchema} from "./JsonSchema.js";
-
-/**
- * @ignore
- */
-export const JsonEntitiesContainer = new Map<DecoratorTypes, Type<JsonEntityStore>>();
+import {getJsonEntityStore} from "./JsonEntitiesContainer.js";
 
 /**
  * Configuration options for creating a JsonEntityStore.
@@ -78,13 +70,13 @@ export interface JsonEntityStoreOptions {
  *
  * ```typescript
  * // Get store for a class
- * const classStore = JsonEntityStore.from(MyClass);
+ * const classStore = getJsonEntityStore(MyClass);
  *
  * // Get store for a property
- * const propStore = JsonEntityStore.from(MyClass, "propertyName");
+ * const propStore = getJsonEntityStore(MyClass, "propertyName");
  *
  * // Get store for a method parameter
- * const paramStore = JsonEntityStore.from(MyClass, "methodName", 0);
+ * const paramStore = getJsonEntityStore(MyClass, "methodName", 0);
  * ```
  *
  * ### Architecture
@@ -202,8 +194,8 @@ export abstract class JsonEntityStore implements JsonEntityStoreOptions {
 
   get discriminatorAncestor(): JsonEntityStore | undefined {
     const ancestors = ancestorsOf(this.target);
-    const ancestor = ancestors.find((ancestor) => JsonEntityStore.from(ancestor).schema.isDiscriminator);
-    return ancestor && JsonEntityStore.from(ancestor);
+    const ancestor = ancestors.find((ancestor) => getJsonEntityStore(ancestor).schema.isDiscriminator);
+    return ancestor && getJsonEntityStore(ancestor);
   }
 
   get isPrimitive() {
@@ -250,58 +242,58 @@ export abstract class JsonEntityStore implements JsonEntityStoreOptions {
     this.store.set("path", path);
   }
 
-  static from<T extends JsonClassStore = JsonClassStore>(target: Type<any>): T;
-  static from<T extends JsonPropertyStore = JsonPropertyStore>(target: Type<any> | any, propertyKey: string | symbol): T;
-  static from<T extends JsonParameterStore = JsonParameterStore>(target: Type<any> | any, propertyKey: string | symbol, index: number): T;
-  static from<T extends JsonMethodStore = JsonMethodStore>(
-    target: Type<any> | any,
-    propertyKey: string | symbol,
-    descriptor: PropertyDescriptor
-  ): T;
+  // static from<T extends JsonClassStore = JsonClassStore>(target: Type<any>): T;
+  // static from<T extends JsonPropertyStore = JsonPropertyStore>(target: Type<any> | any, propertyKey: string | symbol): T;
+  // static from<T extends JsonParameterStore = JsonParameterStore>(target: Type<any> | any, propertyKey: string | symbol, index: number): T;
+  // static from<T extends JsonMethodStore = JsonMethodStore>(
+  //   target: Type<any> | any,
+  //   propertyKey: string | symbol,
+  //   descriptor: PropertyDescriptor
+  // ): T;
+  //
+  // static from<T extends JsonEntityStore = JsonEntityStore>(...args: any[]): T;
+  //
+  // static from<T extends JsonEntityStore = JsonEntityStore>(...args: any[]): T {
+  //   if (args[0].isStore) {
+  //     return args[0] as T;
+  //   }
+  //
+  //   const target = args[0];
+  //
+  //   if (args.length > 1) {
+  //     args[0] = prototypeOf(args[0]);
+  //   }
+  //
+  //   const store = Store.from(...args);
+  //
+  //   if (!store.has("JsonEntityStore")) {
+  //     const decoratorType = decoratorTypeOf(args);
+  //     const entityStore = JsonEntitiesContainer.get(decoratorType)!;
+  //
+  //     const jsonSchemaStore = new entityStore({
+  //       store,
+  //       decoratorType,
+  //       target: classOf(target),
+  //       propertyKey: args[1],
+  //       index: typeof args[2] === "number" ? args[2] : undefined,
+  //       descriptor: typeof args[2] === "object" ? args[2] : undefined
+  //     });
+  //
+  //     jsonSchemaStore.build();
+  //
+  //     store.set("JsonEntityStore", jsonSchemaStore);
+  //   }
+  //
+  //   return store.get<T>("JsonEntityStore")!;
+  // }
 
-  static from<T extends JsonEntityStore = JsonEntityStore>(...args: any[]): T;
+  // static fromMethod<T extends JsonMethodStore = JsonMethodStore>(target: any, propertyKey: string | symbol) {
+  //   return this.from<T>(target, propertyKey, descriptorOf(target, propertyKey));
+  // }
 
-  static from<T extends JsonEntityStore = JsonEntityStore>(...args: any[]): T {
-    if (args[0].isStore) {
-      return args[0] as T;
-    }
-
-    const target = args[0];
-
-    if (args.length > 1) {
-      args[0] = prototypeOf(args[0]);
-    }
-
-    const store = Store.from(...args);
-
-    if (!store.has("JsonEntityStore")) {
-      const decoratorType = decoratorTypeOf(args);
-      const entityStore = JsonEntitiesContainer.get(decoratorType)!;
-
-      const jsonSchemaStore = new entityStore({
-        store,
-        decoratorType,
-        target: classOf(target),
-        propertyKey: args[1],
-        index: typeof args[2] === "number" ? args[2] : undefined,
-        descriptor: typeof args[2] === "object" ? args[2] : undefined
-      });
-
-      jsonSchemaStore.build();
-
-      store.set("JsonEntityStore", jsonSchemaStore);
-    }
-
-    return store.get<T>("JsonEntityStore")!;
-  }
-
-  static fromMethod<T extends JsonMethodStore = JsonMethodStore>(target: any, propertyKey: string | symbol) {
-    return this.from<T>(target, propertyKey, descriptorOf(target, propertyKey));
-  }
-
-  static get(target: Type<any>, propertyKey: string | symbol, descriptor?: any) {
-    return JsonEntityStore.from(prototypeOf(target), propertyKey, descriptor);
-  }
+  // static get(target: Type<any>, propertyKey: string | symbol, descriptor?: any) {
+  //   return getJsonEntityStore(prototypeOf(target), propertyKey, descriptor);
+  // }
 
   isGetterOnly() {
     return isObject(this.descriptor) && !this.descriptor.value && this.descriptor.get && !this.descriptor.set;
@@ -337,7 +329,7 @@ export abstract class JsonEntityStore implements JsonEntityStoreOptions {
     return this.decoratorType === input;
   }
 
-  protected abstract build(): void;
+  abstract build(): void;
 
   protected buildType(type: any) {
     if (isCollection(type)) {

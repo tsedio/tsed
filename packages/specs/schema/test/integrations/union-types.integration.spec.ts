@@ -1,6 +1,6 @@
 import {Ajv} from "ajv";
 
-import {AdditionalProperties, AnyOf, array, compile, Enum, string} from "../../src/index.js";
+import {AdditionalProperties, AnyOf, Enum, s} from "../../src/index.js";
 
 describe("Union on model", () => {
   it("should return the expected schema", () => {
@@ -12,11 +12,11 @@ describe("Union on model", () => {
 
     @AdditionalProperties(false)
     class GetColorsQueryParameters {
-      @AnyOf(string().enum(Color), array().items(string().enum(Color)))
+      @AnyOf(s.string().enum(Color), s.array().items(s.string().enum(Color)))
       public color: Color | Color[];
     }
 
-    const schema = compile(GetColorsQueryParameters);
+    const schema = s.compile(GetColorsQueryParameters);
 
     expect(schema).toEqual({
       additionalProperties: false,
@@ -66,7 +66,7 @@ describe("Union on model", () => {
       public color: Color[];
     }
 
-    const schema = compile(GetColorsQueryParameters);
+    const schema = s.compile(GetColorsQueryParameters);
 
     expect(schema).toEqual({
       additionalProperties: false,

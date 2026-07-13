@@ -5,6 +5,8 @@ import {JsonSchemaOptions} from "../interfaces/JsonSchemaOptions.js";
 
 export type GenericValue = Type<any> | JsonSchema | String | Number | Boolean | Object | Date;
 export type GenericsMap = Record<string, [GenericValue] | [GenericValue, GenericsMap]>;
+export type GenericInputValue = GenericValue | [GenericValue, GenericInput];
+export type GenericInput = Record<string, GenericInputValue>;
 
 /**
  * Resolve generic bindings for the current compilation.
