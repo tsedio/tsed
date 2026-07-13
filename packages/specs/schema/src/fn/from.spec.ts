@@ -1,5 +1,8 @@
 import "../index.js";
 
+import {CollectionOf} from "../decorators/collections/collectionOf.js";
+import {Property} from "../decorators/common/property.js";
+import {Generics} from "../decorators/generics/generics.js";
 import {allOf} from "./allOf.js";
 import {any} from "./any.js";
 import {anyOf} from "./anyOf.js";
@@ -8,6 +11,7 @@ import {array, map, set} from "./collection.js";
 import {date, datetime, time} from "./date.js";
 import {email} from "./email.js";
 import {from} from "./from.js";
+import {generic} from "./generic.js";
 import {integer} from "./integer.js";
 import {number} from "./number.js";
 import {object} from "./object.js";
@@ -185,5 +189,393 @@ describe("from", () => {
       required: ["name", "message", "status"],
       type: "object"
     });
+  });
+
+  it("should generate a standalone generic schema from functional API", () => {
+    @Generics("T")
+    class Pagination<T> {
+      @CollectionOf("T")
+      data: T[];
+
+      @Property()
+      totalCount: number;
+    }
+
+    class Product {
+      @Property()
+      id: string;
+
+      @Property()
+      title: string;
+    }
+
+    expect(from(Pagination).genericOf([Product]).description("description").toJSON()).toMatchInlineSnapshot(`
+      {
+        "allOf": [
+          {
+            "$ref": "#/definitions/Pagination",
+          },
+          {
+            "properties": {
+              "data": {
+                "items": {
+                  "$ref": "#/definitions/Product",
+                },
+                "type": "array",
+              },
+            },
+            "type": "object",
+          },
+        ],
+        "definitions": {
+          "Pagination": {
+            "description": "description",
+            "properties": {
+              "data": {
+                "items": {
+                  "type": "object",
+                },
+                "type": "array",
+              },
+              "totalCount": {
+                "type": "number",
+              },
+            },
+            "type": "object",
+          },
+          "Product": {
+            "properties": {
+              "id": {
+                "type": "string",
+              },
+              "title": {
+                "type": "string",
+              },
+            },
+            "type": "object",
+          },
+        },
+      }
+    `);
+  });
+
+  it("should render standalone generics without forwarding options", () => {
+    @Generics("T")
+    class Pagination<T> {
+      @CollectionOf("T")
+      data: T[];
+
+      @Property()
+      totalCount: number;
+    }
+
+    class Product {
+      @Property()
+      id: string;
+
+      @Property()
+      title: string;
+    }
+
+    const schema = from(Pagination).genericOf([Product]).description("description");
+
+    expect(schema.toJSON()).toMatchInlineSnapshot(`
+      {
+        "allOf": [
+          {
+            "$ref": "#/definitions/Pagination",
+          },
+          {
+            "properties": {
+              "data": {
+                "items": {
+                  "$ref": "#/definitions/Product",
+                },
+                "type": "array",
+              },
+            },
+            "type": "object",
+          },
+        ],
+        "definitions": {
+          "Pagination": {
+            "description": "description",
+            "properties": {
+              "data": {
+                "items": {
+                  "type": "object",
+                },
+                "type": "array",
+              },
+              "totalCount": {
+                "type": "number",
+              },
+            },
+            "type": "object",
+          },
+          "Product": {
+            "properties": {
+              "id": {
+                "type": "string",
+              },
+              "title": {
+                "type": "string",
+              },
+            },
+            "type": "object",
+          },
+        },
+      }
+    `);
+  });
+
+  it("should isolate generic helper schemas across calls", () => {
+    @Generics("T")
+    class Pagination<T> {
+      @CollectionOf("T")
+      data: T[];
+
+      @Property()
+      totalCount: number;
+    }
+
+    class Product {
+      @Property()
+      id: string;
+    }
+
+    class Assets {
+      @Property()
+      url: string;
+    }
+
+    const schema1 = generic(Pagination).of([Product]).description("description");
+    const schema2 = generic(Pagination).of([Assets]).description("description");
+
+    expect(schema1).not.toBe(schema2);
+    expect(schema1.toJSON()).toMatchInlineSnapshot(`
+      {
+        "allOf": [
+          {
+            "$ref": "#/definitions/Pagination",
+          },
+          {
+            "properties": {
+              "data": {
+                "items": {
+                  "$ref": "#/definitions/Product",
+                },
+                "type": "array",
+              },
+            },
+            "type": "object",
+          },
+        ],
+        "definitions": {
+          "Pagination": {
+            "description": "description",
+            "properties": {
+              "data": {
+                "items": {
+                  "type": "object",
+                },
+                "type": "array",
+              },
+              "totalCount": {
+                "type": "number",
+              },
+            },
+            "type": "object",
+          },
+          "Product": {
+            "properties": {
+              "id": {
+                "type": "string",
+              },
+            },
+            "type": "object",
+          },
+        },
+      }
+    `);
+    expect(schema2.toJSON()).toMatchInlineSnapshot(`
+      {
+        "allOf": [
+          {
+            "$ref": "#/definitions/Pagination",
+          },
+          {
+            "properties": {
+              "data": {
+                "items": {
+                  "$ref": "#/definitions/Assets",
+                },
+                "type": "array",
+              },
+            },
+            "type": "object",
+          },
+        ],
+        "definitions": {
+          "Assets": {
+            "properties": {
+              "url": {
+                "type": "string",
+              },
+            },
+            "type": "object",
+          },
+          "Pagination": {
+            "description": "description",
+            "properties": {
+              "data": {
+                "items": {
+                  "type": "object",
+                },
+                "type": "array",
+              },
+              "totalCount": {
+                "type": "number",
+              },
+            },
+            "type": "object",
+          },
+        },
+      }
+    `);
+  });
+
+  it("should isolate generics across from(Class) calls like Returns.Of", () => {
+    @Generics("T")
+    class Pagination<T> {
+      @CollectionOf("T")
+      data: T[];
+
+      @Property()
+      totalCount: number;
+    }
+
+    class Product {
+      @Property()
+      id: string;
+    }
+
+    class Assets {
+      @Property()
+      url: string;
+    }
+
+    const schema1 = from(Pagination).genericOf([Product]).description("description");
+    const schema2 = from(Pagination).genericOf([Assets]).description("description");
+
+    expect(schema1).not.toBe(schema2);
+    expect(schema1.toJSON()).toMatchInlineSnapshot(`
+      {
+        "allOf": [
+          {
+            "$ref": "#/definitions/Pagination",
+          },
+          {
+            "properties": {
+              "data": {
+                "items": {
+                  "$ref": "#/definitions/Product",
+                },
+                "type": "array",
+              },
+            },
+            "type": "object",
+          },
+        ],
+        "definitions": {
+          "Pagination": {
+            "description": "description",
+            "properties": {
+              "data": {
+                "items": {
+                  "type": "object",
+                },
+                "type": "array",
+              },
+              "totalCount": {
+                "type": "number",
+              },
+            },
+            "type": "object",
+          },
+          "Product": {
+            "properties": {
+              "id": {
+                "type": "string",
+              },
+            },
+            "type": "object",
+          },
+        },
+      }
+    `);
+    expect(schema2.toJSON()).toMatchInlineSnapshot(`
+      {
+        "allOf": [
+          {
+            "$ref": "#/definitions/Pagination",
+          },
+          {
+            "properties": {
+              "data": {
+                "items": {
+                  "$ref": "#/definitions/Assets",
+                },
+                "type": "array",
+              },
+            },
+            "type": "object",
+          },
+        ],
+        "definitions": {
+          "Assets": {
+            "properties": {
+              "url": {
+                "type": "string",
+              },
+            },
+            "type": "object",
+          },
+          "Pagination": {
+            "description": "description",
+            "properties": {
+              "data": {
+                "items": {
+                  "type": "object",
+                },
+                "type": "array",
+              },
+              "totalCount": {
+                "type": "number",
+              },
+            },
+            "type": "object",
+          },
+        },
+      }
+    `);
+  });
+
+  it("should match the local generic wrapper behavior", () => {
+    @Generics("T")
+    class Pagination<T> {
+      @CollectionOf("T")
+      data: T[];
+
+      @Property()
+      totalCount: number;
+    }
+
+    class Product {
+      @Property()
+      id: string;
+    }
+
+    expect(from(Pagination).genericOf([Product]).toJSON()).toEqual(generic(Pagination).of([Product]).toJSON());
   });
 });
