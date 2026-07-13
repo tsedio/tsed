@@ -1,8 +1,6 @@
 import {TemporalMapper} from "./TemporalMapper.js";
 
 // `Temporal` is provided natively on Node >= 24 and via the polyfill wired in vitest.setup.ts.
-const Temporal = (globalThis as any).Temporal;
-
 describe("TemporalMapper", () => {
   describe("deserialize()", () => {
     it("should rebuild a Temporal.Instant from an ISO string", () => {
