@@ -2,7 +2,7 @@ import {BodyParams} from "@tsed/platform-params";
 
 import {validateSpec} from "../../../test/helpers/validateSpec.js";
 import {SpecTypes} from "../../domain/SpecTypes.js";
-import {compile} from "../../utils/compile.js";
+import {s} from "../../fn/index.js";
 import {getSpec} from "../../utils/getSpec.js";
 import {OperationPath} from "../operations/operationPath.js";
 import {Path} from "../operations/path.js";
@@ -17,7 +17,7 @@ describe("@Integer", () => {
       prop: number;
     }
 
-    expect(compile(Model)).toEqual({
+    expect(s.compile(Model)).toEqual({
       properties: {
         prop: {
           multipleOf: 1,
@@ -35,7 +35,7 @@ describe("@Integer", () => {
       prop: number[];
     }
 
-    expect(compile(Model)).toEqual({
+    expect(s.compile(Model)).toEqual({
       properties: {
         prop: {
           items: {

@@ -1,6 +1,6 @@
 import "../../index.js";
 
-import {JsonEntityStore} from "../../domain/JsonEntityStore.js";
+import {s} from "../../fn/index.js";
 import {CollectionOf} from "../collections/collectionOf.js";
 import {Min} from "./minimum.js";
 
@@ -13,9 +13,7 @@ describe("@Minimum", () => {
     }
 
     // THEN
-    const classSchema = JsonEntityStore.from(Model);
-
-    expect(classSchema.schema.toJSON()).toEqual({
+    expect(s.compile(Model)).toEqual({
       properties: {
         num: {
           minimum: 0,
@@ -34,9 +32,7 @@ describe("@Minimum", () => {
     }
 
     // THEN
-    const classSchema = JsonEntityStore.from(Model);
-
-    expect(classSchema.schema.toJSON()).toEqual({
+    expect(s.compile(Model)).toEqual({
       properties: {
         num: {
           exclusiveMinimum: 0,
@@ -56,9 +52,7 @@ describe("@Minimum", () => {
     }
 
     // THEN
-    const classSchema = JsonEntityStore.from(Model);
-
-    expect(classSchema.schema.toJSON()).toEqual({
+    expect(s.compile(Model)).toEqual({
       properties: {
         num: {
           type: "array",

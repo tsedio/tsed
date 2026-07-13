@@ -1,5 +1,5 @@
 import {enums} from "../../fn/enums.js";
-import {compile} from "../../utils/compile.js";
+import {s} from "../../fn/index.js";
 import {Enum} from "./enum.js";
 
 describe("@Enum", () => {
@@ -11,7 +11,7 @@ describe("@Enum", () => {
         num: string;
       }
 
-      expect(compile(Model)).toEqual({
+      expect(s.compile(Model)).toEqual({
         properties: {
           num: {
             enum: ["0", "1"],
@@ -28,7 +28,7 @@ describe("@Enum", () => {
         num: string | number;
       }
 
-      expect(compile(Model)).toEqual({
+      expect(s.compile(Model)).toEqual({
         properties: {
           num: {
             oneOf: [
@@ -53,7 +53,7 @@ describe("@Enum", () => {
         num: string | number;
       }
 
-      expect(compile(Model)).toEqual({
+      expect(s.compile(Model)).toEqual({
         properties: {
           num: {
             oneOf: [
@@ -81,7 +81,7 @@ describe("@Enum", () => {
         num: string | number;
       }
 
-      expect(compile(Model)).toEqual({
+      expect(s.compile(Model)).toEqual({
         properties: {
           num: {
             oneOf: [
@@ -117,7 +117,7 @@ describe("@Enum", () => {
         num: SomeEnum;
       }
 
-      expect(compile(Model)).toEqual({
+      expect(s.compile(Model)).toEqual({
         properties: {
           num: {
             enum: ["enum1", "enum2"],
@@ -142,7 +142,7 @@ describe("@Enum", () => {
         num: SomeEnum;
       }
 
-      expect(compile(Model)).toEqual({
+      expect(s.compile(Model)).toEqual({
         properties: {
           num: {
             enum: [0, 1],
@@ -168,7 +168,7 @@ describe("@Enum", () => {
         num: SomeEnum;
       }
 
-      expect(compile(Model)).toEqual({
+      expect(s.compile(Model)).toEqual({
         properties: {
           num: {
             oneOf: [
@@ -203,7 +203,7 @@ describe("@Enum", () => {
         num: SomeEnum;
       }
 
-      expect(compile(Model)).toEqual({
+      expect(s.compile(Model)).toEqual({
         definitions: {
           SomeEnum: {
             oneOf: [
@@ -243,7 +243,7 @@ describe("@Enum", () => {
         num: SomeEnum;
       }
 
-      expect(compile(Model)).toEqual({
+      expect(s.compile(Model)).toEqual({
         definitions: {
           SomeEnum: {
             oneOf: [
@@ -283,7 +283,7 @@ describe("@Enum", () => {
         num: SomeEnum;
       }
 
-      expect(compile(Model)).toEqual({
+      expect(s.compile(Model)).toEqual({
         properties: {
           num: {
             oneOf: [

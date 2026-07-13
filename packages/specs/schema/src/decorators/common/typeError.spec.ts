@@ -1,4 +1,4 @@
-import {compile} from "../../utils/compile.js";
+import {s} from "../../fn/index.js";
 import {TypeError} from "./typeError.js";
 
 describe("@TypeError", () => {
@@ -10,7 +10,7 @@ describe("@TypeError", () => {
     }
 
     // THEN
-    const schema = compile(Model, {customKeys: true});
+    const schema = s.compile(Model, {customKeys: true});
 
     expect(schema).toEqual({
       type: "object",

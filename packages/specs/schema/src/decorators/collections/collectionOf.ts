@@ -1,6 +1,6 @@
 import {DecoratorTypes} from "@tsed/core";
 
-import {JsonEntityStore} from "../../domain/JsonEntityStore.js";
+import {s} from "../../fn/index.js";
 import {GenericValue} from "../../utils/generics.js";
 
 export interface ArrayOfChainedDecorators {
@@ -118,7 +118,7 @@ export function CollectionOf(type: any, collectionType?: any): CollectionOfChain
   const nestedGenerics: GenericValue[][] = [];
 
   const decorator = (...args: any) => {
-    const store = JsonEntityStore.from(...args);
+    const store = s.store(...args);
 
     if (collectionType) {
       store.collectionType = collectionType;
