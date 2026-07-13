@@ -4,6 +4,7 @@
 export * from "./components/DateMapper.js";
 export * from "./components/PrimitiveMapper.js";
 export * from "./components/SymbolMapper.js";
+export * from "./components/TemporalMapper.js";
 export * from "./decorators/afterDeserialize.js";
 export * from "./decorators/beforeDeserialize.js";
 export * from "./decorators/jsonMapper.js";
