@@ -37,7 +37,7 @@ describe("TemporalMapper", () => {
       const value = mapper.deserialize(zdt.toString(), {type: Temporal.ZonedDateTime} as JsonMapperCtx) as Temporal.ZonedDateTime;
 
       expect(Temporal.ZonedDateTime.compare(value, zdt)).toEqual(0);
-      expect(mapper.serialize(value)).toEqual(zdt.toString());
+      expect(mapper.serialize(value)).toEqual(zdt.toString({fractionalSecondDigits: 3}));
     });
 
     it("should return value when the data is a boolean/null/undefined", () => {
@@ -51,11 +51,27 @@ describe("TemporalMapper", () => {
   });
 
   describe("serialize()", () => {
-    it("should serialize a Temporal value to its ISO string", () => {
+    it("should serialize a time-bearing Temporal value at millisecond precision", () => {
       const mapper = new TemporalMapper();
-      const instant = Temporal.Instant.from("2024-01-15T14:30:00Z");
 
-      expect(mapper.serialize(instant)).toEqual(instant.toString());
+      // sub-millisecond precision is truncated to milliseconds (like Date#toISOString)
+      expect(mapper.serialize(Temporal.Instant.from("2024-01-15T14:30:00.195360107Z"))).toEqual("2024-01-15T14:30:00.195Z");
+      // whole seconds still render three fractional digits
+      expect(mapper.serialize(Temporal.Instant.from("2024-01-15T14:30:00Z"))).toEqual("2024-01-15T14:30:00.000Z");
+      expect(mapper.serialize(Temporal.PlainDateTime.from("2024-01-15T14:30:00.195360107"))).toEqual("2024-01-15T14:30:00.195");
+      expect(mapper.serialize(Temporal.PlainTime.from("14:30:00.195360107"))).toEqual("14:30:00.195");
+      expect(mapper.serialize(Temporal.ZonedDateTime.from("2024-06-15T10:00:00.195360107[Europe/Paris]"))).toEqual(
+        "2024-06-15T10:00:00.195+02:00[Europe/Paris]"
+      );
+    });
+
+    it("should serialize date-only and duration values with their default toString", () => {
+      const mapper = new TemporalMapper();
+
+      expect(mapper.serialize(Temporal.PlainDate.from("2024-01-15"))).toEqual("2024-01-15");
+      expect(mapper.serialize(Temporal.PlainYearMonth.from("2024-01"))).toEqual("2024-01");
+      expect(mapper.serialize(Temporal.PlainMonthDay.from("01-15"))).toEqual("01-15");
+      expect(mapper.serialize(Temporal.Duration.from({hours: 2, minutes: 30}))).toEqual("PT2H30M");
     });
 
     it("should return value when the object is null/undefined", () => {
