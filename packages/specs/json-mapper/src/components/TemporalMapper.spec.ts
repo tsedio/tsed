@@ -37,7 +37,7 @@ describe("TemporalMapper", () => {
       const value = mapper.deserialize(zdt.toString(), {type: Temporal.ZonedDateTime} as JsonMapperCtx) as Temporal.ZonedDateTime;
 
       expect(Temporal.ZonedDateTime.compare(value, zdt)).toEqual(0);
-      expect(mapper.serialize(zdt)).toEqual(zdt.toString());
+      expect(mapper.serialize(value)).toEqual(zdt.toString());
     });
 
     it("should return value when the data is a boolean/null/undefined", () => {
