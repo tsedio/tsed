@@ -8,6 +8,7 @@ import {
   isObject,
   isPlainObject,
   isPrimitiveClass,
+  isTemporal,
   nameOf,
   Type,
   uniq,
@@ -357,7 +358,7 @@ export class JsonSchema<T = JSONSchema7Type> extends Map<string, any> {
       return JsonEntityStore.from(item).schema;
     }
 
-    if (isPrimitiveClass(item) || item === Date || item === null) {
+    if (isPrimitiveClass(item) || item === Date || isTemporal(item) || item === null) {
       return new JsonSchema({type: item as Type});
     }
 
@@ -1519,7 +1520,15 @@ export class JsonSchema<T = JSONSchema7Type> extends Map<string, any> {
         break;
 
       default:
-        if (isClass(type) || isFunction(type)) {
+        if (isTemporal(type)) {
+          // Temporal.* types serialize to an ISO-8601 string, like Date.
+          super.set("type", getJsonType(type));
+          this.target(type);
+
+          if (!this.has("properties")) {
+            super.set("properties", {});
+          }
+        } else if (isClass(type) || isFunction(type)) {
           super.set("type", undefined);
           this.target(type);
 
@@ -1839,7 +1848,7 @@ export class JsonSchema<T = JSONSchema7Type> extends Map<string, any> {
       return JsonSchema.from(item as any);
     }
 
-    if (isPrimitiveClass(item) || item === Date || item === null) {
+    if (isPrimitiveClass(item) || item === Date || isTemporal(item) || item === null) {
       return JsonSchema.from({type: item});
     }
 

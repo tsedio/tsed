@@ -4,6 +4,8 @@ describe("isClass", () => {
   it("should test if a value is a class", () => {
     expect(isClass(class Test {})).toEqual(true);
     expect(isClass(Date)).toEqual(false);
+    expect(isClass(Temporal.Instant)).toEqual(false);
+    expect(isClass(Temporal.PlainDate)).toEqual(false);
     expect(isClass(undefined)).toEqual(false);
     expect(isClass(Symbol("zertyuio"))).toEqual(false);
     expect(isClass(Number)).toEqual(false);

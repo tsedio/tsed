@@ -1,4 +1,4 @@
-import {isArray, isBuffer, isDate, isPrimitiveOrPrimitiveClass, primitiveOf} from "@tsed/core";
+import {isArray, isBuffer, isDate, isPrimitiveOrPrimitiveClass, isTemporal, primitiveOf} from "@tsed/core";
 
 /**
  * @ignore
@@ -38,7 +38,7 @@ export function getJsonType(value: any): string {
     return "array";
   }
 
-  if (isDate(value) || isBuffer(value)) {
+  if (isDate(value) || isBuffer(value) || isTemporal(value)) {
     return "string";
   }
 

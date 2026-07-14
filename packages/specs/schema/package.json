@@ -54,6 +54,7 @@
     "@types/statuses": "2.0.5",
     "ajv": "^8.17.1",
     "eslint": "9.12.0",
+    "temporal-polyfill": "1.0.1",
     "typescript": "6.0.2",
     "vitest": "4.1.4"
   },
