@@ -16,6 +16,11 @@ describe("getJsonType", () => {
   it("should return string", () => {
     expect(getJsonType(new Date())).toBe("string");
   });
+  it("should return string for Temporal types", () => {
+    expect(getJsonType(Temporal.Instant)).toBe("string");
+    expect(getJsonType(Temporal.Instant.from("2024-01-15T10:30:00Z"))).toBe("string");
+    expect(getJsonType(Temporal.PlainDate)).toBe("string");
+  });
   it("should return object", () => {
     expect(getJsonType({test: "test"})).toBe("object");
   });

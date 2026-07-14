@@ -62,6 +62,7 @@ export * from "./utils/isSerializable.js";
 export * from "./utils/isStream.js";
 export * from "./utils/isString.js";
 export * from "./utils/isSymbol.js";
+export * from "./utils/isTemporal.js";
 export * from "./utils/methodsOf.js";
 export * from "./utils/nameOf.js";
 export * from "./utils/objectKeys.js";

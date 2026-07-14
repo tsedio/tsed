@@ -32,6 +32,31 @@ describe("compile", () => {
     expect(compile(Post)).toEqual(getJsonSchema(Post));
   });
 
+  it("should map a Temporal.* property to a string schema (like Date)", () => {
+    class Event {
+      @Property(Temporal.Instant)
+      @Required()
+      instant: Temporal.Instant;
+
+      @Property(Temporal.PlainDate)
+      plainDate: Temporal.PlainDate;
+    }
+
+    expect(compile(Event)).toEqual({
+      type: "object",
+      required: ["instant"],
+      properties: {
+        instant: {
+          minLength: 1,
+          type: "string"
+        },
+        plainDate: {
+          type: "string"
+        }
+      }
+    });
+  });
+
   it("should declare all schema correctly (basic)", () => {
     // WHEN
     class Model {

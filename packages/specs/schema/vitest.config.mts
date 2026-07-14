@@ -7,6 +7,7 @@ export default defineConfig(
     ...presets,
     test: {
       ...presets.test,
+      setupFiles: ["./vitest.setup.ts"],
       coverage: {
         ...presets.test.coverage,
         thresholds: {

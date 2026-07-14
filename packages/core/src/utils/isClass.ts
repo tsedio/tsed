@@ -6,6 +6,7 @@ import {isClassObject} from "./isPlainObject.js";
 import {isPrimitiveOrPrimitiveClass} from "./isPrimitive.js";
 import {isPromise} from "./isPromise.js";
 import {isSymbol} from "./isSymbol.js";
+import {isTemporal} from "./isTemporal.js";
 
 /**
  * Determines whether a given value represents a class (constructor function).
@@ -30,6 +31,7 @@ export function isClass(target: any) {
     isPrimitiveOrPrimitiveClass(target) ||
     isClassObject(target) ||
     isDate(target) ||
+    isTemporal(target) ||
     isPromise(target) ||
     isArrayOrArrayClass(target) ||
     isBuffer(target)
