@@ -1,11 +1,6 @@
 import {BodyParams} from "@tsed/platform-params";
 
-import {OperationVerbs} from "../constants/OperationVerbs.js";
-import {Name} from "../decorators/common/name.js";
-import {Get} from "../decorators/operations/route.js";
-import {JsonMethodPath, JsonOperation} from "./JsonOperation.js";
-import {JsonOperationRoute} from "./JsonOperationRoute.js";
-import {getJsonMethodStore} from "@tsed/schema";
+import {Get, getJsonMethodStore, JsonMethodPath, JsonOperation, JsonOperationRoute, Name, OperationVerbs} from "../index.js";
 
 describe("JsonOperationRoute", () => {
   it("should create JsonOperationRoute instance", () => {

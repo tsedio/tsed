@@ -2,7 +2,7 @@ import {Controller, DIContext, inject, injector} from "@tsed/di";
 import {PlatformTest} from "@tsed/platform-http/testing";
 import {UseBefore} from "@tsed/platform-middlewares";
 import {Context, PlatformParams, PlatformParamsScope} from "@tsed/platform-params";
-import {EndpointMetadata, Get, JsonOperationRoute} from "@tsed/schema";
+import {Get, JsonMethodStore, JsonOperationRoute} from "@tsed/schema";
 
 import {PlatformRouter} from "../src/domain/PlatformRouter.js";
 import {AlterEndpointHandlersArg, PlatformRouters} from "../src/domain/PlatformRouters.js";
@@ -50,7 +50,7 @@ describe("routers with alter handlers", () => {
 
       handlers.before.unshift(
         useContextHandler(($ctx: DIContext) => {
-          $ctx.set(EndpointMetadata, endpoint);
+          $ctx.set(JsonMethodStore, endpoint);
         })
       );
 

@@ -1,9 +1,9 @@
 import "../components/index.js";
 
 import {getValue, isClass, isPlainObject, nameOf, Type} from "@tsed/core";
-import {JsonSchemaOptions} from "../interfaces/JsonSchemaOptions.js";
 
 import {getJsonEntityStore, JsonParameterStore, JsonSchema, SpecTypes} from "../domain/index.js";
+import {JsonSchemaOptions} from "../interfaces/JsonSchemaOptions.js";
 import {execMapper} from "../registries/JsonSchemaMapperContainer.js";
 
 /**

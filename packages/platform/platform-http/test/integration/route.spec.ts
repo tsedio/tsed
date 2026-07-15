@@ -1,4 +1,4 @@
-import {All, Delete, EndpointMetadata, Get, Head, OperationVerbs, Options, Patch, Post, Put} from "@tsed/schema";
+import {All, Delete, Get, Head, OperationVerbs, Options, Patch, Post, Put, s} from "@tsed/schema";
 
 import {inspectOperationsPaths} from "./__fixtures__/inspectOperationsPaths.js";
 
@@ -11,7 +11,7 @@ describe("Route decorators", () => {
         test() {}
       }
 
-      const endpoint = EndpointMetadata.get(Test, "test");
+      const endpoint = s.store.method(Test, "test");
 
       // THEN
       expect(inspectOperationsPaths(endpoint)).toEqual([
@@ -32,7 +32,7 @@ describe("Route decorators", () => {
         test() {}
       }
 
-      const endpoint = EndpointMetadata.get(Test, "test");
+      const endpoint = s.store.method(Test, "test");
 
       // THEN
       expect(inspectOperationsPaths(endpoint)).toEqual([
@@ -52,7 +52,7 @@ describe("Route decorators", () => {
         test() {}
       }
 
-      const endpoint = EndpointMetadata.get(Test, "test");
+      const endpoint = s.store.method(Test, "test");
 
       // THEN
       expect(inspectOperationsPaths(endpoint)).toEqual([
@@ -74,7 +74,7 @@ describe("Route decorators", () => {
         test() {}
       }
 
-      const endpoint = EndpointMetadata.get(Test, "test");
+      const endpoint = s.store.method(Test, "test");
 
       // THEN
       expect(inspectOperationsPaths(endpoint)).toEqual([
@@ -95,7 +95,7 @@ describe("Route decorators", () => {
         test() {}
       }
 
-      const endpoint = EndpointMetadata.get(Test, "test");
+      const endpoint = s.store.method(Test, "test");
 
       // THEN
       expect(inspectOperationsPaths(endpoint)).toEqual([
@@ -116,7 +116,7 @@ describe("Route decorators", () => {
         test() {}
       }
 
-      const endpoint = EndpointMetadata.get(Test, "test");
+      const endpoint = s.store.method(Test, "test");
 
       // THEN
       expect(inspectOperationsPaths(endpoint)).toEqual([
@@ -137,7 +137,7 @@ describe("Route decorators", () => {
         test() {}
       }
 
-      const endpoint = EndpointMetadata.get(Test, "test");
+      const endpoint = s.store.method(Test, "test");
 
       // THEN
       expect(inspectOperationsPaths(endpoint)).toEqual([
@@ -158,7 +158,7 @@ describe("Route decorators", () => {
         test() {}
       }
 
-      const endpoint = EndpointMetadata.get(Test, "test");
+      const endpoint = s.store.method(Test, "test");
 
       // THEN
       expect(inspectOperationsPaths(endpoint)).toEqual([
@@ -179,7 +179,7 @@ describe("Route decorators", () => {
         test() {}
       }
 
-      const endpoint = EndpointMetadata.get(Test, "test");
+      const endpoint = s.store.method(Test, "test");
 
       // THEN
       expect(inspectOperationsPaths(endpoint)).toEqual([

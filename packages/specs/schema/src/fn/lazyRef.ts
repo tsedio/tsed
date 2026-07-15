@@ -1,7 +1,8 @@
 import type {Type} from "@tsed/core";
+
+import {getJsonEntityStore} from "../domain/index.js";
 import {JsonLazyRef} from "../domain/JsonLazyRef.js";
 import type {JsonSchema} from "../domain/JsonSchema.js";
-import {getJsonEntityStore} from "../domain/index.js";
 
 /**
  * Declare a sub schema which will be resolved later. Use this function when you have a circular reference between two schemes.

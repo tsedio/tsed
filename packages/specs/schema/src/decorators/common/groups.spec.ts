@@ -1,16 +1,18 @@
-import {s} from "../../..";
-import {SpecTypes} from "../../domain/SpecTypes.js";
-import {getSpec} from "../../fn/oas/getSpec.js";
-import {CollectionOf} from "../collections/collectionOf.js";
-import {In} from "../operations/in.js";
-import {OperationPath} from "../operations/operationPath.js";
-import {Path} from "../operations/path.js";
-import {Returns} from "../operations/returns.js";
-import {Groups} from "./groups.js";
-import {Name} from "./name.js";
-import {Property} from "./property.js";
-import {Required} from "./required.js";
-import {RequiredGroups} from "./requiredGroups.js";
+import {
+  CollectionOf,
+  getSpec,
+  Groups,
+  In,
+  Name,
+  OperationPath,
+  Path,
+  Property,
+  Required,
+  RequiredGroups,
+  Returns,
+  s,
+  SpecTypes
+} from "../../index.js";
 
 class ChildModel {
   @Groups("!creation")

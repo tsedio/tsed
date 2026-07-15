@@ -1,6 +1,7 @@
 import {OS3Operation, OS3Paths} from "@tsed/openspec";
 
 import {OperationVerbs} from "../../constants/OperationVerbs.js";
+import {getJsonEntityStore} from "../../domain/index.js";
 import {JsonMethodStore} from "../../domain/JsonMethodStore.js";
 import {JsonMethodPath} from "../../domain/JsonOperation.js";
 import {JsonSchemaOptions} from "../../interfaces/JsonSchemaOptions.js";
@@ -11,7 +12,6 @@ import {getJsonPathParameters} from "../../utils/getJsonPathParameters.js";
 import {getOperationsStores} from "../../utils/getOperationsStores.js";
 import {getOperationId} from "../../utils/operationIdFormatter.js";
 import {removeHiddenOperation} from "../../utils/removeHiddenOperation.js";
-import {getJsonEntityStore} from "../../domain/index.js";
 
 const ALLOWED_VERBS = [
   OperationVerbs.ALL,
@@ -48,10 +48,10 @@ function pushToPath(
 
 function mapOperationInPathParameters(options: JsonSchemaOptions) {
   return ({
-            operationPath,
-            operation,
-            operationStore
-          }: {
+    operationPath,
+    operation,
+    operationStore
+  }: {
     operationPath: JsonMethodPath;
     operation: OS3Operation;
     operationStore: JsonMethodStore;

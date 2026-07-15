@@ -1,6 +1,6 @@
 import {Type} from "@tsed/core";
 
-import {type GenericValue} from "../utils/generics.js";
+import {type GenericValue} from "../domain/Generics.js";
 import {from} from "./from.js";
 
 export function generic(type: Type<any> = Object) {

@@ -1,7 +1,7 @@
 import {nameOf} from "@tsed/core";
 import {DIContext, injector, Provider, ProviderScope, TokenProvider} from "@tsed/di";
 import {ParamTypes} from "@tsed/platform-params";
-import {EndpointMetadata, JsonParameterStore, s} from "@tsed/schema";
+import {JsonMethodStore, JsonParameterStore, s} from "@tsed/schema";
 
 import {PlatformHandlerType} from "./PlatformHandlerType.js";
 import {SinglePathType} from "./SinglePathType.js";
@@ -82,7 +82,7 @@ export class PlatformHandlerMetadata {
       return input;
     }
 
-    if (input instanceof EndpointMetadata) {
+    if (input instanceof JsonMethodStore) {
       const provider = injector().getProvider(opts.token)!;
 
       return new PlatformHandlerMetadata({

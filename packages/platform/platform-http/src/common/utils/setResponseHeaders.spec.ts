@@ -1,4 +1,4 @@
-import {EndpointMetadata, Get, Redirect, Returns} from "@tsed/schema";
+import {Get, Redirect, Returns, s} from "@tsed/schema";
 
 import {PlatformTest} from "../../testing/PlatformTest.js";
 import {setResponseHeaders} from "./setResponseHeaders.js";
@@ -15,7 +15,7 @@ describe("setResponseHeaders", () => {
     }
 
     const ctx = PlatformTest.createRequestContext();
-    ctx.endpoint = EndpointMetadata.get(Test, "test");
+    ctx.endpoint = s.store.method(Test, "test");
 
     // WHEN
     await setResponseHeaders(ctx);
@@ -32,7 +32,7 @@ describe("setResponseHeaders", () => {
     }
 
     const ctx = PlatformTest.createRequestContext();
-    ctx.endpoint = EndpointMetadata.get(Test, "test");
+    ctx.endpoint = s.store.method(Test, "test");
 
     // WHEN
     await setResponseHeaders(ctx);
@@ -50,7 +50,7 @@ describe("setResponseHeaders", () => {
     }
 
     const ctx = PlatformTest.createRequestContext();
-    ctx.endpoint = EndpointMetadata.get(Test, "test");
+    ctx.endpoint = s.store.method(Test, "test");
 
     vi.spyOn(ctx.response, "redirect").mockReturnValue(undefined as any);
 
@@ -71,7 +71,7 @@ describe("setResponseHeaders", () => {
     const ctx = PlatformTest.createRequestContext();
     ctx.response.raw.headersSent = true;
 
-    ctx.endpoint = EndpointMetadata.get(Test, "test");
+    ctx.endpoint = s.store.method(Test, "test");
 
     vi.spyOn(ctx.response.raw, "set");
 

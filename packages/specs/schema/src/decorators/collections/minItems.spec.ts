@@ -1,6 +1,4 @@
-import {CollectionOf} from "./collectionOf.js";
-import {MinItems} from "./minItems.js";
-import {s} from "@tsed/schema";
+import {CollectionOf, MinItems, s} from "../../index.js";
 
 describe("@MinItems", () => {
   it("should declare a prop", () => {

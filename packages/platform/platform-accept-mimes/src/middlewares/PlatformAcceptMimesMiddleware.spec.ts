@@ -1,7 +1,7 @@
 import {catchAsyncError} from "@tsed/core";
 import {runInContext} from "@tsed/di";
 import {PlatformTest} from "@tsed/platform-http/testing";
-import {AcceptMime, EndpointMetadata, Get} from "@tsed/schema";
+import {AcceptMime, Get, s} from "@tsed/schema";
 
 import {PlatformAcceptMimesMiddleware} from "./PlatformAcceptMimesMiddleware.js";
 
@@ -20,7 +20,7 @@ describe("PlatformMimesMiddleware", () => {
         get() {}
       }
 
-      const endpoint = EndpointMetadata.get(Test, "get");
+      const endpoint = s.store.method(Test, "get");
       const request = PlatformTest.createRequest({
         headers: {
           accept: "application/json"
@@ -46,7 +46,7 @@ describe("PlatformMimesMiddleware", () => {
         get() {}
       }
 
-      const endpoint = EndpointMetadata.get(Test, "get");
+      const endpoint = s.store.method(Test, "get");
       const request: any = PlatformTest.createRequest({
         headers: {
           accept: "text/*, application/json"
@@ -93,7 +93,7 @@ describe("PlatformMimesMiddleware", () => {
         get() {}
       }
 
-      const endpoint = EndpointMetadata.get(Test, "get");
+      const endpoint = s.store.method(Test, "get");
       const request: any = PlatformTest.createRequest({
         headers: {
           accept: "application/xml"
@@ -119,7 +119,7 @@ describe("PlatformMimesMiddleware", () => {
         get() {}
       }
 
-      const endpoint = EndpointMetadata.get(Test, "get");
+      const endpoint = s.store.method(Test, "get");
       const request: any = PlatformTest.createRequest({
         headers: {
           accept: "application/json"
@@ -143,7 +143,7 @@ describe("PlatformMimesMiddleware", () => {
         get() {}
       }
 
-      const endpoint = EndpointMetadata.get(Test, "get");
+      const endpoint = s.store.method(Test, "get");
       const request: any = PlatformTest.createRequest({
         headers: {
           accept: "application/json"
@@ -167,7 +167,7 @@ describe("PlatformMimesMiddleware", () => {
         get() {}
       }
 
-      const endpoint = EndpointMetadata.get(Test, "get");
+      const endpoint = s.store.method(Test, "get");
       const request: any = PlatformTest.createRequest({
         headers: {
           accept: "text/*, application/json"
@@ -193,7 +193,7 @@ describe("PlatformMimesMiddleware", () => {
         get() {}
       }
 
-      const endpoint = EndpointMetadata.get(Test, "get");
+      const endpoint = s.store.method(Test, "get");
       const request: any = PlatformTest.createRequest({
         headers: {
           accept: "application/xml"

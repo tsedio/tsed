@@ -4,7 +4,7 @@ import {FormioActionInfo} from "@tsed/formio-types";
 import {PlatformContext, setResponseHeaders} from "@tsed/platform-http";
 import {PlatformParams} from "@tsed/platform-params";
 import {PlatformResponseFilter} from "@tsed/platform-response-filter";
-import {EndpointMetadata} from "@tsed/schema";
+import {s} from "@tsed/schema";
 
 import {Alter} from "../decorators/alter.js";
 import {AlterHook} from "../domain/AlterHook.js";
@@ -84,7 +84,7 @@ export class AlterActions implements AlterHook {
 
       if ($ctx) {
         $ctx.set("ACTION_CTX", {handler, method, setActionItemMessage, action});
-        $ctx.endpoint = EndpointMetadata.get(provider.useClass, "resolve");
+        $ctx.endpoint = s.store.method(provider.useClass, "resolve");
 
         try {
           if (await this.onRequest(compiledHandler, $ctx)) {

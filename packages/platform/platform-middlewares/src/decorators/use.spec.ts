@@ -1,5 +1,5 @@
 import {Store} from "@tsed/core";
-import {EndpointMetadata} from "@tsed/schema";
+import {s} from "@tsed/schema";
 
 import {Use} from "./use.js";
 
@@ -13,7 +13,7 @@ describe("Use()", () => {
         test() {}
       }
 
-      const endpoint = EndpointMetadata.get(Test, "test");
+      const endpoint = s.store.method(Test, "test");
       expect(endpoint.middlewares).toEqual([middleware]);
     });
   });

@@ -5,18 +5,17 @@ import {Required} from "../decorators/common/required.js";
 import {In} from "../decorators/operations/in.js";
 import {Path} from "../decorators/operations/path.js";
 import {Get} from "../decorators/operations/route.js";
+import {getJsonEntityStore} from "../index.js";
 import {JsonClassStore} from "./JsonClassStore.js";
 import {JsonMethodStore} from "./JsonMethodStore.js";
 import {JsonParameterStore} from "./JsonParameterStore.js";
 import {JsonParameterTypes} from "./JsonParameterTypes.js";
-import {getJsonEntityStore} from "@tsed/schema";
 
 describe("JsonParameterStore", () => {
   describe("new JsonParameterStore", () => {
     it("should load entities", () => {
       class TestDynamicUrlCtrl {
-        async get(id: string) {
-        }
+        async get(id: string) {}
       }
 
       const entity = getJsonEntityStore(prototypeOf(TestDynamicUrlCtrl), "get", 0);
@@ -37,8 +36,7 @@ describe("JsonParameterStore", () => {
       @Path("/")
       class Test {
         @Get("/")
-        test(@In("body") body: any) {
-        }
+        test(@In("body") body: any) {}
       }
 
       // WHEN
@@ -51,8 +49,7 @@ describe("JsonParameterStore", () => {
       // GIVEN
       class Test {
         @Get("/")
-        test(@In(JsonParameterTypes.BODY) body: any) {
-        }
+        test(@In(JsonParameterTypes.BODY) body: any) {}
       }
 
       // WHEN
@@ -65,22 +62,18 @@ describe("JsonParameterStore", () => {
       // GIVEN
       class BaseTest {
         @Get("/")
-        list(@(In("query").Name("search")) search: string) {
-        }
+        list(@(In("query").Name("search")) search: string) {}
 
         @Get("/")
-        base(@(In("query").Name("base")) test: string) {
-        }
+        base(@(In("query").Name("base")) test: string) {}
       }
 
       class Test extends BaseTest {
         @Get("/")
-        test(@(In("query").Name("search")) search: string) {
-        }
+        test(@(In("query").Name("search")) search: string) {}
 
         @Get("/")
-        base(@(In("query").Name("test")) search: string) {
-        }
+        base(@(In("query").Name("test")) search: string) {}
       }
 
       // WHEN
@@ -102,8 +95,7 @@ describe("JsonParameterStore", () => {
       it("should return the expected required state", () => {
         class Test {
           @Get("/")
-          test(@Required() @In(JsonParameterTypes.BODY) body: any) {
-          }
+          test(@Required() @In(JsonParameterTypes.BODY) body: any) {}
         }
 
         const store = JsonParameterStore.get(Test, "test", 0);
@@ -119,8 +111,7 @@ describe("JsonParameterStore", () => {
       it("should validate the required values", () => {
         class Test {
           @Get("/")
-          test(@Required() @Allow(null) @In(JsonParameterTypes.BODY) body: any) {
-          }
+          test(@Required() @Allow(null) @In(JsonParameterTypes.BODY) body: any) {}
         }
 
         const store = JsonParameterStore.get(Test, "test", 0);
@@ -135,8 +126,7 @@ describe("JsonParameterStore", () => {
       it("should validate the required values (2)", () => {
         class Test {
           @Get("/")
-          test(@Required() @Allow("") @In(JsonParameterTypes.BODY) body: any) {
-          }
+          test(@Required() @Allow("") @In(JsonParameterTypes.BODY) body: any) {}
         }
 
         const store = JsonParameterStore.get(Test, "test", 0);
@@ -152,8 +142,7 @@ describe("JsonParameterStore", () => {
       it("should validate the required values (3)", () => {
         class Test {
           @Get("/")
-          test(@Required() @Allow("") @In(JsonParameterTypes.BODY) body: any) {
-          }
+          test(@Required() @Allow("") @In(JsonParameterTypes.BODY) body: any) {}
         }
 
         const store = JsonParameterStore.get(Test, "test", 0);
@@ -171,8 +160,7 @@ describe("JsonParameterStore", () => {
       it("should validate values", () => {
         class Test {
           @Get("/")
-          test(@Required(false) @Allow("") @In(JsonParameterTypes.BODY) body: any) {
-          }
+          test(@Required(false) @Allow("") @In(JsonParameterTypes.BODY) body: any) {}
         }
 
         const store = JsonParameterStore.get(Test, "test", 0);
@@ -188,8 +176,7 @@ describe("JsonParameterStore", () => {
   describe("props", () => {
     it("should return the required value", () => {
       class Test {
-        method(arg1: any, arg2: any) {
-        }
+        method(arg1: any, arg2: any) {}
       }
 
       const paramMetadata = JsonParameterStore.get(Test, "method", 0);
@@ -210,8 +197,7 @@ describe("JsonParameterStore", () => {
   describe("as a service", () => {
     it("should return the service", () => {
       class Test {
-        method(arg1: any, arg2: any) {
-        }
+        method(arg1: any, arg2: any) {}
       }
 
       const paramMetadata = JsonParameterStore.get(Test, "method", 0);
