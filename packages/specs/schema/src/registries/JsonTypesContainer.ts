@@ -1,7 +1,7 @@
 import {Type} from "@tsed/core";
 import type {JSONSchema7TypeName} from "json-schema";
 
-import {JsonSchema} from "../..";
+import type {JsonSchema} from "../domain/index.js";
 
 export type AnyJsonType = string | Type | JSONSchema7TypeName | JSONSchema7TypeName[];
 
@@ -20,15 +20,15 @@ export interface JsonTypesResolver {
 }
 
 let resolvers: JsonTypesResolver[] = [];
+const cache: Map<AnyJsonType, JsonTypesResolver | undefined> = new Map();
 
 export function defineType(resolver: JsonTypesResolver) {
   resolvers.push(resolver);
   resolvers = resolvers.sort((a, b) => ((a.priority || 0) > (b.priority || 0) ? -1 : 1));
+  cache.clear();
 
   return resolver;
 }
-
-const cache: Map<AnyJsonType, JsonTypesResolver | undefined> = new Map();
 
 export function getTypeResolver(type: AnyJsonType) {
   if (cache.has(type)) {
@@ -39,7 +39,9 @@ export function getTypeResolver(type: AnyJsonType) {
     return resolver.match(type);
   });
 
-  cache.set(type, result);
+  if (result) {
+    cache.set(type, result);
+  }
 
   return result;
 }

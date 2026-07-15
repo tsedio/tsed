@@ -1,6 +1,6 @@
 import {isTemporal} from "@tsed/core";
 
-import {type JsonSchema} from "../../domain/index.js";
+import type {JsonSchema} from "../../domain/JsonSchema.js";
 import {type AnyJsonType, defineType} from "../../registries/JsonTypesContainer.js";
 import {getJsonType} from "../../utils/getJsonType.js";
 

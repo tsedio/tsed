@@ -1,4 +1,4 @@
-import {type JsonSchema} from "../../..";
+import type {JsonSchema} from "../../domain/JsonSchema.js";
 import {defineType} from "../../registries/JsonTypesContainer.js";
 
 export default defineType({
