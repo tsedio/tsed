@@ -1,5 +1,5 @@
 import {getValue, prototypeOf, setValue, Type} from "@tsed/core";
-import {JsonEntityStore} from "@tsed/schema";
+import {s} from "@tsed/schema";
 
 import {AjvErrorObject} from "../interfaces/AjvSettings.js";
 
@@ -17,7 +17,7 @@ export function mapClassError(error: AjvErrorObject, targetType: Type<any>) {
   const propertyKey = getValue(error, "params.missingProperty");
 
   if (propertyKey) {
-    const store = JsonEntityStore.from<JsonEntityStore>(prototypeOf(targetType), propertyKey);
+    const store = s.store.get(prototypeOf(targetType), propertyKey);
 
     if (store) {
       setValue(error, "params.missingProperty", store.name || propertyKey);

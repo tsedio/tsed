@@ -2,7 +2,7 @@ import type {RequestHandlerExtra} from "@modelcontextprotocol/sdk/shared/protoco
 import type {GetPromptResult, ServerNotification, ServerRequest} from "@modelcontextprotocol/sdk/types.js";
 import {type AbstractType, isArrowFn, type Type} from "@tsed/core";
 import {context, inject, injectable, logger, type TokenProvider} from "@tsed/di";
-import {JsonEntityStore, JsonSchema} from "@tsed/schema";
+import {JsonSchema, s} from "@tsed/schema";
 import {constantCase} from "change-case";
 
 import {MCP_PROVIDER_TYPES} from "../constants/constants.js";
@@ -57,7 +57,7 @@ function mapOptions<Args = any>(options: PromptProps<Args>) {
       return instance[propertyKey](...args);
     }) as unknown as PromptHandler<Args>;
 
-    const methodStore = JsonEntityStore.fromMethod(token, propertyKey);
+    const methodStore = s.store.method(token, propertyKey);
     options.description = options.description || methodStore.operation.get("description");
     options.title = options.title || methodStore.schema.get("title");
   }
