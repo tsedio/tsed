@@ -2,7 +2,7 @@ import {catchAsyncError} from "@tsed/core";
 import {DITest, Inject, Injectable} from "@tsed/di";
 import {Unauthorized} from "@tsed/exceptions";
 import {QueryParams} from "@tsed/platform-params";
-import {JsonEntityStore} from "@tsed/schema";
+import {s} from "@tsed/schema";
 import type {APIGatewayTokenAuthorizerEvent} from "aws-lambda";
 
 import {ServerlessContext} from "../domain/ServerlessContext.js";
@@ -47,7 +47,7 @@ describe("PlatformServerlessHandler", () => {
   it("should call lambda provider and return http response", async () => {
     const {service} = await getPlatformServerlessHandlerFixture();
 
-    const endpoint = JsonEntityStore.fromMethod(TimeslotsLambdaController, "get");
+    const endpoint = s.store.method(TimeslotsLambdaController, "get");
     const $ctx = new ServerlessContext({
       event: {
         httpMethod: "GET",
@@ -74,7 +74,7 @@ describe("PlatformServerlessHandler", () => {
   it("shouldn't throw error and return http response", async () => {
     const {service} = await getPlatformServerlessHandlerFixture();
 
-    const endpoint = JsonEntityStore.fromMethod(TimeslotsLambdaController, "throwError");
+    const endpoint = s.store.method(TimeslotsLambdaController, "throwError");
     const $ctx = new ServerlessContext({
       event: {
         httpMethod: "GET",
@@ -103,7 +103,7 @@ describe("PlatformServerlessHandler", () => {
   it("should call lambda provider and return raw response when isn't a http event", async () => {
     const {service} = await getPlatformServerlessHandlerFixture();
 
-    const endpoint = JsonEntityStore.fromMethod(TimeslotsLambdaController, "get");
+    const endpoint = s.store.method(TimeslotsLambdaController, "get");
     const $ctx = new ServerlessContext({
       event: {
         type: "TOKEN",
@@ -124,7 +124,7 @@ describe("PlatformServerlessHandler", () => {
   it("should throw error when isn't a http event", async () => {
     const {service} = await getPlatformServerlessHandlerFixture();
 
-    const endpoint = JsonEntityStore.fromMethod(TimeslotsLambdaController, "throwError");
+    const endpoint = s.store.method(TimeslotsLambdaController, "throwError");
     const $ctx = new ServerlessContext({
       event: {
         type: "TOKEN",

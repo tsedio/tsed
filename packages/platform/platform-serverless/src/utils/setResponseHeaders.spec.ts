@@ -1,5 +1,5 @@
 import {PlatformTest} from "@tsed/platform-http/testing";
-import {Get, JsonEntityStore, Redirect, Returns} from "@tsed/schema";
+import {Get, Redirect, Returns, s} from "@tsed/schema";
 
 import {createServerlessContext} from "../../test/utils/createServerlessContext.js";
 import {setResponseHeaders} from "./setResponseHeaders.js";
@@ -16,7 +16,7 @@ describe("setResponseHeaders", () => {
     }
 
     const ctx = createServerlessContext({
-      endpoint: JsonEntityStore.fromMethod(Test, "test")
+      endpoint: s.store.method(Test, "test")
     });
 
     vi.spyOn(ctx.response, "setHeaders");
@@ -36,7 +36,7 @@ describe("setResponseHeaders", () => {
     }
 
     const ctx = createServerlessContext({
-      endpoint: JsonEntityStore.fromMethod(Test, "test")
+      endpoint: s.store.method(Test, "test")
     });
 
     vi.spyOn(ctx.response, "setHeaders");
@@ -56,7 +56,7 @@ describe("setResponseHeaders", () => {
     }
 
     const ctx = createServerlessContext({
-      endpoint: JsonEntityStore.fromMethod(Test, "test")
+      endpoint: s.store.method(Test, "test")
     });
 
     vi.spyOn(ctx.response, "redirect");
@@ -75,7 +75,7 @@ describe("setResponseHeaders", () => {
     }
 
     const ctx = createServerlessContext({
-      endpoint: JsonEntityStore.fromMethod(Test, "test")
+      endpoint: s.store.method(Test, "test")
     });
     vi.spyOn(ctx.response, "redirect");
 
@@ -93,7 +93,7 @@ describe("setResponseHeaders", () => {
     }
 
     const ctx = createServerlessContext({
-      endpoint: JsonEntityStore.fromMethod(Test, "test")
+      endpoint: s.store.method(Test, "test")
     });
     vi.spyOn(ctx.response, "redirect");
 
@@ -113,7 +113,7 @@ describe("setResponseHeaders", () => {
     }
 
     const ctx = createServerlessContext({
-      endpoint: JsonEntityStore.fromMethod(Test, "test")
+      endpoint: s.store.method(Test, "test")
     });
 
     await ctx.destroy();
@@ -132,7 +132,7 @@ describe("setResponseHeaders", () => {
       test() {}
     }
 
-    const endpoint = JsonEntityStore.fromMethod(Test, "test");
+    const endpoint = s.store.method(Test, "test");
 
     const ctx = createServerlessContext({
       endpoint: {} as never
