@@ -10,7 +10,7 @@ import {Property} from "../decorators/common/property.js";
 import {In} from "../decorators/operations/in.js";
 import {Returns} from "../decorators/operations/returns.js";
 import {Get} from "../decorators/operations/route.js";
-import {getSpec} from "../fn/spec.js";
+import {getSpec} from "../fn/oas/getSpec.js";
 import {inspectOperationsPaths} from "./__fixtures__/inspectOperationsPaths.js";
 import {JsonEntityStore} from "./JsonEntityStore.js";
 import {EndpointMetadata, JsonMethodStore} from "./JsonMethodStore.js";

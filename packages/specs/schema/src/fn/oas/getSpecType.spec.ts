@@ -1,4 +1,4 @@
-import {SpecTypes} from "../domain/SpecTypes.js";
+import {SpecTypes} from "../../domain/SpecTypes.js";
 import {getSpecType, getSpecTypeFromSpec} from "./getSpecType.js";
 
 describe("getSpecType", () => {

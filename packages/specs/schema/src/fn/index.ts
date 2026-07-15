@@ -1,5 +1,6 @@
 import {getJsonEntityStore, getJsonMethodStore} from "../domain/index.js";
 import type {Infer} from "../domain/types.js";
+import {mergeSchema} from "../utils/mergeSchema.js";
 import {allOf} from "./allOf.js";
 import {any} from "./any.js";
 import {anyOf} from "./anyOf.js";
@@ -14,10 +15,11 @@ import {generic} from "./generic.js";
 import {integer} from "./integer.js";
 import {lazyRef} from "./lazyRef.js";
 import {number} from "./number.js";
+import {compileSpec} from "./oas/compileSpec.js";
+import {mergeSpec} from "./oas/mergeSpec.js";
 import {object} from "./object.js";
 import {oneOf} from "./oneOf.js";
 import {ref} from "./ref.js";
-import {getSpec} from "./spec.js";
 import {string} from "./string.js";
 import {uri} from "./uri.js";
 import {url} from "./url.js";
@@ -53,10 +55,18 @@ export const s = {
   generic,
   get,
   store: Object.assign(getJsonEntityStore, {
+    get: getJsonEntityStore,
     method: getJsonMethodStore
   }),
+  schema: {
+    compile,
+    merge: mergeSchema
+  },
   compile,
-  spec: getSpec
+  oas: Object.assign(compileSpec, {
+    compile: compileSpec,
+    merge: mergeSpec
+  })
 } as const;
 
 // Attach type helper via namespace merging to avoid separate export conflicts

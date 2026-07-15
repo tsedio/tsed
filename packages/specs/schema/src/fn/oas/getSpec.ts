@@ -1,12 +1,12 @@
 import {cleanObject, isArray, Type} from "@tsed/core";
 import {OpenSpec3} from "@tsed/openspec";
 
-import {getJsonEntityStore} from "../domain/index.js";
-import {SpecTypes} from "../domain/SpecTypes.js";
-import {JsonSchemaOptions} from "../interfaces/JsonSchemaOptions.js";
-import {execMapper} from "../registries/JsonSchemaMapperContainer.js";
-import {mergeSpec} from "../utils/mergeSpec.js";
-import {operationIdFormatter} from "../utils/operationIdFormatter.js";
+import {getJsonEntityStore} from "../../domain/index.js";
+import {SpecTypes} from "../../domain/SpecTypes.js";
+import {JsonSchemaOptions} from "../../interfaces/JsonSchemaOptions.js";
+import {execMapper} from "../../registries/JsonSchemaMapperContainer.js";
+import {operationIdFormatter} from "../../utils/operationIdFormatter.js";
+import {mergeSpec} from "./mergeSpec.js";
 
 export type JsonTokenOptions = ({token: Type<any>} & Partial<SpecSerializerOptions>)[];
 
