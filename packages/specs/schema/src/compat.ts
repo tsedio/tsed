@@ -10,6 +10,10 @@ declare module "@tsed/schema" {
      * @deprecated
      */
     const fromMethod: typeof getJsonMethodStore;
+    /**
+     * @deprecated use s.store
+     */
+    const get: typeof getJsonEntityStore;
   }
 }
 
@@ -22,7 +26,12 @@ const CompatJsonEntityStore = JsonEntityStore as typeof JsonEntityStore & {
    * @deprecated
    */
   fromMethod: typeof getJsonMethodStore;
+  /**
+   * @deprecated
+   */
+  get: typeof getJsonEntityStore;
 };
 
+CompatJsonEntityStore.get = getJsonEntityStore;
 CompatJsonEntityStore.from = getJsonEntityStore;
 CompatJsonEntityStore.fromMethod = getJsonMethodStore;

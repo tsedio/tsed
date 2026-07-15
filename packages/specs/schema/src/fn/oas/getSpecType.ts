@@ -1,6 +1,6 @@
 import {OpenSpec2, OpenSpec3} from "@tsed/openspec";
 
-import {SpecTypes} from "../domain/SpecTypes.js";
+import {SpecTypes} from "../../domain/index.js";
 
 /**
  * @ignore

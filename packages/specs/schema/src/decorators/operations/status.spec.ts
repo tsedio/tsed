@@ -1,7 +1,7 @@
 import "@tsed/platform-exceptions";
 
 import {SpecTypes} from "../../domain/SpecTypes.js";
-import {getSpec} from "../../fn/spec.js";
+import {getSpec} from "../../fn/oas/getSpec.js";
 import {Property} from "../common/property.js";
 import {OperationPath} from "./operationPath.js";
 import {Status} from "./status.js";
