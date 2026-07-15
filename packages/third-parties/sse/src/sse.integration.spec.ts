@@ -2,7 +2,7 @@ import {Controller} from "@tsed/di";
 import {PlatformContext} from "@tsed/platform-http";
 import {PlatformTest} from "@tsed/platform-http/testing";
 import {Context} from "@tsed/platform-params";
-import {Get, getSpec, JsonEntityStore, Name, Returns} from "@tsed/schema";
+import {Get, getSpec, Name, Returns, s} from "@tsed/schema";
 
 import {EventStream} from "./decorators/eventStream.js";
 import {EventStreamCtx} from "./decorators/eventStreamCtx.js";
@@ -75,7 +75,7 @@ export class MyCtrl {
 async function getControllerFixture(scenario: string) {
   const controller = await PlatformTest.invoke<MyCtrl>(MyCtrl);
 
-  const endpoint = JsonEntityStore.fromMethod(MyCtrl, scenario);
+  const endpoint = s.store.method(MyCtrl, scenario);
   const $ctx = PlatformTest.createRequestContext({
     endpoint
   });

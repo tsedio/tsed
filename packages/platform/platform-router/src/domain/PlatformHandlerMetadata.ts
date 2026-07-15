@@ -1,7 +1,7 @@
 import {nameOf} from "@tsed/core";
 import {DIContext, injector, Provider, ProviderScope, TokenProvider} from "@tsed/di";
 import {ParamTypes} from "@tsed/platform-params";
-import {EndpointMetadata, JsonEntityStore, JsonParameterStore} from "@tsed/schema";
+import {EndpointMetadata, JsonParameterStore, s} from "@tsed/schema";
 
 import {PlatformHandlerType} from "./PlatformHandlerType.js";
 import {SinglePathType} from "./SinglePathType.js";
@@ -74,7 +74,7 @@ export class PlatformHandlerMetadata {
   }
 
   get store() {
-    return JsonEntityStore.fromMethod(this.provider!.useClass, this.propertyKey!);
+    return s.store.method(this.provider!.useClass, this.propertyKey!);
   }
 
   static from(input: any, opts: PlatformHandlerMetadataOpts = {}): PlatformHandlerMetadata {

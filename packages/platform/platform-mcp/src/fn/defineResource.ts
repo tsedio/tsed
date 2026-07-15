@@ -1,6 +1,6 @@
 import type {ReadResourceCallback, ResourceMetadata, ResourceTemplate} from "@modelcontextprotocol/sdk/server/mcp.js";
 import {context, inject, injectable, logger, type TokenProvider} from "@tsed/di";
-import {JsonEntityStore} from "@tsed/schema";
+import {s} from "@tsed/schema";
 import {constantCase} from "change-case";
 
 import {MCP_PROVIDER_TYPES} from "../constants/constants.js";
@@ -57,7 +57,7 @@ function mapOptions(options: ResourceProps) {
       return instance[propertyKey](...args);
     };
 
-    const methodStore = JsonEntityStore.fromMethod(token, propertyKey);
+    const methodStore = s.store.method(token, propertyKey);
     options.description = options.description || methodStore.operation.get("description");
     options.title = options.title || methodStore.schema.get("title");
   } else {

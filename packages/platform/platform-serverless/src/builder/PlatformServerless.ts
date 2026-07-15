@@ -2,7 +2,7 @@ import {Env, Type} from "@tsed/core";
 import {configuration, constant, createContainer, destroyInjector, injector, InjectorService, setLoggerConfiguration} from "@tsed/di";
 import {$asyncEmit} from "@tsed/hooks";
 import {$log} from "@tsed/logger";
-import {getOperationsRoutes, JsonEntityStore} from "@tsed/schema";
+import {getOperationsRoutes, s} from "@tsed/schema";
 import type {Context, Handler} from "aws-lambda";
 import type {HTTPMethod, Instance} from "find-my-way";
 
@@ -24,16 +24,16 @@ export class PlatformServerless {
   private _router!: Instance<any>;
   private _promise!: Promise<any>;
 
+  get promise() {
+    return this._promise;
+  }
+
   get injector(): InjectorService {
     return injector();
   }
 
   get settings() {
     return configuration();
-  }
-
-  get promise() {
-    return this._promise;
   }
 
   static bootstrap(settings: Partial<TsED.Configuration> & {lambda?: Type[]} = {}): PlatformServerless {
@@ -130,7 +130,7 @@ export class PlatformServerless {
   }
 
   protected callback(token: Type<any>, propertyKey: string): Handler<ServerlessEvent> | RequestHandler {
-    const entity = JsonEntityStore.fromMethod(token, propertyKey);
+    const entity = s.store.method(token, propertyKey);
     let handler: ($ctx: ServerlessContext<ServerlessEvent>) => Promise<unknown>;
 
     const wrappedHandler = async (event: ServerlessEvent, responseStream: ServerlessResponseStream | undefined, context?: Context) => {
