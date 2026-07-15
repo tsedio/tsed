@@ -1,4 +1,6 @@
-import {getJsonEntityStore, getJsonMethodStore, JsonEntityStore, JsonMethodStore} from "./domain/index.js";
+import {JsonMethodStore} from "./components/index.js";
+import {JsonEntityStore} from "./domain/index.js";
+import {getJsonEntityStore, getJsonMethodStore} from "./registries/JsonEntitiesContainer.js";
 
 declare module "@tsed/schema" {
   export namespace JsonEntityStore {

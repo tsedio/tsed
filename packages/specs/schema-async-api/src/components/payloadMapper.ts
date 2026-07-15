@@ -1,5 +1,6 @@
 import {setValue} from "@tsed/core";
 import {
+  defineSchemaMapper,
   execMapper,
   isParameterType,
   JsonMethodPath,
@@ -8,7 +9,6 @@ import {
   JsonParameter,
   JsonParameterTypes,
   JsonSchemaOptions,
-  registerJsonSchemaMapper,
   SpecTypes
 } from "@tsed/schema";
 import {pascalCase} from "change-case";
@@ -54,4 +54,4 @@ export function payloadMapper(jsonOperationStore: JsonMethodStore, operationPath
   return makeOf("allOf", allOf);
 }
 
-registerJsonSchemaMapper("payload", payloadMapper, SpecTypes.ASYNCAPI);
+defineSchemaMapper({type: "payload", transform: payloadMapper, spec: SpecTypes.ASYNCAPI});

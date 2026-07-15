@@ -1,7 +1,6 @@
 import {decorateMethodsOf, decoratorTypeOf, DecoratorTypes, UnsupportedDecoratorType} from "@tsed/core";
 
-import {JsonParameterStore} from "../../domain/JsonParameterStore.js";
-import {JsonPropertyStore} from "../../domain/JsonPropertyStore.js";
+import type {JsonParameterStore, JsonPropertyStore} from "../../components/index.js";
 import {JsonEntityFn} from "../common/jsonEntityFn.js";
 
 /**

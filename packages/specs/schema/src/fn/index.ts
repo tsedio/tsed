@@ -1,5 +1,5 @@
-import {getJsonEntityStore, getJsonMethodStore} from "../domain/index.js";
 import type {Infer} from "../domain/types.js";
+import {getJsonEntityStore, getJsonMethodStore} from "../registries/JsonEntitiesContainer.js";
 import {mergeSchema} from "../utils/mergeSchema.js";
 import {allOf} from "./allOf.js";
 import {any} from "./any.js";

@@ -15,11 +15,11 @@ import {
   Type
 } from "@tsed/core";
 
-import type {JsonClassStore} from "./JsonClassStore.js";
-import {getJsonEntityStore} from "./JsonEntitiesContainer.js";
-import type {JsonMethodStore} from "./JsonMethodStore.js";
-import type {JsonParameterStore} from "./JsonParameterStore.js";
-import type {JsonPropertyStore} from "./JsonPropertyStore.js";
+import type {JsonClassStore} from "../components/stores/JsonClassStore.js";
+import type {JsonMethodStore} from "../components/stores/JsonMethodStore.js";
+import type {JsonParameterStore} from "../components/stores/JsonParameterStore.js";
+import type {JsonPropertyStore} from "../components/stores/JsonPropertyStore.js";
+import {getJsonEntityStore} from "../registries/JsonEntitiesContainer.js";
 import type {JsonSchema} from "./JsonSchema.js";
 
 /**

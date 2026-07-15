@@ -1,5 +1,5 @@
 import {Type, uniqBy} from "@tsed/core";
-import {execMapper, registerJsonSchemaMapper, SpecSerializerOptions, SpecTypes} from "@tsed/schema";
+import {defineSchemaMapper, execMapper, SpecSerializerOptions, SpecTypes} from "@tsed/schema";
 
 function generate(model: Type<any>, options: SpecSerializerOptions) {
   const specJson: any = {
@@ -18,4 +18,4 @@ function generate(model: Type<any>, options: SpecSerializerOptions) {
   return specJson;
 }
 
-registerJsonSchemaMapper("generate", generate, SpecTypes.ASYNCAPI);
+defineSchemaMapper({type: "generate", transform: generate, spec: SpecTypes.ASYNCAPI});

@@ -1,9 +1,9 @@
 import {cleanObject, isArray, Type} from "@tsed/core";
 import {OpenSpec3} from "@tsed/openspec";
 
-import {getJsonEntityStore} from "../../domain/index.js";
-import {SpecTypes} from "../../domain/SpecTypes.js";
+import {SpecTypes} from "../../domain/index.js";
 import {JsonSchemaOptions} from "../../interfaces/JsonSchemaOptions.js";
+import {getJsonEntityStore} from "../../registries/JsonEntitiesContainer.js";
 import {execMapper} from "../../registries/JsonSchemaMapperContainer.js";
 import {operationIdFormatter} from "../../utils/operationIdFormatter.js";
 import {mergeSpec} from "./mergeSpec.js";

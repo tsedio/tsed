@@ -1,6 +1,7 @@
 import {DecoratorTypes, Type} from "@tsed/core";
 
-import {JsonEntitiesContainer, JsonEntityStore} from "../../domain/index.js";
+import {JsonEntityStore} from "../../domain/index.js";
+import {defineStore} from "../../registries/JsonEntitiesContainer.js";
 
 /**
  * Declare a new JsonEntityStore class for a specific decorator type.
@@ -12,6 +13,6 @@ import {JsonEntitiesContainer, JsonEntityStore} from "../../domain/index.js";
  */
 export function JsonEntityComponent(type: DecoratorTypes) {
   return (target: Type<JsonEntityStore>) => {
-    JsonEntitiesContainer.set(type, target);
+    defineStore(type, target);
   };
 }
