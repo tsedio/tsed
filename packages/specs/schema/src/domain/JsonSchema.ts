@@ -20,8 +20,10 @@ import type {JSONSchema7, JSONSchema7Definition, JSONSchema7Type, JSONSchema7Typ
 import {VendorKeys} from "../constants/VendorKeys.js";
 import {IgnoreCallback} from "../interfaces/IgnoreCallback.js";
 import {JsonSchemaOptions} from "../interfaces/JsonSchemaOptions.js";
-import {enumsRegistry} from "../registries/enumRegistries.js";
+import {enumsRegistry} from "../registries/enumRegistry.js";
+import {getJsonEntityStore} from "../registries/JsonEntitiesContainer.js";
 import {execMapper} from "../registries/JsonSchemaMapperContainer.js";
+import {getTypeResolver} from "../registries/JsonTypesContainer.js";
 import {getComputedType} from "../utils/getComputedType.js";
 import {getJsonType} from "../utils/getJsonType.js";
 import {matchGroups} from "../utils/matchGroups.js";
@@ -30,7 +32,6 @@ import {toJsonRegex} from "../utils/toJsonRegex.js";
 import type {GenericsMap, GenericValue} from "./Generics.js";
 import {AliasMap, AliasType} from "./JsonAliasMap.js";
 import {Discriminator} from "./JsonDiscriminator.js";
-import {getJsonEntityStore} from "./JsonEntitiesContainer.js";
 import {JsonFormatTypes} from "./JsonFormatTypes.js";
 import {JsonLazyRef} from "./JsonLazyRef.js";
 import type {Infer, PropsToShape, SchemaKey, SchemaMerge, SchemaOmit, SchemaPartial, SchemaPick, UnionToIntersection} from "./types.js";
@@ -560,13 +561,26 @@ export class JsonSchema<T = JSONSchema7Type> extends Map<string, any> {
    * ```typescript
    * // For Paginated<User>
    * schema.genericOf([User]);
+   * schema.genericOf(User);
+   * schema.genericOf({T: [User]});
    * ```
    *
-   * @param generics - Arrays of generic type values to apply
+   * @param generics - Generic bindings to apply
    * @returns This schema instance for method chaining
    */
-  genericOf(...generics: GenericValue[][]) {
-    const mapped = this.mapGenerics(this.#itemSchema || this.toSchema(this.getTarget()), generics);
+  genericOf(generics: GenericsMap): this;
+
+  genericOf(generic: GenericValue): this;
+
+  genericOf(...generics: Array<GenericValue[] | GenericValue>): this;
+
+  genericOf(...generics: [GenericsMap] | Array<GenericValue[] | GenericValue>) {
+    const mapped = isPlainObject(generics[0])
+      ? generics[0]
+      : this.mapGenerics(
+          this.#itemSchema || this.toSchema(this.getTarget()),
+          generics.map((generic) => (Array.isArray(generic) ? generic : [generic]))
+        );
 
     this.vendorKey(VendorKeys.GENERIC_OF, mapped);
 
@@ -938,9 +952,16 @@ export class JsonSchema<T = JSONSchema7Type> extends Map<string, any> {
    * @param items The schema for array/set items
    */
   items<I = JSONSchema7Type>(
-    items: JsonSchema<I> | AnyJsonSchema | AnyJsonSchema[]
+    items: JsonSchema<I> | AnyJsonSchema | AnyJsonSchema[],
+    init = false
   ): JsonSchema<T extends Array<any> ? I[] : T extends Set<any> ? Set<I> : I> {
-    super.set("items", (this.#itemSchema = this.toSchema(items) as unknown as JsonSchema));
+    if (init) {
+      if (!this.has("items")) {
+        super.set("items", this.itemSchema(items as AnyJsonSchema));
+      }
+    } else {
+      super.set("items", (this.#itemSchema = this.toSchema(items) as unknown as JsonSchema));
+    }
 
     return this as JsonSchema<T extends Array<any> ? I[] : T extends Set<any> ? Set<I> : I>;
   }
@@ -1217,8 +1238,14 @@ export class JsonSchema<T = JSONSchema7Type> extends Map<string, any> {
    * The default value is an empty schema that allows any value for additional properties.
    * @see https://tools.ietf.org/html/draft-wright-json-schema-validation-01#section-6.20
    */
-  additionalProperties<V>(additionalProperties: boolean | AnyJsonSchema | JsonSchema<V>): JsonSchema<Map<string, V>> {
-    super.set("additionalProperties", this.toSchema(additionalProperties));
+  additionalProperties<V>(additionalProperties: boolean | AnyJsonSchema | JsonSchema<V>, init = false): JsonSchema<Map<string, V>> {
+    if (init) {
+      if (!this.has("additionalProperties")) {
+        super.set("additionalProperties", this.itemSchema(additionalProperties as AnyJsonSchema));
+      }
+    } else {
+      super.set("additionalProperties", this.toSchema(additionalProperties));
+    }
 
     return this as JsonSchema<Map<string, V>>;
   }
@@ -1466,85 +1493,15 @@ export class JsonSchema<T = JSONSchema7Type> extends Map<string, any> {
    * @see https://tools.ietf.org/html/draft-wright-json-schema-validation-01#section-6.25
    */
   type(type: any | JSONSchema7TypeName | JSONSchema7TypeName[]): this {
-    switch (type) {
-      case "map":
-      case Map:
-        super.set("type", getJsonType(type));
-        this.target(type);
-        this.#isCollection = true;
-        if (!this.has("additionalProperties")) {
-          super.set("additionalProperties", this.itemSchema({}));
-        }
-        break;
+    const resolver = getTypeResolver(type);
 
-      case "array":
-      case Array:
-        super.set("type", getJsonType(type));
-        this.target(type);
-        this.#isCollection = true;
+    if (resolver) {
+      const jsonType = resolver.jsonType?.(type);
+      jsonType && super.set("type", jsonType);
 
-        if (!this.has("items")) {
-          super.set("items", this.itemSchema({}));
-        }
-        break;
-
-      case "set":
-      case Set:
-        super.set("type", getJsonType(type));
-        this.target(type);
-        this.#isCollection = true;
-        this.uniqueItems(true);
-
-        if (!this.has("items")) {
-          super.set("items", this.itemSchema({}));
-        }
-        break;
-
-      case "integer":
-        this.integer();
-        break;
-
-      case "number":
-      case "string":
-      case "boolean":
-      case "object":
-      case Object:
-      case Date:
-      case Boolean:
-      case Number:
-      case String:
-        super.set("type", getJsonType(type));
-
-        this.target(type);
-        if (!this.has("properties")) {
-          super.set("properties", {});
-        }
-        break;
-
-      default:
-        if (isTemporal(type)) {
-          // Temporal.* types serialize to an ISO-8601 string, like Date.
-          super.set("type", getJsonType(type));
-          this.target(type);
-
-          if (!this.has("properties")) {
-            super.set("properties", {});
-          }
-        } else if (isClass(type) || isFunction(type)) {
-          super.set("type", undefined);
-          this.target(type);
-
-          if (!this.has("properties")) {
-            super.set("properties", {});
-          }
-        } else {
-          const jsonType = getJsonType(type);
-          if (jsonType === "generic") {
-            this.genericLabel(type);
-          } else {
-            super.set("type", jsonType);
-          }
-        }
+      resolver?.init?.(this, type);
+    } else {
+      super.set("type", getJsonType(type));
     }
 
     return this;
@@ -1666,8 +1623,8 @@ export class JsonSchema<T = JSONSchema7Type> extends Map<string, any> {
     return this;
   }
 
-  set(key: string, value: any): this {
-    if (key in this) {
+  set(key: string, value: any, force = false): this {
+    if (key in this && !force) {
       isFunction((this as any)[key]) && (this as any)[key](value);
     } else {
       super.set(key, value);
@@ -1762,9 +1719,11 @@ export class JsonSchema<T = JSONSchema7Type> extends Map<string, any> {
   target(target: any) {
     if (target === "object") {
       this.#target = Object;
-    } else {
+    } else if (typeof target !== "string") {
       this.#target = target;
     }
+
+    return this;
   }
 
   isRequiredValue(property: string, value: any): boolean {
@@ -1777,6 +1736,17 @@ export class JsonSchema<T = JSONSchema7Type> extends Map<string, any> {
     }
 
     return false;
+  }
+
+  toCollection() {
+    this.#isCollection = true;
+
+    return this;
+  }
+
+  unsetType() {
+    super.set("type", undefined);
+    return this;
   }
 
   protected setManyOf(keyword: "oneOf" | "anyOf" | "allOf", value: (AnyJsonSchema | null)[]) {
@@ -1829,7 +1799,9 @@ export class JsonSchema<T = JSONSchema7Type> extends Map<string, any> {
   }
 
   protected toSchema(item: any[]): JsonSchema[];
+
   protected toSchema(item: any): JsonSchema;
+
   protected toSchema(item: any | any[]): JsonSchema | JsonSchema[] {
     if (isArray(item)) {
       return (item as any[]).map((item) => this.toSchema(item));

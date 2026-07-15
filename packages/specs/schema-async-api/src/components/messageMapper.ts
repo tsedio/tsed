@@ -1,13 +1,5 @@
 import {cleanObject, getValue} from "@tsed/core";
-import {
-  execMapper,
-  JsonMethodPath,
-  JsonMethodStore,
-  JsonSchemaOptions,
-  OperationVerbs,
-  registerJsonSchemaMapper,
-  SpecTypes
-} from "@tsed/schema";
+import {defineSchemaMapper, execMapper, JsonMethodPath, JsonMethodStore, JsonSchemaOptions, OperationVerbs, SpecTypes} from "@tsed/schema";
 
 import {makeOf} from "../utils/somethingOf.js";
 
@@ -62,4 +54,4 @@ export function messageMapper(
   return {$ref: `#/components/messages/${messageKey}`};
 }
 
-registerJsonSchemaMapper("message", messageMapper, SpecTypes.ASYNCAPI);
+defineSchemaMapper({type: "message", transform: messageMapper, spec: SpecTypes.ASYNCAPI});

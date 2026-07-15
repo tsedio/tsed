@@ -1,9 +1,11 @@
 import "../components/index.js";
 
-import {getValue, isClass, isPlainObject, nameOf, Type} from "@tsed/core";
+import {DecoratorTypes, getValue, isClass, isPlainObject, nameOf, Type} from "@tsed/core";
 
-import {getJsonEntityStore, JsonParameterStore, JsonSchema, SpecTypes} from "../domain/index.js";
+import {JsonParameterStore} from "../components/index.js";
+import {JsonSchema, SpecTypes} from "../domain/index.js";
 import {JsonSchemaOptions} from "../interfaces/JsonSchemaOptions.js";
+import {getJsonEntityStore} from "../registries/JsonEntitiesContainer.js";
 import {execMapper} from "../registries/JsonSchemaMapperContainer.js";
 
 /**
@@ -42,7 +44,7 @@ function get(model: Type | JsonParameterStore | JsonSchema, options: any) {
     const entity = getJsonEntityStore(model);
 
     let mapper = "schema";
-    if (entity instanceof JsonParameterStore) {
+    if (entity.is(DecoratorTypes.PARAM)) {
       options = {
         ...options,
         root: true,

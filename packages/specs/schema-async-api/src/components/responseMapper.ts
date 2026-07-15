@@ -1,5 +1,5 @@
 import {setValue} from "@tsed/core";
-import {execMapper, JsonMethodPath, JsonMethodStore, JsonSchemaOptions, registerJsonSchemaMapper, SpecTypes} from "@tsed/schema";
+import {defineSchemaMapper, execMapper, JsonMethodPath, JsonMethodStore, JsonSchemaOptions, SpecTypes} from "@tsed/schema";
 import {pascalCase} from "change-case";
 
 import {makeOf} from "../utils/somethingOf.js";
@@ -63,4 +63,4 @@ export function responsePayloadMapper(jsonOperationStore: JsonMethodStore, opera
   return {$ref: `#/components/schemas/${responsePayloadName}`};
 }
 
-registerJsonSchemaMapper("response", responsePayloadMapper, SpecTypes.ASYNCAPI);
+defineSchemaMapper({type: "response", transform: responsePayloadMapper, spec: SpecTypes.ASYNCAPI});

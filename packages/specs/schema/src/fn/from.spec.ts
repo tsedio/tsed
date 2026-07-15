@@ -462,4 +462,50 @@ describe("from", () => {
 
     expect(from(Pagination).genericOf([Product]).toJSON()).toEqual(generic(Pagination).of([Product]).toJSON());
   });
+
+  it("should accept a single GenericValue", () => {
+    @Generics("T")
+    class Pagination<T> {
+      @CollectionOf("T")
+      data: T[];
+
+      @Property()
+      totalCount: number;
+    }
+
+    class Product {
+      @Property()
+      id: string;
+    }
+
+    expect(from(Pagination).genericOf(Product).toJSON()).toEqual(from(Pagination).genericOf([Product]).toJSON());
+    expect(generic(Pagination).of(Product).toJSON()).toEqual(from(Pagination).genericOf([Product]).toJSON());
+  });
+
+  it("should accept a GenericsMap", () => {
+    @Generics("T")
+    class Pagination<T> {
+      @CollectionOf("T")
+      data: T[];
+
+      @Property()
+      totalCount: number;
+    }
+
+    class Product {
+      @Property()
+      id: string;
+    }
+
+    expect(
+      from(Pagination)
+        .genericOf({T: [Product]})
+        .toJSON()
+    ).toEqual(from(Pagination).genericOf([Product]).toJSON());
+    expect(
+      generic(Pagination)
+        .of({T: [Product]})
+        .toJSON()
+    ).toEqual(from(Pagination).genericOf([Product]).toJSON());
+  });
 });

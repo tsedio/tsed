@@ -1,3 +1,5 @@
+import {isArray} from "@tsed/core";
+
 import {SpecTypes} from "../domain/SpecTypes.js";
 
 /**
@@ -14,9 +16,27 @@ const JsonSchemaMappersContainer: Map<string, JsonSchemaMapper> = new Map();
 
 /**
  * @ignore
+ * @deprecated
  */
 export function registerJsonSchemaMapper(type: string, mapper: JsonSchemaMapper, spec?: SpecTypes) {
-  return JsonSchemaMappersContainer.set(spec ? `${spec}:${type}` : type, mapper);
+  return defineSchemaMapper({spec, type, transform: mapper});
+}
+
+export function defineSchemaMapper({
+  spec,
+  type,
+  transform
+}: {
+  type: string;
+  transform: JsonSchemaMapper;
+  spec?: SpecTypes | SpecTypes[];
+}): void {
+  if (isArray(spec)) {
+    spec.map((spec) => defineSchemaMapper({spec, type, transform}));
+    return;
+  }
+
+  JsonSchemaMappersContainer.set(spec ? `${spec}:${type}` : type, transform);
 }
 
 /**

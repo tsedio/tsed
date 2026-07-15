@@ -1,7 +1,7 @@
 import {Type} from "@tsed/core";
 
+import type {JsonMethodStore} from "../components/stores/JsonMethodStore.js";
 import {concatPath} from "../utils/concatPath.js";
-import {JsonMethodStore} from "./JsonMethodStore.js";
 import {JsonMethodPath, JsonOperation} from "./JsonOperation.js";
 
 /**

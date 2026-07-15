@@ -1,5 +1,6 @@
 import {
   buildPath,
+  defineSchemaMapper,
   execMapper,
   getJsonEntityStore,
   getOperationsStores,
@@ -7,7 +8,6 @@ import {
   JsonMethodStore,
   JsonSchemaOptions,
   OperationVerbs,
-  registerJsonSchemaMapper,
   removeHiddenOperation
 } from "@tsed/schema";
 import {camelCase} from "change-case";
@@ -80,4 +80,4 @@ export function channelsMapper(model: any, {channels, rootPath, ...options}: Jso
     .reduce(pushToChannels(options), channels);
 }
 
-registerJsonSchemaMapper("channels", channelsMapper);
+defineSchemaMapper({type: "channels", transform: channelsMapper});

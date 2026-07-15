@@ -1,5 +1,5 @@
 import type {JsonSchema} from "../domain/JsonSchema.js";
-import {enumsRegistry} from "../registries/enumRegistries.js";
+import {enumsRegistry} from "../registries/enumRegistry.js";
 import {from} from "./from.js";
 
 /**

@@ -13,9 +13,9 @@ import {
 import {OS3Example} from "@tsed/openspec";
 import type {JSONSchema7} from "json-schema";
 
+import type {JsonMethodStore} from "../../components/index.js";
 import {getStatusMessage} from "../../constants/httpStatusMessages.js";
 import {GenericValue} from "../../domain/Generics.js";
-import type {JsonMethodStore} from "../../domain/index.js";
 import {DecoratorContext, JsonResponse, JsonSchema, JsonSchemaObject} from "../../domain/index.js";
 import {s} from "../../fn/index.js";
 import {JsonHeader, JsonHeaders} from "../../interfaces/JsonOpenSpec.js";

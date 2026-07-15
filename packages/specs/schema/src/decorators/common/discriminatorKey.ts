@@ -1,6 +1,6 @@
 import {useDecorators} from "@tsed/core";
 
-import {JsonPropertyStore} from "../../domain/JsonPropertyStore.js";
+import type {JsonPropertyStore} from "../../components/index.js";
 import {JsonEntityFn} from "./jsonEntityFn.js";
 import {Property} from "./property.js";
 

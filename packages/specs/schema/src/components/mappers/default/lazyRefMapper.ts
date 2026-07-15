@@ -1,0 +1,20 @@
+import {JsonLazyRef} from "../../../domain/JsonLazyRef.js";
+import {JsonSchemaOptions} from "../../../interfaces/JsonSchemaOptions.js";
+import {defineSchemaMapper, execMapper} from "../../../registries/JsonSchemaMapperContainer.js";
+import {createRef, toRef} from "../../../utils/ref.js";
+
+export function lazyRefMapper(jsonLazyRef: JsonLazyRef, options: JsonSchemaOptions) {
+  const name = jsonLazyRef.name;
+
+  if (options.$refs?.find((t: any) => t === jsonLazyRef.target)) {
+    return createRef(name, jsonLazyRef.schema, options);
+  }
+
+  options.$refs = [...(options.$refs || []), jsonLazyRef.target];
+
+  const schema = jsonLazyRef.getType() && execMapper("schema", [jsonLazyRef.schema], options);
+
+  return toRef(jsonLazyRef.schema, schema, options);
+}
+
+defineSchemaMapper({type: "lazyRef", transform: lazyRefMapper});
