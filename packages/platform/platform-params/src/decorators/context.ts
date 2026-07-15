@@ -11,7 +11,7 @@ import {UseParam} from "./useParam.js";
  *
  * - The request id,
  * - The request container used by the Ts.ED DI. It contain all services annotated with `@Scope(ProviderScope.REQUEST)`,
- * - The current @@EndpointMetadata@@ resolved by Ts.ED during the request,
+ * - The current @@JsonMethodStore@@ resolved by Ts.ED during the request,
  * - The data return by the previous endpoint if you use multiple handler on the same route. By default data is empty.
  *
  * ::: tip

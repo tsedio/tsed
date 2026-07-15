@@ -135,8 +135,7 @@ export class ContactQueryParams extends Pageable {
 class TestContactPageableCtrl {
   @OperationPath("GET", "/")
   @Returns(206, ContactQueryParams)
-  async get(@In("query") pageableOptions: ContactQueryParams) {
-  }
+  async get(@In("query") pageableOptions: ContactQueryParams) {}
 }
 
 describe("Generics: Pageable - Testing pagination functionality with generic types", () => {
@@ -370,8 +369,7 @@ describe("Generics: Pageable - Testing pagination functionality with generic typ
     @Path("/pageable")
     class TestDeepObjectCtrl {
       @OperationPath("GET", "/")
-      async get(@QueryParams("s") @GenericOf(FindQuery) q: PaginationQuery<FindQuery>) {
-      }
+      async get(@QueryParams("s") @GenericOf(FindQuery) q: PaginationQuery<FindQuery>) {}
     }
 
     const spec = getSpec(TestDeepObjectCtrl, {specType: SpecTypes.OPENAPI});
@@ -483,8 +481,7 @@ describe("Generics: Pageable - Testing pagination functionality with generic typ
     @Path("/pageable")
     class TestDeepObjectCtrl {
       @OperationPath("GET", "/")
-      async get(@In("query") @GenericOf(FindQuery) q: PaginationQuery<FindQuery>) {
-      }
+      async get(@In("query") @GenericOf(FindQuery) q: PaginationQuery<FindQuery>) {}
     }
 
     const spec = getSpec(TestDeepObjectCtrl, {specType: SpecTypes.OPENAPI});

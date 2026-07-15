@@ -1,8 +1,8 @@
 import {isClass, Type} from "@tsed/core";
 
+import {getJsonEntityStore} from "../domain/JsonEntitiesContainer.js";
 import {JsonSchema} from "../domain/JsonSchema.js";
 import type {CtorToType} from "../domain/types.js";
-import {getJsonEntityStore} from "../domain/JsonEntitiesContainer.js";
 
 /**
  * Create a new local schema instance from the given type.

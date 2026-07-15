@@ -1,7 +1,7 @@
 import {DecoratorTypes} from "@tsed/core";
 
+import type {GenericValue} from "../../domain/Generics.js";
 import {s} from "../../fn/index.js";
-import {GenericValue} from "../../utils/generics.js";
 
 export interface ArrayOfChainedDecorators {
   (...args: any): any;

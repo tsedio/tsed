@@ -1,11 +1,12 @@
-import {deepMerge, descriptorOf, isFunction, prototypeOf, Store, Type} from "@tsed/core";
+import {deepMerge, descriptorOf, isFunction, Store, Type} from "@tsed/core";
+
 import {isSuccessStatus} from "../utils/isSuccessStatus.js";
 import {type JsonClassStore} from "./JsonClassStore.js";
+import {getJsonEntityStore} from "./JsonEntitiesContainer.js";
 import {JsonEntityStore, JsonEntityStoreOptions} from "./JsonEntityStore.js";
 import {JsonOperation} from "./JsonOperation.js";
 import {type JsonParameterStore} from "./JsonParameterStore.js";
 import {JsonSchema} from "./JsonSchema.js";
-import {getJsonEntityStore} from "./JsonEntitiesContainer.js";
 
 /**
  * Configuration options for view rendering.
@@ -176,16 +177,6 @@ export class JsonMethodStore extends JsonEntityStore {
   }
 
   /**
-   * Get an endpoint.
-   * @param target
-   * @param propertyKey
-   * @param descriptor
-   */
-  static get(target: Type<any>, propertyKey: string | symbol, descriptor?: PropertyDescriptor): JsonMethodStore {
-    return getJsonEntityStore<JsonMethodStore>(prototypeOf(target), propertyKey, descriptor || descriptorOf(prototypeOf(target), propertyKey));
-  }
-
-  /**
    * TODO must be located on JsonOperation level directly
    * @param status
    * @param contentType
@@ -214,7 +205,7 @@ export class JsonMethodStore extends JsonEntityStore {
   /**
    * Append middlewares to the beforeMiddlewares list.
    * @param args
-   * @returns {EndpointMetadata}
+   * @returns {JsonMethodStore}
    */
   public before(args: Function[]): this {
     this.beforeMiddlewares = this.beforeMiddlewares.concat(args).filter(isFunction);
@@ -225,7 +216,7 @@ export class JsonMethodStore extends JsonEntityStore {
   /**
    * Append middlewares to the afterMiddlewares list.
    * @param args
-   * @returns {EndpointMetadata}
+   * @returns {JsonMethodStore}
    */
   public after(args: Function[]): this {
     this.afterMiddlewares = this.afterMiddlewares.concat(args).filter(isFunction);
@@ -271,9 +262,9 @@ export class JsonMethodStore extends JsonEntityStore {
 }
 
 /**
- * EndpointMetadata contains metadata about a controller and his method.
+ * JsonMethodStore contains metadata about a controller and his method.
  * Each annotation (@Get, @Body...) attached to a method are stored into endpoint.
- * EndpointMetadata converts this metadata to an array which contain arguments to call an Express method.
+ * JsonMethodStore converts this metadata to an array which contain arguments to call an Express method.
  *
  * Example :
  *
@@ -288,6 +279,27 @@ export class JsonMethodStore extends JsonEntityStore {
  *```
  *
  * @alias JsonMethodStore
+ * @deprecated use s.store.method() to retrieve endpoint metadata or JsonMethodStore instead
  */
 export type EndpointMetadata = JsonMethodStore;
+/**
+ * JsonMethodStore contains metadata about a controller and his method.
+ * Each annotation (@Get, @Body...) attached to a method are stored into endpoint.
+ * JsonMethodStore converts this metadata to an array which contain arguments to call an Express method.
+ *
+ * Example :
+ *
+ *```ts
+ * @Controller("/my-path")
+ * provide MyClass {
+ *
+ *     @Get("/")
+ *     @Authenticated()
+ *     public myMethod(){}
+ * }
+ *```
+ *
+ * @alias JsonMethodStore
+ * @deprecated use s.store.method() to retrieve endpoint metadata or JsonMethodStore instead
+ */
 export const EndpointMetadata = JsonMethodStore;

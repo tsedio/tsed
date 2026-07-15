@@ -1,9 +1,4 @@
-import {s} from "../../..";
-import {SpecTypes} from "../../domain/SpecTypes.js";
-import {getSpec} from "../../fn/oas/getSpec.js";
-import {In} from "../operations/in.js";
-import {OperationPath} from "../operations/operationPath.js";
-import {MinProperties} from "./minProperties.js";
+import {getSpec, In, MinProperties, OperationPath, s, SpecTypes} from "../../index.js";
 
 describe("@MinProperties", () => {
   it("should declare min value (any)", () => {

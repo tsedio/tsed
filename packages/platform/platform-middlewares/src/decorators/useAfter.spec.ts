@@ -1,5 +1,5 @@
 import {Store, UnsupportedDecoratorType} from "@tsed/core";
-import {EndpointMetadata} from "@tsed/schema";
+import {s} from "@tsed/schema";
 
 import {UseAfter} from "./useAfter.js";
 
@@ -37,7 +37,7 @@ describe("UseAfter()", () => {
       }
 
       // THEN
-      const endpoint = EndpointMetadata.get(Test, "test");
+      const endpoint = s.store.method(Test, "test");
       expect(endpoint.afterMiddlewares).toEqual([CustomMiddleware, CustomMiddleware2]);
     });
   });

@@ -3,7 +3,7 @@ import {IncomingMessage, ServerResponse} from "node:http";
 import {DIContext, DIContextOptions, injector} from "@tsed/di";
 import {$asyncEmit} from "@tsed/hooks";
 import {PlatformHandlerMetadata} from "@tsed/platform-router";
-import {EndpointMetadata} from "@tsed/schema";
+import {JsonMethodStore} from "@tsed/schema";
 
 import {IncomingEvent} from "../interfaces/IncomingEvent.js";
 import {PlatformApplication} from "../services/PlatformApplication.js";
@@ -19,7 +19,7 @@ declare global {
 export interface PlatformContextOptions extends DIContextOptions {
   event: IncomingEvent;
   ignoreUrlPatterns?: any[];
-  endpoint?: EndpointMetadata;
+  endpoint?: JsonMethodStore;
 }
 
 export class PlatformContext<
@@ -49,9 +49,9 @@ export class PlatformContext<
    */
   readonly request: PReq;
   /**
-   * The current @@EndpointMetadata@@ resolved by Ts.ED during the request.
+   * The current @@JsonMethodStore@@ resolved by Ts.ED during the request.
    */
-  endpoint!: EndpointMetadata;
+  endpoint!: JsonMethodStore;
   /**
    * The current @@PlatformHandlerMetadata@@ resolved by Ts.ED during the request.
    */

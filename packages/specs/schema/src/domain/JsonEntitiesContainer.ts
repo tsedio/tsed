@@ -1,6 +1,6 @@
 import {classOf, decoratorTypeOf, DecoratorTypes, descriptorOf, prototypeOf, Store, type Type} from "@tsed/core";
 
-import type {JsonClassStore, JsonMethodStore, JsonParameterStore, JsonPropertyStore} from "../..";
+import type {JsonClassStore, JsonMethodStore, JsonParameterStore, JsonPropertyStore} from "../domain/index.js";
 import type {JsonEntityStore} from "./JsonEntityStore.js";
 
 /**
@@ -59,9 +59,7 @@ export function getJsonEntityStore<T extends JsonEntityStore = JsonEntityStore>(
 }
 
 export function getJsonMethodStore<T extends JsonMethodStore = JsonMethodStore>(target: any, propertyKey: string | symbol) {
-  return getJsonEntityStore<T>(target, propertyKey, descriptorOf(target, propertyKey));
-}
+  const proto = prototypeOf(target);
 
-// function getJsonPropertyStore(target: Type<any>, propertyKey: string | symbol, descriptor?: any) {
-//   return getJsonEntityStore(prototypeOf(target), propertyKey, descriptor);
-// }
+  return getJsonEntityStore<T>(proto, propertyKey, descriptorOf(proto, propertyKey));
+}

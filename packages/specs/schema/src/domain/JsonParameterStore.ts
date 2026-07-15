@@ -1,8 +1,9 @@
 import {ancestorsOf, isClass, isMethodDescriptor, Metadata, prototypeOf, Type} from "@tsed/core";
+
+import {getJsonMethodStore} from "./JsonEntitiesContainer.js";
 import {JsonEntityStore, JsonEntityStoreOptions} from "./JsonEntityStore.js";
 import type {JsonMethodStore} from "./JsonMethodStore.js";
 import {JsonParameter} from "./JsonParameter.js";
-import {getJsonEntityStore, getJsonMethodStore} from "./JsonEntitiesContainer.js";
 
 /**
  * Configuration options for creating a JsonParameterStore.
@@ -171,10 +172,6 @@ export class JsonParameterStore extends JsonEntityStore {
     }
 
     return [];
-  }
-
-  static get(target: Type<any>, propertyKey: string | symbol, index: number) {
-    return getJsonEntityStore(prototypeOf(target), propertyKey, index);
   }
 
   /**

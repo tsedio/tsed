@@ -1,4 +1,4 @@
-import {EndpointMetadata} from "@tsed/schema";
+import {s} from "@tsed/schema";
 
 import {FormioAuthMiddleware} from "../middlewares/FormioAuthMiddleware.js";
 import {UseFormioAuth} from "./useFormioAuth.js";
@@ -10,6 +10,6 @@ describe("UseFormioAuth", () => {
       get() {}
     }
 
-    expect(EndpointMetadata.get(MyClass, "get").beforeMiddlewares[0]).toEqual(FormioAuthMiddleware);
+    expect(s.store.method(MyClass, "get").beforeMiddlewares[0]).toEqual(FormioAuthMiddleware);
   });
 });

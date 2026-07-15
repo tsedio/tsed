@@ -1,4 +1,4 @@
-import {getJsonEntityStore, getJsonMethodStore, JsonEntityStore} from "./domain/index.js";
+import {getJsonEntityStore, getJsonMethodStore, JsonEntityStore, JsonMethodStore} from "./domain/index.js";
 
 declare module "@tsed/schema" {
   export namespace JsonEntityStore {
@@ -35,3 +35,4 @@ const CompatJsonEntityStore = JsonEntityStore as typeof JsonEntityStore & {
 CompatJsonEntityStore.get = getJsonEntityStore;
 CompatJsonEntityStore.from = getJsonEntityStore;
 CompatJsonEntityStore.fromMethod = getJsonMethodStore;
+(JsonMethodStore as any).get = getJsonMethodStore;

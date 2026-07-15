@@ -1,8 +1,4 @@
-import {DiscriminatorValue} from "../decorators/class/discriminatorValue.js";
-import {DiscriminatorKey} from "../decorators/common/discriminatorKey.js";
-import {Property} from "../decorators/common/property.js";
-import {Required} from "../decorators/common/required.js";
-import {getJsonEntityStore} from "@tsed/schema";
+import {DiscriminatorKey, DiscriminatorValue, getJsonEntityStore, Property, Required} from "../index.js";
 
 class Event {
   @DiscriminatorKey() // declare this property a discriminator key

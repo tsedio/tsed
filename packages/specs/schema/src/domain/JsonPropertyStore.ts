@@ -1,8 +1,9 @@
-import {isClass, Metadata, prototypeOf, Type} from "@tsed/core";
+import {isClass, Metadata, prototypeOf} from "@tsed/core";
+
 import type {JsonClassStore} from "./JsonClassStore.js";
+import {getJsonEntityStore} from "./JsonEntitiesContainer.js";
 import {JsonEntityStore} from "./JsonEntityStore.js";
 import {JsonSchema} from "./JsonSchema.js";
-import {getJsonEntityStore} from "./JsonEntitiesContainer.js";
 
 /**
  * Store for property metadata and schema information.
@@ -51,11 +52,7 @@ import {getJsonEntityStore} from "./JsonEntitiesContainer.js";
 export class JsonPropertyStore extends JsonEntityStore {
   readonly parent: JsonClassStore = getJsonEntityStore(this.target);
 
-  static get(target: Type<any>, propertyKey: string | symbol) {
-    return getJsonEntityStore<JsonPropertyStore>(prototypeOf(target), propertyKey);
-  }
-
-   build() {
+  build() {
     if (!this._type) {
       this.buildType(Metadata.getType(prototypeOf(this.target), this.propertyKey));
     }

@@ -1,7 +1,7 @@
 import {Env} from "@tsed/core";
 import {constant, Injectable, injector, Provider, TokenProvider} from "@tsed/di";
 import {PlatformContext, PlatformHandler} from "@tsed/platform-http";
-import {EndpointMetadata} from "@tsed/schema";
+import {s} from "@tsed/schema";
 
 import {INTERACTION, INTERACTION_OPTIONS, INTERACTIONS} from "../constants/constants.js";
 import {OidcInteractionOptions} from "../domain/OidcInteractionOptions.js";
@@ -46,7 +46,7 @@ export class OidcInteractions {
     const interaction = this.getInteractionProvider(name);
 
     if (interaction) {
-      const endpoint = EndpointMetadata.get(interaction.useClass, "$prompt");
+      const endpoint = s.store.method(interaction.useClass, "$prompt");
       return (ctx: PlatformContext) => {
         // Add current endpoint metadata to ctx
         ctx.endpoint = endpoint;

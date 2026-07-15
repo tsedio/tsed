@@ -4,18 +4,21 @@ import {PlatformTest} from "@tsed/platform-http";
 // @ts-ignore
 import {Use, UseAfter, UseBefore} from "@tsed/platform-middlewares";
 
-import {getJsonEntityStore, getJsonMethodStore} from "../..";
-import {OperationVerbs} from "../constants/OperationVerbs.js";
-import {Property} from "../decorators/common/property.js";
-import {In} from "../decorators/operations/in.js";
-import {Returns} from "../decorators/operations/returns.js";
-import {Get} from "../decorators/operations/route.js";
-import {getSpec} from "../fn/oas/getSpec.js";
+import {
+  Get,
+  getJsonEntityStore,
+  getSpec,
+  In,
+  JsonEntityStore,
+  JsonMethodStore,
+  JsonOperation,
+  JsonParameter,
+  OperationVerbs,
+  Property,
+  Returns,
+  s
+} from "../index.js";
 import {inspectOperationsPaths} from "./__fixtures__/inspectOperationsPaths.js";
-import {JsonEntityStore} from "./JsonEntityStore.js";
-import {EndpointMetadata, JsonMethodStore} from "./JsonMethodStore.js";
-import {JsonOperation} from "./JsonOperation.js";
-import {JsonParameter} from "./JsonParameter.js";
 
 describe("JsonMethodStore", () => {
   describe("endpoint declaration", () => {
@@ -31,7 +34,7 @@ describe("JsonMethodStore", () => {
         method(): any {}
       }
 
-      const endpoint = getJsonMethodStore(Test, "method");
+      const endpoint = s.store.method(Test, "method");
 
       // THEN
       expect(endpoint.beforeMiddlewares).toHaveLength(1);
@@ -51,7 +54,7 @@ describe("JsonMethodStore", () => {
         method(): any {}
       }
 
-      const endpoint = EndpointMetadata.get(Test, "method");
+      const endpoint = s.store.method(Test, "method");
 
       // @ts-ignore
       endpoint.view = {path: "/", test: 1};
@@ -69,7 +72,7 @@ describe("JsonMethodStore", () => {
         method(): any {}
       }
 
-      const endpoint = EndpointMetadata.get(Test, "method");
+      const endpoint = s.store.method(Test, "method");
 
       // @ts-ignore
       endpoint.acceptMimes = [];
@@ -92,7 +95,7 @@ describe("JsonMethodStore", () => {
         method(): any {}
       }
 
-      const endpoint = EndpointMetadata.get(Test, "method");
+      const endpoint = s.store.method(Test, "method");
 
       // THEN
       expect(endpoint.beforeMiddlewares).toHaveLength(1);
@@ -110,7 +113,7 @@ describe("JsonMethodStore", () => {
         method(): any {}
       }
 
-      const endpoint = EndpointMetadata.get(Test, "method");
+      const endpoint = s.store.method(Test, "method");
 
       // THEN
       expect(endpoint.middlewares).toHaveLength(1);
@@ -124,7 +127,7 @@ describe("JsonMethodStore", () => {
         method(): any {}
       }
 
-      const endpoint = EndpointMetadata.get(Test, "method");
+      const endpoint = s.store.method(Test, "method");
 
       // THEN
       expect(endpoint.middlewares).toHaveLength(1);
@@ -155,7 +158,7 @@ describe("JsonMethodStore", () => {
         method3() {}
       }
 
-      const endpoint = JsonMethodStore.get(Test, "method");
+      const endpoint = s.store.method(Test, "method");
       expect(endpoint).toBeInstanceOf(JsonMethodStore);
     });
   });
@@ -177,7 +180,7 @@ describe("JsonMethodStore", () => {
         method3() {}
       }
 
-      const endpoint = JsonMethodStore.get(Test, "method");
+      const endpoint = s.store.method(Test, "method");
       expect(endpoint.get("test")).toEqual("Test");
     });
   });
@@ -191,7 +194,7 @@ describe("JsonMethodStore", () => {
       }
 
       // METHOD
-      const storeMethod = getJsonEntityStore(MyController).children.get("method");
+      const storeMethod = s.store(MyController).children.get("method");
 
       expect(storeMethod?.getResponseOptions(200)).toEqual({
         groups: undefined,
@@ -316,9 +319,8 @@ describe("JsonMethodStore", () => {
       }
 
       // THEN
-      const spec = getSpec(TestController);
       const ctx = PlatformTest.createRequestContext();
-      ctx.endpoint = EndpointMetadata.get(TestController, "test");
+      ctx.endpoint = s.store.method(TestController, "test");
 
       expect(ctx.endpoint.schema).toBeDefined();
       expect(ctx.endpoint.collectionType).toBe(Array);
