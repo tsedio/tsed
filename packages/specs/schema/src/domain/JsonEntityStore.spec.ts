@@ -165,15 +165,4 @@ describe("JsonEntityStore", () => {
       expect(propertyMetadata.isCollection).toEqual(false);
     });
   });
-
-  // describe("get()", () => {
-  //   class Test {
-  //     test: string;
-  //   }
-  //
-  //   it.fails("should return the propertyMetadata", () => {
-  //     const propertyMetadata = JsonEntityStore.get(Test, "test");
-  //     expect(propertyMetadata).toBeInstanceOf(JsonEntityStore);
-  //   });
-  // });
 });

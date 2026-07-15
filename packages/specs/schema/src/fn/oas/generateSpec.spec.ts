@@ -3,26 +3,28 @@ import {join} from "node:path";
 import {BodyParams} from "@tsed/platform-params";
 import fs from "fs-extra";
 
-import {validateSpec} from "../../test/helpers/validateSpec.js";
-import {CollectionOf} from "../decorators/collections/collectionOf.js";
-import {AnyOf} from "../decorators/common/anyOf.js";
-import {Description} from "../decorators/common/description.js";
-import {Min} from "../decorators/common/minimum.js";
-import {Name} from "../decorators/common/name.js";
-import {Property} from "../decorators/common/property.js";
-import {Required} from "../decorators/common/required.js";
-import {Consumes} from "../decorators/operations/consumes.js";
-import {In} from "../decorators/operations/in.js";
-import {OperationPath} from "../decorators/operations/operationPath.js";
-import {Path} from "../decorators/operations/path.js";
-import {Returns} from "../decorators/operations/returns.js";
-import {Post} from "../decorators/operations/route.js";
-import {SpecTypes} from "../domain/SpecTypes.js";
-import {generateSpec} from "./generateSpec.js";
+import {
+  AnyOf,
+  CollectionOf,
+  Consumes,
+  Description,
+  In,
+  Min,
+  Name,
+  OperationPath,
+  Path,
+  Post,
+  Property,
+  Required,
+  Returns,
+  s,
+  SpecTypes
+} from "../../..";
+import {validateSpec} from "../../../test/helpers/validateSpec.js";
 
 const rootDir = import.meta.dirname; // automatically replaced by import.meta.dirname on build
 
-describe("generateSpec()", () => {
+describe("s.oas.compile()", () => {
   describe("OS 3.0.1", () => {
     it("should generate spec with options", () => {
       // WHEN
@@ -38,7 +40,7 @@ describe("generateSpec()", () => {
         method(@In("path") @Name("id") id: string) {}
       }
 
-      const result = generateSpec({
+      const result = s.oas.compile({
         tokens: [
           {token: Controller1, rootPath: "/rest"},
           {token: Controller2, rootPath: "/rest"}
@@ -143,7 +145,16 @@ describe("generateSpec()", () => {
     });
     it("should generate spec and correctly merge shared model with custom schema", () => {
       class Model {
-        @AnyOf(Number, Boolean, String, {type: "array", items: {type: "number"}}, {type: "array", items: {type: "string"}})
+        @AnyOf(
+          Number,
+          Boolean,
+          String,
+          {type: "array", items: {type: "number"}},
+          {
+            type: "array",
+            items: {type: "string"}
+          }
+        )
         test: number | boolean | string | number[] | string[];
       }
 
@@ -159,7 +170,7 @@ describe("generateSpec()", () => {
         method(@BodyParams() body: Model) {}
       }
 
-      const result = generateSpec({
+      const result = s.oas.compile({
         tokens: [
           {token: Controller1, rootPath: "/rest"},
           {token: Controller2, rootPath: "/rest"}
@@ -278,7 +289,7 @@ describe("generateSpec()", () => {
         method5() {}
       }
 
-      const result = generateSpec({
+      const result = s.oas.compile({
         sortPaths: true,
         tokens: [
           {token: Controller2, rootPath: "/rest"},
@@ -306,7 +317,7 @@ describe("generateSpec()", () => {
         method(@In("path") @Name("id") id: string) {}
       }
 
-      const result = generateSpec({
+      const result = s.oas.compile({
         tokens: [
           {token: Controller1, rootPath: "/rest"},
           {token: Controller2, rootPath: "/rest"}
@@ -427,7 +438,7 @@ describe("generateSpec()", () => {
       });
     });
     it("should generate spec with given data", () => {
-      const result = generateSpec({
+      const result = s.oas.compile({
         tokens: [],
         spec: {
           produces: ["application/json", "application/octet-stream", "application/xml"]
@@ -446,7 +457,7 @@ describe("generateSpec()", () => {
     });
     it("should generated default spec", () => {
       // @ts-ignore
-      const result = generateSpec({tokens: []});
+      const result = s.oas.compile({tokens: []});
       expect(result).toEqual({
         consumes: ["application/json"],
         info: {
@@ -465,7 +476,7 @@ describe("generateSpec()", () => {
       }
 
       // THEN
-      const spec = generateSpec({
+      const spec = s.oas.compile({
         tokens: [{token: Controller}],
         specType: SpecTypes.SWAGGER
       });
@@ -480,7 +491,7 @@ describe("generateSpec()", () => {
       }
 
       // THEN
-      const spec = generateSpec({
+      const spec = s.oas.compile({
         tokens: [{token: Controller}],
         specType: SpecTypes.SWAGGER
       });
@@ -542,7 +553,7 @@ describe("generateSpec()", () => {
       }
 
       // THEN
-      const spec = generateSpec({tokens: [{token: Controller}], specType: SpecTypes.SWAGGER});
+      const spec = s.oas.compile({tokens: [{token: Controller}], specType: SpecTypes.SWAGGER});
 
       expect(spec).toEqual({
         consumes: ["application/json"],
@@ -602,7 +613,7 @@ describe("generateSpec()", () => {
       }
 
       // THEN
-      const spec = generateSpec({
+      const spec = s.oas.compile({
         tokens: [{token: Controller}],
         specType: SpecTypes.SWAGGER
       });
@@ -663,7 +674,7 @@ describe("generateSpec()", () => {
       }
 
       // THEN
-      const spec = generateSpec({
+      const spec = s.oas.compile({
         tokens: [{token: Controller}],
         specType: SpecTypes.SWAGGER
       });
@@ -722,7 +733,7 @@ describe("generateSpec()", () => {
       }
 
       // THEN
-      const spec = generateSpec({
+      const spec = s.oas.compile({
         tokens: [{token: Controller}],
         specType: SpecTypes.SWAGGER
       });
@@ -785,7 +796,7 @@ describe("generateSpec()", () => {
       }
 
       // THEN
-      const spec = generateSpec({tokens: [{token: Controller}], specType: SpecTypes.SWAGGER});
+      const spec = s.oas.compile({tokens: [{token: Controller}], specType: SpecTypes.SWAGGER});
 
       expect(spec).toEqual({
         consumes: ["application/json"],
@@ -851,7 +862,7 @@ describe("generateSpec()", () => {
       }
 
       // THEN
-      const spec = generateSpec({tokens: [{token: Controller}], specType: SpecTypes.SWAGGER});
+      const spec = s.oas.compile({tokens: [{token: Controller}], specType: SpecTypes.SWAGGER});
 
       expect(spec).toEqual({
         consumes: ["application/json"],
@@ -920,7 +931,7 @@ describe("generateSpec()", () => {
       }
 
       // THEN
-      const spec = generateSpec({tokens: [{token: Controller}], specType: SpecTypes.SWAGGER});
+      const spec = s.oas.compile({tokens: [{token: Controller}], specType: SpecTypes.SWAGGER});
 
       expect(spec).toEqual({
         consumes: ["application/json"],
@@ -982,7 +993,7 @@ describe("generateSpec()", () => {
       }
 
       // THEN
-      const spec = generateSpec({tokens: [{token: Controller}], specType: SpecTypes.SWAGGER});
+      const spec = s.oas.compile({tokens: [{token: Controller}], specType: SpecTypes.SWAGGER});
 
       expect(spec).toEqual({
         consumes: ["application/json"],
@@ -1045,7 +1056,7 @@ describe("generateSpec()", () => {
       }
 
       // THEN
-      const spec = generateSpec({tokens: [{token: Controller}], specType: SpecTypes.SWAGGER});
+      const spec = s.oas.compile({tokens: [{token: Controller}], specType: SpecTypes.SWAGGER});
       expect(await validateSpec(spec)).toBe(true);
       expect(spec).toEqual({
         consumes: ["application/json"],
@@ -1111,7 +1122,7 @@ describe("generateSpec()", () => {
       }
 
       // THEN
-      const spec = generateSpec({tokens: [{token: Controller}], specType: SpecTypes.SWAGGER});
+      const spec = s.oas.compile({tokens: [{token: Controller}], specType: SpecTypes.SWAGGER});
 
       expect(spec).toEqual({
         consumes: ["application/json"],
@@ -1156,7 +1167,7 @@ describe("generateSpec()", () => {
       }
 
       // THEN
-      const spec = generateSpec({tokens: [{token: Controller}], specType: SpecTypes.SWAGGER});
+      const spec = s.oas.compile({tokens: [{token: Controller}], specType: SpecTypes.SWAGGER});
 
       expect(spec).toEqual({
         consumes: ["application/json"],
@@ -1213,7 +1224,7 @@ describe("generateSpec()", () => {
       }
 
       // THEN
-      const spec = generateSpec({tokens: [{token: Controller}], specType: SpecTypes.SWAGGER});
+      const spec = s.oas.compile({tokens: [{token: Controller}], specType: SpecTypes.SWAGGER});
 
       expect(spec).toEqual({
         consumes: ["application/json"],

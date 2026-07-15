@@ -1,6 +1,6 @@
 import {SpecTypes} from "../../domain/SpecTypes.js";
 import {s} from "../../fn/index.js";
-import {getSpec} from "../../fn/spec.js";
+import {getSpec} from "../../fn/oas/getSpec.js";
 import {In} from "../operations/in.js";
 import {OperationPath} from "../operations/operationPath.js";
 import {Path} from "../operations/path.js";

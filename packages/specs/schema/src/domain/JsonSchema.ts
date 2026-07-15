@@ -15,40 +15,25 @@ import {
   ValueOf
 } from "@tsed/core";
 import {Hooks} from "@tsed/hooks";
-import type {
-  JSONSchema7,
-  JSONSchema7Definition,
-  JSONSchema7Type,
-  JSONSchema7TypeName,
-  JSONSchema7Version
-} from "json-schema";
+import type {JSONSchema7, JSONSchema7Definition, JSONSchema7Type, JSONSchema7TypeName, JSONSchema7Version} from "json-schema";
 
 import {VendorKeys} from "../constants/VendorKeys.js";
 import {IgnoreCallback} from "../interfaces/IgnoreCallback.js";
 import {JsonSchemaOptions} from "../interfaces/JsonSchemaOptions.js";
 import {enumsRegistry} from "../registries/enumRegistries.js";
 import {execMapper} from "../registries/JsonSchemaMapperContainer.js";
-import {type GenericsMap, GenericValue} from "../utils/generics.js";
 import {getComputedType} from "../utils/getComputedType.js";
 import {getJsonType} from "../utils/getJsonType.js";
 import {matchGroups} from "../utils/matchGroups.js";
 import {serializeEnumValues} from "../utils/serializeEnumValues.js";
 import {toJsonRegex} from "../utils/toJsonRegex.js";
+import type {GenericsMap, GenericValue} from "./Generics.js";
 import {AliasMap, AliasType} from "./JsonAliasMap.js";
 import {Discriminator} from "./JsonDiscriminator.js";
+import {getJsonEntityStore} from "./JsonEntitiesContainer.js";
 import {JsonFormatTypes} from "./JsonFormatTypes.js";
 import {JsonLazyRef} from "./JsonLazyRef.js";
-import type {
-  Infer,
-  PropsToShape,
-  SchemaKey,
-  SchemaMerge,
-  SchemaOmit,
-  SchemaPartial,
-  SchemaPick,
-  UnionToIntersection
-} from "./types.js";
-import {getJsonEntityStore} from "./JsonEntitiesContainer.js";
+import type {Infer, PropsToShape, SchemaKey, SchemaMerge, SchemaOmit, SchemaPartial, SchemaPick, UnionToIntersection} from "./types.js";
 
 /**
  * Extended JSON Schema object supporting TypeScript types and Ts.ED enhancements.
@@ -366,21 +351,21 @@ export class JsonSchema<T = JSONSchema7Type> extends Map<string, any> {
    * @deprecated
    */
   // static from(item: Partial<JsonSchemaObject> | Type<any> | JsonSchema | undefined) {
-    // // console.trace("JsonSchema.from", item)
-    // if (item instanceof JsonSchema) {
-    //   return item;
-    // }
-    //
-    // if (item && classOf(item) !== Object && isClass(item)) {
-    //   return getJsonEntityStore(item).schema;
-    // }
-    //
-    // if (isPrimitiveClass(item) || item === Date || isTemporal(item) || item === null) {
-    //   return new JsonSchema({type: item as Type});
-    // }
-    //
-    // return new JsonSchema(item as Partial<JsonSchemaObject>);
- // }
+  // // console.trace("JsonSchema.from", item)
+  // if (item instanceof JsonSchema) {
+  //   return item;
+  // }
+  //
+  // if (item && classOf(item) !== Object && isClass(item)) {
+  //   return getJsonEntityStore(item).schema;
+  // }
+  //
+  // if (isPrimitiveClass(item) || item === Date || isTemporal(item) || item === null) {
+  //   return new JsonSchema({type: item as Type});
+  // }
+  //
+  // return new JsonSchema(item as Partial<JsonSchemaObject>);
+  // }
 
   static add<Keys extends keyof JsonSchema>(property: Keys, method: JsonSchema[Keys]) {
     Object.defineProperty(JsonSchema.prototype, property, {

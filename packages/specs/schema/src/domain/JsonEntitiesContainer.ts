@@ -1,6 +1,7 @@
 import {classOf, decoratorTypeOf, DecoratorTypes, descriptorOf, prototypeOf, Store, type Type} from "@tsed/core";
+
+import type {JsonClassStore, JsonMethodStore, JsonParameterStore, JsonPropertyStore} from "../..";
 import type {JsonEntityStore} from "./JsonEntityStore.js";
-import type {JsonClassStore, JsonMethodStore, JsonParameterStore, JsonPropertyStore} from "@tsed/schema";
 
 /**
  * @ignore
@@ -8,8 +9,15 @@ import type {JsonClassStore, JsonMethodStore, JsonParameterStore, JsonPropertySt
 export const JsonEntitiesContainer = new Map<DecoratorTypes, Type<JsonEntityStore>>();
 
 export function getJsonEntityStore<T extends JsonClassStore = JsonClassStore>(target: Type<any>): T;
-export function getJsonEntityStore<T extends JsonPropertyStore = JsonPropertyStore>(target: Type<any> | any, propertyKey: string | symbol): T;
-export function getJsonEntityStore<T extends JsonParameterStore = JsonParameterStore>(target: Type<any> | any, propertyKey: string | symbol, index: number): T;
+export function getJsonEntityStore<T extends JsonPropertyStore = JsonPropertyStore>(
+  target: Type<any> | any,
+  propertyKey: string | symbol
+): T;
+export function getJsonEntityStore<T extends JsonParameterStore = JsonParameterStore>(
+  target: Type<any> | any,
+  propertyKey: string | symbol,
+  index: number
+): T;
 export function getJsonEntityStore<T extends JsonMethodStore = JsonMethodStore>(
   target: Type<any> | any,
   propertyKey: string | symbol,
@@ -53,3 +61,7 @@ export function getJsonEntityStore<T extends JsonEntityStore = JsonEntityStore>(
 export function getJsonMethodStore<T extends JsonMethodStore = JsonMethodStore>(target: any, propertyKey: string | symbol) {
   return getJsonEntityStore<T>(target, propertyKey, descriptorOf(target, propertyKey));
 }
+
+// function getJsonPropertyStore(target: Type<any>, propertyKey: string | symbol, descriptor?: any) {
+//   return getJsonEntityStore(prototypeOf(target), propertyKey, descriptor);
+// }

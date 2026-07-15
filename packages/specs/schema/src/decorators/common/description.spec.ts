@@ -1,5 +1,5 @@
 import {s} from "../../fn/index.js";
-import {getSpec} from "../../fn/spec.js";
+import {getSpec} from "../../fn/oas/getSpec.js";
 import {In, OperationPath, Property, SpecTypes} from "../../index.js";
 import {Description} from "./description.js";
 
