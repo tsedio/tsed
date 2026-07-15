@@ -1,8 +1,8 @@
 import {DecoratorParameters, DecoratorTypes} from "@tsed/core";
 import {pascalCase} from "change-case";
 
-import {JsonEntityStore} from "./JsonEntityStore.js";
 import {getJsonEntityStore} from "./JsonEntitiesContainer.js";
+import {JsonEntityStore} from "./JsonEntityStore.js";
 
 /**
  * @ignore
@@ -111,9 +111,7 @@ export abstract class DecoratorContext<T = any> extends Map<string, any> {
     return this;
   }
 
-  protected beforeInit() {
-  }
+  protected beforeInit() {}
 
-  protected afterInit() {
-  }
+  protected afterInit() {}
 }

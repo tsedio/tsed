@@ -1,5 +1,5 @@
 import {PlatformTest} from "@tsed/platform-http/testing";
-import {EndpointMetadata, Get, Returns, View} from "@tsed/schema";
+import {Get, Returns, s, View} from "@tsed/schema";
 import {createReadStream} from "fs";
 
 import {ContentTypes} from "../constants/ContentTypes.js";
@@ -38,9 +38,9 @@ describe("PlatformContentTypeResolver", () => {
       get() {}
     }
 
-    const {contentTypeResolver, ctx, data} = await getTestFixture();
+    const {contentTypeResolver, ctx} = await getTestFixture();
 
-    ctx.endpoint = EndpointMetadata.get(TestController, "get");
+    ctx.endpoint = s.store.method(TestController, "get");
 
     const result = await contentTypeResolver(Buffer.from("data"), ctx);
 
@@ -56,7 +56,7 @@ describe("PlatformContentTypeResolver", () => {
 
     const {contentTypeResolver, ctx, data} = await getTestFixture();
 
-    ctx.endpoint = EndpointMetadata.get(TestController, "get");
+    ctx.endpoint = s.store.method(TestController, "get");
 
     const result = await contentTypeResolver(stream, ctx);
 
@@ -70,7 +70,7 @@ describe("PlatformContentTypeResolver", () => {
 
     const {contentTypeResolver, ctx, data} = await getTestFixture();
 
-    ctx.endpoint = EndpointMetadata.get(TestController, "get");
+    ctx.endpoint = s.store.method(TestController, "get");
 
     const result = await contentTypeResolver(data, ctx);
 
@@ -85,7 +85,7 @@ describe("PlatformContentTypeResolver", () => {
 
     const {contentTypeResolver, ctx, data} = await getTestFixture();
 
-    ctx.endpoint = EndpointMetadata.get(TestController, "get");
+    ctx.endpoint = s.store.method(TestController, "get");
     ctx.response.getRes().statusCode = 200;
 
     vi.spyOn(ctx.response, "getContentType").mockReturnValue(ContentTypes.JSON);
@@ -103,7 +103,7 @@ describe("PlatformContentTypeResolver", () => {
 
     const {contentTypeResolver, ctx, data} = await getTestFixture();
 
-    ctx.endpoint = EndpointMetadata.get(TestController, "get");
+    ctx.endpoint = s.store.method(TestController, "get");
     ctx.response.getRes().statusCode = 200;
 
     vi.spyOn(ctx.response, "getContentType").mockReturnValue("application/vnd.custom+json");
@@ -121,7 +121,7 @@ describe("PlatformContentTypeResolver", () => {
 
     const {contentTypeResolver, ctx, data} = await getTestFixture();
 
-    ctx.endpoint = EndpointMetadata.get(TestController, "get");
+    ctx.endpoint = s.store.method(TestController, "get");
     ctx.response.getRes().statusCode = 200;
     vi.spyOn(ctx.response, "getContentType").mockReturnValue("application/json");
 
@@ -136,9 +136,9 @@ describe("PlatformContentTypeResolver", () => {
       get() {}
     }
 
-    const {contentTypeResolver, ctx, data} = await getTestFixture();
+    const {contentTypeResolver, ctx} = await getTestFixture();
 
-    ctx.endpoint = EndpointMetadata.get(TestController, "get");
+    ctx.endpoint = s.store.method(TestController, "get");
     ctx.response.getRes().statusCode = 200;
     vi.spyOn(ctx.response, "getContentType").mockReturnValue("application/json");
 
@@ -155,7 +155,7 @@ describe("PlatformContentTypeResolver", () => {
 
     const {contentTypeResolver, ctx, data} = await getTestFixture();
 
-    ctx.endpoint = EndpointMetadata.get(TestController, "get");
+    ctx.endpoint = s.store.method(TestController, "get");
     ctx.response.getRes().statusCode = 200;
     vi.spyOn(ctx.response, "getContentType").mockReturnValue(ContentTypes.HTML);
 
@@ -173,7 +173,7 @@ describe("PlatformContentTypeResolver", () => {
 
     const {contentTypeResolver, ctx, data} = await getTestFixture();
 
-    ctx.endpoint = EndpointMetadata.get(TestController, "get");
+    ctx.endpoint = s.store.method(TestController, "get");
     ctx.response.getRes().statusCode = 200;
     ctx.view = "true";
 

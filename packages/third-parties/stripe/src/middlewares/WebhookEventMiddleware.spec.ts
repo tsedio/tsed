@@ -1,8 +1,8 @@
 import "../index.js";
 
 import {catchError} from "@tsed/core";
-import {EndpointMetadata} from "@tsed/platform-http";
 import {PlatformTest} from "@tsed/platform-http/testing";
+import {s} from "@tsed/schema";
 import {Stripe} from "stripe";
 
 import {STRIPE_WEBHOOK_EVENT, STRIPE_WEBHOOK_SIGNATURE} from "../constants/constants.js";
@@ -30,7 +30,7 @@ describe("WebhookEventMiddleware", () => {
   it("should construct event", async () => {
     const stripe = PlatformTest.get<Stripe>(Stripe);
     const ctx = PlatformTest.createRequestContext();
-    ctx.endpoint = EndpointMetadata.get(Ctrl, "get");
+    ctx.endpoint = s.store.method(Ctrl, "get");
 
     const payload = {
       id: "evt_test_webhook",
@@ -53,8 +53,8 @@ describe("WebhookEventMiddleware", () => {
   it("should construct event based on endpoint options", async () => {
     const stripe = PlatformTest.get<Stripe>(Stripe);
     const ctx = PlatformTest.createRequestContext();
-    ctx.endpoint = EndpointMetadata.get(Ctrl, "get");
-    ctx.endpoint = EndpointMetadata.get(Ctrl, "get");
+    ctx.endpoint = s.store.method(Ctrl, "get");
+    ctx.endpoint = s.store.method(Ctrl, "get");
     ctx.endpoint.store.set(WebhookEventMiddleware, {
       secret: "whsec_test_secret1"
     });
@@ -80,7 +80,7 @@ describe("WebhookEventMiddleware", () => {
   it("should throw error when signature isn't valid", async () => {
     const stripe = PlatformTest.get<Stripe>(Stripe);
     const ctx = PlatformTest.createRequestContext();
-    ctx.endpoint = EndpointMetadata.get(Ctrl, "get");
+    ctx.endpoint = s.store.method(Ctrl, "get");
 
     const payload = {
       id: "evt_test_webhook",
@@ -111,7 +111,7 @@ Learn more about webhook signing and explore webhook integration examples for va
   it("should throw error when secret is missing", async () => {
     const stripe = PlatformTest.get<Stripe>(Stripe);
     const ctx = PlatformTest.createRequestContext();
-    ctx.endpoint = EndpointMetadata.get(Ctrl, "get");
+    ctx.endpoint = s.store.method(Ctrl, "get");
     ctx.endpoint.store.set(WebhookEventMiddleware, {
       secret: null
     });

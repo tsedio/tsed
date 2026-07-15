@@ -1,8 +1,8 @@
 import {catchAsyncError} from "@tsed/core";
 import {inject, injectable} from "@tsed/di";
 import {Exception} from "@tsed/exceptions";
-import {EndpointMetadata} from "@tsed/platform-http";
 import {PlatformTest} from "@tsed/platform-http/testing";
+import {s} from "@tsed/schema";
 import {MulterError} from "multer";
 
 import {MULTER_MODULE} from "../constants/constants.js";
@@ -29,7 +29,7 @@ async function getFixture(options = {}) {
 
   const middleware = await inject<PlatformMulterMiddleware>(PlatformMulterMiddleware);
   const ctx: any = PlatformTest.createRequestContext();
-  ctx.endpoint = EndpointMetadata.get(Test, "upload");
+  ctx.endpoint = s.store.method(Test, "upload");
 
   const multerModuleFactory = inject<{get: any}>(MULTER_MODULE);
 

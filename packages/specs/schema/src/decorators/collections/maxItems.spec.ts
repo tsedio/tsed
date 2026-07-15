@@ -1,6 +1,6 @@
+import {s} from "../../index.js";
 import {CollectionOf} from "./collectionOf.js";
 import {MaxItems} from "./maxItems.js";
-import {s} from "@tsed/schema";
 
 describe("@MaxItems", () => {
   it("should declare a prop", () => {

@@ -1,5 +1,5 @@
 import {UnsupportedDecoratorType} from "@tsed/core";
-import {EndpointMetadata} from "@tsed/schema";
+import {s} from "@tsed/schema";
 
 import {UseBeforeEach} from "./useBeforeEach.js";
 
@@ -15,7 +15,7 @@ describe("UseBeforeEach()", () => {
         test() {}
       }
 
-      const endpoint = EndpointMetadata.get(Test, "test");
+      const endpoint = s.store.method(Test, "test");
       // THEN
       expect(endpoint.beforeMiddlewares).toEqual([CustomMiddleware]);
     });
@@ -29,7 +29,7 @@ describe("UseBeforeEach()", () => {
       }
 
       // THEN
-      const endpoint = EndpointMetadata.get(Test, "test");
+      const endpoint = s.store.method(Test, "test");
       expect(endpoint.beforeMiddlewares).toEqual([CustomMiddleware]);
     });
   });

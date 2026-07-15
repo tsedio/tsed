@@ -1,5 +1,5 @@
 import {Controller} from "@tsed/di";
-import {EndpointMetadata, Get, Groups, Property, Returns} from "@tsed/schema";
+import {Get, Groups, Property, Returns, s} from "@tsed/schema";
 
 import {serialize} from "../../src/utils/serialize.js";
 
@@ -55,7 +55,7 @@ function getSpecFixture(method: string, includes: undefined | string[]) {
   data.prop2 = "prop2";
   data.sensitiveProp = "sensitiveProp";
 
-  const endpoint = EndpointMetadata.get(MyController, method);
+  const endpoint = s.store.method(MyController, method);
 
   return serialize(data, {
     useAlias: true,

@@ -1,5 +1,5 @@
+import type {GenericsMap} from "../domain/Generics.js";
 import {SpecTypes} from "../domain/SpecTypes.js";
-import type {GenericsMap} from "../utils/generics.js";
 
 /**
  * Configuration options for JSON schema generation.

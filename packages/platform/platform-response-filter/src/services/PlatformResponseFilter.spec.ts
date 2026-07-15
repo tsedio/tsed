@@ -1,7 +1,7 @@
 import {catchAsyncError} from "@tsed/core";
 import {PlatformTest} from "@tsed/platform-http/testing";
 import {Context} from "@tsed/platform-params";
-import {EndpointMetadata, Get, Ignore, Property, Returns, View} from "@tsed/schema";
+import {Get, Ignore, Property, Returns, s, View} from "@tsed/schema";
 
 import {ResponseFilter} from "../decorators/responseFilter.js";
 import {ResponseFilterMethods} from "../interfaces/ResponseFilterMethods.js";
@@ -47,7 +47,7 @@ describe("PlatformResponseFilter", () => {
         const platformResponseFilter = PlatformTest.get<PlatformResponseFilter>(PlatformResponseFilter);
 
         const ctx = PlatformTest.createRequestContext();
-        ctx.endpoint = EndpointMetadata.get(Test, "test");
+        ctx.endpoint = s.store.method(Test, "test");
         const data = {text: "test"};
 
         vi.spyOn(ctx.response, "contentType").mockReturnThis();
@@ -72,7 +72,7 @@ describe("PlatformResponseFilter", () => {
         const platformResponseFilter = PlatformTest.get<PlatformResponseFilter>(PlatformResponseFilter);
 
         const ctx = PlatformTest.createRequestContext();
-        ctx.endpoint = EndpointMetadata.get(Test, "test");
+        ctx.endpoint = s.store.method(Test, "test");
         const data = {text: "test"};
 
         vi.spyOn(ctx.response, "contentType").mockReturnThis();
@@ -120,7 +120,7 @@ describe("PlatformResponseFilter", () => {
         const platformResponseFilter = PlatformTest.get<PlatformResponseFilter>(PlatformResponseFilter);
 
         const ctx = PlatformTest.createRequestContext();
-        ctx.endpoint = EndpointMetadata.get(Test, "test");
+        ctx.endpoint = s.store.method(Test, "test");
         const data = {text: "test"};
 
         vi.spyOn(ctx.response, "contentType").mockReturnThis();
@@ -147,7 +147,7 @@ describe("PlatformResponseFilter", () => {
 
         const ctx = PlatformTest.createRequestContext();
         const data = {text: "test"};
-        ctx.endpoint = EndpointMetadata.get(Test, "test");
+        ctx.endpoint = s.store.method(Test, "test");
 
         vi.spyOn(ctx.response, "contentType").mockReturnThis();
         vi.spyOn(ctx.response, "get").mockReturnValue(undefined);
@@ -182,7 +182,7 @@ describe("PlatformResponseFilter", () => {
 
         const ctx = PlatformTest.createRequestContext();
         const data = {text: "test"};
-        ctx.endpoint = EndpointMetadata.get(Test, "test");
+        ctx.endpoint = s.store.method(Test, "test");
 
         vi.spyOn(ctx.response, "contentType").mockReturnThis();
         vi.spyOn(ctx.response, "get").mockReturnValue(undefined);
@@ -209,7 +209,7 @@ describe("PlatformResponseFilter", () => {
 
         const ctx = PlatformTest.createRequestContext();
         const data = {text: "test"};
-        ctx.endpoint = EndpointMetadata.get(Test, "test");
+        ctx.endpoint = s.store.method(Test, "test");
 
         vi.spyOn(ctx.response, "contentType").mockReturnThis();
         vi.spyOn(ctx.response, "get").mockReturnValue(undefined);
@@ -246,7 +246,7 @@ describe("PlatformResponseFilter", () => {
 
       const platformResponseFilter = PlatformTest.get<PlatformResponseFilter>(PlatformResponseFilter);
       const ctx = PlatformTest.createRequestContext();
-      ctx.endpoint = EndpointMetadata.get(Test, "test");
+      ctx.endpoint = s.store.method(Test, "test");
 
       vi.spyOn(ctx.endpoint, "getResponseOptions");
 
@@ -263,7 +263,7 @@ describe("PlatformResponseFilter", () => {
 
       const platformResponseFilter = PlatformTest.get<PlatformResponseFilter>(PlatformResponseFilter);
       const ctx = PlatformTest.createRequestContext();
-      ctx.endpoint = EndpointMetadata.get(Test, "test");
+      ctx.endpoint = s.store.method(Test, "test");
 
       vi.spyOn(ctx.endpoint, "getResponseOptions");
 
@@ -282,7 +282,7 @@ describe("PlatformResponseFilter", () => {
 
       const platformResponseFilter = PlatformTest.get<PlatformResponseFilter>(PlatformResponseFilter);
       const ctx = PlatformTest.createRequestContext();
-      ctx.endpoint = EndpointMetadata.get(Test, "test");
+      ctx.endpoint = s.store.method(Test, "test");
 
       vi.spyOn(ctx.endpoint, "getResponseOptions");
 
@@ -304,7 +304,7 @@ describe("PlatformResponseFilter", () => {
 
       const platformResponseFilter = PlatformTest.get<PlatformResponseFilter>(PlatformResponseFilter);
       const ctx = PlatformTest.createRequestContext();
-      ctx.endpoint = EndpointMetadata.get(Test, "test");
+      ctx.endpoint = s.store.method(Test, "test");
       vi.spyOn(ctx.response, "render").mockResolvedValue("template");
 
       const result = await platformResponseFilter.transform({test: "test"}, ctx);
@@ -320,7 +320,7 @@ describe("PlatformResponseFilter", () => {
 
       const platformResponseFilter = PlatformTest.get<PlatformResponseFilter>(PlatformResponseFilter);
       const ctx = PlatformTest.createRequestContext();
-      ctx.endpoint = EndpointMetadata.get(Test, "test");
+      ctx.endpoint = s.store.method(Test, "test");
       vi.spyOn(ctx.response, "render").mockRejectedValue(new Error("parsing error"));
 
       const result = await catchAsyncError(() => platformResponseFilter.transform({test: "test"}, ctx));
@@ -347,7 +347,7 @@ describe("PlatformResponseFilter", () => {
       const platformResponseFilter = PlatformTest.get<PlatformResponseFilter>(PlatformResponseFilter);
       const ctx = PlatformTest.createRequestContext();
 
-      ctx.endpoint = EndpointMetadata.get(Test, "test");
+      ctx.endpoint = s.store.method(Test, "test");
 
       vi.spyOn(ctx.response, "render").mockResolvedValue("HTML");
 
@@ -370,7 +370,7 @@ describe("PlatformResponseFilter", () => {
 
       const platformResponseFilter = PlatformTest.get<PlatformResponseFilter>(PlatformResponseFilter);
       const ctx = PlatformTest.createRequestContext();
-      ctx.endpoint = EndpointMetadata.get(Test, "test");
+      ctx.endpoint = s.store.method(Test, "test");
 
       vi.spyOn(ctx.response, "render").mockRejectedValue(new Error("parser error"));
 

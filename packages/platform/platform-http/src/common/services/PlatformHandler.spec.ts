@@ -1,6 +1,6 @@
 import {Injectable, runInContext} from "@tsed/di";
 import {PlatformHandlerMetadata, PlatformHandlerType} from "@tsed/platform-router";
-import {EndpointMetadata, Get, View} from "@tsed/schema";
+import {Get, s, View} from "@tsed/schema";
 
 import {PlatformTest} from "../../testing/PlatformTest.js";
 import {PlatformHandler} from "./PlatformHandler.js";
@@ -53,7 +53,7 @@ describe("PlatformHandler", () => {
       });
 
       const $ctx = PlatformTest.createRequestContext();
-      $ctx.endpoint = EndpointMetadata.get(Test, "get");
+      $ctx.endpoint = s.store.method(Test, "get");
 
       const result = service.createHandler(metadata);
 
@@ -131,7 +131,7 @@ describe("PlatformHandler", () => {
 
       const $ctx = PlatformTest.createRequestContext();
       $ctx.next = vi.fn();
-      $ctx.endpoint = EndpointMetadata.get(TestService, "use");
+      $ctx.endpoint = s.store.method(TestService, "use");
 
       $ctx.handlerMetadata = new PlatformHandlerMetadata({
         handler: TestService.prototype.use

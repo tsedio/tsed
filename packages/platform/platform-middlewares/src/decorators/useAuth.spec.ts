@@ -1,5 +1,5 @@
 import {decoratorArgs, prototypeOf, Store, UnsupportedDecoratorType} from "@tsed/core";
-import {EndpointMetadata} from "@tsed/schema";
+import {s} from "@tsed/schema";
 
 import {UseAuth} from "./useAuth.js";
 
@@ -31,7 +31,7 @@ describe("UseAuth()", () => {
       const args = decoratorArgs(prototypeOf(Test), "test");
       const store = Store.from(...args);
       // @ts-ignore
-      const endpoint = EndpointMetadata.get(...args);
+      const endpoint = s.store.method(...args);
 
       expect(endpoint.beforeMiddlewares).toEqual([Guard]);
       expect(store.get(Guard)).toEqual({
@@ -71,7 +71,7 @@ describe("UseAuth()", () => {
       const args = decoratorArgs(prototypeOf(Test), "test");
       const store = Store.from(...args);
       // @ts-ignore
-      const endpoint = EndpointMetadata.get(...args);
+      const endpoint = s.store.method(...args);
 
       expect(endpoint.beforeMiddlewares).toEqual([Guard]);
 
@@ -105,10 +105,10 @@ describe("UseAuth()", () => {
       const storeTest = Store.from(...decoratorArgs(prototypeOf(Test), "test"));
       const storeTest2 = Store.from(...decoratorArgs(prototypeOf(Test), "test2"));
       // @ts-ignore
-      const endpoint = EndpointMetadata.get(Test, "test");
+      const endpoint = s.store.method(Test, "test");
       expect(endpoint.beforeMiddlewares).toEqual([Guard]);
 
-      const endpoint2 = EndpointMetadata.get(Test, "test2");
+      const endpoint2 = s.store.method(Test, "test2");
       expect(endpoint2.beforeMiddlewares).toEqual([Guard]);
 
       expect(storeTest.get(Guard)).toEqual({role: "test2", defaultRole: "test"});

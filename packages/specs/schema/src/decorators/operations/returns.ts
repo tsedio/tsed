@@ -14,14 +14,12 @@ import {OS3Example} from "@tsed/openspec";
 import type {JSONSchema7} from "json-schema";
 
 import {getStatusMessage} from "../../constants/httpStatusMessages.js";
-import {DecoratorContext} from "../../domain/DecoratorContext.js";
-import type {JsonMethodStore} from "../../domain/JsonMethodStore.js";
-import {JsonResponse} from "../../domain/JsonResponse.js";
-import {JsonSchema, JsonSchemaObject} from "../../domain/JsonSchema.js";
+import {GenericValue} from "../../domain/Generics.js";
+import type {JsonMethodStore} from "../../domain/index.js";
+import {DecoratorContext, JsonResponse, JsonSchema, JsonSchemaObject} from "../../domain/index.js";
 import {s} from "../../fn/index.js";
 import {JsonHeader, JsonHeaders} from "../../interfaces/JsonOpenSpec.js";
 import {getStatusModel} from "../../utils/defineStatusModel.js";
-import {GenericValue} from "../../utils/generics.js";
 import {mapHeaders} from "../../utils/mapHeaders.js";
 
 export interface ReturnsChainedDecorators {

@@ -136,7 +136,7 @@ describe("Generics: basic", () => {
           {schema: schema as any}
         )
       );
-      expect(value?.message).toEqual("Value.data.0 must be object. Given value: \"tst\"");
+      expect(value?.message).toEqual('Value.data.0 must be object. Given value: "tst"');
 
       const value2 = await catchAsyncError(() =>
         validate(
