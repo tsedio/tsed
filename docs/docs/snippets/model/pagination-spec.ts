@@ -1,5 +1,5 @@
 import {PlatformTest} from "@tsed/platform-http/testing";
-import {getSpec, SpecTypes} from "@tsed/schema";
+import {s, SpecTypes} from "@tsed/schema";
 import * as qs from "node:querystring";
 import * as SuperTest from "supertest";
 import {PaginationFilter} from "../filters/PaginationFilter";
@@ -24,7 +24,7 @@ describe("ProductsCtrl", () => {
   });
 
   it("should generate spec", () => {
-    const spec = getSpec(PlatformTest, {specType: SpecTypes.OPENAPI});
+    const spec = s.oas(PlatformTest, {specType: SpecTypes.OPENAPI});
 
     expect(spec).toEqual({
       paths: {

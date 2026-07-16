@@ -1,4 +1,4 @@
-import {getJsonSchema, MinLength, Required} from "@tsed/schema";
+import {MinLength, Required, s} from "@tsed/schema";
 
 class PersonModel {
   @MinLength(3)
@@ -10,6 +10,6 @@ class PersonModel {
   lastName: string;
 }
 
-const schema = getJsonSchema(PersonModel);
+const schema = s.compile(PersonModel);
 
 console.log(schema);

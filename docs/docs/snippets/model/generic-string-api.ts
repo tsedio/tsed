@@ -1,4 +1,4 @@
-import {compile, GenericOf, Generics, Property, string} from "@tsed/schema";
+import {GenericOf, Generics, Property, s} from "@tsed/schema";
 
 @Generics("T")
 class UserProperty<T> {
@@ -7,11 +7,11 @@ class UserProperty<T> {
 }
 
 class Adjustment {
-  @GenericOf(string().pattern(/[a-z]/))
+  @GenericOf(s.string().pattern(/[a-z]/))
   adjustment: UserProperty<string>;
 }
 
-console.log(compile(Adjustment));
+console.log(s.compile(Adjustment));
 /* OUTPUT:
 {
   "properties": {

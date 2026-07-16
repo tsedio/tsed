@@ -67,6 +67,32 @@ use the model to convert the raw data to an instance of your model.
 
 <<< @/docs/snippets/model/controller.ts
 
+## Functional helpers
+
+Since `v8.35.0`, the functional API exposes the main schema helpers from the `s` namespace:
+
+- `s.from(Model)` creates a **local** `JsonSchema` instance that you can compose safely without mutating the class
+  metadata.
+- `s.get(Model)` returns the **shared** schema attached to the class metadata. Use it only when you intentionally want to
+  patch the source schema.
+- `s.generic(Model).of(...)` is a new helper introduced in this version for applying generic bindings from the
+  functional API.
+- `s.compile(ModelOrSchema)` compiles a model or `JsonSchema` to plain JSON Schema and is strictly equivalent to
+  `getJsonSchema(...)`.
+- `s.oas(...)` and `s.store(...)` complete the grouped API for OpenSpec generation and metadata access.
+
+```typescript
+import {s} from "@tsed/schema";
+
+const LocalUserSchema = s.from(User).description("Local description");
+const SharedUserSchema = s.get(User);
+const PaginatedUsers = s.generic(Pagination).of(User);
+
+s.compile(LocalUserSchema); // or getJsonSchema() => json schema
+s.oas(MyController); // or getSpec => openspec api
+s.store(User); // or JsonEntityStore.from(User) => metadata
+```
+
 ## Primitives
 
 Just use at least @@Property@@ decorator any other `schema` decorator (like @@Email@@), to create a new property on a
@@ -1756,6 +1782,15 @@ class MyController {
 <<< @/docs/snippets/model/generic-date-api.ts [Date]
 :::
 
+The new functional helper `s.generic(Model).of(...)` supports three forms:
+
+- A single generic value: `s.generic(Pagination).of(Product)`
+- The historical array form: `s.generic(Pagination).of([Product])`
+- An explicit generic map when a model declares multiple generic labels:
+  `s.generic(Pagination).of({T: [Product]})`
+
+Use the map form when you want to bind generic parameters by name instead of position.
+
 ## Pagination
 
 The following advanced example will show you how you can combine the different Ts.ED features to describe Pagination.
@@ -2002,7 +2037,8 @@ and which property values are of a given type.
 ## Get Json schema
 
 In some cases, it may be useful to retrieve the JSON Schema from a Model to use with another library. This is possible
-by using @@getJsonSchema@@. Here is a small example:
+by using @@getJsonSchema@@. Since `v8.35.0`, prefer `s.compile(...)` in userland code. It is strictly equivalent to
+`getJsonSchema(...)`, which remains available for compatibility. Here is a small example:
 
 ::: code-group
 <<< @/docs/snippets/model/jsonschema.ts [Model]
@@ -2031,7 +2067,7 @@ export class ProductsCtrl {
 ## Get OpenSpec
 
 In some cases, it may be useful to retrieve the OpenSpec from a Controller to generate the Swagger OpenSpec. This is
-possible by using @@getSpec@@. Here is a small example:
+possible by using @@getSpec@@ or the new functional helper `s.oas(...)`. Here is a small example:
 
 ::: code-group
 <<< @/docs/snippets/model/get-spec-generics-controller1.ts [MyController]
