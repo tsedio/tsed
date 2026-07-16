@@ -1,7 +1,6 @@
-import {isClass, Type} from "@tsed/core";
-
-import {JsonSchema} from "../domain/JsonSchema.js";
+import {Type, isClass} from "@tsed/core";
 import type {CtorToType} from "../domain/types.js";
+import {JsonSchema} from "../domain/JsonSchema.js";
 import {getJsonEntityStore} from "../registries/JsonEntitiesContainer.js";
 
 /**

@@ -1,10 +1,9 @@
-import {Store} from "@tsed/core";
-import {beforeEach} from "vitest";
-
-import {DITest} from "../../node/index.js";
 import {Configuration} from "../decorators/configuration.js";
+import {DITest} from "../../node/index.js";
 import {Injectable} from "../decorators/injectable.js";
 import {Provider} from "../domain/Provider.js";
+import {Store} from "@tsed/core";
+import {beforeEach} from "vitest";
 import {configuration} from "./configuration.js";
 import {inject} from "./inject.js";
 import {injector} from "./injector.js";

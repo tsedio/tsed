@@ -1,5 +1,4 @@
 import {CollectionOf} from "@tsed/schema";
-
 import {getFormioSchema} from "../src/index.js";
 
 describe("Array", () => {

@@ -1,4 +1,4 @@
-import {keyword, type KeywordOptions} from "../fn/keyword.js";
+import {type KeywordOptions, keyword} from "../fn/keyword.js";
 
 /**
  * Create new keyword custom validator

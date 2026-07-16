@@ -1,8 +1,7 @@
-import {Type} from "@tsed/core";
 import {DIConfiguration} from "@tsed/di";
 import {JsonMapperGlobalOptions} from "@tsed/json-mapper";
-
 import type {PlatformStaticsSettings} from "./PlatformStaticsSettings.js";
+import {Type} from "@tsed/core";
 
 export interface PlatformRouterSettings {
   appendChildrenRoutesFirst?: boolean;

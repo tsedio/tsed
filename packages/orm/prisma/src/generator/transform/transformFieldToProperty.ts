@@ -1,5 +1,4 @@
 import {PropertyDeclarationStructure, StructureKind} from "ts-morph";
-
 import {DmmfField} from "../domain/DmmfField.js";
 import {TransformContext} from "../domain/TransformContext.js";
 import {transformFieldToDecorators} from "./transformFieldToDecorators.js";

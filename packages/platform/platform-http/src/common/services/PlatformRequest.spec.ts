@@ -1,9 +1,8 @@
-import {PlatformHandlerMetadata} from "@tsed/platform-router";
-
 import {FakeAdapter} from "../../testing/index.js";
-import {PlatformTest} from "../../testing/PlatformTest.js";
 import {PlatformAdapter} from "./PlatformAdapter.js";
+import {PlatformHandlerMetadata} from "@tsed/platform-router";
 import {PlatformRequest} from "./PlatformRequest.js";
+import {PlatformTest} from "../../testing/PlatformTest.js";
 
 function createRequest() {
   const $ctx = PlatformTest.createRequestContext();

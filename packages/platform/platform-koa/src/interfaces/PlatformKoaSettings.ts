@@ -1,6 +1,6 @@
-import type {RouterOptions} from "@koa/router";
 import type {Middleware} from "koa";
 import type {Options} from "koa-bodyparser";
+import type {RouterOptions} from "@koa/router";
 
 export interface PlatformKoaSettings {
   /**

@@ -1,9 +1,8 @@
 import {Metadata, useDecorators, useMethodDecorators} from "@tsed/core";
-
-import {JsonParameterTypes} from "../../domain/JsonParameterTypes.js";
-import {Name} from "../common/name.js";
 import {Consumes} from "./consumes.js";
 import {In} from "./in.js";
+import {JsonParameterTypes} from "../../domain/JsonParameterTypes.js";
+import {Name} from "../common/name.js";
 import {Returns} from "./returns.js";
 
 /**

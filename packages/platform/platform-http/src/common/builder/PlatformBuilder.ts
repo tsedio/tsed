@@ -1,36 +1,34 @@
+import {$alter, $asyncAlter, $asyncEmit} from "@tsed/hooks";
 import type {IncomingMessage, ServerResponse} from "node:http";
-import Http from "node:http";
-import type Https from "node:https";
-
-import type {Type} from "@tsed/core";
 import {
+  InjectorService,
+  ProviderOpts,
+  ProviderScope,
+  TokenProvider,
   colors,
   configuration,
   constant,
   createContainer,
   destroyInjector,
   injector,
-  InjectorService,
-  logger,
-  ProviderOpts,
-  ProviderScope,
-  TokenProvider
+  logger
 } from "@tsed/di";
-import {$alter, $asyncAlter, $asyncEmit} from "@tsed/hooks";
-import {PlatformLayer} from "@tsed/platform-router";
-import Http2 from "http2";
-
-import {defineConfiguration} from "../config/defineConfiguration.js";
-import type {PlatformStaticsSettings} from "../config/PlatformStaticsSettings.js";
-import {PlatformRouteDetails} from "../domain/PlatformRouteDetails.js";
-import {application} from "../fn/application.js";
-import {Route} from "../interfaces/Route.js";
-import {Platform} from "../services/Platform.js";
 import {PlatformAdapter, PlatformBuilderSettings} from "../services/PlatformAdapter.js";
+import {CreateServerReturn} from "../utils/createServer.js";
+import Http from "node:http";
+import Http2 from "http2";
+import type Https from "node:https";
+import {Platform} from "../services/Platform.js";
 import {PlatformApplication} from "../services/PlatformApplication.js";
+import {PlatformLayer} from "@tsed/platform-router";
+import {PlatformRouteDetails} from "../domain/PlatformRouteDetails.js";
+import type {PlatformStaticsSettings} from "../config/PlatformStaticsSettings.js";
+import {Route} from "../interfaces/Route.js";
+import type {Type} from "@tsed/core";
+import {application} from "../fn/application.js";
 import {closeServer} from "../utils/closeServer.js";
 import {createInjector} from "../utils/createInjector.js";
-import {CreateServerReturn} from "../utils/createServer.js";
+import {defineConfiguration} from "../config/defineConfiguration.js";
 import {getStaticsOptions} from "../utils/getStaticsOptions.js";
 import {printRoutes} from "../utils/printRoutes.js";
 import {resolveControllers} from "../utils/resolveControllers.js";

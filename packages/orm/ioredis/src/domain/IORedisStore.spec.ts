@@ -1,9 +1,8 @@
-import {catchAsyncError} from "@tsed/core";
-import {Hooks} from "@tsed/hooks";
 import {type Cache, caching} from "cache-manager";
-import {Redis} from "ioredis";
-
 import {IORedisStore, ioRedisStore} from "./IORedisStore.js";
+import {Hooks} from "@tsed/hooks";
+import {Redis} from "ioredis";
+import {catchAsyncError} from "@tsed/core";
 
 vi.mock("ioredis", () => {
   class Redis {

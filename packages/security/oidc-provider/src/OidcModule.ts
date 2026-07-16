@@ -1,10 +1,9 @@
-import {constant, inject, injector, Module} from "@tsed/di";
-import {PlatformApplication} from "@tsed/platform-http";
-import koaMount from "koa-mount";
-
+import {Module, constant, inject, injector} from "@tsed/di";
 import {OidcAdapters} from "./services/OidcAdapters.js";
 import {OidcJwks} from "./services/OidcJwks.js";
 import {OidcProvider} from "./services/OidcProvider.js";
+import {PlatformApplication} from "@tsed/platform-http";
+import koaMount from "koa-mount";
 
 @Module({
   imports: [OidcProvider, OidcAdapters, OidcJwks]

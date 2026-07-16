@@ -1,7 +1,6 @@
-import {getValue, prototypeOf, setValue, Type} from "@tsed/core";
-import {s} from "@tsed/schema";
-
+import {Type, getValue, prototypeOf, setValue} from "@tsed/core";
 import {AjvErrorObject} from "../interfaces/AjvSettings.js";
+import {s} from "@tsed/schema";
 
 /**
  * Rewrite class-related AJV messages using Ts.ED metadata.

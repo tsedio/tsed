@@ -1,6 +1,6 @@
+import {DmmfModel} from "../domain/DmmfModel.js";
 import {createContextFixture} from "../../__mock__/createContextFixture.js";
 import {createDmmfModelFixture} from "../../__mock__/createDmmfModelFixture.js";
-import {DmmfModel} from "../domain/DmmfModel.js";
 import {transformModelToClass} from "./transformModelToClass.js";
 
 describe("transformModelToClass()", () => {

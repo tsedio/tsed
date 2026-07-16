@@ -1,5 +1,4 @@
 import "../index.js";
-
 import {CollectionOf} from "../decorators/collections/collectionOf.js";
 import {Property} from "../decorators/common/property.js";
 import {array} from "./collection.js";

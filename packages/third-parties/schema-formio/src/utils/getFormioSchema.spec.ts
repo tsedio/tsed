@@ -1,5 +1,4 @@
 import {Property, s} from "@tsed/schema";
-
 import {Form} from "../decorators/form.js";
 import {getFormioSchema} from "../utils/getFormioSchema.js";
 

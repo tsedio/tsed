@@ -1,5 +1,5 @@
-import {injectable, type TokenProvider} from "@tsed/di";
 import {AsyncFormatDefinition, FormatDefinition} from "ajv";
+import {type TokenProvider, injectable} from "@tsed/di";
 
 export type FormatsOptions = Omit<FormatDefinition<any>, "validate" | "compare"> | Omit<AsyncFormatDefinition<any>, "validate" | "compare">;
 

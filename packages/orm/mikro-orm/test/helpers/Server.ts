@@ -1,7 +1,6 @@
+import "./services/ManagedEventSubscriber.js";
 import "@tsed/platform-express";
 import "@tsed/platform-log-request";
-import "./services/ManagedEventSubscriber.js";
-
 import {Configuration, Inject} from "@tsed/di";
 import {PlatformApplication} from "@tsed/platform-http";
 import bodyParser from "body-parser";

@@ -1,14 +1,14 @@
 {
   "name": "@tsed/oidc-provider-plugin-wildcard-redirect-uri",
-  "description": "A plugin to support wildcard in the redirect uri whitelist",
-  "type": "module",
   "version": "8.17.0",
+  "description": "A plugin to support wildcard in the redirect uri whitelist",
   "contributors": [
     {
       "name": "romakita"
     }
   ],
   "source": "./src/index.ts",
+  "type": "module",
   "main": "./lib/esm/index.js",
   "module": "./lib/esm/index.js",
   "typings": "./lib/types/index.d.ts",
@@ -40,7 +40,6 @@
     "@tsed/typescript": "workspace:*",
     "@types/psl": "^1.1.3",
     "@types/uuid": "10.0.0",
-    "eslint": "9.12.0",
     "typescript": "6.0.2",
     "vitest": "4.1.4"
   },

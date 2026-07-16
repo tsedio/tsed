@@ -1,15 +1,14 @@
-import {prototypeOf, Store} from "@tsed/core";
-
+import {Store, prototypeOf} from "@tsed/core";
 import {Allow} from "../../decorators/common/allow.js";
-import {Required} from "../../decorators/common/required.js";
-import {In} from "../../decorators/operations/in.js";
-import {Path} from "../../decorators/operations/path.js";
 import {Get} from "../../decorators/operations/route.js";
-import {JsonParameterTypes} from "../../domain/JsonParameterTypes.js";
-import {getJsonEntityStore} from "../../index.js";
+import {In} from "../../decorators/operations/in.js";
 import {JsonClassStore} from "./JsonClassStore.js";
 import {JsonMethodStore} from "./JsonMethodStore.js";
 import {JsonParameterStore} from "./JsonParameterStore.js";
+import {JsonParameterTypes} from "../../domain/JsonParameterTypes.js";
+import {Path} from "../../decorators/operations/path.js";
+import {Required} from "../../decorators/common/required.js";
+import {getJsonEntityStore} from "../../index.js";
 
 describe("JsonParameterStore", () => {
   describe("new JsonParameterStore", () => {

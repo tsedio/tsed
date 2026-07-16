@@ -1,6 +1,6 @@
-import {getFormioSchema} from "../utils/getFormioSchema.js";
 import {DataSourceJson} from "./dataSourceJson.js";
 import {Select} from "./select.js";
+import {getFormioSchema} from "../utils/getFormioSchema.js";
 
 describe("DataSourceJson", () => {
   it("should declare datasource", async () => {

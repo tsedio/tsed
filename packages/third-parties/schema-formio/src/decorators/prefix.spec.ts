@@ -1,5 +1,5 @@
-import {getFormioSchema} from "../utils/getFormioSchema.js";
 import {Prefix} from "./prefix.js";
+import {getFormioSchema} from "../utils/getFormioSchema.js";
 
 describe("@Prefix", () => {
   it("should add a prefix on field", async () => {

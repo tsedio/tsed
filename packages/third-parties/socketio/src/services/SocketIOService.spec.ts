@@ -1,7 +1,6 @@
 import {PlatformTest} from "@tsed/platform-http/testing";
-
-import {SocketIOService} from "../index.js";
 import {Server} from "./SocketIOServer.js";
+import {SocketIOService} from "../index.js";
 
 async function createServiceFixture() {
   const namespace = {

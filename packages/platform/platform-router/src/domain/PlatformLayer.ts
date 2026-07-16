@@ -1,11 +1,10 @@
-import {isPrimitive, nameOf, Type} from "@tsed/core";
-import {Provider} from "@tsed/di";
-import type {PlatformParamsCallback} from "@tsed/platform-params";
-import {concatPath} from "@tsed/schema";
-
+import {Type, isPrimitive, nameOf} from "@tsed/core";
 import {PlatformHandlerMetadata} from "./PlatformHandlerMetadata.js";
+import type {PlatformParamsCallback} from "@tsed/platform-params";
 import type {PlatformRouter} from "./PlatformRouter.js";
+import {Provider} from "@tsed/di";
 import {SinglePathType} from "./SinglePathType.js";
+import {concatPath} from "@tsed/schema";
 
 export interface PlatformLayerOptions extends Record<string, any> {
   token?: Type<any>;

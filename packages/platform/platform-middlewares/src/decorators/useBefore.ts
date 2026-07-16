@@ -1,4 +1,4 @@
-import {DecoratorTypes, isClass, UnsupportedDecoratorType} from "@tsed/core";
+import {DecoratorTypes, UnsupportedDecoratorType, isClass} from "@tsed/core";
 import {JsonEntityFn} from "@tsed/schema";
 
 const useOnce = (list: any[] = [], middlewares: any[] = []) => {

@@ -1,6 +1,5 @@
-import {Store} from "@tsed/core";
-
 import {DefineOptions, PulseStore} from "../interfaces/PulseStore.js";
+import {Store} from "@tsed/core";
 
 export function Define(options: DefineOptions = {}): MethodDecorator {
   return (target: Object, propertyKey: string | symbol) => {

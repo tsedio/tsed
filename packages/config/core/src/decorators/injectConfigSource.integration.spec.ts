@@ -1,7 +1,5 @@
 import "../hooks/afterResolveConfiguration.js";
-
-import {DITest, inject, Injectable} from "@tsed/di";
-
+import {DITest, Injectable, inject} from "@tsed/di";
 import type {ConfigSource} from "../interfaces/ConfigSource.js";
 import {InjectConfigSource} from "./injectConfigSource.js";
 

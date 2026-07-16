@@ -1,8 +1,7 @@
 import "../../index.js";
-
-import {s} from "../../fn/index.js";
 import {CollectionOf} from "../collections/collectionOf.js";
 import {Min} from "./minimum.js";
+import {s} from "../../fn/index.js";
 
 describe("@Minimum", () => {
   it("should declare minimum value", () => {

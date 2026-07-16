@@ -1,5 +1,5 @@
-import {ViewEngine} from "../decorators/viewEngine.js";
 import {Engine} from "./Engine.js";
+import {ViewEngine} from "../decorators/viewEngine.js";
 
 @ViewEngine("hamlet")
 export class HamletEngine extends Engine {

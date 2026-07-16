@@ -1,12 +1,11 @@
 import {Inject, Injectable} from "@tsed/di";
-import {PlatformTest} from "@tsed/platform-http/testing";
-import {compile} from "@tsed/schema";
-import {TestContainersMongo} from "@tsed/testcontainers-mongo";
-
 import {MongooseModel} from "../src/index.js";
+import {PlatformTest} from "@tsed/platform-http/testing";
+import {SelfUser} from "./helpers/models/User.js";
+import {TestContainersMongo} from "@tsed/testcontainers-mongo";
 import {TestContract} from "./helpers/models/Contract.js";
 import {TestCustomer} from "./helpers/models/Customer.js";
-import {SelfUser} from "./helpers/models/User.js";
+import {compile} from "@tsed/schema";
 
 @Injectable()
 class MyService {

@@ -1,16 +1,14 @@
+import {CollectionOf, Post, Property, Required, Status} from "@tsed/schema";
+import {MulterOptions, MultipartFile, PlatformMulterFile} from "@tsed/platform-multer";
+import {afterAll, beforeAll, describe, expect, it, vi} from "vitest";
 import {dirname, join} from "node:path";
-
+import multer, {FileFilterCallback} from "multer";
+import {BodyParams} from "@tsed/platform-params";
 import {Controller} from "@tsed/di";
 import {PlatformTest} from "@tsed/platform-http/testing";
-import {MulterOptions, MultipartFile, PlatformMulterFile} from "@tsed/platform-multer";
-import {BodyParams} from "@tsed/platform-params";
-import {CollectionOf, Post, Property, Required, Status} from "@tsed/schema";
-import multer, {FileFilterCallback} from "multer";
-import readPkgUp from "read-pkg-up";
-import SuperTest from "supertest";
-import {afterAll, beforeAll, describe, expect, it, vi} from "vitest";
-
 import {PlatformTestingSdkOpts} from "../interfaces/index.js";
+import SuperTest from "supertest";
+import readPkgUp from "read-pkg-up";
 
 const rootDir = import.meta.dirname; // automatically replaced by import.meta.dirname on build
 

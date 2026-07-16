@@ -1,5 +1,5 @@
-import {readFile} from "node:fs/promises";
 import {dirname, extname, isAbsolute, join} from "node:path";
+import {readFile} from "node:fs/promises";
 
 const readCache: Map<string, string> = new Map();
 const cacheStore: Map<string, any> = new Map();

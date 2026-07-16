@@ -1,9 +1,8 @@
-import {cleanObject} from "@tsed/core";
-import {Constant} from "@tsed/di";
 import {Middleware, MiddlewareMethods} from "@tsed/platform-middlewares";
+import {Constant} from "@tsed/di";
 import {Context} from "@tsed/platform-params";
-
 import type {LoggerRequestFields} from "../domain/PlatformLogMiddlewareSettings.js";
+import {cleanObject} from "@tsed/core";
 
 /**
  * @middleware

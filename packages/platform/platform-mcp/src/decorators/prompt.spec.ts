@@ -1,6 +1,5 @@
-import {DITest, inject, Injectable} from "@tsed/di";
+import {DITest, Injectable, inject} from "@tsed/di";
 import {Description, Title} from "@tsed/schema";
-
 import {Prompt} from "./prompt.js";
 
 @Injectable()

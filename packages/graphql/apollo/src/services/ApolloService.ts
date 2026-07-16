@@ -1,19 +1,17 @@
+import {APOLLO_CONTEXT, DATASOURCES_PROVIDERS} from "../constants/constants.js";
+import type {ApolloCustomServerCB, ApolloSettings} from "../interfaces/ApolloSettings.js";
+import {ApolloServer, ApolloServerOptions, ApolloServerPlugin} from "@apollo/server";
+import {LocalsContainer, Provider, constant, context, inject, injectable, injector, logger} from "@tsed/di";
+import {PlatformApplication, PlatformContext} from "@tsed/platform-http";
+import {$asyncAlter} from "@tsed/hooks";
+import {ApolloContext} from "../interfaces/ApolloContext.js";
+import {ApolloServerPluginDrainHttpServer} from "@apollo/server/plugin/drainHttpServer";
+import {ApolloServerPluginLandingPageDisabled} from "@apollo/server/plugin/disabled";
+import {ApolloServerPluginLandingPageLocalDefault} from "@apollo/server/plugin/landingPage/default";
+import type {GraphQLSchema} from "graphql";
 import Http from "node:http";
 import Https from "node:https";
-
-import {ApolloServer, ApolloServerOptions, ApolloServerPlugin} from "@apollo/server";
-import {ApolloServerPluginLandingPageDisabled} from "@apollo/server/plugin/disabled";
-import {ApolloServerPluginDrainHttpServer} from "@apollo/server/plugin/drainHttpServer";
-import {ApolloServerPluginLandingPageLocalDefault} from "@apollo/server/plugin/landingPage/default";
 import type {IExecutableSchemaDefinition} from "@graphql-tools/schema";
-import {constant, context, inject, injectable, injector, LocalsContainer, logger, Provider} from "@tsed/di";
-import {$asyncAlter} from "@tsed/hooks";
-import {PlatformApplication, PlatformContext} from "@tsed/platform-http";
-import type {GraphQLSchema} from "graphql";
-
-import {APOLLO_CONTEXT, DATASOURCES_PROVIDERS} from "../constants/constants.js";
-import {ApolloContext} from "../interfaces/ApolloContext.js";
-import type {ApolloCustomServerCB, ApolloSettings} from "../interfaces/ApolloSettings.js";
 
 export class ApolloService {
   platformName = constant<string>("PLATFORM_NAME");

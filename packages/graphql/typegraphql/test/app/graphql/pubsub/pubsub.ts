@@ -1,7 +1,6 @@
+import {RecipeNotification} from "../recipes/Recipe.js";
 import {createPubSub} from "@graphql-yoga/subscription";
 import {injectable} from "@tsed/di";
-
-import {RecipeNotification} from "../recipes/Recipe.js";
 
 export const pubSub = createPubSub<{
   NOTIFICATIONS: [RecipeNotification];

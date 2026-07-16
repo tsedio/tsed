@@ -1,5 +1,5 @@
-import {SpecTypes} from "../../domain/SpecTypes.js";
 import {getSpecType, getSpecTypeFromSpec} from "./getSpecType.js";
+import {SpecTypes} from "../../domain/SpecTypes.js";
 
 describe("getSpecType", () => {
   it("should return spect type from version", () => {

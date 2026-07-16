@@ -1,4 +1,4 @@
-import {DiscriminatorKey, DiscriminatorValue, getJsonEntityStore, Property, Required} from "../index.js";
+import {DiscriminatorKey, DiscriminatorValue, Property, Required, getJsonEntityStore} from "../index.js";
 
 class Event {
   @DiscriminatorKey() // declare this property a discriminator key

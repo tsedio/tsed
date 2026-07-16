@@ -1,10 +1,9 @@
-import {StoreFn, useDecorators} from "@tsed/core";
 import {CollectionOf, Property} from "@tsed/schema";
-import {RelationType} from "objection";
-
-import {isModelClassFactory, RelationshipOpts} from "../domain/RelationshipOpts.js";
-import {createRelationshipMapping} from "../utils/createRelationshipMapping.js";
+import {RelationshipOpts, isModelClassFactory} from "../domain/RelationshipOpts.js";
+import {StoreFn, useDecorators} from "@tsed/core";
 import {OBJECTION_RELATIONSHIP_KEY} from "../utils/getJsonEntityRelationships.js";
+import {RelationType} from "objection";
+import {createRelationshipMapping} from "../utils/createRelationshipMapping.js";
 
 /**
  *

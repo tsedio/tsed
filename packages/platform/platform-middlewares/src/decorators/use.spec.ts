@@ -1,7 +1,6 @@
 import {Store} from "@tsed/core";
-import {s} from "@tsed/schema";
-
 import {Use} from "./use.js";
+import {s} from "@tsed/schema";
 
 describe("Use()", () => {
   describe("when the decorator is use on a method", () => {

@@ -1,5 +1,5 @@
-import {getEngineFixture} from "../../test/getEngineFixture.js";
 import {TwigEngine} from "./TwigEngine.js";
+import {getEngineFixture} from "../../test/getEngineFixture.js";
 
 describe("TwigEngine", () => {
   beforeEach(() => {

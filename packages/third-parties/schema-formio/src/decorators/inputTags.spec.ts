@@ -1,5 +1,5 @@
-import {getFormioSchema} from "../utils/getFormioSchema.js";
 import {InputTags} from "./inputTags.js";
+import {getFormioSchema} from "../utils/getFormioSchema.js";
 
 describe("InputTags", () => {
   it("should declare a model with Tags field", async () => {

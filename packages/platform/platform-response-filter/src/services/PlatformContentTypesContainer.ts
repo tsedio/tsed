@@ -1,9 +1,8 @@
-import type {Type} from "@tsed/core";
-import {constant, inject, injectable, type TokenProvider} from "@tsed/di";
-
-import {ContentTypes} from "../constants/ContentTypes.js";
 import {ResponseFilterKey, ResponseFiltersContainer} from "../domain/ResponseFiltersContainer.js";
+import {type TokenProvider, constant, inject, injectable} from "@tsed/di";
+import {ContentTypes} from "../constants/ContentTypes.js";
 import type {ResponseFilterMethods} from "../interfaces/ResponseFilterMethods.js";
+import type {Type} from "@tsed/core";
 
 export const PLATFORM_CONTENT_TYPES_CONTAINER = injectable(Symbol.for("PLATFORM_CONTENT_TYPES_CONTAINER"))
   .factory(() => {

@@ -1,4 +1,6 @@
+import {JsonClassStore, JsonPropertyStore, getPropertiesStores, s} from "@tsed/schema";
 import {
+  Type,
   classOf,
   hasJsonMethod,
   isArray,
@@ -11,18 +13,15 @@ import {
   isNil,
   isObject,
   isPrimitive,
-  nameOf,
-  Type
+  nameOf
 } from "@tsed/core";
-import {getPropertiesStores, JsonClassStore, JsonPropertyStore, s} from "@tsed/schema";
-
-import {alterOnSerialize} from "../hooks/alterOnSerialize.js";
-import {getObjectProperties} from "../utils/getObjectProperties.js";
 import {JsonMapperCompiler} from "./JsonMapperCompiler.js";
 import {JsonMapperSettings} from "./JsonMapperSettings.js";
-import {getJsonMapperTypes} from "./JsonMapperTypesContainer.js";
 import {JsonSerializerOptions} from "./JsonSerializerOptions.js";
 import {Writer} from "./Writer.js";
+import {alterOnSerialize} from "../hooks/alterOnSerialize.js";
+import {getJsonMapperTypes} from "./JsonMapperTypesContainer.js";
+import {getObjectProperties} from "../utils/getObjectProperties.js";
 
 const getCollectionType = (input: any) => {
   return isArray(input) ? "Array" : input instanceof Set ? "Set" : input instanceof Map ? "Map" : undefined;

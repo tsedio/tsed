@@ -1,6 +1,5 @@
-import {ParamTypes} from "@tsed/platform-params";
 import {JsonParameterStore} from "@tsed/schema";
-
+import {ParamTypes} from "@tsed/platform-params";
 import {State} from "./state.js";
 
 describe("@State", () => {

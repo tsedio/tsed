@@ -1,14 +1,13 @@
 import "../index.js";
-
+import {array, map, set} from "./collection.js";
+import {date, datetime, time} from "./date.js";
 import {CollectionOf} from "../decorators/collections/collectionOf.js";
-import {Property} from "../decorators/common/property.js";
 import {Generics} from "../decorators/generics/generics.js";
+import {Property} from "../decorators/common/property.js";
 import {allOf} from "./allOf.js";
 import {any} from "./any.js";
 import {anyOf} from "./anyOf.js";
 import {boolean} from "./boolean.js";
-import {array, map, set} from "./collection.js";
-import {date, datetime, time} from "./date.js";
 import {email} from "./email.js";
 import {from} from "./from.js";
 import {generic} from "./generic.js";

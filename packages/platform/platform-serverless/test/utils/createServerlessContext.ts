@@ -1,7 +1,6 @@
-import {Logger} from "@tsed/logger";
-import {createFakeContext, createFakeEvent, PlatformServerlessTest} from "@tsed/platform-serverless-testing";
+import {PlatformServerlessTest, createFakeContext, createFakeEvent} from "@tsed/platform-serverless-testing";
 import {JsonEntityStore} from "@tsed/schema";
-
+import {Logger} from "@tsed/logger";
 import {ServerlessContext} from "../../src/domain/ServerlessContext.js";
 
 export function createServerlessContext({

@@ -1,11 +1,10 @@
+import {Nsp, SocketService} from "../src/index.js";
 import {Controller} from "@tsed/di";
+import {Get} from "@tsed/schema";
 import {PlatformExpress} from "@tsed/platform-express";
 import {PlatformTest} from "@tsed/platform-http/testing";
-import {Get} from "@tsed/schema";
-import SuperTest from "supertest";
-
-import {Nsp, SocketService} from "../src/index.js";
 import {Server} from "./app/Server.js";
+import SuperTest from "supertest";
 
 @SocketService("/my-namespace")
 export class HelloSocketService {

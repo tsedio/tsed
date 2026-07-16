@@ -1,17 +1,15 @@
-import {basename} from "node:path";
-
-import {Env} from "@tsed/core";
-import {configuration, constant, inject, logger} from "@tsed/di";
-import {normalizePath} from "@tsed/normalize-path";
-import {application, OnReady, OnRoutesInit} from "@tsed/platform-http";
+import {OnReady, OnRoutesInit, application} from "@tsed/platform-http";
 import {PlatformRouter, useContextHandler} from "@tsed/platform-router";
-
+import {configuration, constant, inject, logger} from "@tsed/di";
+import {Env} from "@tsed/core";
+import {OpenAPIService} from "../services/OpenAPIService.js";
 import type {OpenApiSettings} from "../interfaces/OpenApiSettings.js";
+import {basename} from "node:path";
 import {cssMiddleware} from "../middlewares/cssMiddleware.js";
 import {jsMiddleware} from "../middlewares/jsMiddleware.js";
+import {normalizePath} from "@tsed/normalize-path";
 import {openApiMiddleware} from "../middlewares/openApiMiddleware.js";
 import {redirectMiddleware} from "../middlewares/redirectMiddleware.js";
-import {OpenAPIService} from "../services/OpenAPIService.js";
 
 export abstract class OpenAPIBaseModule implements OnRoutesInit, OnReady {
   abstract name: string;

@@ -1,6 +1,5 @@
-import {Store} from "@tsed/core";
-
 import {SocketService} from "./socketService.js";
+import {Store} from "@tsed/core";
 
 describe("SocketService", () => {
   describe("case 1", () => {

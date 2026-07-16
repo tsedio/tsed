@@ -1,7 +1,5 @@
-import Http from "node:http";
-
 import {configuration, constant} from "@tsed/di";
-
+import Http from "node:http";
 import {createServer} from "./createServer.js";
 
 export function createHttpServer(requestListener: Http.RequestListener) {

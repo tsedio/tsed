@@ -1,11 +1,10 @@
+import "../../src/index.js";
 import "@tsed/ajv";
 import "@tsed/swagger";
-import "../../src/index.js";
-
 import {Configuration, Constant, Inject} from "@tsed/di";
+import {Application} from "express";
 import {PlatformApplication} from "@tsed/platform-http";
 import compress from "compression";
-import {Application} from "express";
 import session from "express-session";
 
 const rootDir = import.meta.dirname; // automatically replaced by import.meta.dirname on build

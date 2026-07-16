@@ -1,5 +1,4 @@
 import {CollectionOf, ForwardGroups, Name, Required} from "@tsed/schema";
-
 import {serialize} from "../../src/utils/serialize.js";
 
 class TeamModel {

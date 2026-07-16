@@ -1,4 +1,4 @@
-import {Get, getSpec, Returns, SpecTypes} from "@tsed/schema";
+import {Get, Returns, SpecTypes, getSpec} from "@tsed/schema";
 
 describe("@Returns", () => {
   it("should declare a return type (text/plain)", () => {

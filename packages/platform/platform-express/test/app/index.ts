@@ -1,14 +1,12 @@
-import {promisify} from "node:util";
-
-import {Controller} from "@tsed/di";
-import {$log} from "@tsed/logger";
-import {PlatformResponse, Res} from "@tsed/platform-http";
 import {BodyParams, QueryParams} from "@tsed/platform-params";
 import {Get, Post, Returns} from "@tsed/schema";
-import {agent} from "superagent";
-
+import {PlatformResponse, Res} from "@tsed/platform-http";
+import {$log} from "@tsed/logger";
+import {Controller} from "@tsed/di";
 import {PlatformExpress} from "../../src/index.js";
 import {Server} from "./Server.js";
+import {agent} from "superagent";
+import {promisify} from "node:util";
 
 if (process.env.NODE_ENV !== "test") {
   @Controller("/hello")

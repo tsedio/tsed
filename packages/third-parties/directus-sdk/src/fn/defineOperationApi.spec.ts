@@ -1,7 +1,6 @@
-import {defineOperationApi as oDefineOperationApi} from "@directus/extensions-sdk";
 import {beforeEach, describe, expect, it, vi} from "vitest";
-
 import {defineOperationApi} from "./defineOperationApi.js";
+import {defineOperationApi as oDefineOperationApi} from "@directus/extensions-sdk";
 import {wrapOperation} from "./wrapOperation.js";
 
 type OperationApiConfig = Parameters<typeof defineOperationApi>[0];

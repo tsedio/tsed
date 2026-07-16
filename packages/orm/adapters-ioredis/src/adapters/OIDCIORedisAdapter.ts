@@ -1,8 +1,7 @@
-import {AdapterModel} from "@tsed/adapters";
-import {Opts} from "@tsed/di";
-import {ChainableCommander} from "ioredis";
-
 import {OIRedisAdapter, OIRedisAdapterConstructorOptions} from "./OIRedisAdapter.js";
+import {AdapterModel} from "@tsed/adapters";
+import {ChainableCommander} from "ioredis";
+import {Opts} from "@tsed/di";
 
 const GRANTABLE = new Set(["AccessToken", "AuthorizationCode", "RefreshToken", "DeviceCode", "BackchannelAuthenticationRequest"]);
 const CONSUMABLE = new Set(["AuthorizationCode", "RefreshToken", "DeviceCode", "BackchannelAuthenticationRequest"]);

@@ -1,6 +1,5 @@
-import {Inject} from "@tsed/di";
-
 import {CONFIG_SOURCES} from "../constants/constants.js";
+import {Inject} from "@tsed/di";
 
 /**
  * Injects a specific configuration source by its name.

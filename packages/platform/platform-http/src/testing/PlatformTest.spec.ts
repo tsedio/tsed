@@ -1,6 +1,5 @@
 import {Configuration, Controller, InjectorService} from "@tsed/di";
 import {Get} from "@tsed/schema";
-
 import {PlatformContext} from "../common/domain/PlatformContext.js";
 import {PlatformTest} from "./PlatformTest.js";
 

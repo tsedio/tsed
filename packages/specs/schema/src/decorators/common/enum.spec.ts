@@ -1,6 +1,6 @@
+import {Enum} from "./enum.js";
 import {enums} from "../../fn/enums.js";
 import {s} from "../../fn/index.js";
-import {Enum} from "./enum.js";
 
 describe("@Enum", () => {
   describe("when enum is a list of values", () => {

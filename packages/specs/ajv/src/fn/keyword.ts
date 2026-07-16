@@ -1,6 +1,6 @@
-import {injectable, type TokenProvider} from "@tsed/di";
-import {JsonSchema} from "@tsed/schema";
 import type {AnySchemaObject, KeywordDefinition} from "ajv";
+import {type TokenProvider, injectable} from "@tsed/di";
+import {JsonSchema} from "@tsed/schema";
 
 export type KeywordOptions = Partial<Omit<KeywordDefinition, "metaSchema">> & {
   metaSchema?: AnySchemaObject | JsonSchema;

@@ -1,10 +1,9 @@
+import {AgendaService, Define, Every, JobsController} from "../src/index.js";
+import {Agenda} from "agenda";
 import {MongoBackend} from "@agendajs/mongo-backend";
 import {PlatformTest} from "@tsed/platform-http/testing";
-import {TestContainersMongo} from "@tsed/testcontainers-mongo";
-import {Agenda} from "agenda";
-
-import {AgendaService, Define, Every, JobsController} from "../src/index.js";
 import {Server} from "./helpers/Server.js";
+import {TestContainersMongo} from "@tsed/testcontainers-mongo";
 
 @JobsController({namespace: "test-nsp"})
 class Test {

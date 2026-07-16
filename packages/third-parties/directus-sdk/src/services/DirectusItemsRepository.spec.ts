@@ -1,10 +1,9 @@
 import type {Item, MutationOptions} from "@directus/types";
-import {inject} from "@tsed/di";
-import {DITest} from "@tsed/di";
 import {afterEach, beforeEach, describe, expect, it, vi} from "vitest";
-
+import {DITest} from "@tsed/di";
 import {DirectusContextService} from "./DirectusContextService.js";
 import {DirectusItemsRepository} from "./DirectusItemsRepository.js";
+import {inject} from "@tsed/di";
 
 vi.mock("@tsed/di", async () => {
   const actual = await vi.importActual("@tsed/di");

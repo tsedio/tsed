@@ -1,12 +1,11 @@
+import {Emit, Input, Nsp, SocketIOServer, SocketNsp, SocketService, SocketSession, SocketUseBefore} from "../src/index.js";
+import {Socket as IOSocket, Namespace} from "socket.io";
+import {ConverterUserSocketMiddleware} from "./app/middlewares/ConverterUserSocketMiddleware.js";
 import {Inject} from "@tsed/di";
 import {PlatformExpress} from "@tsed/platform-express";
 import {PlatformTest} from "@tsed/platform-http/testing";
-import {SocketClientService} from "@tsed/socketio-testing";
-import {Namespace, Socket as IOSocket} from "socket.io";
-
-import {Emit, Input, Nsp, SocketIOServer, SocketNsp, SocketService, SocketSession, SocketUseBefore} from "../src/index.js";
-import {ConverterUserSocketMiddleware} from "./app/middlewares/ConverterUserSocketMiddleware.js";
 import {Server} from "./app/Server.js";
+import {SocketClientService} from "@tsed/socketio-testing";
 
 @SocketService("/test")
 export class TestWS {

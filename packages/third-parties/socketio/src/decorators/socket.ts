@@ -1,7 +1,6 @@
-import {Socket as SocketType} from "socket.io";
-
-import {SocketFilters} from "../interfaces/SocketFilters.js";
 import {SocketFilter} from "./socketFilter.js";
+import {SocketFilters} from "../interfaces/SocketFilters.js";
+import {Socket as SocketType} from "socket.io";
 
 export type Socket = SocketType;
 

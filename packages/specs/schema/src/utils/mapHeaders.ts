@@ -1,6 +1,5 @@
-import {cleanObject} from "@tsed/core";
-
 import {JsonHeader, JsonHeaders} from "../domain/JsonOpenSpec.js";
+import {cleanObject} from "@tsed/core";
 
 /**
  * Map input header to a standard open spec header

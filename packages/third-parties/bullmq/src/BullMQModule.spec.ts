@@ -1,19 +1,17 @@
 import "./BullMQModule.js";
-
-import {catchAsyncError} from "@tsed/core";
-import {logger} from "@tsed/di";
-import {PlatformTest} from "@tsed/platform-http/testing";
+import {FallbackJobController, JobController} from "./decorators/index.js";
 import {Queue, Worker} from "bullmq";
 import {anything, instance, mock, verify, when} from "ts-mockito";
-import {beforeEach} from "vitest";
-
-import {BullMQModule} from "./BullMQModule.js";
 import {type BullMQConfig} from "./config/config.js";
-import {JobMethods} from "./contracts/index.js";
-import {FallbackJobController, JobController} from "./decorators/index.js";
+import {BullMQModule} from "./BullMQModule.js";
 import {InjectQueue} from "./decorators/InjectQueue.js";
 import {InjectWorker} from "./decorators/InjectWorker.js";
 import {JobDispatcher} from "./dispatchers/index.js";
+import {JobMethods} from "./contracts/index.js";
+import {PlatformTest} from "@tsed/platform-http/testing";
+import {beforeEach} from "vitest";
+import {catchAsyncError} from "@tsed/core";
+import {logger} from "@tsed/di";
 
 const queueConstructorSpy = vi.fn();
 const workerConstructorSpy = vi.fn();

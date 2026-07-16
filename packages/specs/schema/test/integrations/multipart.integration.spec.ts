@@ -1,12 +1,10 @@
 import "@tsed/exceptions";
 import "@tsed/platform-exceptions";
-
-import {Controller} from "@tsed/di";
+import {Description, Post, getSpec} from "../../src/index.js";
 import {MultipartFile, PlatformMulterFile} from "@tsed/platform-multer";
 import {BodyParams} from "@tsed/platform-params";
-
+import {Controller} from "@tsed/di";
 import {SpecTypes} from "../../src/index.js";
-import {Description, getSpec, Post} from "../../src/index.js";
 import {validateSpec} from "../helpers/validateSpec.js";
 
 @Controller("/controllers")

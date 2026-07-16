@@ -1,6 +1,5 @@
-import {Store} from "@tsed/core";
-
 import {AgendaStore, DefineOptions} from "../interfaces/AgendaStore.js";
+import {Store} from "@tsed/core";
 
 export function Define(options: DefineOptions = {}): MethodDecorator {
   return (target: Object, propertyKey: string | symbol) => {

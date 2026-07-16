@@ -1,8 +1,7 @@
-import {PlatformContext} from "@tsed/platform-http";
-import {Middleware} from "@tsed/platform-middlewares";
 import {Context} from "@tsed/platform-params";
-
 import {EventStreamContext} from "../domain/EventStreamContext.js";
+import {Middleware} from "@tsed/platform-middlewares";
+import {PlatformContext} from "@tsed/platform-http";
 
 @Middleware()
 export class EventStreamMiddleware {

@@ -1,10 +1,9 @@
+import {Intercept, getInterceptorOptions} from "./intercept.js";
 import {catchError, classOf, nameOf} from "@tsed/core";
-
 import {DITest} from "../../node/index.js";
+import {Interceptor} from "./interceptor.js";
 import {InterceptorContext} from "../interfaces/InterceptorContext.js";
 import {InterceptorMethods} from "../interfaces/InterceptorMethods.js";
-import {getInterceptorOptions, Intercept} from "./intercept.js";
-import {Interceptor} from "./interceptor.js";
 import {Service} from "./service.js";
 
 @Interceptor()

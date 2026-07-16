@@ -1,7 +1,6 @@
 import "../../index.js";
-
-import {s} from "../../fn/index.js";
 import {ExclusiveMaximum} from "./exclusiveMaximum.js";
+import {s} from "../../fn/index.js";
 
 describe("@ExclusiveMaximum", () => {
   it("should declare exclusiveMaximum value", () => {

@@ -1,5 +1,4 @@
 import {DecoratorTypes} from "@tsed/core";
-
 import type {GenericValue} from "../../domain/Generics.js";
 import {s} from "../../fn/index.js";
 

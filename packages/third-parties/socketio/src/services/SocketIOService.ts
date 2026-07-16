@@ -1,9 +1,8 @@
+import * as SocketIO from "socket.io";
 import {InjectorService, Provider, Service} from "@tsed/di";
-import * as SocketIO from "socket.io"; // tslint:disable-line: no-unused-variable
-
+import {IO} from "../decorators/io.js";
 import {SocketHandlersBuilder} from "../class/SocketHandlersBuilder.js";
 import {SocketProviderMetadata} from "../class/SocketProviderMetadata.js";
-import {IO} from "../decorators/io.js";
 
 /**
  *

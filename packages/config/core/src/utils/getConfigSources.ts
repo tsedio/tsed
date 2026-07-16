@@ -1,8 +1,7 @@
-import {nameOf, type Type} from "@tsed/core";
-import {inject, injectable, ProviderScope} from "@tsed/di";
-import {camelCase} from "change-case";
-
 import type {ConfigSource, ConfigSourceOptions} from "../interfaces/ConfigSource.js";
+import {ProviderScope, inject, injectable} from "@tsed/di";
+import {type Type, nameOf} from "@tsed/core";
+import {camelCase} from "change-case";
 
 export function getConfigSources(configSources: (Type<ConfigSource<any>> | ConfigSourceOptions)[]) {
   return configSources

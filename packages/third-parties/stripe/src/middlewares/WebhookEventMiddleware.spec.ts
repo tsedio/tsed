@@ -1,12 +1,10 @@
 import "../index.js";
-
-import {catchError} from "@tsed/core";
-import {PlatformTest} from "@tsed/platform-http/testing";
-import {s} from "@tsed/schema";
-import {Stripe} from "stripe";
-
 import {STRIPE_WEBHOOK_EVENT, STRIPE_WEBHOOK_SIGNATURE} from "../constants/constants.js";
+import {PlatformTest} from "@tsed/platform-http/testing";
+import {Stripe} from "stripe";
 import {WebhookEventMiddleware} from "./WebhookEventMiddleware.js";
+import {catchError} from "@tsed/core";
+import {s} from "@tsed/schema";
 
 class Ctrl {
   get() {}

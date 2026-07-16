@@ -21,4 +21,3 @@ registerProvider({
   deps: [],
   useClass: process.env.NODE_ENV === EnvTypes.PROD ? ProdConfigService : DevConfigService
 });
-

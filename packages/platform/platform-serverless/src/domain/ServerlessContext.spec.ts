@@ -1,5 +1,4 @@
 import {PlatformServerlessTest} from "@tsed/platform-serverless-testing";
-
 import {createServerlessContext} from "../../test/utils/createServerlessContext.js";
 
 describe("ServerlessContext", () => {

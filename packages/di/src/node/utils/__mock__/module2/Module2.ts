@@ -1,5 +1,5 @@
-import {Module} from "../../../../index.js";
 import {M2Ctrl} from "./controllers/M2Ctrl.js";
+import {Module} from "../../../../index.js";
 
 @Module({
   mount: {

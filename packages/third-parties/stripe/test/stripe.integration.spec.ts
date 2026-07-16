@@ -1,11 +1,10 @@
+import {Server, rootDir} from "./app/Server.js";
 import {PlatformExpress} from "@tsed/platform-express";
 import {PlatformTest} from "@tsed/platform-http/testing";
 import {PlatformTestSdk} from "@tsed/platform-test-sdk";
 import {Stripe} from "stripe";
-import SuperTest from "supertest";
-
 import {StripeWebhooksCtrl} from "./app/controllers/rest/StripeWebhooksCtrl.js";
-import {rootDir, Server} from "./app/Server.js";
+import SuperTest from "supertest";
 
 const utils = PlatformTestSdk.create({
   rootDir,

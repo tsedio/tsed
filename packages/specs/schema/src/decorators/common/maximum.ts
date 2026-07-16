@@ -1,5 +1,5 @@
-import {withErrorMsg} from "../../utils/withErrorMsg.js";
 import {JsonEntityFn} from "./jsonEntityFn.js";
+import {withErrorMsg} from "../../utils/withErrorMsg.js";
 
 /**
  * The value of `maximum` MUST be a number, representing an inclusive upper limit for a numeric instance.

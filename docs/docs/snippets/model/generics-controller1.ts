@@ -6,7 +6,7 @@ import {Product} from "../models/Product";
 @Controller("/")
 class MyController {
   @Post("/")
-  @Returns(200, Pagination).Of(Product).Description("description")
+  @(Returns(200, Pagination).Of(Product).Description("description"))
   method(): Promise<Pagination<Product> | null> {
     return Promise.resolve(null);
   }

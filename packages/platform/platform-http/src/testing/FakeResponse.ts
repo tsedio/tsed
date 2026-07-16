@@ -1,5 +1,4 @@
 import {EventEmitter} from "node:events";
-
 import cookie from "cookie";
 
 export class FakeResponse extends EventEmitter {

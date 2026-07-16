@@ -1,19 +1,17 @@
 import "@tsed/ajv";
-
-import {Env} from "@tsed/core";
-import {Controller} from "@tsed/di";
 import {BadRequest, InternalServerError} from "@tsed/exceptions";
-import {Err} from "@tsed/platform-http";
-import {PlatformTest} from "@tsed/platform-http/testing";
-import {Middleware, UseAfter} from "@tsed/platform-middlewares";
-import {BodyParams} from "@tsed/platform-params";
 import {Description, Get, Name, Post, Required, Returns, Summary} from "@tsed/schema";
-import SuperTest from "supertest";
+import {Middleware, UseAfter} from "@tsed/platform-middlewares";
 import {afterAll, beforeAll, expect, it} from "vitest";
-
+import {BodyParams} from "@tsed/platform-params";
+import {Controller} from "@tsed/di";
 import {CustomBadRequest} from "../errors/CustomBadRequest.js";
 import {CustomInternalError} from "../errors/CustomInternalError.js";
+import {Env} from "@tsed/core";
+import {Err} from "@tsed/platform-http";
+import {PlatformTest} from "@tsed/platform-http/testing";
 import {PlatformTestingSdkOpts} from "../interfaces/index.js";
+import SuperTest from "supertest";
 
 class CustomModel {
   @Required() name!: string;

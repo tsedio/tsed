@@ -1,5 +1,5 @@
-import {OpenSpecTypes} from "../common/OpenSpecTypes.js";
 import {OS2BaseSchema, OS2Schema} from "./OS2Schema.js";
+import {OpenSpecTypes} from "../common/OpenSpecTypes.js";
 
 export type OS2BaseParameter = {
   name: string;

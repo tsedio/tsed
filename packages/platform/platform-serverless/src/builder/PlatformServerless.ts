@@ -1,16 +1,15 @@
+import type {Context, Handler} from "aws-lambda";
 import {Env, Type} from "@tsed/core";
-import {configuration, constant, createContainer, destroyInjector, injector, InjectorService, setLoggerConfiguration} from "@tsed/di";
+import type {HTTPMethod, Instance} from "find-my-way";
+import {InjectorService, configuration, constant, createContainer, destroyInjector, injector, setLoggerConfiguration} from "@tsed/di";
+import {type RequestHandler, ServerlessResponseStream} from "../domain/ServerlessResponseStream.js";
+import {getOperationsRoutes, s} from "@tsed/schema";
 import {$asyncEmit} from "@tsed/hooks";
 import {$log} from "@tsed/logger";
-import {getOperationsRoutes, s} from "@tsed/schema";
-import type {Context, Handler} from "aws-lambda";
-import type {HTTPMethod, Instance} from "find-my-way";
-
+import {PlatformServerlessHandler} from "./PlatformServerlessHandler.js";
 import {ServerlessContext} from "../domain/ServerlessContext.js";
 import type {ServerlessEvent} from "../domain/ServerlessEvent.js";
-import {type RequestHandler, ServerlessResponseStream} from "../domain/ServerlessResponseStream.js";
 import {getRequestId} from "../utils/getRequestId.js";
-import {PlatformServerlessHandler} from "./PlatformServerlessHandler.js";
 
 export interface PlatformServerlessSettings extends Partial<TsED.Configuration> {
   lambda?: Type[];

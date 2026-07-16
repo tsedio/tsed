@@ -1,11 +1,9 @@
-import {randomUUID} from "node:crypto";
-
 import {AdapterModel, Adapters, Indexed} from "@tsed/adapters";
 import {IORedisTest, registerConnectionProvider} from "@tsed/ioredis";
-import {deserialize} from "@tsed/json-mapper";
 import {Property, Required} from "@tsed/schema";
-
 import {OIRedisAdapter} from "./OIRedisAdapter.js";
+import {deserialize} from "@tsed/json-mapper";
+import {randomUUID} from "node:crypto";
 
 const REDIS_CONNECTION = Symbol.for("redis_connection");
 let TEST_PREFIX = "";

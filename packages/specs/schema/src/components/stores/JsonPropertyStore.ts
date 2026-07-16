@@ -1,9 +1,8 @@
-import {DecoratorTypes, isClass, Metadata, prototypeOf} from "@tsed/core";
-
-import {JsonEntityStore} from "../../domain/JsonEntityStore.js";
-import {JsonSchema} from "../../domain/JsonSchema.js";
+import {DecoratorTypes, Metadata, isClass, prototypeOf} from "@tsed/core";
 import {defineStore, getJsonEntityStore} from "../../registries/JsonEntitiesContainer.js";
 import type {JsonClassStore} from "./JsonClassStore.js";
+import {JsonEntityStore} from "../../domain/JsonEntityStore.js";
+import {JsonSchema} from "../../domain/JsonSchema.js";
 
 /**
  * Store for property metadata and schema information.

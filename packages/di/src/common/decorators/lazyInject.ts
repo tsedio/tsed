@@ -1,7 +1,6 @@
+import {lazyInject, optionalLazyInject} from "../fn/lazyInject.js";
 import {catchError} from "@tsed/core/utils/catchError.js";
 import {isFunction} from "@tsed/core/utils/isFunction.js";
-
-import {lazyInject, optionalLazyInject} from "../fn/lazyInject.js";
 
 function mapOptions(args: any[], optional = false) {
   function wrap(key: string, resolver: any) {

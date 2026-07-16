@@ -1,12 +1,10 @@
-import {randomUUID} from "node:crypto";
-
+import {RedisConnection, registerConnectionProvider} from "@tsed/redis";
 import {Adapters} from "@tsed/adapters";
 import {DITest} from "@tsed/di";
-import {RedisConnection, registerConnectionProvider} from "@tsed/redis";
-import moment from "moment";
-
-import {TestContainersRedis} from "../../tests/setup/TestContainersRedis.js";
 import {OIDCRedisAdapter} from "./OIDCRedisAdapter.js";
+import {TestContainersRedis} from "../../tests/setup/TestContainersRedis.js";
+import moment from "moment";
+import {randomUUID} from "node:crypto";
 
 const REDIS_CONNECTION = Symbol.for("redis_connection");
 let TEST_PREFIX = "";

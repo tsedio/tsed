@@ -1,10 +1,8 @@
+import {ProviderScope, TokenProvider, configuration, injector, logger} from "@tsed/di";
+import {ReturnHostInfoFromPort, getHostInfoFromPort} from "@tsed/core";
 import Http from "node:http";
-import Https from "node:https";
-
-import {getHostInfoFromPort, ReturnHostInfoFromPort} from "@tsed/core";
-import {configuration, injector, logger, ProviderScope, TokenProvider} from "@tsed/di";
 import Http2 from "http2";
-
+import Https from "node:https";
 import {listenServer} from "./listenServer.js";
 
 export interface CreateServerOptions {

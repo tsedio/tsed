@@ -1,5 +1,5 @@
-import {OptimisticLockError} from "@mikro-orm/core";
 import {Catch, type ExceptionFilterMethods} from "@tsed/platform-exceptions";
+import {OptimisticLockError} from "@mikro-orm/core";
 import {PlatformContext} from "@tsed/platform-http";
 
 @Catch(OptimisticLockError)

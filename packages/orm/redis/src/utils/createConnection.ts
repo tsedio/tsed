@@ -1,6 +1,5 @@
+import {type RedisClientType, type RedisClusterType, createClient, createCluster} from "redis";
 import {configuration, logger} from "@tsed/di";
-import {createClient, createCluster, type RedisClientType, type RedisClusterType} from "redis";
-
 import {RedisConfiguration} from "../domain/RedisConfiguration.js";
 import {redisStore} from "../domain/RedisStore.js";
 

@@ -1,4 +1,4 @@
-import {getSpec, OperationPath, Path} from "../../index.js";
+import {OperationPath, Path, getSpec} from "../../index.js";
 
 describe("Path", () => {
   it("should declare a path", () => {

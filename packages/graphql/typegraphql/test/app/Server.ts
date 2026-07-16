@@ -1,26 +1,23 @@
-import "@tsed/ajv";
-import "@tsed/graphql-ws";
-import "@tsed/passport";
 import "../../src/index.js";
 import "./graphql/index.js";
 import "./protocols/GraphQLProtocol.js";
 import "./services/RecipeService.js";
 import "./services/UsersRepository.js";
+import "@tsed/ajv";
+import "@tsed/graphql-ws";
+import "@tsed/passport";
 import "@tsed/platform-log-request";
-
 import * as fs from "node:fs";
-import {join} from "node:path";
-import {resolve} from "node:path";
-
-import {ApolloContext} from "@tsed/apollo";
 import {Configuration, Constant, Inject} from "@tsed/di";
 import {PlatformApplication, PlatformContext} from "@tsed/platform-http";
-import {buildContext} from "graphql-passport";
-
+import {ApolloContext} from "@tsed/apollo";
+import {AuthResolver} from "./graphql/index.js";
 import {HelloController} from "./controllers/HelloController.js";
 import {User} from "./graphql/auth/User.js";
-import {AuthResolver} from "./graphql/index.js";
+import {buildContext} from "graphql-passport";
+import {join} from "node:path";
 import {pubSub} from "./graphql/pubsub/pubsub.js";
+import {resolve} from "node:path";
 
 const rootDir = import.meta.dirname; // automatically replaced by import.meta.dirname on build
 const rootCert = join(rootDir, "../..");

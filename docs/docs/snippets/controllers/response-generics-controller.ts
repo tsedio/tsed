@@ -10,8 +10,8 @@ import {ProductTypes} from "../../domain/product/ProductTypes";
 @Name("Products")
 export class ProductsCtrl {
   @Get("/:id")
-  @Returns(200, Document).Of(Product).Description("A product")
-  @Returns(404, NotFound).Description("Product not found")
+  @(Returns(200, Document).Of(Product).Description("A product"))
+  @(Returns(404, NotFound).Description("Product not found"))
   @Summary("Return a product from the given Id")
   geProduct(@PathParams("id") id: string): Document<Product> {
     if (id === "AGAC") {

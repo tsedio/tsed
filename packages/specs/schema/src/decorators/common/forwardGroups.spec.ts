@@ -1,4 +1,4 @@
-import {CollectionOf, compile, getSpec, In, Name, OperationPath, Path, Property, Required, Returns, SpecTypes} from "../../index.js";
+import {CollectionOf, In, Name, OperationPath, Path, Property, Required, Returns, SpecTypes, compile, getSpec} from "../../index.js";
 import {ForwardGroups} from "./forwardGroups.js";
 import {Groups} from "./groups.js";
 

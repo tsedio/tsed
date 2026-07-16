@@ -1,6 +1,5 @@
-import {getValue} from "@tsed/core";
-
 import {execMapper, registerFormioMapper} from "../registries/FormioMappersContainer.js";
+import {getValue} from "@tsed/core";
 
 function dateToComponent(schema: any, options: any) {
   const component = execMapper("default", schema, options);

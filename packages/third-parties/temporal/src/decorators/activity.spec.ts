@@ -1,6 +1,5 @@
-import {Store} from "@tsed/core";
-
 import {Activity} from "./activity.js";
+import {Store} from "@tsed/core";
 import {Temporal} from "./temporal.js";
 
 describe("@Activity()", () => {

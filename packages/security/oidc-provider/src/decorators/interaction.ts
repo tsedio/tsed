@@ -1,7 +1,6 @@
+import {INTERACTION, INTERACTION_OPTIONS} from "../constants/constants.js";
 import {StoreMerge, useDecorators} from "@tsed/core";
 import {Controller} from "@tsed/di";
-
-import {INTERACTION, INTERACTION_OPTIONS} from "../constants/constants.js";
 import {OidcInteractionOptions} from "../domain/OidcInteractionOptions.js";
 
 /**

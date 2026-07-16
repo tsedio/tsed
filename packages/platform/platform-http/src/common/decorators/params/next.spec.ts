@@ -1,7 +1,6 @@
-import {ParamTypes} from "@tsed/platform-params";
 import {JsonParameterStore} from "@tsed/schema";
-
 import {Next} from "./next.js";
+import {ParamTypes} from "@tsed/platform-params";
 
 describe("@Next", () => {
   it("should register a new parameter instance with the correct property", () => {

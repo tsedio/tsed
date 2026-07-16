@@ -1,14 +1,13 @@
-import {catchAsyncError} from "@tsed/core";
 import {inject, injectable} from "@tsed/di";
 import {Exception} from "@tsed/exceptions";
-import {PlatformTest} from "@tsed/platform-http/testing";
-import {s} from "@tsed/schema";
-import {MulterError} from "multer";
-
 import {MULTER_MODULE} from "../constants/constants.js";
+import {MulterError} from "multer";
 import {MulterOptions} from "../decorators/multerOptions.js";
 import {MultipartFile} from "../decorators/multipartFile.js";
 import {PlatformMulterMiddleware} from "./PlatformMulterMiddleware.js";
+import {PlatformTest} from "@tsed/platform-http/testing";
+import {catchAsyncError} from "@tsed/core";
+import {s} from "@tsed/schema";
 
 async function getFixture(options = {}) {
   class Test {

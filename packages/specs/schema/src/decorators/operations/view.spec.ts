@@ -1,5 +1,5 @@
-import {s} from "../../fn/index.js";
 import {View} from "../../index.js";
+import {s} from "../../fn/index.js";
 
 describe("@View", () => {
   it("should set metadata", () => {

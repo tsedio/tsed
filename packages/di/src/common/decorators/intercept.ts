@@ -1,17 +1,16 @@
+import {DI_INTERCEPTOR_OPTIONS, DI_INVOKE_OPTIONS} from "../constants/constants.js";
 import {DecoratorParameters} from "@tsed/core/types/DecoratorParameters.js";
 import {DecoratorTypes} from "@tsed/core/types/DecoratorTypes.js";
+import type {InterceptorContext} from "../interfaces/InterceptorContext.js";
+import type {InterceptorMethods} from "../interfaces/InterceptorMethods.js";
+import type {InvokeOptions} from "../interfaces/InvokeOptions.js";
 import {Store} from "@tsed/core/types/Store.js";
+import type {TokenProvider} from "../interfaces/TokenProvider.js";
 import type {Type} from "@tsed/core/types/Type.js";
 import {classOf} from "@tsed/core/utils/classOf.js";
 import {decorateMethodsOf} from "@tsed/core/utils/decorateMethodsOf.js";
 import {decoratorTypeOf} from "@tsed/core/utils/decoratorTypeOf.js";
-
-import {DI_INTERCEPTOR_OPTIONS, DI_INVOKE_OPTIONS} from "../constants/constants.js";
 import {inject} from "../fn/inject.js";
-import type {InterceptorContext} from "../interfaces/InterceptorContext.js";
-import type {InterceptorMethods} from "../interfaces/InterceptorMethods.js";
-import type {InvokeOptions} from "../interfaces/InvokeOptions.js";
-import type {TokenProvider} from "../interfaces/TokenProvider.js";
 
 export function getInterceptorOptions<T>(target: Type<any>, propertyKey: string | symbol) {
   return Store.fromMethod(target, propertyKey).get(DI_INTERCEPTOR_OPTIONS) as T;

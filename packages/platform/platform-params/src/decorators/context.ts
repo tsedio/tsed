@@ -1,8 +1,7 @@
 import {BaseContext} from "@tsed/di";
-
 import {ParamTypes} from "../domain/ParamTypes.js";
-import {mapParamsOptions} from "../utils/mapParamsOptions.js";
 import {UseParam} from "./useParam.js";
+import {mapParamsOptions} from "../utils/mapParamsOptions.js";
 
 /**
  * Context decorator return the @@PlatformContext@@ created by Ts.ED when request is handled by the server.

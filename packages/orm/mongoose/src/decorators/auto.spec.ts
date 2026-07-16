@@ -1,7 +1,6 @@
-import {descriptorOf, Store} from "@tsed/core";
-
-import {MONGOOSE_SCHEMA} from "../constants/constants.js";
+import {Store, descriptorOf} from "@tsed/core";
 import {Auto} from "./auto.js";
+import {MONGOOSE_SCHEMA} from "../constants/constants.js";
 
 describe("@Auto()", () => {
   it("should set metadata (default)", () => {

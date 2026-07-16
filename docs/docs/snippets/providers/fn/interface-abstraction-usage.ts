@@ -6,4 +6,3 @@ export class MyService {
 }
 
 injectable(MyService);
-

@@ -1,10 +1,9 @@
-import {Type} from "@tsed/core";
-
-import {JsonPropertyStore} from "../components/index.js";
 import type {JsonClassStore} from "../components/stores/JsonClassStore.js";
+import {JsonPropertyStore} from "../components/index.js";
+import {Type} from "@tsed/core";
 import {alterIgnore} from "../hooks/alterIgnore.js";
-import {getJsonEntityStore} from "../registries/JsonEntitiesContainer.js";
 import {getInheritedStores} from "./getInheritedStores.js";
+import {getJsonEntityStore} from "../registries/JsonEntitiesContainer.js";
 
 /**
  * Return the list of properties including properties from inherited classes

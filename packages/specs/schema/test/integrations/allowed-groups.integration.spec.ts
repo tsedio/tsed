@@ -1,6 +1,5 @@
+import {Get, Groups, Property, Returns, getSpec} from "../../src/index.js";
 import {Controller} from "@tsed/di";
-
-import {Get, getSpec, Groups, Property, Returns} from "../../src/index.js";
 
 class MyModel {
   @Property()

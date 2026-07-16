@@ -1,11 +1,10 @@
+import {DIContext, Provider, constant, injectable, injector, logger, runInContext} from "@tsed/di";
 import {type JobAttributesData, Processor, Pulse} from "@pulsecron/pulse";
-import {constant, DIContext, injectable, injector, logger, Provider, runInContext} from "@tsed/di";
 import {$asyncEmit} from "@tsed/hooks";
-import {v4 as uuid} from "uuid";
-
 import {PROVIDER_TYPE_PULSE} from "../constants/constants.js";
 import type {PulseSettings} from "../interfaces/interfaces.js";
 import type {PulseStore} from "../interfaces/PulseStore.js";
+import {v4 as uuid} from "uuid";
 
 function getOpts() {
   return constant<PulseSettings>("pulse", {enabled: false});

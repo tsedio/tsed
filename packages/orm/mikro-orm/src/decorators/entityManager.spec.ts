@@ -1,10 +1,9 @@
-import {MikroORM} from "@mikro-orm/core";
-import {MongoEntityManager} from "@mikro-orm/mongodb";
 import {DITest, Injectable} from "@tsed/di";
-import {afterEach, beforeEach} from "vitest";
-
-import {MikroOrmRegistry} from "../services/MikroOrmRegistry.js";
 import {Em, EntityManager, entityManager} from "./entityManager.js";
+import {afterEach, beforeEach} from "vitest";
+import {MikroORM} from "@mikro-orm/core";
+import {MikroOrmRegistry} from "../services/MikroOrmRegistry.js";
+import {MongoEntityManager} from "@mikro-orm/mongodb";
 
 describe("@EntityManager()", () => {
   beforeEach(() => DITest.create());

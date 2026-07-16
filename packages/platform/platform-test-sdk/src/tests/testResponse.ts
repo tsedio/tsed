@@ -1,15 +1,14 @@
+import {CollectionOf, Enum, ForwardGroups, Get, Groups, Ignore, Name, Post, Property, Required, Returns, Status} from "@tsed/schema";
+import {Context, PathParams} from "@tsed/platform-params";
 import {Controller, getContext} from "@tsed/di";
 import {PlatformResponse, Res} from "@tsed/platform-http";
+import {afterAll, beforeAll, describe, expect, it} from "vitest";
 import {PlatformTest} from "@tsed/platform-http/testing";
-import {Context, PathParams} from "@tsed/platform-params";
-import {CollectionOf, Enum, ForwardGroups, Get, Groups, Ignore, Name, Post, Property, Required, Returns, Status} from "@tsed/schema";
+import {PlatformTestingSdkOpts} from "../interfaces/index.js";
+import SuperTest from "supertest";
+import {agent} from "superagent";
 import axios from "axios";
 import {of} from "rxjs";
-import {agent} from "superagent";
-import SuperTest from "supertest";
-import {afterAll, beforeAll, describe, expect, it} from "vitest";
-
-import {PlatformTestingSdkOpts} from "../interfaces/index.js";
 
 class Base {
   @Ignore()

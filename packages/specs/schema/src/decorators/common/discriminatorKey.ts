@@ -1,8 +1,7 @@
-import {useDecorators} from "@tsed/core";
-
-import type {JsonPropertyStore} from "../../components/index.js";
 import {JsonEntityFn} from "./jsonEntityFn.js";
+import type {JsonPropertyStore} from "../../components/index.js";
 import {Property} from "./property.js";
+import {useDecorators} from "@tsed/core";
 
 /**
  * Marks a property as the discriminator key for polymorphic type resolution.

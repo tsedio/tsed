@@ -5,6 +5,8 @@ class AnotherModel {
   name: string;
 }
 
-export const MySchema = s.object({
-  id: s.string()
-}).additionalProperties(AnotherModel);
+export const MySchema = s
+  .object({
+    id: s.string()
+  })
+  .additionalProperties(AnotherModel);

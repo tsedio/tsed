@@ -1,30 +1,29 @@
 import {
-  constant,
   DIContext,
-  inject,
-  injectable,
-  injectMany,
-  injector,
-  logger,
   OnDestroy,
   type OnInit,
   ProviderType,
+  constant,
+  inject,
+  injectMany,
+  injectable,
+  injector,
+  logger,
   runInContext
 } from "@tsed/di";
-import {getComputedType} from "@tsed/schema";
 import {Job, Queue, Worker} from "bullmq";
-import {v4} from "uuid";
-
+import {JobMethods, JobStore} from "./contracts/index.js";
+import {getFallbackJobToken, getJobToken} from "./utils/getJobToken.js";
+import {BULLMQ} from "./constants/constants.js";
 import {BullMQConfig} from "./config/config.js";
 import {BullMQTypes} from "./constants/BullMQTypes.js";
-import {BULLMQ} from "./constants/constants.js";
-import {JobMethods, JobStore} from "./contracts/index.js";
 import {JobDispatcher} from "./dispatchers/index.js";
 import {createQueueProvider} from "./utils/createQueueProvider.js";
 import {createWorkerProvider} from "./utils/createWorkerProvider.js";
-import {getFallbackJobToken, getJobToken} from "./utils/getJobToken.js";
+import {getComputedType} from "@tsed/schema";
 import {mapQueueOptions} from "./utils/mapQueueOptions.js";
 import {mapWorkerOptions} from "./utils/mapWorkerOptions.js";
+import {v4} from "uuid";
 
 export class BullMQModule implements OnInit, OnDestroy {
   private readonly dispatcher = inject(JobDispatcher);

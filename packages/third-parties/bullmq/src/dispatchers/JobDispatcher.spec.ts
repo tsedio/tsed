@@ -1,10 +1,9 @@
-import {catchAsyncError} from "@tsed/core";
 import {DITest, inject, injectable, injector} from "@tsed/di";
-import {beforeEach} from "vitest";
-
-import {JobMethods} from "../contracts/index.js";
 import {JobController} from "../decorators/index.js";
 import {JobDispatcher} from "./JobDispatcher.js";
+import {JobMethods} from "../contracts/index.js";
+import {beforeEach} from "vitest";
+import {catchAsyncError} from "@tsed/core";
 
 @JobController("example-job-with-custom-id-from-job-methods")
 class ExampleJobWithCustomJobIdFromJobMethods implements JobMethods {

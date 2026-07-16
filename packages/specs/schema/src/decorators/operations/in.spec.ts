@@ -1,4 +1,4 @@
-import {execMapper, getSpec, In, Name, number, OperationPath, Path, s, SpecTypes} from "../../index.js";
+import {In, Name, OperationPath, Path, SpecTypes, execMapper, getSpec, number, s} from "../../index.js";
 
 describe("In", () => {
   it("should declare all schema correctly (param)", () => {

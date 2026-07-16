@@ -1,7 +1,6 @@
 import type {Knex} from "knex";
-
-import {createColumns} from "../../../src/index.js";
 import {User} from "../models/User.js";
+import {createColumns} from "../../../src/index.js";
 
 export function up(knex: Knex): Promise<any> {
   return knex.schema.createTable(User.tableName, (table: Knex.TableBuilder) => {

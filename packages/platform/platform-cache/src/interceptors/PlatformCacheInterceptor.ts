@@ -1,24 +1,22 @@
-import {IncomingMessage, ServerResponse} from "node:http";
-
-import {isClass, isString, nameOf} from "@tsed/core";
 import {
   type BaseContext,
-  constant,
-  context,
   DIContext,
-  inject,
-  interceptor,
   InterceptorContext,
   InterceptorMethods,
   InterceptorNext,
+  constant,
+  context,
+  inject,
+  interceptor,
   logger
 } from "@tsed/di";
+import {IncomingMessage, ServerResponse} from "node:http";
 import {deserialize, serialize} from "@tsed/json-mapper";
-
-import {PlatformCachedObject} from "../interfaces/PlatformCachedObject.js";
-import {PlatformCacheOptions} from "../interfaces/PlatformCacheOptions.js";
+import {isClass, isString, nameOf} from "@tsed/core";
 import {PlatformCache} from "../services/PlatformCache.js";
+import {PlatformCacheOptions} from "../interfaces/PlatformCacheOptions.js";
 import {PlatformCacheRefreshService} from "../services/PlatformCacheRefreshService.js";
+import {PlatformCachedObject} from "../interfaces/PlatformCachedObject.js";
 import {isEndpoint} from "../utils/isEndpoint.js";
 
 const cleanHeaders = (headers: Record<string, unknown>, blacklist: string[]) => {

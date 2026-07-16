@@ -1,4 +1,4 @@
-import {getSpec, In, OperationPath, Path, SpecTypes} from "../../src/index.js";
+import {In, OperationPath, Path, SpecTypes, getSpec} from "../../src/index.js";
 import {validateSpec} from "../helpers/validateSpec.js";
 
 @Path("/dynamic")

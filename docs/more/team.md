@@ -44,6 +44,6 @@ const members = team.map((member) => {
   </div>
 
   <GithubContributors />
-  
+
 </div>
 </HomeContainer>

@@ -1,5 +1,4 @@
 import {DecoratorTypes, isArray} from "@tsed/core";
-
 import type {JsonClassStore} from "../../components/stores/JsonClassStore.js";
 import {JsonEntityFn} from "./jsonEntityFn.js";
 

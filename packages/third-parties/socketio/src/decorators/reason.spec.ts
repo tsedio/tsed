@@ -1,7 +1,6 @@
-import {Store} from "@tsed/core";
-
 import {Nsp, SocketErr} from "../index.js";
 import {Reason} from "./reason.js";
+import {Store} from "@tsed/core";
 
 describe("Reason", () => {
   it("should set metadata", () => {

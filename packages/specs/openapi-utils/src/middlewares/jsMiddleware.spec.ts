@@ -1,9 +1,7 @@
 import Fs from "node:fs";
-
-import {runInContext} from "@tsed/di";
 import {PlatformTest} from "@tsed/platform-http/testing";
-
 import {jsMiddleware} from "./jsMiddleware.js";
+import {runInContext} from "@tsed/di";
 
 describe("jsMiddleware", () => {
   beforeEach(PlatformTest.create);

@@ -1,5 +1,5 @@
-import {getEngineFixture} from "../../test/getEngineFixture.js";
 import {PugEngine} from "./PugEngine.js";
+import {getEngineFixture} from "../../test/getEngineFixture.js";
 
 describe("PugEngine", () => {
   beforeEach(() => {

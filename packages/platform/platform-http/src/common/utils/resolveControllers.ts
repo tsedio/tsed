@@ -1,5 +1,5 @@
-import {isArray, isClass} from "@tsed/core";
 import {Provider, ProviderType, type TokenProvider, type TokenRoute} from "@tsed/di";
+import {isArray, isClass} from "@tsed/core";
 
 const lookupProperties = ["mount", "imports"];
 

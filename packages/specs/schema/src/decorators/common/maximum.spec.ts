@@ -1,8 +1,7 @@
 import "../../index.js";
-
-import {s} from "../../fn/index.js";
 import {CollectionOf} from "../collections/collectionOf.js";
 import {Max} from "./maximum.js";
+import {s} from "../../fn/index.js";
 
 describe("@Maximum", () => {
   it("should declare maximum value", () => {

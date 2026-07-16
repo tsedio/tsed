@@ -1,7 +1,6 @@
-import {cleanObject} from "@tsed/core";
-
-import {defineSchemaMapper} from "../../../registries/JsonSchemaMapperContainer.js";
 import type {JsonParameterOptions} from "./operationInParameterMapper.js";
+import {cleanObject} from "@tsed/core";
+import {defineSchemaMapper} from "../../../registries/JsonSchemaMapperContainer.js";
 
 export function operationInFilesMapper(parameter: any, {jsonSchema}: JsonParameterOptions) {
   const schema = {

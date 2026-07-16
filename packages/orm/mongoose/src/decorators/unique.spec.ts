@@ -1,7 +1,6 @@
-import {Store} from "@tsed/core";
-
-import {Unique} from "../../src/index.js";
 import {MONGOOSE_SCHEMA} from "../constants/constants.js";
+import {Store} from "@tsed/core";
+import {Unique} from "../../src/index.js";
 
 describe("@Unique()", () => {
   it("should set metadata", () => {

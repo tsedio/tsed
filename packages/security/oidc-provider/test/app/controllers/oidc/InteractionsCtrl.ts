@@ -1,11 +1,10 @@
-import {PathParams} from "@tsed/platform-params";
 import {Get, Name} from "@tsed/schema";
-
 import {Interactions, OidcCtx} from "../../../../src/index.js";
 import {AbortInteraction} from "../../interactions/AbortInteraction.js";
 import {ConsentInteraction} from "../../interactions/ConsentInteraction.js";
 import {CustomInteraction} from "../../interactions/CustomInteraction.js";
 import {LoginInteraction} from "../../interactions/LoginInteraction.js";
+import {PathParams} from "@tsed/platform-params";
 
 @Name("Oidc")
 @Interactions({

@@ -1,10 +1,7 @@
 ---
 name: Other
 about: Describe this issue template's purpose here.
-title: ''
-labels: ''
+title: ""
+labels: ""
 assignees: Romakita
-
 ---
-
-

@@ -1,6 +1,3 @@
-import {faker} from "@faker-js/faker";
-import {PlatformTest} from "@tsed/platform-http/testing";
-
 import {
   INTERACTION_CONTEXT,
   INTERACTION_DETAILS,
@@ -11,6 +8,8 @@ import {
 } from "../constants/constants.js";
 import {OidcInteractionContext} from "../services/OidcInteractionContext.js";
 import {OidcInteractionMiddleware} from "./OidcInteractionMiddleware.js";
+import {PlatformTest} from "@tsed/platform-http/testing";
+import {faker} from "@faker-js/faker";
 
 describe("OidcInteractionMiddleware", () => {
   beforeEach(() => PlatformTest.create());

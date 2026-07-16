@@ -1,7 +1,6 @@
-import {DecoratorParameters, decoratorTypeOf, DecoratorTypes} from "@tsed/core";
-
-import {JsonEntityStore} from "../../domain/JsonEntityStore.js";
+import {DecoratorParameters, DecoratorTypes, decoratorTypeOf} from "@tsed/core";
 import {JsonEntityFn} from "../common/jsonEntityFn.js";
+import {JsonEntityStore} from "../../domain/JsonEntityStore.js";
 
 /**
  * Add a name metadata on the decorated element.

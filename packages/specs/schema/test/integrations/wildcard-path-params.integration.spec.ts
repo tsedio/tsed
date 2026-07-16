@@ -1,9 +1,7 @@
 import "../../src/index.js";
-
+import {Get, SpecTypes, getSpec} from "../../src/index.js";
 import {Controller} from "@tsed/di";
 import {PathParams} from "@tsed/platform-params";
-
-import {Get, getSpec, SpecTypes} from "../../src/index.js";
 import {validateSpec} from "../helpers/validateSpec.js";
 
 @Controller("/merged")

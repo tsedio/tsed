@@ -1,11 +1,10 @@
-import {Controller} from "@tsed/di";
-import {PlatformTest} from "@tsed/platform-http/testing";
-import {HeaderParams} from "@tsed/platform-params";
 import {AcceptMime, ContentType, Get, Post} from "@tsed/schema";
-import SuperTest from "supertest";
 import {afterAll, beforeAll, describe, expect, it} from "vitest";
-
+import {Controller} from "@tsed/di";
+import {HeaderParams} from "@tsed/platform-params";
+import {PlatformTest} from "@tsed/platform-http/testing";
 import {PlatformTestingSdkOpts} from "../interfaces/index.js";
+import SuperTest from "supertest";
 
 @Controller("/accept-mime")
 class TestAcceptMimeCtrl {

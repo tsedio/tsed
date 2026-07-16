@@ -1,12 +1,10 @@
 import "../services/StripeFactory.js";
-
-import {Constant, Inject} from "@tsed/di";
 import {BadRequest, InternalServerError} from "@tsed/exceptions";
-import {Middleware, MiddlewareMethods} from "@tsed/platform-middlewares";
+import {Constant, Inject} from "@tsed/di";
 import {Context, HeaderParams, RawBodyParams} from "@tsed/platform-params";
-import {Stripe} from "stripe";
-
+import {Middleware, MiddlewareMethods} from "@tsed/platform-middlewares";
 import {STRIPE_WEBHOOK_EVENT, STRIPE_WEBHOOK_SIGNATURE} from "../constants/constants.js";
+import {Stripe} from "stripe";
 
 export interface WebhookEventOptions {
   secret: string;

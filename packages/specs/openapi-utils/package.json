@@ -1,9 +1,9 @@
 {
   "name": "@tsed/openapi-utils",
-  "description": "OpenAPI utils to build @tsed/swagger package or @tsed/scalar",
-  "type": "module",
   "version": "8.17.0",
+  "description": "OpenAPI utils to build @tsed/swagger package or @tsed/scalar",
   "source": "./src/index.ts",
+  "type": "module",
   "main": "./lib/esm/index.js",
   "module": "./lib/esm/index.js",
   "typings": "./lib/types/index.d.ts",
@@ -37,7 +37,6 @@
     "@tsed/platform-http": "workspace:*",
     "@tsed/schema": "workspace:*",
     "@tsed/typescript": "workspace:*",
-    "eslint": "9.12.0",
     "typescript": "6.0.2",
     "vitest": "4.1.4"
   },

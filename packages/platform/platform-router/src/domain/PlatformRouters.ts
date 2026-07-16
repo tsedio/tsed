@@ -1,13 +1,12 @@
-import {getValue, Type} from "@tsed/core";
-import {constant, inject, injectable, injector, Provider, ProviderType, ResolvedInvokeOptions, TokenProvider} from "@tsed/di";
 import {$on, Hooks} from "@tsed/hooks";
-import {PlatformParamsCallback} from "@tsed/platform-params";
-import {concatPath, getOperationsRoutes, JsonMethodStore, OPERATION_HTTP_VERBS} from "@tsed/schema";
-
-import {useContextHandler} from "../utils/useContextHandler.js";
+import {JsonMethodStore, OPERATION_HTTP_VERBS, concatPath, getOperationsRoutes} from "@tsed/schema";
+import {Provider, ProviderType, ResolvedInvokeOptions, TokenProvider, constant, inject, injectable, injector} from "@tsed/di";
+import {Type, getValue} from "@tsed/core";
 import {PlatformHandlerMetadata} from "./PlatformHandlerMetadata.js";
 import {PlatformLayer} from "./PlatformLayer.js";
+import {PlatformParamsCallback} from "@tsed/platform-params";
 import {PlatformRouter} from "./PlatformRouter.js";
+import {useContextHandler} from "../utils/useContextHandler.js";
 
 let AUTO_INC = 0;
 

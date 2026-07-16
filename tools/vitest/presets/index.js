@@ -1,8 +1,7 @@
+import {defineConfig} from "vitest/config";
 import {join} from "node:path";
-
 import swc from "unplugin-swc";
 import tsconfigPaths from "vite-tsconfig-paths";
-import {defineConfig} from "vitest/config";
 
 export const root = join(import.meta.dirname, "../../..");
 

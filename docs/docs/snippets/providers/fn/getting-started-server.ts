@@ -1,8 +1,7 @@
 import {configuration} from "@tsed/di";
 import {CalendarsController} from "./controllers/CalendarsController.js";
 
-export class Server {
-}
+export class Server {}
 
 configuration(Server, {
   mount: {

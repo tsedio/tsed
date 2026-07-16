@@ -1,6 +1,5 @@
-import {JsonParameterStore} from "@tsed/schema";
-
 import {INTERACTION_PROMPT} from "../constants/constants.js";
+import {JsonParameterStore} from "@tsed/schema";
 import {Prompt} from "./prompt.js";
 
 describe("@Prompt", () => {

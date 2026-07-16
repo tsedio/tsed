@@ -1,7 +1,9 @@
-import {globbySync} from "globby";
-import {basename} from "node:path";
-import pkg from "./package.json" with {type: "json"};
 import {RuleConfigSeverity} from "@commitlint/types";
+import {basename} from "node:path";
+import {globbySync} from "globby";
+import {readFileSync} from "node:fs";
+
+const pkg = JSON.parse(readFileSync(new URL("./package.json", import.meta.url), "utf8"));
 
 function findPackages() {
   const patterns = pkg.workspaces.packages.map((pkgPattern) => {

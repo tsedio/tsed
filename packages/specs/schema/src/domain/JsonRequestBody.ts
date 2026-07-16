@@ -1,8 +1,7 @@
-import {OpenSpecHash, OS3MediaType, OS3RequestBody} from "@tsed/openspec";
-
-import {toJsonMapCollection} from "../utils/toJsonMapCollection.js";
+import {OS3MediaType, OS3RequestBody, OpenSpecHash} from "@tsed/openspec";
 import {JsonMap} from "./JsonMap.js";
 import {JsonSchema} from "./JsonSchema.js";
+import {toJsonMapCollection} from "../utils/toJsonMapCollection.js";
 
 /**
  * Configuration options for HTTP request body definitions compatible with OpenAPI 3.

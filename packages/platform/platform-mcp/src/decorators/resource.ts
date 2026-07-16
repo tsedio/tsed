@@ -1,8 +1,7 @@
+import {type ClassResourceReadProps, type ClassResourceTemplateProps, defineResource} from "../fn/defineResource.js";
 import type {ResourceTemplate} from "@modelcontextprotocol/sdk/server/mcp.js";
 import {classOf} from "@tsed/core";
 import {isString} from "@tsed/core/utils/isString.js";
-
-import {type ClassResourceReadProps, type ClassResourceTemplateProps, defineResource} from "../fn/defineResource.js";
 
 /**
  * Options accepted by the {@link Resource} decorator beyond the handler binding fields, allowing callers to override metadata.

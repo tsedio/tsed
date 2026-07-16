@@ -1,7 +1,6 @@
-import {PlatformTest} from "@tsed/platform-http/testing";
-import {MongoClient} from "mongodb";
-
 import {getMongoConnectionOptions, getMongoConnectionsOptions, startMongoServer, stopMongoServer} from "./ContainerUtils.js";
+import {MongoClient} from "mongodb";
+import {PlatformTest} from "@tsed/platform-http/testing";
 
 export class TestContainersMongo {
   static startMongoServer = startMongoServer;

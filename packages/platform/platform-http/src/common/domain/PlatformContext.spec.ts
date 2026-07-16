@@ -1,8 +1,7 @@
-import {nameOf} from "@tsed/core";
-
-import {PlatformTest} from "../../testing/PlatformTest.js";
 import {PlatformApplication} from "../services/PlatformApplication.js";
 import {PlatformContext} from "./PlatformContext.js";
+import {PlatformTest} from "../../testing/PlatformTest.js";
+import {nameOf} from "@tsed/core";
 
 describe("PlatformContext", () => {
   beforeEach(() => PlatformTest.create());

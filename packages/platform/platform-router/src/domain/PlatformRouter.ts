@@ -1,11 +1,10 @@
-import {isString} from "@tsed/core";
-import {injectable, Provider, ProviderScope} from "@tsed/di";
-import {concatPath} from "@tsed/schema";
-
-import {formatMethod} from "../utils/formatMethod.js";
-import {PlatformHandlerMetadata} from "./PlatformHandlerMetadata.js";
 import {PlatformLayer, PlatformLayerOptions} from "./PlatformLayer.js";
+import {Provider, ProviderScope, injectable} from "@tsed/di";
+import {PlatformHandlerMetadata} from "./PlatformHandlerMetadata.js";
 import {SinglePathType} from "./SinglePathType.js";
+import {concatPath} from "@tsed/schema";
+import {formatMethod} from "../utils/formatMethod.js";
+import {isString} from "@tsed/core";
 
 function printHandler(handler: any) {
   return handler.toString().split("{")[0].trim();

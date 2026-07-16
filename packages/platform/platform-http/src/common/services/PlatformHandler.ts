@@ -1,9 +1,3 @@
-import {AnyPromiseResult, AnyToPromiseStatus, catchAsyncError} from "@tsed/core";
-import {inject, injectable, Provider, ProviderScope} from "@tsed/di";
-import {$alter} from "@tsed/hooks";
-import {PlatformExceptions} from "@tsed/platform-exceptions";
-import {PlatformParams, PlatformParamsCallback} from "@tsed/platform-params";
-import {PlatformResponseFilter} from "@tsed/platform-response-filter";
 import {
   AlterEndpointHandlersArg,
   PlatformHandlerMetadata,
@@ -11,12 +5,17 @@ import {
   PlatformRouters,
   useResponseHandler
 } from "@tsed/platform-router";
-import {JsonOperationRoute} from "@tsed/schema";
-
+import {AnyPromiseResult, AnyToPromiseStatus, catchAsyncError} from "@tsed/core";
+import {PlatformParams, PlatformParamsCallback} from "@tsed/platform-params";
+import {Provider, ProviderScope, inject, injectable} from "@tsed/di";
+import {$alter} from "@tsed/hooks";
 import {AnyToPromiseWithCtx} from "../domain/AnyToPromiseWithCtx.js";
-import {PlatformContext} from "../domain/PlatformContext.js";
-import {setResponseHeaders} from "../utils/setResponseHeaders.js";
+import {JsonOperationRoute} from "@tsed/schema";
 import {PlatformAdapter} from "./PlatformAdapter.js";
+import {PlatformContext} from "../domain/PlatformContext.js";
+import {PlatformExceptions} from "@tsed/platform-exceptions";
+import {PlatformResponseFilter} from "@tsed/platform-response-filter";
+import {setResponseHeaders} from "../utils/setResponseHeaders.js";
 
 /**
  * Platform Handler abstraction layer. Wrap original class method to a pure platform handler (Express, Koa, etc...).

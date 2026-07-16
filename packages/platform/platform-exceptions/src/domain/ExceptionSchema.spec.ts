@@ -1,9 +1,8 @@
 import "./ExceptionSchema.js";
-
-import SwaggerParser from "@apidevtools/swagger-parser";
 import {BadRequest, Exception} from "@tsed/exceptions";
-import {compile, getSpec, OperationPath, Path, Returns, SpecTypes} from "@tsed/schema";
+import {OperationPath, Path, Returns, SpecTypes, compile, getSpec} from "@tsed/schema";
 import {Ajv} from "ajv";
+import SwaggerParser from "@apidevtools/swagger-parser";
 import fs from "fs-extra";
 
 const rootDir = import.meta.dirname; // automatically replaced by import.meta.dirname on build

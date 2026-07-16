@@ -13,6 +13,4 @@ export class CalendarsService {
   }
 }
 
-injectable(CalendarsService)
-  .type(ProviderType.SERVICE)
-  .scope(ProviderScope.SINGLETON);
+injectable(CalendarsService).type(ProviderType.SERVICE).scope(ProviderScope.SINGLETON);

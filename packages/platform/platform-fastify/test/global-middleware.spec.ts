@@ -1,15 +1,13 @@
 import "@tsed/ajv";
-
+import {Server, rootDir} from "./app/Server.js";
 import {Controller} from "@tsed/di";
-import {Next} from "@tsed/platform-http";
-import {PlatformTest} from "@tsed/platform-http/testing";
-import {Middleware} from "@tsed/platform-middlewares";
-import {PlatformTestSdk} from "@tsed/platform-test-sdk";
 import {Get} from "@tsed/schema";
-import SuperTest from "supertest";
-
+import {Middleware} from "@tsed/platform-middlewares";
+import {Next} from "@tsed/platform-http";
 import {PlatformFastify} from "../src/index.js";
-import {rootDir, Server} from "./app/Server.js";
+import {PlatformTest} from "@tsed/platform-http/testing";
+import {PlatformTestSdk} from "@tsed/platform-test-sdk";
+import SuperTest from "supertest";
 
 const utils = PlatformTestSdk.create({
   rootDir,

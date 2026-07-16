@@ -1,6 +1,5 @@
-import {inject, injectable} from "@tsed/di";
 import {Job, Worker, WorkerOptions} from "bullmq";
-
+import {inject, injectable} from "@tsed/di";
 import {BullMQTypes} from "../constants/BullMQTypes.js";
 import {getWorkerToken} from "./getWorkerToken.js";
 

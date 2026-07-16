@@ -1,4 +1,4 @@
-import {OpenSpec2, OpenSpec3, OpenSpecVersions, OS2Versions, OS3Versions} from "@tsed/openspec";
+import {OS2Versions, OS3Versions, OpenSpec2, OpenSpec3, OpenSpecVersions} from "@tsed/openspec";
 
 export interface SwaggerUIOptions {
   configUrl?: string;

@@ -1,8 +1,8 @@
 import {Adapter, AdapterConstructorOptions, AdapterModel} from "@tsed/adapters";
-import {cleanObject, isObject, isString} from "@tsed/core";
-import {injectMany, Opts} from "@tsed/di";
-import {Hooks} from "@tsed/hooks";
+import {Opts, injectMany} from "@tsed/di";
 import {REDIS_CONNECTIONS, RedisConnection} from "@tsed/redis";
+import {cleanObject, isObject, isString} from "@tsed/core";
+import {Hooks} from "@tsed/hooks";
 import {v4 as uuid} from "uuid";
 
 type Redis = any;

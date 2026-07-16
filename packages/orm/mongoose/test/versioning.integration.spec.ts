@@ -1,10 +1,9 @@
-import {serialize} from "@tsed/json-mapper";
-import {PlatformTest} from "@tsed/platform-http/testing";
 import {Integer, Required} from "@tsed/schema";
-import {TestContainersMongo} from "@tsed/testcontainers-mongo";
-
 import {Model, ObjectID, VersionKey} from "../src/index.js";
 import {MongooseModel} from "../src/interfaces/MongooseModel.js";
+import {PlatformTest} from "@tsed/platform-http/testing";
+import {TestContainersMongo} from "@tsed/testcontainers-mongo";
+import {serialize} from "@tsed/json-mapper";
 
 describe("Mongoose", () => {
   describe("Versioning", () => {

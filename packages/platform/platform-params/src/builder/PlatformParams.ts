@@ -1,6 +1,5 @@
-import {DIContext, injectable, injector, ProviderScope, TokenProvider} from "@tsed/di";
+import {DIContext, ProviderScope, TokenProvider, injectable, injector} from "@tsed/di";
 import {JsonMethodStore, JsonParameterStore, PipeMethods} from "@tsed/schema";
-
 import {ParamValidationError} from "../errors/ParamValidationError.js";
 import {ParseExpressionPipe} from "../pipes/ParseExpressionPipe.js";
 

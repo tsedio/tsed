@@ -1,10 +1,9 @@
+import {MinLength, compile} from "../../index.js";
 import {Ajv} from "ajv";
-
-import {validateModel} from "../../../test/helpers/validateModel.js";
-import {s} from "../../fn/index.js";
-import {compile, MinLength} from "../../index.js";
 import {Property} from "../common/property.js";
 import {Required} from "./required.js";
+import {s} from "../../fn/index.js";
+import {validateModel} from "../../../test/helpers/validateModel.js";
 
 describe("@Required", () => {
   it("should declare required field", () => {

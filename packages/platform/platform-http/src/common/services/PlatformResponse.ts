@@ -1,12 +1,10 @@
 import {OutgoingHttpHeaders, ServerResponse} from "node:http";
-
+import {ProviderScope, injectable, lazyInject} from "@tsed/di";
 import {isBoolean, isNumber, isStream, isString} from "@tsed/core";
-import {injectable, lazyInject, ProviderScope} from "@tsed/di";
-import {getStatusMessage} from "@tsed/schema";
-import encodeUrl from "encodeurl";
-
 import type {PlatformContext} from "../domain/PlatformContext.js";
 import type {PlatformRequest} from "./PlatformRequest.js";
+import encodeUrl from "encodeurl";
+import {getStatusMessage} from "@tsed/schema";
 
 declare global {
   namespace TsED {

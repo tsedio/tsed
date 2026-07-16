@@ -1,10 +1,8 @@
 import "../src/index.js";
-
-import {constant, DITest, inject} from "@tsed/di";
-import {$asyncEmit} from "@tsed/hooks";
-
-import {CONFIG_SOURCES} from "../src/constants/constants.js";
 import {type ConfigSource, withOptions} from "../src/index.js";
+import {DITest, constant, inject} from "@tsed/di";
+import {$asyncEmit} from "@tsed/hooks";
+import {CONFIG_SOURCES} from "../src/constants/constants.js";
 
 class TestConfigSource implements ConfigSource {
   options: {};

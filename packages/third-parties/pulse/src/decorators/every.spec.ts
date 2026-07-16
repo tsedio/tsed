@@ -1,7 +1,6 @@
-import {Store} from "@tsed/core";
-
 import {Every} from "./every.js";
 import {Pulse} from "./pulse.js";
+import {Store} from "@tsed/core";
 
 describe("@Every()", () => {
   it("should set metadata", () => {

@@ -1,8 +1,7 @@
-import type {ServerResponse} from "node:http";
-
 import {type PlatformContext, PlatformResponse} from "@tsed/platform-http";
-import contentDisposition from "content-disposition";
 import type {FastifyReply} from "fastify";
+import type {ServerResponse} from "node:http";
+import contentDisposition from "content-disposition";
 
 declare global {
   namespace TsED {

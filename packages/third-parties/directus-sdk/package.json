@@ -1,9 +1,9 @@
 {
   "name": "@tsed/directus-sdk",
-  "description": "A library to integrate Directus SDK with Ts.ED, facilitating the creation of extensions (endpoints, hooks, operations) and the use of Directus services.",
-  "type": "module",
   "version": "8.17.0",
+  "description": "A library to integrate Directus SDK with Ts.ED, facilitating the creation of extensions (endpoints, hooks, operations) and the use of Directus services.",
   "source": "./src/index.ts",
+  "type": "module",
   "main": "./lib/esm/index.js",
   "module": "./lib/esm/index.js",
   "typings": "./lib/types/index.d.ts",

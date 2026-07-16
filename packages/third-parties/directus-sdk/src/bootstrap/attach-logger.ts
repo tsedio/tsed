@@ -1,8 +1,7 @@
 import "@tsed/logger-connect";
-
-import {useLogger} from "@directus/api/logger/index";
-import {attachLogger} from "@tsed/di";
 import {$log} from "@tsed/logger";
+import {attachLogger} from "@tsed/di";
+import {useLogger} from "@directus/api/logger/index";
 
 const cmsLogger = useLogger();
 

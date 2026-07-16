@@ -1,19 +1,17 @@
+import "./protocols/LoginLocalProtocol.js";
 import "@tsed/ajv";
 import "@tsed/platform-express";
 import "@tsed/swagger";
-import "./protocols/LoginLocalProtocol.js";
-
-import {MemoryAdapter} from "@tsed/adapters";
 import {Configuration, Inject} from "@tsed/di";
+import {Account} from "./models/Account.js";
+import {AuthCtrl} from "./controllers/rest/auth/AuthCtrl.js";
+import {MemoryAdapter} from "@tsed/adapters";
 import {PlatformApplication} from "@tsed/platform-http";
 import bodyParser from "body-parser";
 import compress from "compression";
 import cookieParser from "cookie-parser";
-import session from "express-session";
 import methodOverride from "method-override";
-
-import {AuthCtrl} from "./controllers/rest/auth/AuthCtrl.js";
-import {Account} from "./models/Account.js";
+import session from "express-session";
 
 const rootDir = import.meta.dirname; // automatically replaced by import.meta.dirname on build
 export {rootDir};

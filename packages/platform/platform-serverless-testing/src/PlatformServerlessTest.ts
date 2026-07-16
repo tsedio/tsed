@@ -1,13 +1,12 @@
-import {nameOf, Type} from "@tsed/core";
-import {destroyInjector, DITest} from "@tsed/di";
-import type {PlatformBuilder, PlatformBuilderSettings} from "@tsed/platform-http";
 import type {
   APIGatewayEventDefaultAuthorizerContext,
   APIGatewayProxyEventBase,
   APIGatewayProxyHandler,
   APIGatewayProxyResult
 } from "aws-lambda";
-
+import {DITest, destroyInjector} from "@tsed/di";
+import type {PlatformBuilder, PlatformBuilderSettings} from "@tsed/platform-http";
+import {Type, nameOf} from "@tsed/core";
 import {createFakeContext} from "./createFakeContext.js";
 import {createFakeEvent} from "./createFakeEvent.js";
 

@@ -1,6 +1,5 @@
-import {StoreSet, useDecorators} from "@tsed/core";
 import {Injectable, ProviderScope} from "@tsed/di";
-
+import {StoreSet, useDecorators} from "@tsed/core";
 import {DATASOURCES_PROVIDERS} from "../constants/constants.js";
 
 /**

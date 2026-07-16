@@ -1,6 +1,5 @@
-import {snakeCase} from "change-case";
-
 import {JsonEntityFn} from "../common/jsonEntityFn.js";
+import {snakeCase} from "change-case";
 
 /**
  * Declares the discriminator value for a subclass in a polymorphic hierarchy.

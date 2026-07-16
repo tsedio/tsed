@@ -1,6 +1,6 @@
+import {JsonEntityFn} from "../common/jsonEntityFn.js";
 import {JsonEntityStore} from "../../domain/JsonEntityStore.js";
 import {withErrorMsg} from "../../utils/withErrorMsg.js";
-import {JsonEntityFn} from "../common/jsonEntityFn.js";
 
 /**
  * If this keyword has boolean value false, the instance validates successfully. If it has boolean value true, the instance validates successfully if all of its elements are unique.

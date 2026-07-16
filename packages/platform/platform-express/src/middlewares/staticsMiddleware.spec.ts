@@ -1,5 +1,4 @@
 import Express from "express";
-
 import {staticsMiddleware} from "./staticsMiddleware.js";
 
 describe("staticsMiddleware", () => {

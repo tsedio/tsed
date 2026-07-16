@@ -1,4 +1,4 @@
-import {AdditionalProperties, CollectionOf, compile, Property, string} from "../../index.js";
+import {AdditionalProperties, CollectionOf, Property, compile, string} from "../../index.js";
 
 describe("AdditionalProperties", () => {
   it("should declare additional properties", () => {

@@ -1,7 +1,6 @@
+import {Injectable, constant} from "@tsed/di";
+import {JwksKeyParameters, getJwks} from "@tsed/jwks";
 import {join} from "node:path";
-
-import {constant, Injectable} from "@tsed/di";
-import {getJwks, JwksKeyParameters} from "@tsed/jwks";
 
 @Injectable()
 export class OidcJwks {

@@ -1,9 +1,8 @@
 import "../../index.js";
-
-import {validateModel} from "../../../test/helpers/validateModel.js";
-import {s} from "../../fn/index.js";
 import {CollectionOf} from "../collections/collectionOf.js";
 import {MinLength} from "./minLength.js";
+import {s} from "../../fn/index.js";
+import {validateModel} from "../../../test/helpers/validateModel.js";
 
 describe("@MinLength", () => {
   it("should declare minimum value", () => {

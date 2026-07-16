@@ -1,13 +1,8 @@
-import {BodyParams} from "@tsed/platform-params";
-import {Ajv} from "ajv";
-
 import {
   Any,
   AnyOf,
-  compile,
   Const,
   Format,
-  getSpec,
   In,
   Integer,
   MaxLength,
@@ -20,10 +15,14 @@ import {
   Property,
   Required,
   Returns,
-  s,
   Schema,
-  SpecTypes
+  SpecTypes,
+  compile,
+  getSpec,
+  s
 } from "../../src/index.js";
+import {Ajv} from "ajv";
+import {BodyParams} from "@tsed/platform-params";
 import {validateSpec} from "../helpers/validateSpec.js";
 
 class Nested {

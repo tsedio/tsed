@@ -1,5 +1,5 @@
-import {PlatformTest} from "../../testing/PlatformTest.js";
 import {AnyToPromiseWithCtx} from "./AnyToPromiseWithCtx.js";
+import {PlatformTest} from "../../testing/PlatformTest.js";
 
 describe("AnyToPromiseWithCtx", () => {
   beforeEach(() => PlatformTest.create());

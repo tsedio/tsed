@@ -1,9 +1,8 @@
-import {Pulse} from "@pulsecron/pulse";
-import {PlatformTest} from "@tsed/platform-http/testing";
-import {TestContainersMongo} from "@tsed/testcontainers-mongo";
-
 import {Define, Every, JobsController, PulseService} from "../src/index.js";
+import {PlatformTest} from "@tsed/platform-http/testing";
+import {Pulse} from "@pulsecron/pulse";
 import {Server} from "./helpers/Server.js";
+import {TestContainersMongo} from "@tsed/testcontainers-mongo";
 
 @JobsController({namespace: "test-nsp"})
 class Test {

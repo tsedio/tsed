@@ -1,10 +1,10 @@
-import {SpecTypes} from "../../domain/SpecTypes.js";
-import {s} from "../../fn/index.js";
-import {getSpec} from "../../fn/oas/getSpec.js";
+import {Const} from "./const.js";
 import {In} from "../operations/in.js";
 import {OperationPath} from "../operations/operationPath.js";
 import {Path} from "../operations/path.js";
-import {Const} from "./const.js";
+import {SpecTypes} from "../../domain/SpecTypes.js";
+import {getSpec} from "../../fn/oas/getSpec.js";
+import {s} from "../../fn/index.js";
 
 describe("@Const", () => {
   it("should declare prop", () => {

@@ -1,20 +1,20 @@
 import {
   AnyOf,
-  boolean,
-  compile,
   CustomKeys,
   Default,
   Deprecated,
   Description,
   Example,
-  getSpec,
-  number,
   OperationPath,
   Path,
   Property,
   Required,
   Returns,
   SpecTypes,
+  boolean,
+  compile,
+  getSpec,
+  number,
   string
 } from "../../index.js";
 import {CustomKey} from "./customKey.js";

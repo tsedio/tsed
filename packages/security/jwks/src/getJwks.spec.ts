@@ -1,8 +1,6 @@
-import {join} from "node:path";
-
-import fs from "fs-extra";
-
 import {generateJwks, getJwks} from "./getJwks.js";
+import fs from "fs-extra";
+import {join} from "node:path";
 
 const rootDir = join(import.meta.dirname, "__mocks__");
 

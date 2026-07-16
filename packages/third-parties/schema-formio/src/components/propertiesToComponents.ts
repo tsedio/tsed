@@ -1,8 +1,18 @@
-import {cleanObject, isFunction} from "@tsed/core";
 import {FormioComponent, FormioForm} from "@tsed/formio-types";
+import {cleanObject, isFunction} from "@tsed/core";
+import {execMapper, registerFormioMapper} from "../registries/FormioMappersContainer.js";
 import {sentenceCase} from "change-case";
 
-import {execMapper, registerFormioMapper} from "../registries/FormioMappersContainer.js";
+type ValidatedFormioComponent = FormioComponent & {
+  validate?: {
+    required?: boolean;
+    pattern?: string;
+    minLength?: number | string;
+    maxLength?: number | string;
+    min?: number | string;
+    max?: number | string;
+  };
+};
 
 function bindResolvers(component: FormioComponent, options: any) {
   if (component.data) {
@@ -25,7 +35,7 @@ function bindResolvers(component: FormioComponent, options: any) {
   return component;
 }
 
-function mapValidation(key: string, base: FormioComponent, schema: any, propSchema: any) {
+function mapValidation(key: string, base: ValidatedFormioComponent, schema: any, propSchema: any) {
   const required = (schema.required || []).includes(key);
   const validate = {
     ...(base.validate || {}),

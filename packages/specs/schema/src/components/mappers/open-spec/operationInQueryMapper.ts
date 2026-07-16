@@ -1,11 +1,10 @@
-import {cleanObject} from "@tsed/core";
-import {OS3Example} from "@tsed/openspec";
-
-import type {JsonParameter} from "../../../domain/JsonParameter.js";
-import {JsonSchemaOptions} from "../../../domain/JsonSchemaOptions.js";
-import {defineSchemaMapper} from "../../../registries/JsonSchemaMapperContainer.js";
 import {createRefName, getSchemaFromRef} from "../../../utils/ref.js";
+import type {JsonParameter} from "../../../domain/JsonParameter.js";
 import type {JsonParameterOptions} from "./operationInParameterMapper.js";
+import {JsonSchemaOptions} from "../../../domain/JsonSchemaOptions.js";
+import {OS3Example} from "@tsed/openspec";
+import {cleanObject} from "@tsed/core";
+import {defineSchemaMapper} from "../../../registries/JsonSchemaMapperContainer.js";
 
 function buildExamples(property: string, examples?: Record<string, OS3Example>) {
   if (!examples) {

@@ -1,9 +1,8 @@
-import {faker} from "@faker-js/faker";
+import {MongooseModel} from "../src/interfaces/MongooseModel.js";
 import {PlatformTest} from "@tsed/platform-http/testing";
 import {TestContainersMongo} from "@tsed/testcontainers-mongo";
-
-import {MongooseModel} from "../src/interfaces/MongooseModel.js";
 import {TestUser} from "./helpers/models/User.js";
+import {faker} from "@faker-js/faker";
 
 describe("Mongoose", () => {
   describe("UserModel (di)", () => {

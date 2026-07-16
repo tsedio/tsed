@@ -1,4 +1,4 @@
-import {compile, SpecTypes} from "../../index.js";
+import {SpecTypes, compile} from "../../index.js";
 import {Schema} from "./schema.js";
 
 describe("Schema()", () => {

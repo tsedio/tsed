@@ -1,6 +1,5 @@
-import {Controller} from "@tsed/di";
 import {Get, Groups, Property, Returns, s} from "@tsed/schema";
-
+import {Controller} from "@tsed/di";
 import {serialize} from "../../src/utils/serialize.js";
 
 class MyModel {

@@ -1,9 +1,8 @@
+import {OS3Operation, OpenSpecSecurity, OpenSpecTag} from "@tsed/openspec";
 import {deepMerge, uniq, uniqBy} from "@tsed/core";
-import {OpenSpecSecurity, OpenSpecTag, OS3Operation} from "@tsed/openspec";
-
 import {isRedirectionStatus, isSuccessStatus} from "../utils/isSuccessStatus.js";
-import {JsonMap} from "./JsonMap.js";
 import {JsonHeader} from "./JsonOpenSpec.js";
+import {JsonMap} from "./JsonMap.js";
 import {JsonParameter} from "./JsonParameter.js";
 import {JsonResponse} from "./JsonResponse.js";
 import {JsonSchema} from "./JsonSchema.js";

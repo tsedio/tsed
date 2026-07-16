@@ -1,7 +1,6 @@
 import {Ajv, Options} from "ajv";
 import AjvErrors from "ajv-errors";
 import AjvFormats from "ajv-formats";
-
 import type {JsonSchemaOptions} from "../../src/index.js";
 import {compile} from "../../src/index.js";
 

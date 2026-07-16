@@ -1,11 +1,10 @@
-import {Store} from "@tsed/core";
-import {afterEach} from "vitest";
-
-import {Container} from "../domain/Container.js";
-import {Provider} from "../domain/Provider.js";
 import {destroyInjector, injector} from "../fn/injector.js";
 import {Configuration} from "./configuration.js";
+import {Container} from "../domain/Container.js";
 import {Injectable} from "./injectable.js";
+import {Provider} from "../domain/Provider.js";
+import {Store} from "@tsed/core";
+import {afterEach} from "vitest";
 
 describe("@Configuration", () => {
   afterEach(() => destroyInjector());

@@ -1,5 +1,4 @@
 import {Groups, Property, Required, WriteOnly} from "@tsed/schema";
-
 import {deserialize} from "../../src/utils/deserialize.js";
 import {serialize} from "../../src/utils/serialize.js";
 

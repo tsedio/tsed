@@ -9,9 +9,7 @@ export class MyInterceptor implements InterceptorMethods {
    * opts: Static params that can be provided when the interceptor is attached to a specific method
    */
   async intercept(context: InterceptorContext<any>, next: InterceptorNext) {
-    console.log(
-      `the method ${context.propertyKey} will be executed with args ${context.args} and static data ${context.options}`
-    );
+    console.log(`the method ${context.propertyKey} will be executed with args ${context.args} and static data ${context.options}`);
     // let the original method by calling next function
     const result = await next();
 

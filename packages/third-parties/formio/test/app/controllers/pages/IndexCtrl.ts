@@ -1,6 +1,6 @@
 import {Constant, Controller} from "@tsed/di";
-import {HeaderParams} from "@tsed/platform-params";
 import {Get, Hidden, Returns, View} from "@tsed/schema";
+import {HeaderParams} from "@tsed/platform-params";
 import {SwaggerSettings} from "@tsed/swagger";
 
 @Hidden()

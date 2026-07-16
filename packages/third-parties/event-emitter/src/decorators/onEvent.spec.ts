@@ -1,6 +1,5 @@
-import {Store} from "@tsed/core";
-
 import {OnEvent} from "../decorators/onEvent.js";
+import {Store} from "@tsed/core";
 
 describe("@OnEvent()", () => {
   it("should set metadata", () => {

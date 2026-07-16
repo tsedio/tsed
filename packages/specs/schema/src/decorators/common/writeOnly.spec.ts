@@ -1,4 +1,4 @@
-import {compile, getSpec, OperationPath, Path, Returns, SpecTypes} from "../../index.js";
+import {OperationPath, Path, Returns, SpecTypes, compile, getSpec} from "../../index.js";
 import {WriteOnly} from "./writeOnly.js";
 
 describe("@WriteOnly", () => {

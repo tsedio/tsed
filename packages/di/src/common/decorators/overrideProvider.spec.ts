@@ -1,6 +1,6 @@
+import {OverrideProvider} from "./overrideProvider.js";
 import {Provider} from "../domain/Provider.js";
 import type {TokenProvider} from "../interfaces/TokenProvider.js";
-import {OverrideProvider} from "./overrideProvider.js";
 
 describe("OverrideProvider", () => {
   class Test {}

@@ -1,6 +1,5 @@
+import {OperationPath, getOperationsStores} from "../index.js";
 import {StoreSet} from "@tsed/core";
-
-import {getOperationsStores, OperationPath} from "../index.js";
 
 describe("getOperationsStore", () => {
   it("should return operation with right order", () => {

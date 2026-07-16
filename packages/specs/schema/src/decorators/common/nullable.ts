@@ -1,11 +1,10 @@
 import {Type, useDecorators} from "@tsed/core";
 import type {JSONSchema6TypeName} from "json-schema";
-
-import {JsonSchema} from "../../domain/JsonSchema.js";
-import {array} from "../../fn/collection.js";
 import {JsonEntityFn} from "./jsonEntityFn.js";
+import {JsonSchema} from "../../domain/JsonSchema.js";
 import {OneOf} from "./oneOf.js";
 import {Property} from "./property.js";
+import {array} from "../../fn/collection.js";
 
 /**
  * Marks a property as nullable, allowing it to accept `null` in addition to its base type.

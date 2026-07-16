@@ -1,7 +1,6 @@
 import {catchError} from "@tsed/core/utils/catchError.js";
-import {deepClone} from "@tsed/core/utils/deepClone.js";
-
 import {constant} from "../fn/constant.js";
+import {deepClone} from "@tsed/core/utils/deepClone.js";
 
 export function bindConstant(target: Object, propertyKey: string | symbol, expression: string, defaultValue?: any) {
   const symbol = Symbol();

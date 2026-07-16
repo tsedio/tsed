@@ -1,10 +1,23 @@
 {
   "name": "@tsed/config-postgres",
-  "description": "Use PostgreSQL to inject configuration to your Ts.ED project.",
   "version": "1.6.1",
+  "description": "Use PostgreSQL to inject configuration to your Ts.ED project.",
+  "keywords": [
+    "Ts.ED",
+    "config",
+    "framework",
+    "postgres",
+    "postgresql",
+    "source",
+    "tsed",
+    "typescript"
+  ],
+  "source": "./src/index.ts",
+  "files": [
+    "lib"
+  ],
   "type": "module",
   "main": "./lib/esm/index.js",
-  "source": "./src/index.ts",
   "module": "./lib/esm/index.js",
   "typings": "./lib/types/index.d.ts",
   "exports": {
@@ -21,26 +34,13 @@
     "test": "vitest run --silent=false",
     "test:ci": "vitest run --coverage.thresholds.autoUpdate=true"
   },
-  "files": [
-    "lib"
-  ],
-  "keywords": [
-    "Ts.ED",
-    "tsed",
-    "typescript",
-    "framework",
-    "config",
-    "source",
-    "postgresql",
-    "postgres"
-  ],
-  "engines": {
-    "node": ">=14"
-  },
   "dependencies": {
     "tslib": "2.8.1"
   },
   "devDependencies": {
     "typescript": "6.0.2"
+  },
+  "engines": {
+    "node": ">=14"
   }
 }

@@ -1,7 +1,6 @@
-import {PlatformTest} from "@tsed/platform-http/testing";
-
 import {PlatformCache} from "./PlatformCache.js";
 import {PlatformCacheRefreshService} from "./PlatformCacheRefreshService.js";
+import {PlatformTest} from "@tsed/platform-http/testing";
 
 function createPlatformCacheMock() {
   const store = new Map<string, any>();

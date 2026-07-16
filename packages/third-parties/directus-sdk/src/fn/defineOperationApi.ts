@@ -1,5 +1,4 @@
 import {defineOperationApi as oDefineOperationApi} from "@directus/extensions-sdk";
-
 import {wrapOperation} from "./wrapOperation.js";
 
 type OperationApiConfig = Parameters<typeof oDefineOperationApi>[0];

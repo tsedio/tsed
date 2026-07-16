@@ -1,12 +1,11 @@
-import {DecoratorTypes, deepMerge, descriptorOf, isFunction, Store, Type} from "@tsed/core";
-
+import {DecoratorTypes, Store, Type, deepMerge, descriptorOf, isFunction} from "@tsed/core";
 import {JsonEntityStore, JsonEntityStoreOptions} from "../../domain/JsonEntityStore.js";
-import {JsonOperation} from "../../domain/JsonOperation.js";
-import {JsonSchema} from "../../domain/JsonSchema.js";
 import {defineStore, getJsonEntityStore} from "../../registries/JsonEntitiesContainer.js";
-import {isSuccessStatus} from "../../utils/isSuccessStatus.js";
 import type {JsonClassStore} from "./JsonClassStore.js";
+import {JsonOperation} from "../../domain/JsonOperation.js";
 import type {JsonParameterStore} from "./JsonParameterStore.js";
+import {JsonSchema} from "../../domain/JsonSchema.js";
+import {isSuccessStatus} from "../../utils/isSuccessStatus.js";
 
 /**
  * Configuration options for view rendering.

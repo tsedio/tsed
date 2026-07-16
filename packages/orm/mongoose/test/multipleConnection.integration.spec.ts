@@ -1,10 +1,9 @@
+import {Model, MongooseModel, MongooseService, ObjectID} from "../src/index.js";
+import {afterEach, beforeEach, describe, expect, it} from "vitest";
 import {PlatformTest} from "@tsed/platform-http/testing";
 import {Property} from "@tsed/schema";
-import {TestContainersMongo} from "@tsed/testcontainers-mongo";
-import {afterEach, beforeEach, describe, expect, it} from "vitest";
-
-import {Model, MongooseModel, MongooseService, ObjectID} from "../src/index.js";
 import {Server} from "./helpers/Server.js";
+import {TestContainersMongo} from "@tsed/testcontainers-mongo";
 
 @Model({
   connection: "customer",

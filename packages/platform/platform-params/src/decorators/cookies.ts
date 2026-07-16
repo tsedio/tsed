@@ -1,9 +1,8 @@
-import {Type} from "@tsed/core";
-
 import {ParamOptions} from "../domain/ParamOptions.js";
 import {ParamTypes} from "../domain/ParamTypes.js";
-import {mapParamsOptions} from "../utils/mapParamsOptions.js";
+import {Type} from "@tsed/core";
 import {UseParam} from "./useParam.js";
+import {mapParamsOptions} from "../utils/mapParamsOptions.js";
 
 /**
  * Cookies or CookiesParams return the value from [request.cookies](http://expressjs.com/en/4x/api.html#req.cookies) object.

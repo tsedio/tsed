@@ -1,4 +1,5 @@
 import {
+  Type,
   ancestorsOf,
   classOf,
   getRandomId,
@@ -13,8 +14,7 @@ import {
   isObjectID,
   isString,
   nameOf,
-  objectKeys,
-  Type
+  objectKeys
 } from "@tsed/core";
 import {JsonSchema} from "@tsed/schema";
 

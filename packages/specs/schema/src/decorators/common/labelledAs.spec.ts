@@ -1,7 +1,7 @@
-import {s} from "../../fn/index.js";
-import {MaxItems} from "../collections/maxItems.js";
 import {Enum} from "./enum.js";
 import {LabelledAs} from "./labelledAs.js";
+import {MaxItems} from "../collections/maxItems.js";
+import {s} from "../../fn/index.js";
 
 describe("LabelledAs", () => {
   it("should create label on item schema", () => {

@@ -1,7 +1,6 @@
-import {Env} from "@tsed/core";
 import {BaseContext} from "@tsed/di";
-
 import {Catch} from "../decorators/catch.js";
+import {Env} from "@tsed/core";
 import type {ExceptionFilterMethods} from "../interfaces/ExceptionFilterMethods.js";
 
 @Catch(Error)

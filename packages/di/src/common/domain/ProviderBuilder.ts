@@ -1,11 +1,10 @@
+import type {FactoryTokenProvider, TokenProvider} from "../interfaces/TokenProvider.js";
+import {Provider} from "../domain/Provider.js";
+import type {ProviderOpts} from "../interfaces/ProviderOpts.js";
+import {ProviderType} from "../domain/ProviderType.js";
 import type {Store} from "@tsed/core";
 import type {Type} from "@tsed/core/types/Type.js";
-
-import {Provider} from "../domain/Provider.js";
-import {ProviderType} from "../domain/ProviderType.js";
 import {injector} from "../fn/injector.js";
-import type {ProviderOpts} from "../interfaces/ProviderOpts.js";
-import type {FactoryTokenProvider, TokenProvider} from "../interfaces/TokenProvider.js";
 
 declare global {
   namespace TsED {

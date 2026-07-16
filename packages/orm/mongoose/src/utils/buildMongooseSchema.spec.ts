@@ -1,7 +1,6 @@
 import {JsonEntityStore, Property} from "@tsed/schema";
-
-import {buildMongooseSchema} from "../../src/utils/createSchema.js";
 import {MONGOOSE_SCHEMA} from "../constants/constants.js";
+import {buildMongooseSchema} from "../../src/utils/createSchema.js";
 
 describe("buildMongooseSchema", () => {
   describe("when mongoose schema hasn't ref", () => {

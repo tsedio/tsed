@@ -1,7 +1,6 @@
 import {afterEach, beforeEach} from "vitest";
-
-import {DITest} from "../../node/index.js";
 import {lazyInject, optionalLazyInject} from "./lazyInject.js";
+import {DITest} from "../../node/index.js";
 
 describe("lazyInject", () => {
   beforeEach(() => DITest.create());

@@ -1,16 +1,15 @@
-import {afterEach} from "vitest";
-
+import {destroyInjector, injector} from "../fn/injector.js";
+import {Container} from "../domain/Container.js";
 import {Inject} from "../decorators/inject.js";
 import {Injectable} from "../decorators/injectable.js";
-import {Scope} from "../decorators/scope.js";
-import {Service} from "../decorators/service.js";
-import {Container} from "../domain/Container.js";
 import {LocalsContainer} from "../domain/LocalsContainer.js";
+import {OnDestroy} from "../interfaces/OnDestroy.js";
 import {Provider} from "../domain/Provider.js";
 import {ProviderScope} from "../domain/ProviderScope.js";
+import {Scope} from "../decorators/scope.js";
+import {Service} from "../decorators/service.js";
+import {afterEach} from "vitest";
 import {inject} from "../fn/inject.js";
-import {destroyInjector, injector} from "../fn/injector.js";
-import {OnDestroy} from "../interfaces/OnDestroy.js";
 
 describe("DI", () => {
   afterEach(() => destroyInjector());

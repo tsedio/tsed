@@ -1,5 +1,5 @@
-import {Controller} from "@tsed/di";
 import {Get, Hidden} from "@tsed/schema";
+import {Controller} from "@tsed/di";
 
 @Hidden()
 @Controller("/features")

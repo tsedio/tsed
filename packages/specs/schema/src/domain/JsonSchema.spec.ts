@@ -1,8 +1,6 @@
 import "../index.js";
-
+import {CollectionOf, Name, Property, Required, getJsonEntityStore, s} from "../index.js";
 import {Ajv} from "ajv";
-
-import {CollectionOf, getJsonEntityStore, Name, Property, Required, s} from "../index.js";
 import {JsonSchema} from "./JsonSchema.js";
 
 declare module "@tsed/schema" {

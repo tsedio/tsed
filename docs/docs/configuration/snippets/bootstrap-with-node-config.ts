@@ -2,7 +2,7 @@ import {$log} from "@tsed/logger";
 import {PlatformExpress} from "@tsed/platform-express";
 import {Server} from "./Server.js";
 
-const rootDir = __dirname
+const rootDir = __dirname;
 
 // /!\ configuration file must be outside of your src directory
 process.env["NODE_CONFIG_DIR"] = `${rootDir}/../config`;

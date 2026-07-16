@@ -1,9 +1,7 @@
 import "../components/index.js";
 import "../index.js";
-
-import {join} from "node:path";
-
 import {getEngine, getEngines} from "./getEngines.js";
+import {join} from "node:path";
 
 const rootDir = import.meta.dirname; // automatically replaced by import.meta.dirname on build
 

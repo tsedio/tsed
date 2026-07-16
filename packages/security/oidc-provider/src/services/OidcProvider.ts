@@ -1,16 +1,15 @@
 import {Env, setValue} from "@tsed/core";
-import {constant, context, inject, Injectable, InjectorService} from "@tsed/di";
-import {$asyncAlter} from "@tsed/hooks";
+import {Injectable, InjectorService, constant, context, inject} from "@tsed/di";
 import {PlatformApplication, PlatformContext} from "@tsed/platform-http";
 import Provider, {type Configuration, type KoaContextWithOIDC} from "oidc-provider";
-
+import {$asyncAlter} from "@tsed/hooks";
 import {INTERACTIONS} from "../constants/constants.js";
-import {OidcAccountsMethods} from "../domain/OidcAccountsMethods.js";
-import {OidcSettings} from "../domain/OidcSettings.js";
 import {OIDC_ERROR_EVENTS} from "../utils/events.js";
+import {OidcAccountsMethods} from "../domain/OidcAccountsMethods.js";
 import {OidcAdapters} from "./OidcAdapters.js";
 import {OidcJwks} from "./OidcJwks.js";
 import {OidcPolicy} from "./OidcPolicy.js";
+import {OidcSettings} from "../domain/OidcSettings.js";
 
 function mapError(error: any) {
   return Object.getOwnPropertyNames(error).reduce((obj: any, key) => {

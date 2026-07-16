@@ -1,16 +1,14 @@
-import {promisify} from "node:util";
-
-import {ancestorsOf} from "@tsed/core";
 import {Inject, Injectable, InjectorService, Provider} from "@tsed/di";
-import {Unauthorized} from "@tsed/exceptions";
-import {PlatformContext, PlatformHandler} from "@tsed/platform-http";
 import Passport, {Strategy} from "passport";
-
+import {PlatformContext, PlatformHandler} from "@tsed/platform-http";
 import {PROVIDER_TYPE_PROTOCOL} from "../contants/constants.js";
 import {PassportException} from "../errors/PassportException.js";
 import {PassportMessage} from "../errors/PassportMessage.js";
 import type {ProtocolMethods} from "../interfaces/ProtocolMethods.js";
 import type {ProtocolOptions} from "../interfaces/ProtocolOptions.js";
+import {Unauthorized} from "@tsed/exceptions";
+import {ancestorsOf} from "@tsed/core";
+import {promisify} from "node:util";
 
 /**
  * @ignore

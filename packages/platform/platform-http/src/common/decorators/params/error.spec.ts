@@ -1,7 +1,6 @@
-import {ParamTypes} from "@tsed/platform-params";
-import {JsonParameterStore} from "@tsed/schema";
-
 import {Err} from "./error.js";
+import {JsonParameterStore} from "@tsed/schema";
+import {ParamTypes} from "@tsed/platform-params";
 
 describe("@Err", () => {
   it("should register a new parameter instance with the correct property", () => {

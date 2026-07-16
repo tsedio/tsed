@@ -1,6 +1,5 @@
-import {StoreSet} from "@tsed/core/decorators/storeSet.js";
-
 import {ProviderScope} from "../domain/ProviderScope.js";
+import {StoreSet} from "@tsed/core/decorators/storeSet.js";
 
 /**
  * Define the lifecycle scope of a provider.

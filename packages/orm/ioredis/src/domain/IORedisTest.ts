@@ -1,5 +1,4 @@
 import {DITest} from "@tsed/di";
-
 import {mockConnections} from "../utils/mockConnections.js";
 
 export class IORedisTest extends DITest {

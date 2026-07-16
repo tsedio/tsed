@@ -1,6 +1,5 @@
-import {Store} from "@tsed/core";
-
 import {MONGOOSE_MODEL_NAME} from "../constants/constants.js";
+import {Store} from "@tsed/core";
 import {resolveRefType} from "./resolveRefType.js";
 
 describe("resolveRefType", () => {

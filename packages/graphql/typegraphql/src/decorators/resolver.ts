@@ -1,7 +1,6 @@
+import {ClassType, Resolver} from "type-graphql";
 import {StoreSet, useDecorators} from "@tsed/core";
 import {Injectable} from "@tsed/di";
-import {ClassType, Resolver} from "type-graphql";
-
 import {RESOLVERS_PROVIDERS} from "../constants/constants.js";
 
 export interface ResolverControllerOptions {

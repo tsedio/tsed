@@ -1,9 +1,7 @@
-import {promisify} from "node:util";
-
-import {injectable} from "@tsed/di";
-import type {Options} from "multer";
-
 import {MULTER_MODULE} from "../../common/index.js";
+import type {Options} from "multer";
+import {injectable} from "@tsed/di";
+import {promisify} from "node:util";
 
 async function factory() {
   const {default: multer} = await import("multer");

@@ -265,7 +265,6 @@ Start and completion are logged at level `info`; failures are logged at level `e
 To change or disable this behavior, set `logLevel` in the configuration.
 
 ```ts
-
 @Configuration({
   bullmq: {
     // ...
@@ -274,11 +273,9 @@ To change or disable this behavior, set `logLevel` in the configuration.
   }
 })
 export class Server {}
-
 ```
 
 **Note**: The module logs when job controller is missing as `warn`. This cannot be separetely controlled.
-
 
 ## Contributors
 

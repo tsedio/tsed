@@ -1,6 +1,5 @@
-import {PlatformTest} from "@tsed/platform-http/testing";
-
 import {AlterLog} from "./AlterLog.js";
+import {PlatformTest} from "@tsed/platform-http/testing";
 
 describe("AlterLog", () => {
   beforeEach(() => PlatformTest.create());

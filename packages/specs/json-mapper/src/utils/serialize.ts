@@ -1,7 +1,6 @@
 import "../components/DateMapper.js";
 import "../components/PrimitiveMapper.js";
 import "../components/SymbolMapper.js";
-
 import {JsonSerializer} from "../domain/JsonSerializer.js";
 import {JsonSerializerOptions} from "../domain/JsonSerializerOptions.js";
 

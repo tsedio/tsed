@@ -1,5 +1,5 @@
-import {withErrorMsg} from "../../utils/withErrorMsg.js";
 import {JsonEntityFn} from "./jsonEntityFn.js";
+import {withErrorMsg} from "../../utils/withErrorMsg.js";
 
 /**
  * A string instance is valid against this keyword if its length is greater than, or equal to, the value of this keyword.

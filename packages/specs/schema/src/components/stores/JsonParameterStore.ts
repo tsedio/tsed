@@ -1,9 +1,8 @@
-import {ancestorsOf, DecoratorTypes, isClass, isMethodDescriptor, Metadata, prototypeOf, Type} from "@tsed/core";
-
+import {DecoratorTypes, Metadata, Type, ancestorsOf, isClass, isMethodDescriptor, prototypeOf} from "@tsed/core";
 import {JsonEntityStore, JsonEntityStoreOptions} from "../../domain/JsonEntityStore.js";
-import {JsonParameter} from "../../domain/JsonParameter.js";
 import {defineStore, getJsonMethodStore} from "../../registries/JsonEntitiesContainer.js";
 import type {JsonMethodStore} from "./JsonMethodStore.js";
+import {JsonParameter} from "../../domain/JsonParameter.js";
 
 /**
  * Configuration options for creating a JsonParameterStore.

@@ -1,6 +1,5 @@
-import {configuration, DITest} from "@tsed/di";
+import {DITest, configuration} from "@tsed/di";
 import type {RedisClientType} from "redis";
-
 import {registerConnectionProvider} from "./registerConnectionProvider.js";
 
 vi.mock("redis", () => {

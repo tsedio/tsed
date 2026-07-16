@@ -1,4 +1,4 @@
-import {getSpec, In, OperationPath, Path, Property, SpecTypes} from "../../index.js";
+import {In, OperationPath, Path, Property, SpecTypes, getSpec} from "../../index.js";
 import {Examples} from "./examples.js";
 
 class MyModel {

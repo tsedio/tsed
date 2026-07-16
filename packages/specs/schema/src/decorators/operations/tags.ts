@@ -1,7 +1,6 @@
-import {decorateMethodsOf, DecoratorTypes, UnsupportedDecoratorType} from "@tsed/core";
-import {OpenSpecTag} from "@tsed/openspec";
-
+import {DecoratorTypes, UnsupportedDecoratorType, decorateMethodsOf} from "@tsed/core";
 import {JsonEntityFn} from "../common/jsonEntityFn.js";
+import {OpenSpecTag} from "@tsed/openspec";
 
 function mapTags(tags: (string | OpenSpecTag)[]) {
   return tags.map((tag) => {

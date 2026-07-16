@@ -1,17 +1,15 @@
-import {promisify} from "node:util";
-
-import {Constant, Controller} from "@tsed/di";
-import {NotFound} from "@tsed/exceptions";
-import {Req} from "@tsed/platform-http";
-import {PlatformTest} from "@tsed/platform-http/testing";
-import {BodyParams, Session} from "@tsed/platform-params";
-import {PlatformTestSdk} from "@tsed/platform-test-sdk";
 import {Allow, Email, Get, Ignore, MinLength, Post, Property, Required, Returns} from "@tsed/schema";
-import SuperTest from "supertest";
+import {BodyParams, Session} from "@tsed/platform-params";
+import {Constant, Controller} from "@tsed/di";
+import {Server, rootDir} from "./app/Server.js";
 import {afterAll, beforeAll, describe, expect, it} from "vitest";
-
+import {NotFound} from "@tsed/exceptions";
 import {PlatformFastify} from "../src/index.js";
-import {rootDir, Server} from "./app/Server.js";
+import {PlatformTest} from "@tsed/platform-http/testing";
+import {PlatformTestSdk} from "@tsed/platform-test-sdk";
+import {Req} from "@tsed/platform-http";
+import SuperTest from "supertest";
+import {promisify} from "node:util";
 
 export class UserCreation {
   @Property()

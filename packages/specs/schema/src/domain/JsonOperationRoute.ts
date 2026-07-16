@@ -1,8 +1,7 @@
-import {Type} from "@tsed/core";
-
-import type {JsonMethodStore} from "../components/stores/JsonMethodStore.js";
-import {concatPath} from "../utils/concatPath.js";
 import {JsonMethodPath, JsonOperation} from "./JsonOperation.js";
+import type {JsonMethodStore} from "../components/stores/JsonMethodStore.js";
+import {Type} from "@tsed/core";
+import {concatPath} from "../utils/concatPath.js";
 
 /**
  * Represents a fully resolved HTTP route combining controller and method metadata.

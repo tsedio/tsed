@@ -1,11 +1,9 @@
-import {EventEmitter} from "node:events";
-
-import {PlatformFastifyResponse} from "@tsed/platform-fastify";
-import {application} from "@tsed/platform-http";
-import {PlatformTest} from "@tsed/platform-http/testing";
 import {afterEach, beforeEach, describe, expect, it, vi} from "vitest";
-
+import {EventEmitter} from "node:events";
+import {PlatformFastifyResponse} from "@tsed/platform-fastify";
 import {PlatformMcpModule} from "./PlatformMcpModule.js";
+import {PlatformTest} from "@tsed/platform-http/testing";
+import {application} from "@tsed/platform-http";
 
 const {TestTransport, transportInstances} = vi.hoisted(() => {
   const transportInstances: TestTransport[] = [];

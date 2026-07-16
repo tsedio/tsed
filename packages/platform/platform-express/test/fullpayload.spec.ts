@@ -1,15 +1,13 @@
-import fs from "node:fs/promises";
-import {join} from "node:path";
-
-import {Controller} from "@tsed/di";
-import {PlatformTest} from "@tsed/platform-http/testing";
+import {Server, rootDir} from "./app/Server.js";
 import {BodyParams} from "@tsed/platform-params";
+import {Controller} from "@tsed/di";
+import {PlatformExpress} from "../src/index.js";
+import {PlatformTest} from "@tsed/platform-http/testing";
 import {PlatformTestSdk} from "@tsed/platform-test-sdk";
 import {Post} from "@tsed/schema";
 import SuperTest from "supertest";
-
-import {PlatformExpress} from "../src/index.js";
-import {rootDir, Server} from "./app/Server.js";
+import fs from "node:fs/promises";
+import {join} from "node:path";
 
 const root = import.meta.dirname;
 

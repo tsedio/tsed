@@ -1,8 +1,7 @@
-import {type Type} from "@tsed/core";
-import {ProviderBuilder} from "@tsed/di";
-
 import {PlatformCacheInterceptor} from "../interceptors/PlatformCacheInterceptor.js";
 import type {PlatformCacheOptions} from "../interfaces/PlatformCacheOptions.js";
+import {ProviderBuilder} from "@tsed/di";
+import {type Type} from "@tsed/core";
 
 declare global {
   namespace TsED {

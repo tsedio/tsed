@@ -1,4 +1,10 @@
+import {AliasMap, AliasType} from "./JsonAliasMap.js";
+import type {GenericValue, GenericsMap} from "./Generics.js";
+import type {Infer, PropsToShape, SchemaKey, SchemaMerge, SchemaOmit, SchemaPartial, SchemaPick, UnionToIntersection} from "./types.js";
+import type {JSONSchema7, JSONSchema7Definition, JSONSchema7Type, JSONSchema7TypeName, JSONSchema7Version} from "json-schema";
 import {
+  Type,
+  ValueOf,
   ancestorOf,
   ancestorsOf,
   classOf,
@@ -10,31 +16,24 @@ import {
   isPrimitiveClass,
   isTemporal,
   nameOf,
-  Type,
-  uniq,
-  ValueOf
+  uniq
 } from "@tsed/core";
-import {Hooks} from "@tsed/hooks";
-import type {JSONSchema7, JSONSchema7Definition, JSONSchema7Type, JSONSchema7TypeName, JSONSchema7Version} from "json-schema";
-
-import {VendorKeys} from "../constants/VendorKeys.js";
-import {enumsRegistry} from "../registries/enumRegistry.js";
-import {getJsonEntityStore} from "../registries/JsonEntitiesContainer.js";
-import {execMapper} from "../registries/JsonSchemaMapperContainer.js";
-import {getTypeResolver} from "../registries/JsonTypesContainer.js";
-import {getComputedType} from "../utils/getComputedType.js";
-import {getJsonType} from "../utils/getJsonType.js";
-import {matchGroups} from "../utils/matchGroups.js";
-import {serializeEnumValues} from "../utils/serializeEnumValues.js";
-import {toJsonRegex} from "../utils/toJsonRegex.js";
-import type {GenericsMap, GenericValue} from "./Generics.js";
-import {IgnoreCallback} from "./IgnoreCallback.js";
-import {AliasMap, AliasType} from "./JsonAliasMap.js";
 import {Discriminator} from "./JsonDiscriminator.js";
+import {Hooks} from "@tsed/hooks";
+import {IgnoreCallback} from "./IgnoreCallback.js";
 import {JsonFormatTypes} from "./JsonFormatTypes.js";
 import {JsonLazyRef} from "./JsonLazyRef.js";
 import {JsonSchemaOptions} from "./JsonSchemaOptions.js";
-import type {Infer, PropsToShape, SchemaKey, SchemaMerge, SchemaOmit, SchemaPartial, SchemaPick, UnionToIntersection} from "./types.js";
+import {VendorKeys} from "../constants/VendorKeys.js";
+import {enumsRegistry} from "../registries/enumRegistry.js";
+import {execMapper} from "../registries/JsonSchemaMapperContainer.js";
+import {getComputedType} from "../utils/getComputedType.js";
+import {getJsonEntityStore} from "../registries/JsonEntitiesContainer.js";
+import {getJsonType} from "../utils/getJsonType.js";
+import {getTypeResolver} from "../registries/JsonTypesContainer.js";
+import {matchGroups} from "../utils/matchGroups.js";
+import {serializeEnumValues} from "../utils/serializeEnumValues.js";
+import {toJsonRegex} from "../utils/toJsonRegex.js";
 
 /**
  * Extended JSON Schema object supporting TypeScript types and Ts.ED enhancements.

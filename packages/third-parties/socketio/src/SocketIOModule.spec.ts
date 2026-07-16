@@ -1,10 +1,8 @@
+import {SocketIOModule, SocketIOServer, SocketIOService} from "./index.js";
 import Http from "node:http";
 import Https from "node:https";
-
 import {PlatformConfiguration} from "@tsed/platform-http";
 import {PlatformTest} from "@tsed/platform-http/testing";
-
-import {SocketIOModule, SocketIOServer, SocketIOService} from "./index.js";
 
 async function createModuleFixture() {
   const serverSettingsService = PlatformTest.get<PlatformConfiguration>(PlatformConfiguration);

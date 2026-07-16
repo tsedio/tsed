@@ -1,12 +1,11 @@
-import {classOf, cleanObject, isClassObject, nameOf, Store, Type} from "@tsed/core";
-import {deserialize, serialize} from "@tsed/json-mapper";
-import {getProperties, JsonEntityStore, s} from "@tsed/schema";
-import {pascalCase} from "change-case";
-import mongoose, {Schema, SchemaDefinition, SchemaDefinitionProperty, SchemaOptions, SchemaTypeOptions} from "mongoose";
-
+import {JsonEntityStore, getProperties, s} from "@tsed/schema";
 import {MONGOOSE_SCHEMA, MONGOOSE_SCHEMA_OPTIONS} from "../constants/constants.js";
+import {Store, Type, classOf, cleanObject, isClassObject, nameOf} from "@tsed/core";
+import {deserialize, serialize} from "@tsed/json-mapper";
+import mongoose, {Schema, SchemaDefinition, SchemaDefinitionProperty, SchemaOptions, SchemaTypeOptions} from "mongoose";
 import {MongooseSchemaOptions} from "../interfaces/MongooseSchemaOptions.js";
 import {MongooseVirtualRefOptions} from "../interfaces/MongooseVirtualRefOptions.js";
+import {pascalCase} from "change-case";
 import {resolveRefType} from "./resolveRefType.js";
 import {schemaOptions} from "./schemaOptions.js";
 

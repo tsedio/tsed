@@ -1,10 +1,9 @@
-import {getValue} from "@tsed/core";
-import {getStatusMessage} from "@tsed/schema";
 import type {APIGatewayProxyEvent} from "aws-lambda";
-import encodeUrl from "encodeurl";
-import mime from "mime";
-
 import {ServerlessContext} from "./ServerlessContext.js";
+import encodeUrl from "encodeurl";
+import {getStatusMessage} from "@tsed/schema";
+import {getValue} from "@tsed/core";
+import mime from "mime";
 
 export type HeaderValue = boolean | number | string;
 

@@ -1,11 +1,10 @@
-import {cleanObject} from "@tsed/core";
-import {constant, inject, injectable, injector, ProviderScope} from "@tsed/di";
 import {Ajv, Format, KeywordDefinition, Options, Vocabulary} from "ajv";
+import {ProviderScope, constant, inject, injectable, injector} from "@tsed/di";
 import AjvErrors from "ajv-errors";
 import AjvFormats from "ajv-formats";
-
 import {AjvSettings} from "../interfaces/AjvSettings.js";
 import {FormatsMethods} from "../interfaces/FormatsMethods.js";
+import {cleanObject} from "@tsed/core";
 
 function getHandler(key: string, service: any) {
   if (service[key]) {

@@ -1,13 +1,11 @@
-import {createReadStream} from "node:fs";
-import {join} from "node:path";
-
+import {ContentType, Get} from "@tsed/schema";
+import {afterAll, beforeAll, describe, expect, it} from "vitest";
 import {Controller} from "@tsed/di";
 import {PlatformTest} from "@tsed/platform-http/testing";
-import {ContentType, Get} from "@tsed/schema";
-import SuperTest from "supertest";
-import {afterAll, beforeAll, describe, expect, it} from "vitest";
-
 import {PlatformTestingSdkOpts} from "../interfaces/index.js";
+import SuperTest from "supertest";
+import {createReadStream} from "node:fs";
+import {join} from "node:path";
 
 const rootDir = import.meta.dirname; // automatically replaced by import.meta.dirname on build
 

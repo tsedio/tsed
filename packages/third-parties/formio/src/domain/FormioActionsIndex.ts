@@ -1,6 +1,5 @@
-import {Type} from "@tsed/core";
-
 import {FormioActionModelCtor} from "./FormioAction.js";
+import {Type} from "@tsed/core";
 
 export interface FormioActions {
   email: FormioActionModelCtor;

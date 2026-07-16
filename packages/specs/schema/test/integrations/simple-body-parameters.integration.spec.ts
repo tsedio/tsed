@@ -1,6 +1,5 @@
+import {JsonParameterStore, Post, Required, compile} from "../../src/index.js";
 import {ParamTypes, UseParam} from "@tsed/platform-params";
-
-import {compile, JsonParameterStore, Post, Required} from "../../src/index.js";
 
 describe("Simple body parameters integration", () => {
   it("should generate the json schema", () => {

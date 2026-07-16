@@ -1,6 +1,5 @@
-import {Provider} from "@tsed/di";
-
 import {OpenApiSettings} from "../interfaces/OpenApiSettings.js";
+import {Provider} from "@tsed/di";
 import {matchPath} from "./matchPath.js";
 
 export function includeRoute(route: string, provider: Provider, conf: OpenApiSettings): boolean {

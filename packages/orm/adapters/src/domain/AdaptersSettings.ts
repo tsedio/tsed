@@ -1,6 +1,5 @@
-import {Type} from "@tsed/core";
-
 import {Adapter} from "./Adapter.js";
+import {Type} from "@tsed/core";
 
 export interface AdaptersSettings {
   /**

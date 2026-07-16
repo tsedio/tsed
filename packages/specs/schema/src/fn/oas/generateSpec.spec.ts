@@ -1,9 +1,3 @@
-import {join} from "node:path";
-
-import {BodyParams} from "@tsed/platform-params";
-import fs from "fs-extra";
-
-import {validateSpec} from "../../../test/helpers/validateSpec.js";
 import {
   AnyOf,
   CollectionOf,
@@ -18,9 +12,13 @@ import {
   Property,
   Required,
   Returns,
-  s,
-  SpecTypes
+  SpecTypes,
+  s
 } from "../../index.js";
+import {BodyParams} from "@tsed/platform-params";
+import fs from "fs-extra";
+import {join} from "node:path";
+import {validateSpec} from "../../../test/helpers/validateSpec.js";
 
 const rootDir = import.meta.dirname; // automatically replaced by import.meta.dirname on build
 

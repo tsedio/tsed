@@ -1,8 +1,7 @@
-import {ValueOf} from "@tsed/core";
-
-import {JsonFormatTypes} from "../../domain/JsonFormatTypes.js";
-import {withErrorMsg} from "../../utils/withErrorMsg.js";
 import {JsonEntityFn} from "./jsonEntityFn.js";
+import {JsonFormatTypes} from "../../domain/JsonFormatTypes.js";
+import {ValueOf} from "@tsed/core";
+import {withErrorMsg} from "../../utils/withErrorMsg.js";
 
 /**
  * Applies a format validation to string properties using JSON Schema's `format` keyword.

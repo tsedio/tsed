@@ -1,8 +1,5 @@
-import {deepClone} from "@tsed/core";
 import {Constant, Inject, InjectorService, Module} from "@tsed/di";
-import {normalizePath} from "@tsed/normalize-path";
 import {OnReady, OnRoutesInit, PlatformApplication, PlatformRouteDetails} from "@tsed/platform-http";
-
 import {AlterActions} from "./components/AlterActions.js";
 import {AlterAudit} from "./components/AlterAudit.js";
 import {AlterHost} from "./components/AlterHost.js";
@@ -10,12 +7,14 @@ import {AlterLog} from "./components/AlterLog.js";
 import {AlterSkip} from "./components/AlterSkip.js";
 import {AlterTemplateExportSteps} from "./components/AlterTemplateExportSteps.js";
 import {AlterTemplateImportSteps} from "./components/AlterTemplateImportSteps.js";
-import {FormioConfig} from "./domain/FormioConfig.js";
-import {FormioTemplate} from "./domain/FormioTemplate.js";
 import {FormioAuthService} from "./services/FormioAuthService.js";
+import {FormioConfig} from "./domain/FormioConfig.js";
 import {FormioHooksService} from "./services/FormioHooksService.js";
 import {FormioInstaller} from "./services/FormioInstaller.js";
 import {FormioService} from "./services/FormioService.js";
+import {FormioTemplate} from "./domain/FormioTemplate.js";
+import {deepClone} from "@tsed/core";
+import {normalizePath} from "@tsed/normalize-path";
 
 @Module({
   imports: [

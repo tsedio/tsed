@@ -1,7 +1,6 @@
 import {Provider, TokenProvider} from "@tsed/di";
-import type {Redis} from "ioredis";
-
 import {IOREDIS_CONNECTIONS} from "./registerConnectionProvider.js";
+import type {Redis} from "ioredis";
 
 export async function mockConnection(token: TokenProvider, name: string) {
   const {default: RealIORedis} = await import("ioredis-mock");

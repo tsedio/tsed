@@ -1,7 +1,6 @@
-import fs from "node:fs";
-
-import {Controller} from "@tsed/di";
 import {Get, Hidden, Returns, View} from "@tsed/schema";
+import {Controller} from "@tsed/di";
+import fs from "node:fs";
 
 @Controller("/")
 @Hidden()

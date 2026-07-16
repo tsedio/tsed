@@ -1,7 +1,6 @@
-import {catchAsyncError} from "@tsed/core";
 import {type Cache, caching} from "cache-manager";
-
 import {RedisStore, redisStore} from "./RedisStore.js";
+import {catchAsyncError} from "@tsed/core";
 
 vi.mock("redis", () => {
   const createCacheClient = () => {

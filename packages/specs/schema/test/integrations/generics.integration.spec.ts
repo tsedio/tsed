@@ -1,32 +1,31 @@
-import {validate} from "@tsed/ajv";
-import {catchAsyncError} from "@tsed/core";
-
 import {
   AdditionalProperties,
-  array,
   CollectionOf,
-  compile,
   Description,
   Email,
   GenericOf,
   Generics,
-  get,
-  getSpec,
   In,
   MinLength,
-  object,
   OperationPath,
   Path,
   Post,
   Property,
   Required,
   Returns,
-  s,
   SpecTypes,
   Status,
-  string,
-  VendorKeys
+  VendorKeys,
+  array,
+  compile,
+  get,
+  getSpec,
+  object,
+  s,
+  string
 } from "../../src/index.js";
+import {catchAsyncError} from "@tsed/core";
+import {validate} from "@tsed/ajv";
 import {validateSpec} from "../helpers/validateSpec.js";
 
 describe("Generics: basic", () => {

@@ -1,9 +1,8 @@
-import {getValue} from "@tsed/core";
+import {JsonTokenOptions, SpecSerializerOptions, getSpec} from "./getSpec.js";
 import {OpenSpec2, OpenSpec3} from "@tsed/openspec";
-
 import {SpecTypes} from "../../domain/SpecTypes.js";
-import {getSpec, JsonTokenOptions, SpecSerializerOptions} from "./getSpec.js";
 import {getSpecTypeFromSpec} from "./getSpecType.js";
+import {getValue} from "@tsed/core";
 import {mapOpenSpec} from "./mapOpenSpec.js";
 import {mergeSpec} from "./mergeSpec.js";
 import {transformToOS2} from "./transformToOS2.js";

@@ -1,10 +1,9 @@
+import {Get, Post} from "@tsed/schema";
 import {Controller} from "@tsed/di";
 import {PlatformExpress} from "@tsed/platform-express";
 import {PlatformTest} from "@tsed/platform-http/testing";
-import {Get, Post} from "@tsed/schema";
-import SuperTest from "supertest";
-
 import {Server} from "./app/Server.js";
+import SuperTest from "supertest";
 
 @Controller("/")
 export class FlaggedCommentController {

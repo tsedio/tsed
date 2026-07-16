@@ -1,10 +1,9 @@
-import {catchAsyncError} from "@tsed/core";
 import {BadRequest} from "@tsed/exceptions";
-import {PlatformTest} from "@tsed/platform-http/testing";
-
 import {FormioAuthService} from "./FormioAuthService.js";
 import {FormioHooksService} from "./FormioHooksService.js";
 import {FormioService} from "./FormioService.js";
+import {PlatformTest} from "@tsed/platform-http/testing";
+import {catchAsyncError} from "@tsed/core";
 
 function createSubmissionModelFixture(): any {
   return class {

@@ -1,6 +1,5 @@
-import {PlatformTest} from "@tsed/platform-http/testing";
-
 import {PlatformKoaRequest} from "./PlatformKoaRequest.js";
+import {PlatformTest} from "@tsed/platform-http/testing";
 
 function createRequest() {
   const req = PlatformTest.createRequest();

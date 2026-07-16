@@ -1,8 +1,7 @@
-import {inject} from "@tsed/di";
-import {PlatformTest} from "@tsed/platform-http/testing";
 import {afterEach, beforeEach, describe, expect, it} from "vitest";
-
+import {PlatformTest} from "@tsed/platform-http/testing";
 import {defineResource} from "./defineResource.js";
+import {inject} from "@tsed/di";
 
 describe("defineResource", () => {
   beforeEach(() => PlatformTest.create());

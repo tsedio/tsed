@@ -1,6 +1,5 @@
-import {Writable} from "node:stream";
-
 import {BaseContext} from "@tsed/di";
+import {Writable} from "node:stream";
 
 export const PLATFORM_VIEWS_EXTENSIONS = {
   atpl: "atpl",

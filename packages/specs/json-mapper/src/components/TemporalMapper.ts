@@ -1,7 +1,6 @@
-import {isBoolean} from "@tsed/core";
-
-import {JsonMapper} from "../decorators/jsonMapper.js";
 import {JsonMapperCtx, JsonMapperMethods} from "../interfaces/JsonMapperMethods.js";
+import {JsonMapper} from "../decorators/jsonMapper.js";
+import {isBoolean} from "@tsed/core";
 
 interface TemporalType {
   from(value: unknown): unknown;

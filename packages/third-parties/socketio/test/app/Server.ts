@@ -1,16 +1,14 @@
+import "../../src/index.js";
 import "@tsed/ajv";
 import "@tsed/platform-express";
 import "@tsed/platform-log-request";
-import "../../src/index.js";
-
 import {Configuration, Inject} from "@tsed/di";
 import {PlatformApplication} from "@tsed/platform-http";
+import {SocketPageCtrl} from "./controllers/pages/SocketPageCtrl.js";
 import bodyParser from "body-parser";
 import compress from "compression";
 import cookieParser from "cookie-parser";
 import methodOverride from "method-override";
-
-import {SocketPageCtrl} from "./controllers/pages/SocketPageCtrl.js";
 
 const rootDir = import.meta.dirname; // automatically replaced by import.meta.dirname on build
 

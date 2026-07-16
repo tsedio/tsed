@@ -1,11 +1,9 @@
 import "./Ajv.js";
-
-import {deepClone, Type} from "@tsed/core";
-import {constant, inject, injectable} from "@tsed/di";
-import {compile, JsonSchema, JsonSchemaObject} from "@tsed/schema";
 import {Ajv, ValidateFunction} from "ajv";
-
 import {AjvSettings, ErrorFormatter} from "../interfaces/AjvSettings.js";
+import {JsonSchema, JsonSchemaObject, compile} from "@tsed/schema";
+import {Type, deepClone} from "@tsed/core";
+import {constant, inject, injectable} from "@tsed/di";
 import {defaultErrorFormatter} from "../utils/defaultErrorFormatter.js";
 import {mapErrors} from "../utils/mapErrors.js";
 

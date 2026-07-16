@@ -13,9 +13,8 @@ import {
   Title,
   Uri
 } from "@tsed/schema";
-
+import {InputTags, TableView, getFormioSchema} from "../src/index.js";
 import {Tabs} from "../src/decorators/tabs.js";
-import {getFormioSchema, InputTags, TableView} from "../src/index.js";
 
 export enum OIDCResponseTypes {
   CODE = "code",

@@ -1,4 +1,4 @@
-import {DefineOptions as PulseDefineOptions, JobOptions} from "@pulsecron/pulse";
+import {JobOptions, DefineOptions as PulseDefineOptions} from "@pulsecron/pulse";
 
 export interface DefineOptions extends PulseDefineOptions {
   name?: string;

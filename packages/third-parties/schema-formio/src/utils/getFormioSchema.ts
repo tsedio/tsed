@@ -11,14 +11,12 @@ import "../components/objectToEditGrid.js";
 import "../components/panelToComponent.js";
 import "../components/propertiesToComponents.js";
 import "../components/stringToComponent.js";
-
-import {isString, Type} from "@tsed/core";
+import {JsonSchemaOptions, compile, s} from "@tsed/schema";
+import {Type, isString} from "@tsed/core";
 import {FormioForm} from "@tsed/formio-types";
-import {compile, JsonSchemaOptions, s} from "@tsed/schema";
-import {kebabCase} from "change-case";
-
-import {execMapper} from "../registries/FormioMappersContainer.js";
 import {FormsContainer} from "../registries/FormsContainer.js";
+import {execMapper} from "../registries/FormioMappersContainer.js";
+import {kebabCase} from "change-case";
 
 export async function getFormioSchema(
   model: string | any | undefined,

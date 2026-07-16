@@ -1,6 +1,5 @@
-import {Store} from "@tsed/core";
-
 import {Nsp} from "../index.js";
+import {Store} from "@tsed/core";
 
 describe("Nsp", () => {
   describe("when it used as param decorator", () => {

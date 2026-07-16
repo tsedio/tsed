@@ -1,7 +1,6 @@
-import {CollectionOf, compile, Default, Description, Enum, enums, MaxLength, MinLength, Required} from "@tsed/schema";
-import {TestContainersMongo} from "@tsed/testcontainers-mongo";
-
+import {CollectionOf, Default, Description, Enum, MaxLength, MinLength, Required, compile, enums} from "@tsed/schema";
 import {Model} from "../src/index.js";
+import {TestContainersMongo} from "@tsed/testcontainers-mongo";
 
 export enum ComponentStatuses {
   UNDER_MAINTENANCE = "UNDER_MAINTENANCE",

@@ -1,9 +1,8 @@
-import {faker} from "@faker-js/faker";
-import {deserialize} from "@tsed/json-mapper";
-import {PlatformTest} from "@tsed/platform-http/testing";
-import {Format, Name, Property} from "@tsed/schema";
-
 import {Adapter, Adapters, MemoryAdapter} from "../../src/index.js";
+import {Format, Name, Property} from "@tsed/schema";
+import {PlatformTest} from "@tsed/platform-http/testing";
+import {deserialize} from "@tsed/json-mapper";
+import {faker} from "@faker-js/faker";
 
 class BaseClient {
   @Format("date-time")

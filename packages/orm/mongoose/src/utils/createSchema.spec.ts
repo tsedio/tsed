@@ -1,19 +1,19 @@
 import {
   CollectionOf,
-  compile,
   Default,
   Enum,
-  Maximum,
   MaxLength,
-  Minimum,
+  Maximum,
   MinLength,
+  Minimum,
   Name,
   Pattern,
   Property,
-  Required
+  Required,
+  compile
 } from "@tsed/schema";
 import {Schema as SchemaMongoose, Types} from "mongoose";
-
+import {VirtualRef, VirtualRefs} from "../decorators/virtualRef.js";
 import {DiscriminatorKey} from "../decorators/discriminatorKey.js";
 import {Model} from "../decorators/model.js";
 import {ObjectID} from "../decorators/objectID.js";
@@ -21,7 +21,6 @@ import {Ref} from "../decorators/ref.js";
 import {Schema} from "../decorators/schema.js";
 import {SchemaIgnore} from "../decorators/schemaIgnore.js";
 import {VersionKey} from "../decorators/versionKey.js";
-import {VirtualRef, VirtualRefs} from "../decorators/virtualRef.js";
 import {getSchema} from "./createSchema.js";
 
 describe("createSchema", () => {

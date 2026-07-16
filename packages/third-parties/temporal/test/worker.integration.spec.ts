@@ -1,9 +1,7 @@
-import {join} from "node:path";
-
-import {TestWorkflowEnvironment} from "@temporalio/testing";
-
-import {Activity, bootstrapWorker, Temporal} from "../src/index.js";
+import {Activity, Temporal, bootstrapWorker} from "../src/index.js";
 import {Server} from "./helpers/Server.js";
+import {TestWorkflowEnvironment} from "@temporalio/testing";
+import {join} from "node:path";
 
 describe("Temporal Worker", () => {
   @Temporal()

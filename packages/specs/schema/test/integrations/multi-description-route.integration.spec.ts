@@ -1,8 +1,6 @@
 import "../../src/index.js";
-
+import {Name, Put, SpecTypes, getSpec} from "../../src/index.js";
 import {Controller} from "@tsed/di";
-
-import {getSpec, Name, Put, SpecTypes} from "../../src/index.js";
 
 @Controller("/")
 class TestController {

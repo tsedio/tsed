@@ -1,16 +1,14 @@
 import "@tsed/ajv";
-
-import {Controller} from "@tsed/di";
 import {BadRequest, Exception, Unauthorized} from "@tsed/exceptions";
-import {Err} from "@tsed/platform-http";
-import {PlatformTest} from "@tsed/platform-http/testing";
-import {Middleware, MiddlewareMethods, Use, UseAfter, UseBefore} from "@tsed/platform-middlewares";
 import {Context, QueryParams} from "@tsed/platform-params";
-import {Get} from "@tsed/schema";
-import SuperTest from "supertest";
+import {Middleware, MiddlewareMethods, Use, UseAfter, UseBefore} from "@tsed/platform-middlewares";
 import {afterAll, beforeAll, describe, expect, it} from "vitest";
-
+import {Controller} from "@tsed/di";
+import {Err} from "@tsed/platform-http";
+import {Get} from "@tsed/schema";
+import {PlatformTest} from "@tsed/platform-http/testing";
 import {PlatformTestingSdkOpts} from "../interfaces/index.js";
+import SuperTest from "supertest";
 
 @Middleware()
 class BeforeCustomMiddleware {

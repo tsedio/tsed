@@ -1,8 +1,7 @@
+import {IdColumn} from "./idColumn.js";
+import {Model} from "objection";
 import {Store} from "@tsed/core";
 import {compile} from "@tsed/schema";
-import {Model} from "objection";
-
-import {IdColumn} from "./idColumn.js";
 
 describe("@IdColumn", () => {
   it("should set metadata", () => {

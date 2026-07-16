@@ -1,0 +1,48 @@
+{
+  "$schema": "./node_modules/oxlint/configuration_schema.json",
+  "plugins": ["vitest"],
+  "categories": {
+    "correctness": "off",
+    "suspicious": "off",
+    "pedantic": "off",
+    "restriction": "off",
+    "style": "off",
+    "nursery": "off"
+  },
+  "ignorePatterns": [
+    "**/coverage",
+    "**/lib",
+    "**/dist",
+    "**/snapshots",
+    "**/templates",
+    "**/docs/**",
+    "**/docs-references/**",
+    "**/.nyc_output",
+    "**/generated",
+    "**/node_modules",
+    "node_modules",
+    "processes.config.js",
+    "*-lock.json",
+    "*.lock",
+    "benchmarks.*"
+  ],
+  "rules": {
+    "eslint/sort-imports": "off",
+    "vitest/expect-expect": "off"
+  },
+  "overrides": [
+    {
+      "files": ["**/*.spec.{js,mjs,cjs,jsx,mjsx,ts,tsx,mtsx}"],
+      "rules": {
+        "vitest/consistent-test-it": [
+          "error",
+          {
+            "fn": "it",
+            "withinDescribe": "it"
+          }
+        ],
+        "vitest/no-alias-methods": "error"
+      }
+    }
+  ]
+}

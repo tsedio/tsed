@@ -1,11 +1,10 @@
 import {Controller, destroyInjector, injector} from "@tsed/di";
 import {Err, Next, Req} from "@tsed/platform-http";
-import {Middleware} from "@tsed/platform-middlewares";
 import {Get, JsonMethodStore} from "@tsed/schema";
-
-import {useContextHandler} from "../utils/useContextHandler.js";
+import {Middleware} from "@tsed/platform-middlewares";
 import {PlatformHandlerMetadata} from "./PlatformHandlerMetadata.js";
 import {PlatformHandlerType} from "./PlatformHandlerType.js";
+import {useContextHandler} from "../utils/useContextHandler.js";
 
 describe("PlatformHandlerMetadata", () => {
   afterEach(() => destroyInjector());

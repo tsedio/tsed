@@ -1,10 +1,9 @@
-import {logger} from "@tsed/di";
-import {application} from "@tsed/platform-http";
-import {PlatformTest} from "@tsed/platform-http/testing";
 import {PlatformRouter} from "@tsed/platform-router";
-import {absolutePath} from "swagger-ui-dist";
-
+import {PlatformTest} from "@tsed/platform-http/testing";
 import {SwaggerModule} from "./SwaggerModule.js";
+import {absolutePath} from "swagger-ui-dist";
+import {application} from "@tsed/platform-http";
+import {logger} from "@tsed/di";
 
 vi.mock("node:fs/promises");
 

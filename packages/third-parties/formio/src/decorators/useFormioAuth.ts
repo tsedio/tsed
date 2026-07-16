@@ -1,6 +1,5 @@
-import {UseAuth} from "@tsed/platform-middlewares";
-
 import {FormioAuthMiddleware} from "../middlewares/FormioAuthMiddleware.js";
+import {UseAuth} from "@tsed/platform-middlewares";
 
 /**
  * Check if a user is connected by using the Formio Auth middleware

@@ -1,7 +1,6 @@
-import {Type} from "@tsed/core";
-import {injector, Provider, ProviderOpts, refValue} from "@tsed/di";
-
+import {Provider, ProviderOpts, injector, refValue} from "@tsed/di";
 import {PlatformAdapter} from "../services/PlatformAdapter.js";
+import {Type} from "@tsed/core";
 
 const ADAPTER = "platform.adapter";
 

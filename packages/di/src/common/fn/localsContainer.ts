@@ -1,6 +1,6 @@
+import {InjectorService} from "../services/InjectorService.js";
 import {LocalsContainer} from "../domain/LocalsContainer.js";
 import type {UseImportTokenProviderOpts} from "../interfaces/ImportTokenProviderOpts.js";
-import {InjectorService} from "../services/InjectorService.js";
 import {injector} from "./injector.js";
 
 let globalLocals: LocalsContainer | undefined;

@@ -1,19 +1,18 @@
-import {QueryParams} from "@tsed/platform-params";
-
 import {
   Default,
   Examples,
   GenericOf,
   Generics,
-  getSpec,
   In,
   Maximum,
   Minimum,
   OperationPath,
   Path,
   Property,
-  SpecTypes
+  SpecTypes,
+  getSpec
 } from "../../src/index.js";
+import {QueryParams} from "@tsed/platform-params";
 
 class QueryParamModel {
   @Property()

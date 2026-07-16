@@ -14,7 +14,7 @@ export class PersonsCtrl {
   }
 
   @Get("/")
-  @Returns(200, Array).Of(Person)
+  @(Returns(200, Array).Of(Person))
   getPersons(): Promise<Person[]> {
     return Promise.resolve([new Person()]);
   }

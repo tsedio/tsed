@@ -1,6 +1,5 @@
-import {PlatformTest} from "@tsed/platform-http/testing";
-
 import {AlterHost} from "./AlterHost.js";
+import {PlatformTest} from "@tsed/platform-http/testing";
 
 describe("AlterHost", () => {
   beforeEach(() => PlatformTest.create());

@@ -1,9 +1,32 @@
 {
   "name": "@tsed/platform-multer",
-  "description": "Multer adapter package for Ts.ED framework",
-  "type": "module",
   "version": "8.17.0",
+  "description": "Multer adapter package for Ts.ED framework",
+  "keywords": [
+    "Decorator",
+    "ESM",
+    "Multer",
+    "Ts.ED",
+    "TypeScript",
+    "decorator",
+    "decorators",
+    "multipartfile",
+    "typescript"
+  ],
+  "homepage": "https://tsed.dev/",
+  "bugs": {
+    "url": "https://github.com/tsedio/tsed/issues"
+  },
+  "license": "MIT",
+  "author": {
+    "name": "Romain Lenzotti"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tsedio/tsed.git"
+  },
   "source": "./src/index.ts",
+  "type": "module",
   "main": "./lib/esm/index.js",
   "module": "./lib/esm/index.js",
   "typings": "./lib/types/index.d.ts",
@@ -40,28 +63,9 @@
     "build:ts": "tsc --build tsconfig.esm.json",
     "test:ci": "vitest run --coverage.thresholds.autoUpdate=true"
   },
-  "keywords": [
-    "Multer",
-    "TypeScript",
-    "typescript",
-    "Decorator",
-    "decorators",
-    "decorator",
-    "ESM",
-    "multipartfile",
-    "Ts.ED"
-  ],
-  "author": {
-    "name": "Romain Lenzotti"
-  },
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/tsedio/tsed/issues"
-  },
-  "homepage": "https://tsed.dev/",
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/tsedio/tsed.git"
+  "dependencies": {
+    "multer": "^2.0.0",
+    "tslib": ">=2.7.0"
   },
   "devDependencies": {
     "@tsed/barrels": "workspace:*",
@@ -71,13 +75,8 @@
     "@tsed/platform-params": "workspace:*",
     "@tsed/typescript": "workspace:*",
     "@types/multer": "^2.0.0",
-    "eslint": "9.12.0",
     "typescript": "6.0.2",
     "vitest": "4.1.4"
-  },
-  "dependencies": {
-    "multer": "^2.0.0",
-    "tslib": ">=2.7.0"
   },
   "peerDependencies": {
     "@tsed/core": ">=8.0.0",

@@ -34,8 +34,7 @@ For further details, you can view the full release notes here.
 | Apollo Server v4 support                                                   | [See](/tutorials/graphql.html#apollo) | [#2493](https://github.com/tsedio/tsed/issues/2493)                   |
 | Remove Configurable, Deprecated, Enumerable, ReadOnly, Writable decorators |                                       | [beta.6](https://github.com/tsedio/tsed/releases/tag/v8.0.0-beta.6)   |
 | Remove auto import of `@tsed/platform-log-middleware`                      | [See](#request-logger-doesn-t-work)   |                                                                       |
-| Template lib must be imported explicitly                                   | [See](#template-engines-doesn-t-works | [#3133](https://github.com/tsedio/tsed/issues/3133)                   | 
-
+| Template lib must be imported explicitly                                   | [See](#template-engines-doesn-t-works | [#3133](https://github.com/tsedio/tsed/issues/3133)                   |
 
 ::: warning
 Ts.ED v8 required at least Node.js v20.11.0 version to work

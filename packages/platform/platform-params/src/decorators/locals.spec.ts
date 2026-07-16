@@ -1,7 +1,6 @@
 import {JsonParameterStore} from "@tsed/schema";
-
-import {ParamTypes} from "../domain/ParamTypes.js";
 import {Locals} from "./locals.js";
+import {ParamTypes} from "../domain/ParamTypes.js";
 
 describe("@Locals", () => {
   it("should call ParamFilter.useParam method with the correct parameters", () => {

@@ -1,7 +1,6 @@
 import "@tsed/ajv";
-import "@tsed/swagger";
 import "@tsed/platform-express";
-
+import "@tsed/swagger";
 import {Configuration} from "@tsed/di";
 import compress from "compression";
 

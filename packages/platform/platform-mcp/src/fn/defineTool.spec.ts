@@ -1,9 +1,8 @@
-import {inject} from "@tsed/di";
-import {PlatformTest} from "@tsed/platform-http/testing";
-import {Default, from, JsonSchema, Name, Property} from "@tsed/schema";
+import {Default, JsonSchema, Name, Property, from} from "@tsed/schema";
 import {afterEach, beforeEach, describe, expect, it} from "vitest";
-
+import {PlatformTest} from "@tsed/platform-http/testing";
 import {defineTool} from "./defineTool.js";
+import {inject} from "@tsed/di";
 
 class KnowledgeSearchRequest {
   @Property()

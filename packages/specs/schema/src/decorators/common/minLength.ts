@@ -1,5 +1,5 @@
-import {withErrorMsg} from "../../utils/withErrorMsg.js";
 import {JsonEntityFn} from "./jsonEntityFn.js";
+import {withErrorMsg} from "../../utils/withErrorMsg.js";
 
 /**
  *

@@ -1,10 +1,9 @@
-import {useDecorators} from "@tsed/core/utils/useDecorators.js";
-
+import {Configuration} from "./configuration.js";
+import {Injectable} from "./injectable.js";
 import {ProviderScope} from "../domain/ProviderScope.js";
 import {ProviderType} from "../domain/ProviderType.js";
 import {TokenProvider} from "../interfaces/TokenProvider.js";
-import {Configuration} from "./configuration.js";
-import {Injectable} from "./injectable.js";
+import {useDecorators} from "@tsed/core/utils/useDecorators.js";
 
 export interface ModuleOptions extends Omit<TsED.Configuration, "scopes"> {
   /**

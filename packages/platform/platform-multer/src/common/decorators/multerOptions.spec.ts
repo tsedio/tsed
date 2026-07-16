@@ -1,7 +1,6 @@
-import {Store} from "@tsed/core";
-
-import {PLATFORM_MULTER_OPTIONS} from "../constants/constants.js";
 import {MulterOptions} from "./multerOptions.js";
+import {PLATFORM_MULTER_OPTIONS} from "../constants/constants.js";
+import {Store} from "@tsed/core";
 
 describe("@MulterOptions()", () => {
   it("should store metadata", () => {

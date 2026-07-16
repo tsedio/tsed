@@ -1,5 +1,5 @@
+import {Get, Returns, object, string} from "@tsed/schema";
 import {Controller} from "@tsed/di";
-import {Get, object, Returns, string} from "@tsed/schema";
 
 @Controller("/version")
 export class VersionCtrl {

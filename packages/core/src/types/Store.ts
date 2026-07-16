@@ -1,12 +1,12 @@
+import {DecoratorTypes} from "./DecoratorTypes.js";
+import {Metadata} from "./Metadata.js";
+import type {Type} from "./Type.js";
 import {decoratorTypeOf} from "../utils/decoratorTypeOf.js";
 import {deepClone} from "../utils/deepClone.js";
 import {deepMerge} from "../utils/deepMerge.js";
 import {descriptorOf} from "../utils/descriptorOf.js";
 import {isSymbol} from "../utils/isSymbol.js";
 import {nameOf} from "../utils/nameOf.js";
-import {DecoratorTypes} from "./DecoratorTypes.js";
-import {Metadata} from "./Metadata.js";
-import type {Type} from "./Type.js";
 
 /**
  * Metadata key used to reference the class-level store.

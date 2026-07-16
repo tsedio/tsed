@@ -1,7 +1,6 @@
-import {Type} from "@tsed/core";
 import type {JSONSchema7TypeName} from "json-schema";
-
 import type {JsonSchema} from "../domain/index.js";
+import {Type} from "@tsed/core";
 
 export type AnyJsonType = string | Type | JSONSchema7TypeName | JSONSchema7TypeName[];
 

@@ -1,23 +1,22 @@
+import {
+  DI_INJECTABLE_PROPS,
+  InjectorService,
+  type OnInit,
+  TokenProvider,
+  type UseImportTokenProviderOpts,
+  createContainer,
+  destroyInjector,
+  inject,
+  injector
+} from "../../common/index.js";
+import {cleanAllLocalsContainer, detachLocalsContainer, localsContainer} from "../../common/fn/localsContainer.js";
+import {$log} from "@tsed/logger";
+import {DIContext} from "../../common/domain/DIContext.js";
 import {Env} from "@tsed/core/types/Env.js";
 import {getValue} from "@tsed/core/utils/getValue.js";
 import {isClass} from "@tsed/core/utils/isClass.js";
 import {isObject} from "@tsed/core/utils/isObject.js";
-import {$log} from "@tsed/logger";
-
-import {DIContext} from "../../common/domain/DIContext.js";
-import {cleanAllLocalsContainer, detachLocalsContainer, localsContainer} from "../../common/fn/localsContainer.js";
 import {logger} from "../../common/fn/logger.js";
-import {
-  createContainer,
-  destroyInjector,
-  DI_INJECTABLE_PROPS,
-  inject,
-  injector,
-  InjectorService,
-  type OnInit,
-  TokenProvider,
-  type UseImportTokenProviderOpts
-} from "../../common/index.js";
 import {setLoggerConfiguration} from "../../common/utils/setLoggerConfiguration.js";
 
 /**

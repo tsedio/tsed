@@ -1,9 +1,8 @@
-import {logger} from "@tsed/di";
-import {PlatformTest} from "@tsed/platform-http/testing";
 import {caching as cacheManager, multiCaching} from "cache-manager";
-
-import {UseCache} from "../decorators/useCache.js";
 import {PlatformCache} from "./PlatformCache.js";
+import {PlatformTest} from "@tsed/platform-http/testing";
+import {UseCache} from "../decorators/useCache.js";
+import {logger} from "@tsed/di";
 
 function createCacheFixture() {
   const map = new Map();

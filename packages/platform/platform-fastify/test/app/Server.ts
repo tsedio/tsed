@@ -1,11 +1,9 @@
 import "@tsed/ajv";
 import "@tsed/platform-log-request";
 import "@tsed/swagger";
-
-import path from "node:path";
-
-import type {FastifySessionOptions} from "@fastify/session";
 import {Configuration} from "@tsed/di";
+import type {FastifySessionOptions} from "@fastify/session";
+import path from "node:path";
 
 export const rootDir = import.meta.dirname;
 

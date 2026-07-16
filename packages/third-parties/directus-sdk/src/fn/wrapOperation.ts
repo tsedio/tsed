@@ -1,10 +1,8 @@
 import "../bootstrap/runtime.js";
-
-import type {OperationContext} from "@directus/types";
 import {DIContext, inject, injector, runInContext} from "@tsed/di";
-import {nanoid} from "nanoid";
-
 import {DirectusContextService} from "../services/DirectusContextService.js";
+import type {OperationContext} from "@directus/types";
+import {nanoid} from "nanoid";
 
 /**
  * Wraps an operation handler to provide Ts.ED dependency injection and error handling.

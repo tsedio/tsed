@@ -1,6 +1,5 @@
-import {DMMF} from "@prisma/generator-helper";
 import {CompilerOptions, ModuleKind, Project, ScriptTarget} from "ts-morph";
-
+import {DMMF} from "@prisma/generator-helper";
 import {generateClientIndex} from "./utils/generateClientIndex.js";
 import {generateEnums} from "./utils/generateEnums.js";
 import {generateIndex} from "./utils/generateIndex.js";

@@ -1,8 +1,7 @@
-import {join} from "node:path";
-
-import {getEngineFixture} from "../../test/getEngineFixture.js";
-import {requires} from "../utils/cache.js";
 import {SquirrellyEngine} from "./SquirrellyEngine.js";
+import {getEngineFixture} from "../../test/getEngineFixture.js";
+import {join} from "node:path";
+import {requires} from "../utils/cache.js";
 
 describe("SquirrellyEngine", () => {
   beforeEach(() => {

@@ -1,12 +1,11 @@
-import {isClass, Store, Type} from "@tsed/core";
-import {inject, injectable} from "@tsed/di";
 import {Job as BullMQJob, JobsOptions, Queue} from "bullmq";
-
-import {BULLMQ} from "../constants/constants.js";
 import {JobMethods, type JobStore} from "../contracts/index.js";
+import {Store, Type, isClass} from "@tsed/core";
+import {inject, injectable} from "@tsed/di";
+import {BULLMQ} from "../constants/constants.js";
+import type {JobDispatcherOptions} from "./JobDispatcherOptions.js";
 import {getJobToken} from "../utils/getJobToken.js";
 import {getQueueToken} from "../utils/getQueueToken.js";
-import type {JobDispatcherOptions} from "./JobDispatcherOptions.js";
 
 export class JobDispatcher {
   public async dispatch<T extends JobMethods>(

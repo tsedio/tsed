@@ -1,5 +1,4 @@
 import {cleanObject, getValue} from "@tsed/core";
-
 import {execMapper, registerFormioMapper} from "../registries/FormioMappersContainer.js";
 
 export function numberToComponent(schema: any, options: any) {

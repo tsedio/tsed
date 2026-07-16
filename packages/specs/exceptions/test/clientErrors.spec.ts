@@ -1,6 +1,3 @@
-import {catchError} from "@tsed/core";
-import {describe, expect, it} from "vitest";
-
 import {
   BadMapping,
   BadRequest,
@@ -30,6 +27,8 @@ import {
   UnsupportedMediaType,
   UpgradeRequired
 } from "../src/index.js";
+import {describe, expect, it} from "vitest";
+import {catchError} from "@tsed/core";
 
 describe("ClientErrors", () => {
   describe("BadMapping", () => {

@@ -1,6 +1,5 @@
-import {classOf} from "@tsed/core";
-
 import {type ClassToolProps, defineTool} from "../fn/defineTool.js";
+import {classOf} from "@tsed/core";
 
 /**
  * Decorator that registers a class method as an MCP tool and binds it to the Ts.ED DI container.

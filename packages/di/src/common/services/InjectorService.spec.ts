@@ -1,17 +1,16 @@
+import {destroyInjector, injector} from "../fn/injector.js";
 import {$emit} from "@tsed/hooks";
-
 import {Configuration} from "../decorators/configuration.js";
+import {Container} from "../domain/Container.js";
 import {Inject} from "../decorators/inject.js";
 import {Injectable} from "../decorators/injectable.js";
-import {Container} from "../domain/Container.js";
+import {InjectorService} from "./InjectorService.js";
 import {LocalsContainer} from "../domain/LocalsContainer.js";
 import {Provider} from "../domain/Provider.js";
 import {ProviderScope} from "../domain/ProviderScope.js";
 import {ProviderType} from "../domain/ProviderType.js";
 import {inject} from "../fn/inject.js";
 import {injectable} from "../fn/injectable.js";
-import {destroyInjector, injector} from "../fn/injector.js";
-import {InjectorService} from "./InjectorService.js";
 
 vi.mock("@tsed/hooks", async (importOriginal) => {
   const mod = await importOriginal<typeof import("@tsed/hooks")>();

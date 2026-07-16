@@ -1,12 +1,11 @@
+import {DIConfiguration} from "../services/DIConfiguration.js";
 import {DecoratorParameters} from "@tsed/core/types/DecoratorParameters.js";
 import {DecoratorTypes} from "@tsed/core/types/DecoratorTypes.js";
-import {decoratorTypeOf} from "@tsed/core/utils/decoratorTypeOf.js";
-
+import {Inject} from "./inject.js";
 import {configuration} from "../fn/configuration.js";
+import {decoratorTypeOf} from "@tsed/core/utils/decoratorTypeOf.js";
 import {injectable} from "../fn/injectable.js";
 import {injector} from "../fn/injector.js";
-import {DIConfiguration} from "../services/DIConfiguration.js";
-import {Inject} from "./inject.js";
 
 /**
  * Associate configuration with a class or inject configuration into a constructor parameter.

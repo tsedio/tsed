@@ -10,8 +10,6 @@ injectable(PlatformCache).class(CustomCache);
 // server.ts
 import "./services/CustomCache.js";
 
-export class Server {
+export class Server {}
 
-}
-
-configuration(Server, {})
+configuration(Server, {});

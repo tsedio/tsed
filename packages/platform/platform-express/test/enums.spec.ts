@@ -1,15 +1,13 @@
 import "@tsed/ajv";
-
-import {Env} from "@tsed/core";
+import {Default, Enum, Get, SpecTypes, enums, getSpec} from "@tsed/schema";
+import {Server, rootDir} from "./app/Server.js";
 import {Controller} from "@tsed/di";
-import {PlatformTest} from "@tsed/platform-http/testing";
-import {QueryParams} from "@tsed/platform-params";
-import {PlatformTestSdk} from "@tsed/platform-test-sdk";
-import {Default, Enum, enums, Get, getSpec, SpecTypes} from "@tsed/schema";
-import SuperTest from "supertest";
-
+import {Env} from "@tsed/core";
 import {PlatformExpress} from "../src/index.js";
-import {rootDir, Server} from "./app/Server.js";
+import {PlatformTest} from "@tsed/platform-http/testing";
+import {PlatformTestSdk} from "@tsed/platform-test-sdk";
+import {QueryParams} from "@tsed/platform-params";
+import SuperTest from "supertest";
 
 enums(Env).label("Env");
 

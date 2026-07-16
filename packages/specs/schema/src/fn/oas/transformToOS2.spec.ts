@@ -1,3 +1,4 @@
+import {transformSecurity, transformToOS2} from "./transformToOS2.js";
 import commonParamsOS2 from "./__mock__/common_params/os2.spec.json" with {type: "json"};
 import commonParamsOS3 from "./__mock__/common_params/os3.spec.json" with {type: "json"};
 import deprecatedOS2 from "./__mock__/deprecated/os2.spec.json" with {type: "json"};
@@ -24,7 +25,6 @@ import serversOS2 from "./__mock__/servers/os2.spec.json" with {type: "json"};
 import serversOS3 from "./__mock__/servers/os3.spec.json" with {type: "json"};
 import slashRefOS2 from "./__mock__/slash_ref/os2.spec.json" with {type: "json"};
 import slashRefOS3 from "./__mock__/slash_ref/os3.spec.json" with {type: "json"};
-import {transformSecurity, transformToOS2} from "./transformToOS2.js";
 
 describe("transform", () => {
   describe("transformSecurity()", () => {

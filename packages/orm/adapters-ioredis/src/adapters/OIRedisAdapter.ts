@@ -1,9 +1,9 @@
 import {Adapter, AdapterConstructorOptions, AdapterModel} from "@tsed/adapters";
-import {cleanObject, isObject, isString} from "@tsed/core";
-import {injectMany, Opts} from "@tsed/di";
-import {Hooks} from "@tsed/hooks";
-import {IORedis, IOREDIS_CONNECTIONS} from "@tsed/ioredis";
 import type {ChainableCommander, Redis} from "ioredis";
+import {IOREDIS_CONNECTIONS, IORedis} from "@tsed/ioredis";
+import {Opts, injectMany} from "@tsed/di";
+import {cleanObject, isObject, isString} from "@tsed/core";
+import {Hooks} from "@tsed/hooks";
 import {v4 as uuid} from "uuid";
 
 const flatKeys = (keys: [Error | null, string[]][]): string[] => {

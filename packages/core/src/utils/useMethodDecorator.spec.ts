@@ -1,7 +1,7 @@
-import {StoreFn} from "../decorators/storeFn.js";
-import {Store} from "../types/Store.js";
-import {useDecorators} from "./useDecorators.js";
 import {useMethodDecorator, useMethodDecorators} from "./useMethodDecorators.js";
+import {Store} from "../types/Store.js";
+import {StoreFn} from "../decorators/storeFn.js";
+import {useDecorators} from "./useDecorators.js";
 
 describe("useMethodDecorators", () => {
   it("should apply all decorators", () => {

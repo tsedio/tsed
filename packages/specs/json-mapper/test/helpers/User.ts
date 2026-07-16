@@ -1,5 +1,4 @@
 import {CollectionOf, Property} from "@tsed/schema";
-
 import {Post} from "./Post.js";
 
 export class User {

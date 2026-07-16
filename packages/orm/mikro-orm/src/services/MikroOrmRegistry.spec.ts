@@ -1,7 +1,6 @@
 import {MikroORM, Options} from "@mikro-orm/core";
-import {Logger} from "@tsed/logger";
 import {anything, instance, mock, reset, verify, when} from "ts-mockito";
-
+import {Logger} from "@tsed/logger";
 import {MikroOrmFactory} from "./MikroOrmFactory.js";
 import {MikroOrmRegistry} from "./MikroOrmRegistry.js";
 

@@ -1,5 +1,3 @@
-import {QueryParams} from "@tsed/platform-params";
-
 import {
   CollectionOf,
   Default,
@@ -7,13 +5,12 @@ import {
   For,
   GenericOf,
   Generics,
-  getSpec,
   In,
   Integer,
   Maximum,
   Min,
-  Minimum,
   MinLength,
+  Minimum,
   Name,
   OneOf,
   OperationPath,
@@ -21,9 +18,11 @@ import {
   Property,
   Required,
   Returns,
-  s,
-  SpecTypes
+  SpecTypes,
+  getSpec,
+  s
 } from "../../src/index.js";
+import {QueryParams} from "@tsed/platform-params";
 import {validateSpec} from "../helpers/validateSpec.js";
 
 export class Pageable {

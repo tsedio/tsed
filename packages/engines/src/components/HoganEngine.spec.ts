@@ -1,7 +1,6 @@
-import {join} from "node:path";
-
-import {getEngineFixture} from "../../test/getEngineFixture.js";
 import {HoganEngine} from "./HoganEngine.js";
+import {getEngineFixture} from "../../test/getEngineFixture.js";
+import {join} from "node:path";
 
 describe("HoganEngine", () => {
   beforeEach(() => {

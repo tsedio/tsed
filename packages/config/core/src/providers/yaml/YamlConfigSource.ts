@@ -1,9 +1,7 @@
-import {existsSync, watch} from "node:fs";
-
-import {logger} from "@tsed/di";
-import JsYaml, {type LoadOptions} from "js-yaml";
-
 import type {ConfigSource, ConfigSourceOnChangeCB} from "../../interfaces/ConfigSource.js";
+import JsYaml, {type LoadOptions} from "js-yaml";
+import {existsSync, watch} from "node:fs";
+import {logger} from "@tsed/di";
 
 export interface YamlConfigSourceOptions extends LoadOptions {
   /**

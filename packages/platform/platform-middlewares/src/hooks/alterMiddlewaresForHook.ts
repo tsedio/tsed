@@ -1,8 +1,7 @@
-import {Env} from "@tsed/core";
-import {constant} from "@tsed/di";
 import {$on} from "@tsed/hooks";
-
+import {Env} from "@tsed/core";
 import {PlatformMiddlewareLoadingOptions} from "../domain/PlatformMiddlewareSettings.js";
+import {constant} from "@tsed/di";
 
 export function alterMiddlewaresForHook(middlewares: PlatformMiddlewareLoadingOptions[], hook: string) {
   const env = constant<Env>("env");

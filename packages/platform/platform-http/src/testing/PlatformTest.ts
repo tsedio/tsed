@@ -1,17 +1,16 @@
-import type {IncomingMessage, RequestListener, ServerResponse} from "node:http";
-
-import {isPlainObject} from "@tsed/core";
 import {DITest, injector, InjectorService} from "@tsed/di";
-import accepts from "accepts";
-
-import {PlatformBuilder} from "../common/builder/PlatformBuilder.js";
-import {PlatformContext, PlatformContextOptions} from "../common/domain/PlatformContext.js";
-import {adapter, defineConfiguration} from "../common/index.js";
+import type {IncomingMessage, RequestListener, ServerResponse} from "node:http";
+import {isPlainObject} from "@tsed/core";
 import {PlatformAdapter, PlatformBuilderSettings} from "../common/services/PlatformAdapter.js";
-import {PlatformApplication} from "../common/services/PlatformApplication.js";
-import {createInjector} from "../common/utils/createInjector.js";
 import {FakeAdapter} from "./FakeAdapter.js";
 import {FakeResponse} from "./FakeResponse.js";
+import {adapter} from "../common/fn/adapter.js";
+import {defineConfiguration} from "../common/config/defineConfiguration.js";
+import {PlatformContext, PlatformContextOptions} from "../common/domain/PlatformContext.js";
+import {PlatformApplication} from "../common/services/PlatformApplication.js";
+import {PlatformBuilder} from "../common/builder/PlatformBuilder.js";
+import accepts from "accepts";
+import {createInjector} from "../common/utils/createInjector.js";
 
 /**
  * @platform

@@ -1,5 +1,5 @@
-import type {JsonSchema} from "../domain/JsonSchema.js";
 import type {Infer} from "../domain/types.js";
+import type {JsonSchema} from "../domain/JsonSchema.js";
 import {from} from "./from.js";
 
 /**

@@ -1,5 +1,4 @@
 import {existsSync, readFileSync, watch} from "node:fs";
-
 import {JsonConfigSource} from "./JsonConfigSource.js";
 
 vi.mock("node:fs");

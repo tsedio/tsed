@@ -1,7 +1,6 @@
-import {Store} from "@tsed/core";
-
-import {PLATFORM_MULTER_OPTIONS} from "../constants/constants.js";
 import {MulterFileSize} from "./multerFileSize.js";
+import {PLATFORM_MULTER_OPTIONS} from "../constants/constants.js";
+import {Store} from "@tsed/core";
 
 describe("MulterFileSize", () => {
   it("should set the file size", () => {

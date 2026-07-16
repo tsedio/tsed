@@ -1,5 +1,5 @@
-import {JsonSchemaOptions} from "../../../domain/JsonSchemaOptions.js";
 import {defineSchemaMapper, execMapper} from "../../../registries/JsonSchemaMapperContainer.js";
+import {JsonSchemaOptions} from "../../../domain/JsonSchemaOptions.js";
 
 /**
  * Serialize class which inherit from Map like JsonMap, JsonOperation, JsonParameter.

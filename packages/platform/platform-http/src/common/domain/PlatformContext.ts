@@ -1,12 +1,10 @@
-import {IncomingMessage, ServerResponse} from "node:http";
-
 import {DIContext, DIContextOptions, injector} from "@tsed/di";
+import {IncomingMessage, ServerResponse} from "node:http";
 import {$asyncEmit} from "@tsed/hooks";
-import {PlatformHandlerMetadata} from "@tsed/platform-router";
-import {JsonMethodStore} from "@tsed/schema";
-
 import {IncomingEvent} from "../interfaces/IncomingEvent.js";
+import {JsonMethodStore} from "@tsed/schema";
 import {PlatformApplication} from "../services/PlatformApplication.js";
+import {PlatformHandlerMetadata} from "@tsed/platform-router";
 import {PlatformRequest} from "../services/PlatformRequest.js";
 import {PlatformResponse} from "../services/PlatformResponse.js";
 

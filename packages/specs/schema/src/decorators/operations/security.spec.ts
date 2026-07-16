@@ -1,4 +1,4 @@
-import {getSpec, OperationPath, SpecTypes} from "../../index.js";
+import {OperationPath, SpecTypes, getSpec} from "../../index.js";
 import {Security} from "./security.js";
 
 describe("Security", () => {

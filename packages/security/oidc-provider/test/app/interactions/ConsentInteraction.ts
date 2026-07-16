@@ -1,7 +1,6 @@
-import {Inject} from "@tsed/di";
-import {Name, Post, View} from "@tsed/schema";
-
 import {Interaction, InteractionMethods, OidcCtx, OidcProvider, Prompt} from "../../../src/index.js";
+import {Name, Post, View} from "@tsed/schema";
+import {Inject} from "@tsed/di";
 
 @Interaction({
   name: "consent",

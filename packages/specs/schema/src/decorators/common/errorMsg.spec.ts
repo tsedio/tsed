@@ -1,5 +1,5 @@
-import {s} from "../../fn/index.js";
 import {ErrorMsg} from "./errorMsg.js";
+import {s} from "../../fn/index.js";
 
 describe("@ErrorMsg", () => {
   it("should declare error message", () => {

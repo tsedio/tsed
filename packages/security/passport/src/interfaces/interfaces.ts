@@ -1,7 +1,6 @@
-import {Type} from "@tsed/core";
 import {PassportStatic} from "passport";
-
 import {ProtocolOptions} from "./ProtocolOptions.js";
+import {Type} from "@tsed/core";
 
 declare global {
   namespace TsED {

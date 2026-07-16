@@ -1,13 +1,11 @@
 import {Controller, Inject} from "@tsed/di";
-// @ts-ignore
+import {Get, Head, Post, Property} from "@tsed/schema";
+import {PathParams, QueryParams} from "@tsed/platform-params";
+import {PlatformCache, UseCache} from "../src/index.js";
 import {PlatformExpress} from "@tsed/platform-express";
 import {PlatformTest} from "@tsed/platform-http/testing";
-import {PathParams, QueryParams} from "@tsed/platform-params";
-import {Get, Head, Post, Property} from "@tsed/schema";
-import SuperTest from "supertest";
-
 import {Server} from "../../platform-express/test/app/Server.js";
-import {PlatformCache, UseCache} from "../src/index.js";
+import SuperTest from "supertest";
 
 let increment = 0;
 

@@ -1,6 +1,5 @@
-import {inject, injectable} from "@tsed/di";
 import {Queue, QueueOptions} from "bullmq";
-
+import {inject, injectable} from "@tsed/di";
 import {getQueueToken} from "./getQueueToken.js";
 
 export function createQueueProvider(queue: string, opts: QueueOptions) {

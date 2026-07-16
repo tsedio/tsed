@@ -1,5 +1,5 @@
-import type {ProviderScope} from "../domain/ProviderScope.js";
 import type {ImportTokenProviderOpts} from "./ImportTokenProviderOpts.js";
+import type {ProviderScope} from "../domain/ProviderScope.js";
 import type {TokenProvider} from "./TokenProvider.js";
 
 declare global {

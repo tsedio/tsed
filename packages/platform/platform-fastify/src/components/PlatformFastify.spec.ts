@@ -1,5 +1,4 @@
 import {PlatformBuilder} from "@tsed/platform-http";
-
 import {PlatformFastify} from "./PlatformFastify.js";
 
 class Server {}

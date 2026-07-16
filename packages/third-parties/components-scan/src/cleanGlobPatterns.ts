@@ -1,9 +1,6 @@
-// @ts-ignore
-import {resolve} from "node:path";
-
-import {normalizePath} from "@tsed/normalize-path";
-
 import {isTsEnv} from "./isTsEnv.js";
+import {normalizePath} from "@tsed/normalize-path";
+import {resolve} from "node:path";
 
 function mapExcludes(excludes: string[]) {
   return excludes.map((s: string) => `!${s.replace(/!/gi, "")}`);

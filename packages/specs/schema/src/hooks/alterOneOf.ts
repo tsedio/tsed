@@ -1,8 +1,3 @@
-import {isBoolean} from "@tsed/core/utils/isBoolean.js";
-import {isNumber} from "@tsed/core/utils/isNumber.js";
-import {isString} from "@tsed/core/utils/isString.js";
-import type {JSONSchema6} from "json-schema";
-
 import {
   ARRAY_PROPERTIES,
   BOOLEAN_PROPERTIES,
@@ -12,8 +7,12 @@ import {
   OBJECT_PROPERTIES,
   STRING_PROPERTIES
 } from "../constants/jsonSchemaProperties.js";
+import type {JSONSchema6} from "json-schema";
 import type {JsonSchema} from "../domain/JsonSchema.js";
 import type {JsonSchemaOptions} from "../domain/JsonSchemaOptions.js";
+import {isBoolean} from "@tsed/core/utils/isBoolean.js";
+import {isNumber} from "@tsed/core/utils/isNumber.js";
+import {isString} from "@tsed/core/utils/isString.js";
 
 function findManyOf(obj: any) {
   return MANY_OF_PROPERTIES.find((keyword) => obj[keyword]);

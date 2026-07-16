@@ -1,10 +1,9 @@
-import {Env} from "@tsed/core";
-import {PlatformTest} from "@tsed/platform-http/testing";
-
 import {ConsentInteraction} from "../../test/app/interactions/ConsentInteraction.js";
+import {Env} from "@tsed/core";
 import {Interaction} from "../decorators/interaction.js";
 import {OidcInteractions} from "./OidcInteractions.js";
 import {OidcPolicy} from "./OidcPolicy.js";
+import {PlatformTest} from "@tsed/platform-http/testing";
 
 describe("OidcPolicy", () => {
   beforeEach(() =>

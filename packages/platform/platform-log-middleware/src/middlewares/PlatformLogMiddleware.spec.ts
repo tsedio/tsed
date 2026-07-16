@@ -1,9 +1,7 @@
 import "../domain/PlatformLogMiddlewareSettings.js";
-
-import {PlatformTest} from "@tsed/platform-http/testing";
 import {PlatformHandlerMetadata} from "@tsed/platform-router";
-
 import {PlatformLogMiddleware} from "./PlatformLogMiddleware.js";
+import {PlatformTest} from "@tsed/platform-http/testing";
 
 async function createMiddlewareFixture({statusCode = 200, error}: {statusCode?: number; error?: any} = {}) {
   const middleware = await PlatformTest.invoke<PlatformLogMiddleware>(PlatformLogMiddleware);

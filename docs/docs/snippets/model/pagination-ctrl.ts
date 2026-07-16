@@ -8,8 +8,8 @@ import {Product} from "../models/Product";
 @Controller("/pageable")
 class ProductsCtrl {
   @Get("/")
-  @Returns(206, Pagination).Of(Product).Title("PaginatedProduct")
-  @Returns(200, Pagination).Of(Product).Title("PaginatedProduct")
+  @(Returns(206, Pagination).Of(Product).Title("PaginatedProduct"))
+  @(Returns(200, Pagination).Of(Product).Title("PaginatedProduct"))
   get(@QueryParams() pageableOptions: Pageable, @QueryParams("all") all: boolean) {
     return new Pagination<Product>({
       data: [

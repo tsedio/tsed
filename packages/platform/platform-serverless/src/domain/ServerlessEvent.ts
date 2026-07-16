@@ -6,9 +6,9 @@ import type {
   DynamoDBStreamEvent,
   KinesisStreamEvent,
   S3Event,
-  ScheduledEvent,
   SNSEvent,
-  SQSEvent
+  SQSEvent,
+  ScheduledEvent
 } from "aws-lambda";
 
 export type ServerlessEvent =

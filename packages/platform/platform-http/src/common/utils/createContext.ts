@@ -1,10 +1,9 @@
 import {configuration, injector} from "@tsed/di";
-import {v4} from "uuid";
-
-import {PlatformContext} from "../domain/PlatformContext.js";
 import {IncomingEvent} from "../interfaces/IncomingEvent.js";
+import {PlatformContext} from "../domain/PlatformContext.js";
 import {PlatformRequest} from "../services/PlatformRequest.js";
 import {PlatformResponse} from "../services/PlatformResponse.js";
+import {v4} from "uuid";
 
 function defaultReqIdBuilder(req: any) {
   return req.get?.("x-request-id") || v4().split("-").join("");

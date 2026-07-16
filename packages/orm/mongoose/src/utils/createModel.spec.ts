@@ -1,6 +1,5 @@
-import mongoose from "mongoose";
-
 import {createModel} from "../../src/index.js";
+import mongoose from "mongoose";
 
 describe("createModel()", () => {
   let schema: any;

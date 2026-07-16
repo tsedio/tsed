@@ -1,8 +1,8 @@
-import {s} from "../../fn/index.js";
-import {number} from "../../fn/number.js";
-import {string} from "../../fn/string.js";
-import {compile, getSpec, In, OperationPath, Path, Property, SpecTypes} from "../../index.js";
+import {In, OperationPath, Path, Property, SpecTypes, compile, getSpec} from "../../index.js";
 import {AnyOf} from "./anyOf.js";
+import {number} from "../../fn/number.js";
+import {s} from "../../fn/index.js";
+import {string} from "../../fn/string.js";
 
 describe("@AnyOf", () => {
   it("should declare return schema", () => {

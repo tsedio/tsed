@@ -1,6 +1,6 @@
 import * as Exceptions from "@tsed/exceptions";
-import {Exception} from "@tsed/exceptions";
 import {defineStatusModel, getStatusConstant, s} from "@tsed/schema";
+import {Exception} from "@tsed/exceptions";
 
 /**
  * @ignore

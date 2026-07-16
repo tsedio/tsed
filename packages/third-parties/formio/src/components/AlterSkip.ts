@@ -1,9 +1,8 @@
-import {Constant} from "@tsed/di";
-import {normalizePath} from "@tsed/normalize-path";
-import {PlatformContext} from "@tsed/platform-http";
-
 import {Alter} from "../decorators/alter.js";
 import {AlterHook} from "../domain/AlterHook.js";
+import {Constant} from "@tsed/di";
+import {PlatformContext} from "@tsed/platform-http";
+import {normalizePath} from "@tsed/normalize-path";
 
 @Alter("skip")
 export class AlterSkip implements AlterHook {

@@ -1,8 +1,7 @@
 import {configuration, injector, logger} from "@tsed/di";
 import {$asyncEmit} from "@tsed/hooks";
-
-import {PlatformTest} from "../../testing/PlatformTest.js";
 import {PlatformResponse} from "../services/PlatformResponse.js";
+import {PlatformTest} from "../../testing/PlatformTest.js";
 import {createContext} from "./createContext.js";
 
 vi.mock("@tsed/hooks", async (importOriginal) => {

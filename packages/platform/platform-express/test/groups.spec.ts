@@ -1,15 +1,13 @@
 import "@tsed/ajv";
-
-import {Controller} from "@tsed/di";
-import {deserialize} from "@tsed/json-mapper";
-import {PlatformTest} from "@tsed/platform-http/testing";
 import {BodyParams, PathParams} from "@tsed/platform-params";
-import {PlatformTestSdk} from "@tsed/platform-test-sdk";
-import {Get, getSpec, Groups, Post, Property, Put, Returns, SpecTypes} from "@tsed/schema";
-import SuperTest from "supertest";
-
+import {Get, Groups, Post, Property, Put, Returns, SpecTypes, getSpec} from "@tsed/schema";
+import {Server, rootDir} from "./app/Server.js";
+import {Controller} from "@tsed/di";
 import {PlatformExpress} from "../src/index.js";
-import {rootDir, Server} from "./app/Server.js";
+import {PlatformTest} from "@tsed/platform-http/testing";
+import {PlatformTestSdk} from "@tsed/platform-test-sdk";
+import SuperTest from "supertest";
+import {deserialize} from "@tsed/json-mapper";
 
 class Product {
   @Groups("!creation")

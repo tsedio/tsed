@@ -1,5 +1,5 @@
-import {Type} from "@tsed/core";
 import type {BaseContext} from "@tsed/di";
+import {Type} from "@tsed/core";
 
 declare global {
   namespace TsED {

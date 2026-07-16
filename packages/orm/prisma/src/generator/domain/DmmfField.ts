@@ -1,7 +1,6 @@
 import {DMMF} from "@prisma/generator-helper";
-
-import {parseDocumentationAttributes} from "../utils/parseDocumentationAttributes.js";
 import type {DmmfModel} from "./DmmfModel.js";
+import {parseDocumentationAttributes} from "../utils/parseDocumentationAttributes.js";
 
 export class DmmfField {
   readonly model: DmmfModel;

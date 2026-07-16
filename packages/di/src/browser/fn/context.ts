@@ -1,8 +1,7 @@
-import {v4} from "uuid";
-
 import {DIContext} from "../../common/domain/DIContext.js";
-import {injector} from "../../common/index.js";
 import {getContext} from "../utils/asyncHookContext.js";
+import {injector} from "../../common/index.js";
+import {v4} from "uuid";
 
 /**
  * Get the current DIContext instance using async hook node.js api.

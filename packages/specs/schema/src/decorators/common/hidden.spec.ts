@@ -1,4 +1,4 @@
-import {Get, getSpec, Path, s, SpecTypes} from "../../index.js";
+import {Get, Path, SpecTypes, getSpec, s} from "../../index.js";
 import {Hidden} from "./hidden.js";
 
 describe("@Hidden", () => {

@@ -1,7 +1,6 @@
-import {defineEndpoint as oDefineEndpoint} from "@directus/extensions-sdk";
 import {beforeEach, describe, expect, it, vi} from "vitest";
-
 import {defineEndpoint} from "./defineEndpoint.js";
+import {defineEndpoint as oDefineEndpoint} from "@directus/extensions-sdk";
 import {wrapEndpoint} from "./wrapEndpoint.js";
 
 type EndpointConfig = Parameters<typeof defineEndpoint>[0];

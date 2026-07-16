@@ -1,4 +1,4 @@
-import {compile, Format, getSpec, In, Path, Post, Property, Returns, SpecTypes} from "../../index.js";
+import {Format, In, Path, Post, Property, Returns, SpecTypes, compile, getSpec} from "../../index.js";
 import {ReadOnly} from "./readOnly.js";
 
 describe("@ReadOnly", () => {

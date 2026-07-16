@@ -1,11 +1,10 @@
-import type {Job} from "@pulsecron/pulse";
-import {destroyInjector, Inject} from "@tsed/di";
+import {Inject, destroyInjector} from "@tsed/di";
 import {$asyncEmit} from "@tsed/hooks";
-import {PlatformTest} from "@tsed/platform-http/testing";
-
 import {Define} from "./decorators/define.js";
 import {Every} from "./decorators/every.js";
+import type {Job} from "@pulsecron/pulse";
 import {JobsController} from "./decorators/pulse.js";
+import {PlatformTest} from "@tsed/platform-http/testing";
 import {PulseModule} from "./services/PulseService.js";
 
 vi.mock("@pulsecron/pulse", () => {

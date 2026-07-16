@@ -1,8 +1,8 @@
 {
   "name": "@tsed/typescript",
   "version": "8.17.0",
-  "description": "Util to compile source",
   "private": true,
+  "description": "Util to compile source",
   "type": "module",
   "main": "index.js",
   "exports": {

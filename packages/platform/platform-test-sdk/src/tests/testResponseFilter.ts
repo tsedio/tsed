@@ -1,12 +1,11 @@
+import {Get, Property, Returns} from "@tsed/schema";
+import {afterAll, beforeAll, describe, expect, it} from "vitest";
 import {Controller} from "@tsed/di";
 import {PlatformContext} from "@tsed/platform-http";
 import {PlatformTest} from "@tsed/platform-http/testing";
-import {ResponseFilter} from "@tsed/platform-response-filter";
-import {Get, Property, Returns} from "@tsed/schema";
-import SuperTest from "supertest";
-import {afterAll, beforeAll, describe, expect, it} from "vitest";
-
 import {PlatformTestingSdkOpts} from "../interfaces/index.js";
+import {ResponseFilter} from "@tsed/platform-response-filter";
+import SuperTest from "supertest";
 
 class ResponseFilterModel {
   @Property()

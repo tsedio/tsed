@@ -1,7 +1,6 @@
-import {deepMerge} from "@tsed/core";
-import type {QueueOptions} from "bullmq";
-
 import {BullMQConfig} from "../config/config.js";
+import type {QueueOptions} from "bullmq";
+import {deepMerge} from "@tsed/core";
 
 export function mapQueueOptions(queue: string, bullMQConfig: BullMQConfig): QueueOptions {
   return deepMerge<QueueOptions, QueueOptions>(

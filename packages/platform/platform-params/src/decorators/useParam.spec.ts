@@ -1,5 +1,4 @@
-import {Description, Example, Get, getSpec, JsonParameterStore, Property, Required, SpecTypes, Title} from "@tsed/schema";
-
+import {Description, Example, Get, JsonParameterStore, Property, Required, SpecTypes, Title, getSpec} from "@tsed/schema";
 import {ParamTypes} from "../domain/ParamTypes.js";
 import {QueryParams} from "./queryParams.js";
 import {UseParam} from "./useParam.js";

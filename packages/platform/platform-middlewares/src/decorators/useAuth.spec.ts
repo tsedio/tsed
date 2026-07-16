@@ -1,7 +1,6 @@
-import {decoratorArgs, prototypeOf, Store, UnsupportedDecoratorType} from "@tsed/core";
-import {s} from "@tsed/schema";
-
+import {Store, UnsupportedDecoratorType, decoratorArgs, prototypeOf} from "@tsed/core";
 import {UseAuth} from "./useAuth.js";
+import {s} from "@tsed/schema";
 
 class Guard {
   use() {}

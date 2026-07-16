@@ -1,4 +1,4 @@
-import {Inject, Injectable, injectable, InjectorService} from "../../index.js";
+import {Inject, Injectable, InjectorService, injectable} from "../../index.js";
 import {DITest} from "../services/DITest.js";
 
 class Model {}

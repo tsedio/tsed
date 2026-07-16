@@ -16,14 +16,14 @@ export class CalendarCtrl {
     return `Text plain ${name}`;
   }
 
-  @Returns().Headers({
+  @(Returns().Headers({
     "Content-Type": "text/plain",
     "Content-Length": 123,
     ETag: {
       value: "12345",
       description: "header description"
     }
-  })
+  }))
   create2(@BodyParams("name") name: string): string {
     return `Text plain ${name}`;
   }

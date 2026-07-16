@@ -1,9 +1,9 @@
+import {OS2Parameter} from "./OS2Parameter.js";
+import {OS2Response} from "./OS2Response.js";
 import {OpenSpecExternalDocs} from "../common/OpenSpecExternalDocs.js";
 import {OpenSpecHash} from "../common/OpenSpecHash.js";
 import {OpenSpecRef} from "../common/OpenSpecRef.js";
 import {OpenSpecSecurity} from "../common/OpenSpecSecurity.js";
-import {OS2Parameter} from "./OS2Parameter.js";
-import {OS2Response} from "./OS2Response.js";
 
 export interface OS2Operation {
   /**

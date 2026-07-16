@@ -1,7 +1,6 @@
 import {MetadataTypes, Type} from "@tsed/core";
-
-import {JsonMapperMethods} from "../interfaces/JsonMapperMethods.js";
 import {JsonMapperGlobalOptions} from "./JsonMapperGlobalOptions.js";
+import {JsonMapperMethods} from "../interfaces/JsonMapperMethods.js";
 
 /**
  * Options accepted by the `JsonSerializer`. They describe the target type, alias strategy,

@@ -1,6 +1,5 @@
-import {Store} from "@tsed/core";
-
 import {Pulse} from "./pulse.js";
+import {Store} from "@tsed/core";
 
 describe("@Pulse()", () => {
   it("should set empty metadata", () => {

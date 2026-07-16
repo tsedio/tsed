@@ -1,4 +1,4 @@
-import {compile, Required} from "../../index.js";
+import {Required, compile} from "../../index.js";
 import {Groups} from "./groups.js";
 import {RequiredGroups} from "./requiredGroups.js";
 

@@ -1,18 +1,18 @@
 {
   "name": "@tsed/stripe",
-  "description": "Stripe package for Ts.ED framework",
-  "type": "module",
   "version": "8.17.0",
+  "description": "Stripe package for Ts.ED framework",
   "keywords": [
     "Stripe",
     "Ts.ED",
-    "tsed",
     "TypeScript",
     "decorators",
     "express",
-    "koa"
+    "koa",
+    "tsed"
   ],
   "source": "./src/index.ts",
+  "type": "module",
   "main": "./lib/esm/index.js",
   "module": "./lib/esm/index.js",
   "typings": "./lib/types/index.d.ts",
@@ -44,7 +44,6 @@
     "@tsed/platform-params": "workspace:*",
     "@tsed/schema": "workspace:*",
     "@tsed/typescript": "workspace:*",
-    "eslint": "9.12.0",
     "stripe": "^17.7.0",
     "typescript": "6.0.2",
     "vitest": "4.1.4"

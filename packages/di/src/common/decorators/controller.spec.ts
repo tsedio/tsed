@@ -1,7 +1,7 @@
+import {Controller} from "./controller.js";
 import {Provider} from "../domain/Provider.js";
 import {ProviderScope} from "../domain/ProviderScope.js";
 import {ProviderType} from "../domain/ProviderType.js";
-import {Controller} from "./controller.js";
 
 class Test {}
 

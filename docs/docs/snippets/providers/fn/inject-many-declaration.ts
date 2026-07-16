@@ -14,6 +14,5 @@ class Baz implements Bar {
   private readonly type = "baz";
 }
 
-
 injectable(Foo).type(Bar);
 injectable(Baz).type(Bar);

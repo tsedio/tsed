@@ -1,13 +1,10 @@
-import {randomUUID} from "node:crypto";
-
-import {Adapters} from "@tsed/adapters";
 import {IORedisTest, registerConnectionProvider} from "@tsed/ioredis";
-import {Redis} from "ioredis";
-// @ts-ignore
+import {Adapters} from "@tsed/adapters";
 import IORedisMock from "ioredis-mock";
-import moment from "moment";
-
 import {OIDCIORedisAdapter} from "./OIDCIORedisAdapter.js";
+import {Redis} from "ioredis";
+import moment from "moment";
+import {randomUUID} from "node:crypto";
 
 const REDIS_CONNECTION = Symbol.for("redis_connection");
 let TEST_PREFIX = "";

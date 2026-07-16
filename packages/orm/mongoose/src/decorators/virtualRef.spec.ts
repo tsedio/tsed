@@ -1,10 +1,9 @@
-import {Store} from "@tsed/core";
-import {Controller} from "@tsed/di";
+import {Format, Post, Property, ReadOnly, Returns, SpecTypes, compile, getSpec} from "@tsed/schema";
 import {BodyParams} from "@tsed/platform-params";
-import {compile, Format, getSpec, Post, Property, ReadOnly, Returns, SpecTypes} from "@tsed/schema";
-
+import {Controller} from "@tsed/di";
 import {MONGOOSE_SCHEMA} from "../constants/constants.js";
 import {Model} from "./model.js";
+import {Store} from "@tsed/core";
 import {VirtualRef} from "./virtualRef.js";
 
 describe("@VirtualRef()", () => {

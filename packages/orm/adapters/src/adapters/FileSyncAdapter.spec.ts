@@ -1,10 +1,9 @@
-import {faker} from "@faker-js/faker";
-import {PlatformTest} from "@tsed/platform-http/testing";
-import {Property} from "@tsed/schema";
-
 import {Adapter} from "../domain/Adapter.js";
 import {Adapters} from "../services/Adapters.js";
 import {FileSyncAdapter} from "./FileSyncAdapter.js";
+import {PlatformTest} from "@tsed/platform-http/testing";
+import {Property} from "@tsed/schema";
+import {faker} from "@faker-js/faker";
 
 class Client {
   @Property()

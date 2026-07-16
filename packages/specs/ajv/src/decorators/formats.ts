@@ -1,4 +1,4 @@
-import {formats, type FormatsOptions} from "../fn/formats.js";
+import {type FormatsOptions, formats} from "../fn/formats.js";
 
 /**
  * Create a new custom formats validator

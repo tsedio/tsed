@@ -1,6 +1,5 @@
-import type {Readable} from "node:stream";
-
 import type {Field, Multer, Options} from "multer";
+import type {Readable} from "node:stream";
 
 declare global {
   namespace TsED {

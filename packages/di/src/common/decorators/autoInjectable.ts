@@ -1,10 +1,9 @@
-import type {Type} from "@tsed/core/types/Type.js";
-import {isArray} from "@tsed/core/utils/isArray.js";
-
 import {LocalsContainer} from "../domain/LocalsContainer.js";
-import {injector} from "../fn/injector.js";
 import type {TokenProvider} from "../interfaces/TokenProvider.js";
+import type {Type} from "@tsed/core/types/Type.js";
 import {getConstructorDependencies} from "../utils/getConstructorDependencies.js";
+import {injector} from "../fn/injector.js";
+import {isArray} from "@tsed/core/utils/isArray.js";
 
 function resolveAutoInjectableArgs(token: Type, args: unknown[]) {
   const inj = injector();

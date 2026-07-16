@@ -1,19 +1,15 @@
 import {IncomingMessage, ServerResponse} from "node:http";
-
-import {Type} from "@tsed/core";
+import {PlatformHandlerMetadata, PlatformLayer} from "@tsed/platform-router";
+import type {PlatformMulter, PlatformMulterSettings} from "@tsed/platform-multer";
 import {configuration, constant, inject, injectable} from "@tsed/di";
 import {$on} from "@tsed/hooks";
-import type {PlatformMulter, PlatformMulterSettings} from "@tsed/platform-multer";
-import {PlatformHandlerMetadata, PlatformLayer} from "@tsed/platform-router";
-
+import {CreateServerReturn} from "../utils/createServer.js";
+import {PlatformApplication} from "./PlatformApplication.js";
 import type {PlatformStaticsOptions} from "../config/PlatformStaticsSettings.js";
+import {Type} from "@tsed/core";
 import {application} from "../fn/application.js";
 import {createHttpServer} from "../utils/createHttpServer.js";
 import {createHttpsServer} from "../utils/createHttpsServer.js";
-import {CreateServerReturn} from "../utils/createServer.js";
-import {Platform} from "./Platform.js";
-import {PlatformApplication} from "./PlatformApplication.js";
-import {PlatformHandler} from "./PlatformHandler.js";
 
 export abstract class PlatformAdapter<App = TsED.Application> {
   abstract readonly NAME: string;
@@ -99,4 +95,4 @@ export interface PlatformBuilderSettings<App = TsED.Application> extends Partial
   adapter?: Type<PlatformAdapter<App>>;
 }
 
-injectable(PlatformAdapter).imports([PlatformApplication, Platform, PlatformHandler]).alias("PlatformAdapter");
+injectable(PlatformAdapter).imports([PlatformApplication]).alias("PlatformAdapter");

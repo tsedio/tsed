@@ -1,14 +1,13 @@
-import {getValue} from "@tsed/core";
+import {CollectionOf, Get, Groups, Integer, Required, compile} from "@tsed/schema";
 import {Controller, Inject} from "@tsed/di";
-import {serialize} from "@tsed/json-mapper";
+import {Model, MongooseModel, ObjectID, VirtualRef} from "../src/index.js";
 import {PlatformExpress} from "@tsed/platform-express";
 import {PlatformTest} from "@tsed/platform-http/testing";
-import {CollectionOf, compile, Get, Groups, Integer, Required} from "@tsed/schema";
-import {TestContainersMongo} from "@tsed/testcontainers-mongo";
-import SuperTest from "supertest";
-
-import {Model, MongooseModel, ObjectID, VirtualRef} from "../src/index.js";
 import {Server} from "./helpers/Server.js";
+import SuperTest from "supertest";
+import {TestContainersMongo} from "@tsed/testcontainers-mongo";
+import {getValue} from "@tsed/core";
+import {serialize} from "@tsed/json-mapper";
 
 @Model()
 export class GalaxiesModel {

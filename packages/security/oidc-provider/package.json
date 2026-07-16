@@ -1,8 +1,7 @@
 {
   "name": "@tsed/oidc-provider",
-  "description": "OIDC provider package for Ts.ED framework",
-  "type": "module",
   "version": "8.17.0",
+  "description": "OIDC provider package for Ts.ED framework",
   "contributors": [
     {
       "name": "romakita"
@@ -15,6 +14,7 @@
     }
   ],
   "source": "./src/index.ts",
+  "type": "module",
   "main": "./lib/esm/index.js",
   "module": "./lib/esm/index.js",
   "typings": "./lib/types/index.d.ts",
@@ -56,7 +56,6 @@
     "@types/oidc-provider": "8.5.2",
     "@types/uuid": "10.0.0",
     "cross-env": "7.0.3",
-    "eslint": "9.12.0",
     "lowdb": "7.0.1",
     "oidc-provider": "9.6.0",
     "typescript": "6.0.2",

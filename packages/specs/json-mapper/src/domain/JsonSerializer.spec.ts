@@ -1,10 +1,6 @@
 import "../components/DateMapper.js";
 import "../components/PrimitiveMapper.js";
 import "../components/SymbolMapper.js";
-
-import {parse} from "node:querystring";
-
-import {cleanObject, isBoolean, isNumber, isObjectID, useDecorators} from "@tsed/core";
 import {
   AdditionalProperties,
   Allow,
@@ -23,16 +19,17 @@ import {
   Required,
   Uri
 } from "@tsed/schema";
-import {snakeCase} from "change-case";
-
-import {Post} from "../../test/helpers/Post.js";
-import {User} from "../../test/helpers/User.js";
+import {cleanObject, isBoolean, isNumber, isObjectID, useDecorators} from "@tsed/core";
+import {JsonMapperSettings} from "./JsonMapperSettings.js";
+import {JsonSerializer} from "./JsonSerializer.js";
 import {OnDeserialize} from "../decorators/onDeserialize.js";
 import {OnSerialize} from "../decorators/onSerialize.js";
+import {Post} from "../../test/helpers/Post.js";
+import {User} from "../../test/helpers/User.js";
 import {deserialize} from "../utils/deserialize.js";
-import {JsonMapperSettings} from "./JsonMapperSettings.js";
 import {getJsonMapperTypes} from "./JsonMapperTypesContainer.js";
-import {JsonSerializer} from "./JsonSerializer.js";
+import {parse} from "node:querystring";
+import {snakeCase} from "change-case";
 
 const serializer = new JsonSerializer();
 

@@ -1,9 +1,7 @@
 import "../../src/components/index.js";
-
+import {engines, requires} from "../../src/index.js";
 import fs from "node:fs";
 import {join} from "node:path";
-
-import {engines, requires} from "../../src/index.js";
 
 const rootDir = join(import.meta.dirname, "..");
 

@@ -1,12 +1,11 @@
-import {catchAsyncError} from "@tsed/core";
-
 import {DITest} from "../../node/index.js";
+import {Inject} from "./inject.js";
+import {Injectable} from "./injectable.js";
+import {InjectorService} from "../services/InjectorService.js";
+import {catchAsyncError} from "@tsed/core";
 import {inject} from "../fn/inject.js";
 import {injectable} from "../fn/injectable.js";
 import {injector} from "../fn/injector.js";
-import {InjectorService} from "../services/InjectorService.js";
-import {Inject} from "./inject.js";
-import {Injectable} from "./injectable.js";
 
 @Injectable()
 class ProvidersList extends Map<string, string> {}

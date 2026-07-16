@@ -1,6 +1,5 @@
-import {Store, useDecorators} from "@tsed/core";
-
 import {AgendaStore, EveryOptions} from "../interfaces/AgendaStore.js";
+import {Store, useDecorators} from "@tsed/core";
 import {Define} from "./define.js";
 
 export function Every(interval: string, options: EveryOptions = {}): MethodDecorator {

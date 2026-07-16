@@ -1,5 +1,5 @@
-import {DITest} from "../services/DITest.js";
 import {getContext, runInContext, setContext} from "./asyncHookContext.js";
+import {DITest} from "../services/DITest.js";
 
 describe("asyncHookContext", () => {
   beforeEach(() => DITest.create());

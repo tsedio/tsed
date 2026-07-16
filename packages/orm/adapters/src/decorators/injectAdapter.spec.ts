@@ -1,10 +1,9 @@
-import {Injectable} from "@tsed/di";
-import {PlatformTest} from "@tsed/platform-http/testing";
+import {InjectAdapter, adapter} from "./injectAdapter.js";
 import {Name, Property} from "@tsed/schema";
-
-import {MemoryAdapter} from "../adapters/MemoryAdapter.js";
 import {Adapter} from "../domain/Adapter.js";
-import {adapter, InjectAdapter} from "./injectAdapter.js";
+import {Injectable} from "@tsed/di";
+import {MemoryAdapter} from "../adapters/MemoryAdapter.js";
+import {PlatformTest} from "@tsed/platform-http/testing";
 
 describe("InjectAdapter", () => {
   beforeEach(() => PlatformTest.create());

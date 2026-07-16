@@ -1,7 +1,6 @@
-import {Type} from "@tsed/core";
-
 import {FakeAdapter} from "../../../testing/index.js";
 import {PlatformBuilder} from "../PlatformBuilder.js";
+import {Type} from "@tsed/core";
 
 export class PlatformCustom extends FakeAdapter {
   readonly NAME = "custom";

@@ -1,6 +1,5 @@
-import {Store} from "@tsed/core";
-
 import {Scope} from "./scope.js";
+import {Store} from "@tsed/core";
 
 class Test {}
 

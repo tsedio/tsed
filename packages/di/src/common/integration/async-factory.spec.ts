@@ -1,12 +1,11 @@
-import {isPromise} from "@tsed/core";
-import {afterEach} from "vitest";
-
+import {destroyInjector, injector} from "../fn/injector.js";
+import {Container} from "../domain/Container.js";
 import {Inject} from "../decorators/inject.js";
 import {Injectable} from "../decorators/injectable.js";
-import {Container} from "../domain/Container.js";
 import {Provider} from "../domain/Provider.js";
+import {afterEach} from "vitest";
 import {injectable} from "../fn/injectable.js";
-import {destroyInjector, injector} from "../fn/injector.js";
+import {isPromise} from "@tsed/core";
 
 describe("DI", () => {
   afterEach(() => destroyInjector());

@@ -1,6 +1,5 @@
-import {classOf} from "@tsed/core";
-
 import {type ClassPromptProps, definePrompt} from "../fn/definePrompt.js";
+import {classOf} from "@tsed/core";
 
 /**
  * Options accepted by {@link Prompt} when decorating a class method. Matches {@link PromptProps} minus the handler reference.

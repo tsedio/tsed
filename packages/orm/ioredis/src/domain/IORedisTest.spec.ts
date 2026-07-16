@@ -1,9 +1,8 @@
 import {Inject, Injectable} from "@tsed/di";
+import {IORedisTest} from "./IORedisTest.js";
 import type {Redis} from "ioredis";
 import RedisMock from "ioredis-mock";
-
 import {registerConnectionProvider} from "../utils/registerConnectionProvider.js";
-import {IORedisTest} from "./IORedisTest.js";
 
 const MY_CONNECTION = Symbol("MY_CONNECTION");
 type MY_CONNECTION = Redis;

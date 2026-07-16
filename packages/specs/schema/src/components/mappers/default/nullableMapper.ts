@@ -1,9 +1,8 @@
-import {cleanObject} from "@tsed/core/utils/cleanObject.js";
-import {uniq} from "@tsed/core/utils/uniq.js";
-
-import {MANY_OF_PROPERTIES} from "../../../constants/jsonSchemaProperties.js";
 import type {JsonSchema} from "../../../domain/JsonSchema.js";
+import {MANY_OF_PROPERTIES} from "../../../constants/jsonSchemaProperties.js";
+import {cleanObject} from "@tsed/core/utils/cleanObject.js";
 import {defineSchemaMapper} from "../../../registries/JsonSchemaMapperContainer.js";
+import {uniq} from "@tsed/core/utils/uniq.js";
 
 export function nullableMapper(obj: any, schema: JsonSchema | null) {
   if (!schema?.isNullable || obj.discriminator) {

@@ -1,8 +1,7 @@
-import {BodyParams} from "@tsed/platform-params";
-
-import {s} from "../../fn/index.js";
-import {Get, getSpec, Property, SpecTypes} from "../../index.js";
+import {Get, Property, SpecTypes, getSpec} from "../../index.js";
 import {AcceptMime} from "./acceptMime.js";
+import {BodyParams} from "@tsed/platform-params";
+import {s} from "../../fn/index.js";
 
 class Model {
   @Property()

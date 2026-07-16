@@ -1,6 +1,5 @@
-import {Store} from "@tsed/core";
-
 import {Socket} from "../index.js";
+import {Store} from "@tsed/core";
 
 describe("Socket", () => {
   it("should set metadata", () => {

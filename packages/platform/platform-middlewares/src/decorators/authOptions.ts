@@ -1,12 +1,12 @@
 import {
-  decorateMethodsOf,
   DecoratorMethodParameters,
   DecoratorParameters,
-  decoratorTypeOf,
   DecoratorTypes,
   Store,
   Type,
-  UnsupportedDecoratorType
+  UnsupportedDecoratorType,
+  decorateMethodsOf,
+  decoratorTypeOf
 } from "@tsed/core";
 import {JsonEntityFn} from "@tsed/schema";
 

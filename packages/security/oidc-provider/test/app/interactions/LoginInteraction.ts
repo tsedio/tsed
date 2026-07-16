@@ -1,10 +1,9 @@
-import {Env} from "@tsed/core";
 import {Constant, Inject} from "@tsed/di";
-import {BodyParams} from "@tsed/platform-params";
-import {Name, Post, View} from "@tsed/schema";
-
 import {Interaction, InteractionMethods, OidcCtx, OidcSession, Params, Prompt, Uid} from "../../../src/index.js";
+import {Name, Post, View} from "@tsed/schema";
 import {Accounts} from "../services/Accounts.js";
+import {BodyParams} from "@tsed/platform-params";
+import {Env} from "@tsed/core";
 
 @Interaction({
   name: "login",

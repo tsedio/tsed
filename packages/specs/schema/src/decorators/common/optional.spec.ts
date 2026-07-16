@@ -1,4 +1,4 @@
-import {getSpec, In, Name, OperationPath, Optional, SpecTypes} from "../../index.js";
+import {In, Name, OperationPath, Optional, SpecTypes, getSpec} from "../../index.js";
 import {Path} from "../operations/path.js";
 
 describe("Optional", () => {

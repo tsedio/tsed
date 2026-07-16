@@ -1,10 +1,8 @@
 import "../components/AlterAudit.js";
-
-import {PlatformTest} from "@tsed/platform-http/testing";
-
 import {AlterAudit} from "../components/AlterAudit.js";
 import {FormioHooksService} from "./FormioHooksService.js";
 import {FormioService} from "./FormioService.js";
+import {PlatformTest} from "@tsed/platform-http/testing";
 
 async function createFormioFixture(routerOpts: any = {}) {
   const service = await PlatformTest.invoke<FormioService>(FormioService, []);

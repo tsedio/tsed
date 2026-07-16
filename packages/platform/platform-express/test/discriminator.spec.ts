@@ -1,15 +1,13 @@
 import "@tsed/ajv";
 import "@tsed/swagger";
-
-import {Controller} from "@tsed/di";
-import {PlatformTest} from "@tsed/platform-http/testing";
-import {BodyParams} from "@tsed/platform-params";
-import {PlatformTestSdk} from "@tsed/platform-test-sdk";
 import {DiscriminatorKey, DiscriminatorValue, OneOf, Partial, Patch, Post, Property, Required, Returns} from "@tsed/schema";
-import SuperTest from "supertest";
-
+import {Server, rootDir} from "./app/Server.js";
+import {BodyParams} from "@tsed/platform-params";
+import {Controller} from "@tsed/di";
 import {PlatformExpress} from "../src/index.js";
-import {rootDir, Server} from "./app/Server.js";
+import {PlatformTest} from "@tsed/platform-http/testing";
+import {PlatformTestSdk} from "@tsed/platform-test-sdk";
+import SuperTest from "supertest";
 
 class Event {
   @DiscriminatorKey() // declare this property as discriminator key

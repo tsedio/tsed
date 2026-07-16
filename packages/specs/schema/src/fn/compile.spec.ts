@@ -1,7 +1,6 @@
-import {ancestorsOf, nameOf, Type} from "@tsed/core";
-
+import {CollectionOf, Email, Format, MinLength, Name, Property, Required, getJsonEntityStore, s} from "../index.js";
+import {Type, ancestorsOf, nameOf} from "@tsed/core";
 import {Post} from "../../test/helpers/Post.js";
-import {CollectionOf, Email, Format, getJsonEntityStore, MinLength, Name, Property, Required, s} from "../index.js";
 import {compile} from "./compile.js";
 
 describe("compile", () => {

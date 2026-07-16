@@ -1,11 +1,9 @@
-import http from "node:http";
-
 import {Controller} from "@tsed/di";
-import {QueryParams} from "@tsed/platform-params";
 import {Get} from "@tsed/schema";
-
 import {PlatformExpress} from "../../src/index.js";
+import {QueryParams} from "@tsed/platform-params";
 import {Server} from "./Server.js";
+import http from "node:http";
 
 @Controller("/hello")
 class HelloWorld {

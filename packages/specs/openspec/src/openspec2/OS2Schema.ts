@@ -1,5 +1,5 @@
-import {OpenSpecExternalDocs} from "../common/OpenSpecExternalDocs.js";
 import {OpenSpecBaseJsonSchema, OpenSpecJsonSchema} from "../common/OpenSpecJsonSchema.js";
+import {OpenSpecExternalDocs} from "../common/OpenSpecExternalDocs.js";
 import {OpenSpecRef} from "../common/OpenSpecRef.js";
 import {OpenSpecXML} from "../common/OpenSpecXML.js";
 

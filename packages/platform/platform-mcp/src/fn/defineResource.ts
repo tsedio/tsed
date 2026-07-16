@@ -1,9 +1,8 @@
 import type {ReadResourceCallback, ResourceMetadata, ResourceTemplate} from "@modelcontextprotocol/sdk/server/mcp.js";
-import {context, inject, injectable, logger, type TokenProvider} from "@tsed/di";
-import {s} from "@tsed/schema";
-import {constantCase} from "change-case";
-
+import {type TokenProvider, context, inject, injectable, logger} from "@tsed/di";
 import {MCP_PROVIDER_TYPES} from "../constants/constants.js";
+import {constantCase} from "change-case";
+import {s} from "@tsed/schema";
 
 type ResourceMetadataProps = ResourceMetadata & {
   name: string;

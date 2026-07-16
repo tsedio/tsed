@@ -1,6 +1,5 @@
-import {DITest, inject, Injectable} from "@tsed/di";
 import {ContentType, Description, Title} from "@tsed/schema";
-
+import {DITest, Injectable, inject} from "@tsed/di";
 import {Resource} from "./resource.js";
 
 @Injectable()

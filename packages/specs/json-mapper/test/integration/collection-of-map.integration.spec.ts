@@ -1,5 +1,4 @@
-import {array, CollectionOf, map, Schema, string} from "@tsed/schema";
-
+import {CollectionOf, Schema, array, map, string} from "@tsed/schema";
 import {deserialize} from "../../src/index.js";
 
 describe("Collection of Map", () => {

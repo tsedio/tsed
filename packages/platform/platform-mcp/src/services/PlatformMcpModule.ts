@@ -1,11 +1,10 @@
-import type {McpServer} from "@modelcontextprotocol/sdk/server/mcp.js";
-import {StreamableHTTPServerTransport} from "@modelcontextprotocol/sdk/server/streamableHttp.js";
+import {type OnRoutesInit, PlatformContext, type PlatformRouteDetails, application} from "@tsed/platform-http";
 import {constant, inject, injectable} from "@tsed/di";
-import {application, type OnRoutesInit, PlatformContext, type PlatformRouteDetails} from "@tsed/platform-http";
-import {useContextHandler} from "@tsed/platform-router";
-
-import type {PlatformMcpSettings} from "../interfaces/PlatformMcpSettings.js";
 import {MCP_SERVER} from "./McpServerFactory.js";
+import type {McpServer} from "@modelcontextprotocol/sdk/server/mcp.js";
+import type {PlatformMcpSettings} from "../interfaces/PlatformMcpSettings.js";
+import {StreamableHTTPServerTransport} from "@modelcontextprotocol/sdk/server/streamableHttp.js";
+import {useContextHandler} from "@tsed/platform-router";
 
 /**
  * Platform module that mounts the MCP HTTP endpoint and forwards requests to the configured server instance.

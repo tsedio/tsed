@@ -1,7 +1,6 @@
 import {cleanObject} from "@tsed/core";
-
-import {registerFormioMapper} from "../registries/FormioMappersContainer.js";
 import {getFormioProps} from "../utils/getFormioProps.js";
+import {registerFormioMapper} from "../registries/FormioMappersContainer.js";
 
 export function defaultToComponent(schema: any, options: any): any {
   const formioProps = getFormioProps(schema);

@@ -1,7 +1,6 @@
-import {promisify} from "node:util";
-
-import {ViewEngine} from "../decorators/viewEngine.js";
 import {Engine} from "./Engine.js";
+import {ViewEngine} from "../decorators/viewEngine.js";
+import {promisify} from "node:util";
 
 @ViewEngine("just")
 export class JustEngine extends Engine {

@@ -1,6 +1,6 @@
+import {$log, Logger} from "@tsed/logger";
 import {EventSubscriber, TransactionEventArgs} from "@mikro-orm/core";
 import {Inject} from "@tsed/di";
-import {$log, Logger} from "@tsed/logger";
 
 export class UnmanagedEventSubscriber1 implements EventSubscriber {
   constructor(@Inject() private readonly logger: Logger) {}

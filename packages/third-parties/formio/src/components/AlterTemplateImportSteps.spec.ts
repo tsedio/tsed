@@ -1,7 +1,6 @@
-import {PlatformTest} from "@tsed/platform-http/testing";
-
-import {FormioDatabase} from "../services/FormioDatabase.js";
 import {AlterTemplateImportSteps} from "./AlterTemplateImportSteps.js";
+import {FormioDatabase} from "../services/FormioDatabase.js";
+import {PlatformTest} from "@tsed/platform-http/testing";
 
 async function createServiceFixture() {
   const mapper = {

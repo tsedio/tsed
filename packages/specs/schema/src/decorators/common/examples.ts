@@ -1,7 +1,6 @@
-import {OpenSpecHash, OpenSpecRef, OS3Example} from "@tsed/openspec";
-
-import {JsonParameterStore} from "../../components/stores/JsonParameterStore.js";
+import {OS3Example, OpenSpecHash, OpenSpecRef} from "@tsed/openspec";
 import {JsonEntityFn} from "./jsonEntityFn.js";
+import {JsonParameterStore} from "../../components/stores/JsonParameterStore.js";
 
 /**
  * Adds named examples for parameters in OpenAPI 3.0 format.

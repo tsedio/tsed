@@ -1,6 +1,5 @@
-import {configuration} from "@tsed/di";
-
 import {getBestHost, getHttpPort, getHttpsPort, setHttpPort, setHttpsPort} from "./getBestHost.js";
+import {configuration} from "@tsed/di";
 
 describe("getBestHost()", () => {
   it("should return the best host", () => {

@@ -1,6 +1,4 @@
-import {isString} from "@tsed/core";
 import {
-  array,
   CollectionOf,
   Default,
   Description,
@@ -9,13 +7,14 @@ import {
   Integer,
   Min,
   MinLength,
-  oneOf,
   Property,
   SpecTypes,
+  array,
+  oneOf,
   string
 } from "@tsed/schema";
-
 import {OnDeserialize, serialize} from "../../src/index.js";
+import {isString} from "@tsed/core";
 
 class Pageable {
   @Integer()

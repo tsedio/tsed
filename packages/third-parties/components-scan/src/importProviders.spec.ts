@@ -1,7 +1,6 @@
+import {importProviders} from "./importProviders.js";
 import {nameOf} from "@tsed/core";
 import {resolveControllers} from "@tsed/platform-http";
-
-import {importProviders} from "./importProviders.js";
 
 const rootDir = import.meta.dirname; // automatically replaced by import.meta.dirname on build
 

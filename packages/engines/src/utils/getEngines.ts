@@ -1,7 +1,6 @@
-import {pascalCase} from "pascal-case";
-
 import {EngineOptions} from "../components/Engine.js";
 import {engines} from "../registries/EnginesContainer.js";
+import {pascalCase} from "pascal-case";
 
 export type RenderCallback = (err: Error | null, str?: string | any) => any;
 export interface EngineFunction {

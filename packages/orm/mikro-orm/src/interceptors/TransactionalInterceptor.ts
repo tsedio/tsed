@@ -1,11 +1,10 @@
 import {EntityManager, FlushMode, IsolationLevel} from "@mikro-orm/core";
 import {Inject, InjectorService, Interceptor, InterceptorContext, InterceptorMethods, InterceptorNext} from "@tsed/di";
-import {Logger} from "@tsed/logger";
-
 import {DEFAULT_CONTEXT_NAME} from "../constants.js";
-import {RetryStrategy} from "../interfaces/RetryStrategy.js";
+import {Logger} from "@tsed/logger";
 import {MikroOrmContext} from "../services/MikroOrmContext.js";
 import {MikroOrmRegistry} from "../services/MikroOrmRegistry.js";
+import {RetryStrategy} from "../interfaces/RetryStrategy.js";
 
 export interface TransactionOptions {
   retry?: boolean;

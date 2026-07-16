@@ -1,7 +1,6 @@
+import {RedisAdapter, RedisAdapterConstructorOptions} from "./RedisAdapter.js";
 import {AdapterModel} from "@tsed/adapters";
 import {Opts} from "@tsed/di";
-
-import {RedisAdapter, RedisAdapterConstructorOptions} from "./RedisAdapter.js";
 
 const GRANTABLE = new Set(["AccessToken", "AuthorizationCode", "RefreshToken", "DeviceCode", "BackchannelAuthenticationRequest"]);
 const CONSUMABLE = new Set(["AuthorizationCode", "RefreshToken", "DeviceCode", "BackchannelAuthenticationRequest"]);

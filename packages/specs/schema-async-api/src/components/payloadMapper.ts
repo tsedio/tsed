@@ -1,19 +1,18 @@
-import {setValue} from "@tsed/core";
 import {
-  defineSchemaMapper,
-  execMapper,
-  isParameterType,
   JsonMethodPath,
   JsonMethodStore,
   JsonOperation,
   JsonParameter,
   JsonParameterTypes,
   JsonSchemaOptions,
-  SpecTypes
+  SpecTypes,
+  defineSchemaMapper,
+  execMapper,
+  isParameterType
 } from "@tsed/schema";
-import {pascalCase} from "change-case";
-
 import {makeOf} from "../utils/somethingOf.js";
+import {pascalCase} from "change-case";
+import {setValue} from "@tsed/core";
 
 function getParameters(jsonOperation: JsonOperation, options: JsonSchemaOptions): JsonParameter[] {
   return jsonOperation.get("parameters").filter((parameter: JsonParameter) => isParameterType(parameter.get("in")));

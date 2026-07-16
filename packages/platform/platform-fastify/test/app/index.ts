@@ -1,8 +1,7 @@
-import {Controller} from "@tsed/di";
 import {$log} from "@tsed/logger";
-import {PathParams} from "@tsed/platform-params";
+import {Controller} from "@tsed/di";
 import {Get} from "@tsed/schema";
-
+import {PathParams} from "@tsed/platform-params";
 import {PlatformFastify} from "../../src/index.js";
 import {Server} from "./Server.js";
 

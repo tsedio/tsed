@@ -1,9 +1,8 @@
-import {Type} from "@tsed/core";
-
 import {ParamOptions} from "../domain/ParamOptions.js";
 import {ParamTypes} from "../domain/ParamTypes.js";
-import {mapParamsOptions} from "../utils/mapParamsOptions.js";
+import {Type} from "@tsed/core";
 import {UseParam} from "./useParam.js";
+import {mapParamsOptions} from "../utils/mapParamsOptions.js";
 
 /**
  * HeaderParams return the value from [`request.get()`](http://expressjs.com/en/4x/api.html#req.get) method.

@@ -1,5 +1,3 @@
-import {catchError} from "@tsed/core";
-
 import {
   MovedPermanently,
   MovedTemporarily,
@@ -10,6 +8,7 @@ import {
   TemporaryRedirect,
   UseProxy
 } from "../src/index.js";
+import {catchError} from "@tsed/core";
 
 describe("Redirections", () => {
   describe("MovedPermanently", () => {

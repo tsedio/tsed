@@ -1,7 +1,6 @@
-import {nameOf} from "@tsed/core";
-import type {Type} from "@tsed/core/types/Type.js";
-
 import {Provider} from "../domain/Provider.js";
+import type {Type} from "@tsed/core/types/Type.js";
+import {nameOf} from "@tsed/core";
 
 /**
  * Override an existing provider registration with a new implementation.

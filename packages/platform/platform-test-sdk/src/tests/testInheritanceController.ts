@@ -1,14 +1,13 @@
+import {BodyParams, PathParams, QueryParams} from "@tsed/platform-params";
+import {Description, Get, MaxLength, MinLength, Post, Property, Returns, Summary} from "@tsed/schema";
+import {Middleware, UseAuth} from "@tsed/platform-middlewares";
+import {afterAll, beforeAll, describe, expect, it} from "vitest";
 import {Controller} from "@tsed/di";
 import {NotFound} from "@tsed/exceptions";
 import {PlatformTest} from "@tsed/platform-http/testing";
-import {Middleware, UseAuth} from "@tsed/platform-middlewares";
-import {BodyParams, PathParams, QueryParams} from "@tsed/platform-params";
-import {Description, Get, MaxLength, MinLength, Post, Property, Returns, Summary} from "@tsed/schema";
+import {PlatformTestingSdkOpts} from "../interfaces/index.js";
 import SuperTest from "supertest";
 import {v4} from "uuid";
-import {afterAll, beforeAll, describe, expect, it} from "vitest";
-
-import {PlatformTestingSdkOpts} from "../interfaces/index.js";
 
 export class Resource {
   @Property()

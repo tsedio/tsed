@@ -1,6 +1,5 @@
-import {DecoratorParameters, decoratorTypeOf, DecoratorTypes} from "@tsed/core";
+import {DecoratorParameters, DecoratorTypes, decoratorTypeOf} from "@tsed/core";
 import {Inject, InjectContext} from "@tsed/di";
-
 import {APOLLO_CONTEXT} from "../constants/constants.js";
 
 /**

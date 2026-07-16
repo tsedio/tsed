@@ -1,5 +1,5 @@
-import {getHostInfoFromPort} from "@tsed/core";
 import {configuration, constant} from "@tsed/di";
+import {getHostInfoFromPort} from "@tsed/core";
 
 function httpPort() {
   return constant<string>("httpPort", constant("port"));

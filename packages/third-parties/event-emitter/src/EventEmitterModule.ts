@@ -1,8 +1,7 @@
 import {Constant, Inject, InjectorService, LOGGER, Module, Provider} from "@tsed/di";
-import type {ListenerFn} from "eventemitter2";
-
-import {EventEmitterStore} from "./interfaces/EventEmitterStore.js";
 import {EventEmitterService} from "./services/EventEmitterFactory.js";
+import {EventEmitterStore} from "./interfaces/EventEmitterStore.js";
+import type {ListenerFn} from "eventemitter2";
 
 @Module()
 export class EventEmitterModule {

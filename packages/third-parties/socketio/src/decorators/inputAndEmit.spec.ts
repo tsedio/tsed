@@ -1,6 +1,5 @@
-import {Store} from "@tsed/core";
-
 import {InputAndEmit} from "../index.js";
+import {Store} from "@tsed/core";
 
 describe("InputAndEmit", () => {
   it("should set metadata", () => {

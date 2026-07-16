@@ -1,5 +1,5 @@
-import {constant, injectable} from "@tsed/di";
 import {Server, type ServerOptions} from "socket.io";
+import {constant, injectable} from "@tsed/di";
 
 export type SocketIOServer = Server;
 

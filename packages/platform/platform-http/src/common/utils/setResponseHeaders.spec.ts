@@ -1,5 +1,4 @@
 import {Get, Redirect, Returns, s} from "@tsed/schema";
-
 import {PlatformTest} from "../../testing/PlatformTest.js";
 import {setResponseHeaders} from "./setResponseHeaders.js";
 

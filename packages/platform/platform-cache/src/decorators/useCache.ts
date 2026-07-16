@@ -1,5 +1,4 @@
 import {Intercept} from "@tsed/di";
-
 import {PlatformCacheInterceptor} from "../interceptors/PlatformCacheInterceptor.js";
 import {PlatformCacheOptions} from "../interfaces/PlatformCacheOptions.js";
 

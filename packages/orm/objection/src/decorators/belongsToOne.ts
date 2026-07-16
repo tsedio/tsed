@@ -1,6 +1,5 @@
 import {Model, ModelClassSpecifier} from "objection";
-
-import {isModelClassSpecifier, RelationshipOpts, RelationshipOptsWithoutThrough} from "../domain/RelationshipOpts.js";
+import {RelationshipOpts, RelationshipOptsWithoutThrough, isModelClassSpecifier} from "../domain/RelationshipOpts.js";
 import {RelatesTo} from "./relatesTo.js";
 
 /**

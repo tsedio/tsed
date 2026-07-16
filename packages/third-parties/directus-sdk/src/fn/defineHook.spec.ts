@@ -1,8 +1,7 @@
-import {catchAsyncError} from "@tsed/core";
-import {inject, logger} from "@tsed/di";
 import {describe, it} from "vitest";
-
+import {inject, logger} from "@tsed/di";
 import {DirectusContextService} from "../services/DirectusContextService.js";
+import {catchAsyncError} from "@tsed/core";
 import {defineHook} from "./defineHook.js";
 
 describe("defineHook", () => {

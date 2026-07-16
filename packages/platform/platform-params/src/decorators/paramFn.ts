@@ -1,5 +1,5 @@
-import {DecoratorParameters} from "@tsed/core";
 import {JsonEntityFn, JsonParameterStore} from "@tsed/schema";
+import {DecoratorParameters} from "@tsed/core";
 
 /**
  * Get the Param metadata. Use this decorator to compose your own decorator.

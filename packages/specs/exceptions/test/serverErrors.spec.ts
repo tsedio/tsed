@@ -1,5 +1,3 @@
-import {catchError} from "@tsed/core";
-
 import {
   BadGateway,
   BandwidthLimitExceeded,
@@ -12,6 +10,7 @@ import {
   ServiceUnavailable,
   VariantAlsoNegotiates
 } from "../src/index.js";
+import {catchError} from "@tsed/core";
 
 describe("ServerErrors", () => {
   describe("BadGateway", () => {

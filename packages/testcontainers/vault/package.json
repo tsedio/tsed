@@ -1,9 +1,9 @@
 {
   "name": "@tsed/testcontainers-vault",
-  "description": "A module to test Ts.ED code that use Vault as a secrets manager using Test Containers",
-  "type": "module",
   "version": "1.6.1",
+  "description": "A module to test Ts.ED code that use Vault as a secrets manager using Test Containers",
   "source": "./src/index.ts",
+  "type": "module",
   "main": "./lib/esm/index.js",
   "module": "./lib/esm/index.js",
   "typings": "./lib/types/index.d.ts",

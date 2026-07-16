@@ -1,5 +1,4 @@
 import "../index.js";
-
 import {JsonMap} from "./JsonMap.js";
 
 describe("JsonMap", () => {

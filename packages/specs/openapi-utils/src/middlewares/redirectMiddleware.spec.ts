@@ -1,7 +1,6 @@
-import {runInContext} from "@tsed/di";
 import {PlatformTest} from "@tsed/platform-http/testing";
-
 import {redirectMiddleware} from "./redirectMiddleware.js";
+import {runInContext} from "@tsed/di";
 
 describe("redirectMiddleware and redirect", () => {
   beforeEach(PlatformTest.create);

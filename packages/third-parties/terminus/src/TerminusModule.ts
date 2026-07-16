@@ -1,12 +1,10 @@
+import {Constant, Inject, InjectorService, Module, OnInit, Provider} from "@tsed/di";
 import Http from "node:http";
 import Https from "node:https";
-
-import {createTerminus} from "@godaddy/terminus";
-import {Constant, Inject, InjectorService, Module, OnInit, Provider} from "@tsed/di";
 import type {PlatformRouteDetails} from "@tsed/platform-http";
-import {concatPath} from "@tsed/schema";
-
 import {TerminusSettings} from "./interfaces/TerminusSettings.js";
+import {concatPath} from "@tsed/schema";
+import {createTerminus} from "@godaddy/terminus";
 
 @Module()
 export class TerminusModule implements OnInit {

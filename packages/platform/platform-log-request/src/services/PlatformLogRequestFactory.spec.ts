@@ -1,7 +1,5 @@
 import "../domain/PlatformLogRequestSettings.js";
-
 import {DITest} from "@tsed/di";
-
 import {PlatformLogRequestFactory} from "./PlatformLogRequestFactory.js";
 
 describe("PlatformLogRequestFactory", () => {

@@ -1,4 +1,4 @@
-import {generateSpec, getSpec, OperationPath, Path, SpecTypes} from "../../index.js";
+import {OperationPath, Path, SpecTypes, generateSpec, getSpec} from "../../index.js";
 import {InFile} from "./inFile.js";
 
 describe("@File()", () => {

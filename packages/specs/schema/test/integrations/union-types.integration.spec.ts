@@ -1,6 +1,5 @@
-import {Ajv} from "ajv";
-
 import {AdditionalProperties, AnyOf, Enum, s} from "../../src/index.js";
+import {Ajv} from "ajv";
 
 describe("Union on model", () => {
   it("should return the expected schema", () => {

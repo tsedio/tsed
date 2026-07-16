@@ -1,13 +1,11 @@
 import "@tsed/ajv";
-
+import {Get, Maximum, Minimum, Required} from "@tsed/schema";
+import {afterAll, beforeAll, describe, expect, it} from "vitest";
 import {Controller} from "@tsed/di";
 import {PlatformTest} from "@tsed/platform-http/testing";
-import {QueryParams} from "@tsed/platform-params";
-import {Get, Maximum, Minimum, Required} from "@tsed/schema";
-import SuperTest from "supertest";
-import {afterAll, beforeAll, describe, expect, it} from "vitest";
-
 import {PlatformTestingSdkOpts} from "../interfaces/index.js";
+import {QueryParams} from "@tsed/platform-params";
+import SuperTest from "supertest";
 
 export class RandomStringModel {
   @Maximum(250)

@@ -1,7 +1,6 @@
-import {OnDeserialize} from "@tsed/json-mapper";
-
-import {compile, Default, MinLength, Property} from "../../index.js";
+import {Default, MinLength, Property, compile} from "../../index.js";
 import {Any} from "./any.js";
+import {OnDeserialize} from "@tsed/json-mapper";
 
 describe("@Any", () => {
   it("should declare any prop", () => {

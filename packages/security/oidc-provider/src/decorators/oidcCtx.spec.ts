@@ -1,6 +1,5 @@
-import {JsonParameterStore} from "@tsed/schema";
-
 import {INTERACTION_CONTEXT} from "../constants/constants.js";
+import {JsonParameterStore} from "@tsed/schema";
 import {OidcCtx} from "./oidcCtx.js";
 
 describe("@OidcCtx", () => {

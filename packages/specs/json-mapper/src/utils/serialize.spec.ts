@@ -1,7 +1,5 @@
 import "../components/PrimitiveMapper.js";
-
 import {Property} from "@tsed/schema";
-
 import {serialize} from "./serialize.js";
 
 describe("serialize()", () => {

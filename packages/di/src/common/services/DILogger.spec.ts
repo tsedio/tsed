@@ -1,4 +1,4 @@
-import {Container, destroyInjector, Inject, Injectable, injector, LOGGER} from "../../common/index.js";
+import {Container, Inject, Injectable, LOGGER, destroyInjector, injector} from "../../common/index.js";
 
 describe("DILogger", () => {
   afterEach(() => destroyInjector());

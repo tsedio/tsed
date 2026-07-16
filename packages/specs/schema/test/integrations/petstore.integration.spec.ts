@@ -1,9 +1,5 @@
 import "../../src/index.js";
-
-import {Controller} from "@tsed/di";
-import {Use} from "@tsed/platform-middlewares";
 import {BodyParams, PathParams} from "@tsed/platform-params";
-
 import {
   CollectionOf,
   Delete,
@@ -11,7 +7,6 @@ import {
   Enum,
   Example,
   Get,
-  getSpec,
   Groups,
   Name,
   Partial,
@@ -23,8 +18,11 @@ import {
   Required,
   Returns,
   SpecTypes,
-  Subscribe
+  Subscribe,
+  getSpec
 } from "../../src/index.js";
+import {Controller} from "@tsed/di";
+import {Use} from "@tsed/platform-middlewares";
 
 class PetCategory {
   @Required()

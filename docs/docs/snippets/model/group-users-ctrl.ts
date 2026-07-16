@@ -6,11 +6,11 @@ import {User} from "../models/User";
 @Controller("/")
 export class UsersCtrl {
   @Get("/:id")
-  @Returns(200, User).Groups("group.*")
+  @(Returns(200, User).Groups("group.*"))
   async get(@PathParams("id") id: string) {}
 
   @Post("/")
-  @Returns(201, User).Groups("group.*")
+  @(Returns(201, User).Groups("group.*"))
   post(@BodyParams() @Groups("creation") user: User) {
     console.log(user); // User {firstName, lastName, email, password}
     user.id = uuid();

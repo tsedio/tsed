@@ -1,6 +1,5 @@
-import {PlatformTest} from "@tsed/platform-http/testing";
-
 import {AlterSkip} from "./AlterSkip.js";
+import {PlatformTest} from "@tsed/platform-http/testing";
 
 describe("AlterSkip", () => {
   beforeEach(() => PlatformTest.create());

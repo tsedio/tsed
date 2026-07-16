@@ -1,11 +1,10 @@
-import {OS3Schema} from "@tsed/openspec";
-import {camelCase} from "change-case";
+import {defineSchemaMapper, execMapper, hasMapper} from "../../../registries/JsonSchemaMapperContainer.js";
 import type {JSONSchema6} from "json-schema";
-
 import {JsonParameter} from "../../../domain/JsonParameter.js";
 import {JsonParameterTypes} from "../../../domain/JsonParameterTypes.js";
 import {JsonSchemaOptions} from "../../../domain/JsonSchemaOptions.js";
-import {defineSchemaMapper, execMapper, hasMapper} from "../../../registries/JsonSchemaMapperContainer.js";
+import {OS3Schema} from "@tsed/openspec";
+import {camelCase} from "change-case";
 
 export type JsonParameterOptions = JsonSchemaOptions & {
   jsonParameter: JsonParameter;

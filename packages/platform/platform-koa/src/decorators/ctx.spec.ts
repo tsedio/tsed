@@ -1,6 +1,5 @@
-import {JsonParameterStore} from "@tsed/schema";
-
 import {Ctx} from "./ctx.js";
+import {JsonParameterStore} from "@tsed/schema";
 
 describe("@Ctx", () => {
   it("should call store the right configuration", () => {

@@ -1,6 +1,5 @@
-import {isArray} from "@tsed/core";
-
 import {SpecTypes} from "../domain/SpecTypes.js";
+import {isArray} from "@tsed/core";
 
 /**
  * @ignore

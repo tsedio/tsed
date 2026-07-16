@@ -1,16 +1,16 @@
 {
   "name": "@tsed/sse",
-  "description": "Server-sent events package for Ts.ED framework",
-  "type": "module",
   "version": "8.17.0",
+  "description": "Server-sent events package for Ts.ED framework",
   "keywords": [
-    "tsed",
+    "realtime",
+    "server",
     "server-sent events",
     "sse",
-    "server",
-    "realtime"
+    "tsed"
   ],
   "source": "./src/index.ts",
+  "type": "module",
   "main": "./lib/esm/index.js",
   "module": "./lib/esm/index.js",
   "typings": "./lib/types/index.d.ts",
@@ -44,7 +44,6 @@
     "@tsed/schema": "workspace:*",
     "@tsed/socketio-testing": "workspace:*",
     "@tsed/typescript": "workspace:*",
-    "eslint": "9.12.0",
     "express": "^5.2.1",
     "typescript": "6.0.2",
     "vitest": "4.1.4"

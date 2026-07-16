@@ -1,12 +1,10 @@
 import "./intercept.js";
-
-import {nameOf} from "@tsed/core";
-
-import {DITest} from "../../node/services/DITest.js";
-import {getInterceptorOptions} from "../decorators/intercept.js";
 import {injectable, interceptor} from "../fn/injectable.js";
+import {DITest} from "../../node/services/DITest.js";
 import {InterceptorContext} from "../interfaces/InterceptorContext.js";
 import type {InterceptorMethods} from "../interfaces/InterceptorMethods.js";
+import {getInterceptorOptions} from "../decorators/intercept.js";
+import {nameOf} from "@tsed/core";
 
 class MyInterceptor implements InterceptorMethods {
   intercept(context: InterceptorContext<any>) {

@@ -1,7 +1,6 @@
-import {type Type} from "@tsed/core";
-import {ProviderBuilder} from "@tsed/di";
-
 import {DirectusCacheInterceptor, type DirectusCacheOptions} from "../cache/index.js";
+import {ProviderBuilder} from "@tsed/di";
+import {type Type} from "@tsed/core";
 
 declare global {
   namespace TsED {

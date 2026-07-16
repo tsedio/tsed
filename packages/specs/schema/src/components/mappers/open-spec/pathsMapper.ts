@@ -1,17 +1,16 @@
 import {OS3Operation, OS3Paths} from "@tsed/openspec";
-
-import {OperationVerbs} from "../../../constants/OperationVerbs.js";
-import {JsonMethodPath} from "../../../domain/index.js";
-import {JsonSchemaOptions} from "../../../domain/JsonSchemaOptions.js";
-import {getJsonEntityStore} from "../../../registries/JsonEntitiesContainer.js";
 import {defineSchemaMapper, execMapper} from "../../../registries/JsonSchemaMapperContainer.js";
+import {JsonMethodPath} from "../../../domain/index.js";
+import type {JsonMethodStore} from "../../stores/JsonMethodStore.js";
+import {JsonSchemaOptions} from "../../../domain/JsonSchemaOptions.js";
+import {OperationVerbs} from "../../../constants/OperationVerbs.js";
 import {buildPath} from "../../../utils/buildPath.js";
 import {concatParameters} from "../../../utils/concatParameters.js";
+import {getJsonEntityStore} from "../../../registries/JsonEntitiesContainer.js";
 import {getJsonPathParameters} from "../../../utils/getJsonPathParameters.js";
-import {getOperationsStores} from "../../../utils/getOperationsStores.js";
 import {getOperationId} from "../../../utils/operationIdFormatter.js";
+import {getOperationsStores} from "../../../utils/getOperationsStores.js";
 import {removeHiddenOperation} from "../../../utils/removeHiddenOperation.js";
-import type {JsonMethodStore} from "../../stores/JsonMethodStore.js";
 
 const ALLOWED_VERBS = [
   OperationVerbs.ALL,

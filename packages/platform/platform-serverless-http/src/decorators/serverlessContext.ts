@@ -1,5 +1,5 @@
-import {Req} from "@tsed/platform-http";
 import type {Context} from "aws-lambda";
+import {Req} from "@tsed/platform-http";
 
 /**
  * Return the Serverless context

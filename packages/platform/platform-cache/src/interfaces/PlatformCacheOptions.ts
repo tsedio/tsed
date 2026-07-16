@@ -1,6 +1,5 @@
-import {MetadataTypes} from "@tsed/core";
 import {BaseContext} from "@tsed/di";
-
+import {MetadataTypes} from "@tsed/core";
 import type {Ttl} from "../services/PlatformCache.js";
 
 export interface PlatformCacheOptions extends MetadataTypes {

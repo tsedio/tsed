@@ -1,6 +1,5 @@
-import {Store} from "@tsed/core";
 import {Controller} from "@tsed/di";
-
+import {Store} from "@tsed/core";
 import {Vite} from "./vite.js";
 
 @Controller("/")

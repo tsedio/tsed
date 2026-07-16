@@ -1,7 +1,6 @@
-import {Model} from "objection";
-
 import {Entity} from "./entity.js";
 import {IdColumn} from "./idColumn.js";
+import {Model} from "objection";
 import {RelatesTo} from "./relatesTo.js";
 
 describe("@RelatesTo", () => {

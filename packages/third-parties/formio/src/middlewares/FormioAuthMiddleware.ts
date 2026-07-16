@@ -1,12 +1,10 @@
-import {promisify} from "node:util";
-
-import {getValue} from "@tsed/core";
-import {Inject} from "@tsed/di";
-import {Unauthorized} from "@tsed/exceptions";
-import {Middleware} from "@tsed/platform-middlewares";
 import {Context} from "@tsed/platform-params";
-
 import {FormioService} from "../services/FormioService.js";
+import {Inject} from "@tsed/di";
+import {Middleware} from "@tsed/platform-middlewares";
+import {Unauthorized} from "@tsed/exceptions";
+import {getValue} from "@tsed/core";
+import {promisify} from "node:util";
 
 /**
  * @middleware
