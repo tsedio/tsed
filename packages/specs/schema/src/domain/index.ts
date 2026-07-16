@@ -3,13 +3,16 @@
  */
 export * from "./DecoratorContext.js";
 export * from "./Generics.js";
+export * from "./IgnoreCallback.js";
 export * from "./JsonAliasMap.js";
 export * from "./JsonDiscriminator.js";
 export * from "./JsonEntityStore.js";
 export * from "./JsonFormatTypes.js";
+export * from "./JsonHookContext.js";
 export * from "./JsonLazyRef.js";
 export * from "./JsonMap.js";
 export * from "./JsonMedia.js";
+export * from "./JsonOpenSpec.js";
 export * from "./JsonOperation.js";
 export * from "./JsonOperationPathsMap.js";
 export * from "./JsonOperationRoute.js";
@@ -18,5 +21,6 @@ export * from "./JsonParameterTypes.js";
 export * from "./JsonRequestBody.js";
 export * from "./JsonResponse.js";
 export * from "./JsonSchema.js";
+export * from "./JsonSchemaOptions.js";
 export * from "./SpecTypes.js";
 export * from "./types.js";

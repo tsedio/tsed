@@ -3,8 +3,8 @@ import {pascalCase} from "change-case";
 import type {JSONSchema7} from "json-schema";
 
 import type {JsonSchema} from "../domain/JsonSchema.js";
+import {JsonSchemaOptions} from "../domain/JsonSchemaOptions.js";
 import {SpecTypes} from "../domain/SpecTypes.js";
-import {JsonSchemaOptions} from "../interfaces/JsonSchemaOptions.js";
 import {mergeSchema} from "./mergeSchema.js";
 
 export function getSchemaFromRef($ref: string | undefined, options: JsonSchemaOptions): JSONSchema7 | undefined {

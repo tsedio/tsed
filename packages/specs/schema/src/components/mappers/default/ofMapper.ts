@@ -1,5 +1,5 @@
 import type {JsonSchema} from "../../../domain/JsonSchema.js";
-import type {JsonSchemaOptions} from "../../../interfaces/JsonSchemaOptions.js";
+import type {JsonSchemaOptions} from "../../../domain/JsonSchemaOptions.js";
 import {defineSchemaMapper, execMapper} from "../../../registries/JsonSchemaMapperContainer.js";
 
 export function ofMapper(input: (any | JsonSchema)[], options: JsonSchemaOptions) {

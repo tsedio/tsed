@@ -1,9 +1,9 @@
 import {deepMerge, uniq, uniqBy} from "@tsed/core";
 import {OpenSpecSecurity, OpenSpecTag, OS3Operation} from "@tsed/openspec";
 
-import {JsonHeader} from "../interfaces/JsonOpenSpec.js";
 import {isRedirectionStatus, isSuccessStatus} from "../utils/isSuccessStatus.js";
 import {JsonMap} from "./JsonMap.js";
+import {JsonHeader} from "./JsonOpenSpec.js";
 import {JsonParameter} from "./JsonParameter.js";
 import {JsonResponse} from "./JsonResponse.js";
 import {JsonSchema} from "./JsonSchema.js";

@@ -1,5 +1,5 @@
 import {JsonSchema} from "../domain/JsonSchema.js";
-import {JsonSchemaOptions} from "../interfaces/JsonSchemaOptions.js";
+import {JsonSchemaOptions} from "../domain/JsonSchemaOptions.js";
 
 /**
  * Resolve generic bindings for the current compilation.

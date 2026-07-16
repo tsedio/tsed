@@ -1,5 +1,5 @@
 import {JsonResponse} from "../../../domain/JsonResponse.js";
-import {JsonSchemaOptions} from "../../../interfaces/JsonSchemaOptions.js";
+import {JsonSchemaOptions} from "../../../domain/JsonSchemaOptions.js";
 import {defineSchemaMapper, execMapper} from "../../../registries/JsonSchemaMapperContainer.js";
 
 export function operationResponseMapper(jsonResponse: JsonResponse, options: JsonSchemaOptions = {}) {

@@ -4,7 +4,7 @@ import {DecoratorTypes, getValue, isClass, isPlainObject, nameOf, Type} from "@t
 
 import {JsonParameterStore} from "../components/index.js";
 import {JsonSchema, SpecTypes} from "../domain/index.js";
-import {JsonSchemaOptions} from "../interfaces/JsonSchemaOptions.js";
+import {JsonSchemaOptions} from "../domain/JsonSchemaOptions.js";
 import {getJsonEntityStore} from "../registries/JsonEntitiesContainer.js";
 import {execMapper} from "../registries/JsonSchemaMapperContainer.js";
 

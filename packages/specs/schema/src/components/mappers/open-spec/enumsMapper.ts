@@ -1,13 +1,12 @@
-import {JsonSchema} from "../../../domain/JsonSchema.js";
-import {SpecTypes} from "../../../domain/SpecTypes.js";
-import {JsonSchemaOptions} from "../../../interfaces/JsonSchemaOptions.js";
+import {JsonSchema, SpecTypes} from "../../../domain/index.js";
+import {JsonSchemaOptions} from "../../../domain/JsonSchemaOptions.js";
 import {defineSchemaMapper} from "../../../registries/JsonSchemaMapperContainer.js";
 import {enumsMapper} from "../default/enumsMapper.js";
 
 export function wrapEnumsMapper(obj: any, schema: JsonSchema, options: JsonSchemaOptions) {
   obj = enumsMapper(obj, schema, options);
 
-  if (obj.const) {
+  if (obj.const !== undefined) {
     obj.enum = [obj.const];
     delete obj.const;
   }

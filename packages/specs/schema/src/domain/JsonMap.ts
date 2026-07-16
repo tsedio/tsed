@@ -1,7 +1,7 @@
 import {isFunction} from "@tsed/core";
 
-import {JsonSchemaOptions} from "../interfaces/JsonSchemaOptions.js";
 import {execMapper} from "../registries/JsonSchemaMapperContainer.js";
+import {JsonSchemaOptions} from "./JsonSchemaOptions.js";
 
 /**
  * Base class for JSON document representations using a Map structure.

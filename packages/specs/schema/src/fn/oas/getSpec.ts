@@ -2,7 +2,7 @@ import {cleanObject, isArray, Type} from "@tsed/core";
 import {OpenSpec3} from "@tsed/openspec";
 
 import {SpecTypes} from "../../domain/index.js";
-import {JsonSchemaOptions} from "../../interfaces/JsonSchemaOptions.js";
+import {JsonSchemaOptions} from "../../domain/JsonSchemaOptions.js";
 import {getJsonEntityStore} from "../../registries/JsonEntitiesContainer.js";
 import {execMapper} from "../../registries/JsonSchemaMapperContainer.js";
 import {operationIdFormatter} from "../../utils/operationIdFormatter.js";

@@ -17,8 +17,8 @@ import type {JsonMethodStore} from "../../components/index.js";
 import {getStatusMessage} from "../../constants/httpStatusMessages.js";
 import {GenericValue} from "../../domain/Generics.js";
 import {DecoratorContext, JsonResponse, JsonSchema, JsonSchemaObject} from "../../domain/index.js";
+import {JsonHeader, JsonHeaders} from "../../domain/JsonOpenSpec.js";
 import {s} from "../../fn/index.js";
-import {JsonHeader, JsonHeaders} from "../../interfaces/JsonOpenSpec.js";
 import {getStatusModel} from "../../utils/defineStatusModel.js";
 import {mapHeaders} from "../../utils/mapHeaders.js";
 

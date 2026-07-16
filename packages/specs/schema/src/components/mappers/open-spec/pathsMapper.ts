@@ -2,7 +2,7 @@ import {OS3Operation, OS3Paths} from "@tsed/openspec";
 
 import {OperationVerbs} from "../../../constants/OperationVerbs.js";
 import {JsonMethodPath} from "../../../domain/index.js";
-import {JsonSchemaOptions} from "../../../interfaces/JsonSchemaOptions.js";
+import {JsonSchemaOptions} from "../../../domain/JsonSchemaOptions.js";
 import {getJsonEntityStore} from "../../../registries/JsonEntitiesContainer.js";
 import {defineSchemaMapper, execMapper} from "../../../registries/JsonSchemaMapperContainer.js";
 import {buildPath} from "../../../utils/buildPath.js";

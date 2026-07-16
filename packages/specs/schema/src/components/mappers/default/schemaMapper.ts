@@ -2,9 +2,9 @@ import {getValue, isFunction, isObject} from "@tsed/core";
 
 import {mapAliasedProperties} from "../../../domain/JsonAliasMap.js";
 import {JsonSchema} from "../../../domain/JsonSchema.js";
+import {JsonSchemaOptions} from "../../../domain/JsonSchemaOptions.js";
 import {SpecTypes} from "../../../domain/SpecTypes.js";
 import {alterOneOf} from "../../../hooks/alterOneOf.js";
-import {JsonSchemaOptions} from "../../../interfaces/JsonSchemaOptions.js";
 import {defineSchemaMapper, execMapper, hasMapper} from "../../../registries/JsonSchemaMapperContainer.js";
 import {getGenerics} from "../../../utils/generics.js";
 
