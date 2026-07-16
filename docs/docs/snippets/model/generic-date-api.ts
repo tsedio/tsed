@@ -1,4 +1,4 @@
-import {date, GenericOf, Generics, getJsonSchema, Property, string} from "@tsed/schema";
+import {GenericOf, Generics, Property, s} from "@tsed/schema";
 
 @Generics("T")
 class UserProperty<T> {
@@ -7,11 +7,11 @@ class UserProperty<T> {
 }
 
 class Adjustment {
-  @GenericOf(date().format("date-time"))
+  @GenericOf(s.date().format("date-time"))
   adjustment: UserProperty<Date>;
 }
 
-console.log(getJsonSchema(Adjustment));
+console.log(s.compile(Adjustment));
 /* OUTPUT:
 {
   "properties": {

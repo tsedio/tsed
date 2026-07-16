@@ -1,4 +1,4 @@
-import {getSpec, Post, Returns, SpecTypes} from "@tsed/schema";
+import {Post, Returns, s, SpecTypes} from "@tsed/schema";
 import {Controller} from "@tsed/di";
 import {Pagination} from "../models/Pagination";
 import {Product} from "../models/Product";
@@ -12,6 +12,6 @@ class MyController {
   }
 }
 
-const spec = getSpec(MyController, {specType: SpecTypes.OPENAPI});
+const spec = s.oas(MyController, {specType: SpecTypes.OPENAPI});
 
 console.log(spec);

@@ -1,4 +1,4 @@
-import {GenericOf, Generics, getJsonSchema, Property} from "@tsed/schema";
+import {GenericOf, Generics, Property, s} from "@tsed/schema";
 
 enum AdjustmentType {
   PRICE = "price",
@@ -16,7 +16,7 @@ class Adjustment {
   adjustment: UserProperty<AdjustmentType>;
 }
 
-console.log(getJsonSchema(Adjustment));
+console.log(s.compile(Adjustment));
 /* OUTPUT:
 {
   "properties": {

@@ -1,4 +1,4 @@
-import {Default, getJsonSchema, Maximum, Minimum, Property} from "@tsed/schema";
+import {Default, Maximum, Minimum, Property, s} from "@tsed/schema";
 
 export class Model {
   _id: string; // Won't be displayed on the Json schema
@@ -12,4 +12,4 @@ export class Model {
   prop2: number = 0;
 }
 
-console.log(getJsonSchema(Model));
+console.log(s.compile(Model));
