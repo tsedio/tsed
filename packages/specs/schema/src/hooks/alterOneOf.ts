@@ -13,7 +13,7 @@ import {
   STRING_PROPERTIES
 } from "../constants/jsonSchemaProperties.js";
 import type {JsonSchema} from "../domain/JsonSchema.js";
-import type {JsonSchemaOptions} from "../interfaces/JsonSchemaOptions.js";
+import type {JsonSchemaOptions} from "../domain/JsonSchemaOptions.js";
 
 function findManyOf(obj: any) {
   return MANY_OF_PROPERTIES.find((keyword) => obj[keyword]);

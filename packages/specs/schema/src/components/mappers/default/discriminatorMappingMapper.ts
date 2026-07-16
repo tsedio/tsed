@@ -1,7 +1,7 @@
 import {isString} from "@tsed/core";
 
 import {JsonSchema} from "../../../domain/JsonSchema.js";
-import type {JsonSchemaOptions} from "../../../interfaces/JsonSchemaOptions.js";
+import type {JsonSchemaOptions} from "../../../domain/JsonSchemaOptions.js";
 import {defineSchemaMapper} from "../../../registries/JsonSchemaMapperContainer.js";
 import {toRef} from "../../../utils/ref.js";
 

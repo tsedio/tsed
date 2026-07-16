@@ -1,7 +1,7 @@
 import {type Type} from "@tsed/core";
 
 import {JsonSchema} from "../../../domain/JsonSchema.js";
-import type {JsonSchemaOptions} from "../../../interfaces/JsonSchemaOptions.js";
+import type {JsonSchemaOptions} from "../../../domain/JsonSchemaOptions.js";
 import {defineSchemaMapper, execMapper} from "../../../registries/JsonSchemaMapperContainer.js";
 import {getGenericsOptions} from "../../../utils/generics.js";
 import {mergeSchema} from "../../../utils/mergeSchema.js";

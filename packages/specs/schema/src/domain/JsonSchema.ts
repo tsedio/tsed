@@ -18,8 +18,6 @@ import {Hooks} from "@tsed/hooks";
 import type {JSONSchema7, JSONSchema7Definition, JSONSchema7Type, JSONSchema7TypeName, JSONSchema7Version} from "json-schema";
 
 import {VendorKeys} from "../constants/VendorKeys.js";
-import {IgnoreCallback} from "../interfaces/IgnoreCallback.js";
-import {JsonSchemaOptions} from "../interfaces/JsonSchemaOptions.js";
 import {enumsRegistry} from "../registries/enumRegistry.js";
 import {getJsonEntityStore} from "../registries/JsonEntitiesContainer.js";
 import {execMapper} from "../registries/JsonSchemaMapperContainer.js";
@@ -30,10 +28,12 @@ import {matchGroups} from "../utils/matchGroups.js";
 import {serializeEnumValues} from "../utils/serializeEnumValues.js";
 import {toJsonRegex} from "../utils/toJsonRegex.js";
 import type {GenericsMap, GenericValue} from "./Generics.js";
+import {IgnoreCallback} from "./IgnoreCallback.js";
 import {AliasMap, AliasType} from "./JsonAliasMap.js";
 import {Discriminator} from "./JsonDiscriminator.js";
 import {JsonFormatTypes} from "./JsonFormatTypes.js";
 import {JsonLazyRef} from "./JsonLazyRef.js";
+import {JsonSchemaOptions} from "./JsonSchemaOptions.js";
 import type {Infer, PropsToShape, SchemaKey, SchemaMerge, SchemaOmit, SchemaPartial, SchemaPick, UnionToIntersection} from "./types.js";
 
 /**

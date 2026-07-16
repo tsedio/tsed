@@ -1,6 +1,6 @@
 import {isString} from "@tsed/core";
 
-import {JsonHeader, JsonHeaders} from "../../interfaces/JsonOpenSpec.js";
+import {JsonHeader, JsonHeaders} from "../../domain/JsonOpenSpec.js";
 import {Returns} from "./returns.js";
 
 /**

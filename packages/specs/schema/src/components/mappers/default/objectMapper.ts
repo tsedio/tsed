@@ -2,8 +2,8 @@ import {isArray} from "@tsed/core";
 
 import {VendorKeys} from "../../../constants/VendorKeys.js";
 import {JsonSchema} from "../../../domain/JsonSchema.js";
+import {JsonSchemaOptions} from "../../../domain/JsonSchemaOptions.js";
 import {alterIgnore} from "../../../hooks/alterIgnore.js";
-import {JsonSchemaOptions} from "../../../interfaces/JsonSchemaOptions.js";
 import {defineSchemaMapper, execMapper} from "../../../registries/JsonSchemaMapperContainer.js";
 
 /**

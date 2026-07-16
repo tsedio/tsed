@@ -1,4 +1,4 @@
-import {IgnoreCallback} from "../../interfaces/IgnoreCallback.js";
+import {IgnoreCallback} from "../../domain/IgnoreCallback.js";
 import {JsonEntityFn} from "./jsonEntityFn.js";
 
 /**

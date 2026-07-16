@@ -4,8 +4,8 @@ import type {JSONSchema7} from "json-schema";
 import {VendorKeys} from "../../../constants/VendorKeys.js";
 import type {JsonLazyRef} from "../../../domain/JsonLazyRef.js";
 import {JsonSchema} from "../../../domain/JsonSchema.js";
+import type {JsonSchemaOptions} from "../../../domain/JsonSchemaOptions.js";
 import {s} from "../../../fn/index.js";
-import type {JsonSchemaOptions} from "../../../interfaces/JsonSchemaOptions.js";
 import {defineSchemaMapper, execMapper} from "../../../registries/JsonSchemaMapperContainer.js";
 import {toRef} from "../../../utils/ref.js";
 
