@@ -575,7 +575,13 @@ export class JsonSchema<T = JSONSchema7Type> extends Map<string, any> {
   genericOf(...generics: Array<GenericValue[] | GenericValue>): this;
 
   genericOf(...generics: [GenericsMap] | Array<GenericValue[] | GenericValue>) {
-    const mapped = isPlainObject(generics[0])
+    if (!generics.length) {
+      return this;
+    }
+
+    const isGenericsMap = generics.length === 1 && isPlainObject(generics[0]) && Object.values(generics[0]).every(isArray);
+
+    const mapped = isGenericsMap
       ? generics[0]
       : this.mapGenerics(
           this.#itemSchema || this.toSchema(this.getTarget()),

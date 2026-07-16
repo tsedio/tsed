@@ -32,7 +32,7 @@ export function defineSchemaMapper({
   spec?: SpecTypes | SpecTypes[];
 }): void {
   if (isArray(spec)) {
-    spec.map((spec) => defineSchemaMapper({spec, type, transform}));
+    spec.forEach((spec) => defineSchemaMapper({spec, type, transform}));
     return;
   }
 

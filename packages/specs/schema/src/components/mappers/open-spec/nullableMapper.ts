@@ -53,5 +53,4 @@ export function nullableMapperOpenApi(obj: any, schema: JsonSchema | null, optio
   });
 }
 
-defineSchemaMapper({type: "nullable", transform: nullableMapperOpenApi, spec: SpecTypes.OPENAPI});
-defineSchemaMapper({type: "nullable", transform: nullableMapperOpenApi, spec: SpecTypes.SWAGGER});
+defineSchemaMapper({type: "nullable", transform: nullableMapperOpenApi, spec: [SpecTypes.OPENAPI, SpecTypes.SWAGGER]});

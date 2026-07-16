@@ -20,7 +20,7 @@ export default defineType({
       schema.integer();
     }
 
-    if (!schema.has("properties")) {
+    if (!schema.has("properties") && [Object, "object"].includes(type as never)) {
       schema.properties({});
     }
 

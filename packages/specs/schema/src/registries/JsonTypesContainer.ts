@@ -24,7 +24,7 @@ const cache: Map<AnyJsonType, JsonTypesResolver | undefined> = new Map();
 
 export function defineType(resolver: JsonTypesResolver) {
   resolvers.push(resolver);
-  resolvers = resolvers.sort((a, b) => ((a.priority || 0) > (b.priority || 0) ? -1 : 1));
+  resolvers.sort((a, b) => (b.priority || 0) - (a.priority || 0));
   cache.clear();
 
   return resolver;
@@ -39,9 +39,7 @@ export function getTypeResolver(type: AnyJsonType) {
     return resolver.match(type);
   });
 
-  if (result) {
-    cache.set(type, result);
-  }
+  cache.set(type, result);
 
   return result;
 }
