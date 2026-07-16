@@ -1,10 +1,9 @@
-import {nameOf} from "@tsed/core";
-import {Controller} from "@tsed/di";
 import {Get, Post} from "@tsed/schema";
-
+import {Controller} from "@tsed/di";
+import {Platform} from "./Platform.js";
 import {PlatformTest} from "../../testing/PlatformTest.js";
 import {application} from "../fn/application.js";
-import {Platform} from "./Platform.js";
+import {nameOf} from "@tsed/core";
 
 @Controller("/my-route")
 class MyCtrl {

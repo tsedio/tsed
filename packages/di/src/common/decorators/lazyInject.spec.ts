@@ -1,10 +1,9 @@
+import {LazyInject, OptionalLazyInject} from "./lazyInject.js";
 import {catchAsyncError, classOf, nameOf} from "@tsed/core";
-
+import {Injectable} from "./injectable.js";
+import type {MyLazyModule} from "./__mock__/lazy.module.js";
 import {inject} from "../fn/inject.js";
 import {injector} from "../fn/injector.js";
-import type {MyLazyModule} from "./__mock__/lazy.module.js";
-import {Injectable} from "./injectable.js";
-import {LazyInject, OptionalLazyInject} from "./lazyInject.js";
 
 describe("LazyInject", () => {
   it("should lazy load module (import)", async () => {

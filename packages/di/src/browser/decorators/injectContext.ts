@@ -1,6 +1,5 @@
-import {catchError} from "@tsed/core/utils/catchError.js";
-
 import {DIContext} from "../../common/domain/DIContext.js";
+import {catchError} from "@tsed/core/utils/catchError.js";
 import {context} from "../fn/context.js";
 
 /**

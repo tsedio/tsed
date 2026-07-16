@@ -1,6 +1,6 @@
+import {DIContext} from "./DIContext.js";
 import {DITest} from "../../node/services/DITest.js";
 import {logger} from "../fn/logger.js";
-import {DIContext} from "./DIContext.js";
 
 describe("DIContext", () => {
   beforeEach(() => DITest.create());

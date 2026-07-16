@@ -1,4 +1,4 @@
-import {getSpec, In, MinProperties, OperationPath, s, SpecTypes} from "../../index.js";
+import {In, MinProperties, OperationPath, SpecTypes, getSpec, s} from "../../index.js";
 
 describe("@MinProperties", () => {
   it("should declare min value (any)", () => {

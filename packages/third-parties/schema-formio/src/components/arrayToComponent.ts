@@ -1,6 +1,5 @@
-import {cleanObject} from "@tsed/core";
-
 import {execMapper, registerFormioMapper} from "../registries/FormioMappersContainer.js";
+import {cleanObject} from "@tsed/core";
 import {getRef} from "../utils/getRef.js";
 
 export function arrayToComponent(schema: any, options: any) {

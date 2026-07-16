@@ -1,6 +1,5 @@
-import {camelCase} from "change-case";
-
 import {JsonSchemaOptions} from "../domain/JsonSchemaOptions.js";
+import {camelCase} from "change-case";
 
 const DEFAULT_PATTERN = "%c.%m";
 

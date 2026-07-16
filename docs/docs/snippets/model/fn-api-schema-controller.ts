@@ -8,16 +8,13 @@ const ProductSchema = object({
   title: string().required().minLength(3).example("CANON D300").description("Product title"),
   price: number().minimum(0).example(100).description("Product price"),
   description: string().description("Product description"),
-  tags: array()
-    .minItems(1)
-    .items(string().minLength(2).maxLength(10).description("Product tag"))
-    .description("Product tags")
+  tags: array().minItems(1).items(string().minLength(2).maxLength(10).description("Product tag")).description("Product tags")
 }).label("ProductModel");
 
 @Controller("/")
 class MyController {
   @Post("/")
-  @Returns(200).Description("description").Schema(ProductSchema)
+  @(Returns(200).Description("description").Schema(ProductSchema))
   method(@BodyParams() @Schema(ProductSchema) product: any): Promise<null> {
     return Promise.resolve(null);
   }

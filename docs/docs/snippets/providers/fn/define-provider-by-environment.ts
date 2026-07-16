@@ -1,6 +1,5 @@
-
-import { injectable } from "@tsed/di";
-import { Env } from "@tsed/core";
+import {injectable} from "@tsed/di";
+import {Env} from "@tsed/core";
 
 export interface TimeslotsRepository {
   findTimeslots(): Promise<any[]>;

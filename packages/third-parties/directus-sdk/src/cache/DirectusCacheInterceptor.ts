@@ -1,7 +1,7 @@
+import {type InterceptorContext, type InterceptorMethods, bindIntercept, injectable} from "@tsed/di";
 import type {Type} from "@tsed/core";
 import {classOf} from "@tsed/core/utils/classOf.js";
 import {nameOf} from "@tsed/core/utils/nameOf.js";
-import {bindIntercept, injectable, type InterceptorContext, type InterceptorMethods} from "@tsed/di";
 import {snakeCase} from "change-case";
 
 /**

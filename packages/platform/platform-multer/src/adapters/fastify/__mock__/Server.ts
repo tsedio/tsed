@@ -1,8 +1,7 @@
 import "@tsed/ajv";
+import "@tsed/platform-fastify";
 import "@tsed/platform-log-request";
 import "@tsed/swagger";
-import "@tsed/platform-fastify";
-
 import {Configuration} from "@tsed/di";
 
 export const rootDir = import.meta.dirname; // automatically replaced by import.meta.dirname on build

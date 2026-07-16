@@ -1,5 +1,5 @@
-import {Module} from "../decorators/module.js";
 import {Container} from "../domain/Container.js";
+import {Module} from "../decorators/module.js";
 import {createContainer} from "./createContainer.js";
 
 describe("createContainer", () => {

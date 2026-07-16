@@ -1,8 +1,7 @@
-import {TestWorkflowEnvironment} from "@temporalio/testing";
 import {PlatformTest} from "@tsed/platform-http/testing";
-
-import {TemporalClient} from "../src/index.js";
 import {Server} from "./helpers/Server.js";
+import {TemporalClient} from "../src/index.js";
+import {TestWorkflowEnvironment} from "@temporalio/testing";
 
 describe("Temporal Client", () => {
   let testEnv: TestWorkflowEnvironment;

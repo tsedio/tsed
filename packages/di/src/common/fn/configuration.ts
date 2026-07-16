@@ -1,7 +1,6 @@
-import {Store} from "@tsed/core/types/Store.js";
-
-import type {TokenProvider} from "../interfaces/TokenProvider.js";
 import {DIConfiguration} from "../services/DIConfiguration.js";
+import {Store} from "@tsed/core/types/Store.js";
+import type {TokenProvider} from "../interfaces/TokenProvider.js";
 import {injector} from "./injector.js";
 
 /**

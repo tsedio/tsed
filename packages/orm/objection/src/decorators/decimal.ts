@@ -1,7 +1,6 @@
 import {StoreSet, useDecorators} from "@tsed/core";
-import {Property} from "@tsed/schema";
-
 import {ColumnOptions} from "./columnOptions.js";
+import {Property} from "@tsed/schema";
 
 export interface DecimalOptions {
   precision?: number | null;

@@ -1,11 +1,10 @@
-import {Store} from "@tsed/core";
-import {DIContext, getContext, InjectorService, ProviderType} from "@tsed/di";
+import {DIContext, InjectorService, ProviderType, getContext} from "@tsed/di";
 import {PlatformTest} from "@tsed/platform-http/testing";
-
 import {SocketFilters} from "../interfaces/SocketFilters.js";
-import {SocketReturnsTypes} from "../interfaces/SocketReturnsTypes.js";
 import {SocketHandlersBuilder} from "./SocketHandlersBuilder.js";
 import {SocketProviderMetadata} from "./SocketProviderMetadata.js";
+import {SocketReturnsTypes} from "../interfaces/SocketReturnsTypes.js";
+import {Store} from "@tsed/core";
 
 const metadata: any = {
   handlers: {

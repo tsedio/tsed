@@ -1,10 +1,9 @@
-import {isSerializable} from "@tsed/core";
 import {BaseContext, constant, inject, injectable} from "@tsed/di";
-import {serialize} from "@tsed/json-mapper";
-
-import {TemplateRenderError} from "../errors/TemplateRenderError.js";
-import {PLATFORM_CONTENT_TYPE_RESOLVER} from "./PlatformContentTypeResolver.js";
 import {PLATFORM_CONTENT_TYPES_CONTAINER} from "./PlatformContentTypesContainer.js";
+import {PLATFORM_CONTENT_TYPE_RESOLVER} from "./PlatformContentTypeResolver.js";
+import {TemplateRenderError} from "../errors/TemplateRenderError.js";
+import {isSerializable} from "@tsed/core";
+import {serialize} from "@tsed/json-mapper";
 
 /**
  * PlatformResponseFilter is responsible for transforming the response data

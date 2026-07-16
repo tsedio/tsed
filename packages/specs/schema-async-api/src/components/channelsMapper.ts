@@ -1,13 +1,13 @@
 import {
+  JsonMethodPath,
+  JsonMethodStore,
+  JsonSchemaOptions,
+  OperationVerbs,
   buildPath,
   defineSchemaMapper,
   execMapper,
   getJsonEntityStore,
   getOperationsStores,
-  JsonMethodPath,
-  JsonMethodStore,
-  JsonSchemaOptions,
-  OperationVerbs,
   removeHiddenOperation
 } from "@tsed/schema";
 import {camelCase} from "change-case";

@@ -1,15 +1,13 @@
-import {promisify} from "node:util";
-
-import {isFunction} from "@tsed/core";
-import {Inject, Injectable} from "@tsed/di";
 import {BadRequest, NotFound, Unauthorized} from "@tsed/exceptions";
-import {PlatformContext, Req} from "@tsed/platform-http";
-
-import {FormioPayloadToken} from "../domain/FormioDecodedToken.js";
 import {FormioForm, FormioSubmission, WithID} from "../domain/FormioModels.js";
+import {Inject, Injectable} from "@tsed/di";
+import {PlatformContext, Req} from "@tsed/platform-http";
 import {FormioDatabase} from "./FormioDatabase.js";
 import {FormioHooksService} from "./FormioHooksService.js";
+import {FormioPayloadToken} from "../domain/FormioDecodedToken.js";
 import {FormioService} from "./FormioService.js";
+import {isFunction} from "@tsed/core";
+import {promisify} from "node:util";
 
 @Injectable()
 export class FormioAuthService {

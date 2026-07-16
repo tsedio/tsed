@@ -1,13 +1,12 @@
-import {beforeEach} from "vitest";
-
-import {Scope} from "../decorators/scope.js";
-import {Service} from "../decorators/service.js";
+import {destroyInjector, injector} from "../fn/injector.js";
 import {Container} from "../domain/Container.js";
 import {LocalsContainer} from "../domain/LocalsContainer.js";
+import {OnDestroy} from "../interfaces/OnDestroy.js";
 import {Provider} from "../domain/Provider.js";
 import {ProviderScope} from "../domain/ProviderScope.js";
-import {destroyInjector, injector} from "../fn/injector.js";
-import {OnDestroy} from "../interfaces/OnDestroy.js";
+import {Scope} from "../decorators/scope.js";
+import {Service} from "../decorators/service.js";
+import {beforeEach} from "vitest";
 
 describe("DI Request", () => {
   beforeEach(() => destroyInjector());

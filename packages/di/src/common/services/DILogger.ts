@@ -1,6 +1,6 @@
+import {DILogger} from "../interfaces/DILogger.js";
 import {injectable} from "../fn/injectable.js";
 import {injector} from "../fn/injector.js";
-import {DILogger} from "../interfaces/DILogger.js";
 
 /**
  * Injection token for the DI logger service.

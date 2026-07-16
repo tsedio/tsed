@@ -1,7 +1,6 @@
-import {inject} from "@tsed/di";
-import {JsonSchema} from "@tsed/schema";
-
 import {AjvService, type AjvValidateOptions} from "../services/AjvService.js";
+import {JsonSchema} from "@tsed/schema";
+import {inject} from "@tsed/di";
 
 /**
  * Validate a value against a JSON schema or a type using the configured `AjvService`.

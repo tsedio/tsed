@@ -1,6 +1,5 @@
+import {ResponseFilterKey, registerResponseFilter} from "../domain/ResponseFiltersContainer.js";
 import {injectable} from "@tsed/di";
-
-import {registerResponseFilter, ResponseFilterKey} from "../domain/ResponseFiltersContainer.js";
 
 /**
  * Register a response filter service.

@@ -1,7 +1,6 @@
-import {Hooks} from "@tsed/hooks";
-import {levels, LogLevel} from "@tsed/logger";
-
 import {DILogger, logger as injectLogger} from "../../common/index.js";
+import {LogLevel, levels} from "@tsed/logger";
+import {Hooks} from "@tsed/hooks";
 
 /**
  * Options for creating a context logger instance.

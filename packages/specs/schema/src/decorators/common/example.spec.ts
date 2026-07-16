@@ -1,8 +1,7 @@
+import {Description, In, Name, OperationPath, Path, Pattern, SpecTypes, getSpec} from "../../index.js";
 import {descriptorOf, useDecorators} from "@tsed/core";
-
-import {s} from "../../fn/index.js";
-import {Description, getSpec, In, Name, OperationPath, Path, Pattern, SpecTypes} from "../../index.js";
 import {Example} from "./example.js";
+import {s} from "../../fn/index.js";
 
 function ObjectID(name?: string) {
   return useDecorators(name && Name(name), Pattern(/^[0-9a-fA-F]{24}$/), Description("An ObjectID"), Example("5ce7ad3028890bd71749d477"));

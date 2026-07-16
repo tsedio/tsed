@@ -1,7 +1,7 @@
+import {invokeOptions, localsContainer} from "./localsContainer.js";
 import type {InvokeOptions} from "../interfaces/InvokeOptions.js";
 import type {TokenProvider} from "../interfaces/TokenProvider.js";
 import {injector} from "./injector.js";
-import {invokeOptions, localsContainer} from "./localsContainer.js";
 
 /**
  * Programmatically inject a provider instance.

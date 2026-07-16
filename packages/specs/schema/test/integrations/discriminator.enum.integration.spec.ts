@@ -1,15 +1,9 @@
-import {Controller} from "@tsed/di";
 import {BodyParams, PathParams} from "@tsed/platform-params";
-
 import {
-  compile,
   DiscriminatorKey,
   DiscriminatorValue,
   Enum,
-  enums,
   Get,
-  getJsonEntityStore,
-  getSpec,
   Name,
   OneOf,
   Partial,
@@ -19,8 +13,13 @@ import {
   Put,
   Required,
   Returns,
+  compile,
+  enums,
+  getJsonEntityStore,
+  getSpec,
   s
 } from "../../src/index.js";
+import {Controller} from "@tsed/di";
 
 export enum EventType {
   PAGE_VIEW = "page_view",
@@ -1590,7 +1589,7 @@ describe("Discriminator", () => {
 
       @DiscriminatorValue(Discriminator.ONE)
       class FirstImpl extends BaseModel {
-        public declare type: Discriminator.ONE;
+        declare public type: Discriminator.ONE;
 
         @Enum("json")
         public kind!: "json";
@@ -1598,7 +1597,7 @@ describe("Discriminator", () => {
 
       @DiscriminatorValue(Discriminator.TWO)
       class SecondImpl extends BaseModel {
-        public declare type: Discriminator.TWO;
+        declare public type: Discriminator.TWO;
 
         @Property()
         public prop!: string;

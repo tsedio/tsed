@@ -1,10 +1,8 @@
-import type {Utils} from "@formio/js";
-import {isArrowFn} from "@tsed/core";
 import {FormioComponent, FormioForm, FormioSubmission} from "@tsed/formio-types";
+import {Component} from "./component.js";
 import type {LoDashStatic} from "lodash";
 import type {Moment} from "moment";
-
-import {Component} from "./component.js";
+import {isArrowFn} from "@tsed/core";
 
 export interface CustomConditionalCtx<Value = any, Data = any, Row = any> {
   /**
@@ -46,11 +44,11 @@ export interface CustomConditionalCtx<Value = any, Data = any, Row = any> {
   /**
    * An instance of the FormioUtils object.
    */
-  utils: typeof Utils;
+  utils: typeof import("@formio/js/utils").Utils;
   /**
    * An alias for "utils".
    */
-  util: typeof Utils;
+  util: typeof import("@formio/js/utils").Utils;
 }
 
 function sanitize(customConditional: Function) {

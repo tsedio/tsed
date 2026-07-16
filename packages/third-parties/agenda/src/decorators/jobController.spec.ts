@@ -1,6 +1,5 @@
-import {Store} from "@tsed/core";
-
 import {JobsController} from "./jobController.js";
+import {Store} from "@tsed/core";
 
 describe("@JobsController()", () => {
   it("should set empty metadata", () => {

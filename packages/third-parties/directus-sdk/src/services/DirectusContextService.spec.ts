@@ -1,7 +1,6 @@
+import {DITest, context, inject} from "@tsed/di";
 import type {EndpointExtensionContext, HookExtensionContext, Item, OperationContext} from "@directus/types";
-import {context, DITest, inject} from "@tsed/di";
 import {afterEach, beforeEach, describe, expect, it, vi} from "vitest";
-
 import {DirectusContextService} from "./DirectusContextService.js";
 
 vi.mock("@tsed/di", async () => {

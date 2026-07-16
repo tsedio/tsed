@@ -16,9 +16,7 @@ export default {
   extends: DefaultTheme,
   Layout: () => {
     return h(DefaultTheme.Layout, null, {
-      "doc-before": () => h(
-        DocActions
-      ),
+      "doc-before": () => h(DocActions),
       "home-hero-image": () =>
         h(HomeBanner, null, {
           default: () =>

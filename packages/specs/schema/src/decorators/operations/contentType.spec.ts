@@ -1,4 +1,4 @@
-import {ContentType, getSpec, OperationPath, SpecTypes} from "../../index.js";
+import {ContentType, OperationPath, SpecTypes, getSpec} from "../../index.js";
 
 describe("ContentType", () => {
   it("should create middleware", () => {

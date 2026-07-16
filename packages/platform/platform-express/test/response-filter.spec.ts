@@ -1,16 +1,14 @@
-import {ServerResponse} from "node:http";
-
-import {Controller} from "@tsed/di";
-import {Res} from "@tsed/platform-http";
-import {PlatformTest} from "@tsed/platform-http/testing";
-import {Context} from "@tsed/platform-params";
-import {ResponseFilter} from "@tsed/platform-response-filter";
-import {PlatformTestSdk} from "@tsed/platform-test-sdk";
 import {Get, Returns} from "@tsed/schema";
-import SuperTest from "supertest";
-
+import {Server, rootDir} from "./app/Server.js";
+import {Context} from "@tsed/platform-params";
+import {Controller} from "@tsed/di";
 import {PlatformExpress} from "../src/index.js";
-import {rootDir, Server} from "./app/Server.js";
+import {PlatformTest} from "@tsed/platform-http/testing";
+import {PlatformTestSdk} from "@tsed/platform-test-sdk";
+import {Res} from "@tsed/platform-http";
+import {ResponseFilter} from "@tsed/platform-response-filter";
+import {ServerResponse} from "node:http";
+import SuperTest from "supertest";
 
 @ResponseFilter("plain/text")
 class PlainTextFilter {

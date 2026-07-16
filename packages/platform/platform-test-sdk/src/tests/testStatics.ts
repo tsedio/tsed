@@ -1,13 +1,11 @@
-import {readFileSync} from "node:fs";
-
-import {getValue} from "@tsed/core";
 import {Configuration, Controller} from "@tsed/di";
-import {PlatformTest} from "@tsed/platform-http/testing";
-import {PlatformRouter} from "@tsed/platform-router";
-import SuperTest from "supertest";
 import {afterEach, beforeEach, expect, it} from "vitest";
-
+import {PlatformRouter} from "@tsed/platform-router";
+import {PlatformTest} from "@tsed/platform-http/testing";
 import {PlatformTestingSdkOpts} from "../interfaces/index.js";
+import SuperTest from "supertest";
+import {getValue} from "@tsed/core";
+import {readFileSync} from "node:fs";
 
 @Controller("/statics")
 class CustomStaticsCtrl {

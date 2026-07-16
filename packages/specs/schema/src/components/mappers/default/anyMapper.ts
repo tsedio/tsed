@@ -1,7 +1,7 @@
+import {defineSchemaMapper, execMapper, execOneOfMapper} from "../../../registries/JsonSchemaMapperContainer.js";
 import {JsonLazyRef} from "../../../domain/JsonLazyRef.js";
 import {JsonSchema} from "../../../domain/JsonSchema.js";
 import {JsonSchemaOptions} from "../../../domain/JsonSchemaOptions.js";
-import {defineSchemaMapper, execMapper, execOneOfMapper} from "../../../registries/JsonSchemaMapperContainer.js";
 import {toRef} from "../../../utils/ref.js";
 
 export function anyMapper(input: any, options: JsonSchemaOptions = {}): any {

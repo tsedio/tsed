@@ -1,8 +1,9 @@
 import {attachLogger, injector} from "@tsed/di";
-import {$log} from "@tsed/logger";
-
 import {adapter as $adapter} from "../fn/adapter.js";
+import {$log} from "@tsed/logger";
+import {Platform} from "../services/Platform.js";
 import {PlatformAdapter} from "../services/PlatformAdapter.js";
+import {PlatformHandler} from "../services/PlatformHandler.js";
 
 $log.name = "TSED";
 
@@ -15,6 +16,8 @@ export function createInjector(settings: Partial<TsED.Configuration>) {
   $adapter(settings.adapter);
 
   inj.invoke(PlatformAdapter);
+  inj.invoke(Platform);
+  inj.invoke(PlatformHandler);
 
   return inj;
 }

@@ -1,6 +1,5 @@
-import {Type} from "@tsed/core";
-
 import {Returns, ReturnsChainedDecorators} from "./returns.js";
+import {Type} from "@tsed/core";
 
 /**
  * Add responses documentation for a specific status code.

@@ -1,4 +1,4 @@
-import {getSpec, OperationPath, OperationVerbs} from "../../index.js";
+import {OperationPath, OperationVerbs, getSpec} from "../../index.js";
 
 describe("OperationPath", () => {
   it("should store metadata", () => {

@@ -10,6 +10,4 @@ export class CustomCache extends PlatformCache {
 import "./services/CustomCache.js";
 
 @Configuration({})
-export class Server {
-
-}
+export class Server {}

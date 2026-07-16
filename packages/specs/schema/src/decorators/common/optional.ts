@@ -1,7 +1,6 @@
 import {DecoratorTypes} from "@tsed/core";
-
-import type {JsonParameterStore} from "../../components/stores/JsonParameterStore.js";
 import {JsonEntityFn} from "./jsonEntityFn.js";
+import type {JsonParameterStore} from "../../components/stores/JsonParameterStore.js";
 
 /**
  * Marks a property or parameter as optional, meaning it can be omitted from the input.

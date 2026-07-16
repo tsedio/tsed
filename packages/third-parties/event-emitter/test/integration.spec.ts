@@ -1,10 +1,9 @@
-import {Injectable} from "@tsed/di";
-import {PlatformTest} from "@tsed/platform-http/testing";
-
-import {OnAny} from "../src/decorators/onAny.js";
-import {OnEvent} from "../src/decorators/onEvent.js";
 import {EventEmitterModule} from "../src/EventEmitterModule.js";
 import {EventEmitterService} from "../src/services/EventEmitterFactory.js";
+import {Injectable} from "@tsed/di";
+import {OnAny} from "../src/decorators/onAny.js";
+import {OnEvent} from "../src/decorators/onEvent.js";
+import {PlatformTest} from "@tsed/platform-http/testing";
 import {Server} from "./helpers/Server.js";
 
 @Injectable()

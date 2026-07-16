@@ -1,8 +1,7 @@
-import type {BaseContext} from "@tsed/di";
 import type {Cache, CachingConfig, Store} from "cache-manager";
-import type {FactoryStore} from "cache-manager/dist/caching.js";
-
+import type {BaseContext} from "@tsed/di";
 import type {CacheManager} from "../services/PlatformCache.js";
+import type {FactoryStore} from "cache-manager/dist/caching.js";
 
 export type PlatformCacheSettings<Config extends Record<string, any> = any, S extends Store = any> = CachingConfig<Config> & {
   caches?: Cache[];

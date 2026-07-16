@@ -1,12 +1,11 @@
 import {Injectable} from "@tsed/di";
-import {s} from "@tsed/schema";
-
 import {Prompt} from "../../src/decorators/prompt.js";
 import {Resource} from "../../src/decorators/resource.js";
 import {Tool} from "../../src/decorators/tool.js";
 import {definePrompt} from "../../src/fn/definePrompt.js";
 import {defineResource} from "../../src/fn/defineResource.js";
 import {defineTool} from "../../src/fn/defineTool.js";
+import {s} from "@tsed/schema";
 
 defineTool({
   name: "simple",

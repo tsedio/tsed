@@ -1,15 +1,14 @@
 import {
-  decorateMethodsOf,
   DecoratorParameters,
-  decoratorTypeOf,
   DecoratorTypes,
   Store,
   StoreFn,
   Type,
   UnsupportedDecoratorType,
+  decorateMethodsOf,
+  decoratorTypeOf,
   useDecorators
 } from "@tsed/core";
-
 import {AuthOptions} from "./authOptions.js";
 import {UseBefore} from "./useBefore.js";
 

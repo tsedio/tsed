@@ -1,12 +1,11 @@
-import {Controller} from "@tsed/di";
-import {PlatformTest} from "@tsed/platform-http/testing";
 import {BodyParams, QueryParams} from "@tsed/platform-params";
-import {PlatformTestSdk} from "@tsed/platform-test-sdk";
 import {Email, Post, Required} from "@tsed/schema";
-import SuperTest from "supertest";
-
+import {Server, rootDir} from "./app/Server.js";
+import {Controller} from "@tsed/di";
 import {PlatformExpress} from "../src/index.js";
-import {rootDir, Server} from "./app/Server.js";
+import {PlatformTest} from "@tsed/platform-http/testing";
+import {PlatformTestSdk} from "@tsed/platform-test-sdk";
+import SuperTest from "supertest";
 
 class Model {
   @Required()

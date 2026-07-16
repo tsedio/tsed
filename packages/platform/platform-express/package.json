@@ -1,9 +1,43 @@
 {
   "name": "@tsed/platform-express",
-  "description": "A TypeScript Framework on top of Express",
-  "type": "module",
   "version": "8.17.0",
+  "description": "A TypeScript Framework on top of Express",
+  "keywords": [
+    "Controller",
+    "Decorator",
+    "ES2015",
+    "ES6",
+    "Express",
+    "Inject",
+    "TypeScript",
+    "api",
+    "decorator",
+    "decorators",
+    "di",
+    "express",
+    "ioc",
+    "mvc",
+    "rest",
+    "server",
+    "swagger",
+    "swagger ui",
+    "typescript",
+    "validation"
+  ],
+  "homepage": "https://tsed.dev/",
+  "bugs": {
+    "url": "https://github.com/tsedio/tsed/issues"
+  },
+  "license": "MIT",
+  "author": {
+    "name": "Romain Lenzotti"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tsedio/tsed.git"
+  },
   "source": "./src/index.ts",
+  "type": "module",
   "main": "./lib/esm/index.js",
   "module": "./lib/esm/index.js",
   "typings": "./lib/types/index.d.ts",
@@ -23,40 +57,6 @@
     "test": "vitest run",
     "build:ts": "tsc --build tsconfig.esm.json",
     "test:ci": "vitest run --coverage.thresholds.autoUpdate=true"
-  },
-  "keywords": [
-    "Express",
-    "TypeScript",
-    "typescript",
-    "Decorator",
-    "decorators",
-    "decorator",
-    "express",
-    "Controller",
-    "Inject",
-    "ioc",
-    "di",
-    "mvc",
-    "swagger",
-    "swagger ui",
-    "ES2015",
-    "ES6",
-    "server",
-    "rest",
-    "api",
-    "validation"
-  ],
-  "author": {
-    "name": "Romain Lenzotti"
-  },
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/tsedio/tsed/issues"
-  },
-  "homepage": "https://tsed.dev/",
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/tsedio/tsed.git"
   },
   "dependencies": {
     "multer": "^2.0.0",
@@ -81,7 +81,6 @@
     "cookie-parser": "1.4.7",
     "cors": "2.8.5",
     "cross-env": "7.0.3",
-    "eslint": "9.12.0",
     "express": "5.2.1",
     "express-session": "1.18.1",
     "method-override": "3.0.0",

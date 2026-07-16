@@ -1,5 +1,5 @@
-import {cleanObject} from "@tsed/core";
 import type {BaseContext} from "@tsed/di";
+import {cleanObject} from "@tsed/core";
 
 export function defaultLogResponse($ctx: BaseContext) {
   if ($ctx.response.statusCode >= 400) {

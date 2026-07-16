@@ -1,5 +1,5 @@
-import type {JsonSchema} from "../../domain/JsonSchema.js";
 import {JsonEntityFn} from "./jsonEntityFn.js";
+import type {JsonSchema} from "../../domain/JsonSchema.js";
 
 /**
  * Validates that a value must match EXACTLY ONE of the provided schemas (exclusive union).

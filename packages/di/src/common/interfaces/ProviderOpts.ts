@@ -1,8 +1,7 @@
-import type {Type} from "@tsed/core";
-
 import type {ProviderScope} from "../domain/ProviderScope.js";
 import type {ProviderType} from "../domain/ProviderType.js";
 import type {TokenProvider} from "./TokenProvider.js";
+import type {Type} from "@tsed/core";
 
 /**
  * Configuration options for registering a provider in the DI container.

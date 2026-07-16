@@ -1,9 +1,8 @@
 import {FormioActionItem, FormioForm, FormioRole, FormioSchema, FormioSubmission, FormioToken} from "@tsed/formio-types";
-import {MongooseDocument} from "@tsed/mongoose";
-import {Schema} from "mongoose";
-
 import {FormioActionModelCtor, FormioActionMongooseSchema} from "./FormioAction.js";
 import {FormioBaseModel, FormioModel, FormioMongooseSchema} from "./FormioBaseModel.js";
+import {MongooseDocument} from "@tsed/mongoose";
+import {Schema} from "mongoose";
 
 export * from "@tsed/formio-types";
 

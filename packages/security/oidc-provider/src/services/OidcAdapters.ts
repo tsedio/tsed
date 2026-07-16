@@ -1,6 +1,6 @@
 import {Adapter, Adapters} from "@tsed/adapters";
-import {constant, inject, Injectable} from "@tsed/di";
-import type {Adapter as OidcAdapter, AdapterConstructor} from "oidc-provider";
+import type {AdapterConstructor, Adapter as OidcAdapter} from "oidc-provider";
+import {Injectable, constant, inject} from "@tsed/di";
 
 export type OidcAdapterMethods<Model = any> = Adapter<Model> & Partial<Omit<OidcAdapter, "upsert">>;
 

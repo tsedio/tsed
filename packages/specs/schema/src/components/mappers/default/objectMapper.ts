@@ -1,10 +1,9 @@
-import {isArray} from "@tsed/core";
-
-import {VendorKeys} from "../../../constants/VendorKeys.js";
+import {defineSchemaMapper, execMapper} from "../../../registries/JsonSchemaMapperContainer.js";
 import {JsonSchema} from "../../../domain/JsonSchema.js";
 import {JsonSchemaOptions} from "../../../domain/JsonSchemaOptions.js";
+import {VendorKeys} from "../../../constants/VendorKeys.js";
 import {alterIgnore} from "../../../hooks/alterIgnore.js";
-import {defineSchemaMapper, execMapper} from "../../../registries/JsonSchemaMapperContainer.js";
+import {isArray} from "@tsed/core";
 
 /**
  * Serialize Any object to a json schema

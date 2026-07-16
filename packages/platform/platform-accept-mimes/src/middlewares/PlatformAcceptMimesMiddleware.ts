@@ -1,9 +1,9 @@
-import {uniq} from "@tsed/core";
-import {constant, context, injectable, ProviderType} from "@tsed/di";
-import {NotAcceptable} from "@tsed/exceptions";
-import type {MiddlewareMethods} from "@tsed/platform-middlewares";
+import {ProviderType, constant, context, injectable} from "@tsed/di";
 import type {AlterEndpointHandlersArg} from "@tsed/platform-router";
 import type {JsonOperationRoute} from "@tsed/schema";
+import type {MiddlewareMethods} from "@tsed/platform-middlewares";
+import {NotAcceptable} from "@tsed/exceptions";
+import {uniq} from "@tsed/core";
 
 /**
  * @middleware

@@ -1,15 +1,13 @@
-import {writeFile} from "node:fs/promises";
-
 import {Env, type Type} from "@tsed/core";
+import {OpenAPI3Settings, OpenApiSettings, Swagger2Settings} from "../interfaces/OpenApiSettings.js";
+import {OpenSpec2, OpenSpec3} from "@tsed/openspec";
 import {constant, inject, injectable} from "@tsed/di";
 import {$asyncAlter} from "@tsed/hooks";
-import {OpenSpec2, OpenSpec3} from "@tsed/openspec";
 import {Platform} from "@tsed/platform-http";
 import {generateSpec} from "@tsed/schema";
-
-import {OpenAPI3Settings, OpenApiSettings, Swagger2Settings} from "../interfaces/OpenApiSettings.js";
 import {includeRoute} from "../utils/includeRoute.js";
 import {readSpec} from "../utils/readSpec.js";
+import {writeFile} from "node:fs/promises";
 
 export class OpenAPIService {
   protected platform = inject(Platform);

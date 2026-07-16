@@ -1,13 +1,12 @@
+import {BodyParams, PathParams} from "@tsed/platform-params";
+import {Consumes, Get, Post, Returns} from "@tsed/schema";
+import {Calendar} from "./app/models/Calendar.js";
 import {Controller} from "@tsed/di";
 import {ObjectID} from "@tsed/mongoose";
 import {PlatformExpress} from "@tsed/platform-express";
 import {PlatformTest} from "@tsed/platform-http/testing";
-import {BodyParams, PathParams} from "@tsed/platform-params";
-import {Consumes, Get, Post, Returns} from "@tsed/schema";
-import SuperTest from "supertest";
-
-import {Calendar} from "./app/models/Calendar.js";
 import {Server} from "./app/Server.js";
+import SuperTest from "supertest";
 
 @Controller("/admin")
 class AdminCtrl {

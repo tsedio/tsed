@@ -1,18 +1,16 @@
 import "@tsed/ajv";
-
 import {Configuration, Controller} from "@tsed/di";
+import {Get, Groups, Post, Property, Required, Returns, SpecTypes, getSpec} from "@tsed/schema";
+import {BodyParams} from "@tsed/platform-params";
 import {JsonMapperSettings} from "@tsed/json-mapper";
 import {PlatformExpress} from "@tsed/platform-express";
-import {BodyParams} from "@tsed/platform-params";
+import {PlatformTest} from "../../src/testing/index.js";
 import {PlatformTestSdk} from "@tsed/platform-test-sdk";
-import {Get, getSpec, Groups, Post, Property, Required, Returns, SpecTypes} from "@tsed/schema";
+import SuperTest from "supertest";
 import bodyParser from "body-parser";
 import compress from "compression";
 import cookieParser from "cookie-parser";
 import methodOverride from "method-override";
-import SuperTest from "supertest";
-
-import {PlatformTest} from "../../src/testing/index.js";
 
 const rootDir = import.meta.dirname; // automatically replaced by import.meta.dirname on build
 

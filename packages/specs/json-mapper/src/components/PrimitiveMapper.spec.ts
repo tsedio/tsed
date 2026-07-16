@@ -1,6 +1,5 @@
-import {catchError} from "@tsed/core";
-
 import {PrimitiveMapper} from "./PrimitiveMapper.js";
+import {catchError} from "@tsed/core";
 
 describe("PrimitiveMapper", () => {
   describe("deserialize()", () => {

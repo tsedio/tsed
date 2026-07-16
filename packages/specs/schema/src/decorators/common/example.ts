@@ -1,5 +1,5 @@
-import {JsonEntityStore} from "../../domain/JsonEntityStore.js";
 import {JsonEntityFn} from "./jsonEntityFn.js";
+import {JsonEntityStore} from "../../domain/JsonEntityStore.js";
 
 /**
  * Adds example values to the schema for documentation purposes.

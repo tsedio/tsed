@@ -1,9 +1,8 @@
+import {Injectable, inject, runInContext} from "@tsed/di";
 import {catchAsyncError, catchError} from "@tsed/core";
-import {inject, Injectable, runInContext} from "@tsed/di";
-import {PlatformTest} from "@tsed/platform-http/testing";
-
 import {OidcInteractionContext} from "./OidcInteractionContext.js";
 import {OidcProvider} from "./OidcProvider.js";
+import {PlatformTest} from "@tsed/platform-http/testing";
 
 @Injectable()
 class AccountsMock {

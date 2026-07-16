@@ -1,6 +1,5 @@
 import {StoreMerge, useDecorators} from "@tsed/core";
 import {Injectable} from "@tsed/di";
-
 import {PROVIDER_TYPE_SOCKET_SERVICE} from "../constants/constants.js";
 import {SocketProviderTypes} from "../interfaces/SocketProviderTypes.js";
 

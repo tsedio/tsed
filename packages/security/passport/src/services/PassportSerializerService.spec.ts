@@ -1,6 +1,5 @@
-import {PlatformTest} from "@tsed/platform-http/testing";
-
 import {PassportSerializerService, UserInfo} from "../index.js";
+import {PlatformTest} from "@tsed/platform-http/testing";
 
 describe("PassportSerializerService", () => {
   beforeEach(() => PlatformTest.create());

@@ -1,6 +1,6 @@
-import {s} from "../../fn/index.js";
 import {CollectionOf} from "../collections/collectionOf.js";
 import {MaxLength} from "./maxLength.js";
+import {s} from "../../fn/index.js";
 
 describe("@MaxLength", () => {
   it("should declare minimum value", () => {

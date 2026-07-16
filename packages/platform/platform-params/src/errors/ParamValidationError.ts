@@ -1,8 +1,7 @@
-import {nameOf} from "@tsed/core";
 import {BadRequest} from "@tsed/exceptions";
 import {JsonParameterStore} from "@tsed/schema";
-
 import {ValidationError} from "./ValidationError.js";
+import {nameOf} from "@tsed/core";
 
 export class ParamValidationError extends BadRequest {
   public name: string = "PARAM_VALIDATION_ERROR";

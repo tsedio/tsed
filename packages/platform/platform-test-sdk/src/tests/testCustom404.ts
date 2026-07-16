@@ -1,8 +1,7 @@
-import {PlatformTest} from "@tsed/platform-http/testing";
-import SuperTest from "supertest";
 import {afterAll, beforeAll, expect, it} from "vitest";
-
+import {PlatformTest} from "@tsed/platform-http/testing";
 import {PlatformTestingSdkOpts} from "../interfaces/index.js";
+import SuperTest from "supertest";
 
 export function testCustom404(options: PlatformTestingSdkOpts) {
   class CustomServer extends options.server {}

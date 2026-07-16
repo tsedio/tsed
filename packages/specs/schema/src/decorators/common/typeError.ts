@@ -1,7 +1,6 @@
-import {useDecorators} from "@tsed/core";
-
 import {ErrorMsg} from "./errorMsg.js";
 import {JsonEntityFn} from "./jsonEntityFn.js";
+import {useDecorators} from "@tsed/core";
 
 /**
  * Create a new custom formats validator

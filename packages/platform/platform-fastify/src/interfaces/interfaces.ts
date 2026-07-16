@@ -1,6 +1,5 @@
-import type {Env} from "@tsed/core";
 import type {FastifyPluginOptions, FastifyRegisterOptions} from "fastify";
-
+import type {Env} from "@tsed/core";
 import type {PlatformFastifySettings} from "./PlatformFastifySettings.js";
 
 export * from "./PlatformFastifySettings.js";

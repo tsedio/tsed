@@ -31,7 +31,7 @@ Extremely flexible and modular, Passport can be unobtrusively dropped in to any 
 A comprehensive set of strategies support authentication using a username and password, Facebook, Twitter, and more.
 
 <Projects type="projects"/>
-  
+
 ## Installation
 
 Before using Passport, we need to install the [Passport.js](https://www.npmjs.com/package/passport) and the Passport-local.

@@ -1,16 +1,15 @@
-import {catchError} from "@tsed/core";
-
-import {array, map} from "../../fn/collection.js";
-import {s} from "../../fn/index.js";
-import {string} from "../../fn/string.js";
-import {Property} from "../common/property.js";
-import {Schema} from "../common/schema.js";
-import {In} from "../operations/in.js";
-import {OperationPath} from "../operations/operationPath.js";
-import {CollectionContains} from "./collectionContains.js";
 import {ArrayOf, CollectionOf, MapOf} from "./collectionOf.js";
+import {array, map} from "../../fn/collection.js";
+import {CollectionContains} from "./collectionContains.js";
+import {In} from "../operations/in.js";
 import {MaxItems} from "./maxItems.js";
 import {MinItems} from "./minItems.js";
+import {OperationPath} from "../operations/operationPath.js";
+import {Property} from "../common/property.js";
+import {Schema} from "../common/schema.js";
+import {catchError} from "@tsed/core";
+import {s} from "../../fn/index.js";
+import {string} from "../../fn/string.js";
 
 describe("@CollectionOf", () => {
   it("should declare a collection and catch error (Array of)", () => {

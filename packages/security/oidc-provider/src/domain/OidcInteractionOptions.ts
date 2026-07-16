@@ -1,4 +1,4 @@
-import type {CanBePromise, interactionPolicy, KoaContextWithOIDC, UnknownObject} from "oidc-provider";
+import type {CanBePromise, KoaContextWithOIDC, UnknownObject, interactionPolicy} from "oidc-provider";
 export interface OidcInteractionOptions {
   name: string;
   requestable?: boolean | undefined;

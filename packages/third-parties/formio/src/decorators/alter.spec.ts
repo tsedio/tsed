@@ -1,7 +1,6 @@
-import {Store} from "@tsed/core";
-
-import {AlterHook} from "../domain/AlterHook.js";
 import {Alter} from "./alter.js";
+import {AlterHook} from "../domain/AlterHook.js";
+import {Store} from "@tsed/core";
 
 describe("@Alter", () => {
   it("should register a hook listener", () => {

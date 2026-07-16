@@ -1,11 +1,10 @@
-import {catchAsyncError} from "@tsed/core";
-import {PlatformTest} from "@tsed/platform-http/testing";
+import {Get, Ignore, Property, Returns, View, s} from "@tsed/schema";
 import {Context} from "@tsed/platform-params";
-import {Get, Ignore, Property, Returns, s, View} from "@tsed/schema";
-
+import {PlatformResponseFilter} from "./PlatformResponseFilter.js";
+import {PlatformTest} from "@tsed/platform-http/testing";
 import {ResponseFilter} from "../decorators/responseFilter.js";
 import {ResponseFilterMethods} from "../interfaces/ResponseFilterMethods.js";
-import {PlatformResponseFilter} from "./PlatformResponseFilter.js";
+import {catchAsyncError} from "@tsed/core";
 
 @ResponseFilter("custom/json")
 class CustomJsonFilter implements ResponseFilterMethods {

@@ -1,9 +1,9 @@
 {
   "name": "@tsed/platform-log-middleware",
-  "description": "Log request middleware module for Ts.ED Framework (deprecated)",
-  "type": "module",
   "version": "8.17.0",
+  "description": "Log request middleware module for Ts.ED Framework (deprecated)",
   "source": "./src/index.ts",
+  "type": "module",
   "main": "./lib/esm/index.js",
   "module": "./lib/esm/index.js",
   "typings": "./lib/types/index.d.ts",
@@ -14,6 +14,9 @@
       "import": "./lib/esm/index.js",
       "default": "./lib/esm/index.js"
     }
+  },
+  "publishConfig": {
+    "distTag": "deprecated"
   },
   "scripts": {
     "build": "yarn barrels && yarn build:ts",
@@ -31,7 +34,6 @@
     "@tsed/platform-middlewares": "workspace:*",
     "@tsed/platform-params": "workspace:*",
     "@tsed/typescript": "workspace:*",
-    "eslint": "9.12.0",
     "typescript": "6.0.2",
     "vitest": "4.1.4"
   },
@@ -50,8 +52,5 @@
     "@tsed/platform-params": {
       "optional": false
     }
-  },
-  "publishConfig": {
-    "distTag": "deprecated"
   }
 }

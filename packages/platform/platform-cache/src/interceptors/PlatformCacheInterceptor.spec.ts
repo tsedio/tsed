@@ -1,13 +1,12 @@
-import {isClass} from "@tsed/core";
 import {logger, runInContext} from "@tsed/di";
-import {serialize} from "@tsed/json-mapper";
-import {PlatformTest} from "@tsed/platform-http/testing";
-
-import {UseCache} from "../decorators/useCache.js";
 import {PlatformCache} from "../services/PlatformCache.js";
-import {getPrefix} from "../utils/getPrefix.js";
-import {isEndpoint} from "../utils/isEndpoint.js";
 import {PlatformCacheInterceptor} from "./PlatformCacheInterceptor.js";
+import {PlatformTest} from "@tsed/platform-http/testing";
+import {UseCache} from "../decorators/useCache.js";
+import {getPrefix} from "../utils/getPrefix.js";
+import {isClass} from "@tsed/core";
+import {isEndpoint} from "../utils/isEndpoint.js";
+import {serialize} from "@tsed/json-mapper";
 
 const defaultKeyResolver = (args: any[]) => {
   return args.map((arg: any) => (isClass(arg) ? JSON.stringify(serialize(arg)) : arg)).join(":");

@@ -1,9 +1,8 @@
-import {PlatformTest} from "@tsed/platform-http/testing";
-import {compile, Format} from "@tsed/schema";
-
+import {Format, compile} from "@tsed/schema";
+import {AjvService} from "../../src/services/AjvService.js";
 import {Formats} from "../../src/decorators/formats.js";
 import {FormatsMethods} from "../../src/interfaces/FormatsMethods.js";
-import {AjvService} from "../../src/services/AjvService.js";
+import {PlatformTest} from "@tsed/platform-http/testing";
 
 const NOT_URI_FRAGMENT = /\/|:/;
 const URI =

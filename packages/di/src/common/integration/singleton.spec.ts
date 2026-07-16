@@ -1,10 +1,10 @@
-import {Scope} from "../decorators/scope.js";
-import {Service} from "../decorators/service.js";
+import {destroyInjector, injector} from "../fn/injector.js";
 import {Container} from "../domain/Container.js";
+import {InjectorService} from "../services/InjectorService.js";
 import {Provider} from "../domain/Provider.js";
 import {ProviderScope} from "../domain/ProviderScope.js";
-import {destroyInjector, injector} from "../fn/injector.js";
-import {InjectorService} from "../services/InjectorService.js";
+import {Scope} from "../decorators/scope.js";
+import {Service} from "../decorators/service.js";
 
 describe("DI Singleton", () => {
   @Service()

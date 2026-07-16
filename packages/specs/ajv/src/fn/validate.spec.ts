@@ -1,6 +1,5 @@
-import {DITest} from "@tsed/di";
 import {object, string} from "@tsed/schema";
-
+import {DITest} from "@tsed/di";
 import {validate} from "./validate.js";
 
 describe("validate", () => {

@@ -1,6 +1,6 @@
 import {DITest} from "../../node/index.js";
-import {configuration} from "../fn/configuration.js";
 import {Value} from "./value.js";
+import {configuration} from "../fn/configuration.js";
 
 describe("@Value()", () => {
   beforeEach(() =>

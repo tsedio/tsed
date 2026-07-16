@@ -1,9 +1,55 @@
 {
   "name": "@tsed/common",
-  "description": "A TypeScript Framework on top of Express",
-  "type": "module",
   "version": "8.17.0",
+  "description": "A TypeScript Framework on top of Express",
+  "keywords": [
+    "Controller",
+    "Decorator",
+    "ES2015",
+    "ES6",
+    "Express",
+    "Inject",
+    "Koa",
+    "TypeScript",
+    "api",
+    "decorator",
+    "decorators",
+    "di",
+    "express",
+    "ioc",
+    "koa",
+    "mvc",
+    "rest",
+    "server",
+    "swagger",
+    "swagger ui",
+    "typescript",
+    "validation"
+  ],
+  "homepage": "https://tsed.dev/",
+  "bugs": {
+    "url": "https://github.com/tsedio/tsed/issues"
+  },
+  "license": "MIT",
+  "author": {
+    "name": "Romain Lenzotti"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tsedio//tsed.git"
+  },
+  "funding": [
+    {
+      "type": "github",
+      "url": "https://github.com/sponsors/Romakita"
+    },
+    {
+      "type": "opencollective",
+      "url": "https://opencollective.com/tsed"
+    }
+  ],
   "source": "./src/index.ts",
+  "type": "module",
   "main": "./lib/esm/index.js",
   "module": "./lib/esm/index.js",
   "typings": "./lib/types/index.d.ts",
@@ -19,52 +65,6 @@
     "build": "yarn build:ts",
     "build:ts": "tsc --build tsconfig.esm.json"
   },
-  "keywords": [
-    "Express",
-    "Koa",
-    "TypeScript",
-    "typescript",
-    "Decorator",
-    "decorators",
-    "decorator",
-    "express",
-    "koa",
-    "Controller",
-    "Inject",
-    "ioc",
-    "di",
-    "mvc",
-    "swagger",
-    "swagger ui",
-    "ES2015",
-    "ES6",
-    "server",
-    "rest",
-    "api",
-    "validation"
-  ],
-  "author": {
-    "name": "Romain Lenzotti"
-  },
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/tsedio/tsed/issues"
-  },
-  "homepage": "https://tsed.dev/",
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/tsedio//tsed.git"
-  },
-  "funding": [
-    {
-      "type": "github",
-      "url": "https://github.com/sponsors/Romakita"
-    },
-    {
-      "type": "opencollective",
-      "url": "https://opencollective.com/tsed"
-    }
-  ],
   "dependencies": {
     "@tsed/logger-file": ">=8.0.0",
     "@tsed/logger-std": ">=8.0.0",
@@ -76,7 +76,6 @@
     "@tsed/engines": "workspace:*",
     "@tsed/typescript": "workspace:*",
     "cross-env": "7.0.3",
-    "eslint": "9.12.0",
     "typescript": "6.0.2"
   },
   "peerDependencies": {

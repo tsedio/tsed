@@ -6,10 +6,7 @@ import remarkStringify from "remark-stringify";
 import unified from "unified";
 
 const {readFile} = fsExtra;
-const markdownProcessor = unified()
-  .use(remarkParse)
-  .use(remarkStringify, {fences: true, bullet: "-"})
-  .use(remarkCleanApiMarkdown);
+const markdownProcessor = unified().use(remarkParse).use(remarkStringify, {fences: true, bullet: "-"}).use(remarkCleanApiMarkdown);
 const INLINE_SNIPPET_RE = /^<<<\s+@\/([^\s]+?)(?:\s+\[(.+?)\])?\s*$/gm;
 const SYMBOL_TOKEN_RE = /@@([A-Za-z0-9_.-]+)@@/g;
 const symbolIndexCache = new Map();

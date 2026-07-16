@@ -1,9 +1,14 @@
 {
   "name": "@tsed/agenda",
-  "description": "Agenda package for Ts.ED framework",
-  "type": "module",
   "version": "8.17.0",
+  "description": "Agenda package for Ts.ED framework",
+  "contributors": [
+    {
+      "name": "Oliver Christen"
+    }
+  ],
   "source": "./src/index.ts",
+  "type": "module",
   "main": "./lib/esm/index.js",
   "module": "./lib/esm/index.js",
   "typings": "./lib/types/index.d.ts",
@@ -22,11 +27,6 @@
     "build:ts": "tsc --build tsconfig.esm.json",
     "test:ci": "vitest run --coverage.thresholds.autoUpdate=true"
   },
-  "contributors": [
-    {
-      "name": "Oliver Christen"
-    }
-  ],
   "dependencies": {
     "tslib": ">=2.7.0"
   },
@@ -39,7 +39,6 @@
     "@tsed/testcontainers-mongo": "workspace:*",
     "@tsed/typescript": "workspace:*",
     "agenda": "^6.2.5",
-    "eslint": "9.12.0",
     "mongodb": "^6.21.0",
     "typescript": "6.0.2",
     "vitest": "4.1.4"

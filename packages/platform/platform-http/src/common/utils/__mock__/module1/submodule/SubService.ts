@@ -1,4 +1,3 @@
-// @ts-ignore
 import {Injectable} from "@tsed/di";
 
 @Injectable()

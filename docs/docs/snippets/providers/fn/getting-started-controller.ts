@@ -18,5 +18,4 @@ export class CalendarsController {
   }
 }
 
-controller(CalendarsController)
-  .path("/calendars");
+controller(CalendarsController).path("/calendars");

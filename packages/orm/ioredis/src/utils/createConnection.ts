@@ -1,9 +1,8 @@
-import {setValue} from "@tsed/core";
 import {configuration, logger} from "@tsed/di";
 import ioredis, {type Cluster, type Redis, type RedisOptions} from "ioredis";
-
 import {IORedisConfiguration} from "../domain/IORedisConfiguration.js";
 import {ioRedisStore} from "../domain/IORedisStore.js";
+import {setValue} from "@tsed/core";
 
 export async function createConnection(config: IORedisConfiguration) {
   const {name, cache, ...redisOptions} = config;

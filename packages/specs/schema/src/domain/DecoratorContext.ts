@@ -1,8 +1,7 @@
 import {DecoratorParameters, DecoratorTypes} from "@tsed/core";
-import {pascalCase} from "change-case";
-
-import {getJsonEntityStore} from "../registries/JsonEntitiesContainer.js";
 import {JsonEntityStore} from "./JsonEntityStore.js";
+import {getJsonEntityStore} from "../registries/JsonEntitiesContainer.js";
+import {pascalCase} from "change-case";
 
 /**
  * @ignore

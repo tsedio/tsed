@@ -1,5 +1,5 @@
-import {OperationVerbs} from "../constants/OperationVerbs.js";
 import {JsonMethodPath} from "./JsonOperation.js";
+import {OperationVerbs} from "../constants/OperationVerbs.js";
 
 /**
  * Map container for storing HTTP operation paths indexed by method and path.

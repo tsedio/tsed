@@ -34,7 +34,6 @@ export function getSidebar() {
       })
     };
 
-
     if (IS_CORES.test(module)) {
       coreModules.push(item);
     } else if (IS_PLATFORM.test(module)) {

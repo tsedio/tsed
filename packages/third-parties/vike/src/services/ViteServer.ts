@@ -1,9 +1,7 @@
-import {Env} from "@tsed/core";
 import {Configuration, registerProvider} from "@tsed/di";
-import {Logger} from "@tsed/logger";
-// @ts-ignore
 import type {InlineConfig, ViteDevServer} from "vite";
-
+import {Env} from "@tsed/core";
+import {Logger} from "@tsed/logger";
 import {ViteConfig} from "../interfaces/ViteConfig.js";
 
 export const VITE_SERVER = Symbol.for("VITE_DEV_SERVER");

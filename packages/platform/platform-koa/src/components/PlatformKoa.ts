@@ -1,32 +1,30 @@
 import "@tsed/platform-multer/koa";
-
-import KoaRouter from "@koa/router";
-import {catchAsyncError, isFunction, Type} from "@tsed/core";
-import {constant, inject, runInContext} from "@tsed/di";
-import {PlatformExceptions} from "@tsed/platform-exceptions";
+import Koa, {Context, Next} from "koa";
 import {
-  adapter,
-  application,
-  createContext,
   PlatformAdapter,
   PlatformBuilder,
   PlatformHandler,
   PlatformRequest,
   PlatformResponse,
-  PlatformStaticsOptions
+  PlatformStaticsOptions,
+  adapter,
+  application,
+  createContext
 } from "@tsed/platform-http";
 import {PlatformHandlerMetadata, PlatformHandlerType, PlatformLayer} from "@tsed/platform-router";
-import Koa, {Context, Next} from "koa";
+import {Type, catchAsyncError, isFunction} from "@tsed/core";
+import {constant, inject, runInContext} from "@tsed/di";
 import koaBodyParser, {Options} from "koa-bodyparser";
-// @ts-ignore
-import koaQs from "koa-qs";
-import send from "koa-send";
-
-import {staticsMiddleware} from "../middlewares/staticsMiddleware.js";
+import KoaRouter from "@koa/router";
+import {PlatformExceptions} from "@tsed/platform-exceptions";
 import {PlatformKoaHandler} from "../services/PlatformKoaHandler.js";
 import {PlatformKoaRequest} from "../services/PlatformKoaRequest.js";
 import {PlatformKoaResponse} from "../services/PlatformKoaResponse.js";
 import {convertPath} from "../utils/convertPath.js";
+// @ts-ignore
+import koaQs from "koa-qs";
+import send from "koa-send";
+import {staticsMiddleware} from "../middlewares/staticsMiddleware.js";
 
 declare global {
   namespace TsED {

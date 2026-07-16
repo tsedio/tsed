@@ -1,5 +1,5 @@
-import {PlatformStaticsOptions} from "@tsed/platform-http";
 import type {Context} from "koa";
+import {PlatformStaticsOptions} from "@tsed/platform-http";
 import send from "koa-send";
 
 /**

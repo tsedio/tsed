@@ -1,13 +1,13 @@
 {
   "name": "@tsed/di",
-  "description": "DI module for Ts.ED Framework",
-  "type": "module",
   "version": "8.17.0",
+  "description": "DI module for Ts.ED Framework",
   "source": "./src/index.ts",
+  "type": "module",
   "main": "./lib/esm/index.js",
   "module": "./lib/esm/index.js",
-  "typings": "./lib/types/index.d.ts",
   "browser": "./lib/esm/browser/index.js",
+  "typings": "./lib/types/index.d.ts",
   "exports": {
     ".": {
       "tsed-source": "./src/index.ts",
@@ -35,7 +35,6 @@
     "@tsed/logger": "^8.0.0",
     "@tsed/typescript": "workspace:*",
     "cross-env": "7.0.3",
-    "eslint": "9.12.0",
     "typescript": "6.0.2",
     "vite": "7.3.2",
     "vitest": "4.1.4"

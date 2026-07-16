@@ -1,6 +1,5 @@
-import {join} from "node:path";
-
 import fixPath from "normalize-path";
+import {join} from "node:path";
 
 export function normalizePath(item: string, ...paths: string[]): string;
 export function normalizePath(item: (string | any)[]): (string | any)[];

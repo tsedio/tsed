@@ -1,6 +1,5 @@
-import {PlatformTest} from "@tsed/platform-http/testing";
-
 import {OidcSecureMiddleware} from "./OidcSecureMiddleware.js";
+import {PlatformTest} from "@tsed/platform-http/testing";
 
 describe("OidcSecureMiddleware", () => {
   beforeEach(() => PlatformTest.create());

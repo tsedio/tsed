@@ -1,6 +1,5 @@
 import {Configuration, OnInit} from "@tsed/di";
 import {Module, OnDestroy} from "@tsed/di";
-
 import {MONGOOSE_CONNECTIONS} from "./services/MongooseConnections.js";
 import {MongooseService} from "./services/MongooseService.js";
 

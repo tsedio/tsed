@@ -1,5 +1,5 @@
-import {s} from "../../fn/index.js";
 import {Default} from "./default.js";
+import {s} from "../../fn/index.js";
 
 describe("@Default", () => {
   it("should declare prop", () => {

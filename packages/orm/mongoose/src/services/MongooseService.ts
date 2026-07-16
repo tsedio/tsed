@@ -1,7 +1,7 @@
 import {Inject, Injectable} from "@tsed/di";
+import {ConnectOptions} from "mongoose";
 import {Logger} from "@tsed/logger";
 import Mongoose from "mongoose";
-import {ConnectOptions} from "mongoose";
 
 // istanbul ignore next
 function asPromise(c: any) {

@@ -1,16 +1,15 @@
-import {useDecorators} from "@tsed/core";
-import {Controller, Inject, Injectable} from "@tsed/di";
 import {BadRequest, Forbidden, Unauthorized} from "@tsed/exceptions";
-import {Req} from "@tsed/platform-http";
-import {PlatformTest} from "@tsed/platform-http/testing";
-import {Middleware, UseAuth} from "@tsed/platform-middlewares";
-import {Context} from "@tsed/platform-params";
+import {Controller, Inject, Injectable} from "@tsed/di";
 import {Get, In, Post, Returns, Security} from "@tsed/schema";
-import SuperTest from "supertest";
+import {Middleware, UseAuth} from "@tsed/platform-middlewares";
 import {afterAll, beforeAll, describe, expect, it} from "vitest";
-
-import baseSpec from "../data/swagger.json" with {type: "json"};
+import {Context} from "@tsed/platform-params";
+import {PlatformTest} from "@tsed/platform-http/testing";
 import {PlatformTestingSdkOpts} from "../interfaces/index.js";
+import {Req} from "@tsed/platform-http";
+import SuperTest from "supertest";
+import baseSpec from "../data/swagger.json" with {type: "json"};
+import {useDecorators} from "@tsed/core";
 
 @Injectable()
 export class TokenService {

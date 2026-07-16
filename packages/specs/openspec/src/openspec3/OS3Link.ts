@@ -1,5 +1,5 @@
-import {OpenSpecHash} from "../common/OpenSpecHash.js";
 import {OS3Server} from "./OS3Server.js";
+import {OpenSpecHash} from "../common/OpenSpecHash.js";
 
 export interface OS3Link {
   /**

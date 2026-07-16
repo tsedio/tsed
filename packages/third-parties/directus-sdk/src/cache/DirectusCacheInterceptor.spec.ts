@@ -1,9 +1,8 @@
-import {getCache, getCacheValue, setCacheValue} from "@directus/api/cache";
-import type {InterceptorContext} from "@tsed/di";
-import {DITest} from "@tsed/di";
-import {afterEach, beforeEach, describe, expect, it, vi} from "vitest";
-
 import {DirectusCacheInterceptor, type DirectusCacheOptions} from "./DirectusCacheInterceptor.js";
+import {afterEach, beforeEach, describe, expect, it, vi} from "vitest";
+import {getCache, getCacheValue, setCacheValue} from "@directus/api/cache";
+import {DITest} from "@tsed/di";
+import type {InterceptorContext} from "@tsed/di";
 
 vi.mock("@directus/api/cache", () => ({
   getCache: vi.fn(),

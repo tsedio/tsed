@@ -1,12 +1,10 @@
-import "@tsed/ajv";
 import "../../src/index.js";
-
+import "@tsed/ajv";
 import {Configuration} from "@tsed/di";
-import compress from "compression";
-
 import {TestPrompt} from "./prompts/TestPrompt.js";
 import {TestResource} from "./resources/TestResource.js";
 import {TestTool} from "./tools/TestTool.js";
+import compress from "compression";
 
 const rootDir = import.meta.dirname; // automatically replaced by import.meta.dirname on build
 export {rootDir};

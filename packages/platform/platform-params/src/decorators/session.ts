@@ -1,7 +1,7 @@
 import {ParamOptions} from "../domain/ParamOptions.js";
 import {ParamTypes} from "../domain/ParamTypes.js";
-import {mapParamsOptions} from "../utils/mapParamsOptions.js";
 import {UseParam} from "./useParam.js";
+import {mapParamsOptions} from "../utils/mapParamsOptions.js";
 
 /**
  * Session return the value from [request.session](http://expressjs.com/en/4x/api.html#req.session) object.

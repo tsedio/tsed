@@ -1,8 +1,7 @@
-import {isTemporal} from "@tsed/core";
-
-import type {JsonSchema} from "../../domain/JsonSchema.js";
 import {type AnyJsonType, defineType} from "../../registries/JsonTypesContainer.js";
+import type {JsonSchema} from "../../domain/JsonSchema.js";
 import {getJsonType} from "../../utils/getJsonType.js";
+import {isTemporal} from "@tsed/core";
 
 export default defineType({
   name: "primitive",

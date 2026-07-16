@@ -1,11 +1,10 @@
-import {useDecorators} from "@tsed/core";
-
 import {ParamOptions} from "../domain/ParamOptions.js";
 import {ParamTypes} from "../domain/ParamTypes.js";
 import {UseDeserialization} from "./useDeserialization.js";
 import {UseParamType} from "./useParamType.js";
 import {UseType} from "./useType.js";
 import {UseValidation} from "./useValidation.js";
+import {useDecorators} from "@tsed/core";
 
 /**
  * @ignore

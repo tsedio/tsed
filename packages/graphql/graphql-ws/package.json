@@ -1,9 +1,9 @@
 {
   "name": "@tsed/graphql-ws",
-  "description": "An extension to allow GraphQL over WebSockets using graphql-ws protocol",
-  "type": "module",
   "version": "8.17.0",
+  "description": "An extension to allow GraphQL over WebSockets using graphql-ws protocol",
   "source": "./src/index.ts",
+  "type": "module",
   "main": "./lib/esm/index.js",
   "module": "./lib/esm/index.js",
   "typings": "./lib/types/index.d.ts",
@@ -31,7 +31,6 @@
     "@tsed/platform-http": "workspace:*",
     "@tsed/typescript": "workspace:*",
     "@types/ws": "8.18.1",
-    "eslint": "9.12.0",
     "graphql-ws": "6.0.5",
     "typescript": "6.0.2",
     "ws": "8.20.1"

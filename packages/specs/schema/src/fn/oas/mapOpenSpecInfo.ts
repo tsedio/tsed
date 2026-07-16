@@ -1,5 +1,5 @@
-import {cleanObject} from "@tsed/core";
 import {OpenSpecInfo} from "@tsed/openspec";
+import {cleanObject} from "@tsed/core";
 
 /**
  * @ignore

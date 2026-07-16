@@ -1,11 +1,9 @@
+import {Module, constant, inject, logger} from "@tsed/di";
+import {GraphQLWSOptions} from "./GraphQLWSOptions.js";
 import Http from "node:http";
 import Https from "node:https";
-
-import {constant, inject, logger, Module} from "@tsed/di";
-import {useServer} from "graphql-ws/use/ws";
 import {WebSocketServer} from "ws";
-
-import {GraphQLWSOptions} from "./GraphQLWSOptions.js";
+import {useServer} from "graphql-ws/use/ws";
 
 @Module()
 export class GraphQLWSModule {

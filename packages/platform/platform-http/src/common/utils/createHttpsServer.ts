@@ -1,8 +1,6 @@
+import {InjectorService, configuration, constant} from "@tsed/di";
 import Http from "node:http";
 import Https from "node:https";
-
-import {configuration, constant, InjectorService} from "@tsed/di";
-
 import {createServer} from "./createServer.js";
 
 export function createHttpsServer(requestListener?: Http.RequestListener) {

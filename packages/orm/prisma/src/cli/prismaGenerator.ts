@@ -1,10 +1,8 @@
 import path, {join} from "node:path";
-
 import {GeneratorOptions} from "@prisma/generator-helper";
-import internals from "@prisma/internals";
 import fs from "fs-extra";
-
 import {generateCode} from "../generator/generateCode.js";
+import internals from "@prisma/internals";
 import removeDir from "../generator/utils/removeDir.js";
 
 function parseStringBoolean(stringBoolean: string | string[] | undefined) {

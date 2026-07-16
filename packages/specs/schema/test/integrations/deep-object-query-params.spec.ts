@@ -1,6 +1,5 @@
+import {Enum, OperationPath, Path, Property, SpecTypes, enums, getSpec} from "../../src/index.js";
 import {QueryParams} from "@tsed/platform-params";
-
-import {Enum, enums, getSpec, OperationPath, Path, Property, SpecTypes} from "../../src/index.js";
 
 describe("Deep Object QueryParams", () => {
   it("should generate the spec for deep object", () => {

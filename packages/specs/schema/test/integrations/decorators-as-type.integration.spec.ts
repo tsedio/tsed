@@ -1,6 +1,5 @@
+import {Property, compile} from "../../src/index.js";
 import {Type} from "@tsed/core";
-
-import {compile, Property} from "../../src/index.js";
 
 function Ref(model: string | (() => Type) | any): PropertyDecorator {
   return Property(model) as PropertyDecorator;

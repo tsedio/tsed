@@ -17,5 +17,4 @@ class MyService {
     MY_VALUE: process.env.MY_VALUE || "myValue"
   }
 })
-class Server {
-}
+class Server {}

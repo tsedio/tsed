@@ -1,6 +1,5 @@
-import {Type} from "@tsed/core";
 import {injectable, registerProvider} from "@tsed/di";
-
+import {Type} from "@tsed/core";
 import {registerExceptionType} from "../domain/ExceptionFiltersContainer.js";
 
 /**

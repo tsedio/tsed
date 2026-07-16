@@ -1,7 +1,6 @@
-import type {ConnectionOptions} from "node:tls";
-
 import {MongoDBContainer, StartedMongoDBContainer} from "@testcontainers/mongodb";
 import type {ConnectOptions} from "mongoose";
+import type {ConnectionOptions} from "node:tls";
 
 declare global {
   namespace NodeJS {

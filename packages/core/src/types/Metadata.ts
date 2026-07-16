@@ -1,5 +1,4 @@
 import "reflect-metadata";
-
 import {classOf} from "../utils/classOf.js";
 
 /**

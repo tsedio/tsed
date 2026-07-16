@@ -1,7 +1,6 @@
 import {Store, UnsupportedDecoratorType} from "@tsed/core";
-import {s} from "@tsed/schema";
-
 import {UseBefore} from "./useBefore.js";
+import {s} from "@tsed/schema";
 
 class CustomMiddleware {
   use() {}

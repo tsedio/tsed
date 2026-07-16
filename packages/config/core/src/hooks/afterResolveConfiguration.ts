@@ -1,6 +1,5 @@
-import {configuration, constant, injectable, logger} from "@tsed/di";
 import {$off, $on, $once} from "@tsed/hooks";
-
+import {configuration, constant, injectable, logger} from "@tsed/di";
 import {CONFIG_SOURCES} from "../constants/constants.js";
 import type {ConfigurationExtends} from "../interfaces/ConfigSource.js";
 import {getConfigSources} from "../utils/getConfigSources.js";

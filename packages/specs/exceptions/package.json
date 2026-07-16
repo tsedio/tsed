@@ -1,9 +1,9 @@
 {
   "name": "@tsed/exceptions",
-  "description": "HTTP exceptions module for Ts.ED Framework and other pure Express application",
-  "type": "module",
   "version": "8.17.0",
+  "description": "HTTP exceptions module for Ts.ED Framework and other pure Express application",
   "source": "./src/index.ts",
+  "type": "module",
   "main": "./lib/esm/index.js",
   "module": "./lib/esm/index.js",
   "typings": "./lib/types/index.d.ts",
@@ -32,7 +32,6 @@
     "@tsed/barrels": "workspace:*",
     "@tsed/typescript": "workspace:*",
     "@types/statuses": "2.0.5",
-    "eslint": "9.12.0",
     "typescript": "6.0.2",
     "vite": "7.3.2",
     "vitest": "4.1.4"

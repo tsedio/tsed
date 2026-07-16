@@ -1,6 +1,5 @@
-import {isArrowFn, Type, useDecorators} from "@tsed/core";
-
-import {compile, JsonEntityFn, lazyRef, Property, string} from "../../src/index.js";
+import {JsonEntityFn, Property, compile, lazyRef, string} from "../../src/index.js";
+import {Type, isArrowFn, useDecorators} from "@tsed/core";
 
 function Ref(model: string | (() => Type) | any): PropertyDecorator {
   const getType = () => (isArrowFn(model) ? model() : model);

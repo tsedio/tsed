@@ -1,12 +1,11 @@
+import {Context, PathParams} from "@tsed/platform-params";
+import {Get, Pattern, Post} from "@tsed/schema";
+import {afterAll, beforeAll, describe, expect, it} from "vitest";
 import {Controller} from "@tsed/di";
 import type {PlatformContext} from "@tsed/platform-http";
 import {PlatformTest} from "@tsed/platform-http/testing";
-import {Context, PathParams} from "@tsed/platform-params";
-import {Get, Pattern, Post} from "@tsed/schema";
-import SuperTest from "supertest";
-import {afterAll, beforeAll, describe, expect, it} from "vitest";
-
 import {PlatformTestingSdkOpts} from "../interfaces/index.js";
+import SuperTest from "supertest";
 
 @Controller("/path-params")
 class TestPathParamsCtrl {

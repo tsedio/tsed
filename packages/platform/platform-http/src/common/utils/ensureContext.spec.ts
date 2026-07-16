@@ -1,7 +1,6 @@
-import {runInContext} from "@tsed/di";
-
 import {PlatformTest} from "../../testing/PlatformTest.js";
 import {ensureContext} from "./ensureContext.js";
+import {runInContext} from "@tsed/di";
 
 describe("ensureContext()", () => {
   beforeEach(() => PlatformTest.create());

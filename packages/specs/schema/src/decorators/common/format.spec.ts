@@ -1,5 +1,5 @@
-import {s} from "../../fn/index.js";
 import {DateFormat, DateTime, Email, Format, TimeFormat, Uri, Url} from "./format.js";
+import {s} from "../../fn/index.js";
 
 describe("@Format", () => {
   it("should declare prop", () => {

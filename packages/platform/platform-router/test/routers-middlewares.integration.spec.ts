@@ -1,11 +1,10 @@
-import {Controller, inject, injector} from "@tsed/di";
-import {PlatformTest} from "@tsed/platform-http/testing";
-import {Middleware, UseBeforeEach} from "@tsed/platform-middlewares";
 import {Context, PlatformParams} from "@tsed/platform-params";
+import {Controller, inject, injector} from "@tsed/di";
+import {Middleware, UseBeforeEach} from "@tsed/platform-middlewares";
 import {Get} from "@tsed/schema";
-
 import {PlatformRouter} from "../src/domain/PlatformRouter.js";
 import {PlatformRouters} from "../src/domain/PlatformRouters.js";
+import {PlatformTest} from "@tsed/platform-http/testing";
 
 @Middleware()
 class MyMiddleware {

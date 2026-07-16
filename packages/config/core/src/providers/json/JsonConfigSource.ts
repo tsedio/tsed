@@ -1,8 +1,6 @@
-import {existsSync, readFileSync, watch} from "node:fs";
-
-import {logger} from "@tsed/di";
-
 import type {ConfigSource, ConfigSourceOnChangeCB} from "../../interfaces/ConfigSource.js";
+import {existsSync, readFileSync, watch} from "node:fs";
+import {logger} from "@tsed/di";
 
 export interface JsonConfigSourceOptions {
   /**

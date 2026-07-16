@@ -1,7 +1,6 @@
 import {OptimisticLockError} from "@mikro-orm/core";
-import {PlatformTest} from "@tsed/platform-http/testing";
-
 import {OptimisticLockErrorFilter} from "./OptimisticLockErrorFilter.js";
+import {PlatformTest} from "@tsed/platform-http/testing";
 
 describe("OptimisticLockErrorFilter", () => {
   beforeEach(() => PlatformTest.create());

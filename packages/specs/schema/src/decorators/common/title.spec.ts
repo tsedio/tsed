@@ -1,4 +1,4 @@
-import {compile, Title} from "../../index.js";
+import {Title, compile} from "../../index.js";
 
 describe("Title()", () => {
   it("should store data", () => {

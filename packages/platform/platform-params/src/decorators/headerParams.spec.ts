@@ -1,7 +1,6 @@
-import {JsonParameterStore} from "@tsed/schema";
-
-import {ParamTypes} from "../domain/ParamTypes.js";
 import {HeaderParams} from "./headerParams.js";
+import {JsonParameterStore} from "@tsed/schema";
+import {ParamTypes} from "../domain/ParamTypes.js";
 
 describe("@HeaderParams", () => {
   it("should call ParamFilter.useParam method with the correct parameters", () => {

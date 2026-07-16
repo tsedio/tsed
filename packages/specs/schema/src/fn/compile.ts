@@ -1,12 +1,10 @@
 import "../components/index.js";
-
-import {DecoratorTypes, getValue, isClass, isPlainObject, nameOf, Type} from "@tsed/core";
-
-import {JsonParameterStore} from "../components/index.js";
+import {DecoratorTypes, Type, getValue, isClass, isPlainObject, nameOf} from "@tsed/core";
 import {JsonSchema, SpecTypes} from "../domain/index.js";
+import {JsonParameterStore} from "../components/index.js";
 import {JsonSchemaOptions} from "../domain/JsonSchemaOptions.js";
-import {getJsonEntityStore} from "../registries/JsonEntitiesContainer.js";
 import {execMapper} from "../registries/JsonSchemaMapperContainer.js";
+import {getJsonEntityStore} from "../registries/JsonEntitiesContainer.js";
 
 /**
  * @ignore

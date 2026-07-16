@@ -1,17 +1,16 @@
-import {Configuration, configuration, Controller, destroyInjector, Injectable, injector, Module} from "@tsed/di";
+import {Configuration, Controller, Injectable, Module, configuration, destroyInjector, injector} from "@tsed/di";
 import {$asyncEmit} from "@tsed/hooks";
-
-import {FakeAdapter} from "../../testing/index.js";
 import {AfterInit} from "../interfaces/AfterInit.js";
 import {AfterListen} from "../interfaces/AfterListen.js";
 import {AfterRoutesInit} from "../interfaces/AfterRoutesInit.js";
 import {BeforeInit} from "../interfaces/BeforeInit.js";
 import {BeforeListen} from "../interfaces/BeforeListen.js";
 import {BeforeRoutesInit} from "../interfaces/BeforeRoutesInit.js";
+import {FakeAdapter} from "../../testing/index.js";
 import {OnReady} from "../interfaces/OnReady.js";
 import {Platform} from "../services/Platform.js";
-import {PlatformCustom} from "./__fixtures__/PlatformCustom.js";
 import {PlatformBuilder} from "./PlatformBuilder.js";
+import {PlatformCustom} from "./__fixtures__/PlatformCustom.js";
 
 vi.mock("@tsed/hooks", async (importOriginal) => {
   const mod = await importOriginal<typeof import("@tsed/hooks")>();

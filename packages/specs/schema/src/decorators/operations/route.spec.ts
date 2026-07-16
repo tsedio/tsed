@@ -1,7 +1,7 @@
+import {All, Delete, Get, Head, Options, Patch, Post, Put} from "./route.js";
+import {OperationVerbs} from "../../index.js";
 import {inspectOperationsPaths} from "../../domain/__fixtures__/inspectOperationsPaths.js";
 import {s} from "../../fn/index.js";
-import {OperationVerbs} from "../../index.js";
-import {All, Delete, Get, Head, Options, Patch, Post, Put} from "./route.js";
 
 describe("Route decorators", () => {
   describe("All", () => {

@@ -1,7 +1,7 @@
-import {providerBuilder} from "../domain/ProviderBuilder.js";
-import {ProviderType} from "../domain/ProviderType.js";
 import type {ProviderOpts} from "../interfaces/ProviderOpts.js";
+import {ProviderType} from "../domain/ProviderType.js";
 import type {TokenProvider} from "../interfaces/TokenProvider.js";
+import {providerBuilder} from "../domain/ProviderBuilder.js";
 
 /**
  * Fluent builder for registering providers programmatically.

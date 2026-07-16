@@ -1,8 +1,7 @@
-import {Controller, Inject, Injectable} from "@tsed/di";
 import {BodyParams, PathParams, QueryParams} from "@tsed/platform-params";
-import {createFakeContext, createFakeEvent, PlatformServerlessTest} from "@tsed/platform-serverless-testing";
+import {Controller, Inject, Injectable} from "@tsed/di";
 import {Delete, Get, Patch, Post, Put} from "@tsed/schema";
-
+import {PlatformServerlessTest, createFakeContext, createFakeEvent} from "@tsed/platform-serverless-testing";
 import {PlatformServerless} from "./PlatformServerless.js";
 
 @Injectable()

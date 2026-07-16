@@ -1,5 +1,5 @@
-import {getEngineFixture} from "../../test/getEngineFixture.js";
 import {VelocityEngine} from "./VelocityEngine.js";
+import {getEngineFixture} from "../../test/getEngineFixture.js";
 
 describe("VelocityEngine", () => {
   beforeEach(() => {

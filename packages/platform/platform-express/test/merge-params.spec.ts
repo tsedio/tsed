@@ -1,12 +1,11 @@
+import {Server, rootDir} from "./app/Server.js";
 import {Controller} from "@tsed/di";
-import {PlatformTest} from "@tsed/platform-http/testing";
-import {PathParams} from "@tsed/platform-params";
-import {PlatformTestSdk} from "@tsed/platform-test-sdk";
 import {Get} from "@tsed/schema";
-import SuperTest from "supertest";
-
+import {PathParams} from "@tsed/platform-params";
 import {PlatformExpress} from "../src/index.js";
-import {rootDir, Server} from "./app/Server.js";
+import {PlatformTest} from "@tsed/platform-http/testing";
+import {PlatformTestSdk} from "@tsed/platform-test-sdk";
+import SuperTest from "supertest";
 
 const utils = PlatformTestSdk.create({
   rootDir,

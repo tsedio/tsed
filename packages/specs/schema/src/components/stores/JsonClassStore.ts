@@ -1,9 +1,8 @@
-import {DecoratorTypes} from "@tsed/core";
-
 import {JsonEntityStore, JsonSchema} from "../../domain/index.js";
-import {defineStore} from "../../registries/JsonEntitiesContainer.js";
+import {DecoratorTypes} from "@tsed/core";
 import type {JsonMethodStore} from "./JsonMethodStore.js";
 import type {JsonPropertyStore} from "./JsonPropertyStore.js";
+import {defineStore} from "../../registries/JsonEntitiesContainer.js";
 
 /**
  * Store for class-level metadata and schema information.

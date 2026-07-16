@@ -1,10 +1,9 @@
-import {configuration, Controller, inject, injector, InjectorService} from "@tsed/di";
-import {PlatformTest} from "@tsed/platform-http/testing";
-import {PlatformParams} from "@tsed/platform-params";
+import {Controller, InjectorService, configuration, inject, injector} from "@tsed/di";
 import {Get, Post} from "@tsed/schema";
-
+import {PlatformParams} from "@tsed/platform-params";
 import {PlatformRouter} from "../src/domain/PlatformRouter.js";
 import {PlatformRouters} from "../src/domain/PlatformRouters.js";
+import {PlatformTest} from "@tsed/platform-http/testing";
 
 @Controller("/")
 export class FlaggedCommentController {

@@ -1,6 +1,5 @@
-import {Env} from "@tsed/core";
 import {$log} from "@tsed/logger";
-
+import {Env} from "@tsed/core";
 import {FakeAdapter} from "../../testing/FakeAdapter.js";
 import {PlatformAdapter} from "../services/PlatformAdapter.js";
 import {createInjector} from "./createInjector.js";

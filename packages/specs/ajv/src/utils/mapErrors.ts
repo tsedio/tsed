@@ -1,8 +1,7 @@
-import {getValue, nameOf, Type} from "@tsed/core";
-import {ErrorObject} from "ajv";
-
-import {AjvValidationError} from "../errors/AjvValidationError.js";
 import {AjvErrorObject, ErrorFormatter} from "../interfaces/AjvSettings.js";
+import {Type, getValue, nameOf} from "@tsed/core";
+import {AjvValidationError} from "../errors/AjvValidationError.js";
+import {ErrorObject} from "ajv";
 import {getPath} from "./getPath.js";
 import {mapClassError} from "./mapClassError.js";
 

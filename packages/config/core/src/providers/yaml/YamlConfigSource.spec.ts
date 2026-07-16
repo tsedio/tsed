@@ -1,7 +1,5 @@
 import {existsSync, readFileSync, watch} from "node:fs";
-
 import JsYaml from "js-yaml";
-
 import {YamlConfigSource} from "./YamlConfigSource.js";
 
 vi.mock("node:fs");

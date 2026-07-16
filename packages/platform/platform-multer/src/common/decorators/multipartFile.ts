@@ -1,12 +1,11 @@
 import {DecoratorParameters, Metadata, StoreMerge, useDecorators, useMethodDecorators} from "@tsed/core";
-import {UseBefore} from "@tsed/platform-middlewares";
 import {ParamTypes, UseParam} from "@tsed/platform-params";
-import {InFile} from "@tsed/schema";
 import type {Field} from "multer";
-
+import {InFile} from "@tsed/schema";
 import {PLATFORM_MULTER_OPTIONS} from "../constants/constants.js";
 import type {PlatformMulterFile} from "../interfaces/PlatformMulterSettings.js";
 import {PlatformMulterMiddleware} from "../middlewares/PlatformMulterMiddleware.js";
+import {UseBefore} from "@tsed/platform-middlewares";
 
 function mapOptions(name: string, maxCount: number | undefined): {fields: Field[]} {
   return {

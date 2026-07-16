@@ -1,10 +1,4 @@
-import {Env} from "@tsed/core";
-import {constant, context, inject, Injectable} from "@tsed/di";
-import {Unauthorized} from "@tsed/exceptions";
-import {PlatformContext} from "@tsed/platform-http";
-import omit from "lodash/omit.js";
-import type {Account, default as Provider, InteractionResults, PromptDetail} from "oidc-provider";
-
+import type {Account, InteractionResults, PromptDetail, default as Provider} from "oidc-provider";
 import {
   INTERACTION_CONTEXT,
   INTERACTION_DETAILS,
@@ -14,14 +8,19 @@ import {
   INTERACTION_SESSION,
   INTERACTION_UID
 } from "../constants/constants.js";
-import {OidcSession} from "../decorators/oidcSession.js";
+import {Injectable, constant, context, inject} from "@tsed/di";
 import {OidcClient, OidcInteraction} from "../domain/interfaces.js";
+import {Env} from "@tsed/core";
 import {OidcAccountsMethods} from "../domain/OidcAccountsMethods.js";
 import {OidcBadInteractionName} from "../domain/OidcBadInteractionName.js";
 import {OidcInteractionPromptProps} from "../domain/OidcInteractionPromptProps.js";
-import {debug} from "../utils/debug.js";
 import {OidcInteractions} from "./OidcInteractions.js";
 import {OidcProvider} from "./OidcProvider.js";
+import {OidcSession} from "../decorators/oidcSession.js";
+import {PlatformContext} from "@tsed/platform-http";
+import {Unauthorized} from "@tsed/exceptions";
+import {debug} from "../utils/debug.js";
+import omit from "lodash/omit.js";
 
 @Injectable()
 export class OidcInteractionContext {

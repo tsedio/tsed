@@ -1,9 +1,8 @@
-import {logger} from "@tsed/di";
-import {application} from "@tsed/platform-http";
-import {PlatformTest} from "@tsed/platform-http/testing";
 import {PlatformRouter} from "@tsed/platform-router";
-
+import {PlatformTest} from "@tsed/platform-http/testing";
 import {ScalarModule} from "./ScalarModule.js";
+import {application} from "@tsed/platform-http";
+import {logger} from "@tsed/di";
 
 vi.mock("node:fs/promises");
 

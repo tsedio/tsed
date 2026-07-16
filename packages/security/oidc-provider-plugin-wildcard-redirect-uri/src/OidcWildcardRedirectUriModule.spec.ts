@@ -1,8 +1,7 @@
-import {catchError} from "@tsed/core";
-import {PlatformTest} from "@tsed/platform-http/testing";
-import {errors, KoaContextWithOIDC} from "oidc-provider";
-
+import {KoaContextWithOIDC, errors} from "oidc-provider";
 import {OidcWildcardRedirectUriModule} from "./OidcWildcardRedirectUriModule.js";
+import {PlatformTest} from "@tsed/platform-http/testing";
+import {catchError} from "@tsed/core";
 import InvalidClientMetadata = errors.InvalidClientMetadata;
 
 describe("WildcardRedirectUriAllowed", () => {

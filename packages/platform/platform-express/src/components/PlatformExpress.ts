@@ -1,33 +1,30 @@
 import "@tsed/platform-multer/express";
-
-import {readFileSync} from "node:fs";
+import {Env, Type, catchAsyncError, isArray, isFunction} from "@tsed/core";
 import {IncomingMessage, ServerResponse} from "node:http";
-import {dirname, join} from "node:path";
-import {fileURLToPath} from "node:url";
-
-import {catchAsyncError, Env, isArray, isFunction, Type} from "@tsed/core";
-import {constant, inject, logger, runInContext} from "@tsed/di";
-import {PlatformExceptions} from "@tsed/platform-exceptions";
+import {OptionsJson, OptionsText, OptionsUrlencoded} from "body-parser";
 import {
-  adapter,
-  application,
-  createContext,
   PlatformAdapter,
   PlatformBuilder,
   PlatformContext,
   PlatformHandler,
   PlatformResponse,
-  PlatformStaticsOptions
+  PlatformStaticsOptions,
+  adapter,
+  application,
+  createContext
 } from "@tsed/platform-http";
 import {PlatformHandlerMetadata, PlatformHandlerType, PlatformLayer} from "@tsed/platform-router";
-import {OptionsJson, OptionsText, OptionsUrlencoded} from "body-parser";
+import {constant, inject, logger, runInContext} from "@tsed/di";
+import {dirname, join} from "node:path";
 import Express from "express";
-
-import {PlatformExpressStaticsOptions} from "../interfaces/PlatformExpressStaticsOptions.js";
-import {staticsMiddleware} from "../middlewares/staticsMiddleware.js";
+import {PlatformExceptions} from "@tsed/platform-exceptions";
 import {PlatformExpressHandler} from "../services/PlatformExpressHandler.js";
 import {PlatformExpressResponse} from "../services/PlatformExpressResponse.js";
+import {PlatformExpressStaticsOptions} from "../interfaces/PlatformExpressStaticsOptions.js";
 import {convertPath} from "../utils/convertPath.js";
+import {fileURLToPath} from "node:url";
+import {readFileSync} from "node:fs";
+import {staticsMiddleware} from "../middlewares/staticsMiddleware.js";
 
 declare module "express" {
   export interface Request {

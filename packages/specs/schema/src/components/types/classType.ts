@@ -1,7 +1,6 @@
-import {isClass, isFunction} from "@tsed/core";
-
-import type {JsonSchema} from "../../domain/JsonSchema.js";
 import {type AnyJsonType, defineType} from "../../registries/JsonTypesContainer.js";
+import {isClass, isFunction} from "@tsed/core";
+import type {JsonSchema} from "../../domain/JsonSchema.js";
 
 export default defineType({
   name: "class",

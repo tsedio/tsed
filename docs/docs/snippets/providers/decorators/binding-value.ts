@@ -16,5 +16,4 @@ import {Configuration} from "@tsed/di";
 @Configuration({
   path: {to: {value: "myValue"}}
 })
-class Server {
-}
+class Server {}

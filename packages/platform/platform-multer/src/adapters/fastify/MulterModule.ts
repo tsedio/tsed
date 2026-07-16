@@ -1,12 +1,10 @@
-import {promisify} from "node:util";
-
-import {injectable} from "@tsed/di";
 import type {FastifyInstance, FastifyReply, FastifyRequest} from "fastify";
+import {MULTER_MODULE, type PlatformMulterFile} from "../../common/index.js";
 import fp, {type PluginMetadata} from "fastify-plugin";
 import type {IncomingMessage} from "http";
 import type {Options} from "multer";
-
-import {MULTER_MODULE, type PlatformMulterFile} from "../../common/index.js";
+import {injectable} from "@tsed/di";
+import {promisify} from "node:util";
 
 const kMultipart = Symbol("multipart");
 

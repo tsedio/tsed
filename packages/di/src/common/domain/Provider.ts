@@ -1,16 +1,15 @@
-import {Store} from "@tsed/core/types/Store.js";
 import type {AbstractType, Type} from "@tsed/core/types/Type.js";
+import {DI_USE_PARAM_OPTIONS} from "../constants/constants.js";
+import type {ProviderOpts} from "../interfaces/ProviderOpts.js";
+import {ProviderScope} from "./ProviderScope.js";
+import {ProviderType} from "./ProviderType.js";
+import {Store} from "@tsed/core/types/Store.js";
+import type {TokenProvider} from "../interfaces/TokenProvider.js";
 import {classOf} from "@tsed/core/utils/classOf.js";
+import {discoverHooks} from "../utils/discoverHooks.js";
 import {getClassOrSymbol} from "@tsed/core/utils/getClassOrSymbol.js";
 import {isClass} from "@tsed/core/utils/isClass.js";
 import {nameOf} from "@tsed/core/utils/nameOf.js";
-
-import {DI_USE_PARAM_OPTIONS} from "../constants/constants.js";
-import type {ProviderOpts} from "../interfaces/ProviderOpts.js";
-import type {TokenProvider} from "../interfaces/TokenProvider.js";
-import {discoverHooks} from "../utils/discoverHooks.js";
-import {ProviderScope} from "./ProviderScope.js";
-import {ProviderType} from "./ProviderType.js";
 
 /**
  * Middleware configuration for a controller.

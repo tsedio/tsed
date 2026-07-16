@@ -1,9 +1,8 @@
-import {configuration} from "@tsed/di";
-
-import {PlatformTest} from "../../testing/PlatformTest.js";
-import {createContext} from "../utils/createContext.js";
 import {PlatformApplication} from "./PlatformApplication.js";
 import {PlatformHandler} from "./PlatformHandler.js";
+import {PlatformTest} from "../../testing/PlatformTest.js";
+import {configuration} from "@tsed/di";
+import {createContext} from "../utils/createContext.js";
 
 vi.mock("../utils/createContext");
 

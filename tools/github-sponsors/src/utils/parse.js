@@ -1,6 +1,6 @@
+import YAML from "yaml";
 import fs from "fs";
 import {promisify} from "util";
-import YAML from "yaml";
 
 const readFile = promisify(fs.readFile);
 const access = promisify(fs.access);

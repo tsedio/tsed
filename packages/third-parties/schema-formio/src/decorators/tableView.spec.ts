@@ -1,5 +1,5 @@
-import {getFormioSchema} from "../utils/getFormioSchema.js";
 import {TableView} from "./tableView.js";
+import {getFormioSchema} from "../utils/getFormioSchema.js";
 
 describe("@TableView", () => {
   it("should change the table view option", async () => {

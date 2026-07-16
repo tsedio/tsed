@@ -9,10 +9,9 @@ type AgendaJobOptions = {
   skipDays?: number[];
 };
 
-export interface DefineOptions
-  extends Partial<
-    Pick<JobDefinition, "lockLimit" | "lockLifetime" | "concurrency" | "backoff" | "removeOnComplete" | "logging" | "priority">
-  > {
+export interface DefineOptions extends Partial<
+  Pick<JobDefinition, "lockLimit" | "lockLifetime" | "concurrency" | "backoff" | "removeOnComplete" | "logging" | "priority">
+> {
   name?: string;
 }
 

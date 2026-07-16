@@ -11,7 +11,7 @@ class DashboardCtrl {
   @Get("/")
   @UseAuth(CustomAuthMiddleware, {role: "admin"}) // or for specific endpoints
   @Security("oauth2", "email", "firstname")
-  @Returns(401, Unauthorized).Description("Unauthorized")
-  @Returns(403, Forbidden).Description("Forbidden")
+  @(Returns(401, Unauthorized).Description("Unauthorized"))
+  @(Returns(403, Forbidden).Description("Forbidden"))
   public getResource() {}
 }

@@ -1,11 +1,10 @@
-import {constant, DIContext, injectable, injector, logger, Provider, runInContext} from "@tsed/di";
-import {$asyncEmit} from "@tsed/hooks";
 import {Agenda, type AgendaOptions, type Job} from "agenda";
-import {v4 as uuid} from "uuid";
-
-import {PROVIDER_TYPE_AGENDA} from "../constants/constants.js";
-import type {AgendaStore} from "../interfaces/AgendaStore.js";
+import {DIContext, Provider, constant, injectable, injector, logger, runInContext} from "@tsed/di";
+import {$asyncEmit} from "@tsed/hooks";
 import type {AgendaSettings} from "../interfaces/interfaces.js";
+import type {AgendaStore} from "../interfaces/AgendaStore.js";
+import {PROVIDER_TYPE_AGENDA} from "../constants/constants.js";
+import {v4 as uuid} from "uuid";
 
 type JobProcessor = (job: Job<unknown>) => Promise<void>;
 

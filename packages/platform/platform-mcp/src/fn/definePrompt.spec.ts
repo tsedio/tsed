@@ -1,8 +1,7 @@
-import {inject} from "@tsed/di";
-import {PlatformTest} from "@tsed/platform-http/testing";
 import {afterEach, beforeEach, describe, expect, it} from "vitest";
-
+import {PlatformTest} from "@tsed/platform-http/testing";
 import {definePrompt} from "./definePrompt.js";
+import {inject} from "@tsed/di";
 
 describe("definePrompt", () => {
   beforeEach(() => PlatformTest.create());

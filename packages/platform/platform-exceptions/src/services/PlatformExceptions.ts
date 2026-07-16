@@ -1,12 +1,11 @@
+import {DIContext, type TokenProvider, inject, injectable} from "@tsed/di";
+import {ExceptionFilterKey, ExceptionFiltersContainer} from "../domain/ExceptionFiltersContainer.js";
 import {ancestorsOf, classOf, nameOf} from "@tsed/core";
-import {DIContext, inject, injectable, type TokenProvider} from "@tsed/di";
-
 import {ErrorFilter} from "../components/ErrorFilter.js";
 import {ExceptionFilter} from "../components/ExceptionFilter.js";
 import {MongooseErrorFilter} from "../components/MongooseErrorFilter.js";
-import {StringErrorFilter} from "../components/StringErrorFilter.js";
-import {ExceptionFilterKey, ExceptionFiltersContainer} from "../domain/ExceptionFiltersContainer.js";
 import {ResourceNotFound} from "../errors/ResourceNotFound.js";
+import {StringErrorFilter} from "../components/StringErrorFilter.js";
 
 /**
  * Catch all errors and return the json error with the right status code when it's possible.

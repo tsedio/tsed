@@ -1,9 +1,9 @@
 {
   "name": "@tsed/platform-middlewares",
-  "description": "Middlewares module for Ts.ED Framework",
-  "type": "module",
   "version": "8.17.0",
+  "description": "Middlewares module for Ts.ED Framework",
   "source": "./src/index.ts",
+  "type": "module",
   "main": "./lib/esm/index.js",
   "module": "./lib/esm/index.js",
   "typings": "./lib/types/index.d.ts",
@@ -32,7 +32,6 @@
     "@tsed/platform-router": "workspace:*",
     "@tsed/schema": "workspace:*",
     "@tsed/typescript": "workspace:*",
-    "eslint": "9.12.0",
     "typescript": "6.0.2",
     "vitest": "4.1.4"
   },

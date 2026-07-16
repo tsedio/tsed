@@ -1,6 +1,5 @@
+import {MonoRepo, findPackages} from "@tsed/monorepo-utils";
 import {dirname, join, relative} from "node:path";
-
-import {findPackages, MonoRepo} from "@tsed/monorepo-utils";
 import fs from "fs-extra";
 import omit from "lodash/omit.js";
 

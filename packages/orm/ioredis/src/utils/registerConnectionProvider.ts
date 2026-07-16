@@ -1,7 +1,6 @@
-import {constant, type FactoryTokenProvider, injectable, TokenProvider} from "@tsed/di";
-import type {Redis} from "ioredis";
-
+import {type FactoryTokenProvider, TokenProvider, constant, injectable} from "@tsed/di";
 import {IORedisConfiguration} from "../domain/IORedisConfiguration.js";
+import type {Redis} from "ioredis";
 import {createConnection} from "./createConnection.js";
 
 export interface CreateConnectionProviderProps {

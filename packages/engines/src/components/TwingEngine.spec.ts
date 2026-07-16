@@ -1,5 +1,5 @@
-import {getEngineFixture} from "../../test/getEngineFixture.js";
 import {TwingEngine} from "./TwingEngine.js";
+import {getEngineFixture} from "../../test/getEngineFixture.js";
 
 describe("TwingEngine", () => {
   beforeEach(() => {

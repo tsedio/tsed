@@ -1,6 +1,5 @@
-import {Env} from "@tsed/core";
-
 import {DIConfiguration} from "./DIConfiguration.js";
+import {Env} from "@tsed/core";
 
 describe("DIConfiguration", () => {
   describe("version()", () => {

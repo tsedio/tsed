@@ -1,5 +1,5 @@
-import type {MultipartFile as MType} from "@tsed/platform-multer";
 import {MultipartFile as M} from "@tsed/platform-multer";
+import type {MultipartFile as MType} from "@tsed/platform-multer";
 
 /**
  * Define a parameter as Multipart file.

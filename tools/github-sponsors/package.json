@@ -2,13 +2,13 @@
   "name": "@tsed/github-sponsors",
   "version": "8.17.0",
   "private": true,
-  "type": "module",
-  "scripts": {
-    "sponsors": "node ./bin/github-sponsors.js"
-  },
   "directories": {
     "lib": "lib",
     "test": "__tests__"
+  },
+  "type": "module",
+  "scripts": {
+    "sponsors": "node ./bin/github-sponsors.js"
   },
   "devDependencies": {
     "yaml": "^2.5.1"

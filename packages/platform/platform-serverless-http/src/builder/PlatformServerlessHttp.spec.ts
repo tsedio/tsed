@@ -1,8 +1,7 @@
-import {PlatformExpress} from "@tsed/platform-express";
 import {PlatformBuilder} from "@tsed/platform-http";
-import serverless from "serverless-http";
-
+import {PlatformExpress} from "@tsed/platform-express";
 import {PlatformServerlessHttp} from "./PlatformServerlessHttp.js";
+import serverless from "serverless-http";
 
 vi.mock("serverless-http");
 

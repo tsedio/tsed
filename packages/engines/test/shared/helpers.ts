@@ -1,11 +1,8 @@
 import "../../src/components/index.js";
-
-import fs from "node:fs";
-import {join} from "node:path";
-
-import handlebars from "handlebars";
-
 import {engines} from "../../src/index.js";
+import fs from "node:fs";
+import handlebars from "handlebars";
+import {join} from "node:path";
 
 const Sqrl = require("squirrelly");
 

@@ -1,11 +1,10 @@
+import {ApolloModule} from "./ApolloModule.js";
+import {ApolloService} from "./services/ApolloService.js";
+import type {ApolloSettings} from "./interfaces/ApolloSettings.js";
 import {InjectorService} from "@tsed/di";
 import {Logger} from "@tsed/logger";
 import {PlatformConfiguration} from "@tsed/platform-http";
 import {PlatformTest} from "@tsed/platform-http/testing";
-
-import {ApolloModule} from "./ApolloModule.js";
-import type {ApolloSettings} from "./interfaces/ApolloSettings.js";
-import {ApolloService} from "./services/ApolloService.js";
 
 describe("ApolloModule", () => {
   beforeEach(() => {

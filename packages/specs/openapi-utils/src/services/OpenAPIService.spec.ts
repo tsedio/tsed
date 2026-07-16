@@ -1,8 +1,6 @@
-import {writeFile} from "node:fs/promises";
-
-import {PlatformTest} from "@tsed/platform-http/testing";
-
 import {OpenAPIService} from "../index.js";
+import {PlatformTest} from "@tsed/platform-http/testing";
+import {writeFile} from "node:fs/promises";
 
 vi.mock("node:fs/promises");
 

@@ -1,6 +1,5 @@
-import {PassportContext} from "graphql-passport";
 import {Arg, Ctx, Mutation, Query, Resolver} from "type-graphql";
-
+import {PassportContext} from "graphql-passport";
 import {User} from "./User.js";
 
 export interface GQLContext extends PassportContext<User, {email: string; password: string}> {}

@@ -1,5 +1,5 @@
-import {withErrorMsg} from "../../utils/withErrorMsg.js";
 import {Maximum} from "./maximum.js";
+import {withErrorMsg} from "../../utils/withErrorMsg.js";
 
 /**
  * The value of `exclusiveMaximum` MUST be number, representing an exclusive upper limit for a numeric instance.

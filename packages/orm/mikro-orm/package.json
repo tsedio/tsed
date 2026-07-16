@@ -1,9 +1,9 @@
 {
   "name": "@tsed/mikro-orm",
-  "description": "MikroORM package for Ts.ED framework",
-  "type": "module",
   "version": "8.17.0",
+  "description": "MikroORM package for Ts.ED framework",
   "source": "./src/index.ts",
+  "type": "module",
   "main": "./lib/esm/index.js",
   "module": "./lib/esm/index.js",
   "typings": "./lib/types/index.d.ts",
@@ -38,7 +38,6 @@
     "@tsed/testcontainers-mongo": "workspace:*",
     "@tsed/typescript": "workspace:*",
     "cross-env": "7.0.3",
-    "eslint": "9.12.0",
     "ts-mockito": "^2.6.1",
     "typescript": "6.0.2",
     "vitest": "4.1.4"

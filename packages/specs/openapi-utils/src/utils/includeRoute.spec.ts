@@ -1,7 +1,6 @@
 import {ControllerProvider} from "@tsed/di";
-import {Hidden} from "@tsed/schema";
-
 import {Docs} from "../decorators/docs.js";
+import {Hidden} from "@tsed/schema";
 import {includeRoute} from "./includeRoute.js";
 
 @Hidden()

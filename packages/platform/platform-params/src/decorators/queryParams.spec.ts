@@ -1,7 +1,6 @@
-import {JsonParameterStore} from "@tsed/schema";
-
-import {ParamTypes} from "../domain/ParamTypes.js";
 import {QueryParams, RawQueryParams} from "./queryParams.js";
+import {JsonParameterStore} from "@tsed/schema";
+import {ParamTypes} from "../domain/ParamTypes.js";
 
 describe("@QueryParams", () => {
   it("should declare query params", () => {

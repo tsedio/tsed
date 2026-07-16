@@ -1,9 +1,8 @@
 import {DecoratorTypes} from "@tsed/core";
-import {PlatformTest} from "@tsed/platform-http/testing";
 import {JsonParameterStore} from "@tsed/schema";
-
 import {ParamTypes} from "../../src/index.js";
 import {ParseExpressionPipe} from "./ParseExpressionPipe.js";
+import {PlatformTest} from "@tsed/platform-http/testing";
 
 describe("ParseExpressionPipe", () => {
   beforeEach(PlatformTest.create);

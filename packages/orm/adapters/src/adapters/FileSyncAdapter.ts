@@ -1,13 +1,11 @@
-import {dirname} from "node:path";
-
-import {nameOf} from "@tsed/core";
-import {Injectable, Opts, ProviderScope, Scope} from "@tsed/di";
-import fs from "fs-extra";
-import {LowSync} from "lowdb";
-import {JSONFileSync} from "lowdb/node";
-
-import {AdapterConstructorOptions} from "../domain/Adapter.js";
 import {AdapterModel, LowDbAdapter, type LowModel} from "./LowDbAdapter.js";
+import {Injectable, Opts, ProviderScope, Scope} from "@tsed/di";
+import {AdapterConstructorOptions} from "../domain/Adapter.js";
+import {JSONFileSync} from "lowdb/node";
+import {LowSync} from "lowdb";
+import {dirname} from "node:path";
+import fs from "fs-extra";
+import {nameOf} from "@tsed/core";
 
 export interface FileSyncAdapterConstructorOptions extends AdapterConstructorOptions {
   readOnly: true;

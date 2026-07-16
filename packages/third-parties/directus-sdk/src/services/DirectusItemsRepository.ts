@@ -1,7 +1,6 @@
 import type {Item, MutationOptions} from "@directus/types";
-import {inject} from "@tsed/di";
-
 import {DirectusContextService} from "./DirectusContextService.js";
+import {inject} from "@tsed/di";
 
 /**
  * Abstract base class for creating typed repository patterns with Directus collections.

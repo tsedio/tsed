@@ -15,9 +15,8 @@ injectable(MyClass);
 // server.ts
 import {configuration} from "@tsed/di";
 
-class Server {
-}
+class Server {}
 
 configuration(Server, {
   path: {to: {value: "myValue"}}
-})
+});

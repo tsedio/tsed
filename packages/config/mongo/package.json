@@ -1,10 +1,19 @@
 {
   "name": "@tsed/config-mongo",
-  "description": "Use MongoDB to inject configuration to your Ts.ED project.",
   "version": "1.6.1",
+  "description": "Use MongoDB to inject configuration to your Ts.ED project.",
+  "keywords": [
+    "Ts.ED",
+    "config",
+    "framework",
+    "mongodb",
+    "source",
+    "tsed",
+    "typescript"
+  ],
+  "source": "./src/index.ts",
   "type": "module",
   "main": "./lib/esm/index.js",
-  "source": "./src/index.ts",
   "module": "./lib/esm/index.js",
   "typings": "./lib/types/index.d.ts",
   "exports": {
@@ -19,18 +28,6 @@
     "build": "yarn build:ts",
     "build:ts": "tsc --build tsconfig.esm.json"
   },
-  "keywords": [
-    "Ts.ED",
-    "tsed",
-    "typescript",
-    "framework",
-    "config",
-    "source",
-    "mongodb"
-  ],
-  "engines": {
-    "node": ">=14"
-  },
   "dependencies": {
     "tslib": "2.8.1"
   },
@@ -39,5 +36,8 @@
   },
   "peerDependencies": {
     "@tsed/config": ">=8.9.4"
+  },
+  "engines": {
+    "node": ">=14"
   }
 }

@@ -1,4 +1,4 @@
-import {getSpec, OperationPath} from "../../index.js";
+import {OperationPath, getSpec} from "../../index.js";
 import {Summary} from "./summary.js";
 
 describe("Summary", () => {

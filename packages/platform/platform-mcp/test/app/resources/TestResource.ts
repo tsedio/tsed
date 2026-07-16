@@ -1,6 +1,5 @@
-import type {ReadResourceResult} from "@modelcontextprotocol/sdk/types.js";
 import {Description, Title} from "@tsed/schema";
-
+import type {ReadResourceResult} from "@modelcontextprotocol/sdk/types.js";
 import {Resource} from "../../../src/index.js";
 
 export class TestResource {

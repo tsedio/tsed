@@ -1,14 +1,13 @@
-import {getValue} from "@tsed/core";
+import {Alter} from "../decorators/alter.js";
+import {AlterHook} from "../domain/AlterHook.js";
+import {FormioDatabase} from "../services/FormioDatabase.js";
+import {FormioMapper} from "../builder/FormioMapper.js";
+import {FormioSubmission} from "../domain/FormioModels.js";
+import {FormioTemplate} from "../domain/FormioTemplate.js";
 import {Inject} from "@tsed/di";
 import {MongooseDocument} from "@tsed/mongoose";
 import async from "async";
-
-import {FormioMapper} from "../builder/FormioMapper.js";
-import {Alter} from "../decorators/alter.js";
-import {AlterHook} from "../domain/AlterHook.js";
-import {FormioSubmission} from "../domain/FormioModels.js";
-import {FormioTemplate} from "../domain/FormioTemplate.js";
-import {FormioDatabase} from "../services/FormioDatabase.js";
+import {getValue} from "@tsed/core";
 
 @Alter("templateExportSteps")
 export class AlterTemplateExportSteps implements AlterHook {

@@ -1,8 +1,7 @@
-import {StoreSet, useDecorators} from "@tsed/core";
-import {Use} from "@tsed/platform-middlewares";
 import {AcceptMime, Header} from "@tsed/schema";
-
+import {StoreSet, useDecorators} from "@tsed/core";
 import {EventStreamMiddleware} from "../middlewares/EventStreamMiddleware.js";
+import {Use} from "@tsed/platform-middlewares";
 
 export interface EventStreamOpts {
   headers?: Record<string, string>;

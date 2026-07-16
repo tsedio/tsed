@@ -1,6 +1,5 @@
-import {configuration, constant, DITest, inject} from "@tsed/di";
+import {DITest, configuration, constant, inject} from "@tsed/di";
 import {PlatformAdapter} from "@tsed/platform-http";
-
 import {beforeInit} from "./beforeInit.js";
 
 function getFixture(middlewares: any[] = []) {

@@ -1,7 +1,6 @@
-import {descriptorOf, Store} from "@tsed/core";
-
-import {Select} from "../../src/index.js";
+import {Store, descriptorOf} from "@tsed/core";
 import {MONGOOSE_SCHEMA} from "../constants/constants.js";
+import {Select} from "../../src/index.js";
 
 describe("@Select()", () => {
   it("should set metadata", () => {

@@ -11,6 +11,4 @@ export class MyController {
   }
 }
 
-controller(MyController)
-  .path("/")
-  .scope(ProviderScope.REQUEST);
+controller(MyController).path("/").scope(ProviderScope.REQUEST);

@@ -1,7 +1,7 @@
 import {DIContext} from "../../common/domain/DIContext.js";
-import {Injectable} from "../../common/index.js";
-import {InjectContext} from "../decorators/injectContext.js";
 import {DITest} from "../services/DITest.js";
+import {InjectContext} from "../decorators/injectContext.js";
+import {Injectable} from "../../common/index.js";
 import {runInContext} from "../utils/asyncHookContext.js";
 
 @Injectable()

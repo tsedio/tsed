@@ -18,4 +18,4 @@ class Server {}
 
 configuration(Server, {
   env: process.env.NODE_ENV
-})
+});

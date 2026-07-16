@@ -1,7 +1,6 @@
 import "../../index.js";
-
-import {s} from "../../fn/index.js";
 import {Pattern} from "./pattern.js";
+import {s} from "../../fn/index.js";
 
 describe("@Pattern", () => {
   it("should declare pattern value", () => {

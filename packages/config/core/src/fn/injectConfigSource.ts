@@ -1,5 +1,4 @@
-import {inject, type InvokeOptions} from "@tsed/di";
-
+import {type InvokeOptions, inject} from "@tsed/di";
 import {CONFIG_SOURCES} from "../constants/constants.js";
 import type {ConfigSource} from "../interfaces/ConfigSource.js";
 

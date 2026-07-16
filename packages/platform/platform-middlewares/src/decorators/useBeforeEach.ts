@@ -1,5 +1,4 @@
-import {decorateMethodsOf, DecoratorParameters, decoratorTypeOf, DecoratorTypes, UnsupportedDecoratorType} from "@tsed/core";
-
+import {DecoratorParameters, DecoratorTypes, UnsupportedDecoratorType, decorateMethodsOf, decoratorTypeOf} from "@tsed/core";
 import {UseBefore} from "./useBefore.js";
 
 /**

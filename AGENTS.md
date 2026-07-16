@@ -25,7 +25,7 @@ yarn api:build    # Generate API documentation
 
 - **Lerna** configuration selects Yarn as npm client, manages 8+ package categories.
 - **TypeScript** project references via `tsconfig.json` -> `tsconfig.node.json` + `tsconfig.spec.json`.
-- **ESLint** integrates TypeScript, Prettier, import sorting, workspace rules.
+- **Oxc tooling** integrates `oxlint`, `oxfmt`, import ordering, and workspace boundary validation.
 - **Vitest** multi-project setup with per-package configs.
 
 ## Testing
@@ -57,13 +57,13 @@ yarn test --coverage     # Coverage enabled by default per package
 ### Linting & Formatting
 
 ```bash
-yarn test:lint       # Lint workspace
+yarn test:lint       # Lint workspace with oxlint + workspace import guard
 yarn test:lint:fix   # Fix lint issues
-yarn prettier        # Format all files
+yarn format          # Format all files
 ```
 
-- ESLint uses `@typescript-eslint`, `eslint-plugin-prettier`, `eslint-plugin-simple-import-sort`, and workspace-specific rules prohibiting absolute imports between packages.
-- Test rules enforced through Vitest ESLint plugin.
+- `oxlint` is the repository-standard linter, with Vitest checks and import ordering configured at the root.
+- A dedicated workspace import guard preserves the prohibition on absolute imports between packages.
 
 ### TypeScript Configuration
 

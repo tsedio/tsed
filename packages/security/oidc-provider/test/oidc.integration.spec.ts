@@ -1,15 +1,13 @@
-import {join} from "node:path";
-
+import {Accounts} from "./app/services/Accounts.js";
+import {InteractionsCtrl} from "./app/controllers/oidc/InteractionsCtrl.js";
 import {MemoryAdapter} from "@tsed/adapters";
 import {PlatformExpress} from "@tsed/platform-express";
 import {PlatformTest} from "@tsed/platform-http/testing";
 import {PlatformTestSdk} from "@tsed/platform-test-sdk";
-import SuperTest from "supertest";
-
-import {rootDir} from "../../../platform/platform-express/test/app/Server.js";
-import {InteractionsCtrl} from "./app/controllers/oidc/InteractionsCtrl.js";
 import {Server} from "./app/Server.js";
-import {Accounts} from "./app/services/Accounts.js";
+import SuperTest from "supertest";
+import {join} from "node:path";
+import {rootDir} from "../../../platform/platform-express/test/app/Server.js";
 
 const testDir = import.meta.dirname;
 

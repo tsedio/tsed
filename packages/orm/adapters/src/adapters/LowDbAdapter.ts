@@ -1,11 +1,10 @@
+import type {Low, LowSync} from "lowdb";
+import {Adapter} from "../domain/Adapter.js";
+import _ from "lodash";
 import {cleanObject} from "@tsed/core";
 import {constant} from "@tsed/di";
-import _ from "lodash";
 import isMatch from "lodash/isMatch.js";
-import type {Low, LowSync} from "lowdb";
 import {v4 as uuid} from "uuid";
-
-import {Adapter} from "../domain/Adapter.js";
 
 export interface AdapterModel {
   _id: string;

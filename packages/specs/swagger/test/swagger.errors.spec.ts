@@ -1,10 +1,9 @@
+import {Get, Required, Returns} from "@tsed/schema";
 import {Controller} from "@tsed/di";
 import {PlatformExpress} from "@tsed/platform-express";
 import {PlatformTest} from "@tsed/platform-http/testing";
-import {Get, Required, Returns} from "@tsed/schema";
-import SuperTest from "supertest";
-
 import {Server} from "./app/Server.js";
+import SuperTest from "supertest";
 
 export class TestModel200 {
   @Required()

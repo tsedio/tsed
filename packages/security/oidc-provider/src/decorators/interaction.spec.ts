@@ -1,9 +1,8 @@
-import {Store} from "@tsed/core";
-import {Provider} from "@tsed/di";
-
 import {INTERACTION_OPTIONS} from "../constants/constants.js";
-import {OidcInteractionMethods} from "../domain/OidcInteractionMethods.js";
 import {Interaction} from "./interaction.js";
+import {OidcInteractionMethods} from "../domain/OidcInteractionMethods.js";
+import {Provider} from "@tsed/di";
+import {Store} from "@tsed/core";
 
 describe("@Interaction", () => {
   it("should create an interaction", () => {

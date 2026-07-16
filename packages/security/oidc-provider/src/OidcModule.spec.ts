@@ -1,11 +1,10 @@
+import {OidcModule} from "./OidcModule.js";
+import {OidcProvider} from "./services/OidcProvider.js";
 import {PlatformTest} from "@tsed/platform-http/testing";
 import expressRewrite from "express-urlrewrite";
 import koaMount from "koa-mount";
 // @ts-ignore
 import koaRewrite from "koa-rewrite";
-
-import {OidcModule} from "./OidcModule.js";
-import {OidcProvider} from "./services/OidcProvider.js";
 
 vi.mock("express-urlrewrite", () => {
   return {default: vi.fn().mockReturnValue(vi.fn())};

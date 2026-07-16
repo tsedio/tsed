@@ -1,12 +1,11 @@
-import {catchAsyncError} from "@tsed/core";
 import {DITest, Inject, Injectable} from "@tsed/di";
-import {Unauthorized} from "@tsed/exceptions";
-import {QueryParams} from "@tsed/platform-params";
-import {s} from "@tsed/schema";
 import type {APIGatewayTokenAuthorizerEvent} from "aws-lambda";
-
-import {ServerlessContext} from "../domain/ServerlessContext.js";
 import {PlatformServerlessHandler} from "./PlatformServerlessHandler.js";
+import {QueryParams} from "@tsed/platform-params";
+import {ServerlessContext} from "../domain/ServerlessContext.js";
+import {Unauthorized} from "@tsed/exceptions";
+import {catchAsyncError} from "@tsed/core";
+import {s} from "@tsed/schema";
 
 async function getPlatformServerlessHandlerFixture() {
   const service = await DITest.invoke<PlatformServerlessHandler>(PlatformServerlessHandler);

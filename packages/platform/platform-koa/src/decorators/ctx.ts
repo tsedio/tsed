@@ -1,5 +1,5 @@
-import {UseParam} from "@tsed/platform-params";
 import type {Context} from "koa";
+import {UseParam} from "@tsed/platform-params";
 
 /**
  * Return the original Koa context.

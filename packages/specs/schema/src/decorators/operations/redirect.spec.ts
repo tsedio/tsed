@@ -1,4 +1,4 @@
-import {getSpec, OperationPath, SpecTypes} from "../../index.js";
+import {OperationPath, SpecTypes, getSpec} from "../../index.js";
 import {Redirect} from "./redirect.js";
 
 describe("Redirect", () => {

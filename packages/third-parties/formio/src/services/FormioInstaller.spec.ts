@@ -1,8 +1,7 @@
-import {faker} from "@faker-js/faker";
-import {PlatformTest} from "@tsed/platform-http/testing";
-
 import {FormioInstaller} from "./FormioInstaller.js";
 import {FormioService} from "./FormioService.js";
+import {PlatformTest} from "@tsed/platform-http/testing";
+import {faker} from "@faker-js/faker";
 
 async function createFormioInstallerFixture(options: any = {}) {
   const {

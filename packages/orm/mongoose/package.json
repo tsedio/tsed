@@ -1,16 +1,16 @@
 {
   "name": "@tsed/mongoose",
-  "description": "Mongoose package for Ts.ED framework",
-  "type": "module",
   "version": "8.17.0",
+  "description": "Mongoose package for Ts.ED framework",
   "keywords": [
-    "tsed",
-    "mongoose",
-    "typescript",
     "decorators",
-    "orm"
+    "mongoose",
+    "orm",
+    "tsed",
+    "typescript"
   ],
   "source": "./src/index.ts",
+  "type": "module",
   "main": "./lib/esm/index.js",
   "module": "./lib/esm/index.js",
   "typings": "./lib/types/index.d.ts",
@@ -43,7 +43,6 @@
     "@tsed/schema": "workspace:*",
     "@tsed/testcontainers-mongo": "workspace:*",
     "@tsed/typescript": "workspace:*",
-    "eslint": "9.12.0",
     "mongoose": "8.9.5",
     "typescript": "6.0.2",
     "vitest": "4.1.4"

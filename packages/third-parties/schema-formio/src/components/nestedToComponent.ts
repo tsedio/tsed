@@ -1,6 +1,5 @@
-import {sentenceCase} from "change-case";
-
 import {execMapper, registerFormioMapper} from "../registries/FormioMappersContainer.js";
+import {sentenceCase} from "change-case";
 
 export function nestedToComponent(schema: any, options: any) {
   return {

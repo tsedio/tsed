@@ -1,6 +1,5 @@
-import {PlatformTest} from "@tsed/platform-http/testing";
-
 import {PlatformFastifyRequest} from "./PlatformFastifyRequest.js";
+import {PlatformTest} from "@tsed/platform-http/testing";
 
 function createRequest() {
   const request = PlatformTest.createRequest();

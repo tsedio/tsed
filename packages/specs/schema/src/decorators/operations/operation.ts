@@ -1,6 +1,6 @@
+import {DecoratorContext, JsonMethodPath} from "../../domain/index.js";
 import type {JsonMethodStore} from "../../components/index.js";
 import {OperationVerbs} from "../../constants/OperationVerbs.js";
-import {DecoratorContext, JsonMethodPath} from "../../domain/index.js";
 import {mapOperationOptions} from "../../utils/mapOperationOptions.js";
 
 export interface RouteChainedDecorators {
@@ -52,7 +52,7 @@ export interface RouteChainedDecorators {
 
 class OperationDecoratorContext extends DecoratorContext<RouteChainedDecorators> {
   readonly methods: string[] = ["name", "description", "summary", "method", "id", "use", "useAfter", "useBefore"];
-  protected declare entity: JsonMethodStore;
+  declare protected entity: JsonMethodStore;
   protected operationPath!: JsonMethodPath;
 
   protected beforeInit() {

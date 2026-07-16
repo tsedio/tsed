@@ -1,7 +1,6 @@
-import {Type} from "@tsed/core";
-import {PipeMethods} from "@tsed/schema";
-
 import {ParamFn} from "./paramFn.js";
+import {PipeMethods} from "@tsed/schema";
+import {Type} from "@tsed/core";
 
 /**
  * Register a Pipe to be used with the current decorated param.

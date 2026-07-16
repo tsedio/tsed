@@ -1,5 +1,5 @@
-import {getInheritedClass} from "./ancestorOf.js";
 import {classOf} from "./classOf.js";
+import {getInheritedClass} from "./ancestorOf.js";
 import {nameOf} from "./nameOf.js";
 
 /**

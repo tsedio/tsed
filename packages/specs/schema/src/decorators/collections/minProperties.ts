@@ -1,5 +1,5 @@
-import {withErrorMsg} from "../../utils/withErrorMsg.js";
 import {JsonEntityFn} from "../common/jsonEntityFn.js";
+import {withErrorMsg} from "../../utils/withErrorMsg.js";
 
 /**
  * Sets the minimum number of properties required on an object.

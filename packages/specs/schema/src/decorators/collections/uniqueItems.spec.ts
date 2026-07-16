@@ -1,6 +1,6 @@
-import {s} from "../../fn/index.js";
 import {CollectionOf} from "./collectionOf.js";
 import {UniqueItems} from "./uniqueItems.js";
+import {s} from "../../fn/index.js";
 
 describe("@UniqueItems", () => {
   it("should declare a prop", () => {

@@ -1,5 +1,5 @@
-import {injectable} from "../fn/injectable.js";
 import type {ProviderOpts} from "../interfaces/ProviderOpts.js";
+import {injectable} from "../fn/injectable.js";
 
 /**
  * Declare a class as an injectable provider in the DI system.

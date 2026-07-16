@@ -1,8 +1,7 @@
-import {MetadataTypes, Type} from "@tsed/core";
 import {type GenericsMap, JsonEntityStore} from "@tsed/schema";
-
-import {JsonMapperMethods} from "../interfaces/JsonMapperMethods.js";
+import {MetadataTypes, Type} from "@tsed/core";
 import {JsonMapperGlobalOptions} from "./JsonMapperGlobalOptions.js";
+import {JsonMapperMethods} from "../interfaces/JsonMapperMethods.js";
 
 /**
  * Options accepted by the `JsonDeserializer`. They describe the target type,

@@ -1,9 +1,8 @@
 import "./PlatformConfiguration.js";
-
-import {Env, isBoolean, Store} from "@tsed/core";
-import {configuration, mergeMount, ProviderScope, ProviderType} from "@tsed/di";
-import {$on} from "@tsed/hooks";
+import {Env, Store, isBoolean} from "@tsed/core";
 import {JsonMapperGlobalOptions, JsonMapperSettings} from "@tsed/json-mapper";
+import {ProviderScope, ProviderType, configuration, mergeMount} from "@tsed/di";
+import {$on} from "@tsed/hooks";
 
 export function defineConfiguration(input: Partial<TsED.Configuration> = {}) {
   if ((input as any).$$resolved) {

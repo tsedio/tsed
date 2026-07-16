@@ -1,9 +1,9 @@
 {
   "name": "@tsed/platform-log-request",
-  "description": "Log request module for Ts.ED Framework (Express, Koa, Serverless)",
-  "type": "module",
   "version": "8.17.0",
+  "description": "Log request module for Ts.ED Framework (Express, Koa, Serverless)",
   "source": "./src/index.ts",
+  "type": "module",
   "main": "./lib/esm/index.js",
   "module": "./lib/esm/index.js",
   "typings": "./lib/types/index.d.ts",
@@ -31,7 +31,6 @@
     "@tsed/platform-middlewares": "workspace:*",
     "@tsed/platform-params": "workspace:*",
     "@tsed/typescript": "workspace:*",
-    "eslint": "9.12.0",
     "typescript": "6.0.2",
     "vitest": "4.1.4"
   },

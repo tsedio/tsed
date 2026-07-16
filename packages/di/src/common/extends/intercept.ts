@@ -1,9 +1,8 @@
-import {classOf, type Type} from "@tsed/core";
-
-import {bindIntercept} from "../decorators/intercept.js";
-import {ProviderBuilder} from "../domain/ProviderBuilder.js";
+import {type Type, classOf} from "@tsed/core";
 import type {InterceptorMethods} from "../interfaces/InterceptorMethods.js";
+import {ProviderBuilder} from "../domain/ProviderBuilder.js";
 import type {TokenProvider} from "../interfaces/TokenProvider.js";
+import {bindIntercept} from "../decorators/intercept.js";
 
 declare global {
   namespace TsED {

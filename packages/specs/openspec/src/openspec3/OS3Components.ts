@@ -1,4 +1,3 @@
-import {OpenSpecHash} from "../common/OpenSpecHash.js";
 import {OS3Callbacks} from "./OS3Callbacks.js";
 import {OS3Example} from "./OS3Example.js";
 import {OS3Header} from "./OS3Header.js";
@@ -8,6 +7,7 @@ import {OS3RequestBody} from "./OS3RequestBody.js";
 import {OS3Response} from "./OS3Response.js";
 import {OS3Schema} from "./OS3Schema.js";
 import {OS3Security} from "./OS3Security.js";
+import {OpenSpecHash} from "../common/OpenSpecHash.js";
 
 export interface OS3Components<Schema = OS3Schema> {
   /**

@@ -1,7 +1,4 @@
 import "./services/MikroOrmFactory.js";
-
-import {EventSubscriber, Options} from "@mikro-orm/core";
-import {classOf, isFunction, Store} from "@tsed/core";
 import {
   AlterRunInContext,
   Constant,
@@ -14,12 +11,13 @@ import {
   ProviderScope,
   registerProvider
 } from "@tsed/di";
-
 import {DEFAULT_CONTEXT_NAME, SUBSCRIBER_INJECTION_TYPE} from "./constants.js";
-import {OptimisticLockErrorFilter} from "./filters/OptimisticLockErrorFilter.js";
-import {RetryStrategy} from "./interfaces/RetryStrategy.js";
+import {EventSubscriber, Options} from "@mikro-orm/core";
+import {Store, classOf, isFunction} from "@tsed/core";
 import {MikroOrmContext} from "./services/MikroOrmContext.js";
 import {MikroOrmRegistry} from "./services/MikroOrmRegistry.js";
+import {OptimisticLockErrorFilter} from "./filters/OptimisticLockErrorFilter.js";
+import {RetryStrategy} from "./interfaces/RetryStrategy.js";
 
 declare global {
   namespace TsED {

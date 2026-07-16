@@ -1,10 +1,8 @@
 import "@tsed/platform-express";
-
 import {PlatformExpress} from "@tsed/platform-express";
 import {PlatformTest} from "@tsed/platform-http/testing";
-import SuperTest from "supertest";
-
 import {Server} from "./app/Server.js";
+import SuperTest from "supertest";
 
 describe("TypeGraphQL", () => {
   let request: SuperTest.Agent;

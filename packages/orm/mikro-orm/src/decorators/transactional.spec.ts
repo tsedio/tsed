@@ -1,9 +1,8 @@
 import {Controller, DITest} from "@tsed/di";
-import {Post} from "@tsed/schema";
 import {afterEach, beforeEach} from "vitest";
-
-import {TransactionalInterceptor} from "../interceptors/TransactionalInterceptor.js";
+import {Post} from "@tsed/schema";
 import {Transactional} from "./transactional.js";
+import {TransactionalInterceptor} from "../interceptors/TransactionalInterceptor.js";
 
 @Controller("/users")
 export class UsersCtrl {

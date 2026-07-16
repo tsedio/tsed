@@ -1,7 +1,6 @@
+import {Metadata, Type, isClass, nameOf} from "@tsed/core";
+import {ParamOptions, ParamTypes, UseParam, mapParamsOptions} from "@tsed/platform-params";
 import {IncomingMessage} from "node:http";
-
-import {isClass, Metadata, nameOf, Type} from "@tsed/core";
-import {mapParamsOptions, ParamOptions, ParamTypes, UseParam} from "@tsed/platform-params";
 
 function getParamType(target: Object, propertyKey: string | symbol | undefined, parameterIndex: number) {
   const type = Metadata.getOwnParamTypes(target, propertyKey)[parameterIndex];

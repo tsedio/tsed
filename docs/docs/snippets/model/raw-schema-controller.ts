@@ -19,7 +19,7 @@ export class MyModel {
 @Controller("/")
 class MyController {
   @Post("/")
-  @Returns(200).Description("description").Schema(ProductSchema)
+  @(Returns(200).Description("description").Schema(ProductSchema))
   method(@BodyParams() @Schema(ProductSchema) product: any): Promise<null> {
     return Promise.resolve(null);
   }

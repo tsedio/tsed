@@ -1,7 +1,6 @@
+import {destroyInjector, injector} from "../index.js";
 import {Logger} from "@tsed/logger";
 import {afterEach} from "vitest";
-
-import {destroyInjector, injector} from "../index.js";
 import {setLoggerConfiguration} from "./setLoggerConfiguration.js";
 
 describe("setLoggerConfiguration", () => {

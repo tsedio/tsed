@@ -1,7 +1,6 @@
-import {Store} from "@tsed/core";
-import {Provider} from "@tsed/di";
-
 import {FallbackJobController, JobController} from "./JobController.js";
+import {Provider} from "@tsed/di";
+import {Store} from "@tsed/core";
 
 describe("JobController", () => {
   afterEach(() => Provider.Registry.clear());

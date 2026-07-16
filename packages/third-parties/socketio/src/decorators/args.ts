@@ -1,5 +1,4 @@
-import {isCollection, Metadata, Store} from "@tsed/core";
-
+import {Metadata, Store, isCollection} from "@tsed/core";
 import {SocketFilters} from "../interfaces/SocketFilters.js";
 
 /**

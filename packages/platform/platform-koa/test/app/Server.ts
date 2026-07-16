@@ -1,9 +1,8 @@
 import "@tsed/ajv";
 import "@tsed/swagger";
-
 import {Configuration, Inject} from "@tsed/di";
-import {PlatformApplication} from "@tsed/platform-http";
 import Application from "koa";
+import {PlatformApplication} from "@tsed/platform-http";
 import session from "koa-session";
 
 const rootDir = import.meta.dirname; // automatically replaced by import.meta.dirname on build

@@ -1,6 +1,5 @@
-import {getValue, setValue} from "@tsed/core";
 import {OpenSpec2, OpenSpec3, OpenSpecVersions} from "@tsed/openspec";
-
+import {getValue, setValue} from "@tsed/core";
 import {SpecTypes} from "../../domain/index.js";
 import {getSpecType} from "./getSpecType.js";
 import {mapOpenSpec2} from "./mapOpenSpec2.js";

@@ -1,6 +1,5 @@
-import {Env} from "@tsed/core";
 import {Configuration} from "@tsed/di";
-
+import {Env} from "@tsed/core";
 import {defineConfiguration} from "./defineConfiguration.js";
 
 class MyCtrl {}

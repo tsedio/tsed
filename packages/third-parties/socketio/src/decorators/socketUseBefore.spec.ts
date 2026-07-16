@@ -1,6 +1,5 @@
-import {Store} from "@tsed/core";
-
 import {SocketUseBefore} from "../index.js";
+import {Store} from "@tsed/core";
 
 describe("@SocketUseBefore", () => {
   describe("when the decorator is used on a class", () => {

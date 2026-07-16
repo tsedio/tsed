@@ -1,7 +1,6 @@
 import {Configuration} from "@tsed/di";
-import compress from "compression";
-
 import {TimeslotsController} from "./TimeslotsController.js";
+import compress from "compression";
 
 @Configuration({
   logger: {

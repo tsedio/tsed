@@ -1,13 +1,11 @@
-import {randomUUID} from "node:crypto";
-
 import {AdapterModel, Adapters, Indexed} from "@tsed/adapters";
-import {DITest} from "@tsed/di";
-import {deserialize} from "@tsed/json-mapper";
-import {registerConnectionProvider} from "@tsed/redis";
 import {Property, Required} from "@tsed/schema";
-
-import {TestContainersRedis} from "../../tests/setup/TestContainersRedis.js";
+import {DITest} from "@tsed/di";
 import {RedisAdapter} from "./RedisAdapter.js";
+import {TestContainersRedis} from "../../tests/setup/TestContainersRedis.js";
+import {deserialize} from "@tsed/json-mapper";
+import {randomUUID} from "node:crypto";
+import {registerConnectionProvider} from "@tsed/redis";
 
 const REDIS_CONNECTION = Symbol.for("redis_connection");
 

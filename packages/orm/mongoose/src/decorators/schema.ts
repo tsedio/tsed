@@ -1,11 +1,10 @@
-import {decoratorTypeOf, StoreMerge, useDecorators} from "@tsed/core";
-import {injectable} from "@tsed/di";
-import {Property} from "@tsed/schema";
-import {SchemaTypeOptions} from "mongoose";
-
+import {StoreMerge, decoratorTypeOf, useDecorators} from "@tsed/core";
+import {getSchema, getSchemaToken} from "../utils/createSchema.js";
 import {MONGOOSE_SCHEMA} from "../constants/constants.js";
 import {MongooseSchemaOptions} from "../interfaces/MongooseSchemaOptions.js";
-import {getSchema, getSchemaToken} from "../utils/createSchema.js";
+import {Property} from "@tsed/schema";
+import {SchemaTypeOptions} from "mongoose";
+import {injectable} from "@tsed/di";
 
 /**
  * Define a class as a Mongoose Schema ready to be used to compose other schemes and models.

@@ -1,10 +1,9 @@
+import {TokenProvider} from "../interfaces/TokenProvider.js";
+import {colors} from "../utils/colors.js";
 import {getConstructorArgNames} from "@tsed/core/utils/getConstructorArgNames.js";
 import {isClass} from "@tsed/core/utils/isClass.js";
 import {isString} from "@tsed/core/utils/isString.js";
 import {nameOf} from "@tsed/core/utils/nameOf.js";
-
-import {TokenProvider} from "../interfaces/TokenProvider.js";
-import {colors} from "../utils/colors.js";
 
 /**
  * Error thrown when dependency injection fails.

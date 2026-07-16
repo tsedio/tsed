@@ -1,8 +1,7 @@
 import {classOf, nameOf} from "@tsed/core";
+import {StatusFamily} from "./StatusFamily.js";
 import {constantCase} from "change-case";
 import statuses from "statuses";
-
-import {StatusFamily} from "./StatusFamily.js";
 
 export class Exception extends Error {
   /**

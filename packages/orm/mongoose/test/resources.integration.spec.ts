@@ -1,17 +1,16 @@
-import {faker} from "@faker-js/faker";
-import {isArray} from "@tsed/core";
+import {BodyParams, PathParams} from "@tsed/platform-params";
 import {Controller, Inject, Injectable} from "@tsed/di";
-import {deserialize} from "@tsed/json-mapper";
+import {Get, Groups, Post, Returns} from "@tsed/schema";
+import {TestRole, TestUser, TestUserNew} from "./helpers/models/User.js";
+import {MongooseModel} from "../src/index.js";
 import {PlatformExpress} from "@tsed/platform-express";
 import {PlatformTest} from "@tsed/platform-http/testing";
-import {BodyParams, PathParams} from "@tsed/platform-params";
-import {Get, Groups, Post, Returns} from "@tsed/schema";
-import {TestContainersMongo} from "@tsed/testcontainers-mongo";
-import SuperTest from "supertest";
-
-import {MongooseModel} from "../src/index.js";
-import {TestRole, TestUser, TestUserNew} from "./helpers/models/User.js";
 import {Server} from "./helpers/Server.js";
+import SuperTest from "supertest";
+import {TestContainersMongo} from "@tsed/testcontainers-mongo";
+import {deserialize} from "@tsed/json-mapper";
+import {faker} from "@faker-js/faker";
+import {isArray} from "@tsed/core";
 
 @Injectable()
 class ResourcesRepository {

@@ -1,6 +1,6 @@
+import {defineConfig} from "vitest/config";
 // @ts-ignore
 import {presets} from "@tsed/vitest/presets";
-import {defineConfig} from "vitest/config";
 
 export default defineConfig({
   ...presets,

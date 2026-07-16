@@ -1,8 +1,7 @@
-import {useDecorators} from "@tsed/core";
-import {AdditionalProperties, Groups, Hidden, Name, ReadOnly, s, Title} from "@tsed/schema";
-import {sentenceCase, snakeCase} from "change-case";
-
+import {AdditionalProperties, Groups, Hidden, Name, ReadOnly, Title, s} from "@tsed/schema";
 import {deserialize, serialize} from "../../src/index.js";
+import {sentenceCase, snakeCase} from "change-case";
+import {useDecorators} from "@tsed/core";
 
 describe("AdditionalProperties", () => {
   describe("deserialize then serialize", () => {

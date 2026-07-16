@@ -1,5 +1,4 @@
-import {levels, Logger} from "@tsed/logger";
-
+import {Logger, levels} from "@tsed/logger";
 import {ContextLogger} from "./ContextLogger.js";
 
 function getIgnoreLogFixture(ignore: string[], url: string) {

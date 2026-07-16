@@ -1,6 +1,5 @@
-import {PlatformTest} from "@tsed/platform-http/testing";
-
 import {PlatformFastifyResponse} from "./PlatformFastifyResponse.js";
+import {PlatformTest} from "@tsed/platform-http/testing";
 
 function createResponse() {
   const response = PlatformTest.createResponse();

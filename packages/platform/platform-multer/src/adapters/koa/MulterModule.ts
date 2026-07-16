@@ -1,10 +1,8 @@
-import {promisify} from "node:util";
-
-import {injectable} from "@tsed/di";
 import Koa from "koa";
-import type {Options} from "multer";
-
 import {MULTER_MODULE} from "../../common/index.js";
+import type {Options} from "multer";
+import {injectable} from "@tsed/di";
+import {promisify} from "node:util";
 
 /**
  * @ignore

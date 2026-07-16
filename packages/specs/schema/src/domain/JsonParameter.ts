@@ -1,11 +1,10 @@
-import {OpenSpecHash, OpenSpecRef, OS3Example, OS3Parameter} from "@tsed/openspec";
-
-import {Partial} from "../decorators/operations/partial.js";
-import {execMapper} from "../registries/JsonSchemaMapperContainer.js";
+import {OS3Example, OS3Parameter, OpenSpecHash, OpenSpecRef} from "@tsed/openspec";
 import {JsonMap} from "./JsonMap.js";
-import {formatParameterType} from "./JsonParameterTypes.js";
 import {JsonSchema} from "./JsonSchema.js";
 import {JsonSchemaOptions} from "./JsonSchemaOptions.js";
+import {Partial} from "../decorators/operations/partial.js";
+import {execMapper} from "../registries/JsonSchemaMapperContainer.js";
+import {formatParameterType} from "./JsonParameterTypes.js";
 
 /**
  * Represents an HTTP operation parameter for OpenAPI specifications.

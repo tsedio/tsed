@@ -1,10 +1,9 @@
-import {serialize} from "@tsed/json-mapper";
-import {PlatformTest} from "@tsed/platform-http/testing";
-import {Knex} from "knex";
 import {afterAll, beforeAll, beforeEach, describe, expect, it} from "vitest";
-
+import {Knex} from "knex";
 import {OBJECTION_CONNECTION} from "../src/index.js";
+import {PlatformTest} from "@tsed/platform-http/testing";
 import {User} from "./helpers/models/User.js";
+import {serialize} from "@tsed/json-mapper";
 
 const rootDir = import.meta.dirname; // automatically replaced by import.meta.dirname on build
 

@@ -1,4 +1,4 @@
-import {CollectionOf, compile, ForwardGroups, Name, Required} from "../../src/index.js";
+import {CollectionOf, ForwardGroups, Name, Required, compile} from "../../src/index.js";
 
 class TeamModel {
   @Required()

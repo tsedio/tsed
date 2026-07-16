@@ -1,6 +1,5 @@
-import {Store} from "@tsed/core";
-
 import {RawSocketSession, SocketFilters, SocketSession} from "../index.js";
+import {Store} from "@tsed/core";
 
 describe("SocketSession", () => {
   it("should set metadata", () => {

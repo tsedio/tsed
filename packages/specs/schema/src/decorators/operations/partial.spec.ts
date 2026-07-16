@@ -1,6 +1,5 @@
+import {CollectionOf, Groups, In, OperationPath, Path, Property, Required, Returns, SpecTypes, compile, getSpec} from "../../index.js";
 import {Ajv} from "ajv";
-
-import {CollectionOf, compile, getSpec, Groups, In, OperationPath, Path, Property, Required, Returns, SpecTypes} from "../../index.js";
 import {Partial} from "./partial.js";
 
 class ChildModel {

@@ -1,6 +1,5 @@
-import {getValue} from "@tsed/core";
-
 import type {PlatformStaticsOptions, PlatformStaticsSettings} from "../config/PlatformStaticsSettings.js";
+import {getValue} from "@tsed/core";
 
 function mapOptions(options: any): any {
   const opts: PlatformStaticsOptions = typeof options === "string" ? {root: options} : options;

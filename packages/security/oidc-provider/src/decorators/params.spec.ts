@@ -1,6 +1,5 @@
-import {JsonParameterStore} from "@tsed/schema";
-
 import {INTERACTION_PARAMS} from "../constants/constants.js";
+import {JsonParameterStore} from "@tsed/schema";
 import {Params} from "./params.js";
 
 describe("@Params", () => {

@@ -1,12 +1,11 @@
-import type {ResourceTemplate} from "@modelcontextprotocol/sdk/server/mcp.js";
-import {McpServer} from "@modelcontextprotocol/sdk/server/mcp.js";
-import {constant, inject, injectable, injector, type TokenProvider} from "@tsed/di";
-
+import {type TokenProvider, constant, inject, injectable, injector} from "@tsed/di";
 import {MCP_PROVIDER_TYPES} from "../constants/constants.js";
+import {McpServer} from "@modelcontextprotocol/sdk/server/mcp.js";
+import type {PlatformMcpSettings} from "../interfaces/PlatformMcpSettings.js";
 import type {PromptsSettings} from "../fn/definePrompt.js";
 import type {ResourceSettings} from "../fn/defineResource.js";
+import type {ResourceTemplate} from "@modelcontextprotocol/sdk/server/mcp.js";
 import type {ToolProps} from "../fn/defineTool.js";
-import type {PlatformMcpSettings} from "../interfaces/PlatformMcpSettings.js";
 
 function collectTokens(type: string, configured: TokenProvider[] = []): TokenProvider[] {
   const tokens = new Set<TokenProvider>(configured);

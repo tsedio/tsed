@@ -1,7 +1,6 @@
-import {isString} from "@tsed/core";
-
 import {JsonHeader, JsonHeaders} from "../../domain/JsonOpenSpec.js";
 import {Returns} from "./returns.js";
+import {isString} from "@tsed/core";
 
 /**
  * Sets the response’s HTTP header field to value. To set multiple fields at once, pass an object as the parameter.

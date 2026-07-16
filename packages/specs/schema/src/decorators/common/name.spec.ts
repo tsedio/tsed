@@ -1,6 +1,6 @@
-import {s} from "../../fn/index.js";
-import {Consumes, getSpec, OperationPath, Path} from "../../index.js";
+import {Consumes, OperationPath, Path, getSpec} from "../../index.js";
 import {Name} from "./name.js";
+import {s} from "../../fn/index.js";
 
 describe("@Name", () => {
   it("should declare name as alias (props)", () => {

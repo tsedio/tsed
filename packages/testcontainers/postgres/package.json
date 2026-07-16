@@ -1,9 +1,9 @@
 {
   "name": "@tsed/testcontainers-postgres",
-  "description": "A module to test Ts.ED code that use PostgreSQL as database using Test Containers",
-  "type": "module",
   "version": "1.6.1",
+  "description": "A module to test Ts.ED code that use PostgreSQL as database using Test Containers",
   "source": "./src/index.ts",
+  "type": "module",
   "main": "./lib/esm/index.js",
   "module": "./lib/esm/index.js",
   "typings": "./lib/types/index.d.ts",

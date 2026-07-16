@@ -1,13 +1,11 @@
-import path from "node:path";
-
 import {DMMF} from "@prisma/generator-helper";
-import {toMap} from "@tsed/core";
-import {Project} from "ts-morph";
-
 import {DmmfEnum} from "../domain/DmmfEnum.js";
-import {transformEnumsToEnums} from "../transform/transformEnumsToEnums.js";
+import {Project} from "ts-morph";
 import {generateDocuments} from "./generateDocuments.js";
 import {generateOutputsBarrelFile} from "./generateOutputsBarrelFile.js";
+import path from "node:path";
+import {toMap} from "@tsed/core";
+import {transformEnumsToEnums} from "../transform/transformEnumsToEnums.js";
 
 export function generateEnums(dmmf: DMMF.Document, project: Project, baseDirPath: string): boolean {
   const enumsMap = toMap<string, DMMF.DatamodelEnum>(dmmf.datamodel.enums as any, "name");

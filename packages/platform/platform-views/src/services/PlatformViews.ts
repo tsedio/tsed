@@ -1,20 +1,17 @@
 import "../domain/PlatformViewsSettings.js";
-
-import Fs from "node:fs";
-import {extname, join, resolve} from "node:path";
-
 import {Env, getValue} from "@tsed/core";
-import {constant, injectable, ProviderType} from "@tsed/di";
-import {engines, getEngine, requires} from "@tsed/engines";
-import {$asyncAlter} from "@tsed/hooks";
-
 import {
   PLATFORM_VIEWS_EXTENSIONS,
   PlatformViewEngine,
+  PlatformViewWritableStream,
   PlatformViewsEngineOptions,
-  PlatformViewsExtensionsTypes,
-  PlatformViewWritableStream
+  PlatformViewsExtensionsTypes
 } from "../domain/PlatformViewsSettings.js";
+import {ProviderType, constant, injectable} from "@tsed/di";
+import {engines, getEngine, requires} from "@tsed/engines";
+import {extname, join, resolve} from "node:path";
+import {$asyncAlter} from "@tsed/hooks";
+import Fs from "node:fs";
 
 async function patchEJS(ejs: any) {
   if (!ejs) {

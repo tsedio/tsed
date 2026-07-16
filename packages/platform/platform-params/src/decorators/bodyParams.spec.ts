@@ -1,8 +1,7 @@
-import {Controller} from "@tsed/di";
-import {compile, Description, getSpec, JsonParameterStore, MaxLength, MinItems, Post, Required, SpecTypes} from "@tsed/schema";
-
-import {ParamTypes} from "../domain/ParamTypes.js";
 import {BodyParams, RawBodyParams} from "./bodyParams.js";
+import {Description, JsonParameterStore, MaxLength, MinItems, Post, Required, SpecTypes, compile, getSpec} from "@tsed/schema";
+import {Controller} from "@tsed/di";
+import {ParamTypes} from "../domain/ParamTypes.js";
 
 describe("@BodyParams", () => {
   it("should call useParam method with the correct parameters", () => {

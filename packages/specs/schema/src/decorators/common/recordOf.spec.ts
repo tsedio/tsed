@@ -1,5 +1,5 @@
-import {compile} from "../../index.js";
 import {RecordOf} from "./recordOf.js";
+import {compile} from "../../index.js";
 
 describe("RecordOf()", () => {
   it("should store data", () => {

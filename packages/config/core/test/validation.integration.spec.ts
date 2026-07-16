@@ -1,12 +1,10 @@
 import "../src/index.js";
-
-import {catchAsyncError} from "@tsed/core";
-import {configuration, constant, DITest} from "@tsed/di";
-import type {Exception} from "@tsed/exceptions";
-import {$asyncEmit} from "@tsed/hooks";
-import {boolean, number, object, string} from "@tsed/schema";
-
 import {type ConfigSource, withOptions} from "../src/index.js";
+import {DITest, configuration, constant} from "@tsed/di";
+import {boolean, number, object, string} from "@tsed/schema";
+import {$asyncEmit} from "@tsed/hooks";
+import type {Exception} from "@tsed/exceptions";
+import {catchAsyncError} from "@tsed/core";
 
 describe("@tsed/config: validation", () => {
   beforeEach(() =>

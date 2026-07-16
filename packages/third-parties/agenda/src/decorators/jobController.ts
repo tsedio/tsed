@@ -1,6 +1,5 @@
 import {StoreMerge, useDecorators} from "@tsed/core";
 import {Injectable} from "@tsed/di";
-
 import {PROVIDER_TYPE_AGENDA} from "../constants/constants.js";
 
 interface AgendaOptions {

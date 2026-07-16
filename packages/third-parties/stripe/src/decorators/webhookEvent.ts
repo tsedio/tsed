@@ -1,10 +1,9 @@
 import {StoreSet, useDecorators, useMethodDecorators} from "@tsed/core";
-import {UseBefore} from "@tsed/platform-middlewares";
+import {WebhookEventMiddleware, WebhookEventOptions} from "../middlewares/WebhookEventMiddleware.js";
 import {Context} from "@tsed/platform-params";
 import {In} from "@tsed/schema";
-
 import {STRIPE_WEBHOOK_EVENT} from "../constants/constants.js";
-import {WebhookEventMiddleware, WebhookEventOptions} from "../middlewares/WebhookEventMiddleware.js";
+import {UseBefore} from "@tsed/platform-middlewares";
 
 /**
  * Get the stripe webhook event.

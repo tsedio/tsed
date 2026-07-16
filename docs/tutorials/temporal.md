@@ -62,12 +62,8 @@ import "@tsed/temporal"; // import temporal ts.ed module
 @Configuration({
   temporal: {
     enabled: true,
-    connection: {
-      /* optional: see ConnectionOptions of @temporalio/client */
-    },
-    client: {
-      /* optional: see ClientOptions of @temporalio/client */
-    }
+    connection: {/* optional: see ConnectionOptions of @temporalio/client */},
+    client: {/* optional: see ClientOptions of @temporalio/client */}
   }
 })
 export class Server {}
@@ -217,9 +213,7 @@ const worker = await bootstrapWorker(Server, {
     taskQueue: "onboarding",
     workflowsPath: require.resolve("./temporal") // other example: path.join(process.cwd(), 'dist/apps/api/temporal/index.ts');
   },
-  connection: {
-    /* optional: see NativeConnectionOptions of @temporalio/worker */
-  },
+  connection: {/* optional: see NativeConnectionOptions of @temporalio/worker */},
   platform: {
     /* optional: see PlatformBuilderSettings of @tsed/platform-http */
     componentsScan: false,

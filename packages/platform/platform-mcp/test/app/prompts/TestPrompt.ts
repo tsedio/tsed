@@ -1,6 +1,5 @@
-import {Injectable} from "@tsed/di";
 import {Description, Title} from "@tsed/schema";
-
+import {Injectable} from "@tsed/di";
 import {Prompt} from "../../../src/index.js";
 
 @Injectable()

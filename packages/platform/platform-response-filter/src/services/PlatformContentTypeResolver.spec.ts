@@ -1,10 +1,9 @@
-import {PlatformTest} from "@tsed/platform-http/testing";
-import {Get, Returns, s, View} from "@tsed/schema";
-import {createReadStream} from "fs";
-
+import {Get, Returns, View, s} from "@tsed/schema";
 import {ContentTypes} from "../constants/ContentTypes.js";
-import {PLATFORM_CONTENT_TYPE_RESOLVER} from "./PlatformContentTypeResolver.js";
 import {PLATFORM_CONTENT_TYPES_CONTAINER} from "./PlatformContentTypesContainer.js";
+import {PLATFORM_CONTENT_TYPE_RESOLVER} from "./PlatformContentTypeResolver.js";
+import {PlatformTest} from "@tsed/platform-http/testing";
+import {createReadStream} from "fs";
 
 async function getTestFixture(contentTypes = [ContentTypes.JSON, ContentTypes.HTML]) {
   const contentTypeResolver = await PlatformTest.invoke<PLATFORM_CONTENT_TYPE_RESOLVER>(PLATFORM_CONTENT_TYPE_RESOLVER, [

@@ -1,7 +1,6 @@
 import type {Context} from "aws-lambda";
-import {v4} from "uuid";
-
 import type {ServerlessEvent} from "../domain/ServerlessEvent.js";
+import {v4} from "uuid";
 
 export function getRequestId(event: ServerlessEvent, context: Context) {
   if ("headers" in event && event.headers["x-request-id"]) {

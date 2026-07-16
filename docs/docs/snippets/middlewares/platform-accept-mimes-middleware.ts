@@ -17,7 +17,7 @@ export class PlatformAcceptMimesMiddleware implements MiddlewareMethods {
   protected acceptMimes: string[];
 
   $alterEndpointHandlers(handlers: AlterEndpointHandlersArg, operationRoute: JsonOperationRoute) {
-    const hasAcceptMimes = operationRoute.endpoint.acceptMimes.length || this.acceptMimes.length
+    const hasAcceptMimes = operationRoute.endpoint.acceptMimes.length || this.acceptMimes.length;
     return {
       ...handlers,
       before: [hasAcceptMimes && PlatformAcceptMimesMiddleware, ...handlers.before].filter(Boolean) as any[]

@@ -1,26 +1,25 @@
+import {DecoratorContext, JsonResponse, JsonSchema, JsonSchemaObject} from "../../domain/index.js";
 import {
+  DecoratorTypes,
+  Type,
   decorateMethodsOf,
   decoratorTypeOf,
-  DecoratorTypes,
   isArray,
   isClass,
   isCollection,
   isPlainObject,
   isPrimitiveOrPrimitiveClass,
-  isString,
-  Type
+  isString
 } from "@tsed/core";
-import {OS3Example} from "@tsed/openspec";
-import type {JSONSchema7} from "json-schema";
-
-import type {JsonMethodStore} from "../../components/index.js";
-import {getStatusMessage} from "../../constants/httpStatusMessages.js";
-import {GenericValue} from "../../domain/Generics.js";
-import {DecoratorContext, JsonResponse, JsonSchema, JsonSchemaObject} from "../../domain/index.js";
 import {JsonHeader, JsonHeaders} from "../../domain/JsonOpenSpec.js";
-import {s} from "../../fn/index.js";
+import {GenericValue} from "../../domain/Generics.js";
+import type {JSONSchema7} from "json-schema";
+import type {JsonMethodStore} from "../../components/index.js";
+import {OS3Example} from "@tsed/openspec";
+import {getStatusMessage} from "../../constants/httpStatusMessages.js";
 import {getStatusModel} from "../../utils/defineStatusModel.js";
 import {mapHeaders} from "../../utils/mapHeaders.js";
+import {s} from "../../fn/index.js";
 
 export interface ReturnsChainedDecorators {
   <T>(target: Object, propertyKey: string | symbol, descriptor: TypedPropertyDescriptor<T>): TypedPropertyDescriptor<T> | void;

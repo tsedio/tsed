@@ -1,12 +1,10 @@
 import "@tsed/exceptions";
 import "@tsed/platform-exceptions";
-
-import {descriptorOf, Metadata, Store} from "@tsed/core";
-import {ParamTypes} from "@tsed/platform-params";
-import {getSpec, JsonParameterStore, Post, SpecTypes} from "@tsed/schema";
-
-import {PLATFORM_MULTER_OPTIONS} from "../constants/constants.js";
+import {JsonParameterStore, Post, SpecTypes, getSpec} from "@tsed/schema";
+import {Metadata, Store, descriptorOf} from "@tsed/core";
 import {MultipartFile} from "./multipartFile.js";
+import {PLATFORM_MULTER_OPTIONS} from "../constants/constants.js";
+import {ParamTypes} from "@tsed/platform-params";
 
 class Test {
   test() {}

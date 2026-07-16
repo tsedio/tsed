@@ -1,9 +1,8 @@
+import {AcceptMime, Get, s} from "@tsed/schema";
+import {PlatformAcceptMimesMiddleware} from "./PlatformAcceptMimesMiddleware.js";
+import {PlatformTest} from "@tsed/platform-http/testing";
 import {catchAsyncError} from "@tsed/core";
 import {runInContext} from "@tsed/di";
-import {PlatformTest} from "@tsed/platform-http/testing";
-import {AcceptMime, Get, s} from "@tsed/schema";
-
-import {PlatformAcceptMimesMiddleware} from "./PlatformAcceptMimesMiddleware.js";
 
 describe("PlatformMimesMiddleware", () => {
   describe("when server has configuration", () => {

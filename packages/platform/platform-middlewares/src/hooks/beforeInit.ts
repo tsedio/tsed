@@ -1,7 +1,6 @@
 import {type Env, isClass, isFunction, isString, nameOf} from "@tsed/core";
 import {configuration, constant, inject} from "@tsed/di";
 import {$on} from "@tsed/hooks";
-
 import type {PlatformMiddlewareLoadingOptions} from "../domain/PlatformMiddlewareSettings.js";
 
 export async function beforeInit() {

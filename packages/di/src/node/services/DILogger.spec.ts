@@ -1,10 +1,8 @@
 import "./DILogger.js";
-
+import {Inject, Injectable, inject, injector} from "../../common/index.js";
+import {DITest} from "./DITest.js";
 import {Logger} from "@tsed/logger";
 import {beforeEach} from "vitest";
-
-import {Inject, inject, Injectable, injector} from "../../common/index.js";
-import {DITest} from "./DITest.js";
 
 describe("DILogger", () => {
   beforeEach(() => DITest.create());

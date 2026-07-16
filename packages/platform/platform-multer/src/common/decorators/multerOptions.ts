@@ -1,7 +1,6 @@
-import {StoreMerge} from "@tsed/core";
 import type {Options} from "multer";
-
 import {PLATFORM_MULTER_OPTIONS} from "../constants/constants.js";
+import {StoreMerge} from "@tsed/core";
 
 /**
  * Define multer option for all MultipartFile

@@ -1,10 +1,9 @@
 import {$log} from "@tsed/logger";
-import {PlatformExpress} from "@tsed/platform-express";
-
-import {InteractionsCtrl} from "./controllers/oidc/InteractionsCtrl.js";
 import {IndexCtrl} from "./controllers/pages/IndexCtrl.js";
-import {VersionCtrl} from "./controllers/rest/VersionCtrl.js";
+import {InteractionsCtrl} from "./controllers/oidc/InteractionsCtrl.js";
+import {PlatformExpress} from "@tsed/platform-express";
 import {Server} from "./Server.js";
+import {VersionCtrl} from "./controllers/rest/VersionCtrl.js";
 
 if (process.env.NODE_ENV !== "test") {
   async function bootstrap() {

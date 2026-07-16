@@ -1,6 +1,5 @@
-import {cleanObject} from "@tsed/core";
-
 import {execMapper, registerFormioMapper} from "../registries/FormioMappersContainer.js";
+import {cleanObject} from "@tsed/core";
 
 function booleanToComponent(schema: any, options: any) {
   const component = execMapper("default", schema, options);

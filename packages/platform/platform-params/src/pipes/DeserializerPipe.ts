@@ -1,6 +1,6 @@
-import {injectable} from "@tsed/di";
-import {deserialize} from "@tsed/json-mapper";
 import {JsonParameterStore, PipeMethods} from "@tsed/schema";
+import {deserialize} from "@tsed/json-mapper";
+import {injectable} from "@tsed/di";
 
 export class DeserializerPipe implements PipeMethods {
   transform(value: any, param: JsonParameterStore) {

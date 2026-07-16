@@ -1,5 +1,5 @@
-import {getEngineFixture} from "../../test/getEngineFixture.js";
 import {RactiveEngine} from "./RactiveEngine.js";
+import {getEngineFixture} from "../../test/getEngineFixture.js";
 
 describe("RactiveEngine", () => {
   beforeEach(() => {

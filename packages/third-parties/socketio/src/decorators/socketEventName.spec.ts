@@ -1,6 +1,5 @@
-import {Store} from "@tsed/core";
-
 import {SocketEventName} from "../index.js";
+import {Store} from "@tsed/core";
 
 describe("@SocketEventName", () => {
   it("should set metadata", () => {

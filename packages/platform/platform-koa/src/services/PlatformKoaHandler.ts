@@ -1,5 +1,4 @@
 import "./PlatformKoaRequest.js";
-
 import {PlatformContext, PlatformHandler} from "@tsed/platform-http";
 import {PlatformParamsCallback} from "@tsed/platform-params";
 

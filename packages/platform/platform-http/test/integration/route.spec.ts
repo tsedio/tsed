@@ -1,5 +1,4 @@
 import {All, Delete, Get, Head, OperationVerbs, Options, Patch, Post, Put, s} from "@tsed/schema";
-
 import {inspectOperationsPaths} from "./__fixtures__/inspectOperationsPaths.js";
 
 describe("Route decorators", () => {

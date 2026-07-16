@@ -1,6 +1,5 @@
-import {Intercept} from "@tsed/di";
-
 import {DirectusCacheInterceptor, type DirectusCacheOptions} from "../DirectusCacheInterceptor.js";
+import {Intercept} from "@tsed/di";
 
 /**
  * Decorator to cache method results using Directus cache system.

@@ -1,5 +1,5 @@
-import {s} from "../../fn/index.js";
 import {DefaultMsg} from "./defaultMsg.js";
+import {s} from "../../fn/index.js";
 
 describe("@DefaultMsg", () => {
   it("should declare default message", () => {

@@ -16,4 +16,3 @@ export class MyController {
 
 injectable(MyService).scope(ProviderScope.REQUEST);
 controller(MyController).path("/").scope(ProviderScope.REQUEST);
-

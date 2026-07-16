@@ -1,9 +1,9 @@
 {
   "name": "@tsed/normalize-path",
-  "description": "Utils to normalize path",
-  "type": "module",
   "version": "8.17.0",
+  "description": "Utils to normalize path",
   "source": "./src/index.ts",
+  "type": "module",
   "main": "lib/esm/index.js",
   "module": "lib/esm/index.js",
   "typings": "./lib/types/index.d.ts",
@@ -30,7 +30,6 @@
     "@tsed/barrels": "workspace:*",
     "@tsed/typescript": "workspace:*",
     "@types/normalize-path": "^3.0.2",
-    "eslint": "9.12.0",
     "typescript": "6.0.2",
     "vitest": "4.1.4"
   }

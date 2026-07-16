@@ -1,13 +1,25 @@
 {
   "name": "@tsed/schema-formio",
-  "description": "Transform Ts.ED Schema & JsonSchema to a valid Formio schema",
-  "type": "module",
   "version": "8.17.0",
+  "description": "Transform Ts.ED Schema & JsonSchema to a valid Formio schema",
+  "keywords": [
+    "JsonSchema",
+    "TypeScript",
+    "class",
+    "classes",
+    "decorators",
+    "formio",
+    "json",
+    "models",
+    "schema",
+    "tsed"
+  ],
   "source": "./src/index.ts",
+  "type": "module",
   "main": "./lib/esm/index.js",
   "module": "./lib/esm/index.js",
-  "typings": "./lib/types/index.d.ts",
   "browser": "./lib/esm/index.js",
+  "typings": "./lib/types/index.d.ts",
   "exports": {
     ".": {
       "tsed-source": "./src/index.ts",
@@ -25,18 +37,6 @@
     "build:ts": "tsc --build tsconfig.esm.json",
     "test:ci": "vitest run --coverage.thresholds.autoUpdate=true"
   },
-  "keywords": [
-    "TypeScript",
-    "decorators",
-    "models",
-    "json",
-    "schema",
-    "JsonSchema",
-    "formio",
-    "class",
-    "classes",
-    "tsed"
-  ],
   "dependencies": {
     "@tsed/formio-types": "workspace:*",
     "change-case": "^5.4.4",
@@ -48,20 +48,22 @@
     "@tsed/openspec": "workspace:*",
     "@tsed/schema": "workspace:*",
     "@tsed/typescript": "workspace:*",
-    "eslint": "9.12.0",
     "typescript": "6.0.2",
     "vite": "7.3.2",
     "vitest": "4.1.4"
   },
   "peerDependencies": {
+    "@formio/js": ">=5.0.0",
     "@tsed/core": ">=8.0.0",
     "@tsed/openspec": ">=8.0.0",
     "@tsed/schema": ">=8.0.0",
-    "formiojs": ">=4.0.0",
     "lodash": ">=4.0.0",
     "moment": ">=2.0.0"
   },
   "peerDependenciesMeta": {
+    "@formio/js": {
+      "optional": false
+    },
     "@tsed/core": {
       "optional": false
     },
@@ -69,9 +71,6 @@
       "optional": false
     },
     "@tsed/schema": {
-      "optional": false
-    },
-    "formiojs": {
       "optional": false
     },
     "lodash": {

@@ -1,14 +1,12 @@
-import path from "node:path";
-
-import {DMMF} from "@prisma/generator-helper";
-import {toMap} from "@tsed/core";
-import {pascalCase} from "change-case";
-import pluralize from "pluralize";
 import {ClassDeclaration, Project, Scope} from "ts-morph";
-
+import {DMMF} from "@prisma/generator-helper";
 import {DmmfModel} from "../domain/DmmfModel.js";
 import {generateOutputsBarrelFile} from "./generateOutputsBarrelFile.js";
+import {pascalCase} from "change-case";
+import path from "node:path";
+import pluralize from "pluralize";
 import {resolveExtension} from "./resolveExtension.js";
+import {toMap} from "@tsed/core";
 
 interface MethodOptions {
   repository: ClassDeclaration;

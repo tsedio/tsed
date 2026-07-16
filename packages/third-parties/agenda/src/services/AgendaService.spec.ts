@@ -1,12 +1,11 @@
-import {destroyInjector, Inject} from "@tsed/di";
-import {$asyncEmit} from "@tsed/hooks";
-import {PlatformTest} from "@tsed/platform-http/testing";
 import {Agenda, type Job} from "agenda";
-
+import {Inject, destroyInjector} from "@tsed/di";
+import {$asyncEmit} from "@tsed/hooks";
+import {AgendaService} from "./AgendaService.js";
 import {Define} from "../decorators/define.js";
 import {Every} from "../decorators/every.js";
 import {JobsController} from "../decorators/jobController.js";
-import {AgendaService} from "./AgendaService.js";
+import {PlatformTest} from "@tsed/platform-http/testing";
 
 vi.mock("agenda", () => {
   return {

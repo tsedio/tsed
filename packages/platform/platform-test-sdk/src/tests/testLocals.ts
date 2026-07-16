@@ -1,13 +1,12 @@
-import {Controller} from "@tsed/di";
-import {PlatformContext, Req} from "@tsed/platform-http";
-import {PlatformTest} from "@tsed/platform-http/testing";
-import {Middleware, Use} from "@tsed/platform-middlewares";
 import {Context, Locals} from "@tsed/platform-params";
-import {Get} from "@tsed/schema";
-import SuperTest from "supertest";
+import {Middleware, Use} from "@tsed/platform-middlewares";
+import {PlatformContext, Req} from "@tsed/platform-http";
 import {afterAll, beforeAll, describe, expect, it} from "vitest";
-
+import {Controller} from "@tsed/di";
+import {Get} from "@tsed/schema";
+import {PlatformTest} from "@tsed/platform-http/testing";
 import {PlatformTestingSdkOpts} from "../interfaces/index.js";
+import SuperTest from "supertest";
 
 @Middleware()
 class LocalsMiddleware {

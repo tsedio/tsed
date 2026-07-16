@@ -1,8 +1,5 @@
-import {Controller} from "@tsed/di";
 import {
-  boolean,
   CollectionOf,
-  date,
   Email,
   ForwardGroups,
   GenericOf,
@@ -11,15 +8,17 @@ import {
   Ignore,
   Integer,
   MinLength,
-  number,
   Property,
   Required,
   Returns,
+  boolean,
+  date,
+  number,
   s,
   string
 } from "@tsed/schema";
 import {describe, expect, it} from "vitest";
-
+import {Controller} from "@tsed/di";
 import {deserialize} from "../../src/utils/deserialize.js";
 import {serialize} from "../../src/utils/serialize.js";
 

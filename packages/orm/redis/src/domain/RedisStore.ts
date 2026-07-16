@@ -1,7 +1,7 @@
-import type {RedisClusterOptions} from "@redis/client";
 import type {Config, FactoryConfig, Store} from "cache-manager";
 import type {RedisClientType, RedisClusterType} from "redis";
 import {createClient, createCluster} from "redis";
+import type {RedisClusterOptions} from "@redis/client";
 
 export interface RedisClusterConfig {
   nodes: RedisClusterOptions["rootNodes"][];

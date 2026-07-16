@@ -1,5 +1,5 @@
-import {logger} from "../fn/logger.js";
 import {injector} from "../index.js";
+import {logger} from "../fn/logger.js";
 
 /**
  * @ignore

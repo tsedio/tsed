@@ -1,6 +1,5 @@
-import {PlatformTest} from "@tsed/platform-http/testing";
 import {Get, Redirect, Returns, s} from "@tsed/schema";
-
+import {PlatformTest} from "@tsed/platform-http/testing";
 import {createServerlessContext} from "../../test/utils/createServerlessContext.js";
 import {setResponseHeaders} from "./setResponseHeaders.js";
 

@@ -1,12 +1,11 @@
-import {useDecorators} from "@tsed/core";
-import {injectable} from "@tsed/di";
-import {Schema} from "mongoose";
-
-import {MongooseModelOptions} from "../interfaces/MongooseModelOptions.js";
-import {MONGOOSE_CONNECTIONS} from "../services/MongooseConnections.js";
-import {createModel, getModelToken} from "../utils/createModel.js";
-import {getSchema} from "../utils/createSchema.js";
 import {applySchemaOptions, schemaOptions} from "../utils/schemaOptions.js";
+import {createModel, getModelToken} from "../utils/createModel.js";
+import {MONGOOSE_CONNECTIONS} from "../services/MongooseConnections.js";
+import {MongooseModelOptions} from "../interfaces/MongooseModelOptions.js";
+import {Schema} from "mongoose";
+import {getSchema} from "../utils/createSchema.js";
+import {injectable} from "@tsed/di";
+import {useDecorators} from "@tsed/core";
 
 /**
  * Define a class as a Mongoose Model. The model can be injected to the Service, Controller, Middleware, Converters or Filter with

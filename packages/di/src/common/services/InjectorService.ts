@@ -1,6 +1,21 @@
+import {$alter, $asyncAlter, $asyncEmit, $emit, $off, $on} from "@tsed/hooks";
+import {DI_INVOKE_OPTIONS, DI_USE_PARAM_OPTIONS} from "../constants/constants.js";
+import {Container} from "../domain/Container.js";
+import {DIConfiguration} from "./DIConfiguration.js";
+import type {DILogger} from "../interfaces/DILogger.js";
+import type {ImportTokenProviderOpts} from "../interfaces/ImportTokenProviderOpts.js";
+import {InjectionError} from "../errors/InjectionError.js";
+import type {InvokeOptions} from "../interfaces/InvokeOptions.js";
+import {LocalsContainer} from "../domain/LocalsContainer.js";
+import {Provider} from "../domain/Provider.js";
+import {ProviderScope} from "../domain/ProviderScope.js";
+import type {ResolvedInvokeOptions} from "../interfaces/ResolvedInvokeOptions.js";
+import type {TokenProvider} from "../interfaces/TokenProvider.js";
 import {classOf} from "@tsed/core/utils/classOf.js";
+import {createContainer} from "../utils/createContainer.js";
 import {deepClone} from "@tsed/core/utils/deepClone.js";
 import {deepMerge} from "@tsed/core/utils/deepMerge.js";
+import {getConstructorDependencies} from "../utils/getConstructorDependencies.js";
 import {isArray} from "@tsed/core/utils/isArray.js";
 import {isClass} from "@tsed/core/utils/isClass.js";
 import {isFunction} from "@tsed/core/utils/isFunction.js";
@@ -8,22 +23,6 @@ import {isInheritedFrom} from "@tsed/core/utils/isInheritedFrom.js";
 import {isObject} from "@tsed/core/utils/isObject.js";
 import {isPromise} from "@tsed/core/utils/isPromise.js";
 import {nameOf} from "@tsed/core/utils/nameOf.js";
-import {$alter, $asyncAlter, $asyncEmit, $emit, $off, $on} from "@tsed/hooks";
-
-import {DI_INVOKE_OPTIONS, DI_USE_PARAM_OPTIONS} from "../constants/constants.js";
-import {Container} from "../domain/Container.js";
-import {LocalsContainer} from "../domain/LocalsContainer.js";
-import {Provider} from "../domain/Provider.js";
-import {ProviderScope} from "../domain/ProviderScope.js";
-import {InjectionError} from "../errors/InjectionError.js";
-import type {DILogger} from "../interfaces/DILogger.js";
-import type {ImportTokenProviderOpts} from "../interfaces/ImportTokenProviderOpts.js";
-import type {InvokeOptions} from "../interfaces/InvokeOptions.js";
-import type {ResolvedInvokeOptions} from "../interfaces/ResolvedInvokeOptions.js";
-import type {TokenProvider} from "../interfaces/TokenProvider.js";
-import {createContainer} from "../utils/createContainer.js";
-import {getConstructorDependencies} from "../utils/getConstructorDependencies.js";
-import {DIConfiguration} from "./DIConfiguration.js";
 
 const EXCLUDED_CONFIGURATION_KEYS = ["mount", "imports"];
 

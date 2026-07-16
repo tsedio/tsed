@@ -1,12 +1,11 @@
-import {Logger} from "@tsed/logger";
-import {beforeEach} from "vitest";
-
-import {DITest} from "../../node/index.js";
-import {registerProvider} from "../fn/injectable.js";
-import {InjectorService} from "../services/InjectorService.js";
 import {AutoInjectable} from "./autoInjectable.js";
+import {DITest} from "../../node/index.js";
 import {Inject} from "./inject.js";
 import {Injectable} from "./injectable.js";
+import {InjectorService} from "../services/InjectorService.js";
+import {Logger} from "@tsed/logger";
+import {beforeEach} from "vitest";
+import {registerProvider} from "../fn/injectable.js";
 
 const TOKEN_GROUPS = Symbol.for("groups:1");
 

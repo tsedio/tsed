@@ -1,7 +1,8 @@
-import {injectable, type ProviderOpts} from "@tsed/di";
 import {type PlatformContextHandler, PlatformLayer} from "@tsed/platform-router";
-
-import {PlatformAdapter, PlatformContext, type PlatformStaticsOptions} from "../common/index.js";
+import {type ProviderOpts, injectable} from "@tsed/di";
+import {PlatformContext} from "../common/domain/PlatformContext.js";
+import {type PlatformStaticsOptions} from "../common/config/PlatformStaticsSettings.js";
+import {PlatformAdapter} from "../common/services/PlatformAdapter.js";
 
 export class FakeAdapter extends PlatformAdapter<any> {
   readonly NAME: string = "FAKE_ADAPTER";

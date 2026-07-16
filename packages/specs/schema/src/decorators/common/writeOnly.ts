@@ -1,5 +1,5 @@
-import {JsonEntityStore} from "../../domain/JsonEntityStore.js";
 import {JsonEntityFn} from "./jsonEntityFn.js";
+import {JsonEntityStore} from "../../domain/JsonEntityStore.js";
 /**
  * Marks a property as write-only, indicating it should not be included in responses.
  *

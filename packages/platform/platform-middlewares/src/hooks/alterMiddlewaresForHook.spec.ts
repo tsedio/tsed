@@ -1,5 +1,4 @@
-import {constant, DITest} from "@tsed/di";
-
+import {DITest, constant} from "@tsed/di";
 import type {PlatformMiddlewareLoadingOptions} from "../domain/PlatformMiddlewareSettings.js";
 import {alterMiddlewaresForHook} from "./alterMiddlewaresForHook.js";
 

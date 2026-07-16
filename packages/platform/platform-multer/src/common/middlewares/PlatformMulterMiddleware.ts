@@ -1,10 +1,9 @@
-import {constant, DIContext, inject, injectable, ProviderType} from "@tsed/di";
-import {MiddlewareMethods} from "@tsed/platform-middlewares";
+import {DIContext, ProviderType, constant, inject, injectable} from "@tsed/di";
+import type {Field, Options} from "multer";
+import {MULTER_MODULE, PLATFORM_MULTER_OPTIONS} from "../constants/constants.js";
 import {Context} from "@tsed/platform-params";
 import {JsonMethodStore} from "@tsed/schema";
-import type {Field, Options} from "multer";
-
-import {MULTER_MODULE, PLATFORM_MULTER_OPTIONS} from "../constants/constants.js";
+import {MiddlewareMethods} from "@tsed/platform-middlewares";
 import {MulterException} from "../errors/MulterException.js";
 
 /**

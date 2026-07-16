@@ -1,6 +1,5 @@
-import type {Type} from "@tsed/core";
-
 import type {ConfigSource, InitialConfigSourceOptions} from "../interfaces/ConfigSource.js";
+import type {Type} from "@tsed/core";
 
 export function withOptions<Opts>(
   use: Type<ConfigSource<Opts>>,

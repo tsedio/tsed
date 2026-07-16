@@ -1,6 +1,5 @@
 import {
   Allow,
-  getJsonEntityStore,
   In,
   JsonEntityStore,
   JsonMethodStore,
@@ -9,7 +8,8 @@ import {
   JsonParameterStore,
   JsonPropertyStore,
   Property,
-  Required
+  Required,
+  getJsonEntityStore
 } from "../index.js";
 
 describe("JsonEntityStore", () => {

@@ -1,7 +1,7 @@
-import type {ProviderOpts} from "../interfaces/ProviderOpts.js";
-import type {TokenProvider} from "../interfaces/TokenProvider.js";
 import {Provider} from "./Provider.js";
+import type {ProviderOpts} from "../interfaces/ProviderOpts.js";
 import type {ProviderType} from "./ProviderType.js";
+import type {TokenProvider} from "../interfaces/TokenProvider.js";
 
 /**
  * Provider container managing registered providers and their metadata.

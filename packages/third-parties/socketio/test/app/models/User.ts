@@ -1,5 +1,5 @@
-import {ObjectID} from "@tsed/mongoose";
 import {Allow, Email, Ignore, MinLength, Property, Required} from "@tsed/schema";
+import {ObjectID} from "@tsed/mongoose";
 
 export interface IUser {
   name: string;

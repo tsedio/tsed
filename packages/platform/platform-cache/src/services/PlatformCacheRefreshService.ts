@@ -1,5 +1,4 @@
-import {BaseContext, inject, injectable, ProviderScope, ProviderType, runInContext} from "@tsed/di";
-
+import {BaseContext, ProviderScope, ProviderType, inject, injectable, runInContext} from "@tsed/di";
 import {PlatformCache} from "./PlatformCache.js";
 
 /**

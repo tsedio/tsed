@@ -1,7 +1,5 @@
 import {IncomingHttpHeaders, IncomingMessage} from "node:http";
-
-import {injectable, ProviderScope} from "@tsed/di";
-
+import {ProviderScope, injectable} from "@tsed/di";
 import type {PlatformContext} from "../domain/PlatformContext.js";
 import type {PlatformResponse} from "./PlatformResponse.js";
 

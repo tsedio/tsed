@@ -1,13 +1,13 @@
-import {SpecTypes} from "../../domain/SpecTypes.js";
-import {s} from "../../fn/index.js";
-import {number} from "../../fn/number.js";
-import {getSpec} from "../../fn/oas/getSpec.js";
-import {string} from "../../fn/string.js";
+import {AllOf} from "./allOf.js";
 import {In} from "../operations/in.js";
 import {OperationPath} from "../operations/operationPath.js";
 import {Path} from "../operations/path.js";
-import {AllOf} from "./allOf.js";
 import {Property} from "./property.js";
+import {SpecTypes} from "../../domain/SpecTypes.js";
+import {getSpec} from "../../fn/oas/getSpec.js";
+import {number} from "../../fn/number.js";
+import {s} from "../../fn/index.js";
+import {string} from "../../fn/string.js";
 
 describe("@AllOf", () => {
   it("should declare return schema", () => {

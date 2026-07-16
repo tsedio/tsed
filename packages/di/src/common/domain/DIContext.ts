@@ -1,5 +1,5 @@
-import {injector, InjectorService, LocalsContainer} from "../index.js";
 import {ContextLogger, ContextLoggerOptions} from "./ContextLogger.js";
+import {InjectorService, LocalsContainer, injector} from "../index.js";
 
 /**
  * Options for creating a DI context instance.

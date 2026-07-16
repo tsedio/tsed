@@ -1,7 +1,6 @@
 import {context, injector} from "@tsed/di";
-
-import type {OpenApiSettings} from "../interfaces/OpenApiSettings.js";
 import {OpenAPIService} from "../services/OpenAPIService.js";
+import type {OpenApiSettings} from "../interfaces/OpenApiSettings.js";
 
 /**
  * Return a middleware to expose the OpenAPI spec.

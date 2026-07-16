@@ -1,12 +1,10 @@
 import "./interfaces/interfaces.js";
-
 import {AlterApolloSettings, ApolloSettingsWithID} from "@tsed/apollo";
-import {isClass, Type} from "@tsed/core";
 import {Configuration, Inject, InjectorService, Module} from "@tsed/di";
-import {buildSchema} from "type-graphql";
-
-import {RESOLVERS_PROVIDERS} from "./constants/constants.js";
+import {Type, isClass} from "@tsed/core";
 import {ContextMiddleware} from "./middlewares/ContextMiddleware.js";
+import {RESOLVERS_PROVIDERS} from "./constants/constants.js";
+import {buildSchema} from "type-graphql";
 
 /**
  * @ignore

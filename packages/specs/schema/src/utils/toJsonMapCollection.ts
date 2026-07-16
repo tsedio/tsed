@@ -1,6 +1,5 @@
-import type {Type} from "@tsed/core";
-
 import {JsonMap} from "../domain/JsonMap.js";
+import type {Type} from "@tsed/core";
 
 /**
  * @ignore

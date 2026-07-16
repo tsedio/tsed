@@ -1,5 +1,4 @@
 import {IndexOptions} from "mongoose";
-
 import {MongooseSchema} from "./schema.js";
 
 /**

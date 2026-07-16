@@ -1,6 +1,5 @@
-import {Options} from "sirv";
-// @ts-ignore
 import type {InlineConfig} from "vite";
+import {Options} from "sirv";
 
 export type ViteConfig = InlineConfig & {
   enableStream?: boolean;

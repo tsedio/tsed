@@ -1,12 +1,10 @@
-import {join} from "node:path";
-
-import {constant, injectable, ProviderType} from "@tsed/di";
+import {ProviderType, constant, injectable} from "@tsed/di";
 import {OpenAPIBaseModule} from "@tsed/openapi-utils";
-import {useContextHandler} from "@tsed/platform-router";
-
 import {ROOT_DIR} from "./constants.js";
 import {ScalarSettings} from "./interfaces/ScalarSettings.js";
 import {indexMiddleware} from "./middlewares/indexMiddleware.js";
+import {join} from "node:path";
+import {useContextHandler} from "@tsed/platform-router";
 
 export class ScalarModule extends OpenAPIBaseModule {
   readonly name = "Scalar";

@@ -1,5 +1,4 @@
-import {descriptorOf, Store} from "@tsed/core";
-
+import {Store, descriptorOf} from "@tsed/core";
 import {Every} from "./every.js";
 import {JobsController} from "./jobController.js";
 

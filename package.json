@@ -1,13 +1,52 @@
 {
   "name": "@tsed/root",
   "version": "8.34.0",
-  "description": "A TypeScript Framework on top of Express",
   "private": true,
-  "author": "Romain Lenzotti",
-  "license": "MIT",
+  "description": "A TypeScript Framework on top of Express",
+  "keywords": [
+    "ES2015",
+    "ES6",
+    "Express",
+    "Koa",
+    "TypeScript",
+    "adapters",
+    "ajv",
+    "api",
+    "awa",
+    "controllers",
+    "decorators",
+    "di",
+    "formio",
+    "graphql",
+    "injection",
+    "ioc",
+    "json-mapper",
+    "middlewares",
+    "models",
+    "multer",
+    "mvc",
+    "objection",
+    "openspec",
+    "passport",
+    "rest",
+    "router",
+    "server",
+    "services",
+    "socketio",
+    "stripe",
+    "swagger",
+    "typeoprm",
+    "validation"
+  ],
   "homepage": "https://tsed.dev/",
   "bugs": {
     "url": "https://github.com/tsedio/tsed/issues"
+  },
+  "license": "MIT",
+  "author": "Romain Lenzotti",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/tsedio/tsed.git"
   },
   "funding": [
     {
@@ -19,9 +58,24 @@
       "url": "https://opencollective.com/tsed"
     }
   ],
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/tsedio/tsed.git"
+  "directories": {
+    "test": "test",
+    "packages": "packages"
+  },
+  "workspaces": {
+    "packages": [
+      "packages/*",
+      "packages/config/*",
+      "packages/graphql/*",
+      "packages/orm/*",
+      "packages/utils/*",
+      "packages/platform/*",
+      "packages/security/*",
+      "packages/specs/*",
+      "packages/testcontainers/*",
+      "packages/third-parties/*",
+      "tools/*"
+    ]
   },
   "scripts": {
     "postinstall": "cd docs && yarn install && cd .. && node ./tools/github-sponsors/bin/github-sponsors.js",
@@ -29,8 +83,8 @@
     "clean": "monorepo clean workspace",
     "test": "vitest run",
     "test:ci": "yarn test:lint && yarn test:core && yarn test:specs && yarn test:platform && yarn test:integration && yarn test:graphql && yarn test:orm && yarn test:security && yarn test:third-parties",
-    "test:lint": "eslint '**/*.{ts,js}'",
-    "test:lint:fix": "eslint '**/*.{ts,js}' --fix",
+    "test:lint": "oxlint . && node ./tools/oxc/check-workspace-imports.mjs",
+    "test:lint:fix": "oxlint --fix . && node ./tools/oxc/check-workspace-imports.mjs",
     "test:core": "lerna run test:ci --scope '@tsed/{core,di,config,hooks,engines}' --stream --concurrency 2",
     "test:platform": "lerna run test:ci --scope '@tsed/platform-*' --stream --concurrency 2",
     "test:orm": "lerna run test:ci --scope '@tsed/{adapters,adapters-redis,mikro-orm,mongoose,objection,prisma}' --stream --concurrency 4",
@@ -42,7 +96,6 @@
     "barrels": "lerna run barrels",
     "build": "monorepo build --verbose",
     "build:references": "node ./tools/typescript",
-    "build:eslint": "node ./tools/eslint",
     "sync:packages": "monorepo sync packages",
     "api:build": "rm -rf ./docs/api && tsc -b && tsdoc && cd docs && yarn docs:build:ai",
     "api:build:dev": "npx -p chokidar-cli chokidar \"docs/.templates/**/*.{js,ejs}\" -c \"tsdoc && && cd docs && yarn docs:build:ai\"",
@@ -52,46 +105,12 @@
     "docs:publish": "CI=1 monorepo publish ghpages",
     "vitepress:build": "cd ./docs && yarn docs:build",
     "vitepress:serve": "yarn docs:install && cd docs && yarn docs:dev",
-    "prettier": "prettier '**/*.{ts,js,json,md,yml,yaml}' --write",
+    "format": "oxfmt '**/*.{ts,tsx,js,jsx,mts,cts,mjs,cjs,json,md,yml,yaml}'",
+    "format:check": "oxfmt --check '**/*.{ts,tsx,js,jsx,mts,cts,mjs,cjs,json,md,yml,yaml}'",
     "release": "semantic-release",
     "release:dryRun": "semantic-release --dry-run",
     "prepare": "is-ci || husky install"
   },
-  "keywords": [
-    "Express",
-    "Koa",
-    "TypeScript",
-    "decorators",
-    "router",
-    "controllers",
-    "services",
-    "middlewares",
-    "models",
-    "mvc",
-    "injection",
-    "ioc",
-    "di",
-    "api",
-    "ajv",
-    "adapters",
-    "graphql",
-    "json-mapper",
-    "formio",
-    "objection",
-    "openspec",
-    "passport",
-    "awa",
-    "socketio",
-    "stripe",
-    "swagger",
-    "typeoprm",
-    "ES2015",
-    "ES6",
-    "server",
-    "rest",
-    "validation",
-    "multer"
-  ],
   "dependencies": {
     "@tsed/logger": "^8.0.0",
     "ajv": "8.17.1",
@@ -117,17 +136,9 @@
     "@types/node": "22.7.4",
     "@types/superagent": "8.1.9",
     "@types/supertest": "6.0.2",
-    "@typescript-eslint/eslint-plugin": "8.58.0",
-    "@typescript-eslint/parser": "8.58.0",
     "@vitest/coverage-v8": "4.1.4",
     "concurrently": "9.0.1",
     "cross-env": "7.0.3",
-    "eslint": "9.12.0",
-    "eslint-config-prettier": "9.1.0",
-    "eslint-plugin-prettier": "5.2.1",
-    "eslint-plugin-simple-import-sort": "12.1.1",
-    "eslint-plugin-vitest": "0.5.4",
-    "eslint-plugin-workspaces": "0.10.1",
     "fs-extra": "^11.2.0",
     "husky": "9.1.6",
     "is-ci": "3.0.1",
@@ -136,7 +147,8 @@
     "micromatch": "4.0.8",
     "moment": "2.30.1",
     "mongoose": "^8.7.0",
-    "prettier": "3.3.3",
+    "oxfmt": "0.59.0",
+    "oxlint": "1.74.0",
     "semantic-release": "24.2.3",
     "semantic-release-slack-bot": "4.0.2",
     "supertest": "7.0.0",
@@ -149,33 +161,20 @@
     "vite-tsconfig-paths": "5.1.4",
     "vitest": "4.1.4"
   },
-  "directories": {
-    "packages": "packages",
-    "test": "test"
-  },
-  "workspaces": {
-    "packages": [
-      "packages/*",
-      "packages/config/*",
-      "packages/graphql/*",
-      "packages/orm/*",
-      "packages/utils/*",
-      "packages/platform/*",
-      "packages/security/*",
-      "packages/specs/*",
-      "packages/testcontainers/*",
-      "packages/third-parties/*",
-      "tools/*"
-    ]
+  "resolutions": {
+    "isolated-vm": "^6",
+    "sqlite3": "6.0.1"
   },
   "lint-staged": {
-    "**/*.{ts,js}": [
-      "eslint --fix"
+    "**/*.{ts,tsx,js,jsx,mts,cts,mjs,cjs}": [
+      "oxlint --fix",
+      "oxfmt"
     ],
     "**/*.{json,md,yml,yaml}": [
-      "prettier --write"
+      "oxfmt"
     ]
   },
+  "packageManager": "yarn@4.1.0",
   "collective": {
     "type": "opencollective",
     "url": "https://opencollective.com/tsed",
@@ -218,10 +217,5 @@
         "if": "///alpha"
       }
     ]
-  },
-  "resolutions": {
-    "sqlite3": "6.0.1",
-    "isolated-vm": "^6"
-  },
-  "packageManager": "yarn@4.1.0"
+  }
 }

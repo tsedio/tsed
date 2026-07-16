@@ -1,9 +1,8 @@
-import {catchAsyncError} from "@tsed/core";
-import {Unauthorized} from "@tsed/exceptions";
-import {PlatformTest} from "@tsed/platform-http/testing";
-
-import {FormioService} from "../services/FormioService.js";
 import {FormioAuthMiddleware} from "./FormioAuthMiddleware.js";
+import {FormioService} from "../services/FormioService.js";
+import {PlatformTest} from "@tsed/platform-http/testing";
+import {Unauthorized} from "@tsed/exceptions";
+import {catchAsyncError} from "@tsed/core";
 
 describe("FormioAuthMiddleware", () => {
   beforeEach(() => PlatformTest.create());

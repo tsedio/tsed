@@ -1,9 +1,9 @@
 {
   "name": "@tsed/core",
-  "description": "Core module for Ts.ED Framework",
-  "type": "module",
   "version": "8.17.0",
+  "description": "Core module for Ts.ED Framework",
   "source": "./src/index.ts",
+  "type": "module",
   "main": "./lib/esm/index.js",
   "module": "./lib/esm/index.js",
   "typings": "./lib/types/index.d.ts",

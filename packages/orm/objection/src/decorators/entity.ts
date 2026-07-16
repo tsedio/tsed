@@ -1,6 +1,5 @@
 import {Type} from "@tsed/core";
 import {compile} from "@tsed/schema";
-
 import {defineStaticGetter} from "../utils/defineStaticGetter.js";
 import {getJsonEntityRelationships} from "../utils/getJsonEntityRelationships.js";
 

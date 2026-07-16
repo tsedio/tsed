@@ -1,6 +1,5 @@
-import {Store} from "@tsed/core";
-
 import {Broadcast} from "../index.js";
+import {Store} from "@tsed/core";
 
 describe("Broadcast", () => {
   it("should set metadata", () => {

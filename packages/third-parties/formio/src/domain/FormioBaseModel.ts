@@ -1,5 +1,5 @@
-import {MongooseDocument} from "@tsed/mongoose";
 import {Document, Schema} from "mongoose";
+import {MongooseDocument} from "@tsed/mongoose";
 
 export type FormioMongooseSchema<T> = Schema<Document<T>> & {
   machineName(document: MongooseDocument<T>, done: Function): void;

@@ -1,35 +1,32 @@
 import "@tsed/platform-multer/fastify";
-
 import * as Http from "node:http";
-import {IncomingMessage, ServerResponse} from "node:http";
 import * as Https from "node:https";
-
-import fastifyMiddie from "@fastify/middie";
-import fastifyStatics, {type FastifyStaticOptions} from "@fastify/static";
-import {type Env, isFunction, isString, ReturnHostInfoFromPort, Type} from "@tsed/core";
-import {constant, inject, logger, runInContext} from "@tsed/di";
-import {NotFound} from "@tsed/exceptions";
 import {$alter, $asyncEmit} from "@tsed/hooks";
-import {PlatformExceptions} from "@tsed/platform-exceptions";
+import {type Env, ReturnHostInfoFromPort, Type, isFunction, isString} from "@tsed/core";
+import Fastify, {FastifyInstance, FastifyReply, FastifyRequest} from "fastify";
+import {IncomingMessage, ServerResponse} from "node:http";
 import {
-  adapter,
-  createContext,
-  createServer,
   PlatformAdapter,
   PlatformBuilder,
   PlatformContext,
   PlatformRequest,
   PlatformResponse,
-  PlatformStaticsOptions
+  PlatformStaticsOptions,
+  adapter,
+  createContext,
+  createServer
 } from "@tsed/platform-http";
-import {PlatformHandlerMetadata, PlatformHandlerType, PlatformLayer} from "@tsed/platform-router";
-import Fastify, {FastifyInstance, FastifyReply, FastifyRequest} from "fastify";
-
 import type {PlatformFastifyPluginLoadingOptions, PlatformFastifyPluginSettings} from "../interfaces/interfaces.js";
-import type {PlatformFastifySettings} from "../interfaces/PlatformFastifySettings.js";
+import {PlatformHandlerMetadata, PlatformHandlerType, PlatformLayer} from "@tsed/platform-router";
+import {constant, inject, logger, runInContext} from "@tsed/di";
+import fastifyStatics, {type FastifyStaticOptions} from "@fastify/static";
+import {NotFound} from "@tsed/exceptions";
+import {PlatformExceptions} from "@tsed/platform-exceptions";
 import {PlatformFastifyRequest} from "../services/PlatformFastifyRequest.js";
 import {PlatformFastifyResponse} from "../services/PlatformFastifyResponse.js";
+import type {PlatformFastifySettings} from "../interfaces/PlatformFastifySettings.js";
 import {convertPath} from "../utils/convertPath.js";
+import fastifyMiddie from "@fastify/middie";
 import {toPrefix} from "../utils/toPrefix.js";
 
 declare global {

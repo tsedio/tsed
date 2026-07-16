@@ -1,10 +1,9 @@
-import {runInContext} from "@tsed/di";
-import {Req} from "@tsed/platform-http";
-import {PlatformTest} from "@tsed/platform-http/testing";
-import Passport from "passport";
-
-import {PassportMessage} from "../errors/PassportMessage.js";
 import {Protocol, ProtocolsService} from "../index.js";
+import Passport from "passport";
+import {PassportMessage} from "../errors/PassportMessage.js";
+import {PlatformTest} from "@tsed/platform-http/testing";
+import {Req} from "@tsed/platform-http";
+import {runInContext} from "@tsed/di";
 
 // tslint:disable-next-line:variable-name
 const Strategy = vi.fn();

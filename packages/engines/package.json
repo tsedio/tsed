@@ -1,9 +1,15 @@
 {
   "name": "@tsed/engines",
-  "description": "Template engines library. Provide an API to adding custom engines from decorators.",
-  "type": "module",
   "version": "8.17.0",
+  "description": "Template engines library. Provide an API to adding custom engines from decorators.",
+  "keywords": [
+    "TypeScript",
+    "decorators",
+    "engines",
+    "view"
+  ],
   "source": "./src/index.ts",
+  "type": "module",
   "main": "./lib/esm/index.js",
   "module": "./lib/esm/index.js",
   "typings": "./lib/types/index.d.ts",
@@ -56,7 +62,6 @@
     "eco": "^1.1.0-rc-3",
     "ect": "^0.5.9",
     "ejs": "^3.1.10",
-    "eslint": "9.12.0",
     "haml": "^0.4.3",
     "haml-coffee": "^1.14.1",
     "hamlet": "^0.3.3",
@@ -96,11 +101,5 @@
     "vitest": "4.1.4",
     "walrus": "^0.10.1",
     "whiskers": "^0.4.0"
-  },
-  "keywords": [
-    "TypeScript",
-    "decorators",
-    "engines",
-    "view"
-  ]
+  }
 }

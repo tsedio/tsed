@@ -1,8 +1,6 @@
 import {basename, join} from "node:path";
-
-import {context} from "@tsed/di";
-
 import {SwaggerSettings} from "../interfaces/SwaggerSettings.js";
+import {context} from "@tsed/di";
 
 /**
  * @ignore

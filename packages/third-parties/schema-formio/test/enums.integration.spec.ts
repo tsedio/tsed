@@ -1,6 +1,5 @@
+import {DataSourceJson, Select, getFormioSchema} from "../src/index.js";
 import {Enum} from "@tsed/schema";
-
-import {DataSourceJson, getFormioSchema, Select} from "../src/index.js";
 
 enum TestEnum {
   VALUE1 = "VALUE1",

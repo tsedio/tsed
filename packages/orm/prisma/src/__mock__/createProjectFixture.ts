@@ -1,6 +1,5 @@
-import {join} from "node:path";
-
 import {ModuleKind, Project, ScriptTarget} from "ts-morph";
+import {join} from "node:path";
 
 const rootDir = import.meta.dirname; // automatically replaced by import.meta.dirname on build
 

@@ -1,5 +1,5 @@
-import {getFormioSchema} from "../utils/getFormioSchema.js";
 import {Hidden} from "./hidden.js";
+import {getFormioSchema} from "../utils/getFormioSchema.js";
 
 describe("Hidden", () => {
   it("should declare a model with Hidden field", async () => {

@@ -1,10 +1,8 @@
 import "../bootstrap/runtime.js";
-
-import type {HookExtensionContext, RegisterFunctions} from "@directus/types";
 import {DIContext, inject, injector, runInContext} from "@tsed/di";
-import {nanoid} from "nanoid";
-
+import type {HookExtensionContext, RegisterFunctions} from "@directus/types";
 import {DirectusContextService} from "../services/DirectusContextService.js";
+import {nanoid} from "nanoid";
 
 /**
  * Defines a Directus hook with Ts.ED dependency injection support.

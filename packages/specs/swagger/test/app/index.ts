@@ -1,9 +1,8 @@
-import {Controller} from "@tsed/di";
-import {$log} from "@tsed/logger";
-import {PlatformExpress} from "@tsed/platform-express";
 import {BodyParams, PathParams, QueryParams} from "@tsed/platform-params";
 import {DiscriminatorKey, DiscriminatorValue, Get, Hidden, OneOf, Post, Property, Put, Required, Returns} from "@tsed/schema";
-
+import {$log} from "@tsed/logger";
+import {Controller} from "@tsed/di";
+import {PlatformExpress} from "@tsed/platform-express";
 import {Server} from "./Server.js";
 
 if (process.env.NODE_ENV !== "test") {

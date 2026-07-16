@@ -1,12 +1,11 @@
+import {Get, Name, Returns, getSpec, s} from "@tsed/schema";
+import {Context} from "@tsed/platform-params";
 import {Controller} from "@tsed/di";
+import {EventStream} from "./decorators/eventStream.js";
+import {EventStreamContext} from "./domain/EventStreamContext.js";
+import {EventStreamCtx} from "./decorators/eventStreamCtx.js";
 import {PlatformContext} from "@tsed/platform-http";
 import {PlatformTest} from "@tsed/platform-http/testing";
-import {Context} from "@tsed/platform-params";
-import {Get, getSpec, Name, Returns, s} from "@tsed/schema";
-
-import {EventStream} from "./decorators/eventStream.js";
-import {EventStreamCtx} from "./decorators/eventStreamCtx.js";
-import {EventStreamContext} from "./domain/EventStreamContext.js";
 
 function make(eventStream: EventStreamCtx, cb: () => any) {
   let intervalId: ReturnType<typeof setInterval>;

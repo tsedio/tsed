@@ -1,16 +1,15 @@
-import {faker} from "@faker-js/faker";
+import {BodyParams, QueryParams} from "@tsed/platform-params";
 import {Controller, Inject} from "@tsed/di";
+import {Get, Post} from "@tsed/schema";
+import {TestProfile2, TestUser} from "./helpers/models/User.js";
 import {deserialize, serialize} from "@tsed/json-mapper";
+import {MongooseModel} from "../src/index.js";
 import {PlatformExpress} from "@tsed/platform-express";
 import {PlatformTest} from "@tsed/platform-http/testing";
-import {BodyParams, QueryParams} from "@tsed/platform-params";
-import {Get, Post} from "@tsed/schema";
-import {TestContainersMongo} from "@tsed/testcontainers-mongo";
-import SuperTest from "supertest";
-
-import {MongooseModel} from "../src/index.js";
-import {TestProfile2, TestUser} from "./helpers/models/User.js";
 import {Server} from "./helpers/Server.js";
+import SuperTest from "supertest";
+import {TestContainersMongo} from "@tsed/testcontainers-mongo";
+import {faker} from "@faker-js/faker";
 
 @Controller("/profiles")
 class ProfilesCtrl {

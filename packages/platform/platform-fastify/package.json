@@ -1,9 +1,41 @@
 {
   "name": "@tsed/platform-fastify",
-  "type": "module",
   "version": "8.17.0",
   "description": "Fastify package for Ts.ED framework",
+  "keywords": [
+    "Controller",
+    "Decorator",
+    "ES6",
+    "ESM",
+    "Fastify",
+    "Inject",
+    "TypeScript",
+    "api",
+    "decorators",
+    "di",
+    "fastify",
+    "ioc",
+    "mvc",
+    "rest",
+    "server",
+    "swagger",
+    "swagger ui",
+    "validation"
+  ],
+  "homepage": "http://tsed.dev/",
+  "bugs": {
+    "url": "https://github.com/tsedio/tsed/issues"
+  },
+  "license": "MIT",
+  "author": {
+    "name": "Romain Lenzotti"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tsedio/tsed.git"
+  },
   "source": "./src/index.ts",
+  "type": "module",
   "main": "./lib/esm/index.js",
   "module": "./lib/esm/index.js",
   "typings": "./lib/types/index.d.ts",
@@ -22,38 +54,6 @@
     "test": "vitest run",
     "build:ts": "tsc --build tsconfig.esm.json",
     "test:ci": "vitest run --coverage.thresholds.autoUpdate=true"
-  },
-  "keywords": [
-    "Fastify",
-    "TypeScript",
-    "Decorator",
-    "decorators",
-    "fastify",
-    "Controller",
-    "Inject",
-    "ioc",
-    "di",
-    "mvc",
-    "swagger",
-    "swagger ui",
-    "ESM",
-    "ES6",
-    "server",
-    "rest",
-    "api",
-    "validation"
-  ],
-  "author": {
-    "name": "Romain Lenzotti"
-  },
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/tsedio/tsed/issues"
-  },
-  "homepage": "http://tsed.dev/",
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/tsedio/tsed.git"
   },
   "dependencies": {
     "@fastify/accepts": ">=5.0.2",

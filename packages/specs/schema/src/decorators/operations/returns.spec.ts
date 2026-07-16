@@ -1,12 +1,10 @@
 import "@tsed/platform-exceptions";
-
 import {OpenSpec3} from "@tsed/openspec";
-
+import {OperationPath} from "./operationPath.js";
+import {Property} from "../common/property.js";
+import {Returns} from "./returns.js";
 import {SpecTypes} from "../../domain/SpecTypes.js";
 import {getSpec} from "../../fn/oas/getSpec.js";
-import {Property} from "../common/property.js";
-import {OperationPath} from "./operationPath.js";
-import {Returns} from "./returns.js";
 
 describe("@Returns", () => {
   describe("Single contentType", () => {

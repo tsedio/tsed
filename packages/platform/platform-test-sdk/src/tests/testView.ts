@@ -1,15 +1,13 @@
-import {EOL} from "node:os";
-
-import {Controller} from "@tsed/di";
-import {PlatformTest} from "@tsed/platform-http/testing";
 import {Middleware, UseBefore} from "@tsed/platform-middlewares";
-import {Locals} from "@tsed/platform-params";
-import {View} from "@tsed/platform-views";
-import {Get} from "@tsed/schema";
-import SuperTest from "supertest";
 import {afterAll, beforeAll, describe, expect, it} from "vitest";
-
+import {Controller} from "@tsed/di";
+import {EOL} from "node:os";
+import {Get} from "@tsed/schema";
+import {Locals} from "@tsed/platform-params";
+import {PlatformTest} from "@tsed/platform-http/testing";
 import {PlatformTestingSdkOpts} from "../interfaces/index.js";
+import SuperTest from "supertest";
+import {View} from "@tsed/platform-views";
 
 @Middleware()
 class LocalsMiddleware {

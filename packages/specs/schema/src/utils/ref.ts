@@ -1,11 +1,10 @@
-import {setValue} from "@tsed/core";
-import {pascalCase} from "change-case";
 import type {JSONSchema7} from "json-schema";
-
 import type {JsonSchema} from "../domain/JsonSchema.js";
 import {JsonSchemaOptions} from "../domain/JsonSchemaOptions.js";
 import {SpecTypes} from "../domain/SpecTypes.js";
 import {mergeSchema} from "./mergeSchema.js";
+import {pascalCase} from "change-case";
+import {setValue} from "@tsed/core";
 
 export function getSchemaFromRef($ref: string | undefined, options: JsonSchemaOptions): JSONSchema7 | undefined {
   const {components} = options;

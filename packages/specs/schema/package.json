@@ -1,9 +1,19 @@
 {
   "name": "@tsed/schema",
-  "description": "JsonSchema module for Ts.ED Framework",
-  "type": "module",
   "version": "8.17.0",
+  "description": "JsonSchema module for Ts.ED Framework",
+  "keywords": [
+    "JsonSchema",
+    "TypeScript",
+    "class",
+    "classes",
+    "decorators",
+    "json schema",
+    "models",
+    "tsed"
+  ],
   "source": "./src/index.ts",
+  "type": "module",
   "main": "./lib/esm/index.js",
   "module": "./lib/esm/index.js",
   "typings": "./lib/types/index.d.ts",
@@ -23,16 +33,6 @@
     "build:ts": "tsc --build tsconfig.esm.json",
     "test:ci": "vitest run --coverage.thresholds.autoUpdate=true"
   },
-  "keywords": [
-    "TypeScript",
-    "decorators",
-    "models",
-    "json schema",
-    "JsonSchema",
-    "class",
-    "classes",
-    "tsed"
-  ],
   "dependencies": {
     "@tsed/openspec": "workspace:*",
     "change-case": "^5.4.4",
@@ -53,7 +53,6 @@
     "@types/picomatch": "3.0.2",
     "@types/statuses": "2.0.5",
     "ajv": "^8.17.1",
-    "eslint": "9.12.0",
     "temporal-polyfill": "1.0.1",
     "typescript": "6.0.2",
     "vitest": "4.1.4"

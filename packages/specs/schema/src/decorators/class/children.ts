@@ -1,5 +1,4 @@
 import {Store, Type} from "@tsed/core";
-
 import {JsonEntityFn} from "../common/jsonEntityFn.js";
 
 /**

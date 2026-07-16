@@ -5,7 +5,7 @@ class MyInjectable {
     try {
       /// do something
       // Example: Perform some operation that might fail
-       await someAsyncOperation();
+      await someAsyncOperation();
     } catch (er) {
       const exceptions = await lazyInject(() => import("@tsed/platform-exceptions"));
       // Handle the error with appropriate options

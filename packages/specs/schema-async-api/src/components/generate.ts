@@ -1,5 +1,5 @@
+import {SpecSerializerOptions, SpecTypes, defineSchemaMapper, execMapper} from "@tsed/schema";
 import {Type, uniqBy} from "@tsed/core";
-import {defineSchemaMapper, execMapper, SpecSerializerOptions, SpecTypes} from "@tsed/schema";
 
 function generate(model: Type<any>, options: SpecSerializerOptions) {
   const specJson: any = {

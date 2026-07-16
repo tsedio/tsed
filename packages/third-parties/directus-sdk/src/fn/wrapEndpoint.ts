@@ -1,11 +1,9 @@
 import "../bootstrap/runtime.js";
-
+import {DIContext, attachLogger, inject, injector, runInContext} from "@tsed/di";
+import {DirectusContextService} from "../services/DirectusContextService.js";
 import type {EndpointExtensionContext} from "@directus/types";
-import {attachLogger, DIContext, inject, injector, runInContext} from "@tsed/di";
 import type {Router} from "express";
 import {nanoid} from "nanoid";
-
-import {DirectusContextService} from "../services/DirectusContextService.js";
 
 const VERBS = ["get", "put", "post", "delete", "head", "use", "all", "options"];
 

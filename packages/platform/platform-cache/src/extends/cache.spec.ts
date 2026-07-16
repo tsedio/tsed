@@ -1,5 +1,4 @@
 import "./cache.js";
-
 import {DITest, getInterceptorOptions, injectable} from "@tsed/di";
 
 class Test {

@@ -311,7 +311,6 @@ const Tutorials = [
   {
     text: "Orchestration & Workflow",
     items: sort([
-
       {
         text: "Agenda",
         link: `/tutorials/agenda`
@@ -425,8 +424,7 @@ export default defineConfig({
       "meta",
       {
         property: "og:title",
-        content:
-          "Ts.ED a modern Node.js/Bun.js framework built with TypeScript on top of Express.js/Koa.js/Fastify.js/CLI/AWS"
+        content: "Ts.ED a modern Node.js/Bun.js framework built with TypeScript on top of Express.js/Koa.js/Fastify.js/CLI/AWS"
       }
     ],
     ["meta", {property: "og:site_name", content: "Ts.ED"}],
@@ -520,9 +518,7 @@ export default defineConfig({
     }
   },
   transformPageData(pageData) {
-    const canonicalUrl = `https://tsed.dev/${pageData.relativePath}`
-      .replace(/index\.md$/, "")
-      .replace(/\.md$/, ".html");
+    const canonicalUrl = `https://tsed.dev/${pageData.relativePath}`.replace(/index\.md$/, "").replace(/\.md$/, ".html");
 
     pageData.frontmatter.head ??= [];
 
@@ -531,10 +527,7 @@ export default defineConfig({
     });
 
     if (!has) {
-      pageData.frontmatter.head.push([
-        "link",
-        {rel: "canonical", href: canonicalUrl}
-      ]);
+      pageData.frontmatter.head.push(["link", {rel: "canonical", href: canonicalUrl}]);
     }
   },
   srcExclude: ["public/**/*.md"]

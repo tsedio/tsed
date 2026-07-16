@@ -1,9 +1,8 @@
-import {UnsupportedDecoratorType} from "@tsed/core/errors/UnsupportedDecoratorType.js";
+import {DI_USE_OPTIONS, DI_USE_PARAM_OPTIONS} from "../constants/constants.js";
 import {DecoratorTypes} from "@tsed/core/types/DecoratorTypes.js";
 import {Store} from "@tsed/core/types/Store.js";
+import {UnsupportedDecoratorType} from "@tsed/core/errors/UnsupportedDecoratorType.js";
 import {decoratorTypeOf} from "@tsed/core/utils/decoratorTypeOf.js";
-
-import {DI_USE_OPTIONS, DI_USE_PARAM_OPTIONS} from "../constants/constants.js";
 
 /**
  * Pass custom options to an injected provider.

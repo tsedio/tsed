@@ -1,6 +1,6 @@
-import {s} from "../../fn/index.js";
 import {Ignore} from "./ignore.js";
 import {Property} from "./property.js";
+import {s} from "../../fn/index.js";
 
 describe("@Ignore", () => {
   it("should declare prop", () => {

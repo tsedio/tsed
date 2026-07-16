@@ -1,6 +1,6 @@
-import {withErrorMsg} from "../../utils/withErrorMsg.js";
 import {Allow} from "./allow.js";
 import {Optional} from "./optional.js";
+import {withErrorMsg} from "../../utils/withErrorMsg.js";
 
 /**
  * Mark a property or parameter as required.

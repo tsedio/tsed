@@ -1,5 +1,5 @@
-import {getFormioSchema} from "../utils/getFormioSchema.js";
 import {HideWhen, ShowWhen} from "./conditional.js";
+import {getFormioSchema} from "../utils/getFormioSchema.js";
 
 describe("@Conditional", () => {
   it("should add conditional rule on field (show)", async () => {

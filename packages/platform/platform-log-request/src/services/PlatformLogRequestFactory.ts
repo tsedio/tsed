@@ -1,5 +1,4 @@
 import {type BaseContext, constant, injectable} from "@tsed/di";
-
 import {defaultAlterLog} from "../utils/defaultAlterLog.js";
 import {defaultLogResponse} from "../utils/defaultLogResponse.js";
 

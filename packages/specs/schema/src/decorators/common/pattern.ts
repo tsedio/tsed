@@ -1,6 +1,6 @@
+import {JsonEntityFn} from "./jsonEntityFn.js";
 import {JsonEntityStore} from "../../domain/JsonEntityStore.js";
 import {withErrorMsg} from "../../utils/withErrorMsg.js";
-import {JsonEntityFn} from "./jsonEntityFn.js";
 
 /**
  * The pattern and Pattern Properties keywords use regular expressions to express constraints.

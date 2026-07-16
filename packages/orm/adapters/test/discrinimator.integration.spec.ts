@@ -1,7 +1,6 @@
-import {PlatformTest} from "@tsed/platform-http/testing";
-import {DiscriminatorKey, DiscriminatorValue, Property, Required} from "@tsed/schema";
-
 import {Adapter, Adapters, FileSyncAdapter} from "../src/index.js";
+import {DiscriminatorKey, DiscriminatorValue, Property, Required} from "@tsed/schema";
+import {PlatformTest} from "@tsed/platform-http/testing";
 
 class Event {
   @DiscriminatorKey() // declare this property a discriminator key

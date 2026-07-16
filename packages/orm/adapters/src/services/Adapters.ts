@@ -1,8 +1,7 @@
-import {Type} from "@tsed/core";
-import {constant, inject, injectable} from "@tsed/di";
-
-import {MemoryAdapter} from "../adapters/MemoryAdapter.js";
 import {Adapter, AdapterConstructorOptions} from "../domain/Adapter.js";
+import {constant, inject, injectable} from "@tsed/di";
+import {MemoryAdapter} from "../adapters/MemoryAdapter.js";
+import {Type} from "@tsed/core";
 
 export interface AdapterInvokeOptions<Model = any> extends AdapterConstructorOptions<Model> {
   adapter?: Type<Adapter<Model>>;

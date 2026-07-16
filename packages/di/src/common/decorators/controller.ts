@@ -1,12 +1,11 @@
+import type {ControllerMiddlewares} from "../domain/Provider.js";
+import {ProviderOpts} from "../interfaces/ProviderOpts.js";
 import {Store} from "@tsed/core/types/Store.js";
 import type {Type} from "@tsed/core/types/Type.js";
 import {classOf} from "@tsed/core/utils/classOf.js";
+import {controller} from "../fn/injectable.js";
 import {isArrayOrArrayClass} from "@tsed/core/utils/isArray.js";
 import {useDecorators} from "@tsed/core/utils/useDecorators.js";
-
-import type {ControllerMiddlewares} from "../domain/Provider.js";
-import {controller} from "../fn/injectable.js";
-import {ProviderOpts} from "../interfaces/ProviderOpts.js";
 
 export type PathType = string | RegExp | (string | RegExp)[];
 

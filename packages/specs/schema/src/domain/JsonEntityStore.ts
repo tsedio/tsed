@@ -1,6 +1,8 @@
 import {
-  ancestorsOf,
   DecoratorTypes,
+  Store,
+  Type,
+  ancestorsOf,
   isArrayOrArrayClass,
   isArrowFn,
   isClass,
@@ -10,17 +12,14 @@ import {
   isObject,
   isPlainObject,
   isPrimitiveOrPrimitiveClass,
-  nameOf,
-  Store,
-  Type
+  nameOf
 } from "@tsed/core";
-
 import type {JsonClassStore} from "../components/stores/JsonClassStore.js";
 import type {JsonMethodStore} from "../components/stores/JsonMethodStore.js";
 import type {JsonParameterStore} from "../components/stores/JsonParameterStore.js";
 import type {JsonPropertyStore} from "../components/stores/JsonPropertyStore.js";
-import {getJsonEntityStore} from "../registries/JsonEntitiesContainer.js";
 import type {JsonSchema} from "./JsonSchema.js";
+import {getJsonEntityStore} from "../registries/JsonEntitiesContainer.js";
 
 /**
  * Configuration options for creating a JsonEntityStore.

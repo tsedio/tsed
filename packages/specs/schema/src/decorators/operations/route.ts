@@ -1,5 +1,5 @@
-import {OperationVerbs} from "../../constants/OperationVerbs.js";
 import {Operation} from "./operation.js";
+import {OperationVerbs} from "../../constants/OperationVerbs.js";
 
 /**
  * This method is just like the `router.METHOD()` methods, except that it matches all HTTP methods (verbs).

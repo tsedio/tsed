@@ -1,9 +1,8 @@
-import {descriptorOf, Store} from "@tsed/core";
-import {compile, Property, string} from "@tsed/schema";
-import {Schema} from "mongoose";
-
-import {DynamicRef} from "../../src/index.js";
 import {MONGOOSE_MODEL_NAME, MONGOOSE_SCHEMA} from "../constants/constants.js";
+import {Property, compile, string} from "@tsed/schema";
+import {Store, descriptorOf} from "@tsed/core";
+import {DynamicRef} from "../../src/index.js";
+import {Schema} from "mongoose";
 
 describe("@DynamicRef()", () => {
   it("should set metadata", () => {

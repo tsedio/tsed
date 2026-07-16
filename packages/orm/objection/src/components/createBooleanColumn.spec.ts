@@ -1,8 +1,7 @@
-import {Property} from "@tsed/schema";
-
-import {createTableStub} from "../../test/helpers/knex/table.js";
 import {Entity} from "../decorators/entity.js";
+import {Property} from "@tsed/schema";
 import {createColumns} from "../utils/createColumns.js";
+import {createTableStub} from "../../test/helpers/knex/table.js";
 
 describe("createBooleanColumn", () => {
   it("should create table from a given class", () => {

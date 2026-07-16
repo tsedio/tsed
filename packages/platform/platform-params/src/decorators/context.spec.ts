@@ -1,7 +1,6 @@
-import {JsonParameterStore} from "@tsed/schema";
-
-import {ParamTypes} from "../domain/ParamTypes.js";
 import {Context} from "./context.js";
+import {JsonParameterStore} from "@tsed/schema";
+import {ParamTypes} from "../domain/ParamTypes.js";
 
 describe("@Context", () => {
   it("should call ParamFilter.useParam method with the correct parameters", () => {

@@ -1,5 +1,5 @@
-import {Module} from "../../../decorators/module.js";
 import {M2Ctrl} from "./controllers/M2Ctrl.js";
+import {Module} from "../../../decorators/module.js";
 
 @Module({
   mount: {

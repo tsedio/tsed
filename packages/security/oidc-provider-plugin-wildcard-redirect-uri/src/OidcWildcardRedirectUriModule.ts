@@ -1,9 +1,7 @@
-import {constant, logger, Module} from "@tsed/di";
+import {Module, constant, logger} from "@tsed/di";
+import Provider, {type KoaContextWithOIDC, errors} from "oidc-provider";
 import {OidcSettings} from "@tsed/oidc-provider";
-import Provider, {errors, type KoaContextWithOIDC} from "oidc-provider";
-// @ts-ignore
 import psl from "psl";
-
 import {wildcardRedirectUriAllowed} from "./utils/wildcardRedirectUriAllowed.js";
 
 declare global {

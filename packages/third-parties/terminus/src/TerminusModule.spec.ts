@@ -1,7 +1,6 @@
+import {Health} from "./decorators/health.js";
 import {Injectable} from "@tsed/di";
 import {PlatformTest} from "@tsed/platform-http/testing";
-
-import {Health} from "./decorators/health.js";
 import {TerminusModule} from "./TerminusModule.js";
 
 @Injectable()

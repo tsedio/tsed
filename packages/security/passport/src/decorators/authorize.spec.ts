@@ -1,9 +1,8 @@
-import {Store} from "@tsed/core";
-import {Controller, inject} from "@tsed/di";
-import {Middleware, UseBefore} from "@tsed/platform-middlewares";
-import {Get, getSpec} from "@tsed/schema";
-
 import {Authorize, PassportMiddleware} from "../index.js";
+import {Controller, inject} from "@tsed/di";
+import {Get, getSpec} from "@tsed/schema";
+import {Middleware, UseBefore} from "@tsed/platform-middlewares";
+import {Store} from "@tsed/core";
 
 @Middleware()
 class AuthoriseBucket {

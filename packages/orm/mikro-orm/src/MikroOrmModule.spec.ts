@@ -1,11 +1,10 @@
 import {EntityManager, EventSubscriber, MikroORM, Options} from "@mikro-orm/core";
-import {PlatformTest} from "@tsed/platform-http/testing";
 import {anyOfClass, anything, deepEqual, instance, mock, reset, verify, when} from "ts-mockito";
-
-import {Subscriber} from "./decorators/subscriber.js";
-import {MikroOrmModule} from "./MikroOrmModule.js";
 import {MikroOrmContext} from "./services/MikroOrmContext.js";
+import {MikroOrmModule} from "./MikroOrmModule.js";
 import {MikroOrmRegistry} from "./services/MikroOrmRegistry.js";
+import {PlatformTest} from "@tsed/platform-http/testing";
+import {Subscriber} from "./decorators/subscriber.js";
 
 class Subscriber1 implements EventSubscriber {}
 

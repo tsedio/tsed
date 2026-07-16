@@ -1,7 +1,6 @@
-import {descriptorOf, Store} from "@tsed/core";
-
-import {MONGOOSE_SCHEMA} from "../constants/constants.js";
+import {Store, descriptorOf} from "@tsed/core";
 import {Immutable} from "./immutable.js";
+import {MONGOOSE_SCHEMA} from "../constants/constants.js";
 
 describe("@Immutable()", () => {
   it("should set metadata (default)", () => {

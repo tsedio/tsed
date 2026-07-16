@@ -1,6 +1,5 @@
 import {
   CollectionOf,
-  getSpec,
   Groups,
   In,
   Name,
@@ -10,8 +9,9 @@ import {
   Required,
   RequiredGroups,
   Returns,
-  s,
-  SpecTypes
+  SpecTypes,
+  getSpec,
+  s
 } from "../../index.js";
 
 class ChildModel {

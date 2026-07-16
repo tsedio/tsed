@@ -1,5 +1,5 @@
-import {withErrorMsg} from "../../utils/withErrorMsg.js";
 import {Minimum} from "./minimum.js";
+import {withErrorMsg} from "../../utils/withErrorMsg.js";
 
 /**
  * The value of `exclusiveMinimum` MUST be number, representing an exclusive upper limit for a numeric instance.

@@ -1,11 +1,10 @@
 import {Controller, ProviderScope, Scope, Service} from "@tsed/di";
-import {PlatformTest} from "@tsed/platform-http/testing";
-import {PathParams} from "@tsed/platform-params";
-import {Get} from "@tsed/schema";
-import SuperTest from "supertest";
 import {afterAll, beforeAll, describe, expect, it} from "vitest";
-
+import {Get} from "@tsed/schema";
+import {PathParams} from "@tsed/platform-params";
+import {PlatformTest} from "@tsed/platform-http/testing";
 import {PlatformTestingSdkOpts} from "../interfaces/index.js";
+import SuperTest from "supertest";
 
 @Service()
 @Scope(ProviderScope.REQUEST)

@@ -1,10 +1,8 @@
 import "@tsed/platform-exceptions";
-
-import {Controller} from "@tsed/di";
+import {Any, CollectionOf, Integer, Post, Property, getSpec} from "../../src/index.js";
 import {MultipartFile, PlatformMulterFile} from "@tsed/platform-multer";
 import {BodyParams} from "@tsed/platform-params";
-
-import {Any, CollectionOf, getSpec, Integer, Post, Property} from "../../src/index.js";
+import {Controller} from "@tsed/di";
 
 class MyModel {
   @Property()

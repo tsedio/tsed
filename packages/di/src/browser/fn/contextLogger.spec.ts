@@ -1,13 +1,12 @@
+import {Injectable, inject} from "../../common/index.js";
+import {ContextLogger} from "../../common/domain/ContextLogger.js";
+import {DITest} from "../../node/services/DITest.js";
 import {Logger} from "@tsed/logger";
 import {beforeEach} from "vitest";
-
-import {ContextLogger} from "../../common/domain/ContextLogger.js";
-import {logger} from "../../common/fn/logger.js";
-import {inject, Injectable} from "../../common/index.js";
-import {DITest} from "../../node/services/DITest.js";
 import {context} from "../fn/context.js";
-import {runInContext} from "../utils/asyncHookContext.js";
 import {contextLogger} from "./contextLogger.js";
+import {logger} from "../../common/fn/logger.js";
+import {runInContext} from "../utils/asyncHookContext.js";
 
 describe("DILogger", () => {
   beforeEach(() => DITest.create());

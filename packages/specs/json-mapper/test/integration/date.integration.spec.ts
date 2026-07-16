@@ -1,7 +1,6 @@
-import {isBoolean} from "@tsed/core";
-import {DateFormat} from "@tsed/schema";
-
 import {JsonMapper, JsonMapperCtx, JsonMapperMethods, serialize} from "../../src/index.js";
+import {DateFormat} from "@tsed/schema";
+import {isBoolean} from "@tsed/core";
 
 @JsonMapper(Date)
 export class DateMapper implements JsonMapperMethods {

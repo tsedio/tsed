@@ -1,5 +1,4 @@
 import {defineEndpoint as oDefineEndpoint} from "@directus/extensions-sdk";
-
 import {wrapEndpoint} from "./wrapEndpoint.js";
 
 type EndpointConfig = Parameters<typeof oDefineEndpoint>[0];

@@ -1,18 +1,18 @@
 {
   "name": "@tsed/event-emitter",
-  "description": "EventEmitter package for Ts.ED framework",
-  "type": "module",
   "version": "8.17.0",
+  "description": "EventEmitter package for Ts.ED framework",
   "contributors": [
     {
       "name": "Oliver Christen"
     }
   ],
   "source": "./src/index.ts",
+  "type": "module",
   "main": "./lib/esm/index.js",
   "module": "./lib/esm/index.js",
-  "typings": "./lib/types/index.d.ts",
   "browser": "./lib/esm/index.js",
+  "typings": "./lib/types/index.d.ts",
   "exports": {
     ".": {
       "tsed-source": "./src/index.ts",
@@ -38,7 +38,6 @@
     "@tsed/di": "workspace:*",
     "@tsed/platform-http": "workspace:*",
     "@tsed/typescript": "workspace:*",
-    "eslint": "9.12.0",
     "eventemitter2": "^6.4.9",
     "typescript": "6.0.2",
     "vite": "7.3.2",

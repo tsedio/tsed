@@ -1,7 +1,6 @@
-import type {Type} from "@tsed/core";
-
-import type {JsonSchema} from "../domain/index.js";
 import {JsonLazyRef} from "../domain/index.js";
+import type {JsonSchema} from "../domain/index.js";
+import type {Type} from "@tsed/core";
 import {getJsonEntityStore} from "../registries/JsonEntitiesContainer.js";
 
 /**

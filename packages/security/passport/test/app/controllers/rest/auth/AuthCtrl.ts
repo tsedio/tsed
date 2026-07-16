@@ -1,11 +1,10 @@
 import {Controller, ProviderScope, Scope} from "@tsed/di";
-import {Req} from "@tsed/platform-http";
-import {BodyParams} from "@tsed/platform-params";
 import {Post, Returns} from "@tsed/schema";
-
-import {Authenticate} from "../../../../../src/index.js";
 import {Account} from "../../../models/Account.js";
+import {Authenticate} from "../../../../../src/index.js";
+import {BodyParams} from "@tsed/platform-params";
 import {Credentials} from "../../../models/Credentials.js";
+import {Req} from "@tsed/platform-http";
 
 @Controller("/auth")
 @Scope(ProviderScope.SINGLETON)

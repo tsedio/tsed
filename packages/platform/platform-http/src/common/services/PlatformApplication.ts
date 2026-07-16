@@ -1,6 +1,5 @@
 import {IncomingMessage, ServerResponse} from "node:http";
-
-import {injectable, ProviderScope} from "@tsed/di";
+import {ProviderScope, injectable} from "@tsed/di";
 import {PlatformRouter} from "@tsed/platform-router";
 
 declare global {

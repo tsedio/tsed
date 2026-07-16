@@ -1,5 +1,4 @@
 import type {JSONSchema7} from "json-schema";
-
 import {mergeSchema} from "./mergeSchema.js";
 
 describe("mergeSchema", () => {

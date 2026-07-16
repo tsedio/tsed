@@ -7,7 +7,7 @@ import {CalendarsService} from "../services/CalendarsService.js";
 @Controller("/calendars")
 export class CalendarsController {
   @Inject()
-  private readonly calendarsService: CalendarsService
+  private readonly calendarsService: CalendarsService;
 
   @Post()
   create(@BodyParams() calendar: Calendar) {

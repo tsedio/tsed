@@ -1,10 +1,9 @@
-import {Store} from "@tsed/core";
-import {deserialize, serialize} from "@tsed/json-mapper";
-import {compile} from "@tsed/schema";
-import {Schema, Types} from "mongoose";
-
-import {MONGOOSE_SCHEMA} from "../constants/constants.js";
 import {Decimal128, DecimalFormat, NumberDecimal} from "./numberDecimal.js";
+import {Schema, Types} from "mongoose";
+import {deserialize, serialize} from "@tsed/json-mapper";
+import {MONGOOSE_SCHEMA} from "../constants/constants.js";
+import {Store} from "@tsed/core";
+import {compile} from "@tsed/schema";
 
 describe("@NumberDecimal()", () => {
   beforeEach(() => {

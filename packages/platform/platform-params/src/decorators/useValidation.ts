@@ -1,5 +1,5 @@
-import {ValidationPipe} from "../pipes/ValidationPipe.js";
 import {ParamFn} from "./paramFn.js";
+import {ValidationPipe} from "../pipes/ValidationPipe.js";
 
 /**
  * Enable validation on the decoratored parameter.

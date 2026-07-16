@@ -10,6 +10,4 @@ export class MyController {
   }
 }
 
-controller(MyController)
-  .path("/")
-  .scope(ProviderScope.SINGLETON);
+controller(MyController).path("/").scope(ProviderScope.SINGLETON);

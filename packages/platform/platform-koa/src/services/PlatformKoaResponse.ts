@@ -1,7 +1,6 @@
-import {ServerResponse} from "node:http";
-
-import {PlatformResponse} from "@tsed/platform-http";
 import Koa from "koa";
+import {PlatformResponse} from "@tsed/platform-http";
+import {ServerResponse} from "node:http";
 
 declare global {
   namespace TsED {

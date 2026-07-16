@@ -1,20 +1,19 @@
-import {RESTDataSource} from "@apollo/datasource-rest";
 import {ApolloServer, ApolloServerPlugin} from "@apollo/server";
-import {catchAsyncError} from "@tsed/core";
-import {Configuration, Constant, inject, InjectContext, logger, Module, runInContext} from "@tsed/di";
-import {Logger} from "@tsed/logger";
+import {Configuration, Constant, InjectContext, Module, inject, logger, runInContext} from "@tsed/di";
 import {PlatformApplication, PlatformContext} from "@tsed/platform-http";
-import {PlatformTest} from "@tsed/platform-http/testing";
-import {HTTPDataSource} from "apollo-datasource-http";
-
 import {APOLLO_CONTEXT} from "../constants/constants.js";
-import {DataSource} from "../decorators/dataSource.js";
-import {InjectApolloContext} from "../decorators/injectApolloContext.js";
 import type {AlterApolloContext} from "../interfaces/AlterApolloContext.js";
 import type {AlterApolloServerPlugins} from "../interfaces/AlterApolloServerPlugins.js";
 import type {ApolloContext} from "../interfaces/ApolloContext.js";
-import type {ApolloSettings} from "../interfaces/ApolloSettings.js";
 import {ApolloService} from "./ApolloService.js";
+import type {ApolloSettings} from "../interfaces/ApolloSettings.js";
+import {DataSource} from "../decorators/dataSource.js";
+import {HTTPDataSource} from "apollo-datasource-http";
+import {InjectApolloContext} from "../decorators/injectApolloContext.js";
+import {Logger} from "@tsed/logger";
+import {PlatformTest} from "@tsed/platform-http/testing";
+import {RESTDataSource} from "@apollo/datasource-rest";
+import {catchAsyncError} from "@tsed/core";
 
 vi.mock("@as-integrations/express4", () => {
   return {

@@ -1,10 +1,9 @@
-import {catchAsyncError} from "@tsed/core";
-import {BadRequest} from "@tsed/exceptions";
 import {Enum, Property} from "@tsed/schema";
-
+import {BadRequest} from "@tsed/exceptions";
 import {BeforeDeserialize} from "../../src/decorators/beforeDeserialize.js";
-import {deserialize} from "../../src/utils/deserialize.js";
 import {FoodStatus} from "../helpers/FoodStatus.js";
+import {catchAsyncError} from "@tsed/core";
+import {deserialize} from "../../src/utils/deserialize.js";
 
 @BeforeDeserialize((data: Record<string, unknown>) => {
   if (data.status === FoodStatus.EXPIRED || data.status === FoodStatus.MOLDY) {

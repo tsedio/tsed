@@ -1,12 +1,11 @@
-import {Controller} from "@tsed/di";
-import {PlatformResponse, Res} from "@tsed/platform-http";
-import {PlatformTest} from "@tsed/platform-http/testing";
-import {BodyParams} from "@tsed/platform-params";
 import {Get, Returns} from "@tsed/schema";
-import SuperTest from "supertest";
+import {PlatformResponse, Res} from "@tsed/platform-http";
 import {afterAll, beforeAll, expect, it} from "vitest";
-
+import {BodyParams} from "@tsed/platform-params";
+import {Controller} from "@tsed/di";
+import {PlatformTest} from "@tsed/platform-http/testing";
 import {PlatformTestingSdkOpts} from "../interfaces/index.js";
+import SuperTest from "supertest";
 
 @Controller("/headers")
 export class HeadersCtrl {

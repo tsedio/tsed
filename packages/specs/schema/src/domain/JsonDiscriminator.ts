@@ -1,4 +1,4 @@
-import {cleanObject, Type} from "@tsed/core";
+import {Type, cleanObject} from "@tsed/core";
 
 /**
  * Manages discriminator mappings for polymorphic type resolution.

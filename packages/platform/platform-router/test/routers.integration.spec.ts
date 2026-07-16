@@ -1,14 +1,13 @@
-import {catchError} from "@tsed/core";
+import {AlterEndpointHandlersArg, PlatformRouters} from "../src/domain/PlatformRouters.js";
+import {Context, PlatformParams} from "@tsed/platform-params";
 import {Controller, inject, injector} from "@tsed/di";
+import {Delete, Get, Head, Options, Patch, Post, Publish, Put, Subscribe} from "@tsed/schema";
+import {PlatformHandlerMetadata, useResponseHandler} from "../src/index.js";
 import {PlatformContext} from "@tsed/platform-http";
+import {PlatformRouter} from "../src/domain/PlatformRouter.js";
 import {PlatformTest} from "@tsed/platform-http/testing";
 import {UseBefore} from "@tsed/platform-middlewares";
-import {Context, PlatformParams} from "@tsed/platform-params";
-import {Delete, Get, Head, Options, Patch, Post, Publish, Put, Subscribe} from "@tsed/schema";
-
-import {PlatformRouter} from "../src/domain/PlatformRouter.js";
-import {AlterEndpointHandlersArg, PlatformRouters} from "../src/domain/PlatformRouters.js";
-import {PlatformHandlerMetadata, useResponseHandler} from "../src/index.js";
+import {catchError} from "@tsed/core";
 
 @Controller("/nested")
 class NestedController {

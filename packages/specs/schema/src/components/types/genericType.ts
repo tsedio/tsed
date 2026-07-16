@@ -1,5 +1,5 @@
-import type {JsonSchema} from "../../domain/index.js";
 import {type AnyJsonType, defineType} from "../../registries/JsonTypesContainer.js";
+import type {JsonSchema} from "../../domain/index.js";
 import {getJsonType} from "../../utils/getJsonType.js";
 
 export default defineType({

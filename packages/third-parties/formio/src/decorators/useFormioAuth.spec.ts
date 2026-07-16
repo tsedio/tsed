@@ -1,7 +1,6 @@
-import {s} from "@tsed/schema";
-
 import {FormioAuthMiddleware} from "../middlewares/FormioAuthMiddleware.js";
 import {UseFormioAuth} from "./useFormioAuth.js";
+import {s} from "@tsed/schema";
 
 describe("UseFormioAuth", () => {
   it("should add auth on method", () => {

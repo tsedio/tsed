@@ -1,11 +1,9 @@
 import "@tsed/ajv";
-
+import {Get, Returns} from "@tsed/schema";
+import {PlatformServerlessHttp, ServerlessContext, ServerlessEvent} from "../src/index.js";
 import {Controller} from "@tsed/di";
 import {PlatformExpress} from "@tsed/platform-express";
 import {PlatformServerlessTest} from "@tsed/platform-serverless-testing";
-import {Get, Returns} from "@tsed/schema";
-
-import {PlatformServerlessHttp, ServerlessContext, ServerlessEvent} from "../src/index.js";
 import {Server} from "./integration/aws-basic/src/Server.js";
 
 @Controller("/")

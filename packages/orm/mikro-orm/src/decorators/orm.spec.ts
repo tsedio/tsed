@@ -1,9 +1,8 @@
-import {MikroORM} from "@mikro-orm/core";
 import {DITest, Injectable} from "@tsed/di";
-import {afterEach, beforeEach} from "vitest";
-
-import {MikroOrmRegistry} from "../services/MikroOrmRegistry.js";
 import {Orm, orm} from "./orm.js";
+import {afterEach, beforeEach} from "vitest";
+import {MikroORM} from "@mikro-orm/core";
+import {MikroOrmRegistry} from "../services/MikroOrmRegistry.js";
 
 describe("@Orm()", () => {
   beforeEach(() => DITest.create());

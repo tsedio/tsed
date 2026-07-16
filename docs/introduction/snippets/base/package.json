@@ -2,6 +2,8 @@
   "name": "@tsed/basic-example",
   "version": "1.0.0",
   "description": "Here an example to configure your server and how to create your first controller.",
+  "license": "MIT",
+  "author": "",
   "main": "src/index.js",
   "scripts": {
     "clean": "rimraf '{src,test}/**/*.{js,js.map}'",
@@ -11,27 +13,25 @@
     "start": "nodemon --watch \"src/**/*.ts\" --ignore \"node_modules/**/*\" --exec ts-node src/index.ts",
     "start:prod": "cross-env NODE_ENV=production node dist/index.js"
   },
-  "author": "",
-  "license": "MIT",
   "dependencies": {
     "@tsed/ajv": "7.61.0",
     "@tsed/common": "7.61.0",
     "@tsed/core": "7.61.0",
     "@tsed/di": "7.61.0",
     "@tsed/exceptions": "7.61.0",
-    "@tsed/schema": "7.61.0",
     "@tsed/json-mapper": "7.61.0",
     "@tsed/platform-express": "7.61.0",
+    "@tsed/schema": "7.61.0",
     "@tsed/swagger": "7.61.0",
     "body-parser": "1.19.0",
-    "cors": "2.8.5",
     "compression": "1.7.4",
     "concurrently": "5.3.0",
     "cookie-parser": "1.4.5",
+    "cors": "2.8.5",
+    "cross-env": "7.0.2",
     "express": "5.2.1",
     "method-override": "^3.0.0",
-    "uuid": "8.3.0",
-    "cross-env": "7.0.2"
+    "uuid": "8.3.0"
   },
   "devDependencies": {
     "@types/chai": "4.2.12",

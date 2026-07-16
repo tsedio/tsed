@@ -1,9 +1,8 @@
-import {Inject} from "@tsed/di";
-import {Unauthorized} from "@tsed/exceptions";
 import {Arg, OnVerify, Protocol} from "@tsed/passport";
-import {Req} from "@tsed/platform-http";
 import {GraphQLLocalStrategy} from "graphql-passport";
-
+import {Inject} from "@tsed/di";
+import {Req} from "@tsed/platform-http";
+import {Unauthorized} from "@tsed/exceptions";
 import {UsersRepository} from "../services/UsersRepository.js";
 
 @Protocol<any>({

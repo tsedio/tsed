@@ -1,11 +1,10 @@
+import {Get, Location, Redirect} from "@tsed/schema";
+import {afterAll, beforeAll, expect, it} from "vitest";
+import {Context} from "@tsed/platform-params";
 import {Controller} from "@tsed/di";
 import {PlatformTest} from "@tsed/platform-http/testing";
-import {Context} from "@tsed/platform-params";
-import {Get, Location, Redirect} from "@tsed/schema";
-import SuperTest from "supertest";
-import {afterAll, beforeAll, expect, it} from "vitest";
-
 import {PlatformTestingSdkOpts} from "../interfaces/index.js";
+import SuperTest from "supertest";
 
 @Controller("/redirect")
 class RedirectCtrl {

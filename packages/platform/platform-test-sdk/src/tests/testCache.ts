@@ -1,12 +1,11 @@
 import {Controller, Inject} from "@tsed/di";
-import {PlatformCache, UseCache} from "@tsed/platform-cache";
-import {PlatformTest} from "@tsed/platform-http/testing";
-import {PathParams, QueryParams} from "@tsed/platform-params";
 import {Get, Head, Post, Property} from "@tsed/schema";
-import SuperTest from "supertest";
+import {PathParams, QueryParams} from "@tsed/platform-params";
+import {PlatformCache, UseCache} from "@tsed/platform-cache";
 import {afterEach, beforeEach, describe, expect, it} from "vitest";
-
+import {PlatformTest} from "@tsed/platform-http/testing";
 import {PlatformTestingSdkOpts} from "../interfaces/index.js";
+import SuperTest from "supertest";
 
 let increment = 0;
 

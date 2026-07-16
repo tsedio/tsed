@@ -280,9 +280,9 @@ import {Controller} from "@tsed/di";
 import {Transactional} from "@tsed/mikro-orm";
 import {BodyParams} from "@tsed/platform-params";
 
-@Controller('/users')
+@Controller("/users")
 class UsersController {
-  @Post('/')
+  @Post("/")
   @Transactional({isolationLevel: IsolationLevel.SERIALIZABLE})
   create(@BodyParams() user: User): Promise<User> {
     return this.usersService.create(user);

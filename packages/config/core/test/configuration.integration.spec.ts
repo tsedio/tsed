@@ -1,8 +1,6 @@
 import "../src/index.js";
-
-import {constant, DITest} from "@tsed/di";
-
 import {type ConfigSource, withOptions} from "../src/index.js";
+import {DITest, constant} from "@tsed/di";
 
 class TestConfigSource implements ConfigSource {
   options: {

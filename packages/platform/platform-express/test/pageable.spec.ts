@@ -1,35 +1,33 @@
-import qs from "node:querystring";
-
-import {isString} from "@tsed/core";
-import {Controller} from "@tsed/di";
-import {OnDeserialize} from "@tsed/json-mapper";
-import {PlatformContext} from "@tsed/platform-http";
-import {PlatformTest} from "@tsed/platform-http/testing";
-import {QueryParams} from "@tsed/platform-params";
-import {ResponseFilter, type ResponseFilterMethods} from "@tsed/platform-response-filter";
-import {PlatformTestSdk} from "@tsed/platform-test-sdk";
 import {
-  array,
   CollectionOf,
   Default,
   Description,
   For,
   Generics,
   Get,
-  getSpec,
   Integer,
   Min,
   MinLength,
-  oneOf,
   Property,
   Returns,
   SpecTypes,
+  array,
+  getSpec,
+  oneOf,
   string
 } from "@tsed/schema";
-import SuperTest from "supertest";
-
+import {ResponseFilter, type ResponseFilterMethods} from "@tsed/platform-response-filter";
+import {Server, rootDir} from "./app/Server.js";
+import {Controller} from "@tsed/di";
+import {OnDeserialize} from "@tsed/json-mapper";
+import {PlatformContext} from "@tsed/platform-http";
 import {PlatformExpress} from "../src/index.js";
-import {rootDir, Server} from "./app/Server.js";
+import {PlatformTest} from "@tsed/platform-http/testing";
+import {PlatformTestSdk} from "@tsed/platform-test-sdk";
+import {QueryParams} from "@tsed/platform-params";
+import SuperTest from "supertest";
+import {isString} from "@tsed/core";
+import qs from "node:querystring";
 
 class Pageable {
   @Integer()

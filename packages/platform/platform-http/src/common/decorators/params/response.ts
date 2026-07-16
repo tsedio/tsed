@@ -1,7 +1,6 @@
-import {ServerResponse} from "node:http";
-
-import {isClass, Metadata, nameOf} from "@tsed/core";
+import {Metadata, isClass, nameOf} from "@tsed/core";
 import {ParamTypes, UseParam} from "@tsed/platform-params";
+import {ServerResponse} from "node:http";
 
 function getParamType(target: Object, propertyKey: string | symbol | undefined, parameterIndex: number) {
   const type = Metadata.getOwnParamTypes(target, propertyKey)[parameterIndex];

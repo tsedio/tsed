@@ -1,6 +1,5 @@
-import {MikroORM, Options} from "@mikro-orm/core";
 import {Inject, Injectable} from "@tsed/di";
-
+import {MikroORM, Options} from "@mikro-orm/core";
 import {MikroOrmContext} from "./MikroOrmContext.js";
 
 @Injectable()

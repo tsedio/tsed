@@ -1,10 +1,9 @@
-import {DMMF} from "@prisma/generator-helper";
-import {toMap} from "@tsed/core";
-import {pascalCase} from "change-case";
 import {ImportDeclarationStructure, StructureKind} from "ts-morph";
-
-import {resolveExtension} from "../utils/resolveExtension.js";
+import {DMMF} from "@prisma/generator-helper";
 import {DmmfField} from "./DmmfField.js";
+import {pascalCase} from "change-case";
+import {resolveExtension} from "../utils/resolveExtension.js";
+import {toMap} from "@tsed/core";
 
 export class DmmfModel {
   readonly isInputType: boolean;

@@ -1,7 +1,6 @@
 import Fs from "node:fs";
-import {resolve} from "node:path";
-
 import {context} from "@tsed/di";
+import {resolve} from "node:path";
 
 /**
  * Expose a js file.

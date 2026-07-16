@@ -1,10 +1,9 @@
-import {Store} from "@tsed/core";
-
+import {controller, injectable, interceptor} from "./injectable.js";
 import {DITest} from "../../node/index.js";
 import {ProviderScope} from "../domain/ProviderScope.js";
 import {ProviderType} from "../domain/ProviderType.js";
+import {Store} from "@tsed/core";
 import {inject} from "./inject.js";
-import {controller, injectable, interceptor} from "./injectable.js";
 import {logger} from "./logger.js";
 
 class Nested {

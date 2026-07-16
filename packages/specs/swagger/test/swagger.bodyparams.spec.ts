@@ -1,11 +1,10 @@
+import {MaxLength, MinLength, Post} from "@tsed/schema";
+import {BodyParams} from "@tsed/platform-params";
 import {Controller} from "@tsed/di";
 import {PlatformExpress} from "@tsed/platform-express";
 import {PlatformTest} from "@tsed/platform-http/testing";
-import {BodyParams} from "@tsed/platform-params";
-import {MaxLength, MinLength, Post} from "@tsed/schema";
-import SuperTest from "supertest";
-
 import {Server} from "./app/Server.js";
+import SuperTest from "supertest";
 
 @Controller({
   path: "/customers"

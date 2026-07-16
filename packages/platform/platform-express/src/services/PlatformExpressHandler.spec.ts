@@ -1,8 +1,7 @@
 import {DITest, inject} from "@tsed/di";
-import {PlatformTest} from "@tsed/platform-http/testing";
-import {PlatformRouters} from "@tsed/platform-router";
-
 import {PlatformExpressHandler} from "./PlatformExpressHandler.js";
+import {PlatformRouters} from "@tsed/platform-router";
+import {PlatformTest} from "@tsed/platform-http/testing";
 
 vi.mock("@tsed/platform-http", async (importOriginal) => {
   return {

@@ -1,9 +1,9 @@
+import {In} from "../operations/in.js";
+import {MaxProperties} from "./maxProperties.js";
+import {OperationPath} from "../operations/operationPath.js";
 import {SpecTypes} from "../../domain/SpecTypes.js";
 import {getSpec} from "../../fn/oas/getSpec.js";
 import {s} from "../../index.js";
-import {In} from "../operations/in.js";
-import {OperationPath} from "../operations/operationPath.js";
-import {MaxProperties} from "./maxProperties.js";
 
 describe("@MaxProperties", () => {
   it("should declare max value (any)", () => {

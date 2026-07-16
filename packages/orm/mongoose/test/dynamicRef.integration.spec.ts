@@ -1,10 +1,9 @@
-import {deserialize, serialize} from "@tsed/json-mapper";
-import {PlatformTest} from "@tsed/platform-http/testing";
-import {compile, Enum, Required} from "@tsed/schema";
-import {TestContainersMongo} from "@tsed/testcontainers-mongo";
-
-import {Model} from "../src/decorators/model.js";
 import {DynamicRef, MongooseModel, ObjectID} from "../src/index.js";
+import {Enum, Required, compile} from "@tsed/schema";
+import {deserialize, serialize} from "@tsed/json-mapper";
+import {Model} from "../src/decorators/model.js";
+import {PlatformTest} from "@tsed/platform-http/testing";
+import {TestContainersMongo} from "@tsed/testcontainers-mongo";
 
 describe("DynamicRef Integration", () => {
   @Model()

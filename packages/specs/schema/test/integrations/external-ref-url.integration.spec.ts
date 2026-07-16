@@ -1,7 +1,6 @@
+import {Property, Ref, Required, compile, s} from "../../src/index.js";
 import {AjvService} from "@tsed/ajv";
 import {PlatformTest} from "@tsed/platform-http/testing";
-
-import {compile, Property, Ref, Required, s} from "../../src/index.js";
 
 const PaymentProvidersResponseSchema = s.object({
   paymentProviders: s.$ref("https://api.clubmed.com/doc/swagger.json#/components/schemas/NotificationPayloadModel"),

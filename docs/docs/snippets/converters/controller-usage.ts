@@ -23,7 +23,7 @@ export class PersonsCtrl {
   }
 
   @Get("/")
-  @Returns(200, Array).Of(Person) // Add the correct json schema for swagger essentially.
+  @(Returns(200, Array).Of(Person)) // Add the correct json schema for swagger essentially.
   getPersons(): Promise<Person[]> {
     return Promise.resolve([new Person()]);
   }

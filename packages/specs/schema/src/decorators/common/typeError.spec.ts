@@ -1,5 +1,5 @@
-import {s} from "../../fn/index.js";
 import {TypeError} from "./typeError.js";
+import {s} from "../../fn/index.js";
 
 describe("@TypeError", () => {
   it("should declare type error message", () => {

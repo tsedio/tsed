@@ -1,8 +1,7 @@
-import {existsSync} from "node:fs";
-import {readFile, writeFile} from "node:fs/promises";
+import {MonoRepo, findPackages} from "@tsed/monorepo-utils";
 import {dirname, join} from "node:path";
-
-import {findPackages, MonoRepo} from "@tsed/monorepo-utils";
+import {readFile, writeFile} from "node:fs/promises";
+import {existsSync} from "node:fs";
 
 const rootDir = import.meta.dirname;
 const workspaceDir = join(rootDir, "../..");

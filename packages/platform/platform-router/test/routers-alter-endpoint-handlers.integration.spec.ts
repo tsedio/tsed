@@ -1,12 +1,11 @@
+import {AlterEndpointHandlersArg, PlatformRouters} from "../src/domain/PlatformRouters.js";
+import {Context, PlatformParams, PlatformParamsScope} from "@tsed/platform-params";
 import {Controller, DIContext, inject, injector} from "@tsed/di";
+import {Get, JsonMethodStore, JsonOperationRoute} from "@tsed/schema";
+import {PlatformHandlerMetadata, useContextHandler} from "../src/index.js";
+import {PlatformRouter} from "../src/domain/PlatformRouter.js";
 import {PlatformTest} from "@tsed/platform-http/testing";
 import {UseBefore} from "@tsed/platform-middlewares";
-import {Context, PlatformParams, PlatformParamsScope} from "@tsed/platform-params";
-import {Get, JsonMethodStore, JsonOperationRoute} from "@tsed/schema";
-
-import {PlatformRouter} from "../src/domain/PlatformRouter.js";
-import {AlterEndpointHandlersArg, PlatformRouters} from "../src/domain/PlatformRouters.js";
-import {PlatformHandlerMetadata, useContextHandler} from "../src/index.js";
 
 @Controller("/controller")
 @UseBefore(function useBefore() {})

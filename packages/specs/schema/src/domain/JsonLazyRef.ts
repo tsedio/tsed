@@ -1,5 +1,4 @@
-import {nameOf, Type} from "@tsed/core";
-
+import {Type, nameOf} from "@tsed/core";
 import {getJsonEntityStore} from "../registries/JsonEntitiesContainer.js";
 
 /**

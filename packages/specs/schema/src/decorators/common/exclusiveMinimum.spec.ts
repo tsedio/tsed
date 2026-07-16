@@ -1,7 +1,6 @@
 import "../../index.js";
-
-import {s} from "../../fn/index.js";
 import {ExclusiveMinimum} from "./exclusiveMinimum.js";
+import {s} from "../../fn/index.js";
 
 describe("@ExclusiveMinimum", () => {
   it("should declare exclusiveMinimum value", () => {

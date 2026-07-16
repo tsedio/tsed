@@ -1,8 +1,6 @@
 import {basename, join} from "node:path";
-
-import {context} from "@tsed/di";
-
 import {ScalarSettings} from "../interfaces/ScalarSettings.js";
+import {context} from "@tsed/di";
 
 export function indexMiddleware(viewPath: string, conf: ScalarSettings) {
   return async () => {

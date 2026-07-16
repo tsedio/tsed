@@ -1,14 +1,5 @@
-import {StoreSet} from "@tsed/core";
-import {Controller} from "@tsed/di";
-import {PlatformTest} from "@tsed/platform-http";
-// @ts-ignore
-import {Use, UseAfter, UseBefore} from "@tsed/platform-middlewares";
-
-import {inspectOperationsPaths} from "../../domain/__fixtures__/inspectOperationsPaths.js";
 import {
   Get,
-  getJsonEntityStore,
-  getSpec,
   In,
   JsonEntityStore,
   JsonMethodStore,
@@ -17,8 +8,15 @@ import {
   OperationVerbs,
   Property,
   Returns,
+  getJsonEntityStore,
+  getSpec,
   s
 } from "../../index.js";
+import {Use, UseAfter, UseBefore} from "@tsed/platform-middlewares";
+import {Controller} from "@tsed/di";
+import {PlatformTest} from "@tsed/platform-http";
+import {StoreSet} from "@tsed/core";
+import {inspectOperationsPaths} from "../../domain/__fixtures__/inspectOperationsPaths.js";
 
 describe("JsonMethodStore", () => {
   describe("endpoint declaration", () => {

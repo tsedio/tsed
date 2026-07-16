@@ -1,12 +1,10 @@
-import {watch} from "node:fs";
-import {join} from "node:path";
-
-import dotenvExpand from "dotenv-expand";
-import dotenv, {type DotenvFlowConfigOptions} from "dotenv-flow";
-import {globby} from "globby";
-
-import type {ConfigSourceOnChangeCB} from "../../interfaces/ConfigSource.js";
 import {EnvsConfigSource, type EnvsConfigSourceOptions} from "../envs/EnvsConfigSource.js";
+import dotenv, {type DotenvFlowConfigOptions} from "dotenv-flow";
+import type {ConfigSourceOnChangeCB} from "../../interfaces/ConfigSource.js";
+import dotenvExpand from "dotenv-expand";
+import {globby} from "globby";
+import {join} from "node:path";
+import {watch} from "node:fs";
 
 export type DotEnvsConfigSourceOptions = EnvsConfigSourceOptions & DotenvFlowConfigOptions;
 

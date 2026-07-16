@@ -1,9 +1,8 @@
+import {Get, View, s} from "@tsed/schema";
 import {Injectable, runInContext} from "@tsed/di";
 import {PlatformHandlerMetadata, PlatformHandlerType} from "@tsed/platform-router";
-import {Get, s, View} from "@tsed/schema";
-
-import {PlatformTest} from "../../testing/PlatformTest.js";
 import {PlatformHandler} from "./PlatformHandler.js";
+import {PlatformTest} from "../../testing/PlatformTest.js";
 
 function getServiceFixture() {
   const service = PlatformTest.get<PlatformHandler>(PlatformHandler);

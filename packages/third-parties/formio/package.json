@@ -1,17 +1,17 @@
 {
   "name": "@tsed/formio",
-  "description": "Formio package for Ts.ED framework",
-  "type": "module",
   "version": "8.17.0",
+  "description": "Formio package for Ts.ED framework",
   "keywords": [
     "Formio",
     "Ts.ED",
-    "tsed",
     "TypeScript",
     "decorators",
-    "express"
+    "express",
+    "tsed"
   ],
   "source": "./src/index.ts",
+  "type": "module",
   "main": "./lib/esm/index.js",
   "module": "./lib/esm/index.js",
   "typings": "./lib/types/index.d.ts",
@@ -44,7 +44,6 @@
     "@tsed/platform-http": "workspace:*",
     "@tsed/typescript": "workspace:*",
     "@types/async": "3.2.24",
-    "eslint": "9.12.0",
     "express": "^5.2.1",
     "formio": "4.7.2",
     "mongodb": "^6.9.0",

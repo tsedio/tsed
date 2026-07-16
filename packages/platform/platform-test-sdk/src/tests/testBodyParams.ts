@@ -1,7 +1,4 @@
 import "@tsed/ajv";
-
-import {Controller} from "@tsed/di";
-import {PlatformTest} from "@tsed/platform-http/testing";
 import {BodyParams, Context, HeaderParams, RawBodyParams} from "@tsed/platform-params";
 import {
   Consumes,
@@ -17,10 +14,11 @@ import {
   Required,
   Status
 } from "@tsed/schema";
-import SuperTest from "supertest";
 import {afterAll, beforeAll, describe, expect, it} from "vitest";
-
+import {Controller} from "@tsed/di";
+import {PlatformTest} from "@tsed/platform-http/testing";
 import {PlatformTestingSdkOpts} from "../interfaces/index.js";
+import SuperTest from "supertest";
 
 enum MyEnum {
   TITLE,

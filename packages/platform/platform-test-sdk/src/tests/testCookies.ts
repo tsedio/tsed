@@ -1,11 +1,10 @@
-import {Controller} from "@tsed/di";
-import {PlatformTest} from "@tsed/platform-http/testing";
 import {Context, CookiesParams} from "@tsed/platform-params";
-import {Get} from "@tsed/schema";
-import SuperTest from "supertest";
 import {afterAll, beforeAll, expect, it} from "vitest";
-
+import {Controller} from "@tsed/di";
+import {Get} from "@tsed/schema";
+import {PlatformTest} from "@tsed/platform-http/testing";
 import {PlatformTestingSdkOpts} from "../interfaces/index.js";
+import SuperTest from "supertest";
 
 @Controller("/cookies")
 export class CookiesCtrl {

@@ -1,5 +1,5 @@
-import {s} from "../../fn/index.js";
 import {MultipleOf} from "./multipleOf.js";
+import {s} from "../../fn/index.js";
 
 describe("MultipleOf", () => {
   it("should declare minimum value", () => {

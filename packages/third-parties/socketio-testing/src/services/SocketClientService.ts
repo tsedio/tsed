@@ -1,7 +1,7 @@
 import {Configuration, Inject, Injectable, OnDestroy} from "@tsed/di";
+import {Socket, io} from "socket.io-client";
 import {Logger} from "@tsed/logger";
 import {PlatformConfiguration} from "@tsed/platform-http";
-import {io, Socket} from "socket.io-client";
 
 @Injectable()
 export class SocketClientService implements OnDestroy {

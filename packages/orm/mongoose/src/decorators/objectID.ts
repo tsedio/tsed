@@ -1,10 +1,9 @@
-import {useDecorators} from "@tsed/core";
-import {OnDeserialize} from "@tsed/json-mapper";
 import {Description, Example, Name, Pattern} from "@tsed/schema";
-import {Types} from "mongoose";
-
 import {Auto} from "./auto.js";
+import {OnDeserialize} from "@tsed/json-mapper";
 import {Schema} from "./schema.js";
+import {Types} from "mongoose";
+import {useDecorators} from "@tsed/core";
 
 /**
  * Tell Mongoose whether to define an ObjectId property.

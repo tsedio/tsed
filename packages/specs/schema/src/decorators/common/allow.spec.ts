@@ -1,9 +1,8 @@
 import {Ajv} from "ajv";
-
-import {compile} from "../../index.js";
 import {Allow} from "./allow.js";
 import {Property} from "./property.js";
 import {Required} from "./required.js";
+import {compile} from "../../index.js";
 
 describe("@Allow", () => {
   it("should declare required and allow field (without Allow)", () => {

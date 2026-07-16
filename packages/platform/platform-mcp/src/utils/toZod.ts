@@ -1,6 +1,6 @@
 import {JsonSchema, JsonSchemaOptions} from "@tsed/schema";
+import {type ZodObject, z} from "zod";
 import {jsonSchemaToZod} from "json-schema-to-zod";
-import {z, type ZodObject} from "zod";
 
 function transform(schema: JsonSchema, opts?: JsonSchemaOptions): ZodObject {
   const schemaFactory = new Function("z", `return ${jsonSchemaToZod(schema.toJSON(opts), {zodVersion: 4})}`) as (zod: unknown) => ZodObject;

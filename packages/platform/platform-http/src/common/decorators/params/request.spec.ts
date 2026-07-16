@@ -1,10 +1,8 @@
-import {IncomingMessage} from "node:http";
-
-import {ParamTypes} from "@tsed/platform-params";
-import {JsonParameterStore} from "@tsed/schema";
-
-import {PlatformRequest} from "../../services/PlatformRequest.js";
 import {Req, Request} from "./request.js";
+import {IncomingMessage} from "node:http";
+import {JsonParameterStore} from "@tsed/schema";
+import {ParamTypes} from "@tsed/platform-params";
+import {PlatformRequest} from "../../services/PlatformRequest.js";
 
 describe("@Req", () => {
   it("should register a new parameter instance with the correct property (RawRequest)", () => {

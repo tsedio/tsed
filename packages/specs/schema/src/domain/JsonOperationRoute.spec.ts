@@ -1,6 +1,5 @@
+import {Get, JsonMethodPath, JsonOperation, JsonOperationRoute, Name, OperationVerbs, getJsonMethodStore} from "../index.js";
 import {BodyParams} from "@tsed/platform-params";
-
-import {Get, getJsonMethodStore, JsonMethodPath, JsonOperation, JsonOperationRoute, Name, OperationVerbs} from "../index.js";
 
 describe("JsonOperationRoute", () => {
   it("should create JsonOperationRoute instance", () => {

@@ -1,6 +1,5 @@
-import {constant, type FactoryTokenProvider, injectable, TokenProvider} from "@tsed/di";
+import {type FactoryTokenProvider, TokenProvider, constant, injectable} from "@tsed/di";
 import type {RedisClientType, RedisClusterType} from "redis";
-
 import {RedisConfiguration} from "../domain/RedisConfiguration.js";
 import {createConnection} from "./createConnection.js";
 

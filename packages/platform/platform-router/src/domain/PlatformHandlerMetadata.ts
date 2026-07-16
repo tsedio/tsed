@@ -1,10 +1,9 @@
-import {nameOf} from "@tsed/core";
-import {DIContext, injector, Provider, ProviderScope, TokenProvider} from "@tsed/di";
-import {ParamTypes} from "@tsed/platform-params";
+import {DIContext, Provider, ProviderScope, TokenProvider, injector} from "@tsed/di";
 import {JsonMethodStore, JsonParameterStore, s} from "@tsed/schema";
-
+import {ParamTypes} from "@tsed/platform-params";
 import {PlatformHandlerType} from "./PlatformHandlerType.js";
 import {SinglePathType} from "./SinglePathType.js";
+import {nameOf} from "@tsed/core";
 
 export interface PlatformHandlerMetadataOpts extends Record<string, any> {
   token?: TokenProvider;

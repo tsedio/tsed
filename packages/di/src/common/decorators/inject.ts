@@ -1,18 +1,17 @@
+import {DI_INJECTABLE_PROPS, DI_INVOKE_OPTIONS, DI_USE_OPTIONS} from "../constants/constants.js";
+import {getConstructorDependencies, setConstructorDependencies} from "../utils/getConstructorDependencies.js";
 import {DecoratorTypes} from "@tsed/core/types/DecoratorTypes.js";
+import {InvalidPropertyTokenError} from "../errors/InvalidPropertyTokenError.js";
+import type {InvokeOptions} from "../interfaces/InvokeOptions.js";
 import {Metadata} from "@tsed/core/types/Metadata.js";
 import {Store} from "@tsed/core/types/Store.js";
+import {TokenProvider} from "../interfaces/TokenProvider.js";
 import type {Type} from "@tsed/core/types/Type.js";
 import {catchError} from "@tsed/core/utils/catchError.js";
 import {decoratorTypeOf} from "@tsed/core/utils/decoratorTypeOf.js";
-import {isPromise} from "@tsed/core/utils/isPromise.js";
-
-import {DI_INJECTABLE_PROPS, DI_INVOKE_OPTIONS, DI_USE_OPTIONS} from "../constants/constants.js";
-import {InvalidPropertyTokenError} from "../errors/InvalidPropertyTokenError.js";
 import {inject} from "../fn/inject.js";
 import {injectMany} from "../fn/injectMany.js";
-import type {InvokeOptions} from "../interfaces/InvokeOptions.js";
-import {TokenProvider} from "../interfaces/TokenProvider.js";
-import {getConstructorDependencies, setConstructorDependencies} from "../utils/getConstructorDependencies.js";
+import {isPromise} from "@tsed/core/utils/isPromise.js";
 
 function setToken(
   token: TokenProvider,

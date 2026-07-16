@@ -1,9 +1,8 @@
+import {Delete, Get, Returns} from "@tsed/schema";
 import {Injectable} from "@tsed/di";
 import {PathParams} from "@tsed/platform-params";
-import {PlatformServerlessTest} from "@tsed/platform-serverless-testing";
-import {Delete, Get, Returns} from "@tsed/schema";
-
 import {PlatformServerless} from "../src/index.js";
+import {PlatformServerlessTest} from "@tsed/platform-serverless-testing";
 
 @Injectable()
 class PathParamLambda {

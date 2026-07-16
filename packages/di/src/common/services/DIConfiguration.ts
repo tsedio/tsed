@@ -1,13 +1,12 @@
-import {Env} from "@tsed/core/types/Env.js";
-import {getValue} from "@tsed/core/utils/getValue.js";
-import {isFunction} from "@tsed/core/utils/isFunction.js";
-import {setValue} from "@tsed/core/utils/setValue.js";
 import {$alter} from "@tsed/hooks";
-
 import type {DILoggerOptions} from "../interfaces/DILoggerOptions.js";
+import {Env} from "@tsed/core/types/Env.js";
 import type {ImportTokenProviderOpts} from "../interfaces/ImportTokenProviderOpts.js";
 import type {TokenProvider} from "../interfaces/TokenProvider.js";
 import type {TokenRoute} from "../interfaces/TokenRoute.js";
+import {getValue} from "@tsed/core/utils/getValue.js";
+import {isFunction} from "@tsed/core/utils/isFunction.js";
+import {setValue} from "@tsed/core/utils/setValue.js";
 
 /**
  * Configuration management service for the DI system.

@@ -1,6 +1,6 @@
+import {Store} from "../types/Store.js";
 import {StoreMerge} from "../decorators/storeMerge.js";
 import {StoreSet} from "../decorators/storeSet.js";
-import {Store} from "../types/Store.js";
 import {decorateMethodsOf} from "./decorateMethodsOf.js";
 import {descriptorOf} from "./descriptorOf.js";
 

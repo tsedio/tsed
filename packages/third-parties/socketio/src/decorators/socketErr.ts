@@ -1,5 +1,5 @@
-import {SocketFilters} from "../interfaces/SocketFilters.js";
 import {SocketFilter} from "./socketFilter.js";
+import {SocketFilters} from "../interfaces/SocketFilters.js";
 
 /**
  * Inject the error in the parameters

@@ -1,7 +1,6 @@
 import {PlatformTest} from "@tsed/platform-http/testing";
-
-import {ViteService} from "../services/ViteService.js";
 import {ViteRendererMiddleware} from "./ViteRendererMiddleware.js";
+import {ViteService} from "../services/ViteService.js";
 
 const rootDir = import.meta.dirname; // automatically replaced by import.meta.dirname on build
 

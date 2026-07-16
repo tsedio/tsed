@@ -1,7 +1,6 @@
-import {isBoolean} from "@tsed/core";
-
 import {JsonMapper} from "../decorators/jsonMapper.js";
 import {JsonMapperMethods} from "../interfaces/JsonMapperMethods.js";
+import {isBoolean} from "@tsed/core";
 
 /**
  * Mapper for `Date` type.

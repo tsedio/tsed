@@ -1,5 +1,4 @@
 import {CollectionOf, MaxItems, MinItems, Property} from "@tsed/schema";
-
 import {OpenWhenEmpty} from "../src/decorators/openWhenEmpty.js";
 import {getFormioSchema} from "../src/index.js";
 

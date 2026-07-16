@@ -1,6 +1,5 @@
-import {isBoolean, isNumber, isObject, isStream} from "@tsed/core";
 import {type BaseContext, type FactoryTokenProvider, inject, injectable} from "@tsed/di";
-
+import {isBoolean, isNumber, isObject, isStream} from "@tsed/core";
 import {ContentTypes} from "../constants/ContentTypes.js";
 import {PLATFORM_CONTENT_TYPES_CONTAINER} from "./PlatformContentTypesContainer.js";
 

@@ -1,9 +1,8 @@
-import {classOf} from "@tsed/core/utils/classOf.js";
-
 import {DI_USE_PARAM_OPTIONS} from "../constants/constants.js";
-import {ProviderScope} from "../domain/ProviderScope.js";
 import {Inject} from "./inject.js";
+import {ProviderScope} from "../domain/ProviderScope.js";
 import {Scope} from "./scope.js";
+import {classOf} from "@tsed/core/utils/classOf.js";
 
 /**
  * Inject custom options passed to a provider instance.

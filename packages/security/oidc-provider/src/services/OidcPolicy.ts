@@ -1,9 +1,8 @@
-import {inject, Injectable, injector, Provider} from "@tsed/di";
-import {interactionPolicy} from "oidc-provider";
-
+import {Injectable, Provider, inject, injector} from "@tsed/di";
 import {InteractionMethods} from "../domain/InteractionMethods.js";
 import {OidcInteractionOptions} from "../domain/OidcInteractionOptions.js";
 import {OidcInteractions} from "./OidcInteractions.js";
+import {interactionPolicy} from "oidc-provider";
 import Prompt = interactionPolicy.Prompt;
 
 @Injectable()

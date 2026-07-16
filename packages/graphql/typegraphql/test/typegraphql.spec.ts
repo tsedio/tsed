@@ -1,13 +1,11 @@
-import "@tsed/platform-express";
 import "@tsed/graphql-ws";
-
+import "@tsed/platform-express";
 import {ApolloService} from "@tsed/apollo";
-import {runInContext} from "@tsed/di";
 import {PlatformExpress} from "@tsed/platform-express";
 import {PlatformTest} from "@tsed/platform-http/testing";
-import {gql} from "graphql-tag";
-
 import {Server} from "./app/Server.js";
+import {gql} from "graphql-tag";
+import {runInContext} from "@tsed/di";
 
 const GET_RECIPES = gql`
   query GetRecipes {

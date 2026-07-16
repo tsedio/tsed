@@ -1,8 +1,7 @@
-import {inject, injectable, injector, ProviderScope, TokenProvider} from "@tsed/di";
 import {PlatformLayer, PlatformRouters} from "@tsed/platform-router";
-
-import {application} from "../fn/application.js";
+import {ProviderScope, TokenProvider, inject, injectable, injector} from "@tsed/di";
 import {Route, RouteController} from "../interfaces/Route.js";
+import {application} from "../fn/application.js";
 
 /**
  * `Platform` is used to provide all routes collected by annotation `@Controller`.

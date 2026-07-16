@@ -1,5 +1,4 @@
 import {JsonSchema, s, string} from "@tsed/schema";
-
 import {toZod} from "./toZod.js";
 
 describe("toZod", () => {

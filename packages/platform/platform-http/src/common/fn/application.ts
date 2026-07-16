@@ -1,6 +1,5 @@
-import {injector} from "@tsed/di";
-
 import type {PlatformApplication} from "../services/PlatformApplication.js";
+import {injector} from "@tsed/di";
 
 /**
  * Return the injectable Application instance.
