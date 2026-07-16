@@ -1,6 +1,6 @@
 {
   "name": "@tsed/root",
-  "version": "8.34.0",
+  "version": "8.35.0",
   "private": true,
   "description": "A TypeScript Framework on top of Express",
   "keywords": [
