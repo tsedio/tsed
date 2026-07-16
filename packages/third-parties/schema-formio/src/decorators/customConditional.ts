@@ -1,6 +1,6 @@
+import type {Utils} from "@formio/js";
 import {isArrowFn} from "@tsed/core";
 import {FormioComponent, FormioForm, FormioSubmission} from "@tsed/formio-types";
-import type {Utils} from "formiojs";
 import type {LoDashStatic} from "lodash";
 import type {Moment} from "moment";
 
