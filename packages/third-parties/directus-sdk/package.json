@@ -39,10 +39,10 @@
     "tslib": "2.8.1"
   },
   "devDependencies": {
-    "@directus/api": "35.0.1",
-    "@directus/extensions-sdk": "17.1.1",
-    "@directus/sdk": "21.2.2",
-    "@directus/types": "15.0.1",
+    "@directus/api": "^37.0.1",
+    "@directus/extensions-sdk": "^18.0.1",
+    "@directus/sdk": "^23.0.0",
+    "@directus/types": "^16.0.0",
     "@tsed/barrels": "workspace:*",
     "@tsed/config": "workspace:*",
     "@tsed/core": "workspace:*",
@@ -50,6 +50,7 @@
     "@tsed/logger": "^8.0.0",
     "@tsed/logger-connect": "8.0.4",
     "@types/express": "4.17.21",
+    "sqlite3": "^6.0.1",
     "typescript": "6.0.2",
     "vitest": "4.1.4"
   },

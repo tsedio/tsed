@@ -219,5 +219,9 @@
       }
     ]
   },
+  "resolutions": {
+    "sqlite3": "6.0.1",
+    "isolated-vm": "^6"
+  },
   "packageManager": "yarn@4.1.0"
 }

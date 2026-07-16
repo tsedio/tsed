@@ -1,8 +1,8 @@
-import type {ExtendedComponentSchema} from "formiojs";
+import type {BaseComponent} from "@formio/core";
 
 import {FormioForm} from "./FormioForm.js";
 
-export interface FormioComponent extends ExtendedComponentSchema {
+export interface FormioComponent extends BaseComponent {
   type: string;
   key: string;
 

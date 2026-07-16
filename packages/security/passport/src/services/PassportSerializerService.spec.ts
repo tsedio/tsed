@@ -45,7 +45,7 @@ describe("PassportSerializerService", () => {
         service.deserialize('{"id":"id","email":"email@email.fr}', (...args: any[]) => resolve(args))
       );
 
-      expect(result[0].message).toEqual("Unterminated string in JSON at position 35");
+      expect(result[0].message).toEqual("Unterminated string in JSON at position 35 (line 1 column 36)");
     })
   );
 });

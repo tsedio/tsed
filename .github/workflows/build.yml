@@ -19,7 +19,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        node-version: [20.19.4]
+        node-version: [24.18.0]
 
     steps:
       - uses: actions/checkout@v4
@@ -38,7 +38,7 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [20.19.4]
+        node-version: [24.18.0]
 
     steps:
       - uses: actions/checkout@v4
@@ -71,7 +71,7 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [20.19.4]
+        node-version: [24.18.0]
 
     steps:
       - uses: actions/checkout@v4
@@ -101,7 +101,7 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [20.19.4]
+        node-version: [24.18.0]
 
     steps:
       - uses: actions/checkout@v4
@@ -130,7 +130,7 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [20.19.4]
+        node-version: [24.18.0]
 
     steps:
       - uses: actions/checkout@v4
@@ -159,7 +159,7 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [20.19.4]
+        node-version: [24.18.0]
 
     steps:
       - uses: actions/checkout@v4
@@ -188,7 +188,7 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [20.19.4]
+        node-version: [24.18.0]
 
     steps:
       - uses: actions/checkout@v4
@@ -217,7 +217,7 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [20.19.4]
+        node-version: [24.18.0]
 
     steps:
       - uses: actions/checkout@v4
