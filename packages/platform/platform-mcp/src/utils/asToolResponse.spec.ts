@@ -1,8 +1,8 @@
-import {asStructuredResponse} from "./asStructuredResponse.js";
+import {asToolResponse} from "./asToolResponse.js";
 
 describe("asStructuredResponse", () => {
   it("should expose object payloads as text and structured content", () => {
-    expect(asStructuredResponse({id: "tool-id"})).toEqual({
+    expect(asToolResponse({id: "tool-id"})).toEqual({
       content: [{type: "text", text: '{\n  "id": "tool-id"\n}'}],
       structuredContent: {id: "tool-id"}
     });
@@ -11,11 +11,11 @@ describe("asStructuredResponse", () => {
   it("should preserve an existing structured response", () => {
     const response = {content: [{type: "text", text: "ready"}], structuredContent: {ready: true}};
 
-    expect(asStructuredResponse(response)).toBe(response);
+    expect(asToolResponse(response)).toBe(response);
   });
 
   it("should mark structured error responses", () => {
-    expect(asStructuredResponse({message: "boom"}, {isError: true})).toEqual({
+    expect(asToolResponse({message: "boom"}, {isError: true})).toEqual({
       isError: true,
       content: [{type: "text", text: '{\n  "message": "boom"\n}'}],
       structuredContent: {message: "boom"}
@@ -23,7 +23,7 @@ describe("asStructuredResponse", () => {
   });
 
   it("should expose primitive payloads as text-only content", () => {
-    expect(asStructuredResponse("ready" as never)).toEqual({
+    expect(asToolResponse("ready" as never)).toEqual({
       content: [{type: "text", text: '"ready"'}]
     });
   });

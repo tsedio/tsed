@@ -3,7 +3,7 @@ import {context, inject, injectable, logger, type TokenProvider} from "@tsed/di"
 import {MCP_PROVIDER_TYPES} from "../constants/constants.js";
 import {constantCase} from "change-case";
 import {s} from "@tsed/schema";
-import {asResponse} from "../utils/asResponse.js";
+import {asResourceResponse} from "../utils/asResourceResponse.js";
 
 type ResourceMetadataProps = ResourceMetadata & {
   name: string;
@@ -111,7 +111,7 @@ export function defineResource(options: ResourceProps): TokenProvider {
               tool: opts.name
             });
 
-            return asResponse(args[0]?.toString(), result);
+            return asResourceResponse(args[0]?.toString(), result);
           } catch (er: any) {
             const safeErr =
               er && typeof er === "object"
@@ -132,7 +132,7 @@ export function defineResource(options: ResourceProps): TokenProvider {
               resource: opts.name
             });
 
-            return asResponse(
+            return asResourceResponse(
               args[0]?.toString(),
               {
                 status_code: safeErr.status,

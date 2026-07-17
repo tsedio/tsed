@@ -103,7 +103,7 @@ describe("defineTool", () => {
   });
 
   it("should expose aliased output schema properties", () => {
-    const token = defineTool<any>({
+    const token = defineTool({
       name: "aliased-tool-output",
       outputSchema: s.object({prop: string().required().name("aliasProps")}),
       handler() {
@@ -151,8 +151,9 @@ describe("defineTool", () => {
   });
 
   it("should normalize successful tool payloads as structured content", async () => {
-    const token = defineTool<{id: string}>({
+    const token = defineTool({
       name: "successful-tool",
+      outputSchema: s.object({id: string()}),
       handler() {
         return {id: "tool-id"};
       }

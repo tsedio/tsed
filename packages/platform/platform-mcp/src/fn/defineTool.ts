@@ -7,7 +7,7 @@ import type {RequestHandlerExtra} from "@modelcontextprotocol/sdk/shared/protoco
 import {constantCase} from "change-case";
 import {deserialize} from "@tsed/json-mapper";
 import {toZod} from "../utils/toZod.js";
-import {asStructuredResponse} from "../utils/asStructuredResponse.js";
+import {asToolResponse} from "../utils/asToolResponse.js";
 
 /**
  * Signature implemented by MCP tool handlers invoked through {@link defineTool}.
@@ -16,10 +16,10 @@ import {asStructuredResponse} from "../utils/asStructuredResponse.js";
  * @module platform/mcp
  * @since 8.17.0
  */
-export type ToolCallback<Args = undefined> = (
+export type ToolCallback<Args = undefined, Output = unknown> = (
   args: Args,
   extra: RequestHandlerExtra<ServerRequest, ServerNotification>
-) => CallToolResult | Promise<CallToolResult>;
+) => CallToolResult | Promise<CallToolResult> | Output | Promise<Output>;
 
 type BaseToolConfig = {
   title?: string;
@@ -28,14 +28,14 @@ type BaseToolConfig = {
   _meta?: Record<string, unknown>;
 };
 
-type BaseToolProps<Input, Output = undefined> = BaseToolConfig & {
+type BaseToolProps<Input, Output = unknown> = BaseToolConfig & {
   inputSchema?: JsonSchema<Input> | (() => JsonSchema<Input>) | Tool["inputSchema"];
   outputSchema?: JsonSchema<Output> | Tool["outputSchema"];
 };
 
-export type FnToolProps<Input, Output = undefined> = BaseToolProps<Input, Output> & {
+export type FnToolProps<Input, Output = unknown> = BaseToolProps<Input, Output> & {
   name: string;
-  handler: ToolCallback<Input>;
+  handler: ToolCallback<Input, Output>;
 };
 
 /**
@@ -44,7 +44,7 @@ export type FnToolProps<Input, Output = undefined> = BaseToolProps<Input, Output
  * @module platform/mcp
  * @since 8.17.0
  */
-export type ClassToolProps<Input, Output = undefined> = BaseToolProps<Input, Output> & {
+export type ClassToolProps<Input, Output = unknown> = BaseToolProps<Input, Output> & {
   name?: string;
   token: Type | AbstractType<any>;
   propertyKey: string | symbol;
@@ -56,10 +56,10 @@ export type ClassToolProps<Input, Output = undefined> = BaseToolProps<Input, Out
  * @module platform/mcp
  * @since 8.17.0
  */
-export type ToolProps<Input, Output = undefined> = FnToolProps<Input, Output> | ClassToolProps<Input, Output>;
+export type ToolProps<Input, Output = unknown> = FnToolProps<Input, Output> | ClassToolProps<Input, Output>;
 
-type MappedToolOptions<Input, Output = undefined> = Omit<ToolProps<Input, Output>, "token" | "propertyKey"> & {
-  handler: ToolCallback<Input>;
+type MappedToolOptions<Input, Output = unknown> = Omit<ToolProps<Input, Output>, "token" | "propertyKey"> & {
+  handler: ToolCallback<Input, Output>;
   inputStore?: JsonEntityStore;
   outputStore?: JsonMethodStore;
 };
@@ -96,8 +96,8 @@ function deserializeInput<Input>(args: Input, inputSchema: unknown, inputStore?:
   }) as Input;
 }
 
-function mapOptions<Input, Output = undefined>(options: ToolProps<Input, Output>): MappedToolOptions<Input, Output> {
-  let handler: ToolCallback<Input>;
+function mapOptions<Input, Output = unknown>(options: ToolProps<Input, Output>): MappedToolOptions<Input, Output> {
+  let handler: ToolCallback<Input, Output>;
   let inputStore: JsonEntityStore | undefined;
 
   if ("propertyKey" in options) {
@@ -142,9 +142,9 @@ function mapOptions<Input, Output = undefined>(options: ToolProps<Input, Output>
  * });
  * ```
  */
-export function defineTool<Input, Output = undefined>(options: FnToolProps<Input, Output>): TokenProvider;
-export function defineTool<Input, Output = undefined>(options: ClassToolProps<Input, Output>): TokenProvider;
-export function defineTool<Input, Output = undefined>(options: ToolProps<Input, Output>) {
+export function defineTool<Input, Output = unknown>(options: FnToolProps<Input, Output>): TokenProvider;
+export function defineTool<Input, Output = unknown>(options: ClassToolProps<Input, Output>): TokenProvider;
+export function defineTool<Input, Output = unknown>(options: ToolProps<Input, Output>) {
   const provider = injectable(Symbol.for(`MCP:TOOL:${options.name}`))
     .type(MCP_PROVIDER_TYPES.TOOL)
     .factory(() => {
@@ -171,7 +171,7 @@ export function defineTool<Input, Output = undefined>(options: ToolProps<Input, 
               tool: opts.name
             });
 
-            return asStructuredResponse(result);
+            return asToolResponse(result as unknown as Record<string, unknown>);
           } catch (er: any) {
             const code = er.name && er.status ? `E_MCP_TOOL_${constantCase(er.name)}` : "E_MCP_TOOL_ERROR";
 
@@ -185,7 +185,7 @@ export function defineTool<Input, Output = undefined>(options: ToolProps<Input, 
               tool: opts.name
             });
 
-            return asStructuredResponse(
+            return asToolResponse(
               {
                 status_code: er.status,
                 code,

@@ -1,24 +1,21 @@
 import {serialize} from "@tsed/json-mapper";
 import {isObject} from "@tsed/core";
+import {ReadResourceResult} from "@modelcontextprotocol/sdk/types.js";
 
-export interface UnstructuredResponse {
-  contents: {url: string; mimeType: string; text: string}[];
-}
-
-export function asResponse(
-  url: string,
-  payload: Record<string, unknown> | UnstructuredResponse,
+export function asResourceResponse(
+  uri: string,
+  payload: Record<string, unknown> | ReadResourceResult,
   opts?: {isError?: boolean}
-): UnstructuredResponse {
+): ReadResourceResult {
   if (payload.contents) {
-    return payload as UnstructuredResponse;
+    return payload as ReadResourceResult;
   }
 
-  const contents: UnstructuredResponse["contents"] = [];
+  const contents: ReadResourceResult["contents"] = [];
 
   if (opts?.isError) {
     contents.push({
-      url,
+      uri,
       mimeType: "plain/text" as const,
       text: (payload as any).message || ""
     });
@@ -27,7 +24,7 @@ export function asResponse(
   if (isObject(payload)) {
     payload = serialize(payload, {useAlias: true, groups: ["resources"]});
     contents.push({
-      url,
+      uri,
       mimeType: "application/json" as const,
       text: JSON.stringify(payload, null, 2)
     });
