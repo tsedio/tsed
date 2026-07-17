@@ -1,7 +1,7 @@
 import "../../src/index.js";
 import "@tsed/ajv";
 import {Configuration} from "@tsed/di";
-import {functionalResource, functionalTool} from "./functional.js";
+import {functionalResource, functionalTool, genericTool} from "./functional.js";
 import {TestPrompt} from "./prompts/TestPrompt.js";
 import {TestResource} from "./resources/TestResource.js";
 import {TestTool} from "./tools/TestTool.js";
@@ -19,7 +19,7 @@ export {rootDir};
   mcp: {
     prompts: [TestPrompt],
     resources: [TestResource, functionalResource],
-    tools: [TestTool, functionalTool]
+    tools: [TestTool, functionalTool, genericTool]
   }
 })
 export class Server {}
