@@ -1,4 +1,5 @@
 import type {ReadResourceCallback, ResourceMetadata, ResourceTemplate} from "@modelcontextprotocol/sdk/server/mcp.js";
+import type {ReadResourceResult} from "@modelcontextprotocol/sdk/types.js";
 import {context, inject, injectable, logger, type TokenProvider} from "@tsed/di";
 import {MCP_PROVIDER_TYPES} from "../constants/constants.js";
 import {constantCase} from "change-case";
@@ -9,14 +10,18 @@ type ResourceMetadataProps = ResourceMetadata & {
   name: string;
 };
 
+export type ResourceCallback = (
+  ...args: Parameters<ReadResourceCallback>
+) => ReadResourceResult | Record<string, unknown> | Promise<ReadResourceResult | Record<string, unknown>>;
+
 export type FnResourceReadProps = ResourceMetadataProps & {
   uri: string;
-  handler: ReadResourceCallback;
+  handler: ResourceCallback;
 };
 
 export type FnResourceTemplateProps = ResourceMetadataProps & {
   template: ResourceTemplate;
-  handler: ReadResourceCallback;
+  handler: ResourceCallback;
 };
 
 type ClassResourceBaseProps = Omit<ResourceMetadataProps, "name"> & {
@@ -46,7 +51,7 @@ function isClassResourceProps(options: ResourceProps): options is ClassResourceR
 }
 
 function mapOptions(options: ResourceProps) {
-  let handler: ReadResourceCallback;
+  let handler: ResourceCallback;
   const name = options.name || ("propertyKey" in options ? String(options.propertyKey) : undefined);
 
   if (isClassResourceProps(options)) {
