@@ -1,16 +1,23 @@
 import {serialize} from "@tsed/json-mapper";
 import {isObject} from "@tsed/core";
+import type {CallToolResult} from "@modelcontextprotocol/sdk/types.js";
 
-export interface StructuredResponse<T> {
-  content: {type: string; text: string}[];
-  structuredContent?: T;
+export interface StructuredResponse<
+  T extends {
+    [x: string]: unknown;
+  } = {
+    [x: string]: unknown;
+  }
+> extends CallToolResult {
+  structuredContent?: T | undefined;
   isError?: true;
 }
 
-export function asStructuredResponse<T extends object>(
-  payload: T | StructuredResponse<unknown>,
-  opts?: {isError?: true}
-): StructuredResponse<T> {
+export function asToolResponse<
+  T extends {
+    [x: string]: unknown;
+  }
+>(payload: T | StructuredResponse, opts?: {isError?: true}): StructuredResponse<T> {
   if (isObject(payload)) {
     if ("content" in payload || "structuredContent" in payload) {
       return payload as StructuredResponse<T>;
