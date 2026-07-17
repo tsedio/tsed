@@ -1,7 +1,7 @@
-import {type AbstractType, type Type, isArrowFn, isClass} from "@tsed/core";
+import {type AbstractType, isArrowFn, isClass, type Type} from "@tsed/core";
 import type {CallToolResult, ServerNotification, ServerRequest, Tool, ToolAnnotations} from "@modelcontextprotocol/sdk/types.js";
 import {JsonEntityStore, JsonMethodStore, JsonSchema, s} from "@tsed/schema";
-import {type TokenProvider, context, inject, injectable, logger} from "@tsed/di";
+import {context, inject, injectable, logger, type TokenProvider} from "@tsed/di";
 import {MCP_PROVIDER_TYPES} from "../constants/constants.js";
 import type {RequestHandlerExtra} from "@modelcontextprotocol/sdk/shared/protocol.js";
 import {constantCase} from "change-case";
@@ -153,9 +153,13 @@ export function defineTool<Input, Output = undefined>(options: ToolProps<Input, 
         ...opts,
         name: opts.name,
         inputSchema: toZod(inputSchema, {
+          groups: [opts.name!, "tools"],
           useAlias: true
         }),
-        outputSchema: toZod(opts.outputSchema),
+        outputSchema: toZod(opts.outputSchema, {
+          groups: [opts.name!, "tools"],
+          useAlias: true
+        }),
         async handler(args: Input, extra: RequestHandlerExtra<ServerRequest, ServerNotification>) {
           try {
             return await handler(deserializeInput(args, inputSchema, inputStore), extra);

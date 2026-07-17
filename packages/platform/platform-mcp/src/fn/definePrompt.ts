@@ -1,7 +1,7 @@
-import {type AbstractType, type Type, isArrowFn} from "@tsed/core";
+import {type AbstractType, isArrowFn, type Type} from "@tsed/core";
 import type {GetPromptResult, ServerNotification, ServerRequest} from "@modelcontextprotocol/sdk/types.js";
 import {JsonSchema, s} from "@tsed/schema";
-import {type TokenProvider, context, inject, injectable, logger} from "@tsed/di";
+import {context, inject, injectable, logger, type TokenProvider} from "@tsed/di";
 import {MCP_PROVIDER_TYPES} from "../constants/constants.js";
 import type {RequestHandlerExtra} from "@modelcontextprotocol/sdk/shared/protocol.js";
 import {constantCase} from "change-case";
@@ -64,7 +64,10 @@ function mapOptions<Args = any>(options: PromptProps<Args>) {
   return {
     ...options,
     name,
-    argsSchema: toZod(isArrowFn(options.argsSchema) ? options.argsSchema() : options.argsSchema),
+    argsSchema: toZod(isArrowFn(options.argsSchema) ? options.argsSchema() : options.argsSchema, {
+      useAlias: true,
+      groups: [name!, "prompt"]
+    }),
     handler: handler
   };
 }
