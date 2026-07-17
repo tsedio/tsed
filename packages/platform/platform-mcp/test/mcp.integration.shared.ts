@@ -153,6 +153,32 @@ export const expectedTools = {
           taskSupport: "forbidden"
         },
         inputSchema: {
+          properties: {},
+          type: "object"
+        },
+        name: "generic-tool",
+        outputSchema: {
+          $schema: "http://json-schema.org/draft-07/schema#",
+          additionalProperties: false,
+          properties: {
+            data: {
+              additionalProperties: false,
+              properties: {
+                id: {
+                  type: "string"
+                }
+              },
+              type: "object"
+            }
+          },
+          type: "object"
+        }
+      },
+      {
+        execution: {
+          taskSupport: "forbidden"
+        },
+        inputSchema: {
           $schema: "http://json-schema.org/draft-07/schema#",
           properties: {
             value: {
@@ -367,6 +393,36 @@ export async function assertSerializedMcpResponses(request: SuperTest.Agent) {
       ],
       structuredContent: {
         message: "Hello from functional tool"
+      }
+    }
+  });
+
+  expect(
+    (
+      await sendMcpRequest({
+        jsonrpc: "2.0",
+        id: 1,
+        method: "tools/call",
+        params: {
+          name: "generic-tool",
+          arguments: {}
+        }
+      })
+    ).body
+  ).toEqual({
+    id: 1,
+    jsonrpc: "2.0",
+    result: {
+      content: [
+        {
+          type: "text",
+          text: '{\n  "data": {\n    "id": "generic-data"\n  }\n}'
+        }
+      ],
+      structuredContent: {
+        data: {
+          id: "generic-data"
+        }
       }
     }
   });

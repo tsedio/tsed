@@ -1,5 +1,16 @@
 import {defineResource, defineTool} from "../../src/index.js";
-import {s} from "@tsed/schema";
+import {Generics, Property, s} from "@tsed/schema";
+
+@Generics("T")
+class MyBaseModel<T> {
+  @Property("T")
+  data: T;
+}
+
+class MyData {
+  @Property()
+  id: string;
+}
 
 export const functionalResource = defineResource({
   name: "functional-resource",
@@ -22,6 +33,18 @@ export const functionalTool = defineTool({
   handler({value}) {
     return {
       message: `Hello ${value}`
+    };
+  }
+});
+
+export const genericTool = defineTool({
+  name: "generic-tool",
+  outputSchema: s.generic(MyBaseModel).of(MyData),
+  handler() {
+    return {
+      data: {
+        id: "generic-data"
+      }
     };
   }
 });
