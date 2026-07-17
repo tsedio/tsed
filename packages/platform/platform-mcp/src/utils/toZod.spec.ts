@@ -1,4 +1,4 @@
-import {JsonSchema, s, string} from "@tsed/schema";
+import {JsonSchema, Property, s, string} from "@tsed/schema";
 import {toZod} from "./toZod.js";
 
 describe("toZod", () => {
@@ -35,6 +35,29 @@ describe("toZod", () => {
       },
       required: ["aliasProp"],
       additionalProperties: false
+    });
+  });
+
+  it("should inline local schema references before converting to Zod", () => {
+    class Child {
+      @Property()
+      id: string;
+    }
+
+    const result = toZod(s.object({child: s.from(Child)}));
+
+    expect(result?.toJSONSchema()).toMatchObject({
+      type: "object",
+      properties: {
+        child: {
+          type: "object",
+          properties: {
+            id: {
+              type: "string"
+            }
+          }
+        }
+      }
     });
   });
 });

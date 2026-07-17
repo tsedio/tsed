@@ -161,6 +161,73 @@ export const helloTool = defineTool({
 
 :::
 
+### Structured Response serialization <Badge text="v8.36.0+" />
+
+When a @@defineTool@@ handler returns a plain object, Ts.ED serializes it with the tool name and the `tools` group,
+then creates both the JSON text `content` and `structuredContent` required by MCP. This lets handlers return their
+domain result directly instead of manually duplicating it in an MCP response.
+
+The generated input and output schemas use the same groups and preserve property aliases. Return a complete MCP result
+only when you need custom content, such as multiple messages or a non-JSON content type; it is passed through unchanged.
+
+::: code-group
+
+```typescript [Decorators]
+import {Injectable} from "@tsed/di";
+import {Tool} from "@tsed/platform-mcp";
+import {Description, Property, Returns} from "@tsed/schema";
+
+class HelloInput {
+  @Property()
+  name: string;
+}
+
+class HelloOutput {
+  @Property()
+  message: string;
+}
+
+@Injectable()
+export class HelloTool {
+  @Tool("hello")
+  @Description("Greets callers from any MCP client")
+  @Returns(HelloOutput)
+  async handle(input: HelloInput) {
+    return new HelloOutput({
+      message: `Hello, ${input.name}!`
+    });
+  }
+}
+```
+
+```typescript [Function API]
+import {defineTool} from "@tsed/platform-mcp";
+import {s} from "@tsed/schema";
+
+export const helloTool = defineTool({
+  name: "hello",
+  title: "Hello",
+  description: "Greets callers from any MCP client",
+  inputSchema: s
+    .object({
+      name: s.string().required()
+    })
+    .required(),
+  outputSchema: s
+    .object({
+      message: s.string().required()
+    })
+    .required(),
+  async handler({name}) {
+    return {
+      message: `Hello, ${name}!`
+    };
+  }
+});
+```
+
+:::
+
 ## Register resources
 
 Resources expose addressable content that clients can discover and read later by URI. Use them for static or dynamic

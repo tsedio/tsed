@@ -1,7 +1,9 @@
 import {Description, Title} from "@tsed/schema";
 import type {ReadResourceResult} from "@modelcontextprotocol/sdk/types.js";
 import {Resource} from "../../../src/index.js";
+import {Injectable} from "@tsed/di";
 
+@Injectable()
 export class TestResource {
   @Resource("tsed://resources/test")
   @Title("Test resource")
