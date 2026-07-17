@@ -7,6 +7,23 @@ describe("defineResource", () => {
   beforeEach(() => PlatformTest.create());
   afterEach(() => PlatformTest.reset());
 
+  function expectError(result: any, error: Record<string, unknown>) {
+    expect(result.contents[0]).toEqual({
+      url: "tsed://resource",
+      mimeType: "plain/text",
+      text: error.message
+    });
+    expect(result.contents[1]).toEqual({
+      url: "tsed://resource",
+      mimeType: "application/json",
+      text: expect.any(String)
+    });
+    expect(JSON.parse(result.contents[1].text)).toEqual({
+      ...error,
+      request_id: expect.any(String)
+    });
+  }
+
   it("should wrap handler errors with structured MCP payloads", async () => {
     const token = defineResource({
       name: "failing-resource",
@@ -19,16 +36,11 @@ describe("defineResource", () => {
     const definition = inject<any>(token);
     const result = await definition.handler(new URL("tsed://resource"), {} as any);
 
-    expect(result).toEqual({
-      contents: [],
-      _meta: {
-        status_code: undefined,
-        code: "E_MCP_RESOURCE_ERROR",
-        error_name: "Error",
-        message: "boom",
-        request_id: expect.any(String),
-        resource: "failing-resource"
-      }
+    expectError(result, {
+      code: "E_MCP_RESOURCE_ERROR",
+      error_name: "Error",
+      message: "boom",
+      resource: "failing-resource"
     });
   });
 
@@ -47,16 +59,12 @@ describe("defineResource", () => {
     const definition = inject<any>(token);
     const result = await definition.handler(new URL("tsed://resource"), {} as any);
 
-    expect(result).toEqual({
-      contents: [],
-      _meta: {
-        status_code: 404,
-        code: "E_MCP_RESOURCE_NOT_FOUND",
-        error_name: "NotFound",
-        message: "Not found",
-        request_id: expect.any(String),
-        resource: "http-resource"
-      }
+    expectError(result, {
+      status_code: 404,
+      code: "E_MCP_RESOURCE_NOT_FOUND",
+      error_name: "NotFound",
+      message: "Not found",
+      resource: "http-resource"
     });
   });
 
@@ -72,16 +80,33 @@ describe("defineResource", () => {
     const definition = inject<any>(token);
     const result = await definition.handler(new URL("tsed://resource"), {} as any);
 
-    expect(result).toEqual({
-      contents: [],
-      _meta: {
-        status_code: undefined,
-        code: "E_MCP_RESOURCE_ERROR",
-        error_name: undefined,
-        message: "boom",
-        request_id: expect.any(String),
-        resource: "primitive-error-resource"
+    expectError(result, {
+      code: "E_MCP_RESOURCE_ERROR",
+      message: "boom",
+      resource: "primitive-error-resource"
+    });
+  });
+
+  it("should normalize successful resource payloads", async () => {
+    const token = defineResource({
+      name: "resource",
+      uri: "tsed://resource",
+      handler() {
+        return {id: "resource-id"} as any;
       }
+    });
+
+    const definition = inject<any>(token);
+    const result = await definition.handler(new URL("tsed://resource"), {} as any);
+
+    expect(result).toEqual({
+      contents: [
+        {
+          url: "tsed://resource",
+          mimeType: "application/json",
+          text: '{\n  "id": "resource-id"\n}'
+        }
+      ]
     });
   });
 });

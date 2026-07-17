@@ -1,4 +1,4 @@
-import {Default, JsonSchema, Name, Property, from} from "@tsed/schema";
+import {Default, from, JsonSchema, Name, Property, s, string} from "@tsed/schema";
 import {afterEach, beforeEach, describe, expect, it} from "vitest";
 import {PlatformTest} from "@tsed/platform-http/testing";
 import {defineTool} from "./defineTool.js";
@@ -39,11 +39,10 @@ describe("defineTool", () => {
 
     const result = await definition.handler({}, {} as any);
 
+    expect(result.isError).toBe(true);
     expect(result.structuredContent).toEqual({
-      status_code: undefined,
       code: "E_MCP_TOOL_ERROR",
       message: "boom",
-      request_id: expect.any(String),
       tool: "failing-tool"
     });
   });
@@ -62,11 +61,11 @@ describe("defineTool", () => {
     const definition = inject<any>(token);
     const result = await definition.handler({}, {} as any);
 
+    expect(result.isError).toBe(true);
     expect(result.structuredContent).toEqual({
       status_code: 404,
       code: "E_MCP_TOOL_NOT_FOUND",
       message: "Not found",
-      request_id: expect.any(String),
       tool: "http-tool"
     });
   });
@@ -103,6 +102,28 @@ describe("defineTool", () => {
     });
   });
 
+  it("should expose aliased output schema properties", () => {
+    const token = defineTool<any>({
+      name: "aliased-tool-output",
+      outputSchema: s.object({prop: string().required().name("aliasProps")}),
+      handler() {
+        return {prop: "value"};
+      }
+    });
+
+    const definition = inject<any>(token);
+
+    expect(definition.outputSchema.toJSONSchema()).toMatchObject({
+      type: "object",
+      properties: {
+        aliasProp: {
+          type: "string"
+        }
+      },
+      required: ["aliasProp"]
+    });
+  });
+
   it("should deserialize functional tool input from a Ts.ED model schema", async () => {
     const token = defineTool<KnowledgeSearchRequest>({
       name: "knowledge-search",
@@ -127,5 +148,26 @@ describe("defineTool", () => {
       },
       {} as any
     );
+  });
+
+  it("should normalize successful tool payloads as structured content", async () => {
+    const token = defineTool<{id: string}>({
+      name: "successful-tool",
+      handler() {
+        return {id: "tool-id"};
+      }
+    });
+
+    const definition = inject<any>(token);
+
+    await expect(definition.handler({}, {} as any)).resolves.toEqual({
+      content: [
+        {
+          type: "text",
+          text: '{\n  "id": "tool-id"\n}'
+        }
+      ],
+      structuredContent: {id: "tool-id"}
+    });
   });
 });

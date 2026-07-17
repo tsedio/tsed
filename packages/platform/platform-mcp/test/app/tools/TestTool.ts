@@ -18,7 +18,7 @@ export class TestTool {
   @Tool("test-tool")
   @Title("Test tool")
   @Description("Test description")
-  @Returns(200, Output)
+  @Returns(Output)
   async test(input: Input): Promise<CallToolResult> {
     return {
       content: [

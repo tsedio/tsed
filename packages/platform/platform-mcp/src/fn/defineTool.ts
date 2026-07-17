@@ -7,6 +7,7 @@ import type {RequestHandlerExtra} from "@modelcontextprotocol/sdk/shared/protoco
 import {constantCase} from "change-case";
 import {deserialize} from "@tsed/json-mapper";
 import {toZod} from "../utils/toZod.js";
+import {asStructuredResponse} from "../utils/asStructuredResponse.js";
 
 /**
  * Signature implemented by MCP tool handlers invoked through {@link defineTool}.
@@ -60,6 +61,7 @@ export type ToolProps<Input, Output = undefined> = FnToolProps<Input, Output> | 
 type MappedToolOptions<Input, Output = undefined> = Omit<ToolProps<Input, Output>, "token" | "propertyKey"> & {
   handler: ToolCallback<Input>;
   inputStore?: JsonEntityStore;
+  outputStore?: JsonMethodStore;
 };
 
 function getOutputSchema<Output>(methodStore: JsonMethodStore): JsonSchema<Output> {
@@ -162,9 +164,17 @@ export function defineTool<Input, Output = undefined>(options: ToolProps<Input, 
         }),
         async handler(args: Input, extra: RequestHandlerExtra<ServerRequest, ServerNotification>) {
           try {
-            return await handler(deserializeInput(args, inputSchema, inputStore), extra);
+            const result = await handler(deserializeInput(args, inputSchema, inputStore), extra);
+
+            logger().info({
+              event: "MCP_TOOL_END",
+              tool: opts.name
+            });
+
+            return asStructuredResponse(result);
           } catch (er: any) {
             const code = er.name && er.status ? `E_MCP_TOOL_${constantCase(er.name)}` : "E_MCP_TOOL_ERROR";
+
             logger().error({
               event: "MCP_TOOL_ERROR",
               status_code: er.status,
@@ -175,16 +185,15 @@ export function defineTool<Input, Output = undefined>(options: ToolProps<Input, 
               tool: opts.name
             });
 
-            return {
-              content: [],
-              structuredContent: {
+            return asStructuredResponse(
+              {
                 status_code: er.status,
                 code,
                 message: er.message,
-                request_id: context().id,
                 tool: opts.name
-              }
-            } satisfies CallToolResult;
+              },
+              {isError: true}
+            );
           }
         }
       };

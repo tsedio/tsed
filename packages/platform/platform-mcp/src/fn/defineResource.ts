@@ -1,8 +1,9 @@
 import type {ReadResourceCallback, ResourceMetadata, ResourceTemplate} from "@modelcontextprotocol/sdk/server/mcp.js";
-import {type TokenProvider, context, inject, injectable, logger} from "@tsed/di";
+import {context, inject, injectable, logger, type TokenProvider} from "@tsed/di";
 import {MCP_PROVIDER_TYPES} from "../constants/constants.js";
 import {constantCase} from "change-case";
 import {s} from "@tsed/schema";
+import {asResponse} from "../utils/asResponse.js";
 
 type ResourceMetadataProps = ResourceMetadata & {
   name: string;
@@ -103,7 +104,14 @@ export function defineResource(options: ResourceProps): TokenProvider {
         ...opts,
         async handler(...args: Parameters<ReadResourceCallback>) {
           try {
-            return await handler(...args);
+            const result = await handler(...args);
+
+            logger().info({
+              event: "MCP_TOOL_END",
+              tool: opts.name
+            });
+
+            return asResponse(args[0]?.toString(), result);
           } catch (er: any) {
             const safeErr =
               er && typeof er === "object"
@@ -114,27 +122,29 @@ export function defineResource(options: ResourceProps): TokenProvider {
                     status: undefined
                   };
             const code = safeErr.name && safeErr.status ? `E_MCP_RESOURCE_${constantCase(safeErr.name)}` : "E_MCP_RESOURCE_ERROR";
+
             logger().error({
               event: "MCP_RESOURCE_ERROR",
               status_code: safeErr.status,
               code,
               error_name: safeErr.name,
               message: safeErr.message,
-              request_id: context().id,
               resource: opts.name
             });
 
-            return {
-              contents: [],
-              _meta: {
+            return asResponse(
+              args[0]?.toString(),
+              {
                 status_code: safeErr.status,
                 code,
                 error_name: safeErr.name,
                 message: safeErr.message,
                 request_id: context().id,
                 resource: opts.name
-              }
-            };
+              },
+              {isError: true}
+            );
+          } finally {
           }
         }
       };
