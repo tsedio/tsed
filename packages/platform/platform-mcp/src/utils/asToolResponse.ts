@@ -1,6 +1,6 @@
 import {serialize} from "@tsed/json-mapper";
 import {isObject} from "@tsed/core";
-import type {CallToolResult} from "@modelcontextprotocol/sdk/types.js";
+import type {CallToolResult} from "@modelcontextprotocol/server";
 
 export interface StructuredResponse<
   T extends {

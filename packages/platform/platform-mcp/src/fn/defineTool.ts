@@ -1,9 +1,8 @@
 import {type AbstractType, isArrowFn, isClass, type Type} from "@tsed/core";
-import type {CallToolResult, ServerNotification, ServerRequest, Tool, ToolAnnotations} from "@modelcontextprotocol/sdk/types.js";
+import type {CallToolResult, ServerContext, Tool, ToolAnnotations} from "@modelcontextprotocol/server";
 import {JsonEntityStore, JsonMethodStore, JsonSchema, s} from "@tsed/schema";
 import {context, inject, injectable, logger, type TokenProvider} from "@tsed/di";
 import {MCP_PROVIDER_TYPES} from "../constants/constants.js";
-import type {RequestHandlerExtra} from "@modelcontextprotocol/sdk/shared/protocol.js";
 import {constantCase} from "change-case";
 import {deserialize} from "@tsed/json-mapper";
 import {toZod} from "../utils/toZod.js";
@@ -18,7 +17,7 @@ import {asToolResponse} from "../utils/asToolResponse.js";
  */
 export type ToolCallback<Args = undefined, Output = unknown> = (
   args: Args,
-  extra: RequestHandlerExtra<ServerRequest, ServerNotification>
+  ctx: ServerContext
 ) => CallToolResult | Promise<CallToolResult> | Output | Promise<Output>;
 
 type BaseToolConfig = {
@@ -162,9 +161,9 @@ export function defineTool<Input, Output = unknown>(options: ToolProps<Input, Ou
           groups: [opts.name!, "tools"],
           useAlias: true
         }),
-        async handler(args: Input, extra: RequestHandlerExtra<ServerRequest, ServerNotification>) {
+        async handler(args: Input, ctx: ServerContext) {
           try {
-            const result = await handler(deserializeInput(args, inputSchema, inputStore), extra);
+            const result = await handler(deserializeInput(args, inputSchema, inputStore), ctx);
 
             logger().info({
               event: "MCP_TOOL_END",

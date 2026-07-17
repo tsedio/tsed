@@ -1,5 +1,5 @@
 import {Description, Property, Returns, Title} from "@tsed/schema";
-import type {CallToolResult} from "@modelcontextprotocol/sdk/types.js";
+import type {CallToolResult} from "@modelcontextprotocol/server";
 import {Injectable} from "@tsed/di";
 import {Tool} from "../../../src/index.js";
 

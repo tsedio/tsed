@@ -20,9 +20,9 @@ const {TestTransport, transportInstances} = vi.hoisted(() => {
   return {TestTransport, transportInstances};
 });
 
-vi.mock("@modelcontextprotocol/sdk/server/streamableHttp.js", () => {
+vi.mock("@modelcontextprotocol/node", () => {
   return {
-    StreamableHTTPServerTransport: TestTransport
+    NodeStreamableHTTPServerTransport: TestTransport
   };
 });
 
