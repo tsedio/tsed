@@ -1,6 +1,5 @@
-import type {Implementation} from "@modelcontextprotocol/sdk/types.js";
-import type {ServerOptions} from "@modelcontextprotocol/sdk/server/index.js";
-import type {StreamableHTTPServerTransportOptions} from "@modelcontextprotocol/sdk/server/streamableHttp.js";
+import type {Implementation, ServerOptions} from "@modelcontextprotocol/server";
+import type {StreamableHTTPServerTransportOptions} from "@modelcontextprotocol/node";
 import type {TokenProvider} from "@tsed/di";
 
 /**

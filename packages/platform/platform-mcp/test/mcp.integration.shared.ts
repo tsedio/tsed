@@ -104,11 +104,8 @@ export const expectedTools = {
     tools: [
       {
         description: "Test description",
-        execution: {
-          taskSupport: "forbidden"
-        },
         inputSchema: {
-          $schema: "http://json-schema.org/draft-07/schema#",
+          $schema: "https://json-schema.org/draft/2020-12/schema",
           properties: {
             id: {
               type: "string"
@@ -118,7 +115,7 @@ export const expectedTools = {
         },
         name: "test-tool",
         outputSchema: {
-          $schema: "http://json-schema.org/draft-07/schema#",
+          $schema: "https://json-schema.org/draft/2020-12/schema",
           additionalProperties: false,
           properties: {
             hello: {
@@ -129,16 +126,13 @@ export const expectedTools = {
         }
       },
       {
-        execution: {
-          taskSupport: "forbidden"
-        },
         inputSchema: {
-          properties: {},
+          $schema: "https://json-schema.org/draft/2020-12/schema",
           type: "object"
         },
         name: "serialized-tool",
         outputSchema: {
-          $schema: "http://json-schema.org/draft-07/schema#",
+          $schema: "https://json-schema.org/draft/2020-12/schema",
           additionalProperties: false,
           properties: {
             hello: {
@@ -149,16 +143,13 @@ export const expectedTools = {
         }
       },
       {
-        execution: {
-          taskSupport: "forbidden"
-        },
         inputSchema: {
           properties: {},
           type: "object"
         },
         name: "generic-tool",
         outputSchema: {
-          $schema: "http://json-schema.org/draft-07/schema#",
+          $schema: "https://json-schema.org/draft/2020-12/schema",
           additionalProperties: false,
           properties: {
             data: {
@@ -175,11 +166,8 @@ export const expectedTools = {
         }
       },
       {
-        execution: {
-          taskSupport: "forbidden"
-        },
         inputSchema: {
-          $schema: "http://json-schema.org/draft-07/schema#",
+          $schema: "https://json-schema.org/draft/2020-12/schema",
           properties: {
             value: {
               minLength: 1,
@@ -191,7 +179,7 @@ export const expectedTools = {
         },
         name: "functional-tool",
         outputSchema: {
-          $schema: "http://json-schema.org/draft-07/schema#",
+          $schema: "https://json-schema.org/draft/2020-12/schema",
           additionalProperties: false,
           properties: {
             message: {
