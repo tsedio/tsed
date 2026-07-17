@@ -45,11 +45,25 @@ export const expectedResources = {
   result: {
     resources: [
       {
+        name: "functional-resource",
+        uri: "tsed://resources/functional"
+      },
+      {
         description: "Returns a static payload for integration tests",
         name: "test",
         propertyKey: "test",
         title: "Test resource",
         uri: "tsed://resources/test"
+      },
+      {
+        name: "error",
+        propertyKey: "error",
+        uri: "tsed://resources/error"
+      },
+      {
+        name: "serialized",
+        propertyKey: "serialized",
+        uri: "tsed://resources/serialized"
       }
     ]
   }
@@ -64,6 +78,20 @@ export const expectedResource = {
         mimeType: "text/plain",
         text: "Hello from TestResource",
         uri: "tsed://resources/test"
+      }
+    ]
+  }
+};
+
+export const expectedSerializedResource = {
+  id: 1,
+  jsonrpc: "2.0",
+  result: {
+    contents: [
+      {
+        mimeType: "application/json",
+        text: '{\n  "message": "Hello from serialized resource"\n}',
+        uri: "tsed://resources/serialized"
       }
     ]
   }
@@ -99,6 +127,55 @@ export const expectedTools = {
           },
           type: "object"
         }
+      },
+      {
+        execution: {
+          taskSupport: "forbidden"
+        },
+        inputSchema: {
+          properties: {},
+          type: "object"
+        },
+        name: "serialized-tool",
+        outputSchema: {
+          $schema: "http://json-schema.org/draft-07/schema#",
+          additionalProperties: false,
+          properties: {
+            hello: {
+              type: "string"
+            }
+          },
+          type: "object"
+        }
+      },
+      {
+        execution: {
+          taskSupport: "forbidden"
+        },
+        inputSchema: {
+          $schema: "http://json-schema.org/draft-07/schema#",
+          properties: {
+            value: {
+              minLength: 1,
+              type: "string"
+            }
+          },
+          required: ["value"],
+          type: "object"
+        },
+        name: "functional-tool",
+        outputSchema: {
+          $schema: "http://json-schema.org/draft-07/schema#",
+          additionalProperties: false,
+          properties: {
+            message: {
+              minLength: 1,
+              type: "string"
+            }
+          },
+          required: ["message"],
+          type: "object"
+        }
       }
     ]
   }
@@ -120,8 +197,8 @@ export const expectedToolCall = {
   }
 };
 
-export async function assertMcpSuite(request: SuperTest.Agent) {
-  const sendMcpRequest = (body: Record<string, unknown>) =>
+function createMcpRequest(request: SuperTest.Agent) {
+  return (body: Record<string, unknown>) =>
     request
       .post("/mcp")
       .set({
@@ -129,6 +206,14 @@ export async function assertMcpSuite(request: SuperTest.Agent) {
         "Content-Type": "application/json"
       })
       .send(body);
+}
+
+function sortByName<T extends {name: string}>(items: T[]) {
+  return [...items].sort((a, b) => a.name.localeCompare(b.name));
+}
+
+export async function assertMcpDiscovery(request: SuperTest.Agent) {
+  const sendMcpRequest = createMcpRequest(request);
 
   expect((await sendMcpRequest({jsonrpc: "2.0", id: 1, method: "ping", params: {}})).body).toEqual(expectedPing);
   expect((await sendMcpRequest({jsonrpc: "2.0", id: 1, method: "prompts/list", params: {}})).body).toEqual(expectedPrompts);
@@ -144,7 +229,22 @@ export async function assertMcpSuite(request: SuperTest.Agent) {
       })
     ).body
   ).toEqual(expectedPrompt);
-  expect((await sendMcpRequest({jsonrpc: "2.0", id: 1, method: "resources/list", params: {}})).body).toEqual(expectedResources);
+  const resourceList = await sendMcpRequest({jsonrpc: "2.0", id: 1, method: "resources/list", params: {}});
+  expect({...resourceList.body, result: {resources: sortByName(resourceList.body.result.resources)}}).toEqual({
+    ...expectedResources,
+    result: {resources: sortByName(expectedResources.result.resources)}
+  });
+
+  const toolList = await sendMcpRequest({jsonrpc: "2.0", id: 1, method: "tools/list", params: {}});
+  expect({...toolList.body, result: {tools: sortByName(toolList.body.result.tools)}}).toEqual({
+    ...expectedTools,
+    result: {tools: sortByName(expectedTools.result.tools)}
+  });
+}
+
+export async function assertExplicitMcpResponses(request: SuperTest.Agent) {
+  const sendMcpRequest = createMcpRequest(request);
+
   expect(
     (
       await sendMcpRequest({
@@ -157,7 +257,6 @@ export async function assertMcpSuite(request: SuperTest.Agent) {
       })
     ).body
   ).toEqual(expectedResource);
-  expect((await sendMcpRequest({jsonrpc: "2.0", id: 1, method: "tools/list", params: {}})).body).toEqual(expectedTools);
 
   const toolCall = await sendMcpRequest({
     jsonrpc: "2.0",
@@ -173,4 +272,165 @@ export async function assertMcpSuite(request: SuperTest.Agent) {
 
   expect(toolCall.status).toBe(200);
   expect(toolCall.body).toEqual(expectedToolCall);
+}
+
+export async function assertSerializedMcpResponses(request: SuperTest.Agent) {
+  const sendMcpRequest = createMcpRequest(request);
+
+  expect(
+    (
+      await sendMcpRequest({
+        jsonrpc: "2.0",
+        id: 1,
+        method: "resources/read",
+        params: {
+          uri: "tsed://resources/serialized"
+        }
+      })
+    ).body
+  ).toEqual(expectedSerializedResource);
+
+  expect(
+    (
+      await sendMcpRequest({
+        jsonrpc: "2.0",
+        id: 1,
+        method: "resources/read",
+        params: {
+          uri: "tsed://resources/functional"
+        }
+      })
+    ).body
+  ).toEqual({
+    id: 1,
+    jsonrpc: "2.0",
+    result: {
+      contents: [
+        {
+          mimeType: "application/json",
+          text: '{\n  "message": "Hello from functional resource"\n}',
+          uri: "tsed://resources/functional"
+        }
+      ]
+    }
+  });
+
+  const serializedToolCall = await sendMcpRequest({
+    jsonrpc: "2.0",
+    id: 1,
+    method: "tools/call",
+    params: {
+      name: "serialized-tool",
+      arguments: {}
+    }
+  });
+
+  expect(serializedToolCall.body).toEqual({
+    id: 1,
+    jsonrpc: "2.0",
+    result: {
+      content: [
+        {
+          type: "text",
+          text: '{\n  "hello": "serialized"\n}'
+        }
+      ],
+      structuredContent: {
+        hello: "serialized"
+      }
+    }
+  });
+
+  expect(
+    (
+      await sendMcpRequest({
+        jsonrpc: "2.0",
+        id: 1,
+        method: "tools/call",
+        params: {
+          name: "functional-tool",
+          arguments: {
+            value: "from functional tool"
+          }
+        }
+      })
+    ).body
+  ).toEqual({
+    id: 1,
+    jsonrpc: "2.0",
+    result: {
+      content: [
+        {
+          type: "text",
+          text: '{\n  "message": "Hello from functional tool"\n}'
+        }
+      ],
+      structuredContent: {
+        message: "Hello from functional tool"
+      }
+    }
+  });
+}
+
+export async function assertMcpErrorResponses(request: SuperTest.Agent) {
+  const sendMcpRequest = createMcpRequest(request);
+
+  const resourceError = await sendMcpRequest({
+    jsonrpc: "2.0",
+    id: 1,
+    method: "resources/read",
+    params: {
+      uri: "tsed://resources/error"
+    }
+  });
+
+  expect(resourceError.body).toMatchObject({
+    id: 1,
+    jsonrpc: "2.0",
+    result: {
+      contents: [
+        {
+          mimeType: "plain/text",
+          text: "Resource failed",
+          uri: "tsed://resources/error"
+        },
+        {
+          mimeType: "application/json",
+          text: expect.stringContaining("E_MCP_RESOURCE_ERROR"),
+          uri: "tsed://resources/error"
+        }
+      ]
+    }
+  });
+
+  const toolError = await sendMcpRequest({
+    jsonrpc: "2.0",
+    id: 1,
+    method: "tools/call",
+    params: {
+      name: "test-tool",
+      arguments: {
+        id: "error"
+      }
+    }
+  });
+
+  expect(toolError.body).toMatchObject({
+    id: 1,
+    jsonrpc: "2.0",
+    result: {
+      isError: true,
+      content: [
+        {
+          type: "text",
+          text: expect.stringContaining("E_MCP_TOOL_ERROR")
+        }
+      ],
+      structuredContent: {
+        code: "E_MCP_TOOL_ERROR",
+        message: "Tool failed",
+        tool: "test-tool"
+      }
+    }
+  });
 }

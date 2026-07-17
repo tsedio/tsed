@@ -20,6 +20,10 @@ export class TestTool {
   @Description("Test description")
   @Returns(Output)
   async test(input: Input): Promise<CallToolResult> {
+    if (input.id === "error") {
+      throw new Error("Tool failed");
+    }
+
     return {
       content: [
         {
@@ -31,5 +35,11 @@ export class TestTool {
         hello: "world"
       }
     };
+  }
+
+  @Tool("serialized-tool")
+  @Returns(Output)
+  async serialized(): Promise<Output> {
+    return {hello: "serialized"};
   }
 }

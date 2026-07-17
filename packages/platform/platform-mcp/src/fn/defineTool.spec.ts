@@ -102,10 +102,10 @@ describe("defineTool", () => {
     });
   });
 
-  it("should expose aliased output schema properties", () => {
+  it("should expose aliases declared by functional output schemas", () => {
     const token = defineTool({
       name: "aliased-tool-output",
-      outputSchema: s.object({prop: string().required().name("aliasProps")}),
+      outputSchema: s.object({prop: string().required()}).addAlias("prop", "aliasProp"),
       handler() {
         return {prop: "value"};
       }

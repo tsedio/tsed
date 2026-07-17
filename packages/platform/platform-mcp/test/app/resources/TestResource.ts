@@ -19,4 +19,16 @@ export class TestResource {
       ]
     };
   }
+
+  @Resource("tsed://resources/error")
+  async error() {
+    throw new Error("Resource failed");
+  }
+
+  @Resource("tsed://resources/serialized")
+  async serialized() {
+    return {
+      message: "Hello from serialized resource"
+    };
+  }
 }
