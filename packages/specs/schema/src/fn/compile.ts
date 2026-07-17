@@ -1,10 +1,11 @@
 import "../components/index.js";
-import {DecoratorTypes, Type, getValue, isClass, isPlainObject, nameOf} from "@tsed/core";
+import {DecoratorTypes, getValue, isClass, isPlainObject, nameOf, Type} from "@tsed/core";
 import {JsonSchema, SpecTypes} from "../domain/index.js";
 import {JsonParameterStore} from "../components/index.js";
 import {JsonSchemaOptions} from "../domain/JsonSchemaOptions.js";
 import {execMapper} from "../registries/JsonSchemaMapperContainer.js";
 import {getJsonEntityStore} from "../registries/JsonEntitiesContainer.js";
+import {inlineRefs} from "../utils/inlineRefs.js";
 
 /**
  * @ignore
@@ -34,30 +35,31 @@ function get(model: Type | JsonParameterStore | JsonSchema, options: any) {
   const key = getKey(options);
 
   if (!cache.has(key)) {
+    let schema: any;
+
     if (model instanceof JsonSchema) {
-      cache.set(key, model.toJSON(options));
-      return cache.get(key);
+      schema = model.toJSON(options);
+    } else {
+      const entity = getJsonEntityStore(model);
+
+      let mapper = "schema";
+      if (entity.is(DecoratorTypes.PARAM)) {
+        options = {
+          ...options,
+          root: true,
+          groups: entity.schema.getGroups()
+        };
+        mapper = "item";
+      }
+
+      schema = execMapper(mapper, [entity.schema], options);
     }
-
-    const entity = getJsonEntityStore(model);
-
-    let mapper = "schema";
-    if (entity.is(DecoratorTypes.PARAM)) {
-      options = {
-        ...options,
-        root: true,
-        groups: entity.schema.getGroups()
-      };
-      mapper = "item";
-    }
-
-    const schema = execMapper(mapper, [entity.schema], options);
 
     if (Object.keys(getValue(options, "components.schemas", {})).length) {
       schema.definitions = options.components.schemas;
     }
 
-    cache.set(key, schema);
+    cache.set(key, options.inlineRefs ? inlineRefs(schema) : schema);
   }
 
   return cache.get(key);
@@ -72,7 +74,7 @@ function get(model: Type | JsonParameterStore | JsonSchema, options: any) {
  * @param options JSON schema generation options.
  * @returns Compiled JSON schema object.
  */
-export function compile(model: Type<any> | JsonParameterStore | JsonSchema, options: JsonSchemaOptions = {}) {
+export function compile(model: Type<any> | JsonParameterStore | JsonSchema<any>, options: JsonSchemaOptions = {}) {
   const specType = options.specType || SpecTypes.JSON;
 
   options = {

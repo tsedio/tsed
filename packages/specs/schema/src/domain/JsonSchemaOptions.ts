@@ -62,6 +62,12 @@ export interface JsonSchemaOptions {
    */
   inlineEnums?: boolean;
   /**
+   * Inline resolvable local JSON Schema references in the compiled output.
+   *
+   * External references and circular local references are preserved.
+   */
+  inlineRefs?: boolean;
+  /**
    * Explicit generic bindings used during schema compilation.
    *
    * Prefer attaching generics directly to a local schema instance with the
