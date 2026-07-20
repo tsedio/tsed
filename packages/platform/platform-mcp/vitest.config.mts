@@ -9,7 +9,6 @@ export default defineConfig({
     coverage: {
       ...presets.test.coverage,
       exclude: [
-        "**/utils/json-schema-to-zod/**",
         "**/node_modules/**",
         "**/@tsed/**",
         "**/exports.ts",

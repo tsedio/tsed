@@ -5,7 +5,7 @@ import {context, inject, injectable, logger, type TokenProvider} from "@tsed/di"
 import {MCP_PROVIDER_TYPES} from "../constants/constants.js";
 import {constantCase} from "change-case";
 import {deserialize} from "@tsed/json-mapper";
-import {toZod} from "../utils/toZod.js";
+import {fromJsonSchema} from "../utils/fromJsonSchema.js";
 import {asToolResponse} from "../utils/asToolResponse.js";
 
 /**
@@ -153,11 +153,11 @@ export function defineTool<Input, Output = unknown>(options: ToolProps<Input, Ou
       return {
         ...opts,
         name: opts.name,
-        inputSchema: toZod(inputSchema, {
+        inputSchema: fromJsonSchema(inputSchema, {
           groups: [opts.name!, "tools"],
           useAlias: true
         }),
-        outputSchema: toZod(opts.outputSchema, {
+        outputSchema: fromJsonSchema(opts.outputSchema, {
           groups: [opts.name!, "tools"],
           useAlias: true
         }),

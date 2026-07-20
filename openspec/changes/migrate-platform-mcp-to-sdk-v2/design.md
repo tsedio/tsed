@@ -8,8 +8,9 @@ MCP SDK v2 separates server primitives into `@modelcontextprotocol/server` and N
 - Use `NodeStreamableHTTPServerTransport` from `@modelcontextprotocol/node/streamableHttp` because Ts.ED forwards Node HTTP request and response objects.
 - Keep the endpoint stateless with `sessionIdGenerator: undefined` and continue closing each per-request transport on response close.
 - Keep the public option property named `transportOptions`, using the v2-compatible options alias exported by the Node adapter.
+- Compile Ts.ED `JsonSchema` instances with `s.compile()` and pass the resulting document to `fromJsonSchema()`. This lets the SDK v2 advertise and validate JSON Schema without a Zod conversion.
 
 ## Risks
 
-- v2 requires Zod 4.2 or newer; the package's existing Zod 4 range must be raised accordingly.
+- The v2 JSON Schema adapter validates input with the SDK-selected runtime validator; integration tests must cover the advertised schemas and tool execution.
 - Registration and HTTP behavior can differ subtly, so existing Express and Fastify integration tests remain part of the migration validation.
