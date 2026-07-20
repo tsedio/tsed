@@ -8,3 +8,9 @@
 
 - [x] 2.1 Update transport mocks and add a regression assertion for the v2 transport wiring.
 - [x] 2.2 Regenerate the lockfile and run package type checks and tests.
+
+## 3. JSON Schema registration
+
+- [x] 3.1 Replace the Zod conversion helper with an MCP v2 `fromJsonSchema()` adapter for Ts.ED schemas.
+- [x] 3.2 Remove direct Zod conversion dependencies and update schema unit and integration tests.
+- [x] 3.3 Verify that invalid tool input is rejected before its handler executes.

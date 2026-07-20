@@ -6,6 +6,7 @@
 
 - Replace `@modelcontextprotocol/sdk` with the v2 server and Node transport packages.
 - Update MCP server, schema, callback-context, and Streamable HTTP transport imports.
+- Register Ts.ED JSON Schemas through the SDK v2 `fromJsonSchema()` adapter instead of converting them to Zod.
 - Preserve the existing stateless `POST /mcp` endpoint and tool, prompt, and resource registrations.
 - Update unit and integration coverage to use the v2 transport.
 
@@ -20,3 +21,4 @@
 - Affected package: `@tsed/platform-mcp`.
 - Runtime dependency change: SDK v1 is removed; v2 server and Node packages are added.
 - The public callback context type changes from the removed `RequestHandlerExtra` to v2 `ServerContext`.
+- The package no longer has direct `zod` or `json-schema-to-zod` dependencies.

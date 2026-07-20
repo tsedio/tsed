@@ -105,7 +105,6 @@ export const expectedTools = {
       {
         description: "Test description",
         inputSchema: {
-          $schema: "https://json-schema.org/draft/2020-12/schema",
           properties: {
             id: {
               type: "string"
@@ -115,8 +114,6 @@ export const expectedTools = {
         },
         name: "test-tool",
         outputSchema: {
-          $schema: "https://json-schema.org/draft/2020-12/schema",
-          additionalProperties: false,
           properties: {
             hello: {
               type: "string"
@@ -127,13 +124,10 @@ export const expectedTools = {
       },
       {
         inputSchema: {
-          $schema: "https://json-schema.org/draft/2020-12/schema",
           type: "object"
         },
         name: "serialized-tool",
         outputSchema: {
-          $schema: "https://json-schema.org/draft/2020-12/schema",
-          additionalProperties: false,
           properties: {
             hello: {
               type: "string"
@@ -149,11 +143,8 @@ export const expectedTools = {
         },
         name: "generic-tool",
         outputSchema: {
-          $schema: "https://json-schema.org/draft/2020-12/schema",
-          additionalProperties: false,
           properties: {
             data: {
-              additionalProperties: false,
               properties: {
                 id: {
                   type: "string"
@@ -167,7 +158,6 @@ export const expectedTools = {
       },
       {
         inputSchema: {
-          $schema: "https://json-schema.org/draft/2020-12/schema",
           properties: {
             value: {
               minLength: 1,
@@ -179,8 +169,6 @@ export const expectedTools = {
         },
         name: "functional-tool",
         outputSchema: {
-          $schema: "https://json-schema.org/draft/2020-12/schema",
-          additionalProperties: false,
           properties: {
             message: {
               minLength: 1,
@@ -418,6 +406,32 @@ export async function assertSerializedMcpResponses(request: SuperTest.Agent) {
 
 export async function assertMcpErrorResponses(request: SuperTest.Agent) {
   const sendMcpRequest = createMcpRequest(request);
+
+  const invalidTool = await sendMcpRequest({
+    jsonrpc: "2.0",
+    id: 1,
+    method: "tools/call",
+    params: {
+      name: "functional-tool",
+      arguments: {
+        value: ""
+      }
+    }
+  });
+
+  expect(invalidTool.body).toMatchObject({
+    id: 1,
+    jsonrpc: "2.0",
+    result: {
+      isError: true,
+      content: [
+        {
+          type: "text",
+          text: expect.stringContaining("Input validation error")
+        }
+      ]
+    }
+  });
 
   const resourceError = await sendMcpRequest({
     jsonrpc: "2.0",

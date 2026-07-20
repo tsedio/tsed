@@ -13661,12 +13661,10 @@ __metadata:
     "@tsed/schema": "workspace:*"
     "@tsed/typescript": "workspace:*"
     change-case: "npm:>=5.4.4"
-    json-schema-to-zod: "npm:>=2.8.1"
     tslib: "npm:>=2.7.0"
     typescript: "npm:6.0.2"
     uuid: "npm:>=11.0.2"
     vitest: "npm:4.1.4"
-    zod: "npm:>=4.2.0"
   peerDependencies:
     "@tsed/core": ">=8.0.0"
     "@tsed/di": ">=8.0.0"
@@ -27835,15 +27833,6 @@ __metadata:
   dependencies:
     dequal: "npm:^2.0.3"
   checksum: 10/dca0c2eac8ef813d20cfe7a277d8a885fbacccb3bade199fd288b2d3af6ebfbc4cf8cd0ccdd478152e30519cbc5876fbc558834d8f95a7522daa5153cdfc1302
-  languageName: node
-  linkType: hard
-
-"json-schema-to-zod@npm:>=2.8.1":
-  version: 2.8.1
-  resolution: "json-schema-to-zod@npm:2.8.1"
-  bin:
-    json-schema-to-zod: dist/cjs/cli.js
-  checksum: 10/9104332bf005b57133c257ca6a686b0ef52b1323f6aff9e55686bd33c6eeb1a6da8fbc6db564367ef35ebd1959a342025c03c880d14582f7d3e961891e6fa8e2
   languageName: node
   linkType: hard
 
@@ -42969,17 +42958,17 @@ __metadata:
   languageName: node
   linkType: hard
 
-"zod@npm:>=4.2.0, zod@npm:^4.2.0":
-  version: 4.4.3
-  resolution: "zod@npm:4.4.3"
-  checksum: 10/804b9a42aa8f35f2b3c5a8dff906291cb749115f83ee2afe3576d70b5b5c53c965365c7f4967690647a9c54af9838ff232a85ff9577a0a36c44b68bc6cdefe36
-  languageName: node
-  linkType: hard
-
 "zod@npm:^3.25 || ^4.0":
   version: 4.3.6
   resolution: "zod@npm:4.3.6"
   checksum: 10/25fc0f62e01b557b4644bf0b393bbaf47542ab30877c37837ea8caf314a8713d220c7d7fe51f68ffa72f0e1018ddfa34d96f1973d23033f5a2a5a9b6b9d9da01
+  languageName: node
+  linkType: hard
+
+"zod@npm:^4.2.0":
+  version: 4.4.3
+  resolution: "zod@npm:4.4.3"
+  checksum: 10/804b9a42aa8f35f2b3c5a8dff906291cb749115f83ee2afe3576d70b5b5c53c965365c7f4967690647a9c54af9838ff232a85ff9577a0a36c44b68bc6cdefe36
   languageName: node
   linkType: hard
 

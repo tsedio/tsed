@@ -4,7 +4,7 @@ import {JsonSchema, s} from "@tsed/schema";
 import {context, inject, injectable, logger, type TokenProvider} from "@tsed/di";
 import {MCP_PROVIDER_TYPES} from "../constants/constants.js";
 import {constantCase} from "change-case";
-import {toZod} from "../utils/toZod.js";
+import {fromJsonSchema} from "../utils/fromJsonSchema.js";
 
 type BasePromptConfig = {
   title?: string;
@@ -63,7 +63,7 @@ function mapOptions<Args = any>(options: PromptProps<Args>) {
   return {
     ...options,
     name,
-    argsSchema: toZod(isArrowFn(options.argsSchema) ? options.argsSchema() : options.argsSchema, {
+    argsSchema: fromJsonSchema(isArrowFn(options.argsSchema) ? options.argsSchema() : options.argsSchema, {
       useAlias: true,
       groups: [name!, "prompt"]
     }),

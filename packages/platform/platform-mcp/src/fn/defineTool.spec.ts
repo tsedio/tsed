@@ -89,16 +89,14 @@ describe("defineTool", () => {
 
     const definition = inject<any>(token);
 
-    expect(definition.inputSchema.toJSONSchema()).toEqual({
-      $schema: "https://json-schema.org/draft/2020-12/schema",
+    expect(definition.inputSchema["~standard"].jsonSchema.input({target: "draft-2020-12"})).toEqual({
       type: "object",
       properties: {
         aliasProp: {
           type: "string"
         }
       },
-      required: ["aliasProp"],
-      additionalProperties: false
+      required: ["aliasProp"]
     });
   });
 
@@ -113,7 +111,7 @@ describe("defineTool", () => {
 
     const definition = inject<any>(token);
 
-    expect(definition.outputSchema.toJSONSchema()).toMatchObject({
+    expect(definition.outputSchema["~standard"].jsonSchema.input({target: "draft-2020-12"})).toMatchObject({
       type: "object",
       properties: {
         aliasProp: {

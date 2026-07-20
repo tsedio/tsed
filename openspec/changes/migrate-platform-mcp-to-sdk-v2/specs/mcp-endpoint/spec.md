@@ -13,3 +13,12 @@
 
 - **WHEN** an MCP client invokes a registered tool
 - **THEN** its handler receives the MCP SDK v2 `ServerContext` as its second argument.
+
+### Requirement: Ts.ED JSON Schema registration
+
+`@tsed/platform-mcp` SHALL compile Ts.ED `JsonSchema` instances and register them with the SDK v2 `fromJsonSchema()` adapter for tool input and output schemas and prompt argument schemas. The package MUST preserve Ts.ED aliases and inline references without converting schemas to Zod.
+
+#### Scenario: Register a tool with a Ts.ED schema
+
+- **WHEN** a developer declares a tool input or output schema with Ts.ED `JsonSchema`
+- **THEN** `tools/list` exposes the compiled JSON Schema and the SDK validates invocations against it.
