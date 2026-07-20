@@ -199,6 +199,7 @@ export * from "./utils/getJsonType.js";
 export * from "./utils/getOperationsRoutes.js";
 export * from "./utils/getOperationsStores.js";
 export * from "./utils/getPropertiesStores.js";
+export * from "./utils/inlineRefs.js";
 export * from "./utils/isSuccessStatus.js";
 export * from "./utils/mapHeaders.js";
 export * from "./utils/mapOperationOptions.js";
