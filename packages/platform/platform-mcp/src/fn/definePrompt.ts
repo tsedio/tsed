@@ -1,11 +1,10 @@
 import {type AbstractType, isArrowFn, type Type} from "@tsed/core";
-import type {GetPromptResult, ServerNotification, ServerRequest} from "@modelcontextprotocol/sdk/types.js";
+import type {GetPromptResult, ServerContext} from "@modelcontextprotocol/server";
 import {JsonSchema, s} from "@tsed/schema";
 import {context, inject, injectable, logger, type TokenProvider} from "@tsed/di";
 import {MCP_PROVIDER_TYPES} from "../constants/constants.js";
-import type {RequestHandlerExtra} from "@modelcontextprotocol/sdk/shared/protocol.js";
 import {constantCase} from "change-case";
-import {toZod} from "../utils/toZod.js";
+import {fromJsonSchema} from "../utils/fromJsonSchema.js";
 
 type BasePromptConfig = {
   title?: string;
@@ -18,8 +17,8 @@ type BasePromptProps<Args> = BasePromptConfig & {
 };
 
 export type PromptHandler<Args = undefined> = Args extends undefined
-  ? (extra: RequestHandlerExtra<ServerRequest, ServerNotification>) => GetPromptResult | Promise<GetPromptResult>
-  : (args: Args, extra: RequestHandlerExtra<ServerRequest, ServerNotification>) => GetPromptResult | Promise<GetPromptResult>;
+  ? (ctx: ServerContext) => GetPromptResult | Promise<GetPromptResult>
+  : (args: Args, ctx: ServerContext) => GetPromptResult | Promise<GetPromptResult>;
 
 export type FnPromptProps<Args = any> = BasePromptProps<Args> & {
   handler: PromptHandler<Args>;
@@ -64,7 +63,7 @@ function mapOptions<Args = any>(options: PromptProps<Args>) {
   return {
     ...options,
     name,
-    argsSchema: toZod(isArrowFn(options.argsSchema) ? options.argsSchema() : options.argsSchema, {
+    argsSchema: fromJsonSchema(isArrowFn(options.argsSchema) ? options.argsSchema() : options.argsSchema, {
       useAlias: true,
       groups: [name!, "prompt"]
     }),

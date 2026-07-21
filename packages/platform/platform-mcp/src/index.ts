@@ -13,4 +13,4 @@ export * from "./services/McpServerFactory.js";
 export * from "./services/PlatformMcpModule.js";
 export * from "./utils/asResourceResponse.js";
 export * from "./utils/asToolResponse.js";
-export * from "./utils/toZod.js";
+export * from "./utils/fromJsonSchema.js";

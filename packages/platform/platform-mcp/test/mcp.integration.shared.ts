@@ -104,11 +104,7 @@ export const expectedTools = {
     tools: [
       {
         description: "Test description",
-        execution: {
-          taskSupport: "forbidden"
-        },
         inputSchema: {
-          $schema: "http://json-schema.org/draft-07/schema#",
           properties: {
             id: {
               type: "string"
@@ -118,8 +114,6 @@ export const expectedTools = {
         },
         name: "test-tool",
         outputSchema: {
-          $schema: "http://json-schema.org/draft-07/schema#",
-          additionalProperties: false,
           properties: {
             hello: {
               type: "string"
@@ -129,17 +123,11 @@ export const expectedTools = {
         }
       },
       {
-        execution: {
-          taskSupport: "forbidden"
-        },
         inputSchema: {
-          properties: {},
           type: "object"
         },
         name: "serialized-tool",
         outputSchema: {
-          $schema: "http://json-schema.org/draft-07/schema#",
-          additionalProperties: false,
           properties: {
             hello: {
               type: "string"
@@ -149,20 +137,14 @@ export const expectedTools = {
         }
       },
       {
-        execution: {
-          taskSupport: "forbidden"
-        },
         inputSchema: {
           properties: {},
           type: "object"
         },
         name: "generic-tool",
         outputSchema: {
-          $schema: "http://json-schema.org/draft-07/schema#",
-          additionalProperties: false,
           properties: {
             data: {
-              additionalProperties: false,
               properties: {
                 id: {
                   type: "string"
@@ -175,11 +157,7 @@ export const expectedTools = {
         }
       },
       {
-        execution: {
-          taskSupport: "forbidden"
-        },
         inputSchema: {
-          $schema: "http://json-schema.org/draft-07/schema#",
           properties: {
             value: {
               minLength: 1,
@@ -191,8 +169,6 @@ export const expectedTools = {
         },
         name: "functional-tool",
         outputSchema: {
-          $schema: "http://json-schema.org/draft-07/schema#",
-          additionalProperties: false,
           properties: {
             message: {
               minLength: 1,
@@ -430,6 +406,32 @@ export async function assertSerializedMcpResponses(request: SuperTest.Agent) {
 
 export async function assertMcpErrorResponses(request: SuperTest.Agent) {
   const sendMcpRequest = createMcpRequest(request);
+
+  const invalidTool = await sendMcpRequest({
+    jsonrpc: "2.0",
+    id: 1,
+    method: "tools/call",
+    params: {
+      name: "functional-tool",
+      arguments: {
+        value: ""
+      }
+    }
+  });
+
+  expect(invalidTool.body).toMatchObject({
+    id: 1,
+    jsonrpc: "2.0",
+    result: {
+      isError: true,
+      content: [
+        {
+          type: "text",
+          text: expect.stringContaining("Input validation error")
+        }
+      ]
+    }
+  });
 
   const resourceError = await sendMcpRequest({
     jsonrpc: "2.0",

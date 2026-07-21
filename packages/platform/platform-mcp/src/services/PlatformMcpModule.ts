@@ -1,9 +1,9 @@
 import {type OnRoutesInit, PlatformContext, type PlatformRouteDetails, application} from "@tsed/platform-http";
 import {constant, inject, injectable} from "@tsed/di";
 import {MCP_SERVER} from "./McpServerFactory.js";
-import type {McpServer} from "@modelcontextprotocol/sdk/server/mcp.js";
+import {type McpServer} from "@modelcontextprotocol/server";
 import type {PlatformMcpSettings} from "../interfaces/PlatformMcpSettings.js";
-import {StreamableHTTPServerTransport} from "@modelcontextprotocol/sdk/server/streamableHttp.js";
+import {NodeStreamableHTTPServerTransport} from "@modelcontextprotocol/node";
 import {useContextHandler} from "@tsed/platform-router";
 
 /**
@@ -45,7 +45,7 @@ export class PlatformMcpModule implements OnRoutesInit {
   }
 
   protected async dispatch($ctx: PlatformContext) {
-    const transport = new StreamableHTTPServerTransport({
+    const transport = new NodeStreamableHTTPServerTransport({
       sessionIdGenerator: undefined,
       enableJsonResponse: true,
       ...this.settings.transportOptions

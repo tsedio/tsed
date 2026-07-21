@@ -1,5 +1,5 @@
 import {type ClassResourceReadProps, type ClassResourceTemplateProps, defineResource} from "../fn/defineResource.js";
-import type {ResourceTemplate} from "@modelcontextprotocol/sdk/server/mcp.js";
+import type {ResourceTemplate} from "@modelcontextprotocol/server";
 import {classOf} from "@tsed/core";
 import {isString} from "@tsed/core/utils/isString.js";
 

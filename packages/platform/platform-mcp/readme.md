@@ -34,7 +34,7 @@
 - A `PlatformMcpModule` that mounts a configurable `/mcp` endpoint on top of `@tsed/platform-http`.
 - Functional helpers (`defineTool`, `defineResource`, `definePrompt`) to register MCP handlers via DI tokens.
 - Decorators (`@Tool`, `@Prompt`, `@Resource`) for declarative registration inside services/controllers.
-- Shared utilities (`MCP_SERVER`, transport helpers) that wire `@modelcontextprotocol/sdk` into Ts.ED's dependency injection system.
+- Shared utilities (`MCP_SERVER`, transport helpers) that wire the MCP SDK v2 server packages into Ts.ED's dependency injection system.
 
 ## Installation
 

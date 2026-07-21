@@ -1,6 +1,6 @@
 import {serialize} from "@tsed/json-mapper";
 import {isObject} from "@tsed/core";
-import {ReadResourceResult} from "@modelcontextprotocol/sdk/types.js";
+import type {ReadResourceResult} from "@modelcontextprotocol/server";
 
 export function asResourceResponse(
   uri: string,
