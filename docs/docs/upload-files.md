@@ -64,3 +64,56 @@ Many frontend code examples are available on the web and some of them don't work
 For multiple files, just use `PlatformMulterFile[]` annotation type. Ts.ED will understand that you want to inject a list of files even if your consumer only sends you one:
 
 <<< @/docs/snippets/multer/file-array.ts
+
+## Middleware order and authentication
+
+`PlatformMulterMiddleware` has a priority of `-10`. Lower priority values run first, so the upload middleware runs before
+a middleware declared with `@UseBefore()` at the default priority (`0`).
+This is intentional: it lets a `@UseBefore()` middleware access the uploaded file before the controller handler runs.
+
+::: warning Authentication middleware
+On an upload route, an authentication middleware with the default priority runs **after** Multer.
+As a result, an unauthenticated request can start uploading a file before it is rejected.
+Give the authentication middleware a priority lower than `-10` so it runs before Multer.
+:::
+
+For example, this controller uploads the file before `AuthMiddleware` checks the request:
+
+```ts
+import {Controller} from "@tsed/di";
+import {UseBefore, Middleware} from "@tsed/platform-middlewares";
+import {MultipartFile, PlatformMulterFile} from "@tsed/platform-multer";
+import {Post} from "@tsed/schema";
+
+@Middleware()
+class AuthMiddleware {
+  use() {
+    // Check the request authentication
+  }
+}
+
+@Controller("/files")
+class FilesController {
+  @Post("/")
+  @UseBefore(AuthMiddleware)
+  upload(@MultipartFile("file") file: PlatformMulterFile) {
+    return file;
+  }
+}
+```
+
+Set the middleware priority to `-11` (or any value lower than `-10`) to authenticate the request before the file is handled by Multer:
+
+```ts
+import {Middleware} from "@tsed/platform-middlewares";
+
+@Middleware({priority: -11})
+class AuthMiddleware {
+  use() {
+    // Check the request authentication before the upload starts
+  }
+}
+```
+
+Use `-10` only when the authentication middleware's relative order with `PlatformMulterMiddleware`
+is otherwise explicitly controlled. A lower value is the reliable choice when authentication must happen before an upload.
