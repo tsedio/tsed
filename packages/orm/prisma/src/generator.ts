@@ -1,3 +1,4 @@
+#!/usr/bin/env node
 import {generate} from "./cli/prismaGenerator.js";
 import helpers from "@prisma/generator-helper";
 import {join} from "node:path";
