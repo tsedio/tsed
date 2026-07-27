@@ -30978,7 +30978,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"mongoose@npm:^8.11.0, mongoose@npm:^8.9.5":
+"mongoose@npm:^8.11.0, mongoose@npm:^8.7.0, mongoose@npm:^8.9.5":
   version: 8.24.1
   resolution: "mongoose@npm:8.24.1"
   dependencies:
@@ -30990,21 +30990,6 @@ __metadata:
     ms: "npm:2.1.3"
     sift: "npm:17.1.3"
   checksum: 10/90bb7ba30eb0b61d89c5bd1fb0631981490b3f2d23b68c87cd0349cecf2130af45e73a850de4f18c93439acf7ea7434c70198dcbff879a924e93587cf32d4b2a
-  languageName: node
-  linkType: hard
-
-"mongoose@npm:^8.7.0":
-  version: 8.23.1
-  resolution: "mongoose@npm:8.23.1"
-  dependencies:
-    bson: "npm:^6.10.4"
-    kareem: "npm:2.6.3"
-    mongodb: "npm:~6.20.0"
-    mpath: "npm:0.9.0"
-    mquery: "npm:5.0.0"
-    ms: "npm:2.1.3"
-    sift: "npm:17.1.3"
-  checksum: 10/954485485c3d1780b09f043c134fcdc581f7b3b26144c90dfa809504ccd25853fdc7c49cdeba87c702ceae54b4cb1a3c29ee90f8e5070238c751fcf5633cb58c
   languageName: node
   linkType: hard
 
