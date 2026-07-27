@@ -41560,13 +41560,11 @@ __metadata:
   linkType: hard
 
 "velocityjs@npm:^2.0.6":
-  version: 2.0.6
-  resolution: "velocityjs@npm:2.0.6"
+  version: 2.1.7
+  resolution: "velocityjs@npm:2.1.7"
   dependencies:
-    debug: "npm:^4.3.3"
-  bin:
-    velocity: bin/velocity
-  checksum: 10/a8c538dad5d27426c71b061ed209c13a8685feb8db2a5e9b14884a7b899a46ce5b62729198c91e554e98ca85c7c08f33bba722568b767c2b5e82cd55aaa576bf
+    debug: "npm:^4.3.4"
+  checksum: 10/305f781ccf792d3b1ba2e1b35f3f22ca432480d4d1583d887565ca77ce5c53f5edb49d99c29eb509ed6a823357a3edfaa430aedb0ee90b833420b6d947027fad
   languageName: node
   linkType: hard
 
