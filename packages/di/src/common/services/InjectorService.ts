@@ -535,38 +535,34 @@ export class InjectorService {
       $emit(`$beforeInvoke:${String(provider.type)}`, [resolvedOpts]);
 
       let instance: any;
-      let currentDependency: any = false;
+      let currentDependency!: TokenProvider | [TokenProvider];
+      let currentDependencyIndex = -1;
+      let hasCurrentDependency = false;
 
       try {
-        const invokeDependency =
-          (parent?: any) =>
-          (token: TokenProvider | [TokenProvider], index: number): any => {
-            currentDependency = {token, index, deps};
-
-            if (isArray(token)) {
-              return this.getMany(token[0], options);
-            }
-
-            return isInheritedFrom(token, Provider, 1)
-              ? provider
-              : this.resolve(token, {
-                  parent,
-                  locals: options.locals,
-                  useOpts: provider?.getArgOpts(index) || options.useOpts
-                });
-          };
-
         // Invoke manually imported providers
-        imports.forEach(invokeDependency());
+        for (let index = 0; index < imports.length; index++) {
+          currentDependency = imports[index];
+          currentDependencyIndex = index;
+          hasCurrentDependency = true;
+          this.invokeDependency(currentDependency, index, undefined, provider, options);
+        }
 
         // Inject dependencies
-        const services = deps.map(invokeDependency(token));
+        const services = new Array(deps.length);
+        for (let index = 0; index < deps.length; index++) {
+          currentDependency = deps[index];
+          currentDependencyIndex = index;
+          hasCurrentDependency = true;
+          services[index] = this.invokeDependency(currentDependency, index, token, provider, options);
+        }
 
-        currentDependency = false;
+        hasCurrentDependency = false;
 
         instance = construct(services);
       } catch (error) {
-        InjectionError.throwInjectorError(token, currentDependency, error);
+        const dependency = hasCurrentDependency ? {token: currentDependency, index: currentDependencyIndex, deps} : false;
+        InjectionError.throwInjectorError(token, dependency, error);
       }
 
       if (instance === undefined) {
@@ -596,6 +592,26 @@ export class InjectorService {
         this.setProvider(provider.token, provider.clone());
       }
     });
+  }
+
+  private invokeDependency(
+    token: TokenProvider | [TokenProvider],
+    index: number,
+    parent: TokenProvider | undefined,
+    provider: Provider,
+    options: Partial<InvokeOptions>
+  ) {
+    if (isArray(token)) {
+      return this.getMany(token[0], options);
+    }
+
+    return isInheritedFrom(token, Provider, 1)
+      ? provider
+      : this.resolve(token, {
+          parent,
+          locals: options.locals,
+          useOpts: provider.getArgOpts(index) || options.useOpts
+        });
   }
 
   private resolveImportsProviders() {
