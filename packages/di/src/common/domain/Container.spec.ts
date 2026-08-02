@@ -3,7 +3,7 @@ import {Provider} from "./Provider.js";
 import {ProviderType} from "./ProviderType.js";
 
 describe("Container", () => {
-  describe("getProvider()", () => {
+  describe("get()", () => {
     class Test {}
 
     it("should return a provider", () => {
@@ -14,13 +14,13 @@ describe("Container", () => {
       container.add(Test, provider);
 
       // WHEN
-      const result = container.getProvider(Test);
+      const result = container.get(Test);
 
       // THEN
       expect(result!).toBeInstanceOf(Provider);
     });
   });
-  describe("getProviders()", () => {
+  describe("getMany()", () => {
     let container: Container;
 
     beforeEach(() => {
@@ -31,15 +31,15 @@ describe("Container", () => {
       class MyController {}
 
       container = new Container();
-      container.addProvider(MyMiddleware, {type: ProviderType.MIDDLEWARE});
-      container.addProvider(MyService, {type: ProviderType.PROVIDER});
-      container.addProvider(MyController, {type: ProviderType.CONTROLLER});
+      container.add(MyMiddleware, {type: ProviderType.MIDDLEWARE});
+      container.add(MyService, {type: ProviderType.PROVIDER});
+      container.add(MyController, {type: ProviderType.CONTROLLER});
 
       // await container.load();
     });
 
     it("should return middlewares only", () => {
-      const providers = container.getProviders(ProviderType.MIDDLEWARE);
+      const providers = container.getMany(ProviderType.MIDDLEWARE);
 
       const result = providers.find((item: any) => item.type !== ProviderType.MIDDLEWARE);
 
@@ -48,7 +48,7 @@ describe("Container", () => {
     });
 
     it("should return controllers only", () => {
-      const providers = container.getProviders(ProviderType.CONTROLLER);
+      const providers = container.getMany(ProviderType.CONTROLLER);
 
       const result = providers.find((item: any) => item.type !== ProviderType.CONTROLLER);
 
@@ -57,7 +57,7 @@ describe("Container", () => {
     });
 
     it("should return all providers", () => {
-      const providers = container.getProviders();
+      const providers = container.getMany();
       const controllers = providers.filter((item: any) => item.type === ProviderType.CONTROLLER);
       const middlewares = providers.filter((item: any) => item.type === ProviderType.MIDDLEWARE);
 
@@ -67,27 +67,27 @@ describe("Container", () => {
     });
 
     it("should return providers matching multiple types", () => {
-      const providers = container.getProviders([ProviderType.CONTROLLER, ProviderType.MIDDLEWARE]);
+      const providers = container.getMany([ProviderType.CONTROLLER, ProviderType.MIDDLEWARE]);
       const hasInvalidType = providers.some((item: any) => ![ProviderType.CONTROLLER, ProviderType.MIDDLEWARE].includes(item.type));
 
       expect(providers.length).toEqual(2);
       expect(hasInvalidType).toBe(false);
     });
   });
-  describe("addProviders()", () => {
+  describe("merge()", () => {
     it("should add providers", () => {
       class Test {}
 
       // GIVEN
       const container = new Container();
       const childContainer = new Container();
-      childContainer.addProvider(Test);
+      childContainer.add(Test);
 
       // WHEN
-      container.addProviders(childContainer);
+      container.merge(childContainer);
 
       // THEN
-      expect(container.getProvider(Test)!).toBeInstanceOf(Provider);
+      expect(container.get(Test)!).toBeInstanceOf(Provider);
     });
   });
 });

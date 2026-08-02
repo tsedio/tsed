@@ -46,9 +46,9 @@ describe("DI Request", () => {
       // GIVEN
       const container = new Container();
 
-      container.addProvider(ServiceSingleton);
-      container.addProvider(ServiceRequest);
-      container.addProvider(ServiceInstance);
+      container.add(ServiceSingleton);
+      container.add(ServiceRequest);
+      container.add(ServiceInstance);
 
       await injector().load(container);
 

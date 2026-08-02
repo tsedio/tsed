@@ -58,14 +58,12 @@ describe("InjectorService", () => {
   });
   describe("getMany()", () => {
     it("should return all instance", () => {
-      injector().addProvider("token", {
+      injector().add("token", {
         type: ProviderType.VALUE,
         useValue: 1
       });
 
       expect(!!injector().getMany(ProviderType.VALUE).length).toEqual(true);
-
-      injector().delete("token");
     });
   });
   describe("toArray()", () => {
@@ -91,7 +89,7 @@ describe("InjectorService", () => {
 
         vi.spyOn(injector() as any, "invokeToken");
         vi.spyOn(injector() as any, "resolve");
-        vi.spyOn(injector(), "getProvider");
+        vi.spyOn(injector().providers, "get");
 
         const locals = new LocalsContainer();
 
@@ -102,7 +100,7 @@ describe("InjectorService", () => {
 
         // THEN
         expect(result1 !== result2).toEqual(true);
-        expect(injector().getProvider).toHaveBeenCalledWith(token);
+        expect(injector().providers.get).toHaveBeenCalledWith(token);
         expect(injector().get("alias")).toBeInstanceOf(token);
 
         expect((injector() as any).invokeToken).toHaveBeenCalledWith(token, {locals, rebuild: true});
@@ -127,7 +125,7 @@ describe("InjectorService", () => {
 
         vi.spyOn(injector() as any, "resolve");
         vi.spyOn(injector(), "get");
-        vi.spyOn(injector(), "getProvider");
+        vi.spyOn(injector().providers, "get");
 
         const locals = new LocalsContainer(); // LocalContainer for the first request
         const locals2 = new LocalsContainer(); // LocalContainer for the second request
@@ -143,7 +141,7 @@ describe("InjectorService", () => {
         expect(result1).toEqual(result2);
         expect(result2 !== result3).toEqual(true);
 
-        expect(injector().getProvider).toHaveBeenCalledWith(token);
+        expect(injector().providers.get).toHaveBeenCalledWith(token);
         expect((injector() as any).resolve).toHaveBeenCalledWith(token, {locals});
         expect(locals.get(token)).toEqual(result1);
         expect(locals2.get(token)).toEqual(result3);
@@ -166,7 +164,7 @@ describe("InjectorService", () => {
 
         vi.spyOn(injector() as any, "resolve");
         vi.spyOn(injector(), "get");
-        vi.spyOn(injector(), "getProvider");
+        vi.spyOn(injector().providers, "get");
 
         const locals = new LocalsContainer(); // LocalContainer for the first request
 
@@ -177,7 +175,7 @@ describe("InjectorService", () => {
         // THEN
         expect(result1 !== result2).toEqual(true);
 
-        expect(injector().getProvider).toHaveBeenCalledWith(token);
+        expect(injector().providers.get).toHaveBeenCalledWith(token);
         expect((injector() as any).resolve).toHaveBeenCalledWith(token, {locals});
         expect(locals.has(token)).toEqual(false);
         expect(injector().get).not.toHaveBeenCalled();
@@ -192,7 +190,7 @@ describe("InjectorService", () => {
         const provider = new Provider<any>(token);
         provider.scope = ProviderScope.SINGLETON;
 
-        injector().set(token, provider);
+        injector().setProvider(token, provider);
 
         // WHEN
         const result: any = inject(token);
@@ -412,8 +410,8 @@ describe("InjectorService", () => {
         provider3.scope = ProviderScope.SINGLETON;
         provider3.deps = [undefined] as never;
 
-        injector().set(token2, provider2);
-        injector().set(token3, provider3);
+        injector().setProvider(token2, provider2);
+        injector().setProvider(token3, provider3);
 
         // WHEN
         let actualError: Error | undefined;
@@ -446,8 +444,8 @@ describe("InjectorService", () => {
         provider3.scope = ProviderScope.SINGLETON;
         provider3.deps = [Object];
 
-        injector().set(token2, provider2);
-        injector().set(token3, provider3);
+        injector().setProvider(token2, provider2);
+        injector().setProvider(token3, provider3);
 
         // WHEN
         let actualError: Error | undefined;
@@ -492,9 +490,9 @@ describe("InjectorService", () => {
         provider3.scope = ProviderScope.SINGLETON;
         provider3.deps = [token2];
 
-        injector().set(token1, provider1);
-        injector().set(token2, provider2);
-        injector().set(token3, provider3);
+        injector().setProvider(token1, provider1);
+        injector().setProvider(token2, provider2);
+        injector().setProvider(token3, provider3);
 
         // WHEN
         let actualError: Error | undefined;
@@ -529,7 +527,7 @@ describe("InjectorService", () => {
         const instance: any = inject(token)!;
 
         // THEN
-        expect(instance).toEqual({to: injector().getProvider(token)});
+        expect(instance).toEqual({to: injector().providers.get(token)});
       });
     });
     describe("when provider has Configuration as dependencies", () => {
@@ -752,6 +750,30 @@ describe("InjectorService", () => {
       // THEN
       expect(injector().has(token)).toBe(true);
       expect(onCustomEvent).toHaveBeenCalledWith(expect.any(token));
+    });
+
+    it("should register hooks from a useClass override", async () => {
+      // GIVEN
+      class OriginalService {
+        $onOriginalEvent() {}
+      }
+      class OverriddenService {
+        $onOverriddenEvent() {}
+      }
+      const provider = new Provider(OriginalService);
+      const container = new Container();
+      const onOverriddenEvent = vi.spyOn(OverriddenService.prototype, "$onOverriddenEvent");
+      container.set(OriginalService, provider);
+      injector().settings.lazyProviders = true;
+      injector().settings.imports = [{token: OriginalService, useClass: OverriddenService}];
+
+      // WHEN
+      await injector().load(container);
+      await injector().emit("$onOverriddenEvent");
+
+      // THEN
+      expect(injector().get(OriginalService)).toBeInstanceOf(OverriddenService);
+      expect(onOverriddenEvent).toHaveBeenCalledTimes(1);
     });
 
     it("should register hooks discovered from the provider class without constructing it", async () => {

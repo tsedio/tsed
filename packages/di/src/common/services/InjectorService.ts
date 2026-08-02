@@ -4,6 +4,7 @@ import {Container} from "../domain/Container.js";
 import {DIConfiguration} from "./DIConfiguration.js";
 import type {DILogger} from "../interfaces/DILogger.js";
 import type {ImportTokenProviderOpts} from "../interfaces/ImportTokenProviderOpts.js";
+import type {ProviderOpts} from "../interfaces/ProviderOpts.js";
 import {InjectionError} from "../errors/InjectionError.js";
 import type {InvokeOptions} from "../interfaces/InvokeOptions.js";
 import {LocalsContainer} from "../domain/LocalsContainer.js";
@@ -23,6 +24,7 @@ import {isInheritedFrom} from "@tsed/core/utils/isInheritedFrom.js";
 import {isObject} from "@tsed/core/utils/isObject.js";
 import {isPromise} from "@tsed/core/utils/isPromise.js";
 import {nameOf} from "@tsed/core/utils/nameOf.js";
+import type {ProviderType} from "../domain/ProviderType.js";
 
 const EXCLUDED_CONFIGURATION_KEYS = ["mount", "imports"];
 
@@ -50,24 +52,85 @@ const EXCLUDED_CONFIGURATION_KEYS = ["mount", "imports"];
  *
  * @public
  */
-export class InjectorService extends Container {
+export class InjectorService {
   public logger: DILogger = console;
   /*readonly */
   settings = new DIConfiguration();
+  /**
+   * Providers containers
+   * @private
+   */
+  readonly #providers = new Container();
+  /**
+   * Cached instance
+   * @private
+   */
+  readonly #cache = new LocalsContainer();
   private resolvedConfiguration: boolean = false;
-  #cache = new LocalsContainer();
   #loaded: boolean = false;
+  #hooksReady: boolean = false;
   #registeredSingletonHooks = new Set<TokenProvider>();
   #resolvingProviders = new Set<TokenProvider>();
 
   constructor() {
-    super();
     this.#cache.set(InjectorService, this);
     this.#cache.set(DIConfiguration, this.settings);
   }
 
+  get providers(): Pick<Container, "get" | "has" | "getMany"> {
+    return this.#providers;
+  }
+
   isLoaded() {
     return this.#loaded;
+  }
+
+  public add(token: TokenProvider, settings: Partial<ProviderOpts> = {}): this {
+    this.#providers.add(token, settings);
+    this.setProvider(token, this.#providers.get(token)!);
+
+    return this;
+  }
+
+  /**
+   * @alias InjectorService.add
+   */
+  public addProvider(token: TokenProvider, settings: Partial<ProviderOpts> = {}): this {
+    return this.add(token, settings);
+  }
+
+  public setProvider(token: TokenProvider, provider: Provider): this {
+    this.#providers.set(token, provider);
+
+    if (this.#registeredSingletonHooks.delete(token)) {
+      $off(token);
+    }
+
+    if (provider.scope === ProviderScope.SINGLETON && (!this.#loaded || this.#hooksReady)) {
+      this.registerHooks(provider, {});
+    }
+
+    return this;
+  }
+
+  /**
+   * Get a provider definition from the provider registry.
+   *
+   * Unlike `get()`, this method does not resolve the provider instance.
+   * @deprecated Since v8. Use injector().providers.get() instead
+   */
+  public getProvider<T extends Provider = Provider>(token: TokenProvider | undefined): T | undefined {
+    return this.#providers.get<T>(token);
+  }
+
+  /**
+   * Get provider definitions matching a type.
+   *
+   * Unlike `getMany()`, this method does not resolve provider instances.
+   * @deprecated Since v8. Use injector().providers.getMany() instead.
+   */
+  public getProviders(type?: TokenProvider | ProviderType | string | string[]): Provider[] {
+    return this.#providers.getMany(type);
   }
 
   /**
@@ -121,7 +184,7 @@ export class InjectorService extends Container {
    * @returns Array of resolved instances matching the type
    */
   getMany<Type = any>(type: any, options?: Partial<InvokeOptions>): Type[] {
-    return this.getProviders(type).map((provider) => {
+    return this.#providers.getMany(type).map((provider) => {
       return this.resolve<Type>(provider.token, options);
     });
   }
@@ -266,7 +329,7 @@ export class InjectorService extends Container {
    * Called automatically during the `load()` process.
    */
   async loadAsync() {
-    for (const [, provider] of this) {
+    for (const [, provider] of this.#providers) {
       if (!provider.isAsync()) {
         continue;
       }
@@ -284,12 +347,16 @@ export class InjectorService extends Container {
    * Called automatically during the `load()` process after async providers.
    */
   loadSync() {
-    for (const [, provider] of this) {
+    if (this.settings.lazyProviders) {
+      return;
+    }
+
+    for (const [, provider] of this.#providers) {
       if (provider.scope !== ProviderScope.SINGLETON || provider.isAsync()) {
         continue;
       }
 
-      if (!this.has(provider.token) && !this.settings.lazyProviders) {
+      if (!this.has(provider.token)) {
         this.resolve(provider.token);
       }
     }
@@ -315,12 +382,11 @@ export class InjectorService extends Container {
     // avoid provider registration in the GlobalContainer during the loading phase
     // using injectable() or providerBuilder()
     this.#loaded = true;
+    this.#hooksReady = true;
 
     await $asyncEmit("$beforeInit");
 
     await this.bootstrap(container);
-
-    this.registerSingletonHooks();
 
     // build async and sync provider
     await this.loadAsync();
@@ -344,7 +410,7 @@ export class InjectorService extends Container {
     }
     const mergedConfiguration = new Map();
 
-    super.forEach((provider) => {
+    this.#providers.forEach((provider) => {
       if (provider.configuration && provider.type !== "server:module") {
         Object.entries(provider.configuration).forEach(([key, value]) => {
           if (!EXCLUDED_CONFIGURATION_KEYS.includes(key)) {
@@ -409,6 +475,7 @@ export class InjectorService extends Container {
       $off(token);
     });
     this.#registeredSingletonHooks.clear();
+    this.#hooksReady = false;
   }
 
   /**
@@ -418,7 +485,7 @@ export class InjectorService extends Container {
    */
   protected async bootstrap(container: Container = createContainer()) {
     // Clone all providers in the container
-    this.addProviders(container);
+    this.mergeProviders(container);
 
     // Resolve all configuration
     await this.resolveConfiguration();
@@ -437,11 +504,11 @@ export class InjectorService extends Container {
   protected ensureProvider(token: TokenProvider, force: false): Provider | undefined;
   protected ensureProvider(token: TokenProvider): Provider | undefined;
   protected ensureProvider(token: TokenProvider, force = false): Provider | undefined {
-    if (!this.hasProvider(token) && (Provider.Registry.has(token) || force)) {
-      this.addProvider(token);
+    if (!this.#providers.has(token) && (Provider.Registry.has(token) || force)) {
+      this.add(token);
     }
 
-    return this.getProvider(token)!;
+    return this.#providers.get(token)!;
   }
 
   /**
@@ -531,6 +598,14 @@ export class InjectorService extends Container {
     }
   }
 
+  private mergeProviders(container: Map<TokenProvider, Provider>) {
+    container.forEach((provider) => {
+      if (!this.#providers.has(provider.token)) {
+        this.setProvider(provider.token, provider.clone());
+      }
+    });
+  }
+
   private resolveImportsProviders() {
     const imports = this.settings.imports;
 
@@ -554,21 +629,25 @@ export class InjectorService extends Container {
 
       if ("useClass" in props) {
         provider.useClass = props.useClass as TokenProvider;
+        this.setProvider(token, provider);
         continue;
       }
 
       if ("useFactory" in props) {
         provider.useFactory = props.useFactory as never;
+        this.setProvider(token, provider);
         continue;
       }
 
       if ("useAsyncFactory" in props) {
         provider.useAsyncFactory = props.useAsyncFactory as never;
+        this.setProvider(token, provider);
         continue;
       }
 
       if ("use" in props) {
         provider.useValue = props.use as unknown;
+        this.setProvider(token, provider);
         continue;
       }
 
@@ -598,10 +677,10 @@ export class InjectorService extends Container {
 
     let provider: Provider;
 
-    if (!this.hasProvider(token)) {
+    if (!this.providers.get(token)) {
       provider = new Provider(token);
     } else {
-      provider = this.getProvider(token)!;
+      provider = this.providers.get(token)!;
     }
 
     deps = deps || provider.deps;
@@ -671,14 +750,6 @@ export class InjectorService extends Container {
 
         $on(event, provider.token, callback);
       });
-    }
-  }
-
-  private registerSingletonHooks() {
-    for (const [, provider] of this) {
-      if (provider.scope === ProviderScope.SINGLETON) {
-        this.registerHooks(provider, {});
-      }
     }
   }
 

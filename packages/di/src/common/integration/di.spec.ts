@@ -135,7 +135,7 @@ describe("DI", () => {
 
       class FakeMyClass {}
 
-      injector().addProvider(MyClass, {
+      injector().add(MyClass, {
         useClass: FakeMyClass
       });
 
