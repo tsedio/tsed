@@ -1,5 +1,5 @@
 import {AnyToPromise, AnyToPromiseStatus} from "@tsed/core";
-import {Inject, InjectorService, Provider} from "@tsed/di";
+import {inject, injector, Provider} from "@tsed/di";
 import {PlatformContext, setResponseHeaders} from "@tsed/platform-http";
 import {Alter} from "../decorators/alter.js";
 import {AlterHook} from "../domain/AlterHook.js";
@@ -13,23 +13,15 @@ import {s} from "@tsed/schema";
 
 @Alter("actions")
 export class AlterActions implements AlterHook {
-  @Inject()
-  protected injector!: InjectorService;
-
-  @Inject()
-  protected formio!: FormioService;
-
-  @Inject()
-  protected params!: PlatformParams;
-
-  @Inject()
-  protected responseFilter!: PlatformResponseFilter;
+  protected formio = inject(FormioService);
+  protected params = inject(PlatformParams);
+  protected responseFilter = inject(PlatformResponseFilter);
 
   transform(actions: FormioActions): FormioActions {
     const {Action} = this.formio;
 
     return this.getActions().reduce((actions, provider) => {
-      const instance = this.injector.invoke<any>(provider.token);
+      const instance = inject(provider.token);
       const options = provider.store.get<FormioActionInfo>("formio:action");
       const resolveHandler = this.createHandler(provider, "resolve");
 
@@ -61,7 +53,7 @@ export class AlterActions implements AlterHook {
   }
 
   protected getActions() {
-    return this.injector.getProviders("formio:action");
+    return injector().providers.getMany("formio:action");
   }
 
   protected createHandler(provider: Provider, propertyKey: string | symbol) {
