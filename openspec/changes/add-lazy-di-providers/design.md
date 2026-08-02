@@ -27,7 +27,7 @@
    `loadAsync()` continues to resolve async providers because the setting concerns the TODO's synchronous singleton bootstrap loop and async initialization has existing ordering semantics.
 
 3. **Register singleton hooks independently from instance resolution.**
-   `load()` registers hooks for every singleton after bootstrap has applied imports and configuration overrides, then before asynchronous or synchronous providers are resolved. A hook callback resolves its provider on demand when the instance is absent, so custom hook names receive the same behavior as built-in lifecycle hooks.
+   `setProvider()` is the single provider-registration path. It activates singleton hooks when the provider enters the injector and replaces existing listeners when an import override updates that provider. A hook callback resolves its provider on demand when the instance is absent, so custom hook names receive the same behavior as built-in lifecycle hooks.
 
 4. **Guard reentrant and destroy events.**
    The injector tracks providers currently being invoked. A hook emitted while its own provider is constructing does not trigger a second resolution, matching the prior behavior where hooks were not registered until construction completed. `$onDestroy` does not resolve an absent provider, preventing teardown from constructing unused services.

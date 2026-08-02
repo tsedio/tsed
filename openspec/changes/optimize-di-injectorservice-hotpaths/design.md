@@ -61,7 +61,7 @@ Profiling-oriented review of `@tsed/di` highlighted repeated allocation-heavy pa
 
 ## Migration Plan
 
-1. Implement low-risk container optimization (`getProviders`).
+1. Implement low-risk container optimization (`getMany`).
 2. Implement low-risk `InjectorService` internal loop/cache-path optimizations.
 3. Add/adjust tests for regression-sensitive flows.
 4. Validate with `cd packages/di && yarn test`.

@@ -8,6 +8,7 @@
 - [x] 2.1 Register all singleton hooks after bootstrap and before asynchronous or synchronous construction, then gate only synchronous singleton construction with `lazyProviders`.
 - [x] 2.2 Retain asynchronous provider construction during bootstrap after hook pre-registration.
 - [x] 2.3 Resolve providers without registering singleton hooks outside the bootstrap phases.
+- [x] 2.4 Centralize provider hook activation in `setProvider()` and cover `lazyInject()` provider registration after bootstrap and `useClass` overrides.
 
 ## 3. Regression coverage
 
