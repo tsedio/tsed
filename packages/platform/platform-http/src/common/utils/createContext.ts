@@ -25,8 +25,8 @@ export function buildIgnoreLog(ignoreUrlPatterns: any[] | undefined) {
  * @ignore
  */
 export function createContext(): (event: IncomingEvent) => PlatformContext {
-  const ResponseKlass = injector().getProvider(PlatformResponse)?.useClass;
-  const RequestKlass = injector().getProvider(PlatformRequest)?.useClass;
+  const ResponseKlass = injector().providers.get(PlatformResponse)?.useClass;
+  const RequestKlass = injector().providers.get(PlatformRequest)?.useClass;
   const {reqIdBuilder = defaultReqIdBuilder, ...loggerOptions} = configuration().logger;
 
   const opts = {

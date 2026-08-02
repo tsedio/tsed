@@ -1,5 +1,5 @@
 import {Ajv, Format, KeywordDefinition, Options, Vocabulary} from "ajv";
-import {ProviderScope, constant, inject, injectable, injector} from "@tsed/di";
+import {constant, inject, injectable, injector, ProviderScope} from "@tsed/di";
 import AjvErrors from "ajv-errors";
 import AjvFormats from "ajv-formats";
 import {AjvSettings} from "../interfaces/AjvSettings.js";
@@ -13,7 +13,7 @@ function getHandler(key: string, service: any) {
 }
 
 function getKeywordProviders() {
-  return injector().getProviders("ajv:keyword");
+  return injector().providers.getMany("ajv:keyword");
 }
 
 function bindKeywords(): Vocabulary {
@@ -33,7 +33,7 @@ function bindKeywords(): Vocabulary {
 }
 
 function getFormatsProviders() {
-  return injector().getProviders("ajv:formats");
+  return injector().providers.getMany("ajv:formats");
 }
 
 function getFormats(): {name: string; options: Format}[] {

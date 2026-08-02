@@ -23,7 +23,7 @@ function createAppRouterFixture() {
 
   platformRouters.hooks.destroy();
 
-  injector().addProvider(MyController, {});
+  injector().add(MyController, {});
 
   platformRouters.hooks.on("alterHandler", (handlerMetadata: PlatformHandlerMetadata) => {
     if (handlerMetadata.isRawFn() || handlerMetadata.isResponseFn()) {

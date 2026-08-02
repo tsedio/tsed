@@ -69,7 +69,7 @@ function createAppRouterFixture() {
 
   platformRouters.hooks.destroy();
 
-  injector().addProvider(NestedController, {});
+  injector().add(NestedController, {});
 
   platformRouters.hooks.on("alterEndpointHandlers", (handlers: AlterEndpointHandlersArg) => {
     handlers.after.push(useResponseHandler(() => "hello"));
@@ -93,7 +93,7 @@ describe("routers integration", () => {
   describe("getLayers()", () => {
     it("should declare router", () => {
       const {platformRouters} = createAppRouterFixture();
-      injector().addProvider(MyController, {});
+      injector().add(MyController, {});
 
       const hookStub = vi.fn().mockImplementation((o) => o);
 
@@ -106,7 +106,7 @@ describe("routers integration", () => {
     });
     it("should declare router - appRouter", async () => {
       const {appRouter, platformRouters} = createAppRouterFixture();
-      injector().addProvider(MyController, {});
+      injector().add(MyController, {});
 
       const router = platformRouters.from(MyController);
 
@@ -143,7 +143,7 @@ describe("routers integration", () => {
 
   describe("use()", () => {
     it("should call method", () => {
-      injector().addProvider(NestedController, {});
+      injector().add(NestedController, {});
 
       const router = new PlatformRouter();
 

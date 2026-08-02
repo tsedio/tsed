@@ -1,5 +1,5 @@
 import {PlatformLayer, PlatformRouters} from "@tsed/platform-router";
-import {ProviderScope, TokenProvider, inject, injectable, injector} from "@tsed/di";
+import {inject, injectable, injector, ProviderScope, TokenProvider} from "@tsed/di";
 import {Route, RouteController} from "../interfaces/Route.js";
 import {application} from "../fn/application.js";
 
@@ -28,7 +28,7 @@ export class Platform {
 
   public addRoute(route: string, token: TokenProvider) {
     const app = application();
-    const provider = injector().getProvider(token);
+    const provider = injector().providers.get(token);
 
     if (!provider || provider.hasParent()) {
       return this;

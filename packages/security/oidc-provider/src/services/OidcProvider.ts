@@ -1,5 +1,5 @@
 import {Env, setValue} from "@tsed/core";
-import {Injectable, InjectorService, constant, context, inject} from "@tsed/di";
+import {constant, context, inject, Injectable, InjectorService} from "@tsed/di";
 import {PlatformApplication, PlatformContext} from "@tsed/platform-http";
 import Provider, {type Configuration, type KoaContextWithOIDC} from "oidc-provider";
 import {$asyncAlter} from "@tsed/hooks";
@@ -174,7 +174,7 @@ export class OidcProvider {
   }
 
   private getInteractionsUrl() {
-    const provider = this.injector.getProviders().find((provider) => provider.subType === INTERACTIONS);
+    const provider = this.injector.providers.getMany().find((provider) => provider.subType === INTERACTIONS);
 
     if (provider) {
       return (ctx: any, interaction: any) => {

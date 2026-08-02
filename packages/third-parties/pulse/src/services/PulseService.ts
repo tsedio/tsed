@@ -1,4 +1,4 @@
-import {DIContext, Provider, constant, injectable, injector, logger, runInContext} from "@tsed/di";
+import {constant, DIContext, injectable, injector, logger, Provider, runInContext} from "@tsed/di";
 import {type JobAttributesData, Processor, Pulse} from "@pulsecron/pulse";
 import {$asyncEmit} from "@tsed/hooks";
 import {PROVIDER_TYPE_PULSE} from "../constants/constants.js";
@@ -53,7 +53,7 @@ async function afterListen(pulse: Pulse) {
   const opts = getOpts();
 
   if (opts.enabled) {
-    const providers = injector().getProviders(PROVIDER_TYPE_PULSE);
+    const providers = injector().providers.getMany(PROVIDER_TYPE_PULSE);
 
     if (!opts.disableJobProcessing) {
       logger().info({

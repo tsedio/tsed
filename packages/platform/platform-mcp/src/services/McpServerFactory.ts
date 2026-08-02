@@ -1,4 +1,4 @@
-import {type TokenProvider, constant, inject, injectable, injector} from "@tsed/di";
+import {constant, inject, injectable, injector, type TokenProvider} from "@tsed/di";
 import {MCP_PROVIDER_TYPES} from "../constants/constants.js";
 import {McpServer, type ResourceTemplate} from "@modelcontextprotocol/server";
 import type {PlatformMcpSettings} from "../interfaces/PlatformMcpSettings.js";
@@ -10,7 +10,7 @@ function collectTokens(type: string, configured: TokenProvider[] = []): TokenPro
   const tokens = new Set<TokenProvider>(configured);
 
   injector()
-    .getProviders(type)
+    .providers.getMany(type)
     .forEach((provider) => tokens.add(provider.token));
 
   return [...tokens];

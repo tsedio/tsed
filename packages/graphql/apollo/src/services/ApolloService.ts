@@ -1,7 +1,7 @@
 import {APOLLO_CONTEXT, DATASOURCES_PROVIDERS} from "../constants/constants.js";
 import type {ApolloCustomServerCB, ApolloSettings} from "../interfaces/ApolloSettings.js";
 import {ApolloServer, ApolloServerOptions, ApolloServerPlugin} from "@apollo/server";
-import {LocalsContainer, Provider, constant, context, inject, injectable, injector, logger} from "@tsed/di";
+import {constant, context, inject, injectable, injector, LocalsContainer, logger, Provider} from "@tsed/di";
 import {PlatformApplication, PlatformContext} from "@tsed/platform-http";
 import {$asyncAlter} from "@tsed/hooks";
 import {ApolloContext} from "../interfaces/ApolloContext.js";
@@ -165,7 +165,7 @@ export class ApolloService {
    */
   createContextHandler(server: ApolloServer<ApolloContext>, settings: ApolloSettings) {
     const dataSourcesContainer = injector()
-      .getProviders(DATASOURCES_PROVIDERS)
+      .providers.getMany(DATASOURCES_PROVIDERS)
       .reduce((map, provider) => {
         let {name} = provider.store.get(DATASOURCES_PROVIDERS);
 

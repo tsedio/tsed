@@ -1,21 +1,21 @@
 import {$alter, $asyncAlter, $asyncEmit} from "@tsed/hooks";
 import type {IncomingMessage, ServerResponse} from "node:http";
+import Http from "node:http";
 import {
-  InjectorService,
-  ProviderOpts,
-  ProviderScope,
-  TokenProvider,
   colors,
   configuration,
   constant,
   createContainer,
   destroyInjector,
   injector,
-  logger
+  InjectorService,
+  logger,
+  ProviderOpts,
+  ProviderScope,
+  TokenProvider
 } from "@tsed/di";
 import {PlatformAdapter, PlatformBuilderSettings} from "../services/PlatformAdapter.js";
 import {CreateServerReturn} from "../utils/createServer.js";
-import Http from "node:http";
 import Http2 from "http2";
 import type Https from "node:https";
 import {Platform} from "../services/Platform.js";
@@ -239,7 +239,7 @@ export class PlatformBuilder<App = TsED.Application> {
 
     if (this.#rootModule) {
       container.delete(this.#rootModule);
-      container.addProvider(this.#rootModule, {
+      container.add(this.#rootModule, {
         type: "server:module",
         scope: ProviderScope.SINGLETON
       });
@@ -306,7 +306,7 @@ export class PlatformBuilder<App = TsED.Application> {
   }
 
   useProvider(token: Type<any>, settings?: Partial<ProviderOpts>) {
-    injector().addProvider(token, settings);
+    injector().add(token, settings);
 
     return this;
   }

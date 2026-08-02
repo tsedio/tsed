@@ -1,4 +1,4 @@
-import {Get, View, s} from "@tsed/schema";
+import {Get, s, View} from "@tsed/schema";
 import {Injectable, runInContext} from "@tsed/di";
 import {PlatformHandlerMetadata, PlatformHandlerType} from "@tsed/platform-router";
 import {PlatformHandler} from "./PlatformHandler.js";
@@ -43,10 +43,10 @@ describe("PlatformHandler", () => {
         }
       }
 
-      PlatformTest.injector.addProvider(Test);
+      PlatformTest.injector.add(Test);
 
       const metadata = new PlatformHandlerMetadata({
-        provider: PlatformTest.injector.getProvider(Test),
+        provider: PlatformTest.injector.providers.get(Test),
         propertyKey: "get",
         type: PlatformHandlerType.ENDPOINT
       });
@@ -77,7 +77,7 @@ describe("PlatformHandler", () => {
 
       const $ctx = PlatformTest.createRequestContext();
       const testService = await PlatformTest.invoke<TestService>(TestService)!;
-      const provider = PlatformTest.injector.getProvider(TestService)!;
+      const provider = PlatformTest.injector.providers.get(TestService)!;
 
       vi.spyOn(testService, "use").mockResolvedValue("hello");
 

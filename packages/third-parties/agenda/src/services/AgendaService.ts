@@ -1,5 +1,5 @@
 import {Agenda, type AgendaOptions, type Job} from "agenda";
-import {DIContext, Provider, constant, injectable, injector, logger, runInContext} from "@tsed/di";
+import {constant, DIContext, injectable, injector, logger, Provider, runInContext} from "@tsed/di";
 import {$asyncEmit} from "@tsed/hooks";
 import type {AgendaSettings} from "../interfaces/interfaces.js";
 import type {AgendaStore} from "../interfaces/AgendaStore.js";
@@ -62,7 +62,7 @@ async function afterListen(agenda: Agenda) {
   const opts = getOpts();
 
   if (opts && opts.enabled) {
-    const providers = injector().getProviders(PROVIDER_TYPE_AGENDA);
+    const providers = injector().providers.getMany(PROVIDER_TYPE_AGENDA);
 
     if (!opts.disableJobProcessing) {
       logger().info({

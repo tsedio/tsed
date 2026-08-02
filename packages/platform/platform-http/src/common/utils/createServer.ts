@@ -1,5 +1,5 @@
-import {ProviderScope, TokenProvider, configuration, injector, logger} from "@tsed/di";
-import {ReturnHostInfoFromPort, getHostInfoFromPort} from "@tsed/core";
+import {configuration, injector, logger, ProviderScope, TokenProvider} from "@tsed/di";
+import {getHostInfoFromPort, ReturnHostInfoFromPort} from "@tsed/core";
 import Http from "node:http";
 import Http2 from "http2";
 import Https from "node:https";
@@ -18,7 +18,7 @@ export type CreateServerReturn = () => Promise<Http.Server | Https.Server | Http
 export function createServer({token, type, port, server: get, listen}: CreateServerOptions): undefined | CreateServerReturn {
   const server = port !== false ? get() : null;
 
-  injector().addProvider(token, {
+  injector().add(token, {
     scope: ProviderScope.SINGLETON,
     useValue: server
   });

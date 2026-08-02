@@ -1,4 +1,4 @@
-import {Inject, Injectable, InjectorService, Provider} from "@tsed/di";
+import {constant, inject, injectable, injector, Provider} from "@tsed/di";
 import Passport, {Strategy} from "passport";
 import {PlatformContext, PlatformHandler} from "@tsed/platform-http";
 import {PROVIDER_TYPE_PROTOCOL} from "../contants/constants.js";
@@ -13,18 +13,12 @@ import {promisify} from "node:util";
 /**
  * @ignore
  */
-@Injectable()
 export class ProtocolsService {
   readonly strategies: Map<string, Strategy> = new Map();
-
-  @Inject()
-  protected platformHandler!: PlatformHandler;
-
-  @Inject()
-  private injector!: InjectorService;
+  protected platformHandler = inject(PlatformHandler);
 
   public getProtocols(): Provider[] {
-    return this.injector.getProviders(PROVIDER_TYPE_PROTOCOL);
+    return injector().providers.getMany(PROVIDER_TYPE_PROTOCOL);
   }
 
   public getProtocolsNames(): string[] {
@@ -37,7 +31,7 @@ export class ProtocolsService {
    */
   async invoke(provider: Provider) {
     let {name, useStrategy: strategy, settings} = this.getOptions(provider);
-    const protocol = this.injector.get<ProtocolMethods & Record<string, any>>(provider.provide)!;
+    const protocol = inject<ProtocolMethods & Record<string, any>>(provider.token)!;
 
     if (protocol.$beforeInstall) {
       settings = (await protocol.$beforeInstall(settings)) || settings;
@@ -122,7 +116,7 @@ export class ProtocolsService {
    */
   private getOptions(provider: Provider<any>): ProtocolOptions {
     const {name} = provider.store.get("protocol");
-    const {useStrategy = Strategy, settings = {}}: ProtocolOptions = this.injector.settings.get(`passport.protocols.${name}`) || {};
+    const {useStrategy = Strategy, settings = {}} = constant<ProtocolOptions>(`passport.protocols.${name}`) || {};
 
     return {
       name,
@@ -167,3 +161,5 @@ export class ProtocolsService {
     };
   }
 }
+
+injectable(ProtocolsService);

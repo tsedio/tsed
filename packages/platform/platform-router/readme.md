@@ -98,8 +98,8 @@ const injector = new InjectorService();
 
 const expressApp = express();
 
-injector.addProvider(MyController);
-injector.addProvider(NestedController);
+injector.add(MyController);
+injector.add(NestedController);
 
 const appRouter = new PlatformRouter();
 
