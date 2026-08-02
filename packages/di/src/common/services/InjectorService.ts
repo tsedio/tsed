@@ -279,8 +279,11 @@ export class InjectorService extends Container {
    */
   loadSync() {
     for (const [, provider] of this) {
-      // TODO try to lazy provider instead initiate all providers (&& provider.hasRegisteredHooks())
-      if (!this.has(provider.token) && provider.scope === ProviderScope.SINGLETON) {
+      if (
+        !this.has(provider.token) &&
+        provider.scope === ProviderScope.SINGLETON &&
+        (!this.settings.lazyProviders || provider.hasRegisteredHooks())
+      ) {
         this.resolve(provider.token);
       }
     }

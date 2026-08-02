@@ -684,6 +684,72 @@ describe("InjectorService", () => {
       expect(value).toEqual("value:alteredValue");
     });
   });
+  describe("lazy providers", () => {
+    it("should eagerly initialize synchronous singleton providers by default", async () => {
+      // GIVEN
+      const token = class Test {};
+      const provider = new Provider(token);
+      const container = new Container();
+      container.set(token, provider);
+
+      // WHEN
+      await injector().load(container);
+
+      // THEN
+      expect(injector().has(token)).toBe(true);
+    });
+
+    it("should defer synchronous singleton providers without hooks when enabled", async () => {
+      // GIVEN
+      const token = class Test {};
+      const provider = new Provider(token);
+      const container = new Container();
+      container.set(token, provider);
+      injector().settings.lazyProviders = true;
+
+      // WHEN
+      await injector().load(container);
+
+      // THEN
+      expect(injector().has(token)).toBe(false);
+      expect(injector().get(token)).toBeInstanceOf(token);
+    });
+
+    it("should initialize hook-bearing singleton providers when lazy providers are enabled", async () => {
+      // GIVEN
+      const token = class Test {};
+      const provider = new Provider(token);
+      const onInit = vi.fn();
+      const container = new Container();
+      provider.hooks = {$onInit: onInit};
+      container.set(token, provider);
+      injector().settings.lazyProviders = true;
+
+      // WHEN
+      await injector().load(container);
+      await injector().emit("$onInit");
+
+      // THEN
+      expect(injector().has(token)).toBe(true);
+      expect(onInit).toHaveBeenCalledWith(expect.any(token));
+    });
+
+    it("should initialize async providers when lazy providers are enabled", async () => {
+      // GIVEN
+      const token = Symbol("async provider");
+      const provider = new Provider(token);
+      const container = new Container();
+      provider.useAsyncFactory = async () => ({loaded: true});
+      container.set(token, provider);
+      injector().settings.lazyProviders = true;
+
+      // WHEN
+      await injector().load(container);
+
+      // THEN
+      expect(injector().get(token)).toEqual({loaded: true});
+    });
+  });
   describe("imports", () => {
     it("should getAll all provider and override by configuration a provider (use)", async () => {
       @Injectable()

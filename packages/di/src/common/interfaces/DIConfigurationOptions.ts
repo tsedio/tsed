@@ -10,6 +10,11 @@ declare global {
     interface Configuration extends Record<string, any> {
       scopes: {[key: string]: ProviderScope};
       /**
+       * Defer construction of synchronous singleton providers without lifecycle hooks until first use.
+       * @default false
+       */
+      lazyProviders?: boolean;
+      /**
        * Define dependencies to build the provider
        */
       imports: (TokenProvider | ImportTokenProviderOpts)[];

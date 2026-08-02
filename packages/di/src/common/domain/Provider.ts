@@ -199,6 +199,13 @@ export class Provider<T = any> implements ProviderOpts<T> {
     }
   }
 
+  /**
+   * Returns whether the provider has lifecycle hooks to register.
+   */
+  hasRegisteredHooks(): boolean {
+    return Object.keys(this.hooks).length > 0;
+  }
+
   get className() {
     return this.name;
   }
