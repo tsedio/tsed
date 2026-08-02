@@ -731,7 +731,262 @@ describe("InjectorService", () => {
 
       // THEN
       expect(injector().has(token)).toBe(true);
+      expect(onInit).toHaveBeenCalledTimes(2);
       expect(onInit).toHaveBeenCalledWith(expect.any(token));
+    });
+
+    it("should resolve a singleton when a custom hook is emitted", async () => {
+      // GIVEN
+      const token = class Test {};
+      const provider = new Provider(token);
+      const onCustomEvent = vi.fn();
+      const container = new Container();
+      provider.hooks = {$onCustomEvent: onCustomEvent};
+      container.set(token, provider);
+      injector().settings.lazyProviders = true;
+
+      // WHEN
+      await injector().load(container);
+      await injector().emit("$onCustomEvent");
+
+      // THEN
+      expect(injector().has(token)).toBe(true);
+      expect(onCustomEvent).toHaveBeenCalledWith(expect.any(token));
+    });
+
+    it("should register hooks discovered from the provider class without constructing it", async () => {
+      // GIVEN
+      class Test {
+        static instances = 0;
+
+        constructor() {
+          Test.instances++;
+        }
+
+        $onCustomEvent() {}
+      }
+      const provider = new Provider(Test);
+      const container = new Container();
+      const onCustomEvent = vi.spyOn(Test.prototype, "$onCustomEvent");
+      container.set(Test, provider);
+      injector().settings.lazyProviders = true;
+
+      // WHEN
+      await injector().load(container);
+
+      // THEN
+      expect(Test.instances).toBe(0);
+      expect(injector().has(Test)).toBe(false);
+
+      // WHEN
+      await injector().emit("$onCustomEvent");
+
+      // THEN
+      expect(Test.instances).toBe(1);
+      expect(onCustomEvent).toHaveBeenCalledTimes(1);
+    });
+
+    it("should construct a lazy singleton once when its hook is emitted repeatedly", async () => {
+      // GIVEN
+      const factory = vi.fn(() => ({}));
+      const onCustomEvent = vi.fn();
+      const provider = new Provider("lazy singleton");
+      const container = new Container();
+      provider.useFactory = factory;
+      provider.hooks = {$onCustomEvent: onCustomEvent};
+      container.set(provider.token, provider);
+      injector().settings.lazyProviders = true;
+
+      // WHEN
+      await injector().load(container);
+      await injector().emit("$onCustomEvent");
+      await injector().emit("$onCustomEvent");
+
+      // THEN
+      expect(factory).toHaveBeenCalledTimes(1);
+      expect(onCustomEvent).toHaveBeenCalledTimes(2);
+    });
+
+    it("should resolve every singleton listening to the same custom hook", async () => {
+      // GIVEN
+      const first = new Provider("first lazy singleton");
+      const second = new Provider("second lazy singleton");
+      const firstHook = vi.fn();
+      const secondHook = vi.fn();
+      const container = new Container();
+      first.useFactory = () => ({name: "first"});
+      first.hooks = {$onCustomEvent: firstHook};
+      second.useFactory = () => ({name: "second"});
+      second.hooks = {$onCustomEvent: secondHook};
+      container.set(first.token, first);
+      container.set(second.token, second);
+      injector().settings.lazyProviders = true;
+
+      // WHEN
+      await injector().load(container);
+      await injector().emit("$onCustomEvent");
+
+      // THEN
+      expect(firstHook).toHaveBeenCalledWith({name: "first"});
+      expect(secondHook).toHaveBeenCalledWith({name: "second"});
+    });
+
+    it("should resolve a lazy singleton for synchronous alter hooks", async () => {
+      // GIVEN
+      const token = class Test {};
+      const provider = new Provider(token);
+      const container = new Container();
+      provider.hooks = {
+        $alterMessage: ((_instance: Test, value: unknown) => `${String(value)}:altered`) as never
+      };
+      container.set(token, provider);
+      injector().settings.lazyProviders = true;
+
+      // WHEN
+      await injector().load(container);
+      const value = injector().alter("$alterMessage", "message");
+
+      // THEN
+      expect(injector().has(token)).toBe(true);
+      expect(value).toBe("message:altered");
+    });
+
+    it("should resolve a lazy singleton for asynchronous alter hooks", async () => {
+      // GIVEN
+      const token = class Test {};
+      const provider = new Provider(token);
+      const container = new Container();
+      provider.hooks = {
+        $alterMessage: (async (_instance: Test, value: unknown) => `${String(value)}:altered`) as never
+      };
+      container.set(token, provider);
+      injector().settings.lazyProviders = true;
+
+      // WHEN
+      await injector().load(container);
+      const value = await injector().alterAsync("$alterMessage", "message");
+
+      // THEN
+      expect(injector().has(token)).toBe(true);
+      expect(value).toBe("message:altered");
+    });
+
+    it("should pass a cached null singleton value to its hook", async () => {
+      // GIVEN
+      const onCustomEvent = vi.fn();
+      const provider = new Provider("null lazy singleton");
+      const container = new Container();
+      provider.useValue = null;
+      provider.hooks = {$onCustomEvent: onCustomEvent};
+      container.set(provider.token, provider);
+      injector().settings.lazyProviders = true;
+
+      // WHEN
+      await injector().load(container);
+      await injector().emit("$onCustomEvent");
+
+      // THEN
+      expect(injector().has(provider.token)).toBe(true);
+      expect(onCustomEvent).toHaveBeenCalledWith(null);
+    });
+
+    it("should not register custom singleton hooks for request-scoped providers", async () => {
+      // GIVEN
+      const token = class Test {};
+      const provider = new Provider(token);
+      const onCustomEvent = vi.fn();
+      const container = new Container();
+      provider.scope = ProviderScope.REQUEST;
+      provider.hooks = {$onCustomEvent: onCustomEvent};
+      container.set(token, provider);
+      injector().settings.lazyProviders = true;
+
+      // WHEN
+      await injector().load(container);
+      await injector().emit("$onCustomEvent");
+
+      // THEN
+      expect(injector().has(token)).toBe(false);
+      expect(onCustomEvent).not.toHaveBeenCalled();
+    });
+
+    it("should not recursively resolve a provider when its hook is emitted during construction", async () => {
+      // GIVEN
+      const token = class Test {};
+      const provider = new Provider(token);
+      const beforeInvoke = vi.fn();
+      const afterInvoke = vi.fn();
+      const container = new Container();
+      provider.hooks = {$beforeInvoke: beforeInvoke, $afterInvoke: afterInvoke};
+      container.set(token, provider);
+      injector().settings.lazyProviders = true;
+
+      // WHEN
+      await injector().load(container);
+      const instance = injector().get(token);
+
+      // THEN
+      expect(instance).toBeInstanceOf(token);
+      expect(beforeInvoke).not.toHaveBeenCalled();
+      expect(afterInvoke).not.toHaveBeenCalled();
+    });
+
+    it("should not construct an unused provider when the injector is destroyed", async () => {
+      // GIVEN
+      const token = class Test {};
+      const provider = new Provider(token);
+      const onDestroy = vi.fn();
+      const container = new Container();
+      provider.hooks = {$onDestroy: onDestroy};
+      container.set(token, provider);
+      injector().settings.lazyProviders = true;
+
+      // WHEN
+      await injector().load(container);
+      await injector().destroy();
+
+      // THEN
+      expect(injector().has(token)).toBe(false);
+      expect(onDestroy).not.toHaveBeenCalled();
+    });
+
+    it("should invoke the destroy hook for a lazy singleton that was resolved", async () => {
+      // GIVEN
+      const token = class Test {};
+      const provider = new Provider(token);
+      const onDestroy = vi.fn();
+      const container = new Container();
+      provider.hooks = {$onDestroy: onDestroy};
+      container.set(token, provider);
+      injector().settings.lazyProviders = true;
+
+      // WHEN
+      await injector().load(container);
+      const instance = injector().get(token);
+      await injector().destroy();
+
+      // THEN
+      expect(onDestroy).toHaveBeenCalledWith(instance);
+    });
+
+    it("should unregister an unused lazy singleton hook when the injector is destroyed", async () => {
+      // GIVEN
+      const token = class Test {};
+      const provider = new Provider(token);
+      const onCustomEvent = vi.fn();
+      const container = new Container();
+      provider.hooks = {$onCustomEvent: onCustomEvent};
+      container.set(token, provider);
+      injector().settings.lazyProviders = true;
+
+      // WHEN
+      await injector().load(container);
+      await injector().destroy();
+      await injector().emit("$onCustomEvent");
+
+      // THEN
+      expect(injector().has(token)).toBe(false);
+      expect(onCustomEvent).not.toHaveBeenCalled();
     });
 
     it("should initialize async providers when lazy providers are enabled", async () => {
@@ -748,6 +1003,27 @@ describe("InjectorService", () => {
 
       // THEN
       expect(injector().get(token)).toEqual({loaded: true});
+    });
+
+    it("should invoke hooks on an eagerly loaded async provider without creating it again", async () => {
+      // GIVEN
+      const token = Symbol("async provider with hook");
+      const factory = vi.fn(async () => ({loaded: true}));
+      const onCustomEvent = vi.fn();
+      const provider = new Provider(token);
+      const container = new Container();
+      provider.useAsyncFactory = factory;
+      provider.hooks = {$onCustomEvent: onCustomEvent};
+      container.set(token, provider);
+      injector().settings.lazyProviders = true;
+
+      // WHEN
+      await injector().load(container);
+      await injector().emit("$onCustomEvent");
+
+      // THEN
+      expect(factory).toHaveBeenCalledTimes(1);
+      expect(onCustomEvent).toHaveBeenCalledWith({loaded: true});
     });
   });
   describe("imports", () => {

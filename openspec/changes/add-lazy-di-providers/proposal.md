@@ -5,9 +5,9 @@
 ## What Changes
 
 - Add a `lazyProviders` configuration option to `DIConfiguration`, defaulting to `false`.
-- When enabled, bootstrap only synchronous singleton providers that declare lifecycle hooks; resolve all other synchronous singleton providers on first use.
+- Register singleton hooks during bootstrap without constructing their providers. When enabled, resolve a synchronous singleton only when it is first used or one of its hooks is emitted.
 - Keep the existing eager bootstrap behavior when the option is absent or `false`.
-- Add tests for the configuration default, lazy resolution, hook-bearing providers, and backward-compatible eager behavior.
+- Add tests for the configuration default, lazy resolution through custom hooks, reentrant invocation hooks, destruction, and backward-compatible eager behavior.
 
 ## Capabilities
 

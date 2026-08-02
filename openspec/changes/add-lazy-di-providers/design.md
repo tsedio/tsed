@@ -1,6 +1,6 @@
 ## Context
 
-`InjectorService.load()` resolves asynchronous providers, then calls `loadSync()` to instantiate every remaining singleton. `Provider` already discovers lifecycle methods into its `hooks` map, and hooks are registered when the provider is resolved. The existing TODO identifies this hook metadata as the safe eager subset for a lazy bootstrap mode.
+`InjectorService.load()` resolves asynchronous providers, then calls `loadSync()` to instantiate every remaining singleton. `Provider` already discovers lifecycle methods into its `hooks` map, but those hooks are currently registered only after resolution. Lazy bootstrap needs the hook subscriptions to exist before their provider instance does.
 
 ## Goals / Non-Goals
 
@@ -8,7 +8,8 @@
 
 - Provide an opt-in setting with a `false` default.
 - Defer ordinary synchronous singleton construction until first resolution.
-- Preserve eager construction for synchronous singleton providers with discovered lifecycle hooks so they can subscribe before lifecycle events are emitted.
+- Register hooks for all synchronous singletons before resolving eager providers.
+- Resolve a hook-bearing provider only when its hook is emitted.
 - Preserve the asynchronous-provider bootstrap path and default behavior.
 
 **Non-Goals:**
@@ -25,21 +26,22 @@
 2. **Apply the option only in `loadSync()`.**
    `loadAsync()` continues to resolve async providers because the setting concerns the TODO's synchronous singleton bootstrap loop and async initialization has existing ordering semantics.
 
-3. **Use provider hook metadata as the eager criterion.**
-   Add `Provider.hasRegisteredHooks()` to express whether `discoverHooks()` or explicit provider configuration has produced hook callbacks. In lazy mode `loadSync()` resolves an uncached singleton only when this method returns `true`.
+3. **Register singleton hooks independently from instance resolution.**
+   `load()` registers hooks for every singleton after bootstrap has applied imports and configuration overrides, then before asynchronous or synchronous providers are resolved. A hook callback resolves its provider on demand when the instance is absent, so custom hook names receive the same behavior as built-in lifecycle hooks.
 
-4. **Preserve ordinary resolution behavior.**
-   No separate lazy cache is needed: a deferred provider is built by the existing `resolve()` path when it is requested, including when it is a dependency of a hook-bearing provider.
+4. **Guard reentrant and destroy events.**
+   The injector tracks providers currently being invoked. A hook emitted while its own provider is constructing does not trigger a second resolution, matching the prior behavior where hooks were not registered until construction completed. `$onDestroy` does not resolve an absent provider, preventing teardown from constructing unused services.
 
 ## Risks / Trade-offs
 
-- **[A deferred provider is first resolved after a lifecycle event]** → The option is explicitly opt-in; providers that need bootstrap lifecycle participation must declare a hook and are initialized before `$onInit`.
-- **[A custom provider supplies hook metadata directly]** → `hasRegisteredHooks()` inspects the effective `hooks` map, rather than relying on class reflection alone.
+- **[A hook emitted during its provider's construction recurses]** → Track in-progress providers and skip that self-hook until a subsequent event.
+- **[Destroying the injector leaves pre-registered listeners]** → Explicitly unregister all pre-registered singleton hook references during `destroy()`.
+- **[A custom event is emitted after shutdown]** → Custom hook event timing remains the application developer's responsibility; `$onDestroy` is explicitly safe for unused providers.
 - **[Default bootstrap semantics regress]** → Add an explicit default-mode test alongside lazy-mode coverage.
 
 ## Migration Plan
 
 1. Add the optional setting with its false default and type declaration.
-2. Add the provider hook predicate and gate synchronous bootstrap with it when configured.
+2. Pre-register singleton hooks and resolve their providers from hook callbacks only when necessary.
 3. Validate configuration and injector behavior with package-scoped tests.
 4. Applications can adopt the setting incrementally by configuring `lazyProviders: true`; removing it or setting `false` restores eager bootstrap.
