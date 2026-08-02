@@ -196,7 +196,7 @@ export class InjectorService {
    * @returns `true` if the instance is cached, `false` otherwise
    */
   has(token: TokenProvider): boolean {
-    return this.#cache.get(token) !== undefined;
+    return this.#cache.has(token);
   }
 
   /**
@@ -238,10 +238,8 @@ export class InjectorService {
    * @returns The resolved provider instance
    */
   public resolve<Type = any>(token: TokenProvider<Type>, options: Partial<InvokeOptions> = {}): Type {
-    let instance: any = options.locals ? options.locals.get(token) : undefined;
-
-    if (instance !== undefined) {
-      return instance;
+    if (options.locals?.has(token)) {
+      return options.locals.get(token);
     }
 
     if (token === DI_USE_PARAM_OPTIONS) {
@@ -253,30 +251,24 @@ export class InjectorService {
       return this.settings as Type;
     }
 
-    instance = !options.rebuild ? this.#cache.get(token) : undefined;
-
-    if (instance != undefined) {
-      return instance;
+    if (!options.rebuild && this.#cache.has(token)) {
+      return this.#cache.get(token);
     }
 
     const provider = this.ensureProvider(token);
 
-    if (provider && provider.scope === ProviderScope.SINGLETON && !options.rebuild && !this.#registeredSingletonHooks.has(provider.token)) {
-      this.registerHooks(provider, options);
-    }
-
     // maybe not necessary
     if (!provider || options.rebuild) {
-      instance = this.invokeToken(token, options);
+      const instance = this.invokeToken(token, options);
 
       if (provider) {
         return this.setToCache(provider!, instance);
       }
 
-      return instance;
+      return instance as Type;
     }
 
-    instance = this.invokeToken(token, options);
+    const instance = this.invokeToken(token, options);
 
     switch (provider.scope) {
       case ProviderScope.SINGLETON:
@@ -288,10 +280,10 @@ export class InjectorService {
           this.registerHooks(provider, options);
         }
 
-        return instance;
+        return instance as Type;
     }
 
-    return instance;
+    return instance as Type;
   }
 
   /**
@@ -675,13 +667,7 @@ export class InjectorService {
       throw new Error("Given token is undefined. Could mean a circular dependency problem. Try to use @Inject(() => Token) to solve it.");
     }
 
-    let provider: Provider;
-
-    if (!this.providers.get(token)) {
-      provider = new Provider(token);
-    } else {
-      provider = this.providers.get(token)!;
-    }
+    const provider = this.#providers.get(token) || new Provider(token);
 
     deps = deps || provider.deps;
     imports = imports || provider.imports;

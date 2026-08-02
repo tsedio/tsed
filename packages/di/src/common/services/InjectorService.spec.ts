@@ -285,6 +285,27 @@ describe("InjectorService", () => {
         // THEN
         expect(result).toEqual(null);
       });
+      it("should reuse a cached null singleton value", async () => {
+        // GIVEN
+        const token = Symbol.for("TokenValueNull");
+        const factory = vi.fn(() => null);
+        const provider = new Provider<any>(token);
+        provider.scope = ProviderScope.SINGLETON;
+        provider.useFactory = factory;
+
+        const container = new Container();
+        container.set(token, provider);
+
+        await injector().load(container);
+
+        // WHEN
+        const result = inject(token);
+
+        // THEN
+        expect(result).toBeNull();
+        expect(injector().has(token)).toBe(true);
+        expect(factory).toHaveBeenCalledTimes(1);
+      });
     });
     describe("when provider is a Factory (useFactory)", () => {
       it("should invoke the provider from container", async () => {
