@@ -174,7 +174,7 @@
       "oxfmt"
     ]
   },
-  "packageManager": "yarn@4.1.0",
+  "packageManager": "yarn@4.18.0",
   "collective": {
     "type": "opencollective",
     "url": "https://opencollective.com/tsed",
