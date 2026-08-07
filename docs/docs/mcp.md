@@ -14,10 +14,9 @@ head:
 adapter. The module exposes a configurable `/mcp` endpoint, lets you register tools/resources/prompts through DI-aware
 helpers or decorators, and reuses the same MCP primitives that power the CLI integration.
 
-::: tip Need a standalone CLI implementation?
-Use [`@tsed/cli-mcp`](https://cli.tsed.dev/guide/cli/mcp.html) (Ts.ED CLI v7) to generate a streamable or stdio MCP
-server that ships with the same functional API. The CLI package is ideal for headless agents, while
-`@tsed/platform-mcp` embeds MCP inside your HTTP application.
+::: tip Need a standalone MCP server?
+Import [`@tsed/platform-mcp/cli`](#run-an-mcp-server-from-a-cli) to run the same tools, resources, and prompts over
+stdio or Streamable HTTP. The CLI entry point does not mount a Ts.ED HTTP application.
 :::
 
 ## Installation
@@ -79,6 +78,48 @@ export class Server {}
 All registration helpers return DI tokens. Add those tokens to a module `providers` array, or expose them from a
 feature module. Both the decorators and the function API execute handlers inside a Ts.ED `DIContext`, so you can reuse
 your existing providers and services.
+
+## Run an MCP server from a CLI
+
+The `@tsed/platform-mcp/cli` entry point starts the shared `MCP_SERVER` after your CLI has initialized the Ts.ED DI
+container. It supports two transports:
+
+- `stdio` for local clients such as MCP Inspector, Claude Desktop, or editor agents;
+- `streamable-http` to expose a `POST /mcp` endpoint. It listens on `PORT`, defaulting to `3000`.
+
+Import CLI helpers from the CLI entry point and configure the same `mcp` provider arrays used by the HTTP module:
+
+```typescript [src/mcp.ts]
+import {Configuration} from "@tsed/di";
+import {defineTool, mcpServerConnect} from "@tsed/platform-mcp/cli";
+
+const helloTool = defineTool({
+  name: "hello",
+  description: "Greets the MCP client",
+  handler({name}: {name: string}) {
+    return {content: [{type: "text", text: `Hello, ${name}!`}]};
+  }
+});
+
+@Configuration({
+  mcp: {
+    name: "my-cli-mcp",
+    version: "1.0.0",
+    tools: [helloTool]
+  }
+})
+export class McpConfiguration {}
+
+// Call this after the CLI bootstrap has initialized the Ts.ED injector.
+await mcpServerConnect("stdio");
+// Or expose POST /mcp on process.env.PORT (default: 3000):
+// await mcpServerConnect("streamable-http");
+```
+
+When using `stdio`, reserve standard output for the MCP protocol: do not write application logs or diagnostic output to
+`stdout`. The transport helper stops the Ts.ED logger before connecting, but child processes and custom logging must
+also write to `stderr`. For Streamable HTTP, protect the endpoint with authentication and run it behind the same
+network controls as other privileged CLI services.
 
 ## Register tools
 

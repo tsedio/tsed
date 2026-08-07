@@ -1,10 +1,10 @@
 import {Injectable} from "@tsed/di";
-import {Prompt} from "../../src/decorators/prompt.js";
-import {Resource} from "../../src/decorators/resource.js";
-import {Tool} from "../../src/decorators/tool.js";
-import {definePrompt} from "../../src/fn/definePrompt.js";
-import {defineResource} from "../../src/fn/defineResource.js";
-import {defineTool} from "../../src/fn/defineTool.js";
+import {Prompt} from "../../src/common/decorators/prompt.js";
+import {Resource} from "../../src/common/decorators/resource.js";
+import {Tool} from "../../src/common/decorators/tool.js";
+import {definePrompt} from "../../src/common/fn/definePrompt.js";
+import {defineResource} from "../../src/common/fn/defineResource.js";
+import {defineTool} from "../../src/common/fn/defineTool.js";
 import {s} from "@tsed/schema";
 
 defineTool({

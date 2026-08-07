@@ -1,10 +1,7 @@
 import {constant, inject, injectable, injector, type TokenProvider} from "@tsed/di";
-import {MCP_PROVIDER_TYPES} from "../constants/constants.js";
+import type {PlatformMcpSettings, PromptsSettings, ResourceSettings, ToolProps} from "../index.js";
+import {MCP_PROVIDER_TYPES} from "../index.js";
 import {McpServer, type ResourceTemplate} from "@modelcontextprotocol/server";
-import type {PlatformMcpSettings} from "../interfaces/PlatformMcpSettings.js";
-import type {PromptsSettings} from "../fn/definePrompt.js";
-import type {ResourceSettings} from "../fn/defineResource.js";
-import type {ToolProps} from "../fn/defineTool.js";
 
 function collectTokens(type: string, configured: TokenProvider[] = []): TokenProvider[] {
   const tokens = new Set<TokenProvider>(configured);

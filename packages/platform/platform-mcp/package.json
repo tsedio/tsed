@@ -2,17 +2,35 @@
   "name": "@tsed/platform-mcp",
   "version": "8.17.0",
   "description": "Model Context Protocol integration for Ts.ED HTTP adapters.",
-  "source": "./src/index.ts",
+  "source": "./src/http/index.ts",
   "type": "module",
-  "main": "./lib/esm/index.js",
-  "module": "./lib/esm/index.js",
-  "typings": "./lib/types/index.d.ts",
+  "main": "./lib/esm/http/index.js",
+  "module": "./lib/esm/http/index.js",
+  "typings": "./lib/types/http/index.d.ts",
   "exports": {
     ".": {
-      "tsed-source": "./src/index.ts",
-      "types": "./lib/types/index.d.ts",
-      "import": "./lib/esm/index.js",
-      "default": "./lib/esm/index.js"
+      "tsed-source": "./src/http/index.ts",
+      "types": "./lib/types/http/index.d.ts",
+      "import": "./lib/esm/http/index.js",
+      "default": "./lib/esm/http/index.js"
+    },
+    "./http": {
+      "tsed-source": "./src/http/index.ts",
+      "types": "./lib/types/http/index.d.ts",
+      "import": "./lib/esm/http/index.js",
+      "default": "./lib/esm/http/index.js"
+    },
+    "./cli": {
+      "tsed-source": "./src/cli/index.ts",
+      "types": "./lib/types/cli/index.d.ts",
+      "import": "./lib/esm/cli/index.js",
+      "default": "./lib/esm/cli/index.js"
+    },
+    "./common": {
+      "tsed-source": "./src/common/index.ts",
+      "types": "./lib/types/common/index.d.ts",
+      "import": "./lib/esm/common/index.js",
+      "default": "./lib/esm/common/index.js"
     }
   },
   "scripts": {
