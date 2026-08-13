@@ -44,7 +44,7 @@ export class PlatformBuilder<App = TsED.Application> {
   #servers!: CreateServerReturn[];
   #listeners: (Http.Server | Https.Server | Http2.Http2Server)[] = [];
 
-  protected constructor(settings: Partial<TsED.Configuration>) {
+  constructor(settings: Partial<TsED.Configuration> = {}) {
     this.#rootModule = settings.rootModule;
 
     createInjector(defineConfiguration(settings));
@@ -113,38 +113,19 @@ export class PlatformBuilder<App = TsED.Application> {
     return injector();
   }
 
-  static create<App = TsED.Application>(settings: PlatformBuilderSettings<App>): PlatformBuilder<App>;
-  static create<App = TsED.Application>(module: Type<any>, settings?: PlatformBuilderSettings<App>): PlatformBuilder<App>;
-  static create<App = TsED.Application>(module: Type<any>, settings?: PlatformBuilderSettings<App>): PlatformBuilder<App> {
-    return this.build(module as any, {
+  static create<App = TsED.Application>(settings?: PlatformBuilderSettings<App>): PlatformBuilder<App> {
+    return new PlatformBuilder({
       httpsPort: false,
       httpPort: false,
       ...settings
     });
   }
 
-  static build<App = TsED.Application>(settings: PlatformBuilderSettings<App>): PlatformBuilder<App>;
-  static build<App = TsED.Application>(module: Type<any>, settings?: PlatformBuilderSettings<App>): PlatformBuilder<App>;
-  static build<App = TsED.Application>(
-    module: Type<any> | PlatformBuilderSettings<App>,
-    settings?: PlatformBuilderSettings<App>
-  ): PlatformBuilder<App> {
-    return new PlatformBuilder({
-      rootModule: settings ? module : undefined,
-      ...(settings ? settings : (module as any))
-    });
-  }
-
   /**
    * Bootstrap a server application
    */
-  static bootstrap<App = TsED.Application>(settings: PlatformBuilderSettings<App>): Promise<PlatformBuilder<App>>;
-  static bootstrap<App = TsED.Application>(module: Type<any>, settings?: PlatformBuilderSettings<App>): Promise<PlatformBuilder<App>>;
-  static bootstrap<App = TsED.Application>(
-    module: Type<any> | PlatformBuilderSettings<App>,
-    settings?: PlatformBuilderSettings<App>
-  ): Promise<PlatformBuilder<App>> {
-    return this.build<App>(module as any, settings).bootstrap();
+  static bootstrap<App = TsED.Application>(settings?: PlatformBuilderSettings<App>): Promise<PlatformBuilder<App>> {
+    return new PlatformBuilder<App>(settings).bootstrap();
   }
 
   callback(): (req: IncomingMessage, res: ServerResponse) => void;

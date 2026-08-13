@@ -1,3 +1,4 @@
+import {PlatformBuilder} from "@tsed/platform-http";
 import {PlatformKoa} from "./PlatformKoa.js";
 
 class Server {}
@@ -9,12 +10,27 @@ describe("PlatformKoa", () => {
 
       expect(platform.adapter).toBeInstanceOf(PlatformKoa);
     });
+
+    it("should create platform from settings", () => {
+      const platform = PlatformKoa.create({httpPort: 8080});
+
+      expect(platform.adapter).toBeInstanceOf(PlatformKoa);
+    });
   });
   describe("bootstrap()", () => {
     it("should create platform", async () => {
       const platform = await PlatformKoa.bootstrap(Server, {});
 
       expect(platform.adapter).toBeInstanceOf(PlatformKoa);
+    });
+
+    it("should create platform from settings", async () => {
+      const bootstrap = vi.spyOn(PlatformBuilder.prototype, "bootstrap").mockResolvedValue({} as never);
+
+      await PlatformKoa.bootstrap({httpPort: false});
+
+      expect(bootstrap).toHaveBeenCalledOnce();
+      vi.resetAllMocks();
     });
   });
   describe("bodyParser()", () => {

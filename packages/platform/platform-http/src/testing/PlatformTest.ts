@@ -67,8 +67,9 @@ export class PlatformTest extends DITest {
 
       adapter(settings.adapter || adapter());
       const configuration = defineConfiguration(settings);
+      const builder = new PlatformBuilder(configuration);
 
-      instance = await PlatformBuilder.build(configuration.rootModule, configuration).bootstrap();
+      instance = await builder.bootstrap();
 
       await instance.listen(!!listen);
     };
