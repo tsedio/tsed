@@ -19,7 +19,9 @@ describe("PlatformKoa", () => {
   });
   describe("bootstrap()", () => {
     it("should create platform", async () => {
-      const platform = await PlatformKoa.bootstrap(Server, {});
+      const platform = await PlatformKoa.bootstrap({
+        rootModule: Server
+      });
 
       expect(platform.adapter).toBeInstanceOf(PlatformKoa);
     });

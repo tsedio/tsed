@@ -8,7 +8,8 @@ dotenv.config();
 async function bootstrap() {
   try {
     $log.debug("Start server...");
-    const platform = await PlatformExpress.bootstrap(Server, {
+    const platform = await PlatformExpress.bootstrap({
+      rootModule: Server,
       envs: process.env
     });
 

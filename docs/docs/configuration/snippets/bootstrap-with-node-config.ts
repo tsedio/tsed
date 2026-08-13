@@ -11,7 +11,7 @@ const config = require("config");
 async function bootstrap() {
   try {
     $log.debug("Start server...");
-    const platform = await PlatformExpress.bootstrap(Server, config /* or config.util.toObject() */);
+    const platform = await PlatformExpress.bootstrap({rootModule: Server, ...config /* or config.util.toObject() */});
 
     await platform.listen();
     $log.debug("Server initialized");

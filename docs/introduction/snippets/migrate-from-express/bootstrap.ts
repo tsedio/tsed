@@ -7,7 +7,8 @@ import {Server} from "./server";
 async function bootstrap() {
   try {
     $log.debug("Start server...");
-    const platform = await PlatformExpress.bootstrap(Server, {
+    const platform = await PlatformExpress.bootstrap({
+      rootModule: Server,
       express: {
         app: expressApp
       }

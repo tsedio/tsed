@@ -16,7 +16,8 @@ if (process.env.NODE_ENV !== "test") {
   async function bootstrap() {
     try {
       $log.debug("Start server...");
-      const platform = await PlatformKoa.bootstrap(Server, {
+      const platform = await PlatformKoa.bootstrap({
+        rootModule: Server,
         disableComponentScan: true,
         mount: {
           "/rest": [HelloWorld]

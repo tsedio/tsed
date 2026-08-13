@@ -7,7 +7,8 @@ import {VersionCtrl} from "./controllers/rest/VersionCtrl.js";
 if (process.env.NODE_ENV !== "test") {
   async function bootstrap() {
     try {
-      const platform = await PlatformExpress.bootstrap(Server, {
+      const platform = await PlatformExpress.bootstrap({
+        rootModule: Server,
         mount: {
           "/rest": [VersionCtrl],
           "/": [IndexCtrl]
