@@ -42,6 +42,15 @@ Create `packages/platform/platform-<framework>/` using a comparable package as a
 
 Keep the framework itself a peer dependency; put it in `devDependencies` at a pinned test version. The workspace glob already discovers `packages/platform/*`; only update other package catalogues if a real registry, docs, or release surface needs the entry.
 
+For `vitest.config.mts`, use the workspace preset import with this explicit type-resolution exception:
+
+```typescript
+// @ts-ignore
+import {presets} from "@tsed/vitest/presets";
+```
+
+Add the new public package alias to both `tsconfig.node.json` and `tsconfig.spec.json`. For Fetch-native platforms with native `FormData` parsing, prefer that API in the platform package and document Multer decorators and storage engines as unsupported; do not create a `@tsed/platform-multer/<framework>` alias unless the Multer middleware contract is proven compatible.
+
 ## 4. Implement the platform boundary
 
 Create `Platform<Framework> extends PlatformAdapter<App>` with:
@@ -82,7 +91,7 @@ Update all public documentation in the same change:
 3. Link the new page from `docs/docs/configuration/index.md` and add it to the Configuration sidebar in `docs/.vitepress/config.mts`.
 4. Add the platform and configuration-page link to `docs/index.md` wherever the existing Express/Koa/Fastify list appears.
 
-Run the package tests from its directory, then the relevant platform suite. Run the package build and lint checks affected by the new public exports. Build the documentation after changing the website pages.
+Run the package tests from its directory, then the relevant platform suite. For TypeScript build and type checking, run `yarn tsc -b` from the repository root so project references are evaluated in their intended order; do not use a package-scoped `tsc --build` command. Run the lint checks affected by the new public exports. Build the documentation after changing the website pages.
 
 ## Completion checklist
 
