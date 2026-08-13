@@ -63,12 +63,13 @@ export class PlatformKoa extends PlatformAdapter<Koa> {
    */
   static create(settings: Partial<TsED.Configuration>): PlatformBuilder<Koa>;
   static create(module: Type<any>, settings?: Partial<TsED.Configuration>): PlatformBuilder<Koa>;
-  static create(module: Type<any> | Partial<TsED.Configuration>, settings?: Partial<TsED.Configuration>) {
+  static create(module: any, settings: Partial<TsED.Configuration> = {}): PlatformBuilder<Koa> {
+    const rootModule = isFunction(module) ? module : undefined;
     return new PlatformBuilder<Koa>({
-      rootModule: settings ? (module as Type) : undefined,
+      rootModule,
       httpsPort: false,
       httpPort: false,
-      ...(settings || (module as Partial<TsED.Configuration>)),
+      ...(rootModule ? settings : module),
       adapter: PlatformKoa
     });
   }
@@ -80,10 +81,11 @@ export class PlatformKoa extends PlatformAdapter<Koa> {
    */
   static bootstrap(settings: Partial<TsED.Configuration>): Promise<PlatformBuilder<Koa>>;
   static bootstrap(module: Type<any>, settings: Partial<TsED.Configuration>): Promise<PlatformBuilder<Koa>>;
-  static bootstrap(module: Type<any> | Partial<TsED.Configuration>, settings?: Partial<TsED.Configuration>) {
+  static bootstrap(module: any, settings: Partial<TsED.Configuration> = {}): Promise<PlatformBuilder<Koa>> {
+    const rootModule = isFunction(module) ? module : undefined;
     return new PlatformBuilder<Koa>({
-      rootModule: settings ? (module as Type) : undefined,
-      ...(settings || (module as Partial<TsED.Configuration>)),
+      rootModule,
+      ...(rootModule ? settings : module),
       adapter: PlatformKoa
     }).bootstrap();
   }

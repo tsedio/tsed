@@ -54,12 +54,13 @@ export class PlatformFastify extends PlatformAdapter<FastifyInstance> {
    */
   static create(settings: Partial<TsED.Configuration>): PlatformBuilder<FastifyInstance>;
   static create(module: Type<any>, settings?: Partial<TsED.Configuration>): PlatformBuilder<FastifyInstance>;
-  static create(module: Type<any> | Partial<TsED.Configuration>, settings?: Partial<TsED.Configuration>) {
+  static create(module: any, settings: Partial<TsED.Configuration> = {}): PlatformBuilder<FastifyInstance> {
+    const rootModule = isFunction(module) ? module : undefined;
     return new PlatformBuilder<FastifyInstance>({
-      rootModule: settings ? (module as Type) : undefined,
+      rootModule,
       httpsPort: false,
       httpPort: false,
-      ...(settings || (module as Partial<TsED.Configuration>)),
+      ...(rootModule ? settings : module),
       adapter: PlatformFastify
     });
   }
@@ -71,10 +72,11 @@ export class PlatformFastify extends PlatformAdapter<FastifyInstance> {
    */
   static bootstrap(settings: Partial<TsED.Configuration>): Promise<PlatformBuilder<FastifyInstance>>;
   static bootstrap(module: Type<any>, settings: Partial<TsED.Configuration>): Promise<PlatformBuilder<FastifyInstance>>;
-  static bootstrap(module: Type<any> | Partial<TsED.Configuration>, settings?: Partial<TsED.Configuration>) {
+  static bootstrap(module: any, settings: Partial<TsED.Configuration> = {}): Promise<PlatformBuilder<FastifyInstance>> {
+    const rootModule = isFunction(module) ? module : undefined;
     return new PlatformBuilder<FastifyInstance>({
-      rootModule: settings ? (module as Type) : undefined,
-      ...(settings || (module as Partial<TsED.Configuration>)),
+      rootModule,
+      ...(rootModule ? settings : module),
       adapter: PlatformFastify
     }).bootstrap();
   }
