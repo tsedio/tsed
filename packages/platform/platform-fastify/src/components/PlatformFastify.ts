@@ -53,8 +53,9 @@ export class PlatformFastify extends PlatformAdapter<FastifyInstance> {
    * @param settings
    */
   static create(settings: Partial<TsED.Configuration>): PlatformBuilder<FastifyInstance>;
+  static create(module: Type<any>, settings?: Partial<TsED.Configuration>): PlatformBuilder<FastifyInstance>;
   static create(module: Type<any> | Partial<TsED.Configuration>, settings?: Partial<TsED.Configuration>) {
-    return new PlatformBuilder({
+    return new PlatformBuilder<FastifyInstance>({
       rootModule: settings ? (module as Type) : undefined,
       httpsPort: false,
       httpPort: false,

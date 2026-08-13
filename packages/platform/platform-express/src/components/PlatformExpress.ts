@@ -83,14 +83,13 @@ export class PlatformExpress extends PlatformAdapter<Express.Application> {
    * @param settings
    */
   static create(settings: Partial<TsED.Configuration>): PlatformBuilder<Express.Application>;
-  static create(module: Type<any> | Partial<TsED.Configuration>, settings: Partial<TsED.Configuration> = {}) {
-    settings = settings || (module as Partial<TsED.Configuration>);
-
+  static create(module: Type<any>, settings?: Partial<TsED.Configuration>): PlatformBuilder<Express.Application>;
+  static create(module: Type<any> | Partial<TsED.Configuration>, settings?: Partial<TsED.Configuration>) {
     return new PlatformBuilder({
       rootModule: settings ? (module as Type) : undefined,
       httpsPort: false,
       httpPort: false,
-      ...settings,
+      ...(settings || (module as Partial<TsED.Configuration>)),
       adapter: PlatformExpress as any
     });
   }
@@ -102,12 +101,10 @@ export class PlatformExpress extends PlatformAdapter<Express.Application> {
    */
   static bootstrap(settings: Partial<TsED.Configuration>): Promise<PlatformBuilder<Express.Application>>;
   static bootstrap(module: Type<any>, settings: Partial<TsED.Configuration>): Promise<PlatformBuilder<Express.Application>>;
-  static bootstrap(module: Type<any>, settings: Partial<TsED.Configuration> = {}) {
-    settings = settings || (module as Partial<TsED.Configuration>);
-
+  static bootstrap(module: Type<any> | Partial<TsED.Configuration>, settings?: Partial<TsED.Configuration>) {
     return new PlatformBuilder<Express.Application>({
       rootModule: settings ? (module as Type) : undefined,
-      ...settings,
+      ...(settings || (module as Partial<TsED.Configuration>)),
       adapter: PlatformExpress as any
     }).bootstrap();
   }

@@ -62,8 +62,9 @@ export class PlatformKoa extends PlatformAdapter<Koa> {
    * @param settings
    */
   static create(settings: Partial<TsED.Configuration>): PlatformBuilder<Koa>;
+  static create(module: Type<any>, settings?: Partial<TsED.Configuration>): PlatformBuilder<Koa>;
   static create(module: Type<any> | Partial<TsED.Configuration>, settings?: Partial<TsED.Configuration>) {
-    return new PlatformBuilder({
+    return new PlatformBuilder<Koa>({
       rootModule: settings ? (module as Type) : undefined,
       httpsPort: false,
       httpPort: false,
