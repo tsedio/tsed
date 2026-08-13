@@ -61,6 +61,7 @@ Ts.ED is a modern Node.js framework built with TypeScript. It offers a flexible 
 - [Board/Roadmap](https://github.com/orgs/tsedio/projects/4/views/1)
 - [Documentation](https://tsed.dev)
 - [Guideline](./CONTRIBUTING.md)
+- [Create a platform adapter skill](./.agents/skills/create-platform-adapter/SKILL.md)
 - [Tutorials](https://tsed.dev/tutorials/)
 - [Community Slack](https://slack.tsed.dev)
 - [Support us](https://github.com/sponsors/romakita)

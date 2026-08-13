@@ -1,0 +1,4 @@
+interface:
+  display_name: "Create Ts.ED Platform Adapter"
+  short_description: "Build a Ts.ED framework adapter"
+  default_prompt: "Use $create-platform-adapter to add a Ts.ED adapter for Hono."
