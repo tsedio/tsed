@@ -84,7 +84,8 @@ import {Server} from "./server";
 async function bootstrap() {
   try {
     $log.debug("Start server...");
-    const platform = await PlatformExpress.bootstrap(Server, {
+    const platform = await PlatformExpress.bootstrap({
+      rootModule: Server // this property is optional
       // extra settings
     });
 
@@ -106,7 +107,8 @@ import {Server} from "./server";
 async function bootstrap() {
   try {
     $log.debug("Start server...");
-    const platform = await PlatformKoa.bootstrap(Server, {
+    const platform = await PlatformKoa.bootstrap({
+      rootModule: Server
       // extra settings
     });
 

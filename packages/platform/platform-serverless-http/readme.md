@@ -133,7 +133,8 @@ import {PlatformExpress} from "@tsed/platform-express";
 import {Server} from "./Server.js";
 
 async function bootstrap() {
-  const platform = await PlatformExpress.bootstrap(Server, {
+  const platform = await PlatformExpress.bootstrap({
+    rootModule: Server,
     httpsPort: false,
     httpPort: process.env.PORT || 3000,
     disableComponentsScan: true
