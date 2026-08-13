@@ -63,3 +63,4 @@ export class UserModel implements User {
   @Required()
   biography: any;
 }
+

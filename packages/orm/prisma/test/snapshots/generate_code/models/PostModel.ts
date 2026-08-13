@@ -18,3 +18,4 @@ export class PostModel implements Post {
   @Allow(null)
   userId: number | null;
 }
+
