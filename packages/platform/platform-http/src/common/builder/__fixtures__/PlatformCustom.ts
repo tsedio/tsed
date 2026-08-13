@@ -11,14 +11,18 @@ export class PlatformCustom extends FakeAdapter {
   ];
 
   static create(module: Type<any>, settings: Partial<TsED.Configuration> = {}) {
-    return PlatformBuilder.create<any>(module, {
+    return new PlatformBuilder({
+      rootModule: module,
+      httpPort: false,
+      httpsPort: false,
       ...settings,
       adapter: PlatformCustom
     });
   }
 
   static bootstrap(module: Type<any>, settings: Partial<TsED.Configuration> = {}) {
-    return PlatformBuilder.build(module, {
+    return new PlatformBuilder({
+      rootModule: module,
       ...settings,
       adapter: PlatformCustom
     }).bootstrap();

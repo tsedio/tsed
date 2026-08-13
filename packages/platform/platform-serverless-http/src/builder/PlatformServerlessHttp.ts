@@ -4,8 +4,17 @@ import {Type} from "@tsed/core";
 import serverless from "serverless-http";
 
 export class PlatformServerlessHttp {
-  static bootstrap(module: Type<any>, settings: PlatformBuilderSettings<any>): PlatformBuilder & {handler(): Handler} {
-    const platform = PlatformBuilder.create(module, settings);
+  static bootstrap(settings: PlatformBuilderSettings<any>): PlatformBuilder & {handler(): Handler};
+  static bootstrap(module: Type<any>, settings?: PlatformBuilderSettings<any>): PlatformBuilder & {handler(): Handler};
+  static bootstrap(
+    module: Type<any> | PlatformBuilderSettings<any>,
+    settings?: PlatformBuilderSettings<any>
+  ): PlatformBuilder & {handler(): Handler} {
+    settings = settings || module;
+    const platform = PlatformBuilder.create({
+      rootModule: module as Type,
+      ...settings
+    });
     const promise = platform.listen();
 
     (platform as any).handler = (): Handler => {
