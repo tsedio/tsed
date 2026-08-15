@@ -13358,8 +13358,10 @@ __metadata:
     "@tsed/platform-test-sdk": "workspace:*"
     "@tsed/typescript": "workspace:*"
     "@types/content-disposition": "npm:^0.5.4"
+    "@types/qs": "npm:^6.9.18"
     content-disposition: "npm:>=0.5.4"
     elysia: "npm:1.4.29"
+    qs: "npm:^6.14.0"
     tslib: "npm:>=2.7.0"
     typescript: "npm:6.0.2"
     vitest: "npm:4.1.4"
@@ -15647,6 +15649,13 @@ __metadata:
   version: 6.9.7
   resolution: "@types/qs@npm:6.9.7"
   checksum: 10/7fd6f9c25053e9b5bb6bc9f9f76c1d89e6c04f7707a7ba0e44cc01f17ef5284adb82f230f542c2d5557d69407c9a40f0f3515e8319afd14e1e16b5543ac6cdba
+  languageName: node
+  linkType: hard
+
+"@types/qs@npm:^6.9.18":
+  version: 6.15.1
+  resolution: "@types/qs@npm:6.15.1"
+  checksum: 10/fd04a36c683dbb1ec5819c01773905259955bfd84d7294af178ad609990a9b8d75d458629ca3bf97b151fe2934eb12ade7fdeb98f2e3ad40d138f0a7d195ac7c
   languageName: node
   linkType: hard
 

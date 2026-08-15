@@ -40,6 +40,6 @@ describe("PlatformElysia integration", () => {
   describe.skip("Plugin: View (no Elysia view adapter)", () => utils.test("view"));
   describe.skip("Plugin: Statics files (requires @elysia/static)", () => utils.test("statics"));
   describe.skip("Plugin: Multer (use Elysia native FormData instead)", () => utils.test("multer"));
-  describe.skip("Plugin: DeepQueryParams (not supported by Elysia)", () => utils.test("deepQueryParams"));
-  describe.skip("Plugin: Custom404 (Elysia owns the default 404 response)", () => utils.test("custom404"));
+  describe("Plugin: DeepQueryParams", () => utils.test("deepQueryParams"));
+  describe("Plugin: Custom404", () => utils.test("custom404"));
 });

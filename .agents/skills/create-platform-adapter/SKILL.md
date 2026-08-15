@@ -14,7 +14,7 @@ Read [the adapter reference](references/adapter-reference.md) before designing o
 1. Confirm the target runtime can support Ts.ED routing, async middleware, status/headers/cookies, streams or equivalent bodies, error propagation, and a testable HTTP entry point.
 2. Identify whether it is Node `IncomingMessage`/`ServerResponse` compatible. For Fetch-native runtimes, explicitly design the bridge instead of pretending Node response mutation works.
 3. Record framework-version support, required plugins, and unsupported Ts.ED features. Do not silently omit multipart uploads, static assets, or serverless callback support.
-4. For non-trivial implementation, follow the repository OpenSpec workflow before editing: inspect `openspec/`, create a change, and keep implementation tasks current.
+4. Do not start or apply an OpenSpec workflow from this skill. The workflow below is the source of truth for the adapter implementation.
 
 ## 2. Inspect local precedents
 
@@ -30,7 +30,7 @@ Read these sources before creating files:
 
 Choose the closest precedent by execution model: Express for Connect-style middleware, Koa for composed async middleware, Fastify for plugin/route-registration APIs. Reuse intent and coverage, not framework-specific calls.
 
-## 3. Scaffold the package
+## 3. Create the package
 
 Create `packages/platform/platform-<framework>/` using a comparable package as a structural template. Adapt, do not blindly duplicate:
 
@@ -51,7 +51,7 @@ import {presets} from "@tsed/vitest/presets";
 
 Add the new public package alias to both `tsconfig.node.json` and `tsconfig.spec.json`. For Fetch-native platforms with native `FormData` parsing, prefer that API in the platform package and document Multer decorators and storage engines as unsupported; do not create a `@tsed/platform-multer/<framework>` alias unless the Multer middleware contract is proven compatible.
 
-## 4. Implement the platform boundary
+## 4. Implement the adaptations
 
 Create `Platform<Framework> extends PlatformAdapter<App>` with:
 
@@ -69,26 +69,27 @@ Do not expose a framework's raw request/response directly to controllers without
 
 - Convert Ts.ED route syntax with a framework-specific `convertPath()` and test named, optional, regexp, and wildcard paths.
 - Preserve the framework's error path. Do not call a Connect `next(error)` from a Koa/Fastify/Fetch handler unless the target framework actually supports it.
+- Route errors through `PlatformExceptions.catch(error, $ctx)` and route unknown paths through `PlatformExceptions.resourceNotFound($ctx)`. Reuse the existing exception filters; do not handcraft framework-specific error or 404 response payloads.
 - Register body parsing, multipart support, static serving, view rendering, and raw-body capture only when supported. Make plugin registration awaitable when required.
 - Make HTTP/HTTPS creation and `listen()` match the framework's ownership model. Confirm the callback works with `serverless-http`-style consumers if the adapter claims serverless support.
 - Keep framework module augmentation and Ts.ED global declarations narrow and public.
 
-## 6. Prove compatibility
+## 6. Build and run the integration matrix
 
-Add focused unit tests for each adapter class. Also create `test/platform-<framework>.spec.ts` with `PlatformTestSdk.create({rootDir, adapter, server})`. Build it from all three local integration precedents:
+After the package and platform adaptations exist, add focused unit tests and create `test/platform-<framework>.spec.ts` with `PlatformTestSdk.create({rootDir, adapter, server})`. Build the spec from the Express, Koa, and Fastify precedents, then run it before documenting the platform as supported.
 
-- Use Express and Koa as the enabled baseline for the complete shared matrix.
-- Use Fastify to model framework-specific `describe.skip` cases, including a short reason beside the skipped suite.
-- Adapt only the server, adapter, framework options, and declared limitations. Do this before considering the adapter implementation complete.
+- Use Express and Koa as the implementation baseline.
+- Use Fastify only to understand framework-specific integration differences; do not copy its skips as an escape hatch.
+- Add the `test/app/` fixtures needed by the SDK instead of omitting a scenario.
 
-The integration spec must use the complete shared matrix below, not a reduced hand-picked list:
+The following SDK groups are mandatory for every new platform. Keep them enabled, make them pass, and do not wrap them in `describe.skip`:
 
-- Core suites: `handlers`, `childrenControllers`, `inheritanceController`, `response`, `stream`, `middlewares`, `scopeRequest`, `headers`, `acceptMime`, `headerParams`, `pathParams`, `queryParams`, `bodyParams`, `cookies`, `session`, `location`, `redirect`, `errors`, `responseFilter`, `routing`, `locals`, `auth`, `module`, and `cache`.
-- Plugin suites: `view`, `statics`, `multer`, `deepQueryParams`, and `custom404`.
+- `handlers`, `childrenControllers`, `inheritanceController`, `response`, `stream`, `middlewares`, `scopeRequest`, `headers`, `acceptMime`, `headerParams`, `pathParams`, `queryParams`, `bodyParams`, `cookies`, `session`, `location`, `redirect`, `errors`, `responseFilter`, `routing`, `locals`, `auth`, `module`, and `cache`.
+- `view`, `statics`, `deepQueryParams`, and `custom404`.
 
-Enable every supported suite. Keep an unsupported suite as `describe.skip` beside `utils.test(...)`, name the limitation, and add or update its matching cell in `docs/introduction/capabilities.md`. A skip is evidence of a declared capability gap, never a way to hide a regression. Do not omit a shared suite because its fixtures need platform adaptation: implement the corresponding `test/app/` fixture or declare the limitation explicitly.
+For Fetch-native platforms, test multipart independently with native `FormData` and `File` body parameters. Do not add the SDK Multer suite when Multer's middleware contract is incompatible; document that Multer decorators and storage engines are unavailable.
 
-Add integration coverage for adapter-specific features not supplied by the SDK, including bootstrap/create and native callback behavior, route conversion, error propagation, raw body, and runtime/server lifecycle.
+Iterate on the adapter until the mandatory suite passes. Tackle isolated SDK gaps first (for example custom 404, deep query parsing, framework plugins, and test fixtures). Defer structural Fetch-native response work—stream bridging, response finalization, and Node callback emulation—until those simpler gaps are resolved. Then add coverage for adapter-specific behavior not supplied by the SDK, including bootstrap/create, native callback behavior, route conversion, error propagation, raw body, native multipart, and runtime/server lifecycle.
 
 Update all public documentation in the same change:
 
@@ -97,12 +98,12 @@ Update all public documentation in the same change:
 3. Link the new page from `docs/docs/configuration/index.md` and add it to the Configuration sidebar in `docs/.vitepress/config.mts`.
 4. Add the platform and configuration-page link to `docs/index.md` wherever the existing Express/Koa/Fastify list appears.
 
-Run the package tests from its directory, then explicitly execute `test/platform-<framework>.spec.ts` from the repository root with Vitest. Record the result; do not claim compatibility until that shared matrix has run. For TypeScript build and type checking, run `yarn tsc -b` from the repository root so project references are evaluated in their intended order; do not use a package-scoped `tsc --build` command. Run the lint checks affected by the new public exports. Build the documentation after changing the website pages.
+Follow this order: create the package; implement the platform adaptations; add the SDK matrix and its fixtures; execute the matrix; iterate on missing framework features until it passes; then run the package tests, `yarn tsc -b` from the repository root, affected lint checks, and the documentation build. Do not use a package-scoped `tsc --build` command.
 
 ## Completion checklist
 
-- Every `PlatformTestSdk` group is enabled or intentionally skipped; each skipped group appears in the capability matrix.
-- The complete `test/platform-<framework>.spec.ts` matrix, checked against the Express, Koa, and Fastify precedents, exists and has been executed successfully (or its declared skips are documented).
+- Every mandatory `PlatformTestSdk` group is enabled and passing; none is skipped.
+- The complete `test/platform-<framework>.spec.ts` matrix, checked against the Express, Koa, and Fastify precedents, exists and has been executed successfully.
 - Framework capability gaps are documented in `capabilities.md`, the platform configuration page, navigation, and homepage.
 - `PlatformAdapter` lifecycle, request/response/handler bindings, and route conversion are covered.
 - Public package metadata, exports, peer dependencies, docs, and integration tests are complete.

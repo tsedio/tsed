@@ -118,11 +118,17 @@ export class PlatformElysia extends PlatformAdapter<Elysia> {
   afterLoadRoutes() {
     const rawApp: any = this.app.getApp();
     rawApp.onError(({error, $ctx}: any) => {
-      if ($ctx) {
+      if (!$ctx) return;
+
+      const platformExceptions = inject<PlatformExceptions>(PlatformExceptions);
+      if (error?.code === "NOT_FOUND") {
+        platformExceptions?.resourceNotFound($ctx);
+      } else {
         $ctx.error = error;
-        inject<PlatformExceptions>(PlatformExceptions)?.catch(error, $ctx);
-        return $ctx.response.getBody();
+        platformExceptions?.catch(error, $ctx);
       }
+
+      return this.toResponse($ctx);
     });
   }
 

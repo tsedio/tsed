@@ -42,6 +42,7 @@
   },
   "dependencies": {
     "content-disposition": ">=0.5.4",
+    "qs": "^6.14.0",
     "tslib": ">=2.7.0"
   },
   "devDependencies": {
@@ -55,6 +56,7 @@
     "@tsed/platform-test-sdk": "workspace:*",
     "@tsed/typescript": "workspace:*",
     "@types/content-disposition": "^0.5.4",
+    "@types/qs": "^6.9.18",
     "elysia": "1.4.29",
     "typescript": "6.0.2",
     "vitest": "4.1.4"

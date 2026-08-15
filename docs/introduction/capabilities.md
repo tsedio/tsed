@@ -76,7 +76,8 @@ Elysia uses a Fetch-native response model. Its executable `PlatformTestSdk` matr
 | Controllers, DI, routing, middleware, headers, cookies, body parameters                            | <img src="/icons/valid.svg" width="15" alt="yes"/>  |
 | Native multipart `FormData` / `File` body parameters                                               | <img src="/icons/valid.svg" width="15" alt="yes"/>  |
 | Node `Readable` streams, manually finalized responses, redirects, response filters, response cache | <img src="/icons/invalid.svg" width="15" alt="no"/> |
-| Sessions, deep query parameters, custom 404 response                                               | <img src="/icons/invalid.svg" width="15" alt="no"/> |
+| Deep query parameters and custom 404 response                                                      | <img src="/icons/valid.svg" width="15" alt="yes"/>  |
+| Sessions                                                                                           | <img src="/icons/invalid.svg" width="15" alt="no"/> |
 | Static files and views                                                                             | <img src="/icons/invalid.svg" width="15" alt="no"/> |
 | Multer decorators and storage engines                                                              | <img src="/icons/invalid.svg" width="15" alt="no"/> |
 

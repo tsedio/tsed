@@ -1,4 +1,5 @@
 import {PlatformRequest} from "@tsed/platform-http";
+import qs from "qs";
 
 export class PlatformElysiaRequest extends PlatformRequest<any> {
   get host() {
@@ -43,12 +44,7 @@ export class PlatformElysiaRequest extends PlatformRequest<any> {
   }
 
   get query() {
-    const query: Record<string, string | string[]> = {};
-    for (const [key, value] of new URL(this.raw.request.url).searchParams) {
-      const current = query[key];
-      query[key] = current === undefined ? value : ([] as string[]).concat(current, value);
-    }
-    return query;
+    return qs.parse(new URL(this.raw.request.url).search.slice(1));
   }
 
   get(name: string) {
