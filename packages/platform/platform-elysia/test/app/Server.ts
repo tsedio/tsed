@@ -8,6 +8,12 @@ export const rootDir = import.meta.dirname;
   statics: {
     "/": `${rootDir}/public`
   },
+  views: {
+    root: `${rootDir}/views`,
+    extensions: {
+      ejs: "ejs"
+    }
+  },
   logger: {
     level: "off"
   }
