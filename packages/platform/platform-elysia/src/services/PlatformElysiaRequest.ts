@@ -58,9 +58,9 @@ export class PlatformElysiaRequest extends PlatformRequest<any> {
   accepts(mime?: string | string[]): string | string[] | false {
     const accepted = this.get("accept") || "*/*";
     const values = ([] as string[]).concat(mime as any);
-    const matches = values.filter((value) => accepted.includes(value) || accepted.includes("*/*"));
+    const match = values.find((value) => accepted.includes(value) || accepted.includes("*/*"));
 
-    return (Array.isArray(mime) ? matches : matches[0]) || false;
+    return match || false;
   }
 
   isAborted() {
