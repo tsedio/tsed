@@ -28,7 +28,9 @@ export class PlatformElysiaRequest extends PlatformRequest<any> {
   }
 
   get body() {
-    return this.raw.body;
+    const body = this.raw.body;
+
+    return body instanceof FormData ? Object.fromEntries(body.entries()) : body;
   }
 
   get rawBody() {

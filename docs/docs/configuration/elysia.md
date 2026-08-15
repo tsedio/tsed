@@ -38,4 +38,4 @@ await PlatformElysia.bootstrap(Server, {
 });
 ```
 
-Static assets require `@elysia/static`. Elysia parses `multipart/form-data` natively as `FormData` and `File` values, which are available through Ts.ED body parameters. Multer decorators and storage engines are not supported. Views, sessions, Node `Readable` streams, manually finalized responses, redirects, response filters, response caching, WebSockets, and serverless callback support are not part of this adapter's supported surface yet.
+Static assets require `@elysia/static`. Elysia parses `multipart/form-data` natively as `FormData` and `File` values, which are available through Ts.ED body parameters. Multer decorators and storage engines are not supported. Views and response filters are supported through their Ts.ED abstractions. Sessions, Node `Readable` streams, manually finalized responses, redirects, response caching, WebSockets, and serverless callback support are not part of this adapter's supported surface yet.
