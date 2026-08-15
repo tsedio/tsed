@@ -5,6 +5,9 @@ import {Configuration} from "@tsed/di";
 export const rootDir = import.meta.dirname;
 
 @Configuration({
+  statics: {
+    "/": `${rootDir}/public`
+  },
   logger: {
     level: "off"
   }

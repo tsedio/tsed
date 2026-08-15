@@ -4788,6 +4788,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@elysia/static@npm:^1.4.11":
+  version: 1.4.11
+  resolution: "@elysia/static@npm:1.4.11"
+  peerDependencies:
+    elysia: ">= 1.4.0"
+  checksum: 10/f785cee00e8fc7f0abc7f33c3ae2a2eb2a59fb60f0fe6699991afbed6d6f358768add86784253c1c0bc236a89d73bed8f30cb57ba832aa1e73facbeff7ada93f
+  languageName: node
+  linkType: hard
+
 "@emnapi/core@npm:1.10.0":
   version: 1.10.0
   resolution: "@emnapi/core@npm:1.10.0"
@@ -13348,6 +13357,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@tsed/platform-elysia@workspace:packages/platform/platform-elysia"
   dependencies:
+    "@elysia/static": "npm:^1.4.11"
     "@sinclair/typebox": "npm:^0.34.15"
     "@tsed/barrels": "workspace:*"
     "@tsed/core": "workspace:*"

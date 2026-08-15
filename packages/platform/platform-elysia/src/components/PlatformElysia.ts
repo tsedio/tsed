@@ -1,5 +1,6 @@
 import {IncomingMessage, ServerResponse} from "node:http";
 import {Readable} from "node:stream";
+import {staticPlugin} from "@elysia/static";
 import {Elysia} from "elysia";
 import {catchAsyncError, isFunction, Type} from "@tsed/core";
 import {constant, inject, runInContext} from "@tsed/di";
@@ -74,11 +75,11 @@ export class PlatformElysia extends PlatformAdapter<Elysia> {
     });
   }
 
-  mapLayers(layers: PlatformLayer[]) {
+  async mapLayers(layers: PlatformLayer[]) {
     const rawApp: any = this.app.getApp();
     for (const layer of layers) {
       if (layer.method === "statics") {
-        this.statics(layer.path as string, layer.opts as PlatformStaticsOptions);
+        await this.statics(layer.path as string, layer.opts as PlatformStaticsOptions);
         continue;
       }
       const {path, wildcard} = convertPath(layer.path);
@@ -107,11 +108,18 @@ export class PlatformElysia extends PlatformAdapter<Elysia> {
     return null;
   }
 
-  statics(_: string, __: PlatformStaticsOptions) {
-    // Static files require the optional @elysia/static plugin. Keep route mapping
-    // operational when an application configuration includes statics for another suite.
-    // The dedicated statics capability remains explicitly unsupported until that plugin
-    // is integrated by the application before Elysia compiles its routes.
+  async statics(endpoint: string, {root, ...options}: PlatformStaticsOptions) {
+    const maxAge = typeof options.maxAge === "string" ? Number.parseInt(options.maxAge, 10) : options.maxAge;
+
+    this.app.getApp().use(
+      await staticPlugin({
+        assets: root,
+        prefix: endpoint,
+        alwaysStatic: true,
+        ...options,
+        maxAge
+      })
+    );
     return this;
   }
 

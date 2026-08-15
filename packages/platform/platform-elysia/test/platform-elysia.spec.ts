@@ -38,7 +38,7 @@ describe("PlatformElysia integration", () => {
   describe.skip("Cache (requires Node response cache semantics)", () => utils.test("cache"));
 
   describe.skip("Plugin: View (no Elysia view adapter)", () => utils.test("view"));
-  describe.skip("Plugin: Statics files (requires @elysia/static)", () => utils.test("statics"));
+  describe("Plugin: Statics files", () => utils.test("statics"));
   describe.skip("Plugin: Multer (use Elysia native FormData instead)", () => utils.test("multer"));
   describe("Plugin: DeepQueryParams", () => utils.test("deepQueryParams"));
   describe("Plugin: Custom404", () => utils.test("custom404"));
