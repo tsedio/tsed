@@ -32,7 +32,7 @@ export class PlatformElysiaRequest extends PlatformRequest<any> {
   }
 
   get rawBody() {
-    return this.raw.body;
+    return this.raw.rawBody;
   }
 
   get cookies() {
