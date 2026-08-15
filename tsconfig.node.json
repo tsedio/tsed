@@ -58,6 +58,7 @@
       "@tsed/common": ["./packages/platform/common/src/index.ts"],
       "@tsed/platform-log-middleware": ["./packages/platform/platform-log-middleware/src/index.ts"],
       "@tsed/platform-koa": ["./packages/platform/platform-koa/src/index.ts"],
+      "@tsed/platform-elysia": ["./packages/platform/platform-elysia/src/index.ts"],
       "@tsed/platform-log-request": ["./packages/platform/platform-log-request/src/index.ts"],
       "@tsed/platform-serverless-testing": ["./packages/platform/platform-serverless-testing/src/index.ts"],
       "@tsed/platform-serverless": ["./packages/platform/platform-serverless/src/index.ts"],

@@ -37,8 +37,8 @@ Create `packages/platform/platform-<framework>/` using a comparable package as a
 - `package.json`: ESM exports, build/test/barrel scripts, framework peer dependency, Ts.ED peer dependencies, and only runtime dependencies required by the adapter.
 - `tsconfig.esm.json`, `vitest.config.mts`, `.npmignore`, and package `readme.md`.
 - `src/index.ts`: export only the supported public adapter class, settings, decorators, and helpers.
-- `test/app/`: a minimal server, framework-plugin setup, and shared integration fixtures.
-- `test/platform-<framework>.spec.ts`: the explicit `@tsed/platform-test-sdk` capability matrix.
+- `test/app/`: a minimal server, framework-plugin setup, and shared integration fixtures compatible with `PlatformTestSdk`.
+- `test/platform-<framework>.spec.ts`: the explicit `@tsed/platform-test-sdk` integration capability matrix. This file is mandatory for every new platform; a route-conversion or unit-only test suite is not a substitute.
 
 Keep the framework itself a peer dependency; put it in `devDependencies` at a pinned test version. The workspace glob already discovers `packages/platform/*`; only update other package catalogues if a real registry, docs, or release surface needs the entry.
 
@@ -75,12 +75,18 @@ Do not expose a framework's raw request/response directly to controllers without
 
 ## 6. Prove compatibility
 
-Add focused unit tests for each adapter class. Also create `test/platform-<framework>.spec.ts` with `PlatformTestSdk.create({rootDir, adapter, server})`, then enumerate every relevant shared suite. Start from the Express matrix and make every omission intentional:
+Add focused unit tests for each adapter class. Also create `test/platform-<framework>.spec.ts` with `PlatformTestSdk.create({rootDir, adapter, server})`. Build it from all three local integration precedents:
+
+- Use Express and Koa as the enabled baseline for the complete shared matrix.
+- Use Fastify to model framework-specific `describe.skip` cases, including a short reason beside the skipped suite.
+- Adapt only the server, adapter, framework options, and declared limitations. Do this before considering the adapter implementation complete.
+
+The integration spec must use the complete shared matrix below, not a reduced hand-picked list:
 
 - Core suites: `handlers`, `childrenControllers`, `inheritanceController`, `response`, `stream`, `middlewares`, `scopeRequest`, `headers`, `acceptMime`, `headerParams`, `pathParams`, `queryParams`, `bodyParams`, `cookies`, `session`, `location`, `redirect`, `errors`, `responseFilter`, `routing`, `locals`, `auth`, `module`, and `cache`.
 - Plugin suites: `view`, `statics`, `multer`, `deepQueryParams`, and `custom404`.
 
-Enable every supported suite. Keep an unsupported suite as `describe.skip` beside `utils.test(...)`, name the limitation, and add or update its matching cell in `docs/introduction/capabilities.md`. A skip is evidence of a declared capability gap, never a way to hide a regression.
+Enable every supported suite. Keep an unsupported suite as `describe.skip` beside `utils.test(...)`, name the limitation, and add or update its matching cell in `docs/introduction/capabilities.md`. A skip is evidence of a declared capability gap, never a way to hide a regression. Do not omit a shared suite because its fixtures need platform adaptation: implement the corresponding `test/app/` fixture or declare the limitation explicitly.
 
 Add integration coverage for adapter-specific features not supplied by the SDK, including bootstrap/create and native callback behavior, route conversion, error propagation, raw body, and runtime/server lifecycle.
 
@@ -91,11 +97,12 @@ Update all public documentation in the same change:
 3. Link the new page from `docs/docs/configuration/index.md` and add it to the Configuration sidebar in `docs/.vitepress/config.mts`.
 4. Add the platform and configuration-page link to `docs/index.md` wherever the existing Express/Koa/Fastify list appears.
 
-Run the package tests from its directory, then the relevant platform suite. For TypeScript build and type checking, run `yarn tsc -b` from the repository root so project references are evaluated in their intended order; do not use a package-scoped `tsc --build` command. Run the lint checks affected by the new public exports. Build the documentation after changing the website pages.
+Run the package tests from its directory, then explicitly execute `test/platform-<framework>.spec.ts` from the repository root with Vitest. Record the result; do not claim compatibility until that shared matrix has run. For TypeScript build and type checking, run `yarn tsc -b` from the repository root so project references are evaluated in their intended order; do not use a package-scoped `tsc --build` command. Run the lint checks affected by the new public exports. Build the documentation after changing the website pages.
 
 ## Completion checklist
 
 - Every `PlatformTestSdk` group is enabled or intentionally skipped; each skipped group appears in the capability matrix.
+- The complete `test/platform-<framework>.spec.ts` matrix, checked against the Express, Koa, and Fastify precedents, exists and has been executed successfully (or its declared skips are documented).
 - Framework capability gaps are documented in `capabilities.md`, the platform configuration page, navigation, and homepage.
 - `PlatformAdapter` lifecycle, request/response/handler bindings, and route conversion are covered.
 - Public package metadata, exports, peer dependencies, docs, and integration tests are complete.

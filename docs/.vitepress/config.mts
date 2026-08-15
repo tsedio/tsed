@@ -42,7 +42,8 @@ const Docs = [
       {text: "Server options", link: "/docs/configuration/server-options"},
       {text: "Express.js", link: "/docs/configuration/express"},
       {text: "Koa.js", link: "/docs/configuration/koa"},
-      {text: "Fastify.js", link: "/docs/configuration/fastify"}
+      {text: "Fastify.js", link: "/docs/configuration/fastify"},
+      {text: "Elysia", link: "/docs/configuration/elysia"}
     ]
   },
   {

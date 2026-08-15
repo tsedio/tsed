@@ -4,7 +4,7 @@ layout: home
 head:
   - - meta
     - name: description
-      content: Ts.ED is a modern Bun.js/Node.js framework built with TypeScript on top of Express.js/Koa.js/Fastify.js. It offers a flexible structure with a fast learning curve, specifically designed to improve the developer experience. Ts.ED provides numerous decorators and guidelines to make your code more readable and less error-prone. It supports various platforms and tools, including Node.js/Bun.js, Express.js/Koa.js, CLI, and serverless architectures (e.g., AWS).
+      content: Ts.ED is a modern Bun.js/Node.js framework built with TypeScript on top of Express.js/Koa.js/Fastify.js/Elysia. It offers a flexible structure with a fast learning curve, specifically designed to improve the developer experience. Ts.ED provides numerous decorators and guidelines to make your code more readable and less error-prone. It supports various platforms and tools, including Node.js/Bun.js, Express.js/Koa.js/Elysia, CLI, and serverless architectures (e.g., AWS).
   - - meta
     - name: keywords
       content: ts.ed framework express koa fastify aws cli di rest graphql typescript node.js bun.js javascript native ESM decorators jsonschema class models providers pipes middlewares testing developer
@@ -12,7 +12,7 @@ head:
 hero:
   name: "Ts.ED"
   text: "A modern framework written in TypeScript"
-  tagline: "A flexible framework on top of Express.js/Koa.js/Fastify.js with a fast learning curve, designed to enhance the developer experience"
+  tagline: "A flexible framework on top of Express.js/Koa.js/Fastify.js/Elysia with a fast learning curve, designed to enhance the developer experience"
   actions:
     - theme: brand
       text: What is Ts.ED?

@@ -10,7 +10,7 @@ head:
 
 # Capabilities
 
-Ts.ED is a Node.js and TypeScript framework on top of [Express.js](/docs/configuration/express.html), [Koa.js](/docs/configuration/koa.html), [Fastify.js](/docs/configuration/fastify.html). It provides different platform adapters
+Ts.ED is a Node.js and TypeScript framework on top of [Express.js](/docs/configuration/express.html), [Koa.js](/docs/configuration/koa.html), [Fastify.js](/docs/configuration/fastify.html), and [Elysia](/docs/configuration/elysia.html). It provides different platform adapters
 to build your awesome server-side application.
 
 Depending on the platform you choose, Ts.ED provides a level of abstraction above these common Node.js frameworks with the [Platform API](/docs/platform-api.md)
@@ -66,6 +66,21 @@ Here is the feature list provided by Ts.ED and the compatibility with the differ
 
 - Deep Query Params aren't supported.
 - Session has a small issue over serialization (for hidden field), but it works.
+
+## Elysia platform support
+
+Elysia uses a Fetch-native response model. Its executable `PlatformTestSdk` matrix supports controllers, nested and inherited routes, middleware, scoped DI, headers, query and body parameters, cookies, location, errors, routing, locals, authentication, and modules.
+
+| Feature or plugin                                                                                  | Elysia                                              |
+| -------------------------------------------------------------------------------------------------- | --------------------------------------------------- |
+| Controllers, DI, routing, middleware, headers, cookies, body parameters                            | <img src="/icons/valid.svg" width="15" alt="yes"/>  |
+| Native multipart `FormData` / `File` body parameters                                               | <img src="/icons/valid.svg" width="15" alt="yes"/>  |
+| Node `Readable` streams, manually finalized responses, redirects, response filters, response cache | <img src="/icons/invalid.svg" width="15" alt="no"/> |
+| Sessions, deep query parameters, custom 404 response                                               | <img src="/icons/invalid.svg" width="15" alt="no"/> |
+| Static files and views                                                                             | <img src="/icons/invalid.svg" width="15" alt="no"/> |
+| Multer decorators and storage engines                                                              | <img src="/icons/invalid.svg" width="15" alt="no"/> |
+
+Static assets can still be installed directly on a custom Elysia application with `@elysia/static` before bootstrapping Ts.ED. Use Elysia-native `FormData` and `File` rather than Multer.
 
 ## Platform plugins support
 

@@ -10976,6 +10976,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@sinclair/typebox@npm:^0.34.15":
+  version: 0.34.52
+  resolution: "@sinclair/typebox@npm:0.34.52"
+  checksum: 10/693a7ab6c8935cbb6e89698bd75ac465038ecfff8b8ad22c50ad6d93a049b0e7cfe4d759200d0401707c5679d6f7a3791fd6dee139bcbb250fa3aae3c17e8bd1
+  languageName: node
+  linkType: hard
+
 "@sindresorhus/is@npm:^4.6.0":
   version: 4.6.0
   resolution: "@sindresorhus/is@npm:4.6.0"
@@ -13334,6 +13341,37 @@ __metadata:
       optional: false
     "@tsed/schema":
       optional: false
+  languageName: unknown
+  linkType: soft
+
+"@tsed/platform-elysia@workspace:packages/platform/platform-elysia":
+  version: 0.0.0-use.local
+  resolution: "@tsed/platform-elysia@workspace:packages/platform/platform-elysia"
+  dependencies:
+    "@sinclair/typebox": "npm:^0.34.15"
+    "@tsed/barrels": "workspace:*"
+    "@tsed/core": "workspace:*"
+    "@tsed/di": "workspace:*"
+    "@tsed/platform-exceptions": "workspace:*"
+    "@tsed/platform-http": "workspace:*"
+    "@tsed/platform-router": "workspace:*"
+    "@tsed/platform-test-sdk": "workspace:*"
+    "@tsed/typescript": "workspace:*"
+    "@types/content-disposition": "npm:^0.5.4"
+    content-disposition: "npm:>=0.5.4"
+    elysia: "npm:1.4.29"
+    tslib: "npm:>=2.7.0"
+    typescript: "npm:6.0.2"
+    vitest: "npm:4.1.4"
+  peerDependencies:
+    "@tsed/core": ">=8.0.0"
+    "@tsed/di": ">=8.0.0"
+    "@tsed/json-mapper": ">=8.0.0"
+    "@tsed/logger": ">=8.0.0"
+    "@tsed/openspec": ">=8.0.0"
+    "@tsed/platform-http": ">=8.0.0"
+    "@tsed/schema": ">=8.0.0"
+    elysia: ">=1.4.29"
   languageName: unknown
   linkType: soft
 
@@ -20373,6 +20411,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"cookie@npm:^1.1.1":
+  version: 1.1.1
+  resolution: "cookie@npm:1.1.1"
+  checksum: 10/85538153054791155cf4d38d2e807e3b9382d71bf71d92fc46fca348515ea574049d0d9ef8eb84d2d54a681ad1d7a7316b1989b901dace50a6c0f4c3858dbdb2
+  languageName: node
+  linkType: hard
+
 "cookie@npm:~0.4.1":
   version: 0.4.2
   resolution: "cookie@npm:0.4.2"
@@ -21953,6 +21998,30 @@ __metadata:
   languageName: node
   linkType: hard
 
+"elysia@npm:1.4.29":
+  version: 1.4.29
+  resolution: "elysia@npm:1.4.29"
+  dependencies:
+    cookie: "npm:^1.1.1"
+    exact-mirror: "npm:^0.2.7"
+    fast-decode-uri-component: "npm:^1.0.1"
+    memoirist: "npm:^0.4.0"
+  peerDependencies:
+    "@sinclair/typebox": ">= 0.34.0 < 1"
+    "@types/bun": ">= 1.2.0"
+    exact-mirror: ">= 0.0.9"
+    file-type: ">= 20.0.0"
+    openapi-types: ">= 12.0.0"
+    typescript: ">= 5.0.0"
+  peerDependenciesMeta:
+    "@types/bun":
+      optional: true
+    typescript:
+      optional: true
+  checksum: 10/e501da57290b57a8ed63612dfdfbb6f6304c3144ab4f53ceaf8d4bdf68359e4137bb3c20440ce54a9637fcef41fbd17416c7e7aff015760e73e1abed22e91b78
+  languageName: node
+  linkType: hard
+
 "emoji-regex@npm:^10.3.0":
   version: 10.3.0
   resolution: "emoji-regex@npm:10.3.0"
@@ -22987,6 +23056,18 @@ __metadata:
   dependencies:
     eventsource-parser: "npm:^3.0.1"
   checksum: 10/e034915bc97068d1d38617951afd798e6776d6a3a78e36a7569c235b177c7afc2625c9fe82656f7341ab72c7eeecb3fd507b7f88e9328f2448872ff9c4742bb6
+  languageName: node
+  linkType: hard
+
+"exact-mirror@npm:^0.2.7":
+  version: 0.2.7
+  resolution: "exact-mirror@npm:0.2.7"
+  peerDependencies:
+    "@sinclair/typebox": ^0.34.15
+  peerDependenciesMeta:
+    "@sinclair/typebox":
+      optional: true
+  checksum: 10/b8ff26244bd2a32b2a6240b6ffe1bf9aea20f864cf83c0765ed03978a85024bd27dbf97359efd1717cdceb25915874be0305c60921a645b472e6df90d70ebedf
   languageName: node
   linkType: hard
 
@@ -30030,6 +30111,13 @@ __metadata:
     tree-dump: "npm:^1.0.1"
     tslib: "npm:^2.0.0"
   checksum: 10/346cfc8c7396a4716c362bb5c4eebf995c52927a5de4bb7b5bbc31a759b443f22b5a8087d8d71e93feebff33f10d735682f4fa53afb461607e832a4aa4c80eb9
+  languageName: node
+  linkType: hard
+
+"memoirist@npm:^0.4.0":
+  version: 0.4.0
+  resolution: "memoirist@npm:0.4.0"
+  checksum: 10/fceb53f26a0dcbffe83a6ba632e6bb83fe3179a2fd65c32e58168eee78664cb804a59ecad54d827a6fc55f7d8e65ffabf341f681838c388f97dbd35584f3d72e
   languageName: node
   linkType: hard
 

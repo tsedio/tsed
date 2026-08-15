@@ -1,0 +1,72 @@
+{
+  "name": "@tsed/platform-elysia",
+  "version": "8.17.0",
+  "description": "Elysia platform adapter for Ts.ED",
+  "keywords": [
+    "Bun",
+    "Elysia",
+    "Fetch",
+    "Ts.ED",
+    "TypeScript"
+  ],
+  "homepage": "https://tsed.dev/",
+  "bugs": {
+    "url": "https://github.com/tsedio/tsed/issues"
+  },
+  "license": "MIT",
+  "author": {
+    "name": "Romain Lenzotti"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tsedio/tsed.git"
+  },
+  "source": "./src/index.ts",
+  "type": "module",
+  "main": "./lib/esm/index.js",
+  "module": "./lib/esm/index.js",
+  "typings": "./lib/types/index.d.ts",
+  "exports": {
+    ".": {
+      "@tsed/source": "./src/index.ts",
+      "types": "./lib/types/index.d.ts",
+      "import": "./lib/esm/index.js",
+      "default": "./lib/esm/index.js"
+    }
+  },
+  "scripts": {
+    "build": "yarn barrels && yarn build:ts",
+    "barrels": "barrels",
+    "test": "vitest run",
+    "build:ts": "tsc --build tsconfig.esm.json"
+  },
+  "dependencies": {
+    "content-disposition": ">=0.5.4",
+    "tslib": ">=2.7.0"
+  },
+  "devDependencies": {
+    "@sinclair/typebox": "^0.34.15",
+    "@tsed/barrels": "workspace:*",
+    "@tsed/core": "workspace:*",
+    "@tsed/di": "workspace:*",
+    "@tsed/platform-exceptions": "workspace:*",
+    "@tsed/platform-http": "workspace:*",
+    "@tsed/platform-router": "workspace:*",
+    "@tsed/platform-test-sdk": "workspace:*",
+    "@tsed/typescript": "workspace:*",
+    "@types/content-disposition": "^0.5.4",
+    "elysia": "1.4.29",
+    "typescript": "6.0.2",
+    "vitest": "4.1.4"
+  },
+  "peerDependencies": {
+    "@tsed/core": ">=8.0.0",
+    "@tsed/di": ">=8.0.0",
+    "@tsed/json-mapper": ">=8.0.0",
+    "@tsed/logger": ">=8.0.0",
+    "@tsed/openspec": ">=8.0.0",
+    "@tsed/platform-http": ">=8.0.0",
+    "@tsed/schema": ">=8.0.0",
+    "elysia": ">=1.4.29"
+  }
+}

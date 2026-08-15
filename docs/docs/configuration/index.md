@@ -73,6 +73,7 @@ See specific platform options for:
 - [Express.js](/docs/configuration/express.md)
 - [Koa.js](/docs/configuration/koa.md)
 - [Fastify.js](/docs/configuration/fastify.md)
+- [Elysia](/docs/configuration/elysia.md)
 
 ## Get configuration
 
