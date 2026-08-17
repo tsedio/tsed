@@ -7293,27 +7293,27 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@modelcontextprotocol/core@npm:2.0.0-beta.4":
-  version: 2.0.0-beta.4
-  resolution: "@modelcontextprotocol/core@npm:2.0.0-beta.4"
+"@modelcontextprotocol/core@npm:2.0.0":
+  version: 2.0.0
+  resolution: "@modelcontextprotocol/core@npm:2.0.0"
   dependencies:
     zod: "npm:^4.2.0"
-  checksum: 10/e4df042b17357c39b2264bae2b3efddbb856ffbd9ba3a292dd762b261f4cf73ffbd726258e21e3a7d4d67fbf6ced02f086c3b1dd4f632890bdc63b15c936b609
+  checksum: 10/65d695e0fb8def8fcaa72f49866dcf6adaefb06b03bfb17691c11a07b147ef60cbb0076f38438c774dfa8ceff21b14a9c21aa1d30fa665fe83e4bb2a447a9d51
   languageName: node
   linkType: hard
 
-"@modelcontextprotocol/node@npm:^2.0.0-beta.4":
-  version: 2.0.0-beta.4
-  resolution: "@modelcontextprotocol/node@npm:2.0.0-beta.4"
+"@modelcontextprotocol/node@npm:>=2.0.0":
+  version: 2.0.0
+  resolution: "@modelcontextprotocol/node@npm:2.0.0"
   dependencies:
     "@hono/node-server": "npm:^1.19.9"
   peerDependencies:
-    "@modelcontextprotocol/server": ^2.0.0-beta.4
+    "@modelcontextprotocol/server": ^2.0.0
     hono: ^4.11.4
   peerDependenciesMeta:
     hono:
       optional: true
-  checksum: 10/303c94a89e92649bf4a642393338cb0567b466341adec93ee12fcc17bc2190bdaec795d4177afe44531b34d851504a846e700e3f9fba1a5c13e51d1825136689
+  checksum: 10/d214fcb52e4d2740840a54fd98b0ad8e835f79765d14611fca3778a537bd779ddce71073455aa7f459d5d479985401cd3239c8056cc8134061d2aba60d0d5709
   languageName: node
   linkType: hard
 
@@ -7350,13 +7350,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@modelcontextprotocol/server@npm:^2.0.0-beta.4":
-  version: 2.0.0-beta.4
-  resolution: "@modelcontextprotocol/server@npm:2.0.0-beta.4"
+"@modelcontextprotocol/server@npm:>=2.0.0":
+  version: 2.0.0
+  resolution: "@modelcontextprotocol/server@npm:2.0.0"
   dependencies:
-    "@modelcontextprotocol/core": "npm:2.0.0-beta.4"
+    "@modelcontextprotocol/core": "npm:2.0.0"
     zod: "npm:^4.2.0"
-  checksum: 10/54deaa6e6b0da6e7bb8335dc7bf15c2c600fb41254e8e8a2d85e03e45afa2486405df026c51d08c2ae8752d07c472ea19fba500ca50d7896f9bef2068a5bf8c8
+  checksum: 10/32d50b224f8f00b60886c2c84a53d3c0b6a0e9cd37afe4782c895795cb979c4e57736b6b663966cf50da145f3b926fc559648d521abcdadd22de4366a085e681
   languageName: node
   linkType: hard
 
@@ -13651,8 +13651,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@tsed/platform-mcp@workspace:packages/platform/platform-mcp"
   dependencies:
-    "@modelcontextprotocol/node": "npm:^2.0.0-beta.4"
-    "@modelcontextprotocol/server": "npm:^2.0.0-beta.4"
+    "@modelcontextprotocol/node": "npm:>=2.0.0"
+    "@modelcontextprotocol/server": "npm:>=2.0.0"
     "@tsed/barrels": "workspace:*"
     "@tsed/core": "workspace:*"
     "@tsed/di": "workspace:*"

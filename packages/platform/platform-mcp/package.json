@@ -42,8 +42,8 @@
     "test:ci": "vitest run --coverage.thresholds.autoUpdate=true"
   },
   "dependencies": {
-    "@modelcontextprotocol/node": "^2.0.0-beta.4",
-    "@modelcontextprotocol/server": "^2.0.0-beta.4",
+    "@modelcontextprotocol/node": ">=2.0.0",
+    "@modelcontextprotocol/server": ">=2.0.0",
     "change-case": ">=5.4.4",
     "tslib": ">=2.7.0",
     "uuid": ">=11.0.2"
