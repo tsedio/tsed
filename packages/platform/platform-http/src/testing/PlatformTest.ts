@@ -122,6 +122,19 @@ export class PlatformTest extends DITest {
     return injector().get<PlatformApplication>(PlatformApplication)?.callback() as any;
   }
 
+  /**
+   * Call the platform's native Fetch handler.
+   */
+  static fetch(request: Request) {
+    const app = injector().get<PlatformApplication>(PlatformApplication);
+
+    if (!app) {
+      throw new Error("Platform application is not initialized.");
+    }
+
+    return app.fetch(request);
+  }
+
   static createRequest(options: any = {}): any {
     return {
       headers: {},

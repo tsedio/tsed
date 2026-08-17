@@ -59,7 +59,11 @@ export class PlatformElysia extends PlatformAdapter<Elysia> {
     const app = constant<Elysia>("elysia.app") || new Elysia(constant("elysia", {}));
     app.use(accepts());
 
-    return {app, callback: () => this.createNodeCallback(app)};
+    return {
+      app,
+      fetch: app.handle.bind(app),
+      callback: () => this.createNodeCallback(app)
+    };
   }
 
   useContext() {

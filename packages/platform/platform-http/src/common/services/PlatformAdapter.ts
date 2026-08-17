@@ -4,7 +4,7 @@ import type {PlatformMulter, PlatformMulterSettings} from "@tsed/platform-multer
 import {configuration, constant, inject, injectable} from "@tsed/di";
 import {$on} from "@tsed/hooks";
 import {CreateServerReturn} from "../utils/createServer.js";
-import {PlatformApplication} from "./PlatformApplication.js";
+import {PlatformApplication, PlatformFetchHandler, PlatformNodeHandler} from "./PlatformApplication.js";
 import type {PlatformStaticsOptions} from "../config/PlatformStaticsSettings.js";
 import {Type} from "@tsed/core";
 import {application} from "../fn/application.js";
@@ -19,9 +19,10 @@ export abstract class PlatformAdapter<App = TsED.Application> {
   constructor() {
     const platformApp = inject(PlatformApplication);
 
-    const {app, callback} = this.createApp();
+    const {app, callback, fetch} = this.createApp();
     platformApp.rawApp = app as any;
-    platformApp.rawCallback = callback;
+    callback && platformApp.setCallback(callback());
+    fetch && platformApp.setFetch(fetch);
 
     $on("$afterInvoke", PlatformAdapter, () => {
       configuration().set("PLATFORM_NAME", constant("PLATFORM_NAME") || this.NAME);
@@ -30,6 +31,11 @@ export abstract class PlatformAdapter<App = TsED.Application> {
 
   getServers(): CreateServerReturn[] {
     const app = application<App>();
+
+    if (!app.hasCallback()) {
+      return [];
+    }
+
     return [createHttpServer(app.callback()), createHttpsServer(app.callback())].filter(Boolean) as any[];
   }
 
@@ -65,7 +71,7 @@ export abstract class PlatformAdapter<App = TsED.Application> {
   /**
    * Return the app instance
    */
-  abstract createApp(): {app: App; callback(): (req: IncomingMessage, res: ServerResponse) => void};
+  abstract createApp(): {app: App; callback?: () => PlatformNodeHandler; fetch?: PlatformFetchHandler};
 
   /**
    * Return the statics middlewares

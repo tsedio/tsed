@@ -20,10 +20,14 @@ yarn add @tsed/platform-elysia elysia
 ```typescript
 import {PlatformElysia} from "@tsed/platform-elysia";
 
-await PlatformElysia.bootstrap(Server, {
+const platform = await PlatformElysia.bootstrap(Server, {
   mount: {"/rest": ["./controllers/**/*.ts"]}
 });
+
+const response = await platform.fetch(new Request("https://example.com/rest/health"));
 ```
+
+`platform.fetch()` delegates directly to Elysia's Fetch handler. The Node callback remains available only for Node HTTP integrations and SuperTest compatibility.
 
 ## Custom Elysia application
 

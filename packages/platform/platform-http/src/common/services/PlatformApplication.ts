@@ -2,6 +2,9 @@ import {IncomingMessage, ServerResponse} from "node:http";
 import {ProviderScope, injectable} from "@tsed/di";
 import {PlatformRouter} from "@tsed/platform-router";
 
+export type PlatformNodeHandler = (req: IncomingMessage, res: ServerResponse) => any;
+export type PlatformFetchHandler = (request: Request) => Response | Promise<Response>;
+
 declare global {
   namespace TsED {
     // @ts-ignore
@@ -16,21 +19,63 @@ declare global {
  */
 export class PlatformApplication<App = TsED.Application> extends PlatformRouter {
   rawApp!: App;
+  #callback?: PlatformNodeHandler;
+  #fetch?: PlatformFetchHandler;
 
-  rawCallback(): any {}
+  rawCallback() {
+    return this.#callback;
+  }
+
+  rawFetch() {
+    return this.#fetch;
+  }
+
+  setCallback(callback: PlatformNodeHandler) {
+    this.#callback = callback;
+    return this;
+  }
+
+  setFetch(fetch: PlatformFetchHandler) {
+    this.#fetch = fetch;
+    return this;
+  }
+
+  hasCallback() {
+    return Boolean(this.#callback);
+  }
+
+  hasFetch() {
+    return Boolean(this.#fetch);
+  }
 
   getApp(): App {
     return this.rawApp;
   }
 
-  callback(): (req: IncomingMessage, res: ServerResponse) => any;
+  callback(): PlatformNodeHandler;
   callback(req: IncomingMessage, res: ServerResponse): any;
   callback(req?: IncomingMessage, res?: ServerResponse) {
-    if (req && res) {
-      return this.callback()(req, res);
+    const callback = this.rawCallback();
+
+    if (!callback) {
+      throw new Error("This platform does not expose a Node.js callback. Use fetch() instead.");
     }
 
-    return this.rawCallback();
+    if (req && res) {
+      return callback(req, res);
+    }
+
+    return callback;
+  }
+
+  fetch(request: Request) {
+    const fetch = this.rawFetch();
+
+    if (!fetch) {
+      throw new Error("This platform does not expose a Fetch handler. Use callback() instead.");
+    }
+
+    return fetch(request);
   }
 }
 

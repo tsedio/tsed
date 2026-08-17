@@ -85,4 +85,19 @@ describe("PlatformApplication", () => {
       expect(callback).toHaveBeenCalledWith({}, {});
     });
   });
+
+  describe("fetch()", () => {
+    it("should call the Fetch handler", async () => {
+      const {platformApp} = await getPlatformApp();
+      const fetch = vi.fn().mockResolvedValue(new Response("ok"));
+
+      vi.spyOn(platformApp, "rawFetch").mockReturnValue(fetch);
+
+      const request = new Request("http://localhost");
+      const response = await platformApp.fetch(request);
+
+      expect(fetch).toHaveBeenCalledWith(request);
+      expect(await response.text()).toEqual("ok");
+    });
+  });
 });

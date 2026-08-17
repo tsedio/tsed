@@ -274,6 +274,19 @@ class PlatformKoa extends PlatformAdapter {
 }
 ```
 
+```typescript [Fetch-native]
+class PlatformFetch extends PlatformAdapter {
+  createApp() {
+    const app = new FetchFramework();
+
+    return {
+      app,
+      fetch: app.handle.bind(app)
+    };
+  }
+}
+```
+
 ```typescript [Fastify]
 import {PlatformAdapter} from "@tsed/platform-http";
 import type {FastifyInstance} from "fastify";

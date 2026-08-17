@@ -134,6 +134,10 @@ export class PlatformBuilder<App = TsED.Application> {
     return (this.adapter.app.callback as any)(...args);
   }
 
+  fetch(request: Request) {
+    return this.adapter.app.fetch(request);
+  }
+
   log(...data: any[]) {
     return !this.disableBootstrapLog && logger().info(...data, this.diff());
   }

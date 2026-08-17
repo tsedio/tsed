@@ -1,13 +1,18 @@
 import {Configuration, Controller} from "@tsed/di";
 import {PlatformTest} from "@tsed/platform-http/testing";
 import {BodyParams} from "@tsed/platform-params";
-import {Post} from "@tsed/schema";
+import {Get, Post} from "@tsed/schema";
 import SuperTest from "supertest";
 import {afterAll, beforeAll, describe, expect, it} from "vitest";
 import {PlatformElysia} from "../src/index.js";
 
 @Controller("/multipart")
 class MultipartController {
+  @Get("/health")
+  health() {
+    return "ok";
+  }
+
   @Post("/")
   upload(@BodyParams("name") name: string, @BodyParams("file") file: any) {
     return {
@@ -37,6 +42,12 @@ describe("PlatformElysia native multipart", () => {
     request = SuperTest(PlatformTest.callback());
   });
   afterAll(PlatformTest.reset);
+
+  it("exposes Elysia's native Fetch handler", async () => {
+    const response = await PlatformTest.fetch(new Request("http://localhost/rest/multipart/health"));
+
+    expect(await response.text()).toEqual("ok");
+  });
 
   it("parses FormData files without Multer", async () => {
     const response = await request
