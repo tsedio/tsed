@@ -1,6 +1,6 @@
 import {configuration, injector} from "@tsed/di";
-import {IncomingEvent} from "../interfaces/IncomingEvent.js";
 import {PlatformContext} from "../domain/PlatformContext.js";
+import {PlatformNativeContext} from "../fetch/PlatformHostBridge.js";
 import {PlatformRequest} from "../services/PlatformRequest.js";
 import {PlatformResponse} from "../services/PlatformResponse.js";
 import {v4} from "uuid";
@@ -24,7 +24,7 @@ export function buildIgnoreLog(ignoreUrlPatterns: any[] | undefined) {
  * Create the TsED context to wrap request, response, injector, etc...
  * @ignore
  */
-export function createContext(): (event: IncomingEvent) => PlatformContext {
+export function createContext(): (event: PlatformNativeContext) => PlatformContext {
   const ResponseKlass = injector().providers.get(PlatformResponse)?.useClass;
   const RequestKlass = injector().providers.get(PlatformRequest)?.useClass;
   const {reqIdBuilder = defaultReqIdBuilder, ...loggerOptions} = configuration().logger;
@@ -37,7 +37,7 @@ export function createContext(): (event: IncomingEvent) => PlatformContext {
 
   const ignoreLog = buildIgnoreLog(loggerOptions.ignoreUrlPatterns);
 
-  return function invokeContext(event: IncomingEvent) {
+  return function invokeContext(event: PlatformNativeContext) {
     const $ctx = new PlatformContext({
       ...opts,
       event,

@@ -1,5 +1,6 @@
 import {PlatformResponse} from "./PlatformResponse.js";
 import {PlatformTest} from "../../testing/PlatformTest.js";
+import {PlatformContext} from "../domain/PlatformContext.js";
 import {PlatformViews} from "@tsed/platform-views";
 import {createReadStream} from "node:fs";
 
@@ -22,6 +23,27 @@ describe("PlatformResponse", () => {
 
     expect(response.raw).toEqual(res);
     expect(response.request).toEqual(ctx.request);
+  });
+
+  it("should finalize a response without a native host response", async () => {
+    const ctx = new PlatformContext({
+      event: {
+        request: PlatformTest.createRequest(),
+        response: undefined
+      } as any,
+      id: "id"
+    });
+
+    ctx.response.status(201).setHeader("x-test", "value").body({created: true});
+
+    const response = ctx.response.finalize();
+
+    expect(ctx.response.native).toBeUndefined();
+    expect(ctx.response.raw).toBe(ctx.response.native);
+    expect(response.status).toBe(201);
+    expect(response.headers.get("x-test")).toBe("value");
+    await expect(response.json()).resolves.toEqual({created: true});
+    expect(() => ctx.response.status(204)).toThrow("PlatformResponse has already been finalized");
   });
   describe("statusCode", () => {
     it("should return status code", () => {

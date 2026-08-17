@@ -1,7 +1,7 @@
 import {DIContext, DIContextOptions, injector} from "@tsed/di";
 import {IncomingMessage, ServerResponse} from "node:http";
 import {$asyncEmit} from "@tsed/hooks";
-import {IncomingEvent} from "../interfaces/IncomingEvent.js";
+import {PlatformNativeContext} from "../fetch/PlatformHostBridge.js";
 import {JsonMethodStore} from "@tsed/schema";
 import {PlatformApplication} from "../services/PlatformApplication.js";
 import {PlatformHandlerMetadata} from "@tsed/platform-router";
@@ -15,7 +15,7 @@ declare global {
 }
 
 export interface PlatformContextOptions extends DIContextOptions {
-  event: IncomingEvent;
+  event: PlatformNativeContext;
   ignoreUrlPatterns?: any[];
   endpoint?: JsonMethodStore;
 }
@@ -25,7 +25,7 @@ export class PlatformContext<
   PRes extends PlatformResponse = PlatformResponse
 > extends DIContext {
   readonly PLATFORM: string = "WWW";
-  public event: IncomingEvent;
+  public event: PlatformNativeContext;
   /**
    * The data return by the previous endpoint if you use multiple handler on the same route. By default data is empty.
    */

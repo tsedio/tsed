@@ -1,6 +1,6 @@
 import {OutgoingHttpHeaders, ServerResponse} from "node:http";
 import {ProviderScope, injectable, lazyInject} from "@tsed/di";
-import {isBoolean, isNumber, isStream, isString} from "@tsed/core";
+import {isBoolean, isNodeStream, isNumber, isStream, isString, isWebStream} from "@tsed/core";
 import type {PlatformContext} from "../domain/PlatformContext.js";
 import type {PlatformRequest} from "./PlatformRequest.js";
 import encodeUrl from "encodeurl";
@@ -31,6 +31,12 @@ declare global {
  */
 export class PlatformResponse<Res extends Record<string, any> = any> {
   data: any;
+  readonly #headers = new Headers();
+  #status = 200;
+  #statusText?: string;
+  #body: BodyInit | null = null;
+  #finalized = false;
+  #bodyCommitted = false;
 
   constructor(readonly $ctx: PlatformContext) {}
 
@@ -41,15 +47,22 @@ export class PlatformResponse<Res extends Record<string, any> = any> {
     return this.$ctx.request;
   }
 
-  get raw(): Res {
+  get native(): Res | undefined {
     return this.$ctx.event.response as any;
+  }
+
+  /**
+   * Non-portable alias for {@link native}.
+   */
+  get raw(): Res | undefined {
+    return this.native;
   }
 
   /**
    * Get the current statusCode
    */
   get statusCode() {
-    return this.raw.statusCode;
+    return this.native?.statusCode ?? this.#status;
   }
 
   /**
@@ -58,7 +71,7 @@ export class PlatformResponse<Res extends Record<string, any> = any> {
    * This property is useful for exposing request-level information such as the request path name, authenticated user, user settings, and so on.
    */
   get locals() {
-    return this.raw.locals;
+    return this.native?.locals;
   }
 
   /**
@@ -85,29 +98,32 @@ export class PlatformResponse<Res extends Record<string, any> = any> {
    * @param name
    */
   get(name: string) {
-    return this.raw.get(name);
+    return this.#headers.get(name) || this.native?.get?.(name);
   }
 
   getHeaders(): OutgoingHttpHeaders {
-    return this.raw.getHeaders();
+    return {
+      ...(this.native?.getHeaders?.() || this.native?.headers || {}),
+      ...Object.fromEntries(this.#headers.entries())
+    };
   }
 
   /**
    * Return the Framework response object (express, koa, etc...)
    */
   getResponse<R = Res>(): R {
-    return this.raw as any;
+    return this.native as any;
   }
 
   /**
    * Return the Node.js response object
    */
   getRes(): ServerResponse {
-    return this.raw as any;
+    return this.native as any;
   }
 
   hasStatus() {
-    return this.statusCode !== 200;
+    return this.#status !== 200;
   }
 
   /**
@@ -116,7 +132,9 @@ export class PlatformResponse<Res extends Record<string, any> = any> {
    * @param status
    */
   status(status: number) {
-    this.raw.status(status);
+    this.assertMutable();
+    this.#status = status;
+    this.native?.status?.(status);
 
     return this;
   }
@@ -142,7 +160,11 @@ export class PlatformResponse<Res extends Record<string, any> = any> {
   }
 
   setHeader(key: string, item: any) {
-    this.raw.set(key, this.formatHeader(key, item));
+    const value = this.formatHeader(key, item);
+
+    this.assertMutable();
+    this.#headers.set(key, String(value));
+    this.native?.set?.(key, value);
 
     return this;
   }
@@ -160,7 +182,9 @@ export class PlatformResponse<Res extends Record<string, any> = any> {
    *     res.type('png');
    */
   contentType(contentType: string) {
-    this.raw.contentType(contentType);
+    this.assertMutable();
+    this.#headers.set("content-type", contentType);
+    this.native?.contentType?.(contentType);
 
     return this;
   }
@@ -196,7 +220,7 @@ export class PlatformResponse<Res extends Record<string, any> = any> {
    * @param filename
    */
   attachment(filename: string) {
-    this.raw.attachment(filename);
+    this.native?.attachment?.(filename);
     return this;
   }
 
@@ -245,7 +269,18 @@ export class PlatformResponse<Res extends Record<string, any> = any> {
    * @param data
    */
   stream(data: any) {
-    data.pipe(this.raw);
+    if (isWebStream(data)) {
+      this.assertMutable();
+      this.#body = data;
+    }
+
+    if (this.native && isNodeStream(data)) {
+      data.pipe(this.native);
+    } else if (!isWebStream(data)) {
+      throw new Error("PlatformResponse.stream() requires a Fetch ReadableStream without a native response");
+    }
+
+    this.#bodyCommitted = true;
 
     return this;
   }
@@ -277,6 +312,9 @@ export class PlatformResponse<Res extends Record<string, any> = any> {
     this.data = data;
 
     if (data === undefined) {
+      this.assertMutable();
+      this.#body = null;
+      this.#bodyCommitted = true;
       this.end();
 
       return this;
@@ -288,7 +326,10 @@ export class PlatformResponse<Res extends Record<string, any> = any> {
       return this;
     }
 
-    if (Buffer.isBuffer(data)) {
+    if (data instanceof Uint8Array) {
+      this.assertMutable();
+      this.#body = data;
+      this.#bodyCommitted = true;
       this.buffer(data);
 
       return this;
@@ -299,6 +340,9 @@ export class PlatformResponse<Res extends Record<string, any> = any> {
         this.status(204);
       }
 
+      this.assertMutable();
+      this.#body = data === null ? null : String(data);
+      this.#bodyCommitted = true;
       this.end(data);
 
       return this;
@@ -330,22 +374,30 @@ export class PlatformResponse<Res extends Record<string, any> = any> {
       return true;
     }
 
+    if (this.#bodyCommitted || this.#finalized) {
+      return true;
+    }
+
     const res = this.getRes();
 
-    return Boolean(this.isHeadersSent() || res.writableEnded || res.writableFinished);
+    return Boolean(this.isHeadersSent() || res?.writableEnded || res?.writableFinished);
   }
 
   isHeadersSent() {
-    return this.getRes().headersSent;
+    return Boolean(this.getRes()?.headersSent);
   }
 
   cookie(name: string, value: string | null, opts?: TsED.SetCookieOpts) {
+    if (!this.native) {
+      throw new Error("PlatformResponse.cookie() requires a native host response");
+    }
+
     if (value === null) {
-      this.raw.clearCookie(name, opts);
+      this.native.clearCookie(name, opts);
       return this;
     }
 
-    this.raw.cookie(name, value, opts);
+    this.native.cookie(name, value, opts);
 
     return this;
   }
@@ -363,7 +415,11 @@ export class PlatformResponse<Res extends Record<string, any> = any> {
   }
 
   protected json(data: any) {
-    this.raw.json(data);
+    this.assertMutable();
+    this.#headers.set("content-type", "application/json; charset=utf-8");
+    this.#body = JSON.stringify(data);
+    this.#bodyCommitted = true;
+    this.native?.json?.(data);
 
     return this;
   }
@@ -378,7 +434,27 @@ export class PlatformResponse<Res extends Record<string, any> = any> {
   }
 
   protected end(data?: string | Buffer) {
-    this.raw.send(data);
+    this.native?.send?.(data);
+  }
+
+  /**
+   * Materialize the accumulated portable state as a Fetch response.
+   */
+  finalize(): Response {
+    this.assertMutable();
+    this.#finalized = true;
+
+    return new Response(this.#body, {
+      headers: this.#headers,
+      status: this.#status,
+      statusText: this.#statusText
+    });
+  }
+
+  private assertMutable() {
+    if (this.#finalized) {
+      throw new Error("PlatformResponse has already been finalized");
+    }
   }
 }
 
