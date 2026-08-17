@@ -1,4 +1,5 @@
 ---
+description: "Discover how to use authentication in Ts.ED to protect your route with your own strategy."
 head:
   - - meta
     - name: description

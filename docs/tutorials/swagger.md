@@ -1,4 +1,5 @@
 ---
+description: "Use Swagger UI/OpenAPI with Ts.ED."
 head:
   - - meta
     - name: description

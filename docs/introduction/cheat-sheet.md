@@ -1,3 +1,6 @@
+---
+description: "Quick-reference examples for configuring and building Ts.ED applications."
+---
 # Cheat Sheet
 
 ## 🚀 Server & Configuration

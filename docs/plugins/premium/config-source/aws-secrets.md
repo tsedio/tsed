@@ -1,4 +1,5 @@
 ---
+description: "A powerful plugin for Ts.ED to manage your application configuration with AWS Secrets manager and sync changes in real time."
 head:
   - - meta
     - name: description

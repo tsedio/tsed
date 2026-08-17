@@ -1,4 +1,5 @@
 ---
+description: "What's new in v8?"
 head:
   - - meta
     - name: description

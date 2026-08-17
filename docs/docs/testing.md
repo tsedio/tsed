@@ -1,4 +1,5 @@
 ---
+description: "Learn how to test your Ts.ED application with Jest and Vitest."
 head:
   - - meta
     - name: description

@@ -1,4 +1,5 @@
 ---
+description: "Create your first controller."
 next:
   text: Controllers
   link: /docs/controllers

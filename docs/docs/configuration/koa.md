@@ -1,3 +1,6 @@
+---
+description: "Configure a Ts.ED application to run on the Koa platform."
+---
 # Koa.js
 
 <Banner src="/koa.svg" height="200" href="https://koajs.com/"></Banner>

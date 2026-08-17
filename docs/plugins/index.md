@@ -1,4 +1,5 @@
 ---
+description: "Discover our list of plugins to extends your Ts.ED project."
 layout: page
 sidebar: false
 head:

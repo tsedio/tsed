@@ -1,4 +1,5 @@
 ---
+description: "Use template engine with Ts.ED by using decorators."
 head:
   - - meta
     - name: description

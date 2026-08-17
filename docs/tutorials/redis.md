@@ -1,4 +1,5 @@
 ---
+description: "Use Redis (node-redis) with Express, TypeScript and Ts.ED."
 head:
   - - meta
     - name: description

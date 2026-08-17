@@ -1,4 +1,5 @@
 ---
+description: "Use Terminus with Express.js/Koa.js, TypeScript and Ts.ED."
 head:
   - - meta
     - name: description

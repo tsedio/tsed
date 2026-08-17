@@ -1,4 +1,5 @@
 ---
+description: "Ts.ED provides two decorators to get Session and Cookies values in your controller."
 head:
   - - meta
     - name: description

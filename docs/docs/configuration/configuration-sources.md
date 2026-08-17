@@ -1,3 +1,6 @@
+---
+description: "Formerly known as ConfigSource, this module provides a way to load configuration from different sources like environment variables, JSON files, YAML files,…"
+---
 # Configuration sources
 
 Formerly known as @@ConfigSource@@, this module provides a way to load configuration from different sources like

@@ -1,3 +1,6 @@
+---
+description: "A Ts.ED package to help you easily test your code using the power of TestContainers with Redis."
+---
 # Redis TestContainers
 
 A [Ts.ED](https://tsed.dev/) package to help you easily test your code using the power

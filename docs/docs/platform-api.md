@@ -1,4 +1,5 @@
 ---
+description: "Ts.ED uses the Platform API to create an application."
 head:
   - - meta
     - name: description

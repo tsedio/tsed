@@ -1,4 +1,5 @@
 ---
+description: "Use Keycloak with Express, TypeScript and Ts.ED to secure your application."
 head:
   - - meta
     - name: description

@@ -1,4 +1,5 @@
 ---
+description: "Guide to deploy your Ts.ED application on Serveless."
 head:
   - - meta
     - name: description

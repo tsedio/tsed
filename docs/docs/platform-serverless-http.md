@@ -1,4 +1,5 @@
 ---
+description: "Guide to deploy your Ts.ED application on AWS."
 head:
   - - meta
     - name: description

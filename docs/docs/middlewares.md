@@ -1,3 +1,6 @@
+---
+description: "Middleware is similar to the Express middleware with the difference that it's a class and you can use the IoC to inject other services on its constructor."
+---
 # Middlewares
 
 @@Middleware@@ is similar to the Express middleware with the difference that it's a class and you can use the IoC

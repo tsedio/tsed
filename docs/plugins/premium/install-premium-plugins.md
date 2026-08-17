@@ -1,4 +1,5 @@
 ---
+description: "Installation instructions for premium plugins in Ts.ED."
 head:
   - - meta
     - name: description

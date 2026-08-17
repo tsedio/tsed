@@ -1,3 +1,6 @@
+---
+description: "This tutorial shows how to use the @tsed/schema-formio package to generate Form.io compatible schemas from TypeScript classes using decorators."
+---
 # Schema Formio
 
 <Banner src="https://avatars.githubusercontent.com/u/11790256?s=400&v=4" href="https://www.form.io" :height="180" />

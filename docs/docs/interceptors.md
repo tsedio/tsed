@@ -1,4 +1,5 @@
 ---
+description: "Discover how to use interceptors in Ts.ED to bind extra logic before/after method execution, transform the result returned from a function, transform the…"
 head:
   - - meta
     - name: description

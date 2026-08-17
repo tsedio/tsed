@@ -1,4 +1,5 @@
 ---
+description: "Use Ts.ED validation system to validate your data."
 head:
   - - meta
     - name: description

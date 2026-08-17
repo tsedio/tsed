@@ -1,4 +1,5 @@
 ---
+description: "Learn how Ts.ED manages routing paths, including wildcards, optional parameters, and other path conventions."
 head:
   - - meta
     - name: description

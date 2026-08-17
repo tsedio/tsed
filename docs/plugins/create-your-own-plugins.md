@@ -1,4 +1,5 @@
 ---
+description: "Discover our list of plugins to extends your Ts.ED project."
 head:
   - - meta
     - name: description

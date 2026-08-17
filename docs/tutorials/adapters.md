@@ -1,4 +1,5 @@
 ---
+description: "Use @tsed/adapters to build persistence adapters in Ts.ED."
 head:
   - - meta
     - name: description

@@ -1,4 +1,5 @@
 ---
+description: "Discover how to use the @tsed/json-mapper package to map a plain object to a model and a model to a plain object."
 head:
   - - meta
     - name: description

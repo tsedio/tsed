@@ -1,4 +1,5 @@
 ---
+description: "First, thank you for considering contributing to Ts.ED!"
 contributors:
   classes: bg-gray-lighter
   title: Our awesome <b>contributors</b>

@@ -1,4 +1,5 @@
 ---
+description: "Use Objection.js with Express, TypeScript and Ts.ED."
 head:
   - - meta
     - name: description

@@ -1,4 +1,5 @@
 ---
+description: "Customize the 404 response error when a resource or route isn't resolved by the router in Ts.ED."
 head:
   - - meta
     - name: description

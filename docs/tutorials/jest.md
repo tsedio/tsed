@@ -1,4 +1,5 @@
 ---
+description: "This guide will take you through the process of installing Jest, a popular JavaScript testing framework, on an existing Ts.ED project."
 head:
   - - meta
     - name: description

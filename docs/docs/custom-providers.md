@@ -1,4 +1,5 @@
 ---
+description: "Learn how to create custom providers in Ts.ED to bind something directly to the IoC container."
 head:
   - - meta
     - name: description

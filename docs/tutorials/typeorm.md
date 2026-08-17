@@ -1,4 +1,5 @@
 ---
+description: "Documentation over TypeORM provided by Ts.ED framework."
 head:
   - - meta
     - name: description

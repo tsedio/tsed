@@ -1,4 +1,5 @@
 ---
+description: "Use Scalar to describe a Rest API with Ts.ED."
 head:
   - - meta
     - name: description

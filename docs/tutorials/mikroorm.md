@@ -1,4 +1,5 @@
 ---
+description: "Use MikroORM with Ts.ED."
 head:
   - - meta
     - name: description

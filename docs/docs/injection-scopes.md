@@ -1,4 +1,5 @@
 ---
+description: "Discover how to use injection scopes in Ts.ED to define the lifecycle and visibility of a provider."
 head:
   - - meta
     - name: description

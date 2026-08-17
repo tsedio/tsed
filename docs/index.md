@@ -1,4 +1,5 @@
 ---
+description: "Ts.ED is a modern Bun.js/Node.js framework built with TypeScript on top of Express.js/Koa.js/Fastify.js."
 # https://vitepress.dev/reference/default-theme-home-page
 layout: home
 head:

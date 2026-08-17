@@ -1,4 +1,5 @@
 ---
+description: "Documentation over Logger by Ts.ED framework."
 head:
   - - meta
     - name: description

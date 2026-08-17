@@ -1,4 +1,5 @@
 ---
+description: "Learn how to create a custom platform adapter for Ts.ED framework."
 head:
   - - meta
     - name: description

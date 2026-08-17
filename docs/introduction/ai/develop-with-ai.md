@@ -1,4 +1,5 @@
 ---
+description: "Configure any IDE or AI agent to generate correct Ts.ED application code using the agents.md standard and the official Ts.ED documentation."
 head:
   - - meta
     - name: description

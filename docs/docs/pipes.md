@@ -1,4 +1,5 @@
 ---
+description: "Discover Pipes in Ts.ED."
 head:
   - - meta
     - name: description

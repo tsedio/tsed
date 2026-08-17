@@ -1,4 +1,5 @@
 ---
+description: "Use Socket.io with Express, TypeScript and Ts.ED."
 head:
   - - meta
     - name: description

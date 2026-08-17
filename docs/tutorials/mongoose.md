@@ -1,4 +1,5 @@
 ---
+description: "Use Mongoose with Express, TypeScript and Ts.ED."
 head:
   - - meta
     - name: description

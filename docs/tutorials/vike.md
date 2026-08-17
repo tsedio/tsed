@@ -1,4 +1,5 @@
 ---
+description: "Use Vike with Ts.ED."
 head:
   - - meta
     - name: description

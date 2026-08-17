@@ -1,4 +1,5 @@
 ---
+description: "Migrate Ts.ED application from Express.js."
 meta:
   - name: description
     content: Migrate Ts.ED application from Express.js. Ts.ED is built on top of Express and uses TypeScript language.

@@ -1,4 +1,5 @@
 ---
+description: "Ts.ED provides an utility to get request, response, to store and share data along all middlewares/endpoints during a request with PlatformContext."
 head:
   - - meta
     - name: description

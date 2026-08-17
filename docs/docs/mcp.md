@@ -1,4 +1,5 @@
 ---
+description: "Learn how to expose Model Context Protocol (MCP) endpoints with Ts.ED using @tsed/platform-mcp, including functional helpers, decorators, and CLI references."
 head:
   - - meta
     - name: description

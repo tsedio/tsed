@@ -1,3 +1,6 @@
+---
+description: "A package for the Ts.ED framework to help you test your code using the TestContainers library."
+---
 # Postgres TestContainers
 
 A package for the [Ts.ED](https://tsed.dev/) framework to help you test your code using

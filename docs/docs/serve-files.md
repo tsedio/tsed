@@ -1,4 +1,5 @@
 ---
+description: "Serve statics files with Ts.ED by using decorators."
 head:
   - - meta
     - name: description

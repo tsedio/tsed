@@ -1,4 +1,5 @@
 ---
+description: "Documentation over the server configuration."
 head:
   - - meta
     - name: description

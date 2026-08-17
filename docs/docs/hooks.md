@@ -1,4 +1,5 @@
 ---
+description: "Discover how to use hooks in Ts.ED to subscribe to lifecycle events and perform actions when they occur."
 head:
   - - meta
     - name: description

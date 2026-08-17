@@ -1,4 +1,5 @@
 ---
+description: "GraphQL Nexus' APIs were designed with type-safety in mind."
 head:
   - - meta
     - name: description

@@ -1,4 +1,5 @@
 ---
+description: "Use Pulse cron with Express/Koa, TypeScript and Ts.ED."
 head:
   - - meta
     - name: description

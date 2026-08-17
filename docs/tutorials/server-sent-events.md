@@ -1,4 +1,5 @@
 ---
+description: "Guide to implement Server-sent events with Ts.ED."
 head:
   - - meta
     - name: description

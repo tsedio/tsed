@@ -1,4 +1,5 @@
 ---
+description: "Migrate Ts.ED application from v7 to v8."
 head:
   - - meta
     - name: description

@@ -1,4 +1,5 @@
 ---
+description: "Start your first Ts.ED project with the CLI or clone a starter project."
 head:
   - - meta
     - name: description

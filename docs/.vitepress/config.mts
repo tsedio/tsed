@@ -1,6 +1,7 @@
 // @ts-ignore
-import {apiAnchor} from "@tsed/vitepress-theme/markdown/api-anchor/api-anchor.js";
-import {defineConfig} from "vitepress";
+import { apiAnchor } from "@tsed/vitepress-theme/markdown/api-anchor/api-anchor.js";
+import llmstxt from "vitepress-plugin-llms";
+import { defineConfig } from "vitepress";
 import pkg from "../../package.json";
 import referenceSidebar from "../public/reference-sidebar.json";
 import team from "../team.json";
@@ -402,6 +403,15 @@ const Releases = [
 
 // https://vitepress.dev/reference/site-config
 export default defineConfig({
+  vite: {
+    plugins: [
+      llmstxt({
+        ignoreFilesPerOutput: {
+          llmsFullTxt: ["api/**"]
+        }
+      })
+    ]
+  },
   title: "Ts.ED a modern Node.js/Bun.js framework built with TypeScript on top of Express.js/Koa.js/Fastify.js/CLI/AWS",
   lastUpdated: true,
   description:

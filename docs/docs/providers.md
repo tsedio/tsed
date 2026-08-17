@@ -1,4 +1,5 @@
 ---
+description: "Discover Ts.ED Providers / DI."
 head:
   - - meta
     - name: description

@@ -1,4 +1,5 @@
 ---
+description: "Discover the capabilities of Ts.ED, a Node.js and TypeScript framework on top of Express/Koa.js."
 head:
   - - meta
     - name: description

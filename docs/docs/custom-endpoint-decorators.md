@@ -1,3 +1,6 @@
+---
+description: "Custom endpoint decorator could be interesting when you want to handle a request and perform actions before or after the endpoint method."
+---
 # Custom endpoint decorator
 
 Custom endpoint decorator could be interesting when you want to handle a request and perform actions before or after the

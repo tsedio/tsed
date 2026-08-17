@@ -1,4 +1,5 @@
 ---
+description: "Discover response filters provided by Ts.ED framework."
 head:
   - - meta
     - name: description

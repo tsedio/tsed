@@ -1,4 +1,5 @@
 ---
+description: "Use Type-graphql with Ts.ED framework."
 head:
   - - meta
     - name: description

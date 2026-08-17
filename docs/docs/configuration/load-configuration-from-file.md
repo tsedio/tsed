@@ -1,3 +1,6 @@
+---
+description: "Ts.ED doesn't provide solution to load configuration from files."
+---
 # Load configuration from file
 
 Ts.ED doesn't provide solution to load configuration from files. Because, there is many solution to achieve this,

@@ -1,4 +1,5 @@
 ---
+description: "Discover how to create a model with Ts.ED."
 head:
   - - meta
     - name: description

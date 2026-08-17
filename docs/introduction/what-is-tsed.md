@@ -1,4 +1,5 @@
 ---
+description: "Ts.ED is a framework for building server-side and scalable applications for Node.js environment."
 head:
   - - meta
     - name: description

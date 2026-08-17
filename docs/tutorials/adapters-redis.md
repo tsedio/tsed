@@ -1,4 +1,5 @@
 ---
+description: "Use @tsed/adapters-redis with Ts.ED."
 head:
   - - meta
     - name: description

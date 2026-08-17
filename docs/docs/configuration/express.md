@@ -1,3 +1,6 @@
+---
+description: "To configure the Express server, you can use the express property in the @Configuration decorator."
+---
 # Express.js
 
 <Banner src="/express.png" height="200" href="https://expressjs.com/"></Banner>

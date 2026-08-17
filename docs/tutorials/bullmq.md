@@ -1,4 +1,5 @@
 ---
+description: "Easy to use BullMQ integration for Ts.ED."
 head:
   - - meta
     - name: description

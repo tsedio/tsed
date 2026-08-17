@@ -1,4 +1,5 @@
 ---
+description: "GraphQL Websocket allows you to use the subscription feature of GraphQL using the Websocket transport protocol."
 meta:
   - name: description
     content: GraphQL Websocket allows you to use the `subscription` feature of GraphQL using the Websocket transport protocol.

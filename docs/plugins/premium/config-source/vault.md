@@ -1,4 +1,5 @@
 ---
+description: "A robust Ts.ED plugin for dynamic application configuration stored securely in HashiCorp Vault."
 head:
   - - meta
     - name: description

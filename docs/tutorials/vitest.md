@@ -1,4 +1,5 @@
 ---
+description: "Guide to install Vitest with Ts.ED."
 head:
   - - meta
     - name: description

@@ -1,4 +1,5 @@
 ---
+description: "Meet the maintainers and contributors behind the Ts.ED project."
 layout: home
 hero:
   name: "Our Team"

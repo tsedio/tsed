@@ -1,4 +1,5 @@
 ---
+description: "Migrate Ts.ED application from v6 to v7."
 next:
   text: Controllers
   link: /docs/controllers

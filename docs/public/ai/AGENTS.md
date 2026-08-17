@@ -73,22 +73,22 @@ notes:
 
 links:
 
-- getting_started: https://tsed.dev/ai/introduction/getting-started.md
-- controllers: https://tsed.dev/ai/docs/controllers.md
-- routing: https://tsed.dev/ai/docs/routing.md
-- di_providers: https://tsed.dev/ai/docs/providers.md
-- models: https://tsed.dev/ai/docs/model.md
-- validation: https://tsed.dev/ai/docs/validation.md
-- middlewares: https://tsed.dev/ai/docs/middlewares.md
-- pipes: https://tsed.dev/ai/docs/pipes.md
-- interceptors: https://tsed.dev/ai/docs/interceptors.md
-- authentication: https://tsed.dev/ai/docs/authentication.md
-- exceptions: https://tsed.dev/ai/docs/exceptions.md
-- request_context: https://tsed.dev/ai/docs/request-context.md
-- swagger_openapi: https://tsed.dev/ai/tutorials/swagger.md
-- testing: https://tsed.dev/ai/docs/testing.md
-- best_practices: https://tsed.dev/ai/introduction/cheat-sheet.md
-- cli: https://tsed.dev/ai/docs/commands.md
+- getting_started: https://tsed.dev/introduction/getting-started.md
+- controllers: https://tsed.dev/docs/controllers.md
+- routing: https://tsed.dev/docs/routing.md
+- di_providers: https://tsed.dev/docs/providers.md
+- models: https://tsed.dev/docs/model.md
+- validation: https://tsed.dev/docs/validation.md
+- middlewares: https://tsed.dev/docs/middlewares.md
+- pipes: https://tsed.dev/docs/pipes.md
+- interceptors: https://tsed.dev/docs/interceptors.md
+- authentication: https://tsed.dev/docs/authentication.md
+- exceptions: https://tsed.dev/docs/exceptions.md
+- request_context: https://tsed.dev/docs/request-context.md
+- swagger_openapi: https://tsed.dev/tutorials/swagger.md
+- testing: https://tsed.dev/docs/testing.md
+- best_practices: https://tsed.dev/introduction/cheat-sheet.md
+- cli: https://tsed.dev/docs/commands.md
 - plugins list: https://api.tsed.dev/rest/warehouse
 
 ## Guardrails for AI
