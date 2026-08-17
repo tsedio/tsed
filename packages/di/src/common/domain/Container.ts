@@ -17,15 +17,15 @@ import type {TokenProvider} from "../interfaces/TokenProvider.js";
  * const container = new Container();
  * container.add(MyService, {scope: ProviderScope.SINGLETON});
  *
- * const provider = container.getProvider(MyService);
- * const controllers = container.getProviders(ProviderType.CONTROLLER);
+ * const provider = container.get(MyService);
+ * const controllers = container.getMany(ProviderType.CONTROLLER);
  * ```
  *
  * @public
  */
 export class Container extends Map<TokenProvider, Provider> {
   /**
-   *
+   * Add a provider to the
    * @param token
    * @param settings
    */
@@ -37,39 +37,8 @@ export class Container extends Map<TokenProvider, Provider> {
     return super.set(token, provider);
   }
 
-  /**
-   * Add a provider to the
-   * @param token
-   * @param settings
-   */
-  public addProvider(token: TokenProvider, settings: Partial<ProviderOpts> = {}): this {
-    return this.add(token, settings);
-  }
-
-  /**
-   *
-   * @param token
-   */
-  public hasProvider(token: TokenProvider) {
-    return super.has(token);
-  }
-
-  /**
-   * Add a provider to the
-   * @param token
-   * @param provider
-   */
-  public setProvider(token: TokenProvider, provider: Provider) {
-    return super.set(token, provider);
-  }
-
-  /**
-   * The getProvider() method returns a specified element from a Map object.
-   * @returns {T} Returns the element associated with the specified key or undefined if the key can't be found in the Map object.
-   * @param token
-   */
-  public getProvider<T extends Provider = Provider>(token: TokenProvider | undefined): T | undefined {
-    return super.get(token!) as T;
+  public override get<T extends Provider = Provider>(token: TokenProvider | undefined): T | undefined {
+    return super.get(token!) as T | undefined;
   }
 
   /**
@@ -78,7 +47,7 @@ export class Container extends Map<TokenProvider, Provider> {
    * @param type Filter the list by the given ProviderType.
    * @returns {[TokenProvider , Provider<any>][]}
    */
-  public getProviders(type?: TokenProvider | ProviderType | string | string[]): Provider[] {
+  public getMany(type?: TokenProvider | ProviderType | string | string[]): Provider[] {
     if (!type) {
       return [...this.values()];
     }
@@ -95,10 +64,10 @@ export class Container extends Map<TokenProvider, Provider> {
     return providers;
   }
 
-  public addProviders(container: Map<TokenProvider, Provider>) {
+  public merge(container: Map<TokenProvider, Provider>) {
     container.forEach((provider) => {
-      if (!this.hasProvider(provider.token)) {
-        this.setProvider(provider.token, provider.clone());
+      if (!super.has(provider.token)) {
+        super.set(provider.token, provider.clone());
       }
     });
   }

@@ -1,4 +1,4 @@
-import {Controller, InjectorService, configuration, inject, injector} from "@tsed/di";
+import {configuration, Controller, inject, injector} from "@tsed/di";
 import {Get, Post} from "@tsed/schema";
 import {PlatformParams} from "@tsed/platform-params";
 import {PlatformRouter} from "../src/domain/PlatformRouter.js";
@@ -48,10 +48,10 @@ function createAppRouterFixture() {
 
   platformRouters.hooks.destroy();
 
-  injector().addProvider(FlaggedCommentController, {});
-  injector().addProvider(CommentController, {});
-  injector().addProvider(DomainController, {});
-  injector().addProvider(PlatformController, {});
+  injector().add(FlaggedCommentController, {});
+  injector().add(CommentController, {});
+  injector().add(DomainController, {});
+  injector().add(PlatformController, {});
 
   return {appRouter, platformRouters, platformParams};
 }

@@ -1,17 +1,17 @@
 import "@tsed/platform-multer/express";
-import {Env, Type, catchAsyncError, isArray, isFunction} from "@tsed/core";
+import {catchAsyncError, Env, isArray, isFunction, Type} from "@tsed/core";
 import {IncomingMessage, ServerResponse} from "node:http";
 import {OptionsJson, OptionsText, OptionsUrlencoded} from "body-parser";
 import {
+  adapter,
+  application,
+  createContext,
   PlatformAdapter,
   PlatformBuilder,
   PlatformContext,
   PlatformHandler,
   PlatformResponse,
-  PlatformStaticsOptions,
-  adapter,
-  application,
-  createContext
+  PlatformStaticsOptions
 } from "@tsed/platform-http";
 import {PlatformHandlerMetadata, PlatformHandlerType, PlatformLayer} from "@tsed/platform-router";
 import {constant, inject, logger, runInContext} from "@tsed/di";
@@ -82,9 +82,14 @@ export class PlatformExpress extends PlatformAdapter<Express.Application> {
    * @param module
    * @param settings
    */
-  static create(module: Type<any>, settings: Partial<TsED.Configuration> = {}) {
-    return PlatformBuilder.create<Express.Application>(module, {
-      ...settings,
+  static create(settings: Partial<TsED.Configuration>): PlatformBuilder<Express.Application>;
+  static create(module: Type<any>, settings?: Partial<TsED.Configuration>): PlatformBuilder<Express.Application>;
+  static create(module: Type<any> | Partial<TsED.Configuration>, settings?: Partial<TsED.Configuration>) {
+    return new PlatformBuilder({
+      rootModule: settings ? (module as Type) : undefined,
+      httpsPort: false,
+      httpPort: false,
+      ...(settings || (module as Partial<TsED.Configuration>)),
       adapter: PlatformExpress as any
     });
   }
@@ -94,11 +99,14 @@ export class PlatformExpress extends PlatformAdapter<Express.Application> {
    * @param module
    * @param settings
    */
-  static bootstrap(module: Type<any>, settings: Partial<TsED.Configuration> = {}) {
-    return PlatformBuilder.bootstrap<Express.Application>(module, {
-      ...settings,
+  static bootstrap(settings: Partial<TsED.Configuration>): Promise<PlatformBuilder<Express.Application>>;
+  static bootstrap(module: Type<any>, settings: Partial<TsED.Configuration>): Promise<PlatformBuilder<Express.Application>>;
+  static bootstrap(module: Type<any> | Partial<TsED.Configuration>, settings?: Partial<TsED.Configuration>) {
+    return new PlatformBuilder<Express.Application>({
+      rootModule: settings ? (module as Type) : undefined,
+      ...(settings || (module as Partial<TsED.Configuration>)),
       adapter: PlatformExpress as any
-    });
+    }).bootstrap();
   }
 
   async beforeLoadRoutes() {

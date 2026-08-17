@@ -5,7 +5,8 @@ import {Server} from "./Server.js";
 if (process.env.NODE_ENV !== "test") {
   async function bootstrap() {
     try {
-      const platform = await PlatformExpress.bootstrap(Server, {
+      const platform = await PlatformExpress.bootstrap({
+        rootModule: Server,
         disableComponentScan: true
       });
       await platform.listen();

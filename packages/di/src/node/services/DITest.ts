@@ -1,13 +1,13 @@
 import {
+  createContainer,
+  destroyInjector,
   DI_INJECTABLE_PROPS,
+  inject,
+  injector,
   InjectorService,
   type OnInit,
   TokenProvider,
-  type UseImportTokenProviderOpts,
-  createContainer,
-  destroyInjector,
-  inject,
-  injector
+  type UseImportTokenProviderOpts
 } from "../../common/index.js";
 import {cleanAllLocalsContainer, detachLocalsContainer, localsContainer} from "../../common/fn/localsContainer.js";
 import {$log} from "@tsed/logger";
@@ -116,6 +116,6 @@ export class DITest {
         ...getValue(settings, "logger", {}),
         level: getValue(settings, "logger.level", "off")
       }
-    };
+    } as Partial<TsED.Configuration>;
   }
 }

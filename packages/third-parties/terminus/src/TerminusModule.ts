@@ -1,27 +1,17 @@
-import {Constant, Inject, InjectorService, Module, OnInit, Provider} from "@tsed/di";
+import {constant, inject, injectable, injector, logger, OnInit, Provider} from "@tsed/di";
 import Http from "node:http";
 import Https from "node:https";
 import type {PlatformRouteDetails} from "@tsed/platform-http";
 import {TerminusSettings} from "./interfaces/TerminusSettings.js";
 import {concatPath} from "@tsed/schema";
 import {createTerminus} from "@godaddy/terminus";
+import {$asyncEmit} from "@tsed/hooks";
 
-@Module()
 export class TerminusModule implements OnInit {
-  @Constant("terminus", {})
-  private settings!: TerminusSettings;
-
-  @Constant("terminus.path", "/health")
-  private basePath!: string;
-
-  @Inject()
-  private injector!: InjectorService;
-
-  @Inject(Http.Server)
-  private httpServer!: Http.Server | null;
-
-  @Inject(Https.Server)
-  private httpsServer!: Https.Server | null;
+  protected httpServer = inject<Http.Server | null>(Http.Server);
+  protected httpsServer = inject<Https.Server | null>(Https.Server);
+  private settings = constant<TerminusSettings>("terminus", {});
+  private basePath: string = constant<string>("terminus.path", "/health");
 
   public $onInit() {
     this.mount();
@@ -32,7 +22,7 @@ export class TerminusModule implements OnInit {
 
     return {
       logger: (event: string, error: any) =>
-        this.injector.logger.info({
+        logger().info({
           event: event.toUpperCase(),
           error_message: error.message
         }),
@@ -84,26 +74,28 @@ export class TerminusModule implements OnInit {
     propertyKey: string;
     options: Opts;
   }[] {
-    return this.injector.getProviders().flatMap((provider) => {
-      const metadata = provider.store.get(`terminus:${name}`);
+    return injector()
+      .providers.getMany()
+      .flatMap((provider) => {
+        const metadata = provider.store.get(`terminus:${name}`);
 
-      if (metadata) {
-        return Object.entries(metadata).map(([propertyKey, options]) => {
-          return {
-            provider,
-            propertyKey,
-            options: options as Opts
-          };
-        });
-      }
-      return [];
-    });
+        if (metadata) {
+          return Object.entries(metadata).map(([propertyKey, options]) => {
+            return {
+              provider,
+              propertyKey,
+              options: options as Opts
+            };
+          });
+        }
+        return [];
+      });
   }
 
   private getHealths() {
     const subHealths = this.getAll<{name: string}>("health").reduce(
       (healths, {provider, propertyKey, options: {name}}) => {
-        const instance = this.injector.get<any>(provider.token)!;
+        const instance = inject(provider.token)!;
         const callback = async (...args: any[]) => {
           const result = await instance[propertyKey](...args);
 
@@ -139,7 +131,9 @@ export class TerminusModule implements OnInit {
 
   private createEmitter(name: string) {
     return (...args: any[]) => {
-      return this.injector.emit(name, ...args);
+      return $asyncEmit(name, args);
     };
   }
 }
+
+injectable(TerminusModule);

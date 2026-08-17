@@ -42,6 +42,7 @@ describe("DIConfiguration", () => {
       });
       expect(obj).toEqual({
         imports: [],
+        lazyProviders: false,
         logger: {},
         mount: {},
         routes: []
@@ -55,6 +56,21 @@ describe("DIConfiguration", () => {
 
       configuration.imports = [];
       expect(configuration.imports).toEqual([]);
+    });
+  });
+  describe("lazyProviders()", () => {
+    it("should default to false and allow enabling lazy providers", () => {
+      // GIVEN
+      const configuration = new DIConfiguration();
+
+      // THEN
+      expect(configuration.lazyProviders).toBe(false);
+
+      // WHEN
+      configuration.lazyProviders = true;
+
+      // THEN
+      expect(configuration.lazyProviders).toBe(true);
     });
   });
   describe("mount()", () => {

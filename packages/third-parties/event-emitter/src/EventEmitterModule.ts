@@ -1,28 +1,17 @@
-import {Constant, Inject, InjectorService, LOGGER, Module, Provider} from "@tsed/di";
+import {constant, inject, injectable, injector, LOGGER, Provider} from "@tsed/di";
 import {EventEmitterService} from "./services/EventEmitterFactory.js";
 import {EventEmitterStore} from "./interfaces/EventEmitterStore.js";
 import type {ListenerFn} from "eventemitter2";
 
-@Module()
 export class EventEmitterModule {
-  @Inject(LOGGER)
-  protected logger!: LOGGER;
-
-  @Inject()
-  protected injector!: InjectorService;
-
-  @Inject()
-  protected eventEmitter!: EventEmitterService;
-
-  @Constant("eventEmitter.disableSummary", false)
-  private disableSummary!: boolean;
-
-  @Constant("eventEmitter.enabled", false)
-  private loadEventEmitter!: boolean;
+  protected logger = inject<LOGGER>(LOGGER);
+  protected eventEmitter = inject(EventEmitterService);
+  private disableSummary = constant<boolean>("eventEmitter.disableSummary", false);
+  private loadEventEmitter = constant("eventEmitter.enabled", false);
 
   $onInit() {
     if (this.loadEventEmitter) {
-      const providers = this.injector.getProviders();
+      const providers = injector().providers.getMany();
       providers.forEach((provider) => this.bindEventListeners(provider));
     }
   }
@@ -67,7 +56,7 @@ export class EventEmitterModule {
   }
 
   private getListener(provider: Provider<any>, propertyKey: string) {
-    const instance = this.injector.get(provider.token);
+    const instance = inject(provider.token);
     return instance[propertyKey].bind(instance) as ListenerFn;
   }
 
@@ -91,3 +80,5 @@ export class EventEmitterModule {
     });
   }
 }
+
+injectable(EventEmitterModule);

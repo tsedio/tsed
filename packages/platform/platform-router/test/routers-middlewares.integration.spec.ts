@@ -27,8 +27,8 @@ function createAppRouterFixture() {
 
   platformRouters.hooks.destroy();
 
-  injector().addProvider(MyMiddleware);
-  injector().addProvider(MyController, {});
+  injector().add(MyMiddleware);
+  injector().add(MyController, {});
 
   return {appRouter, platformRouters, platformParams};
 }

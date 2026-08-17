@@ -11,6 +11,10 @@ describe("lazyInject", () => {
 
     expect(service).toBeDefined();
     expect(service.called).toBeTruthy();
+
+    await DITest.injector.emit("$onCustomEvent");
+
+    expect(service.customCalled).toBeTruthy();
   });
 
   it("should optionally lazy load module", async () => {

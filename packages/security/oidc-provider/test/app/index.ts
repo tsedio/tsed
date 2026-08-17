@@ -9,6 +9,7 @@ if (process.env.NODE_ENV !== "test") {
   async function bootstrap() {
     try {
       const platform = await PlatformExpress.bootstrap(Server, {
+        rootModule: Server,
         mount: {
           "/rest": [VersionCtrl],
           "/": [IndexCtrl, InteractionsCtrl]

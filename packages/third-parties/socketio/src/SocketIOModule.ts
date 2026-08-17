@@ -1,40 +1,25 @@
-import {Constant, Inject, InjectorService, Module, OnDestroy, Provider} from "@tsed/di";
+import {constant, inject, injectable, injector, logger, OnDestroy, Provider} from "@tsed/di";
 import {Server, ServerOptions} from "socket.io";
 import {$log} from "@tsed/logger";
 import type {AfterListen} from "@tsed/platform-http";
 import Http from "node:http";
 import Https from "node:https";
-import {IO} from "./decorators/io.js";
 import {PROVIDER_TYPE_SOCKET_SERVICE} from "./constants/constants.js";
 import {SocketIOService} from "./services/SocketIOService.js";
 import {SocketProviderMetadata} from "./class/SocketProviderMetadata.js";
 import {nameOf} from "@tsed/core";
+import {$asyncEmit} from "@tsed/hooks";
 
 /**
  * @ignore
  */
-@Module()
 export class SocketIOModule implements AfterListen, OnDestroy {
-  @Constant("logger.disableRoutesSummary", false)
-  protected disableRoutesSummary!: boolean;
-
-  @Constant("socketIO", {})
-  protected settings!: Partial<ServerOptions>;
-
-  @Inject()
-  protected injector!: InjectorService;
-
-  @Inject(Http.Server)
-  protected httpServer!: Http.Server | null;
-
-  @Inject(Https.Server)
-  protected httpsServer!: Https.Server | null;
-
-  @IO()
-  private io!: Server;
-
-  @Inject()
-  private socketIOService!: SocketIOService;
+  protected disableRoutesSummary = constant("logger.disableRoutesSummary", false);
+  protected settings = constant<Partial<ServerOptions>>("socketIO", {});
+  protected httpServer = inject<Http.Server | null>(Http.Server);
+  protected httpsServer = inject<Https.Server | null>(Https.Server);
+  private socketIOService = inject(SocketIOService);
+  private io = inject(Server);
 
   $afterListen() {
     if (this.httpServer) {
@@ -51,7 +36,7 @@ export class SocketIOModule implements AfterListen, OnDestroy {
       this.printSocketEvents();
     }
 
-    return this.injector.emit("$afterSocketListen");
+    return $asyncEmit("$afterSocketListen");
   }
 
   $onDestroy() {
@@ -63,7 +48,7 @@ export class SocketIOModule implements AfterListen, OnDestroy {
    * @returns {Provider<any>[]}
    */
   protected getWebsocketServices(): Provider<any>[] {
-    return Array.from(this.injector.getProviders(PROVIDER_TYPE_SOCKET_SERVICE));
+    return injector().providers.getMany(PROVIDER_TYPE_SOCKET_SERVICE);
   }
 
   /**
@@ -88,7 +73,7 @@ export class SocketIOModule implements AfterListen, OnDestroy {
       return acc;
     }, []);
 
-    this.injector.logger.info("Socket events mounted:");
+    logger().info("Socket events mounted:");
 
     const str = $log.drawTable(list, {
       padding: 1,
@@ -101,8 +86,10 @@ export class SocketIOModule implements AfterListen, OnDestroy {
       }
     });
 
-    this.injector.logger.info("\n" + str.trim());
+    logger().info("\n" + str.trim());
 
-    this.injector.logger.info("Socket server started...");
+    logger().info("Socket server started...");
   }
 }
+
+injectable(SocketIOModule);

@@ -1,5 +1,5 @@
 import "../domain/PlatformLogRequestSettings.js";
-import {DITest} from "@tsed/di";
+import {DITest, injector} from "@tsed/di";
 import {PlatformLogRequestFactory} from "./PlatformLogRequestFactory.js";
 
 describe("PlatformLogRequestFactory", () => {
@@ -32,7 +32,7 @@ describe("PlatformLogRequestFactory", () => {
       vi.spyOn(factory!, "alterLog").mockReturnValue({});
       vi.spyOn(factory!, "onLogResponse").mockReturnValue(undefined);
 
-      DITest.injector.getProvider(PlatformLogRequestFactory)?.hooks?.$onRequest(factory!, ctx);
+      injector().providers.get(PlatformLogRequestFactory)?.hooks?.$onRequest(factory!, ctx);
 
       expect(ctx.logger.alterLog).toHaveBeenCalledWith(expect.any(Function));
 
@@ -47,7 +47,7 @@ describe("PlatformLogRequestFactory", () => {
         ctx
       );
 
-      DITest.injector.getProvider(PlatformLogRequestFactory)?.hooks?.$onResponse(factory!, ctx);
+      injector().providers.get(PlatformLogRequestFactory)?.hooks?.$onResponse(factory!, ctx);
 
       expect(factory!.onLogResponse).toHaveBeenCalledWith(ctx);
     });
@@ -82,7 +82,7 @@ describe("PlatformLogRequestFactory", () => {
         }
       };
 
-      DITest.injector.getProvider(PlatformLogRequestFactory)?.hooks?.$onRequest(factory!, ctx);
+      injector().providers.get(PlatformLogRequestFactory)?.hooks?.$onRequest(factory!, ctx);
 
       expect(ctx.logger.alterLog).toHaveBeenCalledWith(expect.any(Function));
 
@@ -97,7 +97,7 @@ describe("PlatformLogRequestFactory", () => {
         ctx
       );
 
-      DITest.injector.getProvider(PlatformLogRequestFactory)?.hooks?.$onResponse(factory!, ctx);
+      injector().providers.get(PlatformLogRequestFactory)?.hooks?.$onResponse(factory!, ctx);
 
       expect(factory!.onLogResponse).toHaveBeenCalledWith(ctx);
     });
@@ -127,11 +127,11 @@ describe("PlatformLogRequestFactory", () => {
         }
       };
 
-      DITest.injector.getProvider(PlatformLogRequestFactory)?.hooks?.$onRequest(factory!, ctx);
+      injector().providers.get(PlatformLogRequestFactory)?.hooks?.$onRequest(factory!, ctx);
 
       expect(ctx.logger.alterLog).not.toHaveBeenCalled();
 
-      DITest.injector.getProvider(PlatformLogRequestFactory)?.hooks?.$onResponse(factory!, ctx);
+      injector().providers.get(PlatformLogRequestFactory)?.hooks?.$onResponse(factory!, ctx);
     });
   });
 });

@@ -1,16 +1,11 @@
-import {Inject, Injectable, InjectorService} from "@tsed/di";
+import {inject, injectable, injector} from "@tsed/di";
 import {FormioHooks} from "../domain/FormioHooks.js";
 import {FormioService} from "./FormioService.js";
 import {Request} from "express";
 import {promisify} from "node:util";
 
-@Injectable()
 export class FormioHooksService {
-  @Inject()
-  protected injector!: InjectorService;
-
-  @Inject(FormioService)
-  protected formio!: FormioService;
+  protected formio = inject(FormioService);
 
   get settings(): (req: Request, cb: Function) => void {
     return this.formio.hook.settings;
@@ -33,10 +28,6 @@ export class FormioHooksService {
       alter: this.getHooksProvider("alter"),
       on: this.getHooksProvider("on")
     };
-  }
-
-  protected getProviders(type: "alter" | "on") {
-    return this.injector.getProviders(`formio:${type}`);
   }
 
   protected getHooksProvider(type: "alter" | "on") {
@@ -69,22 +60,26 @@ export class FormioHooksService {
   }
 
   private createHooks(type: "alter" | "on") {
-    return this.getProviders(type).reduce<Record<string, Function[]>>((hooks, provider) => {
-      const instance = this.injector.invoke<any>(provider.token);
-      const name = provider.store.get(`formio:${type}:name`);
-      const pool: Function[] = hooks[name] || [];
+    return injector()
+      .providers.getMany(`formio:${type}`)
+      .reduce<Record<string, Function[]>>((hooks, provider) => {
+        const instance = inject(provider.token);
+        const name = provider.store.get(`formio:${type}:name`);
+        const pool: Function[] = hooks[name] || [];
 
-      const hook = (...args: any[]) =>
-        instance[type === "alter" ? "transform" : "on"](
-          ...args.map((input: any) => {
-            return input && input.$ctx ? input.$ctx : input;
-          })
-        );
+        const hook = (...args: any[]) =>
+          instance[type === "alter" ? "transform" : "on"](
+            ...args.map((input: any) => {
+              return input && input.$ctx ? input.$ctx : input;
+            })
+          );
 
-      return {
-        ...hooks,
-        [name]: ([] as Function[]).concat(pool, hook)
-      };
-    }, {});
+        return {
+          ...hooks,
+          [name]: ([] as Function[]).concat(pool, hook)
+        };
+      }, {});
   }
 }
+
+injectable(FormioHooksService);

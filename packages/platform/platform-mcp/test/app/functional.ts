@@ -1,4 +1,4 @@
-import {defineResource, defineTool} from "../../src/index.js";
+import {defineResource, defineTool} from "../../src/http/index.js";
 import {Generics, Property, s} from "@tsed/schema";
 
 @Generics("T")

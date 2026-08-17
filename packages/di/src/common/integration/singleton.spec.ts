@@ -54,11 +54,11 @@ describe("DI Singleton", () => {
       // GIVEN
       const container = new Container();
 
-      container.addProvider(ServiceSingleton);
-      container.addProvider(ServiceRequest);
-      container.addProvider(ServiceInstance);
-      container.addProvider(ServiceSingletonWithRequestDep);
-      container.addProvider(ServiceSingletonWithInstanceDep);
+      container.add(ServiceSingleton);
+      container.add(ServiceRequest);
+      container.add(ServiceInstance);
+      container.add(ServiceSingletonWithRequestDep);
+      container.add(ServiceSingletonWithInstanceDep);
 
       // WHEN
       await injector().load(container);
@@ -71,11 +71,11 @@ describe("DI Singleton", () => {
     it("should get the instance and REQUEST dependency should be considered as local SINGLETON", async () => {
       // GIVEN
       const container = new Container();
-      container.addProvider(ServiceSingleton);
-      container.addProvider(ServiceRequest);
-      container.addProvider(ServiceInstance);
-      container.addProvider(ServiceSingletonWithRequestDep);
-      container.addProvider(ServiceSingletonWithInstanceDep);
+      container.add(ServiceSingleton);
+      container.add(ServiceRequest);
+      container.add(ServiceInstance);
+      container.add(ServiceSingletonWithRequestDep);
+      container.add(ServiceSingletonWithInstanceDep);
 
       // WHEN
       await injector().load(container);
@@ -99,11 +99,11 @@ describe("DI Singleton", () => {
     it("should get the service instance", async () => {
       // GIVEN
       const container = new Container();
-      container.addProvider(ServiceSingleton);
-      container.addProvider(ServiceRequest);
-      container.addProvider(ServiceInstance);
-      container.addProvider(ServiceSingletonWithRequestDep);
-      container.addProvider(ServiceSingletonWithInstanceDep);
+      container.add(ServiceSingleton);
+      container.add(ServiceRequest);
+      container.add(ServiceInstance);
+      container.add(ServiceSingletonWithRequestDep);
+      container.add(ServiceSingletonWithInstanceDep);
       // WHEN
       await injector().load(container);
       const serviceWithInstDep = injector().get<ServiceSingletonWithInstanceDep>(ServiceSingletonWithInstanceDep)!;

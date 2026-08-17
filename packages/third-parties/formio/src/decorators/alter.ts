@@ -1,5 +1,5 @@
 import {StoreSet, useDecorators} from "@tsed/core";
-import {registerProvider} from "@tsed/di";
+import {injectable} from "@tsed/di";
 
 /**
  *
@@ -9,10 +9,7 @@ import {registerProvider} from "@tsed/di";
 export function Alter(name: string): ClassDecorator {
   return useDecorators(
     (target: any) => {
-      registerProvider({
-        token: target,
-        type: "formio:alter"
-      });
+      injectable(target).type("formio:alter");
     },
     StoreSet("formio:alter:name", name)
   );

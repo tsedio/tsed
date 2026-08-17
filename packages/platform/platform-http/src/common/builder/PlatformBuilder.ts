@@ -1,21 +1,21 @@
 import {$alter, $asyncAlter, $asyncEmit} from "@tsed/hooks";
 import type {IncomingMessage, ServerResponse} from "node:http";
+import Http from "node:http";
 import {
-  InjectorService,
-  ProviderOpts,
-  ProviderScope,
-  TokenProvider,
   colors,
   configuration,
   constant,
   createContainer,
   destroyInjector,
   injector,
-  logger
+  InjectorService,
+  logger,
+  ProviderOpts,
+  ProviderScope,
+  TokenProvider
 } from "@tsed/di";
 import {PlatformAdapter, PlatformBuilderSettings} from "../services/PlatformAdapter.js";
 import {CreateServerReturn} from "../utils/createServer.js";
-import Http from "node:http";
 import Http2 from "http2";
 import type Https from "node:https";
 import {Platform} from "../services/Platform.js";
@@ -44,7 +44,7 @@ export class PlatformBuilder<App = TsED.Application> {
   #servers!: CreateServerReturn[];
   #listeners: (Http.Server | Https.Server | Http2.Http2Server)[] = [];
 
-  protected constructor(settings: Partial<TsED.Configuration>) {
+  constructor(settings: Partial<TsED.Configuration> = {}) {
     this.#rootModule = settings.rootModule;
 
     createInjector(defineConfiguration(settings));
@@ -113,38 +113,19 @@ export class PlatformBuilder<App = TsED.Application> {
     return injector();
   }
 
-  static create<App = TsED.Application>(settings: PlatformBuilderSettings<App>): PlatformBuilder<App>;
-  static create<App = TsED.Application>(module: Type<any>, settings?: PlatformBuilderSettings<App>): PlatformBuilder<App>;
-  static create<App = TsED.Application>(module: Type<any>, settings?: PlatformBuilderSettings<App>): PlatformBuilder<App> {
-    return this.build(module as any, {
+  static create<App = TsED.Application>(settings?: PlatformBuilderSettings<App>): PlatformBuilder<App> {
+    return new PlatformBuilder({
       httpsPort: false,
       httpPort: false,
       ...settings
     });
   }
 
-  static build<App = TsED.Application>(settings: PlatformBuilderSettings<App>): PlatformBuilder<App>;
-  static build<App = TsED.Application>(module: Type<any>, settings?: PlatformBuilderSettings<App>): PlatformBuilder<App>;
-  static build<App = TsED.Application>(
-    module: Type<any> | PlatformBuilderSettings<App>,
-    settings?: PlatformBuilderSettings<App>
-  ): PlatformBuilder<App> {
-    return new PlatformBuilder({
-      rootModule: settings ? module : undefined,
-      ...(settings ? settings : (module as any))
-    });
-  }
-
   /**
    * Bootstrap a server application
    */
-  static bootstrap<App = TsED.Application>(settings: PlatformBuilderSettings<App>): Promise<PlatformBuilder<App>>;
-  static bootstrap<App = TsED.Application>(module: Type<any>, settings?: PlatformBuilderSettings<App>): Promise<PlatformBuilder<App>>;
-  static bootstrap<App = TsED.Application>(
-    module: Type<any> | PlatformBuilderSettings<App>,
-    settings?: PlatformBuilderSettings<App>
-  ): Promise<PlatformBuilder<App>> {
-    return this.build<App>(module as any, settings).bootstrap();
+  static bootstrap<App = TsED.Application>(settings?: PlatformBuilderSettings<App>): Promise<PlatformBuilder<App>> {
+    return new PlatformBuilder<App>(settings).bootstrap();
   }
 
   callback(): (req: IncomingMessage, res: ServerResponse) => void;
@@ -239,7 +220,7 @@ export class PlatformBuilder<App = TsED.Application> {
 
     if (this.#rootModule) {
       container.delete(this.#rootModule);
-      container.addProvider(this.#rootModule, {
+      container.add(this.#rootModule, {
         type: "server:module",
         scope: ProviderScope.SINGLETON
       });
@@ -306,7 +287,7 @@ export class PlatformBuilder<App = TsED.Application> {
   }
 
   useProvider(token: Type<any>, settings?: Partial<ProviderOpts>) {
-    injector().addProvider(token, settings);
+    injector().add(token, settings);
 
     return this;
   }

@@ -1,5 +1,6 @@
 import {DILogger, logger as injectLogger} from "../../common/index.js";
-import {LogLevel, levels} from "@tsed/logger";
+import type {LogLevel} from "@tsed/logger";
+import {levels} from "@tsed/logger";
 import {Hooks} from "@tsed/hooks";
 
 /**
@@ -41,9 +42,8 @@ const LEVELS: Record<string, LogLevel> = levels();
 export class ContextLogger {
   readonly dateStart: Date;
   readonly id: string;
-  readonly #additionalProps?: Record<string, unknown>;
-
   maxStackSize: number;
+  readonly #additionalProps?: Record<string, unknown>;
   #level: LogLevel = LEVELS.ALL;
   #hooks?: Hooks;
   #stack?: any[];
@@ -57,7 +57,11 @@ export class ContextLogger {
 
     this.level = (LEVELS[(level || this.#logger.level || "").toUpperCase()] || LEVELS.ALL) as LogLevel;
 
-    this.maxStackSize = maxStackSize;
+    this.maxStackSize = maxStackSize!;
+  }
+
+  get level() {
+    return this.#level;
   }
 
   set level(level: "debug" | "info" | "warn" | "error" | "off" | "all" | LogLevel) {
@@ -66,10 +70,6 @@ export class ContextLogger {
     } else {
       this.#level = level;
     }
-  }
-
-  get level() {
-    return this.#level;
   }
 
   get hooks() {

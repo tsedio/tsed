@@ -1,14 +1,14 @@
 import {
+  constant,
   DIContext,
+  inject,
+  injectable,
+  injectMany,
+  injector,
+  logger,
   OnDestroy,
   type OnInit,
   ProviderType,
-  constant,
-  inject,
-  injectMany,
-  injectable,
-  injector,
-  logger,
   runInContext
 } from "@tsed/di";
 import {Job, Queue, Worker} from "bullmq";
@@ -91,7 +91,7 @@ export class BullMQModule implements OnInit, OnDestroy {
   private getUniqQueueNames() {
     return new Set(
       injector()
-        .getProviders([BullMQTypes.JOB, BullMQTypes.CRON, BullMQTypes.FALLBACK_JOB])
+        .providers.getMany([BullMQTypes.JOB, BullMQTypes.CRON, BullMQTypes.FALLBACK_JOB])
         .map((provider) => provider.store.get<JobStore>(BULLMQ)?.queue)
         .concat(this.config.queues!)
         .filter(Boolean)

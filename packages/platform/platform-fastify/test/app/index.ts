@@ -22,7 +22,8 @@ if (process.env.NODE_ENV !== "test") {
   async function bootstrap() {
     try {
       $log.debug("Start server...");
-      const platform = await PlatformFastify.bootstrap(Server, {
+      const platform = await PlatformFastify.bootstrap({
+        Server,
         disableComponentScan: true,
         mount: {
           "/rest": [HelloWorld]

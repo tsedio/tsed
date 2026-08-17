@@ -1,7 +1,7 @@
 import {FormioHooksService} from "./FormioHooksService.js";
 import {FormioService} from "./FormioService.js";
 import {PlatformTest} from "@tsed/platform-http/testing";
-import {Provider} from "@tsed/di";
+import {injector, Provider} from "@tsed/di";
 import {Store} from "@tsed/core";
 
 describe("FormioHooksService", () => {
@@ -26,7 +26,8 @@ describe("FormioHooksService", () => {
     Store.from(Alter1).set("formio:alter:name", "hookName");
     Store.from(Alter2).set("formio:alter:name", "hookName");
 
-    vi.spyOn(service as any, "getProviders").mockReturnValue([new Provider(Alter1), new Provider(Alter2)]);
+    injector().setProvider(Alter1, Object.assign(new Provider(Alter1), {type: "formio:alter"}));
+    injector().setProvider(Alter2, Object.assign(new Provider(Alter2), {type: "formio:alter"}));
 
     const hooks: any = service.getHooks();
 
@@ -52,7 +53,8 @@ describe("FormioHooksService", () => {
     Store.from(Alter1).set("formio:alter:name", "hookName");
     Store.from(Alter2).set("formio:alter:name", "hookName");
 
-    vi.spyOn(service as any, "getProviders").mockReturnValue([new Provider(Alter1), new Provider(Alter2)]);
+    injector().setProvider(Alter1, Object.assign(new Provider(Alter1), {type: "formio:alter"}));
+    injector().setProvider(Alter2, Object.assign(new Provider(Alter2), {type: "formio:alter"}));
 
     const hooks: any = service.getHooks();
 
@@ -78,7 +80,8 @@ describe("FormioHooksService", () => {
     Store.from(On1).set("formio:on:name", "hookName");
     Store.from(On2).set("formio:on:name", "hookName");
 
-    vi.spyOn(service as any, "getProviders").mockReturnValue([new Provider(On1), new Provider(On2)]);
+    injector().setProvider(On1, Object.assign(new Provider(On1), {type: "formio:on"}));
+    injector().setProvider(On2, Object.assign(new Provider(On2), {type: "formio:on"}));
 
     const hooks: any = service.getHooks();
 

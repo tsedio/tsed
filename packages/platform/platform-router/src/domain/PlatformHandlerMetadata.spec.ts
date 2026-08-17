@@ -99,10 +99,10 @@ describe("PlatformHandlerMetadata", () => {
         test(@Req() req: Req, @Next() next: Next) {}
       }
 
-      injector().addProvider(Test);
+      injector().add(Test);
 
       const options = {
-        provider: injector().getProvider(Test),
+        provider: injector().providers.get(Test),
         propertyKey: "test",
         type: PlatformHandlerType.ENDPOINT
       };
@@ -132,10 +132,10 @@ describe("PlatformHandlerMetadata", () => {
         use(@Err() error: any, @Next() next: Next) {}
       }
 
-      injector().addProvider(Test);
+      injector().add(Test);
 
       const options = {
-        provider: injector().getProvider(Test),
+        provider: injector().providers.get(Test),
         propertyKey: "use",
         type: PlatformHandlerType.MIDDLEWARE
       };

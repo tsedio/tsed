@@ -1,4 +1,4 @@
-import {DIContext, ProviderScope, TokenProvider, injectable, injector} from "@tsed/di";
+import {DIContext, injectable, injector, ProviderScope, TokenProvider} from "@tsed/di";
 import {JsonMethodStore, JsonParameterStore, PipeMethods} from "@tsed/schema";
 import {ParamValidationError} from "../errors/ParamValidationError.js";
 import {ParseExpressionPipe} from "../pipes/ParseExpressionPipe.js";
@@ -14,7 +14,7 @@ export type PlatformParamsCallback<Context extends DIContext = DIContext> = (sco
 export class PlatformParams {
   getPipes(param: JsonParameterStore) {
     const get = (pipe: TokenProvider) => {
-      return injector().getProvider(pipe)!.priority || 0;
+      return injector().providers.get(pipe)!.priority || 0;
     };
 
     const sort = (p1: TokenProvider, p2: TokenProvider) => (get(p1) < get(p2) ? -1 : get(p1) > get(p2) ? 1 : 0);
@@ -43,7 +43,7 @@ export class PlatformParams {
     const inj = injector();
     const store = JsonMethodStore.fromMethod(token, propertyKey);
     const getArguments = this.compile<Context>(store);
-    const provider = inj.getProvider(token)!;
+    const provider = inj.providers.get(token)!;
 
     return async (scope: PlatformParamsScope<Context>) => {
       const container = provider.scope === ProviderScope.REQUEST ? scope.$ctx.container : undefined;

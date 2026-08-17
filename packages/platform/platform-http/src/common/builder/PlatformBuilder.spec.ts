@@ -147,7 +147,8 @@ describe("PlatformBuilder", () => {
 
     describe("static boostrap()", () => {
       it("should boostrap a custom platform", async () => {
-        const result = await PlatformBuilder.bootstrap(ServerModule, {
+        const result = await PlatformBuilder.bootstrap({
+          rootModule: ServerModule,
           adapter: FakeAdapter
         });
 
@@ -156,7 +157,8 @@ describe("PlatformBuilder", () => {
     });
     describe("static create()", () => {
       it("should boostrap a custom platform", () => {
-        PlatformBuilder.create(ServerModule, {
+        PlatformBuilder.create({
+          rootModule: ServerModule,
           adapter: FakeAdapter
         });
 
@@ -200,7 +202,8 @@ describe("PlatformBuilder", () => {
     });
     describe("adapter()", () => {
       it("should boostrap a custom platform", async () => {
-        const platformBuilder = await PlatformBuilder.bootstrap(ServerModule, {
+        const platformBuilder = await PlatformBuilder.bootstrap({
+          rootModule: ServerModule,
           adapter: FakeAdapter
         });
 
@@ -210,7 +213,8 @@ describe("PlatformBuilder", () => {
       });
 
       it("should listen a custom platform", async () => {
-        const platform = await PlatformBuilder.create(ServerModule, {
+        const platform = await PlatformBuilder.create({
+          rootModule: ServerModule,
           adapter: FakeAdapter
         });
 

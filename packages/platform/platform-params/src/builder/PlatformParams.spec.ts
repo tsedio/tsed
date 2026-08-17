@@ -1,4 +1,4 @@
-import {Injectable, ProviderScope} from "@tsed/di";
+import {Injectable, injector, ProviderScope} from "@tsed/di";
 import {buildPlatformParams, invokePlatformParams} from "../../test/helpers/buildPlatformParams.js";
 import {ParamTypes} from "../domain/ParamTypes.js";
 import {PathParams} from "../decorators/pathParams.js";
@@ -286,7 +286,7 @@ describe("PlatformParams", () => {
         }
       }
 
-      PlatformTest.injector.addProvider(MyCtrTest);
+      injector().add(MyCtrTest);
 
       const handler = await platformParams.compileHandler({
         token: MyCtrTest,
@@ -344,7 +344,7 @@ describe("PlatformParams", () => {
         }
       });
 
-      PlatformTest.injector.addProvider(MyCtrTest);
+      injector().add(MyCtrTest);
 
       const handler = await platformParams.compileHandler({
         token: MyCtrTest,
@@ -374,7 +374,7 @@ describe("PlatformParams", () => {
         }
       }
 
-      PlatformTest.injector.addProvider(MyCtrTest);
+      injector().add(MyCtrTest);
 
       const $ctx = PlatformTest.createRequestContext({
         event: {

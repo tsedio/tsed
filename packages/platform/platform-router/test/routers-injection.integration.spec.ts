@@ -19,7 +19,7 @@ function createAppRouterFixture() {
 
   platformRouters.hooks.destroy();
 
-  injector().addProvider(CustomStaticsCtrl, {});
+  injector().add(CustomStaticsCtrl, {});
 
   return {appRouter, platformRouters, platformParams};
 }
@@ -34,7 +34,7 @@ describe("Routers injection", () => {
     const router = platformRouters.from(CustomStaticsCtrl);
     const router1 = platformRouters.from(CustomStaticsCtrl);
 
-    const provider = injector().getProvider(CustomStaticsCtrl)!;
+    const provider = injector().providers.get(CustomStaticsCtrl)!;
     const router2 = injector().get(provider.tokenRouter);
     const controller = inject(CustomStaticsCtrl)!;
 

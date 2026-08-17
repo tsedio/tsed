@@ -1,4 +1,4 @@
-import "../../src/index.js";
+import "../../src/http/index.js";
 import "@tsed/ajv";
 import {Configuration} from "@tsed/di";
 import {functionalResource, functionalTool, genericTool} from "./functional.js";

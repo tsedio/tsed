@@ -23,7 +23,8 @@ describe("PlatformServerlessHttp", () => {
 
     (serverless as any).mockReturnValue(handler);
 
-    const instance = PlatformServerlessHttp.bootstrap(Server, {
+    const instance = PlatformServerlessHttp.bootstrap({
+      rootModule: Server,
       adapter: PlatformExpress as any
     });
 

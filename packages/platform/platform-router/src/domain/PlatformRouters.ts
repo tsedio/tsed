@@ -1,7 +1,7 @@
 import {$on, Hooks} from "@tsed/hooks";
-import {JsonMethodStore, OPERATION_HTTP_VERBS, concatPath, getOperationsRoutes} from "@tsed/schema";
-import {Provider, ProviderType, ResolvedInvokeOptions, TokenProvider, constant, inject, injectable, injector} from "@tsed/di";
-import {Type, getValue} from "@tsed/core";
+import {concatPath, getOperationsRoutes, JsonMethodStore, OPERATION_HTTP_VERBS} from "@tsed/schema";
+import {constant, inject, injectable, injector, Provider, ProviderType, ResolvedInvokeOptions, TokenProvider} from "@tsed/di";
+import {getValue, Type} from "@tsed/core";
 import {PlatformHandlerMetadata} from "./PlatformHandlerMetadata.js";
 import {PlatformLayer} from "./PlatformLayer.js";
 import {PlatformParamsCallback} from "@tsed/platform-params";
@@ -47,14 +47,14 @@ export class PlatformRouters {
 
   prebuild() {
     injector()
-      .getProviders(ProviderType.CONTROLLER)
+      .providers.getMany(ProviderType.CONTROLLER)
       .forEach((provider) => {
         createInjectableRouter(provider);
       });
   }
 
   from(token: TokenProvider, parentMiddlewares: any[] = []) {
-    const provider = injector().getProvider(token)!;
+    const provider = injector().providers.get(token)!;
 
     if (!provider) {
       throw new Error("Token not found in the provider registry");
@@ -130,7 +130,7 @@ export class PlatformRouters {
 
   private sortHandlers(handlers: AlterEndpointHandlersArg) {
     const get = (token: TokenProvider) => {
-      return injector().getProvider(token)?.priority || 0;
+      return injector().providers.get(token)?.priority || 0;
     };
 
     const sort = (p1: TokenProvider, p2: TokenProvider) => (get(p1) < get(p2) ? -1 : get(p1) > get(p2) ? 1 : 0);

@@ -1,8 +1,8 @@
-import {type OnRoutesInit, PlatformContext, type PlatformRouteDetails, application} from "@tsed/platform-http";
+import {application, type OnRoutesInit, PlatformContext, type PlatformRouteDetails} from "@tsed/platform-http";
 import {constant, inject, injectable} from "@tsed/di";
-import {MCP_SERVER} from "./McpServerFactory.js";
+import {MCP_SERVER} from "../../common/services/McpServerFactory.js";
 import {type McpServer} from "@modelcontextprotocol/server";
-import type {PlatformMcpSettings} from "../interfaces/PlatformMcpSettings.js";
+import type {PlatformMcpSettings} from "../../common/index.js";
 import {NodeStreamableHTTPServerTransport} from "@modelcontextprotocol/node";
 import {useContextHandler} from "@tsed/platform-router";
 

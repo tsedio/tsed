@@ -14,12 +14,12 @@ describe("LazyInject", () => {
     }
 
     const service = inject(MyInjectable);
-    const nbProviders = injector().getProviders().length;
+    const nbProviders = injector().providers.getMany().length;
 
     const lazyService = await service.lazy;
 
     expect(nameOf(classOf(lazyService))).toEqual("MyLazyModule");
-    expect(nbProviders).not.toEqual(injector().getProviders().length);
+    expect(nbProviders).not.toEqual(injector().providers.getMany().length);
   });
 
   it("should throw an error when the module doesn't exists", async () => {

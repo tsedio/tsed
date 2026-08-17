@@ -1,6 +1,6 @@
 import {Description, Title} from "@tsed/schema";
 import type {ReadResourceResult} from "@modelcontextprotocol/server";
-import {Resource} from "../../../src/index.js";
+import {Resource} from "../../../src/http/index.js";
 import {Injectable} from "@tsed/di";
 
 @Injectable()
