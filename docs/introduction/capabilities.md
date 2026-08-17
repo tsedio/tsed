@@ -69,19 +69,19 @@ Here is the feature list provided by Ts.ED and the compatibility with the differ
 
 ## Elysia platform support
 
-Elysia uses a Fetch-native response model. Its executable `PlatformTestSdk` matrix supports controllers, nested and inherited routes, middleware, scoped DI, headers, query and body parameters, cookies, location, errors, routing, locals, authentication, and modules.
+Elysia uses a Fetch-native response model. Its executable `PlatformTestSdk` matrix supports controllers, nested and inherited routes, middleware, scoped DI, headers and content negotiation, query and body parameters, cookies, location, errors, response filters, routing, locals, authentication, modules, views, and static files.
 
-| Feature or plugin                                                                                  | Elysia                                              |
-| -------------------------------------------------------------------------------------------------- | --------------------------------------------------- |
-| Controllers, DI, routing, middleware, headers, cookies, body parameters                            | <img src="/icons/valid.svg" width="15" alt="yes"/>  |
-| Native multipart `FormData` / `File` body parameters                                               | <img src="/icons/valid.svg" width="15" alt="yes"/>  |
-| Node `Readable` streams, manually finalized responses, redirects, response filters, response cache | <img src="/icons/invalid.svg" width="15" alt="no"/> |
-| Deep query parameters and custom 404 response                                                      | <img src="/icons/valid.svg" width="15" alt="yes"/>  |
-| Sessions                                                                                           | <img src="/icons/invalid.svg" width="15" alt="no"/> |
-| Static files and views                                                                             | <img src="/icons/invalid.svg" width="15" alt="no"/> |
-| Multer decorators and storage engines                                                              | <img src="/icons/invalid.svg" width="15" alt="no"/> |
+| Feature or plugin                                                                    | Elysia                                              |
+| ------------------------------------------------------------------------------------ | --------------------------------------------------- |
+| Controllers, DI, routing, middleware, headers, cookies, body parameters              | <img src="/icons/valid.svg" width="15" alt="yes"/>  |
+| Native multipart `FormData` / `File` body parameters                                 | <img src="/icons/valid.svg" width="15" alt="yes"/>  |
+| Response filters, static files, and views                                            | <img src="/icons/valid.svg" width="15" alt="yes"/>  |
+| Node `Readable` streams, manually finalized responses, redirects, and response cache | <img src="/icons/invalid.svg" width="15" alt="no"/> |
+| Deep query parameters and custom 404 response                                        | <img src="/icons/valid.svg" width="15" alt="yes"/>  |
+| Sessions                                                                             | <img src="/icons/invalid.svg" width="15" alt="no"/> |
+| Multer decorators and storage engines                                                | <img src="/icons/invalid.svg" width="15" alt="no"/> |
 
-Static assets can still be installed directly on a custom Elysia application with `@elysia/static` before bootstrapping Ts.ED. Use Elysia-native `FormData` and `File` rather than Multer.
+Static assets are served through the Ts.ED `statics` configuration with `@elysia/static`. Use Elysia-native `FormData` and `File` rather than Multer.
 
 ## Platform plugins support
 
