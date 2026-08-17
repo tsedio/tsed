@@ -2,6 +2,7 @@ import {IncomingMessage, ServerResponse} from "node:http";
 import {Readable} from "node:stream";
 import {staticPlugin} from "@elysia/static";
 import {Elysia} from "elysia";
+import {accepts} from "elysia-accepts";
 import {catchAsyncError, isFunction, Type} from "@tsed/core";
 import {constant, inject, runInContext} from "@tsed/di";
 import {
@@ -56,6 +57,8 @@ export class PlatformElysia extends PlatformAdapter<Elysia> {
 
   createApp() {
     const app = constant<Elysia>("elysia.app") || new Elysia(constant("elysia", {}));
+    app.use(accepts());
+
     return {app, callback: () => this.createNodeCallback(app)};
   }
 

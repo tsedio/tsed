@@ -12127,6 +12127,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@tinyhttp/accepts@npm:^2.2.2":
+  version: 2.3.1
+  resolution: "@tinyhttp/accepts@npm:2.3.1"
+  dependencies:
+    mrmime: "npm:^2.0.1"
+  checksum: 10/861b34a4b5f0fe40905e8d1060baf30a89bf4449cc886a2dd4bad60389143266cd58c697c4db7115ef2bb8eb37a93597db74bf0fb5a003e68381a363a43c3780
+  languageName: node
+  linkType: hard
+
 "@tootallnate/once@npm:2":
   version: 2.0.1
   resolution: "@tootallnate/once@npm:2.0.1"
@@ -13371,6 +13380,7 @@ __metadata:
     "@types/qs": "npm:^6.9.18"
     content-disposition: "npm:>=0.5.4"
     elysia: "npm:1.4.29"
+    elysia-accepts: "npm:^1.0.0"
     qs: "npm:^6.14.0"
     tslib: "npm:>=2.7.0"
     typescript: "npm:6.0.2"
@@ -22014,6 +22024,18 @@ __metadata:
   version: 1.0.1
   resolution: "elegant-spinner@npm:1.0.1"
   checksum: 10/d6a773d950c5d403b5f0fa402787e37dde99989ab6c943558fe8491cf7cd0df0e2747a9ff4d391d5a5f20a447cc9e9a63bdc956354ba47bea462f1603a5b04fe
+  languageName: node
+  linkType: hard
+
+"elysia-accepts@npm:^1.0.0":
+  version: 1.0.0
+  resolution: "elysia-accepts@npm:1.0.0"
+  dependencies:
+    "@tinyhttp/accepts": "npm:^2.2.2"
+  peerDependencies:
+    elysia: ^1.1.4
+    typescript: ^5.0.0
+  checksum: 10/035ea68472c6c069da57215f01f9ab2e0ae569dc53320c7222b62e99ba1b586375717b6a367d4ffdbf4b0383891cfd85008756fb43a777889c86bb34ffbd52df
   languageName: node
   linkType: hard
 
@@ -31149,6 +31171,13 @@ __metadata:
   version: 2.0.0
   resolution: "mrmime@npm:2.0.0"
   checksum: 10/8d95f714ea200c6cf3e3777cbc6168be04b05ac510090a9b41eef5ec081efeb1d1de3e535ffb9c9689fffcc42f59864fd52a500e84a677274f070adeea615c45
+  languageName: node
+  linkType: hard
+
+"mrmime@npm:^2.0.1":
+  version: 2.0.1
+  resolution: "mrmime@npm:2.0.1"
+  checksum: 10/1f966e2c05b7264209c4149ae50e8e830908eb64dd903535196f6ad72681fa109b794007288a3c2814f7a1ecf9ca192769909c0c374d974d604a8de5fc095d4a
   languageName: node
   linkType: hard
 

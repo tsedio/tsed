@@ -58,20 +58,7 @@ export class PlatformElysiaRequest extends PlatformRequest<any> {
   accepts(mime: string[]): string[] | false;
 
   accepts(mime?: string | string[]): string | string[] | false {
-    const values = ([] as string[]).concat(mime as any);
-    const rawAccepted: string = this.get("accept") || "*/*";
-    const accepted = rawAccepted
-      .split(",")
-      .map((value) => {
-        const [type, ...parameters] = value.trim().split(";");
-        const quality = parameters.find((parameter) => parameter.trim().startsWith("q="));
-
-        return {type, quality: quality ? Number(quality.trim().slice(2)) : 1};
-      })
-      .sort((left, right) => right.quality - left.quality);
-    const match = accepted.map(({type}) => values.find((value) => type === "*/*" || type === value || type === `${value}/*`)).find(Boolean);
-
-    return match || false;
+    return this.raw.type(mime as any) || false;
   }
 
   isAborted() {
