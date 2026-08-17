@@ -1,4 +1,4 @@
-import {AnyPromiseResult, AnyToPromise, isSerializable, isStream} from "@tsed/core";
+import {AnyPromiseResult, AnyToPromise, isNodeStream, isSerializable} from "@tsed/core";
 import {BaseContext, ProviderScope, TokenProvider, inject, injectable, lazyInject, runInContext} from "@tsed/di";
 import {DeserializerPipe, PlatformParams, ValidationPipe} from "@tsed/platform-params";
 import {$asyncEmit} from "@tsed/hooks";
@@ -70,7 +70,7 @@ export class PlatformServerlessHandler {
       }
     };
 
-    if (isStream(body) && $ctx.responseStream) {
+    if (isNodeStream(body) && $ctx.responseStream) {
       const resStream = ServerlessResponseStream.setMeta($ctx.responseStream, {
         ...meta,
         headers: {
