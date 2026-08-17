@@ -67,7 +67,7 @@ export class PlatformElysia extends PlatformAdapter<Elysia> {
     const rawApp: Elysia = this.app.getApp();
 
     rawApp.onRequest(async (context: any) => {
-      if (!["GET", "HEAD"].includes(context.request.method)) {
+      if (constant("rawBody") && context.request.body) {
         context.rawBody = Buffer.from(await context.request.clone().arrayBuffer());
       }
       const $ctx = invoke({request: context, response: context});

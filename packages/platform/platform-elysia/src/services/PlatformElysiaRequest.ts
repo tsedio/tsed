@@ -34,7 +34,7 @@ export class PlatformElysiaRequest extends PlatformRequest<any> {
   }
 
   get rawBody() {
-    return this.raw.rawBody;
+    return this.raw.rawBody || this.raw.body;
   }
 
   get cookies() {
