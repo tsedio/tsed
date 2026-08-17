@@ -70,7 +70,7 @@ Do not expose a framework's raw request/response directly to controllers without
 - Convert Ts.ED route syntax with a framework-specific `convertPath()` and test named, optional, regexp, and wildcard paths.
 - Preserve the framework's error path. Do not call a Connect `next(error)` from a Koa/Fastify/Fetch handler unless the target framework actually supports it.
 - Route errors through `PlatformExceptions.catch(error, $ctx)` and route unknown paths through `PlatformExceptions.resourceNotFound($ctx)`. Reuse the existing exception filters; do not handcraft framework-specific error or 404 response payloads.
-- Register body parsing, multipart support, static serving, view rendering, and raw-body capture only when supported. Make plugin registration awaitable when required.
+- Register body parsing, multipart support, static serving, view rendering, and raw-body capture only when supported. Make plugin registration awaitable when required. Match `PlatformBuilder`'s global `rawBody` policy: capture the raw buffer only when `rawBody` is configured or `@RawBodyParams()` is detected, while preserving the framework-parsed `body`. For Fetch-native runtimes, capture it before parsing with `request.clone()` only when `request.body` exists; do not globally disable parsing with a per-route `parse: "none"` strategy. Fall back to `body` when no raw capture is active.
 - Make HTTP/HTTPS creation and `listen()` match the framework's ownership model. Confirm the callback works with `serverless-http`-style consumers if the adapter claims serverless support.
 - Keep framework module augmentation and Ts.ED global declarations narrow and public.
 
