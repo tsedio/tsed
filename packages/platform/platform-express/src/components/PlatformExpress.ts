@@ -25,6 +25,7 @@ import {convertPath} from "../utils/convertPath.js";
 import {fileURLToPath} from "node:url";
 import {readFileSync} from "node:fs";
 import {staticsMiddleware} from "../middlewares/staticsMiddleware.js";
+import {writeFetchResponse} from "../utils/writeFetchResponse.js";
 
 declare module "express" {
   export interface Request {
@@ -200,6 +201,10 @@ export class PlatformExpress extends PlatformAdapter<Express.Application> {
         return callNext(next, metadata, $ctx);
       });
     };
+  }
+
+  async sendResponse($ctx: PlatformContext) {
+    await writeFetchResponse($ctx.response.finalize(), $ctx.response.native as any);
   }
 
   useContext(): void {

@@ -25,6 +25,7 @@ import {convertPath} from "../utils/convertPath.js";
 import koaQs from "koa-qs";
 import send from "koa-send";
 import {staticsMiddleware} from "../middlewares/staticsMiddleware.js";
+import {writeFetchResponse} from "../utils/writeFetchResponse.js";
 
 declare global {
   namespace TsED {
@@ -137,6 +138,10 @@ export class PlatformKoa extends PlatformAdapter<Koa> {
         return $ctx.next && $ctx.error ? $ctx.next($ctx.error) : $ctx.next();
       }
     };
+  }
+
+  async sendResponse($ctx: PlatformContext) {
+    writeFetchResponse($ctx.response.finalize(), $ctx.response.native?.ctx as any);
   }
 
   useContext(): void {

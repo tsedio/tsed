@@ -10,6 +10,7 @@ import {Type} from "@tsed/core";
 import {application} from "../fn/application.js";
 import {createHttpServer} from "../utils/createHttpServer.js";
 import {createHttpsServer} from "../utils/createHttpsServer.js";
+import type {PlatformContext} from "../domain/PlatformContext.js";
 
 export abstract class PlatformAdapter<App = TsED.Application> {
   abstract readonly NAME: string;
@@ -54,6 +55,14 @@ export abstract class PlatformAdapter<App = TsED.Application> {
    * Map router layer to the targeted framework
    */
   abstract mapLayers(layer: PlatformLayer[]): void | Promise<void>;
+
+  /**
+   * Finalize the portable response through the active host bridge.
+   *
+   * A bridge owns this write boundary; portable code must only mutate
+   * {@link PlatformResponse} before this method is called.
+   */
+  abstract sendResponse($ctx: PlatformContext): Promise<void>;
 
   /**
    * Map handler to the targeted framework

@@ -28,6 +28,7 @@ import type {PlatformFastifySettings} from "../interfaces/PlatformFastifySetting
 import {convertPath} from "../utils/convertPath.js";
 import fastifyMiddie from "@fastify/middie";
 import {toPrefix} from "../utils/toPrefix.js";
+import {writeFetchResponse} from "../utils/writeFetchResponse.js";
 
 declare global {
   namespace TsED {
@@ -182,6 +183,10 @@ export class PlatformFastify extends PlatformAdapter<FastifyInstance> {
     for (const plugin of plugins) {
       await rawApp.register(plugin.use as any, plugin.options!);
     }
+  }
+
+  async sendResponse($ctx: PlatformContext) {
+    await writeFetchResponse($ctx.response.finalize(), $ctx.response.native as any);
   }
 
   createApp() {
