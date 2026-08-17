@@ -1,0 +1,24 @@
+import {describe, expect, it, vi} from "vitest";
+import {writeFetchResponse} from "./writeFetchResponse.js";
+
+describe("writeFetchResponse", () => {
+  it("writes a Fetch response through the Fastify reply boundary", async () => {
+    const reply = {
+      code: vi.fn(),
+      header: vi.fn(),
+      raw: {
+        write: vi.fn(() => true),
+        end: vi.fn((callback) => callback?.()),
+        once: vi.fn()
+      }
+    };
+
+    await writeFetchResponse(new Response("Hello", {status: 201, headers: {"x-request-id": "request-id"}}), reply);
+
+    expect(reply.code).toHaveBeenCalledWith(201);
+    expect(reply.header).toHaveBeenCalledWith("content-type", "text/plain;charset=UTF-8");
+    expect(reply.header).toHaveBeenCalledWith("x-request-id", "request-id");
+    expect(reply.raw.write).toHaveBeenCalledWith(new TextEncoder().encode("Hello"));
+    expect(reply.raw.end).toHaveBeenCalledOnce();
+  });
+});
