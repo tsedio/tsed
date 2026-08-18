@@ -1,7 +1,7 @@
 import {Readable} from "node:stream";
 import type {OutgoingHttpHeaders, ServerResponse} from "node:http";
 import {injectable, lazyInject, ProviderScope} from "@tsed/di";
-import {isBoolean, isNumber, isStream, isString} from "@tsed/core";
+import {isBoolean, isNodeStream, isNumber, isStream, isString, isWebStream} from "@tsed/core";
 import type {PlatformContext} from "../domain/PlatformContext.js";
 import type {PlatformRequest} from "./PlatformRequest.js";
 import encodeUrl from "encodeurl";
@@ -34,14 +34,6 @@ export interface PlatformCookieMutation {
   name: string;
   value: string | null;
   options?: TsED.SetCookieOpts;
-}
-
-function isWebReadableStream(value: unknown): value is ReadableStream {
-  return Boolean(value && typeof (value as ReadableStream).getReader === "function");
-}
-
-function isNodeReadableStream(value: unknown): value is Readable {
-  return Boolean(value && typeof (value as Readable).pipe === "function");
 }
 
 /**
@@ -285,10 +277,10 @@ export class PlatformResponse<Res extends Record<string, any> = any> {
    */
   stream(data: any) {
     this.assertMutable();
-    this.#body = isWebReadableStream(data)
+    this.#body = isWebStream(data)
       ? data
-      : isNodeReadableStream(data)
-        ? (Readable.toWeb(data) as ReadableStream)
+      : isNodeStream(data)
+        ? (Readable.toWeb(data as Readable) as ReadableStream)
         : (undefined as never);
 
     if (!this.#body) {
