@@ -1,7 +1,7 @@
 import {Readable} from "node:stream";
 import type {OutgoingHttpHeaders, ServerResponse} from "node:http";
 import {injectable, lazyInject, ProviderScope} from "@tsed/di";
-import {isBoolean, isNodeStream, isNumber, isStream, isString, isWebStream} from "@tsed/core";
+import {isBoolean, isNumber, isStream, isString} from "@tsed/core";
 import type {PlatformContext} from "../domain/PlatformContext.js";
 import type {PlatformRequest} from "./PlatformRequest.js";
 import encodeUrl from "encodeurl";
@@ -34,6 +34,14 @@ export interface PlatformCookieMutation {
   name: string;
   value: string | null;
   options?: TsED.SetCookieOpts;
+}
+
+function isWebReadableStream(value: unknown): value is ReadableStream {
+  return Boolean(value && typeof (value as ReadableStream).getReader === "function");
+}
+
+function isNodeReadableStream(value: unknown): value is Readable {
+  return Boolean(value && typeof (value as Readable).pipe === "function");
 }
 
 /**
@@ -201,8 +209,9 @@ export class PlatformResponse<Res extends Record<string, any> = any> {
   }
 
   getContentLength() {
-    if (this.get("Content-Length")) {
-      return parseInt(this.get("Content-Length"), 10) || 0;
+    const contentLength = this.get("Content-Length");
+    if (contentLength) {
+      return parseInt(contentLength, 10) || 0;
     }
   }
 
@@ -243,7 +252,7 @@ export class PlatformResponse<Res extends Record<string, any> = any> {
     this.location(url);
 
     // Set location header
-    url = this.get("Location");
+    url = this.get("Location") || "/";
 
     const txt = `${getStatusMessage(status)}. Redirecting to ${url}`;
 
@@ -276,7 +285,11 @@ export class PlatformResponse<Res extends Record<string, any> = any> {
    */
   stream(data: any) {
     this.assertMutable();
-    this.#body = isWebStream(data) ? data : isNodeStream(data) ? (Readable.toWeb(data) as ReadableStream) : (undefined as never);
+    this.#body = isWebReadableStream(data)
+      ? data
+      : isNodeReadableStream(data)
+        ? (Readable.toWeb(data) as ReadableStream)
+        : (undefined as never);
 
     if (!this.#body) {
       throw new Error("PlatformResponse.stream() requires a web or Node readable stream");
@@ -328,7 +341,7 @@ export class PlatformResponse<Res extends Record<string, any> = any> {
 
     if (data instanceof Uint8Array) {
       this.assertMutable();
-      this.#body = data;
+      this.#body = data as unknown as BodyInit;
       this.#bodyCommitted = true;
       this.buffer(data);
 
@@ -441,7 +454,7 @@ export class PlatformResponse<Res extends Record<string, any> = any> {
 
   protected end(data?: string | Buffer) {
     if (data !== undefined) {
-      this.#body = data;
+      this.#body = data as unknown as BodyInit;
     }
     this.#bodyCommitted = true;
   }
