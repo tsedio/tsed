@@ -7,6 +7,5 @@ export * from "./interfaces/PlatformExpressSettings.js";
 export * from "./interfaces/PlatformExpressStaticsOptions.js";
 export * from "./middlewares/staticsMiddleware.js";
 export * from "./services/PlatformExpressHandler.js";
-export * from "./services/PlatformExpressResponse.js";
 export * from "./utils/convertPath.js";
 export * from "./utils/writeFetchResponse.js";

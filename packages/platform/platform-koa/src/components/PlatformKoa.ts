@@ -5,7 +5,6 @@ import {
   PlatformBuilder,
   PlatformHandler,
   PlatformRequest,
-  PlatformResponse,
   PlatformStaticsOptions,
   adapter,
   application,
@@ -19,7 +18,6 @@ import KoaRouter from "@koa/router";
 import {PlatformExceptions} from "@tsed/platform-exceptions";
 import {PlatformKoaHandler} from "../services/PlatformKoaHandler.js";
 import {PlatformKoaRequest} from "../services/PlatformKoaRequest.js";
-import {PlatformKoaResponse} from "../services/PlatformKoaResponse.js";
 import {convertPath} from "../utils/convertPath.js";
 // @ts-ignore
 import koaQs from "koa-qs";
@@ -205,10 +203,6 @@ export class PlatformKoa extends PlatformAdapter<Koa> {
 }
 
 adapter(PlatformKoa, [
-  {
-    token: PlatformResponse,
-    useClass: PlatformKoaResponse
-  },
   {
     token: PlatformRequest,
     useClass: PlatformKoaRequest

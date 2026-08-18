@@ -10,7 +10,6 @@ import {
   PlatformBuilder,
   PlatformContext,
   PlatformHandler,
-  PlatformResponse,
   PlatformStaticsOptions
 } from "@tsed/platform-http";
 import {PlatformHandlerMetadata, PlatformHandlerType, PlatformLayer} from "@tsed/platform-router";
@@ -19,7 +18,6 @@ import {dirname, join} from "node:path";
 import Express from "express";
 import {PlatformExceptions} from "@tsed/platform-exceptions";
 import {PlatformExpressHandler} from "../services/PlatformExpressHandler.js";
-import {PlatformExpressResponse} from "../services/PlatformExpressResponse.js";
 import {PlatformExpressStaticsOptions} from "../interfaces/PlatformExpressStaticsOptions.js";
 import {convertPath} from "../utils/convertPath.js";
 import {fileURLToPath} from "node:url";
@@ -298,9 +296,5 @@ adapter(PlatformExpress, [
   {
     token: PlatformHandler,
     useClass: PlatformExpressHandler
-  },
-  {
-    token: PlatformResponse,
-    useClass: PlatformExpressResponse
   }
 ]);

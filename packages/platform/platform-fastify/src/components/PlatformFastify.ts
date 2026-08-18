@@ -10,7 +10,6 @@ import {
   PlatformBuilder,
   PlatformContext,
   PlatformRequest,
-  PlatformResponse,
   PlatformStaticsOptions,
   adapter,
   createContext,
@@ -23,7 +22,6 @@ import fastifyStatics, {type FastifyStaticOptions} from "@fastify/static";
 import {NotFound} from "@tsed/exceptions";
 import {PlatformExceptions} from "@tsed/platform-exceptions";
 import {PlatformFastifyRequest} from "../services/PlatformFastifyRequest.js";
-import {PlatformFastifyResponse} from "../services/PlatformFastifyResponse.js";
 import type {PlatformFastifySettings} from "../interfaces/PlatformFastifySettings.js";
 import {convertPath} from "../utils/convertPath.js";
 import fastifyMiddie from "@fastify/middie";
@@ -375,10 +373,6 @@ export class PlatformFastify extends PlatformAdapter<FastifyInstance> {
 }
 
 adapter(PlatformFastify, [
-  {
-    token: PlatformResponse,
-    useClass: PlatformFastifyResponse
-  },
   {
     token: PlatformRequest,
     useClass: PlatformFastifyRequest

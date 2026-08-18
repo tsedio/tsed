@@ -1,9 +1,8 @@
 import {afterEach, beforeEach, describe, expect, it, vi} from "vitest";
 import {EventEmitter} from "node:events";
-import {PlatformFastifyResponse} from "@tsed/platform-fastify";
 import {PlatformMcpModule} from "./PlatformMcpModule.js";
 import {PlatformTest} from "@tsed/platform-http/testing";
-import {application} from "@tsed/platform-http";
+import {application, PlatformResponse} from "@tsed/platform-http";
 
 const {TestTransport, transportInstances} = vi.hoisted(() => {
   const transportInstances: TestTransport[] = [];
@@ -62,8 +61,9 @@ function createFastifyContext() {
     event: {
       response: reply
     },
-    ResponseKlass: PlatformFastifyResponse
+    ResponseKlass: PlatformResponse
   });
+  $ctx.response.getRes = vi.fn().mockReturnValue(raw as never);
 
   return {$ctx, res: raw};
 }
