@@ -38,4 +38,21 @@ describe("writeFetchResponse", () => {
     expect(native.write).not.toHaveBeenCalled();
     expect(native.end).toHaveBeenCalledOnce();
   });
+
+  it("should apply cookie mutations through Express", async () => {
+    const native = {
+      status: vi.fn(),
+      set: vi.fn(),
+      write: vi.fn(),
+      end: vi.fn((callback?: () => void) => callback?.()),
+      once: vi.fn(),
+      cookie: vi.fn(),
+      clearCookie: vi.fn()
+    };
+    const cookies = new Map([["session", {name: "session", value: "value", options: {httpOnly: true}}]]);
+
+    await writeFetchResponse({response: {finalize: () => new Response(null), native, getCookies: () => cookies}} as any);
+
+    expect(native.cookie).toHaveBeenCalledWith("session", "value", {httpOnly: true});
+  });
 });

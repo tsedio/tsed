@@ -27,4 +27,19 @@ describe("writeFetchResponse", () => {
     expect(reply.raw.write).toHaveBeenCalledWith(new TextEncoder().encode("Hello"));
     expect(reply.raw.end).toHaveBeenCalledOnce();
   });
+
+  it("applies a deleted cookie through Fastify", async () => {
+    const reply = {
+      code: vi.fn(),
+      header: vi.fn(),
+      raw: {write: vi.fn(() => true), end: vi.fn((callback) => callback?.()), once: vi.fn()},
+      setCookie: vi.fn(),
+      clearCookie: vi.fn()
+    };
+    const cookies = new Map([["session", {name: "session", value: null, options: {path: "/"}}]]);
+
+    await writeFetchResponse({response: {finalize: () => new Response(null), native: reply, getCookies: () => cookies}} as any);
+
+    expect(reply.clearCookie).toHaveBeenCalledWith("session", {path: "/"});
+  });
 });

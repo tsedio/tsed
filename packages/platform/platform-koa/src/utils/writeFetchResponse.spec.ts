@@ -33,4 +33,13 @@ describe("writeFetchResponse", () => {
 
     expect(context.body).toBeNull();
   });
+
+  it("applies cookie mutations through Koa", () => {
+    const context = {status: 404, body: undefined, set: vi.fn(), cookies: {set: vi.fn()}};
+    const cookies = new Map([["session", {name: "session", value: "value", options: {secure: true}}]]);
+
+    writeFetchResponse({response: {finalize: () => new Response(null), native: {ctx: context}, getCookies: () => cookies}} as any);
+
+    expect(context.cookies.set).toHaveBeenCalledWith("session", "value", {secure: true});
+  });
 });
