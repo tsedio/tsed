@@ -26,8 +26,18 @@ export class PlatformRequest<Req extends {[key: string]: any} = any> {
     return this.$ctx.response;
   }
 
-  get raw(): Req {
+  /**
+   * Host request attached by the active bridge.
+   */
+  get native(): Req {
     return this.$ctx.event.request as any;
+  }
+
+  /**
+   * Non-portable alias for {@link native}.
+   */
+  get raw(): Req {
+    return this.native;
   }
 
   get secure(): boolean {
@@ -174,7 +184,7 @@ export class PlatformRequest<Req extends {[key: string]: any} = any> {
    * Return the Node.js response object
    */
   getReq(): IncomingMessage {
-    return this.$ctx.event.request as IncomingMessage;
+    return this.native as unknown as IncomingMessage;
   }
 }
 
