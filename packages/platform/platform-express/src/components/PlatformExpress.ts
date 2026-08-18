@@ -213,7 +213,7 @@ export class PlatformExpress extends PlatformAdapter<Express.Application> {
       const $ctx = invoke({request, response});
       await $ctx.start();
 
-      $ctx.response.getRes().on("finish", () => $ctx.finish());
+      ($ctx.response.native as any).on("finish", () => $ctx.finish());
 
       return runInContext($ctx, next);
     });

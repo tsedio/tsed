@@ -1,7 +1,5 @@
-import {Readable} from "node:stream";
-import type {OutgoingHttpHeaders, ServerResponse} from "node:http";
 import {injectable, lazyInject, ProviderScope} from "@tsed/di";
-import {isBoolean, isNodeStream, isNumber, isStream, isString, isWebStream} from "@tsed/core";
+import {isBoolean, isNumber, isStream, isString, isWebStream} from "@tsed/core";
 import type {PlatformContext} from "../domain/PlatformContext.js";
 import type {PlatformRequest} from "./PlatformRequest.js";
 import encodeUrl from "encodeurl";
@@ -35,6 +33,8 @@ export interface PlatformCookieMutation {
   value: string | null;
   options?: TsED.SetCookieOpts;
 }
+
+export type PlatformHeaders = Record<string, string | number | readonly string[] | undefined>;
 
 /**
  * Platform Response abstraction layer.
@@ -113,7 +113,7 @@ export class PlatformResponse<Res extends Record<string, any> = any> {
     return this.#headers.get(name);
   }
 
-  getHeaders(): OutgoingHttpHeaders {
+  getHeaders(): PlatformHeaders {
     return Object.fromEntries(this.#headers.entries());
   }
 
@@ -127,8 +127,8 @@ export class PlatformResponse<Res extends Record<string, any> = any> {
   /**
    * Return the Node.js response object
    */
-  getRes(): ServerResponse {
-    return this.native as any;
+  getRes<R = unknown>(): R {
+    return this.native as R;
   }
 
   hasStatus() {
@@ -158,7 +158,7 @@ export class PlatformResponse<Res extends Record<string, any> = any> {
    *
    * Aliased as `res.header()`.
    */
-  setHeaders(headers: OutgoingHttpHeaders) {
+  setHeaders(headers: PlatformHeaders) {
     // apply headers
     Object.entries(headers).forEach(([key, item]) => {
       this.setHeader(key, item);
@@ -277,14 +277,10 @@ export class PlatformResponse<Res extends Record<string, any> = any> {
    */
   stream(data: any) {
     this.assertMutable();
-    this.#body = isWebStream(data)
-      ? data
-      : isNodeStream(data)
-        ? (Readable.toWeb(data as Readable) as ReadableStream)
-        : (undefined as never);
+    this.#body = isWebStream(data) ? data : (undefined as never);
 
     if (!this.#body) {
-      throw new Error("PlatformResponse.stream() requires a web or Node readable stream");
+      throw new Error("PlatformResponse.stream() requires a standard ReadableStream; use a native host capability for Node streams");
     }
 
     this.#bodyCommitted = true;
@@ -365,7 +361,7 @@ export class PlatformResponse<Res extends Record<string, any> = any> {
    * @param cb
    */
   onEnd(cb: () => Promise<void> | void): this {
-    this.getRes()?.on?.("finish", cb);
+    (this.native as {on?(event: "finish", listener: () => Promise<void> | void): unknown} | undefined)?.on?.("finish", cb);
 
     return this;
   }
@@ -444,7 +440,7 @@ export class PlatformResponse<Res extends Record<string, any> = any> {
     this.contentLength(data.length);
   }
 
-  protected end(data?: string | Buffer) {
+  protected end(data?: string | Uint8Array) {
     if (data !== undefined) {
       this.#body = data as unknown as BodyInit;
     }

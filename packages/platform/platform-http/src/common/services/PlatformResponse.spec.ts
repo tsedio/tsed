@@ -1,4 +1,3 @@
-import {PassThrough} from "node:stream";
 import {PlatformContext} from "../domain/PlatformContext.js";
 import {PlatformTest} from "../../testing/PlatformTest.js";
 
@@ -44,13 +43,11 @@ describe("PlatformResponse", () => {
     expect(native.send).not.toHaveBeenCalled();
   });
 
-  it("finalizes a Node stream as a Fetch stream", async () => {
+  it("requires a standard ReadableStream", () => {
     const {response} = createResponse();
-    const stream = new PassThrough();
-    stream.end("streamed");
-    response.body(stream);
+    const nodeStream = {pipe() {}};
 
-    await expect(response.finalize().text()).resolves.toBe("streamed");
+    expect(() => response.body(nodeStream)).toThrow("requires a standard ReadableStream");
   });
 
   it("builds redirects without accessing the host response", async () => {
