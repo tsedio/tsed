@@ -10,13 +10,13 @@ describe("writeFetchResponse", () => {
       once: vi.fn()
     };
 
-    await writeFetchResponse(
-      new Response("hello", {
-        headers: {"x-request-id": "request-id"},
-        status: 201
-      }),
-      native
-    );
+    await writeFetchResponse({
+      response: {
+        finalize: () => new Response("hello", {headers: {"x-request-id": "request-id"}, status: 201}),
+        native,
+        getCookies: () => new Map()
+      }
+    } as any);
 
     expect(native.status).toHaveBeenCalledWith(201);
     expect(native.set).toHaveBeenCalledWith("x-request-id", "request-id");
@@ -33,7 +33,7 @@ describe("writeFetchResponse", () => {
       once: vi.fn()
     };
 
-    await writeFetchResponse(new Response(null, {status: 204}), native);
+    await writeFetchResponse({response: {finalize: () => new Response(null, {status: 204}), native, getCookies: () => new Map()}} as any);
 
     expect(native.write).not.toHaveBeenCalled();
     expect(native.end).toHaveBeenCalledOnce();

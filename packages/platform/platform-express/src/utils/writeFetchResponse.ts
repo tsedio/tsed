@@ -1,4 +1,5 @@
 import {once} from "node:events";
+import type {PlatformContext} from "@tsed/platform-http";
 
 export interface ExpressResponseWriter {
   status(status: number): unknown;
@@ -11,7 +12,17 @@ export interface ExpressResponseWriter {
 /**
  * Writes a portable Fetch response to an Express response.
  */
-export async function writeFetchResponse(response: Response, native: ExpressResponseWriter): Promise<void> {
+export async function writeFetchResponse($ctx: PlatformContext): Promise<void> {
+  const response = $ctx.response.finalize();
+  const native = $ctx.response.native as ExpressResponseWriter & {
+    cookie(name: string, value: string, options?: TsED.SetCookieOpts): unknown;
+    clearCookie(name: string, options?: TsED.SetCookieOpts): unknown;
+  };
+
+  for (const {name, value, options} of $ctx.response.getCookies().values()) {
+    value === null ? native.clearCookie(name, options) : native.cookie(name, value, options);
+  }
+
   native.status(response.status);
   response.headers.forEach((value, name) => native.set(name, value));
 

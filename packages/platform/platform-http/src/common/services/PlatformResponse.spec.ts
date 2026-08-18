@@ -68,7 +68,7 @@ describe("PlatformResponse", () => {
     response.cookie("locale", "fr-FR", {httpOnly: true, sameSite: "lax"});
     response.cookie("locale", null, {path: "/"});
 
-    expect([...response.getCookieMutations().values()]).toEqual([{name: "locale", value: null, options: {path: "/"}}]);
+    expect([...response.getCookies().values()]).toEqual([{name: "locale", value: null, options: {path: "/"}}]);
     expect(response.finalize().headers.get("set-cookie")).toBeNull();
   });
 

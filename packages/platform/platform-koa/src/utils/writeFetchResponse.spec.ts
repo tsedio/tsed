@@ -6,10 +6,17 @@ describe("writeFetchResponse", () => {
     const context = {
       status: 404,
       body: undefined,
-      set: vi.fn()
+      set: vi.fn(),
+      cookies: {set: vi.fn()}
     };
 
-    writeFetchResponse(new Response("Hello", {status: 201, headers: {"x-request-id": "request-id"}}), context);
+    writeFetchResponse({
+      response: {
+        finalize: () => new Response("Hello", {status: 201, headers: {"x-request-id": "request-id"}}),
+        native: {ctx: context},
+        getCookies: () => new Map()
+      }
+    } as any);
 
     expect(context.status).toBe(201);
     expect(context.set).toHaveBeenCalledWith("content-type", "text/plain;charset=UTF-8");
@@ -18,9 +25,11 @@ describe("writeFetchResponse", () => {
   });
 
   it("sets an empty body", () => {
-    const context = {status: 404, body: undefined, set: vi.fn()};
+    const context = {status: 404, body: undefined, set: vi.fn(), cookies: {set: vi.fn()}};
 
-    writeFetchResponse(new Response(null, {status: 204}), context);
+    writeFetchResponse({
+      response: {finalize: () => new Response(null, {status: 204}), native: {ctx: context}, getCookies: () => new Map()}
+    } as any);
 
     expect(context.body).toBeNull();
   });

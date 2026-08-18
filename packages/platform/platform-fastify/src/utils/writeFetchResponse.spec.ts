@@ -13,7 +13,13 @@ describe("writeFetchResponse", () => {
       }
     };
 
-    await writeFetchResponse(new Response("Hello", {status: 201, headers: {"x-request-id": "request-id"}}), reply);
+    await writeFetchResponse({
+      response: {
+        finalize: () => new Response("Hello", {status: 201, headers: {"x-request-id": "request-id"}}),
+        native: reply,
+        getCookies: () => new Map()
+      }
+    } as any);
 
     expect(reply.code).toHaveBeenCalledWith(201);
     expect(reply.header).toHaveBeenCalledWith("content-type", "text/plain;charset=UTF-8");

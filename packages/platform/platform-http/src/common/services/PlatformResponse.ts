@@ -1,6 +1,6 @@
 import {Readable} from "node:stream";
 import type {OutgoingHttpHeaders, ServerResponse} from "node:http";
-import {ProviderScope, injectable, lazyInject} from "@tsed/di";
+import {injectable, lazyInject, ProviderScope} from "@tsed/di";
 import {isBoolean, isNodeStream, isNumber, isStream, isString, isWebStream} from "@tsed/core";
 import type {PlatformContext} from "../domain/PlatformContext.js";
 import type {PlatformRequest} from "./PlatformRequest.js";
@@ -42,12 +42,12 @@ export interface PlatformCookieMutation {
  */
 export class PlatformResponse<Res extends Record<string, any> = any> {
   data: any;
-  readonly #headers = new Headers();
   #status = 200;
   #statusText?: string;
   #body: BodyInit | null = null;
   #finalized = false;
   #bodyCommitted = false;
+  readonly #headers = new Headers();
   readonly #cookies = new Map<string, PlatformCookieMutation>();
 
   constructor(readonly $ctx: PlatformContext) {}
@@ -392,8 +392,22 @@ export class PlatformResponse<Res extends Record<string, any> = any> {
    * Cookie operations collected during this request. A host bridge applies them
    * exactly once while writing the finalized response.
    */
-  getCookieMutations(): ReadonlyMap<string, PlatformCookieMutation> {
+  getCookies(): ReadonlyMap<string, PlatformCookieMutation> {
     return this.#cookies;
+  }
+
+  /**
+   * Materialize the accumulated portable state as a Fetch response.
+   */
+  finalize(): Response {
+    this.assertMutable();
+    this.#finalized = true;
+
+    return new Response(this.#body, {
+      headers: this.#headers,
+      status: this.#status,
+      statusText: this.#statusText
+    });
   }
 
   protected formatHeader(key: string, item: any) {
@@ -430,20 +444,6 @@ export class PlatformResponse<Res extends Record<string, any> = any> {
       this.#body = data;
     }
     this.#bodyCommitted = true;
-  }
-
-  /**
-   * Materialize the accumulated portable state as a Fetch response.
-   */
-  finalize(): Response {
-    this.assertMutable();
-    this.#finalized = true;
-
-    return new Response(this.#body, {
-      headers: this.#headers,
-      status: this.#status,
-      statusText: this.#statusText
-    });
   }
 
   private assertMutable() {

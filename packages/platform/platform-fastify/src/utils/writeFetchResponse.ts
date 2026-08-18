@@ -1,4 +1,5 @@
 import {once} from "node:events";
+import type {PlatformContext} from "@tsed/platform-http";
 
 export interface FastifyResponseWriter {
   raw: {
@@ -13,7 +14,17 @@ export interface FastifyResponseWriter {
 /**
  * Writes the finalized Fetch response through Fastify's Node response boundary.
  */
-export async function writeFetchResponse(response: Response, reply: FastifyResponseWriter) {
+export async function writeFetchResponse($ctx: PlatformContext) {
+  const response = $ctx.response.finalize();
+  const reply = $ctx.response.native as FastifyResponseWriter & {
+    setCookie(name: string, value: string, options?: TsED.SetCookieOpts): unknown;
+    clearCookie(name: string, options?: TsED.SetCookieOpts): unknown;
+  };
+
+  for (const {name, value, options} of $ctx.response.getCookies().values()) {
+    value === null ? reply.clearCookie(name, options) : reply.setCookie(name, value, options);
+  }
+
   reply.code(response.status);
   response.headers.forEach((value, name) => reply.header(name, value));
 

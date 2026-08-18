@@ -140,11 +140,7 @@ export class PlatformKoa extends PlatformAdapter<Koa> {
   }
 
   async sendResponse($ctx: PlatformContext) {
-    const native: any = $ctx.response.native;
-    for (const {name, value, options} of $ctx.response.getCookieMutations().values()) {
-      native.ctx.cookies.set(name, value === null ? undefined : value, options);
-    }
-    writeFetchResponse($ctx.response.finalize(), native.ctx as any);
+    writeFetchResponse($ctx);
   }
 
   useContext(): void {

@@ -20,10 +20,7 @@ export interface PlatformContextOptions extends DIContextOptions {
   endpoint?: JsonMethodStore;
 }
 
-export class PlatformContext<
-  PReq extends PlatformRequest = PlatformRequest,
-  PRes extends PlatformResponse = PlatformResponse
-> extends DIContext {
+export class PlatformContext<PReq extends PlatformRequest = PlatformRequest> extends DIContext {
   readonly PLATFORM: string = "WWW";
   public event: PlatformNativeContext;
   /**
@@ -41,7 +38,7 @@ export class PlatformContext<
   /**
    * The current @@PlatformResponse@@.
    */
-  readonly response: PRes;
+  readonly response: PlatformResponse;
   /**
    * The current @@PlatformRequest@@.
    */
@@ -63,7 +60,7 @@ export class PlatformContext<
     options.endpoint && (this.endpoint = options.endpoint);
 
     this.event = options.event;
-    this.response = new (options.ResponseKlass || PlatformResponse)(this);
+    this.response = new PlatformResponse(this);
     this.request = new (options.RequestKlass || PlatformRequest)(this);
 
     this.request.request.$ctx = this;
