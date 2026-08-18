@@ -174,7 +174,7 @@ export class PlatformRequest<Req extends {[key: string]: any} = any> {
    * Return the Node.js response object
    */
   getReq(): IncomingMessage {
-    return this.$ctx.event.request;
+    return this.$ctx.event.request as IncomingMessage;
   }
 }
 

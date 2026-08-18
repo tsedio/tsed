@@ -26,6 +26,6 @@ export function setResponseHeaders(ctx: PlatformContext) {
   });
 
   if (operation.isRedirection(statusCode)) {
-    response.redirect(statusCode, response.get("location"));
+    response.redirect(statusCode, response.get("location") || "/");
   }
 }
