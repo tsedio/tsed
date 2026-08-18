@@ -1,4 +1,5 @@
-import {OutgoingHttpHeaders, ServerResponse} from "node:http";
+import {Readable} from "node:stream";
+import type {OutgoingHttpHeaders, ServerResponse} from "node:http";
 import {ProviderScope, injectable, lazyInject} from "@tsed/di";
 import {isBoolean, isNodeStream, isNumber, isStream, isString, isWebStream} from "@tsed/core";
 import type {PlatformContext} from "../domain/PlatformContext.js";
@@ -62,7 +63,7 @@ export class PlatformResponse<Res extends Record<string, any> = any> {
    * Get the current statusCode
    */
   get statusCode() {
-    return this.native?.statusCode ?? this.#status;
+    return this.#status;
   }
 
   /**
@@ -98,14 +99,11 @@ export class PlatformResponse<Res extends Record<string, any> = any> {
    * @param name
    */
   get(name: string) {
-    return this.#headers.get(name) || this.native?.get?.(name);
+    return this.#headers.get(name);
   }
 
   getHeaders(): OutgoingHttpHeaders {
-    return {
-      ...(this.native?.getHeaders?.() || this.native?.headers || {}),
-      ...Object.fromEntries(this.#headers.entries())
-    };
+    return Object.fromEntries(this.#headers.entries());
   }
 
   /**
@@ -134,7 +132,6 @@ export class PlatformResponse<Res extends Record<string, any> = any> {
   status(status: number) {
     this.assertMutable();
     this.#status = status;
-    this.native?.status?.(status);
 
     return this;
   }
@@ -164,7 +161,6 @@ export class PlatformResponse<Res extends Record<string, any> = any> {
 
     this.assertMutable();
     this.#headers.set(key, String(value));
-    this.native?.set?.(key, value);
 
     return this;
   }
@@ -184,7 +180,6 @@ export class PlatformResponse<Res extends Record<string, any> = any> {
   contentType(contentType: string) {
     this.assertMutable();
     this.#headers.set("content-type", contentType);
-    this.native?.contentType?.(contentType);
 
     return this;
   }
@@ -220,7 +215,7 @@ export class PlatformResponse<Res extends Record<string, any> = any> {
    * @param filename
    */
   attachment(filename: string) {
-    this.native?.attachment?.(filename);
+    this.setHeader("content-disposition", `attachment; filename=\"${filename.replaceAll('"', '\\"')}\"`);
     return this;
   }
 
@@ -246,7 +241,7 @@ export class PlatformResponse<Res extends Record<string, any> = any> {
     if (this.request.method === "HEAD") {
       this.end();
     } else {
-      this.setHeader("Content-Length", Buffer.byteLength(txt)).end(txt);
+      this.setHeader("Content-Length", new TextEncoder().encode(txt).byteLength).end(txt);
     }
 
     return this;
@@ -269,15 +264,11 @@ export class PlatformResponse<Res extends Record<string, any> = any> {
    * @param data
    */
   stream(data: any) {
-    if (isWebStream(data)) {
-      this.assertMutable();
-      this.#body = data;
-    }
+    this.assertMutable();
+    this.#body = isWebStream(data) ? data : isNodeStream(data) ? (Readable.toWeb(data) as ReadableStream) : (undefined as never);
 
-    if (this.native && isNodeStream(data)) {
-      data.pipe(this.native);
-    } else if (!isWebStream(data)) {
-      throw new Error("PlatformResponse.stream() requires a Fetch ReadableStream without a native response");
+    if (!this.#body) {
+      throw new Error("PlatformResponse.stream() requires a web or Node readable stream");
     }
 
     this.#bodyCommitted = true;
@@ -315,8 +306,6 @@ export class PlatformResponse<Res extends Record<string, any> = any> {
       this.assertMutable();
       this.#body = null;
       this.#bodyCommitted = true;
-      this.end();
-
       return this;
     }
 
@@ -343,8 +332,6 @@ export class PlatformResponse<Res extends Record<string, any> = any> {
       this.assertMutable();
       this.#body = data === null ? null : String(data);
       this.#bodyCommitted = true;
-      this.end(data);
-
       return this;
     }
 
@@ -362,9 +349,7 @@ export class PlatformResponse<Res extends Record<string, any> = any> {
    * @param cb
    */
   onEnd(cb: () => Promise<void> | void): this {
-    const res: any = this.getRes();
-
-    res.on("finish", cb);
+    this.getRes()?.on?.("finish", cb);
 
     return this;
   }
@@ -378,26 +363,24 @@ export class PlatformResponse<Res extends Record<string, any> = any> {
       return true;
     }
 
-    const res = this.getRes();
-
-    return Boolean(this.isHeadersSent() || res?.writableEnded || res?.writableFinished);
+    return false;
   }
 
   isHeadersSent() {
-    return Boolean(this.getRes()?.headersSent);
+    return this.#finalized;
   }
 
   cookie(name: string, value: string | null, opts?: TsED.SetCookieOpts) {
-    if (!this.native) {
-      throw new Error("PlatformResponse.cookie() requires a native host response");
-    }
-
-    if (value === null) {
-      this.native.clearCookie(name, opts);
-      return this;
-    }
-
-    this.native.cookie(name, value, opts);
+    const encoded = value === null ? "" : (opts?.encode || encodeURIComponent)(value);
+    const parts = [`${name}=${encoded}`];
+    const options = value === null ? {...opts, expires: new Date(0), maxAge: undefined} : opts;
+    options?.path && parts.push(`Path=${options.path}`);
+    options?.domain && parts.push(`Domain=${options.domain}`);
+    options?.expires && parts.push(`Expires=${options.expires.toUTCString()}`);
+    options?.httpOnly && parts.push("HttpOnly");
+    options?.secure && parts.push("Secure");
+    options?.sameSite && parts.push(`SameSite=${String(options.sameSite).replace(/^./, (char) => char.toUpperCase())}`);
+    this.#headers.append("set-cookie", parts.join("; "));
 
     return this;
   }
@@ -419,7 +402,6 @@ export class PlatformResponse<Res extends Record<string, any> = any> {
     this.#headers.set("content-type", "application/json; charset=utf-8");
     this.#body = JSON.stringify(data);
     this.#bodyCommitted = true;
-    this.native?.json?.(data);
 
     return this;
   }
@@ -430,11 +412,13 @@ export class PlatformResponse<Res extends Record<string, any> = any> {
     }
 
     this.contentLength(data.length);
-    this.end(data);
   }
 
   protected end(data?: string | Buffer) {
-    this.native?.send?.(data);
+    if (data !== undefined) {
+      this.#body = data;
+    }
+    this.#bodyCommitted = true;
   }
 
   /**

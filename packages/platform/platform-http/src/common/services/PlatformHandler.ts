@@ -26,6 +26,7 @@ export class PlatformHandler {
   protected platformParams = inject(PlatformParams);
   protected platformExceptions = inject(PlatformExceptions);
   protected platformRouters = inject(PlatformRouters);
+  protected platformAdapter = inject(PlatformAdapter);
 
   constructor() {
     // configure the router module
@@ -129,6 +130,10 @@ export class PlatformHandler {
 
     if ($ctx.error) {
       this.platformExceptions.catch($ctx.error, $ctx);
+    }
+
+    if (!$ctx.response.isHeadersSent()) {
+      await this.platformAdapter.sendResponse($ctx);
     }
   }
 }
