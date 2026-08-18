@@ -202,7 +202,11 @@ export class PlatformExpress extends PlatformAdapter<Express.Application> {
   }
 
   async sendResponse($ctx: PlatformContext) {
-    await writeFetchResponse($ctx.response.finalize(), $ctx.response.native as any);
+    const native: any = $ctx.response.native;
+    for (const {name, value, options} of $ctx.response.getCookieMutations().values()) {
+      value === null ? native.clearCookie(name, options) : native.cookie(name, value, options);
+    }
+    await writeFetchResponse($ctx.response.finalize(), native);
   }
 
   useContext(): void {

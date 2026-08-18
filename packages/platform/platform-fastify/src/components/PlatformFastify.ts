@@ -184,7 +184,11 @@ export class PlatformFastify extends PlatformAdapter<FastifyInstance> {
   }
 
   async sendResponse($ctx: PlatformContext) {
-    await writeFetchResponse($ctx.response.finalize(), $ctx.response.native as any);
+    const native: any = $ctx.response.native;
+    for (const {name, value, options} of $ctx.response.getCookieMutations().values()) {
+      value === null ? native.clearCookie(name, options) : native.setCookie(name, value, options);
+    }
+    await writeFetchResponse($ctx.response.finalize(), native);
   }
 
   createApp() {

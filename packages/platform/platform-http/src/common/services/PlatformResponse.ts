@@ -27,6 +27,16 @@ declare global {
 }
 
 /**
+ * A cookie operation requested by portable response code. Serialization belongs
+ * to the active host bridge because cookie support is a host capability.
+ */
+export interface PlatformCookieMutation {
+  name: string;
+  value: string | null;
+  options?: TsED.SetCookieOpts;
+}
+
+/**
  * Platform Response abstraction layer.
  * @platform
  */
@@ -38,6 +48,7 @@ export class PlatformResponse<Res extends Record<string, any> = any> {
   #body: BodyInit | null = null;
   #finalized = false;
   #bodyCommitted = false;
+  readonly #cookies = new Map<string, PlatformCookieMutation>();
 
   constructor(readonly $ctx: PlatformContext) {}
 
@@ -371,18 +382,18 @@ export class PlatformResponse<Res extends Record<string, any> = any> {
   }
 
   cookie(name: string, value: string | null, opts?: TsED.SetCookieOpts) {
-    const encoded = value === null ? "" : (opts?.encode || encodeURIComponent)(value);
-    const parts = [`${name}=${encoded}`];
-    const options = value === null ? {...opts, expires: new Date(0), maxAge: undefined} : opts;
-    options?.path && parts.push(`Path=${options.path}`);
-    options?.domain && parts.push(`Domain=${options.domain}`);
-    options?.expires && parts.push(`Expires=${options.expires.toUTCString()}`);
-    options?.httpOnly && parts.push("HttpOnly");
-    options?.secure && parts.push("Secure");
-    options?.sameSite && parts.push(`SameSite=${String(options.sameSite).replace(/^./, (char) => char.toUpperCase())}`);
-    this.#headers.append("set-cookie", parts.join("; "));
+    this.assertMutable();
+    this.#cookies.set(name, {name, value, options: opts});
 
     return this;
+  }
+
+  /**
+   * Cookie operations collected during this request. A host bridge applies them
+   * exactly once while writing the finalized response.
+   */
+  getCookieMutations(): ReadonlyMap<string, PlatformCookieMutation> {
+    return this.#cookies;
   }
 
   protected formatHeader(key: string, item: any) {

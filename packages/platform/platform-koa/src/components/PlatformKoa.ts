@@ -1,17 +1,18 @@
 import "@tsed/platform-multer/koa";
 import Koa, {Context, Next} from "koa";
 import {
-  PlatformAdapter,
-  PlatformBuilder,
-  PlatformHandler,
-  PlatformRequest,
-  PlatformStaticsOptions,
   adapter,
   application,
-  createContext
+  createContext,
+  PlatformAdapter,
+  PlatformBuilder,
+  PlatformContext,
+  PlatformHandler,
+  PlatformRequest,
+  PlatformStaticsOptions
 } from "@tsed/platform-http";
 import {PlatformHandlerMetadata, PlatformHandlerType, PlatformLayer} from "@tsed/platform-router";
-import {Type, catchAsyncError, isFunction} from "@tsed/core";
+import {catchAsyncError, isFunction, Type} from "@tsed/core";
 import {constant, inject, runInContext} from "@tsed/di";
 import koaBodyParser, {Options} from "koa-bodyparser";
 import KoaRouter from "@koa/router";
@@ -139,7 +140,11 @@ export class PlatformKoa extends PlatformAdapter<Koa> {
   }
 
   async sendResponse($ctx: PlatformContext) {
-    writeFetchResponse($ctx.response.finalize(), $ctx.response.native?.ctx as any);
+    const native: any = $ctx.response.native;
+    for (const {name, value, options} of $ctx.response.getCookieMutations().values()) {
+      native.ctx.cookies.set(name, value === null ? undefined : value, options);
+    }
+    writeFetchResponse($ctx.response.finalize(), native.ctx as any);
   }
 
   useContext(): void {

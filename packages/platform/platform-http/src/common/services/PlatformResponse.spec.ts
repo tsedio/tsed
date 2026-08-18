@@ -63,11 +63,13 @@ describe("PlatformResponse", () => {
     await expect(result.text()).resolves.toContain("Redirecting to /login");
   });
 
-  it("serializes cookies in the portable response", () => {
+  it("stores cookie mutations without serializing them", () => {
     const {response} = createResponse();
     response.cookie("locale", "fr-FR", {httpOnly: true, sameSite: "lax"});
+    response.cookie("locale", null, {path: "/"});
 
-    expect(response.finalize().headers.get("set-cookie")).toBe("locale=fr-FR; HttpOnly; SameSite=Lax");
+    expect([...response.getCookieMutations().values()]).toEqual([{name: "locale", value: null, options: {path: "/"}}]);
+    expect(response.finalize().headers.get("set-cookie")).toBeNull();
   });
 
   it("rejects mutations after finalization", () => {
