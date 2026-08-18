@@ -46,7 +46,7 @@
 - [ ] 6.3 Run the conformance suite for direct Fetch, Express, Fastify, and Koa; publish the resulting capability matrix in package documentation.
 - [ ] 6.4 Add focused integration regression coverage proving that `@tsed/platform-multer` and `@tsed/socketio` retain their respective native request/response and server-lifecycle boundaries without becoming `platform-http` features.
 - [ ] 6.5 Resolve the Node HTTP inventory: migrate `platform-http`, `platform-cache`, and `vike` where portable behavior is viable; keep Node imports isolated in the Express, Fastify, and Koa bridges; evaluate Apollo, GraphQL WS, Socket.IO, and Terminus for a portable alternative.
-- [ ] 6.6 Update `docs/introduction/capabilities.md` to identify integrations that remain Node.js-specific and their supported runtimes.
+- [x] 6.6 Update `docs/introduction/capabilities.md` to identify integrations that remain Node.js-specific and their supported runtimes.
 
 ## 7. v9 alpha release readiness
 

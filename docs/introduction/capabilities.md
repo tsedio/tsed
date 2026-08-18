@@ -34,6 +34,24 @@ Here are the runtime support provided by Ts.ED:
 
 </div>
 
+## v9 runtime boundaries
+
+The v9 Fetch-native HTTP core is runtime-neutral. The following integrations
+remain intentionally tied to Node.js or a Node host bridge:
+
+| Area                                                                     | Runtime boundary                 | v9 direction                                                             |
+| ------------------------------------------------------------------------ | -------------------------------- | ------------------------------------------------------------------------ |
+| `@tsed/platform-express`, `@tsed/platform-fastify`, `@tsed/platform-koa` | Node host bridges                | Keep Node conversion and native middleware at the bridge edge.           |
+| `@tsed/platform-cache`                                                   | Uses Node request/response types | Migrate to the portable context where viable.                            |
+| `@tsed/apollo`, `@tsed/graphql-ws`                                       | Node HTTP/WebSocket transport    | Evaluate a Fetch-native transport; otherwise document Node-only support. |
+| `@tsed/socketio`                                                         | Socket.IO server lifecycle       | Remains Node-specific and uses the native server lifecycle.              |
+| `@tsed/terminus`                                                         | Node shutdown and health APIs    | Remains Node-specific pending a portable alternative.                    |
+| `@tsed/vike`                                                             | Node HTTP header type            | Replace with a portable header type where viable.                        |
+
+Cookies, sessions, multipart, views, Socket.IO and upgrades are not Fetch-core
+features. Their owning middleware or integration accesses the active host via
+`ctx.request.native` and `ctx.response.native` when it needs that capability.
+
 ## Platform features support
 
 Here is the feature list provided by Ts.ED and the compatibility with the different platforms:
