@@ -1,5 +1,4 @@
 import {DIContext, DIContextOptions, injector} from "@tsed/di";
-import {IncomingMessage, ServerResponse} from "node:http";
 import {$asyncEmit} from "@tsed/hooks";
 import {PlatformNativeContext} from "../fetch/PlatformHostBridge.js";
 import {JsonMethodStore} from "@tsed/schema";
@@ -111,15 +110,15 @@ export class PlatformContext<PReq extends PlatformRequest = PlatformRequest> ext
   /**
    * Get Node.js request
    */
-  getReq(): IncomingMessage {
-    return this.request.getReq();
+  getReq<Req = unknown>(): Req {
+    return this.request.getReq<Req>();
   }
 
   /**
    * Get Node.js response
    */
-  getRes(): ServerResponse {
-    return this.response.getRes();
+  getRes<Res = unknown>(): Res {
+    return this.response.getRes<Res>();
   }
 
   /**

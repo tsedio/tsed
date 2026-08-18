@@ -1,4 +1,3 @@
-import {IncomingHttpHeaders, IncomingMessage} from "node:http";
 import {ProviderScope, injectable} from "@tsed/di";
 import type {PlatformContext} from "../domain/PlatformContext.js";
 import type {PlatformResponse} from "./PlatformResponse.js";
@@ -61,7 +60,7 @@ export class PlatformRequest<Req extends {[key: string]: any} = any> {
     return this.raw.originalUrl || this.raw.url;
   }
 
-  get headers(): IncomingHttpHeaders {
+  get headers(): Record<string, string | string[] | undefined> {
     return this.raw.headers;
   }
 
@@ -183,8 +182,8 @@ export class PlatformRequest<Req extends {[key: string]: any} = any> {
   /**
    * Return the Node.js response object
    */
-  getReq(): IncomingMessage {
-    return this.native as unknown as IncomingMessage;
+  getReq<R = Req>(): R {
+    return this.native as unknown as R;
   }
 }
 
