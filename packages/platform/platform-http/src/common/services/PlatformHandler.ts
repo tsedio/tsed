@@ -112,11 +112,29 @@ export class PlatformHandler {
   }
 
   /**
-   * Send the response to the consumer.
-   * @protected
-   * @param $ctx
+   * Complete the shared Ts.ED response pipeline and return its portable Fetch
+   * response. Direct Fetch execution uses this method; host bridges own the
+   * subsequent native write.
+   */
+  async finalizeResponse($ctx: PlatformContext): Promise<Response> {
+    await this.prepareResponse($ctx);
+
+    return $ctx.response.finalize();
+  }
+
+  /**
+   * Legacy host entry point. Host adapters keep ownership of their native
+   * response write while the shared pipeline only prepares the response.
    */
   async flush($ctx: PlatformContext) {
+    await this.prepareResponse($ctx);
+
+    if (!$ctx.response.isHeadersSent()) {
+      await this.platformAdapter.sendResponse($ctx);
+    }
+  }
+
+  private async prepareResponse($ctx: PlatformContext) {
     if (!$ctx.error) {
       $ctx.error = await catchAsyncError(async () => {
         const {response} = $ctx;
@@ -130,14 +148,6 @@ export class PlatformHandler {
 
     if ($ctx.error) {
       this.platformExceptions.catch($ctx.error, $ctx);
-    }
-
-    if (!$ctx.response.isHeadersSent()) {
-      if ($ctx.fetch && !$ctx.response.native) {
-        return $ctx.response.finalize();
-      }
-
-      await this.platformAdapter.sendResponse($ctx);
     }
   }
 }

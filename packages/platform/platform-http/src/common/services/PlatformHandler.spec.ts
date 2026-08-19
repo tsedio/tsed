@@ -159,18 +159,17 @@ describe("PlatformHandler", () => {
       vi.spyOn((service as any).responseFilter, "transform").mockResolvedValue($ctx.data);
 
       expect($ctx.isDone()).toBe(false);
-      const response = await service.flush($ctx);
+      const response = await service.finalizeResponse($ctx);
 
       expect(response).toBeInstanceOf(Response);
       expect(await response?.json()).toEqual({hello: "world"});
       expect($ctx.response.isHeadersSent()).toBe(true);
     });
 
-    it("should delegate bridged Fetch contexts to the host response writer", async () => {
+    it("should delegate bridged contexts to the host response writer", async () => {
       const {service} = getServiceFixture();
       vi.restoreAllMocks();
       const $ctx = PlatformTest.createRequestContext();
-      ($ctx as any).fetch = new Request("https://tsed.dev/hello");
       $ctx.data = "hello";
       vi.spyOn((service as any).responseFilter, "transform").mockResolvedValue($ctx.data);
       const sendResponse = vi.spyOn((service as any).platformAdapter, "sendResponse").mockResolvedValue();
