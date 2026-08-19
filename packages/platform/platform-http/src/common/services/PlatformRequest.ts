@@ -47,7 +47,7 @@ export class PlatformRequest<Req extends {[key: string]: any} = any> {
   }
 
   get secure(): boolean {
-    return this.raw.secure;
+    return this.fetch ? new URL(this.fetch.url).protocol === "https:" : this.raw?.secure;
   }
 
   get host(): string {
@@ -55,7 +55,7 @@ export class PlatformRequest<Req extends {[key: string]: any} = any> {
   }
 
   get protocol(): string {
-    return this.raw.protocol;
+    return this.fetch ? new URL(this.fetch.url).protocol.replace(/:$/, "") : this.raw?.protocol;
   }
 
   /**
@@ -64,15 +64,20 @@ export class PlatformRequest<Req extends {[key: string]: any} = any> {
    * Is equivalent of `express.response.originalUrl || express.response.url`.
    */
   get url(): string {
-    return this.raw.originalUrl || this.raw.url;
+    if (this.fetch) {
+      const url = new URL(this.fetch.url);
+      return `${url.pathname}${url.search}`;
+    }
+
+    return this.raw?.originalUrl || this.raw?.url;
   }
 
   get headers(): Record<string, string | string[] | undefined> {
-    return this.raw.headers;
+    return this.fetch ? Object.fromEntries(this.fetch.headers.entries()) : this.raw?.headers;
   }
 
   get method(): string {
-    return this.raw.method;
+    return this.fetch?.method || this.raw?.method;
   }
 
   /**
@@ -152,7 +157,7 @@ export class PlatformRequest<Req extends {[key: string]: any} = any> {
    * @param name
    */
   get(name: string) {
-    return this.raw.get(name);
+    return this.fetch?.headers.get(name) || this.raw?.get(name);
   }
 
   getHeader(name: string) {
@@ -176,7 +181,7 @@ export class PlatformRequest<Req extends {[key: string]: any} = any> {
   }
 
   isAborted() {
-    return this.raw.aborted;
+    return this.$ctx.runtime?.signal?.aborted || this.fetch?.signal.aborted || this.raw?.aborted;
   }
 
   /**

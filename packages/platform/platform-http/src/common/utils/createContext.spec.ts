@@ -125,5 +125,9 @@ describe("createFetchContext", () => {
     expect($ctx.request.native).toBeUndefined();
     expect($ctx.response.native).toBeUndefined();
     expect($ctx.id).toBe("request-id");
+    expect($ctx.request.url).toBe("/path");
+    expect($ctx.request.method).toBe("GET");
+    expect($ctx.request.get("x-request-id")).toBe("request-id");
+    expect($ctx.request.headers).toEqual({"x-request-id": "request-id"});
   });
 });
