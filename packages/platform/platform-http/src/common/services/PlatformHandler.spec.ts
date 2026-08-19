@@ -3,6 +3,7 @@ import {Injectable, runInContext} from "@tsed/di";
 import {PlatformHandlerMetadata, PlatformHandlerType} from "@tsed/platform-router";
 import {PlatformHandler} from "./PlatformHandler.js";
 import {PlatformTest} from "../../testing/PlatformTest.js";
+import {createFetchContext} from "../utils/createContext.js";
 
 function getServiceFixture() {
   const service = PlatformTest.get<PlatformHandler>(PlatformHandler);
@@ -146,6 +147,23 @@ describe("PlatformHandler", () => {
         test: "test",
         "x-request-id": "id"
       });
+    });
+  });
+
+  describe("flush()", () => {
+    it("should finalize a direct Fetch response without an adapter write", async () => {
+      const {service} = getServiceFixture();
+      vi.restoreAllMocks();
+      const $ctx = createFetchContext(new Request("https://tsed.dev/hello"));
+      $ctx.data = {hello: "world"};
+      vi.spyOn((service as any).responseFilter, "transform").mockResolvedValue($ctx.data);
+
+      expect($ctx.isDone()).toBe(false);
+      const response = await service.flush($ctx);
+
+      expect(response).toBeInstanceOf(Response);
+      expect(await response?.json()).toEqual({hello: "world"});
+      expect($ctx.response.isHeadersSent()).toBe(true);
     });
   });
 });

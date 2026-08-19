@@ -133,6 +133,10 @@ export class PlatformHandler {
     }
 
     if (!$ctx.response.isHeadersSent()) {
+      if ($ctx.fetch) {
+        return $ctx.response.finalize();
+      }
+
       await this.platformAdapter.sendResponse($ctx);
     }
   }
