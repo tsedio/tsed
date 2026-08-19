@@ -3,7 +3,7 @@ import {JsonMethodStore, JsonParameterStore, s} from "@tsed/schema";
 import {ParamTypes} from "@tsed/platform-params";
 import {PlatformHandlerType} from "./PlatformHandlerType.js";
 import {SinglePathType} from "./SinglePathType.js";
-import {nameOf} from "@tsed/core";
+import {isClass, nameOf} from "@tsed/core";
 import {isNativeMiddleware} from "./NativeMiddleware.js";
 
 export interface PlatformHandlerMetadataOpts extends Record<string, any> {
@@ -100,20 +100,22 @@ export class PlatformHandlerMetadata {
       });
     }
 
-    const provider = injector().providers.get(input);
+    if (isClass(input)) {
+      const provider = injector().providers.get(input);
 
-    if (provider) {
-      return new PlatformHandlerMetadata({
-        provider,
-        type: PlatformHandlerType.MIDDLEWARE,
-        propertyKey: "use",
-        opts
-      });
+      if (provider) {
+        return new PlatformHandlerMetadata({
+          provider,
+          type: PlatformHandlerType.MIDDLEWARE,
+          propertyKey: "use",
+          opts
+        });
+      }
     }
 
     return new PlatformHandlerMetadata({
       handler: input,
-      type: input.type,
+      type: input.type || PlatformHandlerType.CTX_FN,
       opts
     });
   }

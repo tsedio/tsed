@@ -28,6 +28,16 @@ describe("PlatformHandlerMetadata", () => {
       expect(result.handler).toBe(handler);
       expect(result.opts.native).toBe(true);
     });
+
+    it("should treat an unmarked function as a portable context handler", () => {
+      const handler = (_ctx: unknown, _next: () => Promise<void>) => {};
+
+      const result = PlatformHandlerMetadata.from(handler);
+
+      expect(result.type).toBe(PlatformHandlerType.CTX_FN);
+      expect(result.handler).toBe(handler);
+      expect(result.opts.native).toBeUndefined();
+    });
   });
   describe("from useContextHandler", () => {
     it("should create a new handlerMetadata with right metadata", () => {

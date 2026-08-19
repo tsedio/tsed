@@ -9,19 +9,52 @@ import type {PlatformFetchContextHandler} from "./createFetchHandler.js";
  */
 export function executeFetchRoute(handlers: PlatformHandlerMetadata[]): PlatformFetchContextHandler {
   return async ($ctx: PlatformContext) => {
-    for (const metadata of handlers) {
-      if (
-        metadata.type === PlatformHandlerType.RESPONSE_FN ||
-        metadata.type === PlatformHandlerType.RAW_FN ||
-        metadata.type === PlatformHandlerType.RAW_ERR_FN
-      ) {
-        continue;
+    let cursor = -1;
+
+    const dispatch = async (index: number): Promise<void> => {
+      if (index <= cursor) {
+        throw new Error("A portable middleware continuation can only be called once");
       }
 
-      await (metadata.compiledHandler || metadata.handler)($ctx);
-      if ($ctx.isDone()) {
+      cursor = index;
+      const metadata = handlers[index];
+
+      if (!metadata || $ctx.isDone()) {
         return;
       }
-    }
+
+      if (metadata.opts.native) {
+        throw new Error("native() middleware requires a compatible host bridge and cannot run through Fetch directly");
+      }
+
+      if (metadata.type === PlatformHandlerType.RESPONSE_FN) {
+        return dispatch(index + 1);
+      }
+
+      let called = false;
+      const previousNext = $ctx.next;
+      const next = async () => {
+        if (called) {
+          throw new Error("A portable middleware continuation can only be called once");
+        }
+
+        called = true;
+        await dispatch(index + 1);
+      };
+
+      try {
+        $ctx.next = next;
+        const handler = (metadata.compiledHandler || metadata.handler) as ($ctx: PlatformContext, next: () => Promise<void>) => unknown;
+        await handler($ctx, next);
+      } finally {
+        $ctx.next = previousNext;
+      }
+
+      if (!called && !$ctx.isDone()) {
+        await dispatch(index + 1);
+      }
+    };
+
+    await dispatch(0);
   };
 }
