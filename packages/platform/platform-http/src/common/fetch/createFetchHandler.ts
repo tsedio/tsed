@@ -11,6 +11,21 @@ import type {PlatformFetchHandler} from "./PlatformFetchHandler.js";
 export type PlatformFetchContextHandler = ($ctx: PlatformContext) => unknown | Promise<unknown>;
 
 /**
+ * Executes portable work for an already-created context. Host bridges use this
+ * entry point after attaching their native request and response objects.
+ */
+export async function executeFetchContext($ctx: PlatformContext, execute: PlatformFetchContextHandler): Promise<Response> {
+  try {
+    await $ctx.start();
+    $ctx.error = await runInContext($ctx, () => catchAsyncError(() => execute($ctx)));
+
+    return await injector().get<PlatformHandler>(PlatformHandler)!.finalizeResponse($ctx);
+  } finally {
+    await $ctx.finish();
+  }
+}
+
+/**
  * Creates the direct Fetch execution boundary. Route compilation supplies the
  * portable handler; host bridges only need to convert requests and responses
  * around this function.
@@ -19,13 +34,6 @@ export function createFetchHandler(execute: PlatformFetchContextHandler): Platfo
   return async (request, runtime) => {
     const $ctx = createFetchContext(request, runtime);
 
-    try {
-      await $ctx.start();
-      $ctx.error = await runInContext($ctx, () => catchAsyncError(() => execute($ctx)));
-
-      return await injector().get<PlatformHandler>(PlatformHandler)!.finalizeResponse($ctx);
-    } finally {
-      await $ctx.finish();
-    }
+    return executeFetchContext($ctx, execute);
   };
 }

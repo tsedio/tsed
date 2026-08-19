@@ -130,4 +130,17 @@ describe("createFetchContext", () => {
     expect($ctx.request.get("x-request-id")).toBe("request-id");
     expect($ctx.request.headers).toEqual({"x-request-id": "request-id"});
   });
+
+  it("attaches host-native objects without changing the Fetch request", () => {
+    const request = new Request("https://tsed.dev/path");
+    const nativeRequest = {};
+    const nativeResponse = {};
+    const $ctx = createFetchContext(request, undefined, {request: nativeRequest, response: nativeResponse});
+
+    expect($ctx.request.fetch).toBe(request);
+    expect($ctx.request.native).toBe(nativeRequest);
+    expect($ctx.request.raw).toBe(nativeRequest);
+    expect($ctx.response.native).toBe(nativeResponse);
+    expect($ctx.response.raw).toBe(nativeResponse);
+  });
 });

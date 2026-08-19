@@ -2,7 +2,6 @@ import {configuration, injector} from "@tsed/di";
 import {PlatformContext} from "../domain/PlatformContext.js";
 import {PlatformNativeContext} from "../fetch/PlatformHostBridge.js";
 import {PlatformRequest} from "../services/PlatformRequest.js";
-import {PlatformResponse} from "../services/PlatformResponse.js";
 import {v4} from "uuid";
 
 function defaultReqIdBuilder(req: any) {
@@ -25,13 +24,11 @@ export function buildIgnoreLog(ignoreUrlPatterns: any[] | undefined) {
  * @ignore
  */
 export function createContext(): (event: PlatformNativeContext) => PlatformContext {
-  const ResponseKlass = injector().providers.get(PlatformResponse)?.useClass;
   const RequestKlass = injector().providers.get(PlatformRequest)?.useClass;
   const {reqIdBuilder = defaultReqIdBuilder, ...loggerOptions} = configuration().logger;
 
   const opts = {
     ...loggerOptions,
-    ResponseKlass,
     RequestKlass
   };
 
@@ -56,15 +53,15 @@ export function createContext(): (event: PlatformNativeContext) => PlatformConte
  */
 export function createFetchContext(
   request: Request,
-  runtime?: import("../fetch/PlatformRuntimeContext.js").PlatformRuntimeContext
+  runtime?: import("../fetch/PlatformRuntimeContext.js").PlatformRuntimeContext,
+  event?: PlatformNativeContext
 ): PlatformContext {
-  const ResponseKlass = injector().providers.get(PlatformResponse)?.useClass;
   const RequestKlass = injector().providers.get(PlatformRequest)?.useClass;
   const {reqIdBuilder = defaultReqIdBuilder, ...loggerOptions} = configuration().logger;
   const $ctx = new PlatformContext({
     ...loggerOptions,
-    ResponseKlass,
     RequestKlass,
+    event,
     fetch: request,
     runtime,
     id: reqIdBuilder(request)
