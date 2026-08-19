@@ -14,7 +14,7 @@ export interface FastifyResponseWriter {
 /**
  * Writes the finalized Fetch response through Fastify's Node response boundary.
  */
-export async function writeFetchResponse($ctx: PlatformContext, response = $ctx.response.finalize()) {
+export async function writeFetchResponse($ctx: PlatformContext, response: Response) {
   const reply = $ctx.response.native as FastifyResponseWriter & {
     setCookie(name: string, value: string, options?: TsED.SetCookieOpts): unknown;
     clearCookie(name: string, options?: TsED.SetCookieOpts): unknown;

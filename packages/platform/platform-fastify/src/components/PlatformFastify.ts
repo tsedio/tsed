@@ -193,7 +193,7 @@ export class PlatformFastify extends PlatformAdapter<FastifyInstance> {
   }
 
   async sendResponse($ctx: PlatformContext) {
-    await writeFetchResponse($ctx);
+    await writeFetchResponse($ctx, $ctx.response.finalize());
   }
 
   createApp() {

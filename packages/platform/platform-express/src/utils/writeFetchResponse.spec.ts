@@ -10,13 +10,16 @@ describe("writeFetchResponse", () => {
       once: vi.fn()
     };
 
-    await writeFetchResponse({
-      response: {
-        finalize: () => new Response("hello", {headers: {"x-request-id": "request-id"}, status: 201}),
-        native,
-        getCookies: () => new Map()
-      }
-    } as any);
+    await writeFetchResponse(
+      {
+        response: {
+          finalize: () => new Response("hello", {headers: {"x-request-id": "request-id"}, status: 201}),
+          native,
+          getCookies: () => new Map()
+        }
+      } as any,
+      new Response("hello", {headers: {"x-request-id": "request-id"}, status: 201})
+    );
 
     expect(native.status).toHaveBeenCalledWith(201);
     expect(native.set).toHaveBeenCalledWith("x-request-id", "request-id");
@@ -33,7 +36,10 @@ describe("writeFetchResponse", () => {
       once: vi.fn()
     };
 
-    await writeFetchResponse({response: {finalize: () => new Response(null, {status: 204}), native, getCookies: () => new Map()}} as any);
+    await writeFetchResponse(
+      {response: {finalize: () => new Response(null, {status: 204}), native, getCookies: () => new Map()}} as any,
+      new Response(null, {status: 204})
+    );
 
     expect(native.write).not.toHaveBeenCalled();
     expect(native.end).toHaveBeenCalledOnce();
@@ -51,7 +57,10 @@ describe("writeFetchResponse", () => {
     };
     const cookies = new Map([["session", {name: "session", value: "value", options: {httpOnly: true}}]]);
 
-    await writeFetchResponse({response: {finalize: () => new Response(null), native, getCookies: () => cookies}} as any);
+    await writeFetchResponse(
+      {response: {finalize: () => new Response(null), native, getCookies: () => cookies}} as any,
+      new Response(null)
+    );
 
     expect(native.cookie).toHaveBeenCalledWith("session", "value", {httpOnly: true});
   });

@@ -10,7 +10,7 @@ export interface KoaResponseWriter {
 /**
  * Writes a finalized Fetch response through Koa's native response boundary.
  */
-export function writeFetchResponse($ctx: PlatformContext, response = $ctx.response.finalize()) {
+export function writeFetchResponse($ctx: PlatformContext, response: Response) {
   const native = $ctx.response.native as {
     ctx: KoaResponseWriter & {cookies: {set(name: string, value?: string, options?: TsED.SetCookieOpts): unknown}};
   };

@@ -13,13 +13,16 @@ describe("writeFetchResponse", () => {
       }
     };
 
-    await writeFetchResponse({
-      response: {
-        finalize: () => new Response("Hello", {status: 201, headers: {"x-request-id": "request-id"}}),
-        native: reply,
-        getCookies: () => new Map()
-      }
-    } as any);
+    await writeFetchResponse(
+      {
+        response: {
+          finalize: () => new Response("Hello", {status: 201, headers: {"x-request-id": "request-id"}}),
+          native: reply,
+          getCookies: () => new Map()
+        }
+      } as any,
+      new Response("Hello", {status: 201, headers: {"x-request-id": "request-id"}})
+    );
 
     expect(reply.code).toHaveBeenCalledWith(201);
     expect(reply.header).toHaveBeenCalledWith("content-type", "text/plain;charset=UTF-8");
@@ -38,7 +41,10 @@ describe("writeFetchResponse", () => {
     };
     const cookies = new Map([["session", {name: "session", value: null, options: {path: "/"}}]]);
 
-    await writeFetchResponse({response: {finalize: () => new Response(null), native: reply, getCookies: () => cookies}} as any);
+    await writeFetchResponse(
+      {response: {finalize: () => new Response(null), native: reply, getCookies: () => cookies}} as any,
+      new Response(null)
+    );
 
     expect(reply.clearCookie).toHaveBeenCalledWith("session", {path: "/"});
   });

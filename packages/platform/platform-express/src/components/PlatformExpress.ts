@@ -213,7 +213,7 @@ export class PlatformExpress extends PlatformAdapter<Express.Application> {
   }
 
   async sendResponse($ctx: PlatformContext) {
-    await writeFetchResponse($ctx);
+    await writeFetchResponse($ctx, $ctx.response.finalize());
   }
 
   useContext(): void {

@@ -10,13 +10,16 @@ describe("writeFetchResponse", () => {
       cookies: {set: vi.fn()}
     };
 
-    writeFetchResponse({
-      response: {
-        finalize: () => new Response("Hello", {status: 201, headers: {"x-request-id": "request-id"}}),
-        native: {ctx: context},
-        getCookies: () => new Map()
-      }
-    } as any);
+    writeFetchResponse(
+      {
+        response: {
+          finalize: () => new Response("Hello", {status: 201, headers: {"x-request-id": "request-id"}}),
+          native: {ctx: context},
+          getCookies: () => new Map()
+        }
+      } as any,
+      new Response("Hello", {status: 201, headers: {"x-request-id": "request-id"}})
+    );
 
     expect(context.status).toBe(201);
     expect(context.set).toHaveBeenCalledWith("content-type", "text/plain;charset=UTF-8");
@@ -27,9 +30,12 @@ describe("writeFetchResponse", () => {
   it("sets an empty body", () => {
     const context = {status: 404, body: undefined, set: vi.fn(), cookies: {set: vi.fn()}};
 
-    writeFetchResponse({
-      response: {finalize: () => new Response(null, {status: 204}), native: {ctx: context}, getCookies: () => new Map()}
-    } as any);
+    writeFetchResponse(
+      {
+        response: {finalize: () => new Response(null, {status: 204}), native: {ctx: context}, getCookies: () => new Map()}
+      } as any,
+      new Response(null, {status: 204})
+    );
 
     expect(context.body).toBeNull();
   });
@@ -38,7 +44,10 @@ describe("writeFetchResponse", () => {
     const context = {status: 404, body: undefined, set: vi.fn(), cookies: {set: vi.fn()}};
     const cookies = new Map([["session", {name: "session", value: "value", options: {secure: true}}]]);
 
-    writeFetchResponse({response: {finalize: () => new Response(null), native: {ctx: context}, getCookies: () => cookies}} as any);
+    writeFetchResponse(
+      {response: {finalize: () => new Response(null), native: {ctx: context}, getCookies: () => cookies}} as any,
+      new Response(null)
+    );
 
     expect(context.cookies.set).toHaveBeenCalledWith("session", "value", {secure: true});
   });

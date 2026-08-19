@@ -151,7 +151,7 @@ export class PlatformKoa extends PlatformAdapter<Koa> {
   }
 
   async sendResponse($ctx: PlatformContext) {
-    writeFetchResponse($ctx);
+    writeFetchResponse($ctx, $ctx.response.finalize());
   }
 
   useContext(): void {
