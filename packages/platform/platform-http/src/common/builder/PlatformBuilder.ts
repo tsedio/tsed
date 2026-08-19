@@ -31,6 +31,7 @@ import {defineConfiguration} from "../config/defineConfiguration.js";
 import {getStaticsOptions} from "../utils/getStaticsOptions.js";
 import {printRoutes} from "../utils/printRoutes.js";
 import {resolveControllers} from "../utils/resolveControllers.js";
+import {createFetchRoutesHandler} from "../fetch/createFetchRoutesHandler.js";
 
 /**
  * @platform
@@ -299,6 +300,8 @@ export class PlatformBuilder<App = TsED.Application> {
 
   protected async mapRouters() {
     const layers = this.platform.getLayers();
+
+    this.app.setFetchHandler(createFetchRoutesHandler(layers));
 
     await this.adapter.mapLayers(layers);
 

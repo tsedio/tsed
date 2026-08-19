@@ -16,6 +16,8 @@ declare global {
  * @platform
  */
 export class PlatformRequest<Req extends {[key: string]: any} = any> {
+  #params: Record<string, string> = {};
+
   constructor(readonly $ctx: PlatformContext) {}
 
   /**
@@ -106,7 +108,12 @@ export class PlatformRequest<Req extends {[key: string]: any} = any> {
    * This object defaults to `{}`.
    */
   get params(): {[key: string]: any} {
-    return this.raw.params;
+    return this.fetch ? this.#params : this.raw.params;
+  }
+
+  /** @internal Route compilation provides portable path parameters here. */
+  setParams(params: Record<string, string>) {
+    this.#params = params;
   }
 
   /**
@@ -114,7 +121,18 @@ export class PlatformRequest<Req extends {[key: string]: any} = any> {
    * When query parser is set to disabled, it is an empty object `{}`, otherwise it is the result of the configured query parser.
    */
   get query(): {[key: string]: any} {
-    return this.raw.query;
+    if (!this.fetch) {
+      return this.raw.query;
+    }
+
+    return [...new URL(this.fetch.url).searchParams.entries()].reduce(
+      (query, [key, value]) => {
+        const current = query[key];
+        query[key] = current === undefined ? value : Array.isArray(current) ? [...current, value] : [current, value];
+        return query;
+      },
+      {} as Record<string, string | string[]>
+    );
   }
 
   /**
