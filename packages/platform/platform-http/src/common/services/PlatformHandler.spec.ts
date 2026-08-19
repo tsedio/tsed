@@ -165,5 +165,20 @@ describe("PlatformHandler", () => {
       expect(await response?.json()).toEqual({hello: "world"});
       expect($ctx.response.isHeadersSent()).toBe(true);
     });
+
+    it("should delegate bridged Fetch contexts to the host response writer", async () => {
+      const {service} = getServiceFixture();
+      vi.restoreAllMocks();
+      const $ctx = PlatformTest.createRequestContext();
+      ($ctx as any).fetch = new Request("https://tsed.dev/hello");
+      $ctx.data = "hello";
+      vi.spyOn((service as any).responseFilter, "transform").mockResolvedValue($ctx.data);
+      const sendResponse = vi.spyOn((service as any).platformAdapter, "sendResponse").mockResolvedValue();
+
+      await service.flush($ctx);
+
+      expect(sendResponse).toHaveBeenCalledWith($ctx);
+      expect($ctx.response.isHeadersSent()).toBe(false);
+    });
   });
 });
