@@ -60,7 +60,7 @@ export class PlatformResponse<Res extends Record<string, any> = any> {
   }
 
   get native(): Res | undefined {
-    return this.$ctx.event.response as any;
+    return this.$ctx.event?.response as any;
   }
 
   /**

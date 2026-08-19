@@ -29,7 +29,14 @@ export class PlatformRequest<Req extends {[key: string]: any} = any> {
    * Host request attached by the active bridge.
    */
   get native(): Req {
-    return this.$ctx.event.request as any;
+    return this.$ctx.event?.request as any;
+  }
+
+  /**
+   * Standard Fetch request supplied by direct Fetch execution.
+   */
+  get fetch(): Request | undefined {
+    return this.$ctx.fetch;
   }
 
   /**

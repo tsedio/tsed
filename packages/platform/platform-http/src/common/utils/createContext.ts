@@ -6,7 +6,7 @@ import {PlatformResponse} from "../services/PlatformResponse.js";
 import {v4} from "uuid";
 
 function defaultReqIdBuilder(req: any) {
-  return req.get?.("x-request-id") || v4().split("-").join("");
+  return req.get?.("x-request-id") || req.headers?.get?.("x-request-id") || v4().split("-").join("");
 }
 
 function mapIgnoreUrlPatterns(ignoreUrlPatterns: any[]) {
@@ -48,4 +48,30 @@ export function createContext(): (event: PlatformNativeContext) => PlatformConte
 
     return $ctx;
   };
+}
+
+/**
+ * Creates a request scope for direct Fetch execution without requiring native
+ * request or response objects.
+ */
+export function createFetchContext(
+  request: Request,
+  runtime?: import("../fetch/PlatformRuntimeContext.js").PlatformRuntimeContext
+): PlatformContext {
+  const ResponseKlass = injector().providers.get(PlatformResponse)?.useClass;
+  const RequestKlass = injector().providers.get(PlatformRequest)?.useClass;
+  const {reqIdBuilder = defaultReqIdBuilder, ...loggerOptions} = configuration().logger;
+  const $ctx = new PlatformContext({
+    ...loggerOptions,
+    ResponseKlass,
+    RequestKlass,
+    fetch: request,
+    runtime,
+    id: reqIdBuilder(request)
+  });
+
+  const ignoreLog = buildIgnoreLog(loggerOptions.ignoreUrlPatterns);
+  ignoreLog && $ctx.logger.alterIgnoreLog((ignore, data) => ignoreLog(ignore, data, request.url));
+
+  return $ctx;
 }

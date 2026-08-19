@@ -2,7 +2,7 @@ import {configuration, injector, logger} from "@tsed/di";
 import {$asyncEmit} from "@tsed/hooks";
 import {PlatformResponse} from "../services/PlatformResponse.js";
 import {PlatformTest} from "../../testing/PlatformTest.js";
-import {createContext} from "./createContext.js";
+import {createContext, createFetchContext} from "./createContext.js";
 
 vi.mock("@tsed/hooks", async (importOriginal) => {
   const mod = await importOriginal<typeof import("@tsed/hooks")>();
@@ -108,5 +108,22 @@ describe("createContext", () => {
 
     // THEN
     expect(ctx.response.setHeader).toHaveBeenCalledWith("x-request-id", "test-id");
+  });
+});
+
+describe("createFetchContext", () => {
+  beforeEach(() => PlatformTest.create());
+  afterEach(() => PlatformTest.reset());
+
+  it("creates a context without native host objects", () => {
+    const request = new Request("https://tsed.dev/path", {headers: {"x-request-id": "request-id"}});
+    const $ctx = createFetchContext(request, {signal: new AbortController().signal});
+
+    expect($ctx.fetch).toBe(request);
+    expect($ctx.request.fetch).toBe(request);
+    expect($ctx.event).toBeUndefined();
+    expect($ctx.request.native).toBeUndefined();
+    expect($ctx.response.native).toBeUndefined();
+    expect($ctx.id).toBe("request-id");
   });
 });

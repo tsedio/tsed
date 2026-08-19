@@ -6,6 +6,7 @@ import {PlatformApplication} from "../services/PlatformApplication.js";
 import {PlatformHandlerMetadata} from "@tsed/platform-router";
 import {PlatformRequest} from "../services/PlatformRequest.js";
 import {PlatformResponse} from "../services/PlatformResponse.js";
+import type {PlatformRuntimeContext} from "../fetch/PlatformRuntimeContext.js";
 
 declare global {
   namespace TsED {
@@ -14,14 +15,20 @@ declare global {
 }
 
 export interface PlatformContextOptions extends DIContextOptions {
-  event: PlatformNativeContext;
+  event?: PlatformNativeContext;
+  fetch?: Request;
+  runtime?: PlatformRuntimeContext;
   ignoreUrlPatterns?: any[];
   endpoint?: JsonMethodStore;
 }
 
 export class PlatformContext<PReq extends PlatformRequest = PlatformRequest> extends DIContext {
   readonly PLATFORM: string = "WWW";
-  public event: PlatformNativeContext;
+  public event?: PlatformNativeContext;
+  /** Standard Fetch request when this context is executed without a host bridge. */
+  readonly fetch?: Request;
+  /** Portable execution facilities supplied by a Fetch runtime. */
+  readonly runtime?: PlatformRuntimeContext;
   /**
    * The data return by the previous endpoint if you use multiple handler on the same route. By default data is empty.
    */
@@ -59,11 +66,16 @@ export class PlatformContext<PReq extends PlatformRequest = PlatformRequest> ext
     options.endpoint && (this.endpoint = options.endpoint);
 
     this.event = options.event;
+    this.fetch = options.fetch;
+    this.runtime = options.runtime;
     this.response = new PlatformResponse(this);
     this.request = new (options.RequestKlass || PlatformRequest)(this);
 
-    this.request.request.$ctx = this;
-    this.request.request.id = this.id;
+    const nativeRequest: any = this.request.native;
+    if (nativeRequest) {
+      nativeRequest.$ctx = this;
+      nativeRequest.id = this.id;
+    }
 
     this.response.setHeader("x-request-id", this.id);
   }
