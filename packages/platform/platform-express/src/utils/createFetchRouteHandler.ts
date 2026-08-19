@@ -17,6 +17,10 @@ export function createFetchRouteHandler(handlers: PlatformHandlerMetadata[]) {
     const ownsContext = $ctx !== existingContext;
     $ctx.request.setParams(request.params as Record<string, string>);
 
+    if ("body" in request) {
+      $ctx.request.setBody(request.body, (request as ExpressRequest & {rawBody?: unknown}).rawBody);
+    }
+
     try {
       const fetchResponse = await executeFetchContext($ctx, executeRoute, {start: ownsContext, finish: false});
       await writeFetchResponse($ctx, fetchResponse);

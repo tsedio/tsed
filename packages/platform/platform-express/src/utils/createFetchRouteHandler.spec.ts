@@ -15,6 +15,7 @@ describe("createFetchRouteHandler", () => {
       originalUrl: "/widgets/42",
       headers: {host: "api.tsed.dev"},
       params: {id: "42"},
+      body: {name: "widget"},
       get: (name: string) => (name === "host" ? "api.tsed.dev" : undefined)
     };
     const nativeResponse = {
@@ -32,6 +33,7 @@ describe("createFetchRouteHandler", () => {
           expect($ctx.response.native).toBe(nativeResponse);
           expect($ctx.request.fetch).toBeInstanceOf(Request);
           expect($ctx.request.params).toEqual({id: "42"});
+          expect($ctx.request.body).toEqual({name: "widget"});
           $ctx.response.status(201).body("created");
         }
       })
