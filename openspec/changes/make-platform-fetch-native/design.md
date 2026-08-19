@@ -82,6 +82,9 @@ A shared test suite will verify route matching, parameter/query extraction, requ
 ## Risks / Trade-offs
 
 - [Fetch request bodies are single-use streams] → `platform-http` does not parse or consume them. The active host bridge or an explicit body-parser middleware owns consumption and may publish its result through request-scoped extension state; raw-body access is an owned host capability.
+
+An explicit parser publishes its result with `ctx.request.setBody(body, rawBody)`. Existing parameter decorators read that request-scoped capability, while direct Fetch execution has no implicit parser and leaves the standard `Request` body untouched.
+
 - [Node and Fetch stream semantics differ] → Test streaming and cancellation at the bridge boundary; keep conversion code isolated and avoid buffering by default.
 - [Existing middleware relies on `req`, `res`, and `next`] → Make the break explicit in v9, provide native host middleware registration, and consider a separately versioned compatibility package after the new core is stable.
 - [Koa/Express/Fastify provide non-portable sessions, views, and multipart] → Preserve native access and extension-state hooks so existing middleware and integration packages retain ownership; do not claim Fetch parity for them.
