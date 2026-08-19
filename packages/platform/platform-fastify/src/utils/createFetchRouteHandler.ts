@@ -21,8 +21,8 @@ export function createFetchRouteHandler(handlers: PlatformHandlerMetadata[]) {
     );
 
     try {
-      await executeFetchContext($ctx, executeRoute, {start: ownsContext, finish: false});
-      await writeFetchResponse($ctx);
+      const response = await executeFetchContext($ctx, executeRoute, {start: ownsContext, finish: false});
+      await writeFetchResponse($ctx, response);
     } finally {
       ownsContext && (await $ctx.finish());
     }
