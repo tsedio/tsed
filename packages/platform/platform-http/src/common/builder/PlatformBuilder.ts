@@ -1,5 +1,4 @@
 import {$alter, $asyncAlter, $asyncEmit} from "@tsed/hooks";
-import type {IncomingMessage, ServerResponse} from "node:http";
 import Http from "node:http";
 import {
   colors,
@@ -128,9 +127,9 @@ export class PlatformBuilder<App = TsED.Application> {
     return new PlatformBuilder<App>(settings).bootstrap();
   }
 
-  callback(): (req: IncomingMessage, res: ServerResponse) => void;
-  callback(req: IncomingMessage, res: ServerResponse): void;
-  callback(...args: [IncomingMessage?, ServerResponse?]) {
+  callback(): (...args: any[]) => any;
+  callback<Args extends any[]>(...args: Args): any;
+  callback(...args: any[]) {
     return (this.adapter.app.callback as any)(...args);
   }
 

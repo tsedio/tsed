@@ -47,8 +47,8 @@ export class PlatformFastifyRequest extends PlatformRequest<FastifyRequest> {
     return this.raw.raw.headers[name.toLowerCase()];
   }
 
-  getReq(): IncomingMessage {
-    return this.raw.raw;
+  getReq<R = IncomingMessage>(): R {
+    return this.raw.raw as R;
   }
 
   accepts(mime?: string | string[]) {

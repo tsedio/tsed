@@ -1,4 +1,3 @@
-import {IncomingMessage, ServerResponse} from "node:http";
 import {PlatformHandlerMetadata, PlatformLayer} from "@tsed/platform-router";
 import type {PlatformMulter, PlatformMulterSettings} from "@tsed/platform-multer";
 import {configuration, constant, inject, injectable} from "@tsed/di";
@@ -74,7 +73,7 @@ export abstract class PlatformAdapter<App = TsED.Application> {
   /**
    * Return the app instance
    */
-  abstract createApp(): {app: App; callback(): (req: IncomingMessage, res: ServerResponse) => void};
+  abstract createApp(): {app: App; callback(): (...args: any[]) => any};
 
   /**
    * Return the statics middlewares
