@@ -1,7 +1,7 @@
 import {PlatformHandlerType, type PlatformLayer} from "@tsed/platform-router";
 import type {PlatformContextHandler} from "@tsed/platform-router";
 import type {PlatformFetchHandler} from "./PlatformFetchHandler.js";
-import {createFetchHandler} from "./createFetchHandler.js";
+import {createFetchHandler, type PlatformFetchContextHandler} from "./createFetchHandler.js";
 
 function escapePath(path: string) {
   return path.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
@@ -48,8 +48,8 @@ function matchesMethod(method: string, layer: PlatformLayer) {
  * Host adapters can reuse the compiled work while retaining native transport
  * conversion at their boundary.
  */
-export function createFetchRoutesHandler(layers: PlatformLayer[]): PlatformFetchHandler {
-  return createFetchHandler(async ($ctx) => {
+export function createFetchRoutesExecutor(layers: PlatformLayer[]): PlatformFetchContextHandler {
+  return async ($ctx) => {
     const pathname = new URL($ctx.request.fetch!.url).pathname;
     const layer = layers.find((candidate) => matchesMethod($ctx.request.method, candidate) && matchPath(candidate.path, pathname));
 
@@ -70,5 +70,9 @@ export function createFetchRoutesHandler(layers: PlatformLayer[]): PlatformFetch
         return;
       }
     }
-  });
+  };
+}
+
+export function createFetchRoutesHandler(layers: PlatformLayer[]): PlatformFetchHandler {
+  return createFetchHandler(createFetchRoutesExecutor(layers));
 }

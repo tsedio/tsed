@@ -90,10 +90,12 @@ describe("PlatformApplication", () => {
     it("should return the handler installed during route bootstrap", async () => {
       const {platformApp} = await getPlatformApp();
       const handler = vi.fn();
+      const contextHandler = vi.fn();
 
-      platformApp.setFetchHandler(handler);
+      platformApp.setFetchHandler(handler, contextHandler);
 
       expect(platformApp.fetchHandler()).toBe(handler);
+      expect(platformApp.fetchContextHandler()).toBe(contextHandler);
     });
   });
 });
