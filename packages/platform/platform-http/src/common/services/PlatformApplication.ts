@@ -1,4 +1,3 @@
-import {IncomingMessage, ServerResponse} from "node:http";
 import {ProviderScope, injectable} from "@tsed/di";
 import {PlatformRouter} from "@tsed/platform-router";
 
@@ -23,11 +22,11 @@ export class PlatformApplication<App = TsED.Application> extends PlatformRouter 
     return this.rawApp;
   }
 
-  callback(): (req: IncomingMessage, res: ServerResponse) => any;
-  callback(req: IncomingMessage, res: ServerResponse): any;
-  callback(req?: IncomingMessage, res?: ServerResponse) {
-    if (req && res) {
-      return this.callback()(req, res);
+  callback(): (request: unknown, response: unknown) => any;
+  callback<Req, Res>(request: Req, response: Res): any;
+  callback(request?: unknown, response?: unknown) {
+    if (request && response) {
+      return this.callback()(request, response);
     }
 
     return this.rawCallback();
