@@ -112,17 +112,6 @@ export class PlatformHandler {
   }
 
   /**
-   * Complete the shared Ts.ED response pipeline and return its portable Fetch
-   * response. Direct Fetch execution uses this method; host bridges own the
-   * subsequent native write.
-   */
-  async finalizeResponse($ctx: PlatformContext): Promise<Response> {
-    await this.prepareResponse($ctx);
-
-    return $ctx.response.finalize();
-  }
-
-  /**
    * Legacy host entry point. Host adapters keep ownership of their native
    * response write while the shared pipeline only prepares the response.
    */
@@ -134,7 +123,8 @@ export class PlatformHandler {
     }
   }
 
-  private async prepareResponse($ctx: PlatformContext) {
+  /** Completes filters and exception mapping before the host finalizes the response. */
+  async prepareResponse($ctx: PlatformContext) {
     if (!$ctx.error) {
       $ctx.error = await catchAsyncError(async () => {
         const {response} = $ctx;

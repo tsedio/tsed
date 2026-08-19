@@ -159,7 +159,8 @@ describe("PlatformHandler", () => {
       vi.spyOn((service as any).responseFilter, "transform").mockResolvedValue($ctx.data);
 
       expect($ctx.isDone()).toBe(false);
-      const response = await service.finalizeResponse($ctx);
+      await service.prepareResponse($ctx);
+      const response = $ctx.response.finalize();
 
       expect(response).toBeInstanceOf(Response);
       expect(await response?.json()).toEqual({hello: "world"});

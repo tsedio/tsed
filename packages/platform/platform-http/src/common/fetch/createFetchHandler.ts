@@ -27,7 +27,8 @@ export async function executeFetchContext(
     start && (await $ctx.start());
     $ctx.error = await runInContext($ctx, () => catchAsyncError(() => execute($ctx)));
 
-    return await injector().get<PlatformHandler>(PlatformHandler)!.finalizeResponse($ctx);
+    await injector().get<PlatformHandler>(PlatformHandler)!.prepareResponse($ctx);
+    return $ctx.response.finalize();
   } finally {
     finish && (await $ctx.finish());
   }
