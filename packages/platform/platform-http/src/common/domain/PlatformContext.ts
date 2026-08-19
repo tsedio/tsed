@@ -30,6 +30,11 @@ export class PlatformContext<PReq extends PlatformRequest = PlatformRequest> ext
   /** Portable execution facilities supplied by a Fetch runtime. */
   readonly runtime?: PlatformRuntimeContext;
   /**
+   * Request-scoped extension state owned by middleware and integration
+   * packages. The HTTP core deliberately does not interpret these values.
+   */
+  readonly state = new Map<unknown, unknown>();
+  /**
    * The data return by the previous endpoint if you use multiple handler on the same route. By default data is empty.
    */
   public data: any;
