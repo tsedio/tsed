@@ -126,7 +126,7 @@ export class PlatformRequest<Req extends {[key: string]: any} = any> {
    * If the request contains no cookies, it defaults to `{}`.
    */
   get cookies(): {[key: string]: any} {
-    return this.raw.cookies;
+    return this.raw?.cookies;
   }
 
   /**
@@ -167,11 +167,11 @@ export class PlatformRequest<Req extends {[key: string]: any} = any> {
    * It requires to install a middleware like express-session to work.
    */
   get session(): {[key: string]: any} {
-    return this.raw.session as any;
+    return this.raw?.session as any;
   }
 
   get files() {
-    return this.raw.files;
+    return this.raw?.files;
   }
 
   get route() {

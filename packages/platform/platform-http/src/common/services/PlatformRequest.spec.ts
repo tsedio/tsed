@@ -2,6 +2,7 @@ import {FakeAdapter} from "../../testing/index.js";
 import {PlatformAdapter} from "./PlatformAdapter.js";
 import {PlatformHandlerMetadata} from "@tsed/platform-router";
 import {PlatformRequest} from "./PlatformRequest.js";
+import {createFetchContext} from "../utils/createContext.js";
 import {PlatformTest} from "../../testing/PlatformTest.js";
 
 function createRequest() {
@@ -182,5 +183,13 @@ describe("PlatformRequest", () => {
         test: "testValue"
       });
     });
+  });
+
+  it("keeps host-owned cookies, sessions and files unavailable in direct Fetch execution", () => {
+    const request = createFetchContext(new Request("https://tsed.dev/widgets")).request;
+
+    expect(request.cookies).toBeUndefined();
+    expect(request.session).toBeUndefined();
+    expect(request.files).toBeUndefined();
   });
 });
