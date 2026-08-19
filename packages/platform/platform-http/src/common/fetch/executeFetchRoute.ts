@@ -33,7 +33,7 @@ export function executeFetchRoute(handlers: PlatformHandlerMetadata[]): Platform
         throw new Error("native() middleware requires a compatible host bridge and cannot run through Fetch directly");
       }
 
-      if (metadata.hasNextFunction) {
+      if (metadata.isInjectable() && metadata.hasNextFunction) {
         throw new Error("@Next() is not supported by the portable middleware pipeline; declare use(ctx, next) instead");
       }
 
