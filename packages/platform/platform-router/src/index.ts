@@ -3,6 +3,7 @@
  */
 export * from "./domain/PlatformHandlerMetadata.js";
 export * from "./domain/PlatformHandlerType.js";
+export * from "./domain/NativeMiddleware.js";
 export * from "./domain/PlatformLayer.js";
 export * from "./domain/PlatformRouter.js";
 export * from "./domain/PlatformRouters.js";

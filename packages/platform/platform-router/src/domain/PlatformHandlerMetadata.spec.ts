@@ -4,6 +4,7 @@ import {Get, JsonMethodStore} from "@tsed/schema";
 import {Middleware} from "@tsed/platform-middlewares";
 import {PlatformHandlerMetadata} from "./PlatformHandlerMetadata.js";
 import {PlatformHandlerType} from "./PlatformHandlerType.js";
+import {createNativeMiddleware} from "./NativeMiddleware.js";
 import {useContextHandler} from "../utils/useContextHandler.js";
 
 describe("PlatformHandlerMetadata", () => {
@@ -16,6 +17,16 @@ describe("PlatformHandlerMetadata", () => {
       });
       const result = PlatformHandlerMetadata.from(meta);
       expect(result).toEqual(meta);
+    });
+
+    it("should preserve an explicit native middleware marker", () => {
+      const handler = (_request: unknown, _response: unknown, _next: unknown) => {};
+
+      const result = PlatformHandlerMetadata.from(createNativeMiddleware(handler));
+
+      expect(result.type).toBe(PlatformHandlerType.RAW_FN);
+      expect(result.handler).toBe(handler);
+      expect(result.opts.native).toBe(true);
     });
   });
   describe("from useContextHandler", () => {

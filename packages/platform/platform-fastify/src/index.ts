@@ -8,3 +8,4 @@ export * from "./services/PlatformFastifyRequest.js";
 export * from "./utils/writeFetchResponse.js";
 export * from "./utils/convertPath.js";
 export * from "./utils/toPrefix.js";
+export * from "./utils/native.js";

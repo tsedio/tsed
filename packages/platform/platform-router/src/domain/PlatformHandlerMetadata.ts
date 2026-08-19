@@ -4,6 +4,7 @@ import {ParamTypes} from "@tsed/platform-params";
 import {PlatformHandlerType} from "./PlatformHandlerType.js";
 import {SinglePathType} from "./SinglePathType.js";
 import {nameOf} from "@tsed/core";
+import {isNativeMiddleware} from "./NativeMiddleware.js";
 
 export interface PlatformHandlerMetadataOpts extends Record<string, any> {
   token?: TokenProvider;
@@ -89,6 +90,13 @@ export class PlatformHandlerMetadata {
         type: PlatformHandlerType.ENDPOINT,
         propertyKey: input.propertyKey,
         opts
+      });
+    }
+
+    if (isNativeMiddleware(input)) {
+      return new PlatformHandlerMetadata({
+        handler: input.handler,
+        opts: {...opts, native: true}
       });
     }
 

@@ -10,4 +10,5 @@ export * from "./services/PlatformExpressHandler.js";
 export * from "./utils/convertPath.js";
 export * from "./utils/createFetchRequest.js";
 export * from "./utils/createFetchRouteHandler.js";
+export * from "./utils/native.js";
 export * from "./utils/writeFetchResponse.js";
