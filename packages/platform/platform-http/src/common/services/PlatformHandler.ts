@@ -1,10 +1,4 @@
-import {
-  AlterEndpointHandlersArg,
-  PlatformHandlerMetadata,
-  PlatformHandlerType,
-  PlatformRouters,
-  useResponseHandler
-} from "@tsed/platform-router";
+import {AlterEndpointHandlersArg, PlatformHandlerMetadata, PlatformHandlerType, PlatformRouters} from "@tsed/platform-router";
 import {AnyPromiseResult, AnyToPromiseStatus, catchAsyncError} from "@tsed/core";
 import {PlatformParams, PlatformParamsCallback} from "@tsed/platform-params";
 import {Provider, ProviderScope, inject, injectable} from "@tsed/di";
@@ -33,8 +27,6 @@ export class PlatformHandler {
     this.platformRouters.hooks
       .on("alterEndpointHandlers", (handlers: AlterEndpointHandlersArg, operationRoute: JsonOperationRoute) => {
         handlers = $alter("$alterEndpointHandlers", handlers, [operationRoute]);
-
-        handlers.after.push(useResponseHandler(this.flush.bind(this) as any));
 
         return handlers;
       })
@@ -108,18 +100,6 @@ export class PlatformHandler {
     // set headers each times that an endpoint is called
     if ($ctx.handlerMetadata.isEndpoint()) {
       setResponseHeaders($ctx);
-    }
-  }
-
-  /**
-   * Legacy host entry point. Host adapters keep ownership of their native
-   * response write while the shared pipeline only prepares the response.
-   */
-  async flush($ctx: PlatformContext) {
-    await this.prepareResponse($ctx);
-
-    if (!$ctx.response.isHeadersSent()) {
-      await this.platformAdapter.sendResponse($ctx);
     }
   }
 
