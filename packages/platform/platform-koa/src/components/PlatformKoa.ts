@@ -7,7 +7,6 @@ import {
   PlatformAdapter,
   PlatformBuilder,
   PlatformContext,
-  PlatformHandler,
   PlatformRequest,
   PlatformStaticsOptions
 } from "@tsed/platform-http";
@@ -17,7 +16,6 @@ import {constant, inject, runInContext} from "@tsed/di";
 import koaBodyParser, {Options} from "koa-bodyparser";
 import KoaRouter from "@koa/router";
 import {PlatformExceptions} from "@tsed/platform-exceptions";
-import {PlatformKoaHandler} from "../services/PlatformKoaHandler.js";
 import {PlatformKoaRequest} from "../services/PlatformKoaRequest.js";
 import {convertPath} from "../utils/convertPath.js";
 // @ts-ignore
@@ -217,9 +215,5 @@ adapter(PlatformKoa, [
   {
     token: PlatformRequest,
     useClass: PlatformKoaRequest
-  },
-  {
-    token: PlatformHandler,
-    useClass: PlatformKoaHandler
   }
 ]);

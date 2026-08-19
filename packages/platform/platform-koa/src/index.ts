@@ -7,7 +7,6 @@ export * from "./decorators/state.js";
 export * from "./interfaces/interfaces.js";
 export * from "./interfaces/PlatformKoaSettings.js";
 export * from "./middlewares/staticsMiddleware.js";
-export * from "./services/PlatformKoaHandler.js";
 export * from "./services/PlatformKoaRequest.js";
 export * from "./utils/writeFetchResponse.js";
 export * from "./utils/convertPath.js";
