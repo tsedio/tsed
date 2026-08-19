@@ -1,7 +1,8 @@
 import {catchAsyncError} from "@tsed/core";
-import {injector, runInContext} from "@tsed/di";
+import {inject, runInContext} from "@tsed/di";
+import {PlatformExceptions} from "@tsed/platform-exceptions";
+import {PlatformResponseFilter} from "@tsed/platform-response-filter";
 import type {PlatformContext} from "../domain/PlatformContext.js";
-import {PlatformHandler} from "../services/PlatformHandler.js";
 import {createFetchContext} from "../utils/createContext.js";
 import type {PlatformFetchHandler} from "./PlatformFetchHandler.js";
 
@@ -27,7 +28,19 @@ export async function executeFetchContext(
     start && (await $ctx.start());
     $ctx.error = await runInContext($ctx, () => catchAsyncError(() => execute($ctx)));
 
-    await injector().get<PlatformHandler>(PlatformHandler)!.prepareResponse($ctx);
+    if (!$ctx.error) {
+      $ctx.error = await catchAsyncError(async () => {
+        if (!$ctx.isDone()) {
+          const data = await inject(PlatformResponseFilter).transform($ctx.data, $ctx as any);
+          $ctx.response.body(data);
+        }
+      });
+    }
+
+    if ($ctx.error) {
+      inject(PlatformExceptions).catch($ctx.error, $ctx);
+    }
+
     return $ctx.response.finalize();
   } finally {
     finish && (await $ctx.finish());

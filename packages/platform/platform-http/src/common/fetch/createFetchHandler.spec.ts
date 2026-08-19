@@ -1,4 +1,5 @@
 import {$asyncEmit} from "@tsed/hooks";
+import {PlatformResponseFilter} from "@tsed/platform-response-filter";
 import {PlatformTest} from "../../testing/PlatformTest.js";
 import {createFetchHandler} from "./createFetchHandler.js";
 
@@ -24,6 +25,19 @@ describe("createFetchHandler", () => {
     expect(await response.text()).toBe("created");
     expect($asyncEmit).toHaveBeenCalledWith("$onRequest", [expect.anything()]);
     expect($asyncEmit).toHaveBeenCalledWith("$onResponse", [expect.anything()]);
+  });
+
+  it("applies response filters in the shared Fetch execution cycle", async () => {
+    const responseFilter = PlatformTest.get<PlatformResponseFilter>(PlatformResponseFilter);
+    vi.spyOn(responseFilter, "transform").mockResolvedValue({hello: "filtered"});
+    const handler = createFetchHandler(($ctx) => {
+      $ctx.data = {hello: "world"};
+    });
+
+    const response = await handler(new Request("https://tsed.dev/widgets"));
+
+    expect(responseFilter.transform).toHaveBeenCalledWith({hello: "world"}, expect.anything());
+    expect(await response.json()).toEqual({hello: "filtered"});
   });
 
   it("exposes a body published by explicit middleware without consuming the Request", async () => {

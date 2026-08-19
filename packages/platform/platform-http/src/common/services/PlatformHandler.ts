@@ -1,5 +1,5 @@
 import {AlterEndpointHandlersArg, PlatformHandlerMetadata, PlatformHandlerType, PlatformRouters} from "@tsed/platform-router";
-import {AnyPromiseResult, AnyToPromiseStatus, catchAsyncError} from "@tsed/core";
+import {AnyPromiseResult, AnyToPromiseStatus} from "@tsed/core";
 import {PlatformParams, PlatformParamsCallback} from "@tsed/platform-params";
 import {Provider, ProviderScope, inject, injectable} from "@tsed/di";
 import {$alter} from "@tsed/hooks";
@@ -7,8 +7,6 @@ import {AnyToPromiseWithCtx} from "../domain/AnyToPromiseWithCtx.js";
 import {JsonOperationRoute} from "@tsed/schema";
 import {PlatformAdapter} from "./PlatformAdapter.js";
 import {PlatformContext} from "../domain/PlatformContext.js";
-import {PlatformExceptions} from "@tsed/platform-exceptions";
-import {PlatformResponseFilter} from "@tsed/platform-response-filter";
 import {setResponseHeaders} from "../utils/setResponseHeaders.js";
 
 /**
@@ -16,9 +14,7 @@ import {setResponseHeaders} from "../utils/setResponseHeaders.js";
  * @platform
  */
 export class PlatformHandler {
-  protected responseFilter = inject(PlatformResponseFilter);
   protected platformParams = inject(PlatformParams);
-  protected platformExceptions = inject(PlatformExceptions);
   protected platformRouters = inject(PlatformRouters);
   protected platformAdapter = inject(PlatformAdapter);
 
@@ -100,24 +96,6 @@ export class PlatformHandler {
     // set headers each times that an endpoint is called
     if ($ctx.handlerMetadata.isEndpoint()) {
       setResponseHeaders($ctx);
-    }
-  }
-
-  /** Completes filters and exception mapping before the host finalizes the response. */
-  async prepareResponse($ctx: PlatformContext) {
-    if (!$ctx.error) {
-      $ctx.error = await catchAsyncError(async () => {
-        const {response} = $ctx;
-
-        if (!$ctx.isDone()) {
-          const data = await this.responseFilter.transform($ctx.data, $ctx as any);
-          response.body(data);
-        }
-      });
-    }
-
-    if ($ctx.error) {
-      this.platformExceptions.catch($ctx.error, $ctx);
     }
   }
 }
