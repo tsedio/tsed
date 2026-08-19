@@ -12,14 +12,16 @@ export function createFetchRouteHandler(handlers: PlatformHandlerMetadata[]) {
   const executeRoute = executeFetchRoute(handlers);
 
   return async (request: ExpressRequest, response: ExpressResponse) => {
-    const $ctx = createFetchContext(createFetchRequest(request), undefined, {request, response});
+    const existingContext = (request as ExpressRequest & {$ctx?: ReturnType<typeof createFetchContext>}).$ctx;
+    const $ctx = existingContext?.fetch ? existingContext : createFetchContext(createFetchRequest(request), undefined, {request, response});
+    const ownsContext = $ctx !== existingContext;
     $ctx.request.setParams(request.params as Record<string, string>);
 
     try {
-      const fetchResponse = await executeFetchContext($ctx, executeRoute, {finish: false});
+      const fetchResponse = await executeFetchContext($ctx, executeRoute, {start: ownsContext, finish: false});
       await writeFetchResponse($ctx, fetchResponse);
     } finally {
-      await $ctx.finish();
+      ownsContext && (await $ctx.finish());
     }
   };
 }

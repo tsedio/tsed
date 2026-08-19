@@ -5,7 +5,7 @@ import {OptionsJson, OptionsText, OptionsUrlencoded} from "body-parser";
 import {
   adapter,
   application,
-  createContext,
+  createFetchContext,
   PlatformAdapter,
   PlatformBuilder,
   PlatformContext,
@@ -24,6 +24,8 @@ import {fileURLToPath} from "node:url";
 import {readFileSync} from "node:fs";
 import {staticsMiddleware} from "../middlewares/staticsMiddleware.js";
 import {writeFetchResponse} from "../utils/writeFetchResponse.js";
+import {createFetchRequest} from "../utils/createFetchRequest.js";
+import {createFetchRouteHandler} from "../utils/createFetchRouteHandler.js";
 
 declare module "express" {
   export interface Request {
@@ -169,6 +171,11 @@ export class PlatformExpress extends PlatformAdapter<Express.Application> {
         }) as any);
       }
 
+      if (!layer.handlers.some((metadata) => metadata.opts.native)) {
+        rawApp[layer.method](path, createFetchRouteHandler(layer.handlers));
+        continue;
+      }
+
       rawApp[layer.method](path, ...handlers);
     }
   }
@@ -210,11 +217,10 @@ export class PlatformExpress extends PlatformAdapter<Express.Application> {
   }
 
   useContext(): void {
-    const invoke = createContext();
     const app = application();
 
     app.use(async (request: any, response: any, next: any) => {
-      const $ctx = invoke({request, response});
+      const $ctx = createFetchContext(createFetchRequest(request), undefined, {request, response});
       await $ctx.start();
 
       ($ctx.response.native as any).on("finish", () => $ctx.finish());

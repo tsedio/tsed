@@ -10,6 +10,7 @@ import type {PlatformFetchHandler} from "./PlatformFetchHandler.js";
  */
 export type PlatformFetchContextHandler = ($ctx: PlatformContext) => unknown | Promise<unknown>;
 export interface ExecuteFetchContextOptions {
+  start?: boolean;
   finish?: boolean;
 }
 
@@ -20,10 +21,10 @@ export interface ExecuteFetchContextOptions {
 export async function executeFetchContext(
   $ctx: PlatformContext,
   execute: PlatformFetchContextHandler,
-  {finish = true}: ExecuteFetchContextOptions = {}
+  {start = true, finish = true}: ExecuteFetchContextOptions = {}
 ): Promise<Response> {
   try {
-    await $ctx.start();
+    start && (await $ctx.start());
     $ctx.error = await runInContext($ctx, () => catchAsyncError(() => execute($ctx)));
 
     return await injector().get<PlatformHandler>(PlatformHandler)!.finalizeResponse($ctx);
