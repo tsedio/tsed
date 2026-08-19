@@ -17,6 +17,8 @@ declare global {
  */
 export class PlatformRequest<Req extends {[key: string]: any} = any> {
   #params: Record<string, string> = {};
+  #body: unknown;
+  #rawBody: Uint8Array | undefined;
 
   constructor(readonly $ctx: PlatformContext) {}
 
@@ -87,11 +89,17 @@ export class PlatformRequest<Req extends {[key: string]: any} = any> {
    * `body-parsing` middleware such as `express.json()` or `express.urlencoded()`.
    */
   get body(): any {
-    return this.raw.body;
+    return this.fetch ? this.#body : this.raw.body;
   }
 
   get rawBody(): any {
-    return this.raw.rawBody || this.raw.body;
+    return this.fetch ? this.#rawBody : this.raw.rawBody || this.raw.body;
+  }
+
+  /** @internal The Fetch boundary parses the body once before parameter binding. */
+  setBody(body: unknown, rawBody?: Uint8Array) {
+    this.#body = body;
+    this.#rawBody = rawBody;
   }
 
   /**
