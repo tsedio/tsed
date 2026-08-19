@@ -11,4 +11,6 @@ export * from "./services/PlatformKoaHandler.js";
 export * from "./services/PlatformKoaRequest.js";
 export * from "./utils/writeFetchResponse.js";
 export * from "./utils/convertPath.js";
+export * from "./utils/createFetchRequest.js";
+export * from "./utils/createFetchRouteHandler.js";
 export * from "./utils/native.js";

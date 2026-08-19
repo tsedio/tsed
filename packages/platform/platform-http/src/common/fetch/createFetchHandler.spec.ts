@@ -42,4 +42,17 @@ describe("createFetchHandler", () => {
     expect(await response.json()).toEqual({name: "Ts.ED"});
     expect(await request.json()).toEqual({name: "original"});
   });
+
+  it("resolves published body accessors when the handler reads them", async () => {
+    let body = {name: "before"};
+    const handler = createFetchHandler(($ctx) => {
+      $ctx.request.setBody(() => body);
+      body = {name: "after"};
+      $ctx.response.json($ctx.request.body);
+    });
+
+    const response = await handler(new Request("https://tsed.dev/widgets"));
+
+    expect(await response.json()).toEqual({name: "after"});
+  });
 });

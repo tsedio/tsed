@@ -3,7 +3,7 @@ import Koa, {Context, Next} from "koa";
 import {
   adapter,
   application,
-  createContext,
+  createFetchContext,
   PlatformAdapter,
   PlatformBuilder,
   PlatformContext,
@@ -25,6 +25,8 @@ import koaQs from "koa-qs";
 import send from "koa-send";
 import {staticsMiddleware} from "../middlewares/staticsMiddleware.js";
 import {writeFetchResponse} from "../utils/writeFetchResponse.js";
+import {createFetchRequest} from "../utils/createFetchRequest.js";
+import {createFetchRouteHandler} from "../utils/createFetchRouteHandler.js";
 
 declare global {
   namespace TsED {
@@ -115,6 +117,11 @@ export class PlatformKoa extends PlatformAdapter<Koa> {
         }) as any);
       }
 
+      if (!layer.handlers.some((metadata) => metadata.opts.native)) {
+        rawRouter[layer.method](path, createFetchRouteHandler(layer.handlers));
+        continue;
+      }
+
       rawRouter[layer.method](path, ...handlers);
     }
 
@@ -148,11 +155,10 @@ export class PlatformKoa extends PlatformAdapter<Koa> {
   }
 
   useContext(): void {
-    const invoke = createContext();
     const platformExceptions = inject(PlatformExceptions);
 
     application().use((koaContext: Context, next: Next) => {
-      const $ctx = invoke({
+      const $ctx = createFetchContext(createFetchRequest(koaContext), undefined, {
         request: koaContext.request as any,
         response: koaContext.response as any,
         koaContext

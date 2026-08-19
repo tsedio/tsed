@@ -3,8 +3,8 @@ import type {PlatformContext} from "../domain/PlatformContext.js";
 import type {PlatformResponse} from "./PlatformResponse.js";
 
 export interface PlatformParsedBody {
-  body: unknown;
-  rawBody?: unknown;
+  getBody(): unknown;
+  getRawBody?(): unknown;
 }
 
 /**
@@ -99,20 +99,25 @@ export class PlatformRequest<Req extends {[key: string]: any} = any> {
    */
   get body(): any {
     const parsed = this.$ctx.state.get(PLATFORM_PARSED_BODY) as PlatformParsedBody | undefined;
-    return parsed ? parsed.body : this.fetch ? undefined : this.raw.body;
+    return parsed ? parsed.getBody() : this.fetch ? undefined : this.raw.body;
   }
 
   get rawBody(): any {
     const parsed = this.$ctx.state.get(PLATFORM_PARSED_BODY) as PlatformParsedBody | undefined;
-    return parsed?.rawBody ?? (this.fetch ? undefined : this.raw.rawBody || this.raw.body);
+    return parsed?.getRawBody?.() ?? (this.fetch ? undefined : this.raw.rawBody || this.raw.body);
   }
 
   /**
    * Publishes a result produced by an explicit body parser for this request.
    * This method does not read or parse the underlying Fetch request body.
    */
-  setBody(body: unknown, rawBody?: unknown): this {
-    this.$ctx.state.set(PLATFORM_PARSED_BODY, {body, rawBody});
+  setBody(body: () => unknown, rawBody?: () => unknown): this;
+  setBody(body: unknown, rawBody?: unknown): this;
+  setBody(body: unknown | (() => unknown), rawBody?: unknown | (() => unknown)): this {
+    this.$ctx.state.set(PLATFORM_PARSED_BODY, {
+      getBody: typeof body === "function" ? body : () => body,
+      getRawBody: rawBody === undefined ? undefined : typeof rawBody === "function" ? rawBody : () => rawBody
+    });
     return this;
   }
 

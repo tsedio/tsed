@@ -18,7 +18,10 @@ export function createFetchRouteHandler(handlers: PlatformHandlerMetadata[]) {
     $ctx.request.setParams(request.params as Record<string, string>);
 
     if ("body" in request) {
-      $ctx.request.setBody(request.body, (request as ExpressRequest & {rawBody?: unknown}).rawBody);
+      $ctx.request.setBody(
+        () => request.body,
+        () => (request as ExpressRequest & {rawBody?: unknown}).rawBody
+      );
     }
 
     try {
