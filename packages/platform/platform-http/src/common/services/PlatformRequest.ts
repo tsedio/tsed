@@ -2,6 +2,17 @@ import {ProviderScope, injectable} from "@tsed/di";
 import type {PlatformContext} from "../domain/PlatformContext.js";
 import type {PlatformResponse} from "./PlatformResponse.js";
 
+export interface PlatformParsedBody {
+  body: unknown;
+  rawBody?: unknown;
+}
+
+/**
+ * Request-scoped capability populated by an explicit body-parser middleware or
+ * host bridge. `platform-http` never consumes the Fetch body to populate it.
+ */
+export const PLATFORM_PARSED_BODY = Symbol.for("@tsed/platform-http/parsed-body");
+
 declare global {
   namespace TsED {
     // @ts-ignore
@@ -87,11 +98,22 @@ export class PlatformRequest<Req extends {[key: string]: any} = any> {
    * `body-parsing` middleware such as `express.json()` or `express.urlencoded()`.
    */
   get body(): any {
-    return this.fetch ? undefined : this.raw.body;
+    const parsed = this.$ctx.state.get(PLATFORM_PARSED_BODY) as PlatformParsedBody | undefined;
+    return parsed ? parsed.body : this.fetch ? undefined : this.raw.body;
   }
 
   get rawBody(): any {
-    return this.fetch ? undefined : this.raw.rawBody || this.raw.body;
+    const parsed = this.$ctx.state.get(PLATFORM_PARSED_BODY) as PlatformParsedBody | undefined;
+    return parsed?.rawBody ?? (this.fetch ? undefined : this.raw.rawBody || this.raw.body);
+  }
+
+  /**
+   * Publishes a result produced by an explicit body parser for this request.
+   * This method does not read or parse the underlying Fetch request body.
+   */
+  setBody(body: unknown, rawBody?: unknown): this {
+    this.$ctx.state.set(PLATFORM_PARSED_BODY, {body, rawBody});
+    return this;
   }
 
   /**

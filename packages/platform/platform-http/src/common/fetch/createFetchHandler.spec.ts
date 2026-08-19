@@ -25,4 +25,21 @@ describe("createFetchHandler", () => {
     expect($asyncEmit).toHaveBeenCalledWith("$onRequest", [expect.anything()]);
     expect($asyncEmit).toHaveBeenCalledWith("$onResponse", [expect.anything()]);
   });
+
+  it("exposes a body published by explicit middleware without consuming the Request", async () => {
+    const handler = createFetchHandler(async ($ctx) => {
+      $ctx.request.setBody({name: "Ts.ED"});
+      $ctx.response.json($ctx.request.body);
+    });
+    const request = new Request("https://tsed.dev/widgets", {
+      method: "POST",
+      headers: {"content-type": "application/json"},
+      body: JSON.stringify({name: "original"})
+    });
+
+    const response = await handler(request);
+
+    expect(await response.json()).toEqual({name: "Ts.ED"});
+    expect(await request.json()).toEqual({name: "original"});
+  });
 });
