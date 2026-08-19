@@ -12,7 +12,7 @@ import {
   PlatformRequest,
   PlatformStaticsOptions,
   adapter,
-  createContext,
+  createFetchContext,
   createServer
 } from "@tsed/platform-http";
 import type {PlatformFastifyPluginLoadingOptions, PlatformFastifyPluginSettings} from "../interfaces/interfaces.js";
@@ -27,6 +27,8 @@ import {convertPath} from "../utils/convertPath.js";
 import fastifyMiddie from "@fastify/middie";
 import {toPrefix} from "../utils/toPrefix.js";
 import {writeFetchResponse} from "../utils/writeFetchResponse.js";
+import {createFetchRequest} from "../utils/createFetchRequest.js";
+import {createFetchRouteHandler} from "../utils/createFetchRouteHandler.js";
 
 declare global {
   namespace TsED {
@@ -98,10 +100,21 @@ export class PlatformFastify extends PlatformAdapter<FastifyInstance> {
       }
 
       try {
+        const handler = !layer.handlers.some((metadata) => metadata.opts.native)
+          ? createFetchRouteHandler(layer.handlers)
+          : this.compose(layer, wildcard);
         rawApp.route({
           method: layer.method.toUpperCase() as any,
           url: path as any,
-          handler: this.compose(layer, wildcard),
+          handler: async (request, reply) => {
+            if (wildcard) {
+              const params = request.params as Record<string, string>;
+              if (params["*"] && !params[wildcard]) {
+                params[wildcard] = params["*"];
+              }
+            }
+            return handler(request, reply);
+          },
           config: {
             rawBody: layer.handlers.some((handler) => handler.opts?.paramsTypes?.RAW_BODY)
           }
@@ -152,14 +165,10 @@ export class PlatformFastify extends PlatformAdapter<FastifyInstance> {
 
   async useContext() {
     const {app} = this;
-    const invoke = createContext();
     const rawApp: FastifyInstance = app.getApp();
 
     rawApp.addHook("onRequest", async (request, reply) => {
-      const $ctx = invoke({
-        request: request as any,
-        response: reply as any
-      });
+      const $ctx = createFetchContext(createFetchRequest(request), undefined, {request, response: reply});
 
       ($ctx.request.getReq() as any).$ctx = $ctx;
 
