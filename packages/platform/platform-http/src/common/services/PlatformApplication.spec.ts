@@ -85,17 +85,4 @@ describe("PlatformApplication", () => {
       expect(callback).toHaveBeenCalledWith({}, {});
     });
   });
-
-  describe("fetchHandler()", () => {
-    it("should return the handler installed during route bootstrap", async () => {
-      const {platformApp} = await getPlatformApp();
-      const handler = vi.fn();
-      const contextHandler = vi.fn();
-
-      platformApp.setFetchHandler(handler, contextHandler);
-
-      expect(platformApp.fetchHandler()).toBe(handler);
-      expect(platformApp.fetchContextHandler()).toBe(contextHandler);
-    });
-  });
 });

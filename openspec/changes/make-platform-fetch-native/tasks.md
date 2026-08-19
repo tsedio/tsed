@@ -17,7 +17,7 @@
 
 ## 3. Route compilation and body capabilities
 
-- [ ] 3.1 Refactor route compilation so it emits shared route matchers and Fetch handlers instead of framework-specific controller handlers.
+- [ ] 3.1 Refactor route compilation so it emits shared controller-invocation handlers and route metadata; each host framework remains responsible for route registration, matching, and path parameters.
 - [ ] 3.2 Define body ownership and parsed-body caching semantics for JSON, text, form data, and raw bodies in the portable context.
 - [ ] 3.3 Remove assumptions about cookies, sessions, multipart, views, Socket.IO, and upgrades from the portable request/response API while preserving native access and extension-state hooks for their owning middleware and packages.
 - [ ] 3.4 Define and test the `@tsed/platform-multer` migration boundary for Express, Fastify, and Koa without adding multer implementation to `platform-http`.

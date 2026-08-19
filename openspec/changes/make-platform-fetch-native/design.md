@@ -41,9 +41,9 @@ The v9 execution context will retain `PlatformRequest` and `PlatformResponse` as
 
 This permits decorators and response filters to keep their current imperative ergonomics without pretending that a Fetch `Response` is mutable. Native host objects live symmetrically on the facades: `request.native`/`response.native`, with `request.raw === request.native` and `response.raw === response.native` as explicit non-portable aliases. The active bridge supplies their types and values; `platform-http` does not define a Node HTTP capability or require a Bun/Fetch host to emulate Node objects. Portable code uses the Fetch-backed facade; bridge-specific code uses the native properties.
 
-### 4. Compile routes and Ts.ED middleware once in the shared core
+### 4. Compile controller invocation and Ts.ED middleware once in the shared core
 
-`PlatformHandler`, parameter compilation, exception conversion, response filtering, and middleware composition will target the new context. Host bridges must not reimplement this pipeline. The route compiler will expose a Fetch handler and route metadata; a bridge chooses how to hand requests to it.
+`PlatformHandler`, parameter compilation, exception conversion, response filtering, and middleware composition will target the new context. Host bridges must not reimplement this pipeline. Host frameworks retain route registration, matching, and path-parameter extraction; after selecting a route they invoke the shared compiled controller handler with the Fetch-backed context.
 
 The alternative—routing every request through a third-party universal router—would duplicate Ts.ED route metadata and weaken integration with decorated controllers. The alternative—one adapter class per framework with full pipeline ownership—preserves the present maintenance cost.
 

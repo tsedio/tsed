@@ -1,7 +1,5 @@
 import {ProviderScope, injectable} from "@tsed/di";
 import {PlatformRouter} from "@tsed/platform-router";
-import type {PlatformFetchHandler} from "../fetch/PlatformFetchHandler.js";
-import type {PlatformFetchContextHandler} from "../fetch/createFetchHandler.js";
 
 declare global {
   namespace TsED {
@@ -17,8 +15,6 @@ declare global {
  */
 export class PlatformApplication<App = TsED.Application> extends PlatformRouter {
   rawApp!: App;
-  #fetchHandler?: PlatformFetchHandler;
-  #fetchContextHandler?: PlatformFetchContextHandler;
 
   rawCallback(): any {}
 
@@ -34,32 +30,6 @@ export class PlatformApplication<App = TsED.Application> extends PlatformRouter 
     }
 
     return this.rawCallback();
-  }
-
-  /**
-   * Returns the Fetch-native handler compiled during application bootstrap.
-   */
-  fetchHandler(): PlatformFetchHandler {
-    if (!this.#fetchHandler) {
-      throw new Error("The Fetch handler is available after Ts.ED route bootstrap");
-    }
-
-    return this.#fetchHandler;
-  }
-
-  /** @internal Host bridges execute this shared pipeline in an attached context. */
-  fetchContextHandler(): PlatformFetchContextHandler {
-    if (!this.#fetchContextHandler) {
-      throw new Error("The Fetch handler is available after Ts.ED route bootstrap");
-    }
-
-    return this.#fetchContextHandler;
-  }
-
-  /** @internal PlatformBuilder installs the shared compiled route handler. */
-  setFetchHandler(handler: PlatformFetchHandler, contextHandler: PlatformFetchContextHandler) {
-    this.#fetchHandler = handler;
-    this.#fetchContextHandler = contextHandler;
   }
 }
 
