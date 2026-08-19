@@ -62,4 +62,16 @@ describe("executeFetchRoute", () => {
 
     await expect(execute($ctx)).rejects.toThrow("A portable middleware continuation can only be called once");
   });
+
+  it("rejects legacy @Next() injection from the portable pipeline", async () => {
+    const $ctx = createFetchContext(new Request("https://tsed.dev/widgets"));
+    const metadata = new PlatformHandlerMetadata({
+      handler: () => {},
+      type: PlatformHandlerType.MIDDLEWARE
+    });
+    Object.defineProperty(metadata, "hasNextFunction", {value: true});
+    const execute = executeFetchRoute([metadata]);
+
+    await expect(execute($ctx)).rejects.toThrow("@Next() is not supported by the portable middleware pipeline");
+  });
 });

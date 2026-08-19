@@ -2,6 +2,12 @@ import {PlatformHandlerType, type PlatformHandlerMetadata} from "@tsed/platform-
 import type {PlatformContext} from "../domain/PlatformContext.js";
 import type {PlatformFetchContextHandler} from "./createFetchHandler.js";
 
+/** Promise-first continuation supplied to portable Ts.ED middleware. */
+export type PlatformNext = () => Promise<void>;
+
+/** Runtime-neutral middleware function accepted by `Use*` decorators. */
+export type PlatformMiddleware = ($ctx: PlatformContext, next: PlatformNext) => unknown | Promise<unknown>;
+
 /**
  * Creates the portable execution function for a route already selected by a
  * host framework. It deliberately performs no route matching or native
@@ -27,13 +33,17 @@ export function executeFetchRoute(handlers: PlatformHandlerMetadata[]): Platform
         throw new Error("native() middleware requires a compatible host bridge and cannot run through Fetch directly");
       }
 
+      if (metadata.hasNextFunction) {
+        throw new Error("@Next() is not supported by the portable middleware pipeline; declare use(ctx, next) instead");
+      }
+
       if (metadata.type === PlatformHandlerType.RESPONSE_FN) {
         return dispatch(index + 1);
       }
 
       let called = false;
       const previousNext = $ctx.next;
-      const next = async () => {
+      const next: PlatformNext = async () => {
         if (called) {
           throw new Error("A portable middleware continuation can only be called once");
         }
@@ -44,7 +54,7 @@ export function executeFetchRoute(handlers: PlatformHandlerMetadata[]): Platform
 
       try {
         $ctx.next = next;
-        const handler = (metadata.compiledHandler || metadata.handler) as ($ctx: PlatformContext, next: () => Promise<void>) => unknown;
+        const handler = (metadata.compiledHandler || metadata.handler) as PlatformMiddleware;
         await handler($ctx, next);
       } finally {
         $ctx.next = previousNext;
