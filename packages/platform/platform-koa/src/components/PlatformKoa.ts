@@ -122,6 +122,10 @@ export class PlatformKoa extends PlatformAdapter<Koa> {
   }
 
   mapHandler(handler: Function, metadata: PlatformHandlerMetadata) {
+    if (metadata.opts.native) {
+      return handler;
+    }
+
     return async (koaContext: Koa.Context, next: Koa.Next) => {
       const {$ctx} = koaContext.request;
 

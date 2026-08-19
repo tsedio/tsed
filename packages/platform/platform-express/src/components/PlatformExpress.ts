@@ -174,6 +174,10 @@ export class PlatformExpress extends PlatformAdapter<Express.Application> {
   }
 
   mapHandler(handler: Function, metadata: PlatformHandlerMetadata) {
+    if (metadata.opts.native) {
+      return handler;
+    }
+
     if (metadata.type == PlatformHandlerType.ERR_MIDDLEWARE) {
       return (error: unknown, req: any, res: any, next: any) => {
         return runInContext(req.$ctx, async () => {
