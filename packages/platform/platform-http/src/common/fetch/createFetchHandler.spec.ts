@@ -79,6 +79,17 @@ describe("createFetchHandler", () => {
     expect(await response.json()).toEqual({hello: "filtered"});
   });
 
+  it("converts a thrown error through the Ts.ED exception pipeline", async () => {
+    const handler = createFetchHandler(() => {
+      throw new Error("boom");
+    });
+
+    const response = await handler(new Request("https://tsed.dev/widgets"));
+
+    expect(response.status).toBe(500);
+    expect(await response.json()).toMatchObject({name: "Error", message: "boom", status: 500});
+  });
+
   it("does not consume or parse the Fetch request body", async () => {
     const handler = createFetchHandler(($ctx) => {
       $ctx.response.json({body: $ctx.request.body});
