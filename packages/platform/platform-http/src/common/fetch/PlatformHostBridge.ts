@@ -1,5 +1,5 @@
 import type {PlatformFetchHandler} from "./PlatformFetchHandler.js";
-import type {PlatformRuntimeContext} from "./PlatformRuntimeContext.js";
+import type {PlatformContext} from "../domain/PlatformContext.js";
 
 /**
  * Native request and response objects attached by a host bridge for one
@@ -16,11 +16,9 @@ export interface PlatformNativeContext<NativeRequest = unknown, NativeResponse =
 export interface PlatformHostBridge<NativeRequest = unknown, NativeResponse = unknown> {
   readonly name: string;
 
-  createRequest(request: NativeRequest): Request | Promise<Request>;
+  createContext(native: PlatformNativeContext<NativeRequest, NativeResponse>): PlatformContext | Promise<PlatformContext>;
 
-  sendResponse(response: Response, native: NativeResponse): Promise<void>;
-
-  createRuntimeContext?(native: PlatformNativeContext<NativeRequest, NativeResponse>): PlatformRuntimeContext;
+  writeResponse($ctx: PlatformContext, response: Response): void | Promise<void>;
 
   install?(handler: PlatformFetchHandler): void | Promise<void>;
 

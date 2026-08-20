@@ -23,6 +23,7 @@ export * from "./fetch/PlatformFetchHandler.js";
 export * from "./fetch/PlatformHostBridge.js";
 export * from "./fetch/PlatformRuntimeContext.js";
 export * from "./fetch/createFetchHandler.js";
+export * from "./fetch/createHostBridgeHandler.js";
 export * from "./fetch/executeFetchRoute.js";
 export * from "./fn/adapter.js";
 export * from "./fn/application.js";
