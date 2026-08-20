@@ -31,7 +31,7 @@ Creating a new package now would add a package and import migration to the Fetch
 
 ### 2. Use Fetch as the HTTP port, not as the full runtime abstraction
 
-The shared application boundary will be an explicit Fetch handler, conceptually `handle(request: Request, runtime?: RuntimeContext): Promise<Response>`. A small runtime context carries only portable execution data such as `waitUntil`; host-specific objects do not belong in it.
+The shared route-execution boundary will be an explicit Fetch handler, conceptually `handle(request: Request, runtime?: RuntimeContext): Promise<Response>`. A small runtime context carries only portable execution data such as `waitUntil`; host-specific objects do not belong in it. The host bridge selects the Ts.ED route and supplies its compiled handlers before invoking this boundary.
 
 This aligns with Hono, Bun, Elysia, workers, and modern Node while preserving an adapter boundary for hosts that do not natively speak Fetch. Continuing to model the shared core after Express-like `req`/`res` would retain the current coupling; replacing all runtime behavior with a generic server framework would move rather than remove the dependency.
 

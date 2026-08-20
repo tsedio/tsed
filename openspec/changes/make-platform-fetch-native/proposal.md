@@ -4,7 +4,7 @@ Ts.ED's HTTP core exposes a platform abstraction whose public behavior still ass
 
 ## What Changes
 
-- Introduce a Fetch-native HTTP execution contract: a Ts.ED application can be compiled to a standard `Request`-to-`Response` handler.
+- Introduce a Fetch-native HTTP execution contract: a Ts.ED route selected by a host bridge can be executed through a standard `Request`-to-`Response` handler.
 - **BREAKING** Replace the public platform request/response contract with a runtime-neutral request context and mutable response draft; framework-specific objects move to explicitly named native capabilities.
 - **BREAKING** Redefine platform adapters as thin host bridges responsible for runtime conversion and server lifecycle, rather than as the place where Ts.ED request handling is implemented.
 - Preserve Ts.ED's DI, decorators, validation, route metadata, exception handling, and response filtering in the shared HTTP core.
