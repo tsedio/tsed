@@ -9,7 +9,6 @@ import {
   PlatformAdapter,
   PlatformBuilder,
   PlatformContext,
-  PlatformHandler,
   PlatformStaticsOptions
 } from "@tsed/platform-http";
 import {PlatformHandlerMetadata, PlatformHandlerType, PlatformLayer} from "@tsed/platform-router";
@@ -17,7 +16,6 @@ import {constant, inject, logger, runInContext} from "@tsed/di";
 import {dirname, join} from "node:path";
 import Express from "express";
 import {PlatformExceptions} from "@tsed/platform-exceptions";
-import {PlatformExpressHandler} from "../services/PlatformExpressHandler.js";
 import {PlatformExpressStaticsOptions} from "../interfaces/PlatformExpressStaticsOptions.js";
 import {convertPath} from "../utils/convertPath.js";
 import {fileURLToPath} from "node:url";
@@ -220,7 +218,7 @@ export class PlatformExpress extends PlatformAdapter<Express.Application> {
     const app = application();
 
     app.use(async (request: any, response: any, next: any) => {
-      const $ctx = createFetchContext(createFetchRequest(request), undefined, {request, response});
+      const $ctx = createFetchContext(createFetchRequest(request), undefined, {event: {request, response}});
       await $ctx.start();
 
       ($ctx.response.native as any).on("finish", () => $ctx.finish());
@@ -302,9 +300,4 @@ export class PlatformExpress extends PlatformAdapter<Express.Application> {
   }
 }
 
-adapter(PlatformExpress, [
-  {
-    token: PlatformHandler,
-    useClass: PlatformExpressHandler
-  }
-]);
+adapter(PlatformExpress);

@@ -153,7 +153,22 @@ export class PlatformTest extends DITest {
       id: "id",
       url: "/",
       ...options,
-      event
+      event,
+      fetch:
+        options.fetch ||
+        new Request(new URL(event.request.originalUrl || event.request.url || "/", `http://${event.request.headers.host || "localhost"}`), {
+          method: event.request.method || "GET",
+          headers: event.request.headers
+        }),
+      accessors: options.accessors || {
+        body: () => event.request.body,
+        rawBody: () => event.request.rawBody ?? event.request.body,
+        cookies: () => event.request.cookies,
+        params: () => event.request.params || {},
+        session: () => event.request.session,
+        files: () => event.request.files,
+        accepts: (mime: string | string[] | undefined) => event.request.accepts?.(mime) || false
+      }
     });
 
     if (options.endpoint) {

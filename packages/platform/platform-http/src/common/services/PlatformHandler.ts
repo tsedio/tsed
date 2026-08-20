@@ -1,17 +1,19 @@
-import {AlterEndpointHandlersArg, PlatformHandlerMetadata, PlatformHandlerType, PlatformRouters} from "@tsed/platform-router";
 import {AnyPromiseResult, AnyToPromiseStatus} from "@tsed/core";
-import {PlatformParams, PlatformParamsCallback} from "@tsed/platform-params";
-import {Provider, ProviderScope, inject, injectable} from "@tsed/di";
+import {inject, injectable, Provider, ProviderScope} from "@tsed/di";
 import {$alter} from "@tsed/hooks";
-import {AnyToPromiseWithCtx} from "../domain/AnyToPromiseWithCtx.js";
+import {PlatformParams, PlatformParamsCallback} from "@tsed/platform-params";
+import {AlterEndpointHandlersArg, PlatformHandlerMetadata, PlatformHandlerType, PlatformRouters} from "@tsed/platform-router";
 import {JsonOperationRoute} from "@tsed/schema";
-import {PlatformAdapter} from "./PlatformAdapter.js";
+import {AnyToPromiseWithCtx} from "../domain/AnyToPromiseWithCtx.js";
 import {PlatformContext} from "../domain/PlatformContext.js";
 import {setResponseHeaders} from "../utils/setResponseHeaders.js";
+import {PlatformAdapter} from "./PlatformAdapter.js";
 
 /**
- * Platform Handler abstraction layer. Wrap original class method to a pure platform handler (Express, Koa, etc...).
- * @platform
+ * Compiles decorated Ts.ED handlers into portable context functions and
+ * registers the router compilation hooks. Response preparation and host
+ * writes intentionally belong to the Fetch execution boundary.
+ * @internal
  */
 export class PlatformHandler {
   protected platformParams = inject(PlatformParams);
@@ -19,7 +21,6 @@ export class PlatformHandler {
   protected platformAdapter = inject(PlatformAdapter);
 
   constructor() {
-    // configure the router module
     this.platformRouters.hooks
       .on("alterEndpointHandlers", (handlers: AlterEndpointHandlersArg, operationRoute: JsonOperationRoute) => {
         handlers = $alter("$alterEndpointHandlers", handlers, [operationRoute]);
@@ -29,7 +30,8 @@ export class PlatformHandler {
       .on("alterHandler", (handlerMetadata: PlatformHandlerMetadata) => {
         const handler = handlerMetadata.isInjectable() ? this.createHandler(handlerMetadata) : handlerMetadata.handler;
         handlerMetadata.compiledHandler = handler;
-        return inject(PlatformAdapter).mapHandler(handler as any, handlerMetadata);
+
+        return this.platformAdapter.mapHandler(handler as any, handlerMetadata);
       });
   }
 
@@ -43,10 +45,6 @@ export class PlatformHandler {
     };
   }
 
-  /**
-   * @param provider
-   * @param propertyKey
-   */
   createCustomHandler(provider: Provider, propertyKey: string) {
     const metadata = new PlatformHandlerMetadata({
       provider,
@@ -57,9 +55,6 @@ export class PlatformHandler {
     return this.createHandler(metadata);
   }
 
-  /**
-   * Call handler when a request his handle
-   */
   async onRequest(handler: PlatformParamsCallback, $ctx: PlatformContext) {
     const {handlerMetadata} = $ctx;
 
@@ -68,9 +63,7 @@ export class PlatformHandler {
     }
 
     const resolver = new AnyToPromiseWithCtx($ctx);
-
     const response = await resolver.call(handler);
-    // Note: restore previous handler metadata (for OIDC)
     $ctx.handlerMetadata = handlerMetadata;
 
     if (response.state === AnyToPromiseStatus.RESOLVED && !$ctx.isDone()) {
@@ -93,7 +86,6 @@ export class PlatformHandler {
 
     $ctx.error = null;
 
-    // set headers each times that an endpoint is called
     if ($ctx.handlerMetadata.isEndpoint()) {
       setResponseHeaders($ctx);
     }

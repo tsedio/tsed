@@ -157,9 +157,15 @@ export class PlatformKoa extends PlatformAdapter<Koa> {
 
     application().use((koaContext: Context, next: Next) => {
       const $ctx = createFetchContext(createFetchRequest(koaContext), undefined, {
-        request: koaContext.request as any,
-        response: koaContext.response as any,
-        koaContext
+        event: {request: koaContext.request as any, response: koaContext.response as any, koaContext},
+        accessors: {
+          body: () => (koaContext.request as any).body,
+          rawBody: () => (koaContext.request as any).rawBody,
+          params: () => koaContext.params || {},
+          session: () => (koaContext as Context & {session?: unknown}).session,
+          files: () => (koaContext.request as any).files,
+          accepts: (mime?: string | string[]) => koaContext.accepts(mime as any) || false
+        }
       });
 
       return runInContext($ctx, async () => {

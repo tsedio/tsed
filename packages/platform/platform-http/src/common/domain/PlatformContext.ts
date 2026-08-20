@@ -4,7 +4,7 @@ import {PlatformNativeContext} from "../fetch/PlatformHostBridge.js";
 import {JsonMethodStore} from "@tsed/schema";
 import {PlatformApplication} from "../services/PlatformApplication.js";
 import {PlatformHandlerMetadata} from "@tsed/platform-router";
-import {PlatformRequest} from "../services/PlatformRequest.js";
+import {PlatformRequest, type PlatformRequestAccessors} from "../services/PlatformRequest.js";
 import {PlatformResponse} from "../services/PlatformResponse.js";
 import type {PlatformRuntimeContext} from "../fetch/PlatformRuntimeContext.js";
 
@@ -16,7 +16,8 @@ declare global {
 
 export interface PlatformContextOptions extends DIContextOptions {
   event?: PlatformNativeContext;
-  fetch?: Request;
+  fetch: Request;
+  accessors?: PlatformRequestAccessors;
   runtime?: PlatformRuntimeContext;
   ignoreUrlPatterns?: any[];
   endpoint?: JsonMethodStore;
@@ -26,14 +27,10 @@ export class PlatformContext<PReq extends PlatformRequest = PlatformRequest> ext
   readonly PLATFORM: string = "WWW";
   public event?: PlatformNativeContext;
   /** Standard Fetch request when this context is executed without a host bridge. */
-  readonly fetch?: Request;
+  readonly fetch: Request;
+  readonly accessors?: PlatformRequestAccessors;
   /** Portable execution facilities supplied by a Fetch runtime. */
   readonly runtime?: PlatformRuntimeContext;
-  /**
-   * Request-scoped extension state owned by middleware and integration
-   * packages. The HTTP core deliberately does not interpret these values.
-   */
-  readonly state = new Map<unknown, unknown>();
   /**
    * The data return by the previous endpoint if you use multiple handler on the same route. By default data is empty.
    */
@@ -73,8 +70,9 @@ export class PlatformContext<PReq extends PlatformRequest = PlatformRequest> ext
     this.event = options.event;
     this.fetch = options.fetch;
     this.runtime = options.runtime;
+    this.accessors = options.accessors;
     this.response = new PlatformResponse(this);
-    this.request = new (options.RequestKlass || PlatformRequest)(this);
+    this.request = new PlatformRequest(this) as PReq;
 
     const nativeRequest: any = this.request.native;
     if (nativeRequest) {

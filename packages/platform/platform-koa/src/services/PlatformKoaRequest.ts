@@ -24,27 +24,27 @@ export class PlatformKoaRequest extends PlatformRequest<Koa.Request> {
     return this.$ctx.event!.koaContext as Koa.Context;
   }
 
-  get protocol(): string {
-    return this.ctx.request.protocol;
-  }
+  // get protocol(): string {
+  //   return this.ctx.request.protocol;
+  // }
 
-  get host(): string {
-    return this.ctx.request.host;
-  }
+  // get host(): string {
+  //   return this.ctx.request.host;
+  // }
 
-  get secure(): boolean {
-    return this.ctx.request.secure;
-  }
+  // get secure(): boolean {
+  //   return this.ctx.request.secure;
+  // }
 
-  get cookies(): {[p: string]: any} {
-    return this.ctx.cookie || this.ctx.cookies;
-  }
-
-  get session(): any {
-    return this.ctx.session;
-  }
-
-  getReq<R = Koa.Request["req"]>(): R {
-    return this.ctx.request.req as R;
-  }
+  // get cookies(): {[p: string]: any} {
+  //   return this.ctx.cookie || this.ctx.cookies;
+  // }
+  //
+  // get session(): any {
+  //   return this.ctx.session;
+  // }
+  //
+  // getReq<R = Koa.Request["req"]>(): R {
+  //   return this.ctx.request.req as R;
+  // }
 }

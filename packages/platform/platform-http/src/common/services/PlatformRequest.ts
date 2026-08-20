@@ -1,17 +1,16 @@
-import {ProviderScope, injectable} from "@tsed/di";
+import {injectable, ProviderScope} from "@tsed/di";
 import type {PlatformContext} from "../domain/PlatformContext.js";
 import type {PlatformResponse} from "./PlatformResponse.js";
 
-export interface PlatformParsedBody {
-  getBody(): unknown;
-  getRawBody?(): unknown;
+export interface PlatformRequestAccessors {
+  body?(): unknown;
+  rawBody?(): unknown;
+  cookies?(): Record<string, unknown> | undefined;
+  params?(): Record<string, unknown>;
+  session?(): unknown;
+  files?(): unknown;
+  accepts?(mime: string | string[] | undefined): string | string[] | false;
 }
-
-/**
- * Request-scoped capability populated by an explicit body-parser middleware or
- * host bridge. `platform-http` never consumes the Fetch body to populate it.
- */
-export const PLATFORM_PARSED_BODY = Symbol.for("@tsed/platform-http/parsed-body");
 
 declare global {
   namespace TsED {
@@ -27,8 +26,6 @@ declare global {
  * @platform
  */
 export class PlatformRequest<Req extends {[key: string]: any} = any> {
-  #params: Record<string, string> = {};
-
   constructor(readonly $ctx: PlatformContext) {}
 
   /**
@@ -48,7 +45,7 @@ export class PlatformRequest<Req extends {[key: string]: any} = any> {
   /**
    * Standard Fetch request supplied by direct Fetch execution.
    */
-  get fetch(): Request | undefined {
+  get fetch(): Request {
     return this.$ctx.fetch;
   }
 
@@ -60,7 +57,7 @@ export class PlatformRequest<Req extends {[key: string]: any} = any> {
   }
 
   get secure(): boolean {
-    return this.fetch ? new URL(this.fetch.url).protocol === "https:" : this.raw?.secure;
+    return new URL(this.fetch.url).protocol === "https:";
   }
 
   get host(): string {
@@ -68,7 +65,7 @@ export class PlatformRequest<Req extends {[key: string]: any} = any> {
   }
 
   get protocol(): string {
-    return this.fetch ? new URL(this.fetch.url).protocol.replace(/:$/, "") : this.raw?.protocol;
+    return new URL(this.fetch.url).protocol.replace(/:$/, "");
   }
 
   /**
@@ -77,20 +74,16 @@ export class PlatformRequest<Req extends {[key: string]: any} = any> {
    * Is equivalent of `express.response.originalUrl || express.response.url`.
    */
   get url(): string {
-    if (this.fetch) {
-      const url = new URL(this.fetch.url);
-      return `${url.pathname}${url.search}`;
-    }
-
-    return this.raw?.originalUrl || this.raw?.url;
+    const url = new URL(this.fetch.url);
+    return `${url.pathname}${url.search}`;
   }
 
   get headers(): Record<string, string | string[] | undefined> {
-    return this.fetch ? Object.fromEntries(this.fetch.headers.entries()) : this.raw?.headers;
+    return Object.fromEntries(this.fetch.headers.entries());
   }
 
   get method(): string {
-    return this.fetch?.method || this.raw?.method;
+    return this.fetch.method;
   }
 
   /**
@@ -98,35 +91,19 @@ export class PlatformRequest<Req extends {[key: string]: any} = any> {
    * `body-parsing` middleware such as `express.json()` or `express.urlencoded()`.
    */
   get body(): any {
-    const parsed = this.$ctx.state.get(PLATFORM_PARSED_BODY) as PlatformParsedBody | undefined;
-    return parsed ? parsed.getBody() : this.fetch ? undefined : this.raw.body;
+    return this.$ctx.accessors?.body?.();
   }
 
   get rawBody(): any {
-    const parsed = this.$ctx.state.get(PLATFORM_PARSED_BODY) as PlatformParsedBody | undefined;
-    return parsed?.getRawBody?.() ?? (this.fetch ? undefined : this.raw.rawBody || this.raw.body);
-  }
-
-  /**
-   * Publishes a result produced by an explicit body parser for this request.
-   * This method does not read or parse the underlying Fetch request body.
-   */
-  setBody(body: () => unknown, rawBody?: () => unknown): this;
-  setBody(body: unknown, rawBody?: unknown): this;
-  setBody(body: unknown | (() => unknown), rawBody?: unknown | (() => unknown)): this {
-    this.$ctx.state.set(PLATFORM_PARSED_BODY, {
-      getBody: typeof body === "function" ? body : () => body,
-      getRawBody: rawBody === undefined ? undefined : typeof rawBody === "function" ? rawBody : () => rawBody
-    });
-    return this;
+    return this.$ctx.accessors?.rawBody?.();
   }
 
   /**
    * When using `cookie-parser` middleware, this property is an object that contains cookies sent by the request.
-   * If the request contains no cookies, it defaults to `{}`.
+   * It is `undefined` when the active host does not expose a cookie capability.
    */
-  get cookies(): {[key: string]: any} {
-    return this.raw?.cookies;
+  get cookies(): Record<string, unknown> | undefined {
+    return this.$ctx.accessors?.cookies?.();
   }
 
   /**
@@ -134,13 +111,8 @@ export class PlatformRequest<Req extends {[key: string]: any} = any> {
    * For example, if you have the route `/user/:name`, then the `name` property is available as `req.params.name`.
    * This object defaults to `{}`.
    */
-  get params(): {[key: string]: any} {
-    return this.fetch ? this.#params : this.raw.params;
-  }
-
-  /** @internal Route compilation provides portable path parameters here. */
-  setParams(params: Record<string, string>) {
-    this.#params = params;
+  get params(): Record<string, unknown> {
+    return this.$ctx.accessors?.params?.() || {};
   }
 
   /**
@@ -148,10 +120,6 @@ export class PlatformRequest<Req extends {[key: string]: any} = any> {
    * When query parser is set to disabled, it is an empty object `{}`, otherwise it is the result of the configured query parser.
    */
   get query(): {[key: string]: any} {
-    if (!this.fetch) {
-      return this.raw.query;
-    }
-
     return [...new URL(this.fetch.url).searchParams.entries()].reduce(
       (query, [key, value]) => {
         const current = query[key];
@@ -164,14 +132,14 @@ export class PlatformRequest<Req extends {[key: string]: any} = any> {
 
   /**
    * This property is an object containing a property for each session attributes set by any code.
-   * It requires to install a middleware like express-session to work.
+   * It is `undefined` unless the active host middleware exposes a session capability.
    */
-  get session(): {[key: string]: any} {
-    return this.raw?.session as any;
+  get session(): unknown {
+    return this.$ctx.accessors?.session?.();
   }
 
   get files() {
-    return this.raw?.files;
+    return this.$ctx.accessors?.files?.();
   }
 
   get route() {
@@ -217,12 +185,9 @@ export class PlatformRequest<Req extends {[key: string]: any} = any> {
    * @param mime
    */
   accepts(mime: string): string | false;
-
   accepts(mime: string[]): string[] | false;
-
   accepts(mime?: string | string[]): string | string[] | false {
-    // @ts-ignore
-    return this.raw.accepts(mime);
+    return this.$ctx.accessors?.accepts?.(mime) || false;
   }
 
   isAborted() {

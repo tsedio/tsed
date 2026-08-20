@@ -109,6 +109,19 @@ describe("createContext", () => {
     // THEN
     expect(ctx.response.setHeader).toHaveBeenCalledWith("x-request-id", "test-id");
   });
+
+  it("converts a native request into the canonical Fetch request", async () => {
+    const {ctx} = await createContextFixture({
+      protocol: "https",
+      headers: {host: "api.tsed.dev"},
+      method: "POST",
+      originalUrl: "/widgets?id=42"
+    });
+
+    expect(ctx.fetch.url).toBe("https://api.tsed.dev/widgets?id=42");
+    expect(ctx.request.method).toBe("POST");
+    expect(ctx.request.query).toEqual({id: "42"});
+  });
 });
 
 describe("createFetchContext", () => {
@@ -135,12 +148,28 @@ describe("createFetchContext", () => {
     const request = new Request("https://tsed.dev/path");
     const nativeRequest = {};
     const nativeResponse = {};
-    const $ctx = createFetchContext(request, undefined, {request: nativeRequest, response: nativeResponse});
+    const $ctx = createFetchContext(request, undefined, {event: {request: nativeRequest, response: nativeResponse}});
 
     expect($ctx.request.fetch).toBe(request);
     expect($ctx.request.native).toBe(nativeRequest);
     expect($ctx.request.raw).toBe(nativeRequest);
     expect($ctx.response.native).toBe(nativeResponse);
     expect($ctx.response.raw).toBe(nativeResponse);
+  });
+
+  it("reads host capabilities through optional request accessors", () => {
+    const request = new Request("https://tsed.dev/path");
+    const $ctx = createFetchContext(request, undefined, {
+      accessors: {
+        body: () => ({name: "Ts.ED"}),
+        params: () => ({id: "42"}),
+        session: () => ({user: "romain"})
+      }
+    });
+
+    expect($ctx.request.body).toEqual({name: "Ts.ED"});
+    expect($ctx.request.params).toEqual({id: "42"});
+    expect($ctx.request.session).toEqual({user: "romain"});
+    expect($ctx.request.cookies).toBeUndefined();
   });
 });

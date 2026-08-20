@@ -1,5 +1,4 @@
 import {PlatformApplication} from "./PlatformApplication.js";
-import {PlatformHandler} from "./PlatformHandler.js";
 import {PlatformTest} from "../../testing/PlatformTest.js";
 import {configuration} from "@tsed/di";
 import {createContext} from "../utils/createContext.js";
@@ -21,19 +20,11 @@ function createDriver() {
 }
 
 async function getPlatformApp() {
-  const platformHandler = {
-    createHandler: vi.fn().mockImplementation((o) => o)
-  };
-  const platformApp = await PlatformTest.invoke<PlatformApplication<any>>(PlatformApplication, [
-    {
-      token: PlatformHandler,
-      use: platformHandler
-    }
-  ]);
+  const platformApp = await PlatformTest.invoke<PlatformApplication<any>>(PlatformApplication);
   configuration().logger = {};
   platformApp.rawApp = createDriver() as any;
 
-  return {platformApp, platformHandler};
+  return {platformApp};
 }
 
 describe("PlatformApplication", () => {

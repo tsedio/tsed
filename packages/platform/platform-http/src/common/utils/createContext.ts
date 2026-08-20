@@ -1,7 +1,7 @@
-import {configuration, injector} from "@tsed/di";
+import {configuration} from "@tsed/di";
 import {PlatformContext} from "../domain/PlatformContext.js";
 import {PlatformNativeContext} from "../fetch/PlatformHostBridge.js";
-import {PlatformRequest} from "../services/PlatformRequest.js";
+import type {PlatformRequestAccessors} from "../services/PlatformRequest.js";
 import {v4} from "uuid";
 
 function defaultReqIdBuilder(req: any) {
@@ -24,20 +24,19 @@ export function buildIgnoreLog(ignoreUrlPatterns: any[] | undefined) {
  * @ignore
  */
 export function createContext(): (event: PlatformNativeContext) => PlatformContext {
-  const RequestKlass = injector().providers.get(PlatformRequest)?.useClass;
   const {reqIdBuilder = defaultReqIdBuilder, ...loggerOptions} = configuration().logger;
 
-  const opts = {
-    ...loggerOptions,
-    RequestKlass
-  };
+  const opts = loggerOptions;
 
   const ignoreLog = buildIgnoreLog(loggerOptions.ignoreUrlPatterns);
 
   return function invokeContext(event: PlatformNativeContext) {
+    const request = createNativeFetchRequest(event.request);
     const $ctx = new PlatformContext({
       ...opts,
       event,
+      fetch: request,
+      accessors: createRequestAccessors(event.request),
       id: reqIdBuilder(event.request)
     });
 
@@ -54,16 +53,15 @@ export function createContext(): (event: PlatformNativeContext) => PlatformConte
 export function createFetchContext(
   request: Request,
   runtime?: import("../fetch/PlatformRuntimeContext.js").PlatformRuntimeContext,
-  event?: PlatformNativeContext
+  {event, accessors}: {event?: PlatformNativeContext; accessors?: PlatformRequestAccessors} = {}
 ): PlatformContext {
-  const RequestKlass = injector().providers.get(PlatformRequest)?.useClass;
   const {reqIdBuilder = defaultReqIdBuilder, ...loggerOptions} = configuration().logger;
   const $ctx = new PlatformContext({
     ...loggerOptions,
-    RequestKlass,
     event,
     fetch: request,
     runtime,
+    accessors: accessors || (event ? createRequestAccessors(event.request) : undefined),
     id: reqIdBuilder(request)
   });
 
@@ -71,4 +69,30 @@ export function createFetchContext(
   ignoreLog && $ctx.logger.alterIgnoreLog((ignore, data) => ignoreLog(ignore, data, request.url));
 
   return $ctx;
+}
+
+function createNativeFetchRequest(native: any): Request {
+  const protocol = native.protocol || (native.secure ? "https" : "http");
+  const host = native.get?.("host") || native.headers?.host || "localhost";
+  const url = new URL(native.originalUrl || native.url || "/", `${protocol}://${host}`);
+  const headers = Object.entries(native.headers || {}).reduce((result, [name, value]) => {
+    if (value !== undefined) {
+      result.set(name, Array.isArray(value) ? value.join(", ") : String(value));
+    }
+    return result;
+  }, new Headers());
+
+  return new Request(url, {method: native.method || "GET", headers});
+}
+
+function createRequestAccessors(native: any): PlatformRequestAccessors {
+  return {
+    body: () => native.body,
+    rawBody: () => native.rawBody ?? native.body,
+    cookies: () => native.cookies,
+    params: () => native.params || {},
+    session: () => native.session,
+    files: () => native.files,
+    accepts: (mime) => native.accepts?.(mime) || false
+  };
 }

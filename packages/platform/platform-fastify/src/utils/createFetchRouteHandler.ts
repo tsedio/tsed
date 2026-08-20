@@ -10,18 +10,16 @@ export function createFetchRouteHandler(handlers: PlatformHandlerMetadata[]) {
 
   return async (request: FastifyRequest, reply: FastifyReply) => {
     const existingContext = (request as FastifyRequest & {$ctx?: PlatformContext}).$ctx;
+
     const $ctx = existingContext?.fetch
       ? existingContext
-      : createFetchContext(createFetchRequest(request), undefined, {request, response: reply});
+      : createFetchContext(createFetchRequest(request), undefined, {event: {request, response: reply}});
+
     const ownsContext = $ctx !== existingContext;
-    $ctx.request.setParams(request.params as Record<string, string>);
-    $ctx.request.setBody(
-      () => request.body,
-      () => (request as FastifyRequest & {rawBody?: unknown}).rawBody
-    );
 
     try {
-      const response = await executeFetchContext($ctx, executeRoute, {start: ownsContext, finish: false});
+      ownsContext && (await $ctx.start());
+      const response = await executeFetchContext($ctx, executeRoute);
       await writeFetchResponse($ctx, response);
     } finally {
       ownsContext && (await $ctx.finish());

@@ -61,8 +61,7 @@ describe("createFetchRouteHandler", () => {
       once: vi.fn()
     };
     const $ctx = createFetchContext(new Request("https://api.tsed.dev/widgets/42"), undefined, {
-      request: nativeRequest,
-      response: nativeResponse
+      event: {request: nativeRequest, response: nativeResponse}
     });
     nativeRequest.$ctx = $ctx;
     const start = vi.spyOn($ctx, "start");

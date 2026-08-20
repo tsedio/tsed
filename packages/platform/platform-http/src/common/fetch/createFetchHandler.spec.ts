@@ -40,10 +40,9 @@ describe("createFetchHandler", () => {
     expect(await response.json()).toEqual({hello: "filtered"});
   });
 
-  it("exposes a body published by explicit middleware without consuming the Request", async () => {
-    const handler = createFetchHandler(async ($ctx) => {
-      $ctx.request.setBody({name: "Ts.ED"});
-      $ctx.response.json($ctx.request.body);
+  it("does not consume or parse the Fetch request body", async () => {
+    const handler = createFetchHandler(($ctx) => {
+      $ctx.response.json({body: $ctx.request.body});
     });
     const request = new Request("https://tsed.dev/widgets", {
       method: "POST",
@@ -53,20 +52,7 @@ describe("createFetchHandler", () => {
 
     const response = await handler(request);
 
-    expect(await response.json()).toEqual({name: "Ts.ED"});
+    expect(await response.json()).toEqual({});
     expect(await request.json()).toEqual({name: "original"});
-  });
-
-  it("resolves published body accessors when the handler reads them", async () => {
-    let body = {name: "before"};
-    const handler = createFetchHandler(($ctx) => {
-      $ctx.request.setBody(() => body);
-      body = {name: "after"};
-      $ctx.response.json($ctx.request.body);
-    });
-
-    const response = await handler(new Request("https://tsed.dev/widgets"));
-
-    expect(await response.json()).toEqual({name: "after"});
   });
 });

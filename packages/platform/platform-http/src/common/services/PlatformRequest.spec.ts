@@ -37,16 +37,12 @@ describe("PlatformRequest", () => {
 
   describe("secure()", () => {
     it("should return the secure request state (false)", () => {
-      const $ctx = PlatformTest.createRequestContext();
-
-      $ctx.request.request.secure = false;
+      const $ctx = PlatformTest.createRequestContext({fetch: new Request("http://tsed.dev")});
 
       expect($ctx.request.secure).toEqual(false);
     });
     it("should return the secure request state (true)", () => {
-      const $ctx = PlatformTest.createRequestContext();
-
-      $ctx.request.request.secure = true;
+      const $ctx = PlatformTest.createRequestContext({fetch: new Request("https://tsed.dev")});
       expect($ctx.request.secure).toEqual(true);
     });
   });
@@ -65,17 +61,14 @@ describe("PlatformRequest", () => {
 
   describe("protocol()", () => {
     it("should return the protocol request state (http)", () => {
-      const $ctx = PlatformTest.createRequestContext();
-
-      $ctx.request.request.protocol = "http";
+      const $ctx = PlatformTest.createRequestContext({fetch: new Request("http://tsed.dev")});
 
       expect($ctx.request.protocol).toEqual("http");
     });
     it("should return the protocol request state (https)", () => {
-      const {req, request} = createRequest();
+      const $ctx = PlatformTest.createRequestContext({fetch: new Request("https://tsed.dev")});
 
-      req.protocol = "https";
-      expect(request.protocol).toEqual("https");
+      expect($ctx.request.protocol).toEqual("https");
     });
   });
 
@@ -159,12 +152,6 @@ describe("PlatformRequest", () => {
         test: "testValue"
       });
       expect(request.params).toEqual({
-        obj: {
-          test: "testValue"
-        },
-        test: "testValue"
-      });
-      expect(request.query).toEqual({
         obj: {
           test: "testValue"
         },

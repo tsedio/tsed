@@ -168,7 +168,7 @@ export class PlatformFastify extends PlatformAdapter<FastifyInstance> {
     const rawApp: FastifyInstance = app.getApp();
 
     rawApp.addHook("onRequest", async (request, reply) => {
-      const $ctx = createFetchContext(createFetchRequest(request), undefined, {request, response: reply});
+      const $ctx = createFetchContext(createFetchRequest(request), undefined, {event: {request, response: reply}});
 
       ($ctx.request.getReq() as any).$ctx = $ctx;
 

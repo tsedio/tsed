@@ -45,7 +45,6 @@ export * from "./middlewares/PlatformMulterMiddleware.js";
 export * from "./services/Platform.js";
 export * from "./services/PlatformAdapter.js";
 export * from "./services/PlatformApplication.js";
-export * from "./services/PlatformHandler.js";
 export * from "./services/PlatformRequest.js";
 export * from "./services/PlatformResponse.js";
 export * from "./utils/closeServer.js";

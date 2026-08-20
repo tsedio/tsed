@@ -19,32 +19,23 @@ export interface ExecuteFetchContextOptions {
  * Executes portable work for an already-created context. Host bridges use this
  * entry point after attaching their native request and response objects.
  */
-export async function executeFetchContext(
-  $ctx: PlatformContext,
-  execute: PlatformFetchContextHandler,
-  {start = true, finish = true}: ExecuteFetchContextOptions = {}
-): Promise<Response> {
-  try {
-    start && (await $ctx.start());
-    $ctx.error = await runInContext($ctx, () => catchAsyncError(() => execute($ctx)));
+export async function executeFetchContext($ctx: PlatformContext, execute: PlatformFetchContextHandler): Promise<Response> {
+  $ctx.error = await runInContext($ctx, () => catchAsyncError(() => execute($ctx)));
 
-    if (!$ctx.error) {
-      $ctx.error = await catchAsyncError(async () => {
-        if (!$ctx.isDone()) {
-          const data = await inject(PlatformResponseFilter).transform($ctx.data, $ctx as any);
-          $ctx.response.body(data);
-        }
-      });
-    }
-
-    if ($ctx.error) {
-      inject(PlatformExceptions).catch($ctx.error, $ctx);
-    }
-
-    return $ctx.response.finalize();
-  } finally {
-    finish && (await $ctx.finish());
+  if (!$ctx.error) {
+    $ctx.error = await catchAsyncError(async () => {
+      if (!$ctx.isDone()) {
+        const data = await inject(PlatformResponseFilter).transform($ctx.data, $ctx as any);
+        $ctx.response.body(data);
+      }
+    });
   }
+
+  if ($ctx.error) {
+    inject(PlatformExceptions).catch($ctx.error, $ctx);
+  }
+
+  return $ctx.response.finalize();
 }
 
 /**
@@ -56,6 +47,11 @@ export function createFetchHandler(execute: PlatformFetchContextHandler): Platfo
   return async (request, runtime) => {
     const $ctx = createFetchContext(request, runtime);
 
-    return executeFetchContext($ctx, execute);
+    try {
+      await $ctx.start();
+      return await executeFetchContext($ctx, execute);
+    } finally {
+      await $ctx.finish();
+    }
   };
 }

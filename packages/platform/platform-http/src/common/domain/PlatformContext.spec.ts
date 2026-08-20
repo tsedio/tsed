@@ -120,23 +120,4 @@ describe("PlatformContext", () => {
 
     expect(context.isDone()).toEqual(true);
   });
-
-  it("isolates extension state between requests", () => {
-    const first = new PlatformContext({
-      id: "first",
-      event: {response: PlatformTest.createResponse(), request: PlatformTest.createRequest()},
-      injector: PlatformTest.injector
-    });
-    const second = new PlatformContext({
-      id: "second",
-      event: {response: PlatformTest.createResponse(), request: PlatformTest.createRequest()},
-      injector: PlatformTest.injector
-    });
-    const key = Symbol("integration");
-
-    first.state.set(key, {value: "first"});
-
-    expect(first.state.get(key)).toEqual({value: "first"});
-    expect(second.state.has(key)).toBe(false);
-  });
 });
