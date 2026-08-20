@@ -1,7 +1,12 @@
 import {$asyncEmit} from "@tsed/hooks";
 import {PlatformResponseFilter} from "@tsed/platform-response-filter";
+import {Injectable} from "@tsed/di";
+import {Get, s} from "@tsed/schema";
+import {PlatformHandlerMetadata, PlatformHandlerType} from "@tsed/platform-router";
 import {PlatformTest} from "../../testing/PlatformTest.js";
 import {createFetchHandler} from "./createFetchHandler.js";
+import {executeFetchRoute} from "./executeFetchRoute.js";
+import {PlatformHandler} from "../services/PlatformHandler.js";
 
 vi.mock("@tsed/hooks", async (importOriginal) => {
   const mod = await importOriginal<typeof import("@tsed/hooks")>();
@@ -25,6 +30,40 @@ describe("createFetchHandler", () => {
     expect(await response.text()).toBe("created");
     expect($asyncEmit).toHaveBeenCalledWith("$onRequest", [expect.anything()]);
     expect($asyncEmit).toHaveBeenCalledWith("$onResponse", [expect.anything()]);
+  });
+
+  it("executes a compiled controller route without a host server", async () => {
+    @Injectable()
+    class WidgetsController {
+      @Get("/")
+      get() {
+        return {name: "widget"};
+      }
+    }
+
+    PlatformTest.injector.add(WidgetsController);
+    const metadata = new PlatformHandlerMetadata({
+      provider: PlatformTest.injector.providers.get(WidgetsController),
+      propertyKey: "get",
+      type: PlatformHandlerType.ENDPOINT
+    });
+    metadata.compiledHandler = PlatformTest.get<PlatformHandler>(PlatformHandler).createHandler(metadata);
+    const endpoint = s.store.method(WidgetsController, "get");
+    const handler = createFetchHandler(
+      executeFetchRoute([
+        new PlatformHandlerMetadata({
+          handler: ($ctx: any) => {
+            $ctx.endpoint = endpoint;
+          },
+          type: PlatformHandlerType.CTX_FN
+        }),
+        metadata
+      ])
+    );
+
+    const response = await handler(new Request("https://tsed.dev/widgets"));
+
+    expect(await response.json()).toEqual({name: "widget"});
   });
 
   it("applies response filters in the shared Fetch execution cycle", async () => {
