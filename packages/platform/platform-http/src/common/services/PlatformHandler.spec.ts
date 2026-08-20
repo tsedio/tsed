@@ -53,6 +53,29 @@ describe("PlatformHandler", () => {
 
       expect($ctx.data).toEqual("test");
     });
+
+    it("should pass the portable context to a decorator-less middleware class", async () => {
+      const {service} = getServiceFixture();
+
+      @Injectable()
+      class Test {
+        use($ctx: any) {
+          $ctx.response.setHeader("x-middleware", "class");
+        }
+      }
+
+      PlatformTest.injector.add(Test);
+      const metadata = new PlatformHandlerMetadata({
+        provider: PlatformTest.injector.providers.get(Test),
+        propertyKey: "use",
+        type: PlatformHandlerType.MIDDLEWARE
+      });
+      const $ctx = PlatformTest.createRequestContext();
+
+      await service.createHandler(metadata)($ctx);
+
+      expect($ctx.response.getHeaders()["x-middleware"]).toBe("class");
+    });
   });
 
   describe("createCustomHandler()", () => {
