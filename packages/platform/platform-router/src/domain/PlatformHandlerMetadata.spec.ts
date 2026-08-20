@@ -29,14 +29,23 @@ describe("PlatformHandlerMetadata", () => {
       expect(result.opts.native).toBe(true);
     });
 
-    it("should treat an unmarked function as a portable context handler", () => {
-      const handler = (_ctx: unknown, _next: () => Promise<void>) => {};
+    it("should treat a single-argument function as a portable context handler", () => {
+      const handler = (_ctx: unknown) => {};
 
       const result = PlatformHandlerMetadata.from(handler);
 
       expect(result.type).toBe(PlatformHandlerType.CTX_FN);
       expect(result.handler).toBe(handler);
       expect(result.opts.native).toBeUndefined();
+    });
+
+    it("should treat an unmarked host-style callback as native middleware", () => {
+      const handler = (_request: unknown, _response: unknown) => {};
+
+      const result = PlatformHandlerMetadata.from(handler);
+
+      expect(result.type).toBe(PlatformHandlerType.RAW_FN);
+      expect(result.isRawMiddleware()).toBe(true);
     });
   });
   describe("from useContextHandler", () => {

@@ -109,7 +109,7 @@ export class PlatformKoa extends PlatformAdapter<Koa> {
         continue;
       }
 
-      const hasNativeHandlers = layer.handlers.some((metadata) => metadata.opts.native);
+      const hasNativeHandlers = layer.handlers.some((metadata) => metadata.opts.native || metadata.isRawMiddleware());
       const handlers = hasNativeHandlers
         ? layer.handlers.map((metadata) => this.mapHandler(metadata.compiledHandler || metadata.handler, metadata))
         : [];
@@ -134,7 +134,7 @@ export class PlatformKoa extends PlatformAdapter<Koa> {
   }
 
   mapHandler(handler: Function, metadata: PlatformHandlerMetadata) {
-    if (metadata.opts.native) {
+    if (metadata.opts.native || metadata.isRawMiddleware()) {
       return handler;
     }
 

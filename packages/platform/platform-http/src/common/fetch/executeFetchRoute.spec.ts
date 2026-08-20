@@ -7,7 +7,7 @@ describe("executeFetchRoute", () => {
   beforeEach(() => PlatformTest.create());
   afterEach(() => PlatformTest.reset());
 
-  it("executes portable handlers and rejects explicit native middleware", async () => {
+  it("executes portable handlers and rejects native middleware", async () => {
     const portable = vi.fn();
     const native = vi.fn();
     const response = vi.fn();
@@ -18,9 +18,9 @@ describe("executeFetchRoute", () => {
       new PlatformHandlerMetadata({handler: response, type: PlatformHandlerType.RESPONSE_FN})
     ]);
 
-    await expect(execute($ctx)).rejects.toThrow("native() middleware requires a compatible host bridge");
+    await expect(execute($ctx)).rejects.toThrow("Native middleware requires a compatible host bridge");
 
-    expect(portable).toHaveBeenCalledWith($ctx, expect.any(Function));
+    expect(portable).toHaveBeenCalledWith($ctx);
     expect(native).not.toHaveBeenCalled();
     expect(response).not.toHaveBeenCalled();
   });
@@ -30,9 +30,9 @@ describe("executeFetchRoute", () => {
     const $ctx = createFetchContext(new Request("https://tsed.dev/widgets"));
     const execute = executeFetchRoute([
       new PlatformHandlerMetadata({
-        handler: async (_ctx: unknown, next: () => Promise<void>) => {
+        handler: async ($ctx: typeof $ctx) => {
           calls.push("before");
-          await next();
+          await $ctx.next?.();
           calls.push("after");
         },
         type: PlatformHandlerType.CTX_FN
@@ -52,9 +52,9 @@ describe("executeFetchRoute", () => {
     const $ctx = createFetchContext(new Request("https://tsed.dev/widgets"));
     const execute = executeFetchRoute([
       new PlatformHandlerMetadata({
-        handler: async (_ctx: unknown, next: () => Promise<void>) => {
-          await next();
-          await next();
+        handler: async ($ctx: typeof $ctx) => {
+          await $ctx.next?.();
+          await $ctx.next?.();
         },
         type: PlatformHandlerType.CTX_FN
       })
@@ -73,5 +73,15 @@ describe("executeFetchRoute", () => {
     const execute = executeFetchRoute([metadata]);
 
     await expect(execute($ctx)).rejects.toThrow("@Next() is not supported by the portable middleware pipeline");
+  });
+
+  it("rejects an unmarked host-style callback", async () => {
+    const $ctx = createFetchContext(new Request("https://tsed.dev/widgets"));
+    const native = vi.fn((_request: unknown, _response: unknown) => undefined);
+
+    await expect(executeFetchRoute([PlatformHandlerMetadata.from(native)])($ctx)).rejects.toThrow(
+      "Native middleware requires a compatible host bridge"
+    );
+    expect(native).not.toHaveBeenCalled();
   });
 });

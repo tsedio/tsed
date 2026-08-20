@@ -48,7 +48,7 @@ The v9 HTTP core SHALL provide request-scoped extension state, native request/re
 
 ### Requirement: Use decorators default functions to portable middleware
 
-`Use`, `UseBefore`, and `UseAfter` SHALL accept a portable function, a DI-resolved Ts.ED middleware class, or an explicit `native(handler)` value. The core SHALL use `isClass()` to classify a class input. Any function that is not wrapped by `native()` SHALL be a portable context handler; the core SHALL NOT classify it as native middleware by inspecting its arity. The portable execution contract SHALL call functions with a runtime-neutral context and a Ts.ED-owned continuation.
+`Use`, `UseBefore`, and `UseAfter` SHALL accept a portable function, a DI-resolved Ts.ED middleware class, or an explicit `native(handler)` value. The core SHALL use `isClass()` to classify a class input. A function with zero or one declared parameter SHALL be a portable context handler; a function with two or more declared parameters SHALL retain native host middleware semantics. The portable execution contract SHALL call portable functions with a runtime-neutral context only.
 
 #### Scenario: Execute a function middleware as a portable context handler
 
@@ -58,21 +58,21 @@ The v9 HTTP core SHALL provide request-scoped extension state, native request/re
 #### Scenario: Preserve a DI middleware class
 
 - **WHEN** an application registers a middleware class through a `Use*` decorator
-- **THEN** the core SHALL resolve it through DI and invoke its decorator-less `use(ctx, next)` method with the runtime-neutral context and continuation
+- **THEN** the core SHALL resolve it through DI and invoke its decorator-less `use(ctx)` method with the runtime-neutral context
 
 #### Scenario: Retain legacy parameter-decorator middleware support
 
 - **WHEN** a DI middleware class declares parameter decorators on its `use` method
 - **THEN** v9 SHALL support the existing Ts.ED parameter-binding behavior; migrating the project to TC39 decorators is out of scope for this change
 
-#### Scenario: Do not infer an unmarked native-style function
+#### Scenario: Retain an unmarked native-style function
 
 - **WHEN** an application registers an Express- or Koa-style callback without wrapping it in `native()`
-- **THEN** v9 SHALL invoke it as a portable context handler and SHALL NOT infer native middleware semantics from its parameter count
+- **THEN** v9 SHALL retain native host middleware semantics from its parameter count; direct Fetch execution SHALL reject it as unsupported
 
 ### Requirement: Portable middleware continuation is Promise-first and implicit by default
 
-The portable middleware pipeline SHALL supply a Ts.ED-owned, single-use `next(): Promise<void>` continuation to every portable function or class middleware. When a middleware resolves without calling `next()` and has not produced a response, the core SHALL advance the pipeline implicitly. When it calls and awaits `next()`, the core SHALL resume the middleware after downstream execution. `@Next()` SHALL NOT be part of the v9 portable middleware API.
+The portable middleware pipeline SHALL expose a Ts.ED-owned, single-use `ctx.next(): Promise<void>` continuation to every portable function or class middleware. When a middleware resolves without calling it and has not produced a response, the core SHALL advance the pipeline implicitly. When it calls and awaits `ctx.next()`, the core SHALL resume the middleware after downstream execution. `@Next()` SHALL NOT be part of the v9 portable middleware API.
 
 #### Scenario: Advance implicitly after a simple middleware
 
@@ -81,7 +81,7 @@ The portable middleware pipeline SHALL supply a Ts.ED-owned, single-use `next():
 
 #### Scenario: Resume after downstream execution
 
-- **WHEN** a portable middleware calls and awaits `next()`
+- **WHEN** a portable middleware calls and awaits `ctx.next()`
 - **THEN** it SHALL resume only after the downstream portable pipeline has completed
 
 #### Scenario: Reject multiple continuation calls
@@ -92,4 +92,4 @@ The portable middleware pipeline SHALL supply a Ts.ED-owned, single-use `next():
 #### Scenario: Remove Next decorator injection
 
 - **WHEN** a portable class middleware declares a `@Next()` parameter
-- **THEN** v9 SHALL reject it with a migration error directing the author to the direct `use(ctx, next)` method signature
+- **THEN** v9 SHALL reject it with a migration error directing the author to `use(ctx)` and `await ctx.next?.()`

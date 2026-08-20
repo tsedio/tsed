@@ -45,10 +45,15 @@ export class PlatformHandlerMetadata {
       if (this.hasParamType(ParamTypes.ERR)) {
         this.type = PlatformHandlerType.ERR_MIDDLEWARE;
       }
-    } else {
+    } else if (!type && !handler.type) {
       if (this.#handler.length === 4) {
         this.type = PlatformHandlerType.RAW_ERR_FN;
+      } else if (this.#handler.length >= 2) {
+        this.type = PlatformHandlerType.RAW_FN;
+      } else {
+        this.type = PlatformHandlerType.CTX_FN;
       }
+
       this.hasNextFunction = this.#handler.length >= 3;
     }
   }
@@ -115,7 +120,7 @@ export class PlatformHandlerMetadata {
 
     return new PlatformHandlerMetadata({
       handler: input,
-      type: input.type || PlatformHandlerType.CTX_FN,
+      type: input.type,
       opts
     });
   }

@@ -23,6 +23,9 @@ export interface PlatformContextOptions extends DIContextOptions {
   endpoint?: JsonMethodStore;
 }
 
+/** Promise-first continuation exposed to portable Ts.ED middleware. */
+export type PlatformNext = () => Promise<void>;
+
 export class PlatformContext<PReq extends PlatformRequest = PlatformRequest> extends DIContext {
   readonly PLATFORM: string = "WWW";
   public event?: PlatformNativeContext;
@@ -42,7 +45,7 @@ export class PlatformContext<PReq extends PlatformRequest = PlatformRequest> ext
   /**
    *
    */
-  public next?: any;
+  public next?: PlatformNext;
   /**
    * The current @@PlatformResponse@@.
    */
