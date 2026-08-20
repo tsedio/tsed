@@ -3,6 +3,7 @@ import {PlatformResponseFilter} from "@tsed/platform-response-filter";
 import {Injectable} from "@tsed/di";
 import {Get, s} from "@tsed/schema";
 import {PlatformHandlerMetadata, PlatformHandlerType} from "@tsed/platform-router";
+import {QueryParams} from "@tsed/platform-params";
 import {PlatformTest} from "../../testing/PlatformTest.js";
 import {createFetchHandler} from "./createFetchHandler.js";
 import {executeFetchRoute} from "./executeFetchRoute.js";
@@ -36,8 +37,8 @@ describe("createFetchHandler", () => {
     @Injectable()
     class WidgetsController {
       @Get("/")
-      get() {
-        return {name: "widget"};
+      get(@QueryParams("name") name: string) {
+        return {name};
       }
     }
 
@@ -61,7 +62,7 @@ describe("createFetchHandler", () => {
       ])
     );
 
-    const response = await handler(new Request("https://tsed.dev/widgets"));
+    const response = await handler(new Request("https://tsed.dev/widgets?name=widget"));
 
     expect(await response.json()).toEqual({name: "widget"});
   });

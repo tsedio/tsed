@@ -13,7 +13,7 @@
 - [ ] 2.2 Implement the response draft and finalization path for status, headers, cookies, empty responses, serialized values, and streams.
 - [ ] 2.3 Refactor parameter binding, decorated controller invocation, response filtering, and exception mapping to run against the shared context.
 - [ ] 2.4 Define and implement the portable middleware contract: a zero- or one-argument function defaults to a `PlatformContext` handler, while a function with two or more parameters retains native host compatibility; a class input (`isClass()`) resolves through DI and supports both decorator-less `use(ctx)` and existing legacy parameter decorators, and `native()` explicitly selects host middleware. Provide the Ts.ED-owned, single-use `ctx.next(): Promise<void>` continuation with implicit progression when it is not called; remove `@Next()` from the portable API. Test the fixed route order `UseBefore` → `Use` → interceptors → controller → `UseAfter` → response filters → finalization, plus short-circuit responses, downstream resumption, double-next rejection, error propagation, and parameter-decorator support excluding `@Next()`.
-- [ ] 2.5 Expose the route-level `Request -> Promise<Response>` factory and cover compiled controller execution, parameters, exceptions, filters, and lifecycle hooks with direct Fetch tests. Do not implement route matching or not-found behavior in `platform-http`.
+- [x] 2.5 Expose the route-level `Request -> Promise<Response>` factory and cover compiled controller execution, parameters, exceptions, filters, and lifecycle hooks with direct Fetch tests. Do not implement route matching or not-found behavior in `platform-http`.
 
 ## 3. Route compilation and body capabilities
 
