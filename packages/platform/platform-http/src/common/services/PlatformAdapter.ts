@@ -56,14 +56,6 @@ export abstract class PlatformAdapter<App = TsED.Application> {
   abstract mapLayers(layer: PlatformLayer[]): void | Promise<void>;
 
   /**
-   * Finalize the portable response through the active host bridge.
-   *
-   * A bridge owns this write boundary; portable code must only mutate
-   * {@link PlatformResponse} before this method is called.
-   */
-  abstract sendResponse($ctx: PlatformContext): Promise<void>;
-
-  /**
    * Map handler to the targeted framework
    */
   mapHandler(handler: Function, layer: PlatformHandlerMetadata): Function {

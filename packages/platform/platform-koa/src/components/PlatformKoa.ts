@@ -20,7 +20,6 @@ import {convertPath} from "../utils/convertPath.js";
 import koaQs from "koa-qs";
 import send from "koa-send";
 import {staticsMiddleware} from "../middlewares/staticsMiddleware.js";
-import {writeFetchResponse} from "../utils/writeFetchResponse.js";
 import {createFetchRequest} from "../utils/createFetchRequest.js";
 import {createFetchRouteHandler} from "../utils/createFetchRouteHandler.js";
 import {createKoaRequestAccessors} from "../utils/createKoaRequestAccessors.js";
@@ -151,10 +150,6 @@ export class PlatformKoa extends PlatformAdapter<Koa> {
         return $ctx.next && $ctx.error ? $ctx.next($ctx.error) : $ctx.next();
       }
     };
-  }
-
-  async sendResponse($ctx: PlatformContext) {
-    writeFetchResponse($ctx, $ctx.response.finalize());
   }
 
   useContext(): void {

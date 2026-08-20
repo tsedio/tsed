@@ -21,7 +21,6 @@ import {convertPath} from "../utils/convertPath.js";
 import {fileURLToPath} from "node:url";
 import {readFileSync} from "node:fs";
 import {staticsMiddleware} from "../middlewares/staticsMiddleware.js";
-import {writeFetchResponse} from "../utils/writeFetchResponse.js";
 import {createFetchRequest} from "../utils/createFetchRequest.js";
 import {createFetchRouteHandler} from "../utils/createFetchRouteHandler.js";
 
@@ -208,10 +207,6 @@ export class PlatformExpress extends PlatformAdapter<Express.Application> {
         return callNext(next, metadata, $ctx);
       });
     };
-  }
-
-  async sendResponse($ctx: PlatformContext) {
-    await writeFetchResponse($ctx, $ctx.response.finalize());
   }
 
   useContext(): void {

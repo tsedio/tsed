@@ -54,8 +54,6 @@ export class FakeAdapter extends PlatformAdapter<any> {
 
   mapLayers(layers: PlatformLayer[]) {}
 
-  async sendResponse(_$ctx: PlatformContext) {}
-
   mapHandler(handler: PlatformContextHandler<PlatformContext>) {
     return handler;
   }
