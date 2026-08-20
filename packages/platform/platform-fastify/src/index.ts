@@ -4,7 +4,6 @@
 export * from "./components/PlatformFastify.js";
 export * from "./interfaces/interfaces.js";
 export * from "./interfaces/PlatformFastifySettings.js";
-export * from "./services/PlatformFastifyRequest.js";
 export * from "./utils/writeFetchResponse.js";
 export * from "./utils/convertPath.js";
 export * from "./utils/createFetchRequest.js";

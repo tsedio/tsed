@@ -9,7 +9,6 @@ import {
   PlatformAdapter,
   PlatformBuilder,
   PlatformContext,
-  PlatformRequest,
   PlatformStaticsOptions,
   adapter,
   createFetchContext,
@@ -21,7 +20,6 @@ import {constant, inject, logger, runInContext} from "@tsed/di";
 import fastifyStatics, {type FastifyStaticOptions} from "@fastify/static";
 import {NotFound} from "@tsed/exceptions";
 import {PlatformExceptions} from "@tsed/platform-exceptions";
-import {PlatformFastifyRequest} from "../services/PlatformFastifyRequest.js";
 import type {PlatformFastifySettings} from "../interfaces/PlatformFastifySettings.js";
 import {convertPath} from "../utils/convertPath.js";
 import fastifyMiddie from "@fastify/middie";
@@ -36,6 +34,18 @@ declare global {
   }
 
   namespace TsED {}
+}
+
+declare module "fastify" {
+  export interface FastifyRequest {
+    $ctx: PlatformContext;
+  }
+}
+
+declare module "http" {
+  export interface IncomingMessage {
+    $ctx: PlatformContext;
+  }
 }
 
 function callNext(next: any, metadata: PlatformHandlerMetadata, $ctx: PlatformContext) {
@@ -381,9 +391,4 @@ export class PlatformFastify extends PlatformAdapter<FastifyInstance> {
   }
 }
 
-adapter(PlatformFastify, [
-  {
-    token: PlatformRequest,
-    useClass: PlatformFastifyRequest
-  }
-]);
+adapter(PlatformFastify);

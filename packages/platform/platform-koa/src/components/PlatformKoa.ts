@@ -7,7 +7,6 @@ import {
   PlatformAdapter,
   PlatformBuilder,
   PlatformContext,
-  PlatformRequest,
   PlatformStaticsOptions
 } from "@tsed/platform-http";
 import {PlatformHandlerMetadata, PlatformHandlerType, PlatformLayer} from "@tsed/platform-router";
@@ -16,7 +15,6 @@ import {constant, inject, runInContext} from "@tsed/di";
 import koaBodyParser, {Options} from "koa-bodyparser";
 import KoaRouter from "@koa/router";
 import {PlatformExceptions} from "@tsed/platform-exceptions";
-import {PlatformKoaRequest} from "../services/PlatformKoaRequest.js";
 import {convertPath} from "../utils/convertPath.js";
 // @ts-ignore
 import koaQs from "koa-qs";
@@ -25,6 +23,13 @@ import {staticsMiddleware} from "../middlewares/staticsMiddleware.js";
 import {writeFetchResponse} from "../utils/writeFetchResponse.js";
 import {createFetchRequest} from "../utils/createFetchRequest.js";
 import {createFetchRouteHandler} from "../utils/createFetchRouteHandler.js";
+import {createKoaRequestAccessors} from "../utils/createKoaRequestAccessors.js";
+
+declare module "koa" {
+  export interface Request {
+    $ctx: PlatformContext;
+  }
+}
 
 declare global {
   namespace TsED {
@@ -158,14 +163,7 @@ export class PlatformKoa extends PlatformAdapter<Koa> {
     application().use((koaContext: Context, next: Next) => {
       const $ctx = createFetchContext(createFetchRequest(koaContext), undefined, {
         event: {request: koaContext.request as any, response: koaContext.response as any, koaContext},
-        accessors: {
-          body: () => (koaContext.request as any).body,
-          rawBody: () => (koaContext.request as any).rawBody,
-          params: () => koaContext.params || {},
-          session: () => (koaContext as Context & {session?: unknown}).session,
-          files: () => (koaContext.request as any).files,
-          accepts: (mime?: string | string[]) => koaContext.accepts(mime as any) || false
-        }
+        accessors: createKoaRequestAccessors(koaContext)
       });
 
       return runInContext($ctx, async () => {
@@ -217,9 +215,4 @@ export class PlatformKoa extends PlatformAdapter<Koa> {
   }
 }
 
-adapter(PlatformKoa, [
-  {
-    token: PlatformRequest,
-    useClass: PlatformKoaRequest
-  }
-]);
+adapter(PlatformKoa);
