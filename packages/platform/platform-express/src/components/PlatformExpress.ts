@@ -140,7 +140,10 @@ export class PlatformExpress extends PlatformAdapter<Express.Application> {
     const version = getVersion();
 
     for (const layer of layers) {
-      const handlers = layer.getArgs(false);
+      const hasNativeHandlers = layer.handlers.some((metadata) => metadata.opts.native);
+      const handlers = hasNativeHandlers
+        ? layer.handlers.map((metadata) => this.mapHandler(metadata.compiledHandler || metadata.handler, metadata))
+        : [];
       const {path, wildcard} = convertPath(layer.path, version as "v4" | "v5");
 
       layer.path = path;
@@ -168,7 +171,7 @@ export class PlatformExpress extends PlatformAdapter<Express.Application> {
         }) as any);
       }
 
-      if (!layer.handlers.some((metadata) => metadata.opts.native)) {
+      if (!hasNativeHandlers) {
         rawApp[layer.method](path, createFetchRouteHandler(layer.handlers));
         continue;
       }

@@ -7,7 +7,6 @@ import {JsonOperationRoute} from "@tsed/schema";
 import {AnyToPromiseWithCtx} from "../domain/AnyToPromiseWithCtx.js";
 import {PlatformContext} from "../domain/PlatformContext.js";
 import {setResponseHeaders} from "../utils/setResponseHeaders.js";
-import {PlatformAdapter} from "./PlatformAdapter.js";
 
 /**
  * Compiles decorated Ts.ED handlers into portable context functions and
@@ -18,7 +17,6 @@ import {PlatformAdapter} from "./PlatformAdapter.js";
 export class PlatformHandler {
   protected platformParams = inject(PlatformParams);
   protected platformRouters = inject(PlatformRouters);
-  protected platformAdapter = inject(PlatformAdapter);
 
   constructor() {
     this.platformRouters.hooks
@@ -31,7 +29,7 @@ export class PlatformHandler {
         const handler = handlerMetadata.isInjectable() ? this.createHandler(handlerMetadata) : handlerMetadata.handler;
         handlerMetadata.compiledHandler = handler;
 
-        return this.platformAdapter.mapHandler(handler as any, handlerMetadata);
+        return handler;
       });
   }
 

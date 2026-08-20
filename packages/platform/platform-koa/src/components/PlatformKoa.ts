@@ -109,7 +109,10 @@ export class PlatformKoa extends PlatformAdapter<Koa> {
         continue;
       }
 
-      const handlers = layer.getArgs(false);
+      const hasNativeHandlers = layer.handlers.some((metadata) => metadata.opts.native);
+      const handlers = hasNativeHandlers
+        ? layer.handlers.map((metadata) => this.mapHandler(metadata.compiledHandler || metadata.handler, metadata))
+        : [];
 
       if (wildcard === "*") {
         handlers.unshift(((koaContext: any, next: any) => {
@@ -119,7 +122,7 @@ export class PlatformKoa extends PlatformAdapter<Koa> {
         }) as any);
       }
 
-      if (!layer.handlers.some((metadata) => metadata.opts.native)) {
+      if (!hasNativeHandlers) {
         rawRouter[layer.method](path, createFetchRouteHandler(layer.handlers));
         continue;
       }
