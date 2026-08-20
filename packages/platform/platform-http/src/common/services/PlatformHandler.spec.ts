@@ -1,5 +1,6 @@
 import {Get, s, View} from "@tsed/schema";
 import {Injectable, runInContext} from "@tsed/di";
+import {BodyParams} from "@tsed/platform-params";
 import {PlatformHandlerMetadata, PlatformHandlerType} from "@tsed/platform-router";
 import {PlatformHandler} from "./PlatformHandler.js";
 import {PlatformTest} from "../../testing/PlatformTest.js";
@@ -75,6 +76,31 @@ describe("PlatformHandler", () => {
       await service.createHandler(metadata)($ctx);
 
       expect($ctx.response.getHeaders()["x-middleware"]).toBe("class");
+    });
+
+    it("should preserve parameter decorators on a middleware class", async () => {
+      const {service} = getServiceFixture();
+      const body = {name: "widget"};
+      let received: unknown;
+
+      @Injectable()
+      class Test {
+        use(@BodyParams() payload: unknown) {
+          received = payload;
+        }
+      }
+
+      PlatformTest.injector.add(Test);
+      const metadata = new PlatformHandlerMetadata({
+        provider: PlatformTest.injector.providers.get(Test),
+        propertyKey: "use",
+        type: PlatformHandlerType.MIDDLEWARE
+      });
+      const $ctx = PlatformTest.createRequestContext({accessors: {body: () => body}});
+
+      await service.createHandler(metadata)($ctx);
+
+      expect(received).toEqual(body);
     });
   });
 
