@@ -7,6 +7,7 @@ export * from "./interfaces/PlatformFastifySettings.js";
 export * from "./utils/writeFetchResponse.js";
 export * from "./utils/convertPath.js";
 export * from "./utils/createFetchRequest.js";
+export * from "./utils/createFastifyRequestAccessors.js";
 export * from "./utils/createFetchRouteHandler.js";
 export * from "./utils/toPrefix.js";
 export * from "./utils/native.js";

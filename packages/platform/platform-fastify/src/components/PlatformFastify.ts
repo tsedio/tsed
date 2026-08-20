@@ -25,6 +25,7 @@ import {convertPath} from "../utils/convertPath.js";
 import fastifyMiddie from "@fastify/middie";
 import {toPrefix} from "../utils/toPrefix.js";
 import {createFetchRequest} from "../utils/createFetchRequest.js";
+import {createFastifyRequestAccessors} from "../utils/createFastifyRequestAccessors.js";
 import {createFetchRouteHandler} from "../utils/createFetchRouteHandler.js";
 
 declare global {
@@ -148,7 +149,7 @@ export class PlatformFastify extends PlatformAdapter<FastifyInstance> {
         return async (request: IncomingMessage, _: ServerResponse, done: (err?: any) => void) => {
           const {$ctx} = request;
 
-          $ctx.next = done;
+          $ctx.next = async () => done();
 
           const result = await runInContext($ctx, () => handler($ctx));
 
@@ -161,7 +162,7 @@ export class PlatformFastify extends PlatformAdapter<FastifyInstance> {
         return async (request: FastifyRequest, _: FastifyReply, done: (err?: any) => void) => {
           const {$ctx} = request;
 
-          $ctx.next = done;
+          $ctx.next = async () => done();
 
           await runInContext($ctx, () => handler($ctx));
 
@@ -177,7 +178,10 @@ export class PlatformFastify extends PlatformAdapter<FastifyInstance> {
     const rawApp: FastifyInstance = app.getApp();
 
     rawApp.addHook("onRequest", async (request, reply) => {
-      const $ctx = createFetchContext(createFetchRequest(request), undefined, {event: {request, response: reply}});
+      const $ctx = createFetchContext(createFetchRequest(request), undefined, {
+        event: {request, response: reply},
+        accessors: createFastifyRequestAccessors(request)
+      });
 
       ($ctx.request.getReq() as any).$ctx = $ctx;
 
@@ -320,7 +324,7 @@ export class PlatformFastify extends PlatformAdapter<FastifyInstance> {
 
       return runInContext(req.$ctx, async () => {
         const $ctx = req.$ctx;
-        $ctx.next = null;
+        $ctx.next = undefined;
 
         for (const metadata of layer.handlers) {
           try {

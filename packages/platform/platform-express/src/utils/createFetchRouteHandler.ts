@@ -2,6 +2,7 @@ import type {Request as ExpressRequest, Response as ExpressResponse} from "expre
 import {createFetchContext, executeFetchContext, executeFetchRoute} from "@tsed/platform-http";
 import type {PlatformHandlerMetadata} from "@tsed/platform-router";
 import {createFetchRequest} from "./createFetchRequest.js";
+import {createExpressRequestAccessors} from "./createExpressRequestAccessors.js";
 import {writeFetchResponse} from "./writeFetchResponse.js";
 
 /**
@@ -15,7 +16,10 @@ export function createFetchRouteHandler(handlers: PlatformHandlerMetadata[]) {
     const existingContext = (request as ExpressRequest & {$ctx?: ReturnType<typeof createFetchContext>}).$ctx;
     const $ctx = existingContext?.fetch
       ? existingContext
-      : createFetchContext(createFetchRequest(request), undefined, {event: {request, response}});
+      : createFetchContext(createFetchRequest(request), undefined, {
+          event: {request, response},
+          accessors: createExpressRequestAccessors(request)
+        });
     const ownsContext = $ctx !== existingContext;
 
     try {

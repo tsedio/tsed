@@ -22,6 +22,7 @@ import {fileURLToPath} from "node:url";
 import {readFileSync} from "node:fs";
 import {staticsMiddleware} from "../middlewares/staticsMiddleware.js";
 import {createFetchRequest} from "../utils/createFetchRequest.js";
+import {createExpressRequestAccessors} from "../utils/createExpressRequestAccessors.js";
 import {createFetchRouteHandler} from "../utils/createFetchRouteHandler.js";
 
 declare module "express" {
@@ -216,7 +217,10 @@ export class PlatformExpress extends PlatformAdapter<Express.Application> {
     const app = application();
 
     app.use(async (request: any, response: any, next: any) => {
-      const $ctx = createFetchContext(createFetchRequest(request), undefined, {event: {request, response}});
+      const $ctx = createFetchContext(createFetchRequest(request), undefined, {
+        event: {request, response},
+        accessors: createExpressRequestAccessors(request)
+      });
       await $ctx.start();
 
       ($ctx.response.native as any).on("finish", () => $ctx.finish());

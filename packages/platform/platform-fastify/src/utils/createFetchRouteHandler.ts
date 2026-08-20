@@ -2,6 +2,7 @@ import type {FastifyReply, FastifyRequest} from "fastify";
 import {createFetchContext, executeFetchContext, executeFetchRoute, type PlatformContext} from "@tsed/platform-http";
 import type {PlatformHandlerMetadata} from "@tsed/platform-router";
 import {createFetchRequest} from "./createFetchRequest.js";
+import {createFastifyRequestAccessors} from "./createFastifyRequestAccessors.js";
 import {writeFetchResponse} from "./writeFetchResponse.js";
 
 /** Executes a Fastify-selected route through the shared Fetch-native pipeline. */
@@ -13,7 +14,10 @@ export function createFetchRouteHandler(handlers: PlatformHandlerMetadata[]) {
 
     const $ctx = existingContext?.fetch
       ? existingContext
-      : createFetchContext(createFetchRequest(request), undefined, {event: {request, response: reply}});
+      : createFetchContext(createFetchRequest(request), undefined, {
+          event: {request, response: reply},
+          accessors: createFastifyRequestAccessors(request)
+        });
 
     const ownsContext = $ctx !== existingContext;
 
