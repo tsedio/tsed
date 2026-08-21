@@ -17,14 +17,16 @@ export function createHostBridgeHandler<NativeRequest = unknown, NativeResponse 
   execute: PlatformFetchContextHandler
 ): PlatformHostBridgeHandler<NativeRequest, NativeResponse> {
   return async (native) => {
-    const $ctx: PlatformContext = await bridge.createContext(native);
+    const existingContext = bridge.getContext?.(native);
+    const $ctx: PlatformContext = existingContext || (await bridge.createContext(native));
+    const ownsContext = !existingContext;
 
     try {
-      await $ctx.start();
+      ownsContext && (await $ctx.start());
       const response = await executeFetchContext($ctx, execute);
       await bridge.writeResponse($ctx, response);
     } finally {
-      await $ctx.finish();
+      ownsContext && (await $ctx.finish());
     }
   };
 }

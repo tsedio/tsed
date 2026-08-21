@@ -16,6 +16,8 @@ export interface PlatformNativeContext<NativeRequest = unknown, NativeResponse =
 export interface PlatformHostBridge<NativeRequest = unknown, NativeResponse = unknown> {
   readonly name: string;
 
+  getContext?(native: PlatformNativeContext<NativeRequest, NativeResponse>): PlatformContext | undefined;
+
   createContext(native: PlatformNativeContext<NativeRequest, NativeResponse>): PlatformContext | Promise<PlatformContext>;
 
   writeResponse($ctx: PlatformContext, response: Response): void | Promise<void>;

@@ -141,7 +141,7 @@ export class PlatformKoa extends PlatformAdapter<Koa> {
     return async (koaContext: Koa.Context, next: Koa.Next) => {
       const {$ctx} = koaContext.request;
 
-      $ctx.next = next;
+      $ctx.next = async () => next();
 
       const error = await catchAsyncError(() => handler($ctx));
 
@@ -150,7 +150,11 @@ export class PlatformKoa extends PlatformAdapter<Koa> {
       }
 
       if (metadata.type !== PlatformHandlerType.RESPONSE_FN) {
-        return $ctx.next && $ctx.error ? $ctx.next($ctx.error) : $ctx.next();
+        if ($ctx.error) {
+          throw $ctx.error;
+        }
+
+        return next();
       }
     };
   }
