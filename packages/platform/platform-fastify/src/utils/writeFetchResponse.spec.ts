@@ -48,4 +48,30 @@ describe("writeFetchResponse", () => {
 
     expect(reply.clearCookie).toHaveBeenCalledWith("session", {path: "/"});
   });
+
+  it("streams every Fetch chunk before ending the native response", async () => {
+    const reply = {
+      code: vi.fn(),
+      header: vi.fn(),
+      raw: {
+        write: vi.fn(() => true),
+        end: vi.fn((callback) => callback?.()),
+        once: vi.fn()
+      },
+      setCookie: vi.fn(),
+      clearCookie: vi.fn()
+    };
+    const stream = new ReadableStream({
+      start(controller) {
+        controller.enqueue(new TextEncoder().encode("first"));
+        controller.enqueue(new TextEncoder().encode("second"));
+        controller.close();
+      }
+    });
+
+    await writeFetchResponse({response: {native: reply, getCookies: () => new Map()}} as any, new Response(stream, {status: 200}));
+
+    expect(reply.raw.write.mock.calls.map(([chunk]) => new TextDecoder().decode(chunk))).toEqual(["first", "second"]);
+    expect(reply.raw.end).toHaveBeenCalledOnce();
+  });
 });

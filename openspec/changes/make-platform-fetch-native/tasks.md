@@ -21,7 +21,7 @@
 - [ ] 3.2 Define body ownership and parsed-body caching semantics for JSON, text, form data, and raw bodies in the portable context.
 - [ ] 3.3 Remove assumptions about cookies, sessions, multipart, views, Socket.IO, and upgrades from the portable request/response API while preserving native access and extension-state hooks for their owning middleware and packages.
 - [ ] 3.4 Define and test the `@tsed/platform-multer` migration boundary for Express, Fastify, and Koa without adding multer implementation to `platform-http`.
-- [ ] 3.5 Add regression tests for body consumption, raw-body access, redirects, cookies/session middleware interop, and streaming response finalization.
+- [x] 3.5 Add regression tests for body consumption, raw-body access, redirects, cookies/session middleware interop, and streaming response finalization.
 
 ## 4. Host bridge foundation and Node/Express bridge
 
