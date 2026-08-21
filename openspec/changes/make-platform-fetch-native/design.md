@@ -37,7 +37,7 @@ This aligns with Hono, Bun, Elysia, workers, and modern Node while preserving an
 
 ### 3. Refactor the existing platform request/response facades around Fetch
 
-The v9 execution context will retain `PlatformRequest` and `PlatformResponse` as the ergonomic Ts.ED facades. `PlatformRequest` is backed by an immutable standard `Request`; `PlatformResponse` is a mutable `ResponseDraft` that owns status, headers, cookies, and body until finalization produces one `Response`.
+The v9 execution context will retain `PlatformRequest` and `PlatformResponse` as the ergonomic Ts.ED facades. `PlatformRequest` is backed by an immutable standard `Request`; `PlatformResponse` owns mutable status, headers, cookie mutations, and body state until finalization produces one `Response`. No separate public `ResponseDraft` type is introduced.
 
 This permits decorators and response filters to keep their current imperative ergonomics without pretending that a Fetch `Response` is mutable. Native host objects live symmetrically on the facades: `request.native`/`response.native`, with `request.raw === request.native` and `response.raw === response.native` as explicit non-portable aliases. The active bridge supplies their types and values; `platform-http` does not define a Node HTTP capability or require a Bun/Fetch host to emulate Node objects. Portable code uses the Fetch-backed facade; bridge-specific code uses the native properties.
 
@@ -66,6 +66,12 @@ Global `Configuration.middlewares` has a different role: it configures host boot
 
 For a matched decorated route, the portable order is fixed: `UseBefore` → `Use` → interceptors → controller method → `UseAfter` → response filters → response finalization. Interceptors remain the closest cross-cutting layer around controller invocation; `UseBefore` and `UseAfter` run respectively before and after that intercepted method. Global native middleware runs in the adapter hook configured by `Configuration.middlewares`, outside this portable route sequence.
 
+### Body ownership stays with the host
+
+`platform-http` never consumes, parses, or caches a Fetch request body. JSON, text, URL-encoded form data, multipart data, and raw-body capture are all owned by the active host parser or middleware. `PlatformRequest.body`, `rawBody`, `files`, `cookies`, `session`, and route parameters delegate to optional host-provided accessors on every read; the core does not copy their values into request state.
+
+Consequently direct Fetch execution exposes an untouched standard `Request` and returns `undefined` for host-only body capabilities. Express, Fastify, and Koa bridges expose values produced by their existing parsers/plugins through accessors. A bridge or integration that needs a raw body must capture it before its host parser consumes the stream. This retains each ecosystem's parser semantics and prevents `platform-http` from silently reading a single-use stream.
+
 ### 6. Define first-party bridges by capability, not inheritance complexity
 
 First-party bridges will use a narrow `PlatformHostBridge` contract: create/register native capabilities, install the Fetch handler, convert a request and response when needed, and own start/stop behavior. Initial coverage is Express, Fastify, and Koa; direct Fetch execution is a core entry point used for testing rather than a separate platform package. Hono, Bun, Elysia, and worker bridges remain follow-up work after this contract has been proven against the existing platforms.
@@ -82,9 +88,9 @@ A shared test suite will verify route matching, parameter/query extraction, requ
 
 ## Risks / Trade-offs
 
-- [Fetch request bodies are single-use streams] → `platform-http` does not parse or consume them. The active host bridge or an explicit body-parser middleware owns consumption and may publish its result through request-scoped extension state; raw-body access is an owned host capability.
+- [Fetch request bodies are single-use streams] → `platform-http` does not parse, consume, or cache them. The active host bridge or an explicit body-parser middleware owns consumption and exposes its result through request accessors; raw-body access is an owned host capability.
 
-An explicit parser publishes its result with `ctx.request.setBody(body, rawBody)`. Existing parameter decorators read that request-scoped capability, while direct Fetch execution has no implicit parser and leaves the standard `Request` body untouched.
+Existing parameter decorators read the host-provided capability, while direct Fetch execution has no implicit parser and leaves the standard `Request` body untouched.
 
 - [Node and Fetch stream semantics differ] → Test streaming and cancellation at the bridge boundary; keep conversion code isolated and avoid buffering by default.
 - [Existing middleware relies on `req`, `res`, and `next`] → Make the break explicit in v9, provide native host middleware registration, and consider a separately versioned compatibility package after the new core is stable.
