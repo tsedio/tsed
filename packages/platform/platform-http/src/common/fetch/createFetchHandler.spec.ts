@@ -33,6 +33,25 @@ describe("createFetchHandler", () => {
     expect($asyncEmit).toHaveBeenCalledWith("$onResponse", [expect.anything()]);
   });
 
+  it("forwards Fetch runtime facilities without native host objects", async () => {
+    const controller = new AbortController();
+    const waitUntil = vi.fn();
+    const runtime = {signal: controller.signal, waitUntil};
+    const task = Promise.resolve();
+    const handler = createFetchHandler(($ctx) => {
+      expect($ctx.runtime).toBe(runtime);
+      expect($ctx.request.native).toBeUndefined();
+      expect($ctx.response.native).toBeUndefined();
+      $ctx.runtime?.waitUntil?.(task);
+      $ctx.response.body("ok");
+    });
+
+    const response = await handler(new Request("https://tsed.dev/widgets"), runtime);
+
+    expect(await response.text()).toBe("ok");
+    expect(waitUntil).toHaveBeenCalledWith(task);
+  });
+
   it("executes a compiled controller route without a host server", async () => {
     @Injectable()
     class WidgetsController {

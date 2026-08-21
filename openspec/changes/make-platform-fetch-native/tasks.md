@@ -26,7 +26,7 @@
 ## 4. Host bridge foundation and Node/Express bridge
 
 - [ ] 4.1 Implement the `PlatformHostBridge` contract, bridge registration/bootstrap integration, shared request/response conversion utilities, and `PlatformApplication` native-server lifecycle access.
-- [ ] 4.2 Implement the direct Fetch bridge with portable runtime-context support and no Node conversion.
+- [x] 4.2 Implement the direct Fetch bridge with portable runtime-context support and no Node conversion.
 - [ ] 4.3 Implement the Node HTTP conversion boundary used by the Express, Fastify, and Koa bridges, including request URL/headers/body conversion, response streaming, cancellation, and native-object attachment without adding a Node capability to the portable core.
 - [ ] 4.4 Rebuild the Express integration as a thin host bridge; export typed `native()` registration for the `UseBefore`/`Use`/`UseAfter` phases; preserve native-first `Configuration.middlewares` bootstrap hooks and `context()` access from those middleware once a request scope exists.
 - [ ] 4.5 Add Express integration tests for controller execution, error handling, headers/cookies, native capabilities, portable middleware, and streaming.
