@@ -1,6 +1,7 @@
 import {$asyncEmit} from "@tsed/hooks";
 import {PlatformResponseFilter} from "@tsed/platform-response-filter";
-import {Injectable} from "@tsed/di";
+import {Controller, Injectable, Intercept, Interceptor} from "@tsed/di";
+import {Use, UseAfter, UseBefore} from "@tsed/platform-middlewares";
 import {Get, s} from "@tsed/schema";
 import {PlatformHandlerMetadata, PlatformHandlerType} from "@tsed/platform-router";
 import {QueryParams} from "@tsed/platform-params";
@@ -8,6 +9,8 @@ import {PlatformTest} from "../../testing/PlatformTest.js";
 import {createFetchHandler} from "./createFetchHandler.js";
 import {executeFetchRoute} from "./executeFetchRoute.js";
 import {PlatformHandler} from "../services/PlatformHandler.js";
+import {Platform} from "../services/Platform.js";
+import {PlatformResponse} from "../services/PlatformResponse.js";
 
 vi.mock("@tsed/hooks", async (importOriginal) => {
   const mod = await importOriginal<typeof import("@tsed/hooks")>();
@@ -124,5 +127,62 @@ describe("createFetchHandler", () => {
 
     expect(await response.json()).toEqual({});
     expect(await request.json()).toEqual({name: "original"});
+  });
+
+  it("preserves the portable Use* order around an intercepted endpoint", async () => {
+    const calls: string[] = [];
+    const responseFilter = PlatformTest.get<PlatformResponseFilter>(PlatformResponseFilter);
+    vi.spyOn(responseFilter, "transform").mockImplementation(async (data) => {
+      calls.push("response-filter");
+      return data;
+    });
+    const finalize = PlatformResponse.prototype.finalize;
+    vi.spyOn(PlatformResponse.prototype, "finalize").mockImplementation(function (this: PlatformResponse) {
+      calls.push("finalization");
+      return finalize.call(this);
+    });
+
+    @Interceptor()
+    class RecordingInterceptor {
+      intercept(context: any) {
+        calls.push("interceptor:before");
+        const result = context.next();
+        calls.push("interceptor:after");
+        return result;
+      }
+    }
+
+    @Controller("/")
+    @UseBefore(() => calls.push("use-before"))
+    @Use(() => calls.push("use"))
+    @UseAfter(() => calls.push("use-after"))
+    class WidgetsController {
+      @Get("/")
+      @Intercept(RecordingInterceptor)
+      get() {
+        calls.push("endpoint");
+        return "done";
+      }
+    }
+
+    PlatformTest.injector.add(WidgetsController);
+    const platform = PlatformTest.get<Platform>(Platform);
+    platform.addRoute("/widgets", WidgetsController);
+    const [layer] = platform.getLayers();
+    const handler = createFetchHandler(executeFetchRoute(layer.handlers));
+
+    const response = await handler(new Request("https://tsed.dev/widgets"));
+
+    expect(calls).toEqual([
+      "use-before",
+      "use",
+      "interceptor:before",
+      "endpoint",
+      "interceptor:after",
+      "use-after",
+      "response-filter",
+      "finalization"
+    ]);
+    await expect(response.text()).resolves.toBe("done");
   });
 });
