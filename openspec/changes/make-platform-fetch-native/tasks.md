@@ -1,16 +1,16 @@
 ## 1. v9 HTTP contract and package boundary
 
-- [ ] 1.1 Refactor `@tsed/platform-http` in place as the v9 home of the Fetch handler, runtime context, response draft, `PlatformApplication`, host bridge contract, capability tokens, and testing exports.
+- [ ] 1.1 Refactor `@tsed/platform-http` in place as the v9 home of the Fetch handler, runtime context, `PlatformResponse`, `PlatformApplication`, host bridge contract, capability tokens, and testing exports.
 - [ ] 1.2 Remove the v8 platform request/response and adapter inheritance assumptions from `@tsed/platform-http`, including obsolete public exports and configuration types.
-- [ ] 1.3 Define request-scoped extension state and `PlatformApplication` lifecycle contracts for external middleware and integration packages without implementing their behavior in `platform-http`.
-- [ ] 1.4 Add typed `native` properties to `PlatformRequest` and `PlatformResponse`, preserve `raw` as a same-reference non-portable alias, and connect host-native objects to those facades.
-- [ ] 1.5 Add unit/type tests for the public v9 HTTP contract, extension-state isolation, native aliases, and lifecycle integration behavior.
+- [x] 1.3 Define request-scoped host accessors and `PlatformApplication` lifecycle contracts for external middleware and integration packages without implementing their behavior in `platform-http`.
+- [x] 1.4 Add typed `native` properties to `PlatformRequest` and `PlatformResponse`, preserve `raw` as a same-reference non-portable alias, and connect host-native objects to those facades.
+- [x] 1.5 Add unit/type tests for the public v9 HTTP contract, host-accessor isolation, native aliases, and lifecycle integration behavior.
 - [x] 1.6 Re-audit all production `node:http` and `node:https` imports, maintain the Node HTTP impact inventory, and classify each affected package as agnostic migration work, Node bridge, or Node-specific integration.
 
 ## 2. Shared Fetch-native execution pipeline
 
 - [ ] 2.1 Implement request-scoped runtime-neutral context construction from a standard `Request`, including DI scope creation, request identifiers, route metadata, and lifecycle state.
-- [ ] 2.2 Implement the response draft and finalization path for status, headers, cookies, empty responses, serialized values, and streams.
+- [ ] 2.2 Implement the `PlatformResponse` state and finalization path for status, headers, cookies, empty responses, serialized values, and streams.
 - [ ] 2.3 Refactor parameter binding, decorated controller invocation, response filtering, and exception mapping to run against the shared context.
 - [x] 2.4 Define and implement the portable middleware contract: a zero- or one-argument function defaults to a `PlatformContext` handler, while a function with two or more parameters retains native host compatibility; a class input (`isClass()`) resolves through DI and supports both decorator-less `use(ctx)` and existing legacy parameter decorators, and `native()` explicitly selects host middleware. Provide the Ts.ED-owned, single-use `ctx.next(): Promise<void>` continuation with implicit progression when it is not called; remove `@Next()` from the portable API. Test the fixed route order `UseBefore` → `Use` → interceptors → controller → `UseAfter` → response filters → finalization, plus short-circuit responses, downstream resumption, double-next rejection, error propagation, and parameter-decorator support excluding `@Next()`.
 - [x] 2.5 Expose the route-level `Request -> Promise<Response>` factory and cover compiled controller execution, parameters, exceptions, filters, and lifecycle hooks with direct Fetch tests. Do not implement route matching or not-found behavior in `platform-http`.
@@ -19,7 +19,7 @@
 
 - [ ] 3.1 Refactor route compilation so it emits shared controller-invocation handlers and route metadata; each host framework remains responsible for route registration, matching, and path parameters.
 - [x] 3.2 Define body ownership and parsed-body caching semantics for JSON, text, form data, and raw bodies in the portable context.
-- [ ] 3.3 Remove assumptions about cookies, sessions, multipart, views, Socket.IO, and upgrades from the portable request/response API while preserving native access and extension-state hooks for their owning middleware and packages.
+- [ ] 3.3 Remove assumptions about cookies, sessions, multipart, views, Socket.IO, and upgrades from the portable request/response API while preserving native access and host accessors for their owning middleware and packages.
 - [ ] 3.4 Define and test the `@tsed/platform-multer` migration boundary for Express, Fastify, and Koa without adding multer implementation to `platform-http`.
 - [x] 3.5 Add regression tests for body consumption, raw-body access, redirects, cookies/session middleware interop, and streaming response finalization.
 

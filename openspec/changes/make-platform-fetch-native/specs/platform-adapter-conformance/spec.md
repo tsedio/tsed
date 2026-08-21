@@ -25,7 +25,7 @@ Each first-party bridge SHALL document its native-object and lifecycle extension
 #### Scenario: Verify a bridge integration boundary
 
 - **WHEN** the conformance suite runs a first-party Node bridge
-- **THEN** it SHALL verify native request/response access, request-scoped extension state, and post-server lifecycle hooks while keeping middleware, multipart, and Socket.IO behavior outside the Fetch core
+- **THEN** it SHALL verify native request/response access, host-provided accessors, and post-server lifecycle hooks while keeping middleware, multipart, and Socket.IO behavior outside the Fetch core
 
 ### Requirement: Node dependencies are classified and documented
 

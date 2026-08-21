@@ -78,9 +78,9 @@ First-party bridges will use a narrow `PlatformHostBridge` contract: create/regi
 
 ### 7. Keep non-Fetch integrations outside the HTTP core
 
-The v9 core owns the Fetch request/response pipeline, `PlatformRequest.native`/`PlatformResponse.native`, request-scoped extension state, and `PlatformApplication` lifecycle hooks. Cookies and sessions remain middleware supplied by each host ecosystem; multipart remains the responsibility of `@tsed/platform-multer`; Socket.IO and WebSocket server ownership remain the responsibility of `@tsed/socketio` and the host runtime.
+The v9 core owns the Fetch request/response pipeline, `PlatformRequest.native`/`PlatformResponse.native`, host-supplied request accessors, and `PlatformApplication` lifecycle hooks. Cookies and sessions remain middleware supplied by each host ecosystem; multipart remains the responsibility of `@tsed/platform-multer`; Socket.IO and WebSocket server ownership remain the responsibility of `@tsed/socketio` and the host runtime.
 
-This gives integration packages the native objects and lifecycle information they need without forcing a Fetch-only runtime to emulate Node- or framework-specific services. `platform-http` defines the extension mechanism, not implementations of multer, session middleware, Socket.IO, or a WebSocket transport.
+This gives integration packages the native objects, host accessors, and lifecycle information they need without forcing a Fetch-only runtime to emulate Node- or framework-specific services. `platform-http` defines the access boundary, not implementations of multer, session middleware, Socket.IO, or a WebSocket transport.
 
 ### 8. Make conformance executable and transport-focused
 
@@ -94,7 +94,7 @@ Existing parameter decorators read the host-provided capability, while direct Fe
 
 - [Node and Fetch stream semantics differ] → Test streaming and cancellation at the bridge boundary; keep conversion code isolated and avoid buffering by default.
 - [Existing middleware relies on `req`, `res`, and `next`] → Make the break explicit in v9, provide native host middleware registration, and consider a separately versioned compatibility package after the new core is stable.
-- [Koa/Express/Fastify provide non-portable sessions, views, and multipart] → Preserve native access and extension-state hooks so existing middleware and integration packages retain ownership; do not claim Fetch parity for them.
+- [Koa/Express/Fastify provide non-portable sessions, views, and multipart] → Preserve native access and host accessors so existing middleware and integration packages retain ownership; do not claim Fetch parity for them.
 - [Large cross-package refactor can regress behavior] → Land the shared conformance suite before converting production bridges and migrate one bridge at a time.
 - [Public API naming is still open] → Keep this proposal behavioral; validate exact export names in the first design task before publishing alpha APIs.
 

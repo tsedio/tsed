@@ -2,7 +2,7 @@
 
 ### Requirement: Portable handlers receive a runtime-neutral HTTP context
 
-The v9 HTTP core SHALL provide a request-scoped context containing the standard `Request`, matched route data, DI state, lifecycle state, and a response draft. The portable context SHALL NOT require Express-, Fastify-, Koa-, or Node-specific request or response APIs.
+The v9 HTTP core SHALL provide a request-scoped context containing the standard `Request`, matched route data, DI state, lifecycle state, and a mutable `PlatformResponse` facade. The portable context SHALL NOT require Express-, Fastify-, Koa-, or Node-specific request or response APIs.
 
 #### Scenario: Access route data through the portable context
 
@@ -11,11 +11,11 @@ The v9 HTTP core SHALL provide a request-scoped context containing the standard 
 
 ### Requirement: Response mutation is finalized as one Fetch response
 
-The response draft SHALL allow portable code to set status, headers, cookies, and body before finalization, and the core SHALL materialize one standard `Response` after the execution pipeline completes.
+`PlatformResponse` SHALL allow portable code to set status, headers, cookies, and body before finalization, and the core SHALL materialize one standard `Response` after the execution pipeline completes.
 
 #### Scenario: Set headers and status before a controller result is finalized
 
-- **WHEN** middleware or a controller updates the response draft and returns a body
+- **WHEN** middleware or a controller updates `PlatformResponse` and returns a body
 - **THEN** the returned Fetch response SHALL contain the resulting status, headers, cookies, and body
 
 ### Requirement: Native runtime access is explicit and capability-based
@@ -34,16 +34,16 @@ The response draft SHALL allow portable code to set status, headers, cookies, an
 
 ### Requirement: The HTTP context supports external integrations without implementing them
 
-The v9 HTTP core SHALL provide request-scoped extension state, native request/response access, and application lifecycle hooks for integration packages. It SHALL NOT implement cookies, sessions, multipart, views, Socket.IO, or WebSocket/upgrades as core HTTP capabilities.
+The v9 HTTP core SHALL provide host-supplied request accessors, native request/response access, and application lifecycle hooks for integration packages. It SHALL NOT implement cookies, sessions, multipart, views, Socket.IO, or WebSocket/upgrades as core HTTP capabilities.
 
 #### Scenario: Run middleware supplied by the host ecosystem
 
 - **WHEN** a host middleware adds cookies or session data to the native request
-- **THEN** an integration that explicitly uses the native request or request-scoped extension state SHALL be able to consume that data without `platform-http` parsing or managing the middleware
+- **THEN** an integration that explicitly uses the native request or a host-supplied request accessor SHALL be able to consume that data without `platform-http` parsing or managing the middleware
 
 #### Scenario: Attach integration data to a request
 
-- **WHEN** an integration package processes a request and stores parsed multipart or other request-scoped data through the extension mechanism
+- **WHEN** an integration package processes a request and exposes parsed multipart or other host-owned data through a bridge accessor or the native request
 - **THEN** subsequent Ts.ED handlers in the same request scope SHALL be able to retrieve that data without coupling the HTTP core to the integration implementation
 
 ### Requirement: Use decorators default functions to portable middleware
