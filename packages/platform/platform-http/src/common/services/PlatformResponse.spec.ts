@@ -4,6 +4,7 @@ import {PlatformTest} from "../../testing/PlatformTest.js";
 function createResponse() {
   const ctx = new PlatformContext({
     event: {request: PlatformTest.createRequest(), response: undefined} as any,
+    fetch: new Request("https://tsed.dev/"),
     id: "id"
   });
 

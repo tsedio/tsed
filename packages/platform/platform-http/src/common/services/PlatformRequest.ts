@@ -38,7 +38,7 @@ export class PlatformRequest<Req extends {[key: string]: any} = any> {
   /**
    * Host request attached by the active bridge.
    */
-  get native(): Req {
+  get native(): Req | undefined {
     return this.$ctx.event?.request as any;
   }
 
@@ -52,7 +52,7 @@ export class PlatformRequest<Req extends {[key: string]: any} = any> {
   /**
    * Non-portable alias for {@link native}.
    */
-  get raw(): Req {
+  get raw(): Req | undefined {
     return this.native;
   }
 

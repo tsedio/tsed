@@ -175,6 +175,8 @@ describe("PlatformRequest", () => {
   it("keeps host-owned cookies, sessions and files unavailable in direct Fetch execution", () => {
     const request = createFetchContext(new Request("https://tsed.dev/widgets")).request;
 
+    expect(request.native).toBeUndefined();
+    expect(request.raw).toBeUndefined();
     expect(request.cookies).toBeUndefined();
     expect(request.session).toBeUndefined();
     expect(request.files).toBeUndefined();
