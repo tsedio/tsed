@@ -5,7 +5,7 @@
 - [ ] 1.3 Define request-scoped extension state and `PlatformApplication` lifecycle contracts for external middleware and integration packages without implementing their behavior in `platform-http`.
 - [ ] 1.4 Add typed `native` properties to `PlatformRequest` and `PlatformResponse`, preserve `raw` as a same-reference non-portable alias, and connect host-native objects to those facades.
 - [ ] 1.5 Add unit/type tests for the public v9 HTTP contract, extension-state isolation, native aliases, and lifecycle integration behavior.
-- [ ] 1.6 Re-audit all production `node:http` and `node:https` imports, maintain the Node HTTP impact inventory, and classify each affected package as agnostic migration work, Node bridge, or Node-specific integration.
+- [x] 1.6 Re-audit all production `node:http` and `node:https` imports, maintain the Node HTTP impact inventory, and classify each affected package as agnostic migration work, Node bridge, or Node-specific integration.
 
 ## 2. Shared Fetch-native execution pipeline
 
