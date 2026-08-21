@@ -86,11 +86,9 @@ export class PlatformExpress extends PlatformAdapter<Express.Application> {
   static create(module: Type<any>, settings?: Partial<TsED.Configuration>): PlatformBuilder<Express.Application>;
   static create(module: Type<any> | Partial<TsED.Configuration>, settings?: Partial<TsED.Configuration>) {
     return new PlatformBuilder({
-      rootModule: settings ? (module as Type) : undefined,
       httpsPort: false,
       httpPort: false,
-      ...(settings || (module as Partial<TsED.Configuration>)),
-      adapter: PlatformExpress as any
+      ...PlatformBuilder.options(PlatformExpress, module, settings)
     });
   }
 
@@ -102,11 +100,7 @@ export class PlatformExpress extends PlatformAdapter<Express.Application> {
   static bootstrap(settings: Partial<TsED.Configuration>): Promise<PlatformBuilder<Express.Application>>;
   static bootstrap(module: Type<any>, settings?: Partial<TsED.Configuration>): Promise<PlatformBuilder<Express.Application>>;
   static bootstrap(module: Type<any> | Partial<TsED.Configuration>, settings?: Partial<TsED.Configuration>) {
-    return new PlatformBuilder<Express.Application>({
-      rootModule: settings ? (module as Type) : undefined,
-      ...(settings || (module as Partial<TsED.Configuration>)),
-      adapter: PlatformExpress as any
-    }).bootstrap();
+    return new PlatformBuilder<Express.Application>(PlatformBuilder.options(PlatformExpress, module, settings)).bootstrap();
   }
 
   async beforeLoadRoutes() {

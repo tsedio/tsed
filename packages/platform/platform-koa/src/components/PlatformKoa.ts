@@ -65,11 +65,9 @@ export class PlatformKoa extends PlatformAdapter<Koa> {
   static create(module: Type<any>, settings?: Partial<TsED.Configuration>): PlatformBuilder<Koa>;
   static create(module: Type<any> | Partial<TsED.Configuration>, settings?: Partial<TsED.Configuration>) {
     return new PlatformBuilder<Koa>({
-      rootModule: settings ? (module as Type) : undefined,
       httpsPort: false,
       httpPort: false,
-      ...(settings || (module as Partial<TsED.Configuration>)),
-      adapter: PlatformKoa
+      ...PlatformBuilder.options(PlatformKoa, module, settings)
     });
   }
 
@@ -81,11 +79,7 @@ export class PlatformKoa extends PlatformAdapter<Koa> {
   static bootstrap(settings: Partial<TsED.Configuration>): Promise<PlatformBuilder<Koa>>;
   static bootstrap(module: Type<any>, settings?: Partial<TsED.Configuration>): Promise<PlatformBuilder<Koa>>;
   static bootstrap(module: Type<any> | Partial<TsED.Configuration>, settings?: Partial<TsED.Configuration>) {
-    return new PlatformBuilder<Koa>({
-      rootModule: settings ? (module as Type) : undefined,
-      ...(settings || (module as Partial<TsED.Configuration>)),
-      adapter: PlatformKoa
-    }).bootstrap();
+    return new PlatformBuilder<Koa>(PlatformBuilder.options(PlatformKoa, module, settings)).bootstrap();
   }
 
   onInit() {

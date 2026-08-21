@@ -24,7 +24,7 @@ import {PlatformLayer} from "@tsed/platform-router";
 import {PlatformRouteDetails} from "../domain/PlatformRouteDetails.js";
 import type {PlatformStaticsSettings} from "../config/PlatformStaticsSettings.js";
 import {Route} from "../interfaces/Route.js";
-import type {Type} from "@tsed/core";
+import {isClass, type Type} from "@tsed/core";
 import {application} from "../fn/application.js";
 import {closeServer} from "../utils/closeServer.js";
 import {createInjector} from "../utils/createInjector.js";
@@ -111,6 +111,18 @@ export class PlatformBuilder<App = TsED.Application> {
    */
   get injector(): InjectorService {
     return injector();
+  }
+
+  static options<Adapter>(
+    adapter: Type<PlatformAdapter<Adapter>>,
+    module: Type<any> | Partial<TsED.Configuration>,
+    settings?: Partial<TsED.Configuration>
+  ) {
+    return {
+      rootModule: settings ? (module as Type) : undefined,
+      ...(!isClass(module) && !settings ? (module as Partial<TsED.Configuration>) : settings),
+      adapter
+    };
   }
 
   static create<App = TsED.Application>(settings?: PlatformBuilderSettings<App>): PlatformBuilder<App> {
