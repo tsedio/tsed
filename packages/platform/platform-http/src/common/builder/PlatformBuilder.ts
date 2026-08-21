@@ -338,6 +338,7 @@ export class PlatformBuilder<App = TsED.Application> {
 
   protected async listenServers(): Promise<void> {
     this.#listeners = await Promise.all(this.#servers.map((cb) => cb && cb()));
+    this.app.setNativeServers(this.#listeners);
   }
 
   protected async logRoutes(layers: PlatformLayer[]) {

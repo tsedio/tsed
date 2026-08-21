@@ -41,6 +41,18 @@ describe("PlatformApplication", () => {
     });
   });
 
+  describe("getNativeServers()", () => {
+    it("exposes the native servers registered by the active host lifecycle", async () => {
+      const {platformApp} = await getPlatformApp();
+      const server = {close: vi.fn()};
+
+      platformApp.setNativeServers([server]);
+
+      expect(platformApp.getNativeServers()).toEqual([server]);
+      expect(platformApp.getNativeServers()).not.toBe(platformApp.getNativeServers());
+    });
+  });
+
   describe("statics()", () => {
     it("should call statics", async () => {
       // GIVEN
