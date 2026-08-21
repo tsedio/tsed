@@ -1,20 +1,20 @@
 import "@tsed/platform-multer/fastify";
 import * as Http from "node:http";
+import {IncomingMessage, ServerResponse} from "node:http";
 import * as Https from "node:https";
 import {$alter, $asyncEmit} from "@tsed/hooks";
-import {type Env, ReturnHostInfoFromPort, Type, isFunction, isString} from "@tsed/core";
+import {type Env, isFunction, isString, ReturnHostInfoFromPort, Type} from "@tsed/core";
 import Fastify, {FastifyInstance, FastifyReply, FastifyRequest} from "fastify";
-import {IncomingMessage, ServerResponse} from "node:http";
 import {
+  adapter,
+  createContext,
+  createServer,
   PlatformAdapter,
   PlatformBuilder,
   PlatformContext,
   PlatformRequest,
   PlatformResponse,
-  PlatformStaticsOptions,
-  adapter,
-  createContext,
-  createServer
+  PlatformStaticsOptions
 } from "@tsed/platform-http";
 import type {PlatformFastifyPluginLoadingOptions, PlatformFastifyPluginSettings} from "../interfaces/interfaces.js";
 import {PlatformHandlerMetadata, PlatformHandlerType, PlatformLayer} from "@tsed/platform-router";
@@ -70,7 +70,7 @@ export class PlatformFastify extends PlatformAdapter<FastifyInstance> {
    * @param settings
    */
   static bootstrap(settings: Partial<TsED.Configuration>): Promise<PlatformBuilder<FastifyInstance>>;
-  static bootstrap(module: Type<any>, settings: Partial<TsED.Configuration>): Promise<PlatformBuilder<FastifyInstance>>;
+  static bootstrap(module: Type<any>, settings?: Partial<TsED.Configuration>): Promise<PlatformBuilder<FastifyInstance>>;
   static bootstrap(module: Type<any> | Partial<TsED.Configuration>, settings?: Partial<TsED.Configuration>) {
     return new PlatformBuilder<FastifyInstance>({
       rootModule: settings ? (module as Type) : undefined,

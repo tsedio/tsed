@@ -100,7 +100,7 @@ export class PlatformExpress extends PlatformAdapter<Express.Application> {
    * @param settings
    */
   static bootstrap(settings: Partial<TsED.Configuration>): Promise<PlatformBuilder<Express.Application>>;
-  static bootstrap(module: Type<any>, settings: Partial<TsED.Configuration>): Promise<PlatformBuilder<Express.Application>>;
+  static bootstrap(module: Type<any>, settings?: Partial<TsED.Configuration>): Promise<PlatformBuilder<Express.Application>>;
   static bootstrap(module: Type<any> | Partial<TsED.Configuration>, settings?: Partial<TsED.Configuration>) {
     return new PlatformBuilder<Express.Application>({
       rootModule: settings ? (module as Type) : undefined,
