@@ -170,7 +170,7 @@ export class PlatformRequest<Req extends {[key: string]: any} = any> {
    * @param name
    */
   get(name: string) {
-    return this.fetch?.headers.get(name) || this.raw?.get(name);
+    return this.fetch?.headers.get(name) || this.raw?.get?.(name);
   }
 
   getHeader(name: string) {

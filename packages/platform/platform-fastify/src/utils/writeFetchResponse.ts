@@ -3,12 +3,15 @@ import type {PlatformContext} from "@tsed/platform-http";
 
 export interface FastifyResponseWriter {
   raw: {
+    statusCode?: number;
+    setHeader?(name: string, value: string): unknown;
     write(chunk: Uint8Array): boolean;
     end(callback?: () => void): unknown;
     once(event: "drain", listener: () => void): unknown;
   };
   code(statusCode: number): unknown;
   header(name: string, value: string): unknown;
+  hijack?(): unknown;
 }
 
 /**
@@ -24,8 +27,14 @@ export async function writeFetchResponse($ctx: PlatformContext, response: Respon
     value === null ? reply.clearCookie(name, options) : reply.setCookie(name, value, options);
   }
 
-  reply.code(response.status);
-  response.headers.forEach((value, name) => reply.header(name, value));
+  if (reply.hijack) {
+    reply.hijack();
+    reply.raw.statusCode = response.status;
+    response.headers.forEach((value, name) => reply.raw.setHeader?.(name, value));
+  } else {
+    reply.code(response.status);
+    response.headers.forEach((value, name) => reply.header(name, value));
+  }
 
   if (!response.body) {
     await new Promise<void>((resolve) => reply.raw.end(resolve));

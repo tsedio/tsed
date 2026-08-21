@@ -82,6 +82,14 @@ describe("PlatformRequest", () => {
     });
   });
 
+  it("does not require a get() method from the native request", () => {
+    const $ctx = PlatformTest.createRequestContext({
+      event: {request: {headers: {}}, response: PlatformTest.createResponse()}
+    });
+
+    expect($ctx.request.get("x-request-id")).toBeUndefined();
+  });
+
   describe("accepts()", () => {
     it("should set the accepts header", () => {
       const {req, request} = createRequest();

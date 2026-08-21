@@ -12,6 +12,13 @@ import {MulterException} from "../errors/MulterException.js";
 export class PlatformMulterMiddleware implements MiddlewareMethods {
   async use(@Context() ctx: DIContext & {endpoint: JsonMethodStore}) {
     try {
+      const request = ctx.getRequest();
+      const response = ctx.getResponse();
+
+      if (!request || !response) {
+        throw new Error("@tsed/platform-multer requires a Node host bridge with native request and response objects");
+      }
+
       const {fields, options = {}} = ctx.endpoint.get<{
         fields: Field[];
         options: Options;
@@ -31,7 +38,7 @@ export class PlatformMulterMiddleware implements MiddlewareMethods {
 
       const middleware: any = get(settings).fields(fields);
 
-      return await middleware(ctx.getRequest(), ctx.getResponse());
+      return await middleware(request, response);
     } catch (er) {
       const error = er as {code?: string};
 

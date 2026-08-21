@@ -6,6 +6,7 @@ import {MulterOptions} from "../decorators/multerOptions.js";
 import {MultipartFile} from "../decorators/multipartFile.js";
 import {PlatformMulterMiddleware} from "./PlatformMulterMiddleware.js";
 import {PlatformTest} from "@tsed/platform-http/testing";
+import {createFetchContext} from "@tsed/platform-http";
 import {catchAsyncError} from "@tsed/core";
 import {s} from "@tsed/schema";
 
@@ -93,5 +94,14 @@ describe("PlatformMulterMiddleware", () => {
     }
 
     expect(actualError.message).toEqual("test");
+  });
+
+  it("rejects direct Fetch execution without a native Node bridge", async () => {
+    const {middleware} = await getFixture();
+    const ctx = createFetchContext(new Request("https://tsed.dev/uploads"));
+
+    await expect(middleware.use(ctx as any)).rejects.toThrow(
+      "@tsed/platform-multer requires a Node host bridge with native request and response objects"
+    );
   });
 });

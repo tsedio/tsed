@@ -82,6 +82,8 @@ The v9 core owns the Fetch request/response pipeline, `PlatformRequest.native`/`
 
 This gives integration packages the native objects, host accessors, and lifecycle information they need without forcing a Fetch-only runtime to emulate Node- or framework-specific services. `platform-http` defines the access boundary, not implementations of multer, session middleware, Socket.IO, or a WebSocket transport.
 
+`@tsed/platform-multer` remains a Node-host integration. Its Express, Fastify, and Koa modules receive their own native request/response objects and expose parser output through the respective bridge accessors. Direct Fetch execution rejects multipart middleware with an actionable error; it does not emulate Node streams or parse multipart data.
+
 ### 8. Make conformance executable and transport-focused
 
 A shared test suite will verify route matching, parameter/query extraction, request body use, status and headers, cookies, streaming, short-circuit middleware, error conversion, response finalization, and lifecycle cleanup. Each host bridge must run it, with explicit capability exclusions for unsupported host features.

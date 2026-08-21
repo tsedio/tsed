@@ -6,7 +6,10 @@ describe("writeFetchResponse", () => {
     const reply = {
       code: vi.fn(),
       header: vi.fn(),
+      hijack: vi.fn(),
       raw: {
+        statusCode: undefined,
+        setHeader: vi.fn(),
         write: vi.fn(() => true),
         end: vi.fn((callback) => callback?.()),
         once: vi.fn()
@@ -24,9 +27,10 @@ describe("writeFetchResponse", () => {
       new Response("Hello", {status: 201, headers: {"x-request-id": "request-id"}})
     );
 
-    expect(reply.code).toHaveBeenCalledWith(201);
-    expect(reply.header).toHaveBeenCalledWith("content-type", "text/plain;charset=UTF-8");
-    expect(reply.header).toHaveBeenCalledWith("x-request-id", "request-id");
+    expect(reply.hijack).toHaveBeenCalledOnce();
+    expect(reply.raw.statusCode).toBe(201);
+    expect(reply.raw.setHeader).toHaveBeenCalledWith("content-type", "text/plain;charset=UTF-8");
+    expect(reply.raw.setHeader).toHaveBeenCalledWith("x-request-id", "request-id");
     expect(reply.raw.write).toHaveBeenCalledWith(new TextEncoder().encode("Hello"));
     expect(reply.raw.end).toHaveBeenCalledOnce();
   });
