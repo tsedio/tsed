@@ -48,6 +48,24 @@ describe("executeFetchRoute", () => {
     expect(calls).toEqual(["before", "endpoint", "after"]);
   });
 
+  it("short-circuits the remaining portable handlers after a response is committed", async () => {
+    const $ctx = createFetchContext(new Request("https://tsed.dev/widgets"));
+    const endpoint = vi.fn();
+    const execute = executeFetchRoute([
+      new PlatformHandlerMetadata({
+        handler: ($ctx: typeof $ctx) => $ctx.response.status(401).body("unauthorized"),
+        type: PlatformHandlerType.CTX_FN
+      }),
+      new PlatformHandlerMetadata({handler: endpoint, type: PlatformHandlerType.ENDPOINT})
+    ]);
+
+    await execute($ctx);
+
+    expect(endpoint).not.toHaveBeenCalled();
+    expect($ctx.response.statusCode).toBe(401);
+    expect($ctx.response.getBody()).toBe("unauthorized");
+  });
+
   it("rejects a portable middleware that invokes its continuation twice", async () => {
     const $ctx = createFetchContext(new Request("https://tsed.dev/widgets"));
     const execute = executeFetchRoute([
