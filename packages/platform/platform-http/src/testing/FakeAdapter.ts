@@ -40,10 +40,6 @@ export class FakeAdapter extends PlatformAdapter<any> {
     };
   }
 
-  multipart(options: TsED.MultipartFileOptions): TsED.MultipartFileInstance {
-    return {} as any;
-  }
-
   statics(endpoint: string, options: PlatformStaticsOptions): any {
     return {};
   }

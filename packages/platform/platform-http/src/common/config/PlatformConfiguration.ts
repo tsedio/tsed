@@ -27,10 +27,6 @@ declare global {
       // @ts-ignore
       [key: string]: any;
     }
-
-    interface MultipartFileOptions {}
-
-    interface MultipartFileInstance {}
   }
 }
 
