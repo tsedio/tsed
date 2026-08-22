@@ -5,8 +5,15 @@ export interface ExpressResponseWriter {
   status(status: number): unknown;
   set(name: string, value: string): unknown;
   write(chunk: Uint8Array): boolean;
-  end(callback?: () => void): unknown;
-  once(event: "drain", listener: () => void): unknown;
+  end(): unknown;
+  once(event: "drain" | "finish", listener: () => void): unknown;
+}
+
+function endResponse(native: ExpressResponseWriter): Promise<void> {
+  return new Promise<void>((resolve) => {
+    native.once("finish", resolve);
+    native.end();
+  });
 }
 
 /**
@@ -26,7 +33,7 @@ export async function writeFetchResponse($ctx: PlatformContext, response: Respon
   response.headers.forEach((value, name) => native.set(name, value));
 
   if (!response.body) {
-    await new Promise<void>((resolve) => native.end(resolve));
+    await endResponse(native);
     return;
   }
 
@@ -36,5 +43,5 @@ export async function writeFetchResponse($ctx: PlatformContext, response: Respon
     }
   }
 
-  await new Promise<void>((resolve) => native.end(resolve));
+  await endResponse(native);
 }

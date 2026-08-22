@@ -6,8 +6,8 @@ describe("writeFetchResponse", () => {
       status: vi.fn(),
       set: vi.fn(),
       write: vi.fn().mockReturnValue(true),
-      end: vi.fn((callback?: () => void) => callback?.()),
-      once: vi.fn()
+      end: vi.fn(),
+      once: vi.fn((event, listener) => event === "finish" && listener())
     };
 
     await writeFetchResponse(
@@ -32,8 +32,8 @@ describe("writeFetchResponse", () => {
       status: vi.fn(),
       set: vi.fn(),
       write: vi.fn(),
-      end: vi.fn((callback?: () => void) => callback?.()),
-      once: vi.fn()
+      end: vi.fn(),
+      once: vi.fn((event, listener) => event === "finish" && listener())
     };
 
     await writeFetchResponse(
@@ -50,8 +50,8 @@ describe("writeFetchResponse", () => {
       status: vi.fn(),
       set: vi.fn(),
       write: vi.fn(),
-      end: vi.fn((callback?: () => void) => callback?.()),
-      once: vi.fn(),
+      end: vi.fn(),
+      once: vi.fn((event, listener) => event === "finish" && listener()),
       cookie: vi.fn(),
       clearCookie: vi.fn()
     };
@@ -70,8 +70,8 @@ describe("writeFetchResponse", () => {
       status: vi.fn(),
       set: vi.fn(),
       write: vi.fn().mockReturnValue(true),
-      end: vi.fn((callback?: () => void) => callback?.()),
-      once: vi.fn(),
+      end: vi.fn(),
+      once: vi.fn((event, listener) => event === "finish" && listener()),
       cookie: vi.fn(),
       clearCookie: vi.fn()
     };
@@ -94,15 +94,15 @@ describe("writeFetchResponse", () => {
       status: vi.fn(),
       set: vi.fn(),
       write: vi.fn(),
-      end: vi.fn((callback?: () => void) => callback?.()),
-      once: vi.fn(),
+      end: vi.fn(),
+      once: vi.fn((event, listener) => event === "finish" && listener()),
       cookie: vi.fn(),
       clearCookie: vi.fn()
     };
 
     await writeFetchResponse({response: {native, getCookies: () => new Map()}} as any, new Response(JSON.stringify({ok: true})));
 
-    expect(native.once).not.toHaveBeenCalled();
+    expect(native.once.mock.calls.map(([event]) => event)).not.toContain("drain");
     expect(native.end).toHaveBeenCalledOnce();
   });
 });
