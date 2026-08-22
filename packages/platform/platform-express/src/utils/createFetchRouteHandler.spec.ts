@@ -22,8 +22,8 @@ describe("createFetchRouteHandler", () => {
       status: vi.fn(),
       set: vi.fn(),
       write: vi.fn().mockReturnValue(true),
-      end: vi.fn((callback?: () => void) => callback?.()),
-      once: vi.fn()
+      end: vi.fn(),
+      once: vi.fn((event, listener) => event === "finish" && listener())
     };
     const handler = createFetchRouteHandler([
       new PlatformHandlerMetadata({
@@ -57,8 +57,8 @@ describe("createFetchRouteHandler", () => {
       status: vi.fn(),
       set: vi.fn(),
       write: vi.fn().mockReturnValue(true),
-      end: vi.fn((callback?: () => void) => callback?.()),
-      once: vi.fn()
+      end: vi.fn(),
+      once: vi.fn((event, listener) => event === "finish" && listener())
     };
     const $ctx = createFetchContext(new Request("https://api.tsed.dev/widgets/42"), undefined, {
       event: {request: nativeRequest, response: nativeResponse}
