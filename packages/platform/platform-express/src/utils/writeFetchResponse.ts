@@ -31,7 +31,7 @@ export async function writeFetchResponse($ctx: PlatformContext, response: Respon
   }
 
   for await (const chunk of response.body) {
-    if (!native.write(chunk)) {
+    if (native.write(chunk) === false) {
       await once(native as any, "drain");
     }
   }

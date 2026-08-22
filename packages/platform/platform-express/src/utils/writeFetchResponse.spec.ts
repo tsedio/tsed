@@ -88,4 +88,21 @@ describe("writeFetchResponse", () => {
     expect(native.write.mock.calls.map(([chunk]) => new TextDecoder().decode(chunk))).toEqual(["first", "second"]);
     expect(native.end).toHaveBeenCalledOnce();
   });
+
+  it("does not wait for drain when an Express response wrapper returns undefined", async () => {
+    const native = {
+      status: vi.fn(),
+      set: vi.fn(),
+      write: vi.fn(),
+      end: vi.fn((callback?: () => void) => callback?.()),
+      once: vi.fn(),
+      cookie: vi.fn(),
+      clearCookie: vi.fn()
+    };
+
+    await writeFetchResponse({response: {native, getCookies: () => new Map()}} as any, new Response(JSON.stringify({ok: true})));
+
+    expect(native.once).not.toHaveBeenCalled();
+    expect(native.end).toHaveBeenCalledOnce();
+  });
 });
