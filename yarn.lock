@@ -13028,15 +13028,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@tsed/monorepo-utils@npm:3.0.0":
-  version: 3.0.0
-  resolution: "@tsed/monorepo-utils@npm:3.0.0"
+"@tsed/monorepo-utils@npm:3.3.3":
+  version: 3.3.3
+  resolution: "@tsed/monorepo-utils@npm:3.3.3"
   dependencies:
     "@samverschueren/stream-to-observable": "npm:>=0.3.1"
     "@typescript-eslint/typescript-estree": "npm:>=6.20.0"
-    any-observable: "npm:>=0.5.1"
+    any-observable: "npm:^0.6.0"
     axios: "npm:>=1.6.7"
     chalk: "npm:>=5.3.0"
+    cli-table3: "npm:^0.6.5"
     commander: "npm:>=12.0.0"
     execa: "npm:>=8.0.1"
     fancy-log: "npm:>=1.3.3"
@@ -13057,7 +13058,7 @@ __metadata:
     semantic-release: ">=19"
   bin:
     monorepo: bin/monorepo.js
-  checksum: 10/aa3237b15704ceaa2e6434f5b424da40085a108083e9d28f40e1b26b8a9b6f7c9ac2ef83cf2a4a32978bc8b3f8aa394de55588857367a0f12cfbe8ee67d5bf16
+  checksum: 10/cc9c6ffec8d29e4ca8e66a8a43e1679320ace7f3e877a0a136cf1930debc2742f8622a4dc086a66bba3ce5da2530d773c55fd99e7fd3d0d49a7fe9c139980da5
   languageName: node
   linkType: hard
 
@@ -14108,7 +14109,7 @@ __metadata:
     "@swc/core": "npm:1.7.28"
     "@swc/helpers": "npm:0.5.13"
     "@tsed/logger": "npm:^8.0.0"
-    "@tsed/monorepo-utils": "npm:3.0.0"
+    "@tsed/monorepo-utils": "npm:3.3.3"
     "@tsed/ts-doc": "npm:5.0.0"
     "@types/axios": "npm:0.14.0"
     "@types/globby": "npm:9.1.0"
@@ -17066,6 +17067,18 @@ __metadata:
   languageName: node
   linkType: hard
 
+"any-observable@npm:^0.6.0":
+  version: 0.6.0
+  resolution: "any-observable@npm:0.6.0"
+  peerDependenciesMeta:
+    rxjs:
+      optional: true
+    zen-observable:
+      optional: true
+  checksum: 10/e2f8b17d02d59645e5de82ab00fc7c2d4491836ecb9a3e5557da28657d1a4e9ab8fc7204041915bd5045d2a5dc447f98349a6069d631e89e8f912da7f2b22bae
+  languageName: node
+  linkType: hard
+
 "any-promise@npm:^1.0.0, any-promise@npm:^1.1.0, any-promise@npm:~1.3.0":
   version: 1.3.0
   resolution: "any-promise@npm:1.3.0"
@@ -19508,6 +19521,19 @@ __metadata:
     "@colors/colors":
       optional: true
   checksum: 10/8d82b75be7edc7febb1283dc49582a521536527cba80af62a2e4522a0ee39c252886a1a2f02d05ae9d753204dbcffeb3a40d1358ee10dccd7fe8d935cfad3f85
+  languageName: node
+  linkType: hard
+
+"cli-table3@npm:^0.6.5":
+  version: 0.6.5
+  resolution: "cli-table3@npm:0.6.5"
+  dependencies:
+    "@colors/colors": "npm:1.5.0"
+    string-width: "npm:^4.2.0"
+  dependenciesMeta:
+    "@colors/colors":
+      optional: true
+  checksum: 10/8dca71256f6f1367bab84c33add3f957367c7c43750a9828a4212ebd31b8df76bd7419d386e3391ac7419698a8540c25f1a474584028f35b170841cde2e055c5
   languageName: node
   linkType: hard
 

@@ -276,6 +276,9 @@ jobs:
       refs/heads/beta
       refs/heads/rc
       ', github.ref)
+    permissions:
+      contents: write
+      id-token: write
 
     strategy:
       matrix:
@@ -298,11 +301,12 @@ jobs:
       #          merge-multiple: true
       - name: "Git status"
         run: git status
+      - name: Verify trusted publishing readiness
+        run: yarn monorepo trust verify
       - name: Release packages
         env:
           CI: true
           GH_TOKEN: ${{ secrets.GH_TOKEN }}
-          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
           SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
         run: YARN_ENABLE_IMMUTABLE_INSTALLS=false yarn release
       - name: "Trigger Website workflow"
