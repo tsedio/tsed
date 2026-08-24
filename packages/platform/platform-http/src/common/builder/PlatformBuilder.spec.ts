@@ -166,6 +166,30 @@ describe("PlatformBuilder", () => {
         expect(configuration().get("httpsPort")).toEqual(false);
       });
     });
+    describe("static options()", () => {
+      it("should preserve a root module without settings", () => {
+        expect(PlatformBuilder.options(FakeAdapter, ServerModule)).toEqual({
+          rootModule: ServerModule,
+          adapter: FakeAdapter
+        });
+      });
+
+      it("should preserve the root module and settings", () => {
+        expect(PlatformBuilder.options(FakeAdapter, ServerModule, {httpPort: 8080})).toEqual({
+          rootModule: ServerModule,
+          httpPort: 8080,
+          adapter: FakeAdapter
+        });
+      });
+
+      it("should accept settings without a root module", () => {
+        expect(PlatformBuilder.options(FakeAdapter, {httpPort: 8080})).toEqual({
+          rootModule: undefined,
+          httpPort: 8080,
+          adapter: FakeAdapter
+        });
+      });
+    });
     describe("bootstrap()", () => {
       it("should bootstrap platform", async () => {
         // WHEN
