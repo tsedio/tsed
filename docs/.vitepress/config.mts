@@ -1,10 +1,21 @@
 // @ts-ignore
-import { apiAnchor } from "@tsed/vitepress-theme/markdown/api-anchor/api-anchor.js";
+import {apiAnchor} from "@tsed/vitepress-theme/markdown/api-anchor/api-anchor.js";
 import llmstxt from "vitepress-plugin-llms";
-import { defineConfig } from "vitepress";
-import pkg from "../../package.json";
-import referenceSidebar from "../public/reference-sidebar.json";
-import team from "../team.json";
+import {defineConfig} from "vitepress";
+import pkg from "../../package.json" with {type: "json"};
+import team from "../team.json" with {type: "json"};
+import {buildLlmContentsPlugin} from "./plugins/buildLlmContents.js";
+import {apiLlmLinks} from "./plugins/apiLllmLinks.js";
+import {getSidebar} from "./plugins/utils/sidebar.js";
+
+const apiSidebar = {
+  groups: [
+    {text: "Core", pattern: /core|@tsed\/di|hooks|schema$|\/exceptions$|engines|json-mapper|open-spec/},
+    {text: "Platform", pattern: /platform/},
+    {text: "ORM", pattern: /adapters|ioredis|mikro-orm|mongoose|objection|prisma/}
+  ],
+  thirdPartyGroup: "Third parties"
+};
 
 const sort = (items: {text: string; link: string}[]) => items.sort((a, b) => a.text.localeCompare(b.text));
 
@@ -405,9 +416,30 @@ const Releases = [
 export default defineConfig({
   vite: {
     plugins: [
+      buildLlmContentsPlugin({
+        sections: [
+          {
+            source: "guide",
+            destination: "public/ai/guides",
+            label: "Guides"
+          },
+          {
+            source: "introduction",
+            destination: "public/ai/introduction",
+            label: "Introduction"
+          },
+          {
+            source: "api",
+            destination: "public/ai/api",
+            label: "API references"
+          }
+        ],
+        sidebar: apiSidebar
+      }),
+      apiLlmLinks,
       llmstxt({
         ignoreFilesPerOutput: {
-          llmsFullTxt: ["api/**"]
+          llmsTxt: ["api/**"]
         }
       })
     ]
@@ -500,7 +532,7 @@ export default defineConfig({
       "/docs/": Docs,
       "/plugins/": Plugins,
       "/tutorials/": Tutorials,
-      "/api/": referenceSidebar
+      "/api/": getSidebar(apiSidebar)
     },
     socialLinks: [
       {
