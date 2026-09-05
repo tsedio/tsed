@@ -17,7 +17,7 @@ we have to use the @@UseAuth@@ decorator.
 <<< @/docs/snippets/authentication/auth-example.ts
 
 ::: tip
-If you planed to use `Passport.js`, it's recommended to follow the [Passport.js guide here](/tutorials/passport.md).
+If you planned to use `Passport.js`, it's recommended to follow the [Passport.js guide here](/tutorials/passport.md).
 :::
 
 Any middleware can be used as an authentication strategy. Just keep in mind, to work properly, the middleware must use @@Context@@

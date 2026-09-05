@@ -26,7 +26,7 @@ See our next section for more details about DataSource and Custom Repository.
 
 ### Create new connection
 
-Ts.ED CLI support DataSource creation. Just install the latest Ts.ED CLI version and run the followings command:
+Ts.ED CLI support DataSource creation. Just install the latest Ts.ED CLI version and run the following command:
 
 ```sh
 tsed generate

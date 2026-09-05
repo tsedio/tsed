@@ -213,7 +213,7 @@ export class User {
   lastName!: string;
 
   @Column()
-  @Mininum(0)
+  @Minimum(0)
   @Maximum(100)
   age!: number;
 }

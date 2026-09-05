@@ -294,7 +294,7 @@ fs.readFile();
 ```
 
 ::: warning
-This import notation works only if have `"esModuleInterop": true` in your tsconfig.json. Otherwhise, use:
+This import notation works only if have `"esModuleInterop": true` in your tsconfig.json. Otherwise, use:
 
 ```ts
 import * as fs from "fs-extra";
@@ -632,4 +632,4 @@ bun add @tsed/platform-http
 
 :::
 
-That alls! You code base is now optimized for v8.
+That's all! Your code base is now optimized for v8.

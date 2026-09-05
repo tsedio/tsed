@@ -191,7 +191,7 @@ export class Calendar {
 }
 ```
 
-::: warninig
+::: warning
 To update the swagger.json you need to reload the server before.
 :::
 

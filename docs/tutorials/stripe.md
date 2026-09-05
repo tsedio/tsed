@@ -269,7 +269,7 @@ describe("Stripe", () => {
 
 ### Known issue
 
-If you have the followings message, it means you have an issue with your STRIPE_WEBHOOK_SECRET.
+If you have the following message, it means you have an issue with your STRIPE_WEBHOOK_SECRET.
 
 ```sh
 Error message: No signatures found matching the expected signature for payload. Are you passing the raw request body you received from Stripe?

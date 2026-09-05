@@ -69,7 +69,7 @@ export class CalendarCtrl {
     // GET raw router (Express.Router or Koa.Router)
     console.log(router.callback()); // v7 removed
     console.log(router.getRouter()); // removed
-    console.log(router.raw); // return PlatformRouter itself intead Express.Router
+    console.log(router.raw); // return PlatformRouter itself instead Express.Router
   }
 
   myMethod(req: any, res: any, next: any) {}
@@ -453,4 +453,4 @@ The following Ts.ED packages are removed:
 
 ### @tsed/terminus
 
-- Remove BeforeShutdown, OnSignal, OnShutdown, OnSendFailureDuringShutdown decorators. Use followings instead `$beforeShutdown`, `$onSignal`, `$onSignal`, `$onShutdown` or `$onSendFailureDuringShutdown`.
+- Remove BeforeShutdown, OnSignal, OnShutdown, OnSendFailureDuringShutdown decorators. Use the following instead `$beforeShutdown`, `$onSignal`, `$onSignal`, `$onShutdown` or `$onSendFailureDuringShutdown`.

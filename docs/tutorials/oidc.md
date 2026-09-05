@@ -205,7 +205,7 @@ export type REDIS_CONNECTION = Redis;
 
 registerConnectionProvider({
   provide: REDIS_CONNECTION,
-  name: "default" // you can change this name at your conveniance
+  name: "default" // you can change this name at your convenience
 });
 ```
 
@@ -331,7 +331,7 @@ In your controller's directory, create the `oidc/InteractionsCtrl.ts` file and c
 
 ::: tip Note
 The controller Interactions exposes the routes to display any interaction. Here we expose the route
-GET `/interation/:uid`
+GET `/interaction/:uid`
 
 The `uid` is the unique session id used by oidc-provider to identify the current user flow.
 :::
@@ -467,7 +467,7 @@ import {LoginInteraction} from "../../interactions/LoginInteraction";
 @Interactions({
   path: "/interaction/:uid",
   children: [
-    LoginInteraction // register its children interations
+    LoginInteraction // register its children interactions
   ]
 })
 export class InteractionsCtrl {

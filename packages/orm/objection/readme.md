@@ -41,7 +41,7 @@ Currently, `@tsed/objection` allows you:
 
 ## Installation
 
-Before using the `@tsed/objection` package, we need to install the [Obection.js](https://www.npmjs.com/package/objection) and [Knex](https://www.npmjs.com/package/knex) modules.
+Before using the `@tsed/objection` package, we need to install the [Objection.js](https://www.npmjs.com/package/objection) and [Knex](https://www.npmjs.com/package/knex) modules.
 
 Install the dependencies:
 

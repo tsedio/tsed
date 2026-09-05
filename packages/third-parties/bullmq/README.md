@@ -251,7 +251,7 @@ class MyService {
     // When passing only a name, the job will be dispatched in a queue named "default"
     await this.dispatcher.dispatch("some-name", {msg: "this message is part of the payload for the job"});
 
-    // You can also specifiy which queue to use
+    // You can also specify which queue to use
     await this.dispatcher.dispatch({queue: "some-queue", name: "some-name"}, {msg: "this message is part of the payload for the job"});
   }
 }
@@ -275,7 +275,7 @@ To change or disable this behavior, set `logLevel` in the configuration.
 export class Server {}
 ```
 
-**Note**: The module logs when job controller is missing as `warn`. This cannot be separetely controlled.
+**Note**: The module logs when job controller is missing as `warn`. This cannot be separately controlled.
 
 ## Contributors
 

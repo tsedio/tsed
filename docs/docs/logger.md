@@ -40,7 +40,7 @@ bun add @tsed/logger
 Ts.ED logger supports many features, and is optimized to be used in production:
 
 - @@ContextLogger@@, in **production** mode, caches all request logs until the response is sent to your consumer.
-  See [request logger](/docs/logger.html#request-logger) section bellow.
+  See [request logger](/docs/logger.html#request-logger) section below.
 - [Layouts](https://logger.tsed.dev/layouts) support,
 - [Appenders](https://logger.tsed.dev/appenders) support;
 
@@ -109,7 +109,7 @@ The following appenders are available:
 ::: tip
 You can create your own layout/appender:
 
-- [Customize appender (chanel)](https://logger.tsed.dev/appenders/custom.html),
+- [Customize appender (channel)](https://logger.tsed.dev/appenders/custom.html),
 - [Customize layout](https://logger.tsed.dev/layouts/custom.html)
 
 :::
@@ -158,7 +158,7 @@ This configuration will display the log as following:
 {"startTime":"2017-06-05T22:23:08.479Z","categoryName":"json-test","data":["this is just a test"],"level":"INFO","context":{}}
 ```
 
-It's more useful if you planed to parse the log with LogStash or any log tool parser.
+It's more useful if you planned to parse the log with LogStash or any log tool parser.
 
 ## Inject logger
 

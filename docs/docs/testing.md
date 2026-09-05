@@ -542,7 +542,7 @@ your server must be executed for integration test.
 ## Pros / Cons
 
 ::: warning
-Use `PlatformTest.boostrap()` is not recommended in Jest environment.  
+Use `PlatformTest.bootstrap()` is not recommended in Jest environment.  
 This method is practical for carrying out some integration tests but consumes a lot of resources which can lead to a
 significant slowdown in your tests or even cause timeouts.
 

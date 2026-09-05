@@ -56,7 +56,7 @@ import {Configuration} from "@tsed/di";
     ttl: 300, // default TTL
     store: "memory",
     prefix: "myPrefix" // to namespace all keys related to the cache
-    // options options depending on the choosen storage type
+    // options options depending on the chosen storage type
   }
 })
 export class Server {}
@@ -381,7 +381,7 @@ export class MyController {
 
 ## Define when a value can be cached <Badge text="7.6.0+" />
 
-Sometimes, you don't want to store in cache a value because isn't consistant to have it.
+Sometimes, you don't want to store in cache a value because isn't consistent to have it.
 For example, you can avoid caching data when the result is nullish:
 
 ```typescript
@@ -534,7 +534,7 @@ import {Configuration} from "@tsed/di";
   cache: {
     ttl: 300, // default TTL
     caches: [memoryCache, someOtherCache]
-    // options options depending on the choosen storage type
+    // options options depending on the chosen storage type
   }
 })
 export class Server {}
