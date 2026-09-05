@@ -205,7 +205,7 @@ export class User {
   lastName!: string;
 
   @Property()
-  @Mininum(0)
+  @Minimum(0)
   @Maximum(100)
   age!: number;
 }

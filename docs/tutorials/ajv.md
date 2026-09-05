@@ -279,7 +279,7 @@ describe("Product", () => {
 ```
 
 ::: warning
-If you planed to create keyword that transform the data, you have to set `returnsCoercedValues` to `true` in your
+If you planned to create keyword that transform the data, you have to set `returnsCoercedValues` to `true` in your
 configuration.
 :::
 

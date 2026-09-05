@@ -231,7 +231,7 @@ import {SocketMiddlewareError, SocketErr, Socket} from "@tsed/socketio";
 export class ErrorHandlerSocketMiddleware {
   async use(@SocketErr err: any, @Socket socket: SocketIO.Socket) {
     console.error(err);
-    socket.emit("error", {message: "An error has occured"});
+    socket.emit("error", {message: "An error has occurred"});
   }
 }
 ```

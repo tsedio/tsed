@@ -18,7 +18,7 @@ This tutorial show yous how you can use [Objection.js](https://vincit.github.io/
 ## Installation
 
 Before using the `@tsed/objection` package, we need to install
-the [Obection.js](https://www.npmjs.com/package/objection) and [Knex](https://www.npmjs.com/package/knex) modules.
+the [Objection.js](https://www.npmjs.com/package/objection) and [Knex](https://www.npmjs.com/package/knex) modules.
 
 Install the dependencies:
 

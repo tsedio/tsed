@@ -369,7 +369,7 @@ to `ProviderScope.INSTANCE`.
 This feature simplifies dependency management when working with multiple implementations of the same interface using
 type code.
 
-Using a token, you can configure injectable classe to be resolved as an array of instances using `type` option:
+Using a token, you can configure injectable class to be resolved as an array of instances using `type` option:
 
 ::: code-group
 <<< @/docs/snippets/providers/decorators/inject-many-declaration.ts [Decorators]

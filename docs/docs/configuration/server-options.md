@@ -301,7 +301,7 @@ security issue.
 
 Pass the plain object to the model constructor. By default, `true`.
 
-It may be a potential security issue if you have as constructor with this followings code:
+It may be a potential security issue if you have as constructor with this following code:
 
 ```typescript
 class MyModel {

@@ -63,7 +63,7 @@ export class Server {}
 The middlewares added through `middlewares` options will always be registered after the middlewares registered through
 the hook methods!
 
-::: warn
+::: warning
 Only Express/Koa middlewares can be added on `$beforeInit`, `$onInit` and `$afterInit` hooks.
 
 During `$beforeInit`, `$onInit` and `$afterInit` steps the PlatformContext is not available. Injectable Ts.ED middleware
@@ -146,7 +146,7 @@ called when an error occurs on th decorated endpoint.
 
 :::
 
-If you planed to catch errors globally see our [Exception filter](/docs/exceptions) page.
+If you planned to catch errors globally see our [Exception filter](/docs/exceptions) page.
 
 ## Specifics parameters decorators
 

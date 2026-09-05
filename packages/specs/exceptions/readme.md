@@ -17,7 +17,7 @@
 
 A package of Ts.ED framework. See website: https://tsed.dev/
 
-Ts.ED http exceptions provide classes to throw standard HTTP exceptions. Theses exceptions can be used on Controller, Middleware or injectable Service.
+Ts.ED http exceptions provide classes to throw standard HTTP exceptions. These exceptions can be used on Controller, Middleware or injectable Service.
 Emitted exceptions will be handle by the global error middleware and formatted to an Express response with the right status code and headers.
 
 Other thing. This module can be used with a pure Express application.

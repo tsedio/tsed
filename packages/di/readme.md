@@ -163,7 +163,7 @@ calendarCtrl.create({name: "My calendar"});
 
 If you can't or don't want to use decorators (e.g. in pure JavaScript), use the **Functional API** introduced in v8+.
 
-For exemple, we can register a provider like this:
+For example, we can register a provider like this:
 
 ```js
 import {injectable, inject} from "@tsed/di";

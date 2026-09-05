@@ -21,7 +21,7 @@ Pipes have two typical use cases:
   the data is incorrect
 
 Pipes are called when an Incoming request is handled by the controller route handler and operate on **the method's
-parameters**. It takes **Request** or **Response** object and transform theses object to the expected value.
+parameters**. It takes **Request** or **Response** object and transform these object to the expected value.
 
 Pipe receives the argument where it is placed. This means that each parameter can invoke a list of pipes, which can be
 different for each parameter.
