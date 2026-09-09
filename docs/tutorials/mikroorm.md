@@ -185,7 +185,7 @@ export class UsersService {
 To begin, we need to define an Entity MikroORM like this and use Ts.ED Decorator to define the JSON Schema.
 
 ```typescript
-import {MaxLength, Required} from "@tsed/schema";
+import {Maximum, MaxLength, Minimum, Required} from "@tsed/schema";
 import {Entity, Property, PrimaryKey, Property} from "@mikro-orm/core";
 
 @Entity()
