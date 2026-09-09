@@ -1935,7 +1935,7 @@ This feature is only available for OpenAPI 3.
 
 ## Annotations
 
-JSON Schema includes a few keywords and Ts.ED provide also these corresponding decorators like @@Title@@,
+JSON Schema includes a few keywords and Ts.ED also provides corresponding decorators, such as @@Title@@,
 @@Description@@, @@Default@@, @@Example@@ that aren’t strictly used for validation, but are used to describe parts of a
 schema.
 

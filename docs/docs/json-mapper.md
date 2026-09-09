@@ -43,7 +43,7 @@ Enable this option is dangerous and may be a potential security issue.
 
 Pass the plain object to the model constructor. By default, `true`.
 
-It may be a potential security issue if you have as constructor with this following code:
+It may be a potential security issue if you have a constructor with the following code:
 
 ```typescript
 class MyModel {
