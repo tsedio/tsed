@@ -2,7 +2,7 @@ import {Default, from, JsonSchema, Name, Property, s, string} from "@tsed/schema
 import {afterEach, beforeEach, describe, expect, it} from "vitest";
 import {PlatformTest} from "@tsed/platform-http/testing";
 import {defineTool} from "./defineTool.js";
-import {inject} from "@tsed/di";
+import {context, inject, runInContext} from "@tsed/di";
 
 class KnowledgeSearchRequest {
   @Property()
@@ -168,5 +168,22 @@ describe("defineTool", () => {
       ],
       structuredContent: {id: "tool-id"}
     });
+  });
+
+  it("should expose its definition and input in the execution context", async () => {
+    const args = {query: "Ts.ED"};
+    const token = defineTool({
+      name: "contextual-tool",
+      handler() {
+        expect(context().get("mcp")).toMatchObject({name: "contextual-tool"});
+        expect(context().get("mcp_args")).toEqual(args);
+
+        return {content: []};
+      }
+    });
+
+    const definition = inject<any>(token);
+
+    await runInContext(PlatformTest.createRequestContext(), () => definition.handler(args, {} as any));
   });
 });

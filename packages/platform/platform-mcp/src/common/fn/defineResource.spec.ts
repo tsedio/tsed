@@ -1,7 +1,7 @@
 import {afterEach, beforeEach, describe, expect, it} from "vitest";
 import {PlatformTest} from "@tsed/platform-http/testing";
 import {defineResource} from "./defineResource.js";
-import {inject} from "@tsed/di";
+import {context, inject, runInContext} from "@tsed/di";
 
 describe("defineResource", () => {
   beforeEach(() => PlatformTest.create());
@@ -108,5 +108,24 @@ describe("defineResource", () => {
         }
       ]
     });
+  });
+
+  it("should expose its definition and invocation arguments in the execution context", async () => {
+    const uri = new URL("tsed://contextual-resource");
+    const extra = {} as any;
+    const token = defineResource({
+      name: "contextual-resource",
+      uri: "tsed://contextual-resource",
+      handler() {
+        expect(context().get("mcp")).toMatchObject({name: "contextual-resource"});
+        expect(context().get("mcp_args")).toEqual([uri, extra]);
+
+        return {id: "contextual-resource"} as any;
+      }
+    });
+
+    const definition = inject<any>(token);
+
+    await runInContext(PlatformTest.createRequestContext(), () => definition.handler(uri, extra));
   });
 });

@@ -1,7 +1,7 @@
 import {type AbstractType, isArrowFn, type Type} from "@tsed/core";
 import type {GetPromptResult, ServerContext} from "@modelcontextprotocol/server";
 import {JsonSchema, s} from "@tsed/schema";
-import {context, inject, injectable, logger, type TokenProvider} from "@tsed/di";
+import {context, inject, injectable, type TokenProvider} from "@tsed/di";
 import {MCP_PROVIDER_TYPES} from "../constants/constants.js";
 import {constantCase} from "change-case";
 import {fromJsonSchema} from "../utils/fromJsonSchema.js";
@@ -109,10 +109,13 @@ export function definePrompt<Args = any>(options: PromptProps<Args>) {
         ...opts,
         async handler(...args: any[]) {
           try {
+            context()?.set("mcp", opts);
+            context()?.set("mcp_args", args);
+
             return await (handler as any)(...args);
           } catch (er: any) {
             const code = er.name && er.status ? `E_MCP_PROMPT_${constantCase(er.name)}` : "E_MCP_PROMPT_ERROR";
-            logger().error({
+            context().logger.error({
               event: "MCP_PROMPT_ERROR",
               status_code: er.status,
               code,
