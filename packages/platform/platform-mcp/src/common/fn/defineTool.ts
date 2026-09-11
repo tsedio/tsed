@@ -163,12 +163,10 @@ export function defineTool<Input, Output = unknown>(options: ToolProps<Input, Ou
         }),
         async handler(args: Input, ctx: ServerContext) {
           try {
-            const result = await handler(deserializeInput(args, inputSchema, inputStore), ctx);
+            context()?.set("mcp", opts);
+            context()?.set("mcp_args", args);
 
-            logger().info({
-              event: "MCP_TOOL_END",
-              tool: opts.name
-            });
+            const result = await handler(deserializeInput(args, inputSchema, inputStore), ctx);
 
             return asToolResponse(result as unknown as Record<string, unknown>);
           } catch (er: any) {

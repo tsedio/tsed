@@ -1,5 +1,5 @@
 import type {ReadResourceCallback, ReadResourceResult, ResourceMetadata, ResourceTemplate} from "@modelcontextprotocol/server";
-import {context, inject, injectable, logger, type TokenProvider} from "@tsed/di";
+import {context, inject, injectable, type TokenProvider} from "@tsed/di";
 import {MCP_PROVIDER_TYPES} from "../constants/constants.js";
 import {constantCase} from "change-case";
 import {s} from "@tsed/schema";
@@ -108,12 +108,10 @@ export function defineResource(options: ResourceProps): TokenProvider {
         ...opts,
         async handler(...args: Parameters<ReadResourceCallback>) {
           try {
-            const result = await handler(...args);
+            context()?.set("mcp", opts);
+            context()?.set("mcp_args", args);
 
-            logger().info({
-              event: "MCP_TOOL_END",
-              tool: opts.name
-            });
+            const result = await handler(...args);
 
             return asResourceResponse(args[0]?.toString(), result);
           } catch (er: any) {
@@ -127,7 +125,7 @@ export function defineResource(options: ResourceProps): TokenProvider {
                   };
             const code = safeErr.name && safeErr.status ? `E_MCP_RESOURCE_${constantCase(safeErr.name)}` : "E_MCP_RESOURCE_ERROR";
 
-            logger().error({
+            context().logger.error({
               event: "MCP_RESOURCE_ERROR",
               status_code: safeErr.status,
               code,
