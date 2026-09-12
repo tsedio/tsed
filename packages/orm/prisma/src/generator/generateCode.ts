@@ -38,7 +38,7 @@ export async function generateCode(dmmf: DMMF.Document, options: GenerateCodeOpt
   });
 
   const hasEnum = generateEnums(dmmf, project, baseDirPath);
-  generateModels(dmmf, project, baseDirPath);
+  generateModels(dmmf, project, baseDirPath, options.prismaClientPath);
   generateInterfaces(project, baseDirPath);
   generateClientIndex(project, baseDirPath, options);
   generatePrismaService(project, baseDirPath);
