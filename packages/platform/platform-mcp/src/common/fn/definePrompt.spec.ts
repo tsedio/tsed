@@ -1,7 +1,7 @@
 import {afterEach, beforeEach, describe, expect, it} from "vitest";
 import {PlatformTest} from "@tsed/platform-http/testing";
 import {definePrompt} from "./definePrompt.js";
-import {inject} from "@tsed/di";
+import {context, inject, runInContext} from "@tsed/di";
 
 describe("definePrompt", () => {
   beforeEach(() => PlatformTest.create());
@@ -56,5 +56,23 @@ describe("definePrompt", () => {
         prompt: "http-prompt"
       }
     });
+  });
+
+  it("should expose its definition and invocation arguments in the execution context", async () => {
+    const args = {city: "Paris"};
+    const serverContext = {} as any;
+    const token = definePrompt({
+      name: "contextual-prompt",
+      handler() {
+        expect(context().get("mcp")).toMatchObject({name: "contextual-prompt"});
+        expect(context().get("mcp_args")).toEqual([args, serverContext]);
+
+        return {messages: []};
+      }
+    });
+
+    const definition = inject<any>(token);
+
+    await runInContext(PlatformTest.createRequestContext(), () => definition.handler(args, serverContext));
   });
 });

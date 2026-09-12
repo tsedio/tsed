@@ -2,6 +2,7 @@ import {TransformContext} from "../generator/domain/TransformContext.js";
 
 export function createContextFixture(): TransformContext {
   return {
+    prismaClientPath: "@prisma/client",
     modelsMap: new Map()
       .set("User", {
         name: "User",

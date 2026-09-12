@@ -30,6 +30,26 @@
 
 See our [documentation](https://tsed.dev/tutorials/prisma.html) for more information.
 
+### Custom Prisma Client output
+
+`@tsed/prisma` supports Prisma Client generated outside `node_modules`. Configure both generators with output paths
+relative to `schema.prisma`:
+
+```prisma
+generator client {
+  provider = "prisma-client-js"
+  output   = "../generated/prisma"
+}
+
+generator tsed {
+  provider = "tsed-prisma"
+  output   = "../generated/tsed"
+}
+```
+
+The generated Ts.ED models import the `Prisma` namespace from this configured client output, including for `Decimal`
+fields.
+
 ## Contributors
 
 <a href="https://github.com/tsedio/tsed/graphs/contributors"><img src="https://opencollective.com/tsed/contributors.svg?width=890" /></a>
