@@ -212,6 +212,26 @@ generator tsed {
 Then after running `npx prisma generate`, this will emit the generated Ts.ED classes and Enums to
 `@tsedio/prisma/.schema` in `node_modules` folder.
 
+### Custom Prisma Client output
+
+You can generate Prisma Client outside `node_modules` and configure a separate Ts.ED output alongside it. Both output
+paths are relative to `schema.prisma`:
+
+```groovy
+generator client {
+  provider = "prisma-client-js"
+  output   = "../generated/prisma"
+}
+
+generator tsed {
+  provider = "tsed-prisma"
+  output   = "../generated/tsed"
+}
+```
+
+When you run `npx prisma generate`, generated Ts.ED models resolve the `Prisma` namespace from the configured Prisma
+Client output. This includes models that use `Decimal` fields.
+
 You can also configure the default output folder, e.g.:
 
 ```groovy
