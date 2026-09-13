@@ -17,7 +17,7 @@ export function transformScalarToType(field: DmmfField, ctx: TransformContext): 
       // Import Prisma namespace when Decimal is used
       if (field.type === PrismaScalars.Decimal) {
         field.model.addImportDeclaration(
-          resolveExtension(ctx.prismaClientPath.includes("@prisma/client") ? ctx.prismaClientPath : `../${ctx.prismaClientPath}/index`),
+          resolveExtension(ctx.prismaClientPath === "@prisma/client" ? ctx.prismaClientPath : `../${ctx.prismaClientPath}/index`),
           "Prisma"
         );
       }
