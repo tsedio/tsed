@@ -1,3 +1,5 @@
+import {join} from "node:path";
+import {normalizePath} from "@tsed/normalize-path";
 import {cleanGlobPatterns} from "./cleanGlobPatterns.js";
 import {isTsEnv} from "./isTsEnv.js";
 
@@ -27,6 +29,12 @@ describe("cleanGlobPatterns()", () => {
     });
     it("should return file.ts", () => {
       expect(cleanGlobPatterns("file.ts", ["!**.spec.ts"])[0]).toContain("file.ts");
+    });
+
+    it("should keep absolute exclude patterns negated", () => {
+      const exclude = join(import.meta.dirname, "__mock__/Test2.ts");
+
+      expect(cleanGlobPatterns("file.ts", [exclude])[1]).toEqual(`!${normalizePath(exclude)}`);
     });
   });
 });
