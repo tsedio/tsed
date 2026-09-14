@@ -3,7 +3,9 @@ import {normalizePath} from "@tsed/normalize-path";
 import {resolve} from "node:path";
 
 function mapExcludes(excludes: string[]) {
-  return excludes.map((s: string) => `!${s.replace(/!/gi, "")}`);
+  // Normalize before adding "!": on Windows, normalizing "!C:\..." prefixes it with "./",
+  // so the pattern would no longer be negated.
+  return excludes.map((s: string) => `!${normalizePath(mapExtensions(s.replace(/!/gi, "")))}`);
 }
 
 function mapExtensions(file: string): string {
@@ -17,8 +19,6 @@ function mapExtensions(file: string): string {
 export function cleanGlobPatterns(files: string | string[], excludes: string[]): string[] {
   return []
     .concat(files as never)
-    .map((s: string) => resolve(s))
-    .concat(mapExcludes(excludes) as never)
-    .map(mapExtensions)
-    .map((s: string) => normalizePath(s));
+    .map((s: string) => normalizePath(mapExtensions(resolve(s))))
+    .concat(mapExcludes(excludes));
 }
