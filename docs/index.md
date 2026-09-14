@@ -27,7 +27,7 @@ hero:
 
 testimonial:
   title: "What is Ts.ED?"
-  description: Ts.ED offers a flexible structure with a fast learning curve, specifically designed to improve the developer experience. It provides numerous decorators and guidelines to make your code more readable and less error-prone. Ts.ED supports various platforms and tools, including Node.js/Bun.js, <a class="home-link" href="/docs/configuration/express.html">Express.js</a>/<a class="home-link" href="/docs/configuration/koa.html">Koa.js</a>/<a class="home-link" href="/docs/configuration/fastify.html">Fastify.js</a>, <a class="home-link" href="/docs/command.html">CLI</a>, and <a class="home-link" href="/docs/platform-serverless.html>serverless architectures</a> (e.g. AWS).
+  description: Ts.ED offers a flexible structure with a fast learning curve, specifically designed to improve the developer experience. It provides numerous decorators and guidelines to make your code more readable and less error-prone. Ts.ED supports various platforms and tools, including Node.js/Bun.js, <a class="home-link" href="/docs/configuration/express.html">Express.js</a>/<a class="home-link" href="/docs/configuration/koa.html">Koa.js</a>/<a class="home-link" href="/docs/configuration/fastify.html">Fastify.js</a>, <a class="home-link" href="/docs/command.html">CLI</a>, and <a class="home-link" href="/docs/platform-serverless.html">serverless architectures</a> (e.g. AWS).
 
 features:
   - title: Multi-platform
