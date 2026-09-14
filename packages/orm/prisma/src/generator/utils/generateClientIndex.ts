@@ -8,7 +8,7 @@ export function generateClientIndex(project: Project, baseDirPath: string, optio
   const indexFile = directory.createSourceFile("index.ts", undefined, {overwrite: true});
 
   const moduleSpecifier = resolveExtension(
-    options.prismaClientPath.includes("@prisma/client") ? options.prismaClientPath : `../${options.prismaClientPath}/index`
+    options.prismaClientPath === "@prisma/client" ? options.prismaClientPath : `../${options.prismaClientPath}/index`
   );
 
   indexFile.addExportDeclarations([

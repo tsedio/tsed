@@ -136,6 +136,19 @@ describe("transformScalarToType()", () => {
     expect(field.model.addImportDeclaration).toHaveBeenCalledWith("../../prisma/index.js", "Prisma");
   });
 
+  it("should import Decimal from a relative custom Prisma Client output", () => {
+    const ctx = createContextFixture();
+    ctx.prismaClientPath = "../generated/@prisma/client";
+    const field = createDmmfFieldFixture({
+      kind: "scalar",
+      type: PrismaScalars.Decimal,
+      isRequired: true
+    });
+
+    expect(transformScalarToType(field, ctx)).toEqual("Prisma.Decimal");
+    expect(field.model.addImportDeclaration).toHaveBeenCalledWith("../../generated/@prisma/client/index.js", "Prisma");
+  });
+
   it("should transform enumTypes to Date", () => {
     const ctx = createContextFixture();
     const field = createDmmfFieldFixture({
