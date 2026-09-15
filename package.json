@@ -65,6 +65,7 @@
   "workspaces": {
     "packages": [
       "packages/*",
+      "packages/fetch/*",
       "packages/config/*",
       "packages/graphql/*",
       "packages/orm/*",

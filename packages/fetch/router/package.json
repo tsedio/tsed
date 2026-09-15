@@ -1,0 +1,39 @@
+{
+  "name": "@tsed/router",
+  "version": "8.17.0",
+  "description": "Router module for Ts.ED Framework",
+  "source": "./src/index.ts",
+  "type": "module",
+  "main": "./lib/esm/index.js",
+  "module": "./lib/esm/index.js",
+  "browser": "./lib/esm/browser/index.js",
+  "typings": "./lib/types/index.d.ts",
+  "exports": {
+    ".": {
+      "tsed-source": "./src/index.ts",
+      "types": "./lib/types/index.d.ts",
+      "browser": "./lib/esm/browser/index.js",
+      "import": "./lib/esm/index.js",
+      "default": "./lib/esm/index.js"
+    }
+  },
+  "scripts": {
+    "build": "yarn barrels && yarn build:ts",
+    "barrels": "barrels",
+    "test": "vitest run",
+    "build:ts": "tsc --build tsconfig.esm.json",
+    "test:ci": "vitest run --coverage.thresholds.autoUpdate=true"
+  },
+  "dependencies": {
+    "tslib": ">=2.7.0"
+  },
+  "devDependencies": {
+    "@tsed/barrels": "workspace:*",
+    "@tsed/schema": "workspace:*",
+    "@tsed/typescript": "workspace:*",
+    "cross-env": "7.0.3",
+    "typescript": "6.0.2",
+    "vite": "7.3.2",
+    "vitest": "4.1.4"
+  }
+}

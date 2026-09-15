@@ -14151,6 +14151,21 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@tsed/router@workspace:packages/fetch/router":
+  version: 0.0.0-use.local
+  resolution: "@tsed/router@workspace:packages/fetch/router"
+  dependencies:
+    "@tsed/barrels": "workspace:*"
+    "@tsed/schema": "workspace:*"
+    "@tsed/typescript": "workspace:*"
+    cross-env: "npm:7.0.3"
+    tslib: "npm:>=2.7.0"
+    typescript: "npm:6.0.2"
+    vite: "npm:7.3.2"
+    vitest: "npm:4.1.4"
+  languageName: unknown
+  linkType: soft
+
 "@tsed/scalar@workspace:packages/specs/scalar":
   version: 0.0.0-use.local
   resolution: "@tsed/scalar@workspace:packages/specs/scalar"
