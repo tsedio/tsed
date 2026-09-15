@@ -31,7 +31,7 @@ import {nanoid} from "nanoid";
  * - Errors are caught and logged with structured information
  * - Error details include name, message, description, and stack trace
  * - Logger is automatically flushed after error logging
- * - The error is not re-thrown, allowing the flow to continue
+ * - The error is re-thrown after logging so Directus records the flow execution as failed
  *
  * @see {@link defineOperationApi} for the recommended way to create operations
  * @see {@link DirectusContextService} to access Directus context in injected services
@@ -60,6 +60,8 @@ export function wrapOperation<Options = Record<string, unknown>>(
           error_description: error.description,
           error_stack: error.stack
         });
+
+        throw error;
       } finally {
         $ctx.logger.flush();
       }
