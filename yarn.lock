@@ -14156,6 +14156,8 @@ __metadata:
   resolution: "@tsed/router@workspace:packages/fetch/router"
   dependencies:
     "@tsed/barrels": "workspace:*"
+    "@tsed/core": "workspace:*"
+    "@tsed/openspec": "workspace:*"
     "@tsed/schema": "workspace:*"
     "@tsed/typescript": "workspace:*"
     cross-env: "npm:7.0.3"

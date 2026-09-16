@@ -1,5 +1,6 @@
 import {FetchRouter, type FetchRouteOptions} from "../components/FetchRouter.js";
-import type {FetchEndpointOptions} from "../interfaces/FetchEndpointOptions.js";
+import type {FetchEndpointInput} from "../components/FecthContext.js";
+import type {FetchEndpointOptions, FetchEndpointSchemas, InferredFetchEndpointOptions} from "../interfaces/FetchEndpointOptions.js";
 
 /**
  * Creates a router containing one declarative endpoint.
@@ -7,7 +8,13 @@ import type {FetchEndpointOptions} from "../interfaces/FetchEndpointOptions.js";
  * This is the module-friendly counterpart to `router.get({ ... })`: an endpoint
  * can be exported independently, then mounted with `router.use(endpoint)`.
  */
-export function defineEndpoint<const Options extends FetchEndpointOptions>(options: Options): FetchRouter {
+export function defineEndpoint<Input extends FetchEndpointInput = FetchEndpointInput, Output = unknown>(
+  options: FetchEndpointOptions<Input, Output>
+): FetchRouter;
+export function defineEndpoint<const Schemas extends FetchEndpointSchemas, Output = unknown>(
+  options: InferredFetchEndpointOptions<Schemas, Output>
+): FetchRouter;
+export function defineEndpoint(options: FetchEndpointOptions<any, any>): FetchRouter {
   const router = new FetchRouter();
   const {method, ...route} = options;
   const routeOptions = route as FetchRouteOptions;

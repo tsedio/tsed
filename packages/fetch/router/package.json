@@ -25,11 +25,13 @@
     "test:ci": "vitest run --coverage.thresholds.autoUpdate=true"
   },
   "dependencies": {
+    "@tsed/core": "workspace:*",
+    "@tsed/openspec": "workspace:*",
+    "@tsed/schema": "workspace:*",
     "tslib": ">=2.7.0"
   },
   "devDependencies": {
     "@tsed/barrels": "workspace:*",
-    "@tsed/schema": "workspace:*",
     "@tsed/typescript": "workspace:*",
     "cross-env": "7.0.3",
     "typescript": "6.0.2",

@@ -19,25 +19,21 @@ Node.js, Bun and Workers.
 endpoint exportable as a self-contained module and mountable in another router.
 
 ```ts
-import {defineEndpoint, FetchRouter, type FetchEndpointOptions} from "@tsed/router";
+import {defineEndpoint, FetchRouter} from "@tsed/router";
+import {s} from "@tsed/schema";
 
-type GetUserInput = {
-  params: {id: string};
-  query: {include?: string};
-};
-
-export const getUser = defineEndpoint<FetchEndpointOptions<GetUserInput>>({
+export const getUser = defineEndpoint({
   method: "GET",
   path: "/users/:id",
   input: {
-    params: {type: "object"},
-    query: {type: "object"}
+    params: s.object({id: s.string().required()}),
+    query: s.object({include: s.string()})
   },
   output: {
     200: {
       description: "The requested user",
       contentType: "application/json",
-      schema: {type: "object"}
+      schema: s.object({id: s.string().required()})
     }
   },
   handler({request, params, query}) {
@@ -49,9 +45,24 @@ const router = new FetchRouter();
 router.use("/api", getUser);
 ```
 
-Input and output schemas are adapter-owned metadata. The router deliberately
-does not depend on `@tsed/schema`, JSON Schema or a validation library. An
-adapter may use Ts.ED schemas, a third-party schema library or plain metadata.
+Input and output schemas use Ts.ED classes or `JsonSchema` instances. Adapters
+preserve this metadata and later perform validation, serialization and OpenAPI
+generation.
+
+Use a class or schema directly for a conventional JSON body. For an explicit
+request-body representation, provide its HTTP metadata alongside the schema:
+
+```ts
+input: {
+  body: {
+    schema: CreateUser,
+    contentType: "application/json",
+    required: true,
+    description: "User to create",
+    examples: {default: {value: {name: "Ada"}}}
+  }
+}
+```
 
 ## Handler contract
 
@@ -75,3 +86,8 @@ that provides its HTTP method explicitly.
 The contract is intentionally limited to declaration and composition. Request
 decoding, validation, serialization, DI integration and OpenAPI generation are
 future adapters around this stable boundary.
+
+When generating OpenAPI, `operationId` defaults to a value derived from the
+HTTP method and path. Response descriptions default to an empty string. If a
+handler returns a value instead of a native `Response`, the router uses the
+smallest status code declared in `output` as its default response metadata.

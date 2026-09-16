@@ -4,9 +4,15 @@ import {defineEndpoint} from "./defineEndpoint.js";
 
 describe("defineEndpoint", () => {
   it("should create a router that can be mounted", () => {
+    class CreatePath {
+      name!: string;
+    }
+
     const endpoint = defineEndpoint({
       path: "/path/:id",
       method: "GET",
+      summary: "Gets a path",
+      tags: ["paths"],
       input: {
         headers: s.object({
           authorization: s.string().required()
@@ -15,8 +21,17 @@ describe("defineEndpoint", () => {
           query1: s.string()
         }),
         params: s.object({
-          id: s.string()
-        })
+          id: s.string().required()
+        }),
+        body: {
+          schema: CreatePath,
+          contentType: "application/json",
+          required: true,
+          description: "Path to create",
+          examples: {
+            default: {value: {name: "home"}}
+          }
+        }
       },
       output: {
         200: {
@@ -26,10 +41,10 @@ describe("defineEndpoint", () => {
           schema: s.object({})
         }
       },
-      handler(context) {
+      handler({params, body}) {
         /// implementation
-        // context.params.id => should be inferred from input.params.id
-        // if context isn't the solution, args => args.params.id => input.params.id
+        params.id.toUpperCase();
+        body.name.toUpperCase();
       }
     });
 

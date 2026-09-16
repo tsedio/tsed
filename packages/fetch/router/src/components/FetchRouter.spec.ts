@@ -1,4 +1,17 @@
 import {FetchRouter} from "./FetchRouter.js";
+import {s} from "@tsed/schema";
+
+class UserParams {
+  id!: string;
+}
+
+class UserQuery {
+  search?: string;
+}
+
+class CreateUser {
+  name!: string;
+}
 
 describe("FetchRouter", () => {
   describe("get", () => {
@@ -9,15 +22,56 @@ describe("FetchRouter", () => {
     });
 
     it("should support the endpoint declaration form", () => {
+      const router = new FetchRouter();
+
+      expect(
+        router.get({
+          path: "/users/:id",
+          input: {
+            params: s.object()
+          },
+          output: {
+            200: {
+              description: "A user",
+              contentType: "application/json",
+              schema: s.object()
+            }
+          },
+          handler: ({params}) => Response.json({id: params.id})
+        })
+      ).toBe(router);
+    });
+
+    it("should accept an explicit decoded input type", () => {
       type Input = {params: {id: string}};
       const router = new FetchRouter();
 
       expect(
         router.get<Input>({
           path: "/users/:id",
-          input: {params: {type: "object"}},
-          output: {200: {description: "A user", contentType: "application/json", schema: {type: "object"}}},
           handler: ({params}) => Response.json({id: params.id})
+        })
+      ).toBe(router);
+    });
+
+    it("should infer handler input from Ts.ED classes used directly as schemas", () => {
+      const router = new FetchRouter();
+
+      expect(
+        router.get({
+          path: "/users/:id",
+          input: {
+            params: UserParams,
+            query: UserQuery,
+            body: CreateUser
+          },
+          handler: ({params, query, body}) => {
+            params.id.toUpperCase();
+            query.search?.toUpperCase();
+            body.name.toUpperCase();
+
+            return Response.json({id: params.id});
+          }
         })
       ).toBe(router);
     });
