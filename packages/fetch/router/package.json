@@ -26,6 +26,7 @@
   },
   "dependencies": {
     "@tsed/core": "workspace:*",
+    "@tsed/di": "workspace:*",
     "@tsed/openspec": "workspace:*",
     "@tsed/schema": "workspace:*",
     "tslib": ">=2.7.0"

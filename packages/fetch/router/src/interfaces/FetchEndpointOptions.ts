@@ -52,6 +52,15 @@ export type FetchEndpointInputFromSchemas<Schemas extends FetchEndpointSchemas> 
 };
 
 /**
+ * Decoded input selected from either an explicit input type or its schemas.
+ */
+export type ResolveFetchEndpointInput<Input extends FetchEndpointInput | FetchEndpointSchemas> = Input extends FetchEndpointSchemas
+  ? FetchEndpointInputFromSchemas<Input>
+  : Input extends FetchEndpointInput
+    ? Input
+    : never;
+
+/**
  * Values an endpoint handler can return before the host creates a `Response`.
  */
 export type FetchHandlerResult<Output = unknown> = Output | Response | void;
@@ -87,24 +96,24 @@ export type FetchEndpointOutput = Record<number, FetchResponseOptions | FetchRes
  * `input` and `output` are metadata only. Parsing, validation, serialization,
  * and OpenAPI generation are deliberately delegated to adapters.
  */
-export interface FetchEndpointOptions<Input extends FetchEndpointInput = FetchEndpointInput, Output = unknown> extends Omit<
+export type FetchEndpointOptions<Input extends FetchEndpointInput | FetchEndpointSchemas = FetchEndpointInput, Output = unknown> = Omit<
   OS3Operation,
   "operationId" | "parameters" | "requestBody" | "responses"
-> {
+> & {
   /** Defaults to an identifier generated from the HTTP method and path. */
   operationId?: string;
   method: FetchMethod;
   path: string;
-  input?: FetchEndpointSchemas;
+  input?: Input extends FetchEndpointSchemas ? Input : FetchEndpointSchemas;
   output?: FetchEndpointOutput;
-  handler: FetchHandler<Input, Output>;
-}
+  handler: FetchHandler<ResolveFetchEndpointInput<Input>, Output>;
+};
 
 /**
  * Endpoint options whose handler input is inferred from the supplied schemas.
  */
 export type InferredFetchEndpointOptions<Schemas extends FetchEndpointSchemas, Output = unknown> = Omit<
-  FetchEndpointOptions<FetchEndpointInputFromSchemas<Schemas>, Output>,
+  FetchEndpointOptions<Schemas, Output>,
   "input"
 > & {
   input: Schemas;

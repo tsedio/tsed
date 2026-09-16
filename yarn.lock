@@ -14157,6 +14157,7 @@ __metadata:
   dependencies:
     "@tsed/barrels": "workspace:*"
     "@tsed/core": "workspace:*"
+    "@tsed/di": "workspace:*"
     "@tsed/openspec": "workspace:*"
     "@tsed/schema": "workspace:*"
     "@tsed/typescript": "workspace:*"
