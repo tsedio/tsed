@@ -1,19 +1,8 @@
 import type {FetchEndpointInput} from "./FecthContext.js";
-import type {
-  FetchEndpointOptions,
-  FetchEndpointSchemas,
-  FetchHandler,
-  FetchMethod,
-  InferredFetchEndpointOptions
-} from "../interfaces/FetchEndpointOptions.js";
+import type {FetchEndpointOptions, FetchEndpointSchemas, FetchHandler, FetchMethod} from "../interfaces/FetchEndpointOptions.js";
 
 export type FetchRouteOptions<Input extends FetchEndpointInput | FetchEndpointSchemas = FetchEndpointInput, Output = unknown> = Omit<
   FetchEndpointOptions<Input, Output>,
-  "method"
->;
-
-export type InferredFetchRouteOptions<Schemas extends FetchEndpointSchemas, Output = unknown> = Omit<
-  InferredFetchEndpointOptions<Schemas, Output>,
   "method"
 >;
 
