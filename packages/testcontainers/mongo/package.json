@@ -22,6 +22,7 @@
     }
   },
   "scripts": {
+    "test": "vitest run",
     "build": "yarn build:ts",
     "build:ts": "tsc --build tsconfig.esm.json"
   },
