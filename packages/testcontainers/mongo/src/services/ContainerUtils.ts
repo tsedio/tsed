@@ -64,9 +64,9 @@ export function getMongoConnectionOptions(
   url: string;
   connectionOptions: ConnectOptions;
 } {
-  const seed = Math.floor(Math.random() * 10000);
+  const uuid = crypto.randomUUID();
   const {dbName = "db-test", ...otherOpts} = opts;
-  const url = `${getMongoUrl()}/${dbName}-${seed}`;
+  const url = `${getMongoUrl()}/${dbName}-${uuid}`;
 
   return {
     id,
