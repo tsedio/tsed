@@ -30,35 +30,59 @@
 
 A package of Ts.ED framework. See website: https://tsed.dev
 
-> [!WARNING] > `@tsed/pulse` is deprecated and will be removed in a future major release.
-> This package won't receive any future updates.
-> For new projects, use `@tsed/agenda` with Agenda v6.
-> Existing consumers should plan a migration to `@tsed/agenda` + `agenda` + `@agendajs/mongo-backend`.
+> [!WARNING]
+> `@tsed/pulse` is deprecated and will be removed in a future major release.
+> This package won't receive any future updates. Do not start new projects on `@tsed/pulse`.
 >
-> The legacy Pulse examples below are kept only to help existing consumers maintain or migrate old code.
+> For new projects, use [`@tsed/agenda`](https://tsed.dev/tutorials/agenda.html) with Agenda v6.
+> Existing `@tsed/pulse` users should plan a migration to `@tsed/agenda` + `agenda` + `@agendajs/mongo-backend`
+> by following the [migration guide](#migrate-to-tsedagenda) below.
+>
+> The legacy Pulse examples at the end of this page are kept only to help existing consumers maintain or migrate old code.
 
 ## Feature
 
-`@pulsecron/pulse` is maintained fork of the Agenda.
-
-Currently, `@tsed/pulse` allows you to decorate classes with `@Pulse` and
-corresponding methods to have them picked up by the @pulsecron/pulse library to be
+`@pulsecron/pulse` is a fork of Agenda. `@tsed/pulse` allowed you to decorate classes with `@Pulse` and
+corresponding methods to have them picked up by the `@pulsecron/pulse` library to be
 scheduled automatically (`@Every`) or programmatically (`@Define`) via the PulseService.
 
-For more information about Pulse look at the documentation [here](https://github.com/pulsecron/pulse);
+The same features are available in `@tsed/agenda` on top of Agenda v6, which is the recommended and maintained
+scheduling integration for Ts.ED. See the [Agenda documentation](https://tsed.dev/tutorials/agenda.html).
 
 ## Installation
 
-To begin, install the Pulse module for Ts.ED:
+Do not install `@tsed/pulse` for new projects. Install the recommended Agenda v6 stack instead:
 
 ```bash
-npm install --save @tsed/pulse
-npm install --save @pulsecron/pulse
+npm install --save @tsed/agenda agenda @agendajs/mongo-backend
 ```
 
-## Migration note
+Then follow the [Agenda documentation](https://tsed.dev/tutorials/agenda.html) to configure your server.
 
-Prefer `@tsed/agenda` over `@tsed/pulse`.
+> [!NOTE]
+> Only if you maintain an existing project that cannot migrate yet:
+> `npm install --save @tsed/pulse @pulsecron/pulse`.
+
+## Migrate to `@tsed/agenda`
+
+The target stack is `@tsed/agenda` + `agenda` (v6) + `@agendajs/mongo-backend`.
+
+### 1. Replace dependencies
+
+| Remove             | Add                       |
+| ------------------ | ------------------------- |
+| `@tsed/pulse`      | `@tsed/agenda`            |
+| `@pulsecron/pulse` | `agenda`                  |
+|                    | `@agendajs/mongo-backend` |
+
+```bash
+npm uninstall @tsed/pulse @pulsecron/pulse
+npm install --save @tsed/agenda agenda @agendajs/mongo-backend
+```
+
+### 2. Update the server configuration
+
+The `pulse` configuration key becomes `agenda`, and the legacy `db` options move into a `MongoBackend` instance.
 
 ```diff
  import {Configuration} from "@tsed/di";
@@ -81,10 +105,19 @@ Prefer `@tsed/agenda` over `@tsed/pulse`.
  export class Server {}
 ```
 
+The Ts.ED specific flags (`enabled`, `disableJobProcessing`, `drainJobsBeforeClose`) keep the same names and
+behavior in `@tsed/agenda`.
+
+### 3. Update decorators, injection and lifecycle hooks
+
+`@tsed/agenda` exposes the same `@Every` and `@Define` decorators. The class decorator is `@JobsController`
+and the scheduler instance is the `Agenda` class from `agenda` (there is no `AgendaModule`).
+
 ```diff
 -import {Pulse, Every, Define, PulseModule} from "@tsed/pulse";
+-import {Job} from "@pulsecron/pulse";
 +import {JobsController, Every, Define} from "@tsed/agenda";
-+import {Agenda} from "agenda";
++import {Agenda, Job} from "agenda";
 
 -@Pulse({namespace: "email"})
 +@JobsController({namespace: "email"})
@@ -92,10 +125,89 @@ Prefer `@tsed/agenda` over `@tsed/pulse`.
    @Inject()
 -  pulse: PulseModule;
 +  agenda: Agenda;
+
+   @Every("60 minutes", {name: "maintenanceJob"})
+   async sendAdminStatistics(job: Job) {}
+
+   @Define({name: "sendWelcomeEmail"})
+   async sendWelcomeEmail(job: Job) {}
+
+-  async $beforePulseStart() {}
+-  async $afterPulseStart() {}
++  async $beforeAgendaStart() {}
++  async $afterAgendaStart() {}
  }
 ```
 
-## Configure your server
+Scheduling APIs keep the same shape (`now()`, `schedule()`, `every()`, `create()`), so call sites only need the
+injected instance to be renamed:
+
+```diff
+ @Service()
+ export class UsersService {
+   @Inject()
+-  private pulse: PulseModule;
++  private agenda: Agenda;
+
+   async create(user: User) {
+-    await this.pulse.now("email.sendWelcomeEmail", {user});
+-    await this.pulse.schedule("in 2 hours", "email.sendFollowUpEmail", {user});
++    await this.agenda.now("email.sendWelcomeEmail", {user});
++    await this.agenda.schedule("in 2 hours", "email.sendFollowUpEmail", {user});
+   }
+ }
+```
+
+### AI migration note
+
+Apply these deterministic rewrites when migrating a codebase with a coding agent:
+
+```text
+Migrate from @tsed/pulse to @tsed/agenda (Agenda v6):
+
+Dependencies
+- remove `@tsed/pulse` → add `@tsed/agenda`
+- remove `@pulsecron/pulse` → add `agenda` + `@agendajs/mongo-backend`
+
+Imports
+- `import "@tsed/pulse"` → `import "@tsed/agenda"`
+- `import {Pulse, JobsController, Every, Define, PulseModule, PulseService} from "@tsed/pulse"` → `import {JobsController, Every, Define} from "@tsed/agenda"`
+- `import {Job} from "@pulsecron/pulse"` → `import {Job} from "agenda"`
+- add `import {Agenda} from "agenda"` where `PulseModule` / `PulseService` was injected
+- add `import {MongoBackend} from "@agendajs/mongo-backend"` in the server configuration file
+
+Configuration (@Configuration / TsED.Configuration)
+- `pulse: {...}` config key → `agenda: {...}`
+- `pulse.db.address` → `agenda.backend: new MongoBackend({address})`
+- `pulse.db.collection` / `pulse.db.options` → `agenda.backend: new MongoBackend({collection, options})`
+- `pulse.mongo` → `agenda.backend: new MongoBackend({mongo})`
+- `pulse.ensureIndex` / `pulse.sort` → move inside `new MongoBackend({ensureIndex, sort})`, sort directions use `"asc"` / `"desc"`
+- `pulse.enabled`, `pulse.disableJobProcessing`, `pulse.drainJobsBeforeClose` → keep the same names under `agenda`
+- `PulseSettings` type → `AgendaSettings`
+
+Decorators and injection
+- `@Pulse(...)` → `@JobsController(...)`
+- `@JobsController(...)` (from `@tsed/pulse`) → `@JobsController(...)` (from `@tsed/agenda`)
+- `@Every(...)` / `@Define(...)` → unchanged (import them from `@tsed/agenda`)
+- `PulseModule` / `PulseService` injected type → `Agenda` (from `agenda`)
+- `pulse.now(...)`, `pulse.schedule(...)`, `pulse.every(...)`, `pulse.create(...)`, `pulse.define(...)` → same methods on the injected `Agenda`
+- `pulse.jobs(...)` → `agenda.queryJobs(...)`
+
+Lifecycle hooks
+- `$beforePulseStart()` → `$beforeAgendaStart()`
+- `$afterPulseStart()` → `$afterAgendaStart()`
+```
+
+For more details about `@tsed/agenda`, see [Agenda for Ts.ED](https://tsed.dev/tutorials/agenda.html)
+(LLM-friendly version: https://tsed.dev/tutorials/agenda.md).
+
+## Legacy usage (existing projects only)
+
+> [!WARNING]
+> The following sections document the deprecated `@tsed/pulse` API. They are kept for reference only.
+> Do not use them for new code.
+
+### Configure your server
 
 Import `@tsed/pulse` in your Server:
 
@@ -108,7 +220,7 @@ const mongoConnectionString = "mongodb://127.0.0.1/pulse";
 @Configuration({
   pulse: {
     enabled: true, // Enable Pulse jobs for this instance.
-    // drainJobsBeforeStop: true, // Wait for jobs to finish before stopping the pulse process.
+    // drainJobsBeforeClose: true, // Wait for jobs to finish before stopping the pulse process.
     // disableJobProcessing: true, // Prevents jobs from being processed.
     // pass any options that you would normally pass to new Pulse(), e.g.
     db: {
@@ -119,7 +231,7 @@ const mongoConnectionString = "mongodb://127.0.0.1/pulse";
 export class Server {}
 ```
 
-## Create a new Service
+### Create a new Service
 
 Decorate the class with `@Pulse`. The `namespace` option is optional and will
 prefix the job name with `namespace.`
@@ -160,7 +272,7 @@ export class EmailJobService {
 }
 ```
 
-## Define a job processor manually
+### Define a job processor manually
 
 PulseModule exposes methods to manually define a job processor. It can be useful to define a job processor when you need to fetch data beforehand and dynamically build job name / options.
 
@@ -206,7 +318,7 @@ export class EmailJobService {
 }
 ```
 
-## Inject Pulse
+### Inject Pulse
 
 Inject the PulseService instance to interact with it directly, e.g. to schedule
 a job manually.

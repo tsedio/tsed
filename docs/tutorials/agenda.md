@@ -95,6 +95,10 @@ Migrate to @tsed/agenda v8.30.0:
 - `AgendaModule` → `Agenda` from `agenda`
 ```
 
+::: tip Migrating from `@tsed/pulse`?
+`@tsed/pulse` is deprecated. See the [Pulse migration guide](/tutorials/pulse#migrate-to-tsed-agenda) for step-by-step rewrites from `@tsed/pulse` to `@tsed/agenda`.
+:::
+
 ## Configure your server
 
 Import `@tsed/agenda` in your Server:

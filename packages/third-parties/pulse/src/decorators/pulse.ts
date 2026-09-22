@@ -6,6 +6,12 @@ interface PulseOptions {
   namespace?: string;
 }
 
+/**
+ * Declare a class as a Pulse jobs controller.
+ *
+ * @deprecated `@tsed/pulse` is deprecated and will be removed in a future major release. Migrate to `@tsed/agenda` (Agenda v6). See https://tsed.dev/tutorials/pulse.html#migrate-to-tsed-agenda
+ * Use `JobsController` from `@tsed/agenda` instead.
+ */
 export function JobsController(options?: PulseOptions): ClassDecorator {
   return useDecorators(
     options?.namespace && StoreMerge("pulse", options),
@@ -16,6 +22,7 @@ export function JobsController(options?: PulseOptions): ClassDecorator {
 }
 
 /**
- * @deprecated Use `JobsController` instead.
+ * @deprecated `@tsed/pulse` is deprecated and will be removed in a future major release. Migrate to `@tsed/agenda` (Agenda v6). See https://tsed.dev/tutorials/pulse.html#migrate-to-tsed-agenda
+ * Use `JobsController` from `@tsed/agenda` instead.
  */
 export const Pulse: typeof JobsController = JobsController;

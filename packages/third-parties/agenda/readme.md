@@ -76,6 +76,10 @@ npm install --save @tsed/agenda agenda @agendajs/mongo-backend
  export class Server {}
 ```
 
+> [!TIP]
+> Migrating from `@tsed/pulse`? The package is deprecated. See the
+> [Pulse migration guide](https://tsed.dev/tutorials/pulse.html#migrate-to-tsed-agenda) for step-by-step rewrites.
+
 ## Configure your server
 
 Import `@tsed/agenda` in your Server:
