@@ -1,7 +1,7 @@
 {
   "name": "@tsed/pulse",
   "version": "8.17.0",
-  "description": "@pulsecron/pulse package for Ts.ED framework",
+  "description": "[DEPRECATED] @pulsecron/pulse package for Ts.ED framework. Use @tsed/agenda with Agenda v6 instead.",
   "contributors": [
     {
       "name": "Valentin Ivanenco"

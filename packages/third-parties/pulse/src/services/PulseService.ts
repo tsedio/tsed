@@ -105,6 +105,10 @@ async function onDestroy(pulse: Pulse) {
   }
 }
 
+/**
+ * @deprecated `@tsed/pulse` is deprecated and will be removed in a future major release. Migrate to `@tsed/agenda` (Agenda v6). See https://tsed.dev/tutorials/pulse.html#migrate-to-tsed-agenda
+ * Inject `Agenda` from `agenda` instead.
+ */
 export const PulseService = injectable(Pulse)
   .factory(() => {
     const opts = getOpts();
@@ -158,11 +162,17 @@ export const PulseService = injectable(Pulse)
   .token();
 
 /**
- * @deprecated Use `Pulse` from `pulse` instead.
+ * @deprecated `@tsed/pulse` is deprecated and will be removed in a future major release. Migrate to `@tsed/agenda` (Agenda v6). See https://tsed.dev/tutorials/pulse.html#migrate-to-tsed-agenda
+ * Inject `Agenda` from `agenda` instead.
  */
 export type PulseService = Pulse;
 /**
- * @deprecated Use `Pulse` from `pulse` instead.
+ * @deprecated `@tsed/pulse` is deprecated and will be removed in a future major release. Migrate to `@tsed/agenda` (Agenda v6). See https://tsed.dev/tutorials/pulse.html#migrate-to-tsed-agenda
+ * Inject `Agenda` from `agenda` instead.
  */
 export const PulseModule = Pulse;
+/**
+ * @deprecated `@tsed/pulse` is deprecated and will be removed in a future major release. Migrate to `@tsed/agenda` (Agenda v6). See https://tsed.dev/tutorials/pulse.html#migrate-to-tsed-agenda
+ * Inject `Agenda` from `agenda` instead.
+ */
 export type PulseModule = Pulse;

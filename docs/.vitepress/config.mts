@@ -328,7 +328,7 @@ const Tutorials = [
         link: `/tutorials/agenda`
       },
       {
-        text: "Pulse",
+        text: "Pulse (deprecated)",
         link: `/tutorials/pulse`
       },
       {
