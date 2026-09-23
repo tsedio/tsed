@@ -7,8 +7,10 @@ export function generateClientIndex(project: Project, baseDirPath: string, optio
   const directory = project.createDirectory(path.resolve(baseDirPath, "client"));
   const indexFile = directory.createSourceFile("index.ts", undefined, {overwrite: true});
 
+  const prismaClientEntry = options.prismaClientEntry ?? "index";
+
   const moduleSpecifier = resolveExtension(
-    options.prismaClientPath === "@prisma/client" ? options.prismaClientPath : `../${options.prismaClientPath}/index`
+    options.prismaClientPath === "@prisma/client" ? options.prismaClientPath : `../${options.prismaClientPath}/${prismaClientEntry}`
   );
 
   indexFile.addExportDeclarations([
