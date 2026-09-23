@@ -22,6 +22,11 @@ export interface GenerateCodeOptions {
   emitTranspiledCode: boolean;
   outputDirPath: string;
   prismaClientPath: string;
+  /**
+   * Name (without extension) of the barrel file exported by the Prisma client generator.
+   * "index" for prisma-client-js, "client" for the newer prisma-client generator.
+   */
+  prismaClientEntry?: string;
 }
 
 export async function generateCode(dmmf: DMMF.Document, options: GenerateCodeOptions) {
@@ -37,10 +42,12 @@ export async function generateCode(dmmf: DMMF.Document, options: GenerateCodeOpt
     }
   });
 
+  const prismaClientEntry = options.prismaClientEntry ?? "index";
+
   const hasEnum = generateEnums(dmmf, project, baseDirPath);
-  generateModels(dmmf, project, baseDirPath, options.prismaClientPath);
+  generateModels(dmmf, project, baseDirPath, options.prismaClientPath, prismaClientEntry);
   generateInterfaces(project, baseDirPath);
-  generateClientIndex(project, baseDirPath, options);
+  generateClientIndex(project, baseDirPath, {...options, prismaClientEntry});
   generatePrismaService(project, baseDirPath);
   generateRepositories(dmmf, project, baseDirPath);
   generateIndex(project, baseDirPath, hasEnum);

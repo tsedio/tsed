@@ -16,8 +16,11 @@ export function transformScalarToType(field: DmmfField, ctx: TransformContext): 
       TSType = ScalarTsTypes[field.type];
       // Import Prisma namespace when Decimal is used
       if (field.type === PrismaScalars.Decimal) {
+        const prismaClientEntry = ctx.prismaClientEntry ?? "index";
         field.model.addImportDeclaration(
-          resolveExtension(ctx.prismaClientPath === "@prisma/client" ? ctx.prismaClientPath : `../${ctx.prismaClientPath}/index`),
+          resolveExtension(
+            ctx.prismaClientPath === "@prisma/client" ? ctx.prismaClientPath : `../${ctx.prismaClientPath}/${prismaClientEntry}`
+          ),
           "Prisma"
         );
       }

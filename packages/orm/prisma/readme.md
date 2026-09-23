@@ -50,6 +50,27 @@ generator tsed {
 The generated Ts.ED models import the `Prisma` namespace from this configured client output, including for `Decimal`
 fields.
 
+### Prisma's new `prisma-client` generator
+
+Prisma recommends migrating from `prisma-client-js` to the newer `prisma-client` generator, which requires an
+explicit `output` and generates the client outside `node_modules`. `@tsed/prisma` supports both generators during
+this transition — just declare the generator you use, with an explicit `output`:
+
+```prisma
+generator client {
+  provider = "prisma-client"
+  output   = "../generated/prisma"
+}
+
+generator tsed {
+  provider = "tsed-prisma"
+  output   = "../generated/tsed"
+}
+```
+
+If your `schema.prisma` declares neither `prisma-client` nor `prisma-client-js`, or the declared generator has no
+`output`, `@tsed/prisma` fails early with an explicit error telling you how to fix your configuration.
+
 ## Contributors
 
 <a href="https://github.com/tsedio/tsed/graphs/contributors"><img src="https://opencollective.com/tsed/contributors.svg?width=890" /></a>
