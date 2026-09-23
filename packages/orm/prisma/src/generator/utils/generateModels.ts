@@ -7,7 +7,13 @@ import {generateOutputsBarrelFile} from "./generateOutputsBarrelFile.js";
 import path from "node:path";
 import {transformModelToClass} from "../transform/transformModelToClass.js";
 
-export function generateModels(dmmf: DMMF.Document, project: Project, baseDirPath: string, prismaClientPath = "@prisma/client") {
+export function generateModels(
+  dmmf: DMMF.Document,
+  project: Project,
+  baseDirPath: string,
+  prismaClientPath = "@prisma/client",
+  prismaClientEntry = "index"
+) {
   const modelsMap = toMap<string, DMMF.Model>(getValue(dmmf, "datamodel.models", []), "name");
   const typesMap = toMap<string, DMMF.Model>(getValue(dmmf, "datamodel.types", []), "name");
 
@@ -20,7 +26,8 @@ export function generateModels(dmmf: DMMF.Document, project: Project, baseDirPat
     return transformModelToClass(model, {
       dmmf,
       modelsMap,
-      prismaClientPath
+      prismaClientPath,
+      prismaClientEntry
     });
   });
 

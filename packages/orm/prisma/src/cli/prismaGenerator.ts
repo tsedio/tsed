@@ -18,6 +18,42 @@ export interface GenerateOptions {
   packageDir: string;
 }
 
+/**
+ * Name (without extension) of the barrel file each supported Prisma client generator emits at the root of its output directory.
+ */
+const CLIENT_ENTRY_BY_PROVIDER: Record<string, string> = {
+  "prisma-client": "client",
+  "prisma-client-js": "index"
+};
+
+export interface ClientGenerator {
+  output: string;
+  entry: string;
+}
+
+export function resolveClientGenerator(otherGenerators: GeneratorOptions["otherGenerators"]): ClientGenerator {
+  const clientGenerator = otherGenerators.find((it) => internals.parseEnvValue(it.provider) in CLIENT_ENTRY_BY_PROVIDER);
+
+  if (!clientGenerator) {
+    throw new Error(
+      `@tsed/prisma requires a Prisma client generator ("prisma-client" or "prisma-client-js") declared in your schema.prisma. Add one of the following blocks:\n\n` +
+        `generator client {\n  provider = "prisma-client"\n  output   = "../generated/prisma"\n}\n`
+    );
+  }
+
+  const provider = internals.parseEnvValue(clientGenerator.provider);
+  const output = clientGenerator.output ? internals.parseEnvValue(clientGenerator.output) : undefined;
+
+  if (!output) {
+    throw new Error(
+      `The "${provider}" generator must declare an explicit "output" path so @tsed/prisma can resolve the generated Prisma client import. ` +
+        `Add an "output" property to your "${provider}" generator block in schema.prisma.`
+    );
+  }
+
+  return {output, entry: CLIENT_ENTRY_BY_PROVIDER[provider]};
+}
+
 export function generate({defaultOutput, packageDir}: GenerateOptions) {
   return async (options: GeneratorOptions) => {
     const outputDir = internals.parseEnvValue(options.generator.output!);
@@ -25,15 +61,15 @@ export function generate({defaultOutput, packageDir}: GenerateOptions) {
     await removeDir(outputDir, true);
 
     const generatorConfig = options.generator.config;
-    const prismaClientProvider = options.otherGenerators.find((it) => internals.parseEnvValue(it.provider) === "prisma-client-js")!;
-    const prismaClientPath = internals.parseEnvValue(prismaClientProvider.output!);
+    const {output: prismaClientPath, entry: prismaClientEntry} = resolveClientGenerator(options.otherGenerators);
 
     await generateCode(options.dmmf, {
       emitTranspiledCode: parseStringBoolean(generatorConfig.emitTranspiledCode),
       outputDirPath: outputDir,
       prismaClientPath: prismaClientPath.includes("node_modules")
         ? "@prisma/client"
-        : toUnixPath(path.relative(outputDir, prismaClientPath))
+        : toUnixPath(path.relative(outputDir, prismaClientPath)),
+      prismaClientEntry
     });
 
     if (outputDir === defaultOutput) {

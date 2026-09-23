@@ -1,0 +1,10 @@
+{
+  "name": "@tsed/prisma-test-prisma-client",
+  "type": "module",
+  "dependencies": {
+    "@prisma/client": "^7.3.0"
+  },
+  "devDependencies": {
+    "prisma": "^7.3.0"
+  }
+}

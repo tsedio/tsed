@@ -10,8 +10,7 @@ export const packageDir = join(rootDir, "..", "..");
 helpers.generatorHandler({
   onManifest: () => ({
     defaultOutput,
-    prettyName: "Ts.ED integration",
-    requiresGenerators: ["prisma-client-js"]
+    prettyName: "Ts.ED integration"
   }),
   onGenerate: generate({defaultOutput, packageDir})
 });
