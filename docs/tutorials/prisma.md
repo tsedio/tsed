@@ -232,6 +232,32 @@ generator tsed {
 When you run `npx prisma generate`, generated Ts.ED models resolve the `Prisma` namespace from the configured Prisma
 Client output. This includes models that use `Decimal` fields.
 
+### Migrating to Prisma's `prisma-client` generator
+
+Prisma recommends migrating from `prisma-client-js` to the newer `prisma-client` generator, which will eventually
+replace it. `prisma-client` always generates its client outside `node_modules` and requires an explicit `output`.
+`@tsed/prisma` supports both generators during this transition, so you can migrate at your own pace by switching the
+`provider` and `output` of your `client` generator:
+
+```groovy
+generator client {
+  provider = "prisma-client"
+  output   = "../generated/prisma"
+}
+
+generator tsed {
+  provider = "tsed-prisma"
+  output   = "../generated/tsed"
+}
+```
+
+No other change is required: `@tsed/prisma` detects the `prisma-client` generator automatically and resolves imports
+(including the `Prisma` namespace for `Decimal` fields) from its output.
+
+If your `schema.prisma` doesn't declare a `prisma-client` or `prisma-client-js` generator, or if the declared
+generator has no `output`, `@tsed/prisma` fails early with an explicit error explaining how to fix your
+configuration — it never silently falls back to another provider.
+
 You can also configure the default output folder, e.g.:
 
 ```groovy
