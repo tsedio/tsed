@@ -1,9 +1,11 @@
 import {afterEach, beforeEach, describe, expect, it, vi} from "vitest";
 import {EventEmitter} from "node:events";
 import {PlatformFastifyResponse} from "@tsed/platform-fastify";
+import {injector, ProviderScope} from "@tsed/di";
 import {PlatformMcpModule} from "./PlatformMcpModule.js";
 import {PlatformTest} from "@tsed/platform-http/testing";
 import {application} from "@tsed/platform-http";
+import {MCP_SERVER} from "../../common/services/McpServerFactory.js";
 
 const {TestTransport, transportInstances} = vi.hoisted(() => {
   const transportInstances: TestTransport[] = [];
@@ -28,14 +30,28 @@ vi.mock("@modelcontextprotocol/node", () => {
 
 function createModule() {
   const module = new PlatformMcpModule();
-  const server = {
-    connect: vi.fn().mockResolvedValue(undefined)
-  };
+  const servers: Array<{connect: ReturnType<typeof vi.fn>; close: ReturnType<typeof vi.fn>}> = [];
+
+  injector().add(MCP_SERVER, {
+    scope: ProviderScope.REQUEST,
+    useFactory: () => {
+      let transport: TestTransport | undefined;
+      const server = {
+        connect: vi.fn().mockImplementation((value) => {
+          transport = value;
+        }),
+        close: vi.fn().mockImplementation(() => transport?.close())
+      };
+
+      servers.push(server);
+
+      return server;
+    }
+  });
 
   module["settings"] = {};
-  module["server"] = server as never;
 
-  return {module, server};
+  return {module, servers};
 }
 
 function createExpressContext() {
@@ -99,7 +115,7 @@ describe("PlatformMcpModule", () => {
     ["fastify", createFastifyContext]
   ])("dispatch() with %s", (_, createContext) => {
     it("should bind close on the low-level response and forward handleRequest", async () => {
-      const {module, server} = createModule();
+      const {module, servers} = createModule();
       const {$ctx, res} = createContext();
 
       await module["dispatch"]($ctx);
@@ -107,23 +123,37 @@ describe("PlatformMcpModule", () => {
       const transport = transportInstances[0];
 
       expect(transport).toBeDefined();
-      expect(server.connect).toHaveBeenCalledWith(transport);
+      expect(servers[0].connect).toHaveBeenCalledWith(transport);
       expect(transport.handleRequest).toHaveBeenCalledWith($ctx.request.getReq(), res, $ctx.request.body);
     });
 
-    it("should close transport when the low-level response closes", async () => {
-      const {module} = createModule();
+    it("should close the request server when the low-level response closes", async () => {
+      const {module, servers} = createModule();
       const {$ctx, res} = createContext();
 
       await module["dispatch"]($ctx);
 
       const transport = transportInstances[0];
 
+      expect(servers[0].close).toHaveBeenCalledTimes(1);
       expect(transport.close).toHaveBeenCalledTimes(1);
 
       res.emit("close");
 
       expect(transport.close).toHaveBeenCalledTimes(1);
+    });
+
+    it("should resolve an isolated server for each request", async () => {
+      const {module, servers} = createModule();
+      const first = createContext();
+      const second = createContext();
+
+      await Promise.all([module["dispatch"](first.$ctx), module["dispatch"](second.$ctx)]);
+
+      expect(servers).toHaveLength(2);
+      expect(servers[0]).not.toBe(servers[1]);
+      expect(servers[0].connect).toHaveBeenCalledWith(transportInstances[0]);
+      expect(servers[1].connect).toHaveBeenCalledWith(transportInstances[1]);
     });
   });
 });

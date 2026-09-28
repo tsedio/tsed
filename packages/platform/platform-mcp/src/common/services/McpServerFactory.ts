@@ -1,4 +1,4 @@
-import {constant, inject, injectable, injector, type TokenProvider} from "@tsed/di";
+import {constant, inject, injectable, injector, ProviderScope, type TokenProvider} from "@tsed/di";
 import type {PlatformMcpSettings, PromptsSettings, ResourceSettings, ToolProps} from "../index.js";
 import {MCP_PROVIDER_TYPES} from "../index.js";
 import {McpServer, type ResourceTemplate} from "@modelcontextprotocol/server";
@@ -67,7 +67,7 @@ export function createMcpServer() {
  * @module platform/mcp
  * @since 8.17.0
  */
-export const MCP_SERVER = injectable(McpServer).factory(createMcpServer).token();
+export const MCP_SERVER = injectable(McpServer).factory(createMcpServer).scope(ProviderScope.REQUEST).token();
 
 /**
  * Type alias referencing the MCP server provider token.

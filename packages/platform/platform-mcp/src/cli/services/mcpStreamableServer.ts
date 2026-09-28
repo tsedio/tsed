@@ -1,7 +1,7 @@
 import type {McpServer} from "@modelcontextprotocol/server";
 import {logger} from "@tsed/di";
 
-export async function mcpStreamableServer(server: McpServer) {
+export async function mcpStreamableServer(createServer: () => McpServer) {
   const {NodeStreamableHTTPServerTransport} = await import("@modelcontextprotocol/node");
   // @ts-ignore
   const {default: express} = await import("express");
@@ -10,18 +10,31 @@ export async function mcpStreamableServer(server: McpServer) {
   app.use(express.json());
 
   app.post("/mcp", async (req: any, res: any) => {
-    // Create a new transport for each request to prevent request ID collisions
+    const server = createServer();
     const transport = new NodeStreamableHTTPServerTransport({
       sessionIdGenerator: undefined,
       enableJsonResponse: true
     });
+    let closed = false;
 
-    res.on("close", () => {
-      transport.close();
-    });
+    const closeServer = async () => {
+      if (closed) {
+        return;
+      }
 
-    await server.connect(transport);
-    await transport.handleRequest(req, res, req.body);
+      closed = true;
+      await server.close();
+    };
+
+    res.on("close", closeServer);
+
+    try {
+      await server.connect(transport);
+      await transport.handleRequest(req, res, req.body);
+    } finally {
+      res.off?.("close", closeServer);
+      await closeServer();
+    }
   });
 
   const port = parseInt(process.env.PORT || "3000");

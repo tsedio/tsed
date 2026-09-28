@@ -1,7 +1,6 @@
 import {application, type OnRoutesInit, PlatformContext, type PlatformRouteDetails} from "@tsed/platform-http";
 import {constant, inject, injectable} from "@tsed/di";
 import {MCP_SERVER} from "../../common/services/McpServerFactory.js";
-import {type McpServer} from "@modelcontextprotocol/server";
 import type {PlatformMcpSettings} from "../../common/index.js";
 import {NodeStreamableHTTPServerTransport} from "@modelcontextprotocol/node";
 import {useContextHandler} from "@tsed/platform-router";
@@ -15,7 +14,6 @@ import {useContextHandler} from "@tsed/platform-router";
 export class PlatformMcpModule implements OnRoutesInit {
   protected settings = constant<PlatformMcpSettings>("mcp", {});
   protected app = application();
-  protected server = inject<McpServer>(MCP_SERVER);
   private loaded = false;
 
   $onRoutesInit() {
@@ -45,6 +43,8 @@ export class PlatformMcpModule implements OnRoutesInit {
   }
 
   protected async dispatch($ctx: PlatformContext) {
+    const server = inject(MCP_SERVER, {locals: $ctx.container});
+
     const transport = new NodeStreamableHTTPServerTransport({
       sessionIdGenerator: undefined,
       enableJsonResponse: true,
@@ -52,26 +52,26 @@ export class PlatformMcpModule implements OnRoutesInit {
     });
 
     const {request, response} = $ctx;
-    const res = response.getRes();
+    const res = response.getRes() as any;
     let closed = false;
 
-    const closeTransport = async () => {
+    const closeServer = async () => {
       if (closed) {
         return;
       }
 
       closed = true;
-      await transport.close();
+      await server.close();
     };
 
-    res?.once("close", closeTransport);
+    res?.once("close", closeServer);
 
     try {
-      await this.server.connect(transport as any);
+      await server.connect(transport as any);
       await transport.handleRequest(request.getReq(), res, request.body);
     } finally {
-      res?.off?.("close", closeTransport);
-      await closeTransport();
+      res?.off?.("close", closeServer);
+      await closeServer();
     }
   }
 
