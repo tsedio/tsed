@@ -1,9 +1,9 @@
 import {application, type OnRoutesInit, PlatformContext, type PlatformRouteDetails} from "@tsed/platform-http";
-import {constant, inject, injectable} from "@tsed/di";
-import {MCP_SERVER} from "../../common/services/McpServerFactory.js";
+import {constant, injectable} from "@tsed/di";
 import type {PlatformMcpSettings} from "../../common/index.js";
 import {NodeStreamableHTTPServerTransport} from "@modelcontextprotocol/node";
 import {useContextHandler} from "@tsed/platform-router";
+import {createMcpServer, resolveMcpServerOptions, type CreateMcpServerOpts} from "../../common/utils/createMcpServer.js";
 
 /**
  * Platform module that mounts the MCP HTTP endpoint and forwards requests to the configured server instance.
@@ -12,43 +12,52 @@ import {useContextHandler} from "@tsed/platform-router";
  * @since 8.17.0
  */
 export class PlatformMcpModule implements OnRoutesInit {
-  protected settings = constant<PlatformMcpSettings>("mcp", {});
+  protected settings = constant<PlatformMcpSettings | PlatformMcpSettings[]>("mcp", {});
   protected app = application();
+  protected mcps: PlatformRouteDetails[] = [];
   private loaded = false;
 
   $onRoutesInit() {
-    if (!this.isEnabled() || this.loaded) {
+    if (this.loaded) {
       return;
     }
 
-    const path = this.settings?.path || "/mcp";
+    const allSettings = ([] as PlatformMcpSettings[]).concat(this.settings);
 
-    this.app.post(
-      path,
-      useContextHandler(async ($ctx) => this.dispatch($ctx as PlatformContext))
-    );
+    for (const opts of allSettings) {
+      if (opts.enabled === false) {
+        continue;
+      }
+
+      const path = opts.path || "/mcp";
+      const resolvedSettings = resolveMcpServerOptions(opts);
+
+      this.app.post(
+        path,
+        useContextHandler(async ($ctx) => this.dispatch(resolvedSettings, $ctx as PlatformContext))
+      );
+
+      this.mcps.push({
+        method: "POST",
+        name: "PlatformMcpModule.dispatch()",
+        url: path
+      } as PlatformRouteDetails);
+    }
 
     this.loaded = true;
   }
 
   $logRoutes(routes: PlatformRouteDetails[]) {
-    return [
-      ...routes,
-      this.isEnabled() && {
-        method: "POST",
-        name: "PlatformMcpModule.dispatch()",
-        url: this.settings?.path || "/mcp"
-      }
-    ].filter(Boolean);
+    return [...routes, ...this.mcps].filter(Boolean);
   }
 
-  protected async dispatch($ctx: PlatformContext) {
-    const server = inject(MCP_SERVER, {locals: $ctx.container});
+  protected async dispatch(settings: CreateMcpServerOpts, $ctx: PlatformContext) {
+    const server = createMcpServer(settings);
 
     const transport = new NodeStreamableHTTPServerTransport({
       sessionIdGenerator: undefined,
       enableJsonResponse: true,
-      ...this.settings.transportOptions
+      ...settings.transportOptions
     });
 
     const {request, response} = $ctx;
@@ -73,10 +82,6 @@ export class PlatformMcpModule implements OnRoutesInit {
       res?.off?.("close", closeServer);
       await closeServer();
     }
-  }
-
-  private isEnabled() {
-    return this.settings?.enabled !== false;
   }
 }
 
