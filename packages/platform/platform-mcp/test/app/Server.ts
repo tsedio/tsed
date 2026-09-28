@@ -10,16 +10,18 @@ import compress from "compression";
 const rootDir = import.meta.dirname; // automatically replaced by import.meta.dirname on build
 export {rootDir};
 
+export const mcp = {
+  prompts: [TestPrompt],
+  resources: [TestResource, functionalResource],
+  tools: [TestTool, functionalTool, genericTool]
+};
+
 @Configuration({
   port: 8081,
   logger: {
     level: "info"
   },
   middlewares: ["cookie-parser", compress({}), "method-override", {use: "json-parser"}, {use: "urlencoded-parser"}],
-  mcp: {
-    prompts: [TestPrompt],
-    resources: [TestResource, functionalResource],
-    tools: [TestTool, functionalTool, genericTool]
-  }
+  mcp
 })
 export class Server {}

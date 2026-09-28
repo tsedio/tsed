@@ -28,12 +28,12 @@ describe("McpServerFactory", () => {
     expect((server as any)._registeredPrompts.prompt).toBeDefined();
   });
 
-  it("registers providers discovered by MCP type", async () => {
+  it("does not register MCP providers that are not declared in the settings", async () => {
     const tool = Symbol("tool");
     injector().add(tool, {type: MCP_PROVIDER_TYPES.TOOL, useFactory: () => ({name: "tool", handler: vi.fn()})});
 
     const server = await DITest.invoke(MCP_SERVER);
 
-    expect((server as any)._registeredTools.tool).toBeDefined();
+    expect((server as any)._registeredTools.tool).toBeUndefined();
   });
 });

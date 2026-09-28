@@ -28,7 +28,8 @@ describe("resolveMcpServerOptions", () => {
 
     const options = resolveMcpServerOptions({
       tools: [configuredTool, decoratedTool],
-      resources: [configuredResource]
+      resources: [configuredResource],
+      prompts: [decoratedPrompt]
     });
 
     expect(options.tools).toEqual([
