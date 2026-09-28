@@ -56,12 +56,13 @@ export function resolveClientGenerator(otherGenerators: GeneratorOptions["otherG
 
 export function generate({defaultOutput, packageDir}: GenerateOptions) {
   return async (options: GeneratorOptions) => {
+    const {output: prismaClientPath, entry: prismaClientEntry} = resolveClientGenerator(options.otherGenerators);
+
     const outputDir = internals.parseEnvValue(options.generator.output!);
     await fs.mkdir(outputDir, {recursive: true});
     await removeDir(outputDir, true);
 
     const generatorConfig = options.generator.config;
-    const {output: prismaClientPath, entry: prismaClientEntry} = resolveClientGenerator(options.otherGenerators);
 
     await generateCode(options.dmmf, {
       emitTranspiledCode: parseStringBoolean(generatorConfig.emitTranspiledCode),
