@@ -51,6 +51,7 @@ yarn test --coverage     # Coverage enabled by default per package
 
 - To speed iteration, run package-scoped tests from the package directory (e.g., `cd packages/specs/schema && yarn test`).
 - Individual test files: `npx vitest run specific-file.spec.ts` and watch mode via `npx vitest watch`.
+- **Dependency-injected services and modules:** never instantiate them with `new` in tests. Resolve them through the Ts.ED test injector with `await PlatformTest.invoke(ServiceOrModule)` or `inject(ServiceOrModule)`, so the test exercises the real provider scope and dependency graph.
 
 ## Code Quality
 

@@ -1,7 +1,7 @@
 import {DITest} from "@tsed/di";
 import {ResourceTemplate} from "@modelcontextprotocol/server";
 import {afterEach, beforeEach, describe, expect, it, vi} from "vitest";
-import {createMcpServer} from "./createMcpServer.js";
+import {createMcpServer, type CreateMcpServerOpts} from "./createMcpServer.js";
 
 describe("createMcpServer", () => {
   beforeEach(() => DITest.create({name: "application", version: "1.2.3"}));
@@ -15,7 +15,7 @@ describe("createMcpServer", () => {
       tools: [{name: "search", handler: toolHandler}],
       resources: [{name: "readme", uri: "file:///README.md", handler: resourceHandler}],
       prompts: [{name: "summary", handler: promptHandler}]
-    };
+    } as CreateMcpServerOpts;
 
     const first = createMcpServer(options);
     const second = createMcpServer(options);

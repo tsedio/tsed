@@ -1,5 +1,5 @@
 import {McpServer} from "@modelcontextprotocol/server";
-import {afterEach, beforeEach, describe, expect, it, vi} from "vitest";
+import {afterEach, beforeEach, describe, expect, it, type Mock, vi} from "vitest";
 
 const {app, listenServer, NodeStreamableHTTPServerTransport, express, routeHandlers} = vi.hoisted(() => {
   const routeHandlers = new Map<string, Function>();
@@ -35,15 +35,15 @@ vi.mock("@modelcontextprotocol/node", () => ({NodeStreamableHTTPServerTransport}
 import {mcpStreamableServer} from "./mcpStreamableServer.js";
 
 describe("mcpStreamableServer", () => {
-  let createServer: ReturnType<typeof vi.fn>;
+  let createServer: Mock<() => McpServer>;
   let servers: McpServer[];
 
   beforeEach(() => {
     vi.clearAllMocks();
     routeHandlers.clear();
     servers = [];
-    createServer = vi.fn(() => {
-      let transport: {close: ReturnType<typeof vi.fn>} | undefined;
+    createServer = vi.fn<() => McpServer>(() => {
+      let transport: {close: () => unknown} | undefined;
       const server = {
         connect: vi.fn().mockImplementation((value) => {
           transport = value;
@@ -51,9 +51,9 @@ describe("mcpStreamableServer", () => {
         close: vi.fn().mockImplementation(() => transport?.close())
       };
 
-      servers.push(server as McpServer);
+      servers.push(server as unknown as McpServer);
 
-      return server;
+      return server as unknown as McpServer;
     });
   });
 
