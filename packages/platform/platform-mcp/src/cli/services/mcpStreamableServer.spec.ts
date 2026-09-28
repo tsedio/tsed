@@ -35,13 +35,26 @@ vi.mock("@modelcontextprotocol/node", () => ({NodeStreamableHTTPServerTransport}
 import {mcpStreamableServer} from "./mcpStreamableServer.js";
 
 describe("mcpStreamableServer", () => {
-  let server: McpServer;
-  let connect: ReturnType<typeof vi.fn>;
+  let createServer: ReturnType<typeof vi.fn>;
+  let servers: McpServer[];
 
   beforeEach(() => {
     vi.clearAllMocks();
     routeHandlers.clear();
-    server = {connect: (connect = vi.fn().mockResolvedValue(undefined))} as any;
+    servers = [];
+    createServer = vi.fn(() => {
+      let transport: {close: ReturnType<typeof vi.fn>} | undefined;
+      const server = {
+        connect: vi.fn().mockImplementation((value) => {
+          transport = value;
+        }),
+        close: vi.fn().mockImplementation(() => transport?.close())
+      };
+
+      servers.push(server as McpServer);
+
+      return server;
+    });
   });
 
   afterEach(() => {
@@ -50,7 +63,7 @@ describe("mcpStreamableServer", () => {
   });
 
   it("configures an Express MCP endpoint", async () => {
-    void mcpStreamableServer(server);
+    void mcpStreamableServer(createServer);
     await vi.waitFor(() => expect(app.listen).toHaveBeenCalled());
 
     expect(express.json).toHaveBeenCalledOnce();
@@ -59,7 +72,7 @@ describe("mcpStreamableServer", () => {
   });
 
   it("creates a transport and dispatches each MCP request", async () => {
-    void mcpStreamableServer(server);
+    void mcpStreamableServer(createServer);
     await vi.waitFor(() => expect(routeHandlers.get("/mcp")).toBeDefined());
     const on = vi.fn();
     const req = {body: {jsonrpc: "2.0"}};
@@ -69,7 +82,8 @@ describe("mcpStreamableServer", () => {
 
     const transport = NodeStreamableHTTPServerTransport.mock.results[0].value;
     expect(NodeStreamableHTTPServerTransport).toHaveBeenCalledWith({sessionIdGenerator: undefined, enableJsonResponse: true});
-    expect(connect).toHaveBeenCalledWith(transport);
+    expect(createServer).toHaveBeenCalledOnce();
+    expect(servers[0].connect).toHaveBeenCalledWith(transport);
     expect(transport.handleRequest).toHaveBeenCalledWith(req, res, req.body);
 
     on.mock.calls.find(([event]) => event === "close")![1]();
@@ -77,7 +91,7 @@ describe("mcpStreamableServer", () => {
   });
 
   it("rejects when Express cannot start", async () => {
-    const result = mcpStreamableServer(server);
+    const result = mcpStreamableServer(createServer);
     await vi.waitFor(() => expect(listenServer.on).toHaveBeenCalledWith("error", expect.any(Function)));
     const error = new Error("port unavailable");
     listenServer.on.mock.calls.find(([event]) => event === "error")![1](error);

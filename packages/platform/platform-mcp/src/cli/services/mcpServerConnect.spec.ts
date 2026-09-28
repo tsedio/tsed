@@ -1,9 +1,9 @@
 import {DITest, injector} from "@tsed/di";
 import {afterEach, beforeEach, describe, expect, it, vi} from "vitest";
 
-const {MCP_SERVER} = vi.hoisted(() => ({MCP_SERVER: Symbol("MCP_SERVER")}));
+const {createMcpServer, MCP_SERVER} = vi.hoisted(() => ({createMcpServer: vi.fn(), MCP_SERVER: Symbol("MCP_SERVER")}));
 
-vi.mock("../../common/index.js", () => ({MCP_SERVER}));
+vi.mock("../../common/index.js", () => ({createMcpServer, MCP_SERVER}));
 vi.mock("./mcpStdioServer.js", () => ({mcpStdioServer: vi.fn()}));
 vi.mock("./mcpStreamableServer.js", () => ({mcpStreamableServer: vi.fn()}));
 
@@ -31,7 +31,7 @@ describe("mcpServerConnect", () => {
   it("connects the Streamable HTTP transport", async () => {
     await mcpServerConnect("streamable-http");
 
-    expect(mcpStreamableServer).toHaveBeenCalledWith(server);
+    expect(mcpStreamableServer).toHaveBeenCalledWith(createMcpServer);
     expect(mcpStdioServer).not.toHaveBeenCalled();
   });
 });
