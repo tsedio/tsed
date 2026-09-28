@@ -76,6 +76,12 @@ import {TestTool} from "./tools/TestTool.js";
 export class Server {}
 ```
 
+::: warning Explicit registration required
+`@Tool`, `@Prompt`, and `@Resource` do not expose a class automatically. Add each decorated class to the `tools`,
+`prompts`, or `resources` array of every MCP server that should expose its handlers. This lets multiple MCP servers
+select different provider classes.
+:::
+
 All registration helpers return DI tokens. Add those tokens to a module `providers` array, or expose them from a
 feature module. Both the decorators and the function API execute handlers inside a Ts.ED `DIContext`, so you can reuse
 your existing providers and services.
@@ -468,6 +474,42 @@ Set `mcp.path` or `mcp.enabled` to control how the transport is exposed:
   }
 })
 ```
+
+### Expose multiple MCP servers
+
+`mcp` also accepts an array. Each entry creates an independent MCP server and mounts its own `POST` endpoint. This is
+useful when clients or domains need distinct endpoint paths, server metadata, or transport options.
+
+```typescript [src/Server.ts]
+import {Configuration} from "@tsed/di";
+import "@tsed/platform-express";
+import "@tsed/platform-mcp";
+
+@Configuration({
+  mcp: [
+    {
+      name: "catalog",
+      path: "/mcp/catalog"
+    },
+    {
+      name: "administration",
+      path: "/mcp/admin",
+      transportOptions: {enableJsonResponse: true}
+    }
+  ]
+})
+export class Server {}
+```
+
+Each configuration is resolved once while routes are initialized. A new `McpServer` and Streamable HTTP transport are
+created for every request, so concurrent requests and server shutdowns remain isolated. Set `enabled: false` on one
+entry to leave that endpoint unmounted without affecting the others.
+
+Provider registration is declarative: a server only registers the tokens and decorated classes listed in its `tools`,
+`resources`, and `prompts` arrays. A decorated class contributes all of its handlers to that MCP server; it is not
+automatically exposed by other MCP configurations.
+
+The CLI exposes a single `/mcp` endpoint; use one MCP configuration when starting it with `mcpServerConnect`.
 
 All Ts.ED adapters (Express, Fastify, Koa) forward `POST <path>` requests to
 `@modelcontextprotocol/sdk`'s `StreamableHTTPServerTransport`, so any MCP-capable client (Claude Desktop, etc.) can talk

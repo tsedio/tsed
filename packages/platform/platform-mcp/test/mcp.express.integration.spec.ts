@@ -1,4 +1,4 @@
-import {Server, rootDir} from "./app/Server.js";
+import {mcp, Server, rootDir} from "./app/Server.js";
 import {PlatformExpress} from "@tsed/platform-express";
 import {PlatformTest} from "@tsed/platform-http/testing";
 import {PlatformTestSdk} from "@tsed/platform-test-sdk";
@@ -23,6 +23,7 @@ describe("MCP with express", () => {
   beforeEach(
     utils.bootstrap({
       mcp: {
+        ...mcp,
         path: "/mcp"
       }
     })
