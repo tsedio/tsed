@@ -79,8 +79,10 @@ export class PlatformMcpModule implements OnRoutesInit {
       await server.connect(transport as any);
       await transport.handleRequest(request.getReq(), res, request.body);
     } finally {
-      res?.off?.("close", closeServer);
-      await closeServer();
+      if (settings.transportOptions?.enableJsonResponse !== false) {
+        res?.off?.("close", closeServer);
+        await closeServer();
+      }
     }
   }
 }

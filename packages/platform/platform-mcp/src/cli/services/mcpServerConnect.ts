@@ -1,21 +1,26 @@
-import {constant, inject, logger} from "@tsed/di";
+import {constant, logger} from "@tsed/di";
 
-import {MCP_SERVER} from "../../common/index.js";
 import type {PlatformMcpSettings} from "../../common/interfaces/PlatformMcpSettings.js";
 import {createMcpServer, resolveMcpServerOptions} from "../../common/utils/createMcpServer.js";
 import {mcpStdioServer} from "./mcpStdioServer.js";
 import {mcpStreamableServer} from "./mcpStreamableServer.js";
 
 export async function mcpServerConnect(mode: "streamable-http" | "stdio") {
+  const settings = constant<PlatformMcpSettings | PlatformMcpSettings[]>("mcp", {}) || {};
+
+  if (Array.isArray(settings)) {
+    throw new Error("The MCP CLI supports a single MCP server configuration.");
+  }
+
+  const options = resolveMcpServerOptions(settings);
+
   if (mode === "streamable-http") {
     logger().info({event: "MCP_SERVER_CONNECT", mode});
-    const settings = constant<PlatformMcpSettings>("mcp", {}) || {};
-    const options = resolveMcpServerOptions(settings);
 
     return mcpStreamableServer(() => createMcpServer(options));
   }
 
-  const server = inject(MCP_SERVER);
+  const server = createMcpServer(options);
   await mcpStdioServer(server);
 
   return server;

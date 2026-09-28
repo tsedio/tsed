@@ -88,11 +88,13 @@ your existing providers and services.
 
 ## Run an MCP server from a CLI
 
-The `@tsed/platform-mcp/cli` entry point starts the shared `MCP_SERVER` after your CLI has initialized the Ts.ED DI
-container. It supports two transports:
+The `@tsed/platform-mcp/cli` entry point creates one MCP server after your CLI has initialized the Ts.ED DI container.
+It supports two transports:
 
 - `stdio` for local clients such as MCP Inspector, Claude Desktop, or editor agents;
 - `streamable-http` to expose a `POST /mcp` endpoint. It listens on `PORT`, defaulting to `3000`.
+
+The CLI supports one `mcp` configuration object. Use the HTTP module when you need multiple MCP server endpoints.
 
 Import CLI helpers from the CLI entry point and configure the same `mcp` provider arrays used by the HTTP module:
 

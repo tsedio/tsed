@@ -12,8 +12,14 @@ const {createMcpServer, resolveMcpServerOptions} = vi.hoisted(() => ({
 
 vi.mock("../../common/utils/createMcpServer.js", () => ({createMcpServer, resolveMcpServerOptions}));
 
+type TestTransportInstance = {
+  close: () => unknown;
+  handleRequest: (...args: unknown[]) => Promise<unknown>;
+  options: Record<string, unknown>;
+};
+
 const {TestTransport, transportInstances} = vi.hoisted(() => {
-  const transportInstances: TestTransport[] = [];
+  const transportInstances: TestTransportInstance[] = [];
 
   class TestTransport {
     close = vi.fn().mockResolvedValue(undefined);
@@ -33,12 +39,12 @@ vi.mock("@modelcontextprotocol/node", () => {
   };
 });
 
-function createModule() {
-  const module = new PlatformMcpModule();
+async function createModule() {
+  const module = await PlatformTest.invoke<PlatformMcpModule>(PlatformMcpModule);
   const servers: Array<{connect: ReturnType<typeof vi.fn>; close: ReturnType<typeof vi.fn>}> = [];
 
   createMcpServer.mockImplementation(() => {
-    let transport: TestTransport | undefined;
+    let transport: TestTransportInstance | undefined;
     const server = {
       connect: vi.fn().mockImplementation((value) => {
         transport = value;
@@ -99,8 +105,8 @@ describe("PlatformMcpModule", () => {
   });
 
   describe("$onRoutesInit()", () => {
-    it("should register the MCP route only once", () => {
-      const {module} = createModule();
+    it("should register the MCP route only once", async () => {
+      const {module} = await createModule();
 
       vi.spyOn(application(), "post").mockReturnValue(undefined as never);
 
@@ -112,8 +118,8 @@ describe("PlatformMcpModule", () => {
       expect(resolveMcpServerOptions).toHaveBeenCalledOnce();
     });
 
-    it("skips disabled settings without preventing enabled MCP servers from mounting", () => {
-      const {module} = createModule();
+    it("skips disabled settings without preventing enabled MCP servers from mounting", async () => {
+      const {module} = await createModule();
       module["settings"] = [{path: "/first"}, {path: "/disabled", enabled: false}, {path: "/second"}];
       vi.spyOn(application(), "post").mockReturnValue(undefined as never);
 
@@ -135,7 +141,7 @@ describe("PlatformMcpModule", () => {
     ["fastify", createFastifyContext]
   ])("dispatch() with %s", (_, createContext) => {
     it("should bind close on the low-level response and forward handleRequest", async () => {
-      const {module, servers} = createModule();
+      const {module, servers} = await createModule();
       const {$ctx, res} = createContext();
 
       await module["dispatch"]({tools: [], prompts: [], resources: []}, $ctx);
@@ -149,7 +155,7 @@ describe("PlatformMcpModule", () => {
     });
 
     it("forwards the transport settings resolved for the MCP endpoint", async () => {
-      const {module} = createModule();
+      const {module} = await createModule();
       const {$ctx} = createContext();
 
       await module["dispatch"]({tools: [], prompts: [], resources: [], transportOptions: {enableJsonResponse: false}}, $ctx);
@@ -160,8 +166,8 @@ describe("PlatformMcpModule", () => {
       });
     });
 
-    it("should close the request server when the low-level response closes", async () => {
-      const {module, servers} = createModule();
+    it("should close the request server after a JSON response", async () => {
+      const {module, servers} = await createModule();
       const {$ctx, res} = createContext();
 
       await module["dispatch"]({tools: [], prompts: [], resources: []}, $ctx);
@@ -176,8 +182,22 @@ describe("PlatformMcpModule", () => {
       expect(transport.close).toHaveBeenCalledTimes(1);
     });
 
+    it("should close the request server when an SSE response closes", async () => {
+      const {module, servers} = await createModule();
+      const {$ctx, res} = createContext();
+
+      await module["dispatch"]({tools: [], prompts: [], resources: [], transportOptions: {enableJsonResponse: false}}, $ctx);
+
+      expect(servers[0].close).not.toHaveBeenCalled();
+
+      res.emit("close");
+
+      expect(servers[0].close).toHaveBeenCalledOnce();
+      expect(transportInstances[0].close).toHaveBeenCalledOnce();
+    });
+
     it("should resolve an isolated server for each request", async () => {
-      const {module, servers} = createModule();
+      const {module, servers} = await createModule();
       const first = createContext();
       const second = createContext();
 
