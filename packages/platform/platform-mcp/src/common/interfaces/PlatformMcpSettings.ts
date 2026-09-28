@@ -60,7 +60,7 @@ export interface PlatformMcpSettings {
 declare global {
   namespace TsED {
     interface Configuration {
-      mcp?: PlatformMcpSettings;
+      mcp?: PlatformMcpSettings | PlatformMcpSettings[];
     }
   }
 }
