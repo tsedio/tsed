@@ -2,40 +2,45 @@ import {DIContext} from "@tsed/di";
 import {FetchContext} from "./FecthContext.js";
 
 describe("FetchContext", () => {
-  it("should expose the native request, decoded input and DI scope", () => {
+  it("should expose the native request, decoded input and DI scope", async () => {
     const request = new Request("https://example.com/users/1?search=tsed", {
       method: "POST",
-      headers: {authorization: "Bearer token"}
+      headers: {authorization: "Bearer token", "content-type": "application/json"},
+      body: JSON.stringify({name: "Ada"})
     });
-    const context = new FetchContext({
+    const context = new FetchContext<{
+      params: {id: string};
+      query: {search?: string};
+      headers: {authorization?: string};
+      body: {name: string};
+    }>({
       id: "request-1",
       request,
       route: "/users/:id",
       params: {id: "1"},
       query: {search: "tsed"},
-      headers: {authorization: "Bearer token"},
-      body: {name: "Ada"}
+      headers: {authorization: "Bearer token"}
     });
 
     expect(context).toBeInstanceOf(DIContext);
     expect(context.PLATFORM).toBe("FETCH");
-    expect(context.request).toBe(request);
-    expect(context.url).toBe("https://example.com/users/1?search=tsed");
-    expect(context.method).toBe("POST");
-    expect(context.path).toBe("/users/1");
-    expect(context.route).toBe("/users/:id");
-    expect(context.origin).toBe("https://example.com");
-    expect(context.protocol).toBe("https:");
-    expect(context.host).toBe("example.com");
-    expect(context.hostname).toBe("example.com");
-    expect(context.port).toBe("");
-    expect(context.search).toBe("?search=tsed");
-    expect(context.searchParams.get("search")).toBe("tsed");
-    expect(context.hash).toBe("");
-    expect(context.params.id).toBe("1");
-    expect(context.query.search).toBe("tsed");
-    expect(context.headers.authorization).toBe("Bearer token");
-    expect(context.body.name).toBe("Ada");
+    expect(context.request.raw).toBe(request);
+    expect(context.request.url).toBe("https://example.com/users/1?search=tsed");
+    expect(context.request.method).toBe("POST");
+    expect(context.request.path).toBe("/users/1");
+    expect(context.request.route).toBe("/users/:id");
+    expect(context.request.origin).toBe("https://example.com");
+    expect(context.request.protocol).toBe("https:");
+    expect(context.request.host).toBe("example.com");
+    expect(context.request.hostname).toBe("example.com");
+    expect(context.request.port).toBe("");
+    expect(context.request.search).toBe("?search=tsed");
+    expect(context.request.searchParams.get("search")).toBe("tsed");
+    expect(context.request.hash).toBe("");
+    expect(context.request.params.id).toBe("1");
+    expect(context.request.query.search).toBe("tsed");
+    expect(context.request.headers.authorization).toBe("Bearer token");
+    await expect(context.request.body()).resolves.toEqual({name: "Ada"});
 
     context.set("userId", "1");
     expect(context.get("userId")).toBe("1");
