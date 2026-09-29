@@ -53,7 +53,10 @@ export async function generateCode(dmmf: DMMF.Document, options: GenerateCodeOpt
   generateIndex(project, baseDirPath, hasEnum);
 
   if (emitTranspiledCode) {
-    await project.emit();
+    // Only emit the generated Ts.ED files: project.emit() would also transpile the imported Prisma client sources next to themselves.
+    for (const sourceFile of project.getSourceFiles()) {
+      await sourceFile.emit();
+    }
   } else {
     await saveProject(project);
   }
