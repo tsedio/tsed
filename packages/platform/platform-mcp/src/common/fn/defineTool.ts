@@ -63,10 +63,16 @@ type MappedToolOptions<Input, Output = unknown> = Omit<ToolProps<Input, Output>,
   outputStore?: JsonMethodStore;
 };
 
-function getOutputSchema<Output>(methodStore: JsonMethodStore): JsonSchema<Output> {
+function getOutputSchema<Output>(methodStore: JsonMethodStore): JsonSchema<Output> | undefined {
   const schema: JsonSchema = methodStore.operation.getResponseOf(200)?.getMedia("application/json")?.get("schema");
 
-  return schema?.itemSchema() as JsonSchema<Output>;
+  // Without @Returns, the schema is inferred from design:returntype (e.g. Promise) and is empty.
+  // An empty output schema would force the SDK to require structuredContent on every call.
+  if (!schema || !Object.keys(schema.toJSON()).length) {
+    return undefined;
+  }
+
+  return schema.itemSchema() as JsonSchema<Output>;
 }
 
 function getInputSchema<Input>(token: Type<any> | AbstractType<any>, propertyKey: string | symbol): JsonSchema<Input> {
