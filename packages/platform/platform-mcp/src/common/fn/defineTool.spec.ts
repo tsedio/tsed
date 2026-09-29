@@ -1,4 +1,4 @@
-import {Default, from, JsonSchema, Name, Property, s, string} from "@tsed/schema";
+import {Default, from, JsonSchema, Name, Property, Returns, s, string} from "@tsed/schema";
 import {afterEach, beforeEach, describe, expect, it} from "vitest";
 import {PlatformTest} from "@tsed/platform-http/testing";
 import {defineTool} from "./defineTool.js";
@@ -19,6 +19,17 @@ class KnowledgeSearchRequest {
 
   constructor(props: Partial<KnowledgeSearchRequest> = {}) {
     Object.assign(this, props);
+  }
+}
+
+class ClassTools {
+  async noReturns({a, b}: {a: number; b: number}) {
+    return {content: [{type: "text", text: String(a + b)}]};
+  }
+
+  @(Returns(200, Object).Schema(s.object({id: string()})))
+  async withReturns() {
+    return {id: "id"};
   }
 }
 
@@ -185,5 +196,17 @@ describe("defineTool", () => {
     const definition = inject<any>(token);
 
     await runInContext(PlatformTest.createRequestContext(), () => definition.handler(args, {} as any));
+  });
+
+  it("should not expose an output schema when the class method declares no @Returns", () => {
+    const token = defineTool({token: ClassTools, propertyKey: "noReturns", name: "no-returns"});
+
+    expect(inject<any>(token).outputSchema).toBeUndefined();
+  });
+
+  it("should expose the output schema declared with @Returns", () => {
+    const token = defineTool({token: ClassTools, propertyKey: "withReturns", name: "with-returns"});
+
+    expect(inject<any>(token).outputSchema).toBeDefined();
   });
 });
