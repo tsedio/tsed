@@ -22,12 +22,17 @@ class KnowledgeSearchRequest {
   }
 }
 
+class ToolResult {
+  @Property()
+  id!: string;
+}
+
 class ClassTools {
   async noReturns({a, b}: {a: number; b: number}) {
     return {content: [{type: "text", text: String(a + b)}]};
   }
 
-  @(Returns(200, Object).Schema(s.object({id: string()})))
+  @Returns(200, ToolResult)
   async withReturns() {
     return {id: "id"};
   }
@@ -207,6 +212,13 @@ describe("defineTool", () => {
   it("should expose the output schema declared with @Returns", () => {
     const token = defineTool({token: ClassTools, propertyKey: "withReturns", name: "with-returns"});
 
-    expect(inject<any>(token).outputSchema).toBeDefined();
+    expect(inject<any>(token).outputSchema["~standard"].jsonSchema.input({target: "draft-2020-12"})).toMatchObject({
+      type: "object",
+      properties: {
+        id: {
+          type: "string"
+        }
+      }
+    });
   });
 });
