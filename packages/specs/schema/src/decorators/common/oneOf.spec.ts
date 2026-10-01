@@ -62,6 +62,26 @@ describe("@OneOf", () => {
       type: "object"
     });
   });
+  it("should accept an abstract class without cast", () => {
+    // WHEN
+    abstract class AuthCredentials {
+      @Property()
+      type: string;
+    }
+
+    @Path("/")
+    class MyController {
+      @OperationPath("POST", "/")
+      post(@In("body") @OneOf(AuthCredentials) payload: AuthCredentials) {}
+    }
+
+    // THEN
+    const spec = getSpec(MyController, {specType: SpecTypes.OPENAPI});
+
+    expect(spec.paths!["/"].post!.requestBody!.content!["application/json"].schema).toEqual({
+      $ref: "#/components/schemas/AuthCredentials"
+    });
+  });
   it("should declare two models", () => {
     class One1 {
       @Property()
