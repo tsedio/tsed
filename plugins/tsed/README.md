@@ -29,7 +29,7 @@ plugins/tsed/
   .claude-plugin/plugin.json        Claude Code manifest
   .codex-plugin/plugin.json         Codex manifest
   .mcp.json                         Ts.ED CLI MCP server (shared)
-  assets/                           Logos (copied from docs/public)
+  assets/                           Ts.ED logo: icon.png (280px) and logo.png (512px), from docs/public
   skills/<name>/SKILL.md            Skill entry point (shared)
   skills/<name>/references/         Details loaded on demand (shared)
   skills/<name>/agents/openai.yaml  Codex display metadata
