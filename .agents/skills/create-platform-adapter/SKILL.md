@@ -1,6 +1,8 @@
 ---
 name: create-platform-adapter
 description: Create a production-ready Ts.ED platform adapter for a new HTTP framework or runtime, such as Hono, Elysia, Bun.serve, or a Node framework. Use when adding an @tsed/platform-* package, porting controller and middleware support to another server framework, or assessing whether a framework can satisfy Ts.ED's platform contract.
+metadata:
+  internal: true
 ---
 
 # Create Ts.ED Platform Adapter

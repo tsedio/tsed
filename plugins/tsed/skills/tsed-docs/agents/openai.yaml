@@ -1,0 +1,4 @@
+interface:
+  display_name: "Find Ts.ED Documentation"
+  short_description: "Route a Ts.ED question to the right doc page"
+  default_prompt: "Use $tsed-docs to find the Ts.ED v8 documentation for request-scoped providers."

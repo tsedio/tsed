@@ -1,0 +1,31 @@
+{
+  "name": "tsed",
+  "version": "1.0.0",
+  "description": "Skills and the Ts.ED CLI MCP server to build Ts.ED v8 applications: controllers, DI, models, validation, middlewares, exceptions, testing, OpenAPI, logger and MCP servers.",
+  "author": {
+    "name": "Ts.ED",
+    "url": "https://tsed.dev"
+  },
+  "homepage": "https://tsed.dev/introduction/ai/agent-plugins.html",
+  "repository": "https://github.com/tsedio/tsed",
+  "license": "MIT",
+  "keywords": ["tsed", "typescript", "nodejs", "framework", "express", "fastify", "koa", "mcp"],
+  "skills": "./skills/",
+  "mcpServers": "./.mcp.json",
+  "interface": {
+    "displayName": "Ts.ED",
+    "shortDescription": "Build Ts.ED v8 applications with framework-aware skills and the CLI MCP server",
+    "longDescription": "Use the Ts.ED plugin to scaffold projects and files through the Ts.ED CLI MCP server, and to write controllers, providers, models, middlewares, exception filters, tests, OpenAPI documentation, logging and MCP servers following Ts.ED v8 idioms.",
+    "developerName": "Ts.ED",
+    "category": "Coding",
+    "capabilities": ["Interactive", "Read", "Write"],
+    "defaultPrompt": [
+      "Create a Ts.ED controller with CRUD endpoints and a validated model.",
+      "Migrate this application from Ts.ED v7 to v8."
+    ],
+    "websiteURL": "https://tsed.dev",
+    "composerIcon": "./assets/tsed.svg",
+    "logo": "./assets/tsed.png",
+    "screenshots": []
+  }
+}

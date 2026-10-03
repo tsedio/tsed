@@ -1,0 +1,4 @@
+interface:
+  display_name: "Configure Ts.ED Server"
+  short_description: "Configure and bootstrap a Ts.ED v8 server"
+  default_prompt: "Use $tsed-configuration to load settings from .env and a JSON file into my Ts.ED server."

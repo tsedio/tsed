@@ -83,7 +83,7 @@
     "clean": "monorepo clean workspace",
     "test": "vitest run",
     "test:ci": "yarn test:lint && yarn test:core && yarn test:specs && yarn test:platform && yarn test:integration && yarn test:graphql && yarn test:orm && yarn test:security && yarn test:third-parties",
-    "test:lint": "oxlint . && node ./tools/oxc/check-workspace-imports.mjs",
+    "test:lint": "oxlint . && node ./tools/oxc/check-workspace-imports.mjs && node ./tools/agents/check-plugins.mjs",
     "test:lint:fix": "oxlint --fix . && node ./tools/oxc/check-workspace-imports.mjs",
     "test:core": "lerna run test:ci --scope '@tsed/{core,di,config,hooks,engines}' --stream --concurrency 2",
     "test:platform": "lerna run test:ci --scope '@tsed/platform-*' --stream --concurrency 2",

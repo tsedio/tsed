@@ -1,0 +1,4 @@
+interface:
+  display_name: "Ts.ED MCP Server"
+  short_description: "Expose MCP tools, resources and prompts from Ts.ED"
+  default_prompt: "Use $tsed-mcp-server to expose my OrdersService as MCP tools on /mcp."

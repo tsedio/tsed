@@ -1,0 +1,4 @@
+interface:
+  display_name: "Ts.ED OpenAPI"
+  short_description: "Document a Ts.ED API with Swagger or Scalar"
+  default_prompt: "Use $tsed-openapi to add Swagger UI and document the responses of my orders controller."

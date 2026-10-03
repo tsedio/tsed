@@ -1,0 +1,8 @@
+{
+  "mcpServers": {
+    "tsed": {
+      "command": "npx",
+      "args": ["-y", "-p", "@tsed/cli", "tsed", "mcp"]
+    }
+  }
+}
