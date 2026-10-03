@@ -74,9 +74,13 @@ pnpm --package=@tsed/cli dlx tsed init .
 ```
 
 ```sh [bun]
-bnx -p @tsed/cli tsed init .
+bunx -p @tsed/cli tsed init .
 ```
 
+:::
+
+::: warning
+Ts.ED v8 required at least Node.js v20.11.0 version to work.
 :::
 
 You will be greeted with a few simple questions:
@@ -123,12 +127,12 @@ To prevent errors, fix the version for each Ts.ED packages:
 ```json
 {
   "dependencies": {
-    "@tsed/platform-http": "8.40.1",
-    "@tsed/di": "8.40.1",
-    "@tsed/core": "8.40.1",
-    "@tsed/exceptions": "8.40.1",
-    "@tsed/platform-express": "8.40.1",
-    "@tsed/swagger": "8.40.1"
+    "@tsed/platform-http": "8.0.0",
+    "@tsed/di": "8.0.0",
+    "@tsed/core": "8.0.0",
+    "@tsed/exceptions": "8.0.0",
+    "@tsed/platform-express": "8.0.0",
+    "@tsed/swagger": "8.0.0"
   }
 }
 ```
@@ -144,6 +148,7 @@ Alternatively, you can check out one of these projects:
 If none of previous solutions are satisfying maybe you are in these cases:
 
 - [I want to migrate my application from Ts.ED v6](/introduction/migrate-from-v6)
+- [I want to migrate my application from Ts.ED v7](/introduction/migrate-from-v7)
 - [I want to migrate my application from Express.js](/introduction/migrate-from-express)
 
 ## What's next?

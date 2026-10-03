@@ -315,11 +315,11 @@ import config from "./config.json";
 By:
 
 ```ts
-import config from "./config.json.js" assert {type: "json"};
+import config from "./config.json" with {type: "json"};
 ```
 
 ::: warning
-Assert syntax isn't compatible with CommonJS.
+Import attributes (`with {type: "json"}`) aren't compatible with CommonJS.
 :::
 
 Or use `node:fs` to read file.
@@ -420,7 +420,7 @@ Edit the package.json:
 {
   "scripts": {
     "start": "npm run barrels && nodemon src/index.ts",
-    "start:prod": "cross-env NODE_ENV=production node --import @swc-node/register/register-esm src/index.js"
+    "start:prod": "cross-env NODE_ENV=production node --import @swc-node/register/esm-register src/index.js"
   }
 }
 ```
@@ -468,7 +468,7 @@ Then update your `package.json` file:
 
 ## Update dependencies to v8
 
-Your code base works on v7 with ESM. Now, you can update your dependencies to v8. You can update all dependencies at once to v8 and `@tsed/cli-*` to v6.
+Your code base works on v7 with ESM. Now, you can update your dependencies to v8. You can update all dependencies at once to v8 and `@tsed/cli-*` to v7 (the CLI v7 requires Node.js 22 or newer).
 
 ```diff
 {
@@ -478,7 +478,7 @@ Your code base works on v7 with ESM. Now, you can update your dependencies to v8
     },
     "devDependencies": {
 -       "@tsed/cli": "^5.0.0",
-+       "@tsed/cli": "^6.1.0",
++       "@tsed/cli": "^7.0.0",
     }
 }
 ```

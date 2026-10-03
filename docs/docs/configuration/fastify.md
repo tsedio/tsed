@@ -1,6 +1,7 @@
 ---
 description: "Configure a Ts.ED application to run on the Fastify platform."
 ---
+
 # Fastify.js
 
 <Banner src="/fastify.svg" height="200" href="https://fastify.dev/"></Banner>
@@ -36,18 +37,16 @@ import {FastifyPluginCallback} from "fastify";
 import {ThePlugin} from "fastify-plugin";
 
 @Configuration({
-  fastify: {
-    plugins: [
-      "fastify-plugin-1",
-      {
-        // register a plugin
-        use: ThePlugin,
-        options: {
-          // plugin options
-        }
+  plugins: [
+    "fastify-plugin-1",
+    {
+      // register a plugin
+      use: ThePlugin,
+      options: {
+        // plugin options
       }
-    ]
-  }
+    }
+  ]
 })
 ```
 
