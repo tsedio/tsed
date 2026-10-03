@@ -47,8 +47,8 @@ export function transformFieldToDecorators(field: DmmfField, ctx: TransformConte
       classType = `() => ${classType}`;
     }
 
-    field.model.addImportDeclaration("@tsed/schema", "CollectionOf");
-    decorators.unshift(createDecorator("CollectionOf", [classType]));
+    field.model.addImportDeclaration("@tsed/schema", "ArrayOf");
+    decorators.unshift(createDecorator("ArrayOf", [classType]));
   }
 
   if (field.location !== "enumTypes" && !field.isList) {

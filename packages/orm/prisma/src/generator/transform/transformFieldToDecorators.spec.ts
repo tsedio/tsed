@@ -80,7 +80,7 @@ describe("transformFieldToDecorators()", () => {
       {
         arguments: ["String"],
         kind: 6,
-        name: "CollectionOf"
+        name: "ArrayOf"
       },
       {
         arguments: [],
@@ -192,7 +192,7 @@ describe("transformFieldToDecorators()", () => {
       {
         arguments: ["() => RoleModel"],
         kind: 6,
-        name: "CollectionOf"
+        name: "ArrayOf"
       }
     ]);
   });

@@ -62,7 +62,7 @@ export function generateRepositories(dmmf: DMMF.Document, project: Project, base
       },
       {
         moduleSpecifier: "@tsed/di",
-        namedImports: ["Injectable", "Inject"]
+        namedImports: ["Injectable", "inject"]
       },
       {
         moduleSpecifier: resolveExtension("../services/PrismaService"),
@@ -91,14 +91,8 @@ export function generateRepositories(dmmf: DMMF.Document, project: Project, base
 
     repository.addProperty({
       name: "prisma",
-      type: "PrismaService",
       scope: Scope.Protected,
-      decorators: [
-        {
-          name: "Inject",
-          arguments: []
-        }
-      ]
+      initializer: "inject(PrismaService)"
     });
 
     repository
