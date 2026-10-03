@@ -1,4 +1,4 @@
-import {PlatformTest} from "@tsed/common";
+import {PlatformTest} from "@tsed/platform-http/testing";
 import {deserialize} from "@tsed/json-mapper";
 
 import {CalendarModel} from "../../models/CalendarModel";

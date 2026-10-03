@@ -176,7 +176,7 @@ In order not to give any indication to our consumer about the nature of the data
 @@OnSerialize@@ decorator can be used to intercept and change the property value when a serialization is performed on class.
 
 ```typescript
-import {OnSerialize} from "@tsed/schema";
+import {OnSerialize} from "@tsed/json-mapper";
 
 export class Person {
   @OnSerialize((v) => v + "Test")
@@ -189,7 +189,7 @@ export class Person {
 @@OnDeserialize@@ decorator can be used to intercept and change the property value when a deserialization is performed on class.
 
 ```typescript
-import {OnDeserialize} from "@tsed/schema";
+import {OnDeserialize} from "@tsed/json-mapper";
 
 export class Person {
   @OnDeserialize((v) => v + "Test")

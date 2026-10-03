@@ -39,7 +39,7 @@ bun add @tsed/logger
 
 Ts.ED logger supports many features, and is optimized to be used in production:
 
-- @@ContextLogger@@, in **production** mode, caches all request logs until the response is sent to your consumer.
+- @@ContextLogger@@ buffers the request logs and writes them when the response is sent to your consumer.
   See [request logger](/docs/logger.html#request-logger) section below.
 - [Layouts](https://logger.tsed.dev/layouts) support,
 - [Appenders](https://logger.tsed.dev/appenders) support;
@@ -50,16 +50,18 @@ Logger can be configured through the @@Configuration@@ decorator:
 
 <div class="table-features">
 
-| Props                         | Description                                                                                                                                                                           |
-| ----------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `logger.level`                | Change the default log level displayed in the terminal. Values: `debug`, `info`, `warn` or `error`. By default: `info`.                                                               |
-| `logger.logRequest`           | Log all incoming requests. By default, it's true and prints the configured `logger.requestFields`.                                                                                    |
-| `logger.requestFields`        | Fields displayed when a request is logged. Possible values: `reqId`, `method`, `url`, `headers`, `body`, `query`,`params`, `duration`. This option has effect only on the info level. |
-| `logger.reqIdBuilder`         | A function called for each incoming request to create a request id.                                                                                                                   |
-| `logger.jsonIndentation`      | The number of space characters to use as white space in JSON output. Default is 2 (0 in production).                                                                                  |
-| `logger.disableRoutesSummary` | Disable routes table displayed in the logger.                                                                                                                                         |
-| `logger.format`               | Specify log format. Example: `%[%d{[yyyy-MM-dd hh:mm:ss,SSS}] %p%] %m`. See [@tsed/logger configuration](https://logger.tsed.dev).                                                    |
-| `logger.ignoreUrlPatterns`    | (`String` or `RegExp`) List of patterns to ignore logged request according to the `request.url`.                                                                                      |
+| Props                         | Description                                                                                                                                                                                                                                                                |
+| ----------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `logger.level`                | Change the default log level displayed in the terminal. Values: `debug`, `info`, `warn`, `error` or `off`. By default: `info` (`off` when `NODE_ENV` is `test`).                                                                                                           |
+| `logger.logRequest`           | Log all incoming requests. Requires `@tsed/platform-log-request` (see [request logger](/docs/logger.html#request-logger)). By default, it's true.                                                                                                                          |
+| `logger.alterLog`             | A function `(level, obj, ctx) => obj` called to alter each object logged through `ctx.logger`. Requires `@tsed/platform-log-request`. By default: `defaultAlterLog`.                                                                                                       |
+| `logger.onLogResponse`        | A function `(ctx) => void` called when the response is sent, to log the end of the request. Requires `@tsed/platform-log-request`. By default: `defaultLogResponse`.                                                                                                       |
+| `logger.requestFields`        | **Legacy**. Only read by the deprecated `@tsed/platform-log-middleware` package. It has no effect with `@tsed/platform-log-request`; use `logger.alterLog` instead.                                                                                                        |
+| `logger.reqIdBuilder`         | A function called for each incoming request to create a request id. By default, the `x-request-id` header is used, otherwise a uuid v4 is generated.                                                                                                                       |
+| `logger.jsonIndentation`      | The number of space characters to use as white space in JSON output. The value is always computed by Ts.ED from `NODE_ENV`: 2 (0 in production). A value given in the configuration is overwritten.                                                                        |
+| `logger.disableRoutesSummary` | Disable routes table displayed in the logger.                                                                                                                                                                                                                              |
+| `logger.format`               | Specify log format. Example: `%[%d{[yyyy-MM-dd hh:mm:ss,SSS}] %p%] %m`. Requires the `@tsed/logger-pattern-layout` package to be installed and imported, otherwise the logger falls back to the colored layout. See [@tsed/logger configuration](https://logger.tsed.dev). |
+| `logger.ignoreUrlPatterns`    | (`String` or `RegExp`) List of patterns to ignore logged request according to the `request.url`.                                                                                                                                                                           |
 
 </div>
 
@@ -119,7 +121,7 @@ You can create your own layout/appender:
 You add this code to switch the logger to Json layout in production mode:
 
 ```typescript
-import {env} from "@tsed/core";
+import {Env} from "@tsed/core";
 import {Configuration} from "@tsed/di";
 import {$log} from "@tsed/logger";
 import "@tsed/logger/layouts/JsonLayout.js"; // add this line since @tsed/logger v8
@@ -188,11 +190,11 @@ Prefer the @@ContextLogger@@ usage if you want to attach your log the current re
 For each Request, a logger will be attached to the @@PlatformContext@@ and can be used like here:
 
 ```typescript
-import {Controller} from "@tsed/di";
-import {Logger} from "@tsed/logger";
+import {Controller, Inject} from "@tsed/di";
+import type {PlatformContext} from "@tsed/platform-http";
 import {Context} from "@tsed/platform-params";
 import {Get} from "@tsed/schema";
-import {MyService} from "../services/MyService";
+import {MyService} from "../services/MyService.js";
 
 @Controller("/")
 class MyController {
@@ -200,7 +202,7 @@ class MyController {
   myService: MyService;
 
   @Get("/")
-  get(@Context() ctx: Context) {
+  get(@Context() ctx: PlatformContext) {
     ctx.logger.info({customData: "test"}); // parameter is optional
     ctx.logger.debug({customData: "test"});
     ctx.logger.warn({customData: "test"});
@@ -208,15 +210,15 @@ class MyController {
     ctx.logger.trace({customData: "test"});
 
     // forward ctx object to the service and use logger inside.
-    // All request
-    myService.doSomething("test", ctx);
+    // All logs are attached to the same request
+    this.myService.doSomething("test", ctx);
   }
 }
 ```
 
 ```typescript
-import {PlatformContext} from "@tsed/platform-http";
-import {Injectable, Inject} from "@tsed/di";
+import {Injectable} from "@tsed/di";
+import type {PlatformContext} from "@tsed/platform-http";
 
 @Injectable()
 export class MyService {
@@ -231,118 +233,147 @@ All log use through `ctx.logger` will be associated with the uniq request id gen
 :::
 
 ::: tip
-@@ContextLogger@@, in **production** mode, caches all request logs until the response is sent to your consumer.
+@@ContextLogger@@ buffers the request logs and writes them when the response is sent to your consumer. The buffer is also
+flushed as soon as it exceeds `logger.maxStackSize` entries (30 by default) or when an `error` or `fatal` log is emitted.
 :::
 
-A call with one of these methods will generate a log according to the `logger.requestFields` configuration:
-
-```bash
-[2017-09-01 11:12:46.994] [INFO ] [TSED] - {
-  "status": 200,
-  "reqId": 1,
-  "method": "GET",
-  "url": "/api-doc/swagger.json",
-  "duration": 92,
-  "headers": {
-    "host": "0.0.0.0:8001",
-    "connection": "keep-alive",
-    "upgrade-insecure-requests": "1",
-    "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/60.0.3112.101 Safari/537.36",
-    "accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8",
-    "accept-encoding": "gzip, deflate",
-    "accept-language": "fr-FR,fr;q=0.8,en-US;q=0.6,en;q=0.4"
-  },
-  "body": {},
-  "query": {},
-  "customData": "test"
-}
-```
-
-You can configure the displayed fields from the server configuration:
+By default, a log emitted through `ctx.logger` contains `reqId`, `time`, `duration` and your own data. To add the
+request information and to log the end of each request, install `@tsed/platform-log-request` and import it in your
+server:
 
 ```typescript
 import {Configuration} from "@tsed/di";
+import "@tsed/platform-log-request";
 
 @Configuration({
   logger: {
-    requestFields: ["reqId", "method", "url", "headers", "body", "query", "params", "duration"]
+    logRequest: true // default value
   }
 })
 export class Server {}
 ```
 
-or you can override the middleware with @@OverrideProvider@@.
+With this module, a call with one of these methods will generate a log with the `method`, `url` and `route` of the
+request on the `info` level:
 
-Example:
-
-```ts
-import {OverrideProvider} from "@tsed/di";
-import {Context, PlatformLogMiddleware} from "@tsed/common";
-
-@OverrideProvider(PlatformLogMiddleware)
-export class CustomPlatformLogMiddleware extends PlatformLogMiddleware {
-  public use(@Context() ctx: Context) {
-    // do something
-
-    return super.use(ctx); // required
-  }
-
-  protected requestToObject(ctx: Context) {
-    const {request} = ctx;
-
-    // NOTE: request => PlatformRequest. To get Express.Request use ctx.getRequest<Express.Request>();
-    return {
-      method: request.method,
-      url: request.url,
-      headers: request.headers,
-      body: request.body,
-      query: request.query,
-      params: request.params
-    };
-  }
+```bash
+[2017-09-01 11:12:46.994] [INFO ] [TSED] - {
+  "method": "GET",
+  "url": "/api-doc/swagger.json",
+  "route": "/api-doc/swagger.json",
+  "reqId": "e6ebb0ec5b6d4d2a9d3b3d3a0a6f1b2c",
+  "time": "2017-09-01T11:12:46.994Z",
+  "duration": 92,
+  "customData": "test"
 }
 ```
 
-Another example to redact some fields:
+On the other levels (`debug`, `warn`, `error`, etc.), `headers`, `body`, `query` and `params` are also added.
+
+When the response is sent, the module logs a `request.end` event with the `status`, `status_code` and `state` (`OK` or
+`KO`) fields. This event is logged on the `error` level, with the error details (`error_name`, `error_message`,
+`error_stack`, etc.), when the response status is greater than or equal to 400, otherwise on the `info` level.
+
+::: warning
+The `logger.requestFields` option and the `PlatformLogMiddleware` class come from the deprecated
+`@tsed/platform-log-middleware` package. They have no effect with `@tsed/platform-log-request`: use the `alterLog` and
+`onLogResponse` options instead.
+:::
+
+You can change the logged fields by giving your own `alterLog` function. It receives the log level, the object to log
+and the current context. It's called for each log emitted through `ctx.logger`:
 
 ```typescript
-import {Context, OverrideProvider} from "@tsed/di";
-import {PlatformLogMiddleware} from "@tsed/platform-log-middleware";
+import {Configuration, type DIContext} from "@tsed/di";
+import "@tsed/platform-log-request";
 
-@OverrideProvider(PlatformLogMiddleware)
-export class CustomPlatformLogMiddleware extends PlatformLogMiddleware {
-  attributesToHide = ["password", "client_secret"];
+function alterLog(level: string, obj: Record<string, unknown>, ctx: DIContext) {
+  const {request} = ctx;
 
-  private redactAttributes(body: any): any {
-    if (body) {
-      for (const attribute of this.attributesToHide) {
-        if (body[attribute]) {
-          body[attribute] = "[REDACTED]";
-        }
+  // NOTE: request => PlatformRequest. To get Express.Request use ctx.getRequest<Express.Request>();
+  return {
+    method: request.method,
+    url: request.url,
+    headers: request.headers,
+    body: request.body,
+    query: request.query,
+    params: request.params,
+    ...obj
+  };
+}
+
+@Configuration({
+  logger: {
+    alterLog
+  }
+})
+export class Server {}
+```
+
+Another example to redact some fields, based on the default implementation:
+
+```typescript
+import {Configuration, type DIContext} from "@tsed/di";
+import {defaultAlterLog} from "@tsed/platform-log-request";
+
+const attributesToHide = ["password", "client_secret"];
+
+function redactAttributes(body: any): any {
+  if (body && typeof body === "object") {
+    body = {...body};
+
+    for (const attribute of attributesToHide) {
+      if (body[attribute]) {
+        body[attribute] = "[REDACTED]";
       }
     }
-    return body;
   }
 
-  requestToObject(ctx: Context): any {
-    const {request} = ctx;
-
-    return {
-      method: request.method,
-      url: request.url,
-      route: request.route,
-      headers: request.headers,
-      body: this.redactAttributes(request.body),
-      query: request.query,
-      params: request.params
-    };
-  }
+  return body;
 }
+
+function alterLog(level: string, obj: Record<string, unknown>, ctx: DIContext) {
+  const log: Record<string, unknown> = defaultAlterLog(level, obj, ctx);
+
+  if ("body" in log) {
+    log.body = redactAttributes(log.body);
+  }
+
+  return log;
+}
+
+@Configuration({
+  logger: {
+    alterLog
+  }
+})
+export class Server {}
+```
+
+The log emitted when the response is sent can be replaced with the `onLogResponse` option:
+
+```typescript
+import {Configuration, type DIContext} from "@tsed/di";
+import "@tsed/platform-log-request";
+
+function onLogResponse(ctx: DIContext) {
+  ctx.logger.info({
+    event: "request.end",
+    status: ctx.response.statusCode
+  });
+}
+
+@Configuration({
+  logger: {
+    onLogResponse
+  }
+})
+export class Server {}
 ```
 
 ## Shutdown logger
 
-Shutdown returns a Promise that will be resolved when `@tsed/logger has closed all appenders and finished writing log
+Shutdown returns a Promise that will be resolved when `@tsed/logger` has closed all appenders and finished writing log
 events.
 Use this when your program exits to make sure all your logs are written to files, sockets are closed, etc.
 

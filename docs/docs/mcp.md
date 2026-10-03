@@ -241,11 +241,11 @@ class HelloOutput {
 export class HelloTool {
   @Tool("hello")
   @Description("Greets callers from any MCP client")
-  @Returns(HelloOutput)
+  @Returns(200, HelloOutput)
   async handle(input: HelloInput) {
-    return new HelloOutput({
+    return {
       message: `Hello, ${input.name}!`
-    });
+    };
   }
 }
 ```
@@ -339,18 +339,27 @@ export const docsResource = defineResource({
 Prompts expose reusable prompt templates that MCP clients can request on demand. Use them to generate consistent
 conversation starters, assistant instructions, or parameterized user messages from your Ts.ED application.
 
+Unlike `@Tool`, `@Prompt` does not infer the arguments schema from the method parameter: declare `argsSchema`
+explicitly when the prompt accepts arguments.
+
 ::: code-group
 
 ```typescript [Decorators]
 import {Injectable} from "@tsed/di";
 import {Prompt} from "@tsed/platform-mcp";
+import {s} from "@tsed/schema";
 
 @Injectable()
 export class McpPrompts {
   @Prompt({
     name: "ask-tsed",
     title: "Ask Ts.ED",
-    description: "Creates a prompt message for Ts.ED questions"
+    description: "Creates a prompt message for Ts.ED questions",
+    argsSchema: s
+      .object({
+        question: s.string().required()
+      })
+      .required()
   })
   askTsed({question}: {question: string}) {
     return {
@@ -409,19 +418,27 @@ Error code resolution follows this rule:
 - if `error.name` and `error.status` are present: `E_MCP_<KIND>_<CONSTANT_CASE(error.name)>` (via `change-case`)
 - otherwise: `E_MCP_<KIND>_ERROR`
 
+`status_code` is `error.status`; it is omitted when the error has no status.
+
 ### Tool errors
 
 - log event: `MCP_TOOL_ERROR`
-- fallback response:
+- fallback response: `isError` is set to `true`, the error payload is returned in `structuredContent` and as a JSON
+  text entry in `content`:
 
 ```json
 {
-  "content": [],
+  "isError": true,
+  "content": [
+    {
+      "type": "text",
+      "text": "{\n  \"status_code\": 500,\n  \"code\": \"E_MCP_TOOL_INTERNAL_SERVER_ERROR\",\n  \"message\": \"Something went wrong\",\n  \"tool\": \"my-tool\"\n}"
+    }
+  ],
   "structuredContent": {
     "status_code": 500,
     "code": "E_MCP_TOOL_INTERNAL_SERVER_ERROR",
     "message": "Something went wrong",
-    "request_id": "<tsed-di-context-id>",
     "tool": "my-tool"
   }
 }
@@ -430,25 +447,31 @@ Error code resolution follows this rule:
 ### Resource errors
 
 - log event: `MCP_RESOURCE_ERROR`
-- fallback response:
+- fallback response: two `contents` entries for the requested URI, the error message as plain text followed by the
+  error payload as JSON:
 
 ```json
 {
-  "contents": [],
-  "_meta": {
-    "status_code": 404,
-    "code": "E_MCP_RESOURCE_NOT_FOUND",
-    "message": "Resource not found",
-    "request_id": "<tsed-di-context-id>",
-    "resource": "docs"
-  }
+  "contents": [
+    {
+      "uri": "tsed://docs/index",
+      "mimeType": "text/plain",
+      "text": "Resource not found"
+    },
+    {
+      "uri": "tsed://docs/index",
+      "mimeType": "application/json",
+      "text": "{\n  \"status_code\": 404,\n  \"code\": \"E_MCP_RESOURCE_NOT_FOUND\",\n  \"error_name\": \"NOT_FOUND\",\n  \"message\": \"Resource not found\",\n  \"request_id\": \"<tsed-di-context-id>\",\n  \"resource\": \"docs\"\n}"
+    }
+  ]
 }
 ```
 
 ### Prompt errors
 
 - log event: `MCP_PROMPT_ERROR`
-- fallback response:
+- fallback response: `description` is set to the error message, `messages` is empty and the error payload is returned
+  in `_meta`:
 
 ```json
 {
@@ -514,8 +537,9 @@ automatically exposed by other MCP configurations.
 The CLI exposes a single `/mcp` endpoint; use one MCP configuration when starting it with `mcpServerConnect`.
 
 All Ts.ED adapters (Express, Fastify, Koa) forward `POST <path>` requests to
-`@modelcontextprotocol/sdk`'s `StreamableHTTPServerTransport`, so any MCP-capable client (Claude Desktop, etc.) can talk
-with your server regardless of the underlying framework.
+`@modelcontextprotocol/node`'s `NodeStreamableHTTPServerTransport`, connected to a `McpServer` from
+`@modelcontextprotocol/server`, so any MCP-capable client (Claude Desktop, etc.) can talk with your server regardless
+of the underlying framework.
 
 ## Testing and inspector
 

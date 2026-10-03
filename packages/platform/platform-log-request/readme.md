@@ -40,26 +40,29 @@ npm install --save @tsed/platform-log-request
 ```ts
 import {Configuration} from "@tsed/di";
 import "@tsed/platform-log-request";
-import {levels} from "@tsed/logger";
 
 @Configuration({
-  /**
-   * Log all incoming request. By default, is true and print the configured `logger.requestFields`.
-   * @optional
-   */
-  // logRequest: true,
-  /**
-   * A function to alter the log object before it's logged.
-   * @optional
-   */
-  // alterLog: (level, data, $ctx) => {
-  //   /// see example above
-  // },
-  /**
-   * A function to alter the log object before it's logged.
-   * @optional
-   */
-  // onLogEnd? : ($ctx: BaseContext) => void;
+  logger: {
+    /**
+     * Log all incoming requests. By default, true.
+     * @optional
+     */
+    // logRequest: true,
+    /**
+     * A function to alter the log object before it is logged.
+     * @optional
+     */
+    // alterLog: (level, data, $ctx) => {
+    //   /// see example below
+    // },
+    /**
+     * A function to log the server response.
+     * @optional
+     */
+    // onLogResponse: ($ctx) => {
+    //   /// see example below
+    // }
+  }
 })
 class Server {}
 ```
@@ -101,7 +104,9 @@ import "@tsed/platform-log-request";
 import {customAlterLog} from "./utils/customAlterLog.js";
 
 @Configuration({
-  alterLog: customAlterLog
+  logger: {
+    alterLog: customAlterLog
+  }
 })
 class Server {}
 ```
@@ -150,7 +155,9 @@ import "@tsed/platform-log-request";
 import {customOnLogResponse} from "./utils/customOnLogResponse.js";
 
 @Configuration({
-  onLogResponse: customOnLogResponse
+  logger: {
+    onLogResponse: customOnLogResponse
+  }
 })
 class Server {}
 ```

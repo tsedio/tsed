@@ -21,7 +21,7 @@ This page will describe how you can get these instances with the new API.
 
 ### Abstraction
 
-<ApiList query="status.includes('platform') && ['@tsed/common', '@tsed/platform-views', '@tsed/platform-params', '@tsed/platform-response-filter', '@tsed/platform-exceptions'].includes(module)" />
+<ApiList query="status.includes('platform') && ['@tsed/platform-http', '@tsed/platform-views', '@tsed/platform-params', '@tsed/platform-response-filter', '@tsed/platform-exceptions'].includes(module)" />
 
 ### Express.js
 
