@@ -24,8 +24,9 @@
       "Migrate this application from Ts.ED v7 to v8."
     ],
     "websiteURL": "https://tsed.dev",
-    "composerIcon": "./assets/tsed.svg",
-    "logo": "./assets/tsed.png",
+    "brandColor": "#4596D5",
+    "composerIcon": "./assets/icon.png",
+    "logo": "./assets/logo.png",
     "screenshots": []
   }
 }

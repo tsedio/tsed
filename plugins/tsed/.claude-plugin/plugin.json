@@ -1,5 +1,6 @@
 {
   "name": "tsed",
+  "displayName": "Ts.ED",
   "description": "Skills and the Ts.ED CLI MCP server to build Ts.ED v8 applications: controllers, DI, models, validation, middlewares, exceptions, testing, OpenAPI, logger and MCP servers.",
   "author": {
     "name": "Ts.ED",
@@ -8,5 +9,6 @@
   "homepage": "https://tsed.dev/introduction/ai/agent-plugins.html",
   "repository": "https://github.com/tsedio/tsed",
   "license": "MIT",
+  "icon": "./assets/logo.png",
   "keywords": ["tsed", "typescript", "nodejs", "framework", "express", "fastify", "koa", "mcp"]
 }

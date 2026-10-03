@@ -10,6 +10,7 @@
   "plugins": [
     {
       "name": "tsed",
+      "displayName": "Ts.ED",
       "source": "./plugins/tsed",
       "description": "Skills and the Ts.ED CLI MCP server to build Ts.ED v8 applications: controllers, DI, models, validation, middlewares, exceptions, testing, OpenAPI, logger and MCP servers.",
       "category": "development",

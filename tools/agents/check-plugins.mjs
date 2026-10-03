@@ -120,6 +120,10 @@ function checkPlugin(dir, name) {
   const claude = readJson(join(dir, ".claude-plugin/plugin.json"));
   const codex = readJson(join(dir, ".codex-plugin/plugin.json"));
 
+  if (claude?.icon && !existsSync(join(dir, claude.icon))) {
+    fail(join(dir, ".claude-plugin/plugin.json"), `path "${claude.icon}" does not exist`);
+  }
+
   if (claude && claude.name !== name) {
     fail(join(dir, ".claude-plugin/plugin.json"), `name must be "${name}"`);
   }
