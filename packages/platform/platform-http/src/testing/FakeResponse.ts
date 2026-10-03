@@ -1,5 +1,5 @@
 import {EventEmitter} from "node:events";
-import {serialize as serializeCookie} from "cookie";
+import {stringifySetCookie} from "cookie";
 
 export class FakeResponse extends EventEmitter {
   headers: Record<string, unknown> = {};
@@ -56,7 +56,7 @@ export class FakeResponse extends EventEmitter {
       opts.path = "/";
     }
 
-    this.append("Set-Cookie", serializeCookie(name, String(val), opts));
+    this.append("Set-Cookie", stringifySetCookie({...opts, name, value: String(val)}));
 
     return this;
   }
