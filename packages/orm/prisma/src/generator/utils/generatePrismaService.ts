@@ -9,11 +9,7 @@ export function generatePrismaService(project: Project, baseDirPath: string) {
   prismaServiceFile.addImportDeclarations([
     {
       moduleSpecifier: "@tsed/di",
-      namedImports: ["Inject", "Injectable", "Configuration", "OnInit", "OnDestroy"]
-    },
-    {
-      moduleSpecifier: "@tsed/logger",
-      namedImports: ["Logger"]
+      namedImports: ["Injectable", "Configuration", "OnInit", "OnDestroy", "logger"]
     },
     {
       moduleSpecifier: resolveExtension("../client/index"),
@@ -37,13 +33,7 @@ export function generatePrismaService(project: Project, baseDirPath: string) {
   prismaService.addProperty({
     name: "logger",
     scope: Scope.Protected,
-    type: "Logger",
-    decorators: [
-      {
-        name: "Inject",
-        arguments: []
-      }
-    ]
+    initializer: "logger()"
   });
 
   prismaService
