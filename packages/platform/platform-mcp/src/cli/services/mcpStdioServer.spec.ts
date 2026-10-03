@@ -1,5 +1,5 @@
 import {McpServer} from "@modelcontextprotocol/server";
-import {DITest} from "@tsed/di";
+import {DITest, injector} from "@tsed/di";
 import {beforeEach, describe, expect, it, vi} from "vitest";
 
 import {mcpStdioServer} from "./mcpStdioServer.js";
@@ -64,5 +64,22 @@ describe("mcpStdioServer", () => {
     await mcpStdioServer(mockServer);
 
     expect(importSpy).toHaveBeenCalled();
+  });
+
+  it("should stop the logger before connecting", async () => {
+    const stop = vi.fn();
+    injector().logger = {...console, stop} as any;
+
+    await mcpStdioServer(mockServer);
+
+    expect(stop).toHaveBeenCalledTimes(1);
+  });
+
+  it("should connect when the logger has no stop method", async () => {
+    injector().logger = console as any;
+
+    await mcpStdioServer(mockServer);
+
+    expect(mockConnect).toHaveBeenCalledTimes(1);
   });
 });
