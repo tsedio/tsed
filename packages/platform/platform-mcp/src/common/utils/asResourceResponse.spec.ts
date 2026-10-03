@@ -24,7 +24,7 @@ describe("asResponse", () => {
   it("should add a text error item before the JSON error payload", () => {
     expect(asResourceResponse("tsed://resource", {message: "boom"}, {isError: true})).toEqual({
       contents: [
-        {uri: "tsed://resource", mimeType: "plain/text", text: "boom"},
+        {uri: "tsed://resource", mimeType: "text/plain", text: "boom"},
         {uri: "tsed://resource", mimeType: "application/json", text: '{\n  "message": "boom"\n}'}
       ]
     });
