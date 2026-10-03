@@ -56,7 +56,7 @@ export class FakeResponse extends EventEmitter {
       opts.path = "/";
     }
 
-    this.append("Set-Cookie", stringifySetCookie({...opts, name, value: String(val)}, {encode}));
+    this.append("Set-Cookie", stringifySetCookie({...opts, name, value: String(val)}, {encode: encode || encodeURIComponent}));
 
     return this;
   }
