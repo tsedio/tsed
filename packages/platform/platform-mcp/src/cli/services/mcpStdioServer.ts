@@ -6,7 +6,8 @@ export async function mcpStdioServer(server: McpServer) {
 
   const transport = new StdioServerTransport();
 
-  logger().stop();
+  // stdout is reserved for the MCP protocol; a logger without stop() (e.g. console) is left untouched
+  logger().stop?.();
 
   return server.connect(transport);
 }
