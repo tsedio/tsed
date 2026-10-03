@@ -1,6 +1,7 @@
 ---
 description: "Formerly known as ConfigSource, this module provides a way to load configuration from different sources like environment variables, JSON files, YAML files,…"
 ---
+
 # Configuration sources
 
 Formerly known as @@ConfigSource@@, this module provides a way to load configuration from different sources like
@@ -150,7 +151,7 @@ export class MyService {
   @Constant("configs.json.myConfigKey")
   myConfigKeyFromJson: string; // get value from json file only
 
-  @Constant("configs.env.myConfigKey")
+  @Constant("configs.envs.myConfigKey")
   myConfigKeyFromEnv: string; // get value from env file only
 
   constructor() {

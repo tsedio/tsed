@@ -115,7 +115,7 @@ yarn benchmarks:prepare
 
 - Use the OpenSpec workflow for all non-trivial work. Review `openspec/config.yaml` (project context and artifact rules) and the living specs under `openspec/specs/` before drafting a proposal; use the `openspec-*` skills in `.agents/skills` or the `openspec` CLI (`openspec list`, `openspec validate <change-id>`).
 - Store new plans/specs under `openspec/changes/<change-id>/` with the standard `proposal.md`, `tasks.md`, `design.md`, and `specs/` structure.
-- JSDoc coverage progress now lives in `reports/jsdoc/`; do not recreate `.plan/*` trackers. For historical context see `openspec/changes/standardize-jsdoc-tracking`.
+- JSDoc coverage progress now lives in `reports/jsdoc/`; do not recreate `.plan/*` trackers. For historical context see `openspec/changes/archive/2026-02-08-standardize-jsdoc-tracking`.
 
 ## JSDoc coverage trackers
 
