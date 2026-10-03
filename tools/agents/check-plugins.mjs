@@ -1,6 +1,6 @@
 // Validate the agent marketplace catalogs, the plugin manifests and the skills shipped under plugins/.
 import {existsSync, readdirSync, readFileSync, statSync} from "node:fs";
-import {dirname, join, relative, resolve} from "node:path";
+import {basename, dirname, join, relative, resolve} from "node:path";
 import {fileURLToPath} from "node:url";
 
 const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), "../..");
@@ -57,7 +57,8 @@ function checkLinks(file, content) {
 }
 
 function checkMarkdown(file) {
-  const content = readFileSync(file, "utf8");
+  // normalize CRLF checkouts (core.autocrlf) before parsing
+  const content = readFileSync(file, "utf8").replace(/\r\n/g, "\n");
 
   // commented "before" lines of a migration example are allowed
   if (/^\s*import\b[^\n]*from\s+["']@tsed\/common["']/m.test(content)) {
@@ -70,7 +71,7 @@ function checkMarkdown(file) {
 }
 
 function checkSkill(dir) {
-  const name = dir.split("/").pop();
+  const name = basename(dir);
   const file = join(dir, "SKILL.md");
 
   if (!existsSync(file)) {
