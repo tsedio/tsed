@@ -39,7 +39,7 @@ export class FakeResponse extends EventEmitter {
   }
 
   cookie(name: string, value: string, options?: TsED.SetCookieOpts) {
-    const opts = {...options};
+    const {encode, ...opts} = {...options};
 
     const val = typeof value === "object" ? "j:" + JSON.stringify(value) : String(value);
 
@@ -56,7 +56,7 @@ export class FakeResponse extends EventEmitter {
       opts.path = "/";
     }
 
-    this.append("Set-Cookie", stringifySetCookie({...opts, name, value: String(val)}));
+    this.append("Set-Cookie", stringifySetCookie({...opts, name, value: String(val)}, {encode}));
 
     return this;
   }
