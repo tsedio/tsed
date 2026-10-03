@@ -1,0 +1,4 @@
+interface:
+  display_name: "Ts.ED Logger"
+  short_description: "Configure logging, appenders and request logs in Ts.ED"
+  default_prompt: "Use $tsed-logger to switch my Ts.ED app to JSON logs in production and add request logging."

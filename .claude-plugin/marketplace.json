@@ -1,0 +1,19 @@
+{
+  "name": "tsed",
+  "owner": {
+    "name": "Ts.ED",
+    "url": "https://tsed.dev"
+  },
+  "metadata": {
+    "description": "Official Ts.ED agent plugins: skills and MCP tooling to build applications with the Ts.ED framework."
+  },
+  "plugins": [
+    {
+      "name": "tsed",
+      "source": "./plugins/tsed",
+      "description": "Skills and the Ts.ED CLI MCP server to build Ts.ED v8 applications: controllers, DI, models, validation, middlewares, exceptions, testing, OpenAPI, logger and MCP servers.",
+      "category": "development",
+      "tags": ["tsed", "typescript", "nodejs", "framework", "express", "fastify", "koa", "mcp"]
+    }
+  ]
+}

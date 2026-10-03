@@ -1,0 +1,4 @@
+interface:
+  display_name: "Ts.ED CLI and Generators"
+  short_description: "Scaffold and generate Ts.ED code with the CLI or MCP"
+  default_prompt: "Use $tsed-cli to generate a ProductsController with a /products route in this Ts.ED project."

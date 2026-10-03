@@ -29,6 +29,7 @@ const Introduction = [
       {text: "Installation", link: "/introduction/getting-started"},
       {text: "Create your first controller", link: "/introduction/create-your-first-controller"},
       {text: "Develop with AI", link: "/introduction/ai/develop-with-ai"},
+      {text: "Agent plugins & skills", link: "/introduction/ai/agent-plugins"},
       {
         text: "Cheat sheet",
         link: "/introduction/cheat-sheet"
