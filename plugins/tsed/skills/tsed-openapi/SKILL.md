@@ -20,14 +20,17 @@ import "@tsed/platform-express";
 import "@tsed/swagger";
 import "@tsed/scalar";
 import {Configuration} from "@tsed/di";
+import * as rest from "./controllers/rest/index.js";
 
 @Configuration({
-  mount: {"/rest": [`${import.meta.dirname}/controllers/**/*.ts`]},
+  mount: {"/rest": [...Object.values(rest)]},
   swagger: [{path: "/doc", specVersion: "3.0.3"}],
   scalar: [{path: "/scalar", specVersion: "3.1.0"}]
 })
 export class Server {}
 ```
+
+- `mount` takes controller classes only (imported one by one or through a barrel as above). Do not pass glob strings: they are silently dropped, so the server and the spec expose no route.
 
 - The UI is served on `path`; the JSON on `<path>/<fileName>` (`swagger.json` for Swagger, `openapi.json` for Scalar).
 - `specVersion` accepts `"2.0"`, `"3.0.1"`, `"3.0.2"`, `"3.0.3"`, `"3.1.0"`. Always set it: when omitted (and `spec.openapi` is absent) Ts.ED emits Swagger `2.0`.
