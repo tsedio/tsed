@@ -10,7 +10,7 @@ describe("defineResource", () => {
   function expectError(result: any, error: Record<string, unknown>) {
     expect(result.contents[0]).toEqual({
       uri: "tsed://resource",
-      mimeType: "plain/text",
+      mimeType: "text/plain",
       text: error.message
     });
     expect(result.contents[1]).toEqual({
