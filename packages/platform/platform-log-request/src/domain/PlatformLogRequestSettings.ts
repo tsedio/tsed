@@ -8,7 +8,7 @@ export type AlterLogCallback = (
 
 export interface PlatformLogRequestSettings {
   /**
-   * Log all incoming request. By default, is true and print the configured `logger.requestFields`.
+   * Log all incoming requests. By default, true.
    */
   logRequest?: boolean;
   /**

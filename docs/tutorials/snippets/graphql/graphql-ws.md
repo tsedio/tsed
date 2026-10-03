@@ -41,7 +41,7 @@ yarn add @tsed/graphql-ws graphql-ws
 </Tabs>
 
 ```typescript
-import {Configuration} from "@tsed/common";
+import {Configuration} from "@tsed/di";
 import "@tsed/platform-express";
 import "@tsed/apollo";
 import "@tsed/graphql-ws";
@@ -88,7 +88,7 @@ export class Server {}
 You can register plugins with the `plugins` property. The plugins are executed in the order of declaration.
 
 ```typescript
-import {Configuration} from "@tsed/common";
+import {Configuration} from "@tsed/di";
 import "@tsed/platform-express";
 import "@tsed/apollo";
 import {join} from "node:path";
@@ -196,7 +196,7 @@ npm install --save-dev apollo-server-testing
 Now, we can configure the Ts.ED server by importing `@tsed/apollo` in your Server:
 
 ```typescript
-import {Configuration} from "@tsed/common";
+import {Configuration} from "@tsed/di";
 import "@tsed/platform-express";
 import "@tsed/apollo";
 import {schema} from "./schema";

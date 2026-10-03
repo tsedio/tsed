@@ -133,7 +133,7 @@ Then use `@Docs` decorators on your controllers to specify where the controllers
 You can use the `pathPatterns` options to include only controllers whose paths match the pattern list provided.
 
 ```typescript
-import {Configuration} from "@tsed/common";
+import {Configuration} from "@tsed/di";
 import "@tsed/platform-express";
 import "@tsed/scalar"; // import scalar Ts.ED module
 

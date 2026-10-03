@@ -59,7 +59,7 @@ Then edit your `Server.ts`:
 ```ts
 import {join} from "node:path";
 import {Configuration, Inject} from "@tsed/di";
-import {PlatformApplication} from "@tsed/common";
+import {PlatformApplication} from "@tsed/platform-http";
 import "@tsed/platform-express"; // /!\ keep this import
 import "@tsed/vike"; // add this
 import "@tsed/ajv";

@@ -58,13 +58,13 @@ export class Server {}
 
 The AJV module allows a few settings to be added through the ServerSettings (all are optional):
 
-- **options** are AJV specific options passed directly to the AJV constructor,
+- any [AJV option](https://ajv.js.org/options.html) set directly on the `ajv` key is passed to the AJV constructor,
 - **errorFormatter** can be used to alter the output produced by the `@tsed/ajv` package.
 
 The error message could be changed like this:
 
 ```typescript
-import {Configuration} from "@tsed/diu";
+import {Configuration} from "@tsed/di";
 import "@tsed/ajv"; // import ajv ts.ed module
 
 @Configuration({

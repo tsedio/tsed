@@ -21,7 +21,7 @@ export class KindOfResponseCtrl {
   @Get("/buffer")
   buffer(@Res() res: PlatformResponse): Buffer {
     // Set attachment: res.attachment("filename")
-    // Set contentType: res.contentType("plain/text");
+    // Set contentType: res.contentType("text/plain");
 
     return Buffer.from("Hello");
   }
