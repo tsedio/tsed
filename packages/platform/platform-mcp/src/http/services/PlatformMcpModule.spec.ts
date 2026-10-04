@@ -159,6 +159,7 @@ describe("PlatformMcpModule", () => {
       ["auth.resource (or auth.audience) is required", {issuer: "https://auth.example.com"}],
       ["auth.audience cannot be disabled in offline mode", {issuer: "https://auth.example.com", audience: false}],
       ["auth.issuer must be an absolute URL", {issuer: "auth.example.com", resource: "https://api.example.com/mcp"}],
+      ["Issuer URL must be HTTPS", {issuer: "http://auth.example.com", resource: "https://api.example.com/mcp"}],
       ["auth.resource must be an absolute URL", {issuer: "https://auth.example.com", resource: "/mcp", audience: "mcp"}]
     ])("fails when %s", async (message, auth) => {
       const {module} = await createModule();

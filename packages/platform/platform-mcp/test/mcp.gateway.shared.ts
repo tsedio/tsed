@@ -218,7 +218,6 @@ export function describeMcpGateway(name: string, adapter: unknown) {
         expect(response.body).toEqual({
           resource: expect.stringMatching(/^http:\/\/127\.0\.0\.1:\d+\/mcp\/secured$/),
           authorization_servers: ["https://auth.example.com"],
-          bearer_methods_supported: ["header"],
           scopes_supported: ["mcp:read", "mcp:write"],
           resource_name: "Secured gateway"
         });

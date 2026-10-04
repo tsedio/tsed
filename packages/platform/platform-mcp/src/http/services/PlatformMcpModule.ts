@@ -112,6 +112,15 @@ export class PlatformMcpModule implements OnRoutesInit {
       throw new Error(`MCP endpoint "${path}": auth.resource must be an absolute URL.`);
     }
 
+    if (auth) {
+      try {
+        // surfaces at startup what the metadata route would otherwise fail on (insecure issuer, invalid documentation URL)
+        getProtectedResourceMetadata(auth, new URL(auth.resource || "https://localhost"));
+      } catch (error) {
+        throw new Error(`MCP endpoint "${path}": invalid auth configuration. ${(error as Error).message}`);
+      }
+    }
+
     if (opts.upstream && !opts.auth && hasUpstreamPlaceholders(opts.upstream)) {
       throw new Error(`MCP endpoint "${path}": the upstream uses \${OAUTH_*} placeholders but the endpoint declares no auth.`);
     }
