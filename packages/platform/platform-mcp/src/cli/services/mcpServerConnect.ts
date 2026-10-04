@@ -1,7 +1,7 @@
 import {constant, logger} from "@tsed/di";
 
-import {attachUpstream} from "../../common/gateway/attachUpstream.js";
-import {hasUpstreamPlaceholders} from "../../common/gateway/resolveUpstream.js";
+import {attachUpstream} from "../../common/utils/attachUpstream.js";
+import {hasUpstreamPlaceholders} from "../../common/utils/resolveUpstream.js";
 import type {PlatformMcpSettings} from "../../common/interfaces/PlatformMcpSettings.js";
 import {createMcpServer, resolveMcpServerOptions} from "../../common/utils/createMcpServer.js";
 import {mcpStdioServer} from "./mcpStdioServer.js";

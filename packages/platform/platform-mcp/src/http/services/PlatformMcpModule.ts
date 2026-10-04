@@ -1,19 +1,13 @@
-import {application, type OnRoutesInit, PlatformContext, type PlatformRouteDetails} from "@tsed/platform-http";
-import {constant, injectable, logger} from "@tsed/di";
+import {application, type OnRoutesInit, type PlatformContext, type PlatformRouteDetails} from "@tsed/platform-http";
+import {constant, inject, injectable} from "@tsed/di";
 import type {PlatformMcpSettings} from "../../common/index.js";
 import {NodeStreamableHTTPServerTransport} from "@modelcontextprotocol/node";
 import type {AuthInfo} from "@modelcontextprotocol/server";
 import {useContextHandler} from "@tsed/platform-router";
-import {attachUpstream} from "../../common/gateway/attachUpstream.js";
-import {hasUpstreamPlaceholders} from "../../common/gateway/resolveUpstream.js";
-import {createMcpServer, resolveMcpServerOptions, type CreateMcpServerOpts} from "../../common/utils/createMcpServer.js";
-import {getMcpAuthMode} from "../utils/createMcpTokenVerifier.js";
-import {getProtectedResourceMetadata, getProtectedResourceMetadataPath, getResourceUrl, verifyMcpRequest} from "../utils/mcpAuth.js";
-
-async function sendResponse(res: any, response: Response) {
-  res.writeHead(response.status, Object.fromEntries(response.headers));
-  res.end(await response.text());
-}
+import {attachUpstream} from "../../common/utils/attachUpstream.js";
+import {hasUpstreamPlaceholders} from "../../common/utils/resolveUpstream.js";
+import {createMcpServer, type CreateMcpServerOpts, resolveMcpServerOptions} from "../../common/utils/createMcpServer.js";
+import {PlatformMcpAuthService} from "./PlatformMcpAuthService.js";
 
 /**
  * Platform module that mounts the MCP HTTP endpoint and forwards requests to the configured server instance.
@@ -25,6 +19,7 @@ export class PlatformMcpModule implements OnRoutesInit {
   protected settings = constant<PlatformMcpSettings | PlatformMcpSettings[]>("mcp", {});
   protected app = application();
   protected mcps: PlatformRouteDetails[] = [];
+  protected platformAuthService = inject(PlatformMcpAuthService);
   private loaded = false;
 
   $onRoutesInit() {
@@ -40,12 +35,16 @@ export class PlatformMcpModule implements OnRoutesInit {
       }
 
       const path = opts.path || "/mcp";
-      this.validate(opts, path);
 
-      const resolvedSettings = {...resolveMcpServerOptions(opts), path};
+      this.validate(path, opts);
+
+      const resolvedSettings = {
+        ...resolveMcpServerOptions(opts),
+        path
+      };
 
       if (opts.auth) {
-        const metadataPath = getProtectedResourceMetadataPath(path);
+        const metadataPath = this.platformAuthService.getProtectedResourceMetadataPath(path);
 
         this.app.get(
           metadataPath,
@@ -81,44 +80,9 @@ export class PlatformMcpModule implements OnRoutesInit {
   /**
    * Rejects a configuration that cannot work or would be unsafe, before any route is mounted.
    */
-  protected validate(opts: PlatformMcpSettings, path: string) {
-    const {auth} = opts;
-
-    if (auth && !auth.verifier && getMcpAuthMode(auth) === "introspection" && !(auth.clientId && auth.clientSecret)) {
-      throw new Error(`MCP endpoint "${path}": the introspection mode requires auth.clientId and auth.clientSecret.`);
-    }
-
-    if (auth && !auth.verifier && auth.audience === false) {
-      if (getMcpAuthMode(auth) === "offline") {
-        throw new Error(`MCP endpoint "${path}": auth.audience cannot be disabled in offline mode.`);
-      }
-
-      logger().warn({
-        event: "MCP_AUTH_AUDIENCE_DISABLED",
-        message: `MCP endpoint "${path}": the audience check is disabled, any active token of ${auth.issuer} is accepted.`
-      });
-    }
-
-    if (auth && !auth.verifier && !auth.resource && auth.audience === undefined) {
-      // without it the expected audience would be derived from the Host header, which the caller controls
-      throw new Error(`MCP endpoint "${path}": auth.resource (or auth.audience) is required to verify the audience of access tokens.`);
-    }
-
-    if (auth && !URL.canParse(auth.issuer)) {
-      throw new Error(`MCP endpoint "${path}": auth.issuer must be an absolute URL.`);
-    }
-
-    if (auth?.resource && !URL.canParse(auth.resource)) {
-      throw new Error(`MCP endpoint "${path}": auth.resource must be an absolute URL.`);
-    }
-
-    if (auth) {
-      try {
-        // surfaces at startup what the metadata route would otherwise fail on (insecure issuer, invalid documentation URL)
-        getProtectedResourceMetadata(auth, new URL(auth.resource || "https://localhost"));
-      } catch (error) {
-        throw new Error(`MCP endpoint "${path}": invalid auth configuration. ${(error as Error).message}`);
-      }
+  protected validate(path: string, opts: PlatformMcpSettings) {
+    if (opts.auth) {
+      this.platformAuthService.validate(path, opts.auth);
     }
 
     if (opts.upstream && !opts.auth && hasUpstreamPlaceholders(opts.upstream)) {
@@ -128,33 +92,35 @@ export class PlatformMcpModule implements OnRoutesInit {
 
   protected metadata(settings: CreateMcpServerOpts, $ctx: PlatformContext) {
     const auth = settings.auth!;
-    const body = JSON.stringify(getProtectedResourceMetadata(auth, getResourceUrl(auth, settings.path!, $ctx)));
+    const resource = this.platformAuthService.getResourceUrl(auth, settings.path!, $ctx);
+    const body = this.platformAuthService.getProtectedResourceMetadata(auth, resource);
 
-    return sendResponse(
-      $ctx.response.getRes(),
-      new Response(body, {
-        headers: {
-          "content-type": "application/json",
-          "cache-control": "public, max-age=3600",
-          "access-control-allow-origin": "*"
-        }
+    return $ctx.response
+      .status(200)
+      .setHeaders({
+        "content-type": "application/json",
+        "cache-control": "public, max-age=3600",
+        "access-control-allow-origin": "*"
       })
-    );
+      .body(body);
   }
 
   protected async dispatch(settings: CreateMcpServerOpts, $ctx: PlatformContext) {
-    const req = $ctx.request.getReq() as any;
     let authInfo: AuthInfo | undefined;
 
     if (settings.auth) {
-      const result = await verifyMcpRequest(settings.auth, settings.path!, $ctx);
+      const result = await this.platformAuthService.verifyMcpRequest(settings.auth, settings.path!, $ctx);
 
       if (result instanceof Response) {
-        return sendResponse($ctx.response.getRes(), result);
+        return $ctx.response
+          .status(result.status)
+          .setHeaders(Object.fromEntries(result.headers))
+          .body(await result.text());
       }
 
-      // read by the transport and exposed to handlers as `ctx.http.authInfo`
-      req.auth = authInfo = result;
+      authInfo = result;
+      // the SDK transport reads `req.auth` and exposes it to handlers as `ctx.http.authInfo`
+      ($ctx.getReq() as {auth?: AuthInfo}).auth = authInfo;
     }
 
     const server = createMcpServer(settings);
@@ -165,8 +131,6 @@ export class PlatformMcpModule implements OnRoutesInit {
       ...settings.transportOptions
     });
 
-    const {request, response} = $ctx;
-    const res = response.getRes() as any;
     let closed = false;
 
     const closeServer = async () => {
@@ -178,15 +142,15 @@ export class PlatformMcpModule implements OnRoutesInit {
       await server.close();
     };
 
-    res?.once("close", closeServer);
+    $ctx.getRes()?.once("close", closeServer);
 
     try {
       await attachUpstream(server, settings, authInfo);
       await server.connect(transport as any);
-      await transport.handleRequest(req, res, request.body);
+      await transport.handleRequest($ctx.getReq(), $ctx.getRes(), $ctx.request.body);
     } finally {
       if (settings.transportOptions?.enableJsonResponse !== false) {
-        res?.off?.("close", closeServer);
+        $ctx.getRes()?.off?.("close", closeServer);
         await closeServer();
       }
     }

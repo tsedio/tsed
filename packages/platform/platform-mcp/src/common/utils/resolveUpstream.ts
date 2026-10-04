@@ -1,7 +1,8 @@
 import type {AuthInfo} from "@modelcontextprotocol/server";
 import type {McpUpstreamSettings} from "../interfaces/McpUpstreamSettings.js";
+import {hasPlaceholders, interpolate} from "./interpolate.js";
 
-const PLACEHOLDER = /\$\{(OAUTH_TOKEN|OAUTH_CLIENT_ID|OAUTH_SCOPES)\}/g;
+const OAUTH_PLACEHOLDERS = ["OAUTH_TOKEN", "OAUTH_CLIENT_ID", "OAUTH_SCOPES"] as const;
 
 function mapValues(record: Record<string, string> | undefined, fn: (value: string) => string) {
   return record && Object.fromEntries(Object.entries(record).map(([key, value]) => [key, fn(value)]));
@@ -17,7 +18,7 @@ function getValues(upstream: McpUpstreamSettings): string[] {
  * Tells whether the upstream definition references the identity of the caller.
  */
 export function hasUpstreamPlaceholders(upstream: McpUpstreamSettings) {
-  return getValues(upstream).some((value) => value.search(PLACEHOLDER) !== -1);
+  return getValues(upstream).some((value) => hasPlaceholders(value, OAUTH_PLACEHOLDERS));
 }
 
 /**
@@ -28,16 +29,16 @@ export function hasUpstreamPlaceholders(upstream: McpUpstreamSettings) {
  * @module platform/mcp
  */
 export function resolveUpstream<T extends McpUpstreamSettings>(upstream: T, authInfo?: AuthInfo): T {
-  const values: Record<string, string> = {
-    OAUTH_TOKEN: authInfo?.token || "",
-    OAUTH_CLIENT_ID: authInfo?.clientId || "",
-    OAUTH_SCOPES: authInfo?.scopes?.join(" ") || ""
+  const variables: Record<(typeof OAUTH_PLACEHOLDERS)[number], string | undefined> = {
+    OAUTH_TOKEN: authInfo?.token,
+    OAUTH_CLIENT_ID: authInfo?.clientId,
+    OAUTH_SCOPES: authInfo?.scopes?.join(" ")
   };
-  const interpolate = (value: string) => value.replace(PLACEHOLDER, (_, name: string) => values[name]);
+  const resolve = (value: string) => interpolate(value, variables);
 
   if (upstream.type === "stdio") {
-    return {...upstream, args: upstream.args?.map(interpolate), env: mapValues(upstream.env, interpolate)};
+    return {...upstream, args: upstream.args?.map(resolve), env: mapValues(upstream.env, resolve)};
   }
 
-  return {...upstream, headers: mapValues(upstream.headers, interpolate)};
+  return {...upstream, headers: mapValues(upstream.headers, resolve)};
 }

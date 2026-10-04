@@ -10,7 +10,7 @@ const {attachUpstream, createMcpServer, resolveMcpServerOptions, mcpStdioServer,
 }));
 
 vi.mock("../../common/utils/createMcpServer.js", () => ({createMcpServer, resolveMcpServerOptions}));
-vi.mock("../../common/gateway/attachUpstream.js", () => ({attachUpstream}));
+vi.mock("../../common/utils/attachUpstream.js", () => ({attachUpstream}));
 vi.mock("./mcpStdioServer.js", () => ({mcpStdioServer}));
 vi.mock("./mcpStreamableServer.js", () => ({mcpStreamableServer}));
 

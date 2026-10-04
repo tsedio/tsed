@@ -75,7 +75,7 @@ Each `configuration.mcp` entry accepts a single `upstream`. Aggregating several 
 
 ### D4 — Upstream connection lifecycle
 
-A `McpGatewayService` (singleton) owns upstream clients, pooled per upstream by a hash of its interpolated values (`headers`, or `args` + `env`):
+A `PlatformMcpGatewayService` (singleton) owns upstream clients, pooled per upstream by a hash of its interpolated values (`headers`, or `args` + `env`):
 
 - An upstream without placeholder always resolves to the same values: one client, connected lazily on first use, kept alive, closed in `$onDestroy`.
 - An upstream with placeholders gets one connection per caller identity — one **process** per identity for `stdio` — bounded by `pool: {max, idleTimeout}` with least-recently-used eviction.
@@ -130,7 +130,7 @@ Not forwarded in this change: sampling, elicitation, roots, resource subscriptio
 
 ### D9 — Packaging
 
-Gateway code lives under `src/common/gateway/` so it is usable by both the HTTP module and the CLI servers; the auth code is HTTP-only and lives under `src/http/`. `@modelcontextprotocol/client` is added to `dependencies` and imported lazily (dynamic `import()`), so applications that do not declare `upstream` never load it. The stdio client transport is only imported for `type: "stdio"`.
+Gateway code lives under `src/common/` so it is usable by both the HTTP module and the CLI servers: `services/PlatformMcpGatewayService` owns the upstream connections, `utils/` holds `attachUpstream`, `resolveUpstream`, `createUpstreamTransport` and `listAll`, and `domain/PlatformTokenVerifier` verifies tokens. The request-level auth code is HTTP-only and lives in `src/http/services/PlatformMcpAuthService`. `@modelcontextprotocol/client` is added to `dependencies` and imported lazily (dynamic `import()`), so applications that do not declare `upstream` never load it. The stdio client transport is only imported for `type: "stdio"`.
 
 ## Risks / Trade-offs
 
