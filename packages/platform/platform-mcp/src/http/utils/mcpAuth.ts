@@ -1,6 +1,7 @@
 import {
   type AuthInfo,
   bearerAuthChallengeResponse,
+  buildOAuthProtectedResourceMetadata,
   getOAuthProtectedResourceMetadataUrl,
   OAuthError,
   OAuthErrorCode,
@@ -31,16 +32,19 @@ export function getResourceUrl(auth: McpAuthSettings, path: string, $ctx: Platfo
 
 /**
  * Builds the OAuth 2.0 Protected Resource Metadata (RFC 9728) advertised for an MCP endpoint.
+ *
+ * @throws When the issuer is not an HTTPS URL (outside localhost) and `allowInsecureRequests` is not set.
  */
 export function getProtectedResourceMetadata(auth: McpAuthSettings, resource: URL) {
-  return {
-    resource: resource.href,
-    authorization_servers: [auth.issuer],
-    bearer_methods_supported: ["header"],
-    ...(auth.scopesSupported && {scopes_supported: auth.scopesSupported}),
-    ...(auth.resourceName && {resource_name: auth.resourceName}),
-    ...(auth.resourceDocumentation && {resource_documentation: auth.resourceDocumentation})
-  };
+  return buildOAuthProtectedResourceMetadata({
+    // the SDK builder only reads the issuer of the authorization server metadata
+    oauthMetadata: {issuer: auth.issuer} as never,
+    resourceServerUrl: resource,
+    scopesSupported: auth.scopesSupported,
+    resourceName: auth.resourceName,
+    serviceDocumentationUrl: auth.resourceDocumentation ? new URL(auth.resourceDocumentation) : undefined,
+    dangerouslyAllowInsecureIssuerUrl: auth.allowInsecureRequests
+  });
 }
 
 function getVerifier(auth: McpAuthSettings, resource: URL): OAuthTokenVerifier {

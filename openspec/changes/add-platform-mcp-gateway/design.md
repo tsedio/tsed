@@ -86,7 +86,7 @@ A connection serving a request is never evicted (the pool may temporarily exceed
 
 When an entry has `auth`, the module:
 
-1. Registers `GET /.well-known/oauth-protected-resource{path}` (RFC 9728 path-suffixed form) returning metadata built by the module (the SDK builder requires the full authorization server metadata, which the gateway does not need): `resource`, `authorization_servers: [issuer]`, `scopes_supported`, `resource_name`, `bearer_methods_supported: ["header"]`.
+1. Registers `GET /.well-known/oauth-protected-resource{path}` (RFC 9728 path-suffixed form) returning metadata built with the SDK `buildOAuthProtectedResourceMetadata` (which also validates the issuer URL: HTTPS outside localhost, checked at startup): `resource`, `authorization_servers: [issuer]`, `scopes_supported`, `resource_name`, `resource_documentation`.
 2. Before dispatch, calls `verifyBearerToken(req.headers.authorization, {verifier, requiredScopes, resourceMetadataUrl})`. On failure it answers with the status and `WWW-Authenticate: Bearer resource_metadata="..."` header produced by `bearerAuthChallengeResponse` (`401` for missing/invalid token, `403` for insufficient scope).
 3. On success, sets `req.auth = authInfo` so the transport exposes it to local handlers, and uses it to interpolate the upstream placeholders.
 

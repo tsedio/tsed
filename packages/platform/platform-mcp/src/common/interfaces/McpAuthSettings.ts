@@ -48,7 +48,7 @@ export interface McpAuthSettings {
    */
   cacheTtl?: number;
   /**
-   * Allow a non-HTTPS issuer. For local development only.
+   * Allow a non-HTTPS issuer (other than `localhost`). For local development only.
    */
   allowInsecureRequests?: boolean;
   /**
