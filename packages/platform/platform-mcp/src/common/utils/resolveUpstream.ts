@@ -1,5 +1,5 @@
 import type {AuthInfo} from "@modelcontextprotocol/server";
-import type {McpUpstreamSettings} from "../interfaces/McpUpstreamSettings.js";
+import type {PlatformMcpUpstreamSettings} from "../interfaces/PlatformMcpUpstreamSettings.js";
 import {hasPlaceholders, interpolate} from "./interpolate.js";
 
 const OAUTH_PLACEHOLDERS = ["OAUTH_TOKEN", "OAUTH_CLIENT_ID", "OAUTH_SCOPES"] as const;
@@ -8,7 +8,7 @@ function mapValues(record: Record<string, string> | undefined, fn: (value: strin
   return record && Object.fromEntries(Object.entries(record).map(([key, value]) => [key, fn(value)]));
 }
 
-function getValues(upstream: McpUpstreamSettings): string[] {
+function getValues(upstream: PlatformMcpUpstreamSettings): string[] {
   return upstream.type === "stdio"
     ? [...(upstream.args || []), ...Object.values(upstream.env || {})]
     : Object.values(upstream.headers || {});
@@ -17,7 +17,7 @@ function getValues(upstream: McpUpstreamSettings): string[] {
 /**
  * Tells whether the upstream definition references the identity of the caller.
  */
-export function hasUpstreamPlaceholders(upstream: McpUpstreamSettings) {
+export function hasUpstreamPlaceholders(upstream: PlatformMcpUpstreamSettings) {
   return getValues(upstream).some((value) => hasPlaceholders(value, OAUTH_PLACEHOLDERS));
 }
 
@@ -28,7 +28,7 @@ export function hasUpstreamPlaceholders(upstream: McpUpstreamSettings) {
  *
  * @module platform/mcp
  */
-export function resolveUpstream<T extends McpUpstreamSettings>(upstream: T, authInfo?: AuthInfo): T {
+export function resolveUpstream<T extends PlatformMcpUpstreamSettings>(upstream: T, authInfo?: AuthInfo): T {
   const variables: Record<(typeof OAUTH_PLACEHOLDERS)[number], string | undefined> = {
     OAUTH_TOKEN: authInfo?.token,
     OAUTH_CLIENT_ID: authInfo?.clientId,

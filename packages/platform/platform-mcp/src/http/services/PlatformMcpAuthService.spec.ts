@@ -1,7 +1,7 @@
 import type {AuthInfo} from "@modelcontextprotocol/server";
 import {inject, logger} from "@tsed/di";
 import {PlatformTest} from "@tsed/platform-http/testing";
-import type {McpAuthSettings} from "../../common/interfaces/McpAuthSettings.js";
+import type {PlatformMcpAuthSettings} from "../../common/interfaces/PlatformMcpAuthSettings.js";
 import {PlatformTokenVerifier} from "../../common/domain/PlatformTokenVerifier.js";
 import {PlatformMcpAuthService} from "./PlatformMcpAuthService.js";
 
@@ -12,7 +12,7 @@ const authInfo: AuthInfo = {
   expiresAt: Math.floor(Date.now() / 1000) + 3600
 };
 
-function createAuth(opts: Partial<McpAuthSettings> = {}): McpAuthSettings {
+function createAuth(opts: Partial<PlatformMcpAuthSettings> = {}): PlatformMcpAuthSettings {
   return {issuer: "https://auth.example.com", resource: "https://api.example.com/mcp", ...opts};
 }
 
@@ -59,27 +59,7 @@ describe("PlatformMcpAuthService", () => {
     it("returns the configured resource", () => {
       const service = inject(PlatformMcpAuthService);
 
-      expect(service.getResourceUrl(createAuth(), "/mcp", createContext()).href).toBe("https://api.example.com/mcp");
-    });
-
-    it("derives the resource from the request when it is not configured", () => {
-      const service = inject(PlatformMcpAuthService);
-      const auth = createAuth({resource: undefined});
-
-      expect(service.getResourceUrl(auth, "/mcp/directus", createContext()).href).toBe("https://gateway.example.com/mcp/directus");
-    });
-  });
-
-  describe("getResourceUrl() without Host header", () => {
-    it("falls back to the host resolved by the platform adapter", () => {
-      const service = inject(PlatformMcpAuthService);
-      const $ctx = PlatformTest.createRequestContext({
-        event: {request: PlatformTest.createRequest({protocol: "https", headers: {}})}
-      });
-
-      vi.spyOn($ctx.request, "host", "get").mockReturnValue("fallback.example.com");
-
-      expect(service.getResourceUrl(createAuth({resource: undefined}), "/mcp", $ctx).href).toBe("https://fallback.example.com/mcp");
+      expect(service.getResourceUrl(createAuth()).href).toBe("https://api.example.com/mcp");
     });
   });
 
@@ -124,12 +104,14 @@ describe("PlatformMcpAuthService", () => {
       ["the introspection mode requires auth.clientId and auth.clientSecret", {mode: "introspection"}],
       ["the introspection mode requires auth.clientId and auth.clientSecret", {clientId: "gateway"}],
       ["auth.audience cannot be disabled in offline mode", {audience: false}],
-      ["auth.resource (or auth.audience) is required", {resource: undefined}],
+      ["auth.resource is required", {resource: undefined}],
+      ["auth.resource is required", {resource: undefined, audience: "mcp"}],
+      ["auth.resource is required", {resource: undefined, verifier}],
       ["auth.issuer must be an absolute URL", {issuer: "auth.example.com"}],
-      ["auth.resource must be an absolute URL", {resource: "/mcp", audience: "mcp"}],
+      ["auth.resource must be an absolute URL", {resource: "/mcp"}],
       ["invalid auth configuration. Issuer URL must be HTTPS", {issuer: "http://auth.example.com"}],
       ["invalid auth configuration.", {resourceDocumentation: "not a url"}]
-    ] as [string, Partial<McpAuthSettings>][])("throws when %s (%j)", (message, opts) => {
+    ] as [string, Partial<PlatformMcpAuthSettings>][])("throws when %s (%j)", (message, opts) => {
       const service = inject(PlatformMcpAuthService);
 
       expect(() => service.validate("/mcp", createAuth(opts))).toThrow(`MCP endpoint "/mcp": ${message}`);
@@ -137,11 +119,11 @@ describe("PlatformMcpAuthService", () => {
 
     it.each([
       ["offline mode with a resource", {}],
-      ["offline mode with an audience only", {resource: undefined, audience: "mcp"}],
+      ["offline mode with a custom audience", {audience: "mcp"}],
       ["introspection mode with client credentials", {clientId: "gateway", clientSecret: "secret"}],
-      ["a custom verifier without resource", {resource: undefined, verifier}],
+      ["a custom verifier", {verifier}],
       ["a custom verifier in introspection mode without credentials", {mode: "introspection", verifier}]
-    ] as [string, Partial<McpAuthSettings>][])("accepts %s", (_, opts) => {
+    ] as [string, Partial<PlatformMcpAuthSettings>][])("accepts %s", (_, opts) => {
       const service = inject(PlatformMcpAuthService);
 
       expect(() => service.validate("/mcp", createAuth(opts))).not.toThrow();
@@ -185,7 +167,7 @@ describe("PlatformMcpAuthService", () => {
       const service = inject(PlatformMcpAuthService);
       const verifier = createVerifier();
 
-      const result = await service.verifyMcpRequest(createAuth({verifier}), "/mcp", createContext({authorization: "Bearer valid"}));
+      const result = await service.verifyMcpRequest(createAuth({verifier}), createContext({authorization: "Bearer valid"}));
 
       expect(result).toEqual(authInfo);
       expect(verifier.verifyAccessToken).toHaveBeenCalledExactlyOnceWith("valid");
@@ -195,7 +177,7 @@ describe("PlatformMcpAuthService", () => {
       const service = inject(PlatformMcpAuthService);
       const verifier = createVerifier();
 
-      const result = (await service.verifyMcpRequest(createAuth({verifier}), "/mcp", createContext())) as Response;
+      const result = (await service.verifyMcpRequest(createAuth({verifier}), createContext())) as Response;
 
       expect(result).toBeInstanceOf(Response);
       expect(result.status).toBe(401);
@@ -210,7 +192,6 @@ describe("PlatformMcpAuthService", () => {
 
       const result = (await service.verifyMcpRequest(
         createAuth({verifier: createVerifier()}),
-        "/mcp",
         createContext({authorization: "Bearer nope"})
       )) as Response;
 
@@ -223,22 +204,23 @@ describe("PlatformMcpAuthService", () => {
       const service = inject(PlatformMcpAuthService);
       const auth = createAuth({verifier: createVerifier(), requiredScopes: ["mcp:write"]});
 
-      const result = (await service.verifyMcpRequest(auth, "/mcp", createContext({authorization: "Bearer valid"}))) as Response;
+      const result = (await service.verifyMcpRequest(auth, createContext({authorization: "Bearer valid"}))) as Response;
 
       expect(result.status).toBe(403);
       expect(result.headers.get("www-authenticate")).toContain('error="insufficient_scope"');
       expect(result.headers.get("www-authenticate")).toContain('scope="mcp:write"');
     });
 
-    it("derives the metadata URL from the request when no resource is configured", async () => {
+    it("ignores the Host header of the request in the challenge", async () => {
       const service = inject(PlatformMcpAuthService);
-      const auth = createAuth({resource: undefined, verifier: createVerifier()});
+      const auth = createAuth({verifier: createVerifier()});
 
-      const result = (await service.verifyMcpRequest(auth, "/mcp/directus", createContext())) as Response;
+      const result = (await service.verifyMcpRequest(auth, createContext({host: "attacker.example.com"}))) as Response;
 
       expect(result.headers.get("www-authenticate")).toContain(
-        'resource_metadata="https://gateway.example.com/.well-known/oauth-protected-resource/mcp/directus"'
+        'resource_metadata="https://api.example.com/.well-known/oauth-protected-resource/mcp"'
       );
+      expect(result.headers.get("www-authenticate")).not.toContain("attacker.example.com");
     });
 
     it("reuses the same verifier across requests", async () => {
@@ -246,8 +228,8 @@ describe("PlatformMcpAuthService", () => {
       const auth = createAuth({verifier: createVerifier()});
       vi.spyOn(service, "getVerifier");
 
-      await service.verifyMcpRequest(auth, "/mcp", createContext({authorization: "Bearer valid"}));
-      await service.verifyMcpRequest(auth, "/mcp", createContext({authorization: "Bearer valid"}));
+      await service.verifyMcpRequest(auth, createContext({authorization: "Bearer valid"}));
+      await service.verifyMcpRequest(auth, createContext({authorization: "Bearer valid"}));
 
       const [first, second] = vi.mocked(service.getVerifier).mock.results;
 

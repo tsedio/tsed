@@ -1,5 +1,5 @@
 import type {Transport} from "@modelcontextprotocol/client";
-import type {McpUpstreamSettings} from "../interfaces/McpUpstreamSettings.js";
+import type {PlatformMcpUpstreamSettings} from "../interfaces/PlatformMcpUpstreamSettings.js";
 
 /**
  * Creates the MCP client transport matching a resolved upstream definition.
@@ -8,7 +8,7 @@ import type {McpUpstreamSettings} from "../interfaces/McpUpstreamSettings.js";
  *
  * @module platform/mcp
  */
-export async function createUpstreamTransport(upstream: McpUpstreamSettings): Promise<Transport> {
+export async function createUpstreamTransport(upstream: PlatformMcpUpstreamSettings): Promise<Transport> {
   if (upstream.type === "stdio") {
     const {StdioClientTransport, getDefaultEnvironment} = await import("@modelcontextprotocol/client/stdio");
     const {command, args, env, cwd} = upstream;

@@ -2,7 +2,7 @@ import {afterEach, beforeEach, describe, expect, it, vi} from "vitest";
 import {EventEmitter} from "node:events";
 import {PlatformFastifyResponse} from "@tsed/platform-fastify";
 import {PlatformMcpModule} from "./PlatformMcpModule.js";
-import type {McpAuthSettings} from "../../common/interfaces/McpAuthSettings.js";
+import type {PlatformMcpAuthSettings} from "../../common/interfaces/PlatformMcpAuthSettings.js";
 import {PlatformTest} from "@tsed/platform-http/testing";
 import {application} from "@tsed/platform-http";
 import {logger} from "@tsed/di";
@@ -150,21 +150,24 @@ describe("PlatformMcpModule", () => {
 
     it("fails when the introspection mode has no client credentials", async () => {
       const {module} = await createModule();
-      module["settings"] = {auth: {issuer: "https://auth.example.com", mode: "introspection"}};
+      module["settings"] = {auth: {issuer: "https://auth.example.com", resource: "https://api.example.com/mcp", mode: "introspection"}};
       vi.spyOn(application(), "post").mockReturnValue(undefined as never);
 
       expect(() => module.$onRoutesInit()).toThrow("requires auth.clientId and auth.clientSecret");
     });
 
     it.each([
-      ["auth.resource (or auth.audience) is required", {issuer: "https://auth.example.com"}],
-      ["auth.audience cannot be disabled in offline mode", {issuer: "https://auth.example.com", audience: false}],
+      ["auth.resource is required", {issuer: "https://auth.example.com"}],
+      [
+        "auth.audience cannot be disabled in offline mode",
+        {issuer: "https://auth.example.com", resource: "https://api.example.com/mcp", audience: false}
+      ],
       ["auth.issuer must be an absolute URL", {issuer: "auth.example.com", resource: "https://api.example.com/mcp"}],
       ["Issuer URL must be HTTPS", {issuer: "http://auth.example.com", resource: "https://api.example.com/mcp"}],
-      ["auth.resource must be an absolute URL", {issuer: "https://auth.example.com", resource: "/mcp", audience: "mcp"}]
-    ] as [string, McpAuthSettings][])("fails when %s", async (message, auth) => {
+      ["auth.resource must be an absolute URL", {issuer: "https://auth.example.com", resource: "/mcp"}]
+    ] as [string, Partial<PlatformMcpAuthSettings>][])("fails when %s", async (message, auth) => {
       const {module} = await createModule();
-      module["settings"] = {auth};
+      module["settings"] = {auth: auth as PlatformMcpAuthSettings};
       vi.spyOn(application(), "post").mockReturnValue(undefined as never);
 
       expect(() => module.$onRoutesInit()).toThrow(message);
@@ -172,7 +175,15 @@ describe("PlatformMcpModule", () => {
 
     it("warns when the audience check is disabled in introspection mode", async () => {
       const {module} = await createModule();
-      module["settings"] = {auth: {issuer: "https://auth.example.com", clientId: "id", clientSecret: "secret", audience: false}};
+      module["settings"] = {
+        auth: {
+          issuer: "https://auth.example.com",
+          resource: "https://api.example.com/mcp",
+          clientId: "id",
+          clientSecret: "secret",
+          audience: false
+        }
+      };
       vi.spyOn(application(), "post").mockReturnValue(undefined as never);
       vi.spyOn(application(), "get").mockReturnValue(undefined as never);
       vi.spyOn(logger(), "warn").mockReturnValue(undefined as never);
@@ -185,7 +196,10 @@ describe("PlatformMcpModule", () => {
 
     it("registers the protected resource metadata route of protected endpoints", async () => {
       const {module} = await createModule();
-      module["settings"] = {path: "/mcp/a", auth: {issuer: "https://auth.example.com", verifier: {verifyAccessToken: vi.fn()}}};
+      module["settings"] = {
+        path: "/mcp/a",
+        auth: {issuer: "https://auth.example.com", resource: "https://api.example.com/mcp/a", verifier: {verifyAccessToken: vi.fn()}}
+      };
       vi.spyOn(application(), "post").mockReturnValue(undefined as never);
       vi.spyOn(application(), "get").mockReturnValue(undefined as never);
 

@@ -8,7 +8,7 @@ import {
 } from "@modelcontextprotocol/server";
 import {injectable, logger} from "@tsed/di";
 import type {PlatformContext} from "@tsed/platform-http";
-import type {McpAuthSettings} from "../../common/interfaces/McpAuthSettings.js";
+import type {PlatformMcpAuthSettings} from "../../common/interfaces/PlatformMcpAuthSettings.js";
 import {PlatformTokenVerifier} from "../../common/domain/PlatformTokenVerifier.js";
 
 export const PROTECTED_RESOURCE_METADATA_PATH = "/.well-known/oauth-protected-resource";
@@ -20,12 +20,12 @@ export const PROTECTED_RESOURCE_METADATA_PATH = "/.well-known/oauth-protected-re
  * @module platform/mcp
  */
 export class PlatformMcpAuthService {
-  protected verifiers = new WeakMap<McpAuthSettings, PlatformTokenVerifier>();
+  protected verifiers = new WeakMap<PlatformMcpAuthSettings, PlatformTokenVerifier>();
 
   /**
    * Returns the token verifier of an endpoint, created once per `auth` configuration.
    */
-  getVerifier(auth: McpAuthSettings, resource: URL): PlatformTokenVerifier {
+  getVerifier(auth: PlatformMcpAuthSettings, resource: URL): PlatformTokenVerifier {
     let verifier = this.verifiers.get(auth);
 
     if (!verifier) {
@@ -41,8 +41,8 @@ export class PlatformMcpAuthService {
    *
    * @returns The verified identity, or the `401`/`403` challenge to send back to the client.
    */
-  async verifyMcpRequest(auth: McpAuthSettings, path: string, $ctx: PlatformContext): Promise<AuthInfo | Response> {
-    const resource = this.getResourceUrl(auth, path, $ctx);
+  async verifyMcpRequest(auth: PlatformMcpAuthSettings, $ctx: PlatformContext): Promise<AuthInfo | Response> {
+    const resource = this.getResourceUrl(auth);
 
     const options = {
       verifier: this.getVerifier(auth, resource),
@@ -60,7 +60,7 @@ export class PlatformMcpAuthService {
   /**
    * Rejects an `auth` configuration that cannot work or would be unsafe, before any route is mounted.
    */
-  validate(path: string, auth: McpAuthSettings) {
+  validate(path: string, auth: PlatformMcpAuthSettings) {
     const mode = PlatformTokenVerifier.getMode(auth);
 
     if (!auth.verifier && mode === "introspection" && !(auth.clientId && auth.clientSecret)) {
@@ -78,22 +78,22 @@ export class PlatformMcpAuthService {
       });
     }
 
-    if (!auth.verifier && !auth.resource && auth.audience === undefined) {
-      // without it the expected audience would be derived from the Host header, which the caller controls
-      throw new Error(`MCP endpoint "${path}": auth.resource (or auth.audience) is required to verify the audience of access tokens.`);
+    if (!auth.resource) {
+      // the resource is never derived from the request: the Host header is controlled by the caller
+      throw new Error(`MCP endpoint "${path}": auth.resource is required.`);
+    }
+
+    if (!URL.canParse(auth.resource)) {
+      throw new Error(`MCP endpoint "${path}": auth.resource must be an absolute URL.`);
     }
 
     if (!URL.canParse(auth.issuer)) {
       throw new Error(`MCP endpoint "${path}": auth.issuer must be an absolute URL.`);
     }
 
-    if (auth.resource && !URL.canParse(auth.resource)) {
-      throw new Error(`MCP endpoint "${path}": auth.resource must be an absolute URL.`);
-    }
-
     try {
       // surfaces at startup what the metadata route would otherwise fail on (insecure issuer, invalid documentation URL)
-      this.getProtectedResourceMetadata(auth, new URL(auth.resource || "https://localhost"));
+      this.getProtectedResourceMetadata(auth, this.getResourceUrl(auth));
     } catch (error) {
       throw new Error(`MCP endpoint "${path}": invalid auth configuration. ${(error as Error).message}`);
     }
@@ -104,7 +104,7 @@ export class PlatformMcpAuthService {
    *
    * @throws When the issuer is not an HTTPS URL (outside localhost) and `allowInsecureRequests` is not set.
    */
-  getProtectedResourceMetadata(auth: McpAuthSettings, resource: URL) {
+  getProtectedResourceMetadata(auth: PlatformMcpAuthSettings, resource: URL) {
     return buildOAuthProtectedResourceMetadata({
       // the SDK builder only reads the issuer of the authorization server metadata
       oauthMetadata: {issuer: auth.issuer} as never,
@@ -124,10 +124,13 @@ export class PlatformMcpAuthService {
   }
 
   /**
-   * Canonical URL of the MCP endpoint: the configured `auth.resource`, or the URL derived from the request.
+   * Canonical URL of the MCP endpoint, as configured in `auth.resource`.
+   *
+   * It is used for the metadata document, the bearer challenge and the expected audience, and is never
+   * derived from the incoming request.
    */
-  getResourceUrl(auth: McpAuthSettings, path: string, $ctx: PlatformContext) {
-    return new URL(auth.resource || `${$ctx.request.protocol}://${$ctx.request.headers.host || $ctx.request.host}${path}`);
+  getResourceUrl(auth: PlatformMcpAuthSettings) {
+    return new URL(auth.resource);
   }
 }
 

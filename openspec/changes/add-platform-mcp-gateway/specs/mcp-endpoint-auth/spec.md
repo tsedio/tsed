@@ -2,7 +2,7 @@
 
 ### Requirement: Per-endpoint OAuth configuration
 
-Each `configuration.mcp` entry SHALL accept an optional `auth` block declaring the authorization server that protects the endpoint: `issuer` (required), the verification settings (`mode`, `clientId`, `clientSecret`, `audience`, `jwksUri`, `introspectionEndpoint`, `cacheTtl`, `allowInsecureRequests`, `verifier`), and optional `resource`, `scopesSupported`, `requiredScopes`, `resourceName` and `resourceDocumentation`. Entries without `auth` SHALL remain unauthenticated by the package, as before this change. Entries of the same application MAY declare different `auth` blocks.
+Each `configuration.mcp` entry SHALL accept an optional `auth` block declaring the authorization server that protects the endpoint: `issuer` (required), the verification settings (`mode`, `clientId`, `clientSecret`, `audience`, `jwksUri`, `introspectionEndpoint`, `cacheTtl`, `allowInsecureRequests`, `verifier`), `resource` (required), and optional `scopesSupported`, `requiredScopes`, `resourceName` and `resourceDocumentation`. Entries without `auth` SHALL remain unauthenticated by the package, as before this change. Entries of the same application MAY declare different `auth` blocks.
 
 #### Scenario: Endpoint without auth is unchanged
 
@@ -16,7 +16,7 @@ Each `configuration.mcp` entry SHALL accept an optional `auth` block declaring t
 
 ### Requirement: Protected resource metadata
 
-For each entry with `auth`, the module SHALL serve OAuth 2.0 Protected Resource Metadata (RFC 9728) with `GET /.well-known/oauth-protected-resource{path}`, containing `resource`, `authorization_servers` (the configured issuer), and `scopes_supported`, `resource_name` and `resource_documentation` when configured. `resource` SHALL default to the endpoint URL derived from the incoming request when not configured. The route SHALL be listed in the platform route logs.
+For each entry with `auth`, the module SHALL serve OAuth 2.0 Protected Resource Metadata (RFC 9728) with `GET /.well-known/oauth-protected-resource{path}`, containing `resource`, `authorization_servers` (the configured issuer), and `scopes_supported`, `resource_name` and `resource_documentation` when configured. `resource` SHALL be exactly the configured `auth.resource`, whatever the host of the incoming request. The route SHALL be listed in the platform route logs.
 
 #### Scenario: Metadata for a custom path
 
@@ -66,18 +66,23 @@ In `offline` mode, the module SHALL validate the access token as an RFC 9068 JWT
 - **WHEN** a client presents a JWT signed with a key absent from the issuer JWKS
 - **THEN** the response is `401` with an `invalid_token` challenge
 
-### Requirement: Explicit expected audience
+### Requirement: Explicit resource
 
-When no custom `verifier` is configured, the entry SHALL declare `auth.resource` or `auth.audience`; the application SHALL fail to start otherwise. `auth.audience = false` SHALL disable the audience check in introspection mode only; in offline mode it SHALL make the application fail to start. The expected audience of access tokens SHALL never be derived from the incoming request. `auth.issuer` and `auth.resource` SHALL be absolute URLs.
+Every entry with `auth` SHALL declare `auth.resource` as an absolute URL; the application SHALL fail to start otherwise, including when a custom `verifier` or an `audience` is configured. The resource used in the metadata document, in the bearer challenge and as default expected audience SHALL never be derived from the incoming request. `auth.issuer` SHALL be an absolute URL. `auth.audience = false` SHALL disable the audience check in introspection mode only; in offline mode it SHALL make the application fail to start.
+
+#### Scenario: Missing resource
+
+- **WHEN** an entry declares `auth` without `resource`
+- **THEN** the application fails to start with an error naming the endpoint
+
+#### Scenario: Forged Host header
+
+- **WHEN** a request reaches a protected endpoint with a `Host` header different from the configured resource
+- **THEN** the metadata document and the bearer challenge still reference the configured `auth.resource`
 
 #### Scenario: Audience disabled in offline mode
 
 - **WHEN** an entry in offline mode declares `auth.audience = false`
-- **THEN** the application fails to start with an error naming the endpoint
-
-#### Scenario: Missing resource
-
-- **WHEN** an entry declares `auth: {issuer}` without `resource`, `audience` or `verifier`
 - **THEN** the application fails to start with an error naming the endpoint
 
 ### Requirement: Token introspection

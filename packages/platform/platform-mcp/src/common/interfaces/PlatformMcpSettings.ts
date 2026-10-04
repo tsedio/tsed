@@ -1,8 +1,8 @@
 import type {Implementation, ServerOptions} from "@modelcontextprotocol/server";
 import type {StreamableHTTPServerTransportOptions} from "@modelcontextprotocol/node";
 import type {TokenProvider} from "@tsed/di";
-import type {McpAuthSettings} from "./McpAuthSettings.js";
-import type {McpUpstreamSettings} from "./McpUpstreamSettings.js";
+import type {PlatformMcpAuthSettings} from "./PlatformMcpAuthSettings.js";
+import type {PlatformMcpUpstreamSettings} from "./PlatformMcpUpstreamSettings.js";
 
 /**
  * Configuration fragment accepted under `configuration.mcp` to wire the Platform MCP module.
@@ -60,11 +60,11 @@ export interface PlatformMcpSettings {
   /**
    * Third-party MCP server exposed through this endpoint (gateway mode).
    */
-  upstream?: McpUpstreamSettings;
+  upstream?: PlatformMcpUpstreamSettings;
   /**
    * Protect the HTTP endpoint with an OAuth authorization server.
    */
-  auth?: McpAuthSettings;
+  auth?: PlatformMcpAuthSettings;
 }
 
 declare global {

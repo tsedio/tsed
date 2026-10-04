@@ -9,7 +9,7 @@ import type {TokenProvider} from "@tsed/di";
  *
  * @module platform/mcp
  */
-export interface McpAuthSettings {
+export interface PlatformMcpAuthSettings {
   /**
    * Issuer URL of the authorization server (OIDC provider) protecting the endpoint.
    */
@@ -29,7 +29,7 @@ export interface McpAuthSettings {
   clientId?: string;
   clientSecret?: string;
   /**
-   * Expected audience of the access tokens. Defaults to the endpoint `resource`.
+   * Expected audience of the access tokens. Defaults to `resource`.
    *
    * `false` disables the audience check. It is only accepted by the `introspection` mode and makes the endpoint
    * accept any active token of the issuer, whatever the resource it was issued for.
@@ -57,10 +57,12 @@ export interface McpAuthSettings {
    */
   verifier?: OAuthTokenVerifier | TokenProvider<OAuthTokenVerifier>;
   /**
-   * Canonical URL of the MCP endpoint. Defaults to the URL derived from the incoming request.
-   * Set it explicitly when the application runs behind a proxy rewriting the host or the path.
+   * Canonical public URL of the MCP endpoint. It is advertised in the protected resource metadata and in the
+   * bearer challenge, and is the expected audience of access tokens unless `audience` is set.
+   *
+   * It is required and never derived from the incoming request, whose `Host` header is controlled by the caller.
    */
-  resource?: string;
+  resource: string;
   /**
    * Scopes advertised in the protected resource metadata.
    */

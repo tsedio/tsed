@@ -1,6 +1,6 @@
 import {type AuthInfo, fromJsonSchema, type McpServer, ResourceTemplate, type ServerContext} from "@modelcontextprotocol/server";
 import {inject, logger} from "@tsed/di";
-import type {McpUpstreamFilter, McpUpstreamSettings} from "../interfaces/McpUpstreamSettings.js";
+import type {McpUpstreamFilter, PlatformMcpUpstreamSettings} from "../interfaces/PlatformMcpUpstreamSettings.js";
 import type {CreateMcpServerOpts} from "./createMcpServer.js";
 import {
   PlatformMcpGatewayService,
@@ -70,7 +70,7 @@ function getPromptArgsSchema(args: {name: string; description?: string; required
 
 function registerCatalog(
   server: McpServer,
-  upstream: McpUpstreamSettings,
+  upstream: PlatformMcpUpstreamSettings,
   label: string,
   {client, run}: PlatformMcpUpstreamConnection,
   catalog: PlatformMcpUpstreamCatalog,

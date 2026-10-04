@@ -27,7 +27,7 @@ MCP SDK v2 already provides the pieces needed on both sides:
       path: "/mcp/directus",
       auth: {
         issuer: "https://auth.example.com", // authorization server (OIDC)
-        resource: "https://api.example.com/mcp/directus", // optional, derived from the request by default
+        resource: "https://api.example.com/mcp/directus", // required: public URL of the endpoint, never derived from the request
         scopesSupported: ["mcp:read", "mcp:write"],
         requiredScopes: ["mcp:read"],
         resourceName: "Directus MCP",
@@ -92,7 +92,7 @@ When an entry has `auth`, the module:
 
 The gateway never issues tokens, never registers clients and never renders consent. MCP clients follow the metadata to the configured authorization server, where registration (DCR or Client ID Metadata Documents) and consent happen. CIMD support is therefore a property of the authorization server (`client_id_metadata_document_supported` in its metadata); the gateway only has to point at it.
 
-`resource` defaults to `${protocol}://${host}${path}` computed from the request; it must be set explicitly when the app runs behind a proxy that rewrites the host or path.
+`resource` is required and is the only source of the endpoint's canonical URL, for the metadata document, the bearer challenge and the expected audience. It is never derived from the request: the `Host` header is controlled by the caller, and the metadata response is publicly cacheable.
 
 ### D6 — Token verification: offline or introspection, built in
 
@@ -105,7 +105,7 @@ Discovery, JWT validation and introspection are delegated to `oauth4webapi` (the
 
 `mode` defaults to `introspection` when `clientId` is set, `offline` otherwise. `jwks_uri` and `introspection_endpoint` are discovered once per endpoint from `<issuer>/.well-known/openid-configuration`, then RFC 8414, and can be overridden with `jwksUri` / `introspectionEndpoint`.
 
-The expected audience is the endpoint `resource` (override with `audience`). One of them must be configured for the built-in modes — startup error otherwise — because a `resource` derived from the request would let the caller choose the expected audience through the `Host` header. The audience is checked in both modes: a token whose `aud` (JWT claim or introspection response) is missing or does not contain it is rejected. `audience: false` disables the check in introspection mode only, for authorization servers that report no audience; it logs a warning at startup. It is refused in offline mode: a locally validated JWT must always be bound to the resource.
+The expected audience is the endpoint `resource` (override with `audience`). The audience is checked in both modes: a token whose `aud` (JWT claim or introspection response) is missing or does not contain it is rejected. `audience: false` disables the check in introspection mode only, for authorization servers that report no audience; it logs a warning at startup. It is refused in offline mode: a locally validated JWT must always be bound to the resource.
 
 Failures of the authorization server (metadata, JWKS or introspection unreachable) are answered `500 server_error`, never as an invalid token, so clients do not start a new authorization flow because of an outage.
 
@@ -139,7 +139,6 @@ Gateway code lives under `src/common/` so it is usable by both the HTTP module a
 - **stdio upstreams without placeholder are shared by all callers** → no per-user isolation; `auth.requiredScopes` is the only gate.
 - **Tokens in process arguments** are visible to other users of the host → documented, `env` recommended.
 - **Token passthrough misuse** → never implicit; requires an explicit placeholder.
-- **Derived `resource` behind proxies** → wrong metadata URL breaks client discovery; documented, explicit `resource` recommended in production.
 - **Upstream schema quirks** (invalid JSON Schema) → the entry cannot be registered; it is skipped with a warning instead of failing the request.
 
 ## Known limitations

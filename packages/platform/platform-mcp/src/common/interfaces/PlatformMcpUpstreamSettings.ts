@@ -77,4 +77,4 @@ export interface McpStdioUpstreamSettings extends McpUpstreamBaseSettings {
  *
  * @module platform/mcp
  */
-export type McpUpstreamSettings = McpHttpUpstreamSettings | McpStdioUpstreamSettings;
+export type PlatformMcpUpstreamSettings = McpHttpUpstreamSettings | McpStdioUpstreamSettings;

@@ -24,13 +24,15 @@ const verifier = {
   }
 };
 
-const auth = {
+const createAuth = (path: string) => ({
   issuer: "https://auth.example.com",
+  // deliberately different from the test server origin: it must never be derived from the request
+  resource: `https://gateway.example.com${path}`,
   verifier,
   scopesSupported: ["mcp:read", "mcp:write"],
   requiredScopes: ["mcp:write"],
   resourceName: "Secured gateway"
-};
+});
 
 const whoAmI = defineTool({
   name: "who-am-i",
@@ -100,13 +102,13 @@ export function describeMcpGateway(name: string, adapter: unknown) {
           },
           {
             path: "/mcp/secured",
-            auth,
+            auth: createAuth("/mcp/secured"),
             tools: [whoAmI],
             upstream: {type: "http", url: upstream.url, headers: {"X-OIDC-Token": "${OAUTH_TOKEN}"}}
           },
           {
             path: "/mcp/secured-stdio",
-            auth,
+            auth: createAuth("/mcp/secured-stdio"),
             upstream: {
               type: "stdio",
               command: process.execPath,
@@ -216,7 +218,7 @@ export function describeMcpGateway(name: string, adapter: unknown) {
 
         expect(response.status).toBe(200);
         expect(response.body).toEqual({
-          resource: expect.stringMatching(/^http:\/\/127\.0\.0\.1:\d+\/mcp\/secured$/),
+          resource: "https://gateway.example.com/mcp/secured",
           authorization_servers: ["https://auth.example.com"],
           scopes_supported: ["mcp:read", "mcp:write"],
           resource_name: "Secured gateway"
@@ -233,8 +235,8 @@ export function describeMcpGateway(name: string, adapter: unknown) {
         const response = await send("/mcp/secured", "tools/list");
 
         expect(response.status).toBe(401);
-        expect(response.headers["www-authenticate"]).toMatch(
-          /^Bearer .*resource_metadata="http:\/\/127\.0\.0\.1:\d+\/\.well-known\/oauth-protected-resource\/mcp\/secured"/
+        expect(response.headers["www-authenticate"]).toContain(
+          'resource_metadata="https://gateway.example.com/.well-known/oauth-protected-resource/mcp/secured"'
         );
       });
 
