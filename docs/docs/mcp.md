@@ -541,6 +541,215 @@ All Ts.ED adapters (Express, Fastify, Koa) forward `POST <path>` requests to
 `@modelcontextprotocol/server`, so any MCP-capable client (Claude Desktop, etc.) can talk with your server regardless
 of the underlying framework.
 
+## Gateway: expose a third-party MCP server
+
+An MCP endpoint can act as a gateway for a third-party MCP server. Declare it under `upstream`: Ts.ED connects to it
+with the MCP client, discovers its tools, resources and prompts, and serves them on the endpoint over Streamable HTTP,
+next to the tools declared locally. Use one `mcp` entry per upstream.
+
+```typescript [src/Server.ts]
+import {Configuration} from "@tsed/di";
+import "@tsed/platform-express";
+import "@tsed/platform-mcp";
+
+@Configuration({
+  mcp: [
+    {
+      path: "/mcp/directus",
+      upstream: {
+        type: "http",
+        url: "https://directus.example.com/mcp",
+        headers: {Authorization: `Bearer ${process.env.DIRECTUS_TOKEN}`}
+      }
+    },
+    {
+      path: "/mcp/files",
+      upstream: {
+        type: "stdio",
+        command: "npx",
+        args: ["-y", "@modelcontextprotocol/server-filesystem", "/data"]
+      }
+    }
+  ]
+})
+export class Server {}
+```
+
+| Option            | Description                                                                                                                                                    |
+| ----------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `type`            | `"http"` (Streamable HTTP), `"sse"` (legacy SSE) or `"stdio"` (local process, e.g. started with `npx`).                                                        |
+| `url`, `headers`  | Target and headers of an `http` or `sse` upstream.                                                                                                             |
+| `command`, `args` | Command line of a `stdio` upstream. `env` and `cwd` are also accepted; `env` is merged over a safe subset of the parent environment.                           |
+| `prefix`          | Optional prefix added to the exposed tool and prompt names. No prefix by default.                                                                              |
+| `tools`           | `{include?, exclude?}` filters on upstream tool names (strings or regular expressions). `prompts` and `resources` (matched on the URI) accept the same filter. |
+| `pool`            | `{max, idleTimeout}` bounds of the upstream connection pool (defaults: `100` connections, `300000` ms).                                                        |
+
+Behavior to keep in mind:
+
+- When a local declaration and an upstream entry resolve to the same name, the local declaration wins and the upstream
+  entry is skipped with a warning. Use `prefix` to avoid collisions.
+- An unreachable upstream does not break the endpoint: its entries are omitted, the error is logged, and the
+  connection is retried later with a backoff.
+- The connection is opened on first use and reused. The upstream catalog is cached and refreshed when the upstream
+  sends a `list_changed` notification.
+- Server-initiated requests from the upstream (sampling, elicitation, roots) and resource subscriptions are not
+  forwarded.
+- The CLI exposes the upstream in `streamable-http` mode only. It is ignored in `stdio` mode, and `${OAUTH_*}`
+  placeholders are rejected because the CLI endpoint is not protected by OAuth.
+
+## Protect an endpoint with OAuth
+
+Add an `auth` block to an MCP configuration to protect it with your authorization server (for example an OIDC provider
+built with `@tsed/oidc-provider`). Ts.ED acts as an OAuth resource server only: client registration (including Client ID
+Metadata Documents), authorization and consent are handled by the authorization server.
+
+```typescript [src/Server.ts]
+import {Configuration} from "@tsed/di";
+import "@tsed/platform-express";
+import "@tsed/platform-mcp";
+
+@Configuration({
+  mcp: [
+    {
+      path: "/mcp/directus",
+      auth: {
+        issuer: "https://auth.example.com",
+        resource: "https://api.example.com/mcp/directus",
+        scopesSupported: ["mcp:read", "mcp:write"],
+        requiredScopes: ["mcp:read"],
+        resourceName: "Directus MCP"
+      },
+      upstream: {
+        type: "http",
+        url: "https://directus.example.com/mcp",
+        headers: {Authorization: "Bearer ${OAUTH_TOKEN}"}
+      }
+    }
+  ]
+})
+export class Server {}
+```
+
+For each protected endpoint, Ts.ED:
+
+- serves the [RFC 9728](https://datatracker.ietf.org/doc/html/rfc9728) protected resource metadata on
+  `GET /.well-known/oauth-protected-resource<path>` (here `/.well-known/oauth-protected-resource/mcp/directus`), listing
+  `auth.issuer` as the authorization server;
+- answers requests without a valid bearer token with `401` and a `WWW-Authenticate: Bearer resource_metadata="..."`
+  challenge, and tokens lacking a required scope with `403 insufficient_scope`;
+- exposes the verified identity to tool, resource and prompt handlers through `ctx.http.authInfo`.
+
+Each entry of `mcp` has its own `auth` block, so different endpoints can rely on different authorization servers.
+
+::: warning
+`auth.resource` defaults to the URL derived from the incoming request. Set it explicitly when the application runs
+behind a proxy that rewrites the host or the path, otherwise clients will not find the metadata document.
+:::
+
+### Verify access tokens
+
+Tokens are verified against the configured `issuer`. Two built-in modes are available:
+
+| Mode            | How it works                                                                                                                                                                     | Use it when                                                              |
+| --------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------ |
+| `offline`       | The JWT access token ([RFC 9068](https://datatracker.ietf.org/doc/html/rfc9068), `typ: at+jwt`) is validated locally with the issuer JWKS, plus issuer, audience and expiration. | Access tokens are JWTs. No call to the authorization server per request. |
+| `introspection` | The authorization server is asked for each token ([RFC 7662](https://datatracker.ietf.org/doc/html/rfc7662)).                                                                    | Access tokens are opaque, or revocation must apply immediately.          |
+
+```typescript
+// offline (default)
+auth: {
+  issuer: "https://auth.example.com",
+  resource: "https://api.example.com/mcp/directus"
+}
+
+// introspection (default when clientId is set)
+auth: {
+  issuer: "https://auth.example.com",
+  resource: "https://api.example.com/mcp/directus",
+  clientId: "mcp-gateway",
+  clientSecret: process.env.MCP_GATEWAY_SECRET
+}
+```
+
+| Option                     | Description                                                                                                                                                                       |
+| -------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `mode`                     | `"offline"` or `"introspection"`. Defaults to `introspection` when `clientId` is set, `offline` otherwise.                                                                        |
+| `clientId`, `clientSecret` | Credentials of the MCP endpoint on the authorization server. Required by the introspection mode.                                                                                  |
+| `audience`                 | Expected audience of the tokens. Defaults to `resource`. One of `resource` or `audience` is required by the built-in modes. `false` disables the check (introspection mode only). |
+| `jwksUri`                  | JWKS URL for the offline mode. Discovered from the issuer metadata by default.                                                                                                    |
+| `introspectionEndpoint`    | Introspection URL. Discovered from the issuer metadata by default.                                                                                                                |
+| `cacheTtl`                 | Seconds an introspection result is reused. Defaults to `60`; `0` disables the cache.                                                                                              |
+| `allowInsecureRequests`    | Allow a non-HTTPS issuer. For local development only.                                                                                                                             |
+
+Both modes rely on [`oauth4webapi`](https://github.com/panva/oauth4webapi). The JWKS and introspection endpoints are discovered from `<issuer>/.well-known/openid-configuration` (then
+`/.well-known/oauth-authorization-server`).
+
+::: warning
+The audience is checked in both modes: a token whose `aud` (JWT claim, or introspection response) does not contain the
+endpoint `resource` is rejected, including when the authorization server returns no audience at all. The authorization
+server has to issue tokens for the resource requested by the MCP client (resource indicators).
+
+In introspection mode only, `audience: false` disables this check, for authorization servers that do not report an
+audience. The endpoint then accepts any active token of the issuer, whatever the application it was issued for, and a
+warning is logged at startup. The check cannot be disabled in offline mode.
+:::
+
+To replace the built-in modes, set `auth.verifier` to an object, or an injectable class, implementing
+`verifyAccessToken(token)`. It returns the MCP `AuthInfo` of the caller (with a mandatory `expiresAt`, in seconds) and
+throws when the token is not valid.
+
+```typescript [src/services/SessionTokenVerifier.ts]
+import type {AuthInfo, OAuthTokenVerifier} from "@modelcontextprotocol/server";
+import {Injectable} from "@tsed/di";
+
+@Injectable()
+export class SessionTokenVerifier implements OAuthTokenVerifier {
+  async verifyAccessToken(token: string): Promise<AuthInfo> {
+    const session = await this.findSession(token);
+
+    return {token, clientId: session.clientId, scopes: session.scopes, expiresAt: session.expiresAt};
+  }
+}
+```
+
+### Forward the caller identity to the upstream
+
+The caller's token is never sent to the upstream implicitly. Reference it with a placeholder where the upstream expects
+it: in `headers` for `http` and `sse` upstreams, in `args` and `env` for `stdio` upstreams.
+
+| Placeholder          | Value                                       |
+| -------------------- | ------------------------------------------- |
+| `${OAUTH_TOKEN}`     | Verified access token of the caller.        |
+| `${OAUTH_CLIENT_ID}` | Client identifier returned by the verifier. |
+| `${OAUTH_SCOPES}`    | Scopes of the token, separated by a space.  |
+
+```typescript
+// HTTP: any header
+upstream: {
+  type: "http",
+  url: "https://directus.example.com/mcp",
+  headers: {"X-OIDC-Token": "${OAUTH_TOKEN}"}
+}
+
+// stdio: arguments or environment
+upstream: {
+  type: "stdio",
+  command: "npx",
+  args: ["-y", "some-mcp-server", "--token", "${OAUTH_TOKEN}"],
+  env: {API_TOKEN: "${OAUTH_TOKEN}"}
+}
+```
+
+::: tip
+Placeholders are plain strings, not JavaScript template literals: write `"Bearer ${OAUTH_TOKEN}"` with regular quotes.
+:::
+
+Placeholders require `auth` on the endpoint; the application fails to start otherwise.
+
+One upstream connection is kept per distinct set of interpolated values. For a `stdio` upstream this means **one
+process per token**, bounded by `pool.max` and closed after `pool.idleTimeout`. Prefer `env` over `args` for secrets:
+command-line arguments are visible to other users of the machine.
+
 ## Testing and inspector
 
 With `@tsed/platform-mcp`, your MCP server is exposed through your Ts.ED HTTP application. The usual integration test

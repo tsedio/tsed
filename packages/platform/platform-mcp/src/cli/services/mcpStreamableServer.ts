@@ -1,7 +1,7 @@
 import type {McpServer} from "@modelcontextprotocol/server";
 import {logger} from "@tsed/di";
 
-export async function mcpStreamableServer(createServer: () => McpServer) {
+export async function mcpStreamableServer(createServer: () => McpServer | Promise<McpServer>) {
   const {NodeStreamableHTTPServerTransport} = await import("@modelcontextprotocol/node");
   // @ts-ignore
   const {default: express} = await import("express");
@@ -10,7 +10,7 @@ export async function mcpStreamableServer(createServer: () => McpServer) {
   app.use(express.json());
 
   app.post("/mcp", async (req: any, res: any) => {
-    const server = createServer();
+    const server = await createServer();
     const transport = new NodeStreamableHTTPServerTransport({
       sessionIdGenerator: undefined,
       enableJsonResponse: true

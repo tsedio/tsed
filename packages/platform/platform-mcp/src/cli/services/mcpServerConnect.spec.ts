@@ -1,7 +1,8 @@
-import {DITest, injector} from "@tsed/di";
+import {DITest, injector, logger} from "@tsed/di";
 import {afterEach, beforeEach, describe, expect, it, vi} from "vitest";
 
-const {createMcpServer, resolveMcpServerOptions, mcpStdioServer, mcpStreamableServer} = vi.hoisted(() => ({
+const {attachUpstream, createMcpServer, resolveMcpServerOptions, mcpStdioServer, mcpStreamableServer} = vi.hoisted(() => ({
+  attachUpstream: vi.fn(),
   createMcpServer: vi.fn(),
   resolveMcpServerOptions: vi.fn(),
   mcpStdioServer: vi.fn(),
@@ -9,6 +10,7 @@ const {createMcpServer, resolveMcpServerOptions, mcpStdioServer, mcpStreamableSe
 }));
 
 vi.mock("../../common/utils/createMcpServer.js", () => ({createMcpServer, resolveMcpServerOptions}));
+vi.mock("../../common/gateway/attachUpstream.js", () => ({attachUpstream}));
 vi.mock("./mcpStdioServer.js", () => ({mcpStdioServer}));
 vi.mock("./mcpStreamableServer.js", () => ({mcpStreamableServer}));
 
@@ -58,12 +60,46 @@ describe("mcpServerConnect", () => {
     expect(createMcpServer).not.toHaveBeenCalled();
     const createServer = vi.mocked(mcpStreamableServer).mock.calls[0][0];
 
-    expect(createServer()).toBe(firstServer);
-    expect(createServer()).toBe(secondServer);
+    expect(await createServer()).toBe(firstServer);
+    expect(await createServer()).toBe(secondServer);
 
     expect(createMcpServer).toHaveBeenNthCalledWith(1, {tools: [], prompts: [], resources: []});
     expect(createMcpServer).toHaveBeenNthCalledWith(2, {tools: [], prompts: [], resources: []});
     expect(mcpStdioServer).not.toHaveBeenCalled();
+  });
+
+  it("attaches the upstream to each Streamable HTTP server", async () => {
+    const options = {tools: [], prompts: [], resources: [], upstream: {type: "http", url: "http://localhost/mcp"}};
+    resolveMcpServerOptions.mockReturnValue(options);
+
+    await mcpServerConnect("streamable-http");
+
+    const createServer = vi.mocked(mcpStreamableServer).mock.calls[0][0];
+
+    expect(await createServer()).toBe(server);
+    expect(attachUpstream).toHaveBeenCalledExactlyOnceWith(server, options);
+  });
+
+  it("rejects caller identity placeholders in Streamable HTTP mode", async () => {
+    resolveMcpServerOptions.mockReturnValue({
+      tools: [],
+      prompts: [],
+      resources: [],
+      upstream: {type: "http", url: "http://localhost/mcp", headers: {authorization: "Bearer ${OAUTH_TOKEN}"}}
+    });
+
+    await expect(mcpServerConnect("streamable-http")).rejects.toThrow("does not support ${OAUTH_*} placeholders");
+    expect(mcpStreamableServer).not.toHaveBeenCalled();
+  });
+
+  it("ignores the upstream in stdio mode", async () => {
+    resolveMcpServerOptions.mockReturnValue({tools: [], prompts: [], resources: [], upstream: {type: "stdio", command: "node"}});
+    vi.spyOn(logger(), "warn").mockReturnValue(undefined as never);
+
+    await mcpServerConnect("stdio");
+
+    expect(attachUpstream).not.toHaveBeenCalled();
+    expect(logger().warn).toHaveBeenCalledWith(expect.objectContaining({event: "MCP_SERVER_CONNECT"}));
   });
 
   it("propagates resolution failures before creating a transport", async () => {
