@@ -15,16 +15,18 @@ The package depends on `@modelcontextprotocol/server` and `@modelcontextprotocol
 
 ## `mcp` configuration (`PlatformMcpSettings`)
 
-| Key                                           | Default                                                     | Effect                                                                  |
-| --------------------------------------------- | ----------------------------------------------------------- | ----------------------------------------------------------------------- |
-| `path`                                        | `"/mcp"`                                                    | Route of the `POST` endpoint (HTTP module only).                        |
-| `enabled`                                     | `true`                                                      | `false` leaves the endpoint unmounted.                                  |
-| `name`                                        | root `name` configuration, then `tsed-mcp`                  | Server name advertised to clients.                                      |
-| `version`                                     | root `version` configuration, then `0.0.0`                  | Server version advertised to clients.                                   |
-| `title`, `description`, `websiteUrl`, `icons` | -                                                           | Optional server metadata.                                               |
-| `tools`, `resources`, `prompts`               | `[]`                                                        | Decorated classes and `define*` tokens exposed by this server.          |
-| `serverOptions`                               | -                                                           | Passed to the SDK `McpServer` constructor (capabilities, instructions). |
-| `transportOptions`                            | `{sessionIdGenerator: undefined, enableJsonResponse: true}` | Merged into the Streamable HTTP transport options (HTTP module only).   |
+| Key                                           | Default                                                     | Effect                                                                                              |
+| --------------------------------------------- | ----------------------------------------------------------- | --------------------------------------------------------------------------------------------------- |
+| `path`                                        | `"/mcp"`                                                    | Route of the `POST` endpoint (HTTP module only).                                                    |
+| `enabled`                                     | `true`                                                      | `false` leaves the endpoint unmounted.                                                              |
+| `name`                                        | root `name` configuration, then `tsed-mcp`                  | Server name advertised to clients.                                                                  |
+| `version`                                     | root `version` configuration, then `0.0.0`                  | Server version advertised to clients.                                                               |
+| `title`, `description`, `websiteUrl`, `icons` | -                                                           | Optional server metadata.                                                                           |
+| `tools`, `resources`, `prompts`               | `[]`                                                        | Decorated classes and `define*` tokens exposed by this server.                                      |
+| `serverOptions`                               | -                                                           | Passed to the SDK `McpServer` constructor (capabilities, instructions).                             |
+| `transportOptions`                            | `{sessionIdGenerator: undefined, enableJsonResponse: true}` | Merged into the Streamable HTTP transport options (HTTP module only).                               |
+| `upstream`                                    | -                                                           | Third-party MCP server proxied by this endpoint. See [gateway and OAuth](gateway-and-oauth.md).     |
+| `auth`                                        | -                                                           | OAuth protection of the endpoint (HTTP module only). See [gateway and OAuth](gateway-and-oauth.md). |
 
 `mcp` accepts one object or an array of objects. Each array entry is an independent server with its own path and provider lists. The standalone `mcpServerConnect` accepts one object only.
 
@@ -175,3 +177,4 @@ Consequences:
 - Handlers run inside a Ts.ED `DIContext`: `inject()`, `context()` and request-scoped logging (`context().logger`) work. See the sibling skills `tsed-di` and `tsed-logger`.
 - The current definition and arguments are stored on the context: `context().get("mcp")` and `context().get("mcp_args")`.
 - Over HTTP the context is the request's `PlatformContext`, so `context().request.headers` is available for authorization decisions.
+- On an endpoint protected with `auth`, the verified caller is the SDK context's `ctx.http?.authInfo` (second handler argument).

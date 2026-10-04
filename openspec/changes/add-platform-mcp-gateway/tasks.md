@@ -33,7 +33,8 @@
 ## 5. Documentation
 
 - [x] 5.1 Add "Gateway" and "Protect an endpoint with OAuth" sections to `docs/docs/mcp.md` (configuration, verification modes, placeholders, stdio process-per-token caveat, proxy `resource` caveat)
-- [ ] 5.2 Run `yarn api:build` to validate TSDoc
+- [x] 5.2 Document the agent plugin skill (`plugins/tsed/skills/tsed-mcp-server`), the package readme, a provider-agnostic OIDC example and the `curl` checks
+- [ ] 5.3 Run `yarn api:build` to validate TSDoc
 
 ## 6. Validation
 

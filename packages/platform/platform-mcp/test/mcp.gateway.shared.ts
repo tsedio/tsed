@@ -1,5 +1,7 @@
 import {join} from "node:path";
-import type {AuthInfo} from "@modelcontextprotocol/server";
+import type {AuthInfo, ServerContext} from "@modelcontextprotocol/server";
+import {s} from "@tsed/schema";
+import {defineTool} from "../src/common/index.js";
 import {PlatformTest} from "@tsed/platform-http/testing";
 import {PlatformTestSdk} from "@tsed/platform-test-sdk";
 import SuperTest from "supertest";
@@ -29,6 +31,17 @@ const auth = {
   requiredScopes: ["mcp:write"],
   resourceName: "Secured gateway"
 };
+
+const whoAmI = defineTool({
+  name: "who-am-i",
+  description: "Returns the identity of the caller",
+  inputSchema: s.object({}),
+  handler(_args: unknown, ctx: ServerContext) {
+    const authInfo = ctx.http?.authInfo;
+
+    return {clientId: authInfo?.clientId, scopes: authInfo?.scopes};
+  }
+});
 
 const stdioServer = join(rootDir, "../fixtures/stdio-upstream.mjs");
 
@@ -88,6 +101,7 @@ export function describeMcpGateway(name: string, adapter: unknown) {
           {
             path: "/mcp/secured",
             auth,
+            tools: [whoAmI],
             upstream: {type: "http", url: upstream.url, headers: {"X-OIDC-Token": "${OAUTH_TOKEN}"}}
           },
           {
@@ -247,6 +261,12 @@ export function describeMcpGateway(name: string, adapter: unknown) {
         expect(body.result).toEqual({content: [{type: "text", text: "upstream:hi"}]});
         expect(upstream.requests.at(-1)).toMatchObject({"x-oidc-token": "valid"});
         expect(upstream.requests.at(-1)).not.toHaveProperty("authorization");
+      });
+
+      it("exposes the verified identity to local handlers", async () => {
+        const {body} = await send("/mcp/secured", "tools/call", {name: "who-am-i", arguments: {}}, "valid");
+
+        expect(body.result.structuredContent).toEqual({clientId: "client", scopes: ["mcp:read", "mcp:write"]});
       });
 
       it("interpolates the verified token in the stdio arguments and environment", async () => {

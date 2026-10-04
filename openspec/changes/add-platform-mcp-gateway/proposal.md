@@ -35,7 +35,7 @@ No breaking change: entries without `upstream` and without `auth` behave exactly
 
 ## Non-goals
 
-- Implementing an authorization server. The authorization server (for instance `@tsed/oidc-provider`) owns client registration, CIMD resolution, consent and token issuance.
+- Implementing an authorization server. The authorization server (any OAuth 2.1 / OIDC compliant server) owns client registration, CIMD resolution, consent and token issuance.
 - Acting as an interactive OAuth client toward an upstream on behalf of each end user (per-user upstream consent and token vault).
 - Forwarding server-initiated requests from the upstream (sampling, elicitation, roots) and resource subscriptions.
 - A transparent byte-level HTTP reverse proxy mode.
