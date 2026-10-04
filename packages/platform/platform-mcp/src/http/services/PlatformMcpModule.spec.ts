@@ -2,6 +2,7 @@ import {afterEach, beforeEach, describe, expect, it, vi} from "vitest";
 import {EventEmitter} from "node:events";
 import {PlatformFastifyResponse} from "@tsed/platform-fastify";
 import {PlatformMcpModule} from "./PlatformMcpModule.js";
+import type {McpAuthSettings} from "../../common/interfaces/McpAuthSettings.js";
 import {PlatformTest} from "@tsed/platform-http/testing";
 import {application} from "@tsed/platform-http";
 import {logger} from "@tsed/di";
@@ -161,7 +162,7 @@ describe("PlatformMcpModule", () => {
       ["auth.issuer must be an absolute URL", {issuer: "auth.example.com", resource: "https://api.example.com/mcp"}],
       ["Issuer URL must be HTTPS", {issuer: "http://auth.example.com", resource: "https://api.example.com/mcp"}],
       ["auth.resource must be an absolute URL", {issuer: "https://auth.example.com", resource: "/mcp", audience: "mcp"}]
-    ])("fails when %s", async (message, auth) => {
+    ] as [string, McpAuthSettings][])("fails when %s", async (message, auth) => {
       const {module} = await createModule();
       module["settings"] = {auth};
       vi.spyOn(application(), "post").mockReturnValue(undefined as never);

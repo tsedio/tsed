@@ -74,7 +74,7 @@ export class PlatformMcpGatewayService implements OnDestroy {
     }
 
     entry.lastUsed = now;
-    this.evict(upstream, pool, now);
+    this.evict(upstream, pool, entry, now);
 
     if (!entry.connection) {
       if (entry.retryAt > now) {
@@ -198,9 +198,9 @@ export class PlatformMcpGatewayService implements OnDestroy {
 
   /**
    * Closes idle connections, then the least recently used ones while the pool is full.
-   * Connections serving a request are kept, so the pool can temporarily exceed `max`.
+   * Connections serving a request and the requested one are kept, so the pool can temporarily exceed `max`.
    */
-  protected evict(upstream: McpUpstreamSettings, pool: Map<string, PoolEntry>, now: number) {
+  protected evict(upstream: McpUpstreamSettings, pool: Map<string, PoolEntry>, current: PoolEntry, now: number) {
     const {max = DEFAULT_POOL_MAX, idleTimeout = DEFAULT_IDLE_TIMEOUT} = upstream.pool || {};
 
     if (pool.size <= 1) {
@@ -216,8 +216,8 @@ export class PlatformMcpGatewayService implements OnDestroy {
         break;
       }
 
-      if (entry.pending) {
-        // never close a connection that is serving a request
+      if (entry.pending || entry === current) {
+        // never close a connection that is serving a request, nor the one being requested
         continue;
       }
 

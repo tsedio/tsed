@@ -26,7 +26,16 @@ function toSchema(key: object, schema: unknown = key) {
 type Kind = "tool" | "prompt" | "resource" | "resource template";
 
 function isAllowed(filter: McpUpstreamFilter | undefined, value: string) {
-  const match = (pattern: string | RegExp) => (typeof pattern === "string" ? pattern === value : pattern.test(value));
+  const match = (pattern: string | RegExp) => {
+    if (typeof pattern === "string") {
+      return pattern === value;
+    }
+
+    // a `g` or `y` pattern keeps its position between calls and would match intermittently
+    pattern.lastIndex = 0;
+
+    return pattern.test(value);
+  };
 
   if (filter?.exclude?.some(match)) {
     return false;

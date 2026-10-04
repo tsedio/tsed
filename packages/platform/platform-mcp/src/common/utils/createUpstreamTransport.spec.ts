@@ -50,6 +50,26 @@ describe("createUpstreamTransport()", () => {
     });
   });
 
+  it.each([
+    ["a Headers instance", new Headers({"X-Static": "1", Authorization: "Bearer static"})],
+    [
+      "a list of tuples",
+      [
+        ["X-Static", "1"],
+        ["Authorization", "Bearer static"]
+      ] as [string, string][]
+    ]
+  ])("accepts request headers given as %s", async (_, headers) => {
+    const transport = await createUpstreamTransport({
+      type: "http",
+      url: "https://upstream.example.com/mcp",
+      requestInit: {headers},
+      headers: {Authorization: "Bearer abc"}
+    });
+
+    expect((transport as any).args[1]).toEqual({requestInit: {headers: {"x-static": "1", authorization: "Bearer abc"}}});
+  });
+
   it("creates a legacy SSE transport", async () => {
     const transport = await createUpstreamTransport({type: "sse", url: "https://upstream.example.com/sse"});
 

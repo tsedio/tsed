@@ -17,13 +17,12 @@ export async function createUpstreamTransport(upstream: McpUpstreamSettings): Pr
   }
 
   const {StreamableHTTPClientTransport, SSEClientTransport} = await import("@modelcontextprotocol/client");
-  const requestInit: RequestInit = {
-    ...upstream.requestInit,
-    headers: {
-      ...(upstream.requestInit?.headers as Record<string, string> | undefined),
-      ...upstream.headers
-    }
-  };
+  // `requestInit.headers` may be a record, a list of tuples or a `Headers` instance
+  const headers = new Headers(upstream.requestInit?.headers);
+
+  Object.entries(upstream.headers || {}).forEach(([name, value]) => headers.set(name, value));
+
+  const requestInit: RequestInit = {...upstream.requestInit, headers: Object.fromEntries(headers)};
   const url = new URL(upstream.url);
 
   return upstream.type === "sse" ? new SSEClientTransport(url, {requestInit}) : new StreamableHTTPClientTransport(url, {requestInit});

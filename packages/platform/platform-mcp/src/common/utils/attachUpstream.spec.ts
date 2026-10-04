@@ -116,6 +116,18 @@ describe("attachUpstream()", () => {
       expect(client.callTool).toHaveBeenCalledWith({name: "echo", arguments: {}}, expect.anything());
     });
 
+    it("matches global and sticky patterns consistently across requests", async () => {
+      const upstream: McpUpstreamSettings = {...http, tools: {include: [/^echo/g], exclude: [/^delete/y]}};
+
+      for (let attempt = 0; attempt < 3; attempt++) {
+        const {server} = setup();
+
+        await attachUpstream(server as never, createSettings(upstream));
+
+        expect(server.registerTool.mock.calls.map(([name]) => name)).toEqual(["echo"]);
+      }
+    });
+
     it("forwards the upstream progress notifications when the caller asked for them", async () => {
       const {server, client, getHandler} = setup();
       const ctx = createContext({progressToken: "token-1"});
