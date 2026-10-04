@@ -4,6 +4,7 @@ import {PlatformFastifyResponse} from "@tsed/platform-fastify";
 import {PlatformMcpModule} from "./PlatformMcpModule.js";
 import {PlatformTest} from "@tsed/platform-http/testing";
 import {application} from "@tsed/platform-http";
+import {logger} from "@tsed/di";
 
 const {createMcpServer, resolveMcpServerOptions} = vi.hoisted(() => ({
   createMcpServer: vi.fn(),
@@ -132,6 +133,66 @@ describe("PlatformMcpModule", () => {
       expect(module.$logRoutes([])).toEqual([
         {method: "POST", name: "PlatformMcpModule.dispatch()", url: "/first"},
         {method: "POST", name: "PlatformMcpModule.dispatch()", url: "/second"}
+      ]);
+    });
+  });
+
+  describe("upstream validation", () => {
+    it("fails when the upstream uses identity placeholders without auth", async () => {
+      const {module} = await createModule();
+      module["settings"] = {upstream: {type: "http", url: "http://localhost/mcp", headers: {authorization: "Bearer ${OAUTH_TOKEN}"}}};
+      vi.spyOn(application(), "post").mockReturnValue(undefined as never);
+
+      expect(() => module.$onRoutesInit()).toThrow("declares no auth");
+      expect(application().post).not.toHaveBeenCalled();
+    });
+
+    it("fails when the introspection mode has no client credentials", async () => {
+      const {module} = await createModule();
+      module["settings"] = {auth: {issuer: "https://auth.example.com", mode: "introspection"}};
+      vi.spyOn(application(), "post").mockReturnValue(undefined as never);
+
+      expect(() => module.$onRoutesInit()).toThrow("requires auth.clientId and auth.clientSecret");
+    });
+
+    it.each([
+      ["auth.resource (or auth.audience) is required", {issuer: "https://auth.example.com"}],
+      ["auth.audience cannot be disabled in offline mode", {issuer: "https://auth.example.com", audience: false}],
+      ["auth.issuer must be an absolute URL", {issuer: "auth.example.com", resource: "https://api.example.com/mcp"}],
+      ["auth.resource must be an absolute URL", {issuer: "https://auth.example.com", resource: "/mcp", audience: "mcp"}]
+    ])("fails when %s", async (message, auth) => {
+      const {module} = await createModule();
+      module["settings"] = {auth};
+      vi.spyOn(application(), "post").mockReturnValue(undefined as never);
+
+      expect(() => module.$onRoutesInit()).toThrow(message);
+    });
+
+    it("warns when the audience check is disabled in introspection mode", async () => {
+      const {module} = await createModule();
+      module["settings"] = {auth: {issuer: "https://auth.example.com", clientId: "id", clientSecret: "secret", audience: false}};
+      vi.spyOn(application(), "post").mockReturnValue(undefined as never);
+      vi.spyOn(application(), "get").mockReturnValue(undefined as never);
+      vi.spyOn(logger(), "warn").mockReturnValue(undefined as never);
+
+      module.$onRoutesInit();
+
+      expect(logger().warn).toHaveBeenCalledWith(expect.objectContaining({event: "MCP_AUTH_AUDIENCE_DISABLED"}));
+      expect(application().post).toHaveBeenCalledOnce();
+    });
+
+    it("registers the protected resource metadata route of protected endpoints", async () => {
+      const {module} = await createModule();
+      module["settings"] = {path: "/mcp/a", auth: {issuer: "https://auth.example.com", verifier: {verifyAccessToken: vi.fn()}}};
+      vi.spyOn(application(), "post").mockReturnValue(undefined as never);
+      vi.spyOn(application(), "get").mockReturnValue(undefined as never);
+
+      module.$onRoutesInit();
+
+      expect(application().get).toHaveBeenCalledWith("/.well-known/oauth-protected-resource/mcp/a", expect.any(Function));
+      expect(module.$logRoutes([])).toEqual([
+        {method: "GET", name: "PlatformMcpModule.metadata()", url: "/.well-known/oauth-protected-resource/mcp/a"},
+        {method: "POST", name: "PlatformMcpModule.dispatch()", url: "/mcp/a"}
       ]);
     });
   });

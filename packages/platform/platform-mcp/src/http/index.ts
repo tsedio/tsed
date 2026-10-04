@@ -3,3 +3,5 @@
  */
 export * from "./exports.js";
 export * from "./services/PlatformMcpModule.js";
+export * from "./utils/createMcpTokenVerifier.js";
+export * from "./utils/mcpAuth.js";

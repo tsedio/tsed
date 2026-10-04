@@ -42,9 +42,11 @@
     "test:ci": "vitest run --coverage.thresholds.autoUpdate=true"
   },
   "dependencies": {
+    "@modelcontextprotocol/client": ">=2.0.0",
     "@modelcontextprotocol/node": ">=2.0.0",
     "@modelcontextprotocol/server": ">=2.0.0",
     "change-case": ">=5.4.4",
+    "oauth4webapi": ">=3.0.0",
     "tslib": ">=2.7.0",
     "uuid": ">=11.0.2"
   },
@@ -56,6 +58,7 @@
     "@tsed/platform-http": "workspace:*",
     "@tsed/schema": "workspace:*",
     "@tsed/typescript": "workspace:*",
+    "jose": "^6.1.3",
     "typescript": "6.0.2",
     "vitest": "4.1.4"
   },

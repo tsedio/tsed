@@ -1,0 +1,200 @@
+import {InMemoryTransport} from "@modelcontextprotocol/client";
+import {McpServer} from "@modelcontextprotocol/server";
+import {DITest, inject} from "@tsed/di";
+import type {McpUpstreamSettings} from "../interfaces/McpUpstreamSettings.js";
+import {McpGatewayService} from "./McpGatewayService.js";
+
+const {createUpstreamTransport} = vi.hoisted(() => ({createUpstreamTransport: vi.fn()}));
+
+vi.mock("./createUpstreamTransport.js", () => ({createUpstreamTransport}));
+
+function withHeaders(upstream: McpUpstreamSettings, headers: Record<string, string>) {
+  return {...upstream, headers} as McpUpstreamSettings;
+}
+
+function createUpstream(opts: Partial<McpUpstreamSettings> = {}): McpUpstreamSettings {
+  return {type: "http", url: "http://localhost/mcp", ...opts} as McpUpstreamSettings;
+}
+
+function mockUpstreamServers() {
+  const servers: McpServer[] = [];
+
+  createUpstreamTransport.mockImplementation(async () => {
+    const [clientTransport, serverTransport] = InMemoryTransport.createLinkedPair();
+    const server = new McpServer({name: "upstream", version: "1.0.0"});
+
+    server.registerTool("first", {description: "First tool"}, () => ({content: []}));
+    servers.push(server);
+
+    await server.connect(serverTransport);
+
+    return clientTransport;
+  });
+
+  return servers;
+}
+
+describe("McpGatewayService", () => {
+  beforeEach(() => DITest.create());
+  afterEach(async () => {
+    vi.useRealTimers();
+    vi.resetAllMocks();
+    await DITest.reset();
+  });
+
+  it("connects lazily and reuses the connection for the same headers", async () => {
+    mockUpstreamServers();
+
+    const service = inject(McpGatewayService);
+    const upstream = createUpstream();
+
+    const [first, second] = await Promise.all([
+      service.getConnection(upstream, withHeaders(upstream, {"x-api-key": "a"})),
+      service.getConnection(upstream, withHeaders(upstream, {"x-api-key": "a"}))
+    ]);
+
+    expect(first).toBe(second);
+    expect(createUpstreamTransport).toHaveBeenCalledExactlyOnceWith(withHeaders(upstream, {"x-api-key": "a"}));
+  });
+
+  it("opens one connection per distinct set of headers", async () => {
+    mockUpstreamServers();
+
+    const service = inject(McpGatewayService);
+    const upstream = createUpstream();
+
+    const first = await service.getConnection(upstream, withHeaders(upstream, {authorization: "Bearer a"}));
+    const second = await service.getConnection(upstream, withHeaders(upstream, {authorization: "Bearer b"}));
+
+    expect(first).not.toBe(second);
+    expect(createUpstreamTransport).toHaveBeenCalledTimes(2);
+  });
+
+  it("loads and caches the upstream catalog", async () => {
+    mockUpstreamServers();
+
+    const connection = await inject(McpGatewayService).getConnection(createUpstream());
+    const listTools = vi.spyOn(connection.client, "listTools");
+
+    const catalog = await connection.getCatalog();
+
+    expect(catalog.tools.map(({name}) => name)).toEqual(["first"]);
+    expect(catalog).toMatchObject({resources: [], resourceTemplates: [], prompts: []});
+    expect(await connection.getCatalog()).toBe(catalog);
+    expect(listTools).toHaveBeenCalledOnce();
+  });
+
+  it("refreshes the catalog when the upstream notifies a list change", async () => {
+    const servers = mockUpstreamServers();
+    const connection = await inject(McpGatewayService).getConnection(createUpstream());
+
+    await connection.getCatalog();
+
+    servers[0].registerTool("second", {description: "Second tool"}, () => ({content: []}));
+
+    await vi.waitFor(async () => {
+      expect((await connection.getCatalog()).tools.map(({name}) => name)).toEqual(["first", "second"]);
+    });
+  });
+
+  it("reconnects after the upstream connection is closed", async () => {
+    const servers = mockUpstreamServers();
+    const service = inject(McpGatewayService);
+    const upstream = createUpstream();
+    const first = await service.getConnection(upstream);
+
+    await servers[0].close();
+
+    await vi.waitFor(async () => {
+      expect(await service.getConnection(upstream)).not.toBe(first);
+    });
+  });
+
+  it("backs off before retrying a failing upstream", async () => {
+    vi.useFakeTimers();
+    createUpstreamTransport.mockRejectedValue(new Error("connect ECONNREFUSED"));
+
+    const service = inject(McpGatewayService);
+    const upstream = createUpstream();
+
+    await expect(service.getConnection(upstream)).rejects.toThrow("ECONNREFUSED");
+    await expect(service.getConnection(upstream)).rejects.toThrow("ECONNREFUSED");
+
+    expect(createUpstreamTransport).toHaveBeenCalledOnce();
+
+    vi.advanceTimersByTime(1001);
+    mockUpstreamServers();
+
+    await expect(service.getConnection(upstream)).resolves.toBeDefined();
+  });
+
+  it("closes the least recently used connection when the pool is full", async () => {
+    vi.useFakeTimers();
+    mockUpstreamServers();
+
+    const service = inject(McpGatewayService);
+    const upstream = createUpstream({pool: {max: 2}});
+
+    const first = await service.getConnection(upstream, withHeaders(upstream, {authorization: "Bearer a"}));
+    const close = vi.spyOn(first.client, "close");
+
+    vi.advanceTimersByTime(10);
+    await service.getConnection(upstream, withHeaders(upstream, {authorization: "Bearer b"}));
+    vi.advanceTimersByTime(10);
+    await service.getConnection(upstream, withHeaders(upstream, {authorization: "Bearer c"}));
+
+    expect(close).toHaveBeenCalledOnce();
+  });
+
+  it("keeps a connection that is serving a request", async () => {
+    vi.useFakeTimers();
+    mockUpstreamServers();
+
+    const service = inject(McpGatewayService);
+    const upstream = createUpstream({pool: {idleTimeout: 1000}});
+    const first = await service.getConnection(upstream, withHeaders(upstream, {authorization: "Bearer a"}));
+    const close = vi.spyOn(first.client, "close");
+    let release!: () => void;
+    const pending = first.run(() => new Promise<void>((resolve) => (release = resolve)));
+
+    vi.advanceTimersByTime(1001);
+    await service.getConnection(upstream, withHeaders(upstream, {authorization: "Bearer b"}));
+
+    expect(close).not.toHaveBeenCalled();
+
+    release();
+    await pending;
+    vi.advanceTimersByTime(1001);
+    await service.getConnection(upstream, withHeaders(upstream, {authorization: "Bearer b"}));
+
+    expect(close).toHaveBeenCalledOnce();
+  });
+
+  it("closes idle connections", async () => {
+    vi.useFakeTimers();
+    mockUpstreamServers();
+
+    const service = inject(McpGatewayService);
+    const upstream = createUpstream({pool: {idleTimeout: 1000}});
+
+    const first = await service.getConnection(upstream, withHeaders(upstream, {authorization: "Bearer a"}));
+    const close = vi.spyOn(first.client, "close");
+
+    vi.advanceTimersByTime(1001);
+    await service.getConnection(upstream, withHeaders(upstream, {authorization: "Bearer b"}));
+
+    expect(close).toHaveBeenCalledOnce();
+  });
+
+  it("closes every upstream client when the application is destroyed", async () => {
+    mockUpstreamServers();
+
+    const service = inject(McpGatewayService);
+    const connection = await service.getConnection(createUpstream());
+    const close = vi.spyOn(connection.client, "close");
+
+    await service.$onDestroy();
+
+    expect(close).toHaveBeenCalledOnce();
+  });
+});
