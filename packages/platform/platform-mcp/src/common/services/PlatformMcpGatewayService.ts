@@ -2,7 +2,8 @@ import {createHash} from "node:crypto";
 import type {Client, Prompt, Resource, ResourceTemplateType, Tool} from "@modelcontextprotocol/client";
 import {constant, injectable, logger, type OnDestroy} from "@tsed/di";
 import type {McpUpstreamSettings} from "../interfaces/McpUpstreamSettings.js";
-import {createUpstreamTransport} from "./createUpstreamTransport.js";
+import {createUpstreamTransport} from "../utils/createUpstreamTransport.js";
+import {listAll} from "../utils/listAll.js";
 
 const DEFAULT_POOL_MAX = 100;
 const DEFAULT_IDLE_TIMEOUT = 300_000;
@@ -13,7 +14,7 @@ const MAX_RETRY_DELAY = 30_000;
  *
  * @module platform/mcp
  */
-export interface McpUpstreamCatalog {
+export interface PlatformMcpUpstreamCatalog {
   tools: Tool[];
   resources: Resource[];
   resourceTemplates: ResourceTemplateType[];
@@ -25,9 +26,9 @@ export interface McpUpstreamCatalog {
  *
  * @module platform/mcp
  */
-export interface McpUpstreamConnection {
+export interface PlatformMcpUpstreamConnection {
   client: Client;
-  getCatalog(): Promise<McpUpstreamCatalog>;
+  getCatalog(): Promise<PlatformMcpUpstreamCatalog>;
   /**
    * Runs an upstream request, keeping the connection out of the pool eviction while it is pending.
    */
@@ -37,29 +38,11 @@ export interface McpUpstreamConnection {
 interface PoolEntry {
   lastUsed: number;
   pending: number;
-  connection?: Promise<McpUpstreamConnection>;
+  connection?: Promise<PlatformMcpUpstreamConnection>;
   client?: Client;
   failures: number;
   retryAt: number;
   error?: unknown;
-}
-
-async function listAll<Item>(enabled: unknown, list: (params: {cursor?: string}) => Promise<any>, key: string): Promise<Item[]> {
-  const items: Item[] = [];
-  let cursor: string | undefined;
-
-  if (!enabled) {
-    return items;
-  }
-
-  do {
-    const page = await list(cursor ? {cursor} : {});
-
-    items.push(...page[key]);
-    cursor = page.nextCursor;
-  } while (cursor);
-
-  return items;
 }
 
 /**
@@ -70,7 +53,7 @@ async function listAll<Item>(enabled: unknown, list: (params: {cursor?: string})
  *
  * @module platform/mcp
  */
-export class McpGatewayService implements OnDestroy {
+export class PlatformMcpGatewayService implements OnDestroy {
   protected pools = new Map<McpUpstreamSettings, Map<string, PoolEntry>>();
 
   /**
@@ -79,7 +62,7 @@ export class McpGatewayService implements OnDestroy {
    * @param upstream Upstream declared in the configuration, identifying the pool.
    * @param resolved Same definition with its placeholders interpolated for the caller.
    */
-  getConnection(upstream: McpUpstreamSettings, resolved: McpUpstreamSettings = upstream): Promise<McpUpstreamConnection> {
+  getConnection(upstream: McpUpstreamSettings, resolved: McpUpstreamSettings = upstream): Promise<PlatformMcpUpstreamConnection> {
     const pool = this.getPool(upstream);
     const key = this.getKey(resolved);
     const now = Date.now();
@@ -119,10 +102,10 @@ export class McpGatewayService implements OnDestroy {
     await Promise.all(entries.map((entry) => this.close(entry)));
   }
 
-  protected async connect(upstream: McpUpstreamSettings, entry: PoolEntry): Promise<McpUpstreamConnection> {
+  protected async connect(upstream: McpUpstreamSettings, entry: PoolEntry): Promise<PlatformMcpUpstreamConnection> {
     const {Client} = await import("@modelcontextprotocol/client");
     const transport = await createUpstreamTransport(upstream);
-    let catalog: Promise<McpUpstreamCatalog> | undefined;
+    let catalog: Promise<PlatformMcpUpstreamCatalog> | undefined;
     const invalidate = () => {
       catalog = undefined;
     };
@@ -183,7 +166,7 @@ export class McpGatewayService implements OnDestroy {
     };
   }
 
-  protected async loadCatalog(client: Client): Promise<McpUpstreamCatalog> {
+  protected async loadCatalog(client: Client): Promise<PlatformMcpUpstreamCatalog> {
     const capabilities = client.getServerCapabilities() || {};
 
     const [tools, resources, resourceTemplates, prompts] = await Promise.all([
@@ -258,4 +241,4 @@ export class McpGatewayService implements OnDestroy {
   }
 }
 
-injectable(McpGatewayService);
+injectable(PlatformMcpGatewayService);

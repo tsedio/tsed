@@ -1,8 +1,12 @@
 import {type AuthInfo, fromJsonSchema, type McpServer, ResourceTemplate, type ServerContext} from "@modelcontextprotocol/server";
 import {inject, logger} from "@tsed/di";
 import type {McpUpstreamFilter, McpUpstreamSettings} from "../interfaces/McpUpstreamSettings.js";
-import type {CreateMcpServerOpts} from "../utils/createMcpServer.js";
-import {McpGatewayService, type McpUpstreamCatalog, type McpUpstreamConnection} from "./McpGatewayService.js";
+import type {CreateMcpServerOpts} from "./createMcpServer.js";
+import {
+  PlatformMcpGatewayService,
+  type PlatformMcpUpstreamCatalog,
+  type PlatformMcpUpstreamConnection
+} from "../services/PlatformMcpGatewayService.js";
 import {resolveUpstream} from "./resolveUpstream.js";
 
 // upstream catalogs are stable objects: compile each schema once instead of on every request
@@ -59,8 +63,8 @@ function registerCatalog(
   server: McpServer,
   upstream: McpUpstreamSettings,
   label: string,
-  {client, run}: McpUpstreamConnection,
-  catalog: McpUpstreamCatalog,
+  {client, run}: PlatformMcpUpstreamConnection,
+  catalog: PlatformMcpUpstreamCatalog,
   taken: Record<Kind, Set<string>>
 ) {
   const {prefix = ""} = upstream;
@@ -176,7 +180,7 @@ export async function attachUpstream(server: McpServer, settings: CreateMcpServe
   const label = settings.path || (upstream.type === "stdio" ? upstream.command : upstream.url);
 
   try {
-    const connection = await inject(McpGatewayService).getConnection(upstream, resolveUpstream(upstream, authInfo));
+    const connection = await inject(PlatformMcpGatewayService).getConnection(upstream, resolveUpstream(upstream, authInfo));
 
     registerCatalog(server, upstream, label, connection, await connection.getCatalog(), {
       tool: new Set(settings.tools.map(({name}) => name)),

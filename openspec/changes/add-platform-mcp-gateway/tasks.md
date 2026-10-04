@@ -15,7 +15,7 @@
 ## 3. Gateway core (`mcp-gateway`)
 
 - [x] 3.1 Add `createUpstreamTransport()` for `http`, `sse` and `stdio` with lazy imports of the client package
-- [x] 3.2 Add `McpGatewayService`: lazy connect, pool keyed by the interpolated values, idle eviction, retry with backoff, `$onDestroy` cleanup
+- [x] 3.2 Add `PlatformMcpGatewayService`: lazy connect, pool keyed by the interpolated values, idle eviction, retry with backoff, `$onDestroy` cleanup
 - [x] 3.3 Build and cache the upstream catalog (tools, resources, resource templates, prompts) with pagination, `include`/`exclude` filters and `prefix`; refresh on `list_changed`
 - [x] 3.4 Add `attachUpstream(server, settings, authInfo)` registering catalog entries on the `McpServer` with forwarding handlers (original names, abort signal, progress)
 - [x] 3.5 Collision detection with local-first precedence and warnings

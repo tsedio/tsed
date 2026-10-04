@@ -1,12 +1,16 @@
 import {createServer, type Server} from "node:http";
 import type {AddressInfo} from "node:net";
 import {exportJWK, generateKeyPair, SignJWT} from "jose";
-import type {McpAuthSettings} from "../../common/interfaces/McpAuthSettings.js";
-import {createMcpTokenVerifier, getMcpAuthMode} from "./createMcpTokenVerifier.js";
+import type {McpAuthSettings} from "../interfaces/McpAuthSettings.js";
+import {PlatformTokenVerifier} from "./PlatformTokenVerifier.js";
+
+function createVerifier(auth: McpAuthSettings, resource: URL) {
+  return new PlatformTokenVerifier(auth, resource);
+}
 
 const resource = new URL("https://api.example.com/mcp");
 
-describe("createMcpTokenVerifier()", () => {
+describe("PlatformTokenVerifier", () => {
   let server: Server;
   let issuer: string;
   let keys: Awaited<ReturnType<typeof generateKeyPair>>;
@@ -72,18 +76,18 @@ describe("createMcpTokenVerifier()", () => {
 
   afterAll(() => new Promise((resolve) => server.close(resolve)));
 
-  describe("getMcpAuthMode()", () => {
+  describe("getMode()", () => {
     it("defaults to offline, and to introspection when client credentials are configured", () => {
-      expect(getMcpAuthMode({issuer: "https://auth"})).toBe("offline");
-      expect(getMcpAuthMode({issuer: "https://auth", clientId: "id", clientSecret: "secret"})).toBe("introspection");
-      expect(getMcpAuthMode({issuer: "https://auth", clientId: "id", mode: "offline"})).toBe("offline");
+      expect(PlatformTokenVerifier.getMode({issuer: "https://auth"})).toBe("offline");
+      expect(PlatformTokenVerifier.getMode({issuer: "https://auth", clientId: "id", clientSecret: "secret"})).toBe("introspection");
+      expect(PlatformTokenVerifier.getMode({issuer: "https://auth", clientId: "id", mode: "offline"})).toBe("offline");
     });
   });
 
   describe("offline", () => {
     it("verifies a JWT against the issuer JWKS", async () => {
       const token = await sign();
-      const authInfo = await createMcpTokenVerifier(auth(), resource).verifyAccessToken(token);
+      const authInfo = await createVerifier(auth(), resource).verifyAccessToken(token);
 
       expect(authInfo).toMatchObject({
         token,
@@ -97,52 +101,80 @@ describe("createMcpTokenVerifier()", () => {
     it("discovers and fetches the JWKS once per endpoint", async () => {
       const settings = auth();
 
-      await createMcpTokenVerifier(settings, resource).verifyAccessToken(await sign());
-      await createMcpTokenVerifier(settings, resource).verifyAccessToken(await sign());
+      const verifier = createVerifier(settings, resource);
+
+      await verifier.verifyAccessToken(await sign());
+      await verifier.verifyAccessToken(await sign());
 
       expect(requests.map(({url}) => url)).toEqual(["/.well-known/openid-configuration", "/jwks"]);
     });
 
+    it("skips the discovery when the JWKS URL is configured", async () => {
+      const verifier = createVerifier(auth({jwksUri: `${issuer}/jwks`}), resource);
+
+      await expect(verifier.verifyAccessToken(await sign())).resolves.toBeDefined();
+      expect(requests.map(({url}) => url)).toEqual(["/jwks"]);
+    });
+
     it("rejects a token issued for another audience", async () => {
-      const verifier = createMcpTokenVerifier(auth(), new URL("https://api.example.com/other"));
+      const verifier = createVerifier(auth(), new URL("https://api.example.com/other"));
 
       await expect(verifier.verifyAccessToken(await sign())).rejects.toMatchObject({code: "invalid_token"});
     });
 
     it("accepts the configured audience", async () => {
-      const verifier = createMcpTokenVerifier(auth({audience: "custom"}), resource);
+      const verifier = createVerifier(auth({audience: "custom"}), resource);
 
       await expect(verifier.verifyAccessToken(await sign({aud: "custom"}))).resolves.toBeDefined();
     });
 
     it("rejects a token signed with an unknown key", async () => {
       const other = await generateKeyPair("RS256");
-      const verifier = createMcpTokenVerifier(auth(), resource);
+      const verifier = createVerifier(auth(), resource);
 
       await expect(verifier.verifyAccessToken(await sign({}, other.privateKey))).rejects.toMatchObject({code: "invalid_token"});
     });
 
     it("rejects opaque tokens", async () => {
-      await expect(createMcpTokenVerifier(auth(), resource).verifyAccessToken("opaque")).rejects.toMatchObject({code: "invalid_token"});
+      await expect(createVerifier(auth(), resource).verifyAccessToken("opaque")).rejects.toMatchObject({code: "invalid_token"});
     });
 
     it("reports a server error when the issuer metadata cannot be loaded, then retries", async () => {
       const settings = auth();
       failing = ["/.well-known/openid-configuration", "/.well-known/oauth-authorization-server"];
 
-      await expect(createMcpTokenVerifier(settings, resource).verifyAccessToken(await sign())).rejects.toMatchObject({
-        code: "server_error"
-      });
+      const verifier = createVerifier(settings, resource);
+
+      await expect(verifier.verifyAccessToken(await sign())).rejects.toMatchObject({code: "server_error"});
 
       failing = [];
 
-      await expect(createMcpTokenVerifier(settings, resource).verifyAccessToken(await sign())).resolves.toBeDefined();
+      await expect(verifier.verifyAccessToken(await sign())).resolves.toBeDefined();
     });
 
     it("reports a server error when the JWKS cannot be fetched", async () => {
       failing = ["/jwks"];
 
-      await expect(createMcpTokenVerifier(auth(), resource).verifyAccessToken(await sign())).rejects.toMatchObject({code: "server_error"});
+      await expect(createVerifier(auth(), resource).verifyAccessToken(await sign())).rejects.toMatchObject({code: "server_error"});
+    });
+  });
+
+  describe("custom verifier", () => {
+    const authInfo = {token: "abc", clientId: "client", scopes: [], expiresAt: 1};
+
+    it("delegates to the configured verifier instead of the built-in modes", async () => {
+      const verifyAccessToken = vi.fn().mockResolvedValue(authInfo);
+      const verifier = createVerifier(auth({verifier: {verifyAccessToken}}), resource);
+
+      await expect(verifier.verifyAccessToken("abc")).resolves.toBe(authInfo);
+      expect(verifyAccessToken).toHaveBeenCalledExactlyOnceWith("abc");
+      expect(requests).toEqual([]);
+    });
+
+    it("reports any verifier failure as an invalid token without leaking its message", async () => {
+      const verifier = createVerifier(auth({verifier: {verifyAccessToken: vi.fn().mockRejectedValue(new Error("db down"))}}), resource);
+
+      await expect(verifier.verifyAccessToken("abc")).rejects.toMatchObject({code: "invalid_token", message: "Invalid access token"});
     });
   });
 
@@ -150,7 +182,7 @@ describe("createMcpTokenVerifier()", () => {
     const credentials = {clientId: "gateway", clientSecret: "s3cret"};
 
     it("asks the authorization server with the endpoint credentials", async () => {
-      const authInfo = await createMcpTokenVerifier(auth(credentials), resource).verifyAccessToken("opaque");
+      const authInfo = await createVerifier(auth(credentials), resource).verifyAccessToken("opaque");
 
       expect(authInfo).toMatchObject({token: "opaque", clientId: "client", scopes: ["mcp:read"], extra: {sub: "user-1"}});
       expect(requests.at(-1)).toMatchObject({
@@ -160,10 +192,41 @@ describe("createMcpTokenVerifier()", () => {
       });
     });
 
+    it("skips the discovery when the introspection endpoint is configured", async () => {
+      const verifier = createVerifier(auth({...credentials, introspectionEndpoint: `${issuer}/introspect`}), resource);
+
+      await expect(verifier.verifyAccessToken("opaque")).resolves.toBeDefined();
+      expect(requests.map(({url}) => url)).toEqual(["/introspect"]);
+    });
+
+    it("drops the oldest cached result when the cache is full", async () => {
+      const verifier = createVerifier(auth(credentials), resource);
+      const cache: Map<string, unknown> = verifier["cache"];
+
+      for (let index = 0; index < 1000; index++) {
+        cache.set(`token-${index}`, {authInfo: {}, until: Date.now() + 60_000});
+      }
+
+      await verifier.verifyAccessToken("opaque");
+
+      expect(cache.size).toBe(1000);
+      expect(cache.has("token-0")).toBe(false);
+      expect(cache.has("token-1")).toBe(true);
+    });
+
+    it("maps the scp, azp and multi-valued aud claims of the introspection response", async () => {
+      introspection = {active: true, azp: "authorized-party", scp: ["mcp:read", "mcp:write"], exp: exp(), aud: ["other", resource.href]};
+
+      await expect(createVerifier(auth(credentials), resource).verifyAccessToken("opaque")).resolves.toMatchObject({
+        clientId: "authorized-party",
+        scopes: ["mcp:read", "mcp:write"]
+      });
+    });
+
     it("rejects inactive tokens", async () => {
       introspection = {active: false};
 
-      await expect(createMcpTokenVerifier(auth(credentials), resource).verifyAccessToken("opaque")).rejects.toMatchObject({
+      await expect(createVerifier(auth(credentials), resource).verifyAccessToken("opaque")).rejects.toMatchObject({
         code: "invalid_token"
       });
     });
@@ -171,25 +234,25 @@ describe("createMcpTokenVerifier()", () => {
     it("rejects tokens reported for another issuer or audience", async () => {
       introspection = {...introspection, iss: "https://other"};
 
-      await expect(createMcpTokenVerifier(auth(credentials), resource).verifyAccessToken("a")).rejects.toMatchObject({
+      await expect(createVerifier(auth(credentials), resource).verifyAccessToken("a")).rejects.toMatchObject({
         code: "invalid_token"
       });
 
       introspection = {...introspection, iss: issuer, aud: "https://api.example.com/other"};
 
-      await expect(createMcpTokenVerifier(auth(credentials), resource).verifyAccessToken("b")).rejects.toMatchObject({
+      await expect(createVerifier(auth(credentials), resource).verifyAccessToken("b")).rejects.toMatchObject({
         code: "invalid_token"
       });
 
       introspection = {...introspection, aud: [resource.href]};
 
-      await expect(createMcpTokenVerifier(auth(credentials), resource).verifyAccessToken("c")).resolves.toBeDefined();
+      await expect(createVerifier(auth(credentials), resource).verifyAccessToken("c")).resolves.toBeDefined();
     });
 
     it("rejects tokens reported without audience", async () => {
       introspection = {...introspection, aud: undefined};
 
-      await expect(createMcpTokenVerifier(auth(credentials), resource).verifyAccessToken("opaque")).rejects.toMatchObject({
+      await expect(createVerifier(auth(credentials), resource).verifyAccessToken("opaque")).rejects.toMatchObject({
         code: "invalid_token"
       });
     });
@@ -197,7 +260,7 @@ describe("createMcpTokenVerifier()", () => {
     it("accepts tokens without audience when the audience check is disabled", async () => {
       introspection = {...introspection, aud: undefined};
 
-      const verifier = createMcpTokenVerifier(auth({...credentials, audience: false}), resource);
+      const verifier = createVerifier(auth({...credentials, audience: false}), resource);
 
       await expect(verifier.verifyAccessToken("opaque")).resolves.toMatchObject({clientId: "client"});
     });
@@ -205,8 +268,10 @@ describe("createMcpTokenVerifier()", () => {
     it("caches the introspection result", async () => {
       const settings = auth(credentials);
 
-      await createMcpTokenVerifier(settings, resource).verifyAccessToken("opaque");
-      await createMcpTokenVerifier(settings, resource).verifyAccessToken("opaque");
+      const verifier = createVerifier(settings, resource);
+
+      await verifier.verifyAccessToken("opaque");
+      await verifier.verifyAccessToken("opaque");
 
       expect(requests.filter(({url}) => url === "/introspect")).toHaveLength(1);
     });
@@ -214,8 +279,10 @@ describe("createMcpTokenVerifier()", () => {
     it("does not cache when cacheTtl is 0", async () => {
       const settings = auth({...credentials, cacheTtl: 0});
 
-      await createMcpTokenVerifier(settings, resource).verifyAccessToken("opaque");
-      await createMcpTokenVerifier(settings, resource).verifyAccessToken("opaque");
+      const verifier = createVerifier(settings, resource);
+
+      await verifier.verifyAccessToken("opaque");
+      await verifier.verifyAccessToken("opaque");
 
       expect(requests.filter(({url}) => url === "/introspect")).toHaveLength(2);
     });
@@ -223,7 +290,7 @@ describe("createMcpTokenVerifier()", () => {
     it("reports a server error when the introspection endpoint fails", async () => {
       failing = ["/introspect"];
 
-      await expect(createMcpTokenVerifier(auth(credentials), resource).verifyAccessToken("opaque")).rejects.toMatchObject({
+      await expect(createVerifier(auth(credentials), resource).verifyAccessToken("opaque")).rejects.toMatchObject({
         code: "server_error"
       });
     });

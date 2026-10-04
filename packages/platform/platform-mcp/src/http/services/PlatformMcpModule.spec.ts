@@ -258,6 +258,18 @@ describe("PlatformMcpModule", () => {
       expect(transportInstances[0].close).toHaveBeenCalledOnce();
     });
 
+    it("should close the request server only once when the response closes during the request", async () => {
+      const {module} = await createModule();
+      const {$ctx, res} = createContext();
+      const close = vi.fn();
+
+      createMcpServer.mockImplementation(() => ({connect: vi.fn().mockImplementation(() => res.emit("close")), close}));
+
+      await module["dispatch"]({tools: [], prompts: [], resources: []}, $ctx);
+
+      expect(close).toHaveBeenCalledOnce();
+    });
+
     it("should resolve an isolated server for each request", async () => {
       const {module, servers} = await createModule();
       const first = createContext();

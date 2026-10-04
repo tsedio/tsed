@@ -1,12 +1,12 @@
 import {InMemoryTransport} from "@modelcontextprotocol/client";
-import {McpServer} from "@modelcontextprotocol/server";
-import {DITest, inject} from "@tsed/di";
+import {McpServer, ResourceTemplate} from "@modelcontextprotocol/server";
+import {DITest, inject, logger} from "@tsed/di";
 import type {McpUpstreamSettings} from "../interfaces/McpUpstreamSettings.js";
-import {McpGatewayService} from "./McpGatewayService.js";
+import {PlatformMcpGatewayService} from "./PlatformMcpGatewayService.js";
 
 const {createUpstreamTransport} = vi.hoisted(() => ({createUpstreamTransport: vi.fn()}));
 
-vi.mock("./createUpstreamTransport.js", () => ({createUpstreamTransport}));
+vi.mock("../utils/createUpstreamTransport.js", () => ({createUpstreamTransport}));
 
 function withHeaders(upstream: McpUpstreamSettings, headers: Record<string, string>) {
   return {...upstream, headers} as McpUpstreamSettings;
@@ -34,7 +34,7 @@ function mockUpstreamServers() {
   return servers;
 }
 
-describe("McpGatewayService", () => {
+describe("PlatformMcpGatewayService", () => {
   beforeEach(() => DITest.create());
   afterEach(async () => {
     vi.useRealTimers();
@@ -45,7 +45,7 @@ describe("McpGatewayService", () => {
   it("connects lazily and reuses the connection for the same headers", async () => {
     mockUpstreamServers();
 
-    const service = inject(McpGatewayService);
+    const service = inject(PlatformMcpGatewayService);
     const upstream = createUpstream();
 
     const [first, second] = await Promise.all([
@@ -60,7 +60,7 @@ describe("McpGatewayService", () => {
   it("opens one connection per distinct set of headers", async () => {
     mockUpstreamServers();
 
-    const service = inject(McpGatewayService);
+    const service = inject(PlatformMcpGatewayService);
     const upstream = createUpstream();
 
     const first = await service.getConnection(upstream, withHeaders(upstream, {authorization: "Bearer a"}));
@@ -73,7 +73,7 @@ describe("McpGatewayService", () => {
   it("loads and caches the upstream catalog", async () => {
     mockUpstreamServers();
 
-    const connection = await inject(McpGatewayService).getConnection(createUpstream());
+    const connection = await inject(PlatformMcpGatewayService).getConnection(createUpstream());
     const listTools = vi.spyOn(connection.client, "listTools");
 
     const catalog = await connection.getCatalog();
@@ -84,9 +84,46 @@ describe("McpGatewayService", () => {
     expect(listTools).toHaveBeenCalledOnce();
   });
 
+  it("loads the resources, resource templates and prompts advertised by the upstream", async () => {
+    createUpstreamTransport.mockImplementation(async () => {
+      const [clientTransport, serverTransport] = InMemoryTransport.createLinkedPair();
+      const server = new McpServer({name: "upstream", version: "1.0.0"});
+
+      server.registerResource("readme", "upstream://readme", {}, (uri) => ({contents: [{uri: uri.href, text: "readme"}]}));
+      server.registerResource("doc", new ResourceTemplate("upstream://docs/{id}", {list: undefined}), {}, (uri) => ({
+        contents: [{uri: uri.href, text: "doc"}]
+      }));
+      server.registerPrompt("greet", {description: "Greet"}, () => ({messages: []}));
+
+      await server.connect(serverTransport);
+
+      return clientTransport;
+    });
+
+    const connection = await inject(PlatformMcpGatewayService).getConnection(createUpstream());
+
+    await expect(connection.getCatalog()).resolves.toMatchObject({
+      tools: [],
+      resources: [{name: "readme", uri: "upstream://readme"}],
+      resourceTemplates: [{name: "doc", uriTemplate: "upstream://docs/{id}"}],
+      prompts: [{name: "greet", description: "Greet"}]
+    });
+  });
+
+  it("retries the catalog after a listing failure", async () => {
+    mockUpstreamServers();
+
+    const connection = await inject(PlatformMcpGatewayService).getConnection(createUpstream());
+    const listTools = vi.spyOn(connection.client, "listTools").mockRejectedValueOnce(new Error("list failed"));
+
+    await expect(connection.getCatalog()).rejects.toThrow("list failed");
+    await expect(connection.getCatalog()).resolves.toMatchObject({tools: [expect.objectContaining({name: "first"})]});
+    expect(listTools).toHaveBeenCalledTimes(2);
+  });
+
   it("refreshes the catalog when the upstream notifies a list change", async () => {
     const servers = mockUpstreamServers();
-    const connection = await inject(McpGatewayService).getConnection(createUpstream());
+    const connection = await inject(PlatformMcpGatewayService).getConnection(createUpstream());
 
     await connection.getCatalog();
 
@@ -99,7 +136,7 @@ describe("McpGatewayService", () => {
 
   it("reconnects after the upstream connection is closed", async () => {
     const servers = mockUpstreamServers();
-    const service = inject(McpGatewayService);
+    const service = inject(PlatformMcpGatewayService);
     const upstream = createUpstream();
     const first = await service.getConnection(upstream);
 
@@ -114,7 +151,7 @@ describe("McpGatewayService", () => {
     vi.useFakeTimers();
     createUpstreamTransport.mockRejectedValue(new Error("connect ECONNREFUSED"));
 
-    const service = inject(McpGatewayService);
+    const service = inject(PlatformMcpGatewayService);
     const upstream = createUpstream();
 
     await expect(service.getConnection(upstream)).rejects.toThrow("ECONNREFUSED");
@@ -132,7 +169,7 @@ describe("McpGatewayService", () => {
     vi.useFakeTimers();
     mockUpstreamServers();
 
-    const service = inject(McpGatewayService);
+    const service = inject(PlatformMcpGatewayService);
     const upstream = createUpstream({pool: {max: 2}});
 
     const first = await service.getConnection(upstream, withHeaders(upstream, {authorization: "Bearer a"}));
@@ -150,7 +187,7 @@ describe("McpGatewayService", () => {
     vi.useFakeTimers();
     mockUpstreamServers();
 
-    const service = inject(McpGatewayService);
+    const service = inject(PlatformMcpGatewayService);
     const upstream = createUpstream({pool: {idleTimeout: 1000}});
     const first = await service.getConnection(upstream, withHeaders(upstream, {authorization: "Bearer a"}));
     const close = vi.spyOn(first.client, "close");
@@ -174,7 +211,7 @@ describe("McpGatewayService", () => {
     vi.useFakeTimers();
     mockUpstreamServers();
 
-    const service = inject(McpGatewayService);
+    const service = inject(PlatformMcpGatewayService);
     const upstream = createUpstream({pool: {idleTimeout: 1000}});
 
     const first = await service.getConnection(upstream, withHeaders(upstream, {authorization: "Bearer a"}));
@@ -186,10 +223,29 @@ describe("McpGatewayService", () => {
     expect(close).toHaveBeenCalledOnce();
   });
 
+  it("logs a client that fails to close and keeps destroying the others", async () => {
+    mockUpstreamServers();
+
+    const service = inject(PlatformMcpGatewayService);
+    const upstream = createUpstream();
+    const first = await service.getConnection(upstream, withHeaders(upstream, {authorization: "Bearer a"}));
+    const second = await service.getConnection(upstream, withHeaders(upstream, {authorization: "Bearer b"}));
+    const error = new Error("close failed");
+    const close = vi.spyOn(second.client, "close");
+
+    vi.spyOn(first.client, "close").mockRejectedValue(error);
+    vi.spyOn(logger(), "warn").mockReturnValue(undefined as never);
+
+    await expect(service.$onDestroy()).resolves.toBeUndefined();
+
+    expect(logger().warn).toHaveBeenCalledWith({event: "MCP_GATEWAY_CLOSE_ERROR", error});
+    expect(close).toHaveBeenCalledOnce();
+  });
+
   it("closes every upstream client when the application is destroyed", async () => {
     mockUpstreamServers();
 
-    const service = inject(McpGatewayService);
+    const service = inject(PlatformMcpGatewayService);
     const connection = await service.getConnection(createUpstream());
     const close = vi.spyOn(connection.client, "close");
 
