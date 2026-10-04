@@ -1,19 +1,19 @@
 import {InMemoryTransport} from "@modelcontextprotocol/client";
 import {McpServer, ResourceTemplate} from "@modelcontextprotocol/server";
 import {DITest, inject, logger} from "@tsed/di";
-import type {McpUpstreamSettings} from "../interfaces/McpUpstreamSettings.js";
+import type {PlatformMcpUpstreamSettings} from "../interfaces/PlatformMcpUpstreamSettings.js";
 import {PlatformMcpGatewayService} from "./PlatformMcpGatewayService.js";
 
 const {createUpstreamTransport} = vi.hoisted(() => ({createUpstreamTransport: vi.fn()}));
 
 vi.mock("../utils/createUpstreamTransport.js", () => ({createUpstreamTransport}));
 
-function withHeaders(upstream: McpUpstreamSettings, headers: Record<string, string>) {
-  return {...upstream, headers} as McpUpstreamSettings;
+function withHeaders(upstream: PlatformMcpUpstreamSettings, headers: Record<string, string>) {
+  return {...upstream, headers} as PlatformMcpUpstreamSettings;
 }
 
-function createUpstream(opts: Partial<McpUpstreamSettings> = {}): McpUpstreamSettings {
-  return {type: "http", url: "http://localhost/mcp", ...opts} as McpUpstreamSettings;
+function createUpstream(opts: Partial<PlatformMcpUpstreamSettings> = {}): PlatformMcpUpstreamSettings {
+  return {type: "http", url: "http://localhost/mcp", ...opts} as PlatformMcpUpstreamSettings;
 }
 
 function mockUpstreamServers() {

@@ -1,5 +1,5 @@
 import {DITest, inject, logger} from "@tsed/di";
-import type {McpUpstreamSettings} from "../interfaces/McpUpstreamSettings.js";
+import type {PlatformMcpUpstreamSettings} from "../interfaces/PlatformMcpUpstreamSettings.js";
 import {PlatformMcpGatewayService, type PlatformMcpUpstreamCatalog} from "../services/PlatformMcpGatewayService.js";
 import {attachUpstream} from "./attachUpstream.js";
 import type {CreateMcpServerOpts} from "./createMcpServer.js";
@@ -27,7 +27,7 @@ function createCatalog(catalog: Partial<PlatformMcpUpstreamCatalog> = {}): Platf
   } as PlatformMcpUpstreamCatalog;
 }
 
-function createSettings(upstream?: McpUpstreamSettings, opts: Partial<CreateMcpServerOpts> = {}): CreateMcpServerOpts {
+function createSettings(upstream?: PlatformMcpUpstreamSettings, opts: Partial<CreateMcpServerOpts> = {}): CreateMcpServerOpts {
   return {path: "/mcp/gateway", tools: [], prompts: [], resources: [], upstream, ...opts};
 }
 
@@ -50,7 +50,7 @@ function setup(catalog = createCatalog()) {
   return {client, connection, server, getConnection, getHandler};
 }
 
-const http: McpUpstreamSettings = {type: "http", url: "https://upstream.example.com/mcp"};
+const http: PlatformMcpUpstreamSettings = {type: "http", url: "https://upstream.example.com/mcp"};
 
 describe("attachUpstream()", () => {
   beforeEach(() => {
@@ -75,7 +75,7 @@ describe("attachUpstream()", () => {
 
   it("connects with the upstream interpolated for the caller", async () => {
     const {server, getConnection} = setup();
-    const upstream: McpUpstreamSettings = {...http, headers: {authorization: "Bearer ${OAUTH_TOKEN}"}};
+    const upstream: PlatformMcpUpstreamSettings = {...http, headers: {authorization: "Bearer ${OAUTH_TOKEN}"}};
 
     await attachUpstream(server as never, createSettings(upstream), authInfo);
 
@@ -105,7 +105,7 @@ describe("attachUpstream()", () => {
 
     it("applies the prefix and the filters, and calls the upstream with the original name", async () => {
       const {server, client, getHandler} = setup();
-      const upstream: McpUpstreamSettings = {...http, prefix: "up_", tools: {include: [/^e/, "delete"], exclude: ["delete"]}};
+      const upstream: PlatformMcpUpstreamSettings = {...http, prefix: "up_", tools: {include: [/^e/, "delete"], exclude: ["delete"]}};
 
       await attachUpstream(server as never, createSettings(upstream));
 
@@ -117,7 +117,7 @@ describe("attachUpstream()", () => {
     });
 
     it("matches global and sticky patterns consistently across requests", async () => {
-      const upstream: McpUpstreamSettings = {...http, tools: {include: [/^echo/g], exclude: [/^delete/y]}};
+      const upstream: PlatformMcpUpstreamSettings = {...http, tools: {include: [/^echo/g], exclude: [/^delete/y]}};
 
       for (let attempt = 0; attempt < 3; attempt++) {
         const {server} = setup();
@@ -231,7 +231,7 @@ describe("attachUpstream()", () => {
           ]
         } as never)
       );
-      const upstream: McpUpstreamSettings = {...http, resources: {exclude: ["upstream://secret", /docs/]}};
+      const upstream: PlatformMcpUpstreamSettings = {...http, resources: {exclude: ["upstream://secret", /docs/]}};
 
       await attachUpstream(server as never, createSettings(upstream, {resources: [{name: "local", uri: "tsed://local"}] as never}));
 

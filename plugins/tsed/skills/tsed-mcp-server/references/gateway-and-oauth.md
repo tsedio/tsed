@@ -56,7 +56,7 @@ auth: {
 | Key                                     | Effect                                                                                                                                       |
 | --------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------- |
 | `issuer`                                | Authorization server URL (HTTPS). Required.                                                                                                  |
-| `resource`                              | Canonical URL of the endpoint, advertised in the metadata and used as expected audience.                                                     |
+| `resource`                              | Canonical public URL of the endpoint, advertised in the metadata and the challenge, and used as expected audience. Required.                 |
 | `mode`                                  | `"offline"` (RFC 9068 JWT validated with the issuer JWKS) or `"introspection"` (RFC 7662). Defaults to introspection when `clientId` is set. |
 | `clientId`, `clientSecret`              | Credentials used to call the introspection endpoint.                                                                                         |
 | `audience`                              | Expected audience, defaults to `resource`. `false` disables the check, in introspection mode only.                                           |
@@ -75,12 +75,12 @@ Behavior:
 
 Startup errors:
 
-| Message contains                                                 | Cause                                                    |
-| ---------------------------------------------------------------- | -------------------------------------------------------- |
-| `auth.resource (or auth.audience) is required`                   | Built-in verification without `resource` nor `audience`. |
-| `introspection mode requires auth.clientId`                      | `mode: "introspection"` without client credentials.      |
-| `auth.audience cannot be disabled in offline mode`               | `audience: false` without introspection.                 |
-| `uses ${OAUTH_*} placeholders but the endpoint declares no auth` | Placeholder in `upstream` on an entry without `auth`.    |
+| Message contains                                                 | Cause                                                            |
+| ---------------------------------------------------------------- | ---------------------------------------------------------------- |
+| `auth.resource is required`                                      | `auth` without `resource`. It is never derived from the request. |
+| `introspection mode requires auth.clientId`                      | `mode: "introspection"` without client credentials.              |
+| `auth.audience cannot be disabled in offline mode`               | `audience: false` without introspection.                         |
+| `uses ${OAUTH_*} placeholders but the endpoint declares no auth` | Placeholder in `upstream` on an entry without `auth`.            |
 
 ## Forward the caller identity
 

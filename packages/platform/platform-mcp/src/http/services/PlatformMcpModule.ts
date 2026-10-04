@@ -92,7 +92,7 @@ export class PlatformMcpModule implements OnRoutesInit {
 
   protected metadata(settings: CreateMcpServerOpts, $ctx: PlatformContext) {
     const auth = settings.auth!;
-    const resource = this.platformAuthService.getResourceUrl(auth, settings.path!, $ctx);
+    const resource = this.platformAuthService.getResourceUrl(auth);
     const body = this.platformAuthService.getProtectedResourceMetadata(auth, resource);
 
     return $ctx.response
@@ -109,7 +109,7 @@ export class PlatformMcpModule implements OnRoutesInit {
     let authInfo: AuthInfo | undefined;
 
     if (settings.auth) {
-      const result = await this.platformAuthService.verifyMcpRequest(settings.auth, settings.path!, $ctx);
+      const result = await this.platformAuthService.verifyMcpRequest(settings.auth, $ctx);
 
       if (result instanceof Response) {
         return $ctx.response

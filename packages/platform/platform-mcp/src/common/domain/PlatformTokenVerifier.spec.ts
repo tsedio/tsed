@@ -1,10 +1,10 @@
 import {createServer, type Server} from "node:http";
 import type {AddressInfo} from "node:net";
 import {exportJWK, generateKeyPair, SignJWT} from "jose";
-import type {McpAuthSettings} from "../interfaces/McpAuthSettings.js";
+import type {PlatformMcpAuthSettings} from "../interfaces/PlatformMcpAuthSettings.js";
 import {PlatformTokenVerifier} from "./PlatformTokenVerifier.js";
 
-function createVerifier(auth: McpAuthSettings, resource: URL) {
+function createVerifier(auth: PlatformMcpAuthSettings, resource: URL) {
   return new PlatformTokenVerifier(auth, resource);
 }
 
@@ -32,8 +32,8 @@ describe("PlatformTokenVerifier", () => {
       .sign(key);
   }
 
-  function auth(opts: Partial<McpAuthSettings> = {}): McpAuthSettings {
-    return {issuer, allowInsecureRequests: true, ...opts};
+  function auth(opts: Partial<PlatformMcpAuthSettings> = {}): PlatformMcpAuthSettings {
+    return {issuer, resource: resource.href, allowInsecureRequests: true, ...opts};
   }
 
   beforeAll(async () => {
@@ -78,9 +78,13 @@ describe("PlatformTokenVerifier", () => {
 
   describe("getMode()", () => {
     it("defaults to offline, and to introspection when client credentials are configured", () => {
-      expect(PlatformTokenVerifier.getMode({issuer: "https://auth"})).toBe("offline");
-      expect(PlatformTokenVerifier.getMode({issuer: "https://auth", clientId: "id", clientSecret: "secret"})).toBe("introspection");
-      expect(PlatformTokenVerifier.getMode({issuer: "https://auth", clientId: "id", mode: "offline"})).toBe("offline");
+      expect(PlatformTokenVerifier.getMode({issuer: "https://auth", resource: "https://api"})).toBe("offline");
+      expect(PlatformTokenVerifier.getMode({issuer: "https://auth", resource: "https://api", clientId: "id", clientSecret: "secret"})).toBe(
+        "introspection"
+      );
+      expect(PlatformTokenVerifier.getMode({issuer: "https://auth", resource: "https://api", clientId: "id", mode: "offline"})).toBe(
+        "offline"
+      );
     });
   });
 

@@ -4,7 +4,7 @@ import {isFunction} from "@tsed/core";
 import {inject} from "@tsed/di";
 import {PlatformInvalidToken} from "../errors/PlatformInvalidToken.js";
 import {PlatformServerError} from "../errors/PlatformServerError.js";
-import type {McpAuthSettings} from "../interfaces/McpAuthSettings.js";
+import type {PlatformMcpAuthSettings} from "../interfaces/PlatformMcpAuthSettings.js";
 
 const DEFAULT_CACHE_TTL = 60;
 const MAX_CACHE_SIZE = 1000;
@@ -55,7 +55,7 @@ export class PlatformTokenVerifier implements OAuthTokenVerifier {
    * @param resource Canonical URL of the endpoint, used as the expected audience unless `auth.audience` is set.
    */
   constructor(
-    protected auth: McpAuthSettings,
+    protected auth: PlatformMcpAuthSettings,
     protected resource: URL
   ) {
     this.audience = auth.audience ?? resource.href;
@@ -65,7 +65,7 @@ export class PlatformTokenVerifier implements OAuthTokenVerifier {
   /**
    * Verification mode of an endpoint: explicit `mode`, else introspection when client credentials are configured.
    */
-  static getMode(auth: McpAuthSettings): "offline" | "introspection" {
+  static getMode(auth: PlatformMcpAuthSettings): "offline" | "introspection" {
     return auth.mode || (auth.clientId ? "introspection" : "offline");
   }
 

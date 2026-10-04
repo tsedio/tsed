@@ -1,7 +1,7 @@
 import {createHash} from "node:crypto";
 import type {Client, Prompt, Resource, ResourceTemplateType, Tool} from "@modelcontextprotocol/client";
 import {constant, injectable, logger, type OnDestroy} from "@tsed/di";
-import type {McpUpstreamSettings} from "../interfaces/McpUpstreamSettings.js";
+import type {PlatformMcpUpstreamSettings} from "../interfaces/PlatformMcpUpstreamSettings.js";
 import {createUpstreamTransport} from "../utils/createUpstreamTransport.js";
 import {listAll} from "../utils/listAll.js";
 
@@ -54,7 +54,7 @@ interface PoolEntry {
  * @module platform/mcp
  */
 export class PlatformMcpGatewayService implements OnDestroy {
-  protected pools = new Map<McpUpstreamSettings, Map<string, PoolEntry>>();
+  protected pools = new Map<PlatformMcpUpstreamSettings, Map<string, PoolEntry>>();
 
   /**
    * Returns the connection matching the resolved upstream definition, connecting lazily.
@@ -62,7 +62,10 @@ export class PlatformMcpGatewayService implements OnDestroy {
    * @param upstream Upstream declared in the configuration, identifying the pool.
    * @param resolved Same definition with its placeholders interpolated for the caller.
    */
-  getConnection(upstream: McpUpstreamSettings, resolved: McpUpstreamSettings = upstream): Promise<PlatformMcpUpstreamConnection> {
+  getConnection(
+    upstream: PlatformMcpUpstreamSettings,
+    resolved: PlatformMcpUpstreamSettings = upstream
+  ): Promise<PlatformMcpUpstreamConnection> {
     const pool = this.getPool(upstream);
     const key = this.getKey(resolved);
     const now = Date.now();
@@ -102,7 +105,7 @@ export class PlatformMcpGatewayService implements OnDestroy {
     await Promise.all(entries.map((entry) => this.close(entry)));
   }
 
-  protected async connect(upstream: McpUpstreamSettings, entry: PoolEntry): Promise<PlatformMcpUpstreamConnection> {
+  protected async connect(upstream: PlatformMcpUpstreamSettings, entry: PoolEntry): Promise<PlatformMcpUpstreamConnection> {
     const {Client} = await import("@modelcontextprotocol/client");
     const transport = await createUpstreamTransport(upstream);
     let catalog: Promise<PlatformMcpUpstreamCatalog> | undefined;
@@ -179,7 +182,7 @@ export class PlatformMcpGatewayService implements OnDestroy {
     return {tools, resources, resourceTemplates, prompts};
   }
 
-  protected getPool(upstream: McpUpstreamSettings) {
+  protected getPool(upstream: PlatformMcpUpstreamSettings) {
     let pool = this.pools.get(upstream);
 
     if (!pool) {
@@ -190,7 +193,7 @@ export class PlatformMcpGatewayService implements OnDestroy {
     return pool;
   }
 
-  protected getKey(upstream: McpUpstreamSettings) {
+  protected getKey(upstream: PlatformMcpUpstreamSettings) {
     const values = upstream.type === "stdio" ? [upstream.args, upstream.env] : [upstream.headers];
 
     return createHash("sha256").update(JSON.stringify(values)).digest("hex");
@@ -200,7 +203,7 @@ export class PlatformMcpGatewayService implements OnDestroy {
    * Closes idle connections, then the least recently used ones while the pool is full.
    * Connections serving a request and the requested one are kept, so the pool can temporarily exceed `max`.
    */
-  protected evict(upstream: McpUpstreamSettings, pool: Map<string, PoolEntry>, current: PoolEntry, now: number) {
+  protected evict(upstream: PlatformMcpUpstreamSettings, pool: Map<string, PoolEntry>, current: PoolEntry, now: number) {
     const {max = DEFAULT_POOL_MAX, idleTimeout = DEFAULT_IDLE_TIMEOUT} = upstream.pool || {};
 
     if (pool.size <= 1) {

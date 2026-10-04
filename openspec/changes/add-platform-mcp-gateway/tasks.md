@@ -1,7 +1,7 @@
 ## 1. Settings and dependencies
 
 - [x] 1.1 Add `@modelcontextprotocol/client` and `oauth4webapi` to `packages/platform/platform-mcp/package.json` and run `yarn install`
-- [x] 1.2 Add `McpUpstreamSettings` (http/sse/stdio union, prefix, filters, pool) and `McpAuthSettings` (issuer, mode, clientId, clientSecret, audience, verifier, resource, scopes, resourceName, resourceDocumentation) interfaces under `src/common/interfaces/`
+- [x] 1.2 Add `PlatformMcpUpstreamSettings` (http/sse/stdio union, prefix, filters, pool) and `PlatformMcpAuthSettings` (issuer, mode, clientId, clientSecret, audience, verifier, resource, scopes, resourceName, resourceDocumentation) interfaces under `src/common/interfaces/`
 - [x] 1.3 Extend `PlatformMcpSettings` with `upstream?` and `auth?`, with TSDoc
 
 ## 2. Endpoint OAuth (`mcp-endpoint-auth`)

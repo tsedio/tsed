@@ -710,8 +710,9 @@ export const whoAmI = defineTool({
 `authInfo.extra` holds the token claims (JWT payload or introspection response).
 
 ::: warning
-`auth.resource` defaults to the URL derived from the incoming request. Set it explicitly when the application runs
-behind a proxy that rewrites the host or the path, otherwise clients will not find the metadata document.
+`auth.resource` is required: it is the public URL of the MCP endpoint, as clients reach it. It is advertised in the
+metadata and in the `401` challenge, and is the expected audience of access tokens. It is never derived from the
+incoming request, whose `Host` header is controlled by the caller. Behind a proxy, use the external URL.
 :::
 
 ### Verify access tokens
@@ -739,15 +740,15 @@ auth: {
 }
 ```
 
-| Option                     | Description                                                                                                                                                                       |
-| -------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `mode`                     | `"offline"` or `"introspection"`. Defaults to `introspection` when `clientId` is set, `offline` otherwise.                                                                        |
-| `clientId`, `clientSecret` | Credentials of the MCP endpoint on the authorization server. Required by the introspection mode.                                                                                  |
-| `audience`                 | Expected audience of the tokens. Defaults to `resource`. One of `resource` or `audience` is required by the built-in modes. `false` disables the check (introspection mode only). |
-| `jwksUri`                  | JWKS URL for the offline mode. Discovered from the issuer metadata by default.                                                                                                    |
-| `introspectionEndpoint`    | Introspection URL. Discovered from the issuer metadata by default.                                                                                                                |
-| `cacheTtl`                 | Seconds an introspection result is reused. Defaults to `60`; `0` disables the cache.                                                                                              |
-| `allowInsecureRequests`    | Allow a non-HTTPS issuer. For local development only.                                                                                                                             |
+| Option                     | Description                                                                                                    |
+| -------------------------- | -------------------------------------------------------------------------------------------------------------- |
+| `mode`                     | `"offline"` or `"introspection"`. Defaults to `introspection` when `clientId` is set, `offline` otherwise.     |
+| `clientId`, `clientSecret` | Credentials of the MCP endpoint on the authorization server. Required by the introspection mode.               |
+| `audience`                 | Expected audience of the tokens. Defaults to `resource`. `false` disables the check (introspection mode only). |
+| `jwksUri`                  | JWKS URL for the offline mode. Discovered from the issuer metadata by default.                                 |
+| `introspectionEndpoint`    | Introspection URL. Discovered from the issuer metadata by default.                                             |
+| `cacheTtl`                 | Seconds an introspection result is reused. Defaults to `60`; `0` disables the cache.                           |
+| `allowInsecureRequests`    | Allow a non-HTTPS issuer. For local development only.                                                          |
 
 Both modes rely on [`oauth4webapi`](https://github.com/panva/oauth4webapi). The JWKS and introspection endpoints are discovered from `<issuer>/.well-known/openid-configuration` (then
 `/.well-known/oauth-authorization-server`).
