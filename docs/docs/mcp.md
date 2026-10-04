@@ -13,7 +13,9 @@ head:
 
 `@tsed/platform-mcp` brings [Model Context Protocol](https://modelcontextprotocol.io) support to every Ts.ED HTTP
 adapter. The module exposes a configurable `/mcp` endpoint, lets you register tools/resources/prompts through DI-aware
-helpers or decorators, and reuses the same MCP primitives that power the CLI integration.
+helpers or decorators, and reuses the same MCP primitives that power the CLI integration. An endpoint can also act as a
+[gateway](#gateway-expose-a-third-party-mcp-server) for a third-party MCP server and be
+[protected with OAuth](#protect-an-endpoint-with-oauth).
 
 ::: tip Need a standalone MCP server?
 Import [`@tsed/platform-mcp/cli`](#run-an-mcp-server-from-a-cli) to run the same tools, resources, and prompts over
@@ -541,7 +543,7 @@ All Ts.ED adapters (Express, Fastify, Koa) forward `POST <path>` requests to
 `@modelcontextprotocol/server`, so any MCP-capable client (Claude Desktop, etc.) can talk with your server regardless
 of the underlying framework.
 
-## Gateway: expose a third-party MCP server
+## Gateway: expose a third-party MCP server <Badge text="v8.42.0+" />
 
 An MCP endpoint can act as a gateway for a third-party MCP server. Declare it under `upstream`: Ts.ED connects to it
 with the MCP client, discovers its tools, resources and prompts, and serves them on the endpoint over Streamable HTTP,
@@ -597,49 +599,115 @@ Behavior to keep in mind:
 - The CLI exposes the upstream in `streamable-http` mode only. It is ignored in `stdio` mode, and `${OAUTH_*}`
   placeholders are rejected because the CLI endpoint is not protected by OAuth.
 
-## Protect an endpoint with OAuth
+## Protect an endpoint with OAuth <Badge text="v8.42.0+" />
 
-Add an `auth` block to an MCP configuration to protect it with your authorization server (for example an OIDC provider
-built with `@tsed/oidc-provider`). Ts.ED acts as an OAuth resource server only: client registration (including Client ID
-Metadata Documents), authorization and consent are handled by the authorization server.
+Add an `auth` block to an MCP configuration to protect it with an OAuth 2.1 / OpenID Connect authorization server
+(Keycloak, Auth0, Okta, Microsoft Entra ID, or any other compliant server). Ts.ED acts as an OAuth resource server only:
+client registration (including Client ID Metadata Documents), authorization and consent are handled by the
+authorization server.
+
+`auth` is independent of `upstream`: it protects any MCP endpoint, whether it serves local tools, an upstream, or both.
 
 ```typescript [src/Server.ts]
 import {Configuration} from "@tsed/di";
 import "@tsed/platform-express";
 import "@tsed/platform-mcp";
+import {OrdersTool} from "./tools/OrdersTool.js";
 
 @Configuration({
-  mcp: [
-    {
-      path: "/mcp/directus",
-      auth: {
-        issuer: "https://auth.example.com",
-        resource: "https://api.example.com/mcp/directus",
-        scopesSupported: ["mcp:read", "mcp:write"],
-        requiredScopes: ["mcp:read"],
-        resourceName: "Directus MCP"
-      },
-      upstream: {
-        type: "http",
-        url: "https://directus.example.com/mcp",
-        headers: {Authorization: "Bearer ${OAUTH_TOKEN}"}
-      }
+  mcp: {
+    path: "/mcp",
+    tools: [OrdersTool],
+    auth: {
+      // URL of the OIDC server, as published in its discovery document
+      issuer: "https://auth.example.com",
+      // public URL of this MCP endpoint
+      resource: "https://api.example.com/mcp",
+      scopesSupported: ["mcp:read", "mcp:write"],
+      requiredScopes: ["mcp:read"],
+      resourceName: "Orders MCP"
     }
-  ]
+  }
 })
 export class Server {}
 ```
 
+### What the authorization server must provide
+
+The configuration above works with any server that:
+
+- publishes its metadata on `<issuer>/.well-known/openid-configuration` (or `/.well-known/oauth-authorization-server`),
+  over HTTPS, with an `issuer` value identical to `auth.issuer`;
+- lets MCP clients register, through Client ID Metadata Documents or Dynamic Client Registration;
+- issues access tokens bound to the MCP endpoint: when the client sends `resource=https://api.example.com/mcp`
+  ([RFC 8707](https://datatracker.ietf.org/doc/html/rfc8707)), the token `aud` must contain that URL;
+- for the offline mode, issues JWT access tokens ([RFC 9068](https://datatracker.ietf.org/doc/html/rfc9068)) and exposes
+  a `jwks_uri`; for the introspection mode, exposes an `introspection_endpoint` and a confidential client for the
+  endpoint (see [Verify access tokens](#verify-access-tokens)).
+
+### Check the setup
+
+```bash
+# 1. the endpoint challenges unauthenticated calls and points to its metadata
+curl -i -X POST https://api.example.com/mcp \
+  -H "Content-Type: application/json" -H "Accept: application/json, text/event-stream" \
+  -d '{"jsonrpc":"2.0","id":1,"method":"tools/list","params":{}}'
+# HTTP/1.1 401 Unauthorized
+# WWW-Authenticate: Bearer error="invalid_token", ..., resource_metadata="https://api.example.com/.well-known/oauth-protected-resource/mcp"
+
+# 2. the metadata names the authorization server
+curl https://api.example.com/.well-known/oauth-protected-resource/mcp
+# {"resource":"https://api.example.com/mcp","authorization_servers":["https://auth.example.com"],...}
+
+# 3. a token issued by the authorization server for this resource is accepted
+curl -X POST https://api.example.com/mcp \
+  -H "Authorization: Bearer $ACCESS_TOKEN" \
+  -H "Content-Type: application/json" -H "Accept: application/json, text/event-stream" \
+  -d '{"jsonrpc":"2.0","id":1,"method":"tools/list","params":{}}'
+```
+
+An MCP client performs steps 1 and 2 by itself, then runs the authorization flow against the authorization server and
+retries with the token.
+
 For each protected endpoint, Ts.ED:
 
 - serves the [RFC 9728](https://datatracker.ietf.org/doc/html/rfc9728) protected resource metadata on
-  `GET /.well-known/oauth-protected-resource<path>` (here `/.well-known/oauth-protected-resource/mcp/directus`), listing
+  `GET /.well-known/oauth-protected-resource<path>` (here `/.well-known/oauth-protected-resource/mcp`), listing
   `auth.issuer` as the authorization server;
 - answers requests without a valid bearer token with `401` and a `WWW-Authenticate: Bearer resource_metadata="..."`
   challenge, and tokens lacking a required scope with `403 insufficient_scope`;
 - exposes the verified identity to tool, resource and prompt handlers through `ctx.http.authInfo`.
 
 Each entry of `mcp` has its own `auth` block, so different endpoints can rely on different authorization servers.
+
+| Status | Meaning                                                                                             |
+| ------ | --------------------------------------------------------------------------------------------------- |
+| `401`  | Missing, expired or invalid token. The client must (re)authorize.                                   |
+| `403`  | Valid token without one of `requiredScopes`.                                                        |
+| `500`  | The authorization server (metadata, JWKS or introspection) could not be reached. Not a token issue. |
+
+### Read the caller identity in a handler
+
+The verified identity is available on the SDK context received by tool, resource and prompt handlers:
+
+```typescript
+import type {ServerContext} from "@modelcontextprotocol/server";
+import {defineTool} from "@tsed/platform-mcp";
+import {s} from "@tsed/schema";
+
+export const whoAmI = defineTool({
+  name: "who-am-i",
+  description: "Returns the identity of the caller",
+  inputSchema: s.object({}),
+  handler(_args: unknown, ctx: ServerContext) {
+    const authInfo = ctx.http?.authInfo;
+
+    return {clientId: authInfo?.clientId, scopes: authInfo?.scopes, subject: authInfo?.extra?.sub};
+  }
+});
+```
+
+`authInfo.extra` holds the token claims (JWT payload or introspection response).
 
 ::: warning
 `auth.resource` defaults to the URL derived from the incoming request. Set it explicitly when the application runs

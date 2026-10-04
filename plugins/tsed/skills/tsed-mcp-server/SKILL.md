@@ -1,13 +1,13 @@
 ---
 name: tsed-mcp-server
-description: Expose Model Context Protocol (MCP) tools, resources and prompts from a Ts.ED v8 application with @tsed/platform-mcp, over the application's HTTP endpoint or as a standalone stdio / Streamable HTTP server. Use when adding @tsed/platform-mcp, the `mcp` configuration, @Tool, @Resource, @Prompt, defineTool, defineResource, definePrompt or mcpServerConnect, when a tool is missing from tools/list, when a client receives E_MCP_TOOL_ERROR or another E_MCP_* payload, or when registering the server in Claude Code (.mcp.json) or Codex (config.toml). Not for the Ts.ED CLI's own MCP server (see tsed-cli).
+description: Expose Model Context Protocol (MCP) tools, resources and prompts from a Ts.ED v8 application with @tsed/platform-mcp, over the application's HTTP endpoint or as a standalone stdio / Streamable HTTP server. Use when adding @tsed/platform-mcp, the `mcp` configuration, @Tool, @Resource, @Prompt, defineTool, defineResource, definePrompt or mcpServerConnect, when a tool is missing from tools/list, when a client receives E_MCP_TOOL_ERROR or another E_MCP_* payload, or when registering the server in Claude Code (.mcp.json) or Codex (config.toml), when proxying a third-party MCP server with the `upstream` option (gateway over http, sse or stdio), or when protecting the endpoint with OAuth through the `auth` option (401 challenge, protected resource metadata, token introspection, ${OAUTH_TOKEN} forwarding). Not for the Ts.ED CLI's own MCP server (see tsed-cli).
 ---
 
 # Ts.ED MCP Server
 
 `@tsed/platform-mcp` turns Ts.ED providers into MCP tools, resources and prompts. Handlers run inside the Ts.ED injector, so they reuse the application's services.
 
-Read [the API reference](references/api.md) for option tables, resources, prompts and error payloads, and [the standalone and clients reference](references/standalone-and-clients.md) for stdio servers and client registration. This skill is about the MCP server your application exposes; the MCP server shipped by the Ts.ED CLI belongs to the sibling skill `tsed-cli`.
+Read [the API reference](references/api.md) for option tables, resources, prompts and error payloads, and [the standalone and clients reference](references/standalone-and-clients.md) for stdio servers and client registration, and [the gateway and OAuth reference](references/gateway-and-oauth.md) for proxying a third-party MCP server and protecting the endpoint. This skill is about the MCP server your application exposes; the MCP server shipped by the Ts.ED CLI belongs to the sibling skill `tsed-cli`.
 
 ## 1. Install and mount the endpoint
 
@@ -132,12 +132,28 @@ A failing handler resolves with `result.isError === true`; it does not reject. F
 
 Add the HTTP endpoint (`{"type": "http", "url": "http://localhost:8083/mcp"}`) or the stdio command to `.mcp.json` under `mcpServers` for Claude Code, or to a `[mcp_servers.<name>]` table in Codex `config.toml`. Exact snippets are in [the reference](references/standalone-and-clients.md#register-in-clients).
 
+## 9. Proxy a third-party MCP server and protect the endpoint
+
+Add `upstream` to an `mcp` entry to serve a third-party MCP server (Streamable HTTP, SSE, or a stdio process such as an `npx` server) through the Ts.ED endpoint, and `auth` to protect the entry with an OAuth authorization server. Forward the caller's token with the `${OAUTH_TOKEN}` placeholder in the upstream `headers`, or `args`/`env` for stdio. Option tables and startup errors are in [the reference](references/gateway-and-oauth.md).
+
+```typescript
+mcp: [
+  {
+    path: "/mcp/directus",
+    auth: {issuer: "https://auth.example.com", resource: "https://api.example.com/mcp/directus", requiredScopes: ["mcp:read"]},
+    upstream: {type: "http", url: "https://directus.example.com/mcp", headers: {Authorization: "Bearer ${OAUTH_TOKEN}"}}
+  }
+];
+```
+
 ## Do not
 
 - Do not expect `@Tool`, `@Resource` or `@Prompt` to auto-register; list the class in the `mcp` configuration.
 - Do not reuse a tool, resource or prompt name: the DI token is derived from the name (`MCP:TOOL:<name>`), so two definitions collide.
 - Do not write to stdout in a stdio server, including from child processes and third-party loggers.
-- Do not leave the HTTP endpoint unauthenticated: tools run with the application's privileges. Guard the path with a middleware (sibling skill `tsed-middlewares`).
+- Do not leave the HTTP endpoint unauthenticated: tools run with the application's privileges. Use the `auth` option, or guard the path with a middleware (sibling skill `tsed-middlewares`).
+- Do not write `${OAUTH_TOKEN}` inside a template literal (backticks): it is a plain-string placeholder resolved per request, not a JavaScript interpolation.
+- Do not declare several upstreams in one `mcp` entry; use one entry per upstream.
 - Do not import from `@tsed/common` or from `@modelcontextprotocol/sdk`; the package uses `@modelcontextprotocol/server` and `@modelcontextprotocol/node`.
 
 ## Pitfalls
@@ -146,6 +162,9 @@ Add the HTTP endpoint (`{"type": "http", "url": "http://localhost:8083/mcp"}`) o
 - Empty input schema: the parameter type is an interface, or its properties have no `@tsed/schema` decorator.
 - A class-based `@Prompt` gets no arguments schema from its parameter; pass `argsSchema` in the decorator options.
 - Only `POST <path>` is mounted and the transport is stateless with JSON responses. Clients that require sessions or a `GET` event stream are not served by the HTTP module.
+- `401` on every call in introspection mode: the authorization server does not return `aud` for the endpoint `resource`. Configure resource indicators on the authorization server, or set `audience: false`.
+- Offline mode rejects valid-looking JWTs: the token is not an RFC 9068 access token (`typ: at+jwt` with `iss`, `exp`, `aud`, `sub`, `iat`, `jti`, `client_id`). Use introspection or a custom `verifier`.
+- Upstream tools missing from `tools/list`: the upstream is unreachable (see the `MCP_GATEWAY_UPSTREAM_ERROR` log) or a local tool has the same name (`MCP_GATEWAY_COLLISION`).
 - In a standalone script, `mcpServerConnect("stdio")` fails with `logger(...).stop is not a function` unless a `@tsed/logger` instance is attached to the injector (`attachLogger($log)`).
 
 ## Checklist
