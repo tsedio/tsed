@@ -276,6 +276,17 @@ describe("PlatformTokenVerifier", () => {
       expect(requests.filter(({url}) => url === "/introspect")).toHaveLength(1);
     });
 
+    it("caches a response without expiration for the whole ttl", async () => {
+      introspection = {...introspection, exp: undefined};
+
+      const verifier = createVerifier(auth(credentials), resource);
+
+      await verifier.verifyAccessToken("opaque");
+      await verifier.verifyAccessToken("opaque");
+
+      expect(requests.filter(({url}) => url === "/introspect")).toHaveLength(1);
+    });
+
     it("does not cache when cacheTtl is 0", async () => {
       const settings = auth({...credentials, cacheTtl: 0});
 

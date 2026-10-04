@@ -207,6 +207,32 @@ describe("PlatformMcpGatewayService", () => {
     expect(close).toHaveBeenCalledOnce();
   });
 
+  it("keeps the requested connection tracked when the pool is full of busy connections", async () => {
+    vi.useFakeTimers();
+    mockUpstreamServers();
+
+    const service = inject(PlatformMcpGatewayService);
+    const upstream = createUpstream({pool: {max: 1}});
+    const busy = await service.getConnection(upstream, withHeaders(upstream, {authorization: "Bearer a"}));
+    let release!: () => void;
+    const pending = busy.run(() => new Promise<void>((resolve) => (release = resolve)));
+
+    vi.advanceTimersByTime(10);
+
+    const added = await service.getConnection(upstream, withHeaders(upstream, {authorization: "Bearer b"}));
+    const close = vi.spyOn(added.client, "close");
+
+    // the pool temporarily exceeds `max`: the new connection is reused and closed with the application
+    expect(await service.getConnection(upstream, withHeaders(upstream, {authorization: "Bearer b"}))).toBe(added);
+    expect(createUpstreamTransport).toHaveBeenCalledTimes(2);
+
+    release();
+    await pending;
+    await service.$onDestroy();
+
+    expect(close).toHaveBeenCalledOnce();
+  });
+
   it("closes idle connections", async () => {
     vi.useFakeTimers();
     mockUpstreamServers();

@@ -110,7 +110,8 @@ export class PlatformTokenVerifier implements OAuthTokenVerifier {
         this.cache.delete(this.cache.keys().next().value!);
       }
 
-      this.cache.set(key, {authInfo, until: Math.min(now + ttl, (authInfo.expiresAt || 0) * 1000)});
+      // RFC 7662 responses may omit `exp`: the result is then cached for the whole ttl
+      this.cache.set(key, {authInfo, until: authInfo.expiresAt ? Math.min(now + ttl, authInfo.expiresAt * 1000) : now + ttl});
     }
 
     return authInfo;
