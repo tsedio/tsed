@@ -194,6 +194,37 @@ describe("PlatformMcpModule", () => {
       expect(application().post).toHaveBeenCalledOnce();
     });
 
+    it("fails when auth declares neither an issuer nor a custom check", async () => {
+      const {module} = await createModule();
+      module["settings"] = {auth: {} as PlatformMcpAuthSettings};
+      vi.spyOn(application(), "post").mockReturnValue(undefined as never);
+
+      expect(() => module.$onRoutesInit()).toThrow("auth requires an issuer, a preAuth check, or both");
+    });
+
+    it("mounts an endpoint only protected by a custom check without OAuth metadata route", async () => {
+      const {module} = await createModule();
+      module["settings"] = {path: "/mcp/a", auth: {preAuth: vi.fn()}};
+      vi.spyOn(application(), "post").mockReturnValue(undefined as never);
+      vi.spyOn(application(), "get").mockReturnValue(undefined as never);
+
+      module.$onRoutesInit();
+
+      expect(application().get).not.toHaveBeenCalled();
+      expect(module.$logRoutes([])).toEqual([{method: "POST", name: "PlatformMcpModule.dispatch()", url: "/mcp/a"}]);
+    });
+
+    it("accepts upstream placeholders on an endpoint only protected by a custom check", async () => {
+      const {module} = await createModule();
+      module["settings"] = {
+        auth: {preAuth: vi.fn()},
+        upstream: {type: "http", url: "http://localhost/mcp", headers: {authorization: "Bearer ${OAUTH_TOKEN}"}}
+      };
+      vi.spyOn(application(), "post").mockReturnValue(undefined as never);
+
+      expect(() => module.$onRoutesInit()).not.toThrow();
+    });
+
     it("registers the protected resource metadata route of protected endpoints", async () => {
       const {module} = await createModule();
       module["settings"] = {

@@ -73,11 +73,29 @@ Behavior:
 - Missing or invalid token: `401` with `WWW-Authenticate: Bearer resource_metadata="..."`. Missing scope: `403 insufficient_scope`. Authorization server unreachable: `500 server_error`.
 - Handlers read the caller from the SDK context: `ctx.http?.authInfo` (`token`, `clientId`, `scopes`, `expiresAt`, `extra` = token claims).
 
+### Custom check (`auth.preAuth`)
+
+`auth.preAuth` runs before the OAuth verification: a function `($ctx) => AuthInfo | undefined`, or an injectable class implementing `PlatformMcpPreAuth` (`preAuth($ctx)`). Available from v8.43.0.
+
+| The check             | Result                                                                                        |
+| --------------------- | --------------------------------------------------------------------------------------------- |
+| returns an `AuthInfo` | Request authenticated, OAuth skipped, identity exposed to handlers and upstream placeholders. |
+| returns `undefined`   | Falls through to OAuth when `issuer` is set; `401` otherwise.                                 |
+| throws                | Request rejected with the thrown Ts.ED exception.                                             |
+
+```typescript
+auth: {preAuth: ApiKeyPreAuth}                                   // custom check only
+auth: {issuer, resource, preAuth: ApiKeyPreAuth}                 // API key or OAuth on the same endpoint
+```
+
+With `preAuth` alone, `issuer` and `resource` are not required and no OAuth metadata route is mounted.
+
 Startup errors:
 
 | Message contains                                                 | Cause                                                            |
 | ---------------------------------------------------------------- | ---------------------------------------------------------------- |
 | `auth.resource is required`                                      | `auth` without `resource`. It is never derived from the request. |
+| `auth requires an issuer, a preAuth check, or both`              | `auth` declares neither OAuth settings nor `preAuth`.            |
 | `introspection mode requires auth.clientId`                      | `mode: "introspection"` without client credentials.              |
 | `auth.audience cannot be disabled in offline mode`               | `audience: false` without introspection.                         |
 | `uses ${OAUTH_*} placeholders but the endpoint declares no auth` | Placeholder in `upstream` on an entry without `auth`.            |

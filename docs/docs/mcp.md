@@ -781,6 +781,75 @@ export class SessionTokenVerifier implements OAuthTokenVerifier {
 }
 ```
 
+### Custom authentication check <Badge text="v8.43.0+" />
+
+`auth.preAuth` runs a custom check before the OAuth verification, for instance an API key. It receives the request
+context and tells Ts.ED what to do with the request:
+
+| The check…            | Result                                                                                                   |
+| --------------------- | -------------------------------------------------------------------------------------------------------- |
+| returns an `AuthInfo` | The request is authenticated. The OAuth verification is skipped and handlers read the identity as usual. |
+| returns `undefined`   | The check does not apply. The OAuth verification runs if `issuer` is configured; otherwise `401`.        |
+| throws                | The request is rejected with the thrown error, rendered by Ts.ED like any other exception.               |
+
+`preAuth` is a function, or an injectable class implementing `PlatformMcpPreAuth`:
+
+```typescript [src/auth/ApiKeyPreAuth.ts]
+import type {AuthInfo} from "@modelcontextprotocol/server";
+import {inject, Injectable} from "@tsed/di";
+import {Unauthorized} from "@tsed/exceptions";
+import type {PlatformContext} from "@tsed/platform-http";
+import type {PlatformMcpPreAuth} from "@tsed/platform-mcp";
+import {ApiKeysService} from "../services/ApiKeysService.js";
+
+@Injectable()
+export class ApiKeyPreAuth implements PlatformMcpPreAuth {
+  private apiKeys = inject(ApiKeysService);
+
+  async preAuth($ctx: PlatformContext): Promise<AuthInfo | undefined> {
+    const apiKey = $ctx.request.headers["x-api-key"] as string | undefined;
+
+    if (!apiKey) {
+      // no API key: let the OAuth verification handle the request
+      return undefined;
+    }
+
+    const client = await this.apiKeys.find(apiKey);
+
+    if (!client) {
+      throw new Unauthorized("Unknown API key");
+    }
+
+    return {token: apiKey, clientId: client.id, scopes: client.scopes};
+  }
+}
+```
+
+Use it alone to protect an endpoint without OAuth, or next to an issuer to accept both methods on the same endpoint:
+
+```typescript
+@Configuration({
+  mcp: [
+    // API key only
+    {path: "/mcp", tools: [OrdersTool], auth: {preAuth: ApiKeyPreAuth}},
+    // API key or OAuth
+    {
+      path: "/mcp/partners",
+      tools: [OrdersTool],
+      auth: {
+        issuer: "https://auth.example.com",
+        resource: "https://api.example.com/mcp/partners",
+        preAuth: ApiKeyPreAuth
+      }
+    }
+  ]
+})
+export class Server {}
+```
+
+Without `issuer`, no protected resource metadata is served and no `WWW-Authenticate` challenge is sent. The `token`,
+`clientId` and `scopes` returned by the check also feed the `${OAUTH_*}` placeholders of the upstream.
+
 ### Forward the caller identity to the upstream
 
 The caller's token is never sent to the upstream implicitly. Reference it with a placeholder where the upstream expects

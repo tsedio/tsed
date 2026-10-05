@@ -6,10 +6,15 @@ import {
   getOAuthProtectedResourceMetadataUrl,
   verifyBearerToken
 } from "@modelcontextprotocol/server";
-import {injectable, logger} from "@tsed/di";
+import {inject, injectable, injector, logger, type TokenProvider} from "@tsed/di";
 import type {PlatformContext} from "@tsed/platform-http";
-import type {PlatformMcpAuthSettings} from "../../common/interfaces/PlatformMcpAuthSettings.js";
-import {PlatformTokenVerifier} from "../../common/domain/PlatformTokenVerifier.js";
+import type {
+  PlatformMcpAuthSettings,
+  PlatformMcpPreAuth,
+  PlatformMcpPreAuthOption,
+  PlatformMcpPreAuthSettings
+} from "../../common/index.js";
+import {PlatformTokenVerifier} from "../../common/index.js";
 
 export const PROTECTED_RESOURCE_METADATA_PATH = "/.well-known/oauth-protected-resource";
 
@@ -21,6 +26,29 @@ export const PROTECTED_RESOURCE_METADATA_PATH = "/.well-known/oauth-protected-re
  */
 export class PlatformMcpAuthService {
   protected verifiers = new WeakMap<PlatformMcpAuthSettings, PlatformTokenVerifier>();
+
+  /**
+   * Tells whether the endpoint is protected by an OAuth authorization server, and not only by a custom check.
+   */
+  isOAuth(auth?: PlatformMcpAuthSettings | PlatformMcpPreAuthSettings): auth is PlatformMcpAuthSettings {
+    return Boolean((auth as PlatformMcpAuthSettings)?.issuer);
+  }
+
+  /**
+   * Runs the custom authentication check of an endpoint.
+   *
+   * @returns The identity of the caller, or `undefined` when the check does not apply to the request.
+   */
+  async preAuth(preAuth: PlatformMcpPreAuthOption, $ctx: PlatformContext): Promise<AuthInfo | undefined> {
+    if (!injector().providers.has(preAuth)) {
+      // not a registered provider: the option is the check itself
+      return (preAuth as ($ctx: PlatformContext) => AuthInfo | undefined)($ctx);
+    }
+
+    const instance = inject(preAuth as TokenProvider<PlatformMcpPreAuth>);
+
+    return instance.preAuth($ctx);
+  }
 
   /**
    * Returns the token verifier of an endpoint, created once per `auth` configuration.

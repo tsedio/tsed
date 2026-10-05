@@ -2,6 +2,7 @@ import type {Implementation, ServerOptions} from "@modelcontextprotocol/server";
 import type {StreamableHTTPServerTransportOptions} from "@modelcontextprotocol/node";
 import type {TokenProvider} from "@tsed/di";
 import type {PlatformMcpAuthSettings} from "./PlatformMcpAuthSettings.js";
+import type {PlatformMcpPreAuthSettings} from "./PlatformMcpPreAuth.js";
 import type {PlatformMcpUpstreamSettings} from "./PlatformMcpUpstreamSettings.js";
 
 /**
@@ -62,9 +63,10 @@ export interface PlatformMcpSettings {
    */
   upstream?: PlatformMcpUpstreamSettings;
   /**
-   * Protect the HTTP endpoint with an OAuth authorization server.
+   * Protect the HTTP endpoint: with an OAuth authorization server (`issuer`, `resource`, ...), with a custom
+   * check (`preAuth`), or with both.
    */
-  auth?: PlatformMcpAuthSettings;
+  auth?: PlatformMcpAuthSettings | PlatformMcpPreAuthSettings;
 }
 
 declare global {

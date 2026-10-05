@@ -12,6 +12,7 @@ export * from "./fn/definePrompt.js";
 export * from "./fn/defineResource.js";
 export * from "./fn/defineTool.js";
 export * from "./interfaces/PlatformMcpAuthSettings.js";
+export * from "./interfaces/PlatformMcpPreAuth.js";
 export * from "./interfaces/PlatformMcpSettings.js";
 export * from "./interfaces/PlatformMcpUpstreamSettings.js";
 export * from "./services/PlatformMcpGatewayService.js";

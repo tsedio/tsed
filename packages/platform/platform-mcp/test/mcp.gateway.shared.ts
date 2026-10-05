@@ -1,5 +1,7 @@
 import {join} from "node:path";
 import type {AuthInfo, ServerContext} from "@modelcontextprotocol/server";
+import {Unauthorized} from "@tsed/exceptions";
+import type {PlatformContext} from "@tsed/platform-http";
 import {s} from "@tsed/schema";
 import {defineTool} from "../src/common/index.js";
 import {PlatformTest} from "@tsed/platform-http/testing";
@@ -8,6 +10,34 @@ import SuperTest from "supertest";
 import {rootDir, Server} from "./app/Server.js";
 import {TestTool} from "./app/tools/TestTool.js";
 import {startUpstreamHttpServer} from "./fixtures/upstream.js";
+
+/**
+ * Custom check accepting an API key: unknown keys are rejected, requests without key are left to OAuth.
+ */
+function apiKeyPreAuth($ctx: PlatformContext): AuthInfo | undefined {
+  const apiKey = $ctx.request.headers["x-api-key"] as string | undefined;
+
+  if (!apiKey) {
+    return undefined;
+  }
+
+  if (apiKey !== "valid-key") {
+    throw new Unauthorized("Unknown API key");
+  }
+
+  return {token: apiKey, clientId: "api-key-client", scopes: ["api-key"]};
+}
+
+function sendWithApiKey(path: string, method: string, params: Record<string, unknown>, apiKey?: string) {
+  return SuperTest(PlatformTest.callback())
+    .post(path)
+    .set({
+      Accept: "application/json,text/event-stream",
+      "Content-Type": "application/json",
+      ...(apiKey && {"X-API-Key": apiKey})
+    })
+    .send({jsonrpc: "2.0", id: 1, method, params});
+}
 
 const verifier = {
   async verifyAccessToken(token: string): Promise<AuthInfo> {
@@ -99,6 +129,17 @@ export function describeMcpGateway(name: string, adapter: unknown) {
               tools: {exclude: ["fail", /^test-/]},
               prompts: {include: []}
             }
+          },
+          {
+            path: "/mcp/api-key",
+            auth: {preAuth: apiKeyPreAuth},
+            tools: [whoAmI],
+            upstream: {type: "http", url: upstream.url, headers: {"X-Forwarded-Key": "${OAUTH_TOKEN}"}}
+          },
+          {
+            path: "/mcp/mixed",
+            auth: {...createAuth("/mcp/mixed"), preAuth: apiKeyPreAuth},
+            tools: [whoAmI]
           },
           {
             path: "/mcp/secured",
@@ -276,6 +317,68 @@ export function describeMcpGateway(name: string, adapter: unknown) {
 
         expect(JSON.parse(first.body.result.content[0].text)).toEqual({args: ["--token", "valid"], token: "valid"});
         expect(JSON.parse(second.body.result.content[0].text)).toEqual({args: ["--token", "valid-other"], token: "valid-other"});
+      });
+    });
+
+    describe("preAuth", () => {
+      it("authenticates the request with the custom check and exposes the identity to handlers", async () => {
+        const {status, body} = await sendWithApiKey("/mcp/api-key", "tools/call", {name: "who-am-i", arguments: {}}, "valid-key");
+
+        expect(status).toBe(200);
+        expect(body.result.structuredContent).toEqual({clientId: "api-key-client", scopes: ["api-key"]});
+      });
+
+      it("interpolates the identity returned by the custom check in the upstream headers", async () => {
+        const {body} = await sendWithApiKey("/mcp/api-key", "tools/call", {name: "echo", arguments: {message: "hi"}}, "valid-key");
+
+        expect(body.result).toEqual({content: [{type: "text", text: "upstream:hi"}]});
+        expect(upstream.requests.at(-1)).toMatchObject({"x-forwarded-key": "valid-key"});
+      });
+
+      it("rejects the request when the custom check throws", async () => {
+        const response = await sendWithApiKey("/mcp/api-key", "tools/list", {}, "wrong-key");
+
+        expect(response.status).toBe(401);
+        expect(response.body).toMatchObject({name: "UNAUTHORIZED", message: "Unknown API key", status: 401});
+      });
+
+      it("rejects the request when the custom check does not apply and the endpoint has no OAuth", async () => {
+        const response = await sendWithApiKey("/mcp/api-key", "tools/list", {});
+
+        expect(response.status).toBe(401);
+        expect(response.body).toEqual({error: "unauthorized", error_description: "Authentication required"});
+        expect(response.headers).not.toHaveProperty("www-authenticate");
+      });
+
+      it("does not serve OAuth metadata for an endpoint only protected by a custom check", async () => {
+        const response = await SuperTest(PlatformTest.callback()).get("/.well-known/oauth-protected-resource/mcp/api-key");
+
+        expect(response.status).toBe(404);
+      });
+
+      it("accepts the custom check on an endpoint also protected by OAuth, without bearer token", async () => {
+        const {status, body} = await sendWithApiKey("/mcp/mixed", "tools/call", {name: "who-am-i", arguments: {}}, "valid-key");
+
+        expect(status).toBe(200);
+        expect(body.result.structuredContent).toEqual({clientId: "api-key-client", scopes: ["api-key"]});
+      });
+
+      it("falls back to OAuth when the custom check does not apply", async () => {
+        const authenticated = await send("/mcp/mixed", "tools/call", {name: "who-am-i", arguments: {}}, "valid");
+        const anonymous = await send("/mcp/mixed", "tools/list");
+
+        expect(authenticated.body.result.structuredContent).toEqual({clientId: "client", scopes: ["mcp:read", "mcp:write"]});
+        expect(anonymous.status).toBe(401);
+        expect(anonymous.headers["www-authenticate"]).toContain(
+          'resource_metadata="https://gateway.example.com/.well-known/oauth-protected-resource/mcp/mixed"'
+        );
+      });
+
+      it("rejects a wrong API key even when OAuth is available", async () => {
+        const response = await sendWithApiKey("/mcp/mixed", "tools/list", {}, "wrong-key");
+
+        expect(response.status).toBe(401);
+        expect(response.headers).not.toHaveProperty("www-authenticate");
       });
     });
   });

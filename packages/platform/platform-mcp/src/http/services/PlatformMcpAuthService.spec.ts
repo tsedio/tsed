@@ -1,7 +1,9 @@
 import type {AuthInfo} from "@modelcontextprotocol/server";
-import {inject, logger} from "@tsed/di";
+import {inject, injectable, logger} from "@tsed/di";
+import type {PlatformContext} from "@tsed/platform-http";
 import {PlatformTest} from "@tsed/platform-http/testing";
 import type {PlatformMcpAuthSettings} from "../../common/interfaces/PlatformMcpAuthSettings.js";
+import type {PlatformMcpPreAuth} from "../../common/interfaces/PlatformMcpPreAuth.js";
 import {PlatformTokenVerifier} from "../../common/domain/PlatformTokenVerifier.js";
 import {PlatformMcpAuthService} from "./PlatformMcpAuthService.js";
 
@@ -11,6 +13,14 @@ const authInfo: AuthInfo = {
   scopes: ["mcp:read"],
   expiresAt: Math.floor(Date.now() / 1000) + 3600
 };
+
+class ApiKeyPreAuth implements PlatformMcpPreAuth {
+  preAuth($ctx: PlatformContext) {
+    return {token: String($ctx.request.headers["x-api-key"]), clientId: "api-key", scopes: []};
+  }
+}
+
+injectable(ApiKeyPreAuth);
 
 function createAuth(opts: Partial<PlatformMcpAuthSettings> = {}): PlatformMcpAuthSettings {
   return {issuer: "https://auth.example.com", resource: "https://api.example.com/mcp", ...opts};
@@ -30,6 +40,54 @@ describe("PlatformMcpAuthService", () => {
     vi.restoreAllMocks();
 
     return PlatformTest.reset();
+  });
+
+  describe("isOAuth()", () => {
+    it("tells an OAuth configuration from a configuration only declaring a custom check", () => {
+      const service = inject(PlatformMcpAuthService);
+
+      expect(service.isOAuth(createAuth())).toBe(true);
+      expect(service.isOAuth(createAuth({preAuth: vi.fn()}))).toBe(true);
+      expect(service.isOAuth({preAuth: vi.fn()})).toBe(false);
+    });
+  });
+
+  describe("preAuth()", () => {
+    it("runs a function", async () => {
+      const service = inject(PlatformMcpAuthService);
+      const $ctx = createContext();
+      const preAuth = vi.fn().mockResolvedValue(authInfo);
+
+      await expect(service.preAuth(preAuth, $ctx)).resolves.toBe(authInfo);
+      expect(preAuth).toHaveBeenCalledExactlyOnceWith($ctx);
+    });
+
+    it("runs a function declared with the function keyword", async () => {
+      const service = inject(PlatformMcpAuthService);
+
+      function preAuth() {
+        return authInfo;
+      }
+
+      await expect(service.preAuth(preAuth, createContext())).resolves.toBe(authInfo);
+    });
+
+    it("resolves an injectable class through the injector", async () => {
+      const service = inject(PlatformMcpAuthService);
+
+      await expect(service.preAuth(ApiKeyPreAuth, createContext({"x-api-key": "key"}))).resolves.toEqual({
+        token: "key",
+        clientId: "api-key",
+        scopes: []
+      });
+    });
+
+    it("propagates the error thrown by the check", async () => {
+      const service = inject(PlatformMcpAuthService);
+      const error = new Error("Unknown API key");
+
+      await expect(service.preAuth(() => Promise.reject(error), createContext())).rejects.toBe(error);
+    });
   });
 
   describe("getVerifier()", () => {

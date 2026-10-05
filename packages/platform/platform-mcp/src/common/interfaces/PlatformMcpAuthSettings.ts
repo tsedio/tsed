@@ -1,5 +1,6 @@
 import type {OAuthTokenVerifier} from "@modelcontextprotocol/server";
 import type {TokenProvider} from "@tsed/di";
+import type {PlatformMcpPreAuthOption} from "./PlatformMcpPreAuth.js";
 
 /**
  * OAuth 2.1 resource-server configuration of a Ts.ED MCP endpoint.
@@ -10,6 +11,11 @@ import type {TokenProvider} from "@tsed/di";
  * @module platform/mcp
  */
 export interface PlatformMcpAuthSettings {
+  /**
+   * Custom authentication check run before the OAuth verification, for instance an API key.
+   * When it returns an identity, the OAuth verification is skipped: both methods are accepted on the endpoint.
+   */
+  preAuth?: PlatformMcpPreAuthOption;
   /**
    * Issuer URL of the authorization server (OIDC provider) protecting the endpoint.
    */

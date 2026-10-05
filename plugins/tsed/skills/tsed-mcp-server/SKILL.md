@@ -151,7 +151,7 @@ mcp: [
 - Do not expect `@Tool`, `@Resource` or `@Prompt` to auto-register; list the class in the `mcp` configuration.
 - Do not reuse a tool, resource or prompt name: the DI token is derived from the name (`MCP:TOOL:<name>`), so two definitions collide.
 - Do not write to stdout in a stdio server, including from child processes and third-party loggers.
-- Do not leave the HTTP endpoint unauthenticated: tools run with the application's privileges. Use the `auth` option, or guard the path with a middleware (sibling skill `tsed-middlewares`).
+- Do not leave the HTTP endpoint unauthenticated: tools run with the application's privileges. Use the `auth` option (OAuth, or a custom check such as an API key with `auth.preAuth`) rather than a global middleware testing the path.
 - Do not write `${OAUTH_TOKEN}` inside a template literal (backticks): it is a plain-string placeholder resolved per request, not a JavaScript interpolation.
 - Do not declare several upstreams in one `mcp` entry; use one entry per upstream.
 - Do not import from `@tsed/common` or from `@modelcontextprotocol/sdk`; the package uses `@modelcontextprotocol/server` and `@modelcontextprotocol/node`.

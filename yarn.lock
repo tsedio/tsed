@@ -13674,6 +13674,7 @@ __metadata:
     "@tsed/barrels": "workspace:*"
     "@tsed/core": "workspace:*"
     "@tsed/di": "workspace:*"
+    "@tsed/exceptions": "workspace:*"
     "@tsed/json-mapper": "workspace:*"
     "@tsed/platform-http": "workspace:*"
     "@tsed/schema": "workspace:*"

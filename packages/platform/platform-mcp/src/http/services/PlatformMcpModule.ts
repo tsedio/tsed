@@ -1,6 +1,6 @@
 import {application, type OnRoutesInit, type PlatformContext, type PlatformRouteDetails} from "@tsed/platform-http";
 import {constant, inject, injectable} from "@tsed/di";
-import type {PlatformMcpSettings} from "../../common/index.js";
+import type {PlatformMcpAuthSettings, PlatformMcpSettings} from "../../common/index.js";
 import {NodeStreamableHTTPServerTransport} from "@modelcontextprotocol/node";
 import type {AuthInfo} from "@modelcontextprotocol/server";
 import {useContextHandler} from "@tsed/platform-router";
@@ -43,7 +43,7 @@ export class PlatformMcpModule implements OnRoutesInit {
         path
       };
 
-      if (opts.auth) {
+      if (this.platformAuthService.isOAuth(opts.auth)) {
         const metadataPath = this.platformAuthService.getProtectedResourceMetadataPath(path);
 
         this.app.get(
@@ -81,8 +81,12 @@ export class PlatformMcpModule implements OnRoutesInit {
    * Rejects a configuration that cannot work or would be unsafe, before any route is mounted.
    */
   protected validate(path: string, opts: PlatformMcpSettings) {
-    if (opts.auth) {
-      this.platformAuthService.validate(path, opts.auth);
+    const {auth} = opts;
+
+    if (this.platformAuthService.isOAuth(auth)) {
+      this.platformAuthService.validate(path, auth);
+    } else if (auth && !auth.preAuth) {
+      throw new Error(`MCP endpoint "${path}": auth requires an issuer, a preAuth check, or both.`);
     }
 
     if (opts.upstream && !opts.auth && hasUpstreamPlaceholders(opts.upstream)) {
@@ -91,7 +95,7 @@ export class PlatformMcpModule implements OnRoutesInit {
   }
 
   protected metadata(settings: CreateMcpServerOpts, $ctx: PlatformContext) {
-    const auth = settings.auth!;
+    const auth = settings.auth as PlatformMcpAuthSettings;
     const resource = this.platformAuthService.getResourceUrl(auth);
     const body = this.platformAuthService.getProtectedResourceMetadata(auth, resource);
 
@@ -106,10 +110,20 @@ export class PlatformMcpModule implements OnRoutesInit {
   }
 
   protected async dispatch(settings: CreateMcpServerOpts, $ctx: PlatformContext) {
+    const {auth} = settings;
     let authInfo: AuthInfo | undefined;
 
-    if (settings.auth) {
-      const result = await this.platformAuthService.verifyMcpRequest(settings.auth, $ctx);
+    if (auth?.preAuth) {
+      authInfo = await this.platformAuthService.preAuth(auth.preAuth, $ctx);
+    }
+
+    if (auth && !authInfo) {
+      if (!this.platformAuthService.isOAuth(auth)) {
+        // the custom check did not authenticate the request and there is no OAuth to fall back on
+        return $ctx.response.status(401).body({error: "unauthorized", error_description: "Authentication required"});
+      }
+
+      const result = await this.platformAuthService.verifyMcpRequest(auth, $ctx);
 
       if (result instanceof Response) {
         return $ctx.response
@@ -119,6 +133,9 @@ export class PlatformMcpModule implements OnRoutesInit {
       }
 
       authInfo = result;
+    }
+
+    if (authInfo) {
       // the SDK transport reads `req.auth` and exposes it to handlers as `ctx.http.authInfo`
       ($ctx.getReq() as {auth?: AuthInfo}).auth = authInfo;
     }
