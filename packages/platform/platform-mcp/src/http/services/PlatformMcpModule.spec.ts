@@ -107,6 +107,32 @@ describe("PlatformMcpModule", () => {
   });
 
   describe("$onRoutesInit()", () => {
+    it("answers 405 to GET and DELETE on the MCP path without logging them as routes", async () => {
+      const {module} = await createModule();
+      module["settings"] = {path: "/ai/mcp"};
+
+      vi.spyOn(application(), "post").mockReturnValue(undefined as never);
+      vi.spyOn(application(), "get").mockReturnValue(undefined as never);
+      vi.spyOn(application(), "delete").mockReturnValue(undefined as never);
+
+      module.$onRoutesInit();
+
+      expect(application().get).toHaveBeenCalledExactlyOnceWith("/ai/mcp", expect.any(Function));
+      expect(application().delete).toHaveBeenCalledExactlyOnceWith("/ai/mcp", expect.any(Function));
+      expect(module.$logRoutes([])).toEqual([{method: "POST", name: "PlatformMcpModule.dispatch()", url: "/ai/mcp"}]);
+
+      const {$ctx} = createExpressContext();
+      const status = vi.spyOn($ctx.response, "status").mockReturnThis();
+      const setHeaders = vi.spyOn($ctx.response, "setHeaders").mockReturnThis();
+      const body = vi.spyOn($ctx.response, "body").mockReturnThis();
+
+      module["methodNotAllowed"]($ctx);
+
+      expect(status).toHaveBeenCalledWith(405);
+      expect(setHeaders).toHaveBeenCalledWith({allow: "POST"});
+      expect(body).toHaveBeenCalledWith({jsonrpc: "2.0", error: {code: -32000, message: "Method not allowed."}, id: null});
+    });
+
     it("should register the MCP route only once", async () => {
       const {module} = await createModule();
 
@@ -210,7 +236,7 @@ describe("PlatformMcpModule", () => {
 
       module.$onRoutesInit();
 
-      expect(application().get).not.toHaveBeenCalled();
+      expect(application().get).not.toHaveBeenCalledWith(expect.stringContaining("/.well-known/"), expect.any(Function));
       expect(module.$logRoutes([])).toEqual([{method: "POST", name: "PlatformMcpModule.dispatch()", url: "/mcp/a"}]);
     });
 

@@ -68,6 +68,16 @@ export class PlatformMcpModule implements OnRoutesInit {
         name: "PlatformMcpModule.dispatch()",
         url: path
       } as PlatformRouteDetails);
+
+      // the endpoint is stateless: there is no event stream to open nor session to delete
+      this.app.get(
+        path,
+        useContextHandler(($ctx) => this.methodNotAllowed($ctx as PlatformContext))
+      );
+      this.app.delete(
+        path,
+        useContextHandler(($ctx) => this.methodNotAllowed($ctx as PlatformContext))
+      );
     }
 
     this.loaded = true;
@@ -92,6 +102,17 @@ export class PlatformMcpModule implements OnRoutesInit {
     if (opts.upstream && !opts.auth && hasUpstreamPlaceholders(opts.upstream)) {
       throw new Error(`MCP endpoint "${path}": the upstream uses \${OAUTH_*} placeholders but the endpoint declares no auth.`);
     }
+  }
+
+  /**
+   * Answers the methods of the Streamable HTTP transport that a stateless endpoint does not serve,
+   * so MCP clients know there is no event stream instead of receiving the application's 404 page.
+   */
+  protected methodNotAllowed($ctx: PlatformContext) {
+    return $ctx.response
+      .status(405)
+      .setHeaders({allow: "POST"})
+      .body({jsonrpc: "2.0", error: {code: -32000, message: "Method not allowed."}, id: null});
   }
 
   protected metadata(settings: CreateMcpServerOpts, $ctx: PlatformContext) {

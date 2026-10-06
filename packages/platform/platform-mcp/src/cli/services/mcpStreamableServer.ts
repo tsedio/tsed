@@ -37,6 +37,17 @@ export async function mcpStreamableServer(createServer: () => McpServer | Promis
     }
   });
 
+  // the endpoint is stateless: there is no event stream to open nor session to delete
+  const methodNotAllowed = (_req: any, res: any) => {
+    res
+      .status(405)
+      .set("Allow", "POST")
+      .json({jsonrpc: "2.0", error: {code: -32000, message: "Method not allowed."}, id: null});
+  };
+
+  app.get("/mcp", methodNotAllowed);
+  app.delete("/mcp", methodNotAllowed);
+
   const port = parseInt(process.env.PORT || "3000");
 
   return new Promise((resolve, reject) => {
