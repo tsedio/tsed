@@ -543,6 +543,9 @@ All Ts.ED adapters (Express, Fastify, Koa) forward `POST <path>` requests to
 `@modelcontextprotocol/server`, so any MCP-capable client (Claude Desktop, etc.) can talk with your server regardless
 of the underlying framework.
 
+The endpoint is stateless: `GET <path>` and `DELETE <path>` answer `405 Method Not Allowed` with `Allow: POST`, which
+tells MCP clients that there is no event stream to open and no session to close.
+
 ## Gateway: expose a third-party MCP server <Badge text="v8.42.0+" />
 
 An MCP endpoint can act as a gateway for a third-party MCP server. Declare it under `upstream`: Ts.ED connects to it

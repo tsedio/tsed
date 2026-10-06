@@ -13,6 +13,8 @@ const {app, listenServer, NodeStreamableHTTPServerTransport, express, routeHandl
   const app = {
     use: vi.fn(),
     post: vi.fn((path: string, handler: Function) => routeHandlers.set(path, handler)),
+    get: vi.fn((path: string, handler: Function) => routeHandlers.set(`GET ${path}`, handler)),
+    delete: vi.fn((path: string, handler: Function) => routeHandlers.set(`DELETE ${path}`, handler)),
     listen: vi.fn((_: number, handler: Function) => {
       handler();
       return listenServer;
@@ -69,6 +71,20 @@ describe("mcpStreamableServer", () => {
     expect(express.json).toHaveBeenCalledOnce();
     expect(app.use).toHaveBeenCalledWith("json-middleware");
     expect(app.post).toHaveBeenCalledWith("/mcp", expect.any(Function));
+  });
+
+  it.each(["GET", "DELETE"])("answers 405 to %s requests, which a stateless endpoint does not serve", async (method) => {
+    void mcpStreamableServer(createServer);
+    await vi.waitFor(() => expect(routeHandlers.get(`${method} /mcp`)).toBeDefined());
+
+    const res = {status: vi.fn().mockReturnThis(), set: vi.fn().mockReturnThis(), json: vi.fn()};
+
+    routeHandlers.get(`${method} /mcp`)!({}, res);
+
+    expect(res.status).toHaveBeenCalledWith(405);
+    expect(res.set).toHaveBeenCalledWith("Allow", "POST");
+    expect(res.json).toHaveBeenCalledWith({jsonrpc: "2.0", error: {code: -32000, message: "Method not allowed."}, id: null});
+    expect(createServer).not.toHaveBeenCalled();
   });
 
   it("creates a transport and dispatches each MCP request", async () => {

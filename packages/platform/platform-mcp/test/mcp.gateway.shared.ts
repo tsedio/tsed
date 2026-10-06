@@ -166,6 +166,23 @@ export function describeMcpGateway(name: string, adapter: unknown) {
       await upstream.close();
     });
 
+    describe("unsupported methods", () => {
+      it.each([
+        ["an open endpoint", "/mcp/gateway"],
+        ["an OAuth endpoint", "/mcp/secured"],
+        ["an endpoint with a custom check", "/mcp/api-key"]
+      ])("answers 405 to GET and DELETE on %s", async (_, path) => {
+        const get = await SuperTest(PlatformTest.callback()).get(path).set({Accept: "text/event-stream"});
+        const del = await SuperTest(PlatformTest.callback()).delete(path);
+
+        for (const response of [get, del]) {
+          expect(response.status).toBe(405);
+          expect(response.headers.allow).toBe("POST");
+          expect(response.body).toEqual({jsonrpc: "2.0", error: {code: -32000, message: "Method not allowed."}, id: null});
+        }
+      });
+    });
+
     describe("proxy", () => {
       it("lists local tools and the tools of the upstream", async () => {
         const {body} = await send("/mcp/gateway", "tools/list");

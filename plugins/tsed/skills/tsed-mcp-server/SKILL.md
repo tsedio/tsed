@@ -161,7 +161,7 @@ mcp: [
 - Tool missing from `tools/list`: the class or token is not in `mcp.tools` of that server, `@tsed/platform-mcp` is not imported, or the class lacks `@Injectable()`.
 - Empty input schema: the parameter type is an interface, or its properties have no `@tsed/schema` decorator.
 - A class-based `@Prompt` gets no arguments schema from its parameter; pass `argsSchema` in the decorator options.
-- Only `POST <path>` is mounted and the transport is stateless with JSON responses. Clients that require sessions or a `GET` event stream are not served by the HTTP module.
+- Only `POST <path>` is served and the transport is stateless with JSON responses; `GET` and `DELETE` on the path answer `405` with `Allow: POST`. Clients that require sessions or a `GET` event stream are not served by the HTTP module.
 - `401` on every call in introspection mode: the authorization server does not return `aud` for the endpoint `resource`. Configure resource indicators on the authorization server, or set `audience: false`.
 - Offline mode rejects valid-looking JWTs: the token is not an RFC 9068 access token (`typ: at+jwt` with `iss`, `exp`, `aud`, `sub`, `iat`, `jti`, `client_id`). Use introspection or a custom `verifier`.
 - Upstream tools missing from `tools/list`: the upstream is unreachable (see the `MCP_GATEWAY_UPSTREAM_ERROR` log) or a local tool has the same name (`MCP_GATEWAY_COLLISION`).
