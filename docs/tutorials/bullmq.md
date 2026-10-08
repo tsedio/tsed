@@ -153,8 +153,22 @@ Jobs that should be run regularly on a schedule can also easily be defined using
 Doing so will automatically dispatch it without any data.
 
 ::: tip
+The scheduler id of a repeating job is resolved as follows:
+
+- the `jobId`, when one is defined,
+- the job name, when the `repeat` options come from `@JobController`: changing the schedule updates the existing scheduler,
+- the job name and the repeat settings (e.g. `my-job:0 * * * *`), when the `repeat` options are given to `dispatch()`: several schedules of the same job can coexist.
+
 Repeating jobs are registered with BullMQ [Job Schedulers](https://docs.bullmq.io/guide/job-schedulers) (`queue.upsertJobScheduler()`), which requires `bullmq` >= 5.16.0.
-The scheduler id is the `jobId` when one is defined, otherwise the job name.
+:::
+
+::: warning Migrating repeatable jobs
+
+- With `bullmq` v5, Ts.ED removes the matching legacy repeatable job each time a repeating job is dispatched, so it isn't produced twice. Start your application once on `bullmq` >= 5.16.0 **before** upgrading to v6.
+- `bullmq` v6 can no longer remove legacy repeatable jobs. See the [BullMQ migration guide](https://docs.bullmq.io/guide/migrations/migrate-from-v5-to-v6).
+- A legacy repeatable job is only matched when its job name, repeat options and `jobId` are unchanged. If you changed a schedule in the same release, remove the old one manually with `queue.removeRepeatableByKey()`.
+
+Before `@tsed/bullmq` used Job Schedulers, repeating jobs were stored as legacy repeatable jobs (`queue.add(name, data, {repeat})`), and BullMQ doesn't convert them.
 :::
 
 ```ts

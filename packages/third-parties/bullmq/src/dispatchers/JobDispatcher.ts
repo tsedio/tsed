@@ -1,10 +1,11 @@
-import {Job as BullMQJob, Queue} from "bullmq";
+import {Job as BullMQJob, Queue, type RepeatOptions} from "bullmq";
 import {JobMethods, type JobOptions, type JobStore} from "../contracts/index.js";
 import {Store, Type, isClass} from "@tsed/core";
 import {inject, injectable} from "@tsed/di";
 import {BULLMQ} from "../constants/constants.js";
 import type {JobDispatcherOptions} from "./JobDispatcherOptions.js";
 import {getJobToken} from "../utils/getJobToken.js";
+import {getJobSchedulerId} from "../utils/getJobSchedulerId.js";
 import {getQueueToken} from "../utils/getQueueToken.js";
 
 export class JobDispatcher {
@@ -27,12 +28,28 @@ export class JobDispatcher {
 
     if (repeat) {
       const {jobId, ...template} = opts;
+      // a repeat given at dispatch time gets its own scheduler, so several schedules of the same job can coexist
+      const schedulerId = jobId || (options.repeat ? getJobSchedulerId(jobName, repeat) : jobName);
+
+      await this.removeLegacyRepeatable(queue, jobName, repeat, jobId);
 
       // bullmq v6 removed the `repeat` option from Queue.add(): repeating jobs are handled by a job scheduler
-      return queue.upsertJobScheduler(jobId || jobName, repeat, {name: jobName, data: payload, opts: template});
+      return queue.upsertJobScheduler(schedulerId, repeat, {name: jobName, data: payload, opts: template});
     }
 
     return queue.add(jobName, payload, opts);
+  }
+
+  /**
+   * Repeatable jobs registered by `Queue.add(name, data, {repeat})` (bullmq < 6) aren't replaced by a job scheduler:
+   * they must be removed, otherwise the job is produced twice.
+   */
+  private async removeLegacyRepeatable(queue: Queue, jobName: string, repeat: RepeatOptions, jobId?: string) {
+    const legacyQueue = queue as Queue & {removeRepeatable?: (name: string, repeat: RepeatOptions, jobId?: string) => Promise<boolean>};
+
+    if (typeof legacyQueue.removeRepeatable === "function") {
+      await legacyQueue.removeRepeatable(jobName, repeat, jobId);
+    }
   }
 
   private async resolveDispatchArgs(job: Type | JobDispatcherOptions | string, payload: unknown) {
