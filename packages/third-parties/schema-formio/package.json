@@ -49,7 +49,7 @@
     "@tsed/schema": "workspace:*",
     "@tsed/typescript": "workspace:*",
     "typescript": "6.0.2",
-    "vite": "7.3.2",
+    "vite": "7.3.5",
     "vitest": "4.1.4"
   },
   "peerDependencies": {
