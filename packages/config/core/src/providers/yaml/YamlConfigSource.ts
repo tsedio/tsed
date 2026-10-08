@@ -31,6 +31,11 @@ export class YamlConfigSource implements ConfigSource<YamlConfigSourceOptions> {
     // Read the file
     const fileContent = readFileSync(path, encoding);
 
+    // js-yaml v5 throws on a document without content (empty file, comments only)
+    if (!fileContent.replace(/^\s*(#.*)?$/gm, "").trim()) {
+      return {};
+    }
+
     return ((await load(fileContent, opts)) || {}) as Record<string, unknown>;
   }
 
