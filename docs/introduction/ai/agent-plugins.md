@@ -78,10 +78,12 @@ scope from the terminal is already available in the desktop app, and the other w
 
 To install the plugin from the desktop app:
 
-1. Open a local session in the **Code** tab, click the **+** button next to the prompt box, then select
-   **Plugins** > **Add plugin**.
-2. In the plugin browser, choose to add a third-party marketplace and enter `tsedio/tsed`.
-3. Select **Ts.ED** and choose a scope: your user account, this project, or local-only.
+1. Open **Settings** > **Plugins**, click **Add**, then choose to add a third-party marketplace and enter
+   `tsedio/tsed`.
+2. Select **Ts.ED** in the plugin browser and choose a scope: your user account, this project, or local-only.
+
+The plugin browser is also available from a local session of the **Code** tab: click the **+** button next to the
+prompt box, then select **Plugins** > **Add plugin**.
 
 The marketplace only has to be added once. You can also register it from a terminal, or declare it in the
 `.claude/settings.json` of your project (see the snippet above):
