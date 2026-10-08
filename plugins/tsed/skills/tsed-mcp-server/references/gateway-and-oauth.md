@@ -70,7 +70,7 @@ auth: {
 Behavior:
 
 - `GET /.well-known/oauth-protected-resource<path>` serves the RFC 9728 metadata.
-- Missing or invalid token: `401` with `WWW-Authenticate: Bearer resource_metadata="..."`. Missing scope: `403 insufficient_scope`. Authorization server unreachable: `500 server_error`.
+- Missing or invalid token: `401` with `WWW-Authenticate: Bearer resource_metadata="..."`. The challenge also carries `scope`: `requiredScopes`, or `scopesSupported` when no scope is required. Missing scope: `403 insufficient_scope`. Authorization server unreachable: `500 server_error`.
 - Handlers read the caller from the SDK context: `ctx.http?.authInfo` (`token`, `clientId`, `scopes`, `expiresAt`, `extra` = token claims).
 
 ### Custom check (`auth.preAuth`)

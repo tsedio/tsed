@@ -81,7 +81,11 @@ export class PlatformMcpAuthService {
     try {
       return await verifyBearerToken($ctx.request.headers.authorization, options);
     } catch (error) {
-      return bearerAuthChallengeResponse(error, options);
+      return bearerAuthChallengeResponse(error, {
+        ...options,
+        // tell the client which scopes to request: the required ones, or the supported ones when none is enforced
+        requiredScopes: auth.requiredScopes?.length ? auth.requiredScopes : auth.scopesSupported
+      });
     }
   }
 
