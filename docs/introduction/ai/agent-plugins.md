@@ -78,17 +78,17 @@ scope from the terminal is already available in the desktop app, and the other w
 
 To install the plugin from the desktop app:
 
-1. Register the Ts.ED marketplace once. The plugin browser only lists the marketplaces Claude Code already knows, so
-   run the command below in a terminal, or open a project whose `.claude/settings.json` declares the marketplace
-   (see the snippet above):
-
-   ```bash
-   claude plugin marketplace add tsedio/tsed --sparse .claude-plugin plugins
-   ```
-
-2. Open a local session in the **Code** tab, click the **+** button next to the prompt box, then select
+1. Open a local session in the **Code** tab, click the **+** button next to the prompt box, then select
    **Plugins** > **Add plugin**.
-3. Select **Ts.ED** in the plugin browser and choose a scope: your user account, this project, or local-only.
+2. In the plugin browser, choose to add a third-party marketplace and enter `tsedio/tsed`.
+3. Select **Ts.ED** and choose a scope: your user account, this project, or local-only.
+
+The marketplace only has to be added once. You can also register it from a terminal, or declare it in the
+`.claude/settings.json` of your project (see the snippet above):
+
+```bash
+claude plugin marketplace add tsedio/tsed --sparse .claude-plugin plugins
+```
 
 Use **+** > **Plugins** > **Manage plugins** to enable, disable or uninstall the plugin later.
 
