@@ -269,6 +269,36 @@ describe("PlatformMcpAuthService", () => {
       expect(result.headers.get("www-authenticate")).toContain('scope="mcp:write"');
     });
 
+    it("advertises the supported scopes in the challenge when no scope is required", async () => {
+      const service = inject(PlatformMcpAuthService);
+      const auth = createAuth({verifier: createVerifier(), scopesSupported: ["openid", "profile", "email"]});
+
+      const anonymous = (await service.verifyMcpRequest(auth, createContext())) as Response;
+
+      expect(anonymous.status).toBe(401);
+      expect(anonymous.headers.get("www-authenticate")).toContain('scope="openid profile email"');
+      // the supported scopes are only a hint: a token without them is still accepted
+      await expect(service.verifyMcpRequest(auth, createContext({authorization: "Bearer valid"}))).resolves.toEqual(authInfo);
+    });
+
+    it("advertises the required scopes rather than the supported ones", async () => {
+      const service = inject(PlatformMcpAuthService);
+      const auth = createAuth({verifier: createVerifier(), scopesSupported: ["mcp:read", "mcp:write"], requiredScopes: ["mcp:read"]});
+
+      const result = (await service.verifyMcpRequest(auth, createContext())) as Response;
+
+      expect(result.headers.get("www-authenticate")).toContain('scope="mcp:read"');
+      expect(result.headers.get("www-authenticate")).not.toContain("mcp:write");
+    });
+
+    it("sends no scope in the challenge when none is configured", async () => {
+      const service = inject(PlatformMcpAuthService);
+
+      const result = (await service.verifyMcpRequest(createAuth({verifier: createVerifier()}), createContext())) as Response;
+
+      expect(result.headers.get("www-authenticate")).not.toContain("scope=");
+    });
+
     it("ignores the Host header of the request in the challenge", async () => {
       const service = inject(PlatformMcpAuthService);
       const auth = createAuth({verifier: createVerifier()});

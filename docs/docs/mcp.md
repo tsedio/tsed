@@ -678,7 +678,9 @@ For each protected endpoint, Ts.ED:
   `GET /.well-known/oauth-protected-resource<path>` (here `/.well-known/oauth-protected-resource/mcp`), listing
   `auth.issuer` as the authorization server;
 - answers requests without a valid bearer token with `401` and a `WWW-Authenticate: Bearer resource_metadata="..."`
-  challenge, and tokens lacking a required scope with `403 insufficient_scope`;
+  challenge, and tokens lacking a required scope with `403 insufficient_scope`. The challenge carries a `scope`
+  parameter telling the client which scopes to request: `requiredScopes`, or `scopesSupported` when no scope is
+  required;
 - exposes the verified identity to tool, resource and prompt handlers through `ctx.http.authInfo`.
 
 Each entry of `mcp` has its own `auth` block, so different endpoints can rely on different authorization servers.
