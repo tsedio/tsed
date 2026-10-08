@@ -6,7 +6,7 @@ head:
       content: Install the official Ts.ED plugin for Claude Code and Codex, or the Ts.ED skills with skills.sh, and connect your agent to the Ts.ED CLI MCP server.
   - - meta
     - name: keywords
-      content: ts.ed ai agents skills plugin marketplace claude code codex mcp skills.sh typescript node.js
+      content: ts.ed ai agents skills plugin marketplace claude code codex github copilot vs code cursor gemini cli mcp skills.sh typescript node.js
 ---
 
 # Agent plugins & skills
@@ -19,13 +19,14 @@ Ts.ED publishes an official agent plugin that teaches coding agents how to build
   `tsed init` and `tsed generate`.
 
 The plugin lives in the [Ts.ED repository](https://github.com/tsedio/tsed/tree/production/plugins/tsed) and is
-distributed through three channels. Pick the one that matches your agent.
+distributed through four channels. Pick the one that matches your agent.
 
-| Channel                         | Skills | MCP server | Agents                                           |
-| ------------------------------- | ------ | ---------- | ------------------------------------------------ |
-| Claude Code plugin marketplace  | Yes    | Yes        | Claude Code (CLI, desktop, IDE extensions)       |
-| Codex plugin marketplace        | Yes    | Yes        | Codex CLI and Codex in the ChatGPT desktop app   |
-| [skills.sh](https://skills.sh/) | Yes    | Manual     | Cursor, Copilot, Windsurf, Gemini CLI and others |
+| Channel                         | Skills | MCP server | Agents                                         |
+| ------------------------------- | ------ | ---------- | ---------------------------------------------- |
+| Claude Code plugin marketplace  | Yes    | Yes        | Claude Code (CLI, desktop, IDE extensions)     |
+| Codex plugin marketplace        | Yes    | Yes        | Codex CLI and Codex in the ChatGPT desktop app |
+| VS Code agent plugins           | Yes    | Yes        | GitHub Copilot in VS Code                      |
+| [skills.sh](https://skills.sh/) | Yes    | Manual     | Cursor, Gemini CLI, Windsurf and others        |
 
 ::: tip
 The plugin complements the [`AGENTS.md` template](/introduction/ai/develop-with-ai): `AGENTS.md` describes _your_
@@ -71,7 +72,16 @@ To share the plugin with your team, declare it in the `.claude/settings.json` of
 Skills are namespaced by the plugin, for example `/tsed:tsed-controllers`. Claude also loads them on its own when a
 task matches their description.
 
-### Claude desktop app
+### VS Code extension
+
+The Claude Code extension for VS Code has its own plugin manager:
+
+1. Type `/plugins` in the prompt box to open **Manage plugins**.
+2. On the **Marketplaces** tab, add `tsedio/tsed`.
+3. On the **Plugins** tab, search for **Ts.ED** and click **Install**, then choose a scope: **Install for you**,
+   **Install for this project** or **Install locally**.
+
+## Claude desktop app
 
 The Claude desktop app manages its own plugins: a marketplace or a plugin added with the `claude` CLI isn't picked up by
 the desktop app, so install the plugin from the app itself.
@@ -125,7 +135,27 @@ No Codex CLI? Declare the marketplace yourself in `~/.agents/plugins/marketplace
 [Build plugins](https://developers.openai.com/codex/plugins/build) in the Codex documentation.
 :::
 
-## skills.sh (any agent)
+## GitHub Copilot (VS Code)
+
+GitHub Copilot in VS Code supports [agent plugins](https://code.visualstudio.com/docs/copilot/customization/agent-plugins)
+and reads the Claude plugin format, so it installs the same plugin, with its skills and its MCP server.
+
+1. Add the Ts.ED marketplace to your VS Code settings:
+
+   ```json
+   {
+     "chat.plugins.marketplaces": ["tsedio/tsed"]
+   }
+   ```
+
+2. Open the Extensions view and enter `@agentPlugins` in the search field.
+3. Select **Install** on the **Ts.ED** plugin and confirm the trust prompt shown for a new marketplace.
+
+::: tip
+Agent plugins are controlled by the `chat.plugins.enabled` setting.
+:::
+
+## Skills.sh (any agent)
 
 The [`skills`](https://skills.sh/) CLI copies the skills into the directory your agent reads (`.agents/skills`,
 `.claude/skills`, `.cursor/skills`, ...). Always target the plugin directory so only the application skills are
@@ -148,6 +178,16 @@ Add `-g` to install the skills globally instead of in the current project.
 skills.sh installs skills only. Configure the MCP server yourself with the snippet below.
 :::
 
+The table below gives the agent name to pass to `-a` and the file where the MCP server is declared:
+
+| Agent      | Skills                                                  | MCP configuration                                    |
+| ---------- | ------------------------------------------------------- | ---------------------------------------------------- |
+| Cursor     | `npx skills add tsedio/tsed/plugins/tsed -a cursor`     | `.cursor/mcp.json` or `~/.cursor/mcp.json`           |
+| Gemini CLI | `npx skills add tsedio/tsed/plugins/tsed -a gemini-cli` | `.gemini/settings.json` or `~/.gemini/settings.json` |
+
+See the [skills.sh documentation](https://github.com/vercel-labs/skills#supported-agents) for the other supported
+agents.
+
 ## Ts.ED CLI MCP server
 
 The plugin registers the MCP server bundled with [`@tsed/cli`](https://cli.tsed.dev). If you installed the skills with
@@ -155,7 +195,29 @@ skills.sh, or use another MCP client, declare it manually. It requires Node.js 2
 
 ::: code-group
 
-```json [.mcp.json (Claude Code, Cursor, ...)]
+```json [.mcp.json (Claude Code, VS Code)]
+{
+  "mcpServers": {
+    "tsed": {
+      "command": "npx",
+      "args": ["-y", "-p", "@tsed/cli", "tsed", "mcp"]
+    }
+  }
+}
+```
+
+```json [.cursor/mcp.json]
+{
+  "mcpServers": {
+    "tsed": {
+      "command": "npx",
+      "args": ["-y", "-p", "@tsed/cli", "tsed", "mcp"]
+    }
+  }
+}
+```
+
+```json [.gemini/settings.json]
 {
   "mcpServers": {
     "tsed": {
