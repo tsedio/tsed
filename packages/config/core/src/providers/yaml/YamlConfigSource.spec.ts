@@ -1,5 +1,5 @@
 import {existsSync, readFileSync, watch} from "node:fs";
-import JsYaml from "js-yaml";
+import {load} from "js-yaml";
 import {YamlConfigSource} from "./YamlConfigSource.js";
 
 vi.mock("node:fs");
@@ -15,12 +15,12 @@ describe("YamlConfigSource", () => {
 
       vi.mocked(existsSync).mockReturnValue(true);
       vi.mocked(readFileSync).mockReturnValue("key: value");
-      vi.mocked(JsYaml.load).mockReturnValue({key: "value"});
+      vi.mocked(load).mockReturnValue({key: "value"});
 
       const result = await source.getAll();
 
       expect(readFileSync).toHaveBeenCalledWith("./test.yaml", "utf8");
-      expect(JsYaml.load).toHaveBeenCalledWith("key: value", {});
+      expect(load).toHaveBeenCalledWith("key: value", {});
       expect(result).toEqual({key: "value"});
     });
     it("should return empty object if the file is empty", async () => {
@@ -32,7 +32,7 @@ describe("YamlConfigSource", () => {
 
       vi.mocked(existsSync).mockReturnValue(true);
       vi.mocked(readFileSync).mockReturnValue("");
-      vi.mocked(JsYaml.load).mockReturnValue(undefined);
+      vi.mocked(load).mockReturnValue(undefined);
 
       const result = await source.getAll();
 

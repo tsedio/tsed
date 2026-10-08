@@ -14,7 +14,6 @@ export {rootDir};
   },
   stripe: {
     apiKey: "the_api_key",
-    apiVersion: "2025-02-24.acacia",
     webhooks: {
       secret: "whsec_test_secret",
       tolerance: 1

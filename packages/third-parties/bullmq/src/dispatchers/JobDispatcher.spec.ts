@@ -21,6 +21,14 @@ class ExampleTestJob implements JobMethods {
   handle(payload: {msg: string}) {}
 }
 
+@JobController("example-cron", "default", {
+  attempts: 3,
+  repeat: {pattern: "* * * * *"}
+})
+class ExampleCronJob implements JobMethods {
+  handle() {}
+}
+
 @JobController("queue-not-configured", "not-configured")
 class NotConfiguredQueueTestJob implements JobMethods {
   handle() {}
@@ -30,7 +38,8 @@ function getFixture() {
   const dispatcher = inject(JobDispatcher);
   const queue = {
     name: "default",
-    add: vi.fn()
+    add: vi.fn(),
+    upsertJobScheduler: vi.fn()
   };
 
   const specialQueue = {
@@ -41,6 +50,7 @@ function getFixture() {
   injectable("bullmq.queue.default").value(queue);
   injectable("bullmq.queue.special").value(specialQueue);
   injectable("bullmq.job.default.example-job").value(new ExampleTestJob());
+  injectable("bullmq.job.default.example-cron").value(new ExampleCronJob());
   injectable("bullmq.job.default.example-job-with-custom-id-from-job-methods").value(new ExampleJobWithCustomJobIdFromJobMethods());
 
   vi.spyOn(injector(), "resolve");
@@ -122,6 +132,29 @@ describe("JobDispatcher", () => {
       "example-job",
       expect.objectContaining({msg: "hello test"}),
       expect.objectContaining({backoff: 69, jobId: "ffeeaa"})
+    );
+  });
+  it("should register a repeating job through a job scheduler", async () => {
+    const {dispatcher, queue} = getFixture();
+
+    await dispatcher.dispatch(ExampleCronJob);
+
+    expect(queue.add).not.toHaveBeenCalled();
+    expect(queue.upsertJobScheduler).toHaveBeenCalledWith(
+      "example-cron",
+      {pattern: "* * * * *"},
+      {name: "example-cron", data: undefined, opts: {attempts: 3}}
+    );
+  });
+  it("should use the jobId as job scheduler id", async () => {
+    const {dispatcher, queue} = getFixture();
+
+    await dispatcher.dispatch(ExampleCronJob, {msg: "hello"}, {jobId: "custom-id"});
+
+    expect(queue.upsertJobScheduler).toHaveBeenCalledWith(
+      "custom-id",
+      {pattern: "* * * * *"},
+      {name: "example-cron", data: {msg: "hello"}, opts: {attempts: 3}}
     );
   });
   describe("custom jobId", () => {

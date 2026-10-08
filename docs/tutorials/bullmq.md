@@ -152,6 +152,11 @@ this.dispatcher(ExampleJobWithCustomId, {num: 2}, {jobId: "I do my own thing!"})
 Jobs that should be run regularly on a schedule can also easily be defined using the `@JobController` decorator.
 Doing so will automatically dispatch it without any data.
 
+::: tip
+Repeating jobs are registered with BullMQ [Job Schedulers](https://docs.bullmq.io/guide/job-schedulers) (`queue.upsertJobScheduler()`), which requires `bullmq` >= 5.16.0.
+The scheduler id is the `jobId` when one is defined, otherwise the job name.
+:::
+
 ```ts
 import {JobController, JobMethods} from "@tsed/bullmq";
 

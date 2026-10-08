@@ -57,7 +57,7 @@
     "formio": ">=2.0.0",
     "lodash": "^4.17.21",
     "mongodb": "*",
-    "mongoose": "^8.7.0"
+    "mongoose": ">=8.7.0"
   },
   "peerDependenciesMeta": {
     "@tsed/platform-http": {

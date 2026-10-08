@@ -93,9 +93,6 @@
     "fastify-raw-body": ">=5.0.0"
   },
   "peerDependenciesMeta": {
-    "@tsed/common": {
-      "optional": false
-    },
     "@tsed/core": {
       "optional": false
     },

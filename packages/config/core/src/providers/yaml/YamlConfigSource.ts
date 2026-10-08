@@ -1,5 +1,5 @@
 import type {ConfigSource, ConfigSourceOnChangeCB} from "../../interfaces/ConfigSource.js";
-import JsYaml, {type LoadOptions} from "js-yaml";
+import {load, type LoadOptions} from "js-yaml";
 import {existsSync, readFileSync, watch} from "node:fs";
 import {logger} from "@tsed/di";
 
@@ -31,7 +31,7 @@ export class YamlConfigSource implements ConfigSource<YamlConfigSourceOptions> {
     // Read the file
     const fileContent = readFileSync(path, encoding);
 
-    return ((await JsYaml.load(fileContent, opts)) || {}) as Record<string, unknown>;
+    return ((await load(fileContent, opts)) || {}) as Record<string, unknown>;
   }
 
   watch(onChange: ConfigSourceOnChangeCB) {
