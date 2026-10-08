@@ -19,11 +19,11 @@ hero:
       text: What is Ts.ED?
       link: /introduction/what-is-tsed
     - theme: alt
-      text: Build with AI agents
-      link: /introduction/ai/agent-plugins
-    - theme: alt
       text: Getting started
       link: /introduction/getting-started
+    - theme: alt
+      text: Build with AI agents
+      link: /introduction/ai/agent-plugins
     - theme: alt
       text: Become sponsor
       link: https://github.com/sponsors/Romakita
