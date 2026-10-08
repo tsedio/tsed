@@ -24,7 +24,7 @@ distributed through three channels. Pick the one that matches your agent.
 | Channel                         | Skills | MCP server | Agents                                           |
 | ------------------------------- | ------ | ---------- | ------------------------------------------------ |
 | Claude Code plugin marketplace  | Yes    | Yes        | Claude Code (CLI, desktop, IDE extensions)       |
-| Codex plugin marketplace        | Yes    | Yes        | Codex CLI and desktop app                        |
+| Codex plugin marketplace        | Yes    | Yes        | Codex CLI and Codex in the ChatGPT desktop app   |
 | [skills.sh](https://skills.sh/) | Yes    | Manual     | Cursor, Copilot, Windsurf, Gemini CLI and others |
 
 ::: tip
@@ -71,6 +71,32 @@ To share the plugin with your team, declare it in the `.claude/settings.json` of
 Skills are namespaced by the plugin, for example `/tsed:tsed-controllers`. Claude also loads them on its own when a
 task matches their description.
 
+### Claude desktop app
+
+The **Code** tab of the Claude desktop app reads the same settings files as the `claude` CLI: a plugin installed at user
+scope from the terminal is already available in the desktop app, and the other way round.
+
+To install the plugin from the desktop app:
+
+1. Register the Ts.ED marketplace once. The plugin browser only lists the marketplaces Claude Code already knows, so
+   run the command below in a terminal, or open a project whose `.claude/settings.json` declares the marketplace
+   (see the snippet above):
+
+   ```bash
+   claude plugin marketplace add tsedio/tsed --sparse .claude-plugin plugins
+   ```
+
+2. Open a local session in the **Code** tab, click the **+** button next to the prompt box, then select
+   **Plugins** > **Add plugin**.
+3. Select **Ts.ED** in the plugin browser and choose a scope: your user account, this project, or local-only.
+
+Use **+** > **Plugins** > **Manage plugins** to enable, disable or uninstall the plugin later.
+
+::: warning
+The plugin browser is available in local and SSH sessions only. Cloud sessions and WSL sessions don't load the plugins
+installed on your machine.
+:::
+
 ## Codex
 
 Add the marketplace:
@@ -84,6 +110,27 @@ Then install the `tsed` plugin from the plugin browser (`/plugins` in Codex) or 
 ```bash
 codex plugin add tsed@tsed
 ```
+
+### Codex app
+
+Codex in the ChatGPT desktop app installs plugins from the **Plugins Directory**, where each marketplace appears as a
+selectable source.
+
+1. Add the Ts.ED marketplace with the Codex CLI:
+
+   ```bash
+   codex plugin marketplace add tsedio/tsed --sparse .agents/plugins --sparse plugins
+   ```
+
+2. Restart the ChatGPT desktop app.
+3. Open the **Plugins Directory**, choose the **Ts.ED** marketplace, then install the **Ts.ED** plugin.
+4. Start a new chat: the skills and the MCP tools of the plugin are only loaded in new sessions.
+
+::: tip
+No Codex CLI? Declare the marketplace yourself in `~/.agents/plugins/marketplace.json` (personal) or
+`.agents/plugins/marketplace.json` (repository), then restart the app. See
+[Build plugins](https://developers.openai.com/codex/plugins/build) in the Codex documentation.
+:::
 
 ## skills.sh (any agent)
 
