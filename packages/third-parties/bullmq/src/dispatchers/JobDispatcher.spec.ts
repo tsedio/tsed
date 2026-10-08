@@ -26,7 +26,7 @@ class ExampleTestJob implements JobMethods {
   repeat: {pattern: "* * * * *"}
 })
 class ExampleCronJob implements JobMethods {
-  handle() {}
+  handle(payload?: {msg: string}) {}
 }
 
 @JobController("queue-not-configured", "not-configured")
@@ -134,28 +134,54 @@ describe("JobDispatcher", () => {
       expect.objectContaining({backoff: 69, jobId: "ffeeaa"})
     );
   });
-  it("should register a repeating job through a job scheduler", async () => {
-    const {dispatcher, queue} = getFixture();
+  describe("repeating jobs", () => {
+    it("should register a repeating job through a job scheduler", async () => {
+      const {dispatcher, queue} = getFixture();
 
-    await dispatcher.dispatch(ExampleCronJob);
+      await dispatcher.dispatch(ExampleCronJob);
 
-    expect(queue.add).not.toHaveBeenCalled();
-    expect(queue.upsertJobScheduler).toHaveBeenCalledWith(
-      "example-cron",
-      {pattern: "* * * * *"},
-      {name: "example-cron", data: undefined, opts: {attempts: 3}}
-    );
-  });
-  it("should use the jobId as job scheduler id", async () => {
-    const {dispatcher, queue} = getFixture();
+      expect(queue.add).not.toHaveBeenCalled();
+      expect(queue.upsertJobScheduler).toHaveBeenCalledWith(
+        "example-cron",
+        {pattern: "* * * * *"},
+        {name: "example-cron", data: undefined, opts: {attempts: 3}}
+      );
+    });
+    it("should use the jobId as job scheduler id", async () => {
+      const {dispatcher, queue} = getFixture();
 
-    await dispatcher.dispatch(ExampleCronJob, {msg: "hello"}, {jobId: "custom-id"});
+      await dispatcher.dispatch(ExampleCronJob, {msg: "hello"}, {jobId: "custom-id"});
 
-    expect(queue.upsertJobScheduler).toHaveBeenCalledWith(
-      "custom-id",
-      {pattern: "* * * * *"},
-      {name: "example-cron", data: {msg: "hello"}, opts: {attempts: 3}}
-    );
+      expect(queue.upsertJobScheduler).toHaveBeenCalledWith(
+        "custom-id",
+        {pattern: "* * * * *"},
+        {name: "example-cron", data: {msg: "hello"}, opts: {attempts: 3}}
+      );
+    });
+    it("should register distinct job schedulers when the repeat options are given at dispatch time", async () => {
+      const {dispatcher, queue} = getFixture();
+
+      await dispatcher.dispatch(ExampleCronJob, undefined, {repeat: {pattern: "0 * * * *"}});
+      await dispatcher.dispatch(ExampleCronJob, undefined, {repeat: {every: 1000}});
+      await dispatcher.dispatch("some-name", undefined, {repeat: {pattern: "0 0 * * *", tz: "Europe/Paris"}});
+
+      expect(queue.upsertJobScheduler.mock.calls.map(([id]) => id)).toEqual([
+        "example-cron:0 * * * *",
+        "example-cron:1000",
+        "some-name:0 0 * * *:Europe/Paris"
+      ]);
+    });
+    it("should remove the legacy repeatable job before registering the job scheduler (bullmq v5)", async () => {
+      const {dispatcher, queue} = getFixture();
+      const removeRepeatable = vi.fn().mockResolvedValue(true);
+
+      Object.assign(queue, {removeRepeatable});
+
+      await dispatcher.dispatch(ExampleCronJob, undefined, {jobId: "custom-id"});
+
+      expect(removeRepeatable).toHaveBeenCalledWith("example-cron", {pattern: "* * * * *"}, "custom-id");
+      expect(removeRepeatable.mock.invocationCallOrder[0]).toBeLessThan(queue.upsertJobScheduler.mock.invocationCallOrder[0]);
+    });
   });
   describe("custom jobId", () => {
     it("should allow setting the job id from within the job", async () => {

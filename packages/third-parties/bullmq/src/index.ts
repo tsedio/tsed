@@ -17,6 +17,7 @@ export * from "./dispatchers/JobDispatcher.js";
 export * from "./dispatchers/JobDispatcherOptions.js";
 export * from "./utils/createQueueProvider.js";
 export * from "./utils/createWorkerProvider.js";
+export * from "./utils/getJobSchedulerId.js";
 export * from "./utils/getJobToken.js";
 export * from "./utils/getQueueToken.js";
 export * from "./utils/getWorkerToken.js";
