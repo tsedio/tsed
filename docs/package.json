@@ -14,7 +14,7 @@
     "@vueuse/core": "10.11.0",
     "axios": "1.13.5",
     "fs-extra": "^11.2.0",
-    "globby": "^14.0.1",
+    "globby": "^16.2.4",
     "lodash": "4.17.21",
     "lucide-vue-next": "^0.436.0",
     "remark-parse": "^9.0.0",

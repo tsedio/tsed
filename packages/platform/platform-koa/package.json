@@ -98,7 +98,6 @@
     "@tsed/openspec": ">=8.0.0",
     "@tsed/platform-http": ">=8.0.0",
     "@tsed/schema": ">=8.0.0",
-    "cross-env": "7.0.3",
     "koa": ">=2.13.0",
     "koa-bodyparser": ">=4.3.0",
     "koa-compress": ">=5.0.1",

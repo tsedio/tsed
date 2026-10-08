@@ -43,6 +43,6 @@
     "@tsed/platform-http": ">=8.0.0",
     "ioredis": ">=5.2.3",
     "ioredis-mock": ">=8.2.2",
-    "uuid": "^10.0.0"
+    "uuid": ">=10.0.0"
   }
 }
