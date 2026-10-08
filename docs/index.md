@@ -8,16 +8,19 @@ head:
       content: Ts.ED is a modern Bun.js/Node.js framework built with TypeScript on top of Express.js/Koa.js/Fastify.js. It offers a flexible structure with a fast learning curve, specifically designed to improve the developer experience. Ts.ED provides numerous decorators and guidelines to make your code more readable and less error-prone. It supports various platforms and tools, including Node.js/Bun.js, Express.js/Koa.js, CLI, and serverless architectures (e.g., AWS).
   - - meta
     - name: keywords
-      content: ts.ed framework express koa fastify aws cli di rest graphql typescript node.js bun.js javascript native ESM decorators jsonschema class models providers pipes middlewares testing developer
+      content: ts.ed framework ai agents skills plugin claude code codex mcp express koa fastify aws cli di rest graphql typescript node.js bun.js javascript native ESM decorators jsonschema class models providers pipes middlewares testing developer
 
 hero:
   name: "Ts.ED"
   text: "A modern framework written in TypeScript"
-  tagline: "A flexible framework on top of Express.js/Koa.js/Fastify.js with a fast learning curve, designed to enhance the developer experience"
+  tagline: "A flexible framework on top of Express.js/Koa.js/Fastify.js with a fast learning curve, designed to enhance the developer experience, for you and your AI agents"
   actions:
     - theme: brand
       text: What is Ts.ED?
       link: /introduction/what-is-tsed
+    - theme: alt
+      text: Build with AI agents
+      link: /introduction/ai/agent-plugins
     - theme: alt
       text: Getting started
       link: /introduction/getting-started
@@ -27,15 +30,15 @@ hero:
 
 testimonial:
   title: "What is Ts.ED?"
-  description: Ts.ED offers a flexible structure with a fast learning curve, specifically designed to improve the developer experience. It provides numerous decorators and guidelines to make your code more readable and less error-prone. Ts.ED supports various platforms and tools, including Node.js/Bun.js, <a class="home-link" href="/docs/configuration/express.html">Express.js</a>/<a class="home-link" href="/docs/configuration/koa.html">Koa.js</a>/<a class="home-link" href="/docs/configuration/fastify.html">Fastify.js</a>, <a class="home-link" href="/docs/command.html">CLI</a>, and <a class="home-link" href="/docs/platform-serverless.html">serverless architectures</a> (e.g. AWS).
+  description: Ts.ED offers a flexible structure with a fast learning curve, specifically designed to improve the developer experience. It provides numerous decorators and guidelines to make your code more readable and less error-prone. Ts.ED supports various platforms and tools, including Node.js/Bun.js, <a class="home-link" href="/docs/configuration/express.html">Express.js</a>/<a class="home-link" href="/docs/configuration/koa.html">Koa.js</a>/<a class="home-link" href="/docs/configuration/fastify.html">Fastify.js</a>, <a class="home-link" href="/docs/command.html">CLI</a>, and <a class="home-link" href="/docs/platform-serverless.html">serverless architectures</a> (e.g. AWS). Ts.ED is also built for AI-assisted development, with an <a class="home-link" href="/introduction/ai/agent-plugins.html">official plugin for Claude Code and Codex</a> that brings framework skills and the CLI MCP server to your agent.
 
 features:
+  - title: AI-ready
+    icon: <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><polygon points="19,9 20.25,6.25 23,5 20.25,3.75 19,1 17.75,3.75 15,5 17.75,6.25"></polygon><polygon points="19,15 17.75,17.75 15,19 17.75,20.25 19,23 20.25,20.25 23,19 20.25,17.75"></polygon><path d="M11.5,9.5L9,4L6.5,9.5L1,12l5.5,2.5L9,20l2.5-5.5L17,12L11.5,9.5z M9.99,12.99L9,15.17l-0.99-2.18L5.83,12l2.18-0.99 L9,8.83l0.99,2.18L12.17,12L9.99,12.99z"></path></svg>
+    details: Give your coding agent real Ts.ED expertise. Install the <a class='home-link' href='/introduction/ai/agent-plugins.html'>official Ts.ED plugin</a> from the Claude Code or Codex marketplace to get framework skills and the Ts.ED CLI MCP server, or add the skills to Cursor, Copilot and others with skills.sh. Then describe your project with the <a class='home-link' href='/introduction/ai/develop-with-ai.html'>AGENTS.md template</a>.
   - title: Multi-platform
     icon: <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-server"><rect width="20" height="8" x="2" y="2" rx="2" ry="2"/><rect width="20" height="8" x="2" y="14" rx="2" ry="2"/><line x1="6" x2="6.01" y1="6" y2="6"/><line x1="6" x2="6.01" y1="18" y2="18"/></svg>
     details: Easily build your server-side application using <a class="home-link" href="/docs/configuration/express.html">Express.js</a>, <a class="home-link" href="/docs/configuration/koa.html">Koa.js</a>, <a class="home-link" href="/docs/configuration/fastify.html">Fastify.js</a>, <a class="home-link" href="/introduction/getting-started.html">CLI</a>, or <a class="home-link" href="/docs/platform-serverless.html">serverless platforms</a> (e.g., AWS). It supports both Node.js and Bun.js runtimes. Learn more <a class="home-link" href="/introduction/capabilities.html">about Ts.ED capabilities</a>.
-  - title: AI-forward
-    icon: <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><polygon points="19,9 20.25,6.25 23,5 20.25,3.75 19,1 17.75,3.75 15,5 17.75,6.25"></polygon><polygon points="19,15 17.75,17.75 15,19 17.75,20.25 19,23 20.25,20.25 23,19 20.25,17.75"></polygon><path d="M11.5,9.5L9,4L6.5,9.5L1,12l5.5,2.5L9,20l2.5-5.5L17,12L11.5,9.5z M9.99,12.99L9,15.17l-0.99-2.18L5.83,12l2.18-0.99 L9,8.83l0.99,2.18L12.17,12L9.99,12.99z"></path></svg>
-    details: Resources and integrations to supercharge your development with AI. Learn how to <a class='home-link' href='/introduction/ai/develop-with-ai.html'>develop with AI</a> and speed up your project setup with the AGENTS.md template (Codex, Junie, etc.).
   - title: CLI
     icon: <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-square-terminal-icon lucide-square-terminal"><path d="m7 11 2-2-2-2"/><path d="M11 13h4"/><rect width="18" height="18" x="3" y="3" rx="2" ry="2"/></svg>
     details: Stop wasting time on configuration—your application comes preconfigured for a fast start! Try our <a class="home-link" href="/introduction/getting-started.html">CLI</a>.
