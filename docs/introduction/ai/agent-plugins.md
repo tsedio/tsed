@@ -73,10 +73,8 @@ task matches their description.
 
 ### Claude desktop app
 
-The **Code** tab of the Claude desktop app reads the same settings files as the `claude` CLI: a plugin installed at user
-scope from the terminal is already available in the desktop app, and the other way round.
-
-To install the plugin from the desktop app:
+The Claude desktop app manages its own plugins: a marketplace or a plugin added with the `claude` CLI isn't picked up by
+the desktop app, so install the plugin from the app itself.
 
 1. Open **Settings** > **Plugins**, click **Add**, then choose to add a third-party marketplace and enter
    `tsedio/tsed`.
@@ -84,13 +82,6 @@ To install the plugin from the desktop app:
 
 The plugin browser is also available from a local session of the **Code** tab: click the **+** button next to the
 prompt box, then select **Plugins** > **Add plugin**.
-
-The marketplace only has to be added once. You can also register it from a terminal, or declare it in the
-`.claude/settings.json` of your project (see the snippet above):
-
-```bash
-claude plugin marketplace add tsedio/tsed --sparse .claude-plugin plugins
-```
 
 Use **+** > **Plugins** > **Manage plugins** to enable, disable or uninstall the plugin later.
 
