@@ -869,8 +869,17 @@ it: in `headers` for `http` and `sse` upstreams, in `args` and `env` for `stdio`
 
 `${OAUTH_SUB}` identifies the end user, which lets a `stdio` upstream keep one state per user, for instance
 `env: {STATE_DIR: "/tmp/state/${OAUTH_SUB}"}`. It is read from the `sub` claim of the verified token, or from `extra.sub`
-when the identity comes from a `preAuth` check or a custom `verifier`, and is empty when the claim is missing. The value
-is issued by the authorization server: hash or validate it in the upstream before using it as a file name.
+when the identity comes from a `preAuth` check or a custom `verifier`. The value is issued by the authorization server:
+hash or validate it in the upstream before using it as a file name.
+
+::: warning
+`${OAUTH_SUB}` is empty for every caller whose identity exposes no string `sub`, which is common for
+`client_credentials` tokens and for `preAuth` checks that return no `extra.sub`. When the subject is the only value that
+varies in the upstream definition, all these callers share the same upstream connection and, in the example above, the
+same `STATE_DIR`. The placeholder isolates users only if a string subject is guaranteed: reject identities without one
+in a custom `verifier` or `preAuth` check, make the upstream refuse to start with an empty value, or key the isolation
+on another verified value.
+:::
 
 ```typescript
 // HTTP: any header

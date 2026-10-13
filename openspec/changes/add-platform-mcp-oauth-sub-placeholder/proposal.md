@@ -6,7 +6,7 @@ A gateway can forward the token, the client id and the scopes of the caller to i
 
 - New `${OAUTH_SUB}` placeholder, replaced with the `sub` claim of the caller in the `headers` of an `http` or `sse` upstream and in the `args` and `env` of a `stdio` upstream.
 - The value is read from `AuthInfo.extra.sub`, which the built-in verifier already fills with the token claims in both `offline` and `introspection` modes. A `preAuth` check or a custom `verifier` provides it the same way.
-- A missing or non-string subject is replaced with an empty value, like the other placeholders.
+- A missing or non-string subject is replaced with an empty value, like the other placeholders. Callers without a subject therefore share the same upstream connection: the documentation states that applications must require a string subject, or use another verified key, before relying on the placeholder for user isolation.
 
 No breaking change: `${OAUTH_SUB}` was left untouched in upstream definitions until now.
 

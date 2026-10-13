@@ -19,6 +19,11 @@ The gateway SHALL replace the placeholder `${OAUTH_SUB}` with the subject of the
 - **WHEN** the upstream declares `env: {USER_ID: "${OAUTH_SUB}"}` and the verified identity exposes no `sub`
 - **THEN** the process is started with an empty `USER_ID`
 
+#### Scenario: Callers without a subject share the upstream
+
+- **WHEN** two authenticated callers expose no string `sub` and `${OAUTH_SUB}` is the only value that varies in the upstream definition
+- **THEN** both callers are served by the same upstream connection, and the documentation states that a string subject must be required before relying on the placeholder for user isolation
+
 #### Scenario: Placeholder without auth
 
 - **WHEN** the upstream uses `${OAUTH_SUB}` on an entry that has no `auth` block
