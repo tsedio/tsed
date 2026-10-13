@@ -111,6 +111,8 @@ Placeholders are replaced with the verified identity, in `headers` (`http`, `sse
 | `${OAUTH_SCOPES}`    | Scopes separated by a space.  |
 | `${OAUTH_SUB}`       | Subject (`sub`) of the token. |
 
+`${OAUTH_SUB}` is empty when the identity exposes no string `extra.sub` (`client_credentials` tokens, `preAuth` without `extra.sub`). Callers without a subject then share the same upstream connection and state. Before using it to isolate users, require a string subject (custom `verifier` or `preAuth` that rejects the identity, or an upstream that refuses an empty value) or use another verified isolation key.
+
 ```typescript
 upstream: {type: "http", url: "https://directus.example.com/mcp", headers: {Authorization: "Bearer ${OAUTH_TOKEN}"}}
 upstream: {type: "stdio", command: "npx", args: ["-y", "some-mcp-server"], env: {API_TOKEN: "${OAUTH_TOKEN}"}}
