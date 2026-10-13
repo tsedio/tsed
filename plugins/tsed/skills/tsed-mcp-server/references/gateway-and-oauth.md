@@ -104,11 +104,12 @@ Startup errors:
 
 Placeholders are replaced with the verified identity, in `headers` (`http`, `sse`) or in `args` and `env` (`stdio`). They are plain strings, not template literals.
 
-| Placeholder          | Value                        |
-| -------------------- | ---------------------------- |
-| `${OAUTH_TOKEN}`     | Verified access token.       |
-| `${OAUTH_CLIENT_ID}` | Client id of the token.      |
-| `${OAUTH_SCOPES}`    | Scopes separated by a space. |
+| Placeholder          | Value                         |
+| -------------------- | ----------------------------- |
+| `${OAUTH_TOKEN}`     | Verified access token.        |
+| `${OAUTH_CLIENT_ID}` | Client id of the token.       |
+| `${OAUTH_SCOPES}`    | Scopes separated by a space.  |
+| `${OAUTH_SUB}`       | Subject (`sub`) of the token. |
 
 ```typescript
 upstream: {type: "http", url: "https://directus.example.com/mcp", headers: {Authorization: "Bearer ${OAUTH_TOKEN}"}}
