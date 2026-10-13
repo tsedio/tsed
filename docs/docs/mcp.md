@@ -853,7 +853,7 @@ export class Server {}
 ```
 
 Without `issuer`, no protected resource metadata is served and no `WWW-Authenticate` challenge is sent. The `token`,
-`clientId` and `scopes` returned by the check also feed the `${OAUTH_*}` placeholders of the upstream.
+`clientId`, `scopes` and `extra.sub` returned by the check also feed the `${OAUTH_*}` placeholders of the upstream.
 
 ### Forward the caller identity to the upstream
 
@@ -865,6 +865,12 @@ it: in `headers` for `http` and `sse` upstreams, in `args` and `env` for `stdio`
 | `${OAUTH_TOKEN}`     | Verified access token of the caller.        |
 | `${OAUTH_CLIENT_ID}` | Client identifier returned by the verifier. |
 | `${OAUTH_SCOPES}`    | Scopes of the token, separated by a space.  |
+| `${OAUTH_SUB}`       | Subject (`sub` claim) of the token.         |
+
+`${OAUTH_SUB}` identifies the end user, which lets a `stdio` upstream keep one state per user, for instance
+`env: {STATE_DIR: "/tmp/state/${OAUTH_SUB}"}`. It is read from the `sub` claim of the verified token, or from `extra.sub`
+when the identity comes from a `preAuth` check or a custom `verifier`, and is empty when the claim is missing. The value
+is issued by the authorization server: hash or validate it in the upstream before using it as a file name.
 
 ```typescript
 // HTTP: any header

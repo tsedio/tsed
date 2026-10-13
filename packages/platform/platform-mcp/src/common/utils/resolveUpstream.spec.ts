@@ -64,11 +64,32 @@ describe("resolveUpstream()", () => {
   });
 });
 
+describe("resolveUpstream() with ${OAUTH_SUB}", () => {
+  const upstream = {type: "stdio" as const, command: "node", args: ["--user=${OAUTH_SUB}"], env: {USER_ID: "${OAUTH_SUB}"}};
+
+  it("interpolates the subject exposed in the claims of the caller", () => {
+    expect(resolveUpstream(upstream, {...authInfo, extra: {sub: "user-1"}})).toEqual({
+      ...upstream,
+      args: ["--user=user-1"],
+      env: {USER_ID: "user-1"}
+    });
+  });
+
+  it.each([
+    ["the claims hold no subject", {...authInfo, extra: {}}],
+    ["the subject is not a string", {...authInfo, extra: {sub: 42}}],
+    ["the caller exposes no claims", authInfo]
+  ])("replaces the placeholder with an empty value when %s", (_, info) => {
+    expect(resolveUpstream(upstream, info)).toEqual({...upstream, args: ["--user="], env: {USER_ID: ""}});
+  });
+});
+
 describe("hasUpstreamPlaceholders()", () => {
   it("detects placeholders in headers, args and env", () => {
     expect(hasUpstreamPlaceholders({type: "http", url: "http://localhost", headers: {a: "${OAUTH_TOKEN}"}})).toBe(true);
     expect(hasUpstreamPlaceholders({type: "stdio", command: "node", args: ["${OAUTH_CLIENT_ID}"]})).toBe(true);
     expect(hasUpstreamPlaceholders({type: "stdio", command: "node", env: {A: "${OAUTH_SCOPES}"}})).toBe(true);
+    expect(hasUpstreamPlaceholders({type: "stdio", command: "node", env: {A: "${OAUTH_SUB}"}})).toBe(true);
   });
 
   it("ignores static definitions", () => {

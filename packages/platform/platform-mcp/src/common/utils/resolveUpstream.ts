@@ -2,7 +2,7 @@ import type {AuthInfo} from "@modelcontextprotocol/server";
 import type {PlatformMcpUpstreamSettings} from "../interfaces/PlatformMcpUpstreamSettings.js";
 import {hasPlaceholders, interpolate} from "./interpolate.js";
 
-const OAUTH_PLACEHOLDERS = ["OAUTH_TOKEN", "OAUTH_CLIENT_ID", "OAUTH_SCOPES"] as const;
+const OAUTH_PLACEHOLDERS = ["OAUTH_TOKEN", "OAUTH_CLIENT_ID", "OAUTH_SCOPES", "OAUTH_SUB"] as const;
 
 function mapValues(record: Record<string, string> | undefined, fn: (value: string) => string) {
   return record && Object.fromEntries(Object.entries(record).map(([key, value]) => [key, fn(value)]));
@@ -12,6 +12,15 @@ function getValues(upstream: PlatformMcpUpstreamSettings): string[] {
   return upstream.type === "stdio"
     ? [...(upstream.args || []), ...Object.values(upstream.env || {})]
     : Object.values(upstream.headers || {});
+}
+
+/**
+ * Reads the subject of the caller from the claims the verifier (or the `preAuth` check) exposes in `extra`.
+ */
+function getSubject(authInfo?: AuthInfo) {
+  const sub = authInfo?.extra?.sub;
+
+  return typeof sub === "string" ? sub : undefined;
 }
 
 /**
@@ -32,7 +41,8 @@ export function resolveUpstream<T extends PlatformMcpUpstreamSettings>(upstream:
   const variables: Record<(typeof OAUTH_PLACEHOLDERS)[number], string | undefined> = {
     OAUTH_TOKEN: authInfo?.token,
     OAUTH_CLIENT_ID: authInfo?.clientId,
-    OAUTH_SCOPES: authInfo?.scopes?.join(" ")
+    OAUTH_SCOPES: authInfo?.scopes?.join(" "),
+    OAUTH_SUB: getSubject(authInfo)
   };
   const resolve = (value: string) => interpolate(value, variables);
 

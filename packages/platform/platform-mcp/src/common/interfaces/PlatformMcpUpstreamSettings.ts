@@ -41,8 +41,8 @@ export interface McpHttpUpstreamSettings extends McpUpstreamBaseSettings {
   type: "http" | "sse";
   url: string;
   /**
-   * Headers sent with every upstream request. Values support the `${OAUTH_TOKEN}`, `${OAUTH_CLIENT_ID}`
-   * and `${OAUTH_SCOPES}` placeholders, replaced with the verified identity of the caller.
+   * Headers sent with every upstream request. Values support the `${OAUTH_TOKEN}`, `${OAUTH_CLIENT_ID}`,
+   * `${OAUTH_SCOPES}` and `${OAUTH_SUB}` placeholders, replaced with the verified identity of the caller.
    */
   headers?: Record<string, string>;
   /**
