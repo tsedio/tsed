@@ -23,6 +23,6 @@ export class DateMapper implements JsonMapperMethods {
   }
 
   serialize(object: Date): any {
-    return object ? new Date(object).toISOString() : object;
+    return object ? (object instanceof Date ? object : new Date(object)).toISOString() : object;
   }
 }

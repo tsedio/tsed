@@ -15,7 +15,10 @@ import {
   isPrimitive,
   nameOf
 } from "@tsed/core";
-import {JsonMapperCompiler} from "./JsonMapperCompiler.js";
+import {DateMapper} from "../components/DateMapper.js";
+import {PrimitiveMapper} from "../components/PrimitiveMapper.js";
+import {JsonMapperMethods} from "../interfaces/JsonMapperMethods.js";
+import {JsonMapperCompiler, JsonMapperCallback} from "./JsonMapperCompiler.js";
 import {JsonMapperSettings} from "./JsonMapperSettings.js";
 import {JsonSerializerOptions} from "./JsonSerializerOptions.js";
 import {Writer} from "./Writer.js";
@@ -42,12 +45,45 @@ function varKey(k: string) {
 }
 
 /**
+ * The function a type mapper is registered with. The built-in Date and primitive mappers do not read the
+ * context, so they are called without building one: a copy of the options for every Date, string and number
+ * the payload holds was most of the time of a serialization.
+ */
+function createTypeMapper(mapper: JsonMapperMethods, model: any): JsonMapperCallback<any> {
+  const kind: any = mapper.constructor;
+
+  if (kind === PrimitiveMapper && mapper.serialize === PrimitiveMapper.prototype.serialize) {
+    const name = nameOf(model);
+
+    if (typeof (mapper as any)[name] === "function") {
+      return (value: any) => (typeof value !== "object" ? (mapper as any)[name](value) : value);
+    }
+  }
+
+  if (kind === DateMapper && mapper.serialize === DateMapper.prototype.serialize) {
+    return (value: any) => (mapper as DateMapper).serialize(value);
+  }
+
+  return (value: any, options: any) =>
+    mapper.serialize(value, {
+      ...options,
+      type: model
+    });
+}
+
+/**
  * Serializes data structures according to the metadata captured by `@tsed/schema`.
  *
  * The serializer walks entity schemas, applies hooks, honors alias/group rules, and falls back to the
  * registered type mappers (e.g., components in `src/components`).
  */
 export class JsonSerializer extends JsonMapperCompiler<JsonSerializerOptions> {
+  /**
+   * The type mappers registered from the types container, with the function each one was registered with
+   * @protected
+   */
+  protected typeMappers = new Map<any, {mapper: JsonMapperMethods; fn: JsonMapperCallback<any>}>();
+
   constructor() {
     super();
 
@@ -128,12 +164,15 @@ export class JsonSerializer extends JsonMapperCompiler<JsonSerializerOptions> {
 
     types.forEach((mapper, model) => {
       if (![Array, Set, Map].includes(model as any)) {
-        this.addTypeMapper(model as any, (value: any, options: any) =>
-          mapper.serialize(value, {
-            ...options,
-            type: model
-          })
-        );
+        const registered = this.typeMappers.get(model);
+
+        // registered again only when the mapper changed, or when its entry was replaced or removed since
+        if (!registered || registered.mapper !== mapper || this.cache.get(model as any)?.get("typeMapper")?.fn !== registered.fn) {
+          const fn = createTypeMapper(mapper, model);
+
+          this.addTypeMapper(model as any, fn);
+          this.typeMappers.set(model, {mapper, fn});
+        }
       }
     });
 
