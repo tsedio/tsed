@@ -73,3 +73,56 @@ describe("JsonSerializer type mappers", () => {
     expect(new JsonSerializer().map(item(), {types}).code).toEqual("C1");
   });
 });
+
+describe("JsonSerializer type mappers changed on the instance", () => {
+  it("should give the context to a conversion method replaced on a PrimitiveMapper", () => {
+    const mapper: any = new PrimitiveMapper();
+    mapper.Number = (data: any, ctx?: JsonMapperCtx) => `${nameOf(ctx?.type)}:${data}`;
+
+    const types = new Map<any, any>(getJsonMapperTypes());
+    types.set(Number, mapper);
+
+    expect(new JsonSerializer().map(item(), {types}).count).toEqual("Number:1");
+  });
+
+  it("should follow a conversion method removed after the first call", () => {
+    const mapper: any = new PrimitiveMapper();
+    mapper.Number = (data: any) => data + 1;
+
+    const serializer = new JsonSerializer();
+    const types = new Map<any, any>(getJsonMapperTypes());
+    types.set(Number, mapper);
+
+    expect(serializer.map(item(), {types}).count).toEqual(2);
+
+    mapper.Number = undefined;
+
+    expect(serializer.map(item(), {types}).count).toEqual(1);
+  });
+
+  it("should follow a serialize method replaced after the first call", () => {
+    const mapper: any = new PrimitiveMapper();
+
+    const serializer = new JsonSerializer();
+    const types = new Map<any, any>(getJsonMapperTypes());
+    types.set(Number, mapper);
+
+    expect(serializer.map(item(), {types}).count).toEqual(1);
+
+    mapper.serialize = () => "serialized";
+
+    expect(serializer.map(item(), {types}).count).toEqual("serialized");
+  });
+
+  it("should not call a toISOString overridden on a Date", () => {
+    class LocalDate extends Date {
+      toISOString() {
+        return "local";
+      }
+    }
+
+    const value = Object.assign(item(), {at: new LocalDate("2022-10-02T00:00:00.000Z")});
+
+    expect(new JsonSerializer().map(value).at).toEqual("2022-10-02T00:00:00.000Z");
+  });
+});

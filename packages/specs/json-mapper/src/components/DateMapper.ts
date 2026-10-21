@@ -2,6 +2,8 @@ import {JsonMapper} from "../decorators/jsonMapper.js";
 import {JsonMapperMethods} from "../interfaces/JsonMapperMethods.js";
 import {isBoolean} from "@tsed/core";
 
+const toISOString = Date.prototype.toISOString;
+
 /**
  * Mapper for `Date` type.
  * @jsonmapper
@@ -23,6 +25,6 @@ export class DateMapper implements JsonMapperMethods {
   }
 
   serialize(object: Date): any {
-    return object ? (object instanceof Date ? object : new Date(object)).toISOString() : object;
+    return object ? (object instanceof Date ? toISOString.call(object) : new Date(object).toISOString()) : object;
   }
 }
