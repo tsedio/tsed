@@ -88,6 +88,7 @@
     "@tsed/openspec": ">=8.0.0",
     "@tsed/platform-express": ">=8.0.0",
     "@tsed/platform-http": ">=8.0.0",
+    "@tsed/platform-views": ">=8.0.0",
     "@tsed/schema": ">=8.0.0",
     "express": ">=5.0.0",
     "fulmine.js": ">=5.25.7"
@@ -110,6 +111,9 @@
     },
     "@tsed/platform-http": {
       "optional": false
+    },
+    "@tsed/platform-views": {
+      "optional": true
     },
     "@tsed/schema": {
       "optional": false

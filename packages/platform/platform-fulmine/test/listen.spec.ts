@@ -55,11 +55,11 @@ describe("PlatformFulmine listening on uWebSockets.js", () => {
     await platform.stop();
   });
 
-  it("should refuse httpsPort, TLS is set on the fulmine app", () => {
+  it.each(["127.0.0.1:0", 0])("should refuse httpsPort %s, TLS is set on the fulmine app", (httpsPort) => {
     expect(() =>
       PlatformFulmine.bootstrap(Server, {
         httpPort: false,
-        httpsPort: "127.0.0.1:0",
+        httpsPort,
         logger: {level: "off"}
       })
     ).toThrow("PlatformFulmine: set TLS on the fulmine app");

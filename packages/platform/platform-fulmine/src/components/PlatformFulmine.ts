@@ -40,7 +40,8 @@ export class PlatformFulmine extends PlatformExpress {
    * uWebSockets.js too, see `fulmine({uwsOptions})`.
    */
   getServers(): any[] {
-    if (constant("httpsPort")) {
+    // as createServer() decides it in platform-http: every value but false enables it, 0 included
+    if (constant("httpsPort") !== false) {
       throw new Error("PlatformFulmine: set TLS on the fulmine app with fulmine({uwsOptions}) and the fulmine.app setting");
     }
 
