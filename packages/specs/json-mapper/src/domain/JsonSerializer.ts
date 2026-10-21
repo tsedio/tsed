@@ -44,20 +44,24 @@ function varKey(k: string) {
   return `__${k}`;
 }
 
+type TypeMapperEntry = {mapper: JsonMapperMethods; name: string; serialize: any; conversion: any; fn: JsonMapperCallback<any>};
+
 /**
  * The function a type mapper is registered with. The built-in Date and primitive mappers do not read the
  * context, so they are called without building one: a copy of the options for every Date, string and number
  * the payload holds was most of the time of a serialization.
  */
-function createTypeMapper(mapper: JsonMapperMethods, model: any): JsonMapperCallback<any> {
+function createTypeMapper(mapper: JsonMapperMethods, model: any, name: string): JsonMapperCallback<any> {
   const kind: any = mapper.constructor;
+  const conversion = (mapper as any)[name];
 
-  if (kind === PrimitiveMapper && mapper.serialize === PrimitiveMapper.prototype.serialize) {
-    const name = nameOf(model);
-
-    if (typeof (mapper as any)[name] === "function") {
-      return (value: any) => (typeof value !== "object" ? (mapper as any)[name](value) : value);
-    }
+  if (
+    kind === PrimitiveMapper &&
+    mapper.serialize === PrimitiveMapper.prototype.serialize &&
+    typeof conversion === "function" &&
+    conversion === (PrimitiveMapper.prototype as any)[name]
+  ) {
+    return (value: any) => (typeof value !== "object" ? conversion.call(mapper, value) : value);
   }
 
   if (kind === DateMapper && mapper.serialize === DateMapper.prototype.serialize) {
@@ -82,7 +86,7 @@ export class JsonSerializer extends JsonMapperCompiler<JsonSerializerOptions> {
    * The type mappers registered from the types container, with the function each one was registered with
    * @protected
    */
-  protected typeMappers = new Map<any, {mapper: JsonMapperMethods; fn: JsonMapperCallback<any>}>();
+  protected typeMappers = new Map<any, TypeMapperEntry>();
 
   constructor() {
     super();
@@ -166,12 +170,19 @@ export class JsonSerializer extends JsonMapperCompiler<JsonSerializerOptions> {
       if (![Array, Set, Map].includes(model as any)) {
         const registered = this.typeMappers.get(model);
 
-        // registered again only when the mapper changed, or when its entry was replaced or removed since
-        if (!registered || registered.mapper !== mapper || this.cache.get(model as any)?.get("typeMapper")?.fn !== registered.fn) {
-          const fn = createTypeMapper(mapper, model);
+        // registered again when the mapper or the methods it was built from changed, or when its entry was replaced or removed
+        if (
+          !registered ||
+          registered.mapper !== mapper ||
+          registered.serialize !== mapper.serialize ||
+          registered.conversion !== (mapper as any)[registered.name] ||
+          this.cache.get(model as any)?.get("typeMapper")?.fn !== registered.fn
+        ) {
+          const name = nameOf(model);
+          const fn = createTypeMapper(mapper, model, name);
 
           this.addTypeMapper(model as any, fn);
-          this.typeMappers.set(model, {mapper, fn});
+          this.typeMappers.set(model, {mapper, name, serialize: mapper.serialize, conversion: (mapper as any)[name], fn});
         }
       }
     });
