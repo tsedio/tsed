@@ -3,7 +3,7 @@ import {JsonMapper} from "../decorators/jsonMapper.js";
 import {nameOf} from "@tsed/core";
 
 function isNullish(data: any) {
-  return [null, "null"].includes(data);
+  return data === null || data === "null";
 }
 
 /**
@@ -29,7 +29,9 @@ export class PrimitiveMapper implements JsonMapperMethods {
   }
 
   serialize(object: string | number | boolean | BigInt, ctx: JsonMapperCtx): string | number | boolean | BigInt {
-    return (this as any)[nameOf(ctx?.type)] && typeof object !== "object" ? (this as any)[nameOf(ctx.type)](object, ctx) : object;
+    const name = nameOf(ctx?.type);
+
+    return (this as any)[name] && typeof object !== "object" ? (this as any)[name](object, ctx) : object;
   }
 
   protected String(data: any) {
@@ -37,8 +39,8 @@ export class PrimitiveMapper implements JsonMapperMethods {
   }
 
   protected Boolean(data: any) {
-    if (["true", "1", true].includes(data)) return true;
-    if (["false", "0", false].includes(data)) return false;
+    if (data === "true" || data === "1" || data === true) return true;
+    if (data === "false" || data === "0" || data === false) return false;
     if (isNullish(data)) return null;
     if (data === undefined) return undefined;
 
