@@ -100,6 +100,16 @@ describe("@Authorize() route protection", () => {
     });
   });
 
+  describe("with a new login keeping the previous session info", () => {
+    it("records the protocol of the new login", async () => {
+      await agent.post("/auth/login").send(credentials).expect(200);
+      await agent.post("/auth/basic-login").set("Authorization", basic(credentials.email, credentials.password)).expect(200);
+
+      await agent.get("/guarded/basic").expect(200);
+      await agent.post("/guarded/login").send({}).expect(401);
+    });
+  });
+
   describe("with a session established by a login ending with a redirect", () => {
     it("accepts the session for the protocol that established it", async () => {
       await agent.post("/auth/login-redirect").send(credentials).expect(302).expect("Location", "/guarded/any");

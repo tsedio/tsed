@@ -22,4 +22,10 @@ export class AuthCtrl {
   loginWithRedirect() {
     // FACADE: Passport.js ends the request with a redirect
   }
+
+  @Post("/basic-login")
+  @Authenticate("basic", {keepSessionInfo: true})
+  basicLogin(@Req("user") user: Account) {
+    return {email: user.email};
+  }
 }

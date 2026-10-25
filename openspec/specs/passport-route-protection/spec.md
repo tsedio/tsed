@@ -37,7 +37,12 @@ After a successful `@Authenticate()` that establishes a login session, `Protocol
 #### Scenario: Login ending with a redirect
 
 - **WHEN** a route uses `@Authenticate("login", {successRedirect: "/home"})` and the credentials are valid
-- **THEN** `login` is recorded while Passport.js serializes the user, before the redirect ends the request.
+- **THEN** `login` is recorded in the `req.logIn()` callback, before the redirect ends the request.
+
+#### Scenario: New login keeping the previous session info
+
+- **WHEN** a user logged in with `login` logs in again with `@Authenticate("basic", {keepSessionInfo: true})`
+- **THEN** `basic` is recorded, after Passport.js merged the previous session.
 
 ### Requirement: Reserved session protocol
 
