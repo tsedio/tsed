@@ -5,7 +5,8 @@
  * - `post-edit` (PostToolUse): formats the edited files with oxfmt and applies the safe oxlint fixes.
  *   Never blocks: a remaining lint error is reported to the agent as context.
  * - `stop` (Stop): lints every changed file and runs the workspace import guard. On error, blocks the
- *   end of the turn once so the agent fixes the issues.
+ *   end of the turn once so the agent fixes the issues. When the turn was already continued by this hook
+ *   (`stop_hook_active`), the checks are skipped to avoid an endless loop.
  *
  * The payload is read from stdin. Claude sends `tool_input.file_path`; Codex `apply_patch` sends a patch
  * with `*** Add File:` / `*** Update File:` markers. Both are supported.
@@ -21,8 +22,8 @@ const IGNORED_SEGMENTS = ["node_modules/", "/lib/", "/dist/", "/coverage/", "doc
 const root = git(["rev-parse", "--show-toplevel"]) || process.cwd();
 const bin = (name) => join(root, "node_modules", ".bin", name);
 
-function git(args) {
-  const result = spawnSync("git", args, {encoding: "utf8"});
+function git(args, cwd = process.cwd()) {
+  const result = spawnSync("git", args, {cwd, encoding: "utf8"});
 
   return result.status === 0 ? result.stdout.trim() : "";
 }
@@ -75,8 +76,9 @@ function editedFiles(payload) {
 }
 
 function changedFiles() {
-  const tracked = git(["diff", "--name-only", "--diff-filter=ACMR", "HEAD"]);
-  const untracked = git(["ls-files", "--others", "--exclude-standard"]);
+  // Run from the repository root: `git ls-files` prints paths relative to the current directory.
+  const tracked = git(["diff", "--name-only", "--diff-filter=ACMR", "HEAD"], root);
+  const untracked = git(["ls-files", "--others", "--exclude-standard"], root);
 
   return `${tracked}\n${untracked}`
     .split("\n")

@@ -47,7 +47,7 @@ yarn docs:serve                  # Serve user docs locally
 
 - Never import another package through an absolute path: the workspace import guard (`yarn test:lint`) rejects it.
 - New file in `src/`: run `yarn barrels` in the package so `src/index.ts` exports it.
-- Agent hooks (`.claude/settings.json`, `.codex/hooks.json`) run `tools/agents/hooks/lint-format.mjs`: edited files are fixed with oxlint and formatted with oxfmt after each edit, and the turn cannot end while changed files fail `oxlint` or the workspace import guard. Codex asks to trust the project hooks on first run.
+- Agent hooks (`.claude/settings.json`, `.codex/hooks.json`) run `tools/agents/hooks/lint-format.mjs`: edited files are fixed with oxlint and formatted with oxfmt after each edit, and at the end of a turn changed files are checked with `oxlint` and the workspace import guard: on failure the agent is sent back once to fix them (the checks are skipped when the turn was already continued by the hook, to avoid a loop). Codex asks to trust the project hooks on first run.
 - Tests: never instantiate DI services or modules with `new`. Resolve them with `await PlatformTest.invoke(Token)` or `inject(Token)` so the real provider scope and dependency graph are exercised.
 - Integration tests boot a real app with `PlatformTestSdk` + SuperTest (see `packages/security/passport/test`).
 - JSDoc: when documenting `core`, `di`, `hooks`, `json-mapper` or `schema`, update the matching tracker in `reports/jsdoc/` and run `yarn api:build`. Do not recreate `.plan/*` trackers.
