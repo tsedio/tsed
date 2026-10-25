@@ -1,126 +1,83 @@
 # AGENTS: Ts.ED Development Guidelines
 
-## Build & Configuration
+Authoritative guidance for humans and agents working on Ts.ED. `CLAUDE.md` is a symlink to this file. Update it first whenever a process changes.
 
-### Project Structure
+## Repository map
 
-- `packages/platform/*` – Platform adapters (Express, Fastify, Koa, etc.)
-- `packages/orm/*` – ORM integrations (Mongoose, Prisma, MikroORM, etc.)
-- `packages/graphql/*` – GraphQL integrations (Apollo, TypeGraphQL)
-- `packages/security/*` – Security plugins (Passport, OIDC, JWKS)
-- `packages/specs/*` – Schema and specification tools (AJV, JSON Schema, Swagger)
-- `packages/third-parties/*` – Third-party integrations
-- `packages/{core,di,hooks,engines,perf}` – Core runtime packages
-- `packages/config/*` – Configuration sources
-- `packages/testcontainers/*` – Testcontainers helpers
-- `plugins/*` – Agent plugins (Claude Code / Codex marketplace) for Ts.ED application developers
+| Path                                    | Content                                                            |
+| --------------------------------------- | ------------------------------------------------------------------ |
+| `packages/{core,di,hooks,engines,perf}` | Core runtime                                                       |
+| `packages/platform/*`                   | Platform adapters (Express, Fastify, Koa, ...)                     |
+| `packages/specs/*`                      | Schema and specs (AJV, JSON Schema, JSON mapper, Swagger)          |
+| `packages/orm/*`                        | ORM integrations (Mongoose, Prisma, MikroORM, ...)                 |
+| `packages/graphql/*`                    | GraphQL integrations (Apollo, TypeGraphQL)                         |
+| `packages/security/*`                   | Security plugins (Passport, OIDC, JWKS)                            |
+| `packages/config/*`                     | Configuration sources                                              |
+| `packages/third-parties/*`              | Third-party integrations                                           |
+| `packages/testcontainers/*`             | Testcontainers helpers                                             |
+| `plugins/*`                             | Agent plugins (Claude Code / Codex) for Ts.ED app developers       |
+| `openspec/`                             | Living specs (`specs/`) and changes (`changes/`)                   |
+| `.agents/skills`                        | Shared contributor skills (exposed to Claude via `.claude/skills`) |
+| `reports/jsdoc/`                        | JSDoc coverage trackers                                            |
 
-### Setup Commands
+Stack: Yarn workspaces + Lerna, TypeScript project references (`tsconfig.node.json` / `tsconfig.spec.json`), Vitest (one `vitest.config.mts` per package using `@tsed/vitest/presets`), Oxc (`oxlint`, `oxfmt`), VitePress docs, semantic-release with conventional commits.
 
-```bash
-yarn install      # Install dependencies via Yarn workspaces
-yarn configure    # Generate workspace package references
-yarn build        # Build all packages
-yarn api:build    # Generate API documentation
-```
-
-### Key Configuration Files & Tools
-
-- **Lerna** configuration selects Yarn as npm client, manages 8+ package categories.
-- **TypeScript** project references via `tsconfig.json` -> `tsconfig.node.json` + `tsconfig.spec.json`.
-- **Oxc tooling** integrates `oxlint`, `oxfmt`, import ordering, and workspace boundary validation.
-- **Vitest** multi-project setup with per-package configs.
-
-## Testing
-
-### Framework
-
-- **Vitest** with individual `vitest.config.mts` per package, leveraging `@tsed/vitest/presets`.
-
-### Running Tests
+## Commands
 
 ```bash
-yarn test                # Run all tests
-yarn test:core           # Core packages (@tsed/{core,di,config,hooks,engines})
-yarn test:platform       # Platform packages (@tsed/platform-*)
-yarn test:specs          # Schema packages (@tsed/{ajv,exceptions,json-mapper,schema,swagger})
-yarn test:orm            # ORM packages (@tsed/{adapters,mongoose,prisma,etc})
-yarn test:graphql        # GraphQL packages (@tsed/{apollo,typegraphql})
-yarn test:security       # Security packages (@tsed/{jwks,oidc-provider,passport})
-yarn test:third-parties  # Third-party integrations
-cd packages/<path> && yarn test   # Run tests for specific package
-yarn test --coverage     # Coverage enabled by default per package
+yarn install && yarn configure   # Install, then generate workspace package references
+yarn build                       # Build all packages
+yarn build:references            # Update TS project references
+yarn barrels                     # Regenerate src/index.ts barrels (also per package)
+
+yarn test                        # All tests
+yarn test:{core,platform,specs,orm,graphql,security,third-parties}   # One package family
+cd packages/<path> && yarn test  # One package (fastest loop)
+npx vitest run <file>.spec.ts    # One file, from the package directory
+
+yarn test:lint                   # oxlint + workspace import guard + agent plugins check
+yarn test:lint:fix               # Autofix lint issues
+yarn format                      # oxfmt on the whole repo; `yarn oxfmt <files>` for changed files
+
+yarn api:build                   # Build API docs and validate TSDoc
+yarn docs:serve                  # Serve user docs locally
 ```
 
-- To speed iteration, run package-scoped tests from the package directory (e.g., `cd packages/specs/schema && yarn test`).
-- Individual test files: `npx vitest run specific-file.spec.ts` and watch mode via `npx vitest watch`.
-- **Dependency-injected services and modules:** never instantiate them with `new` in tests. Resolve them through the Ts.ED test injector with `await PlatformTest.invoke(ServiceOrModule)` or `inject(ServiceOrModule)`, so the test exercises the real provider scope and dependency graph.
+## Code rules
 
-## Code Quality
+- Never import another package through an absolute path: the workspace import guard (`yarn test:lint`) rejects it.
+- New file in `src/`: run `yarn barrels` in the package so `src/index.ts` exports it.
+- Agent hooks (`.claude/settings.json`, `.codex/hooks.json`) run `tools/agents/hooks/lint-format.mjs`: edited files are fixed with oxlint and formatted with oxfmt after each edit, and the turn cannot end while changed files fail `oxlint` or the workspace import guard. Codex asks to trust the project hooks on first run.
+- Tests: never instantiate DI services or modules with `new`. Resolve them with `await PlatformTest.invoke(Token)` or `inject(Token)` so the real provider scope and dependency graph are exercised.
+- Integration tests boot a real app with `PlatformTestSdk` + SuperTest (see `packages/security/passport/test`).
+- JSDoc: when documenting `core`, `di`, `hooks`, `json-mapper` or `schema`, update the matching tracker in `reports/jsdoc/` and run `yarn api:build`. Do not recreate `.plan/*` trackers.
 
-### Linting & Formatting
+## Agent workflow
 
-```bash
-yarn test:lint       # Lint workspace with oxlint + workspace import guard
-yarn test:lint:fix   # Fix lint issues
-yarn format          # Format all files
-```
+### Plan with OpenSpec
 
-- `oxlint` is the repository-standard linter, with Vitest checks and import ordering configured at the root.
-- A dedicated workspace import guard preserves the prohibition on absolute imports between packages.
+- Any non-trivial task (3+ steps or an architectural decision) starts with an OpenSpec change. Read `openspec/config.yaml` and the related specs in `openspec/specs/` first.
+- `openspec-explore` (`/opsx:explore`) to think a problem through; `openspec-propose` (`/opsx:propose`) to write `proposal.md`, `design.md`, `tasks.md` and delta `specs/` under `openspec/changes/<change-id>/`.
+- Write the specs upfront with `#### Scenario:` blocks (WHEN/THEN): they remove ambiguity and double as the verification plan. Run `openspec validate <change-id>`.
+- Check in with the user before implementing (`openspec-apply-change` / `/opsx:apply`), then tick `tasks.md` items as you go.
+- If something goes sideways, stop and re-plan: update `design.md` and `tasks.md` instead of pushing on.
+- Once merged, sync the specs (`openspec-sync-specs`) and archive the change (`openspec-archive-change`).
 
-### TypeScript Configuration
+### Execute
 
-- Project references enable incremental builds with separate configs for Node code and tests.
-- Base `tsconfig` sets `baseUrl: "."` for consistent resolution.
+- **Root cause first**: identify the responsible layer (Ts.ED package, integration, third-party library) before changing code. No temporary fixes.
+- **Bugs**: reproduce with a failing test, then fix it autonomously from logs, errors and failing tests. Fix failing CI without being told how.
+- **Subagents**: offload research, exploration and parallel analysis to keep the main context clean, one focused task per subagent.
+- **Minimal impact**: make every change as simple as possible and touch only what is necessary.
+- **Elegance, balanced**: for non-trivial changes, ask whether there is a more elegant way and challenge your own work before presenting it. Do not over-engineer obvious fixes.
 
-## Workflow & Tooling
+### Verify before done
 
-1. **Package Management**: Lerna + Yarn workspaces.
-2. **Build System**: TypeScript project references with incremental compilation.
-3. **Testing**: Vitest per-package configs.
-4. **Documentation**: TSDoc for API docs, VitePress for user docs.
-5. **CI/CD**: Parallelized suites with concurrency limits.
+- Never mark a task complete without proof: package tests, `yarn test:lint`, type check, logs.
+- Compare the behaviour of the base branch with your changes when relevant.
+- Ask yourself: "Would a staff engineer approve this?" Then give a high-level summary of what changed.
 
-### Documentation
+### Learn
 
-```bash
-yarn api:build   # Build API docs
-yarn docs:build  # Build user docs
-yarn docs:serve  # Serve docs locally
-```
-
-### Monorepo Utilities
-
-```bash
-yarn clean               # Clean all packages
-yarn sync:packages       # Sync dependencies
-yarn build:references    # Update TS references
-lerna run <command> --stream  # Run command across packages
-```
-
-### Release Process
-
-- **semantic-release** drives automated releases with conventional commits.
-- Lerna manages individual package versioning.
-
-### Performance & Benchmarking
-
-```bash
-yarn benchmarks
-yarn benchmarks:prepare
-```
-
-## Planning conventions (AI plans storage)
-
-- Use the OpenSpec workflow for all non-trivial work. Review `openspec/config.yaml` (project context and artifact rules) and the living specs under `openspec/specs/` before drafting a proposal; use the `openspec-*` skills in `.agents/skills` or the `openspec` CLI (`openspec list`, `openspec validate <change-id>`).
-- Store new plans/specs under `openspec/changes/<change-id>/` with the standard `proposal.md`, `tasks.md`, `design.md`, and `specs/` structure.
-- JSDoc coverage progress now lives in `reports/jsdoc/`; do not recreate `.plan/*` trackers. For historical context see `openspec/changes/archive/2026-02-08-standardize-jsdoc-tracking`.
-
-## JSDoc coverage trackers
-
-- Package-specific progress reports live under `reports/jsdoc/` (`core.md`, `di.md`, `hooks.md`, `json-mapper.md`, `schema.md`).
-- Each tracker captures the symbol-only rules (including language-specific reminders) plus validation expectations.
-- When you update documentation in any of these packages, update the corresponding tracker and run `yarn api:build` to validate TSDoc.
-
-This AGENTS file is the authoritative source for Ts.ED development guidance. Update this document first whenever processes change, and mirror references elsewhere.
+- After any correction from the user, add a rule to `.agents/lessons.md` that prevents the same mistake.
+- Review `.agents/lessons.md` at the start of each session.
