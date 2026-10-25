@@ -1,0 +1,29 @@
+{
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "apply_patch|Edit|Write",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node \"$(git rev-parse --show-toplevel)/tools/agents/hooks/lint-format.mjs\" post-edit",
+            "statusMessage": "Formatting edited files",
+            "timeout": 60
+          }
+        ]
+      }
+    ],
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node \"$(git rev-parse --show-toplevel)/tools/agents/hooks/lint-format.mjs\" stop",
+            "statusMessage": "Linting changed files",
+            "timeout": 120
+          }
+        ]
+      }
+    ]
+  }
+}
