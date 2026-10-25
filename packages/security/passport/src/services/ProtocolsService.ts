@@ -18,12 +18,6 @@ import {setSessionProtocol} from "../utils/sessionProtocol.js";
 const VERIFIED_PROTOCOL = "PASSPORT_VERIFIED_PROTOCOL";
 
 /**
- * Context key holding the protocols requested by the running `@Authenticate()` call.
- * @ignore
- */
-const LOGIN_PROTOCOLS = "PASSPORT_LOGIN_PROTOCOLS";
-
-/**
  * @ignore
  */
 export class ProtocolsService {
@@ -76,25 +70,6 @@ export class ProtocolsService {
   }
 
   /**
-   * Passport.js serializer layer recording the protocol that establishes the login session.
-   *
-   * It runs inside `req.logIn()`, so the record is kept even when Passport.js ends the request itself
-   * (`successRedirect`, `successReturnToOrRedirect`). It then passes to the next serializer.
-   */
-  public serializeSessionProtocol(req: any, user: any, done: (err: any) => void) {
-    const protocols: string[] | undefined = req.$ctx?.get(LOGIN_PROTOCOLS);
-
-    if (protocols) {
-      const verified = req.$ctx.get(VERIFIED_PROTOCOL);
-      const protocol = protocols.includes(verified) ? verified : protocols.length === 1 ? protocols[0] : undefined;
-
-      protocol && setSessionProtocol(req, protocol);
-    }
-
-    done("pass");
-  }
-
-  /**
    * Call authenticate passport method.
    * @param protocols
    * @param options
@@ -136,9 +111,7 @@ export class ProtocolsService {
       throw new Unauthorized("Not authorized");
     }
 
-    if (method === "authenticate") {
-      ctx.set(LOGIN_PROTOCOLS, protocols);
-    }
+    const restoreLogIn = method === "authenticate" ? this.recordSessionProtocol(protocols, ctx) : undefined;
 
     try {
       options.failWithError = true;
@@ -152,7 +125,48 @@ export class ProtocolsService {
       }
 
       throw er;
+    } finally {
+      restoreLogIn?.();
     }
+  }
+
+  /**
+   * Wrap `req.logIn()` for the running `@Authenticate()` call to record the protocol that establishes the
+   * login session. The record is written in the `req.logIn()` callback, once Passport.js has finished updating
+   * the session (`keepSessionInfo` merge, Passport.js 0.4 session object replacement) and before it ends the
+   * request itself (`successRedirect`).
+   *
+   * Return a function restoring the original `req.logIn()`.
+   */
+  private recordSessionProtocol(protocols: string[], ctx: PlatformContext) {
+    const request = ctx.getRequest();
+    const logIn = request.logIn;
+
+    if (typeof logIn !== "function") {
+      return;
+    }
+
+    request.login = request.logIn = function (this: any, user: any, options: any, done?: any) {
+      if (typeof options === "function") {
+        done = options;
+        options = {};
+      }
+
+      return logIn.call(this, user, options, (err?: any) => {
+        const verified = ctx.get(VERIFIED_PROTOCOL);
+        const protocol = protocols.includes(verified) ? verified : protocols.length === 1 ? protocols[0] : undefined;
+
+        if (!err && options?.session !== false && protocol) {
+          setSessionProtocol(this, protocol);
+        }
+
+        done?.(err);
+      });
+    };
+
+    return () => {
+      request.login = request.logIn = logIn;
+    };
   }
 
   /**

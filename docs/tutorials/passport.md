@@ -150,7 +150,7 @@ The protocols given to the decorator decide what the route accepts:
 | `@Authorize("login")` (`loginOnly`) | accepted only if `login` established it        | rejected with `401`, the strategy never runs               |
 
 - `session` is a reserved protocol name: it is satisfied by an existing login session and never runs a strategy.
-- When the session was established by another protocol, it is ignored and the declared strategies run. For example a user logged in with a form cannot reach `@Authorize("basic")` without Basic credentials.
+- Unless the declaration includes `session` (or `"*"`), a session established by another protocol is ignored and the declared strategies run. For example a user logged in with a form cannot reach `@Authorize("basic")` without Basic credentials.
 - `@Authorize()` runs the strategy through `Passport.authorize()`: the authenticated user is exposed on `req.account` and no login session is created. Use `@Authenticate()` on login endpoints.
 
 ### Login-only protocols
