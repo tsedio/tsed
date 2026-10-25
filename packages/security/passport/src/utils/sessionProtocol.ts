@@ -13,14 +13,14 @@ export function getSessionProtocol(req: any): string | undefined {
 }
 
 /**
- * Record the protocol that established the current login session, next to the user stored by Passport.js.
+ * Record the protocol that establishes the current login session, next to the user stored by Passport.js.
+ * Called while Passport.js serializes the user, before it stores `req.session.passport.user`.
  * The record is dropped with the login state on `req.logout()`.
  * @ignore
  */
 export function setSessionProtocol(req: any, protocol: string) {
-  const state = req.session?.[PASSPORT_SESSION_KEY];
-
-  if (state && state.user !== undefined) {
-    state.protocol = protocol;
+  if (req.session) {
+    req.session[PASSPORT_SESSION_KEY] = req.session[PASSPORT_SESSION_KEY] || {};
+    req.session[PASSPORT_SESSION_KEY].protocol = protocol;
   }
 }

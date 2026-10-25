@@ -99,4 +99,14 @@ describe("@Authorize() route protection", () => {
       await agent.get("/guarded/jwt").set("Authorization", `Bearer ${VALID_TOKEN}`).expect(200);
     });
   });
+
+  describe("with a session established by a login ending with a redirect", () => {
+    it("accepts the session for the protocol that established it", async () => {
+      await agent.post("/auth/login-redirect").send(credentials).expect(302).expect("Location", "/guarded/any");
+
+      const {body} = await agent.post("/guarded/login").send({}).expect(200);
+
+      expect(body).toEqual({user: "admin@tsed.dev"});
+    });
+  });
 });

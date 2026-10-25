@@ -141,13 +141,13 @@ The guard only checks **who** the caller is (authentication). Roles and permissi
 
 The protocols given to the decorator decide what the route accepts:
 
-| Declaration                         | Existing login session                         | No session                                   |
-| ----------------------------------- | ---------------------------------------------- | -------------------------------------------- |
-| `@Authorize()` (`"*"`)              | accepted                                       | every registered protocol is tried           |
-| `@Authorize("session")`             | accepted                                       | rejected with `401`                          |
-| `@Authorize(["session", "jwt"])`    | accepted                                       | the `jwt` strategy runs                      |
-| `@Authorize("jwt")`                 | accepted only if `jwt` established the session | the `jwt` strategy runs                      |
-| `@Authorize("login")` (`loginOnly`) | accepted only if `login` established it        | rejected with `401`, the strategy never runs |
+| Declaration                         | Existing login session                         | No session                                                 |
+| ----------------------------------- | ---------------------------------------------- | ---------------------------------------------------------- |
+| `@Authorize()` (`"*"`)              | accepted                                       | every registered protocol except `loginOnly` ones is tried |
+| `@Authorize("session")`             | accepted                                       | rejected with `401`                                        |
+| `@Authorize(["session", "jwt"])`    | accepted                                       | the `jwt` strategy runs                                    |
+| `@Authorize("jwt")`                 | accepted only if `jwt` established the session | the `jwt` strategy runs                                    |
+| `@Authorize("login")` (`loginOnly`) | accepted only if `login` established it        | rejected with `401`, the strategy never runs               |
 
 - `session` is a reserved protocol name: it is satisfied by an existing login session and never runs a strategy.
 - When the session was established by another protocol, it is ignored and the declared strategies run. For example a user logged in with a form cannot reach `@Authorize("basic")` without Basic credentials.
