@@ -9,6 +9,7 @@ import {UsersRepository} from "../services/UsersRepository.js";
 
 @Protocol<IStrategyOptions>({
   name: "login",
+  loginOnly: true,
   useStrategy: Strategy,
   settings: {
     usernameField: "email",

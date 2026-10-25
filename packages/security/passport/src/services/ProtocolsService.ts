@@ -9,12 +9,20 @@ import type {ProtocolOptions} from "../interfaces/ProtocolOptions.js";
 import {Unauthorized} from "@tsed/exceptions";
 import {ancestorsOf} from "@tsed/core";
 import {promisify} from "node:util";
+import {setSessionProtocol} from "../utils/sessionProtocol.js";
+
+/**
+ * Context key holding the name of the protocol whose verify callback accepted the request.
+ * @ignore
+ */
+const VERIFIED_PROTOCOL = "PASSPORT_VERIFIED_PROTOCOL";
 
 /**
  * @ignore
  */
 export class ProtocolsService {
   readonly strategies: Map<string, Strategy> = new Map();
+  readonly loginOnlyProtocols: Set<string> = new Set();
   protected platformHandler = inject(PlatformHandler);
 
   public getProtocols(): Provider[] {
@@ -26,11 +34,19 @@ export class ProtocolsService {
   }
 
   /**
+   * Return true when the protocol must only run on login endpoints (`@Authenticate()`).
+   * @param name
+   */
+  public isLoginOnly(name: string): boolean {
+    return this.loginOnlyProtocols.has(name);
+  }
+
+  /**
    * Invoke provider and bind it to passport.
    * @param provider
    */
   async invoke(provider: Provider) {
-    let {name, useStrategy: strategy, settings} = this.getOptions(provider);
+    let {name, useStrategy: strategy, settings, loginOnly} = this.getOptions(provider);
     const protocol = inject<ProtocolMethods & Record<string, any>>(provider.token)!;
 
     if (protocol.$beforeInstall) {
@@ -40,6 +56,7 @@ export class ProtocolsService {
     const instance = new strategy(settings, this.createHandler(provider));
 
     this.strategies.set(name, instance);
+    loginOnly ? this.loginOnlyProtocols.add(name) : this.loginOnlyProtocols.delete(name);
 
     Passport.use(name, instance);
 
@@ -100,6 +117,12 @@ export class ProtocolsService {
       const fn = promisify(Passport[method](protocols.length === 1 ? protocols[0] : protocols, options));
 
       await fn(request, response);
+
+      if (method === "authenticate" && options.session !== false) {
+        const protocol = ctx.get(VERIFIED_PROTOCOL) || (protocols.length === 1 ? protocols[0] : undefined);
+
+        protocol && setSessionProtocol(request, protocol);
+      }
     } catch (er) {
       if (!ancestorsOf(er).includes(Error)) {
         throw new PassportException(er);
@@ -115,12 +138,17 @@ export class ProtocolsService {
    * @private
    */
   private getOptions(provider: Provider<any>): ProtocolOptions {
-    const {name} = provider.store.get("protocol");
-    const {useStrategy = Strategy, settings = {}} = constant<ProtocolOptions>(`passport.protocols.${name}`) || {};
+    const {name, loginOnly: defaultLoginOnly = false} = provider.store.get("protocol");
+    const {
+      useStrategy = Strategy,
+      settings = {},
+      loginOnly = defaultLoginOnly
+    } = constant<ProtocolOptions>(`passport.protocols.${name}`) || ({} as ProtocolOptions);
 
     return {
       name,
       useStrategy,
+      loginOnly,
       settings: {
         ...settings,
         passReqToCallback: true
@@ -135,6 +163,7 @@ export class ProtocolsService {
    */
   private createHandler(provider: Provider) {
     const middleware = this.platformHandler.createCustomHandler(provider, "$onVerify");
+    const {name} = provider.store.get("protocol");
 
     return async (req: any, ...args: any[]) => {
       const done = args[args.length - 1];
@@ -144,6 +173,10 @@ export class ProtocolsService {
 
         try {
           await middleware(req.$ctx);
+
+          if ([].concat(req.$ctx.data)[0]) {
+            req.$ctx.set(VERIFIED_PROTOCOL, name);
+          }
 
           done(null, ...[].concat(req.$ctx.data));
         } catch (err) {
