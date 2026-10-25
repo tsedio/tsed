@@ -34,6 +34,11 @@ After a successful `@Authenticate()` that establishes a login session, `Protocol
 - **WHEN** a route uses `@Authenticate("basic", {session: false})`
 - **THEN** the recorded protocol of an existing session is left unchanged.
 
+#### Scenario: Login ending with a redirect
+
+- **WHEN** a route uses `@Authenticate("login", {successRedirect: "/home"})` and the credentials are valid
+- **THEN** `login` is recorded while Passport.js serializes the user, before the redirect ends the request.
+
 ### Requirement: Reserved session protocol
 
 The `"session"` protocol name SHALL be satisfied by an authenticated session and MUST NOT be forwarded to Passport.js. When no other protocol is declared, a request without session MUST be rejected with `401`.

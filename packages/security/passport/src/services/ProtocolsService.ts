@@ -18,6 +18,12 @@ import {setSessionProtocol} from "../utils/sessionProtocol.js";
 const VERIFIED_PROTOCOL = "PASSPORT_VERIFIED_PROTOCOL";
 
 /**
+ * Context key holding the protocols requested by the running `@Authenticate()` call.
+ * @ignore
+ */
+const LOGIN_PROTOCOLS = "PASSPORT_LOGIN_PROTOCOLS";
+
+/**
  * @ignore
  */
 export class ProtocolsService {
@@ -70,6 +76,25 @@ export class ProtocolsService {
   }
 
   /**
+   * Passport.js serializer layer recording the protocol that establishes the login session.
+   *
+   * It runs inside `req.logIn()`, so the record is kept even when Passport.js ends the request itself
+   * (`successRedirect`, `successReturnToOrRedirect`). It then passes to the next serializer.
+   */
+  public serializeSessionProtocol(req: any, user: any, done: (err: any) => void) {
+    const protocols: string[] | undefined = req.$ctx?.get(LOGIN_PROTOCOLS);
+
+    if (protocols) {
+      const verified = req.$ctx.get(VERIFIED_PROTOCOL);
+      const protocol = protocols.includes(verified) ? verified : protocols.length === 1 ? protocols[0] : undefined;
+
+      protocol && setSessionProtocol(req, protocol);
+    }
+
+    done("pass");
+  }
+
+  /**
    * Call authenticate passport method.
    * @param protocols
    * @param options
@@ -111,18 +136,16 @@ export class ProtocolsService {
       throw new Unauthorized("Not authorized");
     }
 
+    if (method === "authenticate") {
+      ctx.set(LOGIN_PROTOCOLS, protocols);
+    }
+
     try {
       options.failWithError = true;
       // @ts-ignore
       const fn = promisify(Passport[method](protocols.length === 1 ? protocols[0] : protocols, options));
 
       await fn(request, response);
-
-      if (method === "authenticate" && options.session !== false) {
-        const protocol = ctx.get(VERIFIED_PROTOCOL) || (protocols.length === 1 ? protocols[0] : undefined);
-
-        protocol && setSessionProtocol(request, protocol);
-      }
     } catch (er) {
       if (!ancestorsOf(er).includes(Error)) {
         throw new PassportException(er);

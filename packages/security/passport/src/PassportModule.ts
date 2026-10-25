@@ -32,6 +32,8 @@ export class PassportModule implements OnInit, BeforeRoutesInit {
   ) {}
 
   async $onInit(): Promise<any> {
+    // Runs first: records the protocol of the login, then passes to the user serializer.
+    Passport.serializeUser(this.protocolsService.serializeSessionProtocol.bind(this.protocolsService) as any);
     Passport.serializeUser(this.passportSerializer.serialize.bind(this.passportSerializer) as any);
     Passport.deserializeUser(this.passportSerializer.deserialize.bind(this.passportSerializer) as any);
 
