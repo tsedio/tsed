@@ -137,6 +137,50 @@ This controller will provide all required endpoints that will be used by the dif
 
 <<< @/tutorials/snippets/passport/guard-ctrl.ts
 
+The guard only checks **who** the caller is (authentication). Roles and permissions are not checked: see [Roles](#roles).
+
+The protocols given to the decorator decide what the route accepts:
+
+| Declaration                         | Existing login session                         | No session                                   |
+| ----------------------------------- | ---------------------------------------------- | -------------------------------------------- |
+| `@Authorize()` (`"*"`)              | accepted                                       | every registered protocol is tried           |
+| `@Authorize("session")`             | accepted                                       | rejected with `401`                          |
+| `@Authorize(["session", "jwt"])`    | accepted                                       | the `jwt` strategy runs                      |
+| `@Authorize("jwt")`                 | accepted only if `jwt` established the session | the `jwt` strategy runs                      |
+| `@Authorize("login")` (`loginOnly`) | accepted only if `login` established it        | rejected with `401`, the strategy never runs |
+
+- `session` is a reserved protocol name: it is satisfied by an existing login session and never runs a strategy.
+- When the session was established by another protocol, it is ignored and the declared strategies run. For example a user logged in with a form cannot reach `@Authorize("basic")` without Basic credentials.
+- `@Authorize()` runs the strategy through `Passport.authorize()`: the authenticated user is exposed on `req.account` and no login session is created. Use `@Authenticate()` on login endpoints.
+
+### Login-only protocols
+
+An interactive login strategy, such as `passport-local`, should only run on the login endpoint, where you apply CAPTCHA,
+rate limiting or audit logging. Set `loginOnly: true` on the protocol so that `@Authorize()` accepts it only through the session it established,
+instead of exchanging credentials sent to a business route:
+
+```typescript
+@Protocol<IStrategyOptions>({
+  name: "login",
+  useStrategy: Strategy,
+  loginOnly: true,
+  settings: {
+    usernameField: "email",
+    passwordField: "password"
+  }
+})
+export class LoginLocalProtocol implements OnVerify {}
+```
+
+The option can also be set from the configuration with `passport.protocols.login.loginOnly`.
+
+::: warning Upgrade note
+In previous versions, any authenticated session skipped the guard, whatever the declared protocol. Ts.ED now records the protocol that
+established the session on login. Sessions created before the upgrade, or with a manual `req.login()`, have no recorded protocol:
+they are still accepted by `@Authorize()` and `@Authorize("session")`, but not by a route that only declares a specific protocol.
+Add `"session"` to the declaration, for example `@Authorize(["session", "basic"])`, when such a route must keep accepting them.
+:::
+
 ## Basic Auth
 
 It is also possible to use the Basic Auth. To do that, you have to create a Protocol based on `passport-http` strategy.

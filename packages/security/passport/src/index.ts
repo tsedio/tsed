@@ -20,3 +20,4 @@ export * from "./PassportModule.js";
 export * from "./services/PassportSerializerService.js";
 export * from "./services/ProtocolsService.js";
 export * from "./utils/getProtocolsFromRequest.js";
+export * from "./utils/sessionProtocol.js";
