@@ -5,6 +5,15 @@
 const PASSPORT_SESSION_KEY = "passport";
 
 /**
+ * Return true when the request carries a login session persisted by Passport.js. `req.isAuthenticated()` is not
+ * enough: a stateless strategy (`session: false`) sets `req.user` without any session.
+ * @ignore
+ */
+export function hasLoginSession(req: any): boolean {
+  return req.session?.[PASSPORT_SESSION_KEY]?.user !== undefined;
+}
+
+/**
  * Return the name of the protocol that established the current login session.
  * @ignore
  */

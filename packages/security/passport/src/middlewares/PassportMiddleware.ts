@@ -4,7 +4,7 @@ import {Inject} from "@tsed/di";
 import {Middleware} from "@tsed/platform-middlewares";
 import {ProtocolsService} from "../services/ProtocolsService.js";
 import {getProtocolsFromRequest} from "../utils/getProtocolsFromRequest.js";
-import {getSessionProtocol} from "../utils/sessionProtocol.js";
+import {getSessionProtocol, hasLoginSession} from "../utils/sessionProtocol.js";
 
 /**
  * Reserved protocol name satisfied by an existing login session. It never runs a Passport strategy.
@@ -20,12 +20,12 @@ export class PassportMiddleware {
    * Return true when an existing login session satisfies the protocols declared on the endpoint:
    *
    * - the endpoint accepts any protocol (`"*"`),
-   * - the endpoint accepts the reserved `"session"` protocol,
-   * - or the session was established by one of the endpoint protocols.
+   * - the endpoint accepts the reserved `"session"` protocol and the request carries a persisted login session,
+   * - or the persisted login session was established by one of the endpoint protocols.
    *
    * A session established by another protocol never satisfies the endpoint: its strategies run instead.
    */
-  shouldSkip(ctx: Context, protocol: string | string[], protocols: string[]) {
+  shouldSkip(protocol: string | string[], protocols: string[], ctx: Context) {
     const request = ctx.getRequest();
 
     if (!(request.user && request.isAuthenticated?.())) {
@@ -34,13 +34,18 @@ export class PassportMiddleware {
 
     const acceptsAny = isArray(protocol) ? protocol.includes("*") : protocol === "*";
 
-    if (acceptsAny || protocols.includes(SESSION_PROTOCOL)) {
+    if (acceptsAny) {
       return true;
+    }
+
+    // The session rules require a persisted login session, not only a user set by a stateless strategy.
+    if (!hasLoginSession(request)) {
+      return false;
     }
 
     const sessionProtocol = getSessionProtocol(request);
 
-    return !!sessionProtocol && protocols.includes(sessionProtocol);
+    return protocols.includes(SESSION_PROTOCOL) || (!!sessionProtocol && protocols.includes(sessionProtocol));
   }
 
   async use(@Context() ctx: Context) {
@@ -49,7 +54,7 @@ export class PassportMiddleware {
     const {options, protocol, method, originalUrl = true} = endpoint.store.get(PassportMiddleware);
     const protocols = getProtocolsFromRequest(request, protocol, this.protocolsService.getProtocolsNames());
 
-    if (this.shouldSkip(ctx, protocol, protocols)) {
+    if (this.shouldSkip(protocol, protocols, ctx)) {
       return;
     }
 
