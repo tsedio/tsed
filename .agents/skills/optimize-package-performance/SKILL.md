@@ -29,19 +29,20 @@ Benchmark in the package itself, through Vitest. Its SWC transform emits decorat
    cd packages/<path> && BENCH_OUT=/tmp/bench.txt LABEL=base npx vitest run test/zz-perf.spec.ts --coverage.enabled=false
    ```
 
-4. Check the machine load (`uptime`) first. Other sessions, IDEs and test runs move results by 20% or more. Never compare runs taken at different times: use the A/B loop of step 5.
+4. Check the machine load (`uptime`) first. Other sessions, IDEs and test runs move results by 20% or more. Never compare runs taken at different times: use the A/B loop of step 6.
 
 ## 3. Profile
 
-Profile one scenario at a time (`ONLY=<scenario name>`), otherwise the cheap scenarios hide the expensive one:
+Profile one scenario at a time (`ONLY=<scenario name>`), otherwise the cheap scenarios hide the expensive one. From the package directory:
 
 ```bash
+rm -rf /tmp/prof
 ONLY="20 orders" BENCH_OUT=/tmp/bench.txt npx vitest run test/zz-perf.spec.ts --coverage.enabled=false \
   --pool=forks --execArgv=--cpu-prof --execArgv=--cpu-prof-dir=/tmp/prof
-node .agents/skills/optimize-package-performance/references/profile-summary.mjs /tmp/prof/*.cpuprofile
+node "$(git rev-parse --show-toplevel)/.agents/skills/optimize-package-performance/references/profile-summary.mjs" /tmp/prof/*.cpuprofile
 ```
 
-The summary lists self time per function. Ignore start-up noise (`readFileUtf8`, `module-runner`, `compileSourceTextModule`, `(idle)`). Line numbers point to the transformed code, so match them by function name. Rank candidates by self time plus the allocations their callers make for them.
+The summary lists self time per function, one table per profile file (`--top=<n>` changes the number of rows, 30 by default). Ignore start-up noise (`readFileUtf8`, `module-runner`, `compileSourceTextModule`, `(idle)`). Line numbers point to the transformed code, so match them by function name. Rank candidates by self time plus the allocations their callers make for them.
 
 ## 4. Change one thing at a time
 
@@ -66,14 +67,15 @@ The summary lists self time per function. Ignore start-up noise (`readFileUtf8`,
 
 ## 6. Report a fair comparison
 
-Run the A/B loop: old and new code alternated, two rounds, same machine state:
+Run the A/B loop: old and new code alternated, in the same machine state. The order flips every round, so cache, heat or CPU frequency drift does not always favour the same side, and each label records its round:
 
 ```bash
-for i in 1 2; do
-  git stash push -q -- <changed src files>
-  BENCH_OUT=/tmp/ab.txt LABEL=before npx vitest run test/zz-perf.spec.ts --coverage.enabled=false
-  git stash pop -q
-  BENCH_OUT=/tmp/ab.txt LABEL=after npx vitest run test/zz-perf.spec.ts --coverage.enabled=false
+: > /tmp/ab.txt   # start from an empty file, the harness appends
+run() { BENCH_OUT=/tmp/ab.txt LABEL="$1-r$2" npx vitest run test/zz-perf.spec.ts --coverage.enabled=false; }
+old() { git stash push -q -- <changed src files>; run before "$1"; git stash pop -q; }
+
+for i in 1 2 3 4; do
+  if [ $((i % 2)) -eq 1 ]; then old "$i"; run after "$i"; else run after "$i"; old "$i"; fi
 done
 sort -k3 /tmp/ab.txt
 ```

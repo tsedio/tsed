@@ -1,29 +1,47 @@
-// Print the functions with the most self time in a V8 .cpuprofile (from node --cpu-prof).
-// Usage: node profile-summary.mjs <file.cpuprofile> [count]
+// Print the functions with the most self time in V8 .cpuprofile files (from node --cpu-prof), one table per file.
+// Usage: node profile-summary.mjs [--top=30] <file.cpuprofile>...
 import {readFileSync} from "node:fs";
 
-const [file, count = "30"] = process.argv.slice(2);
+const args = process.argv.slice(2);
+const topArg = args.find((arg) => arg.startsWith("--top="));
+const top = topArg ? Number(topArg.slice("--top=".length)) : 30;
+const files = args.filter((arg) => !arg.startsWith("--"));
 
-if (!file) {
-  console.error("Usage: node profile-summary.mjs <file.cpuprofile> [count]");
+if (!files.length || !Number.isInteger(top) || top <= 0) {
+  console.error("Usage: node profile-summary.mjs [--top=30] <file.cpuprofile>...");
   process.exit(1);
 }
 
-const profile = JSON.parse(readFileSync(file, "utf8"));
-const nodes = new Map(profile.nodes.map((node) => [node.id, node]));
-const selfTime = new Map();
-let total = 0;
+function shortUrl(url) {
+  return url.split("/").slice(-2).join("/");
+}
 
-profile.samples.forEach((id, index) => {
-  const delta = profile.timeDeltas[index] || 0;
-  const {functionName, url, lineNumber} = nodes.get(id).callFrame;
-  const key = `${functionName || "(anonymous)"} ${url.split("/").slice(-2).join("/")}:${lineNumber + 1}`;
+function summarize(file) {
+  const profile = JSON.parse(readFileSync(file, "utf8"));
+  const nodes = new Map(profile.nodes.map((node) => [node.id, node]));
+  // keyed by the full url, so functions with the same name and line in different files stay apart
+  const selfTime = new Map();
+  let total = 0;
 
-  selfTime.set(key, (selfTime.get(key) || 0) + delta);
-  total += delta;
-});
+  profile.samples.forEach((id, index) => {
+    const delta = profile.timeDeltas[index] || 0;
+    const {functionName, url, lineNumber} = nodes.get(id).callFrame;
+    const key = `${functionName || "(anonymous)"}\0${url}\0${lineNumber + 1}`;
+    const entry = selfTime.get(key) || {functionName: functionName || "(anonymous)", url, line: lineNumber + 1, time: 0};
 
-[...selfTime.entries()]
-  .sort((a, b) => b[1] - a[1])
-  .slice(0, Number(count))
-  .forEach(([key, time]) => console.log(`${((time / total) * 100).toFixed(1).padStart(5)}%  ${key}`));
+    entry.time += delta;
+    selfTime.set(key, entry);
+    total += delta;
+  });
+
+  console.log(`\n${file}`);
+
+  [...selfTime.values()]
+    .sort((a, b) => b.time - a.time)
+    .slice(0, top)
+    .forEach(({functionName, url, line, time}) => {
+      console.log(`${((time / total) * 100).toFixed(1).padStart(5)}%  ${functionName} ${shortUrl(url)}:${line}`);
+    });
+}
+
+files.forEach(summarize);
