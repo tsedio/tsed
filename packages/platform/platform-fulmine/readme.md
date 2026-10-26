@@ -42,6 +42,14 @@ uWebSockets.js. The platform uses the Express adapter for the routing, so the Ex
 app stay the same, and the app listens on uWebSockets.js instead of the http server of node. `express` is
 still needed, as a peer of `@tsed/platform-express`.
 
+About the install:
+
+- fulmine.js depends on `uWebSockets.js` from GitHub (`github:uNetworking/uWebSockets.js#v20.71.0`), not from the npm
+  registry, so the install needs access to github.com. Behind a registry mirror or a proxy that only allows npm, it fails.
+- uWebSockets.js is a native addon with prebuilt binaries: Node 22, 24 or 26 on Linux or macOS (x64 or arm64) or
+  Windows (x64). Not Alpine (glibc 2.38+ is needed).
+- On Bun and Deno fulmine.js does not load uWebSockets.js and listens with their own `node:http`, plain HTTP only.
+
 ## Usage
 
 ```typescript

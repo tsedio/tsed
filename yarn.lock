@@ -13539,7 +13539,7 @@ __metadata:
     "@tsed/platform-views": ">=8.0.0"
     "@tsed/schema": ">=8.0.0"
     express: ">=5.0.0"
-    fulmine.js: ">=5.25.7"
+    fulmine.js: ^5.25.7
   peerDependenciesMeta:
     "@tsed/core":
       optional: false
