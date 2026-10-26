@@ -415,7 +415,14 @@ export class JsonSerializer extends JsonMapperCompiler<JsonSerializerOptions> {
     const out = new Array(list.length);
 
     for (let i = 0; i < list.length; i++) {
-      out[i] = this.mapItem(list[i], id, options);
+      const item = list[i];
+
+      // keep the holes of a sparse array, like the former .map(): the item mapper is not called for them
+      if (item === undefined && !(i in list)) {
+        continue;
+      }
+
+      out[i] = this.mapItem(item, id, options);
     }
 
     return out;
