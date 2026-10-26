@@ -110,6 +110,24 @@ describe("JsonDeserializer type mappers", () => {
     expect(deserializer.map(rawItem(), {type: Item, types}).at).toEqual(`converted:${at}`);
   });
 
+  it("should use deserialize when the conversion method is not a function", () => {
+    const mapper: any = Object.assign(new DateMapper(), {Date: undefined});
+    mapper.deserialize = (value: any) => `deserialized:${value}`;
+
+    const deserializer = new JsonDeserializer();
+    const types = typesWith(Date, mapper);
+
+    expect(deserializer.map(rawItem(), {type: Item, types}).at).toEqual(`deserialized:${at}`);
+
+    mapper.Date = (value: any) => `converted:${value}`;
+
+    expect(deserializer.map(rawItem(), {type: Item, types}).at).toEqual(`converted:${at}`);
+
+    mapper.Date = undefined;
+
+    expect(deserializer.map(rawItem(), {type: Item, types}).at).toEqual(`deserialized:${at}`);
+  });
+
   it("should keep the last of two mappers sharing a name when the first one changes", () => {
     const byName = {serialize: (value: any) => value, deserialize: (value: any) => `by-name:${value}`};
     const deserializer = new JsonDeserializer();

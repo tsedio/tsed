@@ -1,6 +1,6 @@
 import {CachedGroupsJsonMapper, CachedJsonMapper, JsonMapperCallback, JsonMapperCompiler} from "./JsonMapperCompiler.js";
 import {JsonClassStore, JsonParameterStore, JsonPropertyStore, JsonSchema, VendorKeys, getPropertiesStores, s} from "@tsed/schema";
-import {Type, classOf, isArray, isBoolean, isEmpty, isNil, nameOf, objectKeys} from "@tsed/core";
+import {Type, classOf, isArray, isBoolean, isEmpty, isFunction, isNil, nameOf, objectKeys} from "@tsed/core";
 import {JsonMapperMethods} from "../interfaces/JsonMapperMethods.js";
 import {JsonDeserializerOptions} from "./JsonDeserializerOptions.js";
 import {JsonMapperSettings} from "./JsonMapperSettings.js";
@@ -15,6 +15,14 @@ import {getJsonMapperTypes} from "./JsonMapperTypesContainer.js";
  * (e.g. `PrimitiveMapper.String`) when it was registered: the function calls that method, otherwise `deserialize()`.
  */
 type TypeMapperEntry = {mapper: JsonMapperMethods; name: string; hasConversion: boolean; fn: JsonMapperCallback<any>};
+
+/**
+ * Whether the mapper has a callable method named after the type. A property set to another value (e.g. `undefined`
+ * to disable the conversion) falls back to `deserialize()` instead of throwing.
+ */
+function hasConversionMethod(mapper: JsonMapperMethods, name: string) {
+  return isFunction((mapper as any)[name]);
+}
 
 function isDeserializable(obj: any, options: JsonDeserializerOptions) {
   if ((!!options.collectionType && isNil(obj)) || obj === undefined) {
@@ -312,7 +320,7 @@ export class JsonDeserializer extends JsonMapperCompiler<JsonDeserializerOptions
     }
 
     const mapperChanged = registered.mapper !== mapper;
-    const hasConversion = registered.name in mapper;
+    const hasConversion = hasConversionMethod(mapper, registered.name);
     const conversionChanged = registered.hasConversion !== hasConversion;
     // two models with the same name (Date and "Date") share the mapper table entry: the last registered one wins
     const entryReplaced = this.cache.get(model)?.get("typeMapper")?.fn !== registered.fn || this.mappers[registered.name] !== registered.fn;
@@ -322,7 +330,7 @@ export class JsonDeserializer extends JsonMapperCompiler<JsonDeserializerOptions
 
   private registerTypeMapper(model: any, mapper: JsonMapperMethods) {
     const name = nameOf(model);
-    const hasConversion = name in mapper;
+    const hasConversion = hasConversionMethod(mapper, name);
     const fn: JsonMapperCallback<any> = hasConversion
       ? (value, options) => (mapper as any)[name](value, options)
       : (value, options) => mapper.deserialize(value, {...options, type: model});
