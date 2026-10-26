@@ -67,15 +67,24 @@ The summary lists self time per function, one table per profile file (`--top=<n>
 
 ## 6. Report a fair comparison
 
-Run the A/B loop: old and new code alternated, in the same machine state. The order flips every round, so cache, heat or CPU frequency drift does not always favour the same side, and each label records its round:
+Run the A/B loop: old and new code alternated, in the same machine state. The order flips every round, so cache, heat or CPU frequency drift does not always favour the same side, and each label records its round. The loop stops at the first failing run, and `old` always restores the new code before returning:
 
 ```bash
+FILES=(<changed src files>)   # an array: works in bash and zsh
 : > /tmp/ab.txt   # start from an empty file, the harness appends
 run() { BENCH_OUT=/tmp/ab.txt LABEL="$1-r$2" npx vitest run test/zz-perf.spec.ts --coverage.enabled=false; }
-old() { git stash push -q -- <changed src files>; run before "$1"; git stash pop -q; }
+old() {
+  # without changes, stash push saves nothing and the pop would restore an unrelated stash
+  git diff --quiet -- "${FILES[@]}" && { echo "no change to compare"; return 1; }
+  git stash push -q -- "${FILES[@]}" || return 1
+  run before "$1"; local code=$?
+  git stash pop -q || { echo "stash pop failed: restore the new code with git stash pop"; return 1; }
+  return $code
+}
 
 for i in 1 2 3 4; do
-  if [ $((i % 2)) -eq 1 ]; then old "$i"; run after "$i"; else run after "$i"; old "$i"; fi
+  if [ $((i % 2)) -eq 1 ]; then old "$i" && run after "$i"; else run after "$i" && old "$i"; fi \
+    || { echo "round $i failed, /tmp/ab.txt is incomplete"; break; }
 done
 sort -k3 /tmp/ab.txt
 ```

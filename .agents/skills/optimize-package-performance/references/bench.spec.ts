@@ -27,7 +27,14 @@ async function bench(name: string, fn: () => unknown, durationMs = 1500) {
     return;
   }
 
-  const isAsync = isPromiseLike(fn());
+  // the first call only detects the kind of scenario; awaited, so it never overlaps the warm-up
+  const first = fn();
+  const isAsync = isPromiseLike(first);
+
+  if (isAsync) {
+    await first;
+  }
+
   const runBatch = isAsync
     ? async (size: number) => {
         for (let i = 0; i < size; i++) await fn();
