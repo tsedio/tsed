@@ -10,12 +10,55 @@ import {inlineRefs} from "../utils/inlineRefs.js";
 /**
  * @ignore
  */
-const CACHES = new Map<Type | JsonParameterStore | JsonSchema, Map<string, any>>();
+const CACHES = new WeakMap<Type | JsonParameterStore | JsonSchema, Map<string, any>>();
+
+/**
+ * @ignore
+ */
+function isPrimitiveValue(value: unknown) {
+  return value === null || (typeof value !== "object" && typeof value !== "function");
+}
+
+/**
+ * Options holding only primitives and arrays of primitives (the usual `groups`, `customKeys`, `specType`...)
+ * give the same key with the native `JSON.stringify`, because the replacer below returns them unchanged.
+ * @ignore
+ */
+function hasOnlyPrimitiveValues(options: any) {
+  for (const key in options) {
+    // always set by compile() to an empty object
+    if (key === "components") {
+      continue;
+    }
+
+    const value = options[key];
+
+    if (isPrimitiveValue(value)) {
+      continue;
+    }
+
+    if (!Array.isArray(value)) {
+      return false;
+    }
+
+    for (let i = 0; i < value.length; i++) {
+      if (!isPrimitiveValue(value[i])) {
+        return false;
+      }
+    }
+  }
+
+  return true;
+}
 
 /**
  * @ignore
  */
 function getKey(options: any) {
+  if (hasOnlyPrimitiveValues(options)) {
+    return JSON.stringify(options);
+  }
+
   return JSON.stringify(options, (key, value) => {
     if (value && !isPlainObject(value) && isClass(value)) {
       return nameOf(value);
@@ -29,12 +72,11 @@ function getKey(options: any) {
  * @ignore
  */
 function get(model: Type | JsonParameterStore | JsonSchema, options: any) {
-  const cache: Map<string, any> = CACHES.get(model) || new Map();
-  CACHES.set(model, cache);
+  let cache = CACHES.get(model);
 
   const key = getKey(options);
 
-  if (!cache.has(key)) {
+  if (!cache?.has(key)) {
     let schema: any;
 
     if (model instanceof JsonSchema) {
@@ -57,6 +99,14 @@ function get(model: Type | JsonParameterStore | JsonSchema, options: any) {
 
     if (Object.keys(getValue(options, "components.schemas", {})).length) {
       schema.definitions = options.components.schemas;
+    }
+
+    // read again: a nested compile() of the same model may have created the cache in the meantime
+    cache = CACHES.get(model);
+
+    if (!cache) {
+      cache = new Map<string, any>();
+      CACHES.set(model, cache);
     }
 
     cache.set(key, options.inlineRefs ? inlineRefs(schema) : schema);
