@@ -175,4 +175,31 @@ describe("JsonSerializer collections and plain objects", () => {
       expect(Object.keys(result.value)).toEqual(["own", "empty"]);
     });
   });
+
+  describe("__proto__ key", () => {
+    it("should keep an own __proto__ key of a plain object as a key", () => {
+      const input = JSON.parse('{"__proto__": {"polluted": true}, "b": 2}');
+
+      const result = serializer.map({value: input}).value;
+
+      expect(Object.getPrototypeOf(result)).toBe(Object.prototype);
+      expect(Object.keys(result)).toEqual(["__proto__", "b"]);
+      expect(result.polluted).toBeUndefined();
+      expect(JSON.stringify(result)).toBe('{"__proto__":{"polluted":true},"b":2}');
+    });
+
+    it("should keep a __proto__ key of a Map as a key", () => {
+      const input = new Map<string, any>([
+        ["__proto__", {polluted: true}],
+        ["b", 2]
+      ]);
+
+      const result = serializer.map(input);
+
+      expect(Object.getPrototypeOf(result)).toBe(Object.prototype);
+      expect(Object.keys(result)).toEqual(["__proto__", "b"]);
+      expect(result.polluted).toBeUndefined();
+      expect(JSON.stringify(result)).toBe('{"__proto__":{"polluted":true},"b":2}');
+    });
+  });
 });
