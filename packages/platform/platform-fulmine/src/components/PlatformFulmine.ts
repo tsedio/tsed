@@ -1,6 +1,6 @@
 import Http from "node:http";
 
-import {getHostInfoFromPort, Type} from "@tsed/core";
+import {getHostInfoFromPort, isFunction, Type} from "@tsed/core";
 import {configuration, constant, injector, logger, ProviderScope} from "@tsed/di";
 import {PlatformExpress, PlatformExpressHandler, PlatformExpressResponse} from "@tsed/platform-express";
 import {adapter, application, PlatformBuilder, PlatformHandler, PlatformResponse, PlatformStaticsOptions} from "@tsed/platform-http";
@@ -81,6 +81,9 @@ export class PlatformFulmine extends PlatformExpress {
   }
 
   bodyParser(type: "json" | "text" | "urlencoded", additionalOptions: any = {}): any {
+    // a parser set in express.bodyParser.<type> wins, as in PlatformExpress
+    const configured = constant(`express.bodyParser.${type}`);
+    const parser = isFunction(configured) ? configured : (fulmine as any)[type];
     const options: any = {};
 
     if (type === "urlencoded") {
@@ -97,7 +100,7 @@ export class PlatformFulmine extends PlatformExpress {
       return true;
     };
 
-    return (fulmine as any)[type]({...options, ...additionalOptions});
+    return parser({...options, ...additionalOptions});
   }
 }
 
