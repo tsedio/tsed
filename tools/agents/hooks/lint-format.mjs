@@ -13,17 +13,19 @@
  */
 import {spawnSync} from "node:child_process";
 import {existsSync} from "node:fs";
-import {extname, isAbsolute, join, relative, resolve} from "node:path";
+import {dirname, extname, isAbsolute, join, relative, resolve} from "node:path";
+import {fileURLToPath} from "node:url";
 
-const FORMAT_EXTENSIONS = new Set([".ts", ".tsx", ".js", ".jsx", ".mts", ".cts", ".mjs", ".cjs", ".json", ".md", ".yml", ".yaml"]);
 const LINT_EXTENSIONS = new Set([".ts", ".tsx", ".js", ".jsx", ".mts", ".cts", ".mjs", ".cjs"]);
-const IGNORED_SEGMENTS = ["node_modules/", "/lib/", "/dist/", "/coverage/", "docs/api/"];
+const FORMAT_EXTENSIONS = new Set([...LINT_EXTENSIONS, ".json", ".md", ".yml", ".yaml"]);
+// Ignored paths are left to the oxlint/oxfmt configurations.
+const TOOL_FLAGS = ["--no-error-on-unmatched-pattern"];
 
-const root = git(["rev-parse", "--show-toplevel"]) || process.cwd();
+const root = resolve(dirname(fileURLToPath(import.meta.url)), "../../..");
 const bin = (name) => join(root, "node_modules", ".bin", name);
 
-function git(args, cwd = process.cwd()) {
-  const result = spawnSync("git", args, {cwd, encoding: "utf8"});
+function git(args) {
+  const result = spawnSync("git", args, {cwd: root, encoding: "utf8"});
 
   return result.status === 0 ? result.stdout.trim() : "";
 }
@@ -48,28 +50,14 @@ async function readPayload() {
   }
 }
 
-function collectStrings(value, strings = []) {
-  if (typeof value === "string") {
-    strings.push(value);
-  } else if (value && typeof value === "object") {
-    Object.values(value).forEach((item) => collectStrings(item, strings));
-  }
-
-  return strings;
-}
-
 function editedFiles(payload) {
   const input = payload.tool_input || {};
-  const files = [input.file_path, input.notebook_path, input.path].filter((item) => typeof item === "string");
+  const files = [input.file_path, input.notebook_path].filter((item) => typeof item === "string");
+  // Codex apply_patch sends the patch in `tool_input.command`.
+  const patch = typeof input.command === "string" ? input.command : "";
 
-  for (const text of collectStrings(input)) {
-    for (const [, file] of text.matchAll(/^\*\*\* (?:Add|Update) File: (.+)$/gm)) {
-      files.push(file.trim());
-    }
-
-    for (const [, file] of text.matchAll(/^\*\*\* Move to: (.+)$/gm)) {
-      files.push(file.trim());
-    }
+  for (const [, file] of patch.matchAll(/^\*\*\* (?:Add File|Update File|Move to): (.+)$/gm)) {
+    files.push(file.trim());
   }
 
   return files.map((file) => resolve(payload.cwd || root, file));
@@ -77,8 +65,8 @@ function editedFiles(payload) {
 
 function changedFiles() {
   // Run from the repository root: `git ls-files` prints paths relative to the current directory.
-  const tracked = git(["diff", "--name-only", "--diff-filter=ACMR", "HEAD"], root);
-  const untracked = git(["ls-files", "--others", "--exclude-standard"], root);
+  const tracked = git(["diff", "--name-only", "--diff-filter=ACMR", "HEAD"]);
+  const untracked = git(["ls-files", "--others", "--exclude-standard"]);
 
   return `${tracked}\n${untracked}`
     .split("\n")
@@ -91,8 +79,7 @@ function select(files, extensions) {
     .filter((file) => existsSync(file))
     .map((file) => relative(root, file))
     .filter((file) => !file.startsWith("..") && !isAbsolute(file))
-    .filter((file) => extensions.has(extname(file)))
-    .filter((file) => !IGNORED_SEGMENTS.some((segment) => `/${file}`.includes(segment)));
+    .filter((file) => extensions.has(extname(file)));
 }
 
 function postEdit(payload) {
@@ -100,25 +87,20 @@ function postEdit(payload) {
   const formattable = select(files, FORMAT_EXTENSIONS);
   const lintable = select(files, LINT_EXTENSIONS);
 
-  if (lintable.length) {
-    run(bin("oxlint"), ["--fix", ...lintable]);
-  }
+  // Formatting never introduces lint errors: the errors left by `--fix` are the final ones.
+  const lint = lintable.length ? run(bin("oxlint"), ["--fix", "--quiet", ...TOOL_FLAGS, ...lintable]) : {ok: true};
 
   if (formattable.length) {
-    run(bin("oxfmt"), formattable);
+    run(bin("oxfmt"), [...TOOL_FLAGS, ...formattable]);
   }
 
-  if (lintable.length) {
-    const lint = run(bin("oxlint"), ["--quiet", ...lintable]);
-
-    if (!lint.ok) {
-      return {
-        hookSpecificOutput: {
-          hookEventName: "PostToolUse",
-          additionalContext: `oxlint reports errors in the edited files:\n${lint.output}`
-        }
-      };
-    }
+  if (!lint.ok) {
+    return {
+      hookSpecificOutput: {
+        hookEventName: "PostToolUse",
+        additionalContext: `oxlint reports errors in the edited files:\n${lint.output}`
+      }
+    };
   }
 }
 
@@ -135,7 +117,7 @@ function stop(payload) {
   }
 
   const errors = [];
-  const lint = run(bin("oxlint"), ["--quiet", ...lintable]);
+  const lint = run(bin("oxlint"), ["--quiet", ...TOOL_FLAGS, ...lintable]);
 
   if (!lint.ok) {
     errors.push(lint.output);
