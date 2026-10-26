@@ -8,6 +8,7 @@ import {
   isClassObject,
   isCollection,
   isDate,
+  isFunction,
   isMomentObject,
   isMongooseObject,
   isNil,
@@ -58,10 +59,10 @@ function createTypeMapper(mapper: JsonMapperMethods, model: any, name: string): 
   if (
     kind === PrimitiveMapper &&
     mapper.serialize === PrimitiveMapper.prototype.serialize &&
-    typeof conversion === "function" &&
+    isFunction(conversion) &&
     conversion === (PrimitiveMapper.prototype as any)[name]
   ) {
-    return (value: any) => (typeof value !== "object" ? conversion.call(mapper, value) : value);
+    return (value: any) => (!isObject(value) ? conversion.call(mapper, value) : value);
   }
 
   if (kind === DateMapper && mapper.serialize === DateMapper.prototype.serialize) {
@@ -162,28 +163,35 @@ export class JsonSerializer extends JsonMapperCompiler<JsonSerializerOptions> {
     return writer.return("obj").root().toString();
   }
 
+  /**
+   * A type mapper must be registered again when it was never registered, when the mapper or one of the
+   * methods its function was built from changed, or when its entry was replaced or removed from the cache.
+   */
+  private isTypeMapperOutdated(model: any, mapper: JsonMapperMethods) {
+    const registered = this.typeMappers.get(model);
+
+    if (!registered) {
+      return true;
+    }
+
+    const mapperChanged = registered.mapper !== mapper;
+    const methodsChanged = registered.serialize !== mapper.serialize || registered.conversion !== (mapper as any)[registered.name];
+    const entryReplaced = this.cache.get(model)?.get("typeMapper")?.fn !== registered.fn;
+
+    return mapperChanged || methodsChanged || entryReplaced;
+  }
+
   private mapOptions({groups, useAlias = true, types, ...options}: JsonSerializerOptions<any, any>): JsonSerializerOptions {
     const customMappers: Record<string, any> = {};
     types = types || getJsonMapperTypes();
 
     types.forEach((mapper, model) => {
-      if (![Array, Set, Map].includes(model as any)) {
-        const registered = this.typeMappers.get(model);
+      if (![Array, Set, Map].includes(model as any) && this.isTypeMapperOutdated(model, mapper)) {
+        const name = nameOf(model);
+        const fn = createTypeMapper(mapper, model, name);
 
-        // registered again when the mapper or the methods it was built from changed, or when its entry was replaced or removed
-        if (
-          !registered ||
-          registered.mapper !== mapper ||
-          registered.serialize !== mapper.serialize ||
-          registered.conversion !== (mapper as any)[registered.name] ||
-          this.cache.get(model as any)?.get("typeMapper")?.fn !== registered.fn
-        ) {
-          const name = nameOf(model);
-          const fn = createTypeMapper(mapper, model, name);
-
-          this.addTypeMapper(model as any, fn);
-          this.typeMappers.set(model, {mapper, name, serialize: mapper.serialize, conversion: (mapper as any)[name], fn});
-        }
+        this.addTypeMapper(model as any, fn);
+        this.typeMappers.set(model, {mapper, name, serialize: mapper.serialize, conversion: (mapper as any)[name], fn});
       }
     });
 
