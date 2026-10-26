@@ -314,7 +314,8 @@ export class JsonDeserializer extends JsonMapperCompiler<JsonDeserializerOptions
     const mapperChanged = registered.mapper !== mapper;
     const hasConversion = registered.name in mapper;
     const conversionChanged = registered.hasConversion !== hasConversion;
-    const entryReplaced = this.cache.get(model)?.get("typeMapper")?.fn !== registered.fn;
+    // two models with the same name (Date and "Date") share the mapper table entry: the last registered one wins
+    const entryReplaced = this.cache.get(model)?.get("typeMapper")?.fn !== registered.fn || this.mappers[registered.name] !== registered.fn;
 
     return mapperChanged || conversionChanged || entryReplaced;
   }

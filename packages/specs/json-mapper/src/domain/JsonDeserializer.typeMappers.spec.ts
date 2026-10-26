@@ -109,4 +109,18 @@ describe("JsonDeserializer type mappers", () => {
 
     expect(deserializer.map(rawItem(), {type: Item, types}).at).toEqual(`converted:${at}`);
   });
+
+  it("should keep the last of two mappers sharing a name when the first one changes", () => {
+    const byName = {serialize: (value: any) => value, deserialize: (value: any) => `by-name:${value}`};
+    const deserializer = new JsonDeserializer();
+    // Date and "Date" both register the "Date" mapper: the last one in the types wins
+    const types = new Map<any, any>(getJsonMapperTypes()).set(Date, new DateMapper()).set("Date", byName);
+
+    expect(deserializer.map(rawItem(), {type: Item, types}).at).toEqual(`by-name:${at}`);
+
+    types.set(Date, {serialize: (value: any) => value, deserialize: (value: any) => `by-class:${value}`});
+
+    expect(deserializer.map(rawItem(), {type: Item, types}).at).toEqual(`by-name:${at}`);
+    expect(deserializer.map(rawItem(), {type: Item, types}).at).toEqual(`by-name:${at}`);
+  });
 });
