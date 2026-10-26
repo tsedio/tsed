@@ -48,6 +48,12 @@ export abstract class JsonMapperCompiler<Options extends Record<string, any> = a
    */
   protected cache = new Map<Type<any> | string, CachedGroupsJsonMapper<Options>>();
   /**
+   * Cached result of `getType()` by model. `getType()` walks the class ancestors
+   * and runs for every value serialized without a schema, so it is resolved once per model.
+   * @protected
+   */
+  protected types = new Map<Type<any>, Type<any>>();
+  /**
    * Cached executable mappers by his id
    * @protected
    */
@@ -182,7 +188,7 @@ export abstract class JsonMapperCompiler<Options extends Record<string, any> = a
       mapper?: any;
     } = {}
   ): CachedJsonMapper<Options> {
-    const token = isString(model) ? model : this.getType(model);
+    const token = isString(model) ? model : this.resolveType(model);
 
     const groupsId = this.getGroupsId(groups);
     let storeGroups = this.cache.get(token) || this.cache.get(nameOf(token));
@@ -230,6 +236,17 @@ export abstract class JsonMapperCompiler<Options extends Record<string, any> = a
   protected abstract alterValue(schemaId: string, value: any, options: Options): any;
 
   protected abstract createMapper(model: Type<any>, id: string, groups: false | string[]): string;
+
+  protected resolveType(model: Type<any>) {
+    let type = this.types.get(model);
+
+    if (type === undefined) {
+      type = this.getType(model);
+      this.types.set(model, type);
+    }
+
+    return type;
+  }
 
   protected getType(model: Type<any>) {
     if (!model) {
