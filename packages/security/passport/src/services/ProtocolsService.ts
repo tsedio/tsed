@@ -56,7 +56,11 @@ export class ProtocolsService {
     const instance = new strategy(settings, this.createHandler(provider));
 
     this.strategies.set(name, instance);
-    loginOnly ? this.loginOnlyProtocols.add(name) : this.loginOnlyProtocols.delete(name);
+    if (loginOnly) {
+      this.loginOnlyProtocols.add(name);
+    } else {
+      this.loginOnlyProtocols.delete(name);
+    }
 
     Passport.use(name, instance);
 
@@ -86,7 +90,10 @@ export class ProtocolsService {
    * @param ctx
    */
   public authorize(protocols: string | string[], options: Record<string, any>, ctx: PlatformContext) {
-    return this.call("authorize", protocols, options, ctx);
+    // Login-only protocols never run on a guarded route: they are accepted through their session only.
+    const strategies = ([] as string[]).concat(protocols).filter((name) => !this.isLoginOnly(name));
+
+    return this.call("authorize", strategies, options, ctx);
   }
 
   /**
@@ -175,12 +182,12 @@ export class ProtocolsService {
    * @private
    */
   private getOptions(provider: Provider<any>): ProtocolOptions {
-    const {name, loginOnly: defaultLoginOnly = false} = provider.store.get("protocol");
+    const {name, ...metadata} = provider.store.get("protocol");
     const {
       useStrategy = Strategy,
       settings = {},
-      loginOnly = defaultLoginOnly
-    } = constant<ProtocolOptions>(`passport.protocols.${name}`) || ({} as ProtocolOptions);
+      loginOnly = metadata.loginOnly ?? false
+    }: Partial<ProtocolOptions> = constant(`passport.protocols.${name}`) ?? {};
 
     return {
       name,
@@ -211,11 +218,13 @@ export class ProtocolsService {
         try {
           await middleware(req.$ctx);
 
-          if ([].concat(req.$ctx.data)[0]) {
+          const results = [].concat(req.$ctx.data);
+
+          if (results[0]) {
             req.$ctx.set(VERIFIED_PROTOCOL, name);
           }
 
-          done(null, ...[].concat(req.$ctx.data));
+          done(null, ...results);
         } catch (err) {
           const error = err as Error;
 
