@@ -57,6 +57,16 @@ describe("JsonSerializer collections and plain objects", () => {
   });
 
   describe("Array", () => {
+    it("should keep the holes of a sparse array without calling the item mapper", () => {
+      const tags = ["a", , "b"];
+
+      const result = serializer.map(Object.assign(new Order(), {tags}));
+
+      expect(result.tags).toHaveLength(3);
+      expect(1 in result.tags).toBe(false);
+      expect(JSON.stringify(result.tags)).toBe('["a",null,"b"]');
+    });
+
     it("should map a single value given to an array property as a one-item array", () => {
       const result = serializer.map(Object.assign(new Order(), {tags: "a", lines: line("l1")}));
 
