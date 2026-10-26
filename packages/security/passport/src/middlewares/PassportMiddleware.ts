@@ -1,3 +1,4 @@
+import {isArray} from "@tsed/core";
 import {Context} from "@tsed/platform-params";
 import {Inject} from "@tsed/di";
 import {Middleware} from "@tsed/platform-middlewares";
@@ -24,16 +25,16 @@ export class PassportMiddleware {
    *
    * A session established by another protocol never satisfies the endpoint: its strategies run instead.
    */
-  shouldSkip(ctx: Context, protocols: string[] = []) {
+  shouldSkip(ctx: Context, protocol: string | string[], protocols: string[]) {
     const request = ctx.getRequest();
 
     if (!(request.user && request.isAuthenticated?.())) {
       return false;
     }
 
-    const {protocol = "*"} = ctx.endpoint.store.get(PassportMiddleware) || {};
+    const acceptsAny = isArray(protocol) ? protocol.includes("*") : protocol === "*";
 
-    if (([] as string[]).concat(protocol).includes("*") || protocols.includes(SESSION_PROTOCOL)) {
+    if (acceptsAny || protocols.includes(SESSION_PROTOCOL)) {
       return true;
     }
 
@@ -48,14 +49,12 @@ export class PassportMiddleware {
     const {options, protocol, method, originalUrl = true} = endpoint.store.get(PassportMiddleware);
     const protocols = getProtocolsFromRequest(request, protocol, this.protocolsService.getProtocolsNames());
 
-    if (this.shouldSkip(ctx, protocols)) {
+    if (this.shouldSkip(ctx, protocol, protocols)) {
       return;
     }
 
-    // The session protocol has been checked above, and login-only protocols never run on a guarded route.
-    const strategies = protocols.filter((name) => {
-      return name !== SESSION_PROTOCOL && !(method === "authorize" && this.protocolsService.isLoginOnly(name));
-    });
+    // The session protocol has been checked above: it never runs a Passport strategy.
+    const strategies = protocols.filter((name) => name !== SESSION_PROTOCOL);
 
     if (originalUrl) {
       request.url = request.originalUrl;
