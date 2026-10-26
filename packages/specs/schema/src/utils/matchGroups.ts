@@ -1,5 +1,28 @@
 import picomatch from "picomatch";
 
+/**
+ * Compiled matchers per pattern. Patterns can come from the request (`includes`), so the cache is bounded.
+ * @ignore
+ */
+const MATCHERS = new Map<string, any>();
+const MAX_MATCHERS = 1000;
+
+function getMatcher(pattern: string) {
+  let isMatch = MATCHERS.get(pattern);
+
+  if (!isMatch) {
+    isMatch = picomatch(pattern, {}, true);
+
+    if (MATCHERS.size >= MAX_MATCHERS) {
+      MATCHERS.clear();
+    }
+
+    MATCHERS.set(pattern, isMatch);
+  }
+
+  return isMatch;
+}
+
 function micromatch(list: string[], patterns: string[]) {
   patterns = ([] as string[]).concat(patterns);
   list = ([] as string[]).concat(list);
@@ -9,12 +32,8 @@ function micromatch(list: string[], patterns: string[]) {
   let items = new Set();
   let negatives = 0;
 
-  let onResult = (state: any) => {
-    items.add(state.output);
-  };
-
   for (let i = 0; i < patterns.length; i++) {
-    let isMatch: any = picomatch(String(patterns[i]), {onResult}, true);
+    let isMatch: any = getMatcher(String(patterns[i]));
     let negated = isMatch.state.negated || isMatch.state.negatedExtglob;
 
     if (negated) {
@@ -23,6 +42,8 @@ function micromatch(list: string[], patterns: string[]) {
 
     for (let item of list) {
       let matched = isMatch(item, true);
+      // same as the picomatch onResult option: collect the output of every tested item
+      items.add(matched.output);
 
       let match = negated ? !matched.isMatch : matched.isMatch;
       if (!match) continue;
