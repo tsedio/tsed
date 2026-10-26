@@ -1,0 +1,4 @@
+interface:
+  display_name: "Optimize a Ts.ED package"
+  short_description: "Benchmark, profile and speed up a package"
+  default_prompt: "Use $optimize-package-performance to speed up deserialize() in @tsed/json-mapper."
