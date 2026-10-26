@@ -25,7 +25,6 @@ import {JsonSerializerOptions} from "./JsonSerializerOptions.js";
 import {Writer} from "./Writer.js";
 import {alterOnSerialize} from "../hooks/alterOnSerialize.js";
 import {getJsonMapperTypes} from "./JsonMapperTypesContainer.js";
-import {getObjectProperties} from "../utils/getObjectProperties.js";
 
 const getCollectionType = (input: any) => {
   return isArray(input) ? "Array" : input instanceof Set ? "Set" : input instanceof Map ? "Map" : undefined;
@@ -357,58 +356,73 @@ export class JsonSerializer extends JsonMapperCompiler<JsonSerializerOptions> {
       return this.mapJSON(input, options);
     }
 
-    return getObjectProperties(input)
-      .filter(([, value]) => value !== undefined)
-      .reduce((obj, [key, value]) => {
-        if (isNil(value)) {
-          return {
-            ...obj,
-            [key]: value
-          };
-        }
+    const obj: any = {};
 
-        const mapper = this.compile(classOf(value), options.groups);
+    // own enumerable keys only, like Object.entries(); functions and undefined values are skipped
+    for (const key in input) {
+      if (!Object.hasOwn(input, key)) {
+        continue;
+      }
 
-        return {
-          ...obj,
-          [key]: mapper.fn(value, options)
-        };
-      }, {});
-  }
+      const value = input[key];
 
-  private mapSet(input: any, options: JsonSerializerOptions) {
-    if (isNil(input)) {
-      return input;
+      if (value === undefined || isFunction(value)) {
+        continue;
+      }
+
+      obj[key] = value === null ? value : this.compile(classOf(value), options.groups).fn(value, options);
     }
-    return [...input.values()].map((item) => {
-      return this.mapItem(item, options);
-    });
+
+    return obj;
   }
 
-  private mapArray(input: any, options: JsonSerializerOptions) {
+  // The collection mappers strip `id` from the options once, not once per item:
+  // `id` describes the items, it must not leak into the options of a nested object mapper.
+  private mapSet(input: any, {id, ...options}: JsonSerializerOptions) {
     if (isNil(input)) {
       return input;
     }
 
-    return [].concat(input).map((item: any) => {
-      return this.mapItem(item, options);
-    });
+    const out: any[] = [];
+
+    for (const item of input) {
+      out.push(this.mapItem(item, id, options));
+    }
+
+    return out;
   }
 
-  private mapMap(input: any, options: JsonSerializerOptions) {
+  private mapArray(input: any, {id, ...options}: JsonSerializerOptions) {
     if (isNil(input)) {
       return input;
     }
 
-    return [...input.entries()].reduce((obj, [key, item]) => {
-      return {
-        ...obj,
-        [key]: this.mapItem(item, options)
-      };
-    }, {});
+    // a single value is mapped as a one-item array, like the former [].concat(input)
+    const list = isArray(input) ? input : [input];
+    const out = new Array(list.length);
+
+    for (let i = 0; i < list.length; i++) {
+      out[i] = this.mapItem(list[i], id, options);
+    }
+
+    return out;
   }
 
-  private mapItem(input: any, {id, ...options}: JsonSerializerOptions) {
+  private mapMap(input: any, {id, ...options}: JsonSerializerOptions) {
+    if (isNil(input)) {
+      return input;
+    }
+
+    const obj: any = {};
+
+    for (const [key, item] of input) {
+      obj[key] = this.mapItem(item, id, options);
+    }
+
+    return obj;
+  }
+
+  private mapItem(input: any, id: string | undefined, options: JsonSerializerOptions) {
     if (!id && input) {
       return this.compile(classOf(input), options.groups).fn(input, options);
     }
