@@ -56,12 +56,14 @@ describe("PassportMiddleware", () => {
       protocol,
       method = "authorize",
       authenticated = false,
+      persisted = true,
       sessionProtocol,
       loginOnly = []
     }: {
       protocol: string | string[];
       method?: string;
       authenticated?: boolean;
+      persisted?: boolean;
       sessionProtocol?: string;
       loginOnly?: string[];
     }) {
@@ -75,7 +77,8 @@ describe("PassportMiddleware", () => {
       if (authenticated) {
         request.user = {};
         request.isAuthenticated = () => true;
-        request.session = {passport: {user: "id", protocol: sessionProtocol}};
+        // A stateless strategy (`session: false`) sets the user without persisting a login session.
+        request.session = persisted ? {passport: {user: "id", protocol: sessionProtocol}} : {};
       }
 
       context.endpoint = {
@@ -105,6 +108,21 @@ describe("PassportMiddleware", () => {
       });
       it("should run the requested strategy when the session was established by another protocol", async () => {
         await run({protocol: "jwt", authenticated: true, sessionProtocol: "local"});
+
+        expect(Passport.authorize).toHaveBeenCalledWith("jwt", {failWithError: true});
+      });
+      it("should skip auth for any protocol (*) without persisted session", async () => {
+        await run({protocol: "*", authenticated: true, persisted: false});
+
+        expect(Passport.authorize).not.toHaveBeenCalled();
+      });
+      it("should not accept a user set by a stateless strategy for the session protocol", async () => {
+        await expect(run({protocol: "session", authenticated: true, persisted: false})).rejects.toBeInstanceOf(Unauthorized);
+
+        expect(Passport.authorize).not.toHaveBeenCalled();
+      });
+      it("should run the other strategies when the user was set by a stateless strategy", async () => {
+        await run({protocol: ["session", "jwt"], authenticated: true, persisted: false});
 
         expect(Passport.authorize).toHaveBeenCalledWith("jwt", {failWithError: true});
       });

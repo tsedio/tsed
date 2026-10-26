@@ -46,12 +46,17 @@ After a successful `@Authenticate()` that establishes a login session, `Protocol
 
 ### Requirement: Reserved session protocol
 
-The `"session"` protocol name SHALL be satisfied by an authenticated session and MUST NOT be forwarded to Passport.js. When no other protocol is declared, a request without session MUST be rejected with `401`.
+The `"session"` protocol name SHALL be satisfied by a login session persisted by Passport.js (`req.session.passport.user`), not by a user set by a stateless strategy, and MUST NOT be forwarded to Passport.js. When no other protocol is declared, a request without session MUST be rejected with `401`.
 
 #### Scenario: Session or token
 
 - **WHEN** a route declared with `@Authorize(["session", "jwt"])` receives a request without session and with a valid token
 - **THEN** the `jwt` strategy runs and the request is accepted.
+
+#### Scenario: User set by a stateless strategy
+
+- **WHEN** a stateless strategy (`session: false`) authenticated a request without persisted login session (no `req.session.passport.user`) and the route declares `@Authorize("session")`
+- **THEN** the request is rejected with `401`.
 
 ### Requirement: Login-only protocols
 
