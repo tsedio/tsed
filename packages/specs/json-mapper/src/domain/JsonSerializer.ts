@@ -188,7 +188,8 @@ export class JsonSerializer extends JsonMapperCompiler<JsonSerializerOptions> {
 
     const mapperChanged = registered.mapper !== mapper;
     const methodsChanged = registered.serialize !== mapper.serialize || registered.conversion !== (mapper as any)[registered.name];
-    const entryReplaced = this.cache.get(model)?.get("typeMapper")?.fn !== registered.fn;
+    // two models with the same name (Date and "Date") share the mapper table entry: the last registered one wins
+    const entryReplaced = this.cache.get(model)?.get("typeMapper")?.fn !== registered.fn || this.mappers[registered.name] !== registered.fn;
 
     return mapperChanged || methodsChanged || entryReplaced;
   }
