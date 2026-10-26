@@ -1,6 +1,6 @@
 import {JsonMapperCtx, JsonMapperMethods} from "../interfaces/JsonMapperMethods.js";
 import {JsonMapper} from "../decorators/jsonMapper.js";
-import {isObject, nameOf} from "@tsed/core";
+import {nameOf} from "@tsed/core";
 
 function isNullish(data: any) {
   return data === null || data === "null";
@@ -31,7 +31,8 @@ export class PrimitiveMapper implements JsonMapperMethods {
   serialize(object: string | number | boolean | BigInt, ctx: JsonMapperCtx): string | number | boolean | BigInt {
     const name = nameOf(ctx?.type);
 
-    return (this as any)[name] && !isObject(object) ? (this as any)[name](object, ctx) : object;
+    // inline typeof on purpose: hot path for every primitive value, cheaper than calling isObject()
+    return (this as any)[name] && typeof object !== "object" ? (this as any)[name](object, ctx) : object;
   }
 
   protected String(data: any) {
