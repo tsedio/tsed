@@ -30,6 +30,18 @@ const getCollectionType = (input: any) => {
   return isArray(input) ? "Array" : input instanceof Set ? "Set" : input instanceof Map ? "Map" : undefined;
 };
 
+/**
+ * Assign a mapped value on a plain output object. A `__proto__` key is defined as an own property:
+ * a plain assignment would call the `__proto__` setter, change the prototype and drop the key.
+ */
+function setKey(obj: any, key: any, value: any) {
+  if (key === "__proto__") {
+    Object.defineProperty(obj, key, {value, enumerable: true, writable: true, configurable: true});
+  } else {
+    obj[key] = value;
+  }
+}
+
 function getBestType(type: Type<any>, obj: any) {
   const dataType = classOf(obj);
 
@@ -371,7 +383,7 @@ export class JsonSerializer extends JsonMapperCompiler<JsonSerializerOptions> {
         continue;
       }
 
-      obj[key] = value === null ? value : this.compile(classOf(value), options.groups).fn(value, options);
+      setKey(obj, key, value === null ? value : this.compile(classOf(value), options.groups).fn(value, options));
     }
 
     return obj;
@@ -417,7 +429,7 @@ export class JsonSerializer extends JsonMapperCompiler<JsonSerializerOptions> {
     const obj: any = {};
 
     for (const [key, item] of input) {
-      obj[key] = this.mapItem(item, id, options);
+      setKey(obj, key, this.mapItem(item, id, options));
     }
 
     return obj;
