@@ -125,4 +125,18 @@ describe("JsonSerializer type mappers changed on the instance", () => {
 
     expect(new JsonSerializer().map(value).at).toEqual("2022-10-02T00:00:00.000Z");
   });
+
+  it("should keep the last of two mappers sharing a name when the first one changes", () => {
+    const byName = {serialize: () => "by-name", deserialize: (value: any) => value};
+    const serializer = new JsonSerializer();
+    // Date and "Date" both register the "Date" mapper: the last one in the types wins
+    const types = new Map<any, any>(getJsonMapperTypes()).set(Date, getJsonMapperTypes().get(Date)).set("Date", byName);
+
+    expect(serializer.map(item(), {types}).at).toEqual("by-name");
+
+    types.set(Date, {serialize: () => "by-class", deserialize: (value: any) => value});
+
+    expect(serializer.map(item(), {types}).at).toEqual("by-name");
+    expect(serializer.map(item(), {types}).at).toEqual("by-name");
+  });
 });
