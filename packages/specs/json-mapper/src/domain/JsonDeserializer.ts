@@ -1,4 +1,4 @@
-import {CachedGroupsJsonMapper, CachedJsonMapper, JsonMapperCompiler} from "./JsonMapperCompiler.js";
+import {CachedGroupsJsonMapper, CachedJsonMapper, JsonMapperCallback, JsonMapperCompiler} from "./JsonMapperCompiler.js";
 import {JsonClassStore, JsonParameterStore, JsonPropertyStore, JsonSchema, VendorKeys, getPropertiesStores, s} from "@tsed/schema";
 import {Type, classOf, isArray, isBoolean, isEmpty, isNil, nameOf, objectKeys} from "@tsed/core";
 import {JsonMapperMethods} from "../interfaces/JsonMapperMethods.js";
@@ -10,15 +10,11 @@ import {alterBeforeDeserialize} from "../hooks/alterBeforeDeserialize.js";
 import {alterOnDeserialize} from "../hooks/alterOnDeserialize.js";
 import {getJsonMapperTypes} from "./JsonMapperTypesContainer.js";
 
-type TypeMapperEntry = {mapper: JsonMapperMethods; name: string; method: any; fn: any};
-
 /**
- * The method a type mapper is built from: the method named after the type when the mapper has one
- * (e.g. `PrimitiveMapper.String`), otherwise its `deserialize()` method.
+ * A registered type mapper. `hasConversion` tells whether the mapper had a method named after the type
+ * (e.g. `PrimitiveMapper.String`) when it was registered: the function calls that method, otherwise `deserialize()`.
  */
-function getTypeMethod(mapper: any, typeName: string) {
-  return typeName in mapper ? mapper[typeName] : mapper.deserialize;
-}
+type TypeMapperEntry = {mapper: JsonMapperMethods; name: string; hasConversion: boolean; fn: JsonMapperCallback<any>};
 
 function isDeserializable(obj: any, options: JsonDeserializerOptions) {
   if ((!!options.collectionType && isNil(obj)) || obj === undefined) {
@@ -304,9 +300,9 @@ export class JsonDeserializer extends JsonMapperCompiler<JsonDeserializerOptions
   }
 
   /**
-   * A type mapper must be registered again when it was never registered, when the mapper or the method its
-   * function was built from changed, or when its entry was replaced or removed from the cache.
-   * Registering every type mapper on each `map()` call was a fixed cost of every deserialization.
+   * A type mapper must be registered again when it was never registered, when the mapper changed, when the mapper
+   * gained or lost the method named after the type, or when its entry was replaced or removed from the cache.
+   * The registered function reads the mapper methods at call time, so a replaced method needs no registration.
    */
   private isTypeMapperOutdated(model: any, mapper: JsonMapperMethods) {
     const registered = this.typeMappers.get(model);
@@ -316,25 +312,22 @@ export class JsonDeserializer extends JsonMapperCompiler<JsonDeserializerOptions
     }
 
     const mapperChanged = registered.mapper !== mapper;
-    const methodChanged = registered.method !== getTypeMethod(mapper, registered.name);
+    const hasConversion = registered.name in mapper;
+    const conversionChanged = registered.hasConversion !== hasConversion;
     const entryReplaced = this.cache.get(model)?.get("typeMapper")?.fn !== registered.fn;
 
-    return mapperChanged || methodChanged || entryReplaced;
+    return mapperChanged || conversionChanged || entryReplaced;
   }
 
   private registerTypeMapper(model: any, mapper: JsonMapperMethods) {
-    const typeName = nameOf(model);
-    const fn =
-      typeName in mapper
-        ? (mapper as any)[typeName].bind(mapper)
-        : (value: any, options: any) =>
-            mapper.deserialize(value, {
-              ...options,
-              type: model
-            });
+    const name = nameOf(model);
+    const hasConversion = name in mapper;
+    const fn: JsonMapperCallback<any> = hasConversion
+      ? (value, options) => (mapper as any)[name](value, options)
+      : (value, options) => mapper.deserialize(value, {...options, type: model});
 
     this.addTypeMapper(model, fn);
-    this.typeMappers.set(model, {mapper, name: typeName, method: getTypeMethod(mapper, typeName), fn});
+    this.typeMappers.set(model, {mapper, name, hasConversion, fn});
   }
 
   private mapOptions({groups, useAlias = true, types, ...options}: JsonDeserializerOptions<any, any>): JsonDeserializerOptions {
@@ -346,7 +339,7 @@ export class JsonDeserializer extends JsonMapperCompiler<JsonDeserializerOptions
     types = types || getJsonMapperTypes();
 
     types.forEach((mapper, model) => {
-      if (![Array, Set, Map].includes(model as any) && this.isTypeMapperOutdated(model, mapper)) {
+      if (model !== Array && model !== Set && model !== Map && this.isTypeMapperOutdated(model, mapper)) {
         this.registerTypeMapper(model, mapper);
       }
     });
@@ -411,7 +404,7 @@ export class JsonDeserializer extends JsonMapperCompiler<JsonDeserializerOptions
     const obj = new Set<any>();
 
     for (const key of objectKeys(input)) {
-      obj.add(this.mapItem(input[key], id, options));
+      obj.add(this.execMapper(id!, input[key], options));
     }
 
     return obj;
@@ -422,19 +415,19 @@ export class JsonDeserializer extends JsonMapperCompiler<JsonDeserializerOptions
       return input;
     }
 
-    // a single value is mapped as a one-item array, like the former [].concat(input)
+    // a single value is mapped as a one-item array
     const list = isArray(input) ? input : [input];
     const out = new Array(list.length);
 
     for (let i = 0; i < list.length; i++) {
       const item = list[i];
 
-      // keep the holes of a sparse array, like the former .map(): the item mapper is not called for them
+      // keep the holes of a sparse array: the item mapper is not called for them
       if (item === undefined && !(i in list)) {
         continue;
       }
 
-      out[i] = this.mapItem(item, id, options);
+      out[i] = this.execMapper(id!, item, options);
     }
 
     return out;
@@ -448,14 +441,10 @@ export class JsonDeserializer extends JsonMapperCompiler<JsonDeserializerOptions
     const obj = new Map<string, any>();
 
     for (const key of objectKeys(input)) {
-      obj.set(key, this.mapItem(input[key], id, options));
+      obj.set(key, this.execMapper(id!, input[key], options));
     }
 
     return obj;
-  }
-
-  private mapItem(input: any, id: string | undefined, options: JsonDeserializerOptions) {
-    return this.execMapper(id!, input, options);
   }
 
   private alterBeforeDeserialize(schemaId: string, value: any, options: JsonDeserializerOptions): any {
