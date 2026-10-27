@@ -133,18 +133,21 @@ function merge(source: any, obj: any, options: DeepMergeOptions, parentKey: stri
   const sourceKeys = objectKeys(source);
   const objKeys = objectKeys(obj);
   const nestedOptions = isRoot ? {...options} : options;
+  // the keys of obj missing from source, listed before any merge: alter() can add properties to source
+  const newKeys: string[] = [];
+
+  for (let i = 0; i < objKeys.length; i++) {
+    if (!hasEnumerableOwn.call(source, objKeys[i])) {
+      newKeys.push(objKeys[i]);
+    }
+  }
 
   for (let i = 0; i < sourceKeys.length; i++) {
     mergeKey(out, source, obj, sourceKeys[i], options, nestedOptions);
   }
 
-  for (let i = 0; i < objKeys.length; i++) {
-    const key = objKeys[i];
-
-    // keys of both objects were already merged with the source keys
-    if (!hasEnumerableOwn.call(source, key)) {
-      mergeKey(out, source, obj, key, options, nestedOptions);
-    }
+  for (let i = 0; i < newKeys.length; i++) {
+    mergeKey(out, source, obj, newKeys[i], options, nestedOptions);
   }
 
   return out;
