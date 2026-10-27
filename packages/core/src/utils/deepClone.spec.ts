@@ -227,6 +227,41 @@ describe("deepClone", () => {
     expect(Object.getOwnPropertyDescriptor(result, "computed")?.get).toBeTypeOf("function");
   });
 
+  describe("primitive wrappers", () => {
+    it("should clone a Boolean wrapper and its own properties", () => {
+      const source: any = new Boolean(false);
+      source.extra = {a: 1};
+
+      const result = deepClone({flag: source}).flag;
+
+      expect(result).not.toBe(source);
+      expect(result).toBeInstanceOf(Boolean);
+      expect(result.valueOf()).toBe(false);
+      expect(result.extra).toEqual({a: 1});
+      expect(result.extra).not.toBe(source.extra);
+    });
+
+    it("should clone Number and String wrappers with their value", () => {
+      const number = deepClone(new Number(42));
+      const string = deepClone(new String("ab"));
+
+      expect(number).toBeInstanceOf(Number);
+      expect(number.valueOf()).toBe(42);
+      expect(string).toBeInstanceOf(String);
+      expect(string.valueOf()).toBe("ab");
+      expect(string.toUpperCase()).toBe("AB");
+    });
+
+    it("should keep the prototype of a wrapper subclass", () => {
+      class Flag extends Boolean {}
+
+      const result = deepClone(new Flag(true));
+
+      expect(result).toBeInstanceOf(Flag);
+      expect(result.valueOf()).toBe(true);
+    });
+  });
+
   it("should keep the length of an array ending with holes", () => {
     // eslint-disable-next-line no-sparse-arrays
     const result = deepClone(["a", , ,]);
