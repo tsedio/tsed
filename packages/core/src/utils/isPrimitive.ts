@@ -25,14 +25,17 @@ export function isPrimitiveOrPrimitiveClass(target: any): boolean {
 /**
  * Checks if a value is a primitive type (string, number, or boolean).
  *
+ * Constructors (`String`, `Number`, `Boolean`) and boxed values are not accepted.
+ * Use {@link isPrimitiveOrPrimitiveClass} to accept them.
+ *
  * @public
  * @since v7.0.0
  */
 export function isPrimitive(target: any): boolean {
   const type = typeof target;
 
-  // inlined isString() || isNumber() || isBoolean(), which also accepts `Boolean` and `new Boolean()`
-  return type === "string" || type === "number" || type === "boolean" || target instanceof Boolean || target === Boolean;
+  // inlined isString() || isNumber() || isBoolean(): called per value
+  return type === "string" || type === "number" || type === "boolean";
 }
 
 /**
