@@ -31,6 +31,15 @@ describe("matchGroups() with cached patterns", () => {
     expect(first).toMatchSnapshot();
   });
 
+  it("should match an oversized pattern, which is not cached, like a short one", () => {
+    const long = "g".repeat(300);
+
+    expect(matchGroups([long], [long])).toBe(false);
+    expect(matchGroups([long], [long])).toBe(false);
+    expect(matchGroups([long], ["read"])).toBe(true);
+    expect(matchGroups(["!" + long], [long])).toBe(true);
+  });
+
   it("should still throw for an empty pattern", () => {
     expect(() => matchGroups(["read"], [""])).toThrow();
     expect(() => matchGroups(["read"], [""])).toThrow();

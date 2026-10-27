@@ -55,6 +55,16 @@ describe("compile() cache", () => {
     expect(compile(CacheModel, {customKeys: true, groups: ["read"], extra: () => {}} as any)).toBe(base);
   });
 
+  it("should key an array whose toJSON returns a class by the class name, like before", () => {
+    const groups: any = ["read"];
+    groups.toJSON = () => OtherClass;
+
+    const withToJSON = compile(CacheModel, {customKeys: true, extra: groups} as any);
+
+    expect(withToJSON).not.toBe(compile(CacheModel, {customKeys: true}));
+    expect(compile(CacheModel, {customKeys: true, extra: groups} as any)).toBe(withToJSON);
+  });
+
   it("should cache a parameter store and a JsonSchema", () => {
     class CacheCtrl {
       method(@Groups("creation") body: CacheModel) {}

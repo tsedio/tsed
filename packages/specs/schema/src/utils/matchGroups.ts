@@ -1,17 +1,23 @@
 import picomatch from "picomatch";
 
 /**
- * Compiled matchers per pattern. Patterns can come from the request (`includes`), so the cache is bounded.
+ * Compiled matchers per pattern. Patterns can come from the request (`includes`), so the cache is bounded
+ * in number of entries, and oversized patterns are compiled on each call instead of being kept.
  * @ignore
  */
 const MATCHERS = new Map<string, any>();
 const MAX_MATCHERS = 1000;
+const MAX_CACHED_PATTERN_LENGTH = 256;
 
 function getMatcher(pattern: string) {
   let isMatch = MATCHERS.get(pattern);
 
   if (!isMatch) {
     isMatch = picomatch(pattern, {}, true);
+
+    if (pattern.length > MAX_CACHED_PATTERN_LENGTH) {
+      return isMatch;
+    }
 
     if (MATCHERS.size >= MAX_MATCHERS) {
       MATCHERS.clear();
