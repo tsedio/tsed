@@ -18,7 +18,9 @@ describe("requiredMapper()", () => {
         name: s.string(),
         description: s.string().optional()
       })
-      .required(["id", "name", "description"]);
+      .addRequired("id")
+      .addRequired("name")
+      .addRequired("description");
 
     expect(schema.toJSON().required).toEqual(["id", "name"]);
   });
