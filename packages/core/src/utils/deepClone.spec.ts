@@ -226,4 +226,14 @@ describe("deepClone", () => {
     expect(result.computed).toBe(1);
     expect(Object.getOwnPropertyDescriptor(result, "computed")?.get).toBeTypeOf("function");
   });
+
+  it("should keep the length of an array ending with holes", () => {
+    // eslint-disable-next-line no-sparse-arrays
+    const result = deepClone(["a", , ,]);
+
+    expect(result).toHaveLength(3);
+    expect(1 in result).toBe(false);
+    expect(2 in result).toBe(false);
+    expect(deepClone(new Array(2))).toHaveLength(2);
+  });
 });

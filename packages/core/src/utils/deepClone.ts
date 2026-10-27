@@ -44,11 +44,16 @@ export const deepClone = (source: any, stack = new WeakMap()): any => {
     stack.set(source, clone);
 
     // the length is read once and holes are skipped, as forEach does
-    for (let i = 0, length = source.length; i < length; i++) {
+    const length = source.length;
+
+    for (let i = 0; i < length; i++) {
       if (i in source) {
         clone[i] = deepClone(source[i], stack);
       }
     }
+
+    // keeps the holes at the end of the array, which the loop does not assign
+    clone.length = length;
 
     return clone;
   }
