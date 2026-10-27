@@ -17,6 +17,7 @@ import {
   objectKeys
 } from "@tsed/core";
 import {JsonSchema} from "@tsed/schema";
+import type {JsonMapperMethods} from "../interfaces/JsonMapperMethods.js";
 
 /**
  * Signature exposed by compiled mappers. They accept an input value plus contextual options
@@ -37,6 +38,16 @@ export type CachedJsonMapper<Options> = {
 export type CachedGroupsJsonMapper<Options> = Map<string, CachedJsonMapper<Options>>;
 
 /**
+ * A type mapper registered from the types container: the mapper, the name of its model and the function it was
+ * registered with. Subclasses add the values their outdated check compares.
+ */
+export type TypeMapperEntry = {
+  mapper: JsonMapperMethods;
+  name: string;
+  fn: JsonMapperCallback<any>;
+};
+
+/**
  * Base compiler that turns schema metadata into executable (de)serialization functions.
  * Subclasses supply `map`, `alterValue`, and `createMapper` implementations to specialize
  * the pipeline for serialization or deserialization.
@@ -53,6 +64,11 @@ export abstract class JsonMapperCompiler<Options extends Record<string, any> = a
    * @protected
    */
   protected types = new Map<Type<any>, Type<any>>();
+  /**
+   * The type mappers registered from the types container, with the function each one was registered with
+   * @protected
+   */
+  protected typeMappers = new Map<any, TypeMapperEntry>();
   /**
    * Cached executable mappers by his id
    * @protected
@@ -221,6 +237,53 @@ export abstract class JsonMapperCompiler<Options extends Record<string, any> = a
     }
 
     return storeGroups!.get(groupsId)!;
+  }
+
+  /**
+   * Register the type mappers of the types container (Array, Set and Map excepted: the compiler maps them itself).
+   * A type mapper is registered again only when it is outdated, so `map()` does not rebuild them on every call.
+   *
+   * @param types The type mappers by model.
+   * @param create Build the entry, and the function, a type mapper is registered with.
+   * @param hasChanged Tell whether the mapper changed since its entry was built, beyond being replaced by another mapper.
+   */
+  protected syncTypeMappers<Entry extends TypeMapperEntry>(
+    types: Map<Type | Symbol | string, JsonMapperMethods>,
+    create: (mapper: JsonMapperMethods, model: any, name: string) => Entry,
+    hasChanged: (entry: Entry, mapper: JsonMapperMethods) => boolean
+  ) {
+    types.forEach((mapper, model) => {
+      if (model !== Array && model !== Set && model !== Map && this.isTypeMapperOutdated(model, mapper, hasChanged)) {
+        const entry = create(mapper, model, nameOf(model));
+
+        this.addTypeMapper(model as any, entry.fn);
+        this.typeMappers.set(model, entry);
+      }
+    });
+  }
+
+  /**
+   * A type mapper must be registered again when it was never registered, when the mapper was replaced or changed,
+   * or when its entry was replaced or removed from the cache.
+   */
+  private isTypeMapperOutdated<Entry extends TypeMapperEntry>(
+    model: any,
+    mapper: JsonMapperMethods,
+    hasChanged: (entry: Entry, mapper: JsonMapperMethods) => boolean
+  ) {
+    const registered = this.typeMappers.get(model) as Entry | undefined;
+
+    if (!registered) {
+      return true;
+    }
+
+    return (
+      registered.mapper !== mapper ||
+      hasChanged(registered, mapper) ||
+      // two models with the same name (Date and "Date") share the mapper table entry: the last registered one wins
+      this.cache.get(model)?.get("typeMapper")?.fn !== registered.fn ||
+      this.mappers[registered.name] !== registered.fn
+    );
   }
 
   protected execMapper(id: string, value: any, options: Options) {

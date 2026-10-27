@@ -1,4 +1,4 @@
-import {CachedGroupsJsonMapper, CachedJsonMapper, JsonMapperCallback, JsonMapperCompiler} from "./JsonMapperCompiler.js";
+import {CachedGroupsJsonMapper, CachedJsonMapper, JsonMapperCallback, JsonMapperCompiler, TypeMapperEntry} from "./JsonMapperCompiler.js";
 import {JsonClassStore, JsonParameterStore, JsonPropertyStore, JsonSchema, VendorKeys, getPropertiesStores, s} from "@tsed/schema";
 import {Type, classOf, isArray, isBoolean, isEmpty, isFunction, isNil, nameOf, objectKeys} from "@tsed/core";
 import {JsonMapperMethods} from "../interfaces/JsonMapperMethods.js";
@@ -14,7 +14,7 @@ import {getJsonMapperTypes} from "./JsonMapperTypesContainer.js";
  * A registered type mapper. `hasConversion` tells whether the mapper had a method named after the type
  * (e.g. `PrimitiveMapper.String`) when it was registered: the function calls that method, otherwise `deserialize()`.
  */
-type TypeMapperEntry = {mapper: JsonMapperMethods; name: string; hasConversion: boolean; fn: JsonMapperCallback<any>};
+type DeserializerTypeMapperEntry = TypeMapperEntry & {hasConversion: boolean};
 
 /**
  * Whether the mapper has a callable method named after the type. A property set to another value (e.g. `undefined`
@@ -22,6 +22,25 @@ type TypeMapperEntry = {mapper: JsonMapperMethods; name: string; hasConversion: 
  */
 function hasConversionMethod(mapper: JsonMapperMethods, name: string) {
   return isFunction((mapper as any)[name]);
+}
+
+/**
+ * The registered function reads the mapper methods at call time, so a replaced method needs no registration.
+ */
+function createTypeMapperEntry(mapper: JsonMapperMethods, model: any, name: string): DeserializerTypeMapperEntry {
+  const hasConversion = hasConversionMethod(mapper, name);
+  const fn: JsonMapperCallback<any> = hasConversion
+    ? (value, options) => (mapper as any)[name](value, options)
+    : (value, options) => mapper.deserialize(value, {...options, type: model});
+
+  return {mapper, name, hasConversion, fn};
+}
+
+/**
+ * The function must be built again when the mapper gained or lost the method named after the type.
+ */
+function hasTypeMapperChanged(entry: DeserializerTypeMapperEntry, mapper: JsonMapperMethods) {
+  return entry.hasConversion !== hasConversionMethod(mapper, entry.name);
 }
 
 function isDeserializable(obj: any, options: JsonDeserializerOptions) {
@@ -57,11 +76,6 @@ export class JsonDeserializer extends JsonMapperCompiler<JsonDeserializerOptions
    * @protected
    */
   protected constructors: Record<string, Type<any>> = {};
-  /**
-   * The type mappers registered from the types container, with the function each one was registered with
-   * @protected
-   */
-  protected typeMappers = new Map<any, TypeMapperEntry>();
 
   constructor() {
     super();
@@ -307,51 +321,14 @@ export class JsonDeserializer extends JsonMapperCompiler<JsonDeserializerOptions
     return (writer: Writer) => writer.callMapper(nestedMapper.id, varKey(key), formatOpts);
   }
 
-  /**
-   * A type mapper must be registered again when it was never registered, when the mapper changed, when the mapper
-   * gained or lost the method named after the type, or when its entry was replaced or removed from the cache.
-   * The registered function reads the mapper methods at call time, so a replaced method needs no registration.
-   */
-  private isTypeMapperOutdated(model: any, mapper: JsonMapperMethods) {
-    const registered = this.typeMappers.get(model);
-
-    if (!registered) {
-      return true;
-    }
-
-    const mapperChanged = registered.mapper !== mapper;
-    const hasConversion = hasConversionMethod(mapper, registered.name);
-    const conversionChanged = registered.hasConversion !== hasConversion;
-    // two models with the same name (Date and "Date") share the mapper table entry: the last registered one wins
-    const entryReplaced = this.cache.get(model)?.get("typeMapper")?.fn !== registered.fn || this.mappers[registered.name] !== registered.fn;
-
-    return mapperChanged || conversionChanged || entryReplaced;
-  }
-
-  private registerTypeMapper(model: any, mapper: JsonMapperMethods) {
-    const name = nameOf(model);
-    const hasConversion = hasConversionMethod(mapper, name);
-    const fn: JsonMapperCallback<any> = hasConversion
-      ? (value, options) => (mapper as any)[name](value, options)
-      : (value, options) => mapper.deserialize(value, {...options, type: model});
-
-    this.addTypeMapper(model, fn);
-    this.typeMappers.set(model, {mapper, name, hasConversion, fn});
-  }
-
   private mapOptions({groups, useAlias = true, types, ...options}: JsonDeserializerOptions<any, any>): JsonDeserializerOptions {
     if (options.store instanceof JsonParameterStore) {
       return this.mapOptions(mapParamStoreOptions(options.store, options));
     }
 
     const customMappers: Record<string, any> = {};
-    types = types || getJsonMapperTypes();
 
-    types.forEach((mapper, model) => {
-      if (model !== Array && model !== Set && model !== Map && this.isTypeMapperOutdated(model, mapper)) {
-        this.registerTypeMapper(model, mapper);
-      }
-    });
+    this.syncTypeMappers(types || getJsonMapperTypes(), createTypeMapperEntry, hasTypeMapperChanged);
 
     const strictGroups = options.strictGroups ?? JsonMapperSettings.strictGroups;
 
