@@ -74,7 +74,8 @@ export const deepClone = (source: any, stack = new WeakMap()): any => {
     const descriptor = Object.getOwnPropertyDescriptor(source, key);
 
     if (descriptor) {
-      if (!isFunction(descriptor.value)) {
+      // accessors (get/set) have no value to clone: they are defined as is
+      if ("value" in descriptor && !isFunction(descriptor.value)) {
         Object.defineProperty(clone, key, {
           ...descriptor,
           value: deepClone(descriptor.value, stack)
