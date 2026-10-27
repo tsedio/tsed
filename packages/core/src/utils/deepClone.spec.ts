@@ -128,7 +128,7 @@ describe("deepClone", () => {
     expect(result).toBeInstanceOf(Int8Array);
   });
 
-  describe("behaviour kept by the optimized implementation", () => {
+  describe("edge cases", () => {
     it("should ignore the elements appended to an array while it is cloned", () => {
       const source: any[] = [];
       Object.defineProperty(source, 0, {
