@@ -19,7 +19,7 @@ import {
 import {DateMapper} from "../components/DateMapper.js";
 import {PrimitiveMapper} from "../components/PrimitiveMapper.js";
 import {JsonMapperMethods} from "../interfaces/JsonMapperMethods.js";
-import {JsonMapperCompiler, JsonMapperCallback} from "./JsonMapperCompiler.js";
+import {JsonMapperCompiler, JsonMapperCallback, TypeMapperEntry} from "./JsonMapperCompiler.js";
 import {JsonMapperSettings} from "./JsonMapperSettings.js";
 import {JsonSerializerOptions} from "./JsonSerializerOptions.js";
 import {Writer} from "./Writer.js";
@@ -56,7 +56,10 @@ function varKey(k: string) {
   return `__${k}`;
 }
 
-type TypeMapperEntry = {mapper: JsonMapperMethods; name: string; serialize: any; conversion: any; fn: JsonMapperCallback<any>};
+/**
+ * A registered type mapper, with the methods its function was built from.
+ */
+type SerializerTypeMapperEntry = TypeMapperEntry & {serialize: any; conversion: any};
 
 /**
  * The function a type mapper is registered with. The built-in Date and primitive mappers do not read the
@@ -88,6 +91,23 @@ function createTypeMapper(mapper: JsonMapperMethods, model: any, name: string): 
     });
 }
 
+function createTypeMapperEntry(mapper: JsonMapperMethods, model: any, name: string): SerializerTypeMapperEntry {
+  return {
+    mapper,
+    name,
+    serialize: mapper.serialize,
+    conversion: (mapper as any)[name],
+    fn: createTypeMapper(mapper, model, name)
+  };
+}
+
+/**
+ * The function of a type mapper is built from its `serialize` and conversion methods: it must be built again when one changed.
+ */
+function hasTypeMapperChanged(entry: SerializerTypeMapperEntry, mapper: JsonMapperMethods) {
+  return entry.serialize !== mapper.serialize || entry.conversion !== (mapper as any)[entry.name];
+}
+
 /**
  * Serializes data structures according to the metadata captured by `@tsed/schema`.
  *
@@ -95,12 +115,6 @@ function createTypeMapper(mapper: JsonMapperMethods, model: any, name: string): 
  * registered type mappers (e.g., components in `src/components`).
  */
 export class JsonSerializer extends JsonMapperCompiler<JsonSerializerOptions> {
-  /**
-   * The type mappers registered from the types container, with the function each one was registered with
-   * @protected
-   */
-  protected typeMappers = new Map<any, TypeMapperEntry>();
-
   constructor() {
     super();
 
@@ -175,38 +189,10 @@ export class JsonSerializer extends JsonMapperCompiler<JsonSerializerOptions> {
     return writer.return("obj").root().toString();
   }
 
-  /**
-   * A type mapper must be registered again when it was never registered, when the mapper or one of the
-   * methods its function was built from changed, or when its entry was replaced or removed from the cache.
-   */
-  private isTypeMapperOutdated(model: any, mapper: JsonMapperMethods) {
-    const registered = this.typeMappers.get(model);
-
-    if (!registered) {
-      return true;
-    }
-
-    const mapperChanged = registered.mapper !== mapper;
-    const methodsChanged = registered.serialize !== mapper.serialize || registered.conversion !== (mapper as any)[registered.name];
-    // two models with the same name (Date and "Date") share the mapper table entry: the last registered one wins
-    const entryReplaced = this.cache.get(model)?.get("typeMapper")?.fn !== registered.fn || this.mappers[registered.name] !== registered.fn;
-
-    return mapperChanged || methodsChanged || entryReplaced;
-  }
-
   private mapOptions({groups, useAlias = true, types, ...options}: JsonSerializerOptions<any, any>): JsonSerializerOptions {
     const customMappers: Record<string, any> = {};
-    types = types || getJsonMapperTypes();
 
-    types.forEach((mapper, model) => {
-      if (![Array, Set, Map].includes(model as any) && this.isTypeMapperOutdated(model, mapper)) {
-        const name = nameOf(model);
-        const fn = createTypeMapper(mapper, model, name);
-
-        this.addTypeMapper(model as any, fn);
-        this.typeMappers.set(model, {mapper, name, serialize: mapper.serialize, conversion: (mapper as any)[name], fn});
-      }
-    });
+    this.syncTypeMappers(types || getJsonMapperTypes(), createTypeMapperEntry, hasTypeMapperChanged);
 
     const strictGroups = options.strictGroups ?? JsonMapperSettings.strictGroups;
 
