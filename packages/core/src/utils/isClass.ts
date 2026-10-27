@@ -3,9 +3,7 @@ import {isArrowFn} from "./isArrowFn.js";
 import {isBuffer} from "./isBuffer.js";
 import {isClassObject} from "./isPlainObject.js";
 import {isDate} from "./isDate.js";
-import {isPrimitiveOrPrimitiveClass} from "./isPrimitive.js";
 import {isPromise} from "./isPromise.js";
-import {isSymbol} from "./isSymbol.js";
 import {isTemporal} from "./isTemporal.js";
 
 /**
@@ -34,13 +32,20 @@ export function isClass(target: any) {
   }
 
   return !(
-    isSymbol(target) ||
-    isPrimitiveOrPrimitiveClass(target) ||
-    isClassObject(target) ||
-    isDate(target) ||
-    isTemporal(target) ||
-    isPromise(target) ||
-    isArrayOrArrayClass(target) ||
-    isBuffer(target)
+    // the part of isPrimitiveOrPrimitiveClass() the typeof check above does not cover
+    (
+      target === String ||
+      target === Number ||
+      target === Boolean ||
+      target instanceof String ||
+      target instanceof Number ||
+      target instanceof Boolean ||
+      isClassObject(target) ||
+      isDate(target) ||
+      isTemporal(target) ||
+      isPromise(target) ||
+      isArrayOrArrayClass(target) ||
+      isBuffer(target)
+    )
   );
 }
