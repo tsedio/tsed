@@ -243,6 +243,26 @@ describe("deepMerge", () => {
       expect(keys).toEqual(["b", "x", "a", "c"]);
     });
 
+    it("should merge every obj-only key when alter adds it to the source", () => {
+      const source: any = {a: 1};
+
+      const result = deepMerge(
+        source,
+        {b: 2},
+        {
+          alter: (key, value) => {
+            if (key === "a") {
+              source.b = 3;
+            }
+
+            return value;
+          }
+        }
+      );
+
+      expect(result).toEqual({a: 1, b: 2});
+    });
+
     it("should read an obj-only key through the source prototype chain", () => {
       const result: any = deepMerge({}, {toString: "value"});
 
