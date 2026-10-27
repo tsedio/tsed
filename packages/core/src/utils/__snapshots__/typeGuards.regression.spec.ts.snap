@@ -52,7 +52,7 @@ exports[`type guards (non-regression) > isPrimitive 1`] = `
 {
   "0": true,
   "Array": false,
-  "Boolean": true,
+  "Boolean": false,
   "Buffer": false,
   "Date": false,
   "Map": false,
@@ -79,7 +79,7 @@ exports[`type guards (non-regression) > isPrimitive 1`] = `
   "instant": false,
   "invalid date": false,
   "map": false,
-  "new Boolean": true,
+  "new Boolean": false,
   "new Number": false,
   "new String": false,
   "null": false,
