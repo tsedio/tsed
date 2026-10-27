@@ -43,8 +43,8 @@ export const deepClone = (source: any, stack = new WeakMap()): any => {
     const clone: unknown[] = [];
     stack.set(source, clone);
 
-    for (let i = 0; i < source.length; i++) {
-      // skips the holes, as forEach does
+    // the length is read once and holes are skipped, as forEach does
+    for (let i = 0, length = source.length; i < length; i++) {
       if (i in source) {
         clone[i] = deepClone(source[i], stack);
       }

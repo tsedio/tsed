@@ -129,6 +129,20 @@ describe("deepClone", () => {
   });
 
   describe("behaviour kept by the optimized implementation", () => {
+    it("should ignore the elements appended to an array while it is cloned", () => {
+      const source: any[] = [];
+      Object.defineProperty(source, 0, {
+        get() {
+          source.push(2);
+          return 1;
+        },
+        enumerable: true,
+        configurable: true
+      });
+
+      expect(deepClone(source)).toEqual([1]);
+    });
+
     it("should keep the holes of a sparse array", () => {
       // eslint-disable-next-line no-sparse-arrays
       const result = deepClone(["a", , "b"]);
