@@ -1,4 +1,4 @@
-import {In, Name, OperationPath, Optional, SpecTypes, getSpec} from "../../index.js";
+import {In, Name, OperationPath, Optional, Property, Required, SpecTypes, getJsonSchema, getSpec} from "../../index.js";
 import {Path} from "../operations/path.js";
 
 describe("Optional", () => {
@@ -39,5 +39,38 @@ describe("Optional", () => {
         }
       ]
     });
+  });
+
+  it("should remove a required property inherited from the parent class", () => {
+    class Parent {
+      @Required()
+      id: string;
+
+      @Required()
+      description: string;
+    }
+
+    class Child extends Parent {
+      @Optional()
+      @Property()
+      declare description: string;
+    }
+
+    expect(getJsonSchema(Child).required).toEqual(["id"]);
+    expect(getJsonSchema(Parent).required).toEqual(["id", "description"]);
+  });
+
+  it("should keep a required property inherited from the parent class when it is redeclared without @Optional()", () => {
+    class Parent {
+      @Required()
+      description: string;
+    }
+
+    class Child extends Parent {
+      @Property()
+      declare description: string;
+    }
+
+    expect(getJsonSchema(Child).required).toEqual(["description"]);
   });
 });

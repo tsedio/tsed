@@ -108,6 +108,8 @@ export function Optional() {
         break;
       case DecoratorTypes.PROP:
         store.parentSchema.removeRequired(store.propertyName);
+        // also drops the property from a required list inherited from a parent class
+        store.schema.$selfRequired = false;
         break;
     }
   });
