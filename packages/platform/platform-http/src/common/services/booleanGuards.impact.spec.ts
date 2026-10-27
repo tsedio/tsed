@@ -26,8 +26,9 @@ describe("isBoolean impact on @tsed/platform-http", () => {
 
     for (const [name, value] of Object.entries(INPUTS)) {
       const {response} = PlatformTest.createRequestContext();
-      const end = vi.spyOn(response, "end").mockReturnValue(response);
-      const json = vi.spyOn(response, "json").mockReturnValue(response);
+      // end() and json() are protected: spy through an untyped reference
+      const end = vi.spyOn(response as any, "end").mockReturnValue(response);
+      const json = vi.spyOn(response as any, "json").mockReturnValue(response);
 
       try {
         response.body(value());
@@ -42,7 +43,7 @@ describe("isBoolean impact on @tsed/platform-http", () => {
 
   it("jsonMapper.additionalProperties configuration", () => {
     const original = JsonMapperSettings.additionalProperties;
-    const result: Record<string, boolean> = {};
+    const result: Record<string, boolean | undefined> = {};
 
     try {
       for (const [name, value] of Object.entries(INPUTS)) {
