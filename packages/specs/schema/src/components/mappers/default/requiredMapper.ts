@@ -59,6 +59,9 @@ export function requiredMapper(obj: any, schema: JsonSchema, options: JsonSchema
 
   if (required.length) {
     obj.required = required;
+  } else {
+    // a required list inherited from a parent class can end up empty
+    delete obj.required;
   }
 
   return obj;

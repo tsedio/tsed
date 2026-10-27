@@ -73,4 +73,20 @@ describe("Optional", () => {
 
     expect(getJsonSchema(Child).required).toEqual(["description"]);
   });
+
+  it("should not emit a required list when the child makes the only inherited required property optional", () => {
+    class Parent {
+      @Required()
+      id: string;
+    }
+
+    class Child extends Parent {
+      @Optional()
+      @Property()
+      declare id: string;
+    }
+
+    expect(getJsonSchema(Child).required).toBeUndefined();
+    expect(getJsonSchema(Parent).required).toEqual(["id"]);
+  });
 });
