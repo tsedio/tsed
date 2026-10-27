@@ -1,4 +1,4 @@
-import {deepMerge} from "./deepMerge.js";
+import {deepMerge, mergeReducerBuilder} from "./deepMerge.js";
 
 describe("deepMerge", () => {
   describe("without reducers", () => {
@@ -218,6 +218,107 @@ describe("deepMerge", () => {
           {"3": "3"}
         ]);
       });
+    });
+  });
+
+  describe("behaviour kept by the optimized implementation", () => {
+    it("should keep the source keys first, then the new keys of obj", () => {
+      expect(Object.keys(deepMerge({b: 1, a: 1}, {c: 2, a: 2}))).toEqual(["b", "a", "c"]);
+    });
+
+    it("should read an obj-only key through the source prototype chain", () => {
+      const result: any = deepMerge({}, {toString: "value"});
+
+      expect(Object.hasOwn(result, "toString")).toBe(true);
+      expect(result.toString).toBe("value");
+    });
+
+    it("should ignore the __proto__ key and keep Object.prototype", () => {
+      const result: any = deepMerge({a: 1}, JSON.parse('{"__proto__": {"polluted": true}, "b": 2}'));
+
+      expect(result).toEqual({a: 1, b: 2});
+      expect(Object.getPrototypeOf(result)).toBe(Object.prototype);
+      expect(({} as any).polluted).toBeUndefined();
+    });
+
+    it("should skip the holes of a sparse array", () => {
+      // eslint-disable-next-line no-sparse-arrays
+      expect(deepMerge(["a"], ["b", , "c"])).toEqual(["a", "b", "c"]);
+    });
+
+    it("should append a single object merged into an array", () => {
+      expect(deepMerge([{a: 1}], {b: 2} as any)).toEqual([{a: 1}, {b: 2}]);
+    });
+
+    it("should not mutate the source and obj arrays", () => {
+      const source = [{id: 1}];
+      const obj = [{id: 1}, {id: 2}];
+      const result: any = deepMerge(source, obj);
+
+      expect(source).toEqual([{id: 1}]);
+      expect(obj).toEqual([{id: 1}, {id: 2}]);
+      expect(result).not.toBe(source);
+    });
+
+    it("should return a new array when a reducer built with mergeReducerBuilder appends a value", () => {
+      const reducer = mergeReducerBuilder((a, b) => a.id === b.id);
+      const collection = [{id: 1}];
+      const result = reducer(collection, {id: 2}, {});
+
+      expect(result).toEqual([{id: 1}, {id: 2}]);
+      expect(collection).toEqual([{id: 1}]);
+    });
+
+    it("should give the parentKey to the reducer of a nested array and the user options at the top level", () => {
+      const calls: any[] = [];
+      const options = {
+        reducers: {
+          default: (collection: any[], value: any, opts: any) => {
+            calls.push(opts);
+            return [...collection, value];
+          }
+        }
+      };
+
+      deepMerge({list: [1]}, {list: [2]}, options);
+      deepMerge([1], [2], options);
+
+      expect(calls[0].parentKey).toBe("list");
+      expect(calls[0].reducers).toBe(options.reducers);
+      expect(calls.at(-1)).toBe(options);
+    });
+
+    it("should drop undefined values with cleanUndefinedProps", () => {
+      expect(deepMerge({a: undefined, b: 1}, {c: undefined}, {cleanUndefinedProps: true})).toEqual({b: 1});
+      expect(Object.keys(deepMerge({a: undefined}, {c: undefined}) as any)).toEqual(["a", "c"]);
+    });
+
+    it("should return obj for primitives, symbols, functions and Boolean objects", () => {
+      const symbol = Symbol("s");
+      const fn = () => {};
+      const bool = new Boolean(true);
+
+      expect(deepMerge({a: 1}, "str")).toBe("str");
+      expect(deepMerge({a: 1}, 1)).toBe(1);
+      expect(deepMerge({a: 1}, false)).toBe(false);
+      expect(deepMerge({a: 1}, symbol)).toBe(symbol);
+      expect(deepMerge({a: 1}, fn)).toBe(fn);
+      expect(deepMerge({a: 1}, bool)).toBe(bool);
+      expect(deepMerge({a: 1}, Boolean)).toBe(Boolean);
+      expect(deepMerge("", "")).toBe("");
+      expect(deepMerge("a", "")).toBe("a");
+    });
+
+    it("should create the result from the source class", () => {
+      class Model {
+        a = 1;
+      }
+
+      const source = new Model();
+      const result: any = deepMerge(source, {b: 2});
+
+      expect(Object.getPrototypeOf(result)).toBe(source);
+      expect(result.b).toBe(2);
     });
   });
 });
