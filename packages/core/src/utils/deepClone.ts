@@ -5,7 +5,8 @@ import {isRegExp} from "./isRegExp.js";
 /**
  * Creates a deep clone of the provided value, preserving prototype chains and handling circular references.
  *
- * Supports primitives, dates, regular expressions, typed arrays, buffers, maps, sets, and plain objects.
+ * Supports primitives, primitive wrappers (`new Boolean()`, `new Number()`, `new String()`), dates, regular expressions,
+ * typed arrays, buffers, maps, sets, and plain objects.
  * Uses a WeakMap to track and handle circular references correctly.
  *
  * @public
@@ -13,7 +14,7 @@ import {isRegExp} from "./isRegExp.js";
  */
 export const deepClone = (source: any, stack = new WeakMap()): any => {
   // provides an early exit for simple cases. Inline typeof checks: this runs for every cloned value
-  if (source === null || typeof source !== "object" || source instanceof Boolean) {
+  if (source === null || typeof source !== "object") {
     return source;
   }
 
@@ -72,7 +73,7 @@ export const deepClone = (source: any, stack = new WeakMap()): any => {
     return clone;
   }
 
-  const clone = Object.create(Reflect.getPrototypeOf(source));
+  const clone = createObject(source);
   stack.set(source, clone);
 
   const keys = Reflect.ownKeys(source);
@@ -100,3 +101,48 @@ export const deepClone = (source: any, stack = new WeakMap()): any => {
 
   return clone;
 };
+
+/**
+ * Creates the object that receives the cloned properties, with the prototype of the source.
+ * A primitive wrapper (`new Boolean()`, `new Number()`, `new String()`) keeps its value in an internal slot
+ * that `Object.create()` cannot set: it gets a new wrapper holding the same value.
+ */
+function createObject(source: object) {
+  const prototype = Reflect.getPrototypeOf(source);
+  // a plain object is never a wrapper: skip the checks on the most frequent case
+  const primitive = prototype === Object.prototype || prototype === null ? undefined : primitiveOf(source);
+
+  if (primitive === undefined) {
+    return Object.create(prototype);
+  }
+
+  const clone = Object(primitive);
+
+  // a subclass of Boolean, Number or String
+  if (Reflect.getPrototypeOf(clone) !== prototype) {
+    Reflect.setPrototypeOf(clone, prototype);
+  }
+
+  return clone;
+}
+
+function primitiveOf(source: object): boolean | number | string | undefined {
+  // instanceof only reads the prototype chain: valueOf() throws when the object has no wrapped value
+  try {
+    if (source instanceof Boolean) {
+      return Boolean.prototype.valueOf.call(source);
+    }
+
+    if (source instanceof Number) {
+      return Number.prototype.valueOf.call(source);
+    }
+
+    if (source instanceof String) {
+      return String.prototype.valueOf.call(source);
+    }
+  } catch {
+    // an object created with Object.create(Boolean.prototype), for example: cloned as an ordinary object
+  }
+
+  return undefined;
+}
