@@ -127,4 +127,14 @@ describe("deepClone", () => {
     expect(result).toEqual(original);
     expect(result).toBeInstanceOf(Int8Array);
   });
+
+  it("should clone own accessor properties", () => {
+    const source = {};
+    Object.defineProperty(source, "computed", {get: () => 1, enumerable: true, configurable: true});
+
+    const result = deepClone(source);
+
+    expect(result.computed).toBe(1);
+    expect(Object.getOwnPropertyDescriptor(result, "computed")?.get).toBeTypeOf("function");
+  });
 });
