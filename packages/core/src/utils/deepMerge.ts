@@ -87,7 +87,10 @@ function shouldReturnObj(obj: any, source: any) {
     type === "boolean" ||
     type === "symbol" ||
     type === "function" ||
+    // primitive wrappers (new Boolean(), new Number(), new String()) are leaf values
     obj instanceof Boolean ||
+    obj instanceof Number ||
+    obj instanceof String ||
     source === undefined
   );
 }
