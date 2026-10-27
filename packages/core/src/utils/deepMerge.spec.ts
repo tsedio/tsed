@@ -226,6 +226,23 @@ describe("deepMerge", () => {
       expect(Object.keys(deepMerge({b: 1, a: 1}, {c: 2, a: 2}))).toEqual(["b", "a", "c"]);
     });
 
+    it("should merge a key present in both objects once", () => {
+      const keys: string[] = [];
+
+      deepMerge(
+        {b: 1, a: {x: 1}},
+        {c: 2, a: {x: 2}},
+        {
+          alter: (key, value) => {
+            keys.push(key);
+            return value;
+          }
+        }
+      );
+
+      expect(keys).toEqual(["b", "x", "a", "c"]);
+    });
+
     it("should read an obj-only key through the source prototype chain", () => {
       const result: any = deepMerge({}, {toString: "value"});
 
