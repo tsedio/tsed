@@ -22,6 +22,13 @@ export function isClass(target: any) {
     return false;
   }
 
+  const type = typeof target;
+
+  // primitives are never classes: skip the checks below (bigint keeps the previous path)
+  if (type === "string" || type === "number" || type === "boolean" || type === "symbol") {
+    return false;
+  }
+
   if (isArrowFn(target)) {
     return false;
   }
