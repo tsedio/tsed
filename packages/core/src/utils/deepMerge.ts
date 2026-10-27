@@ -106,14 +106,14 @@ function shouldReturnSource(obj: any, source: any) {
  * @see DeepMergeOptions
  */
 export function deepMerge<T = any, C = any>(source: T & any, obj: C & any, options: DeepMergeOptions = {}): (T & C) | undefined | null {
-  return merge(source, obj, options, options.parentKey);
+  return merge(source, obj, options, options.parentKey, true);
 }
 
 /**
- * `options` stays the user object for the whole merge; the nested key travels as `parentKey`,
- * and the `{...options, parentKey}` copy is only built when a reducer receives it.
+ * The root call works with the caller's options. The nested merges share one copy of its own properties,
+ * the nested key travels as `parentKey`, and each nested reducer receives its own `{...options, parentKey}` copy.
  */
-function merge(source: any, obj: any, options: DeepMergeOptions, parentKey: string | undefined): any {
+function merge(source: any, obj: any, options: DeepMergeOptions, parentKey: string | undefined, isRoot: boolean): any {
   if (shouldReturnSource(obj, source)) {
     return source;
   }
@@ -123,8 +123,8 @@ function merge(source: any, obj: any, options: DeepMergeOptions, parentKey: stri
   }
 
   if (Array.isArray(source)) {
-    const reducer = getReducer(options.reducers, parentKey);
-    const reducerOptions = parentKey === options.parentKey ? options : {...options, parentKey};
+    const reducerOptions = isRoot ? options : {...options, parentKey};
+    const reducer = getReducer(reducerOptions.reducers, parentKey);
 
     return [].concat(obj).reduce((out: any[], value: any) => reducer(out, value, reducerOptions), [...source]);
   }
@@ -132,9 +132,10 @@ function merge(source: any, obj: any, options: DeepMergeOptions, parentKey: stri
   const out = createInstance(source);
   const sourceKeys = objectKeys(source);
   const objKeys = objectKeys(obj);
+  const nestedOptions = isRoot ? {...options} : options;
 
   for (let i = 0; i < sourceKeys.length; i++) {
-    mergeKey(out, source, obj, sourceKeys[i], options);
+    mergeKey(out, source, obj, sourceKeys[i], options, nestedOptions);
   }
 
   for (let i = 0; i < objKeys.length; i++) {
@@ -142,15 +143,15 @@ function merge(source: any, obj: any, options: DeepMergeOptions, parentKey: stri
 
     // keys of both objects were already merged with the source keys
     if (!hasEnumerableOwn.call(source, key)) {
-      mergeKey(out, source, obj, key, options);
+      mergeKey(out, source, obj, key, options, nestedOptions);
     }
   }
 
   return out;
 }
 
-function mergeKey(out: any, source: any, obj: any, key: string, options: DeepMergeOptions) {
-  const value = merge(source && source[key], obj && obj[key], options, key);
+function mergeKey(out: any, source: any, obj: any, key: string, options: DeepMergeOptions, nestedOptions: DeepMergeOptions) {
+  const value = merge(source && source[key], obj && obj[key], nestedOptions, key, false);
 
   if (options.cleanUndefinedProps && value === undefined) {
     return;

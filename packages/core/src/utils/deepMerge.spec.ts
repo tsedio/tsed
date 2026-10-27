@@ -305,6 +305,40 @@ describe("deepMerge", () => {
       expect(calls.at(-1)).toBe(options);
     });
 
+    it("should give each nested reducer its own copy of the options", () => {
+      const options: any = {
+        parentKey: "a",
+        reducers: {
+          default: (collection: any[], value: any, opts: any) => {
+            opts.reducers = {default: () => ["replaced"]};
+            return [...collection, value];
+          }
+        }
+      };
+      const reducers = options.reducers;
+
+      expect(deepMerge({a: [1], b: [1]}, {a: [2], b: [2]}, options)).toEqual({a: [1, 2], b: [1, 2]});
+      expect(options.reducers).toBe(reducers);
+    });
+
+    it("should only read the own options in the nested merges", () => {
+      const calls: any[] = [];
+      const options = Object.create({
+        reducers: {
+          default: (collection: any[], value: any) => {
+            calls.push(value);
+            return [...collection, value];
+          }
+        }
+      });
+
+      expect(deepMerge({list: [1]}, {list: [1]}, options)).toEqual({list: [1]});
+      expect(calls).toEqual([]);
+
+      expect(deepMerge([1], [1], options)).toEqual([1, 1]);
+      expect(calls).toEqual([1]);
+    });
+
     it("should drop undefined values with cleanUndefinedProps", () => {
       expect(deepMerge({a: undefined, b: 1}, {c: undefined}, {cleanUndefinedProps: true})).toEqual({b: 1});
       expect(Object.keys(deepMerge({a: undefined}, {c: undefined}) as any)).toEqual(["a", "c"]);
