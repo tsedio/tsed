@@ -1,7 +1,4 @@
 import {createInstance} from "./createInstance.js";
-import {isFunction} from "./isFunction.js";
-import {isPrimitive} from "./isPrimitive.js";
-import {isSymbol} from "./isSymbol.js";
 import {objectKeys} from "./objectKeys.js";
 
 /**
@@ -50,22 +47,49 @@ export function mergeReducerBuilder(cb: DeepMergeComparatorCB) {
   };
 }
 
-const defaultReducer = mergeReducerBuilder((a, b) => a === b);
+const hasEnumerableOwn = Object.prototype.propertyIsEnumerable;
+
+/**
+ * Same result as `mergeReducerBuilder((a, b) => a === b)`, but appends in place: `merge()` owns the array
+ * (a copy of the source), so it does not need the copy `[...collection, value]` made on each append.
+ */
+function defaultInPlaceReducer(collection: any[], value: any, options: DeepMergeOptions) {
+  const index = collection.indexOf(value);
+
+  if (index === -1) {
+    collection.push(value);
+  } else {
+    collection[index] = deepMerge(collection[index], value, options);
+  }
+
+  return collection;
+}
 
 function getReducer({reducers, parentKey}: DeepMergeOptions) {
   if (!reducers) {
-    return defaultReducer;
+    return defaultInPlaceReducer;
   }
 
   if (parentKey && reducers[parentKey]) {
     return reducers[parentKey];
   }
 
-  return reducers["default"] || defaultReducer;
+  return reducers["default"] || defaultInPlaceReducer;
 }
 
 function shouldReturnObj(obj: any, source: any) {
-  return isPrimitive(obj) || isSymbol(obj) || isFunction(obj) || source === undefined;
+  // inline typeof checks: this runs for every merged value
+  const type = typeof obj;
+
+  return (
+    type === "string" ||
+    type === "number" ||
+    type === "boolean" ||
+    type === "symbol" ||
+    type === "function" ||
+    obj instanceof Boolean ||
+    source === undefined
+  );
 }
 
 function shouldReturnSource(obj: any, source: any) {
@@ -82,8 +106,16 @@ function shouldReturnSource(obj: any, source: any) {
  * @see DeepMergeOptions
  */
 export function deepMerge<T = any, C = any>(source: T & any, obj: C & any, options: DeepMergeOptions = {}): (T & C) | undefined | null {
+  return merge(source, obj, options, options.parentKey);
+}
+
+/**
+ * `options` stays the user object for the whole merge; the nested key travels as `parentKey`,
+ * and the `{...options, parentKey}` copy is only built when a reducer receives it.
+ */
+function merge(source: any, obj: any, options: DeepMergeOptions, parentKey: string | undefined): any {
   if (shouldReturnSource(obj, source)) {
-    return source as any;
+    return source;
   }
 
   if (shouldReturnObj(obj, source)) {
@@ -91,26 +123,38 @@ export function deepMerge<T = any, C = any>(source: T & any, obj: C & any, optio
   }
 
   if (Array.isArray(source)) {
-    const reducer = getReducer(options);
+    const reducerOptions = parentKey === options.parentKey ? options : {...options, parentKey};
+    const reducer = getReducer(reducerOptions);
 
-    return [].concat(obj).reduce((out: any[], value: any) => reducer(out, value, options), [...source]) as unknown as T & C;
+    return [].concat(obj).reduce((out: any[], value: any) => reducer(out, value, reducerOptions), [...source]);
   }
 
-  const newObj = createInstance(source);
+  const out = createInstance(source);
+  const sourceKeys = objectKeys(source);
+  const objKeys = objectKeys(obj);
 
-  return [...objectKeys(source), ...objectKeys(obj)].reduce((out: any, key: string) => {
-    const src = source && source[key];
-    const value = deepMerge(src, obj && obj[key], {
-      ...options,
-      parentKey: key
-    });
+  for (let i = 0; i < sourceKeys.length; i++) {
+    mergeKey(out, source, obj, sourceKeys[i], options);
+  }
 
-    if (options.cleanUndefinedProps && value === undefined) {
-      return out;
+  for (let i = 0; i < objKeys.length; i++) {
+    const key = objKeys[i];
+
+    // a key of both objects is merged once, with the source keys (it used to be merged twice, at every level)
+    if (!hasEnumerableOwn.call(source, key)) {
+      mergeKey(out, source, obj, key, options);
     }
+  }
 
-    out[key] = options.alter?.(key, value) ?? value;
+  return out;
+}
 
-    return out;
-  }, newObj);
+function mergeKey(out: any, source: any, obj: any, key: string, options: DeepMergeOptions) {
+  const value = merge(source && source[key], obj && obj[key], options, key);
+
+  if (options.cleanUndefinedProps && value === undefined) {
+    return;
+  }
+
+  out[key] = options.alter?.(key, value) ?? value;
 }
