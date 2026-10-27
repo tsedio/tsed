@@ -28,6 +28,21 @@ describe("deepClone() with boxed primitives", () => {
     expect(clone.flag.valueOf()).toBe(true);
   });
 
+  it("should keep the prototype of a boxed primitive subclass", () => {
+    class Flag extends Boolean {
+      label() {
+        return `flag:${this.valueOf()}`;
+      }
+    }
+
+    const source = new Flag(true);
+    const clone = deepClone(source);
+
+    expect(clone).toBeInstanceOf(Flag);
+    expect(clone.label()).toBe("flag:true");
+    expect(clone).not.toBe(source);
+  });
+
   it("should keep constructors and primitives unchanged", () => {
     expect(deepClone(Boolean)).toBe(Boolean);
     expect(deepClone(true)).toBe(true);
