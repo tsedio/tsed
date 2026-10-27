@@ -221,7 +221,7 @@ describe("deepMerge", () => {
     });
   });
 
-  describe("behaviour kept by the optimized implementation", () => {
+  describe("edge cases", () => {
     it("should keep the source keys first, then the new keys of obj", () => {
       expect(Object.keys(deepMerge({b: 1, a: 1}, {c: 2, a: 2}))).toEqual(["b", "a", "c"]);
     });

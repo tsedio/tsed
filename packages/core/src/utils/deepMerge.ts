@@ -50,8 +50,8 @@ export function mergeReducerBuilder(cb: DeepMergeComparatorCB) {
 const hasEnumerableOwn = Object.prototype.propertyIsEnumerable;
 
 /**
- * Same result as `mergeReducerBuilder((a, b) => a === b)`, but appends in place: `merge()` owns the array
- * (a copy of the source), so it does not need the copy `[...collection, value]` made on each append.
+ * Same result as `mergeReducerBuilder((a, b) => a === b)`, but appends in place:
+ * `merge()` gives it its own copy of the source array.
  */
 function defaultInPlaceReducer(collection: any[], value: any, options: DeepMergeOptions) {
   const index = collection.indexOf(value);
@@ -65,7 +65,7 @@ function defaultInPlaceReducer(collection: any[], value: any, options: DeepMerge
   return collection;
 }
 
-function getReducer({reducers, parentKey}: DeepMergeOptions) {
+function getReducer(reducers: DeepMergeOptions["reducers"], parentKey: string | undefined) {
   if (!reducers) {
     return defaultInPlaceReducer;
   }
@@ -123,8 +123,8 @@ function merge(source: any, obj: any, options: DeepMergeOptions, parentKey: stri
   }
 
   if (Array.isArray(source)) {
+    const reducer = getReducer(options.reducers, parentKey);
     const reducerOptions = parentKey === options.parentKey ? options : {...options, parentKey};
-    const reducer = getReducer(reducerOptions);
 
     return [].concat(obj).reduce((out: any[], value: any) => reducer(out, value, reducerOptions), [...source]);
   }
@@ -140,7 +140,7 @@ function merge(source: any, obj: any, options: DeepMergeOptions, parentKey: stri
   for (let i = 0; i < objKeys.length; i++) {
     const key = objKeys[i];
 
-    // a key of both objects is merged once, with the source keys (it used to be merged twice, at every level)
+    // keys of both objects were already merged with the source keys
     if (!hasEnumerableOwn.call(source, key)) {
       mergeKey(out, source, obj, key, options);
     }
