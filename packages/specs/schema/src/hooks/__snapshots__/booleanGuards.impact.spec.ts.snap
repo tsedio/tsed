@@ -1,0 +1,21 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`isBoolean impact on @tsed/schema > alterIgnore({$ignore: value}) 1`] = `
+{
+  "Boolean": "true",
+  "false": "false",
+  "new Boolean(false)": "true",
+  "new Boolean(true)": "true",
+  "true": "true",
+}
+`;
+
+exports[`isBoolean impact on @tsed/schema > alterOneOf(): boolean enum values kept on the boolean branch 1`] = `
+{
+  "Boolean": "["Boolean constructor"]",
+  "false": "["boolean false"]",
+  "new Boolean(false)": "["object false"]",
+  "new Boolean(true)": "["object true"]",
+  "true": "["boolean true"]",
+}
+`;

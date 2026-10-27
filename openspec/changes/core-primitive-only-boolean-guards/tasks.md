@@ -13,14 +13,14 @@
 
 ## 3. Step 2: callers use the explicit guards
 
-- [ ] 3.1 Replace `isBoolean` with `isBooleanOrBooleanClass` in `isSerializable`, `DateMapper`, `TemporalMapper`, `JsonSerializer`/`JsonDeserializer` (`$ignore`), `alterIgnore`, `alterOneOf`, `PlatformResponse`, `PlatformContentTypeResolver`, SSE `EventStreamContext` and `defineConfiguration`
-- [ ] 3.2 Check that every impact snapshot still matches, and commit as `refactor(...)` per package scope, or a single `refactor` commit where commitlint allows it
+- [x] 3.1 Replace `isBoolean` with `isBooleanOrBooleanClass` in `isSerializable`, `DateMapper`, `TemporalMapper`, `JsonSerializer`/`JsonDeserializer` (`$ignore`), `alterIgnore`, `alterOneOf`, `PlatformResponse`, `PlatformContentTypeResolver`, SSE `EventStreamContext` and `defineConfiguration`
+- [x] 3.2 Check that every impact snapshot still matches, and commit as `refactor(...)` per package scope, or a single `refactor` commit where commitlint allows it
 
 ## 4. Step 3: narrow the guards
 
-- [ ] 4.1 Narrow `isBoolean()` to `typeof target === "boolean"` and drop the Boolean exception from `isPrimitive()`
-- [ ] 4.2 Update only the `"Boolean"` / `"new Boolean"` entries of the `isPrimitive` non-regression snapshot
-- [ ] 4.3 Check that every impact snapshot still matches the one recorded on the old guards
+- [x] 4.1 Narrow `isBoolean()` to `typeof target === "boolean"` and drop the Boolean exception from `isPrimitive()`
+- [x] 4.2 Update only the `"Boolean"` / `"new Boolean"` entries of the `isPrimitive` non-regression snapshot
+- [x] 4.3 Check that every impact snapshot still matches the one recorded on the old guards
 
 ## 5. Verification and release
 

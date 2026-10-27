@@ -1,6 +1,6 @@
 import {JsonMapper} from "../decorators/jsonMapper.js";
 import {JsonMapperMethods} from "../interfaces/JsonMapperMethods.js";
-import {isBoolean} from "@tsed/core";
+import {isBooleanOrBooleanClass} from "@tsed/core";
 
 const toISOString = Date.prototype.toISOString;
 
@@ -17,7 +17,7 @@ export class DateMapper implements JsonMapperMethods {
     // don't convert unexpected data. In normal case, Ajv reject unexpected data.
     // But by default, we have to skip data deserialization and let user to apply
     // the right mapping
-    if (isBoolean(data) || data === null || data === undefined) {
+    if (isBooleanOrBooleanClass(data) || data === null || data === undefined) {
       return data;
     }
 

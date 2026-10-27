@@ -1,0 +1,11 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`isBoolean impact on @tsed/platform-response-filter > getContentType(value) without a declared content type 1`] = `
+{
+  "Boolean": "application/json",
+  "false": "application/json",
+  "new Boolean(false)": "application/json",
+  "new Boolean(true)": "application/json",
+  "true": "application/json",
+}
+`;

@@ -1,6 +1,6 @@
 import {CachedGroupsJsonMapper, CachedJsonMapper, JsonMapperCallback, JsonMapperCompiler, TypeMapperEntry} from "./JsonMapperCompiler.js";
 import {JsonClassStore, JsonParameterStore, JsonPropertyStore, JsonSchema, VendorKeys, getPropertiesStores, s} from "@tsed/schema";
-import {Type, classOf, isArray, isBoolean, isEmpty, isFunction, isNil, nameOf, objectKeys} from "@tsed/core";
+import {Type, classOf, isArray, isBooleanOrBooleanClass, isEmpty, isFunction, isNil, nameOf, objectKeys} from "@tsed/core";
 import {JsonMapperMethods} from "../interfaces/JsonMapperMethods.js";
 import {JsonDeserializerOptions} from "./JsonDeserializerOptions.js";
 import {JsonMapperSettings} from "./JsonMapperSettings.js";
@@ -184,7 +184,7 @@ export class JsonDeserializer extends JsonMapperCompiler<JsonDeserializerOptions
         properties.add(String(propertyStore.parent.schema.getAliasOf(key) || key));
 
         if (
-          (propertyStore.schema?.$ignore && isBoolean(propertyStore.schema?.$ignore)) ||
+          (propertyStore.schema?.$ignore && isBooleanOrBooleanClass(propertyStore.schema?.$ignore)) ||
           propertyStore.isGetterOnly() ||
           (propertyStore.schema?.$hooks?.has("groups") && this.alterGroups(propertyStore.schema, groups))
         ) {
