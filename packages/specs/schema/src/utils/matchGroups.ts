@@ -10,14 +10,14 @@ const MAX_MATCHERS = 1000;
 const MAX_CACHED_PATTERN_LENGTH = 256;
 
 function getMatcher(pattern: string) {
+  if (pattern.length > MAX_CACHED_PATTERN_LENGTH) {
+    return picomatch(pattern, {}, true);
+  }
+
   let isMatch = MATCHERS.get(pattern);
 
   if (!isMatch) {
     isMatch = picomatch(pattern, {}, true);
-
-    if (pattern.length > MAX_CACHED_PATTERN_LENGTH) {
-      return isMatch;
-    }
 
     if (MATCHERS.size >= MAX_MATCHERS) {
       MATCHERS.clear();
@@ -39,7 +39,7 @@ function micromatch(list: string[], patterns: string[]) {
   let negatives = 0;
 
   for (let i = 0; i < patterns.length; i++) {
-    let isMatch: any = getMatcher(String(patterns[i]));
+    const isMatch = getMatcher(String(patterns[i]));
     let negated = isMatch.state.negated || isMatch.state.negatedExtglob;
 
     if (negated) {
@@ -81,10 +81,7 @@ export function matchGroups(groups: string[], compareWith: string[] = []) {
   }
 
   if (groupsIncludes.length) {
-    return !micromatch(
-      groups.filter((group) => !group.startsWith("!")),
-      compareWith
-    );
+    return !micromatch(groupsIncludes, compareWith);
   }
 
   return false;
