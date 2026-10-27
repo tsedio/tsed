@@ -21,6 +21,8 @@ How to use
 #### utils
 
 - [x] packages/core/src/utils/deepClone.ts — `deepClone` lists the supported values, primitive wrappers included
+- [x] packages/core/src/utils/isBoolean.ts — `isBoolean` is primitive only and points to `isBooleanOrBooleanClass` for constructors and wrappers
+- [x] packages/core/src/utils/isPrimitive.ts — `isPrimitive` is primitive only and points to `isPrimitiveOrPrimitiveClass` for constructors and wrappers
 
 ---
 

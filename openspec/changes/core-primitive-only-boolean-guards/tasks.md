@@ -24,6 +24,6 @@
 
 ## 5. Verification and release
 
-- [ ] 5.1 Run the suites of `core`, `di`, `hooks`, `json-mapper`, `schema`, `ajv`, `platform-http`, `platform-params`, `platform-router`, `platform-response-filter`, `platform-express` and `third-parties/sse`, plus the type checks of the touched packages
-- [ ] 5.2 Run `yarn test:lint` and `yarn api:build`, and record the documented symbols and the validation result in `reports/jsdoc/core.md`
+- [x] 5.1 Run the suites of `core`, `di`, `hooks`, `json-mapper`, `schema`, `ajv`, `platform-http`, `platform-params`, `platform-router`, `platform-response-filter`, `platform-express` and `third-parties/sse`, plus the type checks of the touched packages
+- [x] 5.2 Run `yarn test:lint` and `yarn api:build`, and record the documented symbols and the validation result in `reports/jsdoc/core.md`
 - [ ] 5.3 Push, update the PR description (impact table, release note), and reply to the review threads
