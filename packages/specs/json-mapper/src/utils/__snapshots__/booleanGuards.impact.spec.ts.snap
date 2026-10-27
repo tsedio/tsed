@@ -1,0 +1,41 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`isBoolean/isPrimitive impact on @tsed/json-mapper > deserialize(value, {type: Date}) (DateMapper) 1`] = `
+{
+  "Boolean": "Boolean constructor",
+  "false": "boolean false",
+  "new Boolean(false)": "Boolean object, valueOf() = false",
+  "new Boolean(true)": "Boolean object, valueOf() = true",
+  "true": "boolean true",
+}
+`;
+
+exports[`isBoolean/isPrimitive impact on @tsed/json-mapper > deserialize(value, {type: Temporal.Instant}) (TemporalMapper) 1`] = `
+{
+  "Boolean": "Boolean constructor",
+  "false": "boolean false",
+  "new Boolean(false)": "Boolean object, valueOf() = false",
+  "new Boolean(true)": "Boolean object, valueOf() = true",
+  "true": "boolean true",
+}
+`;
+
+exports[`isBoolean/isPrimitive impact on @tsed/json-mapper > serialize({flag: value}).flag 1`] = `
+{
+  "Boolean": "undefined undefined",
+  "false": "boolean false",
+  "new Boolean(false)": "Boolean object, valueOf() = false",
+  "new Boolean(true)": "Boolean object, valueOf() = true",
+  "true": "boolean true",
+}
+`;
+
+exports[`isBoolean/isPrimitive impact on @tsed/json-mapper > serialize(value) 1`] = `
+{
+  "Boolean": "boolean true",
+  "false": "boolean false",
+  "new Boolean(false)": "Boolean object, valueOf() = false",
+  "new Boolean(true)": "Boolean object, valueOf() = true",
+  "true": "boolean true",
+}
+`;

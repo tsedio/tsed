@@ -4,7 +4,7 @@ import {
   classOf,
   hasJsonMethod,
   isArray,
-  isBoolean,
+  isBooleanOrBooleanClass,
   isClassObject,
   isCollection,
   isDate,
@@ -170,7 +170,7 @@ export class JsonSerializer extends JsonMapperCompiler<JsonSerializerOptions> {
         properties.add(propertyStore.propertyKey as string);
 
         if (
-          (propertyStore.schema?.$ignore && isBoolean(propertyStore.schema?.$ignore)) ||
+          (propertyStore.schema?.$ignore && isBooleanOrBooleanClass(propertyStore.schema?.$ignore)) ||
           (propertyStore.schema?.$hooks?.has("groups") && this.alterGroups(propertyStore.schema, groups))
         ) {
           return;

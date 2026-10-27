@@ -1,0 +1,51 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`isBoolean/isPrimitive impact on @tsed/core callers > deepClone({flag: value}).flag 1`] = `
+{
+  "Boolean": "Boolean constructor",
+  "false": "boolean false",
+  "new Boolean(false)": "Boolean object, valueOf() = false",
+  "new Boolean(true)": "Boolean object, valueOf() = true",
+  "true": "boolean true",
+}
+`;
+
+exports[`isBoolean/isPrimitive impact on @tsed/core callers > deepClone(value) 1`] = `
+{
+  "Boolean": "Boolean constructor",
+  "false": "boolean false",
+  "new Boolean(false)": "Boolean object, valueOf() = false",
+  "new Boolean(true)": "Boolean object, valueOf() = true",
+  "true": "boolean true",
+}
+`;
+
+exports[`isBoolean/isPrimitive impact on @tsed/core callers > deepMerge({flag: true}, {flag: value}).flag 1`] = `
+{
+  "Boolean": "Boolean constructor",
+  "false": "boolean false",
+  "new Boolean(false)": "Boolean object, valueOf() = false",
+  "new Boolean(true)": "Boolean object, valueOf() = true",
+  "true": "boolean true",
+}
+`;
+
+exports[`isBoolean/isPrimitive impact on @tsed/core callers > deepMerge({flag: value}, {other: 1}).flag 1`] = `
+{
+  "Boolean": "Boolean constructor",
+  "false": "boolean false",
+  "new Boolean(false)": "Boolean object, valueOf() = false",
+  "new Boolean(true)": "Boolean object, valueOf() = true",
+  "true": "boolean true",
+}
+`;
+
+exports[`isBoolean/isPrimitive impact on @tsed/core callers > isSerializable(value) 1`] = `
+{
+  "Boolean": "boolean false",
+  "false": "boolean false",
+  "new Boolean(false)": "boolean false",
+  "new Boolean(true)": "boolean false",
+  "true": "boolean false",
+}
+`;

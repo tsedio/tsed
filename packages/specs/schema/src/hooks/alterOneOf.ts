@@ -10,7 +10,7 @@ import {
 import type {JSONSchema6} from "json-schema";
 import type {JsonSchema} from "../domain/JsonSchema.js";
 import type {JsonSchemaOptions} from "../domain/JsonSchemaOptions.js";
-import {isBoolean} from "@tsed/core/utils/isBoolean.js";
+import {isBooleanOrBooleanClass} from "@tsed/core/utils/isBoolean.js";
 import {isNumber} from "@tsed/core/utils/isNumber.js";
 import {isString} from "@tsed/core/utils/isString.js";
 
@@ -21,7 +21,7 @@ function findManyOf(obj: any) {
 const RULES: {[index: string]: {properties: string[]; is: (value: any) => boolean}} = {
   string: {properties: STRING_PROPERTIES, is: isString},
   number: {properties: NUMBER_PROPERTIES, is: isNumber},
-  boolean: {properties: BOOLEAN_PROPERTIES, is: isBoolean},
+  boolean: {properties: BOOLEAN_PROPERTIES, is: isBooleanOrBooleanClass},
   array: {properties: ARRAY_PROPERTIES, is: () => false},
   object: {properties: OBJECT_PROPERTIES, is: () => false}
 };
