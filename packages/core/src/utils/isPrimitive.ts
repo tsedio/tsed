@@ -1,7 +1,3 @@
-import {isBoolean, isBooleanOrBooleanClass} from "./isBoolean.js";
-import {isNumber, isNumberOrNumberClass} from "./isNumber.js";
-import {isString, isStringOrStringClass} from "./isString.js";
-
 /**
  * Checks if a value is a primitive or primitive class constructor (String, Number, Boolean).
  *
@@ -9,7 +5,21 @@ import {isString, isStringOrStringClass} from "./isString.js";
  * @since v7.0.0
  */
 export function isPrimitiveOrPrimitiveClass(target: any): boolean {
-  return isStringOrStringClass(target) || isNumberOrNumberClass(target) || isBooleanOrBooleanClass(target);
+  const type = typeof target;
+
+  // inlined isStringOrStringClass() || isNumberOrNumberClass() || isBooleanOrBooleanClass(): called per value
+  if (type === "string" || type === "number" || type === "boolean") {
+    return true;
+  }
+
+  return (
+    target instanceof String ||
+    target === String ||
+    target instanceof Number ||
+    target === Number ||
+    target instanceof Boolean ||
+    target === Boolean
+  );
 }
 
 /**
@@ -19,7 +29,10 @@ export function isPrimitiveOrPrimitiveClass(target: any): boolean {
  * @since v7.0.0
  */
 export function isPrimitive(target: any): boolean {
-  return isString(target) || isNumber(target) || isBoolean(target);
+  const type = typeof target;
+
+  // inlined isString() || isNumber() || isBoolean(), which also accepts `Boolean` and `new Boolean()`
+  return type === "string" || type === "number" || type === "boolean" || target instanceof Boolean || target === Boolean;
 }
 
 /**
