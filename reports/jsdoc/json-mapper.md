@@ -98,6 +98,7 @@ Files under `packages/specs/json-mapper/src` (excluding index.ts and tests), gro
 - [x] `JsonMapperGlobalOptions` — explain shared/global configuration usage.
 - [x] `JsonMapperTypesContainer` — describe registry responsibilities.
 - [x] `JsonMapperCompiler` — document purpose and describe compile options/return type.
+- [x] `TypeMapperEntry` — describe the registry entry shared by the serializer and deserializer type mappers.
 
 ### Mapper components
 
