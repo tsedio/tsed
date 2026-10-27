@@ -103,4 +103,27 @@ describe("type guards (non-regression)", () => {
 
     expect(isTemporal(instant)).toBe(true);
   });
+
+  it("isTemporal should follow a constructor replaced on the same Temporal object", () => {
+    const descriptor = Object.getOwnPropertyDescriptor(Temporal, "Instant")!;
+    const instant = Temporal.Instant.from("2024-01-15T10:30:00Z");
+
+    class FakeInstant {}
+
+    // fills a cache, if any
+    expect(isTemporal(instant)).toBe(true);
+
+    try {
+      Object.defineProperty(Temporal, "Instant", {...descriptor, value: FakeInstant});
+
+      expect(isTemporal(new FakeInstant())).toBe(true);
+      expect(isTemporal(FakeInstant)).toBe(true);
+      expect(isTemporal(instant)).toBe(false);
+    } finally {
+      Object.defineProperty(Temporal, "Instant", descriptor);
+    }
+
+    expect(isTemporal(instant)).toBe(true);
+    expect(isTemporal(new FakeInstant())).toBe(false);
+  });
 });

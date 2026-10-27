@@ -17,26 +17,6 @@ const TEMPORAL_TYPE_NAMES = [
   "Duration"
 ];
 
-type TemporalCtor = new (...args: any[]) => unknown;
-
-let cachedTemporal: Record<string, unknown> | undefined;
-let cachedCtors: TemporalCtor[] = [];
-
-/**
- * Constructors of the global `Temporal` types, resolved once per `Temporal` object
- * (it is set once by the runtime or a polyfill) instead of on each `isTemporal()` call.
- */
-function getTemporalCtors(Temporal: Record<string, unknown>): TemporalCtor[] {
-  if (cachedTemporal !== Temporal) {
-    cachedTemporal = Temporal;
-    cachedCtors = TEMPORAL_TYPE_NAMES.map((name) => Temporal[name] as TemporalCtor | undefined).filter(
-      (ctor): ctor is TemporalCtor => !!ctor
-    );
-  }
-
-  return cachedCtors;
-}
-
 /**
  * Checks if a value is a `Temporal.*` constructor (e.g. `Temporal.Instant`) or an instance of one.
  *
@@ -54,12 +34,12 @@ export function isTemporal(target: any): boolean {
     return false;
   }
 
-  const ctors = getTemporalCtors(Temporal);
+  // plain loop instead of Array.some(): no closure per call. The constructors are read on each
+  // call, so a Temporal.* member replaced at runtime is taken into account.
+  for (let i = 0; i < TEMPORAL_TYPE_NAMES.length; i++) {
+    const ctor = Temporal[TEMPORAL_TYPE_NAMES[i]] as (new (...args: any[]) => unknown) | undefined;
 
-  for (let i = 0; i < ctors.length; i++) {
-    const ctor = ctors[i];
-
-    if (target === ctor || target instanceof ctor) {
+    if (ctor && (target === ctor || target instanceof ctor)) {
       return true;
     }
   }
