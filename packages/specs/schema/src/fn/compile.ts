@@ -37,7 +37,8 @@ function hasOnlyPrimitiveValues(options: any) {
       continue;
     }
 
-    if (!Array.isArray(value)) {
+    // an array with its own toJSON can return a class, that only the replacer turns into a name
+    if (!Array.isArray(value) || (value as any).toJSON !== undefined) {
       return false;
     }
 
