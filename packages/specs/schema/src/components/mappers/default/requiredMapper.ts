@@ -27,7 +27,7 @@ function extractRequiredProps(obj: any, schema: JsonSchema, options: JsonSchemaO
   if (schema.get("properties")) {
     required = Object.entries(schema.get("properties")).reduce((required, [key, prop]: [string, any]) => {
       if (prop && prop.$selfRequired !== undefined) {
-        return prop.$selfRequired ? required.concat(key) : required.filter((k) => k === key);
+        return prop.$selfRequired ? required.concat(key) : required.filter((k) => k !== key);
       }
 
       return required;
