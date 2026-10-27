@@ -1,22 +1,29 @@
-## 1. Tests first
+## 1. Impact tests (oracle)
 
-- [x] 1.1 Add `packages/core/src/utils/isBoolean.spec.ts` covering every scenario of the `isBoolean` and `isBooleanOrBooleanClass` requirements, and check that the `isBoolean` scenarios for `Boolean` and `new Boolean()` fail on the current code
-- [x] 1.2 Extend `packages/core/src/utils/isPrimitive.spec.ts` with the constructor, boxed and non-primitive scenarios of the `isPrimitive` requirement, plus the `isPrimitiveOrPrimitiveClass` and `isClass` scenarios, and check that only the `Boolean` / `new Boolean()` cases of `isPrimitive` fail on the current code
+- [x] 1.1 Add `isBoolean.spec.ts` and extend `isPrimitive.spec.ts` with every scenario of the `core-type-guards` spec
+- [x] 1.2 Add `booleanGuards.impact.spec.ts` in `core`, `di`, `json-mapper`, `schema`, `platform-http` and `platform-response-filter`, and record their snapshots on the old guards (from `perf/core`)
+- [x] 1.3 Run the impact tests on the narrowed guards, and record the 12 changed scenarios in `design.md`
 
-## 2. Implementation
+## 2. Step 1: deepClone and deepMerge
 
-- [x] 2.1 Narrow `isBoolean()` in `packages/core/src/utils/isBoolean.ts` to `typeof target === "boolean"`, leaving `isBooleanOrBooleanClass()` unchanged
-- [x] 2.2 Remove the `target instanceof Boolean || target === Boolean` clause from `isPrimitive()` in `packages/core/src/utils/isPrimitive.ts`, keep the inlined typeof checks, and update its comment
-- [x] 2.3 Update the `isPrimitive 1` snapshot in `packages/core/src/utils/__snapshots__/typeGuards.regression.spec.ts.snap` for `"Boolean"` and `"new Boolean"` only (from `true` to `false`), and check with `git diff` that no other snapshot entry changed
+- [x] 2.1 Add specs for the `core-deep-copy` scenarios (boxed `Boolean`/`Number`/`String`, nested, constructors, `deepMerge` leaf), and check that they fail on the current code where expected
+- [x] 2.2 Make `deepClone()` recreate boxed `Boolean`/`Number`/`String` objects from their `valueOf()`
+- [x] 2.3 Make `deepMerge()` return a boxed primitive `obj` as a leaf value
+- [x] 2.4 Check that the impact snapshots recorded on the old guards still match with the old guards, and commit as `fix(core): ...`
 
-## 3. Verification
+## 3. Step 2: callers use the explicit guards
 
-- [x] 3.1 Run the `@tsed/core` suite and the type check (`npx tsc --noEmit -p packages/core/tsconfig.esm.json`)
-- [x] 3.2 Run the suites of the callers: `json-mapper`, `schema`, `platform-http`, `platform-response-filter`, `platform-router`, `platform-express`, `third-parties/sse`
-- [x] 3.3 Run `yarn test:lint`
-- [x] 3.4 Check with the benchmark of tsedio/tsed#3498 that `isPrimitive()` is not slower than on `perf/core`
+- [ ] 3.1 Replace `isBoolean` with `isBooleanOrBooleanClass` in `isSerializable`, `DateMapper`, `TemporalMapper`, `JsonSerializer`/`JsonDeserializer` (`$ignore`), `alterIgnore`, `alterOneOf`, `PlatformResponse`, `PlatformContentTypeResolver`, SSE `EventStreamContext` and `defineConfiguration`
+- [ ] 3.2 Check that every impact snapshot still matches, and commit as `refactor(...)` per package scope, or a single `refactor` commit where commitlint allows it
 
-## 4. Release
+## 4. Step 3: narrow the guards
 
-- [x] 4.1 Commit as `fix(core): make isBoolean and isPrimitive accept primitives only`, with a body naming `isBooleanOrBooleanClass()` / `isPrimitiveOrPrimitiveClass()` as the replacements
-- [x] 4.2 Open the PR against `production` once tsedio/tsed#3498 is merged (or rebase on it), with a release note for the next minor version
+- [ ] 4.1 Narrow `isBoolean()` to `typeof target === "boolean"` and drop the Boolean exception from `isPrimitive()`
+- [ ] 4.2 Update only the `"Boolean"` / `"new Boolean"` entries of the `isPrimitive` non-regression snapshot
+- [ ] 4.3 Check that every impact snapshot still matches the one recorded on the old guards
+
+## 5. Verification and release
+
+- [ ] 5.1 Run the suites of `core`, `di`, `hooks`, `json-mapper`, `schema`, `ajv`, `platform-http`, `platform-params`, `platform-router`, `platform-response-filter`, `platform-express` and `third-parties/sse`, plus the type checks of the touched packages
+- [ ] 5.2 Run `yarn test:lint` and `yarn api:build`, and record the documented symbols and the validation result in `reports/jsdoc/core.md`
+- [ ] 5.3 Push, update the PR description (impact table, release note), and reply to the review threads
