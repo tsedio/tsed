@@ -37,13 +37,14 @@ Two conclusions:
 
 **Goals:**
 
-- Make `isBoolean()` and `isPrimitive()` behave like `isString()`/`isNumber()` without changing the behaviour of any caller in the repository.
+- Make `isBoolean()` and `isPrimitive()` behave like `isString()`/`isNumber()`.
+- Change the behaviour of a caller only where the review confirmed that it receives `true`/`false` primitives (D3).
 - Fix `deepClone()`/`deepMerge()` for boxed primitives, which is the root cause of the regressions.
 - Keep the impact tests as a permanent guard.
 
 **Non-Goals:**
 
-- Fixing the caller bugs the old `isBoolean` hides (`additionalProperties`, `$ignore` with `new Boolean(false)`). They are kept as is in step 2 and listed below for follow-up changes.
+- Supporting `Boolean`/`new Boolean()` values in the callers of D3. They are not valid inputs there (see D3).
 - Adding a `matchAll` parameter to the guards. `isBooleanOrBooleanClass()` / `isPrimitiveOrPrimitiveClass()` already express "accept constructors and boxed values", and a parameter would give two ways to say the same thing.
 
 ## Decisions
@@ -54,7 +55,7 @@ Two conclusions:
 2. Move callers to the explicit guards (D3).
 3. Narrow the guards (D4).
 
-The snapshots recorded on the old guards MUST stay identical after each step. The only exception is new expectations for boxed `Number`/`String` in `deepClone`/`deepMerge`, which are bug fixes covered by the `core-deep-copy` spec.
+The snapshots recorded on the old guards MUST stay identical after each step. The exceptions are new expectations for boxed `Number`/`String` in `deepClone`/`deepMerge`, which are bug fixes covered by the `core-deep-copy` spec, and the `Boolean`/`new Boolean()` entries of the D3 callers after the review.
 
 ### D2. `deepClone`/`deepMerge` handle boxed primitives explicitly
 
@@ -67,9 +68,9 @@ The check is a direct `instanceof Boolean || instanceof Number || instanceof Str
 
 Alternative considered: keep calling `isPrimitiveOrPrimitiveClass()`. It also matches the `String`/`Number`/`Boolean` constructors, which these functions must keep handling as functions, so it would change their behaviour.
 
-### D3. Callers switch to `isBooleanOrBooleanClass()`
+### D3. Callers keep `isBoolean()`, now primitive only
 
-`isBoolean` and `isBooleanOrBooleanClass` have the same body today, so replacing one with the other changes nothing. This applies to:
+The first version of step 2 moved these callers to `isBooleanOrBooleanClass()`, so that nothing changed for them:
 
 - `isSerializable`;
 - `DateMapper`, `TemporalMapper`;
@@ -80,7 +81,9 @@ Alternative considered: keep calling `isPrimitiveOrPrimitiveClass()`. It also ma
 - SSE `EventStreamContext`;
 - `defineConfiguration`.
 
-Each of these callers can later move back to the narrowed `isBoolean` once its own behaviour change is wanted. For example, fixing the `additionalProperties` and `$ignore` bugs would mean `isBoolean` plus `valueOf()`, which is out of scope here.
+The maintainer's review (2026-10-28) reverted that: each of these callers only receives `true`/`false` primitives (`$ignore` is `true`, `false` or a function; mapped and sent data are plain values; `additionalProperties` is a boolean or `"accept"`). They keep `isBoolean()`, and the narrowed guard is the intended behaviour for them. SSE `EventStreamContext` follows the same rule as `PlatformResponse`.
+
+Their impact snapshots change only for the `Boolean`/`new Boolean()` inputs, which these callers are not meant to receive. As a side effect, the two bugs the old `isBoolean()` hid are gone: `$ignore: new Boolean(false)` no longer ignores the property, and `additionalProperties: new Boolean(false)` no longer resolves to `true`.
 
 `isPrimitive` callers:
 
@@ -94,7 +97,7 @@ Each of these callers can later move back to the narrowed `isBoolean` once its o
 
 ### D5. Release as `fix(core)` in the next minor version, with a release note
 
-After D3, only application code that passes `Boolean`/`new Boolean()` to these two guards can notice the change. The release note names the replacement guards.
+Application code that passes `Boolean`/`new Boolean()` to these two guards, or to the D3 callers, can notice the change. The release note names the replacement guards.
 
 ## Risks / Trade-offs
 
@@ -102,7 +105,8 @@ After D3, only application code that passes `Boolean`/`new Boolean()` to these t
   → The release note gives the replacement, a one-word rename.
 - **[Risk]** `deepClone` now returns a copy instead of the same reference for a boxed boolean.
   → This is the expected semantics of a clone. The value is unchanged, the impact tests check that, and `@Constant` freezes the copy as before.
-- **[Trade-off]** Step 2 keeps two known bugs (`additionalProperties`, `$ignore` with `new Boolean(false)`) so that the change stays behaviour-neutral for callers. They are documented for follow-up.
+- **[Risk]** A `Boolean`/`new Boolean()` value reaches a D3 caller, for example `new Boolean(true)` as `additionalProperties` now resolves to `false`.
+  → These are not valid inputs for these callers; the impact snapshots document the new results.
 
 ## Migration Plan
 
@@ -115,4 +119,4 @@ Rollback: revert the commits, in reverse order. No data or configuration is invo
 
 ## Open Questions
 
-- Fix the `additionalProperties` and `$ignore` bugs in follow-up changes? They are listed here as candidates.
+- None.

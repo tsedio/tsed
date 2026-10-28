@@ -42,10 +42,10 @@ exports[`isBoolean/isPrimitive impact on @tsed/core callers > deepMerge({flag: v
 
 exports[`isBoolean/isPrimitive impact on @tsed/core callers > isSerializable(value) 1`] = `
 {
-  "Boolean": "boolean false",
+  "Boolean": "boolean true",
   "false": "boolean false",
-  "new Boolean(false)": "boolean false",
-  "new Boolean(true)": "boolean false",
+  "new Boolean(false)": "boolean true",
+  "new Boolean(true)": "boolean true",
   "true": "boolean false",
 }
 `;

@@ -2,20 +2,20 @@
 
 exports[`isBoolean impact on @tsed/schema > alterIgnore({$ignore: value}) 1`] = `
 {
-  "Boolean": "true",
+  "Boolean": "false",
   "false": "false",
-  "new Boolean(false)": "true",
-  "new Boolean(true)": "true",
+  "new Boolean(false)": "false",
+  "new Boolean(true)": "false",
   "true": "true",
 }
 `;
 
 exports[`isBoolean impact on @tsed/schema > alterOneOf(): boolean enum values kept on the boolean branch 1`] = `
 {
-  "Boolean": "["Boolean constructor"]",
+  "Boolean": "[]",
   "false": "["boolean false"]",
-  "new Boolean(false)": "["object false"]",
-  "new Boolean(true)": "["object true"]",
+  "new Boolean(false)": "[]",
+  "new Boolean(true)": "[]",
   "true": "["boolean true"]",
 }
 `;

@@ -1,5 +1,5 @@
 import type {Hooks} from "@tsed/hooks";
-import {isBooleanOrBooleanClass} from "@tsed/core";
+import {isBoolean} from "@tsed/core";
 
 /**
  * @ignore
@@ -7,7 +7,7 @@ import {isBooleanOrBooleanClass} from "@tsed/core";
  * @param options
  */
 export function alterIgnore(schema: {$hooks: Hooks; $ignore: boolean | Function}, options: any) {
-  if (isBooleanOrBooleanClass(schema.$ignore) && schema.$ignore) {
+  if (isBoolean(schema.$ignore) && schema.$ignore) {
     return true;
   }
 

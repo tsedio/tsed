@@ -1,6 +1,6 @@
 import {OutgoingHttpHeaders, ServerResponse} from "node:http";
 import {ProviderScope, injectable, lazyInject} from "@tsed/di";
-import {isBooleanOrBooleanClass, isNumber, isStream, isString} from "@tsed/core";
+import {isBoolean, isNumber, isStream, isString} from "@tsed/core";
 import type {PlatformContext} from "../domain/PlatformContext.js";
 import type {PlatformRequest} from "./PlatformRequest.js";
 import encodeUrl from "encodeurl";
@@ -294,7 +294,7 @@ export class PlatformResponse<Res extends Record<string, any> = any> {
       return this;
     }
 
-    if (isBooleanOrBooleanClass(data) || isNumber(data) || isString(data) || data === null) {
+    if (isBoolean(data) || isNumber(data) || isString(data) || data === null) {
       if (data === null) {
         this.status(204);
       }
