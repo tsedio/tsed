@@ -33,4 +33,4 @@
 - [x] 6.1 Move the callers of 3.1 back to `isBoolean()`, SSE `EventStreamContext` included
 - [x] 6.2 Update the impact snapshots, and check that only the `Boolean`/`new Boolean()` entries of these callers change
 - [x] 6.3 Run the suites of 5.1, the type check and `yarn test:lint`
-- [ ] 6.4 Push, update the PR description, and reply to the review threads
+- [x] 6.4 Push, update the PR description, and reply to the review threads
