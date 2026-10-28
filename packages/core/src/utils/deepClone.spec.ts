@@ -267,6 +267,7 @@ describe("deepClone", () => {
     const result = deepClone(["a", , ,]);
 
     expect(result).toHaveLength(3);
+    expect(result[0]).toBe("a");
     expect(1 in result).toBe(false);
     expect(2 in result).toBe(false);
     expect(deepClone(new Array(2))).toHaveLength(2);
