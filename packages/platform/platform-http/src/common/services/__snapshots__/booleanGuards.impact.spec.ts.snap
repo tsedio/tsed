@@ -2,20 +2,20 @@
 
 exports[`isBoolean impact on @tsed/platform-http > PlatformResponse.body(value): which writer is used 1`] = `
 {
-  "Boolean": "end()",
+  "Boolean": "json()",
   "false": "end()",
-  "new Boolean(false)": "end()",
-  "new Boolean(true)": "end()",
+  "new Boolean(false)": "json()",
+  "new Boolean(true)": "json()",
   "true": "end()",
 }
 `;
 
 exports[`isBoolean impact on @tsed/platform-http > jsonMapper.additionalProperties configuration 1`] = `
 {
-  "Boolean": true,
+  "Boolean": false,
   "false": false,
-  "new Boolean(false)": true,
-  "new Boolean(true)": true,
+  "new Boolean(false)": false,
+  "new Boolean(true)": false,
   "true": true,
 }
 `;

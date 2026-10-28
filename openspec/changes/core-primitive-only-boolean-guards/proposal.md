@@ -20,11 +20,10 @@ The change is done in three steps, so that each step is verifiable on its own:
    - `deepClone()` returns a new boxed object holding the same value for `new Boolean()`, `new Number()` and `new String()`.
    - `deepMerge()` treats a boxed primitive as a leaf value, like a primitive.
    - This also fixes the existing problem with boxed `Number`/`String`.
-2. **Move the callers that rely on the old behaviour to the explicit guards**, with no behaviour change:
-   - `isBoolean()` callers switch to `isBooleanOrBooleanClass()`. The two are identical today.
+2. **Check every caller against the impact tests.**
    - `deepClone()`/`deepMerge()` stop depending on the Boolean exception of `isPrimitive()`.
-   - The impact tests MUST keep their results.
-3. **Narrow `isBoolean()` and `isPrimitive()`** to primitives only, like `isString()`/`isNumber()`. **BREAKING** only for application code that passes the `Boolean` constructor or a `new Boolean()` value to these guards and expects `true`. No caller in the repository does after step 2.
+   - The `isBoolean()` callers keep `isBoolean()`: the review confirmed that they only receive `true`/`false` primitives (see design D3).
+3. **Narrow `isBoolean()` and `isPrimitive()`** to primitives only, like `isString()`/`isNumber()`. **BREAKING** only for code that passes the `Boolean` constructor or a `new Boolean()` value to these guards, or to their callers listed below, and expects the old result.
 
 Also:
 
@@ -34,7 +33,7 @@ Also:
 
 ### Non-goals
 
-- **Fixing caller bugs that the old `isBoolean()` hides**, such as `additionalProperties: new Boolean(false)` resolving to `true`, and `$ignore: new Boolean(false)` ignoring the property. Step 2 keeps them on purpose, so this change stays behaviour-neutral for callers. They are listed in the design and can be fixed one by one later.
+- **Supporting `Boolean`/`new Boolean()` values in the `isBoolean()` callers.** They only receive `true`/`false` primitives.
 - **Adding a `matchAll`-style parameter to the guards.** The `*OrClass` variants already cover that need.
 - **Any change to** `isString()`, `isNumber()`, `isBooleanOrBooleanClass()`, `isPrimitiveOrPrimitiveClass()`, `isPrimitiveClass()` or `primitiveOf()`.
 
@@ -56,7 +55,7 @@ Also:
   - `deepClone.ts`, `deepMerge.ts`;
   - `isSerializable.ts`;
   - their specs.
-- **Callers moved to `isBooleanOrBooleanClass()` (no behaviour change):**
+- **`isBoolean()` callers, which change only for `Boolean`/`new Boolean()` inputs:**
   - `isSerializable`;
   - `DateMapper`, `TemporalMapper`;
   - the `$ignore` checks in `JsonSerializer`, `JsonDeserializer` and `alterIgnore`;
@@ -72,4 +71,4 @@ Also:
 - **Public API:**
   - `isBoolean()` and `isPrimitive()` are narrowed.
   - `deepClone()` and `deepMerge()` handle boxed primitives correctly.
-- **Base:** builds on the `perf/core` branch (tsedio/tsed#3498).
+- **Base:** `production`, after tsedio/tsed#3498 and tsedio/tsed#3505.

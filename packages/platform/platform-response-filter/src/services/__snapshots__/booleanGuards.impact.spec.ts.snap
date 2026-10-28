@@ -2,7 +2,7 @@
 
 exports[`isBoolean impact on @tsed/platform-response-filter > getContentType(value) without a declared content type 1`] = `
 {
-  "Boolean": "application/json",
+  "Boolean": "undefined",
   "false": "application/json",
   "new Boolean(false)": "application/json",
   "new Boolean(true)": "application/json",

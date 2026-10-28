@@ -1,5 +1,5 @@
 import "./PlatformConfiguration.js";
-import {Env, Store, isBooleanOrBooleanClass} from "@tsed/core";
+import {Env, Store, isBoolean} from "@tsed/core";
 import {JsonMapperGlobalOptions, JsonMapperSettings} from "@tsed/json-mapper";
 import {ProviderScope, ProviderType, configuration, mergeMount} from "@tsed/di";
 import {$on} from "@tsed/hooks";
@@ -46,7 +46,7 @@ $on("$alterConfig:jsonMapper", (options: JsonMapperGlobalOptions) => {
   JsonMapperSettings.strictGroups = Boolean(options.strictGroups);
   JsonMapperSettings.disableUnsecureConstructor = Boolean(options.disableUnsecureConstructor);
   JsonMapperSettings.additionalProperties = Boolean(
-    isBooleanOrBooleanClass(options.additionalProperties) ? options.additionalProperties : options.additionalProperties === "accept"
+    isBoolean(options.additionalProperties) ? options.additionalProperties : options.additionalProperties === "accept"
   );
 
   return options;

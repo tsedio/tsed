@@ -27,3 +27,10 @@
 - [x] 5.1 Run the suites of `core`, `di`, `hooks`, `json-mapper`, `schema`, `ajv`, `platform-http`, `platform-params`, `platform-router`, `platform-response-filter`, `platform-express` and `third-parties/sse`, plus the type checks of the touched packages
 - [x] 5.2 Run `yarn test:lint` and `yarn api:build`, and record the documented symbols and the validation result in `reports/jsdoc/core.md`
 - [x] 5.3 Push, update the PR description (impact table, release note), and reply to the review threads
+
+## 6. Review: callers keep `isBoolean()`
+
+- [x] 6.1 Move the callers of 3.1 back to `isBoolean()`, SSE `EventStreamContext` included
+- [x] 6.2 Update the impact snapshots, and check that only the `Boolean`/`new Boolean()` entries of these callers change
+- [x] 6.3 Run the suites of 5.1, the type check and `yarn test:lint`
+- [ ] 6.4 Push, update the PR description, and reply to the review threads

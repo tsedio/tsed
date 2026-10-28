@@ -1,4 +1,4 @@
-import {isBooleanOrBooleanClass} from "./isBoolean.js";
+import {isBoolean} from "./isBoolean.js";
 import {isNil} from "./isNil.js";
 import {isNumber} from "./isNumber.js";
 import {isStream} from "./isStream.js";
@@ -11,5 +11,5 @@ import {isString} from "./isString.js";
  * @since v7.0.0
  */
 export function isSerializable(data: any) {
-  return !(Buffer.isBuffer(data) || isStream(data) || isBooleanOrBooleanClass(data) || isNumber(data) || isString(data) || isNil(data));
+  return !(Buffer.isBuffer(data) || isStream(data) || isBoolean(data) || isNumber(data) || isString(data) || isNil(data));
 }

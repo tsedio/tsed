@@ -1,10 +1,10 @@
 import {type BaseContext, type FactoryTokenProvider, inject, injectable} from "@tsed/di";
-import {isBooleanOrBooleanClass, isNumber, isObject, isStream} from "@tsed/core";
+import {isBoolean, isNumber, isObject, isStream} from "@tsed/core";
 import {ContentTypes} from "../constants/ContentTypes.js";
 import {PLATFORM_CONTENT_TYPES_CONTAINER} from "./PlatformContentTypesContainer.js";
 
 const isJsonData = (data: unknown) => {
-  return (isObject(data) || isNumber(data) || isBooleanOrBooleanClass(data)) && !isStream(data) && !Buffer.isBuffer(data);
+  return (isObject(data) || isNumber(data) || isBoolean(data)) && !isStream(data) && !Buffer.isBuffer(data);
 };
 
 /**

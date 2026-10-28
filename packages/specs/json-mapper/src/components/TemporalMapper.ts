@@ -1,6 +1,6 @@
 import {JsonMapperCtx, JsonMapperMethods} from "../interfaces/JsonMapperMethods.js";
 import {JsonMapper} from "../decorators/jsonMapper.js";
-import {isBooleanOrBooleanClass} from "@tsed/core";
+import {isBoolean} from "@tsed/core";
 
 interface TemporalType {
   from(value: unknown): unknown;
@@ -29,7 +29,7 @@ export class TemporalMapper implements JsonMapperMethods {
   deserialize(data: string | number, ctx: JsonMapperCtx): unknown;
   deserialize(data: boolean | null | undefined, ctx: JsonMapperCtx): boolean | null | undefined;
   deserialize(data: any, ctx: JsonMapperCtx): any {
-    if (isBooleanOrBooleanClass(data) || data === null || data === undefined) {
+    if (isBoolean(data) || data === null || data === undefined) {
       return data;
     }
 

@@ -1,4 +1,4 @@
-import {isBooleanOrBooleanClass, isDate, isNumber, isString} from "@tsed/core";
+import {isBoolean, isDate, isNumber, isString} from "@tsed/core";
 import type {EventEmitter} from "events";
 import type {EventStreamOpts} from "../decorators/eventStream.js";
 import type {Observable} from "rxjs";
@@ -86,7 +86,7 @@ export class EventStreamContext {
       data = data.toString("utf8");
     }
 
-    if (isBooleanOrBooleanClass(data) || isNumber(data) || isString(data) || isDate(data) || data === null) {
+    if (isBoolean(data) || isNumber(data) || isString(data) || isDate(data) || data === null) {
       this.write({
         event: event || "",
         data: JSON.stringify(data)

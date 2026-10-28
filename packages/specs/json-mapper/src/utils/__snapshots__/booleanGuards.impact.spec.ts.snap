@@ -2,20 +2,20 @@
 
 exports[`isBoolean/isPrimitive impact on @tsed/json-mapper > deserialize(value, {type: Date}) (DateMapper) 1`] = `
 {
-  "Boolean": "Boolean constructor",
+  "Boolean": "Date Invalid Date",
   "false": "boolean false",
-  "new Boolean(false)": "Boolean object, valueOf() = false",
-  "new Boolean(true)": "Boolean object, valueOf() = true",
+  "new Boolean(false)": "Date 1970-01-01T00:00:00.000Z",
+  "new Boolean(true)": "Date 1970-01-01T00:00:00.001Z",
   "true": "boolean true",
 }
 `;
 
 exports[`isBoolean/isPrimitive impact on @tsed/json-mapper > deserialize(value, {type: Temporal.Instant}) (TemporalMapper) 1`] = `
 {
-  "Boolean": "Boolean constructor",
+  "Boolean": "throws RangeError",
   "false": "boolean false",
-  "new Boolean(false)": "Boolean object, valueOf() = false",
-  "new Boolean(true)": "Boolean object, valueOf() = true",
+  "new Boolean(false)": "throws RangeError",
+  "new Boolean(true)": "throws RangeError",
   "true": "boolean true",
 }
 `;
