@@ -7,7 +7,7 @@
 ## 2. Step 1: deepClone and deepMerge
 
 - [x] 2.1 Add specs for the `core-deep-copy` scenarios (boxed `Boolean`/`Number`/`String`, nested, constructors, `deepMerge` leaf), and check that they fail on the current code where expected
-- [x] 2.2 Make `deepClone()` recreate boxed `Boolean`/`Number`/`String` objects from their `valueOf()`
+- [x] 2.2 Make `deepClone()` recreate boxed `Boolean`/`Number`/`String` objects from their `valueOf()` (superseded by the version of tsedio/tsed#3505, kept on merge)
 - [x] 2.3 Make `deepMerge()` return a boxed primitive `obj` as a leaf value
 - [x] 2.4 Check that the impact snapshots recorded on the old guards still match with the old guards, and commit as `fix(core): ...`
 

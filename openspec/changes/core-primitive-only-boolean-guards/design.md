@@ -61,6 +61,8 @@ The snapshots recorded on the old guards MUST stay identical after each step. Th
 - **`deepClone`** recreates a boxed `Boolean`/`Number`/`String` from its `valueOf()`. Before this change, the boxed boolean was returned as is, because `isPrimitive` accepted it. A new object is the correct semantics for a clone, and the value is the same.
 - **`deepMerge`** treats a boxed primitive `obj` as a leaf, like a primitive (`shouldReturnObj`).
 
+Update (2026-10-28): tsedio/tsed#3505 landed the same `deepClone` fix on `production`, more complete (it also clones the own properties of a wrapper). This change keeps that version and drops its own. `production` already treated `new Boolean()` as a leaf in `deepMerge` with inline checks; this change only adds `Number` and `String` there.
+
 The check is a direct `instanceof Boolean || instanceof Number || instanceof String`. It is not a new exported helper, to avoid adding public API for an internal concern.
 
 Alternative considered: keep calling `isPrimitiveOrPrimitiveClass()`. It also matches the `String`/`Number`/`Boolean` constructors, which these functions must keep handling as functions, so it would change their behaviour.
