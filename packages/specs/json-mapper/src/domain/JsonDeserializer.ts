@@ -155,7 +155,7 @@ export class JsonDeserializer extends JsonMapperCompiler<JsonDeserializerOptions
   protected createMapper(model: Type<any>, id: string, groups: false | string[]): string {
     const entity = s.store(model);
     const properties = new Set<string>();
-    const aliasedNames = new Set<string>();
+    const aliasedNames = new Map<string, string>();
     const schemaProperties = [...getPropertiesStores(entity).values()];
 
     const writer = new Writer().arrow("input", "options");
@@ -187,9 +187,9 @@ export class JsonDeserializer extends JsonMapperCompiler<JsonDeserializerOptions
         properties.add(alias);
 
         // the declared name of an aliased property is still read as an additional property (fallback when the
-        // input has no alias), but it must not overwrite the value mapped from the alias
+        // input has no alias), but it must not overwrite the value the property mapped
         if (alias !== key) {
-          aliasedNames.add(key);
+          aliasedNames.set(key, alias);
         }
 
         if (
@@ -354,9 +354,16 @@ export class JsonDeserializer extends JsonMapperCompiler<JsonDeserializerOptions
 
   /**
    * @param properties The keys declared by the model (aliases included), never copied.
-   * @param aliasedNames The declared names of the aliased properties, copied only when the alias did not set a value.
+   * @param aliasedNames The aliases by declared name of the aliased properties. A declared name is copied only when
+   * the property did not read the input: the alias is used and absent from the input. The input is checked, not the
+   * instance, which may hold a field initializer.
    */
-  private mapAdditionalProperties(entity: JsonClassStore, properties: Set<string>, aliasedNames: Set<string>, groups: string[] | false) {
+  private mapAdditionalProperties(
+    entity: JsonClassStore,
+    properties: Set<string>,
+    aliasedNames: Map<string, string>,
+    groups: string[] | false
+  ) {
     const additionalProperties = entity.schema.get("additionalProperties");
 
     const writer = new Writer();
@@ -372,7 +379,11 @@ export class JsonDeserializer extends JsonMapperCompiler<JsonDeserializerOptions
     }
 
     if (additionalProperties && aliasedNames.size) {
-      each = each.if(`(${Writer.notOneOf("key", aliasedNames)}) || obj[key] === undefined`);
+      const conditions = Array.from(aliasedNames, ([name, alias]) => {
+        return `(key !== '${name}' || (options.useAlias && input['${alias}'] === undefined))`;
+      });
+
+      each = each.if(conditions.join(" && "));
     }
 
     if (additionalProperties && additionalProperties instanceof JsonSchema) {
