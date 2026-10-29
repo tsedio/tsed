@@ -14,21 +14,24 @@ export function methodsOf(target: any): {target: Type; propertyKey: string}[] {
   const methods = new Map();
   target = classOf(target);
 
-  ancestorsOf(target).forEach((target) => {
-    const keys = Reflect.ownKeys(prototypeOf(target));
+  const ancestors = ancestorsOf(target);
 
-    keys.forEach((propertyKey: string | symbol) => {
-      if (
-        isSymbol(propertyKey) ||
-        propertyKey === "constructor" ||
-        Object.getOwnPropertyDescriptor(prototypeOf(target), propertyKey)?.get
-      ) {
-        return;
+  // plain loops, and the prototype is resolved once per class instead of twice per key
+  for (let i = 0; i < ancestors.length; i++) {
+    const klass = ancestors[i];
+    const proto = prototypeOf(klass);
+    const keys = Reflect.ownKeys(proto);
+
+    for (let j = 0; j < keys.length; j++) {
+      const propertyKey = keys[j];
+
+      if (isSymbol(propertyKey) || propertyKey === "constructor" || Object.getOwnPropertyDescriptor(proto, propertyKey)?.get) {
+        continue;
       }
 
-      methods.set(propertyKey, {target, propertyKey});
-    });
-  });
+      methods.set(propertyKey, {target: klass, propertyKey});
+    }
+  }
 
   return Array.from(methods.values());
 }
