@@ -333,10 +333,9 @@ export class JsonSerializer extends JsonMapperCompiler<JsonSerializerOptions> {
     const additionalProperties = !!entity.schema.get("additionalProperties");
 
     if (additionalProperties) {
-      const exclude = [...properties.values()].map((key) => `'${key}'`).join(", ");
       const writer = new Writer();
       writer.add("// add additional properties");
-      writer.each("objectKeys(input)", ["key"]).if(`![${exclude}].includes(key)`).set("obj[key]", "input[key]");
+      writer.each("objectKeys(input)", ["key"]).if(Writer.notOneOf("key", properties)).set("obj[key]", "input[key]");
 
       return writer;
     }
