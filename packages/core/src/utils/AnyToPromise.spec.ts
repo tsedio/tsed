@@ -184,4 +184,103 @@ describe("AnyToPromise", () => {
 
     expect(result).toEqual({state: "RESOLVED", data: buffer, type: "BUFFER"});
   });
+
+  describe("errors of an async value", () => {
+    // fails fast instead of waiting for the test timeout when the promise never settles
+    function settle<T>(promise: Promise<T>) {
+      return Promise.race([
+        promise.then(
+          (value) => ({value}),
+          (error) => ({error})
+        ),
+        new Promise<{hang: true}>((resolve) => setTimeout(() => resolve({hang: true}), 200))
+      ]);
+    }
+
+    const response = {data: "data", headers: {"x-test": "1"}, status: 400, statusText: "Bad Request"};
+
+    // reading lift (isObservable) throws while the resolved value is handled
+    function throwingValue(error: any) {
+      return {
+        get lift(): any {
+          throw error;
+        }
+      };
+    }
+
+    function observableOf(toPromise: () => Promise<any>) {
+      return {lift() {}, subscribe() {}, toPromise};
+    }
+
+    it("should resolve the response of a rejected promise", async () => {
+      const result = await settle(new AnyToPromise().call(() => Promise.reject({response})));
+
+      expect(result).toEqual({value: {state: "RESOLVED", data: "data", headers: {"x-test": "1"}, status: 400, type: "DATA"}});
+    });
+
+    it("should reject when handling the resolved value throws", async () => {
+      const error = new Error("handle error");
+      const result = await settle(new AnyToPromise().call(() => Promise.resolve(throwingValue(error))));
+
+      expect(result).toEqual({error});
+    });
+
+    it("should resolve the response of an error thrown while handling the resolved value", async () => {
+      const result = await settle(new AnyToPromise().call(() => Promise.resolve(throwingValue({response}))));
+
+      expect(result).toEqual({value: {state: "RESOLVED", data: "data", headers: {"x-test": "1"}, status: 400, type: "DATA"}});
+    });
+
+    it("should resolve an observable returned by a promise", async () => {
+      const result = await settle(new AnyToPromise().call(() => Promise.resolve(observableOf(() => Promise.resolve("test")))));
+
+      expect(result).toEqual({value: {state: "RESOLVED", data: "test", type: "DATA"}});
+    });
+
+    it("should resolve the response of a nested rejected promise", async () => {
+      const result = await settle(new AnyToPromise().call(() => Promise.resolve(observableOf(() => Promise.reject({response})))));
+
+      expect(result).toEqual({value: {state: "RESOLVED", data: "data", headers: {"x-test": "1"}, status: 400, type: "DATA"}});
+    });
+
+    it("should reject when the nested error handler throws", async () => {
+      // a nested promise rejected with undefined: reading error.response throws a TypeError, caught by the outer handler
+      const result: any = await settle(new AnyToPromise().call(() => Promise.resolve(observableOf(() => Promise.reject(undefined)))));
+
+      expect(result.error).toBeInstanceOf(TypeError);
+    });
+
+    it("should resolve the value of a thenable that is not a native promise", async () => {
+      const thenable = {
+        then(resolve: any) {
+          resolve("test");
+          return thenable;
+        },
+        catch() {
+          return thenable;
+        }
+      };
+      const result = await settle(new AnyToPromise().call(() => thenable));
+
+      expect(result).toEqual({value: {state: "RESOLVED", data: "test", type: "DATA"}});
+    });
+
+    it("should reject when a subclass check throws on the resolved value", async () => {
+      const error = new Error("subclass error");
+
+      class Resolver extends AnyToPromise {
+        protected isCanceledResponse(process: any) {
+          if (process === "boom") {
+            throw error;
+          }
+
+          return super.isCanceledResponse(process);
+        }
+      }
+
+      const result = await settle(new Resolver().call(() => Promise.resolve("boom")));
+
+      expect(result).toEqual({error});
+    });
+  });
 });
