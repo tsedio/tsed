@@ -11,23 +11,26 @@ import {classOf} from "./classOf.js";
  * @since v7.0.0
  * @see DecoratorTypes
  */
+function staticType(target: any, type: DecoratorTypes, staticType: DecoratorTypes): DecoratorTypes {
+  return target !== classOf(target) ? type : staticType;
+}
+
 export function decoratorTypeOf(args: any[]): DecoratorTypes {
-  const [target, propertyKey, descriptor] = args;
+  const target = args[0];
+  const propertyKey = args[1];
+  const descriptor = args[2];
 
-  const staticType = (type: string): any => {
-    return target !== classOf(target) ? type : `${type}.static`;
-  };
-
+  // no closure and no template string per call: a static member is declared on the class itself
   if (typeof descriptor === "number") {
-    return propertyKey ? staticType("parameter") : DecoratorTypes.PARAM_CTOR;
+    return propertyKey ? staticType(target, DecoratorTypes.PARAM, DecoratorTypes.PARAM_STC) : DecoratorTypes.PARAM_CTOR;
   }
 
   if (descriptor && descriptor.value) {
-    return staticType("method");
+    return staticType(target, DecoratorTypes.METHOD, DecoratorTypes.METHOD_STC);
   }
 
   if ((propertyKey && descriptor === undefined) || descriptor) {
-    return staticType("property");
+    return staticType(target, DecoratorTypes.PROP, DecoratorTypes.PROP_STC);
   }
 
   return DecoratorTypes.CLASS;
