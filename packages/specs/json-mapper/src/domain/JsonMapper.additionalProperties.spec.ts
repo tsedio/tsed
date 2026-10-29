@@ -1,3 +1,4 @@
+import "../components/DateMapper.js";
 import "../components/PrimitiveMapper.js";
 import {AdditionalProperties, Name, Property} from "@tsed/schema";
 import {JsonDeserializer} from "./JsonDeserializer.js";
@@ -21,6 +22,15 @@ class OpenModel {
 
   @Name("label")
   name: string;
+}
+
+@AdditionalProperties(true)
+class InitializedModel {
+  @Name("label")
+  name: string = "default";
+
+  @Name("created_at")
+  createdAt: Date;
 }
 
 describe("JsonMapper: additional properties", () => {
@@ -105,6 +115,24 @@ describe("JsonMapper: additional properties", () => {
         name: "fallback",
         extra: 1
       });
+    });
+
+    it("should read the declared name of an aliased property over its field initializer", () => {
+      const deserializer = new JsonDeserializer();
+
+      expect(deserializer.map({name: "provided"}, {type: InitializedModel}).name).toEqual("provided");
+      expect(deserializer.map({label: "a", name: "ignored"}, {type: InitializedModel}).name).toEqual("a");
+      expect(deserializer.map({}, {type: InitializedModel}).name).toEqual("default");
+    });
+
+    it("should keep the value mapped from the declared name when the alias is not used", () => {
+      const result = new JsonDeserializer().map(
+        {label: "ignored", name: "a", createdAt: "2020-01-01T00:00:00.000Z"},
+        {type: InitializedModel, useAlias: false}
+      );
+
+      expect(result.name).toEqual("a");
+      expect(result.createdAt).toBeInstanceOf(Date);
     });
 
     it("should serialize the unknown keys, but not the declared ones", () => {
