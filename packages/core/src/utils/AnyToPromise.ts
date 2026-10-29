@@ -182,14 +182,28 @@ export class AnyToPromise<T = any> {
       }
 
       if (isPromise(process)) {
-        return process
-          .then((result: any) => this.handle(result, additionalProps))
-          .catch((error: any) => {
-            if (error.response && isResponse(error.response)) {
-              return this.handle(error.response);
-            }
-            return this.reject(error);
-          });
+        const onError = (error: any) => {
+          if (error.response && isResponse(error.response)) {
+            return this.handle(error.response);
+          }
+
+          return this.reject(error);
+        };
+
+        // one then() instead of then().catch(): one promise less per async handler. onError must also
+        // receive what the removed catch() received: an error thrown while handling the value,
+        // and the rejection of a nested promise returned by handle()
+        return process.then((result: any) => {
+          let out: any;
+
+          try {
+            out = this.handle(result, additionalProps);
+          } catch (er) {
+            return onError(er);
+          }
+
+          return out && typeof out.then === "function" ? out.then(undefined, onError) : out;
+        }, onError);
       }
     }
 
