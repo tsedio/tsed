@@ -1,4 +1,4 @@
-import {Injectable, injectable} from "@tsed/di";
+import {injectable} from "@tsed/di";
 import {JsonParameterStore, PipeMethods} from "@tsed/schema";
 import {ParamTypes} from "../domain/ParamTypes.js";
 import {PlatformParamsScope} from "../builder/PlatformParams.js";
@@ -9,14 +9,7 @@ export class ParseExpressionPipe implements PipeMethods {
   #keys = new WeakMap<JsonParameterStore, string>();
 
   transform(scope: PlatformParamsScope, param: JsonParameterStore) {
-    let key = this.#keys.get(param);
-
-    if (key === undefined) {
-      key = this.getKey(param);
-      this.#keys.set(param, key);
-    }
-
-    const value = getValue(scope, key);
+    const value = getValue(scope, this.getKey(param));
 
     if (value === "" && (param.paramType === ParamTypes.QUERY || param.paramType === ParamTypes.PATH) && param.type !== String) {
       return undefined;
@@ -26,14 +19,22 @@ export class ParseExpressionPipe implements PipeMethods {
   }
 
   protected getKey(param: JsonParameterStore) {
-    let {expression, paramType, dataPath} = param;
-    paramType = paramType || param.parameter.get("in").toUpperCase();
+    let key = this.#keys.get(param);
 
-    if (expression && paramType === ParamTypes.HEADER) {
-      expression = String(expression).toLowerCase();
+    if (key === undefined) {
+      let {expression, paramType, dataPath} = param;
+      paramType = paramType || param.parameter.get("in").toUpperCase();
+
+      if (expression && paramType === ParamTypes.HEADER) {
+        expression = String(expression).toLowerCase();
+      }
+
+      key = [dataPath, expression].filter(Boolean).join(".");
+
+      this.#keys.set(param, key);
     }
 
-    return [dataPath, expression].filter(Boolean).join(".");
+    return key;
   }
 }
 

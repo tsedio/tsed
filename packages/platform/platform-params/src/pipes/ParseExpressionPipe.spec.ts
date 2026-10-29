@@ -259,12 +259,13 @@ describe("ParseExpressionPipe", () => {
 
     it("should build the key of a parameter once", async () => {
       const pipe = await PlatformTest.invoke<ParseExpressionPipe>(ParseExpressionPipe);
-      const param = createParam("id", ParamTypes.PATH, "$ctx.request.params");
-      const spy = vi.spyOn(pipe as any, "getKey");
+      // without paramType, building the key reads the "in" of the parameter
+      const param = createParam("id", undefined as any, "$ctx.request.params");
+      const spy = vi.spyOn(param.parameter, "get").mockReturnValue("path");
 
       expect(pipe.transform({$ctx: {request: {params: {id: "1"}}}} as any, param)).toEqual("1");
       expect(pipe.transform({$ctx: {request: {params: {id: "2"}}}} as any, param)).toEqual("2");
-      expect(spy).toHaveBeenCalledTimes(1);
+      expect(spy.mock.calls.filter(([key]) => key === "in")).toHaveLength(1);
     });
 
     it("should keep a key per parameter", async () => {
