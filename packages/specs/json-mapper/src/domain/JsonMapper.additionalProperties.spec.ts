@@ -46,6 +46,17 @@ class ProtectedModel {
 }
 
 @AdditionalProperties(true)
+class IgnoreCallbackModel {
+  @Name("secret_key")
+  @Ignore(() => true)
+  secret: string = "hidden";
+
+  @Name("public_key")
+  @Ignore(() => false)
+  open: string;
+}
+
+@AdditionalProperties(true)
 class HookModel {
   @Name("label")
   @OnDeserialize((value) => (value === undefined ? "computed" : value))
@@ -166,6 +177,16 @@ describe("JsonMapper: additional properties", () => {
       expect(result.isAdmin).toBe(false);
       expect(result.roleId).toEqual("user");
       expect(result.extra).toEqual(1);
+    });
+
+    it("should not fill a property ignored by a callback from its declared name", () => {
+      const deserializer = new JsonDeserializer();
+
+      expect(deserializer.map({secret_key: "a", secret: "b"}, {type: IgnoreCallbackModel}).secret).toEqual("hidden");
+      expect(deserializer.map({secret: "b"}, {type: IgnoreCallbackModel}).secret).toEqual("hidden");
+      // not ignored: the declared name is still the fallback
+      expect(deserializer.map({open: "b"}, {type: IgnoreCallbackModel}).open).toEqual("b");
+      expect(deserializer.map({public_key: "a", open: "b"}, {type: IgnoreCallbackModel}).open).toEqual("a");
     });
 
     it("should keep the value returned by a deserialization hook over the declared name", () => {

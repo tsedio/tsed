@@ -55,6 +55,10 @@ function varKey(k: string) {
   return `__${k}`;
 }
 
+function ignoredKey(k: string) {
+  return `__${k}_ignored`;
+}
+
 function mapParamStoreOptions(store: JsonParameterStore, options: JsonDeserializerOptions) {
   return {
     ...options,
@@ -155,7 +159,7 @@ export class JsonDeserializer extends JsonMapperCompiler<JsonDeserializerOptions
   protected createMapper(model: Type<any>, id: string, groups: false | string[]): string {
     const entity = s.store(model);
     const properties = new Set<string>();
-    const mappedValues = new Map<string, string>();
+    const fallbacks = new Map<string, string>();
     const schemaProperties = [...getPropertiesStores(entity).values()];
 
     const writer = new Writer().arrow("input", "options");
@@ -199,7 +203,9 @@ export class JsonDeserializer extends JsonMapperCompiler<JsonDeserializerOptions
         // the declared name of an aliased property is still read as an additional property (fallback when the
         // property mapped nothing), but it must not overwrite the value the property mapped
         if (alias !== key) {
-          mappedValues.set(key, varKey(key));
+          const mappedNothing = `${varKey(key)} === undefined`;
+
+          fallbacks.set(key, propertyStore.schema?.$hooks?.has("ignore") ? `!${ignoredKey(key)} && ${mappedNothing}` : mappedNothing);
         }
 
         return this.mapProperty(propertyStore, id, groups);
@@ -207,7 +213,7 @@ export class JsonDeserializer extends JsonMapperCompiler<JsonDeserializerOptions
     );
 
     // additional properties
-    writer.add(this.mapAdditionalProperties(entity, properties, mappedValues, groups));
+    writer.add(this.mapAdditionalProperties(entity, properties, fallbacks, groups));
 
     // post hook
     if (entity.schema.$hooks?.has("afterDeserialize")) {
@@ -254,11 +260,12 @@ export class JsonDeserializer extends JsonMapperCompiler<JsonDeserializerOptions
     if (propertyStore.schema?.$hooks?.has("ignore")) {
       this.schemes[schemaId] = propertyStore.schema;
 
-      // declared outside the branch: the additional properties loop reads it
+      // declared outside the branch: the additional properties loop reads them
       writer.add(`${declare};`);
       declare = varKey(key);
 
-      writer = writer.if(`!alterIgnore('${schemaId}', {...options, self: input})`);
+      writer.const(ignoredKey(key), `alterIgnore('${schemaId}', {...options, self: input})`);
+      writer = writer.if(`!${ignoredKey(key)}`);
     }
 
     // pre hook
@@ -363,14 +370,15 @@ export class JsonDeserializer extends JsonMapperCompiler<JsonDeserializerOptions
   /**
    * @param properties The keys never copied: the keys declared by the model (aliases included), and the declared names of
    * the excluded properties.
-   * @param mappedValues The variable holding the mapped value, by declared name of the aliased properties. A declared name
-   * is copied only when the alias is used and the property mapped nothing (no input value, ignored, or a hook returned
-   * `undefined`). The mapped value is checked, not the instance, which may hold a field initializer.
+   * @param fallbacks The condition to copy the declared name, by declared name of the aliased properties: the property
+   * was not ignored and mapped nothing (no input value, or a hook returned `undefined`). A declared name is copied only
+   * when the alias is used and this condition is true. The mapped value is checked, not the instance, which may hold a
+   * field initializer.
    */
   private mapAdditionalProperties(
     entity: JsonClassStore,
     properties: Set<string>,
-    mappedValues: Map<string, string>,
+    fallbacks: Map<string, string>,
     groups: string[] | false
   ) {
     const additionalProperties = entity.schema.get("additionalProperties");
@@ -387,9 +395,9 @@ export class JsonDeserializer extends JsonMapperCompiler<JsonDeserializerOptions
       each = each.if(Writer.notOneOf("key", properties));
     }
 
-    if (additionalProperties && mappedValues.size) {
-      const conditions = Array.from(mappedValues, ([name, value]) => {
-        return `(key !== '${name}' || (options.useAlias && ${value} === undefined))`;
+    if (additionalProperties && fallbacks.size) {
+      const conditions = Array.from(fallbacks, ([name, fallback]) => {
+        return `(key !== '${name}' || (options.useAlias && ${fallback}))`;
       });
 
       each = each.if(conditions.join(" && "));
