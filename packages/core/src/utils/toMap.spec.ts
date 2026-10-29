@@ -219,10 +219,24 @@ describe("toMap", () => {
 
     it("should register an item under each id returned by the identity", () => {
       const item = {id: "a"};
-      const map = toMap([item], (value: any) => [value.id, "alias"]);
+      const map = toMap<string, any>([item], (value: any) => [value.id, "alias"]);
 
       expect(map.get("a")).toBe(item);
       expect(map.get("alias")).toBe(item);
+    });
+
+    it("should skip the holes of the ids returned by the identity", () => {
+      const item = {id: "a"};
+      const existing = {id: "undefined"};
+      const ids: string[] = [];
+      ids[0] = "a";
+      ids[2] = "b";
+
+      const map = toMap<any, any>([existing, item], (value: any) => (value === item ? ids : (undefined as any)));
+
+      expect([...map.keys()]).toEqual([undefined, "a", "b"]);
+      expect(map.get(undefined)).toBe(existing);
+      expect(map.get("b")).toBe(item);
     });
 
     it("should merge the items sharing an id", () => {
@@ -233,7 +247,7 @@ describe("toMap", () => {
           return {...this, values: [...this.values, ...other.values]};
         }
       };
-      const map = toMap([first, {id: "a", values: [2]}]);
+      const map = toMap<string, any>([first, {id: "a", values: [2]}]);
 
       expect(map.get("a").values).toEqual([1, 2]);
     });
@@ -245,7 +259,7 @@ describe("toMap", () => {
         }
       };
       const seed = {id: "x"};
-      const map = toMap([existing, seed], (value: any, index) => (index === 0 ? "a" : ["a", "b"]));
+      const map = toMap<string, any>([existing, seed], (value: any, index) => (index === 0 ? "a" : ["a", "b"]));
 
       expect(map.get("a")).toEqual({merged: seed});
       expect(map.get("b")).toEqual({merged: seed});
