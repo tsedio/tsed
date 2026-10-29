@@ -40,6 +40,12 @@ describe("JsonMapper: additional properties", () => {
       expect(({} as any).polluted).toBeUndefined();
     });
 
+    it("should read the declared name of an aliased property when the input has no alias", () => {
+      const result = new JsonDeserializer().map({id: "1", name: "fallback", extra: 1}, {type: Model, additionalProperties: true});
+
+      expect({...result}).toEqual({id: "1", name: "fallback", extra: 1});
+    });
+
     it("should not copy the unknown keys when the option is disabled", () => {
       const result = new JsonDeserializer().map({id: "1", label: "a", extra: 1}, {type: Model, additionalProperties: false});
 
@@ -83,6 +89,22 @@ describe("JsonMapper: additional properties", () => {
       const result = new JsonDeserializer().map({id: "1", label: "a", extra: 1}, {type: OpenModel});
 
       expect({...result}).toEqual({id: "1", name: "a", extra: 1});
+    });
+
+    it("should not overwrite an aliased property with a key named like the property", () => {
+      const deserializer = new JsonDeserializer();
+
+      expect({...deserializer.map({id: "1", label: "a", name: "ignored", extra: 1}, {type: OpenModel})}).toEqual({
+        id: "1",
+        name: "a",
+        extra: 1
+      });
+      // the declared name stays a fallback when the input has no alias
+      expect({...deserializer.map({id: "1", name: "fallback", extra: 1}, {type: OpenModel})}).toEqual({
+        id: "1",
+        name: "fallback",
+        extra: 1
+      });
     });
 
     it("should serialize the unknown keys, but not the declared ones", () => {

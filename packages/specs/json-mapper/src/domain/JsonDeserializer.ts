@@ -155,6 +155,7 @@ export class JsonDeserializer extends JsonMapperCompiler<JsonDeserializerOptions
   protected createMapper(model: Type<any>, id: string, groups: false | string[]): string {
     const entity = s.store(model);
     const properties = new Set<string>();
+    const aliasedNames = new Set<string>();
     const schemaProperties = [...getPropertiesStores(entity).values()];
 
     const writer = new Writer().arrow("input", "options");
@@ -180,8 +181,16 @@ export class JsonDeserializer extends JsonMapperCompiler<JsonDeserializerOptions
       ...schemaProperties.flatMap((propertyStore) => {
         const key = propertyStore.propertyName;
 
+        const alias = String(propertyStore.parent.schema.getAliasOf(key) || key);
+
         // TODO V8 add this line: properties.add(key as string);
-        properties.add(String(propertyStore.parent.schema.getAliasOf(key) || key));
+        properties.add(alias);
+
+        // the declared name of an aliased property is still read as an additional property (fallback when the
+        // input has no alias), but it must not overwrite the value mapped from the alias
+        if (alias !== key) {
+          aliasedNames.add(key);
+        }
 
         if (
           (propertyStore.schema?.$ignore && isBoolean(propertyStore.schema?.$ignore)) ||
@@ -196,7 +205,7 @@ export class JsonDeserializer extends JsonMapperCompiler<JsonDeserializerOptions
     );
 
     // additional properties
-    writer.add(this.mapAdditionalProperties(entity, properties, groups));
+    writer.add(this.mapAdditionalProperties(entity, properties, aliasedNames, groups));
 
     // post hook
     if (entity.schema.$hooks?.has("afterDeserialize")) {
@@ -343,7 +352,11 @@ export class JsonDeserializer extends JsonMapperCompiler<JsonDeserializerOptions
     };
   }
 
-  private mapAdditionalProperties(entity: JsonClassStore, properties: Set<string>, groups: string[] | false) {
+  /**
+   * @param properties The keys declared by the model (aliases included), never copied.
+   * @param aliasedNames The declared names of the aliased properties, copied only when the alias did not set a value.
+   */
+  private mapAdditionalProperties(entity: JsonClassStore, properties: Set<string>, aliasedNames: Set<string>, groups: string[] | false) {
     const additionalProperties = entity.schema.get("additionalProperties");
 
     const writer = new Writer();
@@ -356,6 +369,10 @@ export class JsonDeserializer extends JsonMapperCompiler<JsonDeserializerOptions
 
     if (properties.size) {
       each = each.if(Writer.notOneOf("key", properties));
+    }
+
+    if (additionalProperties && aliasedNames.size) {
+      each = each.if(`(${Writer.notOneOf("key", aliasedNames)}) || obj[key] === undefined`);
     }
 
     if (additionalProperties && additionalProperties instanceof JsonSchema) {
