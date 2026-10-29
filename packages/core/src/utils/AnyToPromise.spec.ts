@@ -154,4 +154,34 @@ describe("AnyToPromise", () => {
 
     expect(error?.message).toEqual("test");
   });
+
+  describe("hasNextFunction option", () => {
+    it("should resolve the returned value without options or with an empty object", async () => {
+      expect(await new AnyToPromise().call(() => "test")).toEqual({state: "RESOLVED", data: "test", type: "DATA"});
+      expect(await new AnyToPromise({}).call(() => "test")).toEqual({state: "RESOLVED", data: "test", type: "DATA"});
+    });
+
+    it("should wait for next() when hasNextFunction is true", async () => {
+      const resolver = new AnyToPromise({hasNextFunction: true});
+      let next: any;
+
+      const promise = resolver.call(() => {
+        next = () => resolver.resolve({data: "from next"});
+        return undefined;
+      });
+
+      expect(resolver.status).toEqual(AnyToPromiseStatus.PENDING);
+
+      next();
+
+      expect(await promise).toEqual({state: "RESOLVED", data: "from next"});
+    });
+  });
+
+  it("should resolve a buffer returned by a promise as BUFFER", async () => {
+    const buffer = Buffer.from("test");
+    const result = await new AnyToPromise().call(() => Promise.resolve(buffer));
+
+    expect(result).toEqual({state: "RESOLVED", data: buffer, type: "BUFFER"});
+  });
 });
