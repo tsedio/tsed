@@ -346,14 +346,16 @@ export class JsonDeserializer extends JsonMapperCompiler<JsonDeserializerOptions
   private mapAdditionalProperties(entity: JsonClassStore, properties: Set<string>, groups: string[] | false) {
     const additionalProperties = entity.schema.get("additionalProperties");
 
-    const exclude = [...properties.values()].map((key) => `'${key}'`).join(", ");
     const writer = new Writer();
 
     writer.add("// add additional properties");
-    let each = writer.each("objectKeys(input)", ["key"]);
 
-    if (exclude.length) {
-      each = each.if(`![${exclude}].includes(key)`);
+    // dynamic additional properties option: the keys are read only when it is enabled, it is disabled by default
+    const scope = additionalProperties ? writer : writer.if("options.additionalProperties");
+    let each = scope.each("objectKeys(input)", ["key"]);
+
+    if (properties.size) {
+      each = each.if(Writer.notOneOf("key", properties));
     }
 
     if (additionalProperties && additionalProperties instanceof JsonSchema) {
@@ -370,8 +372,7 @@ export class JsonDeserializer extends JsonMapperCompiler<JsonDeserializerOptions
       return writer;
     }
 
-    // dynamic additional properties options
-    each.if(`options.additionalProperties && obj[key] === undefined`).set("obj[key]", "input[key]");
+    each.if("obj[key] === undefined").set("obj[key]", "input[key]");
 
     return writer;
   }
