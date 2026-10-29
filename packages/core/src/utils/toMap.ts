@@ -62,7 +62,10 @@ export function toMap<K extends keyof any = any, V = any>(input: Record<K, V> | 
 
       if (Array.isArray(ids)) {
         for (let i = 0; i < ids.length; i++) {
-          value = setItem(map, ids[i], value);
+          // holes are skipped, as forEach() did
+          if (i in ids) {
+            value = setItem(map, ids[i], value);
+          }
         }
       } else {
         setItem(map, ids, value);
