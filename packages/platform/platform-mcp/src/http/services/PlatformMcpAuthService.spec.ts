@@ -14,6 +14,12 @@ const authInfo: AuthInfo = {
   expiresAt: Math.floor(Date.now() / 1000) + 3600
 };
 
+// verifyBearerToken() adds the protected resource metadata URL to the verified identity
+const verifiedAuthInfo: AuthInfo = {
+  ...authInfo,
+  resourceMetadataUrl: "https://api.example.com/.well-known/oauth-protected-resource/mcp"
+};
+
 class ApiKeyPreAuth implements PlatformMcpPreAuth {
   preAuth($ctx: PlatformContext) {
     return {token: String($ctx.request.headers["x-api-key"]), clientId: "api-key", scopes: []};
@@ -227,7 +233,7 @@ describe("PlatformMcpAuthService", () => {
 
       const result = await service.verifyMcpRequest(createAuth({verifier}), createContext({authorization: "Bearer valid"}));
 
-      expect(result).toEqual(authInfo);
+      expect(result).toEqual(verifiedAuthInfo);
       expect(verifier.verifyAccessToken).toHaveBeenCalledExactlyOnceWith("valid");
     });
 
@@ -278,7 +284,7 @@ describe("PlatformMcpAuthService", () => {
       expect(anonymous.status).toBe(401);
       expect(anonymous.headers.get("www-authenticate")).toContain('scope="openid profile email"');
       // the supported scopes are only a hint: a token without them is still accepted
-      await expect(service.verifyMcpRequest(auth, createContext({authorization: "Bearer valid"}))).resolves.toEqual(authInfo);
+      await expect(service.verifyMcpRequest(auth, createContext({authorization: "Bearer valid"}))).resolves.toEqual(verifiedAuthInfo);
     });
 
     it("advertises the required scopes rather than the supported ones", async () => {
