@@ -14630,7 +14630,7 @@ __metadata:
     cross-env: "npm:^7.0.3"
     graphql: "npm:16.12.0"
     graphql-passport: "npm:^0.6.8"
-    graphql-scalars: "npm:1.25.0"
+    graphql-scalars: "npm:2.0.1"
     ts-node: "npm:10.9.2"
     tslib: "npm:>=2.7.0"
     type-graphql: "npm:>=2.0.0-rc.2"
@@ -25381,14 +25381,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"graphql-scalars@npm:1.25.0":
-  version: 1.25.0
-  resolution: "graphql-scalars@npm:1.25.0"
+"graphql-scalars@npm:2.0.1":
+  version: 2.0.1
+  resolution: "graphql-scalars@npm:2.0.1"
   dependencies:
     tslib: "npm:^2.5.0"
   peerDependencies:
-    graphql: ^0.8.0 || ^0.9.0 || ^0.10.0 || ^0.11.0 || ^0.12.0 || ^0.13.0 || ^14.0.0 || ^15.0.0 || ^16.0.0
-  checksum: 10/bb77b9903dedfda262fd358994d3f8489516fb06b25bf9f311db4b037140a31e8525a8f52f473708274a9e854d12885ce4e64fd765fac71935f625cfaecc29c7
+    graphql: ^16.0.0 || ^17.0.0
+  checksum: 10/e3a4e5cf0ecf2b056c0395ba05d06f75f7f876945a68bce9c9074885b10a3ed548ceb7f70891f6ffe5e84fdf2e0d3736cfef4cc3ddc4462ab0c305d8afc14432
   languageName: node
   linkType: hard
 
