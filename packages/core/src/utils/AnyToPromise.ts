@@ -71,8 +71,9 @@ export class AnyToPromise<T = any> {
 
   readonly #promise: Promise<AnyPromiseResult<T>>;
 
-  constructor({hasNextFunction = false}: {hasNextFunction?: boolean} = {}) {
-    this.#hasNextFunction = hasNextFunction;
+  // no destructuring default: subclasses call super() without options, once per request
+  constructor(options?: {hasNextFunction?: boolean}) {
+    this.#hasNextFunction = options?.hasNextFunction ?? false;
 
     this.#promise = new Promise((resolve: any, reject: any) => {
       this.#resolves = resolve;
@@ -176,7 +177,7 @@ export class AnyToPromise<T = any> {
       if (isStream(process)) {
         return this.resolve({...additionalProps, type: AnyToPromiseResponseTypes.STREAM, data: process});
       }
-      if (isStream(process) || Buffer.isBuffer(process)) {
+      if (Buffer.isBuffer(process)) {
         return this.resolve({...additionalProps, type: AnyToPromiseResponseTypes.BUFFER, data: process});
       }
 
