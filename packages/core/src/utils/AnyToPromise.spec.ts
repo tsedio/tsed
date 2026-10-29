@@ -243,11 +243,30 @@ describe("AnyToPromise", () => {
       expect(result).toEqual({value: {state: "RESOLVED", data: "data", headers: {"x-test": "1"}, status: 400, type: "DATA"}});
     });
 
-    it("should reject when the nested error handler throws", async () => {
-      // a nested promise rejected with undefined: reading error.response throws a TypeError, caught by the outer handler
-      const result: any = await settle(new AnyToPromise().call(() => Promise.resolve(observableOf(() => Promise.reject(undefined)))));
+    it("should reject with the reason of a nested promise rejected with undefined", async () => {
+      const result = await settle(new AnyToPromise().call(() => Promise.resolve(observableOf(() => Promise.reject(undefined)))));
 
-      expect(result.error).toBeInstanceOf(TypeError);
+      expect(result).toStrictEqual({error: undefined});
+    });
+
+    it("should reject with the reason of a promise rejected with a nullish value", async () => {
+      expect(await settle(new AnyToPromise().call(() => Promise.reject(undefined)))).toStrictEqual({error: undefined});
+      expect(await settle(new AnyToPromise().call(() => Promise.reject(null)))).toStrictEqual({error: null});
+    });
+
+    it("should resolve a thenable returned as the data of a response", async () => {
+      // its then() calls the fulfillment function it receives: it must be a function
+      const thenable = {
+        then(resolve: any) {
+          resolve("test");
+          return thenable;
+        }
+      };
+      const result = await settle(
+        new AnyToPromise().call(() => Promise.resolve({data: thenable, headers: {}, status: 200, statusText: "OK"}))
+      );
+
+      expect(result).toEqual({value: {state: "RESOLVED", data: "test", headers: {}, status: 200, type: "DATA"}});
     });
 
     it("should resolve the value of a thenable that is not a native promise", async () => {
