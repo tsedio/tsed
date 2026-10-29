@@ -58,4 +58,23 @@ describe("useDecorators", () => {
 
     expect(result).toBe("hello value 4");
   });
+
+  it("should skip falsy decorators and apply the others in order on each application", () => {
+    const calls: string[] = [];
+    const first = () => {
+      calls.push("first");
+    };
+    const second = () => {
+      calls.push("second");
+    };
+    const decorator = useDecorators(first, undefined as any, null as any, false as any, second);
+
+    class A {}
+    class B {}
+
+    decorator(A);
+    decorator(B);
+
+    expect(calls).toEqual(["first", "second", "first", "second"]);
+  });
 });
