@@ -1,6 +1,7 @@
 import "../components/DateMapper.js";
 import "../components/PrimitiveMapper.js";
-import {AdditionalProperties, Name, Property} from "@tsed/schema";
+import {AdditionalProperties, Groups, Ignore, Name, Property} from "@tsed/schema";
+import {OnDeserialize} from "../decorators/onDeserialize.js";
 import {JsonDeserializer} from "./JsonDeserializer.js";
 import {JsonMapperSettings} from "./JsonMapperSettings.js";
 import {JsonSerializer} from "./JsonSerializer.js";
@@ -31,6 +32,28 @@ class InitializedModel {
 
   @Name("created_at")
   createdAt: Date;
+}
+
+@AdditionalProperties(true)
+class ProtectedModel {
+  @Name("is_admin")
+  @Ignore()
+  isAdmin: boolean = false;
+
+  @Name("role_id")
+  @Groups("!creation")
+  roleId: string = "user";
+}
+
+@AdditionalProperties(true)
+class HookModel {
+  @Name("label")
+  @OnDeserialize((value) => (value === undefined ? "computed" : value))
+  name: string;
+
+  @Name("code")
+  @OnDeserialize(() => undefined)
+  skipped: string;
 }
 
 describe("JsonMapper: additional properties", () => {
@@ -133,6 +156,25 @@ describe("JsonMapper: additional properties", () => {
 
       expect(result.name).toEqual("a");
       expect(result.createdAt).toBeInstanceOf(Date);
+    });
+
+    it("should not fill an excluded aliased property from its declared name", () => {
+      const deserializer = new JsonDeserializer();
+
+      const result = deserializer.map({isAdmin: true, roleId: "admin", extra: 1}, {type: ProtectedModel, groups: ["creation"]});
+
+      expect(result.isAdmin).toBe(false);
+      expect(result.roleId).toEqual("user");
+      expect(result.extra).toEqual(1);
+    });
+
+    it("should keep the value returned by a deserialization hook over the declared name", () => {
+      const deserializer = new JsonDeserializer();
+
+      expect(deserializer.map({name: "raw"}, {type: HookModel}).name).toEqual("computed");
+      expect(deserializer.map({label: "a", name: "raw"}, {type: HookModel}).name).toEqual("a");
+      // the hook returned undefined: the declared name is still the fallback
+      expect(deserializer.map({skipped: "raw"}, {type: HookModel}).skipped).toEqual("raw");
     });
 
     it("should serialize the unknown keys, but not the declared ones", () => {
