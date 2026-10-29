@@ -37,27 +37,51 @@ function createIdentityFn<V>(keyOrFn?: ToMapIdentity<V>): ToMapIdentityCB<V> {
  * @public
  * @since v7.0.0
  */
+function setItem(map: Map<any, any>, id: any, value: any) {
+  const item = map.get(id);
+
+  value = item?.merge?.(value) || value;
+  map.set(id, value);
+
+  return value;
+}
+
 export function toMap<K extends keyof any = any, V = any>(input: Record<K, V> | V[], keyOrFn?: ToMapIdentity<V>): Map<K, V> {
   if (isArray<V>(input)) {
     const identity = createIdentityFn<V>(keyOrFn || "id");
-    return input.reduce((map, value, index) => {
-      const ids = ([] as string[]).concat(identity(value, index));
+    const map = new Map();
 
-      ids.forEach((id) => {
-        const item = map.get(id);
+    // plain loops: no array per item for the ids and no closure per item. Holes are skipped, as reduce() did
+    for (let index = 0; index < input.length; index++) {
+      if (!(index in input)) {
+        continue;
+      }
 
-        value = item?.merge?.(value) || value;
+      let value: any = input[index];
+      const ids = identity(value, index);
 
-        map.set(id, value);
-      });
+      if (Array.isArray(ids)) {
+        for (let i = 0; i < ids.length; i++) {
+          value = setItem(map, ids[i], value);
+        }
+      } else {
+        setItem(map, ids, value);
+      }
+    }
 
-      return map;
-    }, new Map());
+    return map;
   }
 
   const identity = createIdentityFn<V>(keyOrFn);
+  const map = new Map();
+  const keys = Object.keys(input);
 
-  return Object.entries(input).reduce((map, [key, value]) => {
-    return map.set(identity(value as V, key), value);
-  }, new Map());
+  for (let i = 0; i < keys.length; i++) {
+    const key = keys[i];
+    const value = (input as any)[key];
+
+    map.set(identity(value as V, key), value);
+  }
+
+  return map;
 }

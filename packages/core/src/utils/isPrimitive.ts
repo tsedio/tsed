@@ -42,5 +42,6 @@ export function isPrimitive(target: any): boolean {
  * @since v7.0.0
  */
 export function isPrimitiveClass(target: any): boolean {
-  return [String, Number, Boolean].includes(target);
+  // plain comparisons: no array allocated on each call
+  return target === String || target === Number || target === Boolean;
 }
