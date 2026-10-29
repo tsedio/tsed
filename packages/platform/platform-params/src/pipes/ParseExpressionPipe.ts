@@ -5,12 +5,20 @@ import {PlatformParamsScope} from "../builder/PlatformParams.js";
 import {getValue} from "@tsed/core";
 
 export class ParseExpressionPipe implements PipeMethods {
+  // the key of a parameter is built once instead of on each request
+  #keys = new WeakMap<JsonParameterStore, string>();
+
   transform(scope: PlatformParamsScope, param: JsonParameterStore) {
-    const {paramType, type} = param;
+    let key = this.#keys.get(param);
 
-    const value = getValue(scope, this.getKey(param));
+    if (key === undefined) {
+      key = this.getKey(param);
+      this.#keys.set(param, key);
+    }
 
-    if ([ParamTypes.QUERY, ParamTypes.PATH].includes(paramType as ParamTypes) && value === "" && type !== String) {
+    const value = getValue(scope, key);
+
+    if (value === "" && (param.paramType === ParamTypes.QUERY || param.paramType === ParamTypes.PATH) && param.type !== String) {
       return undefined;
     }
 
