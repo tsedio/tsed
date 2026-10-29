@@ -183,7 +183,8 @@ export class AnyToPromise<T = any> {
 
       if (isPromise(process)) {
         const onError = (error: any) => {
-          if (error.response && isResponse(error.response)) {
+          // a nullish reason has no response: reading error.response threw and the call never settled
+          if (error && error.response && isResponse(error.response)) {
             return this.handle(error.response);
           }
 
@@ -202,7 +203,9 @@ export class AnyToPromise<T = any> {
             return onError(er);
           }
 
-          return out && typeof out.then === "function" ? out.then(undefined, onError) : out;
+          // Promise.resolve() adopts a thenable as then() did with the returned value: its then() receives
+          // two functions. For a native promise, it returns the same promise
+          return out && typeof out.then === "function" ? Promise.resolve(out).then(undefined, onError) : out;
         }, onError);
       }
     }
