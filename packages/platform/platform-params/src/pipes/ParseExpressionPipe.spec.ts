@@ -238,4 +238,58 @@ describe("ParseExpressionPipe", () => {
       expect(value).toEqual("");
     })
   );
+  describe("key cache", () => {
+    function createParam(expression: string, paramType: ParamTypes, dataPath: string) {
+      class Test {}
+
+      const param: any = new JsonParameterStore({
+        index: 0,
+        target: Test,
+        propertyKey: "test",
+        expression,
+        paramType,
+        dataPath,
+        decoratorType: DecoratorTypes.PARAM
+      });
+      // @ts-ignore
+      param._type = String;
+
+      return param;
+    }
+
+    it("should build the key of a parameter once", async () => {
+      const pipe = await PlatformTest.invoke<ParseExpressionPipe>(ParseExpressionPipe);
+      const param = createParam("id", ParamTypes.PATH, "$ctx.request.params");
+      const spy = vi.spyOn(pipe as any, "getKey");
+
+      expect(pipe.transform({$ctx: {request: {params: {id: "1"}}}} as any, param)).toEqual("1");
+      expect(pipe.transform({$ctx: {request: {params: {id: "2"}}}} as any, param)).toEqual("2");
+      expect(spy).toHaveBeenCalledTimes(1);
+    });
+
+    it("should keep a key per parameter", async () => {
+      const pipe = await PlatformTest.invoke<ParseExpressionPipe>(ParseExpressionPipe);
+      const scope: any = {$ctx: {request: {query: {page: "2"}, headers: {"content-type": "json"}}}};
+      const query = createParam("page", ParamTypes.QUERY, "$ctx.request.query");
+      const header = createParam("Content-Type", ParamTypes.HEADER, "$ctx.request.headers");
+
+      expect(pipe.transform(scope, query)).toEqual("2");
+      expect(pipe.transform(scope, header)).toEqual("json");
+      expect(pipe.transform(scope, query)).toEqual("2");
+      expect(pipe.transform(scope, header)).toEqual("json");
+    });
+
+    it("should use the key of a subclass overriding getKey()", async () => {
+      class CustomExpressionPipe extends ParseExpressionPipe {
+        protected getKey() {
+          return "$ctx.custom";
+        }
+      }
+
+      const pipe = await PlatformTest.invoke<CustomExpressionPipe>(CustomExpressionPipe);
+      const param = createParam("id", ParamTypes.PATH, "$ctx.request.params");
+
+      expect(pipe.transform({$ctx: {custom: "value"}} as any, param)).toEqual("value");
+    });
+  });
 });
