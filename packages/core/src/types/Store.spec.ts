@@ -161,4 +161,59 @@ describe("Store", () => {
       expect(store3.get("test")).toBeUndefined();
     });
   });
+
+  describe("toJson()", () => {
+    it("should return the entries as own properties, a __proto__ key included", () => {
+      class TestToJson {}
+
+      const store = Store.from(TestToJson);
+      store.set("a", 1);
+      store.set("__proto__", {polluted: true});
+
+      const json: any = store.toJson();
+
+      expect(Object.keys(json)).toEqual(["a", "__proto__"]);
+      expect(Object.getPrototypeOf(json)).toBe(Object.prototype);
+      expect(({} as any).polluted).toBeUndefined();
+    });
+  });
+
+  describe("from()", () => {
+    it("should return the same store on each call", () => {
+      class TestSame {
+        method(_: any) {}
+
+        prop: any;
+      }
+
+      const sym = Symbol("store");
+
+      expect(Store.from(TestSame)).toBe(Store.from(TestSame));
+      expect(Store.from(TestSame, "prop")).toBe(Store.from(TestSame, "prop"));
+      expect(Store.fromMethod(TestSame, "method")).toBe(Store.fromMethod(TestSame, "method"));
+      expect(Store.from(TestSame, "method", 0)).toBe(Store.from(TestSame, "method", 0));
+      expect(Store.from(TestSame, "method", 0)).not.toBe(Store.from(TestSame, "method", 1));
+      expect(Store.from(sym)).toBe(Store.from(sym));
+      expect(Store.from(TestSame)).not.toBe(Store.from(TestSame, "prop"));
+    });
+
+    it("should register the class store in Metadata", () => {
+      class TestRegistered {}
+
+      const store = Store.from(TestRegistered);
+
+      expect(Metadata.getOwn(CLASS_STORE, TestRegistered)).toBe(store);
+      expect(Metadata.getTargetsFromPropertyKey(CLASS_STORE)).toContain(TestRegistered);
+    });
+
+    it("should not inherit the store of the parent class", () => {
+      class Parent {}
+      class Child extends Parent {}
+
+      Store.from(Parent).set("key", "parent");
+
+      expect(Store.from(Child)).not.toBe(Store.from(Parent));
+      expect(Store.from(Child).get("key")).toBeUndefined();
+    });
+  });
 });
