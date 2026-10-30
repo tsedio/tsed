@@ -121,6 +121,23 @@ yarn test
 npm run test
 ```
 
+### Benchmark
+
+To measure the performance gap of a change on a real Ts.ED server (Express, Koa and Fastify), compare the targets in one run.
+A target is a published version (`8.44.1`) or `local` (the packages built in your checkout). The first target is the baseline.
+
+```bash
+yarn bench:compare 8.44.1 8.44.12   # two releases, installed from npm
+yarn build && yarn bench:compare 8.44.12 local
+```
+
+In CI, run the **Benchmark** workflow manually (with the targets as input), or add the `benchmark` label to a pull request to
+compare its base branch with its head. The report is in the job summary.
+
+Each gap comes with a 95% confidence interval. A gap whose interval contains 0 is reported as `not significant`. Only compare
+numbers from the same report: another run ran on another machine. See [tools/benchmarks](https://github.com/tsedio/tsed/tree/production/tools/benchmarks)
+for the options and how the measurement works.
+
 ### Gflow (optional)
 
 [Gflow](https://www.npmjs.com/package/gflow) is a command line tool to help developers with the Git process used in

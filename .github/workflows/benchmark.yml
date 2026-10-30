@@ -1,0 +1,126 @@
+# HTTP benchmark of a Ts.ED server (Express, Koa, Fastify), on demand only:
+# - manually, with the list of targets to compare (published versions and/or "local");
+# - on a pull request when the "benchmark" label is added: base branch vs PR head.
+# Every target of a comparison is measured in this single job. See tools/benchmarks/readme.md.
+name: Benchmark
+
+on:
+  workflow_dispatch:
+    inputs:
+      targets:
+        description: "Comma-separated targets, the first one is the baseline (e.g. 8.44.1,8.44.12 or 8.44.12,local). Empty: latest release vs local"
+        required: false
+        default: ""
+      platforms:
+        description: "Platforms to measure"
+        required: false
+        default: "express,koa,fastify"
+      rounds:
+        description: "Interleaved rounds (more rounds narrow the confidence interval)"
+        required: false
+        default: "5"
+      duration:
+        description: "Measured seconds per route and round"
+        required: false
+        default: "5"
+  pull_request:
+    types: [labeled]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: benchmark-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  benchmark:
+    if: github.event_name == 'workflow_dispatch' || github.event.label.name == 'benchmark'
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          path: head
+
+      - name: Checkout the base branch
+        if: github.event_name == 'pull_request'
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.base.sha }}
+          path: base
+
+      - name: Use Node.js 24.18.0
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24.18.0
+          cache: "yarn"
+          cache-dependency-path: head/yarn.lock
+
+      - name: Resolve the targets
+        id: targets
+        env:
+          EVENT: ${{ github.event_name }}
+          INPUT_TARGETS: ${{ inputs.targets }}
+        run: |
+          if [ "$EVENT" = "pull_request" ]; then
+            targets="local-base,local-head"
+          elif [ -n "$INPUT_TARGETS" ]; then
+            targets="$INPUT_TARGETS"
+          else
+            targets="$(npm view @tsed/core version),local"
+          fi
+          echo "targets=$targets" >> "$GITHUB_OUTPUT"
+          echo "Targets: $targets"
+
+      - name: Install and build the PR head
+        working-directory: head
+        env:
+          TARGETS: ${{ steps.targets.outputs.targets }}
+        run: |
+          yarn install --immutable --network-timeout 500000
+          case ",$TARGETS," in
+            *,local,*|*,local-head,*) yarn build ;;
+          esac
+
+      - name: Install and build the base branch
+        if: github.event_name == 'pull_request'
+        working-directory: base
+        run: |
+          yarn install --immutable --network-timeout 500000
+          yarn build
+
+      - name: Run the benchmark
+        working-directory: head
+        env:
+          TARGETS: ${{ steps.targets.outputs.targets }}
+          PLATFORMS: ${{ inputs.platforms || 'express,koa,fastify' }}
+          ROUNDS: ${{ inputs.rounds || '5' }}
+          DURATION: ${{ inputs.duration || '5' }}
+        run: |
+          yarn bench \
+            --targets "$TARGETS" \
+            --platforms "$PLATFORMS" \
+            --rounds "$ROUNDS" \
+            --duration "$DURATION" \
+            --local-dir "local-base=$GITHUB_WORKSPACE/base" \
+            --local-dir "local-head=$GITHUB_WORKSPACE/head" \
+            --out "$GITHUB_WORKSPACE/bench-results"
+
+      - name: Publish the report
+        if: always()
+        run: |
+          if [ -f bench-results/report.md ]; then
+            cat bench-results/report.md >> "$GITHUB_STEP_SUMMARY"
+          fi
+
+      - name: Upload the results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: benchmark-results
+          path: bench-results
+          retention-days: 90
+          if-no-files-found: ignore
