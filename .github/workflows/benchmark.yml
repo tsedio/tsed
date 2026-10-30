@@ -43,6 +43,8 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
         with:
+          # the PR head itself, not the merge commit GitHub checks out by default on pull_request
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
           path: head
 
       - name: Checkout the base branch
