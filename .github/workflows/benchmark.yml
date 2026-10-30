@@ -46,6 +46,7 @@ jobs:
           # the PR head itself, not the merge commit GitHub checks out by default on pull_request
           ref: ${{ github.event.pull_request.head.sha || github.sha }}
           path: head
+          persist-credentials: false
 
       - name: Checkout the base branch
         if: github.event_name == 'pull_request'
@@ -53,6 +54,7 @@ jobs:
         with:
           ref: ${{ github.event.pull_request.base.sha }}
           path: base
+          persist-credentials: false
 
       - name: Use Node.js 24.18.0
         uses: actions/setup-node@v4
