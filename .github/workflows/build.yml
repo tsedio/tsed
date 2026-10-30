@@ -372,7 +372,18 @@ jobs:
       - name: Install dependencies
         run: yarn install --network-timeout 500000
       - name: Use a resumable @tsed/monorepo-utils
-        run: YARN_ENABLE_IMMUTABLE_INSTALLS=false yarn up "@tsed/monorepo-utils@$MONOREPO_UTILS_VERSION"
+        # The tag's .yarnrc.yml age gate only preapproves the version it was released with.
+        run: |
+          YARN_ENABLE_IMMUTABLE_INSTALLS=false yarn up --no-time-gate "@tsed/monorepo-utils@$MONOREPO_UTILS_VERSION"
+          node -e '
+            const installed = require("./node_modules/@tsed/monorepo-utils/package.json").version;
+            const [major, minor, patch] = installed.split(/[.-]/).map(Number);
+            if (major < 3 || (major === 3 && (minor < 3 || (minor === 3 && patch < 4)))) {
+              console.error(`::error::@tsed/monorepo-utils ${installed} cannot resume a publication (needs >= 3.3.4)`);
+              process.exit(1);
+            }
+            console.log(`Using @tsed/monorepo-utils ${installed}`);
+          '
       - name: Build packages
         run: yarn build
       - name: Verify trusted publishing readiness
