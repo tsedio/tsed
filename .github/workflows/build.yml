@@ -372,9 +372,11 @@ jobs:
       - name: Install dependencies
         run: yarn install --network-timeout 500000
       - name: Use a resumable @tsed/monorepo-utils
-        # The tag's .yarnrc.yml age gate only preapproves the version it was released with.
+        # The tag's .yarnrc.yml age gate only preapproves the publisher version it was released with.
+        # Preapprove the publisher alone: its dependencies stay behind the age gate.
         run: |
-          YARN_ENABLE_IMMUTABLE_INSTALLS=false yarn up --no-time-gate "@tsed/monorepo-utils@$MONOREPO_UTILS_VERSION"
+          yarn config set npmPreapprovedPackages --json '["@tsed/monorepo-utils"]'
+          YARN_ENABLE_IMMUTABLE_INSTALLS=false yarn up "@tsed/monorepo-utils@$MONOREPO_UTILS_VERSION"
           node -e '
             const installed = require("./node_modules/@tsed/monorepo-utils/package.json").version;
             const [major, minor, patch] = installed.split(/[.-]/).map(Number);
