@@ -85,13 +85,13 @@ Options:
 function pinRunner() {
   const pinning = detectPinning();
 
-  if (!pinning || process.env.BENCH_PINNED) {
+  if (!pinning || process.env.BENCH_PINNING) {
     return false;
   }
 
   const {status} = spawnSync("taskset", ["-c", pinning.runner, process.execPath, ...process.argv.slice(1)], {
     stdio: "inherit",
-    env: {...process.env, BENCH_PINNED: "1"}
+    env: {...process.env, BENCH_PINNING: JSON.stringify(pinning)}
   });
 
   process.exit(status ?? 1);

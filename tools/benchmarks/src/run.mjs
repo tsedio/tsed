@@ -21,22 +21,50 @@ export const DEFAULTS = {
 };
 
 /**
- * Cores of the server and of the runner (autocannon) on Linux, when `taskset` is available.
+ * Parses a CPU list in the `taskset` format (`0-3,6`) into CPU ids.
+ */
+export function parseCpuList(list) {
+  return list
+    .split(",")
+    .filter(Boolean)
+    .flatMap((part) => {
+      const [start, end = start] = part.split("-").map(Number);
+      return Array.from({length: end - start + 1}, (_, i) => start + i);
+    });
+}
+
+/**
+ * Splits the allowed CPUs between the server (the first one) and the runner (the others).
+ * Pinning needs at least two CPUs.
+ */
+export function splitCpus(cpuIds) {
+  if (cpuIds.length < 2) {
+    return null;
+  }
+
+  return {server: String(cpuIds[0]), runner: cpuIds.slice(1).join(",")};
+}
+
+/**
+ * CPUs of the server and of the runner (autocannon) on Linux, when `taskset` is available.
+ * They are taken from the CPUs this process may run on, which a container can restrict (e.g. to 4-7).
+ * The runner re-runs itself pinned and gets the same split from `BENCH_PINNING`.
  */
 export function detectPinning() {
-  const cores = cpus().length;
+  if (process.env.BENCH_PINNING) {
+    return JSON.parse(process.env.BENCH_PINNING);
+  }
 
-  if (osPlatform() !== "linux" || cores < 2) {
+  if (osPlatform() !== "linux") {
     return null;
   }
 
   try {
-    execFileSync("taskset", ["-V"], {stdio: "ignore"});
+    const output = execFileSync("taskset", ["-pc", String(process.pid)], {encoding: "utf8"});
+    return splitCpus(parseCpuList(output.slice(output.lastIndexOf(":") + 1).trim()));
   } catch {
     return null;
   }
-
-  return {server: "0", runner: cores > 2 ? `1-${cores - 1}` : "1"};
 }
 
 const unitKey = ({target, platform}) => `${target.name}/${platform}`;

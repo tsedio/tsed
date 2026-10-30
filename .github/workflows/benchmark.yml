@@ -29,13 +29,13 @@ on:
 permissions:
   contents: read
 
-concurrency:
-  group: benchmark-${{ github.event.pull_request.number || github.ref }}
-  cancel-in-progress: true
-
 jobs:
   benchmark:
     if: github.event_name == 'workflow_dispatch' || github.event.label.name == 'benchmark'
+    # at the job level, so that adding another label to the PR does not cancel a running benchmark
+    concurrency:
+      group: benchmark-${{ github.event.pull_request.number || github.ref }}
+      cancel-in-progress: true
     runs-on: ubuntu-latest
     timeout-minutes: 120
 
@@ -75,15 +75,12 @@ jobs:
           echo "targets=$targets" >> "$GITHUB_OUTPUT"
           echo "Targets: $targets"
 
+      # always built: the bench app is compiled against the types of the workspace packages (lib/types)
       - name: Install and build the PR head
         working-directory: head
-        env:
-          TARGETS: ${{ steps.targets.outputs.targets }}
         run: |
           yarn install --immutable --network-timeout 500000
-          case ",$TARGETS," in
-            *,local,*|*,local-head,*) yarn build ;;
-          esac
+          yarn build
 
       - name: Install and build the base branch
         if: github.event_name == 'pull_request'

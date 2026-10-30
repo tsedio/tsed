@@ -125,10 +125,12 @@ npm run test
 
 To measure the performance gap of a change on a real Ts.ED server (Express, Koa and Fastify), compare the targets in one run.
 A target is a published version (`8.44.1`) or `local` (the packages built in your checkout). The first target is the baseline.
+Build the checkout first, even to compare published versions: the bench app is compiled against the workspace types.
 
 ```bash
+yarn build
 yarn bench:compare 8.44.1 8.44.12   # two releases, installed from npm
-yarn build && yarn bench:compare 8.44.12 local
+yarn bench:compare 8.44.12 local    # the last release against your checkout
 ```
 
 In CI, run the **Benchmark** workflow manually (with the targets as input), or add the `benchmark` label to a pull request to

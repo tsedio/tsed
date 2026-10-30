@@ -4,12 +4,16 @@ HTTP benchmark of a Ts.ED server on Express, Koa and Fastify, to measure the per
 
 ## Run it
 
+The bench app is compiled against the types of the workspace packages, so build the checkout once first, even to compare
+published versions:
+
 ```bash
-# two published versions, installed from npm (no build needed)
+yarn build
+
+# two published versions, installed from npm
 yarn bench:compare 8.44.1 8.44.12
 
-# the last release against this checkout
-yarn build
+# the last release against this checkout (rebuild after each change)
 yarn bench:compare 8.44.12 local
 
 # several versions in one run, a subset of platforms and routes, more rounds
@@ -67,7 +71,7 @@ first `200`).
 - **Interleaved rounds**: each round measures every target once, in a shuffled order (seeded, the seed is in the report). A
   drift of the machine during the run (heat, a noisy neighbour) spreads over every target instead of favouring one.
 - **Warmup**: each route is loaded for `--warmup` seconds before the measured window. The warmup is not counted.
-- **CPU pinning** (Linux, with `taskset`): the server runs on core 0, autocannon on the other cores.
+- **CPU pinning** (Linux, with `taskset`): the server runs on the first CPU the process may use, autocannon on the others (a container can restrict the CPU set).
 - **Paired ratios**: the gap is the geometric mean of the per-round ratios against the baseline, with a 95% confidence interval
   (Student t-interval on the log ratios). The ratio of latency, CPU and startup is inverted, so a positive gap always means better.
 
