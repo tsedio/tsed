@@ -96,6 +96,8 @@
     "barrels": "lerna run barrels",
     "build": "monorepo build --verbose",
     "build:references": "node ./tools/typescript",
+    "bench": "yarn workspace @tsed/benchmarks bench",
+    "bench:compare": "yarn workspace @tsed/benchmarks bench compare",
     "sync:packages": "monorepo sync packages",
     "api:build": "rm -rf ./docs/api && yarn tsc -b && tsdoc",
     "api:build:dev": "npx -p chokidar-cli chokidar \"docs/.templates/**/*.{js,ejs}\" -c \"tsdoc\"",
