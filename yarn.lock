@@ -13517,6 +13517,68 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@tsed/platform-fulmine@workspace:packages/platform/platform-fulmine":
+  version: 0.0.0-use.local
+  resolution: "@tsed/platform-fulmine@workspace:packages/platform/platform-fulmine"
+  dependencies:
+    "@tsed/barrels": "workspace:*"
+    "@tsed/core": "workspace:*"
+    "@tsed/di": "workspace:*"
+    "@tsed/platform-express": "workspace:*"
+    "@tsed/platform-http": "workspace:*"
+    "@tsed/platform-test-sdk": "workspace:*"
+    "@tsed/platform-views": "workspace:*"
+    "@tsed/typescript": "workspace:*"
+    "@types/compression": "npm:1.7.5"
+    "@types/cookie-parser": "npm:1.4.7"
+    "@types/express": "npm:^5.0.6"
+    "@types/express-session": "npm:1.18.1"
+    "@types/method-override": "npm:0.0.35"
+    compression: "npm:1.8.0"
+    cookie-parser: "npm:1.4.7"
+    express: "npm:5.2.1"
+    express-session: "npm:1.18.1"
+    fulmine.js: "npm:5.25.7"
+    method-override: "npm:3.0.0"
+    tslib: "npm:>=2.7.0"
+    typescript: "npm:6.0.2"
+    vitest: "npm:4.1.4"
+  peerDependencies:
+    "@tsed/core": ">=8.0.0"
+    "@tsed/di": ">=8.0.0"
+    "@tsed/json-mapper": ">=8.0.0"
+    "@tsed/logger": ">=8.0.0"
+    "@tsed/openspec": ">=8.0.0"
+    "@tsed/platform-express": ">=8.0.0"
+    "@tsed/platform-http": ">=8.0.0"
+    "@tsed/platform-views": ">=8.0.0"
+    "@tsed/schema": ">=8.0.0"
+    express: ">=5.0.0"
+    fulmine.js: ^5.25.7
+  peerDependenciesMeta:
+    "@tsed/core":
+      optional: false
+    "@tsed/di":
+      optional: false
+    "@tsed/json-mapper":
+      optional: false
+    "@tsed/logger":
+      optional: false
+    "@tsed/platform-express":
+      optional: false
+    "@tsed/platform-http":
+      optional: false
+    "@tsed/platform-views":
+      optional: true
+    "@tsed/schema":
+      optional: false
+    express:
+      optional: false
+    fulmine.js:
+      optional: false
+  languageName: unknown
+  linkType: soft
+
 "@tsed/platform-http@workspace:*, @tsed/platform-http@workspace:packages/platform/platform-http":
   version: 0.0.0-use.local
   resolution: "@tsed/platform-http@workspace:packages/platform/platform-http"
@@ -16654,6 +16716,15 @@ __metadata:
   bin:
     acorn: bin/acorn
   checksum: 10/77f2de5051a631cf1729c090e5759148459cdb76b5f5c70f890503d629cf5052357b0ce783c0f976dd8a93c5150f59f6d18df1def3f502396a20f81282482fa4
+  languageName: node
+  linkType: hard
+
+"acorn@npm:^8.18.0":
+  version: 8.19.0
+  resolution: "acorn@npm:8.19.0"
+  bin:
+    acorn: bin/acorn
+  checksum: 10/99307d577b38d6a441cd478456633b5b669d32bc722633ff84f1f3c88d361735d7cf01d04ecbf1113c70f1f39e5ceceb95cd5bf93b15bacaddc8fca1ea5e7496
   languageName: node
   linkType: hard
 
@@ -20187,10 +20258,24 @@ __metadata:
   languageName: node
   linkType: hard
 
+"content-disposition@npm:^2.0.1":
+  version: 2.0.1
+  resolution: "content-disposition@npm:2.0.1"
+  checksum: 10/d3981346fdcc5c72514c3b44e08137312f6969b55d151840222e0a75ecfe295e506cc1f4f4339eaad20c170634cbc673913a04d836089fbfe5a08cd4468f2e23
+  languageName: node
+  linkType: hard
+
 "content-type@npm:^1.0.5, content-type@npm:~1.0.5":
   version: 1.0.5
   resolution: "content-type@npm:1.0.5"
   checksum: 10/585847d98dc7fb8035c02ae2cb76c7a9bd7b25f84c447e5ed55c45c2175e83617c8813871b4ee22f368126af6b2b167df655829007b21aa10302873ea9c62662
+  languageName: node
+  linkType: hard
+
+"content-type@npm:^2.0.0, content-type@npm:^2.1.0":
+  version: 2.1.0
+  resolution: "content-type@npm:2.1.0"
+  checksum: 10/8aac907922538f430d8bfab1d8fe2fbdc1eb890a0fa7a619f712db4bfefe24be951ba464f972007df64840c775bf2db284ca8223547ac5317ad9ab2ee8e6501b
   languageName: node
   linkType: hard
 
@@ -20407,7 +20492,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"cookie-signature@npm:^1.2.1":
+"cookie-signature@npm:^1.2.1, cookie-signature@npm:^1.2.2":
   version: 1.2.2
   resolution: "cookie-signature@npm:1.2.2"
   checksum: 10/be44a3c9a56f3771aea3a8bd8ad8f0a8e2679bcb967478267f41a510b4eb5ec55085386ba79c706c4ac21605ca76f4251973444b90283e0eb3eeafe8a92c7708
@@ -20421,7 +20506,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"cookie@npm:0.7.2, cookie@npm:^0.7.1, cookie@npm:~0.7.1":
+"cookie@npm:0.7.2, cookie@npm:^0.7.1, cookie@npm:^0.7.2, cookie@npm:~0.7.1":
   version: 0.7.2
   resolution: "cookie@npm:0.7.2"
   checksum: 10/24b286c556420d4ba4e9bc09120c9d3db7d28ace2bd0f8ccee82422ce42322f73c8312441271e5eefafbead725980e5996cc02766dbb89a90ac7f5636ede608f
@@ -23709,6 +23794,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"fast-zlib@npm:^2.0.1":
+  version: 2.0.1
+  resolution: "fast-zlib@npm:2.0.1"
+  checksum: 10/0272a7c451aea47fc873c52e50fc43a3b5c533bb82854ff0d951d238cac104e65f27ad8b7577153d0a757055fa3597834216367745f0913979382e3490802aca
+  languageName: node
+  linkType: hard
+
 "fast.js@npm:0.0.3":
   version: 0.0.3
   resolution: "fast.js@npm:0.0.3"
@@ -24535,6 +24627,45 @@ __metadata:
   dependencies:
     node-gyp: "npm:latest"
   conditions: os=darwin
+  languageName: node
+  linkType: hard
+
+"fulmine.js@npm:5.25.7":
+  version: 5.25.7
+  resolution: "fulmine.js@npm:5.25.7"
+  dependencies:
+    "@types/express": "npm:^5.0.6"
+    accepts: "npm:^2.0.0"
+    acorn: "npm:^8.18.0"
+    bytes: "npm:^3.1.2"
+    compressible: "npm:^2.0.18"
+    content-disposition: "npm:^2.0.1"
+    content-type: "npm:^2.1.0"
+    cookie: "npm:^0.7.2"
+    cookie-signature: "npm:^1.2.2"
+    encodeurl: "npm:^2.0.0"
+    fast-decode-uri-component: "npm:^1.0.1"
+    fast-zlib: "npm:^2.0.1"
+    fresh: "npm:^2.0.0"
+    iconv-lite: "npm:^0.7.3"
+    mime-types: "npm:^3.0.2"
+    ms: "npm:^2.1.3"
+    proxy-addr: "npm:^2.0.8"
+    qs: "npm:^6.16.0"
+    range-parser: "npm:^1.3.0"
+    statuses: "npm:^2.0.2"
+    tseep: "npm:^1.3.1"
+    type-is: "npm:^2.1.0"
+    uWebSockets.js: "github:uNetworking/uWebSockets.js#v20.71.0"
+    vary: "npm:^1.1.2"
+  peerDependencies:
+    "@nestjs/platform-express": ">=10"
+  peerDependenciesMeta:
+    "@nestjs/platform-express":
+      optional: true
+  bin:
+    fulmine: src/cli.js
+  checksum: 10/852cc895ebeaec548db095fc574d4549716251a58e63ba754017b1d7b0b6179c87c2c84fad6aae7ae88fbec3c79bbed0ec53d99aa531e4e945186d04490a2a6e
   languageName: node
   linkType: hard
 
@@ -26174,6 +26305,15 @@ __metadata:
   dependencies:
     safer-buffer: "npm:>= 2.1.2 < 3.0.0"
   checksum: 10/5bfc897fedfb7e29991ae5ef1c061ed4f864005f8c6d61ef34aba6a3885c04bd207b278c0642b041383aeac2d11645b4319d0ca7b863b0be4be0cde1c9238ca7
+  languageName: node
+  linkType: hard
+
+"iconv-lite@npm:^0.7.3":
+  version: 0.7.3
+  resolution: "iconv-lite@npm:0.7.3"
+  dependencies:
+    safer-buffer: "npm:>= 2.1.2 < 3.0.0"
+  checksum: 10/b88a3f4527795c96854743bcdcdd03e0083ff5f1c072cb13d3e27c67cd276efd9a2a364922cb836538e976456f82323d645f7ea91d5bc8da1f000dc16742a0aa
   languageName: node
   linkType: hard
 
@@ -30389,6 +30529,15 @@ __metadata:
   dependencies:
     mime-db: "npm:1.52.0"
   checksum: 10/89aa9651b67644035de2784a6e665fc685d79aba61857e02b9c8758da874a754aed4a9aced9265f5ed1171fd934331e5516b84a7f0218031b6fa0270eca1e51a
+  languageName: node
+  linkType: hard
+
+"mime-types@npm:^3.0.2":
+  version: 3.0.2
+  resolution: "mime-types@npm:3.0.2"
+  dependencies:
+    mime-db: "npm:^1.54.0"
+  checksum: 10/9db0ad31f5eff10ee8f848130779b7f2d056ddfdb6bda696cb69be68d486d33a3457b4f3f9bdeb60d0736edb471bd5a7c0a384375c011c51c889fd0d5c3b893e
   languageName: node
   linkType: hard
 
@@ -35050,6 +35199,16 @@ __metadata:
   languageName: node
   linkType: hard
 
+"proxy-addr@npm:^2.0.8":
+  version: 2.0.8
+  resolution: "proxy-addr@npm:2.0.8"
+  dependencies:
+    forwarded: "npm:0.2.0"
+    ipaddr.js: "npm:1.9.1"
+  checksum: 10/6922b732c5625a9ba174c053bf3a750a80c87f19b7c62919f88ff01834eb80e2467834cfa72fc48b3a7ed6b3d18daadf773f6efb21db1c5fcc76d784509fcf1f
+  languageName: node
+  linkType: hard
+
 "proxy-agent@npm:~6.4.0":
   version: 6.4.0
   resolution: "proxy-agent@npm:6.4.0"
@@ -35304,6 +35463,16 @@ __metadata:
   languageName: node
   linkType: hard
 
+"qs@npm:^6.16.0":
+  version: 6.16.0
+  resolution: "qs@npm:6.16.0"
+  dependencies:
+    es-define-property: "npm:^1.0.1"
+    side-channel: "npm:^1.1.1"
+  checksum: 10/7fbf9c2eb9c9bbd8997700caecc4b057ac259635873deefd5027fb26d06d79426cf468da55da87ffd147a24e93d3641352d8ac6664bd84688ad5b2f0b8d04828
+  languageName: node
+  linkType: hard
+
 "qs@npm:^6.5.2":
   version: 6.10.3
   resolution: "qs@npm:6.10.3"
@@ -35473,6 +35642,13 @@ __metadata:
   version: 1.2.1
   resolution: "range-parser@npm:1.2.1"
   checksum: 10/ce21ef2a2dd40506893157970dc76e835c78cf56437e26e19189c48d5291e7279314477b06ac38abd6a401b661a6840f7b03bd0b1249da9b691deeaa15872c26
+  languageName: node
+  linkType: hard
+
+"range-parser@npm:^1.3.0":
+  version: 1.3.0
+  resolution: "range-parser@npm:1.3.0"
+  checksum: 10/f0b7a34de67333b80da0a1098cc02579bd5f74da717fdc0807caf87f043af6641d98d94c64a60477a8f88ba7c214aede965fd0e0c3036ea35c9fe89e1149923d
   languageName: node
   linkType: hard
 
@@ -38707,7 +38883,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"statuses@npm:~2.0.1, statuses@npm:~2.0.2":
+"statuses@npm:^2.0.2, statuses@npm:~2.0.1, statuses@npm:~2.0.2":
   version: 2.0.2
   resolution: "statuses@npm:2.0.2"
   checksum: 10/6927feb50c2a75b2a4caab2c565491f7a93ad3d8dbad7b1398d52359e9243a20e2ebe35e33726dee945125ef7a515e9097d8a1b910ba2bbd818265a2f6c39879
@@ -40485,6 +40661,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"tseep@npm:^1.3.1":
+  version: 1.3.1
+  resolution: "tseep@npm:1.3.1"
+  checksum: 10/70c14d10c188b13aad08586a00fb1eda216f412e4e8d310666883052bc076dfe403ae53fe251ef34b22aac5df06435e0675ee08c869cc0f1919274c529985f68
+  languageName: node
+  linkType: hard
+
 "tslib@npm:1.9.3":
   version: 1.9.3
   resolution: "tslib@npm:1.9.3"
@@ -40771,6 +40954,17 @@ __metadata:
   languageName: node
   linkType: hard
 
+"type-is@npm:^2.1.0":
+  version: 2.1.0
+  resolution: "type-is@npm:2.1.0"
+  dependencies:
+    content-type: "npm:^2.0.0"
+    media-typer: "npm:^1.1.0"
+    mime-types: "npm:^3.0.0"
+  checksum: 10/f011885fefb6c6882f36fab89cc596596b96eab1d208a3774628537cad7ce1f91232a6d758115e1a6ed03f0f8c21e9654bb6d280a5c6827ff72a35f6df0fa182
+  languageName: node
+  linkType: hard
+
 "typed-array-buffer@npm:^1.0.3":
   version: 1.0.3
   resolution: "typed-array-buffer@npm:1.0.3"
@@ -40866,6 +41060,13 @@ __metadata:
     tsc: bin/tsc
     tsserver: bin/tsserver
   checksum: 10/c93786fcc9a70718ba1e3819bab56064ead5817004d1b8186f8ca66165f3a2d0100fee91fa64c840dcd45f994ca5d615d8e1f566d39a7470fc1e014dbb4cf15d
+  languageName: node
+  linkType: hard
+
+"uWebSockets.js@github:uNetworking/uWebSockets.js#v20.71.0":
+  version: 20.71.0
+  resolution: "uWebSockets.js@https://github.com/uNetworking/uWebSockets.js.git#commit=9ec36de7709996c58dce03d63796216c90a17136"
+  checksum: 10/12784c125a0029c2cf60fa9bd7bc93e6b5db12b3eff5f1abda2f81f73843a424c6dd2388b1366ab9178b46f1174f4b57ac0f7b50977b52a37b0cf65d26023397
   languageName: node
   linkType: hard
 
