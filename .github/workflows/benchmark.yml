@@ -25,13 +25,16 @@ on:
         default: "5"
   pull_request:
     types: [labeled]
+  # TEMP: first CI run before the merge (workflow_dispatch needs the workflow on production). Remove before merging.
+  push:
+    branches: [feat/http-benchmarks]
 
 permissions:
   contents: read
 
 jobs:
   benchmark:
-    if: github.event_name == 'workflow_dispatch' || github.event.label.name == 'benchmark'
+    if: github.event_name == 'workflow_dispatch' || github.event_name == 'push' || github.event.label.name == 'benchmark'
     # at the job level, so that adding another label to the PR does not cancel a running benchmark
     concurrency:
       group: benchmark-${{ github.event.pull_request.number || github.ref }}
@@ -65,7 +68,9 @@ jobs:
           EVENT: ${{ github.event_name }}
           INPUT_TARGETS: ${{ inputs.targets }}
         run: |
-          if [ "$EVENT" = "pull_request" ]; then
+          if [ "$EVENT" = "push" ]; then
+            targets="8.44.1,8.44.12" # TEMP: see the push trigger
+          elif [ "$EVENT" = "pull_request" ]; then
             targets="local-base,local-head"
           elif [ -n "$INPUT_TARGETS" ]; then
             targets="$INPUT_TARGETS"
