@@ -73,8 +73,14 @@ async function publishedPackages(names, version) {
       try {
         const {stdout} = await exec("npm", ["view", `${name}@${version}`, "version", "--json"]);
         return stdout.trim() ? name : null;
-      } catch {
-        return null;
+      } catch (error) {
+        // only a missing package means "not published": a network or registry error must stop the run,
+        // otherwise npm would resolve the package from a peer range at another version
+        if (`${error.stdout}${error.stderr}`.includes("E404")) {
+          return null;
+        }
+
+        throw error;
       }
     })
   );

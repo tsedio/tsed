@@ -88,5 +88,5 @@
     }
   },
   "include": ["**/vite.*.mts", "vitest.*.mts", "**/vitest.*.mts", "**/*.ts"],
-  "exclude": ["dist", "**/lib/**", "**/generate_code/**", "**/docs/**", "**/generated/**"]
+  "exclude": ["dist", "**/lib/**", "**/generate_code/**", "**/docs/**", "**/generated/**", "tools/benchmarks"]
 }

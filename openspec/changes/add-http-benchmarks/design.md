@@ -32,7 +32,7 @@ Each target gets its own directory `tools/benchmarks/.targets/<target>/` with a 
 
 Third-party dependencies (`express`, `koa`, `fastify`, `body-parser`, `koa-bodyparser`, `@fastify/*`, `ajv`) are pinned in one shared list and written into every target, so only Ts.ED differs.
 
-_Alternatives_: running the sources of two git worktrees (needs a full install and build per version, and is not what users run); comparing `lib/` folders directly (no transitive version control). Installing from npm makes the "per version" comparison free: no build for published versions.
+_Alternatives_: running the sources of two git worktrees (needs a full install and build per version, and is not what users run); comparing `lib/` folders directly (no transitive version control). Installing from npm makes the "per version" comparison cheap: published versions are not built (only the checkout is built once, because the bench app is compiled against the workspace types).
 
 The list of `@tsed/*` packages to pack for `local` is the dependency closure of the three platform packages plus `@tsed/ajv`, computed from the workspace graph.
 
