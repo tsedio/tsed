@@ -13096,9 +13096,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@tsed/monorepo-utils@npm:3.3.3":
-  version: 3.3.3
-  resolution: "@tsed/monorepo-utils@npm:3.3.3"
+"@tsed/monorepo-utils@npm:3.3.4":
+  version: 3.3.4
+  resolution: "@tsed/monorepo-utils@npm:3.3.4"
   dependencies:
     "@samverschueren/stream-to-observable": "npm:>=0.3.1"
     "@typescript-eslint/typescript-estree": "npm:>=6.20.0"
@@ -13126,7 +13126,7 @@ __metadata:
     semantic-release: ">=19"
   bin:
     monorepo: bin/monorepo.js
-  checksum: 10/cc9c6ffec8d29e4ca8e66a8a43e1679320ace7f3e877a0a136cf1930debc2742f8622a4dc086a66bba3ce5da2530d773c55fd99e7fd3d0d49a7fe9c139980da5
+  checksum: 10/43ffcd105ac71931d871648b82d6d10680d5ab1641c8efecdc6d39676dc80dd667b3e1de1abfc7f4fdd5317e9359da65374ed83e3c4818e551111c8c931b9385
   languageName: node
   linkType: hard
 
@@ -14179,7 +14179,7 @@ __metadata:
     "@swc/core": "npm:1.7.28"
     "@swc/helpers": "npm:0.5.13"
     "@tsed/logger": "npm:^8.0.0"
-    "@tsed/monorepo-utils": "npm:3.3.3"
+    "@tsed/monorepo-utils": "npm:3.3.4"
     "@tsed/ts-doc": "npm:5.0.0"
     "@types/axios": "npm:0.14.0"
     "@types/globby": "npm:9.1.0"
@@ -17120,26 +17120,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"any-observable@npm:>=0.5.1":
-  version: 0.5.1
-  resolution: "any-observable@npm:0.5.1"
-  peerDependenciesMeta:
-    rxjs:
-      optional: true
-    zen-observable:
-      optional: true
-  checksum: 10/d1f6d97fb469a666ad5945ccf396d0dbb6cf7337f882d425cfe3d2a937e62dbaaf44b7139de51af251a5a42c279bdd46afe388a88765ba3c00f1789917bca164
-  languageName: node
-  linkType: hard
-
-"any-observable@npm:^0.3.0":
-  version: 0.3.0
-  resolution: "any-observable@npm:0.3.0"
-  checksum: 10/21f27ed714c54aac6db4c1200674933f93416b832433cd14e5071db53f7d480de66a4c529181655dee52371be7f73ebeb0880b02a95571d70152fd6b226c11e9
-  languageName: node
-  linkType: hard
-
-"any-observable@npm:^0.6.0":
+"any-observable@npm:>=0.5.1, any-observable@npm:^0.6.0":
   version: 0.6.0
   resolution: "any-observable@npm:0.6.0"
   peerDependenciesMeta:
@@ -17148,6 +17129,13 @@ __metadata:
     zen-observable:
       optional: true
   checksum: 10/e2f8b17d02d59645e5de82ab00fc7c2d4491836ecb9a3e5557da28657d1a4e9ab8fc7204041915bd5045d2a5dc447f98349a6069d631e89e8f912da7f2b22bae
+  languageName: node
+  linkType: hard
+
+"any-observable@npm:^0.3.0":
+  version: 0.3.0
+  resolution: "any-observable@npm:0.3.0"
+  checksum: 10/21f27ed714c54aac6db4c1200674933f93416b832433cd14e5071db53f7d480de66a4c529181655dee52371be7f73ebeb0880b02a95571d70152fd6b226c11e9
   languageName: node
   linkType: hard
 
