@@ -98,6 +98,7 @@
     "build:references": "node ./tools/typescript",
     "bench": "yarn workspace @tsed/benchmarks bench",
     "bench:compare": "yarn workspace @tsed/benchmarks bench compare",
+    "bench:publish": "yarn workspace @tsed/benchmarks bench:publish",
     "sync:packages": "monorepo sync packages",
     "api:build": "rm -rf ./docs/api && yarn tsc -b && tsdoc",
     "api:build:dev": "npx -p chokidar-cli chokidar \"docs/.templates/**/*.{js,ejs}\" -c \"tsdoc\"",

@@ -125,3 +125,49 @@ jobs:
           path: bench-results
           retention-days: 90
           if-no-files-found: ignore
+
+  # Pushes the results to the Ts.ED CMS (Directus, benchmark_runs / benchmark_results).
+  # A separate job: the measuring job runs the code of the pull request and must never get the token.
+  # This one only runs trusted code: tools/benchmarks of the base commit (pull request) or of the dispatched commit.
+  publish:
+    needs: benchmark
+    # also after a failed response check (the run is stored as failed), not when the benchmark was skipped or cancelled
+    if: always() && (needs.benchmark.result == 'success' || needs.benchmark.result == 'failure')
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: Checkout the publish command
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.base.sha || github.sha }}
+          sparse-checkout: tools/benchmarks/src
+          persist-credentials: false
+
+      - name: Use Node.js 24.18.0
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24.18.0
+
+      - name: Download the results
+        uses: actions/download-artifact@v4
+        continue-on-error: true
+        with:
+          name: benchmark-results
+          path: bench-results
+
+      - name: Publish the results to the Ts.ED CMS
+        env:
+          # empty on pull requests from forks: the command then skips publishing
+          DIRECTUS_TOKEN: ${{ secrets.DIRECTUS_TOKEN }}
+          DIRECTUS_URL: ${{ vars.DIRECTUS_URL || 'https://api.tsed.dev' }}
+        run: |
+          if [ ! -f bench-results/results.json ]; then
+            echo "::notice::No results.json: nothing to publish."
+            exit 0
+          fi
+          if [ ! -f tools/benchmarks/src/publish.mjs ]; then
+            echo "::notice::The checked out commit has no publish command yet: nothing published."
+            exit 0
+          fi
+          node tools/benchmarks/src/publish.mjs bench-results/results.json
