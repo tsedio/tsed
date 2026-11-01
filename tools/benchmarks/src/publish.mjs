@@ -158,6 +158,10 @@ export function readGithubContext(env = process.env, event = {}) {
   const runUrl = env.GITHUB_RUN_ID ? `${env.GITHUB_SERVER_URL}/${env.GITHUB_REPOSITORY}/actions/runs/${env.GITHUB_RUN_ID}` : null;
   const pullRequest = event.pull_request;
 
+  if (event.release) {
+    return {trigger: "release", ref: event.release.tag_name, sha: env.GITHUB_SHA, title: `Release ${event.release.tag_name}`, runUrl};
+  }
+
   if (pullRequest) {
     return {
       trigger: env.GITHUB_EVENT_NAME,
