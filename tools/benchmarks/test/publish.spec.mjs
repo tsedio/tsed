@@ -166,6 +166,18 @@ describe("publish", () => {
       );
     });
 
+    it("should describe a release run with its tag", () => {
+      const event = {release: {tag_name: "v8.45.0", prerelease: false}};
+
+      expect(readGithubContext({...env, GITHUB_EVENT_NAME: "release", GITHUB_SHA: "tag-sha", GITHUB_REF_NAME: "v8.45.0"}, event)).toEqual({
+        trigger: "release",
+        ref: "v8.45.0",
+        sha: "tag-sha",
+        title: "Release v8.45.0",
+        runUrl: "https://github.com/tsedio/tsed/actions/runs/42"
+      });
+    });
+
     it("should be a local run outside GitHub Actions", () => {
       expect(readGithubContext({}, {})).toEqual({trigger: "local"});
     });

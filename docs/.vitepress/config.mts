@@ -493,6 +493,8 @@ export default defineConfig({
     apiRedirectUrl: "",
     repo: "tsedio/tsed",
     githubProxyUrl: "https://api.tsed.dev/rest/github/tsedio/tsed",
+    // latest release benchmarked against the reference version (docs/benchmarks)
+    benchmarksUrl: process.env.BENCHMARKS_URL || "https://api.tsed.dev/rest/benchmarks",
     editLink: {
       pattern: "https://github.com/tsedio/tsed/edit/production/docs/:path"
     },

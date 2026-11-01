@@ -10,10 +10,14 @@ import HomeTabTerminalYarn from "@tsed/vitepress-theme/organisms/home/terminal/H
 import HomeBeforeFeatures from "@tsed/vitepress-theme/organisms/home/HomeBeforeFeatures.vue";
 import type {Theme} from "vitepress";
 import {h} from "vue";
+import Benchmarks from "./benchmarks/Benchmarks.vue";
 import "./style.css";
 
 export default {
   extends: DefaultTheme,
+  enhanceApp({app}) {
+    app.component("Benchmarks", Benchmarks);
+  },
   Layout: () => {
     return h(DefaultTheme.Layout, null, {
       "doc-before": () => h(DocActions),
