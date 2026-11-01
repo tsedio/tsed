@@ -6,6 +6,7 @@
   "type": "module",
   "scripts": {
     "bench": "node ./src/cli.mjs",
+    "bench:publish": "node ./src/publish.mjs",
     "bench:app": "tsc -p tsconfig.json",
     "test": "vitest run"
   },

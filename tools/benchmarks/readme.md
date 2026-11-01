@@ -43,6 +43,24 @@ The **Benchmark** workflow (`.github/workflows/benchmark.yml`) only runs on dema
 
 The report is appended to the job summary, and `results.json` is uploaded as the `benchmark-results` artifact.
 
+## History in the Ts.ED CMS
+
+The `publish` job of the workflow then pushes the run to the Ts.ED CMS (Directus, `https://api.tsed.dev`): one
+`benchmark_runs` item and one `benchmark_results` row per target, platform and route (medians, gaps against the baseline
+with their interval, share of the raw platform). The **Benchmarks** Insights dashboard of the CMS follows them over time.
+
+- The job runs `tools/benchmarks/src/publish.mjs` of the base commit (pull request) or of the dispatched commit, never the
+  code of the pull request, with the `DIRECTUS_TOKEN` organization secret. Its user needs the **Benchmark publisher** policy
+  of the CMS (create only).
+- Without the token (pull requests from forks), the job skips publishing.
+- `DIRECTUS_URL` (repository variable) overrides the CMS URL.
+
+To publish a local run (unpinned runs on macOS are noisy, keep it for tests):
+
+```bash
+DIRECTUS_URL=http://localhost:8055 DIRECTUS_TOKEN=<token> yarn bench:publish tools/benchmarks/results/<date>/results.json
+```
+
 ## What is measured
 
 The bench app (`app/`) uses the public API of Ts.ED v8 and exposes the same routes on every platform:
