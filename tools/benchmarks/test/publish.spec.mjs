@@ -123,6 +123,21 @@ describe("publish", () => {
       expect(run.raw_results.measurements).toHaveLength(6);
     });
 
+    it("should keep the missing intervals of a one-round run read from results.json", () => {
+      const results = fixture();
+      // a single round has no interval: NaN in memory, null once written to results.json
+      for (const comparison of results.comparisons) {
+        for (const summary of Object.values(comparison.metrics)) {
+          Object.assign(summary, {n: 1, low: NaN, high: NaN, significant: false});
+        }
+      }
+
+      const {report} = toRun(JSON.parse(JSON.stringify(results)));
+
+      expect(report).toContain("(1 round)");
+      expect(report).not.toContain("-100.0");
+    });
+
     it("should mark a run with a failed response check as failed", () => {
       const results = fixture();
       results.failures = [{target: "8.44.12", platform: "koa", errors: ["GET /hello: 500"]}];

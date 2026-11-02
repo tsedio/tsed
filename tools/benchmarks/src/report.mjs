@@ -20,7 +20,8 @@ export function formatGap(summary) {
 
   const gap = `${signed((summary.ratio - 1) * 100)}%`;
 
-  if (Number.isNaN(summary.low)) {
+  // NaN for a single round, null once the results went through results.json
+  if (!Number.isFinite(summary.low) || !Number.isFinite(summary.high)) {
     return `${gap} (1 round)`;
   }
 
