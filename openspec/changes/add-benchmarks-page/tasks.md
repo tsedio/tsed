@@ -14,6 +14,7 @@
 - [x] 3.1 Add the `Benchmarks` component and register it in the theme; add `benchmarksUrl` to the theme config
 - [x] 3.2 Add `docs/benchmarks/index.md`
 - [x] 3.3 Check the page against the local endpoint: light, dark, phone width, endpoint down
+- [x] 3.4 Link the page from the "Getting started" menu, after "Capabilities"
 
 ## 4. Verify
 

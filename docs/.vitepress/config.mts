@@ -26,6 +26,7 @@ const Introduction = [
       {text: "What is Ts.ED?", link: "/introduction/what-is-tsed"},
       {text: "What's new in v8?", link: "/introduction/what-is-news-v8"},
       {text: "Capabilities", link: "/introduction/capabilities"},
+      {text: "Benchmarks", link: "/benchmarks/"},
       {text: "Installation", link: "/introduction/getting-started"},
       {text: "Create your first controller", link: "/introduction/create-your-first-controller"},
       {text: "Develop with AI", link: "/introduction/ai/develop-with-ai"},
