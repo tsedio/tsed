@@ -7,7 +7,7 @@ The benchmark history now lives in the Ts.ED CMS (`publish-benchmarks-to-directu
 - **Benchmark workflow** (Ts.ED repo): a run after each stable release (`release: published`, prereleases excluded) comparing the reference `8.44.1` with the released version, published to the CMS with the trigger `release`. The reference is a workflow constant.
 - **Publish command**: reads the `release` event (tag, release URL) into the run context.
 - **CMS** (`tsed-api-directus`): `release` added to the `benchmark_runs.trigger` choices, and a read-only `GET /rest/benchmarks` endpoint in the `tsed-rest` extension, like `/rest/warehouse`. It answers the latest successful `release` run, reduced to what the page shows, with a cache header.
-- **Website** (`docs/`): a dedicated `/benchmarks` page with a `Benchmarks` Vue component that fetches the endpoint and draws, per platform, req/s of the raw framework, of 8.44.1 and of the latest release on `GET /hello`, the gap of the latest release against 8.44.1 per route with its 95% interval, and the run context (date, machine, rounds). Not linked from the main nav yet.
+- **Website** (`docs/`): a dedicated `/benchmarks` page with a `Benchmarks` Vue component that fetches the endpoint and draws, per platform, req/s of the raw framework, of 8.44.1 and of the latest release on `GET /hello`, the gap of the latest release against 8.44.1 per route with its 95% interval, and the run context (date, machine, rounds). Linked from the "Getting started" menu, after "Capabilities".
 
 ## Capabilities
 
