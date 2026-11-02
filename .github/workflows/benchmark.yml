@@ -93,22 +93,30 @@ jobs:
           echo "targets=$targets" >> "$GITHUB_OUTPUT"
           echo "Targets: $targets"
 
-      # the release event can arrive before the packages are visible on the npm registry
-      - name: Wait for the released version on npm
+      # the release event can arrive before the packages are visible on the npm registry, and a release can stop halfway:
+      # wait for every package the bench app installs (their @tsed/* dependencies come with them, an install fails without them)
+      - name: Wait for the released packages on npm
         if: github.event_name == 'release'
         env:
           RELEASE_TAG: ${{ github.event.release.tag_name }}
         run: |
           version="${RELEASE_TAG#v}"
+          packages="@tsed/core $(node --input-type=module -e "import {ROOT_PACKAGES} from './head/tools/benchmarks/src/deps.mjs'; console.log(ROOT_PACKAGES.join(' '))")"
           for attempt in $(seq 1 20); do
-            if [ "$(npm view "@tsed/core@$version" version 2>/dev/null)" = "$version" ]; then
-              echo "@tsed/core@$version is available"
+            missing=""
+            for package in $packages; do
+              if [ "$(npm view "$package@$version" version 2>/dev/null)" != "$version" ]; then
+                missing="$missing $package"
+              fi
+            done
+            if [ -z "$missing" ]; then
+              echo "Available on npm in $version: $packages"
               exit 0
             fi
-            echo "@tsed/core@$version is not on npm yet ($attempt/20)"
+            echo "Not on npm yet in $version:$missing ($attempt/20)"
             sleep 30
           done
-          echo "::error::@tsed/core@$version is still missing from npm after 10 minutes"
+          echo "::error::Still missing from npm in $version after 10 minutes:$missing"
           exit 1
 
       # always built: the bench app is compiled against the types of the workspace packages (lib/types)

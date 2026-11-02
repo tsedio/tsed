@@ -54,6 +54,8 @@ const signed = (value: number) => `${value >= 0 ? "+" : ""}${value.toFixed(1)}`;
 const formatGap = (gap: Gap) => (gap ? `${signed(gap.value)}%` : "–");
 const formatInterval = (gap: Gap) => (gap && gap.low !== null && gap.high !== null ? `[${signed(gap.low)}; ${signed(gap.high)}]` : "");
 const gapClass = (gap: Gap) => (!gap || !gap.significant ? "is-noise" : gap.value > 0 ? "is-better" : "is-worse");
+// said in text too, so the state does not rely on the color alone
+const isNoise = (gap: Gap) => Boolean(gap && !gap.significant);
 const share = (value: number | null, raw: number | null) => (value && raw ? `${Math.round((value / raw) * 100)}%` : "–");
 const width = (value: number | null, max: number) => `${value && max ? Math.max(2, (value / max) * 100) : 0}%`;
 
@@ -164,11 +166,11 @@ const best = computed(() => {
         requests per second, or less CPU time per request. A gap whose interval contains 0 is within the noise of the measurement.
       </p>
 
-      <div class="benchmarks-switch" role="tablist">
-        <button type="button" role="tab" :aria-selected="metric === 'rps'" :class="{active: metric === 'rps'}" @click="metric = 'rps'">
+      <div class="benchmarks-switch" role="group" aria-label="Metric">
+        <button type="button" :aria-pressed="metric === 'rps'" :class="{active: metric === 'rps'}" @click="metric = 'rps'">
           Requests per second
         </button>
-        <button type="button" role="tab" :aria-selected="metric === 'cpu'" :class="{active: metric === 'cpu'}" @click="metric = 'cpu'">
+        <button type="button" :aria-pressed="metric === 'cpu'" :class="{active: metric === 'cpu'}" @click="metric = 'cpu'">
           CPU per request
         </button>
       </div>
@@ -190,6 +192,7 @@ const best = computed(() => {
               <td v-for="platform in data.platforms" :key="platform.platform" :class="gapClass(cell(platform, route))">
                 <strong>{{ formatGap(cell(platform, route)) }}</strong>
                 <small>{{ formatInterval(cell(platform, route)) }}</small>
+                <small v-if="isNoise(cell(platform, route))">within noise</small>
               </td>
             </tr>
             <tr>
@@ -200,6 +203,7 @@ const best = computed(() => {
               <td v-for="platform in data.platforms" :key="platform.platform" :class="gapClass(platform.startup.gap)">
                 <strong>{{ formatGap(platform.startup.gap) }}</strong>
                 <small>{{ formatInterval(platform.startup.gap) }}</small>
+                <small v-if="isNoise(platform.startup.gap)">within noise</small>
               </td>
             </tr>
           </tbody>
