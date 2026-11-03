@@ -108,6 +108,7 @@ export class PlatformMcpGatewayService implements OnDestroy {
   protected async connect(upstream: PlatformMcpUpstreamSettings, entry: PoolEntry): Promise<PlatformMcpUpstreamConnection> {
     const {Client} = await import("@modelcontextprotocol/client");
     const transport = await createUpstreamTransport(upstream);
+    const label = upstream.type === "stdio" ? upstream.command : upstream.url;
     let catalog: Promise<PlatformMcpUpstreamCatalog> | undefined;
     const invalidate = () => {
       catalog = undefined;
@@ -148,11 +149,27 @@ export class PlatformMcpGatewayService implements OnDestroy {
     return {
       client,
       getCatalog: () => {
-        catalog ||= this.loadCatalog(client).catch((error) => {
-          catalog = undefined;
+        if (!catalog) {
+          const pending: Promise<PlatformMcpUpstreamCatalog> = this.loadCatalog(client, label).then(
+            ({catalog: loaded, complete}) => {
+              // an incomplete catalog is served once and listed again on the next request
+              if (!complete && catalog === pending) {
+                catalog = undefined;
+              }
 
-          throw error;
-        });
+              return loaded;
+            },
+            (error) => {
+              if (catalog === pending) {
+                catalog = undefined;
+              }
+
+              throw error;
+            }
+          );
+
+          catalog = pending;
+        }
 
         return catalog;
       },
@@ -169,17 +186,51 @@ export class PlatformMcpGatewayService implements OnDestroy {
     };
   }
 
-  protected async loadCatalog(client: Client): Promise<PlatformMcpUpstreamCatalog> {
+  /**
+   * Lists every catalog the upstream advertises.
+   *
+   * A listing that fails is logged and left empty so the others stay available: an upstream may advertise
+   * a capability it cannot serve (e.g. prompts without any prompt configured). The catalog is then flagged
+   * incomplete so the next request lists it again. It rejects only when every advertised listing fails.
+   */
+  protected async loadCatalog(client: Client, label: string): Promise<{catalog: PlatformMcpUpstreamCatalog; complete: boolean}> {
     const capabilities = client.getServerCapabilities() || {};
+    const listings = [
+      ["tools", capabilities.tools, (params: {cursor?: string}) => client.listTools(params)],
+      ["resources", capabilities.resources, (params: {cursor?: string}) => client.listResources(params)],
+      ["resourceTemplates", capabilities.resources, (params: {cursor?: string}) => client.listResourceTemplates(params)],
+      ["prompts", capabilities.prompts, (params: {cursor?: string}) => client.listPrompts(params)]
+    ] as const;
 
-    const [tools, resources, resourceTemplates, prompts] = await Promise.all([
-      listAll<Tool>(capabilities.tools, (params) => client.listTools(params), "tools"),
-      listAll<Resource>(capabilities.resources, (params) => client.listResources(params), "resources"),
-      listAll<ResourceTemplateType>(capabilities.resources, (params) => client.listResourceTemplates(params), "resourceTemplates"),
-      listAll<Prompt>(capabilities.prompts, (params) => client.listPrompts(params), "prompts")
-    ]);
+    const results = await Promise.allSettled(listings.map(([key, enabled, list]) => listAll(enabled, list, key)));
+    const failures = results.flatMap((result, index) =>
+      result.status === "rejected" ? [{key: listings[index][0], error: result.reason}] : []
+    );
+    const advertised = listings.filter(([, enabled]) => enabled).length;
 
-    return {tools, resources, resourceTemplates, prompts};
+    if (failures.length && failures.length === advertised) {
+      throw failures[0].error;
+    }
+
+    failures.forEach(({key, error}) => {
+      logger().warn({
+        event: "MCP_GATEWAY_CATALOG_ERROR",
+        message: `MCP upstream "${label}": unable to list ${key}, they are skipped.`,
+        error
+      });
+    });
+
+    const [tools, resources, resourceTemplates, prompts] = results.map((result) => (result.status === "fulfilled" ? result.value : []));
+
+    return {
+      catalog: {
+        tools: tools as Tool[],
+        resources: resources as Resource[],
+        resourceTemplates: resourceTemplates as ResourceTemplateType[],
+        prompts: prompts as Prompt[]
+      },
+      complete: !failures.length
+    };
   }
 
   protected getPool(upstream: PlatformMcpUpstreamSettings) {
