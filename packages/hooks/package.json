@@ -26,7 +26,7 @@
     "tslib": ">=2.7.0"
   },
   "devDependencies": {
-    "@tsed/monorepo-utils": "2.3.13",
+    "@tsed/monorepo-utils": "3.3.4",
     "@tsed/typescript": "workspace:*",
     "@tsed/vitest": "workspace:*",
     "typescript": "6.0.2",
