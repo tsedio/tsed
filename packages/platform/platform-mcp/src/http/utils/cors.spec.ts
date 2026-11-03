@@ -1,5 +1,5 @@
 import {PlatformTest} from "@tsed/platform-http/testing";
-import {getCorsHeaders, MCP_CORS_ALLOWED_HEADERS, MCP_CORS_EXPOSED_HEADERS, setCorsHeaders} from "./setCorsHeaders.js";
+import {cors, getCorsHeaders, MCP_CORS_ALLOWED_HEADERS, MCP_CORS_EXPOSED_HEADERS, preflight, setCorsHeaders} from "./cors.js";
 
 function createContext(method = "POST", headers: Record<string, string> = {}) {
   return PlatformTest.createRequestContext({
@@ -9,7 +9,7 @@ function createContext(method = "POST", headers: Record<string, string> = {}) {
   });
 }
 
-describe("setCorsHeaders", () => {
+describe("cors", () => {
   beforeEach(() => PlatformTest.create());
   afterEach(() => PlatformTest.reset());
 
@@ -84,6 +84,46 @@ describe("setCorsHeaders", () => {
       setCorsHeaders(undefined, $ctx);
 
       expect($ctx.response.setHeaders).not.toHaveBeenCalled();
+    });
+  });
+
+  describe("cors()", () => {
+    it("returns a handler that sets the CORS headers of the given option on each context", () => {
+      const handler = cors({origin: ["https://app.example.com"]});
+      const $ctx = createContext("POST", {origin: "https://app.example.com"});
+
+      vi.spyOn($ctx.response, "setHeaders").mockReturnThis();
+      vi.spyOn($ctx, "getRes").mockReturnValue({setHeader: vi.fn()} as never);
+
+      handler($ctx);
+
+      expect($ctx.response.setHeaders).toHaveBeenCalledWith({
+        "access-control-allow-origin": "https://app.example.com",
+        "access-control-expose-headers": MCP_CORS_EXPOSED_HEADERS,
+        vary: "Origin"
+      });
+    });
+
+    it("returns a handler that leaves the response untouched when CORS is disabled", () => {
+      const $ctx = createContext();
+
+      vi.spyOn($ctx.response, "setHeaders");
+
+      cors(undefined)($ctx);
+
+      expect($ctx.response.setHeaders).not.toHaveBeenCalled();
+    });
+  });
+
+  describe("preflight()", () => {
+    it("answers 204 without body", () => {
+      const $ctx = createContext("OPTIONS");
+      const status = vi.spyOn($ctx.response, "status").mockReturnThis();
+      const body = vi.spyOn($ctx.response, "body").mockReturnThis();
+
+      expect(preflight($ctx)).toBe($ctx.response);
+      expect(status).toHaveBeenCalledWith(204);
+      expect(body).toHaveBeenCalledWith(undefined);
     });
   });
 });

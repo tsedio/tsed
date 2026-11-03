@@ -85,3 +85,9 @@ export function setCorsHeaders(cors: boolean | PlatformMcpCorsSettings | undefin
 
   Object.entries(headers).forEach(([name, value]) => res?.setHeader?.(name, value));
 }
+
+export const cors = (cors: boolean | PlatformMcpCorsSettings | undefined) => ($ctx: PlatformContext) => setCorsHeaders(cors, $ctx);
+
+export function preflight($ctx: PlatformContext) {
+  return $ctx.response.status(204).body(undefined);
+}
