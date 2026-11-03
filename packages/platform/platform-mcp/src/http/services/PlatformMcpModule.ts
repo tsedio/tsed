@@ -7,6 +7,7 @@ import {useContextHandler} from "@tsed/platform-router";
 import {attachUpstream} from "../../common/utils/attachUpstream.js";
 import {hasUpstreamPlaceholders} from "../../common/utils/resolveUpstream.js";
 import {createMcpServer, type CreateMcpServerOpts, resolveMcpServerOptions} from "../../common/utils/createMcpServer.js";
+import {setCorsHeaders} from "../utils/setCorsHeaders.js";
 import {PlatformMcpAuthService} from "./PlatformMcpAuthService.js";
 
 /**
@@ -72,12 +73,19 @@ export class PlatformMcpModule implements OnRoutesInit {
       // the endpoint is stateless: there is no event stream to open nor session to delete
       this.app.get(
         path,
-        useContextHandler(($ctx) => this.methodNotAllowed($ctx as PlatformContext))
+        useContextHandler(($ctx) => this.methodNotAllowed(resolvedSettings, $ctx as PlatformContext))
       );
       this.app.delete(
         path,
-        useContextHandler(($ctx) => this.methodNotAllowed($ctx as PlatformContext))
+        useContextHandler(($ctx) => this.methodNotAllowed(resolvedSettings, $ctx as PlatformContext))
       );
+
+      if (opts.cors) {
+        this.app.options(
+          path,
+          useContextHandler(($ctx) => this.preflight(resolvedSettings, $ctx as PlatformContext))
+        );
+      }
     }
 
     this.loaded = true;
@@ -108,7 +116,9 @@ export class PlatformMcpModule implements OnRoutesInit {
    * Answers the methods of the Streamable HTTP transport that a stateless endpoint does not serve,
    * so MCP clients know there is no event stream instead of receiving the application's 404 page.
    */
-  protected methodNotAllowed($ctx: PlatformContext) {
+  protected methodNotAllowed(settings: CreateMcpServerOpts, $ctx: PlatformContext) {
+    setCorsHeaders(settings.cors, $ctx);
+
     return $ctx.response
       .status(405)
       .setHeaders({allow: "POST"})
@@ -130,9 +140,20 @@ export class PlatformMcpModule implements OnRoutesInit {
       .body(body);
   }
 
+  /**
+   * Answers the CORS preflight of a browser client.
+   */
+  protected preflight(settings: CreateMcpServerOpts, $ctx: PlatformContext) {
+    setCorsHeaders(settings.cors, $ctx);
+
+    return $ctx.response.status(204).body(undefined);
+  }
+
   protected async dispatch(settings: CreateMcpServerOpts, $ctx: PlatformContext) {
     const {auth} = settings;
     let authInfo: AuthInfo | undefined;
+
+    setCorsHeaders(settings.cors, $ctx);
 
     if (auth?.preAuth) {
       authInfo = await this.platformAuthService.preAuth(auth.preAuth, $ctx);
