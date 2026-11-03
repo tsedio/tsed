@@ -955,8 +955,9 @@ export class Server {}
 
 The endpoint then answers the preflight and adds the CORS headers to all its responses, the 401 challenge included,
 exposing `WWW-Authenticate`, `Mcp-Session-Id` and `Mcp-Protocol-Version`. With a list of origins, only a matching
-`Origin` is echoed back. The option is disabled by default, so an application that already runs its own CORS
-middleware keeps it.
+`Origin` is echoed back and `Origin` is added to the `Vary` header. The option is disabled by default, so an
+application that already runs its own CORS middleware keeps it. Do not combine both on the same endpoint: the option
+adds its headers but does not remove the ones set by another middleware.
 
 ::: tip
 If you also need a standalone CLI distribution that speaks MCP over `stdio` or standalone HTTP, use

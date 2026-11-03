@@ -1,5 +1,6 @@
 import {join} from "node:path";
 import type {AuthInfo, ServerContext} from "@modelcontextprotocol/server";
+import {Injectable} from "@tsed/di";
 import {Unauthorized} from "@tsed/exceptions";
 import type {PlatformContext} from "@tsed/platform-http";
 import {s} from "@tsed/schema";
@@ -74,6 +75,18 @@ const whoAmI = defineTool({
     return {clientId: authInfo?.clientId, scopes: authInfo?.scopes};
   }
 });
+
+/**
+ * Sets a `Vary` header before the endpoint runs, like an application middleware would, to check that CORS keeps it.
+ */
+@Injectable()
+class VaryHeaderHook {
+  $onRequest($ctx: PlatformContext) {
+    if ($ctx.request.url.startsWith("/mcp/cors-origins")) {
+      $ctx.response.setHeader("vary", "X-Tenant");
+    }
+  }
+}
 
 const stdioServer = join(rootDir, "../fixtures/stdio-upstream.mjs");
 
@@ -244,6 +257,7 @@ export function describeMcpGateway(name: string, adapter: unknown) {
           .set({Origin: origin, "Access-Control-Request-Method": "POST"});
 
         expect(allowed.headers["access-control-allow-origin"]).toBe(origin);
+        expect(allowed.headers.vary).toContain("X-Tenant");
         expect(allowed.headers.vary).toContain("Origin");
         expect(other.headers).not.toHaveProperty("access-control-allow-origin");
         expect(preflight.headers["access-control-max-age"]).toBe("60");
