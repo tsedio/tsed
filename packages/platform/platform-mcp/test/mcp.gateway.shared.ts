@@ -246,6 +246,7 @@ export function describeMcpGateway(name: string, adapter: unknown) {
         const response = await SuperTest(PlatformTest.callback()).get("/mcp/cors").set({Origin: origin, Accept: "text/event-stream"});
 
         expect(response.status).toBe(405);
+        expect(response.headers.allow).toBe("POST, OPTIONS");
         expect(response.headers["access-control-allow-origin"]).toBe("*");
       });
 
