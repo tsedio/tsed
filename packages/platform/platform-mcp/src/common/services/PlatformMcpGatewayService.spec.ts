@@ -163,12 +163,20 @@ describe("PlatformMcpGatewayService", () => {
       return clientTransport;
     });
 
-    const connection = await inject(PlatformMcpGatewayService).getConnection(createUpstream());
+    vi.spyOn(logger(), "warn").mockReturnValue(undefined as never);
+
+    const upstream = createUpstream({url: "https://user:secret@localhost/mcp?token=secret#hash"});
+    const connection = await inject(PlatformMcpGatewayService).getConnection(upstream);
 
     vi.spyOn(connection.client, "listTools").mockRejectedValueOnce(new Error("tools failed"));
     vi.spyOn(connection.client, "listPrompts").mockRejectedValueOnce(new Error("prompts failed"));
 
     await expect(connection.getCatalog()).rejects.toThrow("tools failed");
+    // every failure is logged, and the label carries no credential of the URL
+    expect(vi.mocked(logger().warn).mock.calls.map(([log]) => (log as any).message)).toEqual([
+      'MCP upstream "https://localhost/mcp": unable to list tools, they are skipped.',
+      'MCP upstream "https://localhost/mcp": unable to list prompts, they are skipped.'
+    ]);
   });
 
   it("refreshes the catalog when the upstream notifies a list change", async () => {

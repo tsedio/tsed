@@ -108,7 +108,7 @@ export class PlatformMcpGatewayService implements OnDestroy {
   protected async connect(upstream: PlatformMcpUpstreamSettings, entry: PoolEntry): Promise<PlatformMcpUpstreamConnection> {
     const {Client} = await import("@modelcontextprotocol/client");
     const transport = await createUpstreamTransport(upstream);
-    const label = upstream.type === "stdio" ? upstream.command : upstream.url;
+    const label = this.getLabel(upstream);
     let catalog: Promise<PlatformMcpUpstreamCatalog> | undefined;
     const invalidate = () => {
       catalog = undefined;
@@ -208,10 +208,6 @@ export class PlatformMcpGatewayService implements OnDestroy {
     );
     const advertised = listings.filter(([, enabled]) => enabled).length;
 
-    if (failures.length && failures.length === advertised) {
-      throw failures[0].error;
-    }
-
     failures.forEach(({key, error}) => {
       logger().warn({
         event: "MCP_GATEWAY_CATALOG_ERROR",
@@ -219,6 +215,10 @@ export class PlatformMcpGatewayService implements OnDestroy {
         error
       });
     });
+
+    if (failures.length && failures.length === advertised) {
+      throw failures[0].error;
+    }
 
     const [tools, resources, resourceTemplates, prompts] = results.map((result) => (result.status === "fulfilled" ? result.value : []));
 
@@ -231,6 +231,19 @@ export class PlatformMcpGatewayService implements OnDestroy {
       },
       complete: !failures.length
     };
+  }
+
+  /**
+   * Names the upstream in the logs without the credentials its URL may carry (userinfo, query, hash).
+   */
+  protected getLabel(upstream: PlatformMcpUpstreamSettings) {
+    if (upstream.type === "stdio") {
+      return upstream.command;
+    }
+
+    const {origin, pathname} = new URL(upstream.url);
+
+    return `${origin}${pathname}`;
   }
 
   protected getPool(upstream: PlatformMcpUpstreamSettings) {
