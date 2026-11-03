@@ -17,6 +17,16 @@ export const MCP_CORS_ALLOWED_HEADERS = "Authorization, Content-Type, Accept, Mc
 
 const DEFAULT_MAX_AGE = 600;
 
+function appendVary(vary: unknown) {
+  const values = [vary ?? []]
+    .flat()
+    .flatMap((value) => String(value).split(","))
+    .map((value) => value.trim())
+    .filter(Boolean);
+
+  return values.some((value) => value === "*" || value.toLowerCase() === "origin") ? values.join(", ") : [...values, "Origin"].join(", ");
+}
+
 function normalize(cors?: boolean | PlatformMcpCorsSettings): PlatformMcpCorsSettings | undefined {
   if (!cors) {
     return undefined;
@@ -28,7 +38,8 @@ function normalize(cors?: boolean | PlatformMcpCorsSettings): PlatformMcpCorsSet
 /**
  * Returns the CORS headers of a response of an MCP endpoint, or `undefined` when CORS is disabled.
  *
- * With a list of origins, the request origin is echoed back only when it belongs to the list.
+ * With a list of origins, the request origin is echoed back only when it belongs to the list, and `Origin` is added
+ * to the `Vary` header already set on the response.
  *
  * @param cors `cors` option of the endpoint.
  * @param $ctx Context of the request.
@@ -48,7 +59,7 @@ export function getCorsHeaders(cors: boolean | PlatformMcpCorsSettings | undefin
   if (allowed === "*") {
     headers["access-control-allow-origin"] = "*";
   } else {
-    headers.vary = "Origin";
+    headers.vary = appendVary($ctx.response.get("vary"));
 
     if (origin && allowed.includes(origin)) {
       headers["access-control-allow-origin"] = origin;

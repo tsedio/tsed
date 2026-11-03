@@ -40,6 +40,20 @@ describe("cors", () => {
       expect(headers).toMatchObject({vary: "Origin"});
     });
 
+    it.each([
+      ["Accept-Encoding", "Accept-Encoding, Origin"],
+      [["Accept-Encoding", "Cookie"], "Accept-Encoding, Cookie, Origin"],
+      ["Accept-Encoding, origin", "Accept-Encoding, origin"],
+      ["*", "*"]
+    ])("adds Origin to the Vary header already set (%s)", (vary, expected) => {
+      const $ctx = createContext("POST", {origin: "https://app.example.com"});
+
+      vi.spyOn($ctx.response, "get").mockReturnValue(vary);
+
+      expect(getCorsHeaders({origin: ["https://app.example.com"]}, $ctx)).toMatchObject({vary: expected});
+      expect($ctx.response.get).toHaveBeenCalledWith("vary");
+    });
+
     it("adds the preflight headers to an OPTIONS request, allowing the requested headers", () => {
       const $ctx = createContext("OPTIONS", {origin: "https://app.example.com", "access-control-request-headers": "authorization"});
 
