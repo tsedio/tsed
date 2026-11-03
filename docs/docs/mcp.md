@@ -934,6 +934,30 @@ Then configure the inspector to use the `Streamable HTTP` transport with your se
 http://localhost:8083/mcp
 ```
 
+### Browser clients and CORS <Badge text="v8.45.0+" />
+
+The MCP Inspector, and any MCP client running in a browser, calls the endpoint from another origin. Without CORS
+headers, the browser hides the responses: on a protected endpoint, the client never reads the `WWW-Authenticate`
+challenge and cannot start the OAuth flow (the Inspector only shows a network error).
+
+Enable the `cors` option on the endpoint:
+
+```typescript
+@Configuration({
+  mcp: {
+    path: "/mcp",
+    cors: true // any origin
+    // or: cors: {origin: ["http://localhost:6274"], maxAge: 600}
+  }
+})
+export class Server {}
+```
+
+The endpoint then answers the preflight and adds the CORS headers to all its responses, the 401 challenge included,
+exposing `WWW-Authenticate`, `Mcp-Session-Id` and `Mcp-Protocol-Version`. With a list of origins, only a matching
+`Origin` is echoed back. The option is disabled by default, so an application that already runs its own CORS
+middleware keeps it.
+
 ::: tip
 If you also need a standalone CLI distribution that speaks MCP over `stdio` or standalone HTTP, use
 [`@tsed/cli-mcp`](https://cli.tsed.dev/guide/cli/mcp.html). The decorators and function helpers are designed to stay

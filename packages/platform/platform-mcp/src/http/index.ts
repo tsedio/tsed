@@ -4,3 +4,4 @@
 export * from "./exports.js";
 export * from "./services/PlatformMcpAuthService.js";
 export * from "./services/PlatformMcpModule.js";
+export * from "./utils/setCorsHeaders.js";

@@ -126,7 +126,7 @@ describe("PlatformMcpModule", () => {
       const setHeaders = vi.spyOn($ctx.response, "setHeaders").mockReturnThis();
       const body = vi.spyOn($ctx.response, "body").mockReturnThis();
 
-      module["methodNotAllowed"]($ctx);
+      module["methodNotAllowed"]({path: "/ai/mcp"} as never, $ctx);
 
       expect(status).toHaveBeenCalledWith(405);
       expect(setHeaders).toHaveBeenCalledWith({allow: "POST"});
