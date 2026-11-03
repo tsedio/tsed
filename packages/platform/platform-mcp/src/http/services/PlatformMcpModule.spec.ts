@@ -125,12 +125,90 @@ describe("PlatformMcpModule", () => {
       const status = vi.spyOn($ctx.response, "status").mockReturnThis();
       const setHeaders = vi.spyOn($ctx.response, "setHeaders").mockReturnThis();
       const body = vi.spyOn($ctx.response, "body").mockReturnThis();
+      const getHandler = vi.mocked(application().get).mock.calls[0][1] as unknown as (ctx: unknown) => unknown;
 
-      module["methodNotAllowed"]($ctx);
+      getHandler($ctx);
 
       expect(status).toHaveBeenCalledWith(405);
-      expect(setHeaders).toHaveBeenCalledWith({allow: "POST"});
+      expect(setHeaders).toHaveBeenCalledExactlyOnceWith({allow: "POST"});
       expect(body).toHaveBeenCalledWith({jsonrpc: "2.0", error: {code: -32000, message: "Method not allowed."}, id: null});
+    });
+
+    it("does not mount the preflight route when CORS is disabled", async () => {
+      const {module} = await createModule();
+      module["settings"] = {path: "/ai/mcp"};
+
+      vi.spyOn(application(), "post").mockReturnValue(undefined as never);
+      vi.spyOn(application(), "get").mockReturnValue(undefined as never);
+      vi.spyOn(application(), "delete").mockReturnValue(undefined as never);
+      vi.spyOn(application(), "options").mockReturnValue(undefined as never);
+
+      module.$onRoutesInit();
+
+      expect(application().options).not.toHaveBeenCalled();
+    });
+
+    it("adds the CORS headers on every route and answers the preflight when CORS is enabled", async () => {
+      const {module} = await createModule();
+      module["settings"] = {path: "/ai/mcp", cors: true};
+
+      vi.spyOn(application(), "post").mockReturnValue(undefined as never);
+      vi.spyOn(application(), "get").mockReturnValue(undefined as never);
+      vi.spyOn(application(), "delete").mockReturnValue(undefined as never);
+      vi.spyOn(application(), "options").mockReturnValue(undefined as never);
+
+      module.$onRoutesInit();
+
+      expect(application().options).toHaveBeenCalledExactlyOnceWith("/ai/mcp", expect.any(Function));
+
+      const handlers = {
+        get: vi.mocked(application().get).mock.calls[0][1],
+        delete: vi.mocked(application().delete).mock.calls[0][1],
+        options: vi.mocked(application().options).mock.calls[0][1]
+      } as unknown as Record<string, (ctx: unknown) => unknown>;
+
+      for (const [method, handler] of Object.entries(handlers)) {
+        const {$ctx, res} = createExpressContext();
+        const status = vi.spyOn($ctx.response, "status").mockReturnThis();
+        const setHeaders = vi.spyOn($ctx.response, "setHeaders").mockReturnThis();
+
+        vi.spyOn($ctx.response, "body").mockReturnThis();
+        (res as unknown as {setHeader: unknown}).setHeader = vi.fn();
+
+        handler($ctx);
+
+        expect(setHeaders).toHaveBeenCalledWith(expect.objectContaining({"access-control-allow-origin": "*"}));
+        expect(status).toHaveBeenCalledWith(method === "options" ? 204 : 405);
+
+        if (method !== "options") {
+          expect(setHeaders).toHaveBeenCalledWith({allow: "POST, OPTIONS"});
+        }
+      }
+    });
+
+    it("adds the CORS headers before dispatching the MCP request", async () => {
+      const {module} = await createModule();
+      module["settings"] = {path: "/ai/mcp", cors: true};
+
+      vi.spyOn(application(), "post").mockReturnValue(undefined as never);
+      vi.spyOn(application(), "get").mockReturnValue(undefined as never);
+      vi.spyOn(application(), "delete").mockReturnValue(undefined as never);
+      vi.spyOn(application(), "options").mockReturnValue(undefined as never);
+      const dispatch = vi.spyOn(module as any, "dispatch").mockResolvedValue(undefined);
+
+      module.$onRoutesInit();
+
+      const postHandler = vi.mocked(application().post).mock.calls[0][1] as unknown as (ctx: unknown) => Promise<unknown>;
+      const {$ctx, res} = createExpressContext();
+      const setHeaders = vi.spyOn($ctx.response, "setHeaders").mockReturnThis();
+
+      (res as unknown as {setHeader: unknown}).setHeader = vi.fn();
+
+      await postHandler($ctx);
+
+      expect(setHeaders).toHaveBeenCalledWith(expect.objectContaining({"access-control-allow-origin": "*"}));
+      expect(dispatch).toHaveBeenCalledWith(expect.objectContaining({path: "/ai/mcp", cors: true}), $ctx);
+      expect(setHeaders.mock.invocationCallOrder[0]).toBeLessThan(dispatch.mock.invocationCallOrder[0]);
     });
 
     it("should register the MCP route only once", async () => {

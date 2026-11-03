@@ -121,6 +121,64 @@ describe("PlatformMcpGatewayService", () => {
     expect(listTools).toHaveBeenCalledTimes(2);
   });
 
+  it("keeps the other listings when an advertised listing fails, and lists it again on the next request", async () => {
+    createUpstreamTransport.mockImplementation(async () => {
+      const [clientTransport, serverTransport] = InMemoryTransport.createLinkedPair();
+      const server = new McpServer({name: "upstream", version: "1.0.0"});
+
+      server.registerTool("first", {description: "First tool"}, () => ({content: []}));
+      server.registerPrompt("greet", {description: "Greet"}, () => ({messages: []}));
+
+      await server.connect(serverTransport);
+
+      return clientTransport;
+    });
+    vi.spyOn(logger(), "warn").mockReturnValue(undefined as never);
+
+    const connection = await inject(PlatformMcpGatewayService).getConnection(createUpstream());
+    const error = new Error("A prompts collection must be set in settings");
+    const listPrompts = vi.spyOn(connection.client, "listPrompts").mockRejectedValueOnce(error);
+
+    await expect(connection.getCatalog()).resolves.toMatchObject({tools: [{name: "first"}], prompts: []});
+    expect(logger().warn).toHaveBeenCalledWith({
+      event: "MCP_GATEWAY_CATALOG_ERROR",
+      message: 'MCP upstream "http://localhost/mcp": unable to list prompts, they are skipped.',
+      error
+    });
+
+    await expect(connection.getCatalog()).resolves.toMatchObject({tools: [{name: "first"}], prompts: [{name: "greet"}]});
+    expect(listPrompts).toHaveBeenCalledTimes(2);
+  });
+
+  it("rejects the catalog when every advertised listing fails", async () => {
+    createUpstreamTransport.mockImplementation(async () => {
+      const [clientTransport, serverTransport] = InMemoryTransport.createLinkedPair();
+      const server = new McpServer({name: "upstream", version: "1.0.0"});
+
+      server.registerTool("first", {description: "First tool"}, () => ({content: []}));
+      server.registerPrompt("greet", {description: "Greet"}, () => ({messages: []}));
+
+      await server.connect(serverTransport);
+
+      return clientTransport;
+    });
+
+    vi.spyOn(logger(), "warn").mockReturnValue(undefined as never);
+
+    const upstream = createUpstream({url: "https://user:secret@localhost/mcp?token=secret#hash"});
+    const connection = await inject(PlatformMcpGatewayService).getConnection(upstream);
+
+    vi.spyOn(connection.client, "listTools").mockRejectedValueOnce(new Error("tools failed"));
+    vi.spyOn(connection.client, "listPrompts").mockRejectedValueOnce(new Error("prompts failed"));
+
+    await expect(connection.getCatalog()).rejects.toThrow("tools failed");
+    // every failure is logged, and the label carries no credential of the URL
+    expect(vi.mocked(logger().warn).mock.calls.map(([log]) => (log as any).message)).toEqual([
+      'MCP upstream "https://localhost/mcp": unable to list tools, they are skipped.',
+      'MCP upstream "https://localhost/mcp": unable to list prompts, they are skipped.'
+    ]);
+  });
+
   it("refreshes the catalog when the upstream notifies a list change", async () => {
     const servers = mockUpstreamServers();
     const connection = await inject(PlatformMcpGatewayService).getConnection(createUpstream());

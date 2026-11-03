@@ -7,7 +7,9 @@ import {useContextHandler} from "@tsed/platform-router";
 import {attachUpstream} from "../../common/utils/attachUpstream.js";
 import {hasUpstreamPlaceholders} from "../../common/utils/resolveUpstream.js";
 import {createMcpServer, type CreateMcpServerOpts, resolveMcpServerOptions} from "../../common/utils/createMcpServer.js";
+import {cors, preflight} from "../utils/cors.js";
 import {PlatformMcpAuthService} from "./PlatformMcpAuthService.js";
+import {methodNotAllowed} from "../utils/methodNotAllowed.js";
 
 /**
  * Platform module that mounts the MCP HTTP endpoint and forwards requests to the configured server instance.
@@ -58,9 +60,15 @@ export class PlatformMcpModule implements OnRoutesInit {
         } as PlatformRouteDetails);
       }
 
+      const corsMiddleware = cors(resolvedSettings.cors);
+      const allow = opts.cors ? "POST, OPTIONS" : "POST";
+
       this.app.post(
         path,
-        useContextHandler(async ($ctx) => this.dispatch(resolvedSettings, $ctx as PlatformContext))
+        useContextHandler(async ($ctx) => {
+          corsMiddleware($ctx as PlatformContext);
+          return this.dispatch(resolvedSettings, $ctx as PlatformContext);
+        })
       );
 
       this.mcps.push({
@@ -72,12 +80,32 @@ export class PlatformMcpModule implements OnRoutesInit {
       // the endpoint is stateless: there is no event stream to open nor session to delete
       this.app.get(
         path,
-        useContextHandler(($ctx) => this.methodNotAllowed($ctx as PlatformContext))
+        useContextHandler(($ctx) => {
+          corsMiddleware($ctx as PlatformContext);
+
+          return methodNotAllowed($ctx as PlatformContext, allow);
+        })
       );
+
       this.app.delete(
         path,
-        useContextHandler(($ctx) => this.methodNotAllowed($ctx as PlatformContext))
+        useContextHandler(($ctx) => {
+          corsMiddleware($ctx as PlatformContext);
+
+          return methodNotAllowed($ctx as PlatformContext, allow);
+        })
       );
+
+      if (opts.cors) {
+        this.app.options(
+          path,
+          useContextHandler(($ctx) => {
+            corsMiddleware($ctx as PlatformContext);
+
+            return preflight($ctx as PlatformContext);
+          })
+        );
+      }
     }
 
     this.loaded = true;
@@ -102,17 +130,6 @@ export class PlatformMcpModule implements OnRoutesInit {
     if (opts.upstream && !opts.auth && hasUpstreamPlaceholders(opts.upstream)) {
       throw new Error(`MCP endpoint "${path}": the upstream uses \${OAUTH_*} placeholders but the endpoint declares no auth.`);
     }
-  }
-
-  /**
-   * Answers the methods of the Streamable HTTP transport that a stateless endpoint does not serve,
-   * so MCP clients know there is no event stream instead of receiving the application's 404 page.
-   */
-  protected methodNotAllowed($ctx: PlatformContext) {
-    return $ctx.response
-      .status(405)
-      .setHeaders({allow: "POST"})
-      .body({jsonrpc: "2.0", error: {code: -32000, message: "Method not allowed."}, id: null});
   }
 
   protected metadata(settings: CreateMcpServerOpts, $ctx: PlatformContext) {

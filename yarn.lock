@@ -12593,7 +12593,7 @@ __metadata:
   resolution: "@tsed/core@workspace:packages/core"
   dependencies:
     "@tsed/barrels": "workspace:*"
-    "@tsed/monorepo-utils": "npm:2.3.13"
+    "@tsed/monorepo-utils": "npm:3.3.4"
     "@tsed/typescript": "workspace:*"
     "@tsed/vitest": "workspace:*"
     reflect-metadata: "npm:^0.2.2"
@@ -12853,7 +12853,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@tsed/hooks@workspace:packages/hooks"
   dependencies:
-    "@tsed/monorepo-utils": "npm:2.3.13"
+    "@tsed/monorepo-utils": "npm:3.3.4"
     "@tsed/typescript": "workspace:*"
     "@tsed/vitest": "workspace:*"
     reflect-metadata: "npm:^0.2.2"
@@ -13062,39 +13062,6 @@ __metadata:
     mongoose: ">=6.0.0"
   languageName: unknown
   linkType: soft
-
-"@tsed/monorepo-utils@npm:2.3.13":
-  version: 2.3.13
-  resolution: "@tsed/monorepo-utils@npm:2.3.13"
-  dependencies:
-    "@samverschueren/stream-to-observable": "npm:>=0.3.1"
-    "@typescript-eslint/typescript-estree": "npm:>=6.20.0"
-    any-observable: "npm:>=0.5.1"
-    axios: "npm:>=1.6.7"
-    chalk: "npm:>=5.3.0"
-    commander: "npm:>=12.0.0"
-    execa: "npm:>=8.0.1"
-    fancy-log: "npm:>=1.3.3"
-    figures: "npm:>=3.2.0"
-    fs-extra: "npm:>=11.2.0"
-    globby: "npm:>=14.0.0"
-    has-yarn: "npm:>=3.0.0"
-    inquirer: "npm:>=9.2.13"
-    jsonfile: "npm:>=6.1.0"
-    listr2: "npm:>=8.0.2"
-    lodash: "npm:>=4.17.21"
-    normalize-path: "npm:>=3.0.0"
-    rxjs: "npm:>=7.8.1"
-    semver: "npm:>=7.5.4"
-    split: "npm:>=1.0.1"
-    typescript: "npm:>=5.3.3"
-  peerDependencies:
-    semantic-release: ">=19"
-  bin:
-    monorepo: bin/monorepo.js
-  checksum: 10/b5a6cf4dd214827b9885e7d967e2a41254ee2a65310b5246096be5ff49b75e2f90ce6d521e1ca4b55f010ef5a2897d417a471f5cf9aefb0680c7549717c4348e
-  languageName: node
-  linkType: hard
 
 "@tsed/monorepo-utils@npm:3.3.4":
   version: 3.3.4
@@ -14106,7 +14073,7 @@ __metadata:
     "@tsed/core": "workspace:*"
     "@tsed/di": "workspace:*"
     "@tsed/json-mapper": "workspace:*"
-    "@tsed/monorepo-utils": "npm:2.3.13"
+    "@tsed/monorepo-utils": "npm:3.3.4"
     "@tsed/schema": "workspace:*"
     "@tsed/typescript": "workspace:*"
     "@types/change-case": "npm:^2.3.1"
@@ -17120,7 +17087,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"any-observable@npm:>=0.5.1, any-observable@npm:^0.6.0":
+"any-observable@npm:^0.3.0":
+  version: 0.3.0
+  resolution: "any-observable@npm:0.3.0"
+  checksum: 10/21f27ed714c54aac6db4c1200674933f93416b832433cd14e5071db53f7d480de66a4c529181655dee52371be7f73ebeb0880b02a95571d70152fd6b226c11e9
+  languageName: node
+  linkType: hard
+
+"any-observable@npm:^0.6.0":
   version: 0.6.0
   resolution: "any-observable@npm:0.6.0"
   peerDependenciesMeta:
@@ -17129,13 +17103,6 @@ __metadata:
     zen-observable:
       optional: true
   checksum: 10/e2f8b17d02d59645e5de82ab00fc7c2d4491836ecb9a3e5557da28657d1a4e9ab8fc7204041915bd5045d2a5dc447f98349a6069d631e89e8f912da7f2b22bae
-  languageName: node
-  linkType: hard
-
-"any-observable@npm:^0.3.0":
-  version: 0.3.0
-  resolution: "any-observable@npm:0.3.0"
-  checksum: 10/21f27ed714c54aac6db4c1200674933f93416b832433cd14e5071db53f7d480de66a4c529181655dee52371be7f73ebeb0880b02a95571d70152fd6b226c11e9
   languageName: node
   linkType: hard
 

@@ -1,5 +1,6 @@
 import {join} from "node:path";
 import type {AuthInfo, ServerContext} from "@modelcontextprotocol/server";
+import {Injectable} from "@tsed/di";
 import {Unauthorized} from "@tsed/exceptions";
 import type {PlatformContext} from "@tsed/platform-http";
 import {s} from "@tsed/schema";
@@ -75,6 +76,18 @@ const whoAmI = defineTool({
   }
 });
 
+/**
+ * Sets a `Vary` header before the endpoint runs, like an application middleware would, to check that CORS keeps it.
+ */
+@Injectable()
+class VaryHeaderHook {
+  $onRequest($ctx: PlatformContext) {
+    if ($ctx.request.url.startsWith("/mcp/cors-origins")) {
+      $ctx.response.setHeader("vary", "X-Tenant");
+    }
+  }
+}
+
 const stdioServer = join(rootDir, "../fixtures/stdio-upstream.mjs");
 
 function send(path: string, method: string, params: Record<string, unknown> = {}, token?: string) {
@@ -148,6 +161,18 @@ export function describeMcpGateway(name: string, adapter: unknown) {
             upstream: {type: "http", url: upstream.url, headers: {"X-OIDC-Token": "${OAUTH_TOKEN}"}}
           },
           {
+            path: "/mcp/cors",
+            auth: createAuth("/mcp/cors"),
+            tools: [whoAmI],
+            cors: true
+          },
+          {
+            path: "/mcp/cors-origins",
+            auth: createAuth("/mcp/cors-origins"),
+            tools: [whoAmI],
+            cors: {origin: ["https://inspector.example.com"], maxAge: 60}
+          },
+          {
             path: "/mcp/secured-stdio",
             auth: createAuth("/mcp/secured-stdio"),
             upstream: {
@@ -180,6 +205,73 @@ export function describeMcpGateway(name: string, adapter: unknown) {
           expect(response.headers.allow).toBe("POST");
           expect(response.body).toEqual({jsonrpc: "2.0", error: {code: -32000, message: "Method not allowed."}, id: null});
         }
+      });
+    });
+
+    describe("cors", () => {
+      const origin = "https://inspector.example.com";
+
+      it("answers the preflight of a browser client", async () => {
+        const response = await SuperTest(PlatformTest.callback()).options("/mcp/cors").set({
+          Origin: origin,
+          "Access-Control-Request-Method": "POST",
+          "Access-Control-Request-Headers": "authorization,content-type,mcp-protocol-version"
+        });
+
+        expect(response.status).toBe(204);
+        expect(response.headers["access-control-allow-origin"]).toBe("*");
+        expect(response.headers["access-control-allow-methods"]).toBe("GET, POST, DELETE, OPTIONS");
+        expect(response.headers["access-control-allow-headers"]).toBe("authorization,content-type,mcp-protocol-version");
+        expect(response.headers["access-control-max-age"]).toBe("600");
+      });
+
+      it("adds the CORS headers to the 401 challenge so a browser can read WWW-Authenticate", async () => {
+        const response = await send("/mcp/cors", "tools/list").set({Origin: origin});
+
+        expect(response.status).toBe(401);
+        expect(response.headers["www-authenticate"]).toContain("resource_metadata=");
+        expect(response.headers["access-control-allow-origin"]).toBe("*");
+        expect(response.headers["access-control-expose-headers"]).toBe("WWW-Authenticate, Mcp-Session-Id, Mcp-Protocol-Version");
+      });
+
+      it("adds the CORS headers to the MCP responses written by the transport", async () => {
+        const response = await send("/mcp/cors", "tools/call", {name: "who-am-i", arguments: {}}, "valid").set({Origin: origin});
+
+        expect(response.status).toBe(200);
+        expect(response.body.result.structuredContent).toEqual({clientId: "client", scopes: ["mcp:read", "mcp:write"]});
+        expect(response.headers["access-control-allow-origin"]).toBe("*");
+      });
+
+      it("adds the CORS headers to the 405 of unsupported methods", async () => {
+        const response = await SuperTest(PlatformTest.callback()).get("/mcp/cors").set({Origin: origin, Accept: "text/event-stream"});
+
+        expect(response.status).toBe(405);
+        expect(response.headers.allow).toBe("POST, OPTIONS");
+        expect(response.headers["access-control-allow-origin"]).toBe("*");
+      });
+
+      it("echoes an allowed origin only", async () => {
+        const allowed = await send("/mcp/cors-origins", "tools/list").set({Origin: origin});
+        const other = await send("/mcp/cors-origins", "tools/list").set({Origin: "https://evil.example.com"});
+        const preflight = await SuperTest(PlatformTest.callback())
+          .options("/mcp/cors-origins")
+          .set({Origin: origin, "Access-Control-Request-Method": "POST"});
+
+        expect(allowed.headers["access-control-allow-origin"]).toBe(origin);
+        expect(allowed.headers.vary).toContain("X-Tenant");
+        expect(allowed.headers.vary).toContain("Origin");
+        expect(other.headers).not.toHaveProperty("access-control-allow-origin");
+        expect(preflight.headers["access-control-max-age"]).toBe("60");
+        expect(preflight.headers["access-control-allow-headers"]).toBe(
+          "Authorization, Content-Type, Accept, Mcp-Protocol-Version, Mcp-Session-Id, Last-Event-ID"
+        );
+      });
+
+      it("leaves the endpoints without the cors option untouched", async () => {
+        const response = await send("/mcp/secured", "tools/list").set({Origin: origin});
+
+        expect(response.status).toBe(401);
+        expect(response.headers).not.toHaveProperty("access-control-allow-origin");
       });
     });
 
