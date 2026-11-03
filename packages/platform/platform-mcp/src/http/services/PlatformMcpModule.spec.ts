@@ -179,6 +179,10 @@ describe("PlatformMcpModule", () => {
 
         expect(setHeaders).toHaveBeenCalledWith(expect.objectContaining({"access-control-allow-origin": "*"}));
         expect(status).toHaveBeenCalledWith(method === "options" ? 204 : 405);
+
+        if (method !== "options") {
+          expect(setHeaders).toHaveBeenCalledWith({allow: "POST, OPTIONS"});
+        }
       }
     });
 

@@ -16,4 +16,16 @@ describe("methodNotAllowed()", () => {
     expect(setHeaders).toHaveBeenCalledWith({allow: "POST"});
     expect(body).toHaveBeenCalledWith({jsonrpc: "2.0", error: {code: -32000, message: "Method not allowed."}, id: null});
   });
+
+  it("lists the given methods in the Allow header", () => {
+    const $ctx = PlatformTest.createRequestContext();
+    const setHeaders = vi.spyOn($ctx.response, "setHeaders").mockReturnThis();
+
+    vi.spyOn($ctx.response, "status").mockReturnThis();
+    vi.spyOn($ctx.response, "body").mockReturnThis();
+
+    methodNotAllowed($ctx, "POST, OPTIONS");
+
+    expect(setHeaders).toHaveBeenCalledWith({allow: "POST, OPTIONS"});
+  });
 });

@@ -60,6 +60,9 @@ export class PlatformMcpModule implements OnRoutesInit {
         } as PlatformRouteDetails);
       }
 
+      const corsMiddleware = cors(resolvedSettings.cors);
+      const allow = opts.cors ? "POST, OPTIONS" : "POST";
+
       this.app.post(
         path,
         useContextHandler(async ($ctx) => {
@@ -74,15 +77,13 @@ export class PlatformMcpModule implements OnRoutesInit {
         url: path
       } as PlatformRouteDetails);
 
-      const corsMiddleware = cors(resolvedSettings.cors);
-
       // the endpoint is stateless: there is no event stream to open nor session to delete
       this.app.get(
         path,
         useContextHandler(($ctx) => {
           corsMiddleware($ctx as PlatformContext);
 
-          return methodNotAllowed($ctx as PlatformContext);
+          return methodNotAllowed($ctx as PlatformContext, allow);
         })
       );
 
@@ -91,7 +92,7 @@ export class PlatformMcpModule implements OnRoutesInit {
         useContextHandler(($ctx) => {
           corsMiddleware($ctx as PlatformContext);
 
-          return methodNotAllowed($ctx as PlatformContext);
+          return methodNotAllowed($ctx as PlatformContext, allow);
         })
       );
 
