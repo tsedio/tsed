@@ -254,6 +254,42 @@ describe("PlatformMcpGatewayService", () => {
       });
     });
 
+    it("runs a handler attached before the reconnection on the new connection", async () => {
+      mockUpstreamServers();
+
+      const service = inject(PlatformMcpGatewayService);
+      const upstream = createUpstream();
+      // two requests attached the same connection, the first one replaces it
+      const stale = await service.getConnection(upstream);
+
+      setSession(stale.client);
+
+      await stale.run((client) => (client === stale.client ? Promise.reject(sessionNotFound()) : Promise.resolve()));
+
+      const client = await stale.run((client) => Promise.resolve(client));
+
+      expect(client).not.toBe(stale.client);
+      expect(client).toBe((await service.getConnection(upstream)).client);
+      expect(createUpstreamTransport).toHaveBeenCalledTimes(2);
+    });
+
+    it("runs a handler on a new connection when its connection was evicted", async () => {
+      vi.useFakeTimers();
+      mockUpstreamServers();
+
+      const service = inject(PlatformMcpGatewayService);
+      const upstream = createUpstream({pool: {idleTimeout: 1000}});
+      const evicted = await service.getConnection(upstream, withHeaders(upstream, {authorization: "Bearer a"}));
+
+      vi.advanceTimersByTime(1001);
+      await service.getConnection(upstream, withHeaders(upstream, {authorization: "Bearer b"}));
+
+      const client = await evicted.run((client) => Promise.resolve(client));
+
+      expect(client).not.toBe(evicted.client);
+      expect(createUpstreamTransport).toHaveBeenCalledTimes(3);
+    });
+
     it("replays the request only once", async () => {
       mockUpstreamServers();
 

@@ -221,6 +221,12 @@ export class PlatformMcpGatewayService implements OnDestroy {
     fn: (client: Client) => Promise<T>,
     replay = true
   ): Promise<T> {
+    if (entry.client !== client) {
+      // the handler was attached before its connection was replaced (lost session) or closed (eviction)
+      client = (await this.getConnection(upstream, resolved)).client;
+      entry = this.getPool(upstream).get(this.getKey(resolved))!;
+    }
+
     entry.pending++;
 
     try {
@@ -235,9 +241,9 @@ export class PlatformMcpGatewayService implements OnDestroy {
     }
 
     // the upstream rejected the request without handling it: it can be replayed, once, on a new session
-    const connection = await this.reconnect(upstream, resolved, {client});
+    await this.reconnect(upstream, resolved, {client});
 
-    return this.run(upstream, resolved, this.getPool(upstream).get(this.getKey(resolved))!, connection.client, fn, false);
+    return this.run(upstream, resolved, entry, client, fn, false);
   }
 
   /**
