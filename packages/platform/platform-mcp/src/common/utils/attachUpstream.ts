@@ -7,6 +7,7 @@ import {
   type PlatformMcpUpstreamCatalog,
   type PlatformMcpUpstreamConnection
 } from "../services/PlatformMcpGatewayService.js";
+import {isUpstreamSessionLost} from "./isUpstreamSessionLost.js";
 import {resolveUpstream} from "./resolveUpstream.js";
 
 // upstream catalogs are stable objects: compile each schema once instead of on every request
@@ -177,7 +178,7 @@ async function getCatalog(upstream: PlatformMcpUpstreamSettings, resolved: Platf
   try {
     return {connection, catalog: await connection.getCatalog()};
   } catch (error) {
-    if (!gateway.isSessionLost(error, connection.client, transport)) {
+    if (!isUpstreamSessionLost(error, {transport})) {
       throw error;
     }
 
