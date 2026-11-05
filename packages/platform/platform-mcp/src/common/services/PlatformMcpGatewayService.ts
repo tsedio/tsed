@@ -107,6 +107,18 @@ export class PlatformMcpGatewayService implements OnDestroy {
     return this.getConnection(upstream, resolved);
   }
 
+  /**
+   * Tells whether a request failed because the upstream lost the session of the client: a `404` on its session,
+   * or the abort of a request still running when the client was closed for that reason.
+   *
+   * @param error Error thrown by the request.
+   * @param client Client which sent the request.
+   * @param transport Transport of the client read before the request: a closed client has none any more.
+   */
+  isSessionLost(error: unknown, client: Client, transport = client.transport): boolean {
+    return this.lostSessions.has(client) || isUpstreamSessionLost(error, {transport});
+  }
+
   async $onDestroy() {
     const entries = [...this.pools.values()].flatMap((pool) => [...pool.values()]);
 
@@ -260,7 +272,7 @@ export class PlatformMcpGatewayService implements OnDestroy {
     try {
       return await fn(client);
     } catch (error) {
-      if (!replay || !(isUpstreamSessionLost(error, {transport}) || this.lostSessions.has(client))) {
+      if (!replay || !this.isSessionLost(error, client, transport)) {
         throw error;
       }
     } finally {
