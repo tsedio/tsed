@@ -41,10 +41,12 @@
 - [x] 6.2 PR mode: check out the base branch into a second directory, install and build both, run with `local-base` and `local-head` in the same job
 - [x] 6.3 Append `report.md` to `$GITHUB_STEP_SUMMARY` and upload `results.json` as an artifact
 - [ ] 6.4 Create the `benchmark` label on the repository (manual step for a maintainer, documented)
+  - Not done at archive time: the label does not exist yet on tsedio/tsed.
 
 ## 7. Validation and docs
 
 - [x] 7.1 Run locally `yarn bench:compare 8.44.1 8.44.12` and `yarn bench:compare 8.44.12 local` on the three platforms and check the report
 - [ ] 7.2 Run the workflow by dispatch on the targets `8.44.1,8.44.12` and check that two consecutive runs give the same verdicts
+  - Partly checked at archive time: the push run (8.44.1 vs 8.44.12, 5 rounds) and the dispatch run of 8.44.1 to 8.44.13 (3 rounds) agree on 41 of the 50 verdicts of 8.44.12. The 9 others move between noise and significant, none turns a gain into a loss.
 - [x] 7.3 Document in the contributor docs how to run a benchmark locally and in CI, and how to read the report (interval, significance, why numbers from two runs are not compared)
 - [x] 7.4 `yarn test:lint` and `openspec validate add-http-benchmarks`
