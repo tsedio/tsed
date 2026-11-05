@@ -9,6 +9,18 @@ import {listAll} from "../utils/listAll.js";
 const DEFAULT_POOL_MAX = 100;
 const DEFAULT_IDLE_TIMEOUT = 300_000;
 const MAX_RETRY_DELAY = 30_000;
+// `SdkErrorCode` of the requests a closed client did not complete: running (aborted) or not sent yet
+const CLOSED_CLIENT_ERRORS = new Set<unknown>(["CONNECTION_CLOSED", "NOT_CONNECTED"]);
+
+/**
+ * The request was not completed because its client was closed. The SDK also rejects a request started on a
+ * client without transport with a plain `Error("Not connected")`, without code.
+ */
+function isClosedClientError(error: unknown) {
+  const {code, message} = (error || {}) as {code?: unknown; message?: unknown};
+
+  return CLOSED_CLIENT_ERRORS.has(code) || (code === undefined && message === "Not connected");
+}
 
 /**
  * Tools, resources and prompts advertised by an upstream MCP server.
@@ -109,14 +121,19 @@ export class PlatformMcpGatewayService implements OnDestroy {
 
   /**
    * Tells whether a request failed because the upstream lost the session of the client: a `404` on its session,
-   * or the abort of a request still running when the client was closed for that reason.
+   * or a request the client did not complete because it was closed for that reason. Any other error of such a
+   * client is not a lost session: the upstream may have handled the request.
    *
    * @param error Error thrown by the request.
    * @param client Client which sent the request.
    * @param transport Transport of the client read before the request: a closed client has none any more.
    */
   isSessionLost(error: unknown, client: Client, transport = client.transport): boolean {
-    return this.lostSessions.has(client) || isUpstreamSessionLost(error, {transport});
+    if (this.lostSessions.has(client) && isClosedClientError(error)) {
+      return true;
+    }
+
+    return isUpstreamSessionLost(error, {transport});
   }
 
   async $onDestroy() {
@@ -295,6 +312,7 @@ export class PlatformMcpGatewayService implements OnDestroy {
    */
   protected async loadCatalog(client: Client, label: string): Promise<{catalog: PlatformMcpUpstreamCatalog; complete: boolean}> {
     const capabilities = client.getServerCapabilities() || {};
+    const {transport} = client;
     const listings = [
       ["tools", capabilities.tools, (params: {cursor?: string}) => client.listTools(params)],
       ["resources", capabilities.resources, (params: {cursor?: string}) => client.listResources(params)],
@@ -307,6 +325,12 @@ export class PlatformMcpGatewayService implements OnDestroy {
       result.status === "rejected" ? [{key: listings[index][0], error: result.reason}] : []
     );
     const advertised = listings.filter(([, enabled]) => enabled).length;
+    const lost = failures.find(({error}) => this.isSessionLost(error, client, transport));
+
+    if (lost) {
+      // the other listings may have succeeded: the whole catalog is listed again on a new session
+      throw lost.error;
+    }
 
     failures.forEach(({key, error}) => {
       logger().warn({
