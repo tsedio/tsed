@@ -172,11 +172,13 @@ function registerCatalog(
 async function getCatalog(upstream: PlatformMcpUpstreamSettings, resolved: PlatformMcpUpstreamSettings) {
   const gateway = inject(PlatformMcpGatewayService);
   let connection = await gateway.getConnection(upstream, resolved);
+  // the client loses its transport once closed, by a concurrent request which saw the session lost
+  const {transport} = connection.client;
 
   try {
     return {connection, catalog: await connection.getCatalog()};
   } catch (error) {
-    if (!isUpstreamSessionLost(error, connection.client)) {
+    if (!isUpstreamSessionLost(error, {transport})) {
       throw error;
     }
 

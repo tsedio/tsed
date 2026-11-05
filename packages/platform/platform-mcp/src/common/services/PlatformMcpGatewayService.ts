@@ -58,6 +58,10 @@ interface PoolEntry {
  */
 export class PlatformMcpGatewayService implements OnDestroy {
   protected pools = new Map<PlatformMcpUpstreamSettings, Map<string, PoolEntry>>();
+  /**
+   * Clients closed because the upstream lost their session.
+   */
+  protected lostSessions = new WeakSet<Client>();
 
   /**
    * Returns the connection matching the resolved upstream definition, connecting lazily.
@@ -69,35 +73,7 @@ export class PlatformMcpGatewayService implements OnDestroy {
     upstream: PlatformMcpUpstreamSettings,
     resolved: PlatformMcpUpstreamSettings = upstream
   ): Promise<PlatformMcpUpstreamConnection> {
-    const pool = this.getPool(upstream);
-    const key = this.getKey(resolved);
-    const now = Date.now();
-    let entry = pool.get(key);
-
-    if (!entry) {
-      entry = {lastUsed: now, pending: 0, failures: 0, retryAt: 0};
-      pool.set(key, entry);
-    }
-
-    entry.lastUsed = now;
-    this.evict(upstream, pool, entry, now);
-
-    if (!entry.connection) {
-      if (entry.retryAt > now) {
-        return Promise.reject(entry.error);
-      }
-
-      entry.connection = this.connect(upstream, resolved, entry).catch((error) => {
-        entry.connection = undefined;
-        entry.failures++;
-        entry.error = error;
-        entry.retryAt = Date.now() + Math.min(1000 * 2 ** (entry.failures - 1), MAX_RETRY_DELAY);
-
-        throw error;
-      });
-    }
-
-    return entry.connection;
+    return this.acquire(upstream, resolved).connection;
   }
 
   /**
@@ -123,6 +99,8 @@ export class PlatformMcpGatewayService implements OnDestroy {
         message: `MCP upstream "${this.getLabel(resolved)}": the upstream lost the session, reconnecting.`
       });
 
+      // the requests still running on this client are aborted by the close: they are replayed too
+      this.lostSessions.add(stale.client);
       await this.close(entry);
     }
 
@@ -135,6 +113,44 @@ export class PlatformMcpGatewayService implements OnDestroy {
     this.pools.clear();
 
     await Promise.all(entries.map((entry) => this.close(entry)));
+  }
+
+  /**
+   * Returns the pool entry matching the resolved upstream definition and its connection, connecting lazily.
+   */
+  protected acquire(
+    upstream: PlatformMcpUpstreamSettings,
+    resolved: PlatformMcpUpstreamSettings
+  ): {entry: PoolEntry; connection: Promise<PlatformMcpUpstreamConnection>} {
+    const pool = this.getPool(upstream);
+    const key = this.getKey(resolved);
+    const now = Date.now();
+    let entry = pool.get(key);
+
+    if (!entry) {
+      entry = {lastUsed: now, pending: 0, failures: 0, retryAt: 0};
+      pool.set(key, entry);
+    }
+
+    entry.lastUsed = now;
+    this.evict(upstream, pool, entry, now);
+
+    if (!entry.connection) {
+      if (entry.retryAt > now) {
+        return {entry, connection: Promise.reject(entry.error)};
+      }
+
+      entry.connection = this.connect(upstream, resolved, entry).catch((error) => {
+        entry.connection = undefined;
+        entry.failures++;
+        entry.error = error;
+        entry.retryAt = Date.now() + Math.min(1000 * 2 ** (entry.failures - 1), MAX_RETRY_DELAY);
+
+        throw error;
+      });
+    }
+
+    return {entry, connection: entry.connection};
   }
 
   protected async connect(
@@ -223,16 +239,28 @@ export class PlatformMcpGatewayService implements OnDestroy {
   ): Promise<T> {
     if (entry.client !== client) {
       // the handler was attached before its connection was replaced (lost session) or closed (eviction)
-      client = (await this.getConnection(upstream, resolved)).client;
-      entry = this.getPool(upstream).get(this.getKey(resolved))!;
+      const acquired = this.acquire(upstream, resolved);
+
+      entry = acquired.entry;
+      // keeps the entry out of the eviction while it connects
+      entry.pending++;
+
+      try {
+        client = (await acquired.connection).client;
+      } finally {
+        entry.pending--;
+      }
     }
+
+    // the client loses its transport once closed, by a concurrent request which saw the session lost
+    const {transport} = client;
 
     entry.pending++;
 
     try {
       return await fn(client);
     } catch (error) {
-      if (!replay || !isUpstreamSessionLost(error, client)) {
+      if (!replay || !(isUpstreamSessionLost(error, {transport}) || this.lostSessions.has(client))) {
         throw error;
       }
     } finally {

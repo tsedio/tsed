@@ -254,6 +254,67 @@ describe("PlatformMcpGatewayService", () => {
       });
     });
 
+    it("replays a request failing after another one closed the connection", async () => {
+      mockUpstreamServers();
+
+      const service = inject(PlatformMcpGatewayService);
+      const stale = await service.getConnection(createUpstream());
+      const fast = (client: Client) => (client === stale.client ? Promise.reject(sessionNotFound()) : Promise.resolve(client));
+      // fails once the first request has closed the client, which then has no transport any more
+      const slow = (client: Client) =>
+        client === stale.client
+          ? new Promise<Client>((_, reject) => setTimeout(() => reject(sessionNotFound()), 20))
+          : Promise.resolve(client);
+
+      setSession(stale.client);
+
+      const [first, second] = await Promise.all([stale.run(fast), stale.run(slow)]);
+
+      expect(second).toBe(first);
+      expect(stale.client.transport).toBeUndefined();
+      expect(createUpstreamTransport).toHaveBeenCalledTimes(2);
+    });
+
+    it("replays a request aborted by the close of the connection whose session was lost", async () => {
+      const servers = mockUpstreamServers();
+      const service = inject(PlatformMcpGatewayService);
+      const upstream = createUpstream();
+      const stale = await service.getConnection(upstream);
+
+      servers[0].registerTool("slow", {description: "Never answers"}, () => new Promise<never>(() => {}));
+      setSession(stale.client);
+
+      const pending = stale.run((client) =>
+        client === stale.client ? client.callTool({name: "slow", arguments: {}}) : Promise.resolve(client)
+      );
+
+      await stale.run((client) => (client === stale.client ? Promise.reject(sessionNotFound()) : Promise.resolve(client)));
+
+      await expect(pending).resolves.toBe((await service.getConnection(upstream)).client);
+    });
+
+    it("keeps the connection of a handler out of the eviction while it reconnects", async () => {
+      vi.useFakeTimers();
+      mockUpstreamServers();
+
+      const service = inject(PlatformMcpGatewayService);
+      const upstream = createUpstream({pool: {max: 1}});
+      const evicted = await service.getConnection(upstream, withHeaders(upstream, {authorization: "Bearer a"}));
+
+      vi.advanceTimersByTime(10);
+      await service.getConnection(upstream, withHeaders(upstream, {authorization: "Bearer b"}));
+      vi.advanceTimersByTime(10);
+
+      const running = evicted.run((client) => Promise.resolve(client));
+      // the pool is full: the least recently used connections are evicted while the handler reconnects
+      await service.getConnection(upstream, withHeaders(upstream, {authorization: "Bearer c"}));
+
+      const client = await running;
+
+      expect(client).not.toBe(evicted.client);
+      expect((await service.getConnection(upstream, withHeaders(upstream, {authorization: "Bearer a"}))).client).toBe(client);
+    });
+
     it("runs a handler attached before the reconnection on the new connection", async () => {
       mockUpstreamServers();
 
