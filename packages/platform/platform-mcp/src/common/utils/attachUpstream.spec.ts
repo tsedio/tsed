@@ -332,7 +332,7 @@ describe("attachUpstream()", () => {
         // a concurrent request saw the session lost and closed the client
         (gateway as any).lostSessions.add(connection.client);
 
-        throw new Error("Not connected");
+        throw Object.assign(new Error("Connection closed"), {code: "CONNECTION_CLOSED"});
       });
 
       await attachUpstream(server as never, createSettings(http));

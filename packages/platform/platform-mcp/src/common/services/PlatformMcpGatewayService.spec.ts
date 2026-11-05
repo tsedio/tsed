@@ -293,6 +293,48 @@ describe("PlatformMcpGatewayService", () => {
       await expect(pending).resolves.toBe((await service.getConnection(upstream)).client);
     });
 
+    it("does not replay another error of a client closed because its session was lost", async () => {
+      mockUpstreamServers();
+
+      const stale = await inject(PlatformMcpGatewayService).getConnection(createUpstream());
+      const fast = (client: Client) => (client === stale.client ? Promise.reject(sessionNotFound()) : Promise.resolve(client));
+      // the upstream may have handled this request before failing: it must not run twice
+      const failing = vi.fn((client: Client) =>
+        client === stale.client
+          ? new Promise<Client>((_, reject) => setTimeout(() => reject(sessionNotFound(500)), 20))
+          : Promise.resolve(client)
+      );
+
+      setSession(stale.client);
+
+      const [, second] = await Promise.allSettled([stale.run(fast), stale.run(failing)]);
+
+      expect(second).toMatchObject({status: "rejected", reason: expect.objectContaining({status: 500})});
+      expect(failing).toHaveBeenCalledOnce();
+    });
+
+    it("rejects the catalog when a listing lost the session, even if the others succeed", async () => {
+      createUpstreamTransport.mockImplementation(async () => {
+        const [clientTransport, serverTransport] = InMemoryTransport.createLinkedPair();
+        const server = new McpServer({name: "upstream", version: "1.0.0"});
+
+        server.registerTool("first", {description: "First tool"}, () => ({content: []}));
+        server.registerPrompt("greet", {description: "Greet"}, () => ({messages: []}));
+
+        await server.connect(serverTransport);
+
+        return clientTransport;
+      });
+
+      const connection = await inject(PlatformMcpGatewayService).getConnection(createUpstream());
+
+      setSession(connection.client);
+      vi.spyOn(connection.client, "listPrompts").mockRejectedValueOnce(sessionNotFound());
+
+      await expect(connection.getCatalog()).rejects.toThrow("Session not found");
+      expect(logger().warn).not.toHaveBeenCalled();
+    });
+
     it("keeps the connection of a handler out of the eviction while it reconnects", async () => {
       vi.useFakeTimers();
       mockUpstreamServers();
