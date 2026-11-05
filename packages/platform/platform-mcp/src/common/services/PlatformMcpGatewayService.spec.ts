@@ -1,4 +1,4 @@
-import {InMemoryTransport} from "@modelcontextprotocol/client";
+import {type Client, InMemoryTransport, SdkErrorCode, SdkHttpError} from "@modelcontextprotocol/client";
 import {McpServer, ResourceTemplate} from "@modelcontextprotocol/server";
 import {DITest, inject, logger} from "@tsed/di";
 import type {PlatformMcpUpstreamSettings} from "../interfaces/PlatformMcpUpstreamSettings.js";
@@ -32,6 +32,26 @@ function mockUpstreamServers() {
   });
 
   return servers;
+}
+
+/**
+ * Session given by the upstream on initialize (Streamable HTTP), kept by the client on every request.
+ */
+function setSession(client: Client, sessionId = "upstream-session") {
+  (client.transport as {sessionId?: string}).sessionId = sessionId;
+}
+
+/**
+ * What the MCP client throws when the upstream no longer knows its session (restarted, closed the session).
+ */
+function sessionNotFound(status = 404) {
+  const text = '{"jsonrpc":"2.0","id":null,"error":{"code":-32001,"message":"Session not found"}}';
+
+  return new SdkHttpError(SdkErrorCode.ClientHttpNotImplemented, `Error POSTing to endpoint: ${text}`, {
+    status,
+    statusText: "Not Found",
+    text
+  });
 }
 
 describe("PlatformMcpGatewayService", () => {
@@ -202,6 +222,89 @@ describe("PlatformMcpGatewayService", () => {
 
     await vi.waitFor(async () => {
       expect(await service.getConnection(upstream)).not.toBe(first);
+    });
+  });
+
+  describe("when the upstream lost the session", () => {
+    beforeEach(() => {
+      vi.spyOn(logger(), "warn").mockReturnValue(undefined as never);
+    });
+
+    it("reconnects and replays the request", async () => {
+      mockUpstreamServers();
+
+      const service = inject(PlatformMcpGatewayService);
+      const upstream = createUpstream();
+      const stale = await service.getConnection(upstream);
+      const close = vi.spyOn(stale.client, "close");
+
+      setSession(stale.client);
+
+      const result = await stale.run((client) =>
+        client === stale.client ? Promise.reject(sessionNotFound()) : client.callTool({name: "first", arguments: {}})
+      );
+
+      expect(result).toEqual({content: []});
+      expect(close).toHaveBeenCalledOnce();
+      expect(createUpstreamTransport).toHaveBeenCalledTimes(2);
+      expect(await service.getConnection(upstream)).not.toBe(stale);
+      expect(logger().warn).toHaveBeenCalledWith({
+        event: "MCP_GATEWAY_SESSION_LOST",
+        message: 'MCP upstream "http://localhost/mcp": the upstream lost the session, reconnecting.'
+      });
+    });
+
+    it("replays the request only once", async () => {
+      mockUpstreamServers();
+
+      const connection = await inject(PlatformMcpGatewayService).getConnection(createUpstream());
+      const fn = vi.fn((client: Client) => {
+        setSession(client);
+
+        return Promise.reject(sessionNotFound());
+      });
+
+      setSession(connection.client);
+
+      await expect(connection.run(fn)).rejects.toThrow("Session not found");
+      expect(fn).toHaveBeenCalledTimes(2);
+      expect(createUpstreamTransport).toHaveBeenCalledTimes(2);
+    });
+
+    it("opens a single connection for the requests failing together", async () => {
+      mockUpstreamServers();
+
+      const service = inject(PlatformMcpGatewayService);
+      const upstream = createUpstream();
+      const stale = await service.getConnection(upstream);
+      const fn = (client: Client) => (client === stale.client ? Promise.reject(sessionNotFound()) : Promise.resolve(client));
+
+      setSession(stale.client);
+
+      const [first, second] = await Promise.all([stale.run(fn), stale.run(fn)]);
+
+      expect(first).toBe(second);
+      expect(createUpstreamTransport).toHaveBeenCalledTimes(2);
+    });
+
+    it("keeps the connection on another error", async () => {
+      mockUpstreamServers();
+
+      const connection = await inject(PlatformMcpGatewayService).getConnection(createUpstream());
+
+      setSession(connection.client);
+
+      await expect(connection.run(() => Promise.reject(sessionNotFound(500)))).rejects.toThrow("Session not found");
+      expect(createUpstreamTransport).toHaveBeenCalledOnce();
+    });
+
+    it("keeps the connection on a 404 of an upstream without session", async () => {
+      mockUpstreamServers();
+
+      const connection = await inject(PlatformMcpGatewayService).getConnection(createUpstream());
+
+      await expect(connection.run(() => Promise.reject(sessionNotFound()))).rejects.toThrow("Session not found");
+      expect(createUpstreamTransport).toHaveBeenCalledOnce();
     });
   });
 

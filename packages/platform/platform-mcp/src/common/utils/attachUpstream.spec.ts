@@ -41,7 +41,11 @@ function setup(catalog = createCatalog()) {
     readResource: vi.fn().mockResolvedValue({contents: []}),
     getPrompt: vi.fn().mockResolvedValue({messages: []})
   };
-  const connection = {client, getCatalog: vi.fn().mockResolvedValue(catalog), run: vi.fn((fn: () => unknown) => fn())};
+  const connection = {
+    client,
+    getCatalog: vi.fn().mockResolvedValue(catalog),
+    run: vi.fn((fn: (c: typeof client) => unknown) => fn(client))
+  };
   const server = {registerTool: vi.fn(), registerResource: vi.fn(), registerPrompt: vi.fn()};
   const getConnection = vi.spyOn(inject(PlatformMcpGatewayService), "getConnection").mockResolvedValue(connection as never);
 
@@ -267,6 +271,43 @@ describe("attachUpstream()", () => {
       await getHandler("registerPrompt", "plain")(createContext());
 
       expect(client.getPrompt).toHaveBeenCalledWith({name: "plain", arguments: undefined}, expect.anything());
+    });
+  });
+
+  describe("upstream which lost the session", () => {
+    it("reconnects to list the catalog and registers it on the new connection", async () => {
+      const {server, connection, getHandler} = setup();
+      const freshClient = {callTool: vi.fn().mockResolvedValue({content: [{type: "text", text: "fresh"}]})};
+      const fresh = {
+        client: freshClient,
+        getCatalog: vi.fn().mockResolvedValue(createCatalog()),
+        run: vi.fn((fn: (c: typeof freshClient) => unknown) => fn(freshClient))
+      };
+      const reconnect = vi.spyOn(inject(PlatformMcpGatewayService), "reconnect").mockResolvedValue(fresh as never);
+
+      Object.assign(connection.client, {transport: {sessionId: "upstream-session"}});
+      connection.getCatalog.mockRejectedValue(Object.assign(new Error("Session not found"), {status: 404}));
+
+      await attachUpstream(server as never, createSettings(http));
+
+      expect(reconnect).toHaveBeenCalledExactlyOnceWith(http, http, connection);
+      await expect(getHandler("registerTool", "echo")({message: "hi"}, createContext())).resolves.toEqual({
+        content: [{type: "text", text: "fresh"}]
+      });
+      expect(logger().error).not.toHaveBeenCalled();
+    });
+
+    it("does not reconnect on another catalog failure", async () => {
+      const {server, connection} = setup();
+      const reconnect = vi.spyOn(inject(PlatformMcpGatewayService), "reconnect");
+
+      Object.assign(connection.client, {transport: {sessionId: "upstream-session"}});
+      connection.getCatalog.mockRejectedValue(Object.assign(new Error("server error"), {status: 500}));
+
+      await attachUpstream(server as never, createSettings(http));
+
+      expect(reconnect).not.toHaveBeenCalled();
+      expect(server.registerTool).not.toHaveBeenCalled();
     });
   });
 
