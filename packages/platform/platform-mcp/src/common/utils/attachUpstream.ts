@@ -169,6 +169,10 @@ function registerCatalog(
     });
 }
 
+/**
+ * Returns the catalog of the upstream and the connection it was listed on, listing it again on a new connection
+ * when the upstream lost the session.
+ */
 async function getCatalog(upstream: PlatformMcpUpstreamSettings, resolved: PlatformMcpUpstreamSettings) {
   const gateway = inject(PlatformMcpGatewayService);
   let connection = await gateway.getConnection(upstream, resolved);

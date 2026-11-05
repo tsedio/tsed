@@ -208,6 +208,11 @@ export class PlatformMcpGatewayService implements OnDestroy {
     return {
       client,
       getCatalog: () => {
+        if (entry.client !== client) {
+          // the connection was replaced (lost session) or closed (eviction) after it was handed out
+          return this.getConnection(upstream, resolved).then((current) => current.getCatalog());
+        }
+
         if (!catalog) {
           const pending: Promise<PlatformMcpUpstreamCatalog> = this.track(client, () => this.loadCatalog(client, label)).then(
             ({catalog: loaded, complete}) => {
@@ -236,6 +241,10 @@ export class PlatformMcpGatewayService implements OnDestroy {
     };
   }
 
+  /**
+   * Runs `fn` with the current client of the entry, and replays it once on a new connection when the upstream
+   * lost the session.
+   */
   protected async run<T>(
     upstream: PlatformMcpUpstreamSettings,
     resolved: PlatformMcpUpstreamSettings,
@@ -428,6 +437,9 @@ export class PlatformMcpGatewayService implements OnDestroy {
     }
   }
 
+  /**
+   * Returns the requests running on the client and whether it was replaced.
+   */
   protected getClientState(client: Client) {
     let state = this.clients.get(client);
 
@@ -439,6 +451,9 @@ export class PlatformMcpGatewayService implements OnDestroy {
     return state;
   }
 
+  /**
+   * Removes the connection of the entry and closes its client right away (eviction, destroy).
+   */
   protected async close(entry: PoolEntry) {
     const {client} = entry;
 
@@ -448,6 +463,9 @@ export class PlatformMcpGatewayService implements OnDestroy {
     await this.closeClient(client);
   }
 
+  /**
+   * Closes the client, logging a failure instead of throwing it.
+   */
   protected async closeClient(client: Client | undefined) {
     try {
       await client?.close();
