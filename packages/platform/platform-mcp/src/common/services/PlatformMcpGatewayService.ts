@@ -9,18 +9,6 @@ import {listAll} from "../utils/listAll.js";
 const DEFAULT_POOL_MAX = 100;
 const DEFAULT_IDLE_TIMEOUT = 300_000;
 const MAX_RETRY_DELAY = 30_000;
-// `SdkErrorCode` of the requests a closed client did not complete: running (aborted) or not sent yet
-const CLOSED_CLIENT_ERRORS = new Set<unknown>(["CONNECTION_CLOSED", "NOT_CONNECTED"]);
-
-/**
- * The request was not completed because its client was closed. The SDK also rejects a request started on a
- * client without transport with a plain `Error("Not connected")`, without code.
- */
-function isClosedClientError(error: unknown) {
-  const {code, message} = (error || {}) as {code?: unknown; message?: unknown};
-
-  return CLOSED_CLIENT_ERRORS.has(code) || (code === undefined && message === "Not connected");
-}
 
 /**
  * Tools, resources and prompts advertised by an upstream MCP server.
@@ -50,6 +38,14 @@ export interface PlatformMcpUpstreamConnection {
   run<T>(fn: (client: Client) => Promise<T>): Promise<T>;
 }
 
+/**
+ * Requests running on a client, and whether it was replaced: it is closed once they are done.
+ */
+interface ClientState {
+  running: number;
+  retired: boolean;
+}
+
 interface PoolEntry {
   lastUsed: number;
   pending: number;
@@ -70,10 +66,7 @@ interface PoolEntry {
  */
 export class PlatformMcpGatewayService implements OnDestroy {
   protected pools = new Map<PlatformMcpUpstreamSettings, Map<string, PoolEntry>>();
-  /**
-   * Clients closed because the upstream lost their session.
-   */
-  protected lostSessions = new WeakSet<Client>();
+  protected clients = new WeakMap<Client, ClientState>();
 
   /**
    * Returns the connection matching the resolved upstream definition, connecting lazily.
@@ -91,8 +84,9 @@ export class PlatformMcpGatewayService implements OnDestroy {
   /**
    * Replaces a connection whose session the upstream lost, then returns the connection to use.
    *
-   * The connection is closed only while it is still the current one: the requests failing together share the
-   * connection opened by the first of them.
+   * The connection is replaced only while it is still the current one: the requests failing together share the
+   * connection opened by the first of them. Its client is closed once its running requests are done: closing it
+   * earlier would abort requests the upstream may have handled, which could then not be replayed safely.
    *
    * @param upstream Upstream declared in the configuration, identifying the pool.
    * @param resolved Same definition with its placeholders interpolated for the caller.
@@ -111,29 +105,13 @@ export class PlatformMcpGatewayService implements OnDestroy {
         message: `MCP upstream "${this.getLabel(resolved)}": the upstream lost the session, reconnecting.`
       });
 
-      // the requests still running on this client are aborted by the close: they are replayed too
-      this.lostSessions.add(stale.client);
-      await this.close(entry);
+      entry.client = undefined;
+      entry.connection = undefined;
+
+      await this.retire(stale.client);
     }
 
     return this.getConnection(upstream, resolved);
-  }
-
-  /**
-   * Tells whether a request failed because the upstream lost the session of the client: a `404` on its session,
-   * or a request the client did not complete because it was closed for that reason. Any other error of such a
-   * client is not a lost session: the upstream may have handled the request.
-   *
-   * @param error Error thrown by the request.
-   * @param client Client which sent the request.
-   * @param transport Transport of the client read before the request: a closed client has none any more.
-   */
-  isSessionLost(error: unknown, client: Client, transport = client.transport): boolean {
-    if (this.lostSessions.has(client) && isClosedClientError(error)) {
-      return true;
-    }
-
-    return isUpstreamSessionLost(error, {transport});
   }
 
   async $onDestroy() {
@@ -231,7 +209,7 @@ export class PlatformMcpGatewayService implements OnDestroy {
       client,
       getCatalog: () => {
         if (!catalog) {
-          const pending: Promise<PlatformMcpUpstreamCatalog> = this.loadCatalog(client, label).then(
+          const pending: Promise<PlatformMcpUpstreamCatalog> = this.track(client, () => this.loadCatalog(client, label)).then(
             ({catalog: loaded, complete}) => {
               // an incomplete catalog is served once and listed again on the next request
               if (!complete && catalog === pending) {
@@ -281,15 +259,15 @@ export class PlatformMcpGatewayService implements OnDestroy {
       }
     }
 
-    // the client loses its transport once closed, by a concurrent request which saw the session lost
+    // the client loses its transport once closed, which can happen as soon as the request is done
     const {transport} = client;
 
     entry.pending++;
 
     try {
-      return await fn(client);
+      return await this.track(client, () => fn(client));
     } catch (error) {
-      if (!replay || !this.isSessionLost(error, client, transport)) {
+      if (!replay || !isUpstreamSessionLost(error, {transport})) {
         throw error;
       }
     } finally {
@@ -325,7 +303,7 @@ export class PlatformMcpGatewayService implements OnDestroy {
       result.status === "rejected" ? [{key: listings[index][0], error: result.reason}] : []
     );
     const advertised = listings.filter(([, enabled]) => enabled).length;
-    const lost = failures.find(({error}) => this.isSessionLost(error, client, transport));
+    const lost = failures.find(({error}) => isUpstreamSessionLost(error, {transport}));
 
     if (lost) {
       // the other listings may have succeeded: the whole catalog is listed again on a new session
@@ -418,12 +396,59 @@ export class PlatformMcpGatewayService implements OnDestroy {
     }
   }
 
+  /**
+   * Counts the requests running on the client, and closes it after the last one when it was replaced.
+   */
+  protected async track<T>(client: Client, fn: () => Promise<T>): Promise<T> {
+    const state = this.getClientState(client);
+
+    state.running++;
+
+    try {
+      return await fn();
+    } finally {
+      state.running--;
+
+      if (state.retired && !state.running) {
+        void this.closeClient(client);
+      }
+    }
+  }
+
+  /**
+   * Closes a replaced client once its running requests are done.
+   */
+  protected async retire(client: Client) {
+    const state = this.getClientState(client);
+
+    state.retired = true;
+
+    if (!state.running) {
+      await this.closeClient(client);
+    }
+  }
+
+  protected getClientState(client: Client) {
+    let state = this.clients.get(client);
+
+    if (!state) {
+      state = {running: 0, retired: false};
+      this.clients.set(client, state);
+    }
+
+    return state;
+  }
+
   protected async close(entry: PoolEntry) {
     const {client} = entry;
 
     entry.client = undefined;
     entry.connection = undefined;
 
+    await this.closeClient(client);
+  }
+
+  protected async closeClient(client: Client | undefined) {
     try {
       await client?.close();
     } catch (error) {

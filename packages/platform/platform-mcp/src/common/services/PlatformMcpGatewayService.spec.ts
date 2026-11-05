@@ -275,25 +275,61 @@ describe("PlatformMcpGatewayService", () => {
       expect(createUpstreamTransport).toHaveBeenCalledTimes(2);
     });
 
-    it("replays a request aborted by the close of the connection whose session was lost", async () => {
+    it("closes the replaced client once its running requests are done, without aborting them", async () => {
       const servers = mockUpstreamServers();
       const service = inject(PlatformMcpGatewayService);
       const upstream = createUpstream();
       const stale = await service.getConnection(upstream);
+      const close = vi.spyOn(stale.client, "close");
+      let answer: (() => void) | undefined;
 
-      servers[0].registerTool("slow", {description: "Never answers"}, () => new Promise<never>(() => {}));
+      servers[0].registerTool(
+        "slow",
+        {description: "Answers on demand"},
+        () => new Promise((resolve) => (answer = () => resolve({content: [{type: "text", text: "done"}]})))
+      );
       setSession(stale.client);
 
-      const pending = stale.run((client) =>
-        client === stale.client ? client.callTool({name: "slow", arguments: {}}) : Promise.resolve(client)
-      );
+      const running = stale.run((client) => client.callTool({name: "slow", arguments: {}}));
 
+      await vi.waitFor(() => expect(answer).toBeDefined());
       await stale.run((client) => (client === stale.client ? Promise.reject(sessionNotFound()) : Promise.resolve(client)));
 
-      await expect(pending).resolves.toBe((await service.getConnection(upstream)).client);
+      // the upstream may handle the running request: aborting it would leave its outcome unknown
+      expect(close).not.toHaveBeenCalled();
+
+      answer!();
+
+      await expect(running).resolves.toEqual({content: [{type: "text", text: "done"}]});
+      await vi.waitFor(() => expect(close).toHaveBeenCalledOnce());
     });
 
-    it("does not replay another error of a client closed because its session was lost", async () => {
+    it("closes the replaced client once its catalog is listed", async () => {
+      mockUpstreamServers();
+
+      const service = inject(PlatformMcpGatewayService);
+      const upstream = createUpstream();
+      const stale = await service.getConnection(upstream);
+      const close = vi.spyOn(stale.client, "close");
+      let release!: () => void;
+
+      vi.spyOn(stale.client, "listTools").mockImplementationOnce(() => new Promise((resolve) => (release = () => resolve({tools: []}))));
+      setSession(stale.client);
+
+      const catalog = stale.getCatalog();
+
+      await vi.waitFor(() => expect(release).toBeDefined());
+      await service.reconnect(upstream, upstream, stale);
+
+      expect(close).not.toHaveBeenCalled();
+
+      release();
+
+      await expect(catalog).resolves.toMatchObject({tools: []});
+      await vi.waitFor(() => expect(close).toHaveBeenCalledOnce());
+    });
+
+    it("does not replay another error of a request running when the session was lost", async () => {
       mockUpstreamServers();
 
       const stale = await inject(PlatformMcpGatewayService).getConnection(createUpstream());

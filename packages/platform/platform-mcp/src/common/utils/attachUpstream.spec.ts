@@ -319,28 +319,6 @@ describe("attachUpstream()", () => {
       expect(server.registerTool).toHaveBeenCalled();
     });
 
-    it("reconnects when the listing was aborted by the close of a client whose session was lost", async () => {
-      const {server, connection} = setup();
-      const gateway = inject(PlatformMcpGatewayService);
-      const reconnect = vi.spyOn(gateway, "reconnect").mockResolvedValue({
-        ...connection,
-        client: {},
-        getCatalog: vi.fn().mockResolvedValue(createCatalog())
-      } as never);
-
-      connection.getCatalog.mockImplementation(async () => {
-        // a concurrent request saw the session lost and closed the client
-        (gateway as any).lostSessions.add(connection.client);
-
-        throw Object.assign(new Error("Connection closed"), {code: "CONNECTION_CLOSED"});
-      });
-
-      await attachUpstream(server as never, createSettings(http));
-
-      expect(reconnect).toHaveBeenCalledOnce();
-      expect(server.registerTool).toHaveBeenCalled();
-    });
-
     it("does not reconnect on another catalog failure", async () => {
       const {server, connection} = setup();
       const reconnect = vi.spyOn(inject(PlatformMcpGatewayService), "reconnect");
