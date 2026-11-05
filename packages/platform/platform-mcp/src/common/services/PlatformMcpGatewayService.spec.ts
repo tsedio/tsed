@@ -304,6 +304,21 @@ describe("PlatformMcpGatewayService", () => {
       await vi.waitFor(() => expect(close).toHaveBeenCalledOnce());
     });
 
+    it("lists the catalog on the current connection when it was replaced after being handed out", async () => {
+      mockUpstreamServers();
+
+      const service = inject(PlatformMcpGatewayService);
+      const upstream = createUpstream();
+      const stale = await service.getConnection(upstream);
+
+      setSession(stale.client);
+      // a concurrent request saw the session lost before this one listed the catalog
+      await service.reconnect(upstream, upstream, stale);
+
+      await expect(stale.getCatalog()).resolves.toMatchObject({tools: [{name: "first"}]});
+      expect(createUpstreamTransport).toHaveBeenCalledTimes(2);
+    });
+
     it("closes the replaced client once its catalog is listed", async () => {
       mockUpstreamServers();
 
