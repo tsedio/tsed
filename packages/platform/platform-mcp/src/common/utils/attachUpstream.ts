@@ -7,6 +7,7 @@ import {
   type PlatformMcpUpstreamCatalog,
   type PlatformMcpUpstreamConnection
 } from "../services/PlatformMcpGatewayService.js";
+import {isUpstreamSessionLost} from "./isUpstreamSessionLost.js";
 import {resolveUpstream} from "./resolveUpstream.js";
 
 // upstream catalogs are stable objects: compile each schema once instead of on every request
@@ -72,7 +73,7 @@ function registerCatalog(
   server: McpServer,
   upstream: PlatformMcpUpstreamSettings,
   label: string,
-  {client, run}: PlatformMcpUpstreamConnection,
+  {run}: PlatformMcpUpstreamConnection,
   catalog: PlatformMcpUpstreamCatalog,
   taken: Record<Kind, Set<string>>
 ) {
@@ -112,7 +113,7 @@ function registerCatalog(
             ...(outputSchema && {outputSchema: toSchema(outputSchema)})
           } as never,
           ((args: Record<string, unknown>, ctx: ServerContext) =>
-            run(() => client.callTool({name, arguments: args}, getRequestOptions(ctx)))) as never
+            run((client) => client.callTool({name, arguments: args}, getRequestOptions(ctx)))) as never
         );
       });
     });
@@ -125,7 +126,7 @@ function registerCatalog(
           name,
           uri,
           opts as never,
-          ((_: URL, ctx: ServerContext) => run(() => client.readResource({uri}, getRequestOptions(ctx)))) as never
+          ((_: URL, ctx: ServerContext) => run((client) => client.readResource({uri}, getRequestOptions(ctx)))) as never
         );
       });
     });
@@ -139,7 +140,7 @@ function registerCatalog(
           new ResourceTemplate(uriTemplate, {list: undefined}),
           opts as never,
           ((uri: URL, _: unknown, ctx: ServerContext) =>
-            run(() => client.readResource({uri: uri.toString()}, getRequestOptions(ctx)))) as never
+            run((client) => client.readResource({uri: uri.toString()}, getRequestOptions(ctx)))) as never
         );
       });
     });
@@ -156,7 +157,7 @@ function registerCatalog(
           ((...params: unknown[]) => {
             const ctx = params.at(-1) as ServerContext;
 
-            return run(() =>
+            return run((client) =>
               client.getPrompt(
                 {name, arguments: params.length > 1 ? (params[0] as Record<string, string>) : undefined},
                 getRequestOptions(ctx)
@@ -166,6 +167,23 @@ function registerCatalog(
         );
       });
     });
+}
+
+async function getCatalog(upstream: PlatformMcpUpstreamSettings, resolved: PlatformMcpUpstreamSettings) {
+  const gateway = inject(PlatformMcpGatewayService);
+  let connection = await gateway.getConnection(upstream, resolved);
+
+  try {
+    return {connection, catalog: await connection.getCatalog()};
+  } catch (error) {
+    if (!isUpstreamSessionLost(error, connection.client)) {
+      throw error;
+    }
+
+    connection = await gateway.reconnect(upstream, resolved, connection);
+
+    return {connection, catalog: await connection.getCatalog()};
+  }
 }
 
 /**
@@ -189,9 +207,9 @@ export async function attachUpstream(server: McpServer, settings: CreateMcpServe
   const label = settings.path || (upstream.type === "stdio" ? upstream.command : upstream.url);
 
   try {
-    const connection = await inject(PlatformMcpGatewayService).getConnection(upstream, resolveUpstream(upstream, authInfo));
+    const {connection, catalog} = await getCatalog(upstream, resolveUpstream(upstream, authInfo));
 
-    registerCatalog(server, upstream, label, connection, await connection.getCatalog(), {
+    registerCatalog(server, upstream, label, connection, catalog, {
       tool: new Set(settings.tools.map(({name}) => name)),
       prompt: new Set(settings.prompts.map(({name}) => name)),
       resource: new Set(settings.resources.map(({uri}) => uri!).filter(Boolean)),

@@ -3,6 +3,7 @@ import type {Client, Prompt, Resource, ResourceTemplateType, Tool} from "@modelc
 import {constant, injectable, logger, type OnDestroy} from "@tsed/di";
 import type {PlatformMcpUpstreamSettings} from "../interfaces/PlatformMcpUpstreamSettings.js";
 import {createUpstreamTransport} from "../utils/createUpstreamTransport.js";
+import {isUpstreamSessionLost} from "../utils/isUpstreamSessionLost.js";
 import {listAll} from "../utils/listAll.js";
 
 const DEFAULT_POOL_MAX = 100;
@@ -30,9 +31,11 @@ export interface PlatformMcpUpstreamConnection {
   client: Client;
   getCatalog(): Promise<PlatformMcpUpstreamCatalog>;
   /**
-   * Runs an upstream request, keeping the connection out of the pool eviction while it is pending.
+   * Runs an upstream request with the client given to `fn`, keeping the connection out of the pool eviction while
+   * it is pending. When the upstream lost the session of the connection, the request is replayed once on a new
+   * connection: `fn` must send the request with the client it is given.
    */
-  run<T>(fn: () => Promise<T>): Promise<T>;
+  run<T>(fn: (client: Client) => Promise<T>): Promise<T>;
 }
 
 interface PoolEntry {
@@ -84,7 +87,7 @@ export class PlatformMcpGatewayService implements OnDestroy {
         return Promise.reject(entry.error);
       }
 
-      entry.connection = this.connect(resolved, entry).catch((error) => {
+      entry.connection = this.connect(upstream, resolved, entry).catch((error) => {
         entry.connection = undefined;
         entry.failures++;
         entry.error = error;
@@ -97,6 +100,35 @@ export class PlatformMcpGatewayService implements OnDestroy {
     return entry.connection;
   }
 
+  /**
+   * Replaces a connection whose session the upstream lost, then returns the connection to use.
+   *
+   * The connection is closed only while it is still the current one: the requests failing together share the
+   * connection opened by the first of them.
+   *
+   * @param upstream Upstream declared in the configuration, identifying the pool.
+   * @param resolved Same definition with its placeholders interpolated for the caller.
+   * @param stale Connection whose session was lost.
+   */
+  async reconnect(
+    upstream: PlatformMcpUpstreamSettings,
+    resolved: PlatformMcpUpstreamSettings,
+    stale: Pick<PlatformMcpUpstreamConnection, "client">
+  ): Promise<PlatformMcpUpstreamConnection> {
+    const entry = this.getPool(upstream).get(this.getKey(resolved));
+
+    if (entry?.client === stale.client) {
+      logger().warn({
+        event: "MCP_GATEWAY_SESSION_LOST",
+        message: `MCP upstream "${this.getLabel(resolved)}": the upstream lost the session, reconnecting.`
+      });
+
+      await this.close(entry);
+    }
+
+    return this.getConnection(upstream, resolved);
+  }
+
   async $onDestroy() {
     const entries = [...this.pools.values()].flatMap((pool) => [...pool.values()]);
 
@@ -105,10 +137,14 @@ export class PlatformMcpGatewayService implements OnDestroy {
     await Promise.all(entries.map((entry) => this.close(entry)));
   }
 
-  protected async connect(upstream: PlatformMcpUpstreamSettings, entry: PoolEntry): Promise<PlatformMcpUpstreamConnection> {
+  protected async connect(
+    upstream: PlatformMcpUpstreamSettings,
+    resolved: PlatformMcpUpstreamSettings,
+    entry: PoolEntry
+  ): Promise<PlatformMcpUpstreamConnection> {
     const {Client} = await import("@modelcontextprotocol/client");
-    const transport = await createUpstreamTransport(upstream);
-    const label = this.getLabel(upstream);
+    const transport = await createUpstreamTransport(resolved);
+    const label = this.getLabel(resolved);
     let catalog: Promise<PlatformMcpUpstreamCatalog> | undefined;
     const invalidate = () => {
       catalog = undefined;
@@ -173,17 +209,35 @@ export class PlatformMcpGatewayService implements OnDestroy {
 
         return catalog;
       },
-      run: async (fn) => {
-        entry.pending++;
-
-        try {
-          return await fn();
-        } finally {
-          entry.pending--;
-          entry.lastUsed = Date.now();
-        }
-      }
+      run: (fn) => this.run(upstream, resolved, entry, client, fn)
     };
+  }
+
+  protected async run<T>(
+    upstream: PlatformMcpUpstreamSettings,
+    resolved: PlatformMcpUpstreamSettings,
+    entry: PoolEntry,
+    client: Client,
+    fn: (client: Client) => Promise<T>,
+    replay = true
+  ): Promise<T> {
+    entry.pending++;
+
+    try {
+      return await fn(client);
+    } catch (error) {
+      if (!replay || !isUpstreamSessionLost(error, client)) {
+        throw error;
+      }
+    } finally {
+      entry.pending--;
+      entry.lastUsed = Date.now();
+    }
+
+    // the upstream rejected the request without handling it: it can be replayed, once, on a new session
+    const connection = await this.reconnect(upstream, resolved, {client});
+
+    return this.run(upstream, resolved, this.getPool(upstream).get(this.getKey(resolved))!, connection.client, fn, false);
   }
 
   /**

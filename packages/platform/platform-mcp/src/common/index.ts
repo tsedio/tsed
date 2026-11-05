@@ -23,6 +23,7 @@ export * from "./utils/createMcpServer.js";
 export * from "./utils/createUpstreamTransport.js";
 export * from "./utils/fromJsonSchema.js";
 export * from "./utils/interpolate.js";
+export * from "./utils/isUpstreamSessionLost.js";
 export * from "./utils/listAll.js";
 export * from "./utils/resolvePrompts.js";
 export * from "./utils/resolveResources.js";
