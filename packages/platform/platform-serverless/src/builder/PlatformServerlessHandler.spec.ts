@@ -5,6 +5,7 @@ import {QueryParams} from "@tsed/platform-params";
 import {ServerlessContext} from "../domain/ServerlessContext.js";
 import {Unauthorized} from "@tsed/exceptions";
 import {catchAsyncError} from "@tsed/core";
+import {$off, $on} from "@tsed/hooks";
 import {s} from "@tsed/schema";
 
 async function getPlatformServerlessHandlerFixture() {
@@ -69,6 +70,45 @@ describe("PlatformServerlessHandler", () => {
       isBase64Encoded: false,
       statusCode: 200
     });
+  });
+  it("should call the $onRequest and $onResponse listeners with the context", async () => {
+    const {service} = await getPlatformServerlessHandlerFixture();
+    const ref = Symbol("ref");
+    const onRequest = vi.fn();
+    const onRequestWithRef = vi.fn();
+    const onResponse = vi.fn();
+    const onResponseWithRef = vi.fn();
+
+    $on("$onRequest", onRequest);
+    $on("$onRequest", ref, onRequestWithRef);
+    $on("$onResponse", onResponse);
+    $on("$onResponse", ref, onResponseWithRef);
+
+    try {
+      const endpoint = s.store.method(TimeslotsLambdaController, "get");
+      const $ctx = new ServerlessContext({
+        event: {
+          httpMethod: "GET",
+          headers: {
+            "Content-Type": "application/json"
+          }
+        } as any,
+        context: {} as any,
+        endpoint
+      } as any);
+
+      const handler = service.createHandler(TimeslotsLambdaController, "get");
+      await handler($ctx);
+
+      expect(onRequest).toHaveBeenCalledWith($ctx);
+      expect(onRequestWithRef).toHaveBeenCalledWith($ctx);
+      expect(onResponse).toHaveBeenCalledWith($ctx);
+      expect(onResponseWithRef).toHaveBeenCalledWith($ctx);
+    } finally {
+      $off("$onRequest", onRequest);
+      $off(ref);
+      $off("$onResponse", onResponse);
+    }
   });
   it("shouldn't throw error and return http response", async () => {
     const {service} = await getPlatformServerlessHandlerFixture();

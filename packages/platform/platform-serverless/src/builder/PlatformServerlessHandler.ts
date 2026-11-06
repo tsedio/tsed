@@ -17,7 +17,7 @@ export class PlatformServerlessHandler {
 
     return ($ctx: ServerlessContext<ServerlessEvent>) => {
       return runInContext($ctx, async () => {
-        await $asyncEmit("$onRequest", $ctx);
+        await $asyncEmit("$onRequest", [$ctx]);
 
         try {
           const resolver = new AnyToPromise();
@@ -40,7 +40,7 @@ export class PlatformServerlessHandler {
   private async flush($ctx: ServerlessContext<ServerlessEvent>) {
     const body: unknown = $ctx.isHttpEvent() && !$ctx.isAuthorizerEvent() ? await this.makeHttpResponse($ctx) : $ctx.response.getBody();
 
-    await $asyncEmit("$onResponse", $ctx);
+    await $asyncEmit("$onResponse", [$ctx]);
 
     $ctx.logger.flush();
     $ctx.destroy();
