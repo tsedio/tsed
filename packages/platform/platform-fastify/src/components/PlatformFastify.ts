@@ -2,7 +2,7 @@ import "@tsed/platform-multer/fastify";
 import * as Http from "node:http";
 import {IncomingMessage, ServerResponse} from "node:http";
 import * as Https from "node:https";
-import {$alter, $asyncEmit} from "@tsed/hooks";
+import {$alter, $asyncEmit, hooks} from "@tsed/hooks";
 import {type Env, isFunction, isString, ReturnHostInfoFromPort, Type} from "@tsed/core";
 import Fastify, {FastifyInstance, FastifyReply, FastifyRequest} from "fastify";
 import {
@@ -150,7 +150,8 @@ export class PlatformFastify extends PlatformAdapter<FastifyInstance> {
     const invoke = createContext();
     const rawApp: FastifyInstance = app.getApp();
 
-    rawApp.addHook("onRequest", async (request, reply) => {
+    // Callback hooks: Fastify continues synchronously when no $onRequest listener has to be awaited.
+    rawApp.addHook("onRequest", (request, reply, done) => {
       const $ctx = invoke({
         request: request as any,
         response: reply as any
@@ -158,13 +159,18 @@ export class PlatformFastify extends PlatformAdapter<FastifyInstance> {
 
       ($ctx.request.getReq() as any).$ctx = $ctx;
 
-      await $ctx.start();
+      if (!hooks.has("$onRequest")) {
+        return done();
+      }
+
+      $ctx.start().then(() => done(), done);
     });
 
-    rawApp.addHook("onResponse", async (request, reply) => {
+    rawApp.addHook("onResponse", (request, reply, done) => {
       const {$ctx} = request;
       ($ctx.request.getReq() as any).$ctx = undefined;
-      await $ctx.finish();
+
+      $ctx.finish().then(() => done(), done);
     });
 
     await rawApp.register(fastifyMiddie, {
