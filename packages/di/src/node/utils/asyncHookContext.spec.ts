@@ -1,4 +1,5 @@
 import {getContext, runInContext, setContext} from "./asyncHookContext.js";
+import {$off, $on} from "@tsed/hooks";
 import {DITest} from "../services/DITest.js";
 
 describe("asyncHookContext", () => {
@@ -142,6 +143,34 @@ describe("asyncHookContext", () => {
       res: {
         type: "req"
       }
+    });
+  });
+
+  describe("$alterRunInContext", () => {
+    const ref = {};
+
+    afterEach(() => $off(ref as any));
+
+    it("should run the callback synchronously when no listener alters it", async () => {
+      const cb = vi.fn().mockReturnValue("result");
+      const alterAsync = vi.spyOn(DITest.injector, "alterAsync");
+
+      const promise = runInContext({id: "id"} as any, cb, DITest.injector);
+
+      expect(cb).toHaveBeenCalledTimes(1);
+      expect(alterAsync).not.toHaveBeenCalled();
+      expect(await promise).toEqual("result");
+    });
+
+    it("should run the callback altered by a listener", async () => {
+      const cb = vi.fn().mockReturnValue("result");
+
+      $on("$alterRunInContext", ref as any, (next: any) => () => `altered ${next()}`);
+
+      const result = await runInContext({id: "id"} as any, cb, DITest.injector);
+
+      expect(result).toEqual("altered result");
+      expect(cb).toHaveBeenCalledTimes(1);
     });
   });
 });
