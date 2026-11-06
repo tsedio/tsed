@@ -3,10 +3,25 @@ import {IncomingEvent} from "../interfaces/IncomingEvent.js";
 import {PlatformContext} from "../domain/PlatformContext.js";
 import {PlatformRequest} from "../services/PlatformRequest.js";
 import {PlatformResponse} from "../services/PlatformResponse.js";
-import {v4} from "uuid";
+import {randomUUID} from "node:crypto";
 
-function defaultReqIdBuilder(req: any) {
-  return req.get?.("x-request-id") || v4().split("-").join("");
+/**
+ * Return a 32 hex chars id, a uuid v4 without its dashes.
+ * @ignore
+ */
+export function createRequestId() {
+  const id = randomUUID();
+
+  return id.slice(0, 8) + id.slice(9, 13) + id.slice(14, 18) + id.slice(19, 23) + id.slice(24);
+}
+
+/**
+ * Reuse the incoming `x-request-id` header, or create a new id.
+ * Express and Koa requests expose `get()`, a Fastify request only exposes `headers`.
+ * @ignore
+ */
+export function defaultReqIdBuilder(req: any) {
+  return (req.get ? req.get("x-request-id") : req.headers?.["x-request-id"]) || createRequestId();
 }
 
 function mapIgnoreUrlPatterns(ignoreUrlPatterns: any[]) {

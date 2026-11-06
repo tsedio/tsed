@@ -2,7 +2,7 @@ import {configuration, injector, logger} from "@tsed/di";
 import {$asyncEmit} from "@tsed/hooks";
 import {PlatformResponse} from "../services/PlatformResponse.js";
 import {PlatformTest} from "../../testing/PlatformTest.js";
-import {createContext} from "./createContext.js";
+import {createContext, createRequestId, defaultReqIdBuilder} from "./createContext.js";
 
 vi.mock("@tsed/hooks", async (importOriginal) => {
   const mod = await importOriginal<typeof import("@tsed/hooks")>();
@@ -108,5 +108,29 @@ describe("createContext", () => {
 
     // THEN
     expect(ctx.response.setHeader).toHaveBeenCalledWith("x-request-id", "test-id");
+  });
+
+  describe("defaultReqIdBuilder()", () => {
+    it("should create a 32 hex chars id when the request has no x-request-id header", () => {
+      expect(defaultReqIdBuilder({get: () => undefined})).toMatch(/^[0-9a-f]{32}$/);
+      expect(defaultReqIdBuilder({headers: {}})).toMatch(/^[0-9a-f]{32}$/);
+    });
+
+    it("should read the header with get() on an Express or Koa request", () => {
+      expect(defaultReqIdBuilder({get: (name: string) => (name === "x-request-id" ? "express-id" : undefined)})).toEqual("express-id");
+    });
+
+    it("should read the header from headers on a request without get() (Fastify)", () => {
+      expect(defaultReqIdBuilder({headers: {"x-request-id": "fastify-id"}})).toEqual("fastify-id");
+    });
+  });
+
+  describe("createRequestId()", () => {
+    it("should create a uuid v4 without dashes", () => {
+      const id = createRequestId();
+
+      expect(id).toMatch(/^[0-9a-f]{12}4[0-9a-f]{3}[89ab][0-9a-f]{15}$/);
+      expect(createRequestId()).not.toEqual(id);
+    });
   });
 });
