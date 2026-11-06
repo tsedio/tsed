@@ -2,6 +2,8 @@
 import {useData} from "vitepress";
 import {computed, onMounted, ref} from "vue";
 
+import EvolutionChart, {type BenchmarkHistory} from "./EvolutionChart.vue";
+
 type Gap = {value: number; low: number | null; high: number | null; significant: boolean} | null;
 type RouteMetrics = {rps: number | null; p99: number | null; cpuPerRequest: number | null};
 
@@ -32,21 +34,38 @@ const {theme} = useData();
 const data = ref<BenchmarkComparison | null>(null);
 const status = ref<"loading" | "ready" | "error">("loading");
 const metric = ref<"rps" | "cpu">("rps");
+const history = ref<BenchmarkHistory | null>(null);
+const historyStatus = ref<"loading" | "ready" | "error">("loading");
 
-onMounted(async () => {
-  try {
-    const response = await fetch(theme.value.benchmarksUrl);
+async function load<T>(url: string): Promise<T> {
+  const response = await fetch(url);
 
-    if (!response.ok) {
-      throw new Error(`HTTP ${response.status}`);
-    }
-
-    data.value = await response.json();
-    status.value = "ready";
-  } catch {
-    status.value = "error";
+  if (!response.ok) {
+    throw new Error(`HTTP ${response.status}`);
   }
-});
+
+  return response.json();
+}
+
+// both requests run together, and each section fails on its own
+onMounted(() =>
+  Promise.all([
+    load<BenchmarkComparison>(theme.value.benchmarksUrl).then(
+      (value) => {
+        data.value = value;
+        status.value = "ready";
+      },
+      () => (status.value = "error")
+    ),
+    load<BenchmarkHistory>(`${theme.value.benchmarksUrl}/history`).then(
+      (value) => {
+        history.value = value.versions?.length > 1 ? value : null;
+        historyStatus.value = history.value ? "ready" : "error";
+      },
+      () => (historyStatus.value = "error")
+    )
+  ])
+);
 
 const thousands = new Intl.NumberFormat("en-US", {maximumFractionDigits: 0});
 const formatRps = (value: number | null) => (value === null ? "–" : thousands.format(value));
@@ -106,15 +125,26 @@ const best = computed(() => {
     <template v-else-if="data">
       <div class="benchmarks-summary">
         <div class="benchmarks-versions">
-          <span class="benchmarks-version is-latest">v{{ data.latest }}</span>
-          <span class="benchmarks-vs">vs</span>
           <span class="benchmarks-version is-reference">v{{ data.reference }}</span>
+          <span class="benchmarks-vs">vs</span>
+          <span class="benchmarks-version is-latest">v{{ data.latest }}</span>
         </div>
         <p v-if="best" class="benchmarks-headline">
           Up to <strong>{{ signed(best.value) }}% requests per second</strong> on <code>{{ best.route }}</code> with {{ best.platform }}.
         </p>
         <p class="benchmarks-meta">Measured on {{ date }}, v{{ data.reference }} is the last release before the performance work.</p>
       </div>
+
+      <h2 id="evolution">Evolution</h2>
+      <p>
+        Overall requests per second of each version against v{{ data.reference }}: the geometric mean of the gaps on
+        <code>GET /hello</code>, <code>GET /users/:id</code>, <code>POST /orders</code> and <code>GET /orders?size=500</code>. Each version
+        comes from the latest run that measured it against v{{ data.reference }} in the same job, so versions measured by different runs
+        compare with more noise.
+      </p>
+      <EvolutionChart v-if="history" :history="history" />
+      <p v-else-if="historyStatus === 'loading'" class="benchmarks-message">Loading the history…</p>
+      <p v-else class="benchmarks-message">The history of the versions is not available right now.</p>
 
       <h2 id="framework-overhead">Framework overhead</h2>
       <p>
@@ -160,10 +190,10 @@ const best = computed(() => {
         </div>
       </div>
 
-      <h2 id="per-route">v{{ data.latest }} against v{{ data.reference }}</h2>
+      <h2 id="per-route">From v{{ data.reference }} to v{{ data.latest }}</h2>
       <p>
-        Gap of v{{ data.latest }} against v{{ data.reference }} per route, with its 95% confidence interval. Positive is better: more
-        requests per second, or less CPU time per request. A gap whose interval contains 0 is within the noise of the measurement.
+        Gap per route from v{{ data.reference }} to v{{ data.latest }}, with its 95% confidence interval. Positive is better: more requests
+        per second, or less CPU time per request. A gap whose interval contains 0 is within the noise of the measurement.
       </p>
 
       <div class="benchmarks-switch" role="group" aria-label="Metric">
