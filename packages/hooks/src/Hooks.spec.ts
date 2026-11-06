@@ -1,6 +1,49 @@
 import {Hooks} from "./Hooks.js";
 
 describe("Hooks", () => {
+  describe("instance without listener", () => {
+    it("should accept every call before the first listener is registered", async () => {
+      const hooks = new Hooks();
+
+      expect(hooks.has("event")).toBe(false);
+      expect(hooks.off("event", vi.fn())).toBe(hooks);
+      expect(hooks.off(Symbol("ref"))).toBe(hooks);
+      expect(hooks.emit("event", ["a"])).toBeUndefined();
+      expect(await hooks.asyncEmit("event", ["a"])).toBeUndefined();
+      expect(hooks.alter("event", "value", ["a"])).toBe("value");
+      expect(await hooks.asyncAlter("event", "value", ["a"])).toBe("value");
+
+      hooks.destroy();
+
+      expect(hooks.has("event")).toBe(false);
+    });
+    it("should register listeners again after destroy()", () => {
+      const hooks = new Hooks();
+      const fn = vi.fn();
+
+      hooks.on("event", vi.fn());
+      hooks.destroy();
+      hooks.on("event", fn).on("event", fn);
+      hooks.emit("event", ["a"]);
+
+      expect(hooks.has("event")).toBe(true);
+      expect(fn).toHaveBeenCalledTimes(2);
+    });
+    it("should keep the listeners of each event apart", () => {
+      const hooks = new Hooks();
+      const fn = vi.fn();
+      const fn2 = vi.fn();
+
+      hooks.on("event", fn);
+      hooks.on("event2", fn2);
+      hooks.off("event", fn);
+      hooks.on("event", fn2);
+      hooks.emit("event", ["a"]);
+
+      expect(fn).not.toHaveBeenCalled();
+      expect(fn2).toHaveBeenCalledTimes(1);
+    });
+  });
   describe("off()", () => {
     it("should remove a listener (using event, cb)", () => {
       const hooks = new Hooks();

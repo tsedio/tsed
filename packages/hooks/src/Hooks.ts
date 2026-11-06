@@ -69,7 +69,8 @@ function callAlter(cb: HookListener, callThis: unknown, value: unknown, args: un
  * @public
  */
 export class Hooks {
-  #listeners: Map<string, HookItem[]> = new Map();
+  // created on the first listener: most instances (one per JsonSchema, one per request container) never get one
+  #listeners: Map<string, HookItem[]> | undefined;
 
   /**
    * Check if an event has registered listeners.
@@ -78,7 +79,7 @@ export class Hooks {
    * @returns `true` if the event has at least one listener, `false` otherwise
    */
   has(event: string) {
-    return !!this.#listeners.get(event)?.length;
+    return !!this.#listeners?.get(event)?.length;
   }
 
   /**
@@ -123,14 +124,15 @@ export class Hooks {
       ref = undefined;
     }
 
-    const items = this.#listeners.get(event) || [];
+    const listeners = (this.#listeners ||= new Map());
+    const items = listeners.get(event);
+    const item = {cb, ref};
 
-    items.push({
-      cb,
-      ref
-    });
-
-    this.#listeners.set(event, items);
+    if (items) {
+      items.push(item);
+    } else {
+      listeners.set(event, [item]);
+    }
 
     return this;
   }
@@ -228,16 +230,22 @@ export class Hooks {
    */
   off(event: string, cb: HookListener): this;
   off(event: string | HookRef, cb?: HookListener) {
+    const listeners = this.#listeners;
+
+    if (!listeners) {
+      return this;
+    }
+
     const set = (event: string, items: HookItem[]) => {
       if (items.length) {
-        this.#listeners.set(event, items);
+        listeners.set(event, items);
       } else {
-        this.#listeners.delete(event);
+        listeners.delete(event);
       }
     };
 
     if (typeof event === "string" && cb) {
-      let items = this.#listeners.get(event);
+      let items = listeners.get(event);
 
       if (items) {
         set(
@@ -248,7 +256,7 @@ export class Hooks {
     } else {
       const ref = event as HookRef;
 
-      this.#listeners.forEach((items, event) => {
+      listeners.forEach((items, event) => {
         set(
           event,
           items.filter((item) => item.ref !== ref)
@@ -321,7 +329,7 @@ export class Hooks {
       ref = undefined;
     }
 
-    const items = this.#listeners.get(event);
+    const items = this.#listeners?.get(event);
 
     if (items?.length) {
       // apply() with undefined args calls the listener without arguments, like an empty array
@@ -402,7 +410,7 @@ export class Hooks {
       ref = undefined;
     }
 
-    const items = this.#listeners.get(event);
+    const items = this.#listeners?.get(event);
 
     if (items?.length) {
       let promises: PromiseLike<unknown>[] | undefined;
@@ -454,7 +462,7 @@ export class Hooks {
    * @returns The final transformed value after all listeners have been applied
    */
   alter<Arg = unknown, AlteredArg = Arg>(event: string, value: Arg, args: unknown[] = EMPTY_ARGS, callThis: unknown = null): AlteredArg {
-    const items = this.#listeners.get(event);
+    const items = this.#listeners?.get(event);
 
     if (items?.length) {
       for (const {cb} of items) {
@@ -501,7 +509,7 @@ export class Hooks {
     args: unknown[] = EMPTY_ARGS,
     callThis: unknown = null
   ): Promise<AlteredArg> {
-    const items = this.#listeners.get(event);
+    const items = this.#listeners?.get(event);
 
     if (items?.length) {
       for (const item of items) {
@@ -531,7 +539,7 @@ export class Hooks {
    * ```
    */
   destroy() {
-    this.#listeners.clear();
+    this.#listeners?.clear();
   }
 }
 
