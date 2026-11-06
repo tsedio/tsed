@@ -2,7 +2,7 @@ import "@tsed/platform-multer/fastify";
 import * as Http from "node:http";
 import {IncomingMessage, ServerResponse} from "node:http";
 import * as Https from "node:https";
-import {$alter, $asyncEmit} from "@tsed/hooks";
+import {$alter, $asyncEmit, hooks} from "@tsed/hooks";
 import {type Env, isFunction, isString, ReturnHostInfoFromPort, Type} from "@tsed/core";
 import Fastify, {FastifyInstance, FastifyReply, FastifyRequest} from "fastify";
 import {
@@ -150,21 +150,37 @@ export class PlatformFastify extends PlatformAdapter<FastifyInstance> {
     const invoke = createContext();
     const rawApp: FastifyInstance = app.getApp();
 
-    rawApp.addHook("onRequest", async (request, reply) => {
+    // Callback hooks: Fastify continues synchronously when no $onRequest listener has to be awaited.
+    rawApp.addHook("onRequest", (request, reply, done) => {
       const $ctx = invoke({
         request: request as any,
         response: reply as any
       });
 
-      ($ctx.request.getReq() as any).$ctx = $ctx;
+      const req: any = $ctx.request.getReq();
+      req.$ctx = $ctx;
 
-      await $ctx.start();
-    });
+      // Listen on the Node.js response instead of a Fastify onResponse hook: without onResponse hook
+      // (and without Fastify logger), Fastify skips its own response listeners and hook runner.
+      const onFinish = () => {
+        // "error" may follow "finish": the context is finished once
+        if (req.$ctx !== $ctx) {
+          return;
+        }
 
-    rawApp.addHook("onResponse", async (request, reply) => {
-      const {$ctx} = request;
-      ($ctx.request.getReq() as any).$ctx = undefined;
-      await $ctx.finish();
+        req.$ctx = undefined;
+
+        $ctx.finish().catch((er) => logger().error({event: "FINISH_ERROR", reqId: $ctx.id, error: er}));
+      };
+
+      reply.raw.on("finish", onFinish);
+      reply.raw.on("error", onFinish);
+
+      if (!hooks.has("$onRequest")) {
+        return done();
+      }
+
+      $ctx.start().then(() => done(), done);
     });
 
     await rawApp.register(fastifyMiddie, {

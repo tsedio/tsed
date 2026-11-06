@@ -13551,7 +13551,6 @@ __metadata:
     encodeurl: "npm:^2.0.0"
     tslib: "npm:>=2.7.0"
     typescript: "npm:6.0.2"
-    uuid: "npm:14.0.0"
     vitest: "npm:4.1.4"
   peerDependencies:
     "@tsed/logger": ">=8.0.0"
