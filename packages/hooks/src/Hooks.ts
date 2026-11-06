@@ -321,11 +321,10 @@ export class Hooks {
       ref = undefined;
     }
 
-    args ||= [];
-
     const items = this.#listeners.get(event);
 
     if (items?.length) {
+      // apply() with undefined args calls the listener without arguments, like an empty array
       for (const item of items) {
         if (match(ref, item)) {
           item.cb.apply(null, args);
@@ -406,9 +405,26 @@ export class Hooks {
     const items = this.#listeners.get(event);
 
     if (items?.length) {
-      const promises = items.filter((item) => match(ref, item)).map((item) => item.cb.apply(null, args));
+      let promises: PromiseLike<unknown>[] | undefined;
+      // the length is read once: a listener added by another listener is not called, as with the filter() snapshot
+      const length = items.length;
 
-      await Promise.all(promises);
+      for (let i = 0; i < length; i++) {
+        const item = items[i];
+
+        if (match(ref, item)) {
+          const result = item.cb.apply(null, args);
+
+          // Promise.all() ignores the values that are not thenables: only wait for the others
+          if (result && typeof result.then === "function") {
+            (promises ||= []).push(result);
+          }
+        }
+      }
+
+      if (promises) {
+        await Promise.all(promises);
+      }
     }
   }
 
