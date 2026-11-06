@@ -54,6 +54,11 @@ The `/benchmarks` page SHALL fetch `GET /rest/benchmarks/history` and show an **
 - **WHEN** the history endpoint fails or answers 404 while `GET /rest/benchmarks` answers
 - **THEN** the Evolution section MUST show a message, the rest of the page MUST render, and no client error MUST be thrown
 
+#### Scenario: Latest comparison unavailable
+
+- **WHEN** `GET /rest/benchmarks` fails or answers 404 while the history endpoint answers
+- **THEN** the page MUST show the message about the latest benchmark and still render the Evolution section with the reference of the history
+
 #### Scenario: Accessible values
 
 - **WHEN** the chart is read with a screen reader or without color perception
@@ -85,7 +90,7 @@ The website SHALL have a `/benchmarks` page that fetches `GET /rest/benchmarks` 
 #### Scenario: Endpoint unavailable
 
 - **WHEN** the endpoint fails or answers 404
-- **THEN** the page MUST show a message instead of the charts, without a client error
+- **THEN** the page MUST show a message instead of the header card, the bars and the gap table, without a client error
 
 #### Scenario: Dark mode and mobile
 

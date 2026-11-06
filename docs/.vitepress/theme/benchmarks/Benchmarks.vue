@@ -78,6 +78,8 @@ const isNoise = (gap: Gap) => Boolean(gap && !gap.significant);
 const share = (value: number | null, raw: number | null) => (value && raw ? `${Math.round((value / raw) * 100)}%` : "–");
 const width = (value: number | null, max: number) => `${value && max ? Math.max(2, (value / max) * 100) : 0}%`;
 
+const reference = computed(() => history.value?.reference ?? data.value?.reference);
+
 const date = computed(() =>
   data.value ? new Date(data.value.date).toLocaleDateString("en-US", {year: "numeric", month: "long", day: "numeric"}) : ""
 );
@@ -122,30 +124,32 @@ const best = computed(() => {
       <a href="https://github.com/tsedio/tsed/actions/workflows/benchmark.yml">Benchmark workflow</a> after each release.
     </p>
 
-    <template v-else-if="data">
-      <div class="benchmarks-summary">
-        <div class="benchmarks-versions">
-          <span class="benchmarks-version is-reference">v{{ data.reference }}</span>
-          <span class="benchmarks-vs">vs</span>
-          <span class="benchmarks-version is-latest">v{{ data.latest }}</span>
-        </div>
-        <p v-if="best" class="benchmarks-headline">
-          Up to <strong>{{ signed(best.value) }}% requests per second</strong> on <code>{{ best.route }}</code> with {{ best.platform }}.
-        </p>
-        <p class="benchmarks-meta">Measured on {{ date }}, v{{ data.reference }} is the last release before the performance work.</p>
+    <div v-else-if="data" class="benchmarks-summary">
+      <div class="benchmarks-versions">
+        <span class="benchmarks-version is-reference">v{{ data.reference }}</span>
+        <span class="benchmarks-vs">vs</span>
+        <span class="benchmarks-version is-latest">v{{ data.latest }}</span>
       </div>
+      <p v-if="best" class="benchmarks-headline">
+        Up to <strong>{{ signed(best.value) }}% requests per second</strong> on <code>{{ best.route }}</code> with {{ best.platform }}.
+      </p>
+      <p class="benchmarks-meta">Measured on {{ date }}, v{{ data.reference }} is the last release before the performance work.</p>
+    </div>
 
+    <!-- rendered on its own: the history stays visible when the latest comparison is unavailable, and the other way around -->
+    <template v-if="history || data">
       <h2 id="evolution">Evolution</h2>
       <p>
-        Overall requests per second of each version against v{{ data.reference }}: the geometric mean of the gaps on
-        <code>GET /hello</code>, <code>GET /users/:id</code>, <code>POST /orders</code> and <code>GET /orders?size=500</code>. Each version
-        comes from the latest run that measured it against v{{ data.reference }} in the same job, so versions measured by different runs
-        compare with more noise.
+        Overall requests per second of each version against v{{ reference }}: the geometric mean of the gaps on <code>GET /hello</code>,
+        <code>GET /users/:id</code>, <code>POST /orders</code> and <code>GET /orders?size=500</code>. Each version comes from the latest run
+        that measured it against v{{ reference }} in the same job, so versions measured by different runs compare with more noise.
       </p>
       <EvolutionChart v-if="history" :history="history" />
       <p v-else-if="historyStatus === 'loading'" class="benchmarks-message">Loading the history…</p>
       <p v-else class="benchmarks-message">The history of the versions is not available right now.</p>
+    </template>
 
+    <template v-if="data">
       <h2 id="framework-overhead">Framework overhead</h2>
       <p>
         Requests per second on <code>GET /hello</code>: the same route on the plain framework, without Ts.ED, then on Ts.ED v{{
