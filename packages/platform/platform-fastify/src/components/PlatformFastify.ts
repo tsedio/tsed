@@ -157,20 +157,30 @@ export class PlatformFastify extends PlatformAdapter<FastifyInstance> {
         response: reply as any
       });
 
-      ($ctx.request.getReq() as any).$ctx = $ctx;
+      const req: any = $ctx.request.getReq();
+      req.$ctx = $ctx;
+
+      // Listen on the Node.js response instead of a Fastify onResponse hook: without onResponse hook
+      // (and without Fastify logger), Fastify skips its own response listeners and hook runner.
+      const onFinish = () => {
+        // "error" may follow "finish": the context is finished once
+        if (req.$ctx !== $ctx) {
+          return;
+        }
+
+        req.$ctx = undefined;
+
+        $ctx.finish().catch((er) => logger().error({event: "FINISH_ERROR", reqId: $ctx.id, error: er}));
+      };
+
+      reply.raw.on("finish", onFinish);
+      reply.raw.on("error", onFinish);
 
       if (!hooks.has("$onRequest")) {
         return done();
       }
 
       $ctx.start().then(() => done(), done);
-    });
-
-    rawApp.addHook("onResponse", (request, reply, done) => {
-      const {$ctx} = request;
-      ($ctx.request.getReq() as any).$ctx = undefined;
-
-      $ctx.finish().then(() => done(), done);
     });
 
     await rawApp.register(fastifyMiddie, {
