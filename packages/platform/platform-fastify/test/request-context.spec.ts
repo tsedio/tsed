@@ -69,4 +69,27 @@ describe("Request context", () => {
       $off(ref as any);
     }
   });
+
+  it("should emit $onResponse and finish the context once the response is sent", async () => {
+    const ref = {};
+    let resolveFinished: (ctx: any) => void;
+    const finished = new Promise<any>((resolve) => (resolveFinished = resolve));
+
+    $on("$onResponse", ref, ($ctx: any) => {
+      setImmediate(() => resolveFinished($ctx));
+    });
+
+    try {
+      const request = SuperTest(PlatformTest.callback());
+
+      const {body} = await request.get("/rest/context/id").expect(200);
+      const $ctx = await finished;
+
+      expect($ctx.id).toEqual(body.id);
+      expect($ctx.isFinished()).toEqual(true);
+      expect($ctx.getReq().$ctx).toBeUndefined();
+    } finally {
+      $off(ref as any);
+    }
+  });
 });
