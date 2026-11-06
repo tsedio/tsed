@@ -42,6 +42,7 @@
       "@tsed/platform-test-sdk": ["./packages/platform/platform-test-sdk/src/index.ts"],
       "@tsed/platform-express": ["./packages/platform/platform-express/src/index.ts"],
       "@tsed/platform-fastify": ["./packages/platform/platform-fastify/src/index.ts"],
+      "@tsed/platform-fulmine": ["./packages/platform/platform-fulmine/src/index.ts"],
       "@tsed/typegraphql": ["./packages/graphql/typegraphql/src/index.ts"],
       "@tsed/graphql-ws": ["./packages/graphql/graphql-ws/src/index.ts"],
       "@tsed/adapters": ["./packages/orm/adapters/src/index.ts"],
