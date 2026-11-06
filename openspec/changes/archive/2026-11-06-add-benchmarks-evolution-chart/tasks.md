@@ -24,6 +24,6 @@
 
 ## 4. Ship
 
-- [ ] 4.1 CMS PR (no Co-Authored-By trailer), pushed to an explicit remote and checked with `git ls-remote`
-- [ ] 4.2 Ts.ED PR (no scope in the commit, no Co-Authored-By trailer) with the screenshots, pushed and checked the same way
-- [ ] 4.3 After merge: sync the `benchmarks-page` spec and archive the change
+- [x] 4.1 CMS PR (no Co-Authored-By trailer), pushed to an explicit remote and checked with `git ls-remote`
+- [x] 4.2 Ts.ED PR (no scope in the commit, no Co-Authored-By trailer) with the screenshots, pushed and checked the same way
+- [x] 4.3 After merge: sync the `benchmarks-page` spec and archive the change
