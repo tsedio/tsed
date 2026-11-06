@@ -101,7 +101,10 @@ export class DIContext {
   }
 
   destroy(): Promise<any> {
-    return Promise.all([this.#container?.destroy(), this.#logger?.flush(true)]);
+    const destroyed = this.#container?.destroy();
+    this.#logger?.flush(true);
+
+    return destroyed || Promise.resolve();
   }
 
   cache<Value = any>(key: string, cb: () => Value): Value {
