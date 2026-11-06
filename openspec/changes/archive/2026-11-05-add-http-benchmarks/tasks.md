@@ -40,8 +40,7 @@
 - [x] 6.1 Add `.github/workflows/benchmark.yml` with `workflow_dispatch` inputs (`targets` defaulting to the latest release + `local`, `platforms`, `rounds`, `duration`) and `pull_request: types: [labeled]` filtered on the `benchmark` label
 - [x] 6.2 PR mode: check out the base branch into a second directory, install and build both, run with `local-base` and `local-head` in the same job
 - [x] 6.3 Append `report.md` to `$GITHUB_STEP_SUMMARY` and upload `results.json` as an artifact
-- [ ] 6.4 Create the `benchmark` label on the repository (manual step for a maintainer, documented)
-  - Not done at archive time: the label does not exist yet on tsedio/tsed.
+- [x] 6.4 Create the `benchmark` label on the repository (manual step for a maintainer, documented)
 
 ## 7. Validation and docs
 
