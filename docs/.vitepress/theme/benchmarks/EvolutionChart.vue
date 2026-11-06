@@ -245,14 +245,14 @@ const tooltipStyle = computed(() => {
         <thead>
           <tr>
             <th scope="col">Version</th>
-            <th v-for="item in series" :key="item.platform" scope="col">{{ item.label.replace("Ts.ED ", "") }}</th>
+            <th v-for="item in SERIES" :key="item.platform" scope="col">{{ item.label.replace("Ts.ED ", "") }}</th>
             <th scope="col">Run</th>
           </tr>
         </thead>
         <tbody>
           <tr v-for="(item, index) in versions" :key="item.version">
             <th scope="row">{{ item.version }}</th>
-            <td v-for="serie in series" :key="serie.platform">{{ index === 0 ? "0%" : formatScore(score(index, serie.platform)) }}</td>
+            <td v-for="serie in SERIES" :key="serie.platform">{{ index === 0 ? "0%" : formatScore(score(index, serie.platform)) }}</td>
             <td>
               <a v-if="item.runUrl" :href="item.runUrl">{{ formatDate(item.date) }}</a>
               <template v-else>{{ formatDate(item.date) }}</template>
