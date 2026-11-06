@@ -6,6 +6,9 @@ import type {CreateMcpServerOpts} from "./createMcpServer.js";
 
 const authInfo = {token: "abc", clientId: "client", scopes: ["mcp:read"]};
 
+/**
+ * Builds an upstream catalog with a tool of each kind, a resource, a resource template and prompts.
+ */
 function createCatalog(catalog: Partial<PlatformMcpUpstreamCatalog> = {}): PlatformMcpUpstreamCatalog {
   return {
     tools: [
@@ -27,14 +30,23 @@ function createCatalog(catalog: Partial<PlatformMcpUpstreamCatalog> = {}): Platf
   } as PlatformMcpUpstreamCatalog;
 }
 
+/**
+ * Builds the settings of an MCP endpoint relaying the given upstream.
+ */
 function createSettings(upstream?: PlatformMcpUpstreamSettings, opts: Partial<CreateMcpServerOpts> = {}): CreateMcpServerOpts {
   return {path: "/mcp/gateway", tools: [], prompts: [], resources: [], upstream, ...opts};
 }
 
+/**
+ * Builds the context given by the MCP server to a handler.
+ */
 function createContext(meta?: Record<string, unknown>) {
   return {mcpReq: {signal: new AbortController().signal, _meta: meta, notify: vi.fn()}};
 }
 
+/**
+ * Mocks the gateway connection and the MCP server the upstream catalog is registered on.
+ */
 function setup(catalog = createCatalog()) {
   const client = {
     callTool: vi.fn().mockResolvedValue({content: []}),

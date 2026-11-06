@@ -8,14 +8,23 @@ const {createUpstreamTransport} = vi.hoisted(() => ({createUpstreamTransport: vi
 
 vi.mock("../utils/createUpstreamTransport.js", () => ({createUpstreamTransport}));
 
+/**
+ * Returns the upstream with the headers interpolated for a caller.
+ */
 function withHeaders(upstream: PlatformMcpUpstreamSettings, headers: Record<string, string>) {
   return {...upstream, headers} as PlatformMcpUpstreamSettings;
 }
 
+/**
+ * Builds an HTTP upstream declaration.
+ */
 function createUpstream(opts: Partial<PlatformMcpUpstreamSettings> = {}): PlatformMcpUpstreamSettings {
   return {type: "http", url: "http://localhost/mcp", ...opts} as PlatformMcpUpstreamSettings;
 }
 
+/**
+ * Connects every new upstream transport to an in-memory MCP server exposing a `first` tool.
+ */
 function mockUpstreamServers() {
   const servers: McpServer[] = [];
 

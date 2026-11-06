@@ -1,6 +1,9 @@
 import {SdkErrorCode, SdkHttpError} from "@modelcontextprotocol/client";
 import {isUpstreamSessionLost} from "./isUpstreamSessionLost.js";
 
+/**
+ * Builds the error thrown by the MCP client for an HTTP status.
+ */
 function httpError(status: number) {
   return new SdkHttpError(SdkErrorCode.ClientHttpNotImplemented, "Error POSTing to endpoint", {status, statusText: ""});
 }

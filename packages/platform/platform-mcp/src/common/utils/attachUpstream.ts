@@ -13,6 +13,9 @@ import {resolveUpstream} from "./resolveUpstream.js";
 // upstream catalogs are stable objects: compile each schema once instead of on every request
 const schemas = new WeakMap<object, ReturnType<typeof fromJsonSchema>>();
 
+/**
+ * Compiles a JSON schema of the upstream catalog once, keyed by the object holding it.
+ */
 function toSchema(key: object, schema: unknown = key) {
   let compiled = schemas.get(key);
 
@@ -26,6 +29,9 @@ function toSchema(key: object, schema: unknown = key) {
 
 type Kind = "tool" | "prompt" | "resource" | "resource template";
 
+/**
+ * Tells whether an upstream entry passes the include and exclude filters of the endpoint.
+ */
 function isAllowed(filter: McpUpstreamFilter | undefined, value: string) {
   const match = (pattern: string | RegExp) => {
     if (typeof pattern === "string") {
@@ -45,6 +51,9 @@ function isAllowed(filter: McpUpstreamFilter | undefined, value: string) {
   return !filter?.include || filter.include.some(match);
 }
 
+/**
+ * Forwards the abort signal and the progress notifications of the caller's request to the upstream request.
+ */
 function getRequestOptions(ctx: ServerContext) {
   const progressToken = ctx.mcpReq._meta?.progressToken;
 
@@ -57,6 +66,9 @@ function getRequestOptions(ctx: ServerContext) {
   };
 }
 
+/**
+ * Builds the arguments schema of an upstream prompt from its declared arguments.
+ */
 function getPromptArgsSchema(args: {name: string; description?: string; required?: boolean}[] | undefined) {
   if (!args?.length) {
     return undefined;
@@ -69,6 +81,9 @@ function getPromptArgsSchema(args: {name: string; description?: string; required
   });
 }
 
+/**
+ * Registers the upstream tools, resources and prompts on the server, skipping the names already registered.
+ */
 function registerCatalog(
   server: McpServer,
   upstream: PlatformMcpUpstreamSettings,

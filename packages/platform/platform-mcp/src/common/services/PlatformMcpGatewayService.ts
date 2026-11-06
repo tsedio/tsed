@@ -160,6 +160,9 @@ export class PlatformMcpGatewayService implements OnDestroy {
     return {entry, connection: entry.connection};
   }
 
+  /**
+   * Connects a new MCP client to the upstream and returns the connection serving the pool entry.
+   */
   protected async connect(
     upstream: PlatformMcpUpstreamSettings,
     resolved: PlatformMcpUpstreamSettings,
@@ -357,6 +360,9 @@ export class PlatformMcpGatewayService implements OnDestroy {
     return `${origin}${pathname}`;
   }
 
+  /**
+   * Returns the pool of connections of the upstream declared in the configuration.
+   */
   protected getPool(upstream: PlatformMcpUpstreamSettings) {
     let pool = this.pools.get(upstream);
 
@@ -368,6 +374,9 @@ export class PlatformMcpGatewayService implements OnDestroy {
     return pool;
   }
 
+  /**
+   * Identifies a connection of the pool by the interpolated values of the upstream (headers, or args and env).
+   */
   protected getKey(upstream: PlatformMcpUpstreamSettings) {
     const values = upstream.type === "stdio" ? [upstream.args, upstream.env] : [upstream.headers];
 
