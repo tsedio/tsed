@@ -24,6 +24,21 @@ function match(ref: HookRef | unknown[] | undefined, item: HookItem) {
   return !ref || !item.ref || (ref && item.ref === ref);
 }
 
+const EMPTY_ARGS: unknown[] = [];
+
+// Same as `cb.call(callThis, value, ...args)`, without the spread for the usual 0 and 1 extra argument cases.
+// `args` is read on every call, as the spread did.
+function callAlter(cb: HookListener, callThis: unknown, value: unknown, args: unknown[]) {
+  switch (args.length) {
+    case 0:
+      return cb.call(callThis, value);
+    case 1:
+      return cb.call(callThis, value, args[0]);
+    default:
+      return cb.call(callThis, value, ...args);
+  }
+}
+
 /**
  * A lightweight event management system for registering, emitting, and managing hook listeners.
  *
@@ -422,12 +437,12 @@ export class Hooks {
    * @param callThis - The context (`this`) to use when calling listeners
    * @returns The final transformed value after all listeners have been applied
    */
-  alter<Arg = unknown, AlteredArg = Arg>(event: string, value: Arg, args: unknown[] = [], callThis: unknown = null): AlteredArg {
+  alter<Arg = unknown, AlteredArg = Arg>(event: string, value: Arg, args: unknown[] = EMPTY_ARGS, callThis: unknown = null): AlteredArg {
     const items = this.#listeners.get(event);
 
     if (items?.length) {
       for (const {cb} of items) {
-        value = cb.call(callThis, value, ...args);
+        value = callAlter(cb, callThis, value, args) as Arg;
       }
     }
 
@@ -467,14 +482,14 @@ export class Hooks {
   async asyncAlter<Arg = unknown, AlteredArg = Arg>(
     event: string,
     value: Arg,
-    args: unknown[] = [],
+    args: unknown[] = EMPTY_ARGS,
     callThis: unknown = null
   ): Promise<AlteredArg> {
     const items = this.#listeners.get(event);
 
     if (items?.length) {
       for (const item of items) {
-        value = await item.cb.call(callThis, value, ...args);
+        value = await callAlter(item.cb, callThis, value, args);
       }
     }
 

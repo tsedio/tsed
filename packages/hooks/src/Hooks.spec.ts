@@ -200,6 +200,80 @@ describe("Hooks", () => {
       hooks.off("event", fn);
     });
   });
+  describe("alter() arguments", () => {
+    it.each([[[]], [["a"]], [["a", "b"]], [["a", "b", "c"]]])("should pass the value then %j to every listener", (args) => {
+      const hooks = new Hooks();
+      const received: unknown[][] = [];
+
+      hooks.on("event", function (...all: unknown[]) {
+        received.push(all);
+        return `${all[0]}+`;
+      });
+      hooks.on("event", function (...all: unknown[]) {
+        received.push(all);
+        return `${all[0]}+`;
+      });
+
+      expect(hooks.alter("event", "v", args)).toBe("v++");
+      expect(received).toEqual([
+        ["v", ...args],
+        ["v+", ...args]
+      ]);
+    });
+    it("should call the listeners with the given this", () => {
+      const hooks = new Hooks();
+      const self = {};
+      let receivedThis: unknown;
+
+      hooks.on("event", function (this: unknown, value: unknown) {
+        receivedThis = this;
+        return value;
+      });
+
+      hooks.alter("event", "v", ["a"], self);
+
+      expect(receivedThis).toBe(self);
+    });
+    it("should call a listener added by a previous listener of the same event", () => {
+      const hooks = new Hooks();
+
+      hooks.on("event", (value: string) => {
+        hooks.on("event", (value: string) => value + "2");
+        return value + "1";
+      });
+
+      expect(hooks.alter("event", "v", ["a"])).toBe("v12");
+    });
+    it("should not share the default args between calls", () => {
+      const hooks = new Hooks();
+
+      hooks.on("event", (...all: unknown[]) => all.length);
+
+      expect(hooks.alter("event", "v")).toBe(1);
+      expect(hooks.alter("event", "v")).toBe(1);
+    });
+  });
+  describe("asyncAlter() arguments", () => {
+    it.each([[[]], [["a"]], [["a", "b", "c"]]])("should pass the value then %j to every listener", async (args) => {
+      const hooks = new Hooks();
+      const received: unknown[][] = [];
+
+      hooks.on("event", async (...all: unknown[]) => {
+        received.push(all);
+        return `${all[0]}+`;
+      });
+      hooks.on("event", (...all: unknown[]) => {
+        received.push(all);
+        return `${all[0]}+`;
+      });
+
+      expect(await hooks.asyncAlter("event", "v", args, {})).toBe("v++");
+      expect(received).toEqual([
+        ["v", ...args],
+        ["v+", ...args]
+      ]);
+    });
+  });
   describe("alterAsync()", () => {
     it("should async listen a hook and calls listener", async () => {
       const hooks = new Hooks();
