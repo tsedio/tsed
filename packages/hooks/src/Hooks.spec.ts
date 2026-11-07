@@ -269,6 +269,56 @@ describe("Hooks", () => {
       expect(result).toBeUndefined();
       expect(calls.sort()).toEqual(["async a", "sync a", "thenable a"]);
     });
+    it("should read the then accessor of a thenable once", async () => {
+      const hooks = new Hooks();
+      let reads = 0;
+      let resolved = false;
+
+      hooks.on("event", () => ({
+        get then() {
+          reads++;
+
+          return reads === 1
+            ? (resolve: () => void) =>
+                setTimeout(() => {
+                  resolved = true;
+                  resolve();
+                }, 5)
+            : undefined;
+        }
+      }));
+
+      await hooks.asyncEmit("event", ["a"]);
+
+      expect(reads).toBe(1);
+      expect(resolved).toBe(true);
+    });
+    it("should call every listener when a then accessor throws", async () => {
+      const hooks = new Hooks();
+      const next = vi.fn();
+
+      hooks.on("event", () => ({
+        get then() {
+          throw new Error("then error");
+        }
+      }));
+      hooks.on("event", next);
+
+      await expect(hooks.asyncEmit("event", ["a"])).rejects.toThrow("then error");
+      expect(next).toHaveBeenCalledWith("a");
+    });
+    it("should let a listener that does not return its promise settle before resolving", async () => {
+      const hooks = new Hooks();
+      const calls: string[] = [];
+
+      hooks.on("event", () => {
+        Promise.reject(new Error("refresh error")).catch(() => calls.push("caught"));
+      });
+
+      await hooks.asyncEmit("event", ["a"]);
+
+      expect(calls).toEqual(["caught"]);
+    });
     it("should reject when an async listener rejects", async () => {
       const hooks = new Hooks();
 

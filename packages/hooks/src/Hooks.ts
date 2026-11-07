@@ -413,7 +413,7 @@ export class Hooks {
     const items = this.#listeners?.get(event);
 
     if (items?.length) {
-      let promises: PromiseLike<unknown>[] | undefined;
+      const results: unknown[] = [];
       // the length is read once: a listener added by another listener is not called, as with the filter() snapshot
       const length = items.length;
 
@@ -421,18 +421,13 @@ export class Hooks {
         const item = items[i];
 
         if (match(ref, item)) {
-          const result = item.cb.apply(null, args);
-
-          // Promise.all() ignores the values that are not thenables: only wait for the others
-          if (result && typeof result.then === "function") {
-            (promises ||= []).push(result);
-          }
+          results.push(item.cb.apply(null, args));
         }
       }
 
-      if (promises) {
-        await Promise.all(promises);
-      }
+      // every result goes through Promise.all(): it reads `then` once per value, and the ticks it takes
+      // let a listener that does not return its promise (e.g. @tsed/config refresh on response) settle first
+      await Promise.all(results);
     }
   }
 
