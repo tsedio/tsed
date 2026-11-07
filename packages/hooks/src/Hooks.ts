@@ -24,6 +24,21 @@ function match(ref: HookRef | unknown[] | undefined, item: HookItem) {
   return !ref || !item.ref || (ref && item.ref === ref);
 }
 
+const EMPTY_ARGS: unknown[] = [];
+
+// Same as `cb.call(callThis, value, ...args)`, without the spread for the usual 0 and 1 extra argument cases.
+// `args` is read on every call, as the spread did.
+function callAlter(cb: HookListener, callThis: unknown, value: unknown, args: unknown[]) {
+  switch (args.length) {
+    case 0:
+      return cb.call(callThis, value);
+    case 1:
+      return cb.call(callThis, value, args[0]);
+    default:
+      return cb.call(callThis, value, ...args);
+  }
+}
+
 /**
  * A lightweight event management system for registering, emitting, and managing hook listeners.
  *
@@ -54,7 +69,8 @@ function match(ref: HookRef | unknown[] | undefined, item: HookItem) {
  * @public
  */
 export class Hooks {
-  #listeners: Map<string, HookItem[]> = new Map();
+  // created on the first listener: most instances (one per JsonSchema, one per request container) never get one
+  #listeners: Map<string, HookItem[]> | undefined;
 
   /**
    * Check if an event has registered listeners.
@@ -63,7 +79,7 @@ export class Hooks {
    * @returns `true` if the event has at least one listener, `false` otherwise
    */
   has(event: string) {
-    return !!this.#listeners.get(event)?.length;
+    return !!this.#listeners?.get(event)?.length;
   }
 
   /**
@@ -108,14 +124,15 @@ export class Hooks {
       ref = undefined;
     }
 
-    const items = this.#listeners.get(event) || [];
+    const listeners = (this.#listeners ||= new Map());
+    const items = listeners.get(event);
+    const item = {cb, ref};
 
-    items.push({
-      cb,
-      ref
-    });
-
-    this.#listeners.set(event, items);
+    if (items) {
+      items.push(item);
+    } else {
+      listeners.set(event, [item]);
+    }
 
     return this;
   }
@@ -213,16 +230,22 @@ export class Hooks {
    */
   off(event: string, cb: HookListener): this;
   off(event: string | HookRef, cb?: HookListener) {
+    const listeners = this.#listeners;
+
+    if (!listeners) {
+      return this;
+    }
+
     const set = (event: string, items: HookItem[]) => {
       if (items.length) {
-        this.#listeners.set(event, items);
+        listeners.set(event, items);
       } else {
-        this.#listeners.delete(event);
+        listeners.delete(event);
       }
     };
 
     if (typeof event === "string" && cb) {
-      let items = this.#listeners.get(event);
+      let items = listeners.get(event);
 
       if (items) {
         set(
@@ -233,7 +256,7 @@ export class Hooks {
     } else {
       const ref = event as HookRef;
 
-      this.#listeners.forEach((items, event) => {
+      listeners.forEach((items, event) => {
         set(
           event,
           items.filter((item) => item.ref !== ref)
@@ -306,11 +329,10 @@ export class Hooks {
       ref = undefined;
     }
 
-    args ||= [];
-
-    const items = this.#listeners.get(event);
+    const items = this.#listeners?.get(event);
 
     if (items?.length) {
+      // apply() with undefined args calls the listener without arguments, like an empty array
       for (const item of items) {
         if (match(ref, item)) {
           item.cb.apply(null, args);
@@ -388,12 +410,24 @@ export class Hooks {
       ref = undefined;
     }
 
-    const items = this.#listeners.get(event);
+    const items = this.#listeners?.get(event);
 
     if (items?.length) {
-      const promises = items.filter((item) => match(ref, item)).map((item) => item.cb.apply(null, args));
+      const results: unknown[] = [];
+      // the length is read once: a listener added by another listener is not called, as with the filter() snapshot
+      const length = items.length;
 
-      await Promise.all(promises);
+      for (let i = 0; i < length; i++) {
+        const item = items[i];
+
+        if (match(ref, item)) {
+          results.push(item.cb.apply(null, args));
+        }
+      }
+
+      // every result goes through Promise.all(): it reads `then` once per value, and the ticks it takes
+      // let a listener that does not return its promise (e.g. @tsed/config refresh on response) settle first
+      await Promise.all(results);
     }
   }
 
@@ -422,12 +456,12 @@ export class Hooks {
    * @param callThis - The context (`this`) to use when calling listeners
    * @returns The final transformed value after all listeners have been applied
    */
-  alter<Arg = unknown, AlteredArg = Arg>(event: string, value: Arg, args: unknown[] = [], callThis: unknown = null): AlteredArg {
-    const items = this.#listeners.get(event);
+  alter<Arg = unknown, AlteredArg = Arg>(event: string, value: Arg, args: unknown[] = EMPTY_ARGS, callThis: unknown = null): AlteredArg {
+    const items = this.#listeners?.get(event);
 
     if (items?.length) {
       for (const {cb} of items) {
-        value = cb.call(callThis, value, ...args);
+        value = callAlter(cb, callThis, value, args) as Arg;
       }
     }
 
@@ -467,14 +501,14 @@ export class Hooks {
   async asyncAlter<Arg = unknown, AlteredArg = Arg>(
     event: string,
     value: Arg,
-    args: unknown[] = [],
+    args: unknown[] = EMPTY_ARGS,
     callThis: unknown = null
   ): Promise<AlteredArg> {
-    const items = this.#listeners.get(event);
+    const items = this.#listeners?.get(event);
 
     if (items?.length) {
       for (const item of items) {
-        value = await item.cb.call(callThis, value, ...args);
+        value = await callAlter(item.cb, callThis, value, args);
       }
     }
 
@@ -500,7 +534,7 @@ export class Hooks {
    * ```
    */
   destroy() {
-    this.#listeners.clear();
+    this.#listeners?.clear();
   }
 }
 
