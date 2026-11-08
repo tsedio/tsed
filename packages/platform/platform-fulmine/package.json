@@ -1,0 +1,128 @@
+{
+  "name": "@tsed/platform-fulmine",
+  "version": "8.17.0",
+  "description": "A TypeScript Framework on top of fulmine.js, the Express 5 API on uWebSockets.js",
+  "keywords": [
+    "Controller",
+    "Decorator",
+    "Express",
+    "Inject",
+    "TypeScript",
+    "api",
+    "decorator",
+    "decorators",
+    "di",
+    "express",
+    "fulmine",
+    "ioc",
+    "mvc",
+    "rest",
+    "server",
+    "typescript",
+    "uWebSockets",
+    "uws"
+  ],
+  "homepage": "https://tsed.dev/",
+  "bugs": {
+    "url": "https://github.com/tsedio/tsed/issues"
+  },
+  "license": "MIT",
+  "author": {
+    "name": "Simone Nigro"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tsedio/tsed.git"
+  },
+  "source": "./src/index.ts",
+  "type": "module",
+  "main": "./lib/esm/index.js",
+  "module": "./lib/esm/index.js",
+  "typings": "./lib/types/index.d.ts",
+  "exports": {
+    ".": {
+      "tsed-source": "./src/index.ts",
+      "types": "./lib/types/index.d.ts",
+      "import": "./lib/esm/index.js",
+      "default": "./lib/esm/index.js"
+    }
+  },
+  "scripts": {
+    "build": "yarn barrels && yarn build:ts",
+    "barrels": "barrels",
+    "test": "vitest run",
+    "build:ts": "tsc --build tsconfig.esm.json",
+    "test:ci": "vitest run --coverage.thresholds.autoUpdate=true"
+  },
+  "dependencies": {
+    "tslib": ">=2.7.0"
+  },
+  "devDependencies": {
+    "@tsed/barrels": "workspace:*",
+    "@tsed/core": "workspace:*",
+    "@tsed/di": "workspace:*",
+    "@tsed/platform-express": "workspace:*",
+    "@tsed/platform-http": "workspace:*",
+    "@tsed/platform-test-sdk": "workspace:*",
+    "@tsed/platform-views": "workspace:*",
+    "@tsed/typescript": "workspace:*",
+    "@types/compression": "1.7.5",
+    "@types/cookie-parser": "1.4.7",
+    "@types/express": "^5.0.6",
+    "@types/express-session": "1.18.1",
+    "@types/method-override": "0.0.35",
+    "compression": "1.8.0",
+    "cookie-parser": "1.4.7",
+    "express": "5.2.1",
+    "express-session": "1.18.1",
+    "fulmine.js": "5.25.7",
+    "method-override": "3.0.0",
+    "typescript": "6.0.2",
+    "vitest": "4.1.4"
+  },
+  "peerDependencies": {
+    "@tsed/core": ">=8.0.0",
+    "@tsed/di": ">=8.0.0",
+    "@tsed/json-mapper": ">=8.0.0",
+    "@tsed/logger": ">=8.0.0",
+    "@tsed/openspec": ">=8.0.0",
+    "@tsed/platform-express": ">=8.0.0",
+    "@tsed/platform-http": ">=8.0.0",
+    "@tsed/platform-views": ">=8.0.0",
+    "@tsed/schema": ">=8.0.0",
+    "express": ">=5.0.0",
+    "fulmine.js": "^5.25.7"
+  },
+  "peerDependenciesMeta": {
+    "@tsed/core": {
+      "optional": false
+    },
+    "@tsed/di": {
+      "optional": false
+    },
+    "@tsed/json-mapper": {
+      "optional": false
+    },
+    "@tsed/logger": {
+      "optional": false
+    },
+    "@tsed/platform-express": {
+      "optional": false
+    },
+    "@tsed/platform-http": {
+      "optional": false
+    },
+    "@tsed/platform-views": {
+      "optional": true
+    },
+    "@tsed/schema": {
+      "optional": false
+    },
+    "express": {
+      "optional": false
+    },
+    "fulmine.js": {
+      "optional": false
+    }
+  }
+}
