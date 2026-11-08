@@ -83,8 +83,8 @@ export function operationInQueryMapper(parameter: any, {jsonSchema, ...options}:
     return inlineReference(parameter, options);
   }
 
-  // an enum doesn't need the style or explode
-  if (isObjectReference(jsonSchema, options)) {
+  // a style given on the parameter wins, and an enum doesn't need the style or explode
+  if (!parameter.style && isObjectReference(jsonSchema, options)) {
     parameter.style = "deepObject";
     parameter.explode = true;
   }
