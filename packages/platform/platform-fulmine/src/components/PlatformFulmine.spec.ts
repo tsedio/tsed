@@ -47,7 +47,7 @@ describe("PlatformFulmine", () => {
 
       const req: any = {};
       const buffer = Buffer.from("{}");
-      spy.mock.calls[0][0].verify(req, {}, buffer, "utf8");
+      (spy.mock.calls[0][0] as any).verify(req, {}, buffer, "utf8");
 
       expect(verify).toHaveBeenCalledWith(req, {}, buffer, "utf8");
     });
