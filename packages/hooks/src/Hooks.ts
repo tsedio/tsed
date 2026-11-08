@@ -26,8 +26,9 @@ function match(ref: HookRef | unknown[] | undefined, item: HookItem) {
 
 const EMPTY_ARGS: unknown[] = [];
 
-// Same as `cb.call(callThis, value, ...args)`, without the spread for the usual 0 and 1 extra argument cases.
-// `args` is read on every call, as the spread did.
+// Same as `cb.call(callThis, value, ...args)`. A direct call with a fixed arity is inlined by V8, the spread
+// (or an apply() with a prebuilt array) is not: 0 and 1 extra argument cover the hooks called per value
+// (json-mapper onSerialize/onDeserialize, schema groups).
 function callAlter(cb: HookListener, callThis: unknown, value: unknown, args: unknown[]) {
   switch (args.length) {
     case 0:
