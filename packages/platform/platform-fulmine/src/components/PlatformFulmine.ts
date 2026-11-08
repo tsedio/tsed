@@ -81,8 +81,8 @@ export class PlatformFulmine extends PlatformExpress {
   }
 
   bodyParser(type: "json" | "text" | "urlencoded", additionalOptions: any = {}): any {
-    // a parser set in express.bodyParser.<type> wins, as in PlatformExpress
-    const configured = constant(`express.bodyParser.${type}`);
+    // a parser set in fulmine.bodyParser.<type> wins, as express.bodyParser in PlatformExpress
+    const configured = constant(`fulmine.bodyParser.${type}`);
     const parser = isFunction(configured) ? configured : (fulmine as any)[type];
     const options: any = {};
 

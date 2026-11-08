@@ -6,11 +6,11 @@ class Server {}
 
 describe("PlatformFulmine", () => {
   describe("bodyParser()", () => {
-    it("should use the parser set in express.bodyParser", () => {
+    it("should use the parser set in fulmine.bodyParser", () => {
       const stub = vi.fn().mockReturnValue("body");
 
       const platform = PlatformFulmine.create(Server, {
-        express: {
+        fulmine: {
           bodyParser: {
             json: stub
           }
