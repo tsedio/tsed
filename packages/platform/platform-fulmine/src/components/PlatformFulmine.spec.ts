@@ -30,5 +30,26 @@ describe("PlatformFulmine", () => {
 
       expect(spy).toHaveBeenCalledWith({extended: true, limit: "1mb", verify: expect.any(Function)});
     });
+    it("should pass the options set in fulmine.bodyParser to the fulmine parser", () => {
+      const spy = vi.spyOn(fulmine as any, "json");
+      const verify = vi.fn();
+      const platform = PlatformFulmine.create(Server, {
+        fulmine: {
+          bodyParser: {
+            json: {limit: "2mb", strict: false, verify}
+          }
+        }
+      });
+
+      platform.adapter.bodyParser("json", {strict: true});
+
+      expect(spy).toHaveBeenCalledWith({limit: "2mb", strict: true, verify: expect.any(Function)});
+
+      const req: any = {};
+      const buffer = Buffer.from("{}");
+      spy.mock.calls[0][0].verify(req, {}, buffer, "utf8");
+
+      expect(verify).toHaveBeenCalledWith(req, {}, buffer, "utf8");
+    });
   });
 });

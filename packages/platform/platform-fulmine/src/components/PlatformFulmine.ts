@@ -81,21 +81,23 @@ export class PlatformFulmine extends PlatformExpress {
   }
 
   bodyParser(type: "json" | "text" | "urlencoded", additionalOptions: any = {}): any {
-    // a parser set in fulmine.bodyParser.<type> wins, as express.bodyParser in PlatformExpress
-    const configured = constant(`fulmine.bodyParser.${type}`);
+    // fulmine.bodyParser.<type> is a parser that replaces the fulmine one, or the options of the fulmine one
+    const configured = constant<any>(`fulmine.bodyParser.${type}`);
     const parser = isFunction(configured) ? configured : (fulmine as any)[type];
-    const options: any = {};
+    const {verify, ...configuredOptions} = isFunction(configured) ? ({} as any) : configured || {};
+    const options: any = type === "urlencoded" ? {extended: true, ...configuredOptions} : configuredOptions;
 
     if (type === "urlencoded") {
-      options.extended = true;
       this.app.getApp().set("query parser", "extended");
     }
 
     // rawBody is only known once the routes are mapped, so it is read per request, as in PlatformExpress
-    options.verify = (req: any, _res: any, buffer: Buffer) => {
+    options.verify = (req: any, res: any, buffer: Buffer, encoding: string) => {
       if (constant("rawBody")) {
         req.rawBody = buffer;
       }
+
+      verify?.(req, res, buffer, encoding);
 
       return true;
     };
