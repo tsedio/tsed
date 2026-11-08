@@ -33,6 +33,15 @@ function buildExamples(property: string, examples?: Record<string, OS3Example>) 
   return hasKey ? newExamples : undefined;
 }
 
+// an object model: a reference that isn't an enum, or a generic model (allOf with such a reference)
+function isObjectReference(schema: any, options: JsonSchemaOptions): boolean {
+  if (schema.$ref) {
+    return !getSchemaFromRef(schema.$ref, options)?.enum;
+  }
+
+  return !!schema.allOf?.some((item: any) => isObjectReference(item, options));
+}
+
 function inlineReference(
   parameter: any,
   {
@@ -50,7 +59,7 @@ function inlineReference(
   }
 
   return Object.entries(schema?.properties || {}).reduce((params, [key, {description, ...prop}]: [string, any]) => {
-    const style = parameter.style || (prop.$ref && !getSchemaFromRef(prop.$ref, options)?.enum) ? "deepObject" : undefined;
+    const style = parameter.style || (isObjectReference(prop, options) ? "deepObject" : undefined);
 
     params.push(
       cleanObject({
@@ -70,17 +79,14 @@ function inlineReference(
 }
 
 export function operationInQueryMapper(parameter: any, {jsonSchema, ...options}: JsonParameterOptions) {
-  if (jsonSchema.$ref) {
-    if (!parameter.name) {
-      return inlineReference(parameter, options);
-    }
+  if (jsonSchema.$ref && !parameter.name) {
+    return inlineReference(parameter, options);
+  }
 
-    const schema = getSchemaFromRef(jsonSchema.$ref, options);
-    // if the reference is an enum, we don't need to set the style or explode
-    if (!schema?.enum) {
-      parameter.style = "deepObject";
-      parameter.explode = true;
-    }
+  // an enum doesn't need the style or explode
+  if (isObjectReference(jsonSchema, options)) {
+    parameter.style = "deepObject";
+    parameter.explode = true;
   }
 
   parameter.schema = jsonSchema;

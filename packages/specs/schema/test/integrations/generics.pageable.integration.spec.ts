@@ -413,6 +413,7 @@ describe("Generics: Pageable - Testing pagination functionality with generic typ
               "operationId": "testDeepObjectCtrlGet",
               "parameters": [
                 {
+                  "explode": true,
                   "in": "query",
                   "name": "s",
                   "required": false,
@@ -431,6 +432,7 @@ describe("Generics: Pageable - Testing pagination functionality with generic typ
                       },
                     ],
                   },
+                  "style": "deepObject",
                 },
               ],
               "responses": {
@@ -525,6 +527,7 @@ describe("Generics: Pageable - Testing pagination functionality with generic typ
               "operationId": "testDeepObjectCtrlGet",
               "parameters": [
                 {
+                  "explode": true,
                   "in": "query",
                   "required": false,
                   "schema": {
@@ -542,6 +545,7 @@ describe("Generics: Pageable - Testing pagination functionality with generic typ
                       },
                     ],
                   },
+                  "style": "deepObject",
                 },
               ],
               "responses": {
