@@ -135,6 +135,7 @@ describe("PlatformServerlessHandler", () => {
       const result: any = await handler($ctx);
 
       expect(result.statusCode).toEqual(500);
+      expect(result.body).toContain("refresh error");
       expect(result.body).not.toContain('"value":"test"');
       expect($ctx.destroy).toHaveBeenCalled();
     } finally {
