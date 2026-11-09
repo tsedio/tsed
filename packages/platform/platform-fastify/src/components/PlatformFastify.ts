@@ -43,7 +43,7 @@ declare global {
  */
 function finishContext(this: ServerResponse) {
   const req: any = this.req;
-  const $ctx: PlatformContext | undefined = req?.$ctx;
+  const $ctx: PlatformContext | undefined = req.$ctx;
 
   // "error" may follow "finish": the context is finished once
   if (!$ctx) {
