@@ -7,15 +7,16 @@ description: "Configure a Ts.ED application to run on fulmine.js, the Express 5 
 <Banner src="/fulmine.svg" height="200" href="https://fulmine.sndesign.it/"></Banner>
 
 `@tsed/platform-fulmine` runs Ts.ED on [fulmine.js](https://github.com/nigrosimone/fulmine.js), an Express 5 compatible
-framework on uWebSockets.js. The routing is the one of the Express platform, so Express middlewares work as they are. What
-changes is the server: the app listens on uWebSockets.js instead of a Node.js `http.Server`. The features of the Express
-platform are all available.
+framework on uWebSockets.js. The routing is the one of the Express platform, so Express middlewares work as they are.
+What changes is the server: the app listens on uWebSockets.js instead of a Node.js `http.Server`. The features of the
+Express platform are available, except `@tsed/socketio`: Socket.IO attaches to a Node.js server, and on fulmine.js it
+needs `io.attachApp(app.uwsApp)`, see [WebSockets](https://fulmine.sndesign.it/websockets#socket-io).
 
 ## Requirements
 
-fulmine.js loads the native uWebSockets.js binary: Node.js 22, 24 or 26 on x64 or arm64 and, on Linux, glibc 2.38 or newer, so
-no Alpine and no Debian bookworm images. On Bun and Deno it serves through `node:http`, without uWebSockets.js and its TLS
-options. See the [deployment guide](https://fulmine.sndesign.it/deployment) and the
+fulmine.js loads the native uWebSockets.js binary: Node.js 22, 24 or 26 on x64 or arm64 (x64 only on Windows) and, on
+Linux, glibc 2.38 or newer, so no Alpine and no Debian bookworm images. On Bun and Deno it serves through `node:http`,
+without uWebSockets.js and its TLS options. See the [deployment guide](https://fulmine.sndesign.it/deployment) and the
 [differences from Express](https://fulmine.sndesign.it/differences): for example a `DELETE` body is read only when the
 `body methods` setting includes `DELETE`.
 
@@ -58,8 +59,8 @@ class Server {}
 
 ## TLS and custom fulmine app
 
-uWebSockets.js owns the socket, so `httpsPort` is not supported. TLS is set on the fulmine app, given with the `app` option,
-and the TLS listener uses `httpPort`:
+uWebSockets.js owns the socket, so `httpsPort` is not supported. TLS is set on the fulmine app, given with the `app`
+option, and the TLS listener uses `httpPort`. A `httpPort` given to `bootstrap()` overrides the one of `@Configuration`:
 
 ```typescript
 import {Configuration} from "@tsed/di";
