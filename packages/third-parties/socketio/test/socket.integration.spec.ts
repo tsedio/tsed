@@ -87,7 +87,7 @@ describe("Socket integration: PlatformFulmine", () => {
     PlatformTest.bootstrap(Server, {
       adapter: PlatformFulmine as any,
       listen: true,
-      httpPort: 8998,
+      httpPort: "127.0.0.1:0",
       mount: {},
       disableComponentScan: true,
       imports: [TestWS]
