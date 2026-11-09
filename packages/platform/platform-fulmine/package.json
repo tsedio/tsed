@@ -78,7 +78,7 @@
     "fulmine.js": "5.25.7",
     "method-override": "3.0.0",
     "typescript": "6.0.2",
-    "vitest": "4.1.4"
+    "vitest": "4.1.11"
   },
   "peerDependencies": {
     "@tsed/core": ">=8.0.0",
