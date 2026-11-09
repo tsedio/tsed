@@ -11,7 +11,7 @@ head:
 
 # Capabilities
 
-Ts.ED is a Node.js and TypeScript framework on top of [Express.js](/docs/configuration/express.html), [Koa.js](/docs/configuration/koa.html), [Fastify.js](/docs/configuration/fastify.html). It provides different platform adapters
+Ts.ED is a Node.js and TypeScript framework on top of [Express.js](/docs/configuration/express.html), [Koa.js](/docs/configuration/koa.html), [Fastify.js](/docs/configuration/fastify.html), [fulmine.js](/docs/configuration/fulmine.html). It provides different platform adapters
 to build your awesome server-side application.
 
 Depending on the platform you choose, Ts.ED provides a level of abstraction above these common Node.js frameworks with the [Platform API](/docs/platform-api.md)

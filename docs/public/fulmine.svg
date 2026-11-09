@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="256" height="256" role="img" aria-label="fulmine">
+    <title>fulmine</title>
+    <defs>
+        <linearGradient id="bolt" x1="45" y1="20" x2="155" y2="180" gradientUnits="userSpaceOnUse">
+            <stop offset="0" stop-color="#FFC24B" />
+            <stop offset="1" stop-color="#FF6B2C" />
+        </linearGradient>
+    </defs>
+    <!-- the m of the wordmark on its own, for a favicon or an avatar -->
+    <path d="M118.70 20.00 L45.00 111.20 L87.90 111.20 L81.30 180.00 L155.00 84.00 L112.10 84.00 Z" fill="url(#bolt)" />
+</svg>
