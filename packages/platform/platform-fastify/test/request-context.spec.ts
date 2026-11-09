@@ -33,6 +33,9 @@ describe("Request context", () => {
   );
   afterAll(() => utils.reset());
 
+  const ref = {};
+  afterEach(() => $off(ref as any));
+
   it("should reuse the incoming x-request-id header", async () => {
     const request = SuperTest(PlatformTest.callback());
 
@@ -52,26 +55,19 @@ describe("Request context", () => {
   });
 
   it("should wait for the $onRequest listeners before calling the controller", async () => {
-    const ref = {};
-
     $on("$onRequest", ref, async ($ctx: any) => {
       await new Promise((resolve) => setTimeout(resolve, 5));
       $ctx.set("fromHook", "set by $onRequest");
     });
 
-    try {
-      const request = SuperTest(PlatformTest.callback());
+    const request = SuperTest(PlatformTest.callback());
 
-      const {body} = await request.get("/rest/context/id").expect(200);
+    const {body} = await request.get("/rest/context/id").expect(200);
 
-      expect(body.fromHook).toEqual("set by $onRequest");
-    } finally {
-      $off(ref as any);
-    }
+    expect(body.fromHook).toEqual("set by $onRequest");
   });
 
   it("should emit $onResponse and finish the context once the response is sent", async () => {
-    const ref = {};
     let resolveFinished: (ctx: any) => void;
     const finished = new Promise<any>((resolve) => (resolveFinished = resolve));
 
@@ -79,17 +75,13 @@ describe("Request context", () => {
       setImmediate(() => resolveFinished($ctx));
     });
 
-    try {
-      const request = SuperTest(PlatformTest.callback());
+    const request = SuperTest(PlatformTest.callback());
 
-      const {body} = await request.get("/rest/context/id").expect(200);
-      const $ctx = await finished;
+    const {body} = await request.get("/rest/context/id").expect(200);
+    const $ctx = await finished;
 
-      expect($ctx.id).toEqual(body.id);
-      expect($ctx.isFinished()).toEqual(true);
-      expect($ctx.getReq().$ctx).toBeUndefined();
-    } finally {
-      $off(ref as any);
-    }
+    expect($ctx.id).toEqual(body.id);
+    expect($ctx.isFinished()).toEqual(true);
+    expect($ctx.getReq().$ctx).toBeUndefined();
   });
 });

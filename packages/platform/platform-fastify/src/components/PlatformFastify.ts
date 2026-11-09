@@ -37,6 +37,24 @@ declare global {
   namespace TsED {}
 }
 
+/**
+ * Finish the request context once the Node.js response ends. Shared by every request: the context is read from
+ * the request attached to the response, so no closure is kept alive until the response ends.
+ */
+function finishContext(this: ServerResponse) {
+  const req: any = this.req;
+  const $ctx: PlatformContext | undefined = req?.$ctx;
+
+  // "error" may follow "finish": the context is finished once
+  if (!$ctx) {
+    return;
+  }
+
+  req.$ctx = undefined;
+
+  $ctx.finish().catch((error) => logger().error({event: "FINISH_ERROR", reqId: $ctx.id, error}));
+}
+
 function callNext(next: any, metadata: PlatformHandlerMetadata, $ctx: PlatformContext) {
   if (metadata.type !== PlatformHandlerType.RESPONSE_FN) {
     return next && $ctx.error && !$ctx.isDone() ? next($ctx.error) : next();
@@ -157,24 +175,12 @@ export class PlatformFastify extends PlatformAdapter<FastifyInstance> {
         response: reply as any
       });
 
-      const req: any = $ctx.request.getReq();
-      req.$ctx = $ctx;
+      (request.raw as any).$ctx = $ctx;
 
       // Listen on the Node.js response instead of a Fastify onResponse hook: without onResponse hook
       // (and without Fastify logger), Fastify skips its own response listeners and hook runner.
-      const onFinish = () => {
-        // "error" may follow "finish": the context is finished once
-        if (req.$ctx !== $ctx) {
-          return;
-        }
-
-        req.$ctx = undefined;
-
-        $ctx.finish().catch((er) => logger().error({event: "FINISH_ERROR", reqId: $ctx.id, error: er}));
-      };
-
-      reply.raw.on("finish", onFinish);
-      reply.raw.on("error", onFinish);
+      reply.raw.on("finish", finishContext);
+      reply.raw.on("error", finishContext);
 
       if (!hooks.has("$onRequest")) {
         return done();
