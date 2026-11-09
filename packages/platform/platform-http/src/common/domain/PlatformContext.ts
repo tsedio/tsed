@@ -85,11 +85,7 @@ export class PlatformContext<
   }
 
   async finish() {
-    if (hooks.has("$onResponse")) {
-      await Promise.all([$asyncEmit("$onResponse", [this]), this.destroy()]);
-    } else {
-      await this.destroy();
-    }
+    await (hooks.has("$onResponse") ? Promise.all([$asyncEmit("$onResponse", [this]), this.destroy()]) : this.destroy());
 
     this.#isFinished = true;
   }
