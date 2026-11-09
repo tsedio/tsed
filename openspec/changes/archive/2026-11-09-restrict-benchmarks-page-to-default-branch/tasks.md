@@ -7,9 +7,9 @@
 
 ## 2. Data
 
-- [ ] 2.1 Dispatch the Benchmark workflow on `production` with the targets `8.44.1,8.44.2,…,8.44.13`
-- [ ] 2.2 Check `GET /rest/benchmarks/history` answers the 8.44.x points from the new run once the CMS is deployed
+- [x] 2.1 Dispatch the Benchmark workflow on `production` with the targets `8.44.1,8.44.2,…,8.44.13`
+- [x] 2.2 Check `GET /rest/benchmarks/history` answers the 8.44.x points from the new run once the CMS is deployed
 
 ## 3. Archive
 
-- [ ] 3.1 After merge: sync the `benchmarks-page` spec and archive the change
+- [x] 3.1 After merge: sync the `benchmarks-page` spec and archive the change

@@ -23,7 +23,7 @@ The **Benchmark** workflow SHALL run when a GitHub release is published, except 
 
 ### Requirement: Read-only benchmark endpoint
 
-The CMS SHALL expose `GET /rest/benchmarks` without authentication, read-only, answering the latest successful run whose baseline is the reference and whose other target is a published version (trigger `release` first, then `workflow_dispatch`), as: `date`, `reference`, `latest`, `config` (rounds, duration, connections), `environment` (node, cpu, cores, pinned), `runUrl`, and per platform: the `hello` req/s of `raw`, `reference` and `latest`, and per route the req/s, p99 and CPU per request of both targets with the gap of `latest` (value, low, high, significant). It MUST send `Cache-Control: public, max-age=3600`.
+The CMS SHALL expose `GET /rest/benchmarks` without authentication, read-only, answering the latest successful run whose baseline is the reference and whose other target is a published version (trigger `release` first, then `workflow_dispatch` dispatched from the default branch `production`), as: `date`, `reference`, `latest`, `config` (rounds, duration, connections), `environment` (node, cpu, cores, pinned), `runUrl`, and per platform: the `hello` req/s of `raw`, `reference` and `latest`, and per route the req/s, p99 and CPU per request of both targets with the gap of `latest` (value, low, high, significant). It MUST send `Cache-Control: public, max-age=3600`.
 
 #### Scenario: Latest release run
 
@@ -39,6 +39,11 @@ The CMS SHALL expose `GET /rest/benchmarks` without authentication, read-only, a
 
 - **WHEN** the newest run is a pull request run (`local-base`, `local-head`)
 - **THEN** the endpoint MUST still answer the latest release run
+
+#### Scenario: Manual run from another branch is ignored
+
+- **WHEN** no release run matches and the newest matching manual run was dispatched from `feat/x` while an older one was dispatched from `production`
+- **THEN** the endpoint MUST answer the run dispatched from `production`
 
 ### Requirement: Benchmarks page on tsed.dev
 
@@ -68,7 +73,7 @@ The website SHALL have a `/benchmarks` page that fetches `GET /rest/benchmarks` 
 
 ### Requirement: Read-only benchmark history endpoint
 
-The CMS SHALL expose `GET /rest/benchmarks/history` without authentication, read-only, answering per published Ts.ED version measured against the reference `8.44.1` the req/s gaps of the routes `hello`, `users`, `orders-create` and `orders-list` per platform, taken from the newest successful run with the baseline `8.44.1` and the trigger `release` or `workflow_dispatch` whose targets include that version, and per platform a `score`: the geometric mean of the req/s ratios of these four routes, in %. The reference MUST be the first version with a score of `0`, and the other versions MUST follow in semver order. It MUST send `Cache-Control: public, max-age=3600`.
+The CMS SHALL expose `GET /rest/benchmarks/history` without authentication, read-only, answering per published Ts.ED version measured against the reference `8.44.1` the req/s gaps of the routes `hello`, `users`, `orders-create` and `orders-list` per platform, taken from the newest successful run with the baseline `8.44.1` and either the trigger `release` or the trigger `workflow_dispatch` with the git ref `production`, whose targets include that version, and per platform a `score`: the geometric mean of the req/s ratios of these four routes, in %. The reference MUST be the first version with a score of `0`, and the other versions MUST follow in semver order. It MUST send `Cache-Control: public, max-age=3600`.
 
 #### Scenario: Manual run and release runs combined
 
@@ -100,6 +105,16 @@ The CMS SHALL expose `GET /rest/benchmarks/history` without authentication, read
 
 - **WHEN** no successful run measured a published version against `8.44.1`
 - **THEN** the endpoint MUST answer `404` with a message
+
+#### Scenario: Manual run from another branch is ignored
+
+- **WHEN** a manual run dispatched from `feat/x` measured `8.44.1,8.44.2` and no run dispatched from `production` or release run measured `8.44.2`
+- **THEN** `8.44.2` MUST NOT appear in the history
+
+#### Scenario: Manual run from production is kept
+
+- **WHEN** a manual run dispatched from `production` measured `8.44.1,8.44.2`
+- **THEN** the history MUST answer `8.44.2` from that run
 
 ### Requirement: Evolution chart on the benchmarks page
 
