@@ -84,4 +84,23 @@ describe("Request context", () => {
     expect($ctx.isFinished()).toEqual(true);
     expect($ctx.getReq().$ctx).toBeUndefined();
   });
+
+  it("should finish the context only once when the response emits error after finish", async () => {
+    const onResponse = vi.fn();
+    let resolveFinished: () => void;
+    const finished = new Promise<void>((resolve) => (resolveFinished = resolve));
+
+    $on("$onResponse", ref, ($ctx: any) => {
+      onResponse($ctx.id);
+      $ctx.getRes().emit("error", new Error("after finish"));
+      setImmediate(() => resolveFinished());
+    });
+
+    const request = SuperTest(PlatformTest.callback());
+
+    await request.get("/rest/context/id").expect(200);
+    await finished;
+
+    expect(onResponse).toHaveBeenCalledTimes(1);
+  });
 });
