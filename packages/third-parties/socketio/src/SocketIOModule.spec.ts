@@ -82,5 +82,34 @@ describe("SocketIOModule", () => {
         expect(socketIOService.addSocketProvider).toHaveBeenCalledWith({provider: "provider"});
       });
     });
+    describe("with a uWebSockets.js server", () => {
+      beforeAll(() =>
+        PlatformTest.create({
+          socketIO: {path: "/ws"} as never
+        })
+      );
+      afterAll(() => {
+        PlatformTest.reset();
+      });
+
+      it("should attach socket.io to the uWebSockets.js app", async () => {
+        const socketIOServer = {attach: vi.fn(), attachApp: vi.fn()};
+        const uwsApp = {};
+        const socketIOModule = await PlatformTest.invoke<SocketIOModule>(SocketIOModule, [
+          {token: Http.Server, use: {uwsApp}},
+          {token: Https.Server, use: null},
+          {token: SocketIOServer, use: socketIOServer},
+          {token: SocketIOService, use: {addSocketProvider: vi.fn()}}
+        ]);
+        vi.spyOn(socketIOModule as any, "getWebsocketServices").mockReturnValue([]);
+        vi.spyOn(socketIOModule as any, "printSocketEvents").mockReturnValue(undefined);
+
+        // WHEN
+        await socketIOModule.$afterListen();
+
+        expect(socketIOServer.attachApp).toHaveBeenCalledWith(uwsApp, expect.objectContaining({path: "/ws"}));
+        expect(socketIOServer.attach).not.toHaveBeenCalled();
+      });
+    });
   });
 });

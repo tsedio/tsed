@@ -3,6 +3,7 @@ import {Socket as IOSocket, Namespace} from "socket.io";
 import {ConverterUserSocketMiddleware} from "./app/middlewares/ConverterUserSocketMiddleware.js";
 import {Inject} from "@tsed/di";
 import {PlatformExpress} from "@tsed/platform-express";
+import {PlatformFulmine} from "@tsed/platform-fulmine";
 import {PlatformTest} from "@tsed/platform-http/testing";
 import {Server} from "./app/Server.js";
 import {SocketClientService} from "@tsed/socketio-testing";
@@ -77,6 +78,34 @@ describe("Socket integration: default path", () => {
 
         client.emit("input:scenario1");
       });
+    });
+  });
+});
+
+describe("Socket integration: PlatformFulmine", () => {
+  beforeAll(
+    PlatformTest.bootstrap(Server, {
+      adapter: PlatformFulmine as any,
+      listen: true,
+      httpPort: 8998,
+      mount: {},
+      disableComponentScan: true,
+      imports: [TestWS]
+    })
+  );
+  afterAll(PlatformTest.reset);
+
+  it("should return the data over the uWebSockets.js server", async () => {
+    const service = PlatformTest.get<SocketClientService>(SocketClientService);
+    const client = await service.get("/test");
+
+    return new Promise((resolve: any) => {
+      client.on("output:scenario1", (result) => {
+        expect(result).toEqual("my Message test2");
+        resolve();
+      });
+
+      client.emit("input:scenario1");
     });
   });
 });
