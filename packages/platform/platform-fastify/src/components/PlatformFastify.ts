@@ -2,8 +2,8 @@ import "@tsed/platform-multer/fastify";
 import * as Http from "node:http";
 import {IncomingMessage, ServerResponse} from "node:http";
 import * as Https from "node:https";
-import {$alter, $asyncEmit, hooks} from "@tsed/hooks";
-import {type Env, isFunction, isPromise, isString, ReturnHostInfoFromPort, Type} from "@tsed/core";
+import {$alter, $asyncEmit} from "@tsed/hooks";
+import {chain, type Env, isFunction, isPromise, isString, ReturnHostInfoFromPort, Type} from "@tsed/core";
 import Fastify, {FastifyInstance, FastifyReply, FastifyRequest} from "fastify";
 import {
   adapter,
@@ -241,11 +241,13 @@ export class PlatformFastify extends PlatformAdapter<FastifyInstance> {
       reply.raw.on("finish", finishContext);
       reply.raw.on("error", finishContext);
 
-      if (!hooks.has("$onRequest")) {
-        return done();
-      }
-
-      $ctx.start().then(() => done(), done);
+      // done() is called in the same tick when no $onRequest listener has to be awaited. The promise is not
+      // returned: Fastify would also treat this callback hook as an async one.
+      chain(
+        $ctx.start(),
+        () => done(),
+        (er) => done(er as Error)
+      );
     });
 
     await rawApp.register(fastifyMiddie, {

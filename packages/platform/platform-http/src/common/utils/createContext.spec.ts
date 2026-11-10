@@ -1,5 +1,5 @@
 import {configuration, injector, logger} from "@tsed/di";
-import {$asyncEmit} from "@tsed/hooks";
+import {$asyncEmit, $off, $on} from "@tsed/hooks";
 import {PlatformResponse} from "../services/PlatformResponse.js";
 import {PlatformTest} from "../../testing/PlatformTest.js";
 import {createContext, createRequestId, defaultReqIdBuilder} from "./createContext.js";
@@ -44,12 +44,18 @@ describe("createContext", () => {
   it("should create context and attach it to the request", async () => {
     // GIVEN
     const {injector, ctx, call} = await createContextFixture();
+    const ref = {};
 
     vi.mocked($asyncEmit).mockResolvedValue(undefined);
     vi.spyOn(injector.logger, "info").mockReturnValue(undefined);
+    $on("$onRequest", ref, () => {});
 
     // WHEN
-    await call();
+    try {
+      await call();
+    } finally {
+      $off(ref as any);
+    }
 
     // THEN
     expect($asyncEmit).toHaveBeenCalledWith("$onRequest", [ctx]);
@@ -58,6 +64,18 @@ describe("createContext", () => {
 
     expect($asyncEmit).toHaveBeenCalledWith("$onResponse", [ctx]);
     expect(ctx.isFinished()).toEqual(true);
+  });
+
+  it("should start the context without a promise when nobody listens to $onRequest", async () => {
+    // GIVEN
+    const {ctx} = await createContextFixture();
+
+    // WHEN
+    const result = ctx.start();
+
+    // THEN
+    expect(result).toBeUndefined();
+    expect($asyncEmit).not.toHaveBeenCalledWith("$onRequest", expect.anything());
   });
 
   it("should ignore logs", async () => {
