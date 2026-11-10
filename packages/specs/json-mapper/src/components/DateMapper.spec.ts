@@ -67,6 +67,18 @@ describe("DateMapper", () => {
       expect(mapper.serialize(new Date(-8.64e15))).toEqual("-271821-04-20T00:00:00.000Z");
     });
 
+    it("should read the real date of a subclass that overrides the UTC getters", () => {
+      class OtherYear extends Date {
+        getUTCFullYear() {
+          return 2000;
+        }
+      }
+      const mapper = new DateMapper();
+      const date = new OtherYear(Date.UTC(2026, 0, 1));
+
+      expect(mapper.serialize(date)).toEqual("2026-01-01T00:00:00.000Z");
+    });
+
     it("should throw like toISOString() on an invalid date", () => {
       const mapper = new DateMapper();
 

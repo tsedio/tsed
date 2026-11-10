@@ -2,34 +2,36 @@ import {JsonMapper} from "../decorators/jsonMapper.js";
 import {JsonMapperMethods} from "../interfaces/JsonMapperMethods.js";
 import {isBoolean} from "@tsed/core";
 
-const toISOString = Date.prototype.toISOString;
+const {toISOString, getUTCFullYear, getUTCMonth, getUTCDate, getUTCHours, getUTCMinutes, getUTCSeconds, getUTCMilliseconds} =
+  Date.prototype;
 const PAD2 = Array.from({length: 100}, (_, i) => (i < 10 ? "0" : "") + i);
 
 /**
  * Same output as toISOString(), built from the UTC parts: about 3x faster on Node 24.
+ * The native getters are called, so a subclass that overrides them still gives its real date.
  * Years outside 1000-9999 and invalid dates keep toISOString(), for the expanded form and the RangeError.
  */
 function toISO(date: Date): string {
-  const year = date.getUTCFullYear();
+  const year = getUTCFullYear.call(date);
 
   if (!(year >= 1000 && year <= 9999)) {
     return toISOString.call(date);
   }
 
-  const ms = date.getUTCMilliseconds();
+  const ms = getUTCMilliseconds.call(date);
 
   return (
     year +
     "-" +
-    PAD2[date.getUTCMonth() + 1] +
+    PAD2[getUTCMonth.call(date) + 1] +
     "-" +
-    PAD2[date.getUTCDate()] +
+    PAD2[getUTCDate.call(date)] +
     "T" +
-    PAD2[date.getUTCHours()] +
+    PAD2[getUTCHours.call(date)] +
     ":" +
-    PAD2[date.getUTCMinutes()] +
+    PAD2[getUTCMinutes.call(date)] +
     ":" +
-    PAD2[date.getUTCSeconds()] +
+    PAD2[getUTCSeconds.call(date)] +
     "." +
     (ms < 10 ? "00" : ms < 100 ? "0" : "") +
     ms +
