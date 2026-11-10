@@ -38,38 +38,36 @@ export function getContext<Context = DIContext>(initialValue?: DIContext): Conte
   return initialValue || (useContextRef()?.current as any);
 }
 
-export async function runInContext<Result = unknown>(
+/**
+ * Browser twin of the Node.js `runInContext`: run `cb` in the context of `ctx` and return its result as is, or a
+ * promise of it when `cb` returns one or when the injector alters the callback first.
+ *
+ * @param ctx The context to run `cb` in.
+ * @param cb The callback.
+ * @param injector The injector used when `ctx` has none.
+ * @returns The result of `cb`, or a promise of it.
+ */
+export function runInContext<Result = unknown>(
   ctx: DIContext | undefined,
   cb: (...args: unknown[]) => Result,
   injector?: {alterAsync?: (name: string, cb: any) => Promise<any>}
-): Promise<Result> {
+): Result | Promise<Awaited<Result>> {
   const ref = useContextRef();
 
   if (ref) {
     ctx && setContext(ctx);
     return cb();
-  } else {
-    injector = ctx?.injector || injector;
-    cb = (injector && (await injector.alterAsync?.("$alterRunInContext", cb))) || cb;
-
-    return await Promise.resolve(storage.run({current: ctx}, cb));
   }
-}
 
-/**
- * Browser twin of the Node.js `callInContext`: it delegates to {@link runInContext} and always returns a promise.
- *
- * @param ctx The context to run `cb` in.
- * @param cb The callback.
- * @param injector The injector used when `ctx` has none.
- * @returns A promise of the result of `cb`.
- */
-export function callInContext<Result = unknown>(
-  ctx: DIContext | undefined,
-  cb: (...args: unknown[]) => Result,
-  injector?: {alterAsync?: (name: string, cb: any) => Promise<any>}
-): Result | Promise<Awaited<Result>> {
-  return runInContext(ctx, cb, injector) as Promise<Awaited<Result>>;
+  injector = ctx?.injector || injector;
+
+  if (injector?.alterAsync) {
+    return injector
+      .alterAsync("$alterRunInContext", cb)
+      .then((altered: typeof cb | undefined) => storage.run({current: ctx}, altered || cb)) as Promise<Awaited<Result>>;
+  }
+
+  return storage.run({current: ctx}, cb);
 }
 
 export function setContext(ctx: DIContext) {

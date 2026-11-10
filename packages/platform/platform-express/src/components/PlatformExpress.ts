@@ -14,7 +14,7 @@ import {
   PlatformStaticsOptions
 } from "@tsed/platform-http";
 import {PlatformHandlerMetadata, PlatformHandlerType, PlatformLayer} from "@tsed/platform-router";
-import {callInContext, constant, inject, logger} from "@tsed/di";
+import {constant, inject, logger, runInContext} from "@tsed/di";
 import {hooks} from "@tsed/hooks";
 import {dirname, join} from "node:path";
 import Express from "express";
@@ -207,7 +207,7 @@ export class PlatformExpress extends PlatformAdapter<Express.Application> {
   mapHandler(handler: Function, metadata: PlatformHandlerMetadata) {
     if (metadata.type == PlatformHandlerType.ERR_MIDDLEWARE) {
       return (error: unknown, req: any, res: any, next: any) => {
-        return callInContext(req.$ctx, () => {
+        return runInContext(req.$ctx, () => {
           const {$ctx} = req;
 
           $ctx.next = next;
@@ -219,7 +219,7 @@ export class PlatformExpress extends PlatformAdapter<Express.Application> {
     }
 
     return (req: any, res: any, next: any) => {
-      return callInContext(req.$ctx, () => {
+      return runInContext(req.$ctx, () => {
         const {$ctx} = req;
         $ctx.next = next;
 
@@ -237,7 +237,7 @@ export class PlatformExpress extends PlatformAdapter<Express.Application> {
       const run = () => {
         $ctx.response.getRes().on("finish", () => $ctx.finish());
 
-        return callInContext($ctx, next);
+        return runInContext($ctx, next);
       };
 
       // continue in the same tick when no $onRequest listener has to be awaited

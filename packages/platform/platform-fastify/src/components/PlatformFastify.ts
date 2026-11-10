@@ -18,7 +18,7 @@ import {
 } from "@tsed/platform-http";
 import type {PlatformFastifyPluginLoadingOptions, PlatformFastifyPluginSettings} from "../interfaces/interfaces.js";
 import {PlatformHandlerMetadata, PlatformHandlerType, PlatformLayer} from "@tsed/platform-router";
-import {callInContext, constant, inject, logger} from "@tsed/di";
+import {constant, inject, logger, runInContext} from "@tsed/di";
 import fastifyStatics, {type FastifyStaticOptions} from "@fastify/static";
 import {NotFound} from "@tsed/exceptions";
 import {PlatformExceptions} from "@tsed/platform-exceptions";
@@ -185,7 +185,7 @@ export class PlatformFastify extends PlatformAdapter<FastifyInstance> {
       let result: unknown;
 
       try {
-        result = callInContext($ctx, () => handler($ctx));
+        result = runInContext($ctx, () => handler($ctx));
       } catch (er) {
         return Promise.reject(er);
       }
@@ -376,7 +376,7 @@ export class PlatformFastify extends PlatformAdapter<FastifyInstance> {
         params[wildcard] = params["*"];
       }
 
-      return callInContext(req.$ctx, () => {
+      return runInContext(req.$ctx, () => {
         const $ctx = req.$ctx;
         $ctx.next = null;
 

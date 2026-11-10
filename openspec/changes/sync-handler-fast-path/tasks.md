@@ -15,7 +15,7 @@
 - [x] 2.2 Unit tests for `run()`. Each of these must return a value, not a promise: plain value, `undefined` without `next`, `Buffer`, stream, response object, canceled response. Each of these must return a promise: a promise, an observable, a rejected promise, `next()` called later, `next(error)`. Verify: `cd packages/core && npx vitest run src/utils/AnyToPromise.spec.ts`.
 - [x] 2.3 Override `run()` in `AnyToPromiseWithCtx` (platform-http), with a unit test for the canceled-response case. Verify: `cd packages/platform/platform-http && npx vitest run src/common/domain`.
 
-- [x] 2.4 Add `callInContext()` to `@tsed/di` (node and browser builds), returning the callback's result as is (D6). Unit tests: sync value returned without a promise, promise returned as is, `$alterRunInContext` listener awaited, existing context reused. Verify: `cd packages/di && npx vitest run src/node/utils/asyncHookContext.spec.ts`.
+- [x] 2.4 Make `runInContext()` (`@tsed/di`, node and browser builds) return the callback's result as is (D6). Unit tests: sync value returned without a promise, promise returned as is, sync error thrown, `$alterRunInContext` listener awaited, existing context reused. Verify: `cd packages/di && npx vitest run src/node/utils/asyncHookContext.spec.ts`, and the suites of every `runInContext` caller.
 
 ## 3. `@tsed/platform-response-filter`: `resolveBody()`
 

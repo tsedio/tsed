@@ -57,7 +57,7 @@ Files under `packages/di/src` (excluding index.ts, tests, and **mock** directori
 
 #### browser/utils
 
-- [~] packages/di/src/browser/utils/asyncHookContext.ts — `callInContext` documented; other exports pending
+- [~] packages/di/src/browser/utils/asyncHookContext.ts — `runInContext` documented; other exports pending
 
 #### common/constants
 
@@ -170,7 +170,7 @@ Files under `packages/di/src` (excluding index.ts, tests, and **mock** directori
 
 #### node/utils
 
-- [~] packages/di/src/node/utils/asyncHookContext.ts — `callInContext` documented; other exports pending
+- [~] packages/di/src/node/utils/asyncHookContext.ts — `runInContext` documented; other exports pending
 
 ---
 
