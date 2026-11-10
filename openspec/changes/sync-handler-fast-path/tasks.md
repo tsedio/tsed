@@ -64,4 +64,4 @@
 ## Workflow follow-up
 
 - After merge: sync the `platform-request-pipeline` spec (`openspec-sync-specs`) and archive the change (`openspec-archive-change`).
-- Release note: widened return types of `PlatformHandler.onRequest()` / `flush()`, new `AnyToPromise.run()` and `PlatformResponseFilter.resolveBody()`.
+- Release note: `runInContext()` returns the callback result as is (`Result | Promise<Result>`) and throws a synchronous callback error synchronously: callers chaining `.then()`/`.catch()`/`.finally()` on it must `await` it instead. Widened return types of `PlatformHandler.onRequest()` / `flush()`, new `AnyToPromise.run()` and `PlatformResponseFilter.resolveBody()`.
