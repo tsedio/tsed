@@ -18,6 +18,7 @@ export const THIRD_PARTY = {
   "@fastify/middie": "9.2.0",
   "@fastify/static": "8.1.1",
   "fastify-raw-body": "5.0.0",
+  "fulmine.js": "5.31.0",
   ajv: "8.17.1",
   "ajv-formats": "3.0.1",
   "ajv-errors": "3.0.0",
@@ -28,11 +29,17 @@ export const THIRD_PARTY = {
 };
 
 // Third-party packages a raw app needs.
-export const RAW_DEPENDENCIES = ["express", "koa", "@koa/router", "koa-bodyparser", "fastify"];
+export const RAW_DEPENDENCIES = ["express", "koa", "@koa/router", "koa-bodyparser", "fastify", "fulmine.js"];
 
-export const PLATFORMS = ["express", "koa", "fastify"];
+export const PLATFORMS = ["express", "koa", "fastify", "fulmine"];
 
 // Packages the bench app imports. The other @tsed/* packages come from their dependency closure.
-export const ROOT_PACKAGES = ["@tsed/platform-express", "@tsed/platform-koa", "@tsed/platform-fastify", "@tsed/ajv"];
+export const ROOT_PACKAGES = [
+  "@tsed/platform-express",
+  "@tsed/platform-koa",
+  "@tsed/platform-fastify",
+  "@tsed/platform-fulmine",
+  "@tsed/ajv"
+];
 
 export const platformPackage = (platform) => `@tsed/platform-${platform}`;

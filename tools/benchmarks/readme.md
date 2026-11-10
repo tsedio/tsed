@@ -1,6 +1,6 @@
 # @tsed/benchmarks
 
-HTTP benchmark of a Ts.ED server on Express, Koa and Fastify, to measure the performance gap between two versions of Ts.ED.
+HTTP benchmark of a Ts.ED server on Express, Koa, Fastify and fulmine.js, to measure the performance gap between two versions of Ts.ED.
 
 ## Run it
 
@@ -30,7 +30,7 @@ A target is:
 - `local-<name>`: the packages built in another checkout, with `--local-dir local-<name>=<path>` (used by the CI to compare the
   base branch of a pull request with its head).
 
-A platform that a version does not publish (Fastify before 8.8.0) is reported as not available.
+A platform that a version does not publish (Fastify before 8.8.0, fulmine.js before 8.46.1) is reported as not available.
 
 ## In CI
 
@@ -84,7 +84,7 @@ first `200`).
 ## How the gap is made stable
 
 - **Same dependencies**: every target is installed in its own directory (`.targets/<target>`), with the same versions of
-  Express, Koa, Fastify and their middlewares (`src/deps.mjs`). npm overrides force every `@tsed/*` package, transitive ones
+  Express, Koa, Fastify, fulmine.js and their middlewares (`src/deps.mjs`). npm overrides force every `@tsed/*` package, transitive ones
   included, to the version (or the tarball) of the target. Only the Ts.ED code differs.
 - **Interleaved rounds**: each round measures every target once, in a shuffled order (seeded, the seed is in the report). A
   drift of the machine during the run (heat, a noisy neighbour) spreads over every target instead of favouring one.

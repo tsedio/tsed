@@ -12431,6 +12431,7 @@ __metadata:
     "@tsed/json-mapper": "workspace:*"
     "@tsed/platform-express": "workspace:*"
     "@tsed/platform-fastify": "workspace:*"
+    "@tsed/platform-fulmine": "workspace:*"
     "@tsed/platform-http": "workspace:*"
     "@tsed/platform-koa": "workspace:*"
     "@tsed/platform-params": "workspace:*"
@@ -13521,7 +13522,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@tsed/platform-fulmine@workspace:packages/platform/platform-fulmine":
+"@tsed/platform-fulmine@workspace:*, @tsed/platform-fulmine@workspace:packages/platform/platform-fulmine":
   version: 0.0.0-use.local
   resolution: "@tsed/platform-fulmine@workspace:packages/platform/platform-fulmine"
   dependencies:

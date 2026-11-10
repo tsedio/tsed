@@ -74,11 +74,11 @@ Targets: a published version (8.44.1), "local" (packages built in this checkout,
          or "local-<name>" with --local-dir local-<name>=<path to another built checkout>.
 
 Options:
-  --platforms express,koa,fastify   platforms to measure (default: all)
+  --platforms express,koa,fastify,fulmine   platforms to measure (default: all)
   --routes hello,users,orders-create,orders-list
   --rounds ${DEFAULTS.rounds}  --duration ${DEFAULTS.duration}  --warmup ${DEFAULTS.warmup}  --connections ${DEFAULTS.connections}  --startups ${DEFAULTS.startups}
   --seed <n>      order of the measurements (random by default, written in the results)
-  --no-raw        do not measure the raw Express / Koa / Fastify apps
+  --no-raw        do not measure the raw Express / Koa / Fastify / fulmine.js apps
   --out <dir>     where results.json and report.md are written (default: tools/benchmarks/results/<date>)`;
 
 // Runs the runner itself on the cores the server does not use, so that autocannon and the server never share a core.

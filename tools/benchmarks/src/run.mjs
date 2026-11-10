@@ -10,7 +10,7 @@ import {compare} from "./stats.mjs";
 import {installTarget, parseTarget} from "./targets.mjs";
 
 export const DEFAULTS = {
-  platforms: ["express", "koa", "fastify"],
+  platforms: ["express", "koa", "fastify", "fulmine"],
   routes: [],
   rounds: 5,
   duration: 5,
