@@ -7,8 +7,6 @@ export class PlatformKoaHandler extends PlatformHandler {
     if (!(($ctx.error instanceof Error && !$ctx.handlerMetadata.hasErrorParam) || ($ctx.handlerMetadata.hasErrorParam && !$ctx.error))) {
       return super.onRequest(handler, $ctx);
     }
-
-    return Promise.resolve();
   }
 
   public flush($ctx: PlatformContext) {

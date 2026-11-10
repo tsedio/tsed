@@ -5,7 +5,7 @@ import {
   PlatformRouters,
   useResponseHandler
 } from "@tsed/platform-router";
-import {AnyPromiseResult, AnyToPromiseStatus} from "@tsed/core";
+import {AnyPromiseResult, AnyToPromiseStatus, isPromise} from "@tsed/core";
 import {PlatformParams, PlatformParamsCallback} from "@tsed/platform-params";
 import {Provider, ProviderScope, inject, injectable} from "@tsed/di";
 import {$alter} from "@tsed/hooks";
@@ -69,24 +69,25 @@ export class PlatformHandler {
   }
 
   /**
-   * Call handler when a request his handle
+   * Call handler when a request his handle.
+   *
+   * Returns a promise only when the handler (or `onResponse()`) has to be awaited: a synchronous handler is
+   * handled in the same tick, and an error it throws is thrown synchronously.
    */
-  async onRequest(handler: PlatformParamsCallback, $ctx: PlatformContext) {
+  onRequest(handler: PlatformParamsCallback, $ctx: PlatformContext): unknown | Promise<unknown> {
     const {handlerMetadata} = $ctx;
 
     if (handlerMetadata.type === PlatformHandlerType.CTX_FN) {
       return handler({$ctx});
     }
 
-    const resolver = new AnyToPromiseWithCtx($ctx);
+    const response = new AnyToPromiseWithCtx($ctx).run(handler);
 
-    const response = await resolver.call(handler);
-    // Note: restore previous handler metadata (for OIDC)
-    $ctx.handlerMetadata = handlerMetadata;
-
-    if (response.state === AnyToPromiseStatus.RESOLVED && !$ctx.isDone()) {
-      return this.onResponse(response, $ctx);
+    if (isPromise(response)) {
+      return response.then((response) => this.onResult(response, handlerMetadata, $ctx));
     }
+
+    return this.onResult(response, handlerMetadata, $ctx);
   }
 
   onResponse({status, data, headers}: AnyPromiseResult, $ctx: PlatformContext) {
@@ -112,19 +113,56 @@ export class PlatformHandler {
 
   /**
    * Send the response to the consumer.
+   *
+   * Returns a promise only when the response filters have to be awaited: otherwise the body is sent in the same tick.
    * @protected
    * @param $ctx
    */
-  async flush($ctx: PlatformContext) {
+  flush($ctx: PlatformContext): void | Promise<void> {
     if (!$ctx.error && !$ctx.isDone()) {
       try {
-        const data = await this.responseFilter.transform($ctx.data, $ctx as any);
+        const data = this.responseFilter.resolveBody($ctx.data, $ctx as any);
+
+        if (isPromise(data)) {
+          return data.then(
+            (data) => this.send(data, $ctx),
+            (er) => this.send(undefined, $ctx, er)
+          );
+        }
+
         $ctx.response.body(data);
       } catch (er) {
         $ctx.error = er;
       }
     }
 
+    this.catchError($ctx);
+  }
+
+  private onResult(response: AnyPromiseResult, handlerMetadata: PlatformHandlerMetadata, $ctx: PlatformContext) {
+    // Note: restore previous handler metadata (for OIDC)
+    $ctx.handlerMetadata = handlerMetadata;
+
+    if (response.state === AnyToPromiseStatus.RESOLVED && !$ctx.isDone()) {
+      return this.onResponse(response, $ctx);
+    }
+  }
+
+  private send(data: unknown, $ctx: PlatformContext, error?: unknown) {
+    if (error) {
+      $ctx.error = error;
+    } else {
+      try {
+        $ctx.response.body(data);
+      } catch (er) {
+        $ctx.error = er;
+      }
+    }
+
+    this.catchError($ctx);
+  }
+
+  private catchError($ctx: PlatformContext) {
     if ($ctx.error) {
       this.platformExceptions.catch($ctx.error, $ctx);
     }
