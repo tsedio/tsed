@@ -1,7 +1,7 @@
 import {AnyPromiseResult, AnyToPromise, isPromise, isSerializable, isStream} from "@tsed/core";
 import {BaseContext, ProviderScope, TokenProvider, inject, injectable, lazyInject, runInContext} from "@tsed/di";
 import {DeserializerPipe, PlatformParams, ValidationPipe} from "@tsed/platform-params";
-import {$asyncEmit, hooks} from "@tsed/hooks";
+import {$asyncEmit} from "@tsed/hooks";
 import {ServerlessContext} from "../domain/ServerlessContext.js";
 import type {ServerlessEvent} from "../domain/ServerlessEvent.js";
 import {ServerlessResponseStream} from "../domain/ServerlessResponseStream.js";
@@ -18,9 +18,7 @@ export class PlatformServerlessHandler {
     return ($ctx: ServerlessContext<ServerlessEvent>) => {
       return runInContext($ctx, async () => {
         try {
-          if (hooks.has("$onRequest")) {
-            await $asyncEmit("$onRequest", [$ctx]);
-          }
+          await $asyncEmit("$onRequest", [$ctx]);
 
           // a synchronous endpoint is classified without waiting for a promise
           const handler = promisedHandler;
@@ -44,9 +42,7 @@ export class PlatformServerlessHandler {
     const body: unknown = $ctx.isHttpEvent() && !$ctx.isAuthorizerEvent() ? await this.makeHttpResponse($ctx) : $ctx.response.getBody();
 
     try {
-      if (hooks.has("$onResponse")) {
-        await $asyncEmit("$onResponse", [$ctx]);
-      }
+      await $asyncEmit("$onResponse", [$ctx]);
     } finally {
       $ctx.logger.flush();
       $ctx.destroy();

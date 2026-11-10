@@ -1,5 +1,5 @@
 import {configuration, injector, logger} from "@tsed/di";
-import {$asyncEmit, $off, $on} from "@tsed/hooks";
+import {$asyncEmit} from "@tsed/hooks";
 import {PlatformResponse} from "../services/PlatformResponse.js";
 import {PlatformTest} from "../../testing/PlatformTest.js";
 import {createContext, createRequestId, defaultReqIdBuilder} from "./createContext.js";
@@ -54,32 +54,9 @@ describe("createContext", () => {
     // THEN
     expect($asyncEmit).toHaveBeenCalledWith("$onRequest", [ctx]);
 
-    const ref = {};
-    $on("$onResponse", ref, () => {});
-
-    try {
-      await vi.mocked(ctx.response.getRes().on).mock.calls[0][1](ctx);
-    } finally {
-      $off(ref as any);
-    }
-
-    expect($asyncEmit).toHaveBeenCalledWith("$onResponse", [ctx]);
-    expect(ctx.isFinished()).toEqual(true);
-  });
-
-  it("should finish the context without emitting $onResponse when nobody listens to it", async () => {
-    // GIVEN
-    const {injector, ctx, call} = await createContextFixture();
-
-    vi.mocked($asyncEmit).mockResolvedValue(undefined);
-    vi.spyOn(injector.logger, "info").mockReturnValue(undefined);
-
-    // WHEN
-    await call();
     await vi.mocked(ctx.response.getRes().on).mock.calls[0][1](ctx);
 
-    // THEN
-    expect($asyncEmit).not.toHaveBeenCalledWith("$onResponse", expect.anything());
+    expect($asyncEmit).toHaveBeenCalledWith("$onResponse", [ctx]);
     expect(ctx.isFinished()).toEqual(true);
   });
 
