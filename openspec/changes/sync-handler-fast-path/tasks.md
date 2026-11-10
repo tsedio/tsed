@@ -55,8 +55,9 @@
 
 ## 6. Verification and measurement
 
-- [ ] 6.1 Run `yarn test:lint`, `tsc --build` for every changed package and `yarn api:build` (new public methods need TSDoc). Verify: all pass.
-- [ ] 6.2 Repeat the task 1.3 CPU profiles. Verify: on Fastify `GET /hello`, `send` runs synchronously and `runMicrotasks` drops close to raw Fastify, about 0.8 µs/req. Write down the µs/req gained per platform.
+- [x] 6.1 Run `yarn test:lint`, `tsc --build` for every changed package and `yarn api:build` (new public methods need TSDoc). Verify: all pass.
+- [x] 6.2 Repeat the task 1.3 CPU profiles. Verify: on Fastify `GET /hello`, `send` runs synchronously and `runMicrotasks` drops close to raw Fastify, about 0.8 µs/req. Write down the µs/req gained per platform.
+  - After (CPU profile, GET /hello, busy µs/req, same method as 1.3): Fastify raw 15.1, Fastify Ts.ED 17.5 (1.16× raw, was 1.33×), microtasks 0.8 µs/req (raw: 0.8), send 100% synchronous; Express 23.2 (was 27.0, microtasks 20.5 → 0.9); Koa 23.1 (was 23.2: Koa's own compose keeps the promise chain).
 - [ ] 6.3 Open the PR and add the `benchmark` label. Verify: the benchmark workflow shows lower CPU per request on `GET /hello` and `GET /users/:id`, and no significant regression on any route of any platform. Put its numbers in the PR description.
 
 ## Workflow follow-up
