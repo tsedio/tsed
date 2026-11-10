@@ -1,10 +1,11 @@
+import {isPromise} from "@tsed/core";
 import {DIContext, injectable, injector, ProviderScope, TokenProvider} from "@tsed/di";
 import {JsonMethodStore, JsonParameterStore, PipeMethods} from "@tsed/schema";
 import {ParamValidationError} from "../errors/ParamValidationError.js";
 import {ParseExpressionPipe} from "../pipes/ParseExpressionPipe.js";
 
 export type PlatformParamsScope<Context extends DIContext = DIContext> = {$ctx: Context} & Record<string, any>;
-export type PlatformParamsCallback<Context extends DIContext = DIContext> = (scope: PlatformParamsScope<Context>) => Promise<any>;
+export type PlatformParamsCallback<Context extends DIContext = DIContext> = (scope: PlatformParamsScope<Context>) => Promise<any> | any;
 
 /**
  * Platform Params abstraction layer.
@@ -42,13 +43,26 @@ export class PlatformParams {
 
     const inj = injector();
     const store = JsonMethodStore.fromMethod(token, propertyKey);
-    const getArguments = this.compile<Context>(store);
     const provider = inj.providers.get(token)!;
+    const isRequestScoped = provider.scope === ProviderScope.REQUEST;
+    const getInstance = (scope: PlatformParamsScope<Context>) =>
+      inj.invoke<any>(token, {locals: isRequestScoped ? scope.$ctx.container : undefined});
+
+    if (!JsonParameterStore.getParams(store.target, store.propertyKey).length) {
+      // No parameter to resolve: call the method without waiting for a promise, unless the instance is built asynchronously.
+      return (scope: PlatformParamsScope<Context>) => {
+        const instance = getInstance(scope);
+
+        return isPromise(instance)
+          ? instance.then((resolved: any) => resolved[propertyKey](scope.$ctx))
+          : instance[propertyKey](scope.$ctx);
+      };
+    }
+
+    const getArguments = this.compile<Context>(store);
 
     return async (scope: PlatformParamsScope<Context>) => {
-      const container = provider.scope === ProviderScope.REQUEST ? scope.$ctx.container : undefined;
-
-      const [instance, args] = await Promise.all([inj.invoke<any>(token, {locals: container}), getArguments(scope)]);
+      const [instance, args] = await Promise.all([getInstance(scope), getArguments(scope)]);
 
       return instance[propertyKey].call(instance, ...args, scope.$ctx);
     };
