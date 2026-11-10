@@ -302,4 +302,131 @@ describe("AnyToPromise", () => {
       expect(result).toEqual({error});
     });
   });
+
+  describe("run()", () => {
+    it("should return a plain value without a promise", () => {
+      const result = new AnyToPromise().run(() => "test");
+
+      expect(result).toEqual({data: "test", type: "DATA", state: AnyToPromiseStatus.RESOLVED});
+    });
+
+    it("should return an empty result without a promise when no next function is requested", () => {
+      const result = new AnyToPromise().run(() => undefined);
+
+      expect(result).toEqual({data: undefined, type: "DATA", state: AnyToPromiseStatus.RESOLVED});
+    });
+
+    it("should return a buffer without a promise", () => {
+      const buffer = Buffer.from("test");
+      const result: any = new AnyToPromise().run(() => buffer);
+
+      expect(result.type).toEqual("BUFFER");
+      expect(result.data).toBe(buffer);
+    });
+
+    it("should return a stream without a promise", () => {
+      const stream = createReadStream(`${rootDir}/AnyToPromise.ts`);
+      const result: any = new AnyToPromise().run(() => stream);
+
+      stream.destroy();
+
+      expect(result.type).toEqual("STREAM");
+      expect(isStream(result.data)).toEqual(true);
+    });
+
+    it("should return a response object without a promise", () => {
+      const result: any = new AnyToPromise().run(() => ({data: "test", status: 201, headers: {"x-test": "1"}, statusText: "Created"}));
+
+      expect(result).toEqual({
+        data: "test",
+        status: 201,
+        headers: {"x-test": "1"},
+        type: "DATA",
+        state: AnyToPromiseStatus.RESOLVED
+      });
+    });
+
+    it("should return a canceled response without a promise", () => {
+      const result = new AnyToPromise().run(() => AnyToPromiseStatus.CANCELED);
+
+      expect(result).toEqual({state: AnyToPromiseStatus.CANCELED});
+    });
+
+    it("should return the result when next is called synchronously", () => {
+      const resolver = new AnyToPromise();
+      const result = resolver.run(() => resolver.next());
+
+      expect(result).toEqual({type: "DATA", state: AnyToPromiseStatus.RESOLVED});
+    });
+
+    it("should throw the error thrown synchronously by the callback", () => {
+      const error = new Error("sync");
+
+      expect(() =>
+        new AnyToPromise().run(() => {
+          throw error;
+        })
+      ).toThrow(error);
+    });
+
+    it("should return a promise for a promise", async () => {
+      const result = new AnyToPromise().run(() => Promise.resolve("test"));
+
+      expect(result).toBeInstanceOf(Promise);
+      expect(await result).toEqual({data: "test", type: "DATA", state: AnyToPromiseStatus.RESOLVED});
+    });
+
+    it("should return a promise for an observable", async () => {
+      const result = new AnyToPromise().run(() => of("test"));
+
+      expect(result).toBeInstanceOf(Promise);
+      expect(await result).toEqual({data: "test", type: "DATA", state: AnyToPromiseStatus.RESOLVED});
+    });
+
+    it("should return a rejected promise for a rejected promise", async () => {
+      const error = new Error("async");
+      const result = new AnyToPromise().run(() => Promise.reject(error));
+
+      expect(result).toBeInstanceOf(Promise);
+      await expect(result).rejects.toBe(error);
+    });
+
+    it("should return a promise resolved once next is called later", async () => {
+      const resolver = new AnyToPromise();
+      const result = resolver.run(() => {
+        const next = resolver.next;
+        setTimeout(() => next(), 1);
+      });
+
+      expect(result).toBeInstanceOf(Promise);
+      expect(await result).toEqual({type: "DATA", state: AnyToPromiseStatus.RESOLVED});
+    });
+
+    it("should return a promise rejected once next is called later with an error", async () => {
+      const error = new Error("next");
+      const resolver = new AnyToPromise();
+      const result = resolver.run(() => {
+        const next = resolver.next;
+        setTimeout(() => next(error), 1);
+      });
+
+      await expect(result).rejects.toBe(error);
+    });
+
+    it("should keep call() returning a promise for a synchronous value", async () => {
+      const result = new AnyToPromise().call(() => "test");
+
+      expect(result).toBeInstanceOf(Promise);
+      expect(await result).toEqual({data: "test", type: "DATA", state: AnyToPromiseStatus.RESOLVED});
+    });
+
+    it("should keep call() rejecting for an error thrown synchronously", async () => {
+      const error = new Error("sync");
+      const result = new AnyToPromise().call(() => {
+        throw error;
+      });
+
+      await expect(result).rejects.toBe(error);
+    });
+  });
 });

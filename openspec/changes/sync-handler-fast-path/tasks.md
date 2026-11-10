@@ -10,9 +10,9 @@
 
 ## 2. `@tsed/core`: `AnyToPromise.run()`
 
-- [ ] 2.1 Make `#promise` lazy and add `run(cb)` returning `AnyPromiseResult | Promise<AnyPromiseResult>` (D2). Rewrite `call()` on top of it, keeping `Promise<AnyPromiseResult>`. Verify: existing `AnyToPromise.spec.ts` passes unchanged.
-- [ ] 2.2 Unit tests for `run()`. Each of these must return a value, not a promise: plain value, `undefined` without `next`, `Buffer`, stream, response object, canceled response. Each of these must return a promise: a promise, an observable, a rejected promise, `next()` called later, `next(error)`. Verify: `cd packages/core && npx vitest run src/utils/AnyToPromise.spec.ts`.
-- [ ] 2.3 Override `run()` in `AnyToPromiseWithCtx` (platform-http), with a unit test for the canceled-response case. Verify: `cd packages/platform/platform-http && npx vitest run src/common/domain`.
+- [x] 2.1 Make `#promise` lazy and add `run(cb)` returning `AnyPromiseResult | Promise<AnyPromiseResult>` (D2). Rewrite `call()` on top of it, keeping `Promise<AnyPromiseResult>`. Verify: existing `AnyToPromise.spec.ts` passes unchanged.
+- [x] 2.2 Unit tests for `run()`. Each of these must return a value, not a promise: plain value, `undefined` without `next`, `Buffer`, stream, response object, canceled response. Each of these must return a promise: a promise, an observable, a rejected promise, `next()` called later, `next(error)`. Verify: `cd packages/core && npx vitest run src/utils/AnyToPromise.spec.ts`.
+- [x] 2.3 Override `run()` in `AnyToPromiseWithCtx` (platform-http), with a unit test for the canceled-response case. Verify: `cd packages/platform/platform-http && npx vitest run src/common/domain`.
 
 ## 3. `@tsed/platform-response-filter`: `resolveBody()`
 

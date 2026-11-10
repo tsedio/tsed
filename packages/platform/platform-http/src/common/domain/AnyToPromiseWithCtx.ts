@@ -19,6 +19,10 @@ export class AnyToPromiseWithCtx extends AnyToPromise {
     return super.call(() => cb(this));
   }
 
+  run(cb: Function): AnyPromiseResult<any> | Promise<AnyPromiseResult<any>> {
+    return super.run(() => cb(this));
+  }
+
   destroy() {
     (this.$ctx as any) = null;
   }
