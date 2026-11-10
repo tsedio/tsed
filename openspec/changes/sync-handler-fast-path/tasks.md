@@ -44,10 +44,11 @@
 
 - [x] 5.1 Fastify `compose`: sync loop, then the async continuation from the first promise. Return `undefined` only when the reply is already sent, otherwise today's value (D5). Fastify `mapHandler` gets the same rule. Add an integration test for a handler that does not send (`@Res()` sending later). Verify: `platform-fastify` tests, plus the task 1.2 cases.
   - Note: a handler returning `@Res()` and sending later already hangs on the base branch (verified), so the "reply not sent yet" case is covered with a global `onSend` hook that defers one route (`test/sync-route.spec.ts`).
-- [ ] 5.2 Express `mapHandler` (normal and error middleware): sync step with try/catch and `callNext` in the same tick, without `catchAsyncError` on the sync path. Verify: `platform-express` tests, plus the task 1.2 cases.
-- [ ] 5.3 Koa `mapHandler`: remove the `async` closure, and return `callNext`'s `next()` promise. Verify: `platform-koa` tests, plus the task 1.2 cases, including a downstream Koa middleware that runs after `await next()`.
-- [ ] 5.4 Serverless `createHandler`: use `resolver.run()` and stop `await`ing the compiled handler. Verify: `platform-serverless` tests (`$onRequest` / `$onResponse` error cases included).
-- [ ] 5.5 Add a test per adapter that a sync route sends in the same tick:
+- [x] 5.2 Express `mapHandler` (normal and error middleware): sync step with try/catch and `callNext` in the same tick, without `catchAsyncError` on the sync path. Verify: `platform-express` tests, plus the task 1.2 cases.
+- [x] 5.3 Koa `mapHandler`: remove the `async` closure, and return `callNext`'s `next()` promise. Verify: `platform-koa` tests, plus the task 1.2 cases, including a downstream Koa middleware that runs after `await next()`.
+  - Note: Express and Koa `useContext` also skip `$ctx.start()` when no `$onRequest` listener exists, as Fastify does since PR #3524. The Koa "after `await next()`" case is `useContext` itself (404 check), covered by the existing custom 404 tests.
+- [x] 5.4 Serverless `createHandler`: use `resolver.run()` and stop `await`ing the compiled handler. Verify: `platform-serverless` tests (`$onRequest` / `$onResponse` error cases included).
+- [x] 5.5 Add a test per adapter that a sync route sends in the same tick:
   - Fastify: the route handler returns `undefined` and the reply is sent;
   - Express: `res.headersSent` is true right after the Ts.ED route handlers return.
     Verify: package tests.
