@@ -105,20 +105,21 @@ The alternative was to make `transform()` return a maybe-promise. It was rejecte
 
 The shared piece is the maybe-promise contract of `PlatformHandler`. Every adapter's wrapper follows the same rule: continue in the same tick on a value, wait on a promise. Each adapter still keeps its framework's own `next` or `done` semantics.
 
-### D6. `callInContext()` next to `runInContext()` in `@tsed/di`
+### D6. `runInContext()` returns the callback result as is
 
-`runInContext()` is declared `async`, so it always returns a promise, even for a synchronous callback. This was found during implementation; the first version of this design assumed the opposite. Changing its return type would break a public `@tsed/di` API used by every platform and plugin.
+`runInContext()` was declared `async`, so it always returned a promise, even for a synchronous callback. This was found during implementation; the first version of this design assumed the opposite.
 
-- New `callInContext(ctx, cb, injector?)` returns `cb()`'s result as is. It returns a promise only when `cb` returns one, or when a `$alterRunInContext` listener has to be awaited; in that case it delegates to `runInContext()`.
-- The adapters (D5) and the serverless handler use `callInContext()`. `runInContext()` is unchanged.
-- The browser build gets the same export, which delegates to its `runInContext()`, so the API is identical on both builds.
+- `runInContext()` is no longer `async`: it returns `cb()`'s result as is, and a promise only when `cb` returns one or when a `$alterRunInContext` listener has to be awaited first. Its return type widens from `Promise<Result>` to `Result | Promise<Result>`.
+- Every caller in the repository either `await`s it (`await` on a plain value works), returns it from an `async` function, or returns it to code that handles a value (`ensureContext`, the type-graphql middleware whose `next` is always async). `PulseService` returns it from a non-`async` function, but Pulse calls the processor with `await` inside a `try/catch`, so a value or an error thrown synchronously is handled like a promise.
+- The browser build gets the same contract.
+- Alternative considered: a new `callInContext()` next to an unchanged `runInContext()`. It was implemented first, then dropped: it doubles the API for the same behaviour, while the only cost of changing `runInContext()` is for code that calls `.then()` on its result.
 
 ## Risks / Trade-offs
 
 - **[Fewer ticks change what code racing the request sees]**
   - Code that schedules a microtask in `$onRequest` or in a middleware, and expects the response not to be sent yet, may now see it sent.
   - Mitigation: run the suites of every platform and of `platform-log-request`, `platform-exceptions`, `platform-cache`, `platform-response-filter`, `sse`, `formio`, `passport`, `oidc-provider` and `config`. Add the D5 scenarios as integration tests on Express, Koa and Fastify with `PlatformTestSdk`. Compare any failure with the base branch first, as `.agents/lessons.md` asks.
-- **[Third-party `PlatformHandler` subclasses or direct callers of `onRequest()`/`flush()` that call `.then()`]**
+- **[Third-party code that calls `.then()` on `runInContext()`, `PlatformHandler.onRequest()` or `flush()`]**
   - Mitigation: note it in the release notes as a type change. `await` keeps working. No such caller exists in this repository (checked with `git grep`).
 - **[Subclass overrides of `PlatformResponseFilter`]**
   - Mitigation: D4 detects the override and keeps the async path for them.

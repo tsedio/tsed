@@ -1,4 +1,4 @@
-import {callInContext, getContext, runInContext, setContext} from "./asyncHookContext.js";
+import {getContext, runInContext, setContext} from "./asyncHookContext.js";
 import {$off, $on} from "@tsed/hooks";
 import {DITest} from "../services/DITest.js";
 
@@ -174,7 +174,7 @@ describe("asyncHookContext", () => {
     });
   });
 
-  describe("callInContext()", () => {
+  describe("runInContext() result", () => {
     const ref = {};
 
     afterEach(() => $off(ref as any));
@@ -182,7 +182,7 @@ describe("asyncHookContext", () => {
     it("should return the result of a sync callback without a promise, inside the context", () => {
       const ctx: any = {id: "id"};
 
-      const result = callInContext(ctx, () => getContext(), DITest.injector);
+      const result = runInContext(ctx, () => getContext(), DITest.injector);
 
       expect(result).toBe(ctx);
     });
@@ -190,7 +190,7 @@ describe("asyncHookContext", () => {
     it("should return the promise of an async callback as is", async () => {
       const promise = Promise.resolve("result");
 
-      const result = callInContext({id: "id"} as any, () => promise, DITest.injector);
+      const result = runInContext({id: "id"} as any, () => promise, DITest.injector);
 
       expect(result).toBe(promise);
       expect(await result).toEqual("result");
@@ -200,7 +200,7 @@ describe("asyncHookContext", () => {
       const error = new Error("sync");
 
       expect(() =>
-        callInContext({id: "id"} as any, () => {
+        runInContext({id: "id"} as any, () => {
           throw error;
         })
       ).toThrow(error);
@@ -209,7 +209,7 @@ describe("asyncHookContext", () => {
     it("should wait for a $alterRunInContext listener", async () => {
       $on("$alterRunInContext", ref as any, (next: any) => () => `altered ${next()}`);
 
-      const result = callInContext({id: "id"} as any, () => "result", DITest.injector);
+      const result = runInContext({id: "id"} as any, () => "result", DITest.injector);
 
       expect(result).toBeInstanceOf(Promise);
       expect(await result).toEqual("altered result");
@@ -219,7 +219,7 @@ describe("asyncHookContext", () => {
       const ctx: any = {id: "id"};
 
       await runInContext(undefined, () => {
-        const result = callInContext(ctx, () => getContext());
+        const result = runInContext(ctx, () => getContext());
 
         expect(result).toBe(ctx);
       });
