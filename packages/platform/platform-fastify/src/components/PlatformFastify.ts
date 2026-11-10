@@ -243,11 +243,9 @@ export class PlatformFastify extends PlatformAdapter<FastifyInstance> {
 
       // done() is called in the same tick when no $onRequest listener has to be awaited. The promise is not
       // returned: Fastify would also treat this callback hook as an async one.
-      chain(
-        $ctx.start(),
-        () => done(),
-        (er) => done(er as Error)
-      );
+      const next = done as (err?: unknown) => void;
+
+      chain($ctx.start(), next, next);
     });
 
     await rawApp.register(fastifyMiddie, {
