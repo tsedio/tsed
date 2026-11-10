@@ -1,5 +1,5 @@
 import "@tsed/platform-multer/express";
-import {catchAsyncError, Env, isArray, isFunction, Type} from "@tsed/core";
+import {Env, isArray, isFunction, isPromise, Type} from "@tsed/core";
 import {IncomingMessage, ServerResponse} from "node:http";
 import {OptionsJson, OptionsText, OptionsUrlencoded} from "body-parser";
 import {
@@ -14,7 +14,8 @@ import {
   PlatformStaticsOptions
 } from "@tsed/platform-http";
 import {PlatformHandlerMetadata, PlatformHandlerType, PlatformLayer} from "@tsed/platform-router";
-import {constant, inject, logger, runInContext} from "@tsed/di";
+import {callInContext, constant, inject, logger} from "@tsed/di";
+import {hooks} from "@tsed/hooks";
 import {dirname, join} from "node:path";
 import Express from "express";
 import {PlatformExceptions} from "@tsed/platform-exceptions";
@@ -37,6 +38,41 @@ function callNext(next: any, metadata: PlatformHandlerMetadata, $ctx: PlatformCo
   if (metadata.type !== PlatformHandlerType.RESPONSE_FN) {
     return next && $ctx.error && !$ctx.isDone() ? next($ctx.error) : next();
   }
+}
+
+/**
+ * Call a Ts.ED handler, then Express next(): in the same tick when the handler is synchronous, once its promise
+ * settles otherwise. `$ctx.error` is the error of the handler, or undefined when it succeeds.
+ */
+function runHandler(handler: Function, metadata: PlatformHandlerMetadata, $ctx: PlatformContext, next: any) {
+  let result: unknown;
+
+  try {
+    result = handler($ctx);
+  } catch (er) {
+    $ctx.error = er;
+
+    return callNext(next, metadata, $ctx);
+  }
+
+  if (isPromise(result)) {
+    return result.then(
+      () => {
+        $ctx.error = undefined;
+
+        return callNext(next, metadata, $ctx);
+      },
+      (er) => {
+        $ctx.error = er;
+
+        return callNext(next, metadata, $ctx);
+      }
+    );
+  }
+
+  $ctx.error = undefined;
+
+  return callNext(next, metadata, $ctx);
 }
 
 declare global {
@@ -171,27 +207,23 @@ export class PlatformExpress extends PlatformAdapter<Express.Application> {
   mapHandler(handler: Function, metadata: PlatformHandlerMetadata) {
     if (metadata.type == PlatformHandlerType.ERR_MIDDLEWARE) {
       return (error: unknown, req: any, res: any, next: any) => {
-        return runInContext(req.$ctx, async () => {
+        return callInContext(req.$ctx, () => {
           const {$ctx} = req;
 
           $ctx.next = next;
           $ctx.error = error;
 
-          $ctx.error = await catchAsyncError(() => handler($ctx));
-
-          return callNext(next, metadata, $ctx);
+          return runHandler(handler, metadata, $ctx, next);
         });
       };
     }
 
     return (req: any, res: any, next: any) => {
-      return runInContext(req.$ctx, async () => {
+      return callInContext(req.$ctx, () => {
         const {$ctx} = req;
         $ctx.next = next;
 
-        $ctx.error = await catchAsyncError(() => handler($ctx));
-
-        return callNext(next, metadata, $ctx);
+        return runHandler(handler, metadata, $ctx, next);
       });
     };
   }
@@ -200,13 +232,16 @@ export class PlatformExpress extends PlatformAdapter<Express.Application> {
     const invoke = createContext();
     const app = application();
 
-    app.use(async (request: any, response: any, next: any) => {
+    app.use((request: any, response: any, next: any) => {
       const $ctx = invoke({request, response});
-      await $ctx.start();
+      const run = () => {
+        $ctx.response.getRes().on("finish", () => $ctx.finish());
 
-      $ctx.response.getRes().on("finish", () => $ctx.finish());
+        return callInContext($ctx, next);
+      };
 
-      return runInContext($ctx, next);
+      // continue in the same tick when no $onRequest listener has to be awaited
+      return hooks.has("$onRequest") ? $ctx.start().then(run) : run();
     });
   }
 
