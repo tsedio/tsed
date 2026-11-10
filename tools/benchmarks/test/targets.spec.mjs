@@ -1,10 +1,27 @@
+import {existsSync} from "node:fs";
+import {join} from "node:path";
+
 import {describe, expect, it} from "vitest";
 
-import {THIRD_PARTY} from "../src/deps.mjs";
-import {createManifest, findRegistryPackages, localPackages, parseTarget, REPO_DIR} from "../src/targets.mjs";
+import {PLATFORMS, platformPackage, RAW_DEPENDENCIES, ROOT_PACKAGES, THIRD_PARTY} from "../src/deps.mjs";
+import {BENCH_DIR, createManifest, findRegistryPackages, localPackages, parseTarget, REPO_DIR} from "../src/targets.mjs";
 import {dependencyClosure} from "../src/workspace.mjs";
 
 describe("targets", () => {
+  describe("platforms", () => {
+    it("should have a Ts.ED app, a raw app and the packages of every platform", () => {
+      for (const platform of PLATFORMS) {
+        expect(existsSync(join(BENCH_DIR, "app", `${platform}.ts`)), `app/${platform}.ts`).toBe(true);
+        expect(existsSync(join(BENCH_DIR, "raw", `${platform}.mjs`)), `raw/${platform}.mjs`).toBe(true);
+        expect(ROOT_PACKAGES).toContain(platformPackage(platform));
+      }
+
+      for (const name of RAW_DEPENDENCIES) {
+        expect(THIRD_PARTY[name], name).toBeDefined();
+      }
+    });
+  });
+
   describe("parseTarget()", () => {
     it("should parse a published version", () => {
       expect(parseTarget("8.44.1")).toEqual({name: "8.44.1", kind: "version", version: "8.44.1"});

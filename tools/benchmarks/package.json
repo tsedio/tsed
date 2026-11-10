@@ -2,7 +2,7 @@
   "name": "@tsed/benchmarks",
   "version": "8.17.0",
   "private": true,
-  "description": "HTTP benchmarks of a Ts.ED server across versions (Express, Koa, Fastify)",
+  "description": "HTTP benchmarks of a Ts.ED server across versions (Express, Koa, Fastify, fulmine.js)",
   "type": "module",
   "scripts": {
     "bench": "node ./src/cli.mjs",
@@ -17,6 +17,7 @@
     "@tsed/json-mapper": "workspace:*",
     "@tsed/platform-express": "workspace:*",
     "@tsed/platform-fastify": "workspace:*",
+    "@tsed/platform-fulmine": "workspace:*",
     "@tsed/platform-http": "workspace:*",
     "@tsed/platform-koa": "workspace:*",
     "@tsed/platform-params": "workspace:*",

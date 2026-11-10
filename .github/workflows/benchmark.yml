@@ -1,4 +1,4 @@
-# HTTP benchmark of a Ts.ED server (Express, Koa, Fastify):
+# HTTP benchmark of a Ts.ED server (Express, Koa, Fastify, fulmine.js):
 # - after each stable release: the reference version vs the released one (shown on tsed.dev/benchmarks);
 # - manually, with the list of targets to compare (published versions and/or "local");
 # - on a pull request when the "benchmark" label is added: base branch vs PR head.
@@ -15,7 +15,7 @@ on:
       platforms:
         description: "Platforms to measure"
         required: false
-        default: "express,koa,fastify"
+        default: "express,koa,fastify,fulmine"
       rounds:
         description: "Interleaved rounds (more rounds narrow the confidence interval)"
         required: false
@@ -137,7 +137,7 @@ jobs:
         working-directory: head
         env:
           TARGETS: ${{ steps.targets.outputs.targets }}
-          PLATFORMS: ${{ inputs.platforms || 'express,koa,fastify' }}
+          PLATFORMS: ${{ inputs.platforms || 'express,koa,fastify,fulmine' }}
           ROUNDS: ${{ inputs.rounds || '5' }}
           DURATION: ${{ inputs.duration || '5' }}
         run: |
