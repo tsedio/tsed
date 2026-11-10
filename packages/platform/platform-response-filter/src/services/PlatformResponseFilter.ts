@@ -15,6 +15,39 @@ export class PlatformResponseFilter {
   protected additionalProperties = constant<boolean>("additionalProperties");
   protected container = inject(PLATFORM_CONTENT_TYPES_CONTAINER);
   protected contentTypeResolver = inject(PLATFORM_CONTENT_TYPE_RESOLVER);
+  #isExtended?: boolean;
+
+  /**
+   * Transform the data to the right format, like {@link PlatformResponseFilter.transform}, without waiting for a
+   * microtask when every step is synchronous.
+   *
+   * A promise is returned when the endpoint renders a view, when a content-type response filter returns a promise,
+   * or when a subclass overrides `transform()`, `serialize()` or `renderView()` (the subclass is then called through
+   * `transform()`).
+   *
+   * @param data The data to transform.
+   * @param $ctx The context.
+   * @returns The transformed data, or a promise of it.
+   */
+  resolveBody(data: unknown, $ctx: BaseContext): unknown | Promise<unknown> {
+    if (this.isExtended()) {
+      return this.transform(data, $ctx);
+    }
+
+    const {endpoint} = $ctx;
+
+    if (endpoint) {
+      if (endpoint.view) {
+        return this.renderView(data, $ctx).then((html) => this.resolve(html, $ctx));
+      }
+
+      if (isSerializable(data)) {
+        data = this.serializeData(data, $ctx);
+      }
+    }
+
+    return this.resolve(data, $ctx);
+  }
 
   /**
    * Transform the data to the right format.
@@ -58,6 +91,10 @@ export class PlatformResponseFilter {
    * @param ctx
    */
   protected async serialize(data: unknown, ctx: BaseContext) {
+    return this.serializeData(data, ctx);
+  }
+
+  private serializeData(data: unknown, ctx: BaseContext) {
     const {response, endpoint} = ctx;
 
     const responseOpts = endpoint.getResponseOptions(response.statusCode, {
@@ -90,6 +127,17 @@ export class PlatformResponseFilter {
     }
 
     return data;
+  }
+
+  // a subclass overriding a step keeps going through transform(), as before resolveBody() existed
+  private isExtended() {
+    if (this.#isExtended === undefined) {
+      const proto = PlatformResponseFilter.prototype;
+
+      this.#isExtended = this.transform !== proto.transform || this.serialize !== proto.serialize || this.renderView !== proto.renderView;
+    }
+
+    return this.#isExtended;
   }
 
   protected getIncludes(ctx: BaseContext) {
