@@ -174,6 +174,8 @@ export function testRequestPipeline(options: PlatformTestingSdkOpts) {
       let wrapped = 0;
 
       $on("$alterRunInContext", ref, (next: () => unknown) => async () => {
+        // suspend before running the request, as an async context setup would
+        await new Promise((resolve) => setTimeout(resolve, 1));
         wrapped++;
 
         return next();
