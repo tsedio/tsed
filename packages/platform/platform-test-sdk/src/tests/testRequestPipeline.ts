@@ -57,7 +57,7 @@ class WrappingResponseFilter {
 @ResponseFilter(FAILING_TYPE)
 class FailingResponseFilter {
   transform() {
-    throw new Error("response filter failed");
+    throw new PipelineError("response filter failure");
   }
 }
 
@@ -176,9 +176,10 @@ export function testRequestPipeline(options: PlatformTestingSdkOpts) {
     });
 
     it("should send an error thrown by a response filter to the exception filters", async () => {
-      const response = await request.get("/rest/pipeline/failing-filter").expect(500);
+      const {body} = await request.get("/rest/pipeline/failing-filter").expect(400);
 
-      expect(response.text).not.toContain('"id"');
+      expect(body).toEqual({pipelineError: "response filter failure"});
+      expect(caughtErrors).toEqual(["response filter failure"]);
     });
   });
 }
