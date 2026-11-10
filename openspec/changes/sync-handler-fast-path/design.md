@@ -105,9 +105,13 @@ The alternative was to make `transform()` return a maybe-promise. It was rejecte
 
 The shared piece is the maybe-promise contract of `PlatformHandler`. Every adapter's wrapper follows the same rule: continue in the same tick on a value, wait on a promise. Each adapter still keeps its framework's own `next` or `done` semantics.
 
-### D6. `runInContext` with a synchronous callback
+### D6. `callInContext()` next to `runInContext()` in `@tsed/di`
 
-`runInContext(ctx, cb)` already returns `cb()`'s value as is: `AsyncLocalStorage.run` is synchronous, and the PR #3524 path skips `$alterRunInContext` when nobody listens. When a `$alterRunInContext` listener exists, it returns a promise, and the adapters handle that through D1. Nothing changes in `@tsed/di`.
+`runInContext()` is declared `async`, so it always returns a promise, even for a synchronous callback. This was found during implementation; the first version of this design assumed the opposite. Changing its return type would break a public `@tsed/di` API used by every platform and plugin.
+
+- New `callInContext(ctx, cb, injector?)` returns `cb()`'s result as is. It returns a promise only when `cb` returns one, or when a `$alterRunInContext` listener has to be awaited; in that case it delegates to `runInContext()`.
+- The adapters (D5) and the serverless handler use `callInContext()`. `runInContext()` is unchanged.
+- The browser build gets the same export, which delegates to its `runInContext()`, so the API is identical on both builds.
 
 ## Risks / Trade-offs
 
