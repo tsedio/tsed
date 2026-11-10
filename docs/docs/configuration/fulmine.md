@@ -10,7 +10,7 @@ description: "Configure a Ts.ED application to run on fulmine.js, the Express 5 
 framework on uWebSockets.js. The routing is the one of the Express platform, so Express middlewares work as they are.
 What changes is the server: the app listens on uWebSockets.js instead of a Node.js `http.Server`. The features of the
 Express platform are available, `@tsed/socketio` included: Socket.IO is attached to the uWebSockets.js app with
-`io.attachApp()`.
+`io.attachApp()`, so it needs Socket.IO 4.4 or later and Node.js (on Bun and Deno there is no uWebSockets.js).
 
 ## Requirements
 
