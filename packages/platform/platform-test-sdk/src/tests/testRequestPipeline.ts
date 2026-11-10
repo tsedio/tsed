@@ -1,6 +1,7 @@
 import {Get, Header, Redirect, Returns} from "@tsed/schema";
 import {Middleware, UseBefore} from "@tsed/platform-middlewares";
-import {afterAll, beforeAll, beforeEach, describe, expect, it} from "vitest";
+import {afterAll, afterEach, beforeAll, beforeEach, describe, expect, it} from "vitest";
+import {$off, $on} from "@tsed/hooks";
 import {Catch} from "@tsed/platform-exceptions";
 import {BadRequest} from "@tsed/exceptions";
 import {Context} from "@tsed/platform-params";
@@ -160,6 +161,28 @@ export function testRequestPipeline(options: PlatformTestingSdkOpts) {
       const {body} = await request.get("/rest/pipeline/next-middleware").expect(200);
 
       expect(body).toEqual({steps: ["next-middleware", "endpoint"]});
+    });
+  });
+
+  describe("$alterRunInContext listener", () => {
+    const ref = {};
+
+    afterEach(() => $off(ref as any));
+
+    it("should run the request inside the async callback returned by the listener", async () => {
+      // like @tsed/mikro-orm, which runs each request inside a MikroORM RequestContext
+      let wrapped = 0;
+
+      $on("$alterRunInContext", ref, (next: () => unknown) => async () => {
+        wrapped++;
+
+        return next();
+      });
+
+      const {text} = await request.get("/rest/pipeline/sync").expect(200);
+
+      expect(text).toEqual("hello world");
+      expect(wrapped).toBeGreaterThan(0);
     });
   });
 
