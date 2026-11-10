@@ -20,10 +20,11 @@ How to use
 
 #### utils
 
+- [x] packages/core/src/utils/AnyToPromise.ts — `call()` and the new `run()` document what is returned synchronously and what returns a promise
 - [x] packages/core/src/utils/deepClone.ts — `deepClone` lists the supported values, primitive wrappers included
 - [x] packages/core/src/utils/isBoolean.ts — `isBoolean` is primitive only and points to `isBooleanOrBooleanClass` for constructors and wrappers
 - [x] packages/core/src/utils/isPrimitive.ts — `isPrimitive` is primitive only and points to `isPrimitiveOrPrimitiveClass` for constructors and wrappers
 
 ---
 
-Last updated: 2026-10-28
+Last updated: 2026-11-10
