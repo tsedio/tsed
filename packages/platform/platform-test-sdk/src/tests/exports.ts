@@ -20,6 +20,7 @@ import {testMulter} from "./testMulter.js";
 import {testPathParams} from "./testPathParams.js";
 import {testQueryParams} from "./testQueryParams.js";
 import {testRedirect} from "./testRedirect.js";
+import {testRequestPipeline} from "./testRequestPipeline.js";
 import {testResponse} from "./testResponse.js";
 import {testResponseFilter} from "./testResponseFilter.js";
 import {testRouting} from "./testRouting.js";
@@ -35,6 +36,7 @@ export const specsContainer = new Map<string, (options: PlatformTestingSdkOpts) 
 specsContainer.set("handlers", testHandlers);
 specsContainer.set("auth", testAuth);
 specsContainer.set("middlewares", testMiddlewares);
+specsContainer.set("requestPipeline", testRequestPipeline);
 
 // RESPONSES
 specsContainer.set("headers", testHeaders);
