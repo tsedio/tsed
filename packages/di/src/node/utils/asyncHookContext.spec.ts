@@ -206,8 +206,16 @@ describe("asyncHookContext", () => {
       ).toThrow(error);
     });
 
-    it("should wait for a $alterRunInContext listener", async () => {
+    it("should run the callback returned by a $alterRunInContext listener without a promise", () => {
       $on("$alterRunInContext", ref as any, (next: any) => () => `altered ${next()}`);
+
+      const result = runInContext({id: "id"} as any, () => "result", DITest.injector);
+
+      expect(result).toEqual("altered result");
+    });
+
+    it("should wait for a $alterRunInContext listener returning a promise of the callback", async () => {
+      $on("$alterRunInContext", ref as any, async (next: any) => () => `altered ${next()}`);
 
       const result = runInContext({id: "id"} as any, () => "result", DITest.injector);
 
