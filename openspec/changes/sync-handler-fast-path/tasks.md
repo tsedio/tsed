@@ -16,14 +16,14 @@
 
 ## 3. `@tsed/platform-response-filter`: `resolveBody()`
 
-- [ ] 3.1 Add `resolveBody(data, $ctx)`, which returns a value or a promise (D4). Make `transform()` delegate to it, and add the once-per-instance override detection for `transform`, `serialize` and `renderView`. Verify: existing `PlatformResponseFilter.spec.ts` passes unchanged.
-- [ ] 3.2 Unit tests for `resolveBody()`:
+- [x] 3.1 Add `resolveBody(data, $ctx)`, which returns a value or a promise (D4). Make `transform()` delegate to it, and add the once-per-instance override detection for `transform`, `serialize` and `renderView`. Verify: existing `PlatformResponseFilter.spec.ts` passes unchanged.
+- [x] 3.2 Unit tests for `resolveBody()`:
   - a value for a JSON endpoint and for a string with `text/plain`;
   - a promise for a view, and for an async content-type `@ResponseFilter`;
   - a subclass overriding `serialize()` is still called;
   - `transform()` still returns a promise.
     Verify: package tests.
-- [ ] 3.3 Run the suites of the `transform()` callers. Verify: `packages/third-parties/sse` and `packages/third-parties/formio` tests pass.
+- [x] 3.3 Run the suites of the `transform()` callers. Verify: `packages/third-parties/sse` and `packages/third-parties/formio` tests pass.
 
 ## 4. `@tsed/platform-http`: `PlatformHandler`
 
