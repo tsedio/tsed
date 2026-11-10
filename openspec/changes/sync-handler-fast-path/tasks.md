@@ -3,8 +3,10 @@
 ## 1. Baseline
 
 - [x] 1.1 Branch `perf/sync-handler-fast-path` from `perf/platform-fastify-hot-path` (PR #3524 is not merged yet: this change builds on its `compileHandler` sync path and callback hooks, and is rebased on `production` once #3524 lands). Verify: `git log` contains the #3524 commits.
-- [ ] 1.2 Add the integration tests for the `platform-request-pipeline` scenarios to the shared platform test suite (`packages/platform/platform-test-sdk`), so Express, Koa and Fastify run the same cases. The cases are: sync endpoint, sync middleware then async endpoint, `@Next()` middleware, async factory controller, `@Returns(201)` with `@Header` and a response filter, `@Redirect`, a sync endpoint throwing `BadRequest` with a `@Catch` filter, and a throwing response filter. Verify: the new cases pass on the base branch on the three platforms, before any change.
-- [ ] 1.3 Record the base numbers: CPU profile of `GET /hello` on Fastify, Express and Koa (`.agents/skills/optimize-package-performance`) and one local bench run per platform with `--rounds 3`. Verify: numbers noted in the change notes for the PR description.
+- [x] 1.2 Add the integration tests for the `platform-request-pipeline` scenarios to the shared platform test suite (`packages/platform/platform-test-sdk`), so Express, Koa and Fastify run the same cases. The cases are: sync endpoint, sync middleware then async endpoint, `@Next()` middleware, async factory controller, `@Returns(201)` with `@Header` and a response filter, `@Redirect`, a sync endpoint throwing `BadRequest` with a `@Catch` filter, and a throwing response filter. Verify: the new cases pass on the base branch on the three platforms, before any change.
+  - Note: the async-factory controller case is covered by the `PlatformParams.compileHandler` unit test ("async factory"); a controller is built at bootstrap, so the async instance path cannot be reached through an HTTP request in the shared suite. The suite is `requestPipeline` in `platform-test-sdk`, run by Express, Koa and Fastify.
+- [x] 1.3 Record the base numbers: CPU profile of `GET /hello` on Fastify, Express and Koa (`.agents/skills/optimize-package-performance`) and one local bench run per platform with `--rounds 3`. Verify: numbers noted in the change notes for the PR description.
+  - Base (CPU profile, GET /hello, busy µs/req): Fastify raw 17.6, Fastify Ts.ED 23.4 (send 100% in a microtask), Express Ts.ED 27.0, Koa Ts.ED 23.2.
 
 ## 2. `@tsed/core`: `AnyToPromise.run()`
 
