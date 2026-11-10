@@ -15,7 +15,6 @@ import {
 import {PlatformHandlerMetadata, PlatformHandlerType, PlatformLayer} from "@tsed/platform-router";
 import {isFunction, isPromise, Type} from "@tsed/core";
 import {constant, inject, runInContext} from "@tsed/di";
-import {hooks} from "@tsed/hooks";
 import koaBodyParser, {Options} from "koa-bodyparser";
 import KoaRouter from "@koa/router";
 import {PlatformExceptions} from "@tsed/platform-exceptions";
@@ -169,9 +168,7 @@ export class PlatformKoa extends PlatformAdapter<Koa> {
 
       return runInContext($ctx, async () => {
         try {
-          if (hooks.has("$onRequest")) {
-            await $ctx.start();
-          }
+          await $ctx.start();
 
           await next();
           const status = koaContext.status || 404;
