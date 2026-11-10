@@ -1,5 +1,4 @@
-import {DIContext, InjectorService} from "../../common/index.js";
-import {hooks} from "@tsed/hooks";
+import {DIContext} from "../../common/index.js";
 
 interface AsyncStore {
   current: DIContext | undefined;
@@ -40,37 +39,26 @@ export function getContext<Context = DIContext>(initialValue?: DIContext): Conte
 }
 
 /**
- * Browser twin of the Node.js `runInContext`: run `cb` in the context of `ctx` and return its result as is, or a
- * promise of it when `cb` returns one or when the injector alters the callback first.
+ * Browser twin of the Node.js `runInContext`: run `cb` in the context of `ctx` and return its result as is.
+ *
+ * The `$alterRunInContext` hook is not applied in the browser: it exists to let server-side modules (e.g. an ORM)
+ * wrap each request in their own async context.
  *
  * @param ctx The context to run `cb` in.
  * @param cb The callback.
- * @param injector The injector used when `ctx` has none.
- * @returns The result of `cb`, or a promise of it.
+ * @param _injector Unused, kept for compatibility with the Node.js signature.
+ * @returns The result of `cb`.
  */
 export function runInContext<Result = unknown>(
   ctx: DIContext | undefined,
   cb: (...args: unknown[]) => Result,
-  injector?: {alterAsync?: (name: string, cb: any) => Promise<any>}
-): Result | Promise<Awaited<Result>> {
+  _injector?: unknown
+): Result {
   const ref = useContextRef();
 
   if (ref) {
     ctx && setContext(ctx);
     return cb();
-  }
-
-  injector = ctx?.injector || injector;
-
-  // the InjectorService alter only dispatches to the $alterRunInContext listeners: skip it when there is none,
-  // as the Node.js build does. A custom alterAsync is always called.
-  const alterAsync = injector?.alterAsync;
-  const mustAlter = alterAsync && (alterAsync !== InjectorService.prototype.alterAsync || hooks.has("$alterRunInContext"));
-
-  if (mustAlter) {
-    return alterAsync
-      .call(injector, "$alterRunInContext", cb)
-      .then((altered: typeof cb | undefined) => storage.run({current: ctx}, altered || cb)) as Promise<Awaited<Result>>;
   }
 
   return storage.run({current: ctx}, cb);

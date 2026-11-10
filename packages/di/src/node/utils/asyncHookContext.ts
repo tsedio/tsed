@@ -21,18 +21,18 @@ export function getContext<Context = DIContext>(initialValue?: DIContext): Conte
  * Run `cb` in the async context of `ctx` and return its result as is.
  *
  * A synchronous callback is called in the same tick and its value (or error) is returned (or thrown) directly: the
- * result is a promise only when `cb` returns one, or when a `$alterRunInContext` listener has to be awaited first.
+ * result is a promise only when `cb` returns one, or when a `$alterRunInContext` listener returns a promise instead of the callback to run.
  * Callers that `await` the result are unaffected.
  *
  * @param ctx The context to run `cb` in.
  * @param cb The callback.
- * @param injector The injector used when `ctx` has none.
+ * @param _injector Unused, kept for compatibility: the `$alterRunInContext` listeners are global hooks.
  * @returns The result of `cb`, or a promise of it.
  */
 export function runInContext<Result = unknown>(
   ctx: DIContext | undefined,
   cb: (...args: unknown[]) => Result,
-  injector?: InjectorService
+  _injector?: InjectorService
 ): Result | Promise<Awaited<Result>> {
   const ref = useContextRef();
 
@@ -41,16 +41,19 @@ export function runInContext<Result = unknown>(
     return cb();
   }
 
-  injector = ctx?.injector || injector;
+  // a $alterRunInContext listener returns the callback to run (AlterRunInContext), so the alter is synchronous;
+  // hooks.alter() returns cb as is when nobody listens. A listener returning a promise of the callback is awaited.
+  const altered = hooks.alter<typeof cb, typeof cb | Promise<typeof cb> | undefined>("$alterRunInContext", cb);
 
-  // Skip the async alter (one more promise per request) when no module listens to $alterRunInContext.
-  if (injector && hooks.has("$alterRunInContext")) {
-    return injector
-      .alterAsync("$alterRunInContext", cb)
-      .then((altered: typeof cb | undefined) => storage.run({current: ctx}, altered || cb)) as Promise<Awaited<Result>>;
+  if (isThenable<typeof cb>(altered)) {
+    return altered.then((next) => storage.run({current: ctx}, next || cb)) as Promise<Awaited<Result>>;
   }
 
-  return storage.run({current: ctx}, cb);
+  return storage.run({current: ctx}, altered || cb);
+}
+
+function isThenable<T>(value: unknown): value is Promise<T> {
+  return !!value && typeof (value as Promise<T>).then === "function";
 }
 
 export function setContext(ctx: DIContext) {
