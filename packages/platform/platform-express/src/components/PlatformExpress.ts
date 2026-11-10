@@ -1,5 +1,5 @@
 import "@tsed/platform-multer/express";
-import {Env, isArray, isFunction, isPromise, Type} from "@tsed/core";
+import {chain, Env, isArray, isFunction, isPromise, Type} from "@tsed/core";
 import {IncomingMessage, ServerResponse} from "node:http";
 import {OptionsJson, OptionsText, OptionsUrlencoded} from "body-parser";
 import {
@@ -15,7 +15,6 @@ import {
 } from "@tsed/platform-http";
 import {PlatformHandlerMetadata, PlatformHandlerType, PlatformLayer} from "@tsed/platform-router";
 import {constant, inject, logger, runInContext} from "@tsed/di";
-import {hooks} from "@tsed/hooks";
 import {dirname, join} from "node:path";
 import Express from "express";
 import {PlatformExceptions} from "@tsed/platform-exceptions";
@@ -241,7 +240,7 @@ export class PlatformExpress extends PlatformAdapter<Express.Application> {
       };
 
       // continue in the same tick when no $onRequest listener has to be awaited
-      return hooks.has("$onRequest") ? $ctx.start().then(run) : run();
+      return chain($ctx.start(), run);
     });
   }
 

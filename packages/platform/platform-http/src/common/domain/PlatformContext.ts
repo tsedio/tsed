@@ -1,6 +1,6 @@
 import {DIContext, DIContextOptions, injector} from "@tsed/di";
 import {IncomingMessage, ServerResponse} from "node:http";
-import {$asyncEmit} from "@tsed/hooks";
+import {$asyncEmit, hooks} from "@tsed/hooks";
 import {IncomingEvent} from "../interfaces/IncomingEvent.js";
 import {JsonMethodStore} from "@tsed/schema";
 import {PlatformApplication} from "../services/PlatformApplication.js";
@@ -80,8 +80,16 @@ export class PlatformContext<
     return injector().get<PlatformApplication>(PlatformApplication)!;
   }
 
-  start() {
-    return $asyncEmit("$onRequest", [this]);
+  /**
+   * Emit `$onRequest` for this context.
+   *
+   * Returns a promise only when a `$onRequest` listener has to be awaited, so a platform can continue the request in
+   * the same tick otherwise (see `chain()` from `@tsed/core`).
+   */
+  start(): Promise<void> | void {
+    if (hooks.has("$onRequest")) {
+      return $asyncEmit("$onRequest", [this]);
+    }
   }
 
   async finish() {

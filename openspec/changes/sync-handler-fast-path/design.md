@@ -46,6 +46,8 @@ Each pipeline step returns either a value or a promise. The caller does `isPromi
 
 The explicit branch costs nothing when the value is synchronous. It is repeated in about 6 places, which is acceptable.
 
+`@tsed/core` exports `chain(value, onValue, onError?)` for the call sites that only continue with an existing callback (`chain($ctx.start(), () => done(), done)` on Fastify, `chain($ctx.start(), run)` on Express). It keeps a rejection when no `onError` is given. The hot internal steps (`runHandlers`, `onRequest()`) keep the explicit branch, to avoid a closure per step.
+
 ### D2. `AnyToPromise.run()` next to `call()`
 
 `run(cb)` classifies the result of `cb()` and returns the `AnyPromiseResult` directly for:
@@ -65,6 +67,8 @@ It returns a promise only for promises, observables, or when a `next` function w
 The alternative was to change `call()` to return a value. It was rejected: that is a breaking type change in `@tsed/core`, which every plugin depends on.
 
 ### D3. `PlatformHandler.onRequest()` and `flush()` return `void | Promise<void>`
+
+`PlatformContext.start()` follows the same rule: it returns a promise only when a `$onRequest` listener has to be awaited, so the adapters no longer check `hooks.has("$onRequest")` themselves.
 
 - **`onRequest`:** `resolver.run(handler)`, then `onResponse()` either in the same tick or after the promise settles. The result of `onResponse()` is returned, so the promise from `PlatformExpressHandler` is still awaited.
 - **`flush`:**
