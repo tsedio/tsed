@@ -325,19 +325,22 @@ export class Hooks {
    */
   emit(event: string, ref: HookRef, args?: unknown[]): void;
   emit(event: string, ref?: HookRef | unknown[], args?: unknown[]): void {
+    const items = this.#listeners?.get(event);
+
+    // no listener: nothing to normalize or call
+    if (!items?.length) {
+      return;
+    }
+
     if (Array.isArray(ref)) {
       args = ref;
       ref = undefined;
     }
 
-    const items = this.#listeners?.get(event);
-
-    if (items?.length) {
-      // apply() with undefined args calls the listener without arguments, like an empty array
-      for (const item of items) {
-        if (match(ref, item)) {
-          item.cb.apply(null, args);
-        }
+    // apply() with undefined args calls the listener without arguments, like an empty array
+    for (const item of items) {
+      if (match(ref, item)) {
+        item.cb.apply(null, args);
       }
     }
   }
@@ -382,7 +385,7 @@ export class Hooks {
    * @param args - Array of arguments to pass to the listeners
    * @returns A promise that resolves when all listeners have completed
    */
-  async asyncEmit(event: string, args: unknown[]): Promise<void>;
+  asyncEmit(event: string, args: unknown[]): Promise<void>;
   /**
    * Trigger an event asynchronously for listeners with a specific reference.
    *
@@ -404,32 +407,39 @@ export class Hooks {
    * @param args - Optional array of arguments to pass to the listeners
    * @returns A promise that resolves when all listeners have completed
    */
-  async asyncEmit(event: string, ref: HookRef, args?: unknown[]): Promise<void>;
-  async asyncEmit(event: string, ref?: HookRef | unknown[], args?: unknown[]): Promise<void> {
+  asyncEmit(event: string, ref: HookRef, args?: unknown[]): Promise<void>;
+  asyncEmit(event: string, ref?: HookRef | unknown[], args?: unknown[]): Promise<void> {
+    const items = this.#listeners?.get(event);
+
+    // no listener: skip the async function, the returned promise is resolved as the async one would be
+    if (!items?.length) {
+      return Promise.resolve();
+    }
+
+    return this.#asyncEmit(items, ref, args);
+  }
+
+  async #asyncEmit(items: HookItem[], ref?: HookRef | unknown[], args?: unknown[]): Promise<void> {
     if (Array.isArray(ref)) {
       args = ref;
       ref = undefined;
     }
 
-    const items = this.#listeners?.get(event);
+    const results: unknown[] = [];
+    // the length is read once: a listener added by another listener is not called, as with the filter() snapshot
+    const length = items.length;
 
-    if (items?.length) {
-      const results: unknown[] = [];
-      // the length is read once: a listener added by another listener is not called, as with the filter() snapshot
-      const length = items.length;
+    for (let i = 0; i < length; i++) {
+      const item = items[i];
 
-      for (let i = 0; i < length; i++) {
-        const item = items[i];
-
-        if (match(ref, item)) {
-          results.push(item.cb.apply(null, args));
-        }
+      if (match(ref, item)) {
+        results.push(item.cb.apply(null, args));
       }
-
-      // every result goes through Promise.all(): it reads `then` once per value, and the ticks it takes
-      // let a listener that does not return its promise (e.g. @tsed/config refresh on response) settle first
-      await Promise.all(results);
     }
+
+    // every result goes through Promise.all(): it reads `then` once per value, and the ticks it takes
+    // let a listener that does not return its promise (e.g. @tsed/config refresh on response) settle first
+    await Promise.all(results);
   }
 
   /**
@@ -499,7 +509,7 @@ export class Hooks {
    * @param callThis - The context (`this`) to use when calling listeners
    * @returns A promise resolving to the final transformed value after all listeners have been applied
    */
-  async asyncAlter<Arg = unknown, AlteredArg = Arg>(
+  asyncAlter<Arg = unknown, AlteredArg = Arg>(
     event: string,
     value: Arg,
     args: unknown[] = EMPTY_ARGS,
@@ -507,10 +517,17 @@ export class Hooks {
   ): Promise<AlteredArg> {
     const items = this.#listeners?.get(event);
 
-    if (items?.length) {
-      for (const item of items) {
-        value = await callAlter(item.cb, callThis, value, args);
-      }
+    // no listener: skip the async function, the returned promise is resolved as the async one would be
+    if (!items?.length) {
+      return Promise.resolve(value as unknown as AlteredArg);
+    }
+
+    return this.#asyncAlter(items, value, args, callThis);
+  }
+
+  async #asyncAlter<Arg, AlteredArg>(items: HookItem[], value: Arg, args: unknown[], callThis: unknown): Promise<AlteredArg> {
+    for (const item of items) {
+      value = await callAlter(item.cb, callThis, value, args);
     }
 
     return value as unknown as AlteredArg;
