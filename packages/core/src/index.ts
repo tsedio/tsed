@@ -19,6 +19,7 @@ export * from "./utils/ancestorOf.js";
 export * from "./utils/ancestorsOf.js";
 export * from "./utils/AnyToPromise.js";
 export * from "./utils/catchError.js";
+export * from "./utils/chain.js";
 export * from "./utils/classOf.js";
 export * from "./utils/cleanObject.js";
 export * from "./utils/constructorOf.js";
