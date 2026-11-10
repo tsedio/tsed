@@ -6,14 +6,16 @@ import {
   createContext,
   PlatformAdapter,
   PlatformBuilder,
+  type PlatformContext,
   PlatformHandler,
   PlatformRequest,
   PlatformResponse,
   PlatformStaticsOptions
 } from "@tsed/platform-http";
 import {PlatformHandlerMetadata, PlatformHandlerType, PlatformLayer} from "@tsed/platform-router";
-import {catchAsyncError, isFunction, Type} from "@tsed/core";
+import {isFunction, isPromise, Type} from "@tsed/core";
 import {constant, inject, runInContext} from "@tsed/di";
+import {hooks} from "@tsed/hooks";
 import koaBodyParser, {Options} from "koa-bodyparser";
 import KoaRouter from "@koa/router";
 import {PlatformExceptions} from "@tsed/platform-exceptions";
@@ -116,20 +118,41 @@ export class PlatformKoa extends PlatformAdapter<Koa> {
   }
 
   mapHandler(handler: Function, metadata: PlatformHandlerMetadata) {
-    return async (koaContext: Koa.Context, next: Koa.Next) => {
-      const {$ctx} = koaContext.request;
-
-      $ctx.next = next;
-
-      const error = await catchAsyncError(() => handler($ctx));
-
+    const callNext = ($ctx: PlatformContext) => {
+      if (metadata.type !== PlatformHandlerType.RESPONSE_FN) {
+        return $ctx.next && $ctx.error ? $ctx.next($ctx.error) : $ctx.next();
+      }
+    };
+    const onError = ($ctx: PlatformContext, error: unknown) => {
       if (error) {
         $ctx.error = error;
       }
 
-      if (metadata.type !== PlatformHandlerType.RESPONSE_FN) {
-        return $ctx.next && $ctx.error ? $ctx.next($ctx.error) : $ctx.next();
+      return callNext($ctx);
+    };
+
+    // Koa next() is called in the same tick when the handler is synchronous; its promise is returned to Koa
+    return (koaContext: Koa.Context, next: Koa.Next) => {
+      const {$ctx} = koaContext.request;
+
+      $ctx.next = next;
+
+      let result: unknown;
+
+      try {
+        result = handler($ctx);
+      } catch (er) {
+        return onError($ctx, er);
       }
+
+      if (isPromise(result)) {
+        return result.then(
+          () => callNext($ctx),
+          (er) => onError($ctx, er)
+        );
+      }
+
+      return callNext($ctx);
     };
   }
 
@@ -146,7 +169,10 @@ export class PlatformKoa extends PlatformAdapter<Koa> {
 
       return runInContext($ctx, async () => {
         try {
-          await $ctx.start();
+          if (hooks.has("$onRequest")) {
+            await $ctx.start();
+          }
+
           await next();
           const status = koaContext.status || 404;
 
