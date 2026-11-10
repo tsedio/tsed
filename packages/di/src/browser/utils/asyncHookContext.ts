@@ -1,4 +1,5 @@
-import {DIContext} from "../../common/index.js";
+import {DIContext, InjectorService} from "../../common/index.js";
+import {hooks} from "@tsed/hooks";
 
 interface AsyncStore {
   current: DIContext | undefined;
@@ -61,9 +62,14 @@ export function runInContext<Result = unknown>(
 
   injector = ctx?.injector || injector;
 
-  if (injector?.alterAsync) {
-    return injector
-      .alterAsync("$alterRunInContext", cb)
+  // the InjectorService alter only dispatches to the $alterRunInContext listeners: skip it when there is none,
+  // as the Node.js build does. A custom alterAsync is always called.
+  const alterAsync = injector?.alterAsync;
+  const mustAlter = alterAsync && (alterAsync !== InjectorService.prototype.alterAsync || hooks.has("$alterRunInContext"));
+
+  if (mustAlter) {
+    return alterAsync
+      .call(injector, "$alterRunInContext", cb)
       .then((altered: typeof cb | undefined) => storage.run({current: ctx}, altered || cb)) as Promise<Awaited<Result>>;
   }
 

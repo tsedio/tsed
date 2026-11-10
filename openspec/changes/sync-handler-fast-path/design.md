@@ -18,7 +18,7 @@ See proposal.md (Why) for the numbers. Today a request goes through these steps,
 
 Constraints:
 
-- The `.agents/lessons.md` rule "Keep the microtasks of an async API when optimizing it": no public async API may lose its promise. The synchronous path is added next to it.
+- The `.agents/lessons.md` rule "Keep the microtasks of an async API when optimizing it": no public async API may lose its promise; the synchronous path is added next to it. `runInContext()` is the one deliberate exception (D6): it returns a value instead of a promise, and the change is documented as breaking.
 - Callers outside the pipeline use `transform()` (`@tsed/sse`, `@tsed/formio`) and `AnyToPromise.call()` (`@tsed/platform-serverless`).
 - `PlatformExpressHandler` overrides `onResponse` and may return a promise (a returned Express middleware). `PlatformKoaHandler` overrides `onRequest` and `flush`.
 
@@ -32,7 +32,7 @@ Constraints:
 **Non-Goals:**
 
 - Making handlers with parameters synchronous: the pipes and `Promise.all` in `PlatformParams` stay as they are. That can be a later change, once this one is measured.
-- Changing `AsyncLocalStorage` usage (`runInContext`), the request id or middie: they are separate leads in tsedio/tsed#3523.
+- Changing how `AsyncLocalStorage` is used (one `storage.run()` per handler), the request id or middie: they are separate leads in tsedio/tsed#3523. Only the return contract of `runInContext()` changes (D6).
 - Changing the async contract of `$onRequest` / `$onResponse`.
 
 ## Decisions
@@ -109,18 +109,18 @@ The shared piece is the maybe-promise contract of `PlatformHandler`. Every adapt
 
 `runInContext()` was declared `async`, so it always returned a promise, even for a synchronous callback. This was found during implementation; the first version of this design assumed the opposite.
 
-- `runInContext()` is no longer `async`: it returns `cb()`'s result as is, and a promise only when `cb` returns one or when a `$alterRunInContext` listener has to be awaited first. Its return type widens from `Promise<Result>` to `Result | Promise<Result>`.
+- `runInContext()` is no longer `async`: it returns `cb()`'s result as is, and a promise only when `cb` returns one or when a `$alterRunInContext` listener has to be awaited first. Its return type widens from `Promise<Result>` to `Result | Promise<Result>`, and an error thrown by a synchronous callback is thrown synchronously instead of being returned as a rejected promise.
 - Every caller in the repository either `await`s it (`await` on a plain value works), returns it from an `async` function, or returns it to code that handles a value (`ensureContext`, the type-graphql middleware whose `next` is always async). `PulseService` returns it from a non-`async` function, but Pulse calls the processor with `await` inside a `try/catch`, so a value or an error thrown synchronously is handled like a promise.
 - The browser build gets the same contract.
-- Alternative considered: a new `callInContext()` next to an unchanged `runInContext()`. It was implemented first, then dropped: it doubles the API for the same behaviour, while the only cost of changing `runInContext()` is for code that calls `.then()` on its result.
+- Alternative considered: a new `callInContext()` next to an unchanged `runInContext()`. It was implemented first, then dropped: it doubles the API for the same behaviour, while the only cost of changing `runInContext()` is for code that chains `.then()`, `.catch()` or `.finally()` on its result without awaiting it (none in this repository).
 
 ## Risks / Trade-offs
 
 - **[Fewer ticks change what code racing the request sees]**
   - Code that schedules a microtask in `$onRequest` or in a middleware, and expects the response not to be sent yet, may now see it sent.
   - Mitigation: run the suites of every platform and of `platform-log-request`, `platform-exceptions`, `platform-cache`, `platform-response-filter`, `sse`, `formio`, `passport`, `oidc-provider` and `config`. Add the D5 scenarios as integration tests on Express, Koa and Fastify with `PlatformTestSdk`. Compare any failure with the base branch first, as `.agents/lessons.md` asks.
-- **[Third-party code that calls `.then()` on `runInContext()`, `PlatformHandler.onRequest()` or `flush()`]**
-  - Mitigation: note it in the release notes as a type change. `await` keeps working. No such caller exists in this repository (checked with `git grep`).
+- **[Third-party code that chains `.then()`, `.catch()` or `.finally()` on `runInContext()`, `PlatformHandler.onRequest()` or `flush()`, or expects a synchronous error as a rejection]**
+  - Mitigation: note it in the release notes as a breaking change of `runInContext()` and a type change of `onRequest()`/`flush()`. `await` (with `try/catch`) keeps working. No such caller exists in this repository (checked with `git grep`).
 - **[Subclass overrides of `PlatformResponseFilter`]**
   - Mitigation: D4 detects the override and keeps the async path for them.
 - **[Fastify sync path returns `undefined` before the reply is sent]**
