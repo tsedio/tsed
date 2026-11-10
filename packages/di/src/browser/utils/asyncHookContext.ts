@@ -56,6 +56,22 @@ export async function runInContext<Result = unknown>(
   }
 }
 
+/**
+ * Browser twin of the Node.js `callInContext`: it delegates to {@link runInContext} and always returns a promise.
+ *
+ * @param ctx The context to run `cb` in.
+ * @param cb The callback.
+ * @param injector The injector used when `ctx` has none.
+ * @returns A promise of the result of `cb`.
+ */
+export function callInContext<Result = unknown>(
+  ctx: DIContext | undefined,
+  cb: (...args: unknown[]) => Result,
+  injector?: {alterAsync?: (name: string, cb: any) => Promise<any>}
+): Result | Promise<Awaited<Result>> {
+  return runInContext(ctx, cb, injector) as Promise<Awaited<Result>>;
+}
+
 export function setContext(ctx: DIContext) {
   const ref = useContextRef();
 

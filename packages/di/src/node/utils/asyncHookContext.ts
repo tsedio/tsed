@@ -39,6 +39,35 @@ export async function runInContext<Result = unknown>(
   }
 }
 
+/**
+ * Run `cb` in the async context of `ctx`, like {@link runInContext}, and return its result as is: a synchronous
+ * callback is not wrapped in a promise. A promise is returned when `cb` returns one, or when a `$alterRunInContext`
+ * listener has to be awaited.
+ *
+ * @param ctx The context to run `cb` in.
+ * @param cb The callback.
+ * @param injector The injector used when `ctx` has none.
+ * @returns The result of `cb`, or a promise of it.
+ */
+export function callInContext<Result = unknown>(
+  ctx: DIContext | undefined,
+  cb: (...args: unknown[]) => Result,
+  injector?: InjectorService
+): Result | Promise<Awaited<Result>> {
+  const ref = useContextRef();
+
+  if (ref) {
+    ctx && setContext(ctx);
+    return cb();
+  }
+
+  if ((ctx?.injector || injector) && hooks.has("$alterRunInContext")) {
+    return runInContext(ctx, cb, injector) as Promise<Awaited<Result>>;
+  }
+
+  return storage.run({current: ctx}, cb);
+}
+
 export function setContext(ctx: DIContext) {
   const ref = useContextRef();
 
