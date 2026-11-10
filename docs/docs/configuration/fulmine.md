@@ -9,8 +9,8 @@ description: "Configure a Ts.ED application to run on fulmine.js, the Express 5 
 `@tsed/platform-fulmine` runs Ts.ED on [fulmine.js](https://github.com/nigrosimone/fulmine.js), an Express 5 compatible
 framework on uWebSockets.js. The routing is the one of the Express platform, so Express middlewares work as they are.
 What changes is the server: the app listens on uWebSockets.js instead of a Node.js `http.Server`. The features of the
-Express platform are available, except `@tsed/socketio`: Socket.IO attaches to a Node.js server, and on fulmine.js it
-needs `io.attachApp(app.uwsApp)` on Node.js, see [WebSockets](https://fulmine.sndesign.it/websockets#socket-io).
+Express platform are available, `@tsed/socketio` included: Socket.IO is attached to the uWebSockets.js app with
+`io.attachApp()`.
 
 ## Requirements
 
