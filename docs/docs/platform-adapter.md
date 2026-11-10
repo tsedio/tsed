@@ -188,6 +188,7 @@ You can take inspiration from the existing adapters in the Ts.ED repository, suc
 - [PlatformExpress](https://github.com/tsedio/tsed/blob/production/packages/platform/platform-express)
 - [PlatformKoa](https://github.com/tsedio/tsed/blob/production/packages/platform/platform-koa)
 - [PlatformFastify](https://github.com/tsedio/tsed/blob/production/packages/platform/platform-fastify)
+- [PlatformFulmine](https://github.com/tsedio/tsed/blob/production/packages/platform/platform-fulmine)
 
 ### 2. Extend PlatformAdapter
 
