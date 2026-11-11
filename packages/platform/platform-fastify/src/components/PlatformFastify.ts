@@ -3,7 +3,7 @@ import * as Http from "node:http";
 import {IncomingMessage, ServerResponse} from "node:http";
 import * as Https from "node:https";
 import {$alter, $asyncEmit} from "@tsed/hooks";
-import {chain, type Env, isFunction, isPromise, isString, ReturnHostInfoFromPort, Type} from "@tsed/core";
+import {chain, type Env, isFunction, type MaybePromise, isPromise, isString, ReturnHostInfoFromPort, Type} from "@tsed/core";
 import Fastify, {FastifyInstance, FastifyReply, FastifyRequest} from "fastify";
 import {
   adapter,
@@ -66,7 +66,7 @@ function isRunnable(metadata: PlatformHandlerMetadata, $ctx: PlatformContext) {
  * Run the handlers of a route from `index`, in the same tick while they return a plain value. At the first handler
  * returning a promise, the rest of the handlers runs once it settles.
  */
-function runHandlers(handlers: PlatformHandlerMetadata[], $ctx: PlatformContext, index: number): void | Promise<void> {
+function runHandlers(handlers: PlatformHandlerMetadata[], $ctx: PlatformContext, index: number): MaybePromise<void> {
   for (let i = index; i < handlers.length; i++) {
     const metadata = handlers[i];
 

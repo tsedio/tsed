@@ -1,3 +1,4 @@
+import type {MaybePromise} from "../types/MaybePromise.js";
 import {isPromise} from "./isPromise.js";
 
 /**
@@ -12,6 +13,6 @@ import {isPromise} from "./isPromise.js";
  * @returns The result of `onValue` (or `onError`), or a promise of it when `value` is a promise.
  * @public
  */
-export function chain<T, R>(value: T | Promise<T>, onValue: (value: T) => R, onError?: (error: unknown) => R): R | Promise<R> {
+export function chain<T, R>(value: MaybePromise<T>, onValue: (value: T) => R, onError?: (error: unknown) => R): MaybePromise<R> {
   return isPromise<T>(value) ? value.then(onValue, onError) : onValue(value);
 }

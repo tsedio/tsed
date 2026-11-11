@@ -143,4 +143,4 @@ No migration for applications. Ship in a minor release, with a release note on t
 
 ## Open Questions
 
-- Should `@tsed/core` export a public `MaybePromise<T>` type for the new signatures, or keep them as `T | Promise<T>` inline? This does not change the approach.
+- ~~Should `@tsed/core` export a public `MaybePromise<T>` type for the new signatures, or keep them as `T | Promise<T>` inline?~~ Resolved: `@tsed/core` exports `MaybePromise<T> = T | Promise<T>`. It is used by `chain()`, `AnyToPromise.run()`, `PlatformContext.start()`, `PlatformHandler.onRequest()`/`flush()` and `PlatformResponseFilter.resolveBody()`. `runInContext()` keeps `Result | Promise<Awaited<Result>>`, which does not have that shape.

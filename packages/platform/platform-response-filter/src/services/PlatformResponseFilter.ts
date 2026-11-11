@@ -2,7 +2,7 @@ import {BaseContext, constant, inject, injectable} from "@tsed/di";
 import {PLATFORM_CONTENT_TYPES_CONTAINER} from "./PlatformContentTypesContainer.js";
 import {PLATFORM_CONTENT_TYPE_RESOLVER} from "./PlatformContentTypeResolver.js";
 import {TemplateRenderError} from "../errors/TemplateRenderError.js";
-import {isSerializable} from "@tsed/core";
+import {isSerializable, type MaybePromise} from "@tsed/core";
 import {serialize} from "@tsed/json-mapper";
 
 /**
@@ -29,7 +29,7 @@ export class PlatformResponseFilter {
    * @param $ctx The context.
    * @returns The transformed data, or a promise of it.
    */
-  resolveBody(data: unknown, $ctx: BaseContext): unknown | Promise<unknown> {
+  resolveBody(data: unknown, $ctx: BaseContext): MaybePromise<unknown> {
     if (this.isExtended()) {
       return this.transform(data, $ctx);
     }
