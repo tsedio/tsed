@@ -179,8 +179,7 @@ export class PlatformFastify extends PlatformAdapter<FastifyInstance> {
       return handler;
     }
 
-    // done is called in the same tick when the handler is synchronous. As before, an error is returned as a
-    // rejected promise and done is not called.
+    // done is called in the same tick when the handler is synchronous. An error is returned as a rejected promise.
     const run = ($ctx: PlatformContext, then: (result: unknown) => unknown) => {
       let result: unknown;
 
@@ -200,11 +199,16 @@ export class PlatformFastify extends PlatformAdapter<FastifyInstance> {
 
           $ctx.next = done;
 
-          return run($ctx, (result) => {
+          // middie ignores the returned value: a failure has to go through done(error)
+          const result = run($ctx, (result) => {
             callNext(done, metadata, $ctx);
 
             return result;
           });
+
+          if (isPromise(result)) {
+            result.catch(done);
+          }
         };
 
       default:
