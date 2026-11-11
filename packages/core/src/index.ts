@@ -9,6 +9,7 @@ export * from "./types/AnyDecorator.js";
 export * from "./types/DecoratorParameters.js";
 export * from "./types/DecoratorTypes.js";
 export * from "./types/Env.js";
+export * from "./types/MaybePromise.js";
 export * from "./types/Metadata.js";
 export * from "./types/MetadataTypes.js";
 export * from "./types/Relation.js";

@@ -1,4 +1,5 @@
 import {AsyncLocalStorage, AsyncResource} from "node:async_hooks";
+import type {MaybePromise} from "@tsed/core";
 import {hooks} from "@tsed/hooks";
 import type {DIContext} from "../../common/domain/DIContext.js";
 import {InjectorService} from "../../common/index.js";
@@ -43,7 +44,7 @@ export function runInContext<Result = unknown>(
 
   // a $alterRunInContext listener returns the callback to run (AlterRunInContext), so the alter is synchronous;
   // hooks.alter() returns cb as is when nobody listens. A listener returning a promise of the callback is awaited.
-  const altered = hooks.alter<typeof cb, typeof cb | Promise<typeof cb> | undefined>("$alterRunInContext", cb);
+  const altered = hooks.alter<typeof cb, MaybePromise<typeof cb> | undefined>("$alterRunInContext", cb);
 
   if (isThenable<typeof cb>(altered)) {
     return altered.then((next) => storage.run({current: ctx}, next || cb)) as Promise<Awaited<Result>>;

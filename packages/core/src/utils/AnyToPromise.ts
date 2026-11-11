@@ -2,6 +2,7 @@ import {isObject} from "./isObject.js";
 import {isObservable} from "./isObservable.js";
 import {isPromise} from "./isPromise.js";
 import {isStream} from "./isStream.js";
+import type {MaybePromise} from "../types/MaybePromise.js";
 
 /**
  * @ignore
@@ -104,7 +105,7 @@ export class AnyToPromise<T = any> {
       return Promise.resolve(this as any);
     }
 
-    let result: AnyPromiseResult<T> | Promise<AnyPromiseResult<T>>;
+    let result: MaybePromise<AnyPromiseResult<T>>;
 
     try {
       result = this.run(cb);
@@ -125,7 +126,7 @@ export class AnyToPromise<T = any> {
    * @returns The result, or a promise of the result.
    * @throws The error thrown synchronously by `cb`.
    */
-  run(cb: Function): AnyPromiseResult<T> | Promise<AnyPromiseResult<T>> {
+  run(cb: Function): MaybePromise<AnyPromiseResult<T>> {
     if (this.isDone()) {
       return this as any;
     }

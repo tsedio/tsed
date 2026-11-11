@@ -5,7 +5,7 @@ import {
   PlatformRouters,
   useResponseHandler
 } from "@tsed/platform-router";
-import {AnyPromiseResult, AnyToPromiseStatus, isPromise} from "@tsed/core";
+import {AnyPromiseResult, AnyToPromiseStatus, isPromise, type MaybePromise} from "@tsed/core";
 import {PlatformParams, PlatformParamsCallback} from "@tsed/platform-params";
 import {Provider, ProviderScope, inject, injectable} from "@tsed/di";
 import {$alter} from "@tsed/hooks";
@@ -74,7 +74,7 @@ export class PlatformHandler {
    * Returns a promise only when the handler (or `onResponse()`) has to be awaited: a synchronous handler is
    * handled in the same tick, and an error it throws is thrown synchronously.
    */
-  onRequest(handler: PlatformParamsCallback, $ctx: PlatformContext): unknown | Promise<unknown> {
+  onRequest(handler: PlatformParamsCallback, $ctx: PlatformContext): MaybePromise<unknown> {
     const {handlerMetadata} = $ctx;
 
     if (handlerMetadata.type === PlatformHandlerType.CTX_FN) {
@@ -118,7 +118,7 @@ export class PlatformHandler {
    * @protected
    * @param $ctx
    */
-  flush($ctx: PlatformContext): void | Promise<void> {
+  flush($ctx: PlatformContext): MaybePromise<void> {
     if (!$ctx.error && !$ctx.isDone()) {
       try {
         const data = this.responseFilter.resolveBody($ctx.data, $ctx as any);

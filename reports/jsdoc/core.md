@@ -26,6 +26,10 @@ How to use
 - [x] packages/core/src/utils/isBoolean.ts — `isBoolean` is primitive only and points to `isBooleanOrBooleanClass` for constructors and wrappers
 - [x] packages/core/src/utils/isPrimitive.ts — `isPrimitive` is primitive only and points to `isPrimitiveOrPrimitiveClass` for constructors and wrappers
 
+#### types
+
+- [x] packages/core/src/types/MaybePromise.ts — `MaybePromise` is a value or a promise of it, used by the same-tick APIs such as `chain`
+
 ---
 
 Last updated: 2026-11-10

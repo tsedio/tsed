@@ -1,4 +1,4 @@
-import {AnyPromiseResult, AnyToPromise} from "@tsed/core";
+import {AnyPromiseResult, AnyToPromise, type MaybePromise} from "@tsed/core";
 import {PlatformContext} from "./PlatformContext.js";
 
 export class AnyToPromiseWithCtx extends AnyToPromise {
@@ -19,7 +19,7 @@ export class AnyToPromiseWithCtx extends AnyToPromise {
     return super.call(() => cb(this));
   }
 
-  run(cb: Function): AnyPromiseResult<any> | Promise<AnyPromiseResult<any>> {
+  run(cb: Function): MaybePromise<AnyPromiseResult<any>> {
     return super.run(() => cb(this));
   }
 
