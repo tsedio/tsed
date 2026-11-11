@@ -59,7 +59,9 @@
 - [x] 6.1 Run `yarn test:lint`, `tsc --build` for every changed package and `yarn api:build` (new public methods need TSDoc). Verify: all pass.
 - [x] 6.2 Repeat the task 1.3 CPU profiles. Verify: on Fastify `GET /hello`, `send` runs synchronously and `runMicrotasks` drops close to raw Fastify, about 0.8 µs/req. Write down the µs/req gained per platform.
   - After (CPU profile, GET /hello, busy µs/req, same method as 1.3): Fastify raw 15.1, Fastify Ts.ED 17.5 (1.16× raw, was 1.33×), microtasks 0.8 µs/req (raw: 0.8), send 100% synchronous; Express 23.2 (was 27.0, microtasks 20.5 → 0.9); Koa 23.1 (was 23.2: Koa's own compose keeps the promise chain).
-- [ ] 6.3 Open the PR and add the `benchmark` label. Verify: the benchmark workflow shows lower CPU per request on `GET /hello` and `GET /users/:id`, and no significant regression on any route of any platform. Put its numbers in the PR description.
+- [x] 6.3 Open the PR and add the `benchmark` label. Verify: the benchmark workflow shows lower CPU per request on `GET /hello` and `GET /users/:id`, and no significant regression on any route of any platform. Put its numbers in the PR description.
+  - CI run 42773212130: no significant gap on any route (intervals of about ±20%). Local run, `8.46.3` against this branch (10 interleaved rounds, macOS): +1.0% to +1.7% req/s on every platform and route, none significant, except Fastify `GET /users/:id` at −2.3% [−5.2; +0.8], not significant either. No significant regression.
+  - Routes with parameters keep the async path (`PlatformParams.getArg()` awaits each pipe, `AjvService.validate()` is `async`): the next change.
 
 ## Workflow follow-up
 
