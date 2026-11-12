@@ -43,6 +43,19 @@ function hasTypeMapperChanged(entry: DeserializerTypeMapperEntry, mapper: JsonMa
   return entry.hasConversion !== hasConversionMethod(mapper, entry.name);
 }
 
+/**
+ * True when the options hold nothing but the parameter store (groups, useAlias and types are not used with a store).
+ */
+function hasStoreOnly(options: Record<string, any>) {
+  for (const key in options) {
+    if (key !== "store") {
+      return false;
+    }
+  }
+
+  return true;
+}
+
 function isDeserializable(obj: any, options: JsonDeserializerOptions) {
   if ((!!options.collectionType && isNil(obj)) || obj === undefined) {
     return false;
@@ -75,6 +88,10 @@ function mapParamStoreOptions(store: JsonParameterStore, options: JsonDeserializ
  * handling collections, discriminators, hooks, and registered type mappers.
  */
 export class JsonDeserializer extends JsonMapperCompiler<JsonDeserializerOptions> {
+  #storeOptions = new WeakMap<
+    JsonParameterStore,
+    {options: JsonDeserializerOptions; strictGroups: unknown; additionalProperties: unknown; disableUnsecureConstructor: unknown}
+  >();
   /**
    * Cached classes by his id
    * @protected
@@ -104,7 +121,8 @@ export class JsonDeserializer extends JsonMapperCompiler<JsonDeserializerOptions
     }
 
     if (!options.collectionType && isArray(input)) {
-      options.collectionType = Array;
+      // copy: the options of a parameter store are cached (see mapOptions)
+      options = {...options, collectionType: Array};
     }
 
     const model = options.type || classOf(input);
@@ -345,9 +363,39 @@ export class JsonDeserializer extends JsonMapperCompiler<JsonDeserializerOptions
     return (writer: Writer) => writer.callMapper(nestedMapper.id, varKey(key), formatOpts);
   }
 
+  /**
+   * The options of a parameter store depend only on its metadata and on the global settings: they are built once per
+   * store (and again when a setting changed), instead of on each request.
+   */
+  private getStoreOptions(store: JsonParameterStore): JsonDeserializerOptions {
+    const cached = this.#storeOptions.get(store);
+
+    if (
+      cached &&
+      cached.strictGroups === JsonMapperSettings.strictGroups &&
+      cached.additionalProperties === JsonMapperSettings.additionalProperties &&
+      cached.disableUnsecureConstructor === JsonMapperSettings.disableUnsecureConstructor
+    ) {
+      this.syncTypeMappers(getJsonMapperTypes(), createTypeMapperEntry, hasTypeMapperChanged);
+
+      return cached.options;
+    }
+
+    const options = this.mapOptions(mapParamStoreOptions(store, {}));
+
+    this.#storeOptions.set(store, {
+      options,
+      strictGroups: JsonMapperSettings.strictGroups,
+      additionalProperties: JsonMapperSettings.additionalProperties,
+      disableUnsecureConstructor: JsonMapperSettings.disableUnsecureConstructor
+    });
+
+    return options;
+  }
+
   private mapOptions({groups, useAlias = true, types, ...options}: JsonDeserializerOptions<any, any>): JsonDeserializerOptions {
     if (options.store instanceof JsonParameterStore) {
-      return this.mapOptions(mapParamStoreOptions(options.store, options));
+      return hasStoreOnly(options) ? this.getStoreOptions(options.store) : this.mapOptions(mapParamStoreOptions(options.store, options));
     }
 
     const customMappers: Record<string, any> = {};
