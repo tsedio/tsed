@@ -658,7 +658,7 @@ describe("ValidationPipe with a validator service", () => {
 
   it("should call validateValue() and return its value without a promise when the validator has it", async () => {
     const pipe = await PlatformTest.invoke<ValidationPipe>(ValidationPipe);
-    const validator = {name: "fake", validate: vi.fn(), validateValue: vi.fn((value: any) => value)};
+    const validator = {name: "fake", validate: vi.fn(), validateValue: vi.fn((value: any, _options: any) => value)};
     (pipe as any).validators.set("default", validator);
 
     const param = JsonParameterStore.get(ValidationTest, "test", 0);
@@ -681,7 +681,7 @@ describe("ValidationPipe with a validator service", () => {
 
   it("should compile the schema of a parameter once", async () => {
     const pipe = await PlatformTest.invoke<ValidationPipe>(ValidationPipe);
-    const validator = {name: "fake", validate: vi.fn(), validateValue: vi.fn((value: any) => value)};
+    const validator = {name: "fake", validate: vi.fn(), validateValue: vi.fn((value: any, _options: any) => value)};
     (pipe as any).validators.set("default", validator);
 
     const param = JsonParameterStore.get(ValidationTest, "test", 0);
@@ -689,7 +689,7 @@ describe("ValidationPipe with a validator service", () => {
     pipe.transform("a", param);
     pipe.transform("b", param);
 
-    const [[, first], [, second]] = validator.validateValue.mock.calls;
+    const [[, first], [, second]] = validator.validateValue.mock.calls as [any, any][];
     expect(first.schema).toBe(second.schema);
   });
 });
