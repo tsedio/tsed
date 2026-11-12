@@ -22,7 +22,8 @@ export function getContext<Context = DIContext>(initialValue?: DIContext): Conte
  * Run `cb` in the async context of `ctx` and return its result as is.
  *
  * A synchronous callback is called in the same tick and its value (or error) is returned (or thrown) directly: the
- * result is a promise only when `cb` returns one. Callers that `await` the result are unaffected.
+ * result is a promise only when `cb` returns one, or when the last `$alterRunInContext` listener returns a promise (see
+ * below). Callers that `await` the result are unaffected.
  *
  * A `$alterRunInContext` listener returns the callback to run (see {@link AlterRunInContext}): the alter is synchronous.
  * For compatibility with the former async alter, a promise of the callback is still awaited when it is returned by the
