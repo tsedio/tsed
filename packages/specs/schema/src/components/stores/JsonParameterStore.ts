@@ -21,6 +21,11 @@ export interface JsonParameterStoreOptions extends JsonEntityStoreOptions {
  * Pipes are called by the framework to transform or validate parameter values
  * before they reach the method handler.
  *
+ * `transform()` returns the value, or a promise of it (`MaybePromise`). The pipes of a parameter run in priority
+ * order and each one receives the resolved value of the previous one. When every pipe of every parameter returns a
+ * value, the parameters are resolved and the method is called in the same tick: only a pipe that returns a promise
+ * is awaited.
+ *
  * ### Usage
  *
  * ```typescript
