@@ -66,6 +66,10 @@ The proposed name is `validateValue()`. Alternatives considered: `run()` (matche
 
 _Alternative:_ syncing at `@JsonMapper()` registration only. Rejected, because a direct `.set()` on the exported map would then be missed.
 
+_Chosen variant (task 4.1):_ version plus a light check of each synced entry. Tests rely on a mapper whose method is replaced in place, so the fast path also compares the container, its version, a change counter of the compiler's own mappers, and runs `hasTypeMapperChanged()` on the entries already synced (one check per entry instead of the four lookups of `isTypeMapperOutdated()`). The profile shows the remaining cost: 1.8% of busy CPU on Fastify `/users/:id`, against 11.4% before.
+
+_Existing limits kept (checked on the base branch):_ a model that is already compiled does not see a mapper registered later, and a mapper removed from the registry is still used by the models compiled with it. The spec `json-mapper-type-mappers` describes this behaviour instead of a stricter one.
+
 ### D6. Cache the deserializer options of a parameter store
 
 `mapParamStoreOptions(store, options)` results are cached per `JsonParameterStore`, when the only other options are the constant ones `DeserializerPipe` passes (the `useAlias: true` and `param.store.get(DeserializerPipe)` defaults). The final `mapOptions()` result for a store is cached the same way, and `map()` stops mutating it (it sets `collectionType` on the options object today, which needs a copy first).
@@ -76,11 +80,27 @@ _Alternative:_ syncing at `@JsonMapper()` registration only. Rejected, because a
 
 ## Risks / Trade-offs
 
-- [A custom pipe relied on a microtask between pipes, for example to read state set by a `then` elsewhere.] → The order of the pipe calls does not change, only the ticks between them. Mention it in the release notes, and run the suites of the packages that ship pipes (multer, mongoose, passport, platform-mcp).
+- [The order of the pipe calls **across** parameters changes.] → Before, `Promise.all()` started every parameter, so the first pipe of each parameter ran before the second pipe of any of them. Now a parameter runs all its synchronous pipes before the next parameter starts. The order within a parameter does not change. Only a pipe that reads state written by a pipe of another parameter can see the difference. Mention it in the release notes.
+- [A custom pipe relied on a microtask between pipes, for example to read state set by a `then` elsewhere.] → The order of the pipe calls within a parameter does not change, only the ticks between them. Mention it in the release notes, and run the suites of the packages that ship pipes (multer, mongoose, passport, platform-mcp).
 - [A registered mapper object that is changed in place (a `deserialize` method added after registration) is no longer detected until the map changes.] → `hasTypeMapperChanged` exists for this case. Before dropping it from the fast path, task 4.1 checks which tests rely on it. If one does, the version check also compares the `hasConversion` flag of the mappers already synced, which costs one lookup per mapper instead of four.
 - [The per-parameter caches hold stale schemas when a test changes a store's schema after the first request.] → The caches are `WeakMap`s keyed by store. Tests that change metadata after bootstrap build a new app, and therefore new stores. The same assumption is already made by the `validatorsBySchema` cache.
 - [Two code paths (`getArg()` and the compiled resolver) drift apart.] → `getArg()` delegates to the compiled resolver.
 - [The gain is lower than the estimate.] → Task 7 measures each step on its own (A/B on Fastify `/users/:id`, then Express and Koa). Steps inside the noise of the A/B loop are dropped, except shared-utility gains of about 5% (see lessons).
+
+## Measurements
+
+Task 7.1, A/B on Fastify `/users/:id`, each step cumulated on the previous ones, against the head of tsedio/tsed#3536 (about 40,900 req/s on that run):
+
+| Step                                                             | Δ req/s (cumulated)             |
+| ---------------------------------------------------------------- | ------------------------------- |
+| Parameters in the same tick (group 2)                            | +4.4% (inside the noise)        |
+| + AJV `validateValue()` and the `ValidationPipe` cache (group 3) | +10.6%                          |
+| + json-mapper registry version and store options cache (group 4) | +19.4%                          |
+| + compiled value reader of `ParseExpressionPipe` (group 5)       | **+24.4%** (about 50,100 req/s) |
+
+Group 2 alone is inside the noise but is kept: groups 3 to 5 only pay off once no promise is left between pipes, and the remaining steps would otherwise wait on a microtask per parameter.
+
+The final A/B and profile of task 7.2 are in `tasks.md`: +28% to +39% req/s on `/users/:id` for Express, Koa and Fastify, `/hello` unchanged.
 
 ## Migration Plan
 
