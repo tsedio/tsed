@@ -108,7 +108,7 @@ describe("AjvService.validateValue()", () => {
     it("should return a promise for an $async schema", async () => {
       const ajvService = PlatformTest.get<AjvService>(AjvService);
 
-      const result = ajvService.validateValue("test", {schema: {$async: true, type: "string"}});
+      const result = ajvService.validateValue("test", {schema: {$async: true, type: "string"} as any});
 
       expect(result).toBeInstanceOf(Promise);
       expect(await result).toEqual("test");
