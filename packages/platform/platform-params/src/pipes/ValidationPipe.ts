@@ -1,3 +1,4 @@
+import type {MaybePromise} from "@tsed/core";
 import {JsonParameterStore, PipeMethods, compile} from "@tsed/schema";
 import {constant, injectMany, injectable} from "@tsed/di";
 import {ParamTypes} from "../domain/ParamTypes.js";
@@ -18,10 +19,18 @@ export interface ValidatorServiceMethods {
   readonly name: string;
 
   validate(value: any, options: any): Promise<any>;
+
+  /**
+   * Optional: validate without waiting for a promise when the validation is synchronous. When a validator has it, the
+   * `ValidationPipe` calls it instead of `validate()`, so the parameter can be resolved in the same tick.
+   */
+  validateValue?(value: any, options: any): MaybePromise<any>;
 }
 
 export class ValidationPipe implements PipeMethods {
   private validators: Map<string, ValidatorServiceMethods> = new Map();
+  // the schema of a parameter is compiled once, not on each request
+  #schemas = new WeakMap<JsonParameterStore, ReturnType<typeof compile>>();
 
   constructor() {
     const validators = injectMany<ValidatorServiceMethods>("validator:service");
@@ -62,7 +71,7 @@ export class ValidationPipe implements PipeMethods {
     return metadata.paramType === ParamTypes.PATH && !metadata.isPrimitive;
   }
 
-  transform(value: any, metadata: JsonParameterStore): Promise<any> {
+  transform(value: any, metadata: JsonParameterStore): MaybePromise<any> {
     if (!this.validators.size) {
       this.checkIsRequired(value, metadata);
       return value;
@@ -81,22 +90,34 @@ export class ValidationPipe implements PipeMethods {
       return value;
     }
 
-    const schema = compile(metadata, {
-      customKeys: true
-    });
-
     // TODO retrieve the right validator from metadata
     const validator = this.validators.get("default");
 
     if (validator) {
-      return validator.validate(value, {
-        schema,
+      const options = {
+        schema: this.getSchema(metadata),
         type: metadata.isClass ? metadata.type : undefined,
         collectionType: metadata.collectionType
-      });
+      };
+
+      return validator.validateValue ? validator.validateValue(value, options) : validator.validate(value, options);
     }
 
     return value;
+  }
+
+  protected getSchema(metadata: JsonParameterStore) {
+    let schema = this.#schemas.get(metadata);
+
+    if (!schema) {
+      schema = compile(metadata, {
+        customKeys: true
+      });
+
+      this.#schemas.set(metadata, schema);
+    }
+
+    return schema;
   }
 
   protected checkIsRequired(value: any, metadata: JsonParameterStore) {

@@ -646,3 +646,50 @@ describe("ValidationPipe", () => {
     expect(defaultValidator.validate).not.toHaveBeenCalled();
   });
 });
+
+describe("ValidationPipe with a validator service", () => {
+  beforeEach(() => PlatformTest.create());
+  afterEach(() => PlatformTest.reset());
+
+  class ValidationTest {
+    @Post("/")
+    test(@BodyParams() body: string) {}
+  }
+
+  it("should call validateValue() and return its value without a promise when the validator has it", async () => {
+    const pipe = await PlatformTest.invoke<ValidationPipe>(ValidationPipe);
+    const validator = {name: "fake", validate: vi.fn(), validateValue: vi.fn((value: any) => value)};
+    (pipe as any).validators.set("default", validator);
+
+    const param = JsonParameterStore.get(ValidationTest, "test", 0);
+    const result = pipe.transform("value", param);
+
+    expect(result).toEqual("value");
+    expect(validator.validate).not.toHaveBeenCalled();
+    expect(validator.validateValue).toHaveBeenCalledWith("value", expect.objectContaining({schema: expect.any(Object)}));
+  });
+
+  it("should call validate() for a validator without validateValue()", async () => {
+    const pipe = await PlatformTest.invoke<ValidationPipe>(ValidationPipe);
+    const validator = {name: "legacy", validate: vi.fn(async (value: any) => `${value}!`)};
+    (pipe as any).validators.set("default", validator);
+
+    const param = JsonParameterStore.get(ValidationTest, "test", 0);
+
+    expect(await pipe.transform("value", param)).toEqual("value!");
+  });
+
+  it("should compile the schema of a parameter once", async () => {
+    const pipe = await PlatformTest.invoke<ValidationPipe>(ValidationPipe);
+    const validator = {name: "fake", validate: vi.fn(), validateValue: vi.fn((value: any) => value)};
+    (pipe as any).validators.set("default", validator);
+
+    const param = JsonParameterStore.get(ValidationTest, "test", 0);
+
+    pipe.transform("a", param);
+    pipe.transform("b", param);
+
+    const [[, first], [, second]] = validator.validateValue.mock.calls;
+    expect(first.schema).toBe(second.schema);
+  });
+});
