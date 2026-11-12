@@ -18,6 +18,7 @@ import {
 } from "@tsed/core";
 import {JsonSchema} from "@tsed/schema";
 import type {JsonMapperMethods} from "../interfaces/JsonMapperMethods.js";
+import {JsonMapperTypesMap} from "./JsonMapperTypesContainer.js";
 
 /**
  * Signature exposed by compiled mappers. They accept an input value plus contextual options
@@ -69,6 +70,9 @@ export abstract class JsonMapperCompiler<Options extends Record<string, any> = a
    * @protected
    */
   protected typeMappers = new Map<any, TypeMapperEntry>();
+  // counts the changes of the mappers of this compiler, so syncTypeMappers() knows when it must check them again
+  #changes = 0;
+  #synced: {types?: unknown; version?: number; changes?: number; entries?: TypeMapperEntry[]} = {};
   /**
    * Cached executable mappers by his id
    * @protected
@@ -122,6 +126,7 @@ export abstract class JsonMapperCompiler<Options extends Record<string, any> = a
     );
 
     this.mappers[id] = fn;
+    this.#changes++;
 
     return this;
   }
@@ -134,6 +139,7 @@ export abstract class JsonMapperCompiler<Options extends Record<string, any> = a
 
       delete this.mappers[id];
       this.cache.delete(model);
+      this.#changes++;
     }
   }
 
@@ -184,6 +190,7 @@ export abstract class JsonMapperCompiler<Options extends Record<string, any> = a
     const store = compileMapper(globals, storeGroups, schemes, groupsId, id)!;
 
     this.mappers[id] = store.fn;
+    this.#changes++;
 
     return store;
   }
@@ -252,6 +259,20 @@ export abstract class JsonMapperCompiler<Options extends Record<string, any> = a
     create: (mapper: JsonMapperMethods, model: any, name: string) => Entry,
     hasChanged: (entry: Entry, mapper: JsonMapperMethods) => boolean
   ) {
+    const version = types instanceof JsonMapperTypesMap ? types.version : undefined;
+
+    // nothing changed since the last sync (the registry, the mappers of this compiler, and the methods of each mapper):
+    // the registered entries are checked without the lookups of isTypeMapperOutdated()
+    if (
+      version !== undefined &&
+      this.#synced.types === types &&
+      this.#synced.version === version &&
+      this.#synced.changes === this.#changes &&
+      this.#synced.entries!.every((entry) => !hasChanged(entry as Entry, entry.mapper))
+    ) {
+      return;
+    }
+
     types.forEach((mapper, model) => {
       if (model !== Array && model !== Set && model !== Map && this.isTypeMapperOutdated(model, mapper, hasChanged)) {
         const entry = create(mapper, model, nameOf(model));
@@ -260,6 +281,15 @@ export abstract class JsonMapperCompiler<Options extends Record<string, any> = a
         this.typeMappers.set(model, entry);
       }
     });
+
+    const entries: TypeMapperEntry[] = [];
+
+    types.forEach((_, model) => {
+      const entry = this.typeMappers.get(model);
+      entry && entries.push(entry);
+    });
+
+    this.#synced = {types, version, changes: this.#changes, entries};
   }
 
   /**

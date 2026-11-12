@@ -61,7 +61,7 @@ Files under `packages/specs/json-mapper/src` (excluding index.ts and tests), gro
 - [x] packages/specs/json-mapper/src/domain/JsonMapperCompiler.ts
 - [x] packages/specs/json-mapper/src/domain/JsonMapperGlobalOptions.ts
 - [x] packages/specs/json-mapper/src/domain/JsonMapperSettings.ts
-- [x] packages/specs/json-mapper/src/domain/JsonMapperTypesContainer.ts
+- [x] packages/specs/json-mapper/src/domain/JsonMapperTypesContainer.ts — `JsonMapperTypesMap` (`@ignore`) counts the changes of the registry
 - [x] packages/specs/json-mapper/src/domain/JsonSerializer.ts
 - [x] packages/specs/json-mapper/src/domain/JsonSerializerOptions.ts
 - [x] packages/specs/json-mapper/src/domain/Writer.ts
