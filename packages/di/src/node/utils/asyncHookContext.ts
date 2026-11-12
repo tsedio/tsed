@@ -22,8 +22,11 @@ export function getContext<Context = DIContext>(initialValue?: DIContext): Conte
  * Run `cb` in the async context of `ctx` and return its result as is.
  *
  * A synchronous callback is called in the same tick and its value (or error) is returned (or thrown) directly: the
- * result is a promise only when `cb` returns one, or when a `$alterRunInContext` listener returns a promise instead of the callback to run.
- * Callers that `await` the result are unaffected.
+ * result is a promise only when `cb` returns one. Callers that `await` the result are unaffected.
+ *
+ * A `$alterRunInContext` listener returns the callback to run (see {@link AlterRunInContext}): the alter is synchronous.
+ * For compatibility with the former async alter, a promise of the callback is still awaited when it is returned by the
+ * last listener; an async setup belongs inside the returned callback.
  *
  * @param ctx The context to run `cb` in.
  * @param cb The callback.
@@ -43,7 +46,7 @@ export function runInContext<Result = unknown>(
   }
 
   // a $alterRunInContext listener returns the callback to run (AlterRunInContext), so the alter is synchronous;
-  // hooks.alter() returns cb as is when nobody listens. A listener returning a promise of the callback is awaited.
+  // hooks.alter() returns cb as is when nobody listens. A promise returned by the last listener is awaited (compatibility).
   const altered = hooks.alter<typeof cb, MaybePromise<typeof cb> | undefined>("$alterRunInContext", cb);
 
   if (isThenable<typeof cb>(altered)) {

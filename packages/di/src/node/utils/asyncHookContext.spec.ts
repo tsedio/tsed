@@ -214,7 +214,7 @@ describe("asyncHookContext", () => {
       expect(result).toEqual("altered result");
     });
 
-    it("should wait for a $alterRunInContext listener returning a promise of the callback", async () => {
+    it("should still wait for a last $alterRunInContext listener returning a promise of the callback (compatibility)", async () => {
       $on("$alterRunInContext", ref as any, async (next: any) => () => `altered ${next()}`);
 
       const result = runInContext({id: "id"} as any, () => "result", DITest.injector);
