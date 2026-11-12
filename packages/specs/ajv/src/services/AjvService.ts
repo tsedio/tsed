@@ -2,7 +2,7 @@ import "./Ajv.js";
 import {Ajv, ValidateFunction} from "ajv";
 import {AjvSettings, ErrorFormatter} from "../interfaces/AjvSettings.js";
 import {JsonSchema, JsonSchemaObject, compile} from "@tsed/schema";
-import {Type, deepClone} from "@tsed/core";
+import {deepClone, isPromise, type MaybePromise, Type} from "@tsed/core";
 import {constant, inject, injectable} from "@tsed/di";
 import {defaultErrorFormatter} from "../utils/defaultErrorFormatter.js";
 import {mapErrors} from "../utils/mapErrors.js";
@@ -71,6 +71,59 @@ export class AjvService {
   }
 
   /**
+   * Validate a value like {@link AjvService.validate}, without waiting for a promise when the compiled validator is
+   * synchronous.
+   *
+   * The validated value is returned (or an `AjvValidationError` thrown) directly, so a caller can continue in the same
+   * tick. A promise is returned only when the schema is `$async`, or when `ajv.loadSchema` is configured (the
+   * validator is then compiled with `compileAsync`).
+   *
+   * @typeParam TReturn Explicit return type override. When omitted, `TValue` is returned.
+   * @typeParam TValue Input value type.
+   * @param value Value to validate.
+   * @param options Validation options or `JsonSchema`.
+   * @returns The validated value (possibly coerced when configured), or a promise of it.
+   * @throws {AjvValidationError} When validation fails on a synchronous validator.
+   */
+  validateValue<TReturn = never, TValue = unknown>(
+    value: TValue,
+    options: AjvValidateOptions
+  ): MaybePromise<[TReturn] extends [never] ? TValue : TReturn> {
+    type ValidateResult = [TReturn] extends [never] ? TValue : TReturn;
+
+    if (!(options.type || options.schema)) {
+      return value as ValidateResult;
+    }
+
+    const {schema: defaultSchema, type, collectionType, returnsCoercedValues = this.returnsCoercedValues, ...additionalOptions} = options;
+
+    const check = (validate: ValidateFunction): MaybePromise<ValidateResult> => {
+      const localValue = returnsCoercedValues ? value : deepClone(value);
+
+      const result = (valid: boolean): ValidateResult => {
+        if (!valid && validate.errors) {
+          throw mapErrors(validate.errors, {
+            type,
+            collectionType,
+            value: localValue,
+            errorFormatter: this.errorFormatter
+          });
+        }
+
+        return (returnsCoercedValues ? localValue : value) as ValidateResult;
+      };
+
+      const valid = validate(localValue) as boolean | Promise<boolean>;
+
+      return isPromise(valid) ? valid.then(result) : result(valid);
+    };
+
+    const validate = this.resolveValidator(defaultSchema || type, additionalOptions);
+
+    return isPromise(validate) ? validate.then(check) : check(validate);
+  }
+
+  /**
    * Resolve and compile a validator for the provided schema input.
    *
    * The compiled validator is cached by schema object identity to avoid
@@ -83,6 +136,26 @@ export class AjvService {
    * @returns Compiled AJV validate function.
    */
   protected async getValidator(input: Type | JsonSchema | JsonSchemaObject, additionalOptions: Record<string, any>) {
+    return this.compileValidator(input, additionalOptions);
+  }
+
+  /**
+   * Same as {@link AjvService.getValidator}, without a promise unless `ajv.loadSchema` is configured. A subclass that
+   * overrides `getValidator()` keeps its override.
+   */
+  private resolveValidator(
+    input: Type | JsonSchema | JsonSchemaObject,
+    additionalOptions: Record<string, any>
+  ): MaybePromise<ValidateFunction> {
+    return this.getValidator === AjvService.prototype.getValidator
+      ? this.compileValidator(input, additionalOptions)
+      : this.getValidator(input, additionalOptions);
+  }
+
+  private compileValidator(
+    input: Type | JsonSchema | JsonSchemaObject,
+    additionalOptions: Record<string, any>
+  ): MaybePromise<ValidateFunction> {
     const schema =
       input instanceof JsonSchema || typeof input === "function"
         ? compile(input, {
@@ -97,11 +170,13 @@ export class AjvService {
       return cached;
     }
 
-    const validate = this.hasLoadSchema ? await this.ajv.compileAsync(schema) : this.ajv.compile(schema);
+    const store = (validate: ValidateFunction) => {
+      this.validatorsBySchema.set(schema, validate);
 
-    this.validatorsBySchema.set(schema, validate);
+      return validate;
+    };
 
-    return validate;
+    return this.hasLoadSchema ? this.ajv.compileAsync(schema).then(store) : store(this.ajv.compile(schema));
   }
 }
 
