@@ -1,4 +1,4 @@
-import {isPromise} from "@tsed/core";
+import {isPromise, type MaybePromise} from "@tsed/core";
 import {DIContext, injectable, injector, ProviderScope, TokenProvider} from "@tsed/di";
 import {JsonMethodStore, JsonParameterStore, PipeMethods} from "@tsed/schema";
 import {ParamValidationError} from "../errors/ParamValidationError.js";
@@ -59,28 +59,28 @@ export class PlatformParams {
       };
     }
 
-    const getArguments = this.compile<Context>(store);
+    const resolveArgs = this.compileArgs<Context>(store);
 
-    return async (scope: PlatformParamsScope<Context>) => {
-      const [instance, args] = await Promise.all([getInstance(scope), getArguments(scope)]);
+    // The arguments are resolved in the same tick when every pipe returns a value: the method is then called directly.
+    return (scope: PlatformParamsScope<Context>) => {
+      const instance = getInstance(scope);
 
-      return instance[propertyKey].call(instance, ...args, scope.$ctx);
+      if (isPromise(instance)) {
+        return Promise.all([instance, resolveArgs(scope)]).then(([resolved, args]) => resolved[propertyKey](...args, scope.$ctx));
+      }
+
+      const args = resolveArgs(scope);
+
+      return isPromise(args)
+        ? args.then((resolved) => instance[propertyKey](...resolved, scope.$ctx))
+        : instance[propertyKey](...args, scope.$ctx);
     };
   }
 
   compile<Context extends DIContext = DIContext>(entity: JsonMethodStore): PlatformParamsCallback<Context> {
-    const params = JsonParameterStore.getParams(entity.target, entity.propertyKey);
-    const argsPipes = params.map((param) => {
-      return {
-        param,
-        pipes: this.getPipes(param)
-      };
-    });
+    const resolveArgs = this.compileArgs<Context>(entity);
 
-    return (scope: PlatformParamsScope<Context>) => {
-      const promises = argsPipes.map(({param, pipes}) => this.getArg<Context>(scope, pipes, param));
-      return Promise.all(promises);
-    };
+    return async (scope: PlatformParamsScope<Context>) => resolveArgs(scope);
   }
 
   async getArg<Context extends DIContext = DIContext>(
@@ -88,17 +88,64 @@ export class PlatformParams {
     pipes: PipeMethods[],
     param: JsonParameterStore
   ): Promise<any> {
-    try {
-      let value = scope;
+    return this.compileArg(param, pipes)(scope);
+  }
 
-      for await (const pipe of pipes) {
-        value = await pipe.transform(value, param);
+  /**
+   * Return the resolver of the arguments of a method. It returns the arguments array when every parameter resolves
+   * without a promise, and a promise of it otherwise.
+   */
+  protected compileArgs<Context extends DIContext = DIContext>(entity: JsonMethodStore) {
+    const resolvers = JsonParameterStore.getParams(entity.target, entity.propertyKey).map((param) =>
+      this.compileArg(param, this.getPipes(param))
+    );
+    const length = resolvers.length;
+
+    return (scope: PlatformParamsScope<Context>): MaybePromise<any[]> => {
+      const args = new Array(length);
+      let hasPromise = false;
+
+      for (let index = 0; index < length; index++) {
+        const value = resolvers[index](scope);
+
+        hasPromise ||= isPromise(value);
+        args[index] = value;
       }
 
-      return value;
-    } catch (er) {
+      return hasPromise ? Promise.all(args) : args;
+    };
+  }
+
+  /**
+   * Return the resolver of one parameter: it runs the pipes in order, waits only for a pipe that returns a promise,
+   * and wraps any error, thrown or rejected, in a ParamValidationError.
+   */
+  protected compileArg(param: JsonParameterStore, pipes: PipeMethods[]) {
+    const length = pipes.length;
+    const onError = (er: unknown) => {
       throw ParamValidationError.from(param, er);
-    }
+    };
+
+    const run = (value: any, index: number): any => {
+      try {
+        // explicit isPromise test instead of a closure per pipe: this loop runs for each parameter of each request
+        for (; index < length; index++) {
+          value = pipes[index].transform(value, param);
+
+          if (isPromise(value)) {
+            const next = index + 1;
+
+            return value.then((resolved) => run(resolved, next), onError);
+          }
+        }
+
+        return value;
+      } catch (er) {
+        return onError(er);
+      }
+    };
+
+    return (scope: PlatformParamsScope) => run(scope, 0);
   }
 }
 
