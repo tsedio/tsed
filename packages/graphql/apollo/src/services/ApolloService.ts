@@ -66,6 +66,8 @@ export class ApolloService {
           const contextHandler = this.createContextHandler(server, settings);
 
           switch (this.platformName) {
+            // fulmine.js has the Express 5 API
+            case "fulmine":
             case "express":
               // use newer graphql express middleware
               const expressVersion = await import("express/package.json", {with: {type: "json"}}).then((pkg) => pkg.default.version);
@@ -104,7 +106,7 @@ export class ApolloService {
             default:
               logger().warn({
                 event: "APOLLO_UNKNOWN_PLATFORM",
-                message: "Platform not supported. Please use Ts.ED platform (express, koa)"
+                message: "Platform not supported. Please use Ts.ED platform (express, koa, fulmine)"
               });
           }
         }
