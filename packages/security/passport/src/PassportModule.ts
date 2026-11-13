@@ -44,6 +44,8 @@ export class PassportModule implements OnInit, BeforeRoutesInit {
   $beforeRoutesInit(): void | Promise<any> {
     const {userProperty, pauseStream} = this;
     switch (this.platformName) {
+      // fulmine.js has the Express 5 API
+      case "fulmine":
       case "express":
         this.app.use(Passport.initialize({userProperty}));
         !this.disableSession && this.app.use(Passport.session({pauseStream}));

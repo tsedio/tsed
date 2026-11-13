@@ -1,4 +1,5 @@
 import {PlatformExpress} from "@tsed/platform-express";
+import {PlatformFulmine} from "@tsed/platform-fulmine";
 import {PlatformTest} from "@tsed/platform-http/testing";
 import {PlatformTestSdk} from "@tsed/platform-test-sdk";
 import SuperTest from "supertest";
@@ -6,16 +7,18 @@ import SuperTest from "supertest";
 import {Server, rootDir} from "./app/Server.js";
 import {VALID_TOKEN} from "./app/protocols/JwtProtocol.js";
 
-const utils = PlatformTestSdk.create({
-  rootDir,
-  adapter: PlatformExpress as any,
-  server: Server
-});
-
 const credentials = {email: "admin@tsed.dev", password: "admin@tsed.dev"};
 const basic = (email: string, password: string) => `Basic ${Buffer.from(`${email}:${password}`).toString("base64")}`;
 
-describe("@Authorize() route protection", () => {
+describe.each([
+  ["PlatformExpress", PlatformExpress],
+  ["PlatformFulmine", PlatformFulmine]
+])("@Authorize() route protection: %s", (_, adapter) => {
+  const utils = PlatformTestSdk.create({
+    rootDir,
+    adapter: adapter as any,
+    server: Server
+  });
   let agent: SuperTest.Agent;
 
   beforeEach(utils.bootstrap({}));
