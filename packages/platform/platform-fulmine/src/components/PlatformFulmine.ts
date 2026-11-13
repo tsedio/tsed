@@ -1,4 +1,5 @@
 import Http from "node:http";
+import Https from "node:https";
 
 import {getHostInfoFromPort, isFunction, Type} from "@tsed/core";
 import {configuration, constant, injector, logger, ProviderScope} from "@tsed/di";
@@ -51,6 +52,9 @@ export class PlatformFulmine extends PlatformExpress {
     // useValue as a function: DI calls a function given as useValue, and the fulmine app is one
     injector().add(Http.Server, {scope: ProviderScope.SINGLETON, useValue: () => (port !== false ? app : null)});
     injector().invoke(Http.Server);
+    // null as platform-http sets it with no httpsPort: unregistered, DI would build an empty Https.Server for it
+    injector().add(Https.Server, {scope: ProviderScope.SINGLETON, useValue: null});
+    injector().invoke(Https.Server);
 
     if (port === false) {
       return [];

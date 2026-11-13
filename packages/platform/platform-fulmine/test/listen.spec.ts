@@ -1,4 +1,6 @@
-import {Controller} from "@tsed/di";
+import Https from "node:https";
+
+import {Controller, inject} from "@tsed/di";
 import {PlatformTest} from "@tsed/platform-http/testing";
 import {Get} from "@tsed/schema";
 import fulmine from "fulmine.js";
@@ -51,6 +53,18 @@ describe("PlatformFulmine listening on uWebSockets.js", () => {
 
     expect(platform.app.getApp()).toBe(app);
     expect((await fetch(`http://${platform.settings.get("httpPort")}/rest/hello`)).status).toEqual(200);
+
+    await platform.stop();
+  });
+
+  it("should inject no Https.Server, as platform-http does without httpsPort", async () => {
+    const platform = await PlatformFulmine.bootstrap(Server, {
+      httpPort: "127.0.0.1:0",
+      httpsPort: false,
+      logger: {level: "off"}
+    });
+
+    expect(inject(Https.Server)).toBeNull();
 
     await platform.stop();
   });
