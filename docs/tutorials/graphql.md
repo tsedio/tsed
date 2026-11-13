@@ -29,7 +29,7 @@ what they need and nothing more, makes it easier to evolve APIs over time, and e
 <Banner src="/apollo-graphql-compact.svg" height="100" />
 
 Unlock microservices potential with Apollo GraphQL. Seamlessly integrate APIs, manage data, and enhance performance. Explore Apollo's innovative solutions.
-Ts.ED provides a module to create multiple Apollo server and bind it with Ts.ED server (Express or Koa).
+Ts.ED provides a module to create multiple Apollo server and bind it with Ts.ED server (Express, Koa or fulmine.js).
 
 See [here](/tutorials/graphql-apollo.md) for more details.
 

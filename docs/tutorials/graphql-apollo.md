@@ -14,7 +14,7 @@ head:
 <Banner src="/apollo-graphql-compact.svg" height="200" />
 
 Unlock microservices potential with Apollo GraphQL. Seamlessly integrate APIs, manage data, and enhance performance. Explore Apollo's innovative solutions.
-Ts.ED provides a module to create multiple Apollo server and bind it with Ts.ED server (Express or Koa).
+Ts.ED provides a module to create multiple Apollo server and bind it with Ts.ED server (Express, Koa or fulmine.js).
 
 ## Feature
 
