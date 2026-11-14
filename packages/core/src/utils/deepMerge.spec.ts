@@ -1,6 +1,32 @@
 import {deepMerge, mergeReducerBuilder} from "./deepMerge.js";
 
 describe("deepMerge", () => {
+  describe("issue #3540", () => {
+    it("should replace a null or primitive source value by an object", () => {
+      expect(deepMerge({a: null}, {a: {b: 1}})).toEqual({a: {b: 1}});
+      expect(deepMerge({a: 1}, {a: {b: 1}})).toEqual({a: {b: 1}});
+      expect(deepMerge({a: "str"}, {a: {b: 1}})).toEqual({a: {b: 1}});
+      expect(deepMerge({a: true}, {a: {b: 1}})).toEqual({a: {b: 1}});
+    });
+
+    it("should return obj when the source is null", () => {
+      expect(deepMerge(null, {a: 1})).toEqual({a: 1});
+    });
+
+    it("should merge dates as leaf values", () => {
+      const merged: any = deepMerge({when: new Date(0)}, {when: new Date(5)});
+
+      expect(merged.when).toBeInstanceOf(Date);
+      expect(merged.when.getTime()).toBe(5);
+      expect(JSON.stringify(merged)).toBe('{"when":"1970-01-01T00:00:00.005Z"}');
+    });
+
+    it("should replace an object by a date and a date by an object", () => {
+      expect((deepMerge({when: {a: 1}}, {when: new Date(5)}) as any).when.getTime()).toBe(5);
+      expect(deepMerge({when: new Date(5)}, {when: {a: 1}})).toEqual({when: {a: 1}});
+    });
+  });
+
   describe("without reducers", () => {
     describe("when is an object", () => {
       it("should merge data (1)", () => {

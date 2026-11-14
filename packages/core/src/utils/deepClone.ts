@@ -1,5 +1,4 @@
 import {classOf} from "./classOf.js";
-import {isDate} from "./isDate.js";
 import {isRegExp} from "./isRegExp.js";
 
 /**
@@ -32,8 +31,9 @@ export const deepClone = (source: any, stack = new WeakMap()): any => {
         new (classOf(source))(source.buffer.slice(0), source.byteOffset, source.byteLength);
   }
 
-  if (isDate(source)) {
-    return new Date(source);
+  // instanceof instead of isDate(): an invalid date (new Date(NaN)) is still a date to clone
+  if (source instanceof Date) {
+    return new Date(source.getTime());
   }
 
   if (isRegExp(source)) {

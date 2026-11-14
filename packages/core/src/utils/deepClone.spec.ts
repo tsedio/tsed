@@ -23,6 +23,15 @@ describe("deepClone", () => {
     }
   }
 
+  it("should clone an invalid date (issue #3540)", () => {
+    const source = {d: new Date(NaN)};
+    const cloned = deepClone(source);
+
+    expect(cloned.d).toBeInstanceOf(Date);
+    expect(cloned.d).not.toBe(source.d);
+    expect(cloned.d.getTime()).toBeNaN();
+  });
+
   it("should clone object", () => {
     const externalObject = {
       color: "red"
