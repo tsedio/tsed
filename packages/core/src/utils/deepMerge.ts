@@ -80,6 +80,7 @@ function getReducer(reducers: DeepMergeOptions["reducers"], parentKey: string | 
 function shouldReturnObj(obj: any, source: any) {
   // inline typeof checks: this runs for every merged value
   const type = typeof obj;
+  const sourceType = typeof source;
 
   return (
     type === "string" ||
@@ -87,11 +88,15 @@ function shouldReturnObj(obj: any, source: any) {
     type === "boolean" ||
     type === "symbol" ||
     type === "function" ||
-    // primitive wrappers (new Boolean(), new Number(), new String()) are leaf values
+    // primitive wrappers (new Boolean(), new Number(), new String()) and dates are leaf values
     obj instanceof Boolean ||
     obj instanceof Number ||
     obj instanceof String ||
-    source === undefined
+    obj instanceof Date ||
+    // nothing to merge obj into: undefined, null, a primitive or a date
+    source === null ||
+    (sourceType !== "object" && sourceType !== "function") ||
+    source instanceof Date
   );
 }
 
