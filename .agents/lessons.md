@@ -30,6 +30,12 @@ Format: one entry per pattern, with the rule, why it matters and how to apply it
 - **Why**: the repository has no `nx.json`, so Nx (behind Lerna) climbs up to the highest directory that holds `node_modules/nx`: the main checkout. `yarn build` then reports success but builds the packages of the main checkout, and the worktree keeps no `lib/`.
 - **How to apply**: after the build, check that `packages/<path>/lib/esm` exists in the worktree for the packages you need.
 
+## Name a fix branch after its issue
+
+- **Rule**: a branch that fixes a GitHub issue is named `fix-{issue}-{short-kebab-description}`, e.g. `fix-3540-deep-merge-null-primitive-date`.
+- **Why**: the user asked to rename the branch prepared for tsedio/tsed#3540, which had been pushed under the session's generated name.
+- **How to apply**: when asked to prepare a branch for an issue, create it with this pattern from the start, even if the session suggests another branch name.
+
 ## Keep local benchmarks light on memory
 
 - **Rule**: run the HTTP benchmark on one platform at a time, with few rounds (`--rounds 3 --startups 1`), one profiled server at a time, and check the free memory (`memory_pressure`) before and during the run.
