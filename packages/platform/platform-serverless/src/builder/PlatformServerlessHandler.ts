@@ -1,4 +1,4 @@
-import {AnyPromiseResult, AnyToPromise, isSerializable, isStream} from "@tsed/core";
+import {AnyPromiseResult, AnyToPromise, isPromise, isSerializable, isStream} from "@tsed/core";
 import {BaseContext, ProviderScope, TokenProvider, inject, injectable, lazyInject, runInContext} from "@tsed/di";
 import {DeserializerPipe, PlatformParams, ValidationPipe} from "@tsed/platform-params";
 import {$asyncEmit} from "@tsed/hooks";
@@ -20,9 +20,10 @@ export class PlatformServerlessHandler {
         try {
           await $asyncEmit("$onRequest", [$ctx]);
 
-          const resolver = new AnyToPromise();
-          const handler = await promisedHandler;
-          const result = await resolver.call(() => handler({$ctx}));
+          // a synchronous endpoint is classified without waiting for a promise
+          const handler = promisedHandler;
+          const response = new AnyToPromise().run(() => handler({$ctx}));
+          const result = isPromise(response) ? await response : response;
 
           this.processResult(result, $ctx);
         } catch (er) {

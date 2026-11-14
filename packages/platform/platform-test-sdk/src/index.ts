@@ -30,6 +30,7 @@ export * from "./tests/testMulter.js";
 export * from "./tests/testPathParams.js";
 export * from "./tests/testQueryParams.js";
 export * from "./tests/testRedirect.js";
+export * from "./tests/testRequestPipeline.js";
 export * from "./tests/testResponse.js";
 export * from "./tests/testResponseFilter.js";
 export * from "./tests/testRouting.js";

@@ -2,6 +2,7 @@ import {isObject} from "./isObject.js";
 import {isObservable} from "./isObservable.js";
 import {isPromise} from "./isPromise.js";
 import {isStream} from "./isStream.js";
+import type {MaybePromise} from "../types/MaybePromise.js";
 
 /**
  * @ignore
@@ -68,17 +69,13 @@ export class AnyToPromise<T = any> {
   #resolves: any;
   #rejects: any;
   #hasNextFunction = false;
-
-  readonly #promise: Promise<AnyPromiseResult<T>>;
+  #promise?: Promise<AnyPromiseResult<T>>;
+  #result?: AnyPromiseResult<T>;
+  #error: any;
 
   // no destructuring default: subclasses call super() without options, once per request
   constructor(options?: {hasNextFunction?: boolean}) {
     this.#hasNextFunction = options?.hasNextFunction ?? false;
-
-    this.#promise = new Promise((resolve: any, reject: any) => {
-      this.#resolves = resolve;
-      this.#rejects = reject;
-    });
   }
 
   get next() {
@@ -98,11 +95,40 @@ export class AnyToPromise<T = any> {
   }
 
   /**
+   * Call `cb` and return a promise of its normalized result.
    *
+   * @param cb Function whose return value is normalized.
+   * @returns A promise resolved with the result, or rejected with the error thrown or rejected by `cb`.
    */
   call(cb: Function): Promise<AnyPromiseResult<T>> {
     if (this.isDone()) {
       return Promise.resolve(this as any);
+    }
+
+    let result: MaybePromise<AnyPromiseResult<T>>;
+
+    try {
+      result = this.run(cb);
+    } catch (er) {
+      return Promise.reject(er);
+    }
+
+    return isPromise(result) ? result : Promise.resolve(result);
+  }
+
+  /**
+   * Call `cb` and return its normalized result without waiting for a microtask when it is synchronous.
+   *
+   * The result is returned as is for a plain value, a `Buffer`, a stream, a response object or a canceled response.
+   * A promise is returned for a promise, an observable, or while a requested `next` function has not been called.
+   *
+   * @param cb Function whose return value is normalized.
+   * @returns The result, or a promise of the result.
+   * @throws The error thrown synchronously by `cb`.
+   */
+  run(cb: Function): MaybePromise<AnyPromiseResult<T>> {
+    if (this.isDone()) {
+      return this as any;
     }
 
     try {
@@ -111,7 +137,19 @@ export class AnyToPromise<T = any> {
       this.reject(er);
     }
 
-    return this.#promise;
+    switch (this.status) {
+      case AnyToPromiseStatus.RESOLVED:
+      case AnyToPromiseStatus.CANCELED:
+        return this.#promise || this.#result!;
+      case AnyToPromiseStatus.REJECTED:
+        if (this.#promise) {
+          return this.#promise;
+        }
+
+        throw this.#error;
+      default:
+        return this.#getPromise();
+    }
   }
 
   reject(er: any) {
@@ -121,7 +159,8 @@ export class AnyToPromise<T = any> {
 
     this.done(AnyToPromiseStatus.REJECTED);
 
-    this.#rejects(er);
+    this.#error = er;
+    this.#rejects?.(er);
   }
 
   resolve(response: any = {}) {
@@ -131,7 +170,7 @@ export class AnyToPromise<T = any> {
 
     this.done(AnyToPromiseStatus.RESOLVED);
 
-    this.#resolves({...response, state: AnyToPromiseStatus.RESOLVED});
+    this.#settle({...response, state: AnyToPromiseStatus.RESOLVED});
   }
 
   destroy() {}
@@ -143,7 +182,7 @@ export class AnyToPromise<T = any> {
 
     this.done(AnyToPromiseStatus.CANCELED);
 
-    return this.#resolves({state: AnyToPromiseStatus.CANCELED});
+    this.#settle({state: AnyToPromiseStatus.CANCELED} as AnyPromiseResult<T>);
   }
 
   done(status: AnyToPromiseStatus) {
@@ -222,5 +261,18 @@ export class AnyToPromise<T = any> {
 
   protected isCanceledResponse(process: any) {
     return process === AnyToPromiseStatus.CANCELED;
+  }
+
+  #settle(result: AnyPromiseResult<T>) {
+    this.#result = result;
+    this.#resolves?.(result);
+  }
+
+  // the promise is only created when a caller has to wait: a synchronous result never allocates it
+  #getPromise() {
+    return (this.#promise ||= new Promise((resolve: any, reject: any) => {
+      this.#resolves = resolve;
+      this.#rejects = reject;
+    }));
   }
 }

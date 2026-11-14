@@ -20,6 +20,13 @@ class ApplicationJsonFilter implements ResponseFilterMethods {
   }
 }
 
+@ResponseFilter("async/json")
+class AsyncJsonFilter implements ResponseFilterMethods {
+  async transform(data: unknown, ctx: Context) {
+    return {async: data};
+  }
+}
+
 @ResponseFilter("*/*")
 class AllFilter implements ResponseFilterMethods {
   transform(data: unknown, ctx: Context) {
@@ -378,6 +385,106 @@ describe("PlatformResponseFilter", () => {
       let actualError: any = await catchAsyncError(() => platformResponseFilter.transform(ctx.data, ctx));
 
       expect(actualError.message).toEqual("Template rendering error: Test.test()\nError: parser error");
+    });
+  });
+
+  describe("resolveBody()", () => {
+    afterEach(() => PlatformTest.reset());
+
+    class ResolveBodyCtrl {
+      @Get("/json")
+      json() {}
+
+      @Get("/text")
+      @(Returns(200, String).ContentType("text/plain"))
+      text() {}
+
+      @Get("/view")
+      @View("test.pug")
+      view() {}
+
+      @Get("/async")
+      @(Returns(200).ContentType("async/json"))
+      async() {}
+    }
+
+    function createContext(propertyKey: string) {
+      const ctx = PlatformTest.createRequestContext();
+      ctx.endpoint = s.store.method(ResolveBodyCtrl, propertyKey);
+
+      return ctx;
+    }
+
+    it("should return the serialized data of a JSON endpoint without a promise", async () => {
+      await PlatformTest.create();
+      const platformResponseFilter = PlatformTest.get<PlatformResponseFilter>(PlatformResponseFilter);
+
+      const result = platformResponseFilter.resolveBody({test: "test"}, createContext("json"));
+
+      expect(result).not.toBeInstanceOf(Promise);
+      expect(result).toEqual({test: "test"});
+    });
+
+    it("should return a text body without a promise", async () => {
+      await PlatformTest.create();
+      const platformResponseFilter = PlatformTest.get<PlatformResponseFilter>(PlatformResponseFilter);
+      const ctx = createContext("text");
+      vi.spyOn(ctx.response, "contentType").mockReturnThis();
+
+      const result = platformResponseFilter.resolveBody("hello", ctx);
+
+      expect(result).toEqual("hello");
+      expect(ctx.response.contentType).toHaveBeenCalledWith("text/plain");
+    });
+
+    it("should return a promise when the endpoint renders a view", async () => {
+      await PlatformTest.create();
+      const platformResponseFilter = PlatformTest.get<PlatformResponseFilter>(PlatformResponseFilter);
+      const ctx = createContext("view");
+      vi.spyOn(ctx.response, "render").mockResolvedValue("template");
+
+      const result = platformResponseFilter.resolveBody({test: "test"}, ctx);
+
+      expect(result).toBeInstanceOf(Promise);
+      expect(await result).toEqual("template");
+    });
+
+    it("should return a promise when the content-type filter is async", async () => {
+      await PlatformTest.create({responseFilters: [AsyncJsonFilter]});
+      const platformResponseFilter = PlatformTest.get<PlatformResponseFilter>(PlatformResponseFilter);
+      const ctx = createContext("async");
+      vi.spyOn(ctx.response, "contentType").mockReturnThis();
+
+      const result = platformResponseFilter.resolveBody({test: "test"}, ctx);
+
+      expect(result).toBeInstanceOf(Promise);
+      expect(await result).toEqual({async: {test: "test"}});
+    });
+
+    it("should call the serialize() override of a subclass", async () => {
+      class CustomResponseFilter extends PlatformResponseFilter {
+        protected async serialize(data: unknown) {
+          return {custom: data};
+        }
+      }
+
+      await PlatformTest.create();
+      const platformResponseFilter = await PlatformTest.invoke<CustomResponseFilter>(CustomResponseFilter);
+
+      const result = platformResponseFilter.resolveBody({test: "test"}, createContext("json"));
+
+      expect(result).toBeInstanceOf(Promise);
+      expect(await result).toEqual({custom: {test: "test"}});
+    });
+
+    it("should keep transform() returning a promise", async () => {
+      await PlatformTest.create();
+      const platformResponseFilter = PlatformTest.get<PlatformResponseFilter>(PlatformResponseFilter);
+
+      const result = platformResponseFilter.transform({test: "test"}, createContext("json"));
+
+      expect(result).toBeInstanceOf(Promise);
+      expect(await result).toEqual({test: "test"});
     });
   });
 });

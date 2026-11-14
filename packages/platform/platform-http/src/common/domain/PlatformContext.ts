@@ -1,4 +1,5 @@
 import {DIContext, DIContextOptions, injector} from "@tsed/di";
+import type {MaybePromise} from "@tsed/core";
 import {IncomingMessage, ServerResponse} from "node:http";
 import {$asyncEmit, hooks} from "@tsed/hooks";
 import {IncomingEvent} from "../interfaces/IncomingEvent.js";
@@ -80,12 +81,20 @@ export class PlatformContext<
     return injector().get<PlatformApplication>(PlatformApplication)!;
   }
 
-  start() {
-    return $asyncEmit("$onRequest", [this]);
+  /**
+   * Emit `$onRequest` for this context.
+   *
+   * Returns a promise only when a `$onRequest` listener has to be awaited, so a platform can continue the request in
+   * the same tick otherwise (see `chain()` from `@tsed/core`).
+   */
+  start(): MaybePromise<void> {
+    if (hooks.has("$onRequest")) {
+      return $asyncEmit("$onRequest", [this]);
+    }
   }
 
   async finish() {
-    await (hooks.has("$onResponse") ? Promise.all([$asyncEmit("$onResponse", [this]), this.destroy()]) : this.destroy());
+    await Promise.all([$asyncEmit("$onResponse", [this]), this.destroy()]);
 
     this.#isFinished = true;
   }

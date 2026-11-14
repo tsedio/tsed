@@ -173,4 +173,64 @@ describe("asyncHookContext", () => {
       expect(cb).toHaveBeenCalledTimes(1);
     });
   });
+
+  describe("runInContext() result", () => {
+    const ref = {};
+
+    afterEach(() => $off(ref as any));
+
+    it("should return the result of a sync callback without a promise, inside the context", () => {
+      const ctx: any = {id: "id"};
+
+      const result = runInContext(ctx, () => getContext(), DITest.injector);
+
+      expect(result).toBe(ctx);
+    });
+
+    it("should return the promise of an async callback as is", async () => {
+      const promise = Promise.resolve("result");
+
+      const result = runInContext({id: "id"} as any, () => promise, DITest.injector);
+
+      expect(result).toBe(promise);
+      expect(await result).toEqual("result");
+    });
+
+    it("should throw the error of a sync callback synchronously", () => {
+      const error = new Error("sync");
+
+      expect(() =>
+        runInContext({id: "id"} as any, () => {
+          throw error;
+        })
+      ).toThrow(error);
+    });
+
+    it("should run the callback returned by a $alterRunInContext listener without a promise", () => {
+      $on("$alterRunInContext", ref as any, (next: any) => () => `altered ${next()}`);
+
+      const result = runInContext({id: "id"} as any, () => "result", DITest.injector);
+
+      expect(result).toEqual("altered result");
+    });
+
+    it("should still wait for a last $alterRunInContext listener returning a promise of the callback (compatibility)", async () => {
+      $on("$alterRunInContext", ref as any, async (next: any) => () => `altered ${next()}`);
+
+      const result = runInContext({id: "id"} as any, () => "result", DITest.injector);
+
+      expect(result).toBeInstanceOf(Promise);
+      expect(await result).toEqual("altered result");
+    });
+
+    it("should reuse the current context ref", async () => {
+      const ctx: any = {id: "id"};
+
+      await runInContext(undefined, () => {
+        const result = runInContext(ctx, () => getContext());
+
+        expect(result).toBe(ctx);
+      });
+    });
+  });
 });

@@ -38,22 +38,30 @@ export function getContext<Context = DIContext>(initialValue?: DIContext): Conte
   return initialValue || (useContextRef()?.current as any);
 }
 
-export async function runInContext<Result = unknown>(
+/**
+ * Browser twin of the Node.js `runInContext`: run `cb` in the context of `ctx` and return its result as is.
+ *
+ * The `$alterRunInContext` hook is not applied in the browser: it exists to let server-side modules (e.g. an ORM)
+ * wrap each request in their own async context.
+ *
+ * @param ctx The context to run `cb` in.
+ * @param cb The callback.
+ * @param _injector Unused, kept for compatibility with the Node.js signature.
+ * @returns The result of `cb`.
+ */
+export function runInContext<Result = unknown>(
   ctx: DIContext | undefined,
   cb: (...args: unknown[]) => Result,
-  injector?: {alterAsync?: (name: string, cb: any) => Promise<any>}
-): Promise<Result> {
+  _injector?: unknown
+): Result {
   const ref = useContextRef();
 
   if (ref) {
     ctx && setContext(ctx);
     return cb();
-  } else {
-    injector = ctx?.injector || injector;
-    cb = (injector && (await injector.alterAsync?.("$alterRunInContext", cb))) || cb;
-
-    return await Promise.resolve(storage.run({current: ctx}, cb));
   }
+
+  return storage.run({current: ctx}, cb);
 }
 
 export function setContext(ctx: DIContext) {
