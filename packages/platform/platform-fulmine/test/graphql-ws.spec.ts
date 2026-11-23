@@ -51,4 +51,33 @@ describe("@tsed/graphql-ws on PlatformFulmine", () => {
 
     await platform.stop();
   });
+
+  it("should refuse verifyClient, which uWebSockets.js cannot run", async () => {
+    const start = async () => {
+      const platform = await PlatformFulmine.bootstrap(Server, {
+        httpPort: "127.0.0.1:0",
+        httpsPort: false,
+        logger: {level: "off"},
+        apollo: {
+          default: {path: "/graphql", schema, wsServerOptions: {verifyClient: () => true}}
+        }
+      } as any);
+      await platform.listen();
+    };
+
+    await expect(start()).rejects.toThrow("wsServerOptions.verifyClient is not supported on the uWebSockets.js app");
+  });
+
+  it("should keep the standalone WebSocket server when no HTTP server listens", async () => {
+    const platform = await PlatformFulmine.bootstrap(Server, {
+      httpPort: false,
+      httpsPort: false,
+      logger: {level: "off"},
+      apollo: {
+        default: {path: "/graphql", schema, wsServerOptions: {port: 0}}
+      }
+    } as any);
+    await platform.listen();
+    await platform.stop();
+  });
 });

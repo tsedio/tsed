@@ -12,16 +12,16 @@ export class GraphQLWSModule {
   private httpsServer = inject<Https.Server | null>(Https.Server);
 
   async createWSServer(settings: GraphQLWSOptions) {
-    const server = this.httpsServer || this.httpServer!;
+    const server = this.httpsServer || this.httpServer;
 
-    if ("uwsApp" in server) {
+    if (server && "uwsApp" in server) {
       return this.createUWSServer(server.uwsApp as any, settings);
     }
 
     const opts = {
       ...(this.settings.wsServerOptions || {}),
       ...settings.wsServerOptions,
-      server,
+      server: server!,
       path: settings.path
     };
 
@@ -42,6 +42,14 @@ export class GraphQLWSModule {
    * subscriptions are served by its uWebSockets.js app, with the behavior graphql-ws provides for it.
    */
   protected async createUWSServer(uwsApp: any, settings: GraphQLWSOptions) {
+    // verifyClient takes the Node.js request of the upgrade, which uWebSockets.js does not have: refuse it
+    // instead of serving the subscriptions without the check
+    if (settings.wsServerOptions?.verifyClient || this.settings.wsServerOptions?.verifyClient) {
+      throw new Error(
+        "wsServerOptions.verifyClient is not supported on the uWebSockets.js app, check the client in wsUseServerOptions.onConnect"
+      );
+    }
+
     const {makeBehavior} = await import("graphql-ws/use/uWebSockets");
     const behavior = makeBehavior({
       ...(this.settings.wsUseServerOptions || {}),
