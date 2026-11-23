@@ -42,7 +42,7 @@ describe("@tsed/graphql-ws on PlatformFulmine", () => {
     const client = createClient({url: `ws://${platform.settings.get("httpPort")}/graphql`, retryAttempts: 0});
     const values: unknown[] = [];
 
-    await new Promise((resolve, reject) => {
+    await new Promise<void>((resolve, reject) => {
       client.subscribe({query: "subscription { count(to: 3) }"}, {next: (value) => values.push(value), error: reject, complete: resolve});
     });
     await client.dispose();
