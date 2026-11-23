@@ -14,7 +14,9 @@ export class GraphQLWSModule {
   async createWSServer(settings: GraphQLWSOptions) {
     const server = this.httpsServer || this.httpServer;
 
-    if (server && "uwsApp" in server) {
+    // uWebSockets.js loads only on Node.js: on Bun and Deno fulmine.js serves through node:http, and reading
+    // uwsApp there throws
+    if (server && "uwsApp" in server && !process.versions.bun && !process.versions.deno) {
       return this.createUWSServer(server.uwsApp as any, settings);
     }
 
