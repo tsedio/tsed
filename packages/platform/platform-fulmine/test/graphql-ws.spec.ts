@@ -1,7 +1,11 @@
 import "@tsed/apollo";
-import "@tsed/graphql-ws";
+
+import {EventEmitter} from "node:events";
+import Http from "node:http";
+import Https from "node:https";
 
 import {makeExecutableSchema} from "@graphql-tools/schema";
+import {GraphQLWSModule} from "@tsed/graphql-ws";
 import {PlatformTest} from "@tsed/platform-http/testing";
 import {createClient} from "graphql-ws";
 
@@ -79,5 +83,28 @@ describe("@tsed/graphql-ws on PlatformFulmine", () => {
     } as any);
     await platform.listen();
     await platform.stop();
+  });
+
+  it("should not read uwsApp on Bun, where fulmine.js serves through node:http", async () => {
+    Object.defineProperty(process.versions, "bun", {value: "1.3.0", configurable: true});
+    // the app on Bun: uwsApp is there, but reading it throws because uWebSockets.js does not load
+    const server = Object.defineProperty(new EventEmitter(), "uwsApp", {
+      get() {
+        throw new Error("uWebSockets.js does not load on Bun");
+      }
+    });
+
+    try {
+      await PlatformTest.create();
+      const module = await PlatformTest.invoke<GraphQLWSModule>(GraphQLWSModule, [
+        {token: Http.Server, use: server},
+        {token: Https.Server, use: null}
+      ]);
+      const wsServer = await module.createWSServer({path: "/graphql", schema});
+
+      await wsServer.dispose();
+    } finally {
+      delete (process.versions as any).bun;
+    }
   });
 });
