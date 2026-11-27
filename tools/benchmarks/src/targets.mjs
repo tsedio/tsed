@@ -126,7 +126,7 @@ function markInstalled(dir, manifest) {
 
 function copyApp(dir) {
   if (!existsSync(APP_DIST_DIR)) {
-    throw new Error(`The bench app is not compiled: run "yarn workspace @tsed/benchmarks bench:app"`);
+    throw new Error(`The bench app is not compiled: run "pnpm --filter @tsed/benchmarks run bench:app"`);
   }
 
   rmSync(join(dir, "app"), {recursive: true, force: true});
@@ -164,17 +164,21 @@ export function localPackages(internal, tarballDir) {
 
 const tarballName = (name) => name.replace("@", "").replace("/", "-");
 
-async function packWorkspaces(workspaces, internal, tarballDir) {
+// A checkout made before the pnpm migration (e.g. the base branch of a PR) is still packed with Yarn
+const packManager = (repoDir) => (existsSync(join(repoDir, "pnpm-lock.yaml")) ? "pnpm" : "yarn");
+
+async function packWorkspaces(repoDir, workspaces, internal, tarballDir) {
   mkdirSync(tarballDir, {recursive: true});
+  const pm = packManager(repoDir);
 
   for (const name of internal) {
     const {dir} = workspaces.get(name);
 
     if (!existsSync(join(dir, "lib", "esm"))) {
-      throw new Error(`${name} is not built (${dir}/lib/esm is missing): run "yarn build" first`);
+      throw new Error(`${name} is not built (${dir}/lib/esm is missing): run "${pm} run build" first`);
     }
 
-    await exec("yarn", ["pack", "--out", join(tarballDir, `${tarballName(name)}.tgz`)], {cwd: dir});
+    await exec(pm, ["pack", "--out", join(tarballDir, `${tarballName(name)}.tgz`)], {cwd: dir});
   }
 }
 
@@ -205,7 +209,7 @@ async function installLocal(target, log) {
 
   log(`pack ${internal.length} packages from ${target.repoDir}`);
   rmSync(dir, {recursive: true, force: true});
-  await packWorkspaces(workspaces, internal, tarballDir);
+  await packWorkspaces(target.repoDir, workspaces, internal, tarballDir);
 
   const tsed = localPackages(internal, tarballDir);
   const manifest = createManifest({name: target.name, tsed});

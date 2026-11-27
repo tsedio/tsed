@@ -16,7 +16,7 @@
     }
   },
   "scripts": {
-    "build": "yarn build:ts",
+    "build": "pnpm run build:ts",
     "test": "vitest run",
     "build:ts": "tsc --build tsconfig.esm.json",
     "test:ci": "vitest run --coverage.thresholds.autoUpdate=true"
@@ -32,6 +32,7 @@
     "@tsed/di": "workspace:*",
     "@tsed/engines": "workspace:*",
     "@tsed/exceptions": "workspace:*",
+    "@tsed/hooks": "workspace:*",
     "@tsed/schema": "workspace:*",
     "@tsed/typescript": "workspace:*",
     "@types/ejs": "3.1.5",
@@ -43,6 +44,7 @@
     "@tsed/di": ">=8.0.0",
     "@tsed/engines": ">=8.0.0",
     "@tsed/exceptions": ">=8.0.0",
+    "@tsed/hooks": ">=8.0.0",
     "@tsed/schema": ">=8.0.0"
   },
   "peerDependenciesMeta": {

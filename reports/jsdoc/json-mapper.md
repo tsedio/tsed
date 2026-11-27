@@ -15,7 +15,7 @@ How to use
 
 - Update this file as you document symbols. Keep statuses in sync.
 - Prefer adding per-symbol checklists under each file when possible.
-- Validate with `yarn api:build --filter @tsed/json-mapper` (or `yarn api:build`) after every documentation batch.
+- Validate with `pnpm api:build --filter @tsed/json-mapper` (or `pnpm api:build`) after every documentation batch.
 
 Rules (symbols only)
 
@@ -124,13 +124,13 @@ Files under `packages/specs/json-mapper/src` (excluding index.ts and tests), gro
 
 1. **Phase 1 – Domain + utilities**
    - Finish `JsonSerializer`, `JsonDeserializer`, options/settings/global options, compiler/container, and `serialize/deserialize` helpers.
-   - Validation: `yarn api:build --filter @tsed/json-mapper`.
+   - Validation: `pnpm api:build --filter @tsed/json-mapper`.
 2. **Phase 2 – Components + decorators**
    - Document mapper components and decorator entry points (`@JsonMapper`, lifecycle decorators).
-   - Validation: `yarn api:build --filter @tsed/json-mapper`.
+   - Validation: `pnpm api:build --filter @tsed/json-mapper`.
 3. **Phase 3 – Hooks + interfaces**
    - Cover hook helpers and `JsonMapperMethods` interface.
-   - Validation: `yarn api:build --filter @tsed/json-mapper`.
+   - Validation: `pnpm api:build --filter @tsed/json-mapper`.
 
 ### Next actions
 
@@ -138,7 +138,7 @@ Files under `packages/specs/json-mapper/src` (excluding index.ts and tests), gro
 - [x] Add baseline docs to `serialize.ts` / `deserialize.ts`.
 - [x] Document mapper components.
 - [x] Add hook/decorator documentation and ensure translator-friendly Markdown headings replace `@example`.
-- [ ] Keep the tracker in sync as new mapper features land and continue validating with `yarn api:build --filter @tsed/json-mapper`.
+- [ ] Keep the tracker in sync as new mapper features land and continue validating with `pnpm api:build --filter @tsed/json-mapper`.
 
 ---
 

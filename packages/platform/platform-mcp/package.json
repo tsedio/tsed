@@ -34,7 +34,7 @@
     }
   },
   "scripts": {
-    "build": "yarn barrels && yarn build:ts",
+    "build": "pnpm run barrels && pnpm run build:ts",
     "barrels": "barrels",
     "test": "vitest run",
     "test:types": "tsc -p test/types/tsconfig.json",
@@ -57,9 +57,14 @@
     "@tsed/exceptions": "workspace:*",
     "@tsed/json-mapper": "workspace:*",
     "@tsed/platform-http": "workspace:*",
+    "@tsed/platform-router": "workspace:*",
     "@tsed/schema": "workspace:*",
     "@tsed/typescript": "workspace:*",
+    "@types/compression": "1.7.5",
+    "compression": "1.8.0",
+    "express": "5.2.1",
     "jose": "^6.1.3",
+    "supertest": "7.0.0",
     "typescript": "6.0.2",
     "vitest": "4.1.4"
   },
@@ -68,7 +73,9 @@
     "@tsed/di": ">=8.0.0",
     "@tsed/json-mapper": ">=8.0.0",
     "@tsed/platform-http": ">=8.0.0",
-    "@tsed/schema": ">=8.0.0"
+    "@tsed/platform-router": ">=8.0.0",
+    "@tsed/schema": ">=8.0.0",
+    "express": ">=5"
   },
   "peerDependenciesMeta": {
     "@tsed/core": {
@@ -85,6 +92,9 @@
     },
     "@tsed/schema": {
       "optional": false
+    },
+    "express": {
+      "optional": true
     }
   }
 }

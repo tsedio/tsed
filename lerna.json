@@ -1,22 +1,16 @@
 {
-  "npmClient": "yarn",
+  "npmClient": "pnpm",
   "packages": [
     "packages/*",
     "packages/config/*",
-    "packages/platform/*",
-    "packages/orm/*",
     "packages/graphql/*",
+    "packages/orm/*",
+    "packages/utils/*",
+    "packages/platform/*",
     "packages/security/*",
     "packages/specs/*",
-    "packages/third-parties/*",
     "packages/testcontainers/*",
-    "packages/utils/*",
-    "docs"
+    "packages/third-parties/*"
   ],
-  "version": "8.17.0",
-  "command": {
-    "bootstrap": {
-      "npmClientArgs": ["--no-package-lock"]
-    }
-  }
+  "version": "8.17.0"
 }

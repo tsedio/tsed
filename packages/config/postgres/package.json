@@ -29,7 +29,7 @@
     }
   },
   "scripts": {
-    "build": "yarn build:ts",
+    "build": "pnpm run build:ts",
     "build:ts": "tsc --build tsconfig.esm.json",
     "test": "vitest run --silent=false",
     "test:ci": "vitest run --coverage.thresholds.autoUpdate=true"

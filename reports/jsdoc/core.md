@@ -12,7 +12,7 @@ Purpose
 How to use
 
 - Add a file below when you document or change the JSDoc of one of its exported symbols.
-- Validate with `yarn api:build`.
+- Validate with `pnpm api:build`.
 
 ---
 

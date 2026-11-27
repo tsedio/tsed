@@ -25,13 +25,14 @@
     }
   },
   "scripts": {
-    "build": "yarn build:ts",
+    "build": "pnpm run build:ts",
     "build:ts": "tsc --build tsconfig.esm.json"
   },
   "dependencies": {
     "tslib": "2.8.1"
   },
   "devDependencies": {
+    "@tsed/config": "workspace:*",
     "typescript": "6.0.2"
   },
   "peerDependencies": {

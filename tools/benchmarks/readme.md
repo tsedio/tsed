@@ -8,25 +8,25 @@ The bench app is compiled against the types of the workspace packages, so build 
 published versions:
 
 ```bash
-yarn build
+pnpm run build
 
 # two published versions, installed from npm
-yarn bench:compare 8.44.1 8.44.12
+pnpm run bench:compare 8.44.1 8.44.12
 
 # the last release against this checkout (rebuild after each change)
-yarn bench:compare 8.44.12 local
+pnpm run bench:compare 8.44.12 local
 
 # several versions in one run, a subset of platforms and routes, more rounds
-yarn bench --targets 8.40.0,8.44.1,local --platforms express,fastify --routes users,orders-list --rounds 10
+pnpm run bench --targets 8.40.0,8.44.1,local --platforms express,fastify --routes users,orders-list --rounds 10
 ```
 
-The first target is the baseline. `yarn bench --help` lists every option. The results are written to
+The first target is the baseline. `pnpm run bench --help` lists every option. The results are written to
 `tools/benchmarks/results/<date>/` (`results.json` and `report.md`).
 
 A target is:
 
 - a published version (`8.44.1`): the `@tsed/*` packages of that version, from the npm registry;
-- `local`: the packages built in this checkout (`lib/esm`), packed with `yarn pack`;
+- `local`: the packages built in this checkout (`lib/esm`), packed with `pnpm pack`;
 - `local-<name>`: the packages built in another checkout, with `--local-dir local-<name>=<path>` (used by the CI to compare the
   base branch of a pull request with its head).
 
@@ -58,7 +58,7 @@ with their interval, share of the raw platform). The **Benchmarks** Insights das
 To publish a local run (unpinned runs on macOS are noisy, keep it for tests):
 
 ```bash
-DIRECTUS_URL=http://localhost:8055 DIRECTUS_TOKEN=<token> yarn bench:publish tools/benchmarks/results/<date>/results.json
+DIRECTUS_URL=http://localhost:8055 DIRECTUS_TOKEN=<token> pnpm run bench:publish tools/benchmarks/results/<date>/results.json
 ```
 
 ## What is measured
@@ -104,5 +104,5 @@ first `200`).
 ## Tests
 
 ```bash
-cd tools/benchmarks && yarn test
+cd tools/benchmarks && pnpm test
 ```

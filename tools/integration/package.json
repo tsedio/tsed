@@ -11,6 +11,17 @@
     "build": "tsc --build tsconfig.esm.json",
     "build:ts": "tsc --build tsconfig.esm.json"
   },
+  "dependencies": {
+    "@tsed/ajv": "workspace:*",
+    "@tsed/logger": "^8.0.0",
+    "@tsed/platform-params": "workspace:*",
+    "body-parser": "2.2.1",
+    "compression": "1.8.0",
+    "cookie-parser": "1.4.7",
+    "cors": "2.8.5",
+    "dotenv": "^18.0.2",
+    "method-override": "3.0.0"
+  },
   "devDependencies": {
     "@tsed/di": "workspace:*",
     "@tsed/exceptions": "workspace:*",
@@ -22,6 +33,12 @@
     "@tsed/schema": "workspace:*",
     "@tsed/swagger": "workspace:*",
     "@tsed/typescript": "workspace:*",
+    "@types/body-parser": "1.19.5",
+    "@types/compression": "1.7.5",
+    "@types/cookie-parser": "1.4.7",
+    "@types/cors": "^2.8.12",
+    "@types/method-override": "0.0.35",
+    "axios": "1.15.2",
     "typescript": "6.0.2"
   }
 }

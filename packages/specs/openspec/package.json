@@ -26,7 +26,7 @@
     }
   },
   "scripts": {
-    "build": "yarn barrels && yarn build:ts",
+    "build": "pnpm run barrels && pnpm run build:ts",
     "barrels": "barrels",
     "build:ts": "tsc --build tsconfig.esm.json"
   },

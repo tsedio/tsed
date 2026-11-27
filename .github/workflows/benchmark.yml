@@ -67,12 +67,17 @@ jobs:
           path: base
           persist-credentials: false
 
+      - name: Install pnpm
+        uses: pnpm/action-setup@v6
+        with:
+          package_json_file: head/package.json
+
       - name: Use Node.js 24.18.0
         uses: actions/setup-node@v4
         with:
           node-version: 24.18.0
-          cache: "yarn"
-          cache-dependency-path: head/yarn.lock
+          cache: "pnpm"
+          cache-dependency-path: head/pnpm-lock.yaml
 
       - name: Resolve the targets
         id: targets
@@ -123,15 +128,21 @@ jobs:
       - name: Install and build the PR head
         working-directory: head
         run: |
-          yarn install --immutable --network-timeout 500000
-          yarn build
+          pnpm install --frozen-lockfile
+          pnpm run build
 
       - name: Install and build the base branch
         if: github.event_name == 'pull_request'
         working-directory: base
+        # the base branch may predate the pnpm migration
         run: |
-          yarn install --immutable --network-timeout 500000
-          yarn build
+          if [ -f pnpm-lock.yaml ]; then
+            pnpm install --frozen-lockfile
+            pnpm run build
+          else
+            yarn install --immutable --network-timeout 500000
+            yarn build
+          fi
 
       - name: Run the benchmark
         working-directory: head
@@ -141,7 +152,7 @@ jobs:
           ROUNDS: ${{ inputs.rounds || '5' }}
           DURATION: ${{ inputs.duration || '5' }}
         run: |
-          yarn bench \
+          pnpm run bench \
             --targets "$TARGETS" \
             --platforms "$PLATFORMS" \
             --rounds "$ROUNDS" \

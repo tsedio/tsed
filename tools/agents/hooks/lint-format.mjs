@@ -132,7 +132,7 @@ function stop(payload) {
   if (errors.length) {
     return {
       decision: "block",
-      reason: `Fix the lint errors in the changed files before finishing (yarn test:lint):\n${errors.join("\n\n")}`
+      reason: `Fix the lint errors in the changed files before finishing (pnpm run test:lint):\n${errors.join("\n\n")}`
     };
   }
 }

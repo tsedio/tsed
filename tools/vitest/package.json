@@ -12,6 +12,13 @@
     "generate": "node index.js",
     "reset:coverage": "node reset.js"
   },
+  "dependencies": {
+    "@tsed/monorepo-utils": "3.3.4",
+    "fs-extra": "^11.2.0",
+    "globby": "16.2.4",
+    "unplugin-swc": "1.5.1",
+    "vite-tsconfig-paths": "5.1.4"
+  },
   "devDependencies": {
     "vitest": "4.1.4"
   }

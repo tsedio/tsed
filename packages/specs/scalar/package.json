@@ -17,7 +17,7 @@
   },
   "scripts": {
     "clean": "rm -rf lib",
-    "build": "yarn clean && yarn barrels &&  yarn build:ts && yarn copy:views",
+    "build": "pnpm run clean && pnpm run barrels &&  pnpm run build:ts && pnpm run copy:views",
     "copy:views": "cp -r ./views ./lib/views",
     "barrels": "barrels",
     "test": "vitest run",
@@ -37,16 +37,28 @@
     "@tsed/core": "workspace:*",
     "@tsed/di": "workspace:*",
     "@tsed/json-mapper": "workspace:*",
+    "@tsed/logger": "^8.0.0",
     "@tsed/openspec": "workspace:*",
     "@tsed/platform-http": "workspace:*",
+    "@tsed/platform-router": "workspace:*",
     "@tsed/schema": "workspace:*",
     "@tsed/swagger": "workspace:*",
     "@tsed/typescript": "workspace:*",
+    "@types/body-parser": "1.19.5",
+    "@types/compression": "1.7.5",
+    "@types/cookie-parser": "1.4.7",
+    "@types/method-override": "0.0.35",
+    "body-parser": "2.2.1",
+    "compression": "1.8.0",
+    "cookie-parser": "1.4.7",
+    "method-override": "3.0.0",
+    "supertest": "7.0.0",
     "typescript": "6.0.2",
     "vitest": "4.1.4"
   },
   "peerDependencies": {
-    "@tsed/platform-http": ">=8.0.0"
+    "@tsed/platform-http": ">=8.0.0",
+    "@tsed/platform-router": ">=8.0.0"
   },
   "peerDependenciesMeta": {
     "@tsed/platform-http": {

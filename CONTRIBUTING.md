@@ -52,11 +52,11 @@ Clone your fork of the repository
 $ git clone https://github.com/YOUR_USERNAME/tsed.git
 ```
 
-Install npm dependencies with yarn (not with NPM!):
+Install npm dependencies with pnpm (not with npm or Yarn!):
 
 ```bash
-yarn
-yarn tsc --build
+pnpm install
+pnpm exec tsc --build
 ```
 
 ::: tip
@@ -66,7 +66,7 @@ For developers that use `Intellij`, you have to enable the "Recompile on change"
 ### Recompile source
 
 ```bash
-yarn tsc --build
+pnpm exec tsc --build
 ```
 
 ### Prepare packages
@@ -74,13 +74,13 @@ yarn tsc --build
 Compile all packages to publish it on NPM registry. It generate a `./dist` directory on root repository:
 
 ```bash
-yarn build
+pnpm build
 ```
 
 ### Test
 
 ```bash
-yarn test
+pnpm test
 ```
 
 Tip: To speed up local feedback when working on a single package, run tests from that package directory instead of the workspace root.
@@ -89,11 +89,11 @@ Examples:
 
 - For the schema package (recommended during development):
   ```bash
-  cd packages/specs/schema && yarn test
+  cd packages/specs/schema && pnpm test
   ```
 - For any other package:
   ```bash
-  cd packages/<category>/<package-name> && yarn test
+  cd packages/<category>/<package-name> && pnpm test
   ```
 
 This uses the package's own Vitest configuration and avoids running the entire monorepo test suite.
@@ -103,7 +103,7 @@ This uses the package's own Vitest configuration and avoids running the entire m
 ```bash
 git fetch
 git checkout --no-track -b feat-branch-name origin/production  # !IMPORTANT
-yarn
+pnpm install
 ```
 
 ### Commit & Push a feature
@@ -141,7 +141,7 @@ Ts.ED use vuepress to convert markdown to web application. In addition, all docu
 the API documentation. To run the website on your local, run this command:
 
 ```sh
-yarn vuepress:docs:serve
+pnpm vuepress:docs:serve
 ```
 
 ### Guidelines

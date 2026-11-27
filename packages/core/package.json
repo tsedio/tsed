@@ -28,7 +28,7 @@
     }
   },
   "scripts": {
-    "build": "yarn barrels && yarn build:ts",
+    "build": "pnpm run barrels && pnpm run build:ts",
     "barrels": "barrels",
     "build:ts": "tsc --build tsconfig.esm.json",
     "test": "vitest run",
@@ -43,6 +43,7 @@
     "@tsed/monorepo-utils": "3.3.4",
     "@tsed/typescript": "workspace:*",
     "@tsed/vitest": "workspace:*",
+    "rxjs": "^7.8.1",
     "temporal-polyfill": "1.0.1",
     "typescript": "6.0.2",
     "vitest": "4.1.4"

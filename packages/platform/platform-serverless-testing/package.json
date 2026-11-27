@@ -53,7 +53,7 @@
     }
   },
   "scripts": {
-    "build": "yarn build:ts",
+    "build": "pnpm run build:ts",
     "build:ts": "tsc --build tsconfig.esm.json"
   },
   "dependencies": {
@@ -63,6 +63,8 @@
     "@tsed/barrels": "workspace:*",
     "@tsed/core": "workspace:*",
     "@tsed/di": "workspace:*",
+    "@tsed/json-mapper": "workspace:*",
+    "@tsed/openspec": "workspace:*",
     "@tsed/platform-http": "workspace:*",
     "@tsed/schema": "workspace:*",
     "@tsed/typescript": "workspace:*",

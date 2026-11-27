@@ -11,5 +11,10 @@
   },
   "scripts": {
     "build:references": "node ./index.js"
+  },
+  "dependencies": {
+    "@tsed/monorepo-utils": "3.3.4",
+    "fs-extra": "^11.2.0",
+    "lodash": "^4.17.21"
   }
 }

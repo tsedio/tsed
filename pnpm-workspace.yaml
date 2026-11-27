@@ -1,0 +1,67 @@
+packages:
+  - "packages/*"
+  - "packages/config/*"
+  - "packages/graphql/*"
+  - "packages/orm/*"
+  - "packages/utils/*"
+  - "packages/platform/*"
+  - "packages/security/*"
+  - "packages/specs/*"
+  - "packages/testcontainers/*"
+  - "packages/third-parties/*"
+  - "tools/*"
+
+# Same supply-chain gate as the former Yarn `npmMinimalAgeGate: 2w` (value in minutes).
+minimumReleaseAge: 20160
+minimumReleaseAgeExclude:
+  - "@tsed/monorepo-utils@3.3.4"
+
+# @tsed/platform-middlewares loads the middlewares given by name (`middlewares: ["cookie-parser"]`)
+# with a dynamic import from its own directory: expose them at the root like a flat node_modules did.
+publicHoistPattern:
+  - "body-parser"
+  - "compression"
+  - "cookie-parser"
+  - "express-session"
+  - "method-override"
+  - "koa-*"
+  - "@koa/*"
+  - "@fastify/*"
+  - "fastify-raw-body"
+
+# Install scripts of dependencies stay disabled, as with the former Yarn `enableScripts: false`.
+# Set an entry to true (then `pnpm rebuild <name>`) only when a package really needs its build step.
+allowBuilds:
+  "@apollo/protobufjs": false
+  "@prisma/engines": false
+  "@swc/core": false
+  "@temporalio/core-bridge": false
+  argon2: false
+  braintrust: false
+  core-js: false
+  core-js-pure: false
+  cpu-features: false
+  esbuild: false
+  fsevents: false
+  isolated-vm: false
+  msgpackr-extract: false
+  nx: false
+  oracledb: false
+  prisma: false
+  protobufjs: false
+  sharp: false
+  sqlite3: false
+  ssh2: false
+  vue-demi: false
+
+# fulmine.js depends on uWebSockets.js from GitHub (not published on npm).
+# Yarn allowed it through `approvedGitRepositories`.
+blockExoticSubdeps: false
+
+# Former Yarn `resolutions`.
+overrides:
+  isolated-vm: "^6"
+  sqlite3: "6.0.1"
+  # Yarn resolved the open range (>=0.5.4) of platform-fastify to 1.0.0; 2.x changed its exports
+  "@tsed/platform-fastify>content-disposition": "1.0.0"
+  "@pulsecron/pulse>mongodb": "6.8.0"

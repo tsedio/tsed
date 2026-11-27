@@ -62,13 +62,20 @@
     }
   },
   "scripts": {
-    "build": "yarn build:ts",
+    "build": "pnpm run build:ts",
     "build:ts": "tsc --build tsconfig.esm.json"
   },
   "dependencies": {
+    "@tsed/di": "workspace:*",
     "@tsed/logger-file": ">=8.0.0",
     "@tsed/logger-std": ">=8.0.0",
+    "@tsed/platform-exceptions": "workspace:*",
     "@tsed/platform-http": "workspace:*",
+    "@tsed/platform-middlewares": "workspace:*",
+    "@tsed/platform-params": "workspace:*",
+    "@tsed/platform-response-filter": "workspace:*",
+    "@tsed/platform-router": "workspace:*",
+    "@tsed/schema": "workspace:*",
     "tslib": ">=2.7.0"
   },
   "devDependencies": {
@@ -76,7 +83,8 @@
     "@tsed/engines": "workspace:*",
     "@tsed/typescript": "workspace:*",
     "cross-env": "7.0.3",
-    "typescript": "6.0.2"
+    "typescript": "6.0.2",
+    "vitest": "4.1.4"
   },
   "peerDependencies": {
     "@tsed/logger": ">=8.0.0"

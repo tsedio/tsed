@@ -1,8 +1,8 @@
 #!/usr/bin/env node
 // Usage:
-//   yarn bench:compare 8.44.1 8.44.12            compare two published versions
-//   yarn bench:compare 8.44.12 local             compare the last release with this checkout (after `yarn build`)
-//   yarn bench --targets 8.40.0,8.44.1,local --platforms express,fastify --rounds 10
+//   pnpm run bench:compare 8.44.1 8.44.12            compare two published versions
+//   pnpm run bench:compare 8.44.12 local             compare the last release with this checkout (after `pnpm run build`)
+//   pnpm run bench --targets 8.40.0,8.44.1,local --platforms express,fastify --rounds 10
 // The first target is the baseline. Every target of a comparison is measured in the same run.
 import {spawnSync} from "node:child_process";
 import {mkdirSync, writeFileSync} from "node:fs";
@@ -67,10 +67,10 @@ function parseOptions(argv) {
   };
 }
 
-const HELP = `Usage: yarn bench:compare <baseline> <target...> [options]
-       yarn bench --targets <baseline>,<target...> [options]
+const HELP = `Usage: pnpm run bench:compare <baseline> <target...> [options]
+       pnpm run bench --targets <baseline>,<target...> [options]
 
-Targets: a published version (8.44.1), "local" (packages built in this checkout, run "yarn build" first)
+Targets: a published version (8.44.1), "local" (packages built in this checkout, run "pnpm run build" first)
          or "local-<name>" with --local-dir local-<name>=<path to another built checkout>.
 
 Options:
