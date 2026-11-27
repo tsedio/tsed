@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-// Usage: yarn bench:publish <results.json> (the path is relative to the directory yarn was run from)
+// Usage: pnpm run bench:publish <results.json> (the path is relative to the directory pnpm was run from)
 // Pushes a benchmark run to the Ts.ED CMS (Directus): one `benchmark_runs` item and its `benchmark_results` rows.
 // Env: DIRECTUS_TOKEN (skipped when empty), DIRECTUS_URL (default https://api.tsed.dev), and the GitHub Actions variables.
 import {randomUUID} from "node:crypto";
@@ -223,7 +223,7 @@ async function main() {
   const [file] = process.argv.slice(2);
 
   if (!file) {
-    console.log("Usage: yarn bench:publish <results.json>");
+    console.log("Usage: pnpm run bench:publish <results.json>");
     process.exit(1);
   }
 

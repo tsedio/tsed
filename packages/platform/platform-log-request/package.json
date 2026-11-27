@@ -16,7 +16,7 @@
     }
   },
   "scripts": {
-    "build": "yarn barrels && yarn build:ts",
+    "build": "pnpm run barrels && pnpm run build:ts",
     "barrels": "barrels",
     "test": "vitest run",
     "build:ts": "tsc --build tsconfig.esm.json",
@@ -27,6 +27,7 @@
   },
   "devDependencies": {
     "@tsed/barrels": "workspace:*",
+    "@tsed/core": "workspace:*",
     "@tsed/di": "workspace:*",
     "@tsed/platform-middlewares": "workspace:*",
     "@tsed/platform-params": "workspace:*",
@@ -35,6 +36,7 @@
     "vitest": "4.1.4"
   },
   "peerDependencies": {
+    "@tsed/core": ">=8.0.0",
     "@tsed/di": ">=8.0.0",
     "@tsed/platform-middlewares": ">=8.0.0",
     "@tsed/platform-params": ">=8.0.0"

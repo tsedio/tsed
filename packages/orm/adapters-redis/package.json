@@ -16,7 +16,7 @@
     }
   },
   "scripts": {
-    "build": "yarn barrels && yarn build:ts",
+    "build": "pnpm run barrels && pnpm run build:ts",
     "barrels": "barrels",
     "test": "vitest run",
     "build:ts": "tsc --build tsconfig.esm.json",
@@ -33,7 +33,9 @@
     "@tsed/core": "workspace:*",
     "@tsed/di": "workspace:*",
     "@tsed/hooks": "workspace:*",
+    "@tsed/platform-http": "workspace:*",
     "@tsed/typescript": "workspace:*",
+    "moment": "2.30.1",
     "testcontainers": "11.7.2",
     "typescript": "6.0.2",
     "vitest": "4.1.4"

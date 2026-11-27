@@ -31,15 +31,15 @@
     }
   },
   "scripts": {
-    "prebuild": "cd ../../core && yarn build",
-    "build": "rm -rf lib && yarn build:ts && monorepo build-hybrid",
+    "prebuild": "cd ../../core && pnpm run build",
+    "build": "rm -rf lib && pnpm run build:ts && monorepo build-hybrid",
     "build:ts": "tsc --build tsconfig.esm.json",
     "test": "vitest run",
-    "generate:enums": "yarn build && cd test/enums && DATABASE_URL=postgres://localhost:8000/db prisma generate",
-    "generate:postgres:esm": "yarn build && cd test/postgres-esm && DATABASE_URL=postgres://localhost:8000/db prisma generate",
-    "generate:mongo:esm": "yarn build && cd test/mongo-esm && DATABASE_URL=postgres://localhost:8000/db prisma generate",
-    "generate:circular:esm": "yarn build && cd test/circular-ref && DATABASE_URL=postgres://localhost:8000/db prisma generate",
-    "generate:prisma-client": "yarn build && cd test/prisma-client && DATABASE_URL=postgres://localhost:8000/db prisma generate",
+    "generate:enums": "pnpm run build && cd test/enums && DATABASE_URL=postgres://localhost:8000/db prisma generate",
+    "generate:postgres:esm": "pnpm run build && cd test/postgres-esm && DATABASE_URL=postgres://localhost:8000/db prisma generate",
+    "generate:mongo:esm": "pnpm run build && cd test/mongo-esm && DATABASE_URL=postgres://localhost:8000/db prisma generate",
+    "generate:circular:esm": "pnpm run build && cd test/circular-ref && DATABASE_URL=postgres://localhost:8000/db prisma generate",
+    "generate:prisma-client": "pnpm run build && cd test/prisma-client && DATABASE_URL=postgres://localhost:8000/db prisma generate",
     "test:ci": "vitest run --coverage.thresholds.autoUpdate=true"
   },
   "dependencies": {
@@ -61,8 +61,12 @@
     "@tsed/schema": "workspace:*",
     "@tsed/typescript": "workspace:*",
     "@types/change-case": "^2.3.1",
+    "@types/fs-extra": "11.0.4",
     "@types/pluralize": "0.0.33",
+    "dotenv": "^18.0.2",
     "prisma": "^7.3.0",
+    "ts-node": "10.9.2",
+    "tsconfig-paths": "^4.2.0",
     "typescript": "6.0.2",
     "vitest": "4.1.4"
   },

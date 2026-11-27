@@ -16,7 +16,7 @@
     }
   },
   "scripts": {
-    "build": "yarn build:ts",
+    "build": "pnpm run build:ts",
     "build:ts": "tsc --build tsconfig.esm.json"
   },
   "dependencies": {

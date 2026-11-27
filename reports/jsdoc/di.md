@@ -16,7 +16,7 @@ How to use
 
 - Update this file as you document symbols. Keep statuses in sync.
 - Prefer adding per-symbol checklists under each file when possible.
-- Validate with `yarn api:build` regularly to catch TSDoc issues.
+- Validate with `pnpm api:build` regularly to catch TSDoc issues.
 
 Rules (symbols only)
 
@@ -222,7 +222,7 @@ Priority order for documentation:
 5. Document functional helpers and utilities
 6. Document platform-specific implementations
 7. Update this tracker after each batch of files
-8. Run `yarn api:build` regularly to validate TSDoc compliance
+8. Run `pnpm api:build` regularly to validate TSDoc compliance
 
 ### Next actions
 
@@ -230,7 +230,7 @@ Priority order for documentation:
 - [ ] Document `common/domain/*` classes
 - [ ] Document `common/services/*` classes
 - [ ] Continue with decorators and utilities
-- [ ] Validate with `yarn api:build` at regular intervals
+- [ ] Validate with `pnpm api:build` at regular intervals
 
 ---
 

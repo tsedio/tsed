@@ -94,21 +94,21 @@ Clone your fork of the repository:
 $ git clone https://github.com/YOUR_USERNAME/tsed.git
 ```
 
-Install npm dependencies with yarn (not with NPM!):
+Install npm dependencies with pnpm (not with npm or Yarn!):
 
 ```bash
-yarn
+pnpm install
 ```
 
-> After installing dependencies, yarn/npm run the `postinstall` hook and mount all packages with `npm link` (e.g.
-> `yarn run repo:bootstrap`).
+> After installing dependencies, pnpm runs the `postinstall` hook and mount all packages with `npm link` (e.g.
+> `pnpm run repo:bootstrap`).
 
 Compile TypeScript:
 
 ```bash
 tsc
 # or
-yarn tsc
+pnpm exec tsc
 # or
 npm run tsc
 ```
@@ -116,7 +116,7 @@ npm run tsc
 ### Test
 
 ```bash
-yarn test
+pnpm test
 # or
 npm run test
 ```
@@ -128,9 +128,9 @@ A target is a published version (`8.44.1`) or `local` (the packages built in you
 Build the checkout first, even to compare published versions: the bench app is compiled against the workspace types.
 
 ```bash
-yarn build
-yarn bench:compare 8.44.1 8.44.12   # two releases, installed from npm
-yarn bench:compare 8.44.12 local    # the last release against your checkout
+pnpm build
+pnpm bench:compare 8.44.1 8.44.12   # two releases, installed from npm
+pnpm bench:compare 8.44.12 local    # the last release against your checkout
 ```
 
 In CI, run the **Benchmark** workflow manually (with the targets as input), or add the `benchmark` label to a pull request to
@@ -157,7 +157,7 @@ npm install -g gflow
 ```bash
 git fetch
 git branch --no-track -b feat-branch-name origin/production  # !IMPORTANT
-yarn
+pnpm install
 
 ## OR
 gflow new feat name_of_feat

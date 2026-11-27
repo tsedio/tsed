@@ -23,7 +23,7 @@
     }
   },
   "scripts": {
-    "build": "yarn barrels && yarn build:ts",
+    "build": "pnpm run barrels && pnpm run build:ts",
     "barrels": "barrels",
     "start": "ts-node test/app/index.ts",
     "test": "vitest run",
@@ -41,10 +41,13 @@
     "@tsed/openspec": "workspace:*",
     "@tsed/platform-http": "workspace:*",
     "@tsed/platform-middlewares": "workspace:*",
+    "@tsed/platform-params": "workspace:*",
+    "@tsed/platform-response-filter": "workspace:*",
     "@tsed/schema": "workspace:*",
     "@tsed/socketio-testing": "workspace:*",
     "@tsed/typescript": "workspace:*",
     "express": "^5.2.1",
+    "rxjs": "^7.8.1",
     "typescript": "6.0.2",
     "vitest": "4.1.4"
   },
@@ -53,6 +56,8 @@
     "@tsed/json-mapper": ">=8.0.0",
     "@tsed/logger": ">=8.0.0",
     "@tsed/platform-middlewares": ">=8.0.0",
+    "@tsed/platform-params": ">=8.0.0",
+    "@tsed/platform-response-filter": ">=8.0.0",
     "@tsed/schema": ">=8.0.0"
   },
   "peerDependenciesMeta": {

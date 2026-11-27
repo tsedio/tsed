@@ -1,1 +1,1 @@
-cd docs && yarn install && cd ..
+cd docs && pnpm install && cd ..

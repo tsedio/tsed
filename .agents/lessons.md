@@ -20,14 +20,14 @@ Format: one entry per pattern, with the rule, why it matters and how to apply it
 
 ## Run dependent suites against the worktree sources
 
-- **Rule**: in a worktree without its own `yarn install`, `@tsed/*` imports resolve through the main checkout's `node_modules` symlinks to the main checkout's packages, whatever branch it is on. Alias every `@tsed/*` package to the worktree `src/index.ts` in a temporary Vitest config before trusting a dependent suite.
+- **Rule**: in a worktree without its own `pnpm install`, `@tsed/*` imports resolve through the main checkout's `node_modules` symlinks to the main checkout's packages, whatever branch it is on. Alias every `@tsed/*` package to the worktree `src/index.ts` in a temporary Vitest config before trusting a dependent suite.
 - **Why**: the dependent suites of tsedio/tsed#3526 passed locally without testing the change, and showed failures (`@tsed/schema`, `groups.spec.ts`) that came from another branch.
 - **How to apply**: check where an import resolves (`ls -la node_modules/@tsed/<pkg>`) and compare a failing suite with the base code under the same setup before reporting it.
 
 ## Build a nested worktree with `NX_WORKSPACE_ROOT_PATH`
 
-- **Rule**: in a worktree under `.claude/worktrees/`, run `yarn install` then `NX_WORKSPACE_ROOT_PATH=$PWD yarn build`. Do not fall back to building packages one by one with `tsc`.
-- **Why**: the repository has no `nx.json`, so Nx (behind Lerna) climbs up to the highest directory that holds `node_modules/nx`: the main checkout. `yarn build` then reports success but builds the packages of the main checkout, and the worktree keeps no `lib/`.
+- **Rule**: in a worktree under `.claude/worktrees/`, run `pnpm install` then `NX_WORKSPACE_ROOT_PATH=$PWD pnpm build`. Do not fall back to building packages one by one with `tsc`.
+- **Why**: the repository has no `nx.json`, so Nx (behind Lerna) climbs up to the highest directory that holds `node_modules/nx`: the main checkout. `pnpm build` then reports success but builds the packages of the main checkout, and the worktree keeps no `lib/`.
 - **How to apply**: after the build, check that `packages/<path>/lib/esm` exists in the worktree for the packages you need.
 
 ## Keep local benchmarks light on memory

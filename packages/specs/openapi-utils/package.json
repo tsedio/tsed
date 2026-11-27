@@ -17,7 +17,7 @@
   },
   "scripts": {
     "clean": "rm -rf lib",
-    "build": "yarn clean && yarn barrels && yarn build:ts",
+    "build": "pnpm run clean && pnpm run barrels && pnpm run build:ts",
     "barrels": "barrels",
     "test": "vitest run",
     "build:ts": "tsc --build tsconfig.esm.json",
@@ -32,16 +32,23 @@
     "@tsed/barrels": "workspace:*",
     "@tsed/core": "workspace:*",
     "@tsed/di": "workspace:*",
+    "@tsed/hooks": "workspace:*",
     "@tsed/json-mapper": "workspace:*",
+    "@tsed/normalize-path": "workspace:*",
     "@tsed/openspec": "workspace:*",
     "@tsed/platform-http": "workspace:*",
+    "@tsed/platform-router": "workspace:*",
     "@tsed/schema": "workspace:*",
     "@tsed/typescript": "workspace:*",
+    "@types/micromatch": "^4.0.9",
     "typescript": "6.0.2",
     "vitest": "4.1.4"
   },
   "peerDependencies": {
-    "@tsed/platform-http": ">=8.0.0"
+    "@tsed/hooks": ">=8.0.0",
+    "@tsed/normalize-path": ">=8.0.0",
+    "@tsed/platform-http": ">=8.0.0",
+    "@tsed/platform-router": ">=8.0.0"
   },
   "peerDependenciesMeta": {
     "@tsed/platform-http": {

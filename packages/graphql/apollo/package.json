@@ -16,7 +16,7 @@
     }
   },
   "scripts": {
-    "build": "yarn barrels && yarn build:ts",
+    "build": "pnpm run barrels && pnpm run build:ts",
     "barrels": "barrels",
     "test": "vitest run",
     "build:ts": "tsc --build tsconfig.esm.json",
@@ -28,18 +28,22 @@
   "devDependencies": {
     "@apollo/datasource-rest": "6.4.1",
     "@apollo/server": "^5.2.0",
+    "@apollo/server-gateway-interface": "^2.0.0",
     "@as-integrations/express4": "1.1.2",
     "@as-integrations/express5": "1.1.2",
     "@as-integrations/fastify": "3.1.0",
     "@as-integrations/koa": "1.1.1",
+    "@graphql-tools/schema": "^10.0.30",
     "@tsed/barrels": "workspace:*",
     "@tsed/core": "workspace:*",
     "@tsed/di": "workspace:*",
+    "@tsed/hooks": "workspace:*",
     "@tsed/logger": "^8.0.0",
     "@tsed/platform-http": "workspace:*",
     "@tsed/typescript": "workspace:*",
     "apollo-datasource-http": "0.21.0",
     "apollo-server-testing": "2.26.2",
+    "express": "5.2.1",
     "graphql": "16.12.0",
     "typescript": "6.0.2",
     "vitest": "4.1.4"
@@ -52,8 +56,10 @@
     "@as-integrations/koa": ">=1.1.1",
     "@tsed/core": ">=8.0.0",
     "@tsed/di": ">=8.0.0",
+    "@tsed/hooks": ">=8.0.0",
     "@tsed/logger": ">=8.0.0",
     "@tsed/platform-http": ">=8.0.0",
+    "express": ">=5",
     "graphql": ">16.0.0"
   },
   "peerDependenciesMeta": {
@@ -67,6 +73,9 @@
       "optional": true
     },
     "@as-integrations/koa": {
+      "optional": true
+    },
+    "express": {
       "optional": true
     }
   }

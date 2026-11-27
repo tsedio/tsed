@@ -117,7 +117,7 @@ export class PlatformBuilder<App = TsED.Application> {
     adapter: Type<PlatformAdapter<Adapter>>,
     rootModule: Type<any> | Partial<TsED.Configuration>,
     settings?: Partial<TsED.Configuration>
-  ) {
+  ): PlatformBuilderSettings<Adapter> & {rootModule: Type<any>; adapter: Type<PlatformAdapter<Adapter>>} {
     if (typeof rootModule !== "function") {
       settings = rootModule;
       rootModule = undefined!;

@@ -23,7 +23,7 @@
   },
   "scripts": {
     "test": "vitest run",
-    "build": "yarn build:ts",
+    "build": "pnpm run build:ts",
     "build:ts": "tsc --build tsconfig.esm.json"
   },
   "dependencies": {
@@ -38,8 +38,10 @@
     "@tsed/platform-http": "workspace:*",
     "@tsed/typescript": "workspace:*",
     "mongodb": "6.9.0",
+    "mongoose": "8.9.5",
     "testcontainers": ">=10.11.0",
-    "typescript": "6.0.2"
+    "typescript": "6.0.2",
+    "vitest": "4.1.4"
   },
   "peerDependencies": {
     "@testcontainers/mongodb": ">=10.11.0",

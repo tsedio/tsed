@@ -10,6 +10,9 @@
   "scripts": {
     "sponsors": "node ./bin/github-sponsors.js"
   },
+  "dependencies": {
+    "chalk": "^5.3.0"
+  },
   "devDependencies": {
     "yaml": "^2.5.1"
   }

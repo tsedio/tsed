@@ -16,7 +16,7 @@
     }
   },
   "scripts": {
-    "build": "yarn barrels && yarn build:ts",
+    "build": "pnpm run barrels && pnpm run build:ts",
     "barrels": "barrels",
     "test": "vitest run",
     "build:ts": "tsc --build tsconfig.esm.json",
@@ -29,6 +29,7 @@
     "@tsed/barrels": "workspace:*",
     "@tsed/core": "workspace:*",
     "@tsed/di": "workspace:*",
+    "@tsed/hooks": "workspace:*",
     "@tsed/platform-router": "workspace:*",
     "@tsed/schema": "workspace:*",
     "@tsed/typescript": "workspace:*",
@@ -38,6 +39,7 @@
   "peerDependencies": {
     "@tsed/core": ">=8.0.0",
     "@tsed/di": ">=8.0.0",
+    "@tsed/hooks": ">=8.0.0",
     "@tsed/schema": ">=8.0.0"
   },
   "peerDependenciesMeta": {

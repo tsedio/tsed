@@ -63,7 +63,7 @@ The summary lists self time per function, one table per profile file (`--top=<n>
    git stash pop
    ```
 
-3. Run the package suite and the suites of the packages found in step 1.2, then `yarn test:lint` and a type check (`npx tsc --noEmit -p packages/<path>/tsconfig.esm.json`). Suites that need Docker (testcontainers) cannot run without it: say so instead of skipping silently.
+3. Run the package suite and the suites of the packages found in step 1.2, then `pnpm test:lint` and a type check (`npx tsc --noEmit -p packages/<path>/tsconfig.esm.json`). Suites that need Docker (testcontainers) cannot run without it: say so instead of skipping silently.
 
 ## 6. Report a fair comparison
 
@@ -98,5 +98,5 @@ Put the before/after table in the PR description with the Node version and the s
 - [ ] Profile read per scenario
 - [ ] Each optimization kept only with a clear gain
 - [ ] Non-regression tests pass on the old and the new code
-- [ ] Package and dependent suites, `yarn test:lint`, type check
+- [ ] Package and dependent suites, `pnpm test:lint`, type check
 - [ ] A/B table in the PR, bench file not committed

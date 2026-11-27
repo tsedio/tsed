@@ -21,7 +21,7 @@
     }
   },
   "scripts": {
-    "build": "yarn barrels && yarn build:ts",
+    "build": "pnpm run barrels && pnpm run build:ts",
     "barrels": "barrels",
     "test": "vitest run",
     "build:ts": "tsc --build tsconfig.esm.json",
@@ -34,17 +34,28 @@
     "@temporalio/client": "1.13.0",
     "@temporalio/testing": "1.13.0",
     "@temporalio/worker": "1.13.0",
+    "@temporalio/workflow": "^1.13.0",
     "@tsed/barrels": "workspace:*",
     "@tsed/core": "workspace:*",
     "@tsed/di": "workspace:*",
+    "@tsed/logger": "^8.0.0",
     "@tsed/platform-http": "workspace:*",
     "@tsed/typescript": "workspace:*",
+    "@types/body-parser": "1.19.5",
+    "@types/compression": "1.7.5",
+    "@types/cookie-parser": "1.4.7",
+    "@types/method-override": "0.0.35",
+    "body-parser": "2.2.1",
+    "compression": "1.8.0",
+    "cookie-parser": "1.4.7",
     "cross-env": "7.0.3",
+    "method-override": "3.0.0",
     "typescript": "6.0.2",
     "vitest": "4.1.4"
   },
   "peerDependencies": {
     "@temporalio/client": "^1.13.0",
-    "@temporalio/worker": "^1.13.0"
+    "@temporalio/worker": "^1.13.0",
+    "@tsed/logger": ">=8.0.0"
   }
 }

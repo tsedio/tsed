@@ -28,13 +28,15 @@
     }
   },
   "scripts": {
-    "build": "yarn barrels && yarn build:ts",
+    "build": "pnpm run barrels && pnpm run build:ts",
     "barrels": "barrels",
     "test": "vitest run",
     "build:ts": "tsc --build tsconfig.esm.json",
     "test:ci": "vitest run --coverage.thresholds.autoUpdate=true"
   },
   "dependencies": {
+    "change-case": "^5.4.4",
+    "nanoid": "^5.1.6",
     "semver": "^7.6.3",
     "tslib": "2.8.1"
   },

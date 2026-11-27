@@ -16,7 +16,7 @@
     }
   },
   "scripts": {
-    "build": "yarn build:ts",
+    "build": "pnpm run build:ts",
     "start": "ts-node test/app/index.ts",
     "build:ts": "tsc --build tsconfig.esm.json"
   },
@@ -25,7 +25,9 @@
   },
   "devDependencies": {
     "@tsed/barrels": "workspace:*",
+    "@tsed/core": "workspace:*",
     "@tsed/di": "workspace:*",
+    "@tsed/logger": "^8.0.0",
     "@tsed/platform-http": "workspace:*",
     "@tsed/typescript": "workspace:*",
     "socket.io-client": "^4.8.0",
@@ -34,6 +36,7 @@
   "peerDependencies": {
     "@tsed/core": ">=8.0.0",
     "@tsed/di": ">=8.0.0",
+    "@tsed/logger": ">=8.0.0",
     "@tsed/platform-http": ">=8.0.0",
     "socket.io-client": "^4.0.1"
   }

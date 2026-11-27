@@ -100,7 +100,7 @@ Update all public documentation in the same change:
 3. Link the new page from `docs/docs/configuration/index.md` and add it to the Configuration sidebar in `docs/.vitepress/config.mts`.
 4. Add the platform and configuration-page link to `docs/index.md` wherever the existing Express/Koa/Fastify list appears.
 
-Follow this order: create the package; implement the platform adaptations; add the SDK matrix and its fixtures; execute the matrix; iterate on missing framework features until it passes; then run the package tests, `yarn tsc -b` from the repository root, affected lint checks, and the documentation build. Do not use a package-scoped `tsc --build` command.
+Follow this order: create the package; implement the platform adaptations; add the SDK matrix and its fixtures; execute the matrix; iterate on missing framework features until it passes; then run the package tests, `pnpm exec tsc -b` from the repository root, affected lint checks, and the documentation build. Do not use a package-scoped `tsc --build` command.
 
 ## Completion checklist
 

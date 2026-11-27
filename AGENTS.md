@@ -20,37 +20,37 @@ Authoritative guidance for humans and agents working on Ts.ED. `CLAUDE.md` is a 
 | `.agents/skills`                        | Shared contributor skills (exposed to Claude via `.claude/skills`) |
 | `reports/jsdoc/`                        | JSDoc coverage trackers                                            |
 
-Stack: Yarn workspaces + Lerna, TypeScript project references (`tsconfig.node.json` / `tsconfig.spec.json`), Vitest (one `vitest.config.mts` per package using `@tsed/vitest/presets`), Oxc (`oxlint`, `oxfmt`), VitePress docs, semantic-release with conventional commits.
+Stack: pnpm workspaces + Lerna, TypeScript project references (`tsconfig.node.json` / `tsconfig.spec.json`), Vitest (one `vitest.config.mts` per package using `@tsed/vitest/presets`), Oxc (`oxlint`, `oxfmt`), VitePress docs, semantic-release with conventional commits.
 
 ## Commands
 
 ```bash
-yarn install && yarn configure   # Install, then generate workspace package references
-yarn build                       # Build all packages
-yarn build:references            # Update TS project references
-yarn barrels                     # Regenerate src/index.ts barrels (also per package)
+pnpm install && pnpm configure   # Install, then generate workspace package references
+pnpm build                       # Build all packages
+pnpm build:references            # Update TS project references
+pnpm barrels                     # Regenerate src/index.ts barrels (also per package)
 
-yarn test                        # All tests
-yarn test:{core,platform,specs,orm,graphql,security,third-parties}   # One package family
-cd packages/<path> && yarn test  # One package (fastest loop)
+pnpm test                        # All tests
+pnpm test:{core,platform,specs,orm,graphql,security,third-parties}   # One package family
+cd packages/<path> && pnpm test  # One package (fastest loop)
 npx vitest run <file>.spec.ts    # One file, from the package directory
 
-yarn test:lint                   # oxlint + workspace import guard + agent plugins check
-yarn test:lint:fix               # Autofix lint issues
-yarn format                      # oxfmt on the whole repo; `yarn oxfmt <files>` for changed files
+pnpm test:lint                   # oxlint + workspace import guard + agent plugins check
+pnpm test:lint:fix               # Autofix lint issues
+pnpm format                      # oxfmt on the whole repo; `pnpm exec oxfmt <files>` for changed files
 
-yarn api:build                   # Build API docs and validate TSDoc
-yarn docs:serve                  # Serve user docs locally
+pnpm api:build                   # Build API docs and validate TSDoc
+pnpm docs:serve                  # Serve user docs locally
 ```
 
 ## Code rules
 
-- Never import another package through an absolute path: the workspace import guard (`yarn test:lint`) rejects it.
-- New file in `src/`: run `yarn barrels` in the package so `src/index.ts` exports it.
+- Never import another package through an absolute path: the workspace import guard (`pnpm test:lint`) rejects it.
+- New file in `src/`: run `pnpm barrels` in the package so `src/index.ts` exports it.
 - Agent hooks (`.claude/settings.json`, `.codex/hooks.json`) run `tools/agents/hooks/lint-format.mjs`: edited files are fixed with oxlint and formatted with oxfmt after each edit, and at the end of a turn changed files are checked with `oxlint` and the workspace import guard: on failure the agent is sent back once to fix them (the checks are skipped when the turn was already continued by the hook, to avoid a loop). Codex asks to trust the project hooks on first run.
 - Tests: never instantiate DI services or modules with `new`. Resolve them with `await PlatformTest.invoke(Token)` or `inject(Token)` so the real provider scope and dependency graph are exercised.
 - Integration tests boot a real app with `PlatformTestSdk` + SuperTest (see `packages/security/passport/test`).
-- JSDoc: when documenting `core`, `di`, `hooks`, `json-mapper` or `schema`, update the matching tracker in `reports/jsdoc/` and run `yarn api:build`. Do not recreate `.plan/*` trackers.
+- JSDoc: when documenting `core`, `di`, `hooks`, `json-mapper` or `schema`, update the matching tracker in `reports/jsdoc/` and run `pnpm api:build`. Do not recreate `.plan/*` trackers.
 
 ## Agent workflow
 
@@ -73,7 +73,7 @@ yarn docs:serve                  # Serve user docs locally
 
 ### Verify before done
 
-- Never mark a task complete without proof: package tests, `yarn test:lint`, type check, logs.
+- Never mark a task complete without proof: package tests, `pnpm test:lint`, type check, logs.
 - Compare the behaviour of the base branch with your changes when relevant.
 - Ask yourself: "Would a staff engineer approve this?" Then give a high-level summary of what changed.
 

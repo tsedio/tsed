@@ -31,7 +31,7 @@
   },
   "scripts": {
     "clean": "rm -rf lib",
-    "build": "yarn clean && yarn barrels && yarn build:ts",
+    "build": "pnpm run clean && pnpm run barrels && pnpm run build:ts",
     "barrels": "barrels",
     "test": "vitest run",
     "build:ts": "tsc --build tsconfig.esm.json",
@@ -41,10 +41,13 @@
     "tslib": ">=2.7.0"
   },
   "devDependencies": {
+    "@faker-js/faker": "9.0.3",
     "@tsed/barrels": "workspace:*",
     "@tsed/core": "workspace:*",
     "@tsed/schema": "workspace:*",
     "@tsed/typescript": "workspace:*",
+    "change-case": "^5.4.4",
+    "moment": "2.30.1",
     "temporal-polyfill": "1.0.1",
     "typescript": "6.0.2",
     "vitest": "4.1.4"

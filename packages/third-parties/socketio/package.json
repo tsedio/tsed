@@ -23,7 +23,7 @@
     }
   },
   "scripts": {
-    "build": "yarn barrels && yarn build:ts",
+    "build": "pnpm run barrels && pnpm run build:ts",
     "barrels": "barrels",
     "start": "ts-node test/app/index.ts",
     "test": "vitest run",
@@ -31,12 +31,14 @@
     "test:ci": "vitest run --coverage.thresholds.autoUpdate=true"
   },
   "dependencies": {
-    "tslib": ">=2.7.0"
+    "tslib": ">=2.7.0",
+    "uuid": "^14.0.0"
   },
   "devDependencies": {
     "@tsed/barrels": "workspace:*",
     "@tsed/core": "workspace:*",
     "@tsed/di": "workspace:*",
+    "@tsed/hooks": "workspace:*",
     "@tsed/json-mapper": "workspace:*",
     "@tsed/openspec": "workspace:*",
     "@tsed/platform-http": "workspace:*",
@@ -44,14 +46,24 @@
     "@tsed/schema": "workspace:*",
     "@tsed/socketio-testing": "workspace:*",
     "@tsed/typescript": "workspace:*",
+    "@types/body-parser": "1.19.5",
+    "@types/compression": "1.7.5",
+    "@types/cookie-parser": "1.4.7",
+    "@types/method-override": "0.0.35",
+    "body-parser": "2.2.1",
+    "compression": "1.8.0",
+    "cookie-parser": "1.4.7",
     "express": "5.2.1",
+    "method-override": "3.0.0",
     "socket.io": "4.8.0",
     "socket.io-client": "^4.8.0",
+    "supertest": "7.0.0",
     "typescript": "6.0.2",
     "vitest": "4.1.4"
   },
   "peerDependencies": {
     "@tsed/di": ">=8.0.0",
+    "@tsed/hooks": ">=8.0.0",
     "@tsed/json-mapper": ">=8.0.0",
     "@tsed/logger": ">=8.0.0",
     "@tsed/platform-middlewares": ">=8.0.0",

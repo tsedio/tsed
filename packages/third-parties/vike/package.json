@@ -21,13 +21,14 @@
     }
   },
   "scripts": {
-    "build": "yarn barrels && yarn build:ts",
+    "build": "pnpm run barrels && pnpm run build:ts",
     "barrels": "barrels",
     "test": "vitest run",
     "build:ts": "tsc --build tsconfig.esm.json",
     "test:ci": "vitest run --coverage.thresholds.autoUpdate=true"
   },
   "dependencies": {
+    "compression": "1.8.0",
     "sirv": "^2.0.4"
   },
   "devDependencies": {
@@ -35,15 +36,26 @@
     "@tsed/core": "workspace:*",
     "@tsed/di": "workspace:*",
     "@tsed/exceptions": "workspace:*",
+    "@tsed/logger": "^8.0.0",
     "@tsed/platform-http": "workspace:*",
+    "@tsed/platform-middlewares": "workspace:*",
+    "@tsed/platform-params": "workspace:*",
+    "@tsed/platform-views": "workspace:*",
+    "@tsed/schema": "workspace:*",
     "@tsed/typescript": "workspace:*",
+    "@types/compression": "1.7.5",
     "typescript": "6.0.2",
     "vike": "0.4.230",
     "vite": "7.3.7",
     "vitest": "4.1.4"
   },
   "peerDependencies": {
+    "@tsed/logger": ">=8.0.0",
     "@tsed/platform-http": ">=8.0.0",
+    "@tsed/platform-middlewares": ">=8.0.0",
+    "@tsed/platform-params": ">=8.0.0",
+    "@tsed/platform-views": ">=8.0.0",
+    "@tsed/schema": ">=8.0.0",
     "vike": ">=0.4.160",
     "vite": ">=4"
   },

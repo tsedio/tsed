@@ -10,6 +10,13 @@
     "bench:app": "tsc -p tsconfig.json",
     "test": "vitest run"
   },
+  "dependencies": {
+    "@koa/router": "^13.1.0",
+    "express": "5.2.1",
+    "fastify": "5.8.3",
+    "fulmine.js": "5.25.7",
+    "koa": "3.1.2"
+  },
   "devDependencies": {
     "@tsed/ajv": "workspace:*",
     "@tsed/core": "workspace:*",

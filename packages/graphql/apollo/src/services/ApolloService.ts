@@ -145,11 +145,11 @@ export class ApolloService {
   /**
    * Get TypeDefs of the ApolloServer from his id
    */
-  getTypeDefs(id: string = "default") {
+  getTypeDefs(id: string = "default"): IExecutableSchemaDefinition<ApolloContext>["typeDefs"] | undefined {
     return this.servers.get(id)?.typeDefs;
   }
 
-  getResolvers(id: string = "default") {
+  getResolvers(id: string = "default"): IExecutableSchemaDefinition<ApolloContext>["resolvers"] | undefined {
     return this.servers.get(id)?.resolvers;
   }
 
