@@ -46,7 +46,6 @@
     "@redis/client": ">=5.1.0",
     "@tsed/core": ">=8.0.0",
     "@tsed/di": ">=8.0.0",
-    "cache-manager": "^5.0.0",
     "redis": ">=5.1.0"
   }
 }

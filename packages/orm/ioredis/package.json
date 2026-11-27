@@ -46,7 +46,6 @@
   "peerDependencies": {
     "@tsed/core": ">=8.0.0",
     "@tsed/di": ">=8.0.0",
-    "cache-manager": "^5.0.0",
     "ioredis": ">=5.2.3",
     "ioredis-mock": ">=8.2.2"
   }
