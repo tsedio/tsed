@@ -269,7 +269,7 @@ export class PlatformBuilder<App = TsED.Application> {
   async stop() {
     await destroyInjector();
 
-    this.#listeners.map(closeServer);
+    await Promise.all(this.#listeners.filter(Boolean).map(closeServer));
   }
 
   public async ready() {
