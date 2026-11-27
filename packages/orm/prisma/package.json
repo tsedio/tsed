@@ -40,6 +40,7 @@
     "generate:mongo:esm": "yarn build && cd test/mongo-esm && DATABASE_URL=postgres://localhost:8000/db prisma generate",
     "generate:circular:esm": "yarn build && cd test/circular-ref && DATABASE_URL=postgres://localhost:8000/db prisma generate",
     "generate:prisma-client": "yarn build && cd test/prisma-client && DATABASE_URL=postgres://localhost:8000/db prisma generate",
+    "generate:prisma-client:emit": "yarn build && cd test/prisma-client-emit && DATABASE_URL=postgres://localhost:8000/db prisma generate",
     "test:ci": "vitest run --coverage.thresholds.autoUpdate=true"
   },
   "dependencies": {
