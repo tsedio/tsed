@@ -1,12 +1,10 @@
 import type {FetchMethod} from "../interfaces/FetchEndpointOptions.js";
-import {collapseSlashes} from "../utils/collapseSlashes.js";
 import {createParams} from "../utils/createParams.js";
 import {decodePathSegment} from "../utils/decodePathSegment.js";
 import {expandOptionalSegments} from "../utils/expandOptionalSegments.js";
 import {parseSegment} from "../utils/parseSegment.js";
 import {segmentsToTokens} from "../utils/segmentsToTokens.js";
 import {splitPattern} from "../utils/splitPattern.js";
-import {trimTrailingSlashes} from "../utils/trimTrailingSlashes.js";
 import {ROUTE_NODE_KIND, type RouteHandler, RouteNode} from "./RouteNode.js";
 
 export interface RouteMatch<T> {
@@ -25,8 +23,11 @@ const SLASH = 47;
  * wins whatever its kind (static, `:param` or wildcard): the tree is walked with
  * backtracking, and each subtree carries the lowest declaration index it holds so
  * branches that cannot beat the current best match are skipped. Lookup cost depends
- * on the path length, not on the number of registered routes. Trailing and
- * duplicated slashes are ignored.
+ * on the path length, not on the number of registered routes.
+ *
+ * Slashes follow Express 5: one trailing slash is ignored, duplicated slashes are
+ * not collapsed (`/users//1` matches no `/users/:id`, and a wildcard keeps them in
+ * its value).
  *
  * The lookup loop follows find-my-way: compressed static prefixes, a flat
  * backtracking stack that is only allocated when a branch is skipped, and the first
@@ -131,13 +132,14 @@ export class RouteMatcher<T> {
     node.handler ??= {route, value, names, order};
   }
 
-  #find(root: RouteNode<T>, pathname: string): RouteMatch<T> | undefined {
-    if (pathname.charCodeAt(0) !== SLASH) {
+  #find(root: RouteNode<T>, path: string): RouteMatch<T> | undefined {
+    if (path.charCodeAt(0) !== SLASH) {
       return undefined;
     }
 
-    const path = collapseSlashes(pathname);
-    const end = Math.max(1, trimTrailingSlashes(path));
+    // A single trailing slash is optional, like Express 5 (`/users/1/` matches `/users/:id`).
+    const length = path.length;
+    const end = length > 1 && path.charCodeAt(length - 1) === SLASH ? length - 1 : length;
 
     let bestOrder = Infinity;
     let best: RouteHandler<T> | null = null;

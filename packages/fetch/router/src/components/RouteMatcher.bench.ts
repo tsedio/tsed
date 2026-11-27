@@ -35,7 +35,7 @@ describe("single route lookup", () => {
     ["short wildcard", ["/*"], "/static"],
     ["long wildcard", ["/*"], "/static/static/static/static/static"],
     ["named wildcard", ["/files/:path*"], "/files/a/b/c/d/e.txt"],
-    ["trailing slashes", ["/users/:id"], "/users/123///"]
+    ["trailing slash", ["/users/:id"], "/users/123/"]
   ];
 
   for (const [name, patterns, url] of scenarios) {

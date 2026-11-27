@@ -30,11 +30,28 @@ describe("RouteMatcher", () => {
     expect(matcher.match("GET", "/users/%E0%A4%A")?.params.id).toBe("%E0%A4%A");
   });
 
-  it("should ignore trailing and duplicated slashes", () => {
-    const matcher = new RouteMatcher<string>().add("GET", "/users/:id", "user");
+  // Expected values checked against path-to-regexp 8.3.0 with the options of the Express 5 router.
+  it("should ignore a single trailing slash, like Express 5", () => {
+    const matcher = new RouteMatcher<string>().add("GET", "/users/:id", "user").add("GET", "/", "root");
 
     expect(matcher.match("GET", "/users/1/")?.params).toEqual({id: "1"});
-    expect(matcher.match("GET", "//users//1//")?.params).toEqual({id: "1"});
+    expect(matcher.match("GET", "/users/1//")).toBeUndefined();
+    expect(matcher.match("GET", "//")?.value).toBe("root");
+  });
+
+  it("should not collapse duplicated slashes, like Express 5", () => {
+    const matcher = new RouteMatcher<string>().add("GET", "/users/:id", "user");
+
+    expect(matcher.match("GET", "//users/1")).toBeUndefined();
+    expect(matcher.match("GET", "/users//1")).toBeUndefined();
+  });
+
+  it("should keep duplicated slashes in a wildcard value, like Express 5", () => {
+    const matcher = new RouteMatcher<string>().add("GET", "/a/:x", "param").add("GET", "/files/:path*", "files").add("GET", "/*", "all");
+
+    expect(matcher.match("GET", "/files/a//b")?.params).toEqual({path: "a//b"});
+    expect(matcher.match("GET", "/files//a")?.params).toEqual({path: "/a"});
+    expect(matcher.match("GET", "/a//b")).toEqual({value: "all", route: "/*", params: {"*": "a//b"}});
   });
 
   it("should resolve by declaration order whatever the kind of segment", () => {

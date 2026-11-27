@@ -1,4 +1,5 @@
 import {commonPrefixLength} from "../utils/commonPrefixLength.js";
+import {startsWithAt} from "../utils/startsWithAt.js";
 
 export const ROUTE_NODE_KIND = {
   STATIC: 0,
@@ -53,7 +54,7 @@ export class RouteNode<T> {
     for (let i = 0; i < codes.length; i++) {
       if (codes[i] === code) {
         const child = this.#nodes[i];
-        return child.prefix.length === 1 || path.startsWith(child.prefix, index) ? child : null;
+        return child.prefix.length === 1 || startsWithAt(path, child.prefix, index) ? child : null;
       }
     }
 
