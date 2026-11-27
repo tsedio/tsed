@@ -1,5 +1,6 @@
 import chalk from "chalk";
 import {execSync} from "child_process";
+import {readFile} from "fs/promises";
 import path from "path";
 // from nuxt/opencollective
 
@@ -38,7 +39,7 @@ export function print(color = null) {
 }
 
 export async function printDonationMessage(fundingConfig, pkgPath) {
-  const packageJson = await import(path.resolve(pkgPath) + "/package.json", {assert: {type: "json"}});
+  const packageJson = JSON.parse(await readFile(path.join(path.resolve(pkgPath), "package.json"), "utf8"));
   const dim = print("dim");
   const yellow = print("yellow");
   const emptyLine = print();
