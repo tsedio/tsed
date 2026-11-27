@@ -47,5 +47,13 @@
     "temporal-polyfill": "1.0.1",
     "typescript": "6.0.2",
     "vitest": "4.1.4"
+  },
+  "peerDependencies": {
+    "rxjs": ">=7"
+  },
+  "peerDependenciesMeta": {
+    "rxjs": {
+      "optional": true
+    }
   }
 }

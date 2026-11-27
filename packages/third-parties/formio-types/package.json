@@ -40,6 +40,7 @@
     "typescript": "6.0.2"
   },
   "peerDependencies": {
+    "@formio/core": ">=2",
     "formiojs": ">=4.0.0"
   }
 }

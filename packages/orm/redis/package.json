@@ -43,8 +43,10 @@
     "vitest": "4.1.4"
   },
   "peerDependencies": {
+    "@redis/client": ">=5.1.0",
     "@tsed/core": ">=8.0.0",
     "@tsed/di": ">=8.0.0",
+    "cache-manager": ">=5",
     "redis": ">=5.1.0"
   }
 }

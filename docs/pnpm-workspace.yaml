@@ -1,0 +1,11 @@
+# The docs are a standalone project, outside the root workspace: this file is its workspace boundary,
+# so `pnpm install` in this directory uses docs/pnpm-lock.yaml and never the root workspace.
+packages: []
+
+# Same supply-chain gate as the root workspace (value in minutes).
+minimumReleaseAge: 20160
+
+# Install scripts of dependencies stay disabled, as in the root workspace.
+allowBuilds:
+  esbuild: false
+  vue-demi: false

@@ -6,7 +6,8 @@ import {createProjectFixture} from "../__mock__/createProjectFixture.js";
 import {generateCode} from "./generateCode.js";
 
 describe("generateCode", () => {
-  it("should only transpile the generated Ts.ED files and leave the Prisma client sources untouched", async () => {
+  // emits the generated files with the TypeScript compiler: slower than the default timeout on a busy CI runner
+  it("should only transpile the generated Ts.ED files and leave the Prisma client sources untouched", {timeout: 30_000}, async () => {
     const root = await fs.mkdtemp(join(tmpdir(), "tsed-prisma-"));
     const clientDir = join(root, "client");
     const outputDir = join(root, "tsed");
