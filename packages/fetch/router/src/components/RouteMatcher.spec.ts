@@ -54,6 +54,24 @@ describe("RouteMatcher", () => {
     expect(matcher.match("GET", "/a//b")).toEqual({value: "all", route: "/*", params: {"*": "a//b"}});
   });
 
+  it("should keep a trailing slash in a wildcard value, like Express 5", () => {
+    const matcher = new RouteMatcher<string>().add("GET", "/files/:path*", "files").add("GET", "/static/*", "static");
+
+    expect(matcher.match("GET", "/files/a/")?.params).toEqual({path: "a/"});
+    expect(matcher.match("GET", "/files/a/b/")?.params).toEqual({path: "a/b/"});
+    expect(matcher.match("GET", "/files//")?.params).toEqual({path: "/"});
+    expect(matcher.match("GET", "/static/img/")?.params).toEqual({"*": "img/"});
+    expect(matcher.match("GET", "/files/")).toBeUndefined();
+    expect(matcher.match("GET", "/files")).toBeUndefined();
+  });
+
+  it("should keep the trailing slash optional for a route declared before a wildcard", () => {
+    const matcher = new RouteMatcher<string>().add("GET", "/files/:id", "file").add("GET", "/files/:path*", "files");
+
+    expect(matcher.match("GET", "/files/a/")).toEqual({value: "file", route: "/files/:id", params: {id: "a"}});
+    expect(matcher.match("GET", "/files/a/b/")?.params).toEqual({path: "a/b/"});
+  });
+
   it("should resolve by declaration order whatever the kind of segment", () => {
     const matcher = new RouteMatcher<string>()
       .add("GET", "/files/*", "wildcard")

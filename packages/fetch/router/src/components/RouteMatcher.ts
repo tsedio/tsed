@@ -138,6 +138,7 @@ export class RouteMatcher<T> {
     }
 
     // A single trailing slash is optional, like Express 5 (`/users/1/` matches `/users/:id`).
+    // A wildcard still captures up to `length`: `/files/a/` gives `a/` for `/files/:path*`.
     const length = path.length;
     const end = length > 1 && path.charCodeAt(length - 1) === SLASH ? length - 1 : length;
 
@@ -169,6 +170,15 @@ export class RouteMatcher<T> {
             bestOrder = handler.order;
             best = handler;
             bestParams = createParams(handler.names, p0, p1, p2, p3, extra);
+          }
+
+          // Only the trailing slash is left: a wildcard captures it (`/files//` gives `/`).
+          if (end !== length) {
+            const wildcard = node.wildcard;
+
+            if (wildcard !== null && wildcard.min < bestOrder) {
+              cur = wildcard;
+            }
           }
         } else if (i < end) {
           // Candidates: static child, param, wildcard, tried in ascending declaration order.
@@ -243,7 +253,7 @@ export class RouteMatcher<T> {
         node = cur;
       } else {
         const wildcard = cur.kind === ROUTE_NODE_KIND.WILDCARD;
-        let stop = end;
+        let stop = length;
 
         if (!wildcard) {
           stop = path.indexOf("/", i);

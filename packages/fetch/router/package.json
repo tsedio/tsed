@@ -6,13 +6,11 @@
   "type": "module",
   "main": "./lib/esm/index.js",
   "module": "./lib/esm/index.js",
-  "browser": "./lib/esm/browser/index.js",
   "typings": "./lib/types/index.d.ts",
   "exports": {
     ".": {
       "tsed-source": "./src/index.ts",
       "types": "./lib/types/index.d.ts",
-      "browser": "./lib/esm/browser/index.js",
       "import": "./lib/esm/index.js",
       "default": "./lib/esm/index.js"
     }
