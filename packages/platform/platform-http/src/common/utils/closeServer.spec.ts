@@ -15,4 +15,8 @@ describe("closeServer", () => {
     };
     expect(await closeServer(server)).toEqual(undefined);
   });
+
+  it("should ignore an undefined server (disabled port)", async () => {
+    expect(await closeServer(undefined)).toEqual(undefined);
+  });
 });

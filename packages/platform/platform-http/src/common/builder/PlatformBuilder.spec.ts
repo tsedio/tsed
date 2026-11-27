@@ -223,6 +223,26 @@ describe("PlatformBuilder", () => {
         await server.stop();
         expect($asyncEmit).toHaveBeenCalledWith("$onDestroy");
       });
+      it("should stop the platform when a server is disabled", async () => {
+        vi.mocked($asyncEmit).mockResolvedValue(undefined);
+        vi.mocked(PlatformBuilder.prototype["listenServers"]).mockRestore();
+
+        const httpServer = {
+          close: vi.fn().mockImplementation((cb: any) => cb())
+        };
+
+        vi.spyOn(FakeAdapter.prototype, "getServers").mockReturnValue([async () => httpServer as any, undefined as any]);
+
+        const server = await PlatformCustom.bootstrap(ServerModule, {
+          httpPort: 8083,
+          httpsPort: false
+        });
+
+        await server.listen();
+        await expect(server.stop()).resolves.toBeUndefined();
+
+        expect(httpServer.close).toHaveBeenCalledWith(expect.any(Function));
+      });
     });
     describe("adapter()", () => {
       it("should boostrap a custom platform", async () => {
