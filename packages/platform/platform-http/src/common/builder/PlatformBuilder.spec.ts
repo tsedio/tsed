@@ -243,6 +243,41 @@ describe("PlatformBuilder", () => {
 
         expect(httpServer.close).toHaveBeenCalledWith(expect.any(Function));
       });
+      it("should wait for the servers to be closed before resolving stop()", async () => {
+        vi.mocked($asyncEmit).mockResolvedValue(undefined);
+        vi.mocked(PlatformBuilder.prototype["listenServers"]).mockRestore();
+
+        let onClose: (() => void) | undefined;
+        const httpServer = {
+          close: vi.fn().mockImplementation((cb: () => void) => {
+            onClose = cb;
+          })
+        };
+
+        vi.spyOn(FakeAdapter.prototype, "getServers").mockReturnValue([async () => httpServer as any, undefined as any]);
+
+        const server = await PlatformCustom.bootstrap(ServerModule, {
+          httpPort: 8083,
+          httpsPort: false
+        });
+
+        await server.listen();
+
+        let stopped = false;
+        const promise = server.stop().then(() => {
+          stopped = true;
+        });
+
+        await vi.waitFor(() => expect(httpServer.close).toHaveBeenCalled());
+        await new Promise((resolve) => setImmediate(resolve));
+
+        expect(stopped).toBe(false);
+
+        onClose!();
+        await promise;
+
+        expect(stopped).toBe(true);
+      });
     });
     describe("adapter()", () => {
       it("should boostrap a custom platform", async () => {
