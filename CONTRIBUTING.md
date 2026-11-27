@@ -137,11 +137,11 @@ The review is always takes priority over other tasks. We can validate the PR ver
 
 ### Write documentation
 
-Ts.ED use vuepress to convert markdown to web application. In addition, all documentation in your code will be used to generate
+Ts.ED uses VitePress to convert markdown to web application. In addition, all documentation in your code will be used to generate
 the API documentation. To run the website on your local, run this command:
 
 ```sh
-pnpm vuepress:docs:serve
+pnpm docs:serve
 ```
 
 ### Guidelines

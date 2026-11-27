@@ -59,7 +59,7 @@
     "@tsed/hooks": ">=8.0.0",
     "@tsed/logger": ">=8.0.0",
     "@tsed/platform-http": ">=8.0.0",
-    "express": ">=5",
+    "express": ">=4.17.1",
     "graphql": ">16.0.0"
   },
   "peerDependenciesMeta": {

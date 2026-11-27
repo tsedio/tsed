@@ -100,8 +100,7 @@ Install npm dependencies with pnpm (not with npm or Yarn!):
 pnpm install
 ```
 
-> After installing dependencies, pnpm runs the `postinstall` hook and mount all packages with `npm link` (e.g.
-> `pnpm run repo:bootstrap`).
+> pnpm links every workspace package (`workspace:*`), so the packages use each other's sources without being published.
 
 Compile TypeScript:
 
