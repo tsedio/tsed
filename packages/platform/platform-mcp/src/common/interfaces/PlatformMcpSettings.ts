@@ -1,6 +1,9 @@
 import type {Implementation, ServerOptions} from "@modelcontextprotocol/server";
 import type {StreamableHTTPServerTransportOptions} from "@modelcontextprotocol/node";
 import type {TokenProvider} from "@tsed/di";
+import type {PlatformMcpAuthSettings} from "./PlatformMcpAuthSettings.js";
+import type {PlatformMcpPreAuthSettings} from "./PlatformMcpPreAuth.js";
+import type {PlatformMcpUpstreamSettings} from "./PlatformMcpUpstreamSettings.js";
 
 /**
  * Configuration fragment accepted under `configuration.mcp` to wire the Platform MCP module.
@@ -55,6 +58,40 @@ export interface PlatformMcpSettings {
    * Optional transport options for the MCP server.
    */
   transportOptions?: StreamableHTTPServerTransportOptions;
+  /**
+   * Third-party MCP server exposed through this endpoint (gateway mode).
+   */
+  upstream?: PlatformMcpUpstreamSettings;
+  /**
+   * Protect the HTTP endpoint: with an OAuth authorization server (`issuer`, `resource`, ...), with a custom
+   * check (`preAuth`), or with both.
+   */
+  auth?: PlatformMcpAuthSettings | PlatformMcpPreAuthSettings;
+  /**
+   * Let MCP clients running in a browser (e.g. the MCP Inspector) call the endpoint: answers the CORS preflight
+   * and adds the CORS headers to every response of the endpoint, 401 challenges included, exposing the
+   * `WWW-Authenticate`, `Mcp-Session-Id` and `Mcp-Protocol-Version` headers.
+   *
+   * `true` allows any origin. Disabled by default, so an application keeps its own CORS middleware.
+   */
+  cors?: boolean | PlatformMcpCorsSettings;
+}
+
+/**
+ * CORS options of an MCP endpoint.
+ *
+ * @module platform/mcp
+ */
+export interface PlatformMcpCorsSettings {
+  /**
+   * Origins allowed to call the endpoint: `"*"` (default) or a list of origins, echoed back when the request
+   * comes from one of them.
+   */
+  origin?: "*" | string[];
+  /**
+   * Seconds a browser may cache the preflight response. Defaults to `600`.
+   */
+  maxAge?: number;
 }
 
 declare global {

@@ -1,5 +1,34 @@
 import picomatch from "picomatch";
 
+/**
+ * Compiled matchers per pattern. Patterns can come from the request (`includes`), so the cache is bounded
+ * in number of entries, and oversized patterns are compiled on each call instead of being kept.
+ * @ignore
+ */
+const MATCHERS = new Map<string, any>();
+const MAX_MATCHERS = 1000;
+const MAX_CACHED_PATTERN_LENGTH = 256;
+
+function getMatcher(pattern: string) {
+  if (pattern.length > MAX_CACHED_PATTERN_LENGTH) {
+    return picomatch(pattern, {}, true);
+  }
+
+  let isMatch = MATCHERS.get(pattern);
+
+  if (!isMatch) {
+    isMatch = picomatch(pattern, {}, true);
+
+    if (MATCHERS.size >= MAX_MATCHERS) {
+      MATCHERS.clear();
+    }
+
+    MATCHERS.set(pattern, isMatch);
+  }
+
+  return isMatch;
+}
+
 function micromatch(list: string[], patterns: string[]) {
   patterns = ([] as string[]).concat(patterns);
   list = ([] as string[]).concat(list);
@@ -9,12 +38,8 @@ function micromatch(list: string[], patterns: string[]) {
   let items = new Set();
   let negatives = 0;
 
-  let onResult = (state: any) => {
-    items.add(state.output);
-  };
-
   for (let i = 0; i < patterns.length; i++) {
-    let isMatch: any = picomatch(String(patterns[i]), {onResult}, true);
+    const isMatch = getMatcher(String(patterns[i]));
     let negated = isMatch.state.negated || isMatch.state.negatedExtglob;
 
     if (negated) {
@@ -23,6 +48,8 @@ function micromatch(list: string[], patterns: string[]) {
 
     for (let item of list) {
       let matched = isMatch(item, true);
+      // same as the picomatch onResult option: collect the output of every tested item
+      items.add(matched.output);
 
       let match = negated ? !matched.isMatch : matched.isMatch;
       if (!match) continue;
@@ -54,10 +81,7 @@ export function matchGroups(groups: string[], compareWith: string[] = []) {
   }
 
   if (groupsIncludes.length) {
-    return !micromatch(
-      groups.filter((group) => !group.startsWith("!")),
-      compareWith
-    );
+    return !micromatch(groupsIncludes, compareWith);
   }
 
   return false;

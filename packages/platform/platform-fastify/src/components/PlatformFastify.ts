@@ -2,7 +2,7 @@ import "@tsed/platform-multer/fastify";
 import * as Http from "node:http";
 import {IncomingMessage, ServerResponse} from "node:http";
 import * as Https from "node:https";
-import {$alter, $asyncEmit} from "@tsed/hooks";
+import {$alter, $asyncEmit, hooks} from "@tsed/hooks";
 import {type Env, isFunction, isString, ReturnHostInfoFromPort, Type} from "@tsed/core";
 import Fastify, {FastifyInstance, FastifyReply, FastifyRequest} from "fastify";
 import {
@@ -35,6 +35,24 @@ declare global {
   }
 
   namespace TsED {}
+}
+
+/**
+ * Finish the request context once the Node.js response ends. Shared by every request: the context is read from
+ * the request attached to the response, so no closure is kept alive until the response ends.
+ */
+function finishContext(this: ServerResponse) {
+  const req: any = this.req;
+  const $ctx: PlatformContext | undefined = req.$ctx;
+
+  // "error" may follow "finish": the context is finished once
+  if (!$ctx) {
+    return;
+  }
+
+  req.$ctx = undefined;
+
+  $ctx.finish().catch((error) => logger().error({event: "FINISH_ERROR", reqId: $ctx.id, error}));
 }
 
 function callNext(next: any, metadata: PlatformHandlerMetadata, $ctx: PlatformContext) {
@@ -150,21 +168,25 @@ export class PlatformFastify extends PlatformAdapter<FastifyInstance> {
     const invoke = createContext();
     const rawApp: FastifyInstance = app.getApp();
 
-    rawApp.addHook("onRequest", async (request, reply) => {
+    // Callback hooks: Fastify continues synchronously when no $onRequest listener has to be awaited.
+    rawApp.addHook("onRequest", (request, reply, done) => {
       const $ctx = invoke({
         request: request as any,
         response: reply as any
       });
 
-      ($ctx.request.getReq() as any).$ctx = $ctx;
+      (request.raw as any).$ctx = $ctx;
 
-      await $ctx.start();
-    });
+      // Listen on the Node.js response instead of a Fastify onResponse hook: without onResponse hook
+      // (and without Fastify logger), Fastify skips its own response listeners and hook runner.
+      reply.raw.on("finish", finishContext);
+      reply.raw.on("error", finishContext);
 
-    rawApp.addHook("onResponse", async (request, reply) => {
-      const {$ctx} = request;
-      ($ctx.request.getReq() as any).$ctx = undefined;
-      await $ctx.finish();
+      if (!hooks.has("$onRequest")) {
+        return done();
+      }
+
+      $ctx.start().then(() => done(), done);
     });
 
     await rawApp.register(fastifyMiddie, {

@@ -14,7 +14,17 @@ export function nameOfClass(targetClass: any): string {
  * @public
  * @since v7.0.0
  */
-export const nameOfSymbol = (sym: symbol): string => sym.toString().replace("Symbol(", "").replace(")", "");
+export const nameOfSymbol = (sym: symbol): string => {
+  const description = sym.description;
+
+  // description is a plain read: toString() and two replace() cost ~10x more.
+  // A description holding ")" keeps the previous result, where the first ")" was removed
+  if (description === undefined) {
+    return "";
+  }
+
+  return description.indexOf(")") === -1 ? description : sym.toString().replace("Symbol(", "").replace(")", "");
+};
 
 /**
  * Gets the name of any object including symbols, functions, and classes.

@@ -1,0 +1,4 @@
+interface:
+  display_name: "Ts.ED Dependency Injection"
+  short_description: "Declare, inject and scope Ts.ED v8 providers"
+  default_prompt: "Use $tsed-di to create an async factory provider for my database connection and inject it in a service."

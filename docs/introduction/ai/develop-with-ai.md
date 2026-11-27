@@ -21,6 +21,11 @@ domain-specific information.
 This section contains curated content and resources to support more accurate code generation for Ts.ED with
 LLMs using the [AGENTS.md](https://agents.md) standard.
 
+::: tip Agent plugins & skills
+Using Claude Code, Codex or another agent that supports skills? Install the
+[official Ts.ED plugin](/introduction/ai/agent-plugins) to get framework skills and the Ts.ED CLI MCP server.
+:::
+
 ## Why `AGENTS.md` for your Ts.ED app?
 
 - **One file, any tool:** works with agents that can read repo context (Cursor, Copilot Agents, Codeium, JetBrains AI

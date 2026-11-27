@@ -50,33 +50,116 @@ describe("PassportMiddleware", () => {
     // THEN
     expect(Passport.authenticate).toHaveBeenCalledWith("local", {failWithError: true});
   });
-  it("should skip auth when user is authenticated", async () => {
-    // GIVEN
-    const middleware = await PlatformTest.invoke<PassportMiddleware>(PassportMiddleware);
-    const context = createContextFixture();
+  describe("session and protocols", () => {
+    // Registered protocols: local, basic and jwt.
+    async function run({
+      protocol,
+      method = "authorize",
+      authenticated = false,
+      persisted = true,
+      sessionProtocol,
+      loginOnly = []
+    }: {
+      protocol: string | string[];
+      method?: string;
+      authenticated?: boolean;
+      persisted?: boolean;
+      sessionProtocol?: string;
+      loginOnly?: string[];
+    }) {
+      const middleware = await PlatformTest.invoke<PassportMiddleware>(PassportMiddleware);
+      const context = createContextFixture();
+      const request = context.getRequest();
 
-    vi.spyOn(middleware.protocolsService, "getProtocolsNames").mockReturnValue(["local"]);
+      vi.spyOn(middleware.protocolsService, "getProtocolsNames").mockReturnValue(["local", "basic", "jwt"]);
+      vi.spyOn(middleware.protocolsService, "isLoginOnly").mockImplementation((name) => loginOnly.includes(name));
 
-    context.getRequest().user = {};
-    context.getRequest().isAuthenticated = () => {
-      return true;
-    };
-
-    context.endpoint = {
-      store: {
-        get: vi.fn().mockReturnValue({
-          options: {},
-          protocol: "local",
-          method: "authenticate"
-        })
+      if (authenticated) {
+        request.user = {};
+        request.isAuthenticated = () => true;
+        // A stateless strategy (`session: false`) sets the user without persisting a login session.
+        request.session = persisted ? {passport: {user: "id", protocol: sessionProtocol}} : {};
       }
-    } as any;
 
-    // WHEN
-    await middleware.use(context);
+      context.endpoint = {
+        store: {
+          get: vi.fn().mockReturnValue({options: {}, protocol, method})
+        }
+      } as any;
 
-    // THEN
-    return expect(Passport.authenticate).not.toHaveBeenCalled();
+      return middleware.use(context);
+    }
+
+    describe("with an authenticated session", () => {
+      it("should skip auth for any protocol (*)", async () => {
+        await run({protocol: "*", authenticated: true, sessionProtocol: "local"});
+
+        expect(Passport.authorize).not.toHaveBeenCalled();
+      });
+      it("should skip auth for the session protocol", async () => {
+        await run({protocol: ["session", "jwt"], authenticated: true});
+
+        expect(Passport.authorize).not.toHaveBeenCalled();
+      });
+      it("should skip auth when the session was established by the requested protocol", async () => {
+        await run({protocol: "local", method: "authenticate", authenticated: true, sessionProtocol: "local"});
+
+        expect(Passport.authenticate).not.toHaveBeenCalled();
+      });
+      it("should run the requested strategy when the session was established by another protocol", async () => {
+        await run({protocol: "jwt", authenticated: true, sessionProtocol: "local"});
+
+        expect(Passport.authorize).toHaveBeenCalledWith("jwt", {failWithError: true});
+      });
+      it("should skip auth for any protocol (*) without persisted session", async () => {
+        await run({protocol: "*", authenticated: true, persisted: false});
+
+        expect(Passport.authorize).not.toHaveBeenCalled();
+      });
+      it("should not accept a user set by a stateless strategy for the session protocol", async () => {
+        await expect(run({protocol: "session", authenticated: true, persisted: false})).rejects.toBeInstanceOf(Unauthorized);
+
+        expect(Passport.authorize).not.toHaveBeenCalled();
+      });
+      it("should run the other strategies when the user was set by a stateless strategy", async () => {
+        await run({protocol: ["session", "jwt"], authenticated: true, persisted: false});
+
+        expect(Passport.authorize).toHaveBeenCalledWith("jwt", {failWithError: true});
+      });
+      it("should run the requested strategy when the session protocol is unknown", async () => {
+        await run({protocol: "basic", authenticated: true});
+
+        expect(Passport.authorize).toHaveBeenCalledWith("basic", {failWithError: true});
+      });
+    });
+
+    describe("without session", () => {
+      it("should reject the session protocol without calling passport", async () => {
+        await expect(run({protocol: "session"})).rejects.toBeInstanceOf(Unauthorized);
+
+        expect(Passport.authorize).not.toHaveBeenCalled();
+      });
+      it("should fall back to the other protocols when the session protocol is not satisfied", async () => {
+        await run({protocol: ["session", "jwt"]});
+
+        expect(Passport.authorize).toHaveBeenCalledWith("jwt", {failWithError: true});
+      });
+      it("should not run a login-only protocol on @Authorize()", async () => {
+        await run({protocol: "*", loginOnly: ["local"]});
+
+        expect(Passport.authorize).toHaveBeenCalledWith(["basic", "jwt"], {failWithError: true});
+      });
+      it("should reject @Authorize() when only login-only protocols are requested", async () => {
+        await expect(run({protocol: "local", loginOnly: ["local"]})).rejects.toBeInstanceOf(Unauthorized);
+
+        expect(Passport.authorize).not.toHaveBeenCalled();
+      });
+      it("should run a login-only protocol on @Authenticate()", async () => {
+        await run({protocol: "local", method: "authenticate", loginOnly: ["local"]});
+
+        expect(Passport.authenticate).toHaveBeenCalledWith("local", {failWithError: true});
+      });
+    });
   });
 
   it("should call passport with defaults protocols", async () => {

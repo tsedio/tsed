@@ -1,6 +1,7 @@
-import {CachedGroupsJsonMapper, CachedJsonMapper, JsonMapperCompiler} from "./JsonMapperCompiler.js";
+import {CachedGroupsJsonMapper, CachedJsonMapper, JsonMapperCallback, JsonMapperCompiler, TypeMapperEntry} from "./JsonMapperCompiler.js";
 import {JsonClassStore, JsonParameterStore, JsonPropertyStore, JsonSchema, VendorKeys, getPropertiesStores, s} from "@tsed/schema";
-import {Type, classOf, isArray, isBoolean, isEmpty, isNil, nameOf, objectKeys} from "@tsed/core";
+import {Type, classOf, isArray, isBoolean, isEmpty, isFunction, isNil, nameOf, objectKeys} from "@tsed/core";
+import {JsonMapperMethods} from "../interfaces/JsonMapperMethods.js";
 import {JsonDeserializerOptions} from "./JsonDeserializerOptions.js";
 import {JsonMapperSettings} from "./JsonMapperSettings.js";
 import {Writer} from "./Writer.js";
@@ -8,6 +9,39 @@ import {alterAfterDeserialize} from "../hooks/alterAfterDeserialize.js";
 import {alterBeforeDeserialize} from "../hooks/alterBeforeDeserialize.js";
 import {alterOnDeserialize} from "../hooks/alterOnDeserialize.js";
 import {getJsonMapperTypes} from "./JsonMapperTypesContainer.js";
+
+/**
+ * A registered type mapper. `hasConversion` tells whether the mapper had a method named after the type
+ * (e.g. `PrimitiveMapper.String`) when it was registered: the function calls that method, otherwise `deserialize()`.
+ */
+type DeserializerTypeMapperEntry = TypeMapperEntry & {hasConversion: boolean};
+
+/**
+ * Whether the mapper has a callable method named after the type. A property set to another value (e.g. `undefined`
+ * to disable the conversion) falls back to `deserialize()` instead of throwing.
+ */
+function hasConversionMethod(mapper: JsonMapperMethods, name: string) {
+  return isFunction((mapper as any)[name]);
+}
+
+/**
+ * The registered function reads the mapper methods at call time, so a replaced method needs no registration.
+ */
+function createTypeMapperEntry(mapper: JsonMapperMethods, model: any, name: string): DeserializerTypeMapperEntry {
+  const hasConversion = hasConversionMethod(mapper, name);
+  const fn: JsonMapperCallback<any> = hasConversion
+    ? (value, options) => (mapper as any)[name](value, options)
+    : (value, options) => mapper.deserialize(value, {...options, type: model});
+
+  return {mapper, name, hasConversion, fn};
+}
+
+/**
+ * The function must be built again when the mapper gained or lost the method named after the type.
+ */
+function hasTypeMapperChanged(entry: DeserializerTypeMapperEntry, mapper: JsonMapperMethods) {
+  return entry.hasConversion !== hasConversionMethod(mapper, entry.name);
+}
 
 function isDeserializable(obj: any, options: JsonDeserializerOptions) {
   if ((!!options.collectionType && isNil(obj)) || obj === undefined) {
@@ -19,6 +53,10 @@ function isDeserializable(obj: any, options: JsonDeserializerOptions) {
 
 function varKey(k: string) {
   return `__${k}`;
+}
+
+function ignoredKey(k: string) {
+  return `__${k}_ignored`;
 }
 
 function mapParamStoreOptions(store: JsonParameterStore, options: JsonDeserializerOptions) {
@@ -121,6 +159,7 @@ export class JsonDeserializer extends JsonMapperCompiler<JsonDeserializerOptions
   protected createMapper(model: Type<any>, id: string, groups: false | string[]): string {
     const entity = s.store(model);
     const properties = new Set<string>();
+    const fallbacks = new Map<string, string>();
     const schemaProperties = [...getPropertiesStores(entity).values()];
 
     const writer = new Writer().arrow("input", "options");
@@ -146,15 +185,27 @@ export class JsonDeserializer extends JsonMapperCompiler<JsonDeserializerOptions
       ...schemaProperties.flatMap((propertyStore) => {
         const key = propertyStore.propertyName;
 
+        const alias = String(propertyStore.parent.schema.getAliasOf(key) || key);
+
         // TODO V8 add this line: properties.add(key as string);
-        properties.add(String(propertyStore.parent.schema.getAliasOf(key) || key));
+        properties.add(alias);
 
         if (
           (propertyStore.schema?.$ignore && isBoolean(propertyStore.schema?.$ignore)) ||
           propertyStore.isGetterOnly() ||
           (propertyStore.schema?.$hooks?.has("groups") && this.alterGroups(propertyStore.schema, groups))
         ) {
+          // an excluded property must not be filled from its declared name either
+          properties.add(key);
           return;
+        }
+
+        // the declared name of an aliased property is still read as an additional property (fallback when the
+        // property mapped nothing), but it must not overwrite the value the property mapped
+        if (alias !== key) {
+          const mappedNothing = `${varKey(key)} === undefined`;
+
+          fallbacks.set(key, propertyStore.schema?.$hooks?.has("ignore") ? `!${ignoredKey(key)} && ${mappedNothing}` : mappedNothing);
         }
 
         return this.mapProperty(propertyStore, id, groups);
@@ -162,7 +213,7 @@ export class JsonDeserializer extends JsonMapperCompiler<JsonDeserializerOptions
     );
 
     // additional properties
-    writer.add(this.mapAdditionalProperties(entity, properties, groups));
+    writer.add(this.mapAdditionalProperties(entity, properties, fallbacks, groups));
 
     // post hook
     if (entity.schema.$hooks?.has("afterDeserialize")) {
@@ -203,11 +254,18 @@ export class JsonDeserializer extends JsonMapperCompiler<JsonDeserializerOptions
     let writer = new Writer().add(`// Map ${key} ${id} ${groups || ""}`);
     const pick = key !== aliasKey ? `options.useAlias ? '${aliasKey}' : '${key}'` : `'${key}'`;
 
+    let declare = `let ${varKey(key)}`;
+
     // ignore hook (deprecated)
     if (propertyStore.schema?.$hooks?.has("ignore")) {
       this.schemes[schemaId] = propertyStore.schema;
 
-      writer = writer.if(`!alterIgnore('${schemaId}', {...options, self: input})`);
+      // declared outside the branch: the additional properties loop reads them
+      writer.add(`${declare};`);
+      declare = varKey(key);
+
+      writer.const(ignoredKey(key), `alterIgnore('${schemaId}', {...options, self: input})`);
+      writer = writer.if(`!${ignoredKey(key)}`);
     }
 
     // pre hook
@@ -221,7 +279,7 @@ export class JsonDeserializer extends JsonMapperCompiler<JsonDeserializerOptions
       getter = `alterValue('${schemaId}', input[${pick}], ${opts})`;
     }
 
-    const ifWriter = writer.set(`let ${varKey(key)}`, getter).if(`${varKey(key)} !== undefined`);
+    const ifWriter = writer.set(declare, getter).if(`${varKey(key)} !== undefined`);
 
     const fill = this.getPropertyFiller(propertyStore, id, groups, formatOpts);
 
@@ -293,24 +351,8 @@ export class JsonDeserializer extends JsonMapperCompiler<JsonDeserializerOptions
     }
 
     const customMappers: Record<string, any> = {};
-    types = types || getJsonMapperTypes();
 
-    types.forEach((mapper, model) => {
-      if (![Array, Set, Map].includes(model as any)) {
-        const typeName = nameOf(model);
-
-        if (nameOf(model) in mapper) {
-          this.addTypeMapper(model as any, (mapper as any)[typeName].bind(mapper));
-        } else {
-          this.addTypeMapper(model as any, (value: any, options: any) =>
-            mapper.deserialize(value, {
-              ...options,
-              type: model
-            })
-          );
-        }
-      }
-    });
+    this.syncTypeMappers(types || getJsonMapperTypes(), createTypeMapperEntry, hasTypeMapperChanged);
 
     const strictGroups = options.strictGroups ?? JsonMapperSettings.strictGroups;
 
@@ -325,17 +367,40 @@ export class JsonDeserializer extends JsonMapperCompiler<JsonDeserializerOptions
     };
   }
 
-  private mapAdditionalProperties(entity: JsonClassStore, properties: Set<string>, groups: string[] | false) {
+  /**
+   * @param properties The keys never copied: the keys declared by the model (aliases included), and the declared names of
+   * the excluded properties.
+   * @param fallbacks The condition to copy the declared name, by declared name of the aliased properties: the property
+   * was not ignored and mapped nothing (no input value, or a hook returned `undefined`). A declared name is copied only
+   * when the alias is used and this condition is true. The mapped value is checked, not the instance, which may hold a
+   * field initializer.
+   */
+  private mapAdditionalProperties(
+    entity: JsonClassStore,
+    properties: Set<string>,
+    fallbacks: Map<string, string>,
+    groups: string[] | false
+  ) {
     const additionalProperties = entity.schema.get("additionalProperties");
 
-    const exclude = [...properties.values()].map((key) => `'${key}'`).join(", ");
     const writer = new Writer();
 
     writer.add("// add additional properties");
-    let each = writer.each("objectKeys(input)", ["key"]);
 
-    if (exclude.length) {
-      each = each.if(`![${exclude}].includes(key)`);
+    // dynamic additional properties option: the keys are read only when it is enabled, it is disabled by default
+    const scope = additionalProperties ? writer : writer.if("options.additionalProperties");
+    let each = scope.each("objectKeys(input)", ["key"]);
+
+    if (properties.size) {
+      each = each.if(Writer.notOneOf("key", properties));
+    }
+
+    if (additionalProperties && fallbacks.size) {
+      const conditions = Array.from(fallbacks, ([name, fallback]) => {
+        return `(key !== '${name}' || (options.useAlias && ${fallback}))`;
+      });
+
+      each = each.if(conditions.join(" && "));
     }
 
     if (additionalProperties && additionalProperties instanceof JsonSchema) {
@@ -352,8 +417,7 @@ export class JsonDeserializer extends JsonMapperCompiler<JsonDeserializerOptions
       return writer;
     }
 
-    // dynamic additional properties options
-    each.if(`options.additionalProperties && obj[key] === undefined`).set("obj[key]", "input[key]");
+    each.if("obj[key] === undefined").set("obj[key]", "input[key]");
 
     return writer;
   }
@@ -362,46 +426,57 @@ export class JsonDeserializer extends JsonMapperCompiler<JsonDeserializerOptions
     return input;
   }
 
-  private mapSet(input: any, options: JsonDeserializerOptions): Set<any> {
+  // The collection mappers strip `id` from the options once, not once per item:
+  // `id` describes the items, it must not leak into the options of a nested mapper.
+  private mapSet(input: any, {id, ...options}: JsonDeserializerOptions): Set<any> {
     if (isNil(input)) {
       return input;
     }
 
     const obj = new Set<any>();
 
-    objectKeys(input).forEach((key) => {
-      obj.add(this.mapItem(input[key], options));
-    });
+    for (const key of objectKeys(input)) {
+      obj.add(this.execMapper(id!, input[key], options));
+    }
 
     return obj;
   }
 
-  private mapArray(input: any, options: JsonDeserializerOptions) {
+  private mapArray(input: any, {id, ...options}: JsonDeserializerOptions) {
     if (isNil(input)) {
       return input;
     }
 
-    return [].concat(input).map((item: any) => {
-      return this.mapItem(item, options);
-    });
+    // a single value is mapped as a one-item array
+    const list = isArray(input) ? input : [input];
+    const out = new Array(list.length);
+
+    for (let i = 0; i < list.length; i++) {
+      const item = list[i];
+
+      // keep the holes of a sparse array: the item mapper is not called for them
+      if (item === undefined && !(i in list)) {
+        continue;
+      }
+
+      out[i] = this.execMapper(id!, item, options);
+    }
+
+    return out;
   }
 
-  private mapMap(input: any, options: JsonDeserializerOptions): Map<string, any> {
+  private mapMap(input: any, {id, ...options}: JsonDeserializerOptions): Map<string, any> {
     if (isNil(input)) {
       return input;
     }
 
     const obj = new Map<string, any>();
 
-    objectKeys(input).forEach((key) => {
-      obj.set(key, this.mapItem(input[key], options));
-    });
+    for (const key of objectKeys(input)) {
+      obj.set(key, this.execMapper(id!, input[key], options));
+    }
 
     return obj;
-  }
-
-  private mapItem(input: any, {id, ...options}: JsonDeserializerOptions) {
-    return this.execMapper(id, input, options);
   }
 
   private alterBeforeDeserialize(schemaId: string, value: any, options: JsonDeserializerOptions): any {

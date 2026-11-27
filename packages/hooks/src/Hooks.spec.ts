@@ -1,6 +1,49 @@
 import {Hooks} from "./Hooks.js";
 
 describe("Hooks", () => {
+  describe("instance without listener", () => {
+    it("should accept every call before the first listener is registered", async () => {
+      const hooks = new Hooks();
+
+      expect(hooks.has("event")).toBe(false);
+      expect(hooks.off("event", vi.fn())).toBe(hooks);
+      expect(hooks.off(Symbol("ref"))).toBe(hooks);
+      expect(hooks.emit("event", ["a"])).toBeUndefined();
+      expect(await hooks.asyncEmit("event", ["a"])).toBeUndefined();
+      expect(hooks.alter("event", "value", ["a"])).toBe("value");
+      expect(await hooks.asyncAlter("event", "value", ["a"])).toBe("value");
+
+      hooks.destroy();
+
+      expect(hooks.has("event")).toBe(false);
+    });
+    it("should register listeners again after destroy()", () => {
+      const hooks = new Hooks();
+      const fn = vi.fn();
+
+      hooks.on("event", vi.fn());
+      hooks.destroy();
+      hooks.on("event", fn).on("event", fn);
+      hooks.emit("event", ["a"]);
+
+      expect(hooks.has("event")).toBe(true);
+      expect(fn).toHaveBeenCalledTimes(2);
+    });
+    it("should keep the listeners of each event apart", () => {
+      const hooks = new Hooks();
+      const fn = vi.fn();
+      const fn2 = vi.fn();
+
+      hooks.on("event", fn);
+      hooks.on("event2", fn2);
+      hooks.off("event", fn);
+      hooks.on("event", fn2);
+      hooks.emit("event", ["a"]);
+
+      expect(fn).not.toHaveBeenCalled();
+      expect(fn2).toHaveBeenCalledTimes(1);
+    });
+  });
   describe("off()", () => {
     it("should remove a listener (using event, cb)", () => {
       const hooks = new Hooks();
@@ -185,6 +228,166 @@ describe("Hooks", () => {
       hooks.off("event", fn);
     });
   });
+  describe("emit() arguments", () => {
+    it("should call the listeners without arguments when no args are given", () => {
+      const hooks = new Hooks();
+      const lengths: number[] = [];
+
+      hooks.on("event", (...all: unknown[]) => lengths.push(all.length));
+
+      hooks.emit("event");
+      hooks.emit("event", Symbol("ref"));
+      hooks.emit("event", []);
+
+      expect(lengths).toEqual([0, 0, 0]);
+    });
+  });
+  describe("asyncEmit() listeners", () => {
+    it("should call sync listeners and wait for async listeners and thenables", async () => {
+      const hooks = new Hooks();
+      const calls: string[] = [];
+
+      hooks.on("event", (arg: string) => {
+        calls.push("sync " + arg);
+        return "value";
+      });
+      hooks.on("event", async (arg: string) => {
+        await new Promise((resolve) => setTimeout(resolve, 5));
+        calls.push("async " + arg);
+      });
+      hooks.on("event", (arg: string) => ({
+        then(resolve: () => void) {
+          setTimeout(() => {
+            calls.push("thenable " + arg);
+            resolve();
+          }, 5);
+        }
+      }));
+
+      const result = await hooks.asyncEmit("event", ["a"]);
+
+      expect(result).toBeUndefined();
+      expect(calls.sort()).toEqual(["async a", "sync a", "thenable a"]);
+    });
+    it("should read the then accessor of a thenable once", async () => {
+      const hooks = new Hooks();
+      let reads = 0;
+      let resolved = false;
+
+      hooks.on("event", () => ({
+        get then() {
+          reads++;
+
+          return reads === 1
+            ? (resolve: () => void) =>
+                setTimeout(() => {
+                  resolved = true;
+                  resolve();
+                }, 5)
+            : undefined;
+        }
+      }));
+
+      await hooks.asyncEmit("event", ["a"]);
+
+      expect(reads).toBe(1);
+      expect(resolved).toBe(true);
+    });
+    it("should call every listener when a then accessor throws", async () => {
+      const hooks = new Hooks();
+      const next = vi.fn();
+
+      hooks.on("event", () => ({
+        get then() {
+          throw new Error("then error");
+        }
+      }));
+      hooks.on("event", next);
+
+      await expect(hooks.asyncEmit("event", ["a"])).rejects.toThrow("then error");
+      expect(next).toHaveBeenCalledWith("a");
+    });
+    it("should let a listener that does not return its promise settle before resolving", async () => {
+      const hooks = new Hooks();
+      const calls: string[] = [];
+
+      hooks.on("event", () => {
+        Promise.reject(new Error("refresh error")).catch(() => calls.push("caught"));
+      });
+
+      await hooks.asyncEmit("event", ["a"]);
+
+      expect(calls).toEqual(["caught"]);
+    });
+    it("should reject when an async listener rejects", async () => {
+      const hooks = new Hooks();
+
+      hooks.on("event", () => undefined);
+      hooks.on("event", () => Promise.reject(new Error("async error")));
+
+      await expect(hooks.asyncEmit("event", ["a"])).rejects.toThrow("async error");
+    });
+    it("should return a rejected promise when a sync listener throws, without calling the next listeners", async () => {
+      const hooks = new Hooks();
+      const next = vi.fn();
+
+      hooks.on("event", () => {
+        throw new Error("sync error");
+      });
+      hooks.on("event", next);
+
+      const promise = hooks.asyncEmit("event", ["a"]);
+
+      expect(promise).toBeInstanceOf(Promise);
+      await expect(promise).rejects.toThrow("sync error");
+      expect(next).not.toHaveBeenCalled();
+    });
+    it("should not call a listener added by another listener during the same call", async () => {
+      const hooks = new Hooks();
+      const added = vi.fn();
+
+      hooks.on("event", () => {
+        hooks.on("event", added);
+      });
+
+      await hooks.asyncEmit("event", ["a"]);
+
+      expect(added).not.toHaveBeenCalled();
+
+      await hooks.asyncEmit("event", ["b"]);
+
+      expect(added).toHaveBeenCalledWith("b");
+    });
+    it("should call the listeners matching the ref and the listeners without ref", async () => {
+      const hooks = new Hooks();
+      const ref = Symbol("ref");
+      const withRef = vi.fn();
+      const withOtherRef = vi.fn();
+      const withoutRef = vi.fn();
+
+      hooks.on("event", ref, withRef);
+      hooks.on("event", Symbol("other"), withOtherRef);
+      hooks.on("event", withoutRef);
+
+      await hooks.asyncEmit("event", ref, ["a"]);
+
+      expect(withRef).toHaveBeenCalledWith("a");
+      expect(withOtherRef).not.toHaveBeenCalled();
+      expect(withoutRef).toHaveBeenCalledWith("a");
+    });
+    it("should call a once listener a single time", async () => {
+      const hooks = new Hooks();
+      const fn = vi.fn();
+
+      hooks.once("event", fn);
+
+      await hooks.asyncEmit("event", ["a"]);
+      await hooks.asyncEmit("event", ["b"]);
+
+      expect(fn).toHaveBeenCalledTimes(1);
+      expect(hooks.has("event")).toBe(false);
+    });
+  });
   describe("alter()", () => {
     it("should listen a hook and calls listener", () => {
       const hooks = new Hooks();
@@ -198,6 +401,80 @@ describe("Hooks", () => {
       expect(value).toBe("valueAltered");
 
       hooks.off("event", fn);
+    });
+  });
+  describe("alter() arguments", () => {
+    it.each([[[]], [["a"]], [["a", "b"]], [["a", "b", "c"]]])("should pass the value then %j to every listener", (args) => {
+      const hooks = new Hooks();
+      const received: unknown[][] = [];
+
+      hooks.on("event", function (...all: unknown[]) {
+        received.push(all);
+        return `${all[0]}+`;
+      });
+      hooks.on("event", function (...all: unknown[]) {
+        received.push(all);
+        return `${all[0]}+`;
+      });
+
+      expect(hooks.alter("event", "v", args)).toBe("v++");
+      expect(received).toEqual([
+        ["v", ...args],
+        ["v+", ...args]
+      ]);
+    });
+    it("should call the listeners with the given this", () => {
+      const hooks = new Hooks();
+      const self = {};
+      let receivedThis: unknown;
+
+      hooks.on("event", function (this: unknown, value: unknown) {
+        receivedThis = this;
+        return value;
+      });
+
+      hooks.alter("event", "v", ["a"], self);
+
+      expect(receivedThis).toBe(self);
+    });
+    it("should call a listener added by a previous listener of the same event", () => {
+      const hooks = new Hooks();
+
+      hooks.on("event", (value: string) => {
+        hooks.on("event", (value: string) => value + "2");
+        return value + "1";
+      });
+
+      expect(hooks.alter("event", "v", ["a"])).toBe("v12");
+    });
+    it("should not share the default args between calls", () => {
+      const hooks = new Hooks();
+
+      hooks.on("event", (...all: unknown[]) => all.length);
+
+      expect(hooks.alter("event", "v")).toBe(1);
+      expect(hooks.alter("event", "v")).toBe(1);
+    });
+  });
+  describe("asyncAlter() arguments", () => {
+    it.each([[[]], [["a"]], [["a", "b", "c"]]])("should pass the value then %j to every listener", async (args) => {
+      const hooks = new Hooks();
+      const received: unknown[][] = [];
+
+      hooks.on("event", async (...all: unknown[]) => {
+        received.push(all);
+        return `${all[0]}+`;
+      });
+      hooks.on("event", (...all: unknown[]) => {
+        received.push(all);
+        return `${all[0]}+`;
+      });
+
+      expect(await hooks.asyncAlter("event", "v", args, {})).toBe("v++");
+      expect(received).toEqual([
+        ["v", ...args],
+        ["v+", ...args]
+      ]);
     });
   });
   describe("alterAsync()", () => {

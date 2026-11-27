@@ -1,7 +1,7 @@
 import type {McpServer} from "@modelcontextprotocol/server";
 import {logger} from "@tsed/di";
 
-export async function mcpStreamableServer(createServer: () => McpServer) {
+export async function mcpStreamableServer(createServer: () => McpServer | Promise<McpServer>) {
   const {NodeStreamableHTTPServerTransport} = await import("@modelcontextprotocol/node");
   // @ts-ignore
   const {default: express} = await import("express");
@@ -10,7 +10,7 @@ export async function mcpStreamableServer(createServer: () => McpServer) {
   app.use(express.json());
 
   app.post("/mcp", async (req: any, res: any) => {
-    const server = createServer();
+    const server = await createServer();
     const transport = new NodeStreamableHTTPServerTransport({
       sessionIdGenerator: undefined,
       enableJsonResponse: true
@@ -36,6 +36,17 @@ export async function mcpStreamableServer(createServer: () => McpServer) {
       await closeServer();
     }
   });
+
+  // the endpoint is stateless: there is no event stream to open nor session to delete
+  const methodNotAllowed = (_req: any, res: any) => {
+    res
+      .status(405)
+      .set("Allow", "POST")
+      .json({jsonrpc: "2.0", error: {code: -32000, message: "Method not allowed."}, id: null});
+  };
+
+  app.get("/mcp", methodNotAllowed);
+  app.delete("/mcp", methodNotAllowed);
 
   const port = parseInt(process.env.PORT || "3000");
 

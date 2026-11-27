@@ -293,7 +293,7 @@ And finally, we can use our new decorator on a parameter:
 ```typescript
 import {Put} from "@tsed/schema";
 import {Controller} from "@tsed/di";
-import {RawPathParams, UsePipe} from "@tsed/plaform-params";
+import {RawPathParams, UsePipe} from "@tsed/platform-params";
 import {PersonModel} from "../models/PersonModel";
 import {PersonPipe} from "../services/PersonPipe";
 

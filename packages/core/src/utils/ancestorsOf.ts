@@ -18,10 +18,12 @@ export function ancestorsOf(target: any) {
 
   let currentTarget = classOf(target);
 
-  while (currentTarget && nameOf(currentTarget) !== "") {
-    classes.unshift(currentTarget);
+  // the chain stops on Function.prototype, whose name is "". Inline name read for classes,
+  // and push() then reverse() instead of unshift() on each level
+  while (currentTarget && (typeof currentTarget === "function" ? currentTarget.name : nameOf(currentTarget)) !== "") {
+    classes.push(currentTarget);
     currentTarget = getInheritedClass(currentTarget);
   }
 
-  return classes;
+  return classes.reverse();
 }

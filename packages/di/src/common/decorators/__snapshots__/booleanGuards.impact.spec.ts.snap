@@ -1,0 +1,21 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`isBoolean/isPrimitive impact on @tsed/di configuration > @Constant('custom.flag') 1`] = `
+{
+  "Boolean": "Boolean constructor",
+  "false": "boolean false",
+  "new Boolean(false)": "Boolean object, valueOf() = false",
+  "new Boolean(true)": "Boolean object, valueOf() = true",
+  "true": "boolean true",
+}
+`;
+
+exports[`isBoolean/isPrimitive impact on @tsed/di configuration > constant('custom.flag') 1`] = `
+{
+  "Boolean": "Boolean constructor",
+  "false": "boolean false",
+  "new Boolean(false)": "Boolean object, valueOf() = false",
+  "new Boolean(true)": "Boolean object, valueOf() = true",
+  "true": "boolean true",
+}
+`;

@@ -1,0 +1,4 @@
+interface:
+  display_name: "Test Ts.ED Applications"
+  short_description: "Unit and integration tests for Ts.ED with Vitest"
+  default_prompt: "Use $tsed-testing to write a Vitest spec for my UsersService with a mocked repository."

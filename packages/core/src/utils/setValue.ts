@@ -22,20 +22,24 @@ import {isProtectedKey} from "./isProtectedKey.js";
  */
 export function setValue(scope: any, expression: string, value: any, separator = ".") {
   const keys: string[] = expression.split(separator);
+  const last = keys.length - 1;
 
-  const setValue = (key: string, add: boolean) => {
+  // plain loop: no closure and no keys.shift() per call
+  for (let i = 0; i <= last; i++) {
+    const key = keys[i];
+
     if (isProtectedKey(key)) {
-      return false;
+      return;
     }
 
-    if (add) {
+    if (i === last) {
       if (typeof scope.set === "function") {
         scope.set(key, value);
       } else {
         scope[key] = value;
       }
 
-      return false;
+      return;
     }
 
     if (typeof scope.set === "function") {
@@ -47,9 +51,5 @@ export function setValue(scope: any, expression: string, value: any, separator =
     } else {
       scope = scope[key] = scope[key] || {};
     }
-
-    return true;
-  };
-
-  while (setValue(keys.shift()!, !keys.length)) {}
+  }
 }

@@ -1,4 +1,4 @@
-import {Enum, OperationPath, Path, Property, SpecTypes, enums, getSpec} from "../../src/index.js";
+import {Enum, GenericOf, Generics, OperationPath, Path, Property, SpecTypes, enums, getSpec, number} from "../../src/index.js";
 import {QueryParams} from "@tsed/platform-params";
 
 describe("Deep Object QueryParams", () => {
@@ -140,5 +140,53 @@ describe("Deep Object QueryParams", () => {
         ],
       }
     `);
+  });
+  it("should add deepObject style on a generic model property when QueryParams takes the whole model", () => {
+    @Generics("T")
+    class Between<T> {
+      @Property("T")
+      gt?: T;
+
+      @Property("T")
+      lt?: T;
+    }
+
+    class Filters {
+      @Property()
+      name: string;
+
+      @GenericOf(number().integer())
+      range?: Between<number>;
+    }
+
+    @Path("/filters")
+    class TestDeepObjectCtrl {
+      @OperationPath("GET", "/")
+      async get(@QueryParams() filters: Filters) {}
+    }
+
+    const spec: any = getSpec(TestDeepObjectCtrl, {specType: SpecTypes.OPENAPI});
+    const [name, range] = spec.paths["/filters"].get.parameters;
+
+    expect(name).toEqual({in: "query", name: "name", required: false, schema: {type: "string"}});
+    expect(range).toMatchObject({in: "query", name: "range", style: "deepObject", explode: true});
+    expect(range.schema.allOf[0]).toEqual({$ref: "#/components/schemas/Between"});
+  });
+  it("should add deepObject style on a named generic query parameter", () => {
+    @Generics("T")
+    class Between<T> {
+      @Property("T")
+      gt?: T;
+    }
+
+    @Path("/filters")
+    class TestDeepObjectCtrl {
+      @OperationPath("GET", "/")
+      async get(@QueryParams("range") @GenericOf(number().integer()) range: Between<number>) {}
+    }
+
+    const spec: any = getSpec(TestDeepObjectCtrl, {specType: SpecTypes.OPENAPI});
+
+    expect(spec.paths["/filters"].get.parameters[0]).toMatchObject({name: "range", style: "deepObject", explode: true});
   });
 });

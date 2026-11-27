@@ -1,0 +1,4 @@
+interface:
+  display_name: "Ts.ED Models and Validation"
+  short_description: "Define Ts.ED models, validation and serialization"
+  default_prompt: "Use $tsed-models to create a User model with creation and read groups and AJV validation."

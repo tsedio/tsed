@@ -36,12 +36,12 @@
     "@tsed/platform-http": "workspace:*",
     "@tsed/schema": "workspace:*",
     "@tsed/typescript": "workspace:*",
-    "bullmq": "^4.12.3 || ^5.1.1",
+    "bullmq": "^6.3.8",
     "ts-mockito": "^2.6.1",
     "typescript": "6.0.2",
     "vitest": "4.1.4"
   },
   "peerDependencies": {
-    "bullmq": "^4.12.3 || ^5.1.1"
+    "bullmq": ">=5.16.0"
   }
 }

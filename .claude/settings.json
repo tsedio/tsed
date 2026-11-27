@@ -1,0 +1,29 @@
+{
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Edit|MultiEdit|Write|NotebookEdit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node \"$CLAUDE_PROJECT_DIR/tools/agents/hooks/lint-format.mjs\" post-edit",
+            "statusMessage": "Formatting edited files",
+            "timeout": 60
+          }
+        ]
+      }
+    ],
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node \"$CLAUDE_PROJECT_DIR/tools/agents/hooks/lint-format.mjs\" stop",
+            "statusMessage": "Linting changed files",
+            "timeout": 120
+          }
+        ]
+      }
+    ]
+  }
+}

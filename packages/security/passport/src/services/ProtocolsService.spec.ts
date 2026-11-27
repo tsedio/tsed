@@ -81,6 +81,112 @@ describe("ProtocolsService", () => {
       expect.any(Function)
     );
     expect(protocolService.getProtocolsNames().includes("local")).toEqual(true);
+    expect(protocolService.isLoginOnly("local")).toEqual(false);
+  });
+
+  it("should register a login-only protocol", async () => {
+    @Protocol({name: "login-only", useStrategy: Strategy as any, settings: {}, loginOnly: true})
+    class LoginOnlyProtocol {
+      $onVerify() {
+        return {id: 0};
+      }
+    }
+
+    const protocolService = PlatformTest.get<ProtocolsService>(ProtocolsService);
+
+    await protocolService.invoke(PlatformTest.injector.getProvider(LoginOnlyProtocol)!);
+
+    expect(protocolService.isLoginOnly("login-only")).toEqual(true);
+  });
+
+  describe("session protocol", () => {
+    // Simulates Passport.js: the strategy succeeds, then calls req.logIn() which stores the user in the session.
+    function mockPassport(method: "authenticate" | "authorize", options: Record<string, any> = {}) {
+      vi.spyOn(Passport, method).mockImplementation(() => (req: any, res: any, next: any) => {
+        return method === "authenticate" ? req.logIn({id: 0}, options, next) : next();
+      });
+    }
+
+    function createContext() {
+      const $ctx = PlatformTest.createRequestContext();
+      const request = $ctx.getRequest();
+
+      request.session = {};
+      request.logIn = vi.fn((user: any, options: any, done: any) => {
+        if (options.session !== false) {
+          // Passport.js may replace the whole object (0.4, keepSessionInfo merge)
+          request.session.passport = {user: "id"};
+        }
+
+        done(options.fail ? new Error("login failed") : undefined);
+      });
+
+      return $ctx;
+    }
+
+    it("should record the protocol once Passport.js has stored the user in the session", async () => {
+      const protocolService = PlatformTest.get<ProtocolsService>(ProtocolsService);
+      const $ctx = createContext();
+      const logIn = $ctx.getRequest().logIn;
+      mockPassport("authenticate");
+
+      await protocolService.authenticate("local", {}, $ctx);
+
+      expect($ctx.getRequest().session.passport).toEqual({user: "id", protocol: "local"});
+      expect($ctx.getRequest().logIn).toBe(logIn);
+    });
+
+    it("should record the protocol whose verify callback accepted the request", async () => {
+      const protocolService = PlatformTest.get<ProtocolsService>(ProtocolsService);
+      const $ctx = createContext();
+      mockPassport("authenticate");
+      (LocalProtocol.prototype.$onVerify as any).mockReturnValue({id: 0});
+
+      await protocolService.invoke(PlatformTest.injector.getProvider(LocalProtocol)!);
+      await new Promise((resolve) => {
+        const verify = Strategy.mock.calls[0][1];
+
+        return runInContext($ctx, () => verify($ctx.getRequest(), "test", resolve));
+      });
+
+      await protocolService.authenticate(["basic", "local"], {}, $ctx);
+
+      expect($ctx.getRequest().session.passport.protocol).toEqual("local");
+    });
+
+    it("should not record the protocol for a stateless authentication", async () => {
+      const protocolService = PlatformTest.get<ProtocolsService>(ProtocolsService);
+      const $ctx = createContext();
+      $ctx.getRequest().session.passport = {user: "id", protocol: "local"};
+      mockPassport("authenticate", {session: false});
+
+      await protocolService.authenticate("basic", {session: false}, $ctx);
+
+      expect($ctx.getRequest().session.passport.protocol).toEqual("local");
+    });
+
+    it("should not record the protocol when the login fails", async () => {
+      const protocolService = PlatformTest.get<ProtocolsService>(ProtocolsService);
+      const $ctx = createContext();
+      mockPassport("authenticate", {fail: true});
+
+      await expect(protocolService.authenticate("local", {}, $ctx)).rejects.toThrow("login failed");
+
+      expect($ctx.getRequest().session.passport.protocol).toBeUndefined();
+    });
+
+    it("should not record the protocol on authorize", async () => {
+      const protocolService = PlatformTest.get<ProtocolsService>(ProtocolsService);
+      const $ctx = createContext();
+      const logIn = $ctx.getRequest().logIn;
+      $ctx.getRequest().session.passport = {user: "id", protocol: "local"};
+      mockPassport("authorize");
+
+      await protocolService.authorize("basic", {}, $ctx);
+
+      expect($ctx.getRequest().session.passport.protocol).toEqual("local");
+      expect($ctx.getRequest().logIn).toBe(logIn);
+    });
   });
 
   it("should call metadata", async () => {

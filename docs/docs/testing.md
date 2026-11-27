@@ -362,7 +362,7 @@ describe("CachePolicyService", () => {
       imports: [
         {
           token: CACHE_OPTIONS,
-          useValue: {ttl: 120}
+          use: {ttl: 120}
         }
       ]
     })

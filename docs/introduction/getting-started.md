@@ -80,7 +80,7 @@ bunx -p @tsed/cli tsed init .
 :::
 
 ::: warning
-Ts.ED v8 required at least Node.js v20.11.0 version to work.
+Ts.ED v8 required at least Node.js v22.0.0 version to work.
 :::
 
 You will be greeted with a few simple questions:

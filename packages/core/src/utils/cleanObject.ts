@@ -8,17 +8,22 @@ import {isProtectedKey} from "./isProtectedKey.js";
  * @since v7.0.0
  * @see isProtectedKey
  */
-export function cleanObject(obj: Record<string, unknown>, ignore: string[] = []): any {
-  return Object.entries(obj).reduce(
-    (obj, [key, value]) => {
-      if (isProtectedKey(key) || ignore.includes(key) || value === undefined) {
-        return obj;
-      }
+export function cleanObject(obj: Record<string, unknown>, ignore?: string[]): any {
+  const out: Record<string, unknown> = {};
+  // plain loop over Object.keys(): no [key, value] tuple per entry, and no includes() when nothing is ignored
+  const keys = Object.keys(obj);
+  const hasIgnore = !!ignore && ignore.length > 0;
 
-      obj[key] = value;
+  for (let i = 0; i < keys.length; i++) {
+    const key = keys[i];
+    const value = obj[key];
 
-      return obj;
-    },
-    {} as Record<string, unknown>
-  );
+    if (value === undefined || isProtectedKey(key) || (hasIgnore && ignore!.includes(key))) {
+      continue;
+    }
+
+    out[key] = value;
+  }
+
+  return out;
 }

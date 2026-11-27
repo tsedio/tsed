@@ -1,6 +1,32 @@
-import {deepMerge} from "./deepMerge.js";
+import {deepMerge, mergeReducerBuilder} from "./deepMerge.js";
 
 describe("deepMerge", () => {
+  describe("issue #3540", () => {
+    it("should replace a null or primitive source value by an object", () => {
+      expect(deepMerge({a: null}, {a: {b: 1}})).toEqual({a: {b: 1}});
+      expect(deepMerge({a: 1}, {a: {b: 1}})).toEqual({a: {b: 1}});
+      expect(deepMerge({a: "str"}, {a: {b: 1}})).toEqual({a: {b: 1}});
+      expect(deepMerge({a: true}, {a: {b: 1}})).toEqual({a: {b: 1}});
+    });
+
+    it("should return obj when the source is null", () => {
+      expect(deepMerge(null, {a: 1})).toEqual({a: 1});
+    });
+
+    it("should merge dates as leaf values", () => {
+      const merged: any = deepMerge({when: new Date(0)}, {when: new Date(5)});
+
+      expect(merged.when).toBeInstanceOf(Date);
+      expect(merged.when.getTime()).toBe(5);
+      expect(JSON.stringify(merged)).toBe('{"when":"1970-01-01T00:00:00.005Z"}');
+    });
+
+    it("should replace an object by a date and a date by an object", () => {
+      expect((deepMerge({when: {a: 1}}, {when: new Date(5)}) as any).when.getTime()).toBe(5);
+      expect(deepMerge({when: new Date(5)}, {when: {a: 1}})).toEqual({when: {a: 1}});
+    });
+  });
+
   describe("without reducers", () => {
     describe("when is an object", () => {
       it("should merge data (1)", () => {
@@ -218,6 +244,178 @@ describe("deepMerge", () => {
           {"3": "3"}
         ]);
       });
+    });
+  });
+
+  describe("edge cases", () => {
+    it("should keep the source keys first, then the new keys of obj", () => {
+      expect(Object.keys(deepMerge({b: 1, a: 1}, {c: 2, a: 2}))).toEqual(["b", "a", "c"]);
+    });
+
+    it("should merge a key present in both objects once", () => {
+      const keys: string[] = [];
+
+      deepMerge(
+        {b: 1, a: {x: 1}},
+        {c: 2, a: {x: 2}},
+        {
+          alter: (key, value) => {
+            keys.push(key);
+            return value;
+          }
+        }
+      );
+
+      expect(keys).toEqual(["b", "x", "a", "c"]);
+    });
+
+    it("should merge every obj-only key when alter adds it to the source", () => {
+      const source: any = {a: 1};
+
+      const result = deepMerge(
+        source,
+        {b: 2},
+        {
+          alter: (key, value) => {
+            if (key === "a") {
+              source.b = 3;
+            }
+
+            return value;
+          }
+        }
+      );
+
+      expect(result).toEqual({a: 1, b: 2});
+    });
+
+    it("should read an obj-only key through the source prototype chain", () => {
+      const result: any = deepMerge({}, {toString: "value"});
+
+      expect(Object.hasOwn(result, "toString")).toBe(true);
+      expect(result.toString).toBe("value");
+    });
+
+    it("should ignore the __proto__ key and keep Object.prototype", () => {
+      const result: any = deepMerge({a: 1}, JSON.parse('{"__proto__": {"polluted": true}, "b": 2}'));
+
+      expect(result).toEqual({a: 1, b: 2});
+      expect(Object.getPrototypeOf(result)).toBe(Object.prototype);
+      expect(({} as any).polluted).toBeUndefined();
+    });
+
+    it("should skip the holes of a sparse array", () => {
+      // eslint-disable-next-line no-sparse-arrays
+      expect(deepMerge(["a"], ["b", , "c"])).toEqual(["a", "b", "c"]);
+    });
+
+    it("should append a single object merged into an array", () => {
+      expect(deepMerge([{a: 1}], {b: 2} as any)).toEqual([{a: 1}, {b: 2}]);
+    });
+
+    it("should not mutate the source and obj arrays", () => {
+      const source = [{id: 1}];
+      const obj = [{id: 1}, {id: 2}];
+      const result: any = deepMerge(source, obj);
+
+      expect(source).toEqual([{id: 1}]);
+      expect(obj).toEqual([{id: 1}, {id: 2}]);
+      expect(result).not.toBe(source);
+    });
+
+    it("should return a new array when a reducer built with mergeReducerBuilder appends a value", () => {
+      const reducer = mergeReducerBuilder((a, b) => a.id === b.id);
+      const collection = [{id: 1}];
+      const result = reducer(collection, {id: 2}, {});
+
+      expect(result).toEqual([{id: 1}, {id: 2}]);
+      expect(collection).toEqual([{id: 1}]);
+    });
+
+    it("should give the parentKey to the reducer of a nested array and the user options at the top level", () => {
+      const calls: any[] = [];
+      const options = {
+        reducers: {
+          default: (collection: any[], value: any, opts: any) => {
+            calls.push(opts);
+            return [...collection, value];
+          }
+        }
+      };
+
+      deepMerge({list: [1]}, {list: [2]}, options);
+      deepMerge([1], [2], options);
+
+      expect(calls[0].parentKey).toBe("list");
+      expect(calls[0].reducers).toBe(options.reducers);
+      expect(calls.at(-1)).toBe(options);
+    });
+
+    it("should give each nested reducer its own copy of the options", () => {
+      const options: any = {
+        parentKey: "a",
+        reducers: {
+          default: (collection: any[], value: any, opts: any) => {
+            opts.reducers = {default: () => ["replaced"]};
+            return [...collection, value];
+          }
+        }
+      };
+      const reducers = options.reducers;
+
+      expect(deepMerge({a: [1], b: [1]}, {a: [2], b: [2]}, options)).toEqual({a: [1, 2], b: [1, 2]});
+      expect(options.reducers).toBe(reducers);
+    });
+
+    it("should only read the own options in the nested merges", () => {
+      const calls: any[] = [];
+      const options = Object.create({
+        reducers: {
+          default: (collection: any[], value: any) => {
+            calls.push(value);
+            return [...collection, value];
+          }
+        }
+      });
+
+      expect(deepMerge({list: [1]}, {list: [1]}, options)).toEqual({list: [1]});
+      expect(calls).toEqual([]);
+
+      expect(deepMerge([1], [1], options)).toEqual([1, 1]);
+      expect(calls).toEqual([1]);
+    });
+
+    it("should drop undefined values with cleanUndefinedProps", () => {
+      expect(deepMerge({a: undefined, b: 1}, {c: undefined}, {cleanUndefinedProps: true})).toEqual({b: 1});
+      expect(Object.keys(deepMerge({a: undefined}, {c: undefined}) as any)).toEqual(["a", "c"]);
+    });
+
+    it("should return obj for primitives, symbols, functions and Boolean objects", () => {
+      const symbol = Symbol("s");
+      const fn = () => {};
+      const bool = new Boolean(true);
+
+      expect(deepMerge({a: 1}, "str")).toBe("str");
+      expect(deepMerge({a: 1}, 1)).toBe(1);
+      expect(deepMerge({a: 1}, false)).toBe(false);
+      expect(deepMerge({a: 1}, symbol)).toBe(symbol);
+      expect(deepMerge({a: 1}, fn)).toBe(fn);
+      expect(deepMerge({a: 1}, bool)).toBe(bool);
+      expect(deepMerge({a: 1}, Boolean)).toBe(Boolean);
+      expect(deepMerge("", "")).toBe("");
+      expect(deepMerge("a", "")).toBe("a");
+    });
+
+    it("should create the result from the source class", () => {
+      class Model {
+        a = 1;
+      }
+
+      const source = new Model();
+      const result: any = deepMerge(source, {b: 2});
+
+      expect(Object.getPrototypeOf(result)).toBe(source);
+      expect(result.b).toBe(2);
     });
   });
 });

@@ -7,8 +7,7 @@ describe("StripeFactory", () => {
     beforeEach(() =>
       PlatformTest.create({
         stripe: {
-          apiKey: "the_api_key",
-          apiVersion: "2025-02-24.acacia"
+          apiKey: "the_api_key"
         }
       })
     );

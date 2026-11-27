@@ -30,4 +30,35 @@ describe("methodsOf()", () => {
       propertyKey: "method"
     });
   });
+
+  it("should return inherited methods in declaration order, owned by the last class that defines them", () => {
+    class A {
+      a() {}
+
+      shared() {}
+    }
+
+    class B extends A {
+      b() {}
+
+      shared() {}
+
+      [Symbol.iterator]() {}
+    }
+
+    expect(methodsOf(B)).toEqual([
+      {target: A, propertyKey: "a"},
+      {target: B, propertyKey: "shared"},
+      {target: B, propertyKey: "b"}
+    ]);
+    expect(methodsOf(new B())).toEqual(methodsOf(B));
+  });
+
+  it("should keep setter only accessors", () => {
+    class TestClass {
+      set value(_: string) {}
+    }
+
+    expect(methodsOf(TestClass)).toEqual([{target: TestClass, propertyKey: "value"}]);
+  });
 });

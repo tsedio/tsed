@@ -5,7 +5,7 @@ import {
   PlatformRouters,
   useResponseHandler
 } from "@tsed/platform-router";
-import {AnyPromiseResult, AnyToPromiseStatus, catchAsyncError} from "@tsed/core";
+import {AnyPromiseResult, AnyToPromiseStatus} from "@tsed/core";
 import {PlatformParams, PlatformParamsCallback} from "@tsed/platform-params";
 import {Provider, ProviderScope, inject, injectable} from "@tsed/di";
 import {$alter} from "@tsed/hooks";
@@ -116,15 +116,13 @@ export class PlatformHandler {
    * @param $ctx
    */
   async flush($ctx: PlatformContext) {
-    if (!$ctx.error) {
-      $ctx.error = await catchAsyncError(async () => {
-        const {response} = $ctx;
-
-        if (!$ctx.isDone()) {
-          const data = await this.responseFilter.transform($ctx.data, $ctx as any);
-          response.body(data);
-        }
-      });
+    if (!$ctx.error && !$ctx.isDone()) {
+      try {
+        const data = await this.responseFilter.transform($ctx.data, $ctx as any);
+        $ctx.response.body(data);
+      } catch (er) {
+        $ctx.error = er;
+      }
     }
 
     if ($ctx.error) {

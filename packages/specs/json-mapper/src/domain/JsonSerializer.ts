@@ -8,6 +8,7 @@ import {
   isClassObject,
   isCollection,
   isDate,
+  isFunction,
   isMomentObject,
   isMongooseObject,
   isNil,
@@ -15,17 +16,31 @@ import {
   isPrimitive,
   nameOf
 } from "@tsed/core";
-import {JsonMapperCompiler} from "./JsonMapperCompiler.js";
+import {DateMapper} from "../components/DateMapper.js";
+import {PrimitiveMapper} from "../components/PrimitiveMapper.js";
+import {JsonMapperMethods} from "../interfaces/JsonMapperMethods.js";
+import {JsonMapperCompiler, JsonMapperCallback, TypeMapperEntry} from "./JsonMapperCompiler.js";
 import {JsonMapperSettings} from "./JsonMapperSettings.js";
 import {JsonSerializerOptions} from "./JsonSerializerOptions.js";
 import {Writer} from "./Writer.js";
 import {alterOnSerialize} from "../hooks/alterOnSerialize.js";
 import {getJsonMapperTypes} from "./JsonMapperTypesContainer.js";
-import {getObjectProperties} from "../utils/getObjectProperties.js";
 
 const getCollectionType = (input: any) => {
   return isArray(input) ? "Array" : input instanceof Set ? "Set" : input instanceof Map ? "Map" : undefined;
 };
+
+/**
+ * Assign a mapped value on a plain output object. A `__proto__` key is defined as an own property:
+ * a plain assignment would call the `__proto__` setter, change the prototype and drop the key.
+ */
+function setKey(obj: any, key: any, value: any) {
+  if (key === "__proto__") {
+    Object.defineProperty(obj, key, {value, enumerable: true, writable: true, configurable: true});
+  } else {
+    obj[key] = value;
+  }
+}
 
 function getBestType(type: Type<any>, obj: any) {
   const dataType = classOf(obj);
@@ -39,6 +54,58 @@ function getBestType(type: Type<any>, obj: any) {
 
 function varKey(k: string) {
   return `__${k}`;
+}
+
+/**
+ * A registered type mapper, with the methods its function was built from.
+ */
+type SerializerTypeMapperEntry = TypeMapperEntry & {serialize: any; conversion: any};
+
+/**
+ * The function a type mapper is registered with. The built-in Date and primitive mappers do not read the
+ * context, so they are called without building one: a copy of the options for every Date, string and number
+ * the payload holds was most of the time of a serialization.
+ */
+function createTypeMapper(mapper: JsonMapperMethods, model: any, name: string): JsonMapperCallback<any> {
+  const kind: any = mapper.constructor;
+  const conversion = (mapper as any)[name];
+
+  if (
+    kind === PrimitiveMapper &&
+    mapper.serialize === PrimitiveMapper.prototype.serialize &&
+    isFunction(conversion) &&
+    conversion === (PrimitiveMapper.prototype as any)[name]
+  ) {
+    // inline typeof on purpose: this runs for every primitive value, and calling isObject() here was ~15% slower on the serializer benchmark
+    return (value: any) => (typeof value !== "object" ? conversion.call(mapper, value) : value);
+  }
+
+  if (kind === DateMapper && mapper.serialize === DateMapper.prototype.serialize) {
+    return (value: any) => (mapper as DateMapper).serialize(value);
+  }
+
+  return (value: any, options: any) =>
+    mapper.serialize(value, {
+      ...options,
+      type: model
+    });
+}
+
+function createTypeMapperEntry(mapper: JsonMapperMethods, model: any, name: string): SerializerTypeMapperEntry {
+  return {
+    mapper,
+    name,
+    serialize: mapper.serialize,
+    conversion: (mapper as any)[name],
+    fn: createTypeMapper(mapper, model, name)
+  };
+}
+
+/**
+ * The function of a type mapper is built from its `serialize` and conversion methods: it must be built again when one changed.
+ */
+function hasTypeMapperChanged(entry: SerializerTypeMapperEntry, mapper: JsonMapperMethods) {
+  return entry.serialize !== mapper.serialize || entry.conversion !== (mapper as any)[entry.name];
 }
 
 /**
@@ -124,18 +191,8 @@ export class JsonSerializer extends JsonMapperCompiler<JsonSerializerOptions> {
 
   private mapOptions({groups, useAlias = true, types, ...options}: JsonSerializerOptions<any, any>): JsonSerializerOptions {
     const customMappers: Record<string, any> = {};
-    types = types || getJsonMapperTypes();
 
-    types.forEach((mapper, model) => {
-      if (![Array, Set, Map].includes(model as any)) {
-        this.addTypeMapper(model as any, (value: any, options: any) =>
-          mapper.serialize(value, {
-            ...options,
-            type: model
-          })
-        );
-      }
-    });
+    this.syncTypeMappers(types || getJsonMapperTypes(), createTypeMapperEntry, hasTypeMapperChanged);
 
     const strictGroups = options.strictGroups ?? JsonMapperSettings.strictGroups;
 
@@ -276,10 +333,9 @@ export class JsonSerializer extends JsonMapperCompiler<JsonSerializerOptions> {
     const additionalProperties = !!entity.schema.get("additionalProperties");
 
     if (additionalProperties) {
-      const exclude = [...properties.values()].map((key) => `'${key}'`).join(", ");
       const writer = new Writer();
       writer.add("// add additional properties");
-      writer.each("objectKeys(input)", ["key"]).if(`![${exclude}].includes(key)`).set("obj[key]", "input[key]");
+      writer.each("objectKeys(input)", ["key"]).if(Writer.notOneOf("key", properties)).set("obj[key]", "input[key]");
 
       return writer;
     }
@@ -299,58 +355,80 @@ export class JsonSerializer extends JsonMapperCompiler<JsonSerializerOptions> {
       return this.mapJSON(input, options);
     }
 
-    return getObjectProperties(input)
-      .filter(([, value]) => value !== undefined)
-      .reduce((obj, [key, value]) => {
-        if (isNil(value)) {
-          return {
-            ...obj,
-            [key]: value
-          };
-        }
+    const obj: any = {};
 
-        const mapper = this.compile(classOf(value), options.groups);
+    // own enumerable keys only, like Object.entries(); functions and undefined values are skipped
+    for (const key in input) {
+      if (!Object.hasOwn(input, key)) {
+        continue;
+      }
 
-        return {
-          ...obj,
-          [key]: mapper.fn(value, options)
-        };
-      }, {});
-  }
+      const value = input[key];
 
-  private mapSet(input: any, options: JsonSerializerOptions) {
-    if (isNil(input)) {
-      return input;
+      if (value === undefined || isFunction(value)) {
+        continue;
+      }
+
+      setKey(obj, key, value === null ? value : this.compile(classOf(value), options.groups).fn(value, options));
     }
-    return [...input.values()].map((item) => {
-      return this.mapItem(item, options);
-    });
+
+    return obj;
   }
 
-  private mapArray(input: any, options: JsonSerializerOptions) {
+  // The collection mappers strip `id` from the options once, not once per item:
+  // `id` describes the items, it must not leak into the options of a nested object mapper.
+  private mapSet(input: any, {id, ...options}: JsonSerializerOptions) {
     if (isNil(input)) {
       return input;
     }
 
-    return [].concat(input).map((item: any) => {
-      return this.mapItem(item, options);
-    });
+    const out: any[] = [];
+
+    for (const item of input) {
+      out.push(this.mapItem(item, id, options));
+    }
+
+    return out;
   }
 
-  private mapMap(input: any, options: JsonSerializerOptions) {
+  private mapArray(input: any, {id, ...options}: JsonSerializerOptions) {
     if (isNil(input)) {
       return input;
     }
 
-    return [...input.entries()].reduce((obj, [key, item]) => {
-      return {
-        ...obj,
-        [key]: this.mapItem(item, options)
-      };
-    }, {});
+    // a single value is mapped as a one-item array, like the former [].concat(input)
+    const list = isArray(input) ? input : [input];
+    const out = new Array(list.length);
+
+    for (let i = 0; i < list.length; i++) {
+      const item = list[i];
+
+      // keep the holes of a sparse array, like the former .map(): the item mapper is not called for them
+      if (item === undefined && !(i in list)) {
+        continue;
+      }
+
+      out[i] = this.mapItem(item, id, options);
+    }
+
+    return out;
   }
 
-  private mapItem(input: any, {id, ...options}: JsonSerializerOptions) {
+  private mapMap(input: any, {id, ...options}: JsonSerializerOptions) {
+    if (isNil(input)) {
+      return input;
+    }
+
+    const obj: any = {};
+
+    for (const [key, item] of input) {
+      setKey(obj, key, this.mapItem(item, id, options));
+    }
+
+    return obj;
+  }
+
+  private mapItem(input: any, id: string | undefined, options: JsonSerializerOptions) {
     if (!id && input) {
       return this.compile(classOf(input), options.groups).fn(input, options);
     }

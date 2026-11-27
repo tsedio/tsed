@@ -24,7 +24,7 @@
   },
   "dependencies": {
     "@tsed/normalize-path": "workspace:*",
-    "globby": "14.1.0",
+    "globby": "16.2.4",
     "tslib": ">=2.7.0"
   },
   "devDependencies": {

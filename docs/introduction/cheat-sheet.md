@@ -323,6 +323,7 @@ describe("MyService", () => {
 | `@tsed/platform-express`      | Express.js specific integration to start the server and handle requests.               | ✔️             | ❌      |
 | `@tsed/platform-koa`          | Koa.js specific integration to start the server and handle requests.                   | ✔️             | ❌      |
 | `@tsed/platform-fastify`      | Fastify.js specific integration to start the server and handle requests.               | ✔️             | ❌      |
+| `@tsed/platform-fulmine`      | fulmine.js integration, the Express platform served on uWebSockets.js.                 | ✔️             | ❌      |
 | `@tsed/platform-http/testing` | Utilities for unit and integration testing with PlatformTest.                          | ✔️             | ❌      |
 | `@tsed/platform-params`       | Decorators and logic to extract request parameters (body, query, path, headers, etc.). | ✔️             | ❌      |
 | `@tsed/platform-router`       | Routing management, controller mounting, and route resolution.                         | ✔️             | ❌      |

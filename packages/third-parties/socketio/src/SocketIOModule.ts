@@ -23,11 +23,11 @@ export class SocketIOModule implements AfterListen, OnDestroy {
 
   $afterListen() {
     if (this.httpServer) {
-      this.io.attach(this.httpServer, {...this.settings});
+      this.attach(this.httpServer);
     }
 
     if (this.httpsServer) {
-      this.io.attach(this.httpsServer, {...this.settings});
+      this.attach(this.httpsServer);
     }
 
     this.getWebsocketServices().forEach((provider) => this.socketIOService.addSocketProvider(provider));
@@ -41,6 +41,18 @@ export class SocketIOModule implements AfterListen, OnDestroy {
 
   $onDestroy() {
     return this.io?.close && this.io?.engine && new Promise((resolve) => this.io.close(() => resolve(undefined)));
+  }
+
+  /**
+   * A server on uWebSockets.js, as with PlatformFulmine, has no Node.js socket to take the upgrade from: socket.io
+   * attaches to its uWebSockets.js app instead.
+   */
+  protected attach(server: any) {
+    if ("uwsApp" in server) {
+      this.io.attachApp(server.uwsApp, {...this.settings});
+    } else {
+      this.io.attach(server, {...this.settings});
+    }
   }
 
   /**

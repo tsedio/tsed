@@ -284,7 +284,7 @@ describe("transformModelToClass()", () => {
             {
               arguments: ["String"],
               kind: 6,
-              name: "CollectionOf"
+              name: "ArrayOf"
             }
           ],
           kind: 30,
@@ -338,7 +338,7 @@ describe("transformModelToClass()", () => {
             {
               arguments: ["String"],
               kind: 6,
-              name: "CollectionOf"
+              name: "ArrayOf"
             },
             {
               arguments: [],

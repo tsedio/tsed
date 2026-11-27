@@ -1,4 +1,4 @@
-import {Injectable, injector, ProviderScope} from "@tsed/di";
+import {Injectable, injectable, injector, ProviderScope} from "@tsed/di";
 import {buildPlatformParams, invokePlatformParams} from "../../test/helpers/buildPlatformParams.js";
 import {ParamTypes} from "../domain/ParamTypes.js";
 import {PathParams} from "../decorators/pathParams.js";
@@ -399,6 +399,64 @@ describe("PlatformParams", () => {
       });
 
       expect(result).toEqual("test");
+    });
+    it("should call a method without parameter synchronously and pass the context", async () => {
+      const platformParams = await invokePlatformParams();
+
+      @Injectable()
+      class MyCtrNoParams {
+        get(...args: any[]) {
+          return args;
+        }
+      }
+
+      injector().add(MyCtrNoParams);
+
+      const $ctx = PlatformTest.createRequestContext();
+      const handler = platformParams.compileHandler({token: MyCtrNoParams, propertyKey: "get"});
+
+      const result = handler({$ctx});
+
+      expect(result).toEqual([$ctx]);
+    });
+    it("should call a method without parameter on a REQUEST scoped instance per context", async () => {
+      const platformParams = await invokePlatformParams();
+
+      @Injectable({scope: ProviderScope.REQUEST})
+      class MyCtrNoParamsRequest {
+        get() {
+          return this;
+        }
+      }
+
+      injector().add(MyCtrNoParamsRequest);
+
+      const handler = platformParams.compileHandler({token: MyCtrNoParamsRequest, propertyKey: "get"});
+
+      const instance1 = await handler({$ctx: PlatformTest.createRequestContext()});
+      const instance2 = await handler({$ctx: PlatformTest.createRequestContext()});
+
+      expect(instance1).toBeInstanceOf(MyCtrNoParamsRequest);
+      expect(instance1).not.toBe(instance2);
+    });
+    it("should wait for an instance built asynchronously before calling a method without parameter", async () => {
+      const platformParams = await invokePlatformParams();
+      class MyAsyncCtrNoParams {
+        get() {
+          return "async";
+        }
+      }
+
+      injectable(MyAsyncCtrNoParams)
+        .scope(ProviderScope.REQUEST)
+        .asyncFactory(async () => new MyAsyncCtrNoParams());
+
+      const handler = platformParams.compileHandler({token: MyAsyncCtrNoParams, propertyKey: "get"});
+
+      const result = handler({$ctx: PlatformTest.createRequestContext()});
+
+      expect(result).toBeInstanceOf(Promise);
+      expect(await result).toEqual("async");
     });
     it("should return handler", async () => {
       const platformParams = await invokePlatformParams();

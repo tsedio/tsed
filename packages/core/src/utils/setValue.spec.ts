@@ -57,4 +57,50 @@ describe("setValue()", () => {
       expect(map.test.deep).toBeInstanceOf(Function);
     });
   });
+
+  describe("path edge cases", () => {
+    it("should stop on a protected key in the middle of the path", () => {
+      const obj: any = {};
+
+      setValue(obj, "a.__proto__.polluted", "vulnerable");
+
+      expect(obj).toEqual({a: {}});
+      expect(({} as any).polluted).toBeUndefined();
+    });
+
+    it("should stop on constructor and prototype keys", () => {
+      const obj: any = {};
+
+      setValue(obj, "constructor.prototype.polluted", "vulnerable");
+      setValue(obj, "a.prototype", "vulnerable");
+
+      expect(({} as any).polluted).toBeUndefined();
+      expect(obj).toEqual({a: {}});
+    });
+
+    it("should support a custom separator", () => {
+      const obj: any = {};
+
+      setValue(obj, "a/b", 1, "/");
+
+      expect(obj).toEqual({a: {b: 1}});
+    });
+
+    it("should keep an existing truthy value and replace a falsy one", () => {
+      const obj: any = {a: {c: 1}, b: 0};
+
+      setValue(obj, "a.d", 2);
+      setValue(obj, "b.c", 3);
+
+      expect(obj).toEqual({a: {c: 1, d: 2}, b: {c: 3}});
+    });
+
+    it("should set an empty key", () => {
+      const obj: any = {};
+
+      setValue(obj, "", 1);
+
+      expect(obj).toEqual({"": 1});
+    });
+  });
 });

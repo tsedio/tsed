@@ -1,26 +1,16 @@
-import {isFunction} from "./isFunction.js";
-import {isObject} from "./isObject.js";
-import {isString} from "./isString.js";
+function readKey(scope: any, key: string) {
+  const value = scope[key];
 
-const mapOptions = (args: any[]) => {
-  const [expression, scope, defaultValue, separator = "."] = args;
-
-  if (isObject(scope) || isString(expression)) {
-    return {
-      expression,
-      scope,
-      defaultValue,
-      separator
-    };
+  if (value !== undefined || (typeof scope === "object" && key in scope)) {
+    return value;
   }
 
-  return {
-    expression: scope,
-    scope: expression,
-    defaultValue,
-    separator
-  };
-};
+  if (typeof scope.get === "function") {
+    return scope.get(key);
+  }
+
+  return undefined;
+}
 
 /**
  * Retrieves a value from an object using a dot-separated path expression.
@@ -35,10 +25,16 @@ export function getValue<T = any>(scope: any, expression: string | undefined): T
 export function getValue<T = any>(scope: any, expression: string | undefined, defaultValue: T, separator?: string): T;
 export function getValue<T = any>(expression: string | undefined, scope: any): T | undefined;
 export function getValue<T = any>(expression: string | undefined, scope: any, defaultValue: T, separator?: string): T;
-export function getValue(...args: any[]) {
-  const options = mapOptions(args);
-  let scope = options.scope;
-  const {expression, defaultValue, separator} = options;
+export function getValue(arg0: any, arg1: any, defaultValue?: any, separator: any = ".") {
+  let expression = arg0;
+  let scope = arg1;
+
+  // the scope comes second when it is an object (null included) or when the expression comes first.
+  // Named parameters instead of rest args and an options object: this runs for each request parameter
+  if (!(typeof arg1 === "object" || typeof arg0 === "string")) {
+    expression = arg1;
+    scope = arg0;
+  }
 
   if (!expression) {
     return scope;
@@ -48,21 +44,30 @@ export function getValue(...args: any[]) {
     return defaultValue;
   }
 
-  const keys: string[] = expression.split(separator);
+  if (typeof expression !== "string" || typeof separator !== "string" || separator === "") {
+    // unusual separators keep the split() behaviour
+    const keys: string[] = expression.split(separator);
+    let i = 0;
 
-  const getValue = (key: string) => {
-    if (scope) {
-      if (scope[key] !== undefined || (isObject(scope) && key in scope)) {
-        return scope[key];
-      }
+    while ((scope = readKey(scope, keys[i++])) && i < keys.length) {}
 
-      if (isFunction(scope.get)) {
-        return scope.get(key);
-      }
+    return scope === undefined ? defaultValue : scope;
+  }
+
+  // walks the expression without splitting it into an array; stops on the first falsy value, as before
+  let start = 0;
+
+  for (;;) {
+    const end = expression.indexOf(separator, start);
+
+    scope = readKey(scope, end === -1 ? expression.slice(start) : expression.slice(start, end));
+
+    if (!scope || end === -1) {
+      break;
     }
-  };
 
-  while ((scope = getValue(keys.shift()!)) && keys.length) {}
+    start = end + separator.length;
+  }
 
   return scope === undefined ? defaultValue : scope;
 }

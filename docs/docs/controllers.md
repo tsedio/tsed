@@ -143,7 +143,7 @@ flagged as configurable)
 like this:
 
 ```typescript
-@HeaderParams({expression: "x-header", useValidator: true, useMapper: true})
+@HeaderParams({expression: "x-header", useValidation: true, useMapper: true})
 ```
 
 :::
@@ -266,7 +266,7 @@ By default, the validator/json-mapper aren't executed on header parameters.
 You have to add extra parameter to enable it:
 
 ```typescript
-@HeaderParams({expression: "x-header", useValidator: true, useMapper: true})
+@HeaderParams({expression: "x-header", useValidation: true, useMapper: true})
 ```
 
 :::

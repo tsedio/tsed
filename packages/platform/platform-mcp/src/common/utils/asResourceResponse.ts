@@ -16,7 +16,7 @@ export function asResourceResponse(
   if (opts?.isError) {
     contents.push({
       uri,
-      mimeType: "plain/text" as const,
+      mimeType: "text/plain" as const,
       text: (payload as any).message || ""
     });
   }

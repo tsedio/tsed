@@ -3,6 +3,7 @@ import type {GenericValue, GenericsMap} from "./Generics.js";
 import type {Infer, PropsToShape, SchemaKey, SchemaMerge, SchemaOmit, SchemaPartial, SchemaPick, UnionToIntersection} from "./types.js";
 import type {JSONSchema7, JSONSchema7Definition, JSONSchema7Type, JSONSchema7TypeName, JSONSchema7Version} from "json-schema";
 import {
+  AbstractType,
   Type,
   ValueOf,
   ancestorOf,
@@ -72,7 +73,8 @@ export type AnyJsonSchema<T = any> =
   | {
       label?: string;
     }
-  | Type;
+  | Type
+  | AbstractType<any>;
 
 function isEnum(type: any) {
   return isObject(type) && !("toJSON" in type);

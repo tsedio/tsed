@@ -1,0 +1,4 @@
+interface:
+  display_name: "Migrate to Ts.ED v8"
+  short_description: "Upgrade a Ts.ED v7/v6 or Express app to Ts.ED v8"
+  default_prompt: "Use $tsed-migration to upgrade this Ts.ED v7 application to v8 and remove @tsed/common."

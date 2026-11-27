@@ -23,6 +23,15 @@ describe("deepClone", () => {
     }
   }
 
+  it("should clone an invalid date (issue #3540)", () => {
+    const source = {d: new Date(NaN)};
+    const cloned = deepClone(source);
+
+    expect(cloned.d).toBeInstanceOf(Date);
+    expect(cloned.d).not.toBe(source.d);
+    expect(cloned.d.getTime()).toBeNaN();
+  });
+
   it("should clone object", () => {
     const externalObject = {
       color: "red"
@@ -126,5 +135,150 @@ describe("deepClone", () => {
 
     expect(result).toEqual(original);
     expect(result).toBeInstanceOf(Int8Array);
+  });
+
+  describe("edge cases", () => {
+    it("should ignore the elements appended to an array while it is cloned", () => {
+      const source: any[] = [];
+      Object.defineProperty(source, 0, {
+        get() {
+          source.push(2);
+          return 1;
+        },
+        enumerable: true,
+        configurable: true
+      });
+
+      expect(deepClone(source)).toEqual([1]);
+    });
+
+    it("should keep the holes of a sparse array", () => {
+      // eslint-disable-next-line no-sparse-arrays
+      const result = deepClone(["a", , "b"]);
+
+      expect(result).toHaveLength(3);
+      expect(1 in result).toBe(false);
+    });
+
+    it("should keep the property descriptors", () => {
+      const source = {};
+      Object.defineProperty(source, "hidden", {value: {a: 1}, enumerable: false, writable: false, configurable: false});
+      const result = deepClone(source);
+
+      expect(Object.getOwnPropertyDescriptor(result, "hidden")).toEqual({
+        value: {a: 1},
+        enumerable: false,
+        writable: false,
+        configurable: false
+      });
+      expect(result.hidden).not.toBe((source as any).hidden);
+    });
+
+    it("should clone symbol keys", () => {
+      const key = Symbol("key");
+      const source = {[key]: {a: 1}};
+      const result = deepClone(source);
+
+      expect(result[key]).toEqual({a: 1});
+      expect(result[key]).not.toBe(source[key]);
+    });
+
+    it("should keep an own __proto__ key without changing the prototype", () => {
+      const result = deepClone(JSON.parse('{"__proto__": {"x": 1}, "a": 1}'));
+
+      expect(Object.hasOwn(result, "__proto__")).toBe(true);
+      expect(Object.getPrototypeOf(result)).toBe(Object.prototype);
+      expect(result.a).toBe(1);
+    });
+
+    it("should clone an object without prototype", () => {
+      const source = Object.assign(Object.create(null), {a: {b: 1}});
+      const result = deepClone(source);
+
+      expect(Object.getPrototypeOf(result)).toBeNull();
+      expect(result.a).toEqual({b: 1});
+      expect(result.a).not.toBe(source.a);
+    });
+
+    it("should keep function values by reference", () => {
+      const fn = () => {};
+      expect(deepClone({fn}).fn).toBe(fn);
+    });
+
+    it("should define the properties instead of assigning them", () => {
+      class Base {
+        set value(_v: any) {
+          throw new Error("setter called");
+        }
+      }
+
+      const source = Object.create(Base.prototype);
+      Object.defineProperty(source, "value", {value: 1, enumerable: true, writable: true, configurable: true});
+
+      expect(deepClone(source).value).toBe(1);
+    });
+
+    it("should share the clone of an object referenced twice", () => {
+      const shared = {a: 1};
+      const result = deepClone({x: shared, y: [shared]});
+
+      expect(result.x).toBe(result.y[0]);
+    });
+  });
+
+  it("should clone own accessor properties", () => {
+    const source = {};
+    Object.defineProperty(source, "computed", {get: () => 1, enumerable: true, configurable: true});
+
+    const result = deepClone(source);
+
+    expect(result.computed).toBe(1);
+    expect(Object.getOwnPropertyDescriptor(result, "computed")?.get).toBeTypeOf("function");
+  });
+
+  describe("primitive wrappers", () => {
+    it("should clone a Boolean wrapper and its own properties", () => {
+      const source: any = new Boolean(false);
+      source.extra = {a: 1};
+
+      const result = deepClone({flag: source}).flag;
+
+      expect(result).not.toBe(source);
+      expect(result).toBeInstanceOf(Boolean);
+      expect(result.valueOf()).toBe(false);
+      expect(result.extra).toEqual({a: 1});
+      expect(result.extra).not.toBe(source.extra);
+    });
+
+    it("should clone Number and String wrappers with their value", () => {
+      const number = deepClone(new Number(42));
+      const string = deepClone(new String("ab"));
+
+      expect(number).toBeInstanceOf(Number);
+      expect(number.valueOf()).toBe(42);
+      expect(string).toBeInstanceOf(String);
+      expect(string.valueOf()).toBe("ab");
+      expect(string.toUpperCase()).toBe("AB");
+    });
+
+    it("should keep the prototype of a wrapper subclass", () => {
+      class Flag extends Boolean {}
+
+      const result = deepClone(new Flag(true));
+
+      expect(result).toBeInstanceOf(Flag);
+      expect(result.valueOf()).toBe(true);
+    });
+  });
+
+  it("should keep the length of an array ending with holes", () => {
+    // eslint-disable-next-line no-sparse-arrays
+    const result = deepClone(["a", , ,]);
+
+    expect(result).toHaveLength(3);
+    expect(result[0]).toBe("a");
+    expect(1 in result).toBe(false);
+    expect(2 in result).toBe(false);
+    expect(deepClone(new Array(2))).toHaveLength(2);
   });
 });

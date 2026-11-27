@@ -44,7 +44,7 @@
     "@tsed/platform-params": "workspace:*",
     "@tsed/schema": "workspace:*",
     "@tsed/typescript": "workspace:*",
-    "stripe": "^17.7.0",
+    "stripe": "^22.6.2",
     "typescript": "6.0.2",
     "vitest": "4.1.4"
   },
@@ -53,9 +53,9 @@
     "@tsed/platform-middlewares": ">=8.0.0",
     "@tsed/platform-params": ">=8.0.0",
     "@tsed/schema": ">=8.0.0",
-    "@types/body-parser": "^1.19.0",
-    "body-parser": "^1.19.0",
-    "stripe": "^17.7.0"
+    "@types/body-parser": ">=1.19.0",
+    "body-parser": ">=1.19.0",
+    "stripe": ">=17.7.0"
   },
   "peerDependenciesMeta": {
     "@tsed/exceptions": {

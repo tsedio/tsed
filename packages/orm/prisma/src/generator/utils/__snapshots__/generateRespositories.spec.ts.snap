@@ -3,15 +3,14 @@
 exports[`generateRepositories > should generate repositories (posts) 1`] = `
 "import { isArray } from "@tsed/core";
 import { deserialize } from "@tsed/json-mapper";
-import { Injectable, Inject } from "@tsed/di";
+import { Injectable, inject } from "@tsed/di";
 import { PrismaService } from "../services/PrismaService.js";
 import { Prisma, Post } from "../client/index.js";
 import { PostModel } from "../models/index.js";
 
 @Injectable()
 export class PostsRepository {
-  @Inject()
-  protected prisma: PrismaService;
+  protected prisma = inject(PrismaService);
 
   get collection() {
     return this.prisma.post
@@ -78,15 +77,14 @@ export class PostsRepository {
 exports[`generateRepositories > should generate repositories (user) 1`] = `
 "import { isArray } from "@tsed/core";
 import { deserialize } from "@tsed/json-mapper";
-import { Injectable, Inject } from "@tsed/di";
+import { Injectable, inject } from "@tsed/di";
 import { PrismaService } from "../services/PrismaService.js";
 import { Prisma, User } from "../client/index.js";
 import { UserModel } from "../models/index.js";
 
 @Injectable()
 export class UsersRepository {
-  @Inject()
-  protected prisma: PrismaService;
+  protected prisma = inject(PrismaService);
 
   get collection() {
     return this.prisma.user

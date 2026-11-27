@@ -448,7 +448,7 @@ export async function assertMcpErrorResponses(request: SuperTest.Agent) {
     result: {
       contents: [
         {
-          mimeType: "plain/text",
+          mimeType: "text/plain",
           text: "Resource failed",
           uri: "tsed://resources/error"
         },

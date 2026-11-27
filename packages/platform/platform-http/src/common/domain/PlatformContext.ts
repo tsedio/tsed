@@ -1,6 +1,6 @@
 import {DIContext, DIContextOptions, injector} from "@tsed/di";
 import {IncomingMessage, ServerResponse} from "node:http";
-import {$asyncEmit} from "@tsed/hooks";
+import {$asyncEmit, hooks} from "@tsed/hooks";
 import {IncomingEvent} from "../interfaces/IncomingEvent.js";
 import {JsonMethodStore} from "@tsed/schema";
 import {PlatformApplication} from "../services/PlatformApplication.js";
@@ -85,7 +85,8 @@ export class PlatformContext<
   }
 
   async finish() {
-    await Promise.all([$asyncEmit("$onResponse", [this]), this.destroy()]);
+    await (hooks.has("$onResponse") ? Promise.all([$asyncEmit("$onResponse", [this]), this.destroy()]) : this.destroy());
+
     this.#isFinished = true;
   }
 

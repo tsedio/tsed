@@ -7,5 +7,14 @@ import {isProtectedKey} from "./isProtectedKey.js";
  * @since v7.0.0
  */
 export function objectKeys(obj: any): string[] {
-  return Object.keys(obj).filter((key) => !isProtectedKey(key));
+  const keys = Object.keys(obj);
+
+  // a protected key is rare: Object.keys() already returns a new array, filter it only when needed
+  for (let i = 0; i < keys.length; i++) {
+    if (isProtectedKey(keys[i])) {
+      return keys.filter((key) => !isProtectedKey(key));
+    }
+  }
+
+  return keys;
 }

@@ -1,0 +1,213 @@
+# HTTP benchmark of a Ts.ED server (Express, Koa, Fastify, fulmine.js):
+# - after each stable release: the reference version vs the released one (shown on tsed.dev/benchmarks);
+# - manually, with the list of targets to compare (published versions and/or "local");
+# - on a pull request when the "benchmark" label is added: base branch vs PR head.
+# Every target of a comparison is measured in this single job. See tools/benchmarks/readme.md.
+name: Benchmark
+
+on:
+  workflow_dispatch:
+    inputs:
+      targets:
+        description: "Comma-separated targets, the first one is the baseline (e.g. 8.44.1,8.44.12 or 8.44.12,local). Empty: latest release vs local"
+        required: false
+        default: ""
+      platforms:
+        description: "Platforms to measure"
+        required: false
+        default: "express,koa,fastify,fulmine"
+      rounds:
+        description: "Interleaved rounds (more rounds narrow the confidence interval)"
+        required: false
+        default: "5"
+      duration:
+        description: "Measured seconds per route and round"
+        required: false
+        default: "5"
+  pull_request:
+    types: [labeled]
+  release:
+    types: [published]
+
+permissions:
+  contents: read
+
+env:
+  # Ts.ED version before the performance work, compared with each release.
+  # Keep it in sync with REFERENCE_VERSION of BenchmarksService in tsedio/tsed-cms.
+  REFERENCE_VERSION: "8.44.1"
+
+jobs:
+  benchmark:
+    if: >-
+      github.event_name == 'workflow_dispatch' ||
+      github.event.label.name == 'benchmark' ||
+      (github.event_name == 'release' && !github.event.release.prerelease)
+    # at the job level, so that adding another label to the PR does not cancel a running benchmark
+    concurrency:
+      group: benchmark-${{ github.event.pull_request.number || github.ref }}
+      cancel-in-progress: true
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          # the PR head itself, not the merge commit GitHub checks out by default on pull_request
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+          path: head
+          persist-credentials: false
+
+      - name: Checkout the base branch
+        if: github.event_name == 'pull_request'
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.base.sha }}
+          path: base
+          persist-credentials: false
+
+      - name: Use Node.js 24.18.0
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24.18.0
+          cache: "yarn"
+          cache-dependency-path: head/yarn.lock
+
+      - name: Resolve the targets
+        id: targets
+        env:
+          EVENT: ${{ github.event_name }}
+          INPUT_TARGETS: ${{ inputs.targets }}
+          RELEASE_TAG: ${{ github.event.release.tag_name }}
+        run: |
+          if [ "$EVENT" = "pull_request" ]; then
+            targets="local-base,local-head"
+          elif [ "$EVENT" = "release" ]; then
+            targets="$REFERENCE_VERSION,${RELEASE_TAG#v}"
+          elif [ -n "$INPUT_TARGETS" ]; then
+            targets="$INPUT_TARGETS"
+          else
+            targets="$(npm view @tsed/core version),local"
+          fi
+          echo "targets=$targets" >> "$GITHUB_OUTPUT"
+          echo "Targets: $targets"
+
+      # the release event can arrive before the packages are visible on the npm registry, and a release can stop halfway:
+      # wait for every package the bench app installs (their @tsed/* dependencies come with them, an install fails without them)
+      - name: Wait for the released packages on npm
+        if: github.event_name == 'release'
+        env:
+          RELEASE_TAG: ${{ github.event.release.tag_name }}
+        run: |
+          version="${RELEASE_TAG#v}"
+          packages="@tsed/core $(node --input-type=module -e "import {ROOT_PACKAGES} from './head/tools/benchmarks/src/deps.mjs'; console.log(ROOT_PACKAGES.join(' '))")"
+          for attempt in $(seq 1 20); do
+            missing=""
+            for package in $packages; do
+              if [ "$(npm view "$package@$version" version 2>/dev/null)" != "$version" ]; then
+                missing="$missing $package"
+              fi
+            done
+            if [ -z "$missing" ]; then
+              echo "Available on npm in $version: $packages"
+              exit 0
+            fi
+            echo "Not on npm yet in $version:$missing ($attempt/20)"
+            sleep 30
+          done
+          echo "::error::Still missing from npm in $version after 10 minutes:$missing"
+          exit 1
+
+      # always built: the bench app is compiled against the types of the workspace packages (lib/types)
+      - name: Install and build the PR head
+        working-directory: head
+        run: |
+          yarn install --immutable --network-timeout 500000
+          yarn build
+
+      - name: Install and build the base branch
+        if: github.event_name == 'pull_request'
+        working-directory: base
+        run: |
+          yarn install --immutable --network-timeout 500000
+          yarn build
+
+      - name: Run the benchmark
+        working-directory: head
+        env:
+          TARGETS: ${{ steps.targets.outputs.targets }}
+          PLATFORMS: ${{ inputs.platforms || 'express,koa,fastify,fulmine' }}
+          ROUNDS: ${{ inputs.rounds || '5' }}
+          DURATION: ${{ inputs.duration || '5' }}
+        run: |
+          yarn bench \
+            --targets "$TARGETS" \
+            --platforms "$PLATFORMS" \
+            --rounds "$ROUNDS" \
+            --duration "$DURATION" \
+            --local-dir "local-base=$GITHUB_WORKSPACE/base" \
+            --local-dir "local-head=$GITHUB_WORKSPACE/head" \
+            --out "$GITHUB_WORKSPACE/bench-results"
+
+      - name: Publish the report
+        if: always()
+        run: |
+          if [ -f bench-results/report.md ]; then
+            cat bench-results/report.md >> "$GITHUB_STEP_SUMMARY"
+          fi
+
+      - name: Upload the results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: benchmark-results
+          path: bench-results
+          retention-days: 90
+          if-no-files-found: ignore
+
+  # Pushes the results to the Ts.ED CMS (Directus, benchmark_runs / benchmark_results).
+  # A separate job: the measuring job runs the code of the pull request and must never get the token.
+  # This one only runs trusted code: tools/benchmarks of the base commit (pull request) or of the dispatched commit.
+  publish:
+    needs: benchmark
+    # also after a failed response check (the run is stored as failed), not when the benchmark was skipped or cancelled
+    if: always() && (needs.benchmark.result == 'success' || needs.benchmark.result == 'failure')
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: Checkout the publish command
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.base.sha || github.sha }}
+          sparse-checkout: tools/benchmarks/src
+          persist-credentials: false
+
+      - name: Use Node.js 24.18.0
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24.18.0
+
+      - name: Download the results
+        uses: actions/download-artifact@v4
+        continue-on-error: true
+        with:
+          name: benchmark-results
+          path: bench-results
+
+      - name: Publish the results to the Ts.ED CMS
+        env:
+          # empty on pull requests from forks: the command then skips publishing
+          DIRECTUS_TOKEN: ${{ secrets.DIRECTUS_TOKEN }}
+          DIRECTUS_URL: ${{ vars.DIRECTUS_URL || 'https://api.tsed.dev' }}
+        run: |
+          if [ ! -f bench-results/results.json ]; then
+            echo "::notice::No results.json: nothing to publish."
+            exit 0
+          fi
+          if [ ! -f tools/benchmarks/src/publish.mjs ]; then
+            echo "::notice::The checked out commit has no publish command yet: nothing published."
+            exit 0
+          fi
+          node tools/benchmarks/src/publish.mjs bench-results/results.json

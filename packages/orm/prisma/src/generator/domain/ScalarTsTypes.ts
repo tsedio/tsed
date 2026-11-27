@@ -21,7 +21,7 @@ export const ScalarTsTypes: Record<string, string> = {
   [PrismaScalars.BigInt]: "bigint",
   [PrismaScalars.DateTime]: "Date",
   [PrismaScalars.Json]: "any",
-  [PrismaScalars.Bytes]: "Buffer"
+  [PrismaScalars.Bytes]: "Uint8Array<ArrayBuffer>"
 };
 
 export const ScalarJsClasses: Record<string, string> = {

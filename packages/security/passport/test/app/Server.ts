@@ -1,10 +1,13 @@
 import "./protocols/LoginLocalProtocol.js";
+import "./protocols/BasicProtocol.js";
+import "./protocols/JwtProtocol.js";
 import "@tsed/ajv";
 import "@tsed/platform-express";
 import "@tsed/swagger";
 import {Configuration, Inject} from "@tsed/di";
 import {Account} from "./models/Account.js";
 import {AuthCtrl} from "./controllers/rest/auth/AuthCtrl.js";
+import {GuardedCtrl} from "./controllers/rest/guarded/GuardedCtrl.js";
 import {MemoryAdapter} from "@tsed/adapters";
 import {PlatformApplication} from "@tsed/platform-http";
 import bodyParser from "body-parser";
@@ -24,7 +27,7 @@ export {rootDir};
     lowdbDir: `${rootDir}/../../.db`
   },
   mount: {
-    "/": [AuthCtrl]
+    "/": [AuthCtrl, GuardedCtrl]
   },
   passport: {
     userInfoModel: Account

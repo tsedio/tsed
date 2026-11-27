@@ -1,0 +1,1169 @@
+{
+  "date": "2026-10-30T11:51:23.483Z",
+  "config": {
+    "platforms": ["express", "fastify"],
+    "routes": ["hello", "users", "orders-create", "orders-list"],
+    "rounds": 5,
+    "duration": 5,
+    "warmup": 2,
+    "connections": 50,
+    "startups": 10,
+    "raw": true,
+    "targets": ["8.44.1", "8.44.12"],
+    "localDirs": {
+      "local-base": "/home/runner/work/tsed/tsed/base",
+      "local-head": "/home/runner/work/tsed/tsed/head"
+    },
+    "seed": 1230341368,
+    "out": "/home/runner/work/tsed/tsed/bench-results"
+  },
+  "environment": {
+    "node": "v24.18.0",
+    "os": "linux 7.0.0-1017-azure",
+    "cpu": "INTEL(R) XEON(R) PLATINUM 8573C",
+    "cores": 4,
+    "pinning": {
+      "server": "0",
+      "runner": "1,2,3"
+    },
+    "thirdParty": {
+      "express": "5.2.1",
+      "fastify": "5.8.3"
+    }
+  },
+  "baseline": "8.44.1",
+  "targets": [
+    {
+      "name": "8.44.1",
+      "kind": "version",
+      "version": "8.44.1",
+      "platforms": ["express", "koa", "fastify"],
+      "packages": {
+        "@tsed/ajv": "8.44.1",
+        "@tsed/core": "8.44.1"
+      }
+    },
+    {
+      "name": "8.44.12",
+      "kind": "version",
+      "version": "8.44.12",
+      "platforms": ["express", "koa", "fastify"],
+      "packages": {
+        "@tsed/ajv": "8.44.12",
+        "@tsed/core": "8.44.12"
+      }
+    }
+  ],
+  "unavailable": [],
+  "failures": [],
+  "measurements": [
+    {
+      "target": "8.44.1",
+      "platform": "express",
+      "routes": {
+        "hello": [
+          {
+            "rps": 27096,
+            "p50": 1,
+            "p99": 3,
+            "requests": 135479,
+            "errors": 0,
+            "cpuPerRequest": 36.9154629130714
+          },
+          {
+            "rps": 28091.2,
+            "p50": 1,
+            "p99": 3,
+            "requests": 140448,
+            "errors": 0,
+            "cpuPerRequest": 35.61871297562087
+          },
+          {
+            "rps": 27732.8,
+            "p50": 1,
+            "p99": 3,
+            "requests": 138657,
+            "errors": 0,
+            "cpuPerRequest": 36.06849275550459
+          },
+          {
+            "rps": 26872,
+            "p50": 1,
+            "p99": 4,
+            "requests": 134360,
+            "errors": 0,
+            "cpuPerRequest": 37.23046293539744
+          },
+          {
+            "rps": 26372.8,
+            "p50": 1,
+            "p99": 4,
+            "requests": 131851,
+            "errors": 0,
+            "cpuPerRequest": 37.94219990747131
+          }
+        ],
+        "users": [
+          {
+            "rps": 13263.2,
+            "p50": 3,
+            "p99": 6,
+            "requests": 66319,
+            "errors": 0,
+            "cpuPerRequest": 75.38563609222093
+          },
+          {
+            "rps": 13116,
+            "p50": 3,
+            "p99": 7,
+            "requests": 65580,
+            "errors": 0,
+            "cpuPerRequest": 76.1918877706618
+          },
+          {
+            "rps": 13594.4,
+            "p50": 3,
+            "p99": 6,
+            "requests": 67974,
+            "errors": 0,
+            "cpuPerRequest": 73.60529025803984
+          },
+          {
+            "rps": 13637.6,
+            "p50": 3,
+            "p99": 6,
+            "requests": 68187,
+            "errors": 0,
+            "cpuPerRequest": 73.39815507354774
+          },
+          {
+            "rps": 12231.2,
+            "p50": 3,
+            "p99": 9,
+            "requests": 61144,
+            "errors": 0,
+            "cpuPerRequest": 81.83839788041345
+          }
+        ],
+        "orders-create": [
+          {
+            "rps": 6139.6,
+            "p50": 6,
+            "p99": 18,
+            "requests": 30700,
+            "errors": 0,
+            "cpuPerRequest": 163.19351791530946
+          },
+          {
+            "rps": 6160.4,
+            "p50": 6,
+            "p99": 18,
+            "requests": 30799,
+            "errors": 0,
+            "cpuPerRequest": 162.68125588493132
+          },
+          {
+            "rps": 6483.6,
+            "p50": 6,
+            "p99": 18,
+            "requests": 32413,
+            "errors": 0,
+            "cpuPerRequest": 154.58495048283098
+          },
+          {
+            "rps": 5809.2,
+            "p50": 8,
+            "p99": 20,
+            "requests": 29044,
+            "errors": 0,
+            "cpuPerRequest": 172.70902768213745
+          },
+          {
+            "rps": 6060.4,
+            "p50": 7,
+            "p99": 18,
+            "requests": 30297,
+            "errors": 0,
+            "cpuPerRequest": 165.39380136647193
+          }
+        ],
+        "orders-list": [
+          {
+            "rps": 451.6,
+            "p50": 100,
+            "p99": 822,
+            "requests": 2258,
+            "errors": 0,
+            "cpuPerRequest": 2275.815323294951
+          },
+          {
+            "rps": 467.2,
+            "p50": 103,
+            "p99": 201,
+            "requests": 2336,
+            "errors": 0,
+            "cpuPerRequest": 2185.5231164383563
+          },
+          {
+            "rps": 456.8,
+            "p50": 104,
+            "p99": 200,
+            "requests": 2284,
+            "errors": 0,
+            "cpuPerRequest": 2232.353765323993
+          },
+          {
+            "rps": 453.2,
+            "p50": 107,
+            "p99": 206,
+            "requests": 2266,
+            "errors": 0,
+            "cpuPerRequest": 2276.637687555163
+          },
+          {
+            "rps": 442,
+            "p50": 108,
+            "p99": 211,
+            "requests": 2210,
+            "errors": 0,
+            "cpuPerRequest": 2308.616742081448
+          }
+        ]
+      },
+      "startups": [452.97283, 422.786414, 433.719249, 446.737675, 431.202107, 447.867478, 427.442603, 422.911624, 421.433281, 447.0355]
+    },
+    {
+      "target": "8.44.12",
+      "platform": "express",
+      "routes": {
+        "hello": [
+          {
+            "rps": 27729.6,
+            "p50": 1,
+            "p99": 3,
+            "requests": 138653,
+            "errors": 0,
+            "cpuPerRequest": 36.05839758245404
+          },
+          {
+            "rps": 27403.2,
+            "p50": 1,
+            "p99": 3,
+            "requests": 137022,
+            "errors": 0,
+            "cpuPerRequest": 36.50353227948796
+          },
+          {
+            "rps": 26286.4,
+            "p50": 1,
+            "p99": 4,
+            "requests": 131442,
+            "errors": 0,
+            "cpuPerRequest": 38.05115564279302
+          },
+          {
+            "rps": 28222.4,
+            "p50": 1,
+            "p99": 3,
+            "requests": 141102,
+            "errors": 0,
+            "cpuPerRequest": 35.4487675582203
+          },
+          {
+            "rps": 29230.4,
+            "p50": 1,
+            "p99": 3,
+            "requests": 146155,
+            "errors": 0,
+            "cpuPerRequest": 34.209072559953476
+          }
+        ],
+        "users": [
+          {
+            "rps": 16443.2,
+            "p50": 2,
+            "p99": 5,
+            "requests": 82213,
+            "errors": 0,
+            "cpuPerRequest": 60.86134796200114
+          },
+          {
+            "rps": 13534.4,
+            "p50": 4,
+            "p99": 8,
+            "requests": 67670,
+            "errors": 0,
+            "cpuPerRequest": 73.95460322151618
+          },
+          {
+            "rps": 14304,
+            "p50": 3,
+            "p99": 8,
+            "requests": 71520,
+            "errors": 0,
+            "cpuPerRequest": 69.97430089485458
+          },
+          {
+            "rps": 13734.4,
+            "p50": 4,
+            "p99": 8,
+            "requests": 68672,
+            "errors": 0,
+            "cpuPerRequest": 72.84536637931035
+          },
+          {
+            "rps": 15587.2,
+            "p50": 2,
+            "p99": 5,
+            "requests": 77921,
+            "errors": 0,
+            "cpuPerRequest": 64.22155773154861
+          }
+        ],
+        "orders-create": [
+          {
+            "rps": 9574.8,
+            "p50": 4,
+            "p99": 8,
+            "requests": 47866,
+            "errors": 0,
+            "cpuPerRequest": 104.60627585342414
+          },
+          {
+            "rps": 7521.6,
+            "p50": 7,
+            "p99": 15,
+            "requests": 37614,
+            "errors": 0,
+            "cpuPerRequest": 133.1996065294837
+          },
+          {
+            "rps": 8646.8,
+            "p50": 4,
+            "p99": 12,
+            "requests": 43236,
+            "errors": 0,
+            "cpuPerRequest": 115.78393005828477
+          },
+          {
+            "rps": 8480,
+            "p50": 4,
+            "p99": 10,
+            "requests": 42395,
+            "errors": 0,
+            "cpuPerRequest": 118.08821795022997
+          },
+          {
+            "rps": 10176.8,
+            "p50": 4,
+            "p99": 8,
+            "requests": 50881,
+            "errors": 0,
+            "cpuPerRequest": 98.44016430494683
+          }
+        ],
+        "orders-list": [
+          {
+            "rps": 860.8,
+            "p50": 55,
+            "p99": 107,
+            "requests": 4304,
+            "errors": 0,
+            "cpuPerRequest": 1175.0504182156135
+          },
+          {
+            "rps": 822.2,
+            "p50": 58,
+            "p99": 114,
+            "requests": 4111,
+            "errors": 0,
+            "cpuPerRequest": 1231.9309170518122
+          },
+          {
+            "rps": 814.4,
+            "p50": 60,
+            "p99": 116,
+            "requests": 4072,
+            "errors": 0,
+            "cpuPerRequest": 1245.010068762279
+          },
+          {
+            "rps": 852,
+            "p50": 56,
+            "p99": 111,
+            "requests": 4260,
+            "errors": 0,
+            "cpuPerRequest": 1188.3197183098591
+          },
+          {
+            "rps": 892.2,
+            "p50": 55,
+            "p99": 107,
+            "requests": 4461,
+            "errors": 0,
+            "cpuPerRequest": 1133.4671598296345
+          }
+        ]
+      },
+      "startups": [442.017665, 445.319861, 430.61919, 447.685239, 434.19609, 449.239043, 438.562493, 419.363983, 420.687314, 453.33112]
+    },
+    {
+      "target": "raw",
+      "platform": "express",
+      "routes": {
+        "hello": [
+          {
+            "rps": 30200,
+            "p50": 1,
+            "p99": 3,
+            "requests": 151000,
+            "errors": 0,
+            "cpuPerRequest": 33.019423841059606
+          },
+          {
+            "rps": 35660.81,
+            "p50": 1,
+            "p99": 2,
+            "requests": 178294,
+            "errors": 0,
+            "cpuPerRequest": 28.05065790211673
+          },
+          {
+            "rps": 37462.4,
+            "p50": 1,
+            "p99": 2,
+            "requests": 187287,
+            "errors": 0,
+            "cpuPerRequest": 26.69596394837869
+          },
+          {
+            "rps": 38454.4,
+            "p50": 1,
+            "p99": 2,
+            "requests": 192286,
+            "errors": 0,
+            "cpuPerRequest": 26.010395972665716
+          },
+          {
+            "rps": 31406.4,
+            "p50": 1,
+            "p99": 3,
+            "requests": 157008,
+            "errors": 0,
+            "cpuPerRequest": 31.829537348415368
+          }
+        ]
+      },
+      "startups": [90.586562, 92.047724, 95.819675, 96.151323, 91.444898, 89.987594, 95.586086, 95.833306, 91.529275, 95.533562]
+    },
+    {
+      "target": "8.44.1",
+      "platform": "fastify",
+      "routes": {
+        "hello": [
+          {
+            "rps": 35035.2,
+            "p50": 1,
+            "p99": 3,
+            "requests": 175185,
+            "errors": 0,
+            "cpuPerRequest": 28.5497559722579
+          },
+          {
+            "rps": 32275.2,
+            "p50": 1,
+            "p99": 3,
+            "requests": 161372,
+            "errors": 0,
+            "cpuPerRequest": 30.995501078253973
+          },
+          {
+            "rps": 38851.2,
+            "p50": 1,
+            "p99": 2,
+            "requests": 194242,
+            "errors": 0,
+            "cpuPerRequest": 25.75071817629555
+          },
+          {
+            "rps": 36392,
+            "p50": 1,
+            "p99": 2,
+            "requests": 181951,
+            "errors": 0,
+            "cpuPerRequest": 27.47122027359014
+          },
+          {
+            "rps": 37704,
+            "p50": 1,
+            "p99": 2,
+            "requests": 188500,
+            "errors": 0,
+            "cpuPerRequest": 26.5296074270557
+          }
+        ],
+        "users": [
+          {
+            "rps": 20785.6,
+            "p50": 2,
+            "p99": 4,
+            "requests": 103925,
+            "errors": 0,
+            "cpuPerRequest": 48.09121962954053
+          },
+          {
+            "rps": 16053.6,
+            "p50": 3,
+            "p99": 5,
+            "requests": 80267,
+            "errors": 0,
+            "cpuPerRequest": 62.3047827874469
+          },
+          {
+            "rps": 18048.8,
+            "p50": 2,
+            "p99": 4,
+            "requests": 90245,
+            "errors": 0,
+            "cpuPerRequest": 55.38173860047648
+          },
+          {
+            "rps": 16697.6,
+            "p50": 2,
+            "p99": 4,
+            "requests": 83489,
+            "errors": 0,
+            "cpuPerRequest": 59.9166237468409
+          },
+          {
+            "rps": 17035.2,
+            "p50": 2,
+            "p99": 4,
+            "requests": 85162,
+            "errors": 0,
+            "cpuPerRequest": 58.751485404288296
+          }
+        ],
+        "orders-create": [
+          {
+            "rps": 6636.4,
+            "p50": 5,
+            "p99": 29,
+            "requests": 33174,
+            "errors": 0,
+            "cpuPerRequest": 151.10098269729306
+          },
+          {
+            "rps": 7063.6,
+            "p50": 5,
+            "p99": 23,
+            "requests": 35321,
+            "errors": 0,
+            "cpuPerRequest": 141.74154185895077
+          },
+          {
+            "rps": 6234,
+            "p50": 7,
+            "p99": 29,
+            "requests": 31170,
+            "errors": 0,
+            "cpuPerRequest": 161.33381456528713
+          },
+          {
+            "rps": 6350,
+            "p50": 5,
+            "p99": 28,
+            "requests": 31747,
+            "errors": 0,
+            "cpuPerRequest": 158.08778782247143
+          },
+          {
+            "rps": 6998,
+            "p50": 5,
+            "p99": 26,
+            "requests": 34985,
+            "errors": 0,
+            "cpuPerRequest": 143.1021294840646
+          }
+        ],
+        "orders-list": [
+          {
+            "rps": 464.4,
+            "p50": 103,
+            "p99": 204,
+            "requests": 2322,
+            "errors": 0,
+            "cpuPerRequest": 2199.0831180017226
+          },
+          {
+            "rps": 477.4,
+            "p50": 95,
+            "p99": 716,
+            "requests": 2387,
+            "errors": 0,
+            "cpuPerRequest": 2140.7251780477586
+          },
+          {
+            "rps": 470.4,
+            "p50": 98,
+            "p99": 702,
+            "requests": 2352,
+            "errors": 0,
+            "cpuPerRequest": 2173.4468537414964
+          },
+          {
+            "rps": 448.2,
+            "p50": 107,
+            "p99": 209,
+            "requests": 2241,
+            "errors": 0,
+            "cpuPerRequest": 2274.265506470326
+          },
+          {
+            "rps": 483.8,
+            "p50": 98,
+            "p99": 190,
+            "requests": 2419,
+            "errors": 0,
+            "cpuPerRequest": 2118.2257131045885
+          }
+        ]
+      },
+      "startups": [478.07584, 482.889238, 485.287177, 483.98718, 456.086778, 477.44673, 473.366044, 479.656349, 482.715604, 487.346856]
+    },
+    {
+      "target": "8.44.12",
+      "platform": "fastify",
+      "routes": {
+        "hello": [
+          {
+            "rps": 34576,
+            "p50": 1,
+            "p99": 3,
+            "requests": 172897,
+            "errors": 0,
+            "cpuPerRequest": 28.955135138261507
+          },
+          {
+            "rps": 40617.6,
+            "p50": 1,
+            "p99": 1,
+            "requests": 203074,
+            "errors": 0,
+            "cpuPerRequest": 24.62659917074564
+          },
+          {
+            "rps": 39433.6,
+            "p50": 1,
+            "p99": 2,
+            "requests": 197161,
+            "errors": 0,
+            "cpuPerRequest": 25.344261796197017
+          },
+          {
+            "rps": 39523.2,
+            "p50": 1,
+            "p99": 2,
+            "requests": 197609,
+            "errors": 0,
+            "cpuPerRequest": 25.308670151663133
+          },
+          {
+            "rps": 34673.6,
+            "p50": 1,
+            "p99": 3,
+            "requests": 173386,
+            "errors": 0,
+            "cpuPerRequest": 28.847796246525093
+          }
+        ],
+        "users": [
+          {
+            "rps": 22008,
+            "p50": 2,
+            "p99": 3,
+            "requests": 110040,
+            "errors": 0,
+            "cpuPerRequest": 45.45647037440931
+          },
+          {
+            "rps": 24747.2,
+            "p50": 1,
+            "p99": 3,
+            "requests": 123735,
+            "errors": 0,
+            "cpuPerRequest": 40.42099648442235
+          },
+          {
+            "rps": 21425.6,
+            "p50": 1,
+            "p99": 3,
+            "requests": 107133,
+            "errors": 0,
+            "cpuPerRequest": 46.67463806670214
+          },
+          {
+            "rps": 22068.8,
+            "p50": 1,
+            "p99": 3,
+            "requests": 110331,
+            "errors": 0,
+            "cpuPerRequest": 45.31551422537637
+          },
+          {
+            "rps": 24590.4,
+            "p50": 1,
+            "p99": 3,
+            "requests": 122938,
+            "errors": 0,
+            "cpuPerRequest": 40.67853714880672
+          }
+        ],
+        "orders-create": [
+          {
+            "rps": 8539.21,
+            "p50": 5,
+            "p99": 19,
+            "requests": 42696,
+            "errors": 0,
+            "cpuPerRequest": 117.34504403222785
+          },
+          {
+            "rps": 9722.4,
+            "p50": 3,
+            "p99": 17,
+            "requests": 48610,
+            "errors": 0,
+            "cpuPerRequest": 102.93552766920386
+          },
+          {
+            "rps": 9360.8,
+            "p50": 4,
+            "p99": 17,
+            "requests": 46805,
+            "errors": 0,
+            "cpuPerRequest": 107.20429441299007
+          },
+          {
+            "rps": 8353.21,
+            "p50": 5,
+            "p99": 19,
+            "requests": 41762,
+            "errors": 0,
+            "cpuPerRequest": 119.87629902782434
+          },
+          {
+            "rps": 9738.4,
+            "p50": 3,
+            "p99": 17,
+            "requests": 48690,
+            "errors": 0,
+            "cpuPerRequest": 102.81193263503799
+          }
+        ],
+        "orders-list": [
+          {
+            "rps": 910.4,
+            "p50": 53,
+            "p99": 105,
+            "requests": 4552,
+            "errors": 0,
+            "cpuPerRequest": 1111.0380052724076
+          },
+          {
+            "rps": 947.6,
+            "p50": 50,
+            "p99": 102,
+            "requests": 4738,
+            "errors": 0,
+            "cpuPerRequest": 1066.0892781764458
+          },
+          {
+            "rps": 952.6,
+            "p50": 49,
+            "p99": 107,
+            "requests": 4763,
+            "errors": 0,
+            "cpuPerRequest": 1061.6640772622297
+          },
+          {
+            "rps": 915.8,
+            "p50": 52,
+            "p99": 107,
+            "requests": 4579,
+            "errors": 0,
+            "cpuPerRequest": 1102.6446822450316
+          },
+          {
+            "rps": 955.2,
+            "p50": 50,
+            "p99": 107,
+            "requests": 4776,
+            "errors": 0,
+            "cpuPerRequest": 1057.341499162479
+          }
+        ]
+      },
+      "startups": [477.416822, 458.949282, 458.48367, 476.526172, 478.404486, 477.437858, 477.705787, 484.197202, 462.695996, 482.435491]
+    },
+    {
+      "target": "raw",
+      "platform": "fastify",
+      "routes": {
+        "hello": [
+          {
+            "rps": 86752,
+            "p50": 0,
+            "p99": 0,
+            "requests": 433761,
+            "errors": 0,
+            "cpuPerRequest": 11.516514854954687
+          },
+          {
+            "rps": 69750.4,
+            "p50": 0,
+            "p99": 1,
+            "requests": 348751,
+            "errors": 0,
+            "cpuPerRequest": 14.325392615361677
+          },
+          {
+            "rps": 86521.6,
+            "p50": 0,
+            "p99": 0,
+            "requests": 432664,
+            "errors": 0,
+            "cpuPerRequest": 11.541346171625095
+          },
+          {
+            "rps": 86419.2,
+            "p50": 0,
+            "p99": 0,
+            "requests": 432032,
+            "errors": 0,
+            "cpuPerRequest": 11.565168783793792
+          },
+          {
+            "rps": 69110.4,
+            "p50": 0,
+            "p99": 1,
+            "requests": 345568,
+            "errors": 0,
+            "cpuPerRequest": 14.458650685248633
+          }
+        ]
+      },
+      "startups": [139.402706, 133.82497, 143.955324, 140.746805, 139.140366, 144.541917, 143.272936, 147.373418, 144.211338, 143.748649]
+    }
+  ],
+  "comparisons": [
+    {
+      "target": "8.44.12",
+      "platform": "express",
+      "route": "hello",
+      "metrics": {
+        "rps": {
+          "n": 5,
+          "ratio": 1.0195202454389742,
+          "low": 0.9445577495659596,
+          "high": 1.1004319548884949,
+          "significant": false
+        },
+        "p50": {
+          "n": 5,
+          "ratio": 1,
+          "low": 1,
+          "high": 1,
+          "significant": false
+        },
+        "p99": {
+          "n": 5,
+          "ratio": 1.0592238410488122,
+          "low": 0.7856260388566311,
+          "high": 1.4281033086416641,
+          "significant": false
+        },
+        "cpuPerRequest": {
+          "n": 5,
+          "ratio": 1.0198041495884815,
+          "low": 0.9446075588548265,
+          "high": 1.100986852972791,
+          "significant": false
+        }
+      }
+    },
+    {
+      "target": "8.44.12",
+      "platform": "express",
+      "route": "users",
+      "metrics": {
+        "rps": {
+          "n": 5,
+          "ratio": 1.1155493107315704,
+          "low": 0.9725801001837143,
+          "high": 1.2795349857956304,
+          "significant": false
+        },
+        "p50": {
+          "n": 5,
+          "ratio": 1.048240678157369,
+          "low": 0.6808683496852084,
+          "high": 1.613834039799092,
+          "significant": false
+        },
+        "p99": {
+          "n": 5,
+          "ratio": 1.0123177834439268,
+          "low": 0.635829077052828,
+          "high": 1.6117339260841643,
+          "significant": false
+        },
+        "cpuPerRequest": {
+          "n": 5,
+          "ratio": 1.1150237121236037,
+          "low": 0.9721460684993808,
+          "high": 1.278900279375756,
+          "significant": false
+        }
+      }
+    },
+    {
+      "target": "8.44.12",
+      "platform": "express",
+      "route": "orders-create",
+      "metrics": {
+        "rps": {
+          "n": 5,
+          "ratio": 1.4415307994242093,
+          "low": 1.2331429283152255,
+          "high": 1.685133975935515,
+          "significant": true
+        },
+        "p50": {
+          "n": 5,
+          "ratio": 1.4650780257917608,
+          "low": 0.9812836335176158,
+          "high": 2.1873936834791308,
+          "significant": false
+        },
+        "p99": {
+          "n": 5,
+          "ratio": 1.7870368472506375,
+          "low": 1.2662095451281214,
+          "high": 2.5220949452788743,
+          "significant": true
+        },
+        "cpuPerRequest": {
+          "n": 5,
+          "ratio": 1.442749081280731,
+          "low": 1.23418677625311,
+          "high": 1.6865558370798084,
+          "significant": true
+        }
+      }
+    },
+    {
+      "target": "8.44.12",
+      "platform": "express",
+      "route": "orders-list",
+      "metrics": {
+        "rps": {
+          "n": 5,
+          "ratio": 1.8671742750448321,
+          "low": 1.743493887385259,
+          "high": 1.99962833171598,
+          "significant": true
+        },
+        "p50": {
+          "n": 5,
+          "ratio": 1.8383876314389371,
+          "low": 1.7244968279583937,
+          "high": 1.9598001159728464,
+          "significant": true
+        },
+        "p99": {
+          "n": 5,
+          "ratio": 2.434214439668707,
+          "low": 1.0935603384054025,
+          "high": 5.418448100387293,
+          "significant": true
+        },
+        "cpuPerRequest": {
+          "n": 5,
+          "ratio": 1.8888116271170168,
+          "low": 1.7590134402982853,
+          "high": 2.0281876653128097,
+          "significant": true
+        }
+      }
+    },
+    {
+      "target": "8.44.12",
+      "platform": "express",
+      "route": "startup",
+      "metrics": {
+        "startupMs": {
+          "n": 10,
+          "ratio": 0.9938353294941041,
+          "low": 0.9790427033669183,
+          "high": 1.0088514614877717,
+          "significant": false
+        }
+      }
+    },
+    {
+      "target": "8.44.12",
+      "platform": "fastify",
+      "route": "hello",
+      "metrics": {
+        "rps": {
+          "n": 5,
+          "ratio": 1.0471454926286083,
+          "low": 0.9035332242699331,
+          "high": 1.2135842415959948,
+          "significant": false
+        },
+        "p50": {
+          "n": 5,
+          "ratio": 1,
+          "low": 1,
+          "high": 1,
+          "significant": false
+        },
+        "p99": {
+          "n": 5,
+          "ratio": 1.1486983549970349,
+          "low": 0.5698695787276117,
+          "high": 2.3154559569911655,
+          "significant": false
+        },
+        "cpuPerRequest": {
+          "n": 5,
+          "ratio": 1.0470839586103968,
+          "low": 0.9034297157421958,
+          "high": 1.2135806441550407,
+          "significant": false
+        }
+      }
+    },
+    {
+      "target": "8.44.12",
+      "platform": "fastify",
+      "route": "users",
+      "metrics": {
+        "rps": {
+          "n": 5,
+          "ratio": 1.2988525908373725,
+          "low": 1.0774484928934356,
+          "high": 1.5657528539434402,
+          "significant": true
+        },
+        "p50": {
+          "n": 5,
+          "ratio": 1.888175022589804,
+          "low": 1.1544034846477338,
+          "high": 3.088352524351509,
+          "significant": true
+        },
+        "p99": {
+          "n": 5,
+          "ratio": 1.3941860701216975,
+          "low": 1.2317322143765645,
+          "high": 1.578066056431921,
+          "significant": true
+        },
+        "cpuPerRequest": {
+          "n": 5,
+          "ratio": 1.2987477392947695,
+          "low": 1.0767975472259275,
+          "high": 1.5664464454518034,
+          "significant": true
+        }
+      }
+    },
+    {
+      "target": "8.44.12",
+      "platform": "fastify",
+      "route": "orders-create",
+      "metrics": {
+        "rps": {
+          "n": 5,
+          "ratio": 1.3723800874035263,
+          "low": 1.274386530930572,
+          "high": 1.4779088279647858,
+          "significant": true
+        },
+        "p50": {
+          "n": 5,
+          "ratio": 1.3719778805058962,
+          "low": 0.957903970577039,
+          "high": 1.9650438482508268,
+          "significant": false
+        },
+        "p99": {
+          "n": 5,
+          "ratio": 1.51342271848558,
+          "low": 1.3646584469443763,
+          "high": 1.6784040944141405,
+          "significant": true
+        },
+        "cpuPerRequest": {
+          "n": 5,
+          "ratio": 1.3740515824168145,
+          "low": 1.2755827053400872,
+          "high": 1.4801217853128397,
+          "significant": true
+        }
+      }
+    },
+    {
+      "target": "8.44.12",
+      "platform": "fastify",
+      "route": "orders-list",
+      "metrics": {
+        "rps": {
+          "n": 5,
+          "ratio": 1.997361319882491,
+          "low": 1.9543639903415924,
+          "high": 2.041304619752758,
+          "significant": true
+        },
+        "p50": {
+          "n": 5,
+          "ratio": 1.971497775697795,
+          "low": 1.8990104840549265,
+          "high": 2.0467519859510857,
+          "significant": true
+        },
+        "p99": {
+          "n": 5,
+          "ratio": 3.150415800943182,
+          "low": 1.3179789444491732,
+          "high": 7.530560150929045,
+          "significant": true
+        },
+        "cpuPerRequest": {
+          "n": 5,
+          "ratio": 2.0198582923044985,
+          "low": 1.978116844168748,
+          "high": 2.0624805521565057,
+          "significant": true
+        }
+      }
+    },
+    {
+      "target": "8.44.12",
+      "platform": "fastify",
+      "route": "startup",
+      "metrics": {
+        "startupMs": {
+          "n": 10,
+          "ratio": 1.0111377623781137,
+          "low": 0.9882987259877348,
+          "high": 1.0345045962547434,
+          "significant": false
+        }
+      }
+    }
+  ]
+}

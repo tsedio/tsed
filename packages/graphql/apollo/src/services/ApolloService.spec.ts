@@ -303,6 +303,42 @@ describe("ApolloService", () => {
       });
     });
   });
+  describe("when platform is fulmine", () => {
+    beforeEach(() => {
+      vi.doMock("express/package.json", () => ({
+        __esModule: true,
+        default: {version: "5.0.0"}
+      }));
+
+      return PlatformTest.create({
+        PLATFORM_NAME: "fulmine"
+      });
+    });
+    afterEach(() => {
+      vi.doUnmock("express/package.json");
+      return PlatformTest.reset();
+    });
+
+    describe("createServer()", () => {
+      it("should create a server with the Express 5 middleware", async () => {
+        // GIVEN
+        const {serverMock, service, app} = getFixture();
+
+        const opts = {
+          path: "/path",
+          server: serverMock,
+          schema: "schema"
+        } as never;
+
+        // WHEN
+        await service.createServer("key", opts);
+
+        expect(service.has("key")).toEqual(true);
+        expect(app.use).toHaveBeenCalledWith("/path", "expressMiddleware5");
+      });
+    });
+  });
+
   describe("when platform is express 3 (unsupported)", () => {
     beforeEach(() => {
       vi.doMock("express/package.json", () => ({
@@ -403,7 +439,7 @@ describe("ApolloService", () => {
         expect(result2).toEqual(result1);
         expect(logger.warn).toHaveBeenCalledWith({
           event: "APOLLO_UNKNOWN_PLATFORM",
-          message: "Platform not supported. Please use Ts.ED platform (express, koa)"
+          message: "Platform not supported. Please use Ts.ED platform (express, koa, fulmine)"
         });
       });
     });

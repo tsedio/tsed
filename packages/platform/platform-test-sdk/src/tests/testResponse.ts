@@ -413,7 +413,8 @@ export function testResponse(options: PlatformTestingSdkOpts) {
     it("should return a body", async () => {
       const response = await request.get("/rest/response/scenario12");
 
-      expect(response.headers["content-disposition"]).toEqual('attachment; filename="filename"');
+      // content-disposition 2 (Express 5.3) writes a token filename without quotes, both are valid
+      expect(response.headers["content-disposition"]).toMatch(/^attachment; filename=("filename"|filename)$/);
       expect(response.headers["content-type"]).toContain("application/octet-stream");
       expect(response.headers["content-length"]).toEqual("5");
       expect(response.body.toString()).toEqual("Hello");

@@ -16,7 +16,8 @@ export function isInheritedFrom(target: any, from: any, deep = 5): boolean {
   target = classOf(target);
   from = classOf(from);
 
-  while (nameOf(target) !== "") {
+  // inline name read for classes: the chain stops on Function.prototype, whose name is ""
+  while ((typeof target === "function" ? target.name : nameOf(target)) !== "") {
     if (!deep) {
       return false;
     }

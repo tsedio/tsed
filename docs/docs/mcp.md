@@ -13,7 +13,9 @@ head:
 
 `@tsed/platform-mcp` brings [Model Context Protocol](https://modelcontextprotocol.io) support to every Ts.ED HTTP
 adapter. The module exposes a configurable `/mcp` endpoint, lets you register tools/resources/prompts through DI-aware
-helpers or decorators, and reuses the same MCP primitives that power the CLI integration.
+helpers or decorators, and reuses the same MCP primitives that power the CLI integration. An endpoint can also act as a
+[gateway](#gateway-expose-a-third-party-mcp-server) for a third-party MCP server and be
+[protected with OAuth](#protect-an-endpoint-with-oauth).
 
 ::: tip Need a standalone MCP server?
 Import [`@tsed/platform-mcp/cli`](#run-an-mcp-server-from-a-cli) to run the same tools, resources, and prompts over
@@ -241,11 +243,11 @@ class HelloOutput {
 export class HelloTool {
   @Tool("hello")
   @Description("Greets callers from any MCP client")
-  @Returns(HelloOutput)
+  @Returns(200, HelloOutput)
   async handle(input: HelloInput) {
-    return new HelloOutput({
+    return {
       message: `Hello, ${input.name}!`
-    });
+    };
   }
 }
 ```
@@ -339,18 +341,27 @@ export const docsResource = defineResource({
 Prompts expose reusable prompt templates that MCP clients can request on demand. Use them to generate consistent
 conversation starters, assistant instructions, or parameterized user messages from your Ts.ED application.
 
+Unlike `@Tool`, `@Prompt` does not infer the arguments schema from the method parameter: declare `argsSchema`
+explicitly when the prompt accepts arguments.
+
 ::: code-group
 
 ```typescript [Decorators]
 import {Injectable} from "@tsed/di";
 import {Prompt} from "@tsed/platform-mcp";
+import {s} from "@tsed/schema";
 
 @Injectable()
 export class McpPrompts {
   @Prompt({
     name: "ask-tsed",
     title: "Ask Ts.ED",
-    description: "Creates a prompt message for Ts.ED questions"
+    description: "Creates a prompt message for Ts.ED questions",
+    argsSchema: s
+      .object({
+        question: s.string().required()
+      })
+      .required()
   })
   askTsed({question}: {question: string}) {
     return {
@@ -409,19 +420,27 @@ Error code resolution follows this rule:
 - if `error.name` and `error.status` are present: `E_MCP_<KIND>_<CONSTANT_CASE(error.name)>` (via `change-case`)
 - otherwise: `E_MCP_<KIND>_ERROR`
 
+`status_code` is `error.status`; it is omitted when the error has no status.
+
 ### Tool errors
 
 - log event: `MCP_TOOL_ERROR`
-- fallback response:
+- fallback response: `isError` is set to `true`, the error payload is returned in `structuredContent` and as a JSON
+  text entry in `content`:
 
 ```json
 {
-  "content": [],
+  "isError": true,
+  "content": [
+    {
+      "type": "text",
+      "text": "{\n  \"status_code\": 500,\n  \"code\": \"E_MCP_TOOL_INTERNAL_SERVER_ERROR\",\n  \"message\": \"Something went wrong\",\n  \"tool\": \"my-tool\"\n}"
+    }
+  ],
   "structuredContent": {
     "status_code": 500,
     "code": "E_MCP_TOOL_INTERNAL_SERVER_ERROR",
     "message": "Something went wrong",
-    "request_id": "<tsed-di-context-id>",
     "tool": "my-tool"
   }
 }
@@ -430,25 +449,31 @@ Error code resolution follows this rule:
 ### Resource errors
 
 - log event: `MCP_RESOURCE_ERROR`
-- fallback response:
+- fallback response: two `contents` entries for the requested URI, the error message as plain text followed by the
+  error payload as JSON:
 
 ```json
 {
-  "contents": [],
-  "_meta": {
-    "status_code": 404,
-    "code": "E_MCP_RESOURCE_NOT_FOUND",
-    "message": "Resource not found",
-    "request_id": "<tsed-di-context-id>",
-    "resource": "docs"
-  }
+  "contents": [
+    {
+      "uri": "tsed://docs/index",
+      "mimeType": "text/plain",
+      "text": "Resource not found"
+    },
+    {
+      "uri": "tsed://docs/index",
+      "mimeType": "application/json",
+      "text": "{\n  \"status_code\": 404,\n  \"code\": \"E_MCP_RESOURCE_NOT_FOUND\",\n  \"error_name\": \"NOT_FOUND\",\n  \"message\": \"Resource not found\",\n  \"request_id\": \"<tsed-di-context-id>\",\n  \"resource\": \"docs\"\n}"
+    }
+  ]
 }
 ```
 
 ### Prompt errors
 
 - log event: `MCP_PROMPT_ERROR`
-- fallback response:
+- fallback response: `description` is set to the error message, `messages` is empty and the error payload is returned
+  in `_meta`:
 
 ```json
 {
@@ -514,8 +539,374 @@ automatically exposed by other MCP configurations.
 The CLI exposes a single `/mcp` endpoint; use one MCP configuration when starting it with `mcpServerConnect`.
 
 All Ts.ED adapters (Express, Fastify, Koa) forward `POST <path>` requests to
-`@modelcontextprotocol/sdk`'s `StreamableHTTPServerTransport`, so any MCP-capable client (Claude Desktop, etc.) can talk
-with your server regardless of the underlying framework.
+`@modelcontextprotocol/node`'s `NodeStreamableHTTPServerTransport`, connected to a `McpServer` from
+`@modelcontextprotocol/server`, so any MCP-capable client (Claude Desktop, etc.) can talk with your server regardless
+of the underlying framework.
+
+The endpoint is stateless: `GET <path>` and `DELETE <path>` answer `405 Method Not Allowed` with `Allow: POST`, which
+tells MCP clients that there is no event stream to open and no session to close.
+
+## Gateway: expose a third-party MCP server <Badge text="v8.42.0+" />
+
+An MCP endpoint can act as a gateway for a third-party MCP server. Declare it under `upstream`: Ts.ED connects to it
+with the MCP client, discovers its tools, resources and prompts, and serves them on the endpoint over Streamable HTTP,
+next to the tools declared locally. Use one `mcp` entry per upstream.
+
+```typescript [src/Server.ts]
+import {Configuration} from "@tsed/di";
+import "@tsed/platform-express";
+import "@tsed/platform-mcp";
+
+@Configuration({
+  mcp: [
+    {
+      path: "/mcp/directus",
+      upstream: {
+        type: "http",
+        url: "https://directus.example.com/mcp",
+        headers: {Authorization: `Bearer ${process.env.DIRECTUS_TOKEN}`}
+      }
+    },
+    {
+      path: "/mcp/files",
+      upstream: {
+        type: "stdio",
+        command: "npx",
+        args: ["-y", "@modelcontextprotocol/server-filesystem", "/data"]
+      }
+    }
+  ]
+})
+export class Server {}
+```
+
+| Option            | Description                                                                                                                                                    |
+| ----------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `type`            | `"http"` (Streamable HTTP), `"sse"` (legacy SSE) or `"stdio"` (local process, e.g. started with `npx`).                                                        |
+| `url`, `headers`  | Target and headers of an `http` or `sse` upstream.                                                                                                             |
+| `command`, `args` | Command line of a `stdio` upstream. `env` and `cwd` are also accepted; `env` is merged over a safe subset of the parent environment.                           |
+| `prefix`          | Optional prefix added to the exposed tool and prompt names. No prefix by default.                                                                              |
+| `tools`           | `{include?, exclude?}` filters on upstream tool names (strings or regular expressions). `prompts` and `resources` (matched on the URI) accept the same filter. |
+| `pool`            | `{max, idleTimeout}` bounds of the upstream connection pool (defaults: `100` connections, `300000` ms).                                                        |
+
+Behavior to keep in mind:
+
+- When a local declaration and an upstream entry resolve to the same name, the local declaration wins and the upstream
+  entry is skipped with a warning. Use `prefix` to avoid collisions.
+- An unreachable upstream does not break the endpoint: its entries are omitted, the error is logged, and the
+  connection is retried later with a backoff.
+- The connection is opened on first use and reused. The upstream catalog is cached and refreshed when the upstream
+  sends a `list_changed` notification.
+- Server-initiated requests from the upstream (sampling, elicitation, roots) and resource subscriptions are not
+  forwarded.
+- The CLI exposes the upstream in `streamable-http` mode only. It is ignored in `stdio` mode, and `${OAUTH_*}`
+  placeholders are rejected because the CLI endpoint is not protected by OAuth.
+
+## Protect an endpoint with OAuth <Badge text="v8.42.0+" />
+
+Add an `auth` block to an MCP configuration to protect it with an OAuth 2.1 / OpenID Connect authorization server
+(Keycloak, Auth0, Okta, Microsoft Entra ID, or any other compliant server). Ts.ED acts as an OAuth resource server only:
+client registration (including Client ID Metadata Documents), authorization and consent are handled by the
+authorization server.
+
+`auth` is independent of `upstream`: it protects any MCP endpoint, whether it serves local tools, an upstream, or both.
+
+```typescript [src/Server.ts]
+import {Configuration} from "@tsed/di";
+import "@tsed/platform-express";
+import "@tsed/platform-mcp";
+import {OrdersTool} from "./tools/OrdersTool.js";
+
+@Configuration({
+  mcp: {
+    path: "/mcp",
+    tools: [OrdersTool],
+    auth: {
+      // URL of the OIDC server, as published in its discovery document
+      issuer: "https://auth.example.com",
+      // public URL of this MCP endpoint
+      resource: "https://api.example.com/mcp",
+      scopesSupported: ["mcp:read", "mcp:write"],
+      requiredScopes: ["mcp:read"],
+      resourceName: "Orders MCP"
+    }
+  }
+})
+export class Server {}
+```
+
+### What the authorization server must provide
+
+The configuration above works with any server that:
+
+- publishes its metadata on `<issuer>/.well-known/openid-configuration` (or `/.well-known/oauth-authorization-server`),
+  over HTTPS, with an `issuer` value identical to `auth.issuer`;
+- lets MCP clients register, through Client ID Metadata Documents or Dynamic Client Registration;
+- issues access tokens bound to the MCP endpoint: when the client sends `resource=https://api.example.com/mcp`
+  ([RFC 8707](https://datatracker.ietf.org/doc/html/rfc8707)), the token `aud` must contain that URL;
+- for the offline mode, issues JWT access tokens ([RFC 9068](https://datatracker.ietf.org/doc/html/rfc9068)) and exposes
+  a `jwks_uri`; for the introspection mode, exposes an `introspection_endpoint` and a confidential client for the
+  endpoint (see [Verify access tokens](#verify-access-tokens)).
+
+### Check the setup
+
+```bash
+# 1. the endpoint challenges unauthenticated calls and points to its metadata
+curl -i -X POST https://api.example.com/mcp \
+  -H "Content-Type: application/json" -H "Accept: application/json, text/event-stream" \
+  -d '{"jsonrpc":"2.0","id":1,"method":"tools/list","params":{}}'
+# HTTP/1.1 401 Unauthorized
+# WWW-Authenticate: Bearer error="invalid_token", ..., resource_metadata="https://api.example.com/.well-known/oauth-protected-resource/mcp"
+
+# 2. the metadata names the authorization server
+curl https://api.example.com/.well-known/oauth-protected-resource/mcp
+# {"resource":"https://api.example.com/mcp","authorization_servers":["https://auth.example.com"],...}
+
+# 3. a token issued by the authorization server for this resource is accepted
+curl -X POST https://api.example.com/mcp \
+  -H "Authorization: Bearer $ACCESS_TOKEN" \
+  -H "Content-Type: application/json" -H "Accept: application/json, text/event-stream" \
+  -d '{"jsonrpc":"2.0","id":1,"method":"tools/list","params":{}}'
+```
+
+An MCP client performs steps 1 and 2 by itself, then runs the authorization flow against the authorization server and
+retries with the token.
+
+For each protected endpoint, Ts.ED:
+
+- serves the [RFC 9728](https://datatracker.ietf.org/doc/html/rfc9728) protected resource metadata on
+  `GET /.well-known/oauth-protected-resource<path>` (here `/.well-known/oauth-protected-resource/mcp`), listing
+  `auth.issuer` as the authorization server;
+- answers requests without a valid bearer token with `401` and a `WWW-Authenticate: Bearer resource_metadata="..."`
+  challenge, and tokens lacking a required scope with `403 insufficient_scope`. The challenge carries a `scope`
+  parameter telling the client which scopes to request: `requiredScopes`, or `scopesSupported` when no scope is
+  required;
+- exposes the verified identity to tool, resource and prompt handlers through `ctx.http.authInfo`.
+
+Each entry of `mcp` has its own `auth` block, so different endpoints can rely on different authorization servers.
+
+| Status | Meaning                                                                                             |
+| ------ | --------------------------------------------------------------------------------------------------- |
+| `401`  | Missing, expired or invalid token. The client must (re)authorize.                                   |
+| `403`  | Valid token without one of `requiredScopes`.                                                        |
+| `500`  | The authorization server (metadata, JWKS or introspection) could not be reached. Not a token issue. |
+
+### Read the caller identity in a handler
+
+The verified identity is available on the SDK context received by tool, resource and prompt handlers:
+
+```typescript
+import type {ServerContext} from "@modelcontextprotocol/server";
+import {defineTool} from "@tsed/platform-mcp";
+import {s} from "@tsed/schema";
+
+export const whoAmI = defineTool({
+  name: "who-am-i",
+  description: "Returns the identity of the caller",
+  inputSchema: s.object({}),
+  handler(_args: unknown, ctx: ServerContext) {
+    const authInfo = ctx.http?.authInfo;
+
+    return {clientId: authInfo?.clientId, scopes: authInfo?.scopes, subject: authInfo?.extra?.sub};
+  }
+});
+```
+
+`authInfo.extra` holds the token claims (JWT payload or introspection response).
+
+::: warning
+`auth.resource` is required: it is the public URL of the MCP endpoint, as clients reach it. It is advertised in the
+metadata and in the `401` challenge, and is the expected audience of access tokens. It is never derived from the
+incoming request, whose `Host` header is controlled by the caller. Behind a proxy, use the external URL.
+:::
+
+### Verify access tokens
+
+Tokens are verified against the configured `issuer`. Two built-in modes are available:
+
+| Mode            | How it works                                                                                                                                                                     | Use it when                                                              |
+| --------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------ |
+| `offline`       | The JWT access token ([RFC 9068](https://datatracker.ietf.org/doc/html/rfc9068), `typ: at+jwt`) is validated locally with the issuer JWKS, plus issuer, audience and expiration. | Access tokens are JWTs. No call to the authorization server per request. |
+| `introspection` | The authorization server is asked for each token ([RFC 7662](https://datatracker.ietf.org/doc/html/rfc7662)).                                                                    | Access tokens are opaque, or revocation must apply immediately.          |
+
+```typescript
+// offline (default)
+auth: {
+  issuer: "https://auth.example.com",
+  resource: "https://api.example.com/mcp/directus"
+}
+
+// introspection (default when clientId is set)
+auth: {
+  issuer: "https://auth.example.com",
+  resource: "https://api.example.com/mcp/directus",
+  clientId: "mcp-gateway",
+  clientSecret: process.env.MCP_GATEWAY_SECRET
+}
+```
+
+| Option                     | Description                                                                                                    |
+| -------------------------- | -------------------------------------------------------------------------------------------------------------- |
+| `mode`                     | `"offline"` or `"introspection"`. Defaults to `introspection` when `clientId` is set, `offline` otherwise.     |
+| `clientId`, `clientSecret` | Credentials of the MCP endpoint on the authorization server. Required by the introspection mode.               |
+| `audience`                 | Expected audience of the tokens. Defaults to `resource`. `false` disables the check (introspection mode only). |
+| `jwksUri`                  | JWKS URL for the offline mode. Discovered from the issuer metadata by default.                                 |
+| `introspectionEndpoint`    | Introspection URL. Discovered from the issuer metadata by default.                                             |
+| `cacheTtl`                 | Seconds an introspection result is reused. Defaults to `60`; `0` disables the cache.                           |
+| `allowInsecureRequests`    | Allow a non-HTTPS issuer. For local development only.                                                          |
+
+Both modes rely on [`oauth4webapi`](https://github.com/panva/oauth4webapi). The JWKS and introspection endpoints are discovered from `<issuer>/.well-known/openid-configuration` (then
+`/.well-known/oauth-authorization-server`).
+
+::: warning
+The audience is checked in both modes: a token whose `aud` (JWT claim, or introspection response) does not contain the
+endpoint `resource` is rejected, including when the authorization server returns no audience at all. The authorization
+server has to issue tokens for the resource requested by the MCP client (resource indicators).
+
+In introspection mode only, `audience: false` disables this check, for authorization servers that do not report an
+audience. The endpoint then accepts any active token of the issuer, whatever the application it was issued for, and a
+warning is logged at startup. The check cannot be disabled in offline mode.
+:::
+
+To replace the built-in modes, set `auth.verifier` to an object, or an injectable class, implementing
+`verifyAccessToken(token)`. It returns the MCP `AuthInfo` of the caller (with a mandatory `expiresAt`, in seconds) and
+throws when the token is not valid.
+
+```typescript [src/services/SessionTokenVerifier.ts]
+import type {AuthInfo, OAuthTokenVerifier} from "@modelcontextprotocol/server";
+import {Injectable} from "@tsed/di";
+
+@Injectable()
+export class SessionTokenVerifier implements OAuthTokenVerifier {
+  async verifyAccessToken(token: string): Promise<AuthInfo> {
+    const session = await this.findSession(token);
+
+    return {token, clientId: session.clientId, scopes: session.scopes, expiresAt: session.expiresAt};
+  }
+}
+```
+
+### Custom authentication check <Badge text="v8.43.0+" />
+
+`auth.preAuth` runs a custom check before the OAuth verification, for instance an API key. It receives the request
+context and tells Ts.ED what to do with the request:
+
+| The check…            | Result                                                                                                   |
+| --------------------- | -------------------------------------------------------------------------------------------------------- |
+| returns an `AuthInfo` | The request is authenticated. The OAuth verification is skipped and handlers read the identity as usual. |
+| returns `undefined`   | The check does not apply. The OAuth verification runs if `issuer` is configured; otherwise `401`.        |
+| throws                | The request is rejected with the thrown error, rendered by Ts.ED like any other exception.               |
+
+`preAuth` is a function, or an injectable class implementing `PlatformMcpPreAuth`:
+
+```typescript [src/auth/ApiKeyPreAuth.ts]
+import type {AuthInfo} from "@modelcontextprotocol/server";
+import {inject, Injectable} from "@tsed/di";
+import {Unauthorized} from "@tsed/exceptions";
+import type {PlatformContext} from "@tsed/platform-http";
+import type {PlatformMcpPreAuth} from "@tsed/platform-mcp";
+import {ApiKeysService} from "../services/ApiKeysService.js";
+
+@Injectable()
+export class ApiKeyPreAuth implements PlatformMcpPreAuth {
+  private apiKeys = inject(ApiKeysService);
+
+  async preAuth($ctx: PlatformContext): Promise<AuthInfo | undefined> {
+    const apiKey = $ctx.request.headers["x-api-key"] as string | undefined;
+
+    if (!apiKey) {
+      // no API key: let the OAuth verification handle the request
+      return undefined;
+    }
+
+    const client = await this.apiKeys.find(apiKey);
+
+    if (!client) {
+      throw new Unauthorized("Unknown API key");
+    }
+
+    return {token: apiKey, clientId: client.id, scopes: client.scopes};
+  }
+}
+```
+
+Use it alone to protect an endpoint without OAuth, or next to an issuer to accept both methods on the same endpoint:
+
+```typescript
+@Configuration({
+  mcp: [
+    // API key only
+    {path: "/mcp", tools: [OrdersTool], auth: {preAuth: ApiKeyPreAuth}},
+    // API key or OAuth
+    {
+      path: "/mcp/partners",
+      tools: [OrdersTool],
+      auth: {
+        issuer: "https://auth.example.com",
+        resource: "https://api.example.com/mcp/partners",
+        preAuth: ApiKeyPreAuth
+      }
+    }
+  ]
+})
+export class Server {}
+```
+
+Without `issuer`, no protected resource metadata is served and no `WWW-Authenticate` challenge is sent. The `token`,
+`clientId`, `scopes` and `extra.sub` returned by the check also feed the `${OAUTH_*}` placeholders of the upstream.
+
+### Forward the caller identity to the upstream
+
+The caller's token is never sent to the upstream implicitly. Reference it with a placeholder where the upstream expects
+it: in `headers` for `http` and `sse` upstreams, in `args` and `env` for `stdio` upstreams.
+
+| Placeholder          | Value                                       |
+| -------------------- | ------------------------------------------- |
+| `${OAUTH_TOKEN}`     | Verified access token of the caller.        |
+| `${OAUTH_CLIENT_ID}` | Client identifier returned by the verifier. |
+| `${OAUTH_SCOPES}`    | Scopes of the token, separated by a space.  |
+| `${OAUTH_SUB}`       | Subject (`sub` claim) of the token.         |
+
+`${OAUTH_SUB}` identifies the end user, which lets a `stdio` upstream keep one state per user, for instance
+`env: {STATE_DIR: "/tmp/state/${OAUTH_SUB}"}`. It is read from the `sub` claim of the verified token, or from `extra.sub`
+when the identity comes from a `preAuth` check or a custom `verifier`. The value is issued by the authorization server:
+hash or validate it in the upstream before using it as a file name.
+
+::: warning
+`${OAUTH_SUB}` is empty for every caller whose identity exposes no string `sub`, which is common for
+`client_credentials` tokens and for `preAuth` checks that return no `extra.sub`. When the subject is the only value that
+varies in the upstream definition, all these callers share the same upstream connection and, in the example above, the
+same `STATE_DIR`. The placeholder isolates users only if a string subject is guaranteed: reject identities without one
+in a custom `verifier` or `preAuth` check, make the upstream refuse to start with an empty value, or key the isolation
+on another verified value.
+:::
+
+```typescript
+// HTTP: any header
+upstream: {
+  type: "http",
+  url: "https://directus.example.com/mcp",
+  headers: {"X-OIDC-Token": "${OAUTH_TOKEN}"}
+}
+
+// stdio: arguments or environment
+upstream: {
+  type: "stdio",
+  command: "npx",
+  args: ["-y", "some-mcp-server", "--token", "${OAUTH_TOKEN}"],
+  env: {API_TOKEN: "${OAUTH_TOKEN}"}
+}
+```
+
+::: tip
+Placeholders are plain strings, not JavaScript template literals: write `"Bearer ${OAUTH_TOKEN}"` with regular quotes.
+:::
+
+Placeholders require `auth` on the endpoint; the application fails to start otherwise.
+
+One upstream connection is kept per distinct set of interpolated values. For a `stdio` upstream this means **one
+process per token**, bounded by `pool.max` and closed after `pool.idleTimeout`. Prefer `env` over `args` for secrets:
+command-line arguments are visible to other users of the machine.
 
 ## Testing and inspector
 
@@ -542,6 +933,31 @@ Then configure the inspector to use the `Streamable HTTP` transport with your se
 ```text
 http://localhost:8083/mcp
 ```
+
+### Browser clients and CORS <Badge text="v8.45.0+" />
+
+The MCP Inspector, and any MCP client running in a browser, calls the endpoint from another origin. Without CORS
+headers, the browser hides the responses: on a protected endpoint, the client never reads the `WWW-Authenticate`
+challenge and cannot start the OAuth flow (the Inspector only shows a network error).
+
+Enable the `cors` option on the endpoint:
+
+```typescript
+@Configuration({
+  mcp: {
+    path: "/mcp",
+    cors: true // any origin
+    // or: cors: {origin: ["http://localhost:6274"], maxAge: 600}
+  }
+})
+export class Server {}
+```
+
+The endpoint then answers the preflight and adds the CORS headers to all its responses, the 401 challenge included,
+exposing `WWW-Authenticate`, `Mcp-Session-Id` and `Mcp-Protocol-Version`. With a list of origins, only a matching
+`Origin` is echoed back and `Origin` is added to the `Vary` header. The option is disabled by default, so an
+application that already runs its own CORS middleware keeps it. Do not combine both on the same endpoint: the option
+adds its headers but does not remove the ones set by another middleware.
 
 ::: tip
 If you also need a standalone CLI distribution that speaks MCP over `stdio` or standalone HTTP, use

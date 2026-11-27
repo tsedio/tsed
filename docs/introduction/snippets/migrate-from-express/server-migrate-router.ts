@@ -1,5 +1,5 @@
-import {PlatformApplication} from "@tsed/common";
 import {Configuration, Inject} from "@tsed/di";
+import {PlatformApplication} from "@tsed/platform-http";
 
 import {expressRouter} from "../legacy/server.js"; // import the router from the legacy code
 

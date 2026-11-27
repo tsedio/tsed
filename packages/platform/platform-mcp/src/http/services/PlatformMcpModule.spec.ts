@@ -2,8 +2,10 @@ import {afterEach, beforeEach, describe, expect, it, vi} from "vitest";
 import {EventEmitter} from "node:events";
 import {PlatformFastifyResponse} from "@tsed/platform-fastify";
 import {PlatformMcpModule} from "./PlatformMcpModule.js";
+import type {PlatformMcpAuthSettings} from "../../common/interfaces/PlatformMcpAuthSettings.js";
 import {PlatformTest} from "@tsed/platform-http/testing";
 import {application} from "@tsed/platform-http";
+import {logger} from "@tsed/di";
 
 const {createMcpServer, resolveMcpServerOptions} = vi.hoisted(() => ({
   createMcpServer: vi.fn(),
@@ -105,6 +107,110 @@ describe("PlatformMcpModule", () => {
   });
 
   describe("$onRoutesInit()", () => {
+    it("answers 405 to GET and DELETE on the MCP path without logging them as routes", async () => {
+      const {module} = await createModule();
+      module["settings"] = {path: "/ai/mcp"};
+
+      vi.spyOn(application(), "post").mockReturnValue(undefined as never);
+      vi.spyOn(application(), "get").mockReturnValue(undefined as never);
+      vi.spyOn(application(), "delete").mockReturnValue(undefined as never);
+
+      module.$onRoutesInit();
+
+      expect(application().get).toHaveBeenCalledExactlyOnceWith("/ai/mcp", expect.any(Function));
+      expect(application().delete).toHaveBeenCalledExactlyOnceWith("/ai/mcp", expect.any(Function));
+      expect(module.$logRoutes([])).toEqual([{method: "POST", name: "PlatformMcpModule.dispatch()", url: "/ai/mcp"}]);
+
+      const {$ctx} = createExpressContext();
+      const status = vi.spyOn($ctx.response, "status").mockReturnThis();
+      const setHeaders = vi.spyOn($ctx.response, "setHeaders").mockReturnThis();
+      const body = vi.spyOn($ctx.response, "body").mockReturnThis();
+      const getHandler = vi.mocked(application().get).mock.calls[0][1] as unknown as (ctx: unknown) => unknown;
+
+      getHandler($ctx);
+
+      expect(status).toHaveBeenCalledWith(405);
+      expect(setHeaders).toHaveBeenCalledExactlyOnceWith({allow: "POST"});
+      expect(body).toHaveBeenCalledWith({jsonrpc: "2.0", error: {code: -32000, message: "Method not allowed."}, id: null});
+    });
+
+    it("does not mount the preflight route when CORS is disabled", async () => {
+      const {module} = await createModule();
+      module["settings"] = {path: "/ai/mcp"};
+
+      vi.spyOn(application(), "post").mockReturnValue(undefined as never);
+      vi.spyOn(application(), "get").mockReturnValue(undefined as never);
+      vi.spyOn(application(), "delete").mockReturnValue(undefined as never);
+      vi.spyOn(application(), "options").mockReturnValue(undefined as never);
+
+      module.$onRoutesInit();
+
+      expect(application().options).not.toHaveBeenCalled();
+    });
+
+    it("adds the CORS headers on every route and answers the preflight when CORS is enabled", async () => {
+      const {module} = await createModule();
+      module["settings"] = {path: "/ai/mcp", cors: true};
+
+      vi.spyOn(application(), "post").mockReturnValue(undefined as never);
+      vi.spyOn(application(), "get").mockReturnValue(undefined as never);
+      vi.spyOn(application(), "delete").mockReturnValue(undefined as never);
+      vi.spyOn(application(), "options").mockReturnValue(undefined as never);
+
+      module.$onRoutesInit();
+
+      expect(application().options).toHaveBeenCalledExactlyOnceWith("/ai/mcp", expect.any(Function));
+
+      const handlers = {
+        get: vi.mocked(application().get).mock.calls[0][1],
+        delete: vi.mocked(application().delete).mock.calls[0][1],
+        options: vi.mocked(application().options).mock.calls[0][1]
+      } as unknown as Record<string, (ctx: unknown) => unknown>;
+
+      for (const [method, handler] of Object.entries(handlers)) {
+        const {$ctx, res} = createExpressContext();
+        const status = vi.spyOn($ctx.response, "status").mockReturnThis();
+        const setHeaders = vi.spyOn($ctx.response, "setHeaders").mockReturnThis();
+
+        vi.spyOn($ctx.response, "body").mockReturnThis();
+        (res as unknown as {setHeader: unknown}).setHeader = vi.fn();
+
+        handler($ctx);
+
+        expect(setHeaders).toHaveBeenCalledWith(expect.objectContaining({"access-control-allow-origin": "*"}));
+        expect(status).toHaveBeenCalledWith(method === "options" ? 204 : 405);
+
+        if (method !== "options") {
+          expect(setHeaders).toHaveBeenCalledWith({allow: "POST, OPTIONS"});
+        }
+      }
+    });
+
+    it("adds the CORS headers before dispatching the MCP request", async () => {
+      const {module} = await createModule();
+      module["settings"] = {path: "/ai/mcp", cors: true};
+
+      vi.spyOn(application(), "post").mockReturnValue(undefined as never);
+      vi.spyOn(application(), "get").mockReturnValue(undefined as never);
+      vi.spyOn(application(), "delete").mockReturnValue(undefined as never);
+      vi.spyOn(application(), "options").mockReturnValue(undefined as never);
+      const dispatch = vi.spyOn(module as any, "dispatch").mockResolvedValue(undefined);
+
+      module.$onRoutesInit();
+
+      const postHandler = vi.mocked(application().post).mock.calls[0][1] as unknown as (ctx: unknown) => Promise<unknown>;
+      const {$ctx, res} = createExpressContext();
+      const setHeaders = vi.spyOn($ctx.response, "setHeaders").mockReturnThis();
+
+      (res as unknown as {setHeader: unknown}).setHeader = vi.fn();
+
+      await postHandler($ctx);
+
+      expect(setHeaders).toHaveBeenCalledWith(expect.objectContaining({"access-control-allow-origin": "*"}));
+      expect(dispatch).toHaveBeenCalledWith(expect.objectContaining({path: "/ai/mcp", cors: true}), $ctx);
+      expect(setHeaders.mock.invocationCallOrder[0]).toBeLessThan(dispatch.mock.invocationCallOrder[0]);
+    });
+
     it("should register the MCP route only once", async () => {
       const {module} = await createModule();
 
@@ -132,6 +238,112 @@ describe("PlatformMcpModule", () => {
       expect(module.$logRoutes([])).toEqual([
         {method: "POST", name: "PlatformMcpModule.dispatch()", url: "/first"},
         {method: "POST", name: "PlatformMcpModule.dispatch()", url: "/second"}
+      ]);
+    });
+  });
+
+  describe("upstream validation", () => {
+    it("fails when the upstream uses identity placeholders without auth", async () => {
+      const {module} = await createModule();
+      module["settings"] = {upstream: {type: "http", url: "http://localhost/mcp", headers: {authorization: "Bearer ${OAUTH_TOKEN}"}}};
+      vi.spyOn(application(), "post").mockReturnValue(undefined as never);
+
+      expect(() => module.$onRoutesInit()).toThrow("declares no auth");
+      expect(application().post).not.toHaveBeenCalled();
+    });
+
+    it("fails when the introspection mode has no client credentials", async () => {
+      const {module} = await createModule();
+      module["settings"] = {auth: {issuer: "https://auth.example.com", resource: "https://api.example.com/mcp", mode: "introspection"}};
+      vi.spyOn(application(), "post").mockReturnValue(undefined as never);
+
+      expect(() => module.$onRoutesInit()).toThrow("requires auth.clientId and auth.clientSecret");
+    });
+
+    it.each([
+      ["auth.resource is required", {issuer: "https://auth.example.com"}],
+      [
+        "auth.audience cannot be disabled in offline mode",
+        {issuer: "https://auth.example.com", resource: "https://api.example.com/mcp", audience: false}
+      ],
+      ["auth.issuer must be an absolute URL", {issuer: "auth.example.com", resource: "https://api.example.com/mcp"}],
+      ["Issuer URL must be HTTPS", {issuer: "http://auth.example.com", resource: "https://api.example.com/mcp"}],
+      ["auth.resource must be an absolute URL", {issuer: "https://auth.example.com", resource: "/mcp"}]
+    ] as [string, Partial<PlatformMcpAuthSettings>][])("fails when %s", async (message, auth) => {
+      const {module} = await createModule();
+      module["settings"] = {auth: auth as PlatformMcpAuthSettings};
+      vi.spyOn(application(), "post").mockReturnValue(undefined as never);
+
+      expect(() => module.$onRoutesInit()).toThrow(message);
+    });
+
+    it("warns when the audience check is disabled in introspection mode", async () => {
+      const {module} = await createModule();
+      module["settings"] = {
+        auth: {
+          issuer: "https://auth.example.com",
+          resource: "https://api.example.com/mcp",
+          clientId: "id",
+          clientSecret: "secret",
+          audience: false
+        }
+      };
+      vi.spyOn(application(), "post").mockReturnValue(undefined as never);
+      vi.spyOn(application(), "get").mockReturnValue(undefined as never);
+      vi.spyOn(logger(), "warn").mockReturnValue(undefined as never);
+
+      module.$onRoutesInit();
+
+      expect(logger().warn).toHaveBeenCalledWith(expect.objectContaining({event: "MCP_AUTH_AUDIENCE_DISABLED"}));
+      expect(application().post).toHaveBeenCalledOnce();
+    });
+
+    it("fails when auth declares neither an issuer nor a custom check", async () => {
+      const {module} = await createModule();
+      module["settings"] = {auth: {} as PlatformMcpAuthSettings};
+      vi.spyOn(application(), "post").mockReturnValue(undefined as never);
+
+      expect(() => module.$onRoutesInit()).toThrow("auth requires an issuer, a preAuth check, or both");
+    });
+
+    it("mounts an endpoint only protected by a custom check without OAuth metadata route", async () => {
+      const {module} = await createModule();
+      module["settings"] = {path: "/mcp/a", auth: {preAuth: vi.fn()}};
+      vi.spyOn(application(), "post").mockReturnValue(undefined as never);
+      vi.spyOn(application(), "get").mockReturnValue(undefined as never);
+
+      module.$onRoutesInit();
+
+      expect(application().get).not.toHaveBeenCalledWith(expect.stringContaining("/.well-known/"), expect.any(Function));
+      expect(module.$logRoutes([])).toEqual([{method: "POST", name: "PlatformMcpModule.dispatch()", url: "/mcp/a"}]);
+    });
+
+    it("accepts upstream placeholders on an endpoint only protected by a custom check", async () => {
+      const {module} = await createModule();
+      module["settings"] = {
+        auth: {preAuth: vi.fn()},
+        upstream: {type: "http", url: "http://localhost/mcp", headers: {authorization: "Bearer ${OAUTH_TOKEN}"}}
+      };
+      vi.spyOn(application(), "post").mockReturnValue(undefined as never);
+
+      expect(() => module.$onRoutesInit()).not.toThrow();
+    });
+
+    it("registers the protected resource metadata route of protected endpoints", async () => {
+      const {module} = await createModule();
+      module["settings"] = {
+        path: "/mcp/a",
+        auth: {issuer: "https://auth.example.com", resource: "https://api.example.com/mcp/a", verifier: {verifyAccessToken: vi.fn()}}
+      };
+      vi.spyOn(application(), "post").mockReturnValue(undefined as never);
+      vi.spyOn(application(), "get").mockReturnValue(undefined as never);
+
+      module.$onRoutesInit();
+
+      expect(application().get).toHaveBeenCalledWith("/.well-known/oauth-protected-resource/mcp/a", expect.any(Function));
+      expect(module.$logRoutes([])).toEqual([
+        {method: "GET", name: "PlatformMcpModule.metadata()", url: "/.well-known/oauth-protected-resource/mcp/a"},
+        {method: "POST", name: "PlatformMcpModule.dispatch()", url: "/mcp/a"}
       ]);
     });
   });
@@ -194,6 +406,18 @@ describe("PlatformMcpModule", () => {
 
       expect(servers[0].close).toHaveBeenCalledOnce();
       expect(transportInstances[0].close).toHaveBeenCalledOnce();
+    });
+
+    it("should close the request server only once when the response closes during the request", async () => {
+      const {module} = await createModule();
+      const {$ctx, res} = createContext();
+      const close = vi.fn();
+
+      createMcpServer.mockImplementation(() => ({connect: vi.fn().mockImplementation(() => res.emit("close")), close}));
+
+      await module["dispatch"]({tools: [], prompts: [], resources: []}, $ctx);
+
+      expect(close).toHaveBeenCalledOnce();
     });
 
     it("should resolve an isolated server for each request", async () => {

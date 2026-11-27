@@ -16,4 +16,16 @@ export class AuthCtrl {
     // FACADE
     return user;
   }
+
+  @Post("/login-redirect")
+  @Authenticate("login", {successRedirect: "/guarded/any"})
+  loginWithRedirect() {
+    // FACADE: Passport.js ends the request with a redirect
+  }
+
+  @Post("/basic-login")
+  @Authenticate("basic", {keepSessionInfo: true})
+  basicLogin(@Req("user") user: Account) {
+    return {email: user.email};
+  }
 }

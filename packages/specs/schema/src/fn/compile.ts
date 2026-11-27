@@ -1,5 +1,5 @@
 import "../components/index.js";
-import {DecoratorTypes, getValue, isClass, isPlainObject, nameOf, Type} from "@tsed/core";
+import {DecoratorTypes, getValue, isArray, isClass, isPlainObject, nameOf, Type} from "@tsed/core";
 import {JsonSchema, SpecTypes} from "../domain/index.js";
 import {JsonParameterStore} from "../components/index.js";
 import {JsonSchemaOptions} from "../domain/JsonSchemaOptions.js";
@@ -10,12 +10,58 @@ import {inlineRefs} from "../utils/inlineRefs.js";
 /**
  * @ignore
  */
-const CACHES = new Map<Type | JsonParameterStore | JsonSchema, Map<string, any>>();
+const CACHES = new WeakMap<Type | JsonParameterStore | JsonSchema, Map<string, any>>();
+
+/**
+ * Inline typeof on purpose: this runs for each option on every compile() call, and the
+ * `isPrimitive()`/`isNil()` helpers of @tsed/core made the cache hit ~50% slower.
+ * @ignore
+ */
+function isPrimitiveValue(value: unknown) {
+  return value === null || (typeof value !== "object" && typeof value !== "function");
+}
+
+/**
+ * Options holding only primitives and arrays of primitives (the usual `groups`, `customKeys`, `specType`...)
+ * give the same key with the native `JSON.stringify`, because the replacer below returns them unchanged.
+ * @ignore
+ */
+function hasOnlyPrimitiveValues(options: any) {
+  for (const key in options) {
+    // always set by compile() to an empty object
+    if (key === "components") {
+      continue;
+    }
+
+    const value = options[key];
+
+    if (isPrimitiveValue(value)) {
+      continue;
+    }
+
+    // an array with its own toJSON can return a class, that only the replacer turns into a name
+    if (!isArray(value) || (value as any).toJSON !== undefined) {
+      return false;
+    }
+
+    for (let i = 0; i < value.length; i++) {
+      if (!isPrimitiveValue(value[i])) {
+        return false;
+      }
+    }
+  }
+
+  return true;
+}
 
 /**
  * @ignore
  */
 function getKey(options: any) {
+  if (hasOnlyPrimitiveValues(options)) {
+    return JSON.stringify(options);
+  }
+
   return JSON.stringify(options, (key, value) => {
     if (value && !isPlainObject(value) && isClass(value)) {
       return nameOf(value);
@@ -29,38 +75,46 @@ function getKey(options: any) {
  * @ignore
  */
 function get(model: Type | JsonParameterStore | JsonSchema, options: any) {
-  const cache: Map<string, any> = CACHES.get(model) || new Map();
-  CACHES.set(model, cache);
-
+  let cache = CACHES.get(model);
   const key = getKey(options);
+  // compiled schemas are objects, never undefined
+  const cached = cache?.get(key);
 
-  if (!cache.has(key)) {
-    let schema: any;
-
-    if (model instanceof JsonSchema) {
-      schema = model.toJSON(options);
-    } else {
-      const entity = getJsonEntityStore(model);
-
-      let mapper = "schema";
-      if (entity.is(DecoratorTypes.PARAM)) {
-        options = {
-          ...options,
-          root: true,
-          groups: entity.schema.getGroups()
-        };
-        mapper = "item";
-      }
-
-      schema = execMapper(mapper, [entity.schema], options);
-    }
-
-    if (Object.keys(getValue(options, "components.schemas", {})).length) {
-      schema.definitions = options.components.schemas;
-    }
-
-    cache.set(key, options.inlineRefs ? inlineRefs(schema) : schema);
+  if (cached !== undefined) {
+    return cached;
   }
+
+  let schema: any;
+
+  if (model instanceof JsonSchema) {
+    schema = model.toJSON(options);
+  } else {
+    const entity = getJsonEntityStore(model);
+
+    let mapper = "schema";
+    if (entity.is(DecoratorTypes.PARAM)) {
+      options = {
+        ...options,
+        root: true,
+        groups: entity.schema.getGroups()
+      };
+      mapper = "item";
+    }
+
+    schema = execMapper(mapper, [entity.schema], options);
+  }
+
+  if (Object.keys(getValue(options, "components.schemas", {})).length) {
+    schema.definitions = options.components.schemas;
+  }
+
+  if (!cache) {
+    // a nested compile() of the same model may have created it in the meantime
+    cache = CACHES.get(model) ?? new Map<string, any>();
+    CACHES.set(model, cache);
+  }
+
+  cache.set(key, options.inlineRefs ? inlineRefs(schema) : schema);
 
   return cache.get(key);
 }

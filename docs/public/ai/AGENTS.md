@@ -88,7 +88,7 @@ links:
 - swagger_openapi: https://tsed.dev/tutorials/swagger.md
 - testing: https://tsed.dev/docs/testing.md
 - best_practices: https://tsed.dev/introduction/cheat-sheet.md
-- cli: https://tsed.dev/docs/commands.md
+- cli: https://tsed.dev/docs/command.md
 - plugins list: https://api.tsed.dev/rest/warehouse
 
 ## Guardrails for AI

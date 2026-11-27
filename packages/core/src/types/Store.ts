@@ -32,22 +32,36 @@ export const PARAM_STORE = "tsed:param:store";
 
 const stores = new Map<symbol, Store>();
 
-function storeGet(key: string, ...args: any[]): Store {
-  if (isSymbol(args[0])) {
-    if (!stores.has(args[0])) {
-      stores.set(args[0], new Store());
+// named parameters instead of rest args, and one lookup when the store exists (the frequent case).
+// The class store is read without a property key argument, as before: the Metadata calls keep their arity
+function storeGet(key: string, target: any, propertyKey?: string | symbol): Store {
+  if (isSymbol(target)) {
+    let store = stores.get(target);
+
+    if (!store) {
+      store = new Store();
+      stores.set(target, store);
     }
 
-    return stores.get(args[0])!;
-  } else {
-    const registry = Metadata as any;
-
-    if (!registry.hasOwn(key, ...args)) {
-      registry.set(key, new Store(), ...args);
-    }
-
-    return registry.getOwn(key, ...args);
+    return store;
   }
+
+  const isClass = key === CLASS_STORE;
+  const existing = isClass ? Metadata.getOwn(key, target) : Metadata.getOwn(key, target, propertyKey);
+
+  if (existing !== undefined || (isClass ? Metadata.hasOwn(key, target) : Metadata.hasOwn(key, target, propertyKey))) {
+    return existing;
+  }
+
+  const store = new Store();
+
+  if (isClass) {
+    Metadata.set(key, store, target);
+  } else {
+    Metadata.set(key, store, target, propertyKey);
+  }
+
+  return store;
 }
 
 function defineStore(args: any[]): Store {
@@ -58,11 +72,13 @@ function defineStore(args: any[]): Store {
     case DecoratorTypes.PARAM_STC:
     case DecoratorTypes.PARAM:
       const store = storeGet(PARAM_STORE, target, propertyKey);
-      if (!store.has("" + descriptor)) {
-        store.set("" + descriptor, new Store());
+      const index = "" + descriptor;
+
+      if (!store.has(index)) {
+        store.set(index, new Store());
       }
 
-      return store.get("" + descriptor);
+      return store.get(index);
     case DecoratorTypes.PROP:
     case DecoratorTypes.PROP_STC:
       return storeGet(PROPERTY_STORE, target, propertyKey);
@@ -181,11 +197,8 @@ export class Store {
   }
 
   toJson() {
-    return [...this._entries.entries()].reduce((obj, [key, value]) => {
-      return {
-        ...obj,
-        [key]: value
-      };
-    }, {});
+    // Object.fromEntries() defines own properties, as the spread did (a "__proto__" key stays an own key),
+    // without copying the accumulated object for each entry
+    return Object.fromEntries(this._entries);
   }
 }

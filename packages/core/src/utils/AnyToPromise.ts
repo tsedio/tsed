@@ -71,8 +71,9 @@ export class AnyToPromise<T = any> {
 
   readonly #promise: Promise<AnyPromiseResult<T>>;
 
-  constructor({hasNextFunction = false}: {hasNextFunction?: boolean} = {}) {
-    this.#hasNextFunction = hasNextFunction;
+  // no destructuring default: subclasses call super() without options, once per request
+  constructor(options?: {hasNextFunction?: boolean}) {
+    this.#hasNextFunction = options?.hasNextFunction ?? false;
 
     this.#promise = new Promise((resolve: any, reject: any) => {
       this.#resolves = resolve;
@@ -176,19 +177,36 @@ export class AnyToPromise<T = any> {
       if (isStream(process)) {
         return this.resolve({...additionalProps, type: AnyToPromiseResponseTypes.STREAM, data: process});
       }
-      if (isStream(process) || Buffer.isBuffer(process)) {
+      if (Buffer.isBuffer(process)) {
         return this.resolve({...additionalProps, type: AnyToPromiseResponseTypes.BUFFER, data: process});
       }
 
       if (isPromise(process)) {
-        return process
-          .then((result: any) => this.handle(result, additionalProps))
-          .catch((error: any) => {
-            if (error.response && isResponse(error.response)) {
-              return this.handle(error.response);
-            }
-            return this.reject(error);
-          });
+        const onError = (error: any) => {
+          // a nullish reason has no response: reading error.response threw and the call never settled
+          if (error && error.response && isResponse(error.response)) {
+            return this.handle(error.response);
+          }
+
+          return this.reject(error);
+        };
+
+        // one then() instead of then().catch(): one promise less per async handler. onError must also
+        // receive what the removed catch() received: an error thrown while handling the value,
+        // and the rejection of a nested promise returned by handle()
+        return process.then((result: any) => {
+          let out: any;
+
+          try {
+            out = this.handle(result, additionalProps);
+          } catch (er) {
+            return onError(er);
+          }
+
+          // Promise.resolve() adopts a thenable as then() did with the returned value: its then() receives
+          // two functions. For a native promise, it returns the same promise
+          return out && typeof out.then === "function" ? Promise.resolve(out).then(undefined, onError) : out;
+        }, onError);
       }
     }
 

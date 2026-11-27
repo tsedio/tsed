@@ -1,0 +1,4 @@
+interface:
+  display_name: "Ts.ED Middlewares and Interceptors"
+  short_description: "Add middlewares, auth guards, interceptors and pipes"
+  default_prompt: "Use $tsed-middlewares to add a role-based @Auth decorator backed by a Ts.ED middleware."

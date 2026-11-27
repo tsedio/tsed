@@ -1,0 +1,4 @@
+interface:
+  display_name: "Ts.ED Controllers and Routing"
+  short_description: "Write Ts.ED controllers, routes, params and responses"
+  default_prompt: "Use $tsed-controllers to add a CRUD controller for products mounted on /rest."

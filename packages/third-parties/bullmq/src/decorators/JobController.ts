@@ -3,9 +3,9 @@ import {getFallbackJobToken, getJobToken} from "../utils/getJobToken.js";
 import {BULLMQ} from "../constants/constants.js";
 import {BullMQTypes} from "../constants/BullMQTypes.js";
 import {Injectable} from "@tsed/di";
-import {JobsOptions} from "bullmq";
+import type {JobOptions} from "../contracts/JobStore.js";
 
-export function JobController(name: string, queue: string = "default", opts: JobsOptions = {}) {
+export function JobController(name: string, queue: string = "default", opts: JobOptions = {}) {
   return useDecorators(
     StoreMerge(BULLMQ, {
       name,

@@ -34,9 +34,15 @@ export function isTemporal(target: any): boolean {
     return false;
   }
 
-  return TEMPORAL_TYPE_NAMES.some((name) => {
-    const ctor = Temporal[name] as (new (...args: any[]) => unknown) | undefined;
+  // plain loop instead of Array.some(): no closure per call. The constructors are read on each
+  // call, so a Temporal.* member replaced at runtime is taken into account.
+  for (let i = 0; i < TEMPORAL_TYPE_NAMES.length; i++) {
+    const ctor = Temporal[TEMPORAL_TYPE_NAMES[i]] as (new (...args: any[]) => unknown) | undefined;
 
-    return !!ctor && (target === ctor || target instanceof ctor);
-  });
+    if (ctor && (target === ctor || target instanceof ctor)) {
+      return true;
+    }
+  }
+
+  return false;
 }

@@ -1,6 +1,7 @@
-import {InterceptorMethods, InterceptorContext, InterceptorNext, Interceptor, Inject} from "@tsed/di";
-import {Logger} from "@tsed/logger";
 import {nameOf} from "@tsed/core";
+import {Controller, Inject, Intercept, Interceptor, InterceptorContext, InterceptorMethods, InterceptorNext} from "@tsed/di";
+import {Logger} from "@tsed/logger";
+import {Get} from "@tsed/schema";
 
 @Interceptor()
 export class FailSilently implements InterceptorMethods {
@@ -29,7 +30,7 @@ export class FailSilently implements InterceptorMethods {
 @Controller("/")
 class MyController {
   @Get("/")
-  @UseInterceptor(FailSilently)
+  @Intercept(FailSilently)
   async get() {
     throw new Error("test");
   }

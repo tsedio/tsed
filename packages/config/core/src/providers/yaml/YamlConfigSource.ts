@@ -1,20 +1,26 @@
 import type {ConfigSource, ConfigSourceOnChangeCB} from "../../interfaces/ConfigSource.js";
-import JsYaml, {type LoadOptions} from "js-yaml";
-import {existsSync, watch} from "node:fs";
+import {load, type LoadOptions} from "js-yaml";
+import {existsSync, readFileSync, watch} from "node:fs";
 import {logger} from "@tsed/di";
 
 export interface YamlConfigSourceOptions extends LoadOptions {
   /**
-   * The path to the JSON file.
+   * The path to the YAML file.
    */
   path: string;
+
+  /**
+   * The encoding to use when reading the file.
+   * @default "utf8"
+   */
+  encoding?: BufferEncoding;
 }
 
 export class YamlConfigSource implements ConfigSource<YamlConfigSourceOptions> {
   options!: YamlConfigSourceOptions;
 
   async getAll() {
-    const {path, ...opts} = this.options;
+    const {path, encoding = "utf8", ...opts} = this.options;
 
     // Check if the file exists
     if (!existsSync(path)) {
@@ -23,7 +29,14 @@ export class YamlConfigSource implements ConfigSource<YamlConfigSourceOptions> {
     }
 
     // Read the file
-    return (await JsYaml.load(path, opts)) as Record<string, unknown>;
+    const fileContent = readFileSync(path, encoding);
+
+    // js-yaml v5 throws on a document without content (empty file, comments only)
+    if (!fileContent.replace(/^\s*(#.*)?$/gm, "").trim()) {
+      return {};
+    }
+
+    return ((await load(fileContent, opts)) || {}) as Record<string, unknown>;
   }
 
   watch(onChange: ConfigSourceOnChangeCB) {

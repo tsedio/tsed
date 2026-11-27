@@ -1,0 +1,4 @@
+interface:
+  display_name: "Ts.ED Exceptions and Response Filters"
+  short_description: "Handle errors and shape responses in Ts.ED"
+  default_prompt: "Use $tsed-exceptions to add a problem-details error payload and a custom 404 response."

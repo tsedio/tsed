@@ -11,6 +11,8 @@ export interface DIContextOptions extends Omit<ContextLoggerOptions, "dateStart"
   platform?: string;
 }
 
+const RESOLVED = Promise.resolve();
+
 /**
  * Execution context for dependency injection operations.
  *
@@ -101,7 +103,10 @@ export class DIContext {
   }
 
   destroy(): Promise<any> {
-    return Promise.all([this.#container?.destroy(), this.#logger?.flush(true)]);
+    const destroyed = this.#container?.destroy();
+    this.#logger?.flush(true);
+
+    return destroyed || RESOLVED;
   }
 
   cache<Value = any>(key: string, cb: () => Value): Value {

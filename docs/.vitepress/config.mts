@@ -26,9 +26,11 @@ const Introduction = [
       {text: "What is Ts.ED?", link: "/introduction/what-is-tsed"},
       {text: "What's new in v8?", link: "/introduction/what-is-news-v8"},
       {text: "Capabilities", link: "/introduction/capabilities"},
+      {text: "Benchmarks", link: "/benchmarks/"},
       {text: "Installation", link: "/introduction/getting-started"},
       {text: "Create your first controller", link: "/introduction/create-your-first-controller"},
       {text: "Develop with AI", link: "/introduction/ai/develop-with-ai"},
+      {text: "Agent plugins & skills", link: "/introduction/ai/agent-plugins"},
       {
         text: "Cheat sheet",
         link: "/introduction/cheat-sheet"
@@ -54,7 +56,8 @@ const Docs = [
       {text: "Server options", link: "/docs/configuration/server-options"},
       {text: "Express.js", link: "/docs/configuration/express"},
       {text: "Koa.js", link: "/docs/configuration/koa"},
-      {text: "Fastify.js", link: "/docs/configuration/fastify"}
+      {text: "Fastify.js", link: "/docs/configuration/fastify"},
+      {text: "fulmine.js", link: "/docs/configuration/fulmine"}
     ]
   },
   {
@@ -492,6 +495,8 @@ export default defineConfig({
     apiRedirectUrl: "",
     repo: "tsedio/tsed",
     githubProxyUrl: "https://api.tsed.dev/rest/github/tsedio/tsed",
+    // latest release benchmarked against the reference version (docs/benchmarks)
+    benchmarksUrl: process.env.BENCHMARKS_URL || "https://api.tsed.dev/rest/benchmarks",
     editLink: {
       pattern: "https://github.com/tsedio/tsed/edit/production/docs/:path"
     },

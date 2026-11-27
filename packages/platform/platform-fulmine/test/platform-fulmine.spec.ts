@@ -1,0 +1,106 @@
+import {Server, rootDir} from "./app/Server.js";
+import {PlatformFulmine} from "../src/components/PlatformFulmine.js";
+import {PlatformTestSdk} from "@tsed/platform-test-sdk";
+
+const utils = PlatformTestSdk.create({
+  rootDir,
+  adapter: PlatformFulmine as any,
+  server: Server,
+  logger: {
+    level: "off"
+  },
+  express: {
+    version: "v5"
+  }
+});
+
+describe("PlatformFulmine", () => {
+  describe("Handlers", () => {
+    utils.test("handlers");
+  });
+  describe("Children controllers", () => {
+    utils.test("childrenControllers");
+  });
+  describe("Inheritance controllers", () => {
+    utils.test("inheritanceController");
+  });
+  describe("Response", () => {
+    utils.test("response");
+  });
+  describe("Stream", () => {
+    utils.test("stream");
+  });
+  describe("Middlewares", () => {
+    utils.test("middlewares");
+  });
+  describe("Scope Request", () => {
+    utils.test("scopeRequest");
+  });
+  describe("Headers", () => {
+    utils.test("headers");
+  });
+  describe("AcceptMime", () => {
+    utils.test("acceptMime");
+  });
+  describe("HeaderParams", () => {
+    utils.test("headerParams");
+  });
+  describe("PathParams", () => {
+    utils.test("pathParams");
+  });
+  describe("QueryParams", () => {
+    utils.test("queryParams");
+  });
+  describe("BodyParams", () => {
+    utils.test("bodyParams");
+  });
+  describe("Cookies", () => {
+    utils.test("cookies");
+  });
+  describe("Session", () => {
+    utils.test("session", {PLATFORM_NAME: "express"});
+  });
+  describe("Location", () => {
+    utils.test("location");
+  });
+  describe("Redirect", () => {
+    utils.test("redirect");
+  });
+  describe("Errors", () => {
+    utils.test("errors");
+  });
+  describe("ResponseFilters", () => {
+    utils.test("responseFilter");
+  });
+  describe("Routing", () => {
+    utils.test("routing");
+  });
+  describe("Locals", () => {
+    utils.test("locals");
+  });
+  describe("Auth", () => {
+    utils.test("auth");
+  });
+  describe("Module", () => {
+    utils.test("module");
+  });
+  describe("Cache", () => {
+    utils.test("cache");
+  });
+  // EXTRA
+  describe("Plugin: View", () => {
+    utils.test("view");
+  });
+  describe("Plugin: Statics files", () => {
+    utils.test("statics");
+  });
+  describe("Plugin: Multer", () => {
+    utils.test("multer");
+  });
+  describe("Plugin: DeepQueryParams", () => {
+    utils.test("deepQueryParams");
+  });
+  describe("Plugin: Custom404", () => {
+    utils.test("custom404");
+  });
+});

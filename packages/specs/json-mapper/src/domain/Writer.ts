@@ -29,6 +29,14 @@ export class Writer {
     return `execMapper(nameOf(classOf(${key})), ${key}, ${options})`;
   }
 
+  /**
+   * Condition true when `key` is none of the given values. It compares the key to each value instead of
+   * calling `[...].includes(key)`, which allocates an array for every key it checks.
+   */
+  static notOneOf(key: string, values: Iterable<string>) {
+    return Array.from(values, (value) => `${key} !== '${value}'`).join(" && ");
+  }
+
   static options(...args: string[]) {
     args = args.filter(Boolean);
     return !args.length ? "options" : Writer.object.assign("...options", ...args);

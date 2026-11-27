@@ -58,7 +58,8 @@ By convention
 You can subscribe to a hook in your Server:
 
 ```typescript
-import {BeforeInit, Configuration} from "@tsed/di";
+import {Configuration} from "@tsed/di";
+import type {BeforeInit} from "@tsed/platform-http";
 
 @Configuration({})
 class Server implements BeforeInit {
@@ -173,7 +174,8 @@ parameter and return a new value which will be passed to the next provider.
 
 ```ts
 // module-emitter
-import {inject, Module, $alterAsync} from "@tsed/di";
+import {Module} from "@tsed/di";
+import {$asyncAlter} from "@tsed/hooks";
 
 export interface AlterEvent {
   $alterEvent(value: string): Promise<string>;
@@ -183,7 +185,7 @@ export interface AlterEvent {
 export class ModuleEmitter {
   async initSomething() {
     // do something before
-    const value = $alterAsync("$alterEvent", "hello"); // alterAsync and alter accept extra parameters forwarded to subscribers
+    const value = await $asyncAlter("$alterEvent", "hello"); // $asyncAlter and $alter accept extra parameters forwarded to subscribers
 
     console.log(value); // "hello-world"
     // do something after
@@ -358,7 +360,8 @@ $on("$onResponse", ($ctx: PlatformContext) => {
 The `$onReady` hook is called when the server is ready to accept incoming requests.
 
 ```typescript
-import {Module, OnReady, Inject} from "@tsed/di";
+import {Module, Inject} from "@tsed/di";
+import type {OnReady} from "@tsed/platform-http";
 
 @Module()
 export class MyModule implements OnReady {
