@@ -174,7 +174,7 @@ export class RouteMatcher<T> {
 
           // Only the trailing slash is left: a wildcard captures it (`/files//` gives `/`).
           if (end !== length) {
-            const wildcard = node.wildcard;
+            const wildcard: RouteNode<T> | null = node.wildcard;
 
             if (wildcard !== null && wildcard.min < bestOrder) {
               cur = wildcard;

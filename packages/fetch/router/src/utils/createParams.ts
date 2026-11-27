@@ -15,7 +15,15 @@ export function createParams(
   const params: Record<string, string> = {};
 
   for (let i = 0; i < names.length; i++) {
-    params[names[i]] = (i === 0 ? p0 : i === 1 ? p1 : i === 2 ? p2 : i === 3 ? p3 : extra![i - 4])!;
+    const name = names[i];
+    const value = (i === 0 ? p0 : i === 1 ? p1 : i === 2 ? p2 : i === 3 ? p3 : extra![i - 4])!;
+
+    if (name === "__proto__") {
+      // A plain assignment would call the inherited `__proto__` setter instead of creating the param.
+      Object.defineProperty(params, name, {value, enumerable: true, writable: true, configurable: true});
+    } else {
+      params[name] = value;
+    }
   }
 
   return params;

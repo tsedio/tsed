@@ -36,8 +36,8 @@ export const getUser = defineEndpoint({
       schema: s.object({id: s.string().required()})
     }
   },
-  handler({request, params, query}) {
-    return Response.json({id: params.id, include: query.include, url: request.url});
+  handler({request}) {
+    return Response.json({id: request.params.id, include: request.query.include, url: request.url});
   }
 });
 

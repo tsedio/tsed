@@ -48,9 +48,19 @@ export class FetchResponse {
     return this;
   }
 
-  /** Sets several HTTP response headers. */
+  /**
+   * Sets several HTTP response headers, replacing the existing values of each
+   * given name. Every `Set-Cookie` value is kept.
+   */
   setHeaders(headers: HeadersInit): this {
-    new Headers(headers).forEach((value, name) => this.#headers.set(name, value));
+    const incoming = new Headers(headers);
+
+    incoming.forEach((_, name) => this.#headers.delete(name));
+
+    for (const [name, value] of incoming) {
+      this.#headers.append(name, value);
+    }
+
     return this;
   }
 
@@ -71,7 +81,7 @@ export class FetchResponse {
    */
   toResponseInit(): ResponseInit {
     return {
-      headers: this.#headers,
+      headers: new Headers(this.#headers),
       ...(this.#status === undefined ? {} : {status: this.#status}),
       ...(this.#statusText === undefined ? {} : {statusText: this.#statusText})
     };

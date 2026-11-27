@@ -23,4 +23,13 @@ describe("createParams", () => {
   it("should only use the values matching the names", () => {
     expect(createParams(["a"], "1", "stale", "stale", "stale", null)).toEqual({a: "1"});
   });
+
+  it("should keep a param named __proto__ as an own property", () => {
+    const params = createParams(["__proto__", "id"], "value", "1", undefined, undefined, null);
+
+    expect(Object.hasOwn(params, "__proto__")).toBe(true);
+    expect(params.__proto__).toBe("value");
+    expect(params.id).toBe("1");
+    expect(Object.getPrototypeOf(params)).toBe(Object.prototype);
+  });
 });

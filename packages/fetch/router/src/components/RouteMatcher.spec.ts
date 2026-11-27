@@ -54,6 +54,14 @@ describe("RouteMatcher", () => {
     expect(matcher.match("GET", "/a//b")).toEqual({value: "all", route: "/*", params: {"*": "a//b"}});
   });
 
+  it("should register duplicated slashes of a pattern as distinct routes, like Express 5", () => {
+    const matcher = new RouteMatcher<string>().add("GET", "/a//b", "double").add("GET", "/a/b", "single");
+
+    expect(matcher.match("GET", "/a//b")?.value).toBe("double");
+    expect(matcher.match("GET", "/a//b/")?.value).toBe("double");
+    expect(matcher.match("GET", "/a/b")?.value).toBe("single");
+  });
+
   it("should keep a trailing slash in a wildcard value, like Express 5", () => {
     const matcher = new RouteMatcher<string>().add("GET", "/files/:path*", "files").add("GET", "/static/*", "static");
 
