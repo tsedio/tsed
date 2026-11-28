@@ -4,7 +4,7 @@ import type {Ttl} from "../services/PlatformCache.js";
 
 export interface PlatformCacheOptions extends MetadataTypes {
   /**
-   * key expiration ttl in seconds.
+   * key expiration ttl in milliseconds.
    */
   ttl?: Ttl;
   /**
@@ -16,7 +16,7 @@ export interface PlatformCacheOptions extends MetadataTypes {
    */
   key?: string | ((args: any[], ctx?: BaseContext) => string);
   /**
-   * threshold to refresh the cache.
+   * threshold to refresh the cache in milliseconds.
    */
   refreshThreshold?: number;
   /**
