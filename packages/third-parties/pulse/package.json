@@ -43,7 +43,7 @@
     "@types/compression": "1.7.5",
     "@types/cookie-parser": "1.4.7",
     "@types/method-override": "0.0.35",
-    "body-parser": "2.2.1",
+    "body-parser": "2.4.0",
     "compression": "1.8.0",
     "cookie-parser": "1.4.7",
     "method-override": "3.0.0",

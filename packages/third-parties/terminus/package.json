@@ -40,7 +40,7 @@
     "@types/body-parser": "1.19.5",
     "@types/cookie-parser": "1.4.7",
     "@types/express": "^5.0.6",
-    "body-parser": "2.2.1",
+    "body-parser": "2.4.0",
     "cookie-parser": "1.4.7",
     "express": "5.2.1",
     "typescript": "6.0.2",
