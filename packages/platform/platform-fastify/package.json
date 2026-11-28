@@ -81,7 +81,7 @@
     "@tsed/schema": "workspace:*",
     "@types/content-disposition": "^0.5.4",
     "cross-env": "7.0.3",
-    "fastify": "5.8.3",
+    "fastify": "5.12.1",
     "fastify-raw-body": "5.0.0",
     "supertest": "7.0.0",
     "ts-node": "10.9.2",
