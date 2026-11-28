@@ -27,6 +27,9 @@ describe("PlatformKoa integration", () => {
   describe("Middlewares", () => {
     utils.test("middlewares");
   });
+  describe("Request pipeline", () => {
+    utils.test("requestPipeline");
+  });
   describe("Scope Request", () => {
     utils.test("scopeRequest");
   });

@@ -2,8 +2,8 @@ import "@tsed/platform-multer/fastify";
 import * as Http from "node:http";
 import {IncomingMessage, ServerResponse} from "node:http";
 import * as Https from "node:https";
-import {$alter, $asyncEmit, hooks} from "@tsed/hooks";
-import {type Env, isFunction, isString, ReturnHostInfoFromPort, Type} from "@tsed/core";
+import {$alter, $asyncEmit} from "@tsed/hooks";
+import {chain, type Env, isFunction, type MaybePromise, isPromise, isString, ReturnHostInfoFromPort, Type} from "@tsed/core";
 import Fastify, {FastifyInstance, FastifyReply, FastifyRequest} from "fastify";
 import {
   adapter,
@@ -53,6 +53,51 @@ function finishContext(this: ServerResponse) {
   req.$ctx = undefined;
 
   $ctx.finish().catch((error) => logger().error({event: "FINISH_ERROR", reqId: $ctx.id, error}));
+}
+
+function isRunnable(metadata: PlatformHandlerMetadata, $ctx: PlatformContext) {
+  return (
+    ($ctx.error && metadata.type === PlatformHandlerType.ERR_MIDDLEWARE) ||
+    (!$ctx.error && metadata.type !== PlatformHandlerType.ERR_MIDDLEWARE)
+  );
+}
+
+/**
+ * Run the handlers of a route from `index`, in the same tick while they return a plain value. At the first handler
+ * returning a promise, the rest of the handlers runs once it settles.
+ */
+function runHandlers(handlers: PlatformHandlerMetadata[], $ctx: PlatformContext, index: number): MaybePromise<void> {
+  for (let i = index; i < handlers.length; i++) {
+    const metadata = handlers[i];
+
+    try {
+      if (!$ctx.isDone() && isRunnable(metadata, $ctx)) {
+        const result = metadata.compiledHandler($ctx);
+
+        if (isPromise(result)) {
+          return result.then(
+            () => runHandlers(handlers, $ctx, i + 1),
+            (er) => {
+              $ctx.error = er;
+
+              return runHandlers(handlers, $ctx, i + 1);
+            }
+          );
+        }
+      }
+    } catch (er) {
+      $ctx.error = er;
+    }
+  }
+}
+
+function endRoute($ctx: PlatformContext) {
+  if ($ctx.error) {
+    // TODO maybe we can use platform exception here?
+    throw $ctx.error;
+  }
+
+  return $ctx.response.raw;
 }
 
 function callNext(next: any, metadata: PlatformHandlerMetadata, $ctx: PlatformContext) {
@@ -134,31 +179,49 @@ export class PlatformFastify extends PlatformAdapter<FastifyInstance> {
       return handler;
     }
 
+    // done is called in the same tick when the handler is synchronous. An error is returned as a rejected promise.
+    const run = ($ctx: PlatformContext, then: (result: unknown) => unknown) => {
+      let result: unknown;
+
+      try {
+        result = runInContext($ctx, () => handler($ctx));
+      } catch (er) {
+        return Promise.reject(er);
+      }
+
+      return isPromise(result) ? result.then(then) : then(result);
+    };
+
     switch (metadata.type) {
       case PlatformHandlerType.MIDDLEWARE:
-        return async (request: IncomingMessage, _: ServerResponse, done: (err?: any) => void) => {
+        return (request: IncomingMessage, _: ServerResponse, done: (err?: any) => void) => {
           const {$ctx} = request;
 
           $ctx.next = done;
 
-          const result = await runInContext($ctx, () => handler($ctx));
+          // middie ignores the returned value: a failure has to go through done(error)
+          const result = run($ctx, (result) => {
+            callNext(done, metadata, $ctx);
 
-          callNext(done, metadata, $ctx);
+            return result;
+          });
 
-          return result;
+          if (isPromise(result)) {
+            result.catch(done);
+          }
         };
 
       default:
-        return async (request: FastifyRequest, _: FastifyReply, done: (err?: any) => void) => {
+        return (request: FastifyRequest, _: FastifyReply, done: (err?: any) => void) => {
           const {$ctx} = request;
 
           $ctx.next = done;
 
-          await runInContext($ctx, () => handler($ctx));
-
-          if (metadata.type === PlatformHandlerType.CTX_FN) {
-            done();
-          }
+          return run($ctx, () => {
+            if (metadata.type === PlatformHandlerType.CTX_FN) {
+              done();
+            }
+          });
         };
     }
   }
@@ -182,11 +245,11 @@ export class PlatformFastify extends PlatformAdapter<FastifyInstance> {
       reply.raw.on("finish", finishContext);
       reply.raw.on("error", finishContext);
 
-      if (!hooks.has("$onRequest")) {
-        return done();
-      }
+      // done() is called in the same tick when no $onRequest listener has to be awaited. The promise is not
+      // returned: Fastify would also treat this callback hook as an async one.
+      const next = done as (err?: unknown) => void;
 
-      $ctx.start().then(() => done(), done);
+      chain($ctx.start(), next, next);
     });
 
     await rawApp.register(fastifyMiddie, {
@@ -317,31 +380,21 @@ export class PlatformFastify extends PlatformAdapter<FastifyInstance> {
         params[wildcard] = params["*"];
       }
 
-      return runInContext(req.$ctx, async () => {
+      return runInContext(req.$ctx, () => {
         const $ctx = req.$ctx;
         $ctx.next = null;
 
-        for (const metadata of layer.handlers) {
-          try {
-            if (!req.$ctx.isDone()) {
-              if (
-                ($ctx.error && metadata.type === PlatformHandlerType.ERR_MIDDLEWARE) ||
-                (!$ctx.error && metadata.type !== PlatformHandlerType.ERR_MIDDLEWARE)
-              ) {
-                await metadata.compiledHandler($ctx);
-              }
-            }
-          } catch (er) {
-            $ctx.error = er;
-          }
+        const result = runHandlers(layer.handlers, $ctx, 0);
+
+        if (isPromise(result)) {
+          return result.then(() => endRoute($ctx));
         }
 
-        if (req.$ctx.error) {
-          // TODO maybe we can use platform exception here?
-          throw req.$ctx.error;
-        }
+        const raw = endRoute($ctx);
 
-        return $ctx.response.raw;
+        // returning undefined once the reply is sent keeps Fastify off its promise path. A reply still in flight
+        // (e.g. an async onSend hook) is returned in a promise, as before.
+        return raw.sent ? undefined : Promise.resolve(raw);
       });
     };
   }

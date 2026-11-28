@@ -44,43 +44,38 @@ describe("createContext", () => {
   it("should create context and attach it to the request", async () => {
     // GIVEN
     const {injector, ctx, call} = await createContextFixture();
+    const ref = {};
 
     vi.mocked($asyncEmit).mockResolvedValue(undefined);
     vi.spyOn(injector.logger, "info").mockReturnValue(undefined);
+    $on("$onRequest", ref, () => {});
 
     // WHEN
-    await call();
+    try {
+      await call();
+    } finally {
+      $off(ref as any);
+    }
 
     // THEN
     expect($asyncEmit).toHaveBeenCalledWith("$onRequest", [ctx]);
 
-    const ref = {};
-    $on("$onResponse", ref, () => {});
-
-    try {
-      await vi.mocked(ctx.response.getRes().on).mock.calls[0][1](ctx);
-    } finally {
-      $off(ref as any);
-    }
+    await vi.mocked(ctx.response.getRes().on).mock.calls[0][1](ctx);
 
     expect($asyncEmit).toHaveBeenCalledWith("$onResponse", [ctx]);
     expect(ctx.isFinished()).toEqual(true);
   });
 
-  it("should finish the context without emitting $onResponse when nobody listens to it", async () => {
+  it("should start the context without a promise when nobody listens to $onRequest", async () => {
     // GIVEN
-    const {injector, ctx, call} = await createContextFixture();
-
-    vi.mocked($asyncEmit).mockResolvedValue(undefined);
-    vi.spyOn(injector.logger, "info").mockReturnValue(undefined);
+    const {ctx} = await createContextFixture();
 
     // WHEN
-    await call();
-    await vi.mocked(ctx.response.getRes().on).mock.calls[0][1](ctx);
+    const result = ctx.start();
 
     // THEN
-    expect($asyncEmit).not.toHaveBeenCalledWith("$onResponse", expect.anything());
-    expect(ctx.isFinished()).toEqual(true);
+    expect(result).toBeUndefined();
+    expect($asyncEmit).not.toHaveBeenCalledWith("$onRequest", expect.anything());
   });
 
   it("should ignore logs", async () => {

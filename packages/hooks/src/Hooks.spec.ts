@@ -242,6 +242,45 @@ describe("Hooks", () => {
       expect(lengths).toEqual([0, 0, 0]);
     });
   });
+  describe("without listener", () => {
+    it("should resolve asyncEmit() when no listener was ever registered", async () => {
+      const hooks = new Hooks();
+
+      const result = hooks.asyncEmit("event", ["arg"]);
+
+      expect(result).toBeInstanceOf(Promise);
+      expect(await result).toBeUndefined();
+    });
+
+    it("should resolve asyncEmit() in one tick when the event has no listener", async () => {
+      const hooks = new Hooks();
+      hooks.on("other", () => {});
+      let ticks = 0;
+      let done = false;
+
+      hooks.asyncEmit("event").then(() => {
+        done = true;
+      });
+
+      while (!done) {
+        ticks++;
+        await null;
+      }
+
+      expect(ticks).toEqual(1);
+    });
+
+    it("should resolve asyncAlter() with the value as is when no listener was ever registered", async () => {
+      const hooks = new Hooks();
+      const value = {id: "1"};
+
+      const result = hooks.asyncAlter("event", value);
+
+      expect(result).toBeInstanceOf(Promise);
+      expect(await result).toBe(value);
+    });
+  });
+
   describe("asyncEmit() listeners", () => {
     it("should call sync listeners and wait for async listeners and thenables", async () => {
       const hooks = new Hooks();
