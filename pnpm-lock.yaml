@@ -361,7 +361,7 @@ importers:
         version: 2.30.1
       mongoose:
         specifier: ^8.7.0
-        version: 8.24.1(snappy@7.3.3(@emnapi/core@1.10.0)(@emnapi/runtime@1.10.0))(socks@2.8.7)(supports-color@8.1.1)
+        version: 8.24.7(snappy@7.3.3(@emnapi/core@1.10.0)(@emnapi/runtime@1.10.0))(socks@2.8.7)(supports-color@8.1.1)
       oxfmt:
         specifier: 0.59.0
         version: 0.59.0
@@ -1387,8 +1387,8 @@ importers:
         specifier: 3.0.0
         version: 3.0.0(supports-color@8.1.1)
       mongoose:
-        specifier: 8.9.5
-        version: 8.9.5(snappy@7.3.3(@emnapi/core@1.10.0)(@emnapi/runtime@1.10.0))(socks@2.8.7)(supports-color@8.1.1)
+        specifier: 8.24.7
+        version: 8.24.7(snappy@7.3.3(@emnapi/core@1.10.0)(@emnapi/runtime@1.10.0))(socks@2.8.7)(supports-color@8.1.1)
       supertest:
         specifier: 7.0.0
         version: 7.0.0(supports-color@8.1.1)
@@ -3788,8 +3788,8 @@ importers:
         specifier: 6.9.0
         version: 6.9.0(snappy@7.3.3(@emnapi/core@1.10.0)(@emnapi/runtime@1.10.0))(socks@2.8.7)
       mongoose:
-        specifier: 8.9.5
-        version: 8.9.5(snappy@7.3.3(@emnapi/core@1.10.0)(@emnapi/runtime@1.10.0))(socks@2.8.7)(supports-color@8.1.1)
+        specifier: 8.24.7
+        version: 8.24.7(snappy@7.3.3(@emnapi/core@1.10.0)(@emnapi/runtime@1.10.0))(socks@2.8.7)(supports-color@8.1.1)
       testcontainers:
         specifier: '>=10.11.0'
         version: 11.14.0(supports-color@8.1.1)
@@ -4196,8 +4196,8 @@ importers:
         specifier: ^6.9.0
         version: 6.21.0(snappy@7.3.3(@emnapi/core@1.10.0)(@emnapi/runtime@1.10.0))(socks@2.8.7)
       mongoose:
-        specifier: 8.9.5
-        version: 8.9.5(snappy@7.3.3(@emnapi/core@1.10.0)(@emnapi/runtime@1.10.0))(socks@2.8.7)(supports-color@8.1.1)
+        specifier: 8.24.7
+        version: 8.24.7(snappy@7.3.3(@emnapi/core@1.10.0)(@emnapi/runtime@1.10.0))(socks@2.8.7)(supports-color@8.1.1)
       typescript:
         specifier: 6.0.2
         version: 6.0.2
@@ -15961,33 +15961,6 @@ packages:
   mongodb-connection-string-url@3.0.2:
     resolution: {integrity: sha512-rMO7CGo/9BFwyZABcKAWL8UJwH/Kc2x0g72uhDWzG48URRax5TCIcJ7Rc3RZqffZzO/Gwff/jyKwCU9TN8gehA==}
 
-  mongodb@6.12.0:
-    resolution: {integrity: sha512-RM7AHlvYfS7jv7+BXund/kR64DryVI+cHbVAy9P61fnb1RcWZqOW1/Wj2YhqMCx+MuYhqTRGv7AwHBzmsCKBfA==}
-    engines: {node: '>=16.20.1'}
-    peerDependencies:
-      '@aws-sdk/credential-providers': ^3.188.0
-      '@mongodb-js/zstd': ^1.1.0 || ^2.0.0
-      gcp-metadata: ^5.2.0
-      kerberos: ^2.0.1
-      mongodb-client-encryption: '>=6.0.0 <7'
-      snappy: ^7.2.2
-      socks: ^2.7.1
-    peerDependenciesMeta:
-      '@aws-sdk/credential-providers':
-        optional: true
-      '@mongodb-js/zstd':
-        optional: true
-      gcp-metadata:
-        optional: true
-      kerberos:
-        optional: true
-      mongodb-client-encryption:
-        optional: true
-      snappy:
-        optional: true
-      socks:
-        optional: true
-
   mongodb@6.20.0:
     resolution: {integrity: sha512-Tl6MEIU3K4Rq3TSHd+sZQqRBoGlFsOgNrH5ltAcFBV62Re3Fd+FcaVf8uSEQFOJ51SDowDVttBTONMfoYWrWlQ==}
     engines: {node: '>=16.20.1'}
@@ -16096,12 +16069,8 @@ packages:
       socks:
         optional: true
 
-  mongoose@8.24.1:
-    resolution: {integrity: sha512-UpHBA0l5kHyKJQFjmBaFYQFo5sgz1DK0TRqDkOyBLYbqiIbKKhIvBpHWBXqeo0rgW4kGI1UhhAw+kTQZoj1BdA==}
-    engines: {node: '>=16.20.1'}
-
-  mongoose@8.9.5:
-    resolution: {integrity: sha512-SPhOrgBm0nKV3b+IIHGqpUTOmgVL5Z3OO9AwkFEmvOZznXTvplbomstCnPOGAyungtRXE5pJTgKpKcZTdjeESg==}
+  mongoose@8.24.7:
+    resolution: {integrity: sha512-+hrEOLpLGPgOt7S/UrcBAKZ4gvB6+5qf16jspWH5xQ8WtQu9lRTzcqy04ZNQrlIox4Pl6Nh2RzlNDPSOFw9rng==}
     engines: {node: '>=16.20.1'}
 
   mote@0.2.0:
@@ -16111,8 +16080,8 @@ packages:
     resolution: {integrity: sha512-ikJRQTk8hw5DEoFVxHG1Gn9T/xcjtdnOKIU1JTmGjZZlg9LST2mBLmcX3/ICIbgJydT2GOc15RnNy5mHmzfSew==}
     engines: {node: '>=4.0.0'}
 
-  mquery@5.0.0:
-    resolution: {integrity: sha512-iQMncpmEK8R8ncT8HJGsGc9Dsp8xcgYMVSbs5jgnm1lFHTZqMJTUWTDx1LBO8+mK3tPNZWFLBghQEIOULSTHZg==}
+  mquery@5.0.1:
+    resolution: {integrity: sha512-C99lWV0TFI34pS008jBsi3JrE2xZPnTgUw5yApQR71nRP0hxLy8D5m1Lbbk83c8AQWJwdJ0329HzFtZ1MRTUIw==}
     engines: {node: '>=14.0.0'}
 
   mri@1.1.4:
@@ -31062,14 +31031,14 @@ snapshots:
       moment: 2.30.1
       moment-timezone: 0.5.48
       mongodb: 6.21.0(snappy@7.3.3(@emnapi/core@1.10.0)(@emnapi/runtime@1.10.0))(socks@2.8.7)
-      mongoose: 8.24.1(snappy@7.3.3(@emnapi/core@1.10.0)(@emnapi/runtime@1.10.0))(socks@2.8.7)(supports-color@8.1.1)
+      mongoose: 8.24.7(snappy@7.3.3(@emnapi/core@1.10.0)(@emnapi/runtime@1.10.0))(socks@2.8.7)(supports-color@8.1.1)
       nanoid: 3.3.16
       nodemailer: 8.0.11
       nunjucks: 3.2.4(chokidar@3.6.0)
       progress: 2.0.3
       q: 1.5.1
       resolve: 1.22.11
-      resourcejs: 2.6.1(express@4.22.2(supports-color@8.1.1))(mongoose@8.24.1(snappy@7.3.3(@emnapi/core@1.10.0)(@emnapi/runtime@1.10.0))(socks@2.8.7)(supports-color@8.1.1))(snappy@7.3.3(@emnapi/core@1.10.0)(@emnapi/runtime@1.10.0))(socks@2.8.7)(supports-color@8.1.1)
+      resourcejs: 2.6.1(express@4.22.2(supports-color@8.1.1))(mongoose@8.24.7(snappy@7.3.3(@emnapi/core@1.10.0)(@emnapi/runtime@1.10.0))(socks@2.8.7)(supports-color@8.1.1))(snappy@7.3.3(@emnapi/core@1.10.0)(@emnapi/runtime@1.10.0))(socks@2.8.7)(supports-color@8.1.1)
       semver: 7.8.5
       superagent-retry: 0.6.0(superagent@9.0.2(supports-color@8.1.1))
       through: 2.3.8
@@ -33868,15 +33837,6 @@ snapshots:
       '@types/whatwg-url': 11.0.4
       whatwg-url: 14.2.0
 
-  mongodb@6.12.0(snappy@7.3.3(@emnapi/core@1.10.0)(@emnapi/runtime@1.10.0))(socks@2.8.7):
-    dependencies:
-      '@mongodb-js/saslprep': 1.4.11
-      bson: 6.10.4
-      mongodb-connection-string-url: 3.0.2
-    optionalDependencies:
-      snappy: 7.3.3(@emnapi/core@1.10.0)(@emnapi/runtime@1.10.0)
-      socks: 2.8.7
-
   mongodb@6.20.0(snappy@7.3.3(@emnapi/core@1.10.0)(@emnapi/runtime@1.10.0))(socks@2.8.7):
     dependencies:
       '@mongodb-js/saslprep': 1.4.11
@@ -33913,32 +33873,13 @@ snapshots:
       snappy: 7.3.3(@emnapi/core@1.10.0)(@emnapi/runtime@1.10.0)
       socks: 2.8.7
 
-  mongoose@8.24.1(snappy@7.3.3(@emnapi/core@1.10.0)(@emnapi/runtime@1.10.0))(socks@2.8.7)(supports-color@8.1.1):
+  mongoose@8.24.7(snappy@7.3.3(@emnapi/core@1.10.0)(@emnapi/runtime@1.10.0))(socks@2.8.7)(supports-color@8.1.1):
     dependencies:
       bson: 6.10.4
       kareem: 2.6.3
       mongodb: 6.20.0(snappy@7.3.3(@emnapi/core@1.10.0)(@emnapi/runtime@1.10.0))(socks@2.8.7)
       mpath: 0.9.0
-      mquery: 5.0.0(supports-color@8.1.1)
-      ms: 2.1.3
-      sift: 17.1.3
-    transitivePeerDependencies:
-      - '@aws-sdk/credential-providers'
-      - '@mongodb-js/zstd'
-      - gcp-metadata
-      - kerberos
-      - mongodb-client-encryption
-      - snappy
-      - socks
-      - supports-color
-
-  mongoose@8.9.5(snappy@7.3.3(@emnapi/core@1.10.0)(@emnapi/runtime@1.10.0))(socks@2.8.7)(supports-color@8.1.1):
-    dependencies:
-      bson: 6.10.4
-      kareem: 2.6.3
-      mongodb: 6.12.0(snappy@7.3.3(@emnapi/core@1.10.0)(@emnapi/runtime@1.10.0))(socks@2.8.7)
-      mpath: 0.9.0
-      mquery: 5.0.0(supports-color@8.1.1)
+      mquery: 5.0.1(supports-color@8.1.1)
       ms: 2.1.3
       sift: 17.1.3
     transitivePeerDependencies:
@@ -33955,7 +33896,7 @@ snapshots:
 
   mpath@0.9.0: {}
 
-  mquery@5.0.0(supports-color@8.1.1):
+  mquery@5.0.1(supports-color@8.1.1):
     dependencies:
       debug: 4.4.3(supports-color@8.1.1)
     transitivePeerDependencies:
@@ -36165,14 +36106,14 @@ snapshots:
       path-parse: 1.0.7
       supports-preserve-symlinks-flag: 1.0.0
 
-  resourcejs@2.6.1(express@4.22.2(supports-color@8.1.1))(mongoose@8.24.1(snappy@7.3.3(@emnapi/core@1.10.0)(@emnapi/runtime@1.10.0))(socks@2.8.7)(supports-color@8.1.1))(snappy@7.3.3(@emnapi/core@1.10.0)(@emnapi/runtime@1.10.0))(socks@2.8.7)(supports-color@8.1.1):
+  resourcejs@2.6.1(express@4.22.2(supports-color@8.1.1))(mongoose@8.24.7(snappy@7.3.3(@emnapi/core@1.10.0)(@emnapi/runtime@1.10.0))(socks@2.8.7)(supports-color@8.1.1))(snappy@7.3.3(@emnapi/core@1.10.0)(@emnapi/runtime@1.10.0))(socks@2.8.7)(supports-color@8.1.1):
     dependencies:
       debug: 4.4.3(supports-color@8.1.1)
       express: 4.22.2(supports-color@8.1.1)
       fast-json-patch: 3.1.1
       moment: 2.30.1
       mongodb: 6.21.0(snappy@7.3.3(@emnapi/core@1.10.0)(@emnapi/runtime@1.10.0))(socks@2.8.7)
-      mongoose: 8.24.1(snappy@7.3.3(@emnapi/core@1.10.0)(@emnapi/runtime@1.10.0))(socks@2.8.7)(supports-color@8.1.1)
+      mongoose: 8.24.7(snappy@7.3.3(@emnapi/core@1.10.0)(@emnapi/runtime@1.10.0))(socks@2.8.7)(supports-color@8.1.1)
       node-paginate-anything: 1.0.0
       range-parser: 1.3.0
     transitivePeerDependencies:
