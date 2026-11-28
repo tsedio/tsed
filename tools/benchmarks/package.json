@@ -13,7 +13,7 @@
   "dependencies": {
     "@koa/router": "^13.1.0",
     "express": "5.2.1",
-    "fastify": "5.8.3",
+    "fastify": "5.12.6",
     "fulmine.js": "5.25.7",
     "koa": "3.1.2"
   },
