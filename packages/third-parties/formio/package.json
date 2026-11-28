@@ -67,7 +67,7 @@
     "formio": "4.7.2",
     "method-override": "3.0.0",
     "mongodb": "^6.9.0",
-    "mongoose": "8.9.5",
+    "mongoose": "8.24.7",
     "typescript": "6.0.2",
     "vitest": "4.1.4"
   },
