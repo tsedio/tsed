@@ -49,7 +49,7 @@
     "@types/passport-http": "0.3.11",
     "@types/passport-local": "1.0.38",
     "@types/passport-strategy": "0.2.38",
-    "body-parser": "2.2.1",
+    "body-parser": "2.4.0",
     "compression": "1.8.0",
     "cookie-parser": "1.4.7",
     "express-session": "1.18.1",

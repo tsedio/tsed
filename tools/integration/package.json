@@ -15,7 +15,7 @@
     "@tsed/ajv": "workspace:*",
     "@tsed/logger": "^8.0.0",
     "@tsed/platform-params": "workspace:*",
-    "body-parser": "2.2.1",
+    "body-parser": "2.4.0",
     "compression": "1.8.0",
     "cookie-parser": "1.4.7",
     "cors": "2.8.5",
