@@ -16,7 +16,7 @@
     "@tsed/logger": "^8.0.0",
     "@tsed/platform-params": "workspace:*",
     "body-parser": "2.2.1",
-    "compression": "1.8.0",
+    "compression": "1.8.2",
     "cookie-parser": "1.4.7",
     "cors": "2.8.5",
     "dotenv": "^18.0.2",
