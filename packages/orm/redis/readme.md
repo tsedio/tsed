@@ -34,7 +34,7 @@ A package of Ts.ED framework. See website: https://tsed.dev/tutorials/redis.html
 Currently, `@tsed/redis` allows you:
 
 - Configure one or more Redis database connections via the `@Configuration` configuration.
-- Share redis connection with `@tsed/platform-cache`.
+- Share redis connection with `@tsed/platform-cache` (`RedisKeyvAdapter`, a Keyv store adapter).
 - Support classic Redis connection and Cluster connection.
 - Inject connection to another service.
 - Mock connection for unit/integration test.

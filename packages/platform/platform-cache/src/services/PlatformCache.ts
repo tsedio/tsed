@@ -1,19 +1,43 @@
-import type {Cache, CachingConfig, MultiCache} from "cache-manager";
+import {type Cache, createCache} from "cache-manager";
+import {Keyv} from "keyv";
 import {JsonDeserializerOptions, deserialize, serialize} from "@tsed/json-mapper";
 import {ProviderScope, ProviderType, constant, injectable, logger} from "@tsed/di";
-import {Type, isClass, isFunction, isString} from "@tsed/core";
+import {Type, isClass, isFunction} from "@tsed/core";
 import {$asyncEmit} from "@tsed/hooks";
 import {AsyncLocalStorage} from "node:async_hooks";
-import {PlatformCacheSettings} from "../interfaces/interfaces.js";
+import type {PlatformCacheSettings, PlatformCacheStore} from "../interfaces/interfaces.js";
 import {PlatformCachedObject} from "../interfaces/PlatformCachedObject.js";
 import {getPrefix} from "../utils/getPrefix.js";
+import {LruMap} from "../utils/LruMap.js";
 
 const defaultKeyResolver = (args: any[]) => {
   return args.map((arg: any) => (isClass(arg) ? JSON.stringify(serialize(arg)) : arg)).join(":");
 };
 
-export type CacheManager = Cache | MultiCache;
+/**
+ * The cache-manager v7 cache created by `PlatformCache`.
+ */
+export type CacheManager = Cache;
+/**
+ * Time to live in seconds, or a function returning it from the cached value.
+ */
 export type Ttl = number | ((result: any) => number);
+
+/**
+ * Options of `PlatformCache.set()`.
+ */
+export interface PlatformCacheSetOptions {
+  /**
+   * Time to live in seconds. `null` disables the expiration.
+   */
+  ttl?: number | null;
+}
+
+/**
+ * Converts a Ts.ED TTL (seconds) to a cache-manager/Keyv TTL (milliseconds).
+ * `undefined` keeps the default TTL, `null` disables the expiration (`0` for Keyv).
+ */
+const toMs = (seconds: number | null | undefined) => (seconds === undefined ? undefined : seconds === null ? 0 : seconds * 1000);
 
 const storage: AsyncLocalStorage<{forceRefresh: boolean}> = new AsyncLocalStorage();
 
@@ -97,28 +121,39 @@ export class PlatformCache {
     return isFunction(ttl) ? ttl(result) : ttl;
   }
 
-  ttl(key: string) {
-    if (this.cache && "store" in this.cache && isFunction(this.cache.store.ttl)) {
-      return this.cache.store.ttl(key);
+  /**
+   * Returns the remaining time to live of the key, in seconds, or `undefined` when the key is missing or never expires.
+   */
+  async ttl(key: string): Promise<number | undefined> {
+    const expires = await this.cache?.ttl(key);
+
+    if (expires === undefined) {
+      return undefined;
     }
 
-    return Promise.resolve();
+    return Math.max(0, (expires - Date.now()) / 1000);
   }
 
+  /**
+   * Returns the cached value of the key, or calls `fetch` and caches its result.
+   * @param key
+   * @param fetch
+   * @param ttl time to live in seconds
+   */
   wrap<T>(key: string, fetch: () => Promise<T>, ttl?: number): Promise<T> {
     if (!this.cache) {
       return fetch();
     }
 
-    return this.cache?.wrap<T>(key, fetch, ttl);
+    return this.cache.wrap<T>(key, fetch, toMs(ttl));
   }
 
-  get<T>(key: string, options: JsonDeserializerOptions = {}): Promise<T | undefined> {
-    return Promise.resolve(deserialize(this.cache?.get<T>(key), options));
+  async get<T>(key: string, options: JsonDeserializerOptions = {}): Promise<T | undefined> {
+    return deserialize(await this.cache?.get<T>(key), options);
   }
 
-  async set<T>(key: string, value: any, options?: CachingConfig<T>): Promise<T | undefined> {
-    await this.cache?.set(key, value, options?.ttl);
+  async set<T>(key: string, value: any, options?: PlatformCacheSetOptions): Promise<T | undefined> {
+    await this.cache?.set(key, value, toMs(options?.ttl));
     return;
   }
 
@@ -164,17 +199,50 @@ export class PlatformCache {
     await this.cache?.del(key);
   }
 
+  /**
+   * Clears every store of the cache.
+   */
   async reset(): Promise<void> {
-    // @ts-ignore
-    await this.cache?.reset();
+    await this.cache?.clear();
   }
 
-  keys(...args: any[]): Promise<string[]> {
-    if (this.cache && "store" in this.cache && this.cache.store.keys) {
-      return this.cache.store.keys(...args);
+  /**
+   * Lists the keys of the primary store (first store), filtered by the glob `pattern` when given.
+   *
+   * Uses the `keys(pattern)` method of the store adapter when it has one (`RedisKeyvAdapter`, `IORedisKeyvAdapter`),
+   * otherwise the Keyv iterator (memory store, `@keyv/redis`...). Returns an empty list when the store can't list its keys.
+   */
+  async keys(pattern?: string): Promise<string[]> {
+    const keyv = this.cache?.stores[0];
+
+    if (!keyv) {
+      return [];
     }
 
-    return Promise.resolve([]);
+    const adapter = keyv.store as {keys?: (pattern?: string) => Promise<string[]>};
+
+    // a Map store (memory) has its own keys() method returning an iterator: use the Keyv iterator instead
+    if (!(adapter instanceof Map) && isFunction(adapter?.keys)) {
+      return adapter.keys(pattern);
+    }
+
+    if (!isFunction(keyv.iterator)) {
+      return [];
+    }
+
+    const keys: string[] = [];
+
+    for await (const [key] of keyv.iterator(undefined)) {
+      keys.push(key as string);
+    }
+
+    if (!pattern) {
+      return keys;
+    }
+
+    const {default: micromatch} = await import("micromatch");
+
+    return micromatch(keys, pattern);
   }
 
   async deleteKeys(patterns: string): Promise<string[]> {
@@ -211,25 +279,28 @@ export class PlatformCache {
     return !!storage.getStore()?.forceRefresh;
   }
 
-  protected async createCacheManager(settings: PlatformCacheSettings) {
-    const {caches, store = "memory", ttl, ...props} = settings;
+  protected createCacheManager(settings: PlatformCacheSettings): Cache {
+    const {store = "memory", stores = [store], ttl, refreshThreshold, nonBlocking, cacheId, max} = settings;
 
-    const {multiCaching, caching} = await import("cache-manager");
-
-    return caches?.length
-      ? multiCaching(caches)
-      : caching(this.mapStore(store), {
-          ...props,
-          ttl
-        });
+    return createCache({
+      stores: stores.map((store) => this.toKeyv(store, max)),
+      ttl: isFunction(ttl) ? undefined : toMs(ttl),
+      refreshThreshold: toMs(refreshThreshold),
+      nonBlocking,
+      cacheId
+    });
   }
 
-  private mapStore(store: "memory" | Function | {create: Function}): any {
-    if (!isString(store) && "create" in store) {
-      return store.create;
+  private toKeyv(store: PlatformCacheStore, max?: number): Keyv {
+    if (store instanceof Keyv) {
+      return store;
     }
 
-    return store;
+    if (store === "memory") {
+      return new Keyv({store: max ? new LruMap(max) : new Map()});
+    }
+
+    return new Keyv({store, useKeyPrefix: false});
   }
 }
 

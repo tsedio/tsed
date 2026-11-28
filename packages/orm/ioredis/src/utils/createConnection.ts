@@ -1,7 +1,7 @@
 import {configuration, logger} from "@tsed/di";
 import ioredis, {type Cluster, type Redis, type RedisOptions} from "ioredis";
 import {IORedisConfiguration} from "../domain/IORedisConfiguration.js";
-import {ioRedisStore} from "../domain/IORedisStore.js";
+import {IORedisKeyvAdapter} from "../domain/IORedisKeyvAdapter.js";
 import {setValue} from "@tsed/core";
 
 export async function createConnection(config: IORedisConfiguration) {
@@ -57,8 +57,7 @@ export async function createConnection(config: IORedisConfiguration) {
   logger().info("Connected to redis database...");
 
   if (configuration().get("cache") && cache) {
-    configuration().set("cache.redisInstance", connection);
-    configuration().set("cache.store", ioRedisStore);
+    configuration().set("cache.store", new IORedisKeyvAdapter(connection));
   }
 
   (connection as any).name = name;

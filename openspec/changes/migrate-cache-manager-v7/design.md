@@ -55,9 +55,15 @@ Removed: `caches` (v5 `multiCaching`, replaced by `stores`), store factories (`s
 ### 2. `PlatformCache` method contract on v7
 
 - `cache`: v7 `Cache` (`CacheManager` stays as a type alias of it).
-- `ttl(key)`: `expires - Date.now()` (clamped at 0) or `undefined` when the key is missing or has no TTL. One unit (ms) for every store, which also fixes the seconds/milliseconds mix used by `PlatformCacheRefreshService` with the Redis stores.
+- `ttl(key)`: `(expires - Date.now()) / 1000` (clamped at 0) or `undefined` when the key is missing or has no TTL.
 - `set(key, value, {ttl})`, `get`, `del`, `wrap`: forwarded to v7. `reset()` → `cache.clear()`.
 - `keys(pattern?)`, on the primary store (`cache.stores[0]`): if its adapter exposes `keys(pattern)` (Ts.ED Redis adapters), use it; else if the Keyv instance has an `iterator`, collect the keys and filter them with `micromatch` when a pattern is given; else return `[]`. `deleteKeys`, `getMatchingKeys`, `deleteMatchingKeys` keep their current signatures on top of it.
+
+### 2b. TTL unit: seconds in the whole Ts.ED API
+
+The Ts.ED API has always meant seconds: `@UseCache` documents `ttl` "in seconds", `PlatformCacheInterceptor` emits `cache-control: max-age=${ttl}`, the refresh queue uses `ttl: 120`, and the docs explain `ttl: 3600` as one hour. cache-manager v5 and v7 and Keyv count milliseconds (the JavaScript convention of `Date.now()` / `setTimeout`; cache-manager switched from seconds to milliseconds in v5), so v5 silently read the Ts.ED value as milliseconds in memory, while the Ts.ED Redis stores passed it to `SETEX` (seconds).
+
+v9 keeps seconds for every Ts.ED TTL (`cache.ttl`, `cache.refreshThreshold`, `@UseCache` `ttl` / `refreshThreshold`, `PlatformCache.set/wrap/ttl`) and converts at the cache-manager boundary (`× 1000`). `undefined` keeps the default TTL, `null` disables the expiration (Keyv `0`). Only `PlatformCache.cache` (raw cache-manager) and the Keyv adapters work in milliseconds, as their own contracts require. Effects: Redis users keep their values; memory users' entries now live what the docs always said (1000× longer than v5 actually kept them).
 
 ### 3. Ts.ED Keyv adapters in `@tsed/redis` and `@tsed/ioredis`
 
@@ -79,7 +85,7 @@ Names change (`RedisStore` → `RedisKeyvAdapter`, ...) because the contract cha
 
 ### 5. Release
 
-Shipped as `feat(platform-cache,redis,ioredis): ...` without a `BREAKING CHANGE` footer (a footer would make semantic-release publish Ts.ED v9), following the MCP SDK v2 migration (`feat(platform-mcp): migrate to MCP SDK v2`). The breaking changes are listed in the PR and in the migration note.
+Part of Ts.ED v9 (epic tsedio/tsed#3069). Shipped as `feat(platform-cache,redis,ioredis)!: ...` with a `BREAKING CHANGE` footer. No legacy support: no alias for the v5 stores, no v5 settings accepted. The breaking changes are listed in the PR and in the v8 → v9 migration note (`docs/introduction/migrate-from-v8.md`).
 
 ## Risks / Trade-offs
 
@@ -87,7 +93,7 @@ Shipped as `feat(platform-cache,redis,ioredis): ...` without a `BREAKING CHANGE`
 - [Apps with third-party v5 stores or `cache.caches` break at type check / boot] → migration note with the Keyv replacement for each case.
 - [`clear()` semantics change (`FLUSHALL` → `FLUSHDB`, or namespace only)] → documented; narrower than before.
 - [`SCAN` on a large keyspace is slower than `KEYS` for a single call but does not block Redis] → acceptable; `keys()` is used for invalidation, not on the request path.
-- [Breaking changes in a v8 minor] → precedent in the repository, explicit migration note; the maintainer may prefer to hold the change for the next major (open question).
+- [Silent TTL change for memory-store users: v5 read `ttl: 300` as 300 ms in memory (300 s on Redis); v9 reads seconds everywhere, so memory entries live 1000× longer] → first item of the migration note; apps that relied on milliseconds divide their values by 1000.
 
 ## Migration Plan
 
@@ -101,4 +107,4 @@ Rollback: revert the PR; no persisted data to migrate back (cache only).
 
 ## Open Questions
 
-- Ship in v8 as `feat` (proposed) or keep for v9?
+- Target branch of the PR: no v9 branch exists yet (`alpha` is stale at 8.3.0), and merging a breaking commit into `production` publishes v9 at once.

@@ -6,8 +6,8 @@
 
 #### Scenario: Default memory store
 
-- **WHEN** an app sets `cache: {ttl: 1000}` without `store`
-- **THEN** `PlatformCache.cache` is a cache-manager v7 cache with one in-memory Keyv store, and a value set without TTL expires after 1000 ms
+- **WHEN** an app sets `cache: {ttl: 300}` without `store`
+- **THEN** `PlatformCache.cache` is a cache-manager v7 cache with one in-memory Keyv store
 
 #### Scenario: Bounded memory store
 
@@ -34,23 +34,33 @@
 - **WHEN** the `cache` setting is `false` or missing
 - **THEN** `PlatformCache.cache` is `undefined`, `wrap()` calls the fetch function directly and `@UseCache` methods are not cached
 
-### Requirement: Uniform TTL in milliseconds
+### Requirement: TTL in seconds across the Ts.ED API
 
-`PlatformCache.ttl(key)` SHALL return the remaining time to live of the key in milliseconds (never negative), or `undefined` when the key is missing or has no expiry, whatever the store. `PlatformCacheRefreshService` SHALL compare this value with the TTL in milliseconds used to cache the entry.
+Every TTL of the Ts.ED cache API SHALL be expressed in seconds: the `cache.ttl` and `cache.refreshThreshold` settings, the `ttl` and `refreshThreshold` options of `@UseCache`, the `ttl` of `PlatformCache.set()` and `wrap()`, and the value returned by `PlatformCache.ttl(key)` (remaining seconds, never negative, `undefined` for a missing key or a key without expiry). `PlatformCache` SHALL convert them to milliseconds for cache-manager and Keyv. A `null` TTL SHALL disable the expiration.
+
+#### Scenario: Default TTL in seconds
+
+- **WHEN** an app sets `cache: {ttl: 300}` and sets a key without TTL
+- **THEN** the key expires after 300 seconds, whatever the store
 
 #### Scenario: Remaining TTL of a key
 
-- **WHEN** a key was set with a TTL of 10000 ms, 4000 ms ago
-- **THEN** `PlatformCache.ttl(key)` returns a value close to 6000
+- **WHEN** a key was set with `{ttl: 10}`, 4 seconds ago
+- **THEN** `PlatformCache.ttl(key)` returns 6
 
 #### Scenario: Key without expiry
 
-- **WHEN** a key was set without TTL and without default TTL
-- **THEN** `PlatformCache.ttl(key)` returns `undefined`
+- **WHEN** a key was set with `{ttl: null}`
+- **THEN** it never expires and `PlatformCache.ttl(key)` returns `undefined`
 
-#### Scenario: Background refresh with a Redis adapter
+#### Scenario: Milliseconds given to the store adapter
 
-- **WHEN** a `@UseCache({ttl: 10000, refreshThreshold: 2000})` entry stored through a Ts.ED Redis adapter has 1500 ms left and is read
+- **WHEN** `PlatformCache.set("key", value, {ttl: 10})` is called with a Keyv store adapter
+- **THEN** the adapter receives a TTL of 10000 ms
+
+#### Scenario: Background refresh
+
+- **WHEN** a `@UseCache({ttl: 10, refreshThreshold: 2})` entry has 1.5 seconds left and is read
 - **THEN** the cached value is returned and the method is called once in background to refresh the entry
 
 ### Requirement: Key listing and deletion by pattern

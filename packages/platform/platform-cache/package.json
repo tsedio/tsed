@@ -23,7 +23,8 @@
     "test:ci": "vitest run --coverage.thresholds.autoUpdate=true"
   },
   "dependencies": {
-    "cache-manager": "^5.7.6",
+    "cache-manager": "^7.2.9",
+    "keyv": "^5.6.0",
     "micromatch": "4.0.8",
     "tslib": ">=2.7.0"
   },

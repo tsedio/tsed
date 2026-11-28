@@ -9,12 +9,12 @@ Since the pnpm migration (tsedio/tsed#3549), the published declarations of `@tse
 - `@tsed/platform-cache` depends on `cache-manager@^7` and `keyv@^5` and builds its cache with `createCache({stores: Keyv[]})`.
   - `cache.store` accepts `"memory"`, a `Keyv` instance or a Keyv store adapter; new `cache.stores` accepts several of them (multi-tier cache). **BREAKING**: `cache.caches` (v5 `multiCaching`) and v5 store factories (`store: redisStore`, `{create}`) are removed, and extra settings are no longer forwarded to a store factory.
   - `cache.max` keeps bounding the default memory store (LRU, without a new dependency).
-  - `PlatformCache.cache` is the v7 `Cache`. `PlatformCache.ttl(key)` returns the remaining time to live in milliseconds for every store (v5 returned seconds for Redis, milliseconds for memory). `reset()` calls `cache.clear()`. `keys(pattern)` works with Ts.ED Redis adapters (native `SCAN`) and with any Keyv store that supports iteration (memory, `@keyv/redis`, ...), filtering with the glob pattern.
+  - `PlatformCache.cache` is the v7 `Cache`. Every Ts.ED TTL is in **seconds** (settings, `@UseCache`, `set`/`wrap`, `PlatformCache.ttl(key)` returns the remaining seconds), converted to milliseconds for cache-manager/Keyv; v5 read the same value as milliseconds in memory and seconds on Redis. `reset()` calls `cache.clear()`. `keys(pattern)` works with Ts.ED Redis adapters (native `SCAN`) and with any Keyv store that supports iteration (memory, `@keyv/redis`, ...), filtering with the glob pattern.
   - `set()` options are typed `{ttl?: number}` instead of the v5 `CachingConfig`.
 - `@tsed/redis` and `@tsed/ioredis` replace their v5 stores with Keyv store adapters that reuse the Ts.ED connection: `RedisKeyvAdapter` (node-redis) and `IORedisKeyvAdapter` (ioredis). **BREAKING**: `RedisStore`, `redisStore`, `IORedisStore`, `ioRedisStore` and the `RedisStoreCtrOptions` / `IORedisStoreCtrOptions` types are removed. With `cache: true` on a connection, the connection registers its adapter as `cache.store`, as before.
 - The adapters declare their own structural types, compatible with Keyv's `KeyvStoreAdapter`, so the published declarations of `@tsed/redis` and `@tsed/ioredis` no longer reference `cache-manager` or `keyv`, and neither package needs them installed.
 - Cache entries are stored in the Keyv format (`{"value": ..., "expires": ...}`): entries written by v5 are read as misses and overwritten.
-- Migration note in the docs (cache page, Redis/IORedis tutorials, migration guide).
+- v8 → v9 migration note (`docs/introduction/migrate-from-v8.md`) and updated cache page and Redis/IORedis tutorials.
 
 ## Capabilities
 
@@ -28,4 +28,4 @@ Since the pnpm migration (tsedio/tsed#3549), the published declarations of `@tse
 - Packages: `@tsed/platform-cache`, `@tsed/redis`, `@tsed/ioredis`; docs (`docs/docs/cache.md`, `docs/tutorials/redis.md`, `docs/tutorials/ioredis.md`, package readmes); the shared cache tests of `@tsed/platform-test-sdk`.
 - Dependencies: `@tsed/platform-cache` moves `cache-manager` from `^5.7.6` to `^7.2.9` and adds `keyv@^5.6.0`. `@tsed/redis` and `@tsed/ioredis` drop the `cache-manager` dev dependency (and keep `keyv` as a dev dependency only, to check type compatibility in tests).
 - Apps using a third-party cache-manager v5 store (`cache-manager-redis-store`, ...) must switch to a Keyv adapter.
-- Release: shipped as a `feat` in v8 (same approach as the MCP SDK v2 migration), with the breaking changes listed in the migration note.
+- Release: Ts.ED v9 (epic tsedio/tsed#3069), breaking commit, no legacy support. TTLs are seconds everywhere: memory-store users who relied on v5 reading them as milliseconds must divide their values by 1000.
