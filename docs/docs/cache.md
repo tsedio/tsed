@@ -53,7 +53,7 @@ import {Configuration} from "@tsed/di";
 
 @Configuration({
   cache: {
-    ttl: 300, // default TTL
+    ttl: 300_000, // default TTL in milliseconds (e.g. 5 minutes)
     store: "memory",
     prefix: "myPrefix" // to namespace all keys related to the cache
     // options depending on the chosen storage type
@@ -89,7 +89,7 @@ const mongooseStore = require("cache-manager-mongoose");
 
 @Configuration({
   cache: {
-    ttl: 300, // default TTL
+    ttl: 300_000, // default TTL in milliseconds
     store: mongooseStore,
     mongoose,
     modelOptions: {
@@ -149,7 +149,7 @@ import redisStore from "cache-manager-ioredis";
 
 @Configuration({
   cache: {
-    ttl: 300, // default TTL
+    ttl: 300_000, // default TTL in milliseconds
     store: redisStore
   },
   redis: {
@@ -194,9 +194,9 @@ To add an item to the cache, use the `set` method:
 await this.cache.set("key", "value");
 ```
 
-The default expiration time of the cache depends on the configured TTL on Server configuration level.
+The default expiration time of the cache depends on the configured TTL (in milliseconds) on Server configuration level.
 
-You can manually specify a TTL (expiration time) for this specific key, as follows:
+You can manually specify a TTL (expiration time in milliseconds) for this specific key, as follows:
 
 ```typescript
 await this.cache.set("key", "value", {ttl: 1000});
@@ -361,7 +361,7 @@ export class MyController {
 
 ## Configure TTL
 
-TTL can be defined per endpoint with @@UseCache@@:
+TTL can be defined per endpoint with @@UseCache@@ (in milliseconds):
 
 ```typescript
 import {PlatformContext} from "@tsed/platform-http";
@@ -372,7 +372,7 @@ import {Controller} from "@tsed/di";
 @Controller("/my-path")
 export class MyController {
   @Get("/:id")
-  @UseCache({ttl: 500})
+  @UseCache({ttl: 500_000})
   get(@PathParams("id") id: string) {
     return "something with  " + id;
   }
@@ -393,7 +393,7 @@ import {Controller} from "@tsed/di";
 @Controller("/my-path")
 export class MyController {
   @Get("/:id")
-  @UseCache({ttl: 500, canCache: "non-nullish"})
+  @UseCache({ttl: 500_000, canCache: "non-nullish"})
   get(@PathParams("id") id: string) {
     return null;
   }
@@ -413,7 +413,7 @@ import {Controller} from "@tsed/di";
 @Controller("/my-path")
 export class MyController {
   @Get("/:id")
-  @UseCache({ttl: 500, canCache: (item: any) => item !== null})
+  @UseCache({ttl: 500_000, canCache: (item: any) => item !== null})
   get(@PathParams("id") id: string) {
     return null;
   }
@@ -424,7 +424,7 @@ export class MyController {
 
 The `caching` module support a mechanism to refresh expiring cache `keys` in background is you use `UseCache` on a
 Service method (not on controller method).
-This is done by adding a `refreshThreshold` option to the @@UseCache@@ decorator.
+This is done by adding a `refreshThreshold` option (in milliseconds) to the @@UseCache@@ decorator.
 
 If `refreshThreshold` is set and if the `ttl` method is available for the used store,
 after retrieving a value from cache TTL will be checked. If the remaining current `ttl` key is under the
@@ -450,14 +450,14 @@ import {Controller} from "@tsed/di";
 
 @Injectable()
 export class MyService {
-  @UseCache({ttl: 3600, refreshThreshold: 900})
+  @UseCache({ttl: 3_600_000, refreshThreshold: 900_000})
   get(id: string) {
     return "something with " + id;
   }
 }
 ```
 
-In this example, the configured `ttl` is 1 hour and the threshold is 15 minutes. So, the key will be refreshed in
+In this example, the configured `ttl` is 1 hour (`3_600_000` ms) and the threshold is 15 minutes (`900_000` ms). So, the key will be refreshed in
 background if current `ttl` is under 45 minutes.
 
 ## Refresh cached value <Badge text="7.9.0+" />
@@ -477,7 +477,7 @@ export class ProductsService {
   @Inject()
   protected pimClient: PimClient;
 
-  @UseCache({prefix: "products", ttl: 3600})
+  @UseCache({prefix: "products", ttl: 3_600_000})
   async getById(id: string) {
     return this.pimClient.get("/products/" + id);
   }
@@ -532,7 +532,7 @@ import {Configuration} from "@tsed/di";
 
 @Configuration({
   cache: {
-    ttl: 300, // default TTL
+    ttl: 300_000, // default TTL in milliseconds
     caches: [memoryCache, someOtherCache]
     // options depending on the chosen storage type
   }

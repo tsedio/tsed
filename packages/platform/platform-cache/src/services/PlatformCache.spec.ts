@@ -46,7 +46,7 @@ describe("PlatformCache", () => {
       await PlatformTest.create({
         cache: {
           store: {create: () => caching},
-          ttl: 300
+          ttl: 300_000
         }
       });
     });
@@ -91,7 +91,7 @@ describe("PlatformCache", () => {
       await PlatformTest.create({
         cache: {
           store: "memory",
-          ttl: 300
+          ttl: 300_000
         }
       });
     });
@@ -130,8 +130,8 @@ describe("PlatformCache", () => {
 
       expect(cacheManager.calculateTTL({}, 400)).toBe(400);
       expect(cacheManager.calculateTTL({}, () => 200)).toBe(200);
-      expect(cacheManager.calculateTTL({})).toBe(300);
-      expect(cacheManager.calculateTTL()).toBe(300);
+      expect(cacheManager.calculateTTL({})).toBe(300_000);
+      expect(cacheManager.calculateTTL()).toBe(300_000);
     });
 
     it("should return undefined when ttl and defaultTtl are undefined", () => {
@@ -334,7 +334,7 @@ describe("PlatformCache", () => {
       return PlatformTest.create({
         cache: {
           caches: [{}, {}] as any[],
-          ttl: 300
+          ttl: 300_000
         }
       });
     });
@@ -398,6 +398,24 @@ describe("PlatformCache", () => {
       });
 
       expect(result).toBe("valuePromised");
+    });
+  });
+
+  describe("ttl expectations in milliseconds", () => {
+    it("should accept millisecond ttl configuration", async () => {
+      const caching = createCacheFixture();
+      vi.mocked(cacheManager).mockReturnValue(caching as any);
+
+      await PlatformTest.create({
+        cache: {
+          store: "memory",
+          ttl: 60_000
+        }
+      });
+
+      const cacheManager = PlatformTest.get<PlatformCache>(PlatformCache);
+      expect(cacheManager.calculateTTL({})).toBe(60_000);
+      await PlatformTest.reset();
     });
   });
 });
