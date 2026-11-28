@@ -11,3 +11,4 @@ export * from "./services/PlatformCache.js";
 export * from "./services/PlatformCacheRefreshService.js";
 export * from "./utils/getPrefix.js";
 export * from "./utils/isEndpoint.js";
+export * from "./utils/LruMap.js";

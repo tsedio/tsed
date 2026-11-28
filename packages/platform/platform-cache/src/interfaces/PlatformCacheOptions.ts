@@ -16,7 +16,7 @@ export interface PlatformCacheOptions extends MetadataTypes {
    */
   key?: string | ((args: any[], ctx?: BaseContext) => string);
   /**
-   * threshold to refresh the cache.
+   * Remaining time to live, in seconds, under which the cached value is refreshed in background.
    */
   refreshThreshold?: number;
   /**

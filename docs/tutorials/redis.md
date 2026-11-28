@@ -16,7 +16,7 @@ head:
 Currently, `@tsed/redis` allows you to:
 
 - Configure one or more Redis database connections via the `@Configuration` configuration.
-- Share Redis connection with `@tsed/platform-cache`.
+- Share Redis connection with `@tsed/platform-cache` (`RedisKeyvAdapter`, a Keyv store adapter).
 - Support classic Redis connection and Cluster connection.
 - Inject connection into another service.
 - Mock connection for unit/integration test.
@@ -124,6 +124,31 @@ export class ClientRepository {
 ```
 
 > See [redis documentation](https://github.com/redis/node-redis) for more details.
+
+## Cache store
+
+With `cache: true`, the connection is registered as `cache.store` of `@tsed/platform-cache` through `RedisKeyvAdapter`,
+a [Keyv](https://keyv.org) store adapter that reuses the connection (it never opens or closes it).
+Entries are written with a millisecond expiry (`PX`) computed from the Ts.ED TTL (seconds), and `PlatformCache.keys()` uses `SCAN`
+(on every master node of a cluster).
+
+You can also use the adapter yourself, for instance in a multi-tier cache:
+
+```typescript
+import {RedisKeyvAdapter} from "@tsed/redis";
+
+@Configuration({
+  cache: {
+    stores: ["memory", new RedisKeyvAdapter(connection)]
+  }
+})
+export class Server {}
+```
+
+::: warning v9
+`RedisStore` / `redisStore` (`@tsed/redis`) and `IORedisStore` / `ioRedisStore` (`@tsed/ioredis`), the cache-manager v5 stores, have been removed.
+See the [migration guide](/introduction/migrate-from-v8.md).
+:::
 
 ## Cluster configuration
 

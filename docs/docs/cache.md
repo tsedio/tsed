@@ -15,8 +15,8 @@ Caching is a great and simple technique that helps improve your app's performanc
 It acts as a temporary data store providing high-performance data access.
 
 Ts.ED provides a unified system for caching by using the
-popular [`cache-manager`](https://www.npmjs.com/package/cache-manager) Node.js module.
-Cache-manager provides various storage to cache content like Redis, MongoDB, etc... and multi caching!
+popular [`cache-manager`](https://www.npmjs.com/package/cache-manager) Node.js module (v7).
+Cache-manager stores its entries with [Keyv](https://keyv.org) adapters (memory, Redis, Valkey, MongoDB, SQLite, etc...) and supports multi-tier caching!
 
 By using the @@UseCache@@ on endpoint methods or on service methods, you'll be able to cache the response returned by
 the Ts.ED server
@@ -53,122 +53,114 @@ import {Configuration} from "@tsed/di";
 
 @Configuration({
   cache: {
-    ttl: 300, // default TTL
+    ttl: 300, // default TTL, in seconds
     store: "memory",
+    max: 1000, // optional, maximum number of entries of the memory store
     prefix: "myPrefix" // to namespace all keys related to the cache
-    // options depending on the chosen storage type
   }
 })
 export class Server {}
 ```
 
-### Store Engines
+::: tip TTL unit
+Every TTL of the Ts.ED cache API is expressed in **seconds**: the `ttl` and `refreshThreshold` settings, the options of @@UseCache@@,
+`PlatformCache.set()`, `PlatformCache.wrap()` and `PlatformCache.ttl()`. Ts.ED converts them to milliseconds for cache-manager and Keyv.
+:::
 
-- [node-cache-manager-redis](https://github.com/dial-once/node-cache-manager-redis) (
-  uses [sol-redis-pool](https://github.com/joshuah/sol-redis-pool))
-- [node-cache-manager-redis-store](https://github.com/dabroek/node-cache-manager-redis-store) (
-  uses [node_redis](https://github.com/NodeRedis/node_redis))
-- [node-cache-manager-ioredis](https://github.com/dabroek/node-cache-manager-ioredis) (
-  uses [ioredis](https://github.com/luin/ioredis))
-- [node-cache-manager-mongodb](https://github.com/v4l3r10/node-cache-manager-mongodb)
-- [node-cache-manager-mongoose](https://github.com/disjunction/node-cache-manager-mongoose)
-- [node-cache-manager-fs](https://github.com/hotelde/node-cache-manager-fs)
-- [node-cache-manager-fs-binary](https://github.com/sheershoff/node-cache-manager-fs-binary)
-- [node-cache-manager-fs-hash](https://github.com/rolandstarke/node-cache-manager-fs-hash)
-- [node-cache-manager-hazelcast](https://github.com/marudor/node-cache-manager-hazelcast)
-- [node-cache-manager-memcached-store](https://github.com/theogravity/node-cache-manager-memcached-store)
-- [node-cache-manager-memory-store](https://github.com/theogravity/node-cache-manager-memory-store)
+| Option             | Description                                                                                                   |
+| ------------------ | ------------------------------------------------------------------------------------------------------------- |
+| `ttl`              | Default time to live, in seconds (number or `(result) => number`).                                            |
+| `refreshThreshold` | Remaining time to live (seconds) under which `wrap()` refreshes the entry in background.                     |
+| `store`            | `"memory"` (default), a `Keyv` instance or a Keyv store adapter.                                              |
+| `stores`           | List of stores for a multi-tier cache (see [Multi caching](#multi-caching)). Takes precedence over `store`.   |
+| `max`              | Maximum number of entries of the `"memory"` store. The least recently used entries are evicted first.        |
+| `nonBlocking`      | Don't wait for the secondary stores to answer (cache-manager option).                                         |
+| `cacheId`          | Identifier of the cache instance (cache-manager option).                                                      |
+| `prefix`           | Prefix added to every key built by @@UseCache@@.                                                              |
+| `keyResolver`      | Function building the key from the method arguments.                                                          |
+| `ignoreHeaders`    | Headers not stored when caching a response.                                                                   |
 
-### Example with mongoose
+### Store engines
+
+Any [Keyv storage adapter](https://keyv.org/docs/#official-storage-adapters) can be used as a store: give the adapter, or a `Keyv` instance
+when you need Keyv options (namespace, serialization, compression...).
+
+- `RedisKeyvAdapter` from [@tsed/redis](/tutorials/redis.md) and `IORedisKeyvAdapter` from [@tsed/ioredis](/tutorials/ioredis.md) reuse the Ts.ED Redis connection,
+- [@keyv/redis](https://www.npmjs.com/package/@keyv/redis), [@keyv/valkey](https://www.npmjs.com/package/@keyv/valkey),
+- [@keyv/mongo](https://www.npmjs.com/package/@keyv/mongo), [@keyv/postgres](https://www.npmjs.com/package/@keyv/postgres), [@keyv/sqlite](https://www.npmjs.com/package/@keyv/sqlite),
+- [cacheable](https://www.npmjs.com/package/cacheable) `KeyvCacheableMemory`, and more.
+
+::: warning
+Stores written for cache-manager v5 and older (`cache-manager-redis-store`, `cache-manager-ioredis`, `cache-manager-mongoose`...) are not supported anymore.
+:::
+
+### Example with a Keyv adapter
 
 ```typescript
 import {Configuration} from "@tsed/di";
-import mongoose from "mongoose";
-
-const mongooseStore = require("cache-manager-mongoose");
+import KeyvRedis from "@keyv/redis";
 
 @Configuration({
   cache: {
-    ttl: 300, // default TTL
-    store: mongooseStore,
-    mongoose,
-    modelOptions: {
-      collection: "caches",
-      versionKey: false
-    }
+    ttl: 300,
+    store: new KeyvRedis("redis://localhost:6379")
   }
 })
 export class Server {}
 ```
 
-### Sharing IORedis instance
+A store adapter given directly is wrapped by Ts.ED in a `Keyv` instance without key prefix, so the keys stored in the backend are the keys built by Ts.ED.
+Give a `Keyv` instance to choose the namespace or other Keyv options:
 
 ```typescript
-import {Configuration, registerProvider} from "@tsed/di";
-import {Logger} from "@tsed/logger";
+import {Keyv} from "keyv";
+import KeyvRedis from "@keyv/redis";
+
+@Configuration({
+  cache: {
+    store: new Keyv({store: new KeyvRedis("redis://localhost:6379"), namespace: "my-app"})
+  }
+})
+export class Server {}
+```
+
+### Sharing the Ts.ED Redis connection
+
+[@tsed/redis](/tutorials/redis.md) and [@tsed/ioredis](/tutorials/ioredis.md) register their connection as cache store when the connection declares `cache: true`:
+
+```typescript
+import {Configuration} from "@tsed/di";
+import "@tsed/ioredis";
+
+@Configuration({
+  cache: {
+    ttl: 300
+  },
+  ioredis: [
+    {
+      name: "default",
+      cache: true
+    }
+  ]
+})
+export class Server {}
+```
+
+You can also give the adapter yourself, for instance from an existing connection:
+
+```typescript
+import {IORedisKeyvAdapter} from "@tsed/ioredis";
 import Redis from "ioredis";
 
-export const REDIS_CONNECTION = Symbol("redis:connection");
-export type REDIS_CONNECTION = Redis;
-
-registerProvider({
-  provide: REDIS_CONNECTION,
-  deps: [Configuration, Logger],
-  async useAsyncFactory(configuration: Configuration, logger: Logger) {
-    const cacheSettings = configuration.get("cache");
-    const redisSettings = configuration.get("redis");
-    const connection = new Redis({...redisSettings, lazyConnect: true});
-
-    cacheSettings.redisInstance = connection;
-
-    try {
-      await connection.connect();
-      logger.info("Connected to redis database...");
-    } catch (error) {
-      logger.error({
-        event: "REDIS_ERROR",
-        error
-      });
-    }
-
-    return connection;
-  },
-  hooks: {
-    $onDestroy(connection: Redis) {
-      return connection.disconnect();
-    }
-  }
-});
-```
-
-Then:
-
-```typescript
-import {Configuration} from "@tsed/di";
-import redisStore from "cache-manager-ioredis";
+const connection = new Redis();
 
 @Configuration({
   cache: {
-    ttl: 300, // default TTL
-    store: redisStore
-  },
-  redis: {
-    port: 6379
+    store: new IORedisKeyvAdapter(connection)
   }
 })
 export class Server {}
 ```
-
-::: tip
-
-This example works for a single redis connection. If you look for a complete example with Redis Cluster and Redis single
-connection, go to this example:
-
-```sh
-https://gist.github.com/Romakita/432b1a8afaa726b41d0baf2456b205aa
-```
-
-:::
 
 ## Interacting with the cache store
 
@@ -196,13 +188,19 @@ await this.cache.set("key", "value");
 
 The default expiration time of the cache depends on the configured TTL on Server configuration level.
 
-You can manually specify a TTL (expiration time) for this specific key, as follows:
+You can manually specify a TTL (expiration time, in seconds) for this specific key, as follows:
 
 ```typescript
 await this.cache.set("key", "value", {ttl: 1000});
 ```
 
-To disable the expiration of the cache, set the `ttl` configuration property to `null`:
+To get the remaining time to live of a key, in seconds (`undefined` when the key is missing or never expires):
+
+```typescript
+const ttl = await this.cache.ttl("key");
+```
+
+To disable the expiration of the cache, set the `ttl` property to `null`:
 
 ```typescript
 await this.cache.set("key", "value", {ttl: null});
@@ -214,11 +212,13 @@ To remove an item from the cache, use the `del` method:
 await this.cache.del("key");
 ```
 
-To clear the entire cache, use the `reset` method:
+To clear the entire cache (every store), use the `reset` method:
 
 ```typescript
 await this.cache.reset();
 ```
+
+The underlying cache-manager v7 `Cache` is available with `this.cache.cache`. Its TTLs are in milliseconds.
 
 ## Cache response
 
@@ -361,7 +361,7 @@ export class MyController {
 
 ## Configure TTL
 
-TTL can be defined per endpoint with @@UseCache@@:
+TTL (in seconds) can be defined per endpoint with @@UseCache@@:
 
 ```typescript
 import {PlatformContext} from "@tsed/platform-http";
@@ -525,20 +525,24 @@ You can also build patterns explicitly with `cache.buildEntryPattern(Target, "me
 
 ## Multi caching
 
-Cache-manager provides a way to use multiple caches. To use it, remove `store` option and use `caches` instead:
+Cache-manager can use several stores, the first one being the primary store (for instance a memory store in front of Redis).
+Use the `stores` option instead of `store`:
 
 ```typescript
 import {Configuration} from "@tsed/di";
+import {Keyv} from "keyv";
+import KeyvRedis from "@keyv/redis";
 
 @Configuration({
   cache: {
-    ttl: 300, // default TTL
-    caches: [memoryCache, someOtherCache]
-    // options depending on the chosen storage type
+    ttl: 300, // default TTL, in seconds
+    stores: ["memory", new KeyvRedis("redis://localhost:6379")]
   }
 })
 export class Server {}
 ```
+
+Values are written to every store and read from the first store holding the key. `PlatformCache.keys()` lists the keys of the primary store.
 
 ## Disable cache for test
 

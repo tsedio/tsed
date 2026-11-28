@@ -1,7 +1,7 @@
 import {type RedisClientType, type RedisClusterType, createClient, createCluster} from "redis";
 import {configuration, logger} from "@tsed/di";
 import {RedisConfiguration} from "../domain/RedisConfiguration.js";
-import {redisStore} from "../domain/RedisStore.js";
+import {RedisKeyvAdapter} from "../domain/RedisKeyvAdapter.js";
 
 export async function createConnection(config: RedisConfiguration) {
   const {name, cache, ...redisOptions} = config;
@@ -45,8 +45,7 @@ export async function createConnection(config: RedisConfiguration) {
   logger().info("Connected to redis database...");
 
   if (configuration().get("cache") && cache) {
-    configuration().set("cache.redisInstance", connection);
-    configuration().set("cache.store", redisStore);
+    configuration().set("cache.store", new RedisKeyvAdapter(connection));
   }
 
   (connection as any).name = name;

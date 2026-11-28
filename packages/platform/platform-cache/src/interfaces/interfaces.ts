@@ -1,11 +1,45 @@
-import type {Cache, CachingConfig, Store} from "cache-manager";
+import type {Keyv, KeyvStoreAdapter} from "keyv";
 import type {BaseContext} from "@tsed/di";
-import type {CacheManager} from "../services/PlatformCache.js";
-import type {FactoryStore} from "cache-manager/dist/caching.js";
+import type {CacheManager, Ttl} from "../services/PlatformCache.js";
 
-export type PlatformCacheSettings<Config extends Record<string, any> = any, S extends Store = any> = CachingConfig<Config> & {
-  caches?: Cache[];
-  store?: "memory" | Store | FactoryStore<S, Config>;
+/**
+ * A cache store accepted by `@tsed/platform-cache`:
+ *
+ * - `"memory"`: in-memory store (bounded by the `max` setting when given),
+ * - a `Keyv` instance, used as is,
+ * - a Keyv store adapter (`@keyv/redis`, `RedisKeyvAdapter` from `@tsed/redis`, `IORedisKeyvAdapter` from `@tsed/ioredis`...),
+ *   wrapped in a `Keyv` instance without key prefix.
+ */
+export type PlatformCacheStore = "memory" | Keyv | KeyvStoreAdapter;
+
+export interface PlatformCacheSettings {
+  /**
+   * Default time to live of the cached entries, in milliseconds.
+   */
+  ttl?: Ttl;
+  /**
+   * Remaining time to live (in milliseconds) under which a cached entry is refreshed in background.
+   */
+  refreshThreshold?: number;
+  /**
+   * Don't wait for the secondary stores (multi-tier cache) to answer. See cache-manager `nonBlocking` option.
+   */
+  nonBlocking?: boolean;
+  /**
+   * Identifier of the cache instance. See cache-manager `cacheId` option.
+   */
+  cacheId?: string;
+  /**
+   * Store of the cache. Default: `"memory"`.
+   */
+  store?: PlatformCacheStore;
+  /**
+   * Stores of a multi-tier cache, the first one being the primary store. Takes precedence over `store`.
+   */
+  stores?: PlatformCacheStore[];
+  /**
+   * Maximum number of entries of the `"memory"` store (least recently used entries are evicted first).
+   */
   max?: number;
   keyResolver?: (args: any[], ctx: BaseContext) => string;
   prefix?: string;
@@ -13,12 +47,7 @@ export type PlatformCacheSettings<Config extends Record<string, any> = any, S ex
    * List of headers to ignore when caching the response. Default: ["content-length", "x-request-id", "cache-control", "vary", "content-encoding"]
    */
   ignoreHeaders?: string[];
-  /**
-   * You may pass in any other arguments these will be passed on to the `create` method of your store,
-   * otherwise they will be ignored.
-   */
-  [key: string]: any;
-};
+}
 
 declare global {
   namespace TsED {

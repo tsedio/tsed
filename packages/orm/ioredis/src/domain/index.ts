@@ -1,3 +1,3 @@
 export * from "./IORedisConfiguration.js";
-export * from "./IORedisStore.js";
+export * from "./IORedisKeyvAdapter.js";
 export * from "./IORedisTest.js";

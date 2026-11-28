@@ -1,5 +1,6 @@
 import {DITest, configuration} from "@tsed/di";
 import type {RedisClientType} from "redis";
+import {RedisKeyvAdapter} from "../domain/RedisKeyvAdapter.js";
 import {registerConnectionProvider} from "./registerConnectionProvider.js";
 
 vi.mock("redis", () => {
@@ -46,7 +47,8 @@ describe("RedisConnection", () => {
       const cacheSettings = configuration().get("cache");
 
       expect((connection as any).options.socket.host).toEqual("localhost");
-      expect(cacheSettings.redisInstance).toEqual(connection);
+      expect(cacheSettings.store).toBeInstanceOf(RedisKeyvAdapter);
+      expect(cacheSettings.store.client).toBe(connection);
     });
   });
 
@@ -70,7 +72,23 @@ describe("RedisConnection", () => {
       const cacheSettings = configuration().get("cache");
 
       expect((connection as any).options.rootNodes).toEqual([]);
-      expect(cacheSettings.redisInstance).toEqual(connection);
+      expect(cacheSettings.store).toBeInstanceOf(RedisKeyvAdapter);
+      expect(cacheSettings.store.client).toBe(connection);
+    });
+  });
+
+  describe("Without cache setting", () => {
+    beforeEach(() =>
+      DITest.create({
+        redis: [{name: "default", socket: {host: "localhost"}, cache: true}]
+      })
+    );
+    afterEach(() => DITest.reset());
+
+    it("should not register the cache store", () => {
+      DITest.get<REDIS_CONNECTION>(REDIS_CONNECTION);
+
+      expect(configuration().get("cache.store")).toBeUndefined();
     });
   });
 

@@ -3,7 +3,7 @@
  */
 export * from "./domain/index.js";
 export * from "./domain/IORedisConfiguration.js";
-export * from "./domain/IORedisStore.js";
+export * from "./domain/IORedisKeyvAdapter.js";
 export * from "./domain/IORedisTest.js";
 export * from "./utils/createConnection.js";
 export * from "./utils/mockConnections.js";

@@ -3,6 +3,6 @@
  */
 export * from "./domain/index.js";
 export * from "./domain/RedisConfiguration.js";
-export * from "./domain/RedisStore.js";
+export * from "./domain/RedisKeyvAdapter.js";
 export * from "./utils/createConnection.js";
 export * from "./utils/registerConnectionProvider.js";

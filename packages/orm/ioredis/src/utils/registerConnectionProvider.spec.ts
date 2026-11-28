@@ -1,3 +1,4 @@
+import {IORedisKeyvAdapter} from "../domain/IORedisKeyvAdapter.js";
 import {DITest, configuration} from "@tsed/di";
 import {Redis} from "ioredis";
 import {registerConnectionProvider} from "./registerConnectionProvider.js";
@@ -70,7 +71,8 @@ describe("RedisConnection", () => {
         lazyConnect: true,
         reconnectOnError: expect.any(Function)
       });
-      expect(cacheSettings.redisInstance).toEqual(connection);
+      expect(cacheSettings.store).toBeInstanceOf(IORedisKeyvAdapter);
+      expect(cacheSettings.store.client).toBe(connection);
     });
   });
   describe("Cluster", () => {
@@ -103,7 +105,8 @@ describe("RedisConnection", () => {
         }
       });
       expect((connection as any).nodes).toEqual([]);
-      expect(cacheSettings.redisInstance).toEqual(connection);
+      expect(cacheSettings.store).toBeInstanceOf(IORedisKeyvAdapter);
+      expect(cacheSettings.store.client).toBe(connection);
 
       (connection as any).options.clusterRetryStrategy();
       (connection as any).options.redisOptions.reconnectOnError();
@@ -137,7 +140,8 @@ describe("RedisConnection", () => {
       });
       expect((connection as any).options.sentinels).toEqual([]);
       expect((connection as any).options.name).toEqual("sentinelName");
-      expect(cacheSettings.redisInstance).toEqual(connection);
+      expect(cacheSettings.store).toBeInstanceOf(IORedisKeyvAdapter);
+      expect(cacheSettings.store.client).toBe(connection);
 
       (connection as any).options.sentinelRetryStrategy();
     });

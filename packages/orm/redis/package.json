@@ -37,7 +37,8 @@
     "@tsed/core": "workspace:*",
     "@tsed/di": "workspace:*",
     "@tsed/typescript": "workspace:*",
-    "cache-manager": "^5.7.6",
+    "cache-manager": "^7.2.9",
+    "keyv": "^5.6.0",
     "redis": "6.0.0",
     "typescript": "6.0.2",
     "vitest": "4.1.4"
